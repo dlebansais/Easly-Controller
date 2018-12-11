@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28010.2041
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Easly-Controller", "Easly-Controller\Easly-Controller.csproj", "{E746CFCE-8C74-4025-93DD-2C380F810161}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Release|x64 = Release|x64
+		Travis|x64 = Travis|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E746CFCE-8C74-4025-93DD-2C380F810161}.Debug|x64.ActiveCfg = Debug|x64
+		{E746CFCE-8C74-4025-93DD-2C380F810161}.Debug|x64.Build.0 = Debug|x64
+		{E746CFCE-8C74-4025-93DD-2C380F810161}.Release|x64.ActiveCfg = Release|x64
+		{E746CFCE-8C74-4025-93DD-2C380F810161}.Release|x64.Build.0 = Release|x64
+		{E746CFCE-8C74-4025-93DD-2C380F810161}.Travis|x64.ActiveCfg = Travis|x64
+		{E746CFCE-8C74-4025-93DD-2C380F810161}.Travis|x64.Build.0 = Travis|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E137C711-41BC-4831-AE1C-8E5E3A74E5AD}
+	EndGlobalSection
+EndGlobal

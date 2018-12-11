@@ -1,0 +1,122 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x64</Platform>
+    <ProjectGuid>{E746CFCE-8C74-4025-93DD-2C380F810161}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Controller</RootNamespace>
+    <AssemblyName>Easly-Controller</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Travis|x64'">
+    <OutputPath>bin\x64\Travis\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Easly-Language">
+      <HintPath>..\Easly-Language\$(Platform)\$(Configuration)\Easly-Language.dll</HintPath>
+    </Reference>
+    <Reference Include="Easly-Language-Helper">
+      <HintPath>..\Easly-Language\$(Platform)\$(Configuration)\Easly-Language-Helper.dll</HintPath>
+    </Reference>
+    <Reference Include="PolySerializer">
+      <HintPath>..\PolySerializer\$(Platform)\$(Configuration)\PolySerializer.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="01-ReadOnly\Collections\ReadOnly_BlockState_List.cs" />
+    <Compile Include="01-ReadOnly\Collections\ReadOnly_BlockState_ReadOnlyList.cs" />
+    <Compile Include="01-ReadOnly\Collections\ReadOnly_BrowsingBlockNodeIndex_List.cs" />
+    <Compile Include="01-ReadOnly\Collections\ReadOnly_BrowsingChildNodeIndex_List.cs" />
+    <Compile Include="01-ReadOnly\Collections\ReadOnly_BrowsingListNodeIndex_List.cs" />
+    <Compile Include="01-ReadOnly\Collections\ReadOnly_BrowsingOptionalNodeIndex_List.cs" />
+    <Compile Include="01-ReadOnly\Collections\ReadOnly_BrowsingPlaceholderNodeIndex_List.cs" />
+    <Compile Include="01-ReadOnly\Collections\ReadOnly_IndexCollection_List.cs" />
+    <Compile Include="01-ReadOnly\Collections\ReadOnly_IndexCollection_ReadOnlyList.cs" />
+    <Compile Include="01-ReadOnly\Collections\ReadOnly_Inner_Dictionary.cs" />
+    <Compile Include="01-ReadOnly\Collections\ReadOnly_Inner_ReadOnlyDictionary.cs" />
+    <Compile Include="01-ReadOnly\Collections\ReadOnly_NodeIndexNodeState_Dictionary.cs" />
+    <Compile Include="01-ReadOnly\Collections\ReadOnly_NodeState_Dictionary.cs" />
+    <Compile Include="01-ReadOnly\Collections\ReadOnly_NodeState_List.cs" />
+    <Compile Include="01-ReadOnly\Collections\ReadOnly_NodeState_ReadOnlyDictionary.cs" />
+    <Compile Include="01-ReadOnly\Collections\ReadOnly_NodeState_ReadOnlyList.cs" />
+    <Compile Include="01-ReadOnly\Context\ReadOnly_BrowseBlockContext.cs" />
+    <Compile Include="01-ReadOnly\Context\ReadOnly_BrowseContext.cs" />
+    <Compile Include="01-ReadOnly\Context\ReadOnly_BrowseNodeContext.cs" />
+    <Compile Include="01-ReadOnly\Controller\ReadOnly_Controller.cs" />
+    <Compile Include="01-ReadOnly\Index\Browsing\Collection\ReadOnly_BrowsingBlockNodeIndex.cs" />
+    <Compile Include="01-ReadOnly\Index\Browsing\Collection\ReadOnly_BrowsingCollectionNodeIndex.cs" />
+    <Compile Include="01-ReadOnly\Index\Browsing\Collection\ReadOnly_BrowsingExistingBlockNodeIndex.cs" />
+    <Compile Include="01-ReadOnly\Index\Browsing\Collection\ReadOnly_BrowsingListNodeIndex.cs" />
+    <Compile Include="01-ReadOnly\Index\Browsing\Collection\ReadOnly_BrowsingNewBlockNodeIndex.cs" />
+    <Compile Include="01-ReadOnly\Index\Browsing\ReadOnly_BrowsingChildNodeIndex.cs" />
+    <Compile Include="01-ReadOnly\Index\Browsing\ReadOnly_IndexCollection.cs" />
+    <Compile Include="01-ReadOnly\Index\Browsing\Single\ReadOnly_BrowsingOptionalNodeIndex.cs" />
+    <Compile Include="01-ReadOnly\Index\Browsing\Single\ReadOnly_BrowsingPatternIndex.cs" />
+    <Compile Include="01-ReadOnly\Index\Browsing\Single\ReadOnly_BrowsingPlaceholderNodeIndex.cs" />
+    <Compile Include="01-ReadOnly\Index\Browsing\Single\ReadOnly_BrowsingSourceIndex.cs" />
+    <Compile Include="01-ReadOnly\Index\ReadOnly_ChildNodeIndex.cs" />
+    <Compile Include="01-ReadOnly\Index\ReadOnly_NodeIndex.cs" />
+    <Compile Include="01-ReadOnly\Index\ReadOnly_RootNodeIndex.cs" />
+    <Compile Include="01-ReadOnly\Inner\Collection\ReadOnly_BlockListInner.cs" />
+    <Compile Include="01-ReadOnly\Inner\Collection\ReadOnly_CollectionInner.cs" />
+    <Compile Include="01-ReadOnly\Inner\Collection\ReadOnly_ListInner.cs" />
+    <Compile Include="01-ReadOnly\Inner\ReadOnly_Inner.cs" />
+    <Compile Include="01-ReadOnly\Inner\Single\ReadOnly_OptionalInner.cs" />
+    <Compile Include="01-ReadOnly\Inner\Single\ReadOnly_PlaceholderInner.cs" />
+    <Compile Include="01-ReadOnly\Inner\Single\ReadOnly_SingleInner.cs" />
+    <Compile Include="01-ReadOnly\State\ReadOnly_BlockState.cs" />
+    <Compile Include="01-ReadOnly\State\ReadOnly_NodeState.cs" />
+    <Compile Include="01-ReadOnly\State\ReadOnly_PatternState.cs" />
+    <Compile Include="01-ReadOnly\State\ReadOnly_SourceState.cs" />
+    <Compile Include="01-ReadOnly\State\ReadOnly_State.cs" />
+    <Compile Include="Controller\ControllerTools.cs" />
+    <Compile Include="Controller\NodeLink.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <PreBuildEvent>call "$(SolutionDir)updateversion.bat" "$(SolutionDir)" "$(SolutionPath)"</PreBuildEvent>
+    <PostBuildEvent>call "$(SolutionDir)updatecommit.bat" "$(SolutionDir)" "$(TargetPath)"</PostBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <PreBuildEvent>call "$(SolutionDir)updateversion.bat" "$(SolutionDir)" "$(SolutionPath)"</PreBuildEvent>
+    <PostBuildEvent>call "$(SolutionDir)updatecommit.bat" "$(SolutionDir)" "$(TargetPath)"
+if exist "$(SolutionDir)signfile.bat" call "$(SolutionDir)signfile.bat" "$(SolutionDir)" "$(Configuration)-$(Platform)" "$(TargetPath)"</PostBuildEvent>
+  </PropertyGroup>
+</Project>
