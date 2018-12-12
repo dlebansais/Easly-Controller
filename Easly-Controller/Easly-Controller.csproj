@@ -121,7 +121,7 @@
 if exist "$(SolutionDir)signfile.bat" call "$(SolutionDir)signfile.bat" "$(SolutionDir)" "$(Configuration)-$(Platform)" "$(TargetPath)"</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Travis|x64'">
-    <PostBuildEvent>cp "$(SolutionDir)Test\Test-Easly-Controller.dll" "$(TargetDir)"</PostBuildEvent>
-    <PostBuildEvent>cp "$(SolutionDir)Test\test.easly" "$(TargetDir)"</PostBuildEvent>
+    <PostBuildEvent>cp "$(SolutionDir)Test\Test-Easly-Controller.dll" "$(TargetDir)"
+cp "$(SolutionDir)Test\test.easly" "$(TargetDir)"</PostBuildEvent>
   </PropertyGroup>
 </Project>
