@@ -1,21 +1,23 @@
 ﻿using BaseNode;
-using BaseNodeHelper;
-using System.Diagnostics;
 
 namespace EaslyController.ReadOnly
 {
     public interface IReadOnlyBrowsingPatternIndex : IReadOnlyBrowsingChildNodeIndex
     {
+        new IPattern Node { get; }
     }
 
     public class ReadOnlyBrowsingPatternIndex : ReadOnlyBrowsingChildNodeIndex, IReadOnlyBrowsingPatternIndex
     {
         #region Init
-        public ReadOnlyBrowsingPatternIndex(IBlock block, IPattern replicationPattern)
-            : base(replicationPattern, nameof(IBlock.ReplicationPattern))
+        public ReadOnlyBrowsingPatternIndex(IBlock block)
+            : base(block.ReplicationPattern, nameof(IBlock.ReplicationPattern))
         {
-            Debug.Assert(NodeTreeHelper.IsPatternNode(block, replicationPattern));
         }
+        #endregion
+
+        #region Properties
+        public new IPattern Node { get { return (IPattern)base.Node; } }
         #endregion
     }
 }

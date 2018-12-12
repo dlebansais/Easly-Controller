@@ -34,12 +34,12 @@ namespace EaslyController.ReadOnly
         {
             Debug.Assert(ChildState == childState);
 
-            return CreateNodeIndex(childState, PropertyName);
+            return CreateNodeIndex(childState);
         }
         #endregion
 
         #region Create Methods
-        protected abstract IIndex CreateNodeIndex(IReadOnlyNodeState state, string propertyName);
+        protected abstract IIndex CreateNodeIndex(IReadOnlyNodeState state);
         #endregion
     }
 }

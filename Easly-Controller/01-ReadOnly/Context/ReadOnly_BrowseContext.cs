@@ -5,8 +5,8 @@ namespace EaslyController.ReadOnly
     public interface IReadOnlyBrowseContext
     {
         IReadOnlyState State { get; }
-        IReadOnlyIndexCollectionReadOnlyList ChildNodeIndexCollectionList { get; }
-        void AddCollection(IReadOnlyIndexCollection Collection);
+        IReadOnlyIndexCollectionReadOnlyList IndexCollectionList { get; }
+        void AddIndexCollection(IReadOnlyIndexCollection Collection);
     }
 
     public abstract class ReadOnlyBrowseContext : IReadOnlyBrowseContext
@@ -17,31 +17,45 @@ namespace EaslyController.ReadOnly
             Debug.Assert(state != null);
 
             State = state;
-            _ChildNodeIndexCollectionList = CreateChildNodeIndexCollectionList();
-            ChildNodeIndexCollectionList = CreateChildNodeIndexCollectionListReadOnly(_ChildNodeIndexCollectionList);
+            _IndexCollectionList = CreateIndexCollectionList();
+            IndexCollectionList = CreateIndexCollectionListReadOnly(_IndexCollectionList);
         }
         #endregion
 
         #region Properties
         public IReadOnlyState State { get; private set; }
+        public IReadOnlyIndexCollectionReadOnlyList IndexCollectionList { get; protected set; }
+        private IReadOnlyIndexCollectionList _IndexCollectionList;
         #endregion
 
-        #region ChildNodeIndexCollectionList
-        public virtual void AddCollection(IReadOnlyIndexCollection collection)
+        #region Client Interface
+        public virtual void AddIndexCollection(IReadOnlyIndexCollection collection)
         {
             Debug.Assert(collection != null);
-            Debug.Assert(!ChildNodeIndexCollectionList.Contains(collection));
+            Debug.Assert(IsCollectionSeparate(collection, IndexCollectionList));
 
-            _ChildNodeIndexCollectionList.Add(collection);
+            _IndexCollectionList.Add(collection);
         }
+        #endregion
 
-        public IReadOnlyIndexCollectionReadOnlyList ChildNodeIndexCollectionList { get; protected set; }
-        protected IReadOnlyIndexCollectionList _ChildNodeIndexCollectionList { get; set; }
+        #region Debugging
+        public static bool IsCollectionSeparate(IReadOnlyIndexCollection collection, IReadOnlyIndexCollectionReadOnlyList collectionList)
+        {
+            foreach (IReadOnlyBrowsingChildNodeIndex Index0 in collection.NodeIndexList)
+            {
+                foreach (IReadOnlyIndexCollection Item in collectionList)
+                    foreach (IReadOnlyBrowsingChildNodeIndex Index1 in Item.NodeIndexList)
+                        if (Index0.Equals(Index1))
+                            return false;
+            }
+
+            return true;
+        }
         #endregion
 
         #region Create Methods
-        protected abstract IReadOnlyIndexCollectionList CreateChildNodeIndexCollectionList();
-        protected abstract IReadOnlyIndexCollectionReadOnlyList CreateChildNodeIndexCollectionListReadOnly(IReadOnlyIndexCollectionList list);
+        protected abstract IReadOnlyIndexCollectionList CreateIndexCollectionList();
+        protected abstract IReadOnlyIndexCollectionReadOnlyList CreateIndexCollectionListReadOnly(IReadOnlyIndexCollectionList list);
         #endregion
     }
 }

@@ -24,21 +24,16 @@ namespace EaslyController.ReadOnly
             _ChildState = null;
         }
 
-        public ReadOnlyPlaceholderInner(IReadOnlyNodeState owner, string propertyName, IReadOnlyNodeState childState)
-            : base(owner, propertyName)
-        {
-            _ChildState = childState;
-        }
-        #endregion
-
-        #region Build Table Interface
-        public override void Set(IReadOnlyBrowsingChildNodeIndex nodeIndex, IReadOnlyNodeState childState, bool isEnumerating)
+        public override IReadOnlyNodeState InitChildState(IReadOnlyBrowsingChildNodeIndex nodeIndex)
         {
             Debug.Assert(nodeIndex != null);
             Debug.Assert(nodeIndex.PropertyName == PropertyName);
-            Debug.Assert(childState != null);
+            Debug.Assert(ChildState == null);
 
-            SetChildState(childState, isEnumerating);
+            IReadOnlyNodeState State = CreateNodeState(nodeIndex);
+            SetChildState(State);
+
+            return State;
         }
         #endregion
 
@@ -49,19 +44,25 @@ namespace EaslyController.ReadOnly
         #endregion
 
         #region Ancestor Interface
-        protected virtual void SetChildState(IReadOnlyNodeState childState, bool isEnumerating)
+        protected virtual void SetChildState(IReadOnlyNodeState childState)
         {
-            if (isEnumerating)
-                Debug.Assert(_ChildState == childState);
-            else
-                _ChildState = childState;
+            Debug.Assert(ChildState == null);
+
+            _ChildState = childState;
         }
         #endregion
 
         #region Create Methods
-        protected override IIndex CreateNodeIndex(IReadOnlyNodeState state, string propertyName)
+        protected override IIndex CreateNodeIndex(IReadOnlyNodeState state)
         {
-            return (TIndex)new ReadOnlyBrowsingPlaceholderNodeIndex(Owner.Node, state.Node, propertyName);
+            ControllerTools.AssertNoOverride(this, typeof(ReadOnlyPlaceholderInner<IIndex, TIndex>));
+            return (TIndex)new ReadOnlyBrowsingPlaceholderNodeIndex(Owner.Node, state.Node, PropertyName);
+        }
+
+        protected virtual IReadOnlyNodeState CreateNodeState(IReadOnlyNodeIndex nodeIndex)
+        {
+            ControllerTools.AssertNoOverride(this, typeof(ReadOnlyPlaceholderInner<IIndex, TIndex>));
+            return new ReadOnlyNodeState(nodeIndex.Node);
         }
         #endregion
     }

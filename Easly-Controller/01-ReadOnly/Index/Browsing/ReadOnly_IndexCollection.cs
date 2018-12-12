@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace EaslyController.ReadOnly
 {
@@ -22,6 +23,9 @@ namespace EaslyController.ReadOnly
         #region Init
         public ReadOnlyIndexCollection(string propertyName, IReadOnlyList<IIndex> nodeIndexList)
         {
+            Debug.Assert(!string.IsNullOrEmpty(propertyName));
+            Debug.Assert(IsSamePropertyName(propertyName, nodeIndexList));
+
             PropertyName = propertyName;
             NodeIndexList = nodeIndexList;
         }
@@ -32,6 +36,17 @@ namespace EaslyController.ReadOnly
         string IReadOnlyIndexCollection.PropertyName { get { return PropertyName; } }
         public IReadOnlyList<IIndex> NodeIndexList { get; private set; }
         IEnumerable IReadOnlyIndexCollection.NodeIndexList { get { return NodeIndexList; } }
+        #endregion
+
+        #region Debugging
+        public static bool IsSamePropertyName(string propertyName, IReadOnlyList<IIndex> nodeIndexList)
+        {
+            foreach (IIndex item in nodeIndexList)
+                if (item.PropertyName != propertyName)
+                    return false;
+
+            return true;
+        }
         #endregion
     }
 }

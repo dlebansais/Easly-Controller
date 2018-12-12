@@ -3,14 +3,14 @@
     public interface IReadOnlyCollectionInner : IReadOnlyInner
     {
         int Count { get; }
-        IReadOnlyNodeState FirstNodeState();
+        IReadOnlyNodeState FirstNodeState { get; }
     }
 
     public interface IReadOnlyCollectionInner<out IIndex> : IReadOnlyInner<IIndex>
         where IIndex : IReadOnlyBrowsingChildNodeIndex
     {
         int Count { get; }
-        IReadOnlyNodeState FirstNodeState();
+        IReadOnlyNodeState FirstNodeState { get; }
     }
 
     public abstract class ReadOnlyCollectionInner<IIndex, TIndex> : ReadOnlyInner<IIndex, TIndex>, IReadOnlyCollectionInner<IIndex>, IReadOnlyCollectionInner
@@ -24,11 +24,11 @@
         }
         #endregion
 
-        #region Client Interface
+        #region Properties
         public abstract int Count { get; }
         int IReadOnlyCollectionInner.Count { get { return Count; } }
-        public abstract IReadOnlyNodeState FirstNodeState();
-        IReadOnlyNodeState IReadOnlyCollectionInner.FirstNodeState() { return FirstNodeState(); }
+        public abstract IReadOnlyNodeState FirstNodeState { get; }
+        IReadOnlyNodeState IReadOnlyCollectionInner.FirstNodeState { get { return FirstNodeState; } }
         #endregion
     }
 }

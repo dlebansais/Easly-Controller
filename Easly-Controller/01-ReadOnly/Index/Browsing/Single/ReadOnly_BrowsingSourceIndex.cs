@@ -1,21 +1,23 @@
 ﻿using BaseNode;
-using BaseNodeHelper;
-using System.Diagnostics;
 
 namespace EaslyController.ReadOnly
 {
     public interface IReadOnlyBrowsingSourceIndex : IReadOnlyBrowsingChildNodeIndex
     {
+        new IIdentifier Node { get; }
     }
 
     public class ReadOnlyBrowsingSourceIndex : ReadOnlyBrowsingChildNodeIndex, IReadOnlyBrowsingSourceIndex
     {
         #region Init
-        public ReadOnlyBrowsingSourceIndex(IBlock block, IIdentifier sourceIdentifier)
-            : base(sourceIdentifier, nameof(IBlock.SourceIdentifier))
+        public ReadOnlyBrowsingSourceIndex(IBlock block)
+            : base(block.SourceIdentifier, nameof(IBlock.SourceIdentifier))
         {
-            Debug.Assert(NodeTreeHelper.IsSourceNode(block, sourceIdentifier));
         }
+        #endregion
+
+        #region Properties
+        public new IIdentifier Node { get { return (IIdentifier)base.Node; } }
         #endregion
     }
 }

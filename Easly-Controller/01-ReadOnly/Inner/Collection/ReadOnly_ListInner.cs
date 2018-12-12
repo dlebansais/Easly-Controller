@@ -25,6 +25,20 @@ namespace EaslyController.ReadOnly
         {
             InitStateList();
         }
+
+        public override IReadOnlyNodeState InitChildState(IReadOnlyBrowsingChildNodeIndex nodeIndex)
+        {
+            Debug.Assert(nodeIndex != null);
+            Debug.Assert(nodeIndex.PropertyName == PropertyName);
+
+            int Index = ((IIndex)nodeIndex).Index;
+            Debug.Assert(Index == StateList.Count);
+
+            IReadOnlyNodeState State = CreateNodeState(nodeIndex);
+            InsertInStateList(Index, State);
+
+            return State;
+        }
         #endregion
 
         #region Properties
@@ -34,19 +48,15 @@ namespace EaslyController.ReadOnly
         {
             get { return StateList.Count; }
         }
-        #endregion
 
-        #region Build Table Interface
-        public override void Set(IReadOnlyBrowsingChildNodeIndex nodeIndex, IReadOnlyNodeState childState, bool isEnumerating)
+        public override IReadOnlyNodeState FirstNodeState
         {
-            Debug.Assert(nodeIndex != null);
-            Debug.Assert(nodeIndex.PropertyName == PropertyName);
-            Debug.Assert(childState != null);
+            get
+            {
+                Debug.Assert(Count > 0);
 
-            int Index = ((IIndex)nodeIndex).Index;
-            Debug.Assert(isEnumerating ? (Index < StateList.Count) : (Index == StateList.Count));
-
-            InsertInStateList(Index, childState, isEnumerating);
+                return StateList[0];
+            }
         }
         #endregion
 
@@ -70,13 +80,6 @@ namespace EaslyController.ReadOnly
 
             stateIndex = -1;
         }
-
-        public override IReadOnlyNodeState FirstNodeState()
-        {
-            Debug.Assert(Count > 0);
-
-            return StateList[0];
-        }
         #endregion
 
         #region StateList
@@ -86,32 +89,42 @@ namespace EaslyController.ReadOnly
             StateList = CreateStateListReadOnly(_StateList);
         }
 
-        protected virtual void InsertInStateList(int index, IReadOnlyNodeState nodeState, bool isEnumerating)
+        protected virtual void InsertInStateList(int index, IReadOnlyNodeState nodeState)
         {
-            if (isEnumerating)
-                Debug.Assert(_StateList[index] == nodeState);
-            else
-                _StateList.Insert(index, nodeState);
+            Debug.Assert(index >= 0 && index <= _StateList.Count);
+            Debug.Assert(nodeState != null);
+
+            _StateList.Insert(index, nodeState);
         }
 
         protected virtual void RemoveFromStateList(int index, IReadOnlyNodeState nodeState)
         {
+            Debug.Assert(index >= 0 && index < _StateList.Count);
+
             _StateList.RemoveAt(index);
         }
 
         public IReadOnlyNodeStateReadOnlyList StateList { get; protected set; }
-        protected IReadOnlyNodeStateList _StateList;
+        private IReadOnlyNodeStateList _StateList;
         #endregion
 
         #region Create Methods
         protected virtual IReadOnlyNodeStateList CreateStateList()
         {
+            ControllerTools.AssertNoOverride(this, typeof(ReadOnlyListInner<IIndex, TIndex>));
             return new ReadOnlyNodeStateList();
         }
 
         protected virtual IReadOnlyNodeStateReadOnlyList CreateStateListReadOnly(IReadOnlyNodeStateList stateList)
         {
+            ControllerTools.AssertNoOverride(this, typeof(ReadOnlyListInner<IIndex, TIndex>));
             return new ReadOnlyNodeStateReadOnlyList(stateList);
+        }
+
+        protected virtual IReadOnlyNodeState CreateNodeState(IReadOnlyNodeIndex nodeIndex)
+        {
+            ControllerTools.AssertNoOverride(this, typeof(ReadOnlyListInner<IIndex, TIndex>));
+            return new ReadOnlyNodeState(nodeIndex.Node);
         }
 
         protected virtual IIndex CreateNodeIndex(IReadOnlyNodeState state, string propertyName, int index)

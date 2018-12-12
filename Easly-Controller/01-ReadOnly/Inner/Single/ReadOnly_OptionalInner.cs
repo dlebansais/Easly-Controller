@@ -24,6 +24,18 @@ namespace EaslyController.ReadOnly
             : base(owner, propertyName)
         {
         }
+
+        public override IReadOnlyNodeState InitChildState(IReadOnlyBrowsingChildNodeIndex nodeIndex)
+        {
+            Debug.Assert(nodeIndex != null);
+            Debug.Assert(nodeIndex.PropertyName == PropertyName);
+            Debug.Assert(ChildState == null);
+
+            IReadOnlyNodeState State = CreateNodeState(nodeIndex);
+            SetChildState(State);
+
+            return State;
+        }
         #endregion
 
         #region Properties
@@ -32,24 +44,12 @@ namespace EaslyController.ReadOnly
         bool IReadOnlyOptionalInner.IsAssigned { get { return IsAssigned; } }
         #endregion
 
-        #region Build Table Interface
-        public override void Set(IReadOnlyBrowsingChildNodeIndex nodeIndex, IReadOnlyNodeState childState, bool isEnumerating)
-        {
-            Debug.Assert(nodeIndex != null);
-            Debug.Assert(nodeIndex.PropertyName == PropertyName);
-            Debug.Assert(childState != null);
-
-            SetChildState(childState, isEnumerating);
-        }
-        #endregion
-
         #region Child State
-        protected virtual void SetChildState(IReadOnlyNodeState childState, bool isEnumerating)
+        protected virtual void SetChildState(IReadOnlyNodeState childState)
         {
-            if (isEnumerating)
-                Debug.Assert(_ChildState == childState);
-            else
-                _ChildState = childState;
+            Debug.Assert(ChildState == null);
+
+            _ChildState = childState;
         }
 
         public override IReadOnlyNodeState ChildState { get { return _ChildState; } }
@@ -57,9 +57,16 @@ namespace EaslyController.ReadOnly
         #endregion
 
         #region Create Methods
-        protected override IIndex CreateNodeIndex(IReadOnlyNodeState state, string propertyName)
+        protected override IIndex CreateNodeIndex(IReadOnlyNodeState state)
         {
-            return (TIndex)new ReadOnlyBrowsingOptionalNodeIndex(Owner.Node, state.Node, propertyName);
+            ControllerTools.AssertNoOverride(this, typeof(ReadOnlyOptionalInner<IIndex, TIndex>));
+            return (TIndex)new ReadOnlyBrowsingOptionalNodeIndex(Owner.Node, state.Node, PropertyName);
+        }
+
+        protected virtual IReadOnlyNodeState CreateNodeState(IReadOnlyNodeIndex nodeIndex)
+        {
+            ControllerTools.AssertNoOverride(this, typeof(ReadOnlyOptionalInner<IIndex, TIndex>));
+            return new ReadOnlyNodeState(nodeIndex.Node);
         }
         #endregion
     }

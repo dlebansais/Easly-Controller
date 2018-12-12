@@ -2,6 +2,7 @@
 {
     public interface IReadOnlyBrowseBlockContext : IReadOnlyBrowseContext
     {
+        new IReadOnlyBlockState State { get; }
     }
 
     public class ReadOnlyBrowseBlockContext : ReadOnlyBrowseContext, IReadOnlyBrowseBlockContext
@@ -13,14 +14,18 @@
         }
         #endregion
 
+        #region Properties
+        public new IReadOnlyBlockState State { get { return (IReadOnlyBlockState)base.State; } }
+        #endregion
+
         #region Create Methods
-        protected override IReadOnlyIndexCollectionList CreateChildNodeIndexCollectionList()
+        protected override IReadOnlyIndexCollectionList CreateIndexCollectionList()
         {
             ControllerTools.AssertNoOverride(this, typeof(ReadOnlyBrowseBlockContext));
             return new ReadOnlyIndexCollectionList();
         }
 
-        protected override IReadOnlyIndexCollectionReadOnlyList CreateChildNodeIndexCollectionListReadOnly(IReadOnlyIndexCollectionList list)
+        protected override IReadOnlyIndexCollectionReadOnlyList CreateIndexCollectionListReadOnly(IReadOnlyIndexCollectionList list)
         {
             ControllerTools.AssertNoOverride(this, typeof(ReadOnlyBrowseBlockContext));
             return new ReadOnlyIndexCollectionReadOnlyList(list);

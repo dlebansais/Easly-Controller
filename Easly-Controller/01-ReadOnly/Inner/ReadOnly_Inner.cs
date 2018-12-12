@@ -17,7 +17,7 @@ namespace EaslyController.ReadOnly
         string PropertyName { get; }
         Type ItemType { get; }
         IIndex IndexOf(IReadOnlyNodeState childState);
-        void Set(IReadOnlyBrowsingChildNodeIndex nodeIndex, IReadOnlyNodeState childState, bool isEnumerating);
+        IReadOnlyNodeState InitChildState(IReadOnlyBrowsingChildNodeIndex nodeIndex);
     }
 
     public abstract class ReadOnlyInner<IIndex, TIndex> : IReadOnlyInner<IIndex>, IReadOnlyInner
@@ -44,7 +44,7 @@ namespace EaslyController.ReadOnly
         #region Client Interface
         public abstract IIndex IndexOf(IReadOnlyNodeState childState);
         IReadOnlyBrowsingChildNodeIndex IReadOnlyInner.IndexOf(IReadOnlyNodeState childState) { return IndexOf(childState); }
-        public abstract void Set(IReadOnlyBrowsingChildNodeIndex nodeIndex, IReadOnlyNodeState childState, bool isEnumerating);
+        public abstract IReadOnlyNodeState InitChildState(IReadOnlyBrowsingChildNodeIndex nodeIndex);
         #endregion
     }
 }

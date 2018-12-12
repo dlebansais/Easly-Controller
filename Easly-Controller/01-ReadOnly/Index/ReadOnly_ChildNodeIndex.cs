@@ -1,4 +1,5 @@
 ﻿using BaseNode;
+using System.Diagnostics;
 
 namespace EaslyController.ReadOnly
 {
@@ -13,6 +14,8 @@ namespace EaslyController.ReadOnly
         public ReadOnlyChildNodeIndex(INode node, string propertyName)
             : base(node)
         {
+            Debug.Assert(!string.IsNullOrEmpty(propertyName));
+
             PropertyName = propertyName;
         }
         #endregion
