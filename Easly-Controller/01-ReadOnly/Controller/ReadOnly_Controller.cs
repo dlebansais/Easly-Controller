@@ -1,5 +1,4 @@
 ﻿using BaseNode;
-using BaseNodeHelper;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -8,6 +7,11 @@ namespace EaslyController.ReadOnly
 {
     public interface IReadOnlyController
     {
+        IReadOnlyNodeState RootState { get; }
+        IReadOnlyRootNodeIndex RootIndex { get; }
+        Stats Stats { get; }
+        bool ContainsNode(INode node);
+        IReadOnlyNodeState NodeToState(INode node);
     }
 
     public class ReadOnlyController : IReadOnlyController
@@ -25,6 +29,7 @@ namespace EaslyController.ReadOnly
             IsInitialized = false;
             _StateTable = CreateStateTable();
             StateTable = CreateStateTableReadOnly(_StateTable);
+            Stats = new Stats();
         }
 
         private bool IsInitialized;
@@ -33,6 +38,7 @@ namespace EaslyController.ReadOnly
         #region Properties
         public IReadOnlyNodeState RootState { get; private set; }
         public IReadOnlyRootNodeIndex RootIndex { get; private set; }
+        public Stats Stats { get; private set; }
         protected IReadOnlyNodeStateReadOnlyDictionary<INode> StateTable { get; private set; }
         private IReadOnlyNodeStateDictionary<INode> _StateTable;
         #endregion
@@ -48,7 +54,7 @@ namespace EaslyController.ReadOnly
         public virtual IReadOnlyNodeState NodeToState(INode node)
         {
             Debug.Assert(node != null);
-            Debug.Assert(StateTable.ContainsKey(node));
+            Debug.Assert(ContainsNode(node));
 
             return StateTable[node];
         }
@@ -64,6 +70,7 @@ namespace EaslyController.ReadOnly
             RootState = State;
 
             AddState(State);
+            Stats.NodeCount++;
             BuildStateTable(null, null, rootIndex, State);
 
             IsInitialized = true;
@@ -110,6 +117,9 @@ namespace EaslyController.ReadOnly
 
             IReadOnlyNodeState State = browseContext.State;
             State.BrowseChildren(browseContext);
+
+            Stats.ListCount += browseContext.ListCount;
+            Stats.BlockListCount += browseContext.BlockListCount;
         }
 
         protected virtual IReadOnlyInnerReadOnlyDictionary<string> BuildInnerTable(IReadOnlyBrowseNodeContext browseContext)
@@ -190,8 +200,13 @@ namespace EaslyController.ReadOnly
 
                         IReadOnlyPatternState PatternState = BlockState.PatternState;
                         AddState(PatternState);
+                        Stats.NodeCount++;
+                        Stats.PlaceholderNodeCount++;
+
                         IReadOnlySourceState SourceState = BlockState.SourceState;
                         AddState(SourceState);
+                        Stats.NodeCount++;
+                        Stats.PlaceholderNodeCount++;
                     }
 
                     IReadOnlyNodeState ChildState = BuildChildState(Inner, ChildNodeIndex);
@@ -206,6 +221,16 @@ namespace EaslyController.ReadOnly
         {
             IReadOnlyNodeState ChildState = inner.InitChildState(nodeIndex);
             AddState(ChildState);
+            Stats.NodeCount++;
+
+            if (inner is IReadOnlyOptionalInner<IReadOnlyBrowsingOptionalNodeIndex> AsOptionalInner)
+            {
+                Stats.OptionalNodeCount++;
+                if (AsOptionalInner.IsAssigned)
+                    Stats.AssignedOptionalNodeCount++;
+            }
+            else
+                Stats.PlaceholderNodeCount++;
 
             return ChildState;
         }

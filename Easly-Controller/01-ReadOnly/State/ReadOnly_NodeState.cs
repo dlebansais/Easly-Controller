@@ -159,6 +159,7 @@ namespace EaslyController.ReadOnly
 
                 else if (NodeTreeHelper.IsChildNodeList(Node, PropertyName, out ChildNodeType))
                 {
+                    browseNodeContext.IncrementListCount();
                     NodeTreeHelper.GetChildNodeList(Node, PropertyName, out ChildNodeList);
 
                     IReadOnlyIndexCollection IndexCollection = BrowseNodeList(browseNodeContext, PropertyName, ChildNodeList);
@@ -167,6 +168,7 @@ namespace EaslyController.ReadOnly
 
                 else if (NodeTreeHelper.IsChildBlockList(Node, PropertyName, out ChildInterfaceType, out ChildNodeType))
                 {
+                    browseNodeContext.IncrementBlockListCount();
                     NodeTreeHelper.GetChildBlockList(Node, PropertyName, out ChildBlockList);
 
                     IReadOnlyIndexCollection IndexCollection = BrowseNodeBlockList(browseNodeContext, PropertyName, ChildBlockList);
