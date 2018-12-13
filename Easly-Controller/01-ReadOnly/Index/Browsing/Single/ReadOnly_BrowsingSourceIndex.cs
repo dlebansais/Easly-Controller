@@ -2,22 +2,25 @@
 
 namespace EaslyController.ReadOnly
 {
-    public interface IReadOnlyBrowsingSourceIndex : IReadOnlyBrowsingChildNodeIndex
+    public interface IReadOnlyBrowsingSourceIndex : IReadOnlyBrowsingChildIndex, IReadOnlyNodeIndex
     {
         new IIdentifier Node { get; }
     }
 
-    public class ReadOnlyBrowsingSourceIndex : ReadOnlyBrowsingChildNodeIndex, IReadOnlyBrowsingSourceIndex
+    public class ReadOnlyBrowsingSourceIndex : IReadOnlyBrowsingSourceIndex
     {
         #region Init
         public ReadOnlyBrowsingSourceIndex(IBlock block)
-            : base(block.SourceIdentifier, nameof(IBlock.SourceIdentifier))
         {
+            Block = block;
         }
         #endregion
 
         #region Properties
-        public new IIdentifier Node { get { return (IIdentifier)base.Node; } }
+        public IIdentifier Node { get { return Block.SourceIdentifier; } }
+        INode IReadOnlyNodeIndex.Node { get { return Node; } }
+        public string PropertyName { get { return nameof(IBlock.SourceIdentifier); } }
+        private IBlock Block;
         #endregion
     }
 }

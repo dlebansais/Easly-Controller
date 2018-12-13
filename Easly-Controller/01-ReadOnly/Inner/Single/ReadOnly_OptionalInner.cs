@@ -16,7 +16,7 @@ namespace EaslyController.ReadOnly
         bool IsAssigned { get; }
     }
 
-    public class ReadOnlyOptionalInner<IIndex, TIndex> : ReadOnlySingleInner<IIndex, TIndex>, IReadOnlyOptionalInner<IIndex>, IReadOnlyOptionalInner
+    public class ReadOnlyOptionalInner<IIndex, TIndex> : ReadOnlySingleInner<IIndex>, IReadOnlyOptionalInner<IIndex>, IReadOnlyOptionalInner
         where IIndex : IReadOnlyBrowsingOptionalNodeIndex
         where TIndex : ReadOnlyBrowsingOptionalNodeIndex, IIndex
     {
@@ -26,13 +26,19 @@ namespace EaslyController.ReadOnly
         {
         }
 
-        public override IReadOnlyNodeState InitChildState(IReadOnlyBrowsingChildNodeIndex nodeIndex)
+        public override IReadOnlyNodeState InitChildState(IReadOnlyBrowsingChildIndex nodeIndex)
+        {
+            Debug.Assert(nodeIndex is IReadOnlyBrowsingOptionalNodeIndex);
+            return InitChildState((IReadOnlyBrowsingOptionalNodeIndex)nodeIndex);
+        }
+
+        protected virtual IReadOnlyOptionalNodeState InitChildState(IReadOnlyBrowsingOptionalNodeIndex nodeIndex)
         {
             Debug.Assert(nodeIndex != null);
             Debug.Assert(nodeIndex.PropertyName == PropertyName);
             Debug.Assert(ChildState == null);
 
-            IReadOnlyNodeState State = CreateNodeState(nodeIndex);
+            IReadOnlyOptionalNodeState State = CreateNodeState(nodeIndex);
             SetChildState(State);
 
             return State;
@@ -40,7 +46,7 @@ namespace EaslyController.ReadOnly
         #endregion
 
         #region Properties
-        public override Type ItemType { get { return NodeTreeHelper.OptionalChildInterfaceType(Owner.Node, PropertyName); } }
+        public override Type InterfaceType { get { return NodeTreeHelper.OptionalChildInterfaceType(Owner.Node, PropertyName); } }
         public bool IsAssigned { get { return NodeTreeHelper.IsChildNodeAssigned(Owner.Node, PropertyName); } }
         bool IReadOnlyOptionalInner.IsAssigned { get { return IsAssigned; } }
         #endregion
@@ -53,15 +59,14 @@ namespace EaslyController.ReadOnly
             INode ChildNodeClone = ChildState.CloneNode();
             Debug.Assert(ChildNodeClone != null);
 
-            NodeTreeHelper.SetOptionalChildNode(parentNode, PropertyName, ChildNodeClone);
-
-            if (!IsAssigned)
-                NodeTreeHelper.UnassignChildNode(parentNode, PropertyName);
+            NodeHelper.InitializeOptionalChildNode(parentNode, PropertyName, ChildNodeClone);
+            if (IsAssigned)
+                NodeTreeHelper.AssignChildNode(parentNode, PropertyName);
         }
         #endregion
 
         #region Implementation
-        protected virtual void SetChildState(IReadOnlyNodeState childState)
+        protected virtual void SetChildState(IReadOnlyOptionalNodeState childState)
         {
             Debug.Assert(ChildState == null);
 
@@ -69,20 +74,20 @@ namespace EaslyController.ReadOnly
         }
 
         public override IReadOnlyNodeState ChildState { get { return _ChildState; } }
-        private IReadOnlyNodeState _ChildState;
+        private IReadOnlyOptionalNodeState _ChildState;
         #endregion
 
         #region Create Methods
         protected override IIndex CreateNodeIndex(IReadOnlyNodeState state)
         {
             ControllerTools.AssertNoOverride(this, typeof(ReadOnlyOptionalInner<IIndex, TIndex>));
-            return (TIndex)new ReadOnlyBrowsingOptionalNodeIndex(Owner.Node, state.Node, PropertyName);
+            return (TIndex)new ReadOnlyBrowsingOptionalNodeIndex(Owner.Node, PropertyName);
         }
 
-        protected virtual IReadOnlyNodeState CreateNodeState(IReadOnlyNodeIndex nodeIndex)
+        protected virtual IReadOnlyOptionalNodeState CreateNodeState(IReadOnlyBrowsingOptionalNodeIndex nodeIndex)
         {
             ControllerTools.AssertNoOverride(this, typeof(ReadOnlyOptionalInner<IIndex, TIndex>));
-            return new ReadOnlyNodeState(nodeIndex.Node);
+            return new ReadOnlyOptionalNodeState(nodeIndex);
         }
         #endregion
     }

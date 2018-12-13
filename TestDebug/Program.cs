@@ -39,6 +39,7 @@ namespace TestDebug
             byte[] RootCloneData = GetData(RootNodeClone);
 
             bool IsEqual = ByteArrayCompare(RootData, RootCloneData);
+            Debug.Assert(IsEqual);
         }
 
         static byte[] GetData(INode node)

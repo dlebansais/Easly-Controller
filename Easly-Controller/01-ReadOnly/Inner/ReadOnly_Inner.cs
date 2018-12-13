@@ -7,24 +7,23 @@ namespace EaslyController.ReadOnly
     {
         IReadOnlyNodeState Owner { get; }
         string PropertyName { get; }
-        Type ItemType { get; }
-        IReadOnlyBrowsingChildNodeIndex IndexOf(IReadOnlyNodeState childState);
+        Type InterfaceType { get; }
+        IReadOnlyBrowsingChildIndex IndexOf(IReadOnlyNodeState childState);
         void CloneChildren(INode parentNode);
     }
 
     public interface IReadOnlyInner<out IIndex>
-        where IIndex : IReadOnlyBrowsingChildNodeIndex
+        where IIndex : IReadOnlyBrowsingChildIndex
     {
         IReadOnlyNodeState Owner { get; }
         string PropertyName { get; }
-        Type ItemType { get; }
+        Type InterfaceType { get; }
         IIndex IndexOf(IReadOnlyNodeState childState);
-        IReadOnlyNodeState InitChildState(IReadOnlyBrowsingChildNodeIndex nodeIndex);
+        IReadOnlyNodeState InitChildState(IReadOnlyBrowsingChildIndex nodeIndex);
     }
 
-    public abstract class ReadOnlyInner<IIndex, TIndex> : IReadOnlyInner<IIndex>, IReadOnlyInner
-        where IIndex : IReadOnlyBrowsingChildNodeIndex
-        where TIndex : ReadOnlyBrowsingChildNodeIndex, IIndex
+    public abstract class ReadOnlyInner<IIndex> : IReadOnlyInner<IIndex>, IReadOnlyInner
+        where IIndex : IReadOnlyBrowsingChildIndex
     {
         #region Init
         public ReadOnlyInner(IReadOnlyNodeState owner, string propertyName)
@@ -36,17 +35,14 @@ namespace EaslyController.ReadOnly
 
         #region Properties
         public IReadOnlyNodeState Owner { get; private set; }
-        IReadOnlyNodeState IReadOnlyInner.Owner { get { return Owner; } }
         public string PropertyName { get; private set; }
-        string IReadOnlyInner.PropertyName { get { return PropertyName; } }
-        public abstract Type ItemType { get; }
-        Type IReadOnlyInner.ItemType { get { return ItemType; } }
+        public abstract Type InterfaceType { get; }
         #endregion
 
         #region Client Interface
         public abstract IIndex IndexOf(IReadOnlyNodeState childState);
-        IReadOnlyBrowsingChildNodeIndex IReadOnlyInner.IndexOf(IReadOnlyNodeState childState) { return IndexOf(childState); }
-        public abstract IReadOnlyNodeState InitChildState(IReadOnlyBrowsingChildNodeIndex nodeIndex);
+        IReadOnlyBrowsingChildIndex IReadOnlyInner.IndexOf(IReadOnlyNodeState childState) { return IndexOf(childState); }
+        public abstract IReadOnlyNodeState InitChildState(IReadOnlyBrowsingChildIndex nodeIndex);
         public abstract void CloneChildren(INode parentNode);
         #endregion
     }

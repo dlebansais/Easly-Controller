@@ -14,7 +14,7 @@ namespace EaslyController.ReadOnly
     {
     }
 
-    public class ReadOnlyPlaceholderInner<IIndex, TIndex> : ReadOnlySingleInner<IIndex, TIndex>, IReadOnlyPlaceholderInner<IIndex>, IReadOnlyPlaceholderInner
+    public class ReadOnlyPlaceholderInner<IIndex, TIndex> : ReadOnlySingleInner<IIndex>, IReadOnlyPlaceholderInner<IIndex>, IReadOnlyPlaceholderInner
         where IIndex : IReadOnlyBrowsingPlaceholderNodeIndex
         where TIndex : ReadOnlyBrowsingPlaceholderNodeIndex, IIndex
     {
@@ -25,13 +25,19 @@ namespace EaslyController.ReadOnly
             _ChildState = null;
         }
 
-        public override IReadOnlyNodeState InitChildState(IReadOnlyBrowsingChildNodeIndex nodeIndex)
+        public override IReadOnlyNodeState InitChildState(IReadOnlyBrowsingChildIndex nodeIndex)
+        {
+            Debug.Assert(nodeIndex is IReadOnlyBrowsingPlaceholderNodeIndex);
+            return InitChildState((IReadOnlyBrowsingPlaceholderNodeIndex)nodeIndex);
+        }
+
+        protected virtual IReadOnlyPlaceholderNodeState InitChildState(IReadOnlyBrowsingPlaceholderNodeIndex nodeIndex)
         {
             Debug.Assert(nodeIndex != null);
             Debug.Assert(nodeIndex.PropertyName == PropertyName);
             Debug.Assert(ChildState == null);
 
-            IReadOnlyNodeState State = CreateNodeState(nodeIndex);
+            IReadOnlyPlaceholderNodeState State = CreateNodeState(nodeIndex);
             SetChildState(State);
 
             return State;
@@ -39,13 +45,13 @@ namespace EaslyController.ReadOnly
         #endregion
 
         #region Properties
-        public override Type ItemType { get { return NodeTreeHelper.ChildInterfaceType(Owner.Node, PropertyName); } }
+        public override Type InterfaceType { get { return NodeTreeHelper.ChildInterfaceType(Owner.Node, PropertyName); } }
         public override IReadOnlyNodeState ChildState { get { return _ChildState; } }
-        private IReadOnlyNodeState _ChildState;
+        private IReadOnlyPlaceholderNodeState _ChildState;
         #endregion
 
         #region Implementation
-        protected virtual void SetChildState(IReadOnlyNodeState childState)
+        protected virtual void SetChildState(IReadOnlyPlaceholderNodeState childState)
         {
             Debug.Assert(ChildState == null);
 
@@ -72,10 +78,10 @@ namespace EaslyController.ReadOnly
             return (TIndex)new ReadOnlyBrowsingPlaceholderNodeIndex(Owner.Node, state.Node, PropertyName);
         }
 
-        protected virtual IReadOnlyNodeState CreateNodeState(IReadOnlyNodeIndex nodeIndex)
+        protected virtual IReadOnlyPlaceholderNodeState CreateNodeState(IReadOnlyBrowsingPlaceholderNodeIndex nodeIndex)
         {
             ControllerTools.AssertNoOverride(this, typeof(ReadOnlyPlaceholderInner<IIndex, TIndex>));
-            return new ReadOnlyNodeState(nodeIndex.Node);
+            return new ReadOnlyPlaceholderNodeState(nodeIndex);
         }
         #endregion
     }

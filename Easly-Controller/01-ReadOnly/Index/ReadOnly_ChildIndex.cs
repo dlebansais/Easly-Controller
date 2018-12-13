@@ -1,13 +1,11 @@
-﻿using BaseNode;
-using System.Diagnostics;
-
-namespace EaslyController.ReadOnly
+﻿namespace EaslyController.ReadOnly
 {
-    public interface IReadOnlyChildNodeIndex : IReadOnlyNodeIndex
+    public interface IReadOnlyChildIndex : IReadOnlyIndex
     {
         string PropertyName { get; }
     }
 
+    /*
     public class ReadOnlyChildNodeIndex : ReadOnlyNodeIndex, IReadOnlyChildNodeIndex
     {
         #region Init
@@ -23,5 +21,5 @@ namespace EaslyController.ReadOnly
         #region Properties
         public string PropertyName { get; private set; }
         #endregion
-    }
+    }*/
 }

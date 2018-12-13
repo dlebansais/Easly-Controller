@@ -8,14 +8,13 @@ namespace EaslyController.ReadOnly
     }
 
     public interface IReadOnlySingleInner<out IIndex> : IReadOnlyInner<IIndex>
-        where IIndex : IReadOnlyBrowsingChildNodeIndex
+        where IIndex : IReadOnlyBrowsingChildIndex
     {
         IReadOnlyNodeState ChildState { get; }
     }
 
-    public abstract class ReadOnlySingleInner<IIndex, TIndex> : ReadOnlyInner<IIndex, TIndex>, IReadOnlySingleInner<IIndex>, IReadOnlySingleInner
-        where IIndex : IReadOnlyBrowsingChildNodeIndex
-        where TIndex : ReadOnlyBrowsingChildNodeIndex, IIndex
+    public abstract class ReadOnlySingleInner<IIndex> : ReadOnlyInner<IIndex>, IReadOnlySingleInner<IIndex>, IReadOnlySingleInner
+        where IIndex : IReadOnlyBrowsingChildIndex
     {
         #region Init
         public ReadOnlySingleInner(IReadOnlyNodeState owner, string propertyName)

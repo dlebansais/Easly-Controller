@@ -7,12 +7,14 @@ namespace EaslyController.ReadOnly
 {
     public interface IReadOnlyBlockListInner : IReadOnlyCollectionInner
     {
+        Type ItemType { get; }
         IReadOnlyBlockStateReadOnlyList BlockStateList { get; }
     }
 
     public interface IReadOnlyBlockListInner<out IIndex> : IReadOnlyCollectionInner<IIndex>
         where IIndex : IReadOnlyBrowsingBlockNodeIndex
     {
+        Type ItemType { get; }
         IReadOnlyBlockStateReadOnlyList BlockStateList { get; }
         IReadOnlyBlockState InitNewBlock(IReadOnlyBrowsingNewBlockNodeIndex nodeIndex);
     }
@@ -44,7 +46,13 @@ namespace EaslyController.ReadOnly
             return BlockState;
         }
 
-        public override IReadOnlyNodeState InitChildState(IReadOnlyBrowsingChildNodeIndex nodeIndex)
+        public override IReadOnlyNodeState InitChildState(IReadOnlyBrowsingChildIndex nodeIndex)
+        {
+            Debug.Assert(nodeIndex is IReadOnlyBrowsingBlockNodeIndex);
+            return InitChildState((IReadOnlyBrowsingBlockNodeIndex)nodeIndex);
+        }
+
+        protected virtual IReadOnlyPlaceholderNodeState InitChildState(IReadOnlyBrowsingBlockNodeIndex nodeIndex)
         {
             Debug.Assert(nodeIndex != null);
             Debug.Assert(nodeIndex.PropertyName == PropertyName);
@@ -70,7 +78,7 @@ namespace EaslyController.ReadOnly
 
             Debug.Assert(BlockIndex < BlockStateList.Count);
 
-            IReadOnlyNodeState State = CreateNodeState(nodeIndex);
+            IReadOnlyPlaceholderNodeState State = CreateNodeState(nodeIndex);
             IReadOnlyBlockState CurrentBlock = BlockStateList[BlockIndex];
             CurrentBlock.InitNodeState(State);
 
@@ -79,7 +87,8 @@ namespace EaslyController.ReadOnly
         #endregion
 
         #region Properties
-        public override Type ItemType { get { return NodeTreeHelper.BlockListInterfaceType(Owner.Node, PropertyName); } }
+        public override Type InterfaceType { get { return NodeTreeHelper.BlockListInterfaceType(Owner.Node, PropertyName); } }
+        public virtual Type ItemType { get { return NodeTreeHelper.BlockListItemType(Owner.Node, PropertyName); } }
 
         public override int Count
         {
@@ -94,14 +103,14 @@ namespace EaslyController.ReadOnly
             }
         }
 
-        public override IReadOnlyNodeState FirstNodeState
+        public override IReadOnlyPlaceholderNodeState FirstNodeState
         {
             get
             {
                 Debug.Assert(BlockStateList.Count > 0);
                 Debug.Assert(BlockStateList[0].StateList.Count > 0);
 
-                return BlockStateList[0].StateList[0];
+                return (IReadOnlyPlaceholderNodeState)BlockStateList[0].StateList[0];
             }
         }
         #endregion
@@ -109,18 +118,24 @@ namespace EaslyController.ReadOnly
         #region Client Interface
         public override IIndex IndexOf(IReadOnlyNodeState childState)
         {
+            Debug.Assert(childState is IReadOnlyPlaceholderNodeState);
+            return IndexOf((IReadOnlyPlaceholderNodeState)childState);
+        }
+
+        protected virtual IIndex IndexOf(IReadOnlyPlaceholderNodeState childState)
+        {
             GetIndexOf(childState, out int BlockIndex, out int Index);
             Debug.Assert(BlockIndex >= 0 && Index >= 0);
 
             return CreateNodeIndex(childState, PropertyName, BlockIndex, Index);
         }
 
-        private void GetIndexOf(IReadOnlyNodeState childState, out int stateBlockIndex, out int stateIndex)
+        private void GetIndexOf(IReadOnlyPlaceholderNodeState childState, out int stateBlockIndex, out int stateIndex)
         {
             for (int BlockIndex = 0; BlockIndex < BlockStateList.Count; BlockIndex++)
             {
                 IReadOnlyBlockState Block = BlockStateList[BlockIndex];
-                IReadOnlyNodeStateReadOnlyList StateList = Block.StateList;
+                IReadOnlyPlaceholderNodeStateReadOnlyList StateList = Block.StateList;
 
                 for (int Index = 0; Index < StateList.Count; Index++)
                     if (StateList[Index] == childState)
@@ -138,6 +153,8 @@ namespace EaslyController.ReadOnly
         public override void CloneChildren(INode parentNode)
         {
             Debug.Assert(parentNode != null);
+
+            NodeHelper.InitializeEmptyBlockList(parentNode, PropertyName, InterfaceType, ItemType);
 
             for (int i = 0; i < BlockStateList.Count; i++)
             {
@@ -196,13 +213,13 @@ namespace EaslyController.ReadOnly
             return new ReadOnlyBlockState(this, childBlock);
         }
 
-        protected virtual IReadOnlyNodeState CreateNodeState(IReadOnlyNodeIndex nodeIndex)
+        protected virtual IReadOnlyPlaceholderNodeState CreateNodeState(IReadOnlyNodeIndex nodeIndex)
         {
             ControllerTools.AssertNoOverride(this, typeof(ReadOnlyBlockListInner<IIndex, TIndex>));
-            return new ReadOnlyNodeState(nodeIndex.Node);
+            return new ReadOnlyPlaceholderNodeState(nodeIndex);
         }
 
-        protected virtual IIndex CreateNodeIndex(IReadOnlyNodeState state, string propertyName, int blockIndex, int index)
+        protected virtual IIndex CreateNodeIndex(IReadOnlyPlaceholderNodeState state, string propertyName, int blockIndex, int index)
         {
             ControllerTools.AssertNoOverride(this, typeof(ReadOnlyBlockListInner<IIndex, TIndex>));
             return (TIndex)(ReadOnlyBrowsingBlockNodeIndex)new ReadOnlyBrowsingExistingBlockNodeIndex(Owner.Node, state.Node, propertyName, blockIndex, index);

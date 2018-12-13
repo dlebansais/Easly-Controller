@@ -7,13 +7,13 @@ namespace EaslyController.ReadOnly
 {
     public interface IReadOnlyListInner : IReadOnlyCollectionInner
     {
-        IReadOnlyNodeStateReadOnlyList StateList { get; }
+        IReadOnlyPlaceholderNodeStateReadOnlyList StateList { get; }
     }
 
     public interface IReadOnlyListInner<out IIndex> : IReadOnlyCollectionInner<IIndex>
         where IIndex : IReadOnlyBrowsingListNodeIndex
     {
-        IReadOnlyNodeStateReadOnlyList StateList { get; }
+        IReadOnlyPlaceholderNodeStateReadOnlyList StateList { get; }
     }
 
     public class ReadOnlyListInner<IIndex, TIndex> : ReadOnlyCollectionInner<IIndex, TIndex>, IReadOnlyListInner<IIndex>, IReadOnlyListInner
@@ -27,7 +27,13 @@ namespace EaslyController.ReadOnly
             InitStateList();
         }
 
-        public override IReadOnlyNodeState InitChildState(IReadOnlyBrowsingChildNodeIndex nodeIndex)
+        public override IReadOnlyNodeState InitChildState(IReadOnlyBrowsingChildIndex nodeIndex)
+        {
+            Debug.Assert(nodeIndex is IReadOnlyBrowsingListNodeIndex);
+            return InitChildState((IReadOnlyBrowsingListNodeIndex)nodeIndex);
+        }
+
+        protected virtual IReadOnlyNodeState InitChildState(IReadOnlyBrowsingListNodeIndex nodeIndex)
         {
             Debug.Assert(nodeIndex != null);
             Debug.Assert(nodeIndex.PropertyName == PropertyName);
@@ -35,7 +41,7 @@ namespace EaslyController.ReadOnly
             int Index = ((IIndex)nodeIndex).Index;
             Debug.Assert(Index == StateList.Count);
 
-            IReadOnlyNodeState State = CreateNodeState(nodeIndex);
+            IReadOnlyPlaceholderNodeState State = CreateNodeState(nodeIndex);
             InsertInStateList(Index, State);
 
             return State;
@@ -43,14 +49,14 @@ namespace EaslyController.ReadOnly
         #endregion
 
         #region Properties
-        public override Type ItemType { get { return NodeTreeHelper.ListInterfaceType(Owner.Node, PropertyName); } }
+        public override Type InterfaceType { get { return NodeTreeHelper.ListInterfaceType(Owner.Node, PropertyName); } }
 
         public override int Count
         {
             get { return StateList.Count; }
         }
 
-        public override IReadOnlyNodeState FirstNodeState
+        public override IReadOnlyPlaceholderNodeState FirstNodeState
         {
             get
             {
@@ -64,13 +70,19 @@ namespace EaslyController.ReadOnly
         #region Client Interface
         public override IIndex IndexOf(IReadOnlyNodeState childState)
         {
+            Debug.Assert(childState is IReadOnlyPlaceholderNodeState);
+            return IndexOf((IReadOnlyPlaceholderNodeState)childState);
+        }
+
+        protected virtual IIndex IndexOf(IReadOnlyPlaceholderNodeState childState)
+        {
             GetIndexOf(childState, out int Index);
             Debug.Assert(Index >= 0 && Index < Count);
 
             return CreateNodeIndex(childState, PropertyName, Index);
         }
 
-        private void GetIndexOf(IReadOnlyNodeState childState, out int stateIndex)
+        private void GetIndexOf(IReadOnlyPlaceholderNodeState childState, out int stateIndex)
         {
             for (int Index = 0; Index < StateList.Count; Index++)
                 if (StateList[Index] == childState)
@@ -86,9 +98,11 @@ namespace EaslyController.ReadOnly
         {
             Debug.Assert(parentNode != null);
 
+            NodeHelper.InitializeEmptyNodeList(parentNode, PropertyName, InterfaceType);
+
             for (int i = 0; i < StateList.Count; i++)
             {
-                IReadOnlyNodeState ChildState = StateList[i];
+                IReadOnlyPlaceholderNodeState ChildState = StateList[i];
 
                 INode ChildNodeClone = ChildState.CloneNode();
                 Debug.Assert(ChildNodeClone != null);
@@ -105,7 +119,7 @@ namespace EaslyController.ReadOnly
             StateList = CreateStateListReadOnly(_StateList);
         }
 
-        protected virtual void InsertInStateList(int index, IReadOnlyNodeState nodeState)
+        protected virtual void InsertInStateList(int index, IReadOnlyPlaceholderNodeState nodeState)
         {
             Debug.Assert(index >= 0 && index <= _StateList.Count);
             Debug.Assert(nodeState != null);
@@ -113,37 +127,37 @@ namespace EaslyController.ReadOnly
             _StateList.Insert(index, nodeState);
         }
 
-        protected virtual void RemoveFromStateList(int index, IReadOnlyNodeState nodeState)
+        protected virtual void RemoveFromStateList(int index, IReadOnlyPlaceholderNodeState nodeState)
         {
             Debug.Assert(index >= 0 && index < _StateList.Count);
 
             _StateList.RemoveAt(index);
         }
 
-        public IReadOnlyNodeStateReadOnlyList StateList { get; protected set; }
-        private IReadOnlyNodeStateList _StateList;
+        public IReadOnlyPlaceholderNodeStateReadOnlyList StateList { get; protected set; }
+        private IReadOnlyPlaceholderNodeStateList _StateList;
         #endregion
 
         #region Create Methods
-        protected virtual IReadOnlyNodeStateList CreateStateList()
+        protected virtual IReadOnlyPlaceholderNodeStateList CreateStateList()
         {
             ControllerTools.AssertNoOverride(this, typeof(ReadOnlyListInner<IIndex, TIndex>));
-            return new ReadOnlyNodeStateList();
+            return new ReadOnlyPlaceholderNodeStateList();
         }
 
-        protected virtual IReadOnlyNodeStateReadOnlyList CreateStateListReadOnly(IReadOnlyNodeStateList stateList)
+        protected virtual IReadOnlyPlaceholderNodeStateReadOnlyList CreateStateListReadOnly(IReadOnlyPlaceholderNodeStateList stateList)
         {
             ControllerTools.AssertNoOverride(this, typeof(ReadOnlyListInner<IIndex, TIndex>));
-            return new ReadOnlyNodeStateReadOnlyList(stateList);
+            return new ReadOnlyPlaceholderNodeStateReadOnlyList(stateList);
         }
 
-        protected virtual IReadOnlyNodeState CreateNodeState(IReadOnlyNodeIndex nodeIndex)
+        protected virtual IReadOnlyPlaceholderNodeState CreateNodeState(IReadOnlyNodeIndex nodeIndex)
         {
             ControllerTools.AssertNoOverride(this, typeof(ReadOnlyListInner<IIndex, TIndex>));
-            return new ReadOnlyNodeState(nodeIndex.Node);
+            return new ReadOnlyPlaceholderNodeState(nodeIndex);
         }
 
-        protected virtual IIndex CreateNodeIndex(IReadOnlyNodeState state, string propertyName, int index)
+        protected virtual IIndex CreateNodeIndex(IReadOnlyPlaceholderNodeState state, string propertyName, int index)
         {
             ControllerTools.AssertNoOverride(this, typeof(ReadOnlyListInner<IIndex, TIndex>));
             return (TIndex)new ReadOnlyBrowsingListNodeIndex(Owner.Node, state.Node, propertyName, index);

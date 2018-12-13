@@ -3,18 +3,18 @@ using System.Diagnostics;
 
 namespace EaslyController.ReadOnly
 {
-    public interface IReadOnlySourceState : IReadOnlyNodeState
+    public interface IReadOnlySourceState : IReadOnlyPlaceholderNodeState
     {
         new IIdentifier Node { get; }
         IReadOnlyBlockState ParentBlockState { get; }
         new IIdentifier CloneNode();
     }
 
-    public class ReadOnlySourceState : ReadOnlyNodeState, IReadOnlySourceState
+    public class ReadOnlySourceState : ReadOnlyPlaceholderNodeState, IReadOnlySourceState
     {
         #region Init
-        public ReadOnlySourceState(IReadOnlyBlockState parentBlockState, IIdentifier node)
-            : base(node)
+        public ReadOnlySourceState(IReadOnlyBlockState parentBlockState, IReadOnlyNodeIndex index)
+            : base(index)
         {
             Debug.Assert(parentBlockState != null);
 

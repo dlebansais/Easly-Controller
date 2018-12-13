@@ -3,19 +3,19 @@
     public interface IReadOnlyCollectionInner : IReadOnlyInner
     {
         int Count { get; }
-        IReadOnlyNodeState FirstNodeState { get; }
+        IReadOnlyPlaceholderNodeState FirstNodeState { get; }
     }
 
     public interface IReadOnlyCollectionInner<out IIndex> : IReadOnlyInner<IIndex>
-        where IIndex : IReadOnlyBrowsingChildNodeIndex
+        where IIndex : IReadOnlyBrowsingCollectionNodeIndex
     {
         int Count { get; }
-        IReadOnlyNodeState FirstNodeState { get; }
+        IReadOnlyPlaceholderNodeState FirstNodeState { get; }
     }
 
-    public abstract class ReadOnlyCollectionInner<IIndex, TIndex> : ReadOnlyInner<IIndex, TIndex>, IReadOnlyCollectionInner<IIndex>, IReadOnlyCollectionInner
-        where IIndex : IReadOnlyBrowsingChildNodeIndex
-        where TIndex : ReadOnlyBrowsingChildNodeIndex, IIndex
+    public abstract class ReadOnlyCollectionInner<IIndex, TIndex> : ReadOnlyInner<IIndex>, IReadOnlyCollectionInner<IIndex>, IReadOnlyCollectionInner
+        where IIndex : IReadOnlyBrowsingCollectionNodeIndex
+        where TIndex : ReadOnlyBrowsingCollectionNodeIndex, IIndex
     {
         #region Init
         public ReadOnlyCollectionInner(IReadOnlyNodeState owner, string propertyName)
@@ -26,9 +26,7 @@
 
         #region Properties
         public abstract int Count { get; }
-        int IReadOnlyCollectionInner.Count { get { return Count; } }
-        public abstract IReadOnlyNodeState FirstNodeState { get; }
-        IReadOnlyNodeState IReadOnlyCollectionInner.FirstNodeState { get { return FirstNodeState; } }
+        public abstract IReadOnlyPlaceholderNodeState FirstNodeState { get; }
         #endregion
     }
 }

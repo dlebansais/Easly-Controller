@@ -1,21 +1,30 @@
 ﻿using BaseNode;
 using BaseNodeHelper;
+using System;
 using System.Diagnostics;
 
 namespace EaslyController.ReadOnly
 {
-    public interface IReadOnlyBrowsingOptionalNodeIndex : IReadOnlyBrowsingChildNodeIndex
+    public interface IReadOnlyBrowsingOptionalNodeIndex : IReadOnlyBrowsingChildIndex
     {
+        INode ParentNode { get; }
     }
 
-    public class ReadOnlyBrowsingOptionalNodeIndex : ReadOnlyBrowsingChildNodeIndex, IReadOnlyBrowsingOptionalNodeIndex
+    public class ReadOnlyBrowsingOptionalNodeIndex : IReadOnlyBrowsingOptionalNodeIndex
     {
         #region Init
-        public ReadOnlyBrowsingOptionalNodeIndex(INode parentNode, INode node, string propertyName)
-            : base(node, propertyName)
+        public ReadOnlyBrowsingOptionalNodeIndex(INode parentNode, string propertyName)
         {
-            Debug.Assert(NodeTreeHelper.IsOptionalChildNode(parentNode, propertyName, node));
+            Debug.Assert(NodeTreeHelper.IsOptionalChildNodeProperty(parentNode, propertyName, out Type ChildNodeType));
+
+            ParentNode = parentNode;
+            PropertyName = propertyName;
         }
+        #endregion
+
+        #region Properties
+        public INode ParentNode { get; }
+        public string PropertyName { get; }
         #endregion
     }
 }
