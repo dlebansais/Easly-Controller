@@ -134,6 +134,21 @@ namespace EaslyController.ReadOnly
             stateBlockIndex = -1;
             stateIndex = -1;
         }
+
+        public override void CloneChildren(INode parentNode)
+        {
+            Debug.Assert(parentNode != null);
+
+            for (int i = 0; i < BlockStateList.Count; i++)
+            {
+                IReadOnlyBlockState BlockState = BlockStateList[i];
+                BlockState.CloneBlock(parentNode, i);
+            }
+
+            IBlockList BlockList = NodeTreeHelper.GetBlockList(Owner.Node, PropertyName);
+            IBlockList NewBlockList = NodeTreeHelper.GetBlockList(parentNode, PropertyName);
+            NodeTreeHelper.CopyDocumentation(BlockList, NewBlockList);
+        }
         #endregion
 
         #region BlockStateList

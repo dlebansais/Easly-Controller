@@ -170,7 +170,7 @@ namespace EaslyController.ReadOnly
             IReadOnlyNodeState State = browseContext.State;
             Debug.Assert(nodeIndex.Node == State.Node);
 
-            State.Init(browseContext, parentInner, nodeIndex, innerTable);
+            State.Init(browseContext, parentInner, nodeIndex, innerTable, browseContext.ValuePropertyTypeTable);
         }
 
         protected virtual IReadOnlyNodeIndexNodeStateDictionary BuildChildrenStateTable(IReadOnlyBrowseNodeContext browseContext)
@@ -196,7 +196,7 @@ namespace EaslyController.ReadOnly
                     if ((Inner is IReadOnlyBlockListInner<IReadOnlyBrowsingBlockNodeIndex> AsBlockListInner) && (ChildNodeIndex is IReadOnlyBrowsingNewBlockNodeIndex AsNewBlockIndex))
                     {
                         IReadOnlyBlockState BlockState = AsBlockListInner.InitNewBlock(AsNewBlockIndex);
-                        BlockState.InitBlockState();
+                        BlockState.InitBlockState(browseContext);
 
                         IReadOnlyPatternState PatternState = BlockState.PatternState;
                         AddState(PatternState);

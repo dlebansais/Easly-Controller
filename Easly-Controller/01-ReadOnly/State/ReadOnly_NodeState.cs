@@ -9,15 +9,17 @@ namespace EaslyController.ReadOnly
     public interface IReadOnlyNodeState : IReadOnlyState
     {
         INode Node { get; }
+        IReadOnlyDictionary<string, ValuePropertyType> ValuePropertyTypeTable { get; }
         IReadOnlyNodeState ParentState { get; }
         IReadOnlyInner ParentInner { get; }
         IReadOnlyInnerReadOnlyDictionary<string> InnerTable { get; }
         IReadOnlyBrowsingChildNodeIndex IndexOf(string propertyName, IReadOnlyNodeState childState);
         bool FindFirstUnassignedOptional(out IReadOnlyOptionalInner inner);
         IReadOnlyNodeStateReadOnlyList GetAllChildren();
+        INode CloneNode();
 
         void BrowseChildren(IReadOnlyBrowseNodeContext browseContext);
-        void Init(IReadOnlyBrowseNodeContext browseContext, IReadOnlyInner parentInner, IReadOnlyNodeIndex nodeIndex, IReadOnlyInnerReadOnlyDictionary<string> innerTable);
+        void Init(IReadOnlyBrowseNodeContext browseContext, IReadOnlyInner parentInner, IReadOnlyNodeIndex nodeIndex, IReadOnlyInnerReadOnlyDictionary<string> innerTable, IReadOnlyDictionary<string, ValuePropertyType> valuePropertyTable);
     }
 
     public class ReadOnlyNodeState : ReadOnlyState, IReadOnlyNodeState
@@ -28,20 +30,27 @@ namespace EaslyController.ReadOnly
             Debug.Assert(node != null);
 
             Node = node;
+            ValuePropertyTypeTable = null;
             IsInitialized = false;
         }
 
-        public virtual void Init(IReadOnlyBrowseNodeContext browseContext, IReadOnlyInner parentInner, IReadOnlyNodeIndex nodeIndex, IReadOnlyInnerReadOnlyDictionary<string> innerTable)
+        public virtual void Init(IReadOnlyBrowseNodeContext browseContext, IReadOnlyInner parentInner, IReadOnlyNodeIndex nodeIndex, IReadOnlyInnerReadOnlyDictionary<string> innerTable, IReadOnlyDictionary<string, ValuePropertyType> valuePropertyTable)
         {
             Debug.Assert(nodeIndex != null);
             Debug.Assert(innerTable != null);
 
             InvariantAssert(!IsInitialized);
+            InvariantAssert(ValuePropertyTypeTable == null);
 
             InitParentInner(parentInner);
             InitParentState((parentInner != null) ? ParentInner.Owner : null);
             InitInnerTable(innerTable);
 
+            Dictionary<string, ValuePropertyType> Table = new Dictionary<string, ValuePropertyType>();
+            foreach (KeyValuePair<string, ValuePropertyType> Entry in valuePropertyTable)
+                Table.Add(Entry.Key, Entry.Value);
+
+            ValuePropertyTypeTable = Table;
             IsInitialized = true;
 
             CheckInvariant();
@@ -52,6 +61,7 @@ namespace EaslyController.ReadOnly
 
         #region Properties
         public INode Node { get; private set; }
+        public IReadOnlyDictionary<string, ValuePropertyType> ValuePropertyTypeTable { get; private set; }
         #endregion
 
         #region Client Interface
@@ -139,7 +149,7 @@ namespace EaslyController.ReadOnly
 
             foreach (string PropertyName in PropertyNames)
             {
-                if (NodeTreeHelper.IsChildNodeProperty(Node, PropertyName))
+                if (NodeTreeHelper.IsChildNodeProperty(Node, PropertyName, out ChildNodeType))
                 {
                     NodeTreeHelper.GetChildNode(Node, PropertyName, out IsAssigned, out ChildNode);
                     IReadOnlyBrowsingPlaceholderNodeIndex ChildNodeIndex = CreateChildNodeIndex(browseNodeContext, PropertyName, ChildNode);
@@ -148,7 +158,7 @@ namespace EaslyController.ReadOnly
                     browseNodeContext.AddIndexCollection(IndexCollection);
                 }
 
-                else if (NodeTreeHelper.IsOptionalChildNodeProperty(Node, PropertyName))
+                else if (NodeTreeHelper.IsOptionalChildNodeProperty(Node, PropertyName, out ChildNodeType))
                 {
                     NodeTreeHelper.GetChildNode(Node, PropertyName, out IsAssigned, out ChildNode);
                     IReadOnlyBrowsingOptionalNodeIndex OptionalNodeIndex = CreateOptionalNodeIndex(browseNodeContext, PropertyName, ChildNode);
@@ -174,6 +184,24 @@ namespace EaslyController.ReadOnly
                     IReadOnlyIndexCollection IndexCollection = BrowseNodeBlockList(browseNodeContext, PropertyName, ChildBlockList);
                     browseNodeContext.AddIndexCollection(IndexCollection);
                 }
+
+                else if (NodeTreeHelper.IsBooleanProperty(Node, PropertyName))
+                    browseNodeContext.AddValueProperty(PropertyName, ValuePropertyType.Boolean);
+
+                else if (NodeTreeHelper.IsEnumProperty(Node, PropertyName))
+                    browseNodeContext.AddValueProperty(PropertyName, ValuePropertyType.Enum);
+
+                else if (NodeTreeHelper.IsStringProperty(Node, PropertyName))
+                    browseNodeContext.AddValueProperty(PropertyName, ValuePropertyType.String);
+
+                else if (NodeTreeHelper.IsGuidProperty(Node, PropertyName))
+                    browseNodeContext.AddValueProperty(PropertyName, ValuePropertyType.Guid);
+
+                else if (NodeTreeHelper.IsDocumentProperty(Node, PropertyName))
+                { }
+
+                else
+                    throw new ArgumentOutOfRangeException(nameof(PropertyName));
             }
         }
 
@@ -253,6 +281,76 @@ namespace EaslyController.ReadOnly
         }
 
         public IReadOnlyInnerReadOnlyDictionary<string> InnerTable { get; private set; }
+        #endregion
+
+        #region Debugging
+        public INode CloneNode()
+        {
+            INode NewNode = NodeHelper.CreateEmptyNode(Node.GetType());
+
+            foreach (KeyValuePair<string, IReadOnlyInner> Entry in InnerTable)
+            {
+                string PropertyName = Entry.Key;
+                IReadOnlyInner Inner = Entry.Value;
+                Inner.CloneChildren(NewNode);
+            }
+
+            foreach (KeyValuePair<string, ValuePropertyType> Entry in ValuePropertyTypeTable)
+            {
+                string PropertyName = Entry.Key;
+                ValuePropertyType Type = Entry.Value;
+
+                switch (Type)
+                {
+                    case ValuePropertyType.Boolean:
+                        NodeTreeHelper.CopyBooleanProperty(Node, NewNode, Entry.Key);
+                        break;
+                    case ValuePropertyType.Enum:
+                        NodeTreeHelper.CopyEnumProperty(Node, NewNode, Entry.Key);
+                        break;
+                    case ValuePropertyType.String:
+                        NodeTreeHelper.CopyStringProperty(Node, NewNode, Entry.Key);
+                        break;
+                    case ValuePropertyType.Guid:
+                        NodeTreeHelper.CopyGuidProperty(Node, NewNode, Entry.Key);
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException(nameof(Type));
+                }
+            }
+
+            NodeTreeHelper.CopyDocumentation(Node, NewNode);
+
+            return NewNode;
+        }
+
+        protected virtual void ClonePlaceholderChildNode(INode parentNode, string propertyName)
+        {
+            Debug.Assert(parentNode != null);
+            Debug.Assert(!string.IsNullOrEmpty(propertyName));
+            Debug.Assert(InnerTable.ContainsKey(propertyName));
+            Debug.Assert(InnerTable[propertyName] is IReadOnlyPlaceholderInner);
+
+            IReadOnlyPlaceholderInner Inner = (IReadOnlyPlaceholderInner)InnerTable[propertyName];
+            INode ChildNodeClone = Inner.ChildState.CloneNode();
+
+            NodeTreeHelper.ReplaceChildNode(parentNode, propertyName, ChildNodeClone);
+        }
+
+        protected virtual void CloneOptionalChildNode(INode parentNode, string propertyName)
+        {
+            Debug.Assert(parentNode != null);
+            Debug.Assert(!string.IsNullOrEmpty(propertyName));
+            Debug.Assert(InnerTable.ContainsKey(propertyName));
+            Debug.Assert(InnerTable[propertyName] is IReadOnlyOptionalInner);
+
+            IReadOnlyOptionalInner Inner = (IReadOnlyOptionalInner)InnerTable[propertyName];
+            if (Inner.IsAssigned)
+            {
+                INode ChildNodeClone = Inner.ChildState.CloneNode();
+                NodeTreeHelper.SetOptionalChildNode(parentNode, propertyName, ChildNodeClone);
+            }
+        }
         #endregion
 
         #region Invariant

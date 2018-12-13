@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BaseNode;
+using System;
 
 namespace EaslyController.ReadOnly
 {
@@ -8,6 +9,7 @@ namespace EaslyController.ReadOnly
         string PropertyName { get; }
         Type ItemType { get; }
         IReadOnlyBrowsingChildNodeIndex IndexOf(IReadOnlyNodeState childState);
+        void CloneChildren(INode parentNode);
     }
 
     public interface IReadOnlyInner<out IIndex>
@@ -45,6 +47,7 @@ namespace EaslyController.ReadOnly
         public abstract IIndex IndexOf(IReadOnlyNodeState childState);
         IReadOnlyBrowsingChildNodeIndex IReadOnlyInner.IndexOf(IReadOnlyNodeState childState) { return IndexOf(childState); }
         public abstract IReadOnlyNodeState InitChildState(IReadOnlyBrowsingChildNodeIndex nodeIndex);
+        public abstract void CloneChildren(INode parentNode);
         #endregion
     }
 }

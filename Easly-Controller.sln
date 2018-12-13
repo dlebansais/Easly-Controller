@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.28010.2041
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Easly-Controller", "Easly-Controller\Easly-Controller.csproj", "{E746CFCE-8C74-4025-93DD-2C380F810161}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestDebug", "TestDebug\TestDebug.csproj", "{041BF2A9-A363-4C05-B2AB-86FA3F5D4F63}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -18,6 +20,10 @@ Global
 		{E746CFCE-8C74-4025-93DD-2C380F810161}.Release|x64.Build.0 = Release|x64
 		{E746CFCE-8C74-4025-93DD-2C380F810161}.Travis|x64.ActiveCfg = Travis|x64
 		{E746CFCE-8C74-4025-93DD-2C380F810161}.Travis|x64.Build.0 = Travis|x64
+		{041BF2A9-A363-4C05-B2AB-86FA3F5D4F63}.Debug|x64.ActiveCfg = Debug|x64
+		{041BF2A9-A363-4C05-B2AB-86FA3F5D4F63}.Debug|x64.Build.0 = Debug|x64
+		{041BF2A9-A363-4C05-B2AB-86FA3F5D4F63}.Release|x64.ActiveCfg = Release|x64
+		{041BF2A9-A363-4C05-B2AB-86FA3F5D4F63}.Travis|x64.ActiveCfg = Travis|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -107,6 +107,7 @@
     <Compile Include="Controller\ControllerTools.cs" />
     <Compile Include="Controller\NodeLink.cs" />
     <Compile Include="Controller\Stats.cs" />
+    <Compile Include="Controller\ValuePropertyType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

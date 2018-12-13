@@ -1,6 +1,7 @@
 ﻿using BaseNode;
 using BaseNodeHelper;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace EaslyController.ReadOnly
@@ -9,11 +10,13 @@ namespace EaslyController.ReadOnly
     {
         IReadOnlyBlockListInner ParentInner { get; }
         IBlock ChildBlock { get; }
+        ReplicationStatus Replication { get; }
         IReadOnlyPatternState PatternState { get; }
         IReadOnlySourceState SourceState { get; }
         IReadOnlyNodeStateReadOnlyList StateList { get; }
-        void InitBlockState();
+        void InitBlockState(IReadOnlyBrowseNodeContext browseContext);
         void InitNodeState(IReadOnlyNodeState state);
+        void CloneBlock(INode parentNode, int blockIndex);
     }
 
     public class ReadOnlyBlockState : ReadOnlyState, IReadOnlyBlockState
@@ -29,13 +32,21 @@ namespace EaslyController.ReadOnly
             SourceInner = CreateSourceInner(ParentInner.Owner);
         }
 
-        public virtual void InitBlockState()
+        public virtual void InitBlockState(IReadOnlyBrowseNodeContext browseContext)
         {
             IReadOnlyBrowsingPatternIndex PatternIndex = CreateExistingPatternIndex();
             PatternState = CreatePatternState(PatternIndex);
+            IReadOnlyInnerReadOnlyDictionary<string> PatternEmptyInnerTable = CreateInnerTableReadOnly(CreateInnerTable());
+            Dictionary<string, ValuePropertyType> PatternValuePropertyTypeTable = new Dictionary<string, ValuePropertyType>();
+            PatternValuePropertyTypeTable.Add(nameof(IPattern.Text), ValuePropertyType.String);
+            PatternState.Init(browseContext, PatternInner, PatternIndex, PatternEmptyInnerTable, PatternValuePropertyTypeTable);
 
             IReadOnlyBrowsingSourceIndex SourceIndex = CreateExistingSourceIndex();
             SourceState = CreateSourceState(SourceIndex);
+            IReadOnlyInnerReadOnlyDictionary<string> SourceEmptyInnerTable = CreateInnerTableReadOnly(CreateInnerTable());
+            Dictionary<string, ValuePropertyType> SourceValuePropertyTypeTable = new Dictionary<string, ValuePropertyType>();
+            SourceValuePropertyTypeTable.Add(nameof(IIdentifier.Text), ValuePropertyType.String);
+            SourceState.Init(browseContext, SourceInner, SourceIndex, SourceEmptyInnerTable, SourceValuePropertyTypeTable);
         }
 
         public virtual void InitNodeState(IReadOnlyNodeState state)
@@ -47,6 +58,7 @@ namespace EaslyController.ReadOnly
         #region Properties
         public IReadOnlyBlockListInner ParentInner { get; private set; }
         public IBlock ChildBlock { get; private set; }
+        public ReplicationStatus Replication { get { return ChildBlock.Replication; } }
         public IReadOnlyPatternState PatternState { get; private set; }
         public IReadOnlySourceState SourceState { get; private set; }
         #endregion
@@ -64,6 +76,43 @@ namespace EaslyController.ReadOnly
 
                 default:
                     throw new ArgumentOutOfRangeException(nameof(propertyName));
+            }
+        }
+
+        public virtual void CloneBlock(INode parentNode, int blockIndex)
+        {
+            IPattern PatternClone = ClonePattern();
+            Debug.Assert(PatternClone != null);
+
+            IIdentifier SourceClone = CloneSource();
+            Debug.Assert(SourceClone != null);
+
+            NodeTreeHelper.InsertIntoBlockList(parentNode, ParentInner.PropertyName, blockIndex, Replication, PatternClone, SourceClone, out IBlock NewBlock);
+            NodeTreeHelper.CopyDocumentation(ChildBlock, NewBlock);
+
+            CloneChildren(parentNode, NewBlock);
+        }
+
+        protected virtual IPattern ClonePattern()
+        {
+            return PatternState.CloneNode();
+        }
+
+        protected virtual IIdentifier CloneSource()
+        {
+            return SourceState.CloneNode();
+        }
+
+        protected virtual void CloneChildren(INode parentNode, IBlock parentBlock)
+        {
+            for (int i = 0; i < StateList.Count; i++)
+            {
+                IReadOnlyNodeState ChildState = StateList[i];
+
+                INode ChildNodeClone = ChildState.CloneNode();
+                Debug.Assert(ChildNodeClone != null);
+
+                NodeTreeHelper.InsertIntoBlock(parentBlock, i, ChildNodeClone);
             }
         }
 
@@ -128,6 +177,18 @@ namespace EaslyController.ReadOnly
         {
             ControllerTools.AssertNoOverride(this, typeof(ReadOnlyBlockState));
             return new ReadOnlyNodeStateReadOnlyList(stateList);
+        }
+
+        protected virtual IReadOnlyInnerDictionary<string> CreateInnerTable()
+        {
+            ControllerTools.AssertNoOverride(this, typeof(ReadOnlyController));
+            return new ReadOnlyInnerDictionary<string>();
+        }
+
+        protected virtual IReadOnlyInnerReadOnlyDictionary<string> CreateInnerTableReadOnly(IReadOnlyInnerDictionary<string> innerTable)
+        {
+            ControllerTools.AssertNoOverride(this, typeof(ReadOnlyNodeState));
+            return new ReadOnlyInnerReadOnlyDictionary<string>(innerTable);
         }
 
         protected virtual IReadOnlyPlaceholderInner CreatePatternInner(IReadOnlyNodeState owner)

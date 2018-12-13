@@ -7,6 +7,7 @@ namespace EaslyController.ReadOnly
     {
         new IPattern Node { get; }
         IReadOnlyBlockState ParentBlockState { get; }
+        new IPattern CloneNode();
     }
 
     public class ReadOnlyPatternState : ReadOnlyNodeState, IReadOnlyPatternState
@@ -24,6 +25,10 @@ namespace EaslyController.ReadOnly
         #region Properties
         public IReadOnlyBlockState ParentBlockState { get; private set; }
         public new IPattern Node { get { return (IPattern)base.Node; } }
+        #endregion
+
+        #region Client Interface
+        public new IPattern CloneNode() { return (IPattern)base.CloneNode(); }
         #endregion
     }
 }

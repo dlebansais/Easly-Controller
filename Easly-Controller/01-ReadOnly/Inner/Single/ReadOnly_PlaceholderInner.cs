@@ -1,4 +1,5 @@
-﻿using BaseNodeHelper;
+﻿using BaseNode;
+using BaseNodeHelper;
 using System;
 using System.Diagnostics;
 
@@ -43,12 +44,24 @@ namespace EaslyController.ReadOnly
         private IReadOnlyNodeState _ChildState;
         #endregion
 
-        #region Ancestor Interface
+        #region Implementation
         protected virtual void SetChildState(IReadOnlyNodeState childState)
         {
             Debug.Assert(ChildState == null);
 
             _ChildState = childState;
+        }
+        #endregion
+
+        #region Client Interface
+        public override void CloneChildren(INode parentNode)
+        {
+            Debug.Assert(parentNode != null);
+
+            INode ChildNodeClone = ChildState.CloneNode();
+            Debug.Assert(ChildNodeClone != null);
+
+            NodeTreeHelper.ReplaceChildNode(parentNode, PropertyName, ChildNodeClone);
         }
         #endregion
 

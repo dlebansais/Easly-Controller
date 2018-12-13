@@ -1,4 +1,5 @@
-﻿using BaseNodeHelper;
+﻿using BaseNode;
+using BaseNodeHelper;
 using System;
 using System.Diagnostics;
 
@@ -80,9 +81,24 @@ namespace EaslyController.ReadOnly
 
             stateIndex = -1;
         }
+
+        public override void CloneChildren(INode parentNode)
+        {
+            Debug.Assert(parentNode != null);
+
+            for (int i = 0; i < StateList.Count; i++)
+            {
+                IReadOnlyNodeState ChildState = StateList[i];
+
+                INode ChildNodeClone = ChildState.CloneNode();
+                Debug.Assert(ChildNodeClone != null);
+
+                NodeTreeHelper.InsertIntoList(parentNode, PropertyName, i, ChildNodeClone);
+            }
+        }
         #endregion
 
-        #region StateList
+        #region Implementation
         protected virtual void InitStateList()
         {
             _StateList = CreateStateList();
