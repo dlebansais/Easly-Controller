@@ -21,45 +21,53 @@ namespace EaslyController.ReadOnly
         void CloneBlock(INode parentNode, int blockIndex);
     }
 
-    public class ReadOnlyBlockState : ReadOnlyState, IReadOnlyBlockState
+    public class ReadOnlyBlockState : IReadOnlyBlockState
     {
         #region Init
         public ReadOnlyBlockState(IReadOnlyBlockListInner parentInner, IBlock childBlock)
         {
+            Debug.Assert(parentInner != null);
+            Debug.Assert(childBlock != null);
+
             ParentInner = parentInner;
             ChildBlock = childBlock;
 
-            InitStateList();
+            _StateList = CreateStateList();
+            StateList = CreateStateListReadOnly(_StateList);
             PatternInner = CreatePatternInner(ParentInner.Owner);
             SourceInner = CreateSourceInner(ParentInner.Owner);
         }
 
         public virtual void InitBlockState(IReadOnlyBrowseContext browseContext)
         {
+            Debug.Assert(browseContext != null);
+
             PatternIndex = CreateExistingPatternIndex();
             PatternState = CreatePatternState(PatternIndex);
             IReadOnlyInnerReadOnlyDictionary<string> PatternEmptyInnerTable = CreateInnerTableReadOnly(CreateInnerTable());
             Dictionary<string, ValuePropertyType> PatternValuePropertyTypeTable = new Dictionary<string, ValuePropertyType>();
             PatternValuePropertyTypeTable.Add(nameof(IPattern.Text), ValuePropertyType.String);
-            PatternState.Init(browseContext, PatternInner, PatternIndex, PatternEmptyInnerTable, PatternValuePropertyTypeTable);
+            PatternState.Init(browseContext, PatternInner, PatternEmptyInnerTable, PatternValuePropertyTypeTable);
 
             SourceIndex = CreateExistingSourceIndex();
             SourceState = CreateSourceState(SourceIndex);
             IReadOnlyInnerReadOnlyDictionary<string> SourceEmptyInnerTable = CreateInnerTableReadOnly(CreateInnerTable());
             Dictionary<string, ValuePropertyType> SourceValuePropertyTypeTable = new Dictionary<string, ValuePropertyType>();
             SourceValuePropertyTypeTable.Add(nameof(IIdentifier.Text), ValuePropertyType.String);
-            SourceState.Init(browseContext, SourceInner, SourceIndex, SourceEmptyInnerTable, SourceValuePropertyTypeTable);
+            SourceState.Init(browseContext, SourceInner, SourceEmptyInnerTable, SourceValuePropertyTypeTable);
         }
 
         public virtual void InitNodeState(IReadOnlyPlaceholderNodeState state)
         {
+            Debug.Assert(state != null);
+
             InsertState(StateList.Count, state);
         }
         #endregion
 
         #region Properties
-        public IReadOnlyBlockListInner ParentInner { get; private set; }
-        public IBlock ChildBlock { get; private set; }
+        public IReadOnlyBlockListInner ParentInner { get; }
+        public IBlock ChildBlock { get; }
         public ReplicationStatus Replication { get { return ChildBlock.Replication; } }
         public IReadOnlyBrowsingPatternIndex PatternIndex { get; private set; }
         public IReadOnlyPatternState PatternState { get; private set; }
@@ -68,8 +76,10 @@ namespace EaslyController.ReadOnly
         #endregion
 
         #region Client Interface
-        public override IReadOnlyInner PropertyToInner(string propertyName)
+        public virtual IReadOnlyInner<IReadOnlyBrowsingChildIndex> PropertyToInner(string propertyName)
         {
+            Debug.Assert(!string.IsNullOrEmpty(propertyName));
+
             switch (propertyName)
             {
                 case nameof(IBlock.ReplicationPattern):
@@ -85,6 +95,8 @@ namespace EaslyController.ReadOnly
 
         public virtual void CloneBlock(INode parentNode, int blockIndex)
         {
+            Debug.Assert(parentNode != null);
+
             IPattern PatternClone = ClonePattern();
             Debug.Assert(PatternClone != null);
 
@@ -120,17 +132,11 @@ namespace EaslyController.ReadOnly
             }
         }
 
-        private IReadOnlyPlaceholderInner PatternInner;
-        private IReadOnlyPlaceholderInner SourceInner;
+        private IReadOnlyPlaceholderInner<IReadOnlyBrowsingPlaceholderNodeIndex> PatternInner;
+        private IReadOnlyPlaceholderInner<IReadOnlyBrowsingPlaceholderNodeIndex> SourceInner;
         #endregion
 
         #region StateList
-        protected virtual void InitStateList()
-        {
-            _StateList = CreateStateList();
-            StateList = CreateStateListReadOnly(_StateList);
-        }
-
         protected virtual void InsertState(int index, IReadOnlyPlaceholderNodeState state)
         {
             Debug.Assert(index >= 0 && index <= _StateList.Count);
@@ -166,8 +172,8 @@ namespace EaslyController.ReadOnly
             InsertState(index2, NodeState1);
         }
 
-        public IReadOnlyPlaceholderNodeStateReadOnlyList StateList { get; protected set; }
-        private IReadOnlyPlaceholderNodeStateList _StateList { get; set; }
+        public IReadOnlyPlaceholderNodeStateReadOnlyList StateList { get; }
+        private IReadOnlyPlaceholderNodeStateList _StateList;
         #endregion
 
         #region Create Methods
@@ -185,23 +191,23 @@ namespace EaslyController.ReadOnly
 
         protected virtual IReadOnlyInnerDictionary<string> CreateInnerTable()
         {
-            ControllerTools.AssertNoOverride(this, typeof(ReadOnlyController));
+            ControllerTools.AssertNoOverride(this, typeof(ReadOnlyBlockState));
             return new ReadOnlyInnerDictionary<string>();
         }
 
         protected virtual IReadOnlyInnerReadOnlyDictionary<string> CreateInnerTableReadOnly(IReadOnlyInnerDictionary<string> innerTable)
         {
-            ControllerTools.AssertNoOverride(this, typeof(ReadOnlyNodeState));
+            ControllerTools.AssertNoOverride(this, typeof(ReadOnlyBlockState));
             return new ReadOnlyInnerReadOnlyDictionary<string>(innerTable);
         }
 
-        protected virtual IReadOnlyPlaceholderInner CreatePatternInner(IReadOnlyNodeState owner)
+        protected virtual IReadOnlyPlaceholderInner<IReadOnlyBrowsingPlaceholderNodeIndex> CreatePatternInner(IReadOnlyNodeState owner)
         {
             ControllerTools.AssertNoOverride(this, typeof(ReadOnlyBlockState));
             return new ReadOnlyPlaceholderInner<IReadOnlyBrowsingPlaceholderNodeIndex, ReadOnlyBrowsingPlaceholderNodeIndex>(owner, nameof(IBlock.ReplicationPattern));
         }
 
-        protected virtual IReadOnlyPlaceholderInner CreateSourceInner(IReadOnlyNodeState owner)
+        protected virtual IReadOnlyPlaceholderInner<IReadOnlyBrowsingPlaceholderNodeIndex> CreateSourceInner(IReadOnlyNodeState owner)
         {
             ControllerTools.AssertNoOverride(this, typeof(ReadOnlyBlockState));
             return new ReadOnlyPlaceholderInner<IReadOnlyBrowsingPlaceholderNodeIndex, ReadOnlyBrowsingPlaceholderNodeIndex>(owner, nameof(IBlock.SourceIdentifier));

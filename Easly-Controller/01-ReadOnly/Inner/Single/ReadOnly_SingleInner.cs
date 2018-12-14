@@ -1,6 +1,4 @@
-﻿using System.Diagnostics;
-
-namespace EaslyController.ReadOnly
+﻿namespace EaslyController.ReadOnly
 {
     public interface IReadOnlySingleInner : IReadOnlyInner
     {
@@ -25,20 +23,6 @@ namespace EaslyController.ReadOnly
 
         #region Properties
         public abstract IReadOnlyNodeState ChildState { get; }
-        IReadOnlyNodeState IReadOnlySingleInner.ChildState { get { return ChildState; } }
-        #endregion
-
-        #region Client Interface
-        public override IIndex IndexOf(IReadOnlyNodeState childState)
-        {
-            Debug.Assert(ChildState == childState);
-
-            return CreateNodeIndex(childState);
-        }
-        #endregion
-
-        #region Create Methods
-        protected abstract IIndex CreateNodeIndex(IReadOnlyNodeState state);
         #endregion
     }
 }

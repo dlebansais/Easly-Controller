@@ -15,6 +15,7 @@ namespace EaslyController.ReadOnly
         public ReadOnlyBrowsingListNodeIndex(INode parentNode, INode node, string propertyName, int index)
             : base(node, propertyName)
         {
+            Debug.Assert(parentNode != null);
             Debug.Assert(NodeTreeHelper.IsListChildNode(parentNode, propertyName, index, node));
 
             Index = index;
@@ -22,7 +23,7 @@ namespace EaslyController.ReadOnly
         #endregion
 
         #region Properties
-        public int Index { get; private set; }
+        public int Index { get; }
         #endregion
     }
 }

@@ -24,7 +24,8 @@ namespace EaslyController.ReadOnly
         public ReadOnlyListInner(IReadOnlyNodeState owner, string propertyName)
             : base(owner, propertyName)
         {
-            InitStateList();
+            _StateList = CreateStateList();
+            StateList = CreateStateListReadOnly(_StateList);
         }
 
         public override IReadOnlyNodeState InitChildState(IReadOnlyBrowsingChildIndex nodeIndex)
@@ -50,6 +51,8 @@ namespace EaslyController.ReadOnly
 
         #region Properties
         public override Type InterfaceType { get { return NodeTreeHelper.ListInterfaceType(Owner.Node, PropertyName); } }
+        public IReadOnlyPlaceholderNodeStateReadOnlyList StateList { get; }
+        private IReadOnlyPlaceholderNodeStateList _StateList;
 
         public override int Count
         {
@@ -68,32 +71,6 @@ namespace EaslyController.ReadOnly
         #endregion
 
         #region Client Interface
-        public override IIndex IndexOf(IReadOnlyNodeState childState)
-        {
-            Debug.Assert(childState is IReadOnlyPlaceholderNodeState);
-            return IndexOf((IReadOnlyPlaceholderNodeState)childState);
-        }
-
-        protected virtual IIndex IndexOf(IReadOnlyPlaceholderNodeState childState)
-        {
-            GetIndexOf(childState, out int Index);
-            Debug.Assert(Index >= 0 && Index < Count);
-
-            return CreateNodeIndex(childState, PropertyName, Index);
-        }
-
-        private void GetIndexOf(IReadOnlyPlaceholderNodeState childState, out int stateIndex)
-        {
-            for (int Index = 0; Index < StateList.Count; Index++)
-                if (StateList[Index] == childState)
-                {
-                    stateIndex = Index;
-                    return;
-                }
-
-            stateIndex = -1;
-        }
-
         public override void CloneChildren(INode parentNode)
         {
             Debug.Assert(parentNode != null);
@@ -113,12 +90,6 @@ namespace EaslyController.ReadOnly
         #endregion
 
         #region Implementation
-        protected virtual void InitStateList()
-        {
-            _StateList = CreateStateList();
-            StateList = CreateStateListReadOnly(_StateList);
-        }
-
         protected virtual void InsertInStateList(int index, IReadOnlyPlaceholderNodeState nodeState)
         {
             Debug.Assert(index >= 0 && index <= _StateList.Count);
@@ -133,9 +104,6 @@ namespace EaslyController.ReadOnly
 
             _StateList.RemoveAt(index);
         }
-
-        public IReadOnlyPlaceholderNodeStateReadOnlyList StateList { get; protected set; }
-        private IReadOnlyPlaceholderNodeStateList _StateList;
         #endregion
 
         #region Create Methods

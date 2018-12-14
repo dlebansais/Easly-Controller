@@ -1,5 +1,6 @@
 ﻿using BaseNode;
 using BaseNodeHelper;
+using Easly;
 using System.Diagnostics;
 
 namespace EaslyController.ReadOnly
@@ -7,7 +8,7 @@ namespace EaslyController.ReadOnly
     public interface IReadOnlyOptionalNodeState : IReadOnlyNodeState
     {
         new IReadOnlyBrowsingOptionalNodeIndex ParentIndex { get; }
-        new IReadOnlyOptionalInner ParentInner { get; }
+        new IReadOnlyOptionalInner<IReadOnlyBrowsingOptionalNodeIndex> ParentInner { get; }
     }
 
     public class ReadOnlyOptionalNodeState : ReadOnlyNodeState, IReadOnlyOptionalNodeState
@@ -25,12 +26,15 @@ namespace EaslyController.ReadOnly
         {
             get
             {
-                INode ParentNode = ParentIndex.ParentNode;
-                string PropertyName = ParentIndex.PropertyName;
-                NodeTreeHelper.GetChildNode(ParentNode, PropertyName, out bool IsAssigned, out INode ChildNode);
+                IOptionalReference Optional = ParentIndex.Optional;
 
-                if (IsAssigned)
-                    return ChildNode;
+                if (Optional.IsAssigned)
+                {
+                    INode Node = Optional.AnyItem as INode;
+                    Debug.Assert(Node != null);
+
+                    return Node;
+                }
 
                 if (VirtualNode == null)
                 {
@@ -43,7 +47,7 @@ namespace EaslyController.ReadOnly
         }
         private INode VirtualNode;
 
-        public new IReadOnlyOptionalInner ParentInner { get { return (IReadOnlyOptionalInner)base.ParentInner; } }
+        public new IReadOnlyOptionalInner<IReadOnlyBrowsingOptionalNodeIndex> ParentInner { get { return (IReadOnlyOptionalInner<IReadOnlyBrowsingOptionalNodeIndex>)base.ParentInner; } }
         public new IReadOnlyBrowsingOptionalNodeIndex ParentIndex { get { return (IReadOnlyBrowsingOptionalNodeIndex)base.ParentIndex; } }
         #endregion
 
@@ -52,11 +56,7 @@ namespace EaslyController.ReadOnly
         {
             Debug.Assert(browseNodeContext != null);
 
-            INode ParentNode = ParentIndex.ParentNode;
-            string PropertyName = ParentIndex.PropertyName;
-            NodeTreeHelper.GetChildNode(ParentNode, PropertyName, out bool IsAssigned, out INode ChildNode);
-
-            if (IsAssigned)
+            if (ParentIndex.Optional.IsAssigned)
                 base.BrowseChildren(browseNodeContext);
         }
         #endregion

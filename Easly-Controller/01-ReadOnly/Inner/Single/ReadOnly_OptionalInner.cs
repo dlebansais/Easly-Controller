@@ -24,6 +24,7 @@ namespace EaslyController.ReadOnly
         public ReadOnlyOptionalInner(IReadOnlyNodeState owner, string propertyName)
             : base(owner, propertyName)
         {
+            _ChildState = null;
         }
 
         public override IReadOnlyNodeState InitChildState(IReadOnlyBrowsingChildIndex nodeIndex)
@@ -43,12 +44,21 @@ namespace EaslyController.ReadOnly
 
             return State;
         }
+
+        protected virtual void SetChildState(IReadOnlyOptionalNodeState childState)
+        {
+            Debug.Assert(childState != null);
+            Debug.Assert(ChildState == null);
+
+            _ChildState = childState;
+        }
         #endregion
 
         #region Properties
         public override Type InterfaceType { get { return NodeTreeHelper.OptionalChildInterfaceType(Owner.Node, PropertyName); } }
         public bool IsAssigned { get { return NodeTreeHelper.IsChildNodeAssigned(Owner.Node, PropertyName); } }
-        bool IReadOnlyOptionalInner.IsAssigned { get { return IsAssigned; } }
+        public override IReadOnlyNodeState ChildState { get { return _ChildState; } }
+        private IReadOnlyOptionalNodeState _ChildState;
         #endregion
 
         #region Client Interface
@@ -65,25 +75,7 @@ namespace EaslyController.ReadOnly
         }
         #endregion
 
-        #region Implementation
-        protected virtual void SetChildState(IReadOnlyOptionalNodeState childState)
-        {
-            Debug.Assert(ChildState == null);
-
-            _ChildState = childState;
-        }
-
-        public override IReadOnlyNodeState ChildState { get { return _ChildState; } }
-        private IReadOnlyOptionalNodeState _ChildState;
-        #endregion
-
         #region Create Methods
-        protected override IIndex CreateNodeIndex(IReadOnlyNodeState state)
-        {
-            ControllerTools.AssertNoOverride(this, typeof(ReadOnlyOptionalInner<IIndex, TIndex>));
-            return (TIndex)new ReadOnlyBrowsingOptionalNodeIndex(Owner.Node, PropertyName);
-        }
-
         protected virtual IReadOnlyOptionalNodeState CreateNodeState(IReadOnlyBrowsingOptionalNodeIndex nodeIndex)
         {
             ControllerTools.AssertNoOverride(this, typeof(ReadOnlyOptionalInner<IIndex, TIndex>));

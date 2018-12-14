@@ -1,4 +1,5 @@
 ﻿using BaseNode;
+using EaslyController;
 using EaslyController.ReadOnly;
 using PolySerializer;
 using System;
@@ -32,6 +33,7 @@ namespace TestDebug
 
             IReadOnlyRootNodeIndex RootIndex = new ReadOnlyRootNodeIndex(RootNode);
             IReadOnlyController Controller = ReadOnlyController.Create(RootIndex);
+            Stats Stats = Controller.Stats;
 
             INode RootNodeClone = Controller.RootState.CloneNode();
 
@@ -66,7 +68,7 @@ namespace TestDebug
                         if (s == null)
                             break;
 
-                        Debug.WriteLine(s);
+                        //Debug.WriteLine(s);
                     }
                 }
             }

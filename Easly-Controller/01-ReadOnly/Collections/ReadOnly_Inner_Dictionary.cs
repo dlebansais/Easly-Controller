@@ -2,11 +2,11 @@
 
 namespace EaslyController.ReadOnly
 {
-    public interface IReadOnlyInnerDictionary<TKey> : IDictionary<TKey, IReadOnlyInner>
+    public interface IReadOnlyInnerDictionary<TKey> : IDictionary<TKey, IReadOnlyInner<IReadOnlyBrowsingChildIndex>>
     {
     }
 
-    public class ReadOnlyInnerDictionary<TKey> : Dictionary<TKey, IReadOnlyInner>, IReadOnlyInnerDictionary<TKey>
+    public class ReadOnlyInnerDictionary<TKey> : Dictionary<TKey, IReadOnlyInner<IReadOnlyBrowsingChildIndex>>, IReadOnlyInnerDictionary<TKey>
     {
     }
 }

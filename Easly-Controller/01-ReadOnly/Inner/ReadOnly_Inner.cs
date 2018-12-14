@@ -1,5 +1,6 @@
 ﻿using BaseNode;
 using System;
+using System.Diagnostics;
 
 namespace EaslyController.ReadOnly
 {
@@ -8,7 +9,6 @@ namespace EaslyController.ReadOnly
         IReadOnlyNodeState Owner { get; }
         string PropertyName { get; }
         Type InterfaceType { get; }
-        IReadOnlyBrowsingChildIndex IndexOf(IReadOnlyNodeState childState);
         void CloneChildren(INode parentNode);
     }
 
@@ -18,7 +18,7 @@ namespace EaslyController.ReadOnly
         IReadOnlyNodeState Owner { get; }
         string PropertyName { get; }
         Type InterfaceType { get; }
-        IIndex IndexOf(IReadOnlyNodeState childState);
+        void CloneChildren(INode parentNode);
         IReadOnlyNodeState InitChildState(IReadOnlyBrowsingChildIndex nodeIndex);
     }
 
@@ -28,20 +28,21 @@ namespace EaslyController.ReadOnly
         #region Init
         public ReadOnlyInner(IReadOnlyNodeState owner, string propertyName)
         {
+            Debug.Assert(owner != null);
+            Debug.Assert(!string.IsNullOrEmpty(propertyName));
+
             Owner = owner;
             PropertyName = propertyName;
         }
         #endregion
 
         #region Properties
-        public IReadOnlyNodeState Owner { get; private set; }
-        public string PropertyName { get; private set; }
+        public IReadOnlyNodeState Owner { get; }
+        public string PropertyName { get; }
         public abstract Type InterfaceType { get; }
         #endregion
 
         #region Client Interface
-        public abstract IIndex IndexOf(IReadOnlyNodeState childState);
-        IReadOnlyBrowsingChildIndex IReadOnlyInner.IndexOf(IReadOnlyNodeState childState) { return IndexOf(childState); }
         public abstract IReadOnlyNodeState InitChildState(IReadOnlyBrowsingChildIndex nodeIndex);
         public abstract void CloneChildren(INode parentNode);
         #endregion

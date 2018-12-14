@@ -32,14 +32,17 @@ namespace EaslyController.ReadOnly
         #endregion
 
         #region Properties
-        public string PropertyName { get; private set; }
-        public IReadOnlyList<IIndex> NodeIndexList { get; private set; }
+        public string PropertyName { get; }
+        public IReadOnlyList<IIndex> NodeIndexList { get; }
         IEnumerable IReadOnlyIndexCollection.NodeIndexList { get { return NodeIndexList; } }
         #endregion
 
         #region Debugging
         public static bool IsSamePropertyName(string propertyName, IReadOnlyList<IIndex> nodeIndexList)
         {
+            Debug.Assert(!string.IsNullOrEmpty(propertyName));
+            Debug.Assert(nodeIndexList != null);
+
             foreach (IIndex item in nodeIndexList)
                 if (item.PropertyName != propertyName)
                     return false;

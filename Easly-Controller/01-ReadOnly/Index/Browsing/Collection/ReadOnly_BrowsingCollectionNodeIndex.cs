@@ -1,4 +1,5 @@
 ﻿using BaseNode;
+using System.Diagnostics;
 
 namespace EaslyController.ReadOnly
 {
@@ -11,14 +12,17 @@ namespace EaslyController.ReadOnly
         #region Init
         public ReadOnlyBrowsingCollectionNodeIndex(INode node, string propertyName)
         {
+            Debug.Assert(node != null);
+            Debug.Assert(!string.IsNullOrEmpty(propertyName));
+
             Node = node;
             PropertyName = propertyName;
         }
         #endregion
 
         #region Properties
-        public INode Node { get; private set; }
-        public string PropertyName { get; private set; }
+        public INode Node { get; }
+        public string PropertyName { get; }
         #endregion
     }
 }

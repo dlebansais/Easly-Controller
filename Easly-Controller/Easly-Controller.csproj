@@ -107,7 +107,6 @@
     <Compile Include="01-ReadOnly\State\ReadOnly_SourceState.cs" />
     <Compile Include="01-ReadOnly\State\ReadOnly_State.cs" />
     <Compile Include="Controller\ControllerTools.cs" />
-    <Compile Include="Controller\NodeLink.cs" />
     <Compile Include="Controller\Stats.cs" />
     <Compile Include="Controller\ValuePropertyType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -2,11 +2,6 @@
 {
     public interface IReadOnlyState
     {
-        IReadOnlyInner PropertyToInner(string propertyName);
-    }
-
-    public abstract class ReadOnlyState : IReadOnlyState
-    {
-        public abstract IReadOnlyInner PropertyToInner(string propertyName);
+        IReadOnlyInner<IReadOnlyBrowsingChildIndex> PropertyToInner(string propertyName);
     }
 }

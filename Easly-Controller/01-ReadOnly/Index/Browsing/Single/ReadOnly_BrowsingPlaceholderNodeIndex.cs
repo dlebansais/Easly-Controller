@@ -13,6 +13,9 @@ namespace EaslyController.ReadOnly
         #region Init
         public ReadOnlyBrowsingPlaceholderNodeIndex(INode parentNode, INode node, string propertyName)
         {
+            Debug.Assert(parentNode != null);
+            Debug.Assert(node != null);
+            Debug.Assert(!string.IsNullOrEmpty(propertyName));
             Debug.Assert(NodeTreeHelper.IsChildNode(parentNode, propertyName, node));
 
             Node = node;
@@ -21,8 +24,8 @@ namespace EaslyController.ReadOnly
         #endregion
 
         #region Properties
-        public INode Node { get; private set; }
-        public string PropertyName { get; private set; }
+        public INode Node { get; }
+        public string PropertyName { get; }
         #endregion
     }
 }

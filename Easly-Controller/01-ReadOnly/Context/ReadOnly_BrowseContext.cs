@@ -51,7 +51,7 @@ namespace EaslyController.ReadOnly
 
         public void AddValueProperty(string propertyName, ValuePropertyType type)
         {
-            Debug.Assert(propertyName != null);
+            Debug.Assert(!string.IsNullOrEmpty(propertyName));
             Debug.Assert(!ValuePropertyTypeTable.ContainsKey(propertyName));
 
             _ValuePropertyTypeTable.Add(propertyName, type);
@@ -67,9 +67,14 @@ namespace EaslyController.ReadOnly
             foreach (IReadOnlyBrowsingChildIndex Index0 in collection.NodeIndexList)
             {
                 foreach (IReadOnlyIndexCollection Item in collectionList)
+                {
+                    if (Item.PropertyName == collection.PropertyName)
+                        return true;
+
                     foreach (IReadOnlyBrowsingChildIndex Index1 in Item.NodeIndexList)
                         if (Index0.Equals(Index1))
                             return false;
+                }
             }
 
             return true;

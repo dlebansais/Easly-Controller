@@ -19,7 +19,7 @@ namespace EaslyController.ReadOnly
         #endregion
 
         #region Properties
-        public INode Node { get; private set; }
+        public INode Node { get; }
         #endregion
     }
 }

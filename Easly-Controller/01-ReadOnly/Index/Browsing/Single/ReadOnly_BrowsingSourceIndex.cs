@@ -1,4 +1,5 @@
 ﻿using BaseNode;
+using System.Diagnostics;
 
 namespace EaslyController.ReadOnly
 {
@@ -12,6 +13,8 @@ namespace EaslyController.ReadOnly
         #region Init
         public ReadOnlyBrowsingSourceIndex(IBlock block)
         {
+            Debug.Assert(block != null);
+
             Block = block;
         }
         #endregion

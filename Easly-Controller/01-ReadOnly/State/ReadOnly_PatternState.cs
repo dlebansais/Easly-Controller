@@ -23,7 +23,7 @@ namespace EaslyController.ReadOnly
         #endregion
 
         #region Properties
-        public IReadOnlyBlockState ParentBlockState { get; private set; }
+        public IReadOnlyBlockState ParentBlockState { get; }
         public new IPattern Node { get { return (IPattern)base.Node; } }
         #endregion
 

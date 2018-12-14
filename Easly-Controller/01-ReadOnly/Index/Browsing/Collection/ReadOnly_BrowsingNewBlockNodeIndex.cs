@@ -17,6 +17,7 @@ namespace EaslyController.ReadOnly
         public ReadOnlyBrowsingNewBlockNodeIndex(INode parentNode, INode node, string propertyName, int blockIndex, IPattern patternNode, IIdentifier sourceNode)
             : base(node, propertyName)
         {
+            Debug.Assert(parentNode != null);
             Debug.Assert(NodeTreeHelper.IsBlockChildNode(parentNode, propertyName, blockIndex, 0, node));
             Debug.Assert(NodeTreeHelper.IsBlockPatternNode(parentNode, propertyName, blockIndex, patternNode));
             Debug.Assert(NodeTreeHelper.IsBlockSourceNode(parentNode, propertyName, blockIndex, sourceNode));
@@ -28,9 +29,9 @@ namespace EaslyController.ReadOnly
         #endregion
 
         #region Properties
-        public int BlockIndex { get; private set; }
-        public IPattern PatternNode { get; private set; }
-        public IIdentifier SourceNode { get; private set; }
+        public int BlockIndex { get;  }
+        public IPattern PatternNode { get; }
+        public IIdentifier SourceNode { get; }
         #endregion
     }
 }
