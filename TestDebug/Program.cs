@@ -46,6 +46,8 @@ namespace TestDebug
             bool IsEqual = ByteArrayCompare(RootData, RootCloneData);
             Debug.Assert(IsEqual);
             Debug.Assert(h1 == h2);
+
+            IReadOnlyControllerView ControllerView = ReadOnlyControllerView.Create(Controller);
         }
 
         static byte[] GetData(INode node)

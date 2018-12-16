@@ -19,6 +19,16 @@ namespace EaslyController.ReadOnly
         /// States of blocks in the block list.
         /// </summary>
         IReadOnlyBlockStateReadOnlyList BlockStateList { get; }
+
+        /// <summary>
+        /// Called when a block state is created.
+        /// </summary>
+        event Action<IReadOnlyBlockState> BlockStateCreated;
+
+        /// <summary>
+        /// Called when a block state is removed.
+        /// </summary>
+        event Action<IReadOnlyBlockState> BlockStateRemoved;
     }
 
     /// <summary>
@@ -205,6 +215,39 @@ namespace EaslyController.ReadOnly
             IBlockList NewBlockList = NodeTreeHelper.GetBlockList(parentNode, PropertyName);
             NodeTreeHelper.CopyDocumentation(BlockList, NewBlockList);
         }
+
+        /// <summary>
+        /// Attach a view to the inner.
+        /// </summary>
+        /// <param name="view">The attaching view.</param>
+        /// <param name="callbackSet">The set of callbacks to call when enumerating existing states.</param>
+        public override void Attach(IReadOnlyControllerView view, IReadOnlyAttachCallbackSet callbackSet)
+        {
+            callbackSet.BlockListInnerAttachedHandler(this);
+
+            foreach (IReadOnlyBlockState BlockState in BlockStateList)
+                BlockState.Attach(view, callbackSet);
+        }
+
+        /// <summary>
+        /// Called when a block state is created.
+        /// </summary>
+        public event Action<IReadOnlyBlockState> BlockStateCreated;
+
+        protected virtual void NotifyBlockStateCreated(IReadOnlyBlockState blockState)
+        {
+            BlockStateCreated?.Invoke(blockState);
+        }
+
+        /// <summary>
+        /// Called when a block state is removed.
+        /// </summary>
+        public event Action<IReadOnlyBlockState> BlockStateRemoved;
+
+        protected virtual void NotifyBlockStateRemoved(IReadOnlyBlockState blockState)
+        {
+            BlockStateRemoved?.Invoke(blockState);
+        }
         #endregion
 
         #region BlockStateList
@@ -214,11 +257,15 @@ namespace EaslyController.ReadOnly
             Debug.Assert(blockState != null);
 
             _BlockStateList.Insert(blockIndex, blockState);
+
+            NotifyBlockStateCreated(BlockStateList[blockIndex]);
         }
 
         protected virtual void RemoveFromBlockStateList(int blockIndex)
         {
             Debug.Assert(blockIndex >= 0 && blockIndex < BlockStateList.Count);
+
+            NotifyBlockStateRemoved(BlockStateList[blockIndex]);
 
             _BlockStateList.RemoveAt(blockIndex);
         }

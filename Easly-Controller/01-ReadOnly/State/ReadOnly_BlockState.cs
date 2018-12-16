@@ -9,7 +9,7 @@ namespace EaslyController.ReadOnly
     /// <summary>
     /// State of a block in a block list.
     /// </summary>
-    public interface IReadOnlyBlockState : IReadOnlyState
+    public interface IReadOnlyBlockState
     {
         /// <summary>
         /// The parent inner containing this state.
@@ -64,10 +64,23 @@ namespace EaslyController.ReadOnly
         void InitNodeState(IReadOnlyPlaceholderNodeState state);
 
         /// <summary>
+        /// Gets the inner corresponding to a property.
+        /// </summary>
+        /// <param name="propertyName">Property name.</param>
+        IReadOnlyInner<IReadOnlyBrowsingChildIndex> PropertyToInner(string propertyName);
+
+        /// <summary>
         /// Creates a clone of the block and assigns it in the provided parent.
         /// </summary>
         /// <param name="parentNode">The node that will contains a reference to the cloned block upon return.</param>
         void CloneBlock(INode parentNode);
+
+        /// <summary>
+        /// Attach a view to the block state.
+        /// </summary>
+        /// <param name="view">The attaching view.</param>
+        /// <param name="callbackSet">The set of callbacks to call when enumerating existing states.</param>
+        void Attach(IReadOnlyControllerView view, IReadOnlyAttachCallbackSet callbackSet);
     }
 
     /// <summary>
@@ -240,6 +253,22 @@ namespace EaslyController.ReadOnly
 
                 NodeTreeHelper.InsertIntoBlock(parentBlock, i, ChildNodeClone);
             }
+        }
+
+        /// <summary>
+        /// Attach a view to the block state.
+        /// </summary>
+        /// <param name="view">The attaching view.</param>
+        /// <param name="callbackSet">The set of callbacks to call when enumerating existing states.</param>
+        public virtual void Attach(IReadOnlyControllerView view, IReadOnlyAttachCallbackSet callbackSet)
+        {
+            callbackSet.BlockStateAttachedHandler(this);
+
+            PatternState.Attach(view, callbackSet);
+            SourceState.Attach(view, callbackSet);
+
+            foreach (IReadOnlyNodeState ChildState in StateList)
+                ChildState.Attach(view, callbackSet);
         }
 
         private IReadOnlyPlaceholderInner<IReadOnlyBrowsingPlaceholderNodeIndex> PatternInner;

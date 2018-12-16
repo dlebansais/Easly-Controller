@@ -36,3 +36,7 @@ They are the glue between states and indexes. There are as many types of inners 
 
 4. Browse Context
 Contexts (for short) contains data accumulated when the source code tree is parsed. For the read-only layer, this is simply a collection of inners for each state, but subsequent layers contains more.
+
+5. Views
+One or more views can be attached to a controller. For the read-only layer, they don't do much, but when clients of the controller are able to modify the node tree, each modification will trigger a notification for all views. Then, each view can react differently to the modification and maintain a separate internal state.
+ 

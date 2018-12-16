@@ -53,17 +53,24 @@ namespace EaslyController.ReadOnly
         Type InterfaceType { get; }
 
         /// <summary>
+        /// Initializes a newly created state for a node in the inner.
+        /// </summary>
+        /// <param name="nodeIndex">Index of the node.</param>
+        /// <returns>The created node state.</returns>
+        IReadOnlyNodeState InitChildState(IReadOnlyBrowsingChildIndex nodeIndex);
+
+        /// <summary>
         /// Creates a clone of all children of the inner, using <paramref name="parentNode"/> as their parent.
         /// </summary>
         /// <param name="parentNode">The node that will contains references to cloned children upon return.</param>
         void CloneChildren(INode parentNode);
 
         /// <summary>
-        /// Initializes a newly created state for a node in the inner.
+        /// Attach a view to the inner.
         /// </summary>
-        /// <param name="nodeIndex">Index of the node.</param>
-        /// <returns>The created node state.</returns>
-        IReadOnlyNodeState InitChildState(IReadOnlyBrowsingChildIndex nodeIndex);
+        /// <param name="view">The attaching view.</param>
+        /// <param name="callbackSet">The set of callbacks to call when enumerating existing states.</param>
+        void Attach(IReadOnlyControllerView view, IReadOnlyAttachCallbackSet callbackSet);
     }
 
     /// <summary>
@@ -118,6 +125,13 @@ namespace EaslyController.ReadOnly
         /// </summary>
         /// <param name="parentNode">The node that will contains references to cloned children upon return.</param>
         public abstract void CloneChildren(INode parentNode);
+
+        /// <summary>
+        /// Attach a view to the inner.
+        /// </summary>
+        /// <param name="view">The attaching view.</param>
+        /// <param name="callbackSet">The set of callbacks to call when enumerating existing states.</param>
+        public abstract void Attach(IReadOnlyControllerView view, IReadOnlyAttachCallbackSet callbackSet);
         #endregion
     }
 }

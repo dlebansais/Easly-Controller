@@ -114,6 +114,16 @@ namespace EaslyController.ReadOnly
             if (IsAssigned)
                 NodeTreeHelper.AssignChildNode(parentNode, PropertyName);
         }
+
+        /// <summary>
+        /// Attach a view to the inner.
+        /// </summary>
+        /// <param name="view">The attaching view.</param>
+        /// <param name="callbackSet">The set of callbacks to call when enumerating existing states.</param>
+        public override void Attach(IReadOnlyControllerView view, IReadOnlyAttachCallbackSet callbackSet)
+        {
+            ChildState.Attach(view, callbackSet);
+        }
         #endregion
 
         #region Implementation

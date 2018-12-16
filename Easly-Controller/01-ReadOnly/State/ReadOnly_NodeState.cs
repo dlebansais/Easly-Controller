@@ -9,7 +9,7 @@ namespace EaslyController.ReadOnly
     /// <summary>
     /// Base interface for the state of a node.
     /// </summary>
-    public interface IReadOnlyNodeState : IReadOnlyState
+    public interface IReadOnlyNodeState
     {
         /// <summary>
         /// The node.
@@ -57,6 +57,12 @@ namespace EaslyController.ReadOnly
         void Init(IReadOnlyBrowseContext browseContext, IReadOnlyInner<IReadOnlyBrowsingChildIndex> parentInner, IReadOnlyInnerReadOnlyDictionary<string> innerTable, IReadOnlyDictionary<string, ValuePropertyType> valuePropertyTable);
 
         /// <summary>
+        /// Gets the inner corresponding to a property.
+        /// </summary>
+        /// <param name="propertyName">Property name.</param>
+        IReadOnlyInner<IReadOnlyBrowsingChildIndex> PropertyToInner(string propertyName);
+
+        /// <summary>
         /// Gets the first inner corresponding to the first optional child node that is not assigned.
         /// </summary>
         /// <param name="inner">The inner corresponding to the first optional child node that is not assigned, or null if none.</param>
@@ -67,6 +73,13 @@ namespace EaslyController.ReadOnly
         /// Returns a list of states for all child nodes.
         /// </summary>
         IReadOnlyNodeStateReadOnlyList GetAllChildren();
+
+        /// <summary>
+        /// Attach a view to the state.
+        /// </summary>
+        /// <param name="view">The attaching view.</param>
+        /// <param name="callbackSet">The set of callbacks to call when enumerating existing states.</param>
+        void Attach(IReadOnlyControllerView view, IReadOnlyAttachCallbackSet callbackSet);
 
         /// <summary>
         /// Returns a clone of the node of this state.
@@ -387,6 +400,22 @@ namespace EaslyController.ReadOnly
 
                 default:
                     throw new InvalidCastException(nameof(inner));
+            }
+        }
+
+        /// <summary>
+        /// Attach a view to the state.
+        /// </summary>
+        /// <param name="view">The attaching view.</param>
+        /// <param name="callbackSet">The set of callbacks to call when enumerating existing states.</param>
+        public virtual void Attach(IReadOnlyControllerView view, IReadOnlyAttachCallbackSet callbackSet)
+        {
+            callbackSet.NodeStateAttachedHandler(this);
+
+            foreach (KeyValuePair<string, IReadOnlyInner<IReadOnlyBrowsingChildIndex>> Entry in InnerTable)
+            {
+                IReadOnlyInner<IReadOnlyBrowsingChildIndex> Inner = Entry.Value;
+                Inner.Attach(view, callbackSet);
             }
         }
         #endregion

@@ -136,6 +136,17 @@ namespace EaslyController.ReadOnly
                 NodeTreeHelper.InsertIntoList(parentNode, PropertyName, i, ChildNodeClone);
             }
         }
+
+        /// <summary>
+        /// Attach a view to the inner.
+        /// </summary>
+        /// <param name="view">The attaching view.</param>
+        /// <param name="callbackSet">The set of callbacks to call when enumerating existing states.</param>
+        public override void Attach(IReadOnlyControllerView view, IReadOnlyAttachCallbackSet callbackSet)
+        {
+            foreach (IReadOnlyNodeState ChildState in StateList)
+                ChildState.Attach(view, callbackSet);
+        }
         #endregion
 
         #region Implementation
