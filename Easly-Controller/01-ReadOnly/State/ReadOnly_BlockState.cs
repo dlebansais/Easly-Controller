@@ -6,30 +6,90 @@ using System.Diagnostics;
 
 namespace EaslyController.ReadOnly
 {
+    /// <summary>
+    /// State of a block in a block list.
+    /// </summary>
     public interface IReadOnlyBlockState : IReadOnlyState
     {
+        /// <summary>
+        /// The parent inner containing this state.
+        /// </summary>
         IReadOnlyBlockListInner ParentInner { get; }
+
+        /// <summary>
+        /// Index that was used to create the block state.
+        /// </summary>
+        IReadOnlyBrowsingNewBlockNodeIndex ParentIndex { get; }
+
+        /// <summary>
+        /// The block.
+        /// </summary>
         IBlock ChildBlock { get; }
-        ReplicationStatus Replication { get; }
+
+        /// <summary>
+        /// Index that was used to create the pattern state for this block.
+        /// </summary>
         IReadOnlyBrowsingPatternIndex PatternIndex { get; }
+
+        /// <summary>
+        /// The pattern state for this block.
+        /// </summary>
         IReadOnlyPatternState PatternState { get; }
+
+        /// <summary>
+        /// Index that was used to create the source state for this block.
+        /// </summary>
         IReadOnlyBrowsingSourceIndex SourceIndex { get; }
+
+        /// <summary>
+        /// The source state for this block.
+        /// </summary>
         IReadOnlySourceState SourceState { get; }
+
+        /// <summary>
+        /// States for nodes in the block.
+        /// </summary>
         IReadOnlyPlaceholderNodeStateReadOnlyList StateList { get; }
+
+        /// <summary>
+        /// Initializes the block state.
+        /// </summary>
+        /// <param name="browseContext">The context that was used to browse the block.</param>
         void InitBlockState(IReadOnlyBrowseContext browseContext);
+
+        /// <summary>
+        /// Initializes the state for a node of the block.
+        /// </summary>
+        /// <param name="state">The state to initialize.</param>
         void InitNodeState(IReadOnlyPlaceholderNodeState state);
-        void CloneBlock(INode parentNode, int blockIndex);
+
+        /// <summary>
+        /// Creates a clone of the block and assigns it in the provided parent.
+        /// </summary>
+        /// <param name="parentNode">The node that will contains a reference to the cloned block upon return.</param>
+        void CloneBlock(INode parentNode);
     }
 
+    /// <summary>
+    /// State of a block in a block list.
+    /// </summary>
     public class ReadOnlyBlockState : IReadOnlyBlockState
     {
         #region Init
-        public ReadOnlyBlockState(IReadOnlyBlockListInner parentInner, IBlock childBlock)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ReadOnlyBlockState"/> class.
+        /// </summary>
+        /// <param name="parentInner">Inner containing the block state.</param>
+        /// <param name="parentIndex">Index that was used to create the block state.</param>
+        /// <param name="childBlock">The block.</param>
+        public ReadOnlyBlockState(IReadOnlyBlockListInner parentInner, IReadOnlyBrowsingNewBlockNodeIndex parentIndex, IBlock childBlock)
         {
             Debug.Assert(parentInner != null);
+            Debug.Assert(parentIndex != null);
             Debug.Assert(childBlock != null);
 
             ParentInner = parentInner;
+            ParentIndex = parentIndex;
             ChildBlock = childBlock;
 
             _StateList = CreateStateList();
@@ -38,6 +98,10 @@ namespace EaslyController.ReadOnly
             SourceInner = CreateSourceInner(ParentInner.Owner);
         }
 
+        /// <summary>
+        /// Initializes the block state.
+        /// </summary>
+        /// <param name="browseContext">The context that was used to browse the block.</param>
         public virtual void InitBlockState(IReadOnlyBrowseContext browseContext)
         {
             Debug.Assert(browseContext != null);
@@ -57,6 +121,10 @@ namespace EaslyController.ReadOnly
             SourceState.Init(browseContext, SourceInner, SourceEmptyInnerTable, SourceValuePropertyTypeTable);
         }
 
+        /// <summary>
+        /// Initializes the state for a node of the block.
+        /// </summary>
+        /// <param name="state">The state to initialize.</param>
         public virtual void InitNodeState(IReadOnlyPlaceholderNodeState state)
         {
             Debug.Assert(state != null);
@@ -66,16 +134,53 @@ namespace EaslyController.ReadOnly
         #endregion
 
         #region Properties
+        /// <summary>
+        /// The parent inner containing this state.
+        /// </summary>
         public IReadOnlyBlockListInner ParentInner { get; }
+
+        /// <summary>
+        /// Index that was used to create the block state.
+        /// </summary>
+        public IReadOnlyBrowsingNewBlockNodeIndex ParentIndex { get; }
+
+        /// <summary>
+        /// The block.
+        /// </summary>
         public IBlock ChildBlock { get; }
-        public ReplicationStatus Replication { get { return ChildBlock.Replication; } }
+
+        /// <summary>
+        /// Index that was used to create the pattern state for this block.
+        /// </summary>
         public IReadOnlyBrowsingPatternIndex PatternIndex { get; private set; }
+
+        /// <summary>
+        /// The pattern state for this block.
+        /// </summary>
         public IReadOnlyPatternState PatternState { get; private set; }
+
+        /// <summary>
+        /// Index that was used to create the source state for this block.
+        /// </summary>
         public IReadOnlyBrowsingSourceIndex SourceIndex { get; private set; }
+
+        /// <summary>
+        /// The source state for this block.
+        /// </summary>
         public IReadOnlySourceState SourceState { get; private set; }
+
+        /// <summary>
+        /// States for nodes in the block.
+        /// </summary>
+        public IReadOnlyPlaceholderNodeStateReadOnlyList StateList { get; }
+        private IReadOnlyPlaceholderNodeStateList _StateList;
         #endregion
 
         #region Client Interface
+        /// <summary>
+        /// Gets the inner corresponding to a property in a node.
+        /// </summary>
+        /// <param name="propertyName">Property name.</param>
         public virtual IReadOnlyInner<IReadOnlyBrowsingChildIndex> PropertyToInner(string propertyName)
         {
             Debug.Assert(!string.IsNullOrEmpty(propertyName));
@@ -93,7 +198,11 @@ namespace EaslyController.ReadOnly
             }
         }
 
-        public virtual void CloneBlock(INode parentNode, int blockIndex)
+        /// <summary>
+        /// Creates a clone of the block and assigns it in the provided parent.
+        /// </summary>
+        /// <param name="parentNode">The node that will contains a reference to the cloned block upon return.</param>
+        public virtual void CloneBlock(INode parentNode)
         {
             Debug.Assert(parentNode != null);
 
@@ -103,9 +212,10 @@ namespace EaslyController.ReadOnly
             IIdentifier SourceClone = CloneSource();
             Debug.Assert(SourceClone != null);
 
-            NodeTreeHelper.InsertIntoBlockList(parentNode, ParentInner.PropertyName, blockIndex, Replication, PatternClone, SourceClone, out IBlock NewBlock);
+            NodeTreeHelper.InsertIntoBlockList(parentNode, ParentInner.PropertyName, ParentIndex.BlockIndex, ChildBlock.Replication, PatternClone, SourceClone, out IBlock NewBlock);
             NodeTreeHelper.CopyDocumentation(ChildBlock, NewBlock);
 
+            // Clone children recursively.
             CloneChildren(parentNode, NewBlock);
         }
 
@@ -136,7 +246,7 @@ namespace EaslyController.ReadOnly
         private IReadOnlyPlaceholderInner<IReadOnlyBrowsingPlaceholderNodeIndex> SourceInner;
         #endregion
 
-        #region StateList
+        #region Implementation
         protected virtual void InsertState(int index, IReadOnlyPlaceholderNodeState state)
         {
             Debug.Assert(index >= 0 && index <= _StateList.Count);
@@ -171,66 +281,93 @@ namespace EaslyController.ReadOnly
             InsertState(index1, NodeState2);
             InsertState(index2, NodeState1);
         }
-
-        public IReadOnlyPlaceholderNodeStateReadOnlyList StateList { get; }
-        private IReadOnlyPlaceholderNodeStateList _StateList;
         #endregion
 
         #region Create Methods
+        /// <summary>
+        /// Creates a IxxxPlaceholderNodeStateList object.
+        /// </summary>
         protected virtual IReadOnlyPlaceholderNodeStateList CreateStateList()
         {
             ControllerTools.AssertNoOverride(this, typeof(ReadOnlyBlockState));
             return new ReadOnlyPlaceholderNodeStateList();
         }
 
+        /// <summary>
+        /// Creates a IxxxPlaceholderNodeStateReadOnlyList object.
+        /// </summary>
         protected virtual IReadOnlyPlaceholderNodeStateReadOnlyList CreateStateListReadOnly(IReadOnlyPlaceholderNodeStateList stateList)
         {
             ControllerTools.AssertNoOverride(this, typeof(ReadOnlyBlockState));
             return new ReadOnlyPlaceholderNodeStateReadOnlyList(stateList);
         }
 
+        /// <summary>
+        /// Creates a IxxxInnerDictionary{string} object.
+        /// </summary>
         protected virtual IReadOnlyInnerDictionary<string> CreateInnerTable()
         {
             ControllerTools.AssertNoOverride(this, typeof(ReadOnlyBlockState));
             return new ReadOnlyInnerDictionary<string>();
         }
 
+        /// <summary>
+        /// Creates a IxxxInnerReadOnlyDictionary{string} object.
+        /// </summary>
         protected virtual IReadOnlyInnerReadOnlyDictionary<string> CreateInnerTableReadOnly(IReadOnlyInnerDictionary<string> innerTable)
         {
             ControllerTools.AssertNoOverride(this, typeof(ReadOnlyBlockState));
             return new ReadOnlyInnerReadOnlyDictionary<string>(innerTable);
         }
 
+        /// <summary>
+        /// Creates a IxxxPlaceholderInner{IxxxBrowsingPlaceholderNodeIndex} object.
+        /// </summary>
         protected virtual IReadOnlyPlaceholderInner<IReadOnlyBrowsingPlaceholderNodeIndex> CreatePatternInner(IReadOnlyNodeState owner)
         {
             ControllerTools.AssertNoOverride(this, typeof(ReadOnlyBlockState));
             return new ReadOnlyPlaceholderInner<IReadOnlyBrowsingPlaceholderNodeIndex, ReadOnlyBrowsingPlaceholderNodeIndex>(owner, nameof(IBlock.ReplicationPattern));
         }
 
+        /// <summary>
+        /// Creates a IxxxPlaceholderInner{IxxxBrowsingPlaceholderNodeIndex} object.
+        /// </summary>
         protected virtual IReadOnlyPlaceholderInner<IReadOnlyBrowsingPlaceholderNodeIndex> CreateSourceInner(IReadOnlyNodeState owner)
         {
             ControllerTools.AssertNoOverride(this, typeof(ReadOnlyBlockState));
             return new ReadOnlyPlaceholderInner<IReadOnlyBrowsingPlaceholderNodeIndex, ReadOnlyBrowsingPlaceholderNodeIndex>(owner, nameof(IBlock.SourceIdentifier));
         }
 
+        /// <summary>
+        /// Creates a IxxxBrowsingPatternIndex object.
+        /// </summary>
         protected virtual IReadOnlyBrowsingPatternIndex CreateExistingPatternIndex()
         {
             ControllerTools.AssertNoOverride(this, typeof(ReadOnlyBlockState));
             return new ReadOnlyBrowsingPatternIndex(ChildBlock);
         }
 
+        /// <summary>
+        /// Creates a IxxxBrowsingSourceIndex object.
+        /// </summary>
         protected virtual IReadOnlyBrowsingSourceIndex CreateExistingSourceIndex()
         {
             ControllerTools.AssertNoOverride(this, typeof(ReadOnlyBlockState));
             return new ReadOnlyBrowsingSourceIndex(ChildBlock);
         }
 
+        /// <summary>
+        /// Creates a IxxxPatternState object.
+        /// </summary>
         protected virtual IReadOnlyPatternState CreatePatternState(IReadOnlyBrowsingPatternIndex patternIndex)
         {
             ControllerTools.AssertNoOverride(this, typeof(ReadOnlyBlockState));
             return new ReadOnlyPatternState(this, patternIndex);
         }
 
+        /// <summary>
+        /// Creates a IxxxSourceState object.
+        /// </summary>
         protected virtual IReadOnlySourceState CreateSourceState(IReadOnlyBrowsingSourceIndex sourceIndex)
         {
             ControllerTools.AssertNoOverride(this, typeof(ReadOnlyBlockState));

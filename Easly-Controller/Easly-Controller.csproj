@@ -61,7 +61,6 @@
     <Compile Include="01-ReadOnly\Collections\ReadOnly_BlockState_List.cs" />
     <Compile Include="01-ReadOnly\Collections\ReadOnly_BlockState_ReadOnlyList.cs" />
     <Compile Include="01-ReadOnly\Collections\ReadOnly_BrowsingBlockNodeIndex_List.cs" />
-    <Compile Include="01-ReadOnly\Collections\ReadOnly_BrowsingChildIndex_List.cs" />
     <Compile Include="01-ReadOnly\Collections\ReadOnly_BrowsingListNodeIndex_List.cs" />
     <Compile Include="01-ReadOnly\Collections\ReadOnly_IndexCollection_List.cs" />
     <Compile Include="01-ReadOnly\Collections\ReadOnly_IndexCollection_ReadOnlyList.cs" />
@@ -69,10 +68,8 @@
     <Compile Include="01-ReadOnly\Collections\ReadOnly_Inner_Dictionary.cs" />
     <Compile Include="01-ReadOnly\Collections\ReadOnly_Inner_ReadOnlyDictionary.cs" />
     <Compile Include="01-ReadOnly\Collections\ReadOnly_IndexNodeState_Dictionary.cs" />
-    <Compile Include="01-ReadOnly\Collections\ReadOnly_NodeState_Dictionary.cs" />
     <Compile Include="01-ReadOnly\Collections\ReadOnly_PlaceholderNodeState_List.cs" />
     <Compile Include="01-ReadOnly\Collections\ReadOnly_NodeState_List.cs" />
-    <Compile Include="01-ReadOnly\Collections\ReadOnly_NodeState_ReadOnlyDictionary.cs" />
     <Compile Include="01-ReadOnly\Collections\ReadOnly_PlaceholderNodeState_ReadOnlyList.cs" />
     <Compile Include="01-ReadOnly\Collections\ReadOnly_NodeState_ReadOnlyList.cs" />
     <Compile Include="01-ReadOnly\Context\ReadOnly_BrowseContext.cs" />

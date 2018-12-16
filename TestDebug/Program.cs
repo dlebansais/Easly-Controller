@@ -1,4 +1,5 @@
 ﻿using BaseNode;
+using BaseNodeHelper;
 using EaslyController;
 using EaslyController.ReadOnly;
 using PolySerializer;
@@ -36,12 +37,15 @@ namespace TestDebug
             Stats Stats = Controller.Stats;
 
             INode RootNodeClone = Controller.RootState.CloneNode();
+            ulong h1 = NodeHelper.NodeHash(RootNode);
+            ulong h2 = NodeHelper.NodeHash(RootNodeClone);
 
             byte[] RootData = GetData(RootNode);
             byte[] RootCloneData = GetData(RootNodeClone);
 
             bool IsEqual = ByteArrayCompare(RootData, RootCloneData);
             Debug.Assert(IsEqual);
+            Debug.Assert(h1 == h2);
         }
 
         static byte[] GetData(INode node)

@@ -1,11 +1,24 @@
 ﻿namespace EaslyController.ReadOnly
 {
+    /// <summary>
+    /// Base inner for a list or a block list.
+    /// </summary>
     public interface IReadOnlyCollectionInner : IReadOnlyInner
     {
+        /// <summary>
+        /// Count of all node states in the inner.
+        /// </summary>
         int Count { get; }
+
+        /// <summary>
+        /// First node state that can be enumerated in the inner.
+        /// </summary>
         IReadOnlyPlaceholderNodeState FirstNodeState { get; }
     }
 
+    /// <summary>
+    /// Base inner for a list or a block list.
+    /// </summary>
     public interface IReadOnlyCollectionInner<out IIndex> : IReadOnlyInner<IIndex>
         where IIndex : IReadOnlyBrowsingCollectionNodeIndex
     {
@@ -13,11 +26,19 @@
         IReadOnlyPlaceholderNodeState FirstNodeState { get; }
     }
 
+    /// <summary>
+    /// Base inner for a list or a block list.
+    /// </summary>
     public abstract class ReadOnlyCollectionInner<IIndex, TIndex> : ReadOnlyInner<IIndex>, IReadOnlyCollectionInner<IIndex>, IReadOnlyCollectionInner
         where IIndex : IReadOnlyBrowsingCollectionNodeIndex
         where TIndex : ReadOnlyBrowsingCollectionNodeIndex, IIndex
     {
         #region Init
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ReadOnlyCollectionInner{IIndex, TIndex}"/> class.
+        /// </summary>
+        /// <param name="owner">Parent containing the inner.</param>
+        /// <param name="propertyName">Property name of the inner in <paramref name="owner"/>.</param>
         public ReadOnlyCollectionInner(IReadOnlyNodeState owner, string propertyName)
             : base(owner, propertyName)
         {
@@ -25,7 +46,14 @@
         #endregion
 
         #region Properties
+        /// <summary>
+        /// Count of all node states in the inner.
+        /// </summary>
         public abstract int Count { get; }
+
+        /// <summary>
+        /// First node state that can be enumerated in the inner.
+        /// </summary>
         public abstract IReadOnlyPlaceholderNodeState FirstNodeState { get; }
         #endregion
     }

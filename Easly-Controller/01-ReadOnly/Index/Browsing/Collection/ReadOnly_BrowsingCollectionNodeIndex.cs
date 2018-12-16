@@ -3,13 +3,24 @@ using System.Diagnostics;
 
 namespace EaslyController.ReadOnly
 {
+    /// <summary>
+    /// Base for list and block list index classes.
+    /// </summary>
     public interface IReadOnlyBrowsingCollectionNodeIndex : IReadOnlyBrowsingChildIndex, IReadOnlyNodeIndex
     {
     }
 
+    /// <summary>
+    /// Base for list and block list index classes.
+    /// </summary>
     public abstract class ReadOnlyBrowsingCollectionNodeIndex : IReadOnlyBrowsingCollectionNodeIndex
     {
         #region Init
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ReadOnlyBrowsingCollectionNodeIndex"/> class.
+        /// </summary>
+        /// <param name="node">The indexed node.</param>
+        /// <param name="propertyName">The property for the index.</param>
         public ReadOnlyBrowsingCollectionNodeIndex(INode node, string propertyName)
         {
             Debug.Assert(node != null);
@@ -21,7 +32,14 @@ namespace EaslyController.ReadOnly
         #endregion
 
         #region Properties
+        /// <summary>
+        /// Node indexed.
+        /// </summary>
         public INode Node { get; }
+
+        /// <summary>
+        /// Property indexed for <see cref="Node"/>.
+        /// </summary>
         public string PropertyName { get; }
         #endregion
     }
