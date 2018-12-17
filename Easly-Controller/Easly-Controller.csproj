@@ -141,6 +141,16 @@
     <Compile Include="02-Writeable\Index\Browsing\Single\Writeable_BrowsingPatternIndex.cs" />
     <Compile Include="02-Writeable\Index\Browsing\Single\Writeable_BrowsingPlaceholderNodeIndex.cs" />
     <Compile Include="02-Writeable\Index\Browsing\Single\Writeable_BrowsingSourceIndex.cs" />
+    <Compile Include="02-Writeable\Index\Insertion\Collection\Writeable_InsertionBlockNodeIndex.cs" />
+    <Compile Include="02-Writeable\Index\Insertion\Collection\Writeable_InsertionCollectionNodeIndex.cs" />
+    <Compile Include="02-Writeable\Index\Insertion\Collection\Writeable_InsertionExistingBlockNodeIndex.cs" />
+    <Compile Include="02-Writeable\Index\Insertion\Collection\Writeable_InsertionListNodeIndex.cs" />
+    <Compile Include="02-Writeable\Index\Insertion\Collection\Writeable_InsertionNewBlockNodeIndex.cs" />
+    <Compile Include="02-Writeable\Index\Insertion\Writeable_InsertionChildIndex.cs" />
+    <Compile Include="02-Writeable\Index\Insertion\Single\Writeable_InsertionOptionalNodeIndex.cs" />
+    <Compile Include="02-Writeable\Index\Insertion\Single\Writeable_InsertionPatternIndex.cs" />
+    <Compile Include="02-Writeable\Index\Insertion\Single\Writeable_InsertionPlaceholderNodeIndex.cs" />
+    <Compile Include="02-Writeable\Index\Insertion\Single\Writeable_InsertionSourceIndex.cs" />
     <Compile Include="02-Writeable\Index\Writeable_ChildIndex.cs" />
     <Compile Include="02-Writeable\Index\Writeable_Index.cs" />
     <Compile Include="02-Writeable\Index\Writeable_NodeIndex.cs" />

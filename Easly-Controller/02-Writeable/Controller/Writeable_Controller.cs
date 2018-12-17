@@ -29,6 +29,28 @@ namespace EaslyController.Writeable
         /// Called when a state is removed.
         /// </summary>
         new event Action<IWriteableNodeState> StateRemoved;
+
+        /// <summary>
+        /// Inserts a new node in a list or block list.
+        /// </summary>
+        /// <param name="inner">The inner for the list or block list where the node is inserted.</param>
+        /// <param name="nodeIndex">Index for the inserted node.</param>
+        void Insert(IWriteableCollectionInner inner, IWriteableInsertionChildIndex nodeIndex);
+
+        /// <summary>
+        /// Removes a node from a list of block list.
+        /// </summary>
+        /// <param name="inner">The inner for the list or block list from which the node is removed.</param>
+        /// <param name="nodeIndex">Index for the removed node.</param>
+        void Remove(IWriteableCollectionInner inner, IWriteableBrowsingChildIndex nodeIndex);
+
+        /// <summary>
+        /// Replace an existing node with a new one.
+        /// </summary>
+        /// <param name="inner">The inner where the node is replaced.</param>
+        /// <param name="oldNodeIndex">Index of the replaced node.</param>
+        /// <param name="newNodeIndex">Index for the new node.</param>
+        void Replace(IWriteableInner inner, IWriteableBrowsingChildIndex oldNodeIndex, IWriteableInsertionChildIndex newNodeIndex);
     }
 
     public class WriteableController : ReadOnlyController, IWriteableController
