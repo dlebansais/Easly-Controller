@@ -2,6 +2,7 @@
 using BaseNodeHelper;
 using EaslyController;
 using EaslyController.ReadOnly;
+using EaslyController.Writeable;
 using PolySerializer;
 using System;
 using System.Diagnostics;
@@ -12,6 +13,7 @@ namespace TestDebug
 {
     class Program
     {
+        #region Init
         static void Main(string[] args)
         {
             INode RootNode;
@@ -32,24 +34,12 @@ namespace TestDebug
                 RootNode = Serializer.Deserialize(fs) as INode;
             }
 
-            IReadOnlyRootNodeIndex RootIndex = new ReadOnlyRootNodeIndex(RootNode);
-            IReadOnlyController Controller = ReadOnlyController.Create(RootIndex);
-            Stats Stats = Controller.Stats;
-
-            INode RootNodeClone = Controller.RootState.CloneNode();
-            ulong h1 = NodeHelper.NodeHash(RootNode);
-            ulong h2 = NodeHelper.NodeHash(RootNodeClone);
-
-            byte[] RootData = GetData(RootNode);
-            byte[] RootCloneData = GetData(RootNodeClone);
-
-            bool IsEqual = ByteArrayCompare(RootData, RootCloneData);
-            Debug.Assert(IsEqual);
-            Debug.Assert(h1 == h2);
-
-            IReadOnlyControllerView ControllerView = ReadOnlyControllerView.Create(Controller);
+            TestReadOnly(RootNode);
+            TestWriteable(RootNode);
         }
+        #endregion
 
+        #region Tools
         static byte[] GetData(INode node)
         {
             byte[] Data;
@@ -68,7 +58,7 @@ namespace TestDebug
 
                 using (StreamReader sr = new StreamReader(ms))
                 {
-                    for (;;)
+                    for (; ; )
                     {
                         string s = sr.ReadLine();
                         if (s == null)
@@ -90,6 +80,51 @@ namespace TestDebug
             // Validate buffers are the same length.
             // This also ensures that the count does not exceed the length of either buffer.  
             return b1.Length == b2.Length && memcmp(b1, b2, b1.Length) == 0;
+        }
+        #endregion
+
+        static void TestReadOnly(INode rootNode)
+        {
+            ControllerTools.ResetExpectedName();
+
+            IReadOnlyRootNodeIndex RootIndex = new ReadOnlyRootNodeIndex(rootNode);
+            IReadOnlyController Controller = ReadOnlyController.Create(RootIndex);
+            Stats Stats = Controller.Stats;
+
+            INode RootNodeClone = Controller.RootState.CloneNode();
+            ulong h1 = NodeHelper.NodeHash(rootNode);
+            ulong h2 = NodeHelper.NodeHash(RootNodeClone);
+
+            byte[] RootData = GetData(rootNode);
+            byte[] RootCloneData = GetData(RootNodeClone);
+
+            bool IsEqual = ByteArrayCompare(RootData, RootCloneData);
+            Debug.Assert(IsEqual);
+            Debug.Assert(h1 == h2);
+
+            IReadOnlyControllerView ControllerView = ReadOnlyControllerView.Create(Controller);
+        }
+
+        static void TestWriteable(INode rootNode)
+        {
+            ControllerTools.ResetExpectedName();
+
+            IWriteableRootNodeIndex RootIndex = new WriteableRootNodeIndex(rootNode);
+            IWriteableController Controller = WriteableController.Create(RootIndex);
+            Stats Stats = Controller.Stats;
+
+            INode RootNodeClone = Controller.RootState.CloneNode();
+            ulong h1 = NodeHelper.NodeHash(rootNode);
+            ulong h2 = NodeHelper.NodeHash(RootNodeClone);
+
+            byte[] RootData = GetData(rootNode);
+            byte[] RootCloneData = GetData(RootNodeClone);
+
+            bool IsEqual = ByteArrayCompare(RootData, RootCloneData);
+            Debug.Assert(IsEqual);
+            Debug.Assert(h1 == h2);
+
+            IWriteableControllerView ControllerView = WriteableControllerView.Create(Controller);
         }
     }
 }

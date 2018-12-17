@@ -2,6 +2,9 @@
 
 namespace EaslyController.ReadOnly
 {
+    /// <summary>
+    /// Handlers to call during enumeration of states, when attaching a view.
+    /// </summary>
     public interface IReadOnlyAttachCallbackSet
     {
         Action<IReadOnlyNodeState> NodeStateAttachedHandler { get; }
@@ -9,6 +12,9 @@ namespace EaslyController.ReadOnly
         Action<IReadOnlyBlockState> BlockStateAttachedHandler { get; }
     }
 
+    /// <summary>
+    /// Handlers to call during enumeration of states, when attaching a view.
+    /// </summary>
     public class ReadOnlyAttachCallbackSet : IReadOnlyAttachCallbackSet
     {
         public Action<IReadOnlyNodeState> NodeStateAttachedHandler { get; set; }

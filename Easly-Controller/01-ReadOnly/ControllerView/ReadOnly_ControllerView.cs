@@ -3,15 +3,32 @@ using System.Diagnostics;
 
 namespace EaslyController.ReadOnly
 {
+    /// <summary>
+    /// View of a IxxxController.
+    /// </summary>
     public interface IReadOnlyControllerView
     {
+        /// <summary>
+        /// The controller.
+        /// </summary>
         IReadOnlyController Controller { get; }
+
+        /// <summary>
+        /// Table of views of each state in the controller.
+        /// </summary>
         IReadOnlyStateViewDictionary StateViewTable { get; }
     }
 
+    /// <summary>
+    /// View of a IxxxController.
+    /// </summary>
     public class ReadOnlyControllerView : IReadOnlyControllerView
     {
         #region Init
+        /// <summary>
+        /// Creates and initializes a new instance of a <see cref="ReadOnlyControllerView"/> object.
+        /// </summary>
+        /// <param name="controller">The controller on which the view is attached.</param>
         public static IReadOnlyControllerView Create(IReadOnlyController controller)
         {
             ReadOnlyControllerView View = new ReadOnlyControllerView(controller);
@@ -19,6 +36,10 @@ namespace EaslyController.ReadOnly
             return View;
         }
 
+        /// <summary>
+        /// Initializes a new instance of a <see cref="ReadOnlyControllerView"/> object.
+        /// </summary>
+        /// <param name="controller">The controller on which the view is attached.</param>
         protected ReadOnlyControllerView(IReadOnlyController controller)
         {
             Controller = controller;
@@ -26,6 +47,9 @@ namespace EaslyController.ReadOnly
             StateViewTable = CreateStateViewTable();
         }
 
+        /// <summary>
+        /// Initializes the view by attaching it to the controller.
+        /// </summary>
         protected virtual void Init()
         {
             IReadOnlyAttachCallbackSet CallbackSet = CreateCallbackSet();
@@ -35,15 +59,27 @@ namespace EaslyController.ReadOnly
 
             Controller.StateCreated += OnNodeStateCreated;
             Controller.StateInitialized += OnNodeStateInitialized;
+            Controller.StateRemoved += OnNodeStateRemoved;
         }
         #endregion
 
         #region Properties
+        /// <summary>
+        /// The controller.
+        /// </summary>
         public IReadOnlyController Controller { get; }
+
+        /// <summary>
+        /// Table of views of each state in the controller.
+        /// </summary>
         public IReadOnlyStateViewDictionary StateViewTable { get; }
         #endregion
 
         #region Client Interface
+        /// <summary>
+        /// Handler called every time a state is created in the controller.
+        /// </summary>
+        /// <param name="state">The state created.</param>
         public virtual void OnNodeStateCreated(IReadOnlyNodeState state)
         {
             Debug.Assert(state != null);
@@ -76,23 +112,49 @@ namespace EaslyController.ReadOnly
             StateViewTable.Add(state, StateView);
         }
 
+        /// <summary>
+        /// Handler called every time a state is initialized in the controller.
+        /// </summary>
+        /// <param name="state">The state initialized.</param>
         public virtual void OnNodeStateInitialized(IReadOnlyNodeState state)
         {
             Debug.Assert(state != null);
             Debug.Assert(StateViewTable.ContainsKey(state));
         }
 
+        /// <summary>
+        /// Handler called every time a state is removed in the controller.
+        /// </summary>
+        /// <param name="state">The state removed.</param>
+        public virtual void OnNodeStateRemoved(IReadOnlyNodeState state)
+        {
+            Debug.Assert(state != null);
+            Debug.Assert(StateViewTable.ContainsKey(state));
+        }
+
+        /// <summary>
+        /// Handler called every time a block list inner is created in the controller.
+        /// </summary>
+        /// <param name="state">The block list inner created.</param>
         public virtual void OnBlockListInnerCreated(IReadOnlyBlockListInner inner)
         {
             inner.BlockStateCreated += OnBlockStateCreated;
             inner.BlockStateRemoved += OnBlockStateRemoved;
         }
 
+        /// <summary>
+        /// Handler called every time a block state is created in the controller.
+        /// </summary>
+        /// <param name="state">The block state created.</param>
         public virtual void OnBlockStateCreated(IReadOnlyBlockState blockState)
         {
             Debug.Assert(blockState != null);
         }
 
+        /// <summary>
+        /// Handler called every time a block state is removed in the controller.
+        /// </summary>
+        /// <param name="state">The block state removed.</param>
         public virtual void OnBlockStateRemoved(IReadOnlyBlockState blockState)
         {
             Debug.Assert(blockState != null);

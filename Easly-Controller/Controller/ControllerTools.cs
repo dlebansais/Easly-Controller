@@ -6,20 +6,44 @@ namespace EaslyController
 {
     public static class ControllerTools
     {
+        private static string ExpectedName = null;
+
+        public static void ResetExpectedName()
+        {
+            ExpectedName = null;
+        }
+
         public static void AssertNoOverride(object thisObject, Type callerType, [CallerMemberName] string callerName = "")
         {
             Type thisType = thisObject.GetType();
             Debug.Assert(callerType.IsAssignableFrom(thisType));
 
-            string ThisName = thisType.FullName;
-            string ExpectedName = callerType.FullName;
+            AssertExpectedName(thisType);
+        }
 
-            if ((ThisName.LastIndexOf('.') is int ThisNameIndex) && ThisNameIndex >= 0)
-                ThisName = ThisName.Substring(0, ThisNameIndex);
-            if ((ExpectedName.LastIndexOf('.') is int ExpectedNameIndex) && ExpectedNameIndex >= 0)
-                ExpectedName = ExpectedName.Substring(0, ExpectedNameIndex);
+        public static void AssertExpectedName(Type thisType)
+        {
+            if (thisType.IsGenericType && !thisType.IsGenericTypeDefinition)
+            {
+                Type GenericDefinition = thisType.GetGenericTypeDefinition();
+                AssertExpectedName(GenericDefinition);
 
-            Debug.Assert(ThisName == ExpectedName);
+                Type[] GenericArguments = thisType.GetGenericArguments();
+                foreach (Type GenericArgument in GenericArguments)
+                    AssertExpectedName(GenericArgument);
+            }
+            else
+            {
+                string ThisName = thisType.FullName;
+
+                if ((ThisName.LastIndexOf('.') is int ThisNameIndex) && ThisNameIndex >= 0)
+                    ThisName = ThisName.Substring(0, ThisNameIndex);
+
+                if (ExpectedName == null)
+                    ExpectedName = ThisName;
+
+                Debug.Assert(ThisName == ExpectedName);
+            }
         }
     }
 }
