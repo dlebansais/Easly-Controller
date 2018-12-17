@@ -60,9 +60,9 @@ namespace EaslyController.ReadOnly
         /// <summary>
         /// Creates and initializes a new block state in the inner.
         /// </summary>
-        /// <param name="nodeIndex">Index of the new block state to create.</param>
+        /// <param name="newBlockIndex">Index of the new block state to create.</param>
         /// <returns>The created block state.</returns>
-        IReadOnlyBlockState InitNewBlock(IReadOnlyBrowsingNewBlockNodeIndex nodeIndex);
+        IReadOnlyBlockState InitNewBlock(IReadOnlyBrowsingNewBlockNodeIndex newBlockIndex);
     }
 
     /// <summary>
@@ -88,19 +88,19 @@ namespace EaslyController.ReadOnly
         /// <summary>
         /// Creates and initializes a new block state in the inner.
         /// </summary>
-        /// <param name="nodeIndex">Index of the new block state to create.</param>
+        /// <param name="newBlockIndex">Index of the new block state to create.</param>
         /// <returns>The created block state.</returns>
-        public virtual IReadOnlyBlockState InitNewBlock(IReadOnlyBrowsingNewBlockNodeIndex nodeIndex)
+        public virtual IReadOnlyBlockState InitNewBlock(IReadOnlyBrowsingNewBlockNodeIndex newBlockIndex)
         {
-            Debug.Assert(nodeIndex != null);
-            Debug.Assert(nodeIndex.PropertyName == PropertyName);
+            Debug.Assert(newBlockIndex != null);
+            Debug.Assert(newBlockIndex.PropertyName == PropertyName);
 
-            int BlockIndex = nodeIndex.BlockIndex;
+            int BlockIndex = newBlockIndex.BlockIndex;
             Debug.Assert(BlockIndex == BlockStateList.Count);
 
             NodeTreeHelper.GetChildBlock(Owner.Node, PropertyName, BlockIndex, out IBlock ChildBlock);
 
-            IReadOnlyBlockState BlockState = CreateBlockState(nodeIndex, ChildBlock);
+            IReadOnlyBlockState BlockState = CreateBlockState(newBlockIndex, ChildBlock);
             InsertInBlockStateList(BlockIndex, BlockState);
 
             return BlockState;
@@ -251,18 +251,6 @@ namespace EaslyController.ReadOnly
         #endregion
 
         #region Descendant Interface
-        protected virtual void NotifyBlockStateCreated(IReadOnlyBlockState blockState)
-        {
-            BlockStateCreated?.Invoke(blockState);
-        }
-
-        protected virtual void NotifyBlockStateRemoved(IReadOnlyBlockState blockState)
-        {
-            BlockStateRemoved?.Invoke(blockState);
-        }
-        #endregion
-
-        #region BlockStateList
         protected virtual void InsertInBlockStateList(int blockIndex, IReadOnlyBlockState blockState)
         {
             Debug.Assert(blockIndex >= 0 && blockIndex <= BlockStateList.Count);
@@ -280,6 +268,16 @@ namespace EaslyController.ReadOnly
             NotifyBlockStateRemoved(BlockStateList[blockIndex]);
 
             _BlockStateList.RemoveAt(blockIndex);
+        }
+
+        protected virtual void NotifyBlockStateCreated(IReadOnlyBlockState blockState)
+        {
+            BlockStateCreated?.Invoke(blockState);
+        }
+
+        protected virtual void NotifyBlockStateRemoved(IReadOnlyBlockState blockState)
+        {
+            BlockStateRemoved?.Invoke(blockState);
         }
         #endregion
 

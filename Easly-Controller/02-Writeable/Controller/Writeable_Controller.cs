@@ -1,5 +1,7 @@
-﻿using EaslyController.ReadOnly;
+﻿using BaseNode;
+using EaslyController.ReadOnly;
 using System;
+using System.Diagnostics;
 
 namespace EaslyController.Writeable
 {
@@ -42,7 +44,7 @@ namespace EaslyController.Writeable
         /// </summary>
         /// <param name="inner">The inner for the list or block list from which the node is removed.</param>
         /// <param name="nodeIndex">Index for the removed node.</param>
-        void Remove(IWriteableCollectionInner inner, IWriteableBrowsingChildIndex nodeIndex);
+        //void Remove(IWriteableCollectionInner inner, IWriteableBrowsingChildIndex nodeIndex);
 
         /// <summary>
         /// Replace an existing node with a new one.
@@ -50,7 +52,7 @@ namespace EaslyController.Writeable
         /// <param name="inner">The inner where the node is replaced.</param>
         /// <param name="oldNodeIndex">Index of the replaced node.</param>
         /// <param name="newNodeIndex">Index for the new node.</param>
-        void Replace(IWriteableInner inner, IWriteableBrowsingChildIndex oldNodeIndex, IWriteableInsertionChildIndex newNodeIndex);
+        //void Replace(IWriteableInner inner, IWriteableBrowsingChildIndex oldNodeIndex, IWriteableInsertionChildIndex newNodeIndex);
     }
 
     public class WriteableController : ReadOnlyController, IWriteableController
@@ -105,6 +107,35 @@ namespace EaslyController.Writeable
         /// State table.
         /// </summary>
         protected new IWriteableIndexNodeStateReadOnlyDictionary StateTable { get { return (IWriteableIndexNodeStateReadOnlyDictionary)base.StateTable; } }
+        #endregion
+
+        #region Client Interface
+        /// <summary>
+        /// Inserts a new node in a list or block list.
+        /// </summary>
+        /// <param name="inner">The inner for the list or block list where the node is inserted.</param>
+        /// <param name="nodeIndex">Index for the inserted node.</param>
+        public void Insert(IWriteableCollectionInner inner, IWriteableInsertionChildIndex nodeIndex)
+        {
+            IWriteableNodeState Owner = inner.Owner;
+            IWriteableIndex ParentIndex = Owner.ParentIndex;
+            Debug.Assert(Contains(ParentIndex));
+            Debug.Assert(IndexToState(ParentIndex) == Owner);
+            IWriteableInnerReadOnlyDictionary<string> InnerTable = Owner.InnerTable;
+            Debug.Assert(InnerTable.ContainsKey(inner.PropertyName));
+            Debug.Assert(InnerTable[inner.PropertyName] == inner);
+
+            if ((inner is IWriteableBlockListInner AsBlockListInner) && (nodeIndex is IWriteableInsertionNewBlockNodeIndex AsNewBlockIndex))
+                AsBlockListInner.InsertBlock(AsNewBlockIndex);
+
+            IWriteableNodeState ChildState = (IWriteableNodeState)CreateNodeState(nodeIndex);
+
+            AddState(ChildState);
+            inner.Insert(nodeIndex, ChildState);
+
+            IWriteableNodeState NewState = CreateAndInsertState(inner, nodeIndex);
+            BuildStateTable(inner, null, nodeIndex, NewState, isEnumerating: false);
+        }
         #endregion
 
         #region Descendant Interface

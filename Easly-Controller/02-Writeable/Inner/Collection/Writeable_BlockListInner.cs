@@ -1,6 +1,8 @@
 ﻿using BaseNode;
+using BaseNodeHelper;
 using EaslyController.ReadOnly;
 using System;
+using System.Diagnostics;
 
 namespace EaslyController.Writeable
 {
@@ -23,6 +25,12 @@ namespace EaslyController.Writeable
         /// Called when a block state is removed.
         /// </summary>
         new event Action<IWriteableBlockState> BlockStateRemoved;
+
+        /// <summary>
+        /// Inserts a new block in the block list.
+        /// </summary>
+        /// <param name="newBlockIndex"></param>
+        void InsertBlock(IWriteableInsertionNewBlockNodeIndex newBlockIndex);
     }
 
     /// <summary>
@@ -45,6 +53,12 @@ namespace EaslyController.Writeable
         /// Called when a block state is removed.
         /// </summary>
         new event Action<IWriteableBlockState> BlockStateRemoved;
+
+        /// <summary>
+        /// Inserts a new block in the block list.
+        /// </summary>
+        /// <param name="newBlockIndex"></param>
+        void InsertBlock(IWriteableInsertionNewBlockNodeIndex newBlockIndex);
     }
 
     /// <summary>
@@ -91,6 +105,24 @@ namespace EaslyController.Writeable
         /// Called when a block state is removed.
         /// </summary>
         public new event Action<IWriteableBlockState> BlockStateRemoved;
+        #endregion
+
+        #region Client Interface
+        /// <summary>
+        /// Inserts a new block in the block list.
+        /// </summary>
+        /// <param name="newBlockIndex"></param>
+        public void InsertBlock(IWriteableInsertionNewBlockNodeIndex newBlockIndex)
+        {
+            Debug.Assert(newBlockIndex != null);
+            Debug.Assert(newBlockIndex.BlockIndex <= BlockStateList.Count);
+
+            IWriteableNodeState ParentState = Owner;
+            NodeTreeHelper.InsertIntoBlockList(ParentState.Node, PropertyName, newBlockIndex.BlockIndex, ReplicationStatus.Normal, newBlockIndex.PatternNode, newBlockIndex.SourceNode, out IBlock ChildBlock);
+
+            IReadOnlyBlockState BlockState = CreateBlockState(newBlockIndex, ChildBlock);
+            InsertInBlockStateList(BlockIndex, BlockState);
+        }
         #endregion
 
         #region Descendant Interface
