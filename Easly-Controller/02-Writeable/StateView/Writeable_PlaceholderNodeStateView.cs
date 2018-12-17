@@ -7,6 +7,10 @@ namespace EaslyController.Writeable
     /// </summary>
     public interface IWriteablePlaceholderNodeStateView : IReadOnlyPlaceholderNodeStateView, IWriteableNodeStateView
     {
+        /// <summary>
+        /// The child node.
+        /// </summary>
+        new IWriteablePlaceholderNodeState State { get; }
     }
 
     /// <summary>
@@ -23,6 +27,14 @@ namespace EaslyController.Writeable
             : base(state)
         {
         }
+        #endregion
+
+        #region Properties
+        /// <summary>
+        /// The child node.
+        /// </summary>
+        public new IWriteablePlaceholderNodeState State { get { return (IWriteablePlaceholderNodeState)base.State; } }
+        IWriteableNodeState IWriteableNodeStateView.State { get { return State; } }
         #endregion
     }
 }

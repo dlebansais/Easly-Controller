@@ -17,8 +17,10 @@ namespace EaslyController.ReadOnly
     /// </summary>
     public class ReadOnlyAttachCallbackSet : IReadOnlyAttachCallbackSet
     {
+        #region Properties
         public Action<IReadOnlyNodeState> NodeStateAttachedHandler { get; set; }
         public Action<IReadOnlyBlockListInner> BlockListInnerAttachedHandler { get; set; }
         public Action<IReadOnlyBlockState> BlockStateAttachedHandler { get; set; }
+        #endregion
     }
 }

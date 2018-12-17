@@ -1,4 +1,6 @@
-﻿namespace EaslyController.ReadOnly
+﻿using System;
+
+namespace EaslyController.ReadOnly
 {
     /// <summary>
     /// Base inner for a list or a block list.
@@ -22,7 +24,14 @@
     public interface IReadOnlyCollectionInner<out IIndex> : IReadOnlyInner<IIndex>
         where IIndex : IReadOnlyBrowsingCollectionNodeIndex
     {
+        /// <summary>
+        /// Count of all node states in the inner.
+        /// </summary>
         int Count { get; }
+
+        /// <summary>
+        /// First node state that can be enumerated in the inner.
+        /// </summary>
         IReadOnlyPlaceholderNodeState FirstNodeState { get; }
     }
 
@@ -54,7 +63,7 @@
         /// <summary>
         /// First node state that can be enumerated in the inner.
         /// </summary>
-        public abstract IReadOnlyPlaceholderNodeState FirstNodeState { get; }
+        public virtual IReadOnlyPlaceholderNodeState FirstNodeState { get { throw new InvalidOperationException(); } } // Can't make this abstract, thank you C#...
         #endregion
     }
 }

@@ -10,6 +10,25 @@ namespace EaslyController.Writeable
     /// </summary>
     public interface IWriteableNodeState : IReadOnlyNodeState
     {
+        /// <summary>
+        /// The index that was used to create the state.
+        /// </summary>
+        new IWriteableIndex ParentIndex { get; }
+
+        /// <summary>
+        /// Inner containing this state.
+        /// </summary>
+        new IWriteableInner<IWriteableBrowsingChildIndex> ParentInner { get; }
+
+        /// <summary>
+        /// State of the parent.
+        /// </summary>
+        new IWriteableNodeState ParentState { get; }
+
+        /// <summary>
+        /// Table for all inners in this state.
+        /// </summary>
+        new IWriteableInnerReadOnlyDictionary<string> InnerTable { get; }
     }
 
     /// <summary>
@@ -26,6 +45,28 @@ namespace EaslyController.Writeable
             : base(parentIndex)
         {
         }
+        #endregion
+
+        #region Properties
+        /// <summary>
+        /// The index that was used to create the state.
+        /// </summary>
+        public new IWriteableIndex ParentIndex { get { return (IWriteableIndex)base.ParentIndex; } }
+
+        /// <summary>
+        /// Inner containing this state.
+        /// </summary>
+        public new IWriteableInner<IWriteableBrowsingChildIndex> ParentInner { get { return (IWriteableInner<IWriteableBrowsingChildIndex>)base.ParentInner; } }
+
+        /// <summary>
+        /// State of the parent.
+        /// </summary>
+        public new IWriteableNodeState ParentState { get { return (IWriteableNodeState)base.ParentState; } }
+
+        /// <summary>
+        /// Table for all inners in this state.
+        /// </summary>
+        public new IWriteableInnerReadOnlyDictionary<string> InnerTable { get { return (IWriteableInnerReadOnlyDictionary<string>)base.InnerTable; } }
         #endregion
 
         #region Create Methods

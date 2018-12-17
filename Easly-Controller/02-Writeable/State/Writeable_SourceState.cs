@@ -10,6 +10,15 @@ namespace EaslyController.Writeable
     /// </summary>
     public interface IWriteableSourceState : IReadOnlySourceState, IWriteablePlaceholderNodeState
     {
+        /// <summary>
+        /// The parent block state.
+        /// </summary>
+        new IWriteableBlockState ParentBlockState { get; }
+
+        /// <summary>
+        /// The index that was used to create the state.
+        /// </summary>
+        new IWriteableBrowsingSourceIndex ParentIndex { get; }
     }
 
     /// <summary>
@@ -27,6 +36,36 @@ namespace EaslyController.Writeable
             : base(parentBlockState, index)
         {
         }
+        #endregion
+
+        #region Properties
+        /// <summary>
+        /// The parent block state.
+        /// </summary>
+        public new IWriteableBlockState ParentBlockState { get { return (IWriteableBlockState)base.ParentBlockState; } }
+
+        /// <summary>
+        /// The index that was used to create the state.
+        /// </summary>
+        public new IWriteableBrowsingSourceIndex ParentIndex { get { return (IWriteableBrowsingSourceIndex)base.ParentIndex; } }
+        IWriteableIndex IWriteableNodeState.ParentIndex { get { return ParentIndex; } }
+        IWriteableNodeIndex IWriteablePlaceholderNodeState.ParentIndex { get { return ParentIndex; } }
+
+        /// <summary>
+        /// Inner containing this state.
+        /// </summary>
+        public new IWriteablePlaceholderInner<IWriteableBrowsingPlaceholderNodeIndex> ParentInner { get { return (IWriteablePlaceholderInner<IWriteableBrowsingPlaceholderNodeIndex>)base.ParentInner; } }
+        IWriteableInner<IWriteableBrowsingChildIndex> IWriteableNodeState.ParentInner { get { return ParentInner; } }
+
+        /// <summary>
+        /// State of the parent.
+        /// </summary>
+        public new IWriteableNodeState ParentState { get { return (IWriteableNodeState)base.ParentState; } }
+
+        /// <summary>
+        /// Table for all inners in this state.
+        /// </summary>
+        public new IWriteableInnerReadOnlyDictionary<string> InnerTable { get { return (IWriteableInnerReadOnlyDictionary<string>)base.InnerTable; } }
         #endregion
 
         #region Create Methods

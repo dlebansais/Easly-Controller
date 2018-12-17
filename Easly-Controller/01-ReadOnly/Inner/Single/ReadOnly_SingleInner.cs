@@ -1,4 +1,6 @@
-﻿namespace EaslyController.ReadOnly
+﻿using System;
+
+namespace EaslyController.ReadOnly
 {
     /// <summary>
     /// Base inner for a single node inner.
@@ -45,7 +47,7 @@
         /// <summary>
         /// State of the node.
         /// </summary>
-        public abstract IReadOnlyNodeState ChildState { get; }
+        public virtual IReadOnlyNodeState ChildState { get { throw new InvalidOperationException(); } } // Can't make this abstract, thank you C#...
         #endregion
     }
 }

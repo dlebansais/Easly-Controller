@@ -8,6 +8,40 @@ namespace EaslyController.Writeable
     /// </summary>
     public interface IWriteableBlockState : IReadOnlyBlockState
     {
+        /// <summary>
+        /// The parent inner containing this state.
+        /// </summary>
+        new IWriteableBlockListInner ParentInner { get; }
+
+        /// <summary>
+        /// Index that was used to create the block state.
+        /// </summary>
+        new IWriteableBrowsingNewBlockNodeIndex ParentIndex { get; }
+
+        /// <summary>
+        /// Index that was used to create the pattern state for this block.
+        /// </summary>
+        new IWriteableBrowsingPatternIndex PatternIndex { get; }
+
+        /// <summary>
+        /// The pattern state for this block.
+        /// </summary>
+        new IWriteablePatternState PatternState { get; }
+
+        /// <summary>
+        /// Index that was used to create the source state for this block.
+        /// </summary>
+        new IWriteableBrowsingSourceIndex SourceIndex { get; }
+
+        /// <summary>
+        /// The source state for this block.
+        /// </summary>
+        new IWriteableSourceState SourceState { get; }
+
+        /// <summary>
+        /// States for nodes in the block.
+        /// </summary>
+        new IWriteablePlaceholderNodeStateReadOnlyList StateList { get; }
     }
 
     /// <summary>
@@ -26,6 +60,43 @@ namespace EaslyController.Writeable
             : base(parentInner, parentIndex, childBlock)
         {
         }
+        #endregion
+
+        #region Properties
+        /// <summary>
+        /// The parent inner containing this state.
+        /// </summary>
+        public new IWriteableBlockListInner ParentInner { get { return (IWriteableBlockListInner)base.ParentInner; } }
+
+        /// <summary>
+        /// Index that was used to create the block state.
+        /// </summary>
+        public new IWriteableBrowsingNewBlockNodeIndex ParentIndex { get { return (IWriteableBrowsingNewBlockNodeIndex)base.ParentIndex; } }
+
+        /// <summary>
+        /// Index that was used to create the pattern state for this block.
+        /// </summary>
+        public new IWriteableBrowsingPatternIndex PatternIndex { get { return (IWriteableBrowsingPatternIndex)base.PatternIndex; } }
+
+        /// <summary>
+        /// The pattern state for this block.
+        /// </summary>
+        public new IWriteablePatternState PatternState { get { return (IWriteablePatternState)base.PatternState; } }
+
+        /// <summary>
+        /// Index that was used to create the source state for this block.
+        /// </summary>
+        public new IWriteableBrowsingSourceIndex SourceIndex { get { return (IWriteableBrowsingSourceIndex)base.SourceIndex; } }
+
+        /// <summary>
+        /// The source state for this block.
+        /// </summary>
+        public new IWriteableSourceState SourceState { get { return (IWriteableSourceState)base.SourceState; } }
+
+        /// <summary>
+        /// States for nodes in the block.
+        /// </summary>
+        public new IWriteablePlaceholderNodeStateReadOnlyList StateList { get { return (IWriteablePlaceholderNodeStateReadOnlyList)base.StateList; } }
         #endregion
 
         #region Create Methods

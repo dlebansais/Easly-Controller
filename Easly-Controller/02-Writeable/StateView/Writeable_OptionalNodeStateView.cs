@@ -7,6 +7,10 @@ namespace EaslyController.Writeable
     /// </summary>
     public interface IWriteableOptionalNodeStateView : IReadOnlyOptionalNodeStateView, IWriteableNodeStateView
     {
+        /// <summary>
+        /// The optional node state.
+        /// </summary>
+        new IWriteableOptionalNodeState State { get; }
     }
 
     /// <summary>
@@ -23,6 +27,14 @@ namespace EaslyController.Writeable
             : base(state)
         {
         }
+        #endregion
+
+        #region Properties
+        /// <summary>
+        /// The optional node state.
+        /// </summary>
+        public new IWriteableOptionalNodeState State { get { return (IWriteableOptionalNodeState)base.State; } }
+        IWriteableNodeState IWriteableNodeStateView.State { get { return State; } }
         #endregion
     }
 }

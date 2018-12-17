@@ -48,6 +48,16 @@ namespace EaslyController.ReadOnly
         IReadOnlyBlockStateReadOnlyList BlockStateList { get; }
 
         /// <summary>
+        /// Called when a block state is created.
+        /// </summary>
+        event Action<IReadOnlyBlockState> BlockStateCreated;
+
+        /// <summary>
+        /// Called when a block state is removed.
+        /// </summary>
+        event Action<IReadOnlyBlockState> BlockStateRemoved;
+
+        /// <summary>
         /// Creates and initializes a new block state in the inner.
         /// </summary>
         /// <param name="nodeIndex">Index of the new block state to create.</param>
@@ -164,6 +174,16 @@ namespace EaslyController.ReadOnly
         private IReadOnlyBlockStateList _BlockStateList;
 
         /// <summary>
+        /// Called when a block state is created.
+        /// </summary>
+        public event Action<IReadOnlyBlockState> BlockStateCreated;
+
+        /// <summary>
+        /// Called when a block state is removed.
+        /// </summary>
+        public event Action<IReadOnlyBlockState> BlockStateRemoved;
+
+        /// <summary>
         /// Count of all node states in the inner.
         /// </summary>
         public override int Count
@@ -228,21 +248,13 @@ namespace EaslyController.ReadOnly
             foreach (IReadOnlyBlockState BlockState in BlockStateList)
                 BlockState.Attach(view, callbackSet);
         }
+        #endregion
 
-        /// <summary>
-        /// Called when a block state is created.
-        /// </summary>
-        public event Action<IReadOnlyBlockState> BlockStateCreated;
-
+        #region Descendant Interface
         protected virtual void NotifyBlockStateCreated(IReadOnlyBlockState blockState)
         {
             BlockStateCreated?.Invoke(blockState);
         }
-
-        /// <summary>
-        /// Called when a block state is removed.
-        /// </summary>
-        public event Action<IReadOnlyBlockState> BlockStateRemoved;
 
         protected virtual void NotifyBlockStateRemoved(IReadOnlyBlockState blockState)
         {

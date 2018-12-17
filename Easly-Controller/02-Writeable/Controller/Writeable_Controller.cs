@@ -1,9 +1,34 @@
 ﻿using EaslyController.ReadOnly;
+using System;
 
 namespace EaslyController.Writeable
 {
     public interface IWriteableController : IReadOnlyController
     {
+        /// <summary>
+        /// Index of the root node.
+        /// </summary>
+        new IWriteableRootNodeIndex RootIndex { get; }
+
+        /// <summary>
+        /// State of the root node.
+        /// </summary>
+        new IWriteablePlaceholderNodeState RootState { get; }
+
+        /// <summary>
+        /// Called when a state is created.
+        /// </summary>
+        new event Action<IWriteableNodeState> StateCreated;
+
+        /// <summary>
+        /// Called when a state is initialized.
+        /// </summary>
+        new event Action<IWriteableNodeState> StateInitialized;
+
+        /// <summary>
+        /// Called when a state is removed.
+        /// </summary>
+        new event Action<IWriteableNodeState> StateRemoved;
     }
 
     public class WriteableController : ReadOnlyController, IWriteableController
@@ -25,6 +50,55 @@ namespace EaslyController.Writeable
         /// </summary>
         protected WriteableController()
         {
+        }
+        #endregion
+
+        #region Properties
+        /// <summary>
+        /// Index of the root node.
+        /// </summary>
+        public new IWriteableRootNodeIndex RootIndex { get { return (IWriteableRootNodeIndex)base.RootIndex; } }
+
+        /// <summary>
+        /// State of the root node.
+        /// </summary>
+        public new IWriteablePlaceholderNodeState RootState { get { return (IWriteablePlaceholderNodeState)base.RootState; } }
+
+        /// <summary>
+        /// Called when a state is created.
+        /// </summary>
+        public new event Action<IWriteableNodeState> StateCreated;
+
+        /// <summary>
+        /// Called when a state is initialized.
+        /// </summary>
+        public new event Action<IWriteableNodeState> StateInitialized;
+
+        /// <summary>
+        /// Called when a state is removed.
+        /// </summary>
+        public new event Action<IWriteableNodeState> StateRemoved;
+
+        /// <summary>
+        /// State table.
+        /// </summary>
+        protected new IWriteableIndexNodeStateReadOnlyDictionary StateTable { get { return (IWriteableIndexNodeStateReadOnlyDictionary)base.StateTable; } }
+        #endregion
+
+        #region Descendant Interface
+        protected override void NotifyStateCreated(IReadOnlyNodeState state)
+        {
+            StateCreated?.Invoke((IWriteableNodeState)state);
+        }
+
+        protected override void NotifyStateInitialized(IReadOnlyNodeState state)
+        {
+            StateInitialized?.Invoke((IWriteableNodeState)state);
+        }
+
+        protected override void NotifyStateRemoved(IReadOnlyNodeState state)
+        {
+            StateRemoved?.Invoke((IWriteableNodeState)state);
         }
         #endregion
 

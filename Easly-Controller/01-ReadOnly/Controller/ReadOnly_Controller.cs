@@ -22,6 +22,21 @@ namespace EaslyController.ReadOnly
         Stats Stats { get; }
 
         /// <summary>
+        /// Called when a state is created.
+        /// </summary>
+        event Action<IReadOnlyNodeState> StateCreated;
+
+        /// <summary>
+        /// Called when a state is initialized.
+        /// </summary>
+        event Action<IReadOnlyNodeState> StateInitialized;
+
+        /// <summary>
+        /// Called when a state is removed.
+        /// </summary>
+        event Action<IReadOnlyNodeState> StateRemoved;
+
+        /// <summary>
         /// Checks if an index corresponds to a state.
         /// </summary>
         /// <param name="index">The index to check</param>
@@ -39,21 +54,6 @@ namespace EaslyController.ReadOnly
         /// <param name="view">The attaching view.</param>
         /// <param name="callbackSet">The set of callbacks to call when enumerating existing states.</param>
         void Attach(IReadOnlyControllerView view, IReadOnlyAttachCallbackSet callbackSet);
-
-        /// <summary>
-        /// Called when a state is created.
-        /// </summary>
-        event Action<IReadOnlyNodeState> StateCreated;
-
-        /// <summary>
-        /// Called when a state is initialized.
-        /// </summary>
-        event Action<IReadOnlyNodeState> StateInitialized;
-
-        /// <summary>
-        /// Called when a state is removed.
-        /// </summary>
-        event Action<IReadOnlyNodeState> StateRemoved;
     }
 
     public class ReadOnlyController : IReadOnlyController
@@ -101,6 +101,21 @@ namespace EaslyController.ReadOnly
         public Stats Stats { get; }
 
         /// <summary>
+        /// Called when a state is created.
+        /// </summary>
+        public event Action<IReadOnlyNodeState> StateCreated;
+
+        /// <summary>
+        /// Called when a state is initialized.
+        /// </summary>
+        public event Action<IReadOnlyNodeState> StateInitialized;
+
+        /// <summary>
+        /// Called when a state is removed.
+        /// </summary>
+        public event Action<IReadOnlyNodeState> StateRemoved;
+
+        /// <summary>
         /// State table.
         /// </summary>
         protected IReadOnlyIndexNodeStateReadOnlyDictionary StateTable { get; }
@@ -140,31 +155,18 @@ namespace EaslyController.ReadOnly
         {
             RootState.Attach(view, callbackSet);
         }
+        #endregion
 
-        /// <summary>
-        /// Called when a state is created.
-        /// </summary>
-        public event Action<IReadOnlyNodeState> StateCreated;
-
+        #region Descendant Interface
         protected virtual void NotifyStateCreated(IReadOnlyNodeState state)
         {
             StateCreated?.Invoke(state);
         }
 
-        /// <summary>
-        /// Called when a state is initialized.
-        /// </summary>
-        public event Action<IReadOnlyNodeState> StateInitialized;
-
         protected virtual void NotifyStateInitialized(IReadOnlyNodeState state)
         {
             StateInitialized?.Invoke(state);
         }
-
-        /// <summary>
-        /// Called when a state is removed.
-        /// </summary>
-        public event Action<IReadOnlyNodeState> StateRemoved;
 
         protected virtual void NotifyStateRemoved(IReadOnlyNodeState state)
         {

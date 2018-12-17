@@ -7,6 +7,15 @@ namespace EaslyController.Writeable
     /// </summary>
     public interface IWriteableControllerView : IReadOnlyControllerView
     {
+        /// <summary>
+        /// The controller.
+        /// </summary>
+        new IWriteableController Controller { get; }
+
+        /// <summary>
+        /// Table of views of each state in the controller.
+        /// </summary>
+        new IWriteableStateViewDictionary StateViewTable { get; }
     }
 
     /// <summary>
@@ -34,6 +43,18 @@ namespace EaslyController.Writeable
             : base(controller)
         {
         }
+        #endregion
+
+        #region Properties
+        /// <summary>
+        /// The controller.
+        /// </summary>
+        public new IWriteableController Controller { get { return (IWriteableController)base.Controller; } }
+
+        /// <summary>
+        /// Table of views of each state in the controller.
+        /// </summary>
+        public new IWriteableStateViewDictionary StateViewTable { get { return (IWriteableStateViewDictionary)base.StateViewTable; } }
         #endregion
 
         #region Create Methods

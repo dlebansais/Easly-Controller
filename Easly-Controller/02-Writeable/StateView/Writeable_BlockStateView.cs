@@ -7,6 +7,10 @@ namespace EaslyController.Writeable
     /// </summary>
     public interface IWriteableBlockStateView : IReadOnlyBlockStateView
     {
+        /// <summary>
+        /// The block state.
+        /// </summary>
+        new IWriteableBlockState BlockState { get; }
     }
 
     /// <summary>
@@ -23,6 +27,13 @@ namespace EaslyController.Writeable
             : base(blockState)
         {
         }
+        #endregion
+
+        #region Properties
+        /// <summary>
+        /// The block state.
+        /// </summary>
+        public new IWriteableBlockState BlockState { get { return (IWriteableBlockState)base.BlockState; } }
         #endregion
     }
 }

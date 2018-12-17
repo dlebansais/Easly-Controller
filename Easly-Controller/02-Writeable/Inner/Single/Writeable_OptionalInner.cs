@@ -36,6 +36,18 @@ namespace EaslyController.Writeable
         }
         #endregion
 
+        #region Properties
+        /// <summary>
+        /// Parent containing the inner.
+        /// </summary>
+        public new IWriteableNodeState Owner { get { return (IWriteableNodeState)base.Owner; } }
+
+        /// <summary>
+        /// The state of the optional node.
+        /// </summary>
+        public new IWriteableNodeState ChildState { get { return (IWriteableNodeState)base.ChildState; } }
+        #endregion
+
         #region Create Methods
         /// <summary>
         /// Creates a IxxxOptionalNodeState object.

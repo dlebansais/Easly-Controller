@@ -7,6 +7,10 @@ namespace EaslyController.Writeable
     /// </summary>
     public interface IWriteableSourceStateView : IReadOnlySourceStateView, IWriteablePlaceholderNodeStateView
     {
+        /// <summary>
+        /// The pattern state.
+        /// </summary>
+        new IWriteableSourceState State { get; }
     }
 
     /// <summary>
@@ -23,6 +27,15 @@ namespace EaslyController.Writeable
             : base(state)
         {
         }
+        #endregion
+
+        #region Properties
+        /// <summary>
+        /// The pattern state.
+        /// </summary>
+        public new IWriteableSourceState State { get { return (IWriteableSourceState)base.State; } }
+        IWriteableNodeState IWriteableNodeStateView.State { get { return State; } }
+        IWriteablePlaceholderNodeState IWriteablePlaceholderNodeStateView.State { get { return State; } }
         #endregion
     }
 }

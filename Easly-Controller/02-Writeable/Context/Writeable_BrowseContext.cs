@@ -4,6 +4,8 @@ namespace EaslyController.Writeable
 {
     public interface IWriteableBrowseContext : IReadOnlyBrowseContext
     {
+        new IWriteableNodeState State { get; }
+        new IWriteableIndexCollectionReadOnlyList IndexCollectionList { get; }
     }
 
     public class WriteableBrowseContext : ReadOnlyBrowseContext, IWriteableBrowseContext
@@ -17,6 +19,18 @@ namespace EaslyController.Writeable
             : base(state)
         {
         }
+        #endregion
+
+        #region Properties
+        /// <summary>
+        /// State this context is browsing.
+        /// </summary>
+        public new IWriteableNodeState State { get { return (IWriteableNodeState)base.State; } }
+
+        /// <summary>
+        /// List of index collections that have been added during browsing.
+        /// </summary>
+        public new IWriteableIndexCollectionReadOnlyList IndexCollectionList { get { return (IWriteableIndexCollectionReadOnlyList)base.IndexCollectionList; } }
         #endregion
 
         #region Create Methods

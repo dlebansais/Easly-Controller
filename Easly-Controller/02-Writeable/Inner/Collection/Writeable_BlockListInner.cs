@@ -1,5 +1,6 @@
 ﻿using BaseNode;
 using EaslyController.ReadOnly;
+using System;
 
 namespace EaslyController.Writeable
 {
@@ -8,6 +9,20 @@ namespace EaslyController.Writeable
     /// </summary>
     public interface IWriteableBlockListInner : IReadOnlyBlockListInner, IWriteableCollectionInner
     {
+        /// <summary>
+        /// States of blocks in the block list.
+        /// </summary>
+        new IWriteableBlockStateReadOnlyList BlockStateList { get; }
+
+        /// <summary>
+        /// Called when a block state is created.
+        /// </summary>
+        new event Action<IWriteableBlockState> BlockStateCreated;
+
+        /// <summary>
+        /// Called when a block state is removed.
+        /// </summary>
+        new event Action<IWriteableBlockState> BlockStateRemoved;
     }
 
     /// <summary>
@@ -16,6 +31,20 @@ namespace EaslyController.Writeable
     public interface IWriteableBlockListInner<out IIndex> : IReadOnlyBlockListInner<IIndex>, IWriteableCollectionInner<IIndex>
         where IIndex : IWriteableBrowsingBlockNodeIndex
     {
+        /// <summary>
+        /// States of blocks in the block list.
+        /// </summary>
+        new IWriteableBlockStateReadOnlyList BlockStateList { get; }
+
+        /// <summary>
+        /// Called when a block state is created.
+        /// </summary>
+        new event Action<IWriteableBlockState> BlockStateCreated;
+
+        /// <summary>
+        /// Called when a block state is removed.
+        /// </summary>
+        new event Action<IWriteableBlockState> BlockStateRemoved;
     }
 
     /// <summary>
@@ -34,6 +63,45 @@ namespace EaslyController.Writeable
         public WriteableBlockListInner(IWriteableNodeState owner, string propertyName)
             : base(owner, propertyName)
         {
+        }
+        #endregion
+
+        #region Properties
+        /// <summary>
+        /// Parent containing the inner.
+        /// </summary>
+        public new IWriteableNodeState Owner { get { return (IWriteableNodeState)base.Owner; } }
+
+        /// <summary>
+        /// States of blocks in the block list.
+        /// </summary>
+        public new IWriteableBlockStateReadOnlyList BlockStateList { get { return (IWriteableBlockStateReadOnlyList)base.BlockStateList; } }
+
+        /// <summary>
+        /// First node state that can be enumerated in the inner.
+        /// </summary>
+        public new IWriteablePlaceholderNodeState FirstNodeState { get { return (IWriteablePlaceholderNodeState)base.FirstNodeState; } }
+
+        /// <summary>
+        /// Called when a block state is created.
+        /// </summary>
+        public new event Action<IWriteableBlockState> BlockStateCreated;
+
+        /// <summary>
+        /// Called when a block state is removed.
+        /// </summary>
+        public new event Action<IWriteableBlockState> BlockStateRemoved;
+        #endregion
+
+        #region Descendant Interface
+        protected override void NotifyBlockStateCreated(IReadOnlyBlockState blockState)
+        {
+            BlockStateCreated?.Invoke((IWriteableBlockState)blockState);
+        }
+
+        protected override void NotifyBlockStateRemoved(IReadOnlyBlockState blockState)
+        {
+            BlockStateRemoved?.Invoke((IWriteableBlockState)blockState);
         }
         #endregion
 

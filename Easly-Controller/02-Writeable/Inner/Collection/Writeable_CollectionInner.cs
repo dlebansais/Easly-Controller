@@ -7,6 +7,10 @@ namespace EaslyController.Writeable
     /// </summary>
     public interface IWriteableCollectionInner : IReadOnlyCollectionInner, IWriteableInner
     {
+        /// <summary>
+        /// First node state that can be enumerated in the inner.
+        /// </summary>
+        new IWriteablePlaceholderNodeState FirstNodeState { get; }
     }
 
     /// <summary>
@@ -15,6 +19,10 @@ namespace EaslyController.Writeable
     public interface IWriteableCollectionInner<out IIndex> : IReadOnlyCollectionInner<IIndex>, IWriteableInner<IIndex>
         where IIndex : IWriteableBrowsingCollectionNodeIndex
     {
+        /// <summary>
+        /// First node state that can be enumerated in the inner.
+        /// </summary>
+        new IWriteablePlaceholderNodeState FirstNodeState { get; }
     }
 
     /// <summary>
@@ -34,6 +42,18 @@ namespace EaslyController.Writeable
             : base(owner, propertyName)
         {
         }
+        #endregion
+
+        #region Properties
+        /// <summary>
+        /// Parent containing the inner.
+        /// </summary>
+        public new IWriteableNodeState Owner { get { return (IWriteableNodeState)base.Owner; } }
+
+        /// <summary>
+        /// First node state that can be enumerated in the inner.
+        /// </summary>
+        public new IWriteablePlaceholderNodeState FirstNodeState { get { return (IWriteablePlaceholderNodeState)base.FirstNodeState; } }
         #endregion
     }
 }
