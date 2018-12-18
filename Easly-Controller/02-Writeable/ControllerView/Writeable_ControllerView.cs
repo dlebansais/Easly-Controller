@@ -63,8 +63,8 @@ namespace EaslyController.Writeable
         /// </summary>
         protected override IReadOnlyStateViewDictionary CreateStateViewTable()
         {
-            ControllerTools.AssertNoOverride(this, typeof(ReadOnlyControllerView));
-            return new ReadOnlyStateViewDictionary();
+            ControllerTools.AssertNoOverride(this, typeof(WriteableControllerView));
+            return new WriteableStateViewDictionary();
         }
 
         /// <summary>
@@ -72,8 +72,8 @@ namespace EaslyController.Writeable
         /// </summary>
         protected override IReadOnlyAttachCallbackSet CreateCallbackSet()
         {
-            ControllerTools.AssertNoOverride(this, typeof(ReadOnlyControllerView));
-            return new ReadOnlyAttachCallbackSet()
+            ControllerTools.AssertNoOverride(this, typeof(WriteableControllerView));
+            return new WriteableAttachCallbackSet()
             {
                 NodeStateAttachedHandler = OnNodeStateCreated,
                 BlockListInnerAttachedHandler = OnBlockListInnerCreated,

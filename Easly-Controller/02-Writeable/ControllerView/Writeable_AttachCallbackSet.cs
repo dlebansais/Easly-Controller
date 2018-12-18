@@ -19,9 +19,9 @@ namespace EaslyController.Writeable
     public class WriteableAttachCallbackSet : ReadOnlyAttachCallbackSet, IWriteableAttachCallbackSet
     {
         #region Properties
-        public new Action<IWriteableNodeState> NodeStateAttachedHandler { get { return base.NodeStateAttachedHandler; } set { NodeStateAttachedHandler = value; } }
-        public new Action<IWriteableBlockListInner> BlockListInnerAttachedHandler { get { return base.BlockListInnerAttachedHandler; } set { BlockListInnerAttachedHandler = value; } }
-        public new Action<IWriteableBlockState> BlockStateAttachedHandler { get { return base.BlockStateAttachedHandler; } set { BlockStateAttachedHandler = value; } }
+        public new Action<IWriteableNodeState> NodeStateAttachedHandler { get { return base.NodeStateAttachedHandler; } set { base.NodeStateAttachedHandler = (Action<IReadOnlyNodeState>)value; } }
+        public new Action<IWriteableBlockListInner> BlockListInnerAttachedHandler { get { return base.BlockListInnerAttachedHandler; } set { base.BlockListInnerAttachedHandler = (Action<IReadOnlyBlockListInner>)value; } }
+        public new Action<IWriteableBlockState> BlockStateAttachedHandler { get { return base.BlockStateAttachedHandler; } set { base.BlockStateAttachedHandler = (Action<IReadOnlyBlockState>)value; } }
         #endregion
     }
 }

@@ -141,6 +141,9 @@ namespace TestDebug
 
             WriteableInsertionExistingBlockNodeIndex InsertIndex1 = new WriteableInsertionExistingBlockNodeIndex(rootNode, SecondNode, nameof(IClass.ConversionBlocks), 0, 1);
             Controller.Insert(Inner, InsertIndex1);
+
+            Debug.Assert(ControllerView.StateViewTable.Count == Controller.Stats.NodeCount);
+            
         }
     }
 }

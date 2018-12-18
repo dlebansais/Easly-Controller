@@ -91,17 +91,29 @@ namespace EaslyController.Writeable
         /// <summary>
         /// Called when a state is created.
         /// </summary>
-        public new event Action<IWriteableNodeState> StateCreated;
+        public new event Action<IWriteableNodeState> StateCreated
+        {
+            add { AddStateCreatedDelegate((Action<IReadOnlyNodeState>)value); }
+            remove { RemoveStateCreatedDelegate((Action<IReadOnlyNodeState>)value); }
+        }
 
         /// <summary>
         /// Called when a state is initialized.
         /// </summary>
-        public new event Action<IWriteableNodeState> StateInitialized;
+        public new event Action<IWriteableNodeState> StateInitialized
+        {
+            add { AddStateInitializedDelegate((Action<IReadOnlyNodeState>)value); }
+            remove { RemoveStateInitializedDelegate((Action<IReadOnlyNodeState>)value); }
+        }
 
         /// <summary>
         /// Called when a state is removed.
         /// </summary>
-        public new event Action<IWriteableNodeState> StateRemoved;
+        public new event Action<IWriteableNodeState> StateRemoved
+        {
+            add { AddStateRemovedDelegate((Action<IReadOnlyNodeState>)value); }
+            remove { RemoveStateRemovedDelegate((Action<IReadOnlyNodeState>)value); }
+        }
 
         /// <summary>
         /// State table.
@@ -129,23 +141,6 @@ namespace EaslyController.Writeable
 
             AddState(BrowsingIndex, ChildState);
             BuildStateTable(inner, null, BrowsingIndex, ChildState);
-        }
-        #endregion
-
-        #region Descendant Interface
-        protected override void NotifyStateCreated(IReadOnlyNodeState state)
-        {
-            StateCreated?.Invoke((IWriteableNodeState)state);
-        }
-
-        protected override void NotifyStateInitialized(IReadOnlyNodeState state)
-        {
-            StateInitialized?.Invoke((IWriteableNodeState)state);
-        }
-
-        protected override void NotifyStateRemoved(IReadOnlyNodeState state)
-        {
-            StateRemoved?.Invoke((IWriteableNodeState)state);
         }
         #endregion
 

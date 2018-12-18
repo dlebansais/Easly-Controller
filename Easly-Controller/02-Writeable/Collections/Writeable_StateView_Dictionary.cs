@@ -9,6 +9,7 @@ namespace EaslyController.Writeable
     /// </summary>
     public interface IWriteableStateViewDictionary : IReadOnlyStateViewDictionary, IDictionary<IWriteableNodeState, IWriteableNodeStateView>
     {
+        new int Count { get; }
     }
 
     /// <summary>

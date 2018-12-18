@@ -19,6 +19,7 @@ namespace EaslyController
             Debug.Assert(callerType.IsAssignableFrom(thisType));
 
             AssertExpectedName(thisType);
+            AssertExpectedName(callerType);
         }
 
         public static void AssertExpectedName(Type thisType)

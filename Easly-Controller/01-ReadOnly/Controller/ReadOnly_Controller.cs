@@ -103,17 +103,38 @@ namespace EaslyController.ReadOnly
         /// <summary>
         /// Called when a state is created.
         /// </summary>
-        public event Action<IReadOnlyNodeState> StateCreated;
+        public event Action<IReadOnlyNodeState> StateCreated
+        {
+            add { AddStateCreatedDelegate(value); }
+            remove { RemoveStateCreatedDelegate(value); }
+        }
+        protected Action<IReadOnlyNodeState> StateCreatedHandler;
+        protected virtual void AddStateCreatedDelegate(Action<IReadOnlyNodeState> handler) { StateCreatedHandler += handler; }
+        protected virtual void RemoveStateCreatedDelegate(Action<IReadOnlyNodeState> handler) { StateCreatedHandler -= handler; }
 
         /// <summary>
         /// Called when a state is initialized.
         /// </summary>
-        public event Action<IReadOnlyNodeState> StateInitialized;
+        public event Action<IReadOnlyNodeState> StateInitialized
+        {
+            add { AddStateInitializedDelegate(value); }
+            remove { RemoveStateInitializedDelegate(value); }
+        }
+        protected Action<IReadOnlyNodeState> StateInitializedHandler;
+        protected virtual void AddStateInitializedDelegate(Action<IReadOnlyNodeState> handler) { StateInitializedHandler += handler; }
+        protected virtual void RemoveStateInitializedDelegate(Action<IReadOnlyNodeState> handler) { StateInitializedHandler -= handler; }
 
         /// <summary>
         /// Called when a state is removed.
         /// </summary>
-        public event Action<IReadOnlyNodeState> StateRemoved;
+        public event Action<IReadOnlyNodeState> StateRemoved
+        {
+            add { AddStateRemovedDelegate(value); }
+            remove { RemoveStateRemovedDelegate(value); }
+        }
+        protected Action<IReadOnlyNodeState> StateRemovedHandler;
+        protected virtual void AddStateRemovedDelegate(Action<IReadOnlyNodeState> handler) { StateRemovedHandler += handler; }
+        protected virtual void RemoveStateRemovedDelegate(Action<IReadOnlyNodeState> handler) { StateRemovedHandler -= handler; }
 
         /// <summary>
         /// State table.
@@ -160,17 +181,17 @@ namespace EaslyController.ReadOnly
         #region Descendant Interface
         protected virtual void NotifyStateCreated(IReadOnlyNodeState state)
         {
-            StateCreated?.Invoke(state);
+            StateCreatedHandler?.Invoke(state);
         }
 
         protected virtual void NotifyStateInitialized(IReadOnlyNodeState state)
         {
-            StateInitialized?.Invoke(state);
+            StateInitializedHandler?.Invoke(state);
         }
 
         protected virtual void NotifyStateRemoved(IReadOnlyNodeState state)
         {
-            StateRemoved?.Invoke(state);
+            StateRemovedHandler?.Invoke(state);
         }
         #endregion
 
