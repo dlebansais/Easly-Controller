@@ -8,9 +8,6 @@ namespace EaslyController.Writeable
     /// </summary>
     public interface IWriteableAttachCallbackSet : IReadOnlyAttachCallbackSet
     {
-        new Action<IWriteableNodeState> NodeStateAttachedHandler { get; set; }
-        new Action<IWriteableBlockListInner> BlockListInnerAttachedHandler { get; set; }
-        new Action<IWriteableBlockState> BlockStateAttachedHandler { get; set; }
     }
 
     /// <summary>
@@ -19,9 +16,26 @@ namespace EaslyController.Writeable
     public class WriteableAttachCallbackSet : ReadOnlyAttachCallbackSet, IWriteableAttachCallbackSet
     {
         #region Properties
-        public new Action<IWriteableNodeState> NodeStateAttachedHandler { get { return base.NodeStateAttachedHandler; } set { base.NodeStateAttachedHandler = (Action<IReadOnlyNodeState>)value; } }
-        public new Action<IWriteableBlockListInner> BlockListInnerAttachedHandler { get { return base.BlockListInnerAttachedHandler; } set { base.BlockListInnerAttachedHandler = (Action<IReadOnlyBlockListInner>)value; } }
-        public new Action<IWriteableBlockState> BlockStateAttachedHandler { get { return base.BlockStateAttachedHandler; } set { base.BlockStateAttachedHandler = (Action<IReadOnlyBlockState>)value; } }
+        public new Action<IWriteableNodeState> NodeStateAttachedHandler { get; set; }
+        public new Action<IWriteableBlockListInner> BlockListInnerAttachedHandler { get; set; }
+        public new Action<IWriteableBlockState> BlockStateAttachedHandler { get; set; }
+        #endregion
+
+        #region Client Interface
+        public override void OnNodeStateAttached(IReadOnlyNodeState state)
+        {
+            NodeStateAttachedHandler((IWriteableNodeState)state);
+        }
+
+        public override void OnBlockListInnerAttached(IReadOnlyBlockListInner inner)
+        {
+            BlockListInnerAttachedHandler((IWriteableBlockListInner)inner);
+        }
+
+        public override void OnBlockStateAttached(IReadOnlyBlockState blockState)
+        {
+            BlockStateAttachedHandler((IWriteableBlockState)blockState);
+        }
         #endregion
     }
 }

@@ -410,7 +410,7 @@ namespace EaslyController.ReadOnly
         /// <param name="callbackSet">The set of callbacks to call when enumerating existing states.</param>
         public virtual void Attach(IReadOnlyControllerView view, IReadOnlyAttachCallbackSet callbackSet)
         {
-            callbackSet.NodeStateAttachedHandler(this);
+            callbackSet.OnNodeStateAttached(this);
 
             foreach (KeyValuePair<string, IReadOnlyInner<IReadOnlyBrowsingChildIndex>> Entry in InnerTable)
             {

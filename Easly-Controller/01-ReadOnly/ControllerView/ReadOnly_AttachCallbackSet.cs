@@ -7,9 +7,9 @@ namespace EaslyController.ReadOnly
     /// </summary>
     public interface IReadOnlyAttachCallbackSet
     {
-        Action<IReadOnlyNodeState> NodeStateAttachedHandler { get; }
-        Action<IReadOnlyBlockListInner> BlockListInnerAttachedHandler { get; }
-        Action<IReadOnlyBlockState> BlockStateAttachedHandler { get; }
+        void OnNodeStateAttached(IReadOnlyNodeState state);
+        void OnBlockListInnerAttached(IReadOnlyBlockListInner inner);
+        void OnBlockStateAttached(IReadOnlyBlockState blockState);
     }
 
     /// <summary>
@@ -21,6 +21,23 @@ namespace EaslyController.ReadOnly
         public Action<IReadOnlyNodeState> NodeStateAttachedHandler { get; set; }
         public Action<IReadOnlyBlockListInner> BlockListInnerAttachedHandler { get; set; }
         public Action<IReadOnlyBlockState> BlockStateAttachedHandler { get; set; }
+        #endregion
+
+        #region Client Interface
+        public virtual void OnNodeStateAttached(IReadOnlyNodeState state)
+        {
+            NodeStateAttachedHandler(state);
+        }
+
+        public virtual void OnBlockListInnerAttached(IReadOnlyBlockListInner inner)
+        {
+            BlockListInnerAttachedHandler(inner);
+        }
+
+        public virtual void OnBlockStateAttached(IReadOnlyBlockState blockState)
+        {
+            BlockStateAttachedHandler(blockState);
+        }
         #endregion
     }
 }

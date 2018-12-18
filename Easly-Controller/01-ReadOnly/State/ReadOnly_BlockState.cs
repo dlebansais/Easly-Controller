@@ -262,7 +262,7 @@ namespace EaslyController.ReadOnly
         /// <param name="callbackSet">The set of callbacks to call when enumerating existing states.</param>
         public virtual void Attach(IReadOnlyControllerView view, IReadOnlyAttachCallbackSet callbackSet)
         {
-            callbackSet.BlockStateAttachedHandler(this);
+            callbackSet.OnBlockStateAttached(this);
 
             PatternState.Attach(view, callbackSet);
             SourceState.Attach(view, callbackSet);
