@@ -11,6 +11,7 @@ namespace EaslyController.Writeable
     {
         new IWriteableInner<IWriteableBrowsingChildIndex> this[TKey key] { get; }
         new IEnumerator<KeyValuePair<TKey, IWriteableInner<IWriteableBrowsingChildIndex>>> GetEnumerator();
+        new bool ContainsKey(TKey key);
     }
 
     /// <summary>

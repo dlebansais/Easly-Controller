@@ -16,7 +16,7 @@ namespace TestDebug
         #region Init
         static void Main(string[] args)
         {
-            INode RootNode;
+            IClass RootNode;
             Serializer Serializer = new Serializer();
 
             string CurrentDirectory = Environment.CurrentDirectory;
@@ -31,7 +31,7 @@ namespace TestDebug
 
             using (FileStream fs = new FileStream(Path.Combine(CurrentDirectory, "Test/test.easly"), FileMode.Open, FileAccess.Read))
             {
-                RootNode = Serializer.Deserialize(fs) as INode;
+                RootNode = Serializer.Deserialize(fs) as IClass;
             }
 
             TestReadOnly(RootNode);
@@ -105,7 +105,7 @@ namespace TestDebug
             IReadOnlyControllerView ControllerView = ReadOnlyControllerView.Create(Controller);
         }
 
-        static void TestWriteable(INode rootNode)
+        static void TestWriteable(IClass rootNode)
         {
             ControllerTools.ResetExpectedName();
 
@@ -125,6 +125,22 @@ namespace TestDebug
             Debug.Assert(h1 == h2);
 
             IWriteableControllerView ControllerView = WriteableControllerView.Create(Controller);
+
+            IWriteableNodeState RootState = Controller.RootState;
+            IWriteableInnerReadOnlyDictionary<string> InnerTable = RootState.InnerTable;
+            IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> Inner = (IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex>)InnerTable[nameof(IClass.ConversionBlocks)];
+
+            IPattern PatternNode = NodeHelper.CreateEmptyPattern();
+            IIdentifier SourceNode = NodeHelper.CreateEmptyIdentifier();
+            IIdentifier FirstNode = NodeHelper.CreateEmptyIdentifier();
+
+            WriteableInsertionNewBlockNodeIndex InsertIndex0 = new WriteableInsertionNewBlockNodeIndex(rootNode, FirstNode, nameof(IClass.ConversionBlocks), 0, PatternNode, SourceNode);
+            Controller.Insert(Inner, InsertIndex0);
+
+            IIdentifier SecondNode = NodeHelper.CreateEmptyIdentifier();
+
+            WriteableInsertionExistingBlockNodeIndex InsertIndex1 = new WriteableInsertionExistingBlockNodeIndex(rootNode, SecondNode, nameof(IClass.ConversionBlocks), 0, 1);
+            Controller.Insert(Inner, InsertIndex1);
         }
     }
 }

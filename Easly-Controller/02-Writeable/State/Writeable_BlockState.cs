@@ -1,5 +1,7 @@
 ﻿using BaseNode;
+using BaseNodeHelper;
 using EaslyController.ReadOnly;
+using System.Diagnostics;
 
 namespace EaslyController.Writeable
 {
@@ -42,6 +44,14 @@ namespace EaslyController.Writeable
         /// States for nodes in the block.
         /// </summary>
         new IWriteablePlaceholderNodeStateReadOnlyList StateList { get; }
+
+        /// <summary>
+        /// Inserts a new node in a list or block list.
+        /// </summary>
+        /// <param name="nodeIndex">Index of the node to insert.</param>
+        /// <param name="childState">Node state.</param>
+        /// <param name="index">Position of the inserted node in the list.</param>
+        void Insert(IWriteableBrowsingCollectionNodeIndex nodeIndex, IReadOnlyPlaceholderNodeState childState, int index);
     }
 
     /// <summary>
@@ -97,6 +107,22 @@ namespace EaslyController.Writeable
         /// States for nodes in the block.
         /// </summary>
         public new IWriteablePlaceholderNodeStateReadOnlyList StateList { get { return (IWriteablePlaceholderNodeStateReadOnlyList)base.StateList; } }
+        #endregion
+
+        #region Client Interface
+        /// <summary>
+        /// Inserts a new node in a list or block list.
+        /// </summary>
+        /// <param name="nodeIndex">Index of the node to insert.</param>
+        /// <param name="childState">Node state.</param>
+        /// <param name="index">Position of the inserted node in the list.</param>
+        public virtual void Insert(IWriteableBrowsingCollectionNodeIndex nodeIndex, IReadOnlyPlaceholderNodeState childState, int index)
+        {
+            Debug.Assert(nodeIndex != null);
+            Debug.Assert(index >= 0 && index <= StateList.Count);
+
+            InsertState(index, childState);
+        }
         #endregion
 
         #region Create Methods

@@ -41,8 +41,8 @@ namespace EaslyController.Writeable
             Debug.Assert(node != null);
             Debug.Assert(!string.IsNullOrEmpty(propertyName));
             Debug.Assert(blockIndex >= 0);
-            Debug.Assert(index > 0);
-            Debug.Assert(NodeTreeHelper.IsBlockChildNode(parentNode, propertyName, blockIndex, index, node));
+            Debug.Assert(index >= 0); // You can insert at position 0, contrary to a browsing index that only supports positions other than 0.
+            Debug.Assert(NodeTreeHelper.GetLastBlockChildIndex(parentNode, propertyName, blockIndex, out int LastIndex) && index <= LastIndex);
 
             BlockIndex = blockIndex;
             Index = index;
@@ -59,6 +59,18 @@ namespace EaslyController.Writeable
         /// Position of the node in the block.
         /// </summary>
         public int Index { get; }
+        #endregion
+
+        #region Client Interface
+        /// <summary>
+        /// Creates a browsing index from an insertion index.
+        /// To call after the insertion operation has been completed.
+        /// </summary>
+        /// <param name="parentNode">The node in which the insertion operation is taking place.</param>
+        public override IWriteableBrowsingCollectionNodeIndex ToBrowsingIndex(INode parentNode)
+        {
+            return new WriteableBrowsingExistingBlockNodeIndex(parentNode, Node, PropertyName, BlockIndex, Index);
+        }
         #endregion
     }
 }

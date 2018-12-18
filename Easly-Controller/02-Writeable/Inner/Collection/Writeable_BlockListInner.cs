@@ -25,12 +25,6 @@ namespace EaslyController.Writeable
         /// Called when a block state is removed.
         /// </summary>
         new event Action<IWriteableBlockState> BlockStateRemoved;
-
-        /// <summary>
-        /// Inserts a new block in the block list.
-        /// </summary>
-        /// <param name="newBlockIndex"></param>
-        void InsertBlock(IWriteableInsertionNewBlockNodeIndex newBlockIndex);
     }
 
     /// <summary>
@@ -53,12 +47,6 @@ namespace EaslyController.Writeable
         /// Called when a block state is removed.
         /// </summary>
         new event Action<IWriteableBlockState> BlockStateRemoved;
-
-        /// <summary>
-        /// Inserts a new block in the block list.
-        /// </summary>
-        /// <param name="newBlockIndex"></param>
-        void InsertBlock(IWriteableInsertionNewBlockNodeIndex newBlockIndex);
     }
 
     /// <summary>
@@ -109,19 +97,69 @@ namespace EaslyController.Writeable
 
         #region Client Interface
         /// <summary>
-        /// Inserts a new block in the block list.
+        /// Inserts a new node in a list or block list.
         /// </summary>
-        /// <param name="newBlockIndex"></param>
-        public void InsertBlock(IWriteableInsertionNewBlockNodeIndex newBlockIndex)
+        /// <param name="nodeIndex">Index of the node to insert.</param>
+        /// <param name="browsingIndex">Index of the inserted node upon return.</param>
+        /// <param name="childState">The inserted node state upon return.</param>
+        public virtual void Insert(IWriteableInsertionCollectionNodeIndex nodeIndex, out IWriteableBrowsingCollectionNodeIndex browsingIndex, out IWriteablePlaceholderNodeState childState)
+        {
+            Debug.Assert(nodeIndex != null);
+
+            switch (nodeIndex)
+            {
+                case IWriteableInsertionNewBlockNodeIndex AsNewBlockIndex:
+                    InsertNew(AsNewBlockIndex, out browsingIndex, out childState);
+                    break;
+
+                case IWriteableInsertionExistingBlockNodeIndex AsExistingBlockIndex:
+                    InsertExisting(AsExistingBlockIndex, out browsingIndex, out childState);
+                    break;
+
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(nodeIndex));
+            }
+        }
+
+        protected virtual void InsertNew(IWriteableInsertionNewBlockNodeIndex newBlockIndex, out IWriteableBrowsingCollectionNodeIndex browsingIndex, out IWriteablePlaceholderNodeState childState)
         {
             Debug.Assert(newBlockIndex != null);
+            Debug.Assert(newBlockIndex.BlockIndex >= 0);
             Debug.Assert(newBlockIndex.BlockIndex <= BlockStateList.Count);
 
-            IWriteableNodeState ParentState = Owner;
-            NodeTreeHelper.InsertIntoBlockList(ParentState.Node, PropertyName, newBlockIndex.BlockIndex, ReplicationStatus.Normal, newBlockIndex.PatternNode, newBlockIndex.SourceNode, out IBlock ChildBlock);
+            INode ParentNode = Owner.Node;
+            NodeTreeHelper.InsertIntoBlockList(ParentNode, PropertyName, newBlockIndex.BlockIndex, ReplicationStatus.Normal, newBlockIndex.PatternNode, newBlockIndex.SourceNode, out IBlock ChildBlock);
+            NodeTreeHelper.InsertIntoBlock(ChildBlock, 0, newBlockIndex.Node);
 
-            IReadOnlyBlockState BlockState = CreateBlockState(newBlockIndex, ChildBlock);
-            InsertInBlockStateList(BlockIndex, BlockState);
+            IWriteableBrowsingNewBlockNodeIndex BrowsingNewBlockIndex = (IWriteableBrowsingNewBlockNodeIndex)newBlockIndex.ToBrowsingIndex(ParentNode);
+            browsingIndex = BrowsingNewBlockIndex;
+
+            IWriteableBlockState BlockState = (IWriteableBlockState)CreateBlockState(BrowsingNewBlockIndex, ChildBlock);
+            InsertInBlockStateList(newBlockIndex.BlockIndex, BlockState);
+
+            childState = (IWriteablePlaceholderNodeState)CreateNodeState(BrowsingNewBlockIndex);
+            BlockState.Insert(BrowsingNewBlockIndex, childState, 0);
+        }
+
+        protected virtual void InsertExisting(IWriteableInsertionExistingBlockNodeIndex existingBlockIndex, out IWriteableBrowsingCollectionNodeIndex browsingIndex, out IWriteablePlaceholderNodeState childState)
+        {
+            Debug.Assert(existingBlockIndex != null);
+            Debug.Assert(existingBlockIndex.BlockIndex < BlockStateList.Count);
+
+            IWriteableBlockState BlockState = BlockStateList[existingBlockIndex.BlockIndex];
+
+            Debug.Assert(existingBlockIndex.Index <= BlockState.StateList.Count);
+
+            INode ParentNode = Owner.Node;
+            IBlock ChildBlock = BlockState.ChildBlock;
+
+            NodeTreeHelper.InsertIntoBlock(ChildBlock, existingBlockIndex.Index, existingBlockIndex.Node);
+
+            IWriteableBrowsingExistingBlockNodeIndex BrowsingExistingBlockIndex = (IWriteableBrowsingExistingBlockNodeIndex)existingBlockIndex.ToBrowsingIndex(Owner.Node);
+            browsingIndex = BrowsingExistingBlockIndex;
+
+            childState = (IWriteablePlaceholderNodeState)CreateNodeState(BrowsingExistingBlockIndex);
+            BlockState.Insert(BrowsingExistingBlockIndex, childState, BrowsingExistingBlockIndex.Index);
         }
         #endregion
 

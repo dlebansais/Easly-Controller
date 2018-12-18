@@ -8,6 +8,12 @@ namespace EaslyController.Writeable
     /// </summary>
     public interface IWriteableInsertionCollectionNodeIndex : IWriteableInsertionChildIndex, IWriteableNodeIndex
     {
+        /// <summary>
+        /// Creates a browsing index from an insertion index.
+        /// To call after the insertion operation has been completed.
+        /// </summary>
+        /// <param name="parentNode">The node in which the insertion operation is taking place.</param>
+        IWriteableBrowsingCollectionNodeIndex ToBrowsingIndex(INode parentNode);
     }
 
     /// <summary>
@@ -41,6 +47,15 @@ namespace EaslyController.Writeable
         /// Property indexed for <see cref="Node"/>.
         /// </summary>
         public string PropertyName { get; }
+        #endregion
+
+        #region Client Interface
+        /// <summary>
+        /// Creates a browsing index from an insertion index.
+        /// To call after the insertion operation has been completed.
+        /// </summary>
+        /// <param name="parentNode">The node in which the insertion operation is taking place.</param>
+        public abstract IWriteableBrowsingCollectionNodeIndex ToBrowsingIndex(INode parentNode);
         #endregion
     }
 }

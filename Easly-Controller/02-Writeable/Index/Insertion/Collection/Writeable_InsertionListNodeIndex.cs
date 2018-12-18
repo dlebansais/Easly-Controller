@@ -45,5 +45,17 @@ namespace EaslyController.Writeable
         /// </summary>
         public int Index { get; }
         #endregion
+
+        #region Client Interface
+        /// <summary>
+        /// Creates a browsing index from an insertion index.
+        /// To call after the insertion operation has been completed.
+        /// </summary>
+        /// <param name="parentNode">The node in which the insertion operation is taking place.</param>
+        public override IWriteableBrowsingCollectionNodeIndex ToBrowsingIndex(INode parentNode)
+        {
+            return new WriteableBrowsingListNodeIndex(parentNode, Node, PropertyName, Index);
+        }
+        #endregion
     }
 }

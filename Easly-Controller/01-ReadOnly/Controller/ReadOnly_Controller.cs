@@ -220,7 +220,7 @@ namespace EaslyController.ReadOnly
 
         protected virtual void BuildStateTable(IReadOnlyInner<IReadOnlyBrowsingChildIndex> parentInner, IReadOnlyBrowseContext parentBrowseContext, IReadOnlyIndex nodeIndex, IReadOnlyNodeState state)
         {
-            Debug.Assert((parentInner == null && parentBrowseContext == null) || (parentInner != null && parentBrowseContext != null));
+            Debug.Assert((parentBrowseContext == null) || (parentBrowseContext != null && parentInner != null));
             Debug.Assert(nodeIndex != null);
             Debug.Assert(state != null);
             Debug.Assert(Contains(nodeIndex));

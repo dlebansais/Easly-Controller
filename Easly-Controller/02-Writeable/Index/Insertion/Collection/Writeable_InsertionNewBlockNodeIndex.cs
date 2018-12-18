@@ -47,11 +47,9 @@ namespace EaslyController.Writeable
             Debug.Assert(node != null);
             Debug.Assert(!string.IsNullOrEmpty(propertyName));
             Debug.Assert(blockIndex >= 0);
+            Debug.Assert(NodeTreeHelper.GetLastBlockIndex(parentNode, propertyName, out int LastBlockIndex) && blockIndex <= LastBlockIndex);
             Debug.Assert(patternNode != null);
             Debug.Assert(sourceNode != null);
-            Debug.Assert(NodeTreeHelper.IsBlockChildNode(parentNode, propertyName, blockIndex, 0, node));
-            Debug.Assert(NodeTreeHelper.IsBlockPatternNode(parentNode, propertyName, blockIndex, patternNode));
-            Debug.Assert(NodeTreeHelper.IsBlockSourceNode(parentNode, propertyName, blockIndex, sourceNode));
 
             BlockIndex = blockIndex;
             PatternNode = patternNode;
@@ -74,6 +72,18 @@ namespace EaslyController.Writeable
         /// Source identifier in the block.
         /// </summary>
         public IIdentifier SourceNode { get; }
+        #endregion
+
+        #region Client Interface
+        /// <summary>
+        /// Creates a browsing index from an insertion index.
+        /// To call after the insertion operation has been completed.
+        /// </summary>
+        /// <param name="parentNode">The node in which the insertion operation is taking place.</param>
+        public override IWriteableBrowsingCollectionNodeIndex ToBrowsingIndex(INode parentNode)
+        {
+            return new WriteableBrowsingNewBlockNodeIndex(parentNode, Node, PropertyName, BlockIndex, PatternNode, SourceNode);
+        }
         #endregion
     }
 }

@@ -1,4 +1,8 @@
-﻿using EaslyController.ReadOnly;
+﻿using BaseNode;
+using BaseNodeHelper;
+using EaslyController.ReadOnly;
+using System;
+using System.Diagnostics;
 
 namespace EaslyController.Writeable
 {
@@ -59,6 +63,39 @@ namespace EaslyController.Writeable
         /// First node state that can be enumerated in the inner.
         /// </summary>
         public new IWriteablePlaceholderNodeState FirstNodeState { get { return (IWriteablePlaceholderNodeState)base.FirstNodeState; } }
+        #endregion
+
+        #region Client Interface
+        /// <summary>
+        /// Inserts a new node in a list or block list.
+        /// </summary>
+        /// <param name="nodeIndex">Index of the node to insert.</param>
+        /// <param name="browsingIndex">Index of the inserted node upon return.</param>
+        /// <param name="childState">The inserted node state upon return.</param>
+        public virtual void Insert(IWriteableInsertionCollectionNodeIndex nodeIndex, out IWriteableBrowsingCollectionNodeIndex browsingIndex, out IWriteablePlaceholderNodeState childState)
+        {
+            Debug.Assert(nodeIndex != null);
+
+            if (nodeIndex is IWriteableInsertionListNodeIndex AsListIndex)
+                Insert(AsListIndex, out browsingIndex, out childState);
+            else
+                throw new ArgumentOutOfRangeException(nameof(nodeIndex));
+        }
+
+        protected virtual void Insert(IWriteableInsertionListNodeIndex listIndex, out IWriteableBrowsingCollectionNodeIndex browsingIndex, out IWriteablePlaceholderNodeState childState)
+        {
+            Debug.Assert(listIndex != null);
+            Debug.Assert(listIndex.Index >= 0 && listIndex.Index < StateList.Count);
+
+            INode ParentNode = Owner.Node;
+            NodeTreeHelper.InsertIntoList(ParentNode, PropertyName, listIndex.Index, listIndex.Node);
+
+            IWriteableBrowsingListNodeIndex BrowsingListIndex = (IWriteableBrowsingListNodeIndex)listIndex.ToBrowsingIndex(ParentNode);
+            browsingIndex = BrowsingListIndex;
+
+            childState = (IWriteablePlaceholderNodeState)CreateNodeState(BrowsingListIndex);
+            InsertInStateList(listIndex.Index, childState);
+        }
         #endregion
 
         #region Create Methods

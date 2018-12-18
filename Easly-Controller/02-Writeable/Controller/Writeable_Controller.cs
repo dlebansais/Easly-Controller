@@ -37,7 +37,7 @@ namespace EaslyController.Writeable
         /// </summary>
         /// <param name="inner">The inner for the list or block list where the node is inserted.</param>
         /// <param name="nodeIndex">Index for the inserted node.</param>
-        void Insert(IWriteableCollectionInner inner, IWriteableInsertionChildIndex nodeIndex);
+        void Insert(IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> inner, IWriteableInsertionCollectionNodeIndex nodeIndex);
 
         /// <summary>
         /// Removes a node from a list of block list.
@@ -115,7 +115,7 @@ namespace EaslyController.Writeable
         /// </summary>
         /// <param name="inner">The inner for the list or block list where the node is inserted.</param>
         /// <param name="nodeIndex">Index for the inserted node.</param>
-        public void Insert(IWriteableCollectionInner inner, IWriteableInsertionChildIndex nodeIndex)
+        public void Insert(IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> inner, IWriteableInsertionCollectionNodeIndex nodeIndex)
         {
             IWriteableNodeState Owner = inner.Owner;
             IWriteableIndex ParentIndex = Owner.ParentIndex;
@@ -125,16 +125,10 @@ namespace EaslyController.Writeable
             Debug.Assert(InnerTable.ContainsKey(inner.PropertyName));
             Debug.Assert(InnerTable[inner.PropertyName] == inner);
 
-            if ((inner is IWriteableBlockListInner AsBlockListInner) && (nodeIndex is IWriteableInsertionNewBlockNodeIndex AsNewBlockIndex))
-                AsBlockListInner.InsertBlock(AsNewBlockIndex);
+            inner.Insert(nodeIndex, out IWriteableBrowsingCollectionNodeIndex BrowsingIndex, out IWriteablePlaceholderNodeState ChildState);
 
-            IWriteableNodeState ChildState = (IWriteableNodeState)CreateNodeState(nodeIndex);
-
-            AddState(ChildState);
-            inner.Insert(nodeIndex, ChildState);
-
-            IWriteableNodeState NewState = CreateAndInsertState(inner, nodeIndex);
-            BuildStateTable(inner, null, nodeIndex, NewState, isEnumerating: false);
+            AddState(BrowsingIndex, ChildState);
+            BuildStateTable(inner, null, BrowsingIndex, ChildState);
         }
         #endregion
 
