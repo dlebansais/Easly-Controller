@@ -57,6 +57,19 @@ namespace EaslyController.Writeable
         public new IWriteableStateViewDictionary StateViewTable { get { return (IWriteableStateViewDictionary)base.StateViewTable; } }
         #endregion
 
+        #region Debugging
+        public override bool IsEqual(IReadOnlyControllerView other)
+        {
+            if (!(other is IWriteableControllerView AsWriteable))
+                return false;
+
+            if (!base.IsEqual(AsWriteable))
+                return false;
+
+            return true;
+        }
+        #endregion
+
         #region Create Methods
         /// <summary>
         /// Creates a IxxxNodeStateViewDictionary object.

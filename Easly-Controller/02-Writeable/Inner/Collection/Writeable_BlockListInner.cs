@@ -25,6 +25,8 @@ namespace EaslyController.Writeable
         /// Called when a block state is removed.
         /// </summary>
         new event Action<IWriteableBlockState> BlockStateRemoved;
+
+        void InsertNew(IWriteableInsertionNewBlockNodeIndex newBlockIndex, out IWriteableBrowsingCollectionNodeIndex browsingIndex, out IWriteableBlockState blockState, out IWriteablePlaceholderNodeState childState);
     }
 
     /// <summary>
@@ -47,6 +49,8 @@ namespace EaslyController.Writeable
         /// Called when a block state is removed.
         /// </summary>
         new event Action<IWriteableBlockState> BlockStateRemoved;
+
+        void InsertNew(IWriteableInsertionNewBlockNodeIndex newBlockIndex, out IWriteableBrowsingCollectionNodeIndex browsingIndex, out IWriteableBlockState blockState, out IWriteablePlaceholderNodeState childState);
     }
 
     /// <summary>
@@ -97,7 +101,7 @@ namespace EaslyController.Writeable
 
         #region Client Interface
         /// <summary>
-        /// Inserts a new node in a list or block list.
+        /// Inserts a new node in a block list.
         /// </summary>
         /// <param name="nodeIndex">Index of the node to insert.</param>
         /// <param name="browsingIndex">Index of the inserted node upon return.</param>
@@ -106,22 +110,13 @@ namespace EaslyController.Writeable
         {
             Debug.Assert(nodeIndex != null);
 
-            switch (nodeIndex)
-            {
-                case IWriteableInsertionNewBlockNodeIndex AsNewBlockIndex:
-                    InsertNew(AsNewBlockIndex, out browsingIndex, out childState);
-                    break;
-
-                case IWriteableInsertionExistingBlockNodeIndex AsExistingBlockIndex:
-                    InsertExisting(AsExistingBlockIndex, out browsingIndex, out childState);
-                    break;
-
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(nodeIndex));
-            }
+            if (nodeIndex is IWriteableInsertionExistingBlockNodeIndex AsExistingBlockIndex)
+                InsertExisting(AsExistingBlockIndex, out browsingIndex, out childState);
+            else // The case of a new block is already handled.
+                throw new ArgumentOutOfRangeException(nameof(nodeIndex));
         }
 
-        protected virtual void InsertNew(IWriteableInsertionNewBlockNodeIndex newBlockIndex, out IWriteableBrowsingCollectionNodeIndex browsingIndex, out IWriteablePlaceholderNodeState childState)
+        public virtual void InsertNew(IWriteableInsertionNewBlockNodeIndex newBlockIndex, out IWriteableBrowsingCollectionNodeIndex browsingIndex, out IWriteableBlockState blockState, out IWriteablePlaceholderNodeState childState)
         {
             Debug.Assert(newBlockIndex != null);
             Debug.Assert(newBlockIndex.BlockIndex >= 0);
@@ -134,14 +129,14 @@ namespace EaslyController.Writeable
             IWriteableBrowsingNewBlockNodeIndex BrowsingNewBlockIndex = (IWriteableBrowsingNewBlockNodeIndex)newBlockIndex.ToBrowsingIndex(ParentNode);
             browsingIndex = BrowsingNewBlockIndex;
 
-            IWriteableBlockState BlockState = (IWriteableBlockState)CreateBlockState(BrowsingNewBlockIndex, ChildBlock);
-            InsertInBlockStateList(newBlockIndex.BlockIndex, BlockState);
+            blockState = (IWriteableBlockState)CreateBlockState(BrowsingNewBlockIndex, ChildBlock);
+            InsertInBlockStateList(newBlockIndex.BlockIndex, blockState);
 
             childState = (IWriteablePlaceholderNodeState)CreateNodeState(BrowsingNewBlockIndex);
-            BlockState.Insert(BrowsingNewBlockIndex, childState, 0);
+            blockState.Insert(BrowsingNewBlockIndex, childState, 0);
         }
 
-        protected virtual void InsertExisting(IWriteableInsertionExistingBlockNodeIndex existingBlockIndex, out IWriteableBrowsingCollectionNodeIndex browsingIndex, out IWriteablePlaceholderNodeState childState)
+        public virtual void InsertExisting(IWriteableInsertionExistingBlockNodeIndex existingBlockIndex, out IWriteableBrowsingCollectionNodeIndex browsingIndex, out IWriteablePlaceholderNodeState childState)
         {
             Debug.Assert(existingBlockIndex != null);
             Debug.Assert(existingBlockIndex.BlockIndex < BlockStateList.Count);

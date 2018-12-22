@@ -10,6 +10,7 @@ namespace EaslyController.Writeable
     public interface IWriteableStateViewDictionary : IReadOnlyStateViewDictionary, IDictionary<IWriteableNodeState, IWriteableNodeStateView>
     {
         new int Count { get; }
+        bool IsEqual(IWriteableStateViewDictionary other);
     }
 
     /// <summary>
@@ -49,5 +50,35 @@ namespace EaslyController.Writeable
         public void CopyTo(KeyValuePair<IWriteableNodeState, IReadOnlyNodeStateView>[] array, int arrayIndex) { throw new InvalidOperationException(); }
         public bool Remove(KeyValuePair<IWriteableNodeState, IReadOnlyNodeStateView> item) { return Remove(item.Key); }
         bool ICollection<KeyValuePair<IReadOnlyNodeState, IReadOnlyNodeStateView>>.IsReadOnly { get { return ((ICollection<KeyValuePair<IWriteableNodeState, IWriteableNodeStateView>>)this).IsReadOnly; } }
+
+        #region Debugging
+        public virtual bool IsEqual(IWriteableStateViewDictionary other)
+        {
+            if (Count != other.Count)
+                return false;
+
+            foreach (KeyValuePair<IWriteableNodeState, IWriteableNodeStateView> Entry in this)
+            {
+                IWriteableNodeState Key = Entry.Key;
+                IWriteableNodeStateView Value = Entry.Value;
+
+                if (!other.ContainsKey(Key))
+                    return false;
+
+                if (!Value.IsEqual(other[Key]))
+                    return false;
+            }
+
+            return true;
+        }
+
+        public virtual bool IsEqual(IReadOnlyStateViewDictionary other)
+        {
+            if (other is IWriteableStateViewDictionary AsWriteable)
+                return IsEqual(AsWriteable);
+            else
+                return false;
+        }
+        #endregion
     }
 }

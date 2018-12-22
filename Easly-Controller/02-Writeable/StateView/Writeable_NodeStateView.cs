@@ -35,5 +35,18 @@ namespace EaslyController.Writeable
         /// </summary>
         public new IWriteableNodeState State { get { return (IWriteableNodeState)base.State; } }
         #endregion
+
+        #region Debugging
+        public override bool IsEqual(IReadOnlyNodeStateView other)
+        {
+            if (!(other is IWriteableNodeStateView AsWriteable))
+                return false;
+
+            if (!base.IsEqual(AsWriteable))
+                return false;
+
+            return true;
+        }
+        #endregion
     }
 }

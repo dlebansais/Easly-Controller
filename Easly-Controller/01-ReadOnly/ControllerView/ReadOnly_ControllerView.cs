@@ -17,6 +17,8 @@ namespace EaslyController.ReadOnly
         /// Table of views of each state in the controller.
         /// </summary>
         IReadOnlyStateViewDictionary StateViewTable { get; }
+
+        bool IsEqual(IReadOnlyControllerView other);
     }
 
     /// <summary>
@@ -158,6 +160,19 @@ namespace EaslyController.ReadOnly
         public virtual void OnBlockStateRemoved(IReadOnlyBlockState blockState)
         {
             Debug.Assert(blockState != null);
+        }
+        #endregion
+
+        #region Debugging
+        public virtual bool IsEqual(IReadOnlyControllerView other)
+        {
+            if (Controller != other.Controller)
+                return false;
+
+            if (!StateViewTable.IsEqual(other.StateViewTable))
+                return false;
+
+            return true;
         }
         #endregion
 

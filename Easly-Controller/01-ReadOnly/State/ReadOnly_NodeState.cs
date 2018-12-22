@@ -50,11 +50,10 @@ namespace EaslyController.ReadOnly
         /// <summary>
         /// Initializes a newly created state.
         /// </summary>
-        /// <param name="browseContext">The context that was used to find the node.</param>
         /// <param name="parentInner">Inner containing this state.</param>
         /// <param name="innerTable">Table for all inners in this state.</param>
         /// <param name="valuePropertyTable">Table of children that are not nodes.</param>
-        void Init(IReadOnlyBrowseContext browseContext, IReadOnlyInner<IReadOnlyBrowsingChildIndex> parentInner, IReadOnlyInnerReadOnlyDictionary<string> innerTable, IReadOnlyDictionary<string, ValuePropertyType> valuePropertyTable);
+        void Init(IReadOnlyInner<IReadOnlyBrowsingChildIndex> parentInner, IReadOnlyInnerReadOnlyDictionary<string> innerTable, IReadOnlyDictionary<string, ValuePropertyType> valuePropertyTable);
 
         /// <summary>
         /// Gets the inner corresponding to a property.
@@ -110,13 +109,11 @@ namespace EaslyController.ReadOnly
         /// <summary>
         /// Initializes a newly created state.
         /// </summary>
-        /// <param name="browseContext">The context that was used to find the node.</param>
         /// <param name="parentInner">Inner containing this state.</param>
         /// <param name="innerTable">Table for all inners in this state.</param>
         /// <param name="valuePropertyTable">Table of children that are not nodes.</param>
-        public virtual void Init(IReadOnlyBrowseContext browseContext, IReadOnlyInner<IReadOnlyBrowsingChildIndex> parentInner, IReadOnlyInnerReadOnlyDictionary<string> innerTable, IReadOnlyDictionary<string, ValuePropertyType> valuePropertyTable)
+        public virtual void Init(IReadOnlyInner<IReadOnlyBrowsingChildIndex> parentInner, IReadOnlyInnerReadOnlyDictionary<string> innerTable, IReadOnlyDictionary<string, ValuePropertyType> valuePropertyTable)
         {
-            Debug.Assert(browseContext != null);
             Debug.Assert(innerTable != null);
             Debug.Assert(valuePropertyTable != null);
             Debug.Assert(!IsInitialized);

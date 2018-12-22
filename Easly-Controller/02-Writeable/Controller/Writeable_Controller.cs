@@ -137,9 +137,34 @@ namespace EaslyController.Writeable
             Debug.Assert(InnerTable.ContainsKey(inner.PropertyName));
             Debug.Assert(InnerTable[inner.PropertyName] == inner);
 
-            inner.Insert(nodeIndex, out IWriteableBrowsingCollectionNodeIndex BrowsingIndex, out IWriteablePlaceholderNodeState ChildState);
+            IWriteableBrowsingCollectionNodeIndex BrowsingIndex;
+            IWriteablePlaceholderNodeState ChildState;
 
-            AddState(BrowsingIndex, ChildState);
+            if ((inner is IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> AsBlockListInner) && (nodeIndex is IWriteableInsertionNewBlockNodeIndex AsNewBlockIndex))
+            {
+                AsBlockListInner.InsertNew(AsNewBlockIndex, out BrowsingIndex, out IWriteableBlockState BlockState, out ChildState);
+                Debug.Assert(BlockState.StateList.Count == 1);
+                Debug.Assert(BlockState.StateList[0] == ChildState);
+                BlockState.InitBlockState();
+
+                IReadOnlyBrowsingPatternIndex PatternIndex = BlockState.PatternIndex;
+                IReadOnlyPatternState PatternState = BlockState.PatternState;
+                AddState(PatternIndex, PatternState);
+                Stats.PlaceholderNodeCount++;
+
+                IReadOnlyBrowsingSourceIndex SourceIndex = BlockState.SourceIndex;
+                IReadOnlySourceState SourceState = BlockState.SourceState;
+                AddState(SourceIndex, SourceState);
+                Stats.PlaceholderNodeCount++;
+
+                AddState(BrowsingIndex, ChildState);
+            }
+            else
+            {
+                inner.Insert(nodeIndex, out BrowsingIndex, out ChildState);
+                AddState(BrowsingIndex, ChildState);
+            }
+
             BuildStateTable(inner, null, BrowsingIndex, ChildState);
         }
         #endregion

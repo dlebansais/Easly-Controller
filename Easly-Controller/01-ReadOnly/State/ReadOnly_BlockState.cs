@@ -54,8 +54,7 @@ namespace EaslyController.ReadOnly
         /// <summary>
         /// Initializes the block state.
         /// </summary>
-        /// <param name="browseContext">The context that was used to browse the block.</param>
-        void InitBlockState(IReadOnlyBrowseContext browseContext);
+        void InitBlockState();
 
         /// <summary>
         /// Initializes the state for a node of the block.
@@ -114,24 +113,21 @@ namespace EaslyController.ReadOnly
         /// <summary>
         /// Initializes the block state.
         /// </summary>
-        /// <param name="browseContext">The context that was used to browse the block.</param>
-        public virtual void InitBlockState(IReadOnlyBrowseContext browseContext)
+        public virtual void InitBlockState()
         {
-            Debug.Assert(browseContext != null);
-
             PatternIndex = CreateExistingPatternIndex();
             PatternState = CreatePatternState(PatternIndex);
             IReadOnlyInnerReadOnlyDictionary<string> PatternEmptyInnerTable = CreateInnerTableReadOnly(CreateInnerTable());
             Dictionary<string, ValuePropertyType> PatternValuePropertyTypeTable = new Dictionary<string, ValuePropertyType>();
             PatternValuePropertyTypeTable.Add(nameof(IPattern.Text), ValuePropertyType.String);
-            PatternState.Init(browseContext, PatternInner, PatternEmptyInnerTable, PatternValuePropertyTypeTable);
+            PatternState.Init(PatternInner, PatternEmptyInnerTable, PatternValuePropertyTypeTable);
 
             SourceIndex = CreateExistingSourceIndex();
             SourceState = CreateSourceState(SourceIndex);
             IReadOnlyInnerReadOnlyDictionary<string> SourceEmptyInnerTable = CreateInnerTableReadOnly(CreateInnerTable());
             Dictionary<string, ValuePropertyType> SourceValuePropertyTypeTable = new Dictionary<string, ValuePropertyType>();
             SourceValuePropertyTypeTable.Add(nameof(IIdentifier.Text), ValuePropertyType.String);
-            SourceState.Init(browseContext, SourceInner, SourceEmptyInnerTable, SourceValuePropertyTypeTable);
+            SourceState.Init(SourceInner, SourceEmptyInnerTable, SourceValuePropertyTypeTable);
         }
 
         /// <summary>

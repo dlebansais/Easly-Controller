@@ -143,6 +143,9 @@ namespace TestDebug
             Controller.Insert(Inner, InsertIndex1);
 
             Debug.Assert(ControllerView.StateViewTable.Count == Controller.Stats.NodeCount);
+
+            IWriteableControllerView ControllerView2 = WriteableControllerView.Create(Controller);
+            Debug.Assert(ControllerView2.IsEqual(ControllerView));
         }
     }
 }

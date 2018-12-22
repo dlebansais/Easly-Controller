@@ -11,6 +11,8 @@ namespace EaslyController.ReadOnly
         /// The node state.
         /// </summary>
         IReadOnlyNodeState State { get; }
+
+        bool IsEqual(IReadOnlyNodeStateView other);
     }
 
     /// <summary>
@@ -36,6 +38,16 @@ namespace EaslyController.ReadOnly
         /// The node state.
         /// </summary>
         public IReadOnlyNodeState State { get; }
+        #endregion
+
+        #region Debugging
+        public virtual bool IsEqual(IReadOnlyNodeStateView other)
+        {
+            if (State != other.State)
+                return false;
+
+            return true;
+        }
         #endregion
     }
 }
