@@ -10,6 +10,11 @@ namespace EaslyController.Writeable
     public interface IWriteableStateViewDictionary : IReadOnlyStateViewDictionary, IDictionary<IWriteableNodeState, IWriteableNodeStateView>
     {
         new int Count { get; }
+
+        /// <summary>
+        /// Compares two <see cref="IWriteableStateViewDictionary"/> objects.
+        /// </summary>
+        /// <param name="other">The other object.</param>
         bool IsEqual(IWriteableStateViewDictionary other);
     }
 
@@ -52,6 +57,10 @@ namespace EaslyController.Writeable
         bool ICollection<KeyValuePair<IReadOnlyNodeState, IReadOnlyNodeStateView>>.IsReadOnly { get { return ((ICollection<KeyValuePair<IWriteableNodeState, IWriteableNodeStateView>>)this).IsReadOnly; } }
 
         #region Debugging
+        /// <summary>
+        /// Compares two <see cref="IWriteableStateViewDictionary"/> objects.
+        /// </summary>
+        /// <param name="other">The other object.</param>
         public virtual bool IsEqual(IWriteableStateViewDictionary other)
         {
             if (Count != other.Count)

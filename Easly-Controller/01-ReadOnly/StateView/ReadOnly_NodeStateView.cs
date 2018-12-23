@@ -12,6 +12,10 @@ namespace EaslyController.ReadOnly
         /// </summary>
         IReadOnlyNodeState State { get; }
 
+        /// <summary>
+        /// Compares two <see cref="IReadOnlyNodeStateView"/> objects.
+        /// </summary>
+        /// <param name="other">The other object.</param>
         bool IsEqual(IReadOnlyNodeStateView other);
     }
 
@@ -41,6 +45,10 @@ namespace EaslyController.ReadOnly
         #endregion
 
         #region Debugging
+        /// <summary>
+        /// Compares two <see cref="IReadOnlyNodeStateView"/> objects.
+        /// </summary>
+        /// <param name="other">The other object.</param>
         public virtual bool IsEqual(IReadOnlyNodeStateView other)
         {
             if (State != other.State)

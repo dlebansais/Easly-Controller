@@ -37,6 +37,10 @@ namespace EaslyController.Writeable
         #endregion
 
         #region Debugging
+        /// <summary>
+        /// Compares two <see cref="IWriteableNodeStateView"/> objects.
+        /// </summary>
+        /// <param name="other">The other object.</param>
         public override bool IsEqual(IReadOnlyNodeStateView other)
         {
             if (!(other is IWriteableNodeStateView AsWriteable))

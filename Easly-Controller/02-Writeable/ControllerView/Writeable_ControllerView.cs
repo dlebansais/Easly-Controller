@@ -58,6 +58,10 @@ namespace EaslyController.Writeable
         #endregion
 
         #region Debugging
+        /// <summary>
+        /// Compares two <see cref="IWriteableControllerView"/> objects.
+        /// </summary>
+        /// <param name="other">The other object.</param>
         public override bool IsEqual(IReadOnlyControllerView other)
         {
             if (!(other is IWriteableControllerView AsWriteable))

@@ -18,6 +18,10 @@ namespace EaslyController.ReadOnly
         /// </summary>
         IReadOnlyStateViewDictionary StateViewTable { get; }
 
+        /// <summary>
+        /// Compares two <see cref="IReadOnlyControllerView"/> objects.
+        /// </summary>
+        /// <param name="other">The other object.</param>
         bool IsEqual(IReadOnlyControllerView other);
     }
 
@@ -164,6 +168,10 @@ namespace EaslyController.ReadOnly
         #endregion
 
         #region Debugging
+        /// <summary>
+        /// Compares two <see cref="IReadOnlyControllerView"/> objects.
+        /// </summary>
+        /// <param name="other">The other object.</param>
         public virtual bool IsEqual(IReadOnlyControllerView other)
         {
             if (Controller != other.Controller)

@@ -7,6 +7,10 @@ namespace EaslyController.ReadOnly
     /// </summary>
     public interface IReadOnlyStateViewDictionary : IDictionary<IReadOnlyNodeState, IReadOnlyNodeStateView>
     {
+        /// <summary>
+        /// Compares two <see cref="IReadOnlyStateViewDictionary"/> objects.
+        /// </summary>
+        /// <param name="other">The other object.</param>
         bool IsEqual(IReadOnlyStateViewDictionary other);
     }
 
@@ -16,6 +20,10 @@ namespace EaslyController.ReadOnly
     public class ReadOnlyStateViewDictionary : Dictionary<IReadOnlyNodeState, IReadOnlyNodeStateView>, IReadOnlyStateViewDictionary
     {
         #region Debugging
+        /// <summary>
+        /// Compares two <see cref="IReadOnlyStateViewDictionary"/> objects.
+        /// </summary>
+        /// <param name="other">The other object.</param>
         public virtual bool IsEqual(IReadOnlyStateViewDictionary other)
         {
             if (Count != other.Count)
