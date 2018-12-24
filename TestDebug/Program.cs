@@ -128,18 +128,18 @@ namespace TestDebug
 
             IWriteableNodeState RootState = Controller.RootState;
             IWriteableInnerReadOnlyDictionary<string> InnerTable = RootState.InnerTable;
-            IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> Inner = (IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex>)InnerTable[nameof(IClass.ConversionBlocks)];
+            IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> Inner = (IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex>)InnerTable[nameof(IClass.ImportBlocks)];
 
             IPattern PatternNode = NodeHelper.CreateEmptyPattern();
             IIdentifier SourceNode = NodeHelper.CreateEmptyIdentifier();
-            IIdentifier FirstNode = NodeHelper.CreateEmptyIdentifier();
+            IImport FirstNode = NodeHelper.CreateSimpleImport("x", "x", ImportType.Latest);
 
-            WriteableInsertionNewBlockNodeIndex InsertIndex0 = new WriteableInsertionNewBlockNodeIndex(rootNode, FirstNode, nameof(IClass.ConversionBlocks), 0, PatternNode, SourceNode);
+            WriteableInsertionNewBlockNodeIndex InsertIndex0 = new WriteableInsertionNewBlockNodeIndex(rootNode, Inner.PropertyName, FirstNode, 0, PatternNode, SourceNode);
             Controller.Insert(Inner, InsertIndex0);
 
-            IIdentifier SecondNode = NodeHelper.CreateEmptyIdentifier();
+            IImport SecondNode = NodeHelper.CreateSimpleImport("y", "y", ImportType.Latest);
 
-            WriteableInsertionExistingBlockNodeIndex InsertIndex1 = new WriteableInsertionExistingBlockNodeIndex(rootNode, SecondNode, nameof(IClass.ConversionBlocks), 0, 1);
+            WriteableInsertionExistingBlockNodeIndex InsertIndex1 = new WriteableInsertionExistingBlockNodeIndex(rootNode, Inner.PropertyName, SecondNode, 0, 1);
             Controller.Insert(Inner, InsertIndex1);
 
             Debug.Assert(ControllerView.StateViewTable.Count == Controller.Stats.NodeCount);

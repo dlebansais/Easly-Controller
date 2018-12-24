@@ -7,7 +7,7 @@ using System.Diagnostics;
 namespace EaslyController.Writeable
 {
     /// <summary>
-    /// Index for an optional node.
+    /// Index for replacing an optional node.
     /// </summary>
     public interface IWriteableInsertionOptionalNodeIndex : IWriteableInsertionChildIndex
     {
@@ -18,7 +18,7 @@ namespace EaslyController.Writeable
     }
 
     /// <summary>
-    /// Index for an optional node.
+    /// Index for replacing an optional node.
     /// </summary>
     public class WriteableInsertionOptionalNodeIndex : IWriteableInsertionOptionalNodeIndex
     {
@@ -43,14 +43,19 @@ namespace EaslyController.Writeable
 
         #region Properties
         /// <summary>
-        /// Interface to the optional object for the node.
+        /// Node in which the insertion operation is taking place.
         /// </summary>
-        public IOptionalReference Optional { get; }
+        public INode ParentNode { get; }
 
         /// <summary>
         /// Property indexed for <see cref="Optional"/>.
         /// </summary>
         public string PropertyName { get; }
+
+        /// <summary>
+        /// Interface to the optional object for the node.
+        /// </summary>
+        public IOptionalReference Optional { get; }
         #endregion
     }
 }

@@ -3,14 +3,14 @@
 namespace EaslyController.Writeable
 {
     /// <summary>
-    /// Base for block list index classes.
+    /// Base for block list insertion index classes.
     /// </summary>
     public interface IWriteableInsertionBlockNodeIndex : IWriteableInsertionCollectionNodeIndex
     {
     }
 
     /// <summary>
-    /// Base for block list index classes.
+    /// Base for block list insertion index classes.
     /// </summary>
     public abstract class WriteableInsertionBlockNodeIndex : WriteableInsertionCollectionNodeIndex, IWriteableInsertionBlockNodeIndex
     {
@@ -18,10 +18,11 @@ namespace EaslyController.Writeable
         /// <summary>
         /// Initializes a new instance of the <see cref="WriteableInsertionBlockNodeIndex"/> class.
         /// </summary>
-        /// <param name="node">The indexed node.</param>
+        /// <param name="parentNode">The node in which the insertion operation is taking place.</param>
         /// <param name="propertyName">The property for the index.</param>
-        public WriteableInsertionBlockNodeIndex(INode node, string propertyName)
-            : base(node, propertyName)
+        /// <param name="node">The inserted node.</param>
+        public WriteableInsertionBlockNodeIndex(INode parentNode, string propertyName, INode node)
+            : base(parentNode, propertyName, node)
         {
         }
         #endregion

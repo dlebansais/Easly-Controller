@@ -85,12 +85,12 @@ namespace EaslyController.Writeable
         protected virtual void Insert(IWriteableInsertionListNodeIndex listIndex, out IWriteableBrowsingCollectionNodeIndex browsingIndex, out IWriteablePlaceholderNodeState childState)
         {
             Debug.Assert(listIndex != null);
-            Debug.Assert(listIndex.Index >= 0 && listIndex.Index < StateList.Count);
+            Debug.Assert(listIndex.Index >= 0 && listIndex.Index <= StateList.Count);
 
             INode ParentNode = Owner.Node;
             NodeTreeHelper.InsertIntoList(ParentNode, PropertyName, listIndex.Index, listIndex.Node);
 
-            IWriteableBrowsingListNodeIndex BrowsingListIndex = (IWriteableBrowsingListNodeIndex)listIndex.ToBrowsingIndex(ParentNode);
+            IWriteableBrowsingListNodeIndex BrowsingListIndex = (IWriteableBrowsingListNodeIndex)listIndex.ToBrowsingIndex();
             browsingIndex = BrowsingListIndex;
 
             childState = (IWriteablePlaceholderNodeState)CreateNodeState(BrowsingListIndex);

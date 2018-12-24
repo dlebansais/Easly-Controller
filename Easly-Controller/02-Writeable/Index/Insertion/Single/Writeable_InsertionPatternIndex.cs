@@ -2,6 +2,7 @@
 using EaslyController.ReadOnly;
 using System.Diagnostics;
 
+/*
 namespace EaslyController.Writeable
 {
     /// <summary>
@@ -49,3 +50,4 @@ namespace EaslyController.Writeable
         #endregion
     }
 }
+*/

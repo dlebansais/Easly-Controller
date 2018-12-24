@@ -1,10 +1,11 @@
 ﻿using BaseNode;
+using BaseNodeHelper;
 using System.Diagnostics;
 
 namespace EaslyController.Writeable
 {
     /// <summary>
-    /// Base for list and block list index classes.
+    /// Base for list and block list insertion index classes.
     /// </summary>
     public interface IWriteableInsertionCollectionNodeIndex : IWriteableInsertionChildIndex, IWriteableNodeIndex
     {
@@ -12,12 +13,11 @@ namespace EaslyController.Writeable
         /// Creates a browsing index from an insertion index.
         /// To call after the insertion operation has been completed.
         /// </summary>
-        /// <param name="parentNode">The node in which the insertion operation is taking place.</param>
-        IWriteableBrowsingCollectionNodeIndex ToBrowsingIndex(INode parentNode);
+        IWriteableBrowsingCollectionNodeIndex ToBrowsingIndex();
     }
 
     /// <summary>
-    /// Base for list and block list index classes.
+    /// Base for list and block list insertion index classes.
     /// </summary>
     public abstract class WriteableInsertionCollectionNodeIndex : IWriteableInsertionCollectionNodeIndex
     {
@@ -25,28 +25,37 @@ namespace EaslyController.Writeable
         /// <summary>
         /// Initializes a new instance of the <see cref="WriteableInsertionCollectionNodeIndex"/> class.
         /// </summary>
-        /// <param name="node">The indexed node.</param>
+        /// <param name="parentNode">The node in which the insertion operation is taking place.</param>
         /// <param name="propertyName">The property for the index.</param>
-        public WriteableInsertionCollectionNodeIndex(INode node, string propertyName)
+        /// <param name="node">The inserted node.</param>
+        public WriteableInsertionCollectionNodeIndex(INode parentNode, string propertyName, INode node)
         {
-            Debug.Assert(node != null);
+            Debug.Assert(parentNode != null);
             Debug.Assert(!string.IsNullOrEmpty(propertyName));
+            Debug.Assert(node != null);
+            Debug.Assert(NodeTreeHelper.IsAssignable(parentNode, propertyName, node));
 
-            Node = node;
+            ParentNode = parentNode;
             PropertyName = propertyName;
+            Node = node;
         }
         #endregion
 
         #region Properties
         /// <summary>
-        /// Node indexed.
+        /// Node in which the insertion operation is taking place.
         /// </summary>
-        public INode Node { get; }
+        public INode ParentNode { get; }
 
         /// <summary>
         /// Property indexed for <see cref="Node"/>.
         /// </summary>
         public string PropertyName { get; }
+
+        /// <summary>
+        /// Node inserted.
+        /// </summary>
+        public INode Node { get; }
         #endregion
 
         #region Client Interface
@@ -54,8 +63,7 @@ namespace EaslyController.Writeable
         /// Creates a browsing index from an insertion index.
         /// To call after the insertion operation has been completed.
         /// </summary>
-        /// <param name="parentNode">The node in which the insertion operation is taking place.</param>
-        public abstract IWriteableBrowsingCollectionNodeIndex ToBrowsingIndex(INode parentNode);
+        public abstract IWriteableBrowsingCollectionNodeIndex ToBrowsingIndex();
         #endregion
     }
 }

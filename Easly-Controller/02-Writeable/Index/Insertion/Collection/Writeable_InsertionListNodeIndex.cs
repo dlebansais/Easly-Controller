@@ -5,18 +5,18 @@ using System.Diagnostics;
 namespace EaslyController.Writeable
 {
     /// <summary>
-    /// Index for a node in a list of nodes.
+    /// Index for inserting a node in a list of nodes.
     /// </summary>
     public interface IWriteableInsertionListNodeIndex : IWriteableInsertionCollectionNodeIndex
     {
         /// <summary>
-        /// Position of the node in the list.
+        /// Position where to insert in the list.
         /// </summary>
         int Index { get; }
     }
 
     /// <summary>
-    /// Index for a node in a list of nodes.
+    /// Index for inserting a node in a list of nodes.
     /// </summary>
     public class WriteableInsertionListNodeIndex : WriteableInsertionCollectionNodeIndex, IWriteableInsertionListNodeIndex
     {
@@ -25,15 +25,14 @@ namespace EaslyController.Writeable
         /// Initializes a new instance of the <see cref="WriteableInsertionListNodeIndex"/> class.
         /// </summary>
         /// <param name="parentNode">Node containing the list.</param>
-        /// <param name="node">Indexed node in the list</param>
-        /// <param name="propertyName">Property in <paramref name="parentNode"/> corresponding to the list.
-        /// <param name="index">Position of the node in the list.</param>
-        public WriteableInsertionListNodeIndex(INode parentNode, INode node, string propertyName, int index)
-            : base(node, propertyName)
+        /// <param name="propertyName">Property in <paramref name="parentNode"/> corresponding to the list.</param>
+        /// <param name="node">Inserted node.</param>
+        /// <param name="index">Position where to insert <see cref="node"/> in the list.</param>
+        public WriteableInsertionListNodeIndex(INode parentNode, string propertyName, INode node, int index)
+            : base(parentNode, propertyName, node)
         {
-            Debug.Assert(parentNode != null);
             Debug.Assert(index >= 0);
-            Debug.Assert(NodeTreeHelper.IsListChildNode(parentNode, propertyName, index, node));
+            Debug.Assert(NodeTreeHelper.GetLastListIndex(parentNode, propertyName, out int LastIndex) && index <= LastIndex);
 
             Index = index;
         }
@@ -41,7 +40,7 @@ namespace EaslyController.Writeable
 
         #region Properties
         /// <summary>
-        /// Position of the node in the list.
+        /// Position where to insert in the list.
         /// </summary>
         public int Index { get; }
         #endregion
@@ -51,10 +50,9 @@ namespace EaslyController.Writeable
         /// Creates a browsing index from an insertion index.
         /// To call after the insertion operation has been completed.
         /// </summary>
-        /// <param name="parentNode">The node in which the insertion operation is taking place.</param>
-        public override IWriteableBrowsingCollectionNodeIndex ToBrowsingIndex(INode parentNode)
+        public override IWriteableBrowsingCollectionNodeIndex ToBrowsingIndex()
         {
-            return new WriteableBrowsingListNodeIndex(parentNode, Node, PropertyName, Index);
+            return new WriteableBrowsingListNodeIndex(ParentNode, Node, PropertyName, Index);
         }
         #endregion
     }

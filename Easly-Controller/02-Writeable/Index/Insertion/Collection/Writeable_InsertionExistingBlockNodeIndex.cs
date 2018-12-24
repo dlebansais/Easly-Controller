@@ -5,7 +5,7 @@ using System.Diagnostics;
 namespace EaslyController.Writeable
 {
     /// <summary>
-    /// Index for a node in a block that is not the first.
+    /// Index for inserting a node in an existing block of a block list.
     /// </summary>
     public interface IWriteableInsertionExistingBlockNodeIndex : IWriteableInsertionBlockNodeIndex
     {
@@ -15,13 +15,13 @@ namespace EaslyController.Writeable
         int BlockIndex { get; }
 
         /// <summary>
-        /// Position of the node in the block.
+        /// Position where the node is inserted in the block.
         /// </summary>
         int Index { get; }
     }
 
     /// <summary>
-    /// Index for a node in a block that is not the first.
+    /// Index for inserting a node in an existing block of a block list.
     /// </summary>
     public class WriteableInsertionExistingBlockNodeIndex : WriteableInsertionBlockNodeIndex, IWriteableInsertionExistingBlockNodeIndex
     {
@@ -30,16 +30,13 @@ namespace EaslyController.Writeable
         /// Initializes a new instance of the <see cref="WriteableInsertionExistingBlockNodeIndex"/> class.
         /// </summary>
         /// <param name="parentNode">Node containing the block list.</param>
-        /// <param name="node">Indexed node in the block.</param>
-        /// <param name="propertyName">Property in <paramref name="parentNode"/> corresponding to the block list.
+        /// <param name="propertyName">Property in <paramref name="parentNode"/> corresponding to the block list..</param>
+        /// <param name="node">Inserted node.</param>
         /// <param name="blockIndex">Position of the block in the block list.</param>
-        /// <param name="index">Position of the node in the block.</param>
-        public WriteableInsertionExistingBlockNodeIndex(INode parentNode, INode node, string propertyName, int blockIndex, int index)
-            : base(node, propertyName)
+        /// <param name="index">Position where to insert <see cref="node"/> in the block.</param>
+        public WriteableInsertionExistingBlockNodeIndex(INode parentNode, string propertyName, INode node, int blockIndex, int index)
+            : base(parentNode, propertyName, node)
         {
-            Debug.Assert(parentNode != null);
-            Debug.Assert(node != null);
-            Debug.Assert(!string.IsNullOrEmpty(propertyName));
             Debug.Assert(blockIndex >= 0);
             Debug.Assert(index >= 0); // You can insert at position 0, contrary to a browsing index that only supports positions other than 0.
             Debug.Assert(NodeTreeHelper.GetLastBlockChildIndex(parentNode, propertyName, blockIndex, out int LastIndex) && index <= LastIndex);
@@ -56,7 +53,7 @@ namespace EaslyController.Writeable
         public int BlockIndex { get; }
 
         /// <summary>
-        /// Position of the node in the block.
+        /// Position where the node is inserted in the block.
         /// </summary>
         public int Index { get; }
         #endregion
@@ -66,10 +63,15 @@ namespace EaslyController.Writeable
         /// Creates a browsing index from an insertion index.
         /// To call after the insertion operation has been completed.
         /// </summary>
-        /// <param name="parentNode">The node in which the insertion operation is taking place.</param>
-        public override IWriteableBrowsingCollectionNodeIndex ToBrowsingIndex(INode parentNode)
+        public override IWriteableBrowsingCollectionNodeIndex ToBrowsingIndex()
         {
-            return new WriteableBrowsingExistingBlockNodeIndex(parentNode, Node, PropertyName, BlockIndex, Index);
+            if (Index == 0)
+            {
+                NodeTreeHelper.GetChildBlock(ParentNode, PropertyName, BlockIndex, out IBlock Block);
+                return new WriteableBrowsingNewBlockNodeIndex(ParentNode, Node, PropertyName, BlockIndex, Block.ReplicationPattern, Block.SourceIdentifier);
+            }
+            else
+                return new WriteableBrowsingExistingBlockNodeIndex(ParentNode, Node, PropertyName, BlockIndex, Index);
         }
         #endregion
     }

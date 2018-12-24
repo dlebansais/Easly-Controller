@@ -5,14 +5,14 @@ using System.Diagnostics;
 namespace EaslyController.Writeable
 {
     /// <summary>
-    /// Index for a node.
+    /// Index for replacing a child a node.
     /// </summary>
     public interface IWriteableInsertionPlaceholderNodeIndex : IWriteableInsertionChildIndex, IWriteableNodeIndex
     {
     }
 
     /// <summary>
-    /// Index for a node.
+    /// Index for replacing a child a node.
     /// </summary>
     public class WriteableInsertionPlaceholderNodeIndex : IWriteableInsertionPlaceholderNodeIndex 
     {
@@ -20,31 +20,37 @@ namespace EaslyController.Writeable
         /// <summary>
         /// Initializes a new instance of the <see cref="WriteableInsertionPlaceholderNodeIndex"/> class.
         /// </summary>
-        /// <param name="parentNode">Node containing the indexed node.</param>
-        /// <param name="node">The indexed node.</param>
-        /// <param name="propertyName">Property in <paramref name="parentNode"/> corresponding to the indexed node.
-        public WriteableInsertionPlaceholderNodeIndex(INode parentNode, INode node, string propertyName)
+        /// <param name="parentNode">Node containing the replaced node.</param>
+        /// <param name="propertyName">Property in <paramref name="parentNode"/> corresponding to the indexed node.</param>
+        /// <param name="node">The assigned node.</param>
+        public WriteableInsertionPlaceholderNodeIndex(INode parentNode, string propertyName, INode node)
         {
             Debug.Assert(parentNode != null);
-            Debug.Assert(node != null);
             Debug.Assert(!string.IsNullOrEmpty(propertyName));
-            Debug.Assert(NodeTreeHelper.IsChildNode(parentNode, propertyName, node));
+            Debug.Assert(node != null);
+            Debug.Assert(NodeTreeHelper.IsAssignable(parentNode, propertyName, node));
 
-            Node = node;
+            ParentNode = parentNode;
             PropertyName = propertyName;
+            Node = node;
         }
         #endregion
 
         #region Properties
         /// <summary>
-        /// The indexed node.
+        /// Node in which the insertion operation is taking place.
         /// </summary>
-        public INode Node { get; }
+        public INode ParentNode { get; }
 
         /// <summary>
         /// Property indexed for <see cref="Node"/>.
         /// </summary>
         public string PropertyName { get; }
+
+        /// <summary>
+        /// The assigned node.
+        /// </summary>
+        public INode Node { get; }
         #endregion
     }
 }
