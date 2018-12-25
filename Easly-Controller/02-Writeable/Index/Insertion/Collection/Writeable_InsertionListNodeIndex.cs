@@ -32,7 +32,7 @@ namespace EaslyController.Writeable
             : base(parentNode, propertyName, node)
         {
             Debug.Assert(index >= 0);
-            Debug.Assert(NodeTreeHelper.GetLastListIndex(parentNode, propertyName, out int LastIndex) && index <= LastIndex);
+            Debug.Assert(NodeTreeHelperList.GetLastListIndex(parentNode, propertyName, out int LastIndex) && index <= LastIndex);
 
             Index = index;
         }

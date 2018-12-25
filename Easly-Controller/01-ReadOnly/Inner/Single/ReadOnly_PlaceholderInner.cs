@@ -72,7 +72,7 @@ namespace EaslyController.ReadOnly
         /// <summary>
         /// Interface type of the node.
         /// </summary>
-        public override Type InterfaceType { get { return NodeTreeHelper.ChildInterfaceType(Owner.Node, PropertyName); } }
+        public override Type InterfaceType { get { return NodeTreeHelperChild.ChildInterfaceType(Owner.Node, PropertyName); } }
 
         /// <summary>
         /// The state of the child node.
@@ -95,7 +95,7 @@ namespace EaslyController.ReadOnly
             Debug.Assert(ChildNodeClone != null);
 
             // Set the clone in the parent.
-            NodeTreeHelper.ReplaceChildNode(parentNode, PropertyName, ChildNodeClone);
+            NodeTreeHelperChild.ReplaceChildNode(parentNode, PropertyName, ChildNodeClone);
         }
 
         /// <summary>

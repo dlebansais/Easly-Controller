@@ -39,7 +39,7 @@ namespace EaslyController.Writeable
         {
             Debug.Assert(blockIndex >= 0);
             Debug.Assert(index >= 0); // You can insert at position 0, contrary to a browsing index that only supports positions other than 0.
-            Debug.Assert(NodeTreeHelper.GetLastBlockChildIndex(parentNode, propertyName, blockIndex, out int LastIndex) && index <= LastIndex);
+            Debug.Assert(NodeTreeHelperBlockList.GetLastBlockChildIndex(parentNode, propertyName, blockIndex, out int LastIndex) && index <= LastIndex);
 
             BlockIndex = blockIndex;
             Index = index;
@@ -67,7 +67,7 @@ namespace EaslyController.Writeable
         {
             if (Index == 0)
             {
-                NodeTreeHelper.GetChildBlock(ParentNode, PropertyName, BlockIndex, out IBlock Block);
+                NodeTreeHelperBlockList.GetChildBlock(ParentNode, PropertyName, BlockIndex, out IBlock Block);
                 return new WriteableBrowsingNewBlockNodeIndex(ParentNode, Node, PropertyName, BlockIndex, Block.ReplicationPattern, Block.SourceIdentifier);
             }
             else

@@ -33,7 +33,7 @@ namespace EaslyController.ReadOnly
         {
             Debug.Assert(parentNode != null);
             Debug.Assert(index >= 0);
-            Debug.Assert(NodeTreeHelper.IsListChildNode(parentNode, propertyName, index, node));
+            Debug.Assert(NodeTreeHelperList.IsListChildNode(parentNode, propertyName, index, node));
 
             Index = index;
         }

@@ -44,7 +44,7 @@ namespace EaslyController.Writeable
             : base(parentNode, propertyName, node)
         {
             Debug.Assert(blockIndex >= 0);
-            Debug.Assert(NodeTreeHelper.GetLastBlockIndex(parentNode, propertyName, out int LastBlockIndex) && blockIndex <= LastBlockIndex);
+            Debug.Assert(NodeTreeHelperBlockList.GetLastBlockIndex(parentNode, propertyName, out int LastBlockIndex) && blockIndex <= LastBlockIndex);
             Debug.Assert(patternNode != null);
             Debug.Assert(sourceNode != null);
 

@@ -166,7 +166,6 @@ namespace EaslyController.ReadOnly
         public virtual void BrowseChildren(IReadOnlyBrowseContext browseNodeContext)
         {
             IList<string> PropertyNames = NodeTreeHelper.EnumChildNodeProperties(Node);
-            bool IsAssigned;
             INode ChildNode;
             Type ChildInterfaceType, ChildNodeType;
             IReadOnlyList<INode> ChildNodeList;
@@ -174,9 +173,9 @@ namespace EaslyController.ReadOnly
 
             foreach (string PropertyName in PropertyNames)
             {
-                if (NodeTreeHelper.IsChildNodeProperty(Node, PropertyName, out ChildNodeType))
+                if (NodeTreeHelperChild.IsChildNodeProperty(Node, PropertyName, out ChildNodeType))
                 {
-                    NodeTreeHelper.GetChildNode(Node, PropertyName, out IsAssigned, out ChildNode);
+                    NodeTreeHelperChild.GetChildNode(Node, PropertyName, out ChildNode);
                     IReadOnlyBrowsingPlaceholderNodeIndex ChildNodeIndex = CreateChildNodeIndex(browseNodeContext, PropertyName, ChildNode);
 
                     // Create a collection containing one index for this child node.
@@ -184,7 +183,7 @@ namespace EaslyController.ReadOnly
                     browseNodeContext.AddIndexCollection(IndexCollection);
                 }
 
-                else if (NodeTreeHelper.IsOptionalChildNodeProperty(Node, PropertyName, out ChildNodeType))
+                else if (NodeTreeHelperOptional.IsOptionalChildNodeProperty(Node, PropertyName, out ChildNodeType))
                 {
                     IReadOnlyBrowsingOptionalNodeIndex OptionalNodeIndex = CreateOptionalNodeIndex(browseNodeContext, PropertyName);
 
@@ -193,18 +192,18 @@ namespace EaslyController.ReadOnly
                     browseNodeContext.AddIndexCollection(IndexCollection);
                 }
 
-                else if (NodeTreeHelper.IsChildNodeList(Node, PropertyName, out ChildNodeType))
+                else if (NodeTreeHelperList.IsChildNodeList(Node, PropertyName, out ChildNodeType))
                 {
-                    NodeTreeHelper.GetChildNodeList(Node, PropertyName, out ChildNodeList);
+                    NodeTreeHelperList.GetChildNodeList(Node, PropertyName, out ChildNodeList);
 
                     // Create a collection containing indexes for each children.
                     IReadOnlyIndexCollection IndexCollection = BrowseNodeList(browseNodeContext, PropertyName, ChildNodeList);
                     browseNodeContext.AddIndexCollection(IndexCollection);
                 }
 
-                else if (NodeTreeHelper.IsChildBlockList(Node, PropertyName, out ChildInterfaceType, out ChildNodeType))
+                else if (NodeTreeHelperBlockList.IsChildBlockList(Node, PropertyName, out ChildInterfaceType, out ChildNodeType))
                 {
-                    NodeTreeHelper.GetChildBlockList(Node, PropertyName, out ChildBlockList);
+                    NodeTreeHelperBlockList.GetChildBlockList(Node, PropertyName, out ChildBlockList);
 
                     // Create a collection containing indexes for each child blocks and their children.
                     IReadOnlyIndexCollection IndexCollection = BrowseNodeBlockList(browseNodeContext, PropertyName, ChildBlockList);

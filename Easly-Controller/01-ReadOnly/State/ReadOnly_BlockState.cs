@@ -221,7 +221,7 @@ namespace EaslyController.ReadOnly
             IIdentifier SourceClone = CloneSource();
             Debug.Assert(SourceClone != null);
 
-            NodeTreeHelper.InsertIntoBlockList(parentNode, ParentInner.PropertyName, ParentIndex.BlockIndex, ChildBlock.Replication, PatternClone, SourceClone, out IBlock NewBlock);
+            NodeTreeHelperBlockList.InsertIntoBlockList(parentNode, ParentInner.PropertyName, ParentIndex.BlockIndex, ChildBlock.Replication, PatternClone, SourceClone, out IBlock NewBlock);
             NodeTreeHelper.CopyDocumentation(ChildBlock, NewBlock);
 
             // Clone children recursively.
@@ -247,7 +247,7 @@ namespace EaslyController.ReadOnly
                 INode ChildNodeClone = ChildState.CloneNode();
                 Debug.Assert(ChildNodeClone != null);
 
-                NodeTreeHelper.InsertIntoBlock(parentBlock, i, ChildNodeClone);
+                NodeTreeHelperBlockList.InsertIntoBlock(parentBlock, i, ChildNodeClone);
             }
         }
 
@@ -301,7 +301,7 @@ namespace EaslyController.ReadOnly
             RemoveState(index2, NodeState2);
             RemoveState(index1, NodeState1);
 
-            NodeTreeHelper.MoveNode(ChildBlock, index, direction);
+            NodeTreeHelperBlockList.MoveNode(ChildBlock, index, direction);
 
             InsertState(index1, NodeState2);
             InsertState(index2, NodeState1);

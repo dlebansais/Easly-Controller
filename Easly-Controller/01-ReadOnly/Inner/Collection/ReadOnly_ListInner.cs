@@ -83,7 +83,7 @@ namespace EaslyController.ReadOnly
         /// <summary>
         /// Interface type for all nodes in the inner.
         /// </summary>
-        public override Type InterfaceType { get { return NodeTreeHelper.ListInterfaceType(Owner.Node, PropertyName); } }
+        public override Type InterfaceType { get { return NodeTreeHelperList.ListInterfaceType(Owner.Node, PropertyName); } }
 
         /// <summary>
         /// States of nodes in the list.
@@ -133,7 +133,7 @@ namespace EaslyController.ReadOnly
                 INode ChildNodeClone = ChildState.CloneNode();
                 Debug.Assert(ChildNodeClone != null);
 
-                NodeTreeHelper.InsertIntoList(parentNode, PropertyName, i, ChildNodeClone);
+                NodeTreeHelperList.InsertIntoList(parentNode, PropertyName, i, ChildNodeClone);
             }
         }
 

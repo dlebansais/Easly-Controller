@@ -123,8 +123,8 @@ namespace EaslyController.Writeable
             Debug.Assert(newBlockIndex.BlockIndex <= BlockStateList.Count);
 
             INode ParentNode = Owner.Node;
-            NodeTreeHelper.InsertIntoBlockList(ParentNode, PropertyName, newBlockIndex.BlockIndex, ReplicationStatus.Normal, newBlockIndex.PatternNode, newBlockIndex.SourceNode, out IBlock ChildBlock);
-            NodeTreeHelper.InsertIntoBlock(ChildBlock, 0, newBlockIndex.Node);
+            NodeTreeHelperBlockList.InsertIntoBlockList(ParentNode, PropertyName, newBlockIndex.BlockIndex, ReplicationStatus.Normal, newBlockIndex.PatternNode, newBlockIndex.SourceNode, out IBlock ChildBlock);
+            NodeTreeHelperBlockList.InsertIntoBlock(ChildBlock, 0, newBlockIndex.Node);
 
             IWriteableBrowsingNewBlockNodeIndex BrowsingNewBlockIndex = (IWriteableBrowsingNewBlockNodeIndex)newBlockIndex.ToBrowsingIndex();
             browsingIndex = BrowsingNewBlockIndex;
@@ -148,7 +148,7 @@ namespace EaslyController.Writeable
             INode ParentNode = Owner.Node;
             IBlock ChildBlock = BlockState.ChildBlock;
 
-            NodeTreeHelper.InsertIntoBlock(ChildBlock, existingBlockIndex.Index, existingBlockIndex.Node);
+            NodeTreeHelperBlockList.InsertIntoBlock(ChildBlock, existingBlockIndex.Index, existingBlockIndex.Node);
 
             IWriteableBrowsingCollectionNodeIndex BrowsingBlockIndex = existingBlockIndex.ToBrowsingIndex();
             browsingIndex = BrowsingBlockIndex;

@@ -42,7 +42,7 @@ namespace EaslyController.ReadOnly
             Debug.Assert(!string.IsNullOrEmpty(propertyName));
             Debug.Assert(blockIndex >= 0);
             Debug.Assert(index > 0);
-            Debug.Assert(NodeTreeHelper.IsBlockChildNode(parentNode, propertyName, blockIndex, index, node));
+            Debug.Assert(NodeTreeHelperBlockList.IsBlockChildNode(parentNode, propertyName, blockIndex, index, node));
 
             BlockIndex = blockIndex;
             Index = index;

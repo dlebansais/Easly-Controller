@@ -49,9 +49,9 @@ namespace EaslyController.ReadOnly
             Debug.Assert(blockIndex >= 0);
             Debug.Assert(patternNode != null);
             Debug.Assert(sourceNode != null);
-            Debug.Assert(NodeTreeHelper.IsBlockChildNode(parentNode, propertyName, blockIndex, 0, node));
-            Debug.Assert(NodeTreeHelper.IsBlockPatternNode(parentNode, propertyName, blockIndex, patternNode));
-            Debug.Assert(NodeTreeHelper.IsBlockSourceNode(parentNode, propertyName, blockIndex, sourceNode));
+            Debug.Assert(NodeTreeHelperBlockList.IsBlockChildNode(parentNode, propertyName, blockIndex, 0, node));
+            Debug.Assert(NodeTreeHelperBlockList.IsBlockPatternNode(parentNode, propertyName, blockIndex, patternNode));
+            Debug.Assert(NodeTreeHelperBlockList.IsBlockSourceNode(parentNode, propertyName, blockIndex, sourceNode));
 
             BlockIndex = blockIndex;
             PatternNode = patternNode;

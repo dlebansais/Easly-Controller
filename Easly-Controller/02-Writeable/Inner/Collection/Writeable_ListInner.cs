@@ -88,7 +88,7 @@ namespace EaslyController.Writeable
             Debug.Assert(listIndex.Index >= 0 && listIndex.Index <= StateList.Count);
 
             INode ParentNode = Owner.Node;
-            NodeTreeHelper.InsertIntoList(ParentNode, PropertyName, listIndex.Index, listIndex.Node);
+            NodeTreeHelperList.InsertIntoList(ParentNode, PropertyName, listIndex.Index, listIndex.Node);
 
             IWriteableBrowsingListNodeIndex BrowsingListIndex = (IWriteableBrowsingListNodeIndex)listIndex.ToBrowsingIndex();
             browsingIndex = BrowsingListIndex;

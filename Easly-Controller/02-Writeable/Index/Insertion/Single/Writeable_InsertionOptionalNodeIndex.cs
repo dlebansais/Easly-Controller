@@ -32,9 +32,9 @@ namespace EaslyController.Writeable
         {
             Debug.Assert(parentNode != null);
             Debug.Assert(!string.IsNullOrEmpty(propertyName));
-            Debug.Assert(NodeTreeHelper.IsOptionalChildNodeProperty(parentNode, propertyName, out Type ChildNodeType));
+            Debug.Assert(NodeTreeHelperOptional.IsOptionalChildNodeProperty(parentNode, propertyName, out Type ChildNodeType));
 
-            Optional = NodeTreeHelper.GetOptionalChildNode(parentNode, propertyName);
+            Optional = NodeTreeHelperOptional.GetOptionalChildNode(parentNode, propertyName);
             Debug.Assert(Optional != null);
 
             PropertyName = propertyName;

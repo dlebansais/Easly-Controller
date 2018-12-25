@@ -98,7 +98,7 @@ namespace EaslyController.ReadOnly
             int BlockIndex = newBlockIndex.BlockIndex;
             Debug.Assert(BlockIndex == BlockStateList.Count);
 
-            NodeTreeHelper.GetChildBlock(Owner.Node, PropertyName, BlockIndex, out IBlock ChildBlock);
+            NodeTreeHelperBlockList.GetChildBlock(Owner.Node, PropertyName, BlockIndex, out IBlock ChildBlock);
 
             IReadOnlyBlockState BlockState = CreateBlockState(newBlockIndex, ChildBlock);
             InsertInBlockStateList(BlockIndex, BlockState);
@@ -160,12 +160,12 @@ namespace EaslyController.ReadOnly
         /// <summary>
         /// Interface type for all nodes in the inner.
         /// </summary>
-        public override Type InterfaceType { get { return NodeTreeHelper.BlockListInterfaceType(Owner.Node, PropertyName); } }
+        public override Type InterfaceType { get { return NodeTreeHelperBlockList.BlockListInterfaceType(Owner.Node, PropertyName); } }
 
         /// <summary>
         /// Class type for all nodes in the inner. Must inherit from <see cref="InterfaceType"/>.
         /// </summary>
-        public virtual Type ItemType { get { return NodeTreeHelper.BlockListItemType(Owner.Node, PropertyName); } }
+        public virtual Type ItemType { get { return NodeTreeHelperBlockList.BlockListItemType(Owner.Node, PropertyName); } }
 
         /// <summary>
         /// States of blocks in the block list.
@@ -231,8 +231,8 @@ namespace EaslyController.ReadOnly
                 BlockState.CloneBlock(parentNode);
 
             // Copy comments.
-            IBlockList BlockList = NodeTreeHelper.GetBlockList(Owner.Node, PropertyName);
-            IBlockList NewBlockList = NodeTreeHelper.GetBlockList(parentNode, PropertyName);
+            IBlockList BlockList = NodeTreeHelperBlockList.GetBlockList(Owner.Node, PropertyName);
+            IBlockList NewBlockList = NodeTreeHelperBlockList.GetBlockList(parentNode, PropertyName);
             NodeTreeHelper.CopyDocumentation(BlockList, NewBlockList);
         }
 

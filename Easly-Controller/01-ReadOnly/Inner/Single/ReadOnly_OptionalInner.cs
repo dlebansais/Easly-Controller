@@ -80,12 +80,12 @@ namespace EaslyController.ReadOnly
         /// <summary>
         /// Interface type of the node.
         /// </summary>
-        public override Type InterfaceType { get { return NodeTreeHelper.OptionalChildInterfaceType(Owner.Node, PropertyName); } }
+        public override Type InterfaceType { get { return NodeTreeHelperOptional.OptionalChildInterfaceType(Owner.Node, PropertyName); } }
 
         /// <summary>
         /// True if the optional node is provided.
         /// </summary>
-        public bool IsAssigned { get { return NodeTreeHelper.IsChildNodeAssigned(Owner.Node, PropertyName); } }
+        public bool IsAssigned { get { return NodeTreeHelperOptional.IsChildNodeAssigned(Owner.Node, PropertyName); } }
 
         /// <summary>
         /// The state of the optional node.
@@ -112,7 +112,7 @@ namespace EaslyController.ReadOnly
 
             // If the original is assigned, set the clone as assigned too.
             if (IsAssigned)
-                NodeTreeHelper.AssignChildNode(parentNode, PropertyName);
+                NodeTreeHelperOptional.AssignChildNode(parentNode, PropertyName);
         }
 
         /// <summary>

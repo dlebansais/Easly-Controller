@@ -28,7 +28,7 @@ namespace EaslyController.ReadOnly
             Debug.Assert(parentNode != null);
             Debug.Assert(node != null);
             Debug.Assert(!string.IsNullOrEmpty(propertyName));
-            Debug.Assert(NodeTreeHelper.IsChildNode(parentNode, propertyName, node));
+            Debug.Assert(NodeTreeHelperChild.IsChildNode(parentNode, propertyName, node));
 
             Node = node;
             PropertyName = propertyName;
