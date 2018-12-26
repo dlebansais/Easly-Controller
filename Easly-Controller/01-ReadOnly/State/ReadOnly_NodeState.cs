@@ -166,13 +166,14 @@ namespace EaslyController.ReadOnly
         public virtual void BrowseChildren(IReadOnlyBrowseContext browseNodeContext)
         {
             IList<string> PropertyNames = NodeTreeHelper.EnumChildNodeProperties(Node);
-            INode ChildNode;
-            Type ChildInterfaceType, ChildNodeType;
-            IReadOnlyList<INode> ChildNodeList;
-            IReadOnlyList<INodeTreeBlock> ChildBlockList;
 
             foreach (string PropertyName in PropertyNames)
             {
+                INode ChildNode;
+                Type ChildInterfaceType, ChildNodeType;
+                IReadOnlyList<INode> ChildNodeList;
+                IReadOnlyList<INodeTreeBlock> ChildBlockList;
+
                 if (NodeTreeHelperChild.IsChildNodeProperty(Node, PropertyName, out ChildNodeType))
                 {
                     NodeTreeHelperChild.GetChildNode(Node, PropertyName, out ChildNode);

@@ -122,9 +122,6 @@ namespace EaslyController.ReadOnly
         {
             Debug.Assert(parentNode != null);
 
-            // Create an empty list in the parent.
-            NodeHelper.InitializeEmptyNodeList(parentNode, PropertyName, InterfaceType);
-
             for (int i = 0; i < StateList.Count; i++)
             {
                 IReadOnlyPlaceholderNodeState ChildState = StateList[i];

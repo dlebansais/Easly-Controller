@@ -223,9 +223,6 @@ namespace EaslyController.ReadOnly
         {
             Debug.Assert(parentNode != null);
 
-            // Create an empty block list in the parent.
-            NodeHelper.InitializeEmptyBlockList(parentNode, PropertyName, InterfaceType, ItemType);
-
             // Clone and insert all blocks. This will clone all children recursively.
             foreach (IReadOnlyBlockState BlockState in BlockStateList)
                 BlockState.CloneBlock(parentNode);

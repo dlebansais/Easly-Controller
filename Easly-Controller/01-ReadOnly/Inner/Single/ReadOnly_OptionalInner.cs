@@ -107,12 +107,10 @@ namespace EaslyController.ReadOnly
             INode ChildNodeClone = ChildState.CloneNode();
             Debug.Assert(ChildNodeClone != null);
 
-            // Set the clone in the parent, assigned or not.
-            NodeHelper.InitializeOptionalChildNode(parentNode, PropertyName, ChildNodeClone);
-
             // If the original is assigned, set the clone as assigned too.
-            if (IsAssigned)
-                NodeTreeHelperOptional.AssignChildNode(parentNode, PropertyName);
+            NodeTreeHelperOptional.SetOptionalChildNode(parentNode, PropertyName, ChildNodeClone);
+            if (!IsAssigned)
+                NodeTreeHelperOptional.UnassignChildNode(parentNode, PropertyName);
         }
 
         /// <summary>
