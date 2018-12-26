@@ -16,9 +16,6 @@ namespace TestDebug
         #region Init
         static void Main(string[] args)
         {
-            IClass RootNode;
-            Serializer Serializer = new Serializer();
-
             string CurrentDirectory = Environment.CurrentDirectory;
             if (CurrentDirectory.Contains("Debug") || CurrentDirectory.Contains("Release"))
                 CurrentDirectory = Path.GetDirectoryName(CurrentDirectory);
@@ -28,14 +25,32 @@ namespace TestDebug
                 CurrentDirectory = Path.GetDirectoryName(CurrentDirectory);
 
             CurrentDirectory = Path.GetDirectoryName(CurrentDirectory);
+            CurrentDirectory = Path.Combine(CurrentDirectory, "Test");
 
-            using (FileStream fs = new FileStream(Path.Combine(CurrentDirectory, "Test/test.easly"), FileMode.Open, FileAccess.Read))
+            Serializer Serializer = new Serializer();
+
+            Test(Serializer, CurrentDirectory);
+        }
+
+        static void Test(Serializer Serializer, string Folder)
+        {
+            foreach (string Subfolder in Directory.GetDirectories(Folder))
+                Test(Serializer, Subfolder);
+
+            foreach (string FileName in Directory.GetFiles(Folder, "*.easly"))
             {
-                RootNode = Serializer.Deserialize(fs) as IClass;
-            }
+                Console.WriteLine(FileName);
 
-            TestReadOnly(RootNode);
-            TestWriteable(RootNode);
+                using (FileStream fs = new FileStream(FileName, FileMode.Open, FileAccess.Read))
+                {
+                    INode RootNode = Serializer.Deserialize(fs) as INode;
+                    INode ClonedNode = NodeHelper.DeepCloneNode(RootNode);
+                    Debug.Assert(NodeHelper.NodeHash(RootNode) == NodeHelper.NodeHash(ClonedNode));
+
+                    TestReadOnly(RootNode);
+                    TestWriteable(RootNode);
+                }
+            }
         }
         #endregion
 
@@ -105,8 +120,11 @@ namespace TestDebug
             IReadOnlyControllerView ControllerView = ReadOnlyControllerView.Create(Controller);
         }
 
-        static void TestWriteable(IClass rootNode)
+        static void TestWriteable(INode rootNode)
         {
+            if (!(rootNode is IClass))
+                return;
+
             ControllerTools.ResetExpectedName();
 
             IWriteableRootNodeIndex RootIndex = new WriteableRootNodeIndex(rootNode);

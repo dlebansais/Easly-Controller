@@ -52,7 +52,7 @@ namespace EaslyController.ReadOnly
 
                 if (Optional.IsAssigned)
                 {
-                    INode Node = Optional.AnyItem as INode;
+                    INode Node = Optional.Item as INode;
                     Debug.Assert(Node != null);
 
                     return Node;
