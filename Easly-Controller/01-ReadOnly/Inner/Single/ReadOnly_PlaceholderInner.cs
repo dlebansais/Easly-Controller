@@ -95,7 +95,7 @@ namespace EaslyController.ReadOnly
             Debug.Assert(ChildNodeClone != null);
 
             // Set the clone in the parent.
-            NodeTreeHelperChild.ReplaceChildNode(parentNode, PropertyName, ChildNodeClone);
+            NodeTreeHelperChild.SetChildNode(parentNode, PropertyName, ChildNodeClone);
         }
 
         /// <summary>

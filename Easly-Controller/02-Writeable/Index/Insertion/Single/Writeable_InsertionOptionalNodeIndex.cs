@@ -34,7 +34,7 @@ namespace EaslyController.Writeable
             Debug.Assert(!string.IsNullOrEmpty(propertyName));
             Debug.Assert(NodeTreeHelperOptional.IsOptionalChildNodeProperty(parentNode, propertyName, out Type ChildNodeType));
 
-            Optional = NodeTreeHelperOptional.GetOptionalChildNode(parentNode, propertyName);
+            Optional = NodeTreeHelperOptional.GetOptionalReference(parentNode, propertyName);
             Debug.Assert(Optional != null);
 
             PropertyName = propertyName;
