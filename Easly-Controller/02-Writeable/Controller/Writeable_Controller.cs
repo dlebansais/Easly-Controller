@@ -45,7 +45,7 @@ namespace EaslyController.Writeable
         /// </summary>
         /// <param name="inner">The inner for the list or block list from which the node is removed.</param>
         /// <param name="nodeIndex">Index for the removed node.</param>
-        //void Remove(IWriteableCollectionInner inner, IWriteableBrowsingChildIndex nodeIndex);
+        void Remove(IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> inner, IWriteableInsertionCollectionNodeIndex nodeIndex);
 
         /// <summary>
         /// Replace an existing node with a new one.
@@ -156,16 +156,58 @@ namespace EaslyController.Writeable
                 IReadOnlySourceState SourceState = BlockState.SourceState;
                 AddState(SourceIndex, SourceState);
                 Stats.PlaceholderNodeCount++;
-
-                AddState(BrowsingIndex, ChildState);
             }
             else
-            {
                 inner.Insert(nodeIndex, out BrowsingIndex, out ChildState);
-                AddState(BrowsingIndex, ChildState);
-            }
 
+            AddState(BrowsingIndex, ChildState);
             BuildStateTable(inner, null, BrowsingIndex, ChildState);
+        }
+
+        /// <summary>
+        /// Removes a node from a list of block list.
+        /// </summary>
+        /// <param name="inner">The inner for the list or block list from which the node is removed.</param>
+        /// <param name="nodeIndex">Index for the removed node.</param>
+        public void Remove(IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> inner, IWriteableInsertionCollectionNodeIndex nodeIndex)
+        {
+            IWriteableNodeState Owner = inner.Owner;
+            IWriteableIndex ParentIndex = Owner.ParentIndex;
+            Debug.Assert(Contains(ParentIndex));
+            Debug.Assert(IndexToState(ParentIndex) == Owner);
+            IWriteableInnerReadOnlyDictionary<string> InnerTable = Owner.InnerTable;
+            Debug.Assert(InnerTable.ContainsKey(inner.PropertyName));
+            Debug.Assert(InnerTable[inner.PropertyName] == inner);
+
+            IWriteableBrowsingCollectionNodeIndex OldBrowsingIndex;
+            IWriteableNodeState OldState;
+
+            if ((inner is IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> AsBlockListInner) && (nodeIndex is IWriteableInsertionExistingBlockNodeIndex AsExistingBlockIndex))
+            {
+                AsBlockListInner.RemoveWithBlock(AsExistingBlockIndex, out OldBrowsingIndex, out bool IsBlockRemoved, out IWriteableBrowsingPatternIndex PatternIndex, out IWriteableBrowsingSourceIndex SourceIndex);
+
+                if (IsBlockRemoved)
+                {
+                    Debug.Assert(PatternIndex != null);
+                    Debug.Assert(StateTable.ContainsKey(PatternIndex));
+                    Debug.Assert(SourceIndex != null);
+                    Debug.Assert(StateTable.ContainsKey(SourceIndex));
+
+                    RemoveState(PatternIndex);
+                    Stats.PlaceholderNodeCount--;
+
+                    RemoveState(SourceIndex);
+                    Stats.PlaceholderNodeCount--;
+                }
+            }
+            else
+                inner.Remove(nodeIndex, out OldBrowsingIndex);
+
+            OldState = StateTable[OldBrowsingIndex];
+            RemoveState(OldBrowsingIndex);
+            Stats.PlaceholderNodeCount--;
+
+            PruneStateTable(OldState);
         }
 
         /// <summary>

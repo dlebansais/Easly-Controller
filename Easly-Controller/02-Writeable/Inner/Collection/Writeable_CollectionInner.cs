@@ -19,6 +19,13 @@ namespace EaslyController.Writeable
         /// <param name="browsingIndex">Index of the inserted node upon return.</param>
         /// <param name="childState">The inserted node state upon return.</param>
         void Insert(IWriteableInsertionCollectionNodeIndex nodeIndex, out IWriteableBrowsingCollectionNodeIndex browsingIndex, out IWriteablePlaceholderNodeState childState);
+
+        /// <summary>
+        /// Removes a node from a list or block list.
+        /// </summary>
+        /// <param name="nodeIndex">Index of the node to remove.</param>
+        /// <param name="oldBrowsingIndex">Index of the removed node upon return.</param>
+        void Remove(IWriteableInsertionCollectionNodeIndex nodeIndex, out IWriteableBrowsingCollectionNodeIndex oldBrowsingIndex);
     }
 
     /// <summary>
@@ -39,6 +46,13 @@ namespace EaslyController.Writeable
         /// <param name="browsingIndex">Index of the inserted node upon return.</param>
         /// <param name="childState">The inserted node state upon return.</param>
         void Insert(IWriteableInsertionCollectionNodeIndex nodeIndex, out IWriteableBrowsingCollectionNodeIndex browsingIndex, out IWriteablePlaceholderNodeState childState);
+
+        /// <summary>
+        /// Removes a node from a list or block list.
+        /// </summary>
+        /// <param name="nodeIndex">Index of the node to remove.</param>
+        /// <param name="oldBrowsingIndex">Index of the removed node upon return.</param>
+        void Remove(IWriteableInsertionCollectionNodeIndex nodeIndex, out IWriteableBrowsingCollectionNodeIndex oldBrowsingIndex);
     }
 
     /// <summary>
@@ -80,6 +94,13 @@ namespace EaslyController.Writeable
         /// <param name="browsingIndex">Index of the inserted node upon return.</param>
         /// <param name="childState">The inserted node state upon return.</param>
         public abstract void Insert(IWriteableInsertionCollectionNodeIndex nodeIndex, out IWriteableBrowsingCollectionNodeIndex browsingIndex, out IWriteablePlaceholderNodeState childState);
+
+        /// <summary>
+        /// Removes a node from a list or block list.
+        /// </summary>
+        /// <param name="nodeIndex">Index of the node to remove.</param>
+        /// <param name="oldBrowsingIndex">Index of the removed node upon return.</param>
+        public abstract void Remove(IWriteableInsertionCollectionNodeIndex nodeIndex, out IWriteableBrowsingCollectionNodeIndex oldBrowsingIndex);
 
         /// <summary>
         /// Replaces a node.

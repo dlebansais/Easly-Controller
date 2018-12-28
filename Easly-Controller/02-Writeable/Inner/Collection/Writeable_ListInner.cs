@@ -97,6 +97,42 @@ namespace EaslyController.Writeable
             InsertInStateList(listIndex.Index, childState);
         }
 
+        /// <summary>
+        /// Removes a node from a list.
+        /// </summary>
+        /// <param name="nodeIndex">Index of the node to remove.</param>
+        /// <param name="oldBrowsingIndex">Index of the removed node upon return.</param>
+        public virtual void Remove(IWriteableInsertionCollectionNodeIndex nodeIndex, out IWriteableBrowsingCollectionNodeIndex oldBrowsingIndex)
+        {
+            Debug.Assert(nodeIndex != null);
+
+            if (nodeIndex is IWriteableInsertionListNodeIndex AsListIndex)
+                Remove(AsListIndex, out oldBrowsingIndex);
+            else
+                throw new ArgumentOutOfRangeException(nameof(nodeIndex));
+        }
+
+        protected virtual void Remove(IWriteableInsertionListNodeIndex listIndex, out IWriteableBrowsingCollectionNodeIndex oldBrowsingIndex)
+        {
+            Debug.Assert(listIndex != null);
+            Debug.Assert(listIndex.Index >= 0 && listIndex.Index < StateList.Count);
+
+            INode ParentNode = Owner.Node;
+
+            IWriteableNodeState OldChildState = StateList[listIndex.Index];
+            oldBrowsingIndex = (IWriteableBrowsingCollectionNodeIndex)OldChildState.ParentIndex;
+            RemoveFromStateList(listIndex.Index);
+
+            NodeTreeHelperList.RemoveFromList(ParentNode, PropertyName, listIndex.Index);
+        }
+
+        /// <summary>
+        /// Replaces a node.
+        /// </summary>
+        /// <param name="nodeIndex">Index of the node to insert.</param>
+        /// <param name="oldBrowsingIndex">Index of the replaced node upon return.</param>
+        /// <param name="newBrowsingIndex">Index of the inserted node upon return.</param>
+        /// <param name="childState">State of the inserted node upon return.</param>
         public virtual void Replace(IWriteableInsertionChildIndex nodeIndex, out IWriteableBrowsingChildIndex oldBrowsingIndex, out IWriteableBrowsingChildIndex newBrowsingIndex, out IWriteableNodeState childState)
         {
             Debug.Assert(nodeIndex != null);

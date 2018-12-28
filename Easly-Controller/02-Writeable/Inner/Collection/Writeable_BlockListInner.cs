@@ -26,7 +26,24 @@ namespace EaslyController.Writeable
         /// </summary>
         new event Action<IWriteableBlockState> BlockStateRemoved;
 
+        /// <summary>
+        /// Inserts a new block with one node in a block list.
+        /// </summary>
+        /// <param name="newBlockIndex">Index of the node to insert.</param>
+        /// <param name="browsingIndex">Index of the inserted node upon return.</param>
+        /// <param name="blockState">The inserted block state upon return.</param>
+        /// <param name="childState">The inserted node state upon return.</param>
         void InsertNew(IWriteableInsertionNewBlockNodeIndex newBlockIndex, out IWriteableBrowsingCollectionNodeIndex browsingIndex, out IWriteableBlockState blockState, out IWriteablePlaceholderNodeState childState);
+
+        /// <summary>
+        /// Removes a node from a block list. This method is allowed to remove the last node of a block.
+        /// </summary>
+        /// <param name="nodeIndex">Index of the node to remove.</param>
+        /// <param name="oldBrowsingIndex">Index of the removed node upon return.</param>
+        /// <param name="isBlockRemoved">Indicates upon return if the last nodee of the block was removed, and if so, that the block was removed as well.</param>
+        /// <param name="patternIndex">If <paramref name="isBlockRemoved"/> is true, index of the removed pattern upon return.</param>
+        /// <param name="sourceIndex">If <paramref name="isBlockRemoved"/> is true, index of the removed source upon return.</param>
+        void RemoveWithBlock(IWriteableInsertionCollectionNodeIndex nodeIndex, out IWriteableBrowsingCollectionNodeIndex oldBrowsingIndex, out bool isBlockRemoved, out IWriteableBrowsingPatternIndex patternIndex, out IWriteableBrowsingSourceIndex sourceIndex);
     }
 
     /// <summary>
@@ -50,7 +67,24 @@ namespace EaslyController.Writeable
         /// </summary>
         new event Action<IWriteableBlockState> BlockStateRemoved;
 
+        /// <summary>
+        /// Inserts a new block with one node in a block list.
+        /// </summary>
+        /// <param name="newBlockIndex">Index of the node to insert.</param>
+        /// <param name="browsingIndex">Index of the inserted node upon return.</param>
+        /// <param name="blockState">The inserted block state upon return.</param>
+        /// <param name="childState">The inserted node state upon return.</param>
         void InsertNew(IWriteableInsertionNewBlockNodeIndex newBlockIndex, out IWriteableBrowsingCollectionNodeIndex browsingIndex, out IWriteableBlockState blockState, out IWriteablePlaceholderNodeState childState);
+
+        /// <summary>
+        /// Removes a node from a block list. This method is allowed to remove the last node of a block.
+        /// </summary>
+        /// <param name="nodeIndex">Index of the node to remove.</param>
+        /// <param name="oldBrowsingIndex">Index of the removed node upon return.</param>
+        /// <param name="isBlockRemoved">Indicates upon return if the last nodee of the block was removed, and if so, that the block was removed as well.</param>
+        /// <param name="patternIndex">If <paramref name="isBlockRemoved"/> is true, index of the removed pattern upon return.</param>
+        /// <param name="sourceIndex">If <paramref name="isBlockRemoved"/> is true, index of the removed source upon return.</param>
+        void RemoveWithBlock(IWriteableInsertionCollectionNodeIndex nodeIndex, out IWriteableBrowsingCollectionNodeIndex oldBrowsingIndex, out bool isBlockRemoved, out IWriteableBrowsingPatternIndex patternIndex, out IWriteableBrowsingSourceIndex sourceIndex);
     }
 
     /// <summary>
@@ -116,6 +150,13 @@ namespace EaslyController.Writeable
                 throw new ArgumentOutOfRangeException(nameof(nodeIndex));
         }
 
+        /// <summary>
+        /// Inserts a new block with one node in a block list.
+        /// </summary>
+        /// <param name="newBlockIndex">Index of the node to insert.</param>
+        /// <param name="browsingIndex">Index of the inserted node upon return.</param>
+        /// <param name="blockState">The inserted block state upon return.</param>
+        /// <param name="childState">The inserted node state upon return.</param>
         public virtual void InsertNew(IWriteableInsertionNewBlockNodeIndex newBlockIndex, out IWriteableBrowsingCollectionNodeIndex browsingIndex, out IWriteableBlockState blockState, out IWriteablePlaceholderNodeState childState)
         {
             Debug.Assert(newBlockIndex != null);
@@ -158,6 +199,83 @@ namespace EaslyController.Writeable
             BlockState.Insert(BrowsingBlockIndex, Index, childState);
         }
 
+        /// <summary>
+        /// Removes a node from a block list. This method is not allowed to remove the last node of a block.
+        /// </summary>
+        /// <param name="nodeIndex">Index of the node to remove.</param>
+        /// <param name="oldBrowsingIndex">Index of the removed node upon return.</param>
+        public virtual void Remove(IWriteableInsertionCollectionNodeIndex nodeIndex, out IWriteableBrowsingCollectionNodeIndex oldBrowsingIndex)
+        {
+            Debug.Assert(nodeIndex != null);
+
+            if (nodeIndex is IWriteableInsertionExistingBlockNodeIndex AsExistingBlockIndex)
+            {
+                Remove(AsExistingBlockIndex, out oldBrowsingIndex, out bool IsBlockRemoved, out IWriteableBrowsingPatternIndex PatternIndex, out IWriteableBrowsingSourceIndex SourceIndex);
+
+                // Only the safe case where the block isn't removed is allowed for this version of Remove().
+                Debug.Assert(!IsBlockRemoved);
+                Debug.Assert(PatternIndex == null);
+                Debug.Assert(SourceIndex == null);
+            }
+            else
+                throw new ArgumentOutOfRangeException(nameof(nodeIndex));
+        }
+
+        /// <summary>
+        /// Removes a node from a block list. This method is allowed to remove the last node of a block.
+        /// </summary>
+        /// <param name="nodeIndex">Index of the node to remove.</param>
+        /// <param name="oldBrowsingIndex">Index of the removed node upon return.</param>
+        /// <param name="isBlockRemoved">Indicates upon return if the last nodee of the block was removed, and if so, that the block was removed as well.</param>
+        /// <param name="patternIndex">If <paramref name="isBlockRemoved"/> is true, index of the removed pattern upon return.</param>
+        /// <param name="sourceIndex">If <paramref name="isBlockRemoved"/> is true, index of the removed source upon return.</param>
+        public virtual void RemoveWithBlock(IWriteableInsertionCollectionNodeIndex nodeIndex, out IWriteableBrowsingCollectionNodeIndex oldBrowsingIndex, out bool isBlockRemoved, out IWriteableBrowsingPatternIndex patternIndex, out IWriteableBrowsingSourceIndex sourceIndex)
+        {
+            Debug.Assert(nodeIndex != null);
+
+            if (nodeIndex is IWriteableInsertionExistingBlockNodeIndex AsExistingBlockIndex)
+                Remove(AsExistingBlockIndex, out oldBrowsingIndex, out isBlockRemoved, out patternIndex, out sourceIndex);
+            else
+                throw new ArgumentOutOfRangeException(nameof(nodeIndex));
+        }
+
+        protected virtual void Remove(IWriteableInsertionExistingBlockNodeIndex existingBlockIndex, out IWriteableBrowsingCollectionNodeIndex oldBrowsingIndex, out bool IsBlockRemoved, out IWriteableBrowsingPatternIndex patternIndex, out IWriteableBrowsingSourceIndex sourceIndex)
+        {
+            Debug.Assert(existingBlockIndex != null);
+            Debug.Assert(existingBlockIndex.BlockIndex < BlockStateList.Count);
+
+            IWriteableBlockState BlockState = BlockStateList[existingBlockIndex.BlockIndex];
+            Debug.Assert(existingBlockIndex.Index < BlockState.StateList.Count);
+
+            IBlock ChildBlock = BlockState.ChildBlock;
+            INode ParentNode = Owner.Node;
+
+            IWriteableNodeState OldChildState = BlockState.StateList[existingBlockIndex.Index];
+            oldBrowsingIndex = (IWriteableBrowsingBlockNodeIndex)OldChildState.ParentIndex;
+            BlockState.Remove((IWriteableBrowsingBlockNodeIndex)OldChildState.ParentIndex, existingBlockIndex.Index);
+
+            NodeTreeHelperBlockList.RemoveFromBlock(ParentNode, PropertyName, existingBlockIndex.BlockIndex, existingBlockIndex.Index, out IsBlockRemoved);
+
+            if (IsBlockRemoved)
+            {
+                patternIndex = BlockState.PatternIndex;
+                sourceIndex = BlockState.SourceIndex;
+                RemoveFromBlockStateList(existingBlockIndex.BlockIndex);
+            }
+            else
+            {
+                patternIndex = null;
+                sourceIndex = null;
+            }
+        }
+
+        /// <summary>
+        /// Replaces a node.
+        /// </summary>
+        /// <param name="nodeIndex">Index of the node to insert.</param>
+        /// <param name="oldBrowsingIndex">Index of the replaced node upon return.</param>
+        /// <param name="newBrowsingIndex">Index of the inserted node upon return.</param>
+        /// <param name="childState">State of the inserted node upon return.</param>
         public virtual void Replace(IWriteableInsertionChildIndex nodeIndex, out IWriteableBrowsingChildIndex oldBrowsingIndex, out IWriteableBrowsingChildIndex newBrowsingIndex, out IWriteableNodeState childState)
         {
             Debug.Assert(nodeIndex != null);
