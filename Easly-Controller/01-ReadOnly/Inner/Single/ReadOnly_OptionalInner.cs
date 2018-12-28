@@ -11,6 +11,11 @@ namespace EaslyController.ReadOnly
     public interface IReadOnlyOptionalInner : IReadOnlySingleInner
     {
         /// <summary>
+        /// The state of the node.
+        /// </summary>
+        new IReadOnlyOptionalNodeState ChildState { get; }
+
+        /// <summary>
         /// True if the optional node is provided.
         /// </summary>
         bool IsAssigned { get; }
@@ -22,6 +27,11 @@ namespace EaslyController.ReadOnly
     public interface IReadOnlyOptionalInner<out IIndex> : IReadOnlySingleInner<IIndex>
         where IIndex : IReadOnlyBrowsingOptionalNodeIndex
     {
+        /// <summary>
+        /// The state of the node.
+        /// </summary>
+        new IReadOnlyOptionalNodeState ChildState { get; }
+
         /// <summary>
         /// True if the optional node is provided.
         /// </summary>
@@ -44,7 +54,7 @@ namespace EaslyController.ReadOnly
         public ReadOnlyOptionalInner(IReadOnlyNodeState owner, string propertyName)
             : base(owner, propertyName)
         {
-            _ChildState = null;
+            ChildState = null;
         }
 
         /// <summary>
@@ -90,8 +100,7 @@ namespace EaslyController.ReadOnly
         /// <summary>
         /// The state of the optional node.
         /// </summary>
-        public override IReadOnlyNodeState ChildState { get { return _ChildState; } }
-        private IReadOnlyOptionalNodeState _ChildState;
+        public new virtual IReadOnlyOptionalNodeState ChildState { get; private set; }
         #endregion
 
         #region Client Interface
@@ -129,7 +138,7 @@ namespace EaslyController.ReadOnly
         {
             Debug.Assert(childState != null);
 
-            _ChildState = childState;
+            ChildState = childState;
         }
         #endregion
 

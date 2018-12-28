@@ -1,7 +1,6 @@
 ﻿using BaseNode;
 using BaseNodeHelper;
 using Easly;
-using System;
 using System.Diagnostics;
 
 namespace EaslyController.Writeable
@@ -9,7 +8,7 @@ namespace EaslyController.Writeable
     /// <summary>
     /// Index for replacing an optional node.
     /// </summary>
-    public interface IWriteableInsertionOptionalNodeIndex : IWriteableInsertionChildIndex
+    public interface IWriteableInsertionOptionalNodeIndex : IWriteableInsertionChildIndex, IWriteableNodeIndex
     {
         /// <summary>
         /// Interface to the optional object for the node.
@@ -28,14 +27,17 @@ namespace EaslyController.Writeable
         /// </summary>
         /// <param name="parentNode">Node containing the indexed optional node.</param>
         /// <param name="propertyName">Property in <paramref name="parentNode"/> corresponding to the indexed optional node.
-        public WriteableInsertionOptionalNodeIndex(INode parentNode, string propertyName)
+        /// <param name="node">The assigned node.</param>
+        public WriteableInsertionOptionalNodeIndex(INode parentNode, string propertyName, INode node)
         {
             Debug.Assert(parentNode != null);
             Debug.Assert(!string.IsNullOrEmpty(propertyName));
-            Debug.Assert(NodeTreeHelperOptional.IsOptionalChildNodeProperty(parentNode, propertyName, out Type ChildNodeType));
+            Debug.Assert(node != null);
+            Debug.Assert(NodeTreeHelper.IsAssignable(parentNode, propertyName, node));
 
             ParentNode = parentNode;
             PropertyName = propertyName;
+            Node = node;
 
             Optional = NodeTreeHelperOptional.GetOptionalReference(parentNode, propertyName);
             Debug.Assert(Optional != null);
@@ -52,6 +54,11 @@ namespace EaslyController.Writeable
         /// Property indexed for <see cref="Optional"/>.
         /// </summary>
         public string PropertyName { get; }
+
+        /// <summary>
+        /// The assigned node.
+        /// </summary>
+        public INode Node { get; }
 
         /// <summary>
         /// Interface to the optional object for the node.

@@ -191,9 +191,7 @@ namespace TestDebug
             IIdentifier SixthNode = NodeHelper.CreateSimpleIdentifier("b");
 
             IWriteableSingleInner<IWriteableBrowsingChildIndex> OptionalInner = (IWriteableSingleInner<IWriteableBrowsingChildIndex>)InnerTable[nameof(IClass.FromIdentifier)];
-            WriteableInsertionOptionalNodeIndex InsertIndex6 = new WriteableInsertionOptionalNodeIndex(rootNode, OptionalInner.PropertyName);
-            IOptionalReference<IIdentifier> Optional = (IOptionalReference<IIdentifier>)InsertIndex6.Optional;
-            Optional.Item = SixthNode;
+            WriteableInsertionOptionalNodeIndex InsertIndex6 = new WriteableInsertionOptionalNodeIndex(rootNode, OptionalInner.PropertyName, SixthNode);
             Controller.Replace(OptionalInner, InsertIndex6);
 
             IWriteableControllerView ControllerView5 = WriteableControllerView.Create(Controller);

@@ -11,6 +11,10 @@ namespace EaslyController.Writeable
     /// </summary>
     public interface IWriteableOptionalInner : IReadOnlyOptionalInner, IWriteableSingleInner
     {
+        /// <summary>
+        /// The state of the optional node.
+        /// </summary>
+        new IWriteableOptionalNodeState ChildState { get; }
     }
 
     /// <summary>
@@ -19,6 +23,10 @@ namespace EaslyController.Writeable
     public interface IWriteableOptionalInner<out IIndex> : IReadOnlyOptionalInner<IIndex>, IWriteableSingleInner<IIndex>
         where IIndex : IWriteableBrowsingOptionalNodeIndex
     {
+        /// <summary>
+        /// The state of the optional node.
+        /// </summary>
+        new IWriteableOptionalNodeState ChildState { get; }
     }
 
     /// <summary>
@@ -49,7 +57,9 @@ namespace EaslyController.Writeable
         /// <summary>
         /// The state of the optional node.
         /// </summary>
-        public new IWriteableNodeState ChildState { get { return (IWriteableNodeState)base.ChildState; } }
+        public new IWriteableOptionalNodeState ChildState { get { return (IWriteableOptionalNodeState)base.ChildState; } }
+        IWriteableNodeState IWriteableSingleInner.ChildState { get { return ChildState; } }
+        IWriteableNodeState IWriteableSingleInner<IIndex>.ChildState { get { return ChildState; } }
         #endregion
 
         #region Client Interface
@@ -71,7 +81,7 @@ namespace EaslyController.Writeable
             INode ParentNode = Owner.Node;
 
             oldBrowsingIndex = (WriteableBrowsingOptionalNodeIndex)ChildState.ParentIndex;
-            NodeTreeHelperOptional.SetOptionalReference(ParentNode, PropertyName, optionalIndex.Optional);
+            NodeTreeHelperOptional.SetOptionalChildNode(ParentNode, PropertyName, optionalIndex.Node);
 
             WriteableBrowsingOptionalNodeIndex BrowsingIndex = (WriteableBrowsingOptionalNodeIndex)optionalIndex.ToBrowsingIndex();
             newBrowsingIndex = BrowsingIndex;
