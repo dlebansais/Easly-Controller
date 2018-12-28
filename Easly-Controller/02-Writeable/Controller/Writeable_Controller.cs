@@ -1,6 +1,7 @@
 ﻿using BaseNode;
 using EaslyController.ReadOnly;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace EaslyController.Writeable
@@ -50,9 +51,8 @@ namespace EaslyController.Writeable
         /// Replace an existing node with a new one.
         /// </summary>
         /// <param name="inner">The inner where the node is replaced.</param>
-        /// <param name="oldNodeIndex">Index of the replaced node.</param>
-        /// <param name="newNodeIndex">Index for the new node.</param>
-        //void Replace(IWriteableInner inner, IWriteableBrowsingChildIndex oldNodeIndex, IWriteableInsertionChildIndex newNodeIndex);
+        /// <param name="nodeIndex">Index for the new node.</param>
+        void Replace(IWriteableInner<IWriteableBrowsingChildIndex> inner, IWriteableInsertionChildIndex nodeIndex);
     }
 
     public class WriteableController : ReadOnlyController, IWriteableController
@@ -166,6 +166,51 @@ namespace EaslyController.Writeable
             }
 
             BuildStateTable(inner, null, BrowsingIndex, ChildState);
+        }
+
+        /// <summary>
+        /// Replace an existing node with a new one.
+        /// </summary>
+        /// <param name="inner">The inner where the node is replaced.</param>
+        /// <param name="nodeIndex">Index for the new node.</param>
+        public virtual void Replace(IWriteableInner<IWriteableBrowsingChildIndex> inner, IWriteableInsertionChildIndex nodeIndex)
+        {
+            IWriteableNodeState Owner = inner.Owner;
+            IWriteableIndex ParentIndex = Owner.ParentIndex;
+            Debug.Assert(Contains(ParentIndex));
+            Debug.Assert(IndexToState(ParentIndex) == Owner);
+            IWriteableInnerReadOnlyDictionary<string> InnerTable = Owner.InnerTable;
+            Debug.Assert(InnerTable.ContainsKey(inner.PropertyName));
+            Debug.Assert(InnerTable[inner.PropertyName] == inner);
+
+            inner.Replace(nodeIndex, out IWriteableBrowsingChildIndex OldBrowsingIndex, out IWriteableBrowsingChildIndex NewBrowsingIndex, out IWriteableNodeState ChildState);
+
+            Debug.Assert(Contains(OldBrowsingIndex));
+            IWriteableNodeState OldState = StateTable[OldBrowsingIndex];
+
+            RemoveState(OldBrowsingIndex);
+            PruneStateTable(OldState);
+
+            AddState(NewBrowsingIndex, ChildState);
+            BuildStateTable(inner, null, NewBrowsingIndex, ChildState);
+        }
+
+        protected virtual void PruneStateTable(IWriteableNodeState parentState)
+        {
+            List<IWriteableNodeState> ToRemove = new List<IWriteableNodeState>();
+
+            foreach (KeyValuePair<IWriteableIndex, IWriteableNodeState> Entry in StateTable)
+            {
+                IWriteableNodeState State = Entry.Value;
+                if (State.ParentState == parentState)
+                    ToRemove.Add(State);
+            }
+
+            foreach (IWriteableNodeState State in ToRemove)
+            {
+                RemoveState(State.ParentIndex);
+                PruneStateTable(State);
+            }
         }
         #endregion
 

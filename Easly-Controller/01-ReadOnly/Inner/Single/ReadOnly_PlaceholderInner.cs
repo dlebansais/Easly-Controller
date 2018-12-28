@@ -113,7 +113,6 @@ namespace EaslyController.ReadOnly
         protected virtual void SetChildState(IReadOnlyPlaceholderNodeState childState)
         {
             Debug.Assert(childState != null);
-            Debug.Assert(ChildState == null);
 
             _ChildState = childState;
         }

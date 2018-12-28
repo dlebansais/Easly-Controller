@@ -34,10 +34,11 @@ namespace EaslyController.Writeable
             Debug.Assert(!string.IsNullOrEmpty(propertyName));
             Debug.Assert(NodeTreeHelperOptional.IsOptionalChildNodeProperty(parentNode, propertyName, out Type ChildNodeType));
 
+            ParentNode = parentNode;
+            PropertyName = propertyName;
+
             Optional = NodeTreeHelperOptional.GetOptionalReference(parentNode, propertyName);
             Debug.Assert(Optional != null);
-
-            PropertyName = propertyName;
         }
         #endregion
 
@@ -56,6 +57,17 @@ namespace EaslyController.Writeable
         /// Interface to the optional object for the node.
         /// </summary>
         public IOptionalReference Optional { get; }
+        #endregion
+
+        #region Client Interface
+        /// <summary>
+        /// Creates a browsing index from an insertion index.
+        /// To call after the insertion operation has been completed.
+        /// </summary>
+        public virtual IWriteableBrowsingChildIndex ToBrowsingIndex()
+        {
+            return new WriteableBrowsingOptionalNodeIndex(ParentNode, PropertyName);
+        }
         #endregion
     }
 }

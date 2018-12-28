@@ -1,5 +1,6 @@
 ﻿using BaseNode;
 using BaseNodeHelper;
+using Easly;
 using EaslyController;
 using EaslyController.ReadOnly;
 using EaslyController.Writeable;
@@ -146,24 +147,57 @@ namespace TestDebug
 
             IWriteableNodeState RootState = Controller.RootState;
             IWriteableInnerReadOnlyDictionary<string> InnerTable = RootState.InnerTable;
-            IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> Inner = (IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex>)InnerTable[nameof(IClass.ImportBlocks)];
+            IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> ListInner = (IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex>)InnerTable[nameof(IClass.ImportBlocks)];
 
             IPattern PatternNode = NodeHelper.CreateEmptyPattern();
             IIdentifier SourceNode = NodeHelper.CreateEmptyIdentifier();
             IImport FirstNode = NodeHelper.CreateSimpleImport("x", "x", ImportType.Latest);
 
-            WriteableInsertionNewBlockNodeIndex InsertIndex0 = new WriteableInsertionNewBlockNodeIndex(rootNode, Inner.PropertyName, FirstNode, 0, PatternNode, SourceNode);
-            Controller.Insert(Inner, InsertIndex0);
+            WriteableInsertionNewBlockNodeIndex InsertIndex0 = new WriteableInsertionNewBlockNodeIndex(rootNode, ListInner.PropertyName, FirstNode, 0, PatternNode, SourceNode);
+            Controller.Insert(ListInner, InsertIndex0);
 
             IImport SecondNode = NodeHelper.CreateSimpleImport("y", "y", ImportType.Latest);
 
-            WriteableInsertionExistingBlockNodeIndex InsertIndex1 = new WriteableInsertionExistingBlockNodeIndex(rootNode, Inner.PropertyName, SecondNode, 0, 1);
-            Controller.Insert(Inner, InsertIndex1);
+            WriteableInsertionExistingBlockNodeIndex InsertIndex1 = new WriteableInsertionExistingBlockNodeIndex(rootNode, ListInner.PropertyName, SecondNode, 0, 1);
+            Controller.Insert(ListInner, InsertIndex1);
 
             Debug.Assert(ControllerView.StateViewTable.Count == Controller.Stats.NodeCount);
 
             IWriteableControllerView ControllerView2 = WriteableControllerView.Create(Controller);
             Debug.Assert(ControllerView2.IsEqual(ControllerView));
+
+            IImport ThirdNode = NodeHelper.CreateSimpleImport("z", "z", ImportType.Latest);
+
+            WriteableInsertionExistingBlockNodeIndex InsertIndex3 = new WriteableInsertionExistingBlockNodeIndex(rootNode, ListInner.PropertyName, ThirdNode, 0, 1);
+            Controller.Replace(ListInner, InsertIndex3);
+
+            IImport FourthNode = NodeHelper.CreateSimpleImport("a", "a", ImportType.Latest);
+
+            WriteableInsertionExistingBlockNodeIndex InsertIndex4 = new WriteableInsertionExistingBlockNodeIndex(rootNode, ListInner.PropertyName, FourthNode, 0, 0);
+            Controller.Replace(ListInner, InsertIndex4);
+
+            IWriteableControllerView ControllerView3 = WriteableControllerView.Create(Controller);
+            Debug.Assert(ControllerView3.IsEqual(ControllerView));
+
+            IName FifthNode = NodeHelper.CreateSimpleName("a");
+
+            IWriteableSingleInner<IWriteableBrowsingChildIndex> ChildInner = (IWriteableSingleInner<IWriteableBrowsingChildIndex>)InnerTable[nameof(IClass.EntityName)];
+            WriteableInsertionPlaceholderNodeIndex InsertIndex5 = new WriteableInsertionPlaceholderNodeIndex(rootNode, ChildInner.PropertyName, FifthNode);
+            Controller.Replace(ChildInner, InsertIndex5);
+
+            IWriteableControllerView ControllerView4 = WriteableControllerView.Create(Controller);
+            Debug.Assert(ControllerView4.IsEqual(ControllerView));
+
+            IIdentifier SixthNode = NodeHelper.CreateSimpleIdentifier("b");
+
+            IWriteableSingleInner<IWriteableBrowsingChildIndex> OptionalInner = (IWriteableSingleInner<IWriteableBrowsingChildIndex>)InnerTable[nameof(IClass.FromIdentifier)];
+            WriteableInsertionOptionalNodeIndex InsertIndex6 = new WriteableInsertionOptionalNodeIndex(rootNode, OptionalInner.PropertyName);
+            IOptionalReference<IIdentifier> Optional = (IOptionalReference<IIdentifier>)InsertIndex6.Optional;
+            Optional.Item = SixthNode;
+            Controller.Replace(OptionalInner, InsertIndex6);
+
+            IWriteableControllerView ControllerView5 = WriteableControllerView.Create(Controller);
+            Debug.Assert(ControllerView5.IsEqual(ControllerView));
         }
     }
 }

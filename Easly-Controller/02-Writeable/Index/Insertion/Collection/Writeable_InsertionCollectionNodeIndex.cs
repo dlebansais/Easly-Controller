@@ -9,11 +9,6 @@ namespace EaslyController.Writeable
     /// </summary>
     public interface IWriteableInsertionCollectionNodeIndex : IWriteableInsertionChildIndex, IWriteableNodeIndex
     {
-        /// <summary>
-        /// Creates a browsing index from an insertion index.
-        /// To call after the insertion operation has been completed.
-        /// </summary>
-        IWriteableBrowsingCollectionNodeIndex ToBrowsingIndex();
     }
 
     /// <summary>
@@ -63,7 +58,7 @@ namespace EaslyController.Writeable
         /// Creates a browsing index from an insertion index.
         /// To call after the insertion operation has been completed.
         /// </summary>
-        public abstract IWriteableBrowsingCollectionNodeIndex ToBrowsingIndex();
+        public abstract IWriteableBrowsingChildIndex ToBrowsingIndex();
         #endregion
     }
 }

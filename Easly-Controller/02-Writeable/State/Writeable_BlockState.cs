@@ -46,12 +46,19 @@ namespace EaslyController.Writeable
         new IWriteablePlaceholderNodeStateReadOnlyList StateList { get; }
 
         /// <summary>
-        /// Inserts a new node in a list or block list.
+        /// Inserts a new node in a block.
         /// </summary>
         /// <param name="nodeIndex">Index of the node to insert.</param>
         /// <param name="childState">Node state.</param>
-        /// <param name="index">Position of the inserted node in the list.</param>
-        void Insert(IWriteableBrowsingCollectionNodeIndex nodeIndex, IReadOnlyPlaceholderNodeState childState, int index);
+        /// <param name="index">Position of the inserted node in the block.</param>
+        void Insert(IWriteableBrowsingBlockNodeIndex nodeIndex, int index, IReadOnlyPlaceholderNodeState childState);
+
+        /// <summary>
+        /// Removes a node from a block.
+        /// </summary>
+        /// <param name="nodeIndex">Index of the node to remove.</param>
+        /// <param name="index">Position of the removed node in the block.</param>
+        void Remove(IWriteableBrowsingBlockNodeIndex nodeIndex, int index);
     }
 
     /// <summary>
@@ -111,17 +118,30 @@ namespace EaslyController.Writeable
 
         #region Client Interface
         /// <summary>
-        /// Inserts a new node in a list or block list.
+        /// Inserts a new node in a block.
         /// </summary>
         /// <param name="nodeIndex">Index of the node to insert.</param>
         /// <param name="childState">Node state.</param>
-        /// <param name="index">Position of the inserted node in the list.</param>
-        public virtual void Insert(IWriteableBrowsingCollectionNodeIndex nodeIndex, IReadOnlyPlaceholderNodeState childState, int index)
+        /// <param name="index">Position of the inserted node in the block.</param>
+        public virtual void Insert(IWriteableBrowsingBlockNodeIndex nodeIndex, int index, IReadOnlyPlaceholderNodeState childState)
         {
             Debug.Assert(nodeIndex != null);
             Debug.Assert(index >= 0 && index <= StateList.Count);
 
             InsertState(index, childState);
+        }
+
+        /// <summary>
+        /// Removes a node from a block.
+        /// </summary>
+        /// <param name="nodeIndex">Index of the node to remove.</param>
+        /// <param name="index">Position of the removed node in the block.</param>
+        public virtual void Remove(IWriteableBrowsingBlockNodeIndex nodeIndex, int index)
+        {
+            Debug.Assert(nodeIndex != null);
+            Debug.Assert(index >= 0 && index < StateList.Count);
+
+            RemoveState(index);
         }
         #endregion
 

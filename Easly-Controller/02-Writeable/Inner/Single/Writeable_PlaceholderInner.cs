@@ -1,4 +1,8 @@
-﻿using EaslyController.ReadOnly;
+﻿using BaseNode;
+using BaseNodeHelper;
+using EaslyController.ReadOnly;
+using System;
+using System.Diagnostics;
 
 namespace EaslyController.Writeable
 {
@@ -46,6 +50,36 @@ namespace EaslyController.Writeable
         /// The state of the optional node.
         /// </summary>
         public new IWriteableNodeState ChildState { get { return (IWriteableNodeState)base.ChildState; } }
+        #endregion
+
+        #region Client Interface
+        public virtual void Replace(IWriteableInsertionChildIndex nodeIndex, out IWriteableBrowsingChildIndex oldBrowsingIndex, out IWriteableBrowsingChildIndex newBrowsingIndex, out IWriteableNodeState childState)
+        {
+            Debug.Assert(nodeIndex != null);
+
+            if (nodeIndex is IWriteableInsertionPlaceholderNodeIndex AsPlaceholderIndex)
+                Replace(AsPlaceholderIndex, out oldBrowsingIndex, out newBrowsingIndex, out childState);
+            else
+                throw new ArgumentOutOfRangeException(nameof(nodeIndex));
+        }
+
+        protected virtual void Replace(IWriteableInsertionPlaceholderNodeIndex placeholderIndex, out IWriteableBrowsingChildIndex oldBrowsingIndex, out IWriteableBrowsingChildIndex newBrowsingIndex, out IWriteableNodeState childState)
+        {
+            Debug.Assert(placeholderIndex != null);
+
+            INode ParentNode = Owner.Node;
+
+            oldBrowsingIndex = (WriteableBrowsingPlaceholderNodeIndex)ChildState.ParentIndex;
+            NodeTreeHelperChild.SetChildNode(ParentNode, PropertyName, placeholderIndex.Node);
+
+            WriteableBrowsingPlaceholderNodeIndex BrowsingIndex = (WriteableBrowsingPlaceholderNodeIndex)placeholderIndex.ToBrowsingIndex();
+            newBrowsingIndex = BrowsingIndex;
+
+            IWriteablePlaceholderNodeState NewChildState = (IWriteablePlaceholderNodeState)CreateNodeState(BrowsingIndex);
+            SetChildState(NewChildState);
+
+            childState = NewChildState;
+        }
         #endregion
 
         #region Create Methods

@@ -136,6 +136,8 @@ namespace EaslyController.ReadOnly
         {
             Debug.Assert(state != null);
             Debug.Assert(StateViewTable.ContainsKey(state));
+
+            StateViewTable.Remove(state);
         }
 
         /// <summary>

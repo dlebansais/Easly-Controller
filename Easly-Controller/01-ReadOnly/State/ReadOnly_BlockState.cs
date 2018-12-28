@@ -280,7 +280,7 @@ namespace EaslyController.ReadOnly
             _StateList.Insert(index, state);
         }
 
-        protected virtual void RemoveState(int index, IReadOnlyPlaceholderNodeState nodeState)
+        protected virtual void RemoveState(int index)
         {
             Debug.Assert(index >= 0 && index < _StateList.Count);
 
@@ -298,8 +298,8 @@ namespace EaslyController.ReadOnly
             IReadOnlyPlaceholderNodeState NodeState1 = _StateList[index1];
             IReadOnlyPlaceholderNodeState NodeState2 = _StateList[index2];
 
-            RemoveState(index2, NodeState2);
-            RemoveState(index1, NodeState1);
+            RemoveState(index2);
+            RemoveState(index1);
 
             NodeTreeHelperBlockList.MoveNode(ChildBlock, index, direction);
 

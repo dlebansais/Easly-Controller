@@ -10,6 +10,7 @@ namespace EaslyController.Writeable
     public interface IWriteableStateViewDictionary : IReadOnlyStateViewDictionary, IDictionary<IWriteableNodeState, IWriteableNodeStateView>
     {
         new int Count { get; }
+        new Dictionary<IWriteableNodeState, IWriteableNodeStateView>.Enumerator GetEnumerator();
 
         /// <summary>
         /// Compares two <see cref="IWriteableStateViewDictionary"/> objects.

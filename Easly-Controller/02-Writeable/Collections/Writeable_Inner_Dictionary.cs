@@ -9,6 +9,8 @@ namespace EaslyController.Writeable
     /// </summary>
     public interface IWriteableInnerDictionary<TKey> : IReadOnlyInnerDictionary<TKey>, IDictionary<TKey, IWriteableInner<IWriteableBrowsingChildIndex>>
     {
+        new int Count { get; }
+        new Dictionary<TKey, IWriteableInner<IWriteableBrowsingChildIndex>>.Enumerator GetEnumerator();
     }
 
     /// <summary>

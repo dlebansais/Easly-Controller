@@ -133,7 +133,7 @@ namespace EaslyController.Writeable
             InsertInBlockStateList(newBlockIndex.BlockIndex, blockState);
 
             childState = (IWriteablePlaceholderNodeState)CreateNodeState(BrowsingNewBlockIndex);
-            blockState.Insert(BrowsingNewBlockIndex, childState, 0);
+            blockState.Insert(BrowsingNewBlockIndex, 0, childState);
         }
 
         public virtual void InsertExisting(IWriteableInsertionExistingBlockNodeIndex existingBlockIndex, out IWriteableBrowsingCollectionNodeIndex browsingIndex, out IWriteablePlaceholderNodeState childState)
@@ -150,12 +150,49 @@ namespace EaslyController.Writeable
 
             NodeTreeHelperBlockList.InsertIntoBlock(ChildBlock, existingBlockIndex.Index, existingBlockIndex.Node);
 
-            IWriteableBrowsingCollectionNodeIndex BrowsingBlockIndex = existingBlockIndex.ToBrowsingIndex();
+            IWriteableBrowsingBlockNodeIndex BrowsingBlockIndex = (IWriteableBrowsingBlockNodeIndex)existingBlockIndex.ToBrowsingIndex();
             browsingIndex = BrowsingBlockIndex;
 
             childState = (IWriteablePlaceholderNodeState)CreateNodeState(BrowsingBlockIndex);
             int Index = (BrowsingBlockIndex is IWriteableBrowsingExistingBlockNodeIndex AsExistingBlockNodeIndex) ? AsExistingBlockNodeIndex.Index : 0;
-            BlockState.Insert(BrowsingBlockIndex, childState, Index);
+            BlockState.Insert(BrowsingBlockIndex, Index, childState);
+        }
+
+        public virtual void Replace(IWriteableInsertionChildIndex nodeIndex, out IWriteableBrowsingChildIndex oldBrowsingIndex, out IWriteableBrowsingChildIndex newBrowsingIndex, out IWriteableNodeState childState)
+        {
+            Debug.Assert(nodeIndex != null);
+
+            if (nodeIndex is IWriteableInsertionExistingBlockNodeIndex AsExistingBlockIndex)
+                Replace(AsExistingBlockIndex, out oldBrowsingIndex, out newBrowsingIndex, out childState);
+            else
+                throw new ArgumentOutOfRangeException(nameof(nodeIndex));
+        }
+
+        protected virtual void Replace(IWriteableInsertionExistingBlockNodeIndex existingBlockIndex, out IWriteableBrowsingChildIndex oldBrowsingIndex, out IWriteableBrowsingChildIndex newBrowsingIndex, out IWriteableNodeState childState)
+        {
+            Debug.Assert(existingBlockIndex != null);
+            Debug.Assert(existingBlockIndex.BlockIndex < BlockStateList.Count);
+
+            IWriteableBlockState BlockState = BlockStateList[existingBlockIndex.BlockIndex];
+            Debug.Assert(existingBlockIndex.Index < BlockState.StateList.Count);
+
+            IBlock ChildBlock = BlockState.ChildBlock;
+            INode ParentNode = Owner.Node;
+
+            IWriteableNodeState OldChildState = BlockState.StateList[existingBlockIndex.Index];
+            oldBrowsingIndex = (IWriteableBrowsingBlockNodeIndex)OldChildState.ParentIndex;
+            BlockState.Remove((IWriteableBrowsingBlockNodeIndex)OldChildState.ParentIndex, existingBlockIndex.Index);
+
+            NodeTreeHelperBlockList.ReplaceInBlock(ChildBlock, existingBlockIndex.Index, existingBlockIndex.Node);
+
+            IWriteableBrowsingBlockNodeIndex BrowsingBlockIndex = (IWriteableBrowsingBlockNodeIndex)existingBlockIndex.ToBrowsingIndex();
+            newBrowsingIndex = BrowsingBlockIndex;
+
+            IWriteablePlaceholderNodeState NewChildState = (IWriteablePlaceholderNodeState)CreateNodeState(BrowsingBlockIndex);
+            int Index = (BrowsingBlockIndex is IWriteableBrowsingExistingBlockNodeIndex AsExistingBlockNodeIndex) ? AsExistingBlockNodeIndex.Index : 0;
+            BlockState.Insert(BrowsingBlockIndex, Index, NewChildState);
+
+            childState = NewChildState;
         }
         #endregion
 

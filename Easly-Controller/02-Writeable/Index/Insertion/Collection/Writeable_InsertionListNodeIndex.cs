@@ -50,7 +50,7 @@ namespace EaslyController.Writeable
         /// Creates a browsing index from an insertion index.
         /// To call after the insertion operation has been completed.
         /// </summary>
-        public override IWriteableBrowsingCollectionNodeIndex ToBrowsingIndex()
+        public override IWriteableBrowsingChildIndex ToBrowsingIndex()
         {
             return new WriteableBrowsingListNodeIndex(ParentNode, Node, PropertyName, Index);
         }

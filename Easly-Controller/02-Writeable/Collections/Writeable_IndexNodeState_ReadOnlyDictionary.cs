@@ -9,6 +9,9 @@ namespace EaslyController.Writeable
     /// </summary>
     public interface IWriteableIndexNodeStateReadOnlyDictionary : IReadOnlyIndexNodeStateReadOnlyDictionary, IReadOnlyDictionary<IWriteableIndex, IWriteableNodeState>
     {
+        new IWriteableNodeState this[IWriteableIndex key] { get; }
+        new IEnumerator<KeyValuePair<IWriteableIndex, IWriteableNodeState>> GetEnumerator();
+        new bool ContainsKey(IWriteableIndex key);
     }
 
     /// <summary>

@@ -155,7 +155,7 @@ namespace EaslyController.ReadOnly
             _StateList.Insert(index, nodeState);
         }
 
-        protected virtual void RemoveFromStateList(int index, IReadOnlyPlaceholderNodeState nodeState)
+        protected virtual void RemoveFromStateList(int index)
         {
             Debug.Assert(index >= 0 && index < _StateList.Count);
 

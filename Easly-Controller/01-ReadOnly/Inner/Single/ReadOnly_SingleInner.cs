@@ -47,7 +47,7 @@ namespace EaslyController.ReadOnly
         /// <summary>
         /// State of the node.
         /// </summary>
-        public virtual IReadOnlyNodeState ChildState { get { throw new InvalidOperationException(); } } // Can't make this abstract, thank you C#...
+        public virtual IReadOnlyNodeState ChildState { get { throw new InvalidOperationException(); } protected set { throw new InvalidOperationException(); } } // Can't make this abstract, thank you C#...
         #endregion
     }
 }
