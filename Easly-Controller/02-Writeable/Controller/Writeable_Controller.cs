@@ -37,8 +37,9 @@ namespace EaslyController.Writeable
         /// Inserts a new node in a list or block list.
         /// </summary>
         /// <param name="inner">The inner for the list or block list where the node is inserted.</param>
-        /// <param name="nodeIndex">Index for the inserted node.</param>
-        void Insert(IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> inner, IWriteableInsertionCollectionNodeIndex nodeIndex);
+        /// <param name="insertedIndex">Index for the insertion operation.</param>
+        /// <param name="nodeIndex">Index of the inserted node upon return.</param>
+        void Insert(IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> inner, IWriteableInsertionCollectionNodeIndex insertedIndex, out IWriteableBrowsingCollectionNodeIndex nodeIndex);
 
         /// <summary>
         /// Removes a node from a list of block list.
@@ -51,8 +52,9 @@ namespace EaslyController.Writeable
         /// Replace an existing node with a new one.
         /// </summary>
         /// <param name="inner">The inner where the node is replaced.</param>
-        /// <param name="nodeIndex">Index for the new node.</param>
-        void Replace(IWriteableInner<IWriteableBrowsingChildIndex> inner, IWriteableInsertionChildIndex nodeIndex);
+        /// <param name="insertedIndex">Index for the replace operation.</param>
+        /// <param name="nodeIndex">Index of the replacing node upon return.</param>
+        void Replace(IWriteableInner<IWriteableBrowsingChildIndex> inner, IWriteableInsertionChildIndex insertedIndex, out IWriteableBrowsingChildIndex nodeIndex);
     }
 
     public class WriteableController : ReadOnlyController, IWriteableController
@@ -126,8 +128,9 @@ namespace EaslyController.Writeable
         /// Inserts a new node in a list or block list.
         /// </summary>
         /// <param name="inner">The inner for the list or block list where the node is inserted.</param>
-        /// <param name="nodeIndex">Index for the inserted node.</param>
-        public void Insert(IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> inner, IWriteableInsertionCollectionNodeIndex nodeIndex)
+        /// <param name="insertedIndex">Index for the insertion operation.</param>
+        /// <param name="nodeIndex">Index of the inserted node upon return.</param>
+        public void Insert(IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> inner, IWriteableInsertionCollectionNodeIndex insertedIndex, out IWriteableBrowsingCollectionNodeIndex nodeIndex)
         {
             IWriteableNodeState Owner = inner.Owner;
             IWriteableIndex ParentIndex = Owner.ParentIndex;
@@ -137,12 +140,11 @@ namespace EaslyController.Writeable
             Debug.Assert(InnerTable.ContainsKey(inner.PropertyName));
             Debug.Assert(InnerTable[inner.PropertyName] == inner);
 
-            IWriteableBrowsingCollectionNodeIndex BrowsingIndex;
             IWriteablePlaceholderNodeState ChildState;
 
-            if ((inner is IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> AsBlockListInner) && (nodeIndex is IWriteableInsertionNewBlockNodeIndex AsNewBlockIndex))
+            if ((inner is IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> AsBlockListInner) && (insertedIndex is IWriteableInsertionNewBlockNodeIndex AsNewBlockIndex))
             {
-                AsBlockListInner.InsertNew(AsNewBlockIndex, out BrowsingIndex, out IWriteableBlockState BlockState, out ChildState);
+                AsBlockListInner.InsertNew(AsNewBlockIndex, out nodeIndex, out IWriteableBlockState BlockState, out ChildState);
                 Debug.Assert(BlockState.StateList.Count == 1);
                 Debug.Assert(BlockState.StateList[0] == ChildState);
                 BlockState.InitBlockState();
@@ -158,10 +160,12 @@ namespace EaslyController.Writeable
                 Stats.PlaceholderNodeCount++;
             }
             else
-                inner.Insert(nodeIndex, out BrowsingIndex, out ChildState);
+                inner.Insert(insertedIndex, out nodeIndex, out ChildState);
 
-            AddState(BrowsingIndex, ChildState);
-            BuildStateTable(inner, null, BrowsingIndex, ChildState);
+            AddState(nodeIndex, ChildState);
+            BuildStateTable(inner, null, nodeIndex, ChildState);
+
+            Debug.Assert(Contains(nodeIndex));
         }
 
         /// <summary>
@@ -213,8 +217,9 @@ namespace EaslyController.Writeable
         /// Replace an existing node with a new one.
         /// </summary>
         /// <param name="inner">The inner where the node is replaced.</param>
-        /// <param name="nodeIndex">Index for the new node.</param>
-        public virtual void Replace(IWriteableInner<IWriteableBrowsingChildIndex> inner, IWriteableInsertionChildIndex nodeIndex)
+        /// <param name="insertedIndex">Index for the replace operation.</param>
+        /// <param name="nodeIndex">Index of the replacing node upon return.</param>
+        public void Replace(IWriteableInner<IWriteableBrowsingChildIndex> inner, IWriteableInsertionChildIndex insertedIndex, out IWriteableBrowsingChildIndex nodeIndex)
         {
             IWriteableNodeState Owner = inner.Owner;
             IWriteableIndex ParentIndex = Owner.ParentIndex;
@@ -224,7 +229,7 @@ namespace EaslyController.Writeable
             Debug.Assert(InnerTable.ContainsKey(inner.PropertyName));
             Debug.Assert(InnerTable[inner.PropertyName] == inner);
 
-            inner.Replace(nodeIndex, out IWriteableBrowsingChildIndex OldBrowsingIndex, out IWriteableBrowsingChildIndex NewBrowsingIndex, out IWriteableNodeState ChildState);
+            inner.Replace(insertedIndex, out IWriteableBrowsingChildIndex OldBrowsingIndex, out IWriteableBrowsingChildIndex NewBrowsingIndex, out IWriteableNodeState ChildState);
 
             Debug.Assert(Contains(OldBrowsingIndex));
             IWriteableNodeState OldState = StateTable[OldBrowsingIndex];
@@ -234,6 +239,9 @@ namespace EaslyController.Writeable
 
             AddState(NewBrowsingIndex, ChildState);
             BuildStateTable(inner, null, NewBrowsingIndex, ChildState);
+
+            nodeIndex = NewBrowsingIndex;
+            Debug.Assert(Contains(nodeIndex));
         }
 
         protected virtual void PruneStateTable(IWriteableNodeState parentState)

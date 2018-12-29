@@ -154,12 +154,12 @@ namespace TestDebug
             IImport FirstNode = NodeHelper.CreateSimpleImport("x", "x", ImportType.Latest);
 
             WriteableInsertionNewBlockNodeIndex InsertIndex0 = new WriteableInsertionNewBlockNodeIndex(rootNode, ListInner.PropertyName, FirstNode, 0, PatternNode, SourceNode);
-            Controller.Insert(ListInner, InsertIndex0);
+            Controller.Insert(ListInner, InsertIndex0, out IWriteableBrowsingCollectionNodeIndex InsertedIndex0);
 
             IImport SecondNode = NodeHelper.CreateSimpleImport("y", "y", ImportType.Latest);
 
             WriteableInsertionExistingBlockNodeIndex InsertIndex1 = new WriteableInsertionExistingBlockNodeIndex(rootNode, ListInner.PropertyName, SecondNode, 0, 1);
-            Controller.Insert(ListInner, InsertIndex1);
+            Controller.Insert(ListInner, InsertIndex1, out IWriteableBrowsingCollectionNodeIndex InsertedIndex1);
 
             Debug.Assert(ControllerView.StateViewTable.Count == Controller.Stats.NodeCount);
 
@@ -169,12 +169,12 @@ namespace TestDebug
             IImport ThirdNode = NodeHelper.CreateSimpleImport("z", "z", ImportType.Latest);
 
             WriteableInsertionExistingBlockNodeIndex InsertIndex3 = new WriteableInsertionExistingBlockNodeIndex(rootNode, ListInner.PropertyName, ThirdNode, 0, 1);
-            Controller.Replace(ListInner, InsertIndex3);
+            Controller.Replace(ListInner, InsertIndex3, out IWriteableBrowsingChildIndex InsertedIndex3);
 
             IImport FourthNode = NodeHelper.CreateSimpleImport("a", "a", ImportType.Latest);
 
             WriteableInsertionExistingBlockNodeIndex InsertIndex4 = new WriteableInsertionExistingBlockNodeIndex(rootNode, ListInner.PropertyName, FourthNode, 0, 0);
-            Controller.Replace(ListInner, InsertIndex4);
+            Controller.Replace(ListInner, InsertIndex4, out IWriteableBrowsingChildIndex InsertedIndex4);
 
             IWriteableControllerView ControllerView3 = WriteableControllerView.Create(Controller);
             Debug.Assert(ControllerView3.IsEqual(ControllerView));
@@ -183,7 +183,7 @@ namespace TestDebug
 
             IWriteableSingleInner<IWriteableBrowsingChildIndex> ChildInner = (IWriteableSingleInner<IWriteableBrowsingChildIndex>)InnerTable[nameof(IClass.EntityName)];
             WriteableInsertionPlaceholderNodeIndex InsertIndex5 = new WriteableInsertionPlaceholderNodeIndex(rootNode, ChildInner.PropertyName, FifthNode);
-            Controller.Replace(ChildInner, InsertIndex5);
+            Controller.Replace(ChildInner, InsertIndex5, out IWriteableBrowsingChildIndex InsertedIndex5);
 
             IWriteableControllerView ControllerView4 = WriteableControllerView.Create(Controller);
             Debug.Assert(ControllerView4.IsEqual(ControllerView));
@@ -192,7 +192,7 @@ namespace TestDebug
 
             IWriteableSingleInner<IWriteableBrowsingChildIndex> OptionalInner = (IWriteableSingleInner<IWriteableBrowsingChildIndex>)InnerTable[nameof(IClass.FromIdentifier)];
             WriteableInsertionOptionalNodeIndex InsertIndex6 = new WriteableInsertionOptionalNodeIndex(rootNode, OptionalInner.PropertyName, SixthNode);
-            Controller.Replace(OptionalInner, InsertIndex6);
+            Controller.Replace(OptionalInner, InsertIndex6, out IWriteableBrowsingChildIndex InsertedIndex6);
 
             IWriteableControllerView ControllerView5 = WriteableControllerView.Create(Controller);
             Debug.Assert(ControllerView5.IsEqual(ControllerView));
