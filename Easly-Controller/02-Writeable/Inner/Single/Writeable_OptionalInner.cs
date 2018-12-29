@@ -15,6 +15,16 @@ namespace EaslyController.Writeable
         /// The state of the optional node.
         /// </summary>
         new IWriteableOptionalNodeState ChildState { get; }
+
+        /// <summary>
+        /// Assign the optional node.
+        /// </summary>
+        void Assign();
+
+        /// <summary>
+        /// Unassign the optional node.
+        /// </summary>
+        void Unassign();
     }
 
     /// <summary>
@@ -27,6 +37,16 @@ namespace EaslyController.Writeable
         /// The state of the optional node.
         /// </summary>
         new IWriteableOptionalNodeState ChildState { get; }
+
+        /// <summary>
+        /// Assign the optional node.
+        /// </summary>
+        void Assign();
+
+        /// <summary>
+        /// Unassign the optional node.
+        /// </summary>
+        void Unassign();
     }
 
     /// <summary>
@@ -97,6 +117,22 @@ namespace EaslyController.Writeable
             SetChildState(NewChildState);
 
             childState = NewChildState;
+        }
+
+        /// <summary>
+        /// Assign the optional node.
+        /// </summary>
+        public void Assign()
+        {
+            NodeTreeHelperOptional.AssignChildNode(Owner.Node, PropertyName);
+        }
+
+        /// <summary>
+        /// Unassign the optional node.
+        /// </summary>
+        public void Unassign()
+        {
+            NodeTreeHelperOptional.UnassignChildNode(Owner.Node, PropertyName);
         }
         #endregion
 

@@ -55,6 +55,18 @@ namespace EaslyController.Writeable
         /// <param name="insertedIndex">Index for the replace operation.</param>
         /// <param name="nodeIndex">Index of the replacing node upon return.</param>
         void Replace(IWriteableInner<IWriteableBrowsingChildIndex> inner, IWriteableInsertionChildIndex insertedIndex, out IWriteableBrowsingChildIndex nodeIndex);
+
+        /// <summary>
+        /// Assign the optional node.
+        /// </summary>
+        /// <param name="inner">The inner where the node is assigned.</param>
+        void Assign(IWriteableOptionalInner<IWriteableBrowsingOptionalNodeIndex> inner);
+
+        /// <summary>
+        /// Unassign the optional node.
+        /// </summary>
+        /// <param name="inner">The inner where the node is unassigned.</param>
+        void Unassign(IWriteableOptionalInner<IWriteableBrowsingOptionalNodeIndex> inner);
     }
 
     public class WriteableController : ReadOnlyController, IWriteableController
@@ -260,6 +272,24 @@ namespace EaslyController.Writeable
                 RemoveState(State.ParentIndex);
                 PruneStateTable(State);
             }
+        }
+
+        /// <summary>
+        /// Assign the optional node.
+        /// </summary>
+        /// <param name="inner">The inner where the node is assigned.</param>
+        public virtual void Assign(IWriteableOptionalInner<IWriteableBrowsingOptionalNodeIndex> inner)
+        {
+            inner.Assign();
+        }
+
+        /// <summary>
+        /// Unassign the optional node.
+        /// </summary>
+        /// <param name="inner">The inner where the node is unassigned.</param>
+        public virtual void Unassign(IWriteableOptionalInner<IWriteableBrowsingOptionalNodeIndex> inner)
+        {
+            inner.Unassign();
         }
         #endregion
 

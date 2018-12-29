@@ -190,7 +190,7 @@ namespace TestDebug
 
             IIdentifier SixthNode = NodeHelper.CreateSimpleIdentifier("b");
 
-            IWriteableSingleInner<IWriteableBrowsingChildIndex> OptionalInner = (IWriteableSingleInner<IWriteableBrowsingChildIndex>)InnerTable[nameof(IClass.FromIdentifier)];
+            IWriteableOptionalInner<IWriteableBrowsingOptionalNodeIndex> OptionalInner = (IWriteableOptionalInner<IWriteableBrowsingOptionalNodeIndex>)InnerTable[nameof(IClass.FromIdentifier)];
             WriteableInsertionOptionalNodeIndex InsertIndex6 = new WriteableInsertionOptionalNodeIndex(rootNode, OptionalInner.PropertyName, SixthNode);
             Controller.Replace(OptionalInner, InsertIndex6, out IWriteableBrowsingChildIndex InsertedIndex6);
 
@@ -208,6 +208,16 @@ namespace TestDebug
 
             IWriteableControllerView ControllerView8 = WriteableControllerView.Create(Controller);
             Debug.Assert(ControllerView8.IsEqual(ControllerView));
+
+            Controller.Unassign(OptionalInner);
+
+            IWriteableControllerView ControllerView9 = WriteableControllerView.Create(Controller);
+            Debug.Assert(ControllerView9.IsEqual(ControllerView));
+
+            Controller.Assign(OptionalInner);
+
+            IWriteableControllerView ControllerView10 = WriteableControllerView.Create(Controller);
+            Debug.Assert(ControllerView10.IsEqual(ControllerView));
         }
     }
 }
