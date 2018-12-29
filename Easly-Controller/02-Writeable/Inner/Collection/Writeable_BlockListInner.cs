@@ -174,6 +174,20 @@ namespace EaslyController.Writeable
 
             childState = (IWriteablePlaceholderNodeState)CreateNodeState(BrowsingExistingBlockIndex);
             blockState.Insert(BrowsingExistingBlockIndex, 0, childState);
+
+            for (int BlockIndex = BrowsingExistingBlockIndex.BlockIndex + 1; BlockIndex < BlockStateList.Count; BlockIndex++)
+            {
+                IWriteableBlockState NextBlockState = BlockStateList[BlockIndex];
+                
+                foreach (IWriteablePlaceholderNodeState State in NextBlockState.StateList)
+                {
+                    IWriteableBrowsingExistingBlockNodeIndex NodeIndex = State.ParentIndex as IWriteableBrowsingExistingBlockNodeIndex;
+                    Debug.Assert(NodeIndex != null);
+                    Debug.Assert(NodeIndex.BlockIndex == BlockIndex - 1);
+
+                    NodeIndex.MoveBlockUp();
+                }
+            }
         }
 
         public virtual void InsertExisting(IWriteableInsertionExistingBlockNodeIndex existingBlockIndex, out IWriteableBrowsingCollectionNodeIndex browsingIndex, out IWriteablePlaceholderNodeState childState)
@@ -196,6 +210,18 @@ namespace EaslyController.Writeable
             childState = (IWriteablePlaceholderNodeState)CreateNodeState(BrowsingBlockIndex);
             int Index = (BrowsingBlockIndex is IWriteableBrowsingExistingBlockNodeIndex AsExistingBlockNodeIndex) ? AsExistingBlockNodeIndex.Index : 0;
             BlockState.Insert(BrowsingBlockIndex, Index, childState);
+
+            while (++Index < BlockState.StateList.Count)
+            {
+                IWriteablePlaceholderNodeState State = BlockState.StateList[Index];
+
+                IWriteableBrowsingExistingBlockNodeIndex NodeIndex = State.ParentIndex as IWriteableBrowsingExistingBlockNodeIndex;
+                Debug.Assert(NodeIndex != null);
+                Debug.Assert(NodeIndex.BlockIndex == BrowsingBlockIndex.BlockIndex);
+                Debug.Assert(NodeIndex.Index == Index - 1);
+
+                NodeIndex.MoveUp();
+            }
         }
 
         /// <summary>
@@ -261,11 +287,39 @@ namespace EaslyController.Writeable
                 patternIndex = BlockState.PatternIndex;
                 sourceIndex = BlockState.SourceIndex;
                 RemoveFromBlockStateList(blockNodeIndex.BlockIndex);
+
+                for (int BlockIndex = blockNodeIndex.BlockIndex; BlockIndex < BlockStateList.Count; BlockIndex++)
+                {
+                    IWriteableBlockState NextBlockState = BlockStateList[BlockIndex];
+
+                    foreach (IWriteablePlaceholderNodeState State in NextBlockState.StateList)
+                    {
+                        IWriteableBrowsingExistingBlockNodeIndex NodeIndex = State.ParentIndex as IWriteableBrowsingExistingBlockNodeIndex;
+                        Debug.Assert(NodeIndex != null);
+                        Debug.Assert(NodeIndex.BlockIndex == BlockIndex + 1);
+
+                        NodeIndex.MoveBlockDown();
+                    }
+                }
             }
             else
             {
                 patternIndex = null;
                 sourceIndex = null;
+            }
+
+            while (Index < BlockState.StateList.Count)
+            {
+                IWriteablePlaceholderNodeState State = BlockState.StateList[Index];
+
+                IWriteableBrowsingExistingBlockNodeIndex NodeIndex = State.ParentIndex as IWriteableBrowsingExistingBlockNodeIndex;
+                Debug.Assert(NodeIndex != null);
+                Debug.Assert(NodeIndex.BlockIndex == blockNodeIndex.BlockIndex);
+                Debug.Assert(NodeIndex.Index == Index + 1);
+
+                NodeIndex.MoveDown();
+
+                Index++;
             }
         }
 

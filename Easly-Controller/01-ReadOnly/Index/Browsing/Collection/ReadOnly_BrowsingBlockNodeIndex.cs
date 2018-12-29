@@ -38,7 +38,7 @@ namespace EaslyController.ReadOnly
         /// <summary>
         /// Position of the block in the block list.
         /// </summary>
-        public virtual int BlockIndex { get; }
+        public virtual int BlockIndex { get; protected set; }
         #endregion
     }
 }

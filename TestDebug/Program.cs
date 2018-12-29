@@ -196,7 +196,7 @@ namespace TestDebug
 
             IWriteableControllerView ControllerView5 = WriteableControllerView.Create(Controller);
             Debug.Assert(ControllerView5.IsEqual(ControllerView));
-            /*
+
             IWriteableBrowsingBlockNodeIndex InsertIndex7 = (IWriteableBrowsingBlockNodeIndex)ListInner.IndexAt(0, 0);
             Controller.Remove(ListInner, InsertIndex7);
 
@@ -208,7 +208,6 @@ namespace TestDebug
 
             IWriteableControllerView ControllerView8 = WriteableControllerView.Create(Controller);
             Debug.Assert(ControllerView8.IsEqual(ControllerView));
-            */
         }
     }
 }

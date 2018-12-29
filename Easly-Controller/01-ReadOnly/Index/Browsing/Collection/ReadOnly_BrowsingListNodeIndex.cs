@@ -10,6 +10,11 @@ namespace EaslyController.ReadOnly
     public interface IReadOnlyBrowsingListNodeIndex : IReadOnlyBrowsingCollectionNodeIndex
     {
         /// <summary>
+        /// The parent node.
+        /// </summary>
+        INode ParentNode { get; }
+
+        /// <summary>
         /// Position of the node in the list.
         /// </summary>
         int Index { get; }
@@ -35,15 +40,21 @@ namespace EaslyController.ReadOnly
             Debug.Assert(index >= 0);
             Debug.Assert(NodeTreeHelperList.IsListChildNode(parentNode, propertyName, index, node));
 
+            ParentNode = parentNode;
             Index = index;
         }
         #endregion
 
         #region Properties
         /// <summary>
+        /// The parent node.
+        /// </summary>
+        public INode ParentNode { get; }
+
+        /// <summary>
         /// Position of the node in the list.
         /// </summary>
-        public int Index { get; }
+        public int Index { get; protected set; }
         #endregion
     }
 }

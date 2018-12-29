@@ -1,5 +1,7 @@
 ﻿using BaseNode;
+using BaseNodeHelper;
 using EaslyController.ReadOnly;
+using System.Diagnostics;
 
 namespace EaslyController.Writeable
 {
@@ -8,6 +10,8 @@ namespace EaslyController.Writeable
     /// </summary>
     public interface IWriteableBrowsingListNodeIndex : IReadOnlyBrowsingListNodeIndex, IWriteableBrowsingCollectionNodeIndex
     {
+        void MoveUp();
+        void MoveDown();
     }
 
     /// <summary>
@@ -26,6 +30,22 @@ namespace EaslyController.Writeable
         public WriteableBrowsingListNodeIndex(INode parentNode, INode node, string propertyName, int index)
             : base(parentNode, node, propertyName, index)
         {
+        }
+        #endregion
+
+        #region Client Interface
+        public virtual void MoveUp()
+        {
+            Debug.Assert(NodeTreeHelperList.GetLastListIndex(ParentNode, PropertyName, out int LastIndex) && Index + 1 < LastIndex);
+
+            Index++;
+        }
+
+        public virtual void MoveDown()
+        {
+            Debug.Assert(Index > 0);
+
+            Index--;
         }
         #endregion
     }

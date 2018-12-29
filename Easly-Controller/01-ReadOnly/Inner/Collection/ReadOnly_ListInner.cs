@@ -177,6 +177,7 @@ namespace EaslyController.ReadOnly
         {
             Debug.Assert(index >= 0 && index <= _StateList.Count);
             Debug.Assert(nodeState != null);
+            Debug.Assert(nodeState.ParentIndex is IReadOnlyBrowsingListNodeIndex);
 
             _StateList.Insert(index, nodeState);
         }
