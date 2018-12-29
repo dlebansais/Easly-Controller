@@ -5,7 +5,7 @@ using System.Diagnostics;
 namespace EaslyController.ReadOnly
 {
     /// <summary>
-    /// Index for a node in a block that is not the first.
+    /// Index for a node in a block.
     /// </summary>
     public interface IReadOnlyBrowsingExistingBlockNodeIndex : IReadOnlyBrowsingBlockNodeIndex
     {
@@ -16,7 +16,7 @@ namespace EaslyController.ReadOnly
     }
 
     /// <summary>
-    /// Index for a node in a block that is not the first.
+    /// Index for a node in a block.
     /// </summary>
     public class ReadOnlyBrowsingExistingBlockNodeIndex : ReadOnlyBrowsingBlockNodeIndex, IReadOnlyBrowsingExistingBlockNodeIndex
     {
@@ -36,7 +36,7 @@ namespace EaslyController.ReadOnly
             Debug.Assert(node != null);
             Debug.Assert(!string.IsNullOrEmpty(propertyName));
             Debug.Assert(blockIndex >= 0);
-            Debug.Assert(index > 0);
+            Debug.Assert(index >= 0);
             Debug.Assert(NodeTreeHelperBlockList.IsBlockChildNode(parentNode, propertyName, blockIndex, index, node));
 
             Index = index;

@@ -118,7 +118,7 @@ namespace EaslyController.Writeable
         /// <summary>
         /// Creates a IxxxBrowsingNewBlockNodeIndex object.
         /// </summary>
-        protected override IReadOnlyBrowsingNewBlockNodeIndex CreateNewBlockNodeIndex(IReadOnlyBrowseContext browseNodeContext, string propertyName, INodeTreeBlock childBlock, INode childNode, int blockIndex)
+        protected override IReadOnlyBrowsingNewBlockNodeIndex CreateNewBlockNodeIndex(IReadOnlyBrowseContext browseNodeContext, string propertyName, INodeTreeBlock childBlock, int blockIndex, INode childNode)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableNodeState));
             return new WriteableBrowsingNewBlockNodeIndex(Node, childNode, propertyName, blockIndex, childBlock.ReplicationPattern, childBlock.SourceIdentifier);
@@ -127,7 +127,7 @@ namespace EaslyController.Writeable
         /// <summary>
         /// Creates a IxxxBrowsingExistingBlockNodeIndex object.
         /// </summary>
-        protected override IReadOnlyBrowsingExistingBlockNodeIndex CreateExistingBlockNodeIndex(IReadOnlyBrowseContext browseNodeContext, string propertyName, INode childNode, int blockIndex, int index)
+        protected override IReadOnlyBrowsingExistingBlockNodeIndex CreateExistingBlockNodeIndex(IReadOnlyBrowseContext browseNodeContext, string propertyName, int blockIndex, int index, INode childNode)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableNodeState));
             return new WriteableBrowsingExistingBlockNodeIndex(Node, childNode, propertyName, blockIndex, index);

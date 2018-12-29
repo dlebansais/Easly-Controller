@@ -30,5 +30,16 @@ namespace EaslyController.Writeable
         {
         }
         #endregion
+
+        #region Create Methods
+        /// <summary>
+        /// Creates a IxxxBrowsingExistingBlockNodeIndex object.
+        /// </summary>
+        protected override IReadOnlyBrowsingExistingBlockNodeIndex CreateExistingBlockIndex()
+        {
+            ControllerTools.AssertNoOverride(this, typeof(WriteableBrowsingNewBlockNodeIndex));
+            return new WriteableBrowsingExistingBlockNodeIndex(ParentNode, Node, PropertyName, BlockIndex, 0);
+        }
+        #endregion
     }
 }

@@ -273,9 +273,9 @@ namespace EaslyController.ReadOnly
 
                 IReadOnlyBrowsingBlockNodeIndex NewNodeIndex;
                 if (Index == 0) // For the first node, we use a IxxxBrowsingNewBlockNodeIndex, otherwise a IxxxBrowsingExistingBlockNodeIndex.
-                    NewNodeIndex = CreateNewBlockNodeIndex(browseNodeContext, propertyName, childBlock, ChildNode, blockIndex);
+                    NewNodeIndex = CreateNewBlockNodeIndex(browseNodeContext, propertyName, childBlock, blockIndex, ChildNode);
                 else
-                    NewNodeIndex = CreateExistingBlockNodeIndex(browseNodeContext, propertyName, ChildNode, blockIndex, Index);
+                    NewNodeIndex = CreateExistingBlockNodeIndex(browseNodeContext, propertyName, blockIndex, Index, ChildNode);
 
                 nodeIndexList.Add(NewNodeIndex);
             }
@@ -538,7 +538,7 @@ namespace EaslyController.ReadOnly
         /// <summary>
         /// Creates a IxxxBrowsingNewBlockNodeIndex object.
         /// </summary>
-        protected virtual IReadOnlyBrowsingNewBlockNodeIndex CreateNewBlockNodeIndex(IReadOnlyBrowseContext browseNodeContext, string propertyName, INodeTreeBlock childBlock, INode childNode, int blockIndex)
+        protected virtual IReadOnlyBrowsingNewBlockNodeIndex CreateNewBlockNodeIndex(IReadOnlyBrowseContext browseNodeContext, string propertyName, INodeTreeBlock childBlock, int blockIndex, INode childNode)
         {
             ControllerTools.AssertNoOverride(this, typeof(ReadOnlyNodeState));
             return new ReadOnlyBrowsingNewBlockNodeIndex(Node, childNode, propertyName, blockIndex, childBlock.ReplicationPattern, childBlock.SourceIdentifier);
@@ -547,7 +547,7 @@ namespace EaslyController.ReadOnly
         /// <summary>
         /// Creates a IxxxBrowsingExistingBlockNodeIndex object.
         /// </summary>
-        protected virtual IReadOnlyBrowsingExistingBlockNodeIndex CreateExistingBlockNodeIndex(IReadOnlyBrowseContext browseNodeContext, string propertyName, INode childNode, int blockIndex, int index)
+        protected virtual IReadOnlyBrowsingExistingBlockNodeIndex CreateExistingBlockNodeIndex(IReadOnlyBrowseContext browseNodeContext, string propertyName, int blockIndex, int index, INode childNode)
         {
             ControllerTools.AssertNoOverride(this, typeof(ReadOnlyNodeState));
             return new ReadOnlyBrowsingExistingBlockNodeIndex(Node, childNode, propertyName, blockIndex, index);

@@ -380,10 +380,12 @@ namespace EaslyController.ReadOnly
                         IReadOnlySourceState SourceState = BlockState.SourceState;
                         AddState(SourceIndex, SourceState);
                         Stats.PlaceholderNodeCount++;
+
+                        ChildIndex = AsNewBlockIndex.ToExistingBlockIndex();
                     }
 
                     IReadOnlyNodeState ChildState = BuildChildState(Inner, ChildIndex);
-                    ChildStateTable.Add(ChildIndex, ChildState);
+                    ChildStateTable.Add(NodeIndexList[i], ChildState);
                 }
             }
 
@@ -432,7 +434,7 @@ namespace EaslyController.ReadOnly
                     IReadOnlyBrowsingChildIndex ChildNodeIndex = NodeIndexList[i];
                     IReadOnlyNodeState ChildState = childrenStateTable[ChildNodeIndex];
 
-                    BuildStateTable(Inner, browseContext, ChildNodeIndex, ChildState);
+                    BuildStateTable(Inner, browseContext, ChildState.ParentIndex, ChildState);
                 }
             }
         }

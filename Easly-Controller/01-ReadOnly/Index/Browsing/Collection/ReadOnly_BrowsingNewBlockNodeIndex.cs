@@ -10,6 +10,11 @@ namespace EaslyController.ReadOnly
     public interface IReadOnlyBrowsingNewBlockNodeIndex : IReadOnlyBrowsingBlockNodeIndex
     {
         /// <summary>
+        /// The parent node.
+        /// </summary>
+        INode ParentNode { get; }
+
+        /// <summary>
         /// Replication pattern in the block.
         /// </summary>
         IPattern PatternNode { get; }
@@ -18,6 +23,11 @@ namespace EaslyController.ReadOnly
         /// Source identifier in the block.
         /// </summary>
         IIdentifier SourceNode { get; }
+
+        /// <summary>
+        /// Gets the index for this node in an existing block. 
+        /// </summary>
+        IReadOnlyBrowsingExistingBlockNodeIndex ToExistingBlockIndex();
     }
 
     /// <summary>
@@ -48,12 +58,18 @@ namespace EaslyController.ReadOnly
             Debug.Assert(NodeTreeHelperBlockList.IsBlockPatternNode(parentNode, propertyName, blockIndex, patternNode));
             Debug.Assert(NodeTreeHelperBlockList.IsBlockSourceNode(parentNode, propertyName, blockIndex, sourceNode));
 
+            ParentNode = parentNode;
             PatternNode = patternNode;
             SourceNode = sourceNode;
         }
         #endregion
 
         #region Properties
+        /// <summary>
+        /// The parent node.
+        /// </summary>
+        public INode ParentNode { get; }
+
         /// <summary>
         /// Replication pattern in the block.
         /// </summary>
@@ -63,6 +79,27 @@ namespace EaslyController.ReadOnly
         /// Source identifier in the block.
         /// </summary>
         public IIdentifier SourceNode { get; }
+        #endregion
+
+        #region Client Interface
+        /// <summary>
+        /// Gets the index for this node in an existing block. 
+        /// </summary>
+        public virtual IReadOnlyBrowsingExistingBlockNodeIndex ToExistingBlockIndex()
+        {
+            return CreateExistingBlockIndex();
+        }
+        #endregion
+
+        #region Create Methods
+        /// <summary>
+        /// Creates a IxxxBrowsingExistingBlockNodeIndex object.
+        /// </summary>
+        protected virtual IReadOnlyBrowsingExistingBlockNodeIndex CreateExistingBlockIndex()
+        {
+            ControllerTools.AssertNoOverride(this, typeof(ReadOnlyBrowsingNewBlockNodeIndex));
+            return new ReadOnlyBrowsingExistingBlockNodeIndex(ParentNode, Node, PropertyName, BlockIndex, 0);
+        }
         #endregion
     }
 }
