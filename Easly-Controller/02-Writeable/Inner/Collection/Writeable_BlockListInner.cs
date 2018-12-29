@@ -166,13 +166,14 @@ namespace EaslyController.Writeable
             NodeTreeHelperBlockList.InsertIntoBlock(ChildBlock, 0, newBlockIndex.Node);
 
             IWriteableBrowsingNewBlockNodeIndex BrowsingNewBlockIndex = (IWriteableBrowsingNewBlockNodeIndex)newBlockIndex.ToBrowsingIndex();
-            browsingIndex = BrowsingNewBlockIndex;
+            IWriteableBrowsingExistingBlockNodeIndex BrowsingExistingBlockIndex = (IWriteableBrowsingExistingBlockNodeIndex)BrowsingNewBlockIndex.ToExistingBlockIndex();
+            browsingIndex = BrowsingExistingBlockIndex;
 
             blockState = (IWriteableBlockState)CreateBlockState(BrowsingNewBlockIndex, ChildBlock);
             InsertInBlockStateList(newBlockIndex.BlockIndex, blockState);
 
-            childState = (IWriteablePlaceholderNodeState)CreateNodeState(BrowsingNewBlockIndex);
-            blockState.Insert(BrowsingNewBlockIndex, 0, childState);
+            childState = (IWriteablePlaceholderNodeState)CreateNodeState(BrowsingExistingBlockIndex);
+            blockState.Insert(BrowsingExistingBlockIndex, 0, childState);
         }
 
         public virtual void InsertExisting(IWriteableInsertionExistingBlockNodeIndex existingBlockIndex, out IWriteableBrowsingCollectionNodeIndex browsingIndex, out IWriteablePlaceholderNodeState childState)

@@ -65,13 +65,7 @@ namespace EaslyController.Writeable
         /// </summary>
         public override IWriteableBrowsingChildIndex ToBrowsingIndex()
         {
-            if (Index == 0)
-            {
-                NodeTreeHelperBlockList.GetChildBlock(ParentNode, PropertyName, BlockIndex, out IBlock Block);
-                return new WriteableBrowsingNewBlockNodeIndex(ParentNode, Node, PropertyName, BlockIndex, Block.ReplicationPattern, Block.SourceIdentifier);
-            }
-            else
-                return new WriteableBrowsingExistingBlockNodeIndex(ParentNode, Node, PropertyName, BlockIndex, Index);
+            return new WriteableBrowsingExistingBlockNodeIndex(ParentNode, Node, PropertyName, BlockIndex, Index);
         }
         #endregion
     }
