@@ -29,6 +29,14 @@ namespace EaslyController.ReadOnly
         /// Called when a block state is removed.
         /// </summary>
         event Action<IReadOnlyBlockState> BlockStateRemoved;
+
+        /// <summary>
+        /// Gets the index of the node at the given position.
+        /// </summary>
+        /// <param name="blockIndex">Position of the block in the block list.</param>
+        /// <param name="index">Position of the node in the block.</param>
+        /// <returns>The index of the node at position <paramref name="blockIndex"/> and <paramref name="index"/>.</returns>
+        IReadOnlyBrowsingBlockNodeIndex IndexAt(int blockIndex, int index);
     }
 
     /// <summary>
@@ -56,6 +64,14 @@ namespace EaslyController.ReadOnly
         /// Called when a block state is removed.
         /// </summary>
         event Action<IReadOnlyBlockState> BlockStateRemoved;
+
+        /// <summary>
+        /// Gets the index of the node at the given position.
+        /// </summary>
+        /// <param name="blockIndex">Position of the block in the block list.</param>
+        /// <param name="index">Position of the node in the block.</param>
+        /// <returns>The index of the node at position <paramref name="blockIndex"/> and <paramref name="index"/>.</returns>
+        IReadOnlyBrowsingBlockNodeIndex IndexAt(int blockIndex, int index);
 
         /// <summary>
         /// Creates and initializes a new block state in the inner.
@@ -216,6 +232,23 @@ namespace EaslyController.ReadOnly
 
         #region Client Interface
         /// <summary>
+        /// Gets the index of the node at the given position.
+        /// </summary>
+        /// <param name="blockIndex">Position of the block in the block list.</param>
+        /// <param name="index">Position of the node in the block.</param>
+        /// <returns>The index of the node at position <paramref name="blockIndex"/> and <paramref name="index"/>.</returns>
+        public virtual IReadOnlyBrowsingBlockNodeIndex IndexAt(int blockIndex, int index)
+        {
+            Debug.Assert(blockIndex >= 0 && blockIndex < BlockStateList.Count);
+
+            IReadOnlyBlockState BlockState = BlockStateList[blockIndex];
+
+            Debug.Assert(index >= 0 && index < BlockState.StateList.Count);
+
+            return (IReadOnlyBrowsingBlockNodeIndex)BlockState.StateList[index].ParentIndex;
+        }
+
+        /// <summary>
         /// Creates a clone of all children of the inner, using <paramref name="parentNode"/> as their parent.
         /// </summary>
         /// <param name="parentNode">The node that will contains references to cloned children upon return.</param>
@@ -224,8 +257,11 @@ namespace EaslyController.ReadOnly
             Debug.Assert(parentNode != null);
 
             // Clone and insert all blocks. This will clone all children recursively.
-            foreach (IReadOnlyBlockState BlockState in BlockStateList)
-                BlockState.CloneBlock(parentNode);
+            for (int BlockIndex = 0; BlockIndex < BlockStateList.Count; BlockIndex++)
+            {
+                IReadOnlyBlockState BlockState = BlockStateList[BlockIndex];
+                BlockState.CloneBlock(parentNode, BlockIndex);
+            }
 
             // Copy comments.
             IBlockList BlockList = NodeTreeHelperBlockList.GetBlockList(Owner.Node, PropertyName);

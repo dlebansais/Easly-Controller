@@ -17,11 +17,6 @@ namespace EaslyController.ReadOnly
         IReadOnlyBlockListInner ParentInner { get; }
 
         /// <summary>
-        /// Index that was used to create the block state.
-        /// </summary>
-        IReadOnlyBrowsingNewBlockNodeIndex ParentIndex { get; }
-
-        /// <summary>
         /// The block.
         /// </summary>
         IBlock ChildBlock { get; }
@@ -72,7 +67,8 @@ namespace EaslyController.ReadOnly
         /// Creates a clone of the block and assigns it in the provided parent.
         /// </summary>
         /// <param name="parentNode">The node that will contains a reference to the cloned block upon return.</param>
-        void CloneBlock(INode parentNode);
+        /// <param name="blockIndex">Position where to insert the block in <paramref name="parentNode"/>.</param>
+        void CloneBlock(INode parentNode, int blockIndex);
 
         /// <summary>
         /// Attach a view to the block state.
@@ -92,16 +88,15 @@ namespace EaslyController.ReadOnly
         /// Initializes a new instance of the <see cref="ReadOnlyBlockState"/> class.
         /// </summary>
         /// <param name="parentInner">Inner containing the block state.</param>
-        /// <param name="parentIndex">Index that was used to create the block state.</param>
+        /// <param name="newBlockIndex">Index that was used to create the block state.</param>
         /// <param name="childBlock">The block.</param>
-        public ReadOnlyBlockState(IReadOnlyBlockListInner parentInner, IReadOnlyBrowsingNewBlockNodeIndex parentIndex, IBlock childBlock)
+        public ReadOnlyBlockState(IReadOnlyBlockListInner parentInner, IReadOnlyBrowsingNewBlockNodeIndex newBlockIndex, IBlock childBlock)
         {
             Debug.Assert(parentInner != null);
-            Debug.Assert(parentIndex != null);
+            Debug.Assert(newBlockIndex != null);
             Debug.Assert(childBlock != null);
 
             ParentInner = parentInner;
-            ParentIndex = parentIndex;
             ChildBlock = childBlock;
 
             _StateList = CreateStateList();
@@ -147,11 +142,6 @@ namespace EaslyController.ReadOnly
         /// The parent inner containing this state.
         /// </summary>
         public IReadOnlyBlockListInner ParentInner { get; }
-
-        /// <summary>
-        /// Index that was used to create the block state.
-        /// </summary>
-        public IReadOnlyBrowsingNewBlockNodeIndex ParentIndex { get; }
 
         /// <summary>
         /// The block.
@@ -211,7 +201,8 @@ namespace EaslyController.ReadOnly
         /// Creates a clone of the block and assigns it in the provided parent.
         /// </summary>
         /// <param name="parentNode">The node that will contains a reference to the cloned block upon return.</param>
-        public virtual void CloneBlock(INode parentNode)
+        /// <param name="blockIndex">Position where to insert the block in <paramref name="parentNode"/>.</param>
+        public virtual void CloneBlock(INode parentNode, int blockIndex)
         {
             Debug.Assert(parentNode != null);
 
@@ -221,7 +212,7 @@ namespace EaslyController.ReadOnly
             IIdentifier SourceClone = CloneSource();
             Debug.Assert(SourceClone != null);
 
-            NodeTreeHelperBlockList.InsertIntoBlockList(parentNode, ParentInner.PropertyName, ParentIndex.BlockIndex, ChildBlock.Replication, PatternClone, SourceClone, out IBlock NewBlock);
+            NodeTreeHelperBlockList.InsertIntoBlockList(parentNode, ParentInner.PropertyName, blockIndex, ChildBlock.Replication, PatternClone, SourceClone, out IBlock NewBlock);
             NodeTreeHelper.CopyDocumentation(ChildBlock, NewBlock);
 
             // Clone children recursively.

@@ -10,11 +10,6 @@ namespace EaslyController.ReadOnly
     public interface IReadOnlyBrowsingExistingBlockNodeIndex : IReadOnlyBrowsingBlockNodeIndex
     {
         /// <summary>
-        /// Position of the block in the block list.
-        /// </summary>
-        int BlockIndex { get; }
-
-        /// <summary>
         /// Position of the node in the block.
         /// </summary>
         int Index { get; }
@@ -35,7 +30,7 @@ namespace EaslyController.ReadOnly
         /// <param name="blockIndex">Position of the block in the block list.</param>
         /// <param name="index">Position of the node in the block.</param>
         public ReadOnlyBrowsingExistingBlockNodeIndex(INode parentNode, INode node, string propertyName, int blockIndex, int index)
-            : base(node, propertyName)
+            : base(node, propertyName, blockIndex)
         {
             Debug.Assert(parentNode != null);
             Debug.Assert(node != null);
@@ -44,17 +39,11 @@ namespace EaslyController.ReadOnly
             Debug.Assert(index > 0);
             Debug.Assert(NodeTreeHelperBlockList.IsBlockChildNode(parentNode, propertyName, blockIndex, index, node));
 
-            BlockIndex = blockIndex;
             Index = index;
         }
         #endregion
 
         #region Properties
-        /// <summary>
-        /// Position of the block in the block list.
-        /// </summary>
-        public int BlockIndex { get; }
-
         /// <summary>
         /// Position of the node in the block.
         /// </summary>

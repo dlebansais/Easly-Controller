@@ -10,11 +10,6 @@ namespace EaslyController.ReadOnly
     public interface IReadOnlyBrowsingNewBlockNodeIndex : IReadOnlyBrowsingBlockNodeIndex
     {
         /// <summary>
-        /// Position of the block in the block list.
-        /// </summary>
-        int BlockIndex { get; }
-
-        /// <summary>
         /// Replication pattern in the block.
         /// </summary>
         IPattern PatternNode { get; }
@@ -41,7 +36,7 @@ namespace EaslyController.ReadOnly
         /// <param name="patternNode">Replication pattern in the block.</param>
         /// <param name="sourceNode">Source identifier in the block.</param>
         public ReadOnlyBrowsingNewBlockNodeIndex(INode parentNode, INode node, string propertyName, int blockIndex, IPattern patternNode, IIdentifier sourceNode)
-            : base(node, propertyName)
+            : base(node, propertyName, blockIndex)
         {
             Debug.Assert(parentNode != null);
             Debug.Assert(node != null);
@@ -53,18 +48,12 @@ namespace EaslyController.ReadOnly
             Debug.Assert(NodeTreeHelperBlockList.IsBlockPatternNode(parentNode, propertyName, blockIndex, patternNode));
             Debug.Assert(NodeTreeHelperBlockList.IsBlockSourceNode(parentNode, propertyName, blockIndex, sourceNode));
 
-            BlockIndex = blockIndex;
             PatternNode = patternNode;
             SourceNode = sourceNode;
         }
         #endregion
 
         #region Properties
-        /// <summary>
-        /// Position of the block in the block list.
-        /// </summary>
-        public int BlockIndex { get;  }
-
         /// <summary>
         /// Replication pattern in the block.
         /// </summary>

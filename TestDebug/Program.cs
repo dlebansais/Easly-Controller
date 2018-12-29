@@ -147,7 +147,7 @@ namespace TestDebug
 
             IWriteableNodeState RootState = Controller.RootState;
             IWriteableInnerReadOnlyDictionary<string> InnerTable = RootState.InnerTable;
-            IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> ListInner = (IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex>)InnerTable[nameof(IClass.ImportBlocks)];
+            IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> ListInner = (IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex>)InnerTable[nameof(IClass.ImportBlocks)];
 
             IPattern PatternNode = NodeHelper.CreateEmptyPattern();
             IIdentifier SourceNode = NodeHelper.CreateEmptyIdentifier();
@@ -196,6 +196,19 @@ namespace TestDebug
 
             IWriteableControllerView ControllerView5 = WriteableControllerView.Create(Controller);
             Debug.Assert(ControllerView5.IsEqual(ControllerView));
+            /*
+            IWriteableBrowsingBlockNodeIndex InsertIndex7 = (IWriteableBrowsingBlockNodeIndex)ListInner.IndexAt(0, 0);
+            Controller.Remove(ListInner, InsertIndex7);
+
+            IWriteableControllerView ControllerView7 = WriteableControllerView.Create(Controller);
+            Debug.Assert(ControllerView7.IsEqual(ControllerView));
+
+            IWriteableBrowsingBlockNodeIndex InsertIndex8 = (IWriteableBrowsingBlockNodeIndex)ListInner.IndexAt(0, 0);
+            Controller.Remove(ListInner, InsertIndex8);
+
+            IWriteableControllerView ControllerView8 = WriteableControllerView.Create(Controller);
+            Debug.Assert(ControllerView8.IsEqual(ControllerView));
+            */
         }
     }
 }

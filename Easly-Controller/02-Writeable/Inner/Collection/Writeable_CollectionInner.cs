@@ -24,8 +24,7 @@ namespace EaslyController.Writeable
         /// Removes a node from a list or block list.
         /// </summary>
         /// <param name="nodeIndex">Index of the node to remove.</param>
-        /// <param name="oldBrowsingIndex">Index of the removed node upon return.</param>
-        void Remove(IWriteableInsertionCollectionNodeIndex nodeIndex, out IWriteableBrowsingCollectionNodeIndex oldBrowsingIndex);
+        void Remove(IWriteableBrowsingCollectionNodeIndex nodeIndex);
     }
 
     /// <summary>
@@ -51,8 +50,7 @@ namespace EaslyController.Writeable
         /// Removes a node from a list or block list.
         /// </summary>
         /// <param name="nodeIndex">Index of the node to remove.</param>
-        /// <param name="oldBrowsingIndex">Index of the removed node upon return.</param>
-        void Remove(IWriteableInsertionCollectionNodeIndex nodeIndex, out IWriteableBrowsingCollectionNodeIndex oldBrowsingIndex);
+        void Remove(IWriteableBrowsingCollectionNodeIndex nodeIndex);
     }
 
     /// <summary>
@@ -99,8 +97,7 @@ namespace EaslyController.Writeable
         /// Removes a node from a list or block list.
         /// </summary>
         /// <param name="nodeIndex">Index of the node to remove.</param>
-        /// <param name="oldBrowsingIndex">Index of the removed node upon return.</param>
-        public abstract void Remove(IWriteableInsertionCollectionNodeIndex nodeIndex, out IWriteableBrowsingCollectionNodeIndex oldBrowsingIndex);
+        public abstract void Remove(IWriteableBrowsingCollectionNodeIndex nodeIndex);
 
         /// <summary>
         /// Replaces a node.

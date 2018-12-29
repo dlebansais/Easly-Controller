@@ -1,4 +1,5 @@
 ﻿using BaseNode;
+using System.Diagnostics;
 
 namespace EaslyController.ReadOnly
 {
@@ -7,6 +8,10 @@ namespace EaslyController.ReadOnly
     /// </summary>
     public interface IReadOnlyBrowsingBlockNodeIndex : IReadOnlyBrowsingCollectionNodeIndex
     {
+        /// <summary>
+        /// Position of the block in the block list.
+        /// </summary>
+        int BlockIndex { get; }
     }
 
     /// <summary>
@@ -20,10 +25,20 @@ namespace EaslyController.ReadOnly
         /// </summary>
         /// <param name="node">The indexed node.</param>
         /// <param name="propertyName">The property for the index.</param>
-        public ReadOnlyBrowsingBlockNodeIndex(INode node, string propertyName)
+        public ReadOnlyBrowsingBlockNodeIndex(INode node, string propertyName, int blockIndex)
             : base(node, propertyName)
         {
+            Debug.Assert(blockIndex >= 0);
+
+            BlockIndex = blockIndex;
         }
+        #endregion
+
+        #region Properties
+        /// <summary>
+        /// Position of the block in the block list.
+        /// </summary>
+        public virtual int BlockIndex { get; }
         #endregion
     }
 }

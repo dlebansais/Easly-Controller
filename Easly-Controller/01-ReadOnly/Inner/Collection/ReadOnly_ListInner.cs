@@ -14,6 +14,13 @@ namespace EaslyController.ReadOnly
         /// States of nodes in the list.
         /// </summary>
         IReadOnlyPlaceholderNodeStateReadOnlyList StateList { get; }
+
+        /// <summary>
+        /// Gets the index of the node at the given position.
+        /// </summary>
+        /// <param name="index">Position of the node in the list.</param>
+        /// <returns>The index of the node at position <paramref name="index"/>.</returns>
+        IReadOnlyBrowsingListNodeIndex IndexAt(int index);
     }
 
     /// <summary>
@@ -26,6 +33,13 @@ namespace EaslyController.ReadOnly
         /// States of nodes in the list.
         /// </summary>
         IReadOnlyPlaceholderNodeStateReadOnlyList StateList { get; }
+
+        /// <summary>
+        /// Gets the index of the node at the given position.
+        /// </summary>
+        /// <param name="index">Position of the node in the list.</param>
+        /// <returns>The index of the node at position <paramref name="index"/>.</returns>
+        IReadOnlyBrowsingListNodeIndex IndexAt(int index);
     }
 
     /// <summary>
@@ -114,6 +128,18 @@ namespace EaslyController.ReadOnly
         #endregion
 
         #region Client Interface
+        /// <summary>
+        /// Gets the index of the node at the given position.
+        /// </summary>
+        /// <param name="index">Position of the node in the list.</param>
+        /// <returns>The index of the node at position <paramref name="index"/>.</returns>
+        public virtual IReadOnlyBrowsingListNodeIndex IndexAt(int index)
+        {
+            Debug.Assert(index >= 0 && index < StateList.Count);
+
+            return (IReadOnlyBrowsingListNodeIndex)StateList[index].ParentIndex;
+        }
+
         /// <summary>
         /// Creates a clone of all children of the inner, using <paramref name="parentNode"/> as their parent.
         /// </summary>

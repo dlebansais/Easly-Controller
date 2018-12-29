@@ -45,7 +45,7 @@ namespace EaslyController.Writeable
         /// </summary>
         /// <param name="inner">The inner for the list or block list from which the node is removed.</param>
         /// <param name="nodeIndex">Index for the removed node.</param>
-        void Remove(IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> inner, IWriteableInsertionCollectionNodeIndex nodeIndex);
+        void Remove(IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> inner, IWriteableBrowsingCollectionNodeIndex nodeIndex);
 
         /// <summary>
         /// Replace an existing node with a new one.
@@ -169,7 +169,7 @@ namespace EaslyController.Writeable
         /// </summary>
         /// <param name="inner">The inner for the list or block list from which the node is removed.</param>
         /// <param name="nodeIndex">Index for the removed node.</param>
-        public void Remove(IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> inner, IWriteableInsertionCollectionNodeIndex nodeIndex)
+        public void Remove(IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> inner, IWriteableBrowsingCollectionNodeIndex nodeIndex)
         {
             IWriteableNodeState Owner = inner.Owner;
             IWriteableIndex ParentIndex = Owner.ParentIndex;
@@ -179,12 +179,11 @@ namespace EaslyController.Writeable
             Debug.Assert(InnerTable.ContainsKey(inner.PropertyName));
             Debug.Assert(InnerTable[inner.PropertyName] == inner);
 
-            IWriteableBrowsingCollectionNodeIndex OldBrowsingIndex;
             IWriteableNodeState OldState;
 
-            if ((inner is IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> AsBlockListInner) && (nodeIndex is IWriteableInsertionExistingBlockNodeIndex AsExistingBlockIndex))
+            if ((inner is IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> AsBlockListInner) && (nodeIndex is IWriteableBrowsingBlockNodeIndex AsBlockIndex))
             {
-                AsBlockListInner.RemoveWithBlock(AsExistingBlockIndex, out OldBrowsingIndex, out bool IsBlockRemoved, out IWriteableBrowsingPatternIndex PatternIndex, out IWriteableBrowsingSourceIndex SourceIndex);
+                AsBlockListInner.RemoveWithBlock(AsBlockIndex, out bool IsBlockRemoved, out IWriteableBrowsingPatternIndex PatternIndex, out IWriteableBrowsingSourceIndex SourceIndex);
 
                 if (IsBlockRemoved)
                 {
@@ -201,10 +200,10 @@ namespace EaslyController.Writeable
                 }
             }
             else
-                inner.Remove(nodeIndex, out OldBrowsingIndex);
+                inner.Remove(nodeIndex);
 
-            OldState = StateTable[OldBrowsingIndex];
-            RemoveState(OldBrowsingIndex);
+            OldState = StateTable[nodeIndex];
+            RemoveState(nodeIndex);
             Stats.PlaceholderNodeCount--;
 
             PruneStateTable(OldState);

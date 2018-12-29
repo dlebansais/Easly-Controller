@@ -16,11 +16,6 @@ namespace EaslyController.Writeable
         new IWriteableBlockListInner ParentInner { get; }
 
         /// <summary>
-        /// Index that was used to create the block state.
-        /// </summary>
-        new IWriteableBrowsingNewBlockNodeIndex ParentIndex { get; }
-
-        /// <summary>
         /// Index that was used to create the pattern state for this block.
         /// </summary>
         new IWriteableBrowsingPatternIndex PatternIndex { get; }
@@ -71,10 +66,10 @@ namespace EaslyController.Writeable
         /// Initializes a new instance of the <see cref="WriteableBlockState"/> class.
         /// </summary>
         /// <param name="parentInner">Inner containing the block state.</param>
-        /// <param name="parentIndex">Index that was used to create the block state.</param>
+        /// <param name="newBlockIndex">Index that was used to create the block state.</param>
         /// <param name="childBlock">The block.</param>
-        public WriteableBlockState(IWriteableBlockListInner parentInner, IWriteableBrowsingNewBlockNodeIndex parentIndex, IBlock childBlock)
-            : base(parentInner, parentIndex, childBlock)
+        public WriteableBlockState(IWriteableBlockListInner parentInner, IWriteableBrowsingNewBlockNodeIndex newBlockIndex, IBlock childBlock)
+            : base(parentInner, newBlockIndex, childBlock)
         {
         }
         #endregion
@@ -84,11 +79,6 @@ namespace EaslyController.Writeable
         /// The parent inner containing this state.
         /// </summary>
         public new IWriteableBlockListInner ParentInner { get { return (IWriteableBlockListInner)base.ParentInner; } }
-
-        /// <summary>
-        /// Index that was used to create the block state.
-        /// </summary>
-        public new IWriteableBrowsingNewBlockNodeIndex ParentIndex { get { return (IWriteableBrowsingNewBlockNodeIndex)base.ParentIndex; } }
 
         /// <summary>
         /// Index that was used to create the pattern state for this block.
