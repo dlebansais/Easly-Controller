@@ -67,6 +67,14 @@ namespace EaslyController.Writeable
         /// </summary>
         /// <param name="inner">The inner where the node is unassigned.</param>
         void Unassign(IWriteableOptionalInner<IWriteableBrowsingOptionalNodeIndex> inner);
+
+        /// <summary>
+        /// Changes the replication state of a block.
+        /// </summary>
+        /// <param name="inner">The inner where the blok is changed.</param>
+        /// <param name="blockIndex">Position of the block in the block list.</param>
+        /// <param name="replication">New replication value.</param>
+        void ChangeReplication(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, int blockIndex, ReplicationStatus replication);
     }
 
     public class WriteableController : ReadOnlyController, IWriteableController
@@ -290,6 +298,17 @@ namespace EaslyController.Writeable
         public virtual void Unassign(IWriteableOptionalInner<IWriteableBrowsingOptionalNodeIndex> inner)
         {
             inner.Unassign();
+        }
+
+        /// <summary>
+        /// Changes the replication state of a block.
+        /// </summary>
+        /// <param name="inner">The inner where the blok is changed.</param>
+        /// <param name="blockIndex">Position of the block in the block list.</param>
+        /// <param name="replication">New replication value.</param>
+        public virtual void ChangeReplication(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, int blockIndex, ReplicationStatus replication)
+        {
+            inner.ChangeReplication(blockIndex, replication);
         }
         #endregion
 

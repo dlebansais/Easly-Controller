@@ -43,6 +43,13 @@ namespace EaslyController.Writeable
         /// <param name="patternIndex">If <paramref name="isBlockRemoved"/> is true, index of the removed pattern upon return.</param>
         /// <param name="sourceIndex">If <paramref name="isBlockRemoved"/> is true, index of the removed source upon return.</param>
         void RemoveWithBlock(IWriteableBrowsingBlockNodeIndex nodeIndex, out bool isBlockRemoved, out IWriteableBrowsingPatternIndex patternIndex, out IWriteableBrowsingSourceIndex sourceIndex);
+
+        /// <summary>
+        /// Changes the replication state of a block.
+        /// </summary>
+        /// <param name="blockIndex">Position of the block in the block list.</param>
+        /// <param name="replication">New replication value.</param>
+        void ChangeReplication(int blockIndex, ReplicationStatus replication);
     }
 
     /// <summary>
@@ -83,6 +90,13 @@ namespace EaslyController.Writeable
         /// <param name="patternIndex">If <paramref name="isBlockRemoved"/> is true, index of the removed pattern upon return.</param>
         /// <param name="sourceIndex">If <paramref name="isBlockRemoved"/> is true, index of the removed source upon return.</param>
         void RemoveWithBlock(IWriteableBrowsingBlockNodeIndex nodeIndex, out bool isBlockRemoved, out IWriteableBrowsingPatternIndex patternIndex, out IWriteableBrowsingSourceIndex sourceIndex);
+
+        /// <summary>
+        /// Changes the replication state of a block.
+        /// </summary>
+        /// <param name="blockIndex">Position of the block in the block list.</param>
+        /// <param name="replication">New replication value.</param>
+        void ChangeReplication(int blockIndex, ReplicationStatus replication);
     }
 
     /// <summary>
@@ -365,6 +379,19 @@ namespace EaslyController.Writeable
             BlockState.Insert(BrowsingBlockIndex, Index, NewChildState);
 
             childState = NewChildState;
+        }
+
+        /// <summary>
+        /// Changes the replication state of a block.
+        /// </summary>
+        /// <param name="blockIndex">Position of the block in the block list.</param>
+        /// <param name="replication">New replication value.</param>
+        public virtual void ChangeReplication(int blockIndex, ReplicationStatus replication)
+        {
+            Debug.Assert(blockIndex >= 0 && blockIndex < BlockStateList.Count);
+
+            IWriteableBlockState BlockState = BlockStateList[blockIndex];
+            NodeTreeHelperBlockList.SetReplication(BlockState.ChildBlock, replication);
         }
         #endregion
 

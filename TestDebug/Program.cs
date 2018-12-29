@@ -166,6 +166,8 @@ namespace TestDebug
             IWriteableControllerView ControllerView2 = WriteableControllerView.Create(Controller);
             Debug.Assert(ControllerView2.IsEqual(ControllerView));
 
+            Controller.ChangeReplication(ListInner, 0, ReplicationStatus.Replicated);
+
             IImport ThirdNode = NodeHelper.CreateSimpleImport("z", "z", ImportType.Latest);
 
             WriteableInsertionExistingBlockNodeIndex InsertIndex3 = new WriteableInsertionExistingBlockNodeIndex(rootNode, ListInner.PropertyName, ThirdNode, 0, 1);
