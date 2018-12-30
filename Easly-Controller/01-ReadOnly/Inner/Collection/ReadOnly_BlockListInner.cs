@@ -36,7 +36,7 @@ namespace EaslyController.ReadOnly
         /// <param name="blockIndex">Position of the block in the block list.</param>
         /// <param name="index">Position of the node in the block.</param>
         /// <returns>The index of the node at position <paramref name="blockIndex"/> and <paramref name="index"/>.</returns>
-        IReadOnlyBrowsingBlockNodeIndex IndexAt(int blockIndex, int index);
+        IReadOnlyBrowsingExistingBlockNodeIndex IndexAt(int blockIndex, int index);
     }
 
     /// <summary>
@@ -71,7 +71,7 @@ namespace EaslyController.ReadOnly
         /// <param name="blockIndex">Position of the block in the block list.</param>
         /// <param name="index">Position of the node in the block.</param>
         /// <returns>The index of the node at position <paramref name="blockIndex"/> and <paramref name="index"/>.</returns>
-        IReadOnlyBrowsingBlockNodeIndex IndexAt(int blockIndex, int index);
+        IReadOnlyBrowsingExistingBlockNodeIndex IndexAt(int blockIndex, int index);
 
         /// <summary>
         /// Creates and initializes a new block state in the inner.
@@ -237,7 +237,7 @@ namespace EaslyController.ReadOnly
         /// <param name="blockIndex">Position of the block in the block list.</param>
         /// <param name="index">Position of the node in the block.</param>
         /// <returns>The index of the node at position <paramref name="blockIndex"/> and <paramref name="index"/>.</returns>
-        public virtual IReadOnlyBrowsingBlockNodeIndex IndexAt(int blockIndex, int index)
+        public virtual IReadOnlyBrowsingExistingBlockNodeIndex IndexAt(int blockIndex, int index)
         {
             Debug.Assert(blockIndex >= 0 && blockIndex < BlockStateList.Count);
 
@@ -245,7 +245,7 @@ namespace EaslyController.ReadOnly
 
             Debug.Assert(index >= 0 && index < BlockState.StateList.Count);
 
-            return (IReadOnlyBrowsingBlockNodeIndex)BlockState.StateList[index].ParentIndex;
+            return (IReadOnlyBrowsingExistingBlockNodeIndex)BlockState.StateList[index].ParentIndex;
         }
 
         /// <summary>

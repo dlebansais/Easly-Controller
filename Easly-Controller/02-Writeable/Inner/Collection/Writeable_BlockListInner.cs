@@ -50,6 +50,19 @@ namespace EaslyController.Writeable
         /// <param name="blockIndex">Position of the block in the block list.</param>
         /// <param name="replication">New replication value.</param>
         void ChangeReplication(int blockIndex, ReplicationStatus replication);
+
+        /// <summary>
+        /// Splits a block in two at the given index.
+        /// </summary>
+        /// <param name="nodeIndex">Index of the last node to stay in the old block.</param>
+        /// <param name="NewBlockState">The created block state upon return.</param>
+        void SplitBlock(IWriteableBrowsingExistingBlockNodeIndex nodeIndex, out IWriteableBlockState newBlockState);
+
+        /// <summary>
+        /// Merges two blocks at the given index.
+        /// </summary>
+        /// <param name="nodeIndex">Index of the first node in the block to merge.</param>
+        void MergeBlocks(IWriteableBrowsingExistingBlockNodeIndex nodeIndex);
     }
 
     /// <summary>
@@ -97,6 +110,19 @@ namespace EaslyController.Writeable
         /// <param name="blockIndex">Position of the block in the block list.</param>
         /// <param name="replication">New replication value.</param>
         void ChangeReplication(int blockIndex, ReplicationStatus replication);
+
+        /// <summary>
+        /// Splits a block in two at the given index.
+        /// </summary>
+        /// <param name="nodeIndex">Index of the last node to stay in the old block.</param>
+        /// <param name="NewBlockState">The created block state upon return.</param>
+        void SplitBlock(IWriteableBrowsingExistingBlockNodeIndex nodeIndex, out IWriteableBlockState newBlockState);
+
+        /// <summary>
+        /// Merges two blocks at the given index.
+        /// </summary>
+        /// <param name="nodeIndex">Index of the first node in the block to merge.</param>
+        void MergeBlocks(IWriteableBrowsingExistingBlockNodeIndex nodeIndex);
     }
 
     /// <summary>
@@ -393,6 +419,121 @@ namespace EaslyController.Writeable
             IWriteableBlockState BlockState = BlockStateList[blockIndex];
             NodeTreeHelperBlockList.SetReplication(BlockState.ChildBlock, replication);
         }
+
+        /// <summary>
+        /// Splits a block in two at the given index.
+        /// </summary>
+        /// <param name="nodeIndex">Index of the last node to stay in the old block.</param>
+        /// <param name="NewBlockState">The created block state upon return.</param>
+        public virtual void SplitBlock(IWriteableBrowsingExistingBlockNodeIndex nodeIndex, out IWriteableBlockState newBlockState)
+        {
+            Debug.Assert(nodeIndex != null);
+            Debug.Assert(nodeIndex.BlockIndex >= 0 && nodeIndex.BlockIndex < BlockStateList.Count);
+
+            int SplitBlockIndex = nodeIndex.BlockIndex;
+            int SplitIndex = nodeIndex.Index;
+            Debug.Assert(SplitIndex > 0);
+
+            IWriteableBlockState BlockState = BlockStateList[SplitBlockIndex];
+            Debug.Assert(SplitIndex < BlockState.StateList.Count);
+
+            ReplicationStatus Replication = BlockState.ChildBlock.Replication;
+            IPattern NewPatternNode = NodeHelper.CreateSimplePattern(BlockState.ChildBlock.ReplicationPattern.Text);
+            IIdentifier NewSourceNode = NodeHelper.CreateSimpleIdentifier(BlockState.ChildBlock.SourceIdentifier.Text);
+
+            NodeTreeHelperBlockList.SplitBlock(Owner.Node, PropertyName, SplitBlockIndex, SplitIndex, Replication, NewPatternNode, NewSourceNode, out IBlock ChildBlock);
+
+            NodeTreeHelperBlockList.GetChildNode(ChildBlock, 0, out INode NewBlockFirstNode);
+            IWriteableBrowsingNewBlockNodeIndex NewBlockIndex = CreateNewBlockNodeIndex(NewBlockFirstNode, SplitBlockIndex, NewPatternNode, NewSourceNode);
+
+            newBlockState = (IWriteableBlockState)CreateBlockState(NewBlockIndex, ChildBlock);
+            newBlockState.InitBlockState();
+            InsertInBlockStateList(NewBlockIndex.BlockIndex, newBlockState);
+
+            for (int i = 0; i < SplitIndex; i++)
+            {
+                IWriteablePlaceholderNodeState State = BlockState.StateList[0];
+                IWriteableBrowsingExistingBlockNodeIndex ChildNodeIndex = State.ParentIndex as IWriteableBrowsingExistingBlockNodeIndex;
+                Debug.Assert(ChildNodeIndex != null);
+
+                BlockState.Remove(ChildNodeIndex, 0);
+                newBlockState.Insert(ChildNodeIndex, i, State);
+            }
+
+            for (int i = 0; i < BlockState.StateList.Count; i++)
+            {
+                IWriteablePlaceholderNodeState State = BlockState.StateList[i];
+                IWriteableBrowsingExistingBlockNodeIndex ChildNodeIndex = State.ParentIndex as IWriteableBrowsingExistingBlockNodeIndex;
+                Debug.Assert(ChildNodeIndex != null);
+
+                ChildNodeIndex.MoveBlockUp();
+
+                for (int j = 0; j < SplitIndex; j++)
+                    ChildNodeIndex.MoveDown();
+            }
+
+            for (int i = SplitBlockIndex + 2; i < BlockStateList.Count; i++)
+                foreach (IWriteablePlaceholderNodeState State in BlockStateList[i].StateList)
+                {
+                    IWriteableBrowsingExistingBlockNodeIndex ChildNodeIndex = State.ParentIndex as IWriteableBrowsingExistingBlockNodeIndex;
+                    Debug.Assert(ChildNodeIndex != null);
+
+                    ChildNodeIndex.MoveBlockUp();
+                }
+        }
+
+        /// <summary>
+        /// Merges two blocks at the given index.
+        /// </summary>
+        /// <param name="nodeIndex">Index of the first node in the block to merge.</param>
+        public virtual void MergeBlocks(IWriteableBrowsingExistingBlockNodeIndex nodeIndex)
+        {
+            Debug.Assert(nodeIndex != null);
+            Debug.Assert(nodeIndex.BlockIndex > 0 && nodeIndex.BlockIndex < BlockStateList.Count);
+            Debug.Assert(nodeIndex.Index == 0);
+
+            int MergeBlockIndex = nodeIndex.BlockIndex;
+            IWriteableBlockState FirstBlockState = BlockStateList[MergeBlockIndex - 1];
+            IWriteableBlockState SecondBlockState = BlockStateList[MergeBlockIndex];
+            int MergeIndex = FirstBlockState.StateList.Count;
+            Debug.Assert(MergeIndex > 0);
+
+            NodeTreeHelperBlockList.MergeBlocks(Owner.Node, PropertyName, MergeBlockIndex);
+
+            RemoveFromBlockStateList(MergeBlockIndex - 1);
+
+            int i;
+            for (i = 0; i < MergeIndex; i++)
+            {
+                IWriteablePlaceholderNodeState State = FirstBlockState.StateList[0];
+                IWriteableBrowsingExistingBlockNodeIndex ChildNodeIndex = State.ParentIndex as IWriteableBrowsingExistingBlockNodeIndex;
+                Debug.Assert(ChildNodeIndex != null);
+
+                FirstBlockState.Remove(ChildNodeIndex, 0);
+                SecondBlockState.Insert(ChildNodeIndex, i, State);
+            }
+
+            for (; i < SecondBlockState.StateList.Count; i++)
+            {
+                IWriteablePlaceholderNodeState State = SecondBlockState.StateList[i];
+                IWriteableBrowsingExistingBlockNodeIndex ChildNodeIndex = State.ParentIndex as IWriteableBrowsingExistingBlockNodeIndex;
+                Debug.Assert(ChildNodeIndex != null);
+
+                ChildNodeIndex.MoveBlockDown();
+
+                for (int j = 0; j < MergeIndex; j++)
+                    ChildNodeIndex.MoveUp();
+            }
+
+            for (i = MergeBlockIndex + 1; i < BlockStateList.Count; i++)
+                foreach (IWriteablePlaceholderNodeState State in BlockStateList[i].StateList)
+                {
+                    IWriteableBrowsingExistingBlockNodeIndex ChildNodeIndex = State.ParentIndex as IWriteableBrowsingExistingBlockNodeIndex;
+                    Debug.Assert(ChildNodeIndex != null);
+
+                    ChildNodeIndex.MoveBlockDown();
+                }
+        }
         #endregion
 
         #region Descendant Interface
@@ -451,6 +592,15 @@ namespace EaslyController.Writeable
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableBlockListInner<IIndex, TIndex>));
             return (TIndex)(IWriteableBrowsingBlockNodeIndex)new WriteableBrowsingExistingBlockNodeIndex(Owner.Node, state.Node, propertyName, blockIndex, index);
+        }
+
+        /// <summary>
+        /// Creates a IxxxBrowsingNewBlockNodeIndex object.
+        /// </summary>
+        protected virtual IWriteableBrowsingNewBlockNodeIndex CreateNewBlockNodeIndex(INode node, int blockIndex, IPattern patternNode, IIdentifier sourceNode)
+        {
+            ControllerTools.AssertNoOverride(this, typeof(WriteableBlockListInner<IIndex, TIndex>));
+            return new WriteableBrowsingNewBlockNodeIndex(Owner.Node, node, PropertyName, blockIndex, patternNode, sourceNode);
         }
         #endregion
     }

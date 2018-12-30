@@ -220,6 +220,18 @@ namespace TestDebug
 
             IWriteableControllerView ControllerView10 = WriteableControllerView.Create(Controller);
             Debug.Assert(ControllerView10.IsEqual(ControllerView));
+
+            IWriteableBrowsingExistingBlockNodeIndex SplitIndex1 = (IWriteableBrowsingExistingBlockNodeIndex)ListInner.IndexAt(0, 1);
+            Controller.SplitBlock(ListInner, SplitIndex1);
+
+            IWriteableControllerView ControllerView11 = WriteableControllerView.Create(Controller);
+            Debug.Assert(ControllerView11.IsEqual(ControllerView));
+
+            IWriteableBrowsingExistingBlockNodeIndex SplitIndex2 = (IWriteableBrowsingExistingBlockNodeIndex)ListInner.IndexAt(1, 0);
+            Controller.MergeBlocks(ListInner, SplitIndex2);
+
+            IWriteableControllerView ControllerView12 = WriteableControllerView.Create(Controller);
+            Debug.Assert(ControllerView12.IsEqual(ControllerView));
         }
     }
 }
