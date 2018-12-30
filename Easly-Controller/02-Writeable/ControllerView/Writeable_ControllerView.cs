@@ -1,4 +1,5 @@
 ﻿using EaslyController.ReadOnly;
+using System.Diagnostics;
 
 namespace EaslyController.Writeable
 {
@@ -62,12 +63,14 @@ namespace EaslyController.Writeable
         /// Compares two <see cref="IWriteableControllerView"/> objects.
         /// </summary>
         /// <param name="other">The other object.</param>
-        public override bool IsEqual(IReadOnlyControllerView other)
+        public override bool IsEqual(CompareEqual comparer, IEqualComparable other)
         {
+            Debug.Assert(other != null);
+
             if (!(other is IWriteableControllerView AsWriteable))
                 return false;
 
-            if (!base.IsEqual(AsWriteable))
+            if (!base.IsEqual(comparer, AsWriteable))
                 return false;
 
             return true;

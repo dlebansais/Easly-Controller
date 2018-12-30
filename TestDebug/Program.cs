@@ -118,7 +118,14 @@ namespace TestDebug
             Debug.Assert(IsEqual);
             Debug.Assert(h1 == h2);
 
-            IReadOnlyControllerView ControllerView = ReadOnlyControllerView.Create(Controller);
+            IReadOnlyControllerView ControllerView1 = ReadOnlyControllerView.Create(Controller);
+            IReadOnlyControllerView ControllerView2 = ReadOnlyControllerView.Create(Controller);
+
+            Debug.Assert(ControllerView1.IsEqual(CompareEqual.New(), ControllerView2));
+
+            IReadOnlyRootNodeIndex RootIndex2 = new ReadOnlyRootNodeIndex(rootNode);
+            IReadOnlyController Controller2 = ReadOnlyController.Create(RootIndex);
+            Debug.Assert(Controller.IsEqual(CompareEqual.New(), Controller2));
         }
 
         static void TestWriteable(INode rootNode)
@@ -131,6 +138,7 @@ namespace TestDebug
             IWriteableRootNodeIndex RootIndex = new WriteableRootNodeIndex(rootNode);
             IWriteableController Controller = WriteableController.Create(RootIndex);
             Stats Stats = Controller.Stats;
+            IWriteableController ControllerCheck;
 
             INode RootNodeClone = Controller.RootState.CloneNode();
             ulong h1 = NodeHelper.NodeHash(rootNode);
@@ -156,30 +164,45 @@ namespace TestDebug
             WriteableInsertionNewBlockNodeIndex InsertIndex0 = new WriteableInsertionNewBlockNodeIndex(rootNode, ListInner.PropertyName, FirstNode, 0, PatternNode, SourceNode);
             Controller.Insert(ListInner, InsertIndex0, out IWriteableBrowsingCollectionNodeIndex InsertedIndex0);
 
+            ControllerCheck = WriteableController.Create(new WriteableRootNodeIndex(rootNode));
+            Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
+
             IImport SecondNode = NodeHelper.CreateSimpleImport("y", "y", ImportType.Latest);
 
             WriteableInsertionExistingBlockNodeIndex InsertIndex1 = new WriteableInsertionExistingBlockNodeIndex(rootNode, ListInner.PropertyName, SecondNode, 0, 1);
             Controller.Insert(ListInner, InsertIndex1, out IWriteableBrowsingCollectionNodeIndex InsertedIndex1);
 
+            ControllerCheck = WriteableController.Create(new WriteableRootNodeIndex(rootNode));
+            Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
+
             Debug.Assert(ControllerView.StateViewTable.Count == Controller.Stats.NodeCount);
 
             IWriteableControllerView ControllerView2 = WriteableControllerView.Create(Controller);
-            Debug.Assert(ControllerView2.IsEqual(ControllerView));
+            Debug.Assert(ControllerView2.IsEqual(CompareEqual.New(), ControllerView));
 
             Controller.ChangeReplication(ListInner, 0, ReplicationStatus.Replicated);
+
+            ControllerCheck = WriteableController.Create(new WriteableRootNodeIndex(rootNode));
+            Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
 
             IImport ThirdNode = NodeHelper.CreateSimpleImport("z", "z", ImportType.Latest);
 
             WriteableInsertionExistingBlockNodeIndex InsertIndex3 = new WriteableInsertionExistingBlockNodeIndex(rootNode, ListInner.PropertyName, ThirdNode, 0, 1);
             Controller.Replace(ListInner, InsertIndex3, out IWriteableBrowsingChildIndex InsertedIndex3);
 
+            ControllerCheck = WriteableController.Create(new WriteableRootNodeIndex(rootNode));
+            Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
+
             IImport FourthNode = NodeHelper.CreateSimpleImport("a", "a", ImportType.Latest);
 
             WriteableInsertionExistingBlockNodeIndex InsertIndex4 = new WriteableInsertionExistingBlockNodeIndex(rootNode, ListInner.PropertyName, FourthNode, 0, 0);
             Controller.Replace(ListInner, InsertIndex4, out IWriteableBrowsingChildIndex InsertedIndex4);
 
+            ControllerCheck = WriteableController.Create(new WriteableRootNodeIndex(rootNode));
+            Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
+
             IWriteableControllerView ControllerView3 = WriteableControllerView.Create(Controller);
-            Debug.Assert(ControllerView3.IsEqual(ControllerView));
+            Debug.Assert(ControllerView3.IsEqual(CompareEqual.New(), ControllerView));
 
             IName FifthNode = NodeHelper.CreateSimpleName("a");
 
@@ -187,8 +210,11 @@ namespace TestDebug
             WriteableInsertionPlaceholderNodeIndex InsertIndex5 = new WriteableInsertionPlaceholderNodeIndex(rootNode, ChildInner.PropertyName, FifthNode);
             Controller.Replace(ChildInner, InsertIndex5, out IWriteableBrowsingChildIndex InsertedIndex5);
 
+            ControllerCheck = WriteableController.Create(new WriteableRootNodeIndex(rootNode));
+            Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
+
             IWriteableControllerView ControllerView4 = WriteableControllerView.Create(Controller);
-            Debug.Assert(ControllerView4.IsEqual(ControllerView));
+            Debug.Assert(ControllerView4.IsEqual(CompareEqual.New(), ControllerView));
 
             IIdentifier SixthNode = NodeHelper.CreateSimpleIdentifier("b");
 
@@ -196,42 +222,66 @@ namespace TestDebug
             WriteableInsertionOptionalNodeIndex InsertIndex6 = new WriteableInsertionOptionalNodeIndex(rootNode, OptionalInner.PropertyName, SixthNode);
             Controller.Replace(OptionalInner, InsertIndex6, out IWriteableBrowsingChildIndex InsertedIndex6);
 
+            ControllerCheck = WriteableController.Create(new WriteableRootNodeIndex(rootNode));
+            Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
+
             IWriteableControllerView ControllerView5 = WriteableControllerView.Create(Controller);
-            Debug.Assert(ControllerView5.IsEqual(ControllerView));
+            Debug.Assert(ControllerView5.IsEqual(CompareEqual.New(), ControllerView));
 
             IWriteableBrowsingBlockNodeIndex InsertIndex7 = (IWriteableBrowsingBlockNodeIndex)ListInner.IndexAt(0, 0);
             Controller.Remove(ListInner, InsertIndex7);
 
+            ControllerCheck = WriteableController.Create(new WriteableRootNodeIndex(rootNode));
+            Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
+
             IWriteableControllerView ControllerView7 = WriteableControllerView.Create(Controller);
-            Debug.Assert(ControllerView7.IsEqual(ControllerView));
+            Debug.Assert(ControllerView7.IsEqual(CompareEqual.New(), ControllerView));
 
             IWriteableBrowsingBlockNodeIndex InsertIndex8 = (IWriteableBrowsingBlockNodeIndex)ListInner.IndexAt(0, 0);
             Controller.Remove(ListInner, InsertIndex8);
 
+            ControllerCheck = WriteableController.Create(new WriteableRootNodeIndex(rootNode));
+            Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
+
             IWriteableControllerView ControllerView8 = WriteableControllerView.Create(Controller);
-            Debug.Assert(ControllerView8.IsEqual(ControllerView));
+            Debug.Assert(ControllerView8.IsEqual(CompareEqual.New(), ControllerView));
 
             Controller.Unassign(OptionalInner);
 
+            ControllerCheck = WriteableController.Create(new WriteableRootNodeIndex(rootNode));
+            Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
+
             IWriteableControllerView ControllerView9 = WriteableControllerView.Create(Controller);
-            Debug.Assert(ControllerView9.IsEqual(ControllerView));
+            Debug.Assert(ControllerView9.IsEqual(CompareEqual.New(), ControllerView));
 
             Controller.Assign(OptionalInner);
 
+            ControllerCheck = WriteableController.Create(new WriteableRootNodeIndex(rootNode));
+            Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
+
             IWriteableControllerView ControllerView10 = WriteableControllerView.Create(Controller);
-            Debug.Assert(ControllerView10.IsEqual(ControllerView));
+            Debug.Assert(ControllerView10.IsEqual(CompareEqual.New(), ControllerView));
 
-            IWriteableBrowsingExistingBlockNodeIndex SplitIndex1 = (IWriteableBrowsingExistingBlockNodeIndex)ListInner.IndexAt(0, 1);
-            Controller.SplitBlock(ListInner, SplitIndex1);
+            if (ListInner.BlockStateList.Count >= 2)
+            {
+                IWriteableBrowsingExistingBlockNodeIndex SplitIndex1 = (IWriteableBrowsingExistingBlockNodeIndex)ListInner.IndexAt(0, 1);
+                Controller.SplitBlock(ListInner, SplitIndex1);
 
-            IWriteableControllerView ControllerView11 = WriteableControllerView.Create(Controller);
-            Debug.Assert(ControllerView11.IsEqual(ControllerView));
+                ControllerCheck = WriteableController.Create(new WriteableRootNodeIndex(rootNode));
+                Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
 
-            IWriteableBrowsingExistingBlockNodeIndex SplitIndex2 = (IWriteableBrowsingExistingBlockNodeIndex)ListInner.IndexAt(1, 0);
-            Controller.MergeBlocks(ListInner, SplitIndex2);
+                IWriteableControllerView ControllerView11 = WriteableControllerView.Create(Controller);
+                Debug.Assert(ControllerView11.IsEqual(CompareEqual.New(), ControllerView));
 
-            IWriteableControllerView ControllerView12 = WriteableControllerView.Create(Controller);
-            Debug.Assert(ControllerView12.IsEqual(ControllerView));
+                IWriteableBrowsingExistingBlockNodeIndex SplitIndex2 = (IWriteableBrowsingExistingBlockNodeIndex)ListInner.IndexAt(1, 0);
+                Controller.MergeBlocks(ListInner, SplitIndex2);
+
+                ControllerCheck = WriteableController.Create(new WriteableRootNodeIndex(rootNode));
+                Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
+
+                IWriteableControllerView ControllerView12 = WriteableControllerView.Create(Controller);
+                Debug.Assert(ControllerView12.IsEqual(CompareEqual.New(), ControllerView));
+            }
         }
     }
 }

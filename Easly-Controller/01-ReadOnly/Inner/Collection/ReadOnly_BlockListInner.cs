@@ -314,6 +314,32 @@ namespace EaslyController.ReadOnly
         }
         #endregion
 
+        #region Debugging
+        /// <summary>
+        /// Compares two <see cref="IReadOnlyInner"/> objects.
+        /// </summary>
+        /// <param name="other">The other object.</param>
+        public override bool IsEqual(CompareEqual comparer, IEqualComparable other)
+        {
+            Debug.Assert(other != null);
+
+            if (!(other is IReadOnlyBlockListInner<IIndex> AsBlockListInner))
+                return false;
+
+            if (!base.IsEqual(comparer, AsBlockListInner))
+                return false;
+
+            if (BlockStateList.Count != AsBlockListInner.BlockStateList.Count)
+                return false;
+
+            for (int i = 0; i < BlockStateList.Count; i++)
+                if (!comparer.VerifyEqual(BlockStateList[i], AsBlockListInner.BlockStateList[i]))
+                    return false;
+
+            return true;
+        }
+        #endregion
+
         #region Create Methods
         /// <summary>
         /// Creates a IxxxBlockStateList object.

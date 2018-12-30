@@ -74,5 +74,30 @@ namespace EaslyController.ReadOnly
         /// <returns>The cloned node.</returns>
         public new IPattern CloneNode() { return (IPattern)base.CloneNode(); }
         #endregion
+
+        #region Debugging
+        /// <summary>
+        /// Compares two <see cref="IReadOnlyNodeState"/> objects.
+        /// </summary>
+        /// <param name="other">The other object.</param>
+        public override bool IsEqual(CompareEqual comparer, IEqualComparable other)
+        {
+            Debug.Assert(other != null);
+
+            if (!(other is IReadOnlyPatternState AsPatternState))
+                return false;
+
+            if (!base.IsEqual(comparer, AsPatternState))
+                return false;
+
+            if (Node != AsPatternState.Node)
+                return false;
+
+            if (!comparer.VerifyEqual(ParentBlockState, AsPatternState.ParentBlockState))
+                return false;
+
+            return true;
+        }
+        #endregion
     }
 }

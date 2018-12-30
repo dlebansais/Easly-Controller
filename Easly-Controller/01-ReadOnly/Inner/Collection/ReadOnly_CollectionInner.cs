@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 
 namespace EaslyController.ReadOnly
 {
@@ -64,6 +65,25 @@ namespace EaslyController.ReadOnly
         /// First node state that can be enumerated in the inner.
         /// </summary>
         public virtual IReadOnlyPlaceholderNodeState FirstNodeState { get { throw new InvalidOperationException(); } } // Can't make this abstract, thank you C#...
+        #endregion
+
+        #region Debugging
+        /// <summary>
+        /// Compares two <see cref="IReadOnlyInner"/> objects.
+        /// </summary>
+        /// <param name="other">The other object.</param>
+        public override bool IsEqual(CompareEqual comparer, IEqualComparable other)
+        {
+            Debug.Assert(other != null);
+
+            if (!(other is IReadOnlyCollectionInner<IIndex> AsCollectionInner))
+                return false;
+
+            if (!base.IsEqual(comparer, AsCollectionInner))
+                return false;
+
+            return true;
+        }
         #endregion
     }
 }

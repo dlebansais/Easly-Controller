@@ -1,5 +1,6 @@
 ﻿using BaseNode;
 using EaslyController.ReadOnly;
+using System.Diagnostics;
 
 namespace EaslyController.Writeable
 {
@@ -23,6 +24,25 @@ namespace EaslyController.Writeable
         public WriteableRootNodeIndex(INode node)
             : base(node)
         {
+        }
+        #endregion
+
+        #region Debugging
+        /// <summary>
+        /// Compares two <see cref="IReadOnlyIndex"/> objects.
+        /// </summary>
+        /// <param name="other">The other object.</param>
+        public override bool IsEqual(CompareEqual comparer, IEqualComparable other)
+        {
+            Debug.Assert(other != null);
+
+            if (!(other is IWriteableRootNodeIndex AsRootNodeIndex))
+                return false;
+
+            if (!base.IsEqual(comparer, AsRootNodeIndex))
+                return false;
+
+            return true;
         }
         #endregion
     }

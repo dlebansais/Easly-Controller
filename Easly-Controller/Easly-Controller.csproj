@@ -148,9 +148,7 @@
     <Compile Include="02-Writeable\Index\Insertion\Collection\Writeable_InsertionNewBlockNodeIndex.cs" />
     <Compile Include="02-Writeable\Index\Insertion\Writeable_InsertionChildIndex.cs" />
     <Compile Include="02-Writeable\Index\Insertion\Single\Writeable_InsertionOptionalNodeIndex.cs" />
-    <Compile Include="02-Writeable\Index\Insertion\Single\Writeable_InsertionPatternIndex.cs" />
     <Compile Include="02-Writeable\Index\Insertion\Single\Writeable_InsertionPlaceholderNodeIndex.cs" />
-    <Compile Include="02-Writeable\Index\Insertion\Single\Writeable_InsertionSourceIndex.cs" />
     <Compile Include="02-Writeable\Index\Writeable_ChildIndex.cs" />
     <Compile Include="02-Writeable\Index\Writeable_Index.cs" />
     <Compile Include="02-Writeable\Index\Writeable_NodeIndex.cs" />
@@ -174,6 +172,7 @@
     <Compile Include="02-Writeable\State\Writeable_PatternState.cs" />
     <Compile Include="02-Writeable\State\Writeable_PlaceholderNodeState.cs" />
     <Compile Include="02-Writeable\State\Writeable_SourceState.cs" />
+    <Compile Include="Controller\CompareEqual.cs" />
     <Compile Include="Controller\ControllerTools.cs" />
     <Compile Include="Controller\Stats.cs" />
     <Compile Include="Controller\ValuePropertyType.cs" />

@@ -9,7 +9,7 @@ namespace EaslyController.ReadOnly
     /// <summary>
     /// Base interface for the state of a node.
     /// </summary>
-    public interface IReadOnlyNodeState
+    public interface IReadOnlyNodeState : IEqualComparable
     {
         /// <summary>
         /// The node.
@@ -418,6 +418,44 @@ namespace EaslyController.ReadOnly
         #endregion
 
         #region Debugging
+        /// <summary>
+        /// Compares two <see cref="IReadOnlyNodeState"/> objects.
+        /// </summary>
+        /// <param name="other">The other object.</param>
+        public virtual bool IsEqual(CompareEqual comparer, IEqualComparable other)
+        {
+            Debug.Assert(other != null);
+
+            if (!(other is IReadOnlyNodeState AsNodeState))
+                return false;
+
+            if (!comparer.VerifyEqual(ParentIndex, AsNodeState.ParentIndex))
+                return false;
+
+            if ((ParentInner == null && AsNodeState.ParentInner != null) || (ParentInner != null && (AsNodeState.ParentInner == null || !comparer.VerifyEqual(ParentInner, AsNodeState.ParentInner))))
+                return false;
+
+            if ((ParentState == null && AsNodeState.ParentState != null) || (ParentState != null && (AsNodeState.ParentState == null || !comparer.VerifyEqual(ParentState, AsNodeState.ParentState))))
+                return false;
+
+            if (!comparer.VerifyEqual(InnerTable, AsNodeState.InnerTable))
+                return false;
+
+            if (ValuePropertyTypeTable.Count != AsNodeState.ValuePropertyTypeTable.Count)
+                return false;
+
+            foreach (KeyValuePair<string, ValuePropertyType> Entry in ValuePropertyTypeTable)
+            {
+                if (!AsNodeState.ValuePropertyTypeTable.ContainsKey(Entry.Key))
+                    return false;
+
+                if (AsNodeState.ValuePropertyTypeTable[Entry.Key] != Entry.Value)
+                    return false;
+            }
+
+            return true;
+        }
+
         /// <summary>
         /// Returns a clone of the node of this state.
         /// </summary>

@@ -5,18 +5,12 @@ namespace EaslyController.ReadOnly
     /// <summary>
     /// View of a node state.
     /// </summary>
-    public interface IReadOnlyNodeStateView
+    public interface IReadOnlyNodeStateView : IEqualComparable
     {
         /// <summary>
         /// The node state.
         /// </summary>
         IReadOnlyNodeState State { get; }
-
-        /// <summary>
-        /// Compares two <see cref="IReadOnlyNodeStateView"/> objects.
-        /// </summary>
-        /// <param name="other">The other object.</param>
-        bool IsEqual(IReadOnlyNodeStateView other);
     }
 
     /// <summary>
@@ -49,9 +43,14 @@ namespace EaslyController.ReadOnly
         /// Compares two <see cref="IReadOnlyNodeStateView"/> objects.
         /// </summary>
         /// <param name="other">The other object.</param>
-        public virtual bool IsEqual(IReadOnlyNodeStateView other)
+        public virtual bool IsEqual(CompareEqual comparer, IEqualComparable other)
         {
-            if (State != other.State)
+            Debug.Assert(other != null);
+
+            if (!(other is IReadOnlyNodeStateView AsNodeStateView))
+                return false;
+
+            if (State != AsNodeStateView.State)
                 return false;
 
             return true;

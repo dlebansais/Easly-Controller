@@ -1,22 +1,17 @@
 ﻿using EaslyController.ReadOnly;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace EaslyController.Writeable
 {
     /// <summary>
     /// Dictionary of IxxxIndex, IxxxNodeState
     /// </summary>
-    public interface IWriteableStateViewDictionary : IReadOnlyStateViewDictionary, IDictionary<IWriteableNodeState, IWriteableNodeStateView>
+    public interface IWriteableStateViewDictionary : IReadOnlyStateViewDictionary, IDictionary<IWriteableNodeState, IWriteableNodeStateView>, IEqualComparable
     {
         new int Count { get; }
         new Dictionary<IWriteableNodeState, IWriteableNodeStateView>.Enumerator GetEnumerator();
-
-        /// <summary>
-        /// Compares two <see cref="IWriteableStateViewDictionary"/> objects.
-        /// </summary>
-        /// <param name="other">The other object.</param>
-        bool IsEqual(IWriteableStateViewDictionary other);
     }
 
     /// <summary>
@@ -62,9 +57,14 @@ namespace EaslyController.Writeable
         /// Compares two <see cref="IWriteableStateViewDictionary"/> objects.
         /// </summary>
         /// <param name="other">The other object.</param>
-        public virtual bool IsEqual(IWriteableStateViewDictionary other)
+        public virtual bool IsEqual(CompareEqual comparer, IEqualComparable other)
         {
-            if (Count != other.Count)
+            Debug.Assert(other != null);
+
+            if (!(other is IWriteableStateViewDictionary AsStateViewDictionary))
+                return false;
+
+            if (Count != AsStateViewDictionary.Count)
                 return false;
 
             foreach (KeyValuePair<IWriteableNodeState, IWriteableNodeStateView> Entry in this)
@@ -72,22 +72,14 @@ namespace EaslyController.Writeable
                 IWriteableNodeState Key = Entry.Key;
                 IWriteableNodeStateView Value = Entry.Value;
 
-                if (!other.ContainsKey(Key))
+                if (!AsStateViewDictionary.ContainsKey(Key))
                     return false;
 
-                if (!Value.IsEqual(other[Key]))
+                if (!comparer.VerifyEqual(Value, AsStateViewDictionary[Key]))
                     return false;
             }
 
             return true;
-        }
-
-        public virtual bool IsEqual(IReadOnlyStateViewDictionary other)
-        {
-            if (other is IWriteableStateViewDictionary AsWriteable)
-                return IsEqual(AsWriteable);
-            else
-                return false;
         }
         #endregion
     }

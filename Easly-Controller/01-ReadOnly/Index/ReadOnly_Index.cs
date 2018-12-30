@@ -3,7 +3,7 @@
     /// <summary>
     /// Base interface for any index.
     /// </summary>
-    public interface IReadOnlyIndex
+    public interface IReadOnlyIndex : IEqualComparable
     {
     }
 }

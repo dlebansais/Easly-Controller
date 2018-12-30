@@ -7,7 +7,7 @@ namespace EaslyController.ReadOnly
     /// <summary>
     /// Interface for all inners.
     /// </summary>
-    public interface IReadOnlyInner
+    public interface IReadOnlyInner : IEqualComparable
     {
         /// <summary>
         /// Parent containing the inner.
@@ -34,7 +34,7 @@ namespace EaslyController.ReadOnly
     /// <summary>
     /// Interface for all inners.
     /// </summary>
-    public interface IReadOnlyInner<out IIndex>
+    public interface IReadOnlyInner<out IIndex> : IEqualComparable
         where IIndex : IReadOnlyBrowsingChildIndex
     {
         /// <summary>
@@ -132,6 +132,28 @@ namespace EaslyController.ReadOnly
         /// <param name="view">The attaching view.</param>
         /// <param name="callbackSet">The set of callbacks to call when enumerating existing states.</param>
         public abstract void Attach(IReadOnlyControllerView view, IReadOnlyAttachCallbackSet callbackSet);
+        #endregion
+
+        #region Debugging
+        /// <summary>
+        /// Compares two <see cref="IReadOnlyInner"/> objects.
+        /// </summary>
+        /// <param name="other">The other object.</param>
+        public virtual bool IsEqual(CompareEqual comparer, IEqualComparable other)
+        {
+            Debug.Assert(other != null);
+
+            if (!(other is IReadOnlyInner<IIndex> AsInner))
+                return false;
+
+            if (!comparer.VerifyEqual(Owner, AsInner.Owner))
+                return false;
+
+            if (PropertyName != AsInner.PropertyName)
+                return false;
+
+            return true;
+        }
         #endregion
     }
 }

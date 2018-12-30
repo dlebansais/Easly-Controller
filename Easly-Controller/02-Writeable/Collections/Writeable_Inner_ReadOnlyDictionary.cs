@@ -1,6 +1,7 @@
 ﻿using EaslyController.ReadOnly;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 
 namespace EaslyController.Writeable
 {
@@ -9,6 +10,7 @@ namespace EaslyController.Writeable
     /// </summary>
     public interface IWriteableInnerReadOnlyDictionary<TKey> : IReadOnlyInnerReadOnlyDictionary<TKey>, IReadOnlyDictionary<TKey, IWriteableInner<IWriteableBrowsingChildIndex>>
     {
+        new int Count { get; }
         new IWriteableInner<IWriteableBrowsingChildIndex> this[TKey key] { get; }
         new IEnumerator<KeyValuePair<TKey, IWriteableInner<IWriteableBrowsingChildIndex>>> GetEnumerator();
         new bool ContainsKey(TKey key);
@@ -36,5 +38,33 @@ namespace EaslyController.Writeable
             return NewList.GetEnumerator();
         }
         public bool TryGetValue(TKey key, out IReadOnlyInner<IReadOnlyBrowsingChildIndex> value) { bool Result = TryGetValue(key, out IWriteableInner<IWriteableBrowsingChildIndex> Value); value = Value; return Result; }
+
+        #region Debugging
+        /// <summary>
+        /// Compares two <see cref="IReadOnlyInnerReadOnlyDictionary{TKey}"/> objects.
+        /// </summary>
+        /// <param name="other">The other object.</param>
+        public virtual bool IsEqual(CompareEqual comparer, IEqualComparable other)
+        {
+            Debug.Assert(other != null);
+
+            if (!(other is IWriteableInnerReadOnlyDictionary<TKey> AsInnerReadOnlyDictionary))
+                return false;
+
+            if (Count != AsInnerReadOnlyDictionary.Count)
+                return false;
+
+            foreach (KeyValuePair<TKey, IReadOnlyInner<IReadOnlyBrowsingChildIndex>> Entry in this)
+            {
+                if (!AsInnerReadOnlyDictionary.ContainsKey(Entry.Key))
+                    return false;
+
+                if (!comparer.VerifyEqual(Entry.Value, AsInnerReadOnlyDictionary[Entry.Key]))
+                    return false;
+            }
+
+            return true;
+        }
+        #endregion
     }
 }

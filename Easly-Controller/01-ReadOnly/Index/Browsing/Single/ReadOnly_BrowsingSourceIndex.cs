@@ -30,6 +30,8 @@ namespace EaslyController.ReadOnly
 
             Block = block;
         }
+
+        private IBlock Block;
         #endregion
 
         #region Properties
@@ -43,7 +45,28 @@ namespace EaslyController.ReadOnly
         /// Property indexed for <see cref="Node"/>.
         /// </summary>
         public string PropertyName { get { return nameof(IBlock.SourceIdentifier); } }
-        private IBlock Block;
+        #endregion
+
+        #region Debugging
+        /// <summary>
+        /// Compares two <see cref="IReadOnlyIndex"/> objects.
+        /// </summary>
+        /// <param name="other">The other object.</param>
+        public virtual bool IsEqual(CompareEqual comparer, IEqualComparable other)
+        {
+            Debug.Assert(other != null);
+
+            if (!(other is IReadOnlyBrowsingSourceIndex AsSourceIndex))
+                return false;
+
+            if (Node != AsSourceIndex.Node)
+                return false;
+
+            if (PropertyName != AsSourceIndex.PropertyName)
+                return false;
+
+            return true;
+        }
         #endregion
     }
 }

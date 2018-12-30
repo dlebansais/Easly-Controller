@@ -190,6 +190,32 @@ namespace EaslyController.ReadOnly
         }
         #endregion
 
+        #region Debugging
+        /// <summary>
+        /// Compares two <see cref="IReadOnlyInner"/> objects.
+        /// </summary>
+        /// <param name="other">The other object.</param>
+        public override bool IsEqual(CompareEqual comparer, IEqualComparable other)
+        {
+            Debug.Assert(other != null);
+
+            if (!(other is IReadOnlyListInner<IIndex> AsListInner))
+                return false;
+
+            if (!base.IsEqual(comparer, AsListInner))
+                return false;
+
+            if (StateList.Count != AsListInner.StateList.Count)
+                return false;
+
+            for (int i = 0; i < StateList.Count; i++)
+                if (!comparer.VerifyEqual(StateList[i], AsListInner.StateList[i]))
+                    return false;
+
+            return true;
+        }
+        #endregion
+
         #region Create Methods
         /// <summary>
         /// Creates a IxxxPlaceholderNodeStateList object.

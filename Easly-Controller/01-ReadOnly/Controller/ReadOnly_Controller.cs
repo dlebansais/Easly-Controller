@@ -4,7 +4,7 @@ using System.Diagnostics;
 
 namespace EaslyController.ReadOnly
 {
-    public interface IReadOnlyController
+    public interface IReadOnlyController : IEqualComparable
     {
         /// <summary>
         /// Index of the root node.
@@ -449,6 +449,58 @@ namespace EaslyController.ReadOnly
         protected void InvariantAssert(bool condition)
         {
             Debug.Assert(condition);
+        }
+        #endregion
+
+        #region Debugging
+        /// <summary>
+        /// Compares two <see cref="IReadOnlyController"/> objects.
+        /// </summary>
+        /// <param name="other">The other object.</param>
+        public virtual bool IsEqual(CompareEqual comparer, IEqualComparable other)
+        {
+            Debug.Assert(other != null);
+
+            if (!(other is ReadOnlyController AsController))
+                return false;
+
+            if (!comparer.VerifyEqual(RootIndex, AsController.RootIndex))
+                return false;
+
+            if (!comparer.VerifyEqual(RootState, AsController.RootState))
+                return false;
+
+            if (!comparer.VerifyEqual(Stats, AsController.Stats))
+                return false;
+
+            if (StateTable.Count != AsController.StateTable.Count)
+                return false;
+
+            foreach (KeyValuePair<IReadOnlyIndex, IReadOnlyNodeState> Entry in StateTable)
+            {
+                IReadOnlyIndex Index = Entry.Key;
+
+                bool Found = false;
+                CompareEqual KeyComparer = CompareEqual.New(canReturnFalse: true);
+
+                foreach (KeyValuePair<IReadOnlyIndex, IReadOnlyNodeState> OtherEntry in AsController.StateTable)
+                    if (KeyComparer.VerifyEqual(Index, OtherEntry.Key))
+                    {
+                        Debug.Assert(!Found);
+                        Found = true;
+
+                        IReadOnlyNodeState State = Entry.Value;
+                        IReadOnlyNodeState OtherState = OtherEntry.Value;
+
+                        if (!comparer.VerifyEqual(State, OtherState))
+                            return false;
+                    }
+
+                if (!Found)
+                    return false;
+            }
+
+            return true;
         }
         #endregion
 

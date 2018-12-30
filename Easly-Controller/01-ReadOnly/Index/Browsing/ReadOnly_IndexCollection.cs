@@ -7,7 +7,7 @@ namespace EaslyController.ReadOnly
     /// <summary>
     /// Collection of node indexes.
     /// </summary>
-    public interface IReadOnlyIndexCollection
+    public interface IReadOnlyIndexCollection : IEqualComparable
     {
         /// <summary>
         /// Property indexed for all nodes in the collection.
@@ -23,7 +23,7 @@ namespace EaslyController.ReadOnly
     /// <summary>
     /// Collection of node indexes.
     /// </summary>
-    public interface IReadOnlyIndexCollection<out IIndex>
+    public interface IReadOnlyIndexCollection<out IIndex> : IEqualComparable
         where IIndex : IReadOnlyBrowsingChildIndex
     {
         /// <summary>
@@ -85,6 +85,27 @@ namespace EaslyController.ReadOnly
 
             foreach (IIndex item in nodeIndexList)
                 if (item.PropertyName != propertyName)
+                    return false;
+
+            return true;
+        }
+
+        /// <summary>
+        /// Compares two <see cref="IReadOnlyIndexCollection"/> objects.
+        /// </summary>
+        /// <param name="other">The other object.</param>
+        public virtual bool IsEqual(CompareEqual comparer, IEqualComparable other)
+        {
+            Debug.Assert(other != null);
+
+            if (!(other is IReadOnlyIndexCollection<IIndex> AsIndexCollection))
+                return false;
+
+            if (NodeIndexList.Count != AsIndexCollection.NodeIndexList.Count)
+                return false;
+
+            for (int i = 0; i < NodeIndexList.Count; i++)
+                if (!comparer.VerifyEqual(NodeIndexList[i], AsIndexCollection.NodeIndexList[i]))
                     return false;
 
             return true;

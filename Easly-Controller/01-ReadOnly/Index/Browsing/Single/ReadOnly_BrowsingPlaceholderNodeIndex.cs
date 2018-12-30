@@ -46,5 +46,27 @@ namespace EaslyController.ReadOnly
         /// </summary>
         public string PropertyName { get; }
         #endregion
+
+        #region Debugging
+        /// <summary>
+        /// Compares two <see cref="IReadOnlyIndex"/> objects.
+        /// </summary>
+        /// <param name="other">The other object.</param>
+        public virtual bool IsEqual(CompareEqual comparer, IEqualComparable other)
+        {
+            Debug.Assert(other != null);
+
+            if (!(other is IReadOnlyBrowsingPlaceholderNodeIndex AsPlaceholderNodeIndex))
+                return false;
+
+            if (Node != AsPlaceholderNodeIndex.Node)
+                return false;
+
+            if (PropertyName != AsPlaceholderNodeIndex.PropertyName)
+                return false;
+
+            return true;
+        }
+        #endregion
     }
 }

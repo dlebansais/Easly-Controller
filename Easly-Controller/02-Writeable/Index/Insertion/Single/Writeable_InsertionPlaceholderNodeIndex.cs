@@ -1,5 +1,6 @@
 ﻿using BaseNode;
 using BaseNodeHelper;
+using EaslyController.ReadOnly;
 using System;
 using System.Diagnostics;
 
@@ -62,6 +63,31 @@ namespace EaslyController.Writeable
         public virtual IWriteableBrowsingChildIndex ToBrowsingIndex()
         {
             return new WriteableBrowsingPlaceholderNodeIndex(ParentNode, Node, PropertyName);
+        }
+        #endregion
+
+        #region Debugging
+        /// <summary>
+        /// Compares two <see cref="IReadOnlyIndex"/> objects.
+        /// </summary>
+        /// <param name="other">The other object.</param>
+        public virtual bool IsEqual(CompareEqual comparer, IEqualComparable other)
+        {
+            Debug.Assert(other != null);
+
+            if (!(other is IWriteableInsertionPlaceholderNodeIndex AsInsertionPlaceholderNodeIndex))
+                return false;
+
+            if (ParentNode != AsInsertionPlaceholderNodeIndex.ParentNode)
+                return false;
+
+            if (PropertyName != AsInsertionPlaceholderNodeIndex.PropertyName)
+                return false;
+
+            if (Node != AsInsertionPlaceholderNodeIndex.Node)
+                return false;
+
+            return true;
         }
         #endregion
     }

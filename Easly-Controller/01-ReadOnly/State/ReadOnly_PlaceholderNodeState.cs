@@ -1,4 +1,5 @@
 ﻿using BaseNode;
+using System.Diagnostics;
 
 namespace EaslyController.ReadOnly
 {
@@ -39,6 +40,28 @@ namespace EaslyController.ReadOnly
         /// The index that was used to create the state.
         /// </summary>
         public new IReadOnlyNodeIndex ParentIndex { get { return (IReadOnlyNodeIndex)base.ParentIndex; } }
+        #endregion
+
+        #region Debugging
+        /// <summary>
+        /// Compares two <see cref="IReadOnlyNodeState"/> objects.
+        /// </summary>
+        /// <param name="other">The other object.</param>
+        public override bool IsEqual(CompareEqual comparer, IEqualComparable other)
+        {
+            Debug.Assert(other != null);
+
+            if (!(other is IReadOnlyPlaceholderNodeState AsPlaceholderNodeState))
+                return false;
+
+            if (!base.IsEqual(comparer, AsPlaceholderNodeState))
+                return false;
+
+            if (Node != AsPlaceholderNodeState.Node)
+                return false;
+
+            return true;
+        }
         #endregion
     }
 }

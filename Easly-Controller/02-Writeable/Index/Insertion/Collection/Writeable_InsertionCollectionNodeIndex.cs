@@ -1,5 +1,6 @@
 ﻿using BaseNode;
 using BaseNodeHelper;
+using EaslyController.ReadOnly;
 using System.Diagnostics;
 
 namespace EaslyController.Writeable
@@ -59,6 +60,31 @@ namespace EaslyController.Writeable
         /// To call after the insertion operation has been completed.
         /// </summary>
         public abstract IWriteableBrowsingChildIndex ToBrowsingIndex();
+        #endregion
+
+        #region Debugging
+        /// <summary>
+        /// Compares two <see cref="IReadOnlyIndex"/> objects.
+        /// </summary>
+        /// <param name="other">The other object.</param>
+        public virtual bool IsEqual(CompareEqual comparer, IEqualComparable other)
+        {
+            Debug.Assert(other != null);
+
+            if (!(other is IWriteableInsertionCollectionNodeIndex AsInsertionCollectionNodeIndex))
+                return false;
+
+            if (ParentNode != AsInsertionCollectionNodeIndex.ParentNode)
+                return false;
+
+            if (PropertyName != AsInsertionCollectionNodeIndex.PropertyName)
+                return false;
+
+            if (Node != AsInsertionCollectionNodeIndex.Node)
+                return false;
+
+            return true;
+        }
         #endregion
     }
 }

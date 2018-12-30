@@ -34,5 +34,24 @@ namespace EaslyController.ReadOnly
         /// </summary>
         public INode Node { get; }
         #endregion
+
+        #region Debugging
+        /// <summary>
+        /// Compares two <see cref="IReadOnlyIndex"/> objects.
+        /// </summary>
+        /// <param name="other">The other object.</param>
+        public virtual bool IsEqual(CompareEqual comparer, IEqualComparable other)
+        {
+            Debug.Assert(other != null);
+
+            if (!(other is IReadOnlyRootNodeIndex AsRootNodeIndex))
+                return false;
+
+            if (Node != AsRootNodeIndex.Node)
+                return false;
+
+            return true;
+        }
+        #endregion
     }
 }

@@ -91,6 +91,34 @@ namespace EaslyController.ReadOnly
         }
         #endregion
 
+        #region Debugging
+        /// <summary>
+        /// Compares two <see cref="IReadOnlyIndex"/> objects.
+        /// </summary>
+        /// <param name="other">The other object.</param>
+        public override bool IsEqual(CompareEqual comparer, IEqualComparable other)
+        {
+            Debug.Assert(other != null);
+
+            if (!(other is IReadOnlyBrowsingNewBlockNodeIndex AsNewBlockNodeIndex))
+                return false;
+
+            if (!base.IsEqual(comparer, AsNewBlockNodeIndex))
+                return false;
+
+            if (ParentNode != AsNewBlockNodeIndex.ParentNode)
+                return false;
+
+            if (PatternNode != AsNewBlockNodeIndex.PatternNode)
+                return false;
+
+            if (SourceNode != AsNewBlockNodeIndex.SourceNode)
+                return false;
+
+            return true;
+        }
+        #endregion
+
         #region Create Methods
         /// <summary>
         /// Creates a IxxxBrowsingExistingBlockNodeIndex object.

@@ -48,5 +48,24 @@ namespace EaslyController.Writeable
             Index--;
         }
         #endregion
+
+        #region Debugging
+        /// <summary>
+        /// Compares two <see cref="IReadOnlyIndex"/> objects.
+        /// </summary>
+        /// <param name="other">The other object.</param>
+        public override bool IsEqual(CompareEqual comparer, IEqualComparable other)
+        {
+            Debug.Assert(other != null);
+
+            if (!(other is IWriteableBrowsingListNodeIndex AsBrowsingListNodeIndex))
+                return false;
+
+            if (!base.IsEqual(comparer, AsBrowsingListNodeIndex))
+                return false;
+
+            return true;
+        }
+        #endregion
     }
 }

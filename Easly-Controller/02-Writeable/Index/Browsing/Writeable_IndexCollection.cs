@@ -1,5 +1,6 @@
 ﻿using EaslyController.ReadOnly;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace EaslyController.Writeable
 {
@@ -33,6 +34,25 @@ namespace EaslyController.Writeable
         public WriteableIndexCollection(string propertyName, IReadOnlyList<IIndex> nodeIndexList)
             : base(propertyName, nodeIndexList)
         {
+        }
+        #endregion
+
+        #region Debugging
+        /// <summary>
+        /// Compares two <see cref="IReadOnlyIndexCollection"/> objects.
+        /// </summary>
+        /// <param name="other">The other object.</param>
+        public override bool IsEqual(CompareEqual comparer, IEqualComparable other)
+        {
+            Debug.Assert(other != null);
+
+            if (!(other is IWriteableIndexCollection<IIndex> AsIndexCollection))
+                return false;
+
+            if (!base.IsEqual(comparer, AsIndexCollection))
+                return false;
+
+            return true;
         }
         #endregion
     }

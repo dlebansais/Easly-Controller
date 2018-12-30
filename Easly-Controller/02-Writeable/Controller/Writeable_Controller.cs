@@ -199,6 +199,7 @@ namespace EaslyController.Writeable
                 inner.Insert(insertedIndex, out nodeIndex, out ChildState);
 
             AddState(nodeIndex, ChildState);
+            Stats.PlaceholderNodeCount++;
             BuildStateTable(inner, null, nodeIndex, ChildState);
 
             Debug.Assert(Contains(nodeIndex));
@@ -275,9 +276,13 @@ namespace EaslyController.Writeable
             IWriteableNodeState OldState = StateTable[OldBrowsingIndex];
 
             RemoveState(OldBrowsingIndex);
+            Stats.PlaceholderNodeCount--;
+
             PruneStateTable(OldState);
 
             AddState(NewBrowsingIndex, ChildState);
+            Stats.PlaceholderNodeCount++;
+
             BuildStateTable(inner, null, NewBrowsingIndex, ChildState);
 
             nodeIndex = NewBrowsingIndex;
@@ -295,6 +300,22 @@ namespace EaslyController.Writeable
                     ToRemove.Add(State);
             }
 
+            foreach (KeyValuePair<string, IWriteableInner<IWriteableBrowsingChildIndex>> Entry in parentState.InnerTable)
+                if (Entry.Value is IWriteablePlaceholderInner AsPlaceholderInner)
+                    Stats.PlaceholderNodeCount--;
+                else if (Entry.Value is IWriteableOptionalInner AsOptionalInner)
+                {
+                    Stats.OptionalNodeCount--;
+                    if (AsOptionalInner.IsAssigned)
+                        Stats.AssignedOptionalNodeCount--;
+                }
+                else if (Entry.Value is IWriteableListInner AsListInner)
+                    Stats.ListCount--;
+                else if (Entry.Value is IWriteableBlockListInner AsBlockListInner)
+                    Stats.BlockListCount--;
+                else
+                    Debug.Assert(false);
+
             foreach (IWriteableNodeState State in ToRemove)
             {
                 RemoveState(State.ParentIndex);
@@ -310,7 +331,11 @@ namespace EaslyController.Writeable
         {
             Debug.Assert(inner != null);
 
-            inner.Assign();
+            if (!inner.IsAssigned)
+            {
+                inner.Assign();
+                Stats.AssignedOptionalNodeCount++;
+            }
         }
 
         /// <summary>
@@ -321,7 +346,11 @@ namespace EaslyController.Writeable
         {
             Debug.Assert(inner != null);
 
-            inner.Unassign();
+            if (inner.IsAssigned)
+            {
+                inner.Unassign();
+                Stats.AssignedOptionalNodeCount--;
+            }
         }
 
         /// <summary>

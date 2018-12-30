@@ -9,7 +9,7 @@ namespace EaslyController.ReadOnly
     /// <summary>
     /// State of a block in a block list.
     /// </summary>
-    public interface IReadOnlyBlockState
+    public interface IReadOnlyBlockState : IEqualComparable
     {
         /// <summary>
         /// The parent inner containing this state.
@@ -297,6 +297,43 @@ namespace EaslyController.ReadOnly
 
             InsertState(index1, NodeState2);
             InsertState(index2, NodeState1);
+        }
+        #endregion
+
+        #region Debugging
+        /// <summary>
+        /// Compares two <see cref="IReadOnlyBlockState"/> objects.
+        /// </summary>
+        /// <param name="other">The other object.</param>
+        public virtual bool IsEqual(CompareEqual comparer, IEqualComparable other)
+        {
+            Debug.Assert(other != null);
+
+            if (!(other is IReadOnlyBlockState AsBlockState))
+                return false;
+
+            if (!comparer.VerifyEqual(ParentInner, AsBlockState.ParentInner))
+                return false;
+
+            if (ChildBlock != AsBlockState.ChildBlock)
+                return false;
+
+            if (!comparer.VerifyEqual(PatternIndex, AsBlockState.PatternIndex))
+                return false;
+
+            if (!comparer.VerifyEqual(PatternState, AsBlockState.PatternState))
+                return false;
+
+            if (!comparer.VerifyEqual(SourceIndex, AsBlockState.SourceIndex))
+                return false;
+
+            if (!comparer.VerifyEqual(SourceState, AsBlockState.SourceState))
+                return false;
+
+            if (!comparer.VerifyEqual(StateList, AsBlockState.StateList))
+                return false;
+
+            return true;
         }
         #endregion
 

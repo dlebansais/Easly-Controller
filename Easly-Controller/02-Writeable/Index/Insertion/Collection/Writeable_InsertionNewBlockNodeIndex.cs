@@ -1,5 +1,6 @@
 ﻿using BaseNode;
 using BaseNodeHelper;
+using EaslyController.ReadOnly;
 using System.Diagnostics;
 
 namespace EaslyController.Writeable
@@ -79,6 +80,34 @@ namespace EaslyController.Writeable
         public override IWriteableBrowsingChildIndex ToBrowsingIndex()
         {
             return new WriteableBrowsingNewBlockNodeIndex(ParentNode, Node, PropertyName, BlockIndex, PatternNode, SourceNode);
+        }
+        #endregion
+
+        #region Debugging
+        /// <summary>
+        /// Compares two <see cref="IReadOnlyIndex"/> objects.
+        /// </summary>
+        /// <param name="other">The other object.</param>
+        public override bool IsEqual(CompareEqual comparer, IEqualComparable other)
+        {
+            Debug.Assert(other != null);
+
+            if (!(other is IWriteableInsertionNewBlockNodeIndex AsInsertionNewBlockNodeIndex))
+                return false;
+
+            if (!base.IsEqual(comparer, AsInsertionNewBlockNodeIndex))
+                return false;
+
+            if (BlockIndex != AsInsertionNewBlockNodeIndex.BlockIndex)
+                return false;
+
+            if (PatternNode != AsInsertionNewBlockNodeIndex.PatternNode)
+                return false;
+
+            if (SourceNode != AsInsertionNewBlockNodeIndex.SourceNode)
+                return false;
+
+            return true;
         }
         #endregion
     }

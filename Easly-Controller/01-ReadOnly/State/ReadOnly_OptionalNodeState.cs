@@ -94,8 +94,38 @@ namespace EaslyController.ReadOnly
         {
             Debug.Assert(browseNodeContext != null);
 
-            if (ParentIndex.Optional.IsAssigned)
-                base.BrowseChildren(browseNodeContext);
+            if (ParentIndex.Optional.HasItem)
+            {
+                if (ParentIndex.Optional.IsAssigned)
+                    base.BrowseChildren(browseNodeContext);
+                else
+                {
+                    ParentIndex.Optional.Assign();
+                    base.BrowseChildren(browseNodeContext);
+                    ParentIndex.Optional.Unassign();
+                }
+            }
+        }
+        #endregion
+
+        #region Debugging
+        /// <summary>
+        /// Compares two <see cref="IReadOnlyNodeState"/> objects.
+        /// </summary>
+        /// <param name="other">The other object.</param>
+        public override bool IsEqual(CompareEqual comparer, IEqualComparable other)
+        {
+            Debug.Assert(other != null);
+
+            if (!(other is IReadOnlyOptionalNodeState AsOptionalNodeState))
+                return false;
+
+            if (!base.IsEqual(comparer, AsOptionalNodeState))
+                return false;
+
+            // Don't compare virtual nodes, they are allowed to be independant.
+
+            return true;
         }
         #endregion
     }

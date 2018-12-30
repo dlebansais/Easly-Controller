@@ -60,5 +60,30 @@ namespace EaslyController.ReadOnly
         /// </summary>
         public int Index { get; protected set; }
         #endregion
+
+        #region Debugging
+        /// <summary>
+        /// Compares two <see cref="IReadOnlyIndex"/> objects.
+        /// </summary>
+        /// <param name="other">The other object.</param>
+        public override bool IsEqual(CompareEqual comparer, IEqualComparable other)
+        {
+            Debug.Assert(other != null);
+
+            if (!(other is IReadOnlyBrowsingExistingBlockNodeIndex AsExistingBlockNodeIndex))
+                return false;
+
+            if (!base.IsEqual(comparer, AsExistingBlockNodeIndex))
+                return false;
+
+            if (ParentNode != AsExistingBlockNodeIndex.ParentNode)
+                return false;
+
+            if (Index != AsExistingBlockNodeIndex.Index)
+                return false;
+
+            return true;
+        }
+        #endregion
     }
 }

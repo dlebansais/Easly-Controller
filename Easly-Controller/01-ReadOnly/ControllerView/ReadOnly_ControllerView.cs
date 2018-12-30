@@ -6,7 +6,7 @@ namespace EaslyController.ReadOnly
     /// <summary>
     /// View of a IxxxController.
     /// </summary>
-    public interface IReadOnlyControllerView
+    public interface IReadOnlyControllerView : IEqualComparable
     {
         /// <summary>
         /// The controller.
@@ -17,12 +17,6 @@ namespace EaslyController.ReadOnly
         /// Table of views of each state in the controller.
         /// </summary>
         IReadOnlyStateViewDictionary StateViewTable { get; }
-
-        /// <summary>
-        /// Compares two <see cref="IReadOnlyControllerView"/> objects.
-        /// </summary>
-        /// <param name="other">The other object.</param>
-        bool IsEqual(IReadOnlyControllerView other);
     }
 
     /// <summary>
@@ -174,12 +168,17 @@ namespace EaslyController.ReadOnly
         /// Compares two <see cref="IReadOnlyControllerView"/> objects.
         /// </summary>
         /// <param name="other">The other object.</param>
-        public virtual bool IsEqual(IReadOnlyControllerView other)
+        public virtual bool IsEqual(CompareEqual comparer, IEqualComparable other)
         {
-            if (Controller != other.Controller)
+            Debug.Assert(other != null);
+
+            if (!(other is IReadOnlyControllerView AsControllerView))
                 return false;
 
-            if (!StateViewTable.IsEqual(other.StateViewTable))
+            if (Controller != AsControllerView.Controller)
+                return false;
+
+            if (!comparer.VerifyEqual(StateViewTable, AsControllerView.StateViewTable))
                 return false;
 
             return true;
