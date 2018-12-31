@@ -476,27 +476,36 @@ namespace EaslyController.ReadOnly
             if (StateTable.Count != AsController.StateTable.Count)
                 return false;
 
+            List<IReadOnlyIndex> OtherTable = new List<IReadOnlyIndex>();
+            foreach (KeyValuePair<IReadOnlyIndex, IReadOnlyNodeState> Entry in AsController.StateTable)
+                OtherTable.Add(Entry.Key);
+
+            CompareEqual MatchComparer = CompareEqual.New();
+            Dictionary<IReadOnlyIndex, IReadOnlyIndex> MatchTable = new Dictionary<IReadOnlyIndex, IReadOnlyIndex>();
             foreach (KeyValuePair<IReadOnlyIndex, IReadOnlyNodeState> Entry in StateTable)
             {
-                IReadOnlyIndex Index = Entry.Key;
+                MatchComparer.Reset();
 
                 bool Found = false;
-                CompareEqual KeyComparer = CompareEqual.New(canReturnFalse: true);
-
-                foreach (KeyValuePair<IReadOnlyIndex, IReadOnlyNodeState> OtherEntry in AsController.StateTable)
-                    if (KeyComparer.VerifyEqual(Index, OtherEntry.Key))
+                for (int i = 0; i < OtherTable.Count; i++)
+                    if (MatchComparer.VerifyEqual(Entry.Key, OtherTable[i]))
                     {
-                        Debug.Assert(!Found);
+                        MatchTable.Add(Entry.Key, OtherTable[i]);
+                        OtherTable.RemoveAt(i);
                         Found = true;
-
-                        IReadOnlyNodeState State = Entry.Value;
-                        IReadOnlyNodeState OtherState = OtherEntry.Value;
-
-                        if (!comparer.VerifyEqual(State, OtherState))
-                            return false;
+                        break;
                     }
 
                 if (!Found)
+                    return false;
+            }
+
+            foreach (KeyValuePair<IReadOnlyIndex, IReadOnlyIndex> Entry in MatchTable)
+            {
+                IReadOnlyNodeState State = StateTable[Entry.Key];
+                IReadOnlyNodeState OtherState = AsController.StateTable[Entry.Value];
+
+                if (!comparer.VerifyEqual(State, OtherState))
                     return false;
             }
 

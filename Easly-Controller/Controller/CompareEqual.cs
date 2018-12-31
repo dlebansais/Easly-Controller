@@ -23,10 +23,10 @@ namespace EaslyController
 
         public bool VerifyEqual(IEqualComparable obj1, IEqualComparable obj2)
         {
-            if (!ComparedObjectList.Contains(obj1))
-                ComparedObjectList.Add(obj1);
-            else if (!ComparedObjectList.Contains(obj2))
-                ComparedObjectList.Add(obj2);
+            if (!ComparedObjectList.ContainsKey(obj1))
+                ComparedObjectList.Add(obj1, false);
+            else if (!ComparedObjectList.ContainsKey(obj2))
+                ComparedObjectList.Add(obj2, false);
             else
                 return true;
 
@@ -38,6 +38,11 @@ namespace EaslyController
                 return false; // For breakpoints.
         }
 
-        private List<IEqualComparable> ComparedObjectList = new List<IEqualComparable>();
+        public void Reset()
+        {
+            ComparedObjectList.Clear();
+        }
+
+        private Dictionary<IEqualComparable, bool> ComparedObjectList = new Dictionary<IEqualComparable, bool>();
     }
 }
