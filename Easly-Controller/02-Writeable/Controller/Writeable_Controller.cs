@@ -77,11 +77,25 @@ namespace EaslyController.Writeable
         void ChangeReplication(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, int blockIndex, ReplicationStatus replication);
 
         /// <summary>
+        /// Checks whether a block can be split at the given index.
+        /// </summary>
+        /// <param name="inner">The inner where the block would be split.</param>
+        /// <param name="nodeIndex">Index of the last node to stay in the old block.</param>
+        bool IsSplittable(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, IWriteableBrowsingExistingBlockNodeIndex nodeIndex);
+
+        /// <summary>
         /// Splits a block in two at the given index.
         /// </summary>
         /// <param name="inner">The inner where the block is split.</param>
         /// <param name="nodeIndex">Index of the last node to stay in the old block.</param>
         void SplitBlock(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, IWriteableBrowsingExistingBlockNodeIndex nodeIndex);
+
+        /// <summary>
+        /// Checks whether a block can be merged at the given index.
+        /// </summary>
+        /// <param name="inner">The inner where the block would be split.</param>
+        /// <param name="nodeIndex">Index of the first node in the block to merge.</param>
+        bool IsMergeable(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, IWriteableBrowsingExistingBlockNodeIndex nodeIndex);
 
         /// <summary>
         /// Merges two blocks at the given index.
@@ -375,6 +389,19 @@ namespace EaslyController.Writeable
         }
 
         /// <summary>
+        /// Checks whether a block can be split at the given index.
+        /// </summary>
+        /// <param name="inner">The inner where the block would be split.</param>
+        /// <param name="nodeIndex">Index of the last node to stay in the old block.</param>
+        public virtual bool IsSplittable(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, IWriteableBrowsingExistingBlockNodeIndex nodeIndex)
+        {
+            Debug.Assert(inner != null);
+            Debug.Assert(nodeIndex != null);
+
+            return inner.IsSplittable(nodeIndex);
+        }
+
+        /// <summary>
         /// Splits a block in two at the given index.
         /// </summary>
         /// <param name="inner">The inner where the block is split.</param>
@@ -383,8 +410,7 @@ namespace EaslyController.Writeable
         {
             Debug.Assert(inner != null);
             Debug.Assert(nodeIndex != null);
-            Debug.Assert(nodeIndex.BlockIndex >= 0 && nodeIndex.BlockIndex < inner.BlockStateList.Count);
-            Debug.Assert(nodeIndex.Index > 0);
+            Debug.Assert(inner.IsSplittable(nodeIndex));
 
             IWriteableBlockState OldBlockState = inner.BlockStateList[nodeIndex.BlockIndex];
             Debug.Assert(nodeIndex.Index < OldBlockState.StateList.Count);
@@ -409,6 +435,19 @@ namespace EaslyController.Writeable
         }
 
         /// <summary>
+        /// Checks whether a block can be merged at the given index.
+        /// </summary>
+        /// <param name="inner">The inner where the block would be split.</param>
+        /// <param name="nodeIndex">Index of the first node in the block to merge.</param>
+        public virtual bool IsMergeable(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, IWriteableBrowsingExistingBlockNodeIndex nodeIndex)
+        {
+            Debug.Assert(inner != null);
+            Debug.Assert(nodeIndex != null);
+
+            return inner.IsMergeable(nodeIndex);
+        }
+
+        /// <summary>
         /// Merges two blocks at the given index.
         /// </summary>
         /// <param name="inner">The inner where blocks are merged.</param>
@@ -417,8 +456,7 @@ namespace EaslyController.Writeable
         {
             Debug.Assert(inner != null);
             Debug.Assert(nodeIndex != null);
-            Debug.Assert(nodeIndex.BlockIndex > 0 && nodeIndex.BlockIndex < inner.BlockStateList.Count);
-            Debug.Assert(nodeIndex.Index == 0);
+            Debug.Assert(inner.IsMergeable(nodeIndex));
 
             IWriteableBlockState FirstBlockState = inner.BlockStateList[nodeIndex.BlockIndex - 1];
             IWriteableBlockState SecondBlockState = inner.BlockStateList[nodeIndex.BlockIndex];

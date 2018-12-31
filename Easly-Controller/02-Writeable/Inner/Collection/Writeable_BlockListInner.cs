@@ -52,11 +52,23 @@ namespace EaslyController.Writeable
         void ChangeReplication(int blockIndex, ReplicationStatus replication);
 
         /// <summary>
+        /// Checks whether a block can be split at the given index.
+        /// </summary>
+        /// <param name="nodeIndex">Index of the last node to stay in the old block.</param>
+        bool IsSplittable(IWriteableBrowsingExistingBlockNodeIndex nodeIndex);
+
+        /// <summary>
         /// Splits a block in two at the given index.
         /// </summary>
         /// <param name="nodeIndex">Index of the last node to stay in the old block.</param>
         /// <param name="NewBlockState">The created block state upon return.</param>
         void SplitBlock(IWriteableBrowsingExistingBlockNodeIndex nodeIndex, out IWriteableBlockState newBlockState);
+
+        /// <summary>
+        /// Checks whether a block can be merged at the given index.
+        /// </summary>
+        /// <param name="nodeIndex">Index of the first node in the block to merge.</param>
+        bool IsMergeable(IWriteableBrowsingExistingBlockNodeIndex nodeIndex);
 
         /// <summary>
         /// Merges two blocks at the given index.
@@ -112,11 +124,23 @@ namespace EaslyController.Writeable
         void ChangeReplication(int blockIndex, ReplicationStatus replication);
 
         /// <summary>
+        /// Checks whether a block can be split at the given index.
+        /// </summary>
+        /// <param name="nodeIndex">Index of the last node to stay in the old block.</param>
+        bool IsSplittable(IWriteableBrowsingExistingBlockNodeIndex nodeIndex);
+
+        /// <summary>
         /// Splits a block in two at the given index.
         /// </summary>
         /// <param name="nodeIndex">Index of the last node to stay in the old block.</param>
         /// <param name="NewBlockState">The created block state upon return.</param>
         void SplitBlock(IWriteableBrowsingExistingBlockNodeIndex nodeIndex, out IWriteableBlockState newBlockState);
+
+        /// <summary>
+        /// Checks whether a block can be merged at the given index.
+        /// </summary>
+        /// <param name="nodeIndex">Index of the first node in the block to merge.</param>
+        bool IsMergeable(IWriteableBrowsingExistingBlockNodeIndex nodeIndex);
 
         /// <summary>
         /// Merges two blocks at the given index.
@@ -421,6 +445,24 @@ namespace EaslyController.Writeable
         }
 
         /// <summary>
+        /// Checks whether a block can be split at the given index.
+        /// </summary>
+        /// <param name="nodeIndex">Index of the last node to stay in the old block.</param>
+        public virtual bool IsSplittable(IWriteableBrowsingExistingBlockNodeIndex nodeIndex)
+        {
+            Debug.Assert(nodeIndex != null);
+            Debug.Assert(nodeIndex.BlockIndex >= 0 && nodeIndex.BlockIndex < BlockStateList.Count);
+
+            int SplitBlockIndex = nodeIndex.BlockIndex;
+            int SplitIndex = nodeIndex.Index;
+            IWriteableBlockState BlockState = BlockStateList[SplitBlockIndex];
+
+            Debug.Assert(SplitIndex < BlockState.StateList.Count);
+
+            return SplitIndex > 0;
+        }
+
+        /// <summary>
         /// Splits a block in two at the given index.
         /// </summary>
         /// <param name="nodeIndex">Index of the last node to stay in the old block.</param>
@@ -480,6 +522,19 @@ namespace EaslyController.Writeable
 
                     ChildNodeIndex.MoveBlockUp();
                 }
+        }
+
+        /// <summary>
+        /// Checks whether a block can be merged at the given index.
+        /// </summary>
+        /// <param name="nodeIndex">Index of the first node in the block to merge.</param>
+        public virtual bool IsMergeable(IWriteableBrowsingExistingBlockNodeIndex nodeIndex)
+        {
+            Debug.Assert(nodeIndex != null);
+            Debug.Assert(nodeIndex.BlockIndex >= 0 && nodeIndex.BlockIndex < BlockStateList.Count);
+            Debug.Assert(nodeIndex.Index >= 0);
+
+            return nodeIndex.BlockIndex > 0 && nodeIndex.Index == 0;
         }
 
         /// <summary>
