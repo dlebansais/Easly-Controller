@@ -303,6 +303,16 @@ namespace EaslyController.ReadOnly
             _BlockStateList.RemoveAt(blockIndex);
         }
 
+        protected virtual void MoveInBlockStateList(int blockIndex, int direction)
+        {
+            Debug.Assert(blockIndex >= 0 && blockIndex < BlockStateList.Count);
+            Debug.Assert(blockIndex + direction >= 0 && blockIndex + direction < BlockStateList.Count);
+
+            IReadOnlyBlockState BlockState = _BlockStateList[blockIndex];
+            _BlockStateList.RemoveAt(blockIndex);
+            _BlockStateList.Insert(blockIndex + direction, BlockState);
+        }
+
         protected virtual void NotifyBlockStateCreated(IReadOnlyBlockState blockState)
         {
             BlockStateCreated?.Invoke(blockState);

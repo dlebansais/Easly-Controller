@@ -75,6 +75,13 @@ namespace EaslyController.Writeable
         /// </summary>
         /// <param name="nodeIndex">Index of the first node in the block to merge.</param>
         void MergeBlocks(IWriteableBrowsingExistingBlockNodeIndex nodeIndex);
+
+        /// <summary>
+        /// Moves a block around in a block list.
+        /// </summary>
+        /// <param name="blockIndex">Index of the block to move.</param>
+        /// <param name="direction">The change in position, relative to the current block position.</param>
+        void MoveBlock(int blockIndex, int direction);
     }
 
     /// <summary>
@@ -147,6 +154,13 @@ namespace EaslyController.Writeable
         /// </summary>
         /// <param name="nodeIndex">Index of the first node in the block to merge.</param>
         void MergeBlocks(IWriteableBrowsingExistingBlockNodeIndex nodeIndex);
+
+        /// <summary>
+        /// Moves a block around in a block list.
+        /// </summary>
+        /// <param name="blockIndex">Index of the block to move.</param>
+        /// <param name="direction">The change in position, relative to the current block position.</param>
+        void MoveBlock(int blockIndex, int direction);
     }
 
     /// <summary>
@@ -588,6 +602,124 @@ namespace EaslyController.Writeable
 
                     ChildNodeIndex.MoveBlockDown();
                 }
+        }
+
+        /// <summary>
+        /// Moves a node around in a list or block list. In a block list, the node stays in same block.
+        /// </summary>
+        /// <param name="nodeIndex">Index for the moved node.</param>
+        /// <param name="direction">The change in position, relative to the current position.</param>
+        public virtual void Move(IWriteableBrowsingCollectionNodeIndex nodeIndex, int direction)
+        {
+            Debug.Assert(nodeIndex != null);
+
+            if (nodeIndex is IWriteableBrowsingExistingBlockNodeIndex AsExistingBlockNodeIndex)
+                Move(AsExistingBlockNodeIndex, direction);
+            else
+                throw new ArgumentOutOfRangeException(nameof(nodeIndex));
+        }
+
+        protected virtual void Move(IWriteableBrowsingExistingBlockNodeIndex existingBlockIndex, int direction)
+        {
+            Debug.Assert(existingBlockIndex != null);
+            Debug.Assert(existingBlockIndex.BlockIndex >= 0 && existingBlockIndex.BlockIndex < BlockStateList.Count);
+
+            int MoveIndex = existingBlockIndex.Index;
+            IWriteableBlockState BlockState = BlockStateList[existingBlockIndex.BlockIndex];
+            IWriteablePlaceholderNodeStateReadOnlyList StateList = BlockState.StateList;
+
+            Debug.Assert(MoveIndex >= 0 && MoveIndex < StateList.Count);
+            Debug.Assert(MoveIndex + direction >= 0 && MoveIndex + direction < StateList.Count);
+
+            BlockState.Move(existingBlockIndex, existingBlockIndex.Index, direction);
+
+            IBlock ChildBlock = BlockState.ChildBlock;
+            NodeTreeHelperBlockList.MoveNode(ChildBlock, existingBlockIndex.Index, direction);
+
+            if (direction > 0)
+            {
+                for (int i = MoveIndex; i < MoveIndex + direction; i++)
+                {
+                    IWriteableBrowsingExistingBlockNodeIndex ChildNodeIndex = StateList[i].ParentIndex as IWriteableBrowsingExistingBlockNodeIndex;
+                    Debug.Assert(ChildNodeIndex != null);
+
+                    ChildNodeIndex.MoveDown();
+                    existingBlockIndex.MoveUp();
+                }
+            }
+
+            else if (direction < 0)
+            {
+                for (int i = MoveIndex; i > MoveIndex + direction; i--)
+                {
+                    IWriteableBrowsingExistingBlockNodeIndex ChildNodeIndex = StateList[i].ParentIndex as IWriteableBrowsingExistingBlockNodeIndex;
+                    Debug.Assert(ChildNodeIndex != null);
+
+                    ChildNodeIndex.MoveUp();
+                    existingBlockIndex.MoveDown();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Moves a block around in a block list.
+        /// </summary>
+        /// <param name="blockIndex">Index of the block to move.</param>
+        /// <param name="direction">The change in position, relative to the current block position.</param>
+        public virtual void MoveBlock(int blockIndex, int direction)
+        {
+            Debug.Assert(blockIndex >= 0 && blockIndex < BlockStateList.Count);
+            Debug.Assert(blockIndex + direction >= 0 && blockIndex + direction < BlockStateList.Count);
+
+            int MoveIndex = blockIndex;
+            IWriteableBlockState BlockState = BlockStateList[MoveIndex];
+
+            MoveInBlockStateList(MoveIndex, direction);
+            NodeTreeHelperBlockList.MoveBlock(Owner.Node, PropertyName, MoveIndex, direction);
+
+            if (direction > 0)
+            {
+                for (int i = MoveIndex; i < MoveIndex + direction; i++)
+                {
+                    for (int j = 0; j < BlockStateList[i].StateList.Count; j++)
+                    {
+                        IWriteableBrowsingExistingBlockNodeIndex ChildNodeIndex = BlockStateList[i].StateList[j].ParentIndex as IWriteableBrowsingExistingBlockNodeIndex;
+                        Debug.Assert(ChildNodeIndex != null);
+
+                        ChildNodeIndex.MoveBlockDown();
+                    }
+
+                    for (int j = 0; j < BlockState.StateList.Count; j++)
+                    {
+                        IWriteableBrowsingExistingBlockNodeIndex ChildNodeIndex = BlockState.StateList[j].ParentIndex as IWriteableBrowsingExistingBlockNodeIndex;
+                        Debug.Assert(ChildNodeIndex != null);
+
+                        ChildNodeIndex.MoveBlockUp();
+                    }
+                }
+            }
+
+            else if (direction < 0)
+            {
+                for (int i = MoveIndex; i > MoveIndex + direction; i--)
+                {
+                    for (int j = 0; j < BlockStateList[i].StateList.Count; j++)
+                    {
+                        IWriteableBrowsingExistingBlockNodeIndex ChildNodeIndex = BlockStateList[i].StateList[j].ParentIndex as IWriteableBrowsingExistingBlockNodeIndex;
+                        Debug.Assert(ChildNodeIndex != null);
+
+                        ChildNodeIndex.MoveBlockUp();
+                    }
+
+                    for (int j = 0; j < BlockState.StateList.Count; j++)
+                    {
+                        IWriteableBrowsingExistingBlockNodeIndex ChildNodeIndex = BlockState.StateList[j].ParentIndex as IWriteableBrowsingExistingBlockNodeIndex;
+                        Debug.Assert(ChildNodeIndex != null);
+
+                        ChildNodeIndex.MoveBlockDown();
+                    }
+                }
+            }
         }
         #endregion
 

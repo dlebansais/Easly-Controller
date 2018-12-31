@@ -148,7 +148,7 @@ namespace TestDebug
                 IPattern TestNode = ListInner2.StateList[31].Node as IPattern;
 
                 IWriteableBrowsingListNodeIndex InsertIndex0 = (IWriteableBrowsingListNodeIndex)ListInner2.IndexAt(31);
-                Controller.Remove(ListInner2, InsertIndex0);
+                Controller.Move(ListInner2, InsertIndex0, -5);
 
                 ControllerCheck = WriteableController.Create(new WriteableRootNodeIndex(rootNode));
                 Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
@@ -318,12 +318,9 @@ namespace TestDebug
             }
 
             IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> ListInner2 = (IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex>)InnerTable[nameof(IClass.FeatureBlocks)];
-            if (ListInner2.BlockStateList.Count > 0 && ListInner2.BlockStateList[0].StateList.Count > 8)
+            if (ListInner2.BlockStateList.Count > 1)
             {
-                IFeature TestNode = NodeHelper.DeepCloneNode(ListInner2.BlockStateList[0].StateList[0].Node) as IFeature;
-
-                WriteableInsertionExistingBlockNodeIndex TestIndex = new WriteableInsertionExistingBlockNodeIndex(rootNode, ListInner2.PropertyName, TestNode, 0, 8);
-                Controller.Replace(ListInner2, TestIndex, out IWriteableBrowsingChildIndex InsertedTestIndex);
+                Controller.MoveBlock(ListInner2, 0, 1);
 
                 ControllerCheck = WriteableController.Create(new WriteableRootNodeIndex(rootNode));
                 Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));

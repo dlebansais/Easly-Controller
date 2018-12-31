@@ -42,7 +42,7 @@ namespace EaslyController.Writeable
         void Insert(IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> inner, IWriteableInsertionCollectionNodeIndex insertedIndex, out IWriteableBrowsingCollectionNodeIndex nodeIndex);
 
         /// <summary>
-        /// Removes a node from a list of block list.
+        /// Removes a node from a list or block list.
         /// </summary>
         /// <param name="inner">The inner for the list or block list from which the node is removed.</param>
         /// <param name="nodeIndex">Index for the removed node.</param>
@@ -103,6 +103,22 @@ namespace EaslyController.Writeable
         /// <param name="inner">The inner where blocks are merged.</param>
         /// <param name="nodeIndex">Index of the first node in the block to merge.</param>
         void MergeBlocks(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, IWriteableBrowsingExistingBlockNodeIndex nodeIndex);
+
+        /// <summary>
+        /// Moves a node around in a list or block list. In a block list, the node stays in same block.
+        /// </summary>
+        /// <param name="inner">The inner for the list or block list in which the node is moved.</param>
+        /// <param name="nodeIndex">Index for the moved node.</param>
+        /// <param name="direction">The change in position, relative to the current position.</param>
+        void Move(IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> inner, IWriteableBrowsingCollectionNodeIndex nodeIndex, int direction);
+
+        /// <summary>
+        /// Moves a block around in a block list.
+        /// </summary>
+        /// <param name="inner">The inner where the block is moved.</param>
+        /// <param name="blockIndex">Index of the block to move.</param>
+        /// <param name="direction">The change in position, relative to the current block position.</param>
+        void MoveBlock(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, int blockIndex, int direction);
     }
 
     public class WriteableController : ReadOnlyController, IWriteableController
@@ -220,7 +236,7 @@ namespace EaslyController.Writeable
         }
 
         /// <summary>
-        /// Removes a node from a list of block list.
+        /// Removes a node from a list or block list.
         /// </summary>
         /// <param name="inner">The inner for the list or block list from which the node is removed.</param>
         /// <param name="nodeIndex">Index for the removed node.</param>
@@ -479,6 +495,33 @@ namespace EaslyController.Writeable
             Debug.Assert(BlockState.StateList.Count == OldNodeCount);
             Debug.Assert(FirstNodeIndex < BlockState.StateList.Count);
             Debug.Assert(BlockState.StateList[FirstNodeIndex].ParentIndex == nodeIndex);
+        }
+
+        /// <summary>
+        /// Moves a node around in a list or block list. In a block list, the node stays in same block.
+        /// </summary>
+        /// <param name="inner">The inner for the list or block list in which the node is moved.</param>
+        /// <param name="nodeIndex">Index for the moved node.</param>
+        /// <param name="direction">The change in position, relative to the current position.</param>
+        public virtual void Move(IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> inner, IWriteableBrowsingCollectionNodeIndex nodeIndex, int direction)
+        {
+            Debug.Assert(inner != null);
+            Debug.Assert(nodeIndex != null);
+
+            inner.Move(nodeIndex, direction);
+        }
+
+        /// <summary>
+        /// Moves a block around in a block list.
+        /// </summary>
+        /// <param name="inner">The inner where the block is moved.</param>
+        /// <param name="blockIndex">Index of the block to move.</param>
+        /// <param name="direction">The change in position, relative to the current block position.</param>
+        public virtual void MoveBlock(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, int blockIndex, int direction)
+        {
+            Debug.Assert(inner != null);
+
+            inner.MoveBlock(blockIndex, direction);
         }
         #endregion
 

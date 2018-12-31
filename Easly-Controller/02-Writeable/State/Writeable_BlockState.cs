@@ -54,6 +54,14 @@ namespace EaslyController.Writeable
         /// <param name="nodeIndex">Index of the node to remove.</param>
         /// <param name="index">Position of the removed node in the block.</param>
         void Remove(IWriteableBrowsingBlockNodeIndex nodeIndex, int index);
+
+        /// <summary>
+        /// Moves a node around in a block.
+        /// </summary>
+        /// <param name="nodeIndex">Index for the moved node.</param>
+        /// <param name="index">Position of the moved node in the block.</param>
+        /// <param name="direction">The change in position, relative to the current position.</param>
+        void Move(IWriteableBrowsingCollectionNodeIndex nodeIndex, int index, int direction);
     }
 
     /// <summary>
@@ -132,6 +140,21 @@ namespace EaslyController.Writeable
             Debug.Assert(index >= 0 && index < StateList.Count);
 
             RemoveState(index);
+        }
+
+        /// <summary>
+        /// Moves a node around in a block.
+        /// </summary>
+        /// <param name="nodeIndex">Index for the moved node.</param>
+        /// <param name="index">Position of the moved node in the block.</param>
+        /// <param name="direction">The change in position, relative to the current position.</param>
+        public virtual void Move(IWriteableBrowsingCollectionNodeIndex nodeIndex, int index, int direction)
+        {
+            Debug.Assert(nodeIndex != null);
+            Debug.Assert(index >= 0 && index < StateList.Count);
+            Debug.Assert(index + direction >= 0 && index + direction < StateList.Count);
+
+            MoveState(index, direction);
         }
         #endregion
 

@@ -188,6 +188,58 @@ namespace EaslyController.Writeable
 
             childState = NewChildState;
         }
+
+        /// <summary>
+        /// Moves a node around in a list or block list. In a block list, the node stays in same block.
+        /// </summary>
+        /// <param name="nodeIndex">Index for the moved node.</param>
+        /// <param name="direction">The change in position, relative to the current position.</param>
+        public virtual void Move(IWriteableBrowsingCollectionNodeIndex nodeIndex, int direction)
+        {
+            Debug.Assert(nodeIndex != null);
+
+            if (nodeIndex is IWriteableBrowsingListNodeIndex AsListIndex)
+                Move(AsListIndex, direction);
+            else
+                throw new ArgumentOutOfRangeException(nameof(nodeIndex));
+        }
+
+        protected virtual void Move(IWriteableBrowsingListNodeIndex listIndex, int direction)
+        {
+            Debug.Assert(listIndex != null);
+            Debug.Assert(listIndex.Index >= 0 && listIndex.Index < StateList.Count);
+            Debug.Assert(listIndex.Index + direction >= 0 && listIndex.Index + direction < StateList.Count);
+
+            int MoveIndex = listIndex.Index;
+            INode ParentNode = Owner.Node;
+
+            MoveInStateList(MoveIndex, direction);
+            NodeTreeHelperList.MoveNode(ParentNode, PropertyName, MoveIndex, direction);
+
+            if (direction > 0)
+            {
+                for (int i = MoveIndex; i < MoveIndex + direction; i++)
+                {
+                    IWriteableBrowsingListNodeIndex ChildNodeIndex = StateList[i].ParentIndex as IWriteableBrowsingListNodeIndex;
+                    Debug.Assert(ChildNodeIndex != null);
+
+                    ChildNodeIndex.MoveDown();
+                    listIndex.MoveUp();
+                }
+            }
+
+            else if (direction < 0)
+            {
+                for (int i = MoveIndex; i > MoveIndex + direction; i--)
+                {
+                    IWriteableBrowsingListNodeIndex ChildNodeIndex = StateList[i].ParentIndex as IWriteableBrowsingListNodeIndex;
+                    Debug.Assert(ChildNodeIndex != null);
+
+                    ChildNodeIndex.MoveUp();
+                    listIndex.MoveDown();
+                }
+            }
+        }
         #endregion
 
         #region Create Methods

@@ -25,6 +25,13 @@ namespace EaslyController.Writeable
         /// </summary>
         /// <param name="nodeIndex">Index of the node to remove.</param>
         void Remove(IWriteableBrowsingCollectionNodeIndex nodeIndex);
+
+        /// <summary>
+        /// Moves a node around in a list or block list. In a block list, the node stays in same block.
+        /// </summary>
+        /// <param name="nodeIndex">Index for the moved node.</param>
+        /// <param name="direction">The change in position, relative to the current position.</param>
+        void Move(IWriteableBrowsingCollectionNodeIndex nodeIndex, int direction);
     }
 
     /// <summary>
@@ -51,6 +58,13 @@ namespace EaslyController.Writeable
         /// </summary>
         /// <param name="nodeIndex">Index of the node to remove.</param>
         void Remove(IWriteableBrowsingCollectionNodeIndex nodeIndex);
+
+        /// <summary>
+        /// Moves a node around in a list or block list. In a block list, the node stays in same block.
+        /// </summary>
+        /// <param name="nodeIndex">Index for the moved node.</param>
+        /// <param name="direction">The change in position, relative to the current position.</param>
+        void Move(IWriteableBrowsingCollectionNodeIndex nodeIndex, int direction);
     }
 
     /// <summary>
@@ -107,6 +121,13 @@ namespace EaslyController.Writeable
         /// <param name="newBrowsingIndex">Index of the inserted node upon return.</param>
         /// <param name="childState">State of the inserted node upon return.</param>
         public abstract void Replace(IWriteableInsertionChildIndex nodeIndex, out IWriteableBrowsingChildIndex oldBrowsingIndex, out IWriteableBrowsingChildIndex newBrowsingIndex, out IWriteableNodeState childState);
+
+        /// <summary>
+        /// Moves a node around in a list or block list. In a block list, the node stays in same block.
+        /// </summary>
+        /// <param name="nodeIndex">Index for the moved node.</param>
+        /// <param name="direction">The change in position, relative to the current position.</param>
+        public abstract void Move(IWriteableBrowsingCollectionNodeIndex nodeIndex, int direction);
         #endregion
     }
 }

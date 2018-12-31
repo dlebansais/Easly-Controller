@@ -284,19 +284,9 @@ namespace EaslyController.ReadOnly
             Debug.Assert(index >= 0 && index < _StateList.Count);
             Debug.Assert(index + direction >= 0 && index + direction < _StateList.Count);
 
-            int index1 = (direction > 0) ? index : index + direction;
-            int index2 = (direction > 0) ? index + direction : index;
-
-            IReadOnlyPlaceholderNodeState NodeState1 = _StateList[index1];
-            IReadOnlyPlaceholderNodeState NodeState2 = _StateList[index2];
-
-            RemoveState(index2);
-            RemoveState(index1);
-
-            NodeTreeHelperBlockList.MoveNode(ChildBlock, index, direction);
-
-            InsertState(index1, NodeState2);
-            InsertState(index2, NodeState1);
+            IReadOnlyPlaceholderNodeState NodeState = _StateList[index];
+            _StateList.RemoveAt(index);
+            _StateList.Insert(index + direction, NodeState);
         }
         #endregion
 
