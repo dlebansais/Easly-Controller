@@ -310,9 +310,16 @@ namespace EaslyController.Writeable
                         Stats.AssignedOptionalNodeCount--;
                 }
                 else if (Entry.Value is IWriteableListInner AsListInner)
+                {
+                    Stats.PlaceholderNodeCount -= AsListInner.StateList.Count;
                     Stats.ListCount--;
+                }
                 else if (Entry.Value is IWriteableBlockListInner AsBlockListInner)
+                {
+                    for (int i = 0; i < AsBlockListInner.BlockStateList.Count; i++)
+                        Stats.PlaceholderNodeCount -= (2 + AsBlockListInner.BlockStateList[i].StateList.Count);
                     Stats.BlockListCount--;
+                }
                 else
                     Debug.Assert(false);
 

@@ -525,7 +525,7 @@ namespace EaslyController.Writeable
                     ChildNodeIndex.MoveUp();
             }
 
-            for (i = MergeBlockIndex + 1; i < BlockStateList.Count; i++)
+            for (i = MergeBlockIndex; i < BlockStateList.Count; i++)
                 foreach (IWriteablePlaceholderNodeState State in BlockStateList[i].StateList)
                 {
                     IWriteableBrowsingExistingBlockNodeIndex ChildNodeIndex = State.ParentIndex as IWriteableBrowsingExistingBlockNodeIndex;

@@ -87,14 +87,26 @@ namespace EaslyController.Writeable
             Debug.Assert(listIndex != null);
             Debug.Assert(listIndex.Index >= 0 && listIndex.Index <= StateList.Count);
 
+            int InsertionIndex = listIndex.Index;
             INode ParentNode = Owner.Node;
-            NodeTreeHelperList.InsertIntoList(ParentNode, PropertyName, listIndex.Index, listIndex.Node);
+            NodeTreeHelperList.InsertIntoList(ParentNode, PropertyName, InsertionIndex, listIndex.Node);
 
             IWriteableBrowsingListNodeIndex BrowsingListIndex = (IWriteableBrowsingListNodeIndex)listIndex.ToBrowsingIndex();
             browsingIndex = BrowsingListIndex;
 
             childState = (IWriteablePlaceholderNodeState)CreateNodeState(BrowsingListIndex);
-            InsertInStateList(listIndex.Index, childState);
+            InsertInStateList(InsertionIndex, childState);
+
+            while (++InsertionIndex < StateList.Count)
+            {
+                IWriteablePlaceholderNodeState State = StateList[InsertionIndex];
+
+                IWriteableBrowsingListNodeIndex NodeIndex = State.ParentIndex as IWriteableBrowsingListNodeIndex;
+                Debug.Assert(NodeIndex != null);
+                Debug.Assert(NodeIndex.Index == InsertionIndex - 1);
+
+                NodeIndex.MoveUp();
+            }
         }
 
         /// <summary>
@@ -116,12 +128,26 @@ namespace EaslyController.Writeable
             Debug.Assert(listIndex != null);
             Debug.Assert(listIndex.Index >= 0 && listIndex.Index < StateList.Count);
 
+            int RemoveIndex = listIndex.Index;
             INode ParentNode = Owner.Node;
 
-            IWriteableNodeState OldChildState = StateList[listIndex.Index];
-            RemoveFromStateList(listIndex.Index);
+            IWriteableNodeState OldChildState = StateList[RemoveIndex];
+            RemoveFromStateList(RemoveIndex);
 
-            NodeTreeHelperList.RemoveFromList(ParentNode, PropertyName, listIndex.Index);
+            NodeTreeHelperList.RemoveFromList(ParentNode, PropertyName, RemoveIndex);
+
+            while (RemoveIndex < StateList.Count)
+            {
+                IWriteablePlaceholderNodeState State = StateList[RemoveIndex];
+
+                IWriteableBrowsingListNodeIndex NodeIndex = State.ParentIndex as IWriteableBrowsingListNodeIndex;
+                Debug.Assert(NodeIndex != null);
+                Debug.Assert(NodeIndex.Index == RemoveIndex + 1);
+
+                NodeIndex.MoveDown();
+
+                RemoveIndex++;
+            }
         }
 
         /// <summary>

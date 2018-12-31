@@ -128,10 +128,44 @@ namespace TestDebug
             Debug.Assert(Controller.IsEqual(CompareEqual.New(), Controller2));
         }
 
+        static void TestWriteableGR(IGlobalReplicate rootNode)
+        {
+            ControllerTools.ResetExpectedName();
+
+            IWriteableRootNodeIndex RootIndex = new WriteableRootNodeIndex(rootNode);
+            IWriteableController Controller = WriteableController.Create(RootIndex);
+            Stats Stats = Controller.Stats;
+            IWriteableController ControllerCheck;
+
+            IWriteableControllerView ControllerView = WriteableControllerView.Create(Controller);
+
+            IWriteableNodeState RootState = Controller.RootState;
+            IWriteableInnerReadOnlyDictionary<string> InnerTable = RootState.InnerTable;
+
+            IWriteableListInner<IWriteableBrowsingListNodeIndex> ListInner2 = (IWriteableListInner<IWriteableBrowsingListNodeIndex>)InnerTable[nameof(IGlobalReplicate.Patterns)];
+            if (ListInner2.StateList.Count > 30)
+            {
+                IPattern TestNode = ListInner2.StateList[31].Node as IPattern;
+
+                IWriteableBrowsingListNodeIndex InsertIndex0 = (IWriteableBrowsingListNodeIndex)ListInner2.IndexAt(31);
+                Controller.Remove(ListInner2, InsertIndex0);
+
+                ControllerCheck = WriteableController.Create(new WriteableRootNodeIndex(rootNode));
+                Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
+            }
+
+        }
+
         static void TestWriteable(INode rootNode)
         {
             if (!(rootNode is IClass))
+            {
+                if (!(rootNode is IGlobalReplicate))
+                    return;
+
+                TestWriteableGR(rootNode as IGlobalReplicate);
                 return;
+            }
 
             ControllerTools.ResetExpectedName();
 
@@ -281,6 +315,18 @@ namespace TestDebug
 
                 IWriteableControllerView ControllerView12 = WriteableControllerView.Create(Controller);
                 Debug.Assert(ControllerView12.IsEqual(CompareEqual.New(), ControllerView));
+            }
+
+            IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> ListInner2 = (IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex>)InnerTable[nameof(IClass.FeatureBlocks)];
+            if (ListInner2.BlockStateList.Count > 0 && ListInner2.BlockStateList[0].StateList.Count > 8)
+            {
+                IFeature TestNode = NodeHelper.DeepCloneNode(ListInner2.BlockStateList[0].StateList[0].Node) as IFeature;
+
+                WriteableInsertionExistingBlockNodeIndex TestIndex = new WriteableInsertionExistingBlockNodeIndex(rootNode, ListInner2.PropertyName, TestNode, 0, 8);
+                Controller.Replace(ListInner2, TestIndex, out IWriteableBrowsingChildIndex InsertedTestIndex);
+
+                ControllerCheck = WriteableController.Create(new WriteableRootNodeIndex(rootNode));
+                Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
             }
         }
     }
