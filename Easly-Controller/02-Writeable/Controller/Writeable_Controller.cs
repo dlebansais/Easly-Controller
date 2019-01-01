@@ -128,13 +128,18 @@ namespace EaslyController.Writeable
         /// * If the node is a feature call, with no arguments, an empty argument is inserted.
         /// </summary>
         /// <param name="expandedIndex">Index of the expanded node.</param>
-        void Expand(IWriteableBrowsingChildIndex expandedIndex);
+        void Expand(IWriteableNodeIndex expandedIndex);
 
         /// <summary>
         /// Reduces an existing node. Opposite of <see cref="Expand"/>.
         /// </summary>
         /// <param name="reducedIndex">Index of the reduced node.</param>
-        void Reduce(IWriteableBrowsingChildIndex reducedIndex);
+        void Reduce(IWriteableNodeIndex reducedIndex);
+
+        /// <summary>
+        /// Reduces all expanded nodes, and clear all unassigned optional nodes.
+        /// </summary>
+        void Canonicalize();
     }
 
     public class WriteableController : ReadOnlyController, IWriteableController
@@ -556,7 +561,7 @@ namespace EaslyController.Writeable
         /// * If the node is a feature call, with no arguments, an empty argument is inserted.
         /// </summary>
         /// <param name="expandedIndex">Index of the expanded node.</param>
-        public virtual void Expand(IWriteableBrowsingChildIndex expandedIndex)
+        public virtual void Expand(IWriteableNodeIndex expandedIndex)
         {
             Debug.Assert(expandedIndex != null);
             Debug.Assert(StateTable.ContainsKey(expandedIndex));
@@ -653,7 +658,7 @@ namespace EaslyController.Writeable
         /// Reduces an existing node. Opposite of <see cref="Expand"/>.
         /// </summary>
         /// <param name="reducedIndex">Index of the reduced node.</param>
-        public virtual void Reduce(IWriteableBrowsingChildIndex reducedIndex)
+        public virtual void Reduce(IWriteableNodeIndex reducedIndex)
         {
             Debug.Assert(reducedIndex != null);
             Debug.Assert(StateTable.ContainsKey(reducedIndex));
@@ -728,6 +733,56 @@ namespace EaslyController.Writeable
             Stats.PlaceholderNodeCount--;
 
             PruneStateTable(FirstState);
+        }
+
+        /// <summary>
+        /// Reduces all expanded nodes, and clear all unassigned optional nodes.
+        /// </summary>
+        public virtual void Canonicalize()
+        {
+            Canonicalize(RootState);
+        }
+
+        protected virtual void Canonicalize(IWriteableNodeState state)
+        {
+            IWriteableNodeIndex NodeIndex = state.ParentIndex as IWriteableNodeIndex;
+            Debug.Assert(NodeIndex != null);
+
+            Reduce(NodeIndex);
+            CanonicalizeChildren(state);
+        }
+
+        protected virtual void CanonicalizeChildren(IWriteableNodeState state)
+        {
+            List<IWriteableNodeState> ChildStateList = new List<IWriteableNodeState>();
+            foreach (KeyValuePair<string, IWriteableInner<IWriteableBrowsingChildIndex>> Entry in state.InnerTable)
+            {
+                switch (Entry.Value)
+                {
+                    case IWriteablePlaceholderInner<IWriteableBrowsingPlaceholderNodeIndex> AsPlaceholderInner:
+                        ChildStateList.Add(AsPlaceholderInner.ChildState);
+                        break;
+
+                    case IWriteableOptionalInner<IWriteableBrowsingOptionalNodeIndex> AsOptionalInner:
+                        if (AsOptionalInner.IsAssigned)
+                            CanonicalizeChildren(AsOptionalInner.ChildState);
+                        break;
+
+                    case IWriteableListInner<IWriteableBrowsingListNodeIndex> AsListlInner:
+                        foreach (IWriteablePlaceholderNodeState ChildState in AsListlInner.StateList)
+                            ChildStateList.Add(ChildState);
+                        break;
+
+                    case IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> AsBlockListlInner:
+                        foreach (IWriteableBlockState BlockState in AsBlockListlInner.BlockStateList)
+                            foreach (IWriteablePlaceholderNodeState ChildState in BlockState.StateList)
+                                ChildStateList.Add(ChildState);
+                        break;
+                }
+            }
+
+            foreach (IWriteableNodeState ChildState in ChildStateList)
+                Canonicalize(ChildState);
         }
         #endregion
 

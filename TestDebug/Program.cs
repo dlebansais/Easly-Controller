@@ -331,8 +331,13 @@ namespace TestDebug
             {
                 if (Entry.Value.Node is IPrecursorExpression AsCommandInstruction)
                 {
-                    IWriteableBrowsingChildIndex CommandIndex = Entry.Key as IWriteableBrowsingChildIndex;
+                    IWriteableNodeIndex CommandIndex = Entry.Key as IWriteableNodeIndex;
                     Controller.Expand(CommandIndex);
+
+                    ControllerCheck = WriteableController.Create(new WriteableRootNodeIndex(rootNode));
+                    Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
+
+                    Controller.Canonicalize();
 
                     ControllerCheck = WriteableController.Create(new WriteableRootNodeIndex(rootNode));
                     Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
@@ -363,6 +368,12 @@ namespace TestDebug
                     break;
                 }
             }
+
+            Controller.Canonicalize();
+
+            IWriteableRootNodeIndex NewRootIndex = new WriteableRootNodeIndex(Controller.RootIndex.Node);
+            IWriteableController NewController = WriteableController.Create(NewRootIndex);
+            Debug.Assert(NewController.IsEqual(CompareEqual.New(), Controller));
         }
     }
 }
