@@ -18,6 +18,7 @@ namespace EaslyController.Writeable
     /// </summary>
     public class WriteableBlockStateList : Collection<IWriteableBlockState>, IWriteableBlockStateList
     {
+        #region ReadOnly
         bool ICollection<IReadOnlyBlockState>.IsReadOnly { get { return ((ICollection<IWriteableBlockState>)this).IsReadOnly; } }
         public void Add(IReadOnlyBlockState item) { base.Add((IWriteableBlockState)item); }
         public void Insert(int index, IReadOnlyBlockState item) { base.Insert(index, (IWriteableBlockState)item); }
@@ -27,5 +28,6 @@ namespace EaslyController.Writeable
         public bool Contains(IReadOnlyBlockState value) { return base.Contains((IWriteableBlockState)value); }
         public int IndexOf(IReadOnlyBlockState value) { return base.IndexOf((IWriteableBlockState)value); }
         public new IEnumerator<IReadOnlyBlockState> GetEnumerator() { return base.GetEnumerator(); }
+        #endregion
     }
 }

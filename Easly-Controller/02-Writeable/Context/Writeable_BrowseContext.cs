@@ -15,7 +15,7 @@ namespace EaslyController.Writeable
         /// Initializes a new instance of <see cref="WriteableBrowseContext "/>.
         /// </summary>
         /// <param name="state">The state that will be browsed.</param>
-        public WriteableBrowseContext(IReadOnlyNodeState state)
+        public WriteableBrowseContext(IWriteableNodeState state)
             : base(state)
         {
         }

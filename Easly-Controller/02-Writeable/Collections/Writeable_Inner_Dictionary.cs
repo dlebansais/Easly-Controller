@@ -18,6 +18,7 @@ namespace EaslyController.Writeable
     /// </summary>
     public class WriteableInnerDictionary<TKey> : Dictionary<TKey, IWriteableInner<IWriteableBrowsingChildIndex>>, IWriteableInnerDictionary<TKey>
     {
+        #region ReadOnly
         IReadOnlyInner<IReadOnlyBrowsingChildIndex> IDictionary<TKey, IReadOnlyInner<IReadOnlyBrowsingChildIndex>>.this[TKey key] { get { return this[key]; } set { this[key] = (IWriteableInner<IWriteableBrowsingChildIndex>)value; } }
         ICollection<TKey> IDictionary<TKey, IReadOnlyInner<IReadOnlyBrowsingChildIndex>>.Keys { get { return Keys; } }
         ICollection<IReadOnlyInner<IReadOnlyBrowsingChildIndex>> IDictionary<TKey, IReadOnlyInner<IReadOnlyBrowsingChildIndex>>.Values { get { return new List<IReadOnlyInner<IReadOnlyBrowsingChildIndex>>(Values); } }
@@ -42,5 +43,6 @@ namespace EaslyController.Writeable
         public void CopyTo(KeyValuePair<TKey, IReadOnlyInner<IReadOnlyBrowsingChildIndex>>[] array, int arrayIndex) { throw new InvalidOperationException(); }
         public bool Remove(KeyValuePair<TKey, IReadOnlyInner<IReadOnlyBrowsingChildIndex>> item) { return Remove(item.Key); }
         bool ICollection<KeyValuePair<TKey, IReadOnlyInner<IReadOnlyBrowsingChildIndex>>>.IsReadOnly { get { return ((ICollection<KeyValuePair<TKey, IWriteableInner>>)this).IsReadOnly; } }
+        #endregion
     }
 }

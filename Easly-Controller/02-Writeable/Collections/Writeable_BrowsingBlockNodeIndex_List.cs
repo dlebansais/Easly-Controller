@@ -18,6 +18,7 @@ namespace EaslyController.Writeable
     /// </summary>
     public class WriteableBrowsingBlockNodeIndexList : Collection<IWriteableBrowsingBlockNodeIndex>, IWriteableBrowsingBlockNodeIndexList
     {
+        #region ReadOnly
         public new IReadOnlyBrowsingBlockNodeIndex this[int index] { get { return base[index]; } set { base[index] = (IWriteableBrowsingBlockNodeIndex)value; } }
         public void Add(IReadOnlyBrowsingBlockNodeIndex item) { base.Add((IWriteableBrowsingBlockNodeIndex)item); }
         public void Insert(int index, IReadOnlyBrowsingBlockNodeIndex item) { base.Insert(index, (IWriteableBrowsingBlockNodeIndex)item); }
@@ -27,6 +28,7 @@ namespace EaslyController.Writeable
         public bool Contains(IReadOnlyBrowsingBlockNodeIndex value) { return base.Contains((IWriteableBrowsingBlockNodeIndex)value); }
         public int IndexOf(IReadOnlyBrowsingBlockNodeIndex value) { return base.IndexOf((IWriteableBrowsingBlockNodeIndex)value); }
         public new IEnumerator<IReadOnlyBrowsingBlockNodeIndex> GetEnumerator() { return base.GetEnumerator(); }
+        #endregion
     }
 }
 

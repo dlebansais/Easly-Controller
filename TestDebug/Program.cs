@@ -2,6 +2,7 @@
 using BaseNodeHelper;
 using Easly;
 using EaslyController;
+using EaslyController.Frame;
 using EaslyController.ReadOnly;
 using EaslyController.Writeable;
 using PolySerializer;
@@ -43,20 +44,16 @@ namespace TestDebug
             {
                 Console.WriteLine(FileName);
 
-                using (FileStream fs = new FileStream(FileName, FileMode.Open, FileAccess.Read))
-                {
-                    INode RootNode = Serializer.Deserialize(fs) as INode;
-                    INode ClonedNode = NodeHelper.DeepCloneNode(RootNode);
-                    Debug.Assert(NodeHelper.NodeHash(RootNode) == NodeHelper.NodeHash(ClonedNode));
-
-                    TestReadOnly(RootNode);
-                    TestWriteable(RootNode);
-                }
+                TestReadOnly(Serializer, FileName);
+                TestWriteable(Serializer, FileName);
+                TestFrame(Serializer, FileName);
             }
         }
         #endregion
 
         #region Tools
+        static bool DebugLine = false;
+
         static byte[] GetData(INode node)
         {
             byte[] Data;
@@ -81,7 +78,8 @@ namespace TestDebug
                         if (s == null)
                             break;
 
-                        //Debug.WriteLine(s);
+                        if (DebugLine)
+                            Debug.WriteLine(s);
                     }
                 }
             }
@@ -99,6 +97,19 @@ namespace TestDebug
             return b1.Length == b2.Length && memcmp(b1, b2, b1.Length) == 0;
         }
         #endregion
+
+        #region ReadOnly
+        static void TestReadOnly(Serializer serializer, string fileName)
+        {
+            using (FileStream fs = new FileStream(fileName, FileMode.Open, FileAccess.Read))
+            {
+                INode RootNode = serializer.Deserialize(fs) as INode;
+                INode ClonedNode = NodeHelper.DeepCloneNode(RootNode);
+                Debug.Assert(NodeHelper.NodeHash(RootNode) == NodeHelper.NodeHash(ClonedNode));
+
+                TestReadOnly(RootNode);
+            }
+        }
 
         static void TestReadOnly(INode rootNode)
         {
@@ -127,6 +138,20 @@ namespace TestDebug
             IReadOnlyRootNodeIndex RootIndex2 = new ReadOnlyRootNodeIndex(rootNode);
             IReadOnlyController Controller2 = ReadOnlyController.Create(RootIndex);
             Debug.Assert(Controller.IsEqual(CompareEqual.New(), Controller2));
+        }
+        #endregion
+
+        #region Writeable
+        static void TestWriteable(Serializer serializer, string fileName)
+        {
+            using (FileStream fs = new FileStream(fileName, FileMode.Open, FileAccess.Read))
+            {
+                INode RootNode = serializer.Deserialize(fs) as INode;
+                INode ClonedNode = NodeHelper.DeepCloneNode(RootNode);
+                Debug.Assert(NodeHelper.NodeHash(RootNode) == NodeHelper.NodeHash(ClonedNode));
+
+                TestWriteable(RootNode);
+            }
         }
 
         static void TestWriteableGR(IGlobalReplicate rootNode)
@@ -327,48 +352,6 @@ namespace TestDebug
                 Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
             }
 
-            foreach (KeyValuePair<IWriteableIndex, IWriteableNodeState> Entry in ((WriteableController)Controller).StateTable)
-            {
-                if (Entry.Value.Node is IPrecursorExpression AsCommandInstruction)
-                {
-                    IWriteableNodeIndex CommandIndex = Entry.Key as IWriteableNodeIndex;
-                    Controller.Expand(CommandIndex);
-
-                    ControllerCheck = WriteableController.Create(new WriteableRootNodeIndex(rootNode));
-                    Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
-
-                    Controller.Canonicalize();
-
-                    ControllerCheck = WriteableController.Create(new WriteableRootNodeIndex(rootNode));
-                    Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
-
-                    Controller.Reduce(CommandIndex);
-
-                    ControllerCheck = WriteableController.Create(new WriteableRootNodeIndex(rootNode));
-                    Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
-
-                    Controller.Expand(CommandIndex);
-
-                    ControllerCheck = WriteableController.Create(new WriteableRootNodeIndex(rootNode));
-                    Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
-                    Controller.Expand(CommandIndex);
-
-                    ControllerCheck = WriteableController.Create(new WriteableRootNodeIndex(rootNode));
-                    Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
-
-                    Controller.Reduce(CommandIndex);
-
-                    ControllerCheck = WriteableController.Create(new WriteableRootNodeIndex(rootNode));
-                    Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
-
-                    Controller.Reduce(CommandIndex);
-
-                    ControllerCheck = WriteableController.Create(new WriteableRootNodeIndex(rootNode));
-                    Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
-                    break;
-                }
-            }
-
             Controller.Canonicalize();
 
             IWriteableRootNodeIndex NewRootIndex = new WriteableRootNodeIndex(Controller.RootIndex.Node);
@@ -377,5 +360,227 @@ namespace TestDebug
 
             IDictionary<Type, string> NodeDictionary = NodeHelper.CreateNodeDictionary<string>();
         }
+        #endregion
+
+        #region Frame
+        static void TestFrame(Serializer serializer, string fileName)
+        {
+            using (FileStream fs = new FileStream(fileName, FileMode.Open, FileAccess.Read))
+            {
+                INode RootNode = serializer.Deserialize(fs) as INode;
+                INode ClonedNode = NodeHelper.DeepCloneNode(RootNode);
+                Debug.Assert(NodeHelper.NodeHash(RootNode) == NodeHelper.NodeHash(ClonedNode));
+
+                TestFrame(RootNode);
+            }
+        }
+
+        static void TestFrameGR(IGlobalReplicate rootNode)
+        {
+            ControllerTools.ResetExpectedName();
+
+            IFrameRootNodeIndex RootIndex = new FrameRootNodeIndex(rootNode);
+            IFrameController Controller = FrameController.Create(RootIndex);
+            Stats Stats = Controller.Stats;
+            IFrameController ControllerCheck;
+
+            IFrameControllerView ControllerView = FrameControllerView.Create(Controller);
+
+            IFrameNodeState RootState = Controller.RootState;
+            IFrameInnerReadOnlyDictionary<string> InnerTable = RootState.InnerTable;
+
+            IFrameListInner<IFrameBrowsingListNodeIndex> ListInner2 = (IFrameListInner<IFrameBrowsingListNodeIndex>)InnerTable[nameof(IGlobalReplicate.Patterns)];
+            if (ListInner2.StateList.Count > 30)
+            {
+                IPattern TestNode = ListInner2.StateList[31].Node as IPattern;
+
+                IFrameBrowsingListNodeIndex InsertIndex0 = (IFrameBrowsingListNodeIndex)ListInner2.IndexAt(31);
+                Controller.Move(ListInner2, InsertIndex0, -5);
+
+                ControllerCheck = FrameController.Create(new FrameRootNodeIndex(rootNode));
+                Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
+            }
+
+        }
+
+        static void TestFrame(INode rootNode)
+        {
+            if (!(rootNode is IClass))
+            {
+                if (!(rootNode is IGlobalReplicate))
+                    return;
+
+                TestFrameGR(rootNode as IGlobalReplicate);
+                return;
+            }
+
+            ControllerTools.ResetExpectedName();
+
+            IFrameRootNodeIndex RootIndex = new FrameRootNodeIndex(rootNode);
+            IFrameController Controller = FrameController.Create(RootIndex);
+            Stats Stats = Controller.Stats;
+            IFrameController ControllerCheck;
+
+            INode RootNodeClone = Controller.RootState.CloneNode();
+            ulong h1 = NodeHelper.NodeHash(rootNode);
+            ulong h2 = NodeHelper.NodeHash(RootNodeClone);
+
+            byte[] RootData = GetData(rootNode);
+            byte[] RootCloneData = GetData(RootNodeClone);
+
+            bool IsEqual = ByteArrayCompare(RootData, RootCloneData);
+            Debug.Assert(IsEqual);
+            Debug.Assert(h1 == h2);
+
+            IFrameControllerView ControllerView = FrameControllerView.Create(Controller);
+
+            IFrameNodeState RootState = Controller.RootState;
+            IFrameInnerReadOnlyDictionary<string> InnerTable = RootState.InnerTable;
+            IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> ListInner = (IFrameBlockListInner<IFrameBrowsingBlockNodeIndex>)InnerTable[nameof(IClass.ImportBlocks)];
+
+            IPattern PatternNode = NodeHelper.CreateEmptyPattern();
+            IIdentifier SourceNode = NodeHelper.CreateEmptyIdentifier();
+            IImport FirstNode = NodeHelper.CreateSimpleImport("x", "x", ImportType.Latest);
+
+            FrameInsertionNewBlockNodeIndex InsertIndex0 = new FrameInsertionNewBlockNodeIndex(rootNode, ListInner.PropertyName, FirstNode, 0, PatternNode, SourceNode);
+            Controller.Insert(ListInner, InsertIndex0, out IWriteableBrowsingCollectionNodeIndex InsertedIndex0);
+
+            ControllerCheck = FrameController.Create(new FrameRootNodeIndex(rootNode));
+            Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
+
+            IImport SecondNode = NodeHelper.CreateSimpleImport("y", "y", ImportType.Latest);
+
+            FrameInsertionExistingBlockNodeIndex InsertIndex1 = new FrameInsertionExistingBlockNodeIndex(rootNode, ListInner.PropertyName, SecondNode, 0, 1);
+            Controller.Insert(ListInner, InsertIndex1, out IWriteableBrowsingCollectionNodeIndex InsertedIndex1);
+
+            ControllerCheck = FrameController.Create(new FrameRootNodeIndex(rootNode));
+            Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
+
+            Debug.Assert(ControllerView.StateViewTable.Count == Controller.Stats.NodeCount);
+
+            IFrameControllerView ControllerView2 = FrameControllerView.Create(Controller);
+            Debug.Assert(ControllerView2.IsEqual(CompareEqual.New(), ControllerView));
+
+            Controller.ChangeReplication(ListInner, 0, ReplicationStatus.Replicated);
+
+            ControllerCheck = FrameController.Create(new FrameRootNodeIndex(rootNode));
+            Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
+
+            IImport ThirdNode = NodeHelper.CreateSimpleImport("z", "z", ImportType.Latest);
+
+            FrameInsertionExistingBlockNodeIndex InsertIndex3 = new FrameInsertionExistingBlockNodeIndex(rootNode, ListInner.PropertyName, ThirdNode, 0, 1);
+            Controller.Replace(ListInner, InsertIndex3, out IWriteableBrowsingChildIndex InsertedIndex3);
+
+            ControllerCheck = FrameController.Create(new FrameRootNodeIndex(rootNode));
+            Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
+
+            IImport FourthNode = NodeHelper.CreateSimpleImport("a", "a", ImportType.Latest);
+
+            FrameInsertionExistingBlockNodeIndex InsertIndex4 = new FrameInsertionExistingBlockNodeIndex(rootNode, ListInner.PropertyName, FourthNode, 0, 0);
+            Controller.Replace(ListInner, InsertIndex4, out IWriteableBrowsingChildIndex InsertedIndex4);
+
+            ControllerCheck = FrameController.Create(new FrameRootNodeIndex(rootNode));
+            Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
+
+            IFrameControllerView ControllerView3 = FrameControllerView.Create(Controller);
+            Debug.Assert(ControllerView3.IsEqual(CompareEqual.New(), ControllerView));
+
+            IName FifthNode = NodeHelper.CreateSimpleName("a");
+
+            IFrameSingleInner<IFrameBrowsingChildIndex> ChildInner = (IFrameSingleInner<IFrameBrowsingChildIndex>)InnerTable[nameof(IClass.EntityName)];
+            FrameInsertionPlaceholderNodeIndex InsertIndex5 = new FrameInsertionPlaceholderNodeIndex(rootNode, ChildInner.PropertyName, FifthNode);
+            Controller.Replace(ChildInner, InsertIndex5, out IWriteableBrowsingChildIndex InsertedIndex5);
+
+            ControllerCheck = FrameController.Create(new FrameRootNodeIndex(rootNode));
+            Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
+
+            IFrameControllerView ControllerView4 = FrameControllerView.Create(Controller);
+            Debug.Assert(ControllerView4.IsEqual(CompareEqual.New(), ControllerView));
+
+            IIdentifier SixthNode = NodeHelper.CreateSimpleIdentifier("b");
+
+            IFrameOptionalInner<IFrameBrowsingOptionalNodeIndex> OptionalInner = (IFrameOptionalInner<IFrameBrowsingOptionalNodeIndex>)InnerTable[nameof(IClass.FromIdentifier)];
+            FrameInsertionOptionalNodeIndex InsertIndex6 = new FrameInsertionOptionalNodeIndex(rootNode, OptionalInner.PropertyName, SixthNode);
+            Controller.Replace(OptionalInner, InsertIndex6, out IWriteableBrowsingChildIndex InsertedIndex6);
+
+            ControllerCheck = FrameController.Create(new FrameRootNodeIndex(rootNode));
+            Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
+
+            IFrameControllerView ControllerView5 = FrameControllerView.Create(Controller);
+            Debug.Assert(ControllerView5.IsEqual(CompareEqual.New(), ControllerView));
+
+            IFrameBrowsingBlockNodeIndex InsertIndex7 = (IFrameBrowsingBlockNodeIndex)ListInner.IndexAt(0, 0);
+            Controller.Remove(ListInner, InsertIndex7);
+
+            ControllerCheck = FrameController.Create(new FrameRootNodeIndex(rootNode));
+            Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
+
+            IFrameControllerView ControllerView7 = FrameControllerView.Create(Controller);
+            Debug.Assert(ControllerView7.IsEqual(CompareEqual.New(), ControllerView));
+
+            IFrameBrowsingBlockNodeIndex InsertIndex8 = (IFrameBrowsingBlockNodeIndex)ListInner.IndexAt(0, 0);
+            Controller.Remove(ListInner, InsertIndex8);
+
+            ControllerCheck = FrameController.Create(new FrameRootNodeIndex(rootNode));
+            Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
+
+            IFrameControllerView ControllerView8 = FrameControllerView.Create(Controller);
+            Debug.Assert(ControllerView8.IsEqual(CompareEqual.New(), ControllerView));
+
+            Controller.Unassign(OptionalInner.ChildState.ParentIndex);
+
+            ControllerCheck = FrameController.Create(new FrameRootNodeIndex(rootNode));
+            Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
+
+            IFrameControllerView ControllerView9 = FrameControllerView.Create(Controller);
+            Debug.Assert(ControllerView9.IsEqual(CompareEqual.New(), ControllerView));
+
+            Controller.Assign(OptionalInner.ChildState.ParentIndex);
+
+            ControllerCheck = FrameController.Create(new FrameRootNodeIndex(rootNode));
+            Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
+
+            IFrameControllerView ControllerView10 = FrameControllerView.Create(Controller);
+            Debug.Assert(ControllerView10.IsEqual(CompareEqual.New(), ControllerView));
+
+            if (ListInner.BlockStateList.Count >= 2)
+            {
+                IFrameBrowsingExistingBlockNodeIndex SplitIndex1 = (IFrameBrowsingExistingBlockNodeIndex)ListInner.IndexAt(0, 1);
+                Controller.SplitBlock(ListInner, SplitIndex1);
+
+                ControllerCheck = FrameController.Create(new FrameRootNodeIndex(rootNode));
+                Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
+
+                IFrameControllerView ControllerView11 = FrameControllerView.Create(Controller);
+                Debug.Assert(ControllerView11.IsEqual(CompareEqual.New(), ControllerView));
+
+                IFrameBrowsingExistingBlockNodeIndex SplitIndex2 = (IFrameBrowsingExistingBlockNodeIndex)ListInner.IndexAt(1, 0);
+                Controller.MergeBlocks(ListInner, SplitIndex2);
+
+                ControllerCheck = FrameController.Create(new FrameRootNodeIndex(rootNode));
+                Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
+
+                IFrameControllerView ControllerView12 = FrameControllerView.Create(Controller);
+                Debug.Assert(ControllerView12.IsEqual(CompareEqual.New(), ControllerView));
+            }
+
+            IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> ListInner2 = (IFrameBlockListInner<IFrameBrowsingBlockNodeIndex>)InnerTable[nameof(IClass.FeatureBlocks)];
+            if (ListInner2.BlockStateList.Count > 1)
+            {
+                Controller.MoveBlock(ListInner2, 0, 1);
+
+                ControllerCheck = FrameController.Create(new FrameRootNodeIndex(rootNode));
+                Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
+            }
+
+            Controller.Canonicalize();
+
+            IFrameRootNodeIndex NewRootIndex = new FrameRootNodeIndex(Controller.RootIndex.Node);
+            IFrameController NewController = FrameController.Create(NewRootIndex);
+            Debug.Assert(NewController.IsEqual(CompareEqual.New(), Controller));
+
+            IDictionary<Type, string> NodeDictionary = NodeHelper.CreateNodeDictionary<string>();
+        }
+        #endregion
     }
 }

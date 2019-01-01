@@ -18,6 +18,7 @@ namespace EaslyController.Writeable
     /// </summary>
     public class WriteablePlaceholderNodeStateList : Collection<IWriteablePlaceholderNodeState>, IWriteablePlaceholderNodeStateList
     {
+        #region ReadOnly
         public new IReadOnlyPlaceholderNodeState this[int index] { get { return base[index]; } set { base[index] = (IWriteablePlaceholderNodeState)value; } }
         public void Add(IReadOnlyPlaceholderNodeState item) { base.Add((IWriteablePlaceholderNodeState)item); }
         public void Insert(int index, IReadOnlyPlaceholderNodeState item) { base.Insert(index, (IWriteablePlaceholderNodeState)item); }
@@ -27,5 +28,6 @@ namespace EaslyController.Writeable
         public bool Contains(IReadOnlyPlaceholderNodeState value) { return base.Contains((IWriteablePlaceholderNodeState)value); }
         public int IndexOf(IReadOnlyPlaceholderNodeState value) { return base.IndexOf((IWriteablePlaceholderNodeState)value); }
         public new IEnumerator<IReadOnlyPlaceholderNodeState> GetEnumerator() { return base.GetEnumerator(); }
+        #endregion
     }
 }

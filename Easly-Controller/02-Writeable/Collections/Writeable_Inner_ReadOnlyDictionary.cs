@@ -26,9 +26,11 @@ namespace EaslyController.Writeable
         {
         }
 
+        #region ReadOnly
         public new IReadOnlyInner<IReadOnlyBrowsingChildIndex> this[TKey key] { get { return base[key]; } }
         public new IEnumerable<TKey> Keys { get { return base.Keys; } }
         public new IEnumerable<IReadOnlyInner<IReadOnlyBrowsingChildIndex>> Values { get { return base.Values; } }
+
         public new IEnumerator<KeyValuePair<TKey, IReadOnlyInner<IReadOnlyBrowsingChildIndex>>> GetEnumerator()
         {
             List<KeyValuePair<TKey, IReadOnlyInner<IReadOnlyBrowsingChildIndex>>> NewList = new List<KeyValuePair<TKey, IReadOnlyInner<IReadOnlyBrowsingChildIndex>>>();
@@ -38,10 +40,11 @@ namespace EaslyController.Writeable
             return NewList.GetEnumerator();
         }
         public bool TryGetValue(TKey key, out IReadOnlyInner<IReadOnlyBrowsingChildIndex> value) { bool Result = TryGetValue(key, out IWriteableInner<IWriteableBrowsingChildIndex> Value); value = Value; return Result; }
+        #endregion
 
         #region Debugging
         /// <summary>
-        /// Compares two <see cref="IReadOnlyInnerReadOnlyDictionary{TKey}"/> objects.
+        /// Compares two <see cref="IWriteableInnerReadOnlyDictionary{TKey}"/> objects.
         /// </summary>
         /// <param name="other">The other object.</param>
         public virtual bool IsEqual(CompareEqual comparer, IEqualComparable other)

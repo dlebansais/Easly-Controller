@@ -79,7 +79,7 @@ namespace EaslyController.Writeable
         /// </summary>
         public override IWriteableBrowsingChildIndex ToBrowsingIndex()
         {
-            return new WriteableBrowsingNewBlockNodeIndex(ParentNode, Node, PropertyName, BlockIndex, PatternNode, SourceNode);
+            return CreateBrowsingIndex();
         }
         #endregion
 
@@ -108,6 +108,17 @@ namespace EaslyController.Writeable
                 return false;
 
             return true;
+        }
+        #endregion
+
+        #region Create Methods
+        /// <summary>
+        /// Creates a IxxxBrowsingNewBlockNodeIndex object.
+        /// </summary>
+        protected virtual IWriteableBrowsingNewBlockNodeIndex CreateBrowsingIndex()
+        {
+            ControllerTools.AssertNoOverride(this, typeof(WriteableInsertionNewBlockNodeIndex));
+            return new WriteableBrowsingNewBlockNodeIndex(ParentNode, Node, PropertyName, BlockIndex, PatternNode, SourceNode);
         }
         #endregion
     }

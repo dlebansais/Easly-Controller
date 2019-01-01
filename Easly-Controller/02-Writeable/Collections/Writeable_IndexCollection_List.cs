@@ -18,6 +18,7 @@ namespace EaslyController.Writeable
     /// </summary>
     public class WriteableIndexCollectionList : Collection<IWriteableIndexCollection>, IWriteableIndexCollectionList
     {
+        #region ReadOnly
         public new IReadOnlyIndexCollection this[int index] { get { return base[index]; } set { base[index] = (IWriteableIndexCollection)value; } }
         public void Add(IReadOnlyIndexCollection item) { base.Add((IWriteableIndexCollection)item); }
         public void Insert(int index, IReadOnlyIndexCollection item) { base.Insert(index, (IWriteableIndexCollection)item); }
@@ -27,5 +28,6 @@ namespace EaslyController.Writeable
         public bool Contains(IReadOnlyIndexCollection value) { return base.Contains((IWriteableIndexCollection)value); }
         public int IndexOf(IReadOnlyIndexCollection value) { return base.IndexOf((IWriteableIndexCollection)value); }
         public new IEnumerator<IReadOnlyIndexCollection> GetEnumerator() { return base.GetEnumerator(); }
+        #endregion
     }
 }

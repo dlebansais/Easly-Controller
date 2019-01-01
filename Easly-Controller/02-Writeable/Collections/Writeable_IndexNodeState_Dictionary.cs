@@ -18,6 +18,7 @@ namespace EaslyController.Writeable
     /// </summary>
     public class WriteableIndexNodeStateDictionary : Dictionary<IWriteableIndex, IWriteableNodeState>, IWriteableIndexNodeStateDictionary
     {
+        #region ReadOnly
         void IDictionary<IReadOnlyIndex, IReadOnlyNodeState>.Add(IReadOnlyIndex key, IReadOnlyNodeState value) { Add((IWriteableIndex)key, (IWriteableNodeState)value); }
         bool IDictionary<IReadOnlyIndex, IReadOnlyNodeState>.Remove(IReadOnlyIndex key) { return Remove((IWriteableIndex)key); }
         bool IDictionary<IReadOnlyIndex, IReadOnlyNodeState>.TryGetValue(IReadOnlyIndex key, out IReadOnlyNodeState value) { bool Result = TryGetValue((IWriteableIndex)key, out IWriteableNodeState Value); value = Value; return Result; }
@@ -50,5 +51,6 @@ namespace EaslyController.Writeable
         public void CopyTo(KeyValuePair<IWriteableIndex, IReadOnlyNodeState>[] array, int arrayIndex) { throw new InvalidOperationException(); }
         public bool Remove(KeyValuePair<IWriteableIndex, IReadOnlyNodeState> item) { return Remove(item.Key); }
         bool ICollection<KeyValuePair<IReadOnlyIndex, IReadOnlyNodeState>>.IsReadOnly { get { return ((ICollection<KeyValuePair<IWriteableIndex, IWriteableNodeState>>)this).IsReadOnly; } }
+        #endregion
     }
 }

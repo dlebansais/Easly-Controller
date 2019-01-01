@@ -24,6 +24,7 @@ namespace EaslyController.Writeable
         {
         }
 
+        #region ReadOnly
         bool IReadOnlyDictionary<IReadOnlyIndex, IReadOnlyNodeState>.ContainsKey(IReadOnlyIndex key) { return ContainsKey((IWriteableIndex)key); }
         bool IReadOnlyDictionary<IReadOnlyIndex, IReadOnlyNodeState>.TryGetValue(IReadOnlyIndex key, out IReadOnlyNodeState value) { bool Result = TryGetValue((IWriteableIndex)key, out IWriteableNodeState Value); value = Value; return Result; }
         IReadOnlyNodeState IReadOnlyDictionary<IReadOnlyIndex, IReadOnlyNodeState>.this[IReadOnlyIndex key] { get { return this[(IWriteableIndex)key]; } }
@@ -42,5 +43,6 @@ namespace EaslyController.Writeable
 
             return NewList.GetEnumerator();
         }
+        #endregion
     }
 }

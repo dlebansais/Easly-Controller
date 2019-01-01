@@ -205,7 +205,7 @@ namespace EaslyController.Writeable
         /// <summary>
         /// State table.
         /// </summary>
-        public new IWriteableIndexNodeStateReadOnlyDictionary StateTable { get { return (IWriteableIndexNodeStateReadOnlyDictionary)base.StateTable; } }
+        protected new IWriteableIndexNodeStateReadOnlyDictionary StateTable { get { return (IWriteableIndexNodeStateReadOnlyDictionary)base.StateTable; } }
         #endregion
 
         #region Client Interface
@@ -838,7 +838,7 @@ namespace EaslyController.Writeable
         protected override IReadOnlyBrowseContext CreateBrowseContext(IReadOnlyBrowseContext parentBrowseContext, IReadOnlyNodeState state)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableController));
-            return new WriteableBrowseContext(state);
+            return new WriteableBrowseContext((IWriteableNodeState)state);
         }
 
         /// <summary>

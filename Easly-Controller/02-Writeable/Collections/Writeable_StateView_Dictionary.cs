@@ -19,6 +19,7 @@ namespace EaslyController.Writeable
     /// </summary>
     public class WriteableStateViewDictionary : Dictionary<IWriteableNodeState, IWriteableNodeStateView>, IWriteableStateViewDictionary
     {
+        #region ReadOnly
         void IDictionary<IReadOnlyNodeState, IReadOnlyNodeStateView>.Add(IReadOnlyNodeState key, IReadOnlyNodeStateView value) { Add((IWriteableNodeState)key, (IWriteableNodeStateView)value); }
         bool IDictionary<IReadOnlyNodeState, IReadOnlyNodeStateView>.Remove(IReadOnlyNodeState key) { return Remove((IWriteableNodeState)key); }
         bool IDictionary<IReadOnlyNodeState, IReadOnlyNodeStateView>.TryGetValue(IReadOnlyNodeState key, out IReadOnlyNodeStateView value) { bool Result = TryGetValue((IWriteableNodeState)key, out IWriteableNodeStateView Value); value = Value; return Result; }
@@ -51,6 +52,7 @@ namespace EaslyController.Writeable
         public void CopyTo(KeyValuePair<IWriteableNodeState, IReadOnlyNodeStateView>[] array, int arrayIndex) { throw new InvalidOperationException(); }
         public bool Remove(KeyValuePair<IWriteableNodeState, IReadOnlyNodeStateView> item) { return Remove(item.Key); }
         bool ICollection<KeyValuePair<IReadOnlyNodeState, IReadOnlyNodeStateView>>.IsReadOnly { get { return ((ICollection<KeyValuePair<IWriteableNodeState, IWriteableNodeStateView>>)this).IsReadOnly; } }
+        #endregion
 
         #region Debugging
         /// <summary>

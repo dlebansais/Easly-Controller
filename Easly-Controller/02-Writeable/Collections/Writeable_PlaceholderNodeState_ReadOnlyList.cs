@@ -27,14 +27,16 @@ namespace EaslyController.Writeable
         {
         }
 
+        #region ReadOnly
         public new IReadOnlyPlaceholderNodeState this[int index] { get { return base[index]; } }
         public bool Contains(IReadOnlyPlaceholderNodeState value) { return base.Contains((IWriteablePlaceholderNodeState)value); }
         public int IndexOf(IReadOnlyPlaceholderNodeState value) { return base.IndexOf((IWriteablePlaceholderNodeState)value); }
         public new IEnumerator<IReadOnlyPlaceholderNodeState> GetEnumerator() { return base.GetEnumerator(); }
+        #endregion
 
         #region Debugging
         /// <summary>
-        /// Compares two <see cref="IReadOnlyPlaceholderNodeStateReadOnlyList"/> objects.
+        /// Compares two <see cref="IWriteablePlaceholderNodeStateReadOnlyList"/> objects.
         /// </summary>
         /// <param name="other">The other object.</param>
         public virtual bool IsEqual(CompareEqual comparer, IEqualComparable other)
