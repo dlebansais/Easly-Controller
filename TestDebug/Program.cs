@@ -374,6 +374,8 @@ namespace TestDebug
             IWriteableRootNodeIndex NewRootIndex = new WriteableRootNodeIndex(Controller.RootIndex.Node);
             IWriteableController NewController = WriteableController.Create(NewRootIndex);
             Debug.Assert(NewController.IsEqual(CompareEqual.New(), Controller));
+
+            IDictionary<Type, string> NodeDictionary = NodeHelper.CreateNodeDictionary<string>();
         }
     }
 }
