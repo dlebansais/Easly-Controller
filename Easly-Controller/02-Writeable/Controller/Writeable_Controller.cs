@@ -1,5 +1,6 @@
 ﻿using BaseNode;
 using BaseNodeHelper;
+using Easly;
 using EaslyController.ReadOnly;
 using System;
 using System.Collections.Generic;
@@ -128,6 +129,12 @@ namespace EaslyController.Writeable
         /// </summary>
         /// <param name="expandedIndex">Index of the expanded node.</param>
         void Expand(IWriteableBrowsingChildIndex expandedIndex);
+
+        /// <summary>
+        /// Reduces an existing node. Opposite of <see cref="Expand"/>.
+        /// </summary>
+        /// <param name="reducedIndex">Index of the reduced node.</param>
+        void Reduce(IWriteableBrowsingChildIndex reducedIndex);
     }
 
     public class WriteableController : ReadOnlyController, IWriteableController
@@ -560,7 +567,6 @@ namespace EaslyController.Writeable
 
             IWriteableInnerReadOnlyDictionary<string> InnerTable = State.InnerTable;
 
-            // Expands optional children.
             foreach (KeyValuePair<string, IWriteableInner<IWriteableBrowsingChildIndex>> Entry in InnerTable)
             {
                 if (Entry.Value is IWriteableOptionalInner<IWriteableBrowsingOptionalNodeIndex> AsOptionalInner)
@@ -585,6 +591,7 @@ namespace EaslyController.Writeable
             if (optionalInner.ChildState.ParentIndex.Optional.HasItem)
             {
                 optionalInner.Assign();
+                Stats.AssignedOptionalNodeCount++;
                 return;
             }
 
@@ -640,6 +647,87 @@ namespace EaslyController.Writeable
             AddState(ArgumentNodeIndex, ArgumentChildState);
             Stats.PlaceholderNodeCount++;
             BuildStateTable(blockListInner, null, ArgumentNodeIndex, ArgumentChildState);
+        }
+
+        /// <summary>
+        /// Reduces an existing node. Opposite of <see cref="Expand"/>.
+        /// </summary>
+        /// <param name="reducedIndex">Index of the reduced node.</param>
+        public virtual void Reduce(IWriteableBrowsingChildIndex reducedIndex)
+        {
+            Debug.Assert(reducedIndex != null);
+            Debug.Assert(StateTable.ContainsKey(reducedIndex));
+            Debug.Assert(StateTable[reducedIndex] is IWriteablePlaceholderNodeState);
+
+            IWriteablePlaceholderNodeState State = StateTable[reducedIndex] as IWriteablePlaceholderNodeState;
+            Debug.Assert(State != null);
+
+            IWriteableInnerReadOnlyDictionary<string> InnerTable = State.InnerTable;
+
+            foreach (KeyValuePair<string, IWriteableInner<IWriteableBrowsingChildIndex>> Entry in InnerTable)
+            {
+                if (Entry.Value is IWriteableOptionalInner<IWriteableBrowsingOptionalNodeIndex> AsOptionalInner)
+                    ReduceOptional(AsOptionalInner);
+
+                else if (Entry.Value is IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> AsBlockListInner)
+                    ReduceBlockList(AsBlockListInner);
+            }
+        }
+
+        /// <summary>
+        /// Reduces the optional node.
+        /// </summary>
+        protected virtual void ReduceOptional(IWriteableOptionalInner<IWriteableBrowsingOptionalNodeIndex> optionalInner)
+        {
+            IOptionalReference Optional = optionalInner.ChildState.ParentIndex.Optional;
+
+            if (NodeHelper.IsOptionalAssignedToDefault(Optional))
+            {
+                Optional.Unassign();
+                Stats.AssignedOptionalNodeCount--;
+            }
+        }
+
+        /// <summary>
+        /// Reduces the block list.
+        /// </summary>
+        protected virtual void ReduceBlockList(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> blockListInner)
+        {
+            if (!(blockListInner.InterfaceType == typeof(IArgument)))
+                return;
+
+            if (!blockListInner.IsSingle)
+                return;
+
+            Debug.Assert(blockListInner.BlockStateList.Count == 1);
+            Debug.Assert(blockListInner.BlockStateList[0].StateList.Count == 1);
+            IWriteableNodeState FirstState = blockListInner.BlockStateList[0].StateList[0];
+
+            if (!NodeHelper.IsDefaultArgument(FirstState.Node))
+                return;
+
+            IWriteableBrowsingBlockNodeIndex FirstNodeIndex = FirstState.ParentIndex as IWriteableBrowsingBlockNodeIndex;
+            Debug.Assert(FirstNodeIndex != null);
+
+            blockListInner.RemoveWithBlock(FirstNodeIndex, out bool IsBlockRemoved, out IWriteableBrowsingPatternIndex PatternIndex, out IWriteableBrowsingSourceIndex SourceIndex);
+            Debug.Assert(IsBlockRemoved);
+
+            Debug.Assert(PatternIndex != null);
+            Debug.Assert(StateTable.ContainsKey(PatternIndex));
+            Debug.Assert(SourceIndex != null);
+            Debug.Assert(StateTable.ContainsKey(SourceIndex));
+
+            RemoveState(PatternIndex);
+            Stats.PlaceholderNodeCount--;
+
+            RemoveState(SourceIndex);
+            Stats.PlaceholderNodeCount--;
+
+            Debug.Assert(FirstState == StateTable[FirstNodeIndex]);
+            RemoveState(FirstNodeIndex);
+            Stats.PlaceholderNodeCount--;
+
+            PruneStateTable(FirstState);
         }
         #endregion
 
