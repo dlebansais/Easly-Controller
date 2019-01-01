@@ -6,6 +6,7 @@ using EaslyController.ReadOnly;
 using EaslyController.Writeable;
 using PolySerializer;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
@@ -280,7 +281,7 @@ namespace TestDebug
             IWriteableControllerView ControllerView8 = WriteableControllerView.Create(Controller);
             Debug.Assert(ControllerView8.IsEqual(CompareEqual.New(), ControllerView));
 
-            Controller.Unassign(OptionalInner);
+            Controller.Unassign(OptionalInner.ChildState.ParentIndex);
 
             ControllerCheck = WriteableController.Create(new WriteableRootNodeIndex(rootNode));
             Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
@@ -288,7 +289,7 @@ namespace TestDebug
             IWriteableControllerView ControllerView9 = WriteableControllerView.Create(Controller);
             Debug.Assert(ControllerView9.IsEqual(CompareEqual.New(), ControllerView));
 
-            Controller.Assign(OptionalInner);
+            Controller.Assign(OptionalInner.ChildState.ParentIndex);
 
             ControllerCheck = WriteableController.Create(new WriteableRootNodeIndex(rootNode));
             Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
@@ -322,6 +323,25 @@ namespace TestDebug
             {
                 Controller.MoveBlock(ListInner2, 0, 1);
 
+                ControllerCheck = WriteableController.Create(new WriteableRootNodeIndex(rootNode));
+                Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
+            }
+
+            bool IsExpanded = false;
+            foreach (KeyValuePair<IWriteableIndex, IWriteableNodeState> Entry in ((WriteableController)Controller).StateTable)
+            {
+                if (Entry.Value.Node is IPrecursorExpression AsCommandInstruction)
+                {
+                    IWriteableBrowsingChildIndex CommandIndex = Entry.Key as IWriteableBrowsingChildIndex;
+                    Controller.Expand(CommandIndex);
+
+                    IsExpanded = true;
+                    break;
+                }
+            }
+
+            if (IsExpanded)
+            {
                 ControllerCheck = WriteableController.Create(new WriteableRootNodeIndex(rootNode));
                 Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
             }

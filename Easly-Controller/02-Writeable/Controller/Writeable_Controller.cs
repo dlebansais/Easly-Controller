@@ -1,4 +1,5 @@
 ﻿using BaseNode;
+using BaseNodeHelper;
 using EaslyController.ReadOnly;
 using System;
 using System.Collections.Generic;
@@ -59,14 +60,14 @@ namespace EaslyController.Writeable
         /// <summary>
         /// Assign the optional node.
         /// </summary>
-        /// <param name="inner">The inner where the node is assigned.</param>
-        void Assign(IWriteableOptionalInner<IWriteableBrowsingOptionalNodeIndex> inner);
+        /// <param name="nodeIndex">Index of the optional node.</param>
+        void Assign(IWriteableBrowsingOptionalNodeIndex nodeIndex);
 
         /// <summary>
         /// Unassign the optional node.
         /// </summary>
-        /// <param name="inner">The inner where the node is unassigned.</param>
-        void Unassign(IWriteableOptionalInner<IWriteableBrowsingOptionalNodeIndex> inner);
+        /// <param name="nodeIndex">Index of the optional node.</param>
+        void Unassign(IWriteableBrowsingOptionalNodeIndex nodeIndex);
 
         /// <summary>
         /// Changes the replication state of a block.
@@ -119,6 +120,14 @@ namespace EaslyController.Writeable
         /// <param name="blockIndex">Index of the block to move.</param>
         /// <param name="direction">The change in position, relative to the current block position.</param>
         void MoveBlock(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, int blockIndex, int direction);
+
+        /// <summary>
+        /// Expands an existing node. In the node:
+        /// * All optional children are assigned if they aren't
+        /// * If the node is a feature call, with no arguments, an empty argument is inserted.
+        /// </summary>
+        /// <param name="expandedIndex">Index of the expanded node.</param>
+        void Expand(IWriteableBrowsingChildIndex expandedIndex);
     }
 
     public class WriteableController : ReadOnlyController, IWriteableController
@@ -184,7 +193,7 @@ namespace EaslyController.Writeable
         /// <summary>
         /// State table.
         /// </summary>
-        protected new IWriteableIndexNodeStateReadOnlyDictionary StateTable { get { return (IWriteableIndexNodeStateReadOnlyDictionary)base.StateTable; } }
+        public new IWriteableIndexNodeStateReadOnlyDictionary StateTable { get { return (IWriteableIndexNodeStateReadOnlyDictionary)base.StateTable; } }
         #endregion
 
         #region Client Interface
@@ -306,12 +315,8 @@ namespace EaslyController.Writeable
             IWriteableNodeState OldState = StateTable[OldBrowsingIndex];
 
             RemoveState(OldBrowsingIndex);
-            Stats.PlaceholderNodeCount--;
-
             PruneStateTable(OldState);
-
             AddState(NewBrowsingIndex, ChildState);
-            Stats.PlaceholderNodeCount++;
 
             BuildStateTable(inner, null, NewBrowsingIndex, ChildState);
 
@@ -363,14 +368,21 @@ namespace EaslyController.Writeable
         /// <summary>
         /// Assign the optional node.
         /// </summary>
-        /// <param name="inner">The inner where the node is assigned.</param>
-        public virtual void Assign(IWriteableOptionalInner<IWriteableBrowsingOptionalNodeIndex> inner)
+        /// <param name="nodeIndex">Index of the optional node.</param>
+        public virtual void Assign(IWriteableBrowsingOptionalNodeIndex nodeIndex)
         {
-            Debug.Assert(inner != null);
+            Debug.Assert(nodeIndex != null);
+            Debug.Assert(StateTable.ContainsKey(nodeIndex));
 
-            if (!inner.IsAssigned)
+            IWriteableOptionalNodeState State = StateTable[nodeIndex] as IWriteableOptionalNodeState;
+            Debug.Assert(State != null);
+
+            IWriteableOptionalInner<IWriteableBrowsingOptionalNodeIndex> Inner = State.ParentInner as IWriteableOptionalInner<IWriteableBrowsingOptionalNodeIndex>;
+            Debug.Assert(Inner != null);
+
+            if (!Inner.IsAssigned)
             {
-                inner.Assign();
+                Inner.Assign();
                 Stats.AssignedOptionalNodeCount++;
             }
         }
@@ -378,14 +390,21 @@ namespace EaslyController.Writeable
         /// <summary>
         /// Unassign the optional node.
         /// </summary>
-        /// <param name="inner">The inner where the node is unassigned.</param>
-        public virtual void Unassign(IWriteableOptionalInner<IWriteableBrowsingOptionalNodeIndex> inner)
+        /// <param name="nodeIndex">Index of the optional node.</param>
+        public virtual void Unassign(IWriteableBrowsingOptionalNodeIndex nodeIndex)
         {
-            Debug.Assert(inner != null);
+            Debug.Assert(nodeIndex != null);
+            Debug.Assert(StateTable.ContainsKey(nodeIndex));
 
-            if (inner.IsAssigned)
+            IWriteableOptionalNodeState State = StateTable[nodeIndex] as IWriteableOptionalNodeState;
+            Debug.Assert(State != null);
+
+            IWriteableOptionalInner<IWriteableBrowsingOptionalNodeIndex> Inner = State.ParentInner as IWriteableOptionalInner<IWriteableBrowsingOptionalNodeIndex>;
+            Debug.Assert(Inner != null);
+
+            if (Inner.IsAssigned)
             {
-                inner.Unassign();
+                Inner.Unassign();
                 Stats.AssignedOptionalNodeCount--;
             }
         }
@@ -523,6 +542,105 @@ namespace EaslyController.Writeable
 
             inner.MoveBlock(blockIndex, direction);
         }
+
+        /// <summary>
+        /// Expands an existing node. In the node:
+        /// * All optional children are assigned if they aren't
+        /// * If the node is a feature call, with no arguments, an empty argument is inserted.
+        /// </summary>
+        /// <param name="expandedIndex">Index of the expanded node.</param>
+        public virtual void Expand(IWriteableBrowsingChildIndex expandedIndex)
+        {
+            Debug.Assert(expandedIndex != null);
+            Debug.Assert(StateTable.ContainsKey(expandedIndex));
+            Debug.Assert(StateTable[expandedIndex] is IWriteablePlaceholderNodeState);
+
+            IWriteablePlaceholderNodeState State = StateTable[expandedIndex] as IWriteablePlaceholderNodeState;
+            Debug.Assert(State != null);
+
+            IWriteableInnerReadOnlyDictionary<string> InnerTable = State.InnerTable;
+
+            // Expands optional children.
+            foreach (KeyValuePair<string, IWriteableInner<IWriteableBrowsingChildIndex>> Entry in InnerTable)
+            {
+                if (Entry.Value is IWriteableOptionalInner<IWriteableBrowsingOptionalNodeIndex> AsOptionalInner)
+                    ExpandOptional(AsOptionalInner);
+
+                else if (Entry.Value is IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> AsBlockListInner)
+                    ExpandBlockList(AsBlockListInner);
+            }
+        }
+
+        /// <summary>
+        /// Expands the optional node.
+        /// * If assigned, does nothing.
+        /// * If it has an item, assign it.
+        /// * Otherwise, assign the item to a default node.
+        /// </summary>
+        protected virtual void ExpandOptional(IWriteableOptionalInner<IWriteableBrowsingOptionalNodeIndex> optionalInner)
+        {
+            if (optionalInner.IsAssigned)
+                return;
+
+            if (optionalInner.ChildState.ParentIndex.Optional.HasItem)
+            {
+                optionalInner.Assign();
+                return;
+            }
+
+            INode NewNode = NodeHelper.CreateDefaultFromInterface(optionalInner.InterfaceType);
+            Debug.Assert(NewNode != null);
+
+            IWriteableInsertionOptionalNodeIndex NewOptionalNodeIndex = CreateNewOptionalNodeIndex(optionalInner.Owner.Node, optionalInner.PropertyName, NewNode);
+            optionalInner.Replace(NewOptionalNodeIndex, out IWriteableBrowsingChildIndex OldBrowsingIndex, out IWriteableBrowsingChildIndex NewBrowsingIndex, out IWriteableNodeState ChildState);
+
+            Debug.Assert(Contains(OldBrowsingIndex));
+            IWriteableNodeState OldState = StateTable[OldBrowsingIndex];
+
+            RemoveState(OldBrowsingIndex); // No need to call PruneStateTable
+            AddState(NewBrowsingIndex, ChildState);
+            Stats.AssignedOptionalNodeCount++;
+
+            BuildStateTable(optionalInner, null, NewBrowsingIndex, ChildState);
+        }
+
+        /// <summary>
+        /// Expands the block list.
+        /// * Only expand block list of arguments
+        /// * Only expand if the list is empty. In that case, add a single default argument.
+        /// </summary>
+        protected virtual void ExpandBlockList(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> blockListInner)
+        {
+            if (!(blockListInner.InterfaceType == typeof(IArgument)))
+                return;
+
+            if (!blockListInner.IsEmpty)
+                return;
+
+            IArgument NewArgument = NodeHelper.CreateDefaultArgument();
+            IPattern NewPattern = NodeHelper.CreateEmptyPattern();
+            IIdentifier NewSource = NodeHelper.CreateEmptyIdentifier();
+            IWriteableInsertionNewBlockNodeIndex NewBlockNodeIndex = CreateNewBlockNodeIndex(blockListInner.Owner.Node, blockListInner.PropertyName, NewArgument, 0, NewPattern, NewSource);
+
+            blockListInner.InsertNew(NewBlockNodeIndex, out IWriteableBrowsingCollectionNodeIndex ArgumentNodeIndex, out IWriteableBlockState BlockState, out IWriteablePlaceholderNodeState ArgumentChildState);
+            Debug.Assert(BlockState.StateList.Count == 1);
+            Debug.Assert(BlockState.StateList[0] == ArgumentChildState);
+            BlockState.InitBlockState();
+
+            IReadOnlyBrowsingPatternIndex PatternIndex = BlockState.PatternIndex;
+            IReadOnlyPatternState PatternState = BlockState.PatternState;
+            AddState(PatternIndex, PatternState);
+            Stats.PlaceholderNodeCount++;
+
+            IReadOnlyBrowsingSourceIndex SourceIndex = BlockState.SourceIndex;
+            IReadOnlySourceState SourceState = BlockState.SourceState;
+            AddState(SourceIndex, SourceState);
+            Stats.PlaceholderNodeCount++;
+
+            AddState(ArgumentNodeIndex, ArgumentChildState);
+            Stats.PlaceholderNodeCount++;
+            BuildStateTable(blockListInner, null, ArgumentNodeIndex, ArgumentChildState);
+        }
         #endregion
 
         #region Create Methods
@@ -623,6 +741,24 @@ namespace EaslyController.Writeable
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableController));
             return new WriteablePlaceholderNodeState((IWriteableRootNodeIndex)nodeIndex);
+        }
+
+        /// <summary>
+        /// Creates a IxxxInsertionNewBlockNodeIndex object.
+        /// </summary>
+        protected virtual IWriteableInsertionNewBlockNodeIndex CreateNewBlockNodeIndex(INode parentNode, string propertyName, INode node, int blockIndex, IPattern patternNode, IIdentifier sourceNode)
+        {
+            ControllerTools.AssertNoOverride(this, typeof(WriteableController));
+            return new WriteableInsertionNewBlockNodeIndex(parentNode, propertyName, node, 0, patternNode, sourceNode);
+        }
+
+        /// <summary>
+        /// Creates a IxxxWriteableInsertionOptionalNodeIndex object.
+        /// </summary>
+        protected virtual IWriteableInsertionOptionalNodeIndex CreateNewOptionalNodeIndex(INode parentNode, string propertyName, INode node)
+        {
+            ControllerTools.AssertNoOverride(this, typeof(WriteableController));
+            return new WriteableInsertionOptionalNodeIndex(parentNode, propertyName, node);
         }
         #endregion
     }

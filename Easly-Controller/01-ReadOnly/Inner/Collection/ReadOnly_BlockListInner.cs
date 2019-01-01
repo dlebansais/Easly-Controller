@@ -21,6 +21,16 @@ namespace EaslyController.ReadOnly
         IReadOnlyBlockStateReadOnlyList BlockStateList { get; }
 
         /// <summary>
+        /// Checks if the inner has no blocks.
+        /// </summary>
+        bool IsEmpty { get; }
+
+        /// <summary>
+        /// Checks if the inner has only ont child node.
+        /// </summary>
+        bool IsSingle { get; }
+
+        /// <summary>
         /// Called when a block state is created.
         /// </summary>
         event Action<IReadOnlyBlockState> BlockStateCreated;
@@ -54,6 +64,16 @@ namespace EaslyController.ReadOnly
         /// States of blocks in the block list.
         /// </summary>
         IReadOnlyBlockStateReadOnlyList BlockStateList { get; }
+
+        /// <summary>
+        /// Checks if the inner has no blocks.
+        /// </summary>
+        bool IsEmpty { get; }
+
+        /// <summary>
+        /// Checks if the inner has only ont child node.
+        /// </summary>
+        bool IsSingle { get; }
 
         /// <summary>
         /// Called when a block state is created.
@@ -173,6 +193,16 @@ namespace EaslyController.ReadOnly
         #endregion
 
         #region Properties
+        /// <summary>
+        /// Checks if the inner has no blocks.
+        /// </summary>
+        public bool IsEmpty { get { return BlockStateList.Count == 0; } }
+
+        /// <summary>
+        /// Checks if the inner has only ont child node.
+        /// </summary>
+        public bool IsSingle { get { return BlockStateList.Count == 1 && BlockStateList[0].StateList.Count == 1; } }
+
         /// <summary>
         /// Interface type for all nodes in the inner.
         /// </summary>
