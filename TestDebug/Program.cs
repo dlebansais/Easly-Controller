@@ -357,8 +357,6 @@ namespace TestDebug
             IWriteableRootNodeIndex NewRootIndex = new WriteableRootNodeIndex(Controller.RootIndex.Node);
             IWriteableController NewController = WriteableController.Create(NewRootIndex);
             Debug.Assert(NewController.IsEqual(CompareEqual.New(), Controller));
-
-            IDictionary<Type, string> NodeDictionary = NodeHelper.CreateNodeDictionary<string>();
         }
         #endregion
 
@@ -578,8 +576,6 @@ namespace TestDebug
             IFrameRootNodeIndex NewRootIndex = new FrameRootNodeIndex(Controller.RootIndex.Node);
             IFrameController NewController = FrameController.Create(NewRootIndex);
             Debug.Assert(NewController.IsEqual(CompareEqual.New(), Controller));
-
-            IDictionary<Type, string> NodeDictionary = NodeHelper.CreateNodeDictionary<string>();
         }
         #endregion
     }

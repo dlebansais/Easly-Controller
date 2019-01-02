@@ -14,30 +14,36 @@ namespace EaslyController.Frame
         /// <summary>
         /// Templates for nodes by their type.
         /// </summary>
-        IFrameTemplateReadOnlyDictionary TemplateTable { get; }
+        IFrameTemplateReadOnlyDictionary NodeTemplateTable { get; }
 
         /// <summary>
         /// Templates for blocks of nodes.
         /// </summary>
-        IFrameTemplateReadOnlyDictionary BlockListTemplateTable { get; }
+        IFrameTemplateReadOnlyDictionary BlockTemplateTable { get; }
 
         /// <summary>
         /// Checks that templates are valid for nodes.
         /// </summary>
-        /// <param name="templateTable">Table of templates.</param>
-        bool IsValid(IFrameTemplateReadOnlyDictionary templateTable);
+        /// <param name="nodeTemplateTable">Table of templates.</param>
+        bool IsValid(IFrameTemplateReadOnlyDictionary nodeTemplateTable);
 
         /// <summary>
         /// Checks that templates are valid for blocks.
         /// </summary>
-        /// <param name="templateTable">Table of templates.</param>
-        bool IsBlockValid(IFrameTemplateReadOnlyDictionary templateTable);
+        /// <param name="blockTemplateTable">Table of templates.</param>
+        bool IsBlockValid(IFrameTemplateReadOnlyDictionary blockTemplateTable);
 
         /// <summary>
         /// Template that will be used to describe the given node.
         /// </summary>
-        /// <param name="nodeIndex">Index of the node.</param>
-        IFrameTemplate IndexToTemplate(IFrameNodeIndex nodeIndex);
+        /// <param name="nodeType">Type of the node for which a template is requested.</param>
+        IFrameTemplate NodeTypeToTemplate(Type nodeType);
+
+        /// <summary>
+        /// Template that will be used to describe the given block.
+        /// </summary>
+        /// <param name="blockType">Type of the block for which a template is requested.</param>
+        IFrameTemplate BlockTypeToTemplate(Type blockType);
     }
 
     /// <summary>
@@ -59,15 +65,15 @@ namespace EaslyController.Frame
         /// <summary>
         /// Initializes a new instance of <see cref="FrameTemplateSet"/>.
         /// </summary>
-        /// <param name="templateTable">Templates for nodes by their type.</param>
-        /// <param name="blockListTemplateTable">Templates for blocks of nodes.</param>
-        public FrameTemplateSet(IFrameTemplateReadOnlyDictionary templateTable, IFrameTemplateReadOnlyDictionary blockListTemplateTable)
+        /// <param name="nodeTemplateTable">Templates for nodes by their type.</param>
+        /// <param name="blockTemplateTable">Templates for blocks of nodes.</param>
+        public FrameTemplateSet(IFrameTemplateReadOnlyDictionary nodeTemplateTable, IFrameTemplateReadOnlyDictionary blockTemplateTable)
         {
-            Debug.Assert(templateTable != null && IsValid(templateTable));
-            Debug.Assert(blockListTemplateTable != null && IsBlockValid(blockListTemplateTable));
+            Debug.Assert(nodeTemplateTable != null && IsValid(nodeTemplateTable));
+            Debug.Assert(blockTemplateTable != null && IsBlockValid(blockTemplateTable));
 
-            TemplateTable = templateTable;
-            BlockListTemplateTable = blockListTemplateTable;
+            NodeTemplateTable = nodeTemplateTable;
+            BlockTemplateTable = blockTemplateTable;
         }
         #endregion
 
@@ -75,24 +81,24 @@ namespace EaslyController.Frame
         /// <summary>
         /// Templates for nodes by their type.
         /// </summary>
-        public IFrameTemplateReadOnlyDictionary TemplateTable { get; }
+        public IFrameTemplateReadOnlyDictionary NodeTemplateTable { get; }
 
         /// <summary>
         /// Templates for blocks of nodes.
         /// </summary>
-        public IFrameTemplateReadOnlyDictionary BlockListTemplateTable { get; }
+        public IFrameTemplateReadOnlyDictionary BlockTemplateTable { get; }
         #endregion
 
         #region Client Interface
         /// <summary>
         /// Checks that templates are valid for nodes.
         /// </summary>
-        /// <param name="templateTable">Table of templates.</param>
-        public virtual bool IsValid(IFrameTemplateReadOnlyDictionary templateTable)
+        /// <param name="nodeTemplateTable">Table of templates.</param>
+        public virtual bool IsValid(IFrameTemplateReadOnlyDictionary nodeTemplateTable)
         {
-            Debug.Assert(templateTable != null);
+            Debug.Assert(nodeTemplateTable != null);
 
-            foreach (KeyValuePair<Type, IFrameTemplate> Entry in templateTable)
+            foreach (KeyValuePair<Type, IFrameTemplate> Entry in nodeTemplateTable)
             {
                 Type NodeType = Entry.Key;
                 IFrameTemplate Template = Entry.Value;
@@ -110,12 +116,12 @@ namespace EaslyController.Frame
         /// <summary>
         /// Checks that templates are valid for blocks.
         /// </summary>
-        /// <param name="templateTable">Table of templates.</param>
-        public virtual bool IsBlockValid(IFrameTemplateReadOnlyDictionary templateTable)
+        /// <param name="nodeTemplateTable">Table of templates.</param>
+        public virtual bool IsBlockValid(IFrameTemplateReadOnlyDictionary blockTemplateTable)
         {
-            Debug.Assert(templateTable != null);
+            Debug.Assert(blockTemplateTable != null);
 
-            foreach (KeyValuePair<Type, IFrameTemplate> Entry in templateTable)
+            foreach (KeyValuePair<Type, IFrameTemplate> Entry in blockTemplateTable)
             {
                 Type NodeType = Entry.Key;
                 IFrameTemplate Template = Entry.Value;
@@ -136,15 +142,25 @@ namespace EaslyController.Frame
         /// <summary>
         /// Template that will be used to describe the given node.
         /// </summary>
-        /// <param name="nodeIndex">Index of the node.</param>
-        public virtual IFrameTemplate IndexToTemplate(IFrameNodeIndex nodeIndex)
+        /// <param name="nodeType">Type of the node for which a template is requested.</param>
+        public virtual IFrameTemplate NodeTypeToTemplate(Type nodeType)
         {
-            Debug.Assert(nodeIndex != null);
+            Debug.Assert(nodeType != null);
+            Debug.Assert(NodeTemplateTable.ContainsKey(nodeType));
 
-            Type NodeType = nodeIndex.Node.GetType();
-            Debug.Assert(TemplateTable.ContainsKey(NodeType));
+            return NodeTemplateTable[nodeType];
+        }
 
-            return TemplateTable[NodeType];
+        /// <summary>
+        /// Template that will be used to describe the given block.
+        /// </summary>
+        /// <param name="blockType">Type of the block for which a template is requested.</param>
+        public virtual IFrameTemplate BlockTypeToTemplate(Type blockType)
+        {
+            Debug.Assert(blockType != null);
+            Debug.Assert(BlockTemplateTable.ContainsKey(blockType));
+
+            return BlockTemplateTable[blockType];
         }
         #endregion
 
@@ -154,14 +170,14 @@ namespace EaslyController.Frame
             if (_Default != null)
                 return _Default;
 
-            IFrameTemplateReadOnlyDictionary DefaultTemplateTable = BuildDefaultTemplateTable();
-            IFrameTemplateReadOnlyDictionary DefaultBlockListTemplateTable = BuildDefaultBlockListTemplate();
-            _Default = CreateDefaultTemplateSet(DefaultTemplateTable, DefaultBlockListTemplateTable);
+            IFrameTemplateReadOnlyDictionary DefaultNodeTemplateTable = BuildDefaultNodeTemplateTable();
+            IFrameTemplateReadOnlyDictionary DefaultBlockTemplateTable = BuildDefaultBlockListTemplate();
+            _Default = CreateDefaultTemplateSet(DefaultNodeTemplateTable, DefaultBlockTemplateTable);
 
             return _Default;
         }
 
-        protected virtual IFrameTemplateReadOnlyDictionary BuildDefaultTemplateTable()
+        protected virtual IFrameTemplateReadOnlyDictionary BuildDefaultNodeTemplateTable()
         {
             IFrameTemplateDictionary DefaultDictionary = CreateTemplateDictionary(NodeHelper.CreateNodeDictionary<IFrameTemplate>());
 
@@ -227,15 +243,21 @@ namespace EaslyController.Frame
                     NewFrame.PropertyName = PropertyName;
                     RootFrame.Items.Add(NewFrame);
                 }
+
+            if (RootFrame.Items.Count == 0)
+            {
+                Type t = typeof(IBody);
+                object o = t.GetProperty("RequireBlocks");
+            }
         }
 
         protected virtual IFrameTemplateReadOnlyDictionary BuildDefaultBlockListTemplate()
         {
             List<Type> Keys = new List<Type>(NodeHelper.CreateNodeDictionary<object>().Keys);
 
-            IFrameTemplateDictionary DefaultBlockDictionary = CreateTemplateDictionary(new Dictionary<Type, IFrameTemplate>());
+            IFrameTemplateDictionary DefaultDictionary = CreateTemplateDictionary(new Dictionary<Type, IFrameTemplate>());
             foreach (Type Key in Keys)
-                AddBlockNodeTypes(DefaultBlockDictionary, Key);
+                AddBlockNodeTypes(DefaultDictionary, Key);
 
             IFramePlaceholderFrame PatternFrame = CreatePlaceholderFrame();
             PatternFrame.PropertyName = nameof(IBlock.ReplicationPattern);
@@ -254,11 +276,11 @@ namespace EaslyController.Frame
             DefaultBlockListTemplate.NodeName = typeof(IBlockList).Name;
             DefaultBlockListTemplate.Root = RootFrame;
 
-            List<Type> BlockKeys = new List<Type>(DefaultBlockDictionary.Keys);
+            List<Type> BlockKeys = new List<Type>(DefaultDictionary.Keys);
             foreach (Type Key in BlockKeys)
-                DefaultBlockDictionary[Key] = DefaultBlockListTemplate;
+                DefaultDictionary[Key] = DefaultBlockListTemplate;
 
-            return CreateTemplateReadOnlyDictionary(DefaultBlockDictionary);
+            return CreateTemplateReadOnlyDictionary(DefaultDictionary);
         }
 
         protected virtual void AddBlockNodeTypes(IFrameTemplateDictionary dictionary, Type nodeType)
@@ -369,10 +391,10 @@ namespace EaslyController.Frame
         /// <summary>
         /// Creates a IxxxTemplateSet object.
         /// </summary>
-        protected virtual IFrameTemplateSet CreateDefaultTemplateSet(IFrameTemplateReadOnlyDictionary templateTable, IFrameTemplateReadOnlyDictionary blockListTemplateTable)
+        protected virtual IFrameTemplateSet CreateDefaultTemplateSet(IFrameTemplateReadOnlyDictionary nodeTemplateTable, IFrameTemplateReadOnlyDictionary blockTemplateTable)
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameTemplateSet));
-            return new FrameTemplateSet(templateTable, blockListTemplateTable);
+            return new FrameTemplateSet(nodeTemplateTable, blockTemplateTable);
         }
         #endregion
     }

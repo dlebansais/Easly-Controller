@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BaseNodeHelper;
+using System;
 
 namespace EaslyController.Frame
 {
@@ -37,7 +38,7 @@ namespace EaslyController.Frame
             if (!base.IsValid(nodeType))
                 return false;
 
-            if (string.IsNullOrEmpty(PropertyName) || nodeType.GetProperty(PropertyName) == null)
+            if (string.IsNullOrEmpty(PropertyName) || NodeTreeHelper.GetPropertyOf(nodeType, PropertyName) == null)
                 return false;
 
             return true;

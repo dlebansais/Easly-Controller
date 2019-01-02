@@ -16,7 +16,7 @@ namespace EaslyController.ReadOnly
     /// <summary>
     /// View of a node state.
     /// </summary>
-    public class ReadOnlyNodeStateView : IReadOnlyNodeStateView
+    public abstract class ReadOnlyNodeStateView : IReadOnlyNodeStateView
     {
         #region Init
         /// <summary>

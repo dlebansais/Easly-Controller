@@ -19,7 +19,7 @@ namespace EaslyController.Frame
         /// <summary>
         /// Inner containing this state.
         /// </summary>
-        new IFramePlaceholderInner<IFrameBrowsingPlaceholderNodeIndex> ParentInner { get; }
+        new IFrameInner<IFrameBrowsingChildIndex> ParentInner { get; }
     }
 
     /// <summary>
@@ -48,8 +48,7 @@ namespace EaslyController.Frame
         /// <summary>
         /// Inner containing this state.
         /// </summary>
-        public new IFramePlaceholderInner<IFrameBrowsingPlaceholderNodeIndex> ParentInner { get { return (IFramePlaceholderInner<IFrameBrowsingPlaceholderNodeIndex>)base.ParentInner; } }
-        IFrameInner<IFrameBrowsingChildIndex> IFrameNodeState.ParentInner { get { return ParentInner; } }
+        public new IFrameInner<IFrameBrowsingChildIndex> ParentInner { get { return (IFrameInner<IFrameBrowsingChildIndex>)base.ParentInner; } }
 
         /// <summary>
         /// State of the parent.

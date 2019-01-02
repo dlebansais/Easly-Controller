@@ -1,4 +1,7 @@
-﻿using EaslyController.Writeable;
+﻿using BaseNode;
+using EaslyController.Writeable;
+using System;
+using System.Diagnostics;
 
 namespace EaslyController.Frame
 {
@@ -23,9 +26,15 @@ namespace EaslyController.Frame
         /// Initializes a new instance of the <see cref="FramePatternStateView"/> class.
         /// </summary>
         /// <param name="state">The pattern state.</param>
-        public FramePatternStateView(IFramePatternState state)
+        /// <param name="templateSet">The template set used to display the state.</param>
+        public FramePatternStateView(IFramePatternState state, IFrameTemplateSet templateSet)
             : base(state)
         {
+            Debug.Assert(templateSet != null);
+            Debug.Assert(state.ParentInner != null);
+
+            Type NodeType = typeof(IPattern);
+            Template = templateSet.NodeTypeToTemplate(NodeType);
         }
         #endregion
 
@@ -36,6 +45,19 @@ namespace EaslyController.Frame
         public new IFramePatternState State { get { return (IFramePatternState)base.State; } }
         IFrameNodeState IFrameNodeStateView.State { get { return State; } }
         IFramePlaceholderNodeState IFramePlaceholderNodeStateView.State { get { return State; } }
+
+        /// <summary>
+        /// The template used to display the state.
+        /// </summary>
+        public IFrameTemplate Template { get; }
+        #endregion
+
+        #region Client Interface
+        public virtual void RecalculateLineNumbers(IFrameController controller, ref int lineNumber, ref int columnNumber)
+        {
+            IFrameCellView RootCellView = null;
+            RootCellView.RecalculateLineNumbers(controller, ref lineNumber, ref columnNumber);
+        }
         #endregion
     }
 }

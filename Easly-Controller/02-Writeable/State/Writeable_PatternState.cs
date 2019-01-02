@@ -54,8 +54,7 @@ namespace EaslyController.Writeable
         /// <summary>
         /// Inner containing this state.
         /// </summary>
-        public new IWriteablePlaceholderInner<IWriteableBrowsingPlaceholderNodeIndex> ParentInner { get { return (IWriteablePlaceholderInner<IWriteableBrowsingPlaceholderNodeIndex>)base.ParentInner; } }
-        IWriteableInner<IWriteableBrowsingChildIndex> IWriteableNodeState.ParentInner { get { return ParentInner; } }
+        public new IWriteableInner<IWriteableBrowsingChildIndex> ParentInner { get { return (IWriteableInner<IWriteableBrowsingChildIndex>)base.ParentInner; } }
 
         /// <summary>
         /// State of the parent.

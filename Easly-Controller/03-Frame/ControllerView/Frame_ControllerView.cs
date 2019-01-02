@@ -123,7 +123,7 @@ namespace EaslyController.Frame
         protected override IReadOnlyPlaceholderNodeStateView CreatePlaceholderNodeStateView(IReadOnlyPlaceholderNodeState state)
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameControllerView));
-            return new FramePlaceholderNodeStateView((IFramePlaceholderNodeState)state);
+            return new FramePlaceholderNodeStateView((IFramePlaceholderNodeState)state, TemplateSet);
         }
 
         /// <summary>
@@ -132,7 +132,7 @@ namespace EaslyController.Frame
         protected override IReadOnlyOptionalNodeStateView CreateOptionalNodeStateView(IReadOnlyOptionalNodeState state)
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameControllerView));
-            return new FrameOptionalNodeStateView((IFrameOptionalNodeState)state);
+            return new FrameOptionalNodeStateView((IFrameOptionalNodeState)state, TemplateSet);
         }
 
         /// <summary>
@@ -141,7 +141,7 @@ namespace EaslyController.Frame
         protected override IReadOnlyPatternStateView CreatePatternStateView(IReadOnlyPatternState state)
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameControllerView));
-            return new FramePatternStateView((IFramePatternState)state);
+            return new FramePatternStateView((IFramePatternState)state, TemplateSet);
         }
 
         /// <summary>
@@ -150,7 +150,7 @@ namespace EaslyController.Frame
         protected override IReadOnlySourceStateView CreateSourceStateView(IReadOnlySourceState state)
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameControllerView));
-            return new FrameSourceStateView((IFrameSourceState)state);
+            return new FrameSourceStateView((IFrameSourceState)state, TemplateSet);
         }
         #endregion
     }
