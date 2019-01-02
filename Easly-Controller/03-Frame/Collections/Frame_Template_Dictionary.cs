@@ -23,18 +23,5 @@ namespace EaslyController.Frame
             : base(dictionary)
         {
         }
-
-        #region Implementation
-        public virtual void UpdateParentFrame()
-        {
-            foreach (KeyValuePair<Type, IFrameTemplate> Entry in this)
-                UpdateParentFrame(Entry.Value);
-        }
-
-        protected virtual void UpdateParentFrame(IFrameTemplate template)
-        {
-            template.Root.UpdateParentFrame(null);
-        }
-        #endregion
     }
 }

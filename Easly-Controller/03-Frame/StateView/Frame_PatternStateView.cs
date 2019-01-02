@@ -50,6 +50,11 @@ namespace EaslyController.Frame
         /// The template used to display the state.
         /// </summary>
         public IFrameTemplate Template { get; }
+
+        /// <summary>
+        /// Root cell for the view.
+        /// </summary>
+        public IFrameCellView RootCellView { get; }
         #endregion
 
         #region Client Interface

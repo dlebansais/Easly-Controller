@@ -17,6 +17,11 @@ namespace EaslyController.Frame
         /// </summary>
         IFrameTemplate Template { get; }
 
+        /// <summary>
+        /// Root cell for the view.
+        /// </summary>
+        IFrameCellView RootCellView { get; }
+
         void RecalculateLineNumbers(IFrameController controller, ref int lineNumber, ref int columnNumber);
     }
 
@@ -47,6 +52,11 @@ namespace EaslyController.Frame
         /// The template used to display the state.
         /// </summary>
         public abstract IFrameTemplate Template { get; }
+
+        /// <summary>
+        /// Root cell for the view.
+        /// </summary>
+        public abstract IFrameCellView RootCellView { get; }
         #endregion
 
         #region Client Interface

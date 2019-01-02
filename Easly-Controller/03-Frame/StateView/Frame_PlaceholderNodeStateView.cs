@@ -1,4 +1,5 @@
 ﻿using BaseNodeHelper;
+using EaslyController.ReadOnly;
 using EaslyController.Writeable;
 using System;
 using System.Diagnostics;
@@ -42,6 +43,17 @@ namespace EaslyController.Frame
 
             Template = templateSet.NodeTypeToTemplate(InterfaceType);
         }
+
+        /// <summary>
+        /// Called after the node state is initialized.
+        /// </summary>
+        /// <param name="controllerView">The view in which the state is initialized.</param>
+        public override void Initialize(IReadOnlyControllerView controllerView)
+        {
+            base.Initialize(controllerView);
+
+            RootCellView = Template.BuildCells((IFrameControllerView)controllerView, this);
+        }
         #endregion
 
         #region Properties
@@ -55,6 +67,11 @@ namespace EaslyController.Frame
         /// The template used to display the state.
         /// </summary>
         public IFrameTemplate Template { get; }
+
+        /// <summary>
+        /// Root cell for the view.
+        /// </summary>
+        public IFrameCellView RootCellView { get; private set; }
         #endregion
 
         #region Client Interface

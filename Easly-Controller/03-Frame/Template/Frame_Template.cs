@@ -21,6 +21,13 @@
         /// Checks that a template and all its frames are valid.
         /// </summary>
         bool IsValid { get; }
+
+        /// <summary>
+        /// Create cells for the provided state view.
+        /// </summary>
+        /// <param name="controllerView">The view in cells are created.</param>
+        /// <param name="stateView">The state view for which to create cells.</param>
+        IFrameCellView BuildCells(IFrameControllerView controllerView, IFrameNodeStateView stateView);
     }
 
     /// <summary>
@@ -54,12 +61,27 @@
                 if (Root == null)
                     return false;
 
+                if (Root.ParentFrame == null)
+                    return false;
+
                 return true;
             }
         }
         #endregion
 
-        #region Ancestor Interface
+        #region Client Interface
+        /// <summary>
+        /// Create cells for the provided state view.
+        /// </summary>
+        /// <param name="controllerView">The view in cells are created.</param>
+        /// <param name="stateView">The state view for which to create cells.</param>
+        public virtual IFrameCellView BuildCells(IFrameControllerView controllerView, IFrameNodeStateView stateView)
+        {
+            return Root.BuildCells(controllerView, stateView);
+        }
+        #endregion
+
+        #region Debugging
         public override string ToString()
         {
             return "Template {" + NodeName + "}";

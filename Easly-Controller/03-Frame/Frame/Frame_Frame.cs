@@ -24,6 +24,13 @@ namespace EaslyController.Frame
         /// </summary>
         /// <param name="parentFrame">The parent frame.</param>
         void UpdateParentFrame(IFrameFrame parentFrame);
+
+        /// <summary>
+        /// Create cells for the provided state view.
+        /// </summary>
+        /// <param name="controllerView">The view in cells are created.</param>
+        /// <param name="stateView">The state view for which to create cells.</param>
+        IFrameCellView BuildCells(IFrameControllerView controllerView, IFrameNodeStateView stateView);
     }
 
     /// <summary>
@@ -31,6 +38,17 @@ namespace EaslyController.Frame
     /// </summary>
     public abstract class FrameFrame : IFrameFrame
     {
+        #region Init
+        private class FrameRootFrame : IFrameFrame
+        {
+            public IFrameFrame ParentFrame { get { throw new InvalidOperationException(); } }
+            public bool IsValid(Type nodeType) { return false; }
+            public void UpdateParentFrame(IFrameFrame parentFrame) { throw new InvalidOperationException(); }
+        }
+
+        public static IFrameFrame Root = new FrameRootFrame();
+        #endregion
+
         #region Properties
         /// <summary>
         /// Parent frame, or null for the root frame in a template.
@@ -55,6 +73,13 @@ namespace EaslyController.Frame
 
             ParentFrame = parentFrame;
         }
+
+        /// <summary>
+        /// Create cells for the provided state view.
+        /// </summary>
+        /// <param name="controllerView">The view in cells are created.</param>
+        /// <param name="stateView">The state view for which to create cells.</param>
+        public abstract IFrameCellView BuildCells(IFrameControllerView controllerView, IFrameNodeStateView stateView);
         #endregion
 
         #region Debugging

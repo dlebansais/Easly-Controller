@@ -244,11 +244,7 @@ namespace EaslyController.Frame
                     RootFrame.Items.Add(NewFrame);
                 }
 
-            if (RootFrame.Items.Count == 0)
-            {
-                Type t = typeof(IBody);
-                object o = t.GetProperty("RequireBlocks");
-            }
+            RootFrame.UpdateParentFrame(FrameFrame.Root);
         }
 
         protected virtual IFrameTemplateReadOnlyDictionary BuildDefaultBlockListTemplate()
@@ -271,6 +267,8 @@ namespace EaslyController.Frame
             RootFrame.Items.Add(PatternFrame);
             RootFrame.Items.Add(SourceFrame);
             RootFrame.Items.Add(CollectionPlaceholderFrame);
+
+            RootFrame.UpdateParentFrame(FrameFrame.Root);
 
             IFrameTemplate DefaultBlockListTemplate = CreateTemplate();
             DefaultBlockListTemplate.NodeName = typeof(IBlockList).Name;

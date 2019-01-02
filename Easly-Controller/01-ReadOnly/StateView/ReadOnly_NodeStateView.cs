@@ -11,6 +11,12 @@ namespace EaslyController.ReadOnly
         /// The node state.
         /// </summary>
         IReadOnlyNodeState State { get; }
+
+        /// <summary>
+        /// Called after the node state is initialized.
+        /// </summary>
+        /// <param name="controllerView">The view in which the state is initialized.</param>
+        void Initialize(IReadOnlyControllerView controllerView);
     }
 
     /// <summary>
@@ -28,6 +34,15 @@ namespace EaslyController.ReadOnly
             Debug.Assert(state != null);
 
             State = state;
+        }
+
+        /// <summary>
+        /// Called after the node state is initialized.
+        /// </summary>
+        /// <param name="controllerView">The view in which the state is initialized.</param>
+        public virtual void Initialize(IReadOnlyControllerView controllerView)
+        {
+            Debug.Assert(controllerView != null);
         }
         #endregion
 

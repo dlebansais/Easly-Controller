@@ -120,6 +120,9 @@ namespace EaslyController.ReadOnly
         {
             Debug.Assert(state != null);
             Debug.Assert(StateViewTable.ContainsKey(state));
+
+            IReadOnlyNodeStateView StateView = StateViewTable[state];
+            StateView.Initialize();
         }
 
         /// <summary>
