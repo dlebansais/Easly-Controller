@@ -19,11 +19,6 @@ namespace EaslyController.Frame
         new IFramePlaceholderNodeState RootState { get; }
 
         /// <summary>
-        /// Template set describing the node tree.
-        /// </summary>
-        IFrameTemplateSet TemplateSet { get; }
-
-        /// <summary>
         /// Called when a state is created.
         /// </summary>
         new event Action<IFrameNodeState> StateCreated;
@@ -46,11 +41,10 @@ namespace EaslyController.Frame
         /// Creates and initializes a new instance of a <see cref="FrameController"/> object.
         /// </summary>
         /// <param name="nodeIndex">Index of the root of the node tree.</param>
-        public static IFrameController Create(IFrameRootNodeIndex nodeIndex, IFrameTemplateSet templateSet)
+        public static IFrameController Create(IFrameRootNodeIndex nodeIndex)
         {
             FrameController Controller = new FrameController();
             Controller.SetRoot(nodeIndex);
-            Controller.SetTemplateSet(templateSet);
             return Controller;
         }
 
@@ -72,11 +66,6 @@ namespace EaslyController.Frame
         /// State of the root node.
         /// </summary>
         public new IFramePlaceholderNodeState RootState { get { return (IFramePlaceholderNodeState)base.RootState; } }
-
-        /// <summary>
-        /// Template set describing the node tree.
-        /// </summary>
-        public IFrameTemplateSet TemplateSet { get; private set; }
 
         /// <summary>
         /// Called when a state is created.
@@ -109,15 +98,6 @@ namespace EaslyController.Frame
         /// State table.
         /// </summary>
         protected new IFrameIndexNodeStateReadOnlyDictionary StateTable { get { return (IFrameIndexNodeStateReadOnlyDictionary)base.StateTable; } }
-        #endregion
-
-        #region Implementation
-        protected virtual void SetTemplateSet(IFrameTemplateSet templateSet)
-        {
-            Debug.Assert(templateSet != null);
-
-            TemplateSet = templateSet;
-        }
         #endregion
 
         #region Create Methods

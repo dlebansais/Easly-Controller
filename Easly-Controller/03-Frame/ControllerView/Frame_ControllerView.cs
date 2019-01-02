@@ -18,6 +18,11 @@ namespace EaslyController.Frame
         /// Table of views of each state in the controller.
         /// </summary>
         new IFrameStateViewDictionary StateViewTable { get; }
+
+        /// <summary>
+        /// Template set describing the node tree.
+        /// </summary>
+        IFrameTemplateSet TemplateSet { get; }
     }
 
     /// <summary>
@@ -30,9 +35,10 @@ namespace EaslyController.Frame
         /// Creates and initializes a new instance of a <see cref="FrameControllerView"/> object.
         /// </summary>
         /// <param name="controller">The controller on which the view is attached.</param>
-        public static IFrameControllerView Create(IFrameController controller)
+        /// <param name="templateSet">The template set used to describe the view.</param>
+        public static IFrameControllerView Create(IFrameController controller, IFrameTemplateSet templateSet)
         {
-            FrameControllerView View = new FrameControllerView(controller);
+            FrameControllerView View = new FrameControllerView(controller, templateSet);
             View.Init();
             return View;
         }
@@ -41,9 +47,12 @@ namespace EaslyController.Frame
         /// Initializes a new instance of a <see cref="FrameControllerView"/> object.
         /// </summary>
         /// <param name="controller">The controller on which the view is attached.</param>
-        protected FrameControllerView(IFrameController controller)
+        protected FrameControllerView(IFrameController controller, IFrameTemplateSet templateSet)
             : base(controller)
         {
+            Debug.Assert(templateSet != null);
+
+            TemplateSet = templateSet;
         }
         #endregion
 
@@ -57,6 +66,11 @@ namespace EaslyController.Frame
         /// Table of views of each state in the controller.
         /// </summary>
         public new IFrameStateViewDictionary StateViewTable { get { return (IFrameStateViewDictionary)base.StateViewTable; } }
+
+        /// <summary>
+        /// Template set describing the node tree.
+        /// </summary>
+        public IFrameTemplateSet TemplateSet { get; private set; }
         #endregion
 
         #region Debugging
