@@ -1,9 +1,15 @@
 ﻿namespace EaslyController.Frame
 {
+    /// <summary>
+    /// Frame for displaying more frames vertically.
+    /// </summary>
     public interface IFrameVerticalPanelFrame : IFramePanelFrame
     {
     }
 
+    /// <summary>
+    /// Frame for displaying more frames vertically.
+    /// </summary>
     public class FrameVerticalPanelFrame : FramePanelFrame, IFrameVerticalPanelFrame
     {
     }

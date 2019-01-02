@@ -47,6 +47,7 @@ namespace EaslyController.Frame
         /// Initializes a new instance of a <see cref="FrameControllerView"/> object.
         /// </summary>
         /// <param name="controller">The controller on which the view is attached.</param>
+        /// <param name="templateSet">The template set used to describe the view.</param>
         protected FrameControllerView(IFrameController controller, IFrameTemplateSet templateSet)
             : base(controller)
         {

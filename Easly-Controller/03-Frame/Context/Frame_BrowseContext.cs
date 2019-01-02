@@ -5,7 +5,14 @@ namespace EaslyController.Frame
 {
     public interface IFrameBrowseContext : IWriteableBrowseContext
     {
+        /// <summary>
+        /// State this context is browsing.
+        /// </summary>
         new IFrameNodeState State { get; }
+
+        /// <summary>
+        /// List of index collections that have been added during browsing.
+        /// </summary>
         new IFrameIndexCollectionReadOnlyList IndexCollectionList { get; }
     }
 
@@ -13,7 +20,7 @@ namespace EaslyController.Frame
     {
         #region Init
         /// <summary>
-        /// Initializes a new instance of <see cref="FrameBrowseContext "/>.
+        /// Initializes a new instance of <see cref="FrameBrowseContext"/>.
         /// </summary>
         /// <param name="state">The state that will be browsed.</param>
         public FrameBrowseContext(IFrameNodeState state)
@@ -47,7 +54,6 @@ namespace EaslyController.Frame
         /// <summary>
         /// Creates a IxxxIndexCollectionReadOnlyList object.
         /// </summary>
-        /// <param name="list"></param>
         protected override IReadOnlyIndexCollectionReadOnlyList CreateIndexCollectionListReadOnly(IReadOnlyIndexCollectionList list)
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameBrowseContext));

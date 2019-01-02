@@ -6,7 +6,6 @@ Easly source code is defined in the [Easly-Language](https://github.com/dlebansa
 
 # TODO
 
-- [ ] Views.
 - [ ] More layers.
 
 # Architecture
@@ -15,7 +14,7 @@ The controller is made of several layers, each layer adding features to the othe
 
 ## Read-Only
 
-This layer only provides read-only access to the source code, but introduces the core classes of the controller:
+This layer only provides read access to the source code, but introduces the core classes of the controller:
 
 1. Indexes
 An index is similar to a C++ iterator, but is fixed. It represents a child in a parent. There are five type of indexes:
@@ -28,15 +27,44 @@ An index is similar to a C++ iterator, but is fixed. It represents a child in a 
 
 Note that the read-only layer provides indexes that only allow reading source code. The next layer (Writeable, see below) introduces insertion indexes, describing children not yet inserted.
 
+During examination of the node tree, indexes are created for new blocks. When this step is completed, and blocks initialized, they are replaced with indexes in existing blocks. 
+
 2. States
-These classes represent all data associated to a particular node in the source code tree. For the read-only layer, there isn't much, but subsequent layers add more info, like the position in the screen and other temporary data. Blocks in block list also have a specific state class. And finally there are two dedicated state classes for block list replication patterns and another for block list source identifiers. 
+These classes represent all data associated to a particular node in the source code tree. For the read-only layer, there isn't much to store, but subsequent layers add more info, like the existence of breakpoints and other temporary data. Blocks in block list also have a specific state class. And finally there are two dedicated state classes for block list replication patterns and another for block list source identifiers. 
 
 3. Inners
 They are the glue between states and indexes. There are as many types of inners as there are types of indexes, and given a state and inner one can obtain an index to the corresponding child.
 
 4. Browse Context
-Contexts (for short) contains data accumulated when the source code tree is parsed. For the read-only layer, this is simply a collection of inners for each state, but subsequent layers contains more.
+Contexts (for short) contains data accumulated when the source code tree is parsed. For the read-only layer, this is simply a collection of indexes for each state and their children, but subsequent layers may contain more.
 
 5. Views
 One or more views can be attached to a controller. For the read-only layer, they don't do much, but when clients of the controller are able to modify the node tree, each modification will trigger a notification for all views. Then, each view can react differently to the modification and maintain a separate internal state.
  
+## Writeable
+
+The writeable layer, as the name suggests, adds features to modify the source code. The following operations can be performed:
+. Replacing a node with another.
+. Changing the assigned status of an optional node.
+. Inserting a node in a collection (list or block list).
+. Removing a node from a collection (list or block list).
+. Moving a node up or down in a collection (list or block list). Note that, for block lists, a node can only be moved within a block.
+. Performing operations specific to block lists:
+  + Inserting a new block (removing a block is automatic when then last node in the block is removed).
+  + Splitting and joining blocks.
+  + Changing the replication type.
+  + Moving blocks around in the block list.
+. Expand or reduce a node (see below).
+
+This layer also adds insertion indexes. They represent the index of a node to add/replace/insert rather than an existing child node. An insertion index is created by a client of the controller, and upon return of the requested operation (say, insert), the corresponding browsing index is provided. This returned index can be used for further operations like changing the node again. 
+
+### Expanding nodes
+
+When working with the source code it can be practical to hide values in the code that are just set to the default, but that means it can hard to find them when one wants to change them. Node expansion is provided for this purpose:
+. An expanded node gets all optional nodes assigned, to a default value if there isn't one already.
+. All lists that can be empty, such as arguments of a call to a method, have a default empty node added. With this feature, the user can move the cursor to this empty piece and start editing it.
+
+The opposite operation, reduce, will unassign all optional nodes that only contains a default value, and clear lists that only contains a single default child.
+
+Since multiple expand operations can be performed, it may be difficult to track them over time. A single "canonicalize" operation is therefore provided: it will look for any expanded node and will reduce it to its canonical, non-default parts.
+    
