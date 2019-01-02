@@ -380,7 +380,7 @@ namespace TestDebug
             ControllerTools.ResetExpectedName();
 
             IFrameRootNodeIndex RootIndex = new FrameRootNodeIndex(rootNode);
-            IFrameController Controller = FrameController.Create(RootIndex);
+            IFrameController Controller = FrameController.Create(RootIndex, FrameTemplateSet.Default);
             Stats Stats = Controller.Stats;
             IFrameController ControllerCheck;
 
@@ -397,7 +397,7 @@ namespace TestDebug
                 IFrameBrowsingListNodeIndex InsertIndex0 = (IFrameBrowsingListNodeIndex)ListInner2.IndexAt(31);
                 Controller.Move(ListInner2, InsertIndex0, -5);
 
-                ControllerCheck = FrameController.Create(new FrameRootNodeIndex(rootNode));
+                ControllerCheck = FrameController.Create(new FrameRootNodeIndex(rootNode), FrameTemplateSet.Default);
                 Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
             }
 
@@ -417,7 +417,7 @@ namespace TestDebug
             ControllerTools.ResetExpectedName();
 
             IFrameRootNodeIndex RootIndex = new FrameRootNodeIndex(rootNode);
-            IFrameController Controller = FrameController.Create(RootIndex);
+            IFrameController Controller = FrameController.Create(RootIndex, FrameTemplateSet.Default);
             Stats Stats = Controller.Stats;
             IFrameController ControllerCheck;
 
@@ -445,7 +445,7 @@ namespace TestDebug
             FrameInsertionNewBlockNodeIndex InsertIndex0 = new FrameInsertionNewBlockNodeIndex(rootNode, ListInner.PropertyName, FirstNode, 0, PatternNode, SourceNode);
             Controller.Insert(ListInner, InsertIndex0, out IWriteableBrowsingCollectionNodeIndex InsertedIndex0);
 
-            ControllerCheck = FrameController.Create(new FrameRootNodeIndex(rootNode));
+            ControllerCheck = FrameController.Create(new FrameRootNodeIndex(rootNode), FrameTemplateSet.Default);
             Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
 
             IImport SecondNode = NodeHelper.CreateSimpleImport("y", "y", ImportType.Latest);
@@ -453,7 +453,7 @@ namespace TestDebug
             FrameInsertionExistingBlockNodeIndex InsertIndex1 = new FrameInsertionExistingBlockNodeIndex(rootNode, ListInner.PropertyName, SecondNode, 0, 1);
             Controller.Insert(ListInner, InsertIndex1, out IWriteableBrowsingCollectionNodeIndex InsertedIndex1);
 
-            ControllerCheck = FrameController.Create(new FrameRootNodeIndex(rootNode));
+            ControllerCheck = FrameController.Create(new FrameRootNodeIndex(rootNode), FrameTemplateSet.Default);
             Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
 
             Debug.Assert(ControllerView.StateViewTable.Count == Controller.Stats.NodeCount);
@@ -463,7 +463,7 @@ namespace TestDebug
 
             Controller.ChangeReplication(ListInner, 0, ReplicationStatus.Replicated);
 
-            ControllerCheck = FrameController.Create(new FrameRootNodeIndex(rootNode));
+            ControllerCheck = FrameController.Create(new FrameRootNodeIndex(rootNode), FrameTemplateSet.Default);
             Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
 
             IImport ThirdNode = NodeHelper.CreateSimpleImport("z", "z", ImportType.Latest);
@@ -471,7 +471,7 @@ namespace TestDebug
             FrameInsertionExistingBlockNodeIndex InsertIndex3 = new FrameInsertionExistingBlockNodeIndex(rootNode, ListInner.PropertyName, ThirdNode, 0, 1);
             Controller.Replace(ListInner, InsertIndex3, out IWriteableBrowsingChildIndex InsertedIndex3);
 
-            ControllerCheck = FrameController.Create(new FrameRootNodeIndex(rootNode));
+            ControllerCheck = FrameController.Create(new FrameRootNodeIndex(rootNode), FrameTemplateSet.Default);
             Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
 
             IImport FourthNode = NodeHelper.CreateSimpleImport("a", "a", ImportType.Latest);
@@ -479,7 +479,7 @@ namespace TestDebug
             FrameInsertionExistingBlockNodeIndex InsertIndex4 = new FrameInsertionExistingBlockNodeIndex(rootNode, ListInner.PropertyName, FourthNode, 0, 0);
             Controller.Replace(ListInner, InsertIndex4, out IWriteableBrowsingChildIndex InsertedIndex4);
 
-            ControllerCheck = FrameController.Create(new FrameRootNodeIndex(rootNode));
+            ControllerCheck = FrameController.Create(new FrameRootNodeIndex(rootNode), FrameTemplateSet.Default);
             Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
 
             IFrameControllerView ControllerView3 = FrameControllerView.Create(Controller);
@@ -491,7 +491,7 @@ namespace TestDebug
             FrameInsertionPlaceholderNodeIndex InsertIndex5 = new FrameInsertionPlaceholderNodeIndex(rootNode, ChildInner.PropertyName, FifthNode);
             Controller.Replace(ChildInner, InsertIndex5, out IWriteableBrowsingChildIndex InsertedIndex5);
 
-            ControllerCheck = FrameController.Create(new FrameRootNodeIndex(rootNode));
+            ControllerCheck = FrameController.Create(new FrameRootNodeIndex(rootNode), FrameTemplateSet.Default);
             Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
 
             IFrameControllerView ControllerView4 = FrameControllerView.Create(Controller);
@@ -503,7 +503,7 @@ namespace TestDebug
             FrameInsertionOptionalNodeIndex InsertIndex6 = new FrameInsertionOptionalNodeIndex(rootNode, OptionalInner.PropertyName, SixthNode);
             Controller.Replace(OptionalInner, InsertIndex6, out IWriteableBrowsingChildIndex InsertedIndex6);
 
-            ControllerCheck = FrameController.Create(new FrameRootNodeIndex(rootNode));
+            ControllerCheck = FrameController.Create(new FrameRootNodeIndex(rootNode), FrameTemplateSet.Default);
             Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
 
             IFrameControllerView ControllerView5 = FrameControllerView.Create(Controller);
@@ -512,7 +512,7 @@ namespace TestDebug
             IFrameBrowsingBlockNodeIndex InsertIndex7 = (IFrameBrowsingBlockNodeIndex)ListInner.IndexAt(0, 0);
             Controller.Remove(ListInner, InsertIndex7);
 
-            ControllerCheck = FrameController.Create(new FrameRootNodeIndex(rootNode));
+            ControllerCheck = FrameController.Create(new FrameRootNodeIndex(rootNode), FrameTemplateSet.Default);
             Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
 
             IFrameControllerView ControllerView7 = FrameControllerView.Create(Controller);
@@ -521,7 +521,7 @@ namespace TestDebug
             IFrameBrowsingBlockNodeIndex InsertIndex8 = (IFrameBrowsingBlockNodeIndex)ListInner.IndexAt(0, 0);
             Controller.Remove(ListInner, InsertIndex8);
 
-            ControllerCheck = FrameController.Create(new FrameRootNodeIndex(rootNode));
+            ControllerCheck = FrameController.Create(new FrameRootNodeIndex(rootNode), FrameTemplateSet.Default);
             Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
 
             IFrameControllerView ControllerView8 = FrameControllerView.Create(Controller);
@@ -529,7 +529,7 @@ namespace TestDebug
 
             Controller.Unassign(OptionalInner.ChildState.ParentIndex);
 
-            ControllerCheck = FrameController.Create(new FrameRootNodeIndex(rootNode));
+            ControllerCheck = FrameController.Create(new FrameRootNodeIndex(rootNode), FrameTemplateSet.Default);
             Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
 
             IFrameControllerView ControllerView9 = FrameControllerView.Create(Controller);
@@ -537,7 +537,7 @@ namespace TestDebug
 
             Controller.Assign(OptionalInner.ChildState.ParentIndex);
 
-            ControllerCheck = FrameController.Create(new FrameRootNodeIndex(rootNode));
+            ControllerCheck = FrameController.Create(new FrameRootNodeIndex(rootNode), FrameTemplateSet.Default);
             Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
 
             IFrameControllerView ControllerView10 = FrameControllerView.Create(Controller);
@@ -548,7 +548,7 @@ namespace TestDebug
                 IFrameBrowsingExistingBlockNodeIndex SplitIndex1 = (IFrameBrowsingExistingBlockNodeIndex)ListInner.IndexAt(0, 1);
                 Controller.SplitBlock(ListInner, SplitIndex1);
 
-                ControllerCheck = FrameController.Create(new FrameRootNodeIndex(rootNode));
+                ControllerCheck = FrameController.Create(new FrameRootNodeIndex(rootNode), FrameTemplateSet.Default);
                 Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
 
                 IFrameControllerView ControllerView11 = FrameControllerView.Create(Controller);
@@ -557,7 +557,7 @@ namespace TestDebug
                 IFrameBrowsingExistingBlockNodeIndex SplitIndex2 = (IFrameBrowsingExistingBlockNodeIndex)ListInner.IndexAt(1, 0);
                 Controller.MergeBlocks(ListInner, SplitIndex2);
 
-                ControllerCheck = FrameController.Create(new FrameRootNodeIndex(rootNode));
+                ControllerCheck = FrameController.Create(new FrameRootNodeIndex(rootNode), FrameTemplateSet.Default);
                 Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
 
                 IFrameControllerView ControllerView12 = FrameControllerView.Create(Controller);
@@ -569,14 +569,14 @@ namespace TestDebug
             {
                 Controller.MoveBlock(ListInner2, 0, 1);
 
-                ControllerCheck = FrameController.Create(new FrameRootNodeIndex(rootNode));
+                ControllerCheck = FrameController.Create(new FrameRootNodeIndex(rootNode), FrameTemplateSet.Default);
                 Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
             }
 
             Controller.Canonicalize();
 
             IFrameRootNodeIndex NewRootIndex = new FrameRootNodeIndex(Controller.RootIndex.Node);
-            IFrameController NewController = FrameController.Create(NewRootIndex);
+            IFrameController NewController = FrameController.Create(NewRootIndex, FrameTemplateSet.Default);
             Debug.Assert(NewController.IsEqual(CompareEqual.New(), Controller));
 
             IDictionary<Type, string> NodeDictionary = NodeHelper.CreateNodeDictionary<string>();

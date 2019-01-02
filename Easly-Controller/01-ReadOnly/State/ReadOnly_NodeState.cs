@@ -193,7 +193,7 @@ namespace EaslyController.ReadOnly
                     browseNodeContext.AddIndexCollection(IndexCollection);
                 }
 
-                else if (NodeTreeHelperList.IsChildNodeList(Node, PropertyName, out ChildNodeType))
+                else if (NodeTreeHelperList.IsNodeListProperty(Node, PropertyName, out ChildNodeType))
                 {
                     NodeTreeHelperList.GetChildNodeList(Node, PropertyName, out ChildNodeList);
 
@@ -202,7 +202,7 @@ namespace EaslyController.ReadOnly
                     browseNodeContext.AddIndexCollection(IndexCollection);
                 }
 
-                else if (NodeTreeHelperBlockList.IsChildBlockList(Node, PropertyName, out ChildInterfaceType, out ChildNodeType))
+                else if (NodeTreeHelperBlockList.IsBlockListProperty(Node, PropertyName, out ChildInterfaceType, out ChildNodeType))
                 {
                     NodeTreeHelperBlockList.GetChildBlockList(Node, PropertyName, out ChildBlockList);
 
