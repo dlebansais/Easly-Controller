@@ -1,4 +1,5 @@
 ﻿using EaslyController.ReadOnly;
+using System.Diagnostics;
 
 namespace EaslyController.Writeable
 {
@@ -34,6 +35,25 @@ namespace EaslyController.Writeable
         /// The block state.
         /// </summary>
         public new IWriteableBlockState BlockState { get { return (IWriteableBlockState)base.BlockState; } }
+        #endregion
+
+        #region Debugging
+        /// <summary>
+        /// Compares two <see cref="IWriteableBlockStateView"/> objects.
+        /// </summary>
+        /// <param name="other">The other object.</param>
+        public override bool IsEqual(CompareEqual comparer, IEqualComparable other)
+        {
+            Debug.Assert(other != null);
+
+            if (!(other is IWriteableBlockStateView AsBlockStateView))
+                return false;
+
+            if (!base.IsEqual(comparer, AsBlockStateView))
+                return false;
+
+            return true;
+        }
         #endregion
     }
 }

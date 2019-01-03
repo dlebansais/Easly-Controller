@@ -443,6 +443,9 @@ namespace TestDebug
             FrameInsertionNewBlockNodeIndex InsertIndex0 = new FrameInsertionNewBlockNodeIndex(rootNode, ListInner.PropertyName, FirstNode, 0, PatternNode, SourceNode);
             Controller.Insert(ListInner, InsertIndex0, out IWriteableBrowsingCollectionNodeIndex InsertedIndex0);
 
+            IFrameControllerView ControllerView2 = FrameControllerView.Create(Controller, FrameTemplateSet.Default);
+            Debug.Assert(ControllerView2.IsEqual(CompareEqual.New(), ControllerView));
+
             ControllerCheck = FrameController.Create(new FrameRootNodeIndex(rootNode));
             Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
 
@@ -456,7 +459,7 @@ namespace TestDebug
 
             Debug.Assert(ControllerView.StateViewTable.Count == Controller.Stats.NodeCount);
 
-            IFrameControllerView ControllerView2 = FrameControllerView.Create(Controller, FrameTemplateSet.Default);
+            ControllerView2 = FrameControllerView.Create(Controller, FrameTemplateSet.Default);
             Debug.Assert(ControllerView2.IsEqual(CompareEqual.New(), ControllerView));
 
             Controller.ChangeReplication(ListInner, 0, ReplicationStatus.Replicated);

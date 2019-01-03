@@ -49,8 +49,8 @@ namespace EaslyController.Frame
             Debug.Assert(templateSet != null);
             Debug.Assert(blockState.ParentInner != null);
 
-            Type NodeType = blockState.ChildBlock.GetType();
-            Template = templateSet.BlockTypeToTemplate(NodeType);
+            Type BlockType = blockState.ParentInner.BlockType;
+            Template = templateSet.BlockTypeToTemplate(BlockType);
         }
         #endregion
 
@@ -85,6 +85,31 @@ namespace EaslyController.Frame
             Debug.Assert(NodeTemplate != null);
 
             RootCellView = NodeTemplate.BuildBlockCells(controllerView, stateView, this);
+        }
+        #endregion
+
+        #region Debugging
+        /// <summary>
+        /// Compares two <see cref="IFrameBlockStateView"/> objects.
+        /// </summary>
+        /// <param name="other">The other object.</param>
+        public override bool IsEqual(CompareEqual comparer, IEqualComparable other)
+        {
+            Debug.Assert(other != null);
+
+            if (!(other is IFrameBlockStateView AsBlockStateView))
+                return false;
+
+            if (!base.IsEqual(comparer, AsBlockStateView))
+                return false;
+
+            if (Template != AsBlockStateView.Template)
+                return false;
+
+            if (!comparer.VerifyEqual(RootCellView, AsBlockStateView.RootCellView))
+                return false;
+
+            return true;
         }
         #endregion
     }

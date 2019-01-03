@@ -1,4 +1,6 @@
-﻿namespace EaslyController.ReadOnly
+﻿using System.Diagnostics;
+
+namespace EaslyController.ReadOnly
 {
     /// <summary>
     /// View of a source state.
@@ -32,6 +34,25 @@
         /// The source state.
         /// </summary>
         public new IReadOnlySourceState State { get { return (IReadOnlySourceState)base.State; } }
+        #endregion
+
+        #region Debugging
+        /// <summary>
+        /// Compares two <see cref="IReadOnlySourceStateView"/> objects.
+        /// </summary>
+        /// <param name="other">The other object.</param>
+        public override bool IsEqual(CompareEqual comparer, IEqualComparable other)
+        {
+            Debug.Assert(other != null);
+
+            if (!(other is IReadOnlySourceStateView AsSourceStateView))
+                return false;
+
+            if (!base.IsEqual(comparer, AsSourceStateView))
+                return false;
+
+            return true;
+        }
         #endregion
     }
 }

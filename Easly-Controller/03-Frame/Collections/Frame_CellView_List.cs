@@ -1,12 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 
 namespace EaslyController.Frame
 {
     /// <summary>
     /// List of IxxxCellView
     /// </summary>
-    public interface IFrameCellViewList : IList<IFrameCellView>, IReadOnlyList<IFrameCellView>
+    public interface IFrameCellViewList : IList<IFrameCellView>, IReadOnlyList<IFrameCellView>, IEqualComparable
     {
         new int Count { get; }
         new IFrameCellView this[int index] { get; set; }
@@ -17,5 +18,27 @@ namespace EaslyController.Frame
     /// </summary>
     public class FrameCellViewList : Collection<IFrameCellView>, IFrameCellViewList
     {
+        #region Debugging
+        /// <summary>
+        /// Compares two <see cref="IFrameCellViewReadOnlyList"/> objects.
+        /// </summary>
+        /// <param name="other">The other object.</param>
+        public virtual bool IsEqual(CompareEqual comparer, IEqualComparable other)
+        {
+            Debug.Assert(other != null);
+
+            if (!(other is IFrameCellViewList AsCellViewList))
+                return false;
+
+            if (Count != AsCellViewList.Count)
+                return false;
+
+            for (int i = 0; i < Count; i++)
+                if (!comparer.VerifyEqual(this[i], AsCellViewList[i]))
+                    return false;
+
+            return true;
+        }
+        #endregion
     }
 }

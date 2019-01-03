@@ -53,8 +53,10 @@ namespace EaslyController.Frame
             Debug.Assert(StateViewTable.ContainsKey(ChildState));
 
             IFrameNodeStateView ChildStateView = StateViewTable[ChildState];
+            IFrameContainerCellView EmbeddingCellView = CreateFrameCellView(stateView, ChildStateView);
+            stateView.AssignCellViewTable(PropertyName, EmbeddingCellView);
 
-            return CreateFrameCellView(stateView, ChildStateView);
+            return EmbeddingCellView;
         }
         #endregion
 

@@ -48,7 +48,7 @@ namespace EaslyController.Writeable
         /// <summary>
         /// Called when a state is inserted.
         /// </summary>
-        event Action<IWriteableBrowsingCollectionNodeIndex, IWriteableNodeState> StateInserted;
+        event Action<IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex>, IWriteableBrowsingCollectionNodeIndex, IWriteableNodeState> StateInserted;
 
         /// <summary>
         /// Inserts a new node in a list or block list.
@@ -241,14 +241,14 @@ namespace EaslyController.Writeable
         /// <summary>
         /// Called when a state is inserted.
         /// </summary>
-        public event Action<IWriteableBrowsingCollectionNodeIndex, IWriteableNodeState> StateInserted
+        public event Action<IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex>, IWriteableBrowsingCollectionNodeIndex, IWriteableNodeState> StateInserted
         {
             add { AddStateInsertedDelegate(value); }
             remove { RemoveStateInsertedDelegate(value); }
         }
-        protected Action<IWriteableBrowsingCollectionNodeIndex, IWriteableNodeState> StateInsertedHandler;
-        protected virtual void AddStateInsertedDelegate(Action<IWriteableBrowsingCollectionNodeIndex, IWriteableNodeState> handler) { StateInsertedHandler += handler; }
-        protected virtual void RemoveStateInsertedDelegate(Action<IWriteableBrowsingCollectionNodeIndex, IWriteableNodeState> handler) { StateInsertedHandler -= handler; }
+        protected Action<IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex>, IWriteableBrowsingCollectionNodeIndex, IWriteableNodeState> StateInsertedHandler;
+        protected virtual void AddStateInsertedDelegate(Action<IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex>, IWriteableBrowsingCollectionNodeIndex, IWriteableNodeState> handler) { StateInsertedHandler += handler; }
+        protected virtual void RemoveStateInsertedDelegate(Action<IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex>, IWriteableBrowsingCollectionNodeIndex, IWriteableNodeState> handler) { StateInsertedHandler -= handler; }
 
         /// <summary>
         /// State table.
@@ -276,6 +276,8 @@ namespace EaslyController.Writeable
             Debug.Assert(InnerTable[inner.PropertyName] == inner);
 
             IWriteableBlockState BlockState;
+            IWriteablePatternState PatternState;
+            IWriteableSourceState SourceState;
             IWriteablePlaceholderNodeState ChildState;
 
             if ((inner is IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> AsBlockListInner) && (insertedIndex is IWriteableInsertionNewBlockNodeIndex AsNewBlockIndex))
@@ -286,19 +288,21 @@ namespace EaslyController.Writeable
                 BlockState.InitBlockState();
                 Stats.BlockCount++;
 
-                IReadOnlyBrowsingPatternIndex PatternIndex = BlockState.PatternIndex;
-                IReadOnlyPatternState PatternState = BlockState.PatternState;
+                IWriteableBrowsingPatternIndex PatternIndex = BlockState.PatternIndex;
+                PatternState = BlockState.PatternState;
                 AddState(PatternIndex, PatternState);
                 Stats.PlaceholderNodeCount++;
 
-                IReadOnlyBrowsingSourceIndex SourceIndex = BlockState.SourceIndex;
-                IReadOnlySourceState SourceState = BlockState.SourceState;
+                IWriteableBrowsingSourceIndex SourceIndex = BlockState.SourceIndex;
+                SourceState = BlockState.SourceState;
                 AddState(SourceIndex, SourceState);
                 Stats.PlaceholderNodeCount++;
             }
             else
             {
                 BlockState = null;
+                PatternState = null;
+                SourceState = null;
                 inner.Insert(insertedIndex, out nodeIndex, out ChildState);
             }
 
@@ -308,7 +312,8 @@ namespace EaslyController.Writeable
 
             if (BlockState != null)
                 NotifyBlockStateInserted(nodeIndex, BlockState);
-            NotifyStateInserted(nodeIndex, ChildState);
+
+            NotifyStateInserted(inner, nodeIndex, ChildState);
 
             Debug.Assert(Contains(nodeIndex));
         }
@@ -856,9 +861,9 @@ namespace EaslyController.Writeable
             BlockStateInsertedHandler?.Invoke(nodeIndex, state);
         }
 
-        protected virtual void NotifyStateInserted(IWriteableBrowsingCollectionNodeIndex nodeIndex, IWriteableNodeState state)
+        protected virtual void NotifyStateInserted(IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> inner, IWriteableBrowsingCollectionNodeIndex nodeIndex, IWriteableNodeState state)
         {
-            StateInsertedHandler?.Invoke(nodeIndex, state);
+            StateInsertedHandler?.Invoke(inner, nodeIndex, state);
         }
         #endregion
 

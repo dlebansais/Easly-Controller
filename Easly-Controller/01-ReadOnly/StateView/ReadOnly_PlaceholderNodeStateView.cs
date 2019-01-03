@@ -1,4 +1,6 @@
-﻿namespace EaslyController.ReadOnly
+﻿using System.Diagnostics;
+
+namespace EaslyController.ReadOnly
 {
     /// <summary>
     /// View of a child node.
@@ -32,6 +34,25 @@
         /// The child node.
         /// </summary>
         public new IReadOnlyPlaceholderNodeState State { get { return (IReadOnlyPlaceholderNodeState)base.State; } }
+        #endregion
+
+        #region Debugging
+        /// <summary>
+        /// Compares two <see cref="IReadOnlyPlaceholderNodeStateView"/> objects.
+        /// </summary>
+        /// <param name="other">The other object.</param>
+        public override bool IsEqual(CompareEqual comparer, IEqualComparable other)
+        {
+            Debug.Assert(other != null);
+
+            if (!(other is IReadOnlyPlaceholderNodeStateView AsPlaceholderNodeStateView))
+                return false;
+
+            if (!base.IsEqual(comparer, AsPlaceholderNodeStateView))
+                return false;
+
+            return true;
+        }
         #endregion
     }
 }

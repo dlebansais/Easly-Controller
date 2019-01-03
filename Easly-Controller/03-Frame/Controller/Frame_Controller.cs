@@ -37,6 +37,16 @@ namespace EaslyController.Frame
         /// Called when a block list inner is created
         /// </summary>
         new event Action<IFrameBlockListInner> BlockListInnerCreated;
+
+        /// <summary>
+        /// Called when a block state is inserted.
+        /// </summary>
+        new event Action<IFrameBrowsingCollectionNodeIndex, IFrameBlockState> BlockStateInserted;
+
+        /// <summary>
+        /// Called when a state is inserted.
+        /// </summary>
+        new event Action<IFrameCollectionInner<IFrameBrowsingCollectionNodeIndex>, IFrameBrowsingCollectionNodeIndex, IFrameNodeState> StateInserted;
     }
 
     public class FrameController : WriteableController, IFrameController
@@ -106,6 +116,24 @@ namespace EaslyController.Frame
         {
             add { AddBlockListInnerCreatedDelegate((Action<IReadOnlyBlockListInner>)value); }
             remove { RemoveBlockListInnerCreatedDelegate((Action<IReadOnlyBlockListInner>)value); }
+        }
+
+        /// <summary>
+        /// Called when a block state is inserted.
+        /// </summary>
+        public new event Action<IFrameBrowsingCollectionNodeIndex, IFrameBlockState> BlockStateInserted
+        {
+            add { AddBlockStateInsertedDelegate((Action<IWriteableBrowsingCollectionNodeIndex, IWriteableBlockState>)value); }
+            remove { RemoveBlockStateInsertedDelegate((Action<IWriteableBrowsingCollectionNodeIndex, IWriteableBlockState>)value); }
+        }
+
+        /// <summary>
+        /// Called when a state is inserted.
+        /// </summary>
+        public new event Action<IFrameCollectionInner<IFrameBrowsingCollectionNodeIndex>, IFrameBrowsingCollectionNodeIndex, IFrameNodeState> StateInserted
+        {
+            add { AddStateInsertedDelegate((Action<IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex>, IWriteableBrowsingCollectionNodeIndex, IWriteableNodeState>)value); }
+            remove { RemoveStateInsertedDelegate((Action<IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex>, IWriteableBrowsingCollectionNodeIndex, IWriteableNodeState>)value); }
         }
 
         /// <summary>

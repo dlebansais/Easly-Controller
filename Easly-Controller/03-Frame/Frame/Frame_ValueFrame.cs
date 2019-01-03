@@ -20,7 +20,10 @@
         /// <param name="stateView">The state view for which to create cells.</param>
         public virtual IFrameCellView BuildNodeCells(IFrameControllerView controllerView, IFrameNodeStateView stateView)
         {
-            return CreateFrameCellView(stateView);
+            IFrameVisibleCellView EmbeddingCellView = CreateFrameCellView(stateView);
+            //stateView.AssignCellViewTable(PropertyName, EmbeddingCellView);
+
+            return EmbeddingCellView;
         }
         #endregion
 

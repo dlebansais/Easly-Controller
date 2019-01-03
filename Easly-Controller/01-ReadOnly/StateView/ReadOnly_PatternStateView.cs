@@ -1,4 +1,6 @@
-﻿namespace EaslyController.ReadOnly
+﻿using System.Diagnostics;
+
+namespace EaslyController.ReadOnly
 {
     /// <summary>
     /// View of a pattern state.
@@ -32,6 +34,25 @@
         /// The pattern state.
         /// </summary>
         public new IReadOnlyPatternState State { get { return (IReadOnlyPatternState)base.State; } }
+        #endregion
+
+        #region Debugging
+        /// <summary>
+        /// Compares two <see cref="IReadOnlyPatternStateView"/> objects.
+        /// </summary>
+        /// <param name="other">The other object.</param>
+        public override bool IsEqual(CompareEqual comparer, IEqualComparable other)
+        {
+            Debug.Assert(other != null);
+
+            if (!(other is IReadOnlyPatternStateView AsPatternStateView))
+                return false;
+
+            if (!base.IsEqual(comparer, AsPatternStateView))
+                return false;
+
+            return true;
+        }
         #endregion
     }
 }

@@ -91,13 +91,21 @@ namespace EaslyController.Writeable
 
             foreach (IWriteableNodeState State in blockState.StateList)
                 Debug.Assert(StateViewTable.ContainsKey(State));
+
+            /*
+            IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> ParentInner = blockState.ParentInner as IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex>;
+            Debug.Assert(ParentInner != null);
+
+            OnStateInserted(ParentInner, blockState.PatternIndex, blockState.PatternState);
+            OnStateInserted(ParentInner, blockState.SourceIndex, blockState.SourceState);
+            */
         }
 
         /// <summary>
         /// Handler called every time a state is inserted in the controller.
         /// </summary>
         /// <param name="state">The state inserted.</param>
-        public virtual void OnStateInserted(IWriteableBrowsingCollectionNodeIndex nodeIndex, IWriteableNodeState state)
+        public virtual void OnStateInserted(IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> inner, IWriteableBrowsingCollectionNodeIndex nodeIndex, IWriteableNodeState state)
         {
             Debug.Assert(state != null);
             Debug.Assert(StateViewTable.ContainsKey(state));
@@ -113,10 +121,10 @@ namespace EaslyController.Writeable
         {
             Debug.Assert(other != null);
 
-            if (!(other is IWriteableControllerView AsWriteable))
+            if (!(other is IWriteableControllerView AsControllerView))
                 return false;
 
-            if (!base.IsEqual(comparer, AsWriteable))
+            if (!base.IsEqual(comparer, AsControllerView))
                 return false;
 
             return true;

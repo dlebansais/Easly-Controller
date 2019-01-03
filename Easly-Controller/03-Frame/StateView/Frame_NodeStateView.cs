@@ -24,10 +24,19 @@ namespace EaslyController.Frame
         IFrameCellView RootCellView { get; }
 
         /// <summary>
+        /// Table of cell views that are mutable lists of cells.
+        /// </summary>
+        IFrameCellViewReadOnlyDictionary<string> CellViewTable { get; }
+
+        /// <summary>
         /// Builds the cell view tree for this view.
         /// </summary>
         /// <param name="controllerView">The view in which the state is initialized.</param>
         void BuildRootCellView(IFrameControllerView controllerView);
+
+        /// <param name="propertyName">The property name of the inner.</param>
+        /// <param name="cellView">The assigned cell view.</param>
+        void AssignCellViewTable(string propertyName, IFrameCellView cellView);
 
         void RecalculateLineNumbers(IFrameController controller, ref int lineNumber, ref int columnNumber);
     }
@@ -64,6 +73,11 @@ namespace EaslyController.Frame
         /// Root cell for the view.
         /// </summary>
         public abstract IFrameCellView RootCellView { get; }
+
+        /// <summary>
+        /// Table of cell views that are mutable lists of cells.
+        /// </summary>
+        public abstract IFrameCellViewReadOnlyDictionary<string> CellViewTable { get; }
         #endregion
 
         #region Client Interface
@@ -73,7 +87,42 @@ namespace EaslyController.Frame
         /// <param name="controllerView">The view in which the state is initialized.</param>
         public abstract void BuildRootCellView(IFrameControllerView controllerView);
 
+        /// <summary>
+        /// Assign the cell view corresponding to an inner.
+        /// </summary>
+        /// <param name="propertyName">The property name of the inner.</param>
+        /// <param name="cellView">The assigned cell view.</param>
+        public abstract void AssignCellViewTable(string propertyName, IFrameCellView cellView);
+
         public abstract void RecalculateLineNumbers(IFrameController controller, ref int lineNumber, ref int columnNumber);
+        #endregion
+
+        #region Debugging
+        /// <summary>
+        /// Compares two <see cref="IFrameNodeStateView"/> objects.
+        /// </summary>
+        /// <param name="other">The other object.</param>
+        public override bool IsEqual(CompareEqual comparer, IEqualComparable other)
+        {
+            Debug.Assert(other != null);
+
+            if (!(other is IFrameNodeStateView AsNodeStateView))
+                return false;
+
+            if (!base.IsEqual(comparer, AsNodeStateView))
+                return false;
+
+            if (Template != AsNodeStateView.Template)
+                return false;
+
+            if (!comparer.VerifyEqual(RootCellView, AsNodeStateView.RootCellView))
+                return false;
+
+            if (!comparer.VerifyEqual(CellViewTable, AsNodeStateView.CellViewTable))
+                return false;
+
+            return true;
+        }
         #endregion
     }
 }

@@ -1,5 +1,6 @@
 ﻿using EaslyController.ReadOnly;
 using EaslyController.Writeable;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 
@@ -131,12 +132,79 @@ namespace EaslyController.Frame
         /// Handler called every time a state is inserted in the controller.
         /// </summary>
         /// <param name="state">The state inserted.</param>
-        public override void OnStateInserted(IWriteableBrowsingCollectionNodeIndex nodeIndex, IWriteableNodeState state)
+        public override void OnStateInserted(IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> inner, IWriteableBrowsingCollectionNodeIndex nodeIndex, IWriteableNodeState state)
         {
-            base.OnStateInserted(nodeIndex, state);
+            base.OnStateInserted(inner, nodeIndex, state);
 
-            IFrameNodeStateView StateView = StateViewTable[(IFrameNodeState)state];
+            IFrameNodeState InsertedState = state as IFrameNodeState;
+            Debug.Assert(InsertedState != null);
+
+            BuildCellViewRecursive(InsertedState);
+
+            IFrameNodeStateView InsertedStateView = StateViewTable[InsertedState];
+            string PropertyName = inner.PropertyName;
+            IFrameCellView InsertedRootCellView = InsertedStateView.RootCellView;
+            IFrameNodeState OwnerState = (IFrameNodeState)inner.Owner;
+            IFrameNodeStateView OwnerStateView = StateViewTable[OwnerState];
+            IFrameCellViewReadOnlyDictionary<string> CellViewTable = OwnerStateView.CellViewTable;
+
+            Debug.Assert(CellViewTable != null);
+            Debug.Assert(CellViewTable.ContainsKey(PropertyName));
+            IFrameMutableCellViewCollection EmbeddingCellView = CellViewTable[PropertyName] as IFrameMutableCellViewCollection;
+            Debug.Assert(EmbeddingCellView != null);
+
+            if ((inner is IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> AsBlockListInner) && (nodeIndex is IFrameBrowsingExistingBlockNodeIndex AsBlockListIndex))
+            {
+                int BlockIndex = AsBlockListIndex.BlockIndex;
+                IFrameBlockState BlockState = AsBlockListInner.BlockStateList[BlockIndex];
+                IFrameBlockStateView BlockStateView = BlockStateViewTable[BlockState];
+                //...
+            }
+            else if ((inner is IFrameListInner<IFrameBrowsingListNodeIndex> AsListInner) && (nodeIndex is IFrameBrowsingListNodeIndex AsListIndex))
+            {
+                int Index = AsListIndex.Index;
+                EmbeddingCellView.Insert(InsertedRootCellView);
+            }
+            else
+                throw new ArgumentOutOfRangeException(nameof(inner));
+        }
+
+        protected virtual void BuildCellViewRecursive(IFrameNodeState state)
+        {
+            IFrameNodeStateView StateView = StateViewTable[state];
             BuildCellView(StateView);
+
+            IFrameInnerReadOnlyDictionary<string> InnerTable = state.InnerTable;
+            foreach (KeyValuePair<string, IFrameInner<IFrameBrowsingChildIndex>> Entry in InnerTable)
+            {
+                IFrameInner<IFrameBrowsingChildIndex> Inner = Entry.Value;
+                switch (Inner)
+                {
+                    case IFramePlaceholderInner<IFrameBrowsingPlaceholderNodeIndex> AsPlaceholderInner:
+                        BuildCellViewRecursive(AsPlaceholderInner.ChildState);
+                        break;
+
+                    case IFrameOptionalInner<IFrameBrowsingOptionalNodeIndex> AsOptionalInner:
+                        BuildCellViewRecursive(AsOptionalInner.ChildState);
+                        break;
+
+                    case IFrameListInner<IFrameBrowsingListNodeIndex> AsListInner:
+                        foreach (IFrameNodeState ChildState in AsListInner.StateList)
+                            BuildCellViewRecursive(ChildState);
+                        break;
+
+                    case IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> AsBlockListInner:
+                        foreach (IFrameBlockState BlockState in AsBlockListInner.BlockStateList)
+                        {
+                            BuildCellViewRecursive(BlockState.PatternState);
+                            BuildCellViewRecursive(BlockState.SourceState);
+
+                            foreach (IFrameNodeState ChildState in BlockState.StateList)
+                                BuildCellViewRecursive(ChildState);
+                        }
+                        break;
+                }
+            }
         }
         #endregion
 
@@ -169,10 +237,13 @@ namespace EaslyController.Frame
         {
             Debug.Assert(other != null);
 
-            if (!(other is IFrameControllerView AsFrame))
+            if (!(other is IFrameControllerView AsControllerView))
                 return false;
 
-            if (!base.IsEqual(comparer, AsFrame))
+            if (!base.IsEqual(comparer, AsControllerView))
+                return false;
+
+            if (TemplateSet != AsControllerView.TemplateSet)
                 return false;
 
             return true;

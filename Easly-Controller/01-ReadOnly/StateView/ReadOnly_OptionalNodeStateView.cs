@@ -1,4 +1,6 @@
-﻿namespace EaslyController.ReadOnly
+﻿using System.Diagnostics;
+
+namespace EaslyController.ReadOnly
 {
     /// <summary>
     /// View of an optional node state.
@@ -32,6 +34,25 @@
         /// The optional node state.
         /// </summary>
         public new IReadOnlyOptionalNodeState State { get { return (IReadOnlyOptionalNodeState)base.State; } }
+        #endregion
+
+        #region Debugging
+        /// <summary>
+        /// Compares two <see cref="IReadOnlyOptionalNodeStateView"/> objects.
+        /// </summary>
+        /// <param name="other">The other object.</param>
+        public override bool IsEqual(CompareEqual comparer, IEqualComparable other)
+        {
+            Debug.Assert(other != null);
+
+            if (!(other is IReadOnlyOptionalNodeStateView AsOptionalNodeStateView))
+                return false;
+
+            if (!base.IsEqual(comparer, AsOptionalNodeStateView))
+                return false;
+
+            return true;
+        }
         #endregion
     }
 }

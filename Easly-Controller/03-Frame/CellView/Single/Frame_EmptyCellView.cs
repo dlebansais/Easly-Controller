@@ -2,15 +2,21 @@
 
 namespace EaslyController.Frame
 {
-    public interface IFrameTextFocusableCellView : IFrameContentFocusableCellView
+    public interface IFrameEmptyCellView : IFrameCellView
     {
     }
 
-    public class FrameTextFocusableCellView : FrameContentFocusableCellView, IFrameTextFocusableCellView
+    public class FrameEmptyCellView : FrameCellView, IFrameEmptyCellView
     {
         #region Init
-        public FrameTextFocusableCellView(IFrameNodeStateView stateView)
+        public FrameEmptyCellView(IFrameNodeStateView stateView)
             : base(stateView)
+        {
+        }
+        #endregion
+
+        #region Client Interface
+        public override void RecalculateLineNumbers(IFrameController controller, ref int lineNumber, ref int columnNumber)
         {
         }
         #endregion
@@ -24,10 +30,10 @@ namespace EaslyController.Frame
         {
             Debug.Assert(other != null);
 
-            if (!(other is IFrameTextFocusableCellView AsTextFocusableCellView))
+            if (!(other is IFrameEmptyCellView AsEmptyCellView))
                 return false;
 
-            if (!base.IsEqual(comparer, AsTextFocusableCellView))
+            if (!base.IsEqual(comparer, AsEmptyCellView))
                 return false;
 
             return true;

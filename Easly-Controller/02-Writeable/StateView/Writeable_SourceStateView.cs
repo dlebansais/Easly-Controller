@@ -1,4 +1,5 @@
 ﻿using EaslyController.ReadOnly;
+using System.Diagnostics;
 
 namespace EaslyController.Writeable
 {
@@ -36,6 +37,25 @@ namespace EaslyController.Writeable
         public new IWriteableSourceState State { get { return (IWriteableSourceState)base.State; } }
         IWriteableNodeState IWriteableNodeStateView.State { get { return State; } }
         IWriteablePlaceholderNodeState IWriteablePlaceholderNodeStateView.State { get { return State; } }
+        #endregion
+
+        #region Debugging
+        /// <summary>
+        /// Compares two <see cref="IWriteableSourceStateView"/> objects.
+        /// </summary>
+        /// <param name="other">The other object.</param>
+        public override bool IsEqual(CompareEqual comparer, IEqualComparable other)
+        {
+            Debug.Assert(other != null);
+
+            if (!(other is IWriteableSourceStateView AsSourceStateView))
+                return false;
+
+            if (!base.IsEqual(comparer, AsSourceStateView))
+                return false;
+
+            return true;
+        }
         #endregion
     }
 }
