@@ -11,6 +11,11 @@ namespace EaslyController.ReadOnly
     public interface IReadOnlyBlockListInner : IReadOnlyCollectionInner
     {
         /// <summary>
+        /// Block type for all blocks in the inner.
+        /// </summary>
+        Type BlockType { get; }
+
+        /// <summary>
         /// Class type for all nodes in the inner.
         /// </summary>
         Type ItemType { get; }
@@ -55,6 +60,11 @@ namespace EaslyController.ReadOnly
     public interface IReadOnlyBlockListInner<out IIndex> : IReadOnlyCollectionInner<IIndex>
         where IIndex : IReadOnlyBrowsingBlockNodeIndex
     {
+        /// <summary>
+        /// Block type for all blocks in the inner.
+        /// </summary>
+        Type BlockType { get; }
+
         /// <summary>
         /// Class type for all nodes in the inner.
         /// </summary>
@@ -209,6 +219,11 @@ namespace EaslyController.ReadOnly
         public override Type InterfaceType { get { return NodeTreeHelperBlockList.BlockListInterfaceType(Owner.Node, PropertyName); } }
 
         /// <summary>
+        /// Block type for all blocks in the inner.
+        /// </summary>
+        public virtual Type BlockType { get { return NodeTreeHelperBlockList.BlockListBlockType(Owner.Node, PropertyName); } }
+
+        /// <summary>
         /// Class type for all nodes in the inner. Must inherit from <see cref="InterfaceType"/>.
         /// </summary>
         public virtual Type ItemType { get { return NodeTreeHelperBlockList.BlockListItemType(Owner.Node, PropertyName); } }
@@ -222,12 +237,26 @@ namespace EaslyController.ReadOnly
         /// <summary>
         /// Called when a block state is created.
         /// </summary>
-        public event Action<IReadOnlyBlockState> BlockStateCreated;
+        public event Action<IReadOnlyBlockState> BlockStateCreated
+        {
+            add { AddBlockStateCreatedDelegate(value); }
+            remove { RemoveBlockStateCreatedDelegate(value); }
+        }
+        protected Action<IReadOnlyBlockState> BlockStateCreatedHandler;
+        protected virtual void AddBlockStateCreatedDelegate(Action<IReadOnlyBlockState> handler) { BlockStateCreatedHandler += handler; }
+        protected virtual void RemoveBlockStateCreatedDelegate(Action<IReadOnlyBlockState> handler) { BlockStateCreatedHandler -= handler; }
 
         /// <summary>
         /// Called when a block state is removed.
         /// </summary>
-        public event Action<IReadOnlyBlockState> BlockStateRemoved;
+        public event Action<IReadOnlyBlockState> BlockStateRemoved
+        {
+            add { AddBlockStateRemovedDelegate(value); }
+            remove { RemoveBlockStateRemovedDelegate(value); }
+        }
+        protected Action<IReadOnlyBlockState> BlockStateRemovedHandler;
+        protected virtual void AddBlockStateRemovedDelegate(Action<IReadOnlyBlockState> handler) { BlockStateRemovedHandler += handler; }
+        protected virtual void RemoveBlockStateRemovedDelegate(Action<IReadOnlyBlockState> handler) { BlockStateRemovedHandler -= handler; }
 
         /// <summary>
         /// Count of all node states in the inner.
@@ -345,12 +374,12 @@ namespace EaslyController.ReadOnly
 
         protected virtual void NotifyBlockStateCreated(IReadOnlyBlockState blockState)
         {
-            BlockStateCreated?.Invoke(blockState);
+            BlockStateCreatedHandler?.Invoke(blockState);
         }
 
         protected virtual void NotifyBlockStateRemoved(IReadOnlyBlockState blockState)
         {
-            BlockStateRemoved?.Invoke(blockState);
+            BlockStateRemovedHandler?.Invoke(blockState);
         }
         #endregion
 

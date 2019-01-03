@@ -5,7 +5,7 @@ namespace EaslyController.ReadOnly
     /// <summary>
     /// View of a block state.
     /// </summary>
-    public interface IReadOnlyBlockStateView
+    public interface IReadOnlyBlockStateView : IEqualComparable
     {
         /// <summary>
         /// The block state.
@@ -36,6 +36,25 @@ namespace EaslyController.ReadOnly
         /// The block state.
         /// </summary>
         public IReadOnlyBlockState BlockState { get; }
+        #endregion
+
+        #region Debugging
+        /// <summary>
+        /// Compares two <see cref="IReadOnlyBlockStateView"/> objects.
+        /// </summary>
+        /// <param name="other">The other object.</param>
+        public virtual bool IsEqual(CompareEqual comparer, IEqualComparable other)
+        {
+            Debug.Assert(other != null);
+
+            if (!(other is IReadOnlyBlockStateView AsBlockStateView))
+                return false;
+
+            if (BlockState != AsBlockStateView.BlockState)
+                return false;
+
+            return true;
+        }
         #endregion
     }
 }

@@ -7,7 +7,7 @@ namespace EaslyController.Frame
     /// <summary>
     /// Frame for describing an child node.
     /// </summary>
-    public interface IFramePlaceholderFrame : IFrameNamedFrame
+    public interface IFramePlaceholderFrame : IFrameNamedFrame, IFrameNodeFrame
     {
     }
 
@@ -37,7 +37,7 @@ namespace EaslyController.Frame
         /// </summary>
         /// <param name="controllerView">The view in cells are created.</param>
         /// <param name="stateView">The state view for which to create cells.</param>
-        public override IFrameCellView BuildCells(IFrameControllerView controllerView, IFrameNodeStateView stateView)
+        public virtual IFrameCellView BuildNodeCells(IFrameControllerView controllerView, IFrameNodeStateView stateView)
         {
             IFrameNodeState State = stateView.State;
             Debug.Assert(State != null);
@@ -64,7 +64,7 @@ namespace EaslyController.Frame
         /// </summary>
         protected virtual IFrameContainerCellView CreateFrameCellView(IFrameNodeStateView stateView, IFrameNodeStateView childStateView)
         {
-            ControllerTools.AssertNoOverride(this, typeof(FrameStaticFrame));
+            ControllerTools.AssertNoOverride(this, typeof(FramePlaceholderFrame));
             return new FrameContainerCellView(stateView, childStateView);
         }
         #endregion

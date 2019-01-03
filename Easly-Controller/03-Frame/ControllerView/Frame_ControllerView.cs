@@ -1,5 +1,6 @@
 ﻿using EaslyController.ReadOnly;
 using EaslyController.Writeable;
+using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace EaslyController.Frame
@@ -18,6 +19,11 @@ namespace EaslyController.Frame
         /// Table of views of each state in the controller.
         /// </summary>
         new IFrameStateViewDictionary StateViewTable { get; }
+
+        /// <summary>
+        /// Table of views of each block state in the controller.
+        /// </summary>
+        new IFrameBlockStateViewDictionary BlockStateViewTable { get; }
 
         /// <summary>
         /// Template set describing the node tree.
@@ -55,6 +61,31 @@ namespace EaslyController.Frame
 
             TemplateSet = templateSet;
         }
+
+        /// <summary>
+        /// Initializes the view by attaching it to the controller.
+        /// </summary>
+        protected override void Init()
+        {
+            base.Init();
+
+            foreach (KeyValuePair<IFrameNodeState, IFrameNodeStateView> Entry in StateViewTable)
+            {
+                IFrameNodeStateView StateView = Entry.Value;
+                BuildCellView(StateView);
+            }
+
+            foreach (KeyValuePair<IFrameBlockState, IFrameBlockStateView> Entry in BlockStateViewTable)
+            {
+                IFrameBlockState BlockState = Entry.Key;
+                IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> ParentInner = BlockState.ParentInner as IFrameBlockListInner<IFrameBrowsingBlockNodeIndex>;
+                IFrameNodeState Owner = ParentInner.Owner;
+                IFrameNodeStateView StateView = StateViewTable[Owner];
+
+                IFrameBlockStateView BlockStateView = Entry.Value;
+                BuildBlockCellView(StateView, BlockStateView);
+            }
+        }
         #endregion
 
         #region Properties
@@ -69,9 +100,64 @@ namespace EaslyController.Frame
         public new IFrameStateViewDictionary StateViewTable { get { return (IFrameStateViewDictionary)base.StateViewTable; } }
 
         /// <summary>
+        /// Table of views of each block state in the controller.
+        /// </summary>
+        public new IFrameBlockStateViewDictionary BlockStateViewTable { get { return (IFrameBlockStateViewDictionary)base.BlockStateViewTable; } }
+
+        /// <summary>
         /// Template set describing the node tree.
         /// </summary>
         public IFrameTemplateSet TemplateSet { get; private set; }
+        #endregion
+
+        #region Client Interface
+        /// <summary>
+        /// Handler called every time a block state is inserted in the controller.
+        /// </summary>
+        /// <param name="blockState">The block state inserted.</param>
+        public override void OnBlockStateInserted(IWriteableBrowsingCollectionNodeIndex nodeIndex, IWriteableBlockState blockState)
+        {
+            base.OnBlockStateInserted(nodeIndex, blockState);
+
+            IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> ParentInner = blockState.ParentInner as IFrameBlockListInner<IFrameBrowsingBlockNodeIndex>;
+            IFrameNodeState Owner = ParentInner.Owner;
+            IFrameNodeStateView StateView = StateViewTable[Owner];
+
+            IFrameBlockStateView BlockStateView = BlockStateViewTable[(IFrameBlockState)blockState];
+            BuildBlockCellView(StateView, BlockStateView);
+        }
+
+        /// <summary>
+        /// Handler called every time a state is inserted in the controller.
+        /// </summary>
+        /// <param name="state">The state inserted.</param>
+        public override void OnStateInserted(IWriteableBrowsingCollectionNodeIndex nodeIndex, IWriteableNodeState state)
+        {
+            base.OnStateInserted(nodeIndex, state);
+
+            IFrameNodeStateView StateView = StateViewTable[(IFrameNodeState)state];
+            BuildCellView(StateView);
+        }
+        #endregion
+
+        #region Implementation
+        protected virtual void BuildCellView(IFrameNodeStateView stateView)
+        {
+            stateView.BuildRootCellView(this);
+        }
+
+        protected virtual void ClearCellView(IFrameNodeStateView stateView)
+        {
+        }
+
+        protected virtual void BuildBlockCellView(IFrameNodeStateView stateView, IFrameBlockStateView blockStateView)
+        {
+            blockStateView.BuildRootCellView(this, stateView);
+        }
+
+        protected virtual void ClearBlockCellView(IFrameNodeStateView stateView, IFrameBlockStateView blockStateView)
+        {
+        }
         #endregion
 
         #region Debugging
@@ -95,12 +181,21 @@ namespace EaslyController.Frame
 
         #region Create Methods
         /// <summary>
-        /// Creates a IxxxNodeStateViewDictionary object.
+        /// Creates a IxxxStateViewDictionary object.
         /// </summary>
         protected override IReadOnlyStateViewDictionary CreateStateViewTable()
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameControllerView));
             return new FrameStateViewDictionary();
+        }
+
+        /// <summary>
+        /// Creates a IxxxBlockStateViewDictionary object.
+        /// </summary>
+        protected override IReadOnlyBlockStateViewDictionary CreateBlockStateViewTable()
+        {
+            ControllerTools.AssertNoOverride(this, typeof(FrameControllerView));
+            return new FrameBlockStateViewDictionary();
         }
 
         /// <summary>
@@ -151,6 +246,15 @@ namespace EaslyController.Frame
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameControllerView));
             return new FrameSourceStateView((IFrameSourceState)state, TemplateSet);
+        }
+
+        /// <summary>
+        /// Creates a IxxxBlockStateView object.
+        /// </summary>
+        protected override IReadOnlyBlockStateView CreateBlockStateView(IReadOnlyBlockState blockState)
+        {
+            ControllerTools.AssertNoOverride(this, typeof(FrameControllerView));
+            return new FrameBlockStateView((IFrameBlockState)blockState, TemplateSet);
         }
         #endregion
     }

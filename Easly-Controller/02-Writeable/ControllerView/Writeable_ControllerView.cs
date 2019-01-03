@@ -17,6 +17,11 @@ namespace EaslyController.Writeable
         /// Table of views of each state in the controller.
         /// </summary>
         new IWriteableStateViewDictionary StateViewTable { get; }
+
+        /// <summary>
+        /// Table of views of each block state in the controller.
+        /// </summary>
+        new IWriteableBlockStateViewDictionary BlockStateViewTable { get; }
     }
 
     /// <summary>
@@ -44,6 +49,17 @@ namespace EaslyController.Writeable
             : base(controller)
         {
         }
+
+        /// <summary>
+        /// Initializes the view by attaching it to the controller.
+        /// </summary>
+        protected override void Init()
+        {
+            base.Init();
+
+            Controller.BlockStateInserted += OnBlockStateInserted;
+            Controller.StateInserted += OnStateInserted;
+        }
         #endregion
 
         #region Properties
@@ -56,6 +72,36 @@ namespace EaslyController.Writeable
         /// Table of views of each state in the controller.
         /// </summary>
         public new IWriteableStateViewDictionary StateViewTable { get { return (IWriteableStateViewDictionary)base.StateViewTable; } }
+
+        /// <summary>
+        /// Table of views of each block state in the controller.
+        /// </summary>
+        public new IWriteableBlockStateViewDictionary BlockStateViewTable { get { return (IWriteableBlockStateViewDictionary)base.BlockStateViewTable; } }
+        #endregion
+
+        #region Client Interface
+        /// <summary>
+        /// Handler called every time a block state is inserted in the controller.
+        /// </summary>
+        /// <param name="blockState">The block state inserted.</param>
+        public virtual void OnBlockStateInserted(IWriteableBrowsingCollectionNodeIndex nodeIndex, IWriteableBlockState blockState)
+        {
+            Debug.Assert(blockState != null);
+            Debug.Assert(BlockStateViewTable.ContainsKey(blockState));
+
+            foreach (IWriteableNodeState State in blockState.StateList)
+                Debug.Assert(StateViewTable.ContainsKey(State));
+        }
+
+        /// <summary>
+        /// Handler called every time a state is inserted in the controller.
+        /// </summary>
+        /// <param name="state">The state inserted.</param>
+        public virtual void OnStateInserted(IWriteableBrowsingCollectionNodeIndex nodeIndex, IWriteableNodeState state)
+        {
+            Debug.Assert(state != null);
+            Debug.Assert(StateViewTable.ContainsKey(state));
+        }
         #endregion
 
         #region Debugging
@@ -79,12 +125,21 @@ namespace EaslyController.Writeable
 
         #region Create Methods
         /// <summary>
-        /// Creates a IxxxNodeStateViewDictionary object.
+        /// Creates a IxxxStateViewDictionary object.
         /// </summary>
         protected override IReadOnlyStateViewDictionary CreateStateViewTable()
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableControllerView));
             return new WriteableStateViewDictionary();
+        }
+
+        /// <summary>
+        /// Creates a IxxxBlockStateViewDictionary object.
+        /// </summary>
+        protected override IReadOnlyBlockStateViewDictionary CreateBlockStateViewTable()
+        {
+            ControllerTools.AssertNoOverride(this, typeof(WriteableControllerView));
+            return new WriteableBlockStateViewDictionary();
         }
 
         /// <summary>
@@ -135,6 +190,15 @@ namespace EaslyController.Writeable
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableControllerView));
             return new WriteableSourceStateView((IWriteableSourceState)state);
+        }
+
+        /// <summary>
+        /// Creates a IxxxBlockStateView object.
+        /// </summary>
+        protected override IReadOnlyBlockStateView CreateBlockStateView(IReadOnlyBlockState blockState)
+        {
+            ControllerTools.AssertNoOverride(this, typeof(WriteableControllerView));
+            return new WriteableBlockStateView((IWriteableBlockState)blockState);
         }
         #endregion
     }

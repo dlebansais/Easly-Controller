@@ -17,6 +17,11 @@ namespace EaslyController.ReadOnly
         /// Table of views of each state in the controller.
         /// </summary>
         IReadOnlyStateViewDictionary StateViewTable { get; }
+
+        /// <summary>
+        /// Table of views of each block state in the controller.
+        /// </summary>
+        IReadOnlyBlockStateViewDictionary BlockStateViewTable { get; }
     }
 
     /// <summary>
@@ -45,6 +50,7 @@ namespace EaslyController.ReadOnly
             Controller = controller;
 
             StateViewTable = CreateStateViewTable();
+            BlockStateViewTable = CreateBlockStateViewTable();
         }
 
         /// <summary>
@@ -56,10 +62,12 @@ namespace EaslyController.ReadOnly
             Controller.Attach(this, CallbackSet);
 
             Debug.Assert(StateViewTable.Count == Controller.Stats.NodeCount);
+            Debug.Assert(BlockStateViewTable.Count == Controller.Stats.BlockCount);
 
             Controller.StateCreated += OnNodeStateCreated;
             Controller.StateInitialized += OnNodeStateInitialized;
             Controller.StateRemoved += OnNodeStateRemoved;
+            Controller.BlockListInnerCreated += OnBlockListInnerCreated;
         }
         #endregion
 
@@ -73,6 +81,11 @@ namespace EaslyController.ReadOnly
         /// Table of views of each state in the controller.
         /// </summary>
         public IReadOnlyStateViewDictionary StateViewTable { get; }
+
+        /// <summary>
+        /// Table of views of each block state in the controller.
+        /// </summary>
+        public IReadOnlyBlockStateViewDictionary BlockStateViewTable { get; }
         #endregion
 
         #region Client Interface
@@ -120,9 +133,6 @@ namespace EaslyController.ReadOnly
         {
             Debug.Assert(state != null);
             Debug.Assert(StateViewTable.ContainsKey(state));
-
-            IReadOnlyNodeStateView StateView = StateViewTable[state];
-            StateView.Initialize();
         }
 
         /// <summary>
@@ -154,6 +164,10 @@ namespace EaslyController.ReadOnly
         public virtual void OnBlockStateCreated(IReadOnlyBlockState blockState)
         {
             Debug.Assert(blockState != null);
+            Debug.Assert(!BlockStateViewTable.ContainsKey(blockState));
+
+            IReadOnlyBlockStateView BlockStateView = CreateBlockStateView(blockState);
+            BlockStateViewTable.Add(blockState, BlockStateView);
         }
 
         /// <summary>
@@ -163,6 +177,9 @@ namespace EaslyController.ReadOnly
         public virtual void OnBlockStateRemoved(IReadOnlyBlockState blockState)
         {
             Debug.Assert(blockState != null);
+            Debug.Assert(BlockStateViewTable.ContainsKey(blockState));
+
+            BlockStateViewTable.Remove(blockState);
         }
         #endregion
 
@@ -184,18 +201,30 @@ namespace EaslyController.ReadOnly
             if (!comparer.VerifyEqual(StateViewTable, AsControllerView.StateViewTable))
                 return false;
 
+            if (!comparer.VerifyEqual(BlockStateViewTable, AsControllerView.BlockStateViewTable))
+                return false;
+
             return true;
         }
         #endregion
 
         #region Create Methods
         /// <summary>
-        /// Creates a IxxxNodeStateViewDictionary object.
+        /// Creates a IxxxStateViewDictionary object.
         /// </summary>
         protected virtual IReadOnlyStateViewDictionary CreateStateViewTable()
         {
             ControllerTools.AssertNoOverride(this, typeof(ReadOnlyControllerView));
             return new ReadOnlyStateViewDictionary();
+        }
+
+        /// <summary>
+        /// Creates a IxxxBlockStateViewDictionary object.
+        /// </summary>
+        protected virtual IReadOnlyBlockStateViewDictionary CreateBlockStateViewTable()
+        {
+            ControllerTools.AssertNoOverride(this, typeof(ReadOnlyControllerView));
+            return new ReadOnlyBlockStateViewDictionary();
         }
 
         /// <summary>
@@ -246,6 +275,15 @@ namespace EaslyController.ReadOnly
         {
             ControllerTools.AssertNoOverride(this, typeof(ReadOnlyControllerView));
             return new ReadOnlySourceStateView(state);
+        }
+
+        /// <summary>
+        /// Creates a IxxxBlockStateView object.
+        /// </summary>
+        protected virtual IReadOnlyBlockStateView CreateBlockStateView(IReadOnlyBlockState blockState)
+        {
+            ControllerTools.AssertNoOverride(this, typeof(ReadOnlyControllerView));
+            return new ReadOnlyBlockStateView(blockState);
         }
         #endregion
     }

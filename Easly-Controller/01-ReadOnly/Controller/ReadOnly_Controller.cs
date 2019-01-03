@@ -37,6 +37,11 @@ namespace EaslyController.ReadOnly
         event Action<IReadOnlyNodeState> StateRemoved;
 
         /// <summary>
+        /// Called when a block list inner is created
+        /// </summary>
+        event Action<IReadOnlyBlockListInner> BlockListInnerCreated;
+
+        /// <summary>
         /// Checks if an index corresponds to a state.
         /// </summary>
         /// <param name="index">The index to check</param>
@@ -137,6 +142,18 @@ namespace EaslyController.ReadOnly
         protected virtual void RemoveStateRemovedDelegate(Action<IReadOnlyNodeState> handler) { StateRemovedHandler -= handler; }
 
         /// <summary>
+        /// Called when a block list inner is created
+        /// </summary>
+        public event Action<IReadOnlyBlockListInner> BlockListInnerCreated
+        {
+            add { AddBlockListInnerCreatedDelegate(value); }
+            remove { RemoveBlockListInnerCreatedDelegate(value); }
+        }
+        protected Action<IReadOnlyBlockListInner> BlockListInnerCreatedHandler;
+        protected virtual void AddBlockListInnerCreatedDelegate(Action<IReadOnlyBlockListInner> handler) { BlockListInnerCreatedHandler += handler; }
+        protected virtual void RemoveBlockListInnerCreatedDelegate(Action<IReadOnlyBlockListInner> handler) { BlockListInnerCreatedHandler -= handler; }
+
+        /// <summary>
         /// State table.
         /// </summary>
         protected IReadOnlyIndexNodeStateReadOnlyDictionary StateTable { get; }
@@ -192,6 +209,11 @@ namespace EaslyController.ReadOnly
         protected virtual void NotifyStateRemoved(IReadOnlyNodeState state)
         {
             StateRemovedHandler?.Invoke(state);
+        }
+
+        protected virtual void NotifyBlockListInnerCreated(IReadOnlyBlockListInner inner)
+        {
+            BlockListInnerCreatedHandler?.Invoke(inner);
         }
         #endregion
 
@@ -314,7 +336,9 @@ namespace EaslyController.ReadOnly
 
                 case IReadOnlyIndexCollection<IReadOnlyBrowsingBlockNodeIndex> AsBlockNodeIndexCollection:
                     Stats.BlockListCount++;
-                    return CreateBlockListInner(parentState, AsBlockNodeIndexCollection);
+                    IReadOnlyBlockListInner<IReadOnlyBrowsingBlockNodeIndex> Inner = CreateBlockListInner(parentState, AsBlockNodeIndexCollection);
+                    NotifyBlockListInnerCreated(Inner as IReadOnlyBlockListInner);
+                    return Inner;
 
                 default:
                     throw new ArgumentOutOfRangeException(nameof(nodeIndexCollection));
@@ -370,6 +394,7 @@ namespace EaslyController.ReadOnly
                     {
                         IReadOnlyBlockState BlockState = AsBlockListInner.InitNewBlock(AsNewBlockIndex);
                         BlockState.InitBlockState();
+                        Stats.BlockCount++;
 
                         IReadOnlyBrowsingPatternIndex PatternIndex = BlockState.PatternIndex;
                         IReadOnlyPatternState PatternState = BlockState.PatternState;

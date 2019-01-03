@@ -1,12 +1,13 @@
 ﻿using BaseNodeHelper;
 using System;
+using System.Diagnostics;
 
 namespace EaslyController.Frame
 {
     /// <summary>
     /// Frame for describing an optional child node.
     /// </summary>
-    public interface IFrameOptionalFrame : IFrameNamedFrame
+    public interface IFrameOptionalFrame : IFrameNamedFrame, IFrameNodeFrame
     {
     }
 
@@ -29,6 +30,42 @@ namespace EaslyController.Frame
                 return false;
 
             return true;
+        }
+
+        /// <summary>
+        /// Create cells for the provided state view.
+        /// </summary>
+        /// <param name="controllerView">The view in cells are created.</param>
+        /// <param name="stateView">The state view for which to create cells.</param>
+        public virtual IFrameCellView BuildNodeCells(IFrameControllerView controllerView, IFrameNodeStateView stateView)
+        {
+            IFrameNodeState State = stateView.State;
+            Debug.Assert(State != null);
+            Debug.Assert(State.InnerTable != null);
+            Debug.Assert(State.InnerTable.ContainsKey(PropertyName));
+
+            IFrameOptionalInner<IFrameBrowsingOptionalNodeIndex> Inner = State.InnerTable[PropertyName] as IFrameOptionalInner<IFrameBrowsingOptionalNodeIndex>;
+            Debug.Assert(Inner != null);
+            Debug.Assert(Inner.ChildState != null);
+            IFrameNodeState ChildState = Inner.ChildState;
+
+            IFrameStateViewDictionary StateViewTable = controllerView.StateViewTable;
+            Debug.Assert(StateViewTable.ContainsKey(ChildState));
+
+            IFrameNodeStateView ChildStateView = StateViewTable[ChildState];
+
+            return CreateFrameCellView(stateView, ChildStateView);
+        }
+        #endregion
+
+        #region Create Methods
+        /// <summary>
+        /// Creates a IxxxContainerCellView object.
+        /// </summary>
+        protected virtual IFrameContainerCellView CreateFrameCellView(IFrameNodeStateView stateView, IFrameNodeStateView childStateView)
+        {
+            ControllerTools.AssertNoOverride(this, typeof(FrameOptionalFrame));
+            return new FrameContainerCellView(stateView, childStateView);
         }
         #endregion
     }

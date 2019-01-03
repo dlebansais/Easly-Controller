@@ -18,6 +18,18 @@ namespace EaslyController.Frame
         /// The template used to display the block state.
         /// </summary>
         IFrameTemplate Template { get; }
+
+        /// <summary>
+        /// Root cell for the view.
+        /// </summary>
+        IFrameCellView RootCellView { get; }
+
+        /// <summary>
+        /// Builds the cell view tree for this view.
+        /// </summary>
+        /// <param name="controllerView">The view in which the state is initialized.</param>
+        /// <param name="stateView">The state view for which to create cells.</param>
+        void BuildRootCellView(IFrameControllerView controllerView, IFrameNodeStateView stateView);
     }
 
     /// <summary>
@@ -52,6 +64,28 @@ namespace EaslyController.Frame
         /// The template used to display the block state.
         /// </summary>
         public IFrameTemplate Template { get; }
+
+        /// <summary>
+        /// Root cell for the view.
+        /// </summary>
+        public IFrameCellView RootCellView { get; private set; }
+        #endregion
+
+        #region Client Interface
+        /// <summary>
+        /// Builds the cell view tree for this view.
+        /// </summary>
+        /// <param name="controllerView">The view in which the state is initialized.</param>
+        /// <param name="stateView">The state view for which to create cells.</param>
+        public virtual void BuildRootCellView(IFrameControllerView controllerView, IFrameNodeStateView stateView)
+        {
+            Debug.Assert(controllerView != null);
+
+            IFrameBlockTemplate NodeTemplate = Template as IFrameBlockTemplate;
+            Debug.Assert(NodeTemplate != null);
+
+            RootCellView = NodeTemplate.BuildBlockCells(controllerView, stateView, this);
+        }
         #endregion
     }
 }

@@ -88,23 +88,19 @@ namespace EaslyController.Frame
         /// <summary>
         /// Called when a block state is created.
         /// </summary>
-        public new event Action<IFrameBlockState> BlockStateCreated;
+        public new event Action<IFrameBlockState> BlockStateCreated
+        {
+            add { AddBlockStateCreatedDelegate((Action<IReadOnlyBlockState>)value); }
+            remove { RemoveBlockStateCreatedDelegate((Action<IReadOnlyBlockState>)value); }
+        }
 
         /// <summary>
         /// Called when a block state is removed.
         /// </summary>
-        public new event Action<IFrameBlockState> BlockStateRemoved;
-        #endregion
-
-        #region Descendant Interface
-        protected override void NotifyBlockStateCreated(IReadOnlyBlockState blockState)
+        public new event Action<IFrameBlockState> BlockStateRemoved
         {
-            BlockStateCreated?.Invoke((IFrameBlockState)blockState);
-        }
-
-        protected override void NotifyBlockStateRemoved(IReadOnlyBlockState blockState)
-        {
-            BlockStateRemoved?.Invoke((IFrameBlockState)blockState);
+            add { AddBlockStateRemovedDelegate((Action<IReadOnlyBlockState>)value); }
+            remove { RemoveBlockStateRemovedDelegate((Action<IReadOnlyBlockState>)value); }
         }
         #endregion
 

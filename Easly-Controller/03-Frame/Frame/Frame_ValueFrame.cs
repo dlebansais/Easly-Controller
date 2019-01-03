@@ -3,7 +3,7 @@
     /// <summary>
     /// Frame describing a value property (or string) in a node.
     /// </summary>
-    public interface IFrameValueFrame : IFrameNamedFrame
+    public interface IFrameValueFrame : IFrameNamedFrame, IFrameNodeFrame
     {
     }
 
@@ -18,7 +18,7 @@
         /// </summary>
         /// <param name="controllerView">The view in cells are created.</param>
         /// <param name="stateView">The state view for which to create cells.</param>
-        public override IFrameCellView BuildCells(IFrameControllerView controllerView, IFrameNodeStateView stateView)
+        public virtual IFrameCellView BuildNodeCells(IFrameControllerView controllerView, IFrameNodeStateView stateView)
         {
             return CreateFrameCellView(stateView);
         }
@@ -30,7 +30,7 @@
         /// </summary>
         protected virtual IFrameVisibleCellView CreateFrameCellView(IFrameNodeStateView stateView)
         {
-            ControllerTools.AssertNoOverride(this, typeof(FrameStaticFrame));
+            ControllerTools.AssertNoOverride(this, typeof(FrameValueFrame));
             return new FrameVisibleCellView(stateView);
         }
         #endregion

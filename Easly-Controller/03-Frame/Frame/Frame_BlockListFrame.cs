@@ -1,12 +1,13 @@
 ﻿using BaseNodeHelper;
 using System;
+using System.Diagnostics;
 
 namespace EaslyController.Frame
 {
     /// <summary>
     /// Base frame for a block list.
     /// </summary>
-    public interface IFrameBlockListFrame : IFrameNamedFrame
+    public interface IFrameBlockListFrame : IFrameNamedFrame, IFrameNodeFrame
     {
     }
 
@@ -27,6 +28,56 @@ namespace EaslyController.Frame
 
             return NodeTreeHelperBlockList.IsBlockListProperty(nodeType, PropertyName, out Type ChildInterfaceType, out Type ChildNodeType);
         }
+
+        /// <summary>
+        /// Create cells for the provided state view.
+        /// </summary>
+        /// <param name="controllerView">The view in cells are created.</param>
+        /// <param name="stateView">The state view for which to create cells.</param>
+        public virtual IFrameCellView BuildNodeCells(IFrameControllerView controllerView, IFrameNodeStateView stateView)
+        {
+            IFrameNodeState State = stateView.State;
+            Debug.Assert(State != null);
+            Debug.Assert(State.InnerTable != null);
+            Debug.Assert(State.InnerTable.ContainsKey(PropertyName));
+
+            IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> Inner = State.InnerTable[PropertyName] as IFrameBlockListInner<IFrameBrowsingBlockNodeIndex>;
+            Debug.Assert(Inner != null);
+
+            IFrameBlockStateViewDictionary BlockStateViewTable = controllerView.BlockStateViewTable;
+            IFrameCellViewList CellViewList = CreateCellViewList();
+
+            Type BlockType = Inner.BlockType;
+            IFrameTemplateSet TemplateSet = controllerView.TemplateSet;
+            IFrameBlockTemplate BlockTemplate = TemplateSet.BlockTypeToTemplate(BlockType);
+
+            foreach (IFrameBlockState BlockState in Inner.BlockStateList)
+            {
+                Debug.Assert(controllerView.BlockStateViewTable.ContainsKey(BlockState));
+                IFrameBlockStateView BlockStateView = controllerView.BlockStateViewTable[BlockState];
+
+                IFrameCellView BlockCellView = BlockTemplate.BuildBlockCells(controllerView, stateView, BlockStateView);
+                CellViewList.Add(BlockCellView);
+            }
+
+            return CreateEmbeddingCellView(stateView, CellViewList);
+        }
+        #endregion
+
+        #region Create Methods
+        /// <summary>
+        /// Creates a IxxxCellViewList object.
+        /// </summary>
+        protected virtual IFrameCellViewList CreateCellViewList()
+        {
+            ControllerTools.AssertNoOverride(this, typeof(FrameBlockListFrame));
+            return new FrameCellViewList();
+        }
+
+        /// <summary>
+        /// Creates a IxxxMutableCellViewCollection object.
+        /// </summary>
+        protected abstract IFrameMutableCellViewCollection CreateEmbeddingCellView(IFrameNodeStateView stateView, IFrameCellViewList list);
         #endregion
     }
 }

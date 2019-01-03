@@ -3,7 +3,7 @@
     /// <summary>
     /// Frame for decoration purpose only.
     /// </summary>
-    public interface IFrameStaticFrame : IFrameFrame
+    public interface IFrameStaticFrame : IFrameFrame, IFrameNodeFrame
     {
     }
 
@@ -18,7 +18,7 @@
         /// </summary>
         /// <param name="controllerView">The view in cells are created.</param>
         /// <param name="stateView">The state view for which to create cells.</param>
-        public override IFrameCellView BuildCells(IFrameControllerView controllerView, IFrameNodeStateView stateView)
+        public virtual IFrameCellView BuildNodeCells(IFrameControllerView controllerView, IFrameNodeStateView stateView)
         {
             return CreateFrameCellView(stateView);
         }

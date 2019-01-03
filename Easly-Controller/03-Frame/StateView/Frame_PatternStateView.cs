@@ -54,10 +54,24 @@ namespace EaslyController.Frame
         /// <summary>
         /// Root cell for the view.
         /// </summary>
-        public IFrameCellView RootCellView { get; }
+        public IFrameCellView RootCellView { get; private set; }
         #endregion
 
         #region Client Interface
+        /// <summary>
+        /// Builds the cell view tree for this view.
+        /// </summary>
+        /// <param name="controllerView">The view in which the state is initialized.</param>
+        public virtual void BuildRootCellView(IFrameControllerView controllerView)
+        {
+            Debug.Assert(controllerView != null);
+
+            IFrameNodeTemplate NodeTemplate = Template as IFrameNodeTemplate;
+            Debug.Assert(NodeTemplate != null);
+
+            RootCellView = NodeTemplate.BuildNodeCells(controllerView, this);
+        }
+
         public virtual void RecalculateLineNumbers(IFrameController controller, ref int lineNumber, ref int columnNumber)
         {
             IFrameCellView RootCellView = null;

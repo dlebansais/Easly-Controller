@@ -9,6 +9,11 @@ namespace EaslyController.Frame
     public interface IFrameFrame
     {
         /// <summary>
+        /// Parent template.
+        /// </summary>
+        IFrameTemplate ParentTemplate { get; }
+
+        /// <summary>
         /// Parent frame, or null for the root frame in a template.
         /// </summary>
         IFrameFrame ParentFrame { get; }
@@ -22,15 +27,9 @@ namespace EaslyController.Frame
         /// <summary>
         /// Update the reference to the parent frame.
         /// </summary>
+        /// <param name="parentTemplate">The parent template.</param>
         /// <param name="parentFrame">The parent frame.</param>
-        void UpdateParentFrame(IFrameFrame parentFrame);
-
-        /// <summary>
-        /// Create cells for the provided state view.
-        /// </summary>
-        /// <param name="controllerView">The view in cells are created.</param>
-        /// <param name="stateView">The state view for which to create cells.</param>
-        IFrameCellView BuildCells(IFrameControllerView controllerView, IFrameNodeStateView stateView);
+        void UpdateParent(IFrameTemplate parentTemplate, IFrameFrame parentFrame);
     }
 
     /// <summary>
@@ -41,15 +40,21 @@ namespace EaslyController.Frame
         #region Init
         private class FrameRootFrame : IFrameFrame
         {
+            public IFrameTemplate ParentTemplate { get { throw new InvalidOperationException(); } }
             public IFrameFrame ParentFrame { get { throw new InvalidOperationException(); } }
             public bool IsValid(Type nodeType) { return false; }
-            public void UpdateParentFrame(IFrameFrame parentFrame) { throw new InvalidOperationException(); }
+            public void UpdateParent(IFrameTemplate parentTemplate, IFrameFrame parentFrame) { throw new InvalidOperationException(); }
         }
 
         public static IFrameFrame Root = new FrameRootFrame();
         #endregion
 
         #region Properties
+        /// <summary>
+        /// Parent template.
+        /// </summary>
+        public IFrameTemplate ParentTemplate { get; private set; }
+
         /// <summary>
         /// Parent frame, or null for the root frame in a template.
         /// </summary>
@@ -65,21 +70,19 @@ namespace EaslyController.Frame
         /// <summary>
         /// Update the reference to the parent frame.
         /// </summary>
+        /// <param name="parentTemplate">The parent template.</param>
         /// <param name="parentFrame">The parent frame.</param>
-        public virtual void UpdateParentFrame(IFrameFrame parentFrame)
+        public virtual void UpdateParent(IFrameTemplate parentTemplate, IFrameFrame parentFrame)
         {
+            Debug.Assert(parentTemplate != null);
             Debug.Assert(parentFrame != null);
-            Debug.Assert(ParentFrame == null);
 
+            Debug.Assert(ParentTemplate == null);
+            ParentTemplate = parentTemplate;
+
+            Debug.Assert(ParentFrame == null);
             ParentFrame = parentFrame;
         }
-
-        /// <summary>
-        /// Create cells for the provided state view.
-        /// </summary>
-        /// <param name="controllerView">The view in cells are created.</param>
-        /// <param name="stateView">The state view for which to create cells.</param>
-        public abstract IFrameCellView BuildCells(IFrameControllerView controllerView, IFrameNodeStateView stateView);
         #endregion
 
         #region Debugging

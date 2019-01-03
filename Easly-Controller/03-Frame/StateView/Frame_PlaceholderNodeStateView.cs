@@ -43,17 +43,6 @@ namespace EaslyController.Frame
 
             Template = templateSet.NodeTypeToTemplate(InterfaceType);
         }
-
-        /// <summary>
-        /// Called after the node state is initialized.
-        /// </summary>
-        /// <param name="controllerView">The view in which the state is initialized.</param>
-        public override void Initialize(IReadOnlyControllerView controllerView)
-        {
-            base.Initialize(controllerView);
-
-            RootCellView = Template.BuildCells((IFrameControllerView)controllerView, this);
-        }
         #endregion
 
         #region Properties
@@ -75,6 +64,20 @@ namespace EaslyController.Frame
         #endregion
 
         #region Client Interface
+        /// <summary>
+        /// Builds the cell view tree for this view.
+        /// </summary>
+        /// <param name="controllerView">The view in which the state is initialized.</param>
+        public virtual void BuildRootCellView(IFrameControllerView controllerView)
+        {
+            Debug.Assert(controllerView != null);
+
+            IFrameNodeTemplate NodeTemplate = Template as IFrameNodeTemplate;
+            Debug.Assert(NodeTemplate != null);
+
+            RootCellView = NodeTemplate.BuildNodeCells(controllerView, this);
+        }
+
         public virtual void RecalculateLineNumbers(IFrameController controller, ref int lineNumber, ref int columnNumber)
         {
             IFrameCellView RootCellView = null;

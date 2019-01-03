@@ -1,4 +1,5 @@
 ﻿using EaslyController.Writeable;
+using System.Diagnostics;
 
 namespace EaslyController.Frame
 {
@@ -21,6 +22,12 @@ namespace EaslyController.Frame
         /// Root cell for the view.
         /// </summary>
         IFrameCellView RootCellView { get; }
+
+        /// <summary>
+        /// Builds the cell view tree for this view.
+        /// </summary>
+        /// <param name="controllerView">The view in which the state is initialized.</param>
+        void BuildRootCellView(IFrameControllerView controllerView);
 
         void RecalculateLineNumbers(IFrameController controller, ref int lineNumber, ref int columnNumber);
     }
@@ -60,6 +67,12 @@ namespace EaslyController.Frame
         #endregion
 
         #region Client Interface
+        /// <summary>
+        /// Builds the cell view tree for this view.
+        /// </summary>
+        /// <param name="controllerView">The view in which the state is initialized.</param>
+        public abstract void BuildRootCellView(IFrameControllerView controllerView);
+
         public abstract void RecalculateLineNumbers(IFrameController controller, ref int lineNumber, ref int columnNumber);
         #endregion
     }

@@ -37,13 +37,13 @@ namespace EaslyController.Frame
         /// Template that will be used to describe the given node.
         /// </summary>
         /// <param name="nodeType">Type of the node for which a template is requested.</param>
-        IFrameTemplate NodeTypeToTemplate(Type nodeType);
+        IFrameNodeTemplate NodeTypeToTemplate(Type nodeType);
 
         /// <summary>
         /// Template that will be used to describe the given block.
         /// </summary>
         /// <param name="blockType">Type of the block for which a template is requested.</param>
-        IFrameTemplate BlockTypeToTemplate(Type blockType);
+        IFrameBlockTemplate BlockTypeToTemplate(Type blockType);
     }
 
     /// <summary>
@@ -143,24 +143,24 @@ namespace EaslyController.Frame
         /// Template that will be used to describe the given node.
         /// </summary>
         /// <param name="nodeType">Type of the node for which a template is requested.</param>
-        public virtual IFrameTemplate NodeTypeToTemplate(Type nodeType)
+        public virtual IFrameNodeTemplate NodeTypeToTemplate(Type nodeType)
         {
             Debug.Assert(nodeType != null);
             Debug.Assert(NodeTemplateTable.ContainsKey(nodeType));
 
-            return NodeTemplateTable[nodeType];
+            return NodeTemplateTable[nodeType] as IFrameNodeTemplate;
         }
 
         /// <summary>
         /// Template that will be used to describe the given block.
         /// </summary>
         /// <param name="blockType">Type of the block for which a template is requested.</param>
-        public virtual IFrameTemplate BlockTypeToTemplate(Type blockType)
+        public virtual IFrameBlockTemplate BlockTypeToTemplate(Type blockType)
         {
             Debug.Assert(blockType != null);
             Debug.Assert(BlockTemplateTable.ContainsKey(blockType));
 
-            return BlockTemplateTable[blockType];
+            return BlockTemplateTable[blockType] as IFrameBlockTemplate;
         }
         #endregion
 
@@ -196,7 +196,7 @@ namespace EaslyController.Frame
                 return;
 
             IFrameHorizontalPanelFrame RootFrame = CreateHorizontalPanelFrame();
-            IFrameTemplate RootTemplate = CreateTemplate();
+            IFrameNodeTemplate RootTemplate = CreateNodeTemplate();
             RootTemplate.NodeName = nodeType.Name;
             RootTemplate.Root = RootFrame;
 
@@ -244,7 +244,7 @@ namespace EaslyController.Frame
                     RootFrame.Items.Add(NewFrame);
                 }
 
-            RootFrame.UpdateParentFrame(FrameFrame.Root);
+            RootFrame.UpdateParent(RootTemplate, FrameFrame.Root);
         }
 
         protected virtual IFrameTemplateReadOnlyDictionary BuildDefaultBlockListTemplate()
@@ -268,15 +268,15 @@ namespace EaslyController.Frame
             RootFrame.Items.Add(SourceFrame);
             RootFrame.Items.Add(CollectionPlaceholderFrame);
 
-            RootFrame.UpdateParentFrame(FrameFrame.Root);
+            IFrameBlockTemplate RootTemplate = CreateBlockTemplate();
+            RootTemplate.NodeName = typeof(IBlockList).Name;
+            RootTemplate.Root = RootFrame;
 
-            IFrameTemplate DefaultBlockListTemplate = CreateTemplate();
-            DefaultBlockListTemplate.NodeName = typeof(IBlockList).Name;
-            DefaultBlockListTemplate.Root = RootFrame;
+            RootFrame.UpdateParent(RootTemplate, FrameFrame.Root);
 
             List<Type> BlockKeys = new List<Type>(DefaultDictionary.Keys);
             foreach (Type Key in BlockKeys)
-                DefaultDictionary[Key] = DefaultBlockListTemplate;
+                DefaultDictionary[Key] = RootTemplate;
 
             return CreateTemplateReadOnlyDictionary(DefaultDictionary);
         }
@@ -380,10 +380,19 @@ namespace EaslyController.Frame
         /// <summary>
         /// Creates a IxxxTemplate object.
         /// </summary>
-        protected virtual IFrameTemplate CreateTemplate()
+        protected virtual IFrameNodeTemplate CreateNodeTemplate()
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameTemplateSet));
-            return new FrameTemplate();
+            return new FrameNodeTemplate();
+        }
+
+        /// <summary>
+        /// Creates a IxxxTemplate object.
+        /// </summary>
+        protected virtual IFrameBlockTemplate CreateBlockTemplate()
+        {
+            ControllerTools.AssertNoOverride(this, typeof(FrameTemplateSet));
+            return new FrameBlockTemplate();
         }
 
         /// <summary>

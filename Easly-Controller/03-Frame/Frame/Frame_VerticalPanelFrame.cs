@@ -12,5 +12,15 @@
     /// </summary>
     public class FrameVerticalPanelFrame : FramePanelFrame, IFrameVerticalPanelFrame
     {
+        #region Create Methods
+        /// <summary>
+        /// Creates a IxxxCellViewCollection object.
+        /// </summary>
+        protected override IFrameCellViewCollection CreateEmbeddingCellView(IFrameNodeStateView stateView, IFrameCellViewReadOnlyList list)
+        {
+            ControllerTools.AssertNoOverride(this, typeof(FrameVerticalPanelFrame));
+            return new FrameColumn(stateView, list);
+        }
+        #endregion
     }
 }

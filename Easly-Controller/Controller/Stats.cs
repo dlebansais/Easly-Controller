@@ -10,6 +10,7 @@ namespace EaslyController
         public int AssignedOptionalNodeCount { get; set; }
         public int ListCount { get; set; }
         public int BlockListCount { get; set; }
+        public int BlockCount { get; set; }
 
         public virtual bool IsEqual(CompareEqual comparer, IEqualComparable other)
         {
@@ -34,6 +35,9 @@ namespace EaslyController
                 return false;
 
             if (BlockListCount != AsStats.BlockListCount)
+                return false;
+
+            if (BlockCount != AsStats.BlockCount)
                 return false;
 
             return true;

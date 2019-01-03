@@ -32,6 +32,11 @@ namespace EaslyController.Frame
         /// Called when a state is removed.
         /// </summary>
         new event Action<IFrameNodeState> StateRemoved;
+
+        /// <summary>
+        /// Called when a block list inner is created
+        /// </summary>
+        new event Action<IFrameBlockListInner> BlockListInnerCreated;
     }
 
     public class FrameController : WriteableController, IFrameController
@@ -92,6 +97,15 @@ namespace EaslyController.Frame
         {
             add { AddStateRemovedDelegate((Action<IReadOnlyNodeState>)value); }
             remove { RemoveStateRemovedDelegate((Action<IReadOnlyNodeState>)value); }
+        }
+
+        /// <summary>
+        /// Called when a block list inner is created
+        /// </summary>
+        public new event Action<IFrameBlockListInner> BlockListInnerCreated
+        {
+            add { AddBlockListInnerCreatedDelegate((Action<IReadOnlyBlockListInner>)value); }
+            remove { RemoveBlockListInnerCreatedDelegate((Action<IReadOnlyBlockListInner>)value); }
         }
 
         /// <summary>
