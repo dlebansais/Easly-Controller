@@ -8,6 +8,11 @@ namespace EaslyController.ReadOnly
     public interface IReadOnlyNodeStateView : IEqualComparable
     {
         /// <summary>
+        /// The controller view to which this object belongs.
+        /// </summary>
+        IReadOnlyControllerView ControllerView { get; }
+
+        /// <summary>
         /// The node state.
         /// </summary>
         IReadOnlyNodeState State { get; }
@@ -22,16 +27,24 @@ namespace EaslyController.ReadOnly
         /// <summary>
         /// Initializes a new instance of the <see cref="ReadOnlyNodeStateView"/> class.
         /// </summary>
+        /// <param name="controllerView">The controller view to which this object belongs.</param>
         /// <param name="state">The node state.</param>
-        public ReadOnlyNodeStateView(IReadOnlyNodeState state)
+        public ReadOnlyNodeStateView(IReadOnlyControllerView controllerView, IReadOnlyNodeState state)
         {
+            Debug.Assert(controllerView != null);
             Debug.Assert(state != null);
 
+            ControllerView = controllerView;
             State = state;
         }
         #endregion
 
         #region Properties
+        /// <summary>
+        /// The controller view to which this object belongs.
+        /// </summary>
+        public IReadOnlyControllerView ControllerView { get; }
+
         /// <summary>
         /// The node state.
         /// </summary>

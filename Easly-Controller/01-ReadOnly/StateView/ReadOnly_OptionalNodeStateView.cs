@@ -22,9 +22,10 @@ namespace EaslyController.ReadOnly
         /// <summary>
         /// Initializes a new instance of the <see cref="ReadOnlyOptionalNodeStateView"/> class.
         /// </summary>
+        /// <param name="controllerView">The controller view to which this object belongs.</param>
         /// <param name="state">The optional node state.</param>
-        public ReadOnlyOptionalNodeStateView(IReadOnlyOptionalNodeState state)
-            : base(state)
+        public ReadOnlyOptionalNodeStateView(IReadOnlyControllerView controllerView, IReadOnlyOptionalNodeState state)
+            : base(controllerView, state)
         {
         }
         #endregion

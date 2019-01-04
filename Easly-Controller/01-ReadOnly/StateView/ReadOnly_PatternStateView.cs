@@ -22,9 +22,10 @@ namespace EaslyController.ReadOnly
         /// <summary>
         /// Initializes a new instance of the <see cref="ReadOnlyPatternStateView"/> class.
         /// </summary>
+        /// <param name="controllerView">The controller view to which this object belongs.</param>
         /// <param name="state">The pattern state.</param>
-        public ReadOnlyPatternStateView(IReadOnlyPatternState state)
-            : base(state)
+        public ReadOnlyPatternStateView(IReadOnlyControllerView controllerView, IReadOnlyPatternState state)
+            : base(controllerView, state)
         {
         }
         #endregion

@@ -78,13 +78,9 @@ namespace EaslyController.Frame
 
             foreach (KeyValuePair<IFrameBlockState, IFrameBlockStateView> Entry in BlockStateViewTable)
             {
-                IFrameBlockState BlockState = Entry.Key;
-                IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> ParentInner = BlockState.ParentInner as IFrameBlockListInner<IFrameBrowsingBlockNodeIndex>;
-                IFrameNodeState Owner = ParentInner.Owner;
-                IFrameNodeStateView StateView = StateViewTable[Owner];
-
                 IFrameBlockStateView BlockStateView = Entry.Value;
-                BuildBlockCellView(StateView, BlockStateView);
+                Debug.Assert(BlockStateView.RootCellView != null);
+                Debug.Assert(BlockStateView.EmbeddingCellView != null);
             }
         }
         #endregion
@@ -116,25 +112,36 @@ namespace EaslyController.Frame
         /// Handler called every time a block state is inserted in the controller.
         /// </summary>
         /// <param name="blockState">The block state inserted.</param>
-        public override void OnBlockStateInserted(IWriteableBrowsingCollectionNodeIndex nodeIndex, IWriteableBlockState blockState)
+        public override void OnBlockStateInserted(IWriteableBrowsingExistingBlockNodeIndex nodeIndex, IWriteableBlockState blockState)
         {
             base.OnBlockStateInserted(nodeIndex, blockState);
 
             IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> ParentInner = blockState.ParentInner as IFrameBlockListInner<IFrameBrowsingBlockNodeIndex>;
-            IFrameNodeState Owner = ParentInner.Owner;
-            IFrameNodeStateView StateView = StateViewTable[Owner];
+            IFrameNodeState OwnerState = ParentInner.Owner;
+            IFrameNodeStateView OwnerStateView = StateViewTable[OwnerState];
 
             IFrameBlockStateView BlockStateView = BlockStateViewTable[(IFrameBlockState)blockState];
-            BuildBlockCellView(StateView, BlockStateView);
+            BuildBlockCellView(OwnerStateView, BlockStateView);
+
+            IFrameCellViewReadOnlyDictionary<string> CellViewTable = OwnerStateView.CellViewTable;
+            string PropertyName = ParentInner.PropertyName;
+
+            Debug.Assert(CellViewTable != null);
+            Debug.Assert(CellViewTable.ContainsKey(PropertyName));
+            IFrameMutableCellViewCollection EmbeddingCellView = CellViewTable[PropertyName] as IFrameMutableCellViewCollection;
+            Debug.Assert(EmbeddingCellView != null);
+
+            int BlockIndex = nodeIndex.BlockIndex;
+            EmbeddingCellView.Insert(BlockIndex, BlockStateView.RootCellView);
         }
 
         /// <summary>
         /// Handler called every time a state is inserted in the controller.
         /// </summary>
         /// <param name="state">The state inserted.</param>
-        public override void OnStateInserted(IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> inner, IWriteableBrowsingCollectionNodeIndex nodeIndex, IWriteableNodeState state)
+        public override void OnStateInserted(IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> inner, IWriteableBrowsingCollectionNodeIndex nodeIndex, IWriteableNodeState state, bool isBlockInserted)
         {
-            base.OnStateInserted(inner, nodeIndex, state);
+            base.OnStateInserted(inner, nodeIndex, state, isBlockInserted);
 
             IFrameNodeState InsertedState = state as IFrameNodeState;
             Debug.Assert(InsertedState != null);
@@ -142,28 +149,36 @@ namespace EaslyController.Frame
             BuildCellViewRecursive(InsertedState);
 
             IFrameNodeStateView InsertedStateView = StateViewTable[InsertedState];
-            string PropertyName = inner.PropertyName;
             IFrameCellView InsertedRootCellView = InsertedStateView.RootCellView;
-            IFrameNodeState OwnerState = (IFrameNodeState)inner.Owner;
-            IFrameNodeStateView OwnerStateView = StateViewTable[OwnerState];
-            IFrameCellViewReadOnlyDictionary<string> CellViewTable = OwnerStateView.CellViewTable;
-
-            Debug.Assert(CellViewTable != null);
-            Debug.Assert(CellViewTable.ContainsKey(PropertyName));
-            IFrameMutableCellViewCollection EmbeddingCellView = CellViewTable[PropertyName] as IFrameMutableCellViewCollection;
-            Debug.Assert(EmbeddingCellView != null);
 
             if ((inner is IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> AsBlockListInner) && (nodeIndex is IFrameBrowsingExistingBlockNodeIndex AsBlockListIndex))
             {
-                int BlockIndex = AsBlockListIndex.BlockIndex;
-                IFrameBlockState BlockState = AsBlockListInner.BlockStateList[BlockIndex];
-                IFrameBlockStateView BlockStateView = BlockStateViewTable[BlockState];
-                //...
+                if (!isBlockInserted)
+                {
+                    int BlockIndex = AsBlockListIndex.BlockIndex;
+                    IFrameBlockState BlockState = AsBlockListInner.BlockStateList[BlockIndex];
+                    IFrameBlockStateView BlockStateView = BlockStateViewTable[BlockState];
+                    IFrameMutableCellViewCollection EmbeddingCellView = BlockStateView.EmbeddingCellView;
+                    Debug.Assert(EmbeddingCellView != null);
+
+                    int Index = AsBlockListIndex.Index;
+                    EmbeddingCellView.Insert(Index, InsertedRootCellView);
+                }
             }
             else if ((inner is IFrameListInner<IFrameBrowsingListNodeIndex> AsListInner) && (nodeIndex is IFrameBrowsingListNodeIndex AsListIndex))
             {
+                IFrameNodeState OwnerState = (IFrameNodeState)inner.Owner;
+                IFrameNodeStateView OwnerStateView = StateViewTable[OwnerState];
+                IFrameCellViewReadOnlyDictionary<string> CellViewTable = OwnerStateView.CellViewTable;
+                string PropertyName = inner.PropertyName;
+
+                Debug.Assert(CellViewTable != null);
+                Debug.Assert(CellViewTable.ContainsKey(PropertyName));
+                IFrameMutableCellViewCollection EmbeddingCellView = CellViewTable[PropertyName] as IFrameMutableCellViewCollection;
+                Debug.Assert(EmbeddingCellView != null);
+
                 int Index = AsListIndex.Index;
-                EmbeddingCellView.Insert(InsertedRootCellView);
+                EmbeddingCellView.Insert(Index, InsertedRootCellView);
             }
             else
                 throw new ArgumentOutOfRangeException(nameof(inner));
@@ -289,7 +304,7 @@ namespace EaslyController.Frame
         protected override IReadOnlyPlaceholderNodeStateView CreatePlaceholderNodeStateView(IReadOnlyPlaceholderNodeState state)
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameControllerView));
-            return new FramePlaceholderNodeStateView((IFramePlaceholderNodeState)state, TemplateSet);
+            return new FramePlaceholderNodeStateView(this, (IFramePlaceholderNodeState)state, TemplateSet);
         }
 
         /// <summary>
@@ -298,7 +313,7 @@ namespace EaslyController.Frame
         protected override IReadOnlyOptionalNodeStateView CreateOptionalNodeStateView(IReadOnlyOptionalNodeState state)
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameControllerView));
-            return new FrameOptionalNodeStateView((IFrameOptionalNodeState)state, TemplateSet);
+            return new FrameOptionalNodeStateView(this, (IFrameOptionalNodeState)state, TemplateSet);
         }
 
         /// <summary>
@@ -307,7 +322,7 @@ namespace EaslyController.Frame
         protected override IReadOnlyPatternStateView CreatePatternStateView(IReadOnlyPatternState state)
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameControllerView));
-            return new FramePatternStateView((IFramePatternState)state, TemplateSet);
+            return new FramePatternStateView(this, (IFramePatternState)state, TemplateSet);
         }
 
         /// <summary>
@@ -316,7 +331,7 @@ namespace EaslyController.Frame
         protected override IReadOnlySourceStateView CreateSourceStateView(IReadOnlySourceState state)
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameControllerView));
-            return new FrameSourceStateView((IFrameSourceState)state, TemplateSet);
+            return new FrameSourceStateView(this, (IFrameSourceState)state, TemplateSet);
         }
 
         /// <summary>
@@ -325,7 +340,7 @@ namespace EaslyController.Frame
         protected override IReadOnlyBlockStateView CreateBlockStateView(IReadOnlyBlockState blockState)
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameControllerView));
-            return new FrameBlockStateView((IFrameBlockState)blockState, TemplateSet);
+            return new FrameBlockStateView(this, (IFrameBlockState)blockState, TemplateSet);
         }
         #endregion
     }

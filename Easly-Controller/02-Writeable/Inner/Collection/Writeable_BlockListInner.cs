@@ -33,7 +33,7 @@ namespace EaslyController.Writeable
         /// <param name="browsingIndex">Index of the inserted node upon return.</param>
         /// <param name="blockState">The inserted block state upon return.</param>
         /// <param name="childState">The inserted node state upon return.</param>
-        void InsertNew(IWriteableInsertionNewBlockNodeIndex newBlockIndex, out IWriteableBrowsingCollectionNodeIndex browsingIndex, out IWriteableBlockState blockState, out IWriteablePlaceholderNodeState childState);
+        void InsertNew(IWriteableInsertionNewBlockNodeIndex newBlockIndex, out IWriteableBrowsingExistingBlockNodeIndex browsingIndex, out IWriteableBlockState blockState, out IWriteablePlaceholderNodeState childState);
 
         /// <summary>
         /// Removes a node from a block list. This method is allowed to remove the last node of a block.
@@ -112,7 +112,7 @@ namespace EaslyController.Writeable
         /// <param name="browsingIndex">Index of the inserted node upon return.</param>
         /// <param name="blockState">The inserted block state upon return.</param>
         /// <param name="childState">The inserted node state upon return.</param>
-        void InsertNew(IWriteableInsertionNewBlockNodeIndex newBlockIndex, out IWriteableBrowsingCollectionNodeIndex browsingIndex, out IWriteableBlockState blockState, out IWriteablePlaceholderNodeState childState);
+        void InsertNew(IWriteableInsertionNewBlockNodeIndex newBlockIndex, out IWriteableBrowsingExistingBlockNodeIndex browsingIndex, out IWriteableBlockState blockState, out IWriteablePlaceholderNodeState childState);
 
         /// <summary>
         /// Removes a node from a block list. This method is allowed to remove the last node of a block.
@@ -241,7 +241,7 @@ namespace EaslyController.Writeable
         /// <param name="browsingIndex">Index of the inserted node upon return.</param>
         /// <param name="blockState">The inserted block state upon return.</param>
         /// <param name="childState">The inserted node state upon return.</param>
-        public virtual void InsertNew(IWriteableInsertionNewBlockNodeIndex newBlockIndex, out IWriteableBrowsingCollectionNodeIndex browsingIndex, out IWriteableBlockState blockState, out IWriteablePlaceholderNodeState childState)
+        public virtual void InsertNew(IWriteableInsertionNewBlockNodeIndex newBlockIndex, out IWriteableBrowsingExistingBlockNodeIndex browsingIndex, out IWriteableBlockState blockState, out IWriteablePlaceholderNodeState childState)
         {
             Debug.Assert(newBlockIndex != null);
             Debug.Assert(newBlockIndex.BlockIndex >= 0);

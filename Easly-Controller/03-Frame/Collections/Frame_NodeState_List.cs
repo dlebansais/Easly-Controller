@@ -31,7 +31,7 @@ namespace EaslyController.Frame
         public new IEnumerator<IReadOnlyNodeState> GetEnumerator() { return base.GetEnumerator(); }
         #endregion
 
-        #region Frame
+        #region Writeable
         IWriteableNodeState IWriteableNodeStateList.this[int index] { get { return base[index]; } set { base[index] = (IFrameNodeState)value; } }
         IWriteableNodeState IList<IWriteableNodeState>.this[int index] { get { return base[index]; } set { base[index] = (IFrameNodeState)value; } }
         IWriteableNodeState IReadOnlyList<IWriteableNodeState>.this[int index] { get { return base[index]; } }

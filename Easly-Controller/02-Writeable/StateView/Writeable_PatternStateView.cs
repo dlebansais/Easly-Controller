@@ -23,14 +23,20 @@ namespace EaslyController.Writeable
         /// <summary>
         /// Initializes a new instance of the <see cref="WriteablePatternStateView"/> class.
         /// </summary>
+        /// <param name="controllerView">The controller view to which this object belongs.</param>
         /// <param name="state">The pattern state.</param>
-        public WriteablePatternStateView(IWriteablePatternState state)
-            : base(state)
+        public WriteablePatternStateView(IWriteableControllerView controllerView, IWriteablePatternState state)
+            : base(controllerView, state)
         {
         }
         #endregion
 
         #region Properties
+        /// <summary>
+        /// The controller view to which this object belongs.
+        /// </summary>
+        public new IWriteableControllerView ControllerView { get { return (IWriteableControllerView)base.ControllerView; } }
+
         /// <summary>
         /// The pattern state.
         /// </summary>

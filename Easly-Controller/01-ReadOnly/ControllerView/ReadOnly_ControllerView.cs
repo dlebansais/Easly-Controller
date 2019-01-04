@@ -247,7 +247,7 @@ namespace EaslyController.ReadOnly
         protected virtual IReadOnlyPlaceholderNodeStateView CreatePlaceholderNodeStateView(IReadOnlyPlaceholderNodeState state)
         {
             ControllerTools.AssertNoOverride(this, typeof(ReadOnlyControllerView));
-            return new ReadOnlyPlaceholderNodeStateView(state);
+            return new ReadOnlyPlaceholderNodeStateView(this, state);
         }
 
         /// <summary>
@@ -256,7 +256,7 @@ namespace EaslyController.ReadOnly
         protected virtual IReadOnlyOptionalNodeStateView CreateOptionalNodeStateView(IReadOnlyOptionalNodeState state)
         {
             ControllerTools.AssertNoOverride(this, typeof(ReadOnlyControllerView));
-            return new ReadOnlyOptionalNodeStateView(state);
+            return new ReadOnlyOptionalNodeStateView(this, state);
         }
 
         /// <summary>
@@ -265,7 +265,7 @@ namespace EaslyController.ReadOnly
         protected virtual IReadOnlyPatternStateView CreatePatternStateView(IReadOnlyPatternState state)
         {
             ControllerTools.AssertNoOverride(this, typeof(ReadOnlyControllerView));
-            return new ReadOnlyPatternStateView(state);
+            return new ReadOnlyPatternStateView(this, state);
         }
 
         /// <summary>
@@ -274,7 +274,7 @@ namespace EaslyController.ReadOnly
         protected virtual IReadOnlySourceStateView CreateSourceStateView(IReadOnlySourceState state)
         {
             ControllerTools.AssertNoOverride(this, typeof(ReadOnlyControllerView));
-            return new ReadOnlySourceStateView(state);
+            return new ReadOnlySourceStateView(this, state);
         }
 
         /// <summary>
@@ -283,7 +283,7 @@ namespace EaslyController.ReadOnly
         protected virtual IReadOnlyBlockStateView CreateBlockStateView(IReadOnlyBlockState blockState)
         {
             ControllerTools.AssertNoOverride(this, typeof(ReadOnlyControllerView));
-            return new ReadOnlyBlockStateView(blockState);
+            return new ReadOnlyBlockStateView(this, blockState);
         }
         #endregion
     }

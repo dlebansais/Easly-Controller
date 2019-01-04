@@ -9,6 +9,11 @@ namespace EaslyController.Writeable
     public interface IWriteableBlockStateView : IReadOnlyBlockStateView
     {
         /// <summary>
+        /// The controller view to which this object belongs.
+        /// </summary>
+        new IWriteableControllerView ControllerView { get; }
+
+        /// <summary>
         /// The block state.
         /// </summary>
         new IWriteableBlockState BlockState { get; }
@@ -23,14 +28,20 @@ namespace EaslyController.Writeable
         /// <summary>
         /// Initializes a new instance of the <see cref="WriteableBlockStateView"/> class.
         /// </summary>
+        /// <param name="controllerView">The controller view to which this object belongs.</param>
         /// <param name="blockState">The block state.</param>
-        public WriteableBlockStateView(IWriteableBlockState blockState)
-            : base(blockState)
+        public WriteableBlockStateView(IWriteableControllerView controllerView, IWriteableBlockState blockState)
+            : base(controllerView, blockState)
         {
         }
         #endregion
 
         #region Properties
+        /// <summary>
+        /// The controller view to which this object belongs.
+        /// </summary>
+        public new IWriteableControllerView ControllerView { get { return (IWriteableControllerView)base.ControllerView; } }
+
         /// <summary>
         /// The block state.
         /// </summary>

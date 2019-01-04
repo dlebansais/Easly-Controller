@@ -1,5 +1,6 @@
 ﻿using EaslyController.Writeable;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace EaslyController.Frame
@@ -9,6 +10,11 @@ namespace EaslyController.Frame
     /// </summary>
     public interface IFrameBlockStateView : IWriteableBlockStateView
     {
+        /// <summary>
+        /// The controller view to which this object belongs.
+        /// </summary>
+        new IFrameControllerView ControllerView { get; }
+
         /// <summary>
         /// The block state.
         /// </summary>
@@ -25,11 +31,22 @@ namespace EaslyController.Frame
         IFrameCellView RootCellView { get; }
 
         /// <summary>
+        /// List of cell views for each child node.
+        /// </summary>
+        IFrameMutableCellViewCollection EmbeddingCellView { get; }
+
+        /// <summary>
         /// Builds the cell view tree for this view.
         /// </summary>
         /// <param name="controllerView">The view in which the state is initialized.</param>
         /// <param name="stateView">The state view for which to create cells.</param>
         void BuildRootCellView(IFrameControllerView controllerView, IFrameNodeStateView stateView);
+
+        /// <summary>
+        /// Assign the cell view for each child node.
+        /// </summary>
+        /// <param name="embeddingCellView">The assigned cell view list.</param>
+        void AssignEmbeddingCellView(IFrameMutableCellViewCollection embeddingCellView);
     }
 
     /// <summary>
@@ -41,10 +58,11 @@ namespace EaslyController.Frame
         /// <summary>
         /// Initializes a new instance of the <see cref="FrameBlockStateView"/> class.
         /// </summary>
+        /// <param name="controllerView">The controller view to which this object belongs.</param>
         /// <param name="blockState">The block state.</param>
         /// <param name="templateSet">The template set used to display the block state.</param>
-        public FrameBlockStateView(IFrameBlockState blockState, IFrameTemplateSet templateSet)
-            : base(blockState)
+        public FrameBlockStateView(IFrameControllerView controllerView, IFrameBlockState blockState, IFrameTemplateSet templateSet)
+            : base(controllerView, blockState)
         {
             Debug.Assert(templateSet != null);
             Debug.Assert(blockState.ParentInner != null);
@@ -55,6 +73,11 @@ namespace EaslyController.Frame
         #endregion
 
         #region Properties
+        /// <summary>
+        /// The controller view to which this object belongs.
+        /// </summary>
+        public new IFrameControllerView ControllerView { get { return (IFrameControllerView)base.ControllerView; } }
+
         /// <summary>
         /// The block state.
         /// </summary>
@@ -69,6 +92,11 @@ namespace EaslyController.Frame
         /// Root cell for the view.
         /// </summary>
         public IFrameCellView RootCellView { get; private set; }
+
+        /// <summary>
+        /// List of cell views for each child node.
+        /// </summary>
+        public IFrameMutableCellViewCollection EmbeddingCellView { get; private set; }
         #endregion
 
         #region Client Interface
@@ -85,6 +113,20 @@ namespace EaslyController.Frame
             Debug.Assert(NodeTemplate != null);
 
             RootCellView = NodeTemplate.BuildBlockCells(controllerView, stateView, this);
+
+            Debug.Assert(EmbeddingCellView != null);
+        }
+
+        /// <summary>
+        /// Assign the cell view for each child node.
+        /// </summary>
+        /// <param name="embeddingCellView">The assigned cell view list.</param>
+        public virtual void AssignEmbeddingCellView(IFrameMutableCellViewCollection embeddingCellView)
+        {
+            Debug.Assert(embeddingCellView != null);
+            Debug.Assert(EmbeddingCellView == null);
+
+            EmbeddingCellView = embeddingCellView;
         }
         #endregion
 
@@ -107,6 +149,9 @@ namespace EaslyController.Frame
                 return false;
 
             if (!comparer.VerifyEqual(RootCellView, AsBlockStateView.RootCellView))
+                return false;
+
+            if (!comparer.VerifyEqual(EmbeddingCellView, AsBlockStateView.EmbeddingCellView))
                 return false;
 
             return true;

@@ -26,10 +26,11 @@ namespace EaslyController.Frame
         /// <summary>
         /// Initializes a new instance of the <see cref="FrameSourceStateView"/> class.
         /// </summary>
+        /// <param name="controllerView">The controller view to which this object belongs.</param>
         /// <param name="state">The source state.</param>
         /// <param name="templateSet">The template set used to display the state.</param>
-        public FrameSourceStateView(IFrameSourceState state, IFrameTemplateSet templateSet)
-            : base(state)
+        public FrameSourceStateView(IFrameControllerView controllerView, IFrameSourceState state, IFrameTemplateSet templateSet)
+            : base(controllerView, state)
         {
             Debug.Assert(templateSet != null);
             Debug.Assert(state.ParentInner != null);
@@ -40,6 +41,11 @@ namespace EaslyController.Frame
         #endregion
 
         #region Properties
+        /// <summary>
+        /// The controller view to which this object belongs.
+        /// </summary>
+        public new IFrameControllerView ControllerView { get { return (IFrameControllerView)base.ControllerView; } }
+
         /// <summary>
         /// The pattern state.
         /// </summary>
@@ -73,17 +79,14 @@ namespace EaslyController.Frame
         {
             Debug.Assert(controllerView != null);
 
+            Debug.Assert(State.InnerTable.Count == 0);
+
             _CellViewTable = CreateCellViewTable();
-            foreach (KeyValuePair<string, IFrameInner<IFrameBrowsingChildIndex>> Entry in State.InnerTable)
-                _CellViewTable.Add(Entry.Value.PropertyName, null);
 
             IFrameNodeTemplate NodeTemplate = Template as IFrameNodeTemplate;
             Debug.Assert(NodeTemplate != null);
 
             RootCellView = NodeTemplate.BuildNodeCells(controllerView, this);
-
-            foreach (KeyValuePair<string, IFrameCellView> Entry in _CellViewTable)
-                Debug.Assert(Entry.Value != null);
 
             CellViewTable = CreateCellViewReadOnlyTable(_CellViewTable);
         }
@@ -95,10 +98,7 @@ namespace EaslyController.Frame
         /// <param name="cellView">The assigned cell view.</param>
         public virtual void AssignCellViewTable(string propertyName, IFrameCellView cellView)
         {
-            Debug.Assert(_CellViewTable.ContainsKey(propertyName));
-            Debug.Assert(_CellViewTable[propertyName] == null);
-
-            _CellViewTable[propertyName] = cellView;
+            throw new InvalidOperationException();
         }
 
         public virtual void RecalculateLineNumbers(IFrameController controller, ref int lineNumber, ref int columnNumber)

@@ -26,10 +26,11 @@ namespace EaslyController.Frame
         /// <summary>
         /// Initializes a new instance of the <see cref="FramePlaceholderNodeStateView"/> class.
         /// </summary>
+        /// <param name="controllerView">The controller view to which this object belongs.</param>
         /// <param name="state">The child node state.</param>
         /// <param name="templateSet">The template set used to display the state.</param>
-        public FramePlaceholderNodeStateView(IFramePlaceholderNodeState state, IFrameTemplateSet templateSet)
-            : base(state)
+        public FramePlaceholderNodeStateView(IFrameControllerView controllerView, IFramePlaceholderNodeState state, IFrameTemplateSet templateSet)
+            : base(controllerView, state)
         {
             Debug.Assert(templateSet != null);
 
@@ -46,6 +47,11 @@ namespace EaslyController.Frame
         #endregion
 
         #region Properties
+        /// <summary>
+        /// The controller view to which this object belongs.
+        /// </summary>
+        public new IFrameControllerView ControllerView { get { return (IFrameControllerView)base.ControllerView; } }
+
         /// <summary>
         /// The child node.
         /// </summary>

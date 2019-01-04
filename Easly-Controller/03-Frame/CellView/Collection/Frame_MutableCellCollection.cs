@@ -5,6 +5,7 @@ namespace EaslyController.Frame
     public interface IFrameMutableCellViewCollection : IFrameCellView
     {
         IFrameCellViewList CellViewList { get; }
+        void Insert(int index, IFrameCellView cellView);
     }
 
     public abstract class FrameMutableCellViewCollection : FrameCellView, IFrameMutableCellViewCollection
@@ -19,6 +20,13 @@ namespace EaslyController.Frame
 
         #region Properties
         public IFrameCellViewList CellViewList { get; }
+        #endregion
+
+        #region Client Interface
+        public virtual void Insert(int index, IFrameCellView cellView)
+        {
+            CellViewList.Insert(index, cellView);
+        }
         #endregion
 
         #region Debugging

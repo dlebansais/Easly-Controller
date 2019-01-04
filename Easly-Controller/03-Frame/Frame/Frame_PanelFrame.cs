@@ -139,6 +139,9 @@ namespace EaslyController.Frame
 
             IFrameNodeStateView ChildStateView = StateViewTable[childState];
 
+            Debug.Assert(ChildStateView.RootCellView == null);
+            ChildStateView.BuildRootCellView(controllerView);
+
             return CreateFrameCellView(stateView, ChildStateView);
         }
         #endregion

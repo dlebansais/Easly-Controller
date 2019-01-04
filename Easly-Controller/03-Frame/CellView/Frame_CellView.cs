@@ -14,6 +14,16 @@ namespace EaslyController.Frame
         public FrameCellView(IFrameNodeStateView stateView)
         {
             StateView = stateView;
+
+            GlobalDebugIndex++;
+            DebugIndex = GlobalDebugIndex;
+        }
+
+        public int DebugIndex { get; }
+        static int GlobalDebugIndex;
+        public override string ToString()
+        {
+            return base.ToString() + $" ({DebugIndex})";
         }
         #endregion
 

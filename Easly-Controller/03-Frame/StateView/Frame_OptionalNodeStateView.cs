@@ -27,10 +27,11 @@ namespace EaslyController.Frame
         /// <summary>
         /// Initializes a new instance of the <see cref="FrameOptionalNodeStateView"/> class.
         /// </summary>
+        /// <param name="controllerView">The controller view to which this object belongs.</param>
         /// <param name="state">The optional node state.</param>
         /// <param name="templateSet">The template set used to display the state.</param>
-        public FrameOptionalNodeStateView(IFrameOptionalNodeState state, IFrameTemplateSet templateSet)
-            : base(state)
+        public FrameOptionalNodeStateView(IFrameControllerView controllerView, IFrameOptionalNodeState state, IFrameTemplateSet templateSet)
+            : base(controllerView, state)
         {
             Debug.Assert(templateSet != null);
             Debug.Assert(state.ParentIndex != null);
@@ -48,6 +49,11 @@ namespace EaslyController.Frame
         #endregion
 
         #region Properties
+        /// <summary>
+        /// The controller view to which this object belongs.
+        /// </summary>
+        public new IFrameControllerView ControllerView { get { return (IFrameControllerView)base.ControllerView; } }
+
         /// <summary>
         /// The optional node state.
         /// </summary>
@@ -83,12 +89,12 @@ namespace EaslyController.Frame
             IOptionalReference Optional = State.ParentIndex.Optional;
             Debug.Assert(Optional != null);
 
+            _CellViewTable = CreateCellViewTable();
+            foreach (KeyValuePair<string, IFrameInner<IFrameBrowsingChildIndex>> Entry in State.InnerTable)
+                _CellViewTable.Add(Entry.Value.PropertyName, null);
+
             if (Optional.IsAssigned)
             {
-                _CellViewTable = CreateCellViewTable();
-                foreach (KeyValuePair<string, IFrameInner<IFrameBrowsingChildIndex>> Entry in State.InnerTable)
-                    _CellViewTable.Add(Entry.Value.PropertyName, null);
-
                 IFrameNodeTemplate NodeTemplate = Template as IFrameNodeTemplate;
                 Debug.Assert(NodeTemplate != null);
 
@@ -96,11 +102,11 @@ namespace EaslyController.Frame
 
                 foreach (KeyValuePair<string, IFrameCellView> Entry in _CellViewTable)
                     Debug.Assert(Entry.Value != null);
-
-                CellViewTable = CreateCellViewReadOnlyTable(_CellViewTable);
             }
             else
                 RootCellView = CreateEmptyCellView(this);
+
+            CellViewTable = CreateCellViewReadOnlyTable(_CellViewTable);
         }
 
         /// <summary>

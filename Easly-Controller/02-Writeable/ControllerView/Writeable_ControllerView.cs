@@ -84,7 +84,7 @@ namespace EaslyController.Writeable
         /// Handler called every time a block state is inserted in the controller.
         /// </summary>
         /// <param name="blockState">The block state inserted.</param>
-        public virtual void OnBlockStateInserted(IWriteableBrowsingCollectionNodeIndex nodeIndex, IWriteableBlockState blockState)
+        public virtual void OnBlockStateInserted(IWriteableBrowsingExistingBlockNodeIndex nodeIndex, IWriteableBlockState blockState)
         {
             Debug.Assert(blockState != null);
             Debug.Assert(BlockStateViewTable.ContainsKey(blockState));
@@ -105,7 +105,7 @@ namespace EaslyController.Writeable
         /// Handler called every time a state is inserted in the controller.
         /// </summary>
         /// <param name="state">The state inserted.</param>
-        public virtual void OnStateInserted(IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> inner, IWriteableBrowsingCollectionNodeIndex nodeIndex, IWriteableNodeState state)
+        public virtual void OnStateInserted(IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> inner, IWriteableBrowsingCollectionNodeIndex nodeIndex, IWriteableNodeState state, bool isBlockInserted)
         {
             Debug.Assert(state != null);
             Debug.Assert(StateViewTable.ContainsKey(state));
@@ -170,7 +170,7 @@ namespace EaslyController.Writeable
         protected override IReadOnlyPlaceholderNodeStateView CreatePlaceholderNodeStateView(IReadOnlyPlaceholderNodeState state)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableControllerView));
-            return new WriteablePlaceholderNodeStateView((IWriteablePlaceholderNodeState)state);
+            return new WriteablePlaceholderNodeStateView(this, (IWriteablePlaceholderNodeState)state);
         }
 
         /// <summary>
@@ -179,7 +179,7 @@ namespace EaslyController.Writeable
         protected override IReadOnlyOptionalNodeStateView CreateOptionalNodeStateView(IReadOnlyOptionalNodeState state)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableControllerView));
-            return new WriteableOptionalNodeStateView((IWriteableOptionalNodeState)state);
+            return new WriteableOptionalNodeStateView(this, (IWriteableOptionalNodeState)state);
         }
 
         /// <summary>
@@ -188,7 +188,7 @@ namespace EaslyController.Writeable
         protected override IReadOnlyPatternStateView CreatePatternStateView(IReadOnlyPatternState state)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableControllerView));
-            return new WriteablePatternStateView((IWriteablePatternState)state);
+            return new WriteablePatternStateView(this, (IWriteablePatternState)state);
         }
 
         /// <summary>
@@ -197,7 +197,7 @@ namespace EaslyController.Writeable
         protected override IReadOnlySourceStateView CreateSourceStateView(IReadOnlySourceState state)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableControllerView));
-            return new WriteableSourceStateView((IWriteableSourceState)state);
+            return new WriteableSourceStateView(this, (IWriteableSourceState)state);
         }
 
         /// <summary>
@@ -206,7 +206,7 @@ namespace EaslyController.Writeable
         protected override IReadOnlyBlockStateView CreateBlockStateView(IReadOnlyBlockState blockState)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableControllerView));
-            return new WriteableBlockStateView((IWriteableBlockState)blockState);
+            return new WriteableBlockStateView(this, (IWriteableBlockState)blockState);
         }
         #endregion
     }

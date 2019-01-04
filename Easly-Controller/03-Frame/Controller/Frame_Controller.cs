@@ -41,12 +41,12 @@ namespace EaslyController.Frame
         /// <summary>
         /// Called when a block state is inserted.
         /// </summary>
-        new event Action<IFrameBrowsingCollectionNodeIndex, IFrameBlockState> BlockStateInserted;
+        new event Action<IFrameBrowsingExistingBlockNodeIndex, IFrameBlockState> BlockStateInserted;
 
         /// <summary>
         /// Called when a state is inserted.
         /// </summary>
-        new event Action<IFrameCollectionInner<IFrameBrowsingCollectionNodeIndex>, IFrameBrowsingCollectionNodeIndex, IFrameNodeState> StateInserted;
+        new event Action<IFrameCollectionInner<IFrameBrowsingCollectionNodeIndex>, IFrameBrowsingCollectionNodeIndex, IFrameNodeState, bool> StateInserted;
     }
 
     public class FrameController : WriteableController, IFrameController
@@ -121,19 +121,19 @@ namespace EaslyController.Frame
         /// <summary>
         /// Called when a block state is inserted.
         /// </summary>
-        public new event Action<IFrameBrowsingCollectionNodeIndex, IFrameBlockState> BlockStateInserted
+        public new event Action<IFrameBrowsingExistingBlockNodeIndex, IFrameBlockState> BlockStateInserted
         {
-            add { AddBlockStateInsertedDelegate((Action<IWriteableBrowsingCollectionNodeIndex, IWriteableBlockState>)value); }
-            remove { RemoveBlockStateInsertedDelegate((Action<IWriteableBrowsingCollectionNodeIndex, IWriteableBlockState>)value); }
+            add { AddBlockStateInsertedDelegate((Action<IWriteableBrowsingExistingBlockNodeIndex, IWriteableBlockState>)value); }
+            remove { RemoveBlockStateInsertedDelegate((Action<IWriteableBrowsingExistingBlockNodeIndex, IWriteableBlockState>)value); }
         }
 
         /// <summary>
         /// Called when a state is inserted.
         /// </summary>
-        public new event Action<IFrameCollectionInner<IFrameBrowsingCollectionNodeIndex>, IFrameBrowsingCollectionNodeIndex, IFrameNodeState> StateInserted
+        public new event Action<IFrameCollectionInner<IFrameBrowsingCollectionNodeIndex>, IFrameBrowsingCollectionNodeIndex, IFrameNodeState, bool> StateInserted
         {
-            add { AddStateInsertedDelegate((Action<IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex>, IWriteableBrowsingCollectionNodeIndex, IWriteableNodeState>)value); }
-            remove { RemoveStateInsertedDelegate((Action<IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex>, IWriteableBrowsingCollectionNodeIndex, IWriteableNodeState>)value); }
+            add { AddStateInsertedDelegate((Action<IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex>, IWriteableBrowsingCollectionNodeIndex, IWriteableNodeState, bool>)value); }
+            remove { RemoveStateInsertedDelegate((Action<IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex>, IWriteableBrowsingCollectionNodeIndex, IWriteableNodeState, bool>)value); }
         }
 
         /// <summary>

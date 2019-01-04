@@ -9,6 +9,11 @@ namespace EaslyController.Frame
     public interface IFrameNodeStateView : IWriteableNodeStateView
     {
         /// <summary>
+        /// The controller view to which this object belongs.
+        /// </summary>
+        new IFrameControllerView ControllerView { get; }
+
+        /// <summary>
         /// The node state.
         /// </summary>
         new IFrameNodeState State { get; }
@@ -50,15 +55,21 @@ namespace EaslyController.Frame
         /// <summary>
         /// Initializes a new instance of the <see cref="FrameNodeStateView"/> class.
         /// </summary>
+        /// <param name="controllerView">The controller view to which this object belongs.</param>
         /// <param name="state">The node state.</param>
         /// <param name="templateSet">The template set used to display the state.</param>
-        public FrameNodeStateView(IFrameNodeState state, IFrameTemplateSet templateSet)
-            : base(state)
+        public FrameNodeStateView(IFrameControllerView controllerView, IFrameNodeState state, IFrameTemplateSet templateSet)
+            : base(controllerView, state)
         {
         }
         #endregion
 
         #region Properties
+        /// <summary>
+        /// The controller view to which this object belongs.
+        /// </summary>
+        public new IFrameControllerView ControllerView { get { return (IFrameControllerView)base.ControllerView; } }
+
         /// <summary>
         /// The node state.
         /// </summary>

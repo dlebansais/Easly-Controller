@@ -23,14 +23,20 @@ namespace EaslyController.Writeable
         /// <summary>
         /// Initializes a new instance of the <see cref="WriteableOptionalNodeStateView"/> class.
         /// </summary>
+        /// <param name="controllerView">The controller view to which this object belongs.</param>
         /// <param name="state">The optional node state.</param>
-        public WriteableOptionalNodeStateView(IWriteableOptionalNodeState state)
-            : base(state)
+        public WriteableOptionalNodeStateView(IWriteableControllerView controllerView, IWriteableOptionalNodeState state)
+            : base(controllerView, state)
         {
         }
         #endregion
 
         #region Properties
+        /// <summary>
+        /// The controller view to which this object belongs.
+        /// </summary>
+        public new IWriteableControllerView ControllerView { get { return (IWriteableControllerView)base.ControllerView; } }
+
         /// <summary>
         /// The optional node state.
         /// </summary>

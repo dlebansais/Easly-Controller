@@ -56,8 +56,9 @@ namespace EaslyController.Frame
                 Debug.Assert(controllerView.BlockStateViewTable.ContainsKey(BlockState));
                 IFrameBlockStateView BlockStateView = controllerView.BlockStateViewTable[BlockState];
 
-                IFrameCellView BlockCellView = BlockTemplate.BuildBlockCells(controllerView, stateView, BlockStateView);
-                CellViewList.Add(BlockCellView);
+                BlockStateView.BuildRootCellView(controllerView, stateView);
+
+                CellViewList.Add(BlockStateView.RootCellView);
             }
 
             IFrameMutableCellViewCollection EmbeddingCellView = CreateEmbeddingCellView(stateView, CellViewList);
