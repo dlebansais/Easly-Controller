@@ -23,17 +23,17 @@ namespace EaslyController.Writeable
         /// <summary>
         /// Called when a state is created.
         /// </summary>
-        new event Action<IWriteableNodeState> StateCreated;
+        new event Action<IWriteableNodeState> NodeStateCreated;
 
         /// <summary>
         /// Called when a state is initialized.
         /// </summary>
-        new event Action<IWriteableNodeState> StateInitialized;
+        new event Action<IWriteableNodeState> NodeStateInitialized;
 
         /// <summary>
         /// Called when a state is removed.
         /// </summary>
-        new event Action<IWriteableNodeState> StateRemoved;
+        new event Action<IWriteableNodeState> NodeStateRemoved;
 
         /// <summary>
         /// Called when a block list inner is created
@@ -44,6 +44,11 @@ namespace EaslyController.Writeable
         /// Called when a block state is inserted.
         /// </summary>
         event Action<IWriteableBrowsingExistingBlockNodeIndex, IWriteableBlockState> BlockStateInserted;
+
+        /// <summary>
+        /// Called when a block state is removed.
+        /// </summary>
+        event Action<IWriteableBrowsingExistingBlockNodeIndex, IWriteableBlockState> BlockStateRemoved;
 
         /// <summary>
         /// Called when a state is inserted.
@@ -198,28 +203,28 @@ namespace EaslyController.Writeable
         /// <summary>
         /// Called when a state is created.
         /// </summary>
-        public new event Action<IWriteableNodeState> StateCreated
+        public new event Action<IWriteableNodeState> NodeStateCreated
         {
-            add { AddStateCreatedDelegate((Action<IReadOnlyNodeState>)value); }
-            remove { RemoveStateCreatedDelegate((Action<IReadOnlyNodeState>)value); }
+            add { AddNodeStateCreatedDelegate((Action<IReadOnlyNodeState>)value); }
+            remove { RemoveNodeStateCreatedDelegate((Action<IReadOnlyNodeState>)value); }
         }
 
         /// <summary>
         /// Called when a state is initialized.
         /// </summary>
-        public new event Action<IWriteableNodeState> StateInitialized
+        public new event Action<IWriteableNodeState> NodeStateInitialized
         {
-            add { AddStateInitializedDelegate((Action<IReadOnlyNodeState>)value); }
-            remove { RemoveStateInitializedDelegate((Action<IReadOnlyNodeState>)value); }
+            add { AddNodeStateInitializedDelegate((Action<IReadOnlyNodeState>)value); }
+            remove { RemoveNodeStateInitializedDelegate((Action<IReadOnlyNodeState>)value); }
         }
 
         /// <summary>
         /// Called when a state is removed.
         /// </summary>
-        public new event Action<IWriteableNodeState> StateRemoved
+        public new event Action<IWriteableNodeState> NodeStateRemoved
         {
-            add { AddStateRemovedDelegate((Action<IReadOnlyNodeState>)value); }
-            remove { RemoveStateRemovedDelegate((Action<IReadOnlyNodeState>)value); }
+            add { AddNodeStateRemovedDelegate((Action<IReadOnlyNodeState>)value); }
+            remove { RemoveNodeStateRemovedDelegate((Action<IReadOnlyNodeState>)value); }
         }
 
         /// <summary>
@@ -242,6 +247,18 @@ namespace EaslyController.Writeable
         protected Action<IWriteableBrowsingExistingBlockNodeIndex, IWriteableBlockState> BlockStateInsertedHandler;
         protected virtual void AddBlockStateInsertedDelegate(Action<IWriteableBrowsingExistingBlockNodeIndex, IWriteableBlockState> handler) { BlockStateInsertedHandler += handler; }
         protected virtual void RemoveBlockStateInsertedDelegate(Action<IWriteableBrowsingExistingBlockNodeIndex, IWriteableBlockState> handler) { BlockStateInsertedHandler -= handler; }
+
+        /// <summary>
+        /// Called when a block state is removed.
+        /// </summary>
+        public event Action<IWriteableBrowsingExistingBlockNodeIndex, IWriteableBlockState> BlockStateRemoved
+        {
+            add { AddBlockStateRemovedDelegate(value); }
+            remove { RemoveBlockStateRemovedDelegate(value); }
+        }
+        protected Action<IWriteableBrowsingExistingBlockNodeIndex, IWriteableBlockState> BlockStateRemovedHandler;
+        protected virtual void AddBlockStateRemovedDelegate(Action<IWriteableBrowsingExistingBlockNodeIndex, IWriteableBlockState> handler) { BlockStateRemovedHandler += handler; }
+        protected virtual void RemoveBlockStateRemovedDelegate(Action<IWriteableBrowsingExistingBlockNodeIndex, IWriteableBlockState> handler) { BlockStateRemovedHandler -= handler; }
 
         /// <summary>
         /// Called when a state is inserted.
@@ -353,14 +370,18 @@ namespace EaslyController.Writeable
             Debug.Assert(InnerTable.ContainsKey(inner.PropertyName));
             Debug.Assert(InnerTable[inner.PropertyName] == inner);
 
+            IWriteableBlockState OldBlockState;
             IWriteableNodeState OldState;
 
             if ((inner is IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> AsBlockListInner) && (nodeIndex is IWriteableBrowsingBlockNodeIndex AsBlockIndex))
             {
-                AsBlockListInner.RemoveWithBlock(AsBlockIndex, out bool IsBlockRemoved, out IWriteableBrowsingPatternIndex PatternIndex, out IWriteableBrowsingSourceIndex SourceIndex);
+                AsBlockListInner.RemoveWithBlock(AsBlockIndex, out OldBlockState);
 
-                if (IsBlockRemoved)
+                if (OldBlockState != null)
                 {
+                    IWriteableBrowsingPatternIndex PatternIndex = OldBlockState.PatternIndex;
+                    IWriteableBrowsingSourceIndex SourceIndex = OldBlockState.SourceIndex;
+
                     Debug.Assert(PatternIndex != null);
                     Debug.Assert(StateTable.ContainsKey(PatternIndex));
                     Debug.Assert(SourceIndex != null);
@@ -376,13 +397,19 @@ namespace EaslyController.Writeable
                 }
             }
             else
+            {
+                OldBlockState = null;
                 inner.Remove(nodeIndex);
+            }
 
             OldState = StateTable[nodeIndex];
             RemoveState(nodeIndex);
             Stats.PlaceholderNodeCount--;
 
             PruneStateTable(OldState);
+
+            if (OldBlockState != null)
+                NotifyBlockStateRemoved(nodeIndex as IWriteableBrowsingExistingBlockNodeIndex, OldBlockState);
         }
 
         /// <summary>
@@ -801,10 +828,13 @@ namespace EaslyController.Writeable
             IWriteableBrowsingBlockNodeIndex FirstNodeIndex = FirstState.ParentIndex as IWriteableBrowsingBlockNodeIndex;
             Debug.Assert(FirstNodeIndex != null);
 
-            blockListInner.RemoveWithBlock(FirstNodeIndex, out bool IsBlockRemoved, out IWriteableBrowsingPatternIndex PatternIndex, out IWriteableBrowsingSourceIndex SourceIndex);
-            Debug.Assert(IsBlockRemoved);
+            blockListInner.RemoveWithBlock(FirstNodeIndex, out IWriteableBlockState OldBlockState);
+            Debug.Assert(OldBlockState != null);
 
             Stats.BlockCount--;
+
+            IWriteableBrowsingPatternIndex PatternIndex = OldBlockState.PatternIndex;
+            IWriteableBrowsingSourceIndex SourceIndex = OldBlockState.SourceIndex;
 
             Debug.Assert(PatternIndex != null);
             Debug.Assert(StateTable.ContainsKey(PatternIndex));
@@ -879,6 +909,11 @@ namespace EaslyController.Writeable
         protected virtual void NotifyBlockStateInserted(IWriteableBrowsingExistingBlockNodeIndex nodeIndex, IWriteableBlockState state)
         {
             BlockStateInsertedHandler?.Invoke(nodeIndex, state);
+        }
+
+        protected virtual void NotifyBlockStateRemoved(IWriteableBrowsingExistingBlockNodeIndex nodeIndex, IWriteableBlockState state)
+        {
+            BlockStateRemovedHandler?.Invoke(nodeIndex, state);
         }
 
         protected virtual void NotifyStateInserted(IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> inner, IWriteableBrowsingCollectionNodeIndex nodeIndex, IWriteableNodeState state, bool isBlockInserted)

@@ -64,9 +64,9 @@ namespace EaslyController.ReadOnly
             Debug.Assert(StateViewTable.Count == Controller.Stats.NodeCount);
             Debug.Assert(BlockStateViewTable.Count == Controller.Stats.BlockCount);
 
-            Controller.StateCreated += OnNodeStateCreated;
-            Controller.StateInitialized += OnNodeStateInitialized;
-            Controller.StateRemoved += OnNodeStateRemoved;
+            Controller.NodeStateCreated += OnNodeStateCreated;
+            Controller.NodeStateInitialized += OnNodeStateInitialized;
+            Controller.NodeStateRemoved += OnNodeStateRemoved;
             Controller.BlockListInnerCreated += OnBlockListInnerCreated;
         }
         #endregion

@@ -21,17 +21,17 @@ namespace EaslyController.Frame
         /// <summary>
         /// Called when a state is created.
         /// </summary>
-        new event Action<IFrameNodeState> StateCreated;
+        new event Action<IFrameNodeState> NodeStateCreated;
 
         /// <summary>
         /// Called when a state is initialized.
         /// </summary>
-        new event Action<IFrameNodeState> StateInitialized;
+        new event Action<IFrameNodeState> NodeStateInitialized;
 
         /// <summary>
         /// Called when a state is removed.
         /// </summary>
-        new event Action<IFrameNodeState> StateRemoved;
+        new event Action<IFrameNodeState> NodeStateRemoved;
 
         /// <summary>
         /// Called when a block list inner is created
@@ -42,6 +42,11 @@ namespace EaslyController.Frame
         /// Called when a block state is inserted.
         /// </summary>
         new event Action<IFrameBrowsingExistingBlockNodeIndex, IFrameBlockState> BlockStateInserted;
+
+        /// <summary>
+        /// Called when a block state is removed.
+        /// </summary>
+        new event Action<IFrameBrowsingExistingBlockNodeIndex, IFrameBlockState> BlockStateRemoved;
 
         /// <summary>
         /// Called when a state is inserted.
@@ -90,28 +95,28 @@ namespace EaslyController.Frame
         /// <summary>
         /// Called when a state is created.
         /// </summary>
-        public new event Action<IFrameNodeState> StateCreated
+        public new event Action<IFrameNodeState> NodeStateCreated
         {
-            add { AddStateCreatedDelegate((Action<IReadOnlyNodeState>)value); }
-            remove { RemoveStateCreatedDelegate((Action<IReadOnlyNodeState>)value); }
+            add { AddNodeStateCreatedDelegate((Action<IReadOnlyNodeState>)value); }
+            remove { RemoveNodeStateCreatedDelegate((Action<IReadOnlyNodeState>)value); }
         }
 
         /// <summary>
         /// Called when a state is initialized.
         /// </summary>
-        public new event Action<IFrameNodeState> StateInitialized
+        public new event Action<IFrameNodeState> NodeStateInitialized
         {
-            add { AddStateInitializedDelegate((Action<IReadOnlyNodeState>)value); }
-            remove { RemoveStateInitializedDelegate((Action<IReadOnlyNodeState>)value); }
+            add { AddNodeStateInitializedDelegate((Action<IReadOnlyNodeState>)value); }
+            remove { RemoveNodeStateInitializedDelegate((Action<IReadOnlyNodeState>)value); }
         }
 
         /// <summary>
         /// Called when a state is removed.
         /// </summary>
-        public new event Action<IFrameNodeState> StateRemoved
+        public new event Action<IFrameNodeState> NodeStateRemoved
         {
-            add { AddStateRemovedDelegate((Action<IReadOnlyNodeState>)value); }
-            remove { RemoveStateRemovedDelegate((Action<IReadOnlyNodeState>)value); }
+            add { AddNodeStateRemovedDelegate((Action<IReadOnlyNodeState>)value); }
+            remove { RemoveNodeStateRemovedDelegate((Action<IReadOnlyNodeState>)value); }
         }
 
         /// <summary>
@@ -130,6 +135,15 @@ namespace EaslyController.Frame
         {
             add { AddBlockStateInsertedDelegate((Action<IWriteableBrowsingExistingBlockNodeIndex, IWriteableBlockState>)value); }
             remove { RemoveBlockStateInsertedDelegate((Action<IWriteableBrowsingExistingBlockNodeIndex, IWriteableBlockState>)value); }
+        }
+
+        /// <summary>
+        /// Called when a block state is removed.
+        /// </summary>
+        public new event Action<IFrameBrowsingExistingBlockNodeIndex, IFrameBlockState> BlockStateRemoved
+        {
+            add { AddBlockStateRemovedDelegate((Action<IWriteableBrowsingExistingBlockNodeIndex, IWriteableBlockState>)value); }
+            remove { RemoveBlockStateRemovedDelegate((Action<IWriteableBrowsingExistingBlockNodeIndex, IWriteableBlockState>)value); }
         }
 
         /// <summary>

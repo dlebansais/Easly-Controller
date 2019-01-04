@@ -39,10 +39,8 @@ namespace EaslyController.Writeable
         /// Removes a node from a block list. This method is allowed to remove the last node of a block.
         /// </summary>
         /// <param name="nodeIndex">Index of the node to remove.</param>
-        /// <param name="isBlockRemoved">Indicates upon return if the last nodee of the block was removed, and if so, that the block was removed as well.</param>
-        /// <param name="patternIndex">If <paramref name="isBlockRemoved"/> is true, index of the removed pattern upon return.</param>
-        /// <param name="sourceIndex">If <paramref name="isBlockRemoved"/> is true, index of the removed source upon return.</param>
-        void RemoveWithBlock(IWriteableBrowsingBlockNodeIndex nodeIndex, out bool isBlockRemoved, out IWriteableBrowsingPatternIndex patternIndex, out IWriteableBrowsingSourceIndex sourceIndex);
+        /// <param name="oldBlockState">If the node is the last in the block, contains upon return the block that was removed as well, null otherwise.</param>
+        void RemoveWithBlock(IWriteableBrowsingBlockNodeIndex nodeIndex, out IWriteableBlockState oldBlockState);
 
         /// <summary>
         /// Changes the replication state of a block.
@@ -118,10 +116,8 @@ namespace EaslyController.Writeable
         /// Removes a node from a block list. This method is allowed to remove the last node of a block.
         /// </summary>
         /// <param name="nodeIndex">Index of the node to remove.</param>
-        /// <param name="isBlockRemoved">Indicates upon return if the last nodee of the block was removed, and if so, that the block was removed as well.</param>
-        /// <param name="patternIndex">If <paramref name="isBlockRemoved"/> is true, index of the removed pattern upon return.</param>
-        /// <param name="sourceIndex">If <paramref name="isBlockRemoved"/> is true, index of the removed source upon return.</param>
-        void RemoveWithBlock(IWriteableBrowsingBlockNodeIndex nodeIndex, out bool isBlockRemoved, out IWriteableBrowsingPatternIndex patternIndex, out IWriteableBrowsingSourceIndex sourceIndex);
+        /// <param name="oldBlockState">If the node is the last in the block, contains upon return the block that was removed as well, null otherwise.</param>
+        void RemoveWithBlock(IWriteableBrowsingBlockNodeIndex nodeIndex, out IWriteableBlockState oldBlockState);
 
         /// <summary>
         /// Changes the replication state of a block.
@@ -321,12 +317,10 @@ namespace EaslyController.Writeable
 
             if (nodeIndex is IWriteableBrowsingBlockNodeIndex AsBlockIndex)
             {
-                Remove(AsBlockIndex, out bool IsBlockRemoved, out IWriteableBrowsingPatternIndex PatternIndex, out IWriteableBrowsingSourceIndex SourceIndex);
+                Remove(AsBlockIndex, out IWriteableBlockState OldBlockState);
 
                 // Only the safe case where the block isn't removed is allowed for this version of Remove().
-                Debug.Assert(!IsBlockRemoved);
-                Debug.Assert(PatternIndex == null);
-                Debug.Assert(SourceIndex == null);
+                Debug.Assert(OldBlockState == null);
             }
             else
                 throw new ArgumentOutOfRangeException(nameof(nodeIndex));
@@ -336,15 +330,13 @@ namespace EaslyController.Writeable
         /// Removes a node from a block list. This method is allowed to remove the last node of a block.
         /// </summary>
         /// <param name="nodeIndex">Index of the node to remove.</param>
-        /// <param name="isBlockRemoved">Indicates upon return if the last nodee of the block was removed, and if so, that the block was removed as well.</param>
-        /// <param name="patternIndex">If <paramref name="isBlockRemoved"/> is true, index of the removed pattern upon return.</param>
-        /// <param name="sourceIndex">If <paramref name="isBlockRemoved"/> is true, index of the removed source upon return.</param>
-        public virtual void RemoveWithBlock(IWriteableBrowsingBlockNodeIndex nodeIndex, out bool isBlockRemoved, out IWriteableBrowsingPatternIndex patternIndex, out IWriteableBrowsingSourceIndex sourceIndex)
+        /// <param name="oldBlockState">If the node is the last in the block, contains upon return the block that was removed as well, null otherwise.</param>
+        public virtual void RemoveWithBlock(IWriteableBrowsingBlockNodeIndex nodeIndex, out IWriteableBlockState oldBlockState)
         {
-            Remove(nodeIndex, out isBlockRemoved, out patternIndex, out sourceIndex);
+            Remove(nodeIndex, out oldBlockState);
         }
 
-        protected virtual void Remove(IWriteableBrowsingBlockNodeIndex blockNodeIndex, out bool IsBlockRemoved, out IWriteableBrowsingPatternIndex patternIndex, out IWriteableBrowsingSourceIndex sourceIndex)
+        protected virtual void Remove(IWriteableBrowsingBlockNodeIndex blockNodeIndex, out IWriteableBlockState oldBlockState)
         {
             Debug.Assert(blockNodeIndex != null);
             Debug.Assert(blockNodeIndex.BlockIndex < BlockStateList.Count);
@@ -366,12 +358,11 @@ namespace EaslyController.Writeable
             IWriteableNodeState OldChildState = BlockState.StateList[Index];
             BlockState.Remove((IWriteableBrowsingBlockNodeIndex)OldChildState.ParentIndex, Index);
 
-            NodeTreeHelperBlockList.RemoveFromBlock(ParentNode, PropertyName, blockNodeIndex.BlockIndex, Index, out IsBlockRemoved);
+            NodeTreeHelperBlockList.RemoveFromBlock(ParentNode, PropertyName, blockNodeIndex.BlockIndex, Index, out bool IsBlockRemoved);
 
             if (IsBlockRemoved)
             {
-                patternIndex = BlockState.PatternIndex;
-                sourceIndex = BlockState.SourceIndex;
+                oldBlockState = BlockState;
                 RemoveFromBlockStateList(blockNodeIndex.BlockIndex);
 
                 for (int BlockIndex = blockNodeIndex.BlockIndex; BlockIndex < BlockStateList.Count; BlockIndex++)
@@ -389,10 +380,7 @@ namespace EaslyController.Writeable
                 }
             }
             else
-            {
-                patternIndex = null;
-                sourceIndex = null;
-            }
+                oldBlockState = null;
 
             while (Index < BlockState.StateList.Count)
             {
