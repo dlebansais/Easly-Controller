@@ -37,7 +37,8 @@ namespace EaslyController.Frame
         /// </summary>
         /// <param name="controllerView">The view in cells are created.</param>
         /// <param name="stateView">The state view for which to create cells.</param>
-        public virtual IFrameCellView BuildNodeCells(IFrameControllerView controllerView, IFrameNodeStateView stateView)
+        /// <param name="parentCellView">The parent cell view.</param>
+        public virtual IFrameCellView BuildNodeCells(IFrameControllerView controllerView, IFrameNodeStateView stateView, IFrameMutableCellViewCollection parentCellView)
         {
             IFrameNodeState State = stateView.State;
             Debug.Assert(State != null);
@@ -53,7 +54,7 @@ namespace EaslyController.Frame
             Debug.Assert(StateViewTable.ContainsKey(ChildState));
 
             IFrameNodeStateView ChildStateView = StateViewTable[ChildState];
-            IFrameContainerCellView EmbeddingCellView = CreateFrameCellView(stateView, ChildStateView);
+            IFrameContainerCellView EmbeddingCellView = CreateFrameCellView(stateView, parentCellView, ChildStateView);
             stateView.AssignCellViewTable(PropertyName, EmbeddingCellView);
 
             return EmbeddingCellView;
@@ -64,10 +65,10 @@ namespace EaslyController.Frame
         /// <summary>
         /// Creates a IxxxContainerCellView object.
         /// </summary>
-        protected virtual IFrameContainerCellView CreateFrameCellView(IFrameNodeStateView stateView, IFrameNodeStateView childStateView)
+        protected virtual IFrameContainerCellView CreateFrameCellView(IFrameNodeStateView stateView, IFrameMutableCellViewCollection parentCellView, IFrameNodeStateView childStateView)
         {
             ControllerTools.AssertNoOverride(this, typeof(FramePlaceholderFrame));
-            return new FrameContainerCellView(stateView, childStateView);
+            return new FrameContainerCellView(stateView, parentCellView, childStateView);
         }
         #endregion
     }

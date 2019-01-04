@@ -122,6 +122,19 @@ namespace EaslyController.Frame
             _CellViewTable[propertyName] = cellView;
         }
 
+        /// <summary>
+        /// Replaces the cell view for the given property.
+        /// </summary>
+        /// <param name="propertyName">The property name.</param>
+        /// <param name="cellView">The new cell view.</param>
+        public virtual void ReplaceCellView(string propertyName, IFrameContainerCellView cellView)
+        {
+            Debug.Assert(_CellViewTable.ContainsKey(propertyName));
+            Debug.Assert(_CellViewTable[propertyName] != null);
+
+            _CellViewTable[propertyName] = cellView;
+        }
+
         public virtual void RecalculateLineNumbers(IFrameController controller, ref int lineNumber, ref int columnNumber)
         {
             IOptionalReference Optional = State.ParentIndex.Optional;

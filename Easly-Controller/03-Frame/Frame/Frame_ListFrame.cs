@@ -34,7 +34,8 @@ namespace EaslyController.Frame
         /// </summary>
         /// <param name="controllerView">The view in cells are created.</param>
         /// <param name="stateView">The state view for which to create cells.</param>
-        public virtual IFrameCellView BuildNodeCells(IFrameControllerView controllerView, IFrameNodeStateView stateView)
+        /// <param name="parentCellView">The parent cell view.</param>
+        public virtual IFrameCellView BuildNodeCells(IFrameControllerView controllerView, IFrameNodeStateView stateView, IFrameMutableCellViewCollection parentCellView)
         {
             IFrameNodeState State = stateView.State;
             Debug.Assert(State != null);
@@ -46,17 +47,17 @@ namespace EaslyController.Frame
 
             IFrameStateViewDictionary StateViewTable = controllerView.StateViewTable;
             IFrameCellViewList CellViewList = CreateCellViewList();
+            IFrameMutableCellViewCollection EmbeddingCellView = CreateEmbeddingCellView(stateView, CellViewList);
 
             foreach (IFrameNodeState ChildState in Inner.StateList)
             {
                 Debug.Assert(StateViewTable.ContainsKey(ChildState));
 
                 IFrameNodeStateView ChildStateView = StateViewTable[ChildState];
-                IFrameCellView FrameCellView = CreateFrameCellView(stateView, ChildStateView);
+                IFrameCellView FrameCellView = CreateFrameCellView(stateView, EmbeddingCellView, ChildStateView);
                 CellViewList.Add(FrameCellView);
             }
 
-            IFrameMutableCellViewCollection EmbeddingCellView = CreateEmbeddingCellView(stateView, CellViewList);
             stateView.AssignCellViewTable(PropertyName, EmbeddingCellView);
 
             return EmbeddingCellView;
@@ -76,10 +77,10 @@ namespace EaslyController.Frame
         /// <summary>
         /// Creates a IxxxContainerCellView object.
         /// </summary>
-        protected virtual IFrameContainerCellView CreateFrameCellView(IFrameNodeStateView stateView, IFrameNodeStateView childStateView)
+        protected virtual IFrameContainerCellView CreateFrameCellView(IFrameNodeStateView stateView, IFrameMutableCellViewCollection parentCellView, IFrameNodeStateView childStateView)
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameListFrame));
-            return new FrameContainerCellView(stateView, childStateView);
+            return new FrameContainerCellView(stateView, parentCellView, childStateView);
         }
 
         /// <summary>

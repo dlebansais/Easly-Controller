@@ -101,6 +101,16 @@ namespace EaslyController.Frame
             throw new InvalidOperationException();
         }
 
+        /// <summary>
+        /// Replaces the cell view for the given property.
+        /// </summary>
+        /// <param name="propertyName">The property name.</param>
+        /// <param name="cellView">The new cell view.</param>
+        public virtual void ReplaceCellView(string propertyName, IFrameContainerCellView cellView)
+        {
+            throw new InvalidOperationException();
+        }
+
         public virtual void RecalculateLineNumbers(IFrameController controller, ref int lineNumber, ref int columnNumber)
         {
             IFrameCellView RootCellView = null;

@@ -43,6 +43,13 @@ namespace EaslyController.Frame
         /// <param name="cellView">The assigned cell view.</param>
         void AssignCellViewTable(string propertyName, IFrameCellView cellView);
 
+        /// <summary>
+        /// Replaces the cell view for the given property.
+        /// </summary>
+        /// <param name="propertyName">The property name.</param>
+        /// <param name="cellView">The new cell view.</param>
+        void ReplaceCellView(string propertyName, IFrameContainerCellView cellView);
+
         void RecalculateLineNumbers(IFrameController controller, ref int lineNumber, ref int columnNumber);
     }
 
@@ -104,6 +111,13 @@ namespace EaslyController.Frame
         /// <param name="propertyName">The property name of the inner.</param>
         /// <param name="cellView">The assigned cell view.</param>
         public abstract void AssignCellViewTable(string propertyName, IFrameCellView cellView);
+
+        /// <summary>
+        /// Replaces the cell view for the given property.
+        /// </summary>
+        /// <param name="propertyName">The property name.</param>
+        /// <param name="cellView">The new cell view.</param>
+        public abstract void ReplaceCellView(string propertyName, IFrameContainerCellView cellView);
 
         public abstract void RecalculateLineNumbers(IFrameController controller, ref int lineNumber, ref int columnNumber);
         #endregion

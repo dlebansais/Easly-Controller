@@ -31,17 +31,17 @@ namespace EaslyController.Frame
 
             IFrameStateViewDictionary StateViewTable = controllerView.StateViewTable;
             IFrameCellViewList CellViewList = CreateCellViewList();
+            IFrameMutableCellViewCollection EmbeddingCellView = CreateEmbeddingCellView(stateView, CellViewList);
 
             foreach (IFrameNodeState ChildState in BlockState.StateList)
             {
                 Debug.Assert(StateViewTable.ContainsKey(ChildState));
 
                 IFrameNodeStateView ChildStateView = StateViewTable[ChildState];
-                IFrameCellView FrameCellView = CreateFrameCellView(stateView, ChildStateView);
+                IFrameCellView FrameCellView = CreateFrameCellView(stateView, EmbeddingCellView, ChildStateView);
                 CellViewList.Add(FrameCellView);
             }
 
-            IFrameMutableCellViewCollection EmbeddingCellView = CreateEmbeddingCellView(stateView, CellViewList);
             blockStateView.AssignEmbeddingCellView(EmbeddingCellView);
 
             return EmbeddingCellView;
@@ -61,10 +61,10 @@ namespace EaslyController.Frame
         /// <summary>
         /// Creates a IxxxContainerCellView object.
         /// </summary>
-        protected virtual IFrameContainerCellView CreateFrameCellView(IFrameNodeStateView stateView, IFrameNodeStateView childStateView)
+        protected virtual IFrameContainerCellView CreateFrameCellView(IFrameNodeStateView stateView, IFrameMutableCellViewCollection parentCellView, IFrameNodeStateView childStateView)
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameCollectionPlaceholderFrame));
-            return new FrameContainerCellView(stateView, childStateView);
+            return new FrameContainerCellView(stateView, parentCellView, childStateView);
         }
 
         /// <summary>

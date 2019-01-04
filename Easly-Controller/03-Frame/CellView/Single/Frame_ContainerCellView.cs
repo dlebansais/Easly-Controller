@@ -4,20 +4,23 @@ namespace EaslyController.Frame
 {
     public interface IFrameContainerCellView : IFrameCellView
     {
+        IFrameMutableCellViewCollection ParentCellView { get; }
         IFrameNodeStateView ChildStateView { get; }
     }
 
     public class FrameContainerCellView : FrameCellView, IFrameContainerCellView
     {
         #region Init
-        public FrameContainerCellView(IFrameNodeStateView stateView, IFrameNodeStateView childStateView)
+        public FrameContainerCellView(IFrameNodeStateView stateView, IFrameMutableCellViewCollection parentCellView, IFrameNodeStateView childStateView)
             : base(stateView)
         {
+            ParentCellView = parentCellView;
             ChildStateView = childStateView;
         }
         #endregion
 
         #region Properties
+        public IFrameMutableCellViewCollection ParentCellView { get; }
         public IFrameNodeStateView ChildStateView { get; }
         #endregion
 

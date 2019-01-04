@@ -6,6 +6,8 @@ namespace EaslyController.Frame
     {
         IFrameCellViewList CellViewList { get; }
         void Insert(int index, IFrameCellView cellView);
+        void Replace(int index, IFrameCellView cellView);
+        void Replace(IFrameCellView oldCellView, IFrameCellView newCellView);
     }
 
     public abstract class FrameMutableCellViewCollection : FrameCellView, IFrameMutableCellViewCollection
@@ -25,7 +27,35 @@ namespace EaslyController.Frame
         #region Client Interface
         public virtual void Insert(int index, IFrameCellView cellView)
         {
+            Debug.Assert(index >= 0 && index <= CellViewList.Count);
+            Debug.Assert(cellView != null);
+
             CellViewList.Insert(index, cellView);
+
+            foreach (IFrameCellView Item in CellViewList)
+                if (Item is IFrameContainerCellView AsContainerCellView)
+                    Debug.Assert(AsContainerCellView.ParentCellView == this);
+        }
+
+        public virtual void Replace(IFrameCellView oldCellView, IFrameCellView newCellView)
+        {
+            Debug.Assert(CellViewList.Contains(oldCellView));
+            Debug.Assert(!CellViewList.Contains(newCellView));
+
+            int Index = CellViewList.IndexOf(oldCellView);
+            Replace(Index, newCellView);
+        }
+
+        public virtual void Replace(int index, IFrameCellView cellView)
+        {
+            Debug.Assert(index >= 0 && index < CellViewList.Count);
+            Debug.Assert(cellView != null);
+
+            CellViewList[index] = cellView;
+
+            foreach (IFrameCellView Item in CellViewList)
+                if (Item is IFrameContainerCellView AsContainerCellView)
+                    Debug.Assert(AsContainerCellView.ParentCellView == this);
         }
         #endregion
 

@@ -47,6 +47,11 @@ namespace EaslyController.Frame
         /// Called when a state is inserted.
         /// </summary>
         new event Action<IFrameCollectionInner<IFrameBrowsingCollectionNodeIndex>, IFrameBrowsingCollectionNodeIndex, IFrameNodeState, bool> StateInserted;
+
+        /// <summary>
+        /// Called when a state is replaced.
+        /// </summary>
+        new event Action<IFrameInner<IFrameBrowsingChildIndex>, IFrameBrowsingChildIndex, IFrameNodeState> StateReplaced;
     }
 
     public class FrameController : WriteableController, IFrameController
@@ -134,6 +139,15 @@ namespace EaslyController.Frame
         {
             add { AddStateInsertedDelegate((Action<IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex>, IWriteableBrowsingCollectionNodeIndex, IWriteableNodeState, bool>)value); }
             remove { RemoveStateInsertedDelegate((Action<IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex>, IWriteableBrowsingCollectionNodeIndex, IWriteableNodeState, bool>)value); }
+        }
+
+        /// <summary>
+        /// Called when a state is replaced.
+        /// </summary>
+        public new event Action<IFrameInner<IFrameBrowsingChildIndex>, IFrameBrowsingChildIndex, IFrameNodeState> StateReplaced
+        {
+            add { AddStateReplacedDelegate((Action<IWriteableInner<IWriteableBrowsingChildIndex>, IWriteableBrowsingChildIndex, IWriteableNodeState>)value); }
+            remove { RemoveStateReplacedDelegate((Action<IWriteableInner<IWriteableBrowsingChildIndex>, IWriteableBrowsingChildIndex, IWriteableNodeState>)value); }
         }
 
         /// <summary>

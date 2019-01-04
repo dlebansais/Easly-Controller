@@ -53,7 +53,7 @@ namespace EaslyController.Frame
             IFrameNodeFrame NodeFrame = Root as IFrameNodeFrame;
             Debug.Assert(NodeFrame != null);
 
-            return NodeFrame.BuildNodeCells(controllerView, stateView);
+            return NodeFrame.BuildNodeCells(controllerView, stateView, null);
         }
         #endregion
 

@@ -59,6 +59,7 @@ namespace EaslyController.Writeable
 
             Controller.BlockStateInserted += OnBlockStateInserted;
             Controller.StateInserted += OnStateInserted;
+            Controller.StateReplaced += OnStateReplaced;
         }
         #endregion
 
@@ -83,29 +84,39 @@ namespace EaslyController.Writeable
         /// <summary>
         /// Handler called every time a block state is inserted in the controller.
         /// </summary>
+        /// <param name="nodeIndex">Index of the inserted block state.</param>
         /// <param name="blockState">The block state inserted.</param>
         public virtual void OnBlockStateInserted(IWriteableBrowsingExistingBlockNodeIndex nodeIndex, IWriteableBlockState blockState)
         {
             Debug.Assert(blockState != null);
             Debug.Assert(BlockStateViewTable.ContainsKey(blockState));
 
+            Debug.Assert(StateViewTable.ContainsKey(blockState.PatternState));
+            Debug.Assert(StateViewTable.ContainsKey(blockState.SourceState));
+
             foreach (IWriteableNodeState State in blockState.StateList)
                 Debug.Assert(StateViewTable.ContainsKey(State));
-
-            /*
-            IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> ParentInner = blockState.ParentInner as IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex>;
-            Debug.Assert(ParentInner != null);
-
-            OnStateInserted(ParentInner, blockState.PatternIndex, blockState.PatternState);
-            OnStateInserted(ParentInner, blockState.SourceIndex, blockState.SourceState);
-            */
         }
 
         /// <summary>
         /// Handler called every time a state is inserted in the controller.
         /// </summary>
+        /// <param name="inner">Inner in which the state is inserted.</param>
+        /// <param name="nodeIndex">Index of the inserted state.</param>
         /// <param name="state">The state inserted.</param>
         public virtual void OnStateInserted(IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> inner, IWriteableBrowsingCollectionNodeIndex nodeIndex, IWriteableNodeState state, bool isBlockInserted)
+        {
+            Debug.Assert(state != null);
+            Debug.Assert(StateViewTable.ContainsKey(state));
+        }
+
+        /// <summary>
+        /// Handler called every time a state is inserted in the controller.
+        /// </summary>
+        /// <param name="inner">Inner in which the state is inserted.</param>
+        /// <param name="nodeIndex">Index of the inserted state.</param>
+        /// <param name="state">The state inserted.</param>
+        public virtual void OnStateReplaced(IWriteableInner<IWriteableBrowsingChildIndex> inner, IWriteableBrowsingChildIndex nodeIndex, IWriteableNodeState state)
         {
             Debug.Assert(state != null);
             Debug.Assert(StateViewTable.ContainsKey(state));

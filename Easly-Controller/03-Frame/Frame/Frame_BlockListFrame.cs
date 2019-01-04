@@ -34,7 +34,8 @@ namespace EaslyController.Frame
         /// </summary>
         /// <param name="controllerView">The view in cells are created.</param>
         /// <param name="stateView">The state view for which to create cells.</param>
-        public virtual IFrameCellView BuildNodeCells(IFrameControllerView controllerView, IFrameNodeStateView stateView)
+        /// <param name="parentCellView">The parent cell view.</param>
+        public virtual IFrameCellView BuildNodeCells(IFrameControllerView controllerView, IFrameNodeStateView stateView, IFrameMutableCellViewCollection parentCellView)
         {
             IFrameNodeState State = stateView.State;
             Debug.Assert(State != null);
