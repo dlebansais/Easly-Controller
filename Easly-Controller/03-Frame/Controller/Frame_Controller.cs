@@ -72,6 +72,16 @@ namespace EaslyController.Frame
         /// Called when a state is unassigned.
         /// </summary>
         new event Action<IFrameBrowsingOptionalNodeIndex, IFrameOptionalNodeState> StateUnassigned;
+
+        /// <summary>
+        /// Called when a state is moved.
+        /// </summary>
+        new event Action<IFrameBrowsingChildIndex, IFrameNodeState, int> StateMoved;
+
+        /// <summary>
+        /// Called when a block state is removed.
+        /// </summary>
+        new event Action<IFrameBrowsingExistingBlockNodeIndex, IFrameBlockState, int> BlockStateMoved;
     }
 
     public class FrameController : WriteableController, IFrameController
@@ -204,6 +214,24 @@ namespace EaslyController.Frame
         {
             add { AddStateUnassignedDelegate((Action<IWriteableBrowsingOptionalNodeIndex, IWriteableOptionalNodeState>)value); }
             remove { RemoveStateUnassignedDelegate((Action<IWriteableBrowsingOptionalNodeIndex, IWriteableOptionalNodeState>)value); }
+        }
+
+        /// <summary>
+        /// Called when a state is moved.
+        /// </summary>
+        public new event Action<IFrameBrowsingChildIndex, IFrameNodeState, int> StateMoved
+        {
+            add { AddStateMovedDelegate((Action<IWriteableBrowsingChildIndex, IWriteableNodeState, int>)value); }
+            remove { RemoveStateMovedDelegate((Action<IWriteableBrowsingChildIndex, IWriteableNodeState, int>)value); }
+        }
+
+        /// <summary>
+        /// Called when a block state is moved.
+        /// </summary>
+        public new event Action<IFrameBrowsingExistingBlockNodeIndex, IFrameBlockState, int> BlockStateMoved
+        {
+            add { AddBlockStateMovedDelegate((Action<IWriteableBrowsingExistingBlockNodeIndex, IWriteableBlockState, int>)value); }
+            remove { RemoveBlockStateMovedDelegate((Action<IWriteableBrowsingExistingBlockNodeIndex, IWriteableBlockState, int>)value); }
         }
 
         /// <summary>

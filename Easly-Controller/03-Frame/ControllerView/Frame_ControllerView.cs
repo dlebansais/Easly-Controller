@@ -476,6 +476,99 @@ namespace EaslyController.Frame
             OnOptionalStateReplaced(state.ParentInner as IFrameOptionalInner<IFrameBrowsingOptionalNodeIndex>, nodeIndex as IFrameBrowsingOptionalNodeIndex, state as IFrameNodeState);
         }
 
+        /// <summary>
+        /// Handler called every time a state is moved in the controller.
+        /// </summary>
+        /// <param name="nodeIndex">Index of the moved state.</param>
+        /// <param name="state">The moved state.</param>
+        /// <param name="direction">The change in position, relative to the current position.</param>
+        public override void OnStateMoved(IWriteableBrowsingChildIndex nodeIndex, IWriteableNodeState state, int direction)
+        {
+            base.OnStateMoved(nodeIndex, state, direction);
+
+            IFrameNodeState MovedState = state as IFrameNodeState;
+            Debug.Assert(MovedState != null);
+
+            IFrameInner<IFrameBrowsingChildIndex> ParentInner = MovedState.ParentInner;
+            Debug.Assert(ParentInner != null);
+
+            if ((ParentInner is IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> AsBlockListInner) && (nodeIndex is IFrameBrowsingExistingBlockNodeIndex AsBlockListIndex))
+                OnBlockListStateMoved(AsBlockListInner, AsBlockListIndex, direction);
+
+            else if ((ParentInner is IFrameListInner<IFrameBrowsingListNodeIndex> AsListInner) && (nodeIndex is IFrameBrowsingListNodeIndex AsListIndex))
+                OnListStateMoved(AsListInner, AsListIndex, direction);
+
+            else
+                throw new ArgumentOutOfRangeException(nameof(state));
+        }
+
+        protected virtual void OnBlockListStateMoved(IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> inner, IFrameBrowsingExistingBlockNodeIndex nodeIndex, int direction)
+        {
+            Debug.Assert(inner != null);
+            Debug.Assert(nodeIndex != null);
+
+            IFrameNodeState OwnerState = inner.Owner;
+            IFrameNodeStateView OwnerStateView = StateViewTable[OwnerState];
+
+            int BlockIndex = nodeIndex.BlockIndex;
+            IFrameBlockState BlockState = inner.BlockStateList[BlockIndex];
+            IFrameBlockStateView BlockStateView = BlockStateViewTable[BlockState];
+            IFrameMutableCellViewCollection EmbeddingCellView = BlockStateView.EmbeddingCellView;
+            Debug.Assert(EmbeddingCellView != null);
+
+            int Index = nodeIndex.Index;
+            EmbeddingCellView.Move(Index, direction);
+        }
+
+        protected virtual void OnListStateMoved(IFrameListInner<IFrameBrowsingListNodeIndex> inner, IFrameBrowsingListNodeIndex nodeIndex, int direction)
+        {
+            Debug.Assert(inner != null);
+            Debug.Assert(nodeIndex != null);
+
+            IFrameNodeState OwnerState = inner.Owner;
+            IFrameNodeStateView OwnerStateView = StateViewTable[OwnerState];
+
+            IFrameCellViewReadOnlyDictionary<string> CellViewTable = OwnerStateView.CellViewTable;
+            string PropertyName = inner.PropertyName;
+
+            Debug.Assert(CellViewTable != null);
+            Debug.Assert(CellViewTable.ContainsKey(PropertyName));
+            IFrameMutableCellViewCollection EmbeddingCellView = CellViewTable[PropertyName] as IFrameMutableCellViewCollection;
+            Debug.Assert(EmbeddingCellView != null);
+
+            int Index = nodeIndex.Index;
+            EmbeddingCellView.Move(Index, direction);
+        }
+
+        /// <summary>
+        /// Handler called every time a block state is moved in the controller.
+        /// </summary>
+        /// <param name="nodeIndex">Index of the moved block state.</param>
+        /// <param name="state">The moved block state.</param>
+        /// <param name="direction">The change in position, relative to the current position.</param>
+        public override void OnBlockStateMoved(IWriteableBrowsingExistingBlockNodeIndex nodeIndex, IWriteableBlockState blockState, int direction)
+        {
+            base.OnBlockStateMoved(nodeIndex, blockState, direction);
+
+            IFrameBlockState MovedBlockState = blockState as IFrameBlockState;
+            Debug.Assert(MovedBlockState != null);
+
+            IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> ParentInner = blockState.ParentInner as IFrameBlockListInner<IFrameBrowsingBlockNodeIndex>;
+            IFrameNodeState OwnerState = ParentInner.Owner;
+            IFrameNodeStateView OwnerStateView = StateViewTable[OwnerState];
+
+            IFrameCellViewReadOnlyDictionary<string> CellViewTable = OwnerStateView.CellViewTable;
+            string PropertyName = ParentInner.PropertyName;
+
+            Debug.Assert(CellViewTable != null);
+            Debug.Assert(CellViewTable.ContainsKey(PropertyName));
+            IFrameMutableCellViewCollection EmbeddingCellView = CellViewTable[PropertyName] as IFrameMutableCellViewCollection;
+            Debug.Assert(EmbeddingCellView != null);
+
+            int BlockIndex = nodeIndex.BlockIndex;
+            EmbeddingCellView.Move(BlockIndex, direction);
+        }
+
         protected virtual void BuildCellViewRecursive(IFrameNodeState state)
         {
             IFrameNodeStateView StateView = StateViewTable[state];

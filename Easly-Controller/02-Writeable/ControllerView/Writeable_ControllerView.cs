@@ -64,6 +64,8 @@ namespace EaslyController.Writeable
             Controller.StateReplaced += OnStateReplaced;
             Controller.StateAssigned += OnStateAssigned;
             Controller.StateUnassigned += OnStateUnassigned;
+            Controller.StateMoved += OnStateMoved;
+            Controller.BlockStateMoved += OnBlockStateMoved;
         }
         #endregion
 
@@ -172,6 +174,30 @@ namespace EaslyController.Writeable
         {
             Debug.Assert(state != null);
             Debug.Assert(StateViewTable.ContainsKey(state));
+        }
+
+        /// <summary>
+        /// Handler called every time a state is moved in the controller.
+        /// </summary>
+        /// <param name="nodeIndex">Index of the moved state.</param>
+        /// <param name="state">The moved state.</param>
+        /// <param name="direction">The change in position, relative to the current position.</param>
+        public virtual void OnStateMoved(IWriteableBrowsingChildIndex nodeIndex, IWriteableNodeState state, int direction)
+        {
+            Debug.Assert(state != null);
+            Debug.Assert(StateViewTable.ContainsKey(state));
+        }
+
+        /// <summary>
+        /// Handler called every time a block state is moved in the controller.
+        /// </summary>
+        /// <param name="nodeIndex">Index of the moved block state.</param>
+        /// <param name="state">The moved block state.</param>
+        /// <param name="direction">The change in position, relative to the current position.</param>
+        public virtual void OnBlockStateMoved(IWriteableBrowsingExistingBlockNodeIndex nodeIndex, IWriteableBlockState blockState, int direction)
+        {
+            Debug.Assert(blockState != null);
+            Debug.Assert(BlockStateViewTable.ContainsKey(blockState));
         }
         #endregion
 

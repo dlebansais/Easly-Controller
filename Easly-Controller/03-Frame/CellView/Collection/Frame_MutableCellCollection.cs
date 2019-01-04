@@ -9,6 +9,8 @@ namespace EaslyController.Frame
         void Remove(int index);
         void Replace(int index, IFrameCellView cellView);
         void Replace(IFrameCellView oldCellView, IFrameCellView newCellView);
+        void Move(IFrameCellView cellView, int direction);
+        void Move(int index, int direction);
     }
 
     public abstract class FrameMutableCellViewCollection : FrameCellView, IFrameMutableCellViewCollection
@@ -64,6 +66,24 @@ namespace EaslyController.Frame
             foreach (IFrameCellView Item in CellViewList)
                 if (Item is IFrameContainerCellView AsContainerCellView)
                     Debug.Assert(AsContainerCellView.ParentCellView == this);
+        }
+
+        public virtual void Move(IFrameCellView cellView, int direction)
+        {
+            Debug.Assert(CellViewList.Contains(cellView));
+
+            int Index = CellViewList.IndexOf(cellView);
+            Move(Index, direction);
+        }
+
+        public virtual void Move(int index, int direction)
+        {
+            Debug.Assert(index >= 0 && index < CellViewList.Count);
+            Debug.Assert(index + direction >= 0 && index + direction < CellViewList.Count);
+
+            IFrameCellView CellView = CellViewList[index];
+            CellViewList.RemoveAt(index);
+            CellViewList.Insert(index + direction, CellView);
         }
         #endregion
 
