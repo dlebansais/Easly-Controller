@@ -54,6 +54,11 @@ namespace EaslyController.Frame
         new event Action<IFrameCollectionInner<IFrameBrowsingCollectionNodeIndex>, IFrameBrowsingCollectionNodeIndex, IFrameNodeState, bool> StateInserted;
 
         /// <summary>
+        /// Called when a state is removed.
+        /// </summary>
+        new event Action<IFrameCollectionInner<IFrameBrowsingCollectionNodeIndex>, IFrameBrowsingCollectionNodeIndex, IFrameNodeState> StateRemoved;
+
+        /// <summary>
         /// Called when a state is replaced.
         /// </summary>
         new event Action<IFrameInner<IFrameBrowsingChildIndex>, IFrameBrowsingChildIndex, IFrameNodeState> StateReplaced;
@@ -153,6 +158,15 @@ namespace EaslyController.Frame
         {
             add { AddStateInsertedDelegate((Action<IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex>, IWriteableBrowsingCollectionNodeIndex, IWriteableNodeState, bool>)value); }
             remove { RemoveStateInsertedDelegate((Action<IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex>, IWriteableBrowsingCollectionNodeIndex, IWriteableNodeState, bool>)value); }
+        }
+
+        /// <summary>
+        /// Called when a state is removed.
+        /// </summary>
+        public new event Action<IFrameCollectionInner<IFrameBrowsingCollectionNodeIndex>, IFrameBrowsingCollectionNodeIndex, IFrameNodeState> StateRemoved
+        {
+            add { AddStateRemovedDelegate((Action<IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex>, IWriteableBrowsingCollectionNodeIndex, IWriteableNodeState>)value); }
+            remove { RemoveStateRemovedDelegate((Action<IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex>, IWriteableBrowsingCollectionNodeIndex, IWriteableNodeState>)value); }
         }
 
         /// <summary>

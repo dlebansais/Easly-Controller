@@ -56,6 +56,11 @@ namespace EaslyController.Writeable
         event Action<IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex>, IWriteableBrowsingCollectionNodeIndex, IWriteableNodeState, bool> StateInserted;
 
         /// <summary>
+        /// Called when a state is removed.
+        /// </summary>
+        event Action<IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex>, IWriteableBrowsingCollectionNodeIndex, IWriteableNodeState> StateRemoved;
+
+        /// <summary>
         /// Called when a state is replaced.
         /// </summary>
         event Action<IWriteableInner<IWriteableBrowsingChildIndex>, IWriteableBrowsingChildIndex, IWriteableNodeState> StateReplaced;
@@ -273,6 +278,18 @@ namespace EaslyController.Writeable
         protected virtual void RemoveStateInsertedDelegate(Action<IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex>, IWriteableBrowsingCollectionNodeIndex, IWriteableNodeState, bool> handler) { StateInsertedHandler -= handler; }
 
         /// <summary>
+        /// Called when a state is removed.
+        /// </summary>
+        public event Action<IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex>, IWriteableBrowsingCollectionNodeIndex, IWriteableNodeState> StateRemoved
+        {
+            add { AddStateRemovedDelegate(value); }
+            remove { RemoveStateRemovedDelegate(value); }
+        }
+        protected Action<IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex>, IWriteableBrowsingCollectionNodeIndex, IWriteableNodeState> StateRemovedHandler;
+        protected virtual void AddStateRemovedDelegate(Action<IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex>, IWriteableBrowsingCollectionNodeIndex, IWriteableNodeState> handler) { StateRemovedHandler += handler; }
+        protected virtual void RemoveStateRemovedDelegate(Action<IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex>, IWriteableBrowsingCollectionNodeIndex, IWriteableNodeState> handler) { StateRemovedHandler -= handler; }
+
+        /// <summary>
         /// Called when a state is replaced.
         /// </summary>
         public event Action<IWriteableInner<IWriteableBrowsingChildIndex>, IWriteableBrowsingChildIndex, IWriteableNodeState> StateReplaced
@@ -409,7 +426,12 @@ namespace EaslyController.Writeable
             PruneStateTable(OldState);
 
             if (OldBlockState != null)
+            {
+                NotifyStateRemoved(inner, nodeIndex, OldState);
                 NotifyBlockStateRemoved(nodeIndex as IWriteableBrowsingExistingBlockNodeIndex, OldBlockState);
+            }
+            else
+                NotifyStateRemoved(inner, nodeIndex, OldState);
         }
 
         /// <summary>
@@ -919,6 +941,11 @@ namespace EaslyController.Writeable
         protected virtual void NotifyStateInserted(IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> inner, IWriteableBrowsingCollectionNodeIndex nodeIndex, IWriteableNodeState state, bool isBlockInserted)
         {
             StateInsertedHandler?.Invoke(inner, nodeIndex, state, isBlockInserted);
+        }
+
+        protected virtual void NotifyStateRemoved(IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> inner, IWriteableBrowsingCollectionNodeIndex nodeIndex, IWriteableNodeState state)
+        {
+            StateRemovedHandler?.Invoke(inner, nodeIndex, state);
         }
 
         protected virtual void NotifyStateReplaced(IWriteableInner<IWriteableBrowsingChildIndex> inner, IWriteableBrowsingChildIndex nodeIndex, IWriteableNodeState state)

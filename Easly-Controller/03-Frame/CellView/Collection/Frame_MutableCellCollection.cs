@@ -6,6 +6,7 @@ namespace EaslyController.Frame
     {
         IFrameCellViewList CellViewList { get; }
         void Insert(int index, IFrameCellView cellView);
+        void Remove(int index);
         void Replace(int index, IFrameCellView cellView);
         void Replace(IFrameCellView oldCellView, IFrameCellView newCellView);
     }
@@ -35,6 +36,13 @@ namespace EaslyController.Frame
             foreach (IFrameCellView Item in CellViewList)
                 if (Item is IFrameContainerCellView AsContainerCellView)
                     Debug.Assert(AsContainerCellView.ParentCellView == this);
+        }
+
+        public virtual void Remove(int index)
+        {
+            Debug.Assert(index >= 0 && index <= CellViewList.Count);
+
+            CellViewList.RemoveAt(index);
         }
 
         public virtual void Replace(IFrameCellView oldCellView, IFrameCellView newCellView)

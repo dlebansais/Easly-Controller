@@ -141,6 +141,31 @@ namespace EaslyController.Frame
         }
 
         /// <summary>
+        /// Handler called every time a block state is removed from the controller.
+        /// </summary>
+        /// <param name="nodeIndex">Index of the removed block state.</param>
+        /// <param name="blockState">The block state removed.</param>
+        public override void OnBlockStateRemoved(IWriteableBrowsingExistingBlockNodeIndex nodeIndex, IWriteableBlockState blockState)
+        {
+            base.OnBlockStateRemoved(nodeIndex, blockState);
+
+            IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> ParentInner = blockState.ParentInner as IFrameBlockListInner<IFrameBrowsingBlockNodeIndex>;
+            IFrameNodeState OwnerState = ParentInner.Owner;
+            IFrameNodeStateView OwnerStateView = StateViewTable[OwnerState];
+
+            IFrameCellViewReadOnlyDictionary<string> CellViewTable = OwnerStateView.CellViewTable;
+            string PropertyName = ParentInner.PropertyName;
+
+            Debug.Assert(CellViewTable != null);
+            Debug.Assert(CellViewTable.ContainsKey(PropertyName));
+            IFrameMutableCellViewCollection EmbeddingCellView = CellViewTable[PropertyName] as IFrameMutableCellViewCollection;
+            Debug.Assert(EmbeddingCellView != null);
+
+            int BlockIndex = nodeIndex.BlockIndex;
+            EmbeddingCellView.Remove(BlockIndex);
+        }
+
+        /// <summary>
         /// Handler called every time a state is inserted in the controller.
         /// </summary>
         /// <param name="inner">Inner in which the state is inserted.</param>
@@ -210,6 +235,67 @@ namespace EaslyController.Frame
 
             int Index = nodeIndex.Index;
             EmbeddingCellView.Insert(Index, InsertedCellView);
+        }
+
+        /// <summary>
+        /// Handler called every time a state is removed from the controller.
+        /// </summary>
+        /// <param name="inner">Inner in which the state is removed.</param>
+        /// <param name="nodeIndex">Index of the removed state.</param>
+        /// <param name="state">The state removed.</param>
+        public override void OnStateRemoved(IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> inner, IWriteableBrowsingCollectionNodeIndex nodeIndex, IWriteableNodeState state)
+        {
+            base.OnStateRemoved(inner, nodeIndex, state);
+
+            IFrameNodeState RemovedState = state as IFrameNodeState;
+            Debug.Assert(RemovedState != null);
+
+            if ((inner is IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> AsBlockListInner) && (nodeIndex is IFrameBrowsingExistingBlockNodeIndex AsBlockListIndex))
+                OnBlockListStateRemoved(AsBlockListInner, AsBlockListIndex, RemovedState);
+
+            else if ((inner is IFrameListInner<IFrameBrowsingListNodeIndex> AsListInner) && (nodeIndex is IFrameBrowsingListNodeIndex AsListIndex))
+                OnListStateRemoved(AsListInner, AsListIndex, RemovedState);
+
+            else
+                throw new ArgumentOutOfRangeException(nameof(inner));
+        }
+
+        protected virtual void OnBlockListStateRemoved(IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> inner, IFrameBrowsingExistingBlockNodeIndex nodeIndex, IFrameNodeState removedState)
+        {
+            Debug.Assert(inner != null);
+            Debug.Assert(nodeIndex != null);
+
+            IFrameNodeState OwnerState = (IFrameNodeState)inner.Owner;
+            IFrameNodeStateView OwnerStateView = StateViewTable[OwnerState];
+
+            int BlockIndex = nodeIndex.BlockIndex;
+            IFrameBlockState BlockState = inner.BlockStateList[BlockIndex];
+            IFrameBlockStateView BlockStateView = BlockStateViewTable[BlockState];
+            IFrameMutableCellViewCollection EmbeddingCellView = BlockStateView.EmbeddingCellView;
+            Debug.Assert(EmbeddingCellView != null);
+
+            int Index = nodeIndex.Index;
+            EmbeddingCellView.Remove(Index);
+        }
+
+        protected virtual void OnListStateRemoved(IFrameListInner<IFrameBrowsingListNodeIndex> inner, IFrameBrowsingListNodeIndex nodeIndex, IFrameNodeState removedState)
+        {
+            Debug.Assert(inner != null);
+            Debug.Assert(nodeIndex != null);
+
+            IFrameNodeState OwnerState = inner.Owner;
+            IFrameNodeStateView OwnerStateView = StateViewTable[OwnerState];
+
+            IFrameCellViewReadOnlyDictionary<string> CellViewTable = OwnerStateView.CellViewTable;
+            string PropertyName = inner.PropertyName;
+
+            Debug.Assert(CellViewTable != null);
+            Debug.Assert(CellViewTable.ContainsKey(PropertyName));
+            IFrameMutableCellViewCollection EmbeddingCellView = CellViewTable[PropertyName] as IFrameMutableCellViewCollection;
+            Debug.Assert(EmbeddingCellView != null);
+
+            int Index = nodeIndex.Index;
+            EmbeddingCellView.Remove(Index);
         }
 
         /// <summary>

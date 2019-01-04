@@ -58,7 +58,9 @@ namespace EaslyController.Writeable
             base.Init();
 
             Controller.BlockStateInserted += OnBlockStateInserted;
+            Controller.BlockStateRemoved += OnBlockStateRemoved;
             Controller.StateInserted += OnStateInserted;
+            Controller.StateRemoved += OnStateRemoved;
             Controller.StateReplaced += OnStateReplaced;
         }
         #endregion
@@ -99,6 +101,23 @@ namespace EaslyController.Writeable
         }
 
         /// <summary>
+        /// Handler called every time a block state is removed from the controller.
+        /// </summary>
+        /// <param name="nodeIndex">Index of the removed block state.</param>
+        /// <param name="blockState">The block state removed.</param>
+        public virtual void OnBlockStateRemoved(IWriteableBrowsingExistingBlockNodeIndex nodeIndex, IWriteableBlockState blockState)
+        {
+            Debug.Assert(blockState != null);
+            Debug.Assert(!BlockStateViewTable.ContainsKey(blockState));
+
+            Debug.Assert(!StateViewTable.ContainsKey(blockState.PatternState));
+            Debug.Assert(!StateViewTable.ContainsKey(blockState.SourceState));
+
+            foreach (IWriteableNodeState State in blockState.StateList)
+                Debug.Assert(!StateViewTable.ContainsKey(State));
+        }
+
+        /// <summary>
         /// Handler called every time a state is inserted in the controller.
         /// </summary>
         /// <param name="inner">Inner in which the state is inserted.</param>
@@ -108,6 +127,18 @@ namespace EaslyController.Writeable
         {
             Debug.Assert(state != null);
             Debug.Assert(StateViewTable.ContainsKey(state));
+        }
+
+        /// <summary>
+        /// Handler called every time a state is removed from the controller.
+        /// </summary>
+        /// <param name="inner">Inner in which the state is removed.</param>
+        /// <param name="nodeIndex">Index of the removed state.</param>
+        /// <param name="state">The state removed.</param>
+        public virtual void OnStateRemoved(IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> inner, IWriteableBrowsingCollectionNodeIndex nodeIndex, IWriteableNodeState state)
+        {
+            Debug.Assert(state != null);
+            Debug.Assert(!StateViewTable.ContainsKey(state));
         }
 
         /// <summary>
