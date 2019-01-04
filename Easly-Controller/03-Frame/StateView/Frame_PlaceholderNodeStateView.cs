@@ -28,21 +28,9 @@ namespace EaslyController.Frame
         /// </summary>
         /// <param name="controllerView">The controller view to which this object belongs.</param>
         /// <param name="state">The child node state.</param>
-        /// <param name="templateSet">The template set used to display the state.</param>
-        public FramePlaceholderNodeStateView(IFrameControllerView controllerView, IFramePlaceholderNodeState state, IFrameTemplateSet templateSet)
+        public FramePlaceholderNodeStateView(IFrameControllerView controllerView, IFramePlaceholderNodeState state)
             : base(controllerView, state)
         {
-            Debug.Assert(templateSet != null);
-
-            IFrameNodeIndex NodeIndex = state.ParentIndex as IFrameNodeIndex;
-            Debug.Assert(NodeIndex != null);
-
-            Type NodeType = NodeIndex.Node.GetType();
-            Debug.Assert(!NodeType.IsInterface && !NodeType.IsAbstract);
-
-            Type InterfaceType = NodeTreeHelper.NodeTypeToInterfaceType(NodeType);
-
-            Template = templateSet.NodeTypeToTemplate(InterfaceType);
         }
         #endregion
 
@@ -61,7 +49,17 @@ namespace EaslyController.Frame
         /// <summary>
         /// The template used to display the state.
         /// </summary>
-        public IFrameTemplate Template { get; }
+        public IFrameTemplate Template
+        {
+            get
+            {
+                Type NodeType = State.Node.GetType();
+                Debug.Assert(!NodeType.IsInterface && !NodeType.IsAbstract);
+
+                Type InterfaceType = NodeTreeHelper.NodeTypeToInterfaceType(NodeType);
+                return ControllerView.TemplateSet.NodeTypeToTemplate(InterfaceType);
+            }
+        }
 
         /// <summary>
         /// Root cell for the view.

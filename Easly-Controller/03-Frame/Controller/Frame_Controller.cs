@@ -51,17 +51,27 @@ namespace EaslyController.Frame
         /// <summary>
         /// Called when a state is inserted.
         /// </summary>
-        new event Action<IFrameCollectionInner<IFrameBrowsingCollectionNodeIndex>, IFrameBrowsingCollectionNodeIndex, IFrameNodeState, bool> StateInserted;
+        new event Action<IFrameBrowsingCollectionNodeIndex, IFrameNodeState, bool> StateInserted;
 
         /// <summary>
         /// Called when a state is removed.
         /// </summary>
-        new event Action<IFrameCollectionInner<IFrameBrowsingCollectionNodeIndex>, IFrameBrowsingCollectionNodeIndex, IFrameNodeState> StateRemoved;
+        new event Action<IFrameBrowsingCollectionNodeIndex, IFrameNodeState> StateRemoved;
 
         /// <summary>
         /// Called when a state is replaced.
         /// </summary>
-        new event Action<IFrameInner<IFrameBrowsingChildIndex>, IFrameBrowsingChildIndex, IFrameNodeState> StateReplaced;
+        new event Action<IFrameBrowsingChildIndex, IFrameNodeState> StateReplaced;
+
+        /// <summary>
+        /// Called when a state is assigned.
+        /// </summary>
+        new event Action<IFrameBrowsingOptionalNodeIndex, IFrameOptionalNodeState> StateAssigned;
+
+        /// <summary>
+        /// Called when a state is unassigned.
+        /// </summary>
+        new event Action<IFrameBrowsingOptionalNodeIndex, IFrameOptionalNodeState> StateUnassigned;
     }
 
     public class FrameController : WriteableController, IFrameController
@@ -154,28 +164,46 @@ namespace EaslyController.Frame
         /// <summary>
         /// Called when a state is inserted.
         /// </summary>
-        public new event Action<IFrameCollectionInner<IFrameBrowsingCollectionNodeIndex>, IFrameBrowsingCollectionNodeIndex, IFrameNodeState, bool> StateInserted
+        public new event Action<IFrameBrowsingCollectionNodeIndex, IFrameNodeState, bool> StateInserted
         {
-            add { AddStateInsertedDelegate((Action<IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex>, IWriteableBrowsingCollectionNodeIndex, IWriteableNodeState, bool>)value); }
-            remove { RemoveStateInsertedDelegate((Action<IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex>, IWriteableBrowsingCollectionNodeIndex, IWriteableNodeState, bool>)value); }
+            add { AddStateInsertedDelegate((Action<IWriteableBrowsingCollectionNodeIndex, IWriteableNodeState, bool>)value); }
+            remove { RemoveStateInsertedDelegate((Action<IWriteableBrowsingCollectionNodeIndex, IWriteableNodeState, bool>)value); }
         }
 
         /// <summary>
         /// Called when a state is removed.
         /// </summary>
-        public new event Action<IFrameCollectionInner<IFrameBrowsingCollectionNodeIndex>, IFrameBrowsingCollectionNodeIndex, IFrameNodeState> StateRemoved
+        public new event Action<IFrameBrowsingCollectionNodeIndex, IFrameNodeState> StateRemoved
         {
-            add { AddStateRemovedDelegate((Action<IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex>, IWriteableBrowsingCollectionNodeIndex, IWriteableNodeState>)value); }
-            remove { RemoveStateRemovedDelegate((Action<IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex>, IWriteableBrowsingCollectionNodeIndex, IWriteableNodeState>)value); }
+            add { AddStateRemovedDelegate((Action<IWriteableBrowsingCollectionNodeIndex, IWriteableNodeState>)value); }
+            remove { RemoveStateRemovedDelegate((Action<IWriteableBrowsingCollectionNodeIndex, IWriteableNodeState>)value); }
         }
 
         /// <summary>
         /// Called when a state is replaced.
         /// </summary>
-        public new event Action<IFrameInner<IFrameBrowsingChildIndex>, IFrameBrowsingChildIndex, IFrameNodeState> StateReplaced
+        public new event Action<IFrameBrowsingChildIndex, IFrameNodeState> StateReplaced
         {
-            add { AddStateReplacedDelegate((Action<IWriteableInner<IWriteableBrowsingChildIndex>, IWriteableBrowsingChildIndex, IWriteableNodeState>)value); }
-            remove { RemoveStateReplacedDelegate((Action<IWriteableInner<IWriteableBrowsingChildIndex>, IWriteableBrowsingChildIndex, IWriteableNodeState>)value); }
+            add { AddStateReplacedDelegate((Action<IWriteableBrowsingChildIndex, IWriteableNodeState>)value); }
+            remove { RemoveStateReplacedDelegate((Action<IWriteableBrowsingChildIndex, IWriteableNodeState>)value); }
+        }
+
+        /// <summary>
+        /// Called when a state is assigned.
+        /// </summary>
+        public new event Action<IFrameBrowsingOptionalNodeIndex, IFrameOptionalNodeState> StateAssigned
+        {
+            add { AddStateAssignedDelegate((Action<IWriteableBrowsingOptionalNodeIndex, IWriteableOptionalNodeState>)value); }
+            remove { RemoveStateAssignedDelegate((Action<IWriteableBrowsingOptionalNodeIndex, IWriteableOptionalNodeState>)value); }
+        }
+
+        /// <summary>
+        /// Called when a state is unassigned.
+        /// </summary>
+        public new event Action<IFrameBrowsingOptionalNodeIndex, IFrameOptionalNodeState> StateUnassigned
+        {
+            add { AddStateUnassignedDelegate((Action<IWriteableBrowsingOptionalNodeIndex, IWriteableOptionalNodeState>)value); }
+            remove { RemoveStateUnassignedDelegate((Action<IWriteableBrowsingOptionalNodeIndex, IWriteableOptionalNodeState>)value); }
         }
 
         /// <summary>

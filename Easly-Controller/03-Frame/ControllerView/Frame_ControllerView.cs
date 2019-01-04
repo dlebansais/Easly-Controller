@@ -171,23 +171,26 @@ namespace EaslyController.Frame
         /// <param name="inner">Inner in which the state is inserted.</param>
         /// <param name="nodeIndex">Index of the inserted state.</param>
         /// <param name="state">The state inserted.</param>
-        public override void OnStateInserted(IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> inner, IWriteableBrowsingCollectionNodeIndex nodeIndex, IWriteableNodeState state, bool isBlockInserted)
+        public override void OnStateInserted(IWriteableBrowsingCollectionNodeIndex nodeIndex, IWriteableNodeState state, bool isBlockInserted)
         {
-            base.OnStateInserted(inner, nodeIndex, state, isBlockInserted);
+            base.OnStateInserted(nodeIndex, state, isBlockInserted);
 
             IFrameNodeState InsertedState = state as IFrameNodeState;
             Debug.Assert(InsertedState != null);
 
             BuildCellViewRecursive(InsertedState);
 
-            if ((inner is IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> AsBlockListInner) && (nodeIndex is IFrameBrowsingExistingBlockNodeIndex AsBlockListIndex))
+            IFrameInner<IFrameBrowsingChildIndex> ParentInner = InsertedState.ParentInner;
+            Debug.Assert(ParentInner != null);
+
+            if ((ParentInner is IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> AsBlockListInner) && (nodeIndex is IFrameBrowsingExistingBlockNodeIndex AsBlockListIndex))
                 OnBlockListStateInserted(AsBlockListInner, AsBlockListIndex, isBlockInserted, InsertedState);
 
-            else if ((inner is IFrameListInner<IFrameBrowsingListNodeIndex> AsListInner) && (nodeIndex is IFrameBrowsingListNodeIndex AsListIndex))
+            else if ((ParentInner is IFrameListInner<IFrameBrowsingListNodeIndex> AsListInner) && (nodeIndex is IFrameBrowsingListNodeIndex AsListIndex))
                 OnListStateInserted(AsListInner, AsListIndex, InsertedState);
 
             else
-                throw new ArgumentOutOfRangeException(nameof(inner));
+                throw new ArgumentOutOfRangeException(nameof(state));
         }
 
         protected virtual void OnBlockListStateInserted(IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> inner, IFrameBrowsingExistingBlockNodeIndex nodeIndex, bool isBlockInserted, IFrameNodeState insertedState)
@@ -238,26 +241,38 @@ namespace EaslyController.Frame
         }
 
         /// <summary>
+        /// Handler called every time a state is removed in the controller.
+        /// </summary>
+        /// <param name="state">The state removed.</param>
+        public override void OnNodeStateRemoved(IReadOnlyNodeState state)
+        {
+
+            base.OnNodeStateRemoved(state);
+        }
+
+        /// <summary>
         /// Handler called every time a state is removed from the controller.
         /// </summary>
-        /// <param name="inner">Inner in which the state is removed.</param>
         /// <param name="nodeIndex">Index of the removed state.</param>
         /// <param name="state">The state removed.</param>
-        public override void OnStateRemoved(IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> inner, IWriteableBrowsingCollectionNodeIndex nodeIndex, IWriteableNodeState state)
+        public override void OnStateRemoved(IWriteableBrowsingCollectionNodeIndex nodeIndex, IWriteableNodeState state)
         {
-            base.OnStateRemoved(inner, nodeIndex, state);
+            base.OnStateRemoved(nodeIndex, state);
 
             IFrameNodeState RemovedState = state as IFrameNodeState;
             Debug.Assert(RemovedState != null);
 
-            if ((inner is IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> AsBlockListInner) && (nodeIndex is IFrameBrowsingExistingBlockNodeIndex AsBlockListIndex))
+            IFrameInner<IFrameBrowsingChildIndex> ParentInner = RemovedState.ParentInner;
+            Debug.Assert(ParentInner != null);
+
+            if ((ParentInner is IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> AsBlockListInner) && (nodeIndex is IFrameBrowsingExistingBlockNodeIndex AsBlockListIndex))
                 OnBlockListStateRemoved(AsBlockListInner, AsBlockListIndex, RemovedState);
 
-            else if ((inner is IFrameListInner<IFrameBrowsingListNodeIndex> AsListInner) && (nodeIndex is IFrameBrowsingListNodeIndex AsListIndex))
+            else if ((ParentInner is IFrameListInner<IFrameBrowsingListNodeIndex> AsListInner) && (nodeIndex is IFrameBrowsingListNodeIndex AsListIndex))
                 OnListStateRemoved(AsListInner, AsListIndex, RemovedState);
 
             else
-                throw new ArgumentOutOfRangeException(nameof(inner));
+                throw new ArgumentOutOfRangeException(nameof(state));
         }
 
         protected virtual void OnBlockListStateRemoved(IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> inner, IFrameBrowsingExistingBlockNodeIndex nodeIndex, IFrameNodeState removedState)
@@ -265,7 +280,7 @@ namespace EaslyController.Frame
             Debug.Assert(inner != null);
             Debug.Assert(nodeIndex != null);
 
-            IFrameNodeState OwnerState = (IFrameNodeState)inner.Owner;
+            IFrameNodeState OwnerState = inner.Owner;
             IFrameNodeStateView OwnerStateView = StateViewTable[OwnerState];
 
             int BlockIndex = nodeIndex.BlockIndex;
@@ -301,32 +316,34 @@ namespace EaslyController.Frame
         /// <summary>
         /// Handler called every time a state is inserted in the controller.
         /// </summary>
-        /// <param name="inner">Inner in which the state is inserted.</param>
         /// <param name="nodeIndex">Index of the inserted state.</param>
         /// <param name="state">The state inserted.</param>
-        public override void OnStateReplaced(IWriteableInner<IWriteableBrowsingChildIndex> inner, IWriteableBrowsingChildIndex nodeIndex, IWriteableNodeState state)
+        public override void OnStateReplaced(IWriteableBrowsingChildIndex nodeIndex, IWriteableNodeState state)
         {
-            base.OnStateReplaced(inner, nodeIndex, state);
+            base.OnStateReplaced(nodeIndex, state);
 
             IFrameNodeState ReplacedState = state as IFrameNodeState;
             Debug.Assert(ReplacedState != null);
 
             BuildCellViewRecursive(ReplacedState);
 
-            if ((inner is IFramePlaceholderInner<IFrameBrowsingPlaceholderNodeIndex> AsPlaceholderInner) && (nodeIndex is IFrameBrowsingPlaceholderNodeIndex AsPlaceholderIndex))
+            IFrameInner<IFrameBrowsingChildIndex> ParentInner = ReplacedState.ParentInner;
+            Debug.Assert(ParentInner != null);
+
+            if ((ParentInner is IFramePlaceholderInner<IFrameBrowsingPlaceholderNodeIndex> AsPlaceholderInner) && (nodeIndex is IFrameBrowsingPlaceholderNodeIndex AsPlaceholderIndex))
                 OnPlaceholderStateReplaced(AsPlaceholderInner, AsPlaceholderIndex, ReplacedState);
 
-            else if ((inner is IFrameOptionalInner<IFrameBrowsingOptionalNodeIndex> AsOptionalInner) && (nodeIndex is IFrameBrowsingOptionalNodeIndex AsOptionalIndex))
+            else if ((ParentInner is IFrameOptionalInner<IFrameBrowsingOptionalNodeIndex> AsOptionalInner) && (nodeIndex is IFrameBrowsingOptionalNodeIndex AsOptionalIndex))
                 OnOptionalStateReplaced(AsOptionalInner, AsOptionalIndex, ReplacedState);
 
-            else if ((inner is IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> AsBlockListInner) && (nodeIndex is IFrameBrowsingExistingBlockNodeIndex AsBlockListIndex))
+            else if ((ParentInner is IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> AsBlockListInner) && (nodeIndex is IFrameBrowsingExistingBlockNodeIndex AsBlockListIndex))
                 OnBlockListStateReplaced(AsBlockListInner, AsBlockListIndex, ReplacedState);
 
-            else if ((inner is IFrameListInner<IFrameBrowsingListNodeIndex> AsListInner) && (nodeIndex is IFrameBrowsingListNodeIndex AsListIndex))
+            else if ((ParentInner is IFrameListInner<IFrameBrowsingListNodeIndex> AsListInner) && (nodeIndex is IFrameBrowsingListNodeIndex AsListIndex))
                 OnListStateReplaced(AsListInner, AsListIndex, ReplacedState);
 
             else
-                throw new ArgumentOutOfRangeException(nameof(inner));
+                throw new ArgumentOutOfRangeException(nameof(state));
         }
 
         protected virtual void OnPlaceholderStateReplaced(IFramePlaceholderInner<IFrameBrowsingPlaceholderNodeIndex> inner, IFrameBrowsingPlaceholderNodeIndex nodeIndex, IFrameNodeState replacedState)
@@ -334,7 +351,7 @@ namespace EaslyController.Frame
             Debug.Assert(inner != null);
             Debug.Assert(nodeIndex != null);
 
-            IFrameNodeState OwnerState = (IFrameNodeState)inner.Owner;
+            IFrameNodeState OwnerState = inner.Owner;
             IFrameNodeStateView OwnerStateView = StateViewTable[OwnerState];
 
             Debug.Assert(OwnerStateView != null);
@@ -360,7 +377,7 @@ namespace EaslyController.Frame
             Debug.Assert(inner != null);
             Debug.Assert(nodeIndex != null);
 
-            IFrameNodeState OwnerState = (IFrameNodeState)inner.Owner;
+            IFrameNodeState OwnerState = inner.Owner;
             IFrameNodeStateView OwnerStateView = StateViewTable[OwnerState];
 
             Debug.Assert(OwnerStateView != null);
@@ -386,7 +403,7 @@ namespace EaslyController.Frame
             Debug.Assert(inner != null);
             Debug.Assert(nodeIndex != null);
 
-            IFrameNodeState OwnerState = (IFrameNodeState)inner.Owner;
+            IFrameNodeState OwnerState = inner.Owner;
             IFrameNodeStateView OwnerStateView = StateViewTable[OwnerState];
 
             int BlockIndex = nodeIndex.BlockIndex;
@@ -407,7 +424,7 @@ namespace EaslyController.Frame
             Debug.Assert(inner != null);
             Debug.Assert(nodeIndex != null);
 
-            IFrameNodeState OwnerState = (IFrameNodeState)inner.Owner;
+            IFrameNodeState OwnerState = inner.Owner;
             IFrameNodeStateView OwnerStateView = StateViewTable[OwnerState];
 
             IFrameCellViewReadOnlyDictionary<string> CellViewTable = OwnerStateView.CellViewTable;
@@ -423,6 +440,40 @@ namespace EaslyController.Frame
 
             int Index = nodeIndex.Index;
             EmbeddingCellView.Replace(Index, ReplacedCellView);
+        }
+
+        /// <summary>
+        /// Handler called every time a state is assigned in the controller.
+        /// </summary>
+        /// <param name="nodeIndex">Index of the assigned state.</param>
+        /// <param name="state">The state assigned.</param>
+        public override void OnStateAssigned(IWriteableBrowsingOptionalNodeIndex nodeIndex, IWriteableOptionalNodeState state)
+        {
+            base.OnStateAssigned(nodeIndex, state);
+
+            IFrameNodeState AssignedState = state as IFrameNodeState;
+            Debug.Assert(AssignedState != null);
+
+            BuildCellViewRecursive(AssignedState);
+
+            OnOptionalStateReplaced(state.ParentInner as IFrameOptionalInner<IFrameBrowsingOptionalNodeIndex>, nodeIndex as IFrameBrowsingOptionalNodeIndex, state as IFrameNodeState);
+        }
+
+        /// <summary>
+        /// Handler called every time a state is unassigned in the controller.
+        /// </summary>
+        /// <param name="nodeIndex">Index of the unassigned state.</param>
+        /// <param name="state">The state unassigned.</param>
+        public override void OnStateUnassigned(IWriteableBrowsingOptionalNodeIndex nodeIndex, IWriteableOptionalNodeState state)
+        {
+            base.OnStateUnassigned(nodeIndex, state);
+
+            IFrameNodeState UnassignedState = state as IFrameNodeState;
+            Debug.Assert(UnassignedState != null);
+
+            BuildCellViewRecursive(UnassignedState);
+
+            OnOptionalStateReplaced(state.ParentInner as IFrameOptionalInner<IFrameBrowsingOptionalNodeIndex>, nodeIndex as IFrameBrowsingOptionalNodeIndex, state as IFrameNodeState);
         }
 
         protected virtual void BuildCellViewRecursive(IFrameNodeState state)
@@ -545,7 +596,7 @@ namespace EaslyController.Frame
         protected override IReadOnlyPlaceholderNodeStateView CreatePlaceholderNodeStateView(IReadOnlyPlaceholderNodeState state)
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameControllerView));
-            return new FramePlaceholderNodeStateView(this, (IFramePlaceholderNodeState)state, TemplateSet);
+            return new FramePlaceholderNodeStateView(this, (IFramePlaceholderNodeState)state);
         }
 
         /// <summary>
@@ -554,7 +605,7 @@ namespace EaslyController.Frame
         protected override IReadOnlyOptionalNodeStateView CreateOptionalNodeStateView(IReadOnlyOptionalNodeState state)
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameControllerView));
-            return new FrameOptionalNodeStateView(this, (IFrameOptionalNodeState)state, TemplateSet);
+            return new FrameOptionalNodeStateView(this, (IFrameOptionalNodeState)state);
         }
 
         /// <summary>
@@ -563,7 +614,7 @@ namespace EaslyController.Frame
         protected override IReadOnlyPatternStateView CreatePatternStateView(IReadOnlyPatternState state)
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameControllerView));
-            return new FramePatternStateView(this, (IFramePatternState)state, TemplateSet);
+            return new FramePatternStateView(this, (IFramePatternState)state);
         }
 
         /// <summary>
@@ -572,7 +623,7 @@ namespace EaslyController.Frame
         protected override IReadOnlySourceStateView CreateSourceStateView(IReadOnlySourceState state)
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameControllerView));
-            return new FrameSourceStateView(this, (IFrameSourceState)state, TemplateSet);
+            return new FrameSourceStateView(this, (IFrameSourceState)state);
         }
 
         /// <summary>
@@ -581,7 +632,7 @@ namespace EaslyController.Frame
         protected override IReadOnlyBlockStateView CreateBlockStateView(IReadOnlyBlockState blockState)
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameControllerView));
-            return new FrameBlockStateView(this, (IFrameBlockState)blockState, TemplateSet);
+            return new FrameBlockStateView(this, (IFrameBlockState)blockState);
         }
 
         /// <summary>

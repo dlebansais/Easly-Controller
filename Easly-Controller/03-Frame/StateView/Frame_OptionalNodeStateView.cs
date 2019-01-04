@@ -29,22 +29,9 @@ namespace EaslyController.Frame
         /// </summary>
         /// <param name="controllerView">The controller view to which this object belongs.</param>
         /// <param name="state">The optional node state.</param>
-        /// <param name="templateSet">The template set used to display the state.</param>
-        public FrameOptionalNodeStateView(IFrameControllerView controllerView, IFrameOptionalNodeState state, IFrameTemplateSet templateSet)
+        public FrameOptionalNodeStateView(IFrameControllerView controllerView, IFrameOptionalNodeState state)
             : base(controllerView, state)
         {
-            Debug.Assert(templateSet != null);
-            Debug.Assert(state.ParentIndex != null);
-
-            IOptionalReference Optional = state.ParentIndex.Optional;
-            Debug.Assert(Optional != null);
-
-            if (Optional.IsAssigned)
-            {
-                Type InterfaceType = NodeTreeHelperOptional.OptionalChildInterfaceType(Optional);
-
-                Template = templateSet.NodeTypeToTemplate(InterfaceType);
-            }
         }
         #endregion
 
@@ -63,7 +50,23 @@ namespace EaslyController.Frame
         /// <summary>
         /// The template used to display the state.
         /// </summary>
-        public IFrameTemplate Template { get; }
+        public IFrameTemplate Template
+        {
+            get
+            {
+                IOptionalReference Optional = State.ParentIndex.Optional;
+                Debug.Assert(Optional != null);
+
+                if (!Optional.IsAssigned)
+                    return null;
+
+                Type NodeType = State.Node.GetType();
+                Debug.Assert(!NodeType.IsInterface && !NodeType.IsAbstract);
+
+                Type InterfaceType = NodeTreeHelper.NodeTypeToInterfaceType(NodeType);
+                return ControllerView.TemplateSet.NodeTypeToTemplate(InterfaceType);
+            }
+        }
 
         /// <summary>
         /// Root cell for the view.
@@ -90,11 +93,12 @@ namespace EaslyController.Frame
             Debug.Assert(Optional != null);
 
             _CellViewTable = CreateCellViewTable();
-            foreach (KeyValuePair<string, IFrameInner<IFrameBrowsingChildIndex>> Entry in State.InnerTable)
-                _CellViewTable.Add(Entry.Value.PropertyName, null);
 
             if (Optional.IsAssigned)
             {
+                foreach (KeyValuePair<string, IFrameInner<IFrameBrowsingChildIndex>> Entry in State.InnerTable)
+                    _CellViewTable.Add(Entry.Value.PropertyName, null);
+
                 IFrameNodeTemplate NodeTemplate = Template as IFrameNodeTemplate;
                 Debug.Assert(NodeTemplate != null);
 
@@ -118,6 +122,7 @@ namespace EaslyController.Frame
         {
             Debug.Assert(_CellViewTable.ContainsKey(propertyName));
             Debug.Assert(_CellViewTable[propertyName] == null);
+            Debug.Assert(cellView != null);
 
             _CellViewTable[propertyName] = cellView;
         }
@@ -131,6 +136,7 @@ namespace EaslyController.Frame
         {
             Debug.Assert(_CellViewTable.ContainsKey(propertyName));
             Debug.Assert(_CellViewTable[propertyName] != null);
+            Debug.Assert(cellView != null);
 
             _CellViewTable[propertyName] = cellView;
         }

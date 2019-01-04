@@ -62,6 +62,8 @@ namespace EaslyController.Writeable
             Controller.StateInserted += OnStateInserted;
             Controller.StateRemoved += OnStateRemoved;
             Controller.StateReplaced += OnStateReplaced;
+            Controller.StateAssigned += OnStateAssigned;
+            Controller.StateUnassigned += OnStateUnassigned;
         }
         #endregion
 
@@ -120,10 +122,9 @@ namespace EaslyController.Writeable
         /// <summary>
         /// Handler called every time a state is inserted in the controller.
         /// </summary>
-        /// <param name="inner">Inner in which the state is inserted.</param>
         /// <param name="nodeIndex">Index of the inserted state.</param>
         /// <param name="state">The state inserted.</param>
-        public virtual void OnStateInserted(IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> inner, IWriteableBrowsingCollectionNodeIndex nodeIndex, IWriteableNodeState state, bool isBlockInserted)
+        public virtual void OnStateInserted(IWriteableBrowsingCollectionNodeIndex nodeIndex, IWriteableNodeState state, bool isBlockInserted)
         {
             Debug.Assert(state != null);
             Debug.Assert(StateViewTable.ContainsKey(state));
@@ -132,22 +133,42 @@ namespace EaslyController.Writeable
         /// <summary>
         /// Handler called every time a state is removed from the controller.
         /// </summary>
-        /// <param name="inner">Inner in which the state is removed.</param>
         /// <param name="nodeIndex">Index of the removed state.</param>
         /// <param name="state">The state removed.</param>
-        public virtual void OnStateRemoved(IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> inner, IWriteableBrowsingCollectionNodeIndex nodeIndex, IWriteableNodeState state)
+        public virtual void OnStateRemoved(IWriteableBrowsingCollectionNodeIndex nodeIndex, IWriteableNodeState state)
         {
             Debug.Assert(state != null);
             Debug.Assert(!StateViewTable.ContainsKey(state));
         }
 
         /// <summary>
-        /// Handler called every time a state is inserted in the controller.
+        /// Handler called every time a state is replaced in the controller.
         /// </summary>
-        /// <param name="inner">Inner in which the state is inserted.</param>
-        /// <param name="nodeIndex">Index of the inserted state.</param>
-        /// <param name="state">The state inserted.</param>
-        public virtual void OnStateReplaced(IWriteableInner<IWriteableBrowsingChildIndex> inner, IWriteableBrowsingChildIndex nodeIndex, IWriteableNodeState state)
+        /// <param name="nodeIndex">Index of the replaced state.</param>
+        /// <param name="state">The new state.</param>
+        public virtual void OnStateReplaced(IWriteableBrowsingChildIndex nodeIndex, IWriteableNodeState state)
+        {
+            Debug.Assert(state != null);
+            Debug.Assert(StateViewTable.ContainsKey(state));
+        }
+
+        /// <summary>
+        /// Handler called every time a state is assigned in the controller.
+        /// </summary>
+        /// <param name="nodeIndex">Index of the assigned state.</param>
+        /// <param name="state">The state assigned.</param>
+        public virtual void OnStateAssigned(IWriteableBrowsingOptionalNodeIndex nodeIndex, IWriteableOptionalNodeState state)
+        {
+            Debug.Assert(state != null);
+            Debug.Assert(StateViewTable.ContainsKey(state));
+        }
+
+        /// <summary>
+        /// Handler called every time a state is unassigned in the controller.
+        /// </summary>
+        /// <param name="nodeIndex">Index of the unassigned state.</param>
+        /// <param name="state">The state unassigned.</param>
+        public virtual void OnStateUnassigned(IWriteableBrowsingOptionalNodeIndex nodeIndex, IWriteableOptionalNodeState state)
         {
             Debug.Assert(state != null);
             Debug.Assert(StateViewTable.ContainsKey(state));

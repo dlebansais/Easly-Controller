@@ -28,15 +28,9 @@ namespace EaslyController.Frame
         /// </summary>
         /// <param name="controllerView">The controller view to which this object belongs.</param>
         /// <param name="state">The source state.</param>
-        /// <param name="templateSet">The template set used to display the state.</param>
-        public FrameSourceStateView(IFrameControllerView controllerView, IFrameSourceState state, IFrameTemplateSet templateSet)
+        public FrameSourceStateView(IFrameControllerView controllerView, IFrameSourceState state)
             : base(controllerView, state)
         {
-            Debug.Assert(templateSet != null);
-            Debug.Assert(state.ParentInner != null);
-
-            Type NodeType = typeof(IIdentifier);
-            Template = templateSet.NodeTypeToTemplate(NodeType);
         }
         #endregion
 
@@ -56,7 +50,14 @@ namespace EaslyController.Frame
         /// <summary>
         /// The template used to display the state.
         /// </summary>
-        public IFrameTemplate Template { get; }
+        public IFrameTemplate Template
+        {
+            get
+            {
+                Type InterfaceType = typeof(IIdentifier);
+                return ControllerView.TemplateSet.NodeTypeToTemplate(InterfaceType);
+            }
+        }
 
         /// <summary>
         /// Root cell for the view.

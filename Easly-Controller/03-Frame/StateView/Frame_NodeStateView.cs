@@ -64,8 +64,7 @@ namespace EaslyController.Frame
         /// </summary>
         /// <param name="controllerView">The controller view to which this object belongs.</param>
         /// <param name="state">The node state.</param>
-        /// <param name="templateSet">The template set used to display the state.</param>
-        public FrameNodeStateView(IFrameControllerView controllerView, IFrameNodeState state, IFrameTemplateSet templateSet)
+        public FrameNodeStateView(IFrameControllerView controllerView, IFrameNodeState state)
             : base(controllerView, state)
         {
         }

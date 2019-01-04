@@ -60,15 +60,9 @@ namespace EaslyController.Frame
         /// </summary>
         /// <param name="controllerView">The controller view to which this object belongs.</param>
         /// <param name="blockState">The block state.</param>
-        /// <param name="templateSet">The template set used to display the block state.</param>
-        public FrameBlockStateView(IFrameControllerView controllerView, IFrameBlockState blockState, IFrameTemplateSet templateSet)
+        public FrameBlockStateView(IFrameControllerView controllerView, IFrameBlockState blockState)
             : base(controllerView, blockState)
         {
-            Debug.Assert(templateSet != null);
-            Debug.Assert(blockState.ParentInner != null);
-
-            Type BlockType = blockState.ParentInner.BlockType;
-            Template = templateSet.BlockTypeToTemplate(BlockType);
         }
         #endregion
 
@@ -86,7 +80,14 @@ namespace EaslyController.Frame
         /// <summary>
         /// The template used to display the block state.
         /// </summary>
-        public IFrameTemplate Template { get; }
+        public IFrameTemplate Template
+        {
+            get
+            {
+                Type BlockType = BlockState.ParentInner.BlockType;
+                return ControllerView.TemplateSet.BlockTypeToTemplate(BlockType);
+            }
+        }
 
         /// <summary>
         /// Root cell for the view.

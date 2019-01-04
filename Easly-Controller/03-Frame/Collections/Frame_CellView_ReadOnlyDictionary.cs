@@ -38,8 +38,13 @@ namespace EaslyController.Frame
 
             foreach (KeyValuePair<TKey, IFrameCellView> Entry in this)
             {
+                Debug.Assert(Entry.Key != null);
+
                 if (!AsCellViewReadOnlyDictionary.ContainsKey(Entry.Key))
                     return false;
+
+                Debug.Assert(Entry.Value != null);
+                Debug.Assert(AsCellViewReadOnlyDictionary[Entry.Key] != null);
 
                 if (!comparer.VerifyEqual(Entry.Value, AsCellViewReadOnlyDictionary[Entry.Key] as IFrameCellView))
                     return false;
