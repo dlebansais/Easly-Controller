@@ -11,6 +11,8 @@ namespace EaslyController.Frame
     /// </summary>
     public interface IFrameControllerView : IWriteableControllerView
     {
+        int GlobalDebugIndex { get; set; }
+
         /// <summary>
         /// The controller.
         /// </summary>
@@ -37,6 +39,8 @@ namespace EaslyController.Frame
     /// </summary>
     public class FrameControllerView : WriteableControllerView, IFrameControllerView
     {
+        public int GlobalDebugIndex { get; set; }
+
         #region Init
         /// <summary>
         /// Creates and initializes a new instance of a <see cref="FrameControllerView"/> object.
@@ -148,8 +152,10 @@ namespace EaslyController.Frame
 
             BuildCellViewRecursive(InsertedState);
 
+            IFrameNodeState OwnerState = (IFrameNodeState)inner.Owner;
+            IFrameNodeStateView OwnerStateView = StateViewTable[OwnerState];
             IFrameNodeStateView InsertedStateView = StateViewTable[InsertedState];
-            IFrameCellView InsertedRootCellView = InsertedStateView.RootCellView;
+            IFrameCellView InsertedRootCellView = CreateFrameCellView(OwnerStateView, InsertedStateView);
 
             if ((inner is IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> AsBlockListInner) && (nodeIndex is IFrameBrowsingExistingBlockNodeIndex AsBlockListIndex))
             {
@@ -167,8 +173,6 @@ namespace EaslyController.Frame
             }
             else if ((inner is IFrameListInner<IFrameBrowsingListNodeIndex> AsListInner) && (nodeIndex is IFrameBrowsingListNodeIndex AsListIndex))
             {
-                IFrameNodeState OwnerState = (IFrameNodeState)inner.Owner;
-                IFrameNodeStateView OwnerStateView = StateViewTable[OwnerState];
                 IFrameCellViewReadOnlyDictionary<string> CellViewTable = OwnerStateView.CellViewTable;
                 string PropertyName = inner.PropertyName;
 
@@ -341,6 +345,15 @@ namespace EaslyController.Frame
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameControllerView));
             return new FrameBlockStateView(this, (IFrameBlockState)blockState, TemplateSet);
+        }
+
+        /// <summary>
+        /// Creates a IxxxContainerCellView object.
+        /// </summary>
+        protected virtual IFrameContainerCellView CreateFrameCellView(IFrameNodeStateView stateView, IFrameNodeStateView childStateView)
+        {
+            ControllerTools.AssertNoOverride(this, typeof(FrameControllerView));
+            return new FrameContainerCellView(stateView, childStateView);
         }
         #endregion
     }

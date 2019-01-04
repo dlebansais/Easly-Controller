@@ -15,12 +15,11 @@ namespace EaslyController.Frame
         {
             StateView = stateView;
 
-            GlobalDebugIndex++;
-            DebugIndex = GlobalDebugIndex;
+            stateView.ControllerView.GlobalDebugIndex++;
+            DebugIndex = stateView.ControllerView.GlobalDebugIndex;
         }
 
         public int DebugIndex { get; }
-        static int GlobalDebugIndex;
         public override string ToString()
         {
             return base.ToString() + $" ({DebugIndex})";
