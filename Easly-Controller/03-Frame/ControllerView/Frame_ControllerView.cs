@@ -625,12 +625,6 @@ namespace EaslyController.Frame
             IFrameMutableCellViewCollection BlockEmbeddingCellView = CellViewTable[PropertyName] as IFrameMutableCellViewCollection;
             Debug.Assert(BlockEmbeddingCellView != null);
 
-            if (blockIndex < 0)
-            {
-//                PrintCellViewTree(BlockEmbeddingCellView);
-                return;
-            }
-
             base.OnBlocksMerged(inner, blockIndex);
 
             IFrameBlockState FirstBlockState = inner.BlockStateList[blockIndex - 1] as IFrameBlockState;
@@ -642,8 +636,6 @@ namespace EaslyController.Frame
 
             BlockEmbeddingCellView.Replace(blockIndex - 1, FirstBlockStateView.RootCellView);
             BlockEmbeddingCellView.Remove(blockIndex);
-
-            //PrintCellViewTree(BlockEmbeddingCellView);
         }
 
         protected virtual void BuildCellViewRecursive(IFrameNodeState state)
