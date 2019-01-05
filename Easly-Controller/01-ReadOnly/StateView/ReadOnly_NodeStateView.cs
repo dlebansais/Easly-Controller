@@ -68,6 +68,11 @@ namespace EaslyController.ReadOnly
 
             return true;
         }
+
+        public override string ToString()
+        {
+            return $"View of: {State}";
+        }
         #endregion
     }
 }

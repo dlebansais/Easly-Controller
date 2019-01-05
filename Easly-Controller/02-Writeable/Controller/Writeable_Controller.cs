@@ -792,6 +792,8 @@ namespace EaslyController.Writeable
             Debug.Assert(nodeIndex != null);
             Debug.Assert(inner.IsMergeable(nodeIndex));
 
+            NotifyBlocksMerged(inner, -1);
+
             int BlockIndex = nodeIndex.BlockIndex;
             IWriteableBlockState FirstBlockState = inner.BlockStateList[BlockIndex - 1];
             IWriteableBlockState SecondBlockState = inner.BlockStateList[BlockIndex];

@@ -325,6 +325,11 @@ namespace EaslyController.ReadOnly
 
             return true;
         }
+
+        public override string ToString()
+        {
+            return $"Block, {StateList.Count} state(s) of {ParentInner.InterfaceType.Name}";
+        }
         #endregion
 
         #region Create Methods

@@ -6,6 +6,7 @@ namespace EaslyController.Frame
     {
         IFrameNodeStateView StateView { get; }
         void RecalculateLineNumbers(IFrameController controller, ref int lineNumber, ref int columnNumber);
+        string PrintTree(int indentation);
     }
 
     public abstract class FrameCellView
@@ -51,6 +52,8 @@ namespace EaslyController.Frame
 
             return true;
         }
+
+        public abstract string PrintTree(int indentation);
         #endregion
     }
 }

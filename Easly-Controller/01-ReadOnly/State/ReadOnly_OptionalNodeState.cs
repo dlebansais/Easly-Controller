@@ -127,6 +127,11 @@ namespace EaslyController.ReadOnly
 
             return true;
         }
+
+        public override string ToString()
+        {
+            return $"Optional node of {ParentInner.InterfaceType.Name}";
+        }
         #endregion
     }
 }

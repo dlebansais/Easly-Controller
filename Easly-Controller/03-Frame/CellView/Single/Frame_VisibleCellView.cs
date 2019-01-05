@@ -70,6 +70,17 @@ namespace EaslyController.Frame
 
             return true;
         }
+
+        public override string PrintTree(int indentation)
+        {
+            string Result = "";
+            for (int i = 0; i < indentation; i++)
+                Result += " ";
+
+            Result += "Visible\n";
+
+            return Result;
+        }
         #endregion
     }
 }

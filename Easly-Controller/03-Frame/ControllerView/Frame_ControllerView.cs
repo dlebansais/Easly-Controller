@@ -613,18 +613,9 @@ namespace EaslyController.Frame
         /// <param name="blockIndex">Index of the first merged block.</param>
         public override void OnBlocksMerged(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, int blockIndex)
         {
-            base.OnBlocksMerged(inner, blockIndex);
-
             IFrameNodeState OwnerState = inner.Owner as IFrameNodeState;
             Debug.Assert(OwnerState != null);
             IFrameNodeStateView OwnerStateView = StateViewTable[OwnerState];
-
-            IFrameBlockState FirstBlockState = inner.BlockStateList[blockIndex - 1] as IFrameBlockState;
-            Debug.Assert(FirstBlockState != null);
-            IFrameBlockStateView FirstBlockStateView = BlockStateViewTable[FirstBlockState];
-
-            ClearBlockCellView(OwnerStateView, FirstBlockStateView);
-            BuildBlockCellView(OwnerStateView, FirstBlockStateView);
 
             IFrameCellViewReadOnlyDictionary<string> CellViewTable = OwnerStateView.CellViewTable;
             string PropertyName = inner.PropertyName;
@@ -634,7 +625,25 @@ namespace EaslyController.Frame
             IFrameMutableCellViewCollection BlockEmbeddingCellView = CellViewTable[PropertyName] as IFrameMutableCellViewCollection;
             Debug.Assert(BlockEmbeddingCellView != null);
 
+            if (blockIndex < 0)
+            {
+//                PrintCellViewTree(BlockEmbeddingCellView);
+                return;
+            }
+
+            base.OnBlocksMerged(inner, blockIndex);
+
+            IFrameBlockState FirstBlockState = inner.BlockStateList[blockIndex - 1] as IFrameBlockState;
+            Debug.Assert(FirstBlockState != null);
+            IFrameBlockStateView FirstBlockStateView = BlockStateViewTable[FirstBlockState];
+
+            ClearBlockCellView(OwnerStateView, FirstBlockStateView);
+            BuildBlockCellView(OwnerStateView, FirstBlockStateView);
+
+            BlockEmbeddingCellView.Replace(blockIndex - 1, FirstBlockStateView.RootCellView);
             BlockEmbeddingCellView.Remove(blockIndex);
+
+            //PrintCellViewTree(BlockEmbeddingCellView);
         }
 
         protected virtual void BuildCellViewRecursive(IFrameNodeState state)
@@ -716,6 +725,14 @@ namespace EaslyController.Frame
                 return false;
 
             return true;
+        }
+
+        protected virtual void PrintCellViewTree(IFrameCellView cellView)
+        {
+            string Tree = cellView.PrintTree(0);
+
+            Debug.WriteLine("Cell View Tree:");
+            Debug.WriteLine(Tree);
         }
         #endregion
 

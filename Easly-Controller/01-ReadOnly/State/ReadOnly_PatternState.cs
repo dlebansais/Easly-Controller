@@ -98,6 +98,11 @@ namespace EaslyController.ReadOnly
 
             return true;
         }
+
+        public override string ToString()
+        {
+            return "Pattern state";
+        }
         #endregion
     }
 }

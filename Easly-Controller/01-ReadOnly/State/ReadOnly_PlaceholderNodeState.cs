@@ -62,6 +62,14 @@ namespace EaslyController.ReadOnly
 
             return true;
         }
+
+        public override string ToString()
+        {
+            if (ParentInner == null)
+                return "Root node";
+            else
+                return $"Child node of {ParentInner.InterfaceType.Name}";
+        }
         #endregion
     }
 }

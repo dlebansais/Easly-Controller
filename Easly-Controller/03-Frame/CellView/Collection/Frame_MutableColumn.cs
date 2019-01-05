@@ -58,6 +58,20 @@ namespace EaslyController.Frame
 
             return true;
         }
+
+        public override string PrintTree(int indentation)
+        {
+            string Result = "";
+            for (int i = 0; i < indentation; i++)
+                Result += " ";
+
+            Result += $"Mutable Column, {CellViewList.Count} cell(s)\n";
+
+            foreach (IFrameCellView Item in CellViewList)
+                Result += Item.PrintTree(indentation + 1);
+
+            return Result;
+        }
         #endregion
     }
 }
