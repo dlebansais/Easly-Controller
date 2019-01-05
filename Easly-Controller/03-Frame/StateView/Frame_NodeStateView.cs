@@ -36,12 +36,18 @@ namespace EaslyController.Frame
         /// <summary>
         /// Builds the cell view tree for this view.
         /// </summary>
-        /// <param name="controllerView">The view in which the state is initialized.</param>
+        /// <param name="controllerView">The view in which the cell tree is built.</param>
         void BuildRootCellView(IFrameControllerView controllerView);
 
         /// <param name="propertyName">The property name of the inner.</param>
         /// <param name="cellView">The assigned cell view.</param>
         void AssignCellViewTable(string propertyName, IFrameCellView cellView);
+
+        /// <summary>
+        /// Clears the cell view tree for this view.
+        /// </summary>
+        /// <param name="controllerView">The view in which the cell tree is cleared.</param>
+        void ClearRootCellView(IFrameControllerView controllerView);
 
         /// <summary>
         /// Replaces the cell view for the given property.
@@ -101,7 +107,7 @@ namespace EaslyController.Frame
         /// <summary>
         /// Builds the cell view tree for this view.
         /// </summary>
-        /// <param name="controllerView">The view in which the state is initialized.</param>
+        /// <param name="controllerView">The view in which the cell tree is built.</param>
         public abstract void BuildRootCellView(IFrameControllerView controllerView);
 
         /// <summary>
@@ -110,6 +116,12 @@ namespace EaslyController.Frame
         /// <param name="propertyName">The property name of the inner.</param>
         /// <param name="cellView">The assigned cell view.</param>
         public abstract void AssignCellViewTable(string propertyName, IFrameCellView cellView);
+
+        /// <summary>
+        /// Clears the cell view tree for this view.
+        /// </summary>
+        /// <param name="controllerView">The view in which the cell tree is cleared.</param>
+        public abstract void ClearRootCellView(IFrameControllerView controllerView);
 
         /// <summary>
         /// Replaces the cell view for the given property.

@@ -81,7 +81,17 @@ namespace EaslyController.Frame
         /// <summary>
         /// Called when a block state is removed.
         /// </summary>
-        new event Action<IFrameBrowsingExistingBlockNodeIndex, IFrameBlockState, int> BlockStateMoved;
+        new event Action<IFrameBlockListInner<IFrameBrowsingBlockNodeIndex>, int, int> BlockStateMoved;
+
+        /// <summary>
+        /// Called when a block is split.
+        /// </summary>
+        new event Action<IFrameBlockListInner<IFrameBrowsingBlockNodeIndex>, int, int> BlockSplit;
+
+        /// <summary>
+        /// Called when two blocks are merged.
+        /// </summary>
+        new event Action<IFrameBlockListInner<IFrameBrowsingBlockNodeIndex>, int> BlocksMerged;
     }
 
     public class FrameController : WriteableController, IFrameController
@@ -228,10 +238,28 @@ namespace EaslyController.Frame
         /// <summary>
         /// Called when a block state is moved.
         /// </summary>
-        public new event Action<IFrameBrowsingExistingBlockNodeIndex, IFrameBlockState, int> BlockStateMoved
+        public new event Action<IFrameBlockListInner<IFrameBrowsingBlockNodeIndex>, int, int> BlockStateMoved
         {
-            add { AddBlockStateMovedDelegate((Action<IWriteableBrowsingExistingBlockNodeIndex, IWriteableBlockState, int>)value); }
-            remove { RemoveBlockStateMovedDelegate((Action<IWriteableBrowsingExistingBlockNodeIndex, IWriteableBlockState, int>)value); }
+            add { AddBlockStateMovedDelegate((Action<IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex>, int, int>)value); }
+            remove { RemoveBlockStateMovedDelegate((Action<IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex>, int, int>)value); }
+        }
+
+        /// <summary>
+        /// Called when a block is split.
+        /// </summary>
+        public new event Action<IFrameBlockListInner<IFrameBrowsingBlockNodeIndex>, int, int> BlockSplit
+        {
+            add { AddBlockSplitDelegate((Action<IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex>, int, int>)value); }
+            remove { RemoveBlockSplitDelegate((Action<IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex>, int, int>)value); }
+        }
+
+        /// <summary>
+        /// Called when two blocks are merged.
+        /// </summary>
+        public new event Action<IFrameBlockListInner<IFrameBrowsingBlockNodeIndex>, int> BlocksMerged
+        {
+            add { AddBlocksMergedDelegate((Action<IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex>, int>)value); }
+            remove { RemoveBlocksMergedDelegate((Action<IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex>, int>)value); }
         }
 
         /// <summary>

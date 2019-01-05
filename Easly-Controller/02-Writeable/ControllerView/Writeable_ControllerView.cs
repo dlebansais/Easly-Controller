@@ -66,6 +66,8 @@ namespace EaslyController.Writeable
             Controller.StateUnassigned += OnStateUnassigned;
             Controller.StateMoved += OnStateMoved;
             Controller.BlockStateMoved += OnBlockStateMoved;
+            Controller.BlockSplit += OnBlockSplit;
+            Controller.BlocksMerged+= OnBlocksMerged;
         }
         #endregion
 
@@ -191,13 +193,30 @@ namespace EaslyController.Writeable
         /// <summary>
         /// Handler called every time a block state is moved in the controller.
         /// </summary>
-        /// <param name="nodeIndex">Index of the moved block state.</param>
-        /// <param name="state">The moved block state.</param>
-        /// <param name="direction">The change in position, relative to the current position.</param>
-        public virtual void OnBlockStateMoved(IWriteableBrowsingExistingBlockNodeIndex nodeIndex, IWriteableBlockState blockState, int direction)
+        /// <param name="inner">Inner where the block is split.</param>
+        /// <param name="blockIndex">Index of the split block.</param>
+        /// <param name="direction">The change in position, relative to the current block position.</param>
+        public virtual void OnBlockStateMoved(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, int blockIndex, int direction)
         {
-            Debug.Assert(blockState != null);
-            Debug.Assert(BlockStateViewTable.ContainsKey(blockState));
+        }
+
+        /// <summary>
+        /// Handler called every time a block split in the controller.
+        /// </summary>
+        /// <param name="inner">Inner where the block is split.</param>
+        /// <param name="blockIndex">Index of the split block.</param>
+        /// <param name="Index">Index of the last node to stay in the old block.</param>
+        public virtual void OnBlockSplit(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, int blockIndex, int index)
+        {
+        }
+
+        /// <summary>
+        /// Handler called every time two blocks are merged.
+        /// </summary>
+        /// <param name="inner">Inner where the blocks are merged.</param>
+        /// <param name="blockIndex">Index of the first merged block.</param>
+        public virtual void OnBlocksMerged(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, int blockIndex)
+        {
         }
         #endregion
 

@@ -147,6 +147,47 @@ namespace EaslyController.Frame
 
             return CreateFrameCellView(stateView, parentCellView, ChildStateView);
         }
+
+        /// <summary>
+        /// Delete cells for the provided state view.
+        /// </summary>
+        /// <param name="controllerView">The view in cells are deleted.</param>
+        /// <param name="stateView">The state view containing <paramref name="blockStateView"/> for which to delete cells.</param>
+        /// <param name="blockStateView">The block state view for which to delete cells.</param>
+        public virtual void ClearBlockCells(IFrameControllerView controllerView, IFrameNodeStateView stateView, IFrameBlockStateView blockStateView)
+        {
+            foreach (IFrameFrame Item in Items)
+                if (Item is IFrameBlockFrame AsBlockFrame)
+                    AsBlockFrame.ClearBlockCells(controllerView, stateView, blockStateView);
+
+                else if (Item is FramePlaceholderFrame AsPlaceholderFrame)
+                {
+                    IFrameBlockState BlockState = blockStateView.BlockState;
+
+                    if (AsPlaceholderFrame.PropertyName == nameof(IBlock.ReplicationPattern))
+                        ClearPlaceholderCells(controllerView, stateView, BlockState.PatternState);
+
+                    else if (AsPlaceholderFrame.PropertyName == nameof(IBlock.SourceIdentifier))
+                        ClearPlaceholderCells(controllerView, stateView, BlockState.SourceState);
+
+                    else
+                        throw new ArgumentOutOfRangeException(nameof(Item));
+                }
+                else if (Item is IFrameNodeFrame AsNodeFrame)
+                {
+                }
+                else
+                    throw new ArgumentOutOfRangeException(nameof(Item));
+        }
+
+        protected virtual void ClearPlaceholderCells(IFrameControllerView controllerView, IFrameNodeStateView stateView, IFrameNodeState childState)
+        {
+            IFrameStateViewDictionary StateViewTable = controllerView.StateViewTable;
+            Debug.Assert(StateViewTable.ContainsKey(childState));
+
+            IFrameNodeStateView ChildStateView = StateViewTable[childState];
+            ChildStateView.ClearRootCellView(controllerView);
+        }
         #endregion
 
         #region Create Methods

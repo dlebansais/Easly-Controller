@@ -83,7 +83,17 @@ namespace EaslyController.Writeable
         /// <summary>
         /// Called when a block state is moved.
         /// </summary>
-        event Action<IWriteableBrowsingExistingBlockNodeIndex, IWriteableBlockState, int> BlockStateMoved;
+        event Action<IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex>, int, int> BlockStateMoved;
+
+        /// <summary>
+        /// Called when a block is split.
+        /// </summary>
+        event Action<IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex>, int, int> BlockSplit;
+
+        /// <summary>
+        /// Called when two blocks are merged.
+        /// </summary>
+        event Action<IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex>, int> BlocksMerged;
 
         /// <summary>
         /// Inserts a new node in a list or block list.
@@ -360,14 +370,38 @@ namespace EaslyController.Writeable
         /// <summary>
         /// Called when a block state is moved.
         /// </summary>
-        public event Action<IWriteableBrowsingExistingBlockNodeIndex, IWriteableBlockState, int> BlockStateMoved
+        public event Action<IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex>, int, int> BlockStateMoved
         {
             add { AddBlockStateMovedDelegate(value); }
             remove { RemoveBlockStateMovedDelegate(value); }
         }
-        protected Action<IWriteableBrowsingExistingBlockNodeIndex, IWriteableBlockState, int> BlockStateMovedHandler;
-        protected virtual void AddBlockStateMovedDelegate(Action<IWriteableBrowsingExistingBlockNodeIndex, IWriteableBlockState, int> handler) { BlockStateMovedHandler += handler; }
-        protected virtual void RemoveBlockStateMovedDelegate(Action<IWriteableBrowsingExistingBlockNodeIndex, IWriteableBlockState, int> handler) { BlockStateMovedHandler -= handler; }
+        protected Action<IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex>, int, int> BlockStateMovedHandler;
+        protected virtual void AddBlockStateMovedDelegate(Action<IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex>, int, int> handler) { BlockStateMovedHandler += handler; }
+        protected virtual void RemoveBlockStateMovedDelegate(Action<IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex>, int, int> handler) { BlockStateMovedHandler -= handler; }
+
+        /// <summary>
+        /// Called when a block is split.
+        /// </summary>
+        public event Action<IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex>, int, int> BlockSplit
+        {
+            add { AddBlockSplitDelegate(value); }
+            remove { RemoveBlockSplitDelegate(value); }
+        }
+        protected Action<IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex>, int, int> BlockSplitHandler;
+        protected virtual void AddBlockSplitDelegate(Action<IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex>, int, int> handler) { BlockSplitHandler += handler; }
+        protected virtual void RemoveBlockSplitDelegate(Action<IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex>, int, int> handler) { BlockSplitHandler -= handler; }
+
+        /// <summary>
+        /// Called when two blocks are merged.
+        /// </summary>
+        public event Action<IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex>, int> BlocksMerged
+        {
+            add { AddBlocksMergedDelegate(value); }
+            remove { RemoveBlocksMergedDelegate(value); }
+        }
+        protected Action<IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex>, int> BlocksMergedHandler;
+        protected virtual void AddBlocksMergedDelegate(Action<IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex>, int> handler) { BlocksMergedHandler += handler; }
+        protected virtual void RemoveBlocksMergedDelegate(Action<IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex>, int> handler) { BlocksMergedHandler -= handler; }
 
         /// <summary>
         /// State table.
@@ -710,6 +744,8 @@ namespace EaslyController.Writeable
             IWriteableBlockState OldBlockState = inner.BlockStateList[nodeIndex.BlockIndex];
             Debug.Assert(nodeIndex.Index < OldBlockState.StateList.Count);
 
+            int BlockIndex = nodeIndex.BlockIndex;
+            int Index = nodeIndex.Index;
             int OldNodeCount = OldBlockState.StateList.Count;
 
             inner.SplitBlock(nodeIndex, out IWriteableBlockState NewBlockState);
@@ -728,6 +764,8 @@ namespace EaslyController.Writeable
             IReadOnlySourceState SourceState = NewBlockState.SourceState;
             AddState(SourceIndex, SourceState);
             Stats.PlaceholderNodeCount++;
+
+            NotifyBlockSplit(inner, BlockIndex, Index);
         }
 
         /// <summary>
@@ -754,8 +792,9 @@ namespace EaslyController.Writeable
             Debug.Assert(nodeIndex != null);
             Debug.Assert(inner.IsMergeable(nodeIndex));
 
-            IWriteableBlockState FirstBlockState = inner.BlockStateList[nodeIndex.BlockIndex - 1];
-            IWriteableBlockState SecondBlockState = inner.BlockStateList[nodeIndex.BlockIndex];
+            int BlockIndex = nodeIndex.BlockIndex;
+            IWriteableBlockState FirstBlockState = inner.BlockStateList[BlockIndex - 1];
+            IWriteableBlockState SecondBlockState = inner.BlockStateList[BlockIndex];
 
             IReadOnlyBrowsingSourceIndex SourceIndex = FirstBlockState.SourceIndex;
             RemoveState(SourceIndex);
@@ -771,11 +810,13 @@ namespace EaslyController.Writeable
             inner.MergeBlocks(nodeIndex);
             Stats.BlockCount--;
 
-            IWriteableBlockState BlockState = inner.BlockStateList[nodeIndex.BlockIndex];
+            IWriteableBlockState BlockState = inner.BlockStateList[BlockIndex - 1];
 
             Debug.Assert(BlockState.StateList.Count == OldNodeCount);
             Debug.Assert(FirstNodeIndex < BlockState.StateList.Count);
             Debug.Assert(BlockState.StateList[FirstNodeIndex].ParentIndex == nodeIndex);
+
+            NotifyBlocksMerged(inner, BlockIndex);
         }
 
         /// <summary>
@@ -819,7 +860,7 @@ namespace EaslyController.Writeable
 
             inner.MoveBlock(blockIndex, direction);
 
-            NotifyBlockStateMoved(NodeIndex, BlockState, direction);
+            NotifyBlockStateMoved(inner, blockIndex, direction);
         }
 
         /// <summary>
@@ -1111,9 +1152,19 @@ namespace EaslyController.Writeable
             StateMovedHandler?.Invoke(nodeIndex, state, direction);
         }
 
-        protected virtual void NotifyBlockStateMoved(IWriteableBrowsingExistingBlockNodeIndex nodeIndex, IWriteableBlockState state, int direction)
+        protected virtual void NotifyBlockStateMoved(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, int blockIndex, int direction)
         {
-            BlockStateMovedHandler?.Invoke(nodeIndex, state, direction);
+            BlockStateMovedHandler?.Invoke(inner, blockIndex, direction);
+        }
+
+        protected virtual void NotifyBlockSplit(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, int blockIndex, int index)
+        {
+            BlockSplitHandler?.Invoke(inner, blockIndex, index);
+        }
+
+        protected virtual void NotifyBlocksMerged(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, int blockIndex)
+        {
+            BlocksMergedHandler?.Invoke(inner, blockIndex);
         }
         #endregion
 

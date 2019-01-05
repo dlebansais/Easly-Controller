@@ -38,7 +38,7 @@ namespace EaslyController.Frame
         /// <summary>
         /// Builds the cell view tree for this view.
         /// </summary>
-        /// <param name="controllerView">The view in which the state is initialized.</param>
+        /// <param name="controllerView">The view in which the cell tree is build.</param>
         /// <param name="stateView">The state view for which to create cells.</param>
         void BuildRootCellView(IFrameControllerView controllerView, IFrameNodeStateView stateView);
 
@@ -47,6 +47,13 @@ namespace EaslyController.Frame
         /// </summary>
         /// <param name="embeddingCellView">The assigned cell view list.</param>
         void AssignEmbeddingCellView(IFrameMutableCellViewCollection embeddingCellView);
+
+        /// <summary>
+        /// Clears the cell view tree for this view.
+        /// </summary>
+        /// <param name="controllerView">The view in which the cell tree is cleared.</param>
+        /// <param name="stateView">The state view for which to delete cells.</param>
+        void ClearRootCellView(IFrameControllerView controllerView, IFrameNodeStateView stateView);
     }
 
     /// <summary>
@@ -104,16 +111,16 @@ namespace EaslyController.Frame
         /// <summary>
         /// Builds the cell view tree for this view.
         /// </summary>
-        /// <param name="controllerView">The view in which the state is initialized.</param>
+        /// <param name="controllerView">The view in which the cell tree is build.</param>
         /// <param name="stateView">The state view for which to create cells.</param>
         public virtual void BuildRootCellView(IFrameControllerView controllerView, IFrameNodeStateView stateView)
         {
             Debug.Assert(controllerView != null);
 
-            IFrameBlockTemplate NodeTemplate = Template as IFrameBlockTemplate;
-            Debug.Assert(NodeTemplate != null);
+            IFrameBlockTemplate BlockTemplate = Template as IFrameBlockTemplate;
+            Debug.Assert(BlockTemplate != null);
 
-            RootCellView = NodeTemplate.BuildBlockCells(controllerView, stateView, this);
+            RootCellView = BlockTemplate.BuildBlockCells(controllerView, stateView, this);
 
             Debug.Assert(EmbeddingCellView != null);
         }
@@ -128,6 +135,24 @@ namespace EaslyController.Frame
             Debug.Assert(EmbeddingCellView == null);
 
             EmbeddingCellView = embeddingCellView;
+        }
+
+        /// <summary>
+        /// Clears the cell view tree for this view.
+        /// </summary>
+        /// <param name="controllerView">The view in which the cell tree is cleared.</param>
+        /// <param name="stateView">The state view for which to delete cells.</param>
+        public virtual void ClearRootCellView(IFrameControllerView controllerView, IFrameNodeStateView stateView)
+        {
+            Debug.Assert(controllerView != null);
+
+            IFrameBlockTemplate BlockTemplate = Template as IFrameBlockTemplate;
+            Debug.Assert(BlockTemplate != null);
+
+            BlockTemplate.ClearBlockCells(controllerView, stateView, this);
+
+            RootCellView = null;
+            EmbeddingCellView = null;
         }
         #endregion
 

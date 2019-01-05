@@ -18,7 +18,7 @@ namespace EaslyController.Frame
         /// <summary>
         /// Create cells for the provided state view.
         /// </summary>
-        /// <param name="controllerView">The view in cells are created.</param>
+        /// <param name="controllerView">The view in which cells are created.</param>
         /// <param name="stateView">The state view containing <paramref name="blockStateView"/> for which to create cells.</param>
         /// <param name="blockStateView">The block state view for which to create cells.</param>
         public virtual IFrameCellView BuildBlockCells(IFrameControllerView controllerView, IFrameNodeStateView stateView, IFrameBlockStateView blockStateView)
@@ -45,6 +45,16 @@ namespace EaslyController.Frame
             blockStateView.AssignEmbeddingCellView(EmbeddingCellView);
 
             return EmbeddingCellView;
+        }
+
+        /// <summary>
+        /// Delete cells for the provided state view.
+        /// </summary>
+        /// <param name="controllerView">The view in which cells are deleted.</param>
+        /// <param name="stateView">The state view containing <paramref name="blockStateView"/> for which to delete cells.</param>
+        /// <param name="blockStateView">The block state view for which to delete cells.</param>
+        public virtual void ClearBlockCells(IFrameControllerView controllerView, IFrameNodeStateView stateView, IFrameBlockStateView blockStateView)
+        {
         }
         #endregion
 

@@ -543,30 +543,98 @@ namespace EaslyController.Frame
         /// <summary>
         /// Handler called every time a block state is moved in the controller.
         /// </summary>
-        /// <param name="nodeIndex">Index of the moved block state.</param>
-        /// <param name="state">The moved block state.</param>
-        /// <param name="direction">The change in position, relative to the current position.</param>
-        public override void OnBlockStateMoved(IWriteableBrowsingExistingBlockNodeIndex nodeIndex, IWriteableBlockState blockState, int direction)
+        /// <param name="inner">Inner where the block is moved.</param>
+        /// <param name="blockIndex">Index of the moved block.</param>
+        /// <param name="direction">The change in position, relative to the current block position.</param>
+        public override void OnBlockStateMoved(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, int blockIndex, int direction)
         {
-            base.OnBlockStateMoved(nodeIndex, blockState, direction);
+            base.OnBlockStateMoved(inner, blockIndex, direction);
 
-            IFrameBlockState MovedBlockState = blockState as IFrameBlockState;
-            Debug.Assert(MovedBlockState != null);
-
-            IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> ParentInner = blockState.ParentInner as IFrameBlockListInner<IFrameBrowsingBlockNodeIndex>;
-            IFrameNodeState OwnerState = ParentInner.Owner;
+            IFrameNodeState OwnerState = inner.Owner as IFrameNodeState;
+            Debug.Assert(OwnerState != null);
             IFrameNodeStateView OwnerStateView = StateViewTable[OwnerState];
 
             IFrameCellViewReadOnlyDictionary<string> CellViewTable = OwnerStateView.CellViewTable;
-            string PropertyName = ParentInner.PropertyName;
+            string PropertyName = inner.PropertyName;
 
             Debug.Assert(CellViewTable != null);
             Debug.Assert(CellViewTable.ContainsKey(PropertyName));
             IFrameMutableCellViewCollection EmbeddingCellView = CellViewTable[PropertyName] as IFrameMutableCellViewCollection;
             Debug.Assert(EmbeddingCellView != null);
 
-            int BlockIndex = nodeIndex.BlockIndex;
-            EmbeddingCellView.Move(BlockIndex, direction);
+            EmbeddingCellView.Move(blockIndex, direction);
+        }
+
+        /// <summary>
+        /// Handler called every time a block split in the controller.
+        /// </summary>
+        /// <param name="inner">Inner where the block is split.</param>
+        /// <param name="blockIndex">Index of the split block.</param>
+        /// <param name="Index">Index of the last node to stay in the old block.</param>
+        public override void OnBlockSplit(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, int blockIndex, int index)
+        {
+            base.OnBlockSplit(inner, blockIndex, index);
+
+            IFrameNodeState OwnerState = inner.Owner as IFrameNodeState;
+            Debug.Assert(OwnerState != null);
+            IFrameNodeStateView OwnerStateView = StateViewTable[OwnerState];
+
+            IFrameBlockState FirstBlockState = inner.BlockStateList[blockIndex] as IFrameBlockState;
+            Debug.Assert(FirstBlockState != null);
+
+            IFrameBlockStateView FirstBlockStateView = BlockStateViewTable[FirstBlockState];
+            BuildBlockCellView(OwnerStateView, FirstBlockStateView);
+
+            IFrameCellViewReadOnlyDictionary<string> CellViewTable = OwnerStateView.CellViewTable;
+            string PropertyName = inner.PropertyName;
+
+            Debug.Assert(CellViewTable != null);
+            Debug.Assert(CellViewTable.ContainsKey(PropertyName));
+            IFrameMutableCellViewCollection FirstEmbeddingCellView = CellViewTable[PropertyName] as IFrameMutableCellViewCollection;
+            Debug.Assert(FirstEmbeddingCellView != null);
+
+            FirstEmbeddingCellView.Insert(blockIndex, FirstBlockStateView.RootCellView);
+
+            IFrameBlockState SecondBlockState = inner.BlockStateList[blockIndex + 1] as IFrameBlockState;
+            Debug.Assert(SecondBlockState != null);
+
+            IFrameBlockStateView SecondBlockStateView = BlockStateViewTable[SecondBlockState];
+            IFrameMutableCellViewCollection SecondEmbeddingCellView = SecondBlockStateView.EmbeddingCellView;
+            Debug.Assert(SecondEmbeddingCellView != null);
+
+            for (int i = 0; i < index; i++)
+                SecondEmbeddingCellView.Remove(0);
+        }
+
+        /// <summary>
+        /// Handler called every time two blocks are merged.
+        /// </summary>
+        /// <param name="inner">Inner where the blocks are merged.</param>
+        /// <param name="blockIndex">Index of the first merged block.</param>
+        public override void OnBlocksMerged(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, int blockIndex)
+        {
+            base.OnBlocksMerged(inner, blockIndex);
+
+            IFrameNodeState OwnerState = inner.Owner as IFrameNodeState;
+            Debug.Assert(OwnerState != null);
+            IFrameNodeStateView OwnerStateView = StateViewTable[OwnerState];
+
+            IFrameBlockState FirstBlockState = inner.BlockStateList[blockIndex - 1] as IFrameBlockState;
+            Debug.Assert(FirstBlockState != null);
+            IFrameBlockStateView FirstBlockStateView = BlockStateViewTable[FirstBlockState];
+
+            ClearBlockCellView(OwnerStateView, FirstBlockStateView);
+            BuildBlockCellView(OwnerStateView, FirstBlockStateView);
+
+            IFrameCellViewReadOnlyDictionary<string> CellViewTable = OwnerStateView.CellViewTable;
+            string PropertyName = inner.PropertyName;
+
+            Debug.Assert(CellViewTable != null);
+            Debug.Assert(CellViewTable.ContainsKey(PropertyName));
+            IFrameMutableCellViewCollection BlockEmbeddingCellView = CellViewTable[PropertyName] as IFrameMutableCellViewCollection;
+            Debug.Assert(BlockEmbeddingCellView != null);
+
+            BlockEmbeddingCellView.Remove(blockIndex);
         }
 
         protected virtual void BuildCellViewRecursive(IFrameNodeState state)
@@ -625,6 +693,7 @@ namespace EaslyController.Frame
 
         protected virtual void ClearBlockCellView(IFrameNodeStateView stateView, IFrameBlockStateView blockStateView)
         {
+            blockStateView.ClearRootCellView(this, stateView);
         }
         #endregion
 

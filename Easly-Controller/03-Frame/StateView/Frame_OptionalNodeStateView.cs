@@ -128,6 +128,17 @@ namespace EaslyController.Frame
         }
 
         /// <summary>
+        /// Clears the cell view tree for this view.
+        /// </summary>
+        /// <param name="controllerView">The view in which the cell tree is cleared.</param>
+        public virtual void ClearRootCellView(IFrameControllerView controllerView)
+        {
+            RootCellView = null;
+            _CellViewTable = null;
+            CellViewTable = null;
+        }
+
+        /// <summary>
         /// Replaces the cell view for the given property.
         /// </summary>
         /// <param name="propertyName">The property name.</param>

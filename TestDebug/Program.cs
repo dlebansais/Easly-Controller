@@ -509,7 +509,7 @@ namespace TestDebug
 
             IFrameControllerView ControllerView5 = FrameControllerView.Create(Controller, FrameTemplateSet.Default);
             Debug.Assert(ControllerView5.IsEqual(CompareEqual.New(), ControllerView));
-
+/*
             IFrameBrowsingBlockNodeIndex InsertIndex7 = (IFrameBrowsingBlockNodeIndex)ListInner.IndexAt(0, 0);
             Controller.Remove(ListInner, InsertIndex7);
 
@@ -527,7 +527,7 @@ namespace TestDebug
 
             IFrameControllerView ControllerView8 = FrameControllerView.Create(Controller, FrameTemplateSet.Default);
             Debug.Assert(ControllerView8.IsEqual(CompareEqual.New(), ControllerView));
-
+*/
             Controller.Unassign(OptionalInner.ChildState.ParentIndex);
 
             ControllerCheck = FrameController.Create(new FrameRootNodeIndex(rootNode));
@@ -554,7 +554,7 @@ namespace TestDebug
 
                 IFrameControllerView ControllerView11 = FrameControllerView.Create(Controller, FrameTemplateSet.Default);
                 Debug.Assert(ControllerView11.IsEqual(CompareEqual.New(), ControllerView));
-
+                
                 IFrameBrowsingExistingBlockNodeIndex SplitIndex2 = (IFrameBrowsingExistingBlockNodeIndex)ListInner.IndexAt(1, 0);
                 Controller.MergeBlocks(ListInner, SplitIndex2);
 
@@ -566,9 +566,9 @@ namespace TestDebug
             }
 
             IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> ListInner2 = (IFrameBlockListInner<IFrameBrowsingBlockNodeIndex>)InnerTable[nameof(IClass.FeatureBlocks)];
-            if (ListInner2.BlockStateList.Count > 1)
+            if (ListInner.BlockStateList.Count > 1)
             {
-                Controller.MoveBlock(ListInner2, 0, 1);
+                Controller.MoveBlock(ListInner, 0, 1);
 
                 ControllerCheck = FrameController.Create(new FrameRootNodeIndex(rootNode));
                 Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
