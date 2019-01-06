@@ -1,6 +1,7 @@
 ﻿using BaseNode;
 using BaseNodeHelper;
 using Easly;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 
@@ -20,6 +21,11 @@ namespace EaslyController.ReadOnly
         /// Inner containing this state.
         /// </summary>
         new IReadOnlyOptionalInner<IReadOnlyBrowsingOptionalNodeIndex> ParentInner { get; }
+
+        /// <summary>
+        /// Interface to the optional object for the node.
+        /// </summary>
+        IOptionalReference Optional { get; }
     }
 
     /// <summary>
@@ -35,33 +41,10 @@ namespace EaslyController.ReadOnly
         public ReadOnlyOptionalNodeState(IReadOnlyBrowsingOptionalNodeIndex parentIndex)
             : base(parentIndex)
         {
-            VirtualNode = null;
         }
         #endregion
 
         #region Properties
-        /// <summary>
-        /// The node, or a default object if not assigned.
-        /// . If the node is assigned, this property returns the node itself.
-        /// . Otherwise, it returns a default object created at the first attempt to read the node. This object should not be modified. Instead it should be replaced by the proper node when that one is created and assigned.
-        /// </summary>
-        public override INode Node
-        {
-            get
-            {
-                IOptionalReference Optional = ParentIndex.Optional;
-                NodeTreeHelperOptional.GetChildNode(Optional, out bool IsAssigned, out INode ChildNode);
-
-                if (ChildNode != null)
-                    return ChildNode;
-
-                UpdateVirtualNode(ParentInner);
-                return VirtualNode;
-            }
-        }
-        private INode VirtualNode;
-        private ulong VirtualNodeHash;
-
         /// <summary>
         /// The index that was used to create the state.
         /// </summary>
@@ -71,6 +54,23 @@ namespace EaslyController.ReadOnly
         /// Inner containing this state.
         /// </summary>
         public new IReadOnlyOptionalInner<IReadOnlyBrowsingOptionalNodeIndex> ParentInner { get { return (IReadOnlyOptionalInner<IReadOnlyBrowsingOptionalNodeIndex>)base.ParentInner; } }
+
+        /// <summary>
+        /// The node, or null if not assigned.
+        /// </summary>
+        public override INode Node
+        {
+            get
+            {
+                NodeTreeHelperOptional.GetChildNode(Optional, out bool IsAssigned, out INode ChildNode);
+                return ChildNode;
+            }
+        }
+
+        /// <summary>
+        /// Interface to the optional object for the node.
+        /// </summary>
+        public IOptionalReference Optional { get { return ParentIndex.Optional; } }
         #endregion
 
         #region Client Interface
@@ -84,30 +84,10 @@ namespace EaslyController.ReadOnly
             Debug.Assert(browseNodeContext != null);
             Debug.Assert(parentInner != null);
 
-            NodeTreeHelperOptional.GetChildNode(parentInner.Owner.Node, parentInner.PropertyName, out bool IsAssigned, out INode ChildNode);
-            if (ChildNode == null)
-                UpdateVirtualNode(parentInner);
-
-            /*
-            NodeTreeHelperOptional.GetChildNode(parentInner.Owner.Node, parentInner.PropertyName, out bool IsAssigned, out INode ChildNode);
+            NodeTreeHelperOptional.GetChildNode(Optional, out bool IsAssigned, out INode ChildNode);
 
             if (ChildNode != null)
                 BrowseChildrenOfNode(browseNodeContext, ChildNode);
-                */
-            BrowseChildrenOfNode(browseNodeContext, Node);
-        }
-
-        protected virtual void UpdateVirtualNode(IReadOnlyInner<IReadOnlyBrowsingChildIndex> parentInner)
-        {
-            if (VirtualNode == null)
-            {
-                VirtualNode = NodeHelper.CreateDefault(parentInner.InterfaceType);
-                Debug.Assert(VirtualNode != null);
-
-                VirtualNodeHash = NodeHelper.NodeHash(VirtualNode);
-            }
-            else // Check that the node wasn't modified.
-                Debug.Assert(VirtualNodeHash == NodeHelper.NodeHash(VirtualNode));
         }
         #endregion
 
@@ -126,9 +106,73 @@ namespace EaslyController.ReadOnly
             if (!base.IsEqual(comparer, AsOptionalNodeState))
                 return false;
 
-            // Don't compare virtual nodes, they are allowed to be independant.
+            if (Optional.IsAssigned != AsOptionalNodeState.Optional.IsAssigned)
+                return false;
+
+            if (Optional.HasItem)
+            {
+                if (Node != AsOptionalNodeState.Node)
+                    return false;
+
+                if (!IsChildrenEqual(comparer, AsOptionalNodeState))
+                    return false;
+            }
 
             return true;
+        }
+
+        /// <summary>
+        /// Returns a clone of the node of this state.
+        /// </summary>
+        /// <returns>The cloned node.</returns>
+        public override INode CloneNode()
+        {
+            NodeTreeHelperOptional.GetChildNode(Optional, out bool IsAssigned, out INode ChildNode);
+            if (ChildNode != null)
+            {
+                // Create a clone, initially empty and full of null references.
+                INode NewNode = NodeHelper.CreateEmptyNode(ChildNode.GetType());
+
+                // Clone and assign reference to all nodes, optional or not, list and block lists.
+                foreach (KeyValuePair<string, IReadOnlyInner<IReadOnlyBrowsingChildIndex>> Entry in InnerTable)
+                {
+                    string PropertyName = Entry.Key;
+                    IReadOnlyInner<IReadOnlyBrowsingChildIndex> Inner = Entry.Value;
+                    Inner.CloneChildren(NewNode);
+                }
+
+                // Copy other properties.
+                foreach (KeyValuePair<string, ValuePropertyType> Entry in ValuePropertyTypeTable)
+                {
+                    string PropertyName = Entry.Key;
+                    ValuePropertyType Type = Entry.Value;
+
+                    switch (Type)
+                    {
+                        case ValuePropertyType.Boolean:
+                            NodeTreeHelper.CopyBooleanProperty(Node, NewNode, Entry.Key);
+                            break;
+                        case ValuePropertyType.Enum:
+                            NodeTreeHelper.CopyEnumProperty(Node, NewNode, Entry.Key);
+                            break;
+                        case ValuePropertyType.String:
+                            NodeTreeHelper.CopyStringProperty(Node, NewNode, Entry.Key);
+                            break;
+                        case ValuePropertyType.Guid:
+                            NodeTreeHelper.CopyGuidProperty(Node, NewNode, Entry.Key);
+                            break;
+                        default:
+                            throw new ArgumentOutOfRangeException(nameof(Type));
+                    }
+                }
+
+                // Also copy comments.
+                NodeTreeHelper.CopyDocumentation(Node, NewNode);
+
+                return NewNode;
+            }
+            else
+                return null;
         }
 
         public override string ToString()

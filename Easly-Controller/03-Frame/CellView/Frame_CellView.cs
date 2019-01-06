@@ -40,19 +40,6 @@ namespace EaslyController.Frame
         public FrameCellView(IFrameNodeStateView stateView)
         {
             StateView = stateView;
-
-            stateView.ControllerView.GlobalDebugIndex++;
-            DebugIndex = stateView.ControllerView.GlobalDebugIndex;
-
-            if (DebugIndex == 7305)
-                DebugStack = new StackTrace(true);
-        }
-
-        public int DebugIndex { get; }
-        public StackTrace DebugStack { get; }
-        public override string ToString()
-        {
-            return base.ToString() + $" ({DebugIndex})";
         }
         #endregion
 

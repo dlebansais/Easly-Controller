@@ -55,24 +55,22 @@ namespace EaslyController.Frame
         {
             get
             {
-                IOptionalReference Optional = State.ParentIndex.Optional;
+                IOptionalReference Optional = State.Optional;
                 Debug.Assert(Optional != null);
 
                 NodeTreeHelperOptional.GetChildNode(Optional, out bool IsAssigned, out INode ChildNode);
-
                 if (ChildNode != null)
                 {
                     Type NodeType = ChildNode.GetType();
                     Debug.Assert(!NodeType.IsInterface && !NodeType.IsAbstract);
 
                     Type InterfaceType = NodeTreeHelper.NodeTypeToInterfaceType(NodeType);
-                    _Template = ControllerView.TemplateSet.NodeTypeToTemplate(InterfaceType);
+                    return ControllerView.TemplateSet.NodeTypeToTemplate(InterfaceType);
                 }
-
-                return _Template;
+                else
+                    return null;
             }
         }
-        private IFrameNodeTemplate _Template;
 
         /// <summary>
         /// Root cell for the view.
@@ -92,14 +90,14 @@ namespace EaslyController.Frame
         /// </summary>
         public virtual void BuildRootCellView()
         {
-            IOptionalReference Optional = State.ParentIndex.Optional;
+            IOptionalReference Optional = State.Optional;
             Debug.Assert(Optional != null);
 
             _CellViewTable = CreateCellViewTable();
 
             Debug.Assert(RootCellView == null);
 
-            //if (Optional.IsAssigned)
+            if (Optional.IsAssigned)
             {
                 foreach (KeyValuePair<string, IFrameInner<IFrameBrowsingChildIndex>> Entry in State.InnerTable)
                     _CellViewTable.Add(Entry.Value.PropertyName, null);
@@ -112,8 +110,8 @@ namespace EaslyController.Frame
                 foreach (KeyValuePair<string, IFrameCellView> Entry in _CellViewTable)
                     Debug.Assert(Entry.Value != null);
             }
-            //else
-            //    RootCellView = CreateEmptyCellView(this);
+            else
+                RootCellView = CreateEmptyCellView(this);
 
             CellViewTable = CreateCellViewReadOnlyTable(_CellViewTable);
         }
@@ -132,17 +130,13 @@ namespace EaslyController.Frame
             _CellViewTable[propertyName] = cellView;
         }
 
-        List<IFrameCellView> OldCells = new List<IFrameCellView>();
         /// <summary>
         /// Clears the cell view tree for this view.
         /// </summary>
         public virtual void ClearRootCellView()
         {
             if (RootCellView != null)
-            {
-                OldCells.Add(RootCellView);
                 RootCellView.ClearCellTree();
-            }
 
             RootCellView = null;
             _CellViewTable = null;
@@ -194,11 +188,25 @@ namespace EaslyController.Frame
             if (Template != AsOptionalNodeStateView.Template)
                 return false;
 
-            if (!comparer.VerifyEqual(RootCellView, AsOptionalNodeStateView.RootCellView))
+            if ((RootCellView != null && AsOptionalNodeStateView.RootCellView == null) || (RootCellView == null && AsOptionalNodeStateView.RootCellView != null))
                 return false;
 
-            if (!comparer.VerifyEqual(CellViewTable, AsOptionalNodeStateView.CellViewTable))
-                return false;
+            if (RootCellView != null)
+            {
+                Debug.Assert(CellViewTable != null);
+                Debug.Assert(AsOptionalNodeStateView.CellViewTable != null);
+
+                if (!comparer.VerifyEqual(RootCellView, AsOptionalNodeStateView.RootCellView))
+                    return false;
+
+                if (!comparer.VerifyEqual(CellViewTable, AsOptionalNodeStateView.CellViewTable))
+                    return false;
+            }
+            else
+            {
+                Debug.Assert(CellViewTable == null);
+                Debug.Assert(AsOptionalNodeStateView.CellViewTable == null);
+            }
 
             return true;
         }

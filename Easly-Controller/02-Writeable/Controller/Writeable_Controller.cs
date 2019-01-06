@@ -920,7 +920,7 @@ namespace EaslyController.Writeable
             Debug.Assert(Contains(OldBrowsingIndex));
             IWriteableNodeState OldState = StateTable[OldBrowsingIndex];
 
-            RemoveState(OldBrowsingIndex); // No need to call PruneState
+            PruneState(OldState);
             AddState(NewBrowsingIndex, ChildState);
             Stats.AssignedOptionalNodeCount++;
 
@@ -1032,6 +1032,10 @@ namespace EaslyController.Writeable
             IWriteableBrowsingExistingBlockNodeIndex FirstNodeIndex = FirstState.ParentIndex as IWriteableBrowsingExistingBlockNodeIndex;
             Debug.Assert(FirstNodeIndex != null);
 
+            Debug.Assert(FirstState == StateTable[FirstNodeIndex]);
+            PruneState(FirstState);
+            Stats.PlaceholderNodeCount--;
+
             blockListInner.RemoveWithBlock(FirstNodeIndex, out IWriteableBlockState OldBlockState);
             Debug.Assert(OldBlockState != null);
 
@@ -1049,10 +1053,6 @@ namespace EaslyController.Writeable
             Stats.PlaceholderNodeCount--;
 
             RemoveState(SourceIndex);
-            Stats.PlaceholderNodeCount--;
-
-            Debug.Assert(FirstState == StateTable[FirstNodeIndex]);
-            PruneState(FirstState);
             Stats.PlaceholderNodeCount--;
 
             NotifyBlockStateRemoved(FirstNodeIndex, OldBlockState);

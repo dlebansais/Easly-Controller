@@ -155,11 +155,25 @@ namespace EaslyController.Frame
             if (Template != AsPatternStateView.Template)
                 return false;
 
-            if (!comparer.VerifyEqual(RootCellView, AsPatternStateView.RootCellView))
+            if ((RootCellView != null && AsPatternStateView.RootCellView == null) || (RootCellView == null && AsPatternStateView.RootCellView != null))
                 return false;
 
-            if (!comparer.VerifyEqual(CellViewTable, AsPatternStateView.CellViewTable))
-                return false;
+            if (RootCellView != null)
+            {
+                Debug.Assert(CellViewTable != null);
+                Debug.Assert(AsPatternStateView.CellViewTable != null);
+
+                if (!comparer.VerifyEqual(RootCellView, AsPatternStateView.RootCellView))
+                    return false;
+
+                if (!comparer.VerifyEqual(CellViewTable, AsPatternStateView.CellViewTable))
+                    return false;
+            }
+            else
+            {
+                Debug.Assert(CellViewTable == null);
+                Debug.Assert(AsPatternStateView.CellViewTable == null);
+            }
 
             return true;
         }

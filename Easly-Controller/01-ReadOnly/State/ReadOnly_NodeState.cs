@@ -445,18 +445,23 @@ namespace EaslyController.ReadOnly
             if ((ParentState == null && AsNodeState.ParentState != null) || (ParentState != null && (AsNodeState.ParentState == null || !comparer.VerifyEqual(ParentState, AsNodeState.ParentState))))
                 return false;
 
-            if (!comparer.VerifyEqual(InnerTable, AsNodeState.InnerTable))
+            return true;
+        }
+
+        protected virtual bool IsChildrenEqual(CompareEqual comparer, IReadOnlyNodeState nodeState)
+        {
+            if (!comparer.VerifyEqual(InnerTable, nodeState.InnerTable))
                 return false;
 
-            if (ValuePropertyTypeTable.Count != AsNodeState.ValuePropertyTypeTable.Count)
+            if (ValuePropertyTypeTable.Count != nodeState.ValuePropertyTypeTable.Count)
                 return false;
 
             foreach (KeyValuePair<string, ValuePropertyType> Entry in ValuePropertyTypeTable)
             {
-                if (!AsNodeState.ValuePropertyTypeTable.ContainsKey(Entry.Key))
+                if (!nodeState.ValuePropertyTypeTable.ContainsKey(Entry.Key))
                     return false;
 
-                if (AsNodeState.ValuePropertyTypeTable[Entry.Key] != Entry.Value)
+                if (nodeState.ValuePropertyTypeTable[Entry.Key] != Entry.Value)
                     return false;
             }
 
@@ -467,7 +472,7 @@ namespace EaslyController.ReadOnly
         /// Returns a clone of the node of this state.
         /// </summary>
         /// <returns>The cloned node.</returns>
-        public INode CloneNode()
+        public virtual INode CloneNode()
         {
             // Create a clone, initially empty and full of null references.
             INode NewNode = NodeHelper.CreateEmptyNode(Node.GetType());

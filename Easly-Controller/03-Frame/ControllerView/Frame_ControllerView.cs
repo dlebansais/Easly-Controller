@@ -11,8 +11,6 @@ namespace EaslyController.Frame
     /// </summary>
     public interface IFrameControllerView : IWriteableControllerView
     {
-        int GlobalDebugIndex { get; set; }
-
         /// <summary>
         /// The controller.
         /// </summary>
@@ -42,8 +40,6 @@ namespace EaslyController.Frame
         /// Last line number in the cell tree.
         /// </summary>
         int LastLineNumber { get; }
-
-        void ResetGlobalDebugIndex();
     }
 
     /// <summary>
@@ -51,12 +47,6 @@ namespace EaslyController.Frame
     /// </summary>
     public class FrameControllerView : WriteableControllerView, IFrameControllerView
     {
-        public int GlobalDebugIndex { get; set; }
-        public void ResetGlobalDebugIndex()
-        {
-            GlobalDebugIndex = 0;
-        }
-
         #region Init
         /// <summary>
         /// Creates and initializes a new instance of a <see cref="FrameControllerView"/> object.
@@ -92,22 +82,9 @@ namespace EaslyController.Frame
 
             IFrameNodeState RootState = Controller.RootState;
             IFrameNodeStateView RootStateView = StateViewTable[RootState];
+
             Debug.Assert(RootStateView.RootCellView == null);
             BuildCellView(RootStateView);
-
-            foreach (KeyValuePair<IFrameNodeState, IFrameNodeStateView> Entry in StateViewTable)
-            {
-                IFrameNodeStateView StateView = Entry.Value;
-                if (StateView.RootCellView == null)
-                    BuildCellView(StateView);
-            }
-
-            foreach (KeyValuePair<IFrameBlockState, IFrameBlockStateView> Entry in BlockStateViewTable)
-            {
-                IFrameBlockStateView BlockStateView = Entry.Value;
-                //Debug.Assert(BlockStateView.RootCellView != null);
-                //Debug.Assert(BlockStateView.EmbeddingCellView != null);
-            }
 
             UpdateLineNumbers();
         }
@@ -506,8 +483,6 @@ namespace EaslyController.Frame
             ClearCellView(AssignedStateView);
             BuildCellView(AssignedStateView);
 
-            OnOptionalStateReplaced(state.ParentInner as IFrameOptionalInner<IFrameBrowsingOptionalNodeIndex>, nodeIndex as IFrameBrowsingOptionalNodeIndex, state as IFrameNodeState);
-
             UpdateLineNumbers();
         }
 
@@ -526,8 +501,6 @@ namespace EaslyController.Frame
             IFrameNodeStateView UnassignedStateView = StateViewTable[UnassignedState];
             ClearCellView(UnassignedStateView);
             BuildCellView(UnassignedStateView);
-
-            OnOptionalStateReplaced(state.ParentInner as IFrameOptionalInner<IFrameBrowsingOptionalNodeIndex>, nodeIndex as IFrameBrowsingOptionalNodeIndex, state as IFrameNodeState);
 
             UpdateLineNumbers();
         }
@@ -738,7 +711,6 @@ namespace EaslyController.Frame
 
             IFrameBlockCellView BlockCellView = CreateBlockCellView(stateView, parentCellView, blockStateView);
             return BlockCellView;
-            //return blockStateView.RootCellView;
         }
 
         protected virtual void ClearBlockCellView(IFrameNodeStateView stateView, IFrameBlockStateView blockStateView)

@@ -60,6 +60,9 @@ namespace EaslyController.ReadOnly
             if (Node != AsPlaceholderNodeState.Node)
                 return false;
 
+            if (!IsChildrenEqual(comparer, AsPlaceholderNodeState))
+                return false;
+
             return true;
         }
 

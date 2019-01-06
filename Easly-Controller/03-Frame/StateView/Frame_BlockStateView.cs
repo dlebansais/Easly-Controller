@@ -184,11 +184,25 @@ namespace EaslyController.Frame
             if (Template != AsBlockStateView.Template)
                 return false;
 
-            if (!comparer.VerifyEqual(RootCellView, AsBlockStateView.RootCellView))
+            if ((RootCellView != null && AsBlockStateView.RootCellView == null) || (RootCellView == null && AsBlockStateView.RootCellView != null))
                 return false;
 
-            if (!comparer.VerifyEqual(EmbeddingCellView, AsBlockStateView.EmbeddingCellView))
-                return false;
+            if (RootCellView != null)
+            {
+                Debug.Assert(EmbeddingCellView != null);
+                Debug.Assert(AsBlockStateView.EmbeddingCellView != null);
+
+                if (!comparer.VerifyEqual(RootCellView, AsBlockStateView.RootCellView))
+                    return false;
+
+                if (!comparer.VerifyEqual(EmbeddingCellView, AsBlockStateView.EmbeddingCellView))
+                    return false;
+            }
+            else
+            {
+                Debug.Assert(EmbeddingCellView == null);
+                Debug.Assert(AsBlockStateView.EmbeddingCellView == null);
+            }
 
             return true;
         }

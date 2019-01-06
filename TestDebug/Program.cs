@@ -360,9 +360,8 @@ namespace TestDebug
 
             Controller.Canonicalize();
 
-            IWriteableRootNodeIndex NewRootIndex = new WriteableRootNodeIndex(Controller.RootIndex.Node);
-            IWriteableController NewController = WriteableController.Create(NewRootIndex);
-            Debug.Assert(NewController.IsEqual(CompareEqual.New(), Controller));
+            ControllerCheck = WriteableController.Create(new WriteableRootNodeIndex(rootNode));
+            Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
         }
         #endregion
 

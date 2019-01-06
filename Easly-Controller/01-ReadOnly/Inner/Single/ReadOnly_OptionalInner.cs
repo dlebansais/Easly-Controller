@@ -112,14 +112,16 @@ namespace EaslyController.ReadOnly
         {
             Debug.Assert(parentNode != null);
 
-            // Clone the child recursively, assigned or not.
+            // Clone the child recursively.
             INode ChildNodeClone = ChildState.CloneNode();
-            Debug.Assert(ChildNodeClone != null);
 
-            // If the original is assigned, set the clone as assigned too.
-            NodeTreeHelperOptional.SetOptionalChildNode(parentNode, PropertyName, ChildNodeClone);
-            if (!IsAssigned)
-                NodeTreeHelperOptional.UnassignChildNode(parentNode, PropertyName);
+            // If the original is set, set the clone too.
+            if (ChildNodeClone != null)
+            {
+                NodeTreeHelperOptional.SetOptionalChildNode(parentNode, PropertyName, ChildNodeClone);
+                if (!IsAssigned)
+                    NodeTreeHelperOptional.UnassignChildNode(parentNode, PropertyName);
+            }
         }
 
         /// <summary>

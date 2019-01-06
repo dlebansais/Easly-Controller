@@ -166,11 +166,25 @@ namespace EaslyController.Frame
             if (Template != AsPlaceholderNodeStateView.Template)
                 return false;
 
-            if (!comparer.VerifyEqual(RootCellView, AsPlaceholderNodeStateView.RootCellView))
+            if ((RootCellView != null && AsPlaceholderNodeStateView.RootCellView == null) || (RootCellView == null && AsPlaceholderNodeStateView.RootCellView != null))
                 return false;
 
-            if (!comparer.VerifyEqual(CellViewTable, AsPlaceholderNodeStateView.CellViewTable))
-                return false;
+            if (RootCellView != null)
+            {
+                Debug.Assert(CellViewTable != null);
+                Debug.Assert(AsPlaceholderNodeStateView.CellViewTable != null);
+
+                if (!comparer.VerifyEqual(RootCellView, AsPlaceholderNodeStateView.RootCellView))
+                    return false;
+
+                if (!comparer.VerifyEqual(CellViewTable, AsPlaceholderNodeStateView.CellViewTable))
+                    return false;
+            }
+            else
+            {
+                Debug.Assert(CellViewTable == null);
+                Debug.Assert(AsPlaceholderNodeStateView.CellViewTable == null);
+            }
 
             return true;
         }
