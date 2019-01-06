@@ -2,13 +2,23 @@
 
 namespace EaslyController.Frame
 {
+    /// <summary>
+    /// Cell view for components that can receive the focus and be modified.
+    /// </summary>
     public interface IFrameContentFocusableCellView : IFrameFocusableCellView
     {
     }
 
+    /// <summary>
+    /// Cell view for components that can receive the focus and be modified.
+    /// </summary>
     public abstract class FrameContentFocusableCellView : FrameFocusableCellView, IFrameContentFocusableCellView
     {
         #region Init
+        /// <summary>
+        /// Initializes an instance of <see cref="FrameFocusableCellView"/>.
+        /// </summary>
+        /// <param name="stateView">The state view containing the tree with this cell.</param>
         public FrameContentFocusableCellView(IFrameNodeStateView stateView)
             : base(stateView)
         {

@@ -13,6 +13,12 @@ namespace EaslyController.Frame
         /// <param name="controllerView">The view in cells are created.</param>
         /// <param name="stateView">The state view for which to create cells.</param>
         IFrameCellView BuildNodeCells(IFrameControllerView controllerView, IFrameNodeStateView stateView);
+
+        /// <summary>
+        /// Clears the cell view tree for this view.
+        /// </summary>
+        /// <param name="controllerView">The view in which the cell tree is cleared.</param>
+        void ClearRootCellView(IFrameControllerView controllerView, IFrameNodeStateView stateView);
     }
 
     /// <summary>
@@ -54,6 +60,18 @@ namespace EaslyController.Frame
             Debug.Assert(NodeFrame != null);
 
             return NodeFrame.BuildNodeCells(controllerView, stateView, null);
+        }
+
+        /// <summary>
+        /// Clears the cell view tree for this view.
+        /// </summary>
+        /// <param name="controllerView">The view in which the cell tree is cleared.</param>
+        public virtual void ClearRootCellView(IFrameControllerView controllerView, IFrameNodeStateView stateView)
+        {
+            IFrameNodeFrame NodeFrame = Root as IFrameNodeFrame;
+            Debug.Assert(NodeFrame != null);
+
+            NodeFrame.ClearRootCellView(controllerView, stateView);
         }
         #endregion
 

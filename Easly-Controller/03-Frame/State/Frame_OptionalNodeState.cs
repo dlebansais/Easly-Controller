@@ -84,46 +84,46 @@ namespace EaslyController.Frame
         /// <summary>
         /// Creates a IxxxBrowsingPlaceholderNodeIndex object.
         /// </summary>
-        protected override IReadOnlyBrowsingPlaceholderNodeIndex CreateChildNodeIndex(IReadOnlyBrowseContext browseNodeContext, string propertyName, INode childNode)
+        protected override IReadOnlyBrowsingPlaceholderNodeIndex CreateChildNodeIndex(IReadOnlyBrowseContext browseNodeContext, INode node, string propertyName, INode childNode)
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameOptionalNodeState));
-            return new FrameBrowsingPlaceholderNodeIndex(Node, childNode, propertyName);
+            return new FrameBrowsingPlaceholderNodeIndex(node, childNode, propertyName);
         }
 
         /// <summary>
         /// Creates a IxxxBrowsingOptionalNodeIndex object.
         /// </summary>
-        protected override IReadOnlyBrowsingOptionalNodeIndex CreateOptionalNodeIndex(IReadOnlyBrowseContext browseNodeContext, string propertyName)
+        protected override IReadOnlyBrowsingOptionalNodeIndex CreateOptionalNodeIndex(IReadOnlyBrowseContext browseNodeContext, INode node, string propertyName)
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameOptionalNodeState));
-            return new FrameBrowsingOptionalNodeIndex(Node, propertyName);
+            return new FrameBrowsingOptionalNodeIndex(node, propertyName);
         }
 
         /// <summary>
         /// Creates a IxxxBrowsingListNodeIndex object.
         /// </summary>
-        protected override IReadOnlyBrowsingListNodeIndex CreateListNodeIndex(IReadOnlyBrowseContext browseNodeContext, string propertyName, INode childNode, int index)
+        protected override IReadOnlyBrowsingListNodeIndex CreateListNodeIndex(IReadOnlyBrowseContext browseNodeContext, INode node, string propertyName, INode childNode, int index)
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameOptionalNodeState));
-            return new FrameBrowsingListNodeIndex(Node, childNode, propertyName, index);
+            return new FrameBrowsingListNodeIndex(node, childNode, propertyName, index);
         }
 
         /// <summary>
         /// Creates a IxxxBrowsingNewBlockNodeIndex object.
         /// </summary>
-        protected override IReadOnlyBrowsingNewBlockNodeIndex CreateNewBlockNodeIndex(IReadOnlyBrowseContext browseNodeContext, string propertyName, INodeTreeBlock childBlock, int blockIndex, INode childNode)
+        protected override IReadOnlyBrowsingNewBlockNodeIndex CreateNewBlockNodeIndex(IReadOnlyBrowseContext browseNodeContext, INode node, string propertyName, INodeTreeBlock childBlock, int blockIndex, INode childNode)
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameOptionalNodeState));
-            return new FrameBrowsingNewBlockNodeIndex(Node, childNode, propertyName, blockIndex, childBlock.ReplicationPattern, childBlock.SourceIdentifier);
+            return new FrameBrowsingNewBlockNodeIndex(node, childNode, propertyName, blockIndex, childBlock.ReplicationPattern, childBlock.SourceIdentifier);
         }
 
         /// <summary>
         /// Creates a IxxxBrowsingExistingBlockNodeIndex object.
         /// </summary>
-        protected override IReadOnlyBrowsingExistingBlockNodeIndex CreateExistingBlockNodeIndex(IReadOnlyBrowseContext browseNodeContext, string propertyName, int blockIndex, int index, INode childNode)
+        protected override IReadOnlyBrowsingExistingBlockNodeIndex CreateExistingBlockNodeIndex(IReadOnlyBrowseContext browseNodeContext, INode node, string propertyName, int blockIndex, int index, INode childNode)
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameOptionalNodeState));
-            return new FrameBrowsingExistingBlockNodeIndex(Node, childNode, propertyName, blockIndex, index);
+            return new FrameBrowsingExistingBlockNodeIndex(node, childNode, propertyName, blockIndex, index);
         }
 
         /// <summary>

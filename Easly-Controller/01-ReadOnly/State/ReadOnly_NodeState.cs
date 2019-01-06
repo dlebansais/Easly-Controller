@@ -45,7 +45,8 @@ namespace EaslyController.ReadOnly
         /// Find children in the node tree.
         /// </summary>
         /// <param name="browseContext">The context used to browse the node tree.</param>
-        void BrowseChildren(IReadOnlyBrowseContext browseContext);
+        /// <param name="parentInner">The inner containing this state as a child.</param>
+        void BrowseChildren(IReadOnlyBrowseContext browseContext, IReadOnlyInner<IReadOnlyBrowsingChildIndex> parentInner);
 
         /// <summary>
         /// Initializes a newly created state.
@@ -163,9 +164,15 @@ namespace EaslyController.ReadOnly
         /// Find children in the node tree.
         /// </summary>
         /// <param name="browseContext">The context used to browse the node tree.</param>
-        public virtual void BrowseChildren(IReadOnlyBrowseContext browseNodeContext)
+        /// <param name="parentInner">The inner containing this state as a child.</param>
+        public virtual void BrowseChildren(IReadOnlyBrowseContext browseNodeContext, IReadOnlyInner<IReadOnlyBrowsingChildIndex> parentInner)
         {
-            IList<string> PropertyNames = NodeTreeHelper.EnumChildNodeProperties(Node);
+            BrowseChildrenOfNode(browseNodeContext, Node);
+        }
+
+        protected virtual void BrowseChildrenOfNode(IReadOnlyBrowseContext browseNodeContext, INode node)
+        {
+            IList<string> PropertyNames = NodeTreeHelper.EnumChildNodeProperties(node);
 
             foreach (string PropertyName in PropertyNames)
             {
@@ -174,56 +181,56 @@ namespace EaslyController.ReadOnly
                 IReadOnlyList<INode> ChildNodeList;
                 IReadOnlyList<INodeTreeBlock> ChildBlockList;
 
-                if (NodeTreeHelperChild.IsChildNodeProperty(Node, PropertyName, out ChildNodeType))
+                if (NodeTreeHelperChild.IsChildNodeProperty(node, PropertyName, out ChildNodeType))
                 {
-                    NodeTreeHelperChild.GetChildNode(Node, PropertyName, out ChildNode);
-                    IReadOnlyBrowsingPlaceholderNodeIndex ChildNodeIndex = CreateChildNodeIndex(browseNodeContext, PropertyName, ChildNode);
+                    NodeTreeHelperChild.GetChildNode(node, PropertyName, out ChildNode);
+                    IReadOnlyBrowsingPlaceholderNodeIndex ChildNodeIndex = CreateChildNodeIndex(browseNodeContext, node, PropertyName, ChildNode);
 
                     // Create a collection containing one index for this child node.
                     IReadOnlyIndexCollection IndexCollection = CreatePlaceholderIndexCollection(browseNodeContext, PropertyName, ChildNodeIndex);
                     browseNodeContext.AddIndexCollection(IndexCollection);
                 }
 
-                else if (NodeTreeHelperOptional.IsOptionalChildNodeProperty(Node, PropertyName, out ChildNodeType))
+                else if (NodeTreeHelperOptional.IsOptionalChildNodeProperty(node, PropertyName, out ChildNodeType))
                 {
-                    IReadOnlyBrowsingOptionalNodeIndex OptionalNodeIndex = CreateOptionalNodeIndex(browseNodeContext, PropertyName);
+                    IReadOnlyBrowsingOptionalNodeIndex OptionalNodeIndex = CreateOptionalNodeIndex(browseNodeContext, node, PropertyName);
 
                     // Create a collection containing one index for this optional node.
                     IReadOnlyIndexCollection IndexCollection = CreateOptionalIndexCollection(browseNodeContext, PropertyName, OptionalNodeIndex);
                     browseNodeContext.AddIndexCollection(IndexCollection);
                 }
 
-                else if (NodeTreeHelperList.IsNodeListProperty(Node, PropertyName, out ChildNodeType))
+                else if (NodeTreeHelperList.IsNodeListProperty(node, PropertyName, out ChildNodeType))
                 {
-                    NodeTreeHelperList.GetChildNodeList(Node, PropertyName, out ChildNodeList);
+                    NodeTreeHelperList.GetChildNodeList(node, PropertyName, out ChildNodeList);
 
                     // Create a collection containing indexes for each children.
-                    IReadOnlyIndexCollection IndexCollection = BrowseNodeList(browseNodeContext, PropertyName, ChildNodeList);
+                    IReadOnlyIndexCollection IndexCollection = BrowseNodeList(browseNodeContext, node, PropertyName, ChildNodeList);
                     browseNodeContext.AddIndexCollection(IndexCollection);
                 }
 
-                else if (NodeTreeHelperBlockList.IsBlockListProperty(Node, PropertyName, out ChildInterfaceType, out ChildNodeType))
+                else if (NodeTreeHelperBlockList.IsBlockListProperty(node, PropertyName, out ChildInterfaceType, out ChildNodeType))
                 {
-                    NodeTreeHelperBlockList.GetChildBlockList(Node, PropertyName, out ChildBlockList);
+                    NodeTreeHelperBlockList.GetChildBlockList(node, PropertyName, out ChildBlockList);
 
                     // Create a collection containing indexes for each child blocks and their children.
-                    IReadOnlyIndexCollection IndexCollection = BrowseNodeBlockList(browseNodeContext, PropertyName, ChildBlockList);
+                    IReadOnlyIndexCollection IndexCollection = BrowseNodeBlockList(browseNodeContext, node, PropertyName, ChildBlockList);
                     browseNodeContext.AddIndexCollection(IndexCollection);
                 }
 
-                else if (NodeTreeHelper.IsBooleanProperty(Node, PropertyName))
+                else if (NodeTreeHelper.IsBooleanProperty(node, PropertyName))
                     browseNodeContext.AddValueProperty(PropertyName, ValuePropertyType.Boolean);
 
-                else if (NodeTreeHelper.IsEnumProperty(Node, PropertyName))
+                else if (NodeTreeHelper.IsEnumProperty(node, PropertyName))
                     browseNodeContext.AddValueProperty(PropertyName, ValuePropertyType.Enum);
 
-                else if (NodeTreeHelper.IsStringProperty(Node, PropertyName))
+                else if (NodeTreeHelper.IsStringProperty(node, PropertyName))
                     browseNodeContext.AddValueProperty(PropertyName, ValuePropertyType.String);
 
-                else if (NodeTreeHelper.IsGuidProperty(Node, PropertyName))
+                else if (NodeTreeHelper.IsGuidProperty(node, PropertyName))
                     browseNodeContext.AddValueProperty(PropertyName, ValuePropertyType.Guid);
 
-                else if (NodeTreeHelper.IsDocumentProperty(Node, PropertyName))
+                else if (NodeTreeHelper.IsDocumentProperty(node, PropertyName))
                 { } // Ignore the doc node.
 
                 else
@@ -231,7 +238,7 @@ namespace EaslyController.ReadOnly
             }
         }
 
-        protected virtual IReadOnlyIndexCollection BrowseNodeList(IReadOnlyBrowseContext browseNodeContext, string propertyName, IReadOnlyList<INode> childNodeList)
+        protected virtual IReadOnlyIndexCollection BrowseNodeList(IReadOnlyBrowseContext browseNodeContext, INode node, string propertyName, IReadOnlyList<INode> childNodeList)
         {
             Debug.Assert(!string.IsNullOrEmpty(propertyName));
 
@@ -241,14 +248,14 @@ namespace EaslyController.ReadOnly
             {
                 INode ChildNode = childNodeList[Index];
 
-                IReadOnlyBrowsingListNodeIndex NewNodeIndex = CreateListNodeIndex(browseNodeContext, propertyName, ChildNode, Index);
+                IReadOnlyBrowsingListNodeIndex NewNodeIndex = CreateListNodeIndex(browseNodeContext, node, propertyName, ChildNode, Index);
                 NodeIndexList.Add(NewNodeIndex);
             }
 
             return CreateListIndexCollection(browseNodeContext, propertyName, NodeIndexList);
         }
 
-        protected virtual IReadOnlyIndexCollection BrowseNodeBlockList(IReadOnlyBrowseContext browseNodeContext, string propertyName, IReadOnlyList<INodeTreeBlock> childBlockList)
+        protected virtual IReadOnlyIndexCollection BrowseNodeBlockList(IReadOnlyBrowseContext browseNodeContext, INode node, string propertyName, IReadOnlyList<INodeTreeBlock> childBlockList)
         {
             Debug.Assert(!string.IsNullOrEmpty(propertyName));
 
@@ -257,13 +264,13 @@ namespace EaslyController.ReadOnly
             for (int BlockIndex = 0; BlockIndex < childBlockList.Count; BlockIndex++)
             {
                 INodeTreeBlock ChildBlock = childBlockList[BlockIndex];
-                BrowseBlock(browseNodeContext, propertyName, BlockIndex, ChildBlock, NodeIndexList);
+                BrowseBlock(browseNodeContext, node, propertyName, BlockIndex, ChildBlock, NodeIndexList);
             }
 
             return CreateBlockIndexCollection(browseNodeContext, propertyName, NodeIndexList);
         }
 
-        protected virtual void BrowseBlock(IReadOnlyBrowseContext browseNodeContext, string propertyName, int blockIndex, INodeTreeBlock childBlock, IReadOnlyBrowsingBlockNodeIndexList nodeIndexList)
+        protected virtual void BrowseBlock(IReadOnlyBrowseContext browseNodeContext, INode node, string propertyName, int blockIndex, INodeTreeBlock childBlock, IReadOnlyBrowsingBlockNodeIndexList nodeIndexList)
         {
             Debug.Assert(!string.IsNullOrEmpty(propertyName));
 
@@ -273,9 +280,9 @@ namespace EaslyController.ReadOnly
 
                 IReadOnlyBrowsingBlockNodeIndex NewNodeIndex;
                 if (Index == 0) // For the first node, we use a IxxxBrowsingNewBlockNodeIndex, otherwise a IxxxBrowsingExistingBlockNodeIndex.
-                    NewNodeIndex = CreateNewBlockNodeIndex(browseNodeContext, propertyName, childBlock, blockIndex, ChildNode);
+                    NewNodeIndex = CreateNewBlockNodeIndex(browseNodeContext, node, propertyName, childBlock, blockIndex, ChildNode);
                 else
-                    NewNodeIndex = CreateExistingBlockNodeIndex(browseNodeContext, propertyName, blockIndex, Index, ChildNode);
+                    NewNodeIndex = CreateExistingBlockNodeIndex(browseNodeContext, node, propertyName, blockIndex, Index, ChildNode);
 
                 nodeIndexList.Add(NewNodeIndex);
             }
@@ -549,46 +556,46 @@ namespace EaslyController.ReadOnly
         /// <summary>
         /// Creates a IxxxBrowsingPlaceholderNodeIndex object.
         /// </summary>
-        protected virtual IReadOnlyBrowsingPlaceholderNodeIndex CreateChildNodeIndex(IReadOnlyBrowseContext browseNodeContext, string propertyName, INode childNode)
+        protected virtual IReadOnlyBrowsingPlaceholderNodeIndex CreateChildNodeIndex(IReadOnlyBrowseContext browseNodeContext, INode node, string propertyName, INode childNode)
         {
             ControllerTools.AssertNoOverride(this, typeof(ReadOnlyNodeState));
-            return new ReadOnlyBrowsingPlaceholderNodeIndex(Node, childNode, propertyName);
+            return new ReadOnlyBrowsingPlaceholderNodeIndex(node, childNode, propertyName);
         }
 
         /// <summary>
         /// Creates a IxxxBrowsingOptionalNodeIndex object.
         /// </summary>
-        protected virtual IReadOnlyBrowsingOptionalNodeIndex CreateOptionalNodeIndex(IReadOnlyBrowseContext browseNodeContext, string propertyName)
+        protected virtual IReadOnlyBrowsingOptionalNodeIndex CreateOptionalNodeIndex(IReadOnlyBrowseContext browseNodeContext, INode node, string propertyName)
         {
             ControllerTools.AssertNoOverride(this, typeof(ReadOnlyNodeState));
-            return new ReadOnlyBrowsingOptionalNodeIndex(Node, propertyName);
+            return new ReadOnlyBrowsingOptionalNodeIndex(node, propertyName);
         }
 
         /// <summary>
         /// Creates a IxxxBrowsingListNodeIndex object.
         /// </summary>
-        protected virtual IReadOnlyBrowsingListNodeIndex CreateListNodeIndex(IReadOnlyBrowseContext browseNodeContext, string propertyName, INode childNode, int index)
+        protected virtual IReadOnlyBrowsingListNodeIndex CreateListNodeIndex(IReadOnlyBrowseContext browseNodeContext, INode node, string propertyName, INode childNode, int index)
         {
             ControllerTools.AssertNoOverride(this, typeof(ReadOnlyNodeState));
-            return new ReadOnlyBrowsingListNodeIndex(Node, childNode, propertyName, index);
+            return new ReadOnlyBrowsingListNodeIndex(node, childNode, propertyName, index);
         }
 
         /// <summary>
         /// Creates a IxxxBrowsingNewBlockNodeIndex object.
         /// </summary>
-        protected virtual IReadOnlyBrowsingNewBlockNodeIndex CreateNewBlockNodeIndex(IReadOnlyBrowseContext browseNodeContext, string propertyName, INodeTreeBlock childBlock, int blockIndex, INode childNode)
+        protected virtual IReadOnlyBrowsingNewBlockNodeIndex CreateNewBlockNodeIndex(IReadOnlyBrowseContext browseNodeContext, INode node, string propertyName, INodeTreeBlock childBlock, int blockIndex, INode childNode)
         {
             ControllerTools.AssertNoOverride(this, typeof(ReadOnlyNodeState));
-            return new ReadOnlyBrowsingNewBlockNodeIndex(Node, childNode, propertyName, blockIndex, childBlock.ReplicationPattern, childBlock.SourceIdentifier);
+            return new ReadOnlyBrowsingNewBlockNodeIndex(node, childNode, propertyName, blockIndex, childBlock.ReplicationPattern, childBlock.SourceIdentifier);
         }
 
         /// <summary>
         /// Creates a IxxxBrowsingExistingBlockNodeIndex object.
         /// </summary>
-        protected virtual IReadOnlyBrowsingExistingBlockNodeIndex CreateExistingBlockNodeIndex(IReadOnlyBrowseContext browseNodeContext, string propertyName, int blockIndex, int index, INode childNode)
+        protected virtual IReadOnlyBrowsingExistingBlockNodeIndex CreateExistingBlockNodeIndex(IReadOnlyBrowseContext browseNodeContext, INode node, string propertyName, int blockIndex, int index, INode childNode)
         {
             ControllerTools.AssertNoOverride(this, typeof(ReadOnlyNodeState));
-            return new ReadOnlyBrowsingExistingBlockNodeIndex(Node, childNode, propertyName, blockIndex, index);
+            return new ReadOnlyBrowsingExistingBlockNodeIndex(node, childNode, propertyName, blockIndex, index);
         }
 
         /// <summary>

@@ -56,7 +56,12 @@ namespace EaslyController.Frame
         /// <param name="cellView">The new cell view.</param>
         void ReplaceCellView(string propertyName, IFrameContainerCellView cellView);
 
-        void RecalculateLineNumbers(IFrameController controller, ref int lineNumber, ref int columnNumber);
+        /// <summary>
+        /// Update line numbers in the root cell view.
+        /// </summary>
+        /// <param name="lineNumber">The current line number, updated upon return.</param>
+        /// <param name="columnNumber">The current column number, updated upon return.</param>
+        void UpdateLineNumbers(ref int lineNumber, ref int columnNumber);
     }
 
     /// <summary>
@@ -130,7 +135,12 @@ namespace EaslyController.Frame
         /// <param name="cellView">The new cell view.</param>
         public abstract void ReplaceCellView(string propertyName, IFrameContainerCellView cellView);
 
-        public abstract void RecalculateLineNumbers(IFrameController controller, ref int lineNumber, ref int columnNumber);
+        /// <summary>
+        /// Update line numbers in the root cell view.
+        /// </summary>
+        /// <param name="lineNumber">The current line number, updated upon return.</param>
+        /// <param name="columnNumber">The current column number, updated upon return.</param>
+        public abstract void UpdateLineNumbers(ref int lineNumber, ref int columnNumber);
         #endregion
 
         #region Debugging

@@ -2,14 +2,27 @@
 
 namespace EaslyController.Frame
 {
+    /// <summary>
+    /// Cell view for discrete components that can receive the focus and be modified (enum, bool...)
+    /// </summary>
     public interface IFrameMultiDiscreteFocusableCellView : IFrameContentFocusableCellView
     {
+        /// <summary>
+        /// Property corresponding to the compontent of the node.
+        /// </summary>
         string PropertyName { get; }
     }
 
+    /// <summary>
+    /// Cell view for discrete components that can receive the focus and be modified (enum, bool...)
+    /// </summary>
     public class FrameMultiDiscreteFocusableCellView : FrameContentFocusableCellView, IFrameMultiDiscreteFocusableCellView
     {
         #region Init
+        /// <summary>
+        /// Initializes an instance of <see cref="FrameMultiDiscreteFocusableCellView"/>.
+        /// </summary>
+        /// <param name="stateView">The state view containing the tree with this cell.</param>
         public FrameMultiDiscreteFocusableCellView(IFrameNodeStateView stateView, string propertyName)
             : base(stateView)
         {
@@ -18,6 +31,9 @@ namespace EaslyController.Frame
         #endregion
 
         #region Properties
+        /// <summary>
+        /// Property corresponding to the compontent of the node.
+        /// </summary>
         public string PropertyName { get; private set; }
         #endregion
 

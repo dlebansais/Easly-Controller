@@ -89,46 +89,46 @@ namespace EaslyController.Writeable
         /// <summary>
         /// Creates a IxxxBrowsingPlaceholderNodeIndex object.
         /// </summary>
-        protected override IReadOnlyBrowsingPlaceholderNodeIndex CreateChildNodeIndex(IReadOnlyBrowseContext browseNodeContext, string propertyName, INode childNode)
+        protected override IReadOnlyBrowsingPlaceholderNodeIndex CreateChildNodeIndex(IReadOnlyBrowseContext browseNodeContext, INode node, string propertyName, INode childNode)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableSourceState));
-            return new WriteableBrowsingPlaceholderNodeIndex(Node, childNode, propertyName);
+            return new WriteableBrowsingPlaceholderNodeIndex(node, childNode, propertyName);
         }
 
         /// <summary>
         /// Creates a IxxxBrowsingOptionalNodeIndex object.
         /// </summary>
-        protected override IReadOnlyBrowsingOptionalNodeIndex CreateOptionalNodeIndex(IReadOnlyBrowseContext browseNodeContext, string propertyName)
+        protected override IReadOnlyBrowsingOptionalNodeIndex CreateOptionalNodeIndex(IReadOnlyBrowseContext browseNodeContext, INode node, string propertyName)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableSourceState));
-            return new WriteableBrowsingOptionalNodeIndex(Node, propertyName);
+            return new WriteableBrowsingOptionalNodeIndex(node, propertyName);
         }
 
         /// <summary>
         /// Creates a IxxxBrowsingListNodeIndex object.
         /// </summary>
-        protected override IReadOnlyBrowsingListNodeIndex CreateListNodeIndex(IReadOnlyBrowseContext browseNodeContext, string propertyName, INode childNode, int index)
+        protected override IReadOnlyBrowsingListNodeIndex CreateListNodeIndex(IReadOnlyBrowseContext browseNodeContext, INode node, string propertyName, INode childNode, int index)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableSourceState));
-            return new WriteableBrowsingListNodeIndex(Node, childNode, propertyName, index);
+            return new WriteableBrowsingListNodeIndex(node, childNode, propertyName, index);
         }
 
         /// <summary>
         /// Creates a IxxxBrowsingNewBlockNodeIndex object.
         /// </summary>
-        protected override IReadOnlyBrowsingNewBlockNodeIndex CreateNewBlockNodeIndex(IReadOnlyBrowseContext browseNodeContext, string propertyName, INodeTreeBlock childBlock, int blockIndex, INode childNode)
+        protected override IReadOnlyBrowsingNewBlockNodeIndex CreateNewBlockNodeIndex(IReadOnlyBrowseContext browseNodeContext, INode node, string propertyName, INodeTreeBlock childBlock, int blockIndex, INode childNode)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableSourceState));
-            return new WriteableBrowsingNewBlockNodeIndex(Node, childNode, propertyName, blockIndex, childBlock.ReplicationPattern, childBlock.SourceIdentifier);
+            return new WriteableBrowsingNewBlockNodeIndex(node, childNode, propertyName, blockIndex, childBlock.ReplicationPattern, childBlock.SourceIdentifier);
         }
 
         /// <summary>
         /// Creates a IxxxBrowsingExistingBlockNodeIndex object.
         /// </summary>
-        protected override IReadOnlyBrowsingExistingBlockNodeIndex CreateExistingBlockNodeIndex(IReadOnlyBrowseContext browseNodeContext, string propertyName, int blockIndex, int index, INode childNode)
+        protected override IReadOnlyBrowsingExistingBlockNodeIndex CreateExistingBlockNodeIndex(IReadOnlyBrowseContext browseNodeContext, INode node, string propertyName, int blockIndex, int index, INode childNode)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableSourceState));
-            return new WriteableBrowsingExistingBlockNodeIndex(Node, childNode, propertyName, blockIndex, index);
+            return new WriteableBrowsingExistingBlockNodeIndex(node, childNode, propertyName, blockIndex, index);
         }
 
         /// <summary>

@@ -33,7 +33,7 @@ namespace EaslyController.Frame
         /// <summary>
         /// List of cell views for each child node.
         /// </summary>
-        IFrameMutableCellViewCollection EmbeddingCellView { get; }
+        IFrameCellViewCollection EmbeddingCellView { get; }
 
         /// <summary>
         /// Builds the cell view tree for this view.
@@ -46,7 +46,7 @@ namespace EaslyController.Frame
         /// Assign the cell view for each child node.
         /// </summary>
         /// <param name="embeddingCellView">The assigned cell view list.</param>
-        void AssignEmbeddingCellView(IFrameMutableCellViewCollection embeddingCellView);
+        void AssignEmbeddingCellView(IFrameCellViewCollection embeddingCellView);
 
         /// <summary>
         /// Clears the cell view tree for this view.
@@ -104,7 +104,7 @@ namespace EaslyController.Frame
         /// <summary>
         /// List of cell views for each child node.
         /// </summary>
-        public IFrameMutableCellViewCollection EmbeddingCellView { get; private set; }
+        public IFrameCellViewCollection EmbeddingCellView { get; private set; }
         #endregion
 
         #region Client Interface
@@ -129,7 +129,7 @@ namespace EaslyController.Frame
         /// Assign the cell view for each child node.
         /// </summary>
         /// <param name="embeddingCellView">The assigned cell view list.</param>
-        public virtual void AssignEmbeddingCellView(IFrameMutableCellViewCollection embeddingCellView)
+        public virtual void AssignEmbeddingCellView(IFrameCellViewCollection embeddingCellView)
         {
             Debug.Assert(embeddingCellView != null);
             Debug.Assert(EmbeddingCellView == null);

@@ -2,15 +2,32 @@
 
 namespace EaslyController.Frame
 {
+    /// <summary>
+    /// Cell view for components that are displayed.
+    /// </summary>
     public interface IFrameVisibleCellView : IFrameCellView
     {
+        /// <summary>
+        /// Line number where the cell view appears.
+        /// </summary>
         int LineNumber { get; }
+
+        /// <summary>
+        /// Column number where the cell view appears.
+        /// </summary>
         int ColumnNumber { get; }
     }
 
+    /// <summary>
+    /// Cell view for components that are displayed.
+    /// </summary>
     public class FrameVisibleCellView : FrameCellView, IFrameVisibleCellView
     {
         #region Init
+        /// <summary>
+        /// Initializes an instance of <see cref="FrameVisibleCellView"/>.
+        /// </summary>
+        /// <param name="stateView">The state view containing the tree with this cell.</param>
         public FrameVisibleCellView(IFrameNodeStateView stateView)
             : base(stateView)
         {
@@ -20,12 +37,24 @@ namespace EaslyController.Frame
         #endregion
 
         #region Properties
+        /// <summary>
+        /// Line number where the cell view appears.
+        /// </summary>
         public int LineNumber { get; private set; }
+
+        /// <summary>
+        /// Column number where the cell view appears.
+        /// </summary>
         public int ColumnNumber { get; private set; }
         #endregion
 
         #region Client Interface
-        public override void RecalculateLineNumbers(IFrameController controller, ref int lineNumber, ref int columnNumber)
+        /// <summary>
+        /// Update line numbers in the cell view.
+        /// </summary>
+        /// <param name="lineNumber">The current line number, updated upon return.</param>
+        /// <param name="columnNumber">The current column number, updated upon return.</param>
+        public override void UpdateLineNumbers(ref int lineNumber, ref int columnNumber)
         {
             LineNumber = lineNumber;
             ColumnNumber = columnNumber;
@@ -71,7 +100,7 @@ namespace EaslyController.Frame
             return true;
         }
 
-        public override string PrintTree(int indentation)
+        public override string PrintTree(int indentation, bool printFull)
         {
             string Result = "";
             for (int i = 0; i < indentation; i++)

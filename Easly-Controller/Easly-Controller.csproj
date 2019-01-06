@@ -174,12 +174,9 @@
     <Compile Include="02-Writeable\State\Writeable_PatternState.cs" />
     <Compile Include="02-Writeable\State\Writeable_PlaceholderNodeState.cs" />
     <Compile Include="02-Writeable\State\Writeable_SourceState.cs" />
-    <Compile Include="03-Frame\CellView\Collection\Frame_CellViewCollection.cs" />
+    <Compile Include="03-Frame\CellView\Collection\Frame_CellCollection.cs" />
     <Compile Include="03-Frame\CellView\Collection\Frame_Column.cs" />
     <Compile Include="03-Frame\CellView\Collection\Frame_Line.cs" />
-    <Compile Include="03-Frame\CellView\Collection\Frame_MutableCellCollection.cs" />
-    <Compile Include="03-Frame\CellView\Collection\Frame_MutableColumn.cs" />
-    <Compile Include="03-Frame\CellView\Collection\Frame_MutableLine.cs" />
     <Compile Include="03-Frame\CellView\Frame_CellView.cs" />
     <Compile Include="03-Frame\CellView\Single\Frame_ContainerCellView.cs" />
     <Compile Include="03-Frame\CellView\Single\Frame_ContentFocusableCellView.cs" />

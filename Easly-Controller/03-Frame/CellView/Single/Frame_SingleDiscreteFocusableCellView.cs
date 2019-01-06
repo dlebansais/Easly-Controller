@@ -2,13 +2,23 @@
 
 namespace EaslyController.Frame
 {
+    /// <summary>
+    /// Cell view for discrete elements that can receive the focus but are not the component of a node (insertion points, keywords and other decorations)
+    /// </summary>
     public interface IFrameSingleDiscreteFocusableCellView : IFrameFocusableCellView
     {
     }
 
+    /// <summary>
+    /// Cell view for discrete elements that can receive the focus but are not the component of a node (insertion points, keywords and other decorations)
+    /// </summary>
     public class FrameSingleDiscreteFocusableCellView : FrameFocusableCellView, IFrameSingleDiscreteFocusableCellView
     {
         #region Init
+        /// <summary>
+        /// Initializes an instance of <see cref="FrameSingleDiscreteFocusableCellView"/>.
+        /// </summary>
+        /// <param name="stateView">The state view containing the tree with this cell.</param>
         public FrameSingleDiscreteFocusableCellView(IFrameNodeStateView stateView)
             : base(stateView)
         {

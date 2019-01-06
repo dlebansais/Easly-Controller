@@ -14,12 +14,12 @@
     {
         #region Create Methods
         /// <summary>
-        /// Creates a IxxxMutableCellViewCollection object.
+        /// Creates a IxxxCellViewCollection object.
         /// </summary>
-        protected override IFrameMutableCellViewCollection CreateEmbeddingCellView(IFrameNodeStateView stateView, IFrameCellViewList list)
+        protected override IFrameCellViewCollection CreateEmbeddingCellView(IFrameNodeStateView stateView, IFrameCellViewList list)
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameHorizontalListFrame));
-            return new FrameMutableLine(stateView, list);
+            return new FrameLine(stateView, list);
         }
         #endregion
     }

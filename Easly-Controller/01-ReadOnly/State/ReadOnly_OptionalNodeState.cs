@@ -1,6 +1,7 @@
 ﻿using BaseNode;
 using BaseNodeHelper;
 using Easly;
+using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace EaslyController.ReadOnly
@@ -49,14 +50,10 @@ namespace EaslyController.ReadOnly
             get
             {
                 IOptionalReference Optional = ParentIndex.Optional;
+                NodeTreeHelperOptional.GetChildNode(Optional, out bool IsAssigned, out INode ChildNode);
 
-                if (Optional.IsAssigned)
-                {
-                    INode Node = Optional.Item as INode;
-                    Debug.Assert(Node != null);
-
-                    return Node;
-                }
+                if (ChildNode != null)
+                    return ChildNode;
 
                 if (VirtualNode == null)
                 {
@@ -90,21 +87,16 @@ namespace EaslyController.ReadOnly
         /// Browse the optional node in the node tree.
         /// </summary>
         /// <param name="browseContext">The context used to browse the node tree.</param>
-        public override void BrowseChildren(IReadOnlyBrowseContext browseNodeContext)
+        /// <param name="parentInner">The inner containing this state as a child.</param>
+        public override void BrowseChildren(IReadOnlyBrowseContext browseNodeContext, IReadOnlyInner<IReadOnlyBrowsingChildIndex> parentInner)
         {
             Debug.Assert(browseNodeContext != null);
+            Debug.Assert(parentInner != null);
 
-            if (ParentIndex.Optional.HasItem)
-            {
-                if (ParentIndex.Optional.IsAssigned)
-                    base.BrowseChildren(browseNodeContext);
-                else
-                {
-                    ParentIndex.Optional.Assign();
-                    base.BrowseChildren(browseNodeContext);
-                    ParentIndex.Optional.Unassign();
-                }
-            }
+            NodeTreeHelperOptional.GetChildNode(parentInner.Owner.Node, parentInner.PropertyName, out bool IsAssigned, out INode ChildNode);
+
+            if (ChildNode != null)
+                BrowseChildrenOfNode(browseNodeContext, ChildNode);
         }
         #endregion
 
@@ -131,6 +123,22 @@ namespace EaslyController.ReadOnly
         public override string ToString()
         {
             return $"Optional node of {ParentInner.InterfaceType.Name}";
+        }
+        #endregion
+
+        #region Invariant
+        protected override void CheckInvariant()
+        {
+            InvariantAssert(IsInitialized);
+            InvariantAssert(InnerTable != null);
+
+            foreach (KeyValuePair<string, IReadOnlyInner<IReadOnlyBrowsingChildIndex>> Entry in InnerTable)
+            {
+                IReadOnlyInner<IReadOnlyBrowsingChildIndex> Inner = Entry.Value;
+
+                InvariantAssert((Inner is IReadOnlyBlockListInner) || (Inner is IReadOnlyListInner) || (Inner is IReadOnlyOptionalInner) || (Inner is IReadOnlyPlaceholderInner));
+                InvariantAssert(Inner.Owner == this);
+            }
         }
         #endregion
     }

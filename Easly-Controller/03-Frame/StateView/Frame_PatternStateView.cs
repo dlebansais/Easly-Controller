@@ -123,10 +123,16 @@ namespace EaslyController.Frame
             throw new InvalidOperationException();
         }
 
-        public virtual void RecalculateLineNumbers(IFrameController controller, ref int lineNumber, ref int columnNumber)
+        /// <summary>
+        /// Update line numbers in the root cell view.
+        /// </summary>
+        /// <param name="lineNumber">The current line number, updated upon return.</param>
+        /// <param name="columnNumber">The current column number, updated upon return.</param>
+        public virtual void UpdateLineNumbers(ref int lineNumber, ref int columnNumber)
         {
-            IFrameCellView RootCellView = null;
-            RootCellView.RecalculateLineNumbers(controller, ref lineNumber, ref columnNumber);
+            Debug.Assert(RootCellView != null);
+
+            RootCellView.UpdateLineNumbers(ref lineNumber, ref columnNumber);
         }
         #endregion
 

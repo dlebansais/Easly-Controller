@@ -1,4 +1,5 @@
-﻿using BaseNodeHelper;
+﻿using BaseNode;
+using BaseNodeHelper;
 using Easly;
 using EaslyController.Writeable;
 using System;
@@ -57,16 +58,21 @@ namespace EaslyController.Frame
                 IOptionalReference Optional = State.ParentIndex.Optional;
                 Debug.Assert(Optional != null);
 
-                if (!Optional.IsAssigned)
-                    return null;
+                NodeTreeHelperOptional.GetChildNode(Optional, out bool IsAssigned, out INode ChildNode);
 
-                Type NodeType = State.Node.GetType();
-                Debug.Assert(!NodeType.IsInterface && !NodeType.IsAbstract);
+                if (ChildNode != null)
+                {
+                    Type NodeType = ChildNode.GetType();
+                    Debug.Assert(!NodeType.IsInterface && !NodeType.IsAbstract);
 
-                Type InterfaceType = NodeTreeHelper.NodeTypeToInterfaceType(NodeType);
-                return ControllerView.TemplateSet.NodeTypeToTemplate(InterfaceType);
+                    Type InterfaceType = NodeTreeHelper.NodeTypeToInterfaceType(NodeType);
+                    _Template = ControllerView.TemplateSet.NodeTypeToTemplate(InterfaceType);
+                }
+
+                return _Template;
             }
         }
+        private IFrameNodeTemplate _Template;
 
         /// <summary>
         /// Root cell for the view.
@@ -133,6 +139,9 @@ namespace EaslyController.Frame
         /// <param name="controllerView">The view in which the cell tree is cleared.</param>
         public virtual void ClearRootCellView(IFrameControllerView controllerView)
         {
+            if (_Template != null)
+                _Template.ClearRootCellView(controllerView, this);
+
             RootCellView = null;
             _CellViewTable = null;
             CellViewTable = null;
@@ -152,16 +161,16 @@ namespace EaslyController.Frame
             _CellViewTable[propertyName] = cellView;
         }
 
-        public virtual void RecalculateLineNumbers(IFrameController controller, ref int lineNumber, ref int columnNumber)
+        /// <summary>
+        /// Update line numbers in the root cell view.
+        /// </summary>
+        /// <param name="lineNumber">The current line number, updated upon return.</param>
+        /// <param name="columnNumber">The current column number, updated upon return.</param>
+        public virtual void UpdateLineNumbers(ref int lineNumber, ref int columnNumber)
         {
-            IOptionalReference Optional = State.ParentIndex.Optional;
-            Debug.Assert(Optional != null);
+            Debug.Assert(RootCellView != null);
 
-            if (Optional.IsAssigned)
-            {
-                IFrameCellView RootCellView = null;
-                RootCellView.RecalculateLineNumbers(controller, ref lineNumber, ref columnNumber);
-            }
+            RootCellView.UpdateLineNumbers(ref lineNumber, ref columnNumber);
         }
         #endregion
 

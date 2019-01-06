@@ -1001,14 +1001,12 @@ namespace EaslyController.Writeable
         /// </summary>
         protected virtual void ReduceOptional(IWriteableOptionalInner<IWriteableBrowsingOptionalNodeIndex> optionalInner)
         {
-            IWriteableBrowsingOptionalNodeIndex ParentIndex = optionalInner.ChildState.ParentIndex;
-            IOptionalReference Optional = ParentIndex.Optional;
-
-            if (NodeHelper.IsOptionalAssignedToDefault(Optional))
+            if (optionalInner.IsAssigned)
             {
-                Optional.Unassign();
+                optionalInner.Unassign();
                 Stats.AssignedOptionalNodeCount--;
 
+                IWriteableBrowsingOptionalNodeIndex ParentIndex = optionalInner.ChildState.ParentIndex;
                 NotifyStateUnassigned(ParentIndex, optionalInner.ChildState);
             }
         }

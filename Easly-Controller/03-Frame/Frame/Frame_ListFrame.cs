@@ -35,7 +35,7 @@ namespace EaslyController.Frame
         /// <param name="controllerView">The view in cells are created.</param>
         /// <param name="stateView">The state view for which to create cells.</param>
         /// <param name="parentCellView">The parent cell view.</param>
-        public virtual IFrameCellView BuildNodeCells(IFrameControllerView controllerView, IFrameNodeStateView stateView, IFrameMutableCellViewCollection parentCellView)
+        public virtual IFrameCellView BuildNodeCells(IFrameControllerView controllerView, IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView)
         {
             IFrameNodeState State = stateView.State;
             Debug.Assert(State != null);
@@ -47,13 +47,18 @@ namespace EaslyController.Frame
 
             IFrameStateViewDictionary StateViewTable = controllerView.StateViewTable;
             IFrameCellViewList CellViewList = CreateCellViewList();
-            IFrameMutableCellViewCollection EmbeddingCellView = CreateEmbeddingCellView(stateView, CellViewList);
+            IFrameCellViewCollection EmbeddingCellView = CreateEmbeddingCellView(stateView, CellViewList);
 
             foreach (IFrameNodeState ChildState in Inner.StateList)
             {
                 Debug.Assert(StateViewTable.ContainsKey(ChildState));
 
                 IFrameNodeStateView ChildStateView = StateViewTable[ChildState];
+
+                Debug.Assert(ChildStateView.RootCellView == null);
+                ChildStateView.BuildRootCellView(controllerView);
+                Debug.Assert(ChildStateView.RootCellView != null);
+
                 IFrameCellView FrameCellView = CreateFrameCellView(stateView, EmbeddingCellView, ChildStateView);
                 CellViewList.Add(FrameCellView);
             }
@@ -61,6 +66,31 @@ namespace EaslyController.Frame
             stateView.AssignCellViewTable(PropertyName, EmbeddingCellView);
 
             return EmbeddingCellView;
+        }
+
+        /// <summary>
+        /// Clears the cell view tree for this view.
+        /// </summary>
+        /// <param name="controllerView">The view in which the cell tree is cleared.</param>
+        public virtual void ClearRootCellView(IFrameControllerView controllerView, IFrameNodeStateView stateView)
+        {
+            IFrameNodeState State = stateView.State;
+            Debug.Assert(State != null);
+            Debug.Assert(State.InnerTable != null);
+            Debug.Assert(State.InnerTable.ContainsKey(PropertyName));
+
+            IFrameListInner<IFrameBrowsingListNodeIndex> Inner = State.InnerTable[PropertyName] as IFrameListInner<IFrameBrowsingListNodeIndex>;
+            Debug.Assert(Inner != null);
+
+            IFrameStateViewDictionary StateViewTable = controllerView.StateViewTable;
+
+            foreach (IFrameNodeState ChildState in Inner.StateList)
+            {
+                Debug.Assert(StateViewTable.ContainsKey(ChildState));
+
+                IFrameNodeStateView ChildStateView = StateViewTable[ChildState];
+                ChildStateView.ClearRootCellView(controllerView);
+            }
         }
         #endregion
 
@@ -77,16 +107,16 @@ namespace EaslyController.Frame
         /// <summary>
         /// Creates a IxxxContainerCellView object.
         /// </summary>
-        protected virtual IFrameContainerCellView CreateFrameCellView(IFrameNodeStateView stateView, IFrameMutableCellViewCollection parentCellView, IFrameNodeStateView childStateView)
+        protected virtual IFrameContainerCellView CreateFrameCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, IFrameNodeStateView childStateView)
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameListFrame));
             return new FrameContainerCellView(stateView, parentCellView, childStateView);
         }
 
         /// <summary>
-        /// Creates a IxxxMutableCellViewCollection object.
+        /// Creates a IxxxCellViewCollection object.
         /// </summary>
-        protected abstract IFrameMutableCellViewCollection CreateEmbeddingCellView(IFrameNodeStateView stateView, IFrameCellViewList list);
+        protected abstract IFrameCellViewCollection CreateEmbeddingCellView(IFrameNodeStateView stateView, IFrameCellViewList list);
         #endregion
     }
 }

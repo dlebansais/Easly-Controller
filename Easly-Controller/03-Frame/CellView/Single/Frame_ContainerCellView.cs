@@ -2,16 +2,35 @@
 
 namespace EaslyController.Frame
 {
+    /// <summary>
+    /// A leaf of the cell view tree for a child state.
+    /// </summary>
     public interface IFrameContainerCellView : IFrameCellView
     {
-        IFrameMutableCellViewCollection ParentCellView { get; }
+        /// <summary>
+        /// The collection of cell views containing this view.
+        /// </summary>
+        IFrameCellViewCollection ParentCellView { get; }
+
+        /// <summary>
+        /// The state view of the state associated to this cell.
+        /// </summary>
         IFrameNodeStateView ChildStateView { get; }
     }
 
+    /// <summary>
+    /// A leaf of the cell view tree for a child state.
+    /// </summary>
     public class FrameContainerCellView : FrameCellView, IFrameContainerCellView
     {
         #region Init
-        public FrameContainerCellView(IFrameNodeStateView stateView, IFrameMutableCellViewCollection parentCellView, IFrameNodeStateView childStateView)
+        /// <summary>
+        /// Initializes an instance of <see cref="FrameContainerCellView"/>.
+        /// </summary>
+        /// <param name="stateView">The state view containing the tree with this cell.</param>
+        /// <param name="parentCellView">The collection of cell views containing this view.</param>
+        /// <param name="childStateView">The state view of the state associated to this cell.</param>
+        public FrameContainerCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, IFrameNodeStateView childStateView)
             : base(stateView)
         {
             ParentCellView = parentCellView;
@@ -20,21 +39,39 @@ namespace EaslyController.Frame
         #endregion
 
         #region Properties
-        public IFrameMutableCellViewCollection ParentCellView { get; }
+        /// <summary>
+        /// The collection of cell views containing this view.
+        /// </summary>
+        public IFrameCellViewCollection ParentCellView { get; }
+
+        /// <summary>
+        /// The state view of the state associated to this cell.
+        /// </summary>
         public IFrameNodeStateView ChildStateView { get; }
         #endregion
 
         #region Client Interface
-        public override void RecalculateLineNumbers(IFrameController controller, ref int lineNumber, ref int columnNumber)
+        /// <summary>
+        /// Update line numbers in the cell view.
+        /// </summary>
+        /// <param name="lineNumber">The current line number, updated upon return.</param>
+        /// <param name="columnNumber">The current column number, updated upon return.</param>
+        public override void UpdateLineNumbers(ref int lineNumber, ref int columnNumber)
         {
-            RecalculateChildLineNumbers(controller, ChildStateView, ref lineNumber, ref columnNumber);
+            RecalculateChildLineNumbers(ChildStateView, ref lineNumber, ref columnNumber);
         }
         #endregion
 
         #region Descendant Interface
-        protected virtual void RecalculateChildLineNumbers(IFrameController controller, IFrameNodeStateView nodeStateView, ref int lineNumber, ref int columnNumber)
+        /// <summary>
+        /// Update line numbers in the cell view from the update in the child state view.
+        /// </summary>
+        /// <param name="lineNumber">The child cell view.</param>
+        /// <param name="lineNumber">The current line number, updated upon return.</param>
+        /// <param name="columnNumber">The current column number, updated upon return.</param>
+        protected virtual void RecalculateChildLineNumbers(IFrameNodeStateView nodeStateView, ref int lineNumber, ref int columnNumber)
         {
-            nodeStateView.RecalculateLineNumbers(controller, ref lineNumber, ref columnNumber);
+            nodeStateView.UpdateLineNumbers(ref lineNumber, ref columnNumber);
         }
         #endregion
 
@@ -53,19 +90,32 @@ namespace EaslyController.Frame
             if (!base.IsEqual(comparer, AsContainerCellView))
                 return false;
 
+            if (!comparer.VerifyEqual(ParentCellView, AsContainerCellView.ParentCellView))
+                return false;
+
             if (!comparer.VerifyEqual(ChildStateView, AsContainerCellView.ChildStateView))
                 return false;
 
             return true;
         }
 
-        public override string PrintTree(int indentation)
+        public override string PrintTree(int indentation, bool printFull)
         {
             string Result = "";
             for (int i = 0; i < indentation; i++)
                 Result += " ";
 
-            Result += $"Container, state: {ChildStateView}\n";
+            if (ChildStateView.RootCellView != null)
+            {
+                Result += $"Container, state: {ChildStateView}\n";
+
+                if (printFull)
+                    Result += ChildStateView.RootCellView.PrintTree(indentation + 1, printFull);
+            }
+            else
+            {
+                Result += $"Container, state: {ChildStateView} (no root)\n";
+            }
 
             return Result;
         }

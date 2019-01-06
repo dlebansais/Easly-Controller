@@ -271,7 +271,7 @@ namespace EaslyController.ReadOnly
 
             // Browse the uninitialized state for children
             IReadOnlyBrowseContext BrowseContext = CreateBrowseContext(parentBrowseContext, state);
-            BrowseStateChildren(BrowseContext);
+            BrowseStateChildren(BrowseContext, parentInner);
 
             // Build inners for each child
             IReadOnlyInnerReadOnlyDictionary<string> InnerTable = BuildInnerTable(BrowseContext);
@@ -286,13 +286,13 @@ namespace EaslyController.ReadOnly
             BuildChildrenStates(BrowseContext, ChildrenStateTable);
         }
 
-        protected virtual void BrowseStateChildren(IReadOnlyBrowseContext browseContext)
+        protected virtual void BrowseStateChildren(IReadOnlyBrowseContext browseContext, IReadOnlyInner<IReadOnlyBrowsingChildIndex> parentInner)
         {
             Debug.Assert(browseContext != null);
             Debug.Assert(browseContext.IndexCollectionList.Count == 0);
 
             IReadOnlyNodeState State = browseContext.State;
-            State.BrowseChildren(browseContext);
+            State.BrowseChildren(browseContext, parentInner);
         }
 
         protected virtual IReadOnlyInnerReadOnlyDictionary<string> BuildInnerTable(IReadOnlyBrowseContext browseContext)

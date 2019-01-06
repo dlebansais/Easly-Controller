@@ -38,7 +38,7 @@ namespace EaslyController.Frame
         /// <param name="controllerView">The view in cells are created.</param>
         /// <param name="stateView">The state view for which to create cells.</param>
         /// <param name="parentCellView">The parent cell view.</param>
-        public virtual IFrameCellView BuildNodeCells(IFrameControllerView controllerView, IFrameNodeStateView stateView, IFrameMutableCellViewCollection parentCellView)
+        public virtual IFrameCellView BuildNodeCells(IFrameControllerView controllerView, IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView)
         {
             IFrameNodeState State = stateView.State;
             Debug.Assert(State != null);
@@ -54,10 +54,38 @@ namespace EaslyController.Frame
             Debug.Assert(StateViewTable.ContainsKey(ChildState));
 
             IFrameNodeStateView ChildStateView = StateViewTable[ChildState];
+
+            Debug.Assert(ChildStateView.RootCellView == null);
+            ChildStateView.BuildRootCellView(controllerView);
+            Debug.Assert(ChildStateView.RootCellView != null);
+
             IFrameContainerCellView EmbeddingCellView = CreateFrameCellView(stateView, parentCellView, ChildStateView);
             stateView.AssignCellViewTable(PropertyName, EmbeddingCellView);
 
             return EmbeddingCellView;
+        }
+
+        /// <summary>
+        /// Clears the cell view tree for this view.
+        /// </summary>
+        /// <param name="controllerView">The view in which the cell tree is cleared.</param>
+        public virtual void ClearRootCellView(IFrameControllerView controllerView, IFrameNodeStateView stateView)
+        {
+            IFrameNodeState State = stateView.State;
+            Debug.Assert(State != null);
+            Debug.Assert(State.InnerTable != null);
+            Debug.Assert(State.InnerTable.ContainsKey(PropertyName));
+
+            IFrameOptionalInner<IFrameBrowsingOptionalNodeIndex> Inner = State.InnerTable[PropertyName] as IFrameOptionalInner<IFrameBrowsingOptionalNodeIndex>;
+            Debug.Assert(Inner != null);
+            Debug.Assert(Inner.ChildState != null);
+            IFrameNodeState ChildState = Inner.ChildState;
+
+            IFrameStateViewDictionary StateViewTable = controllerView.StateViewTable;
+            Debug.Assert(StateViewTable.ContainsKey(ChildState));
+
+            IFrameNodeStateView ChildStateView = StateViewTable[ChildState];
+            ChildStateView.ClearRootCellView(controllerView);
         }
         #endregion
 
@@ -65,7 +93,7 @@ namespace EaslyController.Frame
         /// <summary>
         /// Creates a IxxxContainerCellView object.
         /// </summary>
-        protected virtual IFrameContainerCellView CreateFrameCellView(IFrameNodeStateView stateView, IFrameMutableCellViewCollection parentCellView, IFrameNodeStateView childStateView)
+        protected virtual IFrameContainerCellView CreateFrameCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, IFrameNodeStateView childStateView)
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameOptionalFrame));
             return new FrameContainerCellView(stateView, parentCellView, childStateView);
