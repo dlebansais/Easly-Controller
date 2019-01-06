@@ -33,8 +33,17 @@ namespace EaslyController.Frame
         /// </summary>
         IFrameTemplateSet TemplateSet { get; }
 
+        /// <summary>
+        /// First line number in the cell tree.
+        /// </summary>
         int FirstLineNumber { get; }
+
+        /// <summary>
+        /// Last line number in the cell tree.
+        /// </summary>
         int LastLineNumber { get; }
+
+        void ResetGlobalDebugIndex();
     }
 
     /// <summary>
@@ -43,6 +52,10 @@ namespace EaslyController.Frame
     public class FrameControllerView : WriteableControllerView, IFrameControllerView
     {
         public int GlobalDebugIndex { get; set; }
+        public void ResetGlobalDebugIndex()
+        {
+            GlobalDebugIndex = 0;
+        }
 
         #region Init
         /// <summary>
@@ -146,10 +159,6 @@ namespace EaslyController.Frame
             IFrameNodeState OwnerState = ParentInner.Owner;
             IFrameNodeStateView OwnerStateView = StateViewTable[OwnerState];
 
-            IFrameBlockStateView BlockStateView = BlockStateViewTable[(IFrameBlockState)blockState];
-            ClearBlockCellView(OwnerStateView, BlockStateView);
-            BuildBlockCellView(OwnerStateView, BlockStateView);
-
             IFrameCellViewReadOnlyDictionary<string> CellViewTable = OwnerStateView.CellViewTable;
             string PropertyName = ParentInner.PropertyName;
 
@@ -158,8 +167,12 @@ namespace EaslyController.Frame
             IFrameCellViewCollection EmbeddingCellView = CellViewTable[PropertyName] as IFrameCellViewCollection;
             Debug.Assert(EmbeddingCellView != null);
 
+            IFrameBlockStateView BlockStateView = BlockStateViewTable[(IFrameBlockState)blockState];
+            ClearBlockCellView(OwnerStateView, BlockStateView);
+            IFrameCellView RootCellView = BuildBlockCellView(OwnerStateView, EmbeddingCellView, BlockStateView);
+
             int BlockIndex = nodeIndex.BlockIndex;
-            EmbeddingCellView.Insert(BlockIndex, BlockStateView.RootCellView);
+            EmbeddingCellView.Insert(BlockIndex, RootCellView);
 
             UpdateLineNumbers();
         }
@@ -205,7 +218,11 @@ namespace EaslyController.Frame
             Debug.Assert(InsertedState != null);
 
             if (!isBlockInserted)
-                BuildCellViewRecursive(InsertedState);
+            {
+                IFrameNodeStateView InsertedStateView = StateViewTable[InsertedState];
+                ClearCellView(InsertedStateView);
+                BuildCellView(InsertedStateView);
+            }
 
             IFrameInner<IFrameBrowsingChildIndex> ParentInner = InsertedState.ParentInner;
             Debug.Assert(ParentInner != null);
@@ -348,7 +365,9 @@ namespace EaslyController.Frame
             IFrameNodeState ReplacedState = state as IFrameNodeState;
             Debug.Assert(ReplacedState != null);
 
-            BuildCellViewRecursive(ReplacedState);
+            IFrameNodeStateView ReplacedStateView = StateViewTable[ReplacedState];
+            ClearCellView(ReplacedStateView);
+            BuildCellView(ReplacedStateView);
 
             IFrameInner<IFrameBrowsingChildIndex> ParentInner = ReplacedState.ParentInner;
             Debug.Assert(ParentInner != null);
@@ -483,7 +502,9 @@ namespace EaslyController.Frame
             IFrameNodeState AssignedState = state as IFrameNodeState;
             Debug.Assert(AssignedState != null);
 
-            BuildCellViewRecursive(AssignedState);
+            IFrameNodeStateView AssignedStateView = StateViewTable[AssignedState];
+            ClearCellView(AssignedStateView);
+            BuildCellView(AssignedStateView);
 
             OnOptionalStateReplaced(state.ParentInner as IFrameOptionalInner<IFrameBrowsingOptionalNodeIndex>, nodeIndex as IFrameBrowsingOptionalNodeIndex, state as IFrameNodeState);
 
@@ -502,7 +523,9 @@ namespace EaslyController.Frame
             IFrameNodeState UnassignedState = state as IFrameNodeState;
             Debug.Assert(UnassignedState != null);
 
-            BuildCellViewRecursive(UnassignedState);
+            IFrameNodeStateView UnassignedStateView = StateViewTable[UnassignedState];
+            ClearCellView(UnassignedStateView);
+            BuildCellView(UnassignedStateView);
 
             OnOptionalStateReplaced(state.ParentInner as IFrameOptionalInner<IFrameBrowsingOptionalNodeIndex>, nodeIndex as IFrameBrowsingOptionalNodeIndex, state as IFrameNodeState);
 
@@ -619,10 +642,6 @@ namespace EaslyController.Frame
             IFrameBlockState FirstBlockState = inner.BlockStateList[blockIndex] as IFrameBlockState;
             Debug.Assert(FirstBlockState != null);
 
-            IFrameBlockStateView FirstBlockStateView = BlockStateViewTable[FirstBlockState];
-            ClearBlockCellView(OwnerStateView, FirstBlockStateView);
-            BuildBlockCellView(OwnerStateView, FirstBlockStateView);
-
             IFrameCellViewReadOnlyDictionary<string> CellViewTable = OwnerStateView.CellViewTable;
             string PropertyName = inner.PropertyName;
 
@@ -631,7 +650,16 @@ namespace EaslyController.Frame
             IFrameCellViewCollection FirstEmbeddingCellView = CellViewTable[PropertyName] as IFrameCellViewCollection;
             Debug.Assert(FirstEmbeddingCellView != null);
 
-            FirstEmbeddingCellView.Insert(blockIndex, FirstBlockStateView.RootCellView);
+            foreach (IFrameNodeState ChildState in FirstBlockState.StateList)
+            {
+                IFrameNodeStateView ChildStateView = StateViewTable[ChildState];
+                ClearCellView(ChildStateView);
+            }
+
+            IFrameBlockStateView FirstBlockStateView = BlockStateViewTable[FirstBlockState];
+            IFrameCellView RootCellView = BuildBlockCellView(OwnerStateView, FirstEmbeddingCellView, FirstBlockStateView);
+
+            FirstEmbeddingCellView.Insert(blockIndex, RootCellView);
 
             IFrameBlockState SecondBlockState = inner.BlockStateList[blockIndex + 1] as IFrameBlockState;
             Debug.Assert(SecondBlockState != null);
@@ -669,12 +697,23 @@ namespace EaslyController.Frame
 
             IFrameBlockState FirstBlockState = inner.BlockStateList[blockIndex - 1] as IFrameBlockState;
             Debug.Assert(FirstBlockState != null);
+
+            foreach (IFrameNodeState ChildState in FirstBlockState.StateList)
+            {
+                IFrameNodeStateView ChildStateView = StateViewTable[ChildState];
+                ClearCellView(ChildStateView);
+            }
+
+            IFrameNodeStateView PatternStateView = StateViewTable[FirstBlockState.PatternState];
+            ClearCellView(PatternStateView);
+            IFrameNodeStateView SourceStateView = StateViewTable[FirstBlockState.SourceState];
+            ClearCellView(SourceStateView);
+
             IFrameBlockStateView FirstBlockStateView = BlockStateViewTable[FirstBlockState];
-
             ClearBlockCellView(OwnerStateView, FirstBlockStateView);
-            BuildBlockCellView(OwnerStateView, FirstBlockStateView);
+            IFrameCellView RootCellView = BuildBlockCellView(OwnerStateView, BlockEmbeddingCellView, FirstBlockStateView);
 
-            BlockEmbeddingCellView.Replace(blockIndex - 1, FirstBlockStateView.RootCellView);
+            BlockEmbeddingCellView.Replace(blockIndex - 1, RootCellView);
             BlockEmbeddingCellView.Remove(blockIndex);
 
             UpdateLineNumbers();
@@ -682,64 +721,29 @@ namespace EaslyController.Frame
         #endregion
 
         #region Implementation
-        protected virtual void BuildCellView(IFrameNodeStateView stateView)
+        protected virtual IFrameCellView BuildCellView(IFrameNodeStateView stateView)
         {
-            stateView.BuildRootCellView(this);
+            stateView.BuildRootCellView();
+            return stateView.RootCellView;
         }
 
         protected virtual void ClearCellView(IFrameNodeStateView stateView)
         {
-            stateView.ClearRootCellView(this);
+            stateView.ClearRootCellView();
         }
 
-        protected virtual void BuildBlockCellView(IFrameNodeStateView stateView, IFrameBlockStateView blockStateView)
+        protected virtual IFrameCellView BuildBlockCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, IFrameBlockStateView blockStateView)
         {
-            blockStateView.BuildRootCellView(this, stateView);
+            blockStateView.BuildRootCellView(stateView);
+
+            IFrameBlockCellView BlockCellView = CreateBlockCellView(stateView, parentCellView, blockStateView);
+            return BlockCellView;
+            //return blockStateView.RootCellView;
         }
 
         protected virtual void ClearBlockCellView(IFrameNodeStateView stateView, IFrameBlockStateView blockStateView)
         {
-            blockStateView.ClearRootCellView(this, stateView);
-        }
-
-        protected virtual void BuildCellViewRecursive(IFrameNodeState state)
-        {
-            IFrameNodeStateView StateView = StateViewTable[state];
-            ClearCellView(StateView);
-            BuildCellView(StateView);
-            return;
-
-            IFrameInnerReadOnlyDictionary<string> InnerTable = state.InnerTable;
-            foreach (KeyValuePair<string, IFrameInner<IFrameBrowsingChildIndex>> Entry in InnerTable)
-            {
-                IFrameInner<IFrameBrowsingChildIndex> Inner = Entry.Value;
-                switch (Inner)
-                {
-                    case IFramePlaceholderInner<IFrameBrowsingPlaceholderNodeIndex> AsPlaceholderInner:
-                        BuildCellViewRecursive(AsPlaceholderInner.ChildState);
-                        break;
-
-                    case IFrameOptionalInner<IFrameBrowsingOptionalNodeIndex> AsOptionalInner:
-                        BuildCellViewRecursive(AsOptionalInner.ChildState);
-                        break;
-
-                    case IFrameListInner<IFrameBrowsingListNodeIndex> AsListInner:
-                        foreach (IFrameNodeState ChildState in AsListInner.StateList)
-                            BuildCellViewRecursive(ChildState);
-                        break;
-
-                    case IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> AsBlockListInner:
-                        foreach (IFrameBlockState BlockState in AsBlockListInner.BlockStateList)
-                        {
-                            BuildCellViewRecursive(BlockState.PatternState);
-                            BuildCellViewRecursive(BlockState.SourceState);
-
-                            foreach (IFrameNodeState ChildState in BlockState.StateList)
-                                BuildCellViewRecursive(ChildState);
-                        }
-                        break;
-                }
-            }
+            blockStateView.ClearRootCellView(stateView);
         }
 
         protected virtual void UpdateLineNumbers()
@@ -885,6 +889,15 @@ namespace EaslyController.Frame
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameControllerView));
             return new FrameContainerCellView(stateView, parentCellView, childStateView);
+        }
+
+        /// <summary>
+        /// Creates a IxxxBlockCellView object.
+        /// </summary>
+        protected virtual IFrameBlockCellView CreateBlockCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, IFrameBlockStateView blockStateView)
+        {
+            ControllerTools.AssertNoOverride(this, typeof(FrameControllerView));
+            return new FrameBlockCellView(stateView, parentCellView, blockStateView);
         }
         #endregion
     }

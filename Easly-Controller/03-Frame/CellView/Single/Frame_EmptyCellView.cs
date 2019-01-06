@@ -27,6 +27,13 @@ namespace EaslyController.Frame
 
         #region Client Interface
         /// <summary>
+        /// Clears all views (cells and states) within this cell view.
+        /// </summary>
+        public override void ClearCellTree()
+        {
+        }
+
+        /// <summary>
         /// Update line numbers in the cell view.
         /// </summary>
         /// <param name="lineNumber">The current line number, updated upon return.</param>

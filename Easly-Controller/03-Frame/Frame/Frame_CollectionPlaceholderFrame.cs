@@ -40,7 +40,7 @@ namespace EaslyController.Frame
                 IFrameNodeStateView ChildStateView = StateViewTable[ChildState];
 
                 Debug.Assert(ChildStateView.RootCellView == null);
-                ChildStateView.BuildRootCellView(controllerView);
+                ChildStateView.BuildRootCellView();
                 Debug.Assert(ChildStateView.RootCellView != null);
 
                 IFrameCellView FrameCellView = CreateFrameCellView(stateView, EmbeddingCellView, ChildStateView);
@@ -50,31 +50,6 @@ namespace EaslyController.Frame
             blockStateView.AssignEmbeddingCellView(EmbeddingCellView);
 
             return EmbeddingCellView;
-        }
-
-        /// <summary>
-        /// Delete cells for the provided state view.
-        /// </summary>
-        /// <param name="controllerView">The view in which cells are deleted.</param>
-        /// <param name="stateView">The state view containing <paramref name="blockStateView"/> for which to delete cells.</param>
-        /// <param name="blockStateView">The block state view for which to delete cells.</param>
-        public virtual void ClearBlockCells(IFrameControllerView controllerView, IFrameNodeStateView stateView, IFrameBlockStateView blockStateView)
-        {
-            IFrameBlockState BlockState = blockStateView.BlockState;
-            Debug.Assert(BlockState != null);
-
-            IFrameBlockTemplate BlockTemplate = ParentTemplate as IFrameBlockTemplate;
-            Debug.Assert(BlockTemplate != null);
-
-            IFrameStateViewDictionary StateViewTable = controllerView.StateViewTable;
-
-            foreach (IFrameNodeState ChildState in BlockState.StateList)
-            {
-                Debug.Assert(StateViewTable.ContainsKey(ChildState));
-
-                IFrameNodeStateView ChildStateView = StateViewTable[ChildState];
-                ChildStateView.ClearRootCellView(controllerView);
-            }
         }
         #endregion
 

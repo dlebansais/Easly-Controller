@@ -36,8 +36,7 @@ namespace EaslyController.Frame
         /// <summary>
         /// Builds the cell view tree for this view.
         /// </summary>
-        /// <param name="controllerView">The view in which the cell tree is built.</param>
-        void BuildRootCellView(IFrameControllerView controllerView);
+        void BuildRootCellView();
 
         /// <param name="propertyName">The property name of the inner.</param>
         /// <param name="cellView">The assigned cell view.</param>
@@ -46,8 +45,7 @@ namespace EaslyController.Frame
         /// <summary>
         /// Clears the cell view tree for this view.
         /// </summary>
-        /// <param name="controllerView">The view in which the cell tree is cleared.</param>
-        void ClearRootCellView(IFrameControllerView controllerView);
+        void ClearRootCellView();
 
         /// <summary>
         /// Replaces the cell view for the given property.
@@ -112,8 +110,7 @@ namespace EaslyController.Frame
         /// <summary>
         /// Builds the cell view tree for this view.
         /// </summary>
-        /// <param name="controllerView">The view in which the cell tree is built.</param>
-        public abstract void BuildRootCellView(IFrameControllerView controllerView);
+        public abstract void BuildRootCellView();
 
         /// <summary>
         /// Assign the cell view corresponding to an inner.
@@ -125,8 +122,7 @@ namespace EaslyController.Frame
         /// <summary>
         /// Clears the cell view tree for this view.
         /// </summary>
-        /// <param name="controllerView">The view in which the cell tree is cleared.</param>
-        public abstract void ClearRootCellView(IFrameControllerView controllerView);
+        public abstract void ClearRootCellView();
 
         /// <summary>
         /// Replaces the cell view for the given property.

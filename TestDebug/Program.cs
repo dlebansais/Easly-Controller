@@ -119,19 +119,25 @@ namespace TestDebug
             IReadOnlyController Controller = ReadOnlyController.Create(RootIndex);
             Stats Stats = Controller.Stats;
 
-            INode RootNodeClone = Controller.RootState.CloneNode();
-            ulong h1 = NodeHelper.NodeHash(rootNode);
-            ulong h2 = NodeHelper.NodeHash(RootNodeClone);
-
+            ulong h0 = NodeHelper.NodeHash(rootNode);
             byte[] RootData = GetData(rootNode);
-            byte[] RootCloneData = GetData(RootNodeClone);
 
-            bool IsEqual = ByteArrayCompare(RootData, RootCloneData);
-            Debug.Assert(IsEqual);
-            Debug.Assert(h1 == h2);
+            INode RootNodeClone1 = Controller.RootState.CloneNode();
+            ulong h1 = NodeHelper.NodeHash(RootNodeClone1);
+            byte[] RootCloneData1 = GetData(RootNodeClone1);
+
+            Debug.Assert(ByteArrayCompare(RootData, RootCloneData1));
+            Debug.Assert(h0 == h1);
 
             IReadOnlyControllerView ControllerView1 = ReadOnlyControllerView.Create(Controller);
             IReadOnlyControllerView ControllerView2 = ReadOnlyControllerView.Create(Controller);
+
+            INode RootNodeClone2 = Controller.RootState.CloneNode();
+            ulong h2 = NodeHelper.NodeHash(RootNodeClone2);
+            byte[] RootCloneData2 = GetData(RootNodeClone2);
+
+            Debug.Assert(ByteArrayCompare(RootData, RootCloneData2));
+            Debug.Assert(h1 == h2);
 
             Debug.Assert(ControllerView1.IsEqual(CompareEqual.New(), ControllerView2));
 
@@ -574,6 +580,9 @@ namespace TestDebug
                 Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
             }
 
+            Controller.Expand(Controller.RootIndex);
+            Controller.Reduce(Controller.RootIndex);
+            Controller.Expand(Controller.RootIndex);
             Controller.Canonicalize();
 
             IFrameRootNodeIndex NewRootIndex = new FrameRootNodeIndex(Controller.RootIndex.Node);

@@ -48,42 +48,9 @@ namespace EaslyController.Frame
             IFrameBlockStateViewDictionary BlockStateViewTable = controllerView.BlockStateViewTable;
             IFrameCellViewList CellViewList = CreateCellViewList();
 
-            Type BlockType = Inner.BlockType;
-            IFrameTemplateSet TemplateSet = controllerView.TemplateSet;
-            IFrameBlockTemplate BlockTemplate = TemplateSet.BlockTypeToTemplate(BlockType);
-
-            foreach (IFrameBlockState BlockState in Inner.BlockStateList)
-            {
-                Debug.Assert(controllerView.BlockStateViewTable.ContainsKey(BlockState));
-                IFrameBlockStateView BlockStateView = controllerView.BlockStateViewTable[BlockState];
-
-                BlockStateView.BuildRootCellView(controllerView, stateView);
-
-                CellViewList.Add(BlockStateView.RootCellView);
-            }
-
             IFrameCellViewCollection EmbeddingCellView = CreateEmbeddingCellView(stateView, CellViewList);
             stateView.AssignCellViewTable(PropertyName, EmbeddingCellView);
 
-            return EmbeddingCellView;
-        }
-
-        /// <summary>
-        /// Clears the cell view tree for this view.
-        /// </summary>
-        /// <param name="controllerView">The view in which the cell tree is cleared.</param>
-        public virtual void ClearRootCellView(IFrameControllerView controllerView, IFrameNodeStateView stateView)
-        {
-            IFrameNodeState State = stateView.State;
-            Debug.Assert(State != null);
-            Debug.Assert(State.InnerTable != null);
-            Debug.Assert(State.InnerTable.ContainsKey(PropertyName));
-
-            IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> Inner = State.InnerTable[PropertyName] as IFrameBlockListInner<IFrameBrowsingBlockNodeIndex>;
-            Debug.Assert(Inner != null);
-
-            IFrameBlockStateViewDictionary BlockStateViewTable = controllerView.BlockStateViewTable;
-
             Type BlockType = Inner.BlockType;
             IFrameTemplateSet TemplateSet = controllerView.TemplateSet;
             IFrameBlockTemplate BlockTemplate = TemplateSet.BlockTypeToTemplate(BlockType);
@@ -93,8 +60,13 @@ namespace EaslyController.Frame
                 Debug.Assert(controllerView.BlockStateViewTable.ContainsKey(BlockState));
                 IFrameBlockStateView BlockStateView = controllerView.BlockStateViewTable[BlockState];
 
-                BlockStateView.ClearRootCellView(controllerView, stateView);
+                BlockStateView.BuildRootCellView(stateView);
+                IFrameBlockCellView BlockCellView = CreateBlockCellView(stateView, EmbeddingCellView, BlockStateView);
+
+                CellViewList.Add(BlockCellView);
             }
+
+            return EmbeddingCellView;
         }
         #endregion
 
@@ -106,6 +78,15 @@ namespace EaslyController.Frame
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameBlockListFrame));
             return new FrameCellViewList();
+        }
+
+        /// <summary>
+        /// Creates a IxxxBlockCellView object.
+        /// </summary>
+        protected virtual IFrameBlockCellView CreateBlockCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, IFrameBlockStateView blockStateView)
+        {
+            ControllerTools.AssertNoOverride(this, typeof(FrameBlockListFrame));
+            return new FrameBlockCellView(stateView, parentCellView, blockStateView);
         }
 
         /// <summary>

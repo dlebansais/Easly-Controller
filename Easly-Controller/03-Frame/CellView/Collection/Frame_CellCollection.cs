@@ -166,6 +166,17 @@ namespace EaslyController.Frame
             CellViewList.RemoveAt(index);
             CellViewList.Insert(index + direction, CellView);
         }
+
+        /// <summary>
+        /// Clears all views (cells and states) within this cell view.
+        /// </summary>
+        public override void ClearCellTree()
+        {
+            foreach (IFrameCellView Item in CellViewList)
+                Item.ClearCellTree();
+
+            CellViewList.Clear();
+        }
         #endregion
 
         #region Debugging

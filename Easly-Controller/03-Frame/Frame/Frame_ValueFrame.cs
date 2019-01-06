@@ -26,14 +26,6 @@
 
             return EmbeddingCellView;
         }
-
-        /// <summary>
-        /// Clears the cell view tree for this view.
-        /// </summary>
-        /// <param name="controllerView">The view in which the cell tree is cleared.</param>
-        public virtual void ClearRootCellView(IFrameControllerView controllerView, IFrameNodeStateView stateView)
-        {
-        }
         #endregion
 
         #region Create Methods

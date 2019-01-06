@@ -14,14 +14,6 @@ namespace EaslyController.Frame
         /// <param name="stateView">The state view containing <paramref name="blockStateView"/> for which to create cells.</param>
         /// <param name="blockStateView">The block state view for which to create cells.</param>
         IFrameCellView BuildBlockCells(IFrameControllerView controllerView, IFrameNodeStateView stateView, IFrameBlockStateView blockStateView);
-
-        /// <summary>
-        /// Clears cells for the provided state view.
-        /// </summary>
-        /// <param name="controllerView">The view in cells are deleted.</param>
-        /// <param name="stateView">The state view containing <paramref name="blockStateView"/> for which to delete cells.</param>
-        /// <param name="blockStateView">The block state view for which to delete cells.</param>
-        void ClearBlockCells(IFrameControllerView controllerView, IFrameNodeStateView stateView, IFrameBlockStateView blockStateView);
     }
 
     /// <summary>
@@ -64,20 +56,6 @@ namespace EaslyController.Frame
             Debug.Assert(BlockFrame != null);
 
             return BlockFrame.BuildBlockCells(controllerView, stateView, blockStateView);
-        }
-
-        /// <summary>
-        /// Clears cells for the provided state view.
-        /// </summary>
-        /// <param name="controllerView">The view in cells are deleted.</param>
-        /// <param name="stateView">The state view containing <paramref name="blockStateView"/> for which to delete cells.</param>
-        /// <param name="blockStateView">The block state view for which to delete cells.</param>
-        public virtual void ClearBlockCells(IFrameControllerView controllerView, IFrameNodeStateView stateView, IFrameBlockStateView blockStateView)
-        {
-            IFrameBlockFrame BlockFrame = Root as IFrameBlockFrame;
-            Debug.Assert(BlockFrame != null);
-
-            BlockFrame.ClearBlockCells(controllerView, stateView, blockStateView);
         }
         #endregion
 

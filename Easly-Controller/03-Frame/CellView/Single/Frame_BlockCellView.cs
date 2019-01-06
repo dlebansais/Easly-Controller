@@ -3,49 +3,53 @@
 namespace EaslyController.Frame
 {
     /// <summary>
-    /// Cell view for components that are displayed.
+    /// A cell view for a block state.
     /// </summary>
-    public interface IFrameVisibleCellView : IFrameCellView
+    public interface IFrameBlockCellView : IFrameCellView
     {
         /// <summary>
-        /// Line number where the cell view appears.
+        /// The collection of cell views containing this view.
         /// </summary>
-        int LineNumber { get; }
+        IFrameCellViewCollection ParentCellView { get; }
 
         /// <summary>
-        /// Column number where the cell view appears.
+        /// The block state view of the state associated to this cell.
         /// </summary>
-        int ColumnNumber { get; }
+        IFrameBlockStateView BlockStateView { get; }
     }
 
     /// <summary>
-    /// Cell view for components that are displayed.
+    /// A leaf of the cell view tree for a child state.
     /// </summary>
-    public class FrameVisibleCellView : FrameCellView, IFrameVisibleCellView
+    public class FrameBlockCellView : FrameCellView, IFrameBlockCellView
     {
         #region Init
         /// <summary>
-        /// Initializes an instance of <see cref="FrameVisibleCellView"/>.
+        /// Initializes an instance of <see cref="FrameBlockCellView"/>.
         /// </summary>
         /// <param name="stateView">The state view containing the tree with this cell.</param>
-        public FrameVisibleCellView(IFrameNodeStateView stateView)
+        /// <param name="parentCellView">The collection of cell views containing this view.</param>
+        /// <param name="blockStateView">The block state view of the state associated to this cell.</param>
+        public FrameBlockCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, IFrameBlockStateView blockStateView)
             : base(stateView)
         {
-            LineNumber = 0;
-            ColumnNumber = 0;
+            Debug.Assert(blockStateView.RootCellView != null);
+
+            ParentCellView = parentCellView;
+            BlockStateView = blockStateView;
         }
         #endregion
 
         #region Properties
         /// <summary>
-        /// Line number where the cell view appears.
+        /// The collection of cell views containing this view.
         /// </summary>
-        public int LineNumber { get; private set; }
+        public IFrameCellViewCollection ParentCellView { get; }
 
         /// <summary>
-        /// Column number where the cell view appears.
+        /// The block state view of the state associated to this cell.
         /// </summary>
-        public int ColumnNumber { get; private set; }
+        public IFrameBlockStateView BlockStateView { get; }
         #endregion
 
         #region Client Interface
@@ -54,6 +58,7 @@ namespace EaslyController.Frame
         /// </summary>
         public override void ClearCellTree()
         {
+            BlockStateView.ClearRootCellView(StateView);
         }
 
         /// <summary>
@@ -63,23 +68,7 @@ namespace EaslyController.Frame
         /// <param name="columnNumber">The current column number, updated upon return.</param>
         public override void UpdateLineNumbers(ref int lineNumber, ref int columnNumber)
         {
-            LineNumber = lineNumber;
-            ColumnNumber = columnNumber;
-
-            IncrementLineNumber(ref lineNumber);
-            IncrementColumnNumber(ref columnNumber);
-        }
-        #endregion
-
-        #region Descendant Interface
-        protected virtual void IncrementLineNumber(ref int lineNumber)
-        {
-            lineNumber++;
-        }
-
-        protected virtual void IncrementColumnNumber(ref int columnNumber)
-        {
-            columnNumber++;
+            BlockStateView.UpdateLineNumbers(ref lineNumber, ref columnNumber);
         }
         #endregion
 
@@ -92,16 +81,16 @@ namespace EaslyController.Frame
         {
             Debug.Assert(other != null);
 
-            if (!(other is IFrameVisibleCellView AsVisibleCellView))
+            if (!(other is IFrameBlockCellView AsBlockCellView))
                 return false;
 
-            if (!base.IsEqual(comparer, AsVisibleCellView))
+            if (!base.IsEqual(comparer, AsBlockCellView))
                 return false;
 
-            if (LineNumber != AsVisibleCellView.LineNumber)
+            if (!comparer.VerifyEqual(ParentCellView, AsBlockCellView.ParentCellView))
                 return false;
 
-            if (ColumnNumber != AsVisibleCellView.ColumnNumber)
+            if (!comparer.VerifyEqual(BlockStateView, AsBlockCellView.BlockStateView))
                 return false;
 
             return true;
@@ -109,13 +98,7 @@ namespace EaslyController.Frame
 
         public override string PrintTree(int indentation, bool printFull)
         {
-            string Result = "";
-            for (int i = 0; i < indentation; i++)
-                Result += " ";
-
-            Result += "Visible\n";
-
-            return Result;
+            return BlockStateView.RootCellView.PrintTree(indentation, printFull);
         }
         #endregion
     }

@@ -55,16 +55,7 @@ namespace EaslyController.ReadOnly
                 if (ChildNode != null)
                     return ChildNode;
 
-                if (VirtualNode == null)
-                {
-                    VirtualNode = NodeHelper.CreateDefault(ParentInner.InterfaceType);
-                    Debug.Assert(VirtualNode != null);
-
-                    VirtualNodeHash = NodeHelper.NodeHash(VirtualNode);
-                }
-                else // Check that the node wasn't modified.
-                    Debug.Assert(VirtualNodeHash == NodeHelper.NodeHash(VirtualNode));
-
+                UpdateVirtualNode(ParentInner);
                 return VirtualNode;
             }
         }
@@ -94,9 +85,29 @@ namespace EaslyController.ReadOnly
             Debug.Assert(parentInner != null);
 
             NodeTreeHelperOptional.GetChildNode(parentInner.Owner.Node, parentInner.PropertyName, out bool IsAssigned, out INode ChildNode);
+            if (ChildNode == null)
+                UpdateVirtualNode(parentInner);
+
+            /*
+            NodeTreeHelperOptional.GetChildNode(parentInner.Owner.Node, parentInner.PropertyName, out bool IsAssigned, out INode ChildNode);
 
             if (ChildNode != null)
                 BrowseChildrenOfNode(browseNodeContext, ChildNode);
+                */
+            BrowseChildrenOfNode(browseNodeContext, Node);
+        }
+
+        protected virtual void UpdateVirtualNode(IReadOnlyInner<IReadOnlyBrowsingChildIndex> parentInner)
+        {
+            if (VirtualNode == null)
+            {
+                VirtualNode = NodeHelper.CreateDefault(parentInner.InterfaceType);
+                Debug.Assert(VirtualNode != null);
+
+                VirtualNodeHash = NodeHelper.NodeHash(VirtualNode);
+            }
+            else // Check that the node wasn't modified.
+                Debug.Assert(VirtualNodeHash == NodeHelper.NodeHash(VirtualNode));
         }
         #endregion
 

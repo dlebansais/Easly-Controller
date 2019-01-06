@@ -77,10 +77,9 @@ namespace EaslyController.Frame
         /// <summary>
         /// Builds the cell view tree for this view.
         /// </summary>
-        /// <param name="controllerView">The view in which the state is initialized.</param>
-        public virtual void BuildRootCellView(IFrameControllerView controllerView)
+        public virtual void BuildRootCellView()
         {
-            Debug.Assert(controllerView != null);
+            Debug.Assert(RootCellView == null);
 
             _CellViewTable = CreateCellViewTable();
             foreach (KeyValuePair<string, IFrameInner<IFrameBrowsingChildIndex>> Entry in State.InnerTable)
@@ -89,7 +88,7 @@ namespace EaslyController.Frame
             IFrameNodeTemplate NodeTemplate = Template as IFrameNodeTemplate;
             Debug.Assert(NodeTemplate != null);
 
-            RootCellView = NodeTemplate.BuildNodeCells(controllerView, this);
+            RootCellView = NodeTemplate.BuildNodeCells(ControllerView, this);
 
             foreach (KeyValuePair<string, IFrameCellView> Entry in _CellViewTable)
                 Debug.Assert(Entry.Value != null);
@@ -113,17 +112,14 @@ namespace EaslyController.Frame
         /// <summary>
         /// Clears the cell view tree for this view.
         /// </summary>
-        /// <param name="controllerView">The view in which the cell tree is cleared.</param>
-        public virtual void ClearRootCellView(IFrameControllerView controllerView)
+        public virtual void ClearRootCellView()
         {
+            if (RootCellView != null)
+                RootCellView.ClearCellTree();
+
             RootCellView = null;
             _CellViewTable = null;
             CellViewTable = null;
-
-            IFrameNodeTemplate NodeTemplate = Template as IFrameNodeTemplate;
-            Debug.Assert(NodeTemplate != null);
-
-            NodeTemplate.ClearRootCellView(controllerView, this);
         }
 
         /// <summary>

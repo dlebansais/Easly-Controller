@@ -56,7 +56,7 @@ namespace EaslyController.Frame
                 IFrameNodeStateView ChildStateView = StateViewTable[ChildState];
 
                 Debug.Assert(ChildStateView.RootCellView == null);
-                ChildStateView.BuildRootCellView(controllerView);
+                ChildStateView.BuildRootCellView();
                 Debug.Assert(ChildStateView.RootCellView != null);
 
                 IFrameCellView FrameCellView = CreateFrameCellView(stateView, EmbeddingCellView, ChildStateView);
@@ -66,31 +66,6 @@ namespace EaslyController.Frame
             stateView.AssignCellViewTable(PropertyName, EmbeddingCellView);
 
             return EmbeddingCellView;
-        }
-
-        /// <summary>
-        /// Clears the cell view tree for this view.
-        /// </summary>
-        /// <param name="controllerView">The view in which the cell tree is cleared.</param>
-        public virtual void ClearRootCellView(IFrameControllerView controllerView, IFrameNodeStateView stateView)
-        {
-            IFrameNodeState State = stateView.State;
-            Debug.Assert(State != null);
-            Debug.Assert(State.InnerTable != null);
-            Debug.Assert(State.InnerTable.ContainsKey(PropertyName));
-
-            IFrameListInner<IFrameBrowsingListNodeIndex> Inner = State.InnerTable[PropertyName] as IFrameListInner<IFrameBrowsingListNodeIndex>;
-            Debug.Assert(Inner != null);
-
-            IFrameStateViewDictionary StateViewTable = controllerView.StateViewTable;
-
-            foreach (IFrameNodeState ChildState in Inner.StateList)
-            {
-                Debug.Assert(StateViewTable.ContainsKey(ChildState));
-
-                IFrameNodeStateView ChildStateView = StateViewTable[ChildState];
-                ChildStateView.ClearRootCellView(controllerView);
-            }
         }
         #endregion
 

@@ -90,17 +90,16 @@ namespace EaslyController.Frame
         /// <summary>
         /// Builds the cell view tree for this view.
         /// </summary>
-        /// <param name="controllerView">The view in which the state is initialized.</param>
-        public virtual void BuildRootCellView(IFrameControllerView controllerView)
+        public virtual void BuildRootCellView()
         {
-            Debug.Assert(controllerView != null);
-
             IOptionalReference Optional = State.ParentIndex.Optional;
             Debug.Assert(Optional != null);
 
             _CellViewTable = CreateCellViewTable();
 
-            if (Optional.IsAssigned)
+            Debug.Assert(RootCellView == null);
+
+            //if (Optional.IsAssigned)
             {
                 foreach (KeyValuePair<string, IFrameInner<IFrameBrowsingChildIndex>> Entry in State.InnerTable)
                     _CellViewTable.Add(Entry.Value.PropertyName, null);
@@ -108,13 +107,13 @@ namespace EaslyController.Frame
                 IFrameNodeTemplate NodeTemplate = Template as IFrameNodeTemplate;
                 Debug.Assert(NodeTemplate != null);
 
-                RootCellView = NodeTemplate.BuildNodeCells(controllerView, this);
+                RootCellView = NodeTemplate.BuildNodeCells(ControllerView, this);
 
                 foreach (KeyValuePair<string, IFrameCellView> Entry in _CellViewTable)
                     Debug.Assert(Entry.Value != null);
             }
-            else
-                RootCellView = CreateEmptyCellView(this);
+            //else
+            //    RootCellView = CreateEmptyCellView(this);
 
             CellViewTable = CreateCellViewReadOnlyTable(_CellViewTable);
         }
@@ -133,14 +132,17 @@ namespace EaslyController.Frame
             _CellViewTable[propertyName] = cellView;
         }
 
+        List<IFrameCellView> OldCells = new List<IFrameCellView>();
         /// <summary>
         /// Clears the cell view tree for this view.
         /// </summary>
-        /// <param name="controllerView">The view in which the cell tree is cleared.</param>
-        public virtual void ClearRootCellView(IFrameControllerView controllerView)
+        public virtual void ClearRootCellView()
         {
-            if (_Template != null)
-                _Template.ClearRootCellView(controllerView, this);
+            if (RootCellView != null)
+            {
+                OldCells.Add(RootCellView);
+                RootCellView.ClearCellTree();
+            }
 
             RootCellView = null;
             _CellViewTable = null;

@@ -13,6 +13,11 @@ namespace EaslyController.Frame
         IFrameNodeStateView StateView { get; }
 
         /// <summary>
+        /// Clears all views (cells and states) within this cell view.
+        /// </summary>
+        void ClearCellTree();
+
+        /// <summary>
         /// Updates line numbers in the cell view.
         /// </summary>
         /// <param name="lineNumber">The current line number, updated upon return.</param>
@@ -38,9 +43,13 @@ namespace EaslyController.Frame
 
             stateView.ControllerView.GlobalDebugIndex++;
             DebugIndex = stateView.ControllerView.GlobalDebugIndex;
+
+            if (DebugIndex == 7305)
+                DebugStack = new StackTrace(true);
         }
 
         public int DebugIndex { get; }
+        public StackTrace DebugStack { get; }
         public override string ToString()
         {
             return base.ToString() + $" ({DebugIndex})";
@@ -61,6 +70,11 @@ namespace EaslyController.Frame
         /// <param name="lineNumber">The current line number, updated upon return.</param>
         /// <param name="columnNumber">The current column number, updated upon return.</param>
         public abstract void UpdateLineNumbers(ref int lineNumber, ref int columnNumber);
+
+        /// <summary>
+        /// Clears all views (cells and states) within this cell view.
+        /// </summary>
+        public abstract void ClearCellTree();
         #endregion
 
         #region Debugging
