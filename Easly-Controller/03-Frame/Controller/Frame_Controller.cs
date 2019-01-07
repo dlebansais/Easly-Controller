@@ -91,7 +91,7 @@ namespace EaslyController.Frame
         /// <summary>
         /// Called when two blocks are merged.
         /// </summary>
-        new event Action<IFrameBlockListInner<IFrameBrowsingBlockNodeIndex>, int> BlocksMerged;
+        new event Action<IFrameMergeBlocksOperation> BlocksMerged;
     }
 
     public class FrameController : WriteableController, IFrameController
@@ -256,10 +256,10 @@ namespace EaslyController.Frame
         /// <summary>
         /// Called when two blocks are merged.
         /// </summary>
-        public new event Action<IFrameBlockListInner<IFrameBrowsingBlockNodeIndex>, int> BlocksMerged
+        public new event Action<IFrameMergeBlocksOperation> BlocksMerged
         {
-            add { AddBlocksMergedDelegate((Action<IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex>, int>)value); }
-            remove { RemoveBlocksMergedDelegate((Action<IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex>, int>)value); }
+            add { AddBlocksMergedDelegate((Action<IWriteableMergeBlocksOperation>)value); }
+            remove { RemoveBlocksMergedDelegate((Action<IWriteableMergeBlocksOperation>)value); }
         }
 
         /// <summary>

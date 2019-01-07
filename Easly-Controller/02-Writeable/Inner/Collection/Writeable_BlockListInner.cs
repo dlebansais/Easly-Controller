@@ -70,8 +70,9 @@ namespace EaslyController.Writeable
         /// <summary>
         /// Merges two blocks at the given index.
         /// </summary>
+        /// <param name="operation">Details of the operation performed.</param>
         /// <param name="nodeIndex">Index of the first node in the block to merge.</param>
-        void MergeBlocks(IWriteableBrowsingExistingBlockNodeIndex nodeIndex);
+        void MergeBlocks(IWriteableMergeBlocksOperation operation, IWriteableBrowsingExistingBlockNodeIndex nodeIndex);
 
         /// <summary>
         /// Moves a block around in a block list.
@@ -146,8 +147,9 @@ namespace EaslyController.Writeable
         /// <summary>
         /// Merges two blocks at the given index.
         /// </summary>
+        /// <param name="operation">Details of the operation performed.</param>
         /// <param name="nodeIndex">Index of the first node in the block to merge.</param>
-        void MergeBlocks(IWriteableBrowsingExistingBlockNodeIndex nodeIndex);
+        void MergeBlocks(IWriteableMergeBlocksOperation operation, IWriteableBrowsingExistingBlockNodeIndex nodeIndex);
 
         /// <summary>
         /// Moves a block around in a block list.
@@ -554,8 +556,9 @@ namespace EaslyController.Writeable
         /// <summary>
         /// Merges two blocks at the given index.
         /// </summary>
+        /// <param name="operation">Details of the operation performed.</param>
         /// <param name="nodeIndex">Index of the first node in the block to merge.</param>
-        public virtual void MergeBlocks(IWriteableBrowsingExistingBlockNodeIndex nodeIndex)
+        public virtual void MergeBlocks(IWriteableMergeBlocksOperation operation, IWriteableBrowsingExistingBlockNodeIndex nodeIndex)
         {
             Debug.Assert(nodeIndex != null);
             Debug.Assert(nodeIndex.BlockIndex > 0 && nodeIndex.BlockIndex < BlockStateList.Count);
@@ -602,6 +605,8 @@ namespace EaslyController.Writeable
 
                     ChildNodeIndex.MoveBlockDown();
                 }
+
+            operation.Update();
         }
 
         /// <summary>

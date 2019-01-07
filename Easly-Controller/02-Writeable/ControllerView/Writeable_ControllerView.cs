@@ -234,10 +234,10 @@ namespace EaslyController.Writeable
         /// <summary>
         /// Handler called every time two blocks are merged.
         /// </summary>
-        /// <param name="inner">Inner where the blocks are merged.</param>
-        /// <param name="blockIndex">Index of the first merged block.</param>
-        public virtual void OnBlocksMerged(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, int blockIndex)
+        /// <param name="operation">Details of the operation performed.</param>
+        public virtual void OnBlocksMerged(IWriteableMergeBlocksOperation operation)
         {
+            Debug.Assert(operation != null);
         }
 
         /// <summary>

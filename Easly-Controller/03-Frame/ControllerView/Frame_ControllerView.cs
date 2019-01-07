@@ -653,25 +653,28 @@ namespace EaslyController.Frame
         /// <summary>
         /// Handler called every time two blocks are merged.
         /// </summary>
-        /// <param name="inner">Inner where the blocks are merged.</param>
-        /// <param name="blockIndex">Index of the first merged block.</param>
-        public override void OnBlocksMerged(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, int blockIndex)
+        /// <param name="operation">Details of the operation performed.</param>
+        public override void OnBlocksMerged(IWriteableMergeBlocksOperation operation)
         {
-            IFrameNodeState OwnerState = inner.Owner as IFrameNodeState;
+            IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> Inner = ((IFrameMergeBlocksOperation)operation).Inner;
+            Debug.Assert(Inner != null);
+            IFrameNodeState OwnerState = Inner.Owner;
             Debug.Assert(OwnerState != null);
+            int BlockIndex = ((IFrameMergeBlocksOperation)operation).BlockIndex;
+
             IFrameNodeStateView OwnerStateView = StateViewTable[OwnerState];
 
             IFrameCellViewReadOnlyDictionary<string> CellViewTable = OwnerStateView.CellViewTable;
-            string PropertyName = inner.PropertyName;
+            string PropertyName = Inner.PropertyName;
 
             Debug.Assert(CellViewTable != null);
             Debug.Assert(CellViewTable.ContainsKey(PropertyName));
             IFrameCellViewCollection BlockEmbeddingCellView = CellViewTable[PropertyName] as IFrameCellViewCollection;
             Debug.Assert(BlockEmbeddingCellView != null);
 
-            base.OnBlocksMerged(inner, blockIndex);
+            base.OnBlocksMerged(operation);
 
-            IFrameBlockState FirstBlockState = inner.BlockStateList[blockIndex - 1] as IFrameBlockState;
+            IFrameBlockState FirstBlockState = Inner.BlockStateList[BlockIndex - 1] as IFrameBlockState;
             Debug.Assert(FirstBlockState != null);
 
             foreach (IFrameNodeState ChildState in FirstBlockState.StateList)
@@ -689,8 +692,8 @@ namespace EaslyController.Frame
             ClearBlockCellView(OwnerStateView, FirstBlockStateView);
             IFrameCellView RootCellView = BuildBlockCellView(OwnerStateView, BlockEmbeddingCellView, FirstBlockStateView);
 
-            BlockEmbeddingCellView.Replace(blockIndex - 1, RootCellView);
-            BlockEmbeddingCellView.Remove(blockIndex);
+            BlockEmbeddingCellView.Replace(BlockIndex - 1, RootCellView);
+            BlockEmbeddingCellView.Remove(BlockIndex);
 
             UpdateLineNumbers();
         }

@@ -93,7 +93,7 @@ namespace EaslyController.Writeable
         /// <summary>
         /// Called when two blocks are merged.
         /// </summary>
-        event Action<IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex>, int> BlocksMerged;
+        event Action<IWriteableMergeBlocksOperation> BlocksMerged;
 
         /// <summary>
         /// Called when an argument block is expanded.
@@ -399,14 +399,14 @@ namespace EaslyController.Writeable
         /// <summary>
         /// Called when two blocks are merged.
         /// </summary>
-        public event Action<IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex>, int> BlocksMerged
+        public event Action<IWriteableMergeBlocksOperation> BlocksMerged
         {
             add { AddBlocksMergedDelegate(value); }
             remove { RemoveBlocksMergedDelegate(value); }
         }
-        protected Action<IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex>, int> BlocksMergedHandler;
-        protected virtual void AddBlocksMergedDelegate(Action<IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex>, int> handler) { BlocksMergedHandler += handler; }
-        protected virtual void RemoveBlocksMergedDelegate(Action<IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex>, int> handler) { BlocksMergedHandler -= handler; }
+        protected Action<IWriteableMergeBlocksOperation> BlocksMergedHandler;
+        protected virtual void AddBlocksMergedDelegate(Action<IWriteableMergeBlocksOperation> handler) { BlocksMergedHandler += handler; }
+        protected virtual void RemoveBlocksMergedDelegate(Action<IWriteableMergeBlocksOperation> handler) { BlocksMergedHandler -= handler; }
 
         /// <summary>
         /// Called when an argument block is expanded.
@@ -768,6 +768,8 @@ namespace EaslyController.Writeable
             IWriteableBlockState FirstBlockState = inner.BlockStateList[BlockIndex - 1];
             IWriteableBlockState SecondBlockState = inner.BlockStateList[BlockIndex];
 
+            IWriteableMergeBlocksOperation Operation = CreateMergeBlocksOperation(inner, nodeIndex);
+
             IReadOnlyBrowsingSourceIndex SourceIndex = FirstBlockState.SourceIndex;
             RemoveState(SourceIndex);
             Stats.PlaceholderNodeCount--;
@@ -779,7 +781,7 @@ namespace EaslyController.Writeable
             int OldNodeCount = FirstBlockState.StateList.Count + SecondBlockState.StateList.Count;
             int FirstNodeIndex = FirstBlockState.StateList.Count;
 
-            inner.MergeBlocks(nodeIndex);
+            inner.MergeBlocks(Operation, nodeIndex);
             Stats.BlockCount--;
 
             IWriteableBlockState BlockState = inner.BlockStateList[BlockIndex - 1];
@@ -788,7 +790,7 @@ namespace EaslyController.Writeable
             Debug.Assert(FirstNodeIndex < BlockState.StateList.Count);
             Debug.Assert(BlockState.StateList[FirstNodeIndex].ParentIndex == nodeIndex);
 
-            NotifyBlocksMerged(inner, BlockIndex);
+            NotifyBlocksMerged(Operation);
         }
 
         /// <summary>
@@ -1245,9 +1247,9 @@ namespace EaslyController.Writeable
             BlockSplitHandler?.Invoke(operation);
         }
 
-        protected virtual void NotifyBlocksMerged(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, int blockIndex)
+        protected virtual void NotifyBlocksMerged(IWriteableMergeBlocksOperation operation)
         {
-            BlocksMergedHandler?.Invoke(inner, blockIndex);
+            BlocksMergedHandler?.Invoke(operation);
         }
 
         protected virtual void NotifyArgumentExpanded(IWriteableExpandArgumentOperation operation)
@@ -1435,6 +1437,15 @@ namespace EaslyController.Writeable
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableController));
             return new WriteableSplitBlockOperation(inner, nodeIndex);
+        }
+
+        /// <summary>
+        /// Creates a IxxxxMergeBlocksOperation object.
+        /// </summary>
+        protected virtual IWriteableMergeBlocksOperation CreateMergeBlocksOperation(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, IWriteableBrowsingExistingBlockNodeIndex nodeIndex)
+        {
+            ControllerTools.AssertNoOverride(this, typeof(WriteableController));
+            return new WriteableMergeBlocksOperation(inner, nodeIndex);
         }
 
         /// <summary>
