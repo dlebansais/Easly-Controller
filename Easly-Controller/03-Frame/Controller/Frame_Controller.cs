@@ -41,7 +41,7 @@ namespace EaslyController.Frame
         /// <summary>
         /// Called when a block state is inserted.
         /// </summary>
-        new event Action<IFrameBrowsingExistingBlockNodeIndex, IFrameBlockState> BlockStateInserted;
+        new event Action<IFrameInsertBlockOperation> BlockStateInserted;
 
         /// <summary>
         /// Called when a block state is removed.
@@ -51,7 +51,7 @@ namespace EaslyController.Frame
         /// <summary>
         /// Called when a state is inserted.
         /// </summary>
-        new event Action<IFrameBrowsingCollectionNodeIndex, IFrameNodeState, bool> StateInserted;
+        new event Action<IFrameInsertNodeOperation> StateInserted;
 
         /// <summary>
         /// Called when a state is removed.
@@ -166,10 +166,10 @@ namespace EaslyController.Frame
         /// <summary>
         /// Called when a block state is inserted.
         /// </summary>
-        public new event Action<IFrameBrowsingExistingBlockNodeIndex, IFrameBlockState> BlockStateInserted
+        public new event Action<IFrameInsertBlockOperation> BlockStateInserted
         {
-            add { AddBlockStateInsertedDelegate((Action<IWriteableBrowsingExistingBlockNodeIndex, IWriteableBlockState>)value); }
-            remove { RemoveBlockStateInsertedDelegate((Action<IWriteableBrowsingExistingBlockNodeIndex, IWriteableBlockState>)value); }
+            add { AddBlockStateInsertedDelegate((Action<IWriteableInsertBlockOperation>)value); }
+            remove { RemoveBlockStateInsertedDelegate((Action<IWriteableInsertBlockOperation>)value); }
         }
 
         /// <summary>
@@ -184,10 +184,10 @@ namespace EaslyController.Frame
         /// <summary>
         /// Called when a state is inserted.
         /// </summary>
-        public new event Action<IFrameBrowsingCollectionNodeIndex, IFrameNodeState, bool> StateInserted
+        public new event Action<IFrameInsertNodeOperation> StateInserted
         {
-            add { AddStateInsertedDelegate((Action<IWriteableBrowsingCollectionNodeIndex, IWriteableNodeState, bool>)value); }
-            remove { RemoveStateInsertedDelegate((Action<IWriteableBrowsingCollectionNodeIndex, IWriteableNodeState, bool>)value); }
+            add { AddStateInsertedDelegate((Action<IWriteableInsertNodeOperation>)value); }
+            remove { RemoveStateInsertedDelegate((Action<IWriteableInsertNodeOperation>)value); }
         }
 
         /// <summary>
@@ -384,6 +384,51 @@ namespace EaslyController.Frame
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameController));
             return new FrameInsertionOptionalNodeIndex(parentNode, propertyName, node);
+        }
+
+        /// <summary>
+        /// Creates a IxxxInsertNodeOperation object.
+        /// </summary>
+        protected override IWriteableInsertNodeOperation CreateInsertNodeOperation(IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> inner, IWriteableInsertionCollectionNodeIndex insertionIndex)
+        {
+            ControllerTools.AssertNoOverride(this, typeof(FrameController));
+            return new FrameInsertNodeOperation((IFrameCollectionInner<IFrameBrowsingCollectionNodeIndex>)inner, (IFrameInsertionCollectionNodeIndex)insertionIndex);
+        }
+
+        /// <summary>
+        /// Creates a IxxxInsertBlockOperation object.
+        /// </summary>
+        protected override IWriteableInsertBlockOperation CreateInsertBlockOperation(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, int blockIndex)
+        {
+            ControllerTools.AssertNoOverride(this, typeof(FrameController));
+            return new FrameInsertBlockOperation((IFrameBlockListInner<IFrameBrowsingBlockNodeIndex>)inner, blockIndex);
+        }
+
+        /// <summary>
+        /// Creates a IxxxRemoveBlockOperation object.
+        /// </summary>
+        protected override IWriteableRemoveBlockOperation CreateRemoveBlockOperation(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, IWriteableBrowsingExistingBlockNodeIndex blockIndex)
+        {
+            ControllerTools.AssertNoOverride(this, typeof(FrameController));
+            return new FrameRemoveBlockOperation((IFrameBlockListInner<IFrameBrowsingBlockNodeIndex>)inner, (IFrameBrowsingExistingBlockNodeIndex)blockIndex);
+        }
+
+        /// <summary>
+        /// Creates a IxxxRemoveNodeOperation object.
+        /// </summary>
+        protected override IWriteableRemoveNodeOperation CreateRemoveNodeOperation(IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> inner, IWriteableBrowsingCollectionNodeIndex nodeIndex)
+        {
+            ControllerTools.AssertNoOverride(this, typeof(FrameController));
+            return new FrameRemoveNodeOperation((IFrameCollectionInner<IFrameBrowsingCollectionNodeIndex>)inner, (IFrameBrowsingCollectionNodeIndex)nodeIndex);
+        }
+
+        /// <summary>
+        /// Creates a IxxxExpandArgumentOperation object.
+        /// </summary>
+        protected override IWriteableExpandArgumentOperation CreateExpandArgumentOperation(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, int blockIndex)
+        {
+            ControllerTools.AssertNoOverride(this, typeof(FrameController));
+            return new FrameExpandArgumentOperation((IFrameBlockListInner<IFrameBrowsingBlockNodeIndex>)inner, blockIndex);
         }
         #endregion
     }

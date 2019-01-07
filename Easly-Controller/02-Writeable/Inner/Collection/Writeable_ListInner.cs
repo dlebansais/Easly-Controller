@@ -69,20 +69,19 @@ namespace EaslyController.Writeable
         /// <summary>
         /// Inserts a new node in a list or block list.
         /// </summary>
+        /// <param name="operation">Details of the operation performed.</param>
         /// <param name="nodeIndex">Index of the node to insert.</param>
-        /// <param name="browsingIndex">Index of the inserted node upon return.</param>
-        /// <param name="childState">The inserted node state upon return.</param>
-        public virtual void Insert(IWriteableInsertionCollectionNodeIndex nodeIndex, out IWriteableBrowsingCollectionNodeIndex browsingIndex, out IWriteablePlaceholderNodeState childState)
+        public virtual void Insert(IWriteableInsertNodeOperation operation, IWriteableInsertionCollectionNodeIndex nodeIndex)
         {
             Debug.Assert(nodeIndex != null);
 
             if (nodeIndex is IWriteableInsertionListNodeIndex AsListIndex)
-                Insert(AsListIndex, out browsingIndex, out childState);
+                Insert(operation, AsListIndex);
             else
                 throw new ArgumentOutOfRangeException(nameof(nodeIndex));
         }
 
-        protected virtual void Insert(IWriteableInsertionListNodeIndex listIndex, out IWriteableBrowsingCollectionNodeIndex browsingIndex, out IWriteablePlaceholderNodeState childState)
+        protected virtual void Insert(IWriteableInsertNodeOperation operation, IWriteableInsertionListNodeIndex listIndex)
         {
             Debug.Assert(listIndex != null);
             Debug.Assert(listIndex.Index >= 0 && listIndex.Index <= StateList.Count);
@@ -92,10 +91,9 @@ namespace EaslyController.Writeable
             NodeTreeHelperList.InsertIntoList(ParentNode, PropertyName, InsertionIndex, listIndex.Node);
 
             IWriteableBrowsingListNodeIndex BrowsingListIndex = (IWriteableBrowsingListNodeIndex)listIndex.ToBrowsingIndex();
-            browsingIndex = BrowsingListIndex;
 
-            childState = (IWriteablePlaceholderNodeState)CreateNodeState(BrowsingListIndex);
-            InsertInStateList(InsertionIndex, childState);
+            IWriteablePlaceholderNodeState ChildState = (IWriteablePlaceholderNodeState)CreateNodeState(BrowsingListIndex);
+            InsertInStateList(InsertionIndex, ChildState);
 
             while (++InsertionIndex < StateList.Count)
             {
@@ -107,23 +105,26 @@ namespace EaslyController.Writeable
 
                 NodeIndex.MoveUp();
             }
+
+            operation.Update(BrowsingListIndex, ChildState);
         }
 
         /// <summary>
-        /// Removes a node from a list.
+        /// Removes a node from a list or block list.
         /// </summary>
+        /// <param name="nodeOperation">Details of the operation performed.</param>
         /// <param name="nodeIndex">Index of the node to remove.</param>
-        public virtual void Remove(IWriteableBrowsingCollectionNodeIndex nodeIndex)
+        public virtual void Remove(IWriteableRemoveNodeOperation nodeOperation, IWriteableBrowsingCollectionNodeIndex nodeIndex)
         {
             Debug.Assert(nodeIndex != null);
 
             if (nodeIndex is IWriteableBrowsingListNodeIndex AsListIndex)
-                Remove(AsListIndex);
+                Remove(nodeOperation, AsListIndex);
             else
                 throw new ArgumentOutOfRangeException(nameof(nodeIndex));
         }
 
-        protected virtual void Remove(IWriteableBrowsingListNodeIndex listIndex)
+        protected virtual void Remove(IWriteableRemoveNodeOperation nodeOperation, IWriteableBrowsingListNodeIndex listIndex)
         {
             Debug.Assert(listIndex != null);
             Debug.Assert(listIndex.Index >= 0 && listIndex.Index < StateList.Count);
@@ -131,7 +132,7 @@ namespace EaslyController.Writeable
             int RemoveIndex = listIndex.Index;
             INode ParentNode = Owner.Node;
 
-            IWriteableNodeState OldChildState = StateList[RemoveIndex];
+            IWriteablePlaceholderNodeState OldChildState = StateList[RemoveIndex];
             RemoveFromStateList(RemoveIndex);
 
             NodeTreeHelperList.RemoveFromList(ParentNode, PropertyName, RemoveIndex);
@@ -148,6 +149,8 @@ namespace EaslyController.Writeable
 
                 RemoveIndex++;
             }
+
+            nodeOperation.Update(OldChildState);
         }
 
         /// <summary>

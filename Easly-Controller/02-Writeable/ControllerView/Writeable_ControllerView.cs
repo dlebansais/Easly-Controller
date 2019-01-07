@@ -68,6 +68,7 @@ namespace EaslyController.Writeable
             Controller.BlockStateMoved += OnBlockStateMoved;
             Controller.BlockSplit += OnBlockSplit;
             Controller.BlocksMerged+= OnBlocksMerged;
+            Controller.ArgumentExpanded += OnArgumentExpanded;
         }
         #endregion
 
@@ -92,17 +93,20 @@ namespace EaslyController.Writeable
         /// <summary>
         /// Handler called every time a block state is inserted in the controller.
         /// </summary>
-        /// <param name="nodeIndex">Index of the inserted block state.</param>
-        /// <param name="blockState">The block state inserted.</param>
-        public virtual void OnBlockStateInserted(IWriteableBrowsingExistingBlockNodeIndex nodeIndex, IWriteableBlockState blockState)
+        /// <param name="operation">Details of the operation performed.</param>
+        public virtual void OnBlockStateInserted(IWriteableInsertBlockOperation operation)
         {
-            Debug.Assert(blockState != null);
-            Debug.Assert(BlockStateViewTable.ContainsKey(blockState));
+            Debug.Assert(operation != null);
 
-            Debug.Assert(StateViewTable.ContainsKey(blockState.PatternState));
-            Debug.Assert(StateViewTable.ContainsKey(blockState.SourceState));
+            IWriteableBlockState BlockState = operation.BlockState;
 
-            foreach (IWriteableNodeState State in blockState.StateList)
+            Debug.Assert(BlockState != null);
+            Debug.Assert(BlockStateViewTable.ContainsKey(BlockState));
+
+            Debug.Assert(StateViewTable.ContainsKey(BlockState.PatternState));
+            Debug.Assert(StateViewTable.ContainsKey(BlockState.SourceState));
+
+            foreach (IWriteableNodeState State in BlockState.StateList)
                 Debug.Assert(StateViewTable.ContainsKey(State));
         }
 
@@ -126,13 +130,14 @@ namespace EaslyController.Writeable
         /// <summary>
         /// Handler called every time a state is inserted in the controller.
         /// </summary>
-        /// <param name="nodeIndex">Index of the inserted state.</param>
-        /// <param name="state">The state inserted.</param>
-        /// <param name="isBlockInserted">True if the state is inserted in a new block.</param>
-        public virtual void OnStateInserted(IWriteableBrowsingCollectionNodeIndex nodeIndex, IWriteableNodeState state, bool isBlockInserted)
+        /// <param name="operation">Details of the operation performed.</param>
+        public virtual void OnStateInserted(IWriteableInsertNodeOperation operation)
         {
-            Debug.Assert(state != null);
-            Debug.Assert(StateViewTable.ContainsKey(state));
+            Debug.Assert(operation != null);
+
+            IWriteableNodeState ChildState = operation.ChildState;
+            Debug.Assert(ChildState != null);
+            Debug.Assert(StateViewTable.ContainsKey(ChildState));
         }
 
         /// <summary>
@@ -218,6 +223,26 @@ namespace EaslyController.Writeable
         /// <param name="blockIndex">Index of the first merged block.</param>
         public virtual void OnBlocksMerged(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, int blockIndex)
         {
+        }
+
+        /// <summary>
+        /// Handler called every time an argument block is expanded.
+        /// </summary>
+        /// <param name="operation">Details of the operation performed.</param>
+        public virtual void OnArgumentExpanded(IWriteableExpandArgumentOperation operation)
+        {
+            Debug.Assert(operation != null);
+
+            IWriteableBlockState BlockState = operation.BlockState;
+
+            Debug.Assert(BlockState != null);
+            Debug.Assert(BlockStateViewTable.ContainsKey(BlockState));
+
+            Debug.Assert(StateViewTable.ContainsKey(BlockState.PatternState));
+            Debug.Assert(StateViewTable.ContainsKey(BlockState.SourceState));
+
+            Debug.Assert(BlockState.StateList.Count == 1);
+            Debug.Assert(StateViewTable.ContainsKey(BlockState.StateList[0]));
         }
         #endregion
 

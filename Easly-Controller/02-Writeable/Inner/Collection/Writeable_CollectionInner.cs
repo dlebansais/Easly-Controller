@@ -15,16 +15,16 @@ namespace EaslyController.Writeable
         /// <summary>
         /// Inserts a new node in a list or block list.
         /// </summary>
+        /// <param name="operation">Details of the operation performed.</param>
         /// <param name="nodeIndex">Index of the node to insert.</param>
-        /// <param name="browsingIndex">Index of the inserted node upon return.</param>
-        /// <param name="childState">The inserted node state upon return.</param>
-        void Insert(IWriteableInsertionCollectionNodeIndex nodeIndex, out IWriteableBrowsingCollectionNodeIndex browsingIndex, out IWriteablePlaceholderNodeState childState);
+        void Insert(IWriteableInsertNodeOperation operation, IWriteableInsertionCollectionNodeIndex nodeIndex);
 
         /// <summary>
         /// Removes a node from a list or block list.
         /// </summary>
+        /// <param name="nodeOperation">Details of the operation performed.</param>
         /// <param name="nodeIndex">Index of the node to remove.</param>
-        void Remove(IWriteableBrowsingCollectionNodeIndex nodeIndex);
+        void Remove(IWriteableRemoveNodeOperation nodeOperation, IWriteableBrowsingCollectionNodeIndex nodeIndex);
 
         /// <summary>
         /// Moves a node around in a list or block list. In a block list, the node stays in same block.
@@ -48,16 +48,16 @@ namespace EaslyController.Writeable
         /// <summary>
         /// Inserts a new node in a list or block list.
         /// </summary>
+        /// <param name="operation">Details of the operation performed.</param>
         /// <param name="nodeIndex">Index of the node to insert.</param>
-        /// <param name="browsingIndex">Index of the inserted node upon return.</param>
-        /// <param name="childState">The inserted node state upon return.</param>
-        void Insert(IWriteableInsertionCollectionNodeIndex nodeIndex, out IWriteableBrowsingCollectionNodeIndex browsingIndex, out IWriteablePlaceholderNodeState childState);
+        void Insert(IWriteableInsertNodeOperation operation, IWriteableInsertionCollectionNodeIndex nodeIndex);
 
         /// <summary>
         /// Removes a node from a list or block list.
         /// </summary>
+        /// <param name="nodeOperation">Details of the operation performed.</param>
         /// <param name="nodeIndex">Index of the node to remove.</param>
-        void Remove(IWriteableBrowsingCollectionNodeIndex nodeIndex);
+        void Remove(IWriteableRemoveNodeOperation nodeOperation, IWriteableBrowsingCollectionNodeIndex nodeIndex);
 
         /// <summary>
         /// Moves a node around in a list or block list. In a block list, the node stays in same block.
@@ -102,16 +102,16 @@ namespace EaslyController.Writeable
         /// <summary>
         /// Inserts a new node in a list or block list.
         /// </summary>
+        /// <param name="operation">Details of the operation performed.</param>
         /// <param name="nodeIndex">Index of the node to insert.</param>
-        /// <param name="browsingIndex">Index of the inserted node upon return.</param>
-        /// <param name="childState">The inserted node state upon return.</param>
-        public abstract void Insert(IWriteableInsertionCollectionNodeIndex nodeIndex, out IWriteableBrowsingCollectionNodeIndex browsingIndex, out IWriteablePlaceholderNodeState childState);
+        public abstract void Insert(IWriteableInsertNodeOperation operation, IWriteableInsertionCollectionNodeIndex nodeIndex);
 
         /// <summary>
         /// Removes a node from a list or block list.
         /// </summary>
+        /// <param name="nodeOperation">Details of the operation performed.</param>
         /// <param name="nodeIndex">Index of the node to remove.</param>
-        public abstract void Remove(IWriteableBrowsingCollectionNodeIndex nodeIndex);
+        public abstract void Remove(IWriteableRemoveNodeOperation nodeOperation, IWriteableBrowsingCollectionNodeIndex nodeIndex);
 
         /// <summary>
         /// Replaces a node.
