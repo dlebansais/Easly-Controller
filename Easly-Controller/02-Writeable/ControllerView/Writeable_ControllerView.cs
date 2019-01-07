@@ -198,13 +198,14 @@ namespace EaslyController.Writeable
         /// <summary>
         /// Handler called every time a state is moved in the controller.
         /// </summary>
-        /// <param name="nodeIndex">Index of the moved state.</param>
-        /// <param name="state">The moved state.</param>
-        /// <param name="direction">The change in position, relative to the current position.</param>
-        public virtual void OnStateMoved(IWriteableBrowsingChildIndex nodeIndex, IWriteableNodeState state, int direction)
+        /// <param name="operation">Details of the operation performed.</param>
+        public virtual void OnStateMoved(IWriteableMoveNodeOperation operation)
         {
-            Debug.Assert(state != null);
-            Debug.Assert(StateViewTable.ContainsKey(state));
+            Debug.Assert(operation != null);
+
+            IWriteablePlaceholderNodeState State = operation.State;
+            Debug.Assert(State != null);
+            Debug.Assert(StateViewTable.ContainsKey(State));
         }
 
         /// <summary>

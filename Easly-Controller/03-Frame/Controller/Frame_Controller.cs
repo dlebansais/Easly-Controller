@@ -76,7 +76,7 @@ namespace EaslyController.Frame
         /// <summary>
         /// Called when a state is moved.
         /// </summary>
-        new event Action<IFrameBrowsingChildIndex, IFrameNodeState, int> StateMoved;
+        new event Action<IFrameMoveNodeOperation> StateMoved;
 
         /// <summary>
         /// Called when a block state is removed.
@@ -229,10 +229,10 @@ namespace EaslyController.Frame
         /// <summary>
         /// Called when a state is moved.
         /// </summary>
-        public new event Action<IFrameBrowsingChildIndex, IFrameNodeState, int> StateMoved
+        public new event Action<IFrameMoveNodeOperation> StateMoved
         {
-            add { AddStateMovedDelegate((Action<IWriteableBrowsingChildIndex, IWriteableNodeState, int>)value); }
-            remove { RemoveStateMovedDelegate((Action<IWriteableBrowsingChildIndex, IWriteableNodeState, int>)value); }
+            add { AddStateMovedDelegate((Action<IWriteableMoveNodeOperation>)value); }
+            remove { RemoveStateMovedDelegate((Action<IWriteableMoveNodeOperation>)value); }
         }
 
         /// <summary>
@@ -447,6 +447,24 @@ namespace EaslyController.Frame
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameController));
             return new FrameSplitBlockOperation((IFrameBlockListInner<IFrameBrowsingBlockNodeIndex>)inner, (IFrameBrowsingExistingBlockNodeIndex)nodeIndex);
+        }
+
+        /// <summary>
+        /// Creates a IxxxxMergeBlocksOperation object.
+        /// </summary>
+        protected override IWriteableMergeBlocksOperation CreateMergeBlocksOperation(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, IWriteableBrowsingExistingBlockNodeIndex nodeIndex)
+        {
+            ControllerTools.AssertNoOverride(this, typeof(FrameController));
+            return new FrameMergeBlocksOperation((IFrameBlockListInner<IFrameBrowsingBlockNodeIndex>)inner, (IFrameBrowsingExistingBlockNodeIndex)nodeIndex);
+        }
+
+        /// <summary>
+        /// Creates a IxxxxMoveNodeOperation object.
+        /// </summary>
+        protected override IWriteableMoveNodeOperation CreateMoveNodeOperation(IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> inner, IWriteableBrowsingCollectionNodeIndex nodeIndex, int direction)
+        {
+            ControllerTools.AssertNoOverride(this, typeof(FrameController));
+            return new FrameMoveNodeOperation((IFrameCollectionInner<IFrameBrowsingCollectionNodeIndex>)inner, (IFrameBrowsingCollectionNodeIndex)nodeIndex, direction);
         }
 
         /// <summary>

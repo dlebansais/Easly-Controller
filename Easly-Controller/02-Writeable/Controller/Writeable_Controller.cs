@@ -78,7 +78,7 @@ namespace EaslyController.Writeable
         /// <summary>
         /// Called when a state is moved.
         /// </summary>
-        event Action<IWriteableBrowsingChildIndex, IWriteableNodeState, int> StateMoved;
+        event Action<IWriteableMoveNodeOperation> StateMoved;
 
         /// <summary>
         /// Called when a block state is moved.
@@ -363,14 +363,14 @@ namespace EaslyController.Writeable
         /// <summary>
         /// Called when a state is moved.
         /// </summary>
-        public event Action<IWriteableBrowsingChildIndex, IWriteableNodeState, int> StateMoved
+        public event Action<IWriteableMoveNodeOperation> StateMoved
         {
             add { AddStateMovedDelegate(value); }
             remove { RemoveStateMovedDelegate(value); }
         }
-        protected Action<IWriteableBrowsingChildIndex, IWriteableNodeState, int> StateMovedHandler;
-        protected virtual void AddStateMovedDelegate(Action<IWriteableBrowsingChildIndex, IWriteableNodeState, int> handler) { StateMovedHandler += handler; }
-        protected virtual void RemoveStateMovedDelegate(Action<IWriteableBrowsingChildIndex, IWriteableNodeState, int> handler) { StateMovedHandler -= handler; }
+        protected Action<IWriteableMoveNodeOperation> StateMovedHandler;
+        protected virtual void AddStateMovedDelegate(Action<IWriteableMoveNodeOperation> handler) { StateMovedHandler += handler; }
+        protected virtual void RemoveStateMovedDelegate(Action<IWriteableMoveNodeOperation> handler) { StateMovedHandler -= handler; }
 
         /// <summary>
         /// Called when a block state is moved.
@@ -807,9 +807,11 @@ namespace EaslyController.Writeable
             IWriteableNodeState State = StateTable[nodeIndex];
             Debug.Assert(State != null);
 
-            NotifyStateMoved(nodeIndex, State, direction);
+            IWriteableMoveNodeOperation Operation = CreateMoveNodeOperation(inner, nodeIndex, direction);
 
-            inner.Move(nodeIndex, direction);
+            inner.Move(Operation, nodeIndex);
+
+            NotifyStateMoved(Operation);
         }
 
         /// <summary>
@@ -1232,9 +1234,9 @@ namespace EaslyController.Writeable
             StateUnassignedHandler?.Invoke(operation);
         }
 
-        protected virtual void NotifyStateMoved(IWriteableBrowsingChildIndex nodeIndex, IWriteableNodeState state, int direction)
+        protected virtual void NotifyStateMoved(IWriteableMoveNodeOperation operation)
         {
-            StateMovedHandler?.Invoke(nodeIndex, state, direction);
+            StateMovedHandler?.Invoke(operation);
         }
 
         protected virtual void NotifyBlockStateMoved(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, int blockIndex, int direction)
@@ -1446,6 +1448,15 @@ namespace EaslyController.Writeable
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableController));
             return new WriteableMergeBlocksOperation(inner, nodeIndex);
+        }
+
+        /// <summary>
+        /// Creates a IxxxxMoveNodeOperation object.
+        /// </summary>
+        protected virtual IWriteableMoveNodeOperation CreateMoveNodeOperation(IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> inner, IWriteableBrowsingCollectionNodeIndex nodeIndex, int direction)
+        {
+            ControllerTools.AssertNoOverride(this, typeof(WriteableController));
+            return new WriteableMoveNodeOperation(inner, nodeIndex, direction);
         }
 
         /// <summary>

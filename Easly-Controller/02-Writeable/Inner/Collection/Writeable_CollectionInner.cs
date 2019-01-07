@@ -29,9 +29,9 @@ namespace EaslyController.Writeable
         /// <summary>
         /// Moves a node around in a list or block list. In a block list, the node stays in same block.
         /// </summary>
+        /// <param name="nodeOperation">Details of the operation performed.</param>
         /// <param name="nodeIndex">Index for the moved node.</param>
-        /// <param name="direction">The change in position, relative to the current position.</param>
-        void Move(IWriteableBrowsingCollectionNodeIndex nodeIndex, int direction);
+        void Move(IWriteableMoveNodeOperation operation, IWriteableBrowsingCollectionNodeIndex nodeIndex);
     }
 
     /// <summary>
@@ -62,9 +62,9 @@ namespace EaslyController.Writeable
         /// <summary>
         /// Moves a node around in a list or block list. In a block list, the node stays in same block.
         /// </summary>
+        /// <param name="nodeOperation">Details of the operation performed.</param>
         /// <param name="nodeIndex">Index for the moved node.</param>
-        /// <param name="direction">The change in position, relative to the current position.</param>
-        void Move(IWriteableBrowsingCollectionNodeIndex nodeIndex, int direction);
+        void Move(IWriteableMoveNodeOperation operation, IWriteableBrowsingCollectionNodeIndex nodeIndex);
     }
 
     /// <summary>
@@ -126,9 +126,9 @@ namespace EaslyController.Writeable
         /// <summary>
         /// Moves a node around in a list or block list. In a block list, the node stays in same block.
         /// </summary>
+        /// <param name="nodeOperation">Details of the operation performed.</param>
         /// <param name="nodeIndex">Index for the moved node.</param>
-        /// <param name="direction">The change in position, relative to the current position.</param>
-        public abstract void Move(IWriteableBrowsingCollectionNodeIndex nodeIndex, int direction);
+        public abstract void Move(IWriteableMoveNodeOperation operation, IWriteableBrowsingCollectionNodeIndex nodeIndex);
         #endregion
     }
 }

@@ -612,38 +612,39 @@ namespace EaslyController.Writeable
         /// <summary>
         /// Moves a node around in a list or block list. In a block list, the node stays in same block.
         /// </summary>
+        /// <param name="nodeOperation">Details of the operation performed.</param>
         /// <param name="nodeIndex">Index for the moved node.</param>
-        /// <param name="direction">The change in position, relative to the current position.</param>
-        public virtual void Move(IWriteableBrowsingCollectionNodeIndex nodeIndex, int direction)
+        public virtual void Move(IWriteableMoveNodeOperation operation, IWriteableBrowsingCollectionNodeIndex nodeIndex)
         {
             Debug.Assert(nodeIndex != null);
 
             if (nodeIndex is IWriteableBrowsingExistingBlockNodeIndex AsExistingBlockNodeIndex)
-                Move(AsExistingBlockNodeIndex, direction);
+                Move(operation, AsExistingBlockNodeIndex);
             else
                 throw new ArgumentOutOfRangeException(nameof(nodeIndex));
         }
 
-        protected virtual void Move(IWriteableBrowsingExistingBlockNodeIndex existingBlockIndex, int direction)
+        protected virtual void Move(IWriteableMoveNodeOperation operation, IWriteableBrowsingExistingBlockNodeIndex existingBlockIndex)
         {
             Debug.Assert(existingBlockIndex != null);
             Debug.Assert(existingBlockIndex.BlockIndex >= 0 && existingBlockIndex.BlockIndex < BlockStateList.Count);
 
-            int MoveIndex = existingBlockIndex.Index;
+            int MoveIndex = operation.Index;
+            int Direction = operation.Direction;
             IWriteableBlockState BlockState = BlockStateList[existingBlockIndex.BlockIndex];
             IWriteablePlaceholderNodeStateReadOnlyList StateList = BlockState.StateList;
 
             Debug.Assert(MoveIndex >= 0 && MoveIndex < StateList.Count);
-            Debug.Assert(MoveIndex + direction >= 0 && MoveIndex + direction < StateList.Count);
+            Debug.Assert(MoveIndex + Direction >= 0 && MoveIndex + Direction < StateList.Count);
 
-            BlockState.Move(existingBlockIndex, existingBlockIndex.Index, direction);
+            BlockState.Move(existingBlockIndex, existingBlockIndex.Index, Direction);
 
             IBlock ChildBlock = BlockState.ChildBlock;
-            NodeTreeHelperBlockList.MoveNode(ChildBlock, existingBlockIndex.Index, direction);
+            NodeTreeHelperBlockList.MoveNode(ChildBlock, existingBlockIndex.Index, Direction);
 
-            if (direction > 0)
+            if (Direction > 0)
             {
-                for (int i = MoveIndex; i < MoveIndex + direction; i++)
+                for (int i = MoveIndex; i < MoveIndex + Direction; i++)
                 {
                     IWriteableBrowsingExistingBlockNodeIndex ChildNodeIndex = StateList[i].ParentIndex as IWriteableBrowsingExistingBlockNodeIndex;
                     Debug.Assert(ChildNodeIndex != null);
@@ -653,9 +654,9 @@ namespace EaslyController.Writeable
                 }
             }
 
-            else if (direction < 0)
+            else if (Direction < 0)
             {
-                for (int i = MoveIndex; i > MoveIndex + direction; i--)
+                for (int i = MoveIndex; i > MoveIndex + Direction; i--)
                 {
                     IWriteableBrowsingExistingBlockNodeIndex ChildNodeIndex = StateList[i].ParentIndex as IWriteableBrowsingExistingBlockNodeIndex;
                     Debug.Assert(ChildNodeIndex != null);
@@ -664,6 +665,8 @@ namespace EaslyController.Writeable
                     existingBlockIndex.MoveDown();
                 }
             }
+
+            operation.Update(StateList[MoveIndex + Direction]);
         }
 
         /// <summary>

@@ -508,32 +508,31 @@ namespace EaslyController.Frame
         /// <summary>
         /// Handler called every time a state is moved in the controller.
         /// </summary>
-        /// <param name="nodeIndex">Index of the moved state.</param>
-        /// <param name="state">The moved state.</param>
-        /// <param name="direction">The change in position, relative to the current position.</param>
-        public override void OnStateMoved(IWriteableBrowsingChildIndex nodeIndex, IWriteableNodeState state, int direction)
+        /// <param name="operation">Details of the operation performed.</param>
+        public override void OnStateMoved(IWriteableMoveNodeOperation operation)
         {
-            base.OnStateMoved(nodeIndex, state, direction);
+            base.OnStateMoved(operation);
 
-            IFrameNodeState MovedState = state as IFrameNodeState;
+            IFrameCollectionInner<IFrameBrowsingCollectionNodeIndex> Inner = ((IFrameMoveNodeOperation)operation).Inner;
+            IFrameBrowsingCollectionNodeIndex NodeIndex = ((IFrameMoveNodeOperation)operation).NodeIndex;
+            int MoveIndex = ((IFrameMoveNodeOperation)operation).Index;
+            int Direction = ((IFrameMoveNodeOperation)operation).Direction;
+            IFramePlaceholderNodeState MovedState = ((IFrameMoveNodeOperation)operation).State;
             Debug.Assert(MovedState != null);
 
-            IFrameInner<IFrameBrowsingChildIndex> ParentInner = MovedState.ParentInner;
-            Debug.Assert(ParentInner != null);
+            if ((Inner is IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> AsBlockListInner) && (NodeIndex is IFrameBrowsingExistingBlockNodeIndex AsBlockListIndex))
+                OnBlockListStateMoved(AsBlockListInner, AsBlockListIndex, MoveIndex, Direction);
 
-            if ((ParentInner is IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> AsBlockListInner) && (nodeIndex is IFrameBrowsingExistingBlockNodeIndex AsBlockListIndex))
-                OnBlockListStateMoved(AsBlockListInner, AsBlockListIndex, direction);
-
-            else if ((ParentInner is IFrameListInner<IFrameBrowsingListNodeIndex> AsListInner) && (nodeIndex is IFrameBrowsingListNodeIndex AsListIndex))
-                OnListStateMoved(AsListInner, AsListIndex, direction);
+            else if ((Inner is IFrameListInner<IFrameBrowsingListNodeIndex> AsListInner) && (NodeIndex is IFrameBrowsingListNodeIndex AsListIndex))
+                OnListStateMoved(AsListInner, AsListIndex, MoveIndex, Direction);
 
             else
-                throw new ArgumentOutOfRangeException(nameof(state));
+                throw new ArgumentOutOfRangeException(nameof(operation));
 
             UpdateLineNumbers();
         }
 
-        protected virtual void OnBlockListStateMoved(IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> inner, IFrameBrowsingExistingBlockNodeIndex nodeIndex, int direction)
+        protected virtual void OnBlockListStateMoved(IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> inner, IFrameBrowsingExistingBlockNodeIndex nodeIndex, int index, int direction)
         {
             Debug.Assert(inner != null);
             Debug.Assert(nodeIndex != null);
@@ -547,11 +546,10 @@ namespace EaslyController.Frame
             IFrameCellViewCollection EmbeddingCellView = BlockStateView.EmbeddingCellView;
             Debug.Assert(EmbeddingCellView != null);
 
-            int Index = nodeIndex.Index;
-            EmbeddingCellView.Move(Index, direction);
+            EmbeddingCellView.Move(index, direction);
         }
 
-        protected virtual void OnListStateMoved(IFrameListInner<IFrameBrowsingListNodeIndex> inner, IFrameBrowsingListNodeIndex nodeIndex, int direction)
+        protected virtual void OnListStateMoved(IFrameListInner<IFrameBrowsingListNodeIndex> inner, IFrameBrowsingListNodeIndex nodeIndex, int index, int direction)
         {
             Debug.Assert(inner != null);
             Debug.Assert(nodeIndex != null);
@@ -567,8 +565,7 @@ namespace EaslyController.Frame
             IFrameCellViewCollection EmbeddingCellView = CellViewTable[PropertyName] as IFrameCellViewCollection;
             Debug.Assert(EmbeddingCellView != null);
 
-            int Index = nodeIndex.Index;
-            EmbeddingCellView.Move(Index, direction);
+            EmbeddingCellView.Move(index, direction);
         }
 
         /// <summary>
