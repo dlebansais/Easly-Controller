@@ -211,11 +211,14 @@ namespace EaslyController.Writeable
         /// <summary>
         /// Handler called every time a block state is moved in the controller.
         /// </summary>
-        /// <param name="inner">Inner where the block is split.</param>
-        /// <param name="blockIndex">Index of the split block.</param>
-        /// <param name="direction">The change in position, relative to the current block position.</param>
-        public virtual void OnBlockStateMoved(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, int blockIndex, int direction)
+        /// <param name="operation">Details of the operation performed.</param>
+        public virtual void OnBlockStateMoved(IWriteableMoveBlockOperation operation)
         {
+            Debug.Assert(operation != null);
+
+            IWriteableBlockState BlockState = operation.BlockState;
+            Debug.Assert(BlockState != null);
+            Debug.Assert(BlockStateViewTable.ContainsKey(BlockState));
         }
 
         /// <summary>

@@ -83,7 +83,7 @@ namespace EaslyController.Writeable
         /// <summary>
         /// Called when a block state is moved.
         /// </summary>
-        event Action<IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex>, int, int> BlockStateMoved;
+        event Action<IWriteableMoveBlockOperation> BlockStateMoved;
 
         /// <summary>
         /// Called when a block is split.
@@ -375,14 +375,14 @@ namespace EaslyController.Writeable
         /// <summary>
         /// Called when a block state is moved.
         /// </summary>
-        public event Action<IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex>, int, int> BlockStateMoved
+        public event Action<IWriteableMoveBlockOperation> BlockStateMoved
         {
             add { AddBlockStateMovedDelegate(value); }
             remove { RemoveBlockStateMovedDelegate(value); }
         }
-        protected Action<IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex>, int, int> BlockStateMovedHandler;
-        protected virtual void AddBlockStateMovedDelegate(Action<IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex>, int, int> handler) { BlockStateMovedHandler += handler; }
-        protected virtual void RemoveBlockStateMovedDelegate(Action<IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex>, int, int> handler) { BlockStateMovedHandler -= handler; }
+        protected Action<IWriteableMoveBlockOperation> BlockStateMovedHandler;
+        protected virtual void AddBlockStateMovedDelegate(Action<IWriteableMoveBlockOperation> handler) { BlockStateMovedHandler += handler; }
+        protected virtual void RemoveBlockStateMovedDelegate(Action<IWriteableMoveBlockOperation> handler) { BlockStateMovedHandler -= handler; }
 
         /// <summary>
         /// Called when a block is split.
@@ -834,9 +834,11 @@ namespace EaslyController.Writeable
             IWriteableBrowsingExistingBlockNodeIndex NodeIndex = State.ParentIndex as IWriteableBrowsingExistingBlockNodeIndex;
             Debug.Assert(NodeIndex != null);
 
-            inner.MoveBlock(blockIndex, direction);
+            IWriteableMoveBlockOperation Operation = CreateMoveBlockOperation(inner, blockIndex, direction);
+            
+            inner.MoveBlock(Operation);
 
-            NotifyBlockStateMoved(inner, blockIndex, direction);
+            NotifyBlockStateMoved(Operation);
         }
 
         /// <summary>
@@ -1239,9 +1241,9 @@ namespace EaslyController.Writeable
             StateMovedHandler?.Invoke(operation);
         }
 
-        protected virtual void NotifyBlockStateMoved(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, int blockIndex, int direction)
+        protected virtual void NotifyBlockStateMoved(IWriteableMoveBlockOperation operation)
         {
-            BlockStateMovedHandler?.Invoke(inner, blockIndex, direction);
+            BlockStateMovedHandler?.Invoke(operation);
         }
 
         protected virtual void NotifyBlockSplit(IWriteableSplitBlockOperation operation)
@@ -1457,6 +1459,15 @@ namespace EaslyController.Writeable
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableController));
             return new WriteableMoveNodeOperation(inner, nodeIndex, direction);
+        }
+
+        /// <summary>
+        /// Creates a IxxxxMoveBlockOperation object.
+        /// </summary>
+        protected virtual IWriteableMoveBlockOperation CreateMoveBlockOperation(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, int blockIndex, int direction)
+        {
+            ControllerTools.AssertNoOverride(this, typeof(WriteableController));
+            return new WriteableMoveBlockOperation(inner, blockIndex, direction);
         }
 
         /// <summary>

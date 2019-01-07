@@ -77,9 +77,8 @@ namespace EaslyController.Writeable
         /// <summary>
         /// Moves a block around in a block list.
         /// </summary>
-        /// <param name="blockIndex">Index of the block to move.</param>
-        /// <param name="direction">The change in position, relative to the current block position.</param>
-        void MoveBlock(int blockIndex, int direction);
+        /// <param name="operation">Details of the operation performed.</param>
+        void MoveBlock(IWriteableMoveBlockOperation operation);
     }
 
     /// <summary>
@@ -154,9 +153,8 @@ namespace EaslyController.Writeable
         /// <summary>
         /// Moves a block around in a block list.
         /// </summary>
-        /// <param name="blockIndex">Index of the block to move.</param>
-        /// <param name="direction">The change in position, relative to the current block position.</param>
-        void MoveBlock(int blockIndex, int direction);
+        /// <param name="operation">Details of the operation performed.</param>
+        void MoveBlock(IWriteableMoveBlockOperation operation);
     }
 
     /// <summary>
@@ -672,22 +670,24 @@ namespace EaslyController.Writeable
         /// <summary>
         /// Moves a block around in a block list.
         /// </summary>
-        /// <param name="blockIndex">Index of the block to move.</param>
-        /// <param name="direction">The change in position, relative to the current block position.</param>
-        public virtual void MoveBlock(int blockIndex, int direction)
+        /// <param name="operation">Details of the operation performed.</param>
+        public virtual void MoveBlock(IWriteableMoveBlockOperation operation)
         {
-            Debug.Assert(blockIndex >= 0 && blockIndex < BlockStateList.Count);
-            Debug.Assert(blockIndex + direction >= 0 && blockIndex + direction < BlockStateList.Count);
+            int BlockIndex = operation.BlockIndex;
+            int Direction = operation.Direction;
 
-            int MoveIndex = blockIndex;
+            Debug.Assert(BlockIndex >= 0 && BlockIndex < BlockStateList.Count);
+            Debug.Assert(BlockIndex + Direction >= 0 && BlockIndex + Direction < BlockStateList.Count);
+
+            int MoveIndex = BlockIndex;
             IWriteableBlockState BlockState = BlockStateList[MoveIndex];
 
-            MoveInBlockStateList(MoveIndex, direction);
-            NodeTreeHelperBlockList.MoveBlock(Owner.Node, PropertyName, MoveIndex, direction);
+            MoveInBlockStateList(MoveIndex, Direction);
+            NodeTreeHelperBlockList.MoveBlock(Owner.Node, PropertyName, MoveIndex, Direction);
 
-            if (direction > 0)
+            if (Direction > 0)
             {
-                for (int i = MoveIndex; i < MoveIndex + direction; i++)
+                for (int i = MoveIndex; i < MoveIndex + Direction; i++)
                 {
                     for (int j = 0; j < BlockStateList[i].StateList.Count; j++)
                     {
@@ -707,9 +707,9 @@ namespace EaslyController.Writeable
                 }
             }
 
-            else if (direction < 0)
+            else if (Direction < 0)
             {
-                for (int i = MoveIndex; i > MoveIndex + direction; i--)
+                for (int i = MoveIndex; i > MoveIndex + Direction; i--)
                 {
                     for (int j = 0; j < BlockStateList[i].StateList.Count; j++)
                     {
@@ -728,6 +728,8 @@ namespace EaslyController.Writeable
                     }
                 }
             }
+
+            operation.Update(BlockState);
         }
         #endregion
 

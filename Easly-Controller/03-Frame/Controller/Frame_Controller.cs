@@ -81,7 +81,7 @@ namespace EaslyController.Frame
         /// <summary>
         /// Called when a block state is removed.
         /// </summary>
-        new event Action<IFrameBlockListInner<IFrameBrowsingBlockNodeIndex>, int, int> BlockStateMoved;
+        new event Action<IFrameMoveBlockOperation> BlockStateMoved;
 
         /// <summary>
         /// Called when a block is split.
@@ -238,10 +238,10 @@ namespace EaslyController.Frame
         /// <summary>
         /// Called when a block state is moved.
         /// </summary>
-        public new event Action<IFrameBlockListInner<IFrameBrowsingBlockNodeIndex>, int, int> BlockStateMoved
+        public new event Action<IFrameMoveBlockOperation> BlockStateMoved
         {
-            add { AddBlockStateMovedDelegate((Action<IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex>, int, int>)value); }
-            remove { RemoveBlockStateMovedDelegate((Action<IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex>, int, int>)value); }
+            add { AddBlockStateMovedDelegate((Action<IWriteableMoveBlockOperation>)value); }
+            remove { RemoveBlockStateMovedDelegate((Action<IWriteableMoveBlockOperation>)value); }
         }
 
         /// <summary>
@@ -465,6 +465,15 @@ namespace EaslyController.Frame
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameController));
             return new FrameMoveNodeOperation((IFrameCollectionInner<IFrameBrowsingCollectionNodeIndex>)inner, (IFrameBrowsingCollectionNodeIndex)nodeIndex, direction);
+        }
+
+        /// <summary>
+        /// Creates a IxxxxMoveBlockOperation object.
+        /// </summary>
+        protected override IWriteableMoveBlockOperation CreateMoveBlockOperation(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, int blockIndex, int direction)
+        {
+            ControllerTools.AssertNoOverride(this, typeof(FrameController));
+            return new FrameMoveBlockOperation((IFrameBlockListInner<IFrameBrowsingBlockNodeIndex>)inner, blockIndex, direction);
         }
 
         /// <summary>

@@ -571,26 +571,26 @@ namespace EaslyController.Frame
         /// <summary>
         /// Handler called every time a block state is moved in the controller.
         /// </summary>
-        /// <param name="inner">Inner where the block is moved.</param>
-        /// <param name="blockIndex">Index of the moved block.</param>
-        /// <param name="direction">The change in position, relative to the current block position.</param>
-        public override void OnBlockStateMoved(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, int blockIndex, int direction)
+        /// <param name="operation">Details of the operation performed.</param>
+        public override void OnBlockStateMoved(IWriteableMoveBlockOperation operation)
         {
-            base.OnBlockStateMoved(inner, blockIndex, direction);
+            base.OnBlockStateMoved(operation);
 
-            IFrameNodeState OwnerState = inner.Owner as IFrameNodeState;
+            IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> Inner = ((IFrameMoveBlockOperation)operation).Inner;
+            Debug.Assert(Inner != null);
+            IFrameNodeState OwnerState = Inner.Owner;
             Debug.Assert(OwnerState != null);
             IFrameNodeStateView OwnerStateView = StateViewTable[OwnerState];
 
             IFrameCellViewReadOnlyDictionary<string> CellViewTable = OwnerStateView.CellViewTable;
-            string PropertyName = inner.PropertyName;
+            string PropertyName = Inner.PropertyName;
 
             Debug.Assert(CellViewTable != null);
             Debug.Assert(CellViewTable.ContainsKey(PropertyName));
             IFrameCellViewCollection EmbeddingCellView = CellViewTable[PropertyName] as IFrameCellViewCollection;
             Debug.Assert(EmbeddingCellView != null);
 
-            EmbeddingCellView.Move(blockIndex, direction);
+            EmbeddingCellView.Move(operation.BlockIndex, operation.Direction);
 
             UpdateLineNumbers();
         }
