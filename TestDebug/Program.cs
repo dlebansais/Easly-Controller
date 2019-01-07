@@ -514,25 +514,29 @@ namespace TestDebug
 
             IFrameControllerView ControllerView5 = FrameControllerView.Create(Controller, FrameTemplateSet.Default);
             Debug.Assert(ControllerView5.IsEqual(CompareEqual.New(), ControllerView));
-/*
-            IFrameBrowsingBlockNodeIndex InsertIndex7 = (IFrameBrowsingBlockNodeIndex)ListInner.IndexAt(0, 0);
-            Controller.Remove(ListInner, InsertIndex7);
 
-            ControllerCheck = FrameController.Create(new FrameRootNodeIndex(rootNode));
-            Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
+            bool TestRemove = true;
+            if (TestRemove)
+            {
+                IFrameBrowsingBlockNodeIndex InsertIndex7 = (IFrameBrowsingBlockNodeIndex)ListInner.IndexAt(0, 0);
+                Controller.Remove(ListInner, InsertIndex7);
 
-            IFrameControllerView ControllerView7 = FrameControllerView.Create(Controller, FrameTemplateSet.Default);
-            Debug.Assert(ControllerView7.IsEqual(CompareEqual.New(), ControllerView));
+                ControllerCheck = FrameController.Create(new FrameRootNodeIndex(rootNode));
+                Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
 
-            IFrameBrowsingBlockNodeIndex InsertIndex8 = (IFrameBrowsingBlockNodeIndex)ListInner.IndexAt(0, 0);
-            Controller.Remove(ListInner, InsertIndex8);
+                IFrameControllerView ControllerView7 = FrameControllerView.Create(Controller, FrameTemplateSet.Default);
+                Debug.Assert(ControllerView7.IsEqual(CompareEqual.New(), ControllerView));
 
-            ControllerCheck = FrameController.Create(new FrameRootNodeIndex(rootNode));
-            Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
+                IFrameBrowsingBlockNodeIndex InsertIndex8 = (IFrameBrowsingBlockNodeIndex)ListInner.IndexAt(0, 0);
+                Controller.Remove(ListInner, InsertIndex8);
 
-            IFrameControllerView ControllerView8 = FrameControllerView.Create(Controller, FrameTemplateSet.Default);
-            Debug.Assert(ControllerView8.IsEqual(CompareEqual.New(), ControllerView));
-*/
+                ControllerCheck = FrameController.Create(new FrameRootNodeIndex(rootNode));
+                Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
+
+                IFrameControllerView ControllerView8 = FrameControllerView.Create(Controller, FrameTemplateSet.Default);
+                Debug.Assert(ControllerView8.IsEqual(CompareEqual.New(), ControllerView));
+            }
+
             Controller.Unassign(OptionalInner.ChildState.ParentIndex);
 
             ControllerCheck = FrameController.Create(new FrameRootNodeIndex(rootNode));
