@@ -66,12 +66,12 @@ namespace EaslyController.Frame
         /// <summary>
         /// Called when a state is assigned.
         /// </summary>
-        new event Action<IFrameBrowsingOptionalNodeIndex, IFrameOptionalNodeState> StateAssigned;
+        new event Action<IFrameAssignmentOperation> StateAssigned;
 
         /// <summary>
         /// Called when a state is unassigned.
         /// </summary>
-        new event Action<IFrameBrowsingOptionalNodeIndex, IFrameOptionalNodeState> StateUnassigned;
+        new event Action<IFrameAssignmentOperation> StateUnassigned;
 
         /// <summary>
         /// Called when a state is moved.
@@ -211,19 +211,19 @@ namespace EaslyController.Frame
         /// <summary>
         /// Called when a state is assigned.
         /// </summary>
-        public new event Action<IFrameBrowsingOptionalNodeIndex, IFrameOptionalNodeState> StateAssigned
+        public new event Action<IFrameAssignmentOperation> StateAssigned
         {
-            add { AddStateAssignedDelegate((Action<IWriteableBrowsingOptionalNodeIndex, IWriteableOptionalNodeState>)value); }
-            remove { RemoveStateAssignedDelegate((Action<IWriteableBrowsingOptionalNodeIndex, IWriteableOptionalNodeState>)value); }
+            add { AddStateAssignedDelegate((Action<IWriteableAssignmentOperation>)value); }
+            remove { RemoveStateAssignedDelegate((Action<IWriteableAssignmentOperation>)value); }
         }
 
         /// <summary>
         /// Called when a state is unassigned.
         /// </summary>
-        public new event Action<IFrameBrowsingOptionalNodeIndex, IFrameOptionalNodeState> StateUnassigned
+        public new event Action<IFrameAssignmentOperation> StateUnassigned
         {
-            add { AddStateUnassignedDelegate((Action<IWriteableBrowsingOptionalNodeIndex, IWriteableOptionalNodeState>)value); }
-            remove { RemoveStateUnassignedDelegate((Action<IWriteableBrowsingOptionalNodeIndex, IWriteableOptionalNodeState>)value); }
+            add { AddStateUnassignedDelegate((Action<IWriteableAssignmentOperation>)value); }
+            remove { RemoveStateUnassignedDelegate((Action<IWriteableAssignmentOperation>)value); }
         }
 
         /// <summary>
@@ -429,6 +429,15 @@ namespace EaslyController.Frame
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameController));
             return new FrameReplaceOperation((IFrameInner<IFrameBrowsingChildIndex>)inner, (IFrameInsertionChildIndex)replacementIndex);
+        }
+
+        /// <summary>
+        /// Creates a IxxxAssignmentOperation object.
+        /// </summary>
+        protected override IWriteableAssignmentOperation CreateAssignmentOperation(IWriteableOptionalInner<IWriteableBrowsingOptionalNodeIndex> inner, IWriteableBrowsingOptionalNodeIndex nodeIndex)
+        {
+            ControllerTools.AssertNoOverride(this, typeof(FrameController));
+            return new FrameAssignmentOperation((IFrameOptionalInner<IFrameBrowsingOptionalNodeIndex>)inner, (IFrameBrowsingOptionalNodeIndex)nodeIndex);
         }
 
         /// <summary>

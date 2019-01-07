@@ -68,12 +68,12 @@ namespace EaslyController.Writeable
         /// <summary>
         /// Called when a state is assigned.
         /// </summary>
-        event Action<IWriteableBrowsingOptionalNodeIndex, IWriteableOptionalNodeState> StateAssigned;
+        event Action<IWriteableAssignmentOperation> StateAssigned;
 
         /// <summary>
         /// Called when a state is unassigned.
         /// </summary>
-        event Action<IWriteableBrowsingOptionalNodeIndex, IWriteableOptionalNodeState> StateUnassigned;
+        event Action<IWriteableAssignmentOperation> StateUnassigned;
 
         /// <summary>
         /// Called when a state is moved.
@@ -339,26 +339,26 @@ namespace EaslyController.Writeable
         /// <summary>
         /// Called when a state is assigned.
         /// </summary>
-        public event Action<IWriteableBrowsingOptionalNodeIndex, IWriteableOptionalNodeState> StateAssigned
+        public event Action<IWriteableAssignmentOperation> StateAssigned
         {
             add { AddStateAssignedDelegate(value); }
             remove { RemoveStateAssignedDelegate(value); }
         }
-        protected Action<IWriteableBrowsingOptionalNodeIndex, IWriteableOptionalNodeState> StateAssignedHandler;
-        protected virtual void AddStateAssignedDelegate(Action<IWriteableBrowsingOptionalNodeIndex, IWriteableOptionalNodeState> handler) { StateAssignedHandler += handler; }
-        protected virtual void RemoveStateAssignedDelegate(Action<IWriteableBrowsingOptionalNodeIndex, IWriteableOptionalNodeState> handler) { StateAssignedHandler -= handler; }
+        protected Action<IWriteableAssignmentOperation> StateAssignedHandler;
+        protected virtual void AddStateAssignedDelegate(Action<IWriteableAssignmentOperation> handler) { StateAssignedHandler += handler; }
+        protected virtual void RemoveStateAssignedDelegate(Action<IWriteableAssignmentOperation> handler) { StateAssignedHandler -= handler; }
 
         /// <summary>
         /// Called when a state is unassigned.
         /// </summary>
-        public event Action<IWriteableBrowsingOptionalNodeIndex, IWriteableOptionalNodeState> StateUnassigned
+        public event Action<IWriteableAssignmentOperation> StateUnassigned
         {
             add { AddStateUnassignedDelegate(value); }
             remove { RemoveStateUnassignedDelegate(value); }
         }
-        protected Action<IWriteableBrowsingOptionalNodeIndex, IWriteableOptionalNodeState> StateUnassignedHandler;
-        protected virtual void AddStateUnassignedDelegate(Action<IWriteableBrowsingOptionalNodeIndex, IWriteableOptionalNodeState> handler) { StateUnassignedHandler += handler; }
-        protected virtual void RemoveStateUnassignedDelegate(Action<IWriteableBrowsingOptionalNodeIndex, IWriteableOptionalNodeState> handler) { StateUnassignedHandler -= handler; }
+        protected Action<IWriteableAssignmentOperation> StateUnassignedHandler;
+        protected virtual void AddStateUnassignedDelegate(Action<IWriteableAssignmentOperation> handler) { StateUnassignedHandler += handler; }
+        protected virtual void RemoveStateUnassignedDelegate(Action<IWriteableAssignmentOperation> handler) { StateUnassignedHandler -= handler; }
 
         /// <summary>
         /// Called when a state is moved.
@@ -622,51 +622,6 @@ namespace EaslyController.Writeable
             NotifyStateReplaced(Operation);
         }
 
-        protected virtual void PruneState(IWriteableNodeState state)
-        {
-            foreach (KeyValuePair<string, IWriteableInner<IWriteableBrowsingChildIndex>> Entry in state.InnerTable)
-                if (Entry.Value is IWriteablePlaceholderInner<IWriteableBrowsingPlaceholderNodeIndex> AsPlaceholderInner)
-                    PrunePlaceholderInner(AsPlaceholderInner);
-                else if (Entry.Value is IWriteableOptionalInner<IWriteableBrowsingOptionalNodeIndex> AsOptionalInner)
-                    PruneOptionalInner(AsOptionalInner);
-                else if (Entry.Value is IWriteableListInner<IWriteableBrowsingListNodeIndex> AsListInner)
-                    PruneListInner(AsListInner);
-                else if (Entry.Value is IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> AsBlockListInner)
-                    PruneBlockListInner(AsBlockListInner);
-                else
-                    Debug.Assert(false);
-
-            RemoveState(state.ParentIndex);
-        }
-
-        protected virtual void PrunePlaceholderInner(IWriteablePlaceholderInner<IWriteableBrowsingPlaceholderNodeIndex> inner)
-        {
-            PruneState(inner.ChildState);
-
-            Stats.PlaceholderNodeCount--;
-        }
-
-        protected virtual void PruneOptionalInner(IWriteableOptionalInner<IWriteableBrowsingOptionalNodeIndex> inner)
-        {
-            PruneState(inner.ChildState);
-
-            Stats.OptionalNodeCount--;
-            if (inner.IsAssigned)
-                Stats.AssignedOptionalNodeCount--;
-        }
-
-        protected virtual void PruneListInner(IWriteableListInner<IWriteableBrowsingListNodeIndex> inner)
-        {
-            foreach (IWriteableNodeState State in inner.StateList)
-            {
-                PruneState(State);
-
-                Stats.PlaceholderNodeCount--;
-            }
-
-            Stats.ListCount--;
-        }
-
         protected virtual void PruneBlockListInner(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner)
         {
             while (inner.BlockStateList.Count > 0)
@@ -735,10 +690,12 @@ namespace EaslyController.Writeable
 
             if (!Inner.IsAssigned)
             {
-                Inner.Assign();
+                IWriteableAssignmentOperation Operation = CreateAssignmentOperation(Inner, nodeIndex);
+                Inner.Assign(Operation);
+
                 Stats.AssignedOptionalNodeCount++;
 
-                NotifyStateAssigned(nodeIndex, State);
+                NotifyStateAssigned(Operation);
             }
         }
 
@@ -759,10 +716,12 @@ namespace EaslyController.Writeable
 
             if (Inner.IsAssigned)
             {
-                Inner.Unassign();
+                IWriteableAssignmentOperation Operation = CreateAssignmentOperation(Inner, nodeIndex);
+                Inner.Unassign(Operation);
+
                 Stats.AssignedOptionalNodeCount--;
 
-                NotifyStateUnassigned(nodeIndex, State);
+                NotifyStateUnassigned(Operation);
             }
         }
 
@@ -967,31 +926,34 @@ namespace EaslyController.Writeable
             IWriteableBrowsingOptionalNodeIndex ParentIndex = optionalInner.ChildState.ParentIndex;
             if (ParentIndex.Optional.HasItem)
             {
-                optionalInner.Assign();
+                IWriteableAssignmentOperation Operation = CreateAssignmentOperation(optionalInner, ParentIndex);
+                optionalInner.Assign(Operation);
+
                 Stats.AssignedOptionalNodeCount++;
 
-                NotifyStateAssigned(ParentIndex, optionalInner.ChildState);
-                return;
+                NotifyStateAssigned(Operation);
             }
+            else
+            {
+                INode NewNode = NodeHelper.CreateDefaultFromInterface(optionalInner.InterfaceType);
+                Debug.Assert(NewNode != null);
 
-            INode NewNode = NodeHelper.CreateDefaultFromInterface(optionalInner.InterfaceType);
-            Debug.Assert(NewNode != null);
+                IWriteableInsertionOptionalNodeIndex NewOptionalNodeIndex = CreateNewOptionalNodeIndex(optionalInner.Owner.Node, optionalInner.PropertyName, NewNode);
+                IWriteableReplaceOperation Operation = CreateReplaceOperation(optionalInner, NewOptionalNodeIndex);
 
-            IWriteableInsertionOptionalNodeIndex NewOptionalNodeIndex = CreateNewOptionalNodeIndex(optionalInner.Owner.Node, optionalInner.PropertyName, NewNode);
-            IWriteableReplaceOperation Operation = CreateReplaceOperation(optionalInner, NewOptionalNodeIndex);
+                optionalInner.Replace(Operation, NewOptionalNodeIndex, out IWriteableBrowsingChildIndex OldBrowsingIndex, out IWriteableBrowsingChildIndex NewBrowsingIndex, out IWriteableNodeState ChildState);
 
-            optionalInner.Replace(Operation, NewOptionalNodeIndex, out IWriteableBrowsingChildIndex OldBrowsingIndex, out IWriteableBrowsingChildIndex NewBrowsingIndex, out IWriteableNodeState ChildState);
+                Debug.Assert(Contains(OldBrowsingIndex));
+                IWriteableNodeState OldState = StateTable[OldBrowsingIndex];
 
-            Debug.Assert(Contains(OldBrowsingIndex));
-            IWriteableNodeState OldState = StateTable[OldBrowsingIndex];
+                PruneState(OldState);
+                AddState(NewBrowsingIndex, ChildState);
+                Stats.AssignedOptionalNodeCount++;
 
-            PruneState(OldState);
-            AddState(NewBrowsingIndex, ChildState);
-            Stats.AssignedOptionalNodeCount++;
+                BuildStateTable(optionalInner, null, NewBrowsingIndex, ChildState);
 
-            BuildStateTable(optionalInner, null, NewBrowsingIndex, ChildState);
-
-            NotifyStateReplaced(Operation);
+                NotifyStateReplaced(Operation);
+            }
         }
 
         /// <summary>
@@ -1074,11 +1036,13 @@ namespace EaslyController.Writeable
         {
             if (optionalInner.IsAssigned)
             {
-                optionalInner.Unassign();
+                IWriteableBrowsingOptionalNodeIndex ParentIndex = optionalInner.ChildState.ParentIndex;
+                IWriteableAssignmentOperation Operation = CreateAssignmentOperation(optionalInner, ParentIndex);
+                optionalInner.Unassign(Operation);
+
                 Stats.AssignedOptionalNodeCount--;
 
-                IWriteableBrowsingOptionalNodeIndex ParentIndex = optionalInner.ChildState.ParentIndex;
-                NotifyStateUnassigned(ParentIndex, optionalInner.ChildState);
+                NotifyStateUnassigned(Operation);
             }
         }
 
@@ -1185,6 +1149,51 @@ namespace EaslyController.Writeable
         #endregion
 
         #region Descendant Interface
+        protected virtual void PruneState(IWriteableNodeState state)
+        {
+            foreach (KeyValuePair<string, IWriteableInner<IWriteableBrowsingChildIndex>> Entry in state.InnerTable)
+                if (Entry.Value is IWriteablePlaceholderInner<IWriteableBrowsingPlaceholderNodeIndex> AsPlaceholderInner)
+                    PrunePlaceholderInner(AsPlaceholderInner);
+                else if (Entry.Value is IWriteableOptionalInner<IWriteableBrowsingOptionalNodeIndex> AsOptionalInner)
+                    PruneOptionalInner(AsOptionalInner);
+                else if (Entry.Value is IWriteableListInner<IWriteableBrowsingListNodeIndex> AsListInner)
+                    PruneListInner(AsListInner);
+                else if (Entry.Value is IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> AsBlockListInner)
+                    PruneBlockListInner(AsBlockListInner);
+                else
+                    Debug.Assert(false);
+
+            RemoveState(state.ParentIndex);
+        }
+
+        protected virtual void PrunePlaceholderInner(IWriteablePlaceholderInner<IWriteableBrowsingPlaceholderNodeIndex> inner)
+        {
+            PruneState(inner.ChildState);
+
+            Stats.PlaceholderNodeCount--;
+        }
+
+        protected virtual void PruneOptionalInner(IWriteableOptionalInner<IWriteableBrowsingOptionalNodeIndex> inner)
+        {
+            PruneState(inner.ChildState);
+
+            Stats.OptionalNodeCount--;
+            if (inner.IsAssigned)
+                Stats.AssignedOptionalNodeCount--;
+        }
+
+        protected virtual void PruneListInner(IWriteableListInner<IWriteableBrowsingListNodeIndex> inner)
+        {
+            foreach (IWriteableNodeState State in inner.StateList)
+            {
+                PruneState(State);
+
+                Stats.PlaceholderNodeCount--;
+            }
+
+            Stats.ListCount--;
+        }
+
         protected virtual void NotifyBlockStateInserted(IWriteableInsertBlockOperation operation)
         {
             BlockStateInsertedHandler?.Invoke(operation);
@@ -1210,14 +1219,14 @@ namespace EaslyController.Writeable
             StateReplacedHandler?.Invoke(operation);
         }
 
-        protected virtual void NotifyStateAssigned(IWriteableBrowsingOptionalNodeIndex nodeIndex, IWriteableOptionalNodeState state)
+        protected virtual void NotifyStateAssigned(IWriteableAssignmentOperation operation)
         {
-            StateAssignedHandler?.Invoke(nodeIndex, state);
+            StateAssignedHandler?.Invoke(operation);
         }
 
-        protected virtual void NotifyStateUnassigned(IWriteableBrowsingOptionalNodeIndex nodeIndex, IWriteableOptionalNodeState state)
+        protected virtual void NotifyStateUnassigned(IWriteableAssignmentOperation operation)
         {
-            StateUnassignedHandler?.Invoke(nodeIndex, state);
+            StateUnassignedHandler?.Invoke(operation);
         }
 
         protected virtual void NotifyStateMoved(IWriteableBrowsingChildIndex nodeIndex, IWriteableNodeState state, int direction)
@@ -1407,6 +1416,15 @@ namespace EaslyController.Writeable
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableController));
             return new WriteableReplaceOperation(inner, replacementIndex);
+        }
+
+        /// <summary>
+        /// Creates a IxxxAssignmentOperation object.
+        /// </summary>
+        protected virtual IWriteableAssignmentOperation CreateAssignmentOperation(IWriteableOptionalInner<IWriteableBrowsingOptionalNodeIndex> inner, IWriteableBrowsingOptionalNodeIndex nodeIndex)
+        {
+            ControllerTools.AssertNoOverride(this, typeof(WriteableController));
+            return new WriteableAssignmentOperation(inner, nodeIndex);
         }
 
         /// <summary>

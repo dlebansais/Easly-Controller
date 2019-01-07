@@ -19,12 +19,14 @@ namespace EaslyController.Writeable
         /// <summary>
         /// Assign the optional node.
         /// </summary>
-        void Assign();
+        /// <param name="operation">Details of the operation performed.</param>
+        void Assign(IWriteableAssignmentOperation operation);
 
         /// <summary>
         /// Unassign the optional node.
         /// </summary>
-        void Unassign();
+        /// <param name="operation">Details of the operation performed.</param>
+        void Unassign(IWriteableAssignmentOperation operation);
     }
 
     /// <summary>
@@ -41,12 +43,14 @@ namespace EaslyController.Writeable
         /// <summary>
         /// Assign the optional node.
         /// </summary>
-        void Assign();
+        /// <param name="operation">Details of the operation performed.</param>
+        void Assign(IWriteableAssignmentOperation operation);
 
         /// <summary>
         /// Unassign the optional node.
         /// </summary>
-        void Unassign();
+        /// <param name="operation">Details of the operation performed.</param>
+        void Unassign(IWriteableAssignmentOperation operation);
     }
 
     /// <summary>
@@ -125,17 +129,23 @@ namespace EaslyController.Writeable
         /// <summary>
         /// Assign the optional node.
         /// </summary>
-        public void Assign()
+        /// <param name="operation">Details of the operation performed.</param>
+        public void Assign(IWriteableAssignmentOperation operation)
         {
             NodeTreeHelperOptional.AssignChildNode(Owner.Node, PropertyName);
+
+            operation.Update(ChildState);
         }
 
         /// <summary>
         /// Unassign the optional node.
         /// </summary>
-        public void Unassign()
+        /// <param name="operation">Details of the operation performed.</param>
+        public void Unassign(IWriteableAssignmentOperation operation)
         {
             NodeTreeHelperOptional.UnassignChildNode(Owner.Node, PropertyName);
+
+            operation.Update(ChildState);
         }
         #endregion
 

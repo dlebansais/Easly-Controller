@@ -172,23 +172,27 @@ namespace EaslyController.Writeable
         /// <summary>
         /// Handler called every time a state is assigned in the controller.
         /// </summary>
-        /// <param name="nodeIndex">Index of the assigned state.</param>
-        /// <param name="state">The state assigned.</param>
-        public virtual void OnStateAssigned(IWriteableBrowsingOptionalNodeIndex nodeIndex, IWriteableOptionalNodeState state)
+        /// <param name="operation">Details of the operation performed.</param>
+        public virtual void OnStateAssigned(IWriteableAssignmentOperation operation)
         {
-            Debug.Assert(state != null);
-            Debug.Assert(StateViewTable.ContainsKey(state));
+            Debug.Assert(operation != null);
+
+            IWriteableOptionalNodeState State = operation.State;
+            Debug.Assert(State != null);
+            Debug.Assert(StateViewTable.ContainsKey(State));
         }
 
         /// <summary>
         /// Handler called every time a state is unassigned in the controller.
         /// </summary>
-        /// <param name="nodeIndex">Index of the unassigned state.</param>
-        /// <param name="state">The state unassigned.</param>
-        public virtual void OnStateUnassigned(IWriteableBrowsingOptionalNodeIndex nodeIndex, IWriteableOptionalNodeState state)
+        /// <param name="operation">Details of the operation performed.</param>
+        public virtual void OnStateUnassigned(IWriteableAssignmentOperation operation)
         {
-            Debug.Assert(state != null);
-            Debug.Assert(StateViewTable.ContainsKey(state));
+            Debug.Assert(operation != null);
+
+            IWriteableOptionalNodeState State = operation.State;
+            Debug.Assert(State != null);
+            Debug.Assert(StateViewTable.ContainsKey(State));
         }
 
         /// <summary>

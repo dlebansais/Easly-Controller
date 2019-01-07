@@ -471,13 +471,13 @@ namespace EaslyController.Frame
         /// <summary>
         /// Handler called every time a state is assigned in the controller.
         /// </summary>
-        /// <param name="nodeIndex">Index of the assigned state.</param>
-        /// <param name="state">The state assigned.</param>
-        public override void OnStateAssigned(IWriteableBrowsingOptionalNodeIndex nodeIndex, IWriteableOptionalNodeState state)
+        /// <param name="operation">Details of the operation performed.</param>
+        public override void OnStateAssigned(IWriteableAssignmentOperation operation)
         {
-            base.OnStateAssigned(nodeIndex, state);
+            base.OnStateAssigned(operation);
 
-            IFrameNodeState AssignedState = state as IFrameNodeState;
+            IFrameOptionalNodeState AssignedState = ((IFrameAssignmentOperation)operation).State;
+
             Debug.Assert(AssignedState != null);
 
             IFrameNodeStateView AssignedStateView = StateViewTable[AssignedState];
@@ -490,13 +490,12 @@ namespace EaslyController.Frame
         /// <summary>
         /// Handler called every time a state is unassigned in the controller.
         /// </summary>
-        /// <param name="nodeIndex">Index of the unassigned state.</param>
-        /// <param name="state">The state unassigned.</param>
-        public override void OnStateUnassigned(IWriteableBrowsingOptionalNodeIndex nodeIndex, IWriteableOptionalNodeState state)
+        /// <param name="operation">Details of the operation performed.</param>
+        public override void OnStateUnassigned(IWriteableAssignmentOperation operation)
         {
-            base.OnStateUnassigned(nodeIndex, state);
+            base.OnStateUnassigned(operation);
 
-            IFrameNodeState UnassignedState = state as IFrameNodeState;
+            IFrameOptionalNodeState UnassignedState = ((IFrameAssignmentOperation)operation).State;
             Debug.Assert(UnassignedState != null);
 
             IFrameNodeStateView UnassignedStateView = StateViewTable[UnassignedState];
