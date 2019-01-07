@@ -23,7 +23,7 @@ namespace EaslyController.Frame
         /// </summary>
         /// <param name="parentNode">Node containing the block list.</param>
         /// <param name="node">Indexed node in the block.</param>
-        /// <param name="propertyName">Property in <paramref name="parentNode"/> corresponding to the block list.
+        /// <param name="propertyName">Property in <paramref name="parentNode"/> corresponding to the block list.</param>
         /// <param name="blockIndex">Position of the block in the block list.</param>
         /// <param name="index">Position of the node in the block.</param>
         public FrameBrowsingExistingBlockNodeIndex(INode parentNode, INode node, string propertyName, int blockIndex, int index)
@@ -36,6 +36,7 @@ namespace EaslyController.Frame
         /// <summary>
         /// Compares two <see cref="IFrameIndex"/> objects.
         /// </summary>
+        /// <param name="comparer">The comparison support object.</param>
         /// <param name="other">The other object.</param>
         public override bool IsEqual(CompareEqual comparer, IEqualComparable other)
         {

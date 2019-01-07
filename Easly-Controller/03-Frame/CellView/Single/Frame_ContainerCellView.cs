@@ -74,7 +74,7 @@ namespace EaslyController.Frame
         /// <summary>
         /// Update line numbers in the cell view from the update in the child state view.
         /// </summary>
-        /// <param name="lineNumber">The child cell view.</param>
+        /// <param name="nodeStateView">The child state view.</param>
         /// <param name="lineNumber">The current line number, updated upon return.</param>
         /// <param name="columnNumber">The current column number, updated upon return.</param>
         protected virtual void RecalculateChildLineNumbers(IFrameNodeStateView nodeStateView, ref int lineNumber, ref int columnNumber)
@@ -87,6 +87,7 @@ namespace EaslyController.Frame
         /// <summary>
         /// Compares two <see cref="IFrameCellView"/> objects.
         /// </summary>
+        /// <param name="comparer">The comparison support object.</param>
         /// <param name="other">The other object.</param>
         public override bool IsEqual(CompareEqual comparer, IEqualComparable other)
         {

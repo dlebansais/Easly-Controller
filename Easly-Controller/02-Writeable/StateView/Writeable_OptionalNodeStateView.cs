@@ -48,6 +48,7 @@ namespace EaslyController.Writeable
         /// <summary>
         /// Compares two <see cref="IWriteableOptionalNodeStateView"/> objects.
         /// </summary>
+        /// <param name="comparer">The comparison support object.</param>
         /// <param name="other">The other object.</param>
         public override bool IsEqual(CompareEqual comparer, IEqualComparable other)
         {

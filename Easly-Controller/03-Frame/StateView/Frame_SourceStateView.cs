@@ -104,7 +104,6 @@ namespace EaslyController.Frame
         /// <summary>
         /// Clears the cell view tree for this view.
         /// </summary>
-        /// <param name="controllerView">The view in which the cell tree is cleared.</param>
         public virtual void ClearRootCellView()
         {
             if (RootCellView != null)
@@ -142,6 +141,7 @@ namespace EaslyController.Frame
         /// <summary>
         /// Compares two <see cref="IFrameSourceStateView"/> objects.
         /// </summary>
+        /// <param name="comparer">The comparison support object.</param>
         /// <param name="other">The other object.</param>
         public override bool IsEqual(CompareEqual comparer, IEqualComparable other)
         {

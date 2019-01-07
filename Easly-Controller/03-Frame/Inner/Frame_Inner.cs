@@ -33,7 +33,7 @@ namespace EaslyController.Frame
     {
         #region Init
         /// <summary>
-        /// Initializes a new instance of the <see cref="FrameInner{IIndex, TIndex}"/> class.
+        /// Initializes a new instance of the <see cref="FrameInner{IIndex}"/> class.
         /// </summary>
         /// <param name="owner">Parent containing the inner.</param>
         /// <param name="propertyName">Property name of the inner in <paramref name="owner"/>.</param>

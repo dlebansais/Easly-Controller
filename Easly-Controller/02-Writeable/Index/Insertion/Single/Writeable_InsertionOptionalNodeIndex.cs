@@ -27,7 +27,7 @@ namespace EaslyController.Writeable
         /// Initializes a new instance of the <see cref="WriteableInsertionOptionalNodeIndex"/> class.
         /// </summary>
         /// <param name="parentNode">Node containing the indexed optional node.</param>
-        /// <param name="propertyName">Property in <paramref name="parentNode"/> corresponding to the indexed optional node.
+        /// <param name="propertyName">Property in <paramref name="parentNode"/> corresponding to the indexed optional node.</param>
         /// <param name="node">The assigned node.</param>
         public WriteableInsertionOptionalNodeIndex(INode parentNode, string propertyName, INode node)
         {
@@ -82,6 +82,7 @@ namespace EaslyController.Writeable
         /// <summary>
         /// Compares two <see cref="IReadOnlyIndex"/> objects.
         /// </summary>
+        /// <param name="comparer">The comparison support object.</param>
         /// <param name="other">The other object.</param>
         public virtual bool IsEqual(CompareEqual comparer, IEqualComparable other)
         {

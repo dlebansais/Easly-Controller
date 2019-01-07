@@ -4,6 +4,10 @@ using System.Diagnostics;
 
 namespace EaslyController.ReadOnly
 {
+    /// <summary>
+    /// Controller for a node tree.
+    /// This controller supports read-only access only.
+    /// </summary>
     public interface IReadOnlyController : IEqualComparable
     {
         /// <summary>
@@ -61,6 +65,10 @@ namespace EaslyController.ReadOnly
         void Attach(IReadOnlyControllerView view, IReadOnlyAttachCallbackSet callbackSet);
     }
 
+    /// <summary>
+    /// Controller for a node tree.
+    /// This controller supports read-only access only.
+    /// </summary>
     public class ReadOnlyController : IReadOnlyController
     {
         #region Init
@@ -113,9 +121,11 @@ namespace EaslyController.ReadOnly
             add { AddNodeStateCreatedDelegate(value); }
             remove { RemoveNodeStateCreatedDelegate(value); }
         }
+#pragma warning disable 1591
         protected Action<IReadOnlyNodeState> NodeStateCreatedHandler;
         protected virtual void AddNodeStateCreatedDelegate(Action<IReadOnlyNodeState> handler) { NodeStateCreatedHandler += handler; }
         protected virtual void RemoveNodeStateCreatedDelegate(Action<IReadOnlyNodeState> handler) { NodeStateCreatedHandler -= handler; }
+#pragma warning restore 1591
 
         /// <summary>
         /// Called when a state is initialized.
@@ -125,9 +135,11 @@ namespace EaslyController.ReadOnly
             add { AddNodeStateInitializedDelegate(value); }
             remove { RemoveNodeStateInitializedDelegate(value); }
         }
+#pragma warning disable 1591
         protected Action<IReadOnlyNodeState> NodeStateInitializedHandler;
         protected virtual void AddNodeStateInitializedDelegate(Action<IReadOnlyNodeState> handler) { NodeStateInitializedHandler += handler; }
         protected virtual void RemoveNodeStateInitializedDelegate(Action<IReadOnlyNodeState> handler) { NodeStateInitializedHandler -= handler; }
+#pragma warning restore 1591
 
         /// <summary>
         /// Called when a state is removed.
@@ -137,9 +149,11 @@ namespace EaslyController.ReadOnly
             add { AddNodeStateRemovedDelegate(value); }
             remove { RemoveNodeStateRemovedDelegate(value); }
         }
+#pragma warning disable 1591
         protected Action<IReadOnlyNodeState> NodeStateRemovedHandler;
         protected virtual void AddNodeStateRemovedDelegate(Action<IReadOnlyNodeState> handler) { NodeStateRemovedHandler += handler; }
         protected virtual void RemoveNodeStateRemovedDelegate(Action<IReadOnlyNodeState> handler) { NodeStateRemovedHandler -= handler; }
+#pragma warning restore 1591
 
         /// <summary>
         /// Called when a block list inner is created
@@ -149,9 +163,11 @@ namespace EaslyController.ReadOnly
             add { AddBlockListInnerCreatedDelegate(value); }
             remove { RemoveBlockListInnerCreatedDelegate(value); }
         }
+#pragma warning disable 1591
         protected Action<IReadOnlyBlockListInner> BlockListInnerCreatedHandler;
         protected virtual void AddBlockListInnerCreatedDelegate(Action<IReadOnlyBlockListInner> handler) { BlockListInnerCreatedHandler += handler; }
         protected virtual void RemoveBlockListInnerCreatedDelegate(Action<IReadOnlyBlockListInner> handler) { BlockListInnerCreatedHandler -= handler; }
+#pragma warning restore 1591
 
         /// <summary>
         /// State table.
@@ -481,6 +497,7 @@ namespace EaslyController.ReadOnly
         /// <summary>
         /// Compares two <see cref="IReadOnlyController"/> objects.
         /// </summary>
+        /// <param name="comparer">The comparison support object.</param>
         /// <param name="other">The other object.</param>
         public virtual bool IsEqual(CompareEqual comparer, IEqualComparable other)
         {

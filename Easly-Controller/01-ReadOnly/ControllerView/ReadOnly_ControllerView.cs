@@ -150,7 +150,7 @@ namespace EaslyController.ReadOnly
         /// <summary>
         /// Handler called every time a block list inner is created in the controller.
         /// </summary>
-        /// <param name="state">The block list inner created.</param>
+        /// <param name="inner">The block list inner created.</param>
         public virtual void OnBlockListInnerCreated(IReadOnlyBlockListInner inner)
         {
             inner.BlockStateCreated += OnBlockStateCreated;
@@ -160,7 +160,7 @@ namespace EaslyController.ReadOnly
         /// <summary>
         /// Handler called every time a block state is created in the controller.
         /// </summary>
-        /// <param name="state">The block state created.</param>
+        /// <param name="blockState">The block state created.</param>
         public virtual void OnBlockStateCreated(IReadOnlyBlockState blockState)
         {
             Debug.Assert(blockState != null);
@@ -173,7 +173,7 @@ namespace EaslyController.ReadOnly
         /// <summary>
         /// Handler called every time a block state is removed in the controller.
         /// </summary>
-        /// <param name="state">The block state removed.</param>
+        /// <param name="blockState">The block state removed.</param>
         public virtual void OnBlockStateRemoved(IReadOnlyBlockState blockState)
         {
             Debug.Assert(blockState != null);
@@ -187,6 +187,7 @@ namespace EaslyController.ReadOnly
         /// <summary>
         /// Compares two <see cref="IReadOnlyControllerView"/> objects.
         /// </summary>
+        /// <param name="comparer">The comparison support object.</param>
         /// <param name="other">The other object.</param>
         public virtual bool IsEqual(CompareEqual comparer, IEqualComparable other)
         {

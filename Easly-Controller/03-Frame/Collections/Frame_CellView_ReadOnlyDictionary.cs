@@ -25,6 +25,7 @@ namespace EaslyController.Frame
         /// <summary>
         /// Compares two <see cref="IFrameCellViewReadOnlyDictionary{TKey}"/> objects.
         /// </summary>
+        /// <param name="comparer">The comparison support object.</param>
         /// <param name="other">The other object.</param>
         public virtual bool IsEqual(CompareEqual comparer, IEqualComparable other)
         {

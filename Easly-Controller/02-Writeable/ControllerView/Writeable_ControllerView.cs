@@ -128,6 +128,7 @@ namespace EaslyController.Writeable
         /// </summary>
         /// <param name="nodeIndex">Index of the inserted state.</param>
         /// <param name="state">The state inserted.</param>
+        /// <param name="isBlockInserted">True if the state is inserted in a new block.</param>
         public virtual void OnStateInserted(IWriteableBrowsingCollectionNodeIndex nodeIndex, IWriteableNodeState state, bool isBlockInserted)
         {
             Debug.Assert(state != null);
@@ -205,7 +206,7 @@ namespace EaslyController.Writeable
         /// </summary>
         /// <param name="inner">Inner where the block is split.</param>
         /// <param name="blockIndex">Index of the split block.</param>
-        /// <param name="Index">Index of the last node to stay in the old block.</param>
+        /// <param name="index">Index of the last node to stay in the old block.</param>
         public virtual void OnBlockSplit(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, int blockIndex, int index)
         {
         }
@@ -224,6 +225,7 @@ namespace EaslyController.Writeable
         /// <summary>
         /// Compares two <see cref="IWriteableControllerView"/> objects.
         /// </summary>
+        /// <param name="comparer">The comparison support object.</param>
         /// <param name="other">The other object.</param>
         public override bool IsEqual(CompareEqual comparer, IEqualComparable other)
         {

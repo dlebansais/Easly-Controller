@@ -81,7 +81,7 @@ namespace EaslyController.ReadOnly
     {
         #region Init
         /// <summary>
-        /// Initializes a new instance of the <see cref="ReadOnlyInner{IIndex, TIndex}"/> class.
+        /// Initializes a new instance of the <see cref="ReadOnlyInner{IIndex}"/> class.
         /// </summary>
         /// <param name="owner">Parent containing the inner.</param>
         /// <param name="propertyName">Property name of the inner in <paramref name="owner"/>.</param>
@@ -138,6 +138,7 @@ namespace EaslyController.ReadOnly
         /// <summary>
         /// Compares two <see cref="IReadOnlyInner"/> objects.
         /// </summary>
+        /// <param name="comparer">The comparison support object.</param>
         /// <param name="other">The other object.</param>
         public virtual bool IsEqual(CompareEqual comparer, IEqualComparable other)
         {

@@ -116,7 +116,7 @@ namespace EaslyController.Frame
         /// <summary>
         /// Checks that templates are valid for blocks.
         /// </summary>
-        /// <param name="nodeTemplateTable">Table of templates.</param>
+        /// <param name="blockTemplateTable">Table of templates.</param>
         public virtual bool IsBlockValid(IFrameTemplateReadOnlyDictionary blockTemplateTable)
         {
             Debug.Assert(blockTemplateTable != null);

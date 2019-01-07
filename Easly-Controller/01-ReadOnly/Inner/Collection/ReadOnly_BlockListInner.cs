@@ -242,9 +242,11 @@ namespace EaslyController.ReadOnly
             add { AddBlockStateCreatedDelegate(value); }
             remove { RemoveBlockStateCreatedDelegate(value); }
         }
+#pragma warning disable 1591
         protected Action<IReadOnlyBlockState> BlockStateCreatedHandler;
         protected virtual void AddBlockStateCreatedDelegate(Action<IReadOnlyBlockState> handler) { BlockStateCreatedHandler += handler; }
         protected virtual void RemoveBlockStateCreatedDelegate(Action<IReadOnlyBlockState> handler) { BlockStateCreatedHandler -= handler; }
+#pragma warning restore 1591
 
         /// <summary>
         /// Called when a block state is removed.
@@ -254,9 +256,11 @@ namespace EaslyController.ReadOnly
             add { AddBlockStateRemovedDelegate(value); }
             remove { RemoveBlockStateRemovedDelegate(value); }
         }
+#pragma warning disable 1591
         protected Action<IReadOnlyBlockState> BlockStateRemovedHandler;
         protected virtual void AddBlockStateRemovedDelegate(Action<IReadOnlyBlockState> handler) { BlockStateRemovedHandler += handler; }
         protected virtual void RemoveBlockStateRemovedDelegate(Action<IReadOnlyBlockState> handler) { BlockStateRemovedHandler -= handler; }
+#pragma warning restore 1591
 
         /// <summary>
         /// Count of all node states in the inner.
@@ -387,6 +391,7 @@ namespace EaslyController.ReadOnly
         /// <summary>
         /// Compares two <see cref="IReadOnlyInner"/> objects.
         /// </summary>
+        /// <param name="comparer">The comparison support object.</param>
         /// <param name="other">The other object.</param>
         public override bool IsEqual(CompareEqual comparer, IEqualComparable other)
         {

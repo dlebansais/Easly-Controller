@@ -76,6 +76,7 @@ namespace EaslyController.Frame
         /// <summary>
         /// Compares two <see cref="IFrameCellView"/> objects.
         /// </summary>
+        /// <param name="comparer">The comparison support object.</param>
         /// <param name="other">The other object.</param>
         public override bool IsEqual(CompareEqual comparer, IEqualComparable other)
         {

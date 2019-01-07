@@ -22,7 +22,7 @@ namespace EaslyController.Frame
         /// </summary>
         /// <param name="parentNode">Node containing the indexed node.</param>
         /// <param name="node">The indexed node.</param>
-        /// <param name="propertyName">Property in <paramref name="parentNode"/> corresponding to the indexed node.
+        /// <param name="propertyName">Property in <paramref name="parentNode"/> corresponding to the indexed node.</param>
         public FrameBrowsingPlaceholderNodeIndex(INode parentNode, INode node, string propertyName)
             : base(parentNode, node, propertyName)
         {
@@ -33,6 +33,7 @@ namespace EaslyController.Frame
         /// <summary>
         /// Compares two <see cref="IFrameIndex"/> objects.
         /// </summary>
+        /// <param name="comparer">The comparison support object.</param>
         /// <param name="other">The other object.</param>
         public override bool IsEqual(CompareEqual comparer, IEqualComparable other)
         {

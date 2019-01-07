@@ -21,7 +21,7 @@ namespace EaslyController.Writeable
         /// Initializes a new instance of the <see cref="WriteableBrowsingOptionalNodeIndex"/> class.
         /// </summary>
         /// <param name="parentNode">Node containing the indexed optional node.</param>
-        /// <param name="propertyName">Property in <paramref name="parentNode"/> corresponding to the indexed optional node.
+        /// <param name="propertyName">Property in <paramref name="parentNode"/> corresponding to the indexed optional node.</param>
         public WriteableBrowsingOptionalNodeIndex(INode parentNode, string propertyName)
             : base(parentNode, propertyName)
         {
@@ -32,6 +32,7 @@ namespace EaslyController.Writeable
         /// <summary>
         /// Compares two <see cref="IReadOnlyIndex"/> objects.
         /// </summary>
+        /// <param name="comparer">The comparison support object.</param>
         /// <param name="other">The other object.</param>
         public override bool IsEqual(CompareEqual comparer, IEqualComparable other)
         {

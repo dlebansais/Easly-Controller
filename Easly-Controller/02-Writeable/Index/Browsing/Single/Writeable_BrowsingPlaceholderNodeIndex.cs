@@ -22,7 +22,7 @@ namespace EaslyController.Writeable
         /// </summary>
         /// <param name="parentNode">Node containing the indexed node.</param>
         /// <param name="node">The indexed node.</param>
-        /// <param name="propertyName">Property in <paramref name="parentNode"/> corresponding to the indexed node.
+        /// <param name="propertyName">Property in <paramref name="parentNode"/> corresponding to the indexed node.</param>
         public WriteableBrowsingPlaceholderNodeIndex(INode parentNode, INode node, string propertyName)
             : base(parentNode, node, propertyName)
         {
@@ -33,6 +33,7 @@ namespace EaslyController.Writeable
         /// <summary>
         /// Compares two <see cref="IReadOnlyIndex"/> objects.
         /// </summary>
+        /// <param name="comparer">The comparison support object.</param>
         /// <param name="other">The other object.</param>
         public override bool IsEqual(CompareEqual comparer, IEqualComparable other)
         {

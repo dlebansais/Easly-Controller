@@ -34,7 +34,7 @@ namespace EaslyController.Writeable
         /// <param name="propertyName">Property in <paramref name="parentNode"/> corresponding to the block list..</param>
         /// <param name="node">Inserted node.</param>
         /// <param name="blockIndex">Position of the block in the block list.</param>
-        /// <param name="index">Position where to insert <see cref="node"/> in the block.</param>
+        /// <param name="index">Position where to insert <paramref name="node"/> in the block.</param>
         public WriteableInsertionExistingBlockNodeIndex(INode parentNode, string propertyName, INode node, int blockIndex, int index)
             : base(parentNode, propertyName, node)
         {
@@ -74,6 +74,7 @@ namespace EaslyController.Writeable
         /// <summary>
         /// Compares two <see cref="IReadOnlyIndex"/> objects.
         /// </summary>
+        /// <param name="comparer">The comparison support object.</param>
         /// <param name="other">The other object.</param>
         public override bool IsEqual(CompareEqual comparer, IEqualComparable other)
         {

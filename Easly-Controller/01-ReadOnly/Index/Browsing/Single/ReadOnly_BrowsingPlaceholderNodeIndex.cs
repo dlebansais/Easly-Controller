@@ -22,7 +22,7 @@ namespace EaslyController.ReadOnly
         /// </summary>
         /// <param name="parentNode">Node containing the indexed node.</param>
         /// <param name="node">The indexed node.</param>
-        /// <param name="propertyName">Property in <paramref name="parentNode"/> corresponding to the indexed node.
+        /// <param name="propertyName">Property in <paramref name="parentNode"/> corresponding to the indexed node.</param>
         public ReadOnlyBrowsingPlaceholderNodeIndex(INode parentNode, INode node, string propertyName)
         {
             Debug.Assert(parentNode != null);
@@ -51,6 +51,7 @@ namespace EaslyController.ReadOnly
         /// <summary>
         /// Compares two <see cref="IReadOnlyIndex"/> objects.
         /// </summary>
+        /// <param name="comparer">The comparison support object.</param>
         /// <param name="other">The other object.</param>
         public virtual bool IsEqual(CompareEqual comparer, IEqualComparable other)
         {

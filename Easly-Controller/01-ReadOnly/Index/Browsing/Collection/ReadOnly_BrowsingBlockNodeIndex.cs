@@ -25,6 +25,7 @@ namespace EaslyController.ReadOnly
         /// </summary>
         /// <param name="node">The indexed node.</param>
         /// <param name="propertyName">The property for the index.</param>
+        /// <param name="blockIndex">The position of the block in the block list.</param>
         public ReadOnlyBrowsingBlockNodeIndex(INode node, string propertyName, int blockIndex)
             : base(node, propertyName)
         {
@@ -45,6 +46,7 @@ namespace EaslyController.ReadOnly
         /// <summary>
         /// Compares two <see cref="IReadOnlyIndex"/> objects.
         /// </summary>
+        /// <param name="comparer">The comparison support object.</param>
         /// <param name="other">The other object.</param>
         public override bool IsEqual(CompareEqual comparer, IEqualComparable other)
         {

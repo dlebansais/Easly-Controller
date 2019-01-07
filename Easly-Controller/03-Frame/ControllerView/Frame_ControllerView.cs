@@ -184,9 +184,9 @@ namespace EaslyController.Frame
         /// <summary>
         /// Handler called every time a state is inserted in the controller.
         /// </summary>
-        /// <param name="inner">Inner in which the state is inserted.</param>
         /// <param name="nodeIndex">Index of the inserted state.</param>
         /// <param name="state">The state inserted.</param>
+        /// <param name="isBlockInserted">True if the state is inserted in a new block.</param>
         public override void OnStateInserted(IWriteableBrowsingCollectionNodeIndex nodeIndex, IWriteableNodeState state, bool isBlockInserted)
         {
             base.OnStateInserted(nodeIndex, state, isBlockInserted);
@@ -603,7 +603,7 @@ namespace EaslyController.Frame
         /// </summary>
         /// <param name="inner">Inner where the block is split.</param>
         /// <param name="blockIndex">Index of the split block.</param>
-        /// <param name="Index">Index of the last node to stay in the old block.</param>
+        /// <param name="index">Index of the last node to stay in the old block.</param>
         public override void OnBlockSplit(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, int blockIndex, int index)
         {
             base.OnBlockSplit(inner, blockIndex, index);
@@ -737,6 +737,7 @@ namespace EaslyController.Frame
         /// <summary>
         /// Compares two <see cref="IFrameControllerView"/> objects.
         /// </summary>
+        /// <param name="comparer">The comparison support object.</param>
         /// <param name="other">The other object.</param>
         public override bool IsEqual(CompareEqual comparer, IEqualComparable other)
         {

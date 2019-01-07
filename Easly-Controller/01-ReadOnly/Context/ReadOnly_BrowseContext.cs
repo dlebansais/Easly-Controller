@@ -3,6 +3,9 @@ using System.Diagnostics;
 
 namespace EaslyController.ReadOnly
 {
+    /// <summary>
+    /// Context for browsing child nodes of a parent node.
+    /// </summary>
     public interface IReadOnlyBrowseContext
     {
         /// <summary>
@@ -37,6 +40,9 @@ namespace EaslyController.ReadOnly
         void AddValueProperty(string propertyName, ValuePropertyType type);
     }
 
+    /// <summary>
+    /// Context for browsing child nodes of a parent node.
+    /// </summary>
     public class ReadOnlyBrowseContext : IReadOnlyBrowseContext
     {
         #region Init
@@ -131,6 +137,9 @@ namespace EaslyController.ReadOnly
             return true;
         }
 
+        /// <summary>
+        /// Returns a string that represents the current object.
+        /// </summary>
         public override string ToString()
         {
             return $"{State}, {IndexCollectionList.Count} collections, {ValuePropertyTypeTable.Count} values";

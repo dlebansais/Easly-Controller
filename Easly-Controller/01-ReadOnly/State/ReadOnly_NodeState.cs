@@ -165,9 +165,9 @@ namespace EaslyController.ReadOnly
         /// </summary>
         /// <param name="browseContext">The context used to browse the node tree.</param>
         /// <param name="parentInner">The inner containing this state as a child.</param>
-        public virtual void BrowseChildren(IReadOnlyBrowseContext browseNodeContext, IReadOnlyInner<IReadOnlyBrowsingChildIndex> parentInner)
+        public virtual void BrowseChildren(IReadOnlyBrowseContext browseContext, IReadOnlyInner<IReadOnlyBrowsingChildIndex> parentInner)
         {
-            BrowseChildrenOfNode(browseNodeContext, Node);
+            BrowseChildrenOfNode(browseContext, Node);
         }
 
         protected virtual void BrowseChildrenOfNode(IReadOnlyBrowseContext browseNodeContext, INode node)
@@ -428,6 +428,7 @@ namespace EaslyController.ReadOnly
         /// <summary>
         /// Compares two <see cref="IReadOnlyNodeState"/> objects.
         /// </summary>
+        /// <param name="comparer">The comparison support object.</param>
         /// <param name="other">The other object.</param>
         public virtual bool IsEqual(CompareEqual comparer, IEqualComparable other)
         {

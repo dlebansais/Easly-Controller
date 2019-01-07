@@ -23,7 +23,7 @@ namespace EaslyController.Frame
         /// </summary>
         /// <param name="parentNode">Node containing the list.</param>
         /// <param name="node">Indexed node in the list</param>
-        /// <param name="propertyName">Property in <paramref name="parentNode"/> corresponding to the list.
+        /// <param name="propertyName">Property in <paramref name="parentNode"/> corresponding to the list.</param>
         /// <param name="index">Position of the node in the list.</param>
         public FrameBrowsingListNodeIndex(INode parentNode, INode node, string propertyName, int index)
             : base(parentNode, node, propertyName, index)
@@ -35,6 +35,7 @@ namespace EaslyController.Frame
         /// <summary>
         /// Compares two <see cref="IFrameIndex"/> objects.
         /// </summary>
+        /// <param name="comparer">The comparison support object.</param>
         /// <param name="other">The other object.</param>
         public override bool IsEqual(CompareEqual comparer, IEqualComparable other)
         {

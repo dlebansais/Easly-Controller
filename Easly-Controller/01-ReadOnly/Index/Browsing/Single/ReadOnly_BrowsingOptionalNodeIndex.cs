@@ -27,7 +27,7 @@ namespace EaslyController.ReadOnly
         /// Initializes a new instance of the <see cref="ReadOnlyBrowsingOptionalNodeIndex"/> class.
         /// </summary>
         /// <param name="parentNode">Node containing the indexed optional node.</param>
-        /// <param name="propertyName">Property in <paramref name="parentNode"/> corresponding to the indexed optional node.
+        /// <param name="propertyName">Property in <paramref name="parentNode"/> corresponding to the indexed optional node.</param>
         public ReadOnlyBrowsingOptionalNodeIndex(INode parentNode, string propertyName)
         {
             Debug.Assert(parentNode != null);
@@ -57,6 +57,7 @@ namespace EaslyController.ReadOnly
         /// <summary>
         /// Compares two <see cref="IReadOnlyIndex"/> objects.
         /// </summary>
+        /// <param name="comparer">The comparison support object.</param>
         /// <param name="other">The other object.</param>
         public virtual bool IsEqual(CompareEqual comparer, IEqualComparable other)
         {

@@ -51,7 +51,7 @@ namespace EaslyController.Writeable
     {
         #region Init
         /// <summary>
-        /// Initializes a new instance of the <see cref="WriteableInner{IIndex, TIndex}"/> class.
+        /// Initializes a new instance of the <see cref="WriteableInner{IIndex}"/> class.
         /// </summary>
         /// <param name="owner">Parent containing the inner.</param>
         /// <param name="propertyName">Property name of the inner in <paramref name="owner"/>.</param>

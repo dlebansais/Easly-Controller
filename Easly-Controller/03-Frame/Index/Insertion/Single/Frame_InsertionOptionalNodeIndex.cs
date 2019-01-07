@@ -21,7 +21,7 @@ namespace EaslyController.Frame
         /// Initializes a new instance of the <see cref="FrameInsertionOptionalNodeIndex"/> class.
         /// </summary>
         /// <param name="parentNode">Node containing the indexed optional node.</param>
-        /// <param name="propertyName">Property in <paramref name="parentNode"/> corresponding to the indexed optional node.
+        /// <param name="propertyName">Property in <paramref name="parentNode"/> corresponding to the indexed optional node.</param>
         /// <param name="node">The assigned node.</param>
         public FrameInsertionOptionalNodeIndex(INode parentNode, string propertyName, INode node)
             : base(parentNode, propertyName, node)
@@ -33,6 +33,7 @@ namespace EaslyController.Frame
         /// <summary>
         /// Compares two <see cref="IFrameIndex"/> objects.
         /// </summary>
+        /// <param name="comparer">The comparison support object.</param>
         /// <param name="other">The other object.</param>
         public override bool IsEqual(CompareEqual comparer, IEqualComparable other)
         {

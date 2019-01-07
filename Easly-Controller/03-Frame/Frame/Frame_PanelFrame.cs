@@ -24,7 +24,6 @@ namespace EaslyController.Frame
         /// <summary>
         /// Initializes a new instance of <see cref="FramePanelFrame"/>.
         /// </summary>
-        /// <param name="state">The state that will be browsed.</param>
         public FramePanelFrame()
         {
             Items = CreateItems();

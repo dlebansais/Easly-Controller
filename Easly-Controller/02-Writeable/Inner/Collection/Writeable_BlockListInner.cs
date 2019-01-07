@@ -59,7 +59,7 @@ namespace EaslyController.Writeable
         /// Splits a block in two at the given index.
         /// </summary>
         /// <param name="nodeIndex">Index of the last node to stay in the old block.</param>
-        /// <param name="NewBlockState">The created block state upon return.</param>
+        /// <param name="newBlockState">The created block state upon return.</param>
         void SplitBlock(IWriteableBrowsingExistingBlockNodeIndex nodeIndex, out IWriteableBlockState newBlockState);
 
         /// <summary>
@@ -136,7 +136,7 @@ namespace EaslyController.Writeable
         /// Splits a block in two at the given index.
         /// </summary>
         /// <param name="nodeIndex">Index of the last node to stay in the old block.</param>
-        /// <param name="NewBlockState">The created block state upon return.</param>
+        /// <param name="newBlockState">The created block state upon return.</param>
         void SplitBlock(IWriteableBrowsingExistingBlockNodeIndex nodeIndex, out IWriteableBlockState newBlockState);
 
         /// <summary>
@@ -310,7 +310,6 @@ namespace EaslyController.Writeable
         /// Removes a node from a block list. This method is not allowed to remove the last node of a block.
         /// </summary>
         /// <param name="nodeIndex">Index of the node to remove.</param>
-        /// <param name="oldBrowsingIndex">Index of the removed node upon return.</param>
         public virtual void Remove(IWriteableBrowsingCollectionNodeIndex nodeIndex)
         {
             Debug.Assert(nodeIndex != null);
@@ -476,7 +475,7 @@ namespace EaslyController.Writeable
         /// Splits a block in two at the given index.
         /// </summary>
         /// <param name="nodeIndex">Index of the last node to stay in the old block.</param>
-        /// <param name="NewBlockState">The created block state upon return.</param>
+        /// <param name="newBlockState">The created block state upon return.</param>
         public virtual void SplitBlock(IWriteableBrowsingExistingBlockNodeIndex nodeIndex, out IWriteableBlockState newBlockState)
         {
             Debug.Assert(nodeIndex != null);

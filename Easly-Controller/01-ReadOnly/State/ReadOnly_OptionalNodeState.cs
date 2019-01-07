@@ -79,15 +79,15 @@ namespace EaslyController.ReadOnly
         /// </summary>
         /// <param name="browseContext">The context used to browse the node tree.</param>
         /// <param name="parentInner">The inner containing this state as a child.</param>
-        public override void BrowseChildren(IReadOnlyBrowseContext browseNodeContext, IReadOnlyInner<IReadOnlyBrowsingChildIndex> parentInner)
+        public override void BrowseChildren(IReadOnlyBrowseContext browseContext, IReadOnlyInner<IReadOnlyBrowsingChildIndex> parentInner)
         {
-            Debug.Assert(browseNodeContext != null);
+            Debug.Assert(browseContext != null);
             Debug.Assert(parentInner != null);
 
             NodeTreeHelperOptional.GetChildNode(Optional, out bool IsAssigned, out INode ChildNode);
 
             if (ChildNode != null)
-                BrowseChildrenOfNode(browseNodeContext, ChildNode);
+                BrowseChildrenOfNode(browseContext, ChildNode);
         }
         #endregion
 
@@ -95,6 +95,7 @@ namespace EaslyController.ReadOnly
         /// <summary>
         /// Compares two <see cref="IReadOnlyNodeState"/> objects.
         /// </summary>
+        /// <param name="comparer">The comparison support object.</param>
         /// <param name="other">The other object.</param>
         public override bool IsEqual(CompareEqual comparer, IEqualComparable other)
         {
@@ -175,6 +176,9 @@ namespace EaslyController.ReadOnly
                 return null;
         }
 
+        /// <summary>
+        /// Returns a string that represents the current object.
+        /// </summary>
         public override string ToString()
         {
             return $"Optional node of {ParentInner.InterfaceType.Name}";

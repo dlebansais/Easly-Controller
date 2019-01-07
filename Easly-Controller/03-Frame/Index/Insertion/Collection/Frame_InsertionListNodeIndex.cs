@@ -23,7 +23,7 @@ namespace EaslyController.Frame
         /// <param name="parentNode">Node containing the list.</param>
         /// <param name="propertyName">Property in <paramref name="parentNode"/> corresponding to the list.</param>
         /// <param name="node">Inserted node.</param>
-        /// <param name="index">Position where to insert <see cref="node"/> in the list.</param>
+        /// <param name="index">Position where to insert <paramref name="node"/> in the list.</param>
         public FrameInsertionListNodeIndex(INode parentNode, string propertyName, INode node, int index)
             : base(parentNode, propertyName, node, index)
         {
@@ -34,6 +34,7 @@ namespace EaslyController.Frame
         /// <summary>
         /// Compares two <see cref="IFrameIndex"/> objects.
         /// </summary>
+        /// <param name="comparer">The comparison support object.</param>
         /// <param name="other">The other object.</param>
         public override bool IsEqual(CompareEqual comparer, IEqualComparable other)
         {
