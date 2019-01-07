@@ -131,6 +131,7 @@
     <Compile Include="02-Writeable\Context\Writeable_BrowseContext.cs" />
     <Compile Include="02-Writeable\ControllerView\Writeable_AttachCallbackSet.cs" />
     <Compile Include="02-Writeable\ControllerView\Writeable_ControllerView.cs" />
+    <Compile Include="02-Writeable\Controller\Operations\Writeable_Replace_Operation.cs" />
     <Compile Include="02-Writeable\Controller\Operations\Writeable_RemoveNode_Operation.cs" />
     <Compile Include="02-Writeable\Controller\Operations\Writeable_Remove_Operation.cs" />
     <Compile Include="02-Writeable\Controller\Operations\Writeable_RemoveBlock_Operation.cs" />
@@ -230,6 +231,7 @@
     <Compile Include="03-Frame\Controller\Operations\Frame_ExpandArgument_Operation.cs" />
     <Compile Include="03-Frame\Controller\Operations\Frame_RemoveBlock_Operation.cs" />
     <Compile Include="03-Frame\Controller\Operations\Frame_RemoveNode_Operation.cs" />
+    <Compile Include="03-Frame\Controller\Operations\Frame_Replace_Operation.cs" />
     <Compile Include="03-Frame\Frame\Frame_BlockFrame.cs" />
     <Compile Include="03-Frame\Frame\Frame_NodeFrame.cs" />
     <Compile Include="03-Frame\Frame\Frame_VerticalCollectionPlaceholderFrame.cs" />

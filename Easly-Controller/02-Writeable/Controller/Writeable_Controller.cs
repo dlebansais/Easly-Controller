@@ -63,7 +63,7 @@ namespace EaslyController.Writeable
         /// <summary>
         /// Called when a state is replaced.
         /// </summary>
-        event Action<IWriteableBrowsingChildIndex, IWriteableNodeState> StateReplaced;
+        event Action<IWriteableReplaceOperation> StateReplaced;
 
         /// <summary>
         /// Called when a state is assigned.
@@ -327,14 +327,14 @@ namespace EaslyController.Writeable
         /// <summary>
         /// Called when a state is replaced.
         /// </summary>
-        public event Action<IWriteableBrowsingChildIndex, IWriteableNodeState> StateReplaced
+        public event Action<IWriteableReplaceOperation> StateReplaced
         {
             add { AddStateReplacedDelegate(value); }
             remove { RemoveStateReplacedDelegate(value); }
         }
-        protected Action<IWriteableBrowsingChildIndex, IWriteableNodeState> StateReplacedHandler;
-        protected virtual void AddStateReplacedDelegate(Action<IWriteableBrowsingChildIndex, IWriteableNodeState> handler) { StateReplacedHandler += handler; }
-        protected virtual void RemoveStateReplacedDelegate(Action<IWriteableBrowsingChildIndex, IWriteableNodeState> handler) { StateReplacedHandler -= handler; }
+        protected Action<IWriteableReplaceOperation> StateReplacedHandler;
+        protected virtual void AddStateReplacedDelegate(Action<IWriteableReplaceOperation> handler) { StateReplacedHandler += handler; }
+        protected virtual void RemoveStateReplacedDelegate(Action<IWriteableReplaceOperation> handler) { StateReplacedHandler -= handler; }
 
         /// <summary>
         /// Called when a state is assigned.
@@ -593,10 +593,10 @@ namespace EaslyController.Writeable
         /// <param name="inner">The inner where the node is replaced.</param>
         /// <param name="insertedIndex">Index for the replace operation.</param>
         /// <param name="nodeIndex">Index of the replacing node upon return.</param>
-        public void Replace(IWriteableInner<IWriteableBrowsingChildIndex> inner, IWriteableInsertionChildIndex insertedIndex, out IWriteableBrowsingChildIndex nodeIndex)
+        public void Replace(IWriteableInner<IWriteableBrowsingChildIndex> inner, IWriteableInsertionChildIndex replacementIndex, out IWriteableBrowsingChildIndex nodeIndex)
         {
             Debug.Assert(inner != null);
-            Debug.Assert(insertedIndex != null);
+            Debug.Assert(replacementIndex != null);
             IWriteableNodeState Owner = inner.Owner;
             IWriteableIndex ParentIndex = Owner.ParentIndex;
             Debug.Assert(Contains(ParentIndex));
@@ -605,7 +605,8 @@ namespace EaslyController.Writeable
             Debug.Assert(InnerTable.ContainsKey(inner.PropertyName));
             Debug.Assert(InnerTable[inner.PropertyName] == inner);
 
-            inner.Replace(insertedIndex, out IWriteableBrowsingChildIndex OldBrowsingIndex, out IWriteableBrowsingChildIndex NewBrowsingIndex, out IWriteableNodeState ChildState);
+            IWriteableReplaceOperation Operation = CreateReplaceOperation(inner, replacementIndex);
+            inner.Replace(Operation, replacementIndex, out IWriteableBrowsingChildIndex OldBrowsingIndex, out IWriteableBrowsingChildIndex NewBrowsingIndex, out IWriteableNodeState ChildState);
 
             Debug.Assert(Contains(OldBrowsingIndex));
             IWriteableNodeState OldState = StateTable[OldBrowsingIndex];
@@ -618,7 +619,7 @@ namespace EaslyController.Writeable
             nodeIndex = NewBrowsingIndex;
             Debug.Assert(Contains(nodeIndex));
 
-            NotifyStateReplaced(nodeIndex, ChildState);
+            NotifyStateReplaced(Operation);
         }
 
         protected virtual void PruneState(IWriteableNodeState state)
@@ -977,7 +978,9 @@ namespace EaslyController.Writeable
             Debug.Assert(NewNode != null);
 
             IWriteableInsertionOptionalNodeIndex NewOptionalNodeIndex = CreateNewOptionalNodeIndex(optionalInner.Owner.Node, optionalInner.PropertyName, NewNode);
-            optionalInner.Replace(NewOptionalNodeIndex, out IWriteableBrowsingChildIndex OldBrowsingIndex, out IWriteableBrowsingChildIndex NewBrowsingIndex, out IWriteableNodeState ChildState);
+            IWriteableReplaceOperation Operation = CreateReplaceOperation(optionalInner, NewOptionalNodeIndex);
+
+            optionalInner.Replace(Operation, NewOptionalNodeIndex, out IWriteableBrowsingChildIndex OldBrowsingIndex, out IWriteableBrowsingChildIndex NewBrowsingIndex, out IWriteableNodeState ChildState);
 
             Debug.Assert(Contains(OldBrowsingIndex));
             IWriteableNodeState OldState = StateTable[OldBrowsingIndex];
@@ -988,7 +991,7 @@ namespace EaslyController.Writeable
 
             BuildStateTable(optionalInner, null, NewBrowsingIndex, ChildState);
 
-            NotifyStateReplaced(NewBrowsingIndex, ChildState);
+            NotifyStateReplaced(Operation);
         }
 
         /// <summary>
@@ -1202,9 +1205,9 @@ namespace EaslyController.Writeable
             StateRemovedHandler?.Invoke(operation);
         }
 
-        protected virtual void NotifyStateReplaced(IWriteableBrowsingChildIndex nodeIndex, IWriteableNodeState state)
+        protected virtual void NotifyStateReplaced(IWriteableReplaceOperation operation)
         {
-            StateReplacedHandler?.Invoke(nodeIndex, state);
+            StateReplacedHandler?.Invoke(operation);
         }
 
         protected virtual void NotifyStateAssigned(IWriteableBrowsingOptionalNodeIndex nodeIndex, IWriteableOptionalNodeState state)
@@ -1395,6 +1398,15 @@ namespace EaslyController.Writeable
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableController));
             return new WriteableRemoveNodeOperation(inner, nodeIndex);
+        }
+
+        /// <summary>
+        /// Creates a IxxxReplaceOperation object.
+        /// </summary>
+        protected virtual IWriteableReplaceOperation CreateReplaceOperation(IWriteableInner<IWriteableBrowsingChildIndex> inner, IWriteableInsertionChildIndex replacementIndex)
+        {
+            ControllerTools.AssertNoOverride(this, typeof(WriteableController));
+            return new WriteableReplaceOperation(inner, replacementIndex);
         }
 
         /// <summary>

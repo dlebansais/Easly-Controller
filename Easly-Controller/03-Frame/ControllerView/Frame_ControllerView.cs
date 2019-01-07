@@ -331,13 +331,16 @@ namespace EaslyController.Frame
         /// <summary>
         /// Handler called every time a state is inserted in the controller.
         /// </summary>
-        /// <param name="nodeIndex">Index of the inserted state.</param>
-        /// <param name="state">The state inserted.</param>
-        public override void OnStateReplaced(IWriteableBrowsingChildIndex nodeIndex, IWriteableNodeState state)
+        /// <param name="operation">Details of the operation performed.</param>
+        public override void OnStateReplaced(IWriteableReplaceOperation operation)
         {
-            base.OnStateReplaced(nodeIndex, state);
+            base.OnStateReplaced(operation);
 
-            IFrameNodeState ReplacedState = state as IFrameNodeState;
+            IFrameInner<IFrameBrowsingChildIndex> Inner = ((IFrameReplaceOperation)operation).Inner;
+            Debug.Assert(Inner != null);
+            IFrameBrowsingChildIndex BrowsingIndex = ((IFrameReplaceOperation)operation).BrowsingIndex;
+            Debug.Assert(BrowsingIndex != null);
+            IFrameNodeState ReplacedState = ((IFrameReplaceOperation)operation).ChildState;
             Debug.Assert(ReplacedState != null);
 
             IFrameNodeStateView ReplacedStateView = StateViewTable[ReplacedState];
@@ -347,20 +350,20 @@ namespace EaslyController.Frame
             IFrameInner<IFrameBrowsingChildIndex> ParentInner = ReplacedState.ParentInner;
             Debug.Assert(ParentInner != null);
 
-            if ((ParentInner is IFramePlaceholderInner<IFrameBrowsingPlaceholderNodeIndex> AsPlaceholderInner) && (nodeIndex is IFrameBrowsingPlaceholderNodeIndex AsPlaceholderIndex))
+            if ((Inner is IFramePlaceholderInner<IFrameBrowsingPlaceholderNodeIndex> AsPlaceholderInner) && (BrowsingIndex is IFrameBrowsingPlaceholderNodeIndex AsPlaceholderIndex))
                 OnPlaceholderStateReplaced(AsPlaceholderInner, AsPlaceholderIndex, ReplacedState);
 
-            else if ((ParentInner is IFrameOptionalInner<IFrameBrowsingOptionalNodeIndex> AsOptionalInner) && (nodeIndex is IFrameBrowsingOptionalNodeIndex AsOptionalIndex))
+            else if ((Inner is IFrameOptionalInner<IFrameBrowsingOptionalNodeIndex> AsOptionalInner) && (BrowsingIndex is IFrameBrowsingOptionalNodeIndex AsOptionalIndex))
                 OnOptionalStateReplaced(AsOptionalInner, AsOptionalIndex, ReplacedState);
 
-            else if ((ParentInner is IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> AsBlockListInner) && (nodeIndex is IFrameBrowsingExistingBlockNodeIndex AsBlockListIndex))
+            else if ((Inner is IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> AsBlockListInner) && (BrowsingIndex is IFrameBrowsingExistingBlockNodeIndex AsBlockListIndex))
                 OnBlockListStateReplaced(AsBlockListInner, AsBlockListIndex, ReplacedState);
 
-            else if ((ParentInner is IFrameListInner<IFrameBrowsingListNodeIndex> AsListInner) && (nodeIndex is IFrameBrowsingListNodeIndex AsListIndex))
+            else if ((Inner is IFrameListInner<IFrameBrowsingListNodeIndex> AsListInner) && (BrowsingIndex is IFrameBrowsingListNodeIndex AsListIndex))
                 OnListStateReplaced(AsListInner, AsListIndex, ReplacedState);
 
             else
-                throw new ArgumentOutOfRangeException(nameof(state));
+                throw new ArgumentOutOfRangeException(nameof(operation));
 
             UpdateLineNumbers();
         }

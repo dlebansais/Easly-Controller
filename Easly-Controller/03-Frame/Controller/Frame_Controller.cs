@@ -61,7 +61,7 @@ namespace EaslyController.Frame
         /// <summary>
         /// Called when a state is replaced.
         /// </summary>
-        new event Action<IFrameBrowsingChildIndex, IFrameNodeState> StateReplaced;
+        new event Action<IFrameReplaceOperation> StateReplaced;
 
         /// <summary>
         /// Called when a state is assigned.
@@ -202,10 +202,10 @@ namespace EaslyController.Frame
         /// <summary>
         /// Called when a state is replaced.
         /// </summary>
-        public new event Action<IFrameBrowsingChildIndex, IFrameNodeState> StateReplaced
+        public new event Action<IFrameReplaceOperation> StateReplaced
         {
-            add { AddStateReplacedDelegate((Action<IWriteableBrowsingChildIndex, IWriteableNodeState>)value); }
-            remove { RemoveStateReplacedDelegate((Action<IWriteableBrowsingChildIndex, IWriteableNodeState>)value); }
+            add { AddStateReplacedDelegate((Action<IWriteableReplaceOperation>)value); }
+            remove { RemoveStateReplacedDelegate((Action<IWriteableReplaceOperation>)value); }
         }
 
         /// <summary>
@@ -420,6 +420,15 @@ namespace EaslyController.Frame
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameController));
             return new FrameRemoveNodeOperation((IFrameCollectionInner<IFrameBrowsingCollectionNodeIndex>)inner, (IFrameBrowsingCollectionNodeIndex)nodeIndex);
+        }
+
+        /// <summary>
+        /// Creates a IxxxReplaceOperation object.
+        /// </summary>
+        protected override IWriteableReplaceOperation CreateReplaceOperation(IWriteableInner<IWriteableBrowsingChildIndex> inner, IWriteableInsertionChildIndex replacementIndex)
+        {
+            ControllerTools.AssertNoOverride(this, typeof(FrameController));
+            return new FrameReplaceOperation((IFrameInner<IFrameBrowsingChildIndex>)inner, (IFrameInsertionChildIndex)replacementIndex);
         }
 
         /// <summary>

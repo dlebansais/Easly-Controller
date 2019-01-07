@@ -59,11 +59,12 @@ namespace EaslyController.Writeable
         /// <summary>
         /// Replaces a node.
         /// </summary>
+        /// <param name="operation">Details of the operation performed.</param>
         /// <param name="nodeIndex">Index of the node to insert.</param>
         /// <param name="oldBrowsingIndex">Index of the replaced node upon return.</param>
         /// <param name="newBrowsingIndex">Index of the inserted node upon return.</param>
         /// <param name="childState">State of the inserted node upon return.</param>
-        public abstract void Replace(IWriteableInsertionChildIndex nodeIndex, out IWriteableBrowsingChildIndex oldBrowsingIndex, out IWriteableBrowsingChildIndex newBrowsingIndex, out IWriteableNodeState childState);
+        public abstract void Replace(IWriteableReplaceOperation operation, IWriteableInsertionChildIndex nodeIndex, out IWriteableBrowsingChildIndex oldBrowsingIndex, out IWriteableBrowsingChildIndex newBrowsingIndex, out IWriteableNodeState childState);
         #endregion
     }
 }

@@ -159,12 +159,14 @@ namespace EaslyController.Writeable
         /// <summary>
         /// Handler called every time a state is replaced in the controller.
         /// </summary>
-        /// <param name="nodeIndex">Index of the replaced state.</param>
-        /// <param name="state">The new state.</param>
-        public virtual void OnStateReplaced(IWriteableBrowsingChildIndex nodeIndex, IWriteableNodeState state)
+        /// <param name="operation">Details of the operation performed.</param>
+        public virtual void OnStateReplaced(IWriteableReplaceOperation operation)
         {
-            Debug.Assert(state != null);
-            Debug.Assert(StateViewTable.ContainsKey(state));
+            Debug.Assert(operation != null);
+
+            IWriteableNodeState ChildState = operation.ChildState;
+            Debug.Assert(ChildState != null);
+            Debug.Assert(StateViewTable.ContainsKey(ChildState));
         }
 
         /// <summary>

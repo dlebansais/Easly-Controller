@@ -399,21 +399,22 @@ namespace EaslyController.Writeable
         /// <summary>
         /// Replaces a node.
         /// </summary>
+        /// <param name="operation">Details of the operation performed.</param>
         /// <param name="nodeIndex">Index of the node to insert.</param>
         /// <param name="oldBrowsingIndex">Index of the replaced node upon return.</param>
         /// <param name="newBrowsingIndex">Index of the inserted node upon return.</param>
         /// <param name="childState">State of the inserted node upon return.</param>
-        public virtual void Replace(IWriteableInsertionChildIndex nodeIndex, out IWriteableBrowsingChildIndex oldBrowsingIndex, out IWriteableBrowsingChildIndex newBrowsingIndex, out IWriteableNodeState childState)
+        public virtual void Replace(IWriteableReplaceOperation operation, IWriteableInsertionChildIndex nodeIndex, out IWriteableBrowsingChildIndex oldBrowsingIndex, out IWriteableBrowsingChildIndex newBrowsingIndex, out IWriteableNodeState childState)
         {
             Debug.Assert(nodeIndex != null);
 
             if (nodeIndex is IWriteableInsertionExistingBlockNodeIndex AsExistingBlockIndex)
-                Replace(AsExistingBlockIndex, out oldBrowsingIndex, out newBrowsingIndex, out childState);
+                Replace(operation, AsExistingBlockIndex, out oldBrowsingIndex, out newBrowsingIndex, out childState);
             else
                 throw new ArgumentOutOfRangeException(nameof(nodeIndex));
         }
 
-        protected virtual void Replace(IWriteableInsertionExistingBlockNodeIndex existingBlockIndex, out IWriteableBrowsingChildIndex oldBrowsingIndex, out IWriteableBrowsingChildIndex newBrowsingIndex, out IWriteableNodeState childState)
+        protected virtual void Replace(IWriteableReplaceOperation operation, IWriteableInsertionExistingBlockNodeIndex existingBlockIndex, out IWriteableBrowsingChildIndex oldBrowsingIndex, out IWriteableBrowsingChildIndex newBrowsingIndex, out IWriteableNodeState childState)
         {
             Debug.Assert(existingBlockIndex != null);
             Debug.Assert(existingBlockIndex.BlockIndex < BlockStateList.Count);
@@ -438,6 +439,8 @@ namespace EaslyController.Writeable
             BlockState.Insert(BrowsingBlockIndex, Index, NewChildState);
 
             childState = NewChildState;
+
+            operation.Update(BrowsingBlockIndex, NewChildState);
         }
 
         /// <summary>
