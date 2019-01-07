@@ -57,9 +57,9 @@ namespace EaslyController.Writeable
         /// <summary>
         /// Splits a block in two at the given index.
         /// </summary>
+        /// <param name="operation">Details of the operation performed.</param>
         /// <param name="nodeIndex">Index of the last node to stay in the old block.</param>
-        /// <param name="newBlockState">The created block state upon return.</param>
-        void SplitBlock(IWriteableBrowsingExistingBlockNodeIndex nodeIndex, out IWriteableBlockState newBlockState);
+        void SplitBlock(IWriteableSplitBlockOperation operation, IWriteableBrowsingExistingBlockNodeIndex nodeIndex);
 
         /// <summary>
         /// Checks whether a block can be merged at the given index.
@@ -133,9 +133,9 @@ namespace EaslyController.Writeable
         /// <summary>
         /// Splits a block in two at the given index.
         /// </summary>
+        /// <param name="operation">Details of the operation performed.</param>
         /// <param name="nodeIndex">Index of the last node to stay in the old block.</param>
-        /// <param name="newBlockState">The created block state upon return.</param>
-        void SplitBlock(IWriteableBrowsingExistingBlockNodeIndex nodeIndex, out IWriteableBlockState newBlockState);
+        void SplitBlock(IWriteableSplitBlockOperation operation, IWriteableBrowsingExistingBlockNodeIndex nodeIndex);
 
         /// <summary>
         /// Checks whether a block can be merged at the given index.
@@ -477,9 +477,9 @@ namespace EaslyController.Writeable
         /// <summary>
         /// Splits a block in two at the given index.
         /// </summary>
+        /// <param name="operation">Details of the operation performed.</param>
         /// <param name="nodeIndex">Index of the last node to stay in the old block.</param>
-        /// <param name="newBlockState">The created block state upon return.</param>
-        public virtual void SplitBlock(IWriteableBrowsingExistingBlockNodeIndex nodeIndex, out IWriteableBlockState newBlockState)
+        public virtual void SplitBlock(IWriteableSplitBlockOperation operation, IWriteableBrowsingExistingBlockNodeIndex nodeIndex)
         {
             Debug.Assert(nodeIndex != null);
             Debug.Assert(nodeIndex.BlockIndex >= 0 && nodeIndex.BlockIndex < BlockStateList.Count);
@@ -500,9 +500,9 @@ namespace EaslyController.Writeable
             NodeTreeHelperBlockList.GetChildNode(ChildBlock, 0, out INode NewBlockFirstNode);
             IWriteableBrowsingNewBlockNodeIndex NewBlockIndex = CreateNewBlockNodeIndex(NewBlockFirstNode, SplitBlockIndex, NewPatternNode, NewSourceNode);
 
-            newBlockState = (IWriteableBlockState)CreateBlockState(NewBlockIndex, ChildBlock);
-            newBlockState.InitBlockState();
-            InsertInBlockStateList(NewBlockIndex.BlockIndex, newBlockState);
+            IWriteableBlockState NewBlockState = (IWriteableBlockState)CreateBlockState(NewBlockIndex, ChildBlock);
+            NewBlockState.InitBlockState();
+            InsertInBlockStateList(NewBlockIndex.BlockIndex, NewBlockState);
 
             for (int i = 0; i < SplitIndex; i++)
             {
@@ -511,7 +511,7 @@ namespace EaslyController.Writeable
                 Debug.Assert(ChildNodeIndex != null);
 
                 BlockState.Remove(ChildNodeIndex, 0);
-                newBlockState.Insert(ChildNodeIndex, i, State);
+                NewBlockState.Insert(ChildNodeIndex, i, State);
             }
 
             for (int i = 0; i < BlockState.StateList.Count; i++)
@@ -534,6 +534,8 @@ namespace EaslyController.Writeable
 
                     ChildNodeIndex.MoveBlockUp();
                 }
+
+            operation.Update(NewBlockState);
         }
 
         /// <summary>

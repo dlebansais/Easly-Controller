@@ -88,7 +88,7 @@ namespace EaslyController.Writeable
         /// <summary>
         /// Called when a block is split.
         /// </summary>
-        event Action<IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex>, int, int> BlockSplit;
+        event Action<IWriteableSplitBlockOperation> BlockSplit;
 
         /// <summary>
         /// Called when two blocks are merged.
@@ -387,14 +387,14 @@ namespace EaslyController.Writeable
         /// <summary>
         /// Called when a block is split.
         /// </summary>
-        public event Action<IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex>, int, int> BlockSplit
+        public event Action<IWriteableSplitBlockOperation> BlockSplit
         {
             add { AddBlockSplitDelegate(value); }
             remove { RemoveBlockSplitDelegate(value); }
         }
-        protected Action<IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex>, int, int> BlockSplitHandler;
-        protected virtual void AddBlockSplitDelegate(Action<IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex>, int, int> handler) { BlockSplitHandler += handler; }
-        protected virtual void RemoveBlockSplitDelegate(Action<IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex>, int, int> handler) { BlockSplitHandler -= handler; }
+        protected Action<IWriteableSplitBlockOperation> BlockSplitHandler;
+        protected virtual void AddBlockSplitDelegate(Action<IWriteableSplitBlockOperation> handler) { BlockSplitHandler += handler; }
+        protected virtual void RemoveBlockSplitDelegate(Action<IWriteableSplitBlockOperation> handler) { BlockSplitHandler -= handler; }
 
         /// <summary>
         /// Called when two blocks are merged.
@@ -622,57 +622,6 @@ namespace EaslyController.Writeable
             NotifyStateReplaced(Operation);
         }
 
-        protected virtual void PruneBlockListInner(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner)
-        {
-            while (inner.BlockStateList.Count > 0)
-            {
-                IWriteableBlockState BlockState = inner.BlockStateList[0];
-                IWriteableRemoveBlockOperation BlockOperation = null;
-
-                do
-                {
-                    Debug.Assert(BlockState.StateList.Count > 0);
-                    IWriteableNodeState FirstNodeState = BlockState.StateList[0];
-                    IWriteableBrowsingExistingBlockNodeIndex FirstNodeIndex = FirstNodeState.ParentIndex as IWriteableBrowsingExistingBlockNodeIndex;
-                    Debug.Assert(FirstNodeIndex != null);
-
-                    BlockOperation = CreateRemoveBlockOperation(inner, FirstNodeIndex);
-
-                    IWriteableRemoveNodeOperation NodeOperation = CreateRemoveNodeOperation(inner, FirstNodeIndex);
-
-                    inner.RemoveWithBlock(BlockOperation, NodeOperation, FirstNodeIndex);
-                    PruneState(FirstNodeState);
-
-                    Stats.PlaceholderNodeCount--;
-                }
-                while (BlockOperation.BlockState == null);
-
-                Debug.Assert(BlockOperation != null);
-                IWriteableBlockState RemovedBlockState = BlockOperation.BlockState;
-                Debug.Assert(RemovedBlockState != null);
-
-                IWriteableBrowsingPatternIndex PatternIndex = RemovedBlockState.PatternIndex;
-                IWriteableBrowsingSourceIndex SourceIndex = RemovedBlockState.SourceIndex;
-
-                Debug.Assert(PatternIndex != null);
-                Debug.Assert(StateTable.ContainsKey(PatternIndex));
-                Debug.Assert(SourceIndex != null);
-                Debug.Assert(StateTable.ContainsKey(SourceIndex));
-
-                RemoveState(PatternIndex);
-                Stats.PlaceholderNodeCount--;
-
-                RemoveState(SourceIndex);
-                Stats.PlaceholderNodeCount--;
-
-                Stats.BlockCount--;
-
-                NotifyBlockStateRemoved(BlockOperation);
-            }
-
-            Stats.BlockListCount--;
-        }
-
         /// <summary>
         /// Assign the optional node.
         /// </summary>
@@ -766,12 +715,13 @@ namespace EaslyController.Writeable
             IWriteableBlockState OldBlockState = inner.BlockStateList[nodeIndex.BlockIndex];
             Debug.Assert(nodeIndex.Index < OldBlockState.StateList.Count);
 
-            int BlockIndex = nodeIndex.BlockIndex;
-            int Index = nodeIndex.Index;
             int OldNodeCount = OldBlockState.StateList.Count;
 
-            inner.SplitBlock(nodeIndex, out IWriteableBlockState NewBlockState);
+            IWriteableSplitBlockOperation Operation = CreateSplitBlockOperation(inner, nodeIndex);
+            inner.SplitBlock(Operation, nodeIndex);
             Stats.BlockCount++;
+
+            IWriteableBlockState NewBlockState = Operation.BlockState;
 
             Debug.Assert(OldBlockState.StateList.Count + NewBlockState.StateList.Count == OldNodeCount);
             Debug.Assert(NewBlockState.StateList.Count > 0);
@@ -787,7 +737,7 @@ namespace EaslyController.Writeable
             AddState(SourceIndex, SourceState);
             Stats.PlaceholderNodeCount++;
 
-            NotifyBlockSplit(inner, BlockIndex, Index);
+            NotifyBlockSplit(Operation);
         }
 
         /// <summary>
@@ -1194,6 +1144,57 @@ namespace EaslyController.Writeable
             Stats.ListCount--;
         }
 
+        protected virtual void PruneBlockListInner(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner)
+        {
+            while (inner.BlockStateList.Count > 0)
+            {
+                IWriteableBlockState BlockState = inner.BlockStateList[0];
+                IWriteableRemoveBlockOperation BlockOperation = null;
+
+                do
+                {
+                    Debug.Assert(BlockState.StateList.Count > 0);
+                    IWriteableNodeState FirstNodeState = BlockState.StateList[0];
+                    IWriteableBrowsingExistingBlockNodeIndex FirstNodeIndex = FirstNodeState.ParentIndex as IWriteableBrowsingExistingBlockNodeIndex;
+                    Debug.Assert(FirstNodeIndex != null);
+
+                    BlockOperation = CreateRemoveBlockOperation(inner, FirstNodeIndex);
+
+                    IWriteableRemoveNodeOperation NodeOperation = CreateRemoveNodeOperation(inner, FirstNodeIndex);
+
+                    inner.RemoveWithBlock(BlockOperation, NodeOperation, FirstNodeIndex);
+                    PruneState(FirstNodeState);
+
+                    Stats.PlaceholderNodeCount--;
+                }
+                while (BlockOperation.BlockState == null);
+
+                Debug.Assert(BlockOperation != null);
+                IWriteableBlockState RemovedBlockState = BlockOperation.BlockState;
+                Debug.Assert(RemovedBlockState != null);
+
+                IWriteableBrowsingPatternIndex PatternIndex = RemovedBlockState.PatternIndex;
+                IWriteableBrowsingSourceIndex SourceIndex = RemovedBlockState.SourceIndex;
+
+                Debug.Assert(PatternIndex != null);
+                Debug.Assert(StateTable.ContainsKey(PatternIndex));
+                Debug.Assert(SourceIndex != null);
+                Debug.Assert(StateTable.ContainsKey(SourceIndex));
+
+                RemoveState(PatternIndex);
+                Stats.PlaceholderNodeCount--;
+
+                RemoveState(SourceIndex);
+                Stats.PlaceholderNodeCount--;
+
+                Stats.BlockCount--;
+
+                NotifyBlockStateRemoved(BlockOperation);
+            }
+
+            Stats.BlockListCount--;
+        }
+
         protected virtual void NotifyBlockStateInserted(IWriteableInsertBlockOperation operation)
         {
             BlockStateInsertedHandler?.Invoke(operation);
@@ -1239,9 +1240,9 @@ namespace EaslyController.Writeable
             BlockStateMovedHandler?.Invoke(inner, blockIndex, direction);
         }
 
-        protected virtual void NotifyBlockSplit(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, int blockIndex, int index)
+        protected virtual void NotifyBlockSplit(IWriteableSplitBlockOperation operation)
         {
-            BlockSplitHandler?.Invoke(inner, blockIndex, index);
+            BlockSplitHandler?.Invoke(operation);
         }
 
         protected virtual void NotifyBlocksMerged(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, int blockIndex)
@@ -1425,6 +1426,15 @@ namespace EaslyController.Writeable
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableController));
             return new WriteableAssignmentOperation(inner, nodeIndex);
+        }
+
+        /// <summary>
+        /// Creates a IxxxSplitBlockOperation object.
+        /// </summary>
+        protected virtual IWriteableSplitBlockOperation CreateSplitBlockOperation(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, IWriteableBrowsingExistingBlockNodeIndex nodeIndex)
+        {
+            ControllerTools.AssertNoOverride(this, typeof(WriteableController));
+            return new WriteableSplitBlockOperation(inner, nodeIndex);
         }
 
         /// <summary>

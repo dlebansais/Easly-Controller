@@ -86,7 +86,7 @@ namespace EaslyController.Frame
         /// <summary>
         /// Called when a block is split.
         /// </summary>
-        new event Action<IFrameBlockListInner<IFrameBrowsingBlockNodeIndex>, int, int> BlockSplit;
+        new event Action<IFrameSplitBlockOperation> BlockSplit;
 
         /// <summary>
         /// Called when two blocks are merged.
@@ -247,10 +247,10 @@ namespace EaslyController.Frame
         /// <summary>
         /// Called when a block is split.
         /// </summary>
-        public new event Action<IFrameBlockListInner<IFrameBrowsingBlockNodeIndex>, int, int> BlockSplit
+        public new event Action<IFrameSplitBlockOperation> BlockSplit
         {
-            add { AddBlockSplitDelegate((Action<IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex>, int, int>)value); }
-            remove { RemoveBlockSplitDelegate((Action<IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex>, int, int>)value); }
+            add { AddBlockSplitDelegate((Action<IWriteableSplitBlockOperation>)value); }
+            remove { RemoveBlockSplitDelegate((Action<IWriteableSplitBlockOperation>)value); }
         }
 
         /// <summary>
@@ -438,6 +438,15 @@ namespace EaslyController.Frame
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameController));
             return new FrameAssignmentOperation((IFrameOptionalInner<IFrameBrowsingOptionalNodeIndex>)inner, (IFrameBrowsingOptionalNodeIndex)nodeIndex);
+        }
+
+        /// <summary>
+        /// Creates a IxxxSplitBlockOperation object.
+        /// </summary>
+        protected override IWriteableSplitBlockOperation CreateSplitBlockOperation(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, IWriteableBrowsingExistingBlockNodeIndex nodeIndex)
+        {
+            ControllerTools.AssertNoOverride(this, typeof(FrameController));
+            return new FrameSplitBlockOperation((IFrameBlockListInner<IFrameBrowsingBlockNodeIndex>)inner, (IFrameBrowsingExistingBlockNodeIndex)nodeIndex);
         }
 
         /// <summary>

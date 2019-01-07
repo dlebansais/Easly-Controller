@@ -220,11 +220,15 @@ namespace EaslyController.Writeable
         /// <summary>
         /// Handler called every time a block split in the controller.
         /// </summary>
-        /// <param name="inner">Inner where the block is split.</param>
-        /// <param name="blockIndex">Index of the split block.</param>
-        /// <param name="index">Index of the last node to stay in the old block.</param>
-        public virtual void OnBlockSplit(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, int blockIndex, int index)
+        /// <param name="operation">Details of the operation performed.</param>
+        public virtual void OnBlockSplit(IWriteableSplitBlockOperation operation)
         {
+            Debug.Assert(operation != null);
+
+            IWriteableBlockState BlockState = operation.BlockState;
+
+            Debug.Assert(BlockState != null);
+            Debug.Assert(BlockStateViewTable.ContainsKey(BlockState));
         }
 
         /// <summary>
