@@ -48,7 +48,7 @@ namespace EaslyController.Writeable
         /// <summary>
         /// Called when a block state is removed.
         /// </summary>
-        event Action<IWriteableBrowsingExistingBlockNodeIndex, IWriteableBlockState> BlockStateRemoved;
+        event Action<IWriteableRemoveBlockOperation> BlockStateRemoved;
 
         /// <summary>
         /// Called when a state is inserted.
@@ -58,7 +58,7 @@ namespace EaslyController.Writeable
         /// <summary>
         /// Called when a state is removed.
         /// </summary>
-        event Action<IWriteableBrowsingCollectionNodeIndex, IWriteableNodeState> StateRemoved;
+        event Action<IWriteableRemoveNodeOperation> StateRemoved;
 
         /// <summary>
         /// Called when a state is replaced.
@@ -291,14 +291,14 @@ namespace EaslyController.Writeable
         /// <summary>
         /// Called when a block state is removed.
         /// </summary>
-        public event Action<IWriteableBrowsingExistingBlockNodeIndex, IWriteableBlockState> BlockStateRemoved
+        public event Action<IWriteableRemoveBlockOperation> BlockStateRemoved
         {
             add { AddBlockStateRemovedDelegate(value); }
             remove { RemoveBlockStateRemovedDelegate(value); }
         }
-        protected Action<IWriteableBrowsingExistingBlockNodeIndex, IWriteableBlockState> BlockStateRemovedHandler;
-        protected virtual void AddBlockStateRemovedDelegate(Action<IWriteableBrowsingExistingBlockNodeIndex, IWriteableBlockState> handler) { BlockStateRemovedHandler += handler; }
-        protected virtual void RemoveBlockStateRemovedDelegate(Action<IWriteableBrowsingExistingBlockNodeIndex, IWriteableBlockState> handler) { BlockStateRemovedHandler -= handler; }
+        protected Action<IWriteableRemoveBlockOperation> BlockStateRemovedHandler;
+        protected virtual void AddBlockStateRemovedDelegate(Action<IWriteableRemoveBlockOperation> handler) { BlockStateRemovedHandler += handler; }
+        protected virtual void RemoveBlockStateRemovedDelegate(Action<IWriteableRemoveBlockOperation> handler) { BlockStateRemovedHandler -= handler; }
 
         /// <summary>
         /// Called when a state is inserted.
@@ -315,14 +315,14 @@ namespace EaslyController.Writeable
         /// <summary>
         /// Called when a state is removed.
         /// </summary>
-        public event Action<IWriteableBrowsingCollectionNodeIndex, IWriteableNodeState> StateRemoved
+        public event Action<IWriteableRemoveNodeOperation> StateRemoved
         {
             add { AddStateRemovedDelegate(value); }
             remove { RemoveStateRemovedDelegate(value); }
         }
-        protected Action<IWriteableBrowsingCollectionNodeIndex, IWriteableNodeState> StateRemovedHandler;
-        protected virtual void AddStateRemovedDelegate(Action<IWriteableBrowsingCollectionNodeIndex, IWriteableNodeState> handler) { StateRemovedHandler += handler; }
-        protected virtual void RemoveStateRemovedDelegate(Action<IWriteableBrowsingCollectionNodeIndex, IWriteableNodeState> handler) { StateRemovedHandler -= handler; }
+        protected Action<IWriteableRemoveNodeOperation> StateRemovedHandler;
+        protected virtual void AddStateRemovedDelegate(Action<IWriteableRemoveNodeOperation> handler) { StateRemovedHandler += handler; }
+        protected virtual void RemoveStateRemovedDelegate(Action<IWriteableRemoveNodeOperation> handler) { StateRemovedHandler -= handler; }
 
         /// <summary>
         /// Called when a state is replaced.
@@ -533,24 +533,26 @@ namespace EaslyController.Writeable
             IWriteableRemoveBlockOperation BlockOperation = CreateRemoveBlockOperation(blockListInner, blockIndex);
             IWriteableRemoveNodeOperation NodeOperation = CreateRemoveNodeOperation(blockListInner, blockIndex);
 
-            blockListInner.RemoveWithBlock(BlockOperation, NodeOperation, blockIndex, out IWriteableBlockState OldBlockState);
+            blockListInner.RemoveWithBlock(BlockOperation, NodeOperation, blockIndex);
+            IWriteableBlockState RemovedBlockState = BlockOperation.BlockState;
 
-            if (OldBlockState != null)
-                RemoveLastBlock(BlockOperation, blockListInner, blockIndex, OldBlockState);
+            if (RemovedBlockState != null)
+                RemoveLastBlock(BlockOperation, blockIndex);
             else
             {
                 IWriteableNodeState OldState = StateTable[blockIndex];
                 PruneState(OldState);
                 Stats.PlaceholderNodeCount--;
 
-                NotifyStateRemoved(blockIndex, OldState);
+                NotifyStateRemoved(NodeOperation);
             }
         }
 
-        protected virtual void RemoveLastBlock(IWriteableRemoveBlockOperation blockOperation, IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, IWriteableBrowsingExistingBlockNodeIndex blockIndex, IWriteableBlockState blockState)
+        protected virtual void RemoveLastBlock(IWriteableRemoveBlockOperation blockOperation, IWriteableBrowsingExistingBlockNodeIndex blockIndex)
         {
-            IWriteableBrowsingPatternIndex PatternIndex = blockState.PatternIndex;
-            IWriteableBrowsingSourceIndex SourceIndex = blockState.SourceIndex;
+            IWriteableBlockState RemovedBlockState = blockOperation.BlockState;
+            IWriteableBrowsingPatternIndex PatternIndex = RemovedBlockState.PatternIndex;
+            IWriteableBrowsingSourceIndex SourceIndex = RemovedBlockState.SourceIndex;
 
             Debug.Assert(PatternIndex != null);
             Debug.Assert(StateTable.ContainsKey(PatternIndex));
@@ -565,11 +567,11 @@ namespace EaslyController.Writeable
             RemoveState(SourceIndex);
             Stats.PlaceholderNodeCount--;
 
-            IWriteableNodeState OldState = StateTable[blockIndex];
-            PruneState(OldState);
+            IWriteableNodeState RemovedChildState = StateTable[blockIndex];
+            PruneState(RemovedChildState);
             Stats.PlaceholderNodeCount--;
 
-            NotifyBlockStateRemoved(blockIndex, blockState);
+            NotifyBlockStateRemoved(blockOperation);
         }
 
         protected virtual void RemoveNode(IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> inner, IWriteableBrowsingCollectionNodeIndex nodeIndex)
@@ -582,7 +584,7 @@ namespace EaslyController.Writeable
             PruneState(OldState);
             Stats.PlaceholderNodeCount--;
 
-            NotifyStateRemoved(nodeIndex, OldState);
+            NotifyStateRemoved(NodeOperation);
         }
 
         /// <summary>
@@ -669,27 +671,29 @@ namespace EaslyController.Writeable
             while (inner.BlockStateList.Count > 0)
             {
                 IWriteableBlockState BlockState = inner.BlockStateList[0];
-                IWriteableBrowsingExistingBlockNodeIndex FirstNodeIndex = null;
+                IWriteableRemoveBlockOperation BlockOperation = null;
 
-                IWriteableRemoveBlockOperation BlockOperation = CreateRemoveBlockOperation(inner, FirstNodeIndex);
-
-                IWriteableBlockState RemovedBlockState = null;
-                while (RemovedBlockState == null)
+                do
                 {
                     Debug.Assert(BlockState.StateList.Count > 0);
                     IWriteableNodeState FirstNodeState = BlockState.StateList[0];
-                    FirstNodeIndex = FirstNodeState.ParentIndex as IWriteableBrowsingExistingBlockNodeIndex;
+                    IWriteableBrowsingExistingBlockNodeIndex FirstNodeIndex = FirstNodeState.ParentIndex as IWriteableBrowsingExistingBlockNodeIndex;
                     Debug.Assert(FirstNodeIndex != null);
+
+                    BlockOperation = CreateRemoveBlockOperation(inner, FirstNodeIndex);
 
                     IWriteableRemoveNodeOperation NodeOperation = CreateRemoveNodeOperation(inner, FirstNodeIndex);
 
-                    inner.RemoveWithBlock(BlockOperation, NodeOperation, FirstNodeIndex, out RemovedBlockState);
+                    inner.RemoveWithBlock(BlockOperation, NodeOperation, FirstNodeIndex);
                     PruneState(FirstNodeState);
 
                     Stats.PlaceholderNodeCount--;
                 }
+                while (BlockOperation.BlockState == null);
 
-                Debug.Assert(FirstNodeIndex != null);
+                Debug.Assert(BlockOperation != null);
+                IWriteableBlockState RemovedBlockState = BlockOperation.BlockState;
+                Debug.Assert(RemovedBlockState != null);
 
                 IWriteableBrowsingPatternIndex PatternIndex = RemovedBlockState.PatternIndex;
                 IWriteableBrowsingSourceIndex SourceIndex = RemovedBlockState.SourceIndex;
@@ -707,7 +711,7 @@ namespace EaslyController.Writeable
 
                 Stats.BlockCount--;
 
-                NotifyBlockStateRemoved(FirstNodeIndex, RemovedBlockState);
+                NotifyBlockStateRemoved(BlockOperation);
             }
 
             Stats.BlockListCount--;
@@ -1102,13 +1106,15 @@ namespace EaslyController.Writeable
 
             IWriteableRemoveBlockOperation BlockOperation = CreateRemoveBlockOperation(blockListInner, FirstNodeIndex);
 
-            blockListInner.RemoveWithBlock(BlockOperation, null, FirstNodeIndex, out IWriteableBlockState OldBlockState);
-            Debug.Assert(OldBlockState != null);
+            blockListInner.RemoveWithBlock(BlockOperation, null, FirstNodeIndex);
+
+            IWriteableBlockState RemovedBlockState = BlockOperation.BlockState;
+            Debug.Assert(RemovedBlockState != null);
 
             Stats.BlockCount--;
 
-            IWriteableBrowsingPatternIndex PatternIndex = OldBlockState.PatternIndex;
-            IWriteableBrowsingSourceIndex SourceIndex = OldBlockState.SourceIndex;
+            IWriteableBrowsingPatternIndex PatternIndex = RemovedBlockState.PatternIndex;
+            IWriteableBrowsingSourceIndex SourceIndex = RemovedBlockState.SourceIndex;
 
             Debug.Assert(PatternIndex != null);
             Debug.Assert(StateTable.ContainsKey(PatternIndex));
@@ -1121,7 +1127,7 @@ namespace EaslyController.Writeable
             RemoveState(SourceIndex);
             Stats.PlaceholderNodeCount--;
 
-            NotifyBlockStateRemoved(FirstNodeIndex, OldBlockState);
+            NotifyBlockStateRemoved(BlockOperation);
         }
 
         /// <summary>
@@ -1181,9 +1187,9 @@ namespace EaslyController.Writeable
             BlockStateInsertedHandler?.Invoke(operation);
         }
 
-        protected virtual void NotifyBlockStateRemoved(IWriteableBrowsingExistingBlockNodeIndex nodeIndex, IWriteableBlockState state)
+        protected virtual void NotifyBlockStateRemoved(IWriteableRemoveBlockOperation operation)
         {
-            BlockStateRemovedHandler?.Invoke(nodeIndex, state);
+            BlockStateRemovedHandler?.Invoke(operation);
         }
 
         protected virtual void NotifyStateInserted(IWriteableInsertNodeOperation operation)
@@ -1191,9 +1197,9 @@ namespace EaslyController.Writeable
             StateInsertedHandler?.Invoke(operation);
         }
 
-        protected virtual void NotifyStateRemoved(IWriteableBrowsingCollectionNodeIndex nodeIndex, IWriteableNodeState state)
+        protected virtual void NotifyStateRemoved(IWriteableRemoveNodeOperation operation)
         {
-            StateRemovedHandler?.Invoke(nodeIndex, state);
+            StateRemovedHandler?.Invoke(operation);
         }
 
         protected virtual void NotifyStateReplaced(IWriteableBrowsingChildIndex nodeIndex, IWriteableNodeState state)

@@ -113,17 +113,20 @@ namespace EaslyController.Writeable
         /// <summary>
         /// Handler called every time a block state is removed from the controller.
         /// </summary>
-        /// <param name="nodeIndex">Index of the removed block state.</param>
-        /// <param name="blockState">The block state removed.</param>
-        public virtual void OnBlockStateRemoved(IWriteableBrowsingExistingBlockNodeIndex nodeIndex, IWriteableBlockState blockState)
+        /// <param name="operation">Details of the operation performed.</param>
+        public virtual void OnBlockStateRemoved(IWriteableRemoveBlockOperation operation)
         {
-            Debug.Assert(blockState != null);
-            Debug.Assert(!BlockStateViewTable.ContainsKey(blockState));
+            Debug.Assert(operation != null);
 
-            Debug.Assert(!StateViewTable.ContainsKey(blockState.PatternState));
-            Debug.Assert(!StateViewTable.ContainsKey(blockState.SourceState));
+            IWriteableBlockState BlockState = operation.BlockState;
 
-            foreach (IWriteableNodeState State in blockState.StateList)
+            Debug.Assert(BlockState != null);
+            Debug.Assert(!BlockStateViewTable.ContainsKey(BlockState));
+
+            Debug.Assert(!StateViewTable.ContainsKey(BlockState.PatternState));
+            Debug.Assert(!StateViewTable.ContainsKey(BlockState.SourceState));
+
+            foreach (IWriteableNodeState State in BlockState.StateList)
                 Debug.Assert(!StateViewTable.ContainsKey(State));
         }
 
@@ -143,12 +146,14 @@ namespace EaslyController.Writeable
         /// <summary>
         /// Handler called every time a state is removed from the controller.
         /// </summary>
-        /// <param name="nodeIndex">Index of the removed state.</param>
-        /// <param name="state">The state removed.</param>
-        public virtual void OnStateRemoved(IWriteableBrowsingCollectionNodeIndex nodeIndex, IWriteableNodeState state)
+        /// <param name="operation">Details of the operation performed.</param>
+        public virtual void OnStateRemoved(IWriteableRemoveNodeOperation operation)
         {
-            Debug.Assert(state != null);
-            Debug.Assert(!StateViewTable.ContainsKey(state));
+            Debug.Assert(operation != null);
+
+            IWriteablePlaceholderNodeState RemovedState = operation.ChildState;
+            Debug.Assert(RemovedState != null);
+            Debug.Assert(!StateViewTable.ContainsKey(RemovedState));
         }
 
         /// <summary>

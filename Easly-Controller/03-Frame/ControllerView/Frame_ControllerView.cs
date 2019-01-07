@@ -158,13 +158,12 @@ namespace EaslyController.Frame
         /// <summary>
         /// Handler called every time a block state is removed from the controller.
         /// </summary>
-        /// <param name="nodeIndex">Index of the removed block state.</param>
-        /// <param name="blockState">The block state removed.</param>
-        public override void OnBlockStateRemoved(IWriteableBrowsingExistingBlockNodeIndex nodeIndex, IWriteableBlockState blockState)
+        /// <param name="operation">Details of the operation performed.</param>
+        public override void OnBlockStateRemoved(IWriteableRemoveBlockOperation operation)
         {
-            base.OnBlockStateRemoved(nodeIndex, blockState);
+            base.OnBlockStateRemoved(operation);
 
-            IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> ParentInner = blockState.ParentInner as IFrameBlockListInner<IFrameBrowsingBlockNodeIndex>;
+            IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> ParentInner = ((IFrameRemoveBlockOperation)operation).Inner;
             IFrameNodeState OwnerState = ParentInner.Owner;
             IFrameNodeStateView OwnerStateView = StateViewTable[OwnerState];
 
@@ -176,7 +175,7 @@ namespace EaslyController.Frame
             IFrameCellViewCollection EmbeddingCellView = CellViewTable[PropertyName] as IFrameCellViewCollection;
             Debug.Assert(EmbeddingCellView != null);
 
-            int BlockIndex = nodeIndex.BlockIndex;
+            int BlockIndex = operation.BlockIndex.BlockIndex;
             EmbeddingCellView.Remove(BlockIndex);
 
             UpdateLineNumbers();
@@ -267,26 +266,26 @@ namespace EaslyController.Frame
         /// <summary>
         /// Handler called every time a state is removed from the controller.
         /// </summary>
-        /// <param name="nodeIndex">Index of the removed state.</param>
-        /// <param name="state">The state removed.</param>
-        public override void OnStateRemoved(IWriteableBrowsingCollectionNodeIndex nodeIndex, IWriteableNodeState state)
+        /// <param name="operation">Details of the operation performed.</param>
+        public override void OnStateRemoved(IWriteableRemoveNodeOperation operation)
         {
-            base.OnStateRemoved(nodeIndex, state);
+            base.OnStateRemoved(operation);
 
-            IFrameNodeState RemovedState = state as IFrameNodeState;
+            IFrameCollectionInner<IFrameBrowsingCollectionNodeIndex> Inner = ((IFrameRemoveNodeOperation)operation).Inner;
+            Debug.Assert(Inner != null);
+            IFrameBrowsingCollectionNodeIndex NodeIndex = ((IFrameRemoveNodeOperation)operation).NodeIndex;
+            Debug.Assert(NodeIndex != null);
+            IFramePlaceholderNodeState RemovedState = ((IFrameRemoveNodeOperation)operation).ChildState;
             Debug.Assert(RemovedState != null);
 
-            IFrameInner<IFrameBrowsingChildIndex> ParentInner = RemovedState.ParentInner;
-            Debug.Assert(ParentInner != null);
-
-            if ((ParentInner is IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> AsBlockListInner) && (nodeIndex is IFrameBrowsingExistingBlockNodeIndex AsBlockListIndex))
+            if ((Inner is IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> AsBlockListInner) && (NodeIndex is IFrameBrowsingExistingBlockNodeIndex AsBlockListIndex))
                 OnBlockListStateRemoved(AsBlockListInner, AsBlockListIndex, RemovedState);
 
-            else if ((ParentInner is IFrameListInner<IFrameBrowsingListNodeIndex> AsListInner) && (nodeIndex is IFrameBrowsingListNodeIndex AsListIndex))
+            else if ((Inner is IFrameListInner<IFrameBrowsingListNodeIndex> AsListInner) && (NodeIndex is IFrameBrowsingListNodeIndex AsListIndex))
                 OnListStateRemoved(AsListInner, AsListIndex, RemovedState);
 
             else
-                throw new ArgumentOutOfRangeException(nameof(state));
+                throw new ArgumentOutOfRangeException(nameof(operation));
 
             UpdateLineNumbers();
         }

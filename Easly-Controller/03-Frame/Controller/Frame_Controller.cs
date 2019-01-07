@@ -46,7 +46,7 @@ namespace EaslyController.Frame
         /// <summary>
         /// Called when a block state is removed.
         /// </summary>
-        new event Action<IFrameBrowsingExistingBlockNodeIndex, IFrameBlockState> BlockStateRemoved;
+        new event Action<IFrameRemoveBlockOperation> BlockStateRemoved;
 
         /// <summary>
         /// Called when a state is inserted.
@@ -56,7 +56,7 @@ namespace EaslyController.Frame
         /// <summary>
         /// Called when a state is removed.
         /// </summary>
-        new event Action<IFrameBrowsingCollectionNodeIndex, IFrameNodeState> StateRemoved;
+        new event Action<IFrameRemoveNodeOperation> StateRemoved;
 
         /// <summary>
         /// Called when a state is replaced.
@@ -175,10 +175,10 @@ namespace EaslyController.Frame
         /// <summary>
         /// Called when a block state is removed.
         /// </summary>
-        public new event Action<IFrameBrowsingExistingBlockNodeIndex, IFrameBlockState> BlockStateRemoved
+        public new event Action<IFrameRemoveBlockOperation> BlockStateRemoved
         {
-            add { AddBlockStateRemovedDelegate((Action<IWriteableBrowsingExistingBlockNodeIndex, IWriteableBlockState>)value); }
-            remove { RemoveBlockStateRemovedDelegate((Action<IWriteableBrowsingExistingBlockNodeIndex, IWriteableBlockState>)value); }
+            add { AddBlockStateRemovedDelegate((Action<IWriteableRemoveBlockOperation>)value); }
+            remove { RemoveBlockStateRemovedDelegate((Action<IWriteableRemoveBlockOperation>)value); }
         }
 
         /// <summary>
@@ -193,10 +193,10 @@ namespace EaslyController.Frame
         /// <summary>
         /// Called when a state is removed.
         /// </summary>
-        public new event Action<IFrameBrowsingCollectionNodeIndex, IFrameNodeState> StateRemoved
+        public new event Action<IFrameRemoveNodeOperation> StateRemoved
         {
-            add { AddStateRemovedDelegate((Action<IWriteableBrowsingCollectionNodeIndex, IWriteableNodeState>)value); }
-            remove { RemoveStateRemovedDelegate((Action<IWriteableBrowsingCollectionNodeIndex, IWriteableNodeState>)value); }
+            add { AddStateRemovedDelegate((Action<IWriteableRemoveNodeOperation>)value); }
+            remove { RemoveStateRemovedDelegate((Action<IWriteableRemoveNodeOperation>)value); }
         }
 
         /// <summary>

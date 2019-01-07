@@ -39,8 +39,7 @@ namespace EaslyController.Writeable
         /// <param name="blockOperation">Details of the operation performed, updated if a block is removed.</param>
         /// <param name="nodeOperation">Details of the operation performed, updated if no block is removed.</param>
         /// <param name="nodeIndex">Index of the node to remove.</param>
-        /// <param name="oldBlockState">If the node is the last in the block, contains upon return the block that was removed as well, null otherwise.</param>
-        void RemoveWithBlock(IWriteableRemoveBlockOperation blockOperation, IWriteableRemoveNodeOperation nodeOperation, IWriteableBrowsingExistingBlockNodeIndex nodeIndex, out IWriteableBlockState oldBlockState);
+        void RemoveWithBlock(IWriteableRemoveBlockOperation blockOperation, IWriteableRemoveNodeOperation nodeOperation, IWriteableBrowsingExistingBlockNodeIndex nodeIndex);
 
         /// <summary>
         /// Changes the replication state of a block.
@@ -116,8 +115,7 @@ namespace EaslyController.Writeable
         /// <param name="blockOperation">Details of the operation performed, updated if a block is removed.</param>
         /// <param name="nodeOperation">Details of the operation performed, updated if no block is removed.</param>
         /// <param name="nodeIndex">Index of the node to remove.</param>
-        /// <param name="oldBlockState">If the node is the last in the block, contains upon return the block that was removed as well, null otherwise.</param>
-        void RemoveWithBlock(IWriteableRemoveBlockOperation blockOperation, IWriteableRemoveNodeOperation nodeOperation, IWriteableBrowsingExistingBlockNodeIndex nodeIndex, out IWriteableBlockState oldBlockState);
+        void RemoveWithBlock(IWriteableRemoveBlockOperation blockOperation, IWriteableRemoveNodeOperation nodeOperation, IWriteableBrowsingExistingBlockNodeIndex nodeIndex);
 
         /// <summary>
         /// Changes the replication state of a block.
@@ -318,10 +316,8 @@ namespace EaslyController.Writeable
 
             if (nodeIndex is IWriteableBrowsingExistingBlockNodeIndex AsBlockIndex)
             {
-                Remove(null, nodeOperation, AsBlockIndex, out IWriteableBlockState OldBlockState);
-
                 // Only the safe case where the block isn't removed is allowed for this version of Remove().
-                Debug.Assert(OldBlockState == null);
+                Remove(null, nodeOperation, AsBlockIndex);
             }
             else
                 throw new ArgumentOutOfRangeException(nameof(nodeIndex));
@@ -333,13 +329,12 @@ namespace EaslyController.Writeable
         /// <param name="blockOperation">Details of the operation performed, updated if a block is removed.</param>
         /// <param name="nodeOperation">Details of the operation performed, updated if no block is removed.</param>
         /// <param name="nodeIndex">Index of the node to remove.</param>
-        /// <param name="oldBlockState">If the node is the last in the block, contains upon return the block that was removed as well, null otherwise.</param>
-        public virtual void RemoveWithBlock(IWriteableRemoveBlockOperation blockOperation, IWriteableRemoveNodeOperation nodeOperation, IWriteableBrowsingExistingBlockNodeIndex nodeIndex, out IWriteableBlockState oldBlockState)
+        public virtual void RemoveWithBlock(IWriteableRemoveBlockOperation blockOperation, IWriteableRemoveNodeOperation nodeOperation, IWriteableBrowsingExistingBlockNodeIndex nodeIndex)
         {
-            Remove(blockOperation, nodeOperation, nodeIndex, out oldBlockState);
+            Remove(blockOperation, nodeOperation, nodeIndex);
         }
 
-        protected virtual void Remove(IWriteableRemoveBlockOperation blockOperation, IWriteableRemoveNodeOperation nodeOperation, IWriteableBrowsingExistingBlockNodeIndex blockNodeIndex, out IWriteableBlockState oldBlockState)
+        protected virtual void Remove(IWriteableRemoveBlockOperation blockOperation, IWriteableRemoveNodeOperation nodeOperation, IWriteableBrowsingExistingBlockNodeIndex blockNodeIndex)
         {
             Debug.Assert(blockNodeIndex != null);
             Debug.Assert(blockNodeIndex.BlockIndex < BlockStateList.Count);
@@ -361,7 +356,6 @@ namespace EaslyController.Writeable
             {
                 Debug.Assert(blockOperation != null);
 
-                oldBlockState = BlockState;
                 RemoveFromBlockStateList(blockNodeIndex.BlockIndex);
 
                 for (int BlockIndex = blockNodeIndex.BlockIndex; BlockIndex < BlockStateList.Count; BlockIndex++)
@@ -384,7 +378,6 @@ namespace EaslyController.Writeable
             {
                 Debug.Assert(nodeOperation != null);
 
-                oldBlockState = null;
                 nodeOperation.Update(OldChildState);
             }
 
