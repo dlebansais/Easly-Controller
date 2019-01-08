@@ -190,29 +190,33 @@ namespace EaslyController.Writeable
         /// Moves a node around in a list or block list. In a block list, the node stays in same block.
         /// </summary>
         /// <param name="nodeOperation">Details of the operation performed.</param>
-        /// <param name="nodeIndex">Index for the moved node.</param>
-        public virtual void Move(IWriteableMoveNodeOperation operation, IWriteableBrowsingCollectionNodeIndex nodeIndex)
+        public virtual void Move(IWriteableMoveNodeOperation operation)
         {
-            Debug.Assert(nodeIndex != null);
+            Debug.Assert(operation != null);
 
-            if (nodeIndex is IWriteableBrowsingListNodeIndex AsListIndex)
+            if (operation.NodeIndex is IWriteableBrowsingListNodeIndex AsListIndex)
                 Move(operation, AsListIndex);
             else
-                throw new ArgumentOutOfRangeException(nameof(nodeIndex));
+                throw new ArgumentOutOfRangeException(nameof(operation));
         }
 
         protected virtual void Move(IWriteableMoveNodeOperation operation, IWriteableBrowsingListNodeIndex listIndex)
         {
-            Debug.Assert(listIndex != null);
-            Debug.Assert(listIndex.Index >= 0 && listIndex.Index < StateList.Count);
-            Debug.Assert(listIndex.Index + operation.Direction >= 0 && listIndex.Index + operation.Direction < StateList.Count);
+            Debug.Assert(operation != null);
 
-            int MoveIndex = listIndex.Index;
+            int MoveIndex = operation.Index;
             int Direction = operation.Direction;
+
+            Debug.Assert(listIndex != null);
+            Debug.Assert(MoveIndex >= 0 && MoveIndex < StateList.Count);
+            Debug.Assert(MoveIndex + operation.Direction >= 0 && MoveIndex + operation.Direction < StateList.Count);
+
             INode ParentNode = Owner.Node;
 
             MoveInStateList(MoveIndex, Direction);
             NodeTreeHelperList.MoveNode(ParentNode, PropertyName, MoveIndex, Direction);
+
+            operation.Update(StateList[MoveIndex + Direction]);
 
             if (Direction > 0)
             {
@@ -237,8 +241,6 @@ namespace EaslyController.Writeable
                     listIndex.MoveDown();
                 }
             }
-
-            operation.Update(StateList[MoveIndex + Direction]);
         }
         #endregion
 

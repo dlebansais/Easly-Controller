@@ -787,7 +787,7 @@ namespace EaslyController.Writeable
             int OldNodeCount = FirstBlockState.StateList.Count + SecondBlockState.StateList.Count;
             int FirstNodeIndex = FirstBlockState.StateList.Count;
 
-            inner.MergeBlocks(Operation, nodeIndex);
+            inner.MergeBlocks(Operation);
             Stats.BlockCount--;
 
             IWriteableBlockState BlockState = inner.BlockStateList[BlockIndex - 1];
@@ -815,7 +815,7 @@ namespace EaslyController.Writeable
 
             IWriteableMoveNodeOperation Operation = CreateMoveNodeOperation(inner, nodeIndex, direction);
 
-            inner.Move(Operation, nodeIndex);
+            inner.Move(Operation);
 
             NotifyStateMoved(Operation);
         }

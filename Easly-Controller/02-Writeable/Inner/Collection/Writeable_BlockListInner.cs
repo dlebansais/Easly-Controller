@@ -68,8 +68,7 @@ namespace EaslyController.Writeable
         /// Merges two blocks at the given index.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        /// <param name="nodeIndex">Index of the first node in the block to merge.</param>
-        void MergeBlocks(IWriteableMergeBlocksOperation operation, IWriteableBrowsingExistingBlockNodeIndex nodeIndex);
+        void MergeBlocks(IWriteableMergeBlocksOperation operation);
 
         /// <summary>
         /// Moves a block around in a block list.
@@ -141,8 +140,7 @@ namespace EaslyController.Writeable
         /// Merges two blocks at the given index.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        /// <param name="nodeIndex">Index of the first node in the block to merge.</param>
-        void MergeBlocks(IWriteableMergeBlocksOperation operation, IWriteableBrowsingExistingBlockNodeIndex nodeIndex);
+        void MergeBlocks(IWriteableMergeBlocksOperation operation);
 
         /// <summary>
         /// Moves a block around in a block list.
@@ -551,14 +549,17 @@ namespace EaslyController.Writeable
         /// Merges two blocks at the given index.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        /// <param name="nodeIndex">Index of the first node in the block to merge.</param>
-        public virtual void MergeBlocks(IWriteableMergeBlocksOperation operation, IWriteableBrowsingExistingBlockNodeIndex nodeIndex)
+        public virtual void MergeBlocks(IWriteableMergeBlocksOperation operation)
         {
-            Debug.Assert(nodeIndex != null);
-            Debug.Assert(nodeIndex.BlockIndex > 0 && nodeIndex.BlockIndex < BlockStateList.Count);
-            Debug.Assert(nodeIndex.Index == 0);
+            Debug.Assert(operation != null);
 
-            int MergeBlockIndex = nodeIndex.BlockIndex;
+            IWriteableBrowsingExistingBlockNodeIndex NodeIndex = operation.NodeIndex;
+            Debug.Assert(NodeIndex != null);
+            Debug.Assert(NodeIndex.Index == 0);
+
+            int MergeBlockIndex = NodeIndex.BlockIndex;
+            Debug.Assert(MergeBlockIndex > 0 && MergeBlockIndex < BlockStateList.Count);
+
             IWriteableBlockState FirstBlockState = BlockStateList[MergeBlockIndex - 1];
             IWriteableBlockState SecondBlockState = BlockStateList[MergeBlockIndex];
             int MergeIndex = FirstBlockState.StateList.Count;
@@ -567,6 +568,8 @@ namespace EaslyController.Writeable
             NodeTreeHelperBlockList.MergeBlocks(Owner.Node, PropertyName, MergeBlockIndex);
 
             RemoveFromBlockStateList(MergeBlockIndex - 1);
+
+            operation.Update();
 
             int i;
             for (i = 0; i < MergeIndex; i++)
@@ -599,42 +602,44 @@ namespace EaslyController.Writeable
 
                     ChildNodeIndex.MoveBlockDown();
                 }
-
-            operation.Update();
         }
 
         /// <summary>
         /// Moves a node around in a list or block list. In a block list, the node stays in same block.
         /// </summary>
         /// <param name="nodeOperation">Details of the operation performed.</param>
-        /// <param name="nodeIndex">Index for the moved node.</param>
-        public virtual void Move(IWriteableMoveNodeOperation operation, IWriteableBrowsingCollectionNodeIndex nodeIndex)
+        public virtual void Move(IWriteableMoveNodeOperation operation)
         {
-            Debug.Assert(nodeIndex != null);
+            Debug.Assert(operation != null);
 
-            if (nodeIndex is IWriteableBrowsingExistingBlockNodeIndex AsExistingBlockNodeIndex)
+            if (operation.NodeIndex is IWriteableBrowsingExistingBlockNodeIndex AsExistingBlockNodeIndex)
                 Move(operation, AsExistingBlockNodeIndex);
             else
-                throw new ArgumentOutOfRangeException(nameof(nodeIndex));
+                throw new ArgumentOutOfRangeException(nameof(operation));
         }
 
         protected virtual void Move(IWriteableMoveNodeOperation operation, IWriteableBrowsingExistingBlockNodeIndex existingBlockIndex)
         {
+            Debug.Assert(operation != null);
             Debug.Assert(existingBlockIndex != null);
-            Debug.Assert(existingBlockIndex.BlockIndex >= 0 && existingBlockIndex.BlockIndex < BlockStateList.Count);
+
+            int BlockIndex = existingBlockIndex.BlockIndex;
+            Debug.Assert(BlockIndex >= 0 && BlockIndex < BlockStateList.Count);
+
+            IWriteableBlockState BlockState = BlockStateList[BlockIndex];
+            IWriteablePlaceholderNodeStateReadOnlyList StateList = BlockState.StateList;
 
             int MoveIndex = operation.Index;
             int Direction = operation.Direction;
-            IWriteableBlockState BlockState = BlockStateList[existingBlockIndex.BlockIndex];
-            IWriteablePlaceholderNodeStateReadOnlyList StateList = BlockState.StateList;
-
             Debug.Assert(MoveIndex >= 0 && MoveIndex < StateList.Count);
             Debug.Assert(MoveIndex + Direction >= 0 && MoveIndex + Direction < StateList.Count);
 
-            BlockState.Move(existingBlockIndex, existingBlockIndex.Index, Direction);
+            BlockState.Move(existingBlockIndex, MoveIndex, Direction);
 
             IBlock ChildBlock = BlockState.ChildBlock;
-            NodeTreeHelperBlockList.MoveNode(ChildBlock, existingBlockIndex.Index, Direction);
+            NodeTreeHelperBlockList.MoveNode(ChildBlock, MoveIndex, Direction);
+
+            operation.Update(StateList[MoveIndex + Direction]);
 
             if (Direction > 0)
             {
@@ -659,8 +664,6 @@ namespace EaslyController.Writeable
                     existingBlockIndex.MoveDown();
                 }
             }
-
-            operation.Update(StateList[MoveIndex + Direction]);
         }
 
         /// <summary>

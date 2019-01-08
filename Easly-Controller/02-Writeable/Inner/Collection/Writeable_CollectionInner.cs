@@ -28,8 +28,7 @@ namespace EaslyController.Writeable
         /// Moves a node around in a list or block list. In a block list, the node stays in same block.
         /// </summary>
         /// <param name="nodeOperation">Details of the operation performed.</param>
-        /// <param name="nodeIndex">Index for the moved node.</param>
-        void Move(IWriteableMoveNodeOperation operation, IWriteableBrowsingCollectionNodeIndex nodeIndex);
+        void Move(IWriteableMoveNodeOperation operation);
     }
 
     /// <summary>
@@ -59,8 +58,7 @@ namespace EaslyController.Writeable
         /// Moves a node around in a list or block list. In a block list, the node stays in same block.
         /// </summary>
         /// <param name="nodeOperation">Details of the operation performed.</param>
-        /// <param name="nodeIndex">Index for the moved node.</param>
-        void Move(IWriteableMoveNodeOperation operation, IWriteableBrowsingCollectionNodeIndex nodeIndex);
+        void Move(IWriteableMoveNodeOperation operation);
     }
 
     /// <summary>
@@ -117,8 +115,7 @@ namespace EaslyController.Writeable
         /// Moves a node around in a list or block list. In a block list, the node stays in same block.
         /// </summary>
         /// <param name="nodeOperation">Details of the operation performed.</param>
-        /// <param name="nodeIndex">Index for the moved node.</param>
-        public abstract void Move(IWriteableMoveNodeOperation operation, IWriteableBrowsingCollectionNodeIndex nodeIndex);
+        public abstract void Move(IWriteableMoveNodeOperation operation);
         #endregion
     }
 }
