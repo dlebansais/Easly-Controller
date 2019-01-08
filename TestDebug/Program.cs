@@ -10,7 +10,12 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Text;
+using System.Windows;
+using System.Windows.Markup;
+using System.Xaml;
 
 namespace TestDebug
 {
@@ -37,6 +42,8 @@ namespace TestDebug
 
         static void Test(Serializer Serializer, string Folder)
         {
+            LoadTemplates();
+
             foreach (string Subfolder in Directory.GetDirectories(Folder))
                 Test(Serializer, Subfolder);
 
@@ -52,7 +59,57 @@ namespace TestDebug
 
         static void LoadTemplates()
         {
+            object t = LoadTemplate(
+"<FrameTemplate xmlns=\"clr-namespace:EaslyController;assembly=EaslyEditor\" NodeName=\"Assertion\">" +
+    "<FrameHorizontalPanelFrame>" +
+        "<FrameHorizontalPanelFrame>" +
+            "<FramePlaceholderFrame PropertyName=\"Tag\"/>" +
+        "</FrameHorizontalPanelFrame>" +
+        "<FramePlaceholderFrame PropertyName = \"BooleanExpression\"/>" +
+    "</FrameHorizontalPanelFrame>" +
+"</FrameTemplate>"
+                );
+        }
 
+        static object LoadTemplate(string s)
+        {
+            byte[] ByteArray = Encoding.UTF8.GetBytes(s);
+            using (MemoryStream ms = new MemoryStream(ByteArray))
+            {
+
+                List<Assembly> ReferencedAssemblies = new List<Assembly>();
+
+                try
+                {
+                    AssemblyName[] ReferencedAssemblyNames = Assembly.GetExecutingAssembly().GetReferencedAssemblies();
+                    for (int i = 0; i < ReferencedAssemblyNames.Length; i++)
+                    {
+                        AssemblyName ReferencedAssemblyName = ReferencedAssemblyNames[i];
+                        //if (ReferencedAssemblyName.Name == "mscorlib")
+                            ReferencedAssemblies.Add(Assembly.Load(ReferencedAssemblyName));
+                    }
+
+                    XamlSchemaContext Context = new XamlSchemaContext(ReferencedAssemblies);
+                    using (XamlXmlReader xr = new XamlXmlReader(ms, Context))
+                    {
+                        object t = null;
+
+                        while (!xr.IsEof)
+                        {
+                            xr.Read();
+                            t = xr.Value;
+                        }
+
+                        return t;
+                    }
+                }
+                catch (Exception e)
+                {
+                    Debug.WriteLine(e.Message);
+                }
+            }
+
+            return null;
         }
         #endregion
 
