@@ -76,6 +76,13 @@ namespace EaslyController.ReadOnly
         /// <param name="view">The attaching view.</param>
         /// <param name="callbackSet">The set of callbacks to call when enumerating existing states.</param>
         void Attach(IReadOnlyControllerView view, IReadOnlyAttachCallbackSet callbackSet);
+
+        /// <summary>
+        /// Detach a view from the block state.
+        /// </summary>
+        /// <param name="view">The attaching view.</param>
+        /// <param name="callbackSet">The set of callbacks to no longer call when enumerating existing states.</param>
+        void Detach(IReadOnlyControllerView view, IReadOnlyAttachCallbackSet callbackSet);
     }
 
     /// <summary>
@@ -256,6 +263,22 @@ namespace EaslyController.ReadOnly
 
             foreach (IReadOnlyNodeState ChildState in StateList)
                 ChildState.Attach(view, callbackSet);
+        }
+
+        /// <summary>
+        /// Detach a view from the block state.
+        /// </summary>
+        /// <param name="view">The attaching view.</param>
+        /// <param name="callbackSet">The set of callbacks to no longer call when enumerating existing states.</param>
+        public virtual void Detach(IReadOnlyControllerView view, IReadOnlyAttachCallbackSet callbackSet)
+        {
+            foreach (IReadOnlyNodeState ChildState in StateList)
+                ChildState.Detach(view, callbackSet);
+
+            SourceState.Detach(view, callbackSet);
+            PatternState.Detach(view, callbackSet);
+
+            callbackSet.OnBlockStateDetached(this);
         }
 
         private IReadOnlyPlaceholderInner<IReadOnlyBrowsingPlaceholderNodeIndex> PatternInner;

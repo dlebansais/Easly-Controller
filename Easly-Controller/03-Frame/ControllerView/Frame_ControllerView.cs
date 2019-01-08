@@ -837,8 +837,11 @@ namespace EaslyController.Frame
             return new FrameAttachCallbackSet()
             {
                 NodeStateAttachedHandler = OnNodeStateCreated,
+                NodeStateDetachedHandler = OnNodeStateRemoved,
                 BlockListInnerAttachedHandler = OnBlockListInnerCreated,
+                BlockListInnerDetachedHandler = OnBlockListInnerRemoved,
                 BlockStateAttachedHandler = OnBlockStateCreated,
+                BlockStateDetachedHandler = OnBlockStateRemoved,
             };
         }
 

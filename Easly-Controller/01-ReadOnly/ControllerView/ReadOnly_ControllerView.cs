@@ -158,6 +158,16 @@ namespace EaslyController.ReadOnly
         }
 
         /// <summary>
+        /// Handler called every time a block list inner is removed in the controller.
+        /// </summary>
+        /// <param name="inner">The block list inner removed.</param>
+        public virtual void OnBlockListInnerRemoved(IReadOnlyBlockListInner inner)
+        {
+            inner.BlockStateCreated -= OnBlockStateCreated;
+            inner.BlockStateRemoved -= OnBlockStateRemoved;
+        }
+
+        /// <summary>
         /// Handler called every time a block state is created in the controller.
         /// </summary>
         /// <param name="blockState">The block state created.</param>
@@ -237,8 +247,11 @@ namespace EaslyController.ReadOnly
             return new ReadOnlyAttachCallbackSet()
             {
                 NodeStateAttachedHandler = OnNodeStateCreated,
+                NodeStateDetachedHandler = OnNodeStateRemoved,
                 BlockListInnerAttachedHandler = OnBlockListInnerCreated,
+                BlockListInnerDetachedHandler = OnBlockListInnerRemoved,
                 BlockStateAttachedHandler = OnBlockStateCreated,
+                BlockStateDetachedHandler = OnBlockStateRemoved,
             };
         }
 

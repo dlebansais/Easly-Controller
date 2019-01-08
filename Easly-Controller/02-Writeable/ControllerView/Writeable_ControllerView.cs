@@ -313,8 +313,11 @@ namespace EaslyController.Writeable
             return new WriteableAttachCallbackSet()
             {
                 NodeStateAttachedHandler = OnNodeStateCreated,
+                NodeStateDetachedHandler = OnNodeStateRemoved,
                 BlockListInnerAttachedHandler = OnBlockListInnerCreated,
+                BlockListInnerDetachedHandler = OnBlockListInnerRemoved,
                 BlockStateAttachedHandler = OnBlockStateCreated,
+                BlockStateDetachedHandler = OnBlockStateRemoved,
             };
         }
 

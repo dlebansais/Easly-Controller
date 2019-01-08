@@ -71,6 +71,13 @@ namespace EaslyController.ReadOnly
         /// <param name="view">The attaching view.</param>
         /// <param name="callbackSet">The set of callbacks to call when enumerating existing states.</param>
         void Attach(IReadOnlyControllerView view, IReadOnlyAttachCallbackSet callbackSet);
+
+        /// <summary>
+        /// Detach a view from the inner.
+        /// </summary>
+        /// <param name="view">The attaching view.</param>
+        /// <param name="callbackSet">The set of callbacks to no longer call when enumerating existing states.</param>
+        void Detach(IReadOnlyControllerView view, IReadOnlyAttachCallbackSet callbackSet);
     }
 
     /// <summary>
@@ -132,6 +139,13 @@ namespace EaslyController.ReadOnly
         /// <param name="view">The attaching view.</param>
         /// <param name="callbackSet">The set of callbacks to call when enumerating existing states.</param>
         public abstract void Attach(IReadOnlyControllerView view, IReadOnlyAttachCallbackSet callbackSet);
+
+        /// <summary>
+        /// DEtach a view from the inner.
+        /// </summary>
+        /// <param name="view">The attaching view.</param>
+        /// <param name="callbackSet">The set of callbacks to no longer call when enumerating existing states.</param>
+        public abstract void Detach(IReadOnlyControllerView view, IReadOnlyAttachCallbackSet callbackSet);
         #endregion
 
         #region Debugging

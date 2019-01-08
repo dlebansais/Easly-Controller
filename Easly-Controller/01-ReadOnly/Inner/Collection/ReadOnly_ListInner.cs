@@ -170,6 +170,17 @@ namespace EaslyController.ReadOnly
             foreach (IReadOnlyNodeState ChildState in StateList)
                 ChildState.Attach(view, callbackSet);
         }
+
+        /// <summary>
+        /// Detach a view from the inner.
+        /// </summary>
+        /// <param name="view">The attaching view.</param>
+        /// <param name="callbackSet">The set of callbacks to no longer call when enumerating existing states.</param>
+        public override void Detach(IReadOnlyControllerView view, IReadOnlyAttachCallbackSet callbackSet)
+        {
+            foreach (IReadOnlyNodeState ChildState in StateList)
+                ChildState.Detach(view, callbackSet);
+        }
         #endregion
 
         #region Implementation

@@ -82,6 +82,13 @@ namespace EaslyController.ReadOnly
         void Attach(IReadOnlyControllerView view, IReadOnlyAttachCallbackSet callbackSet);
 
         /// <summary>
+        /// Detach a view from the state.
+        /// </summary>
+        /// <param name="view">The attaching view.</param>
+        /// <param name="callbackSet">The set of callbacks to no longer call when enumerating existing states.</param>
+        void Detach(IReadOnlyControllerView view, IReadOnlyAttachCallbackSet callbackSet);
+
+        /// <summary>
         /// Returns a clone of the node of this state.
         /// </summary>
         /// <returns>The cloned node.</returns>
@@ -421,6 +428,22 @@ namespace EaslyController.ReadOnly
                 IReadOnlyInner<IReadOnlyBrowsingChildIndex> Inner = Entry.Value;
                 Inner.Attach(view, callbackSet);
             }
+        }
+
+        /// <summary>
+        /// Detach a view to the state.
+        /// </summary>
+        /// <param name="view">The attaching view.</param>
+        /// <param name="callbackSet">The set of callbacks to no longer call when enumerating existing states.</param>
+        public virtual void Detach(IReadOnlyControllerView view, IReadOnlyAttachCallbackSet callbackSet)
+        {
+            foreach (KeyValuePair<string, IReadOnlyInner<IReadOnlyBrowsingChildIndex>> Entry in InnerTable)
+            {
+                IReadOnlyInner<IReadOnlyBrowsingChildIndex> Inner = Entry.Value;
+                Inner.Detach(view, callbackSet);
+            }
+
+            callbackSet.OnNodeStateDetached(this);
         }
         #endregion
 
