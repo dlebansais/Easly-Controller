@@ -50,6 +50,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -308,6 +309,7 @@
     <Compile Include="03-Frame\Template\Frame_NodeTemplate.cs" />
     <Compile Include="03-Frame\Template\Frame_Template.cs" />
     <Compile Include="03-Frame\Template\Frame_TemplateSet.cs" />
+    <Compile Include="Controller\TypeMarkupExtension.cs" />
     <Compile Include="Controller\CompareEqual.cs" />
     <Compile Include="Controller\ControllerTools.cs" />
     <Compile Include="Controller\Stats.cs" />

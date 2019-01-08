@@ -21,28 +21,6 @@ namespace EaslyController.Frame
     /// </summary>
     public class FrameBlockTemplate : FrameTemplate, IFrameBlockTemplate
     {
-        #region Properties
-        /// <summary>
-        /// Checks that a template and all its frames are valid.
-        /// </summary>
-        public override bool IsValid
-        {
-            get
-            {
-                if (string.IsNullOrEmpty(NodeName))
-                    return false;
-
-                if (Root == null)
-                    return false;
-
-                if (Root.ParentFrame == null)
-                    return false;
-
-                return true;
-            }
-        }
-        #endregion
-
         #region Client Interface
         /// <summary>
         /// Create cells for the provided state view.
@@ -65,7 +43,7 @@ namespace EaslyController.Frame
         /// </summary>
         public override string ToString()
         {
-            return "Node Template {" + NodeName + "}";
+            return "Node Template {" + NodeType?.Name + "}";
         }
         #endregion
     }

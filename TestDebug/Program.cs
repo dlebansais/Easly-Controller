@@ -49,6 +49,11 @@ namespace TestDebug
                 TestFrame(Serializer, FileName);
             }
         }
+
+        static void LoadTemplates()
+        {
+
+        }
         #endregion
 
         #region Tools

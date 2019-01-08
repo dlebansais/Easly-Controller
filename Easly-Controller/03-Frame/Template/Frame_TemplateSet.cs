@@ -106,11 +106,42 @@ namespace EaslyController.Frame
                 if (!Template.IsValid)
                     return false;
 
+                if (!IsValidNodeType(NodeType, Template.NodeType))
+                    return false;
+
                 if (!Template.Root.IsValid(NodeType))
                     return false;
             }
 
             return true;
+        }
+
+        /// <summary>
+        /// Checks that a node type is a compatible interface to another.
+        /// </summary>
+        /// <param name="expectedType">The type a template must support.</param>
+        /// <param name="providedType">The type a template has declared.</param>
+        public virtual bool IsValidNodeType(Type expectedType, Type providedType)
+        {
+            if (expectedType == providedType)
+                return true;
+
+            if (expectedType.IsAssignableFrom(providedType))
+                return true;
+
+            if (expectedType.IsGenericType)
+            {
+                Type GenericTypeDefinition = expectedType.GetGenericTypeDefinition();
+                string GenericTypeDefinitionName = GenericTypeDefinition.Name;
+                int GenericCharIndex = GenericTypeDefinitionName.IndexOf("`");
+                if (GenericCharIndex > 0)
+                    GenericTypeDefinitionName = GenericTypeDefinitionName.Substring(0, GenericCharIndex);
+
+                if (GenericTypeDefinitionName == providedType.Name)
+                    return true;
+            }
+
+            return false;
         }
 
         /// <summary>
@@ -172,6 +203,10 @@ namespace EaslyController.Frame
 
             IFrameTemplateReadOnlyDictionary DefaultNodeTemplateTable = BuildDefaultNodeTemplateTable();
             IFrameTemplateReadOnlyDictionary DefaultBlockTemplateTable = BuildDefaultBlockListTemplate();
+
+            Debug.Assert(IsValid(DefaultNodeTemplateTable));
+            Debug.Assert(IsValid(DefaultBlockTemplateTable));
+
             _Default = CreateDefaultTemplateSet(DefaultNodeTemplateTable, DefaultBlockTemplateTable);
 
             return _Default;
@@ -197,7 +232,7 @@ namespace EaslyController.Frame
 
             IFrameHorizontalPanelFrame RootFrame = CreateHorizontalPanelFrame();
             IFrameNodeTemplate RootTemplate = CreateNodeTemplate();
-            RootTemplate.NodeName = nodeType.Name;
+            RootTemplate.NodeType = nodeType;
             RootTemplate.Root = RootFrame;
 
             // Set the template, even if empty, in case the node recursively refers to itself (ex: expressions).
@@ -269,7 +304,7 @@ namespace EaslyController.Frame
             RootFrame.Items.Add(CollectionPlaceholderFrame);
 
             IFrameBlockTemplate RootTemplate = CreateBlockTemplate();
-            RootTemplate.NodeName = typeof(IBlockList).Name;
+            RootTemplate.NodeType = typeof(IBlock);
             RootTemplate.Root = RootFrame;
 
             RootFrame.UpdateParent(RootTemplate, FrameFrame.Root);
