@@ -6,7 +6,7 @@ namespace EaslyController.ReadOnly
     /// <summary>
     /// View of a IxxxController.
     /// </summary>
-    public interface IReadOnlyControllerView : IEqualComparable
+    public interface IReadOnlyControllerView : IEqualComparable, IDisposable
     {
         /// <summary>
         /// The controller.
@@ -298,6 +298,34 @@ namespace EaslyController.ReadOnly
         {
             ControllerTools.AssertNoOverride(this, typeof(ReadOnlyControllerView));
             return new ReadOnlyBlockStateView(this, blockState);
+        }
+        #endregion
+
+        #region Implementation of IDisposable
+        protected virtual void Dispose(bool IsDisposing)
+        {
+            if (IsDisposing)
+                DisposeNow();
+        }
+
+        private void DisposeNow()
+        {
+            IReadOnlyAttachCallbackSet CallbackSet = CreateCallbackSet();
+            Controller.Detach(this, CallbackSet);
+
+            Debug.Assert(StateViewTable.Count == 0);
+            Debug.Assert(BlockStateViewTable.Count == 0);
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        ~ReadOnlyControllerView()
+        {
+            Dispose(false);
         }
         #endregion
     }
