@@ -70,23 +70,21 @@ namespace EaslyController.Writeable
         /// Inserts a new node in a list or block list.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        /// <param name="nodeIndex">Index of the node to insert.</param>
-        public virtual void Insert(IWriteableInsertNodeOperation operation, IWriteableInsertionCollectionNodeIndex nodeIndex)
+        public virtual void Insert(IWriteableInsertNodeOperation operation)
         {
-            Debug.Assert(nodeIndex != null);
+            Debug.Assert(operation != null);
 
-            if (nodeIndex is IWriteableInsertionListNodeIndex AsListIndex)
+            if (operation.InsertionIndex is IWriteableInsertionListNodeIndex AsListIndex)
                 Insert(operation, AsListIndex);
             else
-                throw new ArgumentOutOfRangeException(nameof(nodeIndex));
+                throw new ArgumentOutOfRangeException(nameof(operation));
         }
 
         protected virtual void Insert(IWriteableInsertNodeOperation operation, IWriteableInsertionListNodeIndex listIndex)
         {
-            Debug.Assert(listIndex != null);
-            Debug.Assert(listIndex.Index >= 0 && listIndex.Index <= StateList.Count);
-
             int InsertionIndex = listIndex.Index;
+            Debug.Assert(InsertionIndex >= 0 && InsertionIndex <= StateList.Count);
+
             INode ParentNode = Owner.Node;
             NodeTreeHelperList.InsertIntoList(ParentNode, PropertyName, InsertionIndex, listIndex.Node);
 
@@ -94,6 +92,8 @@ namespace EaslyController.Writeable
 
             IWriteablePlaceholderNodeState ChildState = (IWriteablePlaceholderNodeState)CreateNodeState(BrowsingListIndex);
             InsertInStateList(InsertionIndex, ChildState);
+
+            operation.Update(BrowsingListIndex, ChildState);
 
             while (++InsertionIndex < StateList.Count)
             {
@@ -105,36 +105,33 @@ namespace EaslyController.Writeable
 
                 NodeIndex.MoveUp();
             }
-
-            operation.Update(BrowsingListIndex, ChildState);
         }
 
         /// <summary>
         /// Removes a node from a list or block list.
         /// </summary>
-        /// <param name="nodeOperation">Details of the operation performed.</param>
-        /// <param name="nodeIndex">Index of the node to remove.</param>
-        public virtual void Remove(IWriteableRemoveNodeOperation nodeOperation, IWriteableBrowsingCollectionNodeIndex nodeIndex)
+        /// <param name="operation">Details of the operation performed.</param>
+        public virtual void Remove(IWriteableRemoveNodeOperation operation)
         {
-            Debug.Assert(nodeIndex != null);
+            Debug.Assert(operation != null);
 
-            if (nodeIndex is IWriteableBrowsingListNodeIndex AsListIndex)
-                Remove(nodeOperation, AsListIndex);
+            if (operation.NodeIndex is IWriteableBrowsingListNodeIndex AsListIndex)
+                Remove(operation, AsListIndex);
             else
-                throw new ArgumentOutOfRangeException(nameof(nodeIndex));
+                throw new ArgumentOutOfRangeException(nameof(operation));
         }
 
-        protected virtual void Remove(IWriteableRemoveNodeOperation nodeOperation, IWriteableBrowsingListNodeIndex listIndex)
+        protected virtual void Remove(IWriteableRemoveNodeOperation operation, IWriteableBrowsingListNodeIndex listIndex)
         {
             Debug.Assert(listIndex != null);
-            Debug.Assert(listIndex.Index >= 0 && listIndex.Index < StateList.Count);
 
             int RemoveIndex = listIndex.Index;
-            INode ParentNode = Owner.Node;
+            Debug.Assert(RemoveIndex >= 0 && RemoveIndex < StateList.Count);
 
             IWriteablePlaceholderNodeState OldChildState = StateList[RemoveIndex];
             RemoveFromStateList(RemoveIndex);
 
+            INode ParentNode = Owner.Node;
             NodeTreeHelperList.RemoveFromList(ParentNode, PropertyName, RemoveIndex);
 
             while (RemoveIndex < StateList.Count)
@@ -150,49 +147,43 @@ namespace EaslyController.Writeable
                 RemoveIndex++;
             }
 
-            nodeOperation.Update(OldChildState);
+            operation.Update(OldChildState);
         }
 
         /// <summary>
         /// Replaces a node.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        /// <param name="nodeIndex">Index of the node to insert.</param>
-        /// <param name="oldBrowsingIndex">Index of the replaced node upon return.</param>
-        /// <param name="newBrowsingIndex">Index of the inserted node upon return.</param>
-        /// <param name="childState">State of the inserted node upon return.</param>
-        public virtual void Replace(IWriteableReplaceOperation operation, IWriteableInsertionChildIndex nodeIndex, out IWriteableBrowsingChildIndex oldBrowsingIndex, out IWriteableBrowsingChildIndex newBrowsingIndex, out IWriteableNodeState childState)
+        public virtual void Replace(IWriteableReplaceOperation operation)
         {
-            Debug.Assert(nodeIndex != null);
+            Debug.Assert(operation != null);
 
-            if (nodeIndex is IWriteableInsertionListNodeIndex AsListIndex)
-                Replace(operation, AsListIndex, out oldBrowsingIndex, out newBrowsingIndex, out childState);
+            if (operation.ReplacementIndex is IWriteableInsertionListNodeIndex AsListIndex)
+                Replace(operation, AsListIndex);
             else
-                throw new ArgumentOutOfRangeException(nameof(nodeIndex));
+                throw new ArgumentOutOfRangeException(nameof(operation));
         }
 
-        protected virtual void Replace(IWriteableReplaceOperation operation, IWriteableInsertionListNodeIndex listIndex, out IWriteableBrowsingChildIndex oldBrowsingIndex, out IWriteableBrowsingChildIndex newBrowsingIndex, out IWriteableNodeState childState)
+        protected virtual void Replace(IWriteableReplaceOperation operation, IWriteableInsertionListNodeIndex listIndex)
         {
             Debug.Assert(listIndex != null);
-            Debug.Assert(listIndex.Index >= 0 && listIndex.Index < StateList.Count);
+
+            int Index = listIndex.Index;
+            Debug.Assert(Index >= 0 && Index < StateList.Count);
 
             INode ParentNode = Owner.Node;
 
-            IWriteableNodeState OldChildState = StateList[listIndex.Index];
-            oldBrowsingIndex = (IWriteableBrowsingChildIndex)OldChildState.ParentIndex;
-            RemoveFromStateList(listIndex.Index);
+            IWriteableNodeState OldChildState = StateList[Index];
+            IWriteableBrowsingListNodeIndex OldBrowsingIndex = (IWriteableBrowsingListNodeIndex)OldChildState.ParentIndex;
+            RemoveFromStateList(Index);
 
-            NodeTreeHelperList.ReplaceNode(ParentNode, PropertyName, listIndex.Index, listIndex.Node);
+            NodeTreeHelperList.ReplaceNode(ParentNode, PropertyName, Index, listIndex.Node);
 
-            IWriteableBrowsingListNodeIndex BrowsingListIndex = (IWriteableBrowsingListNodeIndex)listIndex.ToBrowsingIndex();
-            newBrowsingIndex = BrowsingListIndex;
-
-            IWriteablePlaceholderNodeState NewChildState = (IWriteablePlaceholderNodeState)CreateNodeState(BrowsingListIndex);
+            IWriteableBrowsingListNodeIndex NewBrowsingIndex = (IWriteableBrowsingListNodeIndex)listIndex.ToBrowsingIndex();
+            IWriteablePlaceholderNodeState NewChildState = (IWriteablePlaceholderNodeState)CreateNodeState(NewBrowsingIndex);
             InsertInStateList(listIndex.Index, NewChildState);
 
-            childState = NewChildState;
-
-            operation.Update(BrowsingListIndex, NewChildState);
+            operation.Update(OldBrowsingIndex, NewBrowsingIndex, NewChildState);
         }
 
         /// <summary>

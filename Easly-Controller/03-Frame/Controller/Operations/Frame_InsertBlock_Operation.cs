@@ -10,6 +10,11 @@ namespace EaslyController.Frame
         new IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> Inner { get; }
 
         /// <summary>
+        /// Index of the inserted block.
+        /// </summary>
+        new IFrameInsertionNewBlockNodeIndex BlockIndex { get; }
+
+        /// <summary>
         /// Index of the state after it's inserted.
         /// </summary>
         new IFrameBrowsingExistingBlockNodeIndex BrowsingIndex { get; }
@@ -32,8 +37,8 @@ namespace EaslyController.Frame
         /// Initializes a new instance of <see cref="FrameInsertBlockOperation"/>.
         /// </summary>
         /// <param name="inner">Inner where the block insertion is taking place.</param>
-        /// <param name="blockIndex">Position where the block is inserted.</param>
-        public FrameInsertBlockOperation(IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> inner, int blockIndex)
+        /// <param name="blockIndex">Index of the inserted block.</param>
+        public FrameInsertBlockOperation(IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> inner, IFrameInsertionNewBlockNodeIndex blockIndex)
             : base(inner, blockIndex)
         {
         }
@@ -44,6 +49,11 @@ namespace EaslyController.Frame
         /// Inner where the block insertion is taking place.
         /// </summary>
         public new IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> Inner { get { return (IFrameBlockListInner<IFrameBrowsingBlockNodeIndex>)base.Inner; } }
+
+        /// <summary>
+        /// Index of the inserted block.
+        /// </summary>
+        public new IFrameInsertionNewBlockNodeIndex BlockIndex { get { return (IFrameInsertionNewBlockNodeIndex)base.BlockIndex; } }
 
         /// <summary>
         /// Index of the state after it's inserted.

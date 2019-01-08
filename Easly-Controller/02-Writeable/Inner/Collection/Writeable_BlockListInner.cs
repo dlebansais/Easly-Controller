@@ -30,16 +30,14 @@ namespace EaslyController.Writeable
         /// Inserts a new block with one node in a block list.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        /// <param name="newBlockIndex">Index of the node to insert.</param>
-        void InsertNew(IWriteableInsertBlockOperation operation, IWriteableInsertionNewBlockNodeIndex newBlockIndex);
+        void InsertNew(IWriteableInsertBlockOperation operation);
 
         /// <summary>
         /// Removes a node from a block list. This method is allowed to remove the last node of a block.
         /// </summary>
         /// <param name="blockOperation">Details of the operation performed, updated if a block is removed.</param>
-        /// <param name="nodeOperation">Details of the operation performed, updated if no block is removed.</param>
-        /// <param name="nodeIndex">Index of the node to remove.</param>
-        void RemoveWithBlock(IWriteableRemoveBlockOperation blockOperation, IWriteableRemoveNodeOperation nodeOperation, IWriteableBrowsingExistingBlockNodeIndex nodeIndex);
+        /// <param name="nodeOperation">Details of the operation performed, updated if no block is removed. Can be null if the node is known to be the last one in the block.</param>
+        void RemoveWithBlock(IWriteableRemoveBlockOperation blockOperation, IWriteableRemoveNodeOperation nodeOperation);
 
         /// <summary>
         /// Changes the replication state of a block.
@@ -58,8 +56,7 @@ namespace EaslyController.Writeable
         /// Splits a block in two at the given index.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        /// <param name="nodeIndex">Index of the last node to stay in the old block.</param>
-        void SplitBlock(IWriteableSplitBlockOperation operation, IWriteableBrowsingExistingBlockNodeIndex nodeIndex);
+        void SplitBlock(IWriteableSplitBlockOperation operation);
 
         /// <summary>
         /// Checks whether a block can be merged at the given index.
@@ -106,16 +103,14 @@ namespace EaslyController.Writeable
         /// Inserts a new block with one node in a block list.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        /// <param name="newBlockIndex">Index of the node to insert.</param>
-        void InsertNew(IWriteableInsertBlockOperation operation, IWriteableInsertionNewBlockNodeIndex newBlockIndex);
+        void InsertNew(IWriteableInsertBlockOperation operation);
 
         /// <summary>
         /// Removes a node from a block list. This method is allowed to remove the last node of a block.
         /// </summary>
         /// <param name="blockOperation">Details of the operation performed, updated if a block is removed.</param>
-        /// <param name="nodeOperation">Details of the operation performed, updated if no block is removed.</param>
-        /// <param name="nodeIndex">Index of the node to remove.</param>
-        void RemoveWithBlock(IWriteableRemoveBlockOperation blockOperation, IWriteableRemoveNodeOperation nodeOperation, IWriteableBrowsingExistingBlockNodeIndex nodeIndex);
+        /// <param name="nodeOperation">Details of the operation performed, updated if no block is removed. Can be null if the node is known to be the last one in the block.</param>
+        void RemoveWithBlock(IWriteableRemoveBlockOperation blockOperation, IWriteableRemoveNodeOperation nodeOperation);
 
         /// <summary>
         /// Changes the replication state of a block.
@@ -134,8 +129,7 @@ namespace EaslyController.Writeable
         /// Splits a block in two at the given index.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        /// <param name="nodeIndex">Index of the last node to stay in the old block.</param>
-        void SplitBlock(IWriteableSplitBlockOperation operation, IWriteableBrowsingExistingBlockNodeIndex nodeIndex);
+        void SplitBlock(IWriteableSplitBlockOperation operation);
 
         /// <summary>
         /// Checks whether a block can be merged at the given index.
@@ -216,44 +210,46 @@ namespace EaslyController.Writeable
         /// Inserts a new node in a block list.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        /// <param name="nodeIndex">Index of the node to insert.</param>
-        /// <param name="browsingIndex">Index of the inserted node upon return.</param>
-        /// <param name="childState">The inserted node state upon return.</param>
-        public virtual void Insert(IWriteableInsertNodeOperation operation, IWriteableInsertionCollectionNodeIndex nodeIndex)
+        public virtual void Insert(IWriteableInsertNodeOperation operation)
         {
-            Debug.Assert(nodeIndex != null);
+            Debug.Assert(operation != null);
 
-            if (nodeIndex is IWriteableInsertionExistingBlockNodeIndex AsExistingBlockIndex)
+            if (operation.InsertionIndex is IWriteableInsertionExistingBlockNodeIndex AsExistingBlockIndex)
                 InsertExisting(operation, AsExistingBlockIndex);
             else // The case of a new block is already handled.
-                throw new ArgumentOutOfRangeException(nameof(nodeIndex));
+                throw new ArgumentOutOfRangeException(nameof(operation));
         }
 
         /// <summary>
         /// Inserts a new block with one node in a block list.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        /// <param name="newBlockIndex">Index of the node to insert.</param>
-        public virtual void InsertNew(IWriteableInsertBlockOperation operation, IWriteableInsertionNewBlockNodeIndex newBlockIndex)
+        public virtual void InsertNew(IWriteableInsertBlockOperation operation)
         {
-            Debug.Assert(newBlockIndex != null);
-            Debug.Assert(newBlockIndex.BlockIndex >= 0);
-            Debug.Assert(newBlockIndex.BlockIndex <= BlockStateList.Count);
+            Debug.Assert(operation != null);
+
+            IWriteableInsertionNewBlockNodeIndex NewBlockIndex = operation.BlockIndex;
+            Debug.Assert(NewBlockIndex != null);
+
+            int BlockIndex = NewBlockIndex.BlockIndex;
+            Debug.Assert(BlockIndex >= 0 && BlockIndex <= BlockStateList.Count);
 
             INode ParentNode = Owner.Node;
-            NodeTreeHelperBlockList.InsertIntoBlockList(ParentNode, PropertyName, newBlockIndex.BlockIndex, ReplicationStatus.Normal, newBlockIndex.PatternNode, newBlockIndex.SourceNode, out IBlock ChildBlock);
-            NodeTreeHelperBlockList.InsertIntoBlock(ChildBlock, 0, newBlockIndex.Node);
+            NodeTreeHelperBlockList.InsertIntoBlockList(ParentNode, PropertyName, BlockIndex, ReplicationStatus.Normal, NewBlockIndex.PatternNode, NewBlockIndex.SourceNode, out IBlock ChildBlock);
+            NodeTreeHelperBlockList.InsertIntoBlock(ChildBlock, 0, NewBlockIndex.Node);
 
-            IWriteableBrowsingNewBlockNodeIndex BrowsingNewBlockIndex = (IWriteableBrowsingNewBlockNodeIndex)newBlockIndex.ToBrowsingIndex();
+            IWriteableBrowsingNewBlockNodeIndex BrowsingNewBlockIndex = (IWriteableBrowsingNewBlockNodeIndex)NewBlockIndex.ToBrowsingIndex();
             IWriteableBrowsingExistingBlockNodeIndex BrowsingExistingBlockIndex = (IWriteableBrowsingExistingBlockNodeIndex)BrowsingNewBlockIndex.ToExistingBlockIndex();
 
             IWriteableBlockState BlockState = (IWriteableBlockState)CreateBlockState(BrowsingNewBlockIndex, ChildBlock);
-            InsertInBlockStateList(newBlockIndex.BlockIndex, BlockState);
+            InsertInBlockStateList(BlockIndex, BlockState);
 
             IWriteablePlaceholderNodeState ChildState = (IWriteablePlaceholderNodeState)CreateNodeState(BrowsingExistingBlockIndex);
             BlockState.Insert(BrowsingExistingBlockIndex, 0, ChildState);
 
-            for (int BlockIndex = BrowsingExistingBlockIndex.BlockIndex + 1; BlockIndex < BlockStateList.Count; BlockIndex++)
+            operation.Update(BrowsingExistingBlockIndex, BlockState, ChildState);
+
+            while (++BlockIndex < BlockStateList.Count)
             {
                 IWriteableBlockState NextBlockState = BlockStateList[BlockIndex];
                 
@@ -266,29 +262,31 @@ namespace EaslyController.Writeable
                     NodeIndex.MoveBlockUp();
                 }
             }
-
-            operation.Update(BrowsingExistingBlockIndex, BlockState, ChildState);
         }
 
         public virtual void InsertExisting(IWriteableInsertNodeOperation operation, IWriteableInsertionExistingBlockNodeIndex existingBlockIndex)
         {
+            int BlockIndex = existingBlockIndex.BlockIndex;
+            int Index = existingBlockIndex.Index;
+
             Debug.Assert(existingBlockIndex != null);
-            Debug.Assert(existingBlockIndex.BlockIndex < BlockStateList.Count);
+            Debug.Assert(BlockIndex >= 0 && BlockIndex < BlockStateList.Count);
 
-            IWriteableBlockState BlockState = BlockStateList[existingBlockIndex.BlockIndex];
+            IWriteableBlockState BlockState = BlockStateList[BlockIndex];
 
-            Debug.Assert(existingBlockIndex.Index <= BlockState.StateList.Count);
+            Debug.Assert(Index >= 0 && Index <= BlockState.StateList.Count);
 
             INode ParentNode = Owner.Node;
             IBlock ChildBlock = BlockState.ChildBlock;
 
-            NodeTreeHelperBlockList.InsertIntoBlock(ChildBlock, existingBlockIndex.Index, existingBlockIndex.Node);
+            NodeTreeHelperBlockList.InsertIntoBlock(ChildBlock, Index, existingBlockIndex.Node);
 
             IWriteableBrowsingBlockNodeIndex BrowsingBlockIndex = (IWriteableBrowsingBlockNodeIndex)existingBlockIndex.ToBrowsingIndex();
 
             IWriteablePlaceholderNodeState ChildState = (IWriteablePlaceholderNodeState)CreateNodeState(BrowsingBlockIndex);
-            int Index = (BrowsingBlockIndex is IWriteableBrowsingExistingBlockNodeIndex AsExistingBlockNodeIndex) ? AsExistingBlockNodeIndex.Index : 0;
             BlockState.Insert(BrowsingBlockIndex, Index, ChildState);
+
+            operation.Update(BrowsingBlockIndex, ChildState);
 
             while (++Index < BlockState.StateList.Count)
             {
@@ -301,48 +299,48 @@ namespace EaslyController.Writeable
 
                 NodeIndex.MoveUp();
             }
-
-            operation.Update(BrowsingBlockIndex, ChildState);
         }
 
         /// <summary>
         /// Removes a node from a block list. This method is not allowed to remove the last node of a block.
         /// </summary>
-        /// <param name="nodeOperation">Details of the operation performed.</param>
-        /// <param name="nodeIndex">Index of the node to remove.</param>
-        public virtual void Remove(IWriteableRemoveNodeOperation nodeOperation, IWriteableBrowsingCollectionNodeIndex nodeIndex)
+        /// <param name="operation">Details of the operation performed.</param>
+        public virtual void Remove(IWriteableRemoveNodeOperation operation)
         {
-            Debug.Assert(nodeIndex != null);
+            Debug.Assert(operation != null);
 
-            if (nodeIndex is IWriteableBrowsingExistingBlockNodeIndex AsBlockIndex)
+            if (operation.NodeIndex is IWriteableBrowsingExistingBlockNodeIndex AsExistingBlockIndex)
             {
                 // Only the safe case where the block isn't removed is allowed for this version of Remove().
-                Remove(null, nodeOperation, AsBlockIndex);
+                Remove(null, operation, AsExistingBlockIndex);
             }
             else
-                throw new ArgumentOutOfRangeException(nameof(nodeIndex));
+                throw new ArgumentOutOfRangeException(nameof(operation));
         }
 
         /// <summary>
         /// Removes a node from a block list. This method is allowed to remove the last node of a block.
         /// </summary>
         /// <param name="blockOperation">Details of the operation performed, updated if a block is removed.</param>
-        /// <param name="nodeOperation">Details of the operation performed, updated if no block is removed.</param>
-        /// <param name="nodeIndex">Index of the node to remove.</param>
-        public virtual void RemoveWithBlock(IWriteableRemoveBlockOperation blockOperation, IWriteableRemoveNodeOperation nodeOperation, IWriteableBrowsingExistingBlockNodeIndex nodeIndex)
+        /// <param name="nodeOperation">Details of the operation performed, updated if no block is removed. Can be null if the node is known to be the last one in the block.</param>
+        public virtual void RemoveWithBlock(IWriteableRemoveBlockOperation blockOperation, IWriteableRemoveNodeOperation nodeOperation)
         {
-            Remove(blockOperation, nodeOperation, nodeIndex);
+            Debug.Assert(blockOperation != null);
+
+            Remove(blockOperation, nodeOperation, blockOperation.BlockIndex);
         }
 
-        protected virtual void Remove(IWriteableRemoveBlockOperation blockOperation, IWriteableRemoveNodeOperation nodeOperation, IWriteableBrowsingExistingBlockNodeIndex blockNodeIndex)
+        protected virtual void Remove(IWriteableRemoveBlockOperation blockOperation, IWriteableRemoveNodeOperation nodeOperation, IWriteableBrowsingExistingBlockNodeIndex existingBlockIndex)
         {
-            Debug.Assert(blockNodeIndex != null);
-            Debug.Assert(blockNodeIndex.BlockIndex < BlockStateList.Count);
+            Debug.Assert(existingBlockIndex != null);
 
-            int Index = blockNodeIndex.Index;
+            int BlockIndex = existingBlockIndex.BlockIndex;
+            Debug.Assert(BlockIndex >= 0 && BlockIndex < BlockStateList.Count);
 
-            IWriteableBlockState BlockState = BlockStateList[blockNodeIndex.BlockIndex];
-            Debug.Assert(Index < BlockState.StateList.Count);
+            IWriteableBlockState BlockState = BlockStateList[BlockIndex];
+
+            int Index = existingBlockIndex.Index;
+            Debug.Assert(Index >= 0 && Index < BlockState.StateList.Count);
 
             IBlock ChildBlock = BlockState.ChildBlock;
             INode ParentNode = Owner.Node;
@@ -350,15 +348,17 @@ namespace EaslyController.Writeable
             IWriteablePlaceholderNodeState OldChildState = BlockState.StateList[Index];
             BlockState.Remove((IWriteableBrowsingBlockNodeIndex)OldChildState.ParentIndex, Index);
 
-            NodeTreeHelperBlockList.RemoveFromBlock(ParentNode, PropertyName, blockNodeIndex.BlockIndex, Index, out bool IsBlockRemoved);
+            NodeTreeHelperBlockList.RemoveFromBlock(ParentNode, PropertyName, BlockIndex, Index, out bool IsBlockRemoved);
 
             if (IsBlockRemoved)
             {
                 Debug.Assert(blockOperation != null);
 
-                RemoveFromBlockStateList(blockNodeIndex.BlockIndex);
+                RemoveFromBlockStateList(BlockIndex);
 
-                for (int BlockIndex = blockNodeIndex.BlockIndex; BlockIndex < BlockStateList.Count; BlockIndex++)
+                blockOperation.Update(BlockState);
+
+                for (; BlockIndex < BlockStateList.Count; BlockIndex++)
                 {
                     IWriteableBlockState NextBlockState = BlockStateList[BlockIndex];
 
@@ -371,8 +371,6 @@ namespace EaslyController.Writeable
                         NodeIndex.MoveBlockDown();
                     }
                 }
-
-                blockOperation.Update(BlockState);
             }
             else
             {
@@ -387,7 +385,7 @@ namespace EaslyController.Writeable
 
                 IWriteableBrowsingExistingBlockNodeIndex NodeIndex = State.ParentIndex as IWriteableBrowsingExistingBlockNodeIndex;
                 Debug.Assert(NodeIndex != null);
-                Debug.Assert(NodeIndex.BlockIndex == blockNodeIndex.BlockIndex);
+                Debug.Assert(NodeIndex.BlockIndex == existingBlockIndex.BlockIndex);
                 Debug.Assert(NodeIndex.Index == Index + 1);
 
                 NodeIndex.MoveDown();
@@ -400,47 +398,42 @@ namespace EaslyController.Writeable
         /// Replaces a node.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        /// <param name="nodeIndex">Index of the node to insert.</param>
-        /// <param name="oldBrowsingIndex">Index of the replaced node upon return.</param>
-        /// <param name="newBrowsingIndex">Index of the inserted node upon return.</param>
-        /// <param name="childState">State of the inserted node upon return.</param>
-        public virtual void Replace(IWriteableReplaceOperation operation, IWriteableInsertionChildIndex nodeIndex, out IWriteableBrowsingChildIndex oldBrowsingIndex, out IWriteableBrowsingChildIndex newBrowsingIndex, out IWriteableNodeState childState)
+        public virtual void Replace(IWriteableReplaceOperation operation)
         {
-            Debug.Assert(nodeIndex != null);
+            Debug.Assert(operation != null);
 
-            if (nodeIndex is IWriteableInsertionExistingBlockNodeIndex AsExistingBlockIndex)
-                Replace(operation, AsExistingBlockIndex, out oldBrowsingIndex, out newBrowsingIndex, out childState);
+            if (operation.ReplacementIndex is IWriteableInsertionExistingBlockNodeIndex AsExistingBlockIndex)
+                Replace(operation, AsExistingBlockIndex);
             else
-                throw new ArgumentOutOfRangeException(nameof(nodeIndex));
+                throw new ArgumentOutOfRangeException(nameof(operation));
         }
 
-        protected virtual void Replace(IWriteableReplaceOperation operation, IWriteableInsertionExistingBlockNodeIndex existingBlockIndex, out IWriteableBrowsingChildIndex oldBrowsingIndex, out IWriteableBrowsingChildIndex newBrowsingIndex, out IWriteableNodeState childState)
+        protected virtual void Replace(IWriteableReplaceOperation operation, IWriteableInsertionExistingBlockNodeIndex existingBlockIndex)
         {
             Debug.Assert(existingBlockIndex != null);
-            Debug.Assert(existingBlockIndex.BlockIndex < BlockStateList.Count);
 
-            IWriteableBlockState BlockState = BlockStateList[existingBlockIndex.BlockIndex];
-            Debug.Assert(existingBlockIndex.Index < BlockState.StateList.Count);
+            int BlockIndex = existingBlockIndex.BlockIndex;
+            Debug.Assert(BlockIndex >= 0 && BlockIndex < BlockStateList.Count);
+
+            IWriteableBlockState BlockState = BlockStateList[BlockIndex];
+
+            int Index = existingBlockIndex.Index;
+            Debug.Assert(Index >= 0 && Index < BlockState.StateList.Count);
 
             IBlock ChildBlock = BlockState.ChildBlock;
             INode ParentNode = Owner.Node;
 
-            IWriteableNodeState OldChildState = BlockState.StateList[existingBlockIndex.Index];
-            oldBrowsingIndex = (IWriteableBrowsingBlockNodeIndex)OldChildState.ParentIndex;
-            BlockState.Remove((IWriteableBrowsingBlockNodeIndex)OldChildState.ParentIndex, existingBlockIndex.Index);
+            IWriteableNodeState OldChildState = BlockState.StateList[Index];
+            IWriteableBrowsingBlockNodeIndex OldBrowsingIndex = (IWriteableBrowsingBlockNodeIndex)OldChildState.ParentIndex;
+            BlockState.Remove(OldBrowsingIndex, Index);
 
-            NodeTreeHelperBlockList.ReplaceInBlock(ChildBlock, existingBlockIndex.Index, existingBlockIndex.Node);
+            NodeTreeHelperBlockList.ReplaceInBlock(ChildBlock, Index, existingBlockIndex.Node);
 
-            IWriteableBrowsingBlockNodeIndex BrowsingBlockIndex = (IWriteableBrowsingBlockNodeIndex)existingBlockIndex.ToBrowsingIndex();
-            newBrowsingIndex = BrowsingBlockIndex;
+            IWriteableBrowsingExistingBlockNodeIndex NewBrowsingIndex = (IWriteableBrowsingExistingBlockNodeIndex)existingBlockIndex.ToBrowsingIndex();
+            IWriteablePlaceholderNodeState NewChildState = (IWriteablePlaceholderNodeState)CreateNodeState(NewBrowsingIndex);
+            BlockState.Insert(NewBrowsingIndex, Index, NewChildState);
 
-            IWriteablePlaceholderNodeState NewChildState = (IWriteablePlaceholderNodeState)CreateNodeState(BrowsingBlockIndex);
-            int Index = (BrowsingBlockIndex is IWriteableBrowsingExistingBlockNodeIndex AsExistingBlockNodeIndex) ? AsExistingBlockNodeIndex.Index : 0;
-            BlockState.Insert(BrowsingBlockIndex, Index, NewChildState);
-
-            childState = NewChildState;
-
-            operation.Update(BrowsingBlockIndex, NewChildState);
+            operation.Update(OldBrowsingIndex, NewBrowsingIndex, NewChildState);
         }
 
         /// <summary>
@@ -478,14 +471,17 @@ namespace EaslyController.Writeable
         /// Splits a block in two at the given index.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        /// <param name="nodeIndex">Index of the last node to stay in the old block.</param>
-        public virtual void SplitBlock(IWriteableSplitBlockOperation operation, IWriteableBrowsingExistingBlockNodeIndex nodeIndex)
+        public virtual void SplitBlock(IWriteableSplitBlockOperation operation)
         {
-            Debug.Assert(nodeIndex != null);
-            Debug.Assert(nodeIndex.BlockIndex >= 0 && nodeIndex.BlockIndex < BlockStateList.Count);
+            Debug.Assert(operation != null);
 
-            int SplitBlockIndex = nodeIndex.BlockIndex;
-            int SplitIndex = nodeIndex.Index;
+            IWriteableBrowsingExistingBlockNodeIndex NodeIndex = operation.NodeIndex;
+            Debug.Assert(NodeIndex != null);
+
+            int SplitBlockIndex = NodeIndex.BlockIndex;
+            Debug.Assert(SplitBlockIndex >= 0 && SplitBlockIndex < BlockStateList.Count);
+
+            int SplitIndex = NodeIndex.Index;
             Debug.Assert(SplitIndex > 0);
 
             IWriteableBlockState BlockState = BlockStateList[SplitBlockIndex];
@@ -514,6 +510,8 @@ namespace EaslyController.Writeable
                 NewBlockState.Insert(ChildNodeIndex, i, State);
             }
 
+            operation.Update(NewBlockState);
+
             for (int i = 0; i < BlockState.StateList.Count; i++)
             {
                 IWriteablePlaceholderNodeState State = BlockState.StateList[i];
@@ -534,8 +532,6 @@ namespace EaslyController.Writeable
 
                     ChildNodeIndex.MoveBlockUp();
                 }
-
-            operation.Update(NewBlockState);
         }
 
         /// <summary>

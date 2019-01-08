@@ -149,7 +149,7 @@ namespace EaslyController.Frame
             IFrameCellView RootCellView = BuildBlockCellView(OwnerStateView, EmbeddingCellView, BlockStateView);
 
             // Insert the root cell view in the collection embedding other blocks.
-            int BlockIndex = operation.BlockIndex;
+            int BlockIndex = operation.BrowsingIndex.BlockIndex;
             EmbeddingCellView.Insert(BlockIndex, RootCellView);
 
             UpdateLineNumbers();
@@ -338,8 +338,8 @@ namespace EaslyController.Frame
 
             IFrameInner<IFrameBrowsingChildIndex> Inner = ((IFrameReplaceOperation)operation).Inner;
             Debug.Assert(Inner != null);
-            IFrameBrowsingChildIndex BrowsingIndex = ((IFrameReplaceOperation)operation).BrowsingIndex;
-            Debug.Assert(BrowsingIndex != null);
+            IFrameBrowsingChildIndex NewBrowsingIndex = ((IFrameReplaceOperation)operation).NewBrowsingIndex;
+            Debug.Assert(NewBrowsingIndex != null);
             IFrameNodeState ReplacedState = ((IFrameReplaceOperation)operation).ChildState;
             Debug.Assert(ReplacedState != null);
 
@@ -350,16 +350,16 @@ namespace EaslyController.Frame
             IFrameInner<IFrameBrowsingChildIndex> ParentInner = ReplacedState.ParentInner;
             Debug.Assert(ParentInner != null);
 
-            if ((Inner is IFramePlaceholderInner<IFrameBrowsingPlaceholderNodeIndex> AsPlaceholderInner) && (BrowsingIndex is IFrameBrowsingPlaceholderNodeIndex AsPlaceholderIndex))
+            if ((Inner is IFramePlaceholderInner<IFrameBrowsingPlaceholderNodeIndex> AsPlaceholderInner) && (NewBrowsingIndex is IFrameBrowsingPlaceholderNodeIndex AsPlaceholderIndex))
                 OnPlaceholderStateReplaced(AsPlaceholderInner, AsPlaceholderIndex, ReplacedState);
 
-            else if ((Inner is IFrameOptionalInner<IFrameBrowsingOptionalNodeIndex> AsOptionalInner) && (BrowsingIndex is IFrameBrowsingOptionalNodeIndex AsOptionalIndex))
+            else if ((Inner is IFrameOptionalInner<IFrameBrowsingOptionalNodeIndex> AsOptionalInner) && (NewBrowsingIndex is IFrameBrowsingOptionalNodeIndex AsOptionalIndex))
                 OnOptionalStateReplaced(AsOptionalInner, AsOptionalIndex, ReplacedState);
 
-            else if ((Inner is IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> AsBlockListInner) && (BrowsingIndex is IFrameBrowsingExistingBlockNodeIndex AsBlockListIndex))
+            else if ((Inner is IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> AsBlockListInner) && (NewBrowsingIndex is IFrameBrowsingExistingBlockNodeIndex AsBlockListIndex))
                 OnBlockListStateReplaced(AsBlockListInner, AsBlockListIndex, ReplacedState);
 
-            else if ((Inner is IFrameListInner<IFrameBrowsingListNodeIndex> AsListInner) && (BrowsingIndex is IFrameBrowsingListNodeIndex AsListIndex))
+            else if ((Inner is IFrameListInner<IFrameBrowsingListNodeIndex> AsListInner) && (NewBrowsingIndex is IFrameBrowsingListNodeIndex AsListIndex))
                 OnListStateReplaced(AsListInner, AsListIndex, ReplacedState);
 
             else
@@ -719,7 +719,7 @@ namespace EaslyController.Frame
             ClearBlockCellView(OwnerStateView, BlockStateView);
             IFrameCellView RootCellView = BuildBlockCellView(OwnerStateView, EmbeddingCellView, BlockStateView);
 
-            int BlockIndex = operation.BlockIndex;
+            int BlockIndex = operation.BrowsingIndex.BlockIndex;
             EmbeddingCellView.Insert(BlockIndex, RootCellView);
 
             //OnStateInserted(null, ArgumentNodeIndex, ArgumentChildState, true);

@@ -16,11 +16,7 @@ namespace EaslyController.Writeable
         /// Replaces a node.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        /// <param name="nodeIndex">Index of the node to insert.</param>
-        /// <param name="oldBrowsingIndex">Index of the replaced node upon return.</param>
-        /// <param name="newBrowsingIndex">Index of the inserted node upon return.</param>
-        /// <param name="childState">State of the inserted node upon return.</param>
-        void Replace(IWriteableReplaceOperation operation, IWriteableInsertionChildIndex nodeIndex, out IWriteableBrowsingChildIndex oldBrowsingIndex, out IWriteableBrowsingChildIndex newBrowsingIndex, out IWriteableNodeState childState);
+        void Replace(IWriteableReplaceOperation operation);
     }
 
     /// <summary>
@@ -38,11 +34,7 @@ namespace EaslyController.Writeable
         /// Replaces a node.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        /// <param name="nodeIndex">Index of the node to insert.</param>
-        /// <param name="oldBrowsingIndex">Index of the replaced node upon return.</param>
-        /// <param name="newBrowsingIndex">Index of the inserted node upon return.</param>
-        /// <param name="childState">State of the inserted node upon return.</param>
-        void Replace(IWriteableReplaceOperation operation, IWriteableInsertionChildIndex nodeIndex, out IWriteableBrowsingChildIndex oldBrowsingIndex, out IWriteableBrowsingChildIndex newBrowsingIndex, out IWriteableNodeState childState);
+        void Replace(IWriteableReplaceOperation operation);
     }
 
     /// <summary>
@@ -75,11 +67,7 @@ namespace EaslyController.Writeable
         /// Replaces a node.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        /// <param name="nodeIndex">Index of the node to insert.</param>
-        /// <param name="oldBrowsingIndex">Index of the replaced node upon return.</param>
-        /// <param name="newBrowsingIndex">Index of the inserted node upon return.</param>
-        /// <param name="childState">State of the inserted node upon return.</param>
-        public abstract void Replace(IWriteableReplaceOperation operation, IWriteableInsertionChildIndex nodeIndex, out IWriteableBrowsingChildIndex oldBrowsingIndex, out IWriteableBrowsingChildIndex newBrowsingIndex, out IWriteableNodeState childState);
+        public abstract void Replace(IWriteableReplaceOperation operation);
         #endregion
     }
 }

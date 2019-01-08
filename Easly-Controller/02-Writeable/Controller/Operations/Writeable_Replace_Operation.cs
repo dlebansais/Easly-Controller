@@ -18,9 +18,14 @@ namespace EaslyController.Writeable
         IWriteableInsertionChildIndex ReplacementIndex { get; }
 
         /// <summary>
+        /// Index of the state before it's replaced.
+        /// </summary>
+        IWriteableBrowsingChildIndex OldBrowsingIndex { get; }
+
+        /// <summary>
         /// Index of the state after it's replaced.
         /// </summary>
-        IWriteableBrowsingChildIndex BrowsingIndex { get; }
+        IWriteableBrowsingChildIndex NewBrowsingIndex { get; }
 
         /// <summary>
         /// The new state.
@@ -30,9 +35,10 @@ namespace EaslyController.Writeable
         /// <summary>
         /// Update the operation with details.
         /// </summary>
-        /// <param name="browsingIndex">Index of the state after it's replaced.</param>
+        /// <param name="oldBrowsingIndex">Index of the state before it's replaced.</param>
+        /// <param name="newBrowsingIndex">Index of the state after it's replaced.</param>
         /// <param name="childState">The new state.</param>
-        void Update(IWriteableBrowsingChildIndex browsingIndex, IWriteableNodeState childState);
+        void Update(IWriteableBrowsingChildIndex oldBrowsingIndex, IWriteableBrowsingChildIndex newBrowsingIndex, IWriteableNodeState childState);
     }
 
     /// <summary>
@@ -58,14 +64,17 @@ namespace EaslyController.Writeable
         /// <summary>
         /// Update the operation with details.
         /// </summary>
-        /// <param name="browsingIndex">Index of the state after it's replaced.</param>
+        /// <param name="oldBrowsingIndex">Index of the state before it's replaced.</param>
+        /// <param name="newBrowsingIndex">Index of the state after it's replaced.</param>
         /// <param name="childState">The new state.</param>
-        public virtual void Update(IWriteableBrowsingChildIndex browsingIndex, IWriteableNodeState childState)
+        public virtual void Update(IWriteableBrowsingChildIndex oldBrowsingIndex, IWriteableBrowsingChildIndex newBrowsingIndex, IWriteableNodeState childState)
         {
-            Debug.Assert(browsingIndex != null);
+            Debug.Assert(oldBrowsingIndex != null);
+            Debug.Assert(newBrowsingIndex != null);
             Debug.Assert(childState != null);
 
-            BrowsingIndex = browsingIndex;
+            OldBrowsingIndex = oldBrowsingIndex;
+            NewBrowsingIndex = newBrowsingIndex;
             ChildState = childState;
         }
         #endregion
@@ -82,9 +91,14 @@ namespace EaslyController.Writeable
         public IWriteableInsertionChildIndex ReplacementIndex { get; }
 
         /// <summary>
+        /// Index of the state before it's replaced.
+        /// </summary>
+        public IWriteableBrowsingChildIndex OldBrowsingIndex { get; private set; }
+
+        /// <summary>
         /// Index of the state after it's replaced.
         /// </summary>
-        public IWriteableBrowsingChildIndex BrowsingIndex { get; private set; }
+        public IWriteableBrowsingChildIndex NewBrowsingIndex { get; private set; }
 
         /// <summary>
         /// The new state.

@@ -3,7 +3,7 @@
 namespace EaslyController.Frame
 {
     /// <summary>
-    /// Operation details for inserting a block with a single node in a block list.
+    /// Operation details for inserting a single argument in a block list.
     /// </summary>
     public interface IFrameExpandArgumentOperation : IWriteableExpandArgumentOperation, IFrameInsertBlockOperation
     {
@@ -11,6 +11,11 @@ namespace EaslyController.Frame
         /// Inner where the block insertion is taking place.
         /// </summary>
         new IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> Inner { get; }
+
+        /// <summary>
+        /// Index of the inserted block.
+        /// </summary>
+        new IFrameInsertionNewBlockNodeIndex BlockIndex { get; }
 
         /// <summary>
         /// Index of the state after it's inserted.
@@ -29,7 +34,7 @@ namespace EaslyController.Frame
     }
 
     /// <summary>
-    /// Operation details for inserting a block with a single node in a block list.
+    /// Operation details for inserting a single argument in a block list.
     /// </summary>
     public class FrameExpandArgumentOperation : WriteableExpandArgumentOperation, IFrameExpandArgumentOperation
     {
@@ -39,7 +44,7 @@ namespace EaslyController.Frame
         /// </summary>
         /// <param name="inner">Inner where the block insertion is taking place.</param>
         /// <param name="blockIndex">Position where the block is inserted.</param>
-        public FrameExpandArgumentOperation(IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> inner, int blockIndex)
+        public FrameExpandArgumentOperation(IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> inner, IFrameInsertionNewBlockNodeIndex blockIndex)
             : base(inner, blockIndex)
         {
         }
@@ -50,6 +55,11 @@ namespace EaslyController.Frame
         /// Inner where the block insertion is taking place.
         /// </summary>
         public new IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> Inner { get { return (IFrameBlockListInner<IFrameBrowsingBlockNodeIndex>)base.Inner; } }
+
+        /// <summary>
+        /// Index of the inserted block.
+        /// </summary>
+        public new IFrameInsertionNewBlockNodeIndex BlockIndex { get { return (IFrameInsertionNewBlockNodeIndex)base.BlockIndex; } }
 
         /// <summary>
         /// Index of the state after it's inserted.

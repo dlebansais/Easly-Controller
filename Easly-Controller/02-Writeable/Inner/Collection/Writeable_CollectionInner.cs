@@ -16,15 +16,13 @@ namespace EaslyController.Writeable
         /// Inserts a new node in a list or block list.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        /// <param name="nodeIndex">Index of the node to insert.</param>
-        void Insert(IWriteableInsertNodeOperation operation, IWriteableInsertionCollectionNodeIndex nodeIndex);
+        void Insert(IWriteableInsertNodeOperation operation);
 
         /// <summary>
         /// Removes a node from a list or block list.
         /// </summary>
-        /// <param name="nodeOperation">Details of the operation performed.</param>
-        /// <param name="nodeIndex">Index of the node to remove.</param>
-        void Remove(IWriteableRemoveNodeOperation nodeOperation, IWriteableBrowsingCollectionNodeIndex nodeIndex);
+        /// <param name="operation">Details of the operation performed.</param>
+        void Remove(IWriteableRemoveNodeOperation operation);
 
         /// <summary>
         /// Moves a node around in a list or block list. In a block list, the node stays in same block.
@@ -49,15 +47,13 @@ namespace EaslyController.Writeable
         /// Inserts a new node in a list or block list.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        /// <param name="nodeIndex">Index of the node to insert.</param>
-        void Insert(IWriteableInsertNodeOperation operation, IWriteableInsertionCollectionNodeIndex nodeIndex);
+        void Insert(IWriteableInsertNodeOperation operation);
 
         /// <summary>
         /// Removes a node from a list or block list.
         /// </summary>
-        /// <param name="nodeOperation">Details of the operation performed.</param>
-        /// <param name="nodeIndex">Index of the node to remove.</param>
-        void Remove(IWriteableRemoveNodeOperation nodeOperation, IWriteableBrowsingCollectionNodeIndex nodeIndex);
+        /// <param name="operation">Details of the operation performed.</param>
+        void Remove(IWriteableRemoveNodeOperation operation);
 
         /// <summary>
         /// Moves a node around in a list or block list. In a block list, the node stays in same block.
@@ -103,25 +99,19 @@ namespace EaslyController.Writeable
         /// Inserts a new node in a list or block list.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        /// <param name="nodeIndex">Index of the node to insert.</param>
-        public abstract void Insert(IWriteableInsertNodeOperation operation, IWriteableInsertionCollectionNodeIndex nodeIndex);
+        public abstract void Insert(IWriteableInsertNodeOperation operation);
 
         /// <summary>
         /// Removes a node from a list or block list.
         /// </summary>
-        /// <param name="nodeOperation">Details of the operation performed.</param>
-        /// <param name="nodeIndex">Index of the node to remove.</param>
-        public abstract void Remove(IWriteableRemoveNodeOperation nodeOperation, IWriteableBrowsingCollectionNodeIndex nodeIndex);
+        /// <param name="operation">Details of the operation performed.</param>
+        public abstract void Remove(IWriteableRemoveNodeOperation operation);
 
         /// <summary>
         /// Replaces a node.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        /// <param name="nodeIndex">Index of the node to insert.</param>
-        /// <param name="oldBrowsingIndex">Index of the replaced node upon return.</param>
-        /// <param name="newBrowsingIndex">Index of the inserted node upon return.</param>
-        /// <param name="childState">State of the inserted node upon return.</param>
-        public abstract void Replace(IWriteableReplaceOperation operation, IWriteableInsertionChildIndex nodeIndex, out IWriteableBrowsingChildIndex oldBrowsingIndex, out IWriteableBrowsingChildIndex newBrowsingIndex, out IWriteableNodeState childState);
+        public abstract void Replace(IWriteableReplaceOperation operation);
 
         /// <summary>
         /// Moves a node around in a list or block list. In a block list, the node stays in same block.

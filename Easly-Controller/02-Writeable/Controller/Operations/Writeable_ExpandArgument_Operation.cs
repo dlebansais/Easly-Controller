@@ -1,14 +1,16 @@
-﻿namespace EaslyController.Writeable
+﻿using System.Diagnostics;
+
+namespace EaslyController.Writeable
 {
     /// <summary>
-    /// Operation details for inserting a block with a single node in a block list.
+    /// Operation details for inserting a single argument in a block list.
     /// </summary>
     public interface IWriteableExpandArgumentOperation : IWriteableInsertBlockOperation
     {
     }
 
     /// <summary>
-    /// Operation details for inserting a block with a single node in a block list.
+    /// Operation details for inserting a single argument in a block list.
     /// </summary>
     public class WriteableExpandArgumentOperation : WriteableInsertBlockOperation, IWriteableExpandArgumentOperation
     {
@@ -18,9 +20,10 @@
         /// </summary>
         /// <param name="inner">Inner where the block insertion is taking place.</param>
         /// <param name="blockIndex">Position where the block is inserted.</param>
-        public WriteableExpandArgumentOperation(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, int blockIndex)
+        public WriteableExpandArgumentOperation(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, IWriteableInsertionNewBlockNodeIndex blockIndex)
             : base(inner, blockIndex)
         {
+            Debug.Assert(blockIndex.BlockIndex == 0);
         }
         #endregion
     }

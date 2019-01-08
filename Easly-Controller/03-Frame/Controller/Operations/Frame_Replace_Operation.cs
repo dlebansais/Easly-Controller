@@ -18,9 +18,14 @@ namespace EaslyController.Frame
         new IFrameInsertionChildIndex ReplacementIndex { get; }
 
         /// <summary>
+        /// Index of the state before it's replaced.
+        /// </summary>
+        new IFrameBrowsingChildIndex OldBrowsingIndex { get; }
+
+        /// <summary>
         /// Index of the state after it's replaced.
         /// </summary>
-        new IFrameBrowsingChildIndex BrowsingIndex { get; }
+        new IFrameBrowsingChildIndex NewBrowsingIndex { get; }
 
         /// <summary>
         /// The new state.
@@ -57,9 +62,14 @@ namespace EaslyController.Frame
         public new IFrameInsertionChildIndex ReplacementIndex { get { return (IFrameInsertionChildIndex)base.ReplacementIndex; } }
 
         /// <summary>
+        /// Index of the state before it's replaced.
+        /// </summary>
+        public new IFrameBrowsingChildIndex OldBrowsingIndex { get { return (IFrameBrowsingChildIndex)base.OldBrowsingIndex; } }
+
+        /// <summary>
         /// Index of the state after it's replaced.
         /// </summary>
-        public new IFrameBrowsingChildIndex BrowsingIndex { get { return (IFrameBrowsingChildIndex)base.BrowsingIndex; } }
+        public new IFrameBrowsingChildIndex NewBrowsingIndex { get { return (IFrameBrowsingChildIndex)base.NewBrowsingIndex; } }
 
         /// <summary>
         /// The new state.

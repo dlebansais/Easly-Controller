@@ -57,38 +57,30 @@ namespace EaslyController.Writeable
         /// Replaces a node.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        /// <param name="nodeIndex">Index of the node to insert.</param>
-        /// <param name="oldBrowsingIndex">Index of the replaced node upon return.</param>
-        /// <param name="newBrowsingIndex">Index of the inserted node upon return.</param>
-        /// <param name="childState">State of the inserted node upon return.</param>
-        public virtual void Replace(IWriteableReplaceOperation operation, IWriteableInsertionChildIndex nodeIndex, out IWriteableBrowsingChildIndex oldBrowsingIndex, out IWriteableBrowsingChildIndex newBrowsingIndex, out IWriteableNodeState childState)
+        public virtual void Replace(IWriteableReplaceOperation operation)
         {
-            Debug.Assert(nodeIndex != null);
+            Debug.Assert(operation != null);
 
-            if (nodeIndex is IWriteableInsertionPlaceholderNodeIndex AsPlaceholderIndex)
-                Replace(operation, AsPlaceholderIndex, out oldBrowsingIndex, out newBrowsingIndex, out childState);
+            if (operation.ReplacementIndex is IWriteableInsertionPlaceholderNodeIndex AsPlaceholderIndex)
+                Replace(operation, AsPlaceholderIndex);
             else
-                throw new ArgumentOutOfRangeException(nameof(nodeIndex));
+                throw new ArgumentOutOfRangeException(nameof(operation));
         }
 
-        protected virtual void Replace(IWriteableReplaceOperation operation, IWriteableInsertionPlaceholderNodeIndex placeholderIndex, out IWriteableBrowsingChildIndex oldBrowsingIndex, out IWriteableBrowsingChildIndex newBrowsingIndex, out IWriteableNodeState childState)
+        protected virtual void Replace(IWriteableReplaceOperation operation, IWriteableInsertionPlaceholderNodeIndex placeholderIndex)
         {
             Debug.Assert(placeholderIndex != null);
 
             INode ParentNode = Owner.Node;
 
-            oldBrowsingIndex = (WriteableBrowsingPlaceholderNodeIndex)ChildState.ParentIndex;
+            WriteableBrowsingPlaceholderNodeIndex OldBrowsingIndex = (WriteableBrowsingPlaceholderNodeIndex)ChildState.ParentIndex;
             NodeTreeHelperChild.SetChildNode(ParentNode, PropertyName, placeholderIndex.Node);
 
-            WriteableBrowsingPlaceholderNodeIndex BrowsingIndex = (WriteableBrowsingPlaceholderNodeIndex)placeholderIndex.ToBrowsingIndex();
-            newBrowsingIndex = BrowsingIndex;
-
-            IWriteablePlaceholderNodeState NewChildState = (IWriteablePlaceholderNodeState)CreateNodeState(BrowsingIndex);
+            WriteableBrowsingPlaceholderNodeIndex NewBrowsingIndex = (WriteableBrowsingPlaceholderNodeIndex)placeholderIndex.ToBrowsingIndex();
+            IWriteablePlaceholderNodeState NewChildState = (IWriteablePlaceholderNodeState)CreateNodeState(NewBrowsingIndex);
             SetChildState(NewChildState);
 
-            childState = NewChildState;
-
-            operation.Update(BrowsingIndex, NewChildState);
+            operation.Update(OldBrowsingIndex, NewBrowsingIndex, NewChildState);
         }
         #endregion
 

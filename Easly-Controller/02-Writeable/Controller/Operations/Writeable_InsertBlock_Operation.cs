@@ -13,9 +13,9 @@ namespace EaslyController.Writeable
         IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> Inner { get; }
 
         /// <summary>
-        /// Position where the block is inserted.
+        /// Index of the inserted block.
         /// </summary>
-        int BlockIndex { get; }
+        IWriteableInsertionNewBlockNodeIndex BlockIndex { get; }
 
         /// <summary>
         /// Index of the state after it's inserted.
@@ -51,8 +51,8 @@ namespace EaslyController.Writeable
         /// Initializes a new instance of <see cref="WriteableInsertBlockOperation"/>.
         /// </summary>
         /// <param name="inner">Inner where the block insertion is taking place.</param>
-        /// <param name="blockIndex">Position where the block is inserted.</param>
-        public WriteableInsertBlockOperation(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, int blockIndex)
+        /// <param name="blockIndex">Index of the inserted block.</param>
+        public WriteableInsertBlockOperation(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, IWriteableInsertionNewBlockNodeIndex blockIndex)
             : base()
         {
             Inner = inner;
@@ -86,9 +86,9 @@ namespace EaslyController.Writeable
         public IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> Inner { get; }
 
         /// <summary>
-        /// Position where the block is inserted.
+        /// Index of the inserted block.
         /// </summary>
-        public int BlockIndex { get; }
+        public IWriteableInsertionNewBlockNodeIndex BlockIndex { get; }
 
         /// <summary>
         /// Index of the state after it's inserted.
