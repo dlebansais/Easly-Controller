@@ -10,7 +10,14 @@ namespace EaslyController.Writeable
     /// </summary>
     public interface IWriteableBrowsingListNodeIndex : IReadOnlyBrowsingListNodeIndex, IWriteableBrowsingCollectionNodeIndex
     {
+        /// <summary>
+        /// Modifies the index to address the next position in a list.
+        /// </summary>
         void MoveUp();
+
+        /// <summary>
+        /// Modifies the index to address the previous position in a list.
+        /// </summary>
         void MoveDown();
     }
 
@@ -34,6 +41,9 @@ namespace EaslyController.Writeable
         #endregion
 
         #region Client Interface
+        /// <summary>
+        /// Modifies the index to address the next position in a list.
+        /// </summary>
         public virtual void MoveUp()
         {
             Debug.Assert(NodeTreeHelperList.GetLastListIndex(ParentNode, PropertyName, out int LastIndex) && Index + 1 < LastIndex);
@@ -41,6 +51,9 @@ namespace EaslyController.Writeable
             Index++;
         }
 
+        /// <summary>
+        /// Modifies the index to address the previous position in a list.
+        /// </summary>
         public virtual void MoveDown()
         {
             Debug.Assert(Index > 0);

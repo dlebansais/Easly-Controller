@@ -4,16 +4,22 @@ using System.Runtime.CompilerServices;
 
 namespace EaslyController
 {
+    /// <summary>
+    /// Tool used to check that objects are created at the same layer than the caller.
+    /// </summary>
     public static class ControllerTools
     {
         private static string ExpectedName = null;
 
+        /// <summary>
+        /// Reset the tool (for debug purpose).
+        /// </summary>
         public static void ResetExpectedName()
         {
             ExpectedName = null;
         }
 
-        public static void AssertNoOverride(object thisObject, Type callerType, [CallerMemberName] string callerName = "")
+        internal static void AssertNoOverride(object thisObject, Type callerType, [CallerMemberName] string callerName = "")
         {
             Type thisType = thisObject.GetType();
             Debug.Assert(callerType.IsAssignableFrom(thisType));
@@ -22,7 +28,7 @@ namespace EaslyController
             AssertExpectedName(callerType);
         }
 
-        public static void AssertExpectedName(Type thisType)
+        internal static void AssertExpectedName(Type thisType)
         {
             if (thisType.IsGenericType && !thisType.IsGenericTypeDefinition)
             {

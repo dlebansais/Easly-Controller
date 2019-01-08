@@ -24,7 +24,12 @@ namespace EaslyController.Frame
         /// <param name="columnNumber">The current column number, updated upon return.</param>
         void UpdateLineNumbers(ref int lineNumber, ref int columnNumber);
 
-        string PrintTree(int indentation, bool printFull);
+        /// <summary>
+        /// Returns a string representing this part of the cell view tree.
+        /// </summary>
+        /// <param name="indentation">The indentation level to use.</param>
+        /// <param name="isVerbose">True to verbose information.</param>
+        string PrintTree(int indentation, bool isVerbose);
     }
 
     /// <summary>
@@ -83,7 +88,12 @@ namespace EaslyController.Frame
             return true;
         }
 
-        public abstract string PrintTree(int indentation, bool printFull);
+        /// <summary>
+        /// Returns a string representing this part of the cell view tree.
+        /// </summary>
+        /// <param name="indentation">The indentation level to use.</param>
+        /// <param name="isVerbose">True to verbose information.</param>
+        public abstract string PrintTree(int indentation, bool isVerbose);
         #endregion
     }
 }

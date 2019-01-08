@@ -108,7 +108,12 @@ namespace EaslyController.Frame
             return true;
         }
 
-        public override string PrintTree(int indentation, bool printFull)
+        /// <summary>
+        /// Returns a string representing this part of the cell view tree.
+        /// </summary>
+        /// <param name="indentation">The indentation level to use.</param>
+        /// <param name="isVerbose">True to verbose information.</param>
+        public override string PrintTree(int indentation, bool isVerbose)
         {
             string Result = "";
             for (int i = 0; i < indentation; i++)

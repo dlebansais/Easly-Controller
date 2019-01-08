@@ -185,9 +185,6 @@ namespace EaslyController.Frame
         /// Handler called every time a state is inserted in the controller.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        /// <param name="nodeIndex">Index of the inserted state.</param>
-        /// <param name="state">The state inserted.</param>
-        /// <param name="isBlockInserted">True if the state is inserted in a new block.</param>
         public override void OnStateInserted(IWriteableInsertNodeOperation operation)
         {
             base.OnStateInserted(operation);
@@ -796,16 +793,16 @@ namespace EaslyController.Frame
             return true;
         }
 
-        protected virtual void PrintCellViewTree(bool printFull)
+        protected virtual void PrintCellViewTree(bool isVerbose)
         {
             IFrameNodeState RootState = Controller.RootState;
             IFrameNodeStateView RootStateView = StateViewTable[RootState];
-            PrintCellViewTree(RootStateView.RootCellView, printFull);
+            PrintCellViewTree(RootStateView.RootCellView, isVerbose);
         }
 
-        protected virtual void PrintCellViewTree(IFrameCellView cellView, bool printFull)
+        protected virtual void PrintCellViewTree(IFrameCellView cellView, bool isVerbose)
         {
-            string Tree = cellView.PrintTree(0, printFull);
+            string Tree = cellView.PrintTree(0, isVerbose);
 
             Debug.WriteLine("Cell View Tree:");
             Debug.WriteLine(Tree);

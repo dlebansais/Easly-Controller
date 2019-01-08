@@ -2,10 +2,15 @@
 using EaslyController.ReadOnly;
 using EaslyController.Writeable;
 using System;
-using System.Diagnostics;
 
 namespace EaslyController.Frame
 {
+    /// <summary>
+    /// Controller for a node tree.
+    /// This controller supports:
+    /// * Operations to modify the tree.
+    /// * Organizing nodes and their content in cells, assigning line and column numbers.
+    /// </summary>
     public interface IFrameController : IWriteableController
     {
         /// <summary>
@@ -94,6 +99,12 @@ namespace EaslyController.Frame
         new event Action<IFrameMergeBlocksOperation> BlocksMerged;
     }
 
+    /// <summary>
+    /// Controller for a node tree.
+    /// This controller supports:
+    /// * Operations to modify the tree.
+    /// * Organizing nodes and their content in cells, assigning line and column numbers.
+    /// </summary>
     public class FrameController : WriteableController, IFrameController
     {
         #region Init

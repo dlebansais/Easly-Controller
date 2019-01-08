@@ -10,9 +10,24 @@ namespace EaslyController.Writeable
     /// </summary>
     public interface IWriteableBrowsingExistingBlockNodeIndex : IReadOnlyBrowsingExistingBlockNodeIndex, IWriteableBrowsingBlockNodeIndex
     {
+        /// <summary>
+        /// Modifies the index to address the next position in a list.
+        /// </summary>
         void MoveUp();
+
+        /// <summary>
+        /// Modifies the index to address the previous position in a list.
+        /// </summary>
         void MoveDown();
+
+        /// <summary>
+        /// Modifies the index to address the next position in a block list.
+        /// </summary>
         void MoveBlockUp();
+
+        /// <summary>
+        /// Modifies the index to address the previous position in a block list.
+        /// </summary>
         void MoveBlockDown();
     }
 
@@ -37,6 +52,9 @@ namespace EaslyController.Writeable
         #endregion
 
         #region Client Interface
+        /// <summary>
+        /// Modifies the index to address the next position in a list.
+        /// </summary>
         public virtual void MoveUp()
         {
             Debug.Assert(NodeTreeHelperBlockList.GetLastBlockChildIndex(ParentNode, PropertyName, BlockIndex, out int LastIndex) && Index + 1 < LastIndex);
@@ -44,6 +62,9 @@ namespace EaslyController.Writeable
             Index++;
         }
 
+        /// <summary>
+        /// Modifies the index to address the previous position in a list.
+        /// </summary>
         public virtual void MoveDown()
         {
             Debug.Assert(Index > 0);
@@ -51,6 +72,9 @@ namespace EaslyController.Writeable
             Index--;
         }
 
+        /// <summary>
+        /// Modifies the index to address the next position in a block list.
+        /// </summary>
         public virtual void MoveBlockUp()
         {
             Debug.Assert(NodeTreeHelperBlockList.GetLastBlockIndex(ParentNode, PropertyName, out int LastBlockIndex) && BlockIndex + 1 < LastBlockIndex);
@@ -58,6 +82,9 @@ namespace EaslyController.Writeable
             BlockIndex++;
         }
 
+        /// <summary>
+        /// Modifies the index to address the previous position in a block list.
+        /// </summary>
         public virtual void MoveBlockDown()
         {
             Debug.Assert(BlockIndex > 0);

@@ -3,6 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 
+#pragma warning disable 1591
+
 namespace EaslyController.Writeable
 {
     /// <summary>

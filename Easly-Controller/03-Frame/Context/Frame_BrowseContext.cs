@@ -3,6 +3,9 @@ using EaslyController.Writeable;
 
 namespace EaslyController.Frame
 {
+    /// <summary>
+    /// Context for browsing child nodes of a parent node.
+    /// </summary>
     public interface IFrameBrowseContext : IWriteableBrowseContext
     {
         /// <summary>
@@ -16,6 +19,9 @@ namespace EaslyController.Frame
         new IFrameIndexCollectionReadOnlyList IndexCollectionList { get; }
     }
 
+    /// <summary>
+    /// Context for browsing child nodes of a parent node.
+    /// </summary>
     public class FrameBrowseContext : WriteableBrowseContext, IFrameBrowseContext
     {
         #region Init

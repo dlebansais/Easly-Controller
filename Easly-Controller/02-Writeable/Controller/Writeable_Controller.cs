@@ -1,6 +1,5 @@
 ﻿using BaseNode;
 using BaseNodeHelper;
-using Easly;
 using EaslyController.ReadOnly;
 using System;
 using System.Collections.Generic;
@@ -8,6 +7,10 @@ using System.Diagnostics;
 
 namespace EaslyController.Writeable
 {
+    /// <summary>
+    /// Controller for a node tree.
+    /// This controller supports operations to modify the tree.
+    /// </summary>
     public interface IWriteableController : IReadOnlyController
     {
         /// <summary>
@@ -207,6 +210,10 @@ namespace EaslyController.Writeable
         void Canonicalize();
     }
 
+    /// <summary>
+    /// Controller for a node tree.
+    /// This controller supports operations to modify the tree.
+    /// </summary>
     public class WriteableController : ReadOnlyController, IWriteableController
     {
         #region Init
@@ -284,9 +291,11 @@ namespace EaslyController.Writeable
             add { AddBlockStateInsertedDelegate(value); }
             remove { RemoveBlockStateInsertedDelegate(value); }
         }
+#pragma warning disable 1591
         protected Action<IWriteableInsertBlockOperation> BlockStateInsertedHandler;
         protected virtual void AddBlockStateInsertedDelegate(Action<IWriteableInsertBlockOperation> handler) { BlockStateInsertedHandler += handler; }
         protected virtual void RemoveBlockStateInsertedDelegate(Action<IWriteableInsertBlockOperation> handler) { BlockStateInsertedHandler -= handler; }
+#pragma warning restore 1591
 
         /// <summary>
         /// Called when a block state is removed.
@@ -296,9 +305,11 @@ namespace EaslyController.Writeable
             add { AddBlockStateRemovedDelegate(value); }
             remove { RemoveBlockStateRemovedDelegate(value); }
         }
+#pragma warning disable 1591
         protected Action<IWriteableRemoveBlockOperation> BlockStateRemovedHandler;
         protected virtual void AddBlockStateRemovedDelegate(Action<IWriteableRemoveBlockOperation> handler) { BlockStateRemovedHandler += handler; }
         protected virtual void RemoveBlockStateRemovedDelegate(Action<IWriteableRemoveBlockOperation> handler) { BlockStateRemovedHandler -= handler; }
+#pragma warning restore 1591
 
         /// <summary>
         /// Called when a state is inserted.
@@ -308,9 +319,11 @@ namespace EaslyController.Writeable
             add { AddStateInsertedDelegate(value); }
             remove { RemoveStateInsertedDelegate(value); }
         }
+#pragma warning disable 1591
         protected Action<IWriteableInsertNodeOperation> StateInsertedHandler;
         protected virtual void AddStateInsertedDelegate(Action<IWriteableInsertNodeOperation> handler) { StateInsertedHandler += handler; }
         protected virtual void RemoveStateInsertedDelegate(Action<IWriteableInsertNodeOperation> handler) { StateInsertedHandler -= handler; }
+#pragma warning restore 1591
 
         /// <summary>
         /// Called when a state is removed.
@@ -320,9 +333,11 @@ namespace EaslyController.Writeable
             add { AddStateRemovedDelegate(value); }
             remove { RemoveStateRemovedDelegate(value); }
         }
+#pragma warning disable 1591
         protected Action<IWriteableRemoveNodeOperation> StateRemovedHandler;
         protected virtual void AddStateRemovedDelegate(Action<IWriteableRemoveNodeOperation> handler) { StateRemovedHandler += handler; }
         protected virtual void RemoveStateRemovedDelegate(Action<IWriteableRemoveNodeOperation> handler) { StateRemovedHandler -= handler; }
+#pragma warning restore 1591
 
         /// <summary>
         /// Called when a state is replaced.
@@ -332,9 +347,11 @@ namespace EaslyController.Writeable
             add { AddStateReplacedDelegate(value); }
             remove { RemoveStateReplacedDelegate(value); }
         }
+#pragma warning disable 1591
         protected Action<IWriteableReplaceOperation> StateReplacedHandler;
         protected virtual void AddStateReplacedDelegate(Action<IWriteableReplaceOperation> handler) { StateReplacedHandler += handler; }
         protected virtual void RemoveStateReplacedDelegate(Action<IWriteableReplaceOperation> handler) { StateReplacedHandler -= handler; }
+#pragma warning restore 1591
 
         /// <summary>
         /// Called when a state is assigned.
@@ -344,9 +361,11 @@ namespace EaslyController.Writeable
             add { AddStateAssignedDelegate(value); }
             remove { RemoveStateAssignedDelegate(value); }
         }
+#pragma warning disable 1591
         protected Action<IWriteableAssignmentOperation> StateAssignedHandler;
         protected virtual void AddStateAssignedDelegate(Action<IWriteableAssignmentOperation> handler) { StateAssignedHandler += handler; }
         protected virtual void RemoveStateAssignedDelegate(Action<IWriteableAssignmentOperation> handler) { StateAssignedHandler -= handler; }
+#pragma warning restore 1591
 
         /// <summary>
         /// Called when a state is unassigned.
@@ -356,9 +375,11 @@ namespace EaslyController.Writeable
             add { AddStateUnassignedDelegate(value); }
             remove { RemoveStateUnassignedDelegate(value); }
         }
+#pragma warning disable 1591
         protected Action<IWriteableAssignmentOperation> StateUnassignedHandler;
         protected virtual void AddStateUnassignedDelegate(Action<IWriteableAssignmentOperation> handler) { StateUnassignedHandler += handler; }
         protected virtual void RemoveStateUnassignedDelegate(Action<IWriteableAssignmentOperation> handler) { StateUnassignedHandler -= handler; }
+#pragma warning restore 1591
 
         /// <summary>
         /// Called when a state is moved.
@@ -368,9 +389,11 @@ namespace EaslyController.Writeable
             add { AddStateMovedDelegate(value); }
             remove { RemoveStateMovedDelegate(value); }
         }
+#pragma warning disable 1591
         protected Action<IWriteableMoveNodeOperation> StateMovedHandler;
         protected virtual void AddStateMovedDelegate(Action<IWriteableMoveNodeOperation> handler) { StateMovedHandler += handler; }
         protected virtual void RemoveStateMovedDelegate(Action<IWriteableMoveNodeOperation> handler) { StateMovedHandler -= handler; }
+#pragma warning restore 1591
 
         /// <summary>
         /// Called when a block state is moved.
@@ -380,9 +403,11 @@ namespace EaslyController.Writeable
             add { AddBlockStateMovedDelegate(value); }
             remove { RemoveBlockStateMovedDelegate(value); }
         }
+#pragma warning disable 1591
         protected Action<IWriteableMoveBlockOperation> BlockStateMovedHandler;
         protected virtual void AddBlockStateMovedDelegate(Action<IWriteableMoveBlockOperation> handler) { BlockStateMovedHandler += handler; }
         protected virtual void RemoveBlockStateMovedDelegate(Action<IWriteableMoveBlockOperation> handler) { BlockStateMovedHandler -= handler; }
+#pragma warning restore 1591
 
         /// <summary>
         /// Called when a block is split.
@@ -392,9 +417,11 @@ namespace EaslyController.Writeable
             add { AddBlockSplitDelegate(value); }
             remove { RemoveBlockSplitDelegate(value); }
         }
+#pragma warning disable 1591
         protected Action<IWriteableSplitBlockOperation> BlockSplitHandler;
         protected virtual void AddBlockSplitDelegate(Action<IWriteableSplitBlockOperation> handler) { BlockSplitHandler += handler; }
         protected virtual void RemoveBlockSplitDelegate(Action<IWriteableSplitBlockOperation> handler) { BlockSplitHandler -= handler; }
+#pragma warning restore 1591
 
         /// <summary>
         /// Called when two blocks are merged.
@@ -404,9 +431,11 @@ namespace EaslyController.Writeable
             add { AddBlocksMergedDelegate(value); }
             remove { RemoveBlocksMergedDelegate(value); }
         }
+#pragma warning disable 1591
         protected Action<IWriteableMergeBlocksOperation> BlocksMergedHandler;
         protected virtual void AddBlocksMergedDelegate(Action<IWriteableMergeBlocksOperation> handler) { BlocksMergedHandler += handler; }
         protected virtual void RemoveBlocksMergedDelegate(Action<IWriteableMergeBlocksOperation> handler) { BlocksMergedHandler -= handler; }
+#pragma warning restore 1591
 
         /// <summary>
         /// Called when an argument block is expanded.
@@ -416,9 +445,11 @@ namespace EaslyController.Writeable
             add { AddArgumentExpandedDelegate(value); }
             remove { RemoveArgumentExpandedDelegate(value); }
         }
+#pragma warning disable 1591
         protected Action<IWriteableExpandArgumentOperation> ArgumentExpandedHandler;
         protected virtual void AddArgumentExpandedDelegate(Action<IWriteableExpandArgumentOperation> handler) { ArgumentExpandedHandler += handler; }
         protected virtual void RemoveArgumentExpandedDelegate(Action<IWriteableExpandArgumentOperation> handler) { ArgumentExpandedHandler -= handler; }
+#pragma warning restore 1591
 
         /// <summary>
         /// State table.
@@ -593,7 +624,7 @@ namespace EaslyController.Writeable
         /// Replace an existing node with a new one.
         /// </summary>
         /// <param name="inner">The inner where the node is replaced.</param>
-        /// <param name="insertedIndex">Index for the replace operation.</param>
+        /// <param name="replacementIndex">Index for the replace operation.</param>
         /// <param name="nodeIndex">Index of the replacing node upon return.</param>
         public void Replace(IWriteableInner<IWriteableBrowsingChildIndex> inner, IWriteableInsertionChildIndex replacementIndex, out IWriteableBrowsingChildIndex nodeIndex)
         {

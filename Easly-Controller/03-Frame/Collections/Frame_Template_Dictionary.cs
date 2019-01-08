@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 
+#pragma warning disable 1591
+
 namespace EaslyController.Frame
 {
     /// <summary>

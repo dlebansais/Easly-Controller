@@ -2,6 +2,9 @@
 
 namespace EaslyController.Frame
 {
+    /// <summary>
+    /// Operation details for inserting a block with a single node in a block list.
+    /// </summary>
     public interface IFrameInsertBlockOperation : IWriteableInsertBlockOperation, IFrameInsertOperation
     {
         /// <summary>
@@ -30,6 +33,9 @@ namespace EaslyController.Frame
         new IFramePlaceholderNodeState ChildState { get; }
     }
 
+    /// <summary>
+    /// Operation details for inserting a block with a single node in a block list.
+    /// </summary>
     public class FrameInsertBlockOperation : WriteableInsertBlockOperation, IFrameInsertBlockOperation
     {
         #region Init

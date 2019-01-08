@@ -2,6 +2,9 @@
 
 namespace EaslyController.Writeable
 {
+    /// <summary>
+    /// Context for browsing child nodes of a parent node.
+    /// </summary>
     public interface IWriteableBrowseContext : IReadOnlyBrowseContext
     {
         /// <summary>
@@ -15,6 +18,9 @@ namespace EaslyController.Writeable
         new IWriteableIndexCollectionReadOnlyList IndexCollectionList { get; }
     }
 
+    /// <summary>
+    /// Context for browsing child nodes of a parent node.
+    /// </summary>
     public class WriteableBrowseContext : ReadOnlyBrowseContext, IWriteableBrowseContext
     {
         #region Init

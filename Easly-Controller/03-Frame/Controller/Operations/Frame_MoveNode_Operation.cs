@@ -33,7 +33,7 @@ namespace EaslyController.Frame
         /// Initializes a new instance of <see cref="FrameMoveNodeOperation"/>.
         /// </summary>
         /// <param name="inner">Inner where the move is taking place.</param>
-        /// <param name="moveIndex">Position where the node is moved.</param>
+        /// <param name="nodeIndex">Position where the node is moved.</param>
         /// <param name="direction">The change in position, relative to the current position.</param>
         public FrameMoveNodeOperation(IFrameCollectionInner<IFrameBrowsingCollectionNodeIndex> inner, IFrameBrowsingCollectionNodeIndex nodeIndex, int direction)
             : base(inner, nodeIndex, direction)

@@ -262,7 +262,7 @@ namespace EaslyController.Writeable
             }
         }
 
-        public virtual void InsertExisting(IWriteableInsertNodeOperation operation, IWriteableInsertionExistingBlockNodeIndex existingBlockIndex)
+        protected virtual void InsertExisting(IWriteableInsertNodeOperation operation, IWriteableInsertionExistingBlockNodeIndex existingBlockIndex)
         {
             int BlockIndex = existingBlockIndex.BlockIndex;
             int Index = existingBlockIndex.Index;
@@ -607,7 +607,7 @@ namespace EaslyController.Writeable
         /// <summary>
         /// Moves a node around in a list or block list. In a block list, the node stays in same block.
         /// </summary>
-        /// <param name="nodeOperation">Details of the operation performed.</param>
+        /// <param name="operation">Details of the operation performed.</param>
         public virtual void Move(IWriteableMoveNodeOperation operation)
         {
             Debug.Assert(operation != null);

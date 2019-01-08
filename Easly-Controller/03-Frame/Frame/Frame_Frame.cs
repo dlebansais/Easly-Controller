@@ -46,6 +46,9 @@ namespace EaslyController.Frame
             public void UpdateParent(IFrameTemplate parentTemplate, IFrameFrame parentFrame) { throw new InvalidOperationException(); }
         }
 
+        /// <summary>
+        /// Singleton object representing the root of a tree of frames.
+        /// </summary>
         public static IFrameFrame Root = new FrameRootFrame();
         #endregion
 
@@ -62,6 +65,10 @@ namespace EaslyController.Frame
         #endregion
 
         #region Client Interface
+        /// <summary>
+        /// Checks that a frame is correctly constructed.
+        /// </summary>
+        /// <param name="nodeType">Type of the node this frame can describe.</param>
         public virtual bool IsValid(Type nodeType)
         {
             return true;
