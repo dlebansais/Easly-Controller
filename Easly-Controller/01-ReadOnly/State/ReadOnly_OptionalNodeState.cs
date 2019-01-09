@@ -1,6 +1,7 @@
 ﻿using BaseNode;
 using BaseNodeHelper;
 using Easly;
+using EaslyController.Constants;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;

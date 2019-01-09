@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Windows.Markup;
 
 namespace EaslyController.Frame
 {
@@ -19,6 +20,7 @@ namespace EaslyController.Frame
     /// <summary>
     /// Template describing all components of a node.
     /// </summary>
+    [ContentProperty("Root")]
     public class FrameBlockTemplate : FrameTemplate, IFrameBlockTemplate
     {
         #region Client Interface

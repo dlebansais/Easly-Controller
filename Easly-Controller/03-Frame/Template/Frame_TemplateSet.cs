@@ -98,6 +98,15 @@ namespace EaslyController.Frame
         {
             Debug.Assert(nodeTemplateTable != null);
 
+            IFrameTemplateDictionary DefaultDictionary = CreateTemplateDictionary(NodeHelper.CreateNodeDictionary<IFrameTemplate>());
+
+            foreach (KeyValuePair<Type, IFrameTemplate> Entry in DefaultDictionary)
+                if (!nodeTemplateTable.ContainsKey(Entry.Key))
+                    return false;
+
+            if (nodeTemplateTable.Count != DefaultDictionary.Count)
+                return false;
+
             foreach (KeyValuePair<Type, IFrameTemplate> Entry in nodeTemplateTable)
             {
                 Type NodeType = Entry.Key;
@@ -152,6 +161,19 @@ namespace EaslyController.Frame
         {
             Debug.Assert(blockTemplateTable != null);
 
+            List<Type> BlockKeys = new List<Type>(NodeHelper.CreateNodeDictionary<object>().Keys);
+
+            IFrameTemplateDictionary DefaultDictionary = CreateTemplateDictionary(new Dictionary<Type, IFrameTemplate>());
+            foreach (Type Key in BlockKeys)
+                AddBlockNodeTypes(DefaultDictionary, Key);
+
+            foreach (KeyValuePair<Type, IFrameTemplate> Entry in DefaultDictionary)
+                if (!blockTemplateTable.ContainsKey(Entry.Key))
+                    return false;
+
+            if (blockTemplateTable.Count != DefaultDictionary.Count)
+                return false;
+
             foreach (KeyValuePair<Type, IFrameTemplate> Entry in blockTemplateTable)
             {
                 Type NodeType = Entry.Key;
@@ -205,7 +227,7 @@ namespace EaslyController.Frame
             IFrameTemplateReadOnlyDictionary DefaultBlockTemplateTable = BuildDefaultBlockListTemplate();
 
             Debug.Assert(IsValid(DefaultNodeTemplateTable));
-            Debug.Assert(IsValid(DefaultBlockTemplateTable));
+            Debug.Assert(IsBlockValid(DefaultBlockTemplateTable));
 
             _Default = CreateDefaultTemplateSet(DefaultNodeTemplateTable, DefaultBlockTemplateTable);
 

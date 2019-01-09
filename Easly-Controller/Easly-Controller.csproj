@@ -202,6 +202,7 @@
     <Compile Include="03-Frame\CellView\Single\Frame_TextFocusableCellView.cs" />
     <Compile Include="03-Frame\CellView\Single\Frame_EmptyCellView.cs" />
     <Compile Include="03-Frame\CellView\Single\Frame_VisibleCellView.cs" />
+    <Compile Include="03-Frame\Collections\Frame_KeywordFrame_List.cs" />
     <Compile Include="03-Frame\Collections\Frame_Template_List.cs" />
     <Compile Include="03-Frame\Collections\Frame_BlockState_List.cs" />
     <Compile Include="03-Frame\Collections\Frame_BlockState_ReadOnlyList.cs" />
@@ -245,8 +246,14 @@
     <Compile Include="03-Frame\Controller\Operations\Frame_MoveNode_Operation.cs" />
     <Compile Include="03-Frame\Controller\Operations\Frame_MoveBlock_Operation.cs" />
     <Compile Include="03-Frame\Frame\Frame_BlockFrame.cs" />
+    <Compile Include="03-Frame\Frame\Frame_NumberFrame.cs" />
+    <Compile Include="03-Frame\Frame\Frame_InsertFrame.cs" />
     <Compile Include="03-Frame\Frame\Frame_NodeFrame.cs" />
     <Compile Include="03-Frame\Frame\Frame_KeywordFrame.cs" />
+    <Compile Include="03-Frame\Frame\Frame_DiscreteFrame.cs" />
+    <Compile Include="03-Frame\Frame\Frame_SymbolFrame.cs" />
+    <Compile Include="03-Frame\Frame\Frame_CharacterFrame.cs" />
+    <Compile Include="03-Frame\Frame\Frame_TextValueFrame.cs" />
     <Compile Include="03-Frame\Frame\Frame_VerticalCollectionPlaceholderFrame.cs" />
     <Compile Include="03-Frame\Frame\Frame_HorizontalCollectionPlaceholderFrame.cs" />
     <Compile Include="03-Frame\Frame\Frame_VerticalBlockListFrame.cs" />
@@ -311,6 +318,7 @@
     <Compile Include="03-Frame\Template\Frame_NodeTemplate.cs" />
     <Compile Include="03-Frame\Template\Frame_Template.cs" />
     <Compile Include="03-Frame\Template\Frame_TemplateSet.cs" />
+    <Compile Include="Controller\Symbols.cs" />
     <Compile Include="Controller\TypeMarkupExtension.cs" />
     <Compile Include="Controller\CompareEqual.cs" />
     <Compile Include="Controller\ControllerTools.cs" />

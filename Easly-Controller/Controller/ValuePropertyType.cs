@@ -1,4 +1,4 @@
-﻿namespace EaslyController
+﻿namespace EaslyController.Constants
 {
     /// <summary>
     /// Types that a value in a node can be.

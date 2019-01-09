@@ -26,7 +26,10 @@ namespace EaslyController.Frame
             if (!base.IsValid(nodeType))
                 return false;
 
-            return NodeTreeHelperBlockList.IsBlockListProperty(nodeType, PropertyName, out Type ChildInterfaceType, out Type ChildNodeType);
+            if (!NodeTreeHelperBlockList.IsBlockListProperty(nodeType, PropertyName, out Type ChildInterfaceType, out Type ChildNodeType))
+                return false;
+
+            return true;
         }
 
         /// <summary>

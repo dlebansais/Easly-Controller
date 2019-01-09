@@ -12,7 +12,7 @@ namespace EaslyController.Frame
     /// <summary>
     /// Cell view for components that can receive the focus.
     /// </summary>
-    public abstract class FrameFocusableCellView : FrameVisibleCellView, IFrameFocusableCellView
+    public class FrameFocusableCellView : FrameVisibleCellView, IFrameFocusableCellView
     {
         #region Init
         /// <summary>

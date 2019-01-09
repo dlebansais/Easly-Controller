@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using EaslyController.Constants;
+using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace EaslyController.ReadOnly
