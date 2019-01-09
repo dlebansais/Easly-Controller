@@ -1,4 +1,6 @@
-﻿namespace EaslyController.Frame
+﻿using System.Windows.Markup;
+
+namespace EaslyController.Frame
 {
     /// <summary>
     /// Frame for displaying more frames horizontally.
@@ -10,6 +12,7 @@
     /// <summary>
     /// Frame for displaying more frames horizontally.
     /// </summary>
+    [ContentProperty("Items")]
     public class FrameHorizontalPanelFrame : FramePanelFrame, IFrameHorizontalPanelFrame
     {
         #region Create Methods

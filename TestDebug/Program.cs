@@ -1,21 +1,16 @@
 ﻿using BaseNode;
 using BaseNodeHelper;
-using Easly;
 using EaslyController;
 using EaslyController.Frame;
 using EaslyController.ReadOnly;
 using EaslyController.Writeable;
 using PolySerializer;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
-using System.Windows;
 using System.Windows.Markup;
-using System.Xaml;
 
 namespace TestDebug
 {
@@ -60,56 +55,42 @@ namespace TestDebug
         static void LoadTemplates()
         {
             object t = LoadTemplate(
-"<FrameTemplate xmlns=\"clr-namespace:EaslyController;assembly=EaslyEditor\" NodeName=\"Assertion\">" +
-    "<FrameHorizontalPanelFrame>" +
-        "<FrameHorizontalPanelFrame>" +
-            "<FramePlaceholderFrame PropertyName=\"Tag\"/>" +
-        "</FrameHorizontalPanelFrame>" +
-        "<FramePlaceholderFrame PropertyName = \"BooleanExpression\"/>" +
-    "</FrameHorizontalPanelFrame>" +
-"</FrameTemplate>"
+@"<FrameTemplateList xmlns=""clr-namespace:EaslyController.Frame;assembly=Easly-Controller"" xmlns:x=""clr-namespace:EaslyController.Xaml;assembly=Easly-Controller"">
+    <FrameNodeTemplate NodeType=""{x:Type IAssertion}"">
+        <FrameHorizontalPanelFrame>
+            <FrameHorizontalPanelFrame>
+                <FramePlaceholderFrame PropertyName=""Tag""/>
+                <FrameKeywordFrame>:</FrameKeywordFrame>
+            </FrameHorizontalPanelFrame>
+            <FramePlaceholderFrame PropertyName=""BooleanExpression""/>
+        </FrameHorizontalPanelFrame>
+    </FrameNodeTemplate>
+    <FrameNodeTemplate NodeType=""{x:Type IAttachment}"">
+        <FrameVerticalPanelFrame>
+            <FrameHorizontalPanelFrame>
+                <FrameKeywordFrame Text=""else"">
+                </FrameKeywordFrame>
+                <FrameKeywordFrame>as</FrameKeywordFrame>
+                <FrameHorizontalBlockListFrame PropertyName=""AttachTypeBlocks""/>
+            </FrameHorizontalPanelFrame>
+            <FramePlaceholderFrame PropertyName=""Instructions""/>
+        </FrameVerticalPanelFrame>
+    </FrameNodeTemplate>
+</FrameTemplateList>
+"
                 );
         }
 
         static object LoadTemplate(string s)
         {
+            s = TemplateList;
+
             byte[] ByteArray = Encoding.UTF8.GetBytes(s);
             using (MemoryStream ms = new MemoryStream(ByteArray))
             {
-
-                List<Assembly> ReferencedAssemblies = new List<Assembly>();
-
-                try
-                {
-                    AssemblyName[] ReferencedAssemblyNames = Assembly.GetExecutingAssembly().GetReferencedAssemblies();
-                    for (int i = 0; i < ReferencedAssemblyNames.Length; i++)
-                    {
-                        AssemblyName ReferencedAssemblyName = ReferencedAssemblyNames[i];
-                        //if (ReferencedAssemblyName.Name == "mscorlib")
-                            ReferencedAssemblies.Add(Assembly.Load(ReferencedAssemblyName));
-                    }
-
-                    XamlSchemaContext Context = new XamlSchemaContext(ReferencedAssemblies);
-                    using (XamlXmlReader xr = new XamlXmlReader(ms, Context))
-                    {
-                        object t = null;
-
-                        while (!xr.IsEof)
-                        {
-                            xr.Read();
-                            t = xr.Value;
-                        }
-
-                        return t;
-                    }
-                }
-                catch (Exception e)
-                {
-                    Debug.WriteLine(e.Message);
-                }
+                object t = XamlReader.Parse(s);
+                return t;
             }
-
-            return null;
         }
         #endregion
 
@@ -657,6 +638,2016 @@ namespace TestDebug
             IFrameController NewController = FrameController.Create(NewRootIndex);
             Debug.Assert(NewController.IsEqual(CompareEqual.New(), Controller));
         }
+        #endregion
+
+        #region Templates
+        static string TemplateList =
+@"<FrameTemplateList xmlns=""clr-namespace:EaslyController.Frame;assembly=Easly-Controller"" xmlns:x=""clr-namespace:EaslyController.Xaml;assembly=Easly-Controller"">
+    <FrameNodeTemplate NodeType=""{x:Type IAssertion}"">
+        <FrameHorizontalPanelFrame>
+            <FrameHorizontalPanelFrame>
+                <FramePlaceholderFrame PropertyName=""Tag"" />
+                <KeywordDecoration RightMargin=""Whitespace"">:</KeywordDecoration>
+            </FrameHorizontalPanelFrame>
+            <FramePlaceholderFrame PropertyName=""BooleanExpression"" />
+        </FrameHorizontalPanelFrame>
+    </FrameNodeTemplate>
+    <FrameNodeTemplate NodeType=""{x:Type IAttachment}"">
+        <FrameVerticalPanelFrame>
+            <FrameHorizontalPanelFrame>
+                <KeywordDecoration RightMargin=""Whitespace"" Text=""else"">
+                </KeywordDecoration>
+                <KeywordDecoration RightMargin=""Whitespace"">as</KeywordDecoration>
+                <HorizontalCollectionDecoration PropertyName=""AttachTypeBlocks"" />
+                <InsertDecoration CollectionName=""Instructions.InstructionBlocks"" />
+            </FrameHorizontalPanelFrame>
+            <FramePlaceholderFrame PropertyName=""Instructions"" />
+        </FrameVerticalPanelFrame>
+    </FrameNodeTemplate>
+    <FrameNodeTemplate NodeType=""{x:Type IClass}"">
+        <FrameVerticalPanelFrame>
+            <FrameHorizontalPanelFrame>
+                <DiscreteDecoration PropertyName=""CopySpecification"" RightMargin=""Whitespace"">
+                    <KeywordDecoration>any</KeywordDecoration>
+                    <KeywordDecoration>reference</KeywordDecoration>
+                    <KeywordDecoration>value</KeywordDecoration>
+                </DiscreteDecoration>
+                <DiscreteDecoration PropertyName=""Cloneable"" RightMargin=""Whitespace"">
+                    <KeywordDecoration>cloneable</KeywordDecoration>
+                    <KeywordDecoration>single</KeywordDecoration>
+                </DiscreteDecoration>
+                <DiscreteDecoration PropertyName=""Comparable"" RightMargin=""Whitespace"">
+                    <KeywordDecoration>comparable</KeywordDecoration>
+                    <KeywordDecoration>incomparable</KeywordDecoration>
+                </DiscreteDecoration>
+                <DiscreteDecoration PropertyName=""IsAbstract"" RightMargin=""Whitespace"">
+                    <KeywordDecoration>instanceable</KeywordDecoration>
+                    <KeywordDecoration>abstract</KeywordDecoration>
+                </DiscreteDecoration>
+                <KeywordDecoration>class</KeywordDecoration>
+                <FramePlaceholderFrame PropertyName=""EntityName"" LeftMargin=""Whitespace"" />
+                <FrameHorizontalPanelFrame>
+                    <KeywordDecoration LeftMargin=""Whitespace"" RightMargin=""Whitespace"">from</KeywordDecoration>
+                    <FramePlaceholderFrame PropertyName=""FromIdentifier"" IdentifierType=""Source"" />
+                </FrameHorizontalPanelFrame>
+            </FrameHorizontalPanelFrame>
+            <FrameVerticalPanelFrame>
+                <FrameHorizontalPanelFrame>
+                    <KeywordDecoration>import</KeywordDecoration>
+                    <InsertDecoration CollectionName=""ImportBlocks"" />
+                </FrameHorizontalPanelFrame>
+                <VerticalCollectionDecoration HasTabulationMargin=""True"" PropertyName=""ImportBlocks"" />
+            </FrameVerticalPanelFrame>
+            <FrameVerticalPanelFrame>
+                <FrameHorizontalPanelFrame>
+                    <KeywordDecoration>generic</KeywordDecoration>
+                    <InsertDecoration CollectionName=""GenericBlocks"" />
+                </FrameHorizontalPanelFrame>
+                <VerticalCollectionDecoration HasTabulationMargin=""True"" PropertyName=""GenericBlocks"" />
+            </FrameVerticalPanelFrame>
+            <FrameVerticalPanelFrame>
+                <FrameHorizontalPanelFrame>
+                    <KeywordDecoration>export</KeywordDecoration>
+                    <InsertDecoration CollectionName=""ExportBlocks"" />
+                </FrameHorizontalPanelFrame>
+                <VerticalCollectionDecoration HasTabulationMargin=""True"" PropertyName=""ExportBlocks"" />
+            </FrameVerticalPanelFrame>
+            <FrameVerticalPanelFrame>
+                <FrameHorizontalPanelFrame>
+                    <KeywordDecoration>typedef</KeywordDecoration>
+                    <InsertDecoration CollectionName=""TypedefBlocks"" />
+                </FrameHorizontalPanelFrame>
+                <VerticalCollectionDecoration HasTabulationMargin=""True"" PropertyName=""TypedefBlocks"" />
+            </FrameVerticalPanelFrame>
+            <FrameVerticalPanelFrame>
+                <FrameHorizontalPanelFrame>
+                    <KeywordDecoration>inheritance</KeywordDecoration>
+                    <InsertDecoration CollectionName=""InheritanceBlocks"" />
+                </FrameHorizontalPanelFrame>
+                <VerticalCollectionDecoration HasTabulationMargin=""True"" PropertyName=""InheritanceBlocks"" />
+            </FrameVerticalPanelFrame>
+            <FrameVerticalPanelFrame>
+                <FrameHorizontalPanelFrame>
+                    <KeywordDecoration>discrete</KeywordDecoration>
+                    <InsertDecoration CollectionName=""DiscreteBlocks"" />
+                </FrameHorizontalPanelFrame>
+                <VerticalCollectionDecoration HasTabulationMargin=""True"" PropertyName=""DiscreteBlocks"" />
+            </FrameVerticalPanelFrame>
+            <FrameVerticalPanelFrame>
+                <FrameHorizontalPanelFrame>
+                    <KeywordDecoration>replicate</KeywordDecoration>
+                    <InsertDecoration CollectionName=""ClassReplicateBlocks"" />
+                </FrameHorizontalPanelFrame>
+                <VerticalCollectionDecoration HasTabulationMargin=""True"" PropertyName=""ClassReplicateBlocks"" />
+            </FrameVerticalPanelFrame>
+            <FrameVerticalPanelFrame>
+                <FrameHorizontalPanelFrame>
+                    <KeywordDecoration>feature</KeywordDecoration>
+                    <InsertDecoration CollectionName=""FeatureBlocks"" />
+                </FrameHorizontalPanelFrame>
+                <VerticalCollectionDecoration HasTabulationMargin=""True"" PropertyName=""FeatureBlocks"" />
+            </FrameVerticalPanelFrame>
+            <FrameVerticalPanelFrame>
+                <FrameHorizontalPanelFrame>
+                    <KeywordDecoration>conversion</KeywordDecoration>
+                    <InsertDecoration CollectionName=""ConversionBlocks"" />
+                </FrameHorizontalPanelFrame>
+                <VerticalCollectionDecoration HasTabulationMargin=""True"" PropertyName=""ConversionBlocks"" />
+            </FrameVerticalPanelFrame>
+            <FrameVerticalPanelFrame>
+                <FrameHorizontalPanelFrame>
+                    <KeywordDecoration>invariant</KeywordDecoration>
+                    <InsertDecoration CollectionName=""InvariantBlocks"" />
+                </FrameHorizontalPanelFrame>
+                <VerticalCollectionDecoration HasTabulationMargin=""True"" PropertyName=""InvariantBlocks"" />
+            </FrameVerticalPanelFrame>
+            <KeywordDecoration Text=""end"">
+            </KeywordDecoration>
+        </FrameVerticalPanelFrame>
+    </FrameNodeTemplate>
+    <FrameNodeTemplate NodeType=""{x:Type IClassReplicate}"">
+        <FrameHorizontalPanelFrame>
+            <FramePlaceholderFrame PropertyName=""ReplicateName"" />
+            <KeywordDecoration LeftMargin=""Whitespace"" RightMargin=""Whitespace"">to</KeywordDecoration>
+            <HorizontalCollectionDecoration PropertyName=""PatternBlocks"" />
+        </FrameHorizontalPanelFrame>
+    </FrameNodeTemplate>
+    <FrameNodeTemplate NodeType=""{x:Type ICommandOverload}"">
+        <FrameVerticalPanelFrame>
+            <FrameVerticalPanelFrame>
+                <FrameHorizontalPanelFrame>
+                    <KeywordDecoration>parameter</KeywordDecoration>
+                    <DiscreteDecoration PropertyName=""ParameterEnd"" LeftMargin=""Whitespace"">
+                        <KeywordDecoration>closed</KeywordDecoration>
+                        <KeywordDecoration>open</KeywordDecoration>
+                    </DiscreteDecoration>
+                    <InsertDecoration CollectionName=""ParameterBlocks"" />
+                </FrameHorizontalPanelFrame>
+                <VerticalCollectionDecoration PropertyName=""ParameterBlocks"" />
+            </FrameVerticalPanelFrame>
+            <FramePlaceholderFrame PropertyName=""CommandBody"" BodyType=""Overload"" />
+        </FrameVerticalPanelFrame>
+    </FrameNodeTemplate>
+    <FrameNodeTemplate NodeType=""{x:Type ICommandOverloadType}"">
+        <FrameHorizontalPanelFrame>
+            <SymbolDecoration Symbol=""LeftBracket"" RightMargin=""ThinSpace""/>
+            <FrameVerticalPanelFrame>
+                <FrameVerticalPanelFrame>
+                    <FrameHorizontalPanelFrame>
+                        <KeywordDecoration>parameter</KeywordDecoration>
+                        <DiscreteDecoration PropertyName=""ParameterEnd"" LeftMargin=""Whitespace"">
+                            <KeywordDecoration>closed</KeywordDecoration>
+                            <KeywordDecoration>open</KeywordDecoration>
+                        </DiscreteDecoration>
+                        <InsertDecoration CollectionName=""ParameterBlocks"" />
+                    </FrameHorizontalPanelFrame>
+                    <VerticalCollectionDecoration PropertyName=""ParameterBlocks"" />
+                </FrameVerticalPanelFrame>
+                <FrameVerticalPanelFrame>
+                    <FrameHorizontalPanelFrame>
+                        <KeywordDecoration>require</KeywordDecoration>
+                        <InsertDecoration CollectionName=""RequireBlocks"" />
+                    </FrameHorizontalPanelFrame>
+                    <VerticalCollectionDecoration PropertyName=""RequireBlocks"" />
+                </FrameVerticalPanelFrame>
+                <FrameVerticalPanelFrame>
+                    <FrameHorizontalPanelFrame>
+                        <KeywordDecoration>ensure</KeywordDecoration>
+                        <InsertDecoration CollectionName=""EnsureBlocks"" />
+                    </FrameHorizontalPanelFrame>
+                    <VerticalCollectionDecoration PropertyName=""EnsureBlocks"" />
+                </FrameVerticalPanelFrame>
+                <FrameVerticalPanelFrame>
+                    <FrameHorizontalPanelFrame>
+                        <KeywordDecoration>exception</KeywordDecoration>
+                        <InsertDecoration CollectionName=""ExceptionIdentifierBlocks"" />
+                    </FrameHorizontalPanelFrame>
+                    <VerticalCollectionDecoration PropertyName=""ExceptionIdentifierBlocks"" />
+                </FrameVerticalPanelFrame>
+                <KeywordDecoration>end</KeywordDecoration>
+            </FrameVerticalPanelFrame>
+            <SymbolDecoration Symbol=""RightBracket"" LeftMargin=""ThinSpace""/>
+        </FrameHorizontalPanelFrame>
+    </FrameNodeTemplate>
+    <FrameNodeTemplate NodeType=""{x:Type IConditional}"">
+        <FrameVerticalPanelFrame>
+            <FrameHorizontalPanelFrame>
+                <KeywordDecoration RightMargin=""Whitespace"" Text=""else"">
+                </KeywordDecoration>
+                <KeywordDecoration>if</KeywordDecoration>
+                <FramePlaceholderFrame PropertyName=""BooleanExpression"" LeftMargin=""Whitespace"" RightMargin=""Whitespace"" />
+                <KeywordDecoration>then</KeywordDecoration>
+                <InsertDecoration CollectionName=""Instructions.InstructionBlocks"" />
+            </FrameHorizontalPanelFrame>
+            <FramePlaceholderFrame PropertyName=""Instructions"" />
+        </FrameVerticalPanelFrame>
+    </FrameNodeTemplate>
+    <FrameNodeTemplate NodeType=""{x:Type IConstraint}"">
+        <FrameVerticalPanelFrame>
+            <FramePlaceholderFrame PropertyName=""ParentType"" />
+            <FrameVerticalPanelFrame HasTabulationMargin=""True"">
+                <FrameHorizontalPanelFrame>
+                    <KeywordDecoration>rename</KeywordDecoration>
+                    <InsertDecoration CollectionName=""RenameBlocks"" />
+                </FrameHorizontalPanelFrame>
+                <VerticalCollectionDecoration PropertyName=""RenameBlocks"" />
+            </FrameVerticalPanelFrame>
+        </FrameVerticalPanelFrame>
+    </FrameNodeTemplate>
+    <FrameNodeTemplate NodeType=""{x:Type IContinuation}"">
+        <FrameVerticalPanelFrame>
+            <FrameHorizontalPanelFrame>
+                <KeywordDecoration>execute</KeywordDecoration>
+                <InsertDecoration CollectionName=""Instructions.InstructionBlocks"" />
+            </FrameHorizontalPanelFrame>
+            <FrameVerticalPanelFrame>
+                <FramePlaceholderFrame PropertyName=""Instructions"" />
+                <FrameVerticalPanelFrame>
+                    <FrameHorizontalPanelFrame>
+                        <KeywordDecoration>cleanup</KeywordDecoration>
+                        <InsertDecoration CollectionName=""CleanupBlocks"" />
+                    </FrameHorizontalPanelFrame>
+                    <VerticalCollectionDecoration PropertyName=""CleanupBlocks"" />
+                </FrameVerticalPanelFrame>
+            </FrameVerticalPanelFrame>
+        </FrameVerticalPanelFrame>
+    </FrameNodeTemplate>
+    <FrameNodeTemplate NodeType=""{x:Type IDiscrete}"">
+        <FrameHorizontalPanelFrame>
+            <FramePlaceholderFrame PropertyName=""EntityName"" />
+            <FrameHorizontalPanelFrame>
+                <KeywordDecoration LeftMargin=""Whitespace"" RightMargin=""Whitespace"">=</KeywordDecoration>
+                <FramePlaceholderFrame PropertyName=""NumericValue"" />
+            </FrameHorizontalPanelFrame>
+        </FrameHorizontalPanelFrame>
+    </FrameNodeTemplate>
+    <FrameNodeTemplate NodeType=""{x:Type IEntityDeclaration}"">
+        <FrameHorizontalPanelFrame>
+            <FramePlaceholderFrame PropertyName=""EntityName"" />
+            <KeywordDecoration RightMargin=""Whitespace"">:</KeywordDecoration>
+            <FramePlaceholderFrame PropertyName=""EntityType"" />
+            <FrameHorizontalPanelFrame>
+                <KeywordDecoration LeftMargin=""Whitespace"" RightMargin=""Whitespace"">=</KeywordDecoration>
+                <FramePlaceholderFrame PropertyName=""DefaultValue"" />
+            </FrameHorizontalPanelFrame>
+        </FrameHorizontalPanelFrame>
+    </FrameNodeTemplate>
+    <FrameNodeTemplate NodeType=""{x:Type IExceptionHandler}"">
+        <FrameVerticalPanelFrame>
+            <FrameHorizontalPanelFrame>
+                <KeywordDecoration>catch</KeywordDecoration>
+                <FramePlaceholderFrame PropertyName=""ExceptionIdentifier"" IdentifierType=""Type"" LeftMargin=""Whitespace"" />
+                <InsertDecoration CollectionName=""Instructions.InstructionBlocks"" />
+            </FrameHorizontalPanelFrame>
+            <FramePlaceholderFrame PropertyName=""Instructions"" />
+        </FrameVerticalPanelFrame>
+    </FrameNodeTemplate>
+    <FrameNodeTemplate NodeType=""{x:Type IExport}"">
+        <FrameHorizontalPanelFrame>
+            <FramePlaceholderFrame PropertyName=""EntityName"" />
+            <KeywordDecoration LeftMargin=""Whitespace"" RightMargin=""Whitespace"">to</KeywordDecoration>
+            <HorizontalCollectionDecoration PropertyName=""ClassIdentifierBlocks"" />
+        </FrameHorizontalPanelFrame>
+    </FrameNodeTemplate>
+    <FrameNodeTemplate NodeType=""{x:Type IExportChange}"">
+        <FrameHorizontalPanelFrame>
+            <FramePlaceholderFrame PropertyName=""ExportIdentifier"" IdentifierType=""Export"" />
+            <KeywordDecoration LeftMargin=""Whitespace"" RightMargin=""Whitespace"">to</KeywordDecoration>
+            <HorizontalCollectionDecoration PropertyName=""IdentifierBlocks"" />
+        </FrameHorizontalPanelFrame>
+    </FrameNodeTemplate>
+    <FrameNodeTemplate NodeType=""{x:Type IGeneric}"">
+        <FrameVerticalPanelFrame>
+            <FrameHorizontalPanelFrame>
+                <FramePlaceholderFrame PropertyName=""EntityName"" />
+                <FrameHorizontalPanelFrame>
+                    <KeywordDecoration LeftMargin=""Whitespace"" RightMargin=""Whitespace"">=</KeywordDecoration>
+                    <FramePlaceholderFrame PropertyName=""DefaultValue"" />
+                </FrameHorizontalPanelFrame>
+            </FrameHorizontalPanelFrame>
+            <FrameVerticalPanelFrame>
+                <FrameHorizontalPanelFrame>
+                    <KeywordDecoration>conform to</KeywordDecoration>
+                    <InsertDecoration CollectionName=""ConstraintBlocks"" />
+                </FrameHorizontalPanelFrame>
+                <VerticalCollectionDecoration PropertyName=""ConstraintBlocks"" />
+            </FrameVerticalPanelFrame>
+            <KeywordDecoration Text=""end"">
+            </KeywordDecoration>
+        </FrameVerticalPanelFrame>
+    </FrameNodeTemplate>
+    <FrameNodeTemplate NodeType=""{x:Type IGlobalReplicate}"">
+        <FrameHorizontalPanelFrame>
+            <FramePlaceholderFrame PropertyName=""ReplicateName"" />
+            <KeywordDecoration LeftMargin=""Whitespace"" RightMargin=""Whitespace"">to</KeywordDecoration>
+            <HorizontalCollectionDecoration PropertyName=""Patterns"" />
+        </FrameHorizontalPanelFrame>
+    </FrameNodeTemplate>
+    <FrameNodeTemplate NodeType=""{x:Type IImport}"">
+        <FrameVerticalPanelFrame>
+            <FrameHorizontalPanelFrame>
+                <DiscreteDecoration PropertyName=""Type"">
+                    <KeywordDecoration>latest</KeywordDecoration>
+                    <KeywordDecoration>strict</KeywordDecoration>
+                    <KeywordDecoration>stable</KeywordDecoration>
+                </DiscreteDecoration>
+                <FramePlaceholderFrame PropertyName=""LibraryIdentifier"" IdentifierType=""Library"" LeftMargin=""Whitespace"" />
+                <FrameHorizontalPanelFrame>
+                    <KeywordDecoration LeftMargin=""Whitespace"" RightMargin=""Whitespace"">from</KeywordDecoration>
+                    <FramePlaceholderFrame PropertyName=""FromIdentifier"" IdentifierType=""Source"" />
+                </FrameHorizontalPanelFrame>
+            </FrameHorizontalPanelFrame>
+            <FrameVerticalPanelFrame HasTabulationMargin=""True"">
+                <FrameHorizontalPanelFrame>
+                    <KeywordDecoration>rename</KeywordDecoration>
+                    <InsertDecoration CollectionName=""RenameBlocks"" />
+                </FrameHorizontalPanelFrame>
+                <VerticalCollectionDecoration HasTabulationMargin=""True"" PropertyName=""RenameBlocks"" />
+            </FrameVerticalPanelFrame>
+            <FrameVerticalPanelFrame HasTabulationMargin=""True"">
+                <KeywordDecoration>end</KeywordDecoration>
+            </FrameVerticalPanelFrame>
+        </FrameVerticalPanelFrame>
+    </FrameNodeTemplate>
+    <FrameNodeTemplate NodeType=""{x:Type IInheritance}"">
+        <FrameVerticalPanelFrame>
+            <FrameHorizontalPanelFrame>
+                <DiscreteDecoration PropertyName=""Conformance"" RightMargin=""Whitespace"">
+                    <KeywordDecoration>conformant</KeywordDecoration>
+                    <KeywordDecoration>non-conformant</KeywordDecoration>
+                </DiscreteDecoration>
+                <FramePlaceholderFrame PropertyName=""ParentType"" />
+            </FrameHorizontalPanelFrame>
+            <FrameVerticalPanelFrame HasTabulationMargin=""True"">
+                <FrameVerticalPanelFrame>
+                    <FrameHorizontalPanelFrame>
+                        <KeywordDecoration>rename</KeywordDecoration>
+                        <InsertDecoration CollectionName=""RenameBlocks"" />
+                    </FrameHorizontalPanelFrame>
+                    <VerticalCollectionDecoration PropertyName=""RenameBlocks"" />
+                </FrameVerticalPanelFrame>
+                <FrameVerticalPanelFrame>
+                    <FrameHorizontalPanelFrame>
+                        <KeywordDecoration>forget</KeywordDecoration>
+                        <InsertDecoration CollectionName=""ForgetBlocks"" />
+                    </FrameHorizontalPanelFrame>
+                    <VerticalCollectionDecoration PropertyName=""ForgetBlocks"" />
+                </FrameVerticalPanelFrame>
+                <FrameVerticalPanelFrame>
+                    <FrameHorizontalPanelFrame>
+                        <KeywordDecoration>keep</KeywordDecoration>
+                        <InsertDecoration CollectionName=""KeepBlocks"" />
+                    </FrameHorizontalPanelFrame>
+                    <VerticalCollectionDecoration PropertyName=""KeepBlocks"" />
+                </FrameVerticalPanelFrame>
+                <FrameVerticalPanelFrame>
+                    <FrameHorizontalPanelFrame>
+                        <KeywordDecoration>discontinue</KeywordDecoration>
+                        <InsertDecoration CollectionName=""DiscontinueBlocks"" />
+                    </FrameHorizontalPanelFrame>
+                    <VerticalCollectionDecoration PropertyName=""DiscontinueBlocks"" />
+                </FrameVerticalPanelFrame>
+                <FrameVerticalPanelFrame>
+                    <FrameHorizontalPanelFrame>
+                        <KeywordDecoration>export</KeywordDecoration>
+                        <InsertDecoration CollectionName=""ExportChangeBlocks"" />
+                    </FrameHorizontalPanelFrame>
+                    <VerticalCollectionDecoration PropertyName=""ExportChangeBlocks"" />
+                </FrameVerticalPanelFrame>
+                <DiscreteDecoration PropertyName=""ForgetIndexer"" RightMargin=""Whitespace"">
+                    <KeywordDecoration>ignore indexer</KeywordDecoration>
+                    <KeywordDecoration>forget indexer</KeywordDecoration>
+                </DiscreteDecoration>
+                <DiscreteDecoration PropertyName=""KeepIndexer"" RightMargin=""Whitespace"">
+                    <KeywordDecoration>ignore indexer</KeywordDecoration>
+                    <KeywordDecoration>keep indexer</KeywordDecoration>
+                </DiscreteDecoration>
+                <DiscreteDecoration PropertyName=""DiscontinueIndexer"" RightMargin=""Whitespace"">
+                    <KeywordDecoration>ignore indexer</KeywordDecoration>
+                    <KeywordDecoration>discontinue indexer</KeywordDecoration>
+                </DiscreteDecoration>
+                <KeywordDecoration Text=""end"">
+                </KeywordDecoration>
+            </FrameVerticalPanelFrame>
+        </FrameVerticalPanelFrame>
+    </FrameNodeTemplate>
+    <FrameNodeTemplate NodeType=""{x:Type ILibrary}"">
+        <FrameVerticalPanelFrame>
+            <FrameHorizontalPanelFrame>
+                <KeywordDecoration>library</KeywordDecoration>
+                <FramePlaceholderFrame PropertyName=""EntityName"" LeftMargin=""Whitespace"" />
+                <FrameHorizontalPanelFrame>
+                    <KeywordDecoration LeftMargin=""Whitespace"" RightMargin=""Whitespace"">from</KeywordDecoration>
+                    <FramePlaceholderFrame PropertyName=""FromIdentifier"" IdentifierType=""Source"" />
+                </FrameHorizontalPanelFrame>
+            </FrameHorizontalPanelFrame>
+            <FrameVerticalPanelFrame>
+                <FrameHorizontalPanelFrame>
+                    <KeywordDecoration>import</KeywordDecoration>
+                    <InsertDecoration CollectionName=""ImportBlocks"" />
+                </FrameHorizontalPanelFrame>
+                <VerticalCollectionDecoration PropertyName=""ImportBlocks"" />
+            </FrameVerticalPanelFrame>
+            <FrameVerticalPanelFrame>
+                <FrameHorizontalPanelFrame>
+                    <KeywordDecoration>class</KeywordDecoration>
+                    <InsertDecoration CollectionName=""ClassIdentifierBlocks"" />
+                </FrameHorizontalPanelFrame>
+                <VerticalCollectionDecoration PropertyName=""ClassIdentifierBlocks"" />
+            </FrameVerticalPanelFrame>
+            <KeywordDecoration Text=""end"">
+            </KeywordDecoration>
+        </FrameVerticalPanelFrame>
+    </FrameNodeTemplate>
+    <FrameNodeTemplate NodeType=""{x:Type IName}"">
+        <IdentifierDecoration PropertyName=""Text"" Type=""Name""/>
+    </FrameNodeTemplate>
+    <FrameNodeTemplate NodeType=""{x:Type IPattern}"">
+        <IdentifierDecoration PropertyName=""Text"" Type=""Pattern""/>
+    </FrameNodeTemplate>
+    <FrameNodeTemplate NodeType=""{x:Type IQualifiedName}"">
+        <HorizontalCollectionDecoration PropertyName=""Path"" />
+    </FrameNodeTemplate>
+    <FrameNodeTemplate NodeType=""{x:Type IQueryOverload}"">
+        <FrameVerticalPanelFrame>
+            <FrameVerticalPanelFrame>
+                <FrameHorizontalPanelFrame>
+                    <KeywordDecoration>parameter</KeywordDecoration>
+                    <DiscreteDecoration PropertyName=""ParameterEnd"" LeftMargin=""Whitespace"">
+                        <KeywordDecoration>closed</KeywordDecoration>
+                        <KeywordDecoration>open</KeywordDecoration>
+                    </DiscreteDecoration>
+                    <InsertDecoration CollectionName=""ParameterBlocks"" />
+                </FrameHorizontalPanelFrame>
+                <VerticalCollectionDecoration PropertyName=""ParameterBlocks"" />
+            </FrameVerticalPanelFrame>
+            <FrameVerticalPanelFrame>
+                <FrameHorizontalPanelFrame>
+                    <KeywordDecoration>result</KeywordDecoration>
+                    <InsertDecoration CollectionName=""ResultBlocks"" />
+                </FrameHorizontalPanelFrame>
+                <VerticalCollectionDecoration PropertyName=""ResultBlocks"" />
+            </FrameVerticalPanelFrame>
+            <FrameVerticalPanelFrame>
+                <FrameHorizontalPanelFrame>
+                    <KeywordDecoration>modified</KeywordDecoration>
+                    <InsertDecoration CollectionName=""ModifiedQueryBlocks"" />
+                </FrameHorizontalPanelFrame>
+                <VerticalCollectionDecoration PropertyName=""ModifiedQueryBlocks"" />
+            </FrameVerticalPanelFrame>
+            <FramePlaceholderFrame PropertyName=""QueryBody"" BodyType=""Overload"" />
+            <FrameHorizontalPanelFrame>
+                <KeywordDecoration RightMargin=""Whitespace"">variant</KeywordDecoration>
+                <FramePlaceholderFrame PropertyName=""Variant"" />
+            </FrameHorizontalPanelFrame>
+        </FrameVerticalPanelFrame>
+    </FrameNodeTemplate>
+    <FrameNodeTemplate NodeType=""{x:Type IQueryOverloadType}"">
+        <FrameHorizontalPanelFrame>
+            <SymbolDecoration Symbol=""LeftBracket"" RightMargin=""ThinSpace""/>
+            <FrameVerticalPanelFrame>
+                <FrameVerticalPanelFrame>
+                    <FrameHorizontalPanelFrame>
+                        <KeywordDecoration>parameter</KeywordDecoration>
+                        <DiscreteDecoration PropertyName=""ParameterEnd"" LeftMargin=""Whitespace"">
+                            <KeywordDecoration>closed</KeywordDecoration>
+                            <KeywordDecoration>open</KeywordDecoration>
+                        </DiscreteDecoration>
+                        <InsertDecoration CollectionName=""ParameterBlocks"" />
+                    </FrameHorizontalPanelFrame>
+                    <VerticalCollectionDecoration PropertyName=""ParameterBlocks"" />
+                </FrameVerticalPanelFrame>
+                <FrameVerticalPanelFrame>
+                    <FrameHorizontalPanelFrame>
+                        <KeywordDecoration>return</KeywordDecoration>
+                        <InsertDecoration CollectionName=""ResultBlocks"" />
+                    </FrameHorizontalPanelFrame>
+                    <VerticalCollectionDecoration PropertyName=""ResultBlocks"" />
+                </FrameVerticalPanelFrame>
+                <FrameVerticalPanelFrame>
+                    <FrameHorizontalPanelFrame>
+                        <KeywordDecoration>require</KeywordDecoration>
+                        <InsertDecoration CollectionName=""RequireBlocks"" />
+                    </FrameHorizontalPanelFrame>
+                    <VerticalCollectionDecoration PropertyName=""RequireBlocks"" />
+                </FrameVerticalPanelFrame>
+                <FrameVerticalPanelFrame>
+                    <FrameHorizontalPanelFrame>
+                        <KeywordDecoration>ensure</KeywordDecoration>
+                        <InsertDecoration CollectionName=""EnsureBlocks"" />
+                    </FrameHorizontalPanelFrame>
+                    <VerticalCollectionDecoration PropertyName=""EnsureBlocks"" />
+                </FrameVerticalPanelFrame>
+                <FrameVerticalPanelFrame>
+                    <FrameHorizontalPanelFrame>
+                        <KeywordDecoration>exception</KeywordDecoration>
+                        <InsertDecoration CollectionName=""ExceptionIdentifierBlocks"" />
+                    </FrameHorizontalPanelFrame>
+                    <VerticalCollectionDecoration PropertyName=""ExceptionIdentifierBlocks"" />
+                </FrameVerticalPanelFrame>
+                <KeywordDecoration>end</KeywordDecoration>
+            </FrameVerticalPanelFrame>
+            <SymbolDecoration Symbol=""RightBracket"" LeftMargin=""ThinSpace""/>
+        </FrameHorizontalPanelFrame>
+    </FrameNodeTemplate>
+    <FrameNodeTemplate NodeType=""{x:Type IRange}"">
+        <FrameHorizontalPanelFrame>
+            <SymbolDecoration Symbol=""LeftBracket"" RightMargin=""ThinSpace"">
+            </SymbolDecoration>
+            <FramePlaceholderFrame PropertyName=""LeftExpression"" />
+            <FrameHorizontalPanelFrame>
+                <KeywordDecoration LeftMargin=""Whitespace"" RightMargin=""Whitespace"">to</KeywordDecoration>
+                <FramePlaceholderFrame PropertyName=""RightExpression"" />
+                <SymbolDecoration Symbol=""RightBracket"" LeftMargin=""ThinSpace""/>
+            </FrameHorizontalPanelFrame>
+        </FrameHorizontalPanelFrame>
+    </FrameNodeTemplate>
+    <FrameNodeTemplate NodeType=""{x:Type IRename}"">
+        <FrameHorizontalPanelFrame>
+            <FramePlaceholderFrame PropertyName=""SourceIdentifier"" IdentifierType=""Feature"" />
+            <KeywordDecoration LeftMargin=""Whitespace"" RightMargin=""Whitespace"">to</KeywordDecoration>
+            <FramePlaceholderFrame PropertyName=""DestinationIdentifier"" IdentifierType=""Feature"" />
+        </FrameHorizontalPanelFrame>
+    </FrameNodeTemplate>
+    <FrameNodeTemplate NodeType=""{x:Type IRoot}"">
+        <FrameVerticalPanelFrame>
+            <FrameVerticalPanelFrame>
+                <FrameHorizontalPanelFrame>
+                    <KeywordDecoration>libraries</KeywordDecoration>
+                    <InsertDecoration CollectionName=""LibraryBlocks"" />
+                </FrameHorizontalPanelFrame>
+                <VerticalCollectionDecoration PropertyName=""LibraryBlocks"" />
+            </FrameVerticalPanelFrame>
+            <FrameVerticalPanelFrame>
+                <FrameHorizontalPanelFrame>
+                    <KeywordDecoration>classes</KeywordDecoration>
+                    <InsertDecoration CollectionName=""ClassBlocks"" />
+                </FrameHorizontalPanelFrame>
+                <VerticalCollectionDecoration PropertyName=""ClassBlocks"" />
+            </FrameVerticalPanelFrame>
+            <FrameVerticalPanelFrame>
+                <FrameHorizontalPanelFrame>
+                    <KeywordDecoration>replicates</KeywordDecoration>
+                    <InsertDecoration CollectionName=""Replicates"" />
+                </FrameHorizontalPanelFrame>
+                <VerticalCollectionDecoration PropertyName=""Replicates"" />
+            </FrameVerticalPanelFrame>
+            <KeywordDecoration>end</KeywordDecoration>
+        </FrameVerticalPanelFrame>
+    </FrameNodeTemplate>
+    <FrameNodeTemplate NodeType=""{x:Type IScope}"">
+        <FrameVerticalPanelFrame>
+            <FrameVerticalPanelFrame>
+                <FrameHorizontalPanelFrame>
+                    <KeywordDecoration>local</KeywordDecoration>
+                    <InsertDecoration CollectionName=""EntityDeclarationBlocks"" />
+                </FrameHorizontalPanelFrame>
+                <VerticalCollectionDecoration PropertyName=""EntityDeclarationBlocks"" />
+            </FrameVerticalPanelFrame>
+            <FrameVerticalPanelFrame>
+                <FrameHorizontalPanelFrame>
+                    <KeywordDecoration>do</KeywordDecoration>
+                    <InsertDecoration CollectionName=""InstructionBlocks"" />
+                </FrameHorizontalPanelFrame>
+                <VerticalCollectionDecoration PropertyName=""InstructionBlocks"" />
+            </FrameVerticalPanelFrame>
+        </FrameVerticalPanelFrame>
+    </FrameNodeTemplate>
+    <FrameNodeTemplate NodeType=""{x:Type ITypedef}"">
+        <FrameHorizontalPanelFrame>
+            <FramePlaceholderFrame PropertyName=""EntityName"" />
+            <KeywordDecoration LeftMargin=""Whitespace"" RightMargin=""Whitespace"">is</KeywordDecoration>
+            <FramePlaceholderFrame PropertyName=""DefinedType"" />
+        </FrameHorizontalPanelFrame>
+    </FrameNodeTemplate>
+    <FrameNodeTemplate NodeType=""{x:Type IWith}"">
+        <FrameVerticalPanelFrame>
+            <FrameHorizontalPanelFrame>
+                <KeywordDecoration RightMargin=""Whitespace"">case</KeywordDecoration>
+                <HorizontalCollectionDecoration PropertyName=""RangeBlocks"" />
+                <InsertDecoration CollectionName=""RangeBlocks"" />
+            </FrameHorizontalPanelFrame>
+            <FramePlaceholderFrame PropertyName=""Instructions"" />
+        </FrameVerticalPanelFrame>
+    </FrameNodeTemplate>
+
+    <FrameNodeTemplate NodeType=""{x:Type IAssignmentArgument}"">
+        <FrameHorizontalPanelFrame>
+            <HorizontalCollectionDecoration PropertyName=""ParameterBlocks"" />
+            <SymbolDecoration Symbol=""LeftArrow"" LeftMargin=""Whitespace"" RightMargin=""Whitespace""/>
+            <FramePlaceholderFrame PropertyName=""Source"" />
+        </FrameHorizontalPanelFrame>
+    </FrameNodeTemplate>
+    ﻿<FrameNodeTemplate NodeType=""{x:Type IPositionalArgument}"">
+        <FrameHorizontalPanelFrame>
+            <FramePlaceholderFrame PropertyName=""Source"" />
+        </FrameHorizontalPanelFrame>
+    </FrameNodeTemplate>
+
+    <FrameNodeTemplate NodeType=""{x:Type IDeferredBody}"">
+        <FrameVerticalPanelFrame>
+            <FrameVerticalPanelFrame>
+                <FrameHorizontalPanelFrame>
+                    <KeywordDecoration>require</KeywordDecoration>
+                    <InsertDecoration CollectionName=""RequireBlocks"" />
+                </FrameHorizontalPanelFrame>
+                <VerticalCollectionDecoration PropertyName=""RequireBlocks"" />
+            </FrameVerticalPanelFrame>
+            <FrameVerticalPanelFrame>
+                <FrameHorizontalPanelFrame>
+                    <KeywordDecoration>throw</KeywordDecoration>
+                    <InsertDecoration CollectionName=""ExceptionIdentifierBlocks"" />
+                </FrameHorizontalPanelFrame>
+                <HorizontalCollectionDecoration PropertyName=""ExceptionIdentifierBlocks"" />
+            </FrameVerticalPanelFrame>
+            <FrameVerticalPanelFrame>
+                <FrameHorizontalPanelFrame>
+                    <KeywordDecoration>getter</KeywordDecoration>
+                    <KeywordDecoration IsFocusable=""True"" LeftMargin=""Whitespace"">deferred</KeywordDecoration>
+                </FrameHorizontalPanelFrame>
+            </FrameVerticalPanelFrame>
+            <FrameVerticalPanelFrame>
+                <FrameHorizontalPanelFrame>
+                    <KeywordDecoration>ensure</KeywordDecoration>
+                    <InsertDecoration CollectionName=""EnsureBlocks"" />
+                </FrameHorizontalPanelFrame>
+                <VerticalCollectionDecoration PropertyName=""EnsureBlocks"" />
+            </FrameVerticalPanelFrame>
+        </FrameVerticalPanelFrame>
+    </FrameNodeTemplate>
+    ﻿<FrameNodeTemplate NodeType=""{x:Type IDeferredBody}"">
+        <FrameVerticalPanelFrame>
+            <FrameVerticalPanelFrame>
+                <FrameHorizontalPanelFrame>
+                    <KeywordDecoration>require</KeywordDecoration>
+                    <InsertDecoration CollectionName=""RequireBlocks"" />
+                </FrameHorizontalPanelFrame>
+                <VerticalCollectionDecoration PropertyName=""RequireBlocks"" />
+            </FrameVerticalPanelFrame>
+            <FrameVerticalPanelFrame>
+                <FrameHorizontalPanelFrame>
+                    <KeywordDecoration>throw</KeywordDecoration>
+                    <InsertDecoration CollectionName=""ExceptionIdentifierBlocks"" />
+                </FrameHorizontalPanelFrame>
+                <HorizontalCollectionDecoration PropertyName=""ExceptionIdentifierBlocks"" />
+            </FrameVerticalPanelFrame>
+            <FrameVerticalPanelFrame>
+                <FrameHorizontalPanelFrame>
+                    <KeywordDecoration IsFocusable=""True"">deferred</KeywordDecoration>
+                </FrameHorizontalPanelFrame>
+            </FrameVerticalPanelFrame>
+            <FrameVerticalPanelFrame>
+                <FrameHorizontalPanelFrame>
+                    <KeywordDecoration>ensure</KeywordDecoration>
+                    <InsertDecoration CollectionName=""EnsureBlocks"" />
+                </FrameHorizontalPanelFrame>
+                <VerticalCollectionDecoration PropertyName=""EnsureBlocks"" />
+            </FrameVerticalPanelFrame>
+        </FrameVerticalPanelFrame>
+    </FrameNodeTemplate>
+    ﻿<FrameNodeTemplate NodeType=""{x:Type IDeferredBody}"">
+        <FrameVerticalPanelFrame>
+            <FrameVerticalPanelFrame>
+                <FrameHorizontalPanelFrame>
+                    <KeywordDecoration>require</KeywordDecoration>
+                    <InsertDecoration CollectionName=""RequireBlocks"" />
+                </FrameHorizontalPanelFrame>
+                <VerticalCollectionDecoration PropertyName=""RequireBlocks"" />
+            </FrameVerticalPanelFrame>
+            <FrameVerticalPanelFrame>
+                <FrameHorizontalPanelFrame>
+                    <KeywordDecoration>throw</KeywordDecoration>
+                    <InsertDecoration CollectionName=""ExceptionIdentifierBlocks"" />
+                </FrameHorizontalPanelFrame>
+                <HorizontalCollectionDecoration PropertyName=""ExceptionIdentifierBlocks"" />
+            </FrameVerticalPanelFrame>
+            <FrameVerticalPanelFrame>
+                <FrameHorizontalPanelFrame>
+                    <KeywordDecoration>setter</KeywordDecoration>
+                    <KeywordDecoration IsFocusable=""True"" LeftMargin=""Whitespace"">deferred</KeywordDecoration>
+                </FrameHorizontalPanelFrame>
+            </FrameVerticalPanelFrame>
+            <FrameVerticalPanelFrame>
+                <FrameHorizontalPanelFrame>
+                    <KeywordDecoration>ensure</KeywordDecoration>
+                    <InsertDecoration CollectionName=""EnsureBlocks"" />
+                </FrameHorizontalPanelFrame>
+                <VerticalCollectionDecoration PropertyName=""EnsureBlocks"" />
+            </FrameVerticalPanelFrame>
+        </FrameVerticalPanelFrame>
+    </FrameNodeTemplate>
+
+    <FrameNodeTemplate NodeType=""{x:Type IEffectiveBody}"">
+        <FrameVerticalPanelFrame>
+            <FrameVerticalPanelFrame>
+                <FrameHorizontalPanelFrame>
+                    <KeywordDecoration>require</KeywordDecoration>
+                    <InsertDecoration CollectionName=""RequireBlocks"" />
+                </FrameHorizontalPanelFrame>
+                <VerticalCollectionDecoration PropertyName=""RequireBlocks"" />
+            </FrameVerticalPanelFrame>
+            <FrameVerticalPanelFrame>
+                <FrameHorizontalPanelFrame>
+                    <KeywordDecoration>throw</KeywordDecoration>
+                    <InsertDecoration CollectionName=""ExceptionIdentifierBlocks"" />
+                </FrameHorizontalPanelFrame>
+                <HorizontalCollectionDecoration PropertyName=""ExceptionIdentifierBlocks"" />
+            </FrameVerticalPanelFrame>
+            <FrameVerticalPanelFrame>
+                <FrameHorizontalPanelFrame>
+                    <KeywordDecoration>local</KeywordDecoration>
+                    <InsertDecoration CollectionName=""EntityDeclarationBlocks"" />
+                </FrameHorizontalPanelFrame>
+                <VerticalCollectionDecoration PropertyName=""EntityDeclarationBlocks"" />
+            </FrameVerticalPanelFrame>
+            <FrameVerticalPanelFrame>
+                <FrameHorizontalPanelFrame>
+                    <KeywordDecoration IsFocusable=""True"">getter</KeywordDecoration>
+                    <InsertDecoration CollectionName=""BodyInstructionBlocks"" />
+                </FrameHorizontalPanelFrame>
+                <VerticalCollectionDecoration PropertyName=""BodyInstructionBlocks"" />
+            </FrameVerticalPanelFrame>
+            <FrameVerticalPanelFrame>
+                <FrameHorizontalPanelFrame>
+                    <KeywordDecoration>exception</KeywordDecoration>
+                    <InsertDecoration CollectionName=""ExceptionHandlerBlocks"" />
+                </FrameHorizontalPanelFrame>
+                <VerticalCollectionDecoration PropertyName=""ExceptionHandlerBlocks"" />
+            </FrameVerticalPanelFrame>
+            <FrameVerticalPanelFrame>
+                <FrameHorizontalPanelFrame>
+                    <KeywordDecoration>ensure</KeywordDecoration>
+                    <InsertDecoration CollectionName=""EnsureBlocks"" />
+                </FrameHorizontalPanelFrame>
+                <VerticalCollectionDecoration PropertyName=""EnsureBlocks"" />
+            </FrameVerticalPanelFrame>
+        </FrameVerticalPanelFrame>
+    </FrameNodeTemplate>
+    ﻿<FrameNodeTemplate NodeType=""{x:Type IEffectiveBody}"">
+        <FrameVerticalPanelFrame>
+            <FrameVerticalPanelFrame>
+                <FrameHorizontalPanelFrame>
+                    <KeywordDecoration>require</KeywordDecoration>
+                    <InsertDecoration CollectionName=""RequireBlocks"" />
+                </FrameHorizontalPanelFrame>
+                <VerticalCollectionDecoration PropertyName=""RequireBlocks"" />
+            </FrameVerticalPanelFrame>
+            <FrameVerticalPanelFrame>
+                <FrameHorizontalPanelFrame>
+                    <KeywordDecoration>throw</KeywordDecoration>
+                    <InsertDecoration CollectionName=""ExceptionIdentifierBlocks"" />
+                </FrameHorizontalPanelFrame>
+                <HorizontalCollectionDecoration PropertyName=""ExceptionIdentifierBlocks"" />
+            </FrameVerticalPanelFrame>
+            <FrameVerticalPanelFrame>
+                <FrameHorizontalPanelFrame>
+                    <KeywordDecoration>local</KeywordDecoration>
+                    <InsertDecoration CollectionName=""EntityDeclarationBlocks"" />
+                </FrameHorizontalPanelFrame>
+                <VerticalCollectionDecoration PropertyName=""EntityDeclarationBlocks"" />
+            </FrameVerticalPanelFrame>
+            <FrameVerticalPanelFrame>
+                <FrameHorizontalPanelFrame>
+                    <KeywordDecoration IsFocusable=""True"">do</KeywordDecoration>
+                    <InsertDecoration CollectionName=""BodyInstructionBlocks"" />
+                </FrameHorizontalPanelFrame>
+                <VerticalCollectionDecoration PropertyName=""BodyInstructionBlocks"" />
+            </FrameVerticalPanelFrame>
+            <FrameVerticalPanelFrame>
+                <FrameHorizontalPanelFrame>
+                    <KeywordDecoration>exception</KeywordDecoration>
+                    <InsertDecoration CollectionName=""ExceptionHandlerBlocks"" />
+                </FrameHorizontalPanelFrame>
+                <VerticalCollectionDecoration PropertyName=""ExceptionHandlerBlocks"" />
+            </FrameVerticalPanelFrame>
+            <FrameVerticalPanelFrame>
+                <FrameHorizontalPanelFrame>
+                    <KeywordDecoration>ensure</KeywordDecoration>
+                    <InsertDecoration CollectionName=""EnsureBlocks"" />
+                </FrameHorizontalPanelFrame>
+                <VerticalCollectionDecoration PropertyName=""EnsureBlocks"" />
+            </FrameVerticalPanelFrame>
+        </FrameVerticalPanelFrame>
+    </FrameNodeTemplate>
+    ﻿<FrameNodeTemplate NodeType=""{x:Type IEffectiveBody}"">
+        <FrameVerticalPanelFrame>
+            <FrameVerticalPanelFrame>
+                <FrameHorizontalPanelFrame>
+                    <KeywordDecoration>require</KeywordDecoration>
+                    <InsertDecoration CollectionName=""RequireBlocks"" />
+                </FrameHorizontalPanelFrame>
+                <VerticalCollectionDecoration PropertyName=""RequireBlocks"" />
+            </FrameVerticalPanelFrame>
+            <FrameVerticalPanelFrame>
+                <FrameHorizontalPanelFrame>
+                    <KeywordDecoration>throw</KeywordDecoration>
+                    <InsertDecoration CollectionName=""ExceptionIdentifierBlocks"" />
+                </FrameHorizontalPanelFrame>
+                <HorizontalCollectionDecoration PropertyName=""ExceptionIdentifierBlocks"" />
+            </FrameVerticalPanelFrame>
+            <FrameVerticalPanelFrame>
+                <FrameHorizontalPanelFrame>
+                    <KeywordDecoration>local</KeywordDecoration>
+                    <InsertDecoration CollectionName=""EntityDeclarationBlocks"" />
+                </FrameHorizontalPanelFrame>
+                <VerticalCollectionDecoration PropertyName=""EntityDeclarationBlocks"" />
+            </FrameVerticalPanelFrame>
+            <FrameVerticalPanelFrame>
+                <FrameHorizontalPanelFrame>
+                    <KeywordDecoration IsFocusable=""True"">setter</KeywordDecoration>
+                    <InsertDecoration CollectionName=""BodyInstructionBlocks"" />
+                </FrameHorizontalPanelFrame>
+                <VerticalCollectionDecoration PropertyName=""BodyInstructionBlocks"" />
+            </FrameVerticalPanelFrame>
+            <FrameVerticalPanelFrame>
+                <FrameHorizontalPanelFrame>
+                    <KeywordDecoration>exception</KeywordDecoration>
+                    <InsertDecoration CollectionName=""ExceptionHandlerBlocks"" />
+                </FrameHorizontalPanelFrame>
+                <VerticalCollectionDecoration PropertyName=""ExceptionHandlerBlocks"" />
+            </FrameVerticalPanelFrame>
+            <FrameVerticalPanelFrame>
+                <FrameHorizontalPanelFrame>
+                    <KeywordDecoration>ensure</KeywordDecoration>
+                    <InsertDecoration CollectionName=""EnsureBlocks"" />
+                </FrameHorizontalPanelFrame>
+                <VerticalCollectionDecoration PropertyName=""EnsureBlocks"" />
+            </FrameVerticalPanelFrame>
+        </FrameVerticalPanelFrame>
+    </FrameNodeTemplate>
+
+    <FrameNodeTemplate NodeType=""{x:Type IExternBody}"">
+        <FrameVerticalPanelFrame>
+            <FrameVerticalPanelFrame>
+                <FrameHorizontalPanelFrame>
+                    <KeywordDecoration>require</KeywordDecoration>
+                    <InsertDecoration CollectionName=""RequireBlocks"" />
+                </FrameHorizontalPanelFrame>
+                <VerticalCollectionDecoration PropertyName=""RequireBlocks"" />
+            </FrameVerticalPanelFrame>
+            <FrameVerticalPanelFrame>
+                <FrameHorizontalPanelFrame>
+                    <KeywordDecoration>throw</KeywordDecoration>
+                    <InsertDecoration CollectionName=""ExceptionIdentifierBlocks"" />
+                </FrameHorizontalPanelFrame>
+                <HorizontalCollectionDecoration PropertyName=""ExceptionIdentifierBlocks"" />
+            </FrameVerticalPanelFrame>
+            <FrameVerticalPanelFrame>
+                <FrameHorizontalPanelFrame>
+                    <KeywordDecoration>getter</KeywordDecoration>
+                    <KeywordDecoration IsFocusable=""True"" LeftMargin=""Whitespace"">extern</KeywordDecoration>
+                </FrameHorizontalPanelFrame>
+            </FrameVerticalPanelFrame>
+            <FrameVerticalPanelFrame>
+                <FrameHorizontalPanelFrame>
+                    <KeywordDecoration>ensure</KeywordDecoration>
+                    <InsertDecoration CollectionName=""EnsureBlocks"" />
+                </FrameHorizontalPanelFrame>
+                <VerticalCollectionDecoration PropertyName=""EnsureBlocks"" />
+            </FrameVerticalPanelFrame>
+        </FrameVerticalPanelFrame>
+    </FrameNodeTemplate>
+    ﻿<FrameNodeTemplate NodeType=""{x:Type IExternBody}"">
+        <FrameVerticalPanelFrame>
+            <FrameVerticalPanelFrame>
+                <FrameHorizontalPanelFrame>
+                    <KeywordDecoration>require</KeywordDecoration>
+                    <InsertDecoration CollectionName=""RequireBlocks"" />
+                </FrameHorizontalPanelFrame>
+                <VerticalCollectionDecoration PropertyName=""RequireBlocks"" />
+            </FrameVerticalPanelFrame>
+            <FrameVerticalPanelFrame>
+                <FrameHorizontalPanelFrame>
+                    <KeywordDecoration>throw</KeywordDecoration>
+                    <InsertDecoration CollectionName=""ExceptionIdentifierBlocks"" />
+                </FrameHorizontalPanelFrame>
+                <HorizontalCollectionDecoration PropertyName=""ExceptionIdentifierBlocks"" />
+            </FrameVerticalPanelFrame>
+            <FrameVerticalPanelFrame>
+                <FrameHorizontalPanelFrame>
+                    <KeywordDecoration IsFocusable=""True"">extern</KeywordDecoration>
+                </FrameHorizontalPanelFrame>
+            </FrameVerticalPanelFrame>
+            <FrameVerticalPanelFrame>
+                <FrameHorizontalPanelFrame>
+                    <KeywordDecoration>ensure</KeywordDecoration>
+                    <InsertDecoration CollectionName=""EnsureBlocks"" />
+                </FrameHorizontalPanelFrame>
+                <VerticalCollectionDecoration PropertyName=""EnsureBlocks"" />
+            </FrameVerticalPanelFrame>
+        </FrameVerticalPanelFrame>
+    </FrameNodeTemplate>
+    ﻿<FrameNodeTemplate NodeType=""{x:Type IExternBody}"">
+        <FrameVerticalPanelFrame>
+            <FrameVerticalPanelFrame>
+                <FrameHorizontalPanelFrame>
+                    <KeywordDecoration>require</KeywordDecoration>
+                    <InsertDecoration CollectionName=""RequireBlocks"" />
+                </FrameHorizontalPanelFrame>
+                <VerticalCollectionDecoration PropertyName=""RequireBlocks"" />
+            </FrameVerticalPanelFrame>
+            <FrameVerticalPanelFrame>
+                <FrameHorizontalPanelFrame>
+                    <KeywordDecoration>throw</KeywordDecoration>
+                    <InsertDecoration CollectionName=""ExceptionIdentifierBlocks"" />
+                </FrameHorizontalPanelFrame>
+                <HorizontalCollectionDecoration PropertyName=""ExceptionIdentifierBlocks"" />
+            </FrameVerticalPanelFrame>
+            <FrameVerticalPanelFrame>
+                <FrameHorizontalPanelFrame>
+                    <KeywordDecoration>setter</KeywordDecoration>
+                    <KeywordDecoration IsFocusable=""True"" LeftMargin=""Whitespace"">extern</KeywordDecoration>
+                </FrameHorizontalPanelFrame>
+            </FrameVerticalPanelFrame>
+            <FrameVerticalPanelFrame>
+                <FrameHorizontalPanelFrame>
+                    <KeywordDecoration>ensure</KeywordDecoration>
+                    <InsertDecoration CollectionName=""EnsureBlocks"" />
+                </FrameHorizontalPanelFrame>
+                <VerticalCollectionDecoration PropertyName=""EnsureBlocks"" />
+            </FrameVerticalPanelFrame>
+        </FrameVerticalPanelFrame>
+    </FrameNodeTemplate>
+
+    <FrameNodeTemplate NodeType=""{x:Type IPrecursorBody}"">
+        <FrameVerticalPanelFrame>
+            <FrameVerticalPanelFrame>
+                <FrameHorizontalPanelFrame>
+                    <KeywordDecoration>require</KeywordDecoration>
+                    <InsertDecoration CollectionName=""RequireBlocks"" />
+                </FrameHorizontalPanelFrame>
+                <VerticalCollectionDecoration PropertyName=""RequireBlocks"" />
+            </FrameVerticalPanelFrame>
+            <FrameVerticalPanelFrame>
+                <FrameHorizontalPanelFrame>
+                    <KeywordDecoration>throw</KeywordDecoration>
+                    <InsertDecoration CollectionName=""ExceptionIdentifierBlocks"" />
+                </FrameHorizontalPanelFrame>
+                <HorizontalCollectionDecoration PropertyName=""ExceptionIdentifierBlocks"" />
+            </FrameVerticalPanelFrame>
+            <FrameVerticalPanelFrame>
+                <FrameHorizontalPanelFrame>
+                    <KeywordDecoration>getter</KeywordDecoration>
+                    <KeywordDecoration IsFocusable=""True"" LeftMargin=""Whitespace"">precursor</KeywordDecoration>
+                </FrameHorizontalPanelFrame>
+            </FrameVerticalPanelFrame>
+            <FrameVerticalPanelFrame>
+                <FrameHorizontalPanelFrame>
+                    <KeywordDecoration>ensure</KeywordDecoration>
+                    <InsertDecoration CollectionName=""EnsureBlocks"" />
+                </FrameHorizontalPanelFrame>
+                <VerticalCollectionDecoration PropertyName=""EnsureBlocks"" />
+            </FrameVerticalPanelFrame>
+        </FrameVerticalPanelFrame>
+    </FrameNodeTemplate>
+    ﻿<FrameNodeTemplate NodeType=""{x:Type IPrecursorBody}"">
+        <FrameVerticalPanelFrame>
+            <FrameVerticalPanelFrame>
+                <FrameHorizontalPanelFrame>
+                    <KeywordDecoration>require</KeywordDecoration>
+                    <InsertDecoration CollectionName=""RequireBlocks"" />
+                </FrameHorizontalPanelFrame>
+                <VerticalCollectionDecoration PropertyName=""RequireBlocks"" />
+            </FrameVerticalPanelFrame>
+            <FrameVerticalPanelFrame>
+                <FrameHorizontalPanelFrame>
+                    <KeywordDecoration>throw</KeywordDecoration>
+                    <InsertDecoration CollectionName=""ExceptionIdentifierBlocks"" />
+                </FrameHorizontalPanelFrame>
+                <HorizontalCollectionDecoration PropertyName=""ExceptionIdentifierBlocks"" />
+            </FrameVerticalPanelFrame>
+            <FrameVerticalPanelFrame>
+                <FrameHorizontalPanelFrame>
+                    <KeywordDecoration IsFocusable=""True"">precursor</KeywordDecoration>
+                </FrameHorizontalPanelFrame>
+            </FrameVerticalPanelFrame>
+            <FrameVerticalPanelFrame>
+                <FrameHorizontalPanelFrame>
+                    <KeywordDecoration>ensure</KeywordDecoration>
+                    <InsertDecoration CollectionName=""EnsureBlocks"" />
+                </FrameHorizontalPanelFrame>
+                <VerticalCollectionDecoration PropertyName=""EnsureBlocks"" />
+            </FrameVerticalPanelFrame>
+        </FrameVerticalPanelFrame>
+    </FrameNodeTemplate>
+    ﻿<FrameNodeTemplate NodeType=""{x:Type IPrecursorBody}"">
+        <FrameVerticalPanelFrame>
+            <FrameVerticalPanelFrame>
+                <FrameHorizontalPanelFrame>
+                    <KeywordDecoration>require</KeywordDecoration>
+                    <InsertDecoration CollectionName=""RequireBlocks"" />
+                </FrameHorizontalPanelFrame>
+                <VerticalCollectionDecoration PropertyName=""RequireBlocks"" />
+            </FrameVerticalPanelFrame>
+            <FrameVerticalPanelFrame>
+                <FrameHorizontalPanelFrame>
+                    <KeywordDecoration>throw</KeywordDecoration>
+                    <InsertDecoration CollectionName=""ExceptionIdentifierBlocks"" />
+                </FrameHorizontalPanelFrame>
+                <HorizontalCollectionDecoration PropertyName=""ExceptionIdentifierBlocks"" />
+            </FrameVerticalPanelFrame>
+            <FrameVerticalPanelFrame>
+                <FrameHorizontalPanelFrame>
+                    <KeywordDecoration>setter</KeywordDecoration>
+                    <KeywordDecoration IsFocusable=""True"" LeftMargin=""Whitespace"">precursor</KeywordDecoration>
+                </FrameHorizontalPanelFrame>
+            </FrameVerticalPanelFrame>
+            <FrameVerticalPanelFrame>
+                <FrameHorizontalPanelFrame>
+                    <KeywordDecoration>ensure</KeywordDecoration>
+                    <InsertDecoration CollectionName=""EnsureBlocks"" />
+                </FrameHorizontalPanelFrame>
+                <VerticalCollectionDecoration PropertyName=""EnsureBlocks"" />
+            </FrameVerticalPanelFrame>
+        </FrameVerticalPanelFrame>
+    </FrameNodeTemplate>
+
+    <FrameNodeTemplate NodeType=""{x:Type IAgentExpression}"">
+        <FrameHorizontalPanelFrame>
+            <KeywordDecoration>agent</KeywordDecoration>
+            <FrameHorizontalPanelFrame>
+                <SymbolDecoration Symbol=""LeftCurlyBracket"" LeftMargin=""ThinSpace""/>
+                <FramePlaceholderFrame PropertyName=""BaseType"" LeftMargin=""ThinSpace"" RightMargin=""ThinSpace"" />
+                <SymbolDecoration Symbol=""RightCurlyBracket""/>
+            </FrameHorizontalPanelFrame>
+            <FramePlaceholderFrame PropertyName=""Delegated"" IdentifierType=""Feature"" LeftMargin=""Whitespace"" />
+        </FrameHorizontalPanelFrame>
+    </FrameNodeTemplate>
+    ﻿<FrameNodeTemplate NodeType=""{x:Type IAssertionTagExpression}"">
+        <FrameHorizontalPanelFrame>
+            <KeywordDecoration>tag</KeywordDecoration>
+            <FramePlaceholderFrame PropertyName=""TagIdentifier"" IdentifierType=""Feature"" LeftMargin=""Whitespace"" />
+        </FrameHorizontalPanelFrame>
+    </FrameNodeTemplate>
+    ﻿<FrameNodeTemplate NodeType=""{x:Type IBinaryConditionalExpression}"">
+        <FrameHorizontalPanelFrame>
+            <FrameHorizontalPanelFrame>
+                <SymbolDecoration Symbol=""LeftParenthesis"" RightMargin=""ThinSpace"">
+                </SymbolDecoration>
+                <FramePlaceholderFrame PropertyName=""LeftExpression"" />
+                <SymbolDecoration Symbol=""RightParenthesis"" LeftMargin=""ThinSpace"">
+                </SymbolDecoration>
+            </FrameHorizontalPanelFrame>
+            <DiscreteDecoration PropertyName=""Conditional"" LeftMargin=""Whitespace"" RightMargin=""Whitespace"">
+                <KeywordDecoration>and</KeywordDecoration>
+                <KeywordDecoration>or</KeywordDecoration>
+            </DiscreteDecoration>
+            <FrameHorizontalPanelFrame>
+                <SymbolDecoration Symbol=""LeftParenthesis"" RightMargin=""ThinSpace"">
+                </SymbolDecoration>
+                <FramePlaceholderFrame PropertyName=""RightExpression"" />
+                <SymbolDecoration Symbol=""RightParenthesis"" LeftMargin=""ThinSpace"">
+                </SymbolDecoration>
+            </FrameHorizontalPanelFrame>
+        </FrameHorizontalPanelFrame>
+    </FrameNodeTemplate>
+    ﻿<FrameNodeTemplate NodeType=""{x:Type IBinaryOperatorExpression}"">
+        <FrameHorizontalPanelFrame>
+            <FrameHorizontalPanelFrame>
+                <SymbolDecoration Symbol=""LeftParenthesis"" RightMargin=""ThinSpace"">
+                </SymbolDecoration>
+                <FramePlaceholderFrame PropertyName=""LeftExpression"" />
+                <SymbolDecoration Symbol=""RightParenthesis"" LeftMargin=""ThinSpace"">
+                </SymbolDecoration>
+            </FrameHorizontalPanelFrame>
+            <FramePlaceholderFrame PropertyName=""Operator"" IdentifierType=""Feature"" LeftMargin=""Whitespace"" RightMargin=""Whitespace"" />
+            <FrameHorizontalPanelFrame>
+                <SymbolDecoration Symbol=""LeftParenthesis"" RightMargin=""ThinSpace"">
+                </SymbolDecoration>
+                <FramePlaceholderFrame PropertyName=""RightExpression"" />
+                <SymbolDecoration Symbol=""RightParenthesis"" LeftMargin=""ThinSpace"">
+                </SymbolDecoration>
+            </FrameHorizontalPanelFrame>
+        </FrameHorizontalPanelFrame>
+    </FrameNodeTemplate>
+    ﻿<FrameNodeTemplate NodeType=""{x:Type IClassConstantExpression}"">
+        <FrameHorizontalPanelFrame>
+            <SymbolDecoration Symbol=""LeftCurlyBracket""/>
+            <FramePlaceholderFrame PropertyName=""ClassIdentifier"" IdentifierType=""Class"" LeftMargin=""ThinSpace"" RightMargin=""ThinSpace"" />
+            <SymbolDecoration Symbol=""RightCurlyBracket""/>
+            <SymbolDecoration Symbol=""Dot""/>
+            <FramePlaceholderFrame PropertyName=""ConstantIdentifier"" IdentifierType=""Feature"" LeftMargin=""ThinSpace"" />
+        </FrameHorizontalPanelFrame>
+    </FrameNodeTemplate>
+    ﻿<FrameNodeTemplate NodeType=""{x:Type ICloneOfExpression}"">
+        <FrameHorizontalPanelFrame>
+            <DiscreteDecoration PropertyName=""Type"" RightMargin=""Whitespace"">
+                <KeywordDecoration>shallow</KeywordDecoration>
+                <KeywordDecoration>deep</KeywordDecoration>
+            </DiscreteDecoration>
+            <KeywordDecoration RightMargin=""Whitespace"" IsFocusable=""True"">clone of</KeywordDecoration>
+            <FrameHorizontalPanelFrame>
+                <SymbolDecoration Symbol=""LeftParenthesis"" RightMargin=""ThinSpace"">
+                </SymbolDecoration>
+                <FramePlaceholderFrame PropertyName=""Source"" />
+                <SymbolDecoration Symbol=""RightParenthesis"" LeftMargin=""ThinSpace"">
+                </SymbolDecoration>
+            </FrameHorizontalPanelFrame>
+        </FrameHorizontalPanelFrame>
+    </FrameNodeTemplate>
+    ﻿<FrameNodeTemplate NodeType=""{x:Type IEntityExpression}"">
+        <FrameHorizontalPanelFrame>
+            <KeywordDecoration>entity</KeywordDecoration>
+            <FramePlaceholderFrame PropertyName=""Query"" LeftMargin=""Whitespace"" />
+        </FrameHorizontalPanelFrame>
+    </FrameNodeTemplate>
+    ﻿<FrameNodeTemplate NodeType=""{x:Type IEqualityExpression}"">
+        <FrameHorizontalPanelFrame>
+            <FrameHorizontalPanelFrame>
+                <SymbolDecoration Symbol=""LeftParenthesis"" RightMargin=""ThinSpace"">
+                </SymbolDecoration>
+                <FramePlaceholderFrame PropertyName=""LeftExpression"" />
+                <SymbolDecoration Symbol=""RightParenthesis"" LeftMargin=""ThinSpace"">
+                </SymbolDecoration>
+            </FrameHorizontalPanelFrame>
+            <DiscreteDecoration PropertyName=""Comparison"" LeftMargin=""Whitespace"">
+                <KeywordDecoration>=</KeywordDecoration>
+                <KeywordDecoration>≠</KeywordDecoration>
+            </DiscreteDecoration>
+            <DiscreteDecoration PropertyName=""Equality"">
+                <KeywordDecoration>phys</KeywordDecoration>
+                <KeywordDecoration>deep</KeywordDecoration>
+            </DiscreteDecoration>
+            <KeywordDecoration Text="" ""/>
+            <FrameHorizontalPanelFrame>
+                <SymbolDecoration Symbol=""LeftParenthesis"" RightMargin=""ThinSpace"">
+                </SymbolDecoration>
+                <FramePlaceholderFrame PropertyName=""RightExpression"" />
+                <SymbolDecoration Symbol=""RightParenthesis"" LeftMargin=""ThinSpace"">
+                </SymbolDecoration>
+            </FrameHorizontalPanelFrame>
+        </FrameHorizontalPanelFrame>
+    </FrameNodeTemplate>
+    ﻿<FrameNodeTemplate NodeType=""{x:Type IIndexQueryExpression}"">
+        <FrameHorizontalPanelFrame>
+            <FrameHorizontalPanelFrame>
+                <SymbolDecoration Symbol=""LeftParenthesis"" RightMargin=""ThinSpace"">
+                </SymbolDecoration>
+                <FramePlaceholderFrame PropertyName=""IndexedExpression"" />
+                <SymbolDecoration Symbol=""RightParenthesis"" LeftMargin=""ThinSpace"">
+                </SymbolDecoration>
+            </FrameHorizontalPanelFrame>
+            <SymbolDecoration Symbol=""LeftBracket"" LeftMargin=""ThinSpace"" RightMargin=""ThinSpace""/>
+            <HorizontalCollectionDecoration PropertyName=""ArgumentBlocks"" />
+            <SymbolDecoration Symbol=""RightBracket"" LeftMargin=""ThinSpace""/>
+        </FrameHorizontalPanelFrame>
+    </FrameNodeTemplate>
+    ﻿<FrameNodeTemplate NodeType=""{x:Type IInitializedObjectExpression}"">
+        <FrameHorizontalPanelFrame>
+            <FramePlaceholderFrame PropertyName=""ClassIdentifier"" IdentifierType=""Type"" />
+            <SymbolDecoration Symbol=""LeftBracket"" LeftMargin=""ThinSpace"" RightMargin=""ThinSpace""/>
+            <VerticalCollectionDecoration PropertyName=""AssignmentBlocks"" />
+            <SymbolDecoration Symbol=""RightBracket"" LeftMargin=""ThinSpace""/>
+            <InsertDecoration CollectionName=""AssignmentBlocks"" />
+        </FrameHorizontalPanelFrame>
+    </FrameNodeTemplate>
+    ﻿<FrameNodeTemplate NodeType=""{x:Type IKeywordExpression}"">
+        <DiscreteDecoration PropertyName=""Value"">
+            <KeywordDecoration>True</KeywordDecoration>
+            <KeywordDecoration>False</KeywordDecoration>
+            <KeywordDecoration>Current</KeywordDecoration>
+            <KeywordDecoration>Value</KeywordDecoration>
+            <KeywordDecoration>Result</KeywordDecoration>
+            <KeywordDecoration>Retry</KeywordDecoration>
+            <KeywordDecoration>Exception</KeywordDecoration>
+        </DiscreteDecoration>
+    </FrameNodeTemplate>
+    ﻿<FrameNodeTemplate NodeType=""{x:Type IManifestCharacterExpression}"">
+        <FrameHorizontalPanelFrame>
+            <KeywordDecoration>'</KeywordDecoration>
+            <CharacterDecoration PropertyName=""Text""/>
+            <KeywordDecoration>'</KeywordDecoration>
+        </FrameHorizontalPanelFrame>
+    </FrameNodeTemplate>
+    ﻿<FrameNodeTemplate NodeType=""{x:Type IManifestNumberExpression}"">
+        <FrameHorizontalPanelFrame>
+            <NumberValueDecoration PropertyName=""Text""/>
+        </FrameHorizontalPanelFrame>
+    </FrameNodeTemplate>
+    ﻿<FrameNodeTemplate NodeType=""{x:Type IManifestStringExpression}"">
+        <FrameHorizontalPanelFrame>
+            <KeywordDecoration>""</KeywordDecoration>
+            <StringDecoration PropertyName=""Text""/>
+            <KeywordDecoration>""</KeywordDecoration>
+        </FrameHorizontalPanelFrame>
+    </FrameNodeTemplate>
+    ﻿<FrameNodeTemplate NodeType=""{x:Type INewExpression}"">
+        <FrameHorizontalPanelFrame>
+            <KeywordDecoration RightMargin=""Whitespace"">new</KeywordDecoration>
+            <FramePlaceholderFrame PropertyName=""Object"" />
+        </FrameHorizontalPanelFrame>
+    </FrameNodeTemplate>
+    ﻿<FrameNodeTemplate NodeType=""{x:Type IOldExpression}"">
+        <FrameHorizontalPanelFrame>
+            <KeywordDecoration RightMargin=""Whitespace"">old</KeywordDecoration>
+            <FramePlaceholderFrame PropertyName=""Query"" />
+        </FrameHorizontalPanelFrame>
+    </FrameNodeTemplate>
+    ﻿<FrameNodeTemplate NodeType=""{x:Type IPrecursorExpression}"">
+        <FrameHorizontalPanelFrame>
+            <KeywordDecoration IsFocusable=""True"">precursor</KeywordDecoration>
+            <FrameHorizontalPanelFrame>
+                <SymbolDecoration Symbol=""LeftCurlyBracket"" LeftMargin=""ThinSpace""/>
+                <FramePlaceholderFrame PropertyName=""AncestorType"" LeftMargin=""ThinSpace"" RightMargin=""ThinSpace"" />
+                <SymbolDecoration Symbol=""RightCurlyBracket""/>
+            </FrameHorizontalPanelFrame>
+            <FrameHorizontalPanelFrame>
+                <SymbolDecoration Symbol=""LeftParenthesis"" LeftMargin=""Whitespace"" RightMargin=""ThinSpace"">
+                </SymbolDecoration>
+                <HorizontalCollectionDecoration PropertyName=""ArgumentBlocks"" />
+                <SymbolDecoration Symbol=""RightParenthesis"" LeftMargin=""ThinSpace"">
+                </SymbolDecoration>
+            </FrameHorizontalPanelFrame>
+        </FrameHorizontalPanelFrame>
+    </FrameNodeTemplate>
+    ﻿<FrameNodeTemplate NodeType=""{x:Type IPrecursorIndexExpression}"">
+        <FrameHorizontalPanelFrame>
+            <KeywordDecoration IsFocusable=""True"">precursor</KeywordDecoration>
+            <FrameHorizontalPanelFrame>
+                <SymbolDecoration Symbol=""LeftCurlyBracket"" LeftMargin=""ThinSpace""/>
+                <FramePlaceholderFrame PropertyName=""AncestorType"" LeftMargin=""ThinSpace"" RightMargin=""ThinSpace"" />
+                <SymbolDecoration Symbol=""RightCurlyBracket""/>
+            </FrameHorizontalPanelFrame>
+            <FrameHorizontalPanelFrame>
+                <SymbolDecoration Symbol=""LeftBracket"" LeftMargin=""Whitespace"" RightMargin=""ThinSpace""/>
+                <HorizontalCollectionDecoration PropertyName=""ArgumentBlocks"" />
+                <SymbolDecoration Symbol=""RightBracket"" LeftMargin=""ThinSpace""/>
+            </FrameHorizontalPanelFrame>
+        </FrameHorizontalPanelFrame>
+    </FrameNodeTemplate>
+    ﻿<FrameNodeTemplate NodeType=""{x:Type IPreprocessorExpression}"">
+        <DiscreteDecoration PropertyName=""Value"">
+            <KeywordDecoration>DateAndTime</KeywordDecoration>
+            <KeywordDecoration>CompilationDiscreteIdentifier</KeywordDecoration>
+            <KeywordDecoration>ClassPath</KeywordDecoration>
+            <KeywordDecoration>CompilerVersion</KeywordDecoration>
+            <KeywordDecoration>ConformanceToStandard</KeywordDecoration>
+            <KeywordDecoration>DiscreteClassIdentifier</KeywordDecoration>
+            <KeywordDecoration>Counter</KeywordDecoration>
+            <KeywordDecoration>Debugging</KeywordDecoration>
+            <KeywordDecoration>RandomInteger</KeywordDecoration>
+        </DiscreteDecoration>
+    </FrameNodeTemplate>
+    ﻿<FrameNodeTemplate NodeType=""{x:Type IQueryExpression}"">
+        <FrameHorizontalPanelFrame>
+            <FramePlaceholderFrame PropertyName=""Query"" />
+            <FrameHorizontalPanelFrame>
+                <SymbolDecoration Symbol=""LeftParenthesis"" LeftMargin=""ThinSpace"" RightMargin=""ThinSpace"">
+                </SymbolDecoration>
+                <HorizontalCollectionDecoration PropertyName=""ArgumentBlocks"" />
+                <SymbolDecoration Symbol=""RightParenthesis"" LeftMargin=""ThinSpace"">
+                </SymbolDecoration>
+            </FrameHorizontalPanelFrame>
+        </FrameHorizontalPanelFrame>
+    </FrameNodeTemplate>
+    ﻿<FrameNodeTemplate NodeType=""{x:Type IResultOfExpression}"">
+        <FrameHorizontalPanelFrame>
+            <KeywordDecoration RightMargin=""Whitespace"">result of</KeywordDecoration>
+            <FrameHorizontalPanelFrame>
+                <SymbolDecoration Symbol=""LeftParenthesis"" RightMargin=""ThinSpace"">
+                </SymbolDecoration>
+                <FramePlaceholderFrame PropertyName=""Source"" />
+                <SymbolDecoration Symbol=""RightParenthesis"" LeftMargin=""ThinSpace"">
+                </SymbolDecoration>
+            </FrameHorizontalPanelFrame>
+        </FrameHorizontalPanelFrame>
+    </FrameNodeTemplate>
+    ﻿<FrameNodeTemplate NodeType=""{x:Type IUnaryNotExpression}"">
+        <FrameHorizontalPanelFrame>
+            <KeywordDecoration RightMargin=""Whitespace"">not</KeywordDecoration>
+            <FrameHorizontalPanelFrame>
+                <SymbolDecoration Symbol=""LeftParenthesis"" RightMargin=""ThinSpace"">
+                </SymbolDecoration>
+                <FramePlaceholderFrame PropertyName=""RightExpression"" />
+                <SymbolDecoration Symbol=""RightParenthesis"" LeftMargin=""ThinSpace"">
+                </SymbolDecoration>
+            </FrameHorizontalPanelFrame>
+        </FrameHorizontalPanelFrame>
+    </FrameNodeTemplate>
+    ﻿<FrameNodeTemplate NodeType=""{x:Type IUnaryOperatorExpression}"">
+        <FrameHorizontalPanelFrame>
+            <FramePlaceholderFrame PropertyName=""Operator"" IdentifierType=""Feature"" RightMargin=""Whitespace"" />
+            <FrameHorizontalPanelFrame>
+                <SymbolDecoration Symbol=""LeftParenthesis"" RightMargin=""ThinSpace"">
+                </SymbolDecoration>
+                <FramePlaceholderFrame PropertyName=""RightExpression"" />
+                <SymbolDecoration Symbol=""RightParenthesis"" LeftMargin=""ThinSpace"">
+                </SymbolDecoration>
+            </FrameHorizontalPanelFrame>
+        </FrameHorizontalPanelFrame>
+    </FrameNodeTemplate>
+
+    <FrameNodeTemplate NodeType=""{x:Type IAttributeFeature}"">
+        <FrameVerticalPanelFrame>
+            <FrameHorizontalPanelFrame>
+                <DiscreteDecoration PropertyName=""Export"" RightMargin=""Whitespace"">
+                    <KeywordDecoration>exported</KeywordDecoration>
+                    <KeywordDecoration>private</KeywordDecoration>
+                </DiscreteDecoration>
+                <FramePlaceholderFrame PropertyName=""EntityName"" />
+                <KeywordDecoration>:</KeywordDecoration>
+                <FramePlaceholderFrame PropertyName=""EntityType"" LeftMargin=""Whitespace"" />
+            </FrameHorizontalPanelFrame>
+            <FrameVerticalPanelFrame HasTabulationMargin=""True"">
+                <FrameVerticalPanelFrame>
+                    <FrameHorizontalPanelFrame>
+                        <KeywordDecoration>ensure</KeywordDecoration>
+                        <InsertDecoration CollectionName=""EnsureBlocks"" />
+                    </FrameHorizontalPanelFrame>
+                    <VerticalCollectionDecoration PropertyName=""EnsureBlocks"" />
+                </FrameVerticalPanelFrame>
+                <FrameHorizontalPanelFrame>
+                    <KeywordDecoration>export to</KeywordDecoration>
+                    <FramePlaceholderFrame PropertyName=""ExportIdentifier"" IdentifierType=""Export"" LeftMargin=""Whitespace"" />
+                </FrameHorizontalPanelFrame>
+            </FrameVerticalPanelFrame>
+            <KeywordDecoration Text=""end"">
+            </KeywordDecoration>
+        </FrameVerticalPanelFrame>
+    </FrameNodeTemplate>
+    ﻿<FrameNodeTemplate NodeType=""{x:Type IConstantFeature}"">
+        <FrameVerticalPanelFrame>
+            <FrameHorizontalPanelFrame>
+                <DiscreteDecoration PropertyName=""Export"" RightMargin=""Whitespace"">
+                    <KeywordDecoration>exported</KeywordDecoration>
+                    <KeywordDecoration>private</KeywordDecoration>
+                </DiscreteDecoration>
+                <FramePlaceholderFrame PropertyName=""EntityName"" />
+                <KeywordDecoration>:</KeywordDecoration>
+                <FramePlaceholderFrame PropertyName=""EntityType"" LeftMargin=""Whitespace"" RightMargin=""Whitespace"" />
+                <KeywordDecoration>=</KeywordDecoration>
+                <FramePlaceholderFrame PropertyName=""ConstantValue"" LeftMargin=""Whitespace"" />
+            </FrameHorizontalPanelFrame>
+            <FrameVerticalPanelFrame HasTabulationMargin=""True"">
+                <FrameHorizontalPanelFrame>
+                    <KeywordDecoration>export to</KeywordDecoration>
+                    <FramePlaceholderFrame PropertyName=""ExportIdentifier"" IdentifierType=""Export"" LeftMargin=""Whitespace"" />
+                </FrameHorizontalPanelFrame>
+            </FrameVerticalPanelFrame>
+            <KeywordDecoration Text=""end"">
+            </KeywordDecoration>
+        </FrameVerticalPanelFrame>
+    </FrameNodeTemplate>
+    ﻿<FrameNodeTemplate NodeType=""{x:Type ICreationFeature}"">
+        <FrameVerticalPanelFrame>
+            <FrameHorizontalPanelFrame>
+                <DiscreteDecoration PropertyName=""Export"" RightMargin=""Whitespace"">
+                    <KeywordDecoration>exported</KeywordDecoration>
+                    <KeywordDecoration>private</KeywordDecoration>
+                </DiscreteDecoration>
+                <FramePlaceholderFrame PropertyName=""EntityName"" RightMargin=""Whitespace"" />
+                <KeywordDecoration>creation</KeywordDecoration>
+                <InsertDecoration CollectionName=""OverloadBlocks"" />
+            </FrameHorizontalPanelFrame>
+            <FrameVerticalPanelFrame HasTabulationMargin=""True"">
+                <VerticalCollectionDecoration PropertyName=""OverloadBlocks"" />
+                <FrameHorizontalPanelFrame>
+                    <KeywordDecoration>export to</KeywordDecoration>
+                    <FramePlaceholderFrame PropertyName=""ExportIdentifier"" IdentifierType=""Export"" LeftMargin=""Whitespace"" />
+                </FrameHorizontalPanelFrame>
+            </FrameVerticalPanelFrame>
+            <KeywordDecoration>end</KeywordDecoration>
+        </FrameVerticalPanelFrame>
+    </FrameNodeTemplate>
+    ﻿<FrameNodeTemplate NodeType=""{x:Type IFunctionFeature}"">
+        <FrameVerticalPanelFrame>
+            <FrameHorizontalPanelFrame>
+                <DiscreteDecoration PropertyName=""Export"" RightMargin=""Whitespace"">
+                    <KeywordDecoration>exported</KeywordDecoration>
+                    <KeywordDecoration>private</KeywordDecoration>
+                </DiscreteDecoration>
+                <FramePlaceholderFrame PropertyName=""EntityName"" />
+                <FrameHorizontalPanelFrame>
+                    <KeywordDecoration LeftMargin=""Whitespace"">once per</KeywordDecoration>
+                    <DiscreteDecoration PropertyName=""Once"" LeftMargin=""Whitespace"">
+                        <KeywordDecoration>normal</KeywordDecoration>
+                        <KeywordDecoration>object</KeywordDecoration>
+                        <KeywordDecoration>processor</KeywordDecoration>
+                        <KeywordDecoration>process</KeywordDecoration>
+                    </DiscreteDecoration>
+                </FrameHorizontalPanelFrame>
+                <KeywordDecoration LeftMargin=""Whitespace"">function</KeywordDecoration>
+                <InsertDecoration CollectionName=""OverloadBlocks"" />
+            </FrameHorizontalPanelFrame>
+            <FrameVerticalPanelFrame HasTabulationMargin=""True"">
+                <VerticalCollectionDecoration PropertyName=""OverloadBlocks"" />
+                <FrameHorizontalPanelFrame>
+                    <KeywordDecoration>export to</KeywordDecoration>
+                    <FramePlaceholderFrame PropertyName=""ExportIdentifier"" IdentifierType=""Export"" LeftMargin=""Whitespace"" />
+                </FrameHorizontalPanelFrame>
+            </FrameVerticalPanelFrame>
+            <KeywordDecoration>end</KeywordDecoration>
+        </FrameVerticalPanelFrame>
+    </FrameNodeTemplate>
+    ﻿<FrameNodeTemplate NodeType=""{x:Type IIndexerFeature}"">
+        <FrameVerticalPanelFrame>
+            <FrameHorizontalPanelFrame>
+                <DiscreteDecoration PropertyName=""Export"" RightMargin=""Whitespace"">
+                    <KeywordDecoration>exported</KeywordDecoration>
+                    <KeywordDecoration>private</KeywordDecoration>
+                </DiscreteDecoration>
+                <KeywordDecoration IsFocusable=""True"">indexer</KeywordDecoration>
+                <FramePlaceholderFrame PropertyName=""EntityType"" LeftMargin=""Whitespace"" />
+            </FrameHorizontalPanelFrame>
+            <FrameVerticalPanelFrame HasTabulationMargin=""True"">
+                <FrameVerticalPanelFrame>
+                    <FrameHorizontalPanelFrame>
+                        <DiscreteDecoration PropertyName=""ParameterEnd"" RightMargin=""Whitespace"">
+                            <KeywordDecoration>closed</KeywordDecoration>
+                            <KeywordDecoration>open</KeywordDecoration>
+                        </DiscreteDecoration>
+                        <KeywordDecoration>parameter</KeywordDecoration>
+                        <InsertDecoration CollectionName=""IndexParameterBlocks"" />
+                    </FrameHorizontalPanelFrame>
+                    <VerticalCollectionDecoration PropertyName=""IndexParameterBlocks"" />
+                </FrameVerticalPanelFrame>
+                <FrameVerticalPanelFrame>
+                    <FrameHorizontalPanelFrame>
+                        <KeywordDecoration>modify</KeywordDecoration>
+                        <InsertDecoration CollectionName=""ModifiedQueryBlocks"" />
+                    </FrameHorizontalPanelFrame>
+                    <FrameVerticalPanelFrame HasTabulationMargin=""True"">
+                        <HorizontalCollectionDecoration PropertyName=""ModifiedQueryBlocks"" />
+                    </FrameVerticalPanelFrame>
+                </FrameVerticalPanelFrame>
+                <FrameVerticalPanelFrame>
+                    <FramePlaceholderFrame PropertyName=""GetterBody"" BodyType=""Getter"" />
+                </FrameVerticalPanelFrame>
+                <FrameVerticalPanelFrame>
+                    <FramePlaceholderFrame PropertyName=""SetterBody"" BodyType=""Setter"" />
+                </FrameVerticalPanelFrame>
+                <FrameHorizontalPanelFrame>
+                    <KeywordDecoration>export to</KeywordDecoration>
+                    <FramePlaceholderFrame PropertyName=""ExportIdentifier"" IdentifierType=""Export"" LeftMargin=""Whitespace"" />
+                </FrameHorizontalPanelFrame>
+            </FrameVerticalPanelFrame>
+            <KeywordDecoration>end</KeywordDecoration>
+        </FrameVerticalPanelFrame>
+    </FrameNodeTemplate>
+    ﻿<FrameNodeTemplate NodeType=""{x:Type IProcedureFeature}"">
+        <FrameVerticalPanelFrame>
+            <FrameHorizontalPanelFrame>
+                <DiscreteDecoration PropertyName=""Export"" RightMargin=""Whitespace"">
+                    <KeywordDecoration>exported</KeywordDecoration>
+                    <KeywordDecoration>private</KeywordDecoration>
+                </DiscreteDecoration>
+                <FramePlaceholderFrame PropertyName=""EntityName"" />
+                <KeywordDecoration LeftMargin=""Whitespace"">procedure</KeywordDecoration>
+                <InsertDecoration CollectionName=""OverloadBlocks"" />
+            </FrameHorizontalPanelFrame>
+            <FrameVerticalPanelFrame HasTabulationMargin=""True"">
+                <VerticalCollectionDecoration PropertyName=""OverloadBlocks"" />
+                <FrameHorizontalPanelFrame>
+                    <KeywordDecoration>export to</KeywordDecoration>
+                    <FramePlaceholderFrame PropertyName=""ExportIdentifier"" IdentifierType=""Export"" LeftMargin=""Whitespace"" />
+                </FrameHorizontalPanelFrame>
+            </FrameVerticalPanelFrame>
+            <KeywordDecoration>end</KeywordDecoration>
+        </FrameVerticalPanelFrame>
+    </FrameNodeTemplate>
+    ﻿<FrameNodeTemplate NodeType=""{x:Type IPropertyFeature}"">
+        <FrameVerticalPanelFrame>
+            <FrameHorizontalPanelFrame>
+                <DiscreteDecoration PropertyName=""Export"" RightMargin=""Whitespace"">
+                    <KeywordDecoration>exported</KeywordDecoration>
+                    <KeywordDecoration>private</KeywordDecoration>
+                </DiscreteDecoration>
+                <FramePlaceholderFrame PropertyName=""EntityName"" RightMargin=""Whitespace"" />
+                <KeywordDecoration>is</KeywordDecoration>
+                <FramePlaceholderFrame PropertyName=""EntityType"" LeftMargin=""Whitespace"" />
+            </FrameHorizontalPanelFrame>
+            <FrameVerticalPanelFrame HasTabulationMargin=""True"">
+                <FrameVerticalPanelFrame>
+                    <FrameHorizontalPanelFrame>
+                        <KeywordDecoration>modify</KeywordDecoration>
+                        <InsertDecoration CollectionName=""ModifiedQueryBlocks"" />
+                    </FrameHorizontalPanelFrame>
+                    <FrameVerticalPanelFrame HasTabulationMargin=""True"">
+                        <HorizontalCollectionDecoration PropertyName=""ModifiedQueryBlocks"" />
+                    </FrameVerticalPanelFrame>
+                </FrameVerticalPanelFrame>
+                <FramePlaceholderFrame PropertyName=""GetterBody"" BodyType=""Getter"" >
+                </FramePlaceholderFrame>
+                <FramePlaceholderFrame PropertyName=""SetterBody"" BodyType=""Setter"" >
+                </FramePlaceholderFrame>
+                <FrameHorizontalPanelFrame>
+                    <KeywordDecoration>export to</KeywordDecoration>
+                    <FramePlaceholderFrame PropertyName=""ExportIdentifier"" IdentifierType=""Export"" LeftMargin=""Whitespace"" />
+                </FrameHorizontalPanelFrame>
+            </FrameVerticalPanelFrame>
+            <KeywordDecoration Text=""end"">
+            </KeywordDecoration>
+        </FrameVerticalPanelFrame>
+    </FrameNodeTemplate>
+
+    <FrameNodeTemplate NodeType=""{x:Type IIdentifier}"">
+        <IdentifierDecoration PropertyName=""Text"" Type=""Type""/>
+    </FrameNodeTemplate>
+
+    <FrameNodeTemplate NodeType=""{x:Type IAsLongAsInstruction}"">
+        <FrameVerticalPanelFrame>
+            <FrameHorizontalPanelFrame>
+                <KeywordDecoration>as long as</KeywordDecoration>
+                <FramePlaceholderFrame PropertyName=""ContinueCondition"" LeftMargin=""Whitespace"" />
+                <InsertDecoration CollectionName=""ContinuationBlocks"" />
+            </FrameHorizontalPanelFrame>
+            <FrameVerticalPanelFrame HasTabulationMargin=""True"">
+                <VerticalCollectionDecoration PropertyName=""ContinuationBlocks"" />
+                <FrameVerticalPanelFrame>
+                    <FrameHorizontalPanelFrame>
+                        <KeywordDecoration>else</KeywordDecoration>
+                        <InsertDecoration CollectionName=""ElseInstructions.InstructionBlocks"" />
+                    </FrameHorizontalPanelFrame>
+                    <FramePlaceholderFrame PropertyName=""ElseInstructions"" />
+                </FrameVerticalPanelFrame>
+            </FrameVerticalPanelFrame>
+            <KeywordDecoration>end</KeywordDecoration>
+        </FrameVerticalPanelFrame>
+    </FrameNodeTemplate>
+    <FrameNodeTemplate NodeType=""{x:Type IAssignmentInstruction}"">
+        <FrameHorizontalPanelFrame>
+            <HorizontalCollectionDecoration PropertyName=""DestinationBlocks"" />
+            <SymbolDecoration Symbol=""LeftArrow"" LeftMargin=""Whitespace"" RightMargin=""Whitespace""/>
+            <FramePlaceholderFrame PropertyName=""Source"" />
+        </FrameHorizontalPanelFrame>
+    </FrameNodeTemplate>
+    <FrameNodeTemplate NodeType=""{x:Type IAttachmentInstruction}"">
+        <FrameVerticalPanelFrame>
+            <FrameHorizontalPanelFrame>
+                <KeywordDecoration RightMargin=""Whitespace"">attach</KeywordDecoration>
+                <FramePlaceholderFrame PropertyName=""Source"" RightMargin=""Whitespace"" />
+                <KeywordDecoration RightMargin=""Whitespace"">to</KeywordDecoration>
+                <HorizontalCollectionDecoration PropertyName=""EntityNameBlocks"" IsNeverEmpty=""True"" Separator=""Comma"" />
+                <InsertDecoration CollectionName=""AttachmentBlocks"" />
+            </FrameHorizontalPanelFrame>
+            <FrameVerticalPanelFrame HasTabulationMargin=""True"">
+                <VerticalCollectionDecoration PropertyName=""AttachmentBlocks"" IsNeverEmpty=""True"" />
+                <FrameVerticalPanelFrame>
+                    <FrameHorizontalPanelFrame>
+                        <KeywordDecoration>else</KeywordDecoration>
+                        <InsertDecoration CollectionName=""ElseInstructions.InstructionBlocks"" />
+                    </FrameHorizontalPanelFrame>
+                    <FramePlaceholderFrame PropertyName=""ElseInstructions"" />
+                </FrameVerticalPanelFrame>
+            </FrameVerticalPanelFrame>
+            <KeywordDecoration>end</KeywordDecoration>
+        </FrameVerticalPanelFrame>
+    </FrameNodeTemplate>
+    <FrameNodeTemplate NodeType=""{x:Type ICheckInstruction}"">
+        <FrameHorizontalPanelFrame>
+            <KeywordDecoration RightMargin=""Whitespace"">check</KeywordDecoration>
+            <FramePlaceholderFrame PropertyName=""BooleanExpression"" />
+        </FrameHorizontalPanelFrame>
+    </FrameNodeTemplate>
+    <FrameNodeTemplate NodeType=""{x:Type ICommandInstruction}"">
+        <FrameHorizontalPanelFrame>
+            <FramePlaceholderFrame PropertyName=""Command"" />
+            <FrameHorizontalPanelFrame>
+                <SymbolDecoration Symbol=""LeftParenthesis"" LeftMargin=""ThinSpace"" RightMargin=""ThinSpace"">
+                </SymbolDecoration>
+                <HorizontalCollectionDecoration PropertyName=""ArgumentBlocks"" />
+                <SymbolDecoration Symbol=""RightParenthesis"" LeftMargin=""ThinSpace"">
+                </SymbolDecoration>
+            </FrameHorizontalPanelFrame>
+        </FrameHorizontalPanelFrame>
+    </FrameNodeTemplate>
+    <FrameNodeTemplate NodeType=""{x:Type ICreateInstruction}"">
+        <FrameHorizontalPanelFrame>
+            <KeywordDecoration>create</KeywordDecoration>
+            <FramePlaceholderFrame PropertyName=""EntityIdentifier"" IdentifierType=""Feature"" LeftMargin=""Whitespace"" />
+            <FrameHorizontalPanelFrame>
+                <KeywordDecoration LeftMargin=""Whitespace"">with</KeywordDecoration>
+                <FramePlaceholderFrame PropertyName=""CreationRoutineIdentifier"" IdentifierType=""Feature"" LeftMargin=""Whitespace"" />
+                <FrameHorizontalPanelFrame>
+                    <SymbolDecoration Symbol=""LeftParenthesis"" LeftMargin=""ThinSpace"" RightMargin=""ThinSpace""/>
+                    <HorizontalCollectionDecoration PropertyName=""ArgumentBlocks"" />
+                    <SymbolDecoration Symbol=""RightParenthesis"" LeftMargin=""ThinSpace""/>
+                </FrameHorizontalPanelFrame>
+                <FrameHorizontalPanelFrame>
+                    <KeywordDecoration LeftMargin=""Whitespace"" RightMargin=""Whitespace"">same processor as</KeywordDecoration>
+                    <FramePlaceholderFrame PropertyName=""Processor"" />
+                </FrameHorizontalPanelFrame>
+            </FrameHorizontalPanelFrame>
+        </FrameHorizontalPanelFrame>
+    </FrameNodeTemplate>
+    <FrameNodeTemplate NodeType=""{x:Type IDebugInstruction}"">
+        <FrameVerticalPanelFrame>
+            <FrameHorizontalPanelFrame>
+                <KeywordDecoration>debug</KeywordDecoration>
+                <InsertDecoration CollectionName=""Instructions.InstructionBlocks"" />
+            </FrameHorizontalPanelFrame>
+            <FramePlaceholderFrame PropertyName=""Instructions"" />
+            <FrameHorizontalPanelFrame>
+                <KeywordDecoration>end</KeywordDecoration>
+            </FrameHorizontalPanelFrame>
+        </FrameVerticalPanelFrame>
+    </FrameNodeTemplate>
+    <FrameNodeTemplate NodeType=""{x:Type IForLoopInstruction}"">
+        <FrameVerticalPanelFrame>
+            <KeywordDecoration>loop</KeywordDecoration>
+            <FrameVerticalPanelFrame HasTabulationMargin=""True"">
+                <FrameVerticalPanelFrame>
+                    <FrameHorizontalPanelFrame>
+                        <KeywordDecoration>local</KeywordDecoration>
+                        <InsertDecoration CollectionName=""EntityDeclarationBlocks"" />
+                    </FrameHorizontalPanelFrame>
+                    <VerticalCollectionDecoration PropertyName=""EntityDeclarationBlocks"" />
+                </FrameVerticalPanelFrame>
+                <FrameVerticalPanelFrame>
+                    <FrameHorizontalPanelFrame>
+                        <KeywordDecoration>init</KeywordDecoration>
+                        <InsertDecoration CollectionName=""InitInstructionBlocks"" />
+                    </FrameHorizontalPanelFrame>
+                    <VerticalCollectionDecoration PropertyName=""InitInstructionBlocks"" />
+                </FrameVerticalPanelFrame>
+                <FrameHorizontalPanelFrame>
+                    <KeywordDecoration>while</KeywordDecoration>
+                    <FramePlaceholderFrame PropertyName=""WhileCondition"" LeftMargin=""Whitespace"" />
+                    <InsertDecoration CollectionName=""LoopInstructionBlocks"" />
+                </FrameHorizontalPanelFrame>
+                <VerticalCollectionDecoration PropertyName=""LoopInstructionBlocks"" />
+                <FrameVerticalPanelFrame>
+                    <FrameHorizontalPanelFrame>
+                        <KeywordDecoration>iterate</KeywordDecoration>
+                        <InsertDecoration CollectionName=""IterationInstructionBlocks"" />
+                    </FrameHorizontalPanelFrame>
+                    <VerticalCollectionDecoration PropertyName=""IterationInstructionBlocks"" />
+                </FrameVerticalPanelFrame>
+                <FrameVerticalPanelFrame>
+                    <FrameHorizontalPanelFrame>
+                        <KeywordDecoration>invariant</KeywordDecoration>
+                        <InsertDecoration CollectionName=""InvariantBlocks"" />
+                    </FrameHorizontalPanelFrame>
+                    <VerticalCollectionDecoration PropertyName=""InvariantBlocks"" />
+                </FrameVerticalPanelFrame>
+                <FrameHorizontalPanelFrame>
+                    <KeywordDecoration RightMargin=""Whitespace"">variant</KeywordDecoration>
+                    <FramePlaceholderFrame PropertyName=""Variant"" />
+                </FrameHorizontalPanelFrame>
+            </FrameVerticalPanelFrame>
+            <KeywordDecoration>end</KeywordDecoration>
+        </FrameVerticalPanelFrame>
+    </FrameNodeTemplate>
+    <FrameNodeTemplate NodeType=""{x:Type IIfThenElseInstruction}"">
+        <FrameVerticalPanelFrame>
+            <VerticalCollectionDecoration PropertyName=""ConditionalBlocks"" />
+            <FrameVerticalPanelFrame>
+                <FrameHorizontalPanelFrame>
+                    <KeywordDecoration>else</KeywordDecoration>
+                    <InsertDecoration CollectionName=""ElseInstructions.InstructionBlocks"" />
+                </FrameHorizontalPanelFrame>
+                <FramePlaceholderFrame PropertyName=""ElseInstructions"" />
+            </FrameVerticalPanelFrame>
+            <KeywordDecoration>end</KeywordDecoration>
+        </FrameVerticalPanelFrame>
+    </FrameNodeTemplate>
+    <FrameNodeTemplate NodeType=""{x:Type IIndexAssignmentInstruction}"">
+        <FrameHorizontalPanelFrame>
+            <FramePlaceholderFrame PropertyName=""Destination"" RightMargin=""ThinSpace"" />
+            <FrameHorizontalPanelFrame>
+                <SymbolDecoration Symbol=""LeftBracket"" LeftMargin=""ThinSpace"" RightMargin=""ThinSpace""/>
+                <HorizontalCollectionDecoration PropertyName=""ArgumentBlocks"" />
+                <SymbolDecoration Symbol=""RightBracket"" LeftMargin=""ThinSpace""/>
+            </FrameHorizontalPanelFrame>
+            <SymbolDecoration Symbol=""LeftArrow"" LeftMargin=""Whitespace"" RightMargin=""Whitespace""/>
+            <FramePlaceholderFrame PropertyName=""Source"" />
+        </FrameHorizontalPanelFrame>
+    </FrameNodeTemplate>
+    <FrameNodeTemplate NodeType=""{x:Type IInspectInstruction}"">
+        <FrameVerticalPanelFrame>
+            <FrameHorizontalPanelFrame>
+                <KeywordDecoration RightMargin=""Whitespace"">inspect</KeywordDecoration>
+                <FramePlaceholderFrame PropertyName=""Source"" />
+                <InsertDecoration CollectionName=""WithBlocks"" />
+            </FrameHorizontalPanelFrame>
+            <FrameVerticalPanelFrame HasTabulationMargin=""True"">
+                <VerticalCollectionDecoration PropertyName=""WithBlocks"" />
+                <FrameVerticalPanelFrame>
+                    <FrameHorizontalPanelFrame>
+                        <KeywordDecoration>else</KeywordDecoration>
+                        <InsertDecoration CollectionName=""ElseInstructions.InstructionBlocks"" />
+                    </FrameHorizontalPanelFrame>
+                    <FramePlaceholderFrame PropertyName=""ElseInstructions"" />
+                </FrameVerticalPanelFrame>
+            </FrameVerticalPanelFrame>
+            <KeywordDecoration>end</KeywordDecoration>
+        </FrameVerticalPanelFrame>
+    </FrameNodeTemplate>
+    ﻿<FrameNodeTemplate NodeType=""{x:Type IKeywordAssignmentInstruction}"">
+        <FrameHorizontalPanelFrame>
+            <DiscreteDecoration PropertyName=""Destination"">
+                <KeywordDecoration>True</KeywordDecoration>
+                <KeywordDecoration>False</KeywordDecoration>
+                <KeywordDecoration>Current</KeywordDecoration>
+                <KeywordDecoration>Value</KeywordDecoration>
+                <KeywordDecoration>Result</KeywordDecoration>
+                <KeywordDecoration>Retry</KeywordDecoration>
+                <KeywordDecoration>Exception</KeywordDecoration>
+            </DiscreteDecoration>
+            <SymbolDecoration Symbol=""LeftArrow"" LeftMargin=""Whitespace"" RightMargin=""Whitespace""/>
+            <FramePlaceholderFrame PropertyName=""Source"" />
+        </FrameHorizontalPanelFrame>
+    </FrameNodeTemplate>
+    <FrameNodeTemplate NodeType=""{x:Type IOverLoopInstruction}"">
+        <FrameVerticalPanelFrame>
+            <FrameHorizontalPanelFrame>
+                <KeywordDecoration RightMargin=""Whitespace"">over</KeywordDecoration>
+                <FramePlaceholderFrame PropertyName=""OverList"" RightMargin=""Whitespace"" />
+                <KeywordDecoration RightMargin=""Whitespace"">for each</KeywordDecoration>
+                <HorizontalCollectionDecoration PropertyName=""IndexerBlocks"" />
+                <DiscreteDecoration PropertyName=""Iteration"" LeftMargin=""Whitespace"">
+                    <KeywordDecoration>Single</KeywordDecoration>
+                    <KeywordDecoration>Nested</KeywordDecoration>
+                </DiscreteDecoration>
+                <InsertDecoration CollectionName=""LoopInstructions.InstructionBlocks"" />
+            </FrameHorizontalPanelFrame>
+            <FrameVerticalPanelFrame HasTabulationMargin=""True"">
+                <FramePlaceholderFrame PropertyName=""LoopInstructions"" />
+                <FrameHorizontalPanelFrame>
+                    <KeywordDecoration>exit if</KeywordDecoration>
+                    <FramePlaceholderFrame PropertyName=""ExitEntityName"" IdentifierType=""Feature"" LeftMargin=""Whitespace"" />
+                </FrameHorizontalPanelFrame>
+                <FrameVerticalPanelFrame>
+                    <FrameHorizontalPanelFrame>
+                        <KeywordDecoration>invariant</KeywordDecoration>
+                        <InsertDecoration CollectionName=""InvariantBlocks"" />
+                    </FrameHorizontalPanelFrame>
+                    <VerticalCollectionDecoration PropertyName=""InvariantBlocks"" />
+                </FrameVerticalPanelFrame>
+            </FrameVerticalPanelFrame>
+            <KeywordDecoration>end</KeywordDecoration>
+        </FrameVerticalPanelFrame>
+    </FrameNodeTemplate>
+    <FrameNodeTemplate NodeType=""{x:Type IPrecursorIndexAssignmentInstruction}"">
+        <FrameHorizontalPanelFrame>
+            <KeywordDecoration>precursor</KeywordDecoration>
+            <FrameHorizontalPanelFrame>
+                <KeywordDecoration LeftMargin=""Whitespace"" RightMargin=""ThinSpace"">from</KeywordDecoration>
+                <SymbolDecoration Symbol=""LeftCurlyBracket"" RightMargin=""ThinSpace""/>
+                <SymbolDecoration Symbol=""RightBracket"" RightMargin=""Whitespace""/>
+                <FramePlaceholderFrame PropertyName=""AncestorType"" />
+            </FrameHorizontalPanelFrame>
+            <SymbolDecoration Symbol=""LeftBracket"" LeftMargin=""ThinSpace"" RightMargin=""ThinSpace""/>
+            <HorizontalCollectionDecoration PropertyName=""ArgumentBlocks"" />
+            <SymbolDecoration Symbol=""RightBracket"" LeftMargin=""ThinSpace""/>
+            <SymbolDecoration Symbol=""LeftArrow"" LeftMargin=""Whitespace"" RightMargin=""Whitespace""/>
+            <FramePlaceholderFrame PropertyName=""Source"" />
+        </FrameHorizontalPanelFrame>
+    </FrameNodeTemplate>
+    <FrameNodeTemplate NodeType=""{x:Type IPrecursorInstruction}"">
+        <FrameHorizontalPanelFrame>
+            <KeywordDecoration IsFocusable=""True"">precursor</KeywordDecoration>
+            <FrameHorizontalPanelFrame>
+                <KeywordDecoration LeftMargin=""Whitespace"" RightMargin=""ThinSpace"">from</KeywordDecoration>
+                <SymbolDecoration Symbol=""LeftCurlyBracket"" RightMargin=""ThinSpace""/>
+                <FramePlaceholderFrame PropertyName=""AncestorType"" />
+                <SymbolDecoration Symbol=""RightCurlyBracket"" RightMargin=""Whitespace""/>
+            </FrameHorizontalPanelFrame>
+            <FrameHorizontalPanelFrame>
+                <SymbolDecoration Symbol=""LeftParenthesis"" LeftMargin=""ThinSpace"" RightMargin=""ThinSpace""/>
+                <HorizontalCollectionDecoration PropertyName=""ArgumentBlocks"" />
+                <SymbolDecoration Symbol=""RightParenthesis"" LeftMargin=""ThinSpace""/>
+            </FrameHorizontalPanelFrame>
+        </FrameHorizontalPanelFrame>
+    </FrameNodeTemplate>
+    <FrameNodeTemplate NodeType=""{x:Type IRaiseEventInstruction}"">
+        <FrameHorizontalPanelFrame>
+            <KeywordDecoration RightMargin=""Whitespace"">raise</KeywordDecoration>
+            <FramePlaceholderFrame PropertyName=""QueryIdentifier"" IdentifierType=""Feature"" />
+            <DiscreteDecoration PropertyName=""Event"" LeftMargin=""Whitespace"">
+                <KeywordDecoration>once</KeywordDecoration>
+                <KeywordDecoration>forever</KeywordDecoration>
+            </DiscreteDecoration>
+        </FrameHorizontalPanelFrame>
+    </FrameNodeTemplate>
+    <FrameNodeTemplate NodeType=""{x:Type IReleaseInstruction}"">
+        <FrameHorizontalPanelFrame>
+            <KeywordDecoration>release</KeywordDecoration>
+            <FramePlaceholderFrame PropertyName=""EntityName"" LeftMargin=""Whitespace"" />
+        </FrameHorizontalPanelFrame>
+    </FrameNodeTemplate>
+    <FrameNodeTemplate NodeType=""{x:Type IThrowInstruction}"">
+        <FrameHorizontalPanelFrame>
+            <KeywordDecoration RightMargin=""Whitespace"">throw</KeywordDecoration>
+            <FramePlaceholderFrame PropertyName=""ExceptionType"" RightMargin=""Whitespace"" />
+            <KeywordDecoration RightMargin=""Whitespace"">with</KeywordDecoration>
+            <FramePlaceholderFrame PropertyName=""CreationRoutine"" IdentifierType=""Feature"" />
+            <FrameHorizontalPanelFrame>
+                <SymbolDecoration Symbol=""LeftParenthesis"" LeftMargin=""ThinSpace"" RightMargin=""ThinSpace""/>
+                <HorizontalCollectionDecoration PropertyName=""ArgumentBlocks"" />
+                <SymbolDecoration Symbol=""RightParenthesis"" LeftMargin=""ThinSpace""/>
+            </FrameHorizontalPanelFrame>
+        </FrameHorizontalPanelFrame>
+    </FrameNodeTemplate>
+
+    <FrameNodeTemplate NodeType=""{x:Type IAnchoredType}"">
+        <FrameHorizontalPanelFrame>
+            <KeywordDecoration RightMargin=""Whitespace"">like</KeywordDecoration>
+            <DiscreteDecoration PropertyName=""AnchorKind"" RightMargin=""Whitespace"">
+                <KeywordDecoration>declaration</KeywordDecoration>
+                <KeywordDecoration>creation</KeywordDecoration>
+            </DiscreteDecoration>
+            <FramePlaceholderFrame PropertyName=""AnchoredName"" />
+        </FrameHorizontalPanelFrame>
+    </FrameNodeTemplate>
+    <FrameNodeTemplate NodeType=""{x:Type IFunctionType}"">
+        <FrameHorizontalPanelFrame>
+            <KeywordDecoration RightMargin=""Whitespace"">function</KeywordDecoration>
+            <FramePlaceholderFrame PropertyName=""BaseType"" RightMargin=""Whitespace"" />
+            <HorizontalCollectionDecoration PropertyName=""OverloadBlocks"" />
+        </FrameHorizontalPanelFrame>
+    </FrameNodeTemplate>
+    <FrameNodeTemplate NodeType=""{x:Type IGenericType}"">
+        <FrameHorizontalPanelFrame>
+            <FramePlaceholderFrame PropertyName=""ClassIdentifier"" IdentifierType=""Class"" />
+            <SymbolDecoration Symbol=""LeftBracket"" LeftMargin=""ThinSpace"" RightMargin=""ThinSpace""/>
+            <HorizontalCollectionDecoration PropertyName=""TypeArgumentBlocks"" />
+            <SymbolDecoration Symbol=""RightBracket"" LeftMargin=""ThinSpace""/>
+            <DiscreteDecoration PropertyName=""Sharing"" LeftMargin=""Whitespace"">
+                <KeywordDecoration>not shared</KeywordDecoration>
+                <KeywordDecoration>readwrite</KeywordDecoration>
+                <KeywordDecoration>read-only</KeywordDecoration>
+                <KeywordDecoration>write-only</KeywordDecoration>
+            </DiscreteDecoration>
+        </FrameHorizontalPanelFrame>
+    </FrameNodeTemplate>
+    <FrameNodeTemplate NodeType=""{x:Type IIndexerType}"">
+        <FrameHorizontalPanelFrame>
+            <FramePlaceholderFrame PropertyName=""BaseType"" />
+            <SymbolDecoration Symbol=""LeftBracket"" LeftMargin=""Whitespace"" RightMargin=""ThinSpace""/>
+            <FrameVerticalPanelFrame>
+                <FrameHorizontalPanelFrame>
+                    <KeywordDecoration>indexer</KeywordDecoration>
+                    <FramePlaceholderFrame PropertyName=""EntityType"" LeftMargin=""Whitespace"" />
+                </FrameHorizontalPanelFrame>
+                <FrameVerticalPanelFrame>
+                    <FrameHorizontalPanelFrame>
+                        <KeywordDecoration>parameter</KeywordDecoration>
+                        <DiscreteDecoration PropertyName=""ParameterEnd"" LeftMargin=""Whitespace"">
+                            <KeywordDecoration>closed</KeywordDecoration>
+                            <KeywordDecoration>open</KeywordDecoration>
+                        </DiscreteDecoration>
+                        <InsertDecoration CollectionName=""IndexParameterBlocks"" />
+                    </FrameHorizontalPanelFrame>
+                    <VerticalCollectionDecoration PropertyName=""IndexParameterBlocks"" />
+                </FrameVerticalPanelFrame>
+                <DiscreteDecoration PropertyName=""IndexerKind"">
+                    <KeywordDecoration>read-only</KeywordDecoration>
+                    <KeywordDecoration>write-only</KeywordDecoration>
+                    <KeywordDecoration>readwrite</KeywordDecoration>
+                </DiscreteDecoration>
+                <FrameVerticalPanelFrame>
+                    <FrameHorizontalPanelFrame>
+                        <KeywordDecoration>getter require</KeywordDecoration>
+                        <InsertDecoration CollectionName=""GetRequireBlocks"" />
+                    </FrameHorizontalPanelFrame>
+                    <VerticalCollectionDecoration PropertyName=""GetRequireBlocks"" />
+                </FrameVerticalPanelFrame>
+                <FrameVerticalPanelFrame>
+                    <FrameHorizontalPanelFrame>
+                        <KeywordDecoration>getter ensure</KeywordDecoration>
+                        <InsertDecoration CollectionName=""GetEnsureBlocks"" />
+                    </FrameHorizontalPanelFrame>
+                    <VerticalCollectionDecoration PropertyName=""GetEnsureBlocks"" />
+                </FrameVerticalPanelFrame>
+                <FrameVerticalPanelFrame>
+                    <FrameHorizontalPanelFrame>
+                        <KeywordDecoration>getter exception</KeywordDecoration>
+                        <InsertDecoration CollectionName=""GetExceptionIdentifierBlocks"" />
+                    </FrameHorizontalPanelFrame>
+                    <VerticalCollectionDecoration PropertyName=""GetExceptionIdentifierBlocks"" />
+                </FrameVerticalPanelFrame>
+                <FrameVerticalPanelFrame>
+                    <FrameHorizontalPanelFrame>
+                        <KeywordDecoration>setter require</KeywordDecoration>
+                        <InsertDecoration CollectionName=""SetRequireBlocks"" />
+                    </FrameHorizontalPanelFrame>
+                    <VerticalCollectionDecoration PropertyName=""SetRequireBlocks"" />
+                </FrameVerticalPanelFrame>
+                <FrameVerticalPanelFrame>
+                    <FrameHorizontalPanelFrame>
+                        <KeywordDecoration>setter ensure</KeywordDecoration>
+                        <InsertDecoration CollectionName=""SetEnsureBlocks"" />
+                    </FrameHorizontalPanelFrame>
+                    <VerticalCollectionDecoration PropertyName=""SetEnsureBlocks"" />
+                </FrameVerticalPanelFrame>
+                <FrameVerticalPanelFrame>
+                    <FrameHorizontalPanelFrame>
+                        <KeywordDecoration>setter exception</KeywordDecoration>
+                        <InsertDecoration CollectionName=""SetExceptionIdentifierBlocks"" />
+                    </FrameHorizontalPanelFrame>
+                    <VerticalCollectionDecoration PropertyName=""SetExceptionIdentifierBlocks"" />
+                </FrameVerticalPanelFrame>
+                <KeywordDecoration>end</KeywordDecoration>
+            </FrameVerticalPanelFrame>
+            <SymbolDecoration Symbol=""RightBracket"" LeftMargin=""ThinSpace""/>
+        </FrameHorizontalPanelFrame>
+    </FrameNodeTemplate>
+    <FrameNodeTemplate NodeType=""{x:Type IKeywordAnchoredType}"">
+        <FrameHorizontalPanelFrame>
+            <KeywordDecoration RightMargin=""Whitespace"">like</KeywordDecoration>
+            <DiscreteDecoration PropertyName=""Anchor"">
+                <KeywordDecoration>True</KeywordDecoration>
+                <KeywordDecoration>False</KeywordDecoration>
+                <KeywordDecoration>Current</KeywordDecoration>
+                <KeywordDecoration>Value</KeywordDecoration>
+                <KeywordDecoration>Result</KeywordDecoration>
+                <KeywordDecoration>Retry</KeywordDecoration>
+                <KeywordDecoration>Exception</KeywordDecoration>
+            </DiscreteDecoration>
+        </FrameHorizontalPanelFrame>
+    </FrameNodeTemplate>
+    <FrameNodeTemplate NodeType=""{x:Type IProcedureType}"">
+        <FrameHorizontalPanelFrame>
+            <KeywordDecoration RightMargin=""Whitespace"">procedure</KeywordDecoration>
+            <FramePlaceholderFrame PropertyName=""BaseType"" RightMargin=""Whitespace"" />
+            <HorizontalCollectionDecoration PropertyName=""OverloadBlocks"" />
+        </FrameHorizontalPanelFrame>
+    </FrameNodeTemplate>
+    <FrameNodeTemplate NodeType=""{x:Type IPropertyType}"">
+        <FrameHorizontalPanelFrame>
+            <FramePlaceholderFrame PropertyName=""BaseType"" />
+            <SymbolDecoration Symbol=""LeftBracket"" LeftMargin=""Whitespace"" RightMargin=""ThinSpace""/>
+            <FrameVerticalPanelFrame>
+                <FrameHorizontalPanelFrame>
+                    <KeywordDecoration>is</KeywordDecoration>
+                    <FramePlaceholderFrame PropertyName=""EntityType"" LeftMargin=""Whitespace"" />
+                </FrameHorizontalPanelFrame>
+                <DiscreteDecoration PropertyName=""PropertyKind"">
+                    <KeywordDecoration>read-only</KeywordDecoration>
+                    <KeywordDecoration>write-only</KeywordDecoration>
+                    <KeywordDecoration>readwrite</KeywordDecoration>
+                </DiscreteDecoration>
+                <FrameVerticalPanelFrame>
+                    <FrameHorizontalPanelFrame>
+                        <KeywordDecoration>getter ensure</KeywordDecoration>
+                        <InsertDecoration CollectionName=""GetEnsureBlocks"" />
+                    </FrameHorizontalPanelFrame>
+                    <VerticalCollectionDecoration PropertyName=""GetEnsureBlocks"" />
+                </FrameVerticalPanelFrame>
+                <FrameVerticalPanelFrame>
+                    <FrameHorizontalPanelFrame>
+                        <KeywordDecoration>getter exception</KeywordDecoration>
+                        <InsertDecoration CollectionName=""GetExceptionIdentifierBlocks"" />
+                    </FrameHorizontalPanelFrame>
+                    <VerticalCollectionDecoration PropertyName=""GetExceptionIdentifierBlocks"" />
+                </FrameVerticalPanelFrame>
+                <FrameVerticalPanelFrame>
+                    <FrameHorizontalPanelFrame>
+                        <KeywordDecoration>setter require</KeywordDecoration>
+                        <InsertDecoration CollectionName=""SetRequireBlocks"" />
+                    </FrameHorizontalPanelFrame>
+                    <VerticalCollectionDecoration PropertyName=""SetRequireBlocks"" />
+                </FrameVerticalPanelFrame>
+                <FrameVerticalPanelFrame>
+                    <FrameHorizontalPanelFrame>
+                        <KeywordDecoration>setter exception</KeywordDecoration>
+                        <InsertDecoration CollectionName=""SetExceptionIdentifierBlocks"" />
+                    </FrameHorizontalPanelFrame>
+                    <VerticalCollectionDecoration PropertyName=""SetExceptionIdentifierBlocks"" />
+                </FrameVerticalPanelFrame>
+                <KeywordDecoration>end</KeywordDecoration>
+            </FrameVerticalPanelFrame>
+            <SymbolDecoration Symbol=""RightBracket"" LeftMargin=""ThinSpace""/>
+        </FrameHorizontalPanelFrame>
+    </FrameNodeTemplate>
+    ﻿<FrameNodeTemplate NodeType=""{x:Type ISimpleType}"">
+        <FrameHorizontalPanelFrame>
+            <FramePlaceholderFrame PropertyName=""ClassIdentifier"" IdentifierType=""Type"" />
+            <DiscreteDecoration PropertyName=""Sharing"" LeftMargin=""Whitespace"">
+                <KeywordDecoration>not shared</KeywordDecoration>
+                <KeywordDecoration>readwrite</KeywordDecoration>
+                <KeywordDecoration>read-only</KeywordDecoration>
+                <KeywordDecoration>write-only</KeywordDecoration>
+            </DiscreteDecoration>
+        </FrameHorizontalPanelFrame>
+    </FrameNodeTemplate>
+    <FrameNodeTemplate NodeType=""{x:Type ITupleType}"">
+        <FrameHorizontalPanelFrame>
+            <KeywordDecoration>tuple</KeywordDecoration>
+            <SymbolDecoration Symbol=""LeftBracket"" LeftMargin=""ThinSpace"" RightMargin=""ThinSpace""/>
+            <VerticalCollectionDecoration PropertyName=""EntityDeclarationBlocks"" />
+            <SymbolDecoration Symbol=""RightBracket"" LeftMargin=""ThinSpace""/>
+            <DiscreteDecoration PropertyName=""Sharing"" LeftMargin=""Whitespace"">
+                <KeywordDecoration>not shared</KeywordDecoration>
+                <KeywordDecoration>readwrite</KeywordDecoration>
+                <KeywordDecoration>read-only</KeywordDecoration>
+                <KeywordDecoration>write-only</KeywordDecoration>
+            </DiscreteDecoration>
+        </FrameHorizontalPanelFrame>
+    </FrameNodeTemplate>
+
+    <FrameNodeTemplate NodeType=""{x:Type IAssignmentTypeArgument}"">
+        <FrameHorizontalPanelFrame>
+            <FramePlaceholderFrame PropertyName=""ParameterIdentifier"" IdentifierType=""Feature"" />
+            <SymbolDecoration Symbol=""LeftArrow"" LeftMargin=""Whitespace"" RightMargin=""Whitespace""/>
+            <FramePlaceholderFrame PropertyName=""Source"" />
+        </FrameHorizontalPanelFrame>
+    </FrameNodeTemplate>
+    <FrameNodeTemplate NodeType=""{x:Type IPositionalTypeArgument}"">
+        <FramePlaceholderFrame PropertyName=""Source"" />
+    </FrameNodeTemplate>
+</FrameTemplateList>";
         #endregion
     }
 }
