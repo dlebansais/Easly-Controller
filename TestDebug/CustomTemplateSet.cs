@@ -41,7 +41,7 @@ namespace TestDebug
         }
         #endregion
 
-        #region Templates
+        #region Node Templates
         static string FrameTemplateListString =
 @"<FrameTemplateList
     xmlns=""clr-namespace:EaslyController.Frame;assembly=Easly-Controller""
@@ -1764,7 +1764,9 @@ namespace TestDebug
         <FramePlaceholderFrame PropertyName=""Source"" />
     </FrameNodeTemplate>
 </FrameTemplateList>";
+        #endregion
 
+        #region Block Templates
         static string FrameBlockTemplateString =
 @"<FrameTemplateList
     xmlns=""clr-namespace:EaslyController.Frame;assembly=Easly-Controller""
@@ -1785,7 +1787,7 @@ namespace TestDebug
         </FrameHorizontalPanelFrame>
     </FrameBlockTemplate>
     <FrameBlockTemplate NodeType=""{xaml:Type IBlock,IAssertion,Assertion}"">
-        <FrameHorizontalPanelFrame>
+        <FrameVerticalPanelFrame>
             <FrameHorizontalPanelFrame>
                 <FrameKeywordFrame>Replicate</FrameKeywordFrame>
                 <FramePlaceholderFrame PropertyName=""ReplicationPattern""/>
@@ -1793,9 +1795,9 @@ namespace TestDebug
                 <FramePlaceholderFrame PropertyName=""SourceIdentifier""/>
                 <FrameKeywordFrame>All</FrameKeywordFrame>
             </FrameHorizontalPanelFrame>
-            <FrameHorizontalCollectionPlaceholderFrame/>
+            <FrameVerticalCollectionPlaceholderFrame/>
             <FrameKeywordFrame Text=""end""/>
-        </FrameHorizontalPanelFrame>
+        </FrameVerticalPanelFrame>
     </FrameBlockTemplate>
     <FrameBlockTemplate NodeType=""{xaml:Type IBlock,IAssignmentArgument,AssignmentArgument}"">
         <FrameHorizontalPanelFrame>
@@ -1811,7 +1813,7 @@ namespace TestDebug
         </FrameHorizontalPanelFrame>
     </FrameBlockTemplate>
     <FrameBlockTemplate NodeType=""{xaml:Type IBlock,IAttachment,Attachment}"">
-        <FrameHorizontalPanelFrame>
+        <FrameVerticalPanelFrame>
             <FrameHorizontalPanelFrame>
                 <FrameKeywordFrame>Replicate</FrameKeywordFrame>
                 <FramePlaceholderFrame PropertyName=""ReplicationPattern""/>
@@ -1819,12 +1821,12 @@ namespace TestDebug
                 <FramePlaceholderFrame PropertyName=""SourceIdentifier""/>
                 <FrameKeywordFrame>All</FrameKeywordFrame>
             </FrameHorizontalPanelFrame>
-            <FrameHorizontalCollectionPlaceholderFrame/>
+            <FrameVerticalCollectionPlaceholderFrame/>
             <FrameKeywordFrame Text=""end""/>
-        </FrameHorizontalPanelFrame>
+        </FrameVerticalPanelFrame>
     </FrameBlockTemplate>
     <FrameBlockTemplate NodeType=""{xaml:Type IBlock,IClass,Class}"">
-        <FrameHorizontalPanelFrame>
+        <FrameVerticalPanelFrame>
             <FrameHorizontalPanelFrame>
                 <FrameKeywordFrame>Replicate</FrameKeywordFrame>
                 <FramePlaceholderFrame PropertyName=""ReplicationPattern""/>
@@ -1832,9 +1834,9 @@ namespace TestDebug
                 <FramePlaceholderFrame PropertyName=""SourceIdentifier""/>
                 <FrameKeywordFrame>All</FrameKeywordFrame>
             </FrameHorizontalPanelFrame>
-            <FrameHorizontalCollectionPlaceholderFrame/>
+            <FrameVerticalCollectionPlaceholderFrame/>
             <FrameKeywordFrame Text=""end""/>
-        </FrameHorizontalPanelFrame>
+        </FrameVerticalPanelFrame>
     </FrameBlockTemplate>
     <FrameBlockTemplate NodeType=""{xaml:Type IBlock,IClassReplicate,ClassReplicate}"">
         <FrameHorizontalPanelFrame>
@@ -1850,7 +1852,7 @@ namespace TestDebug
         </FrameHorizontalPanelFrame>
     </FrameBlockTemplate>
     <FrameBlockTemplate NodeType=""{xaml:Type IBlock,ICommandOverload,CommandOverload}"">
-        <FrameHorizontalPanelFrame>
+        <FrameVerticalPanelFrame>
             <FrameHorizontalPanelFrame>
                 <FrameKeywordFrame>Replicate</FrameKeywordFrame>
                 <FramePlaceholderFrame PropertyName=""ReplicationPattern""/>
@@ -1858,12 +1860,12 @@ namespace TestDebug
                 <FramePlaceholderFrame PropertyName=""SourceIdentifier""/>
                 <FrameKeywordFrame>All</FrameKeywordFrame>
             </FrameHorizontalPanelFrame>
-            <FrameHorizontalCollectionPlaceholderFrame/>
+            <FrameVerticalCollectionPlaceholderFrame/>
             <FrameKeywordFrame Text=""end""/>
-        </FrameHorizontalPanelFrame>
+        </FrameVerticalPanelFrame>
     </FrameBlockTemplate>
     <FrameBlockTemplate NodeType=""{xaml:Type IBlock,ICommandOverloadType,CommandOverloadType}"">
-        <FrameHorizontalPanelFrame>
+        <FrameVerticalPanelFrame>
             <FrameHorizontalPanelFrame>
                 <FrameKeywordFrame>Replicate</FrameKeywordFrame>
                 <FramePlaceholderFrame PropertyName=""ReplicationPattern""/>
@@ -1871,12 +1873,12 @@ namespace TestDebug
                 <FramePlaceholderFrame PropertyName=""SourceIdentifier""/>
                 <FrameKeywordFrame>All</FrameKeywordFrame>
             </FrameHorizontalPanelFrame>
-            <FrameHorizontalCollectionPlaceholderFrame/>
+            <FrameVerticalCollectionPlaceholderFrame/>
             <FrameKeywordFrame Text=""end""/>
-        </FrameHorizontalPanelFrame>
+        </FrameVerticalPanelFrame>
     </FrameBlockTemplate>
     <FrameBlockTemplate NodeType=""{xaml:Type IBlock,IConditional,Conditional}"">
-        <FrameHorizontalPanelFrame>
+        <FrameVerticalPanelFrame>
             <FrameHorizontalPanelFrame>
                 <FrameKeywordFrame>Replicate</FrameKeywordFrame>
                 <FramePlaceholderFrame PropertyName=""ReplicationPattern""/>
@@ -1884,9 +1886,9 @@ namespace TestDebug
                 <FramePlaceholderFrame PropertyName=""SourceIdentifier""/>
                 <FrameKeywordFrame>All</FrameKeywordFrame>
             </FrameHorizontalPanelFrame>
-            <FrameHorizontalCollectionPlaceholderFrame/>
+            <FrameVerticalCollectionPlaceholderFrame/>
             <FrameKeywordFrame Text=""end""/>
-        </FrameHorizontalPanelFrame>
+        </FrameVerticalPanelFrame>
     </FrameBlockTemplate>
     <FrameBlockTemplate NodeType=""{xaml:Type IBlock,IConstraint,Constraint}"">
         <FrameHorizontalPanelFrame>
@@ -1902,7 +1904,7 @@ namespace TestDebug
         </FrameHorizontalPanelFrame>
     </FrameBlockTemplate>
     <FrameBlockTemplate NodeType=""{xaml:Type IBlock,IContinuation,Continuation}"">
-        <FrameHorizontalPanelFrame>
+        <FrameVerticalPanelFrame>
             <FrameHorizontalPanelFrame>
                 <FrameKeywordFrame>Replicate</FrameKeywordFrame>
                 <FramePlaceholderFrame PropertyName=""ReplicationPattern""/>
@@ -1910,12 +1912,12 @@ namespace TestDebug
                 <FramePlaceholderFrame PropertyName=""SourceIdentifier""/>
                 <FrameKeywordFrame>All</FrameKeywordFrame>
             </FrameHorizontalPanelFrame>
-            <FrameHorizontalCollectionPlaceholderFrame/>
+            <FrameVerticalCollectionPlaceholderFrame/>
             <FrameKeywordFrame Text=""end""/>
-        </FrameHorizontalPanelFrame>
+        </FrameVerticalPanelFrame>
     </FrameBlockTemplate>
     <FrameBlockTemplate NodeType=""{xaml:Type IBlock,IDiscrete,Discrete}"">
-        <FrameHorizontalPanelFrame>
+        <FrameVerticalPanelFrame>
             <FrameHorizontalPanelFrame>
                 <FrameKeywordFrame>Replicate</FrameKeywordFrame>
                 <FramePlaceholderFrame PropertyName=""ReplicationPattern""/>
@@ -1923,12 +1925,12 @@ namespace TestDebug
                 <FramePlaceholderFrame PropertyName=""SourceIdentifier""/>
                 <FrameKeywordFrame>All</FrameKeywordFrame>
             </FrameHorizontalPanelFrame>
-            <FrameHorizontalCollectionPlaceholderFrame/>
+            <FrameVerticalCollectionPlaceholderFrame/>
             <FrameKeywordFrame Text=""end""/>
-        </FrameHorizontalPanelFrame>
+        </FrameVerticalPanelFrame>
     </FrameBlockTemplate>
     <FrameBlockTemplate NodeType=""{xaml:Type IBlock,IEntityDeclaration,EntityDeclaration}"">
-        <FrameHorizontalPanelFrame>
+        <FrameVerticalPanelFrame>
             <FrameHorizontalPanelFrame>
                 <FrameKeywordFrame>Replicate</FrameKeywordFrame>
                 <FramePlaceholderFrame PropertyName=""ReplicationPattern""/>
@@ -1936,12 +1938,12 @@ namespace TestDebug
                 <FramePlaceholderFrame PropertyName=""SourceIdentifier""/>
                 <FrameKeywordFrame>All</FrameKeywordFrame>
             </FrameHorizontalPanelFrame>
-            <FrameHorizontalCollectionPlaceholderFrame/>
+            <FrameVerticalCollectionPlaceholderFrame/>
             <FrameKeywordFrame Text=""end""/>
-        </FrameHorizontalPanelFrame>
+        </FrameVerticalPanelFrame>
     </FrameBlockTemplate>
     <FrameBlockTemplate NodeType=""{xaml:Type IBlock,IExceptionHandler,ExceptionHandler}"">
-        <FrameHorizontalPanelFrame>
+        <FrameVerticalPanelFrame>
             <FrameHorizontalPanelFrame>
                 <FrameKeywordFrame>Replicate</FrameKeywordFrame>
                 <FramePlaceholderFrame PropertyName=""ReplicationPattern""/>
@@ -1949,9 +1951,9 @@ namespace TestDebug
                 <FramePlaceholderFrame PropertyName=""SourceIdentifier""/>
                 <FrameKeywordFrame>All</FrameKeywordFrame>
             </FrameHorizontalPanelFrame>
-            <FrameHorizontalCollectionPlaceholderFrame/>
+            <FrameVerticalCollectionPlaceholderFrame/>
             <FrameKeywordFrame Text=""end""/>
-        </FrameHorizontalPanelFrame>
+        </FrameVerticalPanelFrame>
     </FrameBlockTemplate>
     <FrameBlockTemplate NodeType=""{xaml:Type IBlock,IExport,Export}"">
         <FrameHorizontalPanelFrame>
@@ -1980,7 +1982,7 @@ namespace TestDebug
         </FrameHorizontalPanelFrame>
     </FrameBlockTemplate>
     <FrameBlockTemplate NodeType=""{xaml:Type IBlock,IFeature,Feature}"">
-        <FrameHorizontalPanelFrame>
+        <FrameVerticalPanelFrame>
             <FrameHorizontalPanelFrame>
                 <FrameKeywordFrame>Replicate</FrameKeywordFrame>
                 <FramePlaceholderFrame PropertyName=""ReplicationPattern""/>
@@ -1988,12 +1990,12 @@ namespace TestDebug
                 <FramePlaceholderFrame PropertyName=""SourceIdentifier""/>
                 <FrameKeywordFrame>All</FrameKeywordFrame>
             </FrameHorizontalPanelFrame>
-            <FrameHorizontalCollectionPlaceholderFrame/>
+            <FrameVerticalCollectionPlaceholderFrame/>
             <FrameKeywordFrame Text=""end""/>
-        </FrameHorizontalPanelFrame>
+        </FrameVerticalPanelFrame>
     </FrameBlockTemplate>
     <FrameBlockTemplate NodeType=""{xaml:Type IBlock,IGeneric,Generic}"">
-        <FrameHorizontalPanelFrame>
+        <FrameVerticalPanelFrame>
             <FrameHorizontalPanelFrame>
                 <FrameKeywordFrame>Replicate</FrameKeywordFrame>
                 <FramePlaceholderFrame PropertyName=""ReplicationPattern""/>
@@ -2001,9 +2003,9 @@ namespace TestDebug
                 <FramePlaceholderFrame PropertyName=""SourceIdentifier""/>
                 <FrameKeywordFrame>All</FrameKeywordFrame>
             </FrameHorizontalPanelFrame>
-            <FrameHorizontalCollectionPlaceholderFrame/>
+            <FrameVerticalCollectionPlaceholderFrame/>
             <FrameKeywordFrame Text=""end""/>
-        </FrameHorizontalPanelFrame>
+        </FrameVerticalPanelFrame>
     </FrameBlockTemplate>
     <FrameBlockTemplate NodeType=""{xaml:Type IBlock,IIdentifier,Identifier}"">
         <FrameHorizontalPanelFrame>
@@ -2019,7 +2021,7 @@ namespace TestDebug
         </FrameHorizontalPanelFrame>
     </FrameBlockTemplate>
     <FrameBlockTemplate NodeType=""{xaml:Type IBlock,IImport,Import}"">
-        <FrameHorizontalPanelFrame>
+        <FrameVerticalPanelFrame>
             <FrameHorizontalPanelFrame>
                 <FrameKeywordFrame>Replicate</FrameKeywordFrame>
                 <FramePlaceholderFrame PropertyName=""ReplicationPattern""/>
@@ -2027,12 +2029,12 @@ namespace TestDebug
                 <FramePlaceholderFrame PropertyName=""SourceIdentifier""/>
                 <FrameKeywordFrame>All</FrameKeywordFrame>
             </FrameHorizontalPanelFrame>
-            <FrameHorizontalCollectionPlaceholderFrame/>
+            <FrameVerticalCollectionPlaceholderFrame/>
             <FrameKeywordFrame Text=""end""/>
-        </FrameHorizontalPanelFrame>
+        </FrameVerticalPanelFrame>
     </FrameBlockTemplate>
     <FrameBlockTemplate NodeType=""{xaml:Type IBlock,IInheritance,Inheritance}"">
-        <FrameHorizontalPanelFrame>
+        <FrameVerticalPanelFrame>
             <FrameHorizontalPanelFrame>
                 <FrameKeywordFrame>Replicate</FrameKeywordFrame>
                 <FramePlaceholderFrame PropertyName=""ReplicationPattern""/>
@@ -2040,12 +2042,12 @@ namespace TestDebug
                 <FramePlaceholderFrame PropertyName=""SourceIdentifier""/>
                 <FrameKeywordFrame>All</FrameKeywordFrame>
             </FrameHorizontalPanelFrame>
-            <FrameHorizontalCollectionPlaceholderFrame/>
+            <FrameVerticalCollectionPlaceholderFrame/>
             <FrameKeywordFrame Text=""end""/>
-        </FrameHorizontalPanelFrame>
+        </FrameVerticalPanelFrame>
     </FrameBlockTemplate>
     <FrameBlockTemplate NodeType=""{xaml:Type IBlock,IInstruction,Instruction}"">
-        <FrameHorizontalPanelFrame>
+        <FrameVerticalPanelFrame>
             <FrameHorizontalPanelFrame>
                 <FrameKeywordFrame>Replicate</FrameKeywordFrame>
                 <FramePlaceholderFrame PropertyName=""ReplicationPattern""/>
@@ -2053,12 +2055,12 @@ namespace TestDebug
                 <FramePlaceholderFrame PropertyName=""SourceIdentifier""/>
                 <FrameKeywordFrame>All</FrameKeywordFrame>
             </FrameHorizontalPanelFrame>
-            <FrameHorizontalCollectionPlaceholderFrame/>
+            <FrameVerticalCollectionPlaceholderFrame/>
             <FrameKeywordFrame Text=""end""/>
-        </FrameHorizontalPanelFrame>
+        </FrameVerticalPanelFrame>
     </FrameBlockTemplate>
     <FrameBlockTemplate NodeType=""{xaml:Type IBlock,ILibrary,Library}"">
-        <FrameHorizontalPanelFrame>
+        <FrameVerticalPanelFrame>
             <FrameHorizontalPanelFrame>
                 <FrameKeywordFrame>Replicate</FrameKeywordFrame>
                 <FramePlaceholderFrame PropertyName=""ReplicationPattern""/>
@@ -2066,9 +2068,9 @@ namespace TestDebug
                 <FramePlaceholderFrame PropertyName=""SourceIdentifier""/>
                 <FrameKeywordFrame>All</FrameKeywordFrame>
             </FrameHorizontalPanelFrame>
-            <FrameHorizontalCollectionPlaceholderFrame/>
+            <FrameVerticalCollectionPlaceholderFrame/>
             <FrameKeywordFrame Text=""end""/>
-        </FrameHorizontalPanelFrame>
+        </FrameVerticalPanelFrame>
     </FrameBlockTemplate>
     <FrameBlockTemplate NodeType=""{xaml:Type IBlock,IName,Name}"">
         <FrameHorizontalPanelFrame>
@@ -2123,7 +2125,7 @@ namespace TestDebug
         </FrameHorizontalPanelFrame>
     </FrameBlockTemplate>
     <FrameBlockTemplate NodeType=""{xaml:Type IBlock,IQueryOverload,QueryOverload}"">
-        <FrameHorizontalPanelFrame>
+        <FrameVerticalPanelFrame>
             <FrameHorizontalPanelFrame>
                 <FrameKeywordFrame>Replicate</FrameKeywordFrame>
                 <FramePlaceholderFrame PropertyName=""ReplicationPattern""/>
@@ -2131,12 +2133,12 @@ namespace TestDebug
                 <FramePlaceholderFrame PropertyName=""SourceIdentifier""/>
                 <FrameKeywordFrame>All</FrameKeywordFrame>
             </FrameHorizontalPanelFrame>
-            <FrameHorizontalCollectionPlaceholderFrame/>
+            <FrameVerticalCollectionPlaceholderFrame/>
             <FrameKeywordFrame Text=""end""/>
-        </FrameHorizontalPanelFrame>
+        </FrameVerticalPanelFrame>
     </FrameBlockTemplate>
     <FrameBlockTemplate NodeType=""{xaml:Type IBlock,IQueryOverloadType,QueryOverloadType}"">
-        <FrameHorizontalPanelFrame>
+        <FrameVerticalPanelFrame>
             <FrameHorizontalPanelFrame>
                 <FrameKeywordFrame>Replicate</FrameKeywordFrame>
                 <FramePlaceholderFrame PropertyName=""ReplicationPattern""/>
@@ -2144,9 +2146,9 @@ namespace TestDebug
                 <FramePlaceholderFrame PropertyName=""SourceIdentifier""/>
                 <FrameKeywordFrame>All</FrameKeywordFrame>
             </FrameHorizontalPanelFrame>
-            <FrameHorizontalCollectionPlaceholderFrame/>
+            <FrameVerticalCollectionPlaceholderFrame/>
             <FrameKeywordFrame Text=""end""/>
-        </FrameHorizontalPanelFrame>
+        </FrameVerticalPanelFrame>
     </FrameBlockTemplate>
     <FrameBlockTemplate NodeType=""{xaml:Type IBlock,IRange,Range}"">
         <FrameHorizontalPanelFrame>
@@ -2162,7 +2164,7 @@ namespace TestDebug
         </FrameHorizontalPanelFrame>
     </FrameBlockTemplate>
     <FrameBlockTemplate NodeType=""{xaml:Type IBlock,IRename,Rename}"">
-        <FrameHorizontalPanelFrame>
+        <FrameVerticalPanelFrame>
             <FrameHorizontalPanelFrame>
                 <FrameKeywordFrame>Replicate</FrameKeywordFrame>
                 <FramePlaceholderFrame PropertyName=""ReplicationPattern""/>
@@ -2170,9 +2172,9 @@ namespace TestDebug
                 <FramePlaceholderFrame PropertyName=""SourceIdentifier""/>
                 <FrameKeywordFrame>All</FrameKeywordFrame>
             </FrameHorizontalPanelFrame>
-            <FrameHorizontalCollectionPlaceholderFrame/>
+            <FrameVerticalCollectionPlaceholderFrame/>
             <FrameKeywordFrame Text=""end""/>
-        </FrameHorizontalPanelFrame>
+        </FrameVerticalPanelFrame>
     </FrameBlockTemplate>
     <FrameBlockTemplate NodeType=""{xaml:Type IBlock,ITypeArgument,TypeArgument}"">
         <FrameHorizontalPanelFrame>
@@ -2188,7 +2190,7 @@ namespace TestDebug
         </FrameHorizontalPanelFrame>
     </FrameBlockTemplate>
     <FrameBlockTemplate NodeType=""{xaml:Type IBlock,ITypedef,Typedef}"">
-        <FrameHorizontalPanelFrame>
+        <FrameVerticalPanelFrame>
             <FrameHorizontalPanelFrame>
                 <FrameKeywordFrame>Replicate</FrameKeywordFrame>
                 <FramePlaceholderFrame PropertyName=""ReplicationPattern""/>
@@ -2196,12 +2198,12 @@ namespace TestDebug
                 <FramePlaceholderFrame PropertyName=""SourceIdentifier""/>
                 <FrameKeywordFrame>All</FrameKeywordFrame>
             </FrameHorizontalPanelFrame>
-            <FrameHorizontalCollectionPlaceholderFrame/>
+            <FrameVerticalCollectionPlaceholderFrame/>
             <FrameKeywordFrame Text=""end""/>
-        </FrameHorizontalPanelFrame>
+        </FrameVerticalPanelFrame>
     </FrameBlockTemplate>
     <FrameBlockTemplate NodeType=""{xaml:Type IBlock,IWith,With}"">
-        <FrameHorizontalPanelFrame>
+        <FrameVerticalPanelFrame>
             <FrameHorizontalPanelFrame>
                 <FrameKeywordFrame>Replicate</FrameKeywordFrame>
                 <FramePlaceholderFrame PropertyName=""ReplicationPattern""/>
@@ -2209,9 +2211,9 @@ namespace TestDebug
                 <FramePlaceholderFrame PropertyName=""SourceIdentifier""/>
                 <FrameKeywordFrame>All</FrameKeywordFrame>
             </FrameHorizontalPanelFrame>
-            <FrameHorizontalCollectionPlaceholderFrame/>
+            <FrameVerticalCollectionPlaceholderFrame/>
             <FrameKeywordFrame Text=""end""/>
-        </FrameHorizontalPanelFrame>
+        </FrameVerticalPanelFrame>
     </FrameBlockTemplate>
 </FrameTemplateList>
 ";
