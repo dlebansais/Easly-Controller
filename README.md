@@ -97,17 +97,17 @@ These are cells containing other cells (obviously), for example to display a lis
 
 ### Frames
 
-Frames are constant objects that can be reused for multiple source codes, and describe how a node of a given type is organized in cells. At initialization and after each change in the source code, the controller view calls methods of frames to update the cell tree.
+Frames are constant objects that can be reused for multiple source codes, and describe how a node of a given type is organized in cells. At initialization time and after each change in the source code, the controller view calls methods of frames to update the cell tree.
 
 Frames are unique to their host template (more on them later), and each template begins with a root frame. Frame are also organized in categories:
 
 1. Panel frames
 
-These frames are just collections of other frames. The will create cell collections, then let nested frames provide nested cells. Like cells, panel frames come in two classes: the horizontal panel frame that will create lines of cells, the vertical panel frame that will create columns.
+These frames are just collections of other frames. They will create cell collections, then let nested frames provide nested cells. Like cells, panel frames come in two forms: the horizontal panel frame that will create lines of cells, and the vertical panel frame that will create columns.
 
 2. Frames for collections
 
-There are frames for lists, and for block lists. Both come in horizontal and vertical form. For block lists, each block has a dedicated block template that depends on the type of child nodes. For example, several parts of the source code have block list of assertions. There is therefore a template for blocks of assertions that describe each block. In turn, blocks can themselves be aligned horizontally or vertically and the frame for that is called a collection placeholder frame.
+These are frames for lists, and for block lists. Both come in horizontal and vertical form. For block lists, each block has a dedicated block template that depends on the type of child nodes. For example, several parts of the source code have block lists of assertions. There is therefore a template for blocks of assertions that describe each block. In turn, blocks can themselves be aligned horizontally or vertically and the frame for that is called a collection placeholder frame.
 
 3. Frame for single elements
 
@@ -116,7 +116,7 @@ There are frames for lists, and for block lists. Both come in horizontal and ver
 + Value frame, for a component that is a value in the node (such as a boolean).
 + Text value frame, for a component that is a string value in the node. There are also two specialized frames, one for single characters and another for numbers (as it can have a special exponent display).
 + Discrete frame. This one is special in that it delegates the task of creating cells to a sub frame, chosen depending on a value of the ndoe. For example, an enum.
-+ Keyword and insertion point frame, they create cells that can have the focus, but are not associated to content in the source, they are only for decoration and edition purpose. 
++ Keyword and insertion point frames. They create cells that can have the focus, but are not associated to content in the source, they are only for decoration and edition purpose. 
 + static frame that can't even have the focus, but generate visible frames. For example: parenthesis, brackets, dots...
 
 ### Templates
