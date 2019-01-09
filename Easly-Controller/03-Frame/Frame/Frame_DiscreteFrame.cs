@@ -1,5 +1,6 @@
 ﻿using BaseNodeHelper;
 using System;
+using System.Diagnostics;
 using System.Windows.Markup;
 
 namespace EaslyController.Frame
@@ -47,10 +48,30 @@ namespace EaslyController.Frame
                 return false;
 
             NodeTreeHelper.GetEnumRange(nodeType, PropertyName, out int Min, out int Max);
-            if (Max - Min + 1 != Items.Count)
+            if (Min != 0)
+                return false;
+
+            if (Max + 1 != Items.Count)
                 return false;
 
             return true;
+        }
+
+        /// <summary>
+        /// Create cells for the provided state view.
+        /// </summary>
+        /// <param name="controllerView">The view in cells are created.</param>
+        /// <param name="stateView">The state view for which to create cells.</param>
+        /// <param name="parentCellView">The parent cell view.</param>
+        public override IFrameCellView BuildNodeCells(IFrameControllerView controllerView, IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView)
+        {
+            IFrameNodeState State = stateView.State;
+            int Value = NodeTreeHelper.GetEnumValue(State.Node, PropertyName);
+
+            Debug.Assert(Value >= 0 && Value < Items.Count);
+
+            IFrameKeywordFrame KeywordFrame = Items[Value];
+            return KeywordFrame.BuildNodeCells(controllerView, stateView, parentCellView);
         }
         #endregion
     }

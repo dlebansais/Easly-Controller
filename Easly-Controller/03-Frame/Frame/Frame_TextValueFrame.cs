@@ -31,5 +31,16 @@ namespace EaslyController.Frame
             return true;
         }
         #endregion
+
+        #region Create Methods
+        /// <summary>
+        /// Creates a IxxxTextFocusableCellView object.
+        /// </summary>
+        protected override IFrameVisibleCellView CreateFrameCellView(IFrameNodeStateView stateView)
+        {
+            ControllerTools.AssertNoOverride(this, typeof(FrameValueFrame));
+            return new FrameTextFocusableCellView(stateView);
+        }
+        #endregion
     }
 }

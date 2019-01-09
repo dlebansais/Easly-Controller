@@ -1,4 +1,6 @@
-﻿using System;
+﻿using BaseNode;
+using BaseNodeHelper;
+using System;
 using System.Windows.Markup;
 
 namespace EaslyController.Frame
@@ -41,6 +43,28 @@ namespace EaslyController.Frame
 
             if (string.IsNullOrEmpty(CollectionName))
                 return false;
+
+            string[] Split = CollectionName.Split('.');
+            Type BaseType = nodeType;
+
+            for (int i = 0; i < Split.Length; i++)
+            {
+                string PropertyName = Split[i];
+                Type ChildNodeType;
+
+                if (i + 1 < Split.Length)
+                {
+                    if (!NodeTreeHelperChild.IsChildNodeProperty(BaseType, PropertyName, out ChildNodeType) && !NodeTreeHelperOptional.IsOptionalChildNodeProperty(BaseType, PropertyName, out ChildNodeType))
+                        return false;
+
+                    BaseType = ChildNodeType;
+                }
+                else
+                {
+                    if (!NodeTreeHelperBlockList.IsBlockListProperty(BaseType, PropertyName, out Type ChildInterfaceType, out ChildNodeType) && !NodeTreeHelperList.IsNodeListProperty(BaseType, PropertyName, out ChildNodeType))
+                        return false;
+                }
+            }
 
             return true;
         }

@@ -70,12 +70,12 @@ Since multiple expand operations can be performed, it may be difficult to track 
 
 ## Frame
 
-The Frame layer introduces a first level of display by creating a grid and assigning all individual component of the source code to a cell. There is no visual display, but with the cell system you can have line and column numbers.
-Cells are per-view so it is possible to have a different display, with different line numbers for example, per view.
+The Frame layer introduces a first level of display by creating a grid and assigning all individual components of the source code to a cell. There is no visual display, but with the cell system you can have line and column numbers.
+Cells are per-view so it is possible to have a different display, with different line numbers for example, using different view.
 
-To create and assign cells, a controller view use a template, one per node (but specific to the view). A template in turn contains a hierarchy of frames dedicated to position components of the node, and from frames you can obtain cells. All templates are grouped in a template set, declared when the view is created, and that cannot be changed.
+To create and assign cells, a controller view uses a template, one per node (but specific to the view). A template in turn contains a hierarchy of frames dedicated to positioning components of the node, and from frames you can obtain cells. All templates are grouped in a template set, declared when the view is created, and that cannot be changed.
 
-A typical use for template sets is for example a set that is verbose and another that is compact. The verbose template set will have more decoration elements and keywords, and therefore more cells. The compact template set could hide values that are set to the default thus having less cells than the verbose one.
+A typical use for template sets is for example having a set that is verbose and another that is compact. The verbose template set will have more decoration elements and keywords, and therefore more cells. The compact template set could hide values that are set to the default, thus having less cells than the verbose one.
 
 ### Cell views
 
@@ -83,14 +83,49 @@ They are grouped in the following categories:
 
 1. Cell collections
 
-These are cells containing other cells (obviously), for example to display a list. If a list contains 3 items and each of them takes just one cell, the cell collection will span 3 cells, aligned long a line or a column. Both cell views are available.
+These are cells containing other cells (obviously), for example to display a list. If a list contains 3 items and each of them takes just one cell, the cell collection will span 3 cells, aligned along a line or a column (there is a cell collection for lines and another for columns).
 
 2. Single cell views
 
-+ The empty cell, used for components that are not to be displayed, such is unassigned optional nodes.
++ The empty cell, used for components that are not to be displayed, such as unassigned optional nodes.
 + The container cell, with an associated state view. This cell is a leaf in the cell tree, and indicates further calculation of line, column and other positions in the grid should use a new cell tree, created from the state and the associated template.
 + The block cell view, specifically containing an embedded cell view for a block of a block list.
 + A simple visible cell (decoration keyword and symbols...)
 + A simple focusable cell (decoration keywords that can have the focus, insertion points...)
 + A simple focusable cell associated to content (enums, boolean values in the source code such as abstract/not abstract...)
 + A simple focusable cell associated to text content (identifiers and other names...)
+
+### Frames
+
+Frames are constant objects that can be reused for multiple source codes, and describe how a node of a given type is organized in cells. At initialization and after each change in the source code, the controller view calls methods of frames to update the cell tree.
+
+Frames are unique to their host template (more on them later), and each template begins with a root frame. Frame are also organized in categories:
+
+1. Panel frames
+
+These frames are just collections of other frames. The will create cell collections, then let nested frames provide nested cells. Like cells, panel frames come in two classes: the horizontal panel frame that will create lines of cells, the vertical panel frame that will create columns.
+
+2. Frames for collections
+
+There are frames for lists, and for block lists. Both come in horizontal and vertical form. For block lists, each block has a dedicated block template that depends on the type of child nodes. For example, several parts of the source code have block list of assertions. There is therefore a template for blocks of assertions that describe each block. In turn, blocks can themselves be aligned horizontally or vertically and the frame for that is called a collection placeholder frame.
+
+3. Frame for single elements
+
++ Placehoder frame, for a child node.
++ Optional frame, for an optional child node.
++ Value frame, for a component that is a value in the node (such as a boolean).
++ Text value frame, for a component that is a string value in the node. There are also two specialized frames, one for single characters and another for numbers (as it can have a special exponent display).
++ Discrete frame. This one is special in that it delegates the task of creating cells to a sub frame, chosen depending on a value of the ndoe. For example, an enum.
++ Keyword and insertion point frame, they create cells that can have the focus, but are not associated to content in the source, they are only for decoration and edition purpose. 
++ static frame that can't even have the focus, but generate visible frames. For example: parenthesis, brackets, dots...
+
+### Templates
+
+As mentioned, a template is a constant object that given a node or block in the source, of a type that is specific to the template, will generate a tree of cells starting with the root frame of the template.
+
+There are two sorts of templates, one for node themselves and one for blocks. For nodes, the template is specific to the node type (ex: assertion, body, class). For blocks, the template is specific to the block of nodes of a given type (ex: blocks of assertions, blocks of bodies).
+
+### Template sets
+
+Finally, template sets group templates together, with a list for nodes and another for blocks. A template set must be provided at the creation of a view, and cannot be changed afterward. Note that template sets must be complete: they must provide a template for all possible types of nodes and all possible types of blocks.
+ 
