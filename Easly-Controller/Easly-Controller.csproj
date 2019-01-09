@@ -197,8 +197,8 @@
     <Compile Include="03-Frame\CellView\Single\Frame_ContainerCellView.cs" />
     <Compile Include="03-Frame\CellView\Single\Frame_ContentFocusableCellView.cs" />
     <Compile Include="03-Frame\CellView\Single\Frame_FocusableCellView.cs" />
-    <Compile Include="03-Frame\CellView\Single\Frame_MultiDiscreteFocusableCellView.cs" />
-    <Compile Include="03-Frame\CellView\Single\Frame_SingleDiscreteFocusableCellView.cs" />
+    <Compile Include="03-Frame\CellView\Single\Frame_DiscreteContentFocusableCellView.cs" />
+    <Compile Include="03-Frame\CellView\Single\Frame_DiscreteFocusableCellView.cs" />
     <Compile Include="03-Frame\CellView\Single\Frame_TextFocusableCellView.cs" />
     <Compile Include="03-Frame\CellView\Single\Frame_EmptyCellView.cs" />
     <Compile Include="03-Frame\CellView\Single\Frame_VisibleCellView.cs" />

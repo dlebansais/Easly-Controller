@@ -5,21 +5,21 @@ namespace EaslyController.Frame
     /// <summary>
     /// Cell view for discrete elements that can receive the focus but are not the component of a node (insertion points, keywords and other decorations)
     /// </summary>
-    public interface IFrameSingleDiscreteFocusableCellView : IFrameFocusableCellView
+    public interface IFrameDiscreteFocusableCellView : IFrameFocusableCellView
     {
     }
 
     /// <summary>
     /// Cell view for discrete elements that can receive the focus but are not the component of a node (insertion points, keywords and other decorations)
     /// </summary>
-    public class FrameSingleDiscreteFocusableCellView : FrameFocusableCellView, IFrameSingleDiscreteFocusableCellView
+    public class FrameDiscreteFocusableCellView : FrameFocusableCellView, IFrameDiscreteFocusableCellView
     {
         #region Init
         /// <summary>
-        /// Initializes an instance of <see cref="FrameSingleDiscreteFocusableCellView"/>.
+        /// Initializes an instance of <see cref="FrameDiscreteFocusableCellView"/>.
         /// </summary>
         /// <param name="stateView">The state view containing the tree with this cell.</param>
-        public FrameSingleDiscreteFocusableCellView(IFrameNodeStateView stateView)
+        public FrameDiscreteFocusableCellView(IFrameNodeStateView stateView)
             : base(stateView)
         {
         }
@@ -35,7 +35,7 @@ namespace EaslyController.Frame
         {
             Debug.Assert(other != null);
 
-            if (!(other is IFrameSingleDiscreteFocusableCellView AsSingleDiscreteFocusableCellView))
+            if (!(other is IFrameDiscreteFocusableCellView AsSingleDiscreteFocusableCellView))
                 return false;
 
             if (!base.IsEqual(comparer, AsSingleDiscreteFocusableCellView))

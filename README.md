@@ -67,4 +67,30 @@ When working with the source code it can be practical to hide values in the code
 The opposite operation, reduce, will unassign all optional nodes that only contains a default value, and clear lists that only contains a single default child.
 
 Since multiple expand operations can be performed, it may be difficult to track them over time. A single "canonicalize" operation is therefore provided: it will look for any expanded node and will reduce it to its canonical, non-default parts.
-    
+
+## Frame
+
+The Frame layer introduces a first level of display by creating a grid and assigning all individual component of the source code to a cell. There is no visual display, but with the cell system you can have line and column numbers.
+Cells are per-view so it is possible to have a different display, with different line numbers for example, per view.
+
+To create and assign cells, a controller view use a template, one per node (but specific to the view). A template in turn contains a hierarchy of frames dedicated to position components of the node, and from frames you can obtain cells. All templates are grouped in a template set, declared when the view is created, and that cannot be changed.
+
+A typical use for template sets is for example a set that is verbose and another that is compact. The verbose template set will have more decoration elements and keywords, and therefore more cells. The compact template set could hide values that are set to the default thus having less cells than the verbose one.
+
+### Cell views
+
+They are grouped in the following categories:
+
+1. Cell collections
+
+These are cells containing other cells (obviously), for example to display a list. If a list contains 3 items and each of them takes just one cell, the cell collection will span 3 cells, aligned long a line or a column. Both cell views are available.
+
+2. Single cell views
+
++ The empty cell, used for components that are not to be displayed, such is unassigned optional nodes.
++ The container cell, with an associated state view. This cell is a leaf in the cell tree, and indicates further calculation of line, column and other positions in the grid should use a new cell tree, created from the state and the associated template.
++ The block cell view, specifically containing an embedded cell view for a block of a block list.
++ A simple visible cell (decoration keyword and symbols...)
++ A simple focusable cell (decoration keywords that can have the focus, insertion points...)
++ A simple focusable cell associated to content (enums, boolean values in the source code such as abstract/not abstract...)
++ A simple focusable cell associated to text content (identifiers and other names...)

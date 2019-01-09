@@ -5,7 +5,7 @@ namespace EaslyController.Frame
     /// <summary>
     /// Cell view for discrete components that can receive the focus and be modified (enum, bool...)
     /// </summary>
-    public interface IFrameMultiDiscreteFocusableCellView : IFrameContentFocusableCellView
+    public interface IFrameDiscreteContentFocusableCellView : IFrameContentFocusableCellView
     {
         /// <summary>
         /// Property corresponding to the component of the node.
@@ -16,15 +16,15 @@ namespace EaslyController.Frame
     /// <summary>
     /// Cell view for discrete components that can receive the focus and be modified (enum, bool...)
     /// </summary>
-    public class FrameMultiDiscreteFocusableCellView : FrameContentFocusableCellView, IFrameMultiDiscreteFocusableCellView
+    public class FrameDiscreteContentFocusableCellView : FrameContentFocusableCellView, IFrameDiscreteContentFocusableCellView
     {
         #region Init
         /// <summary>
-        /// Initializes an instance of <see cref="FrameMultiDiscreteFocusableCellView"/>.
+        /// Initializes an instance of <see cref="FrameDiscreteContentFocusableCellView"/>.
         /// </summary>
         /// <param name="stateView">The state view containing the tree with this cell.</param>
         /// <param name="propertyName">Property corresponding to the component of the node.</param>
-        public FrameMultiDiscreteFocusableCellView(IFrameNodeStateView stateView, string propertyName)
+        public FrameDiscreteContentFocusableCellView(IFrameNodeStateView stateView, string propertyName)
             : base(stateView)
         {
             PropertyName = propertyName;
@@ -48,7 +48,7 @@ namespace EaslyController.Frame
         {
             Debug.Assert(other != null);
 
-            if (!(other is IFrameMultiDiscreteFocusableCellView AsMultiDiscreteFocusableCellView))
+            if (!(other is IFrameDiscreteContentFocusableCellView AsMultiDiscreteFocusableCellView))
                 return false;
 
             if (!base.IsEqual(comparer, AsMultiDiscreteFocusableCellView))
