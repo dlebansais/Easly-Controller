@@ -71,6 +71,17 @@ namespace EaslyController.Frame
         {
             BlockStateView.UpdateLineNumbers(ref lineNumber, ref columnNumber, ref columnNumber);
         }
+
+        /// <summary>
+        /// Enumerate all visible cell views.
+        /// </summary>
+        /// <param name="list">The list of visible cell views upon return.</param>
+        public override void EnumerateVisibleCellViews(IFrameVisibleCellViewList list)
+        {
+            Debug.Assert(list != null);
+
+            BlockStateView.EnumerateVisibleCellViews(list);
+        }
         #endregion
 
         #region Debugging

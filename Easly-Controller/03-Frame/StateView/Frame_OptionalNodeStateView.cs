@@ -169,6 +169,18 @@ namespace EaslyController.Frame
 
             RootCellView.UpdateLineNumbers(ref lineNumber, ref columnNumber, ref maxColumnNumber);
         }
+
+        /// <summary>
+        /// Enumerate all visible cell views.
+        /// </summary>
+        /// <param name="list">The list of visible cell views upon return.</param>
+        public void EnumerateVisibleCellViews(IFrameVisibleCellViewList list)
+        {
+            Debug.Assert(list != null);
+
+            Debug.Assert(RootCellView != null);
+            RootCellView.EnumerateVisibleCellViews(list);
+        }
         #endregion
 
         #region Debugging

@@ -40,6 +40,12 @@ namespace EaslyController.Frame
         /// Last column number in the cell tree.
         /// </summary>
         int LastColumnNumber { get; }
+
+        /// <summary>
+        /// Enumerate all visible cell views.
+        /// </summary>
+        /// <param name="list"></param>
+        void EnumerateVisibleCellViews(IFrameVisibleCellViewList list);
     }
 
     /// <summary>
@@ -722,6 +728,21 @@ namespace EaslyController.Frame
             //OnStateInserted(null, ArgumentNodeIndex, ArgumentChildState, true);
 
             UpdateLineNumbers();
+        }
+
+        /// <summary>
+        /// Enumerate all visible cell views.
+        /// </summary>
+        /// <param name="list">The list of visible cell views upon return.</param>
+        public void EnumerateVisibleCellViews(IFrameVisibleCellViewList list)
+        {
+            Debug.Assert(list != null);
+            Debug.Assert(list.Count == 0);
+
+            IFrameNodeState RootState = Controller.RootState;
+            IFrameNodeStateView RootStateView = StateViewTable[RootState];
+
+            RootStateView.EnumerateVisibleCellViews(list);
         }
         #endregion
 

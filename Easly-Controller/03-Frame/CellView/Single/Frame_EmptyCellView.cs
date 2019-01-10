@@ -42,6 +42,14 @@ namespace EaslyController.Frame
         public override void UpdateLineNumbers(ref int lineNumber, ref int columnNumber, ref int maxColumnNumber)
         {
         }
+
+        /// <summary>
+        /// Enumerate all visible cell views.
+        /// </summary>
+        /// <param name="list">The list of visible cell views upon return.</param>
+        public override void EnumerateVisibleCellViews(IFrameVisibleCellViewList list)
+        {
+        }
         #endregion
 
         #region Debugging

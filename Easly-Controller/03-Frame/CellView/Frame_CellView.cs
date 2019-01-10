@@ -26,6 +26,12 @@ namespace EaslyController.Frame
         void UpdateLineNumbers(ref int lineNumber, ref int columnNumber, ref int maxColumnNumber);
 
         /// <summary>
+        /// Enumerate all visible cell views.
+        /// </summary>
+        /// <param name="list">The list of visible cell views upon return.</param>
+        void EnumerateVisibleCellViews(IFrameVisibleCellViewList list);
+
+        /// <summary>
         /// Returns a string representing this part of the cell view tree.
         /// </summary>
         /// <param name="indentation">The indentation level to use.</param>
@@ -64,6 +70,12 @@ namespace EaslyController.Frame
         /// <param name="columnNumber">The current column number, updated upon return.</param>
         /// <param name="maxColumnNumber">The maximum column number observed, updated upon return.</param>
         public abstract void UpdateLineNumbers(ref int lineNumber, ref int columnNumber, ref int maxColumnNumber);
+
+        /// <summary>
+        /// Enumerate all visible cell views.
+        /// </summary>
+        /// <param name="list">The list of visible cell views upon return.</param>
+        public abstract void EnumerateVisibleCellViews(IFrameVisibleCellViewList list);
 
         /// <summary>
         /// Clears all views (cells and states) within this cell view.

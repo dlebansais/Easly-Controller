@@ -60,6 +60,12 @@ namespace EaslyController.Frame
         /// <param name="columnNumber">The current column number, updated upon return.</param>
         /// <param name="maxColumnNumber">The maximum column number observed, updated upon return.</param>
         void UpdateLineNumbers(ref int lineNumber, ref int columnNumber, ref int maxColumnNumber);
+
+        /// <summary>
+        /// Enumerate all visible cell views.
+        /// </summary>
+        /// <param name="list">The list of visible cell views upon return.</param>
+        void EnumerateVisibleCellViews(IFrameVisibleCellViewList list);
     }
 
     /// <summary>
@@ -165,6 +171,18 @@ namespace EaslyController.Frame
             Debug.Assert(RootCellView != null);
 
             RootCellView.UpdateLineNumbers(ref lineNumber, ref columnNumber, ref maxColumnNumber);
+        }
+
+        /// <summary>
+        /// Enumerate all visible cell views.
+        /// </summary>
+        /// <param name="list">The list of visible cell views upon return.</param>
+        public virtual void EnumerateVisibleCellViews(IFrameVisibleCellViewList list)
+        {
+            Debug.Assert(list != null);
+
+            Debug.Assert(RootCellView != null);
+            RootCellView.EnumerateVisibleCellViews(list);
         }
         #endregion
 

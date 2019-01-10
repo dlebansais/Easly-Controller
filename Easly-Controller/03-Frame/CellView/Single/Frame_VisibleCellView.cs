@@ -73,6 +73,17 @@ namespace EaslyController.Frame
             if (maxColumnNumber < columnNumber)
                 maxColumnNumber = columnNumber;
         }
+
+        /// <summary>
+        /// Enumerate all visible cell views.
+        /// </summary>
+        /// <param name="list">The list of visible cell views upon return.</param>
+        public override void EnumerateVisibleCellViews(IFrameVisibleCellViewList list)
+        {
+            Debug.Assert(list != null);
+
+            list.Add(this);
+        }
         #endregion
 
         #region Descendant Interface

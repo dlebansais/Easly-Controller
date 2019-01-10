@@ -177,6 +177,18 @@ namespace EaslyController.Frame
 
             CellViewList.Clear();
         }
+
+        /// <summary>
+        /// Enumerate all visible cell views.
+        /// </summary>
+        /// <param name="list">The list of visible cell views upon return.</param>
+        public override void EnumerateVisibleCellViews(IFrameVisibleCellViewList list)
+        {
+            Debug.Assert(list != null);
+
+            foreach (IFrameCellView Item in CellViewList)
+                Item.EnumerateVisibleCellViews(list);
+        }
         #endregion
 
         #region Debugging

@@ -671,6 +671,10 @@ namespace TestDebug
             IFocusControllerView ControllerView = FocusControllerView.Create(Controller, FocusTemplateSet.Default);
             //Debug.WriteLine(ControllerView.LastColumnNumber.ToString());
 
+            IFocusVisibleCellViewList CellList = new FocusVisibleCellViewList();
+            ControllerView.EnumerateVisibleCellViews(CellList);
+            Debug.Assert(CellList.Count > 0);
+
             IFocusNodeState RootState = Controller.RootState;
             IFocusInnerReadOnlyDictionary<string> InnerTable = RootState.InnerTable;
             IFocusBlockListInner<IFocusBrowsingBlockNodeIndex> ListInner = (IFocusBlockListInner<IFocusBrowsingBlockNodeIndex>)InnerTable[nameof(IClass.ImportBlocks)];
