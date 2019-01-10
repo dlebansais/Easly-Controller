@@ -17,11 +17,12 @@ The controller is made of several layers, each layer adding features to the othe
 This layer only provides read access to the source code, but introduces the core classes of the controller:
 
 1. Indexes
+
 An index is similar to a C++ iterator, but is fixed. It represents a child in a parent. There are five type of indexes:
 + Placeholder, a child node. This is the most straightforward index. This index has two specialized forms, one for block list replication patterns and another for block list source identifiers. 
-+ Optional, a child node that is optionally assigned (throught the IOptionalReference<> interface).
++ Optional, a child node that is optionally assigned (throught the `IOptionalReference<>` interface).
 + List, a list of child nodes of the same type.
-+ BlockList, a list of blocks of child nodes, all of the same type, with replication support (see the IBlockList<> interface). This index comes in two forms: an index for the first item in a block, and an index for all subsequent items in that block. Within the BlockList index, there are two variants:
++ BlockList, a list of blocks of child nodes, all of the same type, with replication support (see the `IBlockList<>` interface). This index comes in two forms: an index for the first item in a block, and an index for all subsequent items in that block. Within the BlockList index, there are two variants:
   * One for a new block. This specifies the first item in the node list of the block
   * One for an existing block, to specify further items. 
 
@@ -30,31 +31,36 @@ Note that the read-only layer provides indexes that only allow reading source co
 During examination of the node tree, indexes are created for new blocks. When this step is completed, and blocks initialized, they are replaced with indexes in existing blocks. 
 
 2. States
+
 These classes represent all data associated to a particular node in the source code tree. For the read-only layer, there isn't much to store, but subsequent layers add more info, like the existence of breakpoints and other temporary data. Blocks in block list also have a specific state class. And finally there are two dedicated state classes for block list replication patterns and another for block list source identifiers. 
 
 3. Inners
+
 They are the glue between states and indexes. There are as many types of inners as there are types of indexes, and given a state and inner one can obtain an index to the corresponding child.
 
 4. Browse Context
+
 Contexts (for short) contains data accumulated when the source code tree is parsed. For the read-only layer, this is simply a collection of indexes for each state and their children, but subsequent layers may contain more.
 
 5. Views
+
 One or more views can be attached to a controller. For the read-only layer, they don't do much, but when clients of the controller are able to modify the node tree, each modification will trigger a notification for all views. Then, each view can react differently to the modification and maintain a separate internal state.
  
 ## Writeable
 
 The writeable layer, as the name suggests, adds features to modify the source code. The following operations can be performed:
-. Replacing a node with another.
-. Changing the assigned status of an optional node.
-. Inserting a node in a collection (list or block list).
-. Removing a node from a collection (list or block list).
-. Moving a node up or down in a collection (list or block list). Note that, for block lists, a node can only be moved within a block.
-. Performing operations specific to block lists:
-  + Inserting a new block (removing a block is automatic when then last node in the block is removed).
-  + Splitting and joining blocks.
-  + Changing the replication type.
-  + Moving blocks around in the block list.
-. Expand or reduce a node (see below).
+
++ Replacing a node with another.
++ Changing the assigned status of an optional node.
++ Inserting a node in a collection (list or block list).
++ Removing a node from a collection (list or block list).
++ Moving a node up or down in a collection (list or block list). Note that, for block lists, a node can only be moved within a block.
++ Performing operations specific to block lists:
+  * Inserting a new block (removing a block is automatic when then last node in the block is removed).
+  * Splitting and joining blocks.
+  * Changing the replication type.
+  * Moving blocks around in the block list.
++ Expand or reduce a node (see below).
 
 This layer also adds insertion indexes. They represent the index of a node to add/replace/insert rather than an existing child node. An insertion index is created by a client of the controller, and upon return of the requested operation (say, insert), the corresponding browsing index is provided. This returned index can be used for further operations like changing the node again. 
 
@@ -129,3 +135,13 @@ There are two sorts of templates, one for node themselves and one for blocks. Fo
 
 Finally, template sets group templates together, with a list for nodes and another for blocks. A template set must be provided at the creation of a view, and cannot be changed afterward. Note that template sets must be complete: they must provide a template for all possible types of nodes and all possible types of blocks.
  
+## Next layer
+
+The next layer introduces:
+. focus: each view has a single cell with the focus, a caret for string, and an insertion/overwrite mode
+. visibility: a cell can be visible depending on complex criteria, such as any of several lists being non-empty, rather than just the frame that generates it. Visibility can be forced to show a full view to the user.
+. identifier and body type: an identifier, or a body, can be displayed differently depending on the parent node.
+. empty collections: a collection can require to be non-empty (for example, a path)
+. prefered frame: when the focus changes because of a modification of the node tree, it goes to a prefered frame.
+. complex expression: a complex expression is surrounded with parenthesis
+. external insert: a new item in a list can be added either pressing enter after or before the curent item, but not for lists that can be empty. for them there is an insert frame.
