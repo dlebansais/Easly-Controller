@@ -291,15 +291,54 @@ namespace EaslyController.Frame
                     RootFrame.Items.Add(NewFrame);
                 }
 
+                else if (NodeTreeHelper.IsBooleanProperty(nodeType, PropertyName))
+                {
+                    IFrameDiscreteFrame NewDiscreteFrame = CreateDiscreteFrame();
+                    NewDiscreteFrame.PropertyName = PropertyName;
+
+                    IFrameKeywordFrame KeywordFalseFrame = CreateKeywordFrame();
+                    KeywordFalseFrame.Text = $"{PropertyName}=False";
+                    NewDiscreteFrame.Items.Add(KeywordFalseFrame);
+
+                    IFrameKeywordFrame KeywordTrueFrame = CreateKeywordFrame();
+                    KeywordTrueFrame.Text = $"{PropertyName}=True";
+                    NewDiscreteFrame.Items.Add(KeywordTrueFrame);
+
+                    RootFrame.Items.Add(NewDiscreteFrame);
+                }
+
+                else if (NodeTreeHelper.IsEnumProperty(nodeType, PropertyName))
+                {
+                    NodeTreeHelper.GetEnumRange(nodeType, PropertyName, out int Min, out int Max);
+
+                    IFrameDiscreteFrame NewDiscreteFrame = CreateDiscreteFrame();
+                    NewDiscreteFrame.PropertyName = PropertyName;
+
+                    for (int i = Min; i <= Max; i++)
+                    {
+                        IFrameKeywordFrame KeywordFrame = CreateKeywordFrame();
+                        KeywordFrame.Text = $"{PropertyName}={i}";
+                        NewDiscreteFrame.Items.Add(KeywordFrame);
+                    }
+
+                    RootFrame.Items.Add(NewDiscreteFrame);
+                }
+
+                else if (NodeTreeHelper.IsStringProperty(nodeType, PropertyName))
+                {
+                    IFrameTextValueFrame NewDiscreteFrame = CreateTextValueFrame();
+                    NewDiscreteFrame.PropertyName = PropertyName;
+                    RootFrame.Items.Add(NewDiscreteFrame);
+                }
+
+                else if (NodeTreeHelper.IsGuidProperty(nodeType, PropertyName))
+                { }
+
                 else if (NodeTreeHelper.IsDocumentProperty(nodeType, PropertyName))
                 { }
 
                 else
-                {
-                    IFrameValueFrame NewFrame = CreateValueFrame();
-                    NewFrame.PropertyName = PropertyName;
-                    RootFrame.Items.Add(NewFrame);
-                }
+                    throw new ArgumentOutOfRangeException(nameof(PropertyName));
 
             RootFrame.UpdateParent(RootTemplate, FrameFrame.Root);
         }
@@ -441,6 +480,33 @@ namespace EaslyController.Frame
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameTemplateSet));
             return new FrameValueFrame();
+        }
+
+        /// <summary>
+        /// Creates a IxxxDiscreteFrame object.
+        /// </summary>
+        protected virtual IFrameDiscreteFrame CreateDiscreteFrame()
+        {
+            ControllerTools.AssertNoOverride(this, typeof(FrameTemplateSet));
+            return new FrameDiscreteFrame();
+        }
+
+        /// <summary>
+        /// Creates a IxxxKeywordFrame object.
+        /// </summary>
+        protected virtual IFrameKeywordFrame CreateKeywordFrame()
+        {
+            ControllerTools.AssertNoOverride(this, typeof(FrameTemplateSet));
+            return new FrameKeywordFrame();
+        }
+
+        /// <summary>
+        /// Creates a IxxxTextValueFrame object.
+        /// </summary>
+        protected virtual IFrameTextValueFrame CreateTextValueFrame()
+        {
+            ControllerTools.AssertNoOverride(this, typeof(FrameTemplateSet));
+            return new FrameTextValueFrame();
         }
 
         /// <summary>

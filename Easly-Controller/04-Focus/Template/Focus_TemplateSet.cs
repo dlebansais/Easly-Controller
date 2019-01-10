@@ -150,6 +150,33 @@ namespace EaslyController.Focus
         }
 
         /// <summary>
+        /// Creates a IxxxDiscreteFrame object.
+        /// </summary>
+        protected override IFrameDiscreteFrame CreateDiscreteFrame()
+        {
+            ControllerTools.AssertNoOverride(this, typeof(FocusTemplateSet));
+            return new FocusDiscreteFrame();
+        }
+
+        /// <summary>
+        /// Creates a IxxxKeywordFrame object.
+        /// </summary>
+        protected override IFrameKeywordFrame CreateKeywordFrame()
+        {
+            ControllerTools.AssertNoOverride(this, typeof(FocusTemplateSet));
+            return new FocusKeywordFrame();
+        }
+
+        /// <summary>
+        /// Creates a IxxxTextValueFrame object.
+        /// </summary>
+        protected override IFrameTextValueFrame CreateTextValueFrame()
+        {
+            ControllerTools.AssertNoOverride(this, typeof(FocusTemplateSet));
+            return new FocusTextValueFrame();
+        }
+
+        /// <summary>
         /// Creates a IxxxTemplate object.
         /// </summary>
         protected override IFrameNodeTemplate CreateNodeTemplate()
