@@ -29,6 +29,12 @@ namespace EaslyController.Focus
     public class FocusTemplateSet : FrameTemplateSet, IFocusTemplateSet
     {
         #region Init
+        public static new IFocusTemplateSet Default { get { return (new FocusTemplateSet()).BuildDefault() as IFocusTemplateSet; } }
+
+        protected FocusTemplateSet()
+        {
+        }
+
         /// <summary>
         /// Initializes a new instance of <see cref="FocusTemplateSet"/>.
         /// </summary>
@@ -56,10 +62,19 @@ namespace EaslyController.Focus
         /// <summary>
         /// Creates a IxxxTemplateDictionary object.
         /// </summary>
-        protected override IFrameTemplateDictionary CreateTemplateDictionary(IDictionary<Type, IFrameTemplate> dictionary)
+        protected override IFrameTemplateDictionary CreateEmptyTemplateDictionary()
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusTemplateSet));
-            return new FocusTemplateDictionary((IDictionary<Type, IFocusTemplate>)dictionary);
+            return new FocusTemplateDictionary();
+        }
+
+        /// <summary>
+        /// Creates a IxxxTemplateDictionary object.
+        /// </summary>
+        protected override IFrameTemplateDictionary CreateDefaultTemplateDictionary()
+        {
+            ControllerTools.AssertNoOverride(this, typeof(FocusTemplateSet));
+            return new FocusTemplateDictionary(NodeHelper.CreateNodeDictionary<IFocusTemplate>());
         }
 
         /// <summary>

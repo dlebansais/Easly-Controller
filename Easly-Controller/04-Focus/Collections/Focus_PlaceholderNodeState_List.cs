@@ -15,6 +15,7 @@ namespace EaslyController.Focus
     {
         new int Count { get; }
         new IFocusPlaceholderNodeState this[int index] { get; set; }
+        new IEnumerator<IFocusPlaceholderNodeState> GetEnumerator();
     }
 
     /// <summary>
@@ -45,6 +46,7 @@ namespace EaslyController.Focus
         bool ICollection<IWriteablePlaceholderNodeState>.IsReadOnly { get { return ((ICollection<IFocusPlaceholderNodeState>)this).IsReadOnly; } }
         public bool Contains(IWriteablePlaceholderNodeState value) { return base.Contains((IFocusPlaceholderNodeState)value); }
         public int IndexOf(IWriteablePlaceholderNodeState value) { return base.IndexOf((IFocusPlaceholderNodeState)value); }
+        IEnumerator<IWriteablePlaceholderNodeState> IWriteablePlaceholderNodeStateList.GetEnumerator() { return base.GetEnumerator(); }
         IEnumerator<IWriteablePlaceholderNodeState> IEnumerable<IWriteablePlaceholderNodeState>.GetEnumerator() { return base.GetEnumerator(); }
         #endregion
 
@@ -59,6 +61,7 @@ namespace EaslyController.Focus
         bool ICollection<IFramePlaceholderNodeState>.IsReadOnly { get { return ((ICollection<IFocusPlaceholderNodeState>)this).IsReadOnly; } }
         public bool Contains(IFramePlaceholderNodeState value) { return base.Contains((IFocusPlaceholderNodeState)value); }
         public int IndexOf(IFramePlaceholderNodeState value) { return base.IndexOf((IFocusPlaceholderNodeState)value); }
+        IEnumerator<IFramePlaceholderNodeState> IFramePlaceholderNodeStateList.GetEnumerator() { return base.GetEnumerator(); }
         IEnumerator<IFramePlaceholderNodeState> IEnumerable<IFramePlaceholderNodeState>.GetEnumerator() { return base.GetEnumerator(); }
         #endregion
     }

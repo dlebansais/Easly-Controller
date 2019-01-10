@@ -28,6 +28,24 @@ namespace EaslyController.Focus
 
         #region Create Methods
         /// <summary>
+        /// Creates a IxxxCellViewList object.
+        /// </summary>
+        protected override IFrameCellViewList CreateCellViewList()
+        {
+            ControllerTools.AssertNoOverride(this, typeof(FocusVerticalBlockListFrame));
+            return new FocusCellViewList();
+        }
+
+        /// <summary>
+        /// Creates a IxxxBlockCellView object.
+        /// </summary>
+        protected override IFrameBlockCellView CreateBlockCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, IFrameBlockStateView blockStateView)
+        {
+            ControllerTools.AssertNoOverride(this, typeof(FocusVerticalBlockListFrame));
+            return new FocusBlockCellView((IFocusNodeStateView)stateView, (IFocusCellViewCollection)parentCellView, (IFocusBlockStateView)blockStateView);
+        }
+
+        /// <summary>
         /// Creates a IxxxCellViewCollection object.
         /// </summary>
         protected override IFrameCellViewCollection CreateEmbeddingCellView(IFrameNodeStateView stateView, IFrameCellViewList list)

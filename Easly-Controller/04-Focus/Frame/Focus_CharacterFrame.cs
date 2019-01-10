@@ -25,5 +25,16 @@ namespace EaslyController.Focus
         /// </summary>
         public new IFocusFrame ParentFrame { get { return (IFocusFrame)base.ParentFrame; } }
         #endregion
+
+        #region Create Methods
+        /// <summary>
+        /// Creates a IxxxTextFocusableCellView object.
+        /// </summary>
+        protected override IFrameVisibleCellView CreateFrameCellView(IFrameNodeStateView stateView)
+        {
+            ControllerTools.AssertNoOverride(this, typeof(FocusCharacterFrame));
+            return new FocusTextFocusableCellView((IFocusNodeStateView)stateView);
+        }
+        #endregion
     }
 }

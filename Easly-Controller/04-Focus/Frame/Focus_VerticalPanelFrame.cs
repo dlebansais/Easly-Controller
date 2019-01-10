@@ -35,6 +35,33 @@ namespace EaslyController.Focus
 
         #region Create Methods
         /// <summary>
+        /// Creates a IxxxFrameList object.
+        /// </summary>
+        protected override IFrameFrameList CreateItems()
+        {
+            ControllerTools.AssertNoOverride(this, typeof(FocusVerticalPanelFrame));
+            return new FocusFrameList();
+        }
+
+        /// <summary>
+        /// Creates a IxxxCellViewList object.
+        /// </summary>
+        protected override IFrameCellViewList CreateCellViewList()
+        {
+            ControllerTools.AssertNoOverride(this, typeof(FocusVerticalPanelFrame));
+            return new FocusCellViewList();
+        }
+
+        /// <summary>
+        /// Creates a IxxxContainerCellView object.
+        /// </summary>
+        protected override IFrameContainerCellView CreateFrameCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, IFrameNodeStateView childStateView)
+        {
+            ControllerTools.AssertNoOverride(this, typeof(FocusVerticalPanelFrame));
+            return new FocusContainerCellView((IFocusNodeStateView)stateView, (IFocusCellViewCollection)parentCellView, (IFocusNodeStateView)childStateView);
+        }
+
+        /// <summary>
         /// Creates a IxxxCellViewCollection object.
         /// </summary>
         protected override IFrameCellViewCollection CreateEmbeddingCellView(IFrameNodeStateView stateView, IFrameCellViewList list)

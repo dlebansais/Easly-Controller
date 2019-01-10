@@ -14,6 +14,7 @@ namespace EaslyController.Frame
     {
         new int Count { get; }
         new IFramePlaceholderNodeState this[int index] { get; set; }
+        new IEnumerator<IFramePlaceholderNodeState> GetEnumerator();
     }
 
     /// <summary>
@@ -44,6 +45,7 @@ namespace EaslyController.Frame
         bool ICollection<IWriteablePlaceholderNodeState>.IsReadOnly { get { return ((ICollection<IFramePlaceholderNodeState>)this).IsReadOnly; } }
         public bool Contains(IWriteablePlaceholderNodeState value) { return base.Contains((IFramePlaceholderNodeState)value); }
         public int IndexOf(IWriteablePlaceholderNodeState value) { return base.IndexOf((IFramePlaceholderNodeState)value); }
+        IEnumerator<IWriteablePlaceholderNodeState> IWriteablePlaceholderNodeStateList.GetEnumerator() { return base.GetEnumerator(); }
         IEnumerator<IWriteablePlaceholderNodeState> IEnumerable<IWriteablePlaceholderNodeState>.GetEnumerator() { return base.GetEnumerator(); }
         #endregion
     }

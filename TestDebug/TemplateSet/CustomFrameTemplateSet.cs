@@ -5,10 +5,10 @@ using System.Windows.Markup;
 
 namespace TestDebug
 {
-    public class CustomTemplateSet
+    public class CustomFrameTemplateSet
     {
         #region Init
-        static CustomTemplateSet()
+        static CustomFrameTemplateSet()
         {
             IFrameTemplateReadOnlyDictionary FrameCustomNodeTemplates = LoadTemplate(FrameTemplateListString);
             IFrameTemplateReadOnlyDictionary FrameCustomBlockTemplates = LoadTemplate(FrameBlockTemplateString);
@@ -36,7 +36,7 @@ namespace TestDebug
 
         public static IFrameTemplateSet FrameTemplateSet { get; private set; }
 
-        private CustomTemplateSet()
+        private CustomFrameTemplateSet()
         {
         }
         #endregion

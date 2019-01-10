@@ -38,5 +38,16 @@ namespace EaslyController.Focus
         /// </summary>
         public new IFocusKeywordFrameList Items { get { return (IFocusKeywordFrameList)base.Items; } }
         #endregion
+
+        #region Create Methods
+        /// <summary>
+        /// Creates a IxxxKeywordFrameList object.
+        /// </summary>
+        protected override IFrameKeywordFrameList CreateKeywordFrameList()
+        {
+            ControllerTools.AssertNoOverride(this, typeof(FocusDiscreteFrame));
+            return new FocusKeywordFrameList();
+        }
+        #endregion
     }
 }

@@ -23,12 +23,22 @@ namespace EaslyController.Frame
     [ContentProperty("Items")]
     public class FrameDiscreteFrame : FrameValueFrame, IFrameDiscreteFrame
     {
+        #region Init
+        /// <summary>
+        /// Initializes a new instance of <see cref="FrameDiscreteFrame"/>.
+        /// </summary>
+        public FrameDiscreteFrame()
+        {
+            Items = CreateKeywordFrameList();
+        }
+        #endregion
+
         #region Properties
         /// <summary>
         /// List of frames that can be displayed.
         /// (Set in Xaml)
         /// </summary>
-        public IFrameKeywordFrameList Items { get; } = new FrameKeywordFrameList();
+        public IFrameKeywordFrameList Items { get; }
         #endregion
 
         #region Client Interface
@@ -72,6 +82,17 @@ namespace EaslyController.Frame
 
             IFrameKeywordFrame KeywordFrame = Items[Value];
             return KeywordFrame.BuildNodeCells(controllerView, stateView, parentCellView);
+        }
+        #endregion
+
+        #region Create Methods
+        /// <summary>
+        /// Creates a IxxxKeywordFrameList object.
+        /// </summary>
+        protected virtual IFrameKeywordFrameList CreateKeywordFrameList()
+        {
+            ControllerTools.AssertNoOverride(this, typeof(FrameDiscreteFrame));
+            return new FrameKeywordFrameList();
         }
         #endregion
     }

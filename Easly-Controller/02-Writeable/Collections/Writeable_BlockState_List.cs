@@ -13,6 +13,7 @@ namespace EaslyController.Writeable
     {
         new int Count { get; }
         new IWriteableBlockState this[int index] { get; set; }
+        new IEnumerator<IWriteableBlockState> GetEnumerator();
     }
 
     /// <summary>

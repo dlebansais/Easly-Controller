@@ -15,6 +15,7 @@ namespace EaslyController.Focus
     {
         new int Count { get; }
         new IFocusBlockState this[int index] { get; set; }
+        new IEnumerator<IFocusBlockState> GetEnumerator();
     }
 
     /// <summary>
@@ -47,6 +48,7 @@ namespace EaslyController.Focus
         public void CopyTo(IWriteableBlockState[] array, int index) { base.CopyTo((IFocusBlockState[])array, index); }
         public bool Contains(IWriteableBlockState value) { return base.Contains((IFocusBlockState)value); }
         public int IndexOf(IWriteableBlockState value) { return base.IndexOf((IFocusBlockState)value); }
+        IEnumerator<IWriteableBlockState> IWriteableBlockStateList.GetEnumerator() { return base.GetEnumerator(); }
         IEnumerator<IWriteableBlockState> IEnumerable<IWriteableBlockState>.GetEnumerator() { return base.GetEnumerator(); }
         #endregion
 

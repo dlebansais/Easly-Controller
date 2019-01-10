@@ -1,6 +1,7 @@
 ﻿using BaseNode;
 using BaseNodeHelper;
 using EaslyController;
+using EaslyController.Focus;
 using EaslyController.Frame;
 using EaslyController.ReadOnly;
 using EaslyController.Writeable;
@@ -43,7 +44,8 @@ namespace TestDebug
 
                 //TestReadOnly(Serializer, FileName);
                 //TestWriteable(Serializer, FileName);
-                TestFrame(Serializer, FileName);
+                //TestFrame(Serializer, FileName);
+                TestFocus(Serializer, FileName);
             }
         }
         #endregion
@@ -421,7 +423,7 @@ namespace TestDebug
 
             IFrameRootNodeIndex RootIndex = new FrameRootNodeIndex(rootNode);
             IFrameController Controller = FrameController.Create(RootIndex);
-            IFrameControllerView CustomView = FrameControllerView.Create(Controller, CustomTemplateSet.FrameTemplateSet);
+            IFrameControllerView CustomView = FrameControllerView.Create(Controller, CustomFrameTemplateSet.FrameTemplateSet);
             Stats Stats = Controller.Stats;
             IFrameController ControllerCheck;
 
@@ -591,6 +593,236 @@ namespace TestDebug
 
             IFrameRootNodeIndex NewRootIndex = new FrameRootNodeIndex(Controller.RootIndex.Node);
             IFrameController NewController = FrameController.Create(NewRootIndex);
+            Debug.Assert(NewController.IsEqual(CompareEqual.New(), Controller));
+        }
+        #endregion
+
+        #region Focus
+        static void TestFocus(Serializer serializer, string fileName)
+        {
+            using (FileStream fs = new FileStream(fileName, FileMode.Open, FileAccess.Read))
+            {
+                INode RootNode = serializer.Deserialize(fs) as INode;
+                INode ClonedNode = NodeHelper.DeepCloneNode(RootNode);
+                Debug.Assert(NodeHelper.NodeHash(RootNode) == NodeHelper.NodeHash(ClonedNode));
+
+                TestFocus(RootNode);
+            }
+        }
+
+        static void TestFocusGR(IGlobalReplicate rootNode)
+        {
+            ControllerTools.ResetExpectedName();
+
+            IFocusRootNodeIndex RootIndex = new FocusRootNodeIndex(rootNode);
+            IFocusController Controller = FocusController.Create(RootIndex);
+            Stats Stats = Controller.Stats;
+            IFocusController ControllerCheck;
+
+            IFocusControllerView ControllerView = FocusControllerView.Create(Controller, FocusTemplateSet.Default);
+
+            IFocusNodeState RootState = Controller.RootState;
+            IFocusInnerReadOnlyDictionary<string> InnerTable = RootState.InnerTable;
+
+            IFocusListInner<IFocusBrowsingListNodeIndex> ListInner2 = (IFocusListInner<IFocusBrowsingListNodeIndex>)InnerTable[nameof(IGlobalReplicate.Patterns)];
+            if (ListInner2.StateList.Count > 30)
+            {
+                IPattern TestNode = ListInner2.StateList[31].Node as IPattern;
+
+                IFocusBrowsingListNodeIndex InsertIndex0 = (IFocusBrowsingListNodeIndex)ListInner2.IndexAt(31);
+                Controller.Move(ListInner2, InsertIndex0, -5);
+
+                ControllerCheck = FocusController.Create(new FocusRootNodeIndex(rootNode));
+                Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
+            }
+
+        }
+
+        static void TestFocus(INode rootNode)
+        {
+            if (!(rootNode is IClass))
+            {
+                if (!(rootNode is IGlobalReplicate))
+                    return;
+
+                TestFocusGR(rootNode as IGlobalReplicate);
+                return;
+            }
+
+            ControllerTools.ResetExpectedName();
+
+            IFocusRootNodeIndex RootIndex = new FocusRootNodeIndex(rootNode);
+            IFocusController Controller = FocusController.Create(RootIndex);
+            IFocusControllerView CustomView = FocusControllerView.Create(Controller, CustomFocusTemplateSet.FocusTemplateSet);
+            Stats Stats = Controller.Stats;
+            IFocusController ControllerCheck;
+
+            INode RootNodeClone = Controller.RootState.CloneNode();
+            ulong h1 = NodeHelper.NodeHash(rootNode);
+            ulong h2 = NodeHelper.NodeHash(RootNodeClone);
+
+            byte[] RootData = GetData(rootNode);
+            byte[] RootCloneData = GetData(RootNodeClone);
+
+            bool IsEqual = ByteArrayCompare(RootData, RootCloneData);
+            Debug.Assert(IsEqual);
+            Debug.Assert(h1 == h2);
+
+            IFocusControllerView ControllerView = FocusControllerView.Create(Controller, FocusTemplateSet.Default);
+
+            IFocusNodeState RootState = Controller.RootState;
+            IFocusInnerReadOnlyDictionary<string> InnerTable = RootState.InnerTable;
+            IFocusBlockListInner<IFocusBrowsingBlockNodeIndex> ListInner = (IFocusBlockListInner<IFocusBrowsingBlockNodeIndex>)InnerTable[nameof(IClass.ImportBlocks)];
+
+            IPattern PatternNode = NodeHelper.CreateEmptyPattern();
+            IIdentifier SourceNode = NodeHelper.CreateEmptyIdentifier();
+            IImport FirstNode = NodeHelper.CreateSimpleImport("x", "x", ImportType.Latest);
+
+            FocusInsertionNewBlockNodeIndex InsertIndex0 = new FocusInsertionNewBlockNodeIndex(rootNode, ListInner.PropertyName, FirstNode, 0, PatternNode, SourceNode);
+            Controller.Insert(ListInner, InsertIndex0, out IWriteableBrowsingCollectionNodeIndex InsertedIndex0);
+
+            IFocusControllerView ControllerView2 = FocusControllerView.Create(Controller, FocusTemplateSet.Default);
+            Debug.Assert(ControllerView2.IsEqual(CompareEqual.New(), ControllerView));
+
+            ControllerCheck = FocusController.Create(new FocusRootNodeIndex(rootNode));
+            Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
+
+            IImport SecondNode = NodeHelper.CreateSimpleImport("y", "y", ImportType.Latest);
+
+            FocusInsertionExistingBlockNodeIndex InsertIndex1 = new FocusInsertionExistingBlockNodeIndex(rootNode, ListInner.PropertyName, SecondNode, 0, 1);
+            Controller.Insert(ListInner, InsertIndex1, out IWriteableBrowsingCollectionNodeIndex InsertedIndex1);
+
+            ControllerCheck = FocusController.Create(new FocusRootNodeIndex(rootNode));
+            Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
+
+            Debug.Assert(ControllerView.StateViewTable.Count == Controller.Stats.NodeCount);
+
+            ControllerView2 = FocusControllerView.Create(Controller, FocusTemplateSet.Default);
+            Debug.Assert(ControllerView2.IsEqual(CompareEqual.New(), ControllerView));
+
+            Controller.ChangeReplication(ListInner, 0, ReplicationStatus.Replicated);
+
+            ControllerCheck = FocusController.Create(new FocusRootNodeIndex(rootNode));
+            Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
+
+            IImport ThirdNode = NodeHelper.CreateSimpleImport("z", "z", ImportType.Latest);
+
+            FocusInsertionExistingBlockNodeIndex InsertIndex3 = new FocusInsertionExistingBlockNodeIndex(rootNode, ListInner.PropertyName, ThirdNode, 0, 1);
+            Controller.Replace(ListInner, InsertIndex3, out IWriteableBrowsingChildIndex InsertedIndex3);
+
+            ControllerCheck = FocusController.Create(new FocusRootNodeIndex(rootNode));
+            Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
+
+            IImport FourthNode = NodeHelper.CreateSimpleImport("a", "a", ImportType.Latest);
+
+            FocusInsertionExistingBlockNodeIndex InsertIndex4 = new FocusInsertionExistingBlockNodeIndex(rootNode, ListInner.PropertyName, FourthNode, 0, 0);
+            Controller.Replace(ListInner, InsertIndex4, out IWriteableBrowsingChildIndex InsertedIndex4);
+
+            ControllerCheck = FocusController.Create(new FocusRootNodeIndex(rootNode));
+            Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
+
+            IFocusControllerView ControllerView3 = FocusControllerView.Create(Controller, FocusTemplateSet.Default);
+            Debug.Assert(ControllerView3.IsEqual(CompareEqual.New(), ControllerView));
+
+            IName FifthNode = NodeHelper.CreateSimpleName("a");
+
+            IFocusSingleInner<IFocusBrowsingChildIndex> ChildInner = (IFocusSingleInner<IFocusBrowsingChildIndex>)InnerTable[nameof(IClass.EntityName)];
+            FocusInsertionPlaceholderNodeIndex InsertIndex5 = new FocusInsertionPlaceholderNodeIndex(rootNode, ChildInner.PropertyName, FifthNode);
+            Controller.Replace(ChildInner, InsertIndex5, out IWriteableBrowsingChildIndex InsertedIndex5);
+
+            ControllerCheck = FocusController.Create(new FocusRootNodeIndex(rootNode));
+            Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
+
+            IFocusControllerView ControllerView4 = FocusControllerView.Create(Controller, FocusTemplateSet.Default);
+            Debug.Assert(ControllerView4.IsEqual(CompareEqual.New(), ControllerView));
+
+            IIdentifier SixthNode = NodeHelper.CreateSimpleIdentifier("b");
+
+            IFocusOptionalInner<IFocusBrowsingOptionalNodeIndex> OptionalInner = (IFocusOptionalInner<IFocusBrowsingOptionalNodeIndex>)InnerTable[nameof(IClass.FromIdentifier)];
+            FocusInsertionOptionalNodeIndex InsertIndex6 = new FocusInsertionOptionalNodeIndex(rootNode, OptionalInner.PropertyName, SixthNode);
+            Controller.Replace(OptionalInner, InsertIndex6, out IWriteableBrowsingChildIndex InsertedIndex6);
+
+            ControllerCheck = FocusController.Create(new FocusRootNodeIndex(rootNode));
+            Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
+
+            IFocusControllerView ControllerView5 = FocusControllerView.Create(Controller, FocusTemplateSet.Default);
+            Debug.Assert(ControllerView5.IsEqual(CompareEqual.New(), ControllerView));
+
+            bool TestRemove = true;
+            if (TestRemove)
+            {
+                IFocusBrowsingBlockNodeIndex InsertIndex7 = (IFocusBrowsingBlockNodeIndex)ListInner.IndexAt(0, 0);
+                Controller.Remove(ListInner, InsertIndex7);
+
+                ControllerCheck = FocusController.Create(new FocusRootNodeIndex(rootNode));
+                Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
+
+                IFocusControllerView ControllerView7 = FocusControllerView.Create(Controller, FocusTemplateSet.Default);
+                Debug.Assert(ControllerView7.IsEqual(CompareEqual.New(), ControllerView));
+
+                IFocusBrowsingBlockNodeIndex InsertIndex8 = (IFocusBrowsingBlockNodeIndex)ListInner.IndexAt(0, 0);
+                Controller.Remove(ListInner, InsertIndex8);
+
+                ControllerCheck = FocusController.Create(new FocusRootNodeIndex(rootNode));
+                Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
+
+                IFocusControllerView ControllerView8 = FocusControllerView.Create(Controller, FocusTemplateSet.Default);
+                Debug.Assert(ControllerView8.IsEqual(CompareEqual.New(), ControllerView));
+            }
+
+            Controller.Unassign(OptionalInner.ChildState.ParentIndex);
+
+            ControllerCheck = FocusController.Create(new FocusRootNodeIndex(rootNode));
+            Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
+
+            IFocusControllerView ControllerView9 = FocusControllerView.Create(Controller, FocusTemplateSet.Default);
+            Debug.Assert(ControllerView9.IsEqual(CompareEqual.New(), ControllerView));
+
+            Controller.Assign(OptionalInner.ChildState.ParentIndex);
+
+            ControllerCheck = FocusController.Create(new FocusRootNodeIndex(rootNode));
+            Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
+
+            IFocusControllerView ControllerView10 = FocusControllerView.Create(Controller, FocusTemplateSet.Default);
+            Debug.Assert(ControllerView10.IsEqual(CompareEqual.New(), ControllerView));
+
+            if (ListInner.BlockStateList.Count >= 2)
+            {
+                IFocusBrowsingExistingBlockNodeIndex SplitIndex1 = (IFocusBrowsingExistingBlockNodeIndex)ListInner.IndexAt(0, 1);
+                Controller.SplitBlock(ListInner, SplitIndex1);
+
+                ControllerCheck = FocusController.Create(new FocusRootNodeIndex(rootNode));
+                Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
+
+                IFocusControllerView ControllerView11 = FocusControllerView.Create(Controller, FocusTemplateSet.Default);
+                Debug.Assert(ControllerView11.IsEqual(CompareEqual.New(), ControllerView));
+
+                IFocusBrowsingExistingBlockNodeIndex SplitIndex2 = (IFocusBrowsingExistingBlockNodeIndex)ListInner.IndexAt(1, 0);
+                Controller.MergeBlocks(ListInner, SplitIndex2);
+
+                ControllerCheck = FocusController.Create(new FocusRootNodeIndex(rootNode));
+                Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
+
+                IFocusControllerView ControllerView12 = FocusControllerView.Create(Controller, FocusTemplateSet.Default);
+                Debug.Assert(ControllerView12.IsEqual(CompareEqual.New(), ControllerView));
+            }
+
+            IFocusBlockListInner<IFocusBrowsingBlockNodeIndex> ListInner2 = (IFocusBlockListInner<IFocusBrowsingBlockNodeIndex>)InnerTable[nameof(IClass.FeatureBlocks)];
+            if (ListInner.BlockStateList.Count > 1)
+            {
+                Controller.MoveBlock(ListInner, 0, 1);
+
+                ControllerCheck = FocusController.Create(new FocusRootNodeIndex(rootNode));
+                Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
+            }
+
+            Controller.Expand(Controller.RootIndex);
+            Controller.Reduce(Controller.RootIndex);
+            Controller.Expand(Controller.RootIndex);
+            Controller.Canonicalize();
+
+            IFocusRootNodeIndex NewRootIndex = new FocusRootNodeIndex(Controller.RootIndex.Node);
+            IFocusController NewController = FocusController.Create(NewRootIndex);
             Debug.Assert(NewController.IsEqual(CompareEqual.New(), Controller));
         }
         #endregion

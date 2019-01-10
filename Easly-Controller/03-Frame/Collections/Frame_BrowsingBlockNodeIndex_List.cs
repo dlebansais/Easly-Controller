@@ -14,6 +14,7 @@ namespace EaslyController.Frame
     {
         new int Count { get; }
         new IFrameBrowsingBlockNodeIndex this[int index] { get; set; }
+        new IEnumerator<IFrameBrowsingBlockNodeIndex> GetEnumerator();
     }
 
     /// <summary>
@@ -44,6 +45,7 @@ namespace EaslyController.Frame
         bool ICollection<IWriteableBrowsingBlockNodeIndex>.IsReadOnly { get { return ((ICollection<IFrameBrowsingBlockNodeIndex>)this).IsReadOnly; } }
         public bool Contains(IWriteableBrowsingBlockNodeIndex value) { return base.Contains((IFrameBrowsingBlockNodeIndex)value); }
         public int IndexOf(IWriteableBrowsingBlockNodeIndex value) { return base.IndexOf((IFrameBrowsingBlockNodeIndex)value); }
+        IEnumerator<IWriteableBrowsingBlockNodeIndex> IWriteableBrowsingBlockNodeIndexList.GetEnumerator() { return base.GetEnumerator(); }
         IEnumerator<IWriteableBrowsingBlockNodeIndex> IEnumerable<IWriteableBrowsingBlockNodeIndex>.GetEnumerator() { return base.GetEnumerator(); }
         #endregion
     }

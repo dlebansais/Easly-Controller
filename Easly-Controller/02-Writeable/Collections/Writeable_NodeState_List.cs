@@ -13,6 +13,7 @@ namespace EaslyController.Writeable
     {
         new int Count { get; }
         new IWriteableNodeState this[int index] { get; set; }
+        new IEnumerator<IWriteableNodeState> GetEnumerator();
     }
 
     /// <summary>

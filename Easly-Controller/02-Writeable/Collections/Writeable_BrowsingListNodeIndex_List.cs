@@ -13,6 +13,7 @@ namespace EaslyController.Writeable
     {
         new int Count { get; }
         new IWriteableBrowsingListNodeIndex this[int index] { get; set; }
+        new IEnumerator<IWriteableBrowsingListNodeIndex> GetEnumerator();
     }
 
     /// <summary>

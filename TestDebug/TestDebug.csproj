@@ -69,7 +69,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CustomTemplateSet.cs" />
+    <Compile Include="TemplateSet\CustomFocusTemplateSet.cs" />
+    <Compile Include="TemplateSet\CustomFrameTemplateSet.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -82,5 +83,6 @@
       <Name>Easly-Controller</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

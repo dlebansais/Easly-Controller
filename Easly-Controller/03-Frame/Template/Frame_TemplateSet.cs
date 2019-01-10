@@ -98,7 +98,7 @@ namespace EaslyController.Frame
         {
             Debug.Assert(nodeTemplateTable != null);
 
-            IFrameTemplateDictionary DefaultDictionary = CreateTemplateDictionary(NodeHelper.CreateNodeDictionary<IFrameTemplate>());
+            IFrameTemplateDictionary DefaultDictionary = CreateDefaultTemplateDictionary();
 
             foreach (KeyValuePair<Type, IFrameTemplate> Entry in DefaultDictionary)
                 if (!nodeTemplateTable.ContainsKey(Entry.Key))
@@ -163,7 +163,7 @@ namespace EaslyController.Frame
 
             List<Type> BlockKeys = new List<Type>(NodeHelper.CreateNodeDictionary<object>().Keys);
 
-            IFrameTemplateDictionary DefaultDictionary = CreateTemplateDictionary(new Dictionary<Type, IFrameTemplate>());
+            IFrameTemplateDictionary DefaultDictionary = CreateEmptyTemplateDictionary();
             foreach (Type Key in BlockKeys)
                 AddBlockNodeTypes(DefaultDictionary, Key);
 
@@ -218,9 +218,9 @@ namespace EaslyController.Frame
         #endregion
 
         #region Helper
-        private IFrameTemplateSet BuildDefault()
+        protected IFrameTemplateSet BuildDefault()
         {
-            if (_Default != null)
+            if (_Default != null && _Default.GetType() == GetType()) // Recreate the default if the layer has changed.
                 return _Default;
 
             IFrameTemplateReadOnlyDictionary DefaultNodeTemplateTable = BuildDefaultNodeTemplateTable();
@@ -236,7 +236,7 @@ namespace EaslyController.Frame
 
         protected virtual IFrameTemplateReadOnlyDictionary BuildDefaultNodeTemplateTable()
         {
-            IFrameTemplateDictionary DefaultDictionary = CreateTemplateDictionary(NodeHelper.CreateNodeDictionary<IFrameTemplate>());
+            IFrameTemplateDictionary DefaultDictionary = CreateDefaultTemplateDictionary();
 
             List<Type> Keys = new List<Type>(DefaultDictionary.Keys);
             foreach (Type Key in Keys)
@@ -308,7 +308,7 @@ namespace EaslyController.Frame
         {
             List<Type> Keys = new List<Type>(NodeHelper.CreateNodeDictionary<object>().Keys);
 
-            IFrameTemplateDictionary DefaultDictionary = CreateTemplateDictionary(new Dictionary<Type, IFrameTemplate>());
+            IFrameTemplateDictionary DefaultDictionary = CreateEmptyTemplateDictionary();
             foreach (Type Key in Keys)
                 AddBlockNodeTypes(DefaultDictionary, Key);
 
@@ -356,10 +356,19 @@ namespace EaslyController.Frame
         /// <summary>
         /// Creates a IxxxTemplateDictionary object.
         /// </summary>
-        protected virtual IFrameTemplateDictionary CreateTemplateDictionary(IDictionary<Type, IFrameTemplate> dictionary)
+        protected virtual IFrameTemplateDictionary CreateEmptyTemplateDictionary()
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameTemplateSet));
-            return new FrameTemplateDictionary(dictionary);
+            return new FrameTemplateDictionary();
+        }
+
+        /// <summary>
+        /// Creates a IxxxTemplateDictionary object.
+        /// </summary>
+        protected virtual IFrameTemplateDictionary CreateDefaultTemplateDictionary()
+        {
+            ControllerTools.AssertNoOverride(this, typeof(FrameTemplateSet));
+            return new FrameTemplateDictionary(NodeHelper.CreateNodeDictionary<IFrameTemplate>());
         }
 
         /// <summary>
