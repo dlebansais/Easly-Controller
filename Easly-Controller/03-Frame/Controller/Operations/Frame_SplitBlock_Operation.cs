@@ -1,5 +1,4 @@
 ﻿using EaslyController.Writeable;
-using System.Diagnostics;
 
 namespace EaslyController.Frame
 {

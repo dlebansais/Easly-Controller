@@ -1,4 +1,5 @@
 ﻿using EaslyController.Writeable;
+using System;
 using System.Diagnostics;
 
 namespace EaslyController.Frame
@@ -93,17 +94,17 @@ namespace EaslyController.Frame
         /// <summary>
         /// The template used to display the state.
         /// </summary>
-        public abstract IFrameTemplate Template { get; }
+        public virtual IFrameTemplate Template { get { throw new InvalidOperationException(); } } // Can't make this abstract, thank you C#...
 
         /// <summary>
         /// Root cell for the view.
         /// </summary>
-        public abstract IFrameCellView RootCellView { get; }
+        public virtual IFrameCellView RootCellView { get { throw new InvalidOperationException(); } } // Can't make this abstract, thank you C#...
 
         /// <summary>
         /// Table of cell views that are mutable lists of cells.
         /// </summary>
-        public abstract IFrameCellViewReadOnlyDictionary<string> CellViewTable { get; }
+        public virtual IFrameCellViewReadOnlyDictionary<string> CellViewTable { get { throw new InvalidOperationException(); } } // Can't make this abstract, thank you C#...
         #endregion
 
         #region Client Interface

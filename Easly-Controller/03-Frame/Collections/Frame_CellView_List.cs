@@ -22,7 +22,7 @@ namespace EaslyController.Frame
     {
         #region Debugging
         /// <summary>
-        /// Compares two <see cref="IFrameCellViewReadOnlyList"/> objects.
+        /// Compares two <see cref="IFrameCellViewList"/> objects.
         /// </summary>
         /// <param name="comparer">The comparison support object.</param>
         /// <param name="other">The other object.</param>

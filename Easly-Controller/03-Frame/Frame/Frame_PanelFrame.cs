@@ -34,7 +34,7 @@ namespace EaslyController.Frame
         /// <summary>
         /// List of frames within this frame.
         /// </summary>
-        public IFrameFrameList Items { get; set; }
+        public IFrameFrameList Items { get; }
         #endregion
 
         #region Client Interface

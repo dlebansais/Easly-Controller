@@ -14,14 +14,5 @@ namespace EaslyController.Frame
     /// </summary>
     public abstract class FrameRemoveOperation : WriteableRemoveOperation, IFrameRemoveOperation
     {
-        #region Init
-        /// <summary>
-        /// Initializes a new instance of <see cref="FrameRemoveOperation"/>.
-        /// </summary>
-        public FrameRemoveOperation()
-            : base()
-        {
-        }
-        #endregion
     }
 }

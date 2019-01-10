@@ -67,8 +67,9 @@ This layer also adds insertion indexes. They represent the index of a node to ad
 ### Expanding nodes
 
 When working with the source code it can be practical to hide values in the code that are just set to the default, but that means it can hard to find them when one wants to change them. Node expansion is provided for this purpose:
-. An expanded node gets all optional nodes assigned, to a default value if there isn't one already.
-. All lists that can be empty, such as arguments of a call to a method, have a default empty node added. With this feature, the user can move the cursor to this empty piece and start editing it.
+
++ An expanded node gets all optional nodes assigned, to a default value if there isn't one already.
++ All lists that can be empty, such as arguments of a call to a method, have a default empty node added. With this feature, the user can move the cursor to this empty piece and start editing it.
 
 The opposite operation, reduce, will unassign all optional nodes that only contains a default value, and clear lists that only contains a single default child.
 

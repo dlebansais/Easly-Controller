@@ -14,14 +14,5 @@ namespace EaslyController.Frame
     /// </summary>
     public abstract class FrameInsertOperation : WriteableInsertOperation, IFrameInsertOperation
     {
-        #region Init
-        /// <summary>
-        /// Initializes a new instance of <see cref="FrameInsertOperation"/>.
-        /// </summary>
-        public FrameInsertOperation()
-            : base()
-        {
-        }
-        #endregion
     }
 }

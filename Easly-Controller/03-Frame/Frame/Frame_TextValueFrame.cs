@@ -38,7 +38,7 @@ namespace EaslyController.Frame
         /// </summary>
         protected override IFrameVisibleCellView CreateFrameCellView(IFrameNodeStateView stateView)
         {
-            ControllerTools.AssertNoOverride(this, typeof(FrameValueFrame));
+            ControllerTools.AssertNoOverride(this, typeof(FrameTextValueFrame));
             return new FrameTextFocusableCellView(stateView);
         }
         #endregion

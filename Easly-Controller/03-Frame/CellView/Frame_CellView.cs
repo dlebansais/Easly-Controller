@@ -35,7 +35,7 @@ namespace EaslyController.Frame
     /// <summary>
     /// Atomic cell view of a component in a node.
     /// </summary>
-    public abstract class FrameCellView
+    public abstract class FrameCellView : IFrameCellView
     {
         #region Init
         /// <summary>

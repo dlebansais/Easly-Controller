@@ -16,7 +16,7 @@ namespace EaslyController.Frame
     {
         #region Init
         /// <summary>
-        /// Initializes an instance of <see cref="FrameFocusableCellView"/>.
+        /// Initializes an instance of <see cref="FrameContentFocusableCellView"/>.
         /// </summary>
         /// <param name="stateView">The state view containing the tree with this cell.</param>
         public FrameContentFocusableCellView(IFrameNodeStateView stateView)
