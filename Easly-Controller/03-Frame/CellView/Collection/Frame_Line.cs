@@ -32,7 +32,8 @@ namespace EaslyController.Frame
         /// </summary>
         /// <param name="lineNumber">The current line number, updated upon return.</param>
         /// <param name="columnNumber">The current column number, updated upon return.</param>
-        public override void UpdateLineNumbers(ref int lineNumber, ref int columnNumber)
+        /// <param name="maxColumnNumber">The maximum column number observed, updated upon return.</param>
+        public override void UpdateLineNumbers(ref int lineNumber, ref int columnNumber, ref int maxColumnNumber)
         {
             int StartLineNumber = lineNumber;
             int MaxLineNumber = lineNumber;
@@ -40,7 +41,7 @@ namespace EaslyController.Frame
             foreach (IFrameCellView CellView in CellViewList)
             {
                 int ChildLineNumber = StartLineNumber;
-                RecalculateChildLineNumbers(CellView, ref ChildLineNumber, ref columnNumber);
+                RecalculateChildLineNumbers(CellView, ref ChildLineNumber, ref columnNumber, ref maxColumnNumber);
 
                 if (MaxLineNumber < ChildLineNumber)
                     MaxLineNumber = ChildLineNumber;
@@ -57,9 +58,10 @@ namespace EaslyController.Frame
         /// <param name="cellView">The child cell view.</param>
         /// <param name="lineNumber">The current line number, updated upon return.</param>
         /// <param name="columnNumber">The current column number, updated upon return.</param>
-        protected virtual void RecalculateChildLineNumbers(IFrameCellView cellView, ref int lineNumber, ref int columnNumber)
+        /// <param name="maxColumnNumber">The maximum column number observed, updated upon return.</param>
+        protected virtual void RecalculateChildLineNumbers(IFrameCellView cellView, ref int lineNumber, ref int columnNumber, ref int maxColumnNumber)
         {
-            cellView.UpdateLineNumbers(ref lineNumber, ref columnNumber);
+            cellView.UpdateLineNumbers(ref lineNumber, ref columnNumber, ref maxColumnNumber);
         }
         #endregion
 

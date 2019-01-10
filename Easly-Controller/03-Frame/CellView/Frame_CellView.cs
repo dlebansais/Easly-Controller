@@ -22,7 +22,8 @@ namespace EaslyController.Frame
         /// </summary>
         /// <param name="lineNumber">The current line number, updated upon return.</param>
         /// <param name="columnNumber">The current column number, updated upon return.</param>
-        void UpdateLineNumbers(ref int lineNumber, ref int columnNumber);
+        /// <param name="maxColumnNumber">The maximum column number observed, updated upon return.</param>
+        void UpdateLineNumbers(ref int lineNumber, ref int columnNumber, ref int maxColumnNumber);
 
         /// <summary>
         /// Returns a string representing this part of the cell view tree.
@@ -61,7 +62,8 @@ namespace EaslyController.Frame
         /// </summary>
         /// <param name="lineNumber">The current line number, updated upon return.</param>
         /// <param name="columnNumber">The current column number, updated upon return.</param>
-        public abstract void UpdateLineNumbers(ref int lineNumber, ref int columnNumber);
+        /// <param name="maxColumnNumber">The maximum column number observed, updated upon return.</param>
+        public abstract void UpdateLineNumbers(ref int lineNumber, ref int columnNumber, ref int maxColumnNumber);
 
         /// <summary>
         /// Clears all views (cells and states) within this cell view.

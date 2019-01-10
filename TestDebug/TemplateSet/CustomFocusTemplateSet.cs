@@ -8,6 +8,7 @@ namespace TestDebug
     public class CustomFocusTemplateSet
     {
         #region Init
+#if !TRAVIS
         static CustomFocusTemplateSet()
         {
             IFocusTemplateReadOnlyDictionary FocusCustomNodeTemplates = LoadTemplate(FocusTemplateListString);
@@ -34,11 +35,14 @@ namespace TestDebug
             }
         }
 
-        public static IFocusTemplateSet FocusTemplateSet { get; private set; }
-
         private CustomFocusTemplateSet()
         {
         }
+#endif
+        #endregion
+
+        #region Properties
+        public static IFocusTemplateSet FocusTemplateSet { get; private set; }
         #endregion
 
         #region Node Templates

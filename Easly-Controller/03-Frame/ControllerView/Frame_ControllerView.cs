@@ -32,14 +32,14 @@ namespace EaslyController.Frame
         IFrameTemplateSet TemplateSet { get; }
 
         /// <summary>
-        /// First line number in the cell tree.
-        /// </summary>
-        int FirstLineNumber { get; }
-
-        /// <summary>
         /// Last line number in the cell tree.
         /// </summary>
         int LastLineNumber { get; }
+
+        /// <summary>
+        /// Last column number in the cell tree.
+        /// </summary>
+        int LastColumnNumber { get; }
     }
 
     /// <summary>
@@ -112,14 +112,14 @@ namespace EaslyController.Frame
         public IFrameTemplateSet TemplateSet { get; private set; }
 
         /// <summary>
-        /// First line number in the cell tree.
-        /// </summary>
-        public int FirstLineNumber { get; private set; }
-
-        /// <summary>
         /// Last line number in the cell tree.
         /// </summary>
         public int LastLineNumber { get; private set; }
+
+        /// <summary>
+        /// Last column number in the cell tree.
+        /// </summary>
+        public int LastColumnNumber { get; private set; }
         #endregion
 
         #region Client Interface
@@ -755,13 +755,14 @@ namespace EaslyController.Frame
             IFrameNodeState RootState = Controller.RootState;
             IFrameNodeStateView RootStateView = StateViewTable[RootState];
 
-            FirstLineNumber = 1;
-            int LineNumber = FirstLineNumber;
+            int LineNumber = 1;
             int ColumnNumber = 1;
+            int MaxColumnNumber = 1;
 
-            RootStateView.UpdateLineNumbers(ref LineNumber, ref ColumnNumber);
+            RootStateView.UpdateLineNumbers(ref LineNumber, ref ColumnNumber, ref MaxColumnNumber);
 
             LastLineNumber = LineNumber - 1;
+            LastColumnNumber = MaxColumnNumber;
         }
         #endregion
 
@@ -784,10 +785,10 @@ namespace EaslyController.Frame
             if (TemplateSet != AsControllerView.TemplateSet)
                 return false;
 
-            if (FirstLineNumber != AsControllerView.FirstLineNumber)
+            if (LastLineNumber != AsControllerView.LastLineNumber)
                 return false;
 
-            if (LastLineNumber != AsControllerView.LastLineNumber)
+            if (LastColumnNumber != AsControllerView.LastColumnNumber)
                 return false;
 
             return true;

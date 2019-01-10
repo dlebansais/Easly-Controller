@@ -669,6 +669,7 @@ namespace TestDebug
             Debug.Assert(h1 == h2);
 
             IFocusControllerView ControllerView = FocusControllerView.Create(Controller, FocusTemplateSet.Default);
+            //Debug.WriteLine(ControllerView.LastColumnNumber.ToString());
 
             IFocusNodeState RootState = Controller.RootState;
             IFocusInnerReadOnlyDictionary<string> InnerTable = RootState.InnerTable;
