@@ -8,6 +8,11 @@ namespace EaslyController.Focus
     /// </summary>
     public interface IFocusNodeTemplate : IFrameNodeTemplate, IFocusTemplate
     {
+        /// <summary>
+        /// True if the associated expression should be surrounded with parenthesis.
+        /// (Set in Xaml)
+        /// </summary>
+        bool IsComplex { get; set; }
     }
 
     /// <summary>
@@ -22,6 +27,12 @@ namespace EaslyController.Focus
         /// (Set in Xaml)
         /// </summary>
         public new IFocusFrame Root { get { return (IFocusFrame)base.Root; } set { base.Root = value; } }
+
+        /// <summary>
+        /// True if the associated expression should be surrounded with parenthesis.
+        /// (Set in Xaml)
+        /// </summary>
+        public bool IsComplex { get; set; }
         #endregion
     }
 }

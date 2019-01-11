@@ -141,9 +141,9 @@ Finally, template sets group templates together, with a list for nodes and anoth
 The next layer introduces:
 
 + Empty collections: a collection can require to be non-empty (for example, a path). In that case, the frame that is associated to the collection has the `IsNeverEmpty` property set to true.
++ Complex expressions: a complex expression is surrounded with parenthesis. The template associated to the expression must have the `IsComplex` property set to true for the parenthesis to appear. This property ensures that when an expression contains nested expressions, there is no ambiguity in the evaluation order. For example, the binary operation expression is complex: one writes `clone of X`, but not `clone of X+Y`. It's `clone of (X+Y)` instead. Since `clone of` is also complex, one writes `(clone of X)+Y`, not `clone of X +Y`.   
 + focus: each view has a single cell with the focus, a caret for string, and an insertion/overwrite mode
 + visibility: a cell can be visible depending on complex criteria, such as any of several lists being non-empty, rather than just the frame that generates it. Visibility can be forced to show a full view to the user.
 + identifier and body type: an identifier, or a body, can be displayed differently depending on the parent node.
 + prefered frame: when the focus changes because of a modification of the node tree, it goes to a prefered frame.
-+ complex expression: a complex expression is surrounded with parenthesis
 + external insert: a new item in a list can be added either pressing enter after or before the curent item, but not for lists that can be empty. for them there is an insert frame.

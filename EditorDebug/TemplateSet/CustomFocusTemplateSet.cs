@@ -347,7 +347,7 @@ namespace TestDebug
     </FocusNodeTemplate>
     <FocusNodeTemplate NodeType=""{xaml:Type IGlobalReplicate}"">
         <FocusHorizontalPanelFrame>
-            <FocusPlaceholderFrame PropertyName=""ReplicateName"" />
+            <FocusPlaceholderFrame PropertyName=""ReplicateName""/>
             <FocusKeywordFrame>to</FocusKeywordFrame>
             <FocusHorizontalListFrame PropertyName=""Patterns"" IsNeverEmpty=""True""/>
         </FocusHorizontalPanelFrame>
@@ -806,7 +806,7 @@ namespace TestDebug
             <FocusPlaceholderFrame PropertyName=""TagIdentifier"" />
         </FocusHorizontalPanelFrame>
     </FocusNodeTemplate>
-    <FocusNodeTemplate NodeType=""{xaml:Type IBinaryConditionalExpression}"">
+    <FocusNodeTemplate NodeType=""{xaml:Type IBinaryConditionalExpression}"" IsComplex=""True"">
         <FocusHorizontalPanelFrame>
             <FocusHorizontalPanelFrame>
                 <FocusSymbolFrame Symbol=""{x:Static const:Symbols.LeftParenthesis}"">
@@ -828,7 +828,7 @@ namespace TestDebug
             </FocusHorizontalPanelFrame>
         </FocusHorizontalPanelFrame>
     </FocusNodeTemplate>
-    <FocusNodeTemplate NodeType=""{xaml:Type IBinaryOperatorExpression}"">
+    <FocusNodeTemplate NodeType=""{xaml:Type IBinaryOperatorExpression}"" IsComplex=""True"">
         <FocusHorizontalPanelFrame>
             <FocusHorizontalPanelFrame>
                 <FocusSymbolFrame Symbol=""{x:Static const:Symbols.LeftParenthesis}"">
@@ -856,7 +856,7 @@ namespace TestDebug
             <FocusPlaceholderFrame PropertyName=""ConstantIdentifier"" />
         </FocusHorizontalPanelFrame>
     </FocusNodeTemplate>
-    <FocusNodeTemplate NodeType=""{xaml:Type ICloneOfExpression}"">
+    <FocusNodeTemplate NodeType=""{xaml:Type ICloneOfExpression}"" IsComplex=""True"">
         <FocusHorizontalPanelFrame>
             <FocusDiscreteFrame PropertyName=""Type"">
                 <FocusKeywordFrame>shallow</FocusKeywordFrame>
@@ -878,7 +878,7 @@ namespace TestDebug
             <FocusPlaceholderFrame PropertyName=""Query""/>
         </FocusHorizontalPanelFrame>
     </FocusNodeTemplate>
-    <FocusNodeTemplate NodeType=""{xaml:Type IEqualityExpression}"">
+    <FocusNodeTemplate NodeType=""{xaml:Type IEqualityExpression}"" IsComplex=""True"">
         <FocusHorizontalPanelFrame>
             <FocusHorizontalPanelFrame>
                 <FocusSymbolFrame Symbol=""{x:Static const:Symbols.LeftParenthesis}"">
@@ -1027,7 +1027,7 @@ namespace TestDebug
             </FocusHorizontalPanelFrame>
         </FocusHorizontalPanelFrame>
     </FocusNodeTemplate>
-    <FocusNodeTemplate NodeType=""{xaml:Type IResultOfExpression}"">
+    <FocusNodeTemplate NodeType=""{xaml:Type IResultOfExpression}"" IsComplex=""True"">
         <FocusHorizontalPanelFrame>
             <FocusKeywordFrame>result of</FocusKeywordFrame>
             <FocusHorizontalPanelFrame>
@@ -1039,7 +1039,7 @@ namespace TestDebug
             </FocusHorizontalPanelFrame>
         </FocusHorizontalPanelFrame>
     </FocusNodeTemplate>
-    <FocusNodeTemplate NodeType=""{xaml:Type IUnaryNotExpression}"">
+    <FocusNodeTemplate NodeType=""{xaml:Type IUnaryNotExpression}"" IsComplex=""True"">
         <FocusHorizontalPanelFrame>
             <FocusKeywordFrame>not</FocusKeywordFrame>
             <FocusHorizontalPanelFrame>
@@ -1051,7 +1051,7 @@ namespace TestDebug
             </FocusHorizontalPanelFrame>
         </FocusHorizontalPanelFrame>
     </FocusNodeTemplate>
-    <FocusNodeTemplate NodeType=""{xaml:Type IUnaryOperatorExpression}"">
+    <FocusNodeTemplate NodeType=""{xaml:Type IUnaryOperatorExpression}"" IsComplex=""True"">
         <FocusHorizontalPanelFrame>
             <FocusPlaceholderFrame PropertyName=""Operator"" />
             <FocusHorizontalPanelFrame>
