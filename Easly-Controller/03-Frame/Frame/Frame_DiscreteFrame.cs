@@ -64,6 +64,10 @@ namespace EaslyController.Frame
             if (Max + 1 != Items.Count)
                 return false;
 
+            foreach (IFrameKeywordFrame Item in Items)
+                if (!Item.IsValid(nodeType))
+                    return false;
+
             return true;
         }
 

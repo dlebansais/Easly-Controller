@@ -88,8 +88,41 @@ namespace EditorDebug
 
             foreach (IFrameVisibleCellView CellView in CellList)
             {
+                IFrameFrame Frame = CellView.Frame;
+                INode ChildNode = CellView.StateView.State.Node;
+                string PropertyName;
                 TextBlock Child = new TextBlock();
-                Child.Text = "X";
+
+                switch (CellView)
+                {
+                    case IFrameDiscreteContentFocusableCellView AsDiscreteContentFocusable: // Enum, bool
+                        PropertyName = AsDiscreteContentFocusable.PropertyName;
+                        if (NodeTreeHelper.IsEnumProperty(ChildNode, PropertyName))
+                            Child.Text = $"{PropertyName}: {NodeTreeHelper.GetEnumValue(ChildNode, PropertyName)}";
+                        else if (NodeTreeHelper.IsBooleanProperty(ChildNode, PropertyName))
+                            if (NodeTreeHelper.GetEnumValue(ChildNode, PropertyName) != 0)
+                                Child.Text = $"{PropertyName}: True";
+                            else
+                                Child.Text = $"{PropertyName}: False";
+                        else
+                            throw new ArgumentOutOfRangeException(nameof(CellView));
+                        break;
+                    case IFrameTextFocusableCellView AsTextFocusable: // String
+                        Child.Text = NodeTreeHelper.GetText(ChildNode);
+                        break;
+                    case IFrameFocusableCellView AsFocusable: // Insert
+                        Child.Text = "+";
+                        break;
+                    case IFrameVisibleCellView AsVisible: // Others
+                        if (Frame is IFrameKeywordFrame AsKeywordFrame)
+                            Child.Text = AsKeywordFrame.Text;
+                        else if (Frame is IFrameSymbolFrame AsSymbolFrame)
+                            Child.Text = AsSymbolFrame.Symbol.ToString();
+                        else
+                            throw new ArgumentOutOfRangeException(nameof(CellView));
+                        break;
+                }
+
                 Grid.SetRow(Child, CellView.LineNumber);
                 Grid.SetColumn(Child, CellView.ColumnNumber);
 

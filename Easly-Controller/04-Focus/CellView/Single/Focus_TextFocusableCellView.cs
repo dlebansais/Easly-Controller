@@ -20,8 +20,10 @@ namespace EaslyController.Focus
         /// Initializes an instance of <see cref="FocusFocusableCellView"/>.
         /// </summary>
         /// <param name="stateView">The state view containing the tree with this cell.</param>
-        public FocusTextFocusableCellView(IFocusNodeStateView stateView)
-            : base(stateView)
+        /// <param name="frame">The frame that created this cell view.</param>
+        /// <param name="propertyName">Property corresponding to the component of the node.</param>
+        public FocusTextFocusableCellView(IFocusNodeStateView stateView, IFocusFrame frame, string propertyName)
+            : base(stateView, frame, propertyName)
         {
         }
         #endregion
@@ -31,6 +33,11 @@ namespace EaslyController.Focus
         /// The state view containing the tree with this cell.
         /// </summary>
         public new IFocusNodeStateView StateView { get { return (IFocusNodeStateView)base.StateView; } }
+
+        /// <summary>
+        /// The frame that created this cell view.
+        /// </summary>
+        public new IFocusFrame Frame { get { return (IFocusFrame)base.Frame; } }
         #endregion
 
         #region Debugging

@@ -141,15 +141,6 @@ namespace EaslyController.Focus
         }
 
         /// <summary>
-        /// Creates a IxxxValueFrame object.
-        /// </summary>
-        protected override IFrameValueFrame CreateValueFrame()
-        {
-            ControllerTools.AssertNoOverride(this, typeof(FocusTemplateSet));
-            return new FocusValueFrame();
-        }
-
-        /// <summary>
         /// Creates a IxxxDiscreteFrame object.
         /// </summary>
         protected override IFrameDiscreteFrame CreateDiscreteFrame()

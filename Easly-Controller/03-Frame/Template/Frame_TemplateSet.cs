@@ -474,15 +474,6 @@ namespace EaslyController.Frame
         }
 
         /// <summary>
-        /// Creates a IxxxValueFrame object.
-        /// </summary>
-        protected virtual IFrameValueFrame CreateValueFrame()
-        {
-            ControllerTools.AssertNoOverride(this, typeof(FrameTemplateSet));
-            return new FrameValueFrame();
-        }
-
-        /// <summary>
         /// Creates a IxxxDiscreteFrame object.
         /// </summary>
         protected virtual IFrameDiscreteFrame CreateDiscreteFrame()

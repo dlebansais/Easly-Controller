@@ -12,7 +12,7 @@ namespace EaslyController.Focus
     /// <summary>
     /// Focus for decoration purpose only.
     /// </summary>
-    public class FocusStaticFrame : FrameStaticFrame, IFocusStaticFrame
+    public abstract class FocusStaticFrame : FrameStaticFrame, IFocusStaticFrame
     {
         #region Properties
         /// <summary>
@@ -33,7 +33,7 @@ namespace EaslyController.Focus
         protected override IFrameVisibleCellView CreateFrameCellView(IFrameNodeStateView stateView)
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusStaticFrame));
-            return new FocusVisibleCellView((IFocusNodeStateView)stateView);
+            return new FocusVisibleCellView((IFocusNodeStateView)stateView, this);
         }
         #endregion
     }

@@ -12,7 +12,7 @@ namespace EaslyController.Focus
     /// <summary>
     /// Focus describing a value property (or string) in a node.
     /// </summary>
-    public class FocusValueFrame : FrameValueFrame, IFocusValueFrame
+    public abstract class FocusValueFrame : FrameValueFrame, IFocusValueFrame
     {
         #region Properties
         /// <summary>
@@ -24,17 +24,6 @@ namespace EaslyController.Focus
         /// Parent frame, or null for the root frame in a template.
         /// </summary>
         public new IFocusFrame ParentFrame { get { return (IFocusFrame)base.ParentFrame; } }
-        #endregion
-
-        #region Create Methods
-        /// <summary>
-        /// Creates a IxxxVisibleCellView object.
-        /// </summary>
-        protected override IFrameVisibleCellView CreateFrameCellView(IFrameNodeStateView stateView)
-        {
-            ControllerTools.AssertNoOverride(this, typeof(FocusValueFrame));
-            return new FocusVisibleCellView((IFocusNodeStateView)stateView);
-        }
         #endregion
     }
 }

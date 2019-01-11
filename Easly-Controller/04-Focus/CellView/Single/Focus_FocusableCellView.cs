@@ -4,14 +4,14 @@ using System.Diagnostics;
 namespace EaslyController.Focus
 {
     /// <summary>
-    /// Cell view for components that can receive the focus.
+    /// Cell view for discrete elements that can receive the focus but are not the component of a node (insertion points, keywords and other decorations)
     /// </summary>
     public interface IFocusFocusableCellView : IFrameFocusableCellView, IFocusVisibleCellView
     {
     }
 
     /// <summary>
-    /// Cell view for components that can receive the focus.
+    /// Cell view for discrete elements that can receive the focus but are not the component of a node (insertion points, keywords and other decorations)
     /// </summary>
     public class FocusFocusableCellView : FrameFocusableCellView, IFocusFocusableCellView
     {
@@ -20,8 +20,9 @@ namespace EaslyController.Focus
         /// Initializes an instance of <see cref="FocusFocusableCellView"/>.
         /// </summary>
         /// <param name="stateView">The state view containing the tree with this cell.</param>
-        public FocusFocusableCellView(IFocusNodeStateView stateView)
-            : base(stateView)
+        /// <param name="frame">The frame that created this cell view.</param>
+        public FocusFocusableCellView(IFocusNodeStateView stateView, IFocusFrame frame)
+            : base(stateView, frame)
         {
         }
         #endregion
@@ -31,6 +32,11 @@ namespace EaslyController.Focus
         /// The state view containing the tree with this cell.
         /// </summary>
         public new IFocusNodeStateView StateView { get { return (IFocusNodeStateView)base.StateView; } }
+
+        /// <summary>
+        /// The frame that created this cell view.
+        /// </summary>
+        public new IFocusFrame Frame { get { return (IFocusFrame)base.Frame; } }
         #endregion
 
         #region Debugging

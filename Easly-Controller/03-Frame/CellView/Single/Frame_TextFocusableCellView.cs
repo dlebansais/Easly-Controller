@@ -19,8 +19,10 @@ namespace EaslyController.Frame
         /// Initializes an instance of <see cref="FrameFocusableCellView"/>.
         /// </summary>
         /// <param name="stateView">The state view containing the tree with this cell.</param>
-        public FrameTextFocusableCellView(IFrameNodeStateView stateView)
-            : base(stateView)
+        /// <param name="frame">The frame that created this cell view.</param>
+        /// <param name="propertyName">Property corresponding to the component of the node.</param>
+        public FrameTextFocusableCellView(IFrameNodeStateView stateView, IFrameFrame frame, string propertyName)
+            : base(stateView, frame, propertyName)
         {
         }
         #endregion

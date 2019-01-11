@@ -8,6 +8,10 @@ namespace EaslyController.Focus
     /// </summary>
     public interface IFocusVisibleCellView : IFrameVisibleCellView, IFocusCellView
     {
+        /// <summary>
+        /// The frame that created this cell view.
+        /// </summary>
+        new IFocusFrame Frame { get; }
     }
 
     /// <summary>
@@ -20,8 +24,9 @@ namespace EaslyController.Focus
         /// Initializes an instance of <see cref="FocusVisibleCellView"/>.
         /// </summary>
         /// <param name="stateView">The state view containing the tree with this cell.</param>
-        public FocusVisibleCellView(IFocusNodeStateView stateView)
-            : base(stateView)
+        /// <param name="frame">The frame that created this cell view.</param>
+        public FocusVisibleCellView(IFocusNodeStateView stateView, IFocusFrame frame)
+            : base(stateView, frame)
         {
         }
         #endregion
@@ -31,6 +36,11 @@ namespace EaslyController.Focus
         /// The state view containing the tree with this cell.
         /// </summary>
         public new IFocusNodeStateView StateView { get { return (IFocusNodeStateView)base.StateView; } }
+
+        /// <summary>
+        /// The frame that created this cell view.
+        /// </summary>
+        public new IFocusFrame Frame { get { return (IFocusFrame)base.Frame; } }
         #endregion
 
         #region Debugging

@@ -8,6 +8,11 @@ namespace EaslyController.Frame
     public interface IFrameVisibleCellView : IFrameCellView
     {
         /// <summary>
+        /// The frame that created this cell view.
+        /// </summary>
+        IFrameFrame Frame { get; }
+
+        /// <summary>
         /// Line number where the cell view appears.
         /// </summary>
         int LineNumber { get; }
@@ -28,15 +33,22 @@ namespace EaslyController.Frame
         /// Initializes an instance of <see cref="FrameVisibleCellView"/>.
         /// </summary>
         /// <param name="stateView">The state view containing the tree with this cell.</param>
-        public FrameVisibleCellView(IFrameNodeStateView stateView)
+        /// <param name="frame">The frame that created this cell view.</param>
+        public FrameVisibleCellView(IFrameNodeStateView stateView, IFrameFrame frame)
             : base(stateView)
         {
+            Frame = frame;
             LineNumber = 0;
             ColumnNumber = 0;
         }
         #endregion
 
         #region Properties
+        /// <summary>
+        /// The frame that created this cell view.
+        /// </summary>
+        public IFrameFrame Frame { get; }
+
         /// <summary>
         /// Line number where the cell view appears.
         /// </summary>

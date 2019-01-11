@@ -10,7 +10,7 @@
     /// <summary>
     /// Frame for decoration purpose only.
     /// </summary>
-    public class FrameStaticFrame : FrameFrame, IFrameStaticFrame
+    public abstract class FrameStaticFrame : FrameFrame, IFrameStaticFrame
     {
         #region Client Interface
         /// <summary>
@@ -32,7 +32,7 @@
         protected virtual IFrameVisibleCellView CreateFrameCellView(IFrameNodeStateView stateView)
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameStaticFrame));
-            return new FrameVisibleCellView(stateView);
+            return new FrameVisibleCellView(stateView, this);
         }
         #endregion
     }

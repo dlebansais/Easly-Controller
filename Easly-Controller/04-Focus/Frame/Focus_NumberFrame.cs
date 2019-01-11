@@ -33,7 +33,7 @@ namespace EaslyController.Focus
         protected override IFrameVisibleCellView CreateFrameCellView(IFrameNodeStateView stateView)
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusNumberFrame));
-            return new FocusTextFocusableCellView((IFocusNodeStateView)stateView);
+            return new FocusTextFocusableCellView((IFocusNodeStateView)stateView, this, PropertyName);
         }
         #endregion
     }

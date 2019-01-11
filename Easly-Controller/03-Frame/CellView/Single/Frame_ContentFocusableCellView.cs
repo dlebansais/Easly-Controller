@@ -7,6 +7,10 @@ namespace EaslyController.Frame
     /// </summary>
     public interface IFrameContentFocusableCellView : IFrameFocusableCellView
     {
+        /// <summary>
+        /// Property corresponding to the component of the node.
+        /// </summary>
+        string PropertyName { get; }
     }
 
     /// <summary>
@@ -19,10 +23,20 @@ namespace EaslyController.Frame
         /// Initializes an instance of <see cref="FrameContentFocusableCellView"/>.
         /// </summary>
         /// <param name="stateView">The state view containing the tree with this cell.</param>
-        public FrameContentFocusableCellView(IFrameNodeStateView stateView)
-            : base(stateView)
+        /// <param name="frame">The frame that created this cell view.</param>
+        /// <param name="propertyName">Property corresponding to the component of the node.</param>
+        public FrameContentFocusableCellView(IFrameNodeStateView stateView, IFrameFrame frame, string propertyName)
+            : base(stateView, frame)
         {
+            PropertyName = propertyName;
         }
+        #endregion
+
+        #region Properties
+        /// <summary>
+        /// Property corresponding to the component of the node.
+        /// </summary>
+        public string PropertyName { get; private set; }
         #endregion
 
         #region Debugging

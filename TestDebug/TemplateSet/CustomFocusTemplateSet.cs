@@ -889,7 +889,7 @@ namespace TestDebug
             </FocusHorizontalPanelFrame>
             <FocusDiscreteFrame PropertyName=""Comparison"">
                 <FocusKeywordFrame>=</FocusKeywordFrame>
-                <FocusKeywordFrame></FocusKeywordFrame>
+                <FocusKeywordFrame>!=</FocusKeywordFrame>
             </FocusDiscreteFrame>
             <FocusDiscreteFrame PropertyName=""Equality"">
                 <FocusKeywordFrame>phys</FocusKeywordFrame>
