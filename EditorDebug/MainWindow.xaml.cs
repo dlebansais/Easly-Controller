@@ -12,6 +12,8 @@ using TestDebug;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Diagnostics;
+using EaslyController.Constants;
+using System.Windows.Media;
 
 namespace EditorDebug
 {
@@ -118,18 +120,55 @@ namespace EditorDebug
                         Child.Text = NodeTreeHelper.GetText(ChildNode);
                         break;
                     case IFrameFocusableCellView AsFocusable: // Insert
-                        Child.Text = "+";
+                        Child.Foreground = Brushes.Blue;
+                        Child.FontWeight = FontWeights.Bold;
+                        Child.Text = "◄";
                         break;
                     case IFrameVisibleCellView AsVisible: // Others
                         if (Frame is IFrameKeywordFrame AsKeywordFrame)
+                        {
+                            Child.FontWeight = FontWeights.Bold;
                             Child.Text = AsKeywordFrame.Text;
+                        }
                         else if (Frame is IFrameSymbolFrame AsSymbolFrame)
-                            Child.Text = AsSymbolFrame.Symbol.ToString();
+                        {
+                            Child.Foreground = Brushes.Blue;
+
+                            Symbols Symbol = AsSymbolFrame.Symbol;
+                            switch (Symbol)
+                            {
+                                case Symbols.LeftArrow:
+                                    Child.Text = "←";
+                                    break;
+                                case Symbols.Dot:
+                                    Child.Text = ".";
+                                    break;
+                                case Symbols.LeftBracket:
+                                    Child.Text = "[";
+                                    break;
+                                case Symbols.RightBracket:
+                                    Child.Text = "]";
+                                    break;
+                                case Symbols.LeftCurlyBracket:
+                                    Child.Text = "{";
+                                    break;
+                                case Symbols.RightCurlyBracket:
+                                    Child.Text = "}";
+                                    break;
+                                case Symbols.LeftParenthesis:
+                                    Child.Text = "(";
+                                    break;
+                                case Symbols.RightParenthesis:
+                                    Child.Text = ")";
+                                    break;
+                            }
+                        }
                         else
                             throw new ArgumentOutOfRangeException(nameof(CellView));
                         break;
                 }
 
+                Child.Margin = new Thickness(0, 0, 5, 0);
                 Grid.SetRow(Child, Row);
                 Grid.SetColumn(Child, Column);
                 Assigned[Row, Column] = CellView;
