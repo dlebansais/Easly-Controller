@@ -302,6 +302,7 @@ namespace EaslyController.ReadOnly
         #endregion
 
         #region Implementation of IDisposable
+#pragma warning disable 1591
         protected virtual void Dispose(bool IsDisposing)
         {
             if (IsDisposing)
@@ -327,6 +328,7 @@ namespace EaslyController.ReadOnly
         {
             Dispose(false);
         }
+#pragma warning restore 1591
         #endregion
     }
 }

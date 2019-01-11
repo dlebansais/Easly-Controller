@@ -29,6 +29,9 @@ namespace EaslyController.Focus
     public class FocusTemplateSet : FrameTemplateSet, IFocusTemplateSet
     {
         #region Init
+        /// <summary>
+        /// Returns a default template set.
+        /// </summary>
         public static new IFocusTemplateSet Default { get { return (new FocusTemplateSet()).BuildDefault() as IFocusTemplateSet; } }
 
         protected FocusTemplateSet()

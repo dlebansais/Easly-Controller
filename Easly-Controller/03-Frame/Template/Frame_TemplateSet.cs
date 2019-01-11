@@ -53,7 +53,7 @@ namespace EaslyController.Frame
     {
         #region Init
         /// <summary>
-        /// Return a default template set.
+        /// Returns a default template set.
         /// </summary>
         public static IFrameTemplateSet Default { get { return (new FrameTemplateSet()).BuildDefault() as IFrameTemplateSet; } }
         protected static IFrameTemplateSet _Default;

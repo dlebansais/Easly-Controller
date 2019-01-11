@@ -19,7 +19,6 @@ namespace EaslyController.Frame
         /// Initializes an instance of <see cref="FrameColumn"/>.
         /// </summary>
         /// <param name="stateView">The state view containing the tree with this cell.</param>
-        /// <param name="frame">The frame that created this cell view.</param>
         /// <param name="cellViewList">The list of child cell views.</param>
         public FrameLine(IFrameNodeStateView stateView, IFrameCellViewList cellViewList)
             : base(stateView, cellViewList)
