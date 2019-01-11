@@ -139,10 +139,11 @@ Finally, template sets group templates together, with a list for nodes and anoth
 ## Next layer
 
 The next layer introduces:
-. focus: each view has a single cell with the focus, a caret for string, and an insertion/overwrite mode
-. visibility: a cell can be visible depending on complex criteria, such as any of several lists being non-empty, rather than just the frame that generates it. Visibility can be forced to show a full view to the user.
-. identifier and body type: an identifier, or a body, can be displayed differently depending on the parent node.
-. empty collections: a collection can require to be non-empty (for example, a path)
-. prefered frame: when the focus changes because of a modification of the node tree, it goes to a prefered frame.
-. complex expression: a complex expression is surrounded with parenthesis
-. external insert: a new item in a list can be added either pressing enter after or before the curent item, but not for lists that can be empty. for them there is an insert frame.
+
++ Empty collections: a collection can require to be non-empty (for example, a path). In that case, the frame that is associated to the collection has the `IsNeverEmpty` property set to true.
++ focus: each view has a single cell with the focus, a caret for string, and an insertion/overwrite mode
++ visibility: a cell can be visible depending on complex criteria, such as any of several lists being non-empty, rather than just the frame that generates it. Visibility can be forced to show a full view to the user.
++ identifier and body type: an identifier, or a body, can be displayed differently depending on the parent node.
++ prefered frame: when the focus changes because of a modification of the node tree, it goes to a prefered frame.
++ complex expression: a complex expression is surrounded with parenthesis
++ external insert: a new item in a list can be added either pressing enter after or before the curent item, but not for lists that can be empty. for them there is an insert frame.

@@ -67,7 +67,7 @@ namespace TestDebug
                 <FocusKeywordFrame Text=""else"">
                 </FocusKeywordFrame>
                 <FocusKeywordFrame>as</FocusKeywordFrame>
-                <FocusHorizontalBlockListFrame PropertyName=""AttachTypeBlocks"" />
+                <FocusHorizontalBlockListFrame PropertyName=""AttachTypeBlocks"" IsNeverEmpty=""True""/>
                 <FocusInsertFrame CollectionName=""Instructions.InstructionBlocks"" />
             </FocusHorizontalPanelFrame>
             <FocusPlaceholderFrame PropertyName=""Instructions"" />
@@ -178,7 +178,7 @@ namespace TestDebug
         <FocusHorizontalPanelFrame>
             <FocusPlaceholderFrame PropertyName=""ReplicateName"" />
             <FocusKeywordFrame>to</FocusKeywordFrame>
-            <FocusHorizontalBlockListFrame PropertyName=""PatternBlocks"" />
+            <FocusHorizontalBlockListFrame PropertyName=""PatternBlocks"" IsNeverEmpty=""True""/>
         </FocusHorizontalPanelFrame>
     </FocusNodeTemplate>
     <FocusNodeTemplate NodeType=""{xaml:Type ICommandOverload}"">
@@ -315,7 +315,7 @@ namespace TestDebug
         <FocusHorizontalPanelFrame>
             <FocusPlaceholderFrame PropertyName=""EntityName"" />
             <FocusKeywordFrame>to</FocusKeywordFrame>
-            <FocusHorizontalBlockListFrame PropertyName=""ClassIdentifierBlocks"" />
+            <FocusHorizontalBlockListFrame PropertyName=""ClassIdentifierBlocks"" IsNeverEmpty=""True""/>
         </FocusHorizontalPanelFrame>
     </FocusNodeTemplate>
     <FocusNodeTemplate NodeType=""{xaml:Type IExportChange}"">
@@ -349,7 +349,7 @@ namespace TestDebug
         <FocusHorizontalPanelFrame>
             <FocusPlaceholderFrame PropertyName=""ReplicateName"" />
             <FocusKeywordFrame>to</FocusKeywordFrame>
-            <FocusHorizontalListFrame PropertyName=""Patterns"" />
+            <FocusHorizontalListFrame PropertyName=""Patterns"" IsNeverEmpty=""True""/>
         </FocusHorizontalPanelFrame>
     </FocusNodeTemplate>
     <FocusNodeTemplate NodeType=""{xaml:Type IImport}"">
@@ -475,7 +475,7 @@ namespace TestDebug
         <FocusTextValueFrame PropertyName=""Text""/>
     </FocusNodeTemplate>
     <FocusNodeTemplate NodeType=""{xaml:Type IQualifiedName}"">
-        <FocusHorizontalListFrame PropertyName=""Path"" />
+        <FocusHorizontalListFrame PropertyName=""Path"" IsNeverEmpty=""True""/>
     </FocusNodeTemplate>
     <FocusNodeTemplate NodeType=""{xaml:Type IQueryOverload}"">
         <FocusVerticalPanelFrame>
@@ -495,7 +495,7 @@ namespace TestDebug
                     <FocusKeywordFrame>result</FocusKeywordFrame>
                     <FocusInsertFrame CollectionName=""ResultBlocks"" />
                 </FocusHorizontalPanelFrame>
-                <FocusVerticalBlockListFrame PropertyName=""ResultBlocks"" />
+                <FocusVerticalBlockListFrame PropertyName=""ResultBlocks"" IsNeverEmpty=""True""/>
             </FocusVerticalPanelFrame>
             <FocusVerticalPanelFrame>
                 <FocusHorizontalPanelFrame>
@@ -531,7 +531,7 @@ namespace TestDebug
                         <FocusKeywordFrame>return</FocusKeywordFrame>
                         <FocusInsertFrame CollectionName=""ResultBlocks"" />
                     </FocusHorizontalPanelFrame>
-                    <FocusVerticalBlockListFrame PropertyName=""ResultBlocks"" />
+                    <FocusVerticalBlockListFrame PropertyName=""ResultBlocks"" IsNeverEmpty=""True""/>
                 </FocusVerticalPanelFrame>
                 <FocusVerticalPanelFrame>
                     <FocusHorizontalPanelFrame>
@@ -631,7 +631,7 @@ namespace TestDebug
     </FocusNodeTemplate>
     <FocusNodeTemplate NodeType=""{xaml:Type IAssignmentArgument}"">
         <FocusHorizontalPanelFrame>
-            <FocusHorizontalBlockListFrame PropertyName=""ParameterBlocks""/>
+            <FocusHorizontalBlockListFrame PropertyName=""ParameterBlocks"" IsNeverEmpty=""True""/>
             <FocusPlaceholderFrame PropertyName=""Source""/>
         </FocusHorizontalPanelFrame>
     </FocusNodeTemplate>
@@ -639,7 +639,7 @@ namespace TestDebug
         <FocusVerticalPanelFrame>
             <FocusHorizontalPanelFrame>
                 <FocusKeywordFrame>case</FocusKeywordFrame>
-                <FocusHorizontalBlockListFrame PropertyName=""RangeBlocks""/>
+                <FocusHorizontalBlockListFrame PropertyName=""RangeBlocks"" IsNeverEmpty=""True""/>
                 <FocusInsertFrame CollectionName=""RangeBlocks""/>
             </FocusHorizontalPanelFrame>
             <FocusPlaceholderFrame PropertyName=""Instructions""/>
@@ -915,7 +915,7 @@ namespace TestDebug
                 </FocusSymbolFrame>
             </FocusHorizontalPanelFrame>
             <FocusSymbolFrame Symbol=""{x:Static const:Symbols.LeftBracket}""/>
-            <FocusHorizontalBlockListFrame PropertyName=""ArgumentBlocks"" />
+            <FocusHorizontalBlockListFrame PropertyName=""ArgumentBlocks"" IsNeverEmpty=""True""/>
             <FocusSymbolFrame Symbol=""{x:Static const:Symbols.RightBracket}""/>
         </FocusHorizontalPanelFrame>
     </FocusNodeTemplate>
@@ -997,7 +997,7 @@ namespace TestDebug
             </FocusHorizontalPanelFrame>
             <FocusHorizontalPanelFrame>
                 <FocusSymbolFrame Symbol=""{x:Static const:Symbols.LeftBracket}""/>
-                <FocusHorizontalBlockListFrame PropertyName=""ArgumentBlocks"" />
+                <FocusHorizontalBlockListFrame PropertyName=""ArgumentBlocks"" IsNeverEmpty=""True""/>
                 <FocusSymbolFrame Symbol=""{x:Static const:Symbols.RightBracket}""/>
             </FocusHorizontalPanelFrame>
         </FocusHorizontalPanelFrame>
@@ -1126,7 +1126,7 @@ namespace TestDebug
                 <FocusInsertFrame CollectionName=""OverloadBlocks"" />
             </FocusHorizontalPanelFrame>
             <FocusVerticalPanelFrame>
-                <FocusVerticalBlockListFrame PropertyName=""OverloadBlocks"" />
+                <FocusVerticalBlockListFrame PropertyName=""OverloadBlocks"" IsNeverEmpty=""True""/>
                 <FocusHorizontalPanelFrame>
                     <FocusKeywordFrame>export to</FocusKeywordFrame>
                     <FocusPlaceholderFrame PropertyName=""ExportIdentifier"" />
@@ -1156,7 +1156,7 @@ namespace TestDebug
                 <FocusInsertFrame CollectionName=""OverloadBlocks"" />
             </FocusHorizontalPanelFrame>
             <FocusVerticalPanelFrame>
-                <FocusVerticalBlockListFrame PropertyName=""OverloadBlocks"" />
+                <FocusVerticalBlockListFrame PropertyName=""OverloadBlocks"" IsNeverEmpty=""True""/>
                 <FocusHorizontalPanelFrame>
                     <FocusKeywordFrame>export to</FocusKeywordFrame>
                     <FocusPlaceholderFrame PropertyName=""ExportIdentifier"" />
@@ -1222,7 +1222,7 @@ namespace TestDebug
                 <FocusInsertFrame CollectionName=""OverloadBlocks"" />
             </FocusHorizontalPanelFrame>
             <FocusVerticalPanelFrame>
-                <FocusVerticalBlockListFrame PropertyName=""OverloadBlocks"" />
+                <FocusVerticalBlockListFrame PropertyName=""OverloadBlocks"" IsNeverEmpty=""True""/>
                 <FocusHorizontalPanelFrame>
                     <FocusKeywordFrame>export to</FocusKeywordFrame>
                     <FocusPlaceholderFrame PropertyName=""ExportIdentifier"" />
@@ -1271,10 +1271,10 @@ namespace TestDebug
             <FocusHorizontalPanelFrame>
                 <FocusKeywordFrame>as long as</FocusKeywordFrame>
                 <FocusPlaceholderFrame PropertyName=""ContinueCondition""/>
-                <FocusInsertFrame CollectionName=""ContinuationBlocks"" />
+                <FocusInsertFrame CollectionName=""ContinuationBlocks""/>
             </FocusHorizontalPanelFrame>
             <FocusVerticalPanelFrame>
-                <FocusVerticalBlockListFrame PropertyName=""ContinuationBlocks"" />
+                <FocusVerticalBlockListFrame PropertyName=""ContinuationBlocks"" IsNeverEmpty=""True""/>
                 <FocusVerticalPanelFrame>
                     <FocusHorizontalPanelFrame>
                         <FocusKeywordFrame>else</FocusKeywordFrame>
@@ -1288,7 +1288,7 @@ namespace TestDebug
     </FocusNodeTemplate>
     <FocusNodeTemplate NodeType=""{xaml:Type IAssignmentInstruction}"">
         <FocusHorizontalPanelFrame>
-            <FocusHorizontalBlockListFrame PropertyName=""DestinationBlocks"" />
+            <FocusHorizontalBlockListFrame PropertyName=""DestinationBlocks"" IsNeverEmpty=""True""/>
             <FocusSymbolFrame Symbol=""{x:Static const:Symbols.LeftArrow}""/>
             <FocusPlaceholderFrame PropertyName=""Source"" />
         </FocusHorizontalPanelFrame>
@@ -1299,11 +1299,11 @@ namespace TestDebug
                 <FocusKeywordFrame>attach</FocusKeywordFrame>
                 <FocusPlaceholderFrame PropertyName=""Source"" />
                 <FocusKeywordFrame>to</FocusKeywordFrame>
-                <FocusHorizontalBlockListFrame PropertyName=""EntityNameBlocks"" />
+                <FocusHorizontalBlockListFrame PropertyName=""EntityNameBlocks"" IsNeverEmpty=""True""/>
                 <FocusInsertFrame CollectionName=""AttachmentBlocks"" />
             </FocusHorizontalPanelFrame>
             <FocusVerticalPanelFrame>
-                <FocusVerticalBlockListFrame PropertyName=""AttachmentBlocks"" />
+                <FocusVerticalBlockListFrame PropertyName=""AttachmentBlocks"" IsNeverEmpty=""True""/>
                 <FocusVerticalPanelFrame>
                     <FocusHorizontalPanelFrame>
                         <FocusKeywordFrame>else</FocusKeywordFrame>
@@ -1412,7 +1412,7 @@ namespace TestDebug
     </FocusNodeTemplate>
     <FocusNodeTemplate NodeType=""{xaml:Type IIfThenElseInstruction}"">
         <FocusVerticalPanelFrame>
-            <FocusVerticalBlockListFrame PropertyName=""ConditionalBlocks"" />
+            <FocusVerticalBlockListFrame PropertyName=""ConditionalBlocks"" IsNeverEmpty=""True""/>
             <FocusVerticalPanelFrame>
                 <FocusHorizontalPanelFrame>
                     <FocusKeywordFrame>else</FocusKeywordFrame>
@@ -1443,7 +1443,7 @@ namespace TestDebug
                 <FocusInsertFrame CollectionName=""WithBlocks"" />
             </FocusHorizontalPanelFrame>
             <FocusVerticalPanelFrame>
-                <FocusVerticalBlockListFrame PropertyName=""WithBlocks"" />
+                <FocusVerticalBlockListFrame PropertyName=""WithBlocks"" IsNeverEmpty=""True""/>
                 <FocusVerticalPanelFrame>
                     <FocusHorizontalPanelFrame>
                         <FocusKeywordFrame>else</FocusKeywordFrame>
@@ -1476,7 +1476,7 @@ namespace TestDebug
                 <FocusKeywordFrame>over</FocusKeywordFrame>
                 <FocusPlaceholderFrame PropertyName=""OverList"" />
                 <FocusKeywordFrame>for each</FocusKeywordFrame>
-                <FocusHorizontalBlockListFrame PropertyName=""IndexerBlocks"" />
+                <FocusHorizontalBlockListFrame PropertyName=""IndexerBlocks"" IsNeverEmpty=""True""/>
                 <FocusDiscreteFrame PropertyName=""Iteration"">
                     <FocusKeywordFrame>Single</FocusKeywordFrame>
                     <FocusKeywordFrame>Nested</FocusKeywordFrame>
@@ -1510,7 +1510,7 @@ namespace TestDebug
                 <FocusOptionalFrame PropertyName=""AncestorType"" />
             </FocusHorizontalPanelFrame>
             <FocusSymbolFrame Symbol=""{x:Static const:Symbols.LeftBracket}""/>
-            <FocusHorizontalBlockListFrame PropertyName=""ArgumentBlocks"" />
+            <FocusHorizontalBlockListFrame PropertyName=""ArgumentBlocks"" IsNeverEmpty=""True""/>
             <FocusSymbolFrame Symbol=""{x:Static const:Symbols.RightBracket}""/>
             <FocusSymbolFrame Symbol=""{x:Static const:Symbols.LeftArrow}""/>
             <FocusPlaceholderFrame PropertyName=""Source"" />
@@ -1575,14 +1575,14 @@ namespace TestDebug
         <FocusHorizontalPanelFrame>
             <FocusKeywordFrame>function</FocusKeywordFrame>
             <FocusPlaceholderFrame PropertyName=""BaseType"" />
-            <FocusHorizontalBlockListFrame PropertyName=""OverloadBlocks"" />
+            <FocusHorizontalBlockListFrame PropertyName=""OverloadBlocks"" IsNeverEmpty=""True""/>
         </FocusHorizontalPanelFrame>
     </FocusNodeTemplate>
     <FocusNodeTemplate NodeType=""{xaml:Type IGenericType}"">
         <FocusHorizontalPanelFrame>
             <FocusPlaceholderFrame PropertyName=""ClassIdentifier"" />
             <FocusSymbolFrame Symbol=""{x:Static const:Symbols.LeftBracket}""/>
-            <FocusHorizontalBlockListFrame PropertyName=""TypeArgumentBlocks"" />
+            <FocusHorizontalBlockListFrame PropertyName=""TypeArgumentBlocks"" IsNeverEmpty=""True""/>
             <FocusSymbolFrame Symbol=""{x:Static const:Symbols.RightBracket}""/>
             <FocusDiscreteFrame PropertyName=""Sharing"">
                 <FocusKeywordFrame>not shared</FocusKeywordFrame>
@@ -1610,7 +1610,7 @@ namespace TestDebug
                         </FocusDiscreteFrame>
                         <FocusInsertFrame CollectionName=""IndexParameterBlocks"" />
                     </FocusHorizontalPanelFrame>
-                    <FocusVerticalBlockListFrame PropertyName=""IndexParameterBlocks"" />
+                    <FocusVerticalBlockListFrame PropertyName=""IndexParameterBlocks"" IsNeverEmpty=""True""/>
                 </FocusVerticalPanelFrame>
                 <FocusDiscreteFrame PropertyName=""IndexerKind"">
                     <FocusKeywordFrame>read-only</FocusKeywordFrame>
@@ -1682,7 +1682,7 @@ namespace TestDebug
         <FocusHorizontalPanelFrame>
             <FocusKeywordFrame>procedure</FocusKeywordFrame>
             <FocusPlaceholderFrame PropertyName=""BaseType"" />
-            <FocusHorizontalBlockListFrame PropertyName=""OverloadBlocks"" />
+            <FocusHorizontalBlockListFrame PropertyName=""OverloadBlocks"" IsNeverEmpty=""True""/>
         </FocusHorizontalPanelFrame>
     </FocusNodeTemplate>
     <FocusNodeTemplate NodeType=""{xaml:Type IPropertyType}"">
@@ -1747,7 +1747,7 @@ namespace TestDebug
         <FocusHorizontalPanelFrame>
             <FocusKeywordFrame>tuple</FocusKeywordFrame>
             <FocusSymbolFrame Symbol=""{x:Static const:Symbols.LeftBracket}""/>
-            <FocusVerticalBlockListFrame PropertyName=""EntityDeclarationBlocks"" />
+            <FocusVerticalBlockListFrame PropertyName=""EntityDeclarationBlocks"" IsNeverEmpty=""True""/>
             <FocusSymbolFrame Symbol=""{x:Static const:Symbols.RightBracket}""/>
             <FocusDiscreteFrame PropertyName=""Sharing"">
                 <FocusKeywordFrame>not shared</FocusKeywordFrame>

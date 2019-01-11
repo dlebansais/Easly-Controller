@@ -24,6 +24,12 @@ namespace EaslyController.Focus
         /// Parent frame, or null for the root frame in a template.
         /// </summary>
         public new IFocusFrame ParentFrame { get { return (IFocusFrame)base.ParentFrame; } }
+
+        /// <summary>
+        /// True if the associated collection is never empty.
+        /// (Set in Xaml)
+        /// </summary>
+        public bool IsNeverEmpty { get; set; }
         #endregion
 
         #region Create Methods
