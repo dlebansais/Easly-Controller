@@ -778,11 +778,12 @@ namespace EaslyController.Frame
 
             int LineNumber = 1;
             int ColumnNumber = 1;
+            int MaxLineNumber = 1;
             int MaxColumnNumber = 1;
 
-            RootStateView.UpdateLineNumbers(ref LineNumber, ref ColumnNumber, ref MaxColumnNumber);
+            RootStateView.UpdateLineNumbers(ref LineNumber, ref MaxLineNumber, ref ColumnNumber, ref MaxColumnNumber);
 
-            LastLineNumber = LineNumber - 1;
+            LastLineNumber = MaxLineNumber;
             LastColumnNumber = MaxColumnNumber;
         }
         #endregion

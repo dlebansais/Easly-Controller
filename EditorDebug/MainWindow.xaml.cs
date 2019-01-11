@@ -11,6 +11,7 @@ using System.Windows.Controls;
 using TestDebug;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Diagnostics;
 
 namespace EditorDebug
 {
@@ -37,8 +38,8 @@ namespace EditorDebug
 
         private void OnLoaded(object sender, RoutedEventArgs e)
         {
-            MaxWidth = ActualWidth;
-            MaxHeight = ActualHeight;
+            //MaxWidth = ActualWidth;
+            //MaxHeight = ActualHeight;
         }
 
         public string CurrentDirectory { get; private set; }
@@ -83,15 +84,21 @@ namespace EditorDebug
             for (int i = 0; i < MaxColumn; i++)
                 gridMain.ColumnDefinitions.Add(new ColumnDefinition());
 
+            IFrameVisibleCellView[,] Assigned = new IFrameVisibleCellView[MaxRow, MaxColumn];
+
             IFrameVisibleCellViewList CellList = new FrameVisibleCellViewList();
             ControllerView.EnumerateVisibleCellViews(CellList);
 
             foreach (IFrameVisibleCellView CellView in CellList)
             {
+                int Row = CellView.LineNumber - 1;
+                int Column = CellView.ColumnNumber - 1;
                 IFrameFrame Frame = CellView.Frame;
                 INode ChildNode = CellView.StateView.State.Node;
                 string PropertyName;
                 TextBlock Child = new TextBlock();
+                IFrameVisibleCellView OldCellView = Assigned[Row, Column];
+                Debug.Assert(OldCellView == null);
 
                 switch (CellView)
                 {
@@ -123,8 +130,9 @@ namespace EditorDebug
                         break;
                 }
 
-                Grid.SetRow(Child, CellView.LineNumber);
-                Grid.SetColumn(Child, CellView.ColumnNumber);
+                Grid.SetRow(Child, Row);
+                Grid.SetColumn(Child, Column);
+                Assigned[Row, Column] = CellView;
 
                 gridMain.Children.Add(Child);
             }
