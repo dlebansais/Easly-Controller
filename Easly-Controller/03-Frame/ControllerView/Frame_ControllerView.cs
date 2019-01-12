@@ -141,7 +141,7 @@ namespace EaslyController.Frame
             IFrameNodeState OwnerState = ParentInner.Owner;
             IFrameNodeStateView OwnerStateView = StateViewTable[OwnerState];
 
-            IFrameCellViewReadOnlyDictionary<string> CellViewTable = OwnerStateView.CellViewTable;
+            IFrameAssignableCellViewReadOnlyDictionary<string> CellViewTable = OwnerStateView.CellViewTable;
             string PropertyName = ParentInner.PropertyName;
 
             Debug.Assert(CellViewTable != null);
@@ -173,7 +173,7 @@ namespace EaslyController.Frame
             IFrameNodeState OwnerState = ParentInner.Owner;
             IFrameNodeStateView OwnerStateView = StateViewTable[OwnerState];
 
-            IFrameCellViewReadOnlyDictionary<string> CellViewTable = OwnerStateView.CellViewTable;
+            IFrameAssignableCellViewReadOnlyDictionary<string> CellViewTable = OwnerStateView.CellViewTable;
             string PropertyName = ParentInner.PropertyName;
 
             Debug.Assert(CellViewTable != null);
@@ -250,7 +250,7 @@ namespace EaslyController.Frame
             IFrameNodeState OwnerState = inner.Owner;
             IFrameNodeStateView OwnerStateView = StateViewTable[OwnerState];
 
-            IFrameCellViewReadOnlyDictionary<string> CellViewTable = OwnerStateView.CellViewTable;
+            IFrameAssignableCellViewReadOnlyDictionary<string> CellViewTable = OwnerStateView.CellViewTable;
             string PropertyName = inner.PropertyName;
 
             Debug.Assert(CellViewTable != null);
@@ -319,7 +319,7 @@ namespace EaslyController.Frame
             IFrameNodeState OwnerState = inner.Owner;
             IFrameNodeStateView OwnerStateView = StateViewTable[OwnerState];
 
-            IFrameCellViewReadOnlyDictionary<string> CellViewTable = OwnerStateView.CellViewTable;
+            IFrameAssignableCellViewReadOnlyDictionary<string> CellViewTable = OwnerStateView.CellViewTable;
             string PropertyName = inner.PropertyName;
 
             Debug.Assert(CellViewTable != null);
@@ -381,7 +381,7 @@ namespace EaslyController.Frame
 
             Debug.Assert(OwnerStateView != null);
 
-            IFrameCellViewReadOnlyDictionary<string> CellViewTable = OwnerStateView.CellViewTable;
+            IFrameAssignableCellViewReadOnlyDictionary<string> CellViewTable = OwnerStateView.CellViewTable;
             string PropertyName = inner.PropertyName;
 
             Debug.Assert(CellViewTable != null);
@@ -408,7 +408,7 @@ namespace EaslyController.Frame
 
             Debug.Assert(OwnerStateView != null);
 
-            IFrameCellViewReadOnlyDictionary<string> CellViewTable = OwnerStateView.CellViewTable;
+            IFrameAssignableCellViewReadOnlyDictionary<string> CellViewTable = OwnerStateView.CellViewTable;
             string PropertyName = inner.PropertyName;
 
             Debug.Assert(CellViewTable != null);
@@ -455,7 +455,7 @@ namespace EaslyController.Frame
             IFrameNodeState OwnerState = inner.Owner;
             IFrameNodeStateView OwnerStateView = StateViewTable[OwnerState];
 
-            IFrameCellViewReadOnlyDictionary<string> CellViewTable = OwnerStateView.CellViewTable;
+            IFrameAssignableCellViewReadOnlyDictionary<string> CellViewTable = OwnerStateView.CellViewTable;
             string PropertyName = inner.PropertyName;
 
             Debug.Assert(CellViewTable != null);
@@ -560,7 +560,7 @@ namespace EaslyController.Frame
             IFrameNodeState OwnerState = inner.Owner;
             IFrameNodeStateView OwnerStateView = StateViewTable[OwnerState];
 
-            IFrameCellViewReadOnlyDictionary<string> CellViewTable = OwnerStateView.CellViewTable;
+            IFrameAssignableCellViewReadOnlyDictionary<string> CellViewTable = OwnerStateView.CellViewTable;
             string PropertyName = inner.PropertyName;
 
             Debug.Assert(CellViewTable != null);
@@ -585,7 +585,7 @@ namespace EaslyController.Frame
             Debug.Assert(OwnerState != null);
             IFrameNodeStateView OwnerStateView = StateViewTable[OwnerState];
 
-            IFrameCellViewReadOnlyDictionary<string> CellViewTable = OwnerStateView.CellViewTable;
+            IFrameAssignableCellViewReadOnlyDictionary<string> CellViewTable = OwnerStateView.CellViewTable;
             string PropertyName = Inner.PropertyName;
 
             Debug.Assert(CellViewTable != null);
@@ -618,7 +618,7 @@ namespace EaslyController.Frame
             IFrameBlockState FirstBlockState = Inner.BlockStateList[BlockIndex] as IFrameBlockState;
             Debug.Assert(FirstBlockState != null);
 
-            IFrameCellViewReadOnlyDictionary<string> CellViewTable = OwnerStateView.CellViewTable;
+            IFrameAssignableCellViewReadOnlyDictionary<string> CellViewTable = OwnerStateView.CellViewTable;
             string PropertyName = Inner.PropertyName;
 
             Debug.Assert(CellViewTable != null);
@@ -664,7 +664,7 @@ namespace EaslyController.Frame
 
             IFrameNodeStateView OwnerStateView = StateViewTable[OwnerState];
 
-            IFrameCellViewReadOnlyDictionary<string> CellViewTable = OwnerStateView.CellViewTable;
+            IFrameAssignableCellViewReadOnlyDictionary<string> CellViewTable = OwnerStateView.CellViewTable;
             string PropertyName = Inner.PropertyName;
 
             Debug.Assert(CellViewTable != null);
@@ -710,7 +710,7 @@ namespace EaslyController.Frame
             IFrameNodeState OwnerState = ParentInner.Owner;
             IFrameNodeStateView OwnerStateView = StateViewTable[OwnerState];
 
-            IFrameCellViewReadOnlyDictionary<string> CellViewTable = OwnerStateView.CellViewTable;
+            IFrameAssignableCellViewReadOnlyDictionary<string> CellViewTable = OwnerStateView.CellViewTable;
             string PropertyName = ParentInner.PropertyName;
 
             Debug.Assert(CellViewTable != null);

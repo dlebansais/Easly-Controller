@@ -157,6 +157,16 @@ namespace EaslyController.Frame
 
             return Result;
         }
+
+        /// <summary>
+        /// Checks if the tree of cell views under this state is valid.
+        /// </summary>
+        /// <param name="expectedCellViewTable">Cell views that are associated to a property of the node.</param>
+        /// <param name="actualCellViewTable">Cell views that are found in the tree.</param>
+        public override bool IsCellViewTreeValid(IFrameAssignableCellViewReadOnlyDictionary<string> expectedCellViewTable, IFrameAssignableCellViewDictionary<string> actualCellViewTable)
+        {
+            return true;
+        }
         #endregion
     }
 }

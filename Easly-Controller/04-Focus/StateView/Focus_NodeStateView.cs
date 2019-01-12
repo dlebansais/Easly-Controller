@@ -31,7 +31,7 @@ namespace EaslyController.Focus
         /// <summary>
         /// Table of cell views that are mutable lists of cells.
         /// </summary>
-        new IFocusCellViewReadOnlyDictionary<string> CellViewTable { get; }
+        new IFocusAssignableCellViewReadOnlyDictionary<string> CellViewTable { get; }
     }
 
     /// <summary>
@@ -75,7 +75,7 @@ namespace EaslyController.Focus
         /// <summary>
         /// Table of cell views that are mutable lists of cells.
         /// </summary>
-        public new IFocusCellViewReadOnlyDictionary<string> CellViewTable { get { return (IFocusCellViewReadOnlyDictionary<string>)base.CellViewTable; } }
+        public new IFocusAssignableCellViewReadOnlyDictionary<string> CellViewTable { get { return (IFocusAssignableCellViewReadOnlyDictionary<string>)base.CellViewTable; } }
         #endregion
 
         #region Debugging

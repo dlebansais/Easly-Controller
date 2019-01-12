@@ -1,5 +1,6 @@
 ﻿using EaslyController.Frame;
 using System;
+using System.Diagnostics;
 
 namespace EaslyController.Focus
 {
@@ -63,14 +64,18 @@ namespace EaslyController.Focus
         /// <param name="blockStateView">The block state view for which to create cells.</param>
         public override IFrameCellView BuildNodeCells(IFrameControllerView controllerView, IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView)
         {
+            IFrameCellViewCollection EmbeddingCellView = base.BuildNodeCells(controllerView, stateView, parentCellView) as IFrameCellViewCollection;
+            Debug.Assert(EmbeddingCellView != null);
+
             if (Visibility != null && !Visibility.IsVisible((IFocusControllerView)controllerView, (IFocusNodeStateView)stateView, this))
             {
-                IFocusEmptyCellView EmbeddingCellView = CreateEmptyCellView((IFocusNodeStateView)stateView);
-                AssignEmbeddingCellView(stateView, EmbeddingCellView);
+                Debug.Assert(EmbeddingCellView.CellViewList.Count == 0);
+                //EmbeddingCellView = CreateEmptyCellView((IFocusNodeStateView)stateView);
+                //AssignEmbeddingCellView(stateView, EmbeddingCellView);
                 return EmbeddingCellView;
             }
             else
-                return base.BuildNodeCells(controllerView, stateView, parentCellView);
+                return EmbeddingCellView;
         }
         #endregion
 

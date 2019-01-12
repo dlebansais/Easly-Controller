@@ -6,7 +6,7 @@ namespace EaslyController.Focus
     /// <summary>
     /// Base interface for collection of cell views.
     /// </summary>
-    public interface IFocusCellViewCollection : IFrameCellViewCollection, IFocusCellView
+    public interface IFocusCellViewCollection : IFrameCellViewCollection, IFocusCellView, IFocusAssignableCellView
     {
         /// <summary>
         /// The collection of child cells.

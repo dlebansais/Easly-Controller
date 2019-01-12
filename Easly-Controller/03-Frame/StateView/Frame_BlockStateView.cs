@@ -67,6 +67,11 @@ namespace EaslyController.Frame
         /// </summary>
         /// <param name="list">The list of visible cell views upon return.</param>
         void EnumerateVisibleCellViews(IFrameVisibleCellViewList list);
+
+        /// <summary>
+        /// Checks if the tree of cell views under this state is valid.
+        /// </summary>
+        bool IsCellViewTreeValid();
     }
 
     /// <summary>
@@ -226,6 +231,17 @@ namespace EaslyController.Frame
                 Debug.Assert(EmbeddingCellView == null);
                 Debug.Assert(AsBlockStateView.EmbeddingCellView == null);
             }
+
+            return true;
+        }
+
+        /// <summary>
+        /// Checks if the tree of cell views under this state is valid.
+        /// </summary>
+        public virtual bool IsCellViewTreeValid()
+        {
+            if (RootCellView == null)
+                return false;
 
             return true;
         }

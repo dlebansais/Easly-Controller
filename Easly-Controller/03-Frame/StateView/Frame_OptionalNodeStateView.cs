@@ -80,8 +80,8 @@ namespace EaslyController.Frame
         /// <summary>
         /// Table of cell views that are mutable lists of cells.
         /// </summary>
-        public IFrameCellViewReadOnlyDictionary<string> CellViewTable { get; private set; }
-        private IFrameCellViewDictionary<string> _CellViewTable;
+        public IFrameAssignableCellViewReadOnlyDictionary<string> CellViewTable { get; private set; }
+        private IFrameAssignableCellViewDictionary<string> _CellViewTable;
         #endregion
 
         #region Client Interface
@@ -121,7 +121,7 @@ namespace EaslyController.Frame
         /// </summary>
         /// <param name="propertyName">The property name of the inner.</param>
         /// <param name="cellView">The assigned cell view.</param>
-        public virtual void AssignCellViewTable(string propertyName, IFrameCellView cellView)
+        public virtual void AssignCellViewTable(string propertyName, IFrameAssignableCellView cellView)
         {
             Debug.Assert(_CellViewTable.ContainsKey(propertyName));
             Debug.Assert(_CellViewTable[propertyName] == null);
@@ -225,25 +225,36 @@ namespace EaslyController.Frame
 
             return true;
         }
+
+        /// <summary>
+        /// Checks if the tree of cell views under this state is valid.
+        /// </summary>
+        public virtual bool IsCellViewTreeValid()
+        {
+            if (RootCellView == null)
+                return false;
+
+            return true;
+        }
         #endregion
 
         #region Create Methods
         /// <summary>
-        /// Creates a IxxxCellViewDictionary{string} object.
+        /// Creates a IxxxAssignableCellViewDictionary{string} object.
         /// </summary>
-        protected virtual IFrameCellViewDictionary<string> CreateCellViewTable()
+        protected virtual IFrameAssignableCellViewDictionary<string> CreateCellViewTable()
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameOptionalNodeStateView));
-            return new FrameCellViewDictionary<string>();
+            return new FrameAssignableCellViewDictionary<string>();
         }
 
         /// <summary>
-        /// Creates a IxxxCellViewReadOnlyDictionary{string} object.
+        /// Creates a IxxxAssignableCellViewReadOnlyDictionary{string} object.
         /// </summary>
-        protected virtual IFrameCellViewReadOnlyDictionary<string> CreateCellViewReadOnlyTable(IFrameCellViewDictionary<string> dictionary)
+        protected virtual IFrameAssignableCellViewReadOnlyDictionary<string> CreateCellViewReadOnlyTable(IFrameAssignableCellViewDictionary<string> dictionary)
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameOptionalNodeStateView));
-            return new FrameCellViewReadOnlyDictionary<string>(dictionary);
+            return new FrameAssignableCellViewReadOnlyDictionary<string>(dictionary);
         }
 
         /// <summary>

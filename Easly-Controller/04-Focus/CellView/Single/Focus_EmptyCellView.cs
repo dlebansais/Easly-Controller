@@ -6,7 +6,7 @@ namespace EaslyController.Focus
     /// <summary>
     /// Cell view with no content and that is not displayed.
     /// </summary>
-    public interface IFocusEmptyCellView : IFrameEmptyCellView, IFocusCellView
+    public interface IFocusEmptyCellView : IFrameEmptyCellView, IFocusCellView, IFocusAssignableCellView
     {
     }
 

@@ -38,6 +38,13 @@ namespace EaslyController.Frame
         /// <param name="indentation">The indentation level to use.</param>
         /// <param name="isVerbose">True to verbose information.</param>
         string PrintTree(int indentation, bool isVerbose);
+
+        /// <summary>
+        /// Checks if the tree of cell views under this state is valid.
+        /// </summary>
+        /// <param name="expectedCellViewTable">Cell views that are associated to a property of the node.</param>
+        /// <param name="actualCellViewTable">Cell views that are found in the tree.</param>
+        bool IsCellViewTreeValid(IFrameAssignableCellViewReadOnlyDictionary<string> expectedCellViewTable, IFrameAssignableCellViewDictionary<string> actualCellViewTable);
     }
 
     /// <summary>
@@ -110,6 +117,13 @@ namespace EaslyController.Frame
         /// <param name="indentation">The indentation level to use.</param>
         /// <param name="isVerbose">True to verbose information.</param>
         public abstract string PrintTree(int indentation, bool isVerbose);
+
+        /// <summary>
+        /// Checks if the tree of cell views under this state is valid.
+        /// </summary>
+        /// <param name="expectedCellViewTable">Cell views that are associated to a property of the node.</param>
+        /// <param name="actualCellViewTable">Cell views that are found in the tree.</param>
+        public abstract bool IsCellViewTreeValid(IFrameAssignableCellViewReadOnlyDictionary<string> expectedCellViewTable, IFrameAssignableCellViewDictionary<string> actualCellViewTable);
         #endregion
     }
 }

@@ -6,7 +6,7 @@ namespace EaslyController.Focus
     /// <summary>
     /// A leaf of the cell view tree for a child state.
     /// </summary>
-    public interface IFocusContainerCellView : IFrameContainerCellView, IFocusCellView
+    public interface IFocusContainerCellView : IFrameContainerCellView, IFocusCellView, IFocusAssignableCellView
     {
         /// <summary>
         /// The collection of cell views containing this view.

@@ -60,7 +60,7 @@ namespace EaslyController.Focus
         /// <summary>
         /// Table of cell views that are mutable lists of cells.
         /// </summary>
-        public new IFocusCellViewReadOnlyDictionary<string> CellViewTable { get { return (IFocusCellViewReadOnlyDictionary<string>)base.CellViewTable; } }
+        public new IFocusAssignableCellViewReadOnlyDictionary<string> CellViewTable { get { return (IFocusAssignableCellViewReadOnlyDictionary<string>)base.CellViewTable; } }
         #endregion
 
         #region Debugging
@@ -85,21 +85,21 @@ namespace EaslyController.Focus
 
         #region Create Methods
         /// <summary>
-        /// Creates a IxxxCellViewDictionary{string} object.
+        /// Creates a IxxxAssignableCellViewDictionary{string} object.
         /// </summary>
-        protected override IFrameCellViewDictionary<string> CreateCellViewTable()
+        protected override IFrameAssignableCellViewDictionary<string> CreateCellViewTable()
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusSourceStateView));
-            return new FocusCellViewDictionary<string>();
+            return new FocusAssignableCellViewDictionary<string>();
         }
 
         /// <summary>
-        /// Creates a IxxxCellViewReadOnlyDictionary{string} object.
+        /// Creates a IxxxAssignableCellViewReadOnlyDictionary{string} object.
         /// </summary>
-        protected override IFrameCellViewReadOnlyDictionary<string> CreateCellViewReadOnlyTable(IFrameCellViewDictionary<string> dictionary)
+        protected override IFrameAssignableCellViewReadOnlyDictionary<string> CreateCellViewReadOnlyTable(IFrameAssignableCellViewDictionary<string> dictionary)
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusSourceStateView));
-            return new FocusCellViewReadOnlyDictionary<string>((IFocusCellViewDictionary<string>)dictionary);
+            return new FocusAssignableCellViewReadOnlyDictionary<string>((IFocusAssignableCellViewDictionary<string>)dictionary);
         }
         #endregion
     }

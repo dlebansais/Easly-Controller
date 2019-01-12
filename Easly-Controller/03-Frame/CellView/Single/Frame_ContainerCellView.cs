@@ -5,7 +5,7 @@ namespace EaslyController.Frame
     /// <summary>
     /// A leaf of the cell view tree for a child state.
     /// </summary>
-    public interface IFrameContainerCellView : IFrameCellView
+    public interface IFrameContainerCellView : IFrameCellView, IFrameAssignableCellView
     {
         /// <summary>
         /// The collection of cell views containing this view.
@@ -48,6 +48,11 @@ namespace EaslyController.Frame
         /// The state view of the state associated to this cell.
         /// </summary>
         public IFrameNodeStateView ChildStateView { get; }
+
+        /// <summary>
+        /// True if the cell is assigned to a property in a cell view table.
+        /// </summary>
+        public bool IsAssignedToTable { get; private set; }
         #endregion
 
         #region Client Interface
@@ -69,6 +74,14 @@ namespace EaslyController.Frame
         public override void UpdateLineNumbers(ref int lineNumber, ref int maxLineNumber, ref int columnNumber, ref int maxColumnNumber)
         {
             RecalculateChildLineNumbers(ChildStateView, ref lineNumber, ref maxLineNumber, ref columnNumber, ref maxColumnNumber);
+        }
+
+        /// <summary>
+        /// Indicates that the cell view is assigned to a property in a cell view table.
+        /// </summary>
+        public virtual void AssignToCellViewTable()
+        {
+            IsAssignedToTable = true;
         }
         #endregion
 
@@ -147,6 +160,19 @@ namespace EaslyController.Frame
             }
 
             return Result;
+        }
+
+        /// <summary>
+        /// Checks if the tree of cell views under this state is valid.
+        /// </summary>
+        /// <param name="expectedCellViewTable">Cell views that are associated to a property of the node.</param>
+        /// <param name="actualCellViewTable">Cell views that are found in the tree.</param>
+        public override bool IsCellViewTreeValid(IFrameAssignableCellViewReadOnlyDictionary<string> expectedCellViewTable, IFrameAssignableCellViewDictionary<string> actualCellViewTable)
+        {
+            if (!StateView.IsCellViewTreeValid())
+                return false;
+
+            return true;
         }
         #endregion
     }

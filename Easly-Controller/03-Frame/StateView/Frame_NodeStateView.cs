@@ -32,7 +32,7 @@ namespace EaslyController.Frame
         /// <summary>
         /// Table of cell views that are mutable lists of cells.
         /// </summary>
-        IFrameCellViewReadOnlyDictionary<string> CellViewTable { get; }
+        IFrameAssignableCellViewReadOnlyDictionary<string> CellViewTable { get; }
 
         /// <summary>
         /// Builds the cell view tree for this view.
@@ -41,7 +41,7 @@ namespace EaslyController.Frame
 
         /// <param name="propertyName">The property name of the inner.</param>
         /// <param name="cellView">The assigned cell view.</param>
-        void AssignCellViewTable(string propertyName, IFrameCellView cellView);
+        void AssignCellViewTable(string propertyName, IFrameAssignableCellView cellView);
 
         /// <summary>
         /// Clears the cell view tree for this view.
@@ -69,6 +69,11 @@ namespace EaslyController.Frame
         /// </summary>
         /// <param name="list">The list of visible cell views upon return.</param>
         void EnumerateVisibleCellViews(IFrameVisibleCellViewList list);
+
+        /// <summary>
+        /// Checks if the tree of cell views under this state is valid.
+        /// </summary>
+        bool IsCellViewTreeValid();
     }
 
     /// <summary>
@@ -112,7 +117,7 @@ namespace EaslyController.Frame
         /// <summary>
         /// Table of cell views that are mutable lists of cells.
         /// </summary>
-        public virtual IFrameCellViewReadOnlyDictionary<string> CellViewTable { get { throw new InvalidOperationException(); } } // Can't make this abstract, thank you C#...
+        public virtual IFrameAssignableCellViewReadOnlyDictionary<string> CellViewTable { get { throw new InvalidOperationException(); } } // Can't make this abstract, thank you C#...
         #endregion
 
         #region Client Interface
@@ -126,7 +131,7 @@ namespace EaslyController.Frame
         /// </summary>
         /// <param name="propertyName">The property name of the inner.</param>
         /// <param name="cellView">The assigned cell view.</param>
-        public abstract void AssignCellViewTable(string propertyName, IFrameCellView cellView);
+        public abstract void AssignCellViewTable(string propertyName, IFrameAssignableCellView cellView);
 
         /// <summary>
         /// Clears the cell view tree for this view.
@@ -194,6 +199,17 @@ namespace EaslyController.Frame
                 Debug.Assert(CellViewTable == null);
                 Debug.Assert(AsNodeStateView.CellViewTable == null);
             }
+
+            return true;
+        }
+
+        /// <summary>
+        /// Checks if the tree of cell views under this state is valid.
+        /// </summary>
+        public virtual bool IsCellViewTreeValid()
+        {
+            if (RootCellView == null)
+                return false;
 
             return true;
         }

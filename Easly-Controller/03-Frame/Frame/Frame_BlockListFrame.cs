@@ -52,7 +52,6 @@ namespace EaslyController.Frame
             IFrameCellViewList CellViewList = CreateCellViewList();
 
             IFrameCellViewCollection EmbeddingCellView = CreateEmbeddingCellView(stateView, CellViewList);
-            //stateView.AssignCellViewTable(PropertyName, EmbeddingCellView);
 
             Type BlockType = Inner.BlockType;
             IFrameTemplateSet TemplateSet = controllerView.TemplateSet;
@@ -74,8 +73,9 @@ namespace EaslyController.Frame
             return EmbeddingCellView;
         }
 
-        protected virtual void AssignEmbeddingCellView(IFrameNodeStateView stateView, IFrameCellView embeddingCellView)
+        protected virtual void AssignEmbeddingCellView(IFrameNodeStateView stateView, IFrameAssignableCellView embeddingCellView)
         {
+            embeddingCellView.AssignToCellViewTable();
             stateView.AssignCellViewTable(PropertyName, embeddingCellView);
         }
         #endregion
