@@ -40,7 +40,7 @@ namespace EaslyController.Focus
         /// <param name="frame">The frame with the associated visibility.</param>
         public virtual bool IsBlockVisible(IFocusControllerView controllerView, IFocusNodeStateView stateView, IFocusBlockStateView blockStateView, IFocusBlockFrame frame)
         {
-            if (controllerView.IsInReplicatedBlock(blockStateView))
+            if (!controllerView.IsInReplicatedBlock(blockStateView))
                 return false;
 
             return true;

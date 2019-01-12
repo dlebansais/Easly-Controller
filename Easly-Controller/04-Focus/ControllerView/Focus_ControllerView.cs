@@ -1,4 +1,5 @@
-﻿using BaseNodeHelper;
+﻿using BaseNode;
+using BaseNodeHelper;
 using EaslyController.Constants;
 using EaslyController.Frame;
 using EaslyController.ReadOnly;
@@ -140,7 +141,11 @@ namespace EaslyController.Focus
             IFocusPlaceholderInner ParentInner = State.InnerTable[propertyName] as IFocusPlaceholderInner;
             Debug.Assert(ParentInner != null);
 
-            Type InterfaceType = ParentInner.InterfaceType;
+            NodeTreeHelperChild.GetChildNode(stateView.State.Node, propertyName, out INode ChildNode);
+            Debug.Assert(ChildNode != null);
+
+            Type NodeType = ChildNode.GetType();
+            Type InterfaceType = NodeTreeHelper.NodeTypeToInterfaceType(NodeType);
             Debug.Assert(TemplateSet.NodeTemplateTable.ContainsKey(InterfaceType));
 
             IFocusNodeTemplate ParentTemplate = TemplateSet.NodeTemplateTable[InterfaceType] as IFocusNodeTemplate;

@@ -74,9 +74,12 @@ namespace EaslyController.Focus
         public override IFrameCellView BuildNodeCells(IFrameControllerView controllerView, IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView)
         {
             if (Visibility != null && !Visibility.IsVisible((IFocusControllerView)controllerView, (IFocusNodeStateView)stateView, this))
-                return CreateEmptyCellView((IFocusNodeStateView)stateView);
-
-            return base.BuildNodeCells(controllerView, stateView, parentCellView);
+            {
+                IFocusEmptyCellView EmbeddingCellView = CreateEmptyCellView((IFocusNodeStateView)stateView);
+                return EmbeddingCellView;
+            }
+            else
+                return base.BuildNodeCells(controllerView, stateView, parentCellView);
         }
 
         /// <summary>
@@ -88,9 +91,12 @@ namespace EaslyController.Focus
         public override IFrameCellView BuildBlockCells(IFrameControllerView controllerView, IFrameNodeStateView stateView, IFrameBlockStateView blockStateView)
         {
             if (BlockVisibility != null && !BlockVisibility.IsBlockVisible((IFocusControllerView)controllerView, (IFocusNodeStateView)stateView, (IFocusBlockStateView)blockStateView, this))
-                return CreateEmptyCellView((IFocusNodeStateView)stateView);
-
-            return base.BuildBlockCells(controllerView, stateView, blockStateView);
+            {
+                IFocusEmptyCellView EmbeddingCellView = CreateEmptyCellView((IFocusNodeStateView)stateView);
+                return EmbeddingCellView;
+            }
+            else
+                return base.BuildBlockCells(controllerView, stateView, blockStateView);
         }
         #endregion
 

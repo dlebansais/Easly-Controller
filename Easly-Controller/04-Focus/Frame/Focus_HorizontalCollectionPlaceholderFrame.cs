@@ -42,9 +42,13 @@ namespace EaslyController.Focus
         public override IFrameCellView BuildBlockCells(IFrameControllerView controllerView, IFrameNodeStateView stateView, IFrameBlockStateView blockStateView)
         {
             if (BlockVisibility != null && !BlockVisibility.IsBlockVisible((IFocusControllerView)controllerView, (IFocusNodeStateView)stateView, (IFocusBlockStateView)blockStateView, this))
-                return CreateEmptyCellView((IFocusNodeStateView)stateView);
-
-            return base.BuildBlockCells(controllerView, stateView, blockStateView);
+            {
+                IFocusCellViewCollection EmbeddingCellView = CreateEmptyEmbeddingCellView((IFocusNodeStateView)stateView);
+                AssignEmbeddingCellView(blockStateView, EmbeddingCellView);
+                return EmbeddingCellView;
+            }
+            else
+                return base.BuildBlockCells(controllerView, stateView, blockStateView);
         }
         #endregion
 
@@ -77,12 +81,12 @@ namespace EaslyController.Focus
         }
 
         /// <summary>
-        /// Creates a IxxxEmptyCellView object.
+        /// Creates an empty IxxxCellViewCollection object.
         /// </summary>
-        protected virtual IFocusEmptyCellView CreateEmptyCellView(IFocusNodeStateView stateView)
+        protected virtual IFocusCellViewCollection CreateEmptyEmbeddingCellView(IFocusNodeStateView stateView)
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusHorizontalCollectionPlaceholderFrame));
-            return new FocusEmptyCellView(stateView);
+            return new FocusColumn(stateView, new FocusCellViewList());
         }
         #endregion
     }

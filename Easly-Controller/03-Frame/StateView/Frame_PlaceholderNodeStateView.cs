@@ -90,8 +90,8 @@ namespace EaslyController.Frame
 
             RootCellView = NodeTemplate.BuildNodeCells(ControllerView, this);
 
-            foreach (KeyValuePair<string, IFrameCellView> Entry in _CellViewTable)
-                Debug.Assert(Entry.Value != null);
+            //foreach (KeyValuePair<string, IFrameCellView> Entry in _CellViewTable)
+            //    Debug.Assert(Entry.Value != null);
 
             CellViewTable = CreateCellViewReadOnlyTable(_CellViewTable);
         }
@@ -105,6 +105,7 @@ namespace EaslyController.Frame
         {
             Debug.Assert(_CellViewTable.ContainsKey(propertyName));
             Debug.Assert(_CellViewTable[propertyName] == null);
+            Debug.Assert(cellView != null);
 
             _CellViewTable[propertyName] = cellView;
         }
@@ -131,6 +132,7 @@ namespace EaslyController.Frame
         {
             Debug.Assert(_CellViewTable.ContainsKey(propertyName));
             Debug.Assert(_CellViewTable[propertyName] != null);
+            Debug.Assert(cellView != null);
 
             _CellViewTable[propertyName] = cellView;
         }

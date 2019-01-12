@@ -66,9 +66,15 @@ namespace EaslyController.Frame
                 CellViewList.Add(FrameCellView);
             }
 
-            stateView.AssignCellViewTable(PropertyName, EmbeddingCellView);
+            //stateView.AssignCellViewTable(PropertyName, EmbeddingCellView);
+            AssignEmbeddingCellView(stateView, EmbeddingCellView);
 
             return EmbeddingCellView;
+        }
+
+        protected virtual void AssignEmbeddingCellView(IFrameNodeStateView stateView, IFrameCellView embeddingCellView)
+        {
+            stateView.AssignCellViewTable(PropertyName, embeddingCellView);
         }
         #endregion
 

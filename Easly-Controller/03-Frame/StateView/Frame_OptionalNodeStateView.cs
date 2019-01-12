@@ -107,8 +107,8 @@ namespace EaslyController.Frame
 
                 RootCellView = NodeTemplate.BuildNodeCells(ControllerView, this);
 
-                foreach (KeyValuePair<string, IFrameCellView> Entry in _CellViewTable)
-                    Debug.Assert(Entry.Value != null);
+                //foreach (KeyValuePair<string, IFrameCellView> Entry in _CellViewTable)
+                //    Debug.Assert(Entry.Value != null);
             }
             else
                 RootCellView = CreateEmptyCellView(this);

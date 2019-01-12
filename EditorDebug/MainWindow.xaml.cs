@@ -14,6 +14,7 @@ using System.Runtime.CompilerServices;
 using System.Diagnostics;
 using EaslyController.Constants;
 using System.Windows.Media;
+using EaslyController.Focus;
 
 namespace EditorDebug
 {
@@ -68,11 +69,12 @@ namespace EditorDebug
 
                 Serializer Serializer = new Serializer();
                 INode RootNode = Serializer.Deserialize(fs) as INode;
-                LoadFile(RootNode);
+                LoadFileFocus(RootNode);
             }
         }
 
-        private void LoadFile(INode rootNode)
+        #region Frame
+        private void LoadFileFrame(INode rootNode)
         {
             IFrameRootNodeIndex RootIndex = new FrameRootNodeIndex(rootNode);
             IFrameController Controller = FrameController.Create(RootIndex);
@@ -176,6 +178,114 @@ namespace EditorDebug
                 gridMain.Children.Add(Child);
             }
         }
+        #endregion
+
+        #region Focus
+        private void LoadFileFocus(INode rootNode)
+        {
+            IFocusRootNodeIndex RootIndex = new FocusRootNodeIndex(rootNode);
+            IFocusController Controller = FocusController.Create(RootIndex);
+            IFocusControllerView ControllerView = FocusControllerView.Create(Controller, CustomFocusTemplateSet.FocusTemplateSet);
+
+            int MaxRow = ControllerView.LastLineNumber;
+            int MaxColumn = ControllerView.LastColumnNumber;
+
+            for (int i = 0; i < MaxRow; i++)
+                gridMain.RowDefinitions.Add(new RowDefinition());
+            for (int i = 0; i < MaxColumn; i++)
+                gridMain.ColumnDefinitions.Add(new ColumnDefinition());
+
+            IFocusVisibleCellView[,] Assigned = new IFocusVisibleCellView[MaxRow, MaxColumn];
+
+            IFocusVisibleCellViewList CellList = new FocusVisibleCellViewList();
+            ControllerView.EnumerateVisibleCellViews(CellList);
+
+            foreach (IFocusVisibleCellView CellView in CellList)
+            {
+                int Row = CellView.LineNumber - 1;
+                int Column = CellView.ColumnNumber - 1;
+                IFocusFrame Frame = CellView.Frame;
+                INode ChildNode = CellView.StateView.State.Node;
+                string PropertyName;
+                TextBlock Child = new TextBlock();
+                IFocusVisibleCellView OldCellView = Assigned[Row, Column];
+                Debug.Assert(OldCellView == null);
+
+                switch (CellView)
+                {
+                    case IFocusDiscreteContentFocusableCellView AsDiscreteContentFocusable: // Enum, bool
+                        PropertyName = AsDiscreteContentFocusable.PropertyName;
+                        if (NodeTreeHelper.IsEnumProperty(ChildNode, PropertyName))
+                            Child.Text = $"{PropertyName}: {NodeTreeHelper.GetEnumValue(ChildNode, PropertyName)}";
+                        else if (NodeTreeHelper.IsBooleanProperty(ChildNode, PropertyName))
+                            if (NodeTreeHelper.GetEnumValue(ChildNode, PropertyName) != 0)
+                                Child.Text = $"{PropertyName}: True";
+                            else
+                                Child.Text = $"{PropertyName}: False";
+                        else
+                            throw new ArgumentOutOfRangeException(nameof(CellView));
+                        break;
+                    case IFocusTextFocusableCellView AsTextFocusable: // String
+                        Child.Text = NodeTreeHelper.GetText(ChildNode);
+                        break;
+                    case IFocusFocusableCellView AsFocusable: // Insert
+                        Child.Foreground = Brushes.Blue;
+                        Child.FontWeight = FontWeights.Bold;
+                        Child.Text = "◄";
+                        break;
+                    case IFocusVisibleCellView AsVisible: // Others
+                        if (Frame is IFocusKeywordFrame AsKeywordFocus)
+                        {
+                            Child.FontWeight = FontWeights.Bold;
+                            Child.Text = AsKeywordFocus.Text;
+                        }
+                        else if (Frame is IFocusSymbolFrame AsSymbolFocus)
+                        {
+                            Child.Foreground = Brushes.Blue;
+
+                            Symbols Symbol = AsSymbolFocus.Symbol;
+                            switch (Symbol)
+                            {
+                                case Symbols.LeftArrow:
+                                    Child.Text = "←";
+                                    break;
+                                case Symbols.Dot:
+                                    Child.Text = ".";
+                                    break;
+                                case Symbols.LeftBracket:
+                                    Child.Text = "[";
+                                    break;
+                                case Symbols.RightBracket:
+                                    Child.Text = "]";
+                                    break;
+                                case Symbols.LeftCurlyBracket:
+                                    Child.Text = "{";
+                                    break;
+                                case Symbols.RightCurlyBracket:
+                                    Child.Text = "}";
+                                    break;
+                                case Symbols.LeftParenthesis:
+                                    Child.Text = "(";
+                                    break;
+                                case Symbols.RightParenthesis:
+                                    Child.Text = ")";
+                                    break;
+                            }
+                        }
+                        else
+                            throw new ArgumentOutOfRangeException(nameof(CellView));
+                        break;
+                }
+
+                Child.Margin = new Thickness(0, 0, 5, 0);
+                Grid.SetRow(Child, Row);
+                Grid.SetColumn(Child, Column);
+                Assigned[Row, Column] = CellView;
+
+                gridMain.Children.Add(Child);
+            }
+        }
+        #endregion
 
         #region Implementation of INotifyPropertyChanged
         public event PropertyChangedEventHandler PropertyChanged;
