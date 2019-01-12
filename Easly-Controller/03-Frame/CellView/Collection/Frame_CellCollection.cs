@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace EaslyController.Frame
 {
@@ -90,6 +91,8 @@ namespace EaslyController.Frame
         /// </summary>
         public virtual void AssignToCellViewTable()
         {
+            Debug.Assert(!IsAssignedToTable);
+
             IsAssignedToTable = true;
         }
 
@@ -234,8 +237,42 @@ namespace EaslyController.Frame
         public override bool IsCellViewTreeValid(IFrameAssignableCellViewReadOnlyDictionary<string> expectedCellViewTable, IFrameAssignableCellViewDictionary<string> actualCellViewTable)
         {
             foreach (IFrameCellView CellView in CellViewList)
-                if (!IsCellViewTreeValid(expectedCellViewTable, actualCellViewTable))
+                if (!CellView.IsCellViewTreeValid(expectedCellViewTable, actualCellViewTable))
                     return false;
+
+            if (!IsCellViewProperlyAssigned(expectedCellViewTable, actualCellViewTable))
+                return false;
+
+            return true;
+        }
+
+        protected virtual bool IsCellViewProperlyAssigned(IFrameAssignableCellViewReadOnlyDictionary<string> expectedCellViewTable, IFrameAssignableCellViewDictionary<string> actualCellViewTable)
+        {
+            string PropertyName = null;
+            foreach (KeyValuePair<string, IFrameAssignableCellView> Entry in expectedCellViewTable)
+                if (Entry.Value == this)
+                {
+                    PropertyName = Entry.Key;
+                    break;
+                }
+
+            if (IsAssignedToTable != (PropertyName != null))
+                return false;
+
+            if (PropertyName != null)
+            {
+                bool IsActual = false;
+                foreach (KeyValuePair<string, IFrameAssignableCellView> Entry in actualCellViewTable)
+                    if (Entry.Value == this)
+                    {
+                        IsActual = true;
+                        break;
+                    }
+                if (IsActual)
+                    return false;
+
+                actualCellViewTable.Add(PropertyName, this);
+            }
 
             return true;
         }

@@ -68,7 +68,7 @@ namespace EaslyController.Focus
         bool IsInReplicatedBlock(IFocusBlockStateView blockStateView);
 
         /// <summary>
-        /// Checks if the string associated to the <paramref name="propertyName"/> property of the <paramref name="stateView"/> state has match the pattern in <paramref name="textPattern"/>.
+        /// Checks if the string associated to the <paramref name="propertyName"/> property of the <paramref name="stateView"/> state matches the pattern in <paramref name="textPattern"/>.
         /// </summary>
         /// <param name="stateView">The state view for the node with property <paramref name="propertyName"/>.</param>
         /// <param name="propertyName">Name of the property pointing to the template to check.</param>
@@ -245,7 +245,7 @@ namespace EaslyController.Focus
         }
 
         /// <summary>
-        /// Checks if the string associated to the <paramref name="propertyName"/> property of the <paramref name="stateView"/> state has match the pattern in <paramref name="textPattern"/>.
+        /// Checks if the string associated to the <paramref name="propertyName"/> property of the <paramref name="stateView"/> state matches the pattern in <paramref name="textPattern"/>.
         /// </summary>
         /// <param name="stateView">The state view for the node with property <paramref name="propertyName"/>.</param>
         /// <param name="propertyName">Name of the property pointing to the template to check.</param>
@@ -253,13 +253,15 @@ namespace EaslyController.Focus
         public virtual bool StringMatchTextPattern(IFocusNodeStateView stateView, string propertyName, string textPattern)
         {
             IFocusNodeState State = stateView.State;
-            Debug.Assert(State.ValuePropertyTypeTable.ContainsKey(propertyName));
+            Debug.Assert(State.InnerTable.ContainsKey(propertyName));
 
-            switch (State.ValuePropertyTypeTable[propertyName])
+            switch (State.InnerTable[propertyName])
             {
-                case ValuePropertyType.String:
-                    Debug.Assert(propertyName == "Text");
-                    return NodeTreeHelper.GetText(State.Node) == textPattern;
+                case IFocusPlaceholderInner AsPlaceholderInner:
+                    Debug.Assert(AsPlaceholderInner.InterfaceType == typeof(IIdentifier));
+                    IFocusPlaceholderNodeState ChildState = AsPlaceholderInner.ChildState as IFocusPlaceholderNodeState;
+                    Debug.Assert(ChildState != null);
+                    return NodeTreeHelper.GetText(ChildState.Node) == textPattern;
 
                 default:
                     throw new ArgumentOutOfRangeException(nameof(propertyName));

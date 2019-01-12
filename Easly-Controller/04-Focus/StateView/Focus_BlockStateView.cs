@@ -100,5 +100,25 @@ namespace EaslyController.Focus
             return true;
         }
         #endregion
+
+        #region Create Methods
+        /// <summary>
+        /// Creates a IxxxAssignableCellViewDictionary{string} object.
+        /// </summary>
+        protected override IFrameAssignableCellViewDictionary<string> CreateCellViewTable()
+        {
+            ControllerTools.AssertNoOverride(this, typeof(FocusBlockStateView));
+            return new FocusAssignableCellViewDictionary<string>();
+        }
+
+        /// <summary>
+        /// Creates a IxxxAssignableCellViewReadOnlyDictionary{string} object.
+        /// </summary>
+        protected override IFrameAssignableCellViewReadOnlyDictionary<string> CreateCellViewReadOnlyTable(IFrameAssignableCellViewDictionary<string> dictionary)
+        {
+            ControllerTools.AssertNoOverride(this, typeof(FocusBlockStateView));
+            return new FocusAssignableCellViewReadOnlyDictionary<string>((IFocusAssignableCellViewDictionary<string>)dictionary);
+        }
+        #endregion
     }
 }

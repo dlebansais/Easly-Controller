@@ -1263,6 +1263,9 @@ namespace TestDebug
                     <FocusVerticalBlockListFrame PropertyName=""EnsureBlocks"" />
                 </FocusVerticalPanelFrame>
                 <FocusHorizontalPanelFrame>
+                    <FocusHorizontalPanelFrame.Visibility>
+                        <FocusTextMatchFrameVisibility PropertyName=""ExportIdentifier"" TextPattern=""All""/>
+                    </FocusHorizontalPanelFrame.Visibility>
                     <FocusKeywordFrame>export to</FocusKeywordFrame>
                     <FocusPlaceholderFrame PropertyName=""ExportIdentifier"" />
                 </FocusHorizontalPanelFrame>
@@ -1286,6 +1289,9 @@ namespace TestDebug
             </FocusHorizontalPanelFrame>
             <FocusVerticalPanelFrame>
                 <FocusHorizontalPanelFrame>
+                    <FocusHorizontalPanelFrame.Visibility>
+                        <FocusTextMatchFrameVisibility PropertyName=""ExportIdentifier"" TextPattern=""All""/>
+                    </FocusHorizontalPanelFrame.Visibility>
                     <FocusKeywordFrame>export to</FocusKeywordFrame>
                     <FocusPlaceholderFrame PropertyName=""ExportIdentifier"" />
                 </FocusHorizontalPanelFrame>
@@ -1308,6 +1314,9 @@ namespace TestDebug
             <FocusVerticalPanelFrame>
                 <FocusVerticalBlockListFrame PropertyName=""OverloadBlocks"" IsNeverEmpty=""True""/>
                 <FocusHorizontalPanelFrame>
+                    <FocusHorizontalPanelFrame.Visibility>
+                        <FocusTextMatchFrameVisibility PropertyName=""ExportIdentifier"" TextPattern=""All""/>
+                    </FocusHorizontalPanelFrame.Visibility>
                     <FocusKeywordFrame>export to</FocusKeywordFrame>
                     <FocusPlaceholderFrame PropertyName=""ExportIdentifier"" />
                 </FocusHorizontalPanelFrame>
@@ -1338,6 +1347,9 @@ namespace TestDebug
             <FocusVerticalPanelFrame>
                 <FocusVerticalBlockListFrame PropertyName=""OverloadBlocks"" IsNeverEmpty=""True""/>
                 <FocusHorizontalPanelFrame>
+                    <FocusHorizontalPanelFrame.Visibility>
+                        <FocusTextMatchFrameVisibility PropertyName=""ExportIdentifier"" TextPattern=""All""/>
+                    </FocusHorizontalPanelFrame.Visibility>
                     <FocusKeywordFrame>export to</FocusKeywordFrame>
                     <FocusPlaceholderFrame PropertyName=""ExportIdentifier"" />
                 </FocusHorizontalPanelFrame>
@@ -1383,6 +1395,9 @@ namespace TestDebug
                     <FocusOptionalFrame PropertyName=""SetterBody"" />
                 </FocusVerticalPanelFrame>
                 <FocusHorizontalPanelFrame>
+                    <FocusHorizontalPanelFrame.Visibility>
+                        <FocusTextMatchFrameVisibility PropertyName=""ExportIdentifier"" TextPattern=""All""/>
+                    </FocusHorizontalPanelFrame.Visibility>
                     <FocusKeywordFrame>export to</FocusKeywordFrame>
                     <FocusPlaceholderFrame PropertyName=""ExportIdentifier"" />
                 </FocusHorizontalPanelFrame>
@@ -1404,6 +1419,9 @@ namespace TestDebug
             <FocusVerticalPanelFrame>
                 <FocusVerticalBlockListFrame PropertyName=""OverloadBlocks"" IsNeverEmpty=""True""/>
                 <FocusHorizontalPanelFrame>
+                    <FocusHorizontalPanelFrame.Visibility>
+                        <FocusTextMatchFrameVisibility PropertyName=""ExportIdentifier"" TextPattern=""All""/>
+                    </FocusHorizontalPanelFrame.Visibility>
                     <FocusKeywordFrame>export to</FocusKeywordFrame>
                     <FocusPlaceholderFrame PropertyName=""ExportIdentifier"" />
                 </FocusHorizontalPanelFrame>
@@ -1435,6 +1453,9 @@ namespace TestDebug
                 <FocusOptionalFrame PropertyName=""GetterBody""  />
                 <FocusOptionalFrame PropertyName=""SetterBody"" />
                 <FocusHorizontalPanelFrame>
+                    <FocusHorizontalPanelFrame.Visibility>
+                        <FocusTextMatchFrameVisibility PropertyName=""ExportIdentifier"" TextPattern=""All""/>
+                    </FocusHorizontalPanelFrame.Visibility>
                     <FocusKeywordFrame>export to</FocusKeywordFrame>
                     <FocusPlaceholderFrame PropertyName=""ExportIdentifier"" />
                 </FocusHorizontalPanelFrame>

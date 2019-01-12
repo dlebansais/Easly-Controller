@@ -65,7 +65,7 @@ namespace EaslyController.Focus
         /// <param name="frame">The frame with the associated visibility.</param>
         public virtual bool IsVisible(IFocusControllerView controllerView, IFocusNodeStateView stateView, IFocusNodeFrame frame)
         {
-            if (!controllerView.StringMatchTextPattern(stateView, PropertyName, TextPattern))
+            if (controllerView.StringMatchTextPattern(stateView, PropertyName, TextPattern))
                 return false;
 
             return true;

@@ -1,5 +1,6 @@
 ﻿using EaslyController.Writeable;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace EaslyController.Frame
@@ -211,7 +212,42 @@ namespace EaslyController.Frame
             if (RootCellView == null)
                 return false;
 
+            IFrameAssignableCellViewDictionary<string> ActualCellViewTable = CreateCellViewTable();
+            if (!RootCellView.IsCellViewTreeValid(CellViewTable, ActualCellViewTable))
+                return false;
+
+            if (!AllCellViewsProperlyAssigned(CellViewTable, ActualCellViewTable))
+                return false;
+
             return true;
+        }
+
+        protected virtual bool AllCellViewsProperlyAssigned(IFrameAssignableCellViewReadOnlyDictionary<string> expectedCellViewTable, IFrameAssignableCellViewDictionary<string> actualCellViewTable)
+        {
+            int ActualCount = 0;
+            foreach (KeyValuePair<string, IFrameAssignableCellView> Entry in CellViewTable)
+                if (Entry.Value != null)
+                {
+                    ActualCount++;
+                    if (!actualCellViewTable.ContainsKey(Entry.Key))
+                        return false;
+                }
+
+            if (actualCellViewTable.Count != ActualCount)
+                return false;
+
+            return true;
+        }
+        #endregion
+
+        #region Create Methods
+        /// <summary>
+        /// Creates a IxxxAssignableCellViewDictionary{string} object.
+        /// </summary>
+        protected virtual IFrameAssignableCellViewDictionary<string> CreateCellViewTable()
+        {
+            ControllerTools.AssertNoOverride(this, typeof(FrameNodeStateView));
+            return new FrameAssignableCellViewDictionary<string>();
         }
         #endregion
     }

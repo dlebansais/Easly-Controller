@@ -151,8 +151,7 @@ namespace EaslyController.Frame
 
             // Build all cell views for the inserted block.
             IFrameBlockStateView BlockStateView = BlockStateViewTable[((IFrameInsertBlockOperation)operation).BlockState];
-            //ClearBlockCellView(OwnerStateView, BlockStateView);
-            IFrameCellView RootCellView = BuildBlockCellView(OwnerStateView, EmbeddingCellView, BlockStateView);
+            IFrameBlockCellView RootCellView = BuildBlockCellView(OwnerStateView, EmbeddingCellView, BlockStateView);
 
             // Insert the root cell view in the collection embedding other blocks.
             int BlockIndex = operation.BrowsingIndex.BlockIndex;
@@ -394,6 +393,8 @@ namespace EaslyController.Frame
             Debug.Assert(ReplacedStateView.RootCellView != null);
             IFrameContainerCellView ReplacedCellView = CreateFrameCellView(OwnerStateView, EmbeddingCellView, ReplacedStateView);
 
+            Debug.Assert(PreviousCellView.IsAssignedToTable);
+            ReplacedCellView.AssignToCellViewTable();
             EmbeddingCellView.Replace(PreviousCellView, ReplacedCellView);
             OwnerStateView.ReplaceCellView(PropertyName, ReplacedCellView);
         }
@@ -421,6 +422,8 @@ namespace EaslyController.Frame
             Debug.Assert(ReplacedStateView.RootCellView != null);
             IFrameContainerCellView ReplacedCellView = CreateFrameCellView(OwnerStateView, EmbeddingCellView, ReplacedStateView);
 
+            Debug.Assert(PreviousCellView.IsAssignedToTable);
+            ReplacedCellView.AssignToCellViewTable();
             EmbeddingCellView.Replace(PreviousCellView, ReplacedCellView);
             OwnerStateView.ReplaceCellView(PropertyName, ReplacedCellView);
         }
@@ -758,7 +761,7 @@ namespace EaslyController.Frame
             stateView.ClearRootCellView();
         }
 
-        protected virtual IFrameCellView BuildBlockCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, IFrameBlockStateView blockStateView)
+        protected virtual IFrameBlockCellView BuildBlockCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, IFrameBlockStateView blockStateView)
         {
             blockStateView.BuildRootCellView(stateView);
 
@@ -781,6 +784,7 @@ namespace EaslyController.Frame
             int MaxLineNumber = 1;
             int MaxColumnNumber = 1;
 
+            Debug.Assert(RootStateView.IsCellViewTreeValid());
             RootStateView.UpdateLineNumbers(ref LineNumber, ref MaxLineNumber, ref ColumnNumber, ref MaxColumnNumber);
 
             LastLineNumber = MaxLineNumber;

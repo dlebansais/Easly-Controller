@@ -79,7 +79,6 @@ namespace EaslyController.Focus
 
             if (Visibility != null && !Visibility.IsVisible((IFocusControllerView)controllerView, (IFocusNodeStateView)stateView, this))
             {
-                Debug.Assert(EmbeddingCellView.CellViewList.Count == 0);
                 //EmbeddingCellView = CreateEmptyCellView((IFocusNodeStateView)stateView);
                 //AssignEmbeddingCellView(stateView, EmbeddingCellView);
                 return EmbeddingCellView;

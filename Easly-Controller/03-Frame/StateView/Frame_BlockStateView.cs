@@ -1,6 +1,5 @@
 ﻿using EaslyController.Writeable;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace EaslyController.Frame
@@ -243,7 +242,36 @@ namespace EaslyController.Frame
             if (RootCellView == null)
                 return false;
 
+            IFrameAssignableCellViewDictionary<string> EmptyCellViewTable = CreateCellViewTable();
+            IFrameAssignableCellViewReadOnlyDictionary<string> ExpectedCellViewTable = CreateCellViewReadOnlyTable(EmptyCellViewTable);
+            IFrameAssignableCellViewDictionary<string> ActualCellViewTable = CreateCellViewTable();
+            if (!RootCellView.IsCellViewTreeValid(ExpectedCellViewTable, ActualCellViewTable))
+                return false;
+
+            if (ActualCellViewTable.Count != 0)
+                return false;
+
             return true;
+        }
+        #endregion
+
+        #region Create Methods
+        /// <summary>
+        /// Creates a IxxxAssignableCellViewDictionary{string} object.
+        /// </summary>
+        protected virtual IFrameAssignableCellViewDictionary<string> CreateCellViewTable()
+        {
+            ControllerTools.AssertNoOverride(this, typeof(FrameBlockStateView));
+            return new FrameAssignableCellViewDictionary<string>();
+        }
+
+        /// <summary>
+        /// Creates a IxxxAssignableCellViewReadOnlyDictionary{string} object.
+        /// </summary>
+        protected virtual IFrameAssignableCellViewReadOnlyDictionary<string> CreateCellViewReadOnlyTable(IFrameAssignableCellViewDictionary<string> dictionary)
+        {
+            ControllerTools.AssertNoOverride(this, typeof(FrameBlockStateView));
+            return new FrameAssignableCellViewReadOnlyDictionary<string>(dictionary);
         }
         #endregion
     }
