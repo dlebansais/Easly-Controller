@@ -247,7 +247,7 @@ namespace EaslyController.Frame
         }
 
         /// <summary>
-        /// Creates a IxxxCellViewDictionary{string} object.
+        /// Creates a IxxxEmptyCellView object.
         /// </summary>
         protected virtual IFrameEmptyCellView CreateEmptyCellView(IFrameNodeStateView stateView)
         {

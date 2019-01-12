@@ -1,7 +1,8 @@
-﻿using EaslyController.ReadOnly;
+﻿using BaseNodeHelper;
+using EaslyController.Constants;
 using EaslyController.Frame;
+using EaslyController.ReadOnly;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace EaslyController.Focus
@@ -30,6 +31,48 @@ namespace EaslyController.Focus
         /// Template set describing the node tree.
         /// </summary>
         new IFocusTemplateSet TemplateSet { get; }
+
+        /// <summary>
+        /// Checks if the template associated to the <paramref name="propertyName"/> property of the <paramref name="stateView"/> state is complex.
+        /// </summary>
+        /// <param name="stateView">The state view for the node with property <paramref name="propertyName"/>.</param>
+        /// <param name="propertyName">Name of the property pointing to the template to check.</param>
+        bool IsTemplateComplex(IFocusNodeStateView stateView, string propertyName);
+
+        /// <summary>
+        /// Checks if the collection associated to the <paramref name="propertyName"/> property of the <paramref name="stateView"/> state is has at least one item.
+        /// </summary>
+        /// <param name="stateView">The state view for the node with property <paramref name="propertyName"/>.</param>
+        /// <param name="propertyName">Name of the property pointing to the template to check.</param>
+        bool CollectionHasItems(IFocusNodeStateView stateView, string propertyName);
+
+        /// <summary>
+        /// Checks if the enum or boolean associated to the <paramref name="propertyName"/> property of the <paramref name="stateView"/> state has value <paramref name="defaultValue"/>.
+        /// </summary>
+        /// <param name="stateView">The state view for the node with property <paramref name="propertyName"/>.</param>
+        /// <param name="propertyName">Name of the property pointing to the template to check.</param>
+        /// <param name="defaultValue">Expected default value.</param>
+        bool DiscreteHasDefaultValue(IFocusNodeStateView stateView, string propertyName, int defaultValue);
+
+        /// <summary>
+        /// Checks if the <paramref name="stateView"/> state is the first in a collection in the parent.
+        /// </summary>
+        /// <param name="stateView">The state view.</param>
+        bool IsFirstItem(IFocusNodeStateView stateView);
+
+        /// <summary>
+        /// Checks if the <paramref name="blockStateView"/> block state belongs to a replicated block.
+        /// </summary>
+        /// <param name="blockStateView">The block state view.</param>
+        bool IsInReplicatedBlock(IFocusBlockStateView blockStateView);
+
+        /// <summary>
+        /// Checks if the string associated to the <paramref name="propertyName"/> property of the <paramref name="stateView"/> state has match the pattern in <paramref name="textPattern"/>.
+        /// </summary>
+        /// <param name="stateView">The state view for the node with property <paramref name="propertyName"/>.</param>
+        /// <param name="propertyName">Name of the property pointing to the template to check.</param>
+        /// <param name="textPattern">Expected text.</param>
+        bool StringMatchTextPattern(IFocusNodeStateView stateView, string propertyName, string textPattern);
     }
 
     /// <summary>
@@ -81,6 +124,142 @@ namespace EaslyController.Focus
         /// Template set describing the node tree.
         /// </summary>
         public new IFocusTemplateSet TemplateSet { get { return (IFocusTemplateSet)base.TemplateSet; } }
+        #endregion
+
+        #region Client Interface
+        /// <summary>
+        /// Checks if the template associated to the <paramref name="propertyName"/> property of the <paramref name="stateView"/> state is complex.
+        /// </summary>
+        /// <param name="stateView">The state view for the node with property <paramref name="propertyName"/>.</param>
+        /// <param name="propertyName">Name of the property pointing to the template to check.</param>
+        public virtual bool IsTemplateComplex(IFocusNodeStateView stateView, string propertyName)
+        {
+            IFocusNodeState State = stateView.State;
+            Debug.Assert(State.InnerTable.ContainsKey(propertyName));
+
+            IFocusPlaceholderInner ParentInner = State.InnerTable[propertyName] as IFocusPlaceholderInner;
+            Debug.Assert(ParentInner != null);
+
+            Type InterfaceType = ParentInner.InterfaceType;
+            Debug.Assert(TemplateSet.NodeTemplateTable.ContainsKey(InterfaceType));
+
+            IFocusNodeTemplate ParentTemplate = TemplateSet.NodeTemplateTable[InterfaceType] as IFocusNodeTemplate;
+            Debug.Assert(ParentTemplate != null);
+
+            return ParentTemplate.IsComplex;
+        }
+
+        /// <summary>
+        /// Checks if the collection associated to the <paramref name="propertyName"/> property of the <paramref name="stateView"/> state is has at least one item.
+        /// </summary>
+        /// <param name="stateView">The state view for the node with property <paramref name="propertyName"/>.</param>
+        /// <param name="propertyName">Name of the property pointing to the template to check.</param>
+        public virtual bool CollectionHasItems(IFocusNodeStateView stateView, string propertyName)
+        {
+            IFocusNodeState State = stateView.State;
+            Debug.Assert(State.InnerTable.ContainsKey(propertyName));
+
+            switch (State.InnerTable[propertyName])
+            {
+                case IFocusListInner AsListInner:
+                    return AsListInner.Count > 0;
+
+                case IFocusBlockListInner AsBlockListInner:
+                    return AsBlockListInner.Count > 0;
+
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(propertyName));
+            }
+        }
+
+        /// <summary>
+        /// Checks if the enum or boolean associated to the <paramref name="propertyName"/> property of the <paramref name="stateView"/> state has value <paramref name="defaultValue"/>.
+        /// </summary>
+        /// <param name="stateView">The state view for the node with property <paramref name="propertyName"/>.</param>
+        /// <param name="propertyName">Name of the property pointing to the template to check.</param>
+        /// <param name="defaultValue">Expected default value.</param>
+        public virtual bool DiscreteHasDefaultValue(IFocusNodeStateView stateView, string propertyName, int defaultValue)
+        {
+            IFocusNodeState State = stateView.State;
+            Debug.Assert(State.ValuePropertyTypeTable.ContainsKey(propertyName));
+
+            switch (State.ValuePropertyTypeTable[propertyName])
+            {
+                case ValuePropertyType.Boolean:
+                case ValuePropertyType.Enum:
+                    return NodeTreeHelper.GetEnumValue(State.Node, propertyName) == defaultValue;
+
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(propertyName));
+            }
+        }
+
+        /// <summary>
+        /// Checks if the <paramref name="stateView"/> state is the first in a collection in the parent.
+        /// </summary>
+        /// <param name="stateView">The state view.</param>
+        public virtual bool IsFirstItem(IFocusNodeStateView stateView)
+        {
+            IFocusPlaceholderNodeState State = stateView.State as IFocusPlaceholderNodeState;
+            Debug.Assert(State != null);
+            Debug.Assert(State.ParentInner != null);
+
+            IFocusPlaceholderNodeStateReadOnlyList StateList;
+            int Index;
+            switch (State.ParentInner)
+            {
+                case IFocusListInner AsListInner:
+                    StateList = AsListInner.StateList;
+                    break;
+
+                case IFocusBlockListInner AsBlockListInner:
+                    Debug.Assert(AsBlockListInner.BlockStateList.Count > 0);
+                    StateList = AsBlockListInner.BlockStateList[0].StateList;
+                    break;
+
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(stateView));
+            }
+
+            Index = StateList.IndexOf(State);
+            Debug.Assert(Index >= 0 && Index < StateList.Count);
+
+            return Index == 0;
+        }
+
+        /// <summary>
+        /// Checks if the <paramref name="blockStateView"/> block state belongs to a replicated block.
+        /// </summary>
+        /// <param name="blockStateView">The block state view.</param>
+        public virtual bool IsInReplicatedBlock(IFocusBlockStateView blockStateView)
+        {
+            IFocusBlockState BlockState = blockStateView.BlockState;
+            Debug.Assert(BlockState != null);
+
+            return BlockState.ChildBlock.Replication == BaseNode.ReplicationStatus.Replicated;
+        }
+
+        /// <summary>
+        /// Checks if the string associated to the <paramref name="propertyName"/> property of the <paramref name="stateView"/> state has match the pattern in <paramref name="textPattern"/>.
+        /// </summary>
+        /// <param name="stateView">The state view for the node with property <paramref name="propertyName"/>.</param>
+        /// <param name="propertyName">Name of the property pointing to the template to check.</param>
+        /// <param name="textPattern">Expected text.</param>
+        public virtual bool StringMatchTextPattern(IFocusNodeStateView stateView, string propertyName, string textPattern)
+        {
+            IFocusNodeState State = stateView.State;
+            Debug.Assert(State.ValuePropertyTypeTable.ContainsKey(propertyName));
+
+            switch (State.ValuePropertyTypeTable[propertyName])
+            {
+                case ValuePropertyType.String:
+                    Debug.Assert(propertyName == "Text");
+                    return NodeTreeHelper.GetText(State.Node) == textPattern;
+
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(propertyName));
+            }
+        }
         #endregion
 
         #region Debugging

@@ -99,7 +99,7 @@ namespace EaslyController.Focus
         }
 
         /// <summary>
-        /// Creates a IxxxCellViewDictionary{string} object.
+        /// Creates a IxxxEmptyCellView object.
         /// </summary>
         protected override IFrameEmptyCellView CreateEmptyCellView(IFrameNodeStateView stateView)
         {

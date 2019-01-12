@@ -24,6 +24,12 @@ namespace EaslyController.Focus
         /// Parent frame, or null for the root frame in a template.
         /// </summary>
         public new IFocusFrame ParentFrame { get { return (IFocusFrame)base.ParentFrame; } }
+
+        /// <summary>
+        /// Node frame visibility. Null if always visible.
+        /// (Set in Xaml)
+        /// </summary>
+        public IFocusNodeFrameVisibility Visibility { get; set; }
         #endregion
     }
 }
