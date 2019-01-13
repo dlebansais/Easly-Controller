@@ -40,8 +40,9 @@ namespace EaslyController.Writeable
         /// </summary>
         /// <param name="inner">Inner where the block removal is taking place.</param>
         /// <param name="blockIndex">index of the removed block.</param>
-        public WriteableRemoveBlockOperation(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, IWriteableBrowsingExistingBlockNodeIndex blockIndex)
-            : base()
+        /// <param name="isNested">True if the operation is nested within another more general one.</param>
+        public WriteableRemoveBlockOperation(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, IWriteableBrowsingExistingBlockNodeIndex blockIndex, bool isNested)
+            : base(isNested)
         {
             Inner = inner;
             BlockIndex = blockIndex;

@@ -402,100 +402,109 @@ namespace EaslyController.Focus
         /// <summary>
         /// Creates a IxxxInsertNodeOperation object.
         /// </summary>
-        protected override IWriteableInsertNodeOperation CreateInsertNodeOperation(IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> inner, IWriteableInsertionCollectionNodeIndex insertionIndex)
+        protected override IWriteableInsertNodeOperation CreateInsertNodeOperation(IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> inner, IWriteableInsertionCollectionNodeIndex insertionIndex, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusController));
-            return new FocusInsertNodeOperation((IFocusCollectionInner<IFocusBrowsingCollectionNodeIndex>)inner, (IFocusInsertionCollectionNodeIndex)insertionIndex);
+            return new FocusInsertNodeOperation((IFocusCollectionInner<IFocusBrowsingCollectionNodeIndex>)inner, (IFocusInsertionCollectionNodeIndex)insertionIndex, isNested);
         }
 
         /// <summary>
         /// Creates a IxxxInsertBlockOperation object.
         /// </summary>
-        protected override IWriteableInsertBlockOperation CreateInsertBlockOperation(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, IWriteableInsertionNewBlockNodeIndex blockIndex)
+        protected override IWriteableInsertBlockOperation CreateInsertBlockOperation(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, IWriteableInsertionNewBlockNodeIndex blockIndex, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusController));
-            return new FocusInsertBlockOperation((IFocusBlockListInner<IFocusBrowsingBlockNodeIndex>)inner, (IFocusInsertionNewBlockNodeIndex)blockIndex);
+            return new FocusInsertBlockOperation((IFocusBlockListInner<IFocusBrowsingBlockNodeIndex>)inner, (IFocusInsertionNewBlockNodeIndex)blockIndex, isNested);
         }
 
         /// <summary>
         /// Creates a IxxxRemoveBlockOperation object.
         /// </summary>
-        protected override IWriteableRemoveBlockOperation CreateRemoveBlockOperation(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, IWriteableBrowsingExistingBlockNodeIndex blockIndex)
+        protected override IWriteableRemoveBlockOperation CreateRemoveBlockOperation(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, IWriteableBrowsingExistingBlockNodeIndex blockIndex, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusController));
-            return new FocusRemoveBlockOperation((IFocusBlockListInner<IFocusBrowsingBlockNodeIndex>)inner, (IFocusBrowsingExistingBlockNodeIndex)blockIndex);
+            return new FocusRemoveBlockOperation((IFocusBlockListInner<IFocusBrowsingBlockNodeIndex>)inner, (IFocusBrowsingExistingBlockNodeIndex)blockIndex, isNested);
         }
 
         /// <summary>
         /// Creates a IxxxRemoveNodeOperation object.
         /// </summary>
-        protected override IWriteableRemoveNodeOperation CreateRemoveNodeOperation(IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> inner, IWriteableBrowsingCollectionNodeIndex nodeIndex)
+        protected override IWriteableRemoveNodeOperation CreateRemoveNodeOperation(IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> inner, IWriteableBrowsingCollectionNodeIndex nodeIndex, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusController));
-            return new FocusRemoveNodeOperation((IFocusCollectionInner<IFocusBrowsingCollectionNodeIndex>)inner, (IFocusBrowsingCollectionNodeIndex)nodeIndex);
+            return new FocusRemoveNodeOperation((IFocusCollectionInner<IFocusBrowsingCollectionNodeIndex>)inner, (IFocusBrowsingCollectionNodeIndex)nodeIndex, isNested);
         }
 
         /// <summary>
         /// Creates a IxxxReplaceOperation object.
         /// </summary>
-        protected override IWriteableReplaceOperation CreateReplaceOperation(IWriteableInner<IWriteableBrowsingChildIndex> inner, IWriteableInsertionChildIndex replacementIndex)
+        protected override IWriteableReplaceOperation CreateReplaceOperation(IWriteableInner<IWriteableBrowsingChildIndex> inner, IWriteableInsertionChildIndex replacementIndex, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusController));
-            return new FocusReplaceOperation((IFocusInner<IFocusBrowsingChildIndex>)inner, (IFocusInsertionChildIndex)replacementIndex);
+            return new FocusReplaceOperation((IFocusInner<IFocusBrowsingChildIndex>)inner, (IFocusInsertionChildIndex)replacementIndex, isNested);
         }
 
         /// <summary>
         /// Creates a IxxxAssignmentOperation object.
         /// </summary>
-        protected override IWriteableAssignmentOperation CreateAssignmentOperation(IWriteableOptionalInner<IWriteableBrowsingOptionalNodeIndex> inner, IWriteableBrowsingOptionalNodeIndex nodeIndex)
+        protected override IWriteableAssignmentOperation CreateAssignmentOperation(IWriteableOptionalInner<IWriteableBrowsingOptionalNodeIndex> inner, IWriteableBrowsingOptionalNodeIndex nodeIndex, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusController));
-            return new FocusAssignmentOperation((IFocusOptionalInner<IFocusBrowsingOptionalNodeIndex>)inner, (IFocusBrowsingOptionalNodeIndex)nodeIndex);
+            return new FocusAssignmentOperation((IFocusOptionalInner<IFocusBrowsingOptionalNodeIndex>)inner, (IFocusBrowsingOptionalNodeIndex)nodeIndex, isNested);
         }
 
         /// <summary>
         /// Creates a IxxxSplitBlockOperation object.
         /// </summary>
-        protected override IWriteableSplitBlockOperation CreateSplitBlockOperation(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, IWriteableBrowsingExistingBlockNodeIndex nodeIndex)
+        protected override IWriteableSplitBlockOperation CreateSplitBlockOperation(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, IWriteableBrowsingExistingBlockNodeIndex nodeIndex, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusController));
-            return new FocusSplitBlockOperation((IFocusBlockListInner<IFocusBrowsingBlockNodeIndex>)inner, (IFocusBrowsingExistingBlockNodeIndex)nodeIndex);
+            return new FocusSplitBlockOperation((IFocusBlockListInner<IFocusBrowsingBlockNodeIndex>)inner, (IFocusBrowsingExistingBlockNodeIndex)nodeIndex, isNested);
         }
 
         /// <summary>
         /// Creates a IxxxxMergeBlocksOperation object.
         /// </summary>
-        protected override IWriteableMergeBlocksOperation CreateMergeBlocksOperation(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, IWriteableBrowsingExistingBlockNodeIndex nodeIndex)
+        protected override IWriteableMergeBlocksOperation CreateMergeBlocksOperation(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, IWriteableBrowsingExistingBlockNodeIndex nodeIndex, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusController));
-            return new FocusMergeBlocksOperation((IFocusBlockListInner<IFocusBrowsingBlockNodeIndex>)inner, (IFocusBrowsingExistingBlockNodeIndex)nodeIndex);
+            return new FocusMergeBlocksOperation((IFocusBlockListInner<IFocusBrowsingBlockNodeIndex>)inner, (IFocusBrowsingExistingBlockNodeIndex)nodeIndex, isNested);
         }
 
         /// <summary>
         /// Creates a IxxxxMoveNodeOperation object.
         /// </summary>
-        protected override IWriteableMoveNodeOperation CreateMoveNodeOperation(IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> inner, IWriteableBrowsingCollectionNodeIndex nodeIndex, int direction)
+        protected override IWriteableMoveNodeOperation CreateMoveNodeOperation(IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> inner, IWriteableBrowsingCollectionNodeIndex nodeIndex, int direction, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusController));
-            return new FocusMoveNodeOperation((IFocusCollectionInner<IFocusBrowsingCollectionNodeIndex>)inner, (IFocusBrowsingCollectionNodeIndex)nodeIndex, direction);
+            return new FocusMoveNodeOperation((IFocusCollectionInner<IFocusBrowsingCollectionNodeIndex>)inner, (IFocusBrowsingCollectionNodeIndex)nodeIndex, direction, isNested);
         }
 
         /// <summary>
         /// Creates a IxxxxMoveBlockOperation object.
         /// </summary>
-        protected override IWriteableMoveBlockOperation CreateMoveBlockOperation(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, int blockIndex, int direction)
+        protected override IWriteableMoveBlockOperation CreateMoveBlockOperation(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, int blockIndex, int direction, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusController));
-            return new FocusMoveBlockOperation((IFocusBlockListInner<IFocusBrowsingBlockNodeIndex>)inner, blockIndex, direction);
+            return new FocusMoveBlockOperation((IFocusBlockListInner<IFocusBrowsingBlockNodeIndex>)inner, blockIndex, direction, isNested);
         }
 
         /// <summary>
         /// Creates a IxxxExpandArgumentOperation object.
         /// </summary>
-        protected override IWriteableExpandArgumentOperation CreateExpandArgumentOperation(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, IWriteableInsertionNewBlockNodeIndex blockIndex)
+        protected override IWriteableExpandArgumentOperation CreateExpandArgumentOperation(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, IWriteableInsertionNewBlockNodeIndex blockIndex, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusController));
-            return new FocusExpandArgumentOperation((IFocusBlockListInner<IFocusBrowsingBlockNodeIndex>)inner, (IFocusInsertionNewBlockNodeIndex)blockIndex);
+            return new FocusExpandArgumentOperation((IFocusBlockListInner<IFocusBrowsingBlockNodeIndex>)inner, (IFocusInsertionNewBlockNodeIndex)blockIndex, isNested);
+        }
+
+        /// <summary>
+        /// Creates a IxxxGenericRefreshOperation object.
+        /// </summary>
+        protected override IWriteableGenericRefreshOperation CreateGenericRefreshOperation(IWriteableNodeState refreshState, bool isNested)
+        {
+            ControllerTools.AssertNoOverride(this, typeof(FocusController));
+            return new FocusGenericRefreshOperation((IFocusNodeState)refreshState, isNested);
         }
         #endregion
     }

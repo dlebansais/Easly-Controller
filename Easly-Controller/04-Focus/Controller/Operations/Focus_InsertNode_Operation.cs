@@ -39,8 +39,9 @@ namespace EaslyController.Focus
         /// </summary>
         /// <param name="inner">Inner where the insertion is taking place.</param>
         /// <param name="insertionIndex">Position where the node is inserted.</param>
-        public FocusInsertNodeOperation(IFocusCollectionInner<IFocusBrowsingCollectionNodeIndex> inner, IFocusInsertionCollectionNodeIndex insertionIndex)
-            : base(inner, insertionIndex)
+        /// <param name="isNested">True if the operation is nested within another more general one.</param>
+        public FocusInsertNodeOperation(IFocusCollectionInner<IFocusBrowsingCollectionNodeIndex> inner, IFocusInsertionCollectionNodeIndex insertionIndex, bool isNested)
+            : base(inner, insertionIndex, isNested)
         {
         }
         #endregion

@@ -35,8 +35,9 @@ namespace EaslyController.Frame
         /// <param name="inner">Inner where the move is taking place.</param>
         /// <param name="nodeIndex">Position where the node is moved.</param>
         /// <param name="direction">The change in position, relative to the current position.</param>
-        public FrameMoveNodeOperation(IFrameCollectionInner<IFrameBrowsingCollectionNodeIndex> inner, IFrameBrowsingCollectionNodeIndex nodeIndex, int direction)
-            : base(inner, nodeIndex, direction)
+        /// <param name="isNested">True if the operation is nested within another more general one.</param>
+        public FrameMoveNodeOperation(IFrameCollectionInner<IFrameBrowsingCollectionNodeIndex> inner, IFrameBrowsingCollectionNodeIndex nodeIndex, int direction, bool isNested)
+            : base(inner, nodeIndex, direction, isNested)
         {
         }
         #endregion

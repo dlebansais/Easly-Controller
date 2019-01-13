@@ -69,6 +69,7 @@ namespace EaslyController.Writeable
             Controller.BlockSplit += OnBlockSplit;
             Controller.BlocksMerged+= OnBlocksMerged;
             Controller.ArgumentExpanded += OnArgumentExpanded;
+            Controller.GenericRefresh += OnGenericRefresh;
         }
         #endregion
 
@@ -97,6 +98,7 @@ namespace EaslyController.Writeable
         public virtual void OnBlockStateInserted(IWriteableInsertBlockOperation operation)
         {
             Debug.Assert(operation != null);
+            Debug.Assert(!operation.IsNested);
 
             IWriteableBlockState BlockState = operation.BlockState;
 
@@ -137,6 +139,7 @@ namespace EaslyController.Writeable
         public virtual void OnStateInserted(IWriteableInsertNodeOperation operation)
         {
             Debug.Assert(operation != null);
+            Debug.Assert(!operation.IsNested);
 
             IWriteableNodeState ChildState = operation.ChildState;
             Debug.Assert(ChildState != null);
@@ -150,6 +153,7 @@ namespace EaslyController.Writeable
         public virtual void OnStateRemoved(IWriteableRemoveNodeOperation operation)
         {
             Debug.Assert(operation != null);
+            Debug.Assert(!operation.IsNested);
 
             IWriteablePlaceholderNodeState RemovedState = operation.ChildState;
             Debug.Assert(RemovedState != null);
@@ -163,6 +167,7 @@ namespace EaslyController.Writeable
         public virtual void OnStateReplaced(IWriteableReplaceOperation operation)
         {
             Debug.Assert(operation != null);
+            Debug.Assert(!operation.IsNested);
 
             IWriteableNodeState ChildState = operation.ChildState;
             Debug.Assert(ChildState != null);
@@ -176,6 +181,7 @@ namespace EaslyController.Writeable
         public virtual void OnStateAssigned(IWriteableAssignmentOperation operation)
         {
             Debug.Assert(operation != null);
+            Debug.Assert(!operation.IsNested);
 
             IWriteableOptionalNodeState State = operation.State;
             Debug.Assert(State != null);
@@ -202,6 +208,7 @@ namespace EaslyController.Writeable
         public virtual void OnStateMoved(IWriteableMoveNodeOperation operation)
         {
             Debug.Assert(operation != null);
+            Debug.Assert(!operation.IsNested);
 
             IWriteablePlaceholderNodeState State = operation.State;
             Debug.Assert(State != null);
@@ -215,6 +222,7 @@ namespace EaslyController.Writeable
         public virtual void OnBlockStateMoved(IWriteableMoveBlockOperation operation)
         {
             Debug.Assert(operation != null);
+            Debug.Assert(!operation.IsNested);
 
             IWriteableBlockState BlockState = operation.BlockState;
             Debug.Assert(BlockState != null);
@@ -228,6 +236,7 @@ namespace EaslyController.Writeable
         public virtual void OnBlockSplit(IWriteableSplitBlockOperation operation)
         {
             Debug.Assert(operation != null);
+            Debug.Assert(!operation.IsNested);
 
             IWriteableBlockState BlockState = operation.BlockState;
 
@@ -242,6 +251,7 @@ namespace EaslyController.Writeable
         public virtual void OnBlocksMerged(IWriteableMergeBlocksOperation operation)
         {
             Debug.Assert(operation != null);
+            Debug.Assert(!operation.IsNested);
         }
 
         /// <summary>
@@ -251,6 +261,7 @@ namespace EaslyController.Writeable
         public virtual void OnArgumentExpanded(IWriteableExpandArgumentOperation operation)
         {
             Debug.Assert(operation != null);
+            Debug.Assert(!operation.IsNested);
 
             IWriteableBlockState BlockState = operation.BlockState;
 
@@ -262,6 +273,21 @@ namespace EaslyController.Writeable
 
             Debug.Assert(BlockState.StateList.Count == 1);
             Debug.Assert(StateViewTable.ContainsKey(BlockState.StateList[0]));
+        }
+
+        /// <summary>
+        /// Handler called to refresh views.
+        /// </summary>
+        /// <param name="operation">Details of the operation performed.</param>
+        public virtual void OnGenericRefresh(IWriteableGenericRefreshOperation operation)
+        {
+            Debug.Assert(operation != null);
+            Debug.Assert(!operation.IsNested);
+
+            IWriteableNodeState RefreshState = operation.RefreshState;
+
+            Debug.Assert(RefreshState != null);
+            Debug.Assert(StateViewTable.ContainsKey(RefreshState));
         }
         #endregion
 

@@ -34,8 +34,9 @@ namespace EaslyController.Frame
         /// </summary>
         /// <param name="inner">Inner where the block is split.</param>
         /// <param name="nodeIndex">Index of the last node to stay in the old block.</param>
-        public FrameSplitBlockOperation(IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> inner, IFrameBrowsingExistingBlockNodeIndex nodeIndex)
-            : base(inner, nodeIndex)
+        /// <param name="isNested">True if the operation is nested within another more general one.</param>
+        public FrameSplitBlockOperation(IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> inner, IFrameBrowsingExistingBlockNodeIndex nodeIndex, bool isNested)
+            : base(inner, nodeIndex, isNested)
         {
         }
         #endregion

@@ -14,5 +14,15 @@ namespace EaslyController.Focus
     /// </summary>
     public class FocusOperation : FrameOperation, IFocusOperation
     {
+        #region Init
+        /// <summary>
+        /// Initializes a new instance of a <see cref="FocusOperation"/> object.
+        /// </summary>
+        /// <param name="isNested">True if the operation is nested within another more general one.</param>
+        public FocusOperation(bool isNested)
+            : base(isNested)
+        {
+        }
+        #endregion
     }
 }

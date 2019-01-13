@@ -40,8 +40,9 @@ namespace EaslyController.Writeable
         /// </summary>
         /// <param name="inner">Inner where the assignment is taking place.</param>
         /// <param name="nodeIndex">Position of the assigned or unassigned node.</param>
-        public WriteableAssignmentOperation(IWriteableOptionalInner<IWriteableBrowsingOptionalNodeIndex> inner, IWriteableBrowsingOptionalNodeIndex nodeIndex)
-            : base()
+        /// <param name="isNested">True if the operation is nested within another more general one.</param>
+        public WriteableAssignmentOperation(IWriteableOptionalInner<IWriteableBrowsingOptionalNodeIndex> inner, IWriteableBrowsingOptionalNodeIndex nodeIndex, bool isNested)
+            : base(isNested)
         {
             Inner = inner;
             NodeIndex = nodeIndex;

@@ -34,8 +34,9 @@ namespace EaslyController.Focus
         /// </summary>
         /// <param name="inner">Inner where the block is split.</param>
         /// <param name="nodeIndex">Index of the last node to stay in the old block.</param>
-        public FocusSplitBlockOperation(IFocusBlockListInner<IFocusBrowsingBlockNodeIndex> inner, IFocusBrowsingExistingBlockNodeIndex nodeIndex)
-            : base(inner, nodeIndex)
+        /// <param name="isNested">True if the operation is nested within another more general one.</param>
+        public FocusSplitBlockOperation(IFocusBlockListInner<IFocusBrowsingBlockNodeIndex> inner, IFocusBrowsingExistingBlockNodeIndex nodeIndex, bool isNested)
+            : base(inner, nodeIndex, isNested)
         {
         }
         #endregion

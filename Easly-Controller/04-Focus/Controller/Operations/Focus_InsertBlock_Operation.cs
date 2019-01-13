@@ -44,8 +44,9 @@ namespace EaslyController.Focus
         /// </summary>
         /// <param name="inner">Inner where the block insertion is taking place.</param>
         /// <param name="blockIndex">Index of the inserted block.</param>
-        public FocusInsertBlockOperation(IFocusBlockListInner<IFocusBrowsingBlockNodeIndex> inner, IFocusInsertionNewBlockNodeIndex blockIndex)
-            : base(inner, blockIndex)
+        /// <param name="isNested">True if the operation is nested within another more general one.</param>
+        public FocusInsertBlockOperation(IFocusBlockListInner<IFocusBrowsingBlockNodeIndex> inner, IFocusInsertionNewBlockNodeIndex blockIndex, bool isNested)
+            : base(inner, blockIndex, isNested)
         {
         }
         #endregion

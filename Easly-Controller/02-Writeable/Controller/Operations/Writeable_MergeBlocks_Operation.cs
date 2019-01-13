@@ -37,8 +37,9 @@
         /// </summary>
         /// <param name="inner">Inner where the block is split.</param>
         /// <param name="nodeIndex">Index of the last node to stay in the old block.</param>
-        public WriteableMergeBlocksOperation(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, IWriteableBrowsingExistingBlockNodeIndex nodeIndex)
-            : base()
+        /// <param name="isNested">True if the operation is nested within another more general one.</param>
+        public WriteableMergeBlocksOperation(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, IWriteableBrowsingExistingBlockNodeIndex nodeIndex, bool isNested)
+            : base(isNested)
         {
             Inner = inner;
             NodeIndex = nodeIndex;

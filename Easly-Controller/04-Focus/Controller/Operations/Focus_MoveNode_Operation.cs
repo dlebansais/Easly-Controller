@@ -35,8 +35,9 @@ namespace EaslyController.Focus
         /// <param name="inner">Inner where the move is taking place.</param>
         /// <param name="nodeIndex">Position where the node is moved.</param>
         /// <param name="direction">The change in position, relative to the current position.</param>
-        public FocusMoveNodeOperation(IFocusCollectionInner<IFocusBrowsingCollectionNodeIndex> inner, IFocusBrowsingCollectionNodeIndex nodeIndex, int direction)
-            : base(inner, nodeIndex, direction)
+        /// <param name="isNested">True if the operation is nested within another more general one.</param>
+        public FocusMoveNodeOperation(IFocusCollectionInner<IFocusBrowsingCollectionNodeIndex> inner, IFocusBrowsingCollectionNodeIndex nodeIndex, int direction, bool isNested)
+            : base(inner, nodeIndex, direction, isNested)
         {
         }
         #endregion

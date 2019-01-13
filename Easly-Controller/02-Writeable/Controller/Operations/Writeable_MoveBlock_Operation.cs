@@ -46,8 +46,9 @@ namespace EaslyController.Writeable
         /// <param name="inner">Inner where the block is move.</param>
         /// <param name="blockIndex">Index of the moved block.</param>
         /// <param name="direction">The change in position, relative to the current position.</param>
-        public WriteableMoveBlockOperation(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, int blockIndex, int direction)
-            : base()
+        /// <param name="isNested">True if the operation is nested within another more general one.</param>
+        public WriteableMoveBlockOperation(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, int blockIndex, int direction, bool isNested)
+            : base(isNested)
         {
             Inner = inner;
             BlockIndex = blockIndex;

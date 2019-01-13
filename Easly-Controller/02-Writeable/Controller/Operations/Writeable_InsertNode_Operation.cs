@@ -46,8 +46,9 @@ namespace EaslyController.Writeable
         /// </summary>
         /// <param name="inner">Inner where the insertion is taking place.</param>
         /// <param name="insertionIndex">Position where the node is inserted.</param>
-        public WriteableInsertNodeOperation(IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> inner, IWriteableInsertionCollectionNodeIndex insertionIndex)
-            : base()
+        /// <param name="isNested">True if the operation is nested within another more general one.</param>
+        public WriteableInsertNodeOperation(IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> inner, IWriteableInsertionCollectionNodeIndex insertionIndex, bool isNested)
+            : base(isNested)
         {
             Inner = inner;
             InsertionIndex = insertionIndex;

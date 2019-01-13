@@ -39,8 +39,9 @@ namespace EaslyController.Frame
         /// </summary>
         /// <param name="inner">Inner where the insertion is taking place.</param>
         /// <param name="insertionIndex">Position where the node is inserted.</param>
-        public FrameInsertNodeOperation(IFrameCollectionInner<IFrameBrowsingCollectionNodeIndex> inner, IFrameInsertionCollectionNodeIndex insertionIndex)
-            : base(inner, insertionIndex)
+        /// <param name="isNested">True if the operation is nested within another more general one.</param>
+        public FrameInsertNodeOperation(IFrameCollectionInner<IFrameBrowsingCollectionNodeIndex> inner, IFrameInsertionCollectionNodeIndex insertionIndex, bool isNested)
+            : base(inner, insertionIndex, isNested)
         {
         }
         #endregion

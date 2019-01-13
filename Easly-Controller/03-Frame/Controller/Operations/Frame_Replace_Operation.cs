@@ -44,8 +44,9 @@ namespace EaslyController.Frame
         /// </summary>
         /// <param name="inner">Inner where the replacement is taking place.</param>
         /// <param name="replacementIndex">Position where the node is replaced.</param>
-        public FrameReplaceOperation(IFrameInner<IFrameBrowsingChildIndex> inner, IFrameInsertionChildIndex replacementIndex)
-            : base(inner, replacementIndex)
+        /// <param name="isNested">True if the operation is nested within another more general one.</param>
+        public FrameReplaceOperation(IFrameInner<IFrameBrowsingChildIndex> inner, IFrameInsertionChildIndex replacementIndex, bool isNested)
+            : base(inner, replacementIndex, isNested)
         {
         }
         #endregion

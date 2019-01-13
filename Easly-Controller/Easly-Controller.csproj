@@ -136,6 +136,7 @@
     <Compile Include="02-Writeable\Controller\Operations\Writeable_MoveNode_Operation.cs" />
     <Compile Include="02-Writeable\Controller\Operations\Writeable_MergeBlocks_Operation.cs" />
     <Compile Include="02-Writeable\Controller\Operations\Writeable_MoveBlock_Operation.cs" />
+    <Compile Include="02-Writeable\Controller\Operations\Writeable_GenericRefresh_Operation.cs" />
     <Compile Include="02-Writeable\Controller\Operations\Writeable_SplitBlock_Operation.cs" />
     <Compile Include="02-Writeable\Controller\Operations\Writeable_Replace_Operation.cs" />
     <Compile Include="02-Writeable\Controller\Operations\Writeable_RemoveNode_Operation.cs" />
@@ -247,6 +248,7 @@
     <Compile Include="03-Frame\Controller\Operations\Frame_MergeBlocks_Operation.cs" />
     <Compile Include="03-Frame\Controller\Operations\Frame_MoveNode_Operation.cs" />
     <Compile Include="03-Frame\Controller\Operations\Frame_MoveBlock_Operation.cs" />
+    <Compile Include="03-Frame\Controller\Operations\Frame_GenericRefresh_Operation.cs" />
     <Compile Include="03-Frame\Frame\Frame_BlockFrame.cs" />
     <Compile Include="03-Frame\Frame\Frame_NumberFrame.cs" />
     <Compile Include="03-Frame\Frame\Frame_InsertFrame.cs" />
@@ -365,6 +367,7 @@
     <Compile Include="04-Focus\ControllerView\Focus_ControllerView.cs" />
     <Compile Include="04-Focus\ControllerView\Focus_CellViewTreeContext.cs" />
     <Compile Include="04-Focus\Controller\Focus_Controller.cs" />
+    <Compile Include="04-Focus\Controller\Operations\Focus_GenericRefresh_Operation.cs" />
     <Compile Include="04-Focus\Controller\Operations\Focus_Assignment_Operation.cs" />
     <Compile Include="04-Focus\Controller\Operations\Focus_ExpandArgument_Operation.cs" />
     <Compile Include="04-Focus\Controller\Operations\Focus_InsertBlock_Operation.cs" />

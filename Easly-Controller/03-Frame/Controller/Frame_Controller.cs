@@ -400,100 +400,109 @@ namespace EaslyController.Frame
         /// <summary>
         /// Creates a IxxxInsertNodeOperation object.
         /// </summary>
-        protected override IWriteableInsertNodeOperation CreateInsertNodeOperation(IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> inner, IWriteableInsertionCollectionNodeIndex insertionIndex)
+        protected override IWriteableInsertNodeOperation CreateInsertNodeOperation(IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> inner, IWriteableInsertionCollectionNodeIndex insertionIndex, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameController));
-            return new FrameInsertNodeOperation((IFrameCollectionInner<IFrameBrowsingCollectionNodeIndex>)inner, (IFrameInsertionCollectionNodeIndex)insertionIndex);
+            return new FrameInsertNodeOperation((IFrameCollectionInner<IFrameBrowsingCollectionNodeIndex>)inner, (IFrameInsertionCollectionNodeIndex)insertionIndex, isNested);
         }
 
         /// <summary>
         /// Creates a IxxxInsertBlockOperation object.
         /// </summary>
-        protected override IWriteableInsertBlockOperation CreateInsertBlockOperation(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, IWriteableInsertionNewBlockNodeIndex blockIndex)
+        protected override IWriteableInsertBlockOperation CreateInsertBlockOperation(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, IWriteableInsertionNewBlockNodeIndex blockIndex, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameController));
-            return new FrameInsertBlockOperation((IFrameBlockListInner<IFrameBrowsingBlockNodeIndex>)inner, (IFrameInsertionNewBlockNodeIndex)blockIndex);
+            return new FrameInsertBlockOperation((IFrameBlockListInner<IFrameBrowsingBlockNodeIndex>)inner, (IFrameInsertionNewBlockNodeIndex)blockIndex, isNested);
         }
 
         /// <summary>
         /// Creates a IxxxRemoveBlockOperation object.
         /// </summary>
-        protected override IWriteableRemoveBlockOperation CreateRemoveBlockOperation(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, IWriteableBrowsingExistingBlockNodeIndex blockIndex)
+        protected override IWriteableRemoveBlockOperation CreateRemoveBlockOperation(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, IWriteableBrowsingExistingBlockNodeIndex blockIndex, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameController));
-            return new FrameRemoveBlockOperation((IFrameBlockListInner<IFrameBrowsingBlockNodeIndex>)inner, (IFrameBrowsingExistingBlockNodeIndex)blockIndex);
+            return new FrameRemoveBlockOperation((IFrameBlockListInner<IFrameBrowsingBlockNodeIndex>)inner, (IFrameBrowsingExistingBlockNodeIndex)blockIndex, isNested);
         }
 
         /// <summary>
         /// Creates a IxxxRemoveNodeOperation object.
         /// </summary>
-        protected override IWriteableRemoveNodeOperation CreateRemoveNodeOperation(IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> inner, IWriteableBrowsingCollectionNodeIndex nodeIndex)
+        protected override IWriteableRemoveNodeOperation CreateRemoveNodeOperation(IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> inner, IWriteableBrowsingCollectionNodeIndex nodeIndex, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameController));
-            return new FrameRemoveNodeOperation((IFrameCollectionInner<IFrameBrowsingCollectionNodeIndex>)inner, (IFrameBrowsingCollectionNodeIndex)nodeIndex);
+            return new FrameRemoveNodeOperation((IFrameCollectionInner<IFrameBrowsingCollectionNodeIndex>)inner, (IFrameBrowsingCollectionNodeIndex)nodeIndex, isNested);
         }
 
         /// <summary>
         /// Creates a IxxxReplaceOperation object.
         /// </summary>
-        protected override IWriteableReplaceOperation CreateReplaceOperation(IWriteableInner<IWriteableBrowsingChildIndex> inner, IWriteableInsertionChildIndex replacementIndex)
+        protected override IWriteableReplaceOperation CreateReplaceOperation(IWriteableInner<IWriteableBrowsingChildIndex> inner, IWriteableInsertionChildIndex replacementIndex, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameController));
-            return new FrameReplaceOperation((IFrameInner<IFrameBrowsingChildIndex>)inner, (IFrameInsertionChildIndex)replacementIndex);
+            return new FrameReplaceOperation((IFrameInner<IFrameBrowsingChildIndex>)inner, (IFrameInsertionChildIndex)replacementIndex, isNested);
         }
 
         /// <summary>
         /// Creates a IxxxAssignmentOperation object.
         /// </summary>
-        protected override IWriteableAssignmentOperation CreateAssignmentOperation(IWriteableOptionalInner<IWriteableBrowsingOptionalNodeIndex> inner, IWriteableBrowsingOptionalNodeIndex nodeIndex)
+        protected override IWriteableAssignmentOperation CreateAssignmentOperation(IWriteableOptionalInner<IWriteableBrowsingOptionalNodeIndex> inner, IWriteableBrowsingOptionalNodeIndex nodeIndex, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameController));
-            return new FrameAssignmentOperation((IFrameOptionalInner<IFrameBrowsingOptionalNodeIndex>)inner, (IFrameBrowsingOptionalNodeIndex)nodeIndex);
+            return new FrameAssignmentOperation((IFrameOptionalInner<IFrameBrowsingOptionalNodeIndex>)inner, (IFrameBrowsingOptionalNodeIndex)nodeIndex, isNested);
         }
 
         /// <summary>
         /// Creates a IxxxSplitBlockOperation object.
         /// </summary>
-        protected override IWriteableSplitBlockOperation CreateSplitBlockOperation(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, IWriteableBrowsingExistingBlockNodeIndex nodeIndex)
+        protected override IWriteableSplitBlockOperation CreateSplitBlockOperation(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, IWriteableBrowsingExistingBlockNodeIndex nodeIndex, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameController));
-            return new FrameSplitBlockOperation((IFrameBlockListInner<IFrameBrowsingBlockNodeIndex>)inner, (IFrameBrowsingExistingBlockNodeIndex)nodeIndex);
+            return new FrameSplitBlockOperation((IFrameBlockListInner<IFrameBrowsingBlockNodeIndex>)inner, (IFrameBrowsingExistingBlockNodeIndex)nodeIndex, isNested);
         }
 
         /// <summary>
         /// Creates a IxxxxMergeBlocksOperation object.
         /// </summary>
-        protected override IWriteableMergeBlocksOperation CreateMergeBlocksOperation(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, IWriteableBrowsingExistingBlockNodeIndex nodeIndex)
+        protected override IWriteableMergeBlocksOperation CreateMergeBlocksOperation(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, IWriteableBrowsingExistingBlockNodeIndex nodeIndex, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameController));
-            return new FrameMergeBlocksOperation((IFrameBlockListInner<IFrameBrowsingBlockNodeIndex>)inner, (IFrameBrowsingExistingBlockNodeIndex)nodeIndex);
+            return new FrameMergeBlocksOperation((IFrameBlockListInner<IFrameBrowsingBlockNodeIndex>)inner, (IFrameBrowsingExistingBlockNodeIndex)nodeIndex, isNested);
         }
 
         /// <summary>
         /// Creates a IxxxxMoveNodeOperation object.
         /// </summary>
-        protected override IWriteableMoveNodeOperation CreateMoveNodeOperation(IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> inner, IWriteableBrowsingCollectionNodeIndex nodeIndex, int direction)
+        protected override IWriteableMoveNodeOperation CreateMoveNodeOperation(IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> inner, IWriteableBrowsingCollectionNodeIndex nodeIndex, int direction, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameController));
-            return new FrameMoveNodeOperation((IFrameCollectionInner<IFrameBrowsingCollectionNodeIndex>)inner, (IFrameBrowsingCollectionNodeIndex)nodeIndex, direction);
+            return new FrameMoveNodeOperation((IFrameCollectionInner<IFrameBrowsingCollectionNodeIndex>)inner, (IFrameBrowsingCollectionNodeIndex)nodeIndex, direction, isNested);
         }
 
         /// <summary>
         /// Creates a IxxxxMoveBlockOperation object.
         /// </summary>
-        protected override IWriteableMoveBlockOperation CreateMoveBlockOperation(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, int blockIndex, int direction)
+        protected override IWriteableMoveBlockOperation CreateMoveBlockOperation(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, int blockIndex, int direction, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameController));
-            return new FrameMoveBlockOperation((IFrameBlockListInner<IFrameBrowsingBlockNodeIndex>)inner, blockIndex, direction);
+            return new FrameMoveBlockOperation((IFrameBlockListInner<IFrameBrowsingBlockNodeIndex>)inner, blockIndex, direction, isNested);
         }
 
         /// <summary>
         /// Creates a IxxxExpandArgumentOperation object.
         /// </summary>
-        protected override IWriteableExpandArgumentOperation CreateExpandArgumentOperation(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, IWriteableInsertionNewBlockNodeIndex blockIndex)
+        protected override IWriteableExpandArgumentOperation CreateExpandArgumentOperation(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, IWriteableInsertionNewBlockNodeIndex blockIndex, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameController));
-            return new FrameExpandArgumentOperation((IFrameBlockListInner<IFrameBrowsingBlockNodeIndex>)inner, (IFrameInsertionNewBlockNodeIndex)blockIndex);
+            return new FrameExpandArgumentOperation((IFrameBlockListInner<IFrameBrowsingBlockNodeIndex>)inner, (IFrameInsertionNewBlockNodeIndex)blockIndex, isNested);
+        }
+
+        /// <summary>
+        /// Creates a IxxxGenericRefreshOperation object.
+        /// </summary>
+        protected override IWriteableGenericRefreshOperation CreateGenericRefreshOperation(IWriteableNodeState refreshState, bool isNested)
+        {
+            ControllerTools.AssertNoOverride(this, typeof(FrameController));
+            return new FrameGenericRefreshOperation((IFrameNodeState)refreshState, isNested);
         }
         #endregion
     }

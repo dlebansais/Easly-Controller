@@ -30,8 +30,9 @@ namespace EaslyController.Focus
         /// <param name="inner">Inner where the block is move.</param>
         /// <param name="blockIndex">Index of the moved block.</param>
         /// <param name="direction">The change in position, relative to the current position.</param>
-        public FocusMoveBlockOperation(IFocusBlockListInner<IFocusBrowsingBlockNodeIndex> inner, int blockIndex, int direction)
-            : base(inner, blockIndex, direction)
+        /// <param name="isNested">True if the operation is nested within another more general one.</param>
+        public FocusMoveBlockOperation(IFocusBlockListInner<IFocusBrowsingBlockNodeIndex> inner, int blockIndex, int direction, bool isNested)
+            : base(inner, blockIndex, direction, isNested)
         {
         }
         #endregion

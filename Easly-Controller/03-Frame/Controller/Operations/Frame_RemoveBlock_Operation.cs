@@ -34,8 +34,9 @@ namespace EaslyController.Frame
         /// </summary>
         /// <param name="inner">Inner where the block removal is taking place.</param>
         /// <param name="blockIndex">index of the removed block.</param>
-        public FrameRemoveBlockOperation(IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> inner, IFrameBrowsingExistingBlockNodeIndex blockIndex)
-            : base(inner, blockIndex)
+        /// <param name="isNested">True if the operation is nested within another more general one.</param>
+        public FrameRemoveBlockOperation(IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> inner, IFrameBrowsingExistingBlockNodeIndex blockIndex, bool isNested)
+            : base(inner, blockIndex, isNested)
         {
         }
         #endregion

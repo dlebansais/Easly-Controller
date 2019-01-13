@@ -34,8 +34,9 @@ namespace EaslyController.Focus
         /// </summary>
         /// <param name="inner">Inner where the block removal is taking place.</param>
         /// <param name="blockIndex">index of the removed block.</param>
-        public FocusRemoveBlockOperation(IFocusBlockListInner<IFocusBrowsingBlockNodeIndex> inner, IFocusBrowsingExistingBlockNodeIndex blockIndex)
-            : base(inner, blockIndex)
+        /// <param name="isNested">True if the operation is nested within another more general one.</param>
+        public FocusRemoveBlockOperation(IFocusBlockListInner<IFocusBrowsingBlockNodeIndex> inner, IFocusBrowsingExistingBlockNodeIndex blockIndex, bool isNested)
+            : base(inner, blockIndex, isNested)
         {
         }
         #endregion

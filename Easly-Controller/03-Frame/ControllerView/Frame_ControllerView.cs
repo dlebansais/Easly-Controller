@@ -92,7 +92,7 @@ namespace EaslyController.Frame
             Debug.Assert(RootStateView.RootCellView == null);
             BuildCellView(RootStateView);
 
-            UpdateLineNumbers();
+            Refresh(Controller.RootState);
         }
         #endregion
 
@@ -157,7 +157,7 @@ namespace EaslyController.Frame
             int BlockIndex = operation.BrowsingIndex.BlockIndex;
             EmbeddingCellView.Insert(BlockIndex, RootCellView);
 
-            UpdateLineNumbers();
+            Refresh(OwnerState);
         }
 
         /// <summary>
@@ -183,7 +183,8 @@ namespace EaslyController.Frame
             int BlockIndex = operation.BlockIndex.BlockIndex;
             EmbeddingCellView.Remove(BlockIndex);
 
-            UpdateLineNumbers();
+            if (!operation.IsNested)
+                Refresh(OwnerState);
         }
 
         /// <summary>
@@ -215,7 +216,7 @@ namespace EaslyController.Frame
             else
                 throw new ArgumentOutOfRangeException(nameof(operation));
 
-            UpdateLineNumbers();
+            Refresh(InsertedState);
         }
 
         protected virtual void OnBlockListStateInserted(IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> inner, IFrameBrowsingExistingBlockNodeIndex nodeIndex, IFrameNodeState insertedState)
@@ -279,6 +280,8 @@ namespace EaslyController.Frame
             IFramePlaceholderNodeState RemovedState = ((IFrameRemoveNodeOperation)operation).ChildState;
             Debug.Assert(RemovedState != null);
 
+            IFrameNodeState OwnerState = Inner.Owner;
+
             if ((Inner is IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> AsBlockListInner) && (NodeIndex is IFrameBrowsingExistingBlockNodeIndex AsBlockListIndex))
                 OnBlockListStateRemoved(AsBlockListInner, AsBlockListIndex, RemovedState);
 
@@ -288,7 +291,7 @@ namespace EaslyController.Frame
             else
                 throw new ArgumentOutOfRangeException(nameof(operation));
 
-            UpdateLineNumbers();
+            Refresh(OwnerState);
         }
 
         protected virtual void OnBlockListStateRemoved(IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> inner, IFrameBrowsingExistingBlockNodeIndex nodeIndex, IFrameNodeState removedState)
@@ -366,7 +369,7 @@ namespace EaslyController.Frame
             else
                 throw new ArgumentOutOfRangeException(nameof(operation));
 
-            UpdateLineNumbers();
+            Refresh(ReplacedState);
         }
 
         protected virtual void OnPlaceholderStateReplaced(IFramePlaceholderInner<IFrameBrowsingPlaceholderNodeIndex> inner, IFrameBrowsingPlaceholderNodeIndex nodeIndex, IFrameNodeState replacedState)
@@ -489,7 +492,7 @@ namespace EaslyController.Frame
             ClearCellView(AssignedStateView);
             BuildCellView(AssignedStateView);
 
-            UpdateLineNumbers();
+            Refresh(AssignedState);
         }
 
         /// <summary>
@@ -507,7 +510,8 @@ namespace EaslyController.Frame
             ClearCellView(UnassignedStateView);
             BuildCellView(UnassignedStateView);
 
-            UpdateLineNumbers();
+            if (!operation.IsNested)
+                Refresh(UnassignedState);
         }
 
         /// <summary>
@@ -524,6 +528,7 @@ namespace EaslyController.Frame
             int Direction = ((IFrameMoveNodeOperation)operation).Direction;
             IFramePlaceholderNodeState MovedState = ((IFrameMoveNodeOperation)operation).State;
             Debug.Assert(MovedState != null);
+            IFrameNodeState OwnerState = Inner.Owner;
 
             if ((Inner is IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> AsBlockListInner) && (NodeIndex is IFrameBrowsingExistingBlockNodeIndex AsBlockListIndex))
                 OnBlockListStateMoved(AsBlockListInner, AsBlockListIndex, MoveIndex, Direction);
@@ -534,7 +539,7 @@ namespace EaslyController.Frame
             else
                 throw new ArgumentOutOfRangeException(nameof(operation));
 
-            UpdateLineNumbers();
+            Refresh(OwnerState);
         }
 
         protected virtual void OnBlockListStateMoved(IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> inner, IFrameBrowsingExistingBlockNodeIndex nodeIndex, int index, int direction)
@@ -597,7 +602,7 @@ namespace EaslyController.Frame
 
             EmbeddingCellView.Move(operation.BlockIndex, operation.Direction);
 
-            UpdateLineNumbers();
+            Refresh(OwnerState);
         }
 
         /// <summary>
@@ -649,7 +654,7 @@ namespace EaslyController.Frame
             for (int i = 0; i < Index; i++)
                 SecondEmbeddingCellView.Remove(0);
 
-            UpdateLineNumbers();
+            Refresh(OwnerState);
         }
 
         /// <summary>
@@ -697,7 +702,7 @@ namespace EaslyController.Frame
             BlockEmbeddingCellView.Replace(BlockIndex - 1, RootCellView);
             BlockEmbeddingCellView.Remove(BlockIndex);
 
-            UpdateLineNumbers();
+            Refresh(OwnerState);
         }
 
         /// <summary>
@@ -729,7 +734,18 @@ namespace EaslyController.Frame
 
             //OnStateInserted(null, ArgumentNodeIndex, ArgumentChildState, true);
 
-            UpdateLineNumbers();
+            Refresh(OwnerState);
+        }
+
+        /// <summary>
+        /// Handler called to refresh views.
+        /// </summary>
+        /// <param name="operation">Details of the operation performed.</param>
+        public override void OnGenericRefresh(IWriteableGenericRefreshOperation operation)
+        {
+            base.OnGenericRefresh(operation);
+
+            Refresh((IFrameNodeState)operation.RefreshState);
         }
 
         /// <summary>
@@ -776,7 +792,22 @@ namespace EaslyController.Frame
             blockStateView.ClearRootCellView(stateView);
         }
 
-        protected virtual void UpdateLineNumbers()
+        protected virtual void Refresh(IFrameNodeState state)
+        {
+            Debug.Assert(StateViewTable.ContainsKey(state));
+            if (state.ParentState != null)
+            {
+                Debug.Assert(StateViewTable.ContainsKey(state.ParentState));
+                IFrameNodeStateView ParentStateView = StateViewTable[state.ParentState];
+
+                ClearCellView(ParentStateView);
+                BuildCellView(ParentStateView);
+            }
+
+            UpdateLineNumbers(state);
+        }
+
+        protected virtual void UpdateLineNumbers(IFrameNodeState state)
         {
             IFrameNodeState RootState = Controller.RootState;
             IFrameNodeStateView RootStateView = StateViewTable[RootState];
