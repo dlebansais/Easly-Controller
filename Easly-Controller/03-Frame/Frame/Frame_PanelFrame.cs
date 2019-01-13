@@ -86,7 +86,14 @@ namespace EaslyController.Frame
                 Debug.Assert(NodeFrame != null);
 
                 IFrameCellView ItemCellView = NodeFrame.BuildNodeCells(context, EmbeddingCellView);
-                CellViewList.Add(ItemCellView);
+
+                // Only add cell views that are not empty and that are not empty collections.
+                if (ItemCellView is IFrameEmptyCellView)
+                { }
+                else if ((ItemCellView is IFrameCellViewCollection AsCollection) && AsCollection.CellViewList.Count == 0 && !AsCollection.IsAssignedToTable)
+                { }
+                else
+                    CellViewList.Add(ItemCellView);
             }
 
             return EmbeddingCellView;

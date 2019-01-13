@@ -136,10 +136,17 @@ namespace EaslyController.Frame
             IFrameBlockTemplate BlockTemplate = Template as IFrameBlockTemplate;
             Debug.Assert(BlockTemplate != null);
 
-            Debug.Assert(RootCellView == null);
-            RootCellView = BlockTemplate.BuildBlockCells(context);
+            SetRootCellView(BlockTemplate.BuildBlockCells(context));
 
             Debug.Assert(EmbeddingCellView != null);
+        }
+
+        protected virtual void SetRootCellView(IFrameCellView cellView)
+        {
+            Debug.Assert(cellView != null);
+            Debug.Assert(RootCellView == null);
+
+            RootCellView = cellView;
         }
 
         /// <summary>

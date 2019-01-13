@@ -59,6 +59,20 @@ namespace EaslyController.Focus
         public new IFocusAssignableCellViewReadOnlyDictionary<string> CellViewTable { get { return (IFocusAssignableCellViewReadOnlyDictionary<string>)base.CellViewTable; } }
         #endregion
 
+        #region Client Interface
+        /// <summary>
+        /// Builds the cell view tree for this view.
+        /// </summary>
+        /// <param name="context">Context used to build the cell view tree.</param>
+        public override void BuildRootCellView(IFrameCellViewTreeContext context)
+        {
+            if (((IFocusCellViewTreeContext)context).IsVisible)
+                base.BuildRootCellView(context);
+            else
+                SetRootCellView(CreateEmptyCellView(((IFocusCellViewTreeContext)context).StateView));
+        }
+        #endregion
+
         #region Debugging
         /// <summary>
         /// Compares two <see cref="IFocusPlaceholderNodeStateView"/> objects.
@@ -96,6 +110,15 @@ namespace EaslyController.Focus
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusPlaceholderNodeStateView));
             return new FocusAssignableCellViewReadOnlyDictionary<string>((IFocusAssignableCellViewDictionary<string>)dictionary);
+        }
+
+        /// <summary>
+        /// Creates a IxxxEmptyCellView object.
+        /// </summary>
+        protected virtual IFocusEmptyCellView CreateEmptyCellView(IFocusNodeStateView stateView)
+        {
+            ControllerTools.AssertNoOverride(this, typeof(FocusPlaceholderNodeStateView));
+            return new FocusEmptyCellView(stateView);
         }
         #endregion
     }

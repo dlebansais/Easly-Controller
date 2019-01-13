@@ -91,12 +91,17 @@ namespace EaslyController.Frame
             IFrameNodeTemplate NodeTemplate = Template as IFrameNodeTemplate;
             Debug.Assert(NodeTemplate != null);
 
-            RootCellView = NodeTemplate.BuildNodeCells(context);
-
-            //foreach (KeyValuePair<string, IFrameCellView> Entry in _CellViewTable)
-            //    Debug.Assert(Entry.Value != null);
+            SetRootCellView(NodeTemplate.BuildNodeCells(context));
 
             CellViewTable = CreateCellViewReadOnlyTable(_CellViewTable);
+        }
+
+        protected virtual void SetRootCellView(IFrameCellView cellView)
+        {
+            Debug.Assert(cellView != null);
+            Debug.Assert(RootCellView == null);
+
+            RootCellView = cellView;
         }
 
         /// <summary>
