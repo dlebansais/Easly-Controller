@@ -73,10 +73,7 @@ namespace EaslyController.Focus
             IFrameCellViewCollection EmbeddingCellView = base.BuildNodeCells(context, parentCellView) as IFrameCellViewCollection;
             Debug.Assert(EmbeddingCellView != null);
 
-            IFrameCellView Result;
-            if (((IFocusCellViewTreeContext)context).IsVisible)
-                Result = EmbeddingCellView;
-            else
+            if (!((IFocusCellViewTreeContext)context).IsVisible)
             {
                 foreach (IFocusCellView CellView in EmbeddingCellView.CellViewList)
                 {
@@ -85,16 +82,11 @@ namespace EaslyController.Focus
                     Debug.Assert(AsBlockCellView.BlockStateView != null);
                     Debug.Assert(AsBlockCellView.BlockStateView.RootCellView is IFocusEmptyCellView);
                 }
-
-                //EmbeddingCellView.ClearCellTree();
-
-                //Result = CreateEmptyCellView(((IFocusCellViewTreeContext)context).StateView);
-                Result = EmbeddingCellView;
             }
 
             ((IFocusCellViewTreeContext)context).RestoreFrameVisibility(OldNodeFrameVisibility);
 
-            return Result;
+            return EmbeddingCellView;
         }
         #endregion
 
