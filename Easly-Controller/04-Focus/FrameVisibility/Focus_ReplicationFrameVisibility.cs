@@ -34,13 +34,11 @@ namespace EaslyController.Focus
         /// <summary>
         /// Is the associated frame visible.
         /// </summary>
-        /// <param name="controllerView">The view in cells are created.</param>
-        /// <param name="stateView">The state view for which to create cells.</param>
-        /// <param name="blockStateView">The block state view for which to create cells.</param>
+        /// <param name="context">Context used to build the cell view tree.</param>
         /// <param name="frame">The frame with the associated visibility.</param>
-        public virtual bool IsBlockVisible(IFocusControllerView controllerView, IFocusNodeStateView stateView, IFocusBlockStateView blockStateView, IFocusBlockFrame frame)
+        public virtual bool IsBlockVisible(IFocusCellViewTreeContext context, IFocusBlockFrame frame)
         {
-            if (!controllerView.IsInReplicatedBlock(blockStateView))
+            if (!context.ControllerView.IsInReplicatedBlock(context.BlockStateView))
                 return false;
 
             return true;

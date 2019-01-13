@@ -73,20 +73,19 @@ namespace EaslyController.Frame
         /// <summary>
         /// Create cells for the provided state view.
         /// </summary>
-        /// <param name="controllerView">The view in cells are created.</param>
-        /// <param name="stateView">The state view for which to create cells.</param>
+        /// <param name="context">Context used to build the cell view tree.</param>
         /// <param name="parentCellView">The parent cell view.</param>
-        public virtual IFrameCellView BuildNodeCells(IFrameControllerView controllerView, IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView)
+        public virtual IFrameCellView BuildNodeCells(IFrameCellViewTreeContext context, IFrameCellViewCollection parentCellView)
         {
             IFrameCellViewList CellViewList = CreateCellViewList();
-            IFrameCellViewCollection EmbeddingCellView = CreateEmbeddingCellView(stateView, CellViewList);
+            IFrameCellViewCollection EmbeddingCellView = CreateEmbeddingCellView(context.StateView, CellViewList);
 
             foreach (IFrameFrame Item in Items)
             {
                 IFrameNodeFrame NodeFrame = Item as IFrameNodeFrame;
                 Debug.Assert(NodeFrame != null);
 
-                IFrameCellView ItemCellView = NodeFrame.BuildNodeCells(controllerView, stateView, EmbeddingCellView);
+                IFrameCellView ItemCellView = NodeFrame.BuildNodeCells(context, EmbeddingCellView);
                 CellViewList.Add(ItemCellView);
             }
 
@@ -96,36 +95,35 @@ namespace EaslyController.Frame
         /// <summary>
         /// Create cells for the provided state view.
         /// </summary>
-        /// <param name="controllerView">The view in cells are created.</param>
-        /// <param name="stateView">The state view containing <paramref name="blockStateView"/> for which to create cells.</param>
-        /// <param name="blockStateView">The block state view for which to create cells.</param>
-        public virtual IFrameCellView BuildBlockCells(IFrameControllerView controllerView, IFrameNodeStateView stateView, IFrameBlockStateView blockStateView)
+        /// <param name="context">Context used to build the cell view tree.</param>
+        public virtual IFrameCellView BuildBlockCells(IFrameCellViewTreeContext context)
         {
+            IFrameBlockStateView BlockStateView = context.BlockStateView;
+            IFrameBlockState BlockState = BlockStateView.BlockState;
             IFrameCellViewList CellViewList = CreateCellViewList();
-            IFrameCellViewCollection EmbeddingCellView = CreateEmbeddingCellView(stateView, CellViewList);
+            IFrameCellViewCollection EmbeddingCellView = CreateEmbeddingCellView(context.StateView, CellViewList);
             IFrameCellView ItemCellView;
 
             foreach (IFrameFrame Item in Items)
             {
                 if (Item is IFrameBlockFrame AsBlockFrame)
-                    ItemCellView = AsBlockFrame.BuildBlockCells(controllerView, stateView, blockStateView);
+                    ItemCellView = AsBlockFrame.BuildBlockCells(context);
 
                 else if (Item is FramePlaceholderFrame AsPlaceholderFrame)
                 {
-                    IFrameBlockState BlockState = blockStateView.BlockState;
 
                     if (AsPlaceholderFrame.PropertyName == nameof(IBlock.ReplicationPattern))
-                        ItemCellView = BuildPlaceholderCells(controllerView, stateView, EmbeddingCellView, BlockState.PatternState);
+                        ItemCellView = BuildPlaceholderCells(context, EmbeddingCellView, BlockState.PatternState);
 
                     else if (AsPlaceholderFrame.PropertyName == nameof(IBlock.SourceIdentifier))
-                        ItemCellView = BuildPlaceholderCells(controllerView, stateView, EmbeddingCellView, BlockState.SourceState);
+                        ItemCellView = BuildPlaceholderCells(context, EmbeddingCellView, BlockState.SourceState);
 
                     else
                         throw new ArgumentOutOfRangeException(nameof(Item));
                 }
 
                 else if (Item is IFrameNodeFrame AsNodeFrame)
-                    ItemCellView = AsNodeFrame.BuildNodeCells(controllerView, stateView, EmbeddingCellView);
+                    ItemCellView = AsNodeFrame.BuildNodeCells(context, EmbeddingCellView);
 
                 else
                     throw new ArgumentOutOfRangeException(nameof(Item));
@@ -136,18 +134,21 @@ namespace EaslyController.Frame
             return EmbeddingCellView;
         }
 
-        protected virtual IFrameCellView BuildPlaceholderCells(IFrameControllerView controllerView, IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, IFrameNodeState childState)
+        protected virtual IFrameCellView BuildPlaceholderCells(IFrameCellViewTreeContext context, IFrameCellViewCollection parentCellView, IFrameNodeState childState)
         {
-            IFrameStateViewDictionary StateViewTable = controllerView.StateViewTable;
+            IFrameStateViewDictionary StateViewTable = context.ControllerView.StateViewTable;
             Debug.Assert(StateViewTable.ContainsKey(childState));
 
+            IFrameNodeStateView StateView = context.StateView;
             IFrameNodeStateView ChildStateView = StateViewTable[childState];
 
             Debug.Assert(ChildStateView.RootCellView == null);
-            ChildStateView.BuildRootCellView();
+            context.SetChildStateView(ChildStateView);
+            ChildStateView.BuildRootCellView(context);
+            context.RestoreParentStateView(StateView);
             Debug.Assert(ChildStateView.RootCellView != null);
 
-            return CreateFrameCellView(stateView, parentCellView, ChildStateView);
+            return CreateFrameCellView(context.StateView, parentCellView, ChildStateView);
         }
         #endregion
 

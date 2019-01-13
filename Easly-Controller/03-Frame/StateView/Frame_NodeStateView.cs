@@ -38,7 +38,8 @@ namespace EaslyController.Frame
         /// <summary>
         /// Builds the cell view tree for this view.
         /// </summary>
-        void BuildRootCellView();
+        /// <param name="context">Context used to build the cell view tree.</param>
+        void BuildRootCellView(IFrameCellViewTreeContext context);
 
         /// <param name="propertyName">The property name of the inner.</param>
         /// <param name="cellView">The assigned cell view.</param>
@@ -125,7 +126,8 @@ namespace EaslyController.Frame
         /// <summary>
         /// Builds the cell view tree for this view.
         /// </summary>
-        public abstract void BuildRootCellView();
+        /// <param name="context">Context used to build the cell view tree.</param>
+        public abstract void BuildRootCellView(IFrameCellViewTreeContext context);
 
         /// <summary>
         /// Assign the cell view corresponding to an inner.

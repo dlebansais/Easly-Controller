@@ -54,18 +54,17 @@ namespace EaslyController.Focus
         /// <summary>
         /// Create cells for the provided state view.
         /// </summary>
-        /// <param name="controllerView">The view in which cells are created.</param>
-        /// <param name="stateView">The state view containing <paramref name="blockStateView"/> for which to create cells.</param>
-        /// <param name="blockStateView">The block state view for which to create cells.</param>
-        public override IFrameCellView BuildNodeCells(IFrameControllerView controllerView, IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView)
+        /// <param name="context">Context used to build the cell view tree.</param>
+        /// <param name="parentCellView">The parent cell view.</param>
+        public override IFrameCellView BuildNodeCells(IFrameCellViewTreeContext context, IFrameCellViewCollection parentCellView)
         {
-            if (Visibility != null && !Visibility.IsVisible((IFocusControllerView)controllerView, (IFocusNodeStateView)stateView, this))
+            if (Visibility != null && !Visibility.IsVisible((IFocusCellViewTreeContext)context, this))
             {
-                IFocusEmptyCellView EmbeddingCellView = CreateEmptyCellView((IFocusNodeStateView)stateView);
+                IFocusEmptyCellView EmbeddingCellView = CreateEmptyCellView(((IFocusCellViewTreeContext)context).StateView);
                 return EmbeddingCellView;
             }
             else
-                return base.BuildNodeCells(controllerView, stateView, parentCellView);
+                return base.BuildNodeCells(context, parentCellView);
         }
         #endregion
 

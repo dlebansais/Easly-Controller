@@ -75,8 +75,11 @@ namespace EaslyController.Frame
         /// <summary>
         /// Builds the cell view tree for this view.
         /// </summary>
-        public virtual void BuildRootCellView()
+        /// <param name="context">Context used to build the cell view tree.</param>
+        public virtual void BuildRootCellView(IFrameCellViewTreeContext context)
         {
+            Debug.Assert(context.StateView == this);
+            
             Debug.Assert(State.InnerTable.Count == 0);
 
             Debug.Assert(RootCellView == null);
@@ -86,7 +89,7 @@ namespace EaslyController.Frame
             IFrameNodeTemplate NodeTemplate = Template as IFrameNodeTemplate;
             Debug.Assert(NodeTemplate != null);
 
-            RootCellView = NodeTemplate.BuildNodeCells(ControllerView, this);
+            RootCellView = NodeTemplate.BuildNodeCells(context);
 
             CellViewTable = CreateCellViewReadOnlyTable(_CellViewTable);
         }

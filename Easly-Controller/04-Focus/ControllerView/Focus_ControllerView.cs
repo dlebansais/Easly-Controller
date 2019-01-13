@@ -387,6 +387,15 @@ namespace EaslyController.Focus
             ControllerTools.AssertNoOverride(this, typeof(FocusControllerView));
             return new FocusBlockCellView((IFocusNodeStateView)stateView, (IFocusCellViewCollection)parentCellView, (IFocusBlockStateView)blockStateView);
         }
+
+        /// <summary>
+        /// Creates a IxxxCellViewTreeContext object.
+        /// </summary>
+        protected override IFrameCellViewTreeContext CreateCellViewTreeContext(IFrameNodeStateView stateView)
+        {
+            ControllerTools.AssertNoOverride(this, typeof(FocusControllerView));
+            return new FocusCellViewTreeContext(this, (IFocusNodeStateView)stateView);
+        }
         #endregion
     }
 }

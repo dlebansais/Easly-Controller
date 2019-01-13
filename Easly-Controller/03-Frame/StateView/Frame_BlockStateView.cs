@@ -37,8 +37,8 @@ namespace EaslyController.Frame
         /// <summary>
         /// Builds the cell view tree for this view.
         /// </summary>
-        /// <param name="stateView">The state view for which to create cells.</param>
-        void BuildRootCellView(IFrameNodeStateView stateView);
+        /// <param name="context">Context used to build the cell view tree.</param>
+        void BuildRootCellView(IFrameCellViewTreeContext context);
 
         /// <summary>
         /// Assign the cell view for each child node.
@@ -128,14 +128,16 @@ namespace EaslyController.Frame
         /// <summary>
         /// Builds the cell view tree for this view.
         /// </summary>
-        /// <param name="stateView">The state view for which to create cells.</param>
-        public virtual void BuildRootCellView(IFrameNodeStateView stateView)
+        /// <param name="context">Context used to build the cell view tree.</param>
+        public virtual void BuildRootCellView(IFrameCellViewTreeContext context)
         {
+            Debug.Assert(context.BlockStateView == this);
+
             IFrameBlockTemplate BlockTemplate = Template as IFrameBlockTemplate;
             Debug.Assert(BlockTemplate != null);
 
             Debug.Assert(RootCellView == null);
-            RootCellView = BlockTemplate.BuildBlockCells(ControllerView, stateView, this);
+            RootCellView = BlockTemplate.BuildBlockCells(context);
 
             Debug.Assert(EmbeddingCellView != null);
         }

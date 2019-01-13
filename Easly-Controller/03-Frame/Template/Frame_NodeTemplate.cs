@@ -11,9 +11,8 @@ namespace EaslyController.Frame
         /// <summary>
         /// Create cells for the provided state view.
         /// </summary>
-        /// <param name="controllerView">The view in cells are created.</param>
-        /// <param name="stateView">The state view for which to create cells.</param>
-        IFrameCellView BuildNodeCells(IFrameControllerView controllerView, IFrameNodeStateView stateView);
+        /// <param name="context">Context used to build the cell view tree.</param>
+        IFrameCellView BuildNodeCells(IFrameCellViewTreeContext context);
     }
 
     /// <summary>
@@ -26,14 +25,13 @@ namespace EaslyController.Frame
         /// <summary>
         /// Create cells for the provided state view.
         /// </summary>
-        /// <param name="controllerView">The view in cells are created.</param>
-        /// <param name="stateView">The state view for which to create cells.</param>
-        public virtual IFrameCellView BuildNodeCells(IFrameControllerView controllerView, IFrameNodeStateView stateView)
+        /// <param name="context">Context used to build the cell view tree.</param>
+        public virtual IFrameCellView BuildNodeCells(IFrameCellViewTreeContext context)
         {
             IFrameNodeFrame NodeFrame = Root as IFrameNodeFrame;
             Debug.Assert(NodeFrame != null);
 
-            return NodeFrame.BuildNodeCells(controllerView, stateView, null);
+            return NodeFrame.BuildNodeCells(context, null);
         }
         #endregion
 

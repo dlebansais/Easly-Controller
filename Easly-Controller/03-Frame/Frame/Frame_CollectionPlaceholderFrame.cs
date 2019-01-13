@@ -18,36 +18,38 @@ namespace EaslyController.Frame
         /// <summary>
         /// Create cells for the provided state view.
         /// </summary>
-        /// <param name="controllerView">The view in which cells are created.</param>
-        /// <param name="stateView">The state view containing <paramref name="blockStateView"/> for which to create cells.</param>
-        /// <param name="blockStateView">The block state view for which to create cells.</param>
-        public virtual IFrameCellView BuildBlockCells(IFrameControllerView controllerView, IFrameNodeStateView stateView, IFrameBlockStateView blockStateView)
+        /// <param name="context">Context used to build the cell view tree.</param>
+        public virtual IFrameCellView BuildBlockCells(IFrameCellViewTreeContext context)
         {
-            IFrameBlockState BlockState = blockStateView.BlockState;
+            IFrameBlockStateView BlockStateView = context.BlockStateView;
+            IFrameBlockState BlockState = BlockStateView.BlockState;
             Debug.Assert(BlockState != null);
 
             IFrameBlockTemplate BlockTemplate = ParentTemplate as IFrameBlockTemplate;
             Debug.Assert(BlockTemplate != null);
 
-            IFrameStateViewDictionary StateViewTable = controllerView.StateViewTable;
+            IFrameStateViewDictionary StateViewTable = context.ControllerView.StateViewTable;
             IFrameCellViewList CellViewList = CreateCellViewList();
-            IFrameCellViewCollection EmbeddingCellView = CreateEmbeddingCellView(stateView, CellViewList);
+            IFrameCellViewCollection EmbeddingCellView = CreateEmbeddingCellView(context.StateView, CellViewList);
 
             foreach (IFrameNodeState ChildState in BlockState.StateList)
             {
                 Debug.Assert(StateViewTable.ContainsKey(ChildState));
 
+                IFrameNodeStateView StateView = context.StateView;
                 IFrameNodeStateView ChildStateView = StateViewTable[ChildState];
 
                 Debug.Assert(ChildStateView.RootCellView == null);
-                ChildStateView.BuildRootCellView();
+                context.SetChildStateView(ChildStateView);
+                ChildStateView.BuildRootCellView(context);
+                context.RestoreParentStateView(StateView);
                 Debug.Assert(ChildStateView.RootCellView != null);
 
-                IFrameCellView FrameCellView = CreateFrameCellView(stateView, EmbeddingCellView, ChildStateView);
+                IFrameCellView FrameCellView = CreateFrameCellView(context.StateView, EmbeddingCellView, ChildStateView);
                 CellViewList.Add(FrameCellView);
             }
 
-            AssignEmbeddingCellView(blockStateView, EmbeddingCellView);
+            AssignEmbeddingCellView(BlockStateView, EmbeddingCellView);
 
             return EmbeddingCellView;
         }

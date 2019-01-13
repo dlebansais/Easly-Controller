@@ -35,12 +35,11 @@ namespace EaslyController.Frame
         /// <summary>
         /// Create cells for the provided state view.
         /// </summary>
-        /// <param name="controllerView">The view in cells are created.</param>
-        /// <param name="stateView">The state view for which to create cells.</param>
+        /// <param name="context">Context used to build the cell view tree.</param>
         /// <param name="parentCellView">The parent cell view.</param>
-        public virtual IFrameCellView BuildNodeCells(IFrameControllerView controllerView, IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView)
+        public virtual IFrameCellView BuildNodeCells(IFrameCellViewTreeContext context, IFrameCellViewCollection parentCellView)
         {
-            IFrameNodeState State = stateView.State;
+            IFrameNodeState State = context.StateView.State;
             Debug.Assert(State != null);
             Debug.Assert(State.InnerTable != null);
             Debug.Assert(State.InnerTable.ContainsKey(PropertyName));
@@ -48,27 +47,28 @@ namespace EaslyController.Frame
             IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> Inner = State.InnerTable[PropertyName] as IFrameBlockListInner<IFrameBrowsingBlockNodeIndex>;
             Debug.Assert(Inner != null);
 
-            IFrameBlockStateViewDictionary BlockStateViewTable = controllerView.BlockStateViewTable;
+            IFrameBlockStateViewDictionary BlockStateViewTable = context.ControllerView.BlockStateViewTable;
             IFrameCellViewList CellViewList = CreateCellViewList();
 
-            IFrameCellViewCollection EmbeddingCellView = CreateEmbeddingCellView(stateView, CellViewList);
+            IFrameCellViewCollection EmbeddingCellView = CreateEmbeddingCellView(context.StateView, CellViewList);
 
             Type BlockType = Inner.BlockType;
-            IFrameTemplateSet TemplateSet = controllerView.TemplateSet;
+            IFrameTemplateSet TemplateSet = context.ControllerView.TemplateSet;
             IFrameBlockTemplate BlockTemplate = TemplateSet.BlockTypeToTemplate(BlockType);
 
             foreach (IFrameBlockState BlockState in Inner.BlockStateList)
             {
-                Debug.Assert(controllerView.BlockStateViewTable.ContainsKey(BlockState));
-                IFrameBlockStateView BlockStateView = controllerView.BlockStateViewTable[BlockState];
+                Debug.Assert(context.ControllerView.BlockStateViewTable.ContainsKey(BlockState));
+                IFrameBlockStateView BlockStateView = context.ControllerView.BlockStateViewTable[BlockState];
 
-                BlockStateView.BuildRootCellView(stateView);
-                IFrameBlockCellView BlockCellView = CreateBlockCellView(stateView, EmbeddingCellView, BlockStateView);
+                context.SetBlockStateView(BlockStateView);
+                BlockStateView.BuildRootCellView(context);
+                IFrameBlockCellView BlockCellView = CreateBlockCellView(context.StateView, EmbeddingCellView, BlockStateView);
 
                 CellViewList.Add(BlockCellView);
             }
 
-            AssignEmbeddingCellView(stateView, EmbeddingCellView);
+            AssignEmbeddingCellView(context.StateView, EmbeddingCellView);
 
             return EmbeddingCellView;
         }

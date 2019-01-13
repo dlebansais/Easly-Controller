@@ -8,10 +8,8 @@
         /// <summary>
         /// Is the associated frame visible.
         /// </summary>
-        /// <param name="controllerView">The view in cells are created.</param>
-        /// <param name="stateView">The state view for which to create cells.</param>
-        /// <param name="blockStateView">The block state view for which to create cells.</param>
+        /// <param name="context">Context used to build the cell view tree.</param>
         /// <param name="frame">The frame with the associated visibility.</param>
-        bool IsBlockVisible(IFocusControllerView controllerView, IFocusNodeStateView stateView, IFocusBlockStateView blockStateView, IFocusBlockFrame frame);
+        bool IsBlockVisible(IFocusCellViewTreeContext context, IFocusBlockFrame frame);
     }
 }

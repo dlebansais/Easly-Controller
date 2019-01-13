@@ -201,7 +201,6 @@ namespace EaslyController.Frame
 
             // Build all cell views for the inserted node.
             IFrameNodeStateView InsertedStateView = StateViewTable[InsertedState];
-            //ClearCellView(InsertedStateView);
             BuildCellView(InsertedStateView);
 
             IFrameInner<IFrameBrowsingChildIndex> ParentInner = InsertedState.ParentInner;
@@ -752,7 +751,8 @@ namespace EaslyController.Frame
         #region Implementation
         protected virtual IFrameCellView BuildCellView(IFrameNodeStateView stateView)
         {
-            stateView.BuildRootCellView();
+            IFrameCellViewTreeContext Context = CreateCellViewTreeContext(stateView);
+            stateView.BuildRootCellView(Context);
             return stateView.RootCellView;
         }
 
@@ -763,7 +763,9 @@ namespace EaslyController.Frame
 
         protected virtual IFrameBlockCellView BuildBlockCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, IFrameBlockStateView blockStateView)
         {
-            blockStateView.BuildRootCellView(stateView);
+            IFrameCellViewTreeContext Context = CreateCellViewTreeContext(stateView);
+            Context.SetBlockStateView(blockStateView);
+            blockStateView.BuildRootCellView(Context);
 
             IFrameBlockCellView BlockCellView = CreateBlockCellView(stateView, parentCellView, blockStateView);
             return BlockCellView;
@@ -933,6 +935,15 @@ namespace EaslyController.Frame
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameControllerView));
             return new FrameBlockCellView(stateView, parentCellView, blockStateView);
+        }
+
+        /// <summary>
+        /// Creates a IxxxCellViewTreeContext object.
+        /// </summary>
+        protected virtual IFrameCellViewTreeContext CreateCellViewTreeContext(IFrameNodeStateView stateView)
+        {
+            ControllerTools.AssertNoOverride(this, typeof(FrameControllerView));
+            return new FrameCellViewTreeContext(this, stateView);
         }
         #endregion
     }
