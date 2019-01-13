@@ -68,9 +68,10 @@ namespace EaslyController.Focus
             else
             {
                 Debug.Assert(((EmbeddingCellView is IFocusContainerCellView AsContainer) && AsContainer.ChildStateView.RootCellView is IFocusEmptyCellView) || (EmbeddingCellView is IFocusEmptyCellView));
-                EmbeddingCellView.ClearCellTree();
+                //EmbeddingCellView.ClearCellTree();
 
-                Result = CreateEmptyCellView(((IFocusCellViewTreeContext)context).StateView);
+                //Result = CreateEmptyCellView(((IFocusCellViewTreeContext)context).StateView);
+                Result = EmbeddingCellView;
             }
 
             ((IFocusCellViewTreeContext)context).RestoreFrameVisibility(OldNodeFrameVisibility);

@@ -83,11 +83,12 @@ namespace EaslyController.Focus
                 Result = EmbeddingCellView;
             else
             {
-                Debug.Assert(EmbeddingCellView.CellViewList.Count == 0);
+                Debug.Assert(!EmbeddingCellView.HasVisibleCellView);
 
-                EmbeddingCellView.ClearCellTree();
+                //EmbeddingCellView.ClearCellTree();
 
-                Result = CreateEmptyCellView(((IFocusCellViewTreeContext)context).StateView);
+                //Result = CreateEmptyCellView(((IFocusCellViewTreeContext)context).StateView);
+                Result = EmbeddingCellView;
             }
 
             ((IFocusCellViewTreeContext)context).RestoreFrameVisibility(OldNodeFrameVisibility);

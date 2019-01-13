@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace EaslyController.Frame
@@ -12,6 +13,11 @@ namespace EaslyController.Frame
         /// The collection of child cells.
         /// </summary>
         IFrameCellViewList CellViewList { get; }
+
+        /// <summary>
+        /// True if the collection contain at least one visible cell view.
+        /// </summary>
+        bool HasVisibleCellView { get; }
 
         /// <summary>
         /// Inserts a new cell view in the collection.
@@ -83,6 +89,51 @@ namespace EaslyController.Frame
         /// True if the cell is assigned to a property in a cell view table.
         /// </summary>
         public bool IsAssignedToTable { get; private set; }
+
+        /// <summary>
+        /// True if the collection contain at least one visible cell view.
+        /// </summary>
+        public bool HasVisibleCellView
+        {
+            get
+            {
+                foreach (IFrameCellView CellView in CellViewList)
+                {
+                    switch (CellView)
+                    {
+                        case IFrameCellViewCollection AsCollection:
+                            if (AsCollection.HasVisibleCellView)
+                                return true;
+                            break;
+
+                        case IFrameBlockCellView AsBlock:
+                            Debug.Assert(AsBlock.BlockStateView != null);
+                            Debug.Assert(AsBlock.BlockStateView.RootCellView != null);
+                            if (!(AsBlock.BlockStateView.RootCellView is IFrameEmptyCellView))
+                                return true;
+                            break;
+
+                        case IFrameContainerCellView AsContainer:
+                            Debug.Assert(AsContainer.ChildStateView != null);
+                            Debug.Assert(AsContainer.ChildStateView.RootCellView != null);
+                            if (!(AsContainer.ChildStateView.RootCellView is IFrameEmptyCellView))
+                                return true;
+                            break;
+
+                        case IFrameVisibleCellView AsVisible:
+                            return true;
+
+                        case IFrameEmptyCellView AsEmpty:
+                            break;
+
+                        default:
+                            throw new ArgumentOutOfRangeException(nameof(CellView));
+                    }
+                }
+
+                return false;
+            }
+        }
         #endregion
 
         #region Client Interface

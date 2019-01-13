@@ -242,12 +242,15 @@ namespace EaslyController.Frame
             if (RootCellView == null)
                 return false;
 
-            IFrameAssignableCellViewDictionary<string> ActualCellViewTable = CreateCellViewTable();
-            if (!RootCellView.IsCellViewTreeValid(CellViewTable, ActualCellViewTable))
-                return false;
+            if (!(RootCellView is IFrameEmptyCellView))
+            {
+                IFrameAssignableCellViewDictionary<string> ActualCellViewTable = CreateCellViewTable();
+                if (!RootCellView.IsCellViewTreeValid(CellViewTable, ActualCellViewTable))
+                    return false;
 
-            if (!AllCellViewsProperlyAssigned(CellViewTable, ActualCellViewTable))
-                return false;
+                if (!AllCellViewsProperlyAssigned(CellViewTable, ActualCellViewTable))
+                    return false;
+            }
 
             return true;
         }
