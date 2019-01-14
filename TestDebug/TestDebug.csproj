@@ -69,6 +69,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="TemplateSet\CustomFocusSemanticSet.cs" />
     <Compile Include="TemplateSet\CustomFocusTemplateSet.cs" />
     <Compile Include="TemplateSet\CustomFrameTemplateSet.cs" />
     <Compile Include="Program.cs" />

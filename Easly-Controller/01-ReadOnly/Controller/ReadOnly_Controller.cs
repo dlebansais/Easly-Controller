@@ -87,6 +87,8 @@ namespace EaslyController.ReadOnly
         {
             ReadOnlyController Controller = new ReadOnlyController();
             Controller.SetRoot(nodeIndex);
+            Controller.SetInitialized();
+
             return Controller;
         }
 
@@ -101,7 +103,7 @@ namespace EaslyController.ReadOnly
             Stats = new Stats();
         }
 
-        private bool IsInitialized;
+        protected bool IsInitialized { get; private set; }
         #endregion
 
         #region Properties
@@ -263,6 +265,11 @@ namespace EaslyController.ReadOnly
 
             // Recursively build all states, starting from the root.
             BuildStateTable(null, null, rootIndex, State);
+        }
+
+        protected virtual void SetInitialized()
+        {
+            Debug.Assert(!IsInitialized); // Must be called during initialization
 
             IsInitialized = true;
             CheckInvariant();

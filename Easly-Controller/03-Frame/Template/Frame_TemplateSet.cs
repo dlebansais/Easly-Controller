@@ -69,8 +69,8 @@ namespace EaslyController.Frame
         /// <param name="blockTemplateTable">Templates for blocks of nodes.</param>
         public FrameTemplateSet(IFrameTemplateReadOnlyDictionary nodeTemplateTable, IFrameTemplateReadOnlyDictionary blockTemplateTable)
         {
-            Debug.Assert(nodeTemplateTable != null && IsValid(nodeTemplateTable));
-            Debug.Assert(blockTemplateTable != null && IsBlockValid(blockTemplateTable));
+            Debug.Assert(IsValid(nodeTemplateTable));
+            Debug.Assert(IsBlockValid(blockTemplateTable));
 
             NodeTemplateTable = nodeTemplateTable;
             BlockTemplateTable = blockTemplateTable;

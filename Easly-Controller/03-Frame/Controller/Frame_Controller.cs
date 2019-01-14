@@ -116,6 +116,7 @@ namespace EaslyController.Frame
         {
             FrameController Controller = new FrameController();
             Controller.SetRoot(nodeIndex);
+            Controller.SetInitialized();
             return Controller;
         }
 

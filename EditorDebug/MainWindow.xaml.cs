@@ -184,7 +184,7 @@ namespace EditorDebug
         private void LoadFileFocus(INode rootNode)
         {
             IFocusRootNodeIndex RootIndex = new FocusRootNodeIndex(rootNode);
-            IFocusController Controller = FocusController.Create(RootIndex);
+            IFocusController Controller = FocusController.Create(RootIndex, CustomFocusSemanticSet.FocusSemanticSet);
             IFocusControllerView ControllerView = FocusControllerView.Create(Controller, CustomFocusTemplateSet.FocusTemplateSet);
 
             int MaxRow = ControllerView.LastLineNumber;

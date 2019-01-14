@@ -1,8 +1,10 @@
 ﻿using BaseNode;
+using BaseNodeHelper;
 using EaslyController.Frame;
 using EaslyController.ReadOnly;
 using EaslyController.Writeable;
 using System;
+using System.Diagnostics;
 
 namespace EaslyController.Focus
 {
@@ -98,6 +100,18 @@ namespace EaslyController.Focus
         /// Called when two blocks are merged.
         /// </summary>
         new event Action<IFocusMergeBlocksOperation> BlocksMerged;
+
+        /// <summary>
+        /// Semantic describing all specifics of a node that are not captured in its structure.
+        /// </summary>
+        IFocusSemanticSet SemanticSet { get; }
+
+        /// <summary>
+        /// Checks whether a node can be removed from a list.
+        /// </summary>
+        /// <param name="inner">The inner where the node is.</param>
+        /// <param name="nodeIndex">Index of the node that would be removed.</param>
+        bool IsRemoveable(IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> inner, IWriteableBrowsingCollectionNodeIndex nodeIndex);
     }
 
     /// <summary>
@@ -114,10 +128,16 @@ namespace EaslyController.Focus
         /// Creates and initializes a new instance of a <see cref="FocusController"/> object.
         /// </summary>
         /// <param name="nodeIndex">Index of the root of the node tree.</param>
-        public static IFocusController Create(IFocusRootNodeIndex nodeIndex)
+        /// <param name="semanticSet">Semantic describing all specifics of a node that are not captured in its structure.</param>
+        public static IFocusController Create(IFocusRootNodeIndex nodeIndex, IFocusSemanticSet semanticSet)
         {
+            Debug.Assert(semanticSet.IsCompatible(nodeIndex.Node));
+
             FocusController Controller = new FocusController();
             Controller.SetRoot(nodeIndex);
+            Controller.SetSemantic(semanticSet);
+            Controller.SetInitialized();
+
             return Controller;
         }
 
@@ -279,6 +299,60 @@ namespace EaslyController.Focus
         /// State table.
         /// </summary>
         protected new IFocusIndexNodeStateReadOnlyDictionary StateTable { get { return (IFocusIndexNodeStateReadOnlyDictionary)base.StateTable; } }
+
+        /// <summary>
+        /// Semantic describing all specifics of a node that are not captured in its structure.
+        /// </summary>
+        public IFocusSemanticSet SemanticSet { get; private set; }
+        #endregion
+
+        #region Client Interface
+        /// <summary>
+        /// Checks whether a node can be removed from a list.
+        /// </summary>
+        /// <param name="inner">The inner where the node is.</param>
+        /// <param name="nodeIndex">Index of the node that would be removed.</param>
+        public bool IsRemoveable(IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> inner, IWriteableBrowsingCollectionNodeIndex nodeIndex)
+        {
+            Debug.Assert(inner != null);
+            Debug.Assert(nodeIndex != null);
+
+            if (inner.Count > 1)
+                return true;
+
+            Debug.Assert(inner.Count == 1);
+            Debug.Assert(inner.Owner != null);
+
+            INode Node = inner.Owner.Node;
+            string PropertyName = inner.PropertyName;
+            Debug.Assert(Node != null);
+
+            Type InterfaceType = NodeTreeHelper.NodeTypeToInterfaceType(inner.Owner.Node.GetType());
+            IFocusNodeSemantic NodeSemantic = SemanticSet.NodeTypeToSemantic(InterfaceType);
+
+            if (NodeSemantic.IsNeverEmpty(PropertyName))
+                return false;
+
+            return true;
+        }
+        #endregion
+
+        #region Implementation
+        protected virtual void SetSemantic(IFocusSemanticSet semanticSet)
+        {
+            Debug.Assert(semanticSet != null);
+            Debug.Assert(!IsInitialized); // Must be called during initialization
+
+            SemanticSet = semanticSet;
+        }
+
+        protected override void CheckInvariant()
+        {
+            base.CheckInvariant();
+
+            bool IsSemanticSetCompatible = SemanticSet.IsCompatible(RootState.Node);
+            Debug.Assert(IsSemanticSetCompatible);
+        }
         #endregion
 
         #region Create Methods

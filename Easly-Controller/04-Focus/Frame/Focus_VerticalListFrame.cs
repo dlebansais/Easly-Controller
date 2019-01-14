@@ -28,12 +28,6 @@ namespace EaslyController.Focus
         public new IFocusFrame ParentFrame { get { return (IFocusFrame)base.ParentFrame; } }
 
         /// <summary>
-        /// True if the associated collection is never empty.
-        /// (Set in Xaml)
-        /// </summary>
-        public bool IsNeverEmpty { get; set; }
-
-        /// <summary>
         /// Node frame visibility. Null if always visible.
         /// (Set in Xaml)
         /// </summary>

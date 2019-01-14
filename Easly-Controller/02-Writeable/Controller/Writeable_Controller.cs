@@ -230,6 +230,7 @@ namespace EaslyController.Writeable
         {
             WriteableController Controller = new WriteableController();
             Controller.SetRoot(nodeIndex);
+            Controller.SetInitialized();
             return Controller;
         }
 
@@ -499,6 +500,8 @@ namespace EaslyController.Writeable
                 InsertNewBlock(AsBlockListInner, AsNewBlockIndex, out nodeIndex);
             else
                 InsertNewNode(inner, insertedIndex, out nodeIndex);
+
+            CheckInvariant();
         }
 
         protected virtual void InsertNewBlock(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> blockListInner, IWriteableInsertionNewBlockNodeIndex newBlockIndex, out IWriteableBrowsingCollectionNodeIndex nodeIndex)
@@ -576,6 +579,8 @@ namespace EaslyController.Writeable
                 RemoveNodeFromBlock(AsBlockListInner, AsBlockIndex);
             else
                 RemoveNode(inner, nodeIndex);
+
+            CheckInvariant();
         }
 
         protected virtual void RemoveNodeFromBlock(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> blockListInner, IWriteableBrowsingExistingBlockNodeIndex blockIndex)
@@ -687,6 +692,8 @@ namespace EaslyController.Writeable
             Debug.Assert(Contains(nodeIndex));
 
             NotifyStateReplaced(Operation);
+
+            CheckInvariant();
         }
 
         /// <summary>
@@ -713,6 +720,8 @@ namespace EaslyController.Writeable
 
                 NotifyStateAssigned(Operation);
             }
+
+            CheckInvariant();
         }
 
         /// <summary>
@@ -739,6 +748,8 @@ namespace EaslyController.Writeable
 
                 NotifyStateUnassigned(Operation);
             }
+
+            CheckInvariant();
         }
 
         /// <summary>
@@ -753,6 +764,8 @@ namespace EaslyController.Writeable
             Debug.Assert(blockIndex >= 0 && blockIndex < inner.BlockStateList.Count);
 
             inner.ChangeReplication(blockIndex, replication);
+
+            CheckInvariant();
         }
 
         /// <summary>
@@ -805,6 +818,8 @@ namespace EaslyController.Writeable
             Stats.PlaceholderNodeCount++;
 
             NotifyBlockSplit(Operation);
+
+            CheckInvariant();
         }
 
         /// <summary>
@@ -858,6 +873,8 @@ namespace EaslyController.Writeable
             Debug.Assert(BlockState.StateList[FirstNodeIndex].ParentIndex == nodeIndex);
 
             NotifyBlocksMerged(Operation);
+
+            CheckInvariant();
         }
 
         /// <summary>
@@ -879,6 +896,8 @@ namespace EaslyController.Writeable
             inner.Move(Operation);
 
             NotifyStateMoved(Operation);
+
+            CheckInvariant();
         }
 
         /// <summary>
@@ -906,6 +925,8 @@ namespace EaslyController.Writeable
             inner.MoveBlock(Operation);
 
             NotifyBlockStateMoved(Operation);
+
+            CheckInvariant();
         }
 
         /// <summary>
@@ -933,6 +954,8 @@ namespace EaslyController.Writeable
                 else if (Entry.Value is IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> AsBlockListInner)
                     ExpandBlockList(AsBlockListInner);
             }
+
+            CheckInvariant();
         }
 
         /// <summary>
@@ -1041,6 +1064,8 @@ namespace EaslyController.Writeable
             Debug.Assert(StateTable[reducedIndex] is IWriteablePlaceholderNodeState);
 
             Reduce(reducedIndex, isNested: false);
+
+            CheckInvariant();
         }
 
         protected virtual void Reduce(IWriteableNodeIndex reducedIndex, bool isNested)
@@ -1136,6 +1161,8 @@ namespace EaslyController.Writeable
 
             IWriteableGenericRefreshOperation Operation = CreateGenericRefreshOperation(RootState, isNested: false);
             NotifyGenericRefresh(Operation);
+
+            CheckInvariant();
         }
 
         protected virtual void Canonicalize(IWriteableNodeState state)
