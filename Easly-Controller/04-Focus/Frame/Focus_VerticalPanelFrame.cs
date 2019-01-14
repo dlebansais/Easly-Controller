@@ -73,9 +73,9 @@ namespace EaslyController.Focus
         /// <param name="parentCellView">The parent cell view.</param>
         public override IFrameCellView BuildNodeCells(IFrameCellViewTreeContext context, IFrameCellViewCollection parentCellView)
         {
-            ((IFocusCellViewTreeContext)context).UpdateNodeFrameVisibility(this, out bool OldNodeFrameVisibility);
+            ((IFocusCellViewTreeContext)context).UpdateNodeFrameVisibility(this, out bool OldFrameVisibility);
 
-            IFrameCellViewCollection EmbeddingCellView = base.BuildNodeCells(context, parentCellView) as IFrameCellViewCollection;
+            IFocusCellViewCollection EmbeddingCellView = base.BuildNodeCells(context, parentCellView) as IFocusCellViewCollection;
             Debug.Assert(EmbeddingCellView != null);
 
             if (!((IFocusCellViewTreeContext)context).IsVisible)
@@ -83,7 +83,7 @@ namespace EaslyController.Focus
                 Debug.Assert(!EmbeddingCellView.HasVisibleCellView);
             }
 
-            ((IFocusCellViewTreeContext)context).RestoreFrameVisibility(OldNodeFrameVisibility);
+            ((IFocusCellViewTreeContext)context).RestoreFrameVisibility(OldFrameVisibility);
 
             return EmbeddingCellView;
         }
@@ -94,13 +94,19 @@ namespace EaslyController.Focus
         /// <param name="context">Context used to build the cell view tree.</param>
         public override IFrameCellView BuildBlockCells(IFrameCellViewTreeContext context)
         {
-            if (BlockVisibility != null && !BlockVisibility.IsBlockVisible((IFocusCellViewTreeContext)context, this))
+            ((IFocusCellViewTreeContext)context).UpdateBlockFrameVisibility(this, out bool OldFrameVisibility);
+
+            IFocusCellViewCollection EmbeddingCellView = base.BuildBlockCells(context) as IFocusCellViewCollection;
+            Debug.Assert(EmbeddingCellView != null);
+
+            if (!((IFocusCellViewTreeContext)context).IsVisible)
             {
-                IFocusEmptyCellView EmbeddingCellView = CreateEmptyCellView(((IFocusCellViewTreeContext)context).StateView);
-                return EmbeddingCellView;
+                Debug.Assert(!EmbeddingCellView.HasVisibleCellView);
             }
-            else
-                return base.BuildBlockCells(context);
+
+            ((IFocusCellViewTreeContext)context).RestoreFrameVisibility(OldFrameVisibility);
+
+            return EmbeddingCellView;
         }
         #endregion
 

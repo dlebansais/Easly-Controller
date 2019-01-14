@@ -41,14 +41,21 @@ namespace EaslyController.Focus
         /// Update the current visibility of frames.
         /// </summary>
         /// <param name="frame">The frame with the visibility to check.</param>
-        /// <param name="oldNodeFrameVisibility">The previous visibility upon return.</param>
-        void UpdateNodeFrameVisibility(IFocusNodeFrame frame, out bool oldNodeFrameVisibility);
+        /// <param name="oldFrameVisibility">The previous visibility upon return.</param>
+        void UpdateNodeFrameVisibility(IFocusNodeFrame frame, out bool oldFrameVisibility);
 
         /// <summary>
-        /// Restores the frame visibility that was changed with <see cref="UpdateNodeFrameVisibility"/>.
+        /// Update the current visibility of frames.
         /// </summary>
-        /// <param name="oldNodeFrameVisibility">The previous visibility</param>
-        void RestoreFrameVisibility(bool oldNodeFrameVisibility);
+        /// <param name="frame">The frame with the visibility to check.</param>
+        /// <param name="oldFrameVisibility">The previous visibility upon return.</param>
+        void UpdateBlockFrameVisibility(IFocusBlockFrame frame, out bool oldFrameVisibility);
+
+        /// <summary>
+        /// Restores the frame visibility that was changed with <see cref="UpdateNodeFrameVisibility"/> or <see cref="UpdateBlockFrameVisibility"/>.
+        /// </summary>
+        /// <param name="oldFrameVisibility">The previous visibility</param>
+        void RestoreFrameVisibility(bool oldFrameVisibility);
     }
 
     /// <summary>
@@ -75,10 +82,10 @@ namespace EaslyController.Focus
         /// Update the current visibility of frames.
         /// </summary>
         /// <param name="frame">The frame with the visibility to check.</param>
-        /// <param name="oldNodeFrameVisibility">The previous visibility upon return.</param>
-        public void UpdateNodeFrameVisibility(IFocusNodeFrame frame, out bool oldNodeFrameVisibility)
+        /// <param name="oldFrameVisibility">The previous visibility upon return.</param>
+        public virtual void UpdateNodeFrameVisibility(IFocusNodeFrame frame, out bool oldFrameVisibility)
         {
-            oldNodeFrameVisibility = IsFrameVisible;
+            oldFrameVisibility = IsFrameVisible;
 
             if (frame.Visibility != null)
             {
@@ -88,12 +95,28 @@ namespace EaslyController.Focus
         }
 
         /// <summary>
-        /// Restores the frame visibility that was changed with <see cref="UpdateNodeFrameVisibility"/>.
+        /// Update the current visibility of frames.
         /// </summary>
-        /// <param name="oldNodeFrameVisibility">The previous visibility</param>
-        public void RestoreFrameVisibility(bool oldNodeFrameVisibility)
+        /// <param name="frame">The frame with the visibility to check.</param>
+        /// <param name="oldFrameVisibility">The previous visibility upon return.</param>
+        public virtual void UpdateBlockFrameVisibility(IFocusBlockFrame frame, out bool oldFrameVisibility)
         {
-            IsFrameVisible = oldNodeFrameVisibility;
+            oldFrameVisibility = IsFrameVisible;
+
+            if (frame.BlockVisibility != null)
+            {
+                bool IsVisible = frame.BlockVisibility.IsBlockVisible(this, frame);
+                IsFrameVisible &= IsVisible;
+            }
+        }
+
+        /// <summary>
+        /// Restores the frame visibility that was changed with <see cref="UpdateNodeFrameVisibility"/> or <see cref="UpdateBlockFrameVisibility"/>.
+        /// </summary>
+        /// <param name="oldFrameVisibility">The previous visibility</param>
+        public virtual void RestoreFrameVisibility(bool oldFrameVisibility)
+        {
+            IsFrameVisible = oldFrameVisibility;
         }
         #endregion
 

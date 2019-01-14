@@ -1,4 +1,5 @@
 ﻿using EaslyController.Frame;
+using System.Diagnostics;
 
 namespace EaslyController.Focus
 {
@@ -39,14 +40,19 @@ namespace EaslyController.Focus
         /// <param name="context">Context used to build the cell view tree.</param>
         public override IFrameCellView BuildBlockCells(IFrameCellViewTreeContext context)
         {
-            if (BlockVisibility != null && !BlockVisibility.IsBlockVisible((IFocusCellViewTreeContext)context, this))
+            ((IFocusCellViewTreeContext)context).UpdateBlockFrameVisibility(this, out bool OldFrameVisibility);
+
+            IFocusCellViewCollection EmbeddingCellView = base.BuildBlockCells(context) as IFocusCellViewCollection;
+            Debug.Assert(EmbeddingCellView != null);
+
+            if (!((IFocusCellViewTreeContext)context).IsVisible)
             {
-                IFocusCellViewCollection EmbeddingCellView = CreateEmptyEmbeddingCellView(((IFocusCellViewTreeContext)context).StateView);
-                AssignEmbeddingCellView(context.BlockStateView, EmbeddingCellView);
-                return EmbeddingCellView;
+                Debug.Assert(!EmbeddingCellView.HasVisibleCellView);
             }
-            else
-                return base.BuildBlockCells(context);
+
+            ((IFocusCellViewTreeContext)context).RestoreFrameVisibility(OldFrameVisibility);
+
+            return EmbeddingCellView;
         }
         #endregion
 

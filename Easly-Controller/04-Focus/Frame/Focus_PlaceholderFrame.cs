@@ -57,7 +57,7 @@ namespace EaslyController.Focus
         /// <param name="parentCellView">The parent cell view.</param>
         public override IFrameCellView BuildNodeCells(IFrameCellViewTreeContext context, IFrameCellViewCollection parentCellView)
         {
-            ((IFocusCellViewTreeContext)context).UpdateNodeFrameVisibility(this, out bool OldNodeFrameVisibility);
+            ((IFocusCellViewTreeContext)context).UpdateNodeFrameVisibility(this, out bool OldFrameVisibility);
 
             IFocusCellView EmbeddingCellView = base.BuildNodeCells(context, parentCellView) as IFocusCellView;
             Debug.Assert(EmbeddingCellView != null);
@@ -67,7 +67,7 @@ namespace EaslyController.Focus
                 Debug.Assert((EmbeddingCellView is IFocusContainerCellView AsContainer) && AsContainer.ChildStateView.RootCellView is IFocusEmptyCellView);
             }
 
-            ((IFocusCellViewTreeContext)context).RestoreFrameVisibility(OldNodeFrameVisibility);
+            ((IFocusCellViewTreeContext)context).RestoreFrameVisibility(OldFrameVisibility);
 
             return EmbeddingCellView;
         }
