@@ -657,6 +657,12 @@ namespace EaslyController.Writeable
             Debug.Assert(InnerTable.ContainsKey(inner.PropertyName));
             Debug.Assert(InnerTable[inner.PropertyName] == inner);
 
+            if (inner is IWriteableOptionalInner<IWriteableBrowsingOptionalNodeIndex> AsOptionalInner)
+            {
+                IWriteableNodeState OldState = AsOptionalInner.ChildState;
+                PruneStateChildren(OldState);
+            }
+
             IWriteableReplaceOperation Operation = CreateReplaceOperation(inner, replacementIndex, isNested: false);
             inner.Replace(Operation);
 
@@ -664,10 +670,15 @@ namespace EaslyController.Writeable
             IWriteableBrowsingChildIndex NewBrowsingIndex = Operation.NewBrowsingIndex;
             IWriteableNodeState ChildState = Operation.ChildState;
 
-            Debug.Assert(Contains(OldBrowsingIndex));
-            IWriteableNodeState OldState = StateTable[OldBrowsingIndex];
+            if (!(inner is IWriteableOptionalInner<IWriteableBrowsingOptionalNodeIndex>))
+            {
+                Debug.Assert(Contains(OldBrowsingIndex));
+                IWriteableNodeState OldState = StateTable[OldBrowsingIndex];
 
-            PruneState(OldState);
+                PruneStateChildren(OldState);
+            }
+
+            RemoveState(OldBrowsingIndex);
             AddState(NewBrowsingIndex, ChildState);
 
             BuildStateTable(inner, null, NewBrowsingIndex, ChildState);
@@ -1173,6 +1184,12 @@ namespace EaslyController.Writeable
         #region Descendant Interface
         protected virtual void PruneState(IWriteableNodeState state)
         {
+            PruneStateChildren(state);
+            RemoveState(state.ParentIndex);
+        }
+
+        protected virtual void PruneStateChildren(IWriteableNodeState state)
+        {
             foreach (KeyValuePair<string, IWriteableInner<IWriteableBrowsingChildIndex>> Entry in state.InnerTable)
                 if (Entry.Value is IWriteablePlaceholderInner<IWriteableBrowsingPlaceholderNodeIndex> AsPlaceholderInner)
                     PrunePlaceholderInner(AsPlaceholderInner);
@@ -1184,8 +1201,6 @@ namespace EaslyController.Writeable
                     PruneBlockListInner(AsBlockListInner);
                 else
                     Debug.Assert(false);
-
-            RemoveState(state.ParentIndex);
         }
 
         protected virtual void PrunePlaceholderInner(IWriteablePlaceholderInner<IWriteableBrowsingPlaceholderNodeIndex> inner)
