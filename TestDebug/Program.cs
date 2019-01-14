@@ -42,9 +42,9 @@ namespace TestDebug
             {
                 Console.WriteLine(FileName);
 
-                TestReadOnly(Serializer, FileName);
-                TestWriteable(Serializer, FileName);
-                TestFrame(Serializer, FileName);
+                //TestReadOnly(Serializer, FileName);
+                //TestWriteable(Serializer, FileName);
+                //TestFrame(Serializer, FileName);
                 TestFocus(Serializer, FileName);
             }
         }

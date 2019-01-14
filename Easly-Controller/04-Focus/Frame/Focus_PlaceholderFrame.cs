@@ -9,6 +9,11 @@ namespace EaslyController.Focus
     /// </summary>
     public interface IFocusPlaceholderFrame : IFramePlaceholderFrame, IFocusNamedFrame, IFocusNodeFrame
     {
+        /// <summary>
+        /// List of optional selectors.
+        /// (Set in Xaml)
+        /// </summary>
+        IFocusFrameSelectorList Selectors { get; }
     }
 
     /// <summary>
@@ -16,6 +21,16 @@ namespace EaslyController.Focus
     /// </summary>
     public class FocusPlaceholderFrame : FramePlaceholderFrame, IFocusPlaceholderFrame
     {
+        #region Init
+        /// <summary>
+        /// Initializes a new instance of a <see cref="FocusPlaceholderFrame"/> object.
+        /// </summary>
+        public FocusPlaceholderFrame()
+        {
+            Selectors = CreateEmptySelectorList();
+        }
+        #endregion
+
         #region Properties
         /// <summary>
         /// Parent template.
@@ -32,6 +47,12 @@ namespace EaslyController.Focus
         /// (Set in Xaml)
         /// </summary>
         public IFocusNodeFrameVisibility Visibility { get; set; }
+
+        /// <summary>
+        /// List of optional selectors.
+        /// (Set in Xaml)
+        /// </summary>
+        public IFocusFrameSelectorList Selectors { get; }
         #endregion
 
         #region Client Interface
@@ -46,6 +67,10 @@ namespace EaslyController.Focus
 
             if (Visibility != null && !Visibility.IsValid(nodeType))
                 return false;
+
+            foreach (IFocusFrameSelector FrameSelector in Selectors)
+                if (!FrameSelector.IsValid(nodeType, PropertyName))
+                    return false;
 
             return true;
         }
@@ -81,6 +106,15 @@ namespace EaslyController.Focus
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusPlaceholderFrame));
             return new FocusContainerCellView((IFocusNodeStateView)stateView, (IFocusCellViewCollection)parentCellView, (IFocusNodeStateView)childStateView);
+        }
+
+        /// <summary>
+        /// Creates a IxxxFrameSelectorList object.
+        /// </summary>
+        protected virtual IFocusFrameSelectorList CreateEmptySelectorList()
+        {
+            ControllerTools.AssertNoOverride(this, typeof(FocusPlaceholderFrame));
+            return new FocusFrameSelectorList();
         }
         #endregion
     }

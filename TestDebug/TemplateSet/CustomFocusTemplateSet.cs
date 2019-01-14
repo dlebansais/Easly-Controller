@@ -253,7 +253,11 @@ namespace TestDebug
                 </FocusHorizontalPanelFrame>
                 <FocusVerticalBlockListFrame PropertyName=""ParameterBlocks"" />
             </FocusVerticalPanelFrame>
-            <FocusPlaceholderFrame PropertyName=""CommandBody"" />
+            <FocusPlaceholderFrame PropertyName=""CommandBody"">
+                <FocusPlaceholderFrame.Selectors>
+                    <FocusFrameSelector SelectorType=""{xaml:Type IBody}"" SelectorName=""Overload""/>
+                </FocusPlaceholderFrame.Selectors>
+            </FocusPlaceholderFrame>
         </FocusVerticalPanelFrame>
     </FocusNodeTemplate>
     <FocusNodeTemplate NodeType=""{xaml:Type ICommandOverloadType}"">
@@ -612,7 +616,11 @@ namespace TestDebug
                 </FocusHorizontalPanelFrame>
                 <FocusVerticalBlockListFrame PropertyName=""ModifiedQueryBlocks"" />
             </FocusVerticalPanelFrame>
-            <FocusPlaceholderFrame PropertyName=""QueryBody"" />
+            <FocusPlaceholderFrame PropertyName=""QueryBody"">
+                <FocusPlaceholderFrame.Selectors>
+                    <FocusFrameSelector SelectorType=""{xaml:Type IBody}"" SelectorName=""Overload""/>
+                </FocusPlaceholderFrame.Selectors>
+            </FocusPlaceholderFrame>
             <FocusHorizontalPanelFrame>
                 <FocusKeywordFrame>variant</FocusKeywordFrame>
                 <FocusOptionalFrame PropertyName=""Variant"" />
@@ -1416,10 +1424,18 @@ namespace TestDebug
                     </FocusVerticalPanelFrame>
                 </FocusVerticalPanelFrame>
                 <FocusVerticalPanelFrame>
-                    <FocusOptionalFrame PropertyName=""GetterBody"" />
+                    <FocusOptionalFrame PropertyName=""GetterBody"">
+                        <FocusOptionalFrame.Selectors>
+                            <FocusFrameSelector SelectorType=""{xaml:Type IBody}"" SelectorName=""Getter""/>
+                        </FocusOptionalFrame.Selectors>
+                    </FocusOptionalFrame>
                 </FocusVerticalPanelFrame>
                 <FocusVerticalPanelFrame>
-                    <FocusOptionalFrame PropertyName=""SetterBody"" />
+                    <FocusOptionalFrame PropertyName=""SetterBody"">
+                        <FocusOptionalFrame.Selectors>
+                            <FocusFrameSelector SelectorType=""{xaml:Type IBody}"" SelectorName=""Setter""/>
+                        </FocusOptionalFrame.Selectors>
+                    </FocusOptionalFrame>
                 </FocusVerticalPanelFrame>
                 <FocusHorizontalPanelFrame>
                     <FocusHorizontalPanelFrame.Visibility>
@@ -1477,8 +1493,16 @@ namespace TestDebug
                         <FocusHorizontalBlockListFrame PropertyName=""ModifiedQueryBlocks"" />
                     </FocusVerticalPanelFrame>
                 </FocusVerticalPanelFrame>
-                <FocusOptionalFrame PropertyName=""GetterBody""  />
-                <FocusOptionalFrame PropertyName=""SetterBody"" />
+                    <FocusOptionalFrame PropertyName=""GetterBody"">
+                        <FocusOptionalFrame.Selectors>
+                            <FocusFrameSelector SelectorType=""{xaml:Type IBody}"" SelectorName=""Getter""/>
+                        </FocusOptionalFrame.Selectors>
+                    </FocusOptionalFrame>
+                    <FocusOptionalFrame PropertyName=""SetterBody"">
+                        <FocusOptionalFrame.Selectors>
+                            <FocusFrameSelector SelectorType=""{xaml:Type IBody}"" SelectorName=""Setter""/>
+                        </FocusOptionalFrame.Selectors>
+                    </FocusOptionalFrame>
                 <FocusHorizontalPanelFrame>
                     <FocusHorizontalPanelFrame.Visibility>
                         <FocusTextMatchFrameVisibility PropertyName=""ExportIdentifier"" TextPattern=""All""/>

@@ -341,6 +341,7 @@
     <Compile Include="04-Focus\Collections\Focus_BrowsingBlockNodeIndex_List.cs" />
     <Compile Include="04-Focus\Collections\Focus_BrowsingListNodeIndex_List.cs" />
     <Compile Include="04-Focus\Collections\Focus_AssignableCellView_Dictionary.cs" />
+    <Compile Include="04-Focus\Collections\Focus_FrameSelector_List.cs" />
     <Compile Include="04-Focus\Collections\Focus_VisibleCellView_List.cs" />
     <Compile Include="04-Focus\Collections\Focus_CellView_List.cs" />
     <Compile Include="04-Focus\Collections\Focus_AssignableCellView_ReadOnlyDictionary.cs" />
@@ -467,6 +468,7 @@
     <Compile Include="04-Focus\State\Focus_SourceState.cs" />
     <Compile Include="04-Focus\Semantic\Focus_NodeSemantic.cs" />
     <Compile Include="04-Focus\Template\Focus_BlockTemplate.cs" />
+    <Compile Include="04-Focus\Template\Focus_FrameSelector.cs" />
     <Compile Include="04-Focus\Template\Focus_NodeTemplate.cs" />
     <Compile Include="04-Focus\Template\Focus_Template.cs" />
     <Compile Include="04-Focus\Template\Focus_TemplateSet.cs" />
