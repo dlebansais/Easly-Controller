@@ -401,6 +401,8 @@
     <Compile Include="04-Focus\Frame\Focus_CollectionPlaceholderFrame.cs" />
     <Compile Include="04-Focus\Frame\Focus_DiscreteFrame.cs" />
     <Compile Include="04-Focus\Frame\Focus_Frame.cs" />
+    <Compile Include="04-Focus\Frame\Focus_NodeFrameWithSelector.cs" />
+    <Compile Include="04-Focus\Frame\Focus_NodeFrameWithVisibility.cs" />
     <Compile Include="04-Focus\Frame\Focus_HorizontalBlockListFrame.cs" />
     <Compile Include="04-Focus\Frame\Focus_HorizontalCollectionPlaceholderFrame.cs" />
     <Compile Include="04-Focus\Frame\Focus_HorizontalListFrame.cs" />
@@ -414,6 +416,8 @@
     <Compile Include="04-Focus\Frame\Focus_OptionalFrame.cs" />
     <Compile Include="04-Focus\Frame\Focus_PanelFrame.cs" />
     <Compile Include="04-Focus\Frame\Focus_PlaceholderFrame.cs" />
+    <Compile Include="04-Focus\Frame\Focus_SelectableFrame.cs" />
+    <Compile Include="04-Focus\Frame\Focus_SelectionFrame.cs" />
     <Compile Include="04-Focus\Frame\Focus_StaticFrame.cs" />
     <Compile Include="04-Focus\Frame\Focus_SymbolFrame.cs" />
     <Compile Include="04-Focus\Frame\Focus_TextValueFrame.cs" />

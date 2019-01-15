@@ -112,7 +112,11 @@ namespace TestDebug
                 <FocusPlaceholderFrame PropertyName=""EntityName""/>
                 <FocusHorizontalPanelFrame>
                     <FocusKeywordFrame>from</FocusKeywordFrame>
-                    <FocusOptionalFrame PropertyName=""FromIdentifier"" />
+                    <FocusOptionalFrame PropertyName=""FromIdentifier"">
+                        <FocusOptionalFrame.Selectors>
+                            <FocusFrameSelector SelectorType=""{xaml:Type IIdentifier}"" SelectorName=""Identifier""/>
+                        </FocusOptionalFrame.Selectors>
+                    </FocusOptionalFrame>
                 </FocusHorizontalPanelFrame>
             </FocusHorizontalPanelFrame>
             <FocusVerticalPanelFrame>
@@ -747,7 +751,11 @@ namespace TestDebug
     </FocusNodeTemplate>
     <FocusNodeTemplate NodeType=""{xaml:Type IAssignmentArgument}"">
         <FocusHorizontalPanelFrame>
-            <FocusHorizontalBlockListFrame PropertyName=""ParameterBlocks""/>
+            <FocusHorizontalBlockListFrame PropertyName=""ParameterBlocks"">
+                <FocusHorizontalBlockListFrame.Selectors>
+                    <FocusFrameSelector SelectorType=""{xaml:Type IIdentifier}"" SelectorName=""Feature""/>
+                </FocusHorizontalBlockListFrame.Selectors>
+            </FocusHorizontalBlockListFrame>
             <FocusPlaceholderFrame PropertyName=""Source""/>
         </FocusHorizontalPanelFrame>
     </FocusNodeTemplate>
@@ -807,68 +815,72 @@ namespace TestDebug
         </FocusHorizontalPanelFrame>
     </FocusNodeTemplate>
     <FocusNodeTemplate NodeType=""{xaml:Type IEffectiveBody}"">
-        <FocusVerticalPanelFrame>
-            <FocusVerticalPanelFrame>
-                <FocusVerticalPanelFrame.Visibility>
-                    <FocusCountFrameVisibility PropertyName=""RequireBlocks""/>
-                </FocusVerticalPanelFrame.Visibility>
-                <FocusHorizontalPanelFrame>
-                    <FocusKeywordFrame>require</FocusKeywordFrame>
-                    <FocusInsertFrame CollectionName=""RequireBlocks"" />
-                </FocusHorizontalPanelFrame>
-                <FocusVerticalBlockListFrame PropertyName=""RequireBlocks"" />
-            </FocusVerticalPanelFrame>
-            <FocusVerticalPanelFrame>
-                <FocusVerticalPanelFrame.Visibility>
-                    <FocusCountFrameVisibility PropertyName=""ExceptionIdentifierBlocks""/>
-                </FocusVerticalPanelFrame.Visibility>
-                <FocusHorizontalPanelFrame>
-                    <FocusKeywordFrame>throw</FocusKeywordFrame>
-                    <FocusInsertFrame CollectionName=""ExceptionIdentifierBlocks"" />
-                </FocusHorizontalPanelFrame>
-                <FocusHorizontalBlockListFrame PropertyName=""ExceptionIdentifierBlocks"" />
-            </FocusVerticalPanelFrame>
-            <FocusVerticalPanelFrame>
-                <FocusVerticalPanelFrame.Visibility>
-                    <FocusCountFrameVisibility PropertyName=""EntityDeclarationBlocks""/>
-                </FocusVerticalPanelFrame.Visibility>
-                <FocusHorizontalPanelFrame>
-                    <FocusKeywordFrame>local</FocusKeywordFrame>
-                    <FocusInsertFrame CollectionName=""EntityDeclarationBlocks"" />
-                </FocusHorizontalPanelFrame>
-                <FocusVerticalBlockListFrame PropertyName=""EntityDeclarationBlocks"" />
-            </FocusVerticalPanelFrame>
-            <FocusVerticalPanelFrame>
-                <FocusVerticalPanelFrame.Visibility>
-                    <FocusCountFrameVisibility PropertyName=""BodyInstructionBlocks""/>
-                </FocusVerticalPanelFrame.Visibility>
-                <FocusHorizontalPanelFrame>
-                    <FocusKeywordFrame>getter</FocusKeywordFrame>
-                    <FocusInsertFrame CollectionName=""BodyInstructionBlocks"" />
-                </FocusHorizontalPanelFrame>
-                <FocusVerticalBlockListFrame PropertyName=""BodyInstructionBlocks"" />
-            </FocusVerticalPanelFrame>
-            <FocusVerticalPanelFrame>
-                <FocusVerticalPanelFrame.Visibility>
-                    <FocusCountFrameVisibility PropertyName=""ExceptionHandlerBlocks""/>
-                </FocusVerticalPanelFrame.Visibility>
-                <FocusHorizontalPanelFrame>
-                    <FocusKeywordFrame>exception</FocusKeywordFrame>
-                    <FocusInsertFrame CollectionName=""ExceptionHandlerBlocks"" />
-                </FocusHorizontalPanelFrame>
-                <FocusVerticalBlockListFrame PropertyName=""ExceptionHandlerBlocks"" />
-            </FocusVerticalPanelFrame>
-            <FocusVerticalPanelFrame>
-                <FocusVerticalPanelFrame.Visibility>
-                    <FocusCountFrameVisibility PropertyName=""EnsureBlocks""/>
-                </FocusVerticalPanelFrame.Visibility>
-                <FocusHorizontalPanelFrame>
-                    <FocusKeywordFrame>ensure</FocusKeywordFrame>
-                    <FocusInsertFrame CollectionName=""EnsureBlocks"" />
-                </FocusHorizontalPanelFrame>
-                <FocusVerticalBlockListFrame PropertyName=""EnsureBlocks"" />
-            </FocusVerticalPanelFrame>
-        </FocusVerticalPanelFrame>
+        <FocusSelectionFrame>
+            <FocusSelectableFrame>
+                <FocusVerticalPanelFrame>
+                    <FocusVerticalPanelFrame>
+                        <FocusVerticalPanelFrame.Visibility>
+                            <FocusCountFrameVisibility PropertyName=""RequireBlocks""/>
+                        </FocusVerticalPanelFrame.Visibility>
+                        <FocusHorizontalPanelFrame>
+                            <FocusKeywordFrame>require</FocusKeywordFrame>
+                            <FocusInsertFrame CollectionName=""RequireBlocks"" />
+                        </FocusHorizontalPanelFrame>
+                        <FocusVerticalBlockListFrame PropertyName=""RequireBlocks"" />
+                    </FocusVerticalPanelFrame>
+                    <FocusVerticalPanelFrame>
+                        <FocusVerticalPanelFrame.Visibility>
+                            <FocusCountFrameVisibility PropertyName=""ExceptionIdentifierBlocks""/>
+                        </FocusVerticalPanelFrame.Visibility>
+                        <FocusHorizontalPanelFrame>
+                            <FocusKeywordFrame>throw</FocusKeywordFrame>
+                            <FocusInsertFrame CollectionName=""ExceptionIdentifierBlocks"" />
+                        </FocusHorizontalPanelFrame>
+                        <FocusHorizontalBlockListFrame PropertyName=""ExceptionIdentifierBlocks"" />
+                    </FocusVerticalPanelFrame>
+                    <FocusVerticalPanelFrame>
+                        <FocusVerticalPanelFrame.Visibility>
+                            <FocusCountFrameVisibility PropertyName=""EntityDeclarationBlocks""/>
+                        </FocusVerticalPanelFrame.Visibility>
+                        <FocusHorizontalPanelFrame>
+                            <FocusKeywordFrame>local</FocusKeywordFrame>
+                            <FocusInsertFrame CollectionName=""EntityDeclarationBlocks"" />
+                        </FocusHorizontalPanelFrame>
+                        <FocusVerticalBlockListFrame PropertyName=""EntityDeclarationBlocks"" />
+                    </FocusVerticalPanelFrame>
+                    <FocusVerticalPanelFrame>
+                        <FocusVerticalPanelFrame.Visibility>
+                            <FocusCountFrameVisibility PropertyName=""BodyInstructionBlocks""/>
+                        </FocusVerticalPanelFrame.Visibility>
+                        <FocusHorizontalPanelFrame>
+                            <FocusKeywordFrame>getter</FocusKeywordFrame>
+                            <FocusInsertFrame CollectionName=""BodyInstructionBlocks"" />
+                        </FocusHorizontalPanelFrame>
+                        <FocusVerticalBlockListFrame PropertyName=""BodyInstructionBlocks"" />
+                    </FocusVerticalPanelFrame>
+                    <FocusVerticalPanelFrame>
+                        <FocusVerticalPanelFrame.Visibility>
+                            <FocusCountFrameVisibility PropertyName=""ExceptionHandlerBlocks""/>
+                        </FocusVerticalPanelFrame.Visibility>
+                        <FocusHorizontalPanelFrame>
+                            <FocusKeywordFrame>exception</FocusKeywordFrame>
+                            <FocusInsertFrame CollectionName=""ExceptionHandlerBlocks"" />
+                        </FocusHorizontalPanelFrame>
+                        <FocusVerticalBlockListFrame PropertyName=""ExceptionHandlerBlocks"" />
+                    </FocusVerticalPanelFrame>
+                    <FocusVerticalPanelFrame>
+                        <FocusVerticalPanelFrame.Visibility>
+                            <FocusCountFrameVisibility PropertyName=""EnsureBlocks""/>
+                        </FocusVerticalPanelFrame.Visibility>
+                        <FocusHorizontalPanelFrame>
+                            <FocusKeywordFrame>ensure</FocusKeywordFrame>
+                            <FocusInsertFrame CollectionName=""EnsureBlocks"" />
+                        </FocusHorizontalPanelFrame>
+                        <FocusVerticalBlockListFrame PropertyName=""EnsureBlocks"" />
+                    </FocusVerticalPanelFrame>
+                </FocusVerticalPanelFrame>
+            </FocusSelectableFrame>
+        </FocusSelectionFrame>
     </FocusNodeTemplate>
     <FocusNodeTemplate NodeType=""{xaml:Type IExternBody}"">
         <FocusVerticalPanelFrame>

@@ -7,7 +7,7 @@ namespace EaslyController.Focus
     /// <summary>
     /// Base frame for displaying more frames.
     /// </summary>
-    public interface IFocusPanelFrame : IFramePanelFrame, IFocusFrame, IFocusNodeFrame, IFocusBlockFrame
+    public interface IFocusPanelFrame : IFramePanelFrame, IFocusFrame, IFocusNodeFrameWithVisibility, IFocusBlockFrame
     {
         /// <summary>
         /// List of frames within this frame.

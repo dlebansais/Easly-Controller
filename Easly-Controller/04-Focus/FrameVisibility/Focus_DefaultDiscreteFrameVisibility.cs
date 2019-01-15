@@ -66,7 +66,7 @@ namespace EaslyController.Focus
         /// </summary>
         /// <param name="context">Context used to build the cell view tree.</param>
         /// <param name="frame">The frame with the associated visibility.</param>
-        public virtual bool IsVisible(IFocusCellViewTreeContext context, IFocusNodeFrame frame)
+        public virtual bool IsVisible(IFocusCellViewTreeContext context, IFocusNodeFrameWithVisibility frame)
         {
             if (context.ControllerView.DiscreteHasDefaultValue(context.StateView, PropertyName, DefaultValue))
                 return false;

@@ -7,7 +7,7 @@ namespace EaslyController.Focus
     /// <summary>
     /// Focus for decoration purpose only.
     /// </summary>
-    public interface IFocusKeywordFrame : IFrameKeywordFrame, IFocusFrame, IFocusNodeFrame
+    public interface IFocusKeywordFrame : IFrameKeywordFrame, IFocusFrame, IFocusNodeFrameWithVisibility
     {
     }
 

@@ -7,10 +7,5 @@ namespace EaslyController.Focus
     /// </summary>
     public interface IFocusNodeFrame : IFrameNodeFrame
     {
-        /// <summary>
-        /// Node frame visibility. Null if always visible.
-        /// (Set in Xaml)
-        /// </summary>
-        IFocusNodeFrameVisibility Visibility { get; set; }
     }
 }

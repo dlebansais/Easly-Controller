@@ -1,4 +1,7 @@
 ﻿using EaslyController.Frame;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace EaslyController.Focus
 {
@@ -38,11 +41,16 @@ namespace EaslyController.Focus
         bool IsVisible { get; }
 
         /// <summary>
+        /// Table of selectors for child frames.
+        /// </summary>
+        IDictionary<Type, string> SelectorTable { get; }
+
+        /// <summary>
         /// Update the current visibility of frames.
         /// </summary>
         /// <param name="frame">The frame with the visibility to check.</param>
         /// <param name="oldFrameVisibility">The previous visibility upon return.</param>
-        void UpdateNodeFrameVisibility(IFocusNodeFrame frame, out bool oldFrameVisibility);
+        void UpdateNodeFrameVisibility(IFocusNodeFrameWithVisibility frame, out bool oldFrameVisibility);
 
         /// <summary>
         /// Update the current visibility of frames.
@@ -56,6 +64,18 @@ namespace EaslyController.Focus
         /// </summary>
         /// <param name="oldFrameVisibility">The previous visibility</param>
         void RestoreFrameVisibility(bool oldFrameVisibility);
+
+        /// <summary>
+        /// Adds new selectors to the table.
+        /// </summary>
+        /// <param name="selectors">Selectors to add.</param>
+        void AddSelectors(IFocusFrameSelectorList selectors);
+
+        /// <summary>
+        /// Removes selectors from the table.
+        /// </summary>
+        /// <param name="selectors">Selectors to add.</param>
+        void RemoveSelectors(IFocusFrameSelectorList selectors);
     }
 
     /// <summary>
@@ -74,49 +94,7 @@ namespace EaslyController.Focus
         {
             IsFrameVisible = true;
             IsUserVisible = false;
-        }
-        #endregion
-
-        #region Client Interface
-        /// <summary>
-        /// Update the current visibility of frames.
-        /// </summary>
-        /// <param name="frame">The frame with the visibility to check.</param>
-        /// <param name="oldFrameVisibility">The previous visibility upon return.</param>
-        public virtual void UpdateNodeFrameVisibility(IFocusNodeFrame frame, out bool oldFrameVisibility)
-        {
-            oldFrameVisibility = IsFrameVisible;
-
-            if (frame.Visibility != null)
-            {
-                bool IsVisible = frame.Visibility.IsVisible(this, frame);
-                IsFrameVisible &= IsVisible;
-            }
-        }
-
-        /// <summary>
-        /// Update the current visibility of frames.
-        /// </summary>
-        /// <param name="frame">The frame with the visibility to check.</param>
-        /// <param name="oldFrameVisibility">The previous visibility upon return.</param>
-        public virtual void UpdateBlockFrameVisibility(IFocusBlockFrame frame, out bool oldFrameVisibility)
-        {
-            oldFrameVisibility = IsFrameVisible;
-
-            if (frame.BlockVisibility != null)
-            {
-                bool IsVisible = frame.BlockVisibility.IsBlockVisible(this, frame);
-                IsFrameVisible &= IsVisible;
-            }
-        }
-
-        /// <summary>
-        /// Restores the frame visibility that was changed with <see cref="UpdateNodeFrameVisibility"/> or <see cref="UpdateBlockFrameVisibility"/>.
-        /// </summary>
-        /// <param name="oldFrameVisibility">The previous visibility</param>
-        public virtual void RestoreFrameVisibility(bool oldFrameVisibility)
-        {
-            IsFrameVisible = oldFrameVisibility;
+            SelectorTable = new Dictionary<Type, string>();
         }
         #endregion
 
@@ -152,6 +130,80 @@ namespace EaslyController.Focus
         public bool IsVisible
         {
             get { return IsFrameVisible || IsUserVisible; }
+        }
+
+        /// <summary>
+        /// Table of selectors for child frames.
+        /// </summary>
+        public IDictionary<Type, string> SelectorTable { get; }
+        #endregion
+
+        #region Client Interface
+        /// <summary>
+        /// Update the current visibility of frames.
+        /// </summary>
+        /// <param name="frame">The frame with the visibility to check.</param>
+        /// <param name="oldFrameVisibility">The previous visibility upon return.</param>
+        public virtual void UpdateNodeFrameVisibility(IFocusNodeFrameWithVisibility frame, out bool oldFrameVisibility)
+        {
+            oldFrameVisibility = IsFrameVisible;
+
+            if (frame.Visibility != null)
+            {
+                bool IsVisible = frame.Visibility.IsVisible(this, frame);
+                IsFrameVisible &= IsVisible;
+            }
+        }
+
+        /// <summary>
+        /// Update the current visibility of frames.
+        /// </summary>
+        /// <param name="frame">The frame with the visibility to check.</param>
+        /// <param name="oldFrameVisibility">The previous visibility upon return.</param>
+        public virtual void UpdateBlockFrameVisibility(IFocusBlockFrame frame, out bool oldFrameVisibility)
+        {
+            oldFrameVisibility = IsFrameVisible;
+
+            if (frame.BlockVisibility != null)
+            {
+                bool IsVisible = frame.BlockVisibility.IsBlockVisible(this, frame);
+                IsFrameVisible &= IsVisible;
+            }
+        }
+
+        /// <summary>
+        /// Restores the frame visibility that was changed with <see cref="UpdateNodeFrameVisibility"/> or <see cref="UpdateBlockFrameVisibility"/>.
+        /// </summary>
+        /// <param name="oldFrameVisibility">The previous visibility</param>
+        public virtual void RestoreFrameVisibility(bool oldFrameVisibility)
+        {
+            IsFrameVisible = oldFrameVisibility;
+        }
+
+        /// <summary>
+        /// Adds new selectors to the table.
+        /// </summary>
+        /// <param name="selectors">Selectors to add.</param>
+        public virtual void AddSelectors(IFocusFrameSelectorList selectors)
+        {
+            foreach (IFocusFrameSelector Item in selectors)
+            {
+                Debug.Assert(!SelectorTable.ContainsKey(Item.SelectorType));
+                SelectorTable.Add(Item.SelectorType, Item.SelectorName);
+            }
+        }
+
+        /// <summary>
+        /// Removes selectors from the table.
+        /// </summary>
+        /// <param name="selectors">Selectors to add.</param>
+        public virtual void RemoveSelectors(IFocusFrameSelectorList selectors)
+        {
+            foreach (IFocusFrameSelector Item in selectors)
+            {
+                Debug.Assert(SelectorTable.ContainsKey(Item.SelectorType));
+                SelectorTable.Remove(Item.SelectorType);
+            }
         }
         #endregion
     }

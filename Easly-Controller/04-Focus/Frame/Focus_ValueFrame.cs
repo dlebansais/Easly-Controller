@@ -5,7 +5,7 @@ namespace EaslyController.Focus
     /// <summary>
     /// Focus describing a value property (or string) in a node.
     /// </summary>
-    public interface IFocusValueFrame : IFrameValueFrame, IFocusNamedFrame, IFocusNodeFrame
+    public interface IFocusValueFrame : IFrameValueFrame, IFocusNamedFrame, IFocusNodeFrameWithVisibility
     {
     }
 

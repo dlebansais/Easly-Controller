@@ -7,13 +7,8 @@ namespace EaslyController.Focus
     /// <summary>
     /// Focus for describing an child node.
     /// </summary>
-    public interface IFocusPlaceholderFrame : IFramePlaceholderFrame, IFocusNamedFrame, IFocusNodeFrame
+    public interface IFocusPlaceholderFrame : IFramePlaceholderFrame, IFocusNamedFrame, IFocusNodeFrameWithVisibility, IFocusNodeFrameWithSelector
     {
-        /// <summary>
-        /// List of optional selectors.
-        /// (Set in Xaml)
-        /// </summary>
-        IFocusFrameSelectorList Selectors { get; }
     }
 
     /// <summary>
@@ -83,6 +78,7 @@ namespace EaslyController.Focus
         public override IFrameCellView BuildNodeCells(IFrameCellViewTreeContext context, IFrameCellViewCollection parentCellView)
         {
             ((IFocusCellViewTreeContext)context).UpdateNodeFrameVisibility(this, out bool OldFrameVisibility);
+            ((IFocusCellViewTreeContext)context).AddSelectors(Selectors);
 
             IFocusCellView EmbeddingCellView = base.BuildNodeCells(context, parentCellView) as IFocusCellView;
             Debug.Assert(EmbeddingCellView != null);
@@ -92,6 +88,7 @@ namespace EaslyController.Focus
                 Debug.Assert((EmbeddingCellView is IFocusContainerCellView AsContainer) && AsContainer.ChildStateView.RootCellView is IFocusEmptyCellView);
             }
 
+            ((IFocusCellViewTreeContext)context).RemoveSelectors(Selectors);
             ((IFocusCellViewTreeContext)context).RestoreFrameVisibility(OldFrameVisibility);
 
             return EmbeddingCellView;
