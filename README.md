@@ -163,6 +163,6 @@ To support a generic mechanism, the focus layer introduces selectors. In a frame
 
 ### Also       
 + focus: each view has a single cell with the focus, a caret for string, and an insertion/overwrite mode
-+ visibility: a cell can be visible depending on complex criteria, such as any of several lists being non-empty, rather than just the frame that generates it. Visibility can be forced to show a full view to the user.
++ visibility: Visibility can be forced to show a full view to the user.
 + prefered frame: when the focus changes because of a modification of the node tree, it goes to a prefered frame.
 + external insert: a new item in a list can be added either pressing enter after or before the curent item, but not for lists that can be empty. for them there is an insert frame.
