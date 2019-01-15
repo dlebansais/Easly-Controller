@@ -31,7 +31,8 @@ namespace EaslyController.Frame
         /// Checks that templates are valid for blocks.
         /// </summary>
         /// <param name="blockTemplateTable">Table of templates.</param>
-        bool IsBlockValid(IFrameTemplateReadOnlyDictionary blockTemplateTable);
+        /// <param name="nodeTemplateTable">Table of templates with all frames.</param>
+        bool IsBlockValid(IFrameTemplateReadOnlyDictionary blockTemplateTable, IFrameTemplateReadOnlyDictionary nodeTemplateTable);
 
         /// <summary>
         /// Template that will be used to describe the given node.
@@ -70,7 +71,7 @@ namespace EaslyController.Frame
         public FrameTemplateSet(IFrameTemplateReadOnlyDictionary nodeTemplateTable, IFrameTemplateReadOnlyDictionary blockTemplateTable)
         {
             Debug.Assert(IsValid(nodeTemplateTable));
-            Debug.Assert(IsBlockValid(blockTemplateTable));
+            Debug.Assert(IsBlockValid(blockTemplateTable, nodeTemplateTable));
 
             NodeTemplateTable = nodeTemplateTable;
             BlockTemplateTable = blockTemplateTable;
@@ -118,7 +119,7 @@ namespace EaslyController.Frame
                 if (!IsValidNodeType(NodeType, Template.NodeType))
                     return false;
 
-                if (!Template.Root.IsValid(NodeType))
+                if (!Template.Root.IsValid(NodeType, nodeTemplateTable))
                     return false;
             }
 
@@ -157,7 +158,8 @@ namespace EaslyController.Frame
         /// Checks that templates are valid for blocks.
         /// </summary>
         /// <param name="blockTemplateTable">Table of templates.</param>
-        public virtual bool IsBlockValid(IFrameTemplateReadOnlyDictionary blockTemplateTable)
+        /// <param name="nodeTemplateTable">Table of templates with all frames.</param>
+        public virtual bool IsBlockValid(IFrameTemplateReadOnlyDictionary blockTemplateTable, IFrameTemplateReadOnlyDictionary nodeTemplateTable)
         {
             Debug.Assert(blockTemplateTable != null);
 
@@ -185,7 +187,7 @@ namespace EaslyController.Frame
                 if (!Template.IsValid)
                     return false;
 
-                if (!Template.Root.IsValid(NodeType))
+                if (!Template.Root.IsValid(NodeType, nodeTemplateTable))
                     return false;
             }
 
@@ -227,7 +229,7 @@ namespace EaslyController.Frame
             IFrameTemplateReadOnlyDictionary DefaultBlockTemplateTable = BuildDefaultBlockListTemplate();
 
             Debug.Assert(IsValid(DefaultNodeTemplateTable));
-            Debug.Assert(IsBlockValid(DefaultBlockTemplateTable));
+            Debug.Assert(IsBlockValid(DefaultBlockTemplateTable, DefaultNodeTemplateTable));
 
             _Default = CreateDefaultTemplateSet(DefaultNodeTemplateTable, DefaultBlockTemplateTable);
 
@@ -340,7 +342,12 @@ namespace EaslyController.Frame
                 else
                     throw new ArgumentOutOfRangeException(nameof(PropertyName));
 
-            RootFrame.UpdateParent(RootTemplate, FrameFrame.Root);
+            RootFrame.UpdateParent(RootTemplate, GetRoot());
+        }
+
+        protected virtual IFrameFrame GetRoot()
+        {
+            return FrameFrame.FrameRoot;
         }
 
         protected virtual IFrameTemplateReadOnlyDictionary BuildDefaultBlockListTemplate()
@@ -368,7 +375,7 @@ namespace EaslyController.Frame
             RootTemplate.NodeType = typeof(IBlock);
             RootTemplate.Root = RootFrame;
 
-            RootFrame.UpdateParent(RootTemplate, FrameFrame.Root);
+            RootFrame.UpdateParent(RootTemplate, GetRoot());
 
             List<Type> BlockKeys = new List<Type>(DefaultDictionary.Keys);
             foreach (Type Key in BlockKeys)

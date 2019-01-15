@@ -16,6 +16,16 @@ namespace EaslyController.Focus
     /// </summary>
     public class FocusVerticalBlockListFrame : FrameVerticalBlockListFrame, IFocusVerticalBlockListFrame
     {
+        #region Init
+        /// <summary>
+        /// Initializes a new instance of a <see cref="FocusVerticalBlockListFrame"/> object.
+        /// </summary>
+        public FocusVerticalBlockListFrame()
+        {
+            Selectors = CreateEmptySelectorList();
+        }
+        #endregion
+
         #region Properties
         /// <summary>
         /// Parent template.
@@ -45,9 +55,10 @@ namespace EaslyController.Focus
         /// Checks that a frame is correctly constructed.
         /// </summary>
         /// <param name="nodeType">Type of the node this frame can describe.</param>
-        public override bool IsValid(Type nodeType)
+        /// <param name="nodeTemplateTable">Table of templates with all frames.</param>
+        public override bool IsValid(Type nodeType, IFrameTemplateReadOnlyDictionary nodeTemplateTable)
         {
-            if (!base.IsValid(nodeType))
+            if (!base.IsValid(nodeType, nodeTemplateTable))
                 return false;
 
             if (Visibility != null && !Visibility.IsValid(nodeType))
@@ -113,6 +124,15 @@ namespace EaslyController.Focus
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusVerticalBlockListFrame));
             return new FocusColumn((IFocusNodeStateView)stateView, (IFocusCellViewList)list);
+        }
+
+        /// <summary>
+        /// Creates a IxxxFrameSelectorList object.
+        /// </summary>
+        protected virtual IFocusFrameSelectorList CreateEmptySelectorList()
+        {
+            ControllerTools.AssertNoOverride(this, typeof(FocusVerticalBlockListFrame));
+            return new FocusFrameSelectorList();
         }
         #endregion
     }

@@ -21,7 +21,7 @@ namespace EaslyController.Focus
     /// Frame selecting sub-frames.
     /// </summary>
     [ContentProperty("Items")]
-    public class FocusSelectionFrame : IFocusSelectionFrame
+    public class FocusSelectionFrame : FocusFrame, IFocusSelectionFrame
     {
         #region Init
         /// <summary>
@@ -35,21 +35,11 @@ namespace EaslyController.Focus
 
         #region Properties
         /// <summary>
-        /// Parent template.
-        /// </summary>
-        public IFocusTemplate ParentTemplate { get; private set; }
-        IFrameTemplate IFrameFrame.ParentTemplate { get { return ParentTemplate; } }
-
-        /// <summary>
-        /// Parent frame, or null for the root frame in a template.
-        /// </summary>
-        public IFocusFrame ParentFrame { get; private set; }
-        IFrameFrame IFrameFrame.ParentFrame { get { return ParentFrame; } }
-
-        /// <summary>
         /// List of frames among which to select.
         /// </summary>
         public IFocusFrameList Items { get; }
+
+        protected virtual bool IsParentRoot { get { return ParentFrame == FocusRoot; } }
         #endregion
 
         #region Client Interface
@@ -57,19 +47,23 @@ namespace EaslyController.Focus
         /// Checks that a frame is correctly constructed.
         /// </summary>
         /// <param name="nodeType">Type of the node this frame can describe.</param>
-        public virtual bool IsValid(Type nodeType)
+        /// <param name="nodeTemplateTable">Table of templates with all frames.</param>
+        public override bool IsValid(Type nodeType, IFrameTemplateReadOnlyDictionary nodeTemplateTable)
         {
+            if (!base.IsValid(nodeType, nodeTemplateTable))
+                return false;
+
             if (Items.Count == 0)
                 return false;
 
-            if (ParentFrame != FrameFrame.Root)
+            if (!IsParentRoot)
                 return false;
 
             List<string> NameList = new List<string>();
             foreach (IFocusFrame Item in Items)
                 if (Item is IFocusSelectableFrame AsSelectable)
                 {
-                    if (!AsSelectable.IsValid(nodeType))
+                    if (!AsSelectable.IsValid(nodeType, nodeTemplateTable))
                         return false;
 
                     if (NameList.Contains(AsSelectable.Name))
@@ -88,16 +82,9 @@ namespace EaslyController.Focus
         /// </summary>
         /// <param name="parentTemplate">The parent template.</param>
         /// <param name="parentFrame">The parent frame.</param>
-        public virtual void UpdateParent(IFrameTemplate parentTemplate, IFrameFrame parentFrame)
+        public override void UpdateParent(IFrameTemplate parentTemplate, IFrameFrame parentFrame)
         {
-            Debug.Assert(parentTemplate is IFocusTemplate);
-            Debug.Assert(parentFrame is IFocusFrame);
-
-            Debug.Assert(ParentTemplate == null);
-            ParentTemplate = (IFocusTemplate)parentTemplate;
-
-            Debug.Assert(ParentFrame == null);
-            ParentFrame = (IFocusFrame)parentFrame;
+            base.UpdateParent(parentTemplate, parentFrame);
 
             foreach (IFocusFrame Item in Items)
                 Item.UpdateParent(parentTemplate, this);
@@ -116,10 +103,7 @@ namespace EaslyController.Focus
             foreach (IFocusFrame Item in Items)
                 if (Item is IFocusSelectableFrame AsSelectable)
                     if (AsSelectable.Name == SelectorName)
-                    {
-                        AsSelectable.BuildNodeCells(context, parentCellView);
-                        break;
-                    }
+                        return AsSelectable.BuildNodeCells(context, parentCellView);
 
             Debug.Assert(false);
             return null;

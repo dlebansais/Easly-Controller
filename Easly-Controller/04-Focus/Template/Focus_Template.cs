@@ -25,6 +25,8 @@ namespace EaslyController.Focus
         /// (Set in Xaml)
         /// </summary>
         public new IFocusFrame Root { get { return (IFocusFrame)base.Root; } set { base.Root = value; } }
+
+        protected override bool IsRootValid { get { return (Root.ParentFrame == FocusFrame.FocusRoot); } }
         #endregion
     }
 }

@@ -55,16 +55,17 @@ namespace EaslyController.Focus
         /// Checks that a frame is correctly constructed.
         /// </summary>
         /// <param name="nodeType">Type of the node this frame can describe.</param>
-        public override bool IsValid(Type nodeType)
+        /// <param name="nodeTemplateTable">Table of templates with all frames.</param>
+        public override bool IsValid(Type nodeType, IFrameTemplateReadOnlyDictionary nodeTemplateTable)
         {
-            if (!base.IsValid(nodeType))
+            if (!base.IsValid(nodeType, nodeTemplateTable))
                 return false;
 
             if (Visibility != null && !Visibility.IsValid(nodeType))
                 return false;
 
-            foreach (IFocusFrameSelector FrameSelector in Selectors)
-                if (!FrameSelector.IsValid(nodeType, PropertyName))
+            foreach (IFocusFrameSelector Selector in Selectors)
+                if (!Selector.IsValid(nodeType, (IFocusTemplateReadOnlyDictionary)nodeTemplateTable, PropertyName))
                     return false;
 
             return true;

@@ -22,7 +22,8 @@ namespace EaslyController.Frame
         /// Checks that a frame is correctly constructed.
         /// </summary>
         /// <param name="nodeType">Type of the node this frame can describe.</param>
-        bool IsValid(Type nodeType);
+        /// <param name="nodeTemplateTable">Table of templates with all frames.</param>
+        bool IsValid(Type nodeType, IFrameTemplateReadOnlyDictionary nodeTemplateTable);
 
         /// <summary>
         /// Update the reference to the parent frame.
@@ -42,14 +43,14 @@ namespace EaslyController.Frame
         {
             public IFrameTemplate ParentTemplate { get { throw new InvalidOperationException(); } }
             public IFrameFrame ParentFrame { get { throw new InvalidOperationException(); } }
-            public bool IsValid(Type nodeType) { return false; }
+            public bool IsValid(Type nodeType, IFrameTemplateReadOnlyDictionary nodeTemplateTable) { return false; }
             public void UpdateParent(IFrameTemplate parentTemplate, IFrameFrame parentFrame) { throw new InvalidOperationException(); }
         }
 
         /// <summary>
         /// Singleton object representing the root of a tree of frames.
         /// </summary>
-        public static IFrameFrame Root = new FrameRootFrame();
+        public static IFrameFrame FrameRoot = new FrameRootFrame();
         #endregion
 
         #region Properties
@@ -69,7 +70,8 @@ namespace EaslyController.Frame
         /// Checks that a frame is correctly constructed.
         /// </summary>
         /// <param name="nodeType">Type of the node this frame can describe.</param>
-        public virtual bool IsValid(Type nodeType)
+        /// <param name="nodeTemplateTable">Table of templates with all frames.</param>
+        public virtual bool IsValid(Type nodeType, IFrameTemplateReadOnlyDictionary nodeTemplateTable)
         {
             return true;
         }

@@ -33,6 +33,8 @@ namespace EaslyController.Focus
         /// (Set in Xaml)
         /// </summary>
         public bool IsComplex { get; set; }
+
+        protected override bool IsRootValid { get { return (Root.ParentFrame == FocusFrame.FocusRoot); } }
         #endregion
     }
 }

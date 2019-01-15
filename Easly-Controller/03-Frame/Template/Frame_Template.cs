@@ -56,12 +56,14 @@ namespace EaslyController.Frame
                 if (Root == null)
                     return false;
 
-                if (Root.ParentFrame != FrameFrame.Root)
+                if (!IsRootValid)
                     return false;
 
                 return true;
             }
         }
+
+        protected virtual bool IsRootValid { get { return (Root.ParentFrame == FrameFrame.FrameRoot); } }
         #endregion
     }
 }

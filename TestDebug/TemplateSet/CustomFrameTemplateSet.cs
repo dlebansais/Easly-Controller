@@ -26,7 +26,7 @@ namespace TestDebug
                 FrameTemplateDictionary TemplateDictionary = new FrameTemplateDictionary();
                 foreach (IFrameTemplate Item in Templates)
                 {
-                    Item.Root.UpdateParent(Item, FrameFrame.Root);
+                    Item.Root.UpdateParent(Item, FrameFrame.FrameRoot);
                     TemplateDictionary.Add(Item.NodeType, Item);
                 }
 

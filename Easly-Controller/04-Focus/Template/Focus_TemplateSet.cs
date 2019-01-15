@@ -61,6 +61,13 @@ namespace EaslyController.Focus
         public new IFocusTemplateReadOnlyDictionary BlockTemplateTable { get { return (IFocusTemplateReadOnlyDictionary)base.BlockTemplateTable; } }
         #endregion
 
+        #region Helper
+        protected override IFrameFrame GetRoot()
+        {
+            return FocusFrame.FocusRoot;
+        }
+        #endregion
+
         #region Create Methods
         /// <summary>
         /// Creates a IxxxTemplateDictionary object.
