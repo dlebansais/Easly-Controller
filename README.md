@@ -142,24 +142,24 @@ The focus layer introduces several features.
 
 ### Node semantics
 
-A collection can require to be non-empty (for example, a path). In that case, a semantic object is associated to node, and the corresponding collection has the `IsNeverEmpty` property set to true. More semantic can be added in next layers.
+A collection can require to be non-empty (for example, a path). In that case, a semantic object is associated to the node, and the corresponding collection has the `IsNeverEmpty` property set to true. More semantic can be added in next layers.
 
 ### Frame visibility.
 
-Starting with the focus layer, the content of node can be only partially visible, for example if some information is redundant, such as a boolean or an enum having the default value. Several types of visibility are introduced:
+Starting with the focus layer, the content of a node can be only partially visible, for example if some information is redundant, such as a boolean or an enum having the default value. Several types of visibility are introduced:
  
 + Complex expressions: a complex expression is surrounded with parenthesis. The template associated to the expression must have the `IsComplex` property set to true for the parenthesis to appear. This property ensures that when an expression contains nested expressions, there is no ambiguity in the evaluation order. For example, the binary operation expression is complex: one writes `clone of X`, but not `clone of X+Y`. It's `clone of (X+Y)` instead. Since `clone of` is also complex, one writes `(clone of X)+Y`, not `clone of X +Y`.
-+ Empty collections: if a collection is empty, surrounding decoration like keywords and symbol can be hidden as well.
++ Empty collections: if a collection is empty, surrounding decoration like keywords and symbols can be hidden as well.
 + Default value: if a property has the default value, this value can be hidden.
 + Replication visibility: when a block is replicated, it can interesting to see the replication pattern. Likewise, when the block is not replicated, the pattern can remain hidden.
 + Not the first item: in a `if`, `else if`, ... `else` sequence, the first `else` only appears at the second item. A special visibility is introduced to hide the `else` part for the first item.
-+ Text match: some string values have a special meaning, like All for export specifications. It is possible to hide a string if the content matches a pattern.
++ Text match: some string values have a special meaning, like `All` for export specifications. It is possible to hide a string if the content matches a pattern.
 
 ### Frame selector
 
 It is sometimes useful to display a node differently depending on the context. For example, an identifier could be displayed with a different color depending if it's used in an expression or a type. Similarly, a body can be displayed slightly differently in overloads, getters or setters.
 
-To support a generic mechanism, the focus layer introduces selectors. In a frame, selectors can be assigned to some node type. Then, in the template for that type, several selectable versions can be declared. The version used will be the one that matches the selector. For example, the template for an effective body has three version, when one used in an overload, and two others for getter and setter respectively.
+To support a generic mechanism, the focus layer introduces selectors. In a frame, selectors can be assigned to some node type. Then, in the template for that type, several selectable versions can be declared. The version used will be the one that matches the selector. For example, the template for an effective body has three version, one used in an overload, and two others for getters and setters respectively.
 
 ### Also       
 + focus: each view has a single cell with the focus, a caret for string, and an insertion/overwrite mode
