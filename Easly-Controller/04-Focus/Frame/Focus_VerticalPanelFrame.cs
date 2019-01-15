@@ -109,6 +109,19 @@ namespace EaslyController.Focus
 
             return EmbeddingCellView;
         }
+
+        protected override IFrameCellView BuildBlockCellsForPlaceholderFrame(IFrameCellViewTreeContext context, IFramePlaceholderFrame frame, IFrameCellViewCollection embeddingCellView, IFrameBlockState blockState)
+        {
+            Type OldSelectorType = null;
+            string OldSelectorName = null;
+            ((IFocusCellViewTreeContext)context).AddOrReplaceSelectors(((IFocusPlaceholderFrame)frame).Selectors, out OldSelectorType, out OldSelectorName);
+
+            IFrameCellView ItemCellView = base.BuildBlockCellsForPlaceholderFrame(context, frame, embeddingCellView, blockState);
+
+            ((IFocusCellViewTreeContext)context).RemoveOrRestoreSelectors(((IFocusPlaceholderFrame)frame).Selectors, OldSelectorType, OldSelectorName);
+
+            return ItemCellView;
+        }
         #endregion
 
         #region Create Methods

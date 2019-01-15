@@ -76,6 +76,23 @@ namespace EaslyController.Focus
         /// </summary>
         /// <param name="selectors">Selectors to add.</param>
         void RemoveSelectors(IFocusFrameSelectorList selectors);
+
+        /// <summary>
+        /// Adds new selectors to the table. This method is allowed to substitute one selector.
+        /// </summary>
+        /// <param name="selectors">Selectors to add.</param>
+        /// <param name="oldSelectorType">Previous value for a substituted selector type upon return. Null if none.</param>
+        /// <param name="oldSelectorName">Previous value for a substituted selector name upon return. Null if none.</param>
+        void AddOrReplaceSelectors(IFocusFrameSelectorList selectors, out Type oldSelectorType, out string oldSelectorName);
+
+        /// <summary>
+        /// Removes selectors from the table.
+        /// This method is allowed to substitute one selector substituted with <see cref="AddOrReplaceSelectors"/>.
+        /// </summary>
+        /// <param name="selectors">Selectors to add.</param>
+        /// <param name="oldSelectorType">Previous value for a substituted selector type.</param>
+        /// <param name="oldSelectorName">Previous value for a substituted selector name.</param>
+        void RemoveOrRestoreSelectors(IFocusFrameSelectorList selectors, Type oldSelectorType, string oldSelectorName);
     }
 
     /// <summary>
@@ -186,6 +203,8 @@ namespace EaslyController.Focus
         /// <param name="selectors">Selectors to add.</param>
         public virtual void AddSelectors(IFocusFrameSelectorList selectors)
         {
+            Debug.Assert(selectors != null);
+
             foreach (IFocusFrameSelector Item in selectors)
             {
                 Debug.Assert(!SelectorTable.ContainsKey(Item.SelectorType));
@@ -199,10 +218,62 @@ namespace EaslyController.Focus
         /// <param name="selectors">Selectors to add.</param>
         public virtual void RemoveSelectors(IFocusFrameSelectorList selectors)
         {
+            Debug.Assert(selectors != null);
+
             foreach (IFocusFrameSelector Item in selectors)
             {
                 Debug.Assert(SelectorTable.ContainsKey(Item.SelectorType));
                 SelectorTable.Remove(Item.SelectorType);
+            }
+        }
+
+        /// <summary>
+        /// Adds new selectors to the table. This method is allowed to substitute one selector.
+        /// </summary>
+        /// <param name="selectors">Selectors to add.</param>
+        /// <param name="oldSelectorType">Previous value for a substituted selector type upon return. Null if none.</param>
+        /// <param name="oldSelectorName">Previous value for a substituted selector name upon return. Null if none.</param>
+        public virtual void AddOrReplaceSelectors(IFocusFrameSelectorList selectors, out Type oldSelectorType, out string oldSelectorName)
+        {
+            Debug.Assert(selectors != null);
+
+            oldSelectorType = null;
+            oldSelectorName = null;
+
+            foreach (IFocusFrameSelector Item in selectors)
+                if (SelectorTable.ContainsKey(Item.SelectorType))
+                {
+                    Debug.Assert(oldSelectorType == null);
+                    Debug.Assert(oldSelectorName == null);
+
+                    oldSelectorType = Item.SelectorType;
+                    oldSelectorName = SelectorTable[Item.SelectorType];
+
+                    SelectorTable[Item.SelectorType] = Item.SelectorName;
+                }
+                else
+                    SelectorTable.Add(Item.SelectorType, Item.SelectorName);
+        }
+
+        /// <summary>
+        /// Removes selectors from the table.
+        /// This method is allowed to substitute one selector substituted with <see cref="AddOrReplaceSelectors"/>.
+        /// </summary>
+        /// <param name="selectors">Selectors to add.</param>
+        /// <param name="oldSelectorType">Previous value for a substituted selector type.</param>
+        /// <param name="oldSelectorName">Previous value for a substituted selector name.</param>
+        public virtual void RemoveOrRestoreSelectors(IFocusFrameSelectorList selectors, Type oldSelectorType, string oldSelectorName)
+        {
+            Debug.Assert(selectors != null);
+
+            foreach (IFocusFrameSelector Item in selectors)
+            {
+                Debug.Assert(SelectorTable.ContainsKey(Item.SelectorType));
+
+                if (Item.SelectorType == oldSelectorType)
+                    SelectorTable[oldSelectorType] = oldSelectorName;
+                else
+                    SelectorTable.Remove(Item.SelectorType);
             }
         }
         #endregion

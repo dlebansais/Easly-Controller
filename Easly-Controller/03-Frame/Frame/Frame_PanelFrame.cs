@@ -118,17 +118,7 @@ namespace EaslyController.Frame
                     ItemCellView = AsBlockFrame.BuildBlockCells(context);
 
                 else if (Item is FramePlaceholderFrame AsPlaceholderFrame)
-                {
-
-                    if (AsPlaceholderFrame.PropertyName == nameof(IBlock.ReplicationPattern))
-                        ItemCellView = BuildPlaceholderCells(context, EmbeddingCellView, BlockState.PatternState);
-
-                    else if (AsPlaceholderFrame.PropertyName == nameof(IBlock.SourceIdentifier))
-                        ItemCellView = BuildPlaceholderCells(context, EmbeddingCellView, BlockState.SourceState);
-
-                    else
-                        throw new ArgumentOutOfRangeException(nameof(Item));
-                }
+                    ItemCellView = BuildBlockCellsForPlaceholderFrame(context, AsPlaceholderFrame, EmbeddingCellView, BlockState);
 
                 else if (Item is IFrameNodeFrame AsNodeFrame)
                     ItemCellView = AsNodeFrame.BuildNodeCells(context, EmbeddingCellView);
@@ -140,6 +130,22 @@ namespace EaslyController.Frame
             }
 
             return EmbeddingCellView;
+        }
+
+        protected virtual IFrameCellView BuildBlockCellsForPlaceholderFrame(IFrameCellViewTreeContext context, IFramePlaceholderFrame frame, IFrameCellViewCollection embeddingCellView, IFrameBlockState blockState)
+        {
+            IFrameCellView ItemCellView;
+
+            if (frame.PropertyName == nameof(IBlock.ReplicationPattern))
+                ItemCellView = BuildPlaceholderCells(context, embeddingCellView, blockState.PatternState);
+
+            else if (frame.PropertyName == nameof(IBlock.SourceIdentifier))
+                ItemCellView = BuildPlaceholderCells(context, embeddingCellView, blockState.SourceState);
+
+            else
+                throw new ArgumentOutOfRangeException(nameof(frame));
+
+            return ItemCellView;
         }
 
         protected virtual IFrameCellView BuildPlaceholderCells(IFrameCellViewTreeContext context, IFrameCellViewCollection parentCellView, IFrameNodeState childState)
