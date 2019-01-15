@@ -4,6 +4,7 @@ using EaslyController.Constants;
 using EaslyController.Frame;
 using EaslyController.ReadOnly;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace EaslyController.Focus
@@ -266,6 +267,45 @@ namespace EaslyController.Focus
                 default:
                     throw new ArgumentOutOfRangeException(nameof(propertyName));
             }
+        }
+        #endregion
+
+        #region Implementation
+        protected override IFrameCellViewTreeContext InitializedCellViewTreeContext(IFrameNodeStateView stateView)
+        {
+            IFocusCellViewTreeContext Context = (IFocusCellViewTreeContext)CreateCellViewTreeContext(stateView);
+
+            IFocusNodeStateView CurrentStateView = (IFocusNodeStateView)stateView;
+            List<IFocusFrameSelectorList> SelectorStack = new List<IFocusFrameSelectorList>();
+
+            for(;;)
+            {
+                IFocusInner<IFocusBrowsingChildIndex> ParentInner = CurrentStateView.State.ParentInner;
+                IFocusNodeState ParentState = CurrentStateView.State.ParentState;
+                if (ParentInner == null)
+                {
+                    Debug.Assert(ParentState == null);
+                    break;
+                }
+
+                Debug.Assert(ParentState != null);
+
+                string PropertyName = ParentInner.PropertyName;
+
+                CurrentStateView = StateViewTable[ParentState];
+                IFocusNodeTemplate Template = CurrentStateView.Template as IFocusNodeTemplate;
+                Debug.Assert(Template != null);
+
+                if (Template.FrameSelectorForProperty(PropertyName, out IFocusNodeFrameWithSelector Frame))
+                    if (Frame != null)
+                        if (Frame.Selectors.Count > 0)
+                            SelectorStack.Insert(0, Frame.Selectors);
+            }
+
+            foreach (IFocusFrameSelectorList Selectors in SelectorStack)
+                Context.AddSelectors(Selectors);
+
+            return Context;
         }
         #endregion
 

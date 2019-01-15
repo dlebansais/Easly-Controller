@@ -31,5 +31,18 @@ namespace EaslyController.Focus
         /// </summary>
         public IFocusNodeFrameVisibility Visibility { get; set; }
         #endregion
+
+        #region Client Interface
+        /// <summary>
+        /// Returns the frame associated to a property if can have selectors.
+        /// </summary>
+        /// <param name="propertyName">Name of the property to look for.</param>
+        /// <param name="frame">Frame found upon return. Null if not matching <paramref name="propertyName"/>.</param>
+        public virtual bool FrameSelectorForProperty(string propertyName, out IFocusNodeFrameWithSelector frame)
+        {
+            frame = null;
+            return false;
+        }
+        #endregion
     }
 }

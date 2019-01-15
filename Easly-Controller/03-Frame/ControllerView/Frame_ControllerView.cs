@@ -767,9 +767,14 @@ namespace EaslyController.Frame
         #region Implementation
         protected virtual IFrameCellView BuildCellView(IFrameNodeStateView stateView)
         {
-            IFrameCellViewTreeContext Context = CreateCellViewTreeContext(stateView);
+            IFrameCellViewTreeContext Context = InitializedCellViewTreeContext(stateView);
             stateView.BuildRootCellView(Context);
             return stateView.RootCellView;
+        }
+
+        protected virtual IFrameCellViewTreeContext InitializedCellViewTreeContext(IFrameNodeStateView stateView)
+        {
+            return CreateCellViewTreeContext(stateView);
         }
 
         protected virtual void ClearCellView(IFrameNodeStateView stateView)
