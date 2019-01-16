@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BaseNodeHelper;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 
@@ -70,6 +71,19 @@ namespace EaslyController.ReadOnly
         /// <param name="view">The detaching view.</param>
         /// <param name="callbackSet">The set of callbacks to no longer call when enumerating existing states.</param>
         void Detach(IReadOnlyControllerView view, IReadOnlyAttachCallbackSet callbackSet);
+
+        /// <summary>
+        /// Returns the assigned state of an optional node.
+        /// </summary>
+        /// <param name="index">Index of the node.</param>
+        bool IsAssigned(IReadOnlyBrowsingOptionalNodeIndex index);
+
+        /// <summary>
+        /// Returns the value of an enum or boolean.
+        /// </summary>
+        /// <param name="index">Index of the node.</param>
+        /// <param name="propertyName">Name of the property to read.</param>
+        int GetDiscreteValue(IReadOnlyIndex index, string propertyName);
     }
 
     /// <summary>
@@ -227,6 +241,38 @@ namespace EaslyController.ReadOnly
         public virtual void Detach(IReadOnlyControllerView view, IReadOnlyAttachCallbackSet callbackSet)
         {
             RootState.Detach(view, callbackSet);
+        }
+
+        /// <summary>
+        /// Returns the assigned state of an optional node.
+        /// </summary>
+        /// <param name="index">Index of the node.</param>
+        public virtual bool IsAssigned(IReadOnlyBrowsingOptionalNodeIndex index)
+        {
+            Debug.Assert(index != null);
+            Debug.Assert(Contains(index));
+
+            return index.Optional.IsAssigned;
+        }
+
+        /// <summary>
+        /// Returns the value of an enum or boolean.
+        /// </summary>
+        /// <param name="index">Index of the node.</param>
+        /// <param name="propertyName">Name of the property to read.</param>
+        public virtual int GetDiscreteValue(IReadOnlyIndex index, string propertyName)
+        {
+            Debug.Assert(index != null);
+            Debug.Assert(Contains(index));
+
+            IReadOnlyNodeState State = StateTable[index];
+            Debug.Assert(State != null);
+            Debug.Assert(State.ValuePropertyTypeTable.ContainsKey(propertyName));
+            Debug.Assert(State.ValuePropertyTypeTable[propertyName] == Constants.ValuePropertyType.Boolean || State.ValuePropertyTypeTable[propertyName] == Constants.ValuePropertyType.Enum);
+
+            int Value = NodeTreeHelper.GetEnumValue(State.Node, propertyName);
+
+            return Value;
         }
         #endregion
 

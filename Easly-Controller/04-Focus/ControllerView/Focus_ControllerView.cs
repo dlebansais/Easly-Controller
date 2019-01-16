@@ -456,6 +456,9 @@ namespace EaslyController.Focus
             IFocusNodeStateView StateView = FocusedCellView.StateView;
             Debug.Assert(StateView != null);
 
+            while (StateView.Template.IsSimple && StateView.State.ParentState != null)
+                StateView = StateViewTable[StateView.State.ParentState];
+
             if (isUserVisible)
             {
                 foreach (KeyValuePair<IFocusNodeState, IFocusNodeStateView> Entry in StateViewTable)

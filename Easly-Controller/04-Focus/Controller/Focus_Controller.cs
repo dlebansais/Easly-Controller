@@ -82,6 +82,11 @@ namespace EaslyController.Focus
         new event Action<IFocusAssignmentOperation> StateUnassigned;
 
         /// <summary>
+        /// Called when a state is changed.
+        /// </summary>
+        new event Action<IFocusChangeNodeOperation> StateChanged;
+
+        /// <summary>
         /// Called when a state is moved.
         /// </summary>
         new event Action<IFocusMoveNodeOperation> StateMoved;
@@ -257,6 +262,15 @@ namespace EaslyController.Focus
         {
             add { AddStateUnassignedDelegate((Action<IWriteableAssignmentOperation>)value); }
             remove { RemoveStateUnassignedDelegate((Action<IWriteableAssignmentOperation>)value); }
+        }
+
+        /// <summary>
+        /// Called when a state is changed.
+        /// </summary>
+        public new event Action<IFocusChangeNodeOperation> StateChanged
+        {
+            add { AddStateChangedDelegate((Action<IWriteableChangeNodeOperation>)value); }
+            remove { RemoveStateChangedDelegate((Action<IWriteableChangeNodeOperation>)value); }
         }
 
         /// <summary>
@@ -525,6 +539,15 @@ namespace EaslyController.Focus
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusController));
             return new FocusAssignmentOperation((IFocusOptionalInner<IFocusBrowsingOptionalNodeIndex>)inner, (IFocusBrowsingOptionalNodeIndex)nodeIndex, isNested);
+        }
+
+        /// <summary>
+        /// Creates a IxxxChangeNodeOperation object.
+        /// </summary>
+        protected override IWriteableChangeNodeOperation CreateChangeNodeOperation(IWriteableIndex nodeIndex, bool isNested)
+        {
+            ControllerTools.AssertNoOverride(this, typeof(FocusController));
+            return new FocusChangeNodeOperation((IFocusIndex)nodeIndex, isNested);
         }
 
         /// <summary>

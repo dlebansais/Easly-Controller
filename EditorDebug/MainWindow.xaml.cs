@@ -55,6 +55,12 @@ namespace EditorDebug
             else if (e.Key == Key.Down)
                 MoveFocus(+1);
 
+            else if (e.Key == Key.Subtract)
+                ChangeDiscreteValue(-1);
+
+            else if (e.Key == Key.Add)
+                ChangeDiscreteValue(+1);
+
             else if (e.Key == Key.E && (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl)))
                 ToggleExpand();
         }
@@ -88,6 +94,22 @@ namespace EditorDebug
                     Child.Background = Brushes.LightCyan;
                     break;
                 }
+        }
+
+        private void ChangeDiscreteValue(int change)
+        {
+            if (ControllerView == null)
+                return;
+
+            if (ControllerView.FocusedCellView is IFocusDiscreteContentFocusableCellView AsContentCellView)
+            {
+                IFocusIndex Index = AsContentCellView.StateView.State.ParentIndex;
+
+                int Value = ControllerView.Controller.GetDiscreteValue(Index, AsContentCellView.PropertyName);
+                ControllerView.Controller.ChangeDiscreteValue(Index, AsContentCellView.PropertyName, Value + change);
+
+                UpdateFocusView();
+            }
         }
 
         public string CurrentDirectory { get; private set; }

@@ -81,6 +81,11 @@ namespace EaslyController.Writeable
         /// <summary>
         /// Called when a state is moved.
         /// </summary>
+        event Action<IWriteableChangeNodeOperation> StateChanged;
+
+        /// <summary>
+        /// Called when a state is moved.
+        /// </summary>
         event Action<IWriteableMoveNodeOperation> StateMoved;
 
         /// <summary>
@@ -150,6 +155,15 @@ namespace EaslyController.Writeable
         /// <param name="blockIndex">Position of the block in the block list.</param>
         /// <param name="replication">New replication value.</param>
         void ChangeReplication(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, int blockIndex, ReplicationStatus replication);
+
+        /// <summary>
+        /// Changes the value of an enum or boolean.
+        /// If the value exceeds allowed values, it is rounded to fit.
+        /// </summary>
+        /// <param name="nodeIndex">Index of the state with the enum to change.</param>
+        /// <param name="propertyName">Name of the property to change.</param>
+        /// <param name="value">The new value.</param>
+        void ChangeDiscreteValue(IWriteableIndex nodeIndex, string propertyName, int value);
 
         /// <summary>
         /// Checks whether a block can be split at the given index.
@@ -385,6 +399,20 @@ namespace EaslyController.Writeable
         protected Action<IWriteableAssignmentOperation> StateUnassignedHandler;
         protected virtual void AddStateUnassignedDelegate(Action<IWriteableAssignmentOperation> handler) { StateUnassignedHandler += handler; }
         protected virtual void RemoveStateUnassignedDelegate(Action<IWriteableAssignmentOperation> handler) { StateUnassignedHandler -= handler; }
+#pragma warning restore 1591
+
+        /// <summary>
+        /// Called when a state is changed.
+        /// </summary>
+        public event Action<IWriteableChangeNodeOperation> StateChanged
+        {
+            add { AddStateChangedDelegate(value); }
+            remove { RemoveStateChangedDelegate(value); }
+        }
+#pragma warning disable 1591
+        protected Action<IWriteableChangeNodeOperation> StateChangedHandler;
+        protected virtual void AddStateChangedDelegate(Action<IWriteableChangeNodeOperation> handler) { StateChangedHandler += handler; }
+        protected virtual void RemoveStateChangedDelegate(Action<IWriteableChangeNodeOperation> handler) { StateChangedHandler -= handler; }
 #pragma warning restore 1591
 
         /// <summary>
@@ -764,6 +792,39 @@ namespace EaslyController.Writeable
             Debug.Assert(blockIndex >= 0 && blockIndex < inner.BlockStateList.Count);
 
             inner.ChangeReplication(blockIndex, replication);
+
+            CheckInvariant();
+        }
+
+        /// <summary>
+        /// Changes the value of an enum or boolean.
+        /// If the value exceeds allowed values, it is rounded to fit.
+        /// </summary>
+        /// <param name="nodeIndex">Index of the state with the enum to change.</param>
+        /// <param name="propertyName">Name of the property to change.</param>
+        /// <param name="value">The new value.</param>
+        public virtual void ChangeDiscreteValue(IWriteableIndex nodeIndex, string propertyName, int value)
+        {
+            Debug.Assert(nodeIndex != null);
+            Debug.Assert(StateTable.ContainsKey(nodeIndex));
+            Debug.Assert(value >= 0);
+
+            IWriteableChangeNodeOperation Operation = CreateChangeNodeOperation(nodeIndex, isNested: false);
+
+            IWriteablePlaceholderNodeState State = StateTable[nodeIndex] as IWriteablePlaceholderNodeState;
+            Debug.Assert(State != null);
+            Debug.Assert(State.ValuePropertyTypeTable.ContainsKey(propertyName));
+            Debug.Assert(State.ValuePropertyTypeTable[propertyName] == Constants.ValuePropertyType.Boolean || State.ValuePropertyTypeTable[propertyName] == Constants.ValuePropertyType.Enum);
+
+            Debug.Assert(value >= 0);
+
+            NodeTreeHelper.GetEnumRange(State.Node.GetType(), propertyName, out int Min, out int Max);
+            value = (value - Min) % (Max - Min + 1) + Min;
+            NodeTreeHelper.SetEnumValue(State.Node, propertyName, value);
+
+            Operation.Update(State);
+
+            NotifyStateChanged(Operation);
 
             CheckInvariant();
         }
@@ -1345,6 +1406,11 @@ namespace EaslyController.Writeable
             StateUnassignedHandler?.Invoke(operation);
         }
 
+        protected virtual void NotifyStateChanged(IWriteableChangeNodeOperation operation)
+        {
+            StateChangedHandler?.Invoke(operation);
+        }
+
         protected virtual void NotifyStateMoved(IWriteableMoveNodeOperation operation)
         {
             StateMovedHandler?.Invoke(operation);
@@ -1546,6 +1612,15 @@ namespace EaslyController.Writeable
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableController));
             return new WriteableAssignmentOperation(inner, nodeIndex, isNested);
+        }
+
+        /// <summary>
+        /// Creates a IxxxChangeNodeOperation object.
+        /// </summary>
+        protected virtual IWriteableChangeNodeOperation CreateChangeNodeOperation(IWriteableIndex nodeIndex, bool isNested)
+        {
+            ControllerTools.AssertNoOverride(this, typeof(WriteableController));
+            return new WriteableChangeNodeOperation(nodeIndex, isNested);
         }
 
         /// <summary>

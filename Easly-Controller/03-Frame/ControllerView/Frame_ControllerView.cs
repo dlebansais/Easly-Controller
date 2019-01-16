@@ -515,6 +515,25 @@ namespace EaslyController.Frame
         }
 
         /// <summary>
+        /// Handler called every time a state is changed in the controller.
+        /// </summary>
+        /// <param name="operation">Details of the operation performed.</param>
+        public override void OnStateChanged(IWriteableChangeNodeOperation operation)
+        {
+            base.OnStateChanged(operation);
+
+            IFramePlaceholderNodeState ChangedState = ((IFrameChangeNodeOperation)operation).State;
+            Debug.Assert(ChangedState != null);
+
+            IFrameNodeStateView ChangedStateView = StateViewTable[ChangedState];
+            ClearCellView(ChangedStateView);
+            BuildCellView(ChangedStateView);
+
+            if (!operation.IsNested)
+                Refresh(ChangedStateView.State);
+        }
+
+        /// <summary>
         /// Handler called every time a state is moved in the controller.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
@@ -800,6 +819,7 @@ namespace EaslyController.Frame
         protected virtual void Refresh(IFrameNodeState state)
         {
             Debug.Assert(StateViewTable.ContainsKey(state));
+
             if (state.ParentState != null)
             {
                 Debug.Assert(StateViewTable.ContainsKey(state.ParentState));
@@ -807,6 +827,13 @@ namespace EaslyController.Frame
 
                 ClearCellView(ParentStateView);
                 BuildCellView(ParentStateView);
+            }
+            else
+            {
+                IFrameNodeStateView StateView = StateViewTable[state];
+
+                ClearCellView(StateView);
+                BuildCellView(StateView);
             }
 
             UpdateLineNumbers();

@@ -639,10 +639,10 @@ namespace TestDebug
             </FocusKeywordFrame>
         </FocusVerticalPanelFrame>
     </FocusNodeTemplate>
-    <FocusNodeTemplate NodeType=""{xaml:Type IName}"">
+    <FocusNodeTemplate NodeType=""{xaml:Type IName}"" IsSimple=""True"">
         <FocusTextValueFrame PropertyName=""Text""/>
     </FocusNodeTemplate>
-    <FocusNodeTemplate NodeType=""{xaml:Type IPattern}"">
+    <FocusNodeTemplate NodeType=""{xaml:Type IPattern}"" IsSimple=""True"">
         <FocusTextValueFrame PropertyName=""Text""/>
     </FocusNodeTemplate>
     <FocusNodeTemplate NodeType=""{xaml:Type IQualifiedName}"">
@@ -2070,7 +2070,7 @@ namespace TestDebug
             </FocusKeywordFrame>
         </FocusVerticalPanelFrame>
     </FocusNodeTemplate>
-    <FocusNodeTemplate NodeType=""{xaml:Type IIdentifier}"">
+    <FocusNodeTemplate NodeType=""{xaml:Type IIdentifier}"" IsSimple=""True"">
         <FocusSelectionFrame>
             <FocusSelectableFrame Name=""Identifier"">
                 <FocusTextValueFrame PropertyName=""Text""/>

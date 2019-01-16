@@ -23,6 +23,12 @@ namespace EaslyController.Focus
         /// </summary>
         public new IFocusFrame Root { get { return (IFocusFrame)base.Root; } set { base.Root = value; } }
 
+        /// <summary>
+        /// True if the parent template rather than this template should be fully displayed when visibility is enforced.
+        /// (Set in Xaml)
+        /// </summary>
+        public bool IsSimple { get; set; }
+
         protected override bool IsRootValid { get { return (Root.ParentFrame == FocusFrame.FocusRoot); } }
         #endregion
     }

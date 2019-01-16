@@ -81,6 +81,11 @@ namespace EaslyController.Frame
         /// <summary>
         /// Called when a state is moved.
         /// </summary>
+        new event Action<IFrameChangeNodeOperation> StateChanged;
+
+        /// <summary>
+        /// Called when a state is moved.
+        /// </summary>
         new event Action<IFrameMoveNodeOperation> StateMoved;
 
         /// <summary>
@@ -236,6 +241,15 @@ namespace EaslyController.Frame
         {
             add { AddStateUnassignedDelegate((Action<IWriteableAssignmentOperation>)value); }
             remove { RemoveStateUnassignedDelegate((Action<IWriteableAssignmentOperation>)value); }
+        }
+
+        /// <summary>
+        /// Called when a state is changed.
+        /// </summary>
+        public new event Action<IFrameChangeNodeOperation> StateChanged
+        {
+            add { AddStateChangedDelegate((Action<IWriteableChangeNodeOperation>)value); }
+            remove { RemoveStateChangedDelegate((Action<IWriteableChangeNodeOperation>)value); }
         }
 
         /// <summary>
@@ -450,6 +464,15 @@ namespace EaslyController.Frame
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameController));
             return new FrameAssignmentOperation((IFrameOptionalInner<IFrameBrowsingOptionalNodeIndex>)inner, (IFrameBrowsingOptionalNodeIndex)nodeIndex, isNested);
+        }
+
+        /// <summary>
+        /// Creates a IxxxChangeNodeOperation object.
+        /// </summary>
+        protected override IWriteableChangeNodeOperation CreateChangeNodeOperation(IWriteableIndex nodeIndex, bool isNested)
+        {
+            ControllerTools.AssertNoOverride(this, typeof(FrameController));
+            return new FrameChangeNodeOperation((IFrameIndex)nodeIndex, isNested);
         }
 
         /// <summary>
