@@ -57,6 +57,11 @@ namespace EaslyController.Focus
         /// Table of cell views that are mutable lists of cells.
         /// </summary>
         public new IFocusAssignableCellViewReadOnlyDictionary<string> CellViewTable { get { return (IFocusAssignableCellViewReadOnlyDictionary<string>)base.CellViewTable; } }
+
+        /// <summary>
+        /// Indicates if this view has all its frames forced to visible.
+        /// </summary>
+        public bool IsUserVisible { get; private set; }
         #endregion
 
         #region Client Interface
@@ -66,10 +71,14 @@ namespace EaslyController.Focus
         /// <param name="context">Context used to build the cell view tree.</param>
         public override void BuildRootCellView(IFrameCellViewTreeContext context)
         {
+            ((IFocusCellViewTreeContext)context).ChangeIsUserVisible(IsUserVisible, out bool OldIsUserVisible);
+
             if (((IFocusCellViewTreeContext)context).IsVisible)
                 base.BuildRootCellView(context);
             else
                 SetRootCellView(CreateEmptyCellView(((IFocusCellViewTreeContext)context).StateView));
+
+            ((IFocusCellViewTreeContext)context).RestoreIsUserVisible(OldIsUserVisible);
         }
 
         /// <summary>
@@ -81,6 +90,15 @@ namespace EaslyController.Focus
             Debug.Assert(RootCellView != null);
 
             RootCellView.UpdateFocusChain(focusChain);
+        }
+
+        /// <summary>
+        /// Sets the <see cref="IsUserVisible"/> flag.
+        /// </summary>
+        /// <param name="isUserVisible">The new value.</param>
+        public virtual void SetIsUserVisible(bool isUserVisible)
+        {
+            IsUserVisible = isUserVisible;
         }
         #endregion
 

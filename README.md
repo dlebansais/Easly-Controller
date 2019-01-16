@@ -169,6 +169,11 @@ This is the feature giving the layer its name. Each view has a single cell with 
 
 In a template, it might be desirable to put the focus on a specific part of the node rather than the first focusable cell. The new focus is set on this frame, if possible.
 
+### User-enforced visibility
+
+To let user modify parts of the code that are invisible, for example because they have a default value, a special flag is introduced. When this flag is set, the node with the focus is completely visible, even for frames where the visibility settings would hide them. All other nodes are restored to their normal state, so that there is only one node expanded like this at any time.
+
+Then, when the flag is turned off, normal visibility is restored, and if for example a value was changed to not be the default, it remains visible.
+
 ### Also       
-+ visibility: Visibility can be forced to show a full view to the user.
 + external insert: a new item in a list can be added either pressing enter after or before the curent item, but not for lists that can be empty. for them there is an insert frame.

@@ -65,6 +65,11 @@ namespace EaslyController.Focus
         string FocusedText { get; }
 
         /// <summary>
+        /// Indicates if the node with the focus has all its frames forced to visible.
+        /// </summary>
+        bool IsUserVisible { get; }
+
+        /// <summary>
         /// Checks if the template associated to the <paramref name="propertyName"/> property of the <paramref name="stateView"/> state is complex.
         /// </summary>
         /// <param name="stateView">The state view for the node with property <paramref name="propertyName"/>.</param>
@@ -124,6 +129,12 @@ namespace EaslyController.Focus
         /// </summary>
         /// <param name="mode">The new mode.</param>
         void SetCaretMode(CaretModes mode);
+
+        /// <summary>
+        /// Sets the node with the focus to have all its frames visible.
+        /// If another node had this flag set, it is reset, regardless of the value of <paramref name="isUserVisible"/>.
+        /// </summary>
+        void SetUserVisible(bool isUserVisible);
     }
 
     /// <summary>
@@ -239,6 +250,11 @@ namespace EaslyController.Focus
                     return null;
             }
         }
+
+        /// <summary>
+        /// Indicates if the node with the focus has all its frames forced to visible.
+        /// </summary>
+        public bool IsUserVisible { get { return FocusedCellView.StateView.IsUserVisible; } }
         #endregion
 
         #region Client Interface
@@ -427,6 +443,30 @@ namespace EaslyController.Focus
         public virtual void SetCaretMode(CaretModes mode)
         {
             CaretMode = mode;
+        }
+
+        /// <summary>
+        /// Sets the node with the focus to have all its frames visible.
+        /// If another node had this flag set, it is reset, regardless of the value of <paramref name="isUserVisible"/>.
+        /// </summary>
+        public virtual void SetUserVisible(bool isUserVisible)
+        {
+            Debug.Assert(FocusedCellView != null);
+
+            IFocusNodeStateView StateView = FocusedCellView.StateView;
+            Debug.Assert(StateView != null);
+
+            if (isUserVisible)
+            {
+                foreach (KeyValuePair<IFocusNodeState, IFocusNodeStateView> Entry in StateViewTable)
+                    Entry.Value.SetIsUserVisible(false);
+
+                StateView.SetIsUserVisible(isUserVisible: true);
+            }
+            else
+                StateView.SetIsUserVisible(isUserVisible: false);
+
+            Refresh(StateView.State);
         }
         #endregion
 

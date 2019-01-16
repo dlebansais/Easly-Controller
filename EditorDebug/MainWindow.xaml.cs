@@ -54,6 +54,18 @@ namespace EditorDebug
 
             else if (e.Key == Key.Down)
                 MoveFocus(+1);
+
+            else if (e.Key == Key.E && (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl)))
+                ToggleExpand();
+        }
+
+        private void ToggleExpand()
+        {
+            if (ControllerView == null)
+                return;
+
+            ControllerView.SetUserVisible(!ControllerView.IsUserVisible);
+            UpdateFocusView();
         }
 
         private void MoveFocus(int direction)
@@ -220,12 +232,17 @@ namespace EditorDebug
             IFocusController Controller = FocusController.Create(RootIndex, CustomFocusSemanticSet.FocusSemanticSet);
             ControllerView = FocusControllerView.Create(Controller, CustomFocusTemplateSet.FocusTemplateSet);
 
-            int MaxRow = ControllerView.LastLineNumber;
-            int MaxColumn = ControllerView.LastColumnNumber;
+            UpdateFocusView();
+        }
 
+        private void UpdateFocusView()
+        {
             gridMain.RowDefinitions.Clear();
             gridMain.ColumnDefinitions.Clear();
             gridMain.Children.Clear();
+
+            int MaxRow = ControllerView.LastLineNumber;
+            int MaxColumn = ControllerView.LastColumnNumber;
 
             for (int i = 0; i < MaxRow; i++)
                 gridMain.RowDefinitions.Add(new RowDefinition());

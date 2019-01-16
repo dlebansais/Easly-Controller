@@ -93,6 +93,19 @@ namespace EaslyController.Focus
         /// <param name="oldSelectorType">Previous value for a substituted selector type.</param>
         /// <param name="oldSelectorName">Previous value for a substituted selector name.</param>
         void RemoveOrRestoreSelectors(IFocusFrameSelectorList selectors, Type oldSelectorType, string oldSelectorName);
+
+        /// <summary>
+        /// Sets the <see cref="IsUserVisible"/> flag.
+        /// </summary>
+        /// <param name="isUserVisible">The new value.</param>
+        /// <param name="oldValue">The previous value.</param>
+        void ChangeIsUserVisible(bool isUserVisible, out bool oldValue);
+
+        /// <summary>
+        /// Restores the <see cref="IsUserVisible"/> flag previously set with <see cref="ChangeIsUserVisible"/>.
+        /// </summary>
+        /// <param name="isUserVisible">The new value.</param>
+        void RestoreIsUserVisible(bool isUserVisible);
     }
 
     /// <summary>
@@ -146,7 +159,16 @@ namespace EaslyController.Focus
         /// </summary>
         public bool IsVisible
         {
-            get { return IsFrameVisible || IsUserVisible; }
+            get
+            {
+                if (IsFrameVisible)
+                    return true;
+
+                if (IsUserVisible)
+                    return true;
+
+                return false;
+            }
         }
 
         /// <summary>
@@ -275,6 +297,26 @@ namespace EaslyController.Focus
                 else
                     SelectorTable.Remove(Item.SelectorType);
             }
+        }
+
+        /// <summary>
+        /// Sets the <see cref="IsUserVisible"/> flag.
+        /// </summary>
+        /// <param name="isUserVisible">The new value.</param>
+        /// <param name="oldValue">The previous value.</param>
+        public virtual void ChangeIsUserVisible(bool isUserVisible, out bool oldValue)
+        {
+            oldValue = IsUserVisible;
+            IsUserVisible = isUserVisible;
+        }
+
+        /// <summary>
+        /// Restores the <see cref="IsUserVisible"/> flag previously set with <see cref="ChangeIsUserVisible"/>.
+        /// </summary>
+        /// <param name="isUserVisible">The new value.</param>
+        public virtual void RestoreIsUserVisible(bool isUserVisible)
+        {
+            IsUserVisible = isUserVisible;
         }
         #endregion
     }

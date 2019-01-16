@@ -34,10 +34,21 @@ namespace EaslyController.Focus
         new IFocusAssignableCellViewReadOnlyDictionary<string> CellViewTable { get; }
 
         /// <summary>
+        /// Indicates if this view has all its frames forced to visible.
+        /// </summary>
+        bool IsUserVisible { get; }
+
+        /// <summary>
         /// Updates the focus chain with cells in the tree.
         /// </summary>
         /// <param name="focusChain">The list of focusable cell views found in the tree.</param>
         void UpdateFocusChain(IFocusFocusableCellViewList focusChain);
+
+        /// <summary>
+        /// Sets the <see cref="IsUserVisible"/> flag.
+        /// </summary>
+        /// <param name="isUserVisible">The new value.</param>
+        void SetIsUserVisible(bool isUserVisible);
     }
 
     /// <summary>
@@ -82,6 +93,11 @@ namespace EaslyController.Focus
         /// Table of cell views that are mutable lists of cells.
         /// </summary>
         public new IFocusAssignableCellViewReadOnlyDictionary<string> CellViewTable { get { return (IFocusAssignableCellViewReadOnlyDictionary<string>)base.CellViewTable; } }
+
+        /// <summary>
+        /// Indicates if this view has all its frames forced to visible.
+        /// </summary>
+        public abstract bool IsUserVisible { get; }
         #endregion
 
         #region Client Interface
@@ -90,6 +106,12 @@ namespace EaslyController.Focus
         /// </summary>
         /// <param name="focusChain">The list of focusable cell views found in the tree.</param>
         public abstract void UpdateFocusChain(IFocusFocusableCellViewList focusChain);
+
+        /// <summary>
+        /// Sets the <see cref="IsUserVisible"/> flag.
+        /// </summary>
+        /// <param name="isUserVisible">The new value.</param>
+        public abstract void SetIsUserVisible(bool isUserVisible);
         #endregion
 
         #region Debugging
