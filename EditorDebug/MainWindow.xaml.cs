@@ -45,6 +45,39 @@ namespace EditorDebug
             //MaxHeight = ActualHeight;
         }
 
+        IFocusControllerView ControllerView;
+
+        private void OnKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Up)
+                MoveFocus(-1);
+
+            else if (e.Key == Key.Down)
+                MoveFocus(+1);
+        }
+
+        private void MoveFocus(int direction)
+        {
+            if (ControllerView == null)
+                return;
+
+            foreach (TextBlock Child in gridMain.Children)
+                if (Child.DataContext == ControllerView.FocusedCellView)
+                {
+                    Child.Background = Brushes.Transparent;
+                    break;
+                }
+
+            ControllerView.MoveFocus(direction);
+
+            foreach (TextBlock Child in gridMain.Children)
+                if (Child.DataContext == ControllerView.FocusedCellView)
+                {
+                    Child.Background = Brushes.LightCyan;
+                    break;
+                }
+        }
+
         public string CurrentDirectory { get; private set; }
         public string CurrentFileName { get; private set; }
 
@@ -185,10 +218,14 @@ namespace EditorDebug
         {
             IFocusRootNodeIndex RootIndex = new FocusRootNodeIndex(rootNode);
             IFocusController Controller = FocusController.Create(RootIndex, CustomFocusSemanticSet.FocusSemanticSet);
-            IFocusControllerView ControllerView = FocusControllerView.Create(Controller, CustomFocusTemplateSet.FocusTemplateSet);
+            ControllerView = FocusControllerView.Create(Controller, CustomFocusTemplateSet.FocusTemplateSet);
 
             int MaxRow = ControllerView.LastLineNumber;
             int MaxColumn = ControllerView.LastColumnNumber;
+
+            gridMain.RowDefinitions.Clear();
+            gridMain.ColumnDefinitions.Clear();
+            gridMain.Children.Clear();
 
             for (int i = 0; i < MaxRow; i++)
                 gridMain.RowDefinitions.Add(new RowDefinition());
@@ -278,9 +315,16 @@ namespace EditorDebug
                 }
 
                 Child.Margin = new Thickness(0, 0, 5, 0);
+                Child.DataContext = CellView;
+
                 Grid.SetRow(Child, Row);
                 Grid.SetColumn(Child, Column);
                 Assigned[Row, Column] = CellView;
+
+                if (CellView == ControllerView.FocusedCellView)
+                    Child.Background = Brushes.LightCyan;
+                else
+                    Child.Background = Brushes.Transparent;
 
                 gridMain.Children.Add(Child);
             }
