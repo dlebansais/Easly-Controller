@@ -107,7 +107,7 @@ namespace EaslyController.Frame
         protected virtual IFrameDiscreteContentFocusableCellView CreateDiscreteContentFocusableCellView(IFrameNodeStateView stateView, IFrameKeywordFrame keywordFrame)
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameDiscreteFrame));
-            return new FrameDiscreteContentFocusableCellView(stateView, keywordFrame, PropertyName);
+            return new FrameDiscreteContentFocusableCellView(stateView, this, PropertyName, keywordFrame);
         }
         #endregion
     }

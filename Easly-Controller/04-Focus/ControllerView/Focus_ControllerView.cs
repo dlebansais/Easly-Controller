@@ -40,6 +40,16 @@ namespace EaslyController.Focus
         IFocusFocusableCellView FocusedCellView { get; }
 
         /// <summary>
+        /// Lowest valid value for <see cref="MoveFocus"/>.
+        /// </summary>
+        int MinFocusMove { get; }
+
+        /// <summary>
+        /// Highest valid value for <see cref="MoveFocus"/>.
+        /// </summary>
+        int MaxFocusMove { get; }
+
+        /// <summary>
         /// Checks if the template associated to the <paramref name="propertyName"/> property of the <paramref name="stateView"/> state is complex.
         /// </summary>
         /// <param name="stateView">The state view for the node with property <paramref name="propertyName"/>.</param>
@@ -80,6 +90,12 @@ namespace EaslyController.Focus
         /// <param name="propertyName">Name of the property pointing to the template to check.</param>
         /// <param name="textPattern">Expected text.</param>
         bool StringMatchTextPattern(IFocusNodeStateView stateView, string propertyName, string textPattern);
+
+        /// <summary>
+        /// Moves the current focus in the focus chain.
+        /// </summary>
+        /// <param name="direction">The change in position, relative to the current position.</param>
+        void MoveFocus(int direction);
     }
 
     /// <summary>
@@ -137,6 +153,34 @@ namespace EaslyController.Focus
         /// </summary>
         public IFocusFocusableCellView FocusedCellView { get; private set; }
         protected IFocusFocusableCellViewList FocusChain { get; private set; }
+
+        /// <summary>
+        /// Lowest valid value for <see cref="MoveFocus"/>.
+        /// </summary>
+        public int MinFocusMove
+        {
+            get
+            {
+                int FocusIndex = FocusChain.IndexOf(FocusedCellView);
+                Debug.Assert(FocusIndex >= 0 && FocusIndex < FocusChain.Count);
+
+                return -FocusIndex;
+            }
+        }
+
+        /// <summary>
+        /// Highest valid value for <see cref="MoveFocus"/>.
+        /// </summary>
+        public int MaxFocusMove
+        {
+            get
+            {
+                int FocusIndex = FocusChain.IndexOf(FocusedCellView);
+                Debug.Assert(FocusIndex >= 0 && FocusIndex < FocusChain.Count);
+
+                return FocusChain.Count - FocusIndex - 1;
+            }
+        }
         #endregion
 
         #region Client Interface
@@ -279,6 +323,25 @@ namespace EaslyController.Focus
                     throw new ArgumentOutOfRangeException(nameof(propertyName));
             }
         }
+
+        /// <summary>
+        /// Moves the current focus in the focus chain.
+        /// </summary>
+        /// <param name="direction">The change in position, relative to the current position.</param>
+        public virtual void MoveFocus(int direction)
+        {
+            int FocusIndex = FocusChain.IndexOf(FocusedCellView);
+            Debug.Assert(FocusIndex >= 0 && FocusIndex < FocusChain.Count);
+
+            FocusIndex += direction;
+            if (FocusIndex < 0)
+                FocusIndex = 0;
+            else if (FocusIndex >= FocusChain.Count)
+                FocusIndex = FocusChain.Count - 1;
+
+            Debug.Assert(FocusIndex >= 0 && FocusIndex < FocusChain.Count);
+            FocusedCellView = FocusChain[FocusIndex];
+        }
         #endregion
 
         #region Implementation
@@ -337,33 +400,39 @@ namespace EaslyController.Focus
             // Ensured by all templates having at least one preferred (hence focusable) frame.
             Debug.Assert(NewFocusChain.Count > 0);
 
+            // First run, initialize the focus to the first focusable cell.
             if (FocusedCellView == null)
             {
                 Debug.Assert(FocusChain == null);
                 FocusedCellView = NewFocusChain[0];
             }
 
+            // If the focus may have forcibly changed.
             else if (!NewFocusChain.Contains(FocusedCellView))
             {
                 IFocusNodeStateView StateView = FocusedCellView.StateView;
                 IFocusFrame Frame = FocusedCellView.Frame;
 
+                // Find all focusable cells belonging to the old state.
                 List<IFocusFocusableCellView> SameStateViewList = new List<IFocusFocusableCellView>();
                 foreach (IFocusFocusableCellView CellView in NewFocusChain)
                     if (CellView.StateView == StateView)
                         SameStateViewList.Add(CellView);
 
+                // If none, try with the new state or its children (only children might have focusable cells), or its parent (in case of a removal or unassign).
                 if (SameStateViewList.Count == 0)
                 {
-                    IFocusNodeStateView NewStateView = StateViewTable[(IFocusNodeState)state];
+                    IFocusNodeState CurrentState = (IFocusNodeState)state;
+                    StateView = null;
 
-                    foreach (IFocusFocusableCellView CellView in NewFocusChain)
-                        if (CellView.StateView == NewStateView)
-                            SameStateViewList.Add(CellView);
+                    while (CurrentState != null && !RecursiveFocusableCellViewSearch(NewFocusChain, StateViewTable[CurrentState], SameStateViewList, out StateView))
+                        CurrentState = CurrentState.ParentState;
+
+                    Debug.Assert(SameStateViewList.Count > 0);
+                    Debug.Assert(StateView != null);
                 }
 
-                Debug.Assert(SameStateViewList.Count > 0);
-
+                // Now that we have found candidates, try to select the original frame.
                 bool IsFrameChanged = true;
                 foreach (IFocusFocusableCellView CellView in SameStateViewList)
                     if (CellView.Frame == Frame)
@@ -373,6 +442,7 @@ namespace EaslyController.Focus
                         break;
                     }
 
+                // If the frame has changed, use a preferred frame.
                 if (IsFrameChanged)
                 {
                     bool IsFrameSet = false;
@@ -384,14 +454,16 @@ namespace EaslyController.Focus
                     Debug.Assert(LastPreferredFrame != null);
 
                     foreach (IFocusFocusableCellView CellView in SameStateViewList)
-                        if (CellView.Frame == FirstPreferredFrame)
+                        if (CellView.Frame == FirstPreferredFrame || CellView.Frame == LastPreferredFrame)
                         {
                             IsFrameSet = true;
                             FocusedCellView = CellView;
                             break;
                         }
 
-                    Debug.Assert(IsFrameSet);
+                    // If none of the preferred frames are visible, use the first focusable cell.
+                    if (!IsFrameSet)
+                        FocusedCellView = SameStateViewList[0];
                 }
             }
 
@@ -399,6 +471,70 @@ namespace EaslyController.Focus
 
             Debug.Assert(FocusedCellView != null);
             Debug.Assert(FocusChain.Contains(FocusedCellView));
+        }
+
+        protected virtual bool RecursiveFocusableCellViewSearch(IFocusFocusableCellViewList focusChain, IFocusNodeStateView stateView, List<IFocusFocusableCellView> cellViewList, out IFocusNodeStateView selectedStateView)
+        {
+            foreach (IFocusFocusableCellView CellView in focusChain)
+                if (CellView.StateView == stateView)
+                    cellViewList.Add(CellView);
+
+            if (cellViewList.Count > 0)
+            {
+                selectedStateView = stateView;
+                return true;
+            }
+
+            foreach (KeyValuePair<string, IFocusInner<IFocusBrowsingChildIndex>> Entry in stateView.State.InnerTable)
+                if (Entry.Value is IFocusPlaceholderInner<IFocusBrowsingPlaceholderNodeIndex> AsPlaceholderInner)
+                {
+                    IFocusNodeStateView ChildStateView = StateViewTable[AsPlaceholderInner.ChildState];
+                    if (RecursiveFocusableCellViewSearch(focusChain, ChildStateView, cellViewList, out selectedStateView))
+                        return true;
+                }
+                else if (Entry.Value is IFocusOptionalInner<IFocusBrowsingOptionalNodeIndex> AsOptionalInner)
+                {
+                    if (AsOptionalInner.IsAssigned)
+                    {
+                        IFocusNodeStateView ChildStateView = StateViewTable[AsOptionalInner.ChildState];
+                        if (RecursiveFocusableCellViewSearch(focusChain, ChildStateView, cellViewList, out selectedStateView))
+                            return true;
+                    }
+                }
+                else if (Entry.Value is IFocusListInner<IFocusBrowsingListNodeIndex> AsListInner)
+                {
+                    foreach (IFocusNodeState ChildState in AsListInner.StateList)
+                    {
+                        IFocusNodeStateView ChildStateView = StateViewTable[ChildState];
+                        if (RecursiveFocusableCellViewSearch(focusChain, ChildStateView, cellViewList, out selectedStateView))
+                            return true;
+                    }
+                }
+                else if (Entry.Value is IFocusBlockListInner<IFocusBrowsingBlockNodeIndex> AsBlockListInner)
+                {
+                    foreach (IFocusBlockState BlockState in AsBlockListInner.BlockStateList)
+                    {
+                        IFocusNodeStateView PatternStateView = StateViewTable[BlockState.PatternState];
+                        if (RecursiveFocusableCellViewSearch(focusChain, PatternStateView, cellViewList, out selectedStateView))
+                            return true;
+
+                        IFocusNodeStateView SourceStateView = StateViewTable[BlockState.SourceState];
+                        if (RecursiveFocusableCellViewSearch(focusChain, SourceStateView, cellViewList, out selectedStateView))
+                            return true;
+
+                        foreach (IFocusNodeState ChildState in BlockState.StateList)
+                        {
+                            IFocusNodeStateView ChildStateView = StateViewTable[ChildState];
+                            if (RecursiveFocusableCellViewSearch(focusChain, ChildStateView, cellViewList, out selectedStateView))
+                                return true;
+                        }
+                    }
+                }
+                else
+                    Debug.Assert(false);
+
+            selectedStateView = null;
+            return false;
         }
         #endregion
 

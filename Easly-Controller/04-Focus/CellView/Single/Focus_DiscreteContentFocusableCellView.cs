@@ -8,6 +8,10 @@ namespace EaslyController.Focus
     /// </summary>
     public interface IFocusDiscreteContentFocusableCellView : IFrameDiscreteContentFocusableCellView, IFocusContentFocusableCellView
     {
+        /// <summary>
+        /// The keyword frame that was used to create this cell.
+        /// </summary>
+        new IFocusKeywordFrame KeywordFrame { get; }
     }
 
     /// <summary>
@@ -22,8 +26,9 @@ namespace EaslyController.Focus
         /// <param name="stateView">The state view containing the tree with this cell.</param>
         /// <param name="frame">The frame that created this cell view.</param>
         /// <param name="propertyName">Property corresponding to the component of the node.</param>
-        public FocusDiscreteContentFocusableCellView(IFocusNodeStateView stateView, IFocusFrame frame, string propertyName)
-            : base(stateView, frame, propertyName)
+        /// <param name="keywordFrame">The keyword frame that was used to create this cell.</param>
+        public FocusDiscreteContentFocusableCellView(IFocusNodeStateView stateView, IFocusFrame frame, string propertyName, IFocusKeywordFrame keywordFrame)
+            : base(stateView, frame, propertyName, keywordFrame)
         {
         }
         #endregion
@@ -38,6 +43,11 @@ namespace EaslyController.Focus
         /// The frame that created this cell view.
         /// </summary>
         public new IFocusFrame Frame { get { return (IFocusFrame)base.Frame; } }
+
+        /// <summary>
+        /// The keyword frame that was used to create this cell.
+        /// </summary>
+        public new IFocusKeywordFrame KeywordFrame { get { return (IFocusKeywordFrame)base.KeywordFrame; } }
         #endregion
 
         #region Client Interface

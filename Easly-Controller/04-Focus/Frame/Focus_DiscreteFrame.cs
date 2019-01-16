@@ -127,7 +127,7 @@ namespace EaslyController.Focus
         protected override IFrameDiscreteContentFocusableCellView CreateDiscreteContentFocusableCellView(IFrameNodeStateView stateView, IFrameKeywordFrame keywordFrame)
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusDiscreteFrame));
-            return new FocusDiscreteContentFocusableCellView((IFocusNodeStateView)stateView, (IFocusKeywordFrame)keywordFrame, PropertyName);
+            return new FocusDiscreteContentFocusableCellView((IFocusNodeStateView)stateView, this, PropertyName, (IFocusKeywordFrame)keywordFrame);
         }
 
         /// <summary>
