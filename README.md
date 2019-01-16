@@ -161,8 +161,14 @@ It is sometimes useful to display a node differently depending on the context. F
 
 To support a generic mechanism, the focus layer introduces selectors. In a frame, selectors can be assigned to some node type. Then, in the template for that type, several selectable versions can be declared. The version used will be the one that matches the selector. For example, the template for an effective body has three version, one used in an overload, and two others for getters and setters respectively.
 
+### Focus
+
+This is the feature giving the layer its name. Each view has a single cell with the focus, a caret for string, and an insertion/overwrite mode. Special care need to be taken when the node corresponding to the cell with the focus is removed or replaced. In this case, the code attempt to stay on the same cell if possible, and will move the focus to the nearest, or most preferred (see below) cell. 
+
+### Preferred frame
+
+In a template, it might be desirable to put the focus on a specific part of the node rather than the first focusable cell. The new focus is set on this frame, if possible.
+
 ### Also       
-+ focus: each view has a single cell with the focus, a caret for string, and an insertion/overwrite mode
 + visibility: Visibility can be forced to show a full view to the user.
-+ prefered frame: when the focus changes because of a modification of the node tree, it goes to a prefered frame.
 + external insert: a new item in a list can be added either pressing enter after or before the curent item, but not for lists that can be empty. for them there is an insert frame.
