@@ -14,7 +14,7 @@ namespace EaslyController.Focus
         /// <summary>
         /// List of frames among which to select.
         /// </summary>
-        IFocusFrameList Items { get; }
+        IFocusSelectableFrameList Items { get; }
     }
 
     /// <summary>
@@ -29,7 +29,7 @@ namespace EaslyController.Focus
         /// </summary>
         public FocusSelectionFrame()
         {
-            Items = CreateFrameList();
+            Items = CreateSelectableFrameList();
         }
         #endregion
 
@@ -37,7 +37,7 @@ namespace EaslyController.Focus
         /// <summary>
         /// List of frames among which to select.
         /// </summary>
-        public IFocusFrameList Items { get; }
+        public IFocusSelectableFrameList Items { get; }
 
         protected virtual bool IsParentRoot { get { return ParentFrame == FocusRoot; } }
         #endregion
@@ -60,19 +60,16 @@ namespace EaslyController.Focus
                 return false;
 
             List<string> NameList = new List<string>();
-            foreach (IFocusFrame Item in Items)
-                if (Item is IFocusSelectableFrame AsSelectable)
-                {
-                    if (!AsSelectable.IsValid(nodeType, nodeTemplateTable))
-                        return false;
-
-                    if (NameList.Contains(AsSelectable.Name))
-                        return false;
-
-                    NameList.Add(AsSelectable.Name);
-                }
-                else
+            foreach (IFocusSelectableFrame Item in Items)
+            {
+                if (!Item.IsValid(nodeType, nodeTemplateTable))
                     return false;
+
+                if (NameList.Contains(Item.Name))
+                    return false;
+
+                NameList.Add(Item.Name);
+            }
 
             return true;
         }
@@ -86,7 +83,7 @@ namespace EaslyController.Focus
         {
             base.UpdateParent(parentTemplate, parentFrame);
 
-            foreach (IFocusFrame Item in Items)
+            foreach (IFocusSelectableFrame Item in Items)
                 Item.UpdateParent(parentTemplate, this);
         }
 
@@ -100,10 +97,9 @@ namespace EaslyController.Focus
             Debug.Assert(((IFocusCellViewTreeContext)context).SelectorTable.ContainsKey(ParentTemplate.NodeType));
             string SelectorName = ((IFocusCellViewTreeContext)context).SelectorTable[ParentTemplate.NodeType];
 
-            foreach (IFocusFrame Item in Items)
-                if (Item is IFocusSelectableFrame AsSelectable)
-                    if (AsSelectable.Name == SelectorName)
-                        return AsSelectable.BuildNodeCells(context, parentCellView);
+            foreach (IFocusSelectableFrame Item in Items)
+                if (Item.Name == SelectorName)
+                    return Item.BuildNodeCells(context, parentCellView);
 
             Debug.Assert(false);
             return null;
@@ -119,16 +115,28 @@ namespace EaslyController.Focus
             frame = null;
             return false;
         }
+
+        /// <summary>
+        /// Gets preferred frames to receive the focus when the source code is changed.
+        /// </summary>
+        /// <param name="firstPreferredFrame">The first preferred frame found.</param>
+        /// <param name="lastPreferredFrame">The first preferred frame found.</param>
+        public virtual void GetPreferredFrame(ref IFocusNodeFrame firstPreferredFrame, ref IFocusNodeFrame lastPreferredFrame)
+        {
+            Debug.Assert(Items.Count > 0);
+
+            Items[0].GetPreferredFrame(ref firstPreferredFrame, ref lastPreferredFrame);
+        }
         #endregion
 
         #region Create Methods
         /// <summary>
-        /// Creates a IxxxFrameList object.
+        /// Creates a IxxxSelectableFrameList object.
         /// </summary>
-        protected virtual IFocusFrameList CreateFrameList()
+        protected virtual IFocusSelectableFrameList CreateSelectableFrameList()
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusSelectionFrame));
-            return new FocusFrameList();
+            return new FocusSelectableFrameList();
         }
         #endregion
     }

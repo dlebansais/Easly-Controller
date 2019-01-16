@@ -43,6 +43,13 @@ namespace EaslyController.Focus
             frame = null;
             return false;
         }
+
+        /// <summary>
+        /// Gets preferred frames to receive the focus when the source code is changed.
+        /// </summary>
+        /// <param name="firstPreferredFrame">The first preferred frame found.</param>
+        /// <param name="lastPreferredFrame">The first preferred frame found.</param>
+        public abstract void GetPreferredFrame(ref IFocusNodeFrame firstPreferredFrame, ref IFocusNodeFrame lastPreferredFrame);
         #endregion
     }
 }

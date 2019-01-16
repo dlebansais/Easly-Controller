@@ -3,7 +3,7 @@
     /// <summary>
     /// Frame for cells within a single node.
     /// </summary>
-    public interface IFrameNodeFrame
+    public interface IFrameNodeFrame : IFrameFrame
     {
         /// <summary>
         /// Create cells for the provided state view.

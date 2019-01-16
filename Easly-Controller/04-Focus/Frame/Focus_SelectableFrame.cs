@@ -14,7 +14,7 @@ namespace EaslyController.Focus
         /// The selectable frame.
         /// (Set in Xaml)
         /// </summary>
-        IFocusFrame Content { get; set; }
+        IFocusNodeFrame Content { get; set; }
 
         /// <summary>
         /// Frame name for selection.
@@ -46,7 +46,7 @@ namespace EaslyController.Focus
         /// The selectable frame.
         /// (Set in Xaml)
         /// </summary>
-        public IFocusFrame Content { get; set; }
+        public IFocusNodeFrame Content { get; set; }
 
         /// <summary>
         /// Frame name for selection.
@@ -104,10 +104,7 @@ namespace EaslyController.Focus
         /// <param name="parentCellView">The parent cell view.</param>
         public virtual IFrameCellView BuildNodeCells(IFrameCellViewTreeContext context, IFrameCellViewCollection parentCellView)
         {
-            IFocusNodeFrame AsNodeFrame = Content as IFocusNodeFrame;
-            Debug.Assert(AsNodeFrame != null);
-
-            return AsNodeFrame.BuildNodeCells(context, parentCellView);
+            return Content.BuildNodeCells(context, parentCellView);
         }
 
         /// <summary>
@@ -119,6 +116,16 @@ namespace EaslyController.Focus
         {
             frame = null;
             return false;
+        }
+
+        /// <summary>
+        /// Gets preferred frames to receive the focus when the source code is changed.
+        /// </summary>
+        /// <param name="firstPreferredFrame">The first preferred frame found.</param>
+        /// <param name="lastPreferredFrame">The first preferred frame found.</param>
+        public virtual void GetPreferredFrame(ref IFocusNodeFrame firstPreferredFrame, ref IFocusNodeFrame lastPreferredFrame)
+        {
+            Content.GetPreferredFrame(ref firstPreferredFrame, ref lastPreferredFrame);
         }
         #endregion
     }

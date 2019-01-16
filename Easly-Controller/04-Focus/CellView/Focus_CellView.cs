@@ -12,6 +12,12 @@ namespace EaslyController.Focus
         /// The state view containing the tree with this cell.
         /// </summary>
         new IFocusNodeStateView StateView { get; }
+
+        /// <summary>
+        /// Updates the focus chain with cells in the tree.
+        /// </summary>
+        /// <param name="focusChain">The list of focusable cell views found in the tree.</param>
+        void UpdateFocusChain(IFocusFocusableCellViewList focusChain);
     }
 
     /// <summary>
@@ -35,6 +41,14 @@ namespace EaslyController.Focus
         /// The state view containing the tree with this cell.
         /// </summary>
         public new IFocusNodeStateView StateView { get { return (IFocusNodeStateView)base.StateView; } }
+        #endregion
+
+        #region Client Interface
+        /// <summary>
+        /// Updates the focus chain with cells in the tree.
+        /// </summary>
+        /// <param name="focusChain">The list of focusable cell views found in the tree.</param>
+        public abstract void UpdateFocusChain(IFocusFocusableCellViewList focusChain);
         #endregion
 
         #region Debugging

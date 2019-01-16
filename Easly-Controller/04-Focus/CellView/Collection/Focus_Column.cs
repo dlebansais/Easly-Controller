@@ -39,6 +39,18 @@ namespace EaslyController.Focus
         public new IFocusNodeStateView StateView { get { return (IFocusNodeStateView)base.StateView; } }
         #endregion
 
+        #region Client Interface
+        /// <summary>
+        /// Updates the focus chain with cells in the tree.
+        /// </summary>
+        /// <param name="focusChain">The list of focusable cell views found in the tree.</param>
+        public virtual void UpdateFocusChain(IFocusFocusableCellViewList focusChain)
+        {
+            foreach (IFocusCellView Item in CellViewList)
+                Item.UpdateFocusChain(focusChain);
+        }
+        #endregion
+
         #region Debugging
         /// <summary>
         /// Compares two <see cref="IFocusCellView"/> objects.

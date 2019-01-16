@@ -72,6 +72,17 @@ namespace EaslyController.Focus
             else
                 SetRootCellView(CreateEmptyCellView(((IFocusCellViewTreeContext)context).StateView));
         }
+
+        /// <summary>
+        /// Updates the focus chain with cells in the tree.
+        /// </summary>
+        /// <param name="focusChain">The list of focusable cell views found in the tree.</param>
+        public virtual void UpdateFocusChain(IFocusFocusableCellViewList focusChain)
+        {
+            Debug.Assert(RootCellView != null);
+
+            RootCellView.UpdateFocusChain(focusChain);
+        }
         #endregion
 
         #region Debugging

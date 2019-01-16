@@ -5,7 +5,7 @@ namespace EaslyController.Focus
     /// <summary>
     /// Frame for cells within a block.
     /// </summary>
-    public interface IFocusBlockFrame : IFrameBlockFrame
+    public interface IFocusBlockFrame : IFrameBlockFrame, IFocusFrame
     {
         /// <summary>
         /// Block frame visibility. Null if always visible.

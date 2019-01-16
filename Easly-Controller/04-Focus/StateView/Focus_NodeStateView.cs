@@ -32,6 +32,12 @@ namespace EaslyController.Focus
         /// Table of cell views that are mutable lists of cells.
         /// </summary>
         new IFocusAssignableCellViewReadOnlyDictionary<string> CellViewTable { get; }
+
+        /// <summary>
+        /// Updates the focus chain with cells in the tree.
+        /// </summary>
+        /// <param name="focusChain">The list of focusable cell views found in the tree.</param>
+        void UpdateFocusChain(IFocusFocusableCellViewList focusChain);
     }
 
     /// <summary>
@@ -76,6 +82,14 @@ namespace EaslyController.Focus
         /// Table of cell views that are mutable lists of cells.
         /// </summary>
         public new IFocusAssignableCellViewReadOnlyDictionary<string> CellViewTable { get { return (IFocusAssignableCellViewReadOnlyDictionary<string>)base.CellViewTable; } }
+        #endregion
+
+        #region Client Interface
+        /// <summary>
+        /// Updates the focus chain with cells in the tree.
+        /// </summary>
+        /// <param name="focusChain">The list of focusable cell views found in the tree.</param>
+        public abstract void UpdateFocusChain(IFocusFocusableCellViewList focusChain);
         #endregion
 
         #region Debugging

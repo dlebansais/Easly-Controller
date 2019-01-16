@@ -809,10 +809,10 @@ namespace EaslyController.Frame
                 BuildCellView(ParentStateView);
             }
 
-            UpdateLineNumbers(state);
+            UpdateLineNumbers();
         }
 
-        protected virtual void UpdateLineNumbers(IFrameNodeState state)
+        protected virtual void UpdateLineNumbers()
         {
             IFrameNodeState RootState = Controller.RootState;
             IFrameNodeStateView RootStateView = StateViewTable[RootState];

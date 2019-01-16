@@ -20,6 +20,13 @@ namespace EaslyController.Focus
         /// <param name="propertyName">Name of the property to look for.</param>
         /// <param name="frame">Frame found upon return. Null if not matching <paramref name="propertyName"/>.</param>
         bool FrameSelectorForProperty(string propertyName, out IFocusNodeFrameWithSelector frame);
+
+        /// <summary>
+        /// Gets preferred frames to receive the focus when the source code is changed.
+        /// </summary>
+        /// <param name="firstPreferredFrame">The first preferred frame found.</param>
+        /// <param name="lastPreferredFrame">The first preferred frame found.</param>
+        void GetPreferredFrame(out IFocusNodeFrame firstPreferredFrame, out IFocusNodeFrame lastPreferredFrame);
     }
 
     /// <summary>
@@ -42,6 +49,24 @@ namespace EaslyController.Focus
         public bool IsComplex { get; set; }
 
         protected override bool IsRootValid { get { return (Root.ParentFrame == FocusFrame.FocusRoot); } }
+
+        /// <summary>
+        /// Checks that a template and all its frames are valid.
+        /// </summary>
+        public override bool IsValid
+        {
+            get
+            {
+                if (!base.IsValid)
+                    return false;
+
+                GetPreferredFrame(out IFocusNodeFrame FirstPreferredFrame, out IFocusNodeFrame LastPreferredFrame);
+                if (FirstPreferredFrame == null || LastPreferredFrame == null)
+                    return false;
+
+                return true;
+            }
+        }
         #endregion
 
         #region Client Interface
@@ -53,6 +78,18 @@ namespace EaslyController.Focus
         public virtual bool FrameSelectorForProperty(string propertyName, out IFocusNodeFrameWithSelector frame)
         {
             return ((IFocusNodeFrame)Root).FrameSelectorForProperty(propertyName, out frame);
+        }
+
+        /// <summary>
+        /// Gets preferred frames to receive the focus when the source code is changed.
+        /// </summary>
+        /// <param name="firstPreferredFrame">The first preferred frame found.</param>
+        /// <param name="lastPreferredFrame">The first preferred frame found.</param>
+        public virtual void GetPreferredFrame(out IFocusNodeFrame firstPreferredFrame, out IFocusNodeFrame lastPreferredFrame)
+        {
+            firstPreferredFrame = null;
+            lastPreferredFrame = null;
+            ((IFocusNodeFrame)Root).GetPreferredFrame(ref firstPreferredFrame, ref lastPreferredFrame);
         }
         #endregion
     }

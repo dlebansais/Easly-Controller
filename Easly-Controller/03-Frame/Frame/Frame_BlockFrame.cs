@@ -3,7 +3,7 @@
     /// <summary>
     /// Frame for cells within a block.
     /// </summary>
-    public interface IFrameBlockFrame
+    public interface IFrameBlockFrame : IFrameFrame
     {
         /// <summary>
         /// Create cells for the provided state view.

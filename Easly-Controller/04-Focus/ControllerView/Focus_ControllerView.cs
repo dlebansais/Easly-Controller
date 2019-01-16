@@ -136,6 +136,7 @@ namespace EaslyController.Focus
         /// Cell view with the focus.
         /// </summary>
         public IFocusFocusableCellView FocusedCellView { get; private set; }
+        protected IFocusFocusableCellViewList FocusChain { get; private set; }
         #endregion
 
         #region Client Interface
@@ -317,6 +318,88 @@ namespace EaslyController.Focus
 
             return Context;
         }
+
+        protected override void Refresh(IFrameNodeState state)
+        {
+            base.Refresh(state);
+
+            UpdateFocusChain(state);
+        }
+
+        protected virtual void UpdateFocusChain(IFrameNodeState state)
+        {
+            IFocusFocusableCellViewList NewFocusChain = CreateFocusChain();
+            IFocusNodeState RootState = Controller.RootState;
+            IFocusNodeStateView RootStateView = StateViewTable[RootState];
+
+            RootStateView.UpdateFocusChain(NewFocusChain);
+
+            // Ensured by all templates having at least one preferred (hence focusable) frame.
+            Debug.Assert(NewFocusChain.Count > 0);
+
+            if (FocusedCellView == null)
+            {
+                Debug.Assert(FocusChain == null);
+                FocusedCellView = NewFocusChain[0];
+            }
+
+            else if (!NewFocusChain.Contains(FocusedCellView))
+            {
+                IFocusNodeStateView StateView = FocusedCellView.StateView;
+                IFocusFrame Frame = FocusedCellView.Frame;
+
+                List<IFocusFocusableCellView> SameStateViewList = new List<IFocusFocusableCellView>();
+                foreach (IFocusFocusableCellView CellView in NewFocusChain)
+                    if (CellView.StateView == StateView)
+                        SameStateViewList.Add(CellView);
+
+                if (SameStateViewList.Count == 0)
+                {
+                    IFocusNodeStateView NewStateView = StateViewTable[(IFocusNodeState)state];
+
+                    foreach (IFocusFocusableCellView CellView in NewFocusChain)
+                        if (CellView.StateView == NewStateView)
+                            SameStateViewList.Add(CellView);
+                }
+
+                Debug.Assert(SameStateViewList.Count > 0);
+
+                bool IsFrameChanged = true;
+                foreach (IFocusFocusableCellView CellView in SameStateViewList)
+                    if (CellView.Frame == Frame)
+                    {
+                        IsFrameChanged = false;
+                        FocusedCellView = CellView;
+                        break;
+                    }
+
+                if (IsFrameChanged)
+                {
+                    bool IsFrameSet = false;
+                    IFocusNodeTemplate Template = StateView.Template as IFocusNodeTemplate;
+                    Debug.Assert(Template != null);
+
+                    Template.GetPreferredFrame(out IFocusNodeFrame FirstPreferredFrame, out IFocusNodeFrame LastPreferredFrame);
+                    Debug.Assert(FirstPreferredFrame != null);
+                    Debug.Assert(LastPreferredFrame != null);
+
+                    foreach (IFocusFocusableCellView CellView in SameStateViewList)
+                        if (CellView.Frame == FirstPreferredFrame)
+                        {
+                            IsFrameSet = true;
+                            FocusedCellView = CellView;
+                            break;
+                        }
+
+                    Debug.Assert(IsFrameSet);
+                }
+            }
+
+            FocusChain = NewFocusChain;
+
+            Debug.Assert(FocusedCellView != null);
+            Debug.Assert(FocusChain.Contains(FocusedCellView));
+        }
         #endregion
 
         #region Debugging
@@ -445,6 +528,15 @@ namespace EaslyController.Focus
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusControllerView));
             return new FocusCellViewTreeContext(this, (IFocusNodeStateView)stateView);
+        }
+
+        /// <summary>
+        /// Creates a IxxxFocusableCellViewList object.
+        /// </summary>
+        protected virtual IFocusFocusableCellViewList CreateFocusChain()
+        {
+            ControllerTools.AssertNoOverride(this, typeof(FocusControllerView));
+            return new FocusFocusableCellViewList();
         }
         #endregion
     }
