@@ -112,6 +112,7 @@ namespace EaslyController.Focus
             return EmbeddingCellView;
         }
 
+        /// <summary></summary>
         protected override IFrameCellView BuildBlockCellsForPlaceholderFrame(IFrameCellViewTreeContext context, IFramePlaceholderFrame frame, IFrameCellViewCollection embeddingCellView, IFrameBlockState blockState)
         {
             Type OldSelectorType = null;

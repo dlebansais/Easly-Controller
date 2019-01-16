@@ -187,6 +187,7 @@ namespace EaslyController.ReadOnly
         #endregion
 
         #region Invariant
+        /// <summary></summary>
         protected override void CheckInvariant()
         {
             InvariantAssert(IsInitialized);

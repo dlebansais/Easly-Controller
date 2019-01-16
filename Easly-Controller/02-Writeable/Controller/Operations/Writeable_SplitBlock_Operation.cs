@@ -61,19 +61,6 @@ namespace EaslyController.Writeable
         }
         #endregion
 
-        #region Client Interface
-        /// <summary>
-        /// Update the operation with details.
-        /// </summary>
-        /// <param name="blockState">Block state inserted.</param>
-        public virtual void Update(IWriteableBlockState blockState)
-        {
-            Debug.Assert(blockState != null);
-
-            BlockState = blockState;
-        }
-        #endregion
-
         #region Properties
         /// <summary>
         /// Inner where the block is split.
@@ -99,6 +86,19 @@ namespace EaslyController.Writeable
         /// Index of the last node to remain in the old block.
         /// </summary>
         public int Index { get; }
+        #endregion
+
+        #region Client Interface
+        /// <summary>
+        /// Update the operation with details.
+        /// </summary>
+        /// <param name="blockState">Block state inserted.</param>
+        public virtual void Update(IWriteableBlockState blockState)
+        {
+            Debug.Assert(blockState != null);
+
+            BlockState = blockState;
+        }
         #endregion
     }
 }

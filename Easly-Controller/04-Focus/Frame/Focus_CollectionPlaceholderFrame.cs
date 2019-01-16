@@ -74,15 +74,6 @@ namespace EaslyController.Focus
             ControllerTools.AssertNoOverride(this, typeof(FocusCollectionPlaceholderFrame));
             return new FocusContainerCellView((IFocusNodeStateView)stateView, (IFocusCellViewCollection)parentCellView, (IFocusNodeStateView)childStateView);
         }
-
-        /// <summary>
-        /// Creates an empty IxxxCellViewCollection object.
-        /// </summary>
-        protected virtual IFocusCellViewCollection CreateEmptyEmbeddingCellView(IFocusNodeStateView stateView)
-        {
-            ControllerTools.AssertNoOverride(this, typeof(FocusCollectionPlaceholderFrame));
-            return new FocusColumn(stateView, new FocusCellViewList());
-        }
         #endregion
     }
 }

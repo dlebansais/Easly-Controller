@@ -61,25 +61,6 @@ namespace EaslyController.Writeable
         }
         #endregion
 
-        #region Client Interface
-        /// <summary>
-        /// Update the operation with details.
-        /// </summary>
-        /// <param name="browsingIndex">Index of the state after it's inserted.</param>
-        /// <param name="blockState">Block state inserted.</param>
-        /// <param name="childState">State inserted.</param>
-        public virtual void Update(IWriteableBrowsingExistingBlockNodeIndex browsingIndex, IWriteableBlockState blockState, IWriteablePlaceholderNodeState childState)
-        {
-            Debug.Assert(browsingIndex != null);
-            Debug.Assert(blockState != null);
-            Debug.Assert(childState != null);
-
-            BrowsingIndex = browsingIndex;
-            BlockState = blockState;
-            ChildState = childState;
-        }
-        #endregion
-
         #region Properties
         /// <summary>
         /// Inner where the block insertion is taking place.
@@ -105,6 +86,25 @@ namespace EaslyController.Writeable
         /// State inserted.
         /// </summary>
         public IWriteablePlaceholderNodeState ChildState { get; private set; }
+        #endregion
+
+        #region Client Interface
+        /// <summary>
+        /// Update the operation with details.
+        /// </summary>
+        /// <param name="browsingIndex">Index of the state after it's inserted.</param>
+        /// <param name="blockState">Block state inserted.</param>
+        /// <param name="childState">State inserted.</param>
+        public virtual void Update(IWriteableBrowsingExistingBlockNodeIndex browsingIndex, IWriteableBlockState blockState, IWriteablePlaceholderNodeState childState)
+        {
+            Debug.Assert(browsingIndex != null);
+            Debug.Assert(blockState != null);
+            Debug.Assert(childState != null);
+
+            BrowsingIndex = browsingIndex;
+            BlockState = blockState;
+            ChildState = childState;
+        }
         #endregion
     }
 }

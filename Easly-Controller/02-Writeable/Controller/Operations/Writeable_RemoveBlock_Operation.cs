@@ -49,19 +49,6 @@ namespace EaslyController.Writeable
         }
         #endregion
 
-        #region Client Interface
-        /// <summary>
-        /// Update the operation with details.
-        /// </summary>
-        /// <param name="blockState">Block state removed.</param>
-        public virtual void Update(IWriteableBlockState blockState)
-        {
-            Debug.Assert(blockState != null);
-
-            BlockState = blockState;
-        }
-        #endregion
-
         #region Properties
         /// <summary>
         /// Inner where the block removal is taking place.
@@ -77,6 +64,19 @@ namespace EaslyController.Writeable
         /// Block state removed.
         /// </summary>
         public IWriteableBlockState BlockState { get; private set; }
+        #endregion
+
+        #region Client Interface
+        /// <summary>
+        /// Update the operation with details.
+        /// </summary>
+        /// <param name="blockState">Block state removed.</param>
+        public virtual void Update(IWriteableBlockState blockState)
+        {
+            Debug.Assert(blockState != null);
+
+            BlockState = blockState;
+        }
         #endregion
     }
 }

@@ -184,6 +184,7 @@ namespace EaslyController.ReadOnly
         #endregion
 
         #region Implementation
+        /// <summary></summary>
         protected virtual void InsertInStateList(int index, IReadOnlyPlaceholderNodeState nodeState)
         {
             Debug.Assert(index >= 0 && index <= _StateList.Count);
@@ -193,6 +194,7 @@ namespace EaslyController.ReadOnly
             _StateList.Insert(index, nodeState);
         }
 
+        /// <summary></summary>
         protected virtual void RemoveFromStateList(int index)
         {
             Debug.Assert(index >= 0 && index < _StateList.Count);
@@ -200,6 +202,7 @@ namespace EaslyController.ReadOnly
             _StateList.RemoveAt(index);
         }
 
+        /// <summary></summary>
         protected virtual void MoveInStateList(int index, int direction)
         {
             Debug.Assert(index >= 0 && index < _StateList.Count);

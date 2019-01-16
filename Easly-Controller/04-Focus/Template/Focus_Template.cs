@@ -38,6 +38,7 @@ namespace EaslyController.Focus
         /// </summary>
         public bool IsSimple { get; set; }
 
+        /// <summary></summary>
         protected override bool IsRootValid { get { return (Root.ParentFrame == FocusFrame.FocusRoot); } }
         #endregion
     }

@@ -101,6 +101,7 @@ namespace EaslyController.Writeable
                 throw new ArgumentOutOfRangeException(nameof(operation));
         }
 
+        /// <summary></summary>
         protected virtual void Replace(IWriteableReplaceOperation operation, IWriteableInsertionOptionalNodeIndex optionalIndex)
         {
             Debug.Assert(optionalIndex != null);

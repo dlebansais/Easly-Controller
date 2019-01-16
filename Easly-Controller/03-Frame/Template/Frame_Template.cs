@@ -63,6 +63,7 @@ namespace EaslyController.Frame
             }
         }
 
+        /// <summary></summary>
         protected virtual bool IsRootValid { get { return (Root.ParentFrame == FrameFrame.FrameRoot); } }
         #endregion
     }

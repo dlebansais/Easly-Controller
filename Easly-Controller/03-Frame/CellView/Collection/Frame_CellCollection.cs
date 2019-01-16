@@ -297,6 +297,7 @@ namespace EaslyController.Frame
             return true;
         }
 
+        /// <summary></summary>
         protected virtual bool IsCellViewProperlyAssigned(IFrameAssignableCellViewReadOnlyDictionary<string> expectedCellViewTable, IFrameAssignableCellViewDictionary<string> actualCellViewTable)
         {
             string PropertyName = null;

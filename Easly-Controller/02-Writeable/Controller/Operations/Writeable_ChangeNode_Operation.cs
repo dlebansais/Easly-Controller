@@ -20,7 +20,7 @@ namespace EaslyController.Writeable
         /// <summary>
         /// Update the operation with details.
         /// </summary>
-        /// <param name="childState">State changed.</param>
+        /// <param name="state">State changed.</param>
         void Update(IWriteablePlaceholderNodeState state);
     }
 

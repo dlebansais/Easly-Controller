@@ -191,6 +191,7 @@ namespace EaslyController.Focus
         /// Cell view with the focus.
         /// </summary>
         public IFocusFocusableCellView FocusedCellView { get; private set; }
+        /// <summary></summary>
         protected IFocusFocusableCellViewList FocusChain { get; private set; }
 
         /// <summary>
@@ -474,6 +475,7 @@ namespace EaslyController.Focus
         #endregion
 
         #region Implementation
+        /// <summary></summary>
         protected override IFrameCellViewTreeContext InitializedCellViewTreeContext(IFrameNodeStateView stateView)
         {
             IFocusCellViewTreeContext Context = (IFocusCellViewTreeContext)CreateCellViewTreeContext(stateView);
@@ -511,6 +513,7 @@ namespace EaslyController.Focus
             return Context;
         }
 
+        /// <summary></summary>
         protected override void Refresh(IFrameNodeState state)
         {
             base.Refresh(state);
@@ -518,6 +521,7 @@ namespace EaslyController.Focus
             UpdateFocusChain(state);
         }
 
+        /// <summary></summary>
         protected virtual void UpdateFocusChain(IFrameNodeState state)
         {
             IFocusFocusableCellViewList NewFocusChain = CreateFocusChain();
@@ -605,6 +609,7 @@ namespace EaslyController.Focus
             Debug.Assert(FocusChain.Contains(FocusedCellView));
         }
 
+        /// <summary></summary>
         protected virtual bool RecursiveFocusableCellViewSearch(IFocusFocusableCellViewList focusChain, IFocusNodeStateView stateView, List<IFocusFocusableCellView> cellViewList, out IFocusNodeStateView selectedStateView)
         {
             foreach (IFocusFocusableCellView CellView in focusChain)
@@ -669,6 +674,7 @@ namespace EaslyController.Focus
             return false;
         }
 
+        /// <summary></summary>
         protected virtual void ResetCaretPosition()
         {
             if (FocusedCellView is IFocusTextFocusableCellView AsText)
@@ -677,6 +683,7 @@ namespace EaslyController.Focus
                 CaretPosition = -1;
         }
 
+        /// <summary></summary>
         protected virtual bool SetTextCaretPosition(INode node, int position)
         {
             string Text = NodeTreeHelper.GetText(node);

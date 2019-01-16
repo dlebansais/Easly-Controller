@@ -47,15 +47,6 @@
         }
         #endregion
 
-        #region Client Interface
-        /// <summary>
-        /// Update the operation with details.
-        /// </summary>
-        public virtual void Update()
-        {
-        }
-        #endregion
-
         #region Properties
         /// <summary>
         /// Inner where blocks are merged.
@@ -76,6 +67,15 @@
         /// Index of the block split.
         /// </summary>
         public int BlockIndex { get; }
+        #endregion
+
+        #region Client Interface
+        /// <summary>
+        /// Update the operation with details.
+        /// </summary>
+        public virtual void Update()
+        {
+        }
         #endregion
     }
 }

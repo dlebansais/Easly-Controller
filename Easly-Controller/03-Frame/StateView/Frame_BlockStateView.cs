@@ -141,6 +141,7 @@ namespace EaslyController.Frame
             Debug.Assert(EmbeddingCellView != null);
         }
 
+        /// <summary></summary>
         protected virtual void SetRootCellView(IFrameCellView cellView)
         {
             Debug.Assert(cellView != null);

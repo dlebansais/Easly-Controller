@@ -116,6 +116,7 @@ namespace EaslyController.Frame
             CellViewTable = CreateCellViewReadOnlyTable(_CellViewTable);
         }
 
+        /// <summary></summary>
         protected virtual void SetRootCellView(IFrameCellView cellView)
         {
             Debug.Assert(cellView != null);
@@ -255,6 +256,7 @@ namespace EaslyController.Frame
             return true;
         }
 
+        /// <summary></summary>
         protected virtual bool AllCellViewsProperlyAssigned(IFrameAssignableCellViewReadOnlyDictionary<string> expectedCellViewTable, IFrameAssignableCellViewDictionary<string> actualCellViewTable)
         {
             int ActualCount = 0;

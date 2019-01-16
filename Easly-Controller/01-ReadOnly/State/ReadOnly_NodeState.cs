@@ -145,6 +145,7 @@ namespace EaslyController.ReadOnly
             CheckInvariant();
         }
 
+        /// <summary></summary>
         protected virtual void InitParentState(IReadOnlyNodeState parentState)
         {
             Debug.Assert(parentState != null);
@@ -153,6 +154,7 @@ namespace EaslyController.ReadOnly
             ParentState = parentState;
         }
 
+        /// <summary></summary>
         protected virtual void InitParentInner(IReadOnlyInner<IReadOnlyBrowsingChildIndex> parentInner)
         {
             Debug.Assert(ParentInner == null);
@@ -160,6 +162,7 @@ namespace EaslyController.ReadOnly
             ParentInner = parentInner;
         }
 
+        /// <summary></summary>
         protected virtual void InitInnerTable(IReadOnlyInnerReadOnlyDictionary<string> innerTable)
         {
             Debug.Assert(innerTable != null);
@@ -178,6 +181,7 @@ namespace EaslyController.ReadOnly
             BrowseChildrenOfNode(browseContext, Node);
         }
 
+        /// <summary></summary>
         protected virtual void BrowseChildrenOfNode(IReadOnlyBrowseContext browseNodeContext, INode node)
         {
             IList<string> PropertyNames = NodeTreeHelper.EnumChildNodeProperties(node);
@@ -246,6 +250,7 @@ namespace EaslyController.ReadOnly
             }
         }
 
+        /// <summary></summary>
         protected virtual IReadOnlyIndexCollection BrowseNodeList(IReadOnlyBrowseContext browseNodeContext, INode node, string propertyName, IReadOnlyList<INode> childNodeList)
         {
             Debug.Assert(!string.IsNullOrEmpty(propertyName));
@@ -263,6 +268,7 @@ namespace EaslyController.ReadOnly
             return CreateListIndexCollection(browseNodeContext, propertyName, NodeIndexList);
         }
 
+        /// <summary></summary>
         protected virtual IReadOnlyIndexCollection BrowseNodeBlockList(IReadOnlyBrowseContext browseNodeContext, INode node, string propertyName, IReadOnlyList<INodeTreeBlock> childBlockList)
         {
             Debug.Assert(!string.IsNullOrEmpty(propertyName));
@@ -278,6 +284,7 @@ namespace EaslyController.ReadOnly
             return CreateBlockIndexCollection(browseNodeContext, propertyName, NodeIndexList);
         }
 
+        /// <summary></summary>
         protected virtual void BrowseBlock(IReadOnlyBrowseContext browseNodeContext, INode node, string propertyName, int blockIndex, INodeTreeBlock childBlock, IReadOnlyBrowsingBlockNodeIndexList nodeIndexList)
         {
             Debug.Assert(!string.IsNullOrEmpty(propertyName));
@@ -296,6 +303,7 @@ namespace EaslyController.ReadOnly
             }
         }
 
+        /// <summary></summary>
         protected bool IsInitialized { get; private set; }
         #endregion
 
@@ -473,6 +481,7 @@ namespace EaslyController.ReadOnly
             return true;
         }
 
+        /// <summary></summary>
         protected virtual bool IsChildrenEqual(CompareEqual comparer, IReadOnlyNodeState nodeState)
         {
             if (!comparer.VerifyEqual(InnerTable, nodeState.InnerTable))
@@ -543,6 +552,7 @@ namespace EaslyController.ReadOnly
         #endregion
 
         #region Invariant
+        /// <summary></summary>
         protected virtual void CheckInvariant()
         {
             InvariantAssert(IsInitialized);
@@ -558,6 +568,7 @@ namespace EaslyController.ReadOnly
             }
         }
 
+        /// <summary></summary>
         protected void InvariantAssert(bool Condition)
         {
             Debug.Assert(Condition);

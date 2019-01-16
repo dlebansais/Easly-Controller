@@ -55,22 +55,6 @@ namespace EaslyController.Writeable
         }
         #endregion
 
-        #region Client Interface
-        /// <summary>
-        /// Update the operation with details.
-        /// </summary>
-        /// <param name="browsingIndex">Index of the state after it's inserted.</param>
-        /// <param name="childState">State inserted.</param>
-        public virtual void Update(IWriteableBrowsingCollectionNodeIndex browsingIndex, IWriteablePlaceholderNodeState childState)
-        {
-            Debug.Assert(browsingIndex != null);
-            Debug.Assert(childState != null);
-
-            BrowsingIndex = browsingIndex;
-            ChildState = childState;
-        }
-        #endregion
-
         #region Properties
         /// <summary>
         /// Inner where the insertion is taking place.
@@ -91,6 +75,22 @@ namespace EaslyController.Writeable
         /// State inserted.
         /// </summary>
         public IWriteablePlaceholderNodeState ChildState { get; private set; }
+        #endregion
+
+        #region Client Interface
+        /// <summary>
+        /// Update the operation with details.
+        /// </summary>
+        /// <param name="browsingIndex">Index of the state after it's inserted.</param>
+        /// <param name="childState">State inserted.</param>
+        public virtual void Update(IWriteableBrowsingCollectionNodeIndex browsingIndex, IWriteablePlaceholderNodeState childState)
+        {
+            Debug.Assert(browsingIndex != null);
+            Debug.Assert(childState != null);
+
+            BrowsingIndex = browsingIndex;
+            ChildState = childState;
+        }
         #endregion
     }
 }

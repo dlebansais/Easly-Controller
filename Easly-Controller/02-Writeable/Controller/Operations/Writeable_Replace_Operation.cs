@@ -61,25 +61,6 @@ namespace EaslyController.Writeable
         }
         #endregion
 
-        #region Client Interface
-        /// <summary>
-        /// Update the operation with details.
-        /// </summary>
-        /// <param name="oldBrowsingIndex">Index of the state before it's replaced.</param>
-        /// <param name="newBrowsingIndex">Index of the state after it's replaced.</param>
-        /// <param name="childState">The new state.</param>
-        public virtual void Update(IWriteableBrowsingChildIndex oldBrowsingIndex, IWriteableBrowsingChildIndex newBrowsingIndex, IWriteableNodeState childState)
-        {
-            Debug.Assert(oldBrowsingIndex != null);
-            Debug.Assert(newBrowsingIndex != null);
-            Debug.Assert(childState != null);
-
-            OldBrowsingIndex = oldBrowsingIndex;
-            NewBrowsingIndex = newBrowsingIndex;
-            ChildState = childState;
-        }
-        #endregion
-
         #region Properties
         /// <summary>
         /// Inner where the replacement is taking place.
@@ -105,6 +86,25 @@ namespace EaslyController.Writeable
         /// The new state.
         /// </summary>
         public IWriteableNodeState ChildState { get; private set; }
+        #endregion
+
+        #region Client Interface
+        /// <summary>
+        /// Update the operation with details.
+        /// </summary>
+        /// <param name="oldBrowsingIndex">Index of the state before it's replaced.</param>
+        /// <param name="newBrowsingIndex">Index of the state after it's replaced.</param>
+        /// <param name="childState">The new state.</param>
+        public virtual void Update(IWriteableBrowsingChildIndex oldBrowsingIndex, IWriteableBrowsingChildIndex newBrowsingIndex, IWriteableNodeState childState)
+        {
+            Debug.Assert(oldBrowsingIndex != null);
+            Debug.Assert(newBrowsingIndex != null);
+            Debug.Assert(childState != null);
+
+            OldBrowsingIndex = oldBrowsingIndex;
+            NewBrowsingIndex = newBrowsingIndex;
+            ChildState = childState;
+        }
         #endregion
     }
 }

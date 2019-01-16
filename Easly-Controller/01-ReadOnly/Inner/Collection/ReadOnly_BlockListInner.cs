@@ -360,6 +360,7 @@ namespace EaslyController.ReadOnly
         #endregion
 
         #region Descendant Interface
+        /// <summary></summary>
         protected virtual void InsertInBlockStateList(int blockIndex, IReadOnlyBlockState blockState)
         {
             Debug.Assert(blockIndex >= 0 && blockIndex <= BlockStateList.Count);
@@ -370,6 +371,7 @@ namespace EaslyController.ReadOnly
             NotifyBlockStateCreated(BlockStateList[blockIndex]);
         }
 
+        /// <summary></summary>
         protected virtual void RemoveFromBlockStateList(int blockIndex)
         {
             Debug.Assert(blockIndex >= 0 && blockIndex < BlockStateList.Count);
@@ -379,6 +381,7 @@ namespace EaslyController.ReadOnly
             _BlockStateList.RemoveAt(blockIndex);
         }
 
+        /// <summary></summary>
         protected virtual void MoveInBlockStateList(int blockIndex, int direction)
         {
             Debug.Assert(blockIndex >= 0 && blockIndex < BlockStateList.Count);
@@ -389,11 +392,13 @@ namespace EaslyController.ReadOnly
             _BlockStateList.Insert(blockIndex + direction, BlockState);
         }
 
+        /// <summary></summary>
         protected virtual void NotifyBlockStateCreated(IReadOnlyBlockState blockState)
         {
             BlockStateCreatedHandler?.Invoke(blockState);
         }
 
+        /// <summary></summary>
         protected virtual void NotifyBlockStateRemoved(IReadOnlyBlockState blockState)
         {
             BlockStateRemovedHandler?.Invoke(blockState);

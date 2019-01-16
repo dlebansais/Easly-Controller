@@ -57,8 +57,9 @@ namespace EaslyController.Frame
         /// Returns a default template set.
         /// </summary>
         public static IFrameTemplateSet Default { get { return (new FrameTemplateSet()).BuildDefault() as IFrameTemplateSet; } }
-        protected static IFrameTemplateSet _Default;
+        private static IFrameTemplateSet _Default;
 
+        /// <summary></summary>
         protected FrameTemplateSet()
         {
         }
@@ -220,6 +221,7 @@ namespace EaslyController.Frame
         #endregion
 
         #region Helper
+        /// <summary></summary>
         protected virtual IFrameTemplateSet BuildDefault()
         {
             if (_Default != null && _Default.GetType() == GetType()) // Recreate the default if the layer has changed.
@@ -236,6 +238,7 @@ namespace EaslyController.Frame
             return _Default;
         }
 
+        /// <summary></summary>
         protected virtual IFrameTemplateReadOnlyDictionary BuildDefaultNodeTemplateTable()
         {
             IFrameTemplateDictionary DefaultDictionary = CreateDefaultTemplateDictionary();
@@ -247,6 +250,7 @@ namespace EaslyController.Frame
             return CreateTemplateReadOnlyDictionary(DefaultDictionary);
         }
 
+        /// <summary></summary>
         protected virtual void SetNodeTypeToDefault(IFrameTemplateDictionary dictionary, Type nodeType)
         {
             Debug.Assert(dictionary.ContainsKey(nodeType));
@@ -345,11 +349,13 @@ namespace EaslyController.Frame
             RootFrame.UpdateParent(RootTemplate, GetRoot());
         }
 
+        /// <summary></summary>
         protected virtual IFrameFrame GetRoot()
         {
             return FrameFrame.FrameRoot;
         }
 
+        /// <summary></summary>
         protected virtual IFrameTemplateReadOnlyDictionary BuildDefaultBlockListTemplate()
         {
             List<Type> Keys = new List<Type>(NodeHelper.CreateNodeDictionary<object>().Keys);
@@ -384,6 +390,7 @@ namespace EaslyController.Frame
             return CreateTemplateReadOnlyDictionary(DefaultDictionary);
         }
 
+        /// <summary></summary>
         protected virtual void AddBlockNodeTypes(IFrameTemplateDictionary dictionary, Type nodeType)
         {
             IList<string> Properties = NodeTreeHelper.EnumChildNodeProperties(nodeType);

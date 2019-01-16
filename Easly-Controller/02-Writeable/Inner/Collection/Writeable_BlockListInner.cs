@@ -262,6 +262,7 @@ namespace EaslyController.Writeable
             }
         }
 
+        /// <summary></summary>
         protected virtual void InsertExisting(IWriteableInsertNodeOperation operation, IWriteableInsertionExistingBlockNodeIndex existingBlockIndex)
         {
             int BlockIndex = existingBlockIndex.BlockIndex;
@@ -328,6 +329,7 @@ namespace EaslyController.Writeable
             Remove(blockOperation, nodeOperation, blockOperation.BlockIndex);
         }
 
+        /// <summary></summary>
         protected virtual void Remove(IWriteableRemoveBlockOperation blockOperation, IWriteableRemoveNodeOperation nodeOperation, IWriteableBrowsingExistingBlockNodeIndex existingBlockIndex)
         {
             Debug.Assert(existingBlockIndex != null);
@@ -406,6 +408,7 @@ namespace EaslyController.Writeable
                 throw new ArgumentOutOfRangeException(nameof(operation));
         }
 
+        /// <summary></summary>
         protected virtual void Replace(IWriteableReplaceOperation operation, IWriteableInsertionExistingBlockNodeIndex existingBlockIndex)
         {
             Debug.Assert(existingBlockIndex != null);
@@ -618,6 +621,7 @@ namespace EaslyController.Writeable
                 throw new ArgumentOutOfRangeException(nameof(operation));
         }
 
+        /// <summary></summary>
         protected virtual void Move(IWriteableMoveNodeOperation operation, IWriteableBrowsingExistingBlockNodeIndex existingBlockIndex)
         {
             Debug.Assert(operation != null);

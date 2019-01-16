@@ -227,16 +227,19 @@ namespace EaslyController.ReadOnly
             CloneChildren(parentNode, NewBlock);
         }
 
+        /// <summary></summary>
         protected virtual IPattern ClonePattern()
         {
             return PatternState.CloneNode();
         }
 
+        /// <summary></summary>
         protected virtual IIdentifier CloneSource()
         {
             return SourceState.CloneNode();
         }
 
+        /// <summary></summary>
         protected virtual void CloneChildren(INode parentNode, IBlock parentBlock)
         {
             for (int i = 0; i < StateList.Count; i++)
@@ -287,6 +290,7 @@ namespace EaslyController.ReadOnly
         #endregion
 
         #region Implementation
+        /// <summary></summary>
         protected virtual void InsertState(int index, IReadOnlyPlaceholderNodeState state)
         {
             Debug.Assert(index >= 0 && index <= _StateList.Count);
@@ -296,6 +300,7 @@ namespace EaslyController.ReadOnly
             _StateList.Insert(index, state);
         }
 
+        /// <summary></summary>
         protected virtual void RemoveState(int index)
         {
             Debug.Assert(index >= 0 && index < _StateList.Count);
@@ -303,6 +308,7 @@ namespace EaslyController.ReadOnly
             _StateList.RemoveAt(index);
         }
 
+        /// <summary></summary>
         protected virtual void MoveState(int index, int direction)
         {
             Debug.Assert(index >= 0 && index < _StateList.Count);

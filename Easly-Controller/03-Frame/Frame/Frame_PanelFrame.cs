@@ -132,6 +132,7 @@ namespace EaslyController.Frame
             return EmbeddingCellView;
         }
 
+        /// <summary></summary>
         protected virtual IFrameCellView BuildBlockCellsForPlaceholderFrame(IFrameCellViewTreeContext context, IFramePlaceholderFrame frame, IFrameCellViewCollection embeddingCellView, IFrameBlockState blockState)
         {
             IFrameCellView ItemCellView;
@@ -148,6 +149,7 @@ namespace EaslyController.Frame
             return ItemCellView;
         }
 
+        /// <summary></summary>
         protected virtual IFrameCellView BuildPlaceholderCells(IFrameCellViewTreeContext context, IFrameCellViewCollection parentCellView, IFrameNodeState childState)
         {
             IFrameStateViewDictionary StateViewTable = context.ControllerView.StateViewTable;

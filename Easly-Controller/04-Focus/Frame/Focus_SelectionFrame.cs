@@ -39,6 +39,7 @@ namespace EaslyController.Focus
         /// </summary>
         public IFocusSelectableFrameList Items { get; }
 
+        /// <summary></summary>
         protected virtual bool IsParentRoot { get { return ParentFrame == FocusRoot; } }
         #endregion
 

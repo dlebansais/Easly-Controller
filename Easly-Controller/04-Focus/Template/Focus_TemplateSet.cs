@@ -34,6 +34,7 @@ namespace EaslyController.Focus
         /// </summary>
         public static new IFocusTemplateSet Default { get { return (new FocusTemplateSet()).BuildDefault() as IFocusTemplateSet; } }
 
+        /// <summary></summary>
         protected FocusTemplateSet()
         {
         }
@@ -62,6 +63,7 @@ namespace EaslyController.Focus
         #endregion
 
         #region Helper
+        /// <summary></summary>
         protected override IFrameFrame GetRoot()
         {
             return FocusFrame.FocusRoot;

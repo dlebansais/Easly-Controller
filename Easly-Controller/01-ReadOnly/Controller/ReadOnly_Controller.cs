@@ -117,6 +117,7 @@ namespace EaslyController.ReadOnly
             Stats = new Stats();
         }
 
+        /// <summary></summary>
         protected bool IsInitialized { get; private set; }
         #endregion
 
@@ -277,21 +278,25 @@ namespace EaslyController.ReadOnly
         #endregion
 
         #region Descendant Interface
+        /// <summary></summary>
         protected virtual void NotifyNodeStateCreated(IReadOnlyNodeState state)
         {
             NodeStateCreatedHandler?.Invoke(state);
         }
 
+        /// <summary></summary>
         protected virtual void NotifyNodeStateInitialized(IReadOnlyNodeState state)
         {
             NodeStateInitializedHandler?.Invoke(state);
         }
 
+        /// <summary></summary>
         protected virtual void NotifyNodeStateRemoved(IReadOnlyNodeState state)
         {
             NodeStateRemovedHandler?.Invoke(state);
         }
 
+        /// <summary></summary>
         protected virtual void NotifyBlockListInnerCreated(IReadOnlyBlockListInner inner)
         {
             BlockListInnerCreatedHandler?.Invoke(inner);
@@ -299,6 +304,7 @@ namespace EaslyController.ReadOnly
         #endregion
 
         #region Implementation
+        /// <summary></summary>
         protected virtual void SetRoot(IReadOnlyRootNodeIndex rootIndex)
         {
             Debug.Assert(rootIndex != null);
@@ -313,6 +319,7 @@ namespace EaslyController.ReadOnly
             BuildStateTable(null, null, rootIndex, State);
         }
 
+        /// <summary></summary>
         protected virtual void SetInitialized()
         {
             Debug.Assert(!IsInitialized); // Must be called during initialization
@@ -321,6 +328,7 @@ namespace EaslyController.ReadOnly
             CheckInvariant();
         }
 
+        /// <summary></summary>
         protected virtual void AddState(IReadOnlyIndex index, IReadOnlyNodeState state)
         {
             Debug.Assert(state != null);
@@ -334,6 +342,7 @@ namespace EaslyController.ReadOnly
             Debug.Assert(Stats.NodeCount == StateTable.Count);
         }
 
+        /// <summary></summary>
         protected virtual void RemoveState(IReadOnlyIndex index)
         {
             Debug.Assert(index != null);
@@ -347,6 +356,7 @@ namespace EaslyController.ReadOnly
             Debug.Assert(Stats.NodeCount == StateTable.Count);
         }
 
+        /// <summary></summary>
         protected virtual void BuildStateTable(IReadOnlyInner<IReadOnlyBrowsingChildIndex> parentInner, IReadOnlyBrowseContext parentBrowseContext, IReadOnlyIndex nodeIndex, IReadOnlyNodeState state)
         {
             Debug.Assert((parentBrowseContext == null) || (parentBrowseContext != null && parentInner != null));
@@ -372,6 +382,7 @@ namespace EaslyController.ReadOnly
             BuildChildrenStates(BrowseContext, ChildrenStateTable);
         }
 
+        /// <summary></summary>
         protected virtual void BrowseStateChildren(IReadOnlyBrowseContext browseContext, IReadOnlyInner<IReadOnlyBrowsingChildIndex> parentInner)
         {
             Debug.Assert(browseContext != null);
@@ -381,6 +392,7 @@ namespace EaslyController.ReadOnly
             State.BrowseChildren(browseContext, parentInner);
         }
 
+        /// <summary></summary>
         protected virtual IReadOnlyInnerReadOnlyDictionary<string> BuildInnerTable(IReadOnlyBrowseContext browseContext)
         {
             Debug.Assert(browseContext != null);
@@ -403,6 +415,7 @@ namespace EaslyController.ReadOnly
             return CreateInnerTableReadOnly(InnerTable);
         }
 
+        /// <summary></summary>
         protected virtual IReadOnlyInner<IReadOnlyBrowsingChildIndex> BuildInner(IReadOnlyNodeState parentState, IReadOnlyIndexCollection nodeIndexCollection)
         {
             Debug.Assert(parentState != null);
@@ -431,6 +444,7 @@ namespace EaslyController.ReadOnly
             }
         }
 
+        /// <summary></summary>
         protected virtual void InitState(IReadOnlyBrowseContext browseContext, IReadOnlyInner<IReadOnlyBrowsingChildIndex> parentInner, IReadOnlyIndex nodeIndex, IReadOnlyInnerReadOnlyDictionary<string> innerTable)
         {
             Debug.Assert(browseContext != null);
@@ -452,6 +466,7 @@ namespace EaslyController.ReadOnly
             NotifyNodeStateInitialized(State);
         }
 
+        /// <summary></summary>
         protected virtual IReadOnlyIndexNodeStateDictionary BuildChildrenStateTable(IReadOnlyBrowseContext browseContext)
         {
             Debug.Assert(browseContext != null);
@@ -503,6 +518,7 @@ namespace EaslyController.ReadOnly
             return ChildStateTable;
         }
 
+        /// <summary></summary>
         protected virtual IReadOnlyNodeState BuildChildState(IReadOnlyInner<IReadOnlyBrowsingChildIndex> inner, IReadOnlyBrowsingChildIndex nodeIndex)
         {
             Debug.Assert(inner != null);
@@ -524,6 +540,7 @@ namespace EaslyController.ReadOnly
             return ChildState;
         }
 
+        /// <summary></summary>
         protected virtual void BuildChildrenStates(IReadOnlyBrowseContext browseContext, IReadOnlyIndexNodeStateDictionary childrenStateTable)
         {
             Debug.Assert(browseContext != null);
@@ -552,11 +569,13 @@ namespace EaslyController.ReadOnly
         #endregion
 
         #region Invariant
+        /// <summary></summary>
         protected virtual void CheckInvariant()
         {
             InvariantAssert(IsInitialized);
         }
 
+        /// <summary></summary>
         protected void InvariantAssert(bool condition)
         {
             Debug.Assert(condition);

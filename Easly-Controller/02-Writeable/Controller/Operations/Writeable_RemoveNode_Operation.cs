@@ -49,19 +49,6 @@ namespace EaslyController.Writeable
         }
         #endregion
 
-        #region Client Interface
-        /// <summary>
-        /// Update the operation with details.
-        /// </summary>
-        /// <param name="childState">State removed.</param>
-        public virtual void Update(IWriteablePlaceholderNodeState childState)
-        {
-            Debug.Assert(childState != null);
-
-            ChildState = childState;
-        }
-        #endregion
-
         #region Properties
         /// <summary>
         /// Inner where the removal is taking place.
@@ -77,6 +64,19 @@ namespace EaslyController.Writeable
         /// State removed.
         /// </summary>
         public IWriteablePlaceholderNodeState ChildState { get; private set; }
+        #endregion
+
+        #region Client Interface
+        /// <summary>
+        /// Update the operation with details.
+        /// </summary>
+        /// <param name="childState">State removed.</param>
+        public virtual void Update(IWriteablePlaceholderNodeState childState)
+        {
+            Debug.Assert(childState != null);
+
+            ChildState = childState;
+        }
         #endregion
     }
 }

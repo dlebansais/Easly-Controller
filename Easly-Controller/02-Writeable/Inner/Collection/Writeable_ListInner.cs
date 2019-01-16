@@ -80,6 +80,7 @@ namespace EaslyController.Writeable
                 throw new ArgumentOutOfRangeException(nameof(operation));
         }
 
+        /// <summary></summary>
         protected virtual void Insert(IWriteableInsertNodeOperation operation, IWriteableInsertionListNodeIndex listIndex)
         {
             int InsertionIndex = listIndex.Index;
@@ -121,6 +122,7 @@ namespace EaslyController.Writeable
                 throw new ArgumentOutOfRangeException(nameof(operation));
         }
 
+        /// <summary></summary>
         protected virtual void Remove(IWriteableRemoveNodeOperation operation, IWriteableBrowsingListNodeIndex listIndex)
         {
             Debug.Assert(listIndex != null);
@@ -164,6 +166,7 @@ namespace EaslyController.Writeable
                 throw new ArgumentOutOfRangeException(nameof(operation));
         }
 
+        /// <summary></summary>
         protected virtual void Replace(IWriteableReplaceOperation operation, IWriteableInsertionListNodeIndex listIndex)
         {
             Debug.Assert(listIndex != null);
@@ -200,6 +203,7 @@ namespace EaslyController.Writeable
                 throw new ArgumentOutOfRangeException(nameof(operation));
         }
 
+        /// <summary></summary>
         protected virtual void Move(IWriteableMoveNodeOperation operation, IWriteableBrowsingListNodeIndex listIndex)
         {
             Debug.Assert(operation != null);

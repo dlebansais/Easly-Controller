@@ -352,6 +352,7 @@ namespace EaslyController.Focus
         #endregion
 
         #region Implementation
+        /// <summary></summary>
         protected virtual void SetSemantic(IFocusSemanticSet semanticSet)
         {
             Debug.Assert(semanticSet != null);
@@ -360,6 +361,7 @@ namespace EaslyController.Focus
             SemanticSet = semanticSet;
         }
 
+        /// <summary></summary>
         protected override void CheckInvariant()
         {
             base.CheckInvariant();

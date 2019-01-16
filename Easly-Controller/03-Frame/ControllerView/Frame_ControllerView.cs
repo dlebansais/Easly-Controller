@@ -219,6 +219,7 @@ namespace EaslyController.Frame
             Refresh(InsertedState);
         }
 
+        /// <summary></summary>
         protected virtual void OnBlockListStateInserted(IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> inner, IFrameBrowsingExistingBlockNodeIndex nodeIndex, IFrameNodeState insertedState)
         {
             Debug.Assert(inner != null);
@@ -241,6 +242,7 @@ namespace EaslyController.Frame
             EmbeddingCellView.Insert(Index, InsertedCellView);
         }
 
+        /// <summary></summary>
         protected virtual void OnListStateInserted(IFrameListInner<IFrameBrowsingListNodeIndex> inner, IFrameBrowsingListNodeIndex nodeIndex, IFrameNodeState insertedState)
         {
             Debug.Assert(inner != null);
@@ -294,6 +296,7 @@ namespace EaslyController.Frame
             Refresh(OwnerState);
         }
 
+        /// <summary></summary>
         protected virtual void OnBlockListStateRemoved(IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> inner, IFrameBrowsingExistingBlockNodeIndex nodeIndex, IFrameNodeState removedState)
         {
             Debug.Assert(inner != null);
@@ -312,6 +315,7 @@ namespace EaslyController.Frame
             EmbeddingCellView.Remove(Index);
         }
 
+        /// <summary></summary>
         protected virtual void OnListStateRemoved(IFrameListInner<IFrameBrowsingListNodeIndex> inner, IFrameBrowsingListNodeIndex nodeIndex, IFrameNodeState removedState)
         {
             Debug.Assert(inner != null);
@@ -372,6 +376,7 @@ namespace EaslyController.Frame
             Refresh(ReplacedState);
         }
 
+        /// <summary></summary>
         protected virtual void OnPlaceholderStateReplaced(IFramePlaceholderInner<IFrameBrowsingPlaceholderNodeIndex> inner, IFrameBrowsingPlaceholderNodeIndex nodeIndex, IFrameNodeState replacedState)
         {
             Debug.Assert(inner != null);
@@ -401,6 +406,7 @@ namespace EaslyController.Frame
             OwnerStateView.ReplaceCellView(PropertyName, ReplacedCellView);
         }
 
+        /// <summary></summary>
         protected virtual void OnOptionalStateReplaced(IFrameOptionalInner<IFrameBrowsingOptionalNodeIndex> inner, IFrameBrowsingOptionalNodeIndex nodeIndex, IFrameNodeState replacedState)
         {
             Debug.Assert(inner != null);
@@ -430,6 +436,7 @@ namespace EaslyController.Frame
             OwnerStateView.ReplaceCellView(PropertyName, ReplacedCellView);
         }
 
+        /// <summary></summary>
         protected virtual void OnBlockListStateReplaced(IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> inner, IFrameBrowsingExistingBlockNodeIndex nodeIndex, IFrameNodeState replacedState)
         {
             Debug.Assert(inner != null);
@@ -452,6 +459,7 @@ namespace EaslyController.Frame
             EmbeddingCellView.Replace(Index, ReplacedCellView);
         }
 
+        /// <summary></summary>
         protected virtual void OnListStateReplaced(IFrameListInner<IFrameBrowsingListNodeIndex> inner, IFrameBrowsingListNodeIndex nodeIndex, IFrameNodeState replacedState)
         {
             Debug.Assert(inner != null);
@@ -561,6 +569,7 @@ namespace EaslyController.Frame
             Refresh(OwnerState);
         }
 
+        /// <summary></summary>
         protected virtual void OnBlockListStateMoved(IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> inner, IFrameBrowsingExistingBlockNodeIndex nodeIndex, int index, int direction)
         {
             Debug.Assert(inner != null);
@@ -578,6 +587,7 @@ namespace EaslyController.Frame
             EmbeddingCellView.Move(index, direction);
         }
 
+        /// <summary></summary>
         protected virtual void OnListStateMoved(IFrameListInner<IFrameBrowsingListNodeIndex> inner, IFrameBrowsingListNodeIndex nodeIndex, int index, int direction)
         {
             Debug.Assert(inner != null);
@@ -784,6 +794,7 @@ namespace EaslyController.Frame
         #endregion
 
         #region Implementation
+        /// <summary></summary>
         protected virtual IFrameCellView BuildCellView(IFrameNodeStateView stateView)
         {
             IFrameCellViewTreeContext Context = InitializedCellViewTreeContext(stateView);
@@ -791,16 +802,19 @@ namespace EaslyController.Frame
             return stateView.RootCellView;
         }
 
+        /// <summary></summary>
         protected virtual IFrameCellViewTreeContext InitializedCellViewTreeContext(IFrameNodeStateView stateView)
         {
             return CreateCellViewTreeContext(stateView);
         }
 
+        /// <summary></summary>
         protected virtual void ClearCellView(IFrameNodeStateView stateView)
         {
             stateView.ClearRootCellView();
         }
 
+        /// <summary></summary>
         protected virtual IFrameBlockCellView BuildBlockCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, IFrameBlockStateView blockStateView)
         {
             IFrameCellViewTreeContext Context = CreateCellViewTreeContext(stateView);
@@ -811,11 +825,13 @@ namespace EaslyController.Frame
             return BlockCellView;
         }
 
+        /// <summary></summary>
         protected virtual void ClearBlockCellView(IFrameNodeStateView stateView, IFrameBlockStateView blockStateView)
         {
             blockStateView.ClearRootCellView(stateView);
         }
 
+        /// <summary></summary>
         protected virtual void Refresh(IFrameNodeState state)
         {
             Debug.Assert(StateViewTable.ContainsKey(state));
@@ -839,6 +855,7 @@ namespace EaslyController.Frame
             UpdateLineNumbers();
         }
 
+        /// <summary></summary>
         protected virtual void UpdateLineNumbers()
         {
             IFrameNodeState RootState = Controller.RootState;
@@ -885,6 +902,7 @@ namespace EaslyController.Frame
             return true;
         }
 
+        /// <summary></summary>
         protected virtual void PrintCellViewTree(bool isVerbose)
         {
             IFrameNodeState RootState = Controller.RootState;
@@ -892,6 +910,7 @@ namespace EaslyController.Frame
             PrintCellViewTree(RootStateView.RootCellView, isVerbose);
         }
 
+        /// <summary></summary>
         protected virtual void PrintCellViewTree(IFrameCellView cellView, bool isVerbose)
         {
             string Tree = cellView.PrintTree(0, isVerbose);

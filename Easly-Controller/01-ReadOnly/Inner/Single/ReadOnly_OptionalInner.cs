@@ -146,6 +146,7 @@ namespace EaslyController.ReadOnly
         #endregion
 
         #region Implementation
+        /// <summary></summary>
         protected virtual void SetChildState(IReadOnlyOptionalNodeState childState)
         {
             Debug.Assert(childState != null);

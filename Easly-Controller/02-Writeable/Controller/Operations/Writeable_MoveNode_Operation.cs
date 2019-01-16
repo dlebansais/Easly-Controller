@@ -70,19 +70,6 @@ namespace EaslyController.Writeable
         }
         #endregion
 
-        #region Client Interface
-        /// <summary>
-        /// Update the operation with details.
-        /// </summary>
-        /// <param name="state">State moved.</param>
-        public virtual void Update(IWriteablePlaceholderNodeState state)
-        {
-            Debug.Assert(state != null);
-
-            State = state;
-        }
-        #endregion
-
         #region Properties
         /// <summary>
         /// Inner where the move is taking place.
@@ -108,6 +95,19 @@ namespace EaslyController.Writeable
         /// State moved.
         /// </summary>
         public IWriteablePlaceholderNodeState State { get; private set; }
+        #endregion
+
+        #region Client Interface
+        /// <summary>
+        /// Update the operation with details.
+        /// </summary>
+        /// <param name="state">State moved.</param>
+        public virtual void Update(IWriteablePlaceholderNodeState state)
+        {
+            Debug.Assert(state != null);
+
+            State = state;
+        }
         #endregion
     }
 }

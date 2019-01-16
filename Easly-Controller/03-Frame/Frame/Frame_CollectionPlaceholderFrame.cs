@@ -54,6 +54,7 @@ namespace EaslyController.Frame
             return EmbeddingCellView;
         }
 
+        /// <summary></summary>
         protected virtual void AssignEmbeddingCellView(IFrameBlockStateView blockStateView, IFrameCellViewCollection embeddingCellView)
         {
             blockStateView.AssignEmbeddingCellView(embeddingCellView);

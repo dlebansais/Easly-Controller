@@ -106,11 +106,13 @@ namespace EaslyController.Frame
         #endregion
 
         #region Descendant Interface
+        /// <summary></summary>
         protected virtual void IncrementLineNumber(ref int lineNumber)
         {
             lineNumber++;
         }
 
+        /// <summary></summary>
         protected virtual void IncrementColumnNumber(ref int columnNumber)
         {
             columnNumber++;
