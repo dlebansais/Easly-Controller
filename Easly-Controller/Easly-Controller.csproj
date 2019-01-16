@@ -342,6 +342,7 @@
     <Compile Include="04-Focus\Collections\Focus_BrowsingListNodeIndex_List.cs" />
     <Compile Include="04-Focus\Collections\Focus_AssignableCellView_Dictionary.cs" />
     <Compile Include="04-Focus\Collections\Focus_FrameSelector_List.cs" />
+    <Compile Include="04-Focus\Collections\Focus_FocusableCellView_List.cs" />
     <Compile Include="04-Focus\Collections\Focus_VisibleCellView_List.cs" />
     <Compile Include="04-Focus\Collections\Focus_CellView_List.cs" />
     <Compile Include="04-Focus\Collections\Focus_AssignableCellView_ReadOnlyDictionary.cs" />

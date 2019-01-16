@@ -85,7 +85,9 @@ namespace EaslyController.Frame
             Debug.Assert(Value >= 0 && Value < Items.Count);
 
             IFrameKeywordFrame KeywordFrame = Items[Value];
-            return KeywordFrame.BuildNodeCells(context, parentCellView);
+            IFrameCellView CellView = CreateDiscreteContentFocusableCellView(context.StateView, KeywordFrame);
+
+            return CellView;
         }
         #endregion
 
@@ -97,6 +99,15 @@ namespace EaslyController.Frame
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameDiscreteFrame));
             return new FrameKeywordFrameList();
+        }
+
+        /// <summary>
+        /// Creates a IxxxDiscreteContentFocusableCellView object.
+        /// </summary>
+        protected virtual IFrameDiscreteContentFocusableCellView CreateDiscreteContentFocusableCellView(IFrameNodeStateView stateView, IFrameKeywordFrame keywordFrame)
+        {
+            ControllerTools.AssertNoOverride(this, typeof(FrameDiscreteFrame));
+            return new FrameDiscreteContentFocusableCellView(stateView, keywordFrame, PropertyName);
         }
         #endregion
     }

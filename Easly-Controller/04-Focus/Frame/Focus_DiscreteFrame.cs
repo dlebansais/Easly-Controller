@@ -1,5 +1,6 @@
 ﻿using EaslyController.Frame;
 using System;
+using System.Diagnostics;
 using System.Windows.Markup;
 
 namespace EaslyController.Focus
@@ -103,6 +104,15 @@ namespace EaslyController.Focus
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusDiscreteFrame));
             return new FocusKeywordFrameList();
+        }
+
+        /// <summary>
+        /// Creates a IxxxDiscreteContentFocusableCellView object.
+        /// </summary>
+        protected override IFrameDiscreteContentFocusableCellView CreateDiscreteContentFocusableCellView(IFrameNodeStateView stateView, IFrameKeywordFrame keywordFrame)
+        {
+            ControllerTools.AssertNoOverride(this, typeof(FocusDiscreteFrame));
+            return new FocusDiscreteContentFocusableCellView((IFocusNodeStateView)stateView, (IFocusKeywordFrame)keywordFrame, PropertyName);
         }
 
         /// <summary>

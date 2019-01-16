@@ -35,6 +35,11 @@ namespace EaslyController.Focus
         new IFocusTemplateSet TemplateSet { get; }
 
         /// <summary>
+        /// Cell view with the focus.
+        /// </summary>
+        IFocusFocusableCellView FocusedCellView { get; }
+
+        /// <summary>
         /// Checks if the template associated to the <paramref name="propertyName"/> property of the <paramref name="stateView"/> state is complex.
         /// </summary>
         /// <param name="stateView">The state view for the node with property <paramref name="propertyName"/>.</param>
@@ -126,6 +131,11 @@ namespace EaslyController.Focus
         /// Template set describing the node tree.
         /// </summary>
         public new IFocusTemplateSet TemplateSet { get { return (IFocusTemplateSet)base.TemplateSet; } }
+
+        /// <summary>
+        /// Cell view with the focus.
+        /// </summary>
+        public IFocusFocusableCellView FocusedCellView { get; private set; }
         #endregion
 
         #region Client Interface

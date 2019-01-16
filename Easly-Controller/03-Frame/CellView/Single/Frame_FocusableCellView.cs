@@ -3,14 +3,14 @@
 namespace EaslyController.Frame
 {
     /// <summary>
-    /// Cell view for discrete elements that can receive the focus but are not the component of a node (insertion points, keywords and other decorations)
+    /// Cell view for discrete elements that can receive the focus but are not always the component of a node (insertion points, keywords and other decorations)
     /// </summary>
     public interface IFrameFocusableCellView : IFrameVisibleCellView
     {
     }
 
     /// <summary>
-    /// Cell view for discrete elements that can receive the focus but are not the component of a node (insertion points, keywords and other decorations)
+    /// Cell view for discrete elements that can receive the focus but are not always the component of a node (insertion points, keywords and other decorations)
     /// </summary>
     public class FrameFocusableCellView : FrameVisibleCellView, IFrameFocusableCellView
     {

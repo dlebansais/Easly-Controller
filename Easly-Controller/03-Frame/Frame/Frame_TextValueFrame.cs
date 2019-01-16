@@ -17,19 +17,6 @@ namespace EaslyController.Frame
     {
         #region Client Interface
         /// <summary>
-        /// Create cells for the provided state view.
-        /// </summary>
-        /// <param name="context">Context used to build the cell view tree.</param>
-        /// <param name="parentCellView">The parent cell view.</param>
-        public override IFrameCellView BuildNodeCells(IFrameCellViewTreeContext context, IFrameCellViewCollection parentCellView)
-        {
-            IFrameVisibleCellView EmbeddingCellView = CreateFrameCellView(context.StateView);
-            return EmbeddingCellView;
-        }
-        #endregion
-
-        #region Client Interface
-        /// <summary>
         /// Checks that a frame is correctly constructed.
         /// </summary>
         /// <param name="nodeType">Type of the node this frame can describe.</param>
@@ -43,6 +30,17 @@ namespace EaslyController.Frame
                 return false;
 
             return true;
+        }
+
+        /// <summary>
+        /// Create cells for the provided state view.
+        /// </summary>
+        /// <param name="context">Context used to build the cell view tree.</param>
+        /// <param name="parentCellView">The parent cell view.</param>
+        public override IFrameCellView BuildNodeCells(IFrameCellViewTreeContext context, IFrameCellViewCollection parentCellView)
+        {
+            IFrameVisibleCellView EmbeddingCellView = CreateFrameCellView(context.StateView);
+            return EmbeddingCellView;
         }
         #endregion
 
