@@ -478,6 +478,7 @@
     <Compile Include="04-Focus\Template\Focus_NodeTemplate.cs" />
     <Compile Include="04-Focus\Template\Focus_Template.cs" />
     <Compile Include="04-Focus\Template\Focus_TemplateSet.cs" />
+    <Compile Include="Controller\CaretModes.cs" />
     <Compile Include="Controller\Symbols.cs" />
     <Compile Include="Controller\TypeMarkupExtension.cs" />
     <Compile Include="Controller\CompareEqual.cs" />

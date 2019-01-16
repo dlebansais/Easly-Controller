@@ -50,6 +50,21 @@ namespace EaslyController.Focus
         int MaxFocusMove { get; }
 
         /// <summary>
+        /// Position of the caret in a string property with the focus, -1 otherwise.
+        /// </summary>
+        int CaretPosition { get; }
+
+        /// <summary>
+        /// Current caret mode when editing text.
+        /// </summary>
+        CaretModes CaretMode { get; }
+
+        /// <summary>
+        /// Current text if the focus is on a string property. Null otherwise.
+        /// </summary>
+        string FocusedText { get; }
+
+        /// <summary>
         /// Checks if the template associated to the <paramref name="propertyName"/> property of the <paramref name="stateView"/> state is complex.
         /// </summary>
         /// <param name="stateView">The state view for the node with property <paramref name="propertyName"/>.</param>
@@ -96,6 +111,19 @@ namespace EaslyController.Focus
         /// </summary>
         /// <param name="direction">The change in position, relative to the current position.</param>
         void MoveFocus(int direction);
+
+        /// <summary>
+        /// Changes the caret position. Does nothing if the focus isn't on a string property.
+        /// </summary>
+        /// <param name="position">The new position.</param>
+        /// <returns>True if the position was changed. False otherwise.</returns>
+        bool SetCaretPosition(int position);
+
+        /// <summary>
+        /// Changes the caret mode.
+        /// </summary>
+        /// <param name="mode">The new mode.</param>
+        void SetCaretMode(CaretModes mode);
     }
 
     /// <summary>
@@ -179,6 +207,36 @@ namespace EaslyController.Focus
                 Debug.Assert(FocusIndex >= 0 && FocusIndex < FocusChain.Count);
 
                 return FocusChain.Count - FocusIndex - 1;
+            }
+        }
+
+        /// <summary>
+        /// Position of the caret in a string property with the focus, -1 otherwise.
+        /// </summary>
+        public int CaretPosition { get; private set; }
+
+        /// <summary>
+        /// Current caret mode when editing text.
+        /// </summary>
+        public CaretModes CaretMode { get; private set; }
+
+        /// <summary>
+        /// Current text if the focus is on a string property. Null otherwise.
+        /// </summary>
+        public string FocusedText
+        {
+            get
+            {
+                if (FocusedCellView is IFocusTextFocusableCellView AsText)
+                {
+                    INode Node = AsText.StateView.State.Node;
+                    string PropertyName = AsText.PropertyName;
+                    Debug.Assert(PropertyName == "Text");
+
+                    return NodeTreeHelper.GetText(Node);
+                }
+                else
+                    return null;
             }
         }
         #endregion
@@ -342,6 +400,34 @@ namespace EaslyController.Focus
             Debug.Assert(FocusIndex >= 0 && FocusIndex < FocusChain.Count);
             FocusedCellView = FocusChain[FocusIndex];
         }
+
+        /// <summary>
+        /// Changes the caret position. Does nothing if the focus isn't on a string property.
+        /// </summary>
+        /// <param name="position">The new position.</param>
+        /// <returns>True if the position was changed. False otherwise.</returns>
+        public virtual bool SetCaretPosition(int position)
+        {
+            if (FocusedCellView is IFocusTextFocusableCellView AsText)
+            {
+                INode Node = AsText.StateView.State.Node;
+                string PropertyName = AsText.PropertyName;
+                Debug.Assert(PropertyName == "Text");
+
+                return SetTextCaretPosition(Node, position);
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Changes the caret mode.
+        /// </summary>
+        /// <param name="mode">The new mode.</param>
+        public virtual void SetCaretMode(CaretModes mode)
+        {
+            CaretMode = mode;
+        }
         #endregion
 
         #region Implementation
@@ -405,6 +491,7 @@ namespace EaslyController.Focus
             {
                 Debug.Assert(FocusChain == null);
                 FocusedCellView = NewFocusChain[0];
+                ResetCaretPosition();
             }
 
             // If the focus may have forcibly changed.
@@ -465,6 +552,8 @@ namespace EaslyController.Focus
                     if (!IsFrameSet)
                         FocusedCellView = SameStateViewList[0];
                 }
+
+                ResetCaretPosition();
             }
 
             FocusChain = NewFocusChain;
@@ -535,6 +624,32 @@ namespace EaslyController.Focus
 
             selectedStateView = null;
             return false;
+        }
+
+        protected virtual void ResetCaretPosition()
+        {
+            if (FocusedCellView is IFocusTextFocusableCellView AsText)
+                CaretPosition = 0;
+            else
+                CaretPosition = -1;
+        }
+
+        protected virtual bool SetTextCaretPosition(INode node, int position)
+        {
+            string Text = NodeTreeHelper.GetText(node);
+            int OldPosition = CaretPosition;
+
+            if (position < 0)
+                CaretPosition = 0;
+            else if (position >= Text.Length)
+                CaretPosition = Text.Length;
+            else
+                CaretPosition = position;
+
+            if (CaretPosition != OldPosition)
+                return true;
+            else
+                return false;
         }
         #endregion
 
