@@ -14,10 +14,16 @@ namespace EaslyController.Focus
     /// </summary>
     public class FocusNodeSemanticDictionary<TKey> : Dictionary<TKey, IFocusNodeSemantic>, IFocusNodeSemanticDictionary<TKey>
     {
+        /// <summary>
+        /// Initializes a new instance of a <see cref="FocusNodeSemanticDictionary{TKey}"/> object.
+        /// </summary>
         public FocusNodeSemanticDictionary()
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of a <see cref="FocusNodeSemanticDictionary{TKey}"/> object.
+        /// </summary>
         public FocusNodeSemanticDictionary(IDictionary<TKey, IFocusNodeSemantic> dictionary)
             : base(dictionary)
         {

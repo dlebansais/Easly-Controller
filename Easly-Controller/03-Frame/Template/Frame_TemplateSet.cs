@@ -220,7 +220,7 @@ namespace EaslyController.Frame
         #endregion
 
         #region Helper
-        protected IFrameTemplateSet BuildDefault()
+        protected virtual IFrameTemplateSet BuildDefault()
         {
             if (_Default != null && _Default.GetType() == GetType()) // Recreate the default if the layer has changed.
                 return _Default;

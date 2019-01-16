@@ -19,7 +19,7 @@ namespace EaslyController.Focus
         /// <summary>
         /// Checks that semantics are valid for nodes.
         /// </summary>
-        /// <param name="nodeTemplateTable">Table of semantics.</param>
+        /// <param name="nodeSemanticTable">Table of semantics.</param>
         bool IsValid(IFocusNodeSemanticDictionary<Type> nodeSemanticTable);
 
         /// <summary>
@@ -63,7 +63,7 @@ namespace EaslyController.Focus
         /// <summary>
         /// Checks that semantics are valid for nodes.
         /// </summary>
-        /// <param name="nodeTemplateTable">Table of semantics.</param>
+        /// <param name="nodeSemanticTable">Table of semantics.</param>
         public virtual bool IsValid(IFocusNodeSemanticDictionary<Type> nodeSemanticTable)
         {
             Debug.Assert(nodeSemanticTable != null);

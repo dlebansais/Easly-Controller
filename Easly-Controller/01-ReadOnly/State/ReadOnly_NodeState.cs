@@ -145,7 +145,7 @@ namespace EaslyController.ReadOnly
             CheckInvariant();
         }
 
-        protected void InitParentState(IReadOnlyNodeState parentState)
+        protected virtual void InitParentState(IReadOnlyNodeState parentState)
         {
             Debug.Assert(parentState != null);
             Debug.Assert(ParentState == null);
@@ -153,7 +153,7 @@ namespace EaslyController.ReadOnly
             ParentState = parentState;
         }
 
-        protected void InitParentInner(IReadOnlyInner<IReadOnlyBrowsingChildIndex> parentInner)
+        protected virtual void InitParentInner(IReadOnlyInner<IReadOnlyBrowsingChildIndex> parentInner)
         {
             Debug.Assert(ParentInner == null);
 

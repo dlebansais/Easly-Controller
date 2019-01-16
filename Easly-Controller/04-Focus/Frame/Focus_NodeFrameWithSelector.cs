@@ -1,5 +1,8 @@
 ﻿namespace EaslyController.Focus
 {
+    /// <summary>
+    /// Frame that can have selectors.
+    /// </summary>
     public interface IFocusNodeFrameWithSelector : IFocusNodeFrame
     {
         /// <summary>
