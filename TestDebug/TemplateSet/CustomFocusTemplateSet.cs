@@ -111,6 +111,9 @@ namespace TestDebug
                 <FocusKeywordFrame>class</FocusKeywordFrame>
                 <FocusPlaceholderFrame PropertyName=""EntityName"" IsPreferred=""True""/>
                 <FocusHorizontalPanelFrame>
+                    <FocusHorizontalPanelFrame.Visibility>
+                        <FocusOptionalFrameVisibility PropertyName=""FromIdentifier""/>
+                    </FocusHorizontalPanelFrame.Visibility>
                     <FocusKeywordFrame>from</FocusKeywordFrame>
                     <FocusOptionalFrame PropertyName=""FromIdentifier"">
                         <FocusOptionalFrame.Selectors>
@@ -390,6 +393,9 @@ namespace TestDebug
         <FocusHorizontalPanelFrame>
             <FocusPlaceholderFrame PropertyName=""EntityName"" />
             <FocusHorizontalPanelFrame>
+                <FocusHorizontalPanelFrame.Visibility>
+                    <FocusOptionalFrameVisibility PropertyName=""NumericValue""/>
+                </FocusHorizontalPanelFrame.Visibility>
                 <FocusKeywordFrame>=</FocusKeywordFrame>
                 <FocusOptionalFrame PropertyName=""NumericValue"" />
             </FocusHorizontalPanelFrame>
@@ -401,6 +407,9 @@ namespace TestDebug
             <FocusKeywordFrame>:</FocusKeywordFrame>
             <FocusPlaceholderFrame PropertyName=""EntityType"" />
             <FocusHorizontalPanelFrame>
+                <FocusHorizontalPanelFrame.Visibility>
+                    <FocusOptionalFrameVisibility PropertyName=""DefaultValue""/>
+                </FocusHorizontalPanelFrame.Visibility>
                 <FocusKeywordFrame>=</FocusKeywordFrame>
                 <FocusOptionalFrame PropertyName=""DefaultValue"" />
             </FocusHorizontalPanelFrame>
@@ -451,6 +460,9 @@ namespace TestDebug
             <FocusHorizontalPanelFrame>
                 <FocusPlaceholderFrame PropertyName=""EntityName"" />
                 <FocusHorizontalPanelFrame>
+                    <FocusHorizontalPanelFrame.Visibility>
+                        <FocusOptionalFrameVisibility PropertyName=""DefaultValue""/>
+                    </FocusHorizontalPanelFrame.Visibility>
                     <FocusKeywordFrame>=</FocusKeywordFrame>
                     <FocusOptionalFrame PropertyName=""DefaultValue"" />
                 </FocusHorizontalPanelFrame>
@@ -495,6 +507,9 @@ namespace TestDebug
                     </FocusPlaceholderFrame.Selectors>
                 </FocusPlaceholderFrame>
                 <FocusHorizontalPanelFrame>
+                    <FocusHorizontalPanelFrame.Visibility>
+                        <FocusOptionalFrameVisibility PropertyName=""FromIdentifier""/>
+                    </FocusHorizontalPanelFrame.Visibility>
                     <FocusKeywordFrame>from</FocusKeywordFrame>
                     <FocusOptionalFrame PropertyName=""FromIdentifier"">
                         <FocusOptionalFrame.Selectors>
