@@ -291,16 +291,7 @@ namespace EditorDebug
                 {
                     case IFocusDiscreteContentFocusableCellView AsDiscreteContentFocusable: // Enum, bool
                         Child.Foreground = Brushes.Purple;
-                        PropertyName = AsDiscreteContentFocusable.PropertyName;
-                        if (NodeTreeHelper.IsEnumProperty(ChildNode, PropertyName))
-                            Child.Text = $"{PropertyName}: {NodeTreeHelper.GetEnumValue(ChildNode, PropertyName)}";
-                        else if (NodeTreeHelper.IsBooleanProperty(ChildNode, PropertyName))
-                            if (NodeTreeHelper.GetEnumValue(ChildNode, PropertyName) != 0)
-                                Child.Text = $"{PropertyName}: True";
-                            else
-                                Child.Text = $"{PropertyName}: False";
-                        else
-                            throw new ArgumentOutOfRangeException(nameof(CellView));
+                        Child.Text = AsDiscreteContentFocusable.KeywordFrame.Text;
                         break;
                     case IFocusTextFocusableCellView AsTextFocusable: // String
                         Child.Text = NodeTreeHelper.GetText(ChildNode);

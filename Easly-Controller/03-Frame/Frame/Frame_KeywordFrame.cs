@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Windows.Markup;
 
 namespace EaslyController.Frame
@@ -6,7 +7,7 @@ namespace EaslyController.Frame
     /// <summary>
     /// Frame for decoration purpose only.
     /// </summary>
-    public interface IFrameKeywordFrame : IFrameStaticFrame
+    public interface IFrameKeywordFrame : IFrameStaticFrame, IFrameBlockFrame
     {
         /// <summary>
         /// Free text.
@@ -44,6 +45,15 @@ namespace EaslyController.Frame
                 return false;
 
             return true;
+        }
+
+        /// <summary>
+        /// Create cells for the provided state view.
+        /// </summary>
+        /// <param name="context">Context used to build the cell view tree.</param>
+        public virtual IFrameCellView BuildBlockCells(IFrameCellViewTreeContext context)
+        {
+            return CreateFrameCellView(context.StateView);
         }
         #endregion
     }

@@ -109,7 +109,7 @@ namespace TestDebug
                     <FocusKeywordFrame>abstract</FocusKeywordFrame>
                 </FocusDiscreteFrame>
                 <FocusKeywordFrame>class</FocusKeywordFrame>
-                <FocusPlaceholderFrame PropertyName=""EntityName""/>
+                <FocusPlaceholderFrame PropertyName=""EntityName"" IsPreferred=""True""/>
                 <FocusHorizontalPanelFrame>
                     <FocusKeywordFrame>from</FocusKeywordFrame>
                     <FocusOptionalFrame PropertyName=""FromIdentifier"">
@@ -2692,7 +2692,11 @@ namespace TestDebug
                 <FocusKeywordFrame>All</FocusKeywordFrame>
             </FocusHorizontalPanelFrame>
             <FocusHorizontalCollectionPlaceholderFrame/>
-            <FocusKeywordFrame Text=""end""/>
+            <FocusKeywordFrame Text=""end"">
+                <FocusKeywordFrame.BlockVisibility>
+                    <FocusReplicationFrameVisibility/>
+                </FocusKeywordFrame.BlockVisibility>
+            </FocusKeywordFrame>
         </FocusHorizontalPanelFrame>
     </FocusBlockTemplate>
     <FocusBlockTemplate NodeType=""{xaml:Type IBlock,IAssertion,Assertion}"">
@@ -2712,7 +2716,11 @@ namespace TestDebug
                 <FocusKeywordFrame>All</FocusKeywordFrame>
             </FocusHorizontalPanelFrame>
             <FocusVerticalCollectionPlaceholderFrame/>
-            <FocusKeywordFrame Text=""end""/>
+            <FocusKeywordFrame Text=""end"">
+                <FocusKeywordFrame.BlockVisibility>
+                    <FocusReplicationFrameVisibility/>
+                </FocusKeywordFrame.BlockVisibility>
+            </FocusKeywordFrame>
         </FocusVerticalPanelFrame>
     </FocusBlockTemplate>
     <FocusBlockTemplate NodeType=""{xaml:Type IBlock,IAssignmentArgument,AssignmentArgument}"">
@@ -2732,7 +2740,11 @@ namespace TestDebug
                 <FocusKeywordFrame>All</FocusKeywordFrame>
             </FocusHorizontalPanelFrame>
             <FocusHorizontalCollectionPlaceholderFrame/>
-            <FocusKeywordFrame Text=""end""/>
+            <FocusKeywordFrame Text=""end"">
+                <FocusKeywordFrame.BlockVisibility>
+                    <FocusReplicationFrameVisibility/>
+                </FocusKeywordFrame.BlockVisibility>
+            </FocusKeywordFrame>
         </FocusHorizontalPanelFrame>
     </FocusBlockTemplate>
     <FocusBlockTemplate NodeType=""{xaml:Type IBlock,IAttachment,Attachment}"">
@@ -2752,7 +2764,11 @@ namespace TestDebug
                 <FocusKeywordFrame>All</FocusKeywordFrame>
             </FocusHorizontalPanelFrame>
             <FocusVerticalCollectionPlaceholderFrame/>
-            <FocusKeywordFrame Text=""end""/>
+            <FocusKeywordFrame Text=""end"">
+                <FocusKeywordFrame.BlockVisibility>
+                    <FocusReplicationFrameVisibility/>
+                </FocusKeywordFrame.BlockVisibility>
+            </FocusKeywordFrame>
         </FocusVerticalPanelFrame>
     </FocusBlockTemplate>
     <FocusBlockTemplate NodeType=""{xaml:Type IBlock,IClass,Class}"">
@@ -2772,7 +2788,11 @@ namespace TestDebug
                 <FocusKeywordFrame>All</FocusKeywordFrame>
             </FocusHorizontalPanelFrame>
             <FocusVerticalCollectionPlaceholderFrame/>
-            <FocusKeywordFrame Text=""end""/>
+            <FocusKeywordFrame Text=""end"">
+                <FocusKeywordFrame.BlockVisibility>
+                    <FocusReplicationFrameVisibility/>
+                </FocusKeywordFrame.BlockVisibility>
+            </FocusKeywordFrame>
         </FocusVerticalPanelFrame>
     </FocusBlockTemplate>
     <FocusBlockTemplate NodeType=""{xaml:Type IBlock,IClassReplicate,ClassReplicate}"">
@@ -2792,7 +2812,11 @@ namespace TestDebug
                 <FocusKeywordFrame>All</FocusKeywordFrame>
             </FocusHorizontalPanelFrame>
             <FocusHorizontalCollectionPlaceholderFrame/>
-            <FocusKeywordFrame Text=""end""/>
+            <FocusKeywordFrame Text=""end"">
+                <FocusKeywordFrame.BlockVisibility>
+                    <FocusReplicationFrameVisibility/>
+                </FocusKeywordFrame.BlockVisibility>
+            </FocusKeywordFrame>
         </FocusHorizontalPanelFrame>
     </FocusBlockTemplate>
     <FocusBlockTemplate NodeType=""{xaml:Type IBlock,ICommandOverload,CommandOverload}"">
@@ -2812,7 +2836,11 @@ namespace TestDebug
                 <FocusKeywordFrame>All</FocusKeywordFrame>
             </FocusHorizontalPanelFrame>
             <FocusVerticalCollectionPlaceholderFrame/>
-            <FocusKeywordFrame Text=""end""/>
+            <FocusKeywordFrame Text=""end"">
+                <FocusKeywordFrame.BlockVisibility>
+                    <FocusReplicationFrameVisibility/>
+                </FocusKeywordFrame.BlockVisibility>
+            </FocusKeywordFrame>
         </FocusVerticalPanelFrame>
     </FocusBlockTemplate>
     <FocusBlockTemplate NodeType=""{xaml:Type IBlock,ICommandOverloadType,CommandOverloadType}"">
@@ -2832,7 +2860,11 @@ namespace TestDebug
                 <FocusKeywordFrame>All</FocusKeywordFrame>
             </FocusHorizontalPanelFrame>
             <FocusVerticalCollectionPlaceholderFrame/>
-            <FocusKeywordFrame Text=""end""/>
+            <FocusKeywordFrame Text=""end"">
+                <FocusKeywordFrame.BlockVisibility>
+                    <FocusReplicationFrameVisibility/>
+                </FocusKeywordFrame.BlockVisibility>
+            </FocusKeywordFrame>
         </FocusVerticalPanelFrame>
     </FocusBlockTemplate>
     <FocusBlockTemplate NodeType=""{xaml:Type IBlock,IConditional,Conditional}"">
@@ -2852,7 +2884,11 @@ namespace TestDebug
                 <FocusKeywordFrame>All</FocusKeywordFrame>
             </FocusHorizontalPanelFrame>
             <FocusVerticalCollectionPlaceholderFrame/>
-            <FocusKeywordFrame Text=""end""/>
+            <FocusKeywordFrame Text=""end"">
+                <FocusKeywordFrame.BlockVisibility>
+                    <FocusReplicationFrameVisibility/>
+                </FocusKeywordFrame.BlockVisibility>
+            </FocusKeywordFrame>
         </FocusVerticalPanelFrame>
     </FocusBlockTemplate>
     <FocusBlockTemplate NodeType=""{xaml:Type IBlock,IConstraint,Constraint}"">
@@ -2872,7 +2908,11 @@ namespace TestDebug
                 <FocusKeywordFrame>All</FocusKeywordFrame>
             </FocusHorizontalPanelFrame>
             <FocusHorizontalCollectionPlaceholderFrame/>
-            <FocusKeywordFrame Text=""end""/>
+            <FocusKeywordFrame Text=""end"">
+                <FocusKeywordFrame.BlockVisibility>
+                    <FocusReplicationFrameVisibility/>
+                </FocusKeywordFrame.BlockVisibility>
+            </FocusKeywordFrame>
         </FocusHorizontalPanelFrame>
     </FocusBlockTemplate>
     <FocusBlockTemplate NodeType=""{xaml:Type IBlock,IContinuation,Continuation}"">
@@ -2892,7 +2932,11 @@ namespace TestDebug
                 <FocusKeywordFrame>All</FocusKeywordFrame>
             </FocusHorizontalPanelFrame>
             <FocusVerticalCollectionPlaceholderFrame/>
-            <FocusKeywordFrame Text=""end""/>
+            <FocusKeywordFrame Text=""end"">
+                <FocusKeywordFrame.BlockVisibility>
+                    <FocusReplicationFrameVisibility/>
+                </FocusKeywordFrame.BlockVisibility>
+            </FocusKeywordFrame>
         </FocusVerticalPanelFrame>
     </FocusBlockTemplate>
     <FocusBlockTemplate NodeType=""{xaml:Type IBlock,IDiscrete,Discrete}"">
@@ -2912,7 +2956,11 @@ namespace TestDebug
                 <FocusKeywordFrame>All</FocusKeywordFrame>
             </FocusHorizontalPanelFrame>
             <FocusVerticalCollectionPlaceholderFrame/>
-            <FocusKeywordFrame Text=""end""/>
+            <FocusKeywordFrame Text=""end"">
+                <FocusKeywordFrame.BlockVisibility>
+                    <FocusReplicationFrameVisibility/>
+                </FocusKeywordFrame.BlockVisibility>
+            </FocusKeywordFrame>
         </FocusVerticalPanelFrame>
     </FocusBlockTemplate>
     <FocusBlockTemplate NodeType=""{xaml:Type IBlock,IEntityDeclaration,EntityDeclaration}"">
@@ -2932,7 +2980,11 @@ namespace TestDebug
                 <FocusKeywordFrame>All</FocusKeywordFrame>
             </FocusHorizontalPanelFrame>
             <FocusVerticalCollectionPlaceholderFrame/>
-            <FocusKeywordFrame Text=""end""/>
+            <FocusKeywordFrame Text=""end"">
+                <FocusKeywordFrame.BlockVisibility>
+                    <FocusReplicationFrameVisibility/>
+                </FocusKeywordFrame.BlockVisibility>
+            </FocusKeywordFrame>
         </FocusVerticalPanelFrame>
     </FocusBlockTemplate>
     <FocusBlockTemplate NodeType=""{xaml:Type IBlock,IExceptionHandler,ExceptionHandler}"">
@@ -2952,7 +3004,11 @@ namespace TestDebug
                 <FocusKeywordFrame>All</FocusKeywordFrame>
             </FocusHorizontalPanelFrame>
             <FocusVerticalCollectionPlaceholderFrame/>
-            <FocusKeywordFrame Text=""end""/>
+            <FocusKeywordFrame Text=""end"">
+                <FocusKeywordFrame.BlockVisibility>
+                    <FocusReplicationFrameVisibility/>
+                </FocusKeywordFrame.BlockVisibility>
+            </FocusKeywordFrame>
         </FocusVerticalPanelFrame>
     </FocusBlockTemplate>
     <FocusBlockTemplate NodeType=""{xaml:Type IBlock,IExport,Export}"">
@@ -2972,7 +3028,11 @@ namespace TestDebug
                 <FocusKeywordFrame>All</FocusKeywordFrame>
             </FocusHorizontalPanelFrame>
             <FocusHorizontalCollectionPlaceholderFrame/>
-            <FocusKeywordFrame Text=""end""/>
+            <FocusKeywordFrame Text=""end"">
+                <FocusKeywordFrame.BlockVisibility>
+                    <FocusReplicationFrameVisibility/>
+                </FocusKeywordFrame.BlockVisibility>
+            </FocusKeywordFrame>
         </FocusHorizontalPanelFrame>
     </FocusBlockTemplate>
     <FocusBlockTemplate NodeType=""{xaml:Type IBlock,IExportChange,ExportChange}"">
@@ -2992,7 +3052,11 @@ namespace TestDebug
                 <FocusKeywordFrame>All</FocusKeywordFrame>
             </FocusHorizontalPanelFrame>
             <FocusHorizontalCollectionPlaceholderFrame/>
-            <FocusKeywordFrame Text=""end""/>
+            <FocusKeywordFrame Text=""end"">
+                <FocusKeywordFrame.BlockVisibility>
+                    <FocusReplicationFrameVisibility/>
+                </FocusKeywordFrame.BlockVisibility>
+            </FocusKeywordFrame>
         </FocusHorizontalPanelFrame>
     </FocusBlockTemplate>
     <FocusBlockTemplate NodeType=""{xaml:Type IBlock,IFeature,Feature}"">
@@ -3012,7 +3076,11 @@ namespace TestDebug
                 <FocusKeywordFrame>All</FocusKeywordFrame>
             </FocusHorizontalPanelFrame>
             <FocusVerticalCollectionPlaceholderFrame/>
-            <FocusKeywordFrame Text=""end""/>
+            <FocusKeywordFrame Text=""end"">
+                <FocusKeywordFrame.BlockVisibility>
+                    <FocusReplicationFrameVisibility/>
+                </FocusKeywordFrame.BlockVisibility>
+            </FocusKeywordFrame>
         </FocusVerticalPanelFrame>
     </FocusBlockTemplate>
     <FocusBlockTemplate NodeType=""{xaml:Type IBlock,IGeneric,Generic}"">
@@ -3032,7 +3100,11 @@ namespace TestDebug
                 <FocusKeywordFrame>All</FocusKeywordFrame>
             </FocusHorizontalPanelFrame>
             <FocusVerticalCollectionPlaceholderFrame/>
-            <FocusKeywordFrame Text=""end""/>
+            <FocusKeywordFrame Text=""end"">
+                <FocusKeywordFrame.BlockVisibility>
+                    <FocusReplicationFrameVisibility/>
+                </FocusKeywordFrame.BlockVisibility>
+            </FocusKeywordFrame>
         </FocusVerticalPanelFrame>
     </FocusBlockTemplate>
     <FocusBlockTemplate NodeType=""{xaml:Type IBlock,IIdentifier,Identifier}"">
@@ -3052,7 +3124,11 @@ namespace TestDebug
                 <FocusKeywordFrame>All</FocusKeywordFrame>
             </FocusHorizontalPanelFrame>
             <FocusHorizontalCollectionPlaceholderFrame/>
-            <FocusKeywordFrame Text=""end""/>
+            <FocusKeywordFrame Text=""end"">
+                <FocusKeywordFrame.BlockVisibility>
+                    <FocusReplicationFrameVisibility/>
+                </FocusKeywordFrame.BlockVisibility>
+            </FocusKeywordFrame>
         </FocusHorizontalPanelFrame>
     </FocusBlockTemplate>
     <FocusBlockTemplate NodeType=""{xaml:Type IBlock,IImport,Import}"">
@@ -3072,7 +3148,11 @@ namespace TestDebug
                 <FocusKeywordFrame>All</FocusKeywordFrame>
             </FocusHorizontalPanelFrame>
             <FocusVerticalCollectionPlaceholderFrame/>
-            <FocusKeywordFrame Text=""end""/>
+            <FocusKeywordFrame Text=""end"">
+                <FocusKeywordFrame.BlockVisibility>
+                    <FocusReplicationFrameVisibility/>
+                </FocusKeywordFrame.BlockVisibility>
+            </FocusKeywordFrame>
         </FocusVerticalPanelFrame>
     </FocusBlockTemplate>
     <FocusBlockTemplate NodeType=""{xaml:Type IBlock,IInheritance,Inheritance}"">
@@ -3092,7 +3172,11 @@ namespace TestDebug
                 <FocusKeywordFrame>All</FocusKeywordFrame>
             </FocusHorizontalPanelFrame>
             <FocusVerticalCollectionPlaceholderFrame/>
-            <FocusKeywordFrame Text=""end""/>
+            <FocusKeywordFrame Text=""end"">
+                <FocusKeywordFrame.BlockVisibility>
+                    <FocusReplicationFrameVisibility/>
+                </FocusKeywordFrame.BlockVisibility>
+            </FocusKeywordFrame>
         </FocusVerticalPanelFrame>
     </FocusBlockTemplate>
     <FocusBlockTemplate NodeType=""{xaml:Type IBlock,IInstruction,Instruction}"">
@@ -3112,7 +3196,11 @@ namespace TestDebug
                 <FocusKeywordFrame>All</FocusKeywordFrame>
             </FocusHorizontalPanelFrame>
             <FocusVerticalCollectionPlaceholderFrame/>
-            <FocusKeywordFrame Text=""end""/>
+            <FocusKeywordFrame Text=""end"">
+                <FocusKeywordFrame.BlockVisibility>
+                    <FocusReplicationFrameVisibility/>
+                </FocusKeywordFrame.BlockVisibility>
+            </FocusKeywordFrame>
         </FocusVerticalPanelFrame>
     </FocusBlockTemplate>
     <FocusBlockTemplate NodeType=""{xaml:Type IBlock,ILibrary,Library}"">
@@ -3132,7 +3220,11 @@ namespace TestDebug
                 <FocusKeywordFrame>All</FocusKeywordFrame>
             </FocusHorizontalPanelFrame>
             <FocusVerticalCollectionPlaceholderFrame/>
-            <FocusKeywordFrame Text=""end""/>
+            <FocusKeywordFrame Text=""end"">
+                <FocusKeywordFrame.BlockVisibility>
+                    <FocusReplicationFrameVisibility/>
+                </FocusKeywordFrame.BlockVisibility>
+            </FocusKeywordFrame>
         </FocusVerticalPanelFrame>
     </FocusBlockTemplate>
     <FocusBlockTemplate NodeType=""{xaml:Type IBlock,IName,Name}"">
@@ -3152,7 +3244,11 @@ namespace TestDebug
                 <FocusKeywordFrame>All</FocusKeywordFrame>
             </FocusHorizontalPanelFrame>
             <FocusHorizontalCollectionPlaceholderFrame/>
-            <FocusKeywordFrame Text=""end""/>
+            <FocusKeywordFrame Text=""end"">
+                <FocusKeywordFrame.BlockVisibility>
+                    <FocusReplicationFrameVisibility/>
+                </FocusKeywordFrame.BlockVisibility>
+            </FocusKeywordFrame>
         </FocusHorizontalPanelFrame>
     </FocusBlockTemplate>
     <FocusBlockTemplate NodeType=""{xaml:Type IBlock,IObjectType,ObjectType}"">
@@ -3172,7 +3268,11 @@ namespace TestDebug
                 <FocusKeywordFrame>All</FocusKeywordFrame>
             </FocusHorizontalPanelFrame>
             <FocusHorizontalCollectionPlaceholderFrame/>
-            <FocusKeywordFrame Text=""end""/>
+            <FocusKeywordFrame Text=""end"">
+                <FocusKeywordFrame.BlockVisibility>
+                    <FocusReplicationFrameVisibility/>
+                </FocusKeywordFrame.BlockVisibility>
+            </FocusKeywordFrame>
         </FocusHorizontalPanelFrame>
     </FocusBlockTemplate>
     <FocusBlockTemplate NodeType=""{xaml:Type IBlock,IPattern,Pattern}"">
@@ -3192,7 +3292,11 @@ namespace TestDebug
                 <FocusKeywordFrame>All</FocusKeywordFrame>
             </FocusHorizontalPanelFrame>
             <FocusHorizontalCollectionPlaceholderFrame/>
-            <FocusKeywordFrame Text=""end""/>
+            <FocusKeywordFrame Text=""end"">
+                <FocusKeywordFrame.BlockVisibility>
+                    <FocusReplicationFrameVisibility/>
+                </FocusKeywordFrame.BlockVisibility>
+            </FocusKeywordFrame>
         </FocusHorizontalPanelFrame>
     </FocusBlockTemplate>
     <FocusBlockTemplate NodeType=""{xaml:Type IBlock,IQualifiedName,QualifiedName}"">
@@ -3212,7 +3316,11 @@ namespace TestDebug
                 <FocusKeywordFrame>All</FocusKeywordFrame>
             </FocusHorizontalPanelFrame>
             <FocusHorizontalCollectionPlaceholderFrame/>
-            <FocusKeywordFrame Text=""end""/>
+            <FocusKeywordFrame Text=""end"">
+                <FocusKeywordFrame.BlockVisibility>
+                    <FocusReplicationFrameVisibility/>
+                </FocusKeywordFrame.BlockVisibility>
+            </FocusKeywordFrame>
         </FocusHorizontalPanelFrame>
     </FocusBlockTemplate>
     <FocusBlockTemplate NodeType=""{xaml:Type IBlock,IQueryOverload,QueryOverload}"">
@@ -3232,7 +3340,11 @@ namespace TestDebug
                 <FocusKeywordFrame>All</FocusKeywordFrame>
             </FocusHorizontalPanelFrame>
             <FocusVerticalCollectionPlaceholderFrame/>
-            <FocusKeywordFrame Text=""end""/>
+            <FocusKeywordFrame Text=""end"">
+                <FocusKeywordFrame.BlockVisibility>
+                    <FocusReplicationFrameVisibility/>
+                </FocusKeywordFrame.BlockVisibility>
+            </FocusKeywordFrame>
         </FocusVerticalPanelFrame>
     </FocusBlockTemplate>
     <FocusBlockTemplate NodeType=""{xaml:Type IBlock,IQueryOverloadType,QueryOverloadType}"">
@@ -3252,7 +3364,11 @@ namespace TestDebug
                 <FocusKeywordFrame>All</FocusKeywordFrame>
             </FocusHorizontalPanelFrame>
             <FocusVerticalCollectionPlaceholderFrame/>
-            <FocusKeywordFrame Text=""end""/>
+            <FocusKeywordFrame Text=""end"">
+                <FocusKeywordFrame.BlockVisibility>
+                    <FocusReplicationFrameVisibility/>
+                </FocusKeywordFrame.BlockVisibility>
+            </FocusKeywordFrame>
         </FocusVerticalPanelFrame>
     </FocusBlockTemplate>
     <FocusBlockTemplate NodeType=""{xaml:Type IBlock,IRange,Range}"">
@@ -3272,7 +3388,11 @@ namespace TestDebug
                 <FocusKeywordFrame>All</FocusKeywordFrame>
             </FocusHorizontalPanelFrame>
             <FocusHorizontalCollectionPlaceholderFrame/>
-            <FocusKeywordFrame Text=""end""/>
+            <FocusKeywordFrame Text=""end"">
+                <FocusKeywordFrame.BlockVisibility>
+                    <FocusReplicationFrameVisibility/>
+                </FocusKeywordFrame.BlockVisibility>
+            </FocusKeywordFrame>
         </FocusHorizontalPanelFrame>
     </FocusBlockTemplate>
     <FocusBlockTemplate NodeType=""{xaml:Type IBlock,IRename,Rename}"">
@@ -3292,7 +3412,11 @@ namespace TestDebug
                 <FocusKeywordFrame>All</FocusKeywordFrame>
             </FocusHorizontalPanelFrame>
             <FocusVerticalCollectionPlaceholderFrame/>
-            <FocusKeywordFrame Text=""end""/>
+            <FocusKeywordFrame Text=""end"">
+                <FocusKeywordFrame.BlockVisibility>
+                    <FocusReplicationFrameVisibility/>
+                </FocusKeywordFrame.BlockVisibility>
+            </FocusKeywordFrame>
         </FocusVerticalPanelFrame>
     </FocusBlockTemplate>
     <FocusBlockTemplate NodeType=""{xaml:Type IBlock,ITypeArgument,TypeArgument}"">
@@ -3312,7 +3436,11 @@ namespace TestDebug
                 <FocusKeywordFrame>All</FocusKeywordFrame>
             </FocusHorizontalPanelFrame>
             <FocusHorizontalCollectionPlaceholderFrame/>
-            <FocusKeywordFrame Text=""end""/>
+            <FocusKeywordFrame Text=""end"">
+                <FocusKeywordFrame.BlockVisibility>
+                    <FocusReplicationFrameVisibility/>
+                </FocusKeywordFrame.BlockVisibility>
+            </FocusKeywordFrame>
         </FocusHorizontalPanelFrame>
     </FocusBlockTemplate>
     <FocusBlockTemplate NodeType=""{xaml:Type IBlock,ITypedef,Typedef}"">
@@ -3332,7 +3460,11 @@ namespace TestDebug
                 <FocusKeywordFrame>All</FocusKeywordFrame>
             </FocusHorizontalPanelFrame>
             <FocusVerticalCollectionPlaceholderFrame/>
-            <FocusKeywordFrame Text=""end""/>
+            <FocusKeywordFrame Text=""end"">
+                <FocusKeywordFrame.BlockVisibility>
+                    <FocusReplicationFrameVisibility/>
+                </FocusKeywordFrame.BlockVisibility>
+            </FocusKeywordFrame>
         </FocusVerticalPanelFrame>
     </FocusBlockTemplate>
     <FocusBlockTemplate NodeType=""{xaml:Type IBlock,IWith,With}"">
@@ -3352,7 +3484,11 @@ namespace TestDebug
                 <FocusKeywordFrame>All</FocusKeywordFrame>
             </FocusHorizontalPanelFrame>
             <FocusVerticalCollectionPlaceholderFrame/>
-            <FocusKeywordFrame Text=""end""/>
+            <FocusKeywordFrame Text=""end"">
+                <FocusKeywordFrame.BlockVisibility>
+                    <FocusReplicationFrameVisibility/>
+                </FocusKeywordFrame.BlockVisibility>
+            </FocusKeywordFrame>
         </FocusVerticalPanelFrame>
     </FocusBlockTemplate>
 </FocusTemplateList>

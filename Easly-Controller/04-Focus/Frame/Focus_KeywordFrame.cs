@@ -7,7 +7,7 @@ namespace EaslyController.Focus
     /// <summary>
     /// Focus for decoration purpose only.
     /// </summary>
-    public interface IFocusKeywordFrame : IFrameKeywordFrame, IFocusFrame, IFocusNodeFrameWithVisibility
+    public interface IFocusKeywordFrame : IFrameKeywordFrame, IFocusFrame, IFocusBlockFrame, IFocusNodeFrameWithVisibility
     {
     }
 
@@ -35,6 +35,12 @@ namespace EaslyController.Focus
         public IFocusNodeFrameVisibility Visibility { get; set; }
 
         /// <summary>
+        /// Block frame visibility. Null if always visible.
+        /// (Set in Xaml)
+        /// </summary>
+        public IFocusBlockFrameVisibility BlockVisibility { get; set; }
+
+        /// <summary>
         /// Indicates that this is the preferred frame when restoring the focus.
         /// (Set in Xaml)
         /// </summary>
@@ -55,6 +61,9 @@ namespace EaslyController.Focus
             if (Visibility != null && !Visibility.IsValid(nodeType))
                 return false;
 
+            if (BlockVisibility != null && !BlockVisibility.IsValid(nodeType))
+                return false;
+
             return true;
         }
 
@@ -70,6 +79,25 @@ namespace EaslyController.Focus
             IFocusCellView Result;
             if (((IFocusCellViewTreeContext)context).IsVisible)
                 Result = base.BuildNodeCells(context, parentCellView) as IFocusCellView;
+            else
+                Result = CreateEmptyCellView(((IFocusCellViewTreeContext)context).StateView);
+
+            ((IFocusCellViewTreeContext)context).RestoreFrameVisibility(OldFrameVisibility);
+
+            return Result;
+        }
+
+        /// <summary>
+        /// Create cells for the provided state view.
+        /// </summary>
+        /// <param name="context">Context used to build the cell view tree.</param>
+        public override IFrameCellView BuildBlockCells(IFrameCellViewTreeContext context)
+        {
+            ((IFocusCellViewTreeContext)context).UpdateBlockFrameVisibility(this, out bool OldFrameVisibility);
+
+            IFocusCellView Result;
+            if (((IFocusCellViewTreeContext)context).IsVisible)
+                Result = base.BuildBlockCells(context) as IFocusCellView;
             else
                 Result = CreateEmptyCellView(((IFocusCellViewTreeContext)context).StateView);
 
