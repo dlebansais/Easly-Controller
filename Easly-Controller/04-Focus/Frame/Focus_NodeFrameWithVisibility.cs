@@ -10,5 +10,11 @@
         /// (Set in Xaml)
         /// </summary>
         IFocusNodeFrameVisibility Visibility { get; set; }
+
+        /// <summary>
+        /// Indicates that this is the preferred frame when restoring the focus.
+        /// (Set in Xaml)
+        /// </summary>
+        bool IsPreferred { get; set; }
     }
 }

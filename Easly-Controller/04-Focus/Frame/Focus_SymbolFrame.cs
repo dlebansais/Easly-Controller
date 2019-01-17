@@ -31,6 +31,12 @@ namespace EaslyController.Focus
         /// (Set in Xaml)
         /// </summary>
         public IFocusNodeFrameVisibility Visibility { get; set; }
+
+        /// <summary>
+        /// Indicates that this is the preferred frame when restoring the focus.
+        /// (Set in Xaml)
+        /// </summary>
+        public bool IsPreferred { get; set; }
         #endregion
 
         #region Client Interface

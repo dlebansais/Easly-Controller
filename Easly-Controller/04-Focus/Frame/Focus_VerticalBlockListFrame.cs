@@ -48,6 +48,12 @@ namespace EaslyController.Focus
         /// (Set in Xaml)
         /// </summary>
         public IFocusFrameSelectorList Selectors { get; }
+
+        /// <summary>
+        /// Indicates that this is the preferred frame when restoring the focus.
+        /// (Set in Xaml)
+        /// </summary>
+        public bool IsPreferred { get; set; }
         #endregion
 
         #region Client Interface
@@ -123,9 +129,9 @@ namespace EaslyController.Focus
         /// <param name="lastPreferredFrame">The first preferred frame found.</param>
         public virtual void GetPreferredFrame(ref IFocusNodeFrame firstPreferredFrame, ref IFocusNodeFrame lastPreferredFrame)
         {
-            if (Visibility == null || Visibility.IsVolatile)
+            if (Visibility == null || Visibility.IsVolatile || IsPreferred)
             {
-                if (firstPreferredFrame == null)
+                if (firstPreferredFrame == null || IsPreferred)
                     firstPreferredFrame = this;
 
                 lastPreferredFrame = this;

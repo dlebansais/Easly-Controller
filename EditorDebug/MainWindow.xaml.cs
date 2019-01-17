@@ -290,6 +290,7 @@ namespace EditorDebug
                 switch (CellView)
                 {
                     case IFocusDiscreteContentFocusableCellView AsDiscreteContentFocusable: // Enum, bool
+                        Child.Foreground = Brushes.Purple;
                         PropertyName = AsDiscreteContentFocusable.PropertyName;
                         if (NodeTreeHelper.IsEnumProperty(ChildNode, PropertyName))
                             Child.Text = $"{PropertyName}: {NodeTreeHelper.GetEnumValue(ChildNode, PropertyName)}";

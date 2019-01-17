@@ -109,7 +109,7 @@ namespace TestDebug
                     <FocusKeywordFrame>abstract</FocusKeywordFrame>
                 </FocusDiscreteFrame>
                 <FocusKeywordFrame>class</FocusKeywordFrame>
-                <FocusPlaceholderFrame PropertyName=""EntityName""/>
+                <FocusPlaceholderFrame PropertyName=""EntityName"" IsPreferred=""True""/>
                 <FocusHorizontalPanelFrame>
                     <FocusKeywordFrame>from</FocusKeywordFrame>
                     <FocusOptionalFrame PropertyName=""FromIdentifier"">

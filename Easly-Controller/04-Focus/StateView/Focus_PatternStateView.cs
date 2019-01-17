@@ -72,14 +72,10 @@ namespace EaslyController.Focus
         /// <param name="context">Context used to build the cell view tree.</param>
         public override void BuildRootCellView(IFrameCellViewTreeContext context)
         {
-            ((IFocusCellViewTreeContext)context).ChangeIsUserVisible(IsUserVisible, out bool OldIsUserVisible);
-
             if (((IFocusCellViewTreeContext)context).IsVisible)
                 base.BuildRootCellView(context);
             else
                 SetRootCellView(CreateEmptyCellView(((IFocusCellViewTreeContext)context).StateView));
-
-            ((IFocusCellViewTreeContext)context).RestoreIsUserVisible(OldIsUserVisible);
         }
 
         /// <summary>
