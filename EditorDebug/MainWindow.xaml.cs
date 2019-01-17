@@ -63,6 +63,20 @@ namespace EditorDebug
 
             else if (e.Key == Key.E && (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl)))
                 ToggleExpand();
+
+            else if (e.Key == Key.Enter)
+                InsertNewItem();
+        }
+
+        private void InsertNewItem()
+        {
+            if (ControllerView == null)
+                return;
+            if (!ControllerView.IsNewItemInsertable())
+                return;
+
+            ControllerView.InsertNewItem();
+            UpdateFocusView();
         }
 
         private void ToggleExpand()

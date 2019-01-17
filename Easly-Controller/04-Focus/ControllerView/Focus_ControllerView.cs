@@ -142,6 +142,16 @@ namespace EaslyController.Focus
         /// If another node had this flag set, it is reset, regardless of the value of <paramref name="isUserVisible"/>.
         /// </summary>
         void SetUserVisible(bool isUserVisible);
+
+        /// <summary>
+        /// Checks if a new item can be inserted at the focus.
+        /// </summary>
+        bool IsNewItemInsertable();
+
+        /// <summary>
+        /// Checks if a new item can be inserted at the focus.
+        /// </summary>
+        void InsertNewItem();
     }
 
     /// <summary>
@@ -509,6 +519,61 @@ namespace EaslyController.Focus
                 CurrentStateView = StateViewTable[CurrentStateView.State.ParentState];
 
             return CurrentStateView;
+        }
+
+        /// <summary>
+        /// Checks if a new item can be inserted at the focus.
+        /// </summary>
+        public virtual bool IsNewItemInsertable()
+        {
+            Debug.Assert(FocusedCellView != null);
+
+            if (FocusedCellView.Frame is IFocusInsertFrame)
+                return true;
+
+            else if ((FocusedCellView.Frame is IFocusTextValueFrame AsTextValueFrame) && CaretPosition == 0)
+            {
+                IFocusNodeState State = FocusedCellView.StateView.State;
+                if (State.ParentInner is IFocusListInner<IFocusBrowsingListNodeIndex> AsListInner)
+                {
+                    Type InsertType = NodeTreeHelper.InterfaceTypeToNodeType(AsListInner.InterfaceType);
+                    if (!InsertType.IsAbstract)
+                        return true;
+                    else
+                        return false;
+                }
+                else
+                    return false;
+            }
+            else
+                return false;
+        }
+
+        /// <summary>
+        /// Checks if a new item can be inserted at the focus.
+        /// </summary>
+        public virtual void InsertNewItem()
+        {
+            Debug.Assert(IsNewItemInsertable());
+
+            if (FocusedCellView.Frame is IFocusInsertFrame AsInsertFrame)
+                Controller.InsertNewItem(FocusedCellView.StateView.State, AsInsertFrame.CollectionName, AsInsertFrame.InsertType, out IFocusBrowsingCollectionNodeIndex NodeIndex);
+
+            else if (FocusedCellView.Frame is IFocusTextValueFrame AsTextValueFrame)
+            {
+                Debug.Assert(CaretPosition == 0);
+
+                IFocusNodeState State = FocusedCellView.StateView.State;
+                IFocusListInner<IFocusBrowsingListNodeIndex> Inner = State.ParentInner as IFocusListInner<IFocusBrowsingListNodeIndex>;
+                Debug.Assert(Inner != null);
+
+                Type InsertType = NodeTreeHelper.InterfaceTypeToNodeType(Inner.InterfaceType);
+                Debug.Assert(!InsertType.IsAbstract);
+
+                Controller.InsertNewItem(Inner.Owner, Inner.PropertyName, InsertType, out IFocusBrowsingCollectionNodeIndex NodeIndex);
+            }
+            else
+                throw new InvalidOperationException();
         }
         #endregion
 
