@@ -1,5 +1,4 @@
-﻿using BaseNode;
-using BaseNodeHelper;
+﻿using BaseNodeHelper;
 using System;
 using System.Windows.Markup;
 
@@ -15,6 +14,11 @@ namespace EaslyController.Frame
         /// (Set in Xaml)
         /// </summary>
         string CollectionName { get; set; }
+
+        /// <summary>
+        /// Interface type of items in the collection associated to this frame.
+        /// </summary>
+        Type InterfaceType { get; }
     }
 
     /// <summary>
@@ -29,6 +33,11 @@ namespace EaslyController.Frame
         /// (Set in Xaml)
         /// </summary>
         public string CollectionName { get; set; }
+
+        /// <summary>
+        /// Interface type of items in the collection associated to this frame.
+        /// </summary>
+        public Type InterfaceType { get; private set; }
         #endregion
 
         #region Client Interface
@@ -45,6 +54,18 @@ namespace EaslyController.Frame
             if (string.IsNullOrEmpty(CollectionName))
                 return false;
 
+            UpdateInterfaceType(nodeType);
+            if (InterfaceType == null)
+                return false;
+
+            return true;
+        }
+
+        protected virtual void UpdateInterfaceType(Type nodeType)
+        {
+            if (InterfaceType != null)
+                return;
+
             string[] Split = CollectionName.Split('.');
             Type BaseType = nodeType;
 
@@ -56,18 +77,20 @@ namespace EaslyController.Frame
                 if (i + 1 < Split.Length)
                 {
                     if (!NodeTreeHelperChild.IsChildNodeProperty(BaseType, PropertyName, out ChildNodeType) && !NodeTreeHelperOptional.IsOptionalChildNodeProperty(BaseType, PropertyName, out ChildNodeType))
-                        return false;
+                        return;
 
                     BaseType = ChildNodeType;
                 }
                 else
                 {
-                    if (!NodeTreeHelperBlockList.IsBlockListProperty(BaseType, PropertyName, out Type ChildInterfaceType, out ChildNodeType) && !NodeTreeHelperList.IsNodeListProperty(BaseType, PropertyName, out ChildNodeType))
-                        return false;
+                    if (!NodeTreeHelperBlockList.IsBlockListProperty(BaseType, PropertyName, out Type ChildInterfaceType, out ChildNodeType) && !NodeTreeHelperList.IsNodeListProperty(BaseType, PropertyName, out ChildInterfaceType))
+                        return;
+
+                    BaseType = ChildInterfaceType;
                 }
             }
 
-            return true;
+            InterfaceType = BaseType;
         }
         #endregion
 

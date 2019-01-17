@@ -282,7 +282,6 @@ namespace EditorDebug
                 int Column = CellView.ColumnNumber - 1;
                 IFocusFrame Frame = CellView.Frame;
                 INode ChildNode = CellView.StateView.State.Node;
-                string PropertyName;
                 TextBlock Child = new TextBlock();
                 IFocusVisibleCellView OldCellView = Assigned[Row, Column];
                 Debug.Assert(OldCellView == null);

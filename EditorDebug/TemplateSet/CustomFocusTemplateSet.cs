@@ -71,7 +71,7 @@ namespace TestDebug
                 </FocusKeywordFrame>
                 <FocusKeywordFrame>as</FocusKeywordFrame>
                 <FocusHorizontalBlockListFrame PropertyName=""AttachTypeBlocks""/>
-                <FocusInsertFrame CollectionName=""Instructions.InstructionBlocks"" />
+                <FocusInsertFrame CollectionName=""Instructions.InstructionBlocks"" ItemType=""{xaml:Type CommandInstruction}""/>
             </FocusHorizontalPanelFrame>
             <FocusPlaceholderFrame PropertyName=""Instructions"" />
         </FocusVerticalPanelFrame>
@@ -198,7 +198,7 @@ namespace TestDebug
                 </FocusVerticalPanelFrame.Visibility>
                 <FocusHorizontalPanelFrame>
                     <FocusKeywordFrame>feature</FocusKeywordFrame>
-                    <FocusInsertFrame CollectionName=""FeatureBlocks"" />
+                    <FocusInsertFrame CollectionName=""FeatureBlocks"" ItemType=""{xaml:Type AttributeFeature}""/>
                 </FocusHorizontalPanelFrame>
                 <FocusVerticalBlockListFrame PropertyName=""FeatureBlocks"" />
             </FocusVerticalPanelFrame>
@@ -348,7 +348,7 @@ namespace TestDebug
                 <FocusKeywordFrame>if</FocusKeywordFrame>
                 <FocusPlaceholderFrame PropertyName=""BooleanExpression""/>
                 <FocusKeywordFrame>then</FocusKeywordFrame>
-                <FocusInsertFrame CollectionName=""Instructions.InstructionBlocks"" />
+                <FocusInsertFrame CollectionName=""Instructions.InstructionBlocks"" ItemType=""{xaml:Type CommandInstruction}""/>
             </FocusHorizontalPanelFrame>
             <FocusPlaceholderFrame PropertyName=""Instructions"" />
         </FocusVerticalPanelFrame>
@@ -372,7 +372,7 @@ namespace TestDebug
         <FocusVerticalPanelFrame>
             <FocusHorizontalPanelFrame>
                 <FocusKeywordFrame>execute</FocusKeywordFrame>
-                <FocusInsertFrame CollectionName=""Instructions.InstructionBlocks"" />
+                <FocusInsertFrame CollectionName=""Instructions.InstructionBlocks"" ItemType=""{xaml:Type CommandInstruction}""/>
             </FocusHorizontalPanelFrame>
             <FocusVerticalPanelFrame>
                 <FocusPlaceholderFrame PropertyName=""Instructions"" />
@@ -382,7 +382,7 @@ namespace TestDebug
                     </FocusVerticalPanelFrame.Visibility>
                     <FocusHorizontalPanelFrame>
                         <FocusKeywordFrame>cleanup</FocusKeywordFrame>
-                        <FocusInsertFrame CollectionName=""CleanupBlocks"" />
+                        <FocusInsertFrame CollectionName=""CleanupBlocks"" ItemType=""{xaml:Type CommandInstruction}""/>
                     </FocusHorizontalPanelFrame>
                     <FocusVerticalBlockListFrame PropertyName=""CleanupBlocks"" />
                 </FocusVerticalPanelFrame>
@@ -424,7 +424,7 @@ namespace TestDebug
                         <FocusFrameSelector SelectorType=""{xaml:Type IIdentifier}"" SelectorName=""Identifier""/>
                     </FocusPlaceholderFrame.Selectors>
                 </FocusPlaceholderFrame>
-                <FocusInsertFrame CollectionName=""Instructions.InstructionBlocks"" />
+                <FocusInsertFrame CollectionName=""Instructions.InstructionBlocks"" ItemType=""{xaml:Type CommandInstruction}""/>
             </FocusHorizontalPanelFrame>
             <FocusPlaceholderFrame PropertyName=""Instructions"" />
         </FocusVerticalPanelFrame>
@@ -903,7 +903,7 @@ namespace TestDebug
             <FocusVerticalPanelFrame>
                 <FocusHorizontalPanelFrame>
                     <FocusKeywordFrame>do</FocusKeywordFrame>
-                    <FocusInsertFrame CollectionName=""InstructionBlocks"" />
+                    <FocusInsertFrame CollectionName=""InstructionBlocks"" ItemType=""{xaml:Type CommandInstruction}""/>
                 </FocusHorizontalPanelFrame>
                 <FocusVerticalBlockListFrame PropertyName=""InstructionBlocks"" />
             </FocusVerticalPanelFrame>
@@ -1120,7 +1120,7 @@ namespace TestDebug
                         </FocusVerticalPanelFrame.Visibility>
                         <FocusHorizontalPanelFrame>
                             <FocusKeywordFrame>do</FocusKeywordFrame>
-                            <FocusInsertFrame CollectionName=""BodyInstructionBlocks"" />
+                            <FocusInsertFrame CollectionName=""BodyInstructionBlocks"" ItemType=""{xaml:Type CommandInstruction}""/>
                         </FocusHorizontalPanelFrame>
                         <FocusVerticalBlockListFrame PropertyName=""BodyInstructionBlocks"" />
                     </FocusVerticalPanelFrame>
@@ -1188,7 +1188,7 @@ namespace TestDebug
                         </FocusVerticalPanelFrame.Visibility>
                         <FocusHorizontalPanelFrame>
                             <FocusKeywordFrame>getter</FocusKeywordFrame>
-                            <FocusInsertFrame CollectionName=""BodyInstructionBlocks"" />
+                            <FocusInsertFrame CollectionName=""BodyInstructionBlocks"" ItemType=""{xaml:Type CommandInstruction}""/>
                         </FocusHorizontalPanelFrame>
                         <FocusVerticalBlockListFrame PropertyName=""BodyInstructionBlocks"" />
                     </FocusVerticalPanelFrame>
@@ -1256,7 +1256,7 @@ namespace TestDebug
                         </FocusVerticalPanelFrame.Visibility>
                         <FocusHorizontalPanelFrame>
                             <FocusKeywordFrame>setter</FocusKeywordFrame>
-                            <FocusInsertFrame CollectionName=""BodyInstructionBlocks"" />
+                            <FocusInsertFrame CollectionName=""BodyInstructionBlocks"" ItemType=""{xaml:Type CommandInstruction}""/>
                         </FocusHorizontalPanelFrame>
                         <FocusVerticalBlockListFrame PropertyName=""BodyInstructionBlocks"" />
                     </FocusVerticalPanelFrame>
@@ -2338,7 +2338,7 @@ namespace TestDebug
                     </FocusVerticalPanelFrame.Visibility>
                     <FocusHorizontalPanelFrame>
                         <FocusKeywordFrame>else</FocusKeywordFrame>
-                        <FocusInsertFrame CollectionName=""ElseInstructions.InstructionBlocks"" />
+                        <FocusInsertFrame CollectionName=""ElseInstructions.InstructionBlocks"" ItemType=""{xaml:Type CommandInstruction}""/>
                     </FocusHorizontalPanelFrame>
                     <FocusOptionalFrame PropertyName=""ElseInstructions"" />
                 </FocusVerticalPanelFrame>
@@ -2370,7 +2370,7 @@ namespace TestDebug
                     </FocusVerticalPanelFrame.Visibility>
                     <FocusHorizontalPanelFrame>
                         <FocusKeywordFrame>else</FocusKeywordFrame>
-                        <FocusInsertFrame CollectionName=""ElseInstructions.InstructionBlocks"" />
+                        <FocusInsertFrame CollectionName=""ElseInstructions.InstructionBlocks"" ItemType=""{xaml:Type CommandInstruction}""/>
                     </FocusHorizontalPanelFrame>
                     <FocusOptionalFrame PropertyName=""ElseInstructions"" />
                 </FocusVerticalPanelFrame>
@@ -2436,7 +2436,7 @@ namespace TestDebug
         <FocusVerticalPanelFrame>
             <FocusHorizontalPanelFrame>
                 <FocusKeywordFrame>debug</FocusKeywordFrame>
-                <FocusInsertFrame CollectionName=""Instructions.InstructionBlocks"" />
+                <FocusInsertFrame CollectionName=""Instructions.InstructionBlocks"" ItemType=""{xaml:Type CommandInstruction}""/>
             </FocusHorizontalPanelFrame>
             <FocusPlaceholderFrame PropertyName=""Instructions"" />
             <FocusHorizontalPanelFrame>
@@ -2464,14 +2464,14 @@ namespace TestDebug
                     </FocusVerticalPanelFrame.Visibility>
                     <FocusHorizontalPanelFrame>
                         <FocusKeywordFrame>init</FocusKeywordFrame>
-                        <FocusInsertFrame CollectionName=""InitInstructionBlocks"" />
+                        <FocusInsertFrame CollectionName=""InitInstructionBlocks"" ItemType=""{xaml:Type CommandInstruction}""/>
                     </FocusHorizontalPanelFrame>
                     <FocusVerticalBlockListFrame PropertyName=""InitInstructionBlocks"" />
                 </FocusVerticalPanelFrame>
                 <FocusHorizontalPanelFrame>
                     <FocusKeywordFrame>while</FocusKeywordFrame>
                     <FocusPlaceholderFrame PropertyName=""WhileCondition""/>
-                    <FocusInsertFrame CollectionName=""LoopInstructionBlocks"" />
+                    <FocusInsertFrame CollectionName=""LoopInstructionBlocks"" ItemType=""{xaml:Type CommandInstruction}""/>
                 </FocusHorizontalPanelFrame>
                 <FocusVerticalBlockListFrame PropertyName=""LoopInstructionBlocks"" />
                 <FocusVerticalPanelFrame>
@@ -2480,7 +2480,7 @@ namespace TestDebug
                     </FocusVerticalPanelFrame.Visibility>
                     <FocusHorizontalPanelFrame>
                         <FocusKeywordFrame>iterate</FocusKeywordFrame>
-                        <FocusInsertFrame CollectionName=""IterationInstructionBlocks"" />
+                        <FocusInsertFrame CollectionName=""IterationInstructionBlocks"" ItemType=""{xaml:Type CommandInstruction}""/>
                     </FocusHorizontalPanelFrame>
                     <FocusVerticalBlockListFrame PropertyName=""IterationInstructionBlocks"" />
                 </FocusVerticalPanelFrame>
@@ -2514,7 +2514,7 @@ namespace TestDebug
                 </FocusVerticalPanelFrame.Visibility>
                 <FocusHorizontalPanelFrame>
                     <FocusKeywordFrame>else</FocusKeywordFrame>
-                    <FocusInsertFrame CollectionName=""ElseInstructions.InstructionBlocks"" />
+                    <FocusInsertFrame CollectionName=""ElseInstructions.InstructionBlocks"" ItemType=""{xaml:Type CommandInstruction}""/>
                 </FocusHorizontalPanelFrame>
                 <FocusOptionalFrame PropertyName=""ElseInstructions"" />
             </FocusVerticalPanelFrame>
@@ -2551,7 +2551,7 @@ namespace TestDebug
                     </FocusVerticalPanelFrame.Visibility>
                     <FocusHorizontalPanelFrame>
                         <FocusKeywordFrame>else</FocusKeywordFrame>
-                        <FocusInsertFrame CollectionName=""ElseInstructions.InstructionBlocks"" />
+                        <FocusInsertFrame CollectionName=""ElseInstructions.InstructionBlocks"" ItemType=""{xaml:Type CommandInstruction}""/>
                     </FocusHorizontalPanelFrame>
                     <FocusOptionalFrame PropertyName=""ElseInstructions"" />
                 </FocusVerticalPanelFrame>
@@ -2588,7 +2588,7 @@ namespace TestDebug
                     <FocusKeywordFrame>Single</FocusKeywordFrame>
                     <FocusKeywordFrame>Nested</FocusKeywordFrame>
                 </FocusDiscreteFrame>
-                <FocusInsertFrame CollectionName=""LoopInstructions.InstructionBlocks"" />
+                <FocusInsertFrame CollectionName=""LoopInstructions.InstructionBlocks"" ItemType=""{xaml:Type CommandInstruction}""/>
             </FocusHorizontalPanelFrame>
             <FocusVerticalPanelFrame>
                 <FocusPlaceholderFrame PropertyName=""LoopInstructions"" />

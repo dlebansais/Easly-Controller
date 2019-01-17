@@ -1,5 +1,7 @@
-﻿using EaslyController.Frame;
+﻿using BaseNodeHelper;
+using EaslyController.Frame;
 using System;
+using System.Diagnostics;
 using System.Windows.Markup;
 
 namespace EaslyController.Focus
@@ -9,6 +11,16 @@ namespace EaslyController.Focus
     /// </summary>
     public interface IFocusInsertFrame : IFrameInsertFrame, IFocusStaticFrame
     {
+        /// <summary>
+        /// Type to use when creating a new item in the associated block list or list. Only when it's an abstract type.
+        /// (Set in Xaml)
+        /// </summary>
+        Type ItemType { get; set; }
+
+        /// <summary>
+        /// Type to use when inserting a new item in the collection.
+        /// </summary>
+        Type InsertType { get; }
     }
 
     /// <summary>
@@ -39,6 +51,17 @@ namespace EaslyController.Focus
         /// (Set in Xaml)
         /// </summary>
         public bool IsPreferred { get; set; }
+
+        /// <summary>
+        /// Type to use when creating a new item in the associated block list or list. Only when it's an abstract type.
+        /// (Set in Xaml)
+        /// </summary>
+        public Type ItemType { get; set; }
+
+        /// <summary>
+        /// Type to use when inserting a new item in the collection.
+        /// </summary>
+        public Type InsertType { get; private set; }
         #endregion
 
         #region Client Interface
@@ -55,7 +78,29 @@ namespace EaslyController.Focus
             if (Visibility != null && !Visibility.IsValid(nodeType))
                 return false;
 
+            Debug.Assert(InsertType != null);
+
+            if (InsertType.IsInterface)
+                return false;
+
+            if (InsertType.IsAbstract)
+                return false;
+
             return true;
+        }
+
+        protected override void UpdateInterfaceType(Type nodeType)
+        {
+            base.UpdateInterfaceType(nodeType);
+
+            Debug.Assert(InterfaceType != null);
+            Type EstimatedItemType = NodeTreeHelper.InterfaceTypeToNodeType(InterfaceType);
+            Debug.Assert(EstimatedItemType != null);
+
+            if (ItemType == null)
+                InsertType = EstimatedItemType;
+            else
+                InsertType = ItemType;
         }
 
         /// <summary>
