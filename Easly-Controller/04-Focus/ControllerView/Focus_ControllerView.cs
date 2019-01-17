@@ -80,8 +80,15 @@ namespace EaslyController.Focus
         /// Checks if the collection associated to the <paramref name="propertyName"/> property of the <paramref name="stateView"/> state is has at least one item.
         /// </summary>
         /// <param name="stateView">The state view for the node with property <paramref name="propertyName"/>.</param>
-        /// <param name="propertyName">Name of the property pointing to the template to check.</param>
+        /// <param name="propertyName">Name of the property pointing to the collection to check.</param>
         bool CollectionHasItems(IFocusNodeStateView stateView, string propertyName);
+
+        /// <summary>
+        /// Checks if the optional node associated to <paramref name="propertyName"/> is assigned.
+        /// </summary>
+        /// <param name="stateView">The state view for the node with property <paramref name="propertyName"/>.</param>
+        /// <param name="propertyName">Name of the property pointing to the node to check.</param>
+        bool IsOptionalNodeAssigned(IFocusNodeStateView stateView, string propertyName);
 
         /// <summary>
         /// Checks if the enum or boolean associated to the <paramref name="propertyName"/> property of the <paramref name="stateView"/> state has value <paramref name="defaultValue"/>.
@@ -296,7 +303,7 @@ namespace EaslyController.Focus
         /// Checks if the collection associated to the <paramref name="propertyName"/> property of the <paramref name="stateView"/> state is has at least one item.
         /// </summary>
         /// <param name="stateView">The state view for the node with property <paramref name="propertyName"/>.</param>
-        /// <param name="propertyName">Name of the property pointing to the template to check.</param>
+        /// <param name="propertyName">Name of the property pointing to the collection to check.</param>
         public virtual bool CollectionHasItems(IFocusNodeStateView stateView, string propertyName)
         {
             IFocusNodeState State = stateView.State;
@@ -313,6 +320,22 @@ namespace EaslyController.Focus
                 default:
                     throw new ArgumentOutOfRangeException(nameof(propertyName));
             }
+        }
+
+        /// <summary>
+        /// Checks if the optional node associated to <paramref name="propertyName"/> is assigned.
+        /// </summary>
+        /// <param name="stateView">The state view for the node with property <paramref name="propertyName"/>.</param>
+        /// <param name="propertyName">Name of the property pointing to the node to check.</param>
+        public virtual bool IsOptionalNodeAssigned(IFocusNodeStateView stateView, string propertyName)
+        {
+            IFocusNodeState State = stateView.State;
+            Debug.Assert(State.InnerTable.ContainsKey(propertyName));
+
+            IFocusOptionalInner OptionalInner = State.InnerTable[propertyName] as IFocusOptionalInner;
+            Debug.Assert(OptionalInner != null);
+
+            return OptionalInner.IsAssigned;
         }
 
         /// <summary>

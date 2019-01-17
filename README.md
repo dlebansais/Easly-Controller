@@ -154,6 +154,7 @@ Starting with the focus layer, the content of a node can be only partially visib
 + Replication visibility: when a block is replicated, it can interesting to see the replication pattern. Likewise, when the block is not replicated, the pattern can remain hidden.
 + Not the first item: in a `if`, `else if`, ... `else` sequence, the first `else` only appears at the second item. A special visibility is introduced to hide the `else` part for the first item.
 + Text match: some string values have a special meaning, like `All` for export specifications. It is possible to hide a string if the content matches a pattern.
++ Optional visibility: used to hide or show symbols around an optional node. When unassigned, these symbols are hidden.
 
 ### Frame selector
 

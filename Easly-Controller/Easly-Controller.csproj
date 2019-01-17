@@ -391,6 +391,7 @@
     <Compile Include="04-Focus\Controller\Operations\Focus_SplitBlock_Operation.cs" />
     <Compile Include="04-Focus\Controller\Operations\Focus_ChangeNode_Operation.cs" />
     <Compile Include="04-Focus\FrameVisibility\Focus_BlockFrameVisibility.cs" />
+    <Compile Include="04-Focus\FrameVisibility\Focus_OptionalFrameVisibility.cs" />
     <Compile Include="04-Focus\FrameVisibility\Focus_MixedFrameVisibility.cs" />
     <Compile Include="04-Focus\FrameVisibility\Focus_TextMatchFrameVisibility.cs" />
     <Compile Include="04-Focus\FrameVisibility\Focus_NodeFrameVisibility.cs" />

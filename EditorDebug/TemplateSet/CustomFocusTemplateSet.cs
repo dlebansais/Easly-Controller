@@ -251,9 +251,15 @@ namespace TestDebug
     <FocusNodeTemplate NodeType=""{xaml:Type ICommandOverload}"">
         <FocusVerticalPanelFrame>
             <FocusVerticalPanelFrame>
+                <FocusVerticalPanelFrame.Visibility>
+                    <FocusCountFrameVisibility PropertyName=""ParameterBlocks""/>
+                </FocusVerticalPanelFrame.Visibility>
                 <FocusHorizontalPanelFrame>
                     <FocusKeywordFrame>parameter</FocusKeywordFrame>
                     <FocusDiscreteFrame PropertyName=""ParameterEnd"">
+                        <FocusDiscreteFrame.Visibility>
+                            <FocusDefaultDiscreteFrameVisibility PropertyName=""ParameterEnd""/>
+                        </FocusDiscreteFrame.Visibility>
                         <FocusKeywordFrame>closed</FocusKeywordFrame>
                         <FocusKeywordFrame>open</FocusKeywordFrame>
                     </FocusDiscreteFrame>
@@ -279,6 +285,9 @@ namespace TestDebug
                     <FocusHorizontalPanelFrame>
                         <FocusKeywordFrame>parameter</FocusKeywordFrame>
                         <FocusDiscreteFrame PropertyName=""ParameterEnd"">
+                            <FocusDiscreteFrame.Visibility>
+                                <FocusDefaultDiscreteFrameVisibility PropertyName=""ParameterEnd""/>
+                            </FocusDiscreteFrame.Visibility>
                             <FocusKeywordFrame>closed</FocusKeywordFrame>
                             <FocusKeywordFrame>open</FocusKeywordFrame>
                         </FocusDiscreteFrame>
@@ -287,6 +296,9 @@ namespace TestDebug
                     <FocusVerticalBlockListFrame PropertyName=""ParameterBlocks"" />
                 </FocusVerticalPanelFrame>
                 <FocusVerticalPanelFrame>
+                    <FocusVerticalPanelFrame.Visibility>
+                        <FocusCountFrameVisibility PropertyName=""RequireBlocks""/>
+                    </FocusVerticalPanelFrame.Visibility>
                     <FocusHorizontalPanelFrame>
                         <FocusKeywordFrame>require</FocusKeywordFrame>
                         <FocusInsertFrame CollectionName=""RequireBlocks"" />
@@ -294,6 +306,9 @@ namespace TestDebug
                     <FocusVerticalBlockListFrame PropertyName=""RequireBlocks"" />
                 </FocusVerticalPanelFrame>
                 <FocusVerticalPanelFrame>
+                    <FocusVerticalPanelFrame.Visibility>
+                        <FocusCountFrameVisibility PropertyName=""EnsureBlocks""/>
+                    </FocusVerticalPanelFrame.Visibility>
                     <FocusHorizontalPanelFrame>
                         <FocusKeywordFrame>ensure</FocusKeywordFrame>
                         <FocusInsertFrame CollectionName=""EnsureBlocks"" />
@@ -301,6 +316,9 @@ namespace TestDebug
                     <FocusVerticalBlockListFrame PropertyName=""EnsureBlocks"" />
                 </FocusVerticalPanelFrame>
                 <FocusVerticalPanelFrame>
+                    <FocusVerticalPanelFrame.Visibility>
+                        <FocusCountFrameVisibility PropertyName=""ExceptionIdentifierBlocks""/>
+                    </FocusVerticalPanelFrame.Visibility>
                     <FocusHorizontalPanelFrame>
                         <FocusKeywordFrame>exception</FocusKeywordFrame>
                         <FocusInsertFrame CollectionName=""ExceptionIdentifierBlocks"" />
@@ -336,6 +354,9 @@ namespace TestDebug
         <FocusVerticalPanelFrame>
             <FocusPlaceholderFrame PropertyName=""ParentType"" />
             <FocusVerticalPanelFrame>
+                <FocusVerticalPanelFrame.Visibility>
+                    <FocusCountFrameVisibility PropertyName=""RenameBlocks""/>
+                </FocusVerticalPanelFrame.Visibility>
                 <FocusHorizontalPanelFrame>
                     <FocusKeywordFrame>rename</FocusKeywordFrame>
                     <FocusInsertFrame CollectionName=""RenameBlocks"" />
@@ -353,6 +374,9 @@ namespace TestDebug
             <FocusVerticalPanelFrame>
                 <FocusPlaceholderFrame PropertyName=""Instructions"" />
                 <FocusVerticalPanelFrame>
+                    <FocusVerticalPanelFrame.Visibility>
+                        <FocusCountFrameVisibility PropertyName=""CleanupBlocks""/>
+                    </FocusVerticalPanelFrame.Visibility>
                     <FocusHorizontalPanelFrame>
                         <FocusKeywordFrame>cleanup</FocusKeywordFrame>
                         <FocusInsertFrame CollectionName=""CleanupBlocks"" />
@@ -432,6 +456,9 @@ namespace TestDebug
                 </FocusHorizontalPanelFrame>
             </FocusHorizontalPanelFrame>
             <FocusVerticalPanelFrame>
+                <FocusVerticalPanelFrame.Visibility>
+                    <FocusCountFrameVisibility PropertyName=""ConstraintBlocks""/>
+                </FocusVerticalPanelFrame.Visibility>
                 <FocusHorizontalPanelFrame>
                     <FocusKeywordFrame>conform to</FocusKeywordFrame>
                     <FocusInsertFrame CollectionName=""ConstraintBlocks"" />
@@ -439,6 +466,11 @@ namespace TestDebug
                 <FocusVerticalBlockListFrame PropertyName=""ConstraintBlocks"" />
             </FocusVerticalPanelFrame>
             <FocusKeywordFrame Text=""end"">
+                <FocusKeywordFrame.Visibility>
+                    <FocusMixedFrameVisibility>
+                        <FocusCountFrameVisibility PropertyName=""ConstraintBlocks""/>
+                    </FocusMixedFrameVisibility>
+                </FocusKeywordFrame.Visibility>
             </FocusKeywordFrame>
         </FocusVerticalPanelFrame>
     </FocusNodeTemplate>
@@ -618,6 +650,9 @@ namespace TestDebug
                 </FocusHorizontalPanelFrame>
             </FocusHorizontalPanelFrame>
             <FocusVerticalPanelFrame>
+                <FocusVerticalPanelFrame.Visibility>
+                    <FocusCountFrameVisibility PropertyName=""ImportBlocks""/>
+                </FocusVerticalPanelFrame.Visibility>
                 <FocusHorizontalPanelFrame>
                     <FocusKeywordFrame>import</FocusKeywordFrame>
                     <FocusInsertFrame CollectionName=""ImportBlocks"" />
@@ -625,6 +660,9 @@ namespace TestDebug
                 <FocusVerticalBlockListFrame PropertyName=""ImportBlocks"" />
             </FocusVerticalPanelFrame>
             <FocusVerticalPanelFrame>
+                <FocusVerticalPanelFrame.Visibility>
+                    <FocusCountFrameVisibility PropertyName=""ClassIdentifierBlocks""/>
+                </FocusVerticalPanelFrame.Visibility>
                 <FocusHorizontalPanelFrame>
                     <FocusKeywordFrame>class</FocusKeywordFrame>
                     <FocusInsertFrame CollectionName=""ClassIdentifierBlocks"" />
@@ -635,8 +673,14 @@ namespace TestDebug
                     </FocusVerticalBlockListFrame.Selectors>
                 </FocusVerticalBlockListFrame>
             </FocusVerticalPanelFrame>
-            <FocusKeywordFrame Text=""end"">
-            </FocusKeywordFrame>
+                <FocusKeywordFrame Text=""end"">
+                    <FocusKeywordFrame.Visibility>
+                        <FocusMixedFrameVisibility>
+                            <FocusCountFrameVisibility PropertyName=""ImportBlocks""/>
+                            <FocusCountFrameVisibility PropertyName=""ClassIdentifierBlocks""/>
+                        </FocusMixedFrameVisibility>
+                    </FocusKeywordFrame.Visibility>
+                </FocusKeywordFrame>
         </FocusVerticalPanelFrame>
     </FocusNodeTemplate>
     <FocusNodeTemplate NodeType=""{xaml:Type IName}"" IsSimple=""True"">
@@ -655,6 +699,9 @@ namespace TestDebug
     <FocusNodeTemplate NodeType=""{xaml:Type IQueryOverload}"">
         <FocusVerticalPanelFrame>
             <FocusVerticalPanelFrame>
+                <FocusVerticalPanelFrame.Visibility>
+                    <FocusCountFrameVisibility PropertyName=""ParameterBlocks""/>
+                </FocusVerticalPanelFrame.Visibility>
                 <FocusHorizontalPanelFrame>
                     <FocusKeywordFrame>parameter</FocusKeywordFrame>
                     <FocusDiscreteFrame PropertyName=""ParameterEnd"">
@@ -666,6 +713,9 @@ namespace TestDebug
                 <FocusVerticalBlockListFrame PropertyName=""ParameterBlocks"" />
             </FocusVerticalPanelFrame>
             <FocusVerticalPanelFrame>
+                <FocusVerticalPanelFrame.Visibility>
+                    <FocusCountFrameVisibility PropertyName=""ResultBlocks""/>
+                </FocusVerticalPanelFrame.Visibility>
                 <FocusHorizontalPanelFrame>
                     <FocusKeywordFrame>result</FocusKeywordFrame>
                     <FocusInsertFrame CollectionName=""ResultBlocks"" />
@@ -673,6 +723,9 @@ namespace TestDebug
                 <FocusVerticalBlockListFrame PropertyName=""ResultBlocks""/>
             </FocusVerticalPanelFrame>
             <FocusVerticalPanelFrame>
+                <FocusVerticalPanelFrame.Visibility>
+                    <FocusCountFrameVisibility PropertyName=""ModifiedQueryBlocks""/>
+                </FocusVerticalPanelFrame.Visibility>
                 <FocusHorizontalPanelFrame>
                     <FocusKeywordFrame>modified</FocusKeywordFrame>
                     <FocusInsertFrame CollectionName=""ModifiedQueryBlocks"" />
@@ -705,6 +758,9 @@ namespace TestDebug
                     <FocusHorizontalPanelFrame>
                         <FocusKeywordFrame>parameter</FocusKeywordFrame>
                         <FocusDiscreteFrame PropertyName=""ParameterEnd"">
+                            <FocusDiscreteFrame.Visibility>
+                                <FocusDefaultDiscreteFrameVisibility PropertyName=""ParameterEnd""/>
+                            </FocusDiscreteFrame.Visibility>
                             <FocusKeywordFrame>closed</FocusKeywordFrame>
                             <FocusKeywordFrame>open</FocusKeywordFrame>
                         </FocusDiscreteFrame>
@@ -720,6 +776,9 @@ namespace TestDebug
                     <FocusVerticalBlockListFrame PropertyName=""ResultBlocks""/>
                 </FocusVerticalPanelFrame>
                 <FocusVerticalPanelFrame>
+                    <FocusVerticalPanelFrame.Visibility>
+                        <FocusCountFrameVisibility PropertyName=""RequireBlocks""/>
+                    </FocusVerticalPanelFrame.Visibility>
                     <FocusHorizontalPanelFrame>
                         <FocusKeywordFrame>require</FocusKeywordFrame>
                         <FocusInsertFrame CollectionName=""RequireBlocks"" />
@@ -727,6 +786,9 @@ namespace TestDebug
                     <FocusVerticalBlockListFrame PropertyName=""RequireBlocks"" />
                 </FocusVerticalPanelFrame>
                 <FocusVerticalPanelFrame>
+                    <FocusVerticalPanelFrame.Visibility>
+                        <FocusCountFrameVisibility PropertyName=""EnsureBlocks""/>
+                    </FocusVerticalPanelFrame.Visibility>
                     <FocusHorizontalPanelFrame>
                         <FocusKeywordFrame>ensure</FocusKeywordFrame>
                         <FocusInsertFrame CollectionName=""EnsureBlocks"" />
@@ -734,6 +796,9 @@ namespace TestDebug
                     <FocusVerticalBlockListFrame PropertyName=""EnsureBlocks"" />
                 </FocusVerticalPanelFrame>
                 <FocusVerticalPanelFrame>
+                    <FocusVerticalPanelFrame.Visibility>
+                        <FocusCountFrameVisibility PropertyName=""ExceptionIdentifierBlocks""/>
+                    </FocusVerticalPanelFrame.Visibility>
                     <FocusHorizontalPanelFrame>
                         <FocusKeywordFrame>exception</FocusKeywordFrame>
                         <FocusInsertFrame CollectionName=""ExceptionIdentifierBlocks"" />
@@ -752,9 +817,15 @@ namespace TestDebug
     <FocusNodeTemplate NodeType=""{xaml:Type IRange}"">
         <FocusHorizontalPanelFrame>
             <FocusSymbolFrame Symbol=""{x:Static const:Symbols.LeftBracket}"">
+                <FocusSymbolFrame.Visibility>
+                    <FocusOptionalFrameVisibility PropertyName=""RightExpression""/>
+                </FocusSymbolFrame.Visibility>
             </FocusSymbolFrame>
             <FocusPlaceholderFrame PropertyName=""LeftExpression"" />
             <FocusHorizontalPanelFrame>
+                <FocusHorizontalPanelFrame.Visibility>
+                    <FocusOptionalFrameVisibility PropertyName=""RightExpression""/>
+                </FocusHorizontalPanelFrame.Visibility>
                 <FocusKeywordFrame>to</FocusKeywordFrame>
                 <FocusOptionalFrame PropertyName=""RightExpression"" />
                 <FocusSymbolFrame Symbol=""{x:Static const:Symbols.RightBracket}""/>
@@ -805,6 +876,9 @@ namespace TestDebug
     <FocusNodeTemplate NodeType=""{xaml:Type IScope}"">
         <FocusVerticalPanelFrame>
             <FocusVerticalPanelFrame>
+                <FocusVerticalPanelFrame.Visibility>
+                    <FocusCountFrameVisibility PropertyName=""EntityDeclarationBlocks""/>
+                </FocusVerticalPanelFrame.Visibility>
                 <FocusHorizontalPanelFrame>
                     <FocusKeywordFrame>local</FocusKeywordFrame>
                     <FocusInsertFrame CollectionName=""EntityDeclarationBlocks"" />
@@ -827,16 +901,6 @@ namespace TestDebug
             <FocusPlaceholderFrame PropertyName=""DefinedType"" />
         </FocusHorizontalPanelFrame>
     </FocusNodeTemplate>
-    <FocusNodeTemplate NodeType=""{xaml:Type IAssignmentArgument}"">
-        <FocusHorizontalPanelFrame>
-            <FocusHorizontalBlockListFrame PropertyName=""ParameterBlocks"">
-                <FocusHorizontalBlockListFrame.Selectors>
-                    <FocusFrameSelector SelectorType=""{xaml:Type IIdentifier}"" SelectorName=""Feature""/>
-                </FocusHorizontalBlockListFrame.Selectors>
-            </FocusHorizontalBlockListFrame>
-            <FocusPlaceholderFrame PropertyName=""Source""/>
-        </FocusHorizontalPanelFrame>
-    </FocusNodeTemplate>
     <FocusNodeTemplate NodeType=""{xaml:Type IWith}"">
         <FocusVerticalPanelFrame>
             <FocusHorizontalPanelFrame>
@@ -846,6 +910,16 @@ namespace TestDebug
             </FocusHorizontalPanelFrame>
             <FocusPlaceholderFrame PropertyName=""Instructions""/>
         </FocusVerticalPanelFrame>
+    </FocusNodeTemplate>
+    <FocusNodeTemplate NodeType=""{xaml:Type IAssignmentArgument}"">
+        <FocusHorizontalPanelFrame>
+            <FocusHorizontalBlockListFrame PropertyName=""ParameterBlocks"">
+                <FocusHorizontalBlockListFrame.Selectors>
+                    <FocusFrameSelector SelectorType=""{xaml:Type IIdentifier}"" SelectorName=""Feature""/>
+                </FocusHorizontalBlockListFrame.Selectors>
+            </FocusHorizontalBlockListFrame>
+            <FocusPlaceholderFrame PropertyName=""Source""/>
+        </FocusHorizontalPanelFrame>
     </FocusNodeTemplate>
     <FocusNodeTemplate NodeType=""{xaml:Type IPositionalArgument}"">
         <FocusHorizontalPanelFrame>
@@ -1200,6 +1274,9 @@ namespace TestDebug
             <FocusSelectableFrame Name=""Overload"">
                 <FocusVerticalPanelFrame>
                     <FocusVerticalPanelFrame>
+                        <FocusVerticalPanelFrame.Visibility>
+                            <FocusCountFrameVisibility PropertyName=""RequireBlocks""/>
+                        </FocusVerticalPanelFrame.Visibility>
                         <FocusHorizontalPanelFrame>
                             <FocusKeywordFrame>require</FocusKeywordFrame>
                             <FocusInsertFrame CollectionName=""RequireBlocks"" />
@@ -1207,6 +1284,9 @@ namespace TestDebug
                         <FocusVerticalBlockListFrame PropertyName=""RequireBlocks"" />
                     </FocusVerticalPanelFrame>
                     <FocusVerticalPanelFrame>
+                        <FocusVerticalPanelFrame.Visibility>
+                            <FocusCountFrameVisibility PropertyName=""ExceptionIdentifierBlocks""/>
+                        </FocusVerticalPanelFrame.Visibility>
                         <FocusHorizontalPanelFrame>
                             <FocusKeywordFrame>throw</FocusKeywordFrame>
                             <FocusInsertFrame CollectionName=""ExceptionIdentifierBlocks"" />
@@ -1223,6 +1303,9 @@ namespace TestDebug
                         </FocusHorizontalPanelFrame>
                     </FocusVerticalPanelFrame>
                     <FocusVerticalPanelFrame>
+                        <FocusVerticalPanelFrame.Visibility>
+                            <FocusCountFrameVisibility PropertyName=""EnsureBlocks""/>
+                        </FocusVerticalPanelFrame.Visibility>
                         <FocusHorizontalPanelFrame>
                             <FocusKeywordFrame>ensure</FocusKeywordFrame>
                             <FocusInsertFrame CollectionName=""EnsureBlocks"" />
@@ -1234,6 +1317,9 @@ namespace TestDebug
             <FocusSelectableFrame Name=""Getter"">
                 <FocusVerticalPanelFrame>
                     <FocusVerticalPanelFrame>
+                        <FocusVerticalPanelFrame.Visibility>
+                            <FocusCountFrameVisibility PropertyName=""RequireBlocks""/>
+                        </FocusVerticalPanelFrame.Visibility>
                         <FocusHorizontalPanelFrame>
                             <FocusKeywordFrame>require</FocusKeywordFrame>
                             <FocusInsertFrame CollectionName=""RequireBlocks"" />
@@ -1241,6 +1327,9 @@ namespace TestDebug
                         <FocusVerticalBlockListFrame PropertyName=""RequireBlocks"" />
                     </FocusVerticalPanelFrame>
                     <FocusVerticalPanelFrame>
+                        <FocusVerticalPanelFrame.Visibility>
+                            <FocusCountFrameVisibility PropertyName=""ExceptionIdentifierBlocks""/>
+                        </FocusVerticalPanelFrame.Visibility>
                         <FocusHorizontalPanelFrame>
                             <FocusKeywordFrame>throw</FocusKeywordFrame>
                             <FocusInsertFrame CollectionName=""ExceptionIdentifierBlocks"" />
@@ -1258,6 +1347,9 @@ namespace TestDebug
                         </FocusHorizontalPanelFrame>
                     </FocusVerticalPanelFrame>
                     <FocusVerticalPanelFrame>
+                        <FocusVerticalPanelFrame.Visibility>
+                            <FocusCountFrameVisibility PropertyName=""EnsureBlocks""/>
+                        </FocusVerticalPanelFrame.Visibility>
                         <FocusHorizontalPanelFrame>
                             <FocusKeywordFrame>ensure</FocusKeywordFrame>
                             <FocusInsertFrame CollectionName=""EnsureBlocks"" />
@@ -1269,6 +1361,9 @@ namespace TestDebug
             <FocusSelectableFrame Name=""Setter"">
                 <FocusVerticalPanelFrame>
                     <FocusVerticalPanelFrame>
+                        <FocusVerticalPanelFrame.Visibility>
+                            <FocusCountFrameVisibility PropertyName=""RequireBlocks""/>
+                        </FocusVerticalPanelFrame.Visibility>
                         <FocusHorizontalPanelFrame>
                             <FocusKeywordFrame>require</FocusKeywordFrame>
                             <FocusInsertFrame CollectionName=""RequireBlocks"" />
@@ -1276,6 +1371,9 @@ namespace TestDebug
                         <FocusVerticalBlockListFrame PropertyName=""RequireBlocks"" />
                     </FocusVerticalPanelFrame>
                     <FocusVerticalPanelFrame>
+                        <FocusVerticalPanelFrame.Visibility>
+                            <FocusCountFrameVisibility PropertyName=""ExceptionIdentifierBlocks""/>
+                        </FocusVerticalPanelFrame.Visibility>
                         <FocusHorizontalPanelFrame>
                             <FocusKeywordFrame>throw</FocusKeywordFrame>
                             <FocusInsertFrame CollectionName=""ExceptionIdentifierBlocks"" />
@@ -1293,6 +1391,9 @@ namespace TestDebug
                         </FocusHorizontalPanelFrame>
                     </FocusVerticalPanelFrame>
                     <FocusVerticalPanelFrame>
+                        <FocusVerticalPanelFrame.Visibility>
+                            <FocusCountFrameVisibility PropertyName=""EnsureBlocks""/>
+                        </FocusVerticalPanelFrame.Visibility>
                         <FocusHorizontalPanelFrame>
                             <FocusKeywordFrame>ensure</FocusKeywordFrame>
                             <FocusInsertFrame CollectionName=""EnsureBlocks"" />
@@ -1308,6 +1409,9 @@ namespace TestDebug
             <FocusSelectableFrame Name=""Overload"">
                 <FocusVerticalPanelFrame>
                     <FocusVerticalPanelFrame>
+                        <FocusVerticalPanelFrame.Visibility>
+                            <FocusCountFrameVisibility PropertyName=""RequireBlocks""/>
+                        </FocusVerticalPanelFrame.Visibility>
                         <FocusHorizontalPanelFrame>
                             <FocusKeywordFrame>require</FocusKeywordFrame>
                             <FocusInsertFrame CollectionName=""RequireBlocks"" />
@@ -1315,6 +1419,9 @@ namespace TestDebug
                         <FocusVerticalBlockListFrame PropertyName=""RequireBlocks"" />
                     </FocusVerticalPanelFrame>
                     <FocusVerticalPanelFrame>
+                        <FocusVerticalPanelFrame.Visibility>
+                            <FocusCountFrameVisibility PropertyName=""ExceptionIdentifierBlocks""/>
+                        </FocusVerticalPanelFrame.Visibility>
                         <FocusHorizontalPanelFrame>
                             <FocusKeywordFrame>throw</FocusKeywordFrame>
                             <FocusInsertFrame CollectionName=""ExceptionIdentifierBlocks"" />
@@ -1331,6 +1438,9 @@ namespace TestDebug
                         </FocusHorizontalPanelFrame>
                     </FocusVerticalPanelFrame>
                     <FocusVerticalPanelFrame>
+                        <FocusVerticalPanelFrame.Visibility>
+                            <FocusCountFrameVisibility PropertyName=""EnsureBlocks""/>
+                        </FocusVerticalPanelFrame.Visibility>
                         <FocusHorizontalPanelFrame>
                             <FocusKeywordFrame>ensure</FocusKeywordFrame>
                             <FocusInsertFrame CollectionName=""EnsureBlocks"" />
@@ -1342,6 +1452,9 @@ namespace TestDebug
             <FocusSelectableFrame Name=""Getter"">
                 <FocusVerticalPanelFrame>
                     <FocusVerticalPanelFrame>
+                        <FocusVerticalPanelFrame.Visibility>
+                            <FocusCountFrameVisibility PropertyName=""RequireBlocks""/>
+                        </FocusVerticalPanelFrame.Visibility>
                         <FocusHorizontalPanelFrame>
                             <FocusKeywordFrame>require</FocusKeywordFrame>
                             <FocusInsertFrame CollectionName=""RequireBlocks"" />
@@ -1349,6 +1462,9 @@ namespace TestDebug
                         <FocusVerticalBlockListFrame PropertyName=""RequireBlocks"" />
                     </FocusVerticalPanelFrame>
                     <FocusVerticalPanelFrame>
+                        <FocusVerticalPanelFrame.Visibility>
+                            <FocusCountFrameVisibility PropertyName=""ExceptionIdentifierBlocks""/>
+                        </FocusVerticalPanelFrame.Visibility>
                         <FocusHorizontalPanelFrame>
                             <FocusKeywordFrame>throw</FocusKeywordFrame>
                             <FocusInsertFrame CollectionName=""ExceptionIdentifierBlocks"" />
@@ -1366,6 +1482,9 @@ namespace TestDebug
                         </FocusHorizontalPanelFrame>
                     </FocusVerticalPanelFrame>
                     <FocusVerticalPanelFrame>
+                        <FocusVerticalPanelFrame.Visibility>
+                            <FocusCountFrameVisibility PropertyName=""EnsureBlocks""/>
+                        </FocusVerticalPanelFrame.Visibility>
                         <FocusHorizontalPanelFrame>
                             <FocusKeywordFrame>ensure</FocusKeywordFrame>
                             <FocusInsertFrame CollectionName=""EnsureBlocks"" />
@@ -1377,6 +1496,9 @@ namespace TestDebug
             <FocusSelectableFrame Name=""Setter"">
                 <FocusVerticalPanelFrame>
                     <FocusVerticalPanelFrame>
+                        <FocusVerticalPanelFrame.Visibility>
+                            <FocusCountFrameVisibility PropertyName=""RequireBlocks""/>
+                        </FocusVerticalPanelFrame.Visibility>
                         <FocusHorizontalPanelFrame>
                             <FocusKeywordFrame>require</FocusKeywordFrame>
                             <FocusInsertFrame CollectionName=""RequireBlocks"" />
@@ -1384,6 +1506,9 @@ namespace TestDebug
                         <FocusVerticalBlockListFrame PropertyName=""RequireBlocks"" />
                     </FocusVerticalPanelFrame>
                     <FocusVerticalPanelFrame>
+                        <FocusVerticalPanelFrame.Visibility>
+                            <FocusCountFrameVisibility PropertyName=""ExceptionIdentifierBlocks""/>
+                        </FocusVerticalPanelFrame.Visibility>
                         <FocusHorizontalPanelFrame>
                             <FocusKeywordFrame>throw</FocusKeywordFrame>
                             <FocusInsertFrame CollectionName=""ExceptionIdentifierBlocks"" />
@@ -1401,6 +1526,9 @@ namespace TestDebug
                         </FocusHorizontalPanelFrame>
                     </FocusVerticalPanelFrame>
                     <FocusVerticalPanelFrame>
+                        <FocusVerticalPanelFrame.Visibility>
+                            <FocusCountFrameVisibility PropertyName=""EnsureBlocks""/>
+                        </FocusVerticalPanelFrame.Visibility>
                         <FocusHorizontalPanelFrame>
                             <FocusKeywordFrame>ensure</FocusKeywordFrame>
                             <FocusInsertFrame CollectionName=""EnsureBlocks"" />
@@ -1415,6 +1543,9 @@ namespace TestDebug
         <FocusHorizontalPanelFrame>
             <FocusKeywordFrame>agent</FocusKeywordFrame>
             <FocusHorizontalPanelFrame>
+                <FocusHorizontalPanelFrame.Visibility>
+                    <FocusOptionalFrameVisibility PropertyName=""BaseType""/>
+                </FocusHorizontalPanelFrame.Visibility>
                 <FocusSymbolFrame Symbol=""{x:Static const:Symbols.LeftCurlyBracket}""/>
                 <FocusOptionalFrame PropertyName=""BaseType"" />
                 <FocusSymbolFrame Symbol=""{x:Static const:Symbols.RightCurlyBracket}""/>
@@ -1525,6 +1656,9 @@ namespace TestDebug
     <FocusNodeTemplate NodeType=""{xaml:Type ICloneOfExpression}"" IsComplex=""True"">
         <FocusHorizontalPanelFrame>
             <FocusDiscreteFrame PropertyName=""Type"">
+                <FocusDiscreteFrame.Visibility>
+                    <FocusDefaultDiscreteFrameVisibility PropertyName=""Type""/>
+                </FocusDiscreteFrame.Visibility>
                 <FocusKeywordFrame>shallow</FocusKeywordFrame>
                 <FocusKeywordFrame>deep</FocusKeywordFrame>
             </FocusDiscreteFrame>
@@ -1570,6 +1704,9 @@ namespace TestDebug
                 <FocusKeywordFrame>!=</FocusKeywordFrame>
             </FocusDiscreteFrame>
             <FocusDiscreteFrame PropertyName=""Equality"">
+                <FocusDiscreteFrame.Visibility>
+                    <FocusDefaultDiscreteFrameVisibility PropertyName=""Equality""/>
+                </FocusDiscreteFrame.Visibility>
                 <FocusKeywordFrame>phys</FocusKeywordFrame>
                 <FocusKeywordFrame>deep</FocusKeywordFrame>
             </FocusDiscreteFrame>
@@ -1668,15 +1805,24 @@ namespace TestDebug
         <FocusHorizontalPanelFrame>
             <FocusKeywordFrame>precursor</FocusKeywordFrame>
             <FocusHorizontalPanelFrame>
+                <FocusHorizontalPanelFrame.Visibility>
+                    <FocusOptionalFrameVisibility PropertyName=""AncestorType""/>
+                </FocusHorizontalPanelFrame.Visibility>
                 <FocusSymbolFrame Symbol=""{x:Static const:Symbols.LeftCurlyBracket}""/>
                 <FocusOptionalFrame PropertyName=""AncestorType"" />
                 <FocusSymbolFrame Symbol=""{x:Static const:Symbols.RightCurlyBracket}""/>
             </FocusHorizontalPanelFrame>
             <FocusHorizontalPanelFrame>
                 <FocusSymbolFrame Symbol=""{x:Static const:Symbols.LeftParenthesis}"">
+                    <FocusSymbolFrame.Visibility>
+                        <FocusCountFrameVisibility PropertyName=""ArgumentBlocks""/>
+                    </FocusSymbolFrame.Visibility>
                 </FocusSymbolFrame>
                 <FocusHorizontalBlockListFrame PropertyName=""ArgumentBlocks"" />
                 <FocusSymbolFrame Symbol=""{x:Static const:Symbols.RightParenthesis}"">
+                    <FocusSymbolFrame.Visibility>
+                        <FocusCountFrameVisibility PropertyName=""ArgumentBlocks""/>
+                    </FocusSymbolFrame.Visibility>
                 </FocusSymbolFrame>
             </FocusHorizontalPanelFrame>
         </FocusHorizontalPanelFrame>
@@ -1685,6 +1831,9 @@ namespace TestDebug
         <FocusHorizontalPanelFrame>
             <FocusKeywordFrame>precursor</FocusKeywordFrame>
             <FocusHorizontalPanelFrame>
+                <FocusHorizontalPanelFrame.Visibility>
+                    <FocusOptionalFrameVisibility PropertyName=""AncestorType""/>
+                </FocusHorizontalPanelFrame.Visibility>
                 <FocusSymbolFrame Symbol=""{x:Static const:Symbols.LeftCurlyBracket}""/>
                 <FocusOptionalFrame PropertyName=""AncestorType"" />
                 <FocusSymbolFrame Symbol=""{x:Static const:Symbols.RightCurlyBracket}""/>
@@ -1789,6 +1938,9 @@ namespace TestDebug
         <FocusVerticalPanelFrame>
             <FocusHorizontalPanelFrame>
                 <FocusDiscreteFrame PropertyName=""Export"">
+                    <FocusDiscreteFrame.Visibility>
+                        <FocusDefaultDiscreteFrameVisibility PropertyName=""Export""/>
+                    </FocusDiscreteFrame.Visibility>
                     <FocusKeywordFrame>exported</FocusKeywordFrame>
                     <FocusKeywordFrame>private</FocusKeywordFrame>
                 </FocusDiscreteFrame>
@@ -1798,6 +1950,9 @@ namespace TestDebug
             </FocusHorizontalPanelFrame>
             <FocusVerticalPanelFrame>
                 <FocusVerticalPanelFrame>
+                    <FocusVerticalPanelFrame.Visibility>
+                        <FocusCountFrameVisibility PropertyName=""EnsureBlocks""/>
+                    </FocusVerticalPanelFrame.Visibility>
                     <FocusHorizontalPanelFrame>
                         <FocusKeywordFrame>ensure</FocusKeywordFrame>
                         <FocusInsertFrame CollectionName=""EnsureBlocks"" />
@@ -1817,6 +1972,12 @@ namespace TestDebug
                 </FocusHorizontalPanelFrame>
             </FocusVerticalPanelFrame>
             <FocusKeywordFrame Text=""end"">
+                <FocusKeywordFrame.Visibility>
+                    <FocusMixedFrameVisibility>
+                        <FocusCountFrameVisibility PropertyName=""EnsureBlocks""/>
+                        <FocusTextMatchFrameVisibility PropertyName=""ExportIdentifier"" TextPattern=""All""/>
+                    </FocusMixedFrameVisibility>
+                </FocusKeywordFrame.Visibility>
             </FocusKeywordFrame>
         </FocusVerticalPanelFrame>
     </FocusNodeTemplate>
@@ -1824,6 +1985,9 @@ namespace TestDebug
         <FocusVerticalPanelFrame>
             <FocusHorizontalPanelFrame>
                 <FocusDiscreteFrame PropertyName=""Export"">
+                    <FocusDiscreteFrame.Visibility>
+                        <FocusDefaultDiscreteFrameVisibility PropertyName=""Export""/>
+                    </FocusDiscreteFrame.Visibility>
                     <FocusKeywordFrame>exported</FocusKeywordFrame>
                     <FocusKeywordFrame>private</FocusKeywordFrame>
                 </FocusDiscreteFrame>
@@ -1847,6 +2011,11 @@ namespace TestDebug
                 </FocusHorizontalPanelFrame>
             </FocusVerticalPanelFrame>
             <FocusKeywordFrame Text=""end"">
+                <FocusKeywordFrame.Visibility>
+                    <FocusMixedFrameVisibility>
+                        <FocusTextMatchFrameVisibility PropertyName=""ExportIdentifier"" TextPattern=""All""/>
+                    </FocusMixedFrameVisibility>
+                </FocusKeywordFrame.Visibility>
             </FocusKeywordFrame>
         </FocusVerticalPanelFrame>
     </FocusNodeTemplate>
@@ -1854,6 +2023,9 @@ namespace TestDebug
         <FocusVerticalPanelFrame>
             <FocusHorizontalPanelFrame>
                 <FocusDiscreteFrame PropertyName=""Export"">
+                    <FocusDiscreteFrame.Visibility>
+                        <FocusDefaultDiscreteFrameVisibility PropertyName=""Export""/>
+                    </FocusDiscreteFrame.Visibility>
                     <FocusKeywordFrame>exported</FocusKeywordFrame>
                     <FocusKeywordFrame>private</FocusKeywordFrame>
                 </FocusDiscreteFrame>
@@ -1882,6 +2054,9 @@ namespace TestDebug
         <FocusVerticalPanelFrame>
             <FocusHorizontalPanelFrame>
                 <FocusDiscreteFrame PropertyName=""Export"">
+                    <FocusDiscreteFrame.Visibility>
+                        <FocusDefaultDiscreteFrameVisibility PropertyName=""Export""/>
+                    </FocusDiscreteFrame.Visibility>
                     <FocusKeywordFrame>exported</FocusKeywordFrame>
                     <FocusKeywordFrame>private</FocusKeywordFrame>
                 </FocusDiscreteFrame>
@@ -1889,6 +2064,9 @@ namespace TestDebug
                 <FocusHorizontalPanelFrame>
                     <FocusKeywordFrame>once per</FocusKeywordFrame>
                     <FocusDiscreteFrame PropertyName=""Once"">
+                        <FocusDiscreteFrame.Visibility>
+                            <FocusDefaultDiscreteFrameVisibility PropertyName=""Once""/>
+                        </FocusDiscreteFrame.Visibility>
                         <FocusKeywordFrame>normal</FocusKeywordFrame>
                         <FocusKeywordFrame>object</FocusKeywordFrame>
                         <FocusKeywordFrame>processor</FocusKeywordFrame>
@@ -1919,6 +2097,9 @@ namespace TestDebug
         <FocusVerticalPanelFrame>
             <FocusHorizontalPanelFrame>
                 <FocusDiscreteFrame PropertyName=""Export"">
+                    <FocusDiscreteFrame.Visibility>
+                        <FocusDefaultDiscreteFrameVisibility PropertyName=""Export""/>
+                    </FocusDiscreteFrame.Visibility>
                     <FocusKeywordFrame>exported</FocusKeywordFrame>
                     <FocusKeywordFrame>private</FocusKeywordFrame>
                 </FocusDiscreteFrame>
@@ -1927,8 +2108,14 @@ namespace TestDebug
             </FocusHorizontalPanelFrame>
             <FocusVerticalPanelFrame>
                 <FocusVerticalPanelFrame>
+                    <FocusVerticalPanelFrame.Visibility>
+                        <FocusCountFrameVisibility PropertyName=""IndexParameterBlocks""/>
+                    </FocusVerticalPanelFrame.Visibility>
                     <FocusHorizontalPanelFrame>
                         <FocusDiscreteFrame PropertyName=""ParameterEnd"">
+                            <FocusDiscreteFrame.Visibility>
+                                <FocusDefaultDiscreteFrameVisibility PropertyName=""ParameterEnd""/>
+                            </FocusDiscreteFrame.Visibility>
                             <FocusKeywordFrame>closed</FocusKeywordFrame>
                             <FocusKeywordFrame>open</FocusKeywordFrame>
                         </FocusDiscreteFrame>
@@ -1938,6 +2125,9 @@ namespace TestDebug
                     <FocusVerticalBlockListFrame PropertyName=""IndexParameterBlocks"" />
                 </FocusVerticalPanelFrame>
                 <FocusVerticalPanelFrame>
+                    <FocusVerticalPanelFrame.Visibility>
+                        <FocusCountFrameVisibility PropertyName=""ModifiedQueryBlocks""/>
+                    </FocusVerticalPanelFrame.Visibility>
                     <FocusHorizontalPanelFrame>
                         <FocusKeywordFrame>modify</FocusKeywordFrame>
                         <FocusInsertFrame CollectionName=""ModifiedQueryBlocks"" />
@@ -1989,6 +2179,9 @@ namespace TestDebug
         <FocusVerticalPanelFrame>
             <FocusHorizontalPanelFrame>
                 <FocusDiscreteFrame PropertyName=""Export"">
+                    <FocusDiscreteFrame.Visibility>
+                        <FocusDefaultDiscreteFrameVisibility PropertyName=""Export""/>
+                    </FocusDiscreteFrame.Visibility>
                     <FocusKeywordFrame>exported</FocusKeywordFrame>
                     <FocusKeywordFrame>private</FocusKeywordFrame>
                 </FocusDiscreteFrame>
@@ -2017,6 +2210,9 @@ namespace TestDebug
         <FocusVerticalPanelFrame>
             <FocusHorizontalPanelFrame>
                 <FocusDiscreteFrame PropertyName=""Export"">
+                    <FocusDiscreteFrame.Visibility>
+                        <FocusDefaultDiscreteFrameVisibility PropertyName=""Export""/>
+                    </FocusDiscreteFrame.Visibility>
                     <FocusKeywordFrame>exported</FocusKeywordFrame>
                     <FocusKeywordFrame>private</FocusKeywordFrame>
                 </FocusDiscreteFrame>
@@ -2026,6 +2222,9 @@ namespace TestDebug
             </FocusHorizontalPanelFrame>
             <FocusVerticalPanelFrame>
                 <FocusVerticalPanelFrame>
+                    <FocusVerticalPanelFrame.Visibility>
+                        <FocusCountFrameVisibility PropertyName=""ModifiedQueryBlocks""/>
+                    </FocusVerticalPanelFrame.Visibility>
                     <FocusHorizontalPanelFrame>
                         <FocusKeywordFrame>modify</FocusKeywordFrame>
                         <FocusInsertFrame CollectionName=""ModifiedQueryBlocks"" />
@@ -2067,6 +2266,14 @@ namespace TestDebug
                 </FocusHorizontalPanelFrame>
             </FocusVerticalPanelFrame>
             <FocusKeywordFrame Text=""end"">
+                <FocusKeywordFrame.Visibility>
+                    <FocusMixedFrameVisibility>
+                        <FocusCountFrameVisibility PropertyName=""ModifiedQueryBlocks""/>
+                        <FocusOptionalFrameVisibility PropertyName=""GetterBody""/>
+                        <FocusOptionalFrameVisibility PropertyName=""SetterBody""/>
+                        <FocusTextMatchFrameVisibility PropertyName=""ExportIdentifier"" TextPattern=""All""/>
+                    </FocusMixedFrameVisibility>
+                </FocusKeywordFrame.Visibility>
             </FocusKeywordFrame>
         </FocusVerticalPanelFrame>
     </FocusNodeTemplate>
