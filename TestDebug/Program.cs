@@ -615,7 +615,7 @@ namespace TestDebug
             ControllerTools.ResetExpectedName();
 
             IFocusRootNodeIndex RootIndex = new FocusRootNodeIndex(rootNode);
-            IFocusController Controller = FocusController.Create(RootIndex, CustomFocusSemanticSet.FocusSemanticSet);
+            IFocusController Controller = FocusController.Create(RootIndex);
             Stats Stats = Controller.Stats;
             IFocusController ControllerCheck;
 
@@ -632,7 +632,7 @@ namespace TestDebug
                 IFocusBrowsingListNodeIndex InsertIndex0 = (IFocusBrowsingListNodeIndex)ListInner2.IndexAt(31);
                 Controller.Move(ListInner2, InsertIndex0, -5);
 
-                ControllerCheck = FocusController.Create(new FocusRootNodeIndex(rootNode), CustomFocusSemanticSet.FocusSemanticSet);
+                ControllerCheck = FocusController.Create(new FocusRootNodeIndex(rootNode));
                 Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
             }
 
@@ -652,7 +652,7 @@ namespace TestDebug
             ControllerTools.ResetExpectedName();
 
             IFocusRootNodeIndex RootIndex = new FocusRootNodeIndex(rootNode);
-            IFocusController Controller = FocusController.Create(RootIndex, CustomFocusSemanticSet.FocusSemanticSet);
+            IFocusController Controller = FocusController.Create(RootIndex);
             IFocusControllerView CustomView = FocusControllerView.Create(Controller, CustomFocusTemplateSet.FocusTemplateSet);
             Stats Stats = Controller.Stats;
             IFocusController ControllerCheck;
@@ -689,7 +689,7 @@ namespace TestDebug
             IFocusControllerView ControllerView2 = FocusControllerView.Create(Controller, FocusTemplateSet.Default);
             Debug.Assert(ControllerView2.IsEqual(CompareEqual.New(), ControllerView));
 
-            ControllerCheck = FocusController.Create(new FocusRootNodeIndex(rootNode), CustomFocusSemanticSet.FocusSemanticSet);
+            ControllerCheck = FocusController.Create(new FocusRootNodeIndex(rootNode));
             Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
 
             IImport SecondNode = NodeHelper.CreateSimpleImport("y", "y", ImportType.Latest);
@@ -697,7 +697,7 @@ namespace TestDebug
             FocusInsertionExistingBlockNodeIndex InsertIndex1 = new FocusInsertionExistingBlockNodeIndex(rootNode, ListInner.PropertyName, SecondNode, 0, 1);
             Controller.Insert(ListInner, InsertIndex1, out IWriteableBrowsingCollectionNodeIndex InsertedIndex1);
 
-            ControllerCheck = FocusController.Create(new FocusRootNodeIndex(rootNode), CustomFocusSemanticSet.FocusSemanticSet);
+            ControllerCheck = FocusController.Create(new FocusRootNodeIndex(rootNode));
             Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
 
             Debug.Assert(ControllerView.StateViewTable.Count == Controller.Stats.NodeCount);
@@ -707,7 +707,7 @@ namespace TestDebug
 
             Controller.ChangeReplication(ListInner, 0, ReplicationStatus.Replicated);
 
-            ControllerCheck = FocusController.Create(new FocusRootNodeIndex(rootNode), CustomFocusSemanticSet.FocusSemanticSet);
+            ControllerCheck = FocusController.Create(new FocusRootNodeIndex(rootNode));
             Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
 
             IImport ThirdNode = NodeHelper.CreateSimpleImport("z", "z", ImportType.Latest);
@@ -715,7 +715,7 @@ namespace TestDebug
             FocusInsertionExistingBlockNodeIndex InsertIndex3 = new FocusInsertionExistingBlockNodeIndex(rootNode, ListInner.PropertyName, ThirdNode, 0, 1);
             Controller.Replace(ListInner, InsertIndex3, out IWriteableBrowsingChildIndex InsertedIndex3);
 
-            ControllerCheck = FocusController.Create(new FocusRootNodeIndex(rootNode), CustomFocusSemanticSet.FocusSemanticSet);
+            ControllerCheck = FocusController.Create(new FocusRootNodeIndex(rootNode));
             Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
 
             IImport FourthNode = NodeHelper.CreateSimpleImport("a", "a", ImportType.Latest);
@@ -723,7 +723,7 @@ namespace TestDebug
             FocusInsertionExistingBlockNodeIndex InsertIndex4 = new FocusInsertionExistingBlockNodeIndex(rootNode, ListInner.PropertyName, FourthNode, 0, 0);
             Controller.Replace(ListInner, InsertIndex4, out IWriteableBrowsingChildIndex InsertedIndex4);
 
-            ControllerCheck = FocusController.Create(new FocusRootNodeIndex(rootNode), CustomFocusSemanticSet.FocusSemanticSet);
+            ControllerCheck = FocusController.Create(new FocusRootNodeIndex(rootNode));
             Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
 
             IFocusControllerView ControllerView3 = FocusControllerView.Create(Controller, FocusTemplateSet.Default);
@@ -735,7 +735,7 @@ namespace TestDebug
             FocusInsertionPlaceholderNodeIndex InsertIndex5 = new FocusInsertionPlaceholderNodeIndex(rootNode, ChildInner.PropertyName, FifthNode);
             Controller.Replace(ChildInner, InsertIndex5, out IWriteableBrowsingChildIndex InsertedIndex5);
 
-            ControllerCheck = FocusController.Create(new FocusRootNodeIndex(rootNode), CustomFocusSemanticSet.FocusSemanticSet);
+            ControllerCheck = FocusController.Create(new FocusRootNodeIndex(rootNode));
             Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
 
             IFocusControllerView ControllerView4 = FocusControllerView.Create(Controller, FocusTemplateSet.Default);
@@ -747,7 +747,7 @@ namespace TestDebug
             FocusInsertionOptionalNodeIndex InsertIndex6 = new FocusInsertionOptionalNodeIndex(rootNode, OptionalInner.PropertyName, SixthNode);
             Controller.Replace(OptionalInner, InsertIndex6, out IWriteableBrowsingChildIndex InsertedIndex6);
 
-            ControllerCheck = FocusController.Create(new FocusRootNodeIndex(rootNode), CustomFocusSemanticSet.FocusSemanticSet);
+            ControllerCheck = FocusController.Create(new FocusRootNodeIndex(rootNode));
             Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
 
             IFocusControllerView ControllerView5 = FocusControllerView.Create(Controller, FocusTemplateSet.Default);
@@ -760,7 +760,7 @@ namespace TestDebug
                 Debug.Assert(Controller.IsRemoveable(ListInner, InsertIndex7));
                 Controller.Remove(ListInner, InsertIndex7);
 
-                ControllerCheck = FocusController.Create(new FocusRootNodeIndex(rootNode), CustomFocusSemanticSet.FocusSemanticSet);
+                ControllerCheck = FocusController.Create(new FocusRootNodeIndex(rootNode));
                 Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
 
                 IFocusControllerView ControllerView7 = FocusControllerView.Create(Controller, FocusTemplateSet.Default);
@@ -770,7 +770,7 @@ namespace TestDebug
                 Debug.Assert(Controller.IsRemoveable(ListInner, InsertIndex8));
                 Controller.Remove(ListInner, InsertIndex8);
 
-                ControllerCheck = FocusController.Create(new FocusRootNodeIndex(rootNode), CustomFocusSemanticSet.FocusSemanticSet);
+                ControllerCheck = FocusController.Create(new FocusRootNodeIndex(rootNode));
                 Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
 
                 IFocusControllerView ControllerView8 = FocusControllerView.Create(Controller, FocusTemplateSet.Default);
@@ -779,7 +779,7 @@ namespace TestDebug
 
             Controller.Unassign(OptionalInner.ChildState.ParentIndex);
 
-            ControllerCheck = FocusController.Create(new FocusRootNodeIndex(rootNode), CustomFocusSemanticSet.FocusSemanticSet);
+            ControllerCheck = FocusController.Create(new FocusRootNodeIndex(rootNode));
             Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
 
             IFocusControllerView ControllerView9 = FocusControllerView.Create(Controller, FocusTemplateSet.Default);
@@ -787,7 +787,7 @@ namespace TestDebug
 
             Controller.Assign(OptionalInner.ChildState.ParentIndex);
 
-            ControllerCheck = FocusController.Create(new FocusRootNodeIndex(rootNode), CustomFocusSemanticSet.FocusSemanticSet);
+            ControllerCheck = FocusController.Create(new FocusRootNodeIndex(rootNode));
             Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
 
             IFocusControllerView ControllerView10 = FocusControllerView.Create(Controller, FocusTemplateSet.Default);
@@ -798,7 +798,7 @@ namespace TestDebug
                 IFocusBrowsingExistingBlockNodeIndex SplitIndex1 = (IFocusBrowsingExistingBlockNodeIndex)ListInner.IndexAt(0, 1);
                 Controller.SplitBlock(ListInner, SplitIndex1);
 
-                ControllerCheck = FocusController.Create(new FocusRootNodeIndex(rootNode), CustomFocusSemanticSet.FocusSemanticSet);
+                ControllerCheck = FocusController.Create(new FocusRootNodeIndex(rootNode));
                 Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
 
                 IFocusControllerView ControllerView11 = FocusControllerView.Create(Controller, FocusTemplateSet.Default);
@@ -807,7 +807,7 @@ namespace TestDebug
                 IFocusBrowsingExistingBlockNodeIndex SplitIndex2 = (IFocusBrowsingExistingBlockNodeIndex)ListInner.IndexAt(1, 0);
                 Controller.MergeBlocks(ListInner, SplitIndex2);
 
-                ControllerCheck = FocusController.Create(new FocusRootNodeIndex(rootNode), CustomFocusSemanticSet.FocusSemanticSet);
+                ControllerCheck = FocusController.Create(new FocusRootNodeIndex(rootNode));
                 Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
 
                 IFocusControllerView ControllerView12 = FocusControllerView.Create(Controller, FocusTemplateSet.Default);
@@ -819,7 +819,7 @@ namespace TestDebug
             {
                 Controller.MoveBlock(ListInner, 0, 1);
 
-                ControllerCheck = FocusController.Create(new FocusRootNodeIndex(rootNode), CustomFocusSemanticSet.FocusSemanticSet);
+                ControllerCheck = FocusController.Create(new FocusRootNodeIndex(rootNode));
                 Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
             }
 
@@ -829,7 +829,7 @@ namespace TestDebug
             Controller.Canonicalize();
 
             IFocusRootNodeIndex NewRootIndex = new FocusRootNodeIndex(Controller.RootIndex.Node);
-            IFocusController NewController = FocusController.Create(NewRootIndex, CustomFocusSemanticSet.FocusSemanticSet);
+            IFocusController NewController = FocusController.Create(NewRootIndex);
             Debug.Assert(NewController.IsEqual(CompareEqual.New(), Controller));
         }
         #endregion

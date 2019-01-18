@@ -108,11 +108,6 @@ namespace EaslyController.Focus
         new event Action<IFocusMergeBlocksOperation> BlocksMerged;
 
         /// <summary>
-        /// Semantic describing all specifics of a node that are not captured in its structure.
-        /// </summary>
-        IFocusSemanticSet SemanticSet { get; }
-
-        /// <summary>
         /// Checks whether a node can be removed from a list.
         /// </summary>
         /// <param name="inner">The inner where the node is.</param>
@@ -134,14 +129,10 @@ namespace EaslyController.Focus
         /// Creates and initializes a new instance of a <see cref="FocusController"/> object.
         /// </summary>
         /// <param name="nodeIndex">Index of the root of the node tree.</param>
-        /// <param name="semanticSet">Semantic describing all specifics of a node that are not captured in its structure.</param>
-        public static IFocusController Create(IFocusRootNodeIndex nodeIndex, IFocusSemanticSet semanticSet)
+        public static IFocusController Create(IFocusRootNodeIndex nodeIndex)
         {
-            Debug.Assert(semanticSet.IsCompatible(nodeIndex.Node));
-
             FocusController Controller = new FocusController();
             Controller.SetRoot(nodeIndex);
-            Controller.SetSemantic(semanticSet);
             Controller.SetInitialized();
 
             return Controller;
@@ -314,11 +305,6 @@ namespace EaslyController.Focus
         /// State table.
         /// </summary>
         protected new IFocusIndexNodeStateReadOnlyDictionary StateTable { get { return (IFocusIndexNodeStateReadOnlyDictionary)base.StateTable; } }
-
-        /// <summary>
-        /// Semantic describing all specifics of a node that are not captured in its structure.
-        /// </summary>
-        public IFocusSemanticSet SemanticSet { get; private set; }
         #endregion
 
         #region Client Interface
@@ -352,17 +338,6 @@ namespace EaslyController.Focus
             }
 
             return true;
-        }
-        #endregion
-
-        #region Implementation
-        /// <summary></summary>
-        protected virtual void SetSemantic(IFocusSemanticSet semanticSet)
-        {
-            Debug.Assert(semanticSet != null);
-            Debug.Assert(!IsInitialized); // Must be called during initialization
-
-            SemanticSet = semanticSet;
         }
         #endregion
 

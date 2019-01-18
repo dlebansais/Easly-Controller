@@ -266,7 +266,7 @@ namespace EditorDebug
         private void LoadFileFocus(INode rootNode)
         {
             IFocusRootNodeIndex RootIndex = new FocusRootNodeIndex(rootNode);
-            IFocusController Controller = FocusController.Create(RootIndex, CustomFocusSemanticSet.FocusSemanticSet);
+            IFocusController Controller = FocusController.Create(RootIndex);
             ControllerView = FocusControllerView.Create(Controller, CustomFocusTemplateSet.FocusTemplateSet);
 
             UpdateFocusView();

@@ -25,7 +25,7 @@ namespace EaslyController.Focus
         /// <summary>
         /// Returns the inner for the collection associated to this frame, for a given state.
         /// </summary>
-        /// <param name="state">The state, modified if <see cref="CollectionName"/> points to a different state.</param>
+        /// <param name="state">The state, modified if <see cref="IFrameInsertFrame.CollectionName"/> points to a different state.</param>
         /// <param name="inner">The inner associated to the collection in <paramref name="state"/>.</param>
         void CollectionNameToInner(ref IFocusNodeState state, ref IFocusCollectionInner<IFocusBrowsingCollectionNodeIndex> inner);
     }
@@ -161,7 +161,7 @@ namespace EaslyController.Focus
         /// <summary>
         /// Returns the inner for the collection associated to this frame, for a given state.
         /// </summary>
-        /// <param name="state">The state, modified if <see cref="CollectionName"/> points to a different state.</param>
+        /// <param name="state">The state, modified if <see cref="IFrameInsertFrame.CollectionName"/> points to a different state.</param>
         /// <param name="inner">The inner associated to the collection in <paramref name="state"/>.</param>
         public virtual void CollectionNameToInner(ref IFocusNodeState state, ref IFocusCollectionInner<IFocusBrowsingCollectionNodeIndex> inner)
         {

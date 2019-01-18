@@ -380,25 +380,31 @@ namespace EaslyController.Focus
 
             IFocusPlaceholderNodeStateReadOnlyList StateList;
             int Index;
+
             switch (State.ParentInner)
             {
                 case IFocusListInner AsListInner:
                     StateList = AsListInner.StateList;
-                    break;
+                    Index = StateList.IndexOf(State);
+                    Debug.Assert(Index >= 0 && Index < StateList.Count);
+                    return Index == 0;
 
                 case IFocusBlockListInner AsBlockListInner:
-                    Debug.Assert(AsBlockListInner.BlockStateList.Count > 0);
-                    StateList = AsBlockListInner.BlockStateList[0].StateList;
-                    break;
+                    for (int BlockIndex = 0; BlockIndex < AsBlockListInner.BlockStateList.Count; BlockIndex++)
+                    {
+                        StateList = AsBlockListInner.BlockStateList[BlockIndex].StateList;
+                        Index = StateList.IndexOf(State);
+                        if (Index >= 0)
+                        {
+                            Debug.Assert(Index < StateList.Count);
+                            return BlockIndex == 0 && Index == 0;
+                        }
+                    }
+                    throw new ArgumentOutOfRangeException(nameof(stateView));
 
                 default:
                     throw new ArgumentOutOfRangeException(nameof(stateView));
             }
-
-            Index = StateList.IndexOf(State);
-            Debug.Assert(Index >= 0 && Index < StateList.Count);
-
-            return Index == 0;
         }
 
         /// <summary>
@@ -586,6 +592,7 @@ namespace EaslyController.Focus
             return false;
         }
 
+        /// <summary></summary>
         protected virtual INode BuildNewInsertableItem(Type insertType)
         {
             return NodeHelper.CreateEmptyNode(insertType);
