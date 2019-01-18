@@ -117,15 +117,6 @@ namespace EaslyController.Focus
         /// <param name="inner">The inner where the node is.</param>
         /// <param name="nodeIndex">Index of the node that would be removed.</param>
         bool IsRemoveable(IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> inner, IWriteableBrowsingCollectionNodeIndex nodeIndex);
-
-        /// <summary>
-        /// Inserts a new item of type <paramref name="insertType"/> at the begining of a collection specified with <paramref name="propertyName"/>.
-        /// </summary>
-        /// <param name="state">The state where to insert the item.</param>
-        /// <param name="propertyName">Property name of the collection.</param>
-        /// <param name="insertType">Type of item to insert.</param>
-        /// <param name="nodeIndex">Index of the inserted item upon return.</param>
-        void InsertNewItem(IFocusNodeState state, string propertyName, Type insertType, out IFocusBrowsingCollectionNodeIndex nodeIndex);
     }
 
     /// <summary>
@@ -357,65 +348,6 @@ namespace EaslyController.Focus
                 return false;
 
             return true;
-        }
-
-        /// <summary>
-        /// Inserts a new item of type <paramref name="insertType"/> at the begining of a collection specified with <paramref name="propertyName"/>.
-        /// </summary>
-        /// <param name="state">The state where to insert the item.</param>
-        /// <param name="propertyName">Property name of the collection.</param>
-        /// <param name="insertType">Type of item to insert.</param>
-        /// <param name="nodeIndex">Index of the inserted item upon return.</param>
-        public virtual void InsertNewItem(IFocusNodeState state, string propertyName, Type insertType, out IFocusBrowsingCollectionNodeIndex nodeIndex)
-        {
-            Debug.Assert(state.InnerTable.ContainsKey(propertyName));
-            Debug.Assert(state.InnerTable[propertyName].InterfaceType.IsAssignableFrom(insertType));
-
-            switch (state.InnerTable[propertyName])
-            {
-                case IFocusBlockListInner<IFocusBrowsingBlockNodeIndex> AsBlockListInner:
-                    InsertNewItem(AsBlockListInner, insertType, out nodeIndex);
-                    break;
-                case IFocusListInner<IFocusBrowsingListNodeIndex> AsListInner:
-                    InsertNewItem(AsListInner, insertType, out nodeIndex);
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(propertyName));
-            }
-        }
-
-        protected virtual void InsertNewItem(IFocusBlockListInner<IFocusBrowsingBlockNodeIndex> inner, Type insertType, out IFocusBrowsingCollectionNodeIndex nodeIndex)
-        {
-            Type InterfaceType = NodeTreeHelper.NodeTypeToInterfaceType(insertType);
-            INode NewItem = NodeHelper.CreateDefault(InterfaceType);
-
-            IFocusInsertionBlockNodeIndex NewIndex;
-            if (inner.Count == 0)
-            {
-                IPattern NewPattern = NodeHelper.CreateEmptyPattern();
-                IIdentifier NewSource = NodeHelper.CreateEmptyIdentifier();
-                NewIndex = CreateNewBlockNodeIndex(inner.Owner.Node, inner.PropertyName, NewItem, 0, NewPattern, NewSource) as IFocusInsertionBlockNodeIndex;
-            }
-            else
-                NewIndex = CreateExistingBlockNodeIndex(inner.Owner.Node, inner.PropertyName, NewItem, 0, 0);
-
-            Debug.Assert(NewIndex != null);
-
-            Insert(inner, NewIndex, out IWriteableBrowsingCollectionNodeIndex NewNodeIndex);
-
-            nodeIndex = NewNodeIndex as IFocusBrowsingCollectionNodeIndex;
-        }
-
-        protected virtual void InsertNewItem(IFocusListInner<IFocusBrowsingListNodeIndex> inner, Type insertType, out IFocusBrowsingCollectionNodeIndex nodeIndex)
-        {
-            Type InterfaceType = NodeTreeHelper.NodeTypeToInterfaceType(insertType);
-            INode NewItem = NodeHelper.CreateDefault(InterfaceType);
-
-            IFocusInsertionListNodeIndex NewIndex = CreateListNodeIndex(inner.Owner.Node, inner.PropertyName, NewItem, 0);
-
-            Insert(inner, NewIndex, out IWriteableBrowsingCollectionNodeIndex NewNodeIndex);
-
-            nodeIndex = NewNodeIndex as IFocusBrowsingCollectionNodeIndex;
         }
         #endregion
 
@@ -672,24 +604,6 @@ namespace EaslyController.Focus
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusController));
             return new FocusGenericRefreshOperation((IFocusNodeState)refreshState, isNested);
-        }
-
-        /// <summary>
-        /// Creates a IxxxInsertionExistingBlockNodeIndex object.
-        /// </summary>
-        protected virtual IFocusInsertionExistingBlockNodeIndex CreateExistingBlockNodeIndex(INode parentNode, string propertyName, INode node, int blockIndex, int index)
-        {
-            ControllerTools.AssertNoOverride(this, typeof(FocusController));
-            return new FocusInsertionExistingBlockNodeIndex(parentNode, propertyName, node, blockIndex, index);
-        }
-
-        /// <summary>
-        /// Creates a IxxxInsertionListNodeIndex object.
-        /// </summary>
-        protected virtual IFocusInsertionListNodeIndex CreateListNodeIndex(INode parentNode, string propertyName, INode node, int index)
-        {
-            ControllerTools.AssertNoOverride(this, typeof(FocusController));
-            return new FocusInsertionListNodeIndex(parentNode, propertyName, node, index);
         }
         #endregion
     }

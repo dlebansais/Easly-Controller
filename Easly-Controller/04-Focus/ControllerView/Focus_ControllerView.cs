@@ -146,12 +146,10 @@ namespace EaslyController.Focus
         /// <summary>
         /// Checks if a new item can be inserted at the focus.
         /// </summary>
-        bool IsNewItemInsertable();
-
-        /// <summary>
-        /// Checks if a new item can be inserted at the focus.
-        /// </summary>
-        void InsertNewItem();
+        /// <param name="inner">Inner to use to insert to new item upon return.</param>
+        /// <param name="index">Index of the new item to insert upon return.</param>
+        /// <returns>True if a new item can be inserted at the focus.</returns>
+        bool IsNewItemInsertable(out IFocusCollectionInner<IFocusBrowsingCollectionNodeIndex> inner, out IFocusInsertionCollectionNodeIndex index);
     }
 
     /// <summary>
@@ -524,56 +522,73 @@ namespace EaslyController.Focus
         /// <summary>
         /// Checks if a new item can be inserted at the focus.
         /// </summary>
-        public virtual bool IsNewItemInsertable()
+        /// <param name="inner">Inner to use to insert to new item upon return.</param>
+        /// <param name="index">Index of the new item to insert upon return.</param>
+        /// <returns>True if a new item can be inserted at the focus.</returns>
+        public virtual bool IsNewItemInsertable(out IFocusCollectionInner<IFocusBrowsingCollectionNodeIndex> inner, out IFocusInsertionCollectionNodeIndex index)
         {
+            inner = null;
+            index = null;
+
             Debug.Assert(FocusedCellView != null);
 
-            if (FocusedCellView.Frame is IFocusInsertFrame)
-                return true;
+            IFocusNodeState State = FocusedCellView.StateView.State;
+
+            if (FocusedCellView.Frame is IFocusInsertFrame AsInsertFrame)
+            {
+                Type InterfaceType = NodeTreeHelper.NodeTypeToInterfaceType(AsInsertFrame.InsertType);
+                INode NewItem = NodeHelper.CreateDefault(InterfaceType);
+
+                Debug.Assert(State.InnerTable.ContainsKey(AsInsertFrame.CollectionName));
+                IFocusInner<IFocusBrowsingChildIndex> CollectionInner = State.InnerTable[AsInsertFrame.CollectionName];
+                Debug.Assert(CollectionInner != null);
+                Debug.Assert(CollectionInner.PropertyName == AsInsertFrame.CollectionName);
+
+                if (CollectionInner is IFocusBlockListInner<IFocusBrowsingBlockNodeIndex> AsBlockListInner)
+                {
+                    inner = AsBlockListInner;
+
+                    if (AsBlockListInner.Count == 0)
+                    {
+                        IPattern NewPattern = NodeHelper.CreateEmptyPattern();
+                        IIdentifier NewSource = NodeHelper.CreateEmptyIdentifier();
+                        index = CreateNewBlockNodeIndex(State.Node, AsInsertFrame.CollectionName, NewItem, 0, NewPattern, NewSource);
+                    }
+                    else
+                        index = CreateExistingBlockNodeIndex(State.Node, AsInsertFrame.CollectionName, NewItem, 0, 0);
+
+                    return true;
+                }
+
+                else if (inner is IFocusListInner<IFocusBrowsingListNodeIndex> AsListInner)
+                {
+                    inner = AsListInner;
+                    index = CreateListNodeIndex(State.Node, inner.PropertyName, NewItem, 0);
+
+                    return true;
+                }
+                else
+                    throw new ArgumentOutOfRangeException(nameof(CollectionInner));
+            }
 
             else if ((FocusedCellView.Frame is IFocusTextValueFrame AsTextValueFrame) && CaretPosition == 0)
             {
-                IFocusNodeState State = FocusedCellView.StateView.State;
                 if (State.ParentInner is IFocusListInner<IFocusBrowsingListNodeIndex> AsListInner)
                 {
                     Type InsertType = NodeTreeHelper.InterfaceTypeToNodeType(AsListInner.InterfaceType);
                     if (!InsertType.IsAbstract)
+                    {
+                        INode NewItem = NodeHelper.CreateDefault(AsListInner.InterfaceType);
+
+                        inner = AsListInner;
+                        index = CreateListNodeIndex(inner.Owner.Node, inner.PropertyName, NewItem, 0);
+
                         return true;
-                    else
-                        return false;
+                    }
                 }
-                else
-                    return false;
             }
-            else
-                return false;
-        }
 
-        /// <summary>
-        /// Checks if a new item can be inserted at the focus.
-        /// </summary>
-        public virtual void InsertNewItem()
-        {
-            Debug.Assert(IsNewItemInsertable());
-
-            if (FocusedCellView.Frame is IFocusInsertFrame AsInsertFrame)
-                Controller.InsertNewItem(FocusedCellView.StateView.State, AsInsertFrame.CollectionName, AsInsertFrame.InsertType, out IFocusBrowsingCollectionNodeIndex NodeIndex);
-
-            else if (FocusedCellView.Frame is IFocusTextValueFrame AsTextValueFrame)
-            {
-                Debug.Assert(CaretPosition == 0);
-
-                IFocusNodeState State = FocusedCellView.StateView.State;
-                IFocusListInner<IFocusBrowsingListNodeIndex> Inner = State.ParentInner as IFocusListInner<IFocusBrowsingListNodeIndex>;
-                Debug.Assert(Inner != null);
-
-                Type InsertType = NodeTreeHelper.InterfaceTypeToNodeType(Inner.InterfaceType);
-                Debug.Assert(!InsertType.IsAbstract);
-
-                Controller.InsertNewItem(Inner.Owner, Inner.PropertyName, InsertType, out IFocusBrowsingCollectionNodeIndex NodeIndex);
-            }
-            else
-                throw new InvalidOperationException();
+            return false;
         }
         #endregion
 
@@ -1009,6 +1024,33 @@ namespace EaslyController.Focus
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusControllerView));
             return new FocusFocusableCellViewList();
+        }
+
+        /// <summary>
+        /// Creates a IxxxInsertionNewBlockNodeIndex object.
+        /// </summary>
+        protected virtual IFocusInsertionNewBlockNodeIndex CreateNewBlockNodeIndex(INode parentNode, string propertyName, INode node, int blockIndex, IPattern patternNode, IIdentifier sourceNode)
+        {
+            ControllerTools.AssertNoOverride(this, typeof(FocusControllerView));
+            return new FocusInsertionNewBlockNodeIndex(parentNode, propertyName, node, 0, patternNode, sourceNode);
+        }
+
+        /// <summary>
+        /// Creates a IxxxInsertionExistingBlockNodeIndex object.
+        /// </summary>
+        protected virtual IFocusInsertionExistingBlockNodeIndex CreateExistingBlockNodeIndex(INode parentNode, string propertyName, INode node, int blockIndex, int index)
+        {
+            ControllerTools.AssertNoOverride(this, typeof(FocusControllerView));
+            return new FocusInsertionExistingBlockNodeIndex(parentNode, propertyName, node, blockIndex, index);
+        }
+
+        /// <summary>
+        /// Creates a IxxxInsertionListNodeIndex object.
+        /// </summary>
+        protected virtual IFocusInsertionListNodeIndex CreateListNodeIndex(INode parentNode, string propertyName, INode node, int index)
+        {
+            ControllerTools.AssertNoOverride(this, typeof(FocusControllerView));
+            return new FocusInsertionListNodeIndex(parentNode, propertyName, node, index);
         }
         #endregion
     }

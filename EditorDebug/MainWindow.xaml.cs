@@ -15,6 +15,7 @@ using System.Diagnostics;
 using EaslyController.Constants;
 using System.Windows.Media;
 using EaslyController.Focus;
+using EaslyController.Writeable;
 
 namespace EditorDebug
 {
@@ -72,10 +73,10 @@ namespace EditorDebug
         {
             if (ControllerView == null)
                 return;
-            if (!ControllerView.IsNewItemInsertable())
+            if (!ControllerView.IsNewItemInsertable(out IFocusCollectionInner<IFocusBrowsingCollectionNodeIndex> inner, out IFocusInsertionCollectionNodeIndex index))
                 return;
 
-            ControllerView.InsertNewItem();
+            ControllerView.Controller.Insert(inner, index, out IWriteableBrowsingCollectionNodeIndex nodeIndex);
             UpdateFocusView();
         }
 
