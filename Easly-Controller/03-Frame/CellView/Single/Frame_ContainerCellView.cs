@@ -34,6 +34,9 @@ namespace EaslyController.Frame
         public FrameContainerCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, IFrameNodeStateView childStateView)
             : base(stateView)
         {
+            Debug.Assert(parentCellView != null);
+            Debug.Assert(childStateView != null);
+
             ParentCellView = parentCellView;
             ChildStateView = childStateView;
         }

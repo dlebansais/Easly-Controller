@@ -536,13 +536,11 @@ namespace EaslyController.Focus
 
             if (FocusedCellView.Frame is IFocusInsertFrame AsInsertFrame)
             {
-                Type InterfaceType = NodeTreeHelper.NodeTypeToInterfaceType(AsInsertFrame.InsertType);
-                INode NewItem = NodeHelper.CreateDefault(InterfaceType);
+                INode NewItem = BuildNewInsertableItem(AsInsertFrame.InsertType);
 
-                Debug.Assert(State.InnerTable.ContainsKey(AsInsertFrame.CollectionName));
-                IFocusInner<IFocusBrowsingChildIndex> CollectionInner = State.InnerTable[AsInsertFrame.CollectionName];
+                IFocusCollectionInner<IFocusBrowsingCollectionNodeIndex> CollectionInner = null;
+                AsInsertFrame.CollectionNameToInner(ref State, ref CollectionInner);
                 Debug.Assert(CollectionInner != null);
-                Debug.Assert(CollectionInner.PropertyName == AsInsertFrame.CollectionName);
 
                 if (CollectionInner is IFocusBlockListInner<IFocusBrowsingBlockNodeIndex> AsBlockListInner)
                 {
@@ -552,18 +550,18 @@ namespace EaslyController.Focus
                     {
                         IPattern NewPattern = NodeHelper.CreateEmptyPattern();
                         IIdentifier NewSource = NodeHelper.CreateEmptyIdentifier();
-                        index = CreateNewBlockNodeIndex(State.Node, AsInsertFrame.CollectionName, NewItem, 0, NewPattern, NewSource);
+                        index = CreateNewBlockNodeIndex(State.Node, CollectionInner.PropertyName, NewItem, 0, NewPattern, NewSource);
                     }
                     else
-                        index = CreateExistingBlockNodeIndex(State.Node, AsInsertFrame.CollectionName, NewItem, 0, 0);
+                        index = CreateExistingBlockNodeIndex(State.Node, CollectionInner.PropertyName, NewItem, 0, 0);
 
                     return true;
                 }
 
-                else if (inner is IFocusListInner<IFocusBrowsingListNodeIndex> AsListInner)
+                else if (CollectionInner is IFocusListInner<IFocusBrowsingListNodeIndex> AsListInner)
                 {
                     inner = AsListInner;
-                    index = CreateListNodeIndex(State.Node, inner.PropertyName, NewItem, 0);
+                    index = CreateListNodeIndex(State.Node, AsListInner.PropertyName, NewItem, 0);
 
                     return true;
                 }
@@ -576,19 +574,21 @@ namespace EaslyController.Focus
                 if (State.ParentInner is IFocusListInner<IFocusBrowsingListNodeIndex> AsListInner)
                 {
                     Type InsertType = NodeTreeHelper.InterfaceTypeToNodeType(AsListInner.InterfaceType);
-                    if (!InsertType.IsAbstract)
-                    {
-                        INode NewItem = NodeHelper.CreateDefault(AsListInner.InterfaceType);
+                    INode NewItem = BuildNewInsertableItem(InsertType);
 
-                        inner = AsListInner;
-                        index = CreateListNodeIndex(inner.Owner.Node, inner.PropertyName, NewItem, 0);
+                    inner = AsListInner;
+                    index = CreateListNodeIndex(inner.Owner.Node, inner.PropertyName, NewItem, 0);
 
-                        return true;
-                    }
+                    return true;
                 }
             }
 
             return false;
+        }
+
+        protected virtual INode BuildNewInsertableItem(Type insertType)
+        {
+            return NodeHelper.CreateEmptyNode(insertType);
         }
         #endregion
 

@@ -96,15 +96,12 @@ namespace EaslyController.Frame
             IOptionalReference Optional = State.Optional;
             Debug.Assert(Optional != null);
 
-            _CellViewTable = CreateCellViewTable();
+            InitCellViewTable();
 
             Debug.Assert(RootCellView == null);
 
             if (Optional.IsAssigned)
             {
-                foreach (KeyValuePair<string, IFrameInner<IFrameBrowsingChildIndex>> Entry in State.InnerTable)
-                    _CellViewTable.Add(Entry.Value.PropertyName, null);
-
                 IFrameNodeTemplate NodeTemplate = Template as IFrameNodeTemplate;
                 Debug.Assert(NodeTemplate != null);
 
@@ -113,7 +110,19 @@ namespace EaslyController.Frame
             else
                 SetRootCellView(CreateEmptyCellView(this));
 
-            CellViewTable = CreateCellViewReadOnlyTable(_CellViewTable);
+            SealCellViewTable();
+        }
+
+        /// <summary></summary>
+        protected virtual void InitCellViewTable()
+        {
+            IOptionalReference Optional = State.Optional;
+
+            _CellViewTable = CreateCellViewTable();
+
+            if (Optional.IsAssigned)
+                foreach (KeyValuePair<string, IFrameInner<IFrameBrowsingChildIndex>> Entry in State.InnerTable)
+                    _CellViewTable.Add(Entry.Value.PropertyName, null);
         }
 
         /// <summary></summary>
@@ -123,6 +132,12 @@ namespace EaslyController.Frame
             Debug.Assert(RootCellView == null);
 
             RootCellView = cellView;
+        }
+
+        /// <summary></summary>
+        protected virtual void SealCellViewTable()
+        {
+            CellViewTable = CreateCellViewReadOnlyTable(_CellViewTable);
         }
 
         /// <summary>

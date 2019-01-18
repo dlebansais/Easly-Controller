@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace EaslyController
 {
@@ -51,6 +52,9 @@ namespace EaslyController
         /// <param name="obj2">The second object.</param>
         public bool VerifyEqual(IEqualComparable obj1, IEqualComparable obj2)
         {
+            Debug.Assert(obj1 != null);
+            Debug.Assert(obj2 != null);
+
             if (!ComparedObjectList.ContainsKey(obj1))
                 ComparedObjectList.Add(obj1, false);
             else if (!ComparedObjectList.ContainsKey(obj2))

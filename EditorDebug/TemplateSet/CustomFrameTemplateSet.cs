@@ -1765,7 +1765,9 @@ namespace TestDebug
         </FrameHorizontalPanelFrame>
     </FrameNodeTemplate>
     <FrameNodeTemplate NodeType=""{xaml:Type IPositionalTypeArgument}"">
-        <FramePlaceholderFrame PropertyName=""Source"" />
+        <FrameHorizontalPanelFrame>
+            <FramePlaceholderFrame PropertyName=""Source""/>
+        </FrameHorizontalPanelFrame>
     </FrameNodeTemplate>
 </FrameTemplateList>";
         #endregion

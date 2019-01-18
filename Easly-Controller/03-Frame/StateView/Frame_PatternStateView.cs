@@ -84,14 +84,20 @@ namespace EaslyController.Frame
 
             Debug.Assert(RootCellView == null);
 
-            _CellViewTable = CreateCellViewTable();
+            InitCellViewTable();
 
             IFrameNodeTemplate NodeTemplate = Template as IFrameNodeTemplate;
             Debug.Assert(NodeTemplate != null);
 
             SetRootCellView(NodeTemplate.BuildNodeCells(context));
 
-            CellViewTable = CreateCellViewReadOnlyTable(_CellViewTable);
+            SealCellViewTable();
+        }
+
+        /// <summary></summary>
+        protected virtual void InitCellViewTable()
+        {
+            _CellViewTable = CreateCellViewTable();
         }
 
         /// <summary></summary>
@@ -101,6 +107,12 @@ namespace EaslyController.Frame
             Debug.Assert(RootCellView == null);
 
             RootCellView = cellView;
+        }
+
+        /// <summary></summary>
+        protected virtual void SealCellViewTable()
+        {
+            CellViewTable = CreateCellViewReadOnlyTable(_CellViewTable);
         }
 
         /// <summary>

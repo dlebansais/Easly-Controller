@@ -75,7 +75,11 @@ namespace EaslyController.Focus
             if (((IFocusCellViewTreeContext)context).IsVisible)
                 base.BuildRootCellView(context);
             else
+            {
+                InitCellViewTable();
                 SetRootCellView(CreateEmptyCellView(((IFocusCellViewTreeContext)context).StateView));
+                SealCellViewTable();
+            }
         }
 
         /// <summary>

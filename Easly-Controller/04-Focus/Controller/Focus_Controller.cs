@@ -4,6 +4,7 @@ using EaslyController.Frame;
 using EaslyController.ReadOnly;
 using EaslyController.Writeable;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace EaslyController.Focus
@@ -342,10 +343,13 @@ namespace EaslyController.Focus
             Debug.Assert(Node != null);
 
             Type InterfaceType = NodeTreeHelper.NodeTypeToInterfaceType(inner.Owner.Node.GetType());
-            IFocusNodeSemantic NodeSemantic = SemanticSet.NodeTypeToSemantic(InterfaceType);
-
-            if (NodeSemantic.IsNeverEmpty(PropertyName))
-                return false;
+            IReadOnlyDictionary<Type, string[]> NeverEmptyCollectionTable = NodeHelper.NeverEmptyCollectionTable;
+            if (NeverEmptyCollectionTable.ContainsKey(InterfaceType))
+            {
+                foreach (string Item in NeverEmptyCollectionTable[InterfaceType])
+                    if (Item == PropertyName)
+                        return false;
+            }
 
             return true;
         }
@@ -359,15 +363,6 @@ namespace EaslyController.Focus
             Debug.Assert(!IsInitialized); // Must be called during initialization
 
             SemanticSet = semanticSet;
-        }
-
-        /// <summary></summary>
-        protected override void CheckInvariant()
-        {
-            base.CheckInvariant();
-
-            bool IsSemanticSetCompatible = SemanticSet.IsCompatible(RootState.Node);
-            Debug.Assert(IsSemanticSetCompatible);
         }
         #endregion
 

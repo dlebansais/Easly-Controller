@@ -21,6 +21,13 @@ namespace EaslyController.Focus
         /// Type to use when inserting a new item in the collection.
         /// </summary>
         Type InsertType { get; }
+
+        /// <summary>
+        /// Returns the inner for the collection associated to this frame, for a given state.
+        /// </summary>
+        /// <param name="state">The state, modified if <see cref="CollectionName"/> points to a different state.</param>
+        /// <param name="inner">The inner associated to the collection in <paramref name="state"/>.</param>
+        void CollectionNameToInner(ref IFocusNodeState state, ref IFocusCollectionInner<IFocusBrowsingCollectionNodeIndex> inner);
     }
 
     /// <summary>
@@ -89,6 +96,7 @@ namespace EaslyController.Focus
             return true;
         }
 
+        /// <summary></summary>
         protected override void UpdateInterfaceType(Type nodeType)
         {
             base.UpdateInterfaceType(nodeType);
@@ -148,6 +156,52 @@ namespace EaslyController.Focus
 
                 lastPreferredFrame = this;
             }
+        }
+
+        /// <summary>
+        /// Returns the inner for the collection associated to this frame, for a given state.
+        /// </summary>
+        /// <param name="state">The state, modified if <see cref="CollectionName"/> points to a different state.</param>
+        /// <param name="inner">The inner associated to the collection in <paramref name="state"/>.</param>
+        public virtual void CollectionNameToInner(ref IFocusNodeState state, ref IFocusCollectionInner<IFocusBrowsingCollectionNodeIndex> inner)
+        {
+            Debug.Assert(inner == null);
+
+            string[] Split = CollectionName.Split('.');
+
+            for (int i = 0; i < Split.Length; i++)
+            {
+                string PropertyName = Split[i];
+
+                if (i + 1 < Split.Length)
+                {
+                    Debug.Assert(state.InnerTable.ContainsKey(PropertyName));
+
+                    switch (state.InnerTable[PropertyName])
+                    {
+                        case IFocusPlaceholderInner<IFocusBrowsingPlaceholderNodeIndex> AsPlaceholderInner:
+                            state = AsPlaceholderInner.ChildState;
+                            break;
+
+                        case IFocusOptionalInner<IFocusBrowsingOptionalNodeIndex> AsOptionalInner:
+                            Debug.Assert(AsOptionalInner.IsAssigned);
+                            state = AsOptionalInner.ChildState;
+                            break;
+
+                        default:
+                            throw new ArgumentOutOfRangeException(nameof(PropertyName));
+                    }
+                }
+                else
+                {
+                    Debug.Assert(state.InnerTable.ContainsKey(PropertyName));
+                    inner = state.InnerTable[PropertyName] as IFocusCollectionInner<IFocusBrowsingCollectionNodeIndex>;
+                }
+            }
+
+            Debug.Assert(inner != null);
+            Debug.Assert(state.InnerTable.ContainsKey(inner.PropertyName));
+            Debug.Assert(state.InnerTable[inner.PropertyName] == inner);
         }
         #endregion
 

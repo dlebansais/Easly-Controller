@@ -1470,6 +1470,118 @@ namespace EaslyController.Writeable
         }
         #endregion
 
+        #region Invariant
+        /// <summary></summary>
+        protected override void CheckInvariant()
+        {
+            base.CheckInvariant();
+
+            bool IsValid = IsNodeTreeValid(RootState.Node);
+            Debug.Assert(IsValid);
+        }
+
+        /// <summary></summary>
+        protected virtual bool IsNodeTreeValid(INode node)
+        {
+            Type ChildNodeType;
+            IList<string> PropertyNames = NodeTreeHelper.EnumChildNodeProperties(node);
+
+            foreach (string PropertyName in PropertyNames)
+            {
+                if (NodeTreeHelperChild.IsChildNodeProperty(node, PropertyName, out ChildNodeType))
+                {
+                    NodeTreeHelperChild.GetChildNode(node, PropertyName, out INode ChildNode);
+                    if (!IsNodeTreeValid(ChildNode))
+                        return false;
+                }
+
+                else if (NodeTreeHelperOptional.IsOptionalChildNodeProperty(node, PropertyName, out ChildNodeType))
+                {
+                    NodeTreeHelperOptional.GetChildNode(node, PropertyName, out bool IsAssigned, out INode ChildNode);
+                    if (IsAssigned)
+                        if (!IsNodeTreeValid(ChildNode))
+                            return false;
+                }
+
+                else if (NodeTreeHelperList.IsNodeListProperty(node, PropertyName, out ChildNodeType))
+                {
+                    NodeTreeHelperList.GetChildNodeList(node, PropertyName, out IReadOnlyList<INode> ChildNodeList);
+
+                    if (ChildNodeList.Count == 0)
+                        if (!IsEmptyListValid(node, PropertyName))
+                            return false;
+
+                    for (int Index = 0; Index < ChildNodeList.Count; Index++)
+                    {
+                        INode ChildNode = ChildNodeList[Index];
+                        if (!IsNodeTreeValid(ChildNode))
+                            return false;
+                    }
+                }
+
+                else if (NodeTreeHelperBlockList.IsBlockListProperty(node, PropertyName, out Type ChildInterfaceType, out ChildNodeType))
+                {
+                    NodeTreeHelperBlockList.GetChildBlockList(node, PropertyName, out IReadOnlyList<INodeTreeBlock> ChildBlockList);
+
+                    if (ChildBlockList.Count == 0)
+                        if (!IsEmptyBlockListValid(node, PropertyName))
+                            return false;
+
+                    for (int BlockIndex = 0; BlockIndex < ChildBlockList.Count; BlockIndex++)
+                    {
+                        INodeTreeBlock Block = ChildBlockList[BlockIndex];
+                        Debug.Assert(Block.NodeList.Count > 0);
+
+                        for (int Index = 0; Index < Block.NodeList.Count; Index++)
+                        {
+                            INode ChildNode = Block.NodeList[Index];
+                            if (!IsNodeTreeValid(ChildNode))
+                                return false;
+                        }
+                    }
+                }
+            }
+
+            return true;
+        }
+
+        /// <summary></summary>
+        protected virtual bool IsEmptyListValid(INode node, string propertyName)
+        {
+            Type NodeType = node.GetType();
+            Debug.Assert(NodeTreeHelperList.IsNodeListProperty(NodeType, propertyName, out Type ChildNodeType));
+
+            Type InterfaceType = NodeTreeHelper.NodeTypeToInterfaceType(NodeType);
+            IReadOnlyDictionary<Type, string[]> NeverEmptyCollectionTable = NodeHelper.NeverEmptyCollectionTable;
+            if (NeverEmptyCollectionTable.ContainsKey(InterfaceType))
+            {
+                foreach (string Item in NeverEmptyCollectionTable[InterfaceType])
+                    if (Item == propertyName)
+                        return false;
+            }
+
+            return true;
+        }
+
+        /// <summary></summary>
+        protected virtual bool IsEmptyBlockListValid(INode node, string propertyName)
+        {
+            Type NodeType = node.GetType();
+            Debug.Assert(NodeTreeHelperBlockList.IsBlockListProperty(NodeType, propertyName, out Type ChildInterfaceType, out Type ChildNodeType));
+
+            Type InterfaceType = NodeTreeHelper.NodeTypeToInterfaceType(NodeType);
+            IReadOnlyDictionary<Type, string[]> NeverEmptyCollectionTable = NodeHelper.NeverEmptyCollectionTable;
+            if (NeverEmptyCollectionTable.ContainsKey(InterfaceType))
+            {
+                foreach (string Item in NeverEmptyCollectionTable[InterfaceType])
+                    if (Item == propertyName)
+                        return false;
+            }
+
+            return true;
+        }
+        #endregion
+
         #region Create Methods
         /// <summary>
         /// Creates a IxxxIndexNodeStateDictionary object.

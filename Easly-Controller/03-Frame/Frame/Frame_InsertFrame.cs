@@ -1,5 +1,6 @@
 ﻿using BaseNodeHelper;
 using System;
+using System.Diagnostics;
 using System.Windows.Markup;
 
 namespace EaslyController.Frame
@@ -61,6 +62,7 @@ namespace EaslyController.Frame
             return true;
         }
 
+        /// <summary></summary>
         protected virtual void UpdateInterfaceType(Type nodeType)
         {
             if (InterfaceType != null)

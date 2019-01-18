@@ -2981,7 +2981,9 @@ namespace TestDebug
         </FocusHorizontalPanelFrame>
     </FocusNodeTemplate>
     <FocusNodeTemplate NodeType=""{xaml:Type IPositionalTypeArgument}"">
-        <FocusPlaceholderFrame PropertyName=""Source"" />
+        <FocusHorizontalPanelFrame>
+            <FocusPlaceholderFrame PropertyName=""Source""/>
+        </FocusHorizontalPanelFrame>
     </FocusNodeTemplate>
 </FocusTemplateList>";
         #endregion
