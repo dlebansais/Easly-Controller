@@ -106,13 +106,6 @@ namespace EaslyController.Focus
         /// Called when two blocks are merged.
         /// </summary>
         new event Action<IFocusMergeBlocksOperation> BlocksMerged;
-
-        /// <summary>
-        /// Checks whether a node can be removed from a list.
-        /// </summary>
-        /// <param name="inner">The inner where the node is.</param>
-        /// <param name="nodeIndex">Index of the node that would be removed.</param>
-        bool IsRemoveable(IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> inner, IWriteableBrowsingCollectionNodeIndex nodeIndex);
     }
 
     /// <summary>
@@ -305,40 +298,6 @@ namespace EaslyController.Focus
         /// State table.
         /// </summary>
         protected new IFocusIndexNodeStateReadOnlyDictionary StateTable { get { return (IFocusIndexNodeStateReadOnlyDictionary)base.StateTable; } }
-        #endregion
-
-        #region Client Interface
-        /// <summary>
-        /// Checks whether a node can be removed from a list.
-        /// </summary>
-        /// <param name="inner">The inner where the node is.</param>
-        /// <param name="nodeIndex">Index of the node that would be removed.</param>
-        public bool IsRemoveable(IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> inner, IWriteableBrowsingCollectionNodeIndex nodeIndex)
-        {
-            Debug.Assert(inner != null);
-            Debug.Assert(nodeIndex != null);
-
-            if (inner.Count > 1)
-                return true;
-
-            Debug.Assert(inner.Count == 1);
-            Debug.Assert(inner.Owner != null);
-
-            INode Node = inner.Owner.Node;
-            string PropertyName = inner.PropertyName;
-            Debug.Assert(Node != null);
-
-            Type InterfaceType = NodeTreeHelper.NodeTypeToInterfaceType(inner.Owner.Node.GetType());
-            IReadOnlyDictionary<Type, string[]> NeverEmptyCollectionTable = NodeHelper.NeverEmptyCollectionTable;
-            if (NeverEmptyCollectionTable.ContainsKey(InterfaceType))
-            {
-                foreach (string Item in NeverEmptyCollectionTable[InterfaceType])
-                    if (Item == PropertyName)
-                        return false;
-            }
-
-            return true;
-        }
         #endregion
 
         #region Create Methods
