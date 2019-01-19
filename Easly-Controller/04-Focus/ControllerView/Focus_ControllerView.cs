@@ -160,6 +160,22 @@ namespace EaslyController.Focus
         bool IsItemRemoveable(out IFocusCollectionInner<IFocusBrowsingCollectionNodeIndex> inner, out IFocusBrowsingCollectionNodeIndex index);
 
         /// <summary>
+        /// Checks if an existing block at the focus can be split in two.
+        /// </summary>
+        /// <param name="inner">Inner to use to split the block upon return.</param>
+        /// <param name="index">Index of the block to split upon return.</param>
+        /// <returns>True if a block can be split at the focus.</returns>
+        bool IsItemSplittable(out IFocusBlockListInner<IFocusBrowsingBlockNodeIndex> inner, out IFocusBrowsingExistingBlockNodeIndex index);
+
+        /// <summary>
+        /// Checks if two existing blocks at the focus can be merged.
+        /// </summary>
+        /// <param name="inner">Inner to use to merge the blocks upon return.</param>
+        /// <param name="index">Index of the last item in the block to merge upon return.</param>
+        /// <returns>True if two blocks can be merged at the focus.</returns>
+        bool IsItemMergeable(out IFocusBlockListInner<IFocusBrowsingBlockNodeIndex> inner, out IFocusBrowsingExistingBlockNodeIndex index);
+
+        /// <summary>
         /// Checks if an existing item at the focus can be moved up or down.
         /// </summary>
         /// <param name="direction">Direction of the move, relative to the current position of the item.</param>
@@ -645,6 +661,90 @@ namespace EaslyController.Focus
                         Debug.Assert(index != null);
 
                         if (Controller.IsRemoveable(inner, index))
+                            return true;
+                        else
+                            return false;
+                    }
+
+                    State = State.ParentState;
+                }
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Checks if an existing block at the focus can be split in two.
+        /// </summary>
+        /// <param name="inner">Inner to use to split the block upon return.</param>
+        /// <param name="index">Index of the block to split upon return.</param>
+        /// <returns>True if a block can be split at the focus.</returns>
+        public virtual bool IsItemSplittable(out IFocusBlockListInner<IFocusBrowsingBlockNodeIndex> inner, out IFocusBrowsingExistingBlockNodeIndex index)
+        {
+            inner = null;
+            index = null;
+
+            Debug.Assert(FocusedCellView != null);
+
+            IFocusNodeState State = FocusedCellView.StateView.State;
+
+            if (FocusedCellView.Frame is IFocusInsertFrame AsInsertFrame)
+                return false;
+
+            else
+            {
+                // Search recursively for a collection parent, up to 3 levels up.
+                for (int i = 0; i < 3 && State != null; i++)
+                {
+                    if (State.ParentInner is IFocusBlockListInner<IFocusBrowsingBlockNodeIndex> AsBlockListInner)
+                    {
+                        inner = AsBlockListInner;
+                        index = State.ParentIndex as IFocusBrowsingExistingBlockNodeIndex;
+                        Debug.Assert(index != null);
+
+                        if (Controller.IsSplittable(inner, index))
+                            return true;
+                        else
+                            return false;
+                    }
+
+                    State = State.ParentState;
+                }
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Checks if two existing blocks at the focus can be merged.
+        /// </summary>
+        /// <param name="inner">Inner to use to merge the blocks upon return.</param>
+        /// <param name="index">Index of the last item in the block to merge upon return.</param>
+        /// <returns>True if two blocks can be merged at the focus.</returns>
+        public virtual bool IsItemMergeable(out IFocusBlockListInner<IFocusBrowsingBlockNodeIndex> inner, out IFocusBrowsingExistingBlockNodeIndex index)
+        {
+            inner = null;
+            index = null;
+
+            Debug.Assert(FocusedCellView != null);
+
+            IFocusNodeState State = FocusedCellView.StateView.State;
+
+            if (FocusedCellView.Frame is IFocusInsertFrame AsInsertFrame)
+                return false;
+
+            else
+            {
+                // Search recursively for a collection parent, up to 3 levels up.
+                for (int i = 0; i < 3 && State != null; i++)
+                {
+                    if (State.ParentInner is IFocusBlockListInner<IFocusBrowsingBlockNodeIndex> AsBlockListInner)
+                    {
+                        inner = AsBlockListInner;
+                        index = State.ParentIndex as IFocusBrowsingExistingBlockNodeIndex;
+                        Debug.Assert(index != null);
+
+                        if (Controller.IsMergeable(inner, index))
                             return true;
                         else
                             return false;

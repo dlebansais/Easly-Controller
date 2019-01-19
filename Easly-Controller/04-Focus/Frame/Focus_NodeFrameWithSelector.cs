@@ -3,7 +3,7 @@
     /// <summary>
     /// Frame that can have selectors.
     /// </summary>
-    public interface IFocusNodeFrameWithSelector : IFocusNodeFrame
+    public interface IFocusNodeFrameWithSelector
     {
         /// <summary>
         /// List of optional selectors.

@@ -50,36 +50,60 @@ namespace EditorDebug
 
         private void OnKeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.Up)
+            if (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl))
             {
-                if (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl))
-                    MoveExistingItem(-1);
-                else
-                    MoveFocus(-1);
-            }
+                switch (e.Key)
+                {
+                    case Key.Up:
+                        MoveExistingItem(-1);
+                        break;
 
-            else if (e.Key == Key.Down)
+                    case Key.Down:
+                        MoveExistingItem(+1);
+                        break;
+
+                    case Key.E:
+                        ToggleExpand();
+                        break;
+
+                    case Key.Y:
+                        RemoveExistingItem();
+                        break;
+
+                    case Key.S:
+                        SplitExistingItem();
+                        break;
+
+                    case Key.M:
+                        MergeExistingItem();
+                        break;
+                }
+            }
+            else
             {
-                if (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl))
-                    MoveExistingItem(+1);
-                else
-                    MoveFocus(+1);
+                switch (e.Key)
+                {
+                    case Key.Subtract:
+                        ChangeDiscreteValue(-1);
+                        break;
+
+                    case Key.Add:
+                        ChangeDiscreteValue(+1);
+                        break;
+
+                    case Key.Up:
+                        MoveFocus(-1);
+                        break;
+
+                    case Key.Down:
+                        MoveFocus(+1);
+                        break;
+
+                    case Key.Enter:
+                        InsertNewItem();
+                        break;
+                }
             }
-
-            else if (e.Key == Key.Subtract)
-                ChangeDiscreteValue(-1);
-
-            else if (e.Key == Key.Add)
-                ChangeDiscreteValue(+1);
-
-            else if (e.Key == Key.E && (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl)))
-                ToggleExpand();
-
-            else if (e.Key == Key.Enter)
-                InsertNewItem();
-
-            else if (e.Key == Key.Y && (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl)))
-                RemoveExistingItem();
         }
 
         private void InsertNewItem()
@@ -112,6 +136,28 @@ namespace EditorDebug
                 return;
 
             ControllerView.Controller.Move(inner, index, direction);
+            UpdateFocusView();
+        }
+
+        private void SplitExistingItem()
+        {
+            if (ControllerView == null)
+                return;
+            if (!ControllerView.IsItemSplittable(out IFocusBlockListInner<IFocusBrowsingBlockNodeIndex> inner, out IFocusBrowsingExistingBlockNodeIndex index))
+                return;
+
+            ControllerView.Controller.SplitBlock(inner, index);
+            UpdateFocusView();
+        }
+
+        private void MergeExistingItem()
+        {
+            if (ControllerView == null)
+                return;
+            if (!ControllerView.IsItemMergeable(out IFocusBlockListInner<IFocusBrowsingBlockNodeIndex> inner, out IFocusBrowsingExistingBlockNodeIndex index))
+                return;
+
+            ControllerView.Controller.MergeBlocks(inner, index);
             UpdateFocusView();
         }
 

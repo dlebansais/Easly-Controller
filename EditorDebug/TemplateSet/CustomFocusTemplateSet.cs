@@ -3443,7 +3443,11 @@ namespace TestDebug
                 </FocusPlaceholderFrame>
                 <FocusKeywordFrame>All</FocusKeywordFrame>
             </FocusHorizontalPanelFrame>
-            <FocusHorizontalCollectionPlaceholderFrame/>
+            <FocusHorizontalCollectionPlaceholderFrame>
+                <FocusHorizontalCollectionPlaceholderFrame.Selectors>
+                    <FocusFrameSelector SelectorType=""{xaml:Type IIdentifier}"" SelectorName=""Identifier""/>
+                </FocusHorizontalCollectionPlaceholderFrame.Selectors>
+            </FocusHorizontalCollectionPlaceholderFrame>
             <FocusKeywordFrame Text=""end"">
                 <FocusKeywordFrame.BlockVisibility>
                     <FocusReplicationFrameVisibility/>

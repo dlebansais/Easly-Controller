@@ -824,7 +824,8 @@ namespace EaslyController.Frame
         /// <summary></summary>
         protected virtual IFrameBlockCellView BuildBlockCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, IFrameBlockStateView blockStateView)
         {
-            IFrameCellViewTreeContext Context = CreateCellViewTreeContext(stateView);
+            IFrameCellViewTreeContext Context = InitializedCellViewTreeContext(stateView);
+            //IFrameCellViewTreeContext Context = CreateCellViewTreeContext(stateView);
             Context.SetBlockStateView(blockStateView);
             blockStateView.BuildRootCellView(Context);
 

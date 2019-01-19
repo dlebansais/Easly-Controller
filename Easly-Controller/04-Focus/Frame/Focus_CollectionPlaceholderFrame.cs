@@ -1,4 +1,5 @@
 ﻿using EaslyController.Frame;
+using System;
 using System.Diagnostics;
 
 namespace EaslyController.Focus
@@ -6,7 +7,7 @@ namespace EaslyController.Focus
     /// <summary>
     /// Base frame for a placeholder node in a block list.
     /// </summary>
-    public interface IFocusCollectionPlaceholderFrame : IFrameCollectionPlaceholderFrame, IFocusFrame, IFocusBlockFrame
+    public interface IFocusCollectionPlaceholderFrame : IFrameCollectionPlaceholderFrame, IFocusFrame, IFocusBlockFrame, IFocusNodeFrameWithSelector
     {
     }
 
@@ -15,6 +16,16 @@ namespace EaslyController.Focus
     /// </summary>
     public abstract class FocusCollectionPlaceholderFrame : FrameCollectionPlaceholderFrame, IFocusCollectionPlaceholderFrame
     {
+        #region Init
+        /// <summary>
+        /// Initializes a new instance of a <see cref="FocusCollectionPlaceholderFrame"/> object.
+        /// </summary>
+        public FocusCollectionPlaceholderFrame()
+        {
+            Selectors = CreateEmptySelectorList();
+        }
+        #endregion
+
         #region Properties
         /// <summary>
         /// Parent template.
@@ -31,6 +42,12 @@ namespace EaslyController.Focus
         /// (Set in Xaml)
         /// </summary>
         public IFocusBlockFrameVisibility BlockVisibility { get; set; }
+
+        /// <summary>
+        /// List of optional selectors.
+        /// (Set in Xaml)
+        /// </summary>
+        public IFocusFrameSelectorList Selectors { get; }
         #endregion
 
         #region Client Interface
@@ -41,6 +58,9 @@ namespace EaslyController.Focus
         public override IFrameCellView BuildBlockCells(IFrameCellViewTreeContext context)
         {
             ((IFocusCellViewTreeContext)context).UpdateBlockFrameVisibility(this, out bool OldFrameVisibility);
+            Type OldSelectorType = null;
+            string OldSelectorName = null;
+            ((IFocusCellViewTreeContext)context).AddOrReplaceSelectors(Selectors, out OldSelectorType, out OldSelectorName);
 
             IFocusCellViewCollection EmbeddingCellView = base.BuildBlockCells(context) as IFocusCellViewCollection;
             Debug.Assert(EmbeddingCellView != null);
@@ -50,6 +70,7 @@ namespace EaslyController.Focus
                 Debug.Assert(!EmbeddingCellView.HasVisibleCellView);
             }
 
+            ((IFocusCellViewTreeContext)context).RemoveOrRestoreSelectors(Selectors, OldSelectorType, OldSelectorName);
             ((IFocusCellViewTreeContext)context).RestoreFrameVisibility(OldFrameVisibility);
 
             return EmbeddingCellView;
@@ -73,6 +94,15 @@ namespace EaslyController.Focus
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusCollectionPlaceholderFrame));
             return new FocusContainerCellView((IFocusNodeStateView)stateView, (IFocusCellViewCollection)parentCellView, (IFocusNodeStateView)childStateView);
+        }
+
+        /// <summary>
+        /// Creates a IxxxFrameSelectorList object.
+        /// </summary>
+        protected virtual IFocusFrameSelectorList CreateEmptySelectorList()
+        {
+            ControllerTools.AssertNoOverride(this, typeof(FocusCollectionPlaceholderFrame));
+            return new FocusFrameSelectorList();
         }
         #endregion
     }
