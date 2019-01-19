@@ -140,10 +140,6 @@ Finally, template sets group templates together, with a list for nodes and anoth
 
 The focus layer introduces several features.
 
-### Node semantics
-
-A collection can require to be non-empty (for example, a path). In that case, a semantic object is associated to the node, and the corresponding collection has the `IsNeverEmpty` property set to true. More semantic can be added in next layers.
-
 ### Frame visibility.
 
 Starting with the focus layer, the content of a node can be only partially visible, for example if some information is redundant, such as a boolean or an enum having the default value. Several types of visibility are introduced:

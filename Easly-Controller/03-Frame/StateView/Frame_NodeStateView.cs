@@ -36,6 +36,11 @@ namespace EaslyController.Frame
         IFrameAssignableCellViewReadOnlyDictionary<string> CellViewTable { get; }
 
         /// <summary>
+        /// True if the node view contain at least one visible cell view.
+        /// </summary>
+        bool HasVisibleCellView { get; }
+
+        /// <summary>
         /// Builds the cell view tree for this view.
         /// </summary>
         /// <param name="context">Context used to build the cell view tree.</param>
@@ -120,6 +125,18 @@ namespace EaslyController.Frame
         /// Table of cell views that are mutable lists of cells.
         /// </summary>
         public virtual IFrameAssignableCellViewReadOnlyDictionary<string> CellViewTable { get { throw new InvalidOperationException(); } } // Can't make this abstract, thank you C#...
+
+        /// <summary>
+        /// True if the node view contain at least one visible cell view.
+        /// </summary>
+        public virtual bool HasVisibleCellView
+        {
+            get
+            {
+                Debug.Assert(RootCellView != null);
+                return RootCellView.HasVisibleCellView;
+            }
+        }
         #endregion
 
         #region Client Interface

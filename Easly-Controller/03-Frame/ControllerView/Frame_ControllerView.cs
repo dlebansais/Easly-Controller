@@ -175,13 +175,20 @@ namespace EaslyController.Frame
             IFrameAssignableCellViewReadOnlyDictionary<string> CellViewTable = OwnerStateView.CellViewTable;
             string PropertyName = ParentInner.PropertyName;
 
-            Debug.Assert(CellViewTable != null);
-            Debug.Assert(CellViewTable.ContainsKey(PropertyName));
-            IFrameCellViewCollection EmbeddingCellView = CellViewTable[PropertyName] as IFrameCellViewCollection;
-            Debug.Assert(EmbeddingCellView != null);
+            if (CellViewTable != null)
+            {
+                Debug.Assert(CellViewTable.ContainsKey(PropertyName));
+                IFrameCellViewCollection EmbeddingCellView = CellViewTable[PropertyName] as IFrameCellViewCollection;
+                Debug.Assert(EmbeddingCellView != null);
 
-            int BlockIndex = operation.BlockIndex.BlockIndex;
-            EmbeddingCellView.Remove(BlockIndex);
+                int BlockIndex = operation.BlockIndex.BlockIndex;
+                EmbeddingCellView.Remove(BlockIndex);
+            }
+            else
+            {
+                Debug.Assert(OwnerStateView.RootCellView == null);
+                Debug.Assert(operation.IsNested);
+            }
 
             if (!operation.IsNested)
                 Refresh(OwnerState);

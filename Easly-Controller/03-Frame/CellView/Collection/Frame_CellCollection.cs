@@ -15,11 +15,6 @@ namespace EaslyController.Frame
         IFrameCellViewList CellViewList { get; }
 
         /// <summary>
-        /// True if the collection contain at least one visible cell view.
-        /// </summary>
-        bool HasVisibleCellView { get; }
-
-        /// <summary>
         /// Inserts a new cell view in the collection.
         /// </summary>
         /// <param name="index">Index where to insert the cell view.</param>
@@ -93,43 +88,13 @@ namespace EaslyController.Frame
         /// <summary>
         /// True if the collection contain at least one visible cell view.
         /// </summary>
-        public bool HasVisibleCellView
+        public override bool HasVisibleCellView
         {
             get
             {
                 foreach (IFrameCellView CellView in CellViewList)
-                {
-                    switch (CellView)
-                    {
-                        case IFrameCellViewCollection AsCollection:
-                            if (AsCollection.HasVisibleCellView)
-                                return true;
-                            break;
-
-                        case IFrameBlockCellView AsBlock:
-                            Debug.Assert(AsBlock.BlockStateView != null);
-                            Debug.Assert(AsBlock.BlockStateView.RootCellView != null);
-                            if (!(AsBlock.BlockStateView.RootCellView is IFrameEmptyCellView))
-                                return true;
-                            break;
-
-                        case IFrameContainerCellView AsContainer:
-                            Debug.Assert(AsContainer.ChildStateView != null);
-                            Debug.Assert(AsContainer.ChildStateView.RootCellView != null);
-                            if (!(AsContainer.ChildStateView.RootCellView is IFrameEmptyCellView))
-                                return true;
-                            break;
-
-                        case IFrameVisibleCellView AsVisible:
-                            return true;
-
-                        case IFrameEmptyCellView AsEmpty:
-                            break;
-
-                        default:
-                            throw new ArgumentOutOfRangeException(nameof(CellView));
-                    }
-                }
+                    if (CellView.HasVisibleCellView)
+                        return true;
 
                 return false;
             }

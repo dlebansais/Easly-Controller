@@ -13,6 +13,11 @@ namespace EaslyController.Frame
         IFrameNodeStateView StateView { get; }
 
         /// <summary>
+        /// True if the cell view is visible or contains at least one visible cell view.
+        /// </summary>
+        bool HasVisibleCellView { get; }
+
+        /// <summary>
         /// Clears all views (cells and states) within this cell view.
         /// </summary>
         void ClearCellTree();
@@ -68,6 +73,11 @@ namespace EaslyController.Frame
         /// The state view containing the tree with this cell.
         /// </summary>
         public IFrameNodeStateView StateView { get; private set; }
+
+        /// <summary>
+        /// True if the cell view is visible or contains at least one visible cell view.
+        /// </summary>
+        public abstract bool HasVisibleCellView { get; }
         #endregion
 
         #region Client Interface

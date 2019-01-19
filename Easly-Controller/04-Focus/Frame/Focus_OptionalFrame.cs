@@ -92,7 +92,7 @@ namespace EaslyController.Focus
 
             if (!((IFocusCellViewTreeContext)context).IsVisible)
             {
-                Debug.Assert(((EmbeddingCellView is IFocusContainerCellView AsContainer) && AsContainer.ChildStateView.RootCellView is IFocusEmptyCellView) || (EmbeddingCellView is IFocusEmptyCellView));
+                Debug.Assert(!EmbeddingCellView.HasVisibleCellView);
             }
 
             ((IFocusCellViewTreeContext)context).RemoveSelectors(Selectors);

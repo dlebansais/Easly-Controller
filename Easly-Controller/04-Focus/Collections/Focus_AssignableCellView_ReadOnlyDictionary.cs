@@ -67,10 +67,14 @@ namespace EaslyController.Focus
                 if (!AsAssignableCellViewReadOnlyDictionary.ContainsKey(Entry.Key))
                     return false;
 
-                Debug.Assert(Entry.Value != null);
-                Debug.Assert(AsAssignableCellViewReadOnlyDictionary[Entry.Key] != null);
+                IFocusAssignableCellView OtherValue = AsAssignableCellViewReadOnlyDictionary[Entry.Key] as IFocusAssignableCellView;
 
-                if (!comparer.VerifyEqual(Entry.Value, AsAssignableCellViewReadOnlyDictionary[Entry.Key] as IFocusAssignableCellView))
+                if (Entry.Value != null && OtherValue != null)
+                {
+                    if (!comparer.VerifyEqual(Entry.Value, OtherValue))
+                        return false;
+                }
+                else if (Entry.Value != null || OtherValue != null)
                     return false;
             }
 

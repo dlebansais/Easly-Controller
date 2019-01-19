@@ -58,6 +58,11 @@ namespace EaslyController.Frame
         /// Column number where the cell view appears.
         /// </summary>
         public int ColumnNumber { get; private set; }
+
+        /// <summary>
+        /// True if the cell view is visible or contains at least one visible cell view.
+        /// </summary>
+        public override bool HasVisibleCellView { get { return true; } }
         #endregion
 
         #region Client Interface

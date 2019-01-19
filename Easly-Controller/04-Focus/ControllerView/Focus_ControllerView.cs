@@ -146,10 +146,18 @@ namespace EaslyController.Focus
         /// <summary>
         /// Checks if a new item can be inserted at the focus.
         /// </summary>
-        /// <param name="inner">Inner to use to insert to new item upon return.</param>
+        /// <param name="inner">Inner to use to insert the new item upon return.</param>
         /// <param name="index">Index of the new item to insert upon return.</param>
         /// <returns>True if a new item can be inserted at the focus.</returns>
         bool IsNewItemInsertable(out IFocusCollectionInner<IFocusBrowsingCollectionNodeIndex> inner, out IFocusInsertionCollectionNodeIndex index);
+
+        /// <summary>
+        /// Checks if an existing item can be removed at the focus.
+        /// </summary>
+        /// <param name="inner">Inner to use to remove the item upon return.</param>
+        /// <param name="index">Index of the item to remove upon return.</param>
+        /// <returns>True if an item can be removed at the focus.</returns>
+        bool IsItemRemoveable(out IFocusCollectionInner<IFocusBrowsingCollectionNodeIndex> inner, out IFocusBrowsingCollectionNodeIndex index);
     }
 
     /// <summary>
@@ -528,7 +536,7 @@ namespace EaslyController.Focus
         /// <summary>
         /// Checks if a new item can be inserted at the focus.
         /// </summary>
-        /// <param name="inner">Inner to use to insert to new item upon return.</param>
+        /// <param name="inner">Inner to use to insert the new item upon return.</param>
         /// <param name="index">Index of the new item to insert upon return.</param>
         /// <returns>True if a new item can be inserted at the focus.</returns>
         public virtual bool IsNewItemInsertable(out IFocusCollectionInner<IFocusBrowsingCollectionNodeIndex> inner, out IFocusInsertionCollectionNodeIndex index)
@@ -596,6 +604,48 @@ namespace EaslyController.Focus
         protected virtual INode BuildNewInsertableItem(Type insertType)
         {
             return NodeHelper.CreateEmptyNode(insertType);
+        }
+
+        /// <summary>
+        /// Checks if an existing item can be removed at the focus.
+        /// </summary>
+        /// <param name="inner">Inner to use to remove the item upon return.</param>
+        /// <param name="index">Index of the item to remove upon return.</param>
+        /// <returns>True if an item can be removed at the focus.</returns>
+        public virtual bool IsItemRemoveable(out IFocusCollectionInner<IFocusBrowsingCollectionNodeIndex> inner, out IFocusBrowsingCollectionNodeIndex index)
+        {
+            inner = null;
+            index = null;
+
+            Debug.Assert(FocusedCellView != null);
+
+            IFocusNodeState State = FocusedCellView.StateView.State;
+
+            if (FocusedCellView.Frame is IFocusInsertFrame AsInsertFrame)
+                return false;
+
+            else
+            {
+                // Search recursively for a collection parent, up to 3 levels up.
+                for (int i = 0; i < 3 && State != null; i++)
+                {
+                    if (State.ParentInner is IFocusCollectionInner<IFocusBrowsingCollectionNodeIndex> AsCollectionInner)
+                    {
+                        inner = AsCollectionInner;
+                        index = State.ParentIndex as IFocusBrowsingCollectionNodeIndex;
+                        Debug.Assert(index != null);
+
+                        if (Controller.IsRemoveable(inner, index))
+                            return true;
+                        else
+                            return false;
+                    }
+
+                    State = State.ParentState;
+                }
+            }
+
+            return false;
         }
         #endregion
 

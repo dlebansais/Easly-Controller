@@ -77,8 +77,14 @@ namespace EaslyController.Focus
                 base.BuildRootCellView(context);
             else
             {
-                InitCellViewTable();
-                SetRootCellView(CreateEmptyCellView(((IFocusCellViewTreeContext)context).StateView));
+                InitCellViewTable(true);
+
+                IFocusNodeTemplate NodeTemplate = Template as IFocusNodeTemplate;
+                if (NodeTemplate != null)
+                    SetRootCellView(NodeTemplate.BuildNodeCells(context));
+                else
+                    SetRootCellView(CreateEmptyCellView(((IFocusCellViewTreeContext)context).StateView));
+
                 SealCellViewTable();
             }
 

@@ -50,6 +50,11 @@ namespace EaslyController.Frame
         /// The block state view of the state associated to this cell.
         /// </summary>
         public IFrameBlockStateView BlockStateView { get; }
+
+        /// <summary>
+        /// True if the block cell view contain at least one visible cell view.
+        /// </summary>
+        public override bool HasVisibleCellView { get { return BlockStateView.HasVisibleCellView; } }
         #endregion
 
         #region Client Interface

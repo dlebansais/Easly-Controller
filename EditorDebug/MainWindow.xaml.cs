@@ -67,6 +67,9 @@ namespace EditorDebug
 
             else if (e.Key == Key.Enter)
                 InsertNewItem();
+
+            else if (e.Key == Key.Y && (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl)))
+                RemoveExistingItem();
         }
 
         private void InsertNewItem()
@@ -77,6 +80,17 @@ namespace EditorDebug
                 return;
 
             ControllerView.Controller.Insert(inner, index, out IWriteableBrowsingCollectionNodeIndex nodeIndex);
+            UpdateFocusView();
+        }
+
+        private void RemoveExistingItem()
+        {
+            if (ControllerView == null)
+                return;
+            if (!ControllerView.IsItemRemoveable(out IFocusCollectionInner<IFocusBrowsingCollectionNodeIndex> inner, out IFocusBrowsingCollectionNodeIndex index))
+                return;
+
+            ControllerView.Controller.Remove(inner, index);
             UpdateFocusView();
         }
 

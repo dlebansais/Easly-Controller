@@ -35,6 +35,11 @@ namespace EaslyController.Frame
         IFrameCellViewCollection EmbeddingCellView { get; }
 
         /// <summary>
+        /// True if the block view contain at least one visible cell view.
+        /// </summary>
+        bool HasVisibleCellView { get; }
+
+        /// <summary>
         /// Builds the cell view tree for this view.
         /// </summary>
         /// <param name="context">Context used to build the cell view tree.</param>
@@ -122,6 +127,18 @@ namespace EaslyController.Frame
         /// List of cell views for each child node.
         /// </summary>
         public IFrameCellViewCollection EmbeddingCellView { get; private set; }
+
+        /// <summary>
+        /// True if the block view contain at least one visible cell view.
+        /// </summary>
+        public virtual bool HasVisibleCellView
+        {
+            get
+            {
+                Debug.Assert(RootCellView != null);
+                return RootCellView.HasVisibleCellView;
+            }
+        }
         #endregion
 
         #region Client Interface
@@ -224,22 +241,21 @@ namespace EaslyController.Frame
             if ((RootCellView != null && AsBlockStateView.RootCellView == null) || (RootCellView == null && AsBlockStateView.RootCellView != null))
                 return false;
 
-            if (RootCellView != null)
+            if (RootCellView != null && AsBlockStateView.RootCellView != null)
             {
-                Debug.Assert(EmbeddingCellView != null);
-                Debug.Assert(AsBlockStateView.EmbeddingCellView != null);
-
                 if (!comparer.VerifyEqual(RootCellView, AsBlockStateView.RootCellView))
                     return false;
+            }
+            else if (RootCellView != null || AsBlockStateView.RootCellView != null)
+                return false;
 
+            if (EmbeddingCellView != null && AsBlockStateView.EmbeddingCellView != null)
+            {
                 if (!comparer.VerifyEqual(EmbeddingCellView, AsBlockStateView.EmbeddingCellView))
                     return false;
             }
-            else
-            {
-                Debug.Assert(EmbeddingCellView == null);
-                Debug.Assert(AsBlockStateView.EmbeddingCellView == null);
-            }
+            else if (EmbeddingCellView != null || AsBlockStateView.EmbeddingCellView != null)
+                return false;
 
             return true;
         }

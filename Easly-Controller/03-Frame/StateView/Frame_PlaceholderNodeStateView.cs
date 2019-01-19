@@ -71,6 +71,18 @@ namespace EaslyController.Frame
         /// </summary>
         public IFrameAssignableCellViewReadOnlyDictionary<string> CellViewTable { get; private set; }
         private IFrameAssignableCellViewDictionary<string> _CellViewTable;
+
+        /// <summary>
+        /// True if the node view contain at least one visible cell view.
+        /// </summary>
+        public virtual bool HasVisibleCellView
+        {
+            get
+            {
+                Debug.Assert(RootCellView != null);
+                return RootCellView.HasVisibleCellView;
+            }
+        }
         #endregion
 
         #region Client Interface

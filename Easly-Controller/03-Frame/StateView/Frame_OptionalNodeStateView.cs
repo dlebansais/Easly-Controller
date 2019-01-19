@@ -82,6 +82,18 @@ namespace EaslyController.Frame
         /// </summary>
         public IFrameAssignableCellViewReadOnlyDictionary<string> CellViewTable { get; private set; }
         private IFrameAssignableCellViewDictionary<string> _CellViewTable;
+
+        /// <summary>
+        /// True if the node view contain at least one visible cell view.
+        /// </summary>
+        public virtual bool HasVisibleCellView
+        {
+            get
+            {
+                Debug.Assert(RootCellView != null);
+                return RootCellView.HasVisibleCellView;
+            }
+        }
         #endregion
 
         #region Client Interface
@@ -96,31 +108,27 @@ namespace EaslyController.Frame
             IOptionalReference Optional = State.Optional;
             Debug.Assert(Optional != null);
 
-            InitCellViewTable();
+            InitCellViewTable(true);
 
             Debug.Assert(RootCellView == null);
 
-            if (Optional.IsAssigned)
-            {
-                IFrameNodeTemplate NodeTemplate = Template as IFrameNodeTemplate;
-                Debug.Assert(NodeTemplate != null);
-
-                SetRootCellView(NodeTemplate.BuildNodeCells(context));
-            }
+            IFrameCellView EmbeddingCellView;
+            IFrameNodeTemplate NodeTemplate = Template as IFrameNodeTemplate;
+            if (NodeTemplate != null)
+                EmbeddingCellView = NodeTemplate.BuildNodeCells(context);
             else
-                SetRootCellView(CreateEmptyCellView(this));
+                EmbeddingCellView = CreateEmptyCellView(this);
 
+            SetRootCellView(EmbeddingCellView);
             SealCellViewTable();
         }
 
         /// <summary></summary>
-        protected virtual void InitCellViewTable()
+        protected virtual void InitCellViewTable(bool initProperties)
         {
-            IOptionalReference Optional = State.Optional;
-
             _CellViewTable = CreateCellViewTable();
 
-            if (Optional.IsAssigned)
+            if (initProperties)
                 foreach (KeyValuePair<string, IFrameInner<IFrameBrowsingChildIndex>> Entry in State.InnerTable)
                     _CellViewTable.Add(Entry.Value.PropertyName, null);
         }

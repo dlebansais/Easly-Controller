@@ -57,6 +57,18 @@ namespace EaslyController.Frame
         /// True if the cell is assigned to a property in a cell view table.
         /// </summary>
         public bool IsAssignedToTable { get; private set; }
+
+        /// <summary>
+        /// True if the block view contain at least one visible cell view.
+        /// </summary>
+        public override bool HasVisibleCellView
+        {
+            get
+            {
+                Debug.Assert(ChildStateView != null);
+                return ChildStateView.HasVisibleCellView;
+            }
+        }
         #endregion
 
         #region Client Interface
