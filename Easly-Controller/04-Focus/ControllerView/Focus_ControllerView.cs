@@ -158,6 +158,15 @@ namespace EaslyController.Focus
         /// <param name="index">Index of the item to remove upon return.</param>
         /// <returns>True if an item can be removed at the focus.</returns>
         bool IsItemRemoveable(out IFocusCollectionInner<IFocusBrowsingCollectionNodeIndex> inner, out IFocusBrowsingCollectionNodeIndex index);
+
+        /// <summary>
+        /// Checks if an existing item at the focus can be moved up or down.
+        /// </summary>
+        /// <param name="direction">Direction of the move, relative to the current position of the item.</param>
+        /// <param name="inner">Inner to use to move the item upon return.</param>
+        /// <param name="index">Index of the item to move upon return.</param>
+        /// <returns>True if an item can be moved at the focus.</returns>
+        bool IsItemMoveable(int direction, out IFocusCollectionInner<IFocusBrowsingCollectionNodeIndex> inner, out IFocusBrowsingCollectionNodeIndex index);
     }
 
     /// <summary>
@@ -636,6 +645,49 @@ namespace EaslyController.Focus
                         Debug.Assert(index != null);
 
                         if (Controller.IsRemoveable(inner, index))
+                            return true;
+                        else
+                            return false;
+                    }
+
+                    State = State.ParentState;
+                }
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Checks if an existing item at the focus can be moved up or down.
+        /// </summary>
+        /// <param name="direction">Direction of the move, relative to the current position of the item.</param>
+        /// <param name="inner">Inner to use to move the item upon return.</param>
+        /// <param name="index">Index of the item to move upon return.</param>
+        /// <returns>True if an item can be moved at the focus.</returns>
+        public virtual bool IsItemMoveable(int direction, out IFocusCollectionInner<IFocusBrowsingCollectionNodeIndex> inner, out IFocusBrowsingCollectionNodeIndex index)
+        {
+            inner = null;
+            index = null;
+
+            Debug.Assert(FocusedCellView != null);
+
+            IFocusNodeState State = FocusedCellView.StateView.State;
+
+            if (FocusedCellView.Frame is IFocusInsertFrame AsInsertFrame)
+                return false;
+
+            else
+            {
+                // Search recursively for a collection parent, up to 3 levels up.
+                for (int i = 0; i < 3 && State != null; i++)
+                {
+                    if (State.ParentInner is IFocusCollectionInner<IFocusBrowsingCollectionNodeIndex> AsCollectionInner)
+                    {
+                        inner = AsCollectionInner;
+                        index = State.ParentIndex as IFocusBrowsingCollectionNodeIndex;
+                        Debug.Assert(index != null);
+
+                        if (Controller.IsMoveable(inner, index, direction))
                             return true;
                         else
                             return false;

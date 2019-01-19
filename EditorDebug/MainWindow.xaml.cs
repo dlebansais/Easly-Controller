@@ -51,10 +51,20 @@ namespace EditorDebug
         private void OnKeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Up)
-                MoveFocus(-1);
+            {
+                if (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl))
+                    MoveExistingItem(-1);
+                else
+                    MoveFocus(-1);
+            }
 
             else if (e.Key == Key.Down)
-                MoveFocus(+1);
+            {
+                if (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl))
+                    MoveExistingItem(+1);
+                else
+                    MoveFocus(+1);
+            }
 
             else if (e.Key == Key.Subtract)
                 ChangeDiscreteValue(-1);
@@ -91,6 +101,17 @@ namespace EditorDebug
                 return;
 
             ControllerView.Controller.Remove(inner, index);
+            UpdateFocusView();
+        }
+
+        private void MoveExistingItem(int direction)
+        {
+            if (ControllerView == null)
+                return;
+            if (!ControllerView.IsItemMoveable(direction, out IFocusCollectionInner<IFocusBrowsingCollectionNodeIndex> inner, out IFocusBrowsingCollectionNodeIndex index))
+                return;
+
+            ControllerView.Controller.Move(inner, index, direction);
             UpdateFocusView();
         }
 

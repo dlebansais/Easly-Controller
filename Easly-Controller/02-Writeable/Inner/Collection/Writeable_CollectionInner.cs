@@ -55,6 +55,13 @@ namespace EaslyController.Writeable
         void Remove(IWriteableRemoveNodeOperation operation);
 
         /// <summary>
+        /// Checks whether a node can be moved in a list or block list.
+        /// </summary>
+        /// <param name="nodeIndex">Index of the node that would be moved.</param>
+        /// <param name="direction">Direction of the move, relative to the current position of the item.</param>
+        bool IsMoveable(IWriteableBrowsingCollectionNodeIndex nodeIndex, int direction);
+
+        /// <summary>
         /// Moves a node around in a list or block list. In a block list, the node stays in same block.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
@@ -110,6 +117,13 @@ namespace EaslyController.Writeable
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
         public abstract void Replace(IWriteableReplaceOperation operation);
+
+        /// <summary>
+        /// Checks whether a node can be moved in a list or block list.
+        /// </summary>
+        /// <param name="nodeIndex">Index of the node that would be moved.</param>
+        /// <param name="direction">Direction of the move, relative to the current position of the item.</param>
+        public abstract bool IsMoveable(IWriteableBrowsingCollectionNodeIndex nodeIndex, int direction);
 
         /// <summary>
         /// Moves a node around in a list or block list. In a block list, the node stays in same block.

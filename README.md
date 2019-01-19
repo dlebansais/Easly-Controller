@@ -171,3 +171,10 @@ In a template, it might be desirable to put the focus on a specific part of the 
 To let user modify parts of the code that are invisible, for example because they have a default value, a special flag is introduced. When this flag is set, the node with the focus is completely visible, even for frames where the visibility settings would hide them. All other nodes are restored to their normal state, so that there is only one node expanded like this at any time.
 
 Then, when the flag is turned off, normal visibility is restored, and if for example a value was changed to not be the default, it remains visible.
+
+### Operations at the focus
+
+Having the focus set on some part of the code enable the possibility of special operations:
+
++ Inserting a new item when the focus is inside a list or block list, or on an insertion frame.
++ Removing the current item if the focus is inside a list or block list. 

@@ -608,6 +608,36 @@ namespace EaslyController.Writeable
         }
 
         /// <summary>
+        /// Checks whether a node can be moved in a block list.
+        /// </summary>
+        /// <param name="nodeIndex">Index of the node that would be moved.</param>
+        /// <param name="direction">Direction of the move, relative to the current position of the item.</param>
+        public virtual bool IsMoveable(IWriteableBrowsingCollectionNodeIndex nodeIndex, int direction)
+        {
+            if (nodeIndex is IWriteableBrowsingExistingBlockNodeIndex AsExistingBlockNodeIndex)
+                return IsMoveable(AsExistingBlockNodeIndex, direction);
+            else
+                throw new ArgumentOutOfRangeException(nameof(nodeIndex));
+        }
+
+        /// <summary></summary>
+        protected virtual bool IsMoveable(IWriteableBrowsingExistingBlockNodeIndex existingBlockIndex, int direction)
+        {
+            Debug.Assert(existingBlockIndex != null);
+
+            int BlockIndex = existingBlockIndex.BlockIndex;
+            Debug.Assert(BlockIndex >= 0 && BlockIndex < BlockStateList.Count);
+
+            IWriteableBlockState BlockState = BlockStateList[BlockIndex];
+            IWriteablePlaceholderNodeStateReadOnlyList StateList = BlockState.StateList;
+
+            int NewPosition = existingBlockIndex.Index + direction;
+            bool Result = NewPosition >= 0 && NewPosition < StateList.Count;
+
+            return Result;
+        }
+
+        /// <summary>
         /// Moves a node around in a list or block list. In a block list, the node stays in same block.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>

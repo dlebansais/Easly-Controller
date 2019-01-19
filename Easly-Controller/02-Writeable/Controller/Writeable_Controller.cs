@@ -201,6 +201,14 @@ namespace EaslyController.Writeable
         void MergeBlocks(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, IWriteableBrowsingExistingBlockNodeIndex nodeIndex);
 
         /// <summary>
+        /// Checks whether a node can be moved in a list.
+        /// </summary>
+        /// <param name="inner">The inner where the node is.</param>
+        /// <param name="nodeIndex">Index of the node that would be moved.</param>
+        /// <param name="direction">Direction of the move, relative to the current position of the item.</param>
+        bool IsMoveable(IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> inner, IWriteableBrowsingCollectionNodeIndex nodeIndex, int direction);
+
+        /// <summary>
         /// Moves a node around in a list or block list. In a block list, the node stays in same block.
         /// </summary>
         /// <param name="inner">The inner for the list or block list in which the node is moved.</param>
@@ -979,6 +987,25 @@ namespace EaslyController.Writeable
             NotifyBlocksMerged(Operation);
 
             CheckInvariant();
+        }
+
+        /// <summary>
+        /// Checks whether a node can be moved in a list.
+        /// </summary>
+        /// <param name="inner">The inner where the node is.</param>
+        /// <param name="nodeIndex">Index of the node that would be moved.</param>
+        /// <param name="direction">Direction of the move, relative to the current position of the item.</param>
+        public virtual bool IsMoveable(IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> inner, IWriteableBrowsingCollectionNodeIndex nodeIndex, int direction)
+        {
+            Debug.Assert(inner != null);
+            Debug.Assert(nodeIndex != null);
+
+            IWriteableNodeState State = StateTable[nodeIndex];
+            Debug.Assert(State != null);
+
+            bool Result = inner.IsMoveable(nodeIndex, direction);
+
+            return Result;
         }
 
         /// <summary>
