@@ -182,4 +182,5 @@ Having the focus set on some part of the code enable the possibility of special 
 + Splitting the block with the focus in two.
 + Merging the block with the focus and the previous block.
 + Cycling through variations of bodies and features.
-  
++ Splitting an identifier in two parts, separated by a dot, in a qualified name.
++ Simplifying a node.
