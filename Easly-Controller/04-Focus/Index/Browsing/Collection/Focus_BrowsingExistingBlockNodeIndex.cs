@@ -1,5 +1,6 @@
 ﻿using BaseNode;
 using EaslyController.Frame;
+using EaslyController.Writeable;
 using System.Diagnostics;
 
 namespace EaslyController.Focus
@@ -48,6 +49,17 @@ namespace EaslyController.Focus
                 return false;
 
             return true;
+        }
+        #endregion
+
+        #region Create Methods
+        /// <summary>
+        /// Creates a IxxxInsertionExistingBlockNodeIndex object.
+        /// </summary>
+        protected override IWriteableInsertionExistingBlockNodeIndex CreateInsertionIndex(INode parentNode, INode node)
+        {
+            ControllerTools.AssertNoOverride(this, typeof(FocusBrowsingExistingBlockNodeIndex));
+            return new FocusInsertionExistingBlockNodeIndex(parentNode, PropertyName, node, BlockIndex, Index);
         }
         #endregion
     }

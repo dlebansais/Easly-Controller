@@ -1,5 +1,6 @@
 ﻿using BaseNode;
 using EaslyController.ReadOnly;
+using System;
 using System.Diagnostics;
 
 namespace EaslyController.Writeable
@@ -29,6 +30,18 @@ namespace EaslyController.Writeable
         public WriteableBrowsingNewBlockNodeIndex(INode parentNode, INode node, string propertyName, int blockIndex, IPattern patternNode, IIdentifier sourceNode)
             : base(parentNode, node, propertyName, blockIndex, patternNode, sourceNode)
         {
+        }
+        #endregion
+
+        #region Client Interface
+        /// <summary>
+        /// Creates an insertion index from this instance, that can be used to replace it.
+        /// </summary>
+        /// <param name="parentNode">The parent node where the index would be used to replace a node.</param>
+        /// <param name="node">The node inserted.</param>
+        public virtual IWriteableInsertionChildIndex ToInsertionIndex(INode parentNode, INode node)
+        {
+            throw new InvalidOperationException();
         }
         #endregion
 

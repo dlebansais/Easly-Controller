@@ -106,6 +106,22 @@ namespace EaslyController.Focus
         /// Called when two blocks are merged.
         /// </summary>
         new event Action<IFocusMergeBlocksOperation> BlocksMerged;
+
+        /// <summary>
+        /// Adds a new node to the list of nodes that can replace the current one. Does nothing if all types of nodes have been added.
+        /// Applies only to bodies and features.
+        /// </summary>
+        /// <param name="state">Node that can be replaced.</param>
+        void AddNodeToCycle(IFocusNodeState state);
+
+        /// <summary>
+        /// Replace an existing node with a new one, keeping it's cycle.
+        /// </summary>
+        /// <param name="inner">The inner where the node is replaced.</param>
+        /// <param name="cycleIndexList">Cycle of nodes that can replace the current node.</param>
+        /// <param name="cyclePosition">New position in the cycle.</param>
+        /// <param name="nodeIndex">Index of the replacing node upon return.</param>
+        void Replace(IFocusInner<IFocusBrowsingChildIndex> inner, IList<IFocusInsertionChildIndex> cycleIndexList, int cyclePosition, out IFocusBrowsingChildIndex nodeIndex);
     }
 
     /// <summary>
@@ -298,6 +314,45 @@ namespace EaslyController.Focus
         /// State table.
         /// </summary>
         protected new IFocusIndexNodeStateReadOnlyDictionary StateTable { get { return (IFocusIndexNodeStateReadOnlyDictionary)base.StateTable; } }
+        #endregion
+
+        #region Client Interface
+        /// <summary>
+        /// Adds a new node to the list of nodes that can replace the current one. Does nothing if all types of nodes have been added.
+        /// Applies only to bodies and features.
+        /// </summary>
+        /// <param name="state">Node that can be replaced.</param>
+        public virtual void AddNodeToCycle(IFocusNodeState state)
+        {
+            Debug.Assert(state != null);
+
+            state.AddNodeToCycle();
+        }
+
+        /// <summary>
+        /// Replace an existing node with a new one, keeping it's cycle.
+        /// </summary>
+        /// <param name="inner">The inner where the node is replaced.</param>
+        /// <param name="cycleIndexList">Cycle of nodes that can replace the current node.</param>
+        /// <param name="cyclePosition">New position in the cycle.</param>
+        /// <param name="nodeIndex">Index of the replacing node upon return.</param>
+        public virtual void Replace(IFocusInner<IFocusBrowsingChildIndex> inner, IList<IFocusInsertionChildIndex> cycleIndexList, int cyclePosition, out IFocusBrowsingChildIndex nodeIndex)
+        {
+            Debug.Assert(cycleIndexList != null);
+            Debug.Assert(cycleIndexList.Count >= 2);
+            Debug.Assert(cyclePosition >= 0 && cyclePosition < cycleIndexList.Count);
+
+            IFocusInsertionChildIndex ReplacementIndex = cycleIndexList[cyclePosition];
+            ReplaceState(inner, ReplacementIndex, false, out IWriteableBrowsingChildIndex NewIndex, out IWriteableReplaceOperation Operation);
+
+            nodeIndex = (IFocusBrowsingChildIndex)NewIndex;
+            IFocusNodeState NewState = StateTable[nodeIndex];
+            NewState.RestoreCycleIndexList(cycleIndexList);
+
+            NotifyStateReplaced(Operation);
+
+            CheckInvariant();
+        }
         #endregion
 
         #region Create Methods

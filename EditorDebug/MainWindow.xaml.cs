@@ -77,6 +77,10 @@ namespace EditorDebug
                     case Key.M:
                         MergeExistingItem();
                         break;
+
+                    case Key.T:
+                        CycleThroughExistingItem();
+                        break;
                 }
             }
             else
@@ -161,6 +165,18 @@ namespace EditorDebug
             UpdateFocusView();
         }
 
+        private void CycleThroughExistingItem()
+        {
+            if (ControllerView == null)
+                return;
+            if (!ControllerView.IsItemCyclableThrough(out IFocusNodeState state, out int cyclePosition))
+                return;
+
+            cyclePosition = (cyclePosition + 1) % state.CycleIndexList.Count;
+            ControllerView.Controller.Replace(state.ParentInner, state.CycleIndexList, cyclePosition, out IFocusBrowsingChildIndex nodeIndex);
+            UpdateFocusView();
+        }
+        
         private void ToggleExpand()
         {
             if (ControllerView == null)

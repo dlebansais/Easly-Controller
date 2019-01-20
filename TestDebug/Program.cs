@@ -156,7 +156,9 @@ namespace TestDebug
             {
                 INode RootNode = serializer.Deserialize(fs) as INode;
                 INode ClonedNode = NodeHelper.DeepCloneNode(RootNode);
-                Debug.Assert(NodeHelper.NodeHash(RootNode) == NodeHelper.NodeHash(ClonedNode));
+                ulong Hash1 = NodeHelper.NodeHash(RootNode);
+                ulong Hash2 = NodeHelper.NodeHash(ClonedNode);
+                Debug.Assert(Hash1 == Hash2);
 
                 TestWriteable(RootNode);
             }

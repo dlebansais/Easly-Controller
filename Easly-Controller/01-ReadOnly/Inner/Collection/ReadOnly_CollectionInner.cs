@@ -14,6 +14,11 @@ namespace EaslyController.ReadOnly
         int Count { get; }
 
         /// <summary>
+        /// Checks if the inner must have at list one item.
+        /// </summary>
+        bool IsNeverEmpty { get; }
+
+        /// <summary>
         /// First node state that can be enumerated in the inner.
         /// </summary>
         IReadOnlyPlaceholderNodeState FirstNodeState { get; }
@@ -29,6 +34,11 @@ namespace EaslyController.ReadOnly
         /// Count of all node states in the inner.
         /// </summary>
         int Count { get; }
+
+        /// <summary>
+        /// Checks if the inner must have at list one item.
+        /// </summary>
+        bool IsNeverEmpty { get; }
 
         /// <summary>
         /// First node state that can be enumerated in the inner.
@@ -60,6 +70,11 @@ namespace EaslyController.ReadOnly
         /// Count of all node states in the inner.
         /// </summary>
         public abstract int Count { get; }
+
+        /// <summary>
+        /// Checks if the inner must have at list one item.
+        /// </summary>
+        public abstract bool IsNeverEmpty { get; }
 
         /// <summary>
         /// First node state that can be enumerated in the inner.

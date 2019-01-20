@@ -52,6 +52,8 @@ namespace EaslyController.ReadOnly
         /// <param name="index">Position of the node in the block.</param>
         /// <returns>The index of the node at position <paramref name="blockIndex"/> and <paramref name="index"/>.</returns>
         IReadOnlyBrowsingExistingBlockNodeIndex IndexAt(int blockIndex, int index);
+
+        void NotifyBlockStateRemoved(IReadOnlyBlockState blockState);
     }
 
     /// <summary>
@@ -109,6 +111,8 @@ namespace EaslyController.ReadOnly
         /// <param name="newBlockIndex">Index of the new block state to create.</param>
         /// <returns>The created block state.</returns>
         IReadOnlyBlockState InitNewBlock(IReadOnlyBrowsingNewBlockNodeIndex newBlockIndex);
+
+        void NotifyBlockStateRemoved(IReadOnlyBlockState blockState);
     }
 
     /// <summary>
@@ -203,6 +207,11 @@ namespace EaslyController.ReadOnly
         #endregion
 
         #region Properties
+        /// <summary>
+        /// Checks if the inner must have at list one item.
+        /// </summary>
+        public override bool IsNeverEmpty { get { return NodeHelper.IsCollectionNeverEmpty(Owner.Node, PropertyName); } }
+
         /// <summary>
         /// Checks if the inner has no blocks.
         /// </summary>
@@ -319,6 +328,8 @@ namespace EaslyController.ReadOnly
         {
             Debug.Assert(parentNode != null);
 
+            NodeTreeHelperBlockList.ClearChildBlockList(parentNode, PropertyName);
+
             // Clone and insert all blocks. This will clone all children recursively.
             for (int BlockIndex = 0; BlockIndex < BlockStateList.Count; BlockIndex++)
             {
@@ -399,7 +410,7 @@ namespace EaslyController.ReadOnly
         }
 
         /// <summary></summary>
-        protected virtual void NotifyBlockStateRemoved(IReadOnlyBlockState blockState)
+        public virtual void NotifyBlockStateRemoved(IReadOnlyBlockState blockState)
         {
             BlockStateRemovedHandler?.Invoke(blockState);
         }

@@ -183,6 +183,15 @@ namespace EaslyController.Focus
         /// <param name="index">Index of the item to move upon return.</param>
         /// <returns>True if an item can be moved at the focus.</returns>
         bool IsItemMoveable(int direction, out IFocusCollectionInner<IFocusBrowsingCollectionNodeIndex> inner, out IFocusBrowsingCollectionNodeIndex index);
+
+        /// <summary>
+        /// Checks if an existing item at the focus or above that can be cycled through.
+        /// Such items are features and bodies.
+        /// </summary>
+        /// <param name="state">State that can be replaced the item upon return.</param>
+        /// <param name="cyclePosition">Position of the current node in the cycle upon return.</param>
+        /// <returns>True if an item can be cycled through at the focus.</returns>
+        bool IsItemCyclableThrough(out IFocusNodeState state, out int cyclePosition);
     }
 
     /// <summary>
@@ -795,6 +804,46 @@ namespace EaslyController.Focus
 
                     State = State.ParentState;
                 }
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Checks if an existing item at the focus or above that can be cycled through.
+        /// Such items are features and bodies.
+        /// </summary>
+        /// <param name="state">State that can be replaced the item upon return.</param>
+        /// <param name="cyclePosition">Position of the current node in the cycle upon return.</param>
+        /// <returns>True if an item can be cycled through at the focus.</returns>
+        public virtual bool IsItemCyclableThrough(out IFocusNodeState state, out int cyclePosition)
+        {
+            state = null;
+            cyclePosition = -1;
+
+            Debug.Assert(FocusedCellView != null);
+
+            IFocusNodeState CurrentState = FocusedCellView.StateView.State;
+
+            // Search recursively for a collection parent, up to 3 levels up.
+            while (CurrentState != null)
+            {
+                if ((CurrentState.Node is IBody) || (CurrentState.Node is IFeature))
+                {
+                    Controller.AddNodeToCycle(CurrentState);
+
+                    IList<IFocusInsertionChildIndex> CycleIndexList = CurrentState.CycleIndexList;
+                    Debug.Assert(CycleIndexList.Count >= 2);
+                    int CurrentPosition = CurrentState.CycleCurrentPosition;
+                    Debug.Assert(CurrentPosition >= 0 && CurrentPosition < CycleIndexList.Count);
+
+                    state = CurrentState;
+                    cyclePosition = CurrentPosition;
+
+                    return true;
+                }
+
+                CurrentState = CurrentState.ParentState;
             }
 
             return false;

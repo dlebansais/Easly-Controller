@@ -47,5 +47,16 @@ namespace EaslyController.Frame
             return true;
         }
         #endregion
+
+        #region Create Methods
+        /// <summary>
+        /// Creates a IxxxInsertionPlaceholderNodeIndex object.
+        /// </summary>
+        protected override IWriteableInsertionOptionalNodeIndex CreateInsertionIndex(INode parentNode, INode node)
+        {
+            ControllerTools.AssertNoOverride(this, typeof(FrameBrowsingOptionalNodeIndex));
+            return new FrameInsertionOptionalNodeIndex(parentNode, PropertyName, node);
+        }
+        #endregion
     }
 }

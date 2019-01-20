@@ -5,7 +5,7 @@ namespace EaslyController.Writeable
     /// <summary>
     /// Index for an inserted child node.
     /// </summary>
-    public interface IWriteableInsertionChildIndex : IWriteableChildIndex
+    public interface IWriteableInsertionChildIndex : IWriteableChildIndex, IWriteableNodeIndex
     {
         /// <summary>
         /// Node in which the insertion operation is taking place.

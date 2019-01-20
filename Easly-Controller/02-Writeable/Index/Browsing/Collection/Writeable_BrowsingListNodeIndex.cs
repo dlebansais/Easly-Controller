@@ -60,6 +60,16 @@ namespace EaslyController.Writeable
 
             Index--;
         }
+
+        /// <summary>
+        /// Creates an insertion index from this instance, that can be used to replace it.
+        /// </summary>
+        /// <param name="parentNode">The parent node where the index would be used to replace a node.</param>
+        /// <param name="node">The node inserted.</param>
+        public virtual IWriteableInsertionChildIndex ToInsertionIndex(INode parentNode, INode node)
+        {
+            return CreateInsertionIndex(parentNode, node);
+        }
         #endregion
 
         #region Debugging
@@ -79,6 +89,17 @@ namespace EaslyController.Writeable
                 return false;
 
             return true;
+        }
+        #endregion
+
+        #region Create Methods
+        /// <summary>
+        /// Creates a IxxxInsertionListNodeIndex object.
+        /// </summary>
+        protected virtual IWriteableInsertionListNodeIndex CreateInsertionIndex(INode parentNode, INode node)
+        {
+            ControllerTools.AssertNoOverride(this, typeof(WriteableBrowsingListNodeIndex));
+            return new WriteableInsertionListNodeIndex(parentNode, PropertyName, node, Index);
         }
         #endregion
     }

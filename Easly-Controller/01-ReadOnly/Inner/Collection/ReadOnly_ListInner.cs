@@ -95,6 +95,11 @@ namespace EaslyController.ReadOnly
 
         #region Properties
         /// <summary>
+        /// Checks if the inner must have at list one item.
+        /// </summary>
+        public override bool IsNeverEmpty { get { return NodeHelper.IsCollectionNeverEmpty(Owner.Node, PropertyName); } }
+
+        /// <summary>
         /// Interface type for all nodes in the inner.
         /// </summary>
         public override Type InterfaceType { get { return NodeTreeHelperList.ListInterfaceType(Owner.Node, PropertyName); } }
@@ -147,6 +152,8 @@ namespace EaslyController.ReadOnly
         public override void CloneChildren(INode parentNode)
         {
             Debug.Assert(parentNode != null);
+
+            NodeTreeHelperList.ClearChildNodeList(parentNode, PropertyName);
 
             for (int i = 0; i < StateList.Count; i++)
             {
