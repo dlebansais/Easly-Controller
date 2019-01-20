@@ -81,6 +81,10 @@ namespace EditorDebug
                     case Key.T:
                         CycleThroughExistingItem();
                         break;
+
+                    case Key.I:
+                        SimplifyExistingItem();
+                        break;
                 }
             }
             else
@@ -105,6 +109,10 @@ namespace EditorDebug
 
                     case Key.Enter:
                         InsertNewItem();
+                        break;
+
+                    case Key.OemPeriod:
+                        SplitIdentifier();
                         break;
                 }
             }
@@ -176,7 +184,18 @@ namespace EditorDebug
             ControllerView.Controller.Replace(state.ParentInner, state.CycleIndexList, cyclePosition, out IFocusBrowsingChildIndex nodeIndex);
             UpdateFocusView();
         }
-        
+
+        private void SimplifyExistingItem()
+        {
+            if (ControllerView == null)
+                return;
+            if (!ControllerView.IsItemSimplifiable(out IFocusInner<IFocusBrowsingChildIndex> Inner, out IFocusInsertionChildIndex Index))
+                return;
+
+            ControllerView.Controller.Replace(Inner, Index, out IWriteableBrowsingChildIndex nodeIndex);
+            UpdateFocusView();
+        }
+
         private void ToggleExpand()
         {
             if (ControllerView == null)
@@ -222,6 +241,18 @@ namespace EditorDebug
 
                 UpdateFocusView();
             }
+        }
+
+        private void SplitIdentifier()
+        {
+            if (ControllerView == null)
+                return;
+            if (!ControllerView.IsIdentifierSplittable(out IFocusListInner<IFocusBrowsingListNodeIndex> Inner, out IFocusInsertionListNodeIndex ReplaceIndex, out IFocusInsertionListNodeIndex InsertIndex))
+                return;
+
+            ControllerView.Controller.Replace(Inner, ReplaceIndex, out IWriteableBrowsingChildIndex FirstIndex);
+            ControllerView.Controller.Insert(Inner, InsertIndex, out IWriteableBrowsingCollectionNodeIndex SecondIndex);
+            UpdateFocusView();
         }
 
         public string CurrentDirectory { get; private set; }

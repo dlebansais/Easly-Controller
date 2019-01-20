@@ -192,6 +192,23 @@ namespace EaslyController.Focus
         /// <param name="cyclePosition">Position of the current node in the cycle upon return.</param>
         /// <returns>True if an item can be cycled through at the focus.</returns>
         bool IsItemCyclableThrough(out IFocusNodeState state, out int cyclePosition);
+
+        /// <summary>
+        /// Checks if a node can be simplified.
+        /// </summary>
+        /// <param name="inner">Inner to use to replace the node upon return.</param>
+        /// <param name="index">Index of the simpler node upon return.</param>
+        /// <returns>True if a node can be simplified at the focus.</returns>
+        bool IsItemSimplifiable(out IFocusInner<IFocusBrowsingChildIndex> inner, out IFocusInsertionChildIndex index);
+
+        /// <summary>
+        /// Checks if an existing identifier at the focus can be split in two.
+        /// </summary>
+        /// <param name="inner">Inner to use to split the identifier upon return.</param>
+        /// <param name="replaceIndex">Index of the identifier to replace upon return.</param>
+        /// <param name="insertIndex">Index of the identifier to replace upon return.</param>
+        /// <returns>True if an identifier can be split at the focus.</returns>
+        bool IsIdentifierSplittable(out IFocusListInner<IFocusBrowsingListNodeIndex> inner, out IFocusInsertionListNodeIndex replaceIndex, out IFocusInsertionListNodeIndex insertIndex);
     }
 
     /// <summary>
@@ -502,6 +519,8 @@ namespace EaslyController.Focus
 
             Debug.Assert(FocusIndex >= 0 && FocusIndex < FocusChain.Count);
             FocusedCellView = FocusChain[FocusIndex];
+
+            ResetCaretPosition();
         }
 
         /// <summary>
@@ -825,7 +844,7 @@ namespace EaslyController.Focus
 
             IFocusNodeState CurrentState = FocusedCellView.StateView.State;
 
-            // Search recursively for a collection parent, up to 3 levels up.
+            // Search recursively for a collection parent.
             while (CurrentState != null)
             {
                 if ((CurrentState.Node is IBody) || (CurrentState.Node is IFeature))
@@ -844,6 +863,93 @@ namespace EaslyController.Focus
                 }
 
                 CurrentState = CurrentState.ParentState;
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Checks if a node can be simplified.
+        /// </summary>
+        /// <param name="inner">Inner to use to replace the node upon return.</param>
+        /// <param name="index">Index of the simpler node upon return.</param>
+        /// <returns>True if a node can be simplified at the focus.</returns>
+        public virtual bool IsItemSimplifiable(out IFocusInner<IFocusBrowsingChildIndex> inner, out IFocusInsertionChildIndex index)
+        {
+            inner = null;
+            index = null;
+
+            Debug.Assert(FocusedCellView != null);
+
+            IFocusNodeState CurrentState = FocusedCellView.StateView.State;
+
+            // Search recursively for a simplifiable node.
+            while (CurrentState != null)
+            {
+                if (NodeHelper.GetSimplifiedNode(CurrentState.Node, out INode SimplifiedNode))
+                {
+                    if (SimplifiedNode == null)
+                        return false;
+
+                    Type InterfaceType = CurrentState.ParentInner.InterfaceType;
+                    if (!InterfaceType.IsAssignableFrom(SimplifiedNode.GetType()))
+                        return false;
+
+                    IFocusBrowsingChildIndex ParentIndex = CurrentState.ParentIndex as IFocusBrowsingChildIndex;
+                    Debug.Assert(ParentIndex != null);
+
+                    inner = CurrentState.ParentInner;
+                    index = ParentIndex.ToInsertionIndex(inner.Owner.Node, SimplifiedNode) as IFocusInsertionChildIndex;
+                    return true;
+                }
+
+                CurrentState = CurrentState.ParentState;
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Checks if an existing identifier at the focus can be split in two.
+        /// </summary>
+        /// <param name="inner">Inner to use to split the identifier upon return.</param>
+        /// <param name="replaceIndex">Index of the identifier to replace upon return.</param>
+        /// <param name="insertIndex">Index of the identifier to replace upon return.</param>
+        /// <returns>True if an identifier can be split at the focus.</returns>
+        public virtual bool IsIdentifierSplittable(out IFocusListInner<IFocusBrowsingListNodeIndex> inner, out IFocusInsertionListNodeIndex replaceIndex, out IFocusInsertionListNodeIndex insertIndex)
+        {
+            inner = null;
+            replaceIndex = null;
+            insertIndex = null;
+
+            Debug.Assert(FocusedCellView != null);
+
+            IFocusNodeState IdentifierState = FocusedCellView.StateView.State;
+            if (IdentifierState.Node is IIdentifier AsIdentifier)
+            {
+                IFocusNodeState ParentState = IdentifierState.ParentState;
+                if (ParentState.Node is IQualifiedName)
+                {
+                    string Text = AsIdentifier.Text;
+                    Debug.Assert(CaretPosition >= 0 && CaretPosition <= Text.Length);
+
+                    inner = IdentifierState.ParentInner as IFocusListInner<IFocusBrowsingListNodeIndex>;
+                    Debug.Assert(inner != null);
+
+                    IFocusBrowsingListNodeIndex CurrentIndex = IdentifierState.ParentIndex as IFocusBrowsingListNodeIndex;
+                    Debug.Assert(CurrentIndex != null);
+
+                    IIdentifier FirstPart = NodeHelper.CreateSimpleIdentifier(Text.Substring(0, CaretPosition));
+                    IIdentifier SecondPart = NodeHelper.CreateSimpleIdentifier(Text.Substring(CaretPosition));
+
+                    replaceIndex = CurrentIndex.ToInsertionIndex(ParentState.Node, FirstPart) as IFocusInsertionListNodeIndex;
+                    Debug.Assert(replaceIndex != null);
+
+                    insertIndex = CurrentIndex.ToInsertionIndex(ParentState.Node, SecondPart) as IFocusInsertionListNodeIndex;
+                    Debug.Assert(replaceIndex != null);
+
+                    return true;
+                }
             }
 
             return false;
