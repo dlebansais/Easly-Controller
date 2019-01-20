@@ -177,4 +177,9 @@ Then, when the flag is turned off, normal visibility is restored, and if for exa
 Having the focus set on some part of the code enable the possibility of special operations:
 
 + Inserting a new item when the focus is inside a list or block list, or on an insertion frame.
-+ Removing the current item if the focus is inside a list or block list. 
++ Removing the current item if the focus is inside a list or block list.
++ Moving the current item up or down in the list.
++ Splitting the block with the focus in two.
++ Merging the block with the focus and the previous block.
++ Cycling through variations of bodies and features.
+  
