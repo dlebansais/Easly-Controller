@@ -738,6 +738,7 @@ namespace EaslyController.Writeable
             CheckInvariant();
         }
 
+        /// <summary></summary>
         protected virtual void ReplaceState(IWriteableInner<IWriteableBrowsingChildIndex> inner, IWriteableInsertionChildIndex replacementIndex, bool cleanupBlockList, out IWriteableBrowsingChildIndex nodeIndex, out IWriteableReplaceOperation operation)
         {
             Debug.Assert(inner != null);

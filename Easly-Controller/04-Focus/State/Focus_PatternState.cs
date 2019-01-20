@@ -122,6 +122,7 @@ namespace EaslyController.Focus
             Debug.Assert(CycleCurrentPosition >= 0 && CycleCurrentPosition < CycleIndexList.Count);
         }
 
+        /// <summary></summary>
         protected virtual void AddBodyToCycle()
         {
             Debug.Assert(CycleIndexList != null);
@@ -193,6 +194,7 @@ namespace EaslyController.Focus
             }
         }
 
+        /// <summary></summary>
         protected virtual void AddFeatureToCycle()
         {
             Debug.Assert(CycleIndexList != null);

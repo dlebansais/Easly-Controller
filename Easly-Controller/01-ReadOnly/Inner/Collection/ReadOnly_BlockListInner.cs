@@ -53,6 +53,10 @@ namespace EaslyController.ReadOnly
         /// <returns>The index of the node at position <paramref name="blockIndex"/> and <paramref name="index"/>.</returns>
         IReadOnlyBrowsingExistingBlockNodeIndex IndexAt(int blockIndex, int index);
 
+        /// <summary>
+        /// Requests that the notification that a block has been removed be sent.
+        /// </summary>
+        /// <param name="blockState">The removed block.</param>
         void NotifyBlockStateRemoved(IReadOnlyBlockState blockState);
     }
 
@@ -112,6 +116,10 @@ namespace EaslyController.ReadOnly
         /// <returns>The created block state.</returns>
         IReadOnlyBlockState InitNewBlock(IReadOnlyBrowsingNewBlockNodeIndex newBlockIndex);
 
+        /// <summary>
+        /// Requests that the notification that a block has been removed be sent.
+        /// </summary>
+        /// <param name="blockState">The removed block.</param>
         void NotifyBlockStateRemoved(IReadOnlyBlockState blockState);
     }
 
@@ -368,6 +376,15 @@ namespace EaslyController.ReadOnly
 
             callbackSet.OnBlockListInnerDetached(this);
         }
+
+        /// <summary>
+        /// Requests that the notification that a block has been removed be sent.
+        /// </summary>
+        /// <param name="blockState">The removed block.</param>
+        public virtual void NotifyBlockStateRemoved(IReadOnlyBlockState blockState)
+        {
+            BlockStateRemovedHandler?.Invoke(blockState);
+        }
         #endregion
 
         #region Descendant Interface
@@ -407,12 +424,6 @@ namespace EaslyController.ReadOnly
         protected virtual void NotifyBlockStateCreated(IReadOnlyBlockState blockState)
         {
             BlockStateCreatedHandler?.Invoke(blockState);
-        }
-
-        /// <summary></summary>
-        public virtual void NotifyBlockStateRemoved(IReadOnlyBlockState blockState)
-        {
-            BlockStateRemovedHandler?.Invoke(blockState);
         }
         #endregion
 
