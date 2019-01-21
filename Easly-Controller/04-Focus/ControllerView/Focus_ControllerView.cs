@@ -185,6 +185,15 @@ namespace EaslyController.Focus
         bool IsItemMoveable(int direction, out IFocusCollectionInner<IFocusBrowsingCollectionNodeIndex> inner, out IFocusBrowsingCollectionNodeIndex index);
 
         /// <summary>
+        /// Checks if an existing block at the focus can be moved up or down.
+        /// </summary>
+        /// <param name="direction">Direction of the move, relative to the current position of the item.</param>
+        /// <param name="inner">Inner to use to move the block upon return.</param>
+        /// <param name="blockIndex">Index of the block to move upon return.</param>
+        /// <returns>True if an item can be moved at the focus.</returns>
+        bool IsBlockMoveable(int direction, out IFocusBlockListInner<IFocusBrowsingBlockNodeIndex> inner, out int blockIndex);
+
+        /// <summary>
         /// Checks if an existing item at the focus or above that can be cycled through.
         /// Such items are features and bodies.
         /// </summary>
@@ -825,6 +834,50 @@ namespace EaslyController.Focus
                         Debug.Assert(index != null);
 
                         if (Controller.IsMoveable(inner, index, direction))
+                            return true;
+                        else
+                            return false;
+                    }
+
+                    State = State.ParentState;
+                }
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Checks if an existing block at the focus can be moved up or down.
+        /// </summary>
+        /// <param name="direction">Direction of the move, relative to the current position of the item.</param>
+        /// <param name="inner">Inner to use to move the block upon return.</param>
+        /// <param name="blockIndex">Index of the block to move upon return.</param>
+        /// <returns>True if an item can be moved at the focus.</returns>
+        public virtual bool IsBlockMoveable(int direction, out IFocusBlockListInner<IFocusBrowsingBlockNodeIndex> inner, out int blockIndex)
+        {
+            inner = null;
+            blockIndex = -1;
+
+            Debug.Assert(FocusedCellView != null);
+
+            IFocusNodeState State = FocusedCellView.StateView.State;
+
+            if (FocusedCellView.Frame is IFocusInsertFrame AsInsertFrame)
+                return false;
+
+            else
+            {
+                // Search recursively for a collection parent, up to 3 levels up.
+                for (int i = 0; i < 3 && State != null; i++)
+                {
+                    if (State.ParentInner is IFocusBlockListInner<IFocusBrowsingBlockNodeIndex> AsBlockListInner)
+                    {
+                        inner = AsBlockListInner;
+                        IFocusBrowsingExistingBlockNodeIndex ParentIndex = State.ParentIndex as IFocusBrowsingExistingBlockNodeIndex;
+                        Debug.Assert(ParentIndex != null);
+                        blockIndex = ParentIndex.BlockIndex;
+
+                        if (Controller.IsBlockMoveable(inner, blockIndex, direction))
                             return true;
                         else
                             return false;

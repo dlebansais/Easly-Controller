@@ -222,6 +222,14 @@ namespace EaslyController.Writeable
         void Move(IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> inner, IWriteableBrowsingCollectionNodeIndex nodeIndex, int direction);
 
         /// <summary>
+        /// Checks whether a block can be moved in a block list.
+        /// </summary>
+        /// <param name="inner">The inner where the block is.</param>
+        /// <param name="blockIndex">Index of the block that would be moved.</param>
+        /// <param name="direction">Direction of the move, relative to the current position of the item.</param>
+        bool IsBlockMoveable(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, int blockIndex, int direction);
+
+        /// <summary>
         /// Moves a block around in a block list.
         /// </summary>
         /// <param name="inner">The inner where the block is moved.</param>
@@ -1057,6 +1065,20 @@ namespace EaslyController.Writeable
             NotifyStateMoved(Operation);
 
             CheckInvariant();
+        }
+
+        /// <summary>
+        /// Checks whether a block can be moved in a block list.
+        /// </summary>
+        /// <param name="inner">The inner where the block is.</param>
+        /// <param name="blockIndex">Index of the block that would be moved.</param>
+        /// <param name="direction">Direction of the move, relative to the current position of the item.</param>
+        public virtual bool IsBlockMoveable(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, int blockIndex, int direction)
+        {
+            Debug.Assert(inner != null);
+            Debug.Assert(blockIndex >= 0 && blockIndex < inner.BlockStateList.Count);
+
+            return blockIndex + direction >= 0 && blockIndex + direction < inner.BlockStateList.Count;
         }
 
         /// <summary>

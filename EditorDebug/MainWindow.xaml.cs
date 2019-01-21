@@ -55,11 +55,17 @@ namespace EditorDebug
                 switch (e.Key)
                 {
                     case Key.Up:
-                        MoveExistingItem(-1);
+                        if (Keyboard.IsKeyDown(Key.LeftShift) || Keyboard.IsKeyDown(Key.RightShift))
+                            MoveExistingBlock(-1);
+                        else
+                            MoveExistingItem(-1);
                         break;
 
                     case Key.Down:
-                        MoveExistingItem(+1);
+                        if (Keyboard.IsKeyDown(Key.LeftShift) || Keyboard.IsKeyDown(Key.RightShift))
+                            MoveExistingBlock(+1);
+                        else
+                            MoveExistingItem(+1);
                         break;
 
                     case Key.E:
@@ -158,6 +164,17 @@ namespace EditorDebug
                 return;
 
             ControllerView.Controller.Remove(inner, index);
+            UpdateFocusView();
+        }
+
+        private void MoveExistingBlock(int direction)
+        {
+            if (ControllerView == null)
+                return;
+            if (!ControllerView.IsBlockMoveable(direction, out IFocusBlockListInner<IFocusBrowsingBlockNodeIndex> inner, out int blockIndex))
+                return;
+
+            ControllerView.Controller.MoveBlock(inner, blockIndex, direction);
             UpdateFocusView();
         }
 
