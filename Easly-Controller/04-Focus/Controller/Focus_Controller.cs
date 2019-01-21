@@ -121,7 +121,7 @@ namespace EaslyController.Focus
         /// <param name="cycleIndexList">Cycle of nodes that can replace the current node.</param>
         /// <param name="cyclePosition">New position in the cycle.</param>
         /// <param name="nodeIndex">Index of the replacing node upon return.</param>
-        void Replace(IFocusInner<IFocusBrowsingChildIndex> inner, IList<IFocusInsertionChildIndex> cycleIndexList, int cyclePosition, out IFocusBrowsingChildIndex nodeIndex);
+        void Replace(IFocusInner<IFocusBrowsingChildIndex> inner, IFocusInsertionChildIndexList cycleIndexList, int cyclePosition, out IFocusBrowsingChildIndex nodeIndex);
     }
 
     /// <summary>
@@ -336,7 +336,7 @@ namespace EaslyController.Focus
         /// <param name="cycleIndexList">Cycle of nodes that can replace the current node.</param>
         /// <param name="cyclePosition">New position in the cycle.</param>
         /// <param name="nodeIndex">Index of the replacing node upon return.</param>
-        public virtual void Replace(IFocusInner<IFocusBrowsingChildIndex> inner, IList<IFocusInsertionChildIndex> cycleIndexList, int cyclePosition, out IFocusBrowsingChildIndex nodeIndex)
+        public virtual void Replace(IFocusInner<IFocusBrowsingChildIndex> inner, IFocusInsertionChildIndexList cycleIndexList, int cyclePosition, out IFocusBrowsingChildIndex nodeIndex)
         {
             Debug.Assert(cycleIndexList != null);
             Debug.Assert(cycleIndexList.Count >= 2);
@@ -534,6 +534,15 @@ namespace EaslyController.Focus
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusController));
             return new FocusChangeNodeOperation((IFocusIndex)nodeIndex, isNested);
+        }
+
+        /// <summary>
+        /// Creates a IxxxChangeBlockOperation object.
+        /// </summary>
+        protected override IWriteableChangeBlockOperation CreateChangeBlockOperation(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, int blockIndex, bool isNested)
+        {
+            ControllerTools.AssertNoOverride(this, typeof(FocusController));
+            return new FocusChangeBlockOperation((IFocusBlockListInner<IFocusBrowsingBlockNodeIndex>)inner, blockIndex, isNested);
         }
 
         /// <summary>

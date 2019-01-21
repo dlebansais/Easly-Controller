@@ -63,7 +63,7 @@ namespace EditorDebug
                         break;
 
                     case Key.E:
-                        ToggleExpand();
+                        ToggleUserVisible();
                         break;
 
                     case Key.Y:
@@ -84,6 +84,14 @@ namespace EditorDebug
 
                     case Key.I:
                         SimplifyExistingItem();
+                        break;
+
+                    case Key.R: // toggle replicate
+                        ToggleReplicate();
+                        break;
+
+                    case Key.D: // expand/reduce selection
+                    case Key.Z: // undo/redo
                         break;
                 }
             }
@@ -113,6 +121,19 @@ namespace EditorDebug
 
                     case Key.OemPeriod:
                         SplitIdentifier();
+                        break;
+
+                    case Key.Back:
+                    case Key.Delete:
+                    case Key.Insert:
+                    case Key.Tab: // Comments
+                    case Key.Left:
+                    case Key.Right:
+                    case Key.Home:
+                    case Key.End:
+                    case Key.PageUp: // Focus up
+                    case Key.PageDown: // Focus down
+                    case Key.Space: // Compact
                         break;
                 }
             }
@@ -196,7 +217,28 @@ namespace EditorDebug
             UpdateFocusView();
         }
 
-        private void ToggleExpand()
+        private void ToggleReplicate()
+        {
+            if (ControllerView == null)
+                return;
+            if (!ControllerView.IsReplicationModifiable(out IFocusBlockListInner<IFocusBrowsingBlockNodeIndex> Inner, out int BlockIndex, out ReplicationStatus Replication))
+                return;
+
+            switch (Replication)
+            {
+                case ReplicationStatus.Normal:
+                    Replication = ReplicationStatus.Replicated;
+                    break;
+                case ReplicationStatus.Replicated:
+                    Replication = ReplicationStatus.Normal;
+                    break;
+            }
+
+            ControllerView.Controller.ChangeReplication(Inner, BlockIndex, Replication);
+            UpdateFocusView();
+        }
+
+        private void ToggleUserVisible()
         {
             if (ControllerView == null)
                 return;

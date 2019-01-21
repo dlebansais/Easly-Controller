@@ -69,7 +69,7 @@ namespace EaslyController.Focus
         /// List of node indexes that can replace the current node. Can be null.
         /// Applies only to bodies and features.
         /// </summary>
-        public IList<IFocusInsertionChildIndex> CycleIndexList { get; private set; }
+        public IFocusInsertionChildIndexList CycleIndexList { get; private set; }
 
         /// <summary>
         /// Position of the current node in <see cref="CycleIndexList"/>.
@@ -90,7 +90,7 @@ namespace EaslyController.Focus
             if (CycleIndexList == null)
             {
                 IFocusInsertionChildIndex ThisIndex = (IFocusInsertionChildIndex)((IFocusBrowsingChildIndex)ParentIndex).ToInsertionIndex(ParentState.Node, Node);
-                CycleIndexList = new List<IFocusInsertionChildIndex>();
+                CycleIndexList = CreateInsertionChildIndexList();
                 CycleIndexList.Add(ThisIndex);
             }
 
@@ -310,7 +310,7 @@ namespace EaslyController.Focus
         /// Restores the cycle index list from which this state was created.
         /// </summary>
         /// <param name="cycleIndexList">The list to restore.</param>
-        public virtual void RestoreCycleIndexList(IList<IFocusInsertionChildIndex> cycleIndexList)
+        public virtual void RestoreCycleIndexList(IFocusInsertionChildIndexList cycleIndexList)
         {
             Debug.Assert(cycleIndexList != null && cycleIndexList.Count >= 2);
             Debug.Assert(CycleIndexList == null);
@@ -435,6 +435,15 @@ namespace EaslyController.Focus
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusPlaceholderNodeState));
             return new FocusIndexCollection<IFocusBrowsingBlockNodeIndex>(propertyName, (IFocusBrowsingBlockNodeIndexList)nodeIndexList);
+        }
+
+        /// <summary>
+        /// Creates a IxxxInsertionChildIndexList object.
+        /// </summary>
+        protected virtual IFocusInsertionChildIndexList CreateInsertionChildIndexList()
+        {
+            ControllerTools.AssertNoOverride(this, typeof(FocusPlaceholderNodeState));
+            return new FocusInsertionChildIndexList();
         }
         #endregion
     }

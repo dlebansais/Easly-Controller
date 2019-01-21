@@ -65,6 +65,7 @@ namespace EaslyController.Writeable
             Controller.StateAssigned += OnStateAssigned;
             Controller.StateUnassigned += OnStateUnassigned;
             Controller.StateChanged += OnStateChanged;
+            Controller.BlockStateChanged += OnBlockStateChanged;
             Controller.StateMoved += OnStateMoved;
             Controller.BlockStateMoved += OnBlockStateMoved;
             Controller.BlockSplit += OnBlockSplit;
@@ -213,6 +214,19 @@ namespace EaslyController.Writeable
             IWriteablePlaceholderNodeState State = operation.State;
             Debug.Assert(State != null);
             Debug.Assert(StateViewTable.ContainsKey(State));
+        }
+
+        /// <summary>
+        /// Handler called every time a block state is changed in the controller.
+        /// </summary>
+        /// <param name="operation">Details of the operation performed.</param>
+        public virtual void OnBlockStateChanged(IWriteableChangeBlockOperation operation)
+        {
+            Debug.Assert(operation != null);
+
+            IWriteableBlockState BlockState = operation.BlockState;
+            Debug.Assert(BlockState != null);
+            Debug.Assert(BlockStateViewTable.ContainsKey(BlockState));
         }
 
         /// <summary>

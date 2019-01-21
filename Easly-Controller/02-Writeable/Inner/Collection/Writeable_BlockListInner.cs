@@ -42,9 +42,9 @@ namespace EaslyController.Writeable
         /// <summary>
         /// Changes the replication state of a block.
         /// </summary>
-        /// <param name="blockIndex">Position of the block in the block list.</param>
+        /// <param name="blockOperation">Details of the operation performed.</param>
         /// <param name="replication">New replication value.</param>
-        void ChangeReplication(int blockIndex, ReplicationStatus replication);
+        void ChangeReplication(IWriteableChangeBlockOperation blockOperation, ReplicationStatus replication);
 
         /// <summary>
         /// Checks whether a block can be split at the given index.
@@ -114,9 +114,9 @@ namespace EaslyController.Writeable
         /// <summary>
         /// Changes the replication state of a block.
         /// </summary>
-        /// <param name="blockIndex">Position of the block in the block list.</param>
+        /// <param name="blockOperation">Details of the operation performed.</param>
         /// <param name="replication">New replication value.</param>
-        void ChangeReplication(int blockIndex, ReplicationStatus replication);
+        void ChangeReplication(IWriteableChangeBlockOperation blockOperation, ReplicationStatus replication);
 
         /// <summary>
         /// Checks whether a block can be split at the given index.
@@ -440,14 +440,18 @@ namespace EaslyController.Writeable
         /// <summary>
         /// Changes the replication state of a block.
         /// </summary>
-        /// <param name="blockIndex">Position of the block in the block list.</param>
+        /// <param name="blockOperation">Details of the operation performed.</param>
         /// <param name="replication">New replication value.</param>
-        public virtual void ChangeReplication(int blockIndex, ReplicationStatus replication)
+        public virtual void ChangeReplication(IWriteableChangeBlockOperation blockOperation, ReplicationStatus replication)
         {
-            Debug.Assert(blockIndex >= 0 && blockIndex < BlockStateList.Count);
+            int BlockIndex = blockOperation.BlockIndex;
 
-            IWriteableBlockState BlockState = BlockStateList[blockIndex];
+            Debug.Assert(BlockIndex >= 0 && BlockIndex < BlockStateList.Count);
+
+            IWriteableBlockState BlockState = BlockStateList[BlockIndex];
             NodeTreeHelperBlockList.SetReplication(BlockState.ChildBlock, replication);
+
+            blockOperation.Update(BlockState);
         }
 
         /// <summary>

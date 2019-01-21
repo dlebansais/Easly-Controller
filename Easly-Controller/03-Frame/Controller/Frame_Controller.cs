@@ -476,6 +476,15 @@ namespace EaslyController.Frame
         }
 
         /// <summary>
+        /// Creates a IxxxChangeBlockOperation object.
+        /// </summary>
+        protected override IWriteableChangeBlockOperation CreateChangeBlockOperation(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, int blockIndex, bool isNested)
+        {
+            ControllerTools.AssertNoOverride(this, typeof(FrameController));
+            return new FrameChangeBlockOperation((IFrameBlockListInner<IFrameBrowsingBlockNodeIndex>)inner, blockIndex, isNested);
+        }
+
+        /// <summary>
         /// Creates a IxxxSplitBlockOperation object.
         /// </summary>
         protected override IWriteableSplitBlockOperation CreateSplitBlockOperation(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, IWriteableBrowsingExistingBlockNodeIndex nodeIndex, bool isNested)

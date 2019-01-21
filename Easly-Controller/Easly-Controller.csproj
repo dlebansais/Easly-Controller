@@ -133,6 +133,7 @@
     <Compile Include="02-Writeable\ControllerView\Writeable_AttachCallbackSet.cs" />
     <Compile Include="02-Writeable\ControllerView\Writeable_ControllerView.cs" />
     <Compile Include="02-Writeable\Controller\Operations\Writeable_Assignment_Operation.cs" />
+    <Compile Include="02-Writeable\Controller\Operations\Writeable_ChangeBlock_Operation.cs" />
     <Compile Include="02-Writeable\Controller\Operations\Writeable_ChangeNode_Operation.cs" />
     <Compile Include="02-Writeable\Controller\Operations\Writeable_MoveNode_Operation.cs" />
     <Compile Include="02-Writeable\Controller\Operations\Writeable_MergeBlocks_Operation.cs" />
@@ -251,6 +252,7 @@
     <Compile Include="03-Frame\Controller\Operations\Frame_MoveNode_Operation.cs" />
     <Compile Include="03-Frame\Controller\Operations\Frame_MoveBlock_Operation.cs" />
     <Compile Include="03-Frame\Controller\Operations\Frame_GenericRefresh_Operation.cs" />
+    <Compile Include="03-Frame\Controller\Operations\Frame_ChangeBlock_Operation.cs" />
     <Compile Include="03-Frame\Frame\Frame_BlockFrame.cs" />
     <Compile Include="03-Frame\Frame\Frame_NumberFrame.cs" />
     <Compile Include="03-Frame\Frame\Frame_InsertFrame.cs" />
@@ -345,6 +347,7 @@
     <Compile Include="04-Focus\Collections\Focus_AssignableCellView_Dictionary.cs" />
     <Compile Include="04-Focus\Collections\Focus_FrameSelector_List.cs" />
     <Compile Include="04-Focus\Collections\Focus_FocusableCellView_List.cs" />
+    <Compile Include="04-Focus\Collections\Focus_InsertionChildIndex_List.cs" />
     <Compile Include="04-Focus\Collections\Focus_SelectableFrame_List.cs" />
     <Compile Include="04-Focus\Collections\Focus_VisibleCellView_List.cs" />
     <Compile Include="04-Focus\Collections\Focus_CellView_List.cs" />
@@ -388,6 +391,7 @@
     <Compile Include="04-Focus\Controller\Operations\Focus_Replace_Operation.cs" />
     <Compile Include="04-Focus\Controller\Operations\Focus_SplitBlock_Operation.cs" />
     <Compile Include="04-Focus\Controller\Operations\Focus_ChangeNode_Operation.cs" />
+    <Compile Include="04-Focus\Controller\Operations\Focus_ChangeBlock_Operation.cs" />
     <Compile Include="04-Focus\FrameVisibility\Focus_BlockFrameVisibility.cs" />
     <Compile Include="04-Focus\FrameVisibility\Focus_OptionalFrameVisibility.cs" />
     <Compile Include="04-Focus\FrameVisibility\Focus_MixedFrameVisibility.cs" />

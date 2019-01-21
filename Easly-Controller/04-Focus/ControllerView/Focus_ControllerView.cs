@@ -209,6 +209,15 @@ namespace EaslyController.Focus
         /// <param name="insertIndex">Index of the identifier to replace upon return.</param>
         /// <returns>True if an identifier can be split at the focus.</returns>
         bool IsIdentifierSplittable(out IFocusListInner<IFocusBrowsingListNodeIndex> inner, out IFocusInsertionListNodeIndex replaceIndex, out IFocusInsertionListNodeIndex insertIndex);
+
+        /// <summary>
+        /// Checks if an existing block can have its replication status changed.
+        /// </summary>
+        /// <param name="inner">Inner to use to change the replication status upon return.</param>
+        /// <param name="blockIndex">Index of the block that can be changed upon return.</param>
+        /// <param name="replication">The current replication status upon return.</param>
+        /// <returns>True if an existing block can have its replication status changed at the focus.</returns>
+        bool IsReplicationModifiable(out IFocusBlockListInner<IFocusBrowsingBlockNodeIndex> inner, out int blockIndex, out ReplicationStatus replication);
     }
 
     /// <summary>
@@ -851,7 +860,7 @@ namespace EaslyController.Focus
                 {
                     Controller.AddNodeToCycle(CurrentState);
 
-                    IList<IFocusInsertionChildIndex> CycleIndexList = CurrentState.CycleIndexList;
+                    IFocusInsertionChildIndexList CycleIndexList = CurrentState.CycleIndexList;
                     Debug.Assert(CycleIndexList.Count >= 2);
                     int CurrentPosition = CurrentState.CycleCurrentPosition;
                     Debug.Assert(CurrentPosition >= 0 && CurrentPosition < CycleIndexList.Count);
@@ -950,6 +959,66 @@ namespace EaslyController.Focus
 
                     return true;
                 }
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Checks if an existing block can have its replication status changed.
+        /// </summary>
+        /// <param name="inner">Inner to use to change the replication status upon return.</param>
+        /// <param name="blockIndex">Index of the block that can be changed upon return.</param>
+        /// <param name="replication">The current replication status upon return.</param>
+        /// <returns>True if an existing block can have its replication status changed at the focus.</returns>
+        public virtual bool IsReplicationModifiable(out IFocusBlockListInner<IFocusBrowsingBlockNodeIndex> inner, out int blockIndex, out ReplicationStatus replication)
+        {
+            inner = null;
+            blockIndex = -1;
+            replication = ReplicationStatus.Normal;
+
+            Debug.Assert(FocusedCellView != null);
+
+            IFocusNodeState State = FocusedCellView.StateView.State;
+
+            // Search recursively for a collection parent, up to 3 levels up.
+            for (int i = 0; i < 3 && State != null; i++)
+            {
+                if (State is IFocusPatternState AsPatternState)
+                {
+                    IFocusBlockState ParentBlock = AsPatternState.ParentBlockState;
+                    IFocusBlockListInner<IFocusBrowsingBlockNodeIndex> BlockListInner = ParentBlock.ParentInner as IFocusBlockListInner<IFocusBrowsingBlockNodeIndex>;
+                    Debug.Assert(BlockListInner != null);
+
+                    inner = BlockListInner;
+                    blockIndex = inner.BlockStateList.IndexOf(ParentBlock);
+                    replication = ParentBlock.ChildBlock.Replication;
+                    return true;
+                }
+
+                else if (State is IFocusSourceState AsSourceState)
+                {
+                    IFocusBlockState ParentBlock = AsSourceState.ParentBlockState;
+                    IFocusBlockListInner<IFocusBrowsingBlockNodeIndex> BlockListInner = ParentBlock.ParentInner as IFocusBlockListInner<IFocusBrowsingBlockNodeIndex>;
+                    Debug.Assert(BlockListInner != null);
+
+                    inner = BlockListInner;
+                    blockIndex = inner.BlockStateList.IndexOf(ParentBlock);
+                    replication = ParentBlock.ChildBlock.Replication;
+                    return true;
+                }
+
+                else if (State.ParentInner is IFocusBlockListInner<IFocusBrowsingBlockNodeIndex> AsBlockListInner)
+                {
+                    inner = AsBlockListInner;
+                    IFocusBrowsingExistingBlockNodeIndex ParentIndex = State.ParentIndex as IFocusBrowsingExistingBlockNodeIndex;
+                    Debug.Assert(ParentIndex != null);
+                    blockIndex = ParentIndex.BlockIndex;
+                    replication = inner.BlockStateList[blockIndex].ChildBlock.Replication;
+                    return true;
+                }
+
+                State = State.ParentState;
             }
 
             return false;

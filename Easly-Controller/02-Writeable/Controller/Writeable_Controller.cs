@@ -86,6 +86,11 @@ namespace EaslyController.Writeable
         /// <summary>
         /// Called when a state is moved.
         /// </summary>
+        event Action<IWriteableChangeBlockOperation> BlockStateChanged;
+
+        /// <summary>
+        /// Called when a state is moved.
+        /// </summary>
         event Action<IWriteableMoveNodeOperation> StateMoved;
 
         /// <summary>
@@ -428,6 +433,20 @@ namespace EaslyController.Writeable
         protected Action<IWriteableChangeNodeOperation> StateChangedHandler;
         protected virtual void AddStateChangedDelegate(Action<IWriteableChangeNodeOperation> handler) { StateChangedHandler += handler; }
         protected virtual void RemoveStateChangedDelegate(Action<IWriteableChangeNodeOperation> handler) { StateChangedHandler -= handler; }
+#pragma warning restore 1591
+
+        /// <summary>
+        /// Called when a state is changed.
+        /// </summary>
+        public event Action<IWriteableChangeBlockOperation> BlockStateChanged
+        {
+            add { AddBlockStateChangedDelegate(value); }
+            remove { RemoveBlockStateChangedDelegate(value); }
+        }
+#pragma warning disable 1591
+        protected Action<IWriteableChangeBlockOperation> BlockStateChangedHandler;
+        protected virtual void AddBlockStateChangedDelegate(Action<IWriteableChangeBlockOperation> handler) { BlockStateChangedHandler += handler; }
+        protected virtual void RemoveBlockStateChangedDelegate(Action<IWriteableChangeBlockOperation> handler) { BlockStateChangedHandler -= handler; }
 #pragma warning restore 1591
 
         /// <summary>
@@ -848,7 +867,10 @@ namespace EaslyController.Writeable
             Debug.Assert(inner != null);
             Debug.Assert(blockIndex >= 0 && blockIndex < inner.BlockStateList.Count);
 
-            inner.ChangeReplication(blockIndex, replication);
+            IWriteableChangeBlockOperation Operation = CreateChangeBlockOperation(inner, blockIndex, isNested: false);
+            inner.ChangeReplication(Operation, replication);
+
+            NotifyBlockStateChanged(Operation);
 
             CheckInvariant();
         }
@@ -1507,6 +1529,12 @@ namespace EaslyController.Writeable
         }
 
         /// <summary></summary>
+        protected virtual void NotifyBlockStateChanged(IWriteableChangeBlockOperation operation)
+        {
+            BlockStateChangedHandler?.Invoke(operation);
+        }
+
+        /// <summary></summary>
         protected virtual void NotifyStateMoved(IWriteableMoveNodeOperation operation)
         {
             StateMovedHandler?.Invoke(operation);
@@ -1834,6 +1862,15 @@ namespace EaslyController.Writeable
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableController));
             return new WriteableChangeNodeOperation(nodeIndex, isNested);
+        }
+
+        /// <summary>
+        /// Creates a IxxxChangeBlockOperation object.
+        /// </summary>
+        protected virtual IWriteableChangeBlockOperation CreateChangeBlockOperation(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, int blockIndex, bool isNested)
+        {
+            ControllerTools.AssertNoOverride(this, typeof(WriteableController));
+            return new WriteableChangeBlockOperation(inner, blockIndex, isNested);
         }
 
         /// <summary>

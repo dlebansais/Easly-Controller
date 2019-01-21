@@ -549,6 +549,18 @@ namespace EaslyController.Frame
         }
 
         /// <summary>
+        /// Handler called every time a block state is changed in the controller.
+        /// </summary>
+        /// <param name="operation">Details of the operation performed.</param>
+        public override void OnBlockStateChanged(IWriteableChangeBlockOperation operation)
+        {
+            base.OnBlockStateChanged(operation);
+
+            //TODO: only refresh the local state. Right now for some reason it doesn't work.
+            Refresh(Controller.RootState);
+        }
+
+        /// <summary>
         /// Handler called every time a state is moved in the controller.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
@@ -825,7 +837,6 @@ namespace EaslyController.Frame
         protected virtual IFrameBlockCellView BuildBlockCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, IFrameBlockStateView blockStateView)
         {
             IFrameCellViewTreeContext Context = InitializedCellViewTreeContext(stateView);
-            //IFrameCellViewTreeContext Context = CreateCellViewTreeContext(stateView);
             Context.SetBlockStateView(blockStateView);
             blockStateView.BuildRootCellView(Context);
 
