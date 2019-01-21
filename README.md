@@ -184,3 +184,5 @@ Having the focus set on some part of the code enable the possibility of special 
 + Cycling through variations of bodies and features.
 + Splitting an identifier in two parts, separated by a dot, in a qualified name.
 + Simplifying a node.
++ Changing the replication status of the current block.
++ Moving the current block.
