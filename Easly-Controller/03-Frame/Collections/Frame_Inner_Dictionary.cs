@@ -40,7 +40,12 @@ namespace EaslyController.Frame
             return NewList.GetEnumerator();
         }
 
-        public bool TryGetValue(TKey key, out IReadOnlyInner<IReadOnlyBrowsingChildIndex> value) { bool Result = TryGetValue(key, out IFrameInner<IFrameBrowsingChildIndex> Value); value = Value; return Result; }
+        public bool TryGetValue(TKey key, out IReadOnlyInner<IReadOnlyBrowsingChildIndex> value)
+        {
+            bool Result = TryGetValue(key, out IFrameInner<IFrameBrowsingChildIndex> Value);
+            value = Value;
+            return Result;
+        }
         public void Add(KeyValuePair<TKey, IReadOnlyInner<IReadOnlyBrowsingChildIndex>> item) { base.Add(item.Key, (IFrameInner<IFrameBrowsingChildIndex>)item.Value); }
         public bool Contains(KeyValuePair<TKey, IReadOnlyInner<IReadOnlyBrowsingChildIndex>> item) { return ContainsKey(item.Key) && base[item.Key] == item.Value; }
         public void CopyTo(KeyValuePair<TKey, IReadOnlyInner<IReadOnlyBrowsingChildIndex>>[] array, int arrayIndex) { throw new InvalidOperationException(); }
@@ -80,7 +85,12 @@ namespace EaslyController.Frame
             return NewDictionary.GetEnumerator();
         }
 
-        public bool TryGetValue(TKey key, out IWriteableInner<IWriteableBrowsingChildIndex> value) { bool Result = TryGetValue(key, out IFrameInner<IFrameBrowsingChildIndex> Value); value = Value; return Result; }
+        public bool TryGetValue(TKey key, out IWriteableInner<IWriteableBrowsingChildIndex> value)
+        {
+            bool Result = TryGetValue(key, out IFrameInner<IFrameBrowsingChildIndex> Value);
+            value = Value;
+            return Result;
+        }
         public void Add(KeyValuePair<TKey, IWriteableInner<IWriteableBrowsingChildIndex>> item) { base.Add(item.Key, (IFrameInner<IFrameBrowsingChildIndex>)item.Value); }
         public bool Contains(KeyValuePair<TKey, IWriteableInner<IWriteableBrowsingChildIndex>> item) { return ContainsKey(item.Key) && base[item.Key] == item.Value; }
         public void CopyTo(KeyValuePair<TKey, IWriteableInner<IWriteableBrowsingChildIndex>>[] array, int arrayIndex) { throw new InvalidOperationException(); }

@@ -39,7 +39,12 @@ namespace EaslyController.Writeable
             return NewList.GetEnumerator();
         }
 
-        public bool TryGetValue(TKey key, out IReadOnlyInner<IReadOnlyBrowsingChildIndex> value) { bool Result = TryGetValue(key, out IWriteableInner<IWriteableBrowsingChildIndex> Value); value = Value; return Result; }
+        public bool TryGetValue(TKey key, out IReadOnlyInner<IReadOnlyBrowsingChildIndex> value)
+        {
+            bool Result = TryGetValue(key, out IWriteableInner<IWriteableBrowsingChildIndex> Value);
+            value = Value;
+            return Result;
+        }
         public void Add(KeyValuePair<TKey, IReadOnlyInner<IReadOnlyBrowsingChildIndex>> item) { base.Add(item.Key, (IWriteableInner<IWriteableBrowsingChildIndex>)item.Value); }
         public bool Contains(KeyValuePair<TKey, IReadOnlyInner<IReadOnlyBrowsingChildIndex>> item) { return ContainsKey(item.Key) && base[item.Key] == item.Value; }
         public void CopyTo(KeyValuePair<TKey, IReadOnlyInner<IReadOnlyBrowsingChildIndex>>[] array, int arrayIndex) { throw new InvalidOperationException(); }

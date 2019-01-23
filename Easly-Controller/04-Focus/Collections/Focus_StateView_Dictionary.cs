@@ -55,7 +55,12 @@ namespace EaslyController.Focus
             return NewList.GetEnumerator();
         }
 
-        public bool TryGetValue(IFocusNodeState key, out IReadOnlyNodeStateView value) { bool Result = TryGetValue(key, out IFocusNodeStateView Value); value = Value; return Result; }
+        public bool TryGetValue(IFocusNodeState key, out IReadOnlyNodeStateView value)
+        {
+            bool Result = TryGetValue(key, out IFocusNodeStateView Value);
+            value = Value;
+            return Result;
+        }
         public void Add(KeyValuePair<IFocusNodeState, IReadOnlyNodeStateView> item) { base.Add(item.Key, (IFocusNodeStateView)item.Value); }
         public bool Contains(KeyValuePair<IFocusNodeState, IReadOnlyNodeStateView> item) { return ContainsKey(item.Key) && base[item.Key] == item.Value; }
         public void CopyTo(KeyValuePair<IFocusNodeState, IReadOnlyNodeStateView>[] array, int arrayIndex) { throw new InvalidOperationException(); }
@@ -108,7 +113,12 @@ namespace EaslyController.Focus
             return NewDictionary.GetEnumerator();
         }
 
-        public bool TryGetValue(IFocusNodeState key, out IWriteableNodeStateView value) { bool Result = TryGetValue(key, out IFocusNodeStateView Value); value = Value; return Result; }
+        public bool TryGetValue(IFocusNodeState key, out IWriteableNodeStateView value)
+        {
+            bool Result = TryGetValue(key, out IFocusNodeStateView Value);
+            value = Value;
+            return Result;
+        }
         public void Add(KeyValuePair<IFocusNodeState, IWriteableNodeStateView> item) { base.Add(item.Key, (IFocusNodeStateView)item.Value); }
         public bool Contains(KeyValuePair<IFocusNodeState, IWriteableNodeStateView> item) { return ContainsKey(item.Key) && base[item.Key] == item.Value; }
         public void CopyTo(KeyValuePair<IFocusNodeState, IWriteableNodeStateView>[] array, int arrayIndex) { throw new InvalidOperationException(); }
@@ -161,7 +171,12 @@ namespace EaslyController.Focus
             return NewDictionary.GetEnumerator();
         }
 
-        public bool TryGetValue(IFocusNodeState key, out IFrameNodeStateView value) { bool Result = TryGetValue(key, out IFocusNodeStateView Value); value = Value; return Result; }
+        public bool TryGetValue(IFocusNodeState key, out IFrameNodeStateView value)
+        {
+            bool Result = TryGetValue(key, out IFocusNodeStateView Value);
+            value = Value;
+            return Result;
+        }
         public void Add(KeyValuePair<IFocusNodeState, IFrameNodeStateView> item) { base.Add(item.Key, (IFocusNodeStateView)item.Value); }
         public bool Contains(KeyValuePair<IFocusNodeState, IFrameNodeStateView> item) { return ContainsKey(item.Key) && base[item.Key] == item.Value; }
         public void CopyTo(KeyValuePair<IFocusNodeState, IFrameNodeStateView>[] array, int arrayIndex) { throw new InvalidOperationException(); }

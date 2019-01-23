@@ -53,7 +53,12 @@ namespace EaslyController.Writeable
             return NewList.GetEnumerator();
         }
 
-        public bool TryGetValue(IWriteableBlockState key, out IReadOnlyBlockStateView value) { bool Result = TryGetValue(key, out IWriteableBlockStateView Value); value = Value; return Result; }
+        public bool TryGetValue(IWriteableBlockState key, out IReadOnlyBlockStateView value)
+        {
+            bool Result = TryGetValue(key, out IWriteableBlockStateView Value);
+            value = Value;
+            return Result;
+        }
         public void Add(KeyValuePair<IWriteableBlockState, IReadOnlyBlockStateView> item) { base.Add(item.Key, (IWriteableBlockStateView)item.Value); }
         public bool Contains(KeyValuePair<IWriteableBlockState, IReadOnlyBlockStateView> item) { return ContainsKey(item.Key) && base[item.Key] == item.Value; }
         public void CopyTo(KeyValuePair<IWriteableBlockState, IReadOnlyBlockStateView>[] array, int arrayIndex) { throw new InvalidOperationException(); }

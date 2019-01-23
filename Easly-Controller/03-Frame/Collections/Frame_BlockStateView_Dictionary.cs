@@ -54,7 +54,12 @@ namespace EaslyController.Frame
             return NewList.GetEnumerator();
         }
 
-        public bool TryGetValue(IFrameBlockState key, out IReadOnlyBlockStateView value) { bool Result = TryGetValue(key, out IFrameBlockStateView Value); value = Value; return Result; }
+        public bool TryGetValue(IFrameBlockState key, out IReadOnlyBlockStateView value)
+        {
+            bool Result = TryGetValue(key, out IFrameBlockStateView Value);
+            value = Value;
+            return Result;
+        }
         public void Add(KeyValuePair<IFrameBlockState, IReadOnlyBlockStateView> item) { base.Add(item.Key, (IFrameBlockStateView)item.Value); }
         public bool Contains(KeyValuePair<IFrameBlockState, IReadOnlyBlockStateView> item) { return ContainsKey(item.Key) && base[item.Key] == item.Value; }
         public void CopyTo(KeyValuePair<IFrameBlockState, IReadOnlyBlockStateView>[] array, int arrayIndex) { throw new InvalidOperationException(); }
@@ -107,7 +112,12 @@ namespace EaslyController.Frame
             return NewDictionary.GetEnumerator();
         }
 
-        public bool TryGetValue(IFrameBlockState key, out IWriteableBlockStateView value) { bool Result = TryGetValue(key, out IFrameBlockStateView Value); value = Value; return Result; }
+        public bool TryGetValue(IFrameBlockState key, out IWriteableBlockStateView value)
+        {
+            bool Result = TryGetValue(key, out IFrameBlockStateView Value);
+            value = Value;
+            return Result;
+        }
         public void Add(KeyValuePair<IFrameBlockState, IWriteableBlockStateView> item) { base.Add(item.Key, (IFrameBlockStateView)item.Value); }
         public bool Contains(KeyValuePair<IFrameBlockState, IWriteableBlockStateView> item) { return ContainsKey(item.Key) && base[item.Key] == item.Value; }
         public void CopyTo(KeyValuePair<IFrameBlockState, IWriteableBlockStateView>[] array, int arrayIndex) { throw new InvalidOperationException(); }

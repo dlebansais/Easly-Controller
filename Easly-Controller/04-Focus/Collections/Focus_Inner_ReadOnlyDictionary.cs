@@ -43,7 +43,12 @@ namespace EaslyController.Focus
 
             return NewList.GetEnumerator();
         }
-        public bool TryGetValue(TKey key, out IReadOnlyInner<IReadOnlyBrowsingChildIndex> value) { bool Result = TryGetValue(key, out IFocusInner<IFocusBrowsingChildIndex> Value); value = Value; return Result; }
+        public bool TryGetValue(TKey key, out IReadOnlyInner<IReadOnlyBrowsingChildIndex> value)
+        {
+            bool Result = TryGetValue(key, out IFocusInner<IFocusBrowsingChildIndex> Value);
+            value = Value;
+            return Result;
+        }
         #endregion
 
         #region Writeable
@@ -61,7 +66,12 @@ namespace EaslyController.Focus
         }
         IEnumerator<KeyValuePair<TKey, IWriteableInner<IWriteableBrowsingChildIndex>>> IEnumerable<KeyValuePair<TKey, IWriteableInner<IWriteableBrowsingChildIndex>>>.GetEnumerator() { return ((IWriteableInnerReadOnlyDictionary<TKey>)this).GetEnumerator(); }
 
-        public bool TryGetValue(TKey key, out IWriteableInner<IWriteableBrowsingChildIndex> value) { bool Result = TryGetValue(key, out IFocusInner<IFocusBrowsingChildIndex> Value); value = Value; return Result; }
+        public bool TryGetValue(TKey key, out IWriteableInner<IWriteableBrowsingChildIndex> value)
+        {
+            bool Result = TryGetValue(key, out IFocusInner<IFocusBrowsingChildIndex> Value);
+            value = Value;
+            return Result;
+        }
         #endregion
 
         #region Frame
@@ -79,7 +89,12 @@ namespace EaslyController.Focus
         }
         IEnumerator<KeyValuePair<TKey, IFrameInner<IFrameBrowsingChildIndex>>> IEnumerable<KeyValuePair<TKey, IFrameInner<IFrameBrowsingChildIndex>>>.GetEnumerator() { return ((IFrameInnerReadOnlyDictionary<TKey>)this).GetEnumerator(); }
 
-        public bool TryGetValue(TKey key, out IFrameInner<IFrameBrowsingChildIndex> value) { bool Result = TryGetValue(key, out IFocusInner<IFocusBrowsingChildIndex> Value); value = Value; return Result; }
+        public bool TryGetValue(TKey key, out IFrameInner<IFrameBrowsingChildIndex> value)
+        {
+            bool Result = TryGetValue(key, out IFocusInner<IFocusBrowsingChildIndex> Value);
+            value = Value;
+            return Result;
+        }
         #endregion
 
         #region Debugging

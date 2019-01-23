@@ -41,7 +41,12 @@ namespace EaslyController.Focus
 
             return NewList.GetEnumerator();
         }
-        public bool TryGetValue(TKey key, out IFrameAssignableCellView value) { bool Result = TryGetValue(key, out IFocusAssignableCellView Value); value = Value; return Result; }
+        public bool TryGetValue(TKey key, out IFrameAssignableCellView value)
+        {
+            bool Result = TryGetValue(key, out IFocusAssignableCellView Value);
+            value = Value;
+            return Result;
+        }
         #endregion
 
         #region Debugging

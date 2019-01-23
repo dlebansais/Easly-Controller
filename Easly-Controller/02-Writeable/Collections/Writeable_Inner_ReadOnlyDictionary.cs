@@ -41,7 +41,12 @@ namespace EaslyController.Writeable
 
             return NewList.GetEnumerator();
         }
-        public bool TryGetValue(TKey key, out IReadOnlyInner<IReadOnlyBrowsingChildIndex> value) { bool Result = TryGetValue(key, out IWriteableInner<IWriteableBrowsingChildIndex> Value); value = Value; return Result; }
+        public bool TryGetValue(TKey key, out IReadOnlyInner<IReadOnlyBrowsingChildIndex> value)
+        {
+            bool Result = TryGetValue(key, out IWriteableInner<IWriteableBrowsingChildIndex> Value);
+            value = Value;
+            return Result;
+        }
         #endregion
 
         #region Debugging

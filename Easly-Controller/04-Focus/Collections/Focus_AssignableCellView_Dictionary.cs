@@ -39,7 +39,12 @@ namespace EaslyController.Focus
             return NewList.GetEnumerator();
         }
 
-        public bool TryGetValue(TKey key, out IFrameAssignableCellView value) { bool Result = TryGetValue(key, out IFocusAssignableCellView Value); value = Value; return Result; }
+        public bool TryGetValue(TKey key, out IFrameAssignableCellView value)
+        {
+            bool Result = TryGetValue(key, out IFocusAssignableCellView Value);
+            value = Value;
+            return Result;
+        }
         public void Add(KeyValuePair<TKey, IFrameAssignableCellView> item) { base.Add(item.Key, (IFocusAssignableCellView)item.Value); }
         public bool Contains(KeyValuePair<TKey, IFrameAssignableCellView> item) { return ContainsKey(item.Key) && base[item.Key] == item.Value; }
         public void CopyTo(KeyValuePair<TKey, IFrameAssignableCellView>[] array, int arrayIndex) { throw new InvalidOperationException(); }

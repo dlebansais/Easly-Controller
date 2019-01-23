@@ -42,7 +42,12 @@ namespace EaslyController.Frame
 
             return NewList.GetEnumerator();
         }
-        public bool TryGetValue(TKey key, out IReadOnlyInner<IReadOnlyBrowsingChildIndex> value) { bool Result = TryGetValue(key, out IFrameInner<IFrameBrowsingChildIndex> Value); value = Value; return Result; }
+        public bool TryGetValue(TKey key, out IReadOnlyInner<IReadOnlyBrowsingChildIndex> value)
+        {
+            bool Result = TryGetValue(key, out IFrameInner<IFrameBrowsingChildIndex> Value);
+            value = Value;
+            return Result;
+        }
         #endregion
 
         #region Writeable
@@ -60,7 +65,12 @@ namespace EaslyController.Frame
         }
         IEnumerator<KeyValuePair<TKey, IWriteableInner<IWriteableBrowsingChildIndex>>> IEnumerable<KeyValuePair<TKey, IWriteableInner<IWriteableBrowsingChildIndex>>>.GetEnumerator() { return ((IWriteableInnerReadOnlyDictionary<TKey>)this).GetEnumerator(); }
 
-        public bool TryGetValue(TKey key, out IWriteableInner<IWriteableBrowsingChildIndex> value) { bool Result = TryGetValue(key, out IFrameInner<IFrameBrowsingChildIndex> Value); value = Value; return Result; }
+        public bool TryGetValue(TKey key, out IWriteableInner<IWriteableBrowsingChildIndex> value)
+        {
+            bool Result = TryGetValue(key, out IFrameInner<IFrameBrowsingChildIndex> Value);
+            value = Value;
+            return Result;
+        }
         #endregion
 
         #region Debugging

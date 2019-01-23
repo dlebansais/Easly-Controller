@@ -238,23 +238,48 @@ namespace EaslyController.Frame
             if (Template != AsBlockStateView.Template)
                 return false;
 
-            if ((RootCellView != null && AsBlockStateView.RootCellView == null) || (RootCellView == null && AsBlockStateView.RootCellView != null))
+            if (!IsRootCellViewEqual(comparer, AsBlockStateView))
                 return false;
 
-            if (RootCellView != null && AsBlockStateView.RootCellView != null)
-            {
-                if (!comparer.VerifyEqual(RootCellView, AsBlockStateView.RootCellView))
-                    return false;
-            }
-            else if (RootCellView != null || AsBlockStateView.RootCellView != null)
+            if (!IsEmbeddingCellViewEqual(comparer, AsBlockStateView))
                 return false;
 
-            if (EmbeddingCellView != null && AsBlockStateView.EmbeddingCellView != null)
+            return true;
+        }
+
+        /// <summary></summary>
+        protected virtual bool IsRootCellViewEqual(CompareEqual comparer, IFrameBlockStateView other)
+        {
+            if (RootCellView != null)
             {
-                if (!comparer.VerifyEqual(EmbeddingCellView, AsBlockStateView.EmbeddingCellView))
+                if (other.RootCellView == null)
                     return false;
+                else
+                {
+                    if (!comparer.VerifyEqual(RootCellView, other.RootCellView))
+                        return false;
+                }
             }
-            else if (EmbeddingCellView != null || AsBlockStateView.EmbeddingCellView != null)
+            else if (other.RootCellView != null)
+                return false;
+
+            return true;
+        }
+
+        /// <summary></summary>
+        protected virtual bool IsEmbeddingCellViewEqual(CompareEqual comparer, IFrameBlockStateView other)
+        {
+            if (EmbeddingCellView != null)
+            {
+                if (other.EmbeddingCellView == null)
+                    return false;
+                else
+                {
+                    if (!comparer.VerifyEqual(EmbeddingCellView, other.EmbeddingCellView))
+                        return false;
+                }
+            }
+            else if (other.EmbeddingCellView != null)
                 return false;
 
             return true;

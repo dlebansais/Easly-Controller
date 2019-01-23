@@ -32,7 +32,12 @@ namespace EaslyController.Focus
         #region Frame
         void IDictionary<Type, IFrameTemplate>.Add(Type key, IFrameTemplate value) { Add((Type)key, (IFocusTemplate)value); }
         bool IDictionary<Type, IFrameTemplate>.Remove(Type key) { return Remove((Type)key); }
-        bool IDictionary<Type, IFrameTemplate>.TryGetValue(Type key, out IFrameTemplate value) { bool Result = TryGetValue((Type)key, out IFocusTemplate Value); value = Value; return Result; }
+        bool IDictionary<Type, IFrameTemplate>.TryGetValue(Type key, out IFrameTemplate value)
+        {
+            bool Result = TryGetValue((Type)key, out IFocusTemplate Value);
+            value = Value;
+            return Result;
+        }
         bool IDictionary<Type, IFrameTemplate>.ContainsKey(Type key) { return ContainsKey((Type)key); }
         void ICollection<KeyValuePair<Type, IFrameTemplate>>.Add(KeyValuePair<Type, IFrameTemplate> item) { Add((Type)item.Key, (IFocusTemplate)item.Value); }
         bool ICollection<KeyValuePair<Type, IFrameTemplate>>.Contains(KeyValuePair<Type, IFrameTemplate> item) { return ContainsKey((Type)item.Key) && base[(Type)item.Key] == item.Value; }
@@ -56,7 +61,12 @@ namespace EaslyController.Focus
             return NewList.GetEnumerator();
         }
 
-        public bool TryGetValue(Type key, out IFrameTemplate value) { bool Result = TryGetValue(key, out IFocusTemplate Value); value = Value; return Result; }
+        public bool TryGetValue(Type key, out IFrameTemplate value)
+        {
+            bool Result = TryGetValue(key, out IFocusTemplate Value);
+            value = Value;
+            return Result;
+        }
         public void Add(KeyValuePair<Type, IFrameTemplate> item) { base.Add(item.Key, (IFocusTemplate)item.Value); }
         public bool Contains(KeyValuePair<Type, IFrameTemplate> item) { return ContainsKey(item.Key) && base[item.Key] == item.Value; }
         public void CopyTo(KeyValuePair<Type, IFrameTemplate>[] array, int arrayIndex) { throw new InvalidOperationException(); }

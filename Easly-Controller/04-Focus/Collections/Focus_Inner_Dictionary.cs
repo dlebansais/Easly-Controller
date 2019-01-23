@@ -41,7 +41,12 @@ namespace EaslyController.Focus
             return NewList.GetEnumerator();
         }
 
-        public bool TryGetValue(TKey key, out IReadOnlyInner<IReadOnlyBrowsingChildIndex> value) { bool Result = TryGetValue(key, out IFocusInner<IFocusBrowsingChildIndex> Value); value = Value; return Result; }
+        public bool TryGetValue(TKey key, out IReadOnlyInner<IReadOnlyBrowsingChildIndex> value)
+        {
+            bool Result = TryGetValue(key, out IFocusInner<IFocusBrowsingChildIndex> Value);
+            value = Value;
+            return Result;
+        }
         public void Add(KeyValuePair<TKey, IReadOnlyInner<IReadOnlyBrowsingChildIndex>> item) { base.Add(item.Key, (IFocusInner<IFocusBrowsingChildIndex>)item.Value); }
         public bool Contains(KeyValuePair<TKey, IReadOnlyInner<IReadOnlyBrowsingChildIndex>> item) { return ContainsKey(item.Key) && base[item.Key] == item.Value; }
         public void CopyTo(KeyValuePair<TKey, IReadOnlyInner<IReadOnlyBrowsingChildIndex>>[] array, int arrayIndex) { throw new InvalidOperationException(); }
@@ -81,7 +86,12 @@ namespace EaslyController.Focus
             return NewDictionary.GetEnumerator();
         }
 
-        public bool TryGetValue(TKey key, out IWriteableInner<IWriteableBrowsingChildIndex> value) { bool Result = TryGetValue(key, out IFocusInner<IFocusBrowsingChildIndex> Value); value = Value; return Result; }
+        public bool TryGetValue(TKey key, out IWriteableInner<IWriteableBrowsingChildIndex> value)
+        {
+            bool Result = TryGetValue(key, out IFocusInner<IFocusBrowsingChildIndex> Value);
+            value = Value;
+            return Result;
+        }
         public void Add(KeyValuePair<TKey, IWriteableInner<IWriteableBrowsingChildIndex>> item) { base.Add(item.Key, (IFocusInner<IFocusBrowsingChildIndex>)item.Value); }
         public bool Contains(KeyValuePair<TKey, IWriteableInner<IWriteableBrowsingChildIndex>> item) { return ContainsKey(item.Key) && base[item.Key] == item.Value; }
         public void CopyTo(KeyValuePair<TKey, IWriteableInner<IWriteableBrowsingChildIndex>>[] array, int arrayIndex) { throw new InvalidOperationException(); }
@@ -121,7 +131,12 @@ namespace EaslyController.Focus
             return NewDictionary.GetEnumerator();
         }
 
-        public bool TryGetValue(TKey key, out IFrameInner<IFrameBrowsingChildIndex> value) { bool Result = TryGetValue(key, out IFocusInner<IFocusBrowsingChildIndex> Value); value = Value; return Result; }
+        public bool TryGetValue(TKey key, out IFrameInner<IFrameBrowsingChildIndex> value)
+        {
+            bool Result = TryGetValue(key, out IFocusInner<IFocusBrowsingChildIndex> Value);
+            value = Value;
+            return Result;
+        }
         public void Add(KeyValuePair<TKey, IFrameInner<IFrameBrowsingChildIndex>> item) { base.Add(item.Key, (IFocusInner<IFocusBrowsingChildIndex>)item.Value); }
         public bool Contains(KeyValuePair<TKey, IFrameInner<IFrameBrowsingChildIndex>> item) { return ContainsKey(item.Key) && base[item.Key] == item.Value; }
         public void CopyTo(KeyValuePair<TKey, IFrameInner<IFrameBrowsingChildIndex>>[] array, int arrayIndex) { throw new InvalidOperationException(); }
