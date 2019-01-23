@@ -2,6 +2,8 @@
 
 Manage and edit Easly source code.
 
+[![CodeFactor](https://www.codefactor.io/repository/github/dlebansais/easly-controller/badge)](https://www.codefactor.io/repository/github/dlebansais/easly-controller)
+
 Easly source code is defined in the [Easly-Language](https://github.com/dlebansais/Easly-Language/) assembly. A controller, created and initialized with any of the Easly objects, can display the source code content in a .NET WPF application, allowing modification of the source code.
 
 # TODO
