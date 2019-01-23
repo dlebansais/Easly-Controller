@@ -30,7 +30,12 @@ namespace EaslyController.Focus
 
         #region ReadOnly
         bool IReadOnlyDictionary<IReadOnlyIndex, IReadOnlyNodeState>.ContainsKey(IReadOnlyIndex key) { return ContainsKey((IFocusIndex)key); }
-        bool IReadOnlyDictionary<IReadOnlyIndex, IReadOnlyNodeState>.TryGetValue(IReadOnlyIndex key, out IReadOnlyNodeState value) { bool Result = TryGetValue((IFocusIndex)key, out IFocusNodeState Value); value = Value; return Result; }
+        bool IReadOnlyDictionary<IReadOnlyIndex, IReadOnlyNodeState>.TryGetValue(IReadOnlyIndex key, out IReadOnlyNodeState value)
+        {
+            bool Result = TryGetValue((IFocusIndex)key, out IFocusNodeState Value);
+            value = Value;
+            return Result;
+        }
         IReadOnlyNodeState IReadOnlyDictionary<IReadOnlyIndex, IReadOnlyNodeState>.this[IReadOnlyIndex key] { get { return this[(IFocusIndex)key]; } }
         IEnumerable<IReadOnlyIndex> IReadOnlyDictionary<IReadOnlyIndex, IReadOnlyNodeState>.Keys { get { return new List<IReadOnlyIndex>(Keys); } }
         IEnumerable<IReadOnlyNodeState> IReadOnlyDictionary<IReadOnlyIndex, IReadOnlyNodeState>.Values { get { return new List<IReadOnlyNodeState>(Values); } }
@@ -52,7 +57,12 @@ namespace EaslyController.Focus
         #region Writeable
         bool IWriteableIndexNodeStateReadOnlyDictionary.ContainsKey(IWriteableIndex key) { return ContainsKey((IFocusIndex)key); }
         bool IReadOnlyDictionary<IWriteableIndex, IWriteableNodeState>.ContainsKey(IWriteableIndex key) { return ContainsKey((IFocusIndex)key); }
-        bool IReadOnlyDictionary<IWriteableIndex, IWriteableNodeState>.TryGetValue(IWriteableIndex key, out IWriteableNodeState value) { bool Result = TryGetValue((IFocusIndex)key, out IFocusNodeState Value); value = Value; return Result; }
+        bool IReadOnlyDictionary<IWriteableIndex, IWriteableNodeState>.TryGetValue(IWriteableIndex key, out IWriteableNodeState value)
+        {
+            bool Result = TryGetValue((IFocusIndex)key, out IFocusNodeState Value);
+            value = Value;
+            return Result;
+        }
         IWriteableNodeState IWriteableIndexNodeStateReadOnlyDictionary.this[IWriteableIndex key] { get { return this[(IFocusIndex)key]; } }
         IWriteableNodeState IReadOnlyDictionary<IWriteableIndex, IWriteableNodeState>.this[IWriteableIndex key] { get { return this[(IFocusIndex)key]; } }
         IEnumerable<IWriteableIndex> IReadOnlyDictionary<IWriteableIndex, IWriteableNodeState>.Keys { get { return new List<IWriteableIndex>(Keys); } }
@@ -76,7 +86,12 @@ namespace EaslyController.Focus
         #region Frame
         bool IFrameIndexNodeStateReadOnlyDictionary.ContainsKey(IFrameIndex key) { return ContainsKey((IFocusIndex)key); }
         bool IReadOnlyDictionary<IFrameIndex, IFrameNodeState>.ContainsKey(IFrameIndex key) { return ContainsKey((IFocusIndex)key); }
-        bool IReadOnlyDictionary<IFrameIndex, IFrameNodeState>.TryGetValue(IFrameIndex key, out IFrameNodeState value) { bool Result = TryGetValue((IFocusIndex)key, out IFocusNodeState Value); value = Value; return Result; }
+        bool IReadOnlyDictionary<IFrameIndex, IFrameNodeState>.TryGetValue(IFrameIndex key, out IFrameNodeState value)
+        {
+            bool Result = TryGetValue((IFocusIndex)key, out IFocusNodeState Value);
+            value = Value;
+            return Result;
+        }
         IFrameNodeState IFrameIndexNodeStateReadOnlyDictionary.this[IFrameIndex key] { get { return this[(IFocusIndex)key]; } }
         IFrameNodeState IReadOnlyDictionary<IFrameIndex, IFrameNodeState>.this[IFrameIndex key] { get { return this[(IFocusIndex)key]; } }
         IEnumerable<IFrameIndex> IReadOnlyDictionary<IFrameIndex, IFrameNodeState>.Keys { get { return new List<IFrameIndex>(Keys); } }

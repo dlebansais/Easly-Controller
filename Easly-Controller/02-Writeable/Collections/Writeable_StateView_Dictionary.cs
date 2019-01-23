@@ -24,7 +24,12 @@ namespace EaslyController.Writeable
         #region ReadOnly
         void IDictionary<IReadOnlyNodeState, IReadOnlyNodeStateView>.Add(IReadOnlyNodeState key, IReadOnlyNodeStateView value) { Add((IWriteableNodeState)key, (IWriteableNodeStateView)value); }
         bool IDictionary<IReadOnlyNodeState, IReadOnlyNodeStateView>.Remove(IReadOnlyNodeState key) { return Remove((IWriteableNodeState)key); }
-        bool IDictionary<IReadOnlyNodeState, IReadOnlyNodeStateView>.TryGetValue(IReadOnlyNodeState key, out IReadOnlyNodeStateView value) { bool Result = TryGetValue((IWriteableNodeState)key, out IWriteableNodeStateView Value); value = Value; return Result; }
+        bool IDictionary<IReadOnlyNodeState, IReadOnlyNodeStateView>.TryGetValue(IReadOnlyNodeState key, out IReadOnlyNodeStateView value)
+        {
+            bool Result = TryGetValue((IWriteableNodeState)key, out IWriteableNodeStateView Value);
+            value = Value;
+            return Result;
+        }
         bool IDictionary<IReadOnlyNodeState, IReadOnlyNodeStateView>.ContainsKey(IReadOnlyNodeState key) { return ContainsKey((IWriteableNodeState)key); }
         void ICollection<KeyValuePair<IReadOnlyNodeState, IReadOnlyNodeStateView>>.Add(KeyValuePair<IReadOnlyNodeState, IReadOnlyNodeStateView> item) { Add((IWriteableNodeState)item.Key, (IWriteableNodeStateView)item.Value); }
         bool ICollection<KeyValuePair<IReadOnlyNodeState, IReadOnlyNodeStateView>>.Contains(KeyValuePair<IReadOnlyNodeState, IReadOnlyNodeStateView> item) { return ContainsKey((IWriteableNodeState)item.Key) && base[(IWriteableNodeState)item.Key] == item.Value; }

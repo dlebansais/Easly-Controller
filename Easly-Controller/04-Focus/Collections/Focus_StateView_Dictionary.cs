@@ -26,7 +26,12 @@ namespace EaslyController.Focus
         #region ReadOnly
         void IDictionary<IReadOnlyNodeState, IReadOnlyNodeStateView>.Add(IReadOnlyNodeState key, IReadOnlyNodeStateView value) { Add((IFocusNodeState)key, (IFocusNodeStateView)value); }
         bool IDictionary<IReadOnlyNodeState, IReadOnlyNodeStateView>.Remove(IReadOnlyNodeState key) { return Remove((IFocusNodeState)key); }
-        bool IDictionary<IReadOnlyNodeState, IReadOnlyNodeStateView>.TryGetValue(IReadOnlyNodeState key, out IReadOnlyNodeStateView value) { bool Result = TryGetValue((IFocusNodeState)key, out IFocusNodeStateView Value); value = Value; return Result; }
+        bool IDictionary<IReadOnlyNodeState, IReadOnlyNodeStateView>.TryGetValue(IReadOnlyNodeState key, out IReadOnlyNodeStateView value)
+        {
+            bool Result = TryGetValue((IFocusNodeState)key, out IFocusNodeStateView Value);
+            value = Value;
+            return Result;
+        }
         bool IDictionary<IReadOnlyNodeState, IReadOnlyNodeStateView>.ContainsKey(IReadOnlyNodeState key) { return ContainsKey((IFocusNodeState)key); }
         void ICollection<KeyValuePair<IReadOnlyNodeState, IReadOnlyNodeStateView>>.Add(KeyValuePair<IReadOnlyNodeState, IReadOnlyNodeStateView> item) { Add((IFocusNodeState)item.Key, (IFocusNodeStateView)item.Value); }
         bool ICollection<KeyValuePair<IReadOnlyNodeState, IReadOnlyNodeStateView>>.Contains(KeyValuePair<IReadOnlyNodeState, IReadOnlyNodeStateView> item) { return ContainsKey((IFocusNodeState)item.Key) && base[(IFocusNodeState)item.Key] == item.Value; }
@@ -61,7 +66,12 @@ namespace EaslyController.Focus
         #region Writeable
         void IDictionary<IWriteableNodeState, IWriteableNodeStateView>.Add(IWriteableNodeState key, IWriteableNodeStateView value) { Add((IFocusNodeState)key, (IFocusNodeStateView)value); }
         bool IDictionary<IWriteableNodeState, IWriteableNodeStateView>.Remove(IWriteableNodeState key) { return Remove((IFocusNodeState)key); }
-        bool IDictionary<IWriteableNodeState, IWriteableNodeStateView>.TryGetValue(IWriteableNodeState key, out IWriteableNodeStateView value) { bool Result = TryGetValue((IFocusNodeState)key, out IFocusNodeStateView Value); value = Value; return Result; }
+        bool IDictionary<IWriteableNodeState, IWriteableNodeStateView>.TryGetValue(IWriteableNodeState key, out IWriteableNodeStateView value)
+        {
+            bool Result = TryGetValue((IFocusNodeState)key, out IFocusNodeStateView Value);
+            value = Value;
+            return Result;
+        }
         bool IDictionary<IWriteableNodeState, IWriteableNodeStateView>.ContainsKey(IWriteableNodeState key) { return ContainsKey((IFocusNodeState)key); }
         void ICollection<KeyValuePair<IWriteableNodeState, IWriteableNodeStateView>>.Add(KeyValuePair<IWriteableNodeState, IWriteableNodeStateView> item) { Add((IFocusNodeState)item.Key, (IFocusNodeStateView)item.Value); }
         bool ICollection<KeyValuePair<IWriteableNodeState, IWriteableNodeStateView>>.Contains(KeyValuePair<IWriteableNodeState, IWriteableNodeStateView> item) { return ContainsKey((IFocusNodeState)item.Key) && base[(IFocusNodeState)item.Key] == item.Value; }
@@ -109,7 +119,12 @@ namespace EaslyController.Focus
         #region Frame
         void IDictionary<IFrameNodeState, IFrameNodeStateView>.Add(IFrameNodeState key, IFrameNodeStateView value) { Add((IFocusNodeState)key, (IFocusNodeStateView)value); }
         bool IDictionary<IFrameNodeState, IFrameNodeStateView>.Remove(IFrameNodeState key) { return Remove((IFocusNodeState)key); }
-        bool IDictionary<IFrameNodeState, IFrameNodeStateView>.TryGetValue(IFrameNodeState key, out IFrameNodeStateView value) { bool Result = TryGetValue((IFocusNodeState)key, out IFocusNodeStateView Value); value = Value; return Result; }
+        bool IDictionary<IFrameNodeState, IFrameNodeStateView>.TryGetValue(IFrameNodeState key, out IFrameNodeStateView value)
+        {
+            bool Result = TryGetValue((IFocusNodeState)key, out IFocusNodeStateView Value);
+            value = Value;
+            return Result;
+        }
         bool IDictionary<IFrameNodeState, IFrameNodeStateView>.ContainsKey(IFrameNodeState key) { return ContainsKey((IFocusNodeState)key); }
         void ICollection<KeyValuePair<IFrameNodeState, IFrameNodeStateView>>.Add(KeyValuePair<IFrameNodeState, IFrameNodeStateView> item) { Add((IFocusNodeState)item.Key, (IFocusNodeStateView)item.Value); }
         bool ICollection<KeyValuePair<IFrameNodeState, IFrameNodeStateView>>.Contains(KeyValuePair<IFrameNodeState, IFrameNodeStateView> item) { return ContainsKey((IFocusNodeState)item.Key) && base[(IFocusNodeState)item.Key] == item.Value; }

@@ -24,7 +24,12 @@ namespace EaslyController.Writeable
         #region ReadOnly
         void IDictionary<IReadOnlyBlockState, IReadOnlyBlockStateView>.Add(IReadOnlyBlockState key, IReadOnlyBlockStateView value) { Add((IWriteableBlockState)key, (IWriteableBlockStateView)value); }
         bool IDictionary<IReadOnlyBlockState, IReadOnlyBlockStateView>.Remove(IReadOnlyBlockState key) { return Remove((IWriteableBlockState)key); }
-        bool IDictionary<IReadOnlyBlockState, IReadOnlyBlockStateView>.TryGetValue(IReadOnlyBlockState key, out IReadOnlyBlockStateView value) { bool Result = TryGetValue((IWriteableBlockState)key, out IWriteableBlockStateView Value); value = Value; return Result; }
+        bool IDictionary<IReadOnlyBlockState, IReadOnlyBlockStateView>.TryGetValue(IReadOnlyBlockState key, out IReadOnlyBlockStateView value)
+        {
+            bool Result = TryGetValue((IWriteableBlockState)key, out IWriteableBlockStateView Value);
+            value = Value;
+            return Result;
+        }
         bool IDictionary<IReadOnlyBlockState, IReadOnlyBlockStateView>.ContainsKey(IReadOnlyBlockState key) { return ContainsKey((IWriteableBlockState)key); }
         void ICollection<KeyValuePair<IReadOnlyBlockState, IReadOnlyBlockStateView>>.Add(KeyValuePair<IReadOnlyBlockState, IReadOnlyBlockStateView> item) { Add((IWriteableBlockState)item.Key, (IWriteableBlockStateView)item.Value); }
         bool ICollection<KeyValuePair<IReadOnlyBlockState, IReadOnlyBlockStateView>>.Contains(KeyValuePair<IReadOnlyBlockState, IReadOnlyBlockStateView> item) { return ContainsKey((IWriteableBlockState)item.Key) && base[(IWriteableBlockState)item.Key] == item.Value; }

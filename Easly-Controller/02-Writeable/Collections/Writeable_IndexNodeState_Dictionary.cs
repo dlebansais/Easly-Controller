@@ -23,7 +23,12 @@ namespace EaslyController.Writeable
         #region ReadOnly
         void IDictionary<IReadOnlyIndex, IReadOnlyNodeState>.Add(IReadOnlyIndex key, IReadOnlyNodeState value) { Add((IWriteableIndex)key, (IWriteableNodeState)value); }
         bool IDictionary<IReadOnlyIndex, IReadOnlyNodeState>.Remove(IReadOnlyIndex key) { return Remove((IWriteableIndex)key); }
-        bool IDictionary<IReadOnlyIndex, IReadOnlyNodeState>.TryGetValue(IReadOnlyIndex key, out IReadOnlyNodeState value) { bool Result = TryGetValue((IWriteableIndex)key, out IWriteableNodeState Value); value = Value; return Result; }
+        bool IDictionary<IReadOnlyIndex, IReadOnlyNodeState>.TryGetValue(IReadOnlyIndex key, out IReadOnlyNodeState value)
+        {
+            bool Result = TryGetValue((IWriteableIndex)key, out IWriteableNodeState Value);
+            value = Value;
+            return Result;
+        }
         bool IDictionary<IReadOnlyIndex, IReadOnlyNodeState>.ContainsKey(IReadOnlyIndex key) { return ContainsKey((IWriteableIndex)key); }
         void ICollection<KeyValuePair<IReadOnlyIndex, IReadOnlyNodeState>>.Add(KeyValuePair<IReadOnlyIndex, IReadOnlyNodeState> item) { Add((IWriteableIndex)item.Key, (IWriteableNodeState)item.Value); }
         bool ICollection<KeyValuePair<IReadOnlyIndex, IReadOnlyNodeState>>.Contains(KeyValuePair<IReadOnlyIndex, IReadOnlyNodeState> item) { return ContainsKey((IWriteableIndex)item.Key) && base[(IWriteableIndex)item.Key] == item.Value; }
