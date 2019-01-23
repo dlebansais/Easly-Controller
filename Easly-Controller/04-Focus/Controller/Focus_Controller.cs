@@ -28,6 +28,11 @@ namespace EaslyController.Focus
         new IFocusPlaceholderNodeState RootState { get; }
 
         /// <summary>
+        /// List of operations that have been performed, and can be undone or redone.
+        /// </summary>
+        new IFocusOperationReadOnlyList OperationStack { get; }
+
+        /// <summary>
         /// Called when a state is created.
         /// </summary>
         new event Action<IFocusNodeState> NodeStateCreated;
@@ -43,7 +48,7 @@ namespace EaslyController.Focus
         new event Action<IFocusNodeState> NodeStateRemoved;
 
         /// <summary>
-        /// Called when a block list inner is created
+        /// Called when a block list inner is created.
         /// </summary>
         new event Action<IFocusBlockListInner> BlockListInnerCreated;
 
@@ -167,6 +172,11 @@ namespace EaslyController.Focus
         public new IFocusPlaceholderNodeState RootState { get { return (IFocusPlaceholderNodeState)base.RootState; } }
 
         /// <summary>
+        /// List of operations that have been performed, and can be undone or redone.
+        /// </summary>
+        public new IFocusOperationReadOnlyList OperationStack { get { return (IFocusOperationReadOnlyList)base.OperationStack; } }
+
+        /// <summary>
         /// Called when a state is created.
         /// </summary>
         public new event Action<IFocusNodeState> NodeStateCreated
@@ -194,7 +204,7 @@ namespace EaslyController.Focus
         }
 
         /// <summary>
-        /// Called when a block list inner is created
+        /// Called when a block list inner is created.
         /// </summary>
         public new event Action<IFocusBlockListInner> BlockListInnerCreated
         {
@@ -597,6 +607,24 @@ namespace EaslyController.Focus
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusController));
             return new FocusGenericRefreshOperation((IFocusNodeState)refreshState, isNested);
+        }
+
+        /// <summary>
+        /// Creates a IxxxOperationList object.
+        /// </summary>
+        protected override IWriteableOperationList CreateOperationStack()
+        {
+            ControllerTools.AssertNoOverride(this, typeof(FocusController));
+            return new FocusOperationList();
+        }
+
+        /// <summary>
+        /// Creates a IxxxOperationReadOnlyList object.
+        /// </summary>
+        protected override IWriteableOperationReadOnlyList CreateOperationReadOnlyStack(IWriteableOperationList list)
+        {
+            ControllerTools.AssertNoOverride(this, typeof(FocusController));
+            return new FocusOperationReadOnlyList((IFocusOperationList)list);
         }
         #endregion
     }

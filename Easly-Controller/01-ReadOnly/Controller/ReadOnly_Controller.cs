@@ -42,7 +42,7 @@ namespace EaslyController.ReadOnly
         event Action<IReadOnlyNodeState> NodeStateRemoved;
 
         /// <summary>
-        /// Called when a block list inner is created
+        /// Called when a block list inner is created.
         /// </summary>
         event Action<IReadOnlyBlockListInner> BlockListInnerCreated;
 
@@ -180,7 +180,7 @@ namespace EaslyController.ReadOnly
 #pragma warning restore 1591
 
         /// <summary>
-        /// Called when a block list inner is created
+        /// Called when a block list inner is created.
         /// </summary>
         public event Action<IReadOnlyBlockListInner> BlockListInnerCreated
         {

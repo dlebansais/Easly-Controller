@@ -24,6 +24,11 @@ namespace EaslyController.Frame
         new IFramePlaceholderNodeState RootState { get; }
 
         /// <summary>
+        /// List of operations that have been performed, and can be undone or redone.
+        /// </summary>
+        new IFrameOperationReadOnlyList OperationStack { get; }
+
+        /// <summary>
         /// Called when a state is created.
         /// </summary>
         new event Action<IFrameNodeState> NodeStateCreated;
@@ -39,7 +44,7 @@ namespace EaslyController.Frame
         new event Action<IFrameNodeState> NodeStateRemoved;
 
         /// <summary>
-        /// Called when a block list inner is created
+        /// Called when a block list inner is created.
         /// </summary>
         new event Action<IFrameBlockListInner> BlockListInnerCreated;
 
@@ -145,6 +150,11 @@ namespace EaslyController.Frame
         public new IFramePlaceholderNodeState RootState { get { return (IFramePlaceholderNodeState)base.RootState; } }
 
         /// <summary>
+        /// List of operations that have been performed, and can be undone or redone.
+        /// </summary>
+        public new IFrameOperationReadOnlyList OperationStack { get { return (IFrameOperationReadOnlyList)base.OperationStack; } }
+
+        /// <summary>
         /// Called when a state is created.
         /// </summary>
         public new event Action<IFrameNodeState> NodeStateCreated
@@ -172,7 +182,7 @@ namespace EaslyController.Frame
         }
 
         /// <summary>
-        /// Called when a block list inner is created
+        /// Called when a block list inner is created.
         /// </summary>
         public new event Action<IFrameBlockListInner> BlockListInnerCreated
         {
@@ -536,6 +546,24 @@ namespace EaslyController.Frame
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameController));
             return new FrameGenericRefreshOperation((IFrameNodeState)refreshState, isNested);
+        }
+
+        /// <summary>
+        /// Creates a IxxxOperationList object.
+        /// </summary>
+        protected override IWriteableOperationList CreateOperationStack()
+        {
+            ControllerTools.AssertNoOverride(this, typeof(FrameController));
+            return new FrameOperationList();
+        }
+
+        /// <summary>
+        /// Creates a IxxxOperationReadOnlyList object.
+        /// </summary>
+        protected override IWriteableOperationReadOnlyList CreateOperationReadOnlyStack(IWriteableOperationList list)
+        {
+            ControllerTools.AssertNoOverride(this, typeof(FrameController));
+            return new FrameOperationReadOnlyList((IFrameOperationList)list);
         }
         #endregion
     }

@@ -39,9 +39,29 @@ namespace EaslyController.Writeable
         new event Action<IWriteableNodeState> NodeStateRemoved;
 
         /// <summary>
-        /// Called when a block list inner is created
+        /// Called when a block list inner is created.
         /// </summary>
         new event Action<IWriteableBlockListInner> BlockListInnerCreated;
+
+        /// <summary>
+        /// List of operations that have been performed, and can be undone or redone.
+        /// </summary>
+        IWriteableOperationReadOnlyList OperationStack { get; }
+
+        /// <summary>
+        /// Index of the next operation that can be redone in <see cref="OperationStack"/>.
+        /// </summary>
+        int RedoIndex { get; }
+
+        /// <summary>
+        /// Checks if there is an operation that can be undone.
+        /// </summary>
+        bool CanUndo { get; }
+
+        /// <summary>
+        /// Checks if there is an operation that can be redone.
+        /// </summary>
+        bool CanRedo { get; }
 
         /// <summary>
         /// Called when a block state is inserted.
@@ -255,6 +275,16 @@ namespace EaslyController.Writeable
         /// Reduces all expanded nodes, and clear all unassigned optional nodes.
         /// </summary>
         void Canonicalize();
+
+        /// <summary>
+        /// Undo the last operation.
+        /// </summary>
+        void Undo();
+
+        /// <summary>
+        /// Redo the last operation undone.
+        /// </summary>
+        void Redo();
     }
 
     /// <summary>
@@ -281,6 +311,9 @@ namespace EaslyController.Writeable
         /// </summary>
         protected WriteableController()
         {
+            _OperationStack = CreateOperationStack();
+            OperationStack = CreateOperationReadOnlyStack(_OperationStack);
+            RedoIndex = 0;
         }
         #endregion
 
@@ -323,13 +356,34 @@ namespace EaslyController.Writeable
         }
 
         /// <summary>
-        /// Called when a block list inner is created
+        /// Called when a block list inner is created.
         /// </summary>
         public new event Action<IWriteableBlockListInner> BlockListInnerCreated
         {
             add { AddBlockListInnerCreatedDelegate((Action<IReadOnlyBlockListInner>)value); }
             remove { RemoveBlockListInnerCreatedDelegate((Action<IReadOnlyBlockListInner>)value); }
         }
+
+        /// <summary>
+        /// List of operations that have been performed, and can be undone or redone.
+        /// </summary>
+        public IWriteableOperationReadOnlyList OperationStack { get; }
+        private IWriteableOperationList _OperationStack;
+
+        /// <summary>
+        /// Index of the next operation that can be redone in <see cref="OperationStack"/>.
+        /// </summary>
+        public int RedoIndex { get; private set; }
+
+        /// <summary>
+        /// Checks if there is an operation that can be undone.
+        /// </summary>
+        public bool CanUndo { get { return RedoIndex > 0; } }
+
+        /// <summary>
+        /// Checks if there is an operation that can be redone.
+        /// </summary>
+        public bool CanRedo { get { return RedoIndex < OperationStack.Count; } }
 
         /// <summary>
         /// Called when a block state is inserted.
@@ -608,6 +662,7 @@ namespace EaslyController.Writeable
             Debug.Assert(Contains(nodeIndex));
 
             NotifyBlockStateInserted(Operation);
+            SetLastOperation(Operation);
         }
 
         /// <summary></summary>
@@ -628,6 +683,7 @@ namespace EaslyController.Writeable
             Debug.Assert(Contains(nodeIndex));
 
             NotifyStateInserted(Operation);
+            SetLastOperation(Operation);
         }
         /// <summary>
         /// Checks whether a node can be removed from a list.
@@ -705,6 +761,7 @@ namespace EaslyController.Writeable
                 Stats.PlaceholderNodeCount--;
 
                 NotifyStateRemoved(NodeOperation);
+                SetLastOperation(NodeOperation);
             }
         }
 
@@ -734,6 +791,7 @@ namespace EaslyController.Writeable
             Stats.PlaceholderNodeCount--;
 
             NotifyBlockStateRemoved(blockOperation);
+            SetLastOperation(blockOperation);
         }
 
         /// <summary></summary>
@@ -748,6 +806,7 @@ namespace EaslyController.Writeable
             Stats.PlaceholderNodeCount--;
 
             NotifyStateRemoved(NodeOperation);
+            SetLastOperation(NodeOperation);
         }
 
         /// <summary>
@@ -761,6 +820,7 @@ namespace EaslyController.Writeable
             ReplaceState(inner, replacementIndex, true, out nodeIndex, out IWriteableReplaceOperation Operation);
 
             NotifyStateReplaced(Operation);
+            SetLastOperation(Operation);
 
             CheckInvariant();
         }
@@ -831,6 +891,7 @@ namespace EaslyController.Writeable
                 Stats.AssignedOptionalNodeCount++;
 
                 NotifyStateAssigned(Operation);
+                SetLastOperation(Operation);
             }
 
             CheckInvariant();
@@ -859,6 +920,7 @@ namespace EaslyController.Writeable
                 Stats.AssignedOptionalNodeCount--;
 
                 NotifyStateUnassigned(Operation);
+                SetLastOperation(Operation);
             }
 
             CheckInvariant();
@@ -879,6 +941,7 @@ namespace EaslyController.Writeable
             inner.ChangeReplication(Operation, replication);
 
             NotifyBlockStateChanged(Operation);
+            SetLastOperation(Operation);
 
             CheckInvariant();
         }
@@ -912,6 +975,7 @@ namespace EaslyController.Writeable
             Operation.Update(State);
 
             NotifyStateChanged(Operation);
+            SetLastOperation(Operation);
 
             CheckInvariant();
         }
@@ -966,6 +1030,7 @@ namespace EaslyController.Writeable
             Stats.PlaceholderNodeCount++;
 
             NotifyBlockSplit(Operation);
+            SetLastOperation(Operation);
 
             CheckInvariant();
         }
@@ -1021,6 +1086,7 @@ namespace EaslyController.Writeable
             Debug.Assert(BlockState.StateList[FirstNodeIndex].ParentIndex == nodeIndex);
 
             NotifyBlocksMerged(Operation);
+            SetLastOperation(Operation);
 
             CheckInvariant();
         }
@@ -1063,6 +1129,7 @@ namespace EaslyController.Writeable
             inner.Move(Operation);
 
             NotifyStateMoved(Operation);
+            SetLastOperation(Operation);
 
             CheckInvariant();
         }
@@ -1106,6 +1173,7 @@ namespace EaslyController.Writeable
             inner.MoveBlock(Operation);
 
             NotifyBlockStateMoved(Operation);
+            SetLastOperation(Operation);
 
             CheckInvariant();
         }
@@ -1158,6 +1226,7 @@ namespace EaslyController.Writeable
                 Stats.AssignedOptionalNodeCount++;
 
                 NotifyStateAssigned(Operation);
+                SetLastOperation(Operation);
             }
             else
             {
@@ -1182,6 +1251,7 @@ namespace EaslyController.Writeable
                 BuildStateTable(optionalInner, null, NewBrowsingIndex, ChildState);
 
                 NotifyStateReplaced(Operation);
+                SetLastOperation(Operation);
             }
         }
 
@@ -1231,6 +1301,7 @@ namespace EaslyController.Writeable
             BuildStateTable(blockListInner, null, ArgumentNodeIndex, ArgumentChildState);
 
             NotifyArgumentExpanded(Operation);
+            SetLastOperation(Operation);
         }
 
         /// <summary>
@@ -1279,6 +1350,7 @@ namespace EaslyController.Writeable
                 Stats.AssignedOptionalNodeCount--;
 
                 NotifyStateUnassigned(Operation);
+                SetLastOperation(Operation);
             }
         }
 
@@ -1330,6 +1402,7 @@ namespace EaslyController.Writeable
             Stats.PlaceholderNodeCount--;
 
             NotifyBlockStateRemoved(BlockOperation);
+            SetLastOperation(BlockOperation);
         }
 
         /// <summary>
@@ -1387,6 +1460,22 @@ namespace EaslyController.Writeable
 
             foreach (IWriteableNodeState ChildState in ChildStateList)
                 Canonicalize(ChildState);
+        }
+
+        /// <summary>
+        /// Undo the last operation.
+        /// </summary>
+        public virtual void Undo()
+        {
+            Debug.Assert(CanUndo);
+        }
+
+        /// <summary>
+        /// Redo the last operation undone.
+        /// </summary>
+        public virtual void Redo()
+        {
+            Debug.Assert(CanRedo);
         }
         #endregion
 
@@ -1587,6 +1676,22 @@ namespace EaslyController.Writeable
         protected virtual void NotifyGenericRefresh(IWriteableGenericRefreshOperation operation)
         {
             GenericRefreshHandler?.Invoke(operation);
+        }
+
+        /// <summary></summary>
+        protected virtual void SetLastOperation(IWriteableOperation operation)
+        {
+            Debug.Assert(RedoIndex >= 0 && RedoIndex <= _OperationStack.Count);
+
+            while (_OperationStack.Count > RedoIndex)
+                _OperationStack.RemoveAt(RedoIndex);
+
+            Debug.Assert(RedoIndex == _OperationStack.Count);
+
+            _OperationStack.Add(operation);
+            RedoIndex = _OperationStack.Count;
+
+            Debug.Assert(RedoIndex == _OperationStack.Count);
         }
         #endregion
 
@@ -1977,6 +2082,24 @@ namespace EaslyController.Writeable
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableController));
             return new WriteableGenericRefreshOperation(refreshState, isNested);
+        }
+
+        /// <summary>
+        /// Creates a IxxxOperationList object.
+        /// </summary>
+        protected virtual IWriteableOperationList CreateOperationStack()
+        {
+            ControllerTools.AssertNoOverride(this, typeof(WriteableController));
+            return new WriteableOperationList();
+        }
+
+        /// <summary>
+        /// Creates a IxxxOperationReadOnlyList object.
+        /// </summary>
+        protected virtual IWriteableOperationReadOnlyList CreateOperationReadOnlyStack(IWriteableOperationList list)
+        {
+            ControllerTools.AssertNoOverride(this, typeof(WriteableController));
+            return new WriteableOperationReadOnlyList(list);
         }
         #endregion
     }
