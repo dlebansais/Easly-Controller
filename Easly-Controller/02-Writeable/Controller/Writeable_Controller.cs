@@ -906,7 +906,7 @@ namespace EaslyController.Writeable
             Debug.Assert(value >= 0);
 
             NodeTreeHelper.GetEnumRange(State.Node.GetType(), propertyName, out int Min, out int Max);
-            value = (value - Min) % (Max - Min + 1) + Min;
+            value = ((value - Min) % (Max - Min + 1)) + Min;
             NodeTreeHelper.SetEnumValue(State.Node, propertyName, value);
 
             Operation.Update(State);
@@ -1131,7 +1131,6 @@ namespace EaslyController.Writeable
             {
                 if (Entry.Value is IWriteableOptionalInner<IWriteableBrowsingOptionalNodeIndex> AsOptionalInner)
                     ExpandOptional(AsOptionalInner);
-
                 else if (Entry.Value is IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> AsBlockListInner)
                     ExpandBlockList(AsBlockListInner);
             }
@@ -1261,7 +1260,6 @@ namespace EaslyController.Writeable
             {
                 if (Entry.Value is IWriteableOptionalInner<IWriteableBrowsingOptionalNodeIndex> AsOptionalInner)
                     ReduceOptional(AsOptionalInner, isNested);
-
                 else if (Entry.Value is IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> AsBlockListInner)
                     ReduceBlockList(AsBlockListInner, isNested);
             }
@@ -1499,7 +1497,6 @@ namespace EaslyController.Writeable
             }
 
             Stats.BlockListCount--;
-
         }
 
         /// <summary></summary>
@@ -1613,55 +1610,91 @@ namespace EaslyController.Writeable
             {
                 if (NodeTreeHelperChild.IsChildNodeProperty(node, PropertyName, out ChildNodeType))
                 {
-                    NodeTreeHelperChild.GetChildNode(node, PropertyName, out INode ChildNode);
-                    if (!IsNodeTreeValid(ChildNode))
+                    if (!IsNodeTreeChildNodeValid(node, PropertyName))
                         return false;
                 }
 
                 else if (NodeTreeHelperOptional.IsOptionalChildNodeProperty(node, PropertyName, out ChildNodeType))
                 {
-                    NodeTreeHelperOptional.GetChildNode(node, PropertyName, out bool IsAssigned, out INode ChildNode);
-                    if (IsAssigned)
-                        if (!IsNodeTreeValid(ChildNode))
-                            return false;
+                    if (!IsNodeTreeOptionalNodeValid(node, PropertyName))
+                        return false;
                 }
 
                 else if (NodeTreeHelperList.IsNodeListProperty(node, PropertyName, out ChildNodeType))
                 {
-                    NodeTreeHelperList.GetChildNodeList(node, PropertyName, out IReadOnlyList<INode> ChildNodeList);
-
-                    if (ChildNodeList.Count == 0)
-                        if (!IsEmptyListValid(node, PropertyName))
-                            return false;
-
-                    for (int Index = 0; Index < ChildNodeList.Count; Index++)
-                    {
-                        INode ChildNode = ChildNodeList[Index];
-                        if (!IsNodeTreeValid(ChildNode))
-                            return false;
-                    }
+                    if (!IsNodeTreeListValid(node, PropertyName))
+                        return false;
                 }
 
                 else if (NodeTreeHelperBlockList.IsBlockListProperty(node, PropertyName, out Type ChildInterfaceType, out ChildNodeType))
                 {
-                    NodeTreeHelperBlockList.GetChildBlockList(node, PropertyName, out IReadOnlyList<INodeTreeBlock> ChildBlockList);
+                    if (!IsNodeTreeBlockListValid(node, PropertyName))
+                        return false;
+                }
+            }
 
-                    if (ChildBlockList.Count == 0)
-                        if (!IsEmptyBlockListValid(node, PropertyName))
-                            return false;
+            return true;
+        }
 
-                    for (int BlockIndex = 0; BlockIndex < ChildBlockList.Count; BlockIndex++)
-                    {
-                        INodeTreeBlock Block = ChildBlockList[BlockIndex];
-                        Debug.Assert(Block.NodeList.Count > 0);
+        /// <summary></summary>
+        protected virtual bool IsNodeTreeChildNodeValid(INode node, string propertyName)
+        {
+            NodeTreeHelperChild.GetChildNode(node, propertyName, out INode ChildNode);
+            if (!IsNodeTreeValid(ChildNode))
+                return false;
 
-                        for (int Index = 0; Index < Block.NodeList.Count; Index++)
-                        {
-                            INode ChildNode = Block.NodeList[Index];
-                            if (!IsNodeTreeValid(ChildNode))
-                                return false;
-                        }
-                    }
+            return true;
+        }
+
+        /// <summary></summary>
+        protected virtual bool IsNodeTreeOptionalNodeValid(INode node, string propertyName)
+        {
+            NodeTreeHelperOptional.GetChildNode(node, propertyName, out bool IsAssigned, out INode ChildNode);
+            if (IsAssigned)
+                if (!IsNodeTreeValid(ChildNode))
+                    return false;
+
+            return true;
+        }
+
+        /// <summary></summary>
+        protected virtual bool IsNodeTreeListValid(INode node, string propertyName)
+        {
+            NodeTreeHelperList.GetChildNodeList(node, propertyName, out IReadOnlyList<INode> ChildNodeList);
+
+            if (ChildNodeList.Count == 0)
+                if (!IsEmptyListValid(node, propertyName))
+                    return false;
+
+            for (int Index = 0; Index < ChildNodeList.Count; Index++)
+            {
+                INode ChildNode = ChildNodeList[Index];
+                if (!IsNodeTreeValid(ChildNode))
+                    return false;
+            }
+
+            return true;
+        }
+
+        /// <summary></summary>
+        protected virtual bool IsNodeTreeBlockListValid(INode node, string propertyName)
+        {
+            NodeTreeHelperBlockList.GetChildBlockList(node, propertyName, out IReadOnlyList<INodeTreeBlock> ChildBlockList);
+
+            if (ChildBlockList.Count == 0)
+                if (!IsEmptyBlockListValid(node, propertyName))
+                    return false;
+
+            for (int BlockIndex = 0; BlockIndex < ChildBlockList.Count; BlockIndex++)
+            {
+                INodeTreeBlock Block = ChildBlockList[BlockIndex];
+                Debug.Assert(Block.NodeList.Count > 0);
+
+                for (int Index = 0; Index < Block.NodeList.Count; Index++)
+                {
+                    INode ChildNode = Block.NodeList[Index];
+                    if (!IsNodeTreeValid(ChildNode))
+                        return false;
                 }
             }
 

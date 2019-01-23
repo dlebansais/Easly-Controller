@@ -1,7 +1,6 @@
 ﻿using EaslyController.ReadOnly;
 using EaslyController.Writeable;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace EaslyController.Frame
