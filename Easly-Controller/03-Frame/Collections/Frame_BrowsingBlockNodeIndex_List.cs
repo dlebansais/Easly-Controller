@@ -50,4 +50,3 @@ namespace EaslyController.Frame
         #endregion
     }
 }
-
