@@ -848,17 +848,6 @@ namespace EaslyController.Writeable
         /// <param name="nodeIndex">Index of the replacing node upon return.</param>
         public void Replace(IWriteableInner<IWriteableBrowsingChildIndex> inner, IWriteableInsertionChildIndex replacementIndex, out IWriteableBrowsingChildIndex nodeIndex)
         {
-            ReplaceState(inner, replacementIndex, true, out nodeIndex, out IWriteableReplaceOperation Operation);
-
-            NotifyStateReplaced(Operation);
-            SetLastOperation(Operation);
-
-            CheckInvariant();
-        }
-
-        /// <summary></summary>
-        protected virtual void ReplaceState(IWriteableInner<IWriteableBrowsingChildIndex> inner, IWriteableInsertionChildIndex replacementIndex, bool cleanupBlockList, out IWriteableBrowsingChildIndex nodeIndex, out IWriteableReplaceOperation operation)
-        {
             Debug.Assert(inner != null);
             Debug.Assert(replacementIndex != null);
             IWriteableNodeState Owner = inner.Owner;
@@ -869,7 +858,40 @@ namespace EaslyController.Writeable
             Debug.Assert(InnerTable.ContainsKey(inner.PropertyName));
             Debug.Assert(InnerTable[inner.PropertyName] == inner);
 
-            operation = CreateReplaceOperation(inner, replacementIndex, null, isNested: false);
+            Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => ExecuteReplace(operation);
+            IWriteableReplaceOperation Operation = CreateReplaceOperation(inner, replacementIndex, HandlerRedo, isNested: false);
+
+            ExecuteReplace(Operation);
+
+            nodeIndex = Operation.NewBrowsingIndex;
+            SetLastOperation(Operation);
+
+            CheckInvariant();
+        }
+
+        /// <summary></summary>
+        protected virtual void ExecuteReplace(IWriteableOperation operation)
+        {
+            IWriteableReplaceOperation ReplaceOperation = (IWriteableReplaceOperation)operation;
+
+            ReplaceState(ReplaceOperation, ReplaceOperation.Inner, ReplaceOperation.ReplacementIndex, true);
+            Debug.Assert(Contains(ReplaceOperation.NewBrowsingIndex));
+
+            NotifyStateReplaced(ReplaceOperation);
+        }
+
+        /// <summary></summary>
+        protected virtual void ReplaceState(IWriteableReplaceOperation operation, IWriteableInner<IWriteableBrowsingChildIndex> inner, IWriteableInsertionChildIndex replacementIndex, bool cleanupBlockList)
+        {
+            Debug.Assert(inner != null);
+            Debug.Assert(replacementIndex != null);
+            IWriteableNodeState Owner = inner.Owner;
+            IWriteableIndex ParentIndex = Owner.ParentIndex;
+            Debug.Assert(Contains(ParentIndex));
+            Debug.Assert(IndexToState(ParentIndex) == Owner);
+            IWriteableInnerReadOnlyDictionary<string> InnerTable = Owner.InnerTable;
+            Debug.Assert(InnerTable.ContainsKey(inner.PropertyName));
+            Debug.Assert(InnerTable[inner.PropertyName] == inner);
 
             if (inner is IWriteableOptionalInner<IWriteableBrowsingOptionalNodeIndex> AsOptionalInner)
             {
@@ -895,9 +917,6 @@ namespace EaslyController.Writeable
             AddState(NewBrowsingIndex, ChildState);
 
             BuildStateTable(inner, null, NewBrowsingIndex, ChildState);
-
-            nodeIndex = NewBrowsingIndex;
-            Debug.Assert(Contains(nodeIndex));
         }
 
         /// <summary>

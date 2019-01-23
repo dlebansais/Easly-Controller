@@ -43,7 +43,7 @@ namespace EaslyController.Writeable
     }
 
     /// <summary>
-    /// Operation details for replacing a node in a list or block list.
+    /// Operation details for replacing a node.
     /// </summary>
     public class WriteableReplaceOperation : WriteableOperation, IWriteableReplaceOperation
     {

@@ -352,16 +352,28 @@ namespace EaslyController.Focus
             Debug.Assert(cycleIndexList.Count >= 2);
             Debug.Assert(cyclePosition >= 0 && cyclePosition < cycleIndexList.Count);
 
-            IFocusInsertionChildIndex ReplacementIndex = cycleIndexList[cyclePosition];
-            ReplaceState(inner, ReplacementIndex, false, out IWriteableBrowsingChildIndex NewIndex, out IWriteableReplaceOperation Operation);
+            Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => ExecuteReplaceWithCycle(operation);
+            IFocusReplaceWithCycleOperation Operation = CreateReplaceWithCycleOperation(inner, cycleIndexList, cyclePosition, HandlerRedo, isNested: false);
 
-            nodeIndex = (IFocusBrowsingChildIndex)NewIndex;
-            IFocusNodeState NewState = StateTable[nodeIndex];
-            NewState.RestoreCycleIndexList(cycleIndexList);
+            ExecuteReplaceWithCycle(Operation);
 
-            NotifyStateReplaced(Operation);
+            nodeIndex = Operation.NewBrowsingIndex;
+            SetLastOperation(Operation);
 
             CheckInvariant();
+        }
+
+        /// <summary></summary>
+        protected virtual void ExecuteReplaceWithCycle(IWriteableOperation operation)
+        {
+            IFocusReplaceWithCycleOperation ReplaceWithCycleOperation = (IFocusReplaceWithCycleOperation)operation;
+
+            ReplaceState(ReplaceWithCycleOperation, ReplaceWithCycleOperation.Inner, ReplaceWithCycleOperation.ReplacementIndex, false);
+
+            IFocusNodeState NewState = StateTable[ReplaceWithCycleOperation.NewBrowsingIndex];
+            NewState.RestoreCycleIndexList(ReplaceWithCycleOperation.CycleIndexList);
+
+            NotifyStateReplaced(ReplaceWithCycleOperation);
         }
         #endregion
 
@@ -625,6 +637,15 @@ namespace EaslyController.Focus
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusController));
             return new FocusOperationReadOnlyList((IFocusOperationList)list);
+        }
+
+        /// <summary>
+        /// Creates a IxxxReplaceWithCycleOperation object.
+        /// </summary>
+        protected virtual IFocusReplaceWithCycleOperation CreateReplaceWithCycleOperation(IWriteableInner<IWriteableBrowsingChildIndex> inner, IFocusInsertionChildIndexList cycleIndexList, int cyclePosition, Action<IWriteableOperation> handlerRedo, bool isNested)
+        {
+            ControllerTools.AssertNoOverride(this, typeof(FocusController));
+            return new FocusReplaceWithCycleOperation((IFocusInner<IFocusBrowsingChildIndex>)inner, cycleIndexList, cyclePosition, handlerRedo, isNested);
         }
         #endregion
     }

@@ -36,7 +36,7 @@ namespace EaslyController.Focus
     }
 
     /// <summary>
-    /// Operation details for replacing a node in a list or block list.
+    /// Operation details for replacing a node.
     /// </summary>
     public class FocusReplaceOperation : FrameReplaceOperation, IFocusReplaceOperation
     {

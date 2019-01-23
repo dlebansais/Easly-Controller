@@ -394,6 +394,7 @@
     <Compile Include="04-Focus\Controller\Operations\Focus_RemoveBlock_Operation.cs" />
     <Compile Include="04-Focus\Controller\Operations\Focus_RemoveNode_Operation.cs" />
     <Compile Include="04-Focus\Controller\Operations\Focus_Remove_Operation.cs" />
+    <Compile Include="04-Focus\Controller\Operations\Focus_ReplaceWithCycle_Operation.cs" />
     <Compile Include="04-Focus\Controller\Operations\Focus_Replace_Operation.cs" />
     <Compile Include="04-Focus\Controller\Operations\Focus_SplitBlock_Operation.cs" />
     <Compile Include="04-Focus\Controller\Operations\Focus_ChangeNode_Operation.cs" />
