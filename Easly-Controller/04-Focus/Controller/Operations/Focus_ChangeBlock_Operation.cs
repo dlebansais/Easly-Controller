@@ -1,4 +1,7 @@
-﻿using EaslyController.Frame;
+﻿using BaseNode;
+using EaslyController.Frame;
+using EaslyController.Writeable;
+using System;
 
 namespace EaslyController.Focus
 {
@@ -29,9 +32,11 @@ namespace EaslyController.Focus
         /// </summary>
         /// <param name="inner">Inner where the block change is taking place.</param>
         /// <param name="blockIndex">Index of the changed block.</param>
+        /// <param name="replication">New replication value.</param>
+        /// <param name="handlerRedo">Handler to execute to redo the operation.</param>
         /// <param name="isNested">True if the operation is nested within another more general one.</param>
-        public FocusChangeBlockOperation(IFocusBlockListInner<IFocusBrowsingBlockNodeIndex> inner, int blockIndex, bool isNested)
-            : base(inner, blockIndex, isNested)
+        public FocusChangeBlockOperation(IFocusBlockListInner<IFocusBrowsingBlockNodeIndex> inner, int blockIndex, ReplicationStatus replication, Action<IWriteableOperation> handlerRedo, bool isNested)
+            : base(inner, blockIndex, replication, handlerRedo, isNested)
         {
         }
         #endregion

@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 
 namespace EaslyController.Writeable
 {
@@ -40,9 +41,10 @@ namespace EaslyController.Writeable
         /// </summary>
         /// <param name="inner">Inner where the removal is taking place.</param>
         /// <param name="nodeIndex">Index of the removed node.</param>
+        /// <param name="handlerRedo">Handler to execute to redo the operation.</param>
         /// <param name="isNested">True if the operation is nested within another more general one.</param>
-        public WriteableRemoveNodeOperation(IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> inner, IWriteableBrowsingCollectionNodeIndex nodeIndex, bool isNested)
-            : base(isNested)
+        public WriteableRemoveNodeOperation(IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> inner, IWriteableBrowsingCollectionNodeIndex nodeIndex, Action<IWriteableOperation> handlerRedo, bool isNested)
+            : base(handlerRedo, isNested)
         {
             Inner = inner;
             NodeIndex = nodeIndex;

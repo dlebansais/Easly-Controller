@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 
 namespace EaslyController.Writeable
 {
@@ -11,6 +12,16 @@ namespace EaslyController.Writeable
         /// Index of the changed node.
         /// </summary>
         IWriteableIndex NodeIndex { get; }
+
+        /// <summary>
+        /// Name of the property to change.
+        /// </summary>
+        string PropertyName { get; }
+
+        /// <summary>
+        /// The new value.
+        /// </summary>
+        int Value { get; }
 
         /// <summary>
         /// State changed.
@@ -34,11 +45,16 @@ namespace EaslyController.Writeable
         /// Initializes a new instance of <see cref="WriteableChangeNodeOperation"/>.
         /// </summary>
         /// <param name="nodeIndex">Index of the changed node.</param>
+        /// <param name="propertyName">Name of the property to change.</param>
+        /// <param name="value">The new value.</param>
+        /// <param name="handlerRedo">Handler to execute to redo the operation.</param>
         /// <param name="isNested">True if the operation is nested within another more general one.</param>
-        public WriteableChangeNodeOperation(IWriteableIndex nodeIndex, bool isNested)
-            : base(isNested)
+        public WriteableChangeNodeOperation(IWriteableIndex nodeIndex, string propertyName, int value, Action<IWriteableOperation> handlerRedo, bool isNested)
+            : base(handlerRedo, isNested)
         {
             NodeIndex = nodeIndex;
+            PropertyName = propertyName;
+            Value = value;
         }
         #endregion
 
@@ -47,6 +63,16 @@ namespace EaslyController.Writeable
         /// Index of the changed node.
         /// </summary>
         public IWriteableIndex NodeIndex { get; }
+
+        /// <summary>
+        /// Name of the property to change.
+        /// </summary>
+        public string PropertyName { get; }
+
+        /// <summary>
+        /// The new value.
+        /// </summary>
+        public int Value { get; }
 
         /// <summary>
         /// State changed.

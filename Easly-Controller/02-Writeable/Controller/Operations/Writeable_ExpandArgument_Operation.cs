@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 
 namespace EaslyController.Writeable
 {
@@ -20,9 +21,10 @@ namespace EaslyController.Writeable
         /// </summary>
         /// <param name="inner">Inner where the block insertion is taking place.</param>
         /// <param name="blockIndex">Position where the block is inserted.</param>
+        /// <param name="handlerRedo">Handler to execute to redo the operation.</param>
         /// <param name="isNested">True if the operation is nested within another more general one.</param>
-        public WriteableExpandArgumentOperation(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, IWriteableInsertionNewBlockNodeIndex blockIndex, bool isNested)
-            : base(inner, blockIndex, isNested)
+        public WriteableExpandArgumentOperation(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, IWriteableInsertionNewBlockNodeIndex blockIndex, Action<IWriteableOperation> handlerRedo, bool isNested)
+            : base(inner, blockIndex, handlerRedo, isNested)
         {
             Debug.Assert(blockIndex.BlockIndex == 0);
         }

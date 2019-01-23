@@ -1,4 +1,5 @@
 ﻿using EaslyController.Writeable;
+using System;
 
 namespace EaslyController.Frame
 {
@@ -29,9 +30,10 @@ namespace EaslyController.Frame
         /// </summary>
         /// <param name="inner">Inner where the block is split.</param>
         /// <param name="nodeIndex">Index of the last node to stay in the old block.</param>
+        /// <param name="handlerRedo">Handler to execute to redo the operation.</param>
         /// <param name="isNested">True if the operation is nested within another more general one.</param>
-        public FrameMergeBlocksOperation(IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> inner, IFrameBrowsingExistingBlockNodeIndex nodeIndex, bool isNested)
-            : base(inner, nodeIndex, isNested)
+        public FrameMergeBlocksOperation(IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> inner, IFrameBrowsingExistingBlockNodeIndex nodeIndex, Action<IWriteableOperation> handlerRedo, bool isNested)
+            : base(inner, nodeIndex, handlerRedo, isNested)
         {
         }
         #endregion

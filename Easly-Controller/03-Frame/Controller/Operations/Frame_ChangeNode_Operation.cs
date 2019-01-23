@@ -1,4 +1,5 @@
 ﻿using EaslyController.Writeable;
+using System;
 
 namespace EaslyController.Frame
 {
@@ -28,9 +29,12 @@ namespace EaslyController.Frame
         /// Initializes a new instance of <see cref="FrameChangeNodeOperation"/>.
         /// </summary>
         /// <param name="nodeIndex">Index of the changed node.</param>
+        /// <param name="propertyName">Name of the property to change.</param>
+        /// <param name="value">The new value.</param>
+        /// <param name="handlerRedo">Handler to execute to redo the operation.</param>
         /// <param name="isNested">True if the operation is nested within another more general one.</param>
-        public FrameChangeNodeOperation(IFrameIndex nodeIndex, bool isNested)
-            : base(nodeIndex, isNested)
+        public FrameChangeNodeOperation(IFrameIndex nodeIndex, string propertyName, int value, Action<IWriteableOperation> handlerRedo, bool isNested)
+            : base(nodeIndex, propertyName, value, handlerRedo, isNested)
         {
         }
         #endregion

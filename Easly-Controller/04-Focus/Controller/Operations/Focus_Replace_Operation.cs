@@ -1,4 +1,6 @@
 ﻿using EaslyController.Frame;
+using EaslyController.Writeable;
+using System;
 
 namespace EaslyController.Focus
 {
@@ -44,9 +46,10 @@ namespace EaslyController.Focus
         /// </summary>
         /// <param name="inner">Inner where the replacement is taking place.</param>
         /// <param name="replacementIndex">Position where the node is replaced.</param>
+        /// <param name="handlerRedo">Handler to execute to redo the operation.</param>
         /// <param name="isNested">True if the operation is nested within another more general one.</param>
-        public FocusReplaceOperation(IFocusInner<IFocusBrowsingChildIndex> inner, IFocusInsertionChildIndex replacementIndex, bool isNested)
-            : base(inner, replacementIndex, isNested)
+        public FocusReplaceOperation(IFocusInner<IFocusBrowsingChildIndex> inner, IFocusInsertionChildIndex replacementIndex, Action<IWriteableOperation> handlerRedo, bool isNested)
+            : base(inner, replacementIndex, handlerRedo, isNested)
         {
         }
         #endregion

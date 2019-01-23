@@ -1,4 +1,6 @@
 ﻿using EaslyController.Frame;
+using EaslyController.Writeable;
+using System;
 
 namespace EaslyController.Focus
 {
@@ -39,9 +41,10 @@ namespace EaslyController.Focus
         /// </summary>
         /// <param name="inner">Inner where the insertion is taking place.</param>
         /// <param name="insertionIndex">Position where the node is inserted.</param>
+        /// <param name="handlerRedo">Handler to execute to redo the operation.</param>
         /// <param name="isNested">True if the operation is nested within another more general one.</param>
-        public FocusInsertNodeOperation(IFocusCollectionInner<IFocusBrowsingCollectionNodeIndex> inner, IFocusInsertionCollectionNodeIndex insertionIndex, bool isNested)
-            : base(inner, insertionIndex, isNested)
+        public FocusInsertNodeOperation(IFocusCollectionInner<IFocusBrowsingCollectionNodeIndex> inner, IFocusInsertionCollectionNodeIndex insertionIndex, Action<IWriteableOperation> handlerRedo, bool isNested)
+            : base(inner, insertionIndex, handlerRedo, isNested)
         {
         }
         #endregion

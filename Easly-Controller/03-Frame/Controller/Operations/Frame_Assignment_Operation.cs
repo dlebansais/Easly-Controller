@@ -1,4 +1,5 @@
 ﻿using EaslyController.Writeable;
+using System;
 using System.Diagnostics;
 
 namespace EaslyController.Frame
@@ -35,9 +36,10 @@ namespace EaslyController.Frame
         /// </summary>
         /// <param name="inner">Inner where the assignment is taking place.</param>
         /// <param name="nodeIndex">Position of the assigned or unassigned node.</param>
+        /// <param name="handlerRedo">Handler to execute to redo the operation.</param>
         /// <param name="isNested">True if the operation is nested within another more general one.</param>
-        public FrameAssignmentOperation(IFrameOptionalInner<IFrameBrowsingOptionalNodeIndex> inner, IFrameBrowsingOptionalNodeIndex nodeIndex, bool isNested)
-            : base(inner, nodeIndex, isNested)
+        public FrameAssignmentOperation(IFrameOptionalInner<IFrameBrowsingOptionalNodeIndex> inner, IFrameBrowsingOptionalNodeIndex nodeIndex, Action<IWriteableOperation> handlerRedo, bool isNested)
+            : base(inner, nodeIndex, handlerRedo, isNested)
         {
         }
         #endregion

@@ -1,4 +1,6 @@
 ﻿using EaslyController.Frame;
+using EaslyController.Writeable;
+using System;
 
 namespace EaslyController.Focus
 {
@@ -30,9 +32,10 @@ namespace EaslyController.Focus
         /// <param name="inner">Inner where the block is move.</param>
         /// <param name="blockIndex">Index of the moved block.</param>
         /// <param name="direction">The change in position, relative to the current position.</param>
+        /// <param name="handlerRedo">Handler to execute to redo the operation.</param>
         /// <param name="isNested">True if the operation is nested within another more general one.</param>
-        public FocusMoveBlockOperation(IFocusBlockListInner<IFocusBrowsingBlockNodeIndex> inner, int blockIndex, int direction, bool isNested)
-            : base(inner, blockIndex, direction, isNested)
+        public FocusMoveBlockOperation(IFocusBlockListInner<IFocusBrowsingBlockNodeIndex> inner, int blockIndex, int direction, Action<IWriteableOperation> handlerRedo, bool isNested)
+            : base(inner, blockIndex, direction, handlerRedo, isNested)
         {
         }
         #endregion

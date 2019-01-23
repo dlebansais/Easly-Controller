@@ -1,4 +1,6 @@
 ﻿using EaslyController.Frame;
+using EaslyController.Writeable;
+using System;
 
 namespace EaslyController.Focus
 {
@@ -29,9 +31,10 @@ namespace EaslyController.Focus
         /// </summary>
         /// <param name="inner">Inner where the block is split.</param>
         /// <param name="nodeIndex">Index of the last node to stay in the old block.</param>
+        /// <param name="handlerRedo">Handler to execute to redo the operation.</param>
         /// <param name="isNested">True if the operation is nested within another more general one.</param>
-        public FocusMergeBlocksOperation(IFocusBlockListInner<IFocusBrowsingBlockNodeIndex> inner, IFocusBrowsingExistingBlockNodeIndex nodeIndex, bool isNested)
-            : base(inner, nodeIndex, isNested)
+        public FocusMergeBlocksOperation(IFocusBlockListInner<IFocusBrowsingBlockNodeIndex> inner, IFocusBrowsingExistingBlockNodeIndex nodeIndex, Action<IWriteableOperation> handlerRedo, bool isNested)
+            : base(inner, nodeIndex, handlerRedo, isNested)
         {
         }
         #endregion

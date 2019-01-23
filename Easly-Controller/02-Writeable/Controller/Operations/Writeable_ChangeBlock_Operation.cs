@@ -1,4 +1,6 @@
-﻿using System.Diagnostics;
+﻿using BaseNode;
+using System;
+using System.Diagnostics;
 
 namespace EaslyController.Writeable
 {
@@ -16,6 +18,11 @@ namespace EaslyController.Writeable
         /// Index of the changed block.
         /// </summary>
         int BlockIndex { get; }
+
+        /// <summary>
+        /// New replication value.
+        /// </summary>
+        ReplicationStatus Replication { get; }
 
         /// <summary>
         /// Block state changed.
@@ -40,12 +47,15 @@ namespace EaslyController.Writeable
         /// </summary>
         /// <param name="inner">Inner where the block change is taking place.</param>
         /// <param name="blockIndex">Index of the changed block.</param>
+        /// <param name="replication">New replication value.</param>
+        /// <param name="handlerRedo">Handler to execute to redo the operation.</param>
         /// <param name="isNested">True if the operation is nested within another more general one.</param>
-        public WriteableChangeBlockOperation(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, int blockIndex, bool isNested)
-            : base(isNested)
+        public WriteableChangeBlockOperation(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, int blockIndex, ReplicationStatus replication, Action<IWriteableOperation> handlerRedo, bool isNested)
+            : base(handlerRedo, isNested)
         {
             Inner = inner;
             BlockIndex = blockIndex;
+            Replication = replication;
         }
         #endregion
 
@@ -59,6 +69,11 @@ namespace EaslyController.Writeable
         /// Index of the changed block.
         /// </summary>
         public int BlockIndex { get; }
+
+        /// <summary>
+        /// New replication value.
+        /// </summary>
+        public ReplicationStatus Replication { get; }
 
         /// <summary>
         /// Block state changed.

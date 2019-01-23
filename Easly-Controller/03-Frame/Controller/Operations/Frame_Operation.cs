@@ -1,4 +1,5 @@
 ﻿using EaslyController.Writeable;
+using System;
 
 namespace EaslyController.Frame
 {
@@ -18,9 +19,10 @@ namespace EaslyController.Frame
         /// <summary>
         /// Initializes a new instance of a <see cref="FrameOperation"/> object.
         /// </summary>
+        /// <param name="handlerRedo">Handler to execute to redo the operation.</param>
         /// <param name="isNested">True if the operation is nested within another more general one.</param>
-        public FrameOperation(bool isNested)
-            : base(isNested)
+        public FrameOperation(Action<IWriteableOperation> handlerRedo, bool isNested)
+            : base(handlerRedo, isNested)
         {
         }
         #endregion

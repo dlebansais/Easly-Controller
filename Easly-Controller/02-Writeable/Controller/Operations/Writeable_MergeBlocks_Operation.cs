@@ -1,4 +1,6 @@
-﻿namespace EaslyController.Writeable
+﻿using System;
+
+namespace EaslyController.Writeable
 {
     /// <summary>
     /// Operation details for merging blocks in a block list.
@@ -37,9 +39,10 @@
         /// </summary>
         /// <param name="inner">Inner where the block is split.</param>
         /// <param name="nodeIndex">Index of the last node to stay in the old block.</param>
+        /// <param name="handlerRedo">Handler to execute to redo the operation.</param>
         /// <param name="isNested">True if the operation is nested within another more general one.</param>
-        public WriteableMergeBlocksOperation(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, IWriteableBrowsingExistingBlockNodeIndex nodeIndex, bool isNested)
-            : base(isNested)
+        public WriteableMergeBlocksOperation(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, IWriteableBrowsingExistingBlockNodeIndex nodeIndex, Action<IWriteableOperation> handlerRedo, bool isNested)
+            : base(handlerRedo, isNested)
         {
             Inner = inner;
             NodeIndex = nodeIndex;

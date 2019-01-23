@@ -1,4 +1,5 @@
 ﻿using EaslyController.Writeable;
+using System;
 
 namespace EaslyController.Frame
 {
@@ -35,9 +36,10 @@ namespace EaslyController.Frame
         /// <param name="inner">Inner where the move is taking place.</param>
         /// <param name="nodeIndex">Position where the node is moved.</param>
         /// <param name="direction">The change in position, relative to the current position.</param>
+        /// <param name="handlerRedo">Handler to execute to redo the operation.</param>
         /// <param name="isNested">True if the operation is nested within another more general one.</param>
-        public FrameMoveNodeOperation(IFrameCollectionInner<IFrameBrowsingCollectionNodeIndex> inner, IFrameBrowsingCollectionNodeIndex nodeIndex, int direction, bool isNested)
-            : base(inner, nodeIndex, direction, isNested)
+        public FrameMoveNodeOperation(IFrameCollectionInner<IFrameBrowsingCollectionNodeIndex> inner, IFrameBrowsingCollectionNodeIndex nodeIndex, int direction, Action<IWriteableOperation> handlerRedo, bool isNested)
+            : base(inner, nodeIndex, direction, handlerRedo, isNested)
         {
         }
         #endregion

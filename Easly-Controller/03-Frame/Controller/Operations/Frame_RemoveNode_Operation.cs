@@ -1,4 +1,5 @@
 ﻿using EaslyController.Writeable;
+using System;
 
 namespace EaslyController.Frame
 {
@@ -34,9 +35,10 @@ namespace EaslyController.Frame
         /// </summary>
         /// <param name="inner">Inner where the removal is taking place.</param>
         /// <param name="nodeIndex">Index of the removed node.</param>
+        /// <param name="handlerRedo">Handler to execute to redo the operation.</param>
         /// <param name="isNested">True if the operation is nested within another more general one.</param>
-        public FrameRemoveNodeOperation(IFrameCollectionInner<IFrameBrowsingCollectionNodeIndex> inner, IFrameBrowsingCollectionNodeIndex nodeIndex, bool isNested)
-            : base(inner, nodeIndex, isNested)
+        public FrameRemoveNodeOperation(IFrameCollectionInner<IFrameBrowsingCollectionNodeIndex> inner, IFrameBrowsingCollectionNodeIndex nodeIndex, Action<IWriteableOperation> handlerRedo, bool isNested)
+            : base(inner, nodeIndex, handlerRedo, isNested)
         {
         }
         #endregion

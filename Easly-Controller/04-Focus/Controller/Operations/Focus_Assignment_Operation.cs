@@ -1,4 +1,6 @@
 ﻿using EaslyController.Frame;
+using EaslyController.Writeable;
+using System;
 
 namespace EaslyController.Focus
 {
@@ -34,9 +36,10 @@ namespace EaslyController.Focus
         /// </summary>
         /// <param name="inner">Inner where the assignment is taking place.</param>
         /// <param name="nodeIndex">Position of the assigned or unassigned node.</param>
+        /// <param name="handlerRedo">Handler to execute to redo the operation.</param>
         /// <param name="isNested">True if the operation is nested within another more general one.</param>
-        public FocusAssignmentOperation(IFocusOptionalInner<IFocusBrowsingOptionalNodeIndex> inner, IFocusBrowsingOptionalNodeIndex nodeIndex, bool isNested)
-            : base(inner, nodeIndex, isNested)
+        public FocusAssignmentOperation(IFocusOptionalInner<IFocusBrowsingOptionalNodeIndex> inner, IFocusBrowsingOptionalNodeIndex nodeIndex, Action<IWriteableOperation> handlerRedo, bool isNested)
+            : base(inner, nodeIndex, handlerRedo, isNested)
         {
         }
         #endregion

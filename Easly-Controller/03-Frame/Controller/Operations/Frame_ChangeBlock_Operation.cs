@@ -1,4 +1,6 @@
-﻿using EaslyController.Writeable;
+﻿using BaseNode;
+using EaslyController.Writeable;
+using System;
 
 namespace EaslyController.Frame
 {
@@ -29,9 +31,11 @@ namespace EaslyController.Frame
         /// </summary>
         /// <param name="inner">Inner where the block change is taking place.</param>
         /// <param name="blockIndex">Index of the changed block.</param>
+        /// <param name="replication">New replication value.</param>
+        /// <param name="handlerRedo">Handler to execute to redo the operation.</param>
         /// <param name="isNested">True if the operation is nested within another more general one.</param>
-        public FrameChangeBlockOperation(IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> inner, int blockIndex, bool isNested)
-            : base(inner, blockIndex, isNested)
+        public FrameChangeBlockOperation(IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> inner, int blockIndex, ReplicationStatus replication, Action<IWriteableOperation> handlerRedo, bool isNested)
+            : base(inner, blockIndex, replication, handlerRedo, isNested)
         {
         }
         #endregion
