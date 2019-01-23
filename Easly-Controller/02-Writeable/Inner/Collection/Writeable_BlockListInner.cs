@@ -324,9 +324,13 @@ namespace EaslyController.Writeable
         /// <param name="nodeOperation">Details of the operation performed, updated if no block is removed. Can be null if the node is known to be the last one in the block.</param>
         public virtual void RemoveWithBlock(IWriteableRemoveBlockOperation blockOperation, IWriteableRemoveNodeOperation nodeOperation)
         {
-            Debug.Assert(blockOperation != null);
+            IWriteableBrowsingExistingBlockNodeIndex ExistingBlockIndex;
+            if (blockOperation != null)
+                ExistingBlockIndex = blockOperation.BlockIndex;
+            else
+                ExistingBlockIndex = nodeOperation.NodeIndex as IWriteableBrowsingExistingBlockNodeIndex;
 
-            Remove(blockOperation, nodeOperation, blockOperation.BlockIndex);
+            Remove(blockOperation, nodeOperation, ExistingBlockIndex);
         }
 
         /// <summary></summary>
