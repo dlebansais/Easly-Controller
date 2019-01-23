@@ -690,7 +690,6 @@ namespace EaslyController.Writeable
                     existingBlockIndex.MoveUp();
                 }
             }
-
             else if (Direction < 0)
             {
                 for (int i = MoveIndex; i > MoveIndex + Direction; i--)
@@ -743,7 +742,6 @@ namespace EaslyController.Writeable
                     }
                 }
             }
-
             else if (Direction < 0)
             {
                 for (int i = MoveIndex; i > MoveIndex + Direction; i--)

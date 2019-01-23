@@ -202,7 +202,6 @@ namespace EaslyController.ReadOnly
                     IReadOnlyIndexCollection IndexCollection = CreatePlaceholderIndexCollection(browseNodeContext, PropertyName, ChildNodeIndex);
                     browseNodeContext.AddIndexCollection(IndexCollection);
                 }
-
                 else if (NodeTreeHelperOptional.IsOptionalChildNodeProperty(node, PropertyName, out ChildNodeType))
                 {
                     IReadOnlyBrowsingOptionalNodeIndex OptionalNodeIndex = CreateOptionalNodeIndex(browseNodeContext, node, PropertyName);
@@ -211,7 +210,6 @@ namespace EaslyController.ReadOnly
                     IReadOnlyIndexCollection IndexCollection = CreateOptionalIndexCollection(browseNodeContext, PropertyName, OptionalNodeIndex);
                     browseNodeContext.AddIndexCollection(IndexCollection);
                 }
-
                 else if (NodeTreeHelperList.IsNodeListProperty(node, PropertyName, out ChildNodeType))
                 {
                     NodeTreeHelperList.GetChildNodeList(node, PropertyName, out ChildNodeList);
@@ -220,7 +218,6 @@ namespace EaslyController.ReadOnly
                     IReadOnlyIndexCollection IndexCollection = BrowseNodeList(browseNodeContext, node, PropertyName, ChildNodeList);
                     browseNodeContext.AddIndexCollection(IndexCollection);
                 }
-
                 else if (NodeTreeHelperBlockList.IsBlockListProperty(node, PropertyName, out ChildInterfaceType, out ChildNodeType))
                 {
                     NodeTreeHelperBlockList.GetChildBlockList(node, PropertyName, out ChildBlockList);
@@ -229,22 +226,16 @@ namespace EaslyController.ReadOnly
                     IReadOnlyIndexCollection IndexCollection = BrowseNodeBlockList(browseNodeContext, node, PropertyName, ChildBlockList);
                     browseNodeContext.AddIndexCollection(IndexCollection);
                 }
-
                 else if (NodeTreeHelper.IsBooleanProperty(node, PropertyName))
                     browseNodeContext.AddValueProperty(PropertyName, ValuePropertyType.Boolean);
-
                 else if (NodeTreeHelper.IsEnumProperty(node, PropertyName))
                     browseNodeContext.AddValueProperty(PropertyName, ValuePropertyType.Enum);
-
                 else if (NodeTreeHelper.IsStringProperty(node, PropertyName))
                     browseNodeContext.AddValueProperty(PropertyName, ValuePropertyType.String);
-
                 else if (NodeTreeHelper.IsGuidProperty(node, PropertyName))
                     browseNodeContext.AddValueProperty(PropertyName, ValuePropertyType.Guid);
-
                 else if (NodeTreeHelper.IsDocumentProperty(node, PropertyName))
                 { } // Ignore the doc node.
-
                 else
                     throw new ArgumentOutOfRangeException(nameof(PropertyName));
             }

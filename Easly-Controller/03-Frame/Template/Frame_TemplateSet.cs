@@ -275,28 +275,24 @@ namespace EaslyController.Frame
                     NewFrame.PropertyName = PropertyName;
                     RootFrame.Items.Add(NewFrame);
                 }
-
                 else if (NodeTreeHelperOptional.IsOptionalChildNodeProperty(nodeType, PropertyName, out ChildNodeType))
                 {
                     IFrameOptionalFrame NewFrame = CreateOptionalFrame();
                     NewFrame.PropertyName = PropertyName;
                     RootFrame.Items.Add(NewFrame);
                 }
-
                 else if (NodeTreeHelperList.IsNodeListProperty(nodeType, PropertyName, out Type ListNodeType))
                 {
                     IFrameHorizontalListFrame NewFrame = CreateHorizontalListFrame();
                     NewFrame.PropertyName = PropertyName;
                     RootFrame.Items.Add(NewFrame);
                 }
-
                 else if (NodeTreeHelperBlockList.IsBlockListProperty(nodeType, PropertyName, out Type ChildInterfaceType, out Type ChildItemType))
                 {
                     IFrameHorizontalBlockListFrame NewFrame = CreateHorizontalBlockListFrame();
                     NewFrame.PropertyName = PropertyName;
                     RootFrame.Items.Add(NewFrame);
                 }
-
                 else if (NodeTreeHelper.IsBooleanProperty(nodeType, PropertyName))
                 {
                     IFrameDiscreteFrame NewDiscreteFrame = CreateDiscreteFrame();
@@ -312,7 +308,6 @@ namespace EaslyController.Frame
 
                     RootFrame.Items.Add(NewDiscreteFrame);
                 }
-
                 else if (NodeTreeHelper.IsEnumProperty(nodeType, PropertyName))
                 {
                     NodeTreeHelper.GetEnumRange(nodeType, PropertyName, out int Min, out int Max);
@@ -329,20 +324,16 @@ namespace EaslyController.Frame
 
                     RootFrame.Items.Add(NewDiscreteFrame);
                 }
-
                 else if (NodeTreeHelper.IsStringProperty(nodeType, PropertyName))
                 {
                     IFrameTextValueFrame NewDiscreteFrame = CreateTextValueFrame();
                     NewDiscreteFrame.PropertyName = PropertyName;
                     RootFrame.Items.Add(NewDiscreteFrame);
                 }
-
                 else if (NodeTreeHelper.IsGuidProperty(nodeType, PropertyName))
                 { }
-
                 else if (NodeTreeHelper.IsDocumentProperty(nodeType, PropertyName))
                 { }
-
                 else
                     throw new ArgumentOutOfRangeException(nameof(PropertyName));
 

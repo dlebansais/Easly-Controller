@@ -76,7 +76,6 @@ namespace EaslyController.Xaml
 
             if (Arg1 == null && Arg2 == null)
                 Type = EaslyAssembly.GetType(ToFullName(TypeName));
-
             else if (Arg1 != null && Arg2 == null)
             {
                 System.Type GenericDefinitionType = EaslyAssembly.GetType(ToFullNameWithArguments(TypeName, 1));

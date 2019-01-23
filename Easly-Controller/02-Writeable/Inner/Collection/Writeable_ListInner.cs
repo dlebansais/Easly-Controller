@@ -257,7 +257,6 @@ namespace EaslyController.Writeable
                     listIndex.MoveUp();
                 }
             }
-
             else if (Direction < 0)
             {
                 for (int i = MoveIndex; i > MoveIndex + Direction; i--)

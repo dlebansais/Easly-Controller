@@ -652,7 +652,6 @@ namespace EaslyController.Focus
                 else
                     throw new ArgumentOutOfRangeException(nameof(CollectionInner));
             }
-
             else if ((FocusedCellView.Frame is IFocusTextValueFrame AsTextValueFrame) && CaretPosition == 0)
             {
                 if (State.ParentInner is IFocusListInner<IFocusBrowsingListNodeIndex> AsListInner)
@@ -693,7 +692,6 @@ namespace EaslyController.Focus
 
             if (FocusedCellView.Frame is IFocusInsertFrame AsInsertFrame)
                 return false;
-
             else
             {
                 // Search recursively for a collection parent, up to 3 levels up.
@@ -735,7 +733,6 @@ namespace EaslyController.Focus
 
             if (FocusedCellView.Frame is IFocusInsertFrame AsInsertFrame)
                 return false;
-
             else
             {
                 // Search recursively for a collection parent, up to 3 levels up.
@@ -777,7 +774,6 @@ namespace EaslyController.Focus
 
             if (FocusedCellView.Frame is IFocusInsertFrame AsInsertFrame)
                 return false;
-
             else
             {
                 // Search recursively for a collection parent, up to 3 levels up.
@@ -820,7 +816,6 @@ namespace EaslyController.Focus
 
             if (FocusedCellView.Frame is IFocusInsertFrame AsInsertFrame)
                 return false;
-
             else
             {
                 // Search recursively for a collection parent, up to 3 levels up.
@@ -863,7 +858,6 @@ namespace EaslyController.Focus
 
             if (FocusedCellView.Frame is IFocusInsertFrame AsInsertFrame)
                 return false;
-
             else
             {
                 // Search recursively for a collection parent, up to 3 levels up.
@@ -1047,7 +1041,6 @@ namespace EaslyController.Focus
                     replication = ParentBlock.ChildBlock.Replication;
                     return true;
                 }
-
                 else if (State is IFocusSourceState AsSourceState)
                 {
                     IFocusBlockState ParentBlock = AsSourceState.ParentBlockState;
@@ -1059,7 +1052,6 @@ namespace EaslyController.Focus
                     replication = ParentBlock.ChildBlock.Replication;
                     return true;
                 }
-
                 else if (State.ParentInner is IFocusBlockListInner<IFocusBrowsingBlockNodeIndex> AsBlockListInner)
                 {
                     inner = AsBlockListInner;
@@ -1143,7 +1135,6 @@ namespace EaslyController.Focus
                 FocusedCellView = NewFocusChain[0];
                 ResetCaretPosition();
             }
-
             // If the focus may have forcibly changed.
             else if (!NewFocusChain.Contains(FocusedCellView))
                 RecoverFocus(state, NewFocusChain);

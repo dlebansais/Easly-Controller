@@ -1613,19 +1613,16 @@ namespace EaslyController.Writeable
                     if (!IsNodeTreeChildNodeValid(node, PropertyName))
                         return false;
                 }
-
                 else if (NodeTreeHelperOptional.IsOptionalChildNodeProperty(node, PropertyName, out ChildNodeType))
                 {
                     if (!IsNodeTreeOptionalNodeValid(node, PropertyName))
                         return false;
                 }
-
                 else if (NodeTreeHelperList.IsNodeListProperty(node, PropertyName, out ChildNodeType))
                 {
                     if (!IsNodeTreeListValid(node, PropertyName))
                         return false;
                 }
-
                 else if (NodeTreeHelperBlockList.IsBlockListProperty(node, PropertyName, out Type ChildInterfaceType, out ChildNodeType))
                 {
                     if (!IsNodeTreeBlockListValid(node, PropertyName))

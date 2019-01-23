@@ -116,13 +116,10 @@ namespace EaslyController.Frame
             {
                 if (Item is IFrameBlockFrame AsBlockFrame)
                     ItemCellView = AsBlockFrame.BuildBlockCells(context);
-
                 else if (Item is FramePlaceholderFrame AsPlaceholderFrame)
                     ItemCellView = BuildBlockCellsForPlaceholderFrame(context, AsPlaceholderFrame, EmbeddingCellView, BlockState);
-
                 else if (Item is IFrameNodeFrame AsNodeFrame)
                     ItemCellView = AsNodeFrame.BuildNodeCells(context, EmbeddingCellView);
-
                 else
                     throw new ArgumentOutOfRangeException(nameof(Item));
 
@@ -139,10 +136,8 @@ namespace EaslyController.Frame
 
             if (frame.PropertyName == nameof(IBlock.ReplicationPattern))
                 ItemCellView = BuildPlaceholderCells(context, embeddingCellView, blockState.PatternState);
-
             else if (frame.PropertyName == nameof(IBlock.SourceIdentifier))
                 ItemCellView = BuildPlaceholderCells(context, embeddingCellView, blockState.SourceState);
-
             else
                 throw new ArgumentOutOfRangeException(nameof(frame));
 

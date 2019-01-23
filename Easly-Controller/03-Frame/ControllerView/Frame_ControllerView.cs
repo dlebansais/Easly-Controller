@@ -215,10 +215,8 @@ namespace EaslyController.Frame
 
             if ((ParentInner is IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> AsBlockListInner) && (nodeIndex is IFrameBrowsingExistingBlockNodeIndex AsBlockListIndex))
                 OnBlockListStateInserted(AsBlockListInner, AsBlockListIndex, InsertedState);
-
             else if ((ParentInner is IFrameListInner<IFrameBrowsingListNodeIndex> AsListInner) && (nodeIndex is IFrameBrowsingListNodeIndex AsListIndex))
                 OnListStateInserted(AsListInner, AsListIndex, InsertedState);
-
             else
                 throw new ArgumentOutOfRangeException(nameof(operation));
 
@@ -292,10 +290,8 @@ namespace EaslyController.Frame
 
             if ((Inner is IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> AsBlockListInner) && (NodeIndex is IFrameBrowsingExistingBlockNodeIndex AsBlockListIndex))
                 OnBlockListStateRemoved(AsBlockListInner, AsBlockListIndex, RemovedState);
-
             else if ((Inner is IFrameListInner<IFrameBrowsingListNodeIndex> AsListInner) && (NodeIndex is IFrameBrowsingListNodeIndex AsListIndex))
                 OnListStateRemoved(AsListInner, AsListIndex, RemovedState);
-
             else
                 throw new ArgumentOutOfRangeException(nameof(operation));
 
@@ -366,16 +362,12 @@ namespace EaslyController.Frame
 
             if ((Inner is IFramePlaceholderInner<IFrameBrowsingPlaceholderNodeIndex> AsPlaceholderInner) && (NewBrowsingIndex is IFrameBrowsingPlaceholderNodeIndex AsPlaceholderIndex))
                 OnPlaceholderStateReplaced(AsPlaceholderInner, AsPlaceholderIndex, ReplacedState);
-
             else if ((Inner is IFrameOptionalInner<IFrameBrowsingOptionalNodeIndex> AsOptionalInner) && (NewBrowsingIndex is IFrameBrowsingOptionalNodeIndex AsOptionalIndex))
                 OnOptionalStateReplaced(AsOptionalInner, AsOptionalIndex, ReplacedState);
-
             else if ((Inner is IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> AsBlockListInner) && (NewBrowsingIndex is IFrameBrowsingExistingBlockNodeIndex AsBlockListIndex))
                 OnBlockListStateReplaced(AsBlockListInner, AsBlockListIndex, ReplacedState);
-
             else if ((Inner is IFrameListInner<IFrameBrowsingListNodeIndex> AsListInner) && (NewBrowsingIndex is IFrameBrowsingListNodeIndex AsListIndex))
                 OnListStateReplaced(AsListInner, AsListIndex, ReplacedState);
-
             else
                 throw new ArgumentOutOfRangeException(nameof(operation));
 
@@ -577,10 +569,8 @@ namespace EaslyController.Frame
 
             if ((Inner is IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> AsBlockListInner) && (NodeIndex is IFrameBrowsingExistingBlockNodeIndex AsBlockListIndex))
                 OnBlockListStateMoved(AsBlockListInner, AsBlockListIndex, MoveIndex, Direction);
-
             else if ((Inner is IFrameListInner<IFrameBrowsingListNodeIndex> AsListInner) && (NodeIndex is IFrameBrowsingListNodeIndex AsListIndex))
                 OnListStateMoved(AsListInner, AsListIndex, MoveIndex, Direction);
-
             else
                 throw new ArgumentOutOfRangeException(nameof(operation));
 
