@@ -34,4 +34,3 @@ namespace EaslyController.Writeable
         #endregion
     }
 }
-
