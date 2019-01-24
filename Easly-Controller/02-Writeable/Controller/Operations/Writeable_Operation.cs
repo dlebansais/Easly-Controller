@@ -32,7 +32,7 @@ namespace EaslyController.Writeable
         /// <param name="isNested">True if the operation is nested within another more general one.</param>
         public WriteableOperation(Action<IWriteableOperation> handlerRedo, bool isNested)
         {
-            //Debug.Assert(handlerRedo != null);
+            Debug.Assert(handlerRedo != null);
 
             HandlerRedo = handlerRedo;
             IsNested = isNested;

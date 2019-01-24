@@ -194,6 +194,40 @@ namespace EaslyController.Frame
         }
 
         /// <summary>
+        /// Handler called every time a block view must be removed from the controller view.
+        /// </summary>
+        /// <param name="operation">Details of the operation performed.</param>
+        public override void OnBlockViewRemoved(IWriteableRemoveBlockViewOperation operation)
+        {
+            base.OnBlockViewRemoved(operation);
+
+            IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> ParentInner = ((IFrameRemoveBlockViewOperation)operation).Inner;
+            IFrameNodeState OwnerState = ParentInner.Owner;
+            IFrameNodeStateView OwnerStateView = StateViewTable[OwnerState];
+
+            IFrameAssignableCellViewReadOnlyDictionary<string> CellViewTable = OwnerStateView.CellViewTable;
+            string PropertyName = ParentInner.PropertyName;
+
+            if (CellViewTable != null)
+            {
+                Debug.Assert(CellViewTable.ContainsKey(PropertyName));
+                IFrameCellViewCollection EmbeddingCellView = CellViewTable[PropertyName] as IFrameCellViewCollection;
+                Debug.Assert(EmbeddingCellView != null);
+
+                int BlockIndex = operation.BlockIndex;
+                EmbeddingCellView.Remove(BlockIndex);
+            }
+            else
+            {
+                Debug.Assert(OwnerStateView.RootCellView == null);
+                Debug.Assert(operation.IsNested);
+            }
+
+            if (!operation.IsNested)
+                Refresh(OwnerState);
+        }
+
+        /// <summary>
         /// Handler called every time a state is inserted in the controller.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>

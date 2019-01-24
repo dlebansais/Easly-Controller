@@ -141,6 +141,7 @@
     <Compile Include="02-Writeable\Controller\Operations\Writeable_MergeBlocks_Operation.cs" />
     <Compile Include="02-Writeable\Controller\Operations\Writeable_MoveBlock_Operation.cs" />
     <Compile Include="02-Writeable\Controller\Operations\Writeable_GenericRefresh_Operation.cs" />
+    <Compile Include="02-Writeable\Controller\Operations\Writeable_RemoveBlockView_Operation.cs" />
     <Compile Include="02-Writeable\Controller\Operations\Writeable_SplitBlock_Operation.cs" />
     <Compile Include="02-Writeable\Controller\Operations\Writeable_Replace_Operation.cs" />
     <Compile Include="02-Writeable\Controller\Operations\Writeable_RemoveNode_Operation.cs" />
@@ -243,6 +244,7 @@
     <Compile Include="03-Frame\Controller\Operations\Frame_InsertNode_Operation.cs" />
     <Compile Include="03-Frame\Controller\Operations\Frame_InsertBlock_Operation.cs" />
     <Compile Include="03-Frame\Controller\Operations\Frame_ChangeNode_Operation.cs" />
+    <Compile Include="03-Frame\Controller\Operations\Frame_RemoveBlockView_Operation.cs" />
     <Compile Include="03-Frame\Controller\Operations\Frame_Remove_Operation.cs" />
     <Compile Include="03-Frame\Controller\Operations\Frame_Insert_Operation.cs" />
     <Compile Include="03-Frame\Controller\Operations\Frame_Operation.cs" />
@@ -391,6 +393,7 @@
     <Compile Include="04-Focus\Controller\Operations\Focus_MoveBlock_Operation.cs" />
     <Compile Include="04-Focus\Controller\Operations\Focus_MoveNode_Operation.cs" />
     <Compile Include="04-Focus\Controller\Operations\Focus_Operation.cs" />
+    <Compile Include="04-Focus\Controller\Operations\Focus_RemoveBlockView_Operationy.cs" />
     <Compile Include="04-Focus\Controller\Operations\Focus_RemoveBlock_Operation.cs" />
     <Compile Include="04-Focus\Controller\Operations\Focus_RemoveNode_Operation.cs" />
     <Compile Include="04-Focus\Controller\Operations\Focus_Remove_Operation.cs" />

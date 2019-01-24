@@ -59,6 +59,7 @@ namespace EaslyController.Writeable
 
             Controller.BlockStateInserted += OnBlockStateInserted;
             Controller.BlockStateRemoved += OnBlockStateRemoved;
+            Controller.BlockViewRemoved += OnBlockViewRemoved;
             Controller.StateInserted += OnStateInserted;
             Controller.StateRemoved += OnStateRemoved;
             Controller.StateReplaced += OnStateReplaced;
@@ -119,6 +120,26 @@ namespace EaslyController.Writeable
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
         public virtual void OnBlockStateRemoved(IWriteableRemoveBlockOperation operation)
+        {
+            Debug.Assert(operation != null);
+
+            IWriteableBlockState BlockState = operation.BlockState;
+
+            Debug.Assert(BlockState != null);
+            Debug.Assert(!BlockStateViewTable.ContainsKey(BlockState));
+
+            Debug.Assert(!StateViewTable.ContainsKey(BlockState.PatternState));
+            Debug.Assert(!StateViewTable.ContainsKey(BlockState.SourceState));
+
+            foreach (IWriteableNodeState State in BlockState.StateList)
+                Debug.Assert(!StateViewTable.ContainsKey(State));
+        }
+
+        /// <summary>
+        /// Handler called every time a block view must be removed from the controller view.
+        /// </summary>
+        /// <param name="operation">Details of the operation performed.</param>
+        public virtual void OnBlockViewRemoved(IWriteableRemoveBlockViewOperation operation)
         {
             Debug.Assert(operation != null);
 

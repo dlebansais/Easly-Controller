@@ -6,7 +6,7 @@ namespace EaslyController.Writeable
     /// <summary>
     /// Operation details for removing a block from a block list.
     /// </summary>
-    public interface IWriteableRemoveBlockOperation : IWriteableRemoveOperation
+    public interface IWriteableRemoveBlockViewOperation : IWriteableRemoveOperation
     {
         /// <summary>
         /// Inner where the block removal is taking place.
@@ -16,7 +16,12 @@ namespace EaslyController.Writeable
         /// <summary>
         /// Index of the removed block.
         /// </summary>
-        IWriteableBrowsingExistingBlockNodeIndex BlockIndex { get; }
+        int BlockIndex { get; }
+
+        /// <summary>
+        /// True if the block list should be cleared.
+        /// </summary>
+        bool CleanupBlockList { get; }
 
         /// <summary>
         /// Block state removed.
@@ -33,21 +38,23 @@ namespace EaslyController.Writeable
     /// <summary>
     /// Operation details for removing a block from a block list.
     /// </summary>
-    public class WriteableRemoveBlockOperation : WriteableRemoveOperation, IWriteableRemoveBlockOperation
+    public class WriteableRemoveBlockViewOperation : WriteableRemoveOperation, IWriteableRemoveBlockViewOperation
     {
         #region Init
         /// <summary>
-        /// Initializes a new instance of <see cref="WriteableRemoveBlockOperation"/>.
+        /// Initializes a new instance of <see cref="WriteableRemoveBlockViewOperation"/>.
         /// </summary>
         /// <param name="inner">Inner where the block removal is taking place.</param>
         /// <param name="blockIndex">index of the removed block.</param>
+        /// <param name="cleanupBlockList">True if the block list should be cleared.</param>
         /// <param name="handlerRedo">Handler to execute to redo the operation.</param>
         /// <param name="isNested">True if the operation is nested within another more general one.</param>
-        public WriteableRemoveBlockOperation(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, IWriteableBrowsingExistingBlockNodeIndex blockIndex, Action<IWriteableOperation> handlerRedo, bool isNested)
+        public WriteableRemoveBlockViewOperation(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, int blockIndex, bool cleanupBlockList, Action<IWriteableOperation> handlerRedo, bool isNested)
             : base(handlerRedo, isNested)
         {
             Inner = inner;
             BlockIndex = blockIndex;
+            CleanupBlockList = cleanupBlockList;
         }
         #endregion
 
@@ -60,7 +67,12 @@ namespace EaslyController.Writeable
         /// <summary>
         /// Index of the removed block.
         /// </summary>
-        public IWriteableBrowsingExistingBlockNodeIndex BlockIndex { get; }
+        public int BlockIndex { get; }
+
+        /// <summary>
+        /// True if the block list should be cleared.
+        /// </summary>
+        public bool CleanupBlockList { get; }
 
         /// <summary>
         /// Block state removed.

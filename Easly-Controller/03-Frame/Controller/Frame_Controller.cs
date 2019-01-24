@@ -59,6 +59,11 @@ namespace EaslyController.Frame
         new event Action<IFrameRemoveBlockOperation> BlockStateRemoved;
 
         /// <summary>
+        /// Called when a block view must be removed.
+        /// </summary>
+        new event Action<IFrameRemoveBlockViewOperation> BlockViewRemoved;
+
+        /// <summary>
         /// Called when a state is inserted.
         /// </summary>
         new event Action<IFrameInsertNodeOperation> StateInserted;
@@ -206,6 +211,15 @@ namespace EaslyController.Frame
         {
             add { AddBlockStateRemovedDelegate((Action<IWriteableRemoveBlockOperation>)value); }
             remove { RemoveBlockStateRemovedDelegate((Action<IWriteableRemoveBlockOperation>)value); }
+        }
+
+        /// <summary>
+        /// Called when a block view must be removed.
+        /// </summary>
+        public new event Action<IFrameRemoveBlockViewOperation> BlockViewRemoved
+        {
+            add { AddBlockViewRemovedDelegate((Action<IWriteableRemoveBlockViewOperation>)value); }
+            remove { RemoveBlockViewRemovedDelegate((Action<IWriteableRemoveBlockViewOperation>)value); }
         }
 
         /// <summary>
@@ -447,6 +461,15 @@ namespace EaslyController.Frame
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameController));
             return new FrameRemoveBlockOperation((IFrameBlockListInner<IFrameBrowsingBlockNodeIndex>)inner, (IFrameBrowsingExistingBlockNodeIndex)blockIndex, handlerRedo, isNested);
+        }
+
+        /// <summary>
+        /// Creates a IxxxRemoveBlockViewOperation object.
+        /// </summary>
+        protected override IWriteableRemoveBlockViewOperation CreateRemoveBlockViewOperation(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, int blockIndex, bool cleanupBlockList, Action<IWriteableOperation> handlerRedo, bool isNested)
+        {
+            ControllerTools.AssertNoOverride(this, typeof(FrameController));
+            return new FrameRemoveBlockViewOperation((IFrameBlockListInner<IFrameBrowsingBlockNodeIndex>)inner, blockIndex, cleanupBlockList, handlerRedo, isNested);
         }
 
         /// <summary>
