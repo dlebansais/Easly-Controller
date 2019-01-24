@@ -35,9 +35,8 @@ namespace EaslyController.Writeable
         /// <summary>
         /// Removes a node from a block list. This method is allowed to remove the last node of a block.
         /// </summary>
-        /// <param name="blockOperation">Details of the operation performed, updated if a block is removed.</param>
-        /// <param name="nodeOperation">Details of the operation performed, updated if no block is removed. Can be null if the node is known to be the last one in the block.</param>
-        void RemoveWithBlock(IWriteableRemoveBlockOperation blockOperation, IWriteableRemoveNodeOperation nodeOperation);
+        /// <param name="blockOperation">Details of the operation performed.</param>
+        void RemoveWithBlock(IWriteableRemoveBlockOperation blockOperation);
 
         /// <summary>
         /// Changes the replication state of a block.
@@ -107,9 +106,8 @@ namespace EaslyController.Writeable
         /// <summary>
         /// Removes a node from a block list. This method is allowed to remove the last node of a block.
         /// </summary>
-        /// <param name="blockOperation">Details of the operation performed, updated if a block is removed.</param>
-        /// <param name="nodeOperation">Details of the operation performed, updated if no block is removed. Can be null if the node is known to be the last one in the block.</param>
-        void RemoveWithBlock(IWriteableRemoveBlockOperation blockOperation, IWriteableRemoveNodeOperation nodeOperation);
+        /// <param name="blockOperation">Details of the operation performed.</param>
+        void RemoveWithBlock(IWriteableRemoveBlockOperation blockOperation);
 
         /// <summary>
         /// Changes the replication state of a block.
@@ -320,17 +318,10 @@ namespace EaslyController.Writeable
         /// <summary>
         /// Removes a node from a block list. This method is allowed to remove the last node of a block.
         /// </summary>
-        /// <param name="blockOperation">Details of the operation performed, updated if a block is removed.</param>
-        /// <param name="nodeOperation">Details of the operation performed, updated if no block is removed. Can be null if the node is known to be the last one in the block.</param>
-        public virtual void RemoveWithBlock(IWriteableRemoveBlockOperation blockOperation, IWriteableRemoveNodeOperation nodeOperation)
+        /// <param name="blockOperation">Details of the operation performed.</param>
+        public virtual void RemoveWithBlock(IWriteableRemoveBlockOperation blockOperation)
         {
-            IWriteableBrowsingExistingBlockNodeIndex ExistingBlockIndex;
-            if (blockOperation != null)
-                ExistingBlockIndex = blockOperation.BlockIndex;
-            else
-                ExistingBlockIndex = nodeOperation.NodeIndex as IWriteableBrowsingExistingBlockNodeIndex;
-
-            Remove(blockOperation, nodeOperation, ExistingBlockIndex);
+            Remove(blockOperation, null, blockOperation.BlockIndex);
         }
 
         /// <summary></summary>

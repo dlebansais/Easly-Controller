@@ -649,7 +649,8 @@ namespace EaslyController.Writeable
         protected virtual void InsertNewBlock(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> blockListInner, IWriteableInsertionNewBlockNodeIndex newBlockIndex, out IWriteableBrowsingCollectionNodeIndex nodeIndex)
         {
             Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => ExecuteInsertNewBlock(operation);
-            IWriteableInsertBlockOperation Operation = CreateInsertBlockOperation(blockListInner, newBlockIndex, HandlerRedo, null, isNested: false);
+            Action<IWriteableOperation> HandlerUndo = (IWriteableOperation operation) => UndoInsertNewBlock(operation);
+            IWriteableInsertBlockOperation Operation = CreateInsertBlockOperation(blockListInner, newBlockIndex, HandlerRedo, HandlerUndo, isNested: false);
 
             Operation.Redo();
             SetLastOperation(Operation);
@@ -691,6 +692,41 @@ namespace EaslyController.Writeable
             Debug.Assert(Contains(BrowsingIndex));
 
             NotifyBlockStateInserted(InsertBlockOperation);
+        }
+
+        /// <summary></summary>
+        protected virtual void UndoInsertNewBlock(IWriteableOperation operation)
+        {
+            IWriteableInsertBlockOperation InsertBlockOperation = (IWriteableInsertBlockOperation)operation;
+            IWriteableRemoveBlockOperation RemoveBlockOperation = InsertBlockOperation.ToRemoveBlockOperation();
+
+            RemoveBlockOperation.Inner.RemoveWithBlock(RemoveBlockOperation);
+
+            IWriteableBlockState RemovedBlockState = RemoveBlockOperation.BlockState;
+            Debug.Assert(RemovedBlockState != null);
+
+            IWriteableBrowsingExistingBlockNodeIndex BlockIndex = RemoveBlockOperation.BlockIndex;
+            IWriteableBrowsingPatternIndex PatternIndex = RemovedBlockState.PatternIndex;
+            IWriteableBrowsingSourceIndex SourceIndex = RemovedBlockState.SourceIndex;
+
+            Debug.Assert(PatternIndex != null);
+            Debug.Assert(StateTable.ContainsKey(PatternIndex));
+            Debug.Assert(SourceIndex != null);
+            Debug.Assert(StateTable.ContainsKey(SourceIndex));
+
+            Stats.BlockCount--;
+
+            RemoveState(PatternIndex);
+            Stats.PlaceholderNodeCount--;
+
+            RemoveState(SourceIndex);
+            Stats.PlaceholderNodeCount--;
+
+            IWriteableNodeState RemovedChildState = StateTable[BlockIndex];
+            PruneState(RemovedChildState, true);
+            Stats.PlaceholderNodeCount--;
+
+            NotifyBlockStateRemoved(RemoveBlockOperation);
         }
 
         /// <summary></summary>
@@ -796,19 +832,20 @@ namespace EaslyController.Writeable
                 Debug.Assert(ExistingBlockIndex != null);
 
                 if (AsBlockListInner.BlockStateList[ExistingBlockIndex.BlockIndex].StateList.Count == 1)
-                    RemoveLastBlock(AsBlockListInner, ExistingBlockIndex);
+                    RemoveBlock(AsBlockListInner, ExistingBlockIndex);
                 else
-                    RemoveNodeFromBlock(AsBlockListInner, ExistingBlockIndex);
+                    RemoveNode(inner, nodeIndex);
             }
             else
                 RemoveNode(inner, nodeIndex);
         }
 
         /// <summary></summary>
-        protected virtual void RemoveLastBlock(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> blockListInner, IWriteableBrowsingExistingBlockNodeIndex blockIndex)
+        protected virtual void RemoveBlock(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> blockListInner, IWriteableBrowsingExistingBlockNodeIndex blockIndex)
         {
-            Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => ExecuteRemoveLastBlock(operation);
-            IWriteableRemoveBlockOperation Operation = CreateRemoveBlockOperation(blockListInner, blockIndex, HandlerRedo, null, isNested: false);
+            Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => ExecuteRemoveBlock(operation);
+            Action<IWriteableOperation> HandlerUndo = (IWriteableOperation operation) => UndoRemoveBlock(operation);
+            IWriteableRemoveBlockOperation Operation = CreateRemoveBlockOperation(blockListInner, blockIndex, HandlerRedo, HandlerUndo, isNested: false);
 
             Operation.Redo();
             SetLastOperation(Operation);
@@ -816,11 +853,11 @@ namespace EaslyController.Writeable
         }
 
         /// <summary></summary>
-        protected virtual void ExecuteRemoveLastBlock(IWriteableOperation operation)
+        protected virtual void ExecuteRemoveBlock(IWriteableOperation operation)
         {
             IWriteableRemoveBlockOperation RemoveBlockOperation = (IWriteableRemoveBlockOperation)operation;
 
-            RemoveBlockOperation.Inner.RemoveWithBlock(RemoveBlockOperation, null);
+            RemoveBlockOperation.Inner.RemoveWithBlock(RemoveBlockOperation);
 
             IWriteableBlockState RemovedBlockState = RemoveBlockOperation.BlockState;
             Debug.Assert(RemovedBlockState != null);
@@ -850,29 +887,39 @@ namespace EaslyController.Writeable
         }
 
         /// <summary></summary>
-        protected virtual void RemoveNodeFromBlock(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> blockListInner, IWriteableBrowsingExistingBlockNodeIndex blockIndex)
+        protected virtual void UndoRemoveBlock(IWriteableOperation operation)
         {
-            Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => ExecuteRemoveNodeFromBlock(operation);
-            IWriteableRemoveNodeOperation Operation = CreateRemoveNodeOperation(blockListInner, blockIndex, HandlerRedo, null, isNested: false);
+            IWriteableRemoveBlockOperation RemoveBlockOperation = (IWriteableRemoveBlockOperation)operation;
+            IWriteableInsertBlockOperation InsertBlockOperation = RemoveBlockOperation.ToInsertBlockOperation();
 
-            Operation.Redo();
-            SetLastOperation(Operation);
-            CheckInvariant();
-        }
+            InsertBlockOperation.Inner.InsertNew(InsertBlockOperation);
 
-        /// <summary></summary>
-        protected virtual void ExecuteRemoveNodeFromBlock(IWriteableOperation operation)
-        {
-            IWriteableRemoveNodeOperation RemoveNodeOperation = (IWriteableRemoveNodeOperation)operation;
+            IWriteableBrowsingExistingBlockNodeIndex BrowsingIndex = InsertBlockOperation.BrowsingIndex;
+            IWriteableBlockState BlockState = InsertBlockOperation.BlockState;
+            IWriteablePlaceholderNodeState ChildState = InsertBlockOperation.ChildState;
 
-            IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> BlockListInner = (IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex>)RemoveNodeOperation.Inner;
-            BlockListInner.RemoveWithBlock(null, RemoveNodeOperation);
+            Debug.Assert(BlockState.StateList.Count == 1);
+            Debug.Assert(BlockState.StateList[0] == ChildState);
+            BlockState.InitBlockState();
+            Stats.BlockCount++;
 
-            IWriteableNodeState OldState = StateTable[RemoveNodeOperation.NodeIndex];
-            PruneState(OldState, true);
-            Stats.PlaceholderNodeCount--;
+            IWriteableBrowsingPatternIndex PatternIndex = BlockState.PatternIndex;
+            IWriteablePatternState PatternState = BlockState.PatternState;
+            AddState(PatternIndex, PatternState);
+            Stats.PlaceholderNodeCount++;
 
-            NotifyStateRemoved(RemoveNodeOperation);
+            IWriteableBrowsingSourceIndex SourceIndex = BlockState.SourceIndex;
+            IWriteableSourceState SourceState = BlockState.SourceState;
+            AddState(SourceIndex, SourceState);
+            Stats.PlaceholderNodeCount++;
+
+            AddState(BrowsingIndex, ChildState);
+            Stats.PlaceholderNodeCount++;
+            BuildStateTable(InsertBlockOperation.Inner, null, BrowsingIndex, ChildState);
+
+            Debug.Assert(Contains(BrowsingIndex));
+
+            NotifyBlockStateInserted(InsertBlockOperation);
         }
 
         /// <summary></summary>
@@ -1579,7 +1626,7 @@ namespace EaslyController.Writeable
             Debug.Assert(FirstNodeIndex != null);
 
 
-            Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => ExecuteRemoveLastBlock(operation);
+            Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => ExecuteRemoveBlock(operation);
             IWriteableRemoveBlockOperation Operation = CreateRemoveBlockOperation(blockListInner, FirstNodeIndex, HandlerRedo, null, isNested);
 
             Operation.Redo();

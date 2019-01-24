@@ -28,6 +28,11 @@ namespace EaslyController.Writeable
         /// </summary>
         /// <param name="blockState">Block state removed.</param>
         void Update(IWriteableBlockState blockState);
+
+        /// <summary>
+        /// Creates an operation to undo the remove block operation.
+        /// </summary>
+        IWriteableInsertBlockOperation ToInsertBlockOperation();
     }
 
     /// <summary>
@@ -79,6 +84,28 @@ namespace EaslyController.Writeable
             Debug.Assert(blockState != null);
 
             BlockState = blockState;
+        }
+
+        /// <summary>
+        /// Creates an operation to undo the remove block operation.
+        /// </summary>
+        public IWriteableInsertBlockOperation ToInsertBlockOperation()
+        {
+            IWriteableInsertionNewBlockNodeIndex InsertionIndex = BlockIndex.ToInsertionIndex(Inner.Owner.Node, BlockIndex.Node) as IWriteableInsertionNewBlockNodeIndex;
+            Debug.Assert(InsertionIndex != null);
+
+            return CreateInsertBlockOperation(Inner, InsertionIndex, HandlerUndo, HandlerRedo, IsNested);
+        }
+        #endregion
+
+        #region Create Methods
+        /// <summary>
+        /// Creates a IxxxInsertBlockOperation object.
+        /// </summary>
+        protected virtual IWriteableInsertBlockOperation CreateInsertBlockOperation(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, IWriteableInsertionNewBlockNodeIndex blockIndex, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        {
+            ControllerTools.AssertNoOverride(this, typeof(WriteableRemoveBlockOperation));
+            return new WriteableInsertBlockOperation(inner, blockIndex, handlerRedo, handlerUndo, isNested);
         }
         #endregion
     }

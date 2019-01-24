@@ -40,6 +40,11 @@ namespace EaslyController.Writeable
         /// <param name="blockState">Block state inserted.</param>
         /// <param name="childState">State inserted.</param>
         void Update(IWriteableBrowsingExistingBlockNodeIndex browsingIndex, IWriteableBlockState blockState, IWriteablePlaceholderNodeState childState);
+
+        /// <summary>
+        /// Creates an operation to undo the insert block operation.
+        /// </summary>
+        IWriteableRemoveBlockOperation ToRemoveBlockOperation();
     }
 
     /// <summary>
@@ -107,6 +112,25 @@ namespace EaslyController.Writeable
             BrowsingIndex = browsingIndex;
             BlockState = blockState;
             ChildState = childState;
+        }
+
+        /// <summary>
+        /// Creates an operation to undo the insert block operation.
+        /// </summary>
+        public IWriteableRemoveBlockOperation ToRemoveBlockOperation()
+        {
+            return CreateRemoveBlockOperation(Inner, BrowsingIndex, HandlerUndo, HandlerRedo, IsNested);
+        }
+        #endregion
+
+        #region Create Methods
+        /// <summary>
+        /// Creates a IxxxRemoveBlockOperation object.
+        /// </summary>
+        protected virtual IWriteableRemoveBlockOperation CreateRemoveBlockOperation(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, IWriteableBrowsingExistingBlockNodeIndex blockIndex, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        {
+            ControllerTools.AssertNoOverride(this, typeof(WriteableInsertBlockOperation));
+            return new WriteableRemoveBlockOperation(inner, blockIndex, handlerRedo, handlerUndo, isNested);
         }
         #endregion
     }
