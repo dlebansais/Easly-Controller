@@ -81,16 +81,16 @@ namespace EaslyController.Writeable
             Debug.Assert(other != null);
 
             if (!(other is IWriteableInsertionExistingBlockNodeIndex AsInsertionExistingBlockNodeIndex))
-                return false;
+                return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsInsertionExistingBlockNodeIndex))
-                return false;
+                return comparer.Failed();
 
             if (BlockIndex != AsInsertionExistingBlockNodeIndex.BlockIndex)
-                return false;
+                return comparer.Failed();
 
             if (Index != AsInsertionExistingBlockNodeIndex.Index)
-                return false;
+                return comparer.Failed();
 
             return true;
         }

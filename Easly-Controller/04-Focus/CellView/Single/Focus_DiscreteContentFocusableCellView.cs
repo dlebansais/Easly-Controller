@@ -72,10 +72,10 @@ namespace EaslyController.Focus
             Debug.Assert(other != null);
 
             if (!(other is IFocusDiscreteContentFocusableCellView AsMultiDiscreteFocusableCellView))
-                return false;
+                return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsMultiDiscreteFocusableCellView))
-                return false;
+                return comparer.Failed();
 
             return true;
         }

@@ -87,10 +87,10 @@ namespace EaslyController.Frame
             Debug.Assert(other != null);
 
             if (!(other is IFrameEmptyCellView AsEmptyCellView))
-                return false;
+                return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsEmptyCellView))
-                return false;
+                return comparer.Failed();
 
             return true;
         }

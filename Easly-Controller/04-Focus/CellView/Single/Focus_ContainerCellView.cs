@@ -76,10 +76,10 @@ namespace EaslyController.Focus
             Debug.Assert(other != null);
 
             if (!(other is IFocusContainerCellView AsContainerCellView))
-                return false;
+                return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsContainerCellView))
-                return false;
+                return comparer.Failed();
 
             return true;
         }

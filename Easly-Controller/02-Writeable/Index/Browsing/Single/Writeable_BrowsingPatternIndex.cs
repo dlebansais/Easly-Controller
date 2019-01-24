@@ -50,10 +50,10 @@ namespace EaslyController.Writeable
             Debug.Assert(other != null);
 
             if (!(other is IWriteableBrowsingPatternIndex AsBrowsingPatternIndex))
-                return false;
+                return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsBrowsingPatternIndex))
-                return false;
+                return comparer.Failed();
 
             return true;
         }

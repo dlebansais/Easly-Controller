@@ -62,10 +62,10 @@ namespace EaslyController.ReadOnly
             Debug.Assert(other != null);
 
             if (!(other is IReadOnlyNodeStateView AsNodeStateView))
-                return false;
+                return comparer.Failed();
 
             if (State != AsNodeStateView.State)
-                return false;
+                return comparer.Failed();
 
             return true;
         }

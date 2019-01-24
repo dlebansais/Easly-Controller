@@ -120,10 +120,10 @@ namespace EaslyController.Focus
             Debug.Assert(other != null);
 
             if (!(other is IFocusBlockStateView AsBlockStateView))
-                return false;
+                return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsBlockStateView))
-                return false;
+                return comparer.Failed();
 
             return true;
         }

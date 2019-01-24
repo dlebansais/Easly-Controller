@@ -103,21 +103,21 @@ namespace EaslyController.ReadOnly
             Debug.Assert(other != null);
 
             if (!(other is IReadOnlyOptionalNodeState AsOptionalNodeState))
-                return false;
+                return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsOptionalNodeState))
-                return false;
+                return comparer.Failed();
 
             if (Optional.IsAssigned != AsOptionalNodeState.Optional.IsAssigned)
-                return false;
+                return comparer.Failed();
 
             if (Optional.HasItem)
             {
                 if (Node != AsOptionalNodeState.Node)
-                    return false;
+                    return comparer.Failed();
 
                 if (!IsChildrenEqual(comparer, AsOptionalNodeState))
-                    return false;
+                    return comparer.Failed();
             }
 
             return true;

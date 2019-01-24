@@ -159,13 +159,13 @@ namespace EaslyController.ReadOnly
             Debug.Assert(other != null);
 
             if (!(other is IReadOnlyInner<IIndex> AsInner))
-                return false;
+                return comparer.Failed();
 
             if (!comparer.VerifyEqual(Owner, AsInner.Owner))
-                return false;
+                return comparer.Failed();
 
             if (PropertyName != AsInner.PropertyName)
-                return false;
+                return comparer.Failed();
 
             return true;
         }

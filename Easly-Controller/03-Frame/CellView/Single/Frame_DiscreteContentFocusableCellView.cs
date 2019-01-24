@@ -51,13 +51,13 @@ namespace EaslyController.Frame
             Debug.Assert(other != null);
 
             if (!(other is IFrameDiscreteContentFocusableCellView AsMultiDiscreteFocusableCellView))
-                return false;
+                return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsMultiDiscreteFocusableCellView))
-                return false;
+                return comparer.Failed();
 
             if (PropertyName != AsMultiDiscreteFocusableCellView.PropertyName)
-                return false;
+                return comparer.Failed();
 
             return true;
         }

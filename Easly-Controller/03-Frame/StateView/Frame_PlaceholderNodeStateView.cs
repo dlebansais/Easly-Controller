@@ -208,16 +208,16 @@ namespace EaslyController.Frame
             Debug.Assert(other != null);
 
             if (!(other is IFramePlaceholderNodeStateView AsPlaceholderNodeStateView))
-                return false;
+                return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsPlaceholderNodeStateView))
-                return false;
+                return comparer.Failed();
 
             if (Template != AsPlaceholderNodeStateView.Template)
-                return false;
+                return comparer.Failed();
 
             if ((RootCellView != null && AsPlaceholderNodeStateView.RootCellView == null) || (RootCellView == null && AsPlaceholderNodeStateView.RootCellView != null))
-                return false;
+                return comparer.Failed();
 
             if (RootCellView != null)
             {
@@ -225,10 +225,10 @@ namespace EaslyController.Frame
                 Debug.Assert(AsPlaceholderNodeStateView.CellViewTable != null);
 
                 if (!comparer.VerifyEqual(RootCellView, AsPlaceholderNodeStateView.RootCellView))
-                    return false;
+                    return comparer.Failed();
 
                 if (!comparer.VerifyEqual(CellViewTable, AsPlaceholderNodeStateView.CellViewTable))
-                    return false;
+                    return comparer.Failed();
             }
             else
             {

@@ -42,10 +42,10 @@ namespace EaslyController.Frame
             Debug.Assert(other != null);
 
             if (!(other is IFrameInsertionExistingBlockNodeIndex AsInsertionExistingBlockNodeIndex))
-                return false;
+                return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsInsertionExistingBlockNodeIndex))
-                return false;
+                return comparer.Failed();
 
             return true;
         }

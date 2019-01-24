@@ -458,16 +458,16 @@ namespace EaslyController.ReadOnly
             Debug.Assert(other != null);
 
             if (!(other is IReadOnlyNodeState AsNodeState))
-                return false;
+                return comparer.Failed();
 
             if (!comparer.VerifyEqual(ParentIndex, AsNodeState.ParentIndex))
-                return false;
+                return comparer.Failed();
 
             if ((ParentInner == null && AsNodeState.ParentInner != null) || (ParentInner != null && (AsNodeState.ParentInner == null || !comparer.VerifyEqual(ParentInner, AsNodeState.ParentInner))))
-                return false;
+                return comparer.Failed();
 
             if ((ParentState == null && AsNodeState.ParentState != null) || (ParentState != null && (AsNodeState.ParentState == null || !comparer.VerifyEqual(ParentState, AsNodeState.ParentState))))
-                return false;
+                return comparer.Failed();
 
             return true;
         }
@@ -476,18 +476,18 @@ namespace EaslyController.ReadOnly
         protected virtual bool IsChildrenEqual(CompareEqual comparer, IReadOnlyNodeState nodeState)
         {
             if (!comparer.VerifyEqual(InnerTable, nodeState.InnerTable))
-                return false;
+                return comparer.Failed();
 
             if (ValuePropertyTypeTable.Count != nodeState.ValuePropertyTypeTable.Count)
-                return false;
+                return comparer.Failed();
 
             foreach (KeyValuePair<string, ValuePropertyType> Entry in ValuePropertyTypeTable)
             {
                 if (!nodeState.ValuePropertyTypeTable.ContainsKey(Entry.Key))
-                    return false;
+                    return comparer.Failed();
 
                 if (nodeState.ValuePropertyTypeTable[Entry.Key] != Entry.Value)
-                    return false;
+                    return comparer.Failed();
             }
 
             return true;

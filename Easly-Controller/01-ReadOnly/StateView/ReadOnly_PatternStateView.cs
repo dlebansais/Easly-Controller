@@ -48,10 +48,10 @@ namespace EaslyController.ReadOnly
             Debug.Assert(other != null);
 
             if (!(other is IReadOnlyPatternStateView AsPatternStateView))
-                return false;
+                return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsPatternStateView))
-                return false;
+                return comparer.Failed();
 
             return true;
         }

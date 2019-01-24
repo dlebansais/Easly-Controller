@@ -64,10 +64,10 @@ namespace EaslyController.Focus
             Debug.Assert(other != null);
 
             if (!(other is IFocusVisibleCellView AsVisibleCellView))
-                return false;
+                return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsVisibleCellView))
-                return false;
+                return comparer.Failed();
 
             return true;
         }

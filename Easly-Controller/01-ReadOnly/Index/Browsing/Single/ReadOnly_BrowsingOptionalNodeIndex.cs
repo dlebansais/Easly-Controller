@@ -64,13 +64,13 @@ namespace EaslyController.ReadOnly
             Debug.Assert(other != null);
 
             if (!(other is IReadOnlyBrowsingOptionalNodeIndex AsOptionalNodeIndex))
-                return false;
+                return comparer.Failed();
 
             if (Optional != AsOptionalNodeIndex.Optional)
-                return false;
+                return comparer.Failed();
 
             if (PropertyName != AsOptionalNodeIndex.PropertyName)
-                return false;
+                return comparer.Failed();
 
             return true;
         }

@@ -52,10 +52,10 @@ namespace EaslyController.Writeable
             Debug.Assert(other != null);
 
             if (!(other is IWriteableBrowsingPlaceholderNodeIndex AsBrowsingPlaceholderNodeIndex))
-                return false;
+                return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsBrowsingPlaceholderNodeIndex))
-                return false;
+                return comparer.Failed();
 
             return true;
         }

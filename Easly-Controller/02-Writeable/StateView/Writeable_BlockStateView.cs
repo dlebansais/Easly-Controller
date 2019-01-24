@@ -59,10 +59,10 @@ namespace EaslyController.Writeable
             Debug.Assert(other != null);
 
             if (!(other is IWriteableBlockStateView AsBlockStateView))
-                return false;
+                return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsBlockStateView))
-                return false;
+                return comparer.Failed();
 
             return true;
         }

@@ -34,27 +34,27 @@ namespace EaslyController.Frame
             Debug.Assert(other != null);
 
             if (!(other is IFrameAssignableCellViewReadOnlyDictionary<TKey> AsAssignableCellViewReadOnlyDictionary))
-                return false;
+                return comparer.Failed();
 
             if (Count != AsAssignableCellViewReadOnlyDictionary.Count)
-                return false;
+                return comparer.Failed();
 
             foreach (KeyValuePair<TKey, IFrameAssignableCellView> Entry in this)
             {
                 Debug.Assert(Entry.Key != null);
 
                 if (!AsAssignableCellViewReadOnlyDictionary.ContainsKey(Entry.Key))
-                    return false;
+                    return comparer.Failed();
 
                 IFrameAssignableCellView OtherValue = AsAssignableCellViewReadOnlyDictionary[Entry.Key] as IFrameAssignableCellView;
 
                 if (Entry.Value != null && OtherValue != null)
                 {
                     if (!comparer.VerifyEqual(Entry.Value, OtherValue))
-                        return false;
+                        return comparer.Failed();
                 }
                 else if (Entry.Value != null || OtherValue != null)
-                    return false;
+                    return comparer.Failed();
             }
 
             return true;

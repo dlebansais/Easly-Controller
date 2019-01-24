@@ -54,10 +54,10 @@ namespace EaslyController.Focus
             Debug.Assert(other != null);
 
             if (!(other is IFocusEmptyCellView AsEmptyCellView))
-                return false;
+                return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsEmptyCellView))
-                return false;
+                return comparer.Failed();
 
             return true;
         }

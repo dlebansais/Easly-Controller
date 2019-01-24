@@ -102,19 +102,19 @@ namespace EaslyController.ReadOnly
             Debug.Assert(other != null);
 
             if (!(other is IReadOnlyBrowsingNewBlockNodeIndex AsNewBlockNodeIndex))
-                return false;
+                return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsNewBlockNodeIndex))
-                return false;
+                return comparer.Failed();
 
             if (ParentNode != AsNewBlockNodeIndex.ParentNode)
-                return false;
+                return comparer.Failed();
 
             if (PatternNode != AsNewBlockNodeIndex.PatternNode)
-                return false;
+                return comparer.Failed();
 
             if (SourceNode != AsNewBlockNodeIndex.SourceNode)
-                return false;
+                return comparer.Failed();
 
             return true;
         }

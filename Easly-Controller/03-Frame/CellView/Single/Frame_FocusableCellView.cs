@@ -37,10 +37,10 @@ namespace EaslyController.Frame
             Debug.Assert(other != null);
 
             if (!(other is IFrameFocusableCellView AsFocusableCellView))
-                return false;
+                return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsFocusableCellView))
-                return false;
+                return comparer.Failed();
 
             return true;
         }

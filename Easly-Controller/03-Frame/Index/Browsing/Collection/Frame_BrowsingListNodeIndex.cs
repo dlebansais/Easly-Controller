@@ -42,10 +42,10 @@ namespace EaslyController.Frame
             Debug.Assert(other != null);
 
             if (!(other is IFrameBrowsingListNodeIndex AsBrowsingListNodeIndex))
-                return false;
+                return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsBrowsingListNodeIndex))
-                return false;
+                return comparer.Failed();
 
             return true;
         }

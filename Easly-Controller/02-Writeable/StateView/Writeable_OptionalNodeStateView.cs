@@ -55,10 +55,10 @@ namespace EaslyController.Writeable
             Debug.Assert(other != null);
 
             if (!(other is IWriteableOptionalNodeStateView AsOptionalNodeStateView))
-                return false;
+                return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsOptionalNodeStateView))
-                return false;
+                return comparer.Failed();
 
             return true;
         }

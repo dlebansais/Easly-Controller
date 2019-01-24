@@ -83,10 +83,10 @@ namespace EaslyController.Writeable
             Debug.Assert(other != null);
 
             if (!(other is IWriteableBrowsingListNodeIndex AsBrowsingListNodeIndex))
-                return false;
+                return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsBrowsingListNodeIndex))
-                return false;
+                return comparer.Failed();
 
             return true;
         }

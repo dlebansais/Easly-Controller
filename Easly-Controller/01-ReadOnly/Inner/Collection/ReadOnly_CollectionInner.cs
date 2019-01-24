@@ -93,10 +93,10 @@ namespace EaslyController.ReadOnly
             Debug.Assert(other != null);
 
             if (!(other is IReadOnlyCollectionInner<IIndex> AsCollectionInner))
-                return false;
+                return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsCollectionInner))
-                return false;
+                return comparer.Failed();
 
             return true;
         }

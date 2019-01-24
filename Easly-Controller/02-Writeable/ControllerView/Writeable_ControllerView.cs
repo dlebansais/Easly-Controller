@@ -351,10 +351,10 @@ namespace EaslyController.Writeable
             Debug.Assert(other != null);
 
             if (!(other is IWriteableControllerView AsControllerView))
-                return false;
+                return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsControllerView))
-                return false;
+                return comparer.Failed();
 
             return true;
         }

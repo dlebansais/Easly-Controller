@@ -58,13 +58,13 @@ namespace EaslyController.ReadOnly
             Debug.Assert(other != null);
 
             if (!(other is IReadOnlyBrowsingSourceIndex AsSourceIndex))
-                return false;
+                return comparer.Failed();
 
             if (Node != AsSourceIndex.Node)
-                return false;
+                return comparer.Failed();
 
             if (PropertyName != AsSourceIndex.PropertyName)
-                return false;
+                return comparer.Failed();
 
             return true;
         }

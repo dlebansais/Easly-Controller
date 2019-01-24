@@ -89,16 +89,16 @@ namespace EaslyController.Writeable
             Debug.Assert(other != null);
 
             if (!(other is IWriteableInsertionOptionalNodeIndex AsInsertionOptionalNodeIndex))
-                return false;
+                return comparer.Failed();
 
             if (ParentNode != AsInsertionOptionalNodeIndex.ParentNode)
-                return false;
+                return comparer.Failed();
 
             if (PropertyName != AsInsertionOptionalNodeIndex.PropertyName)
-                return false;
+                return comparer.Failed();
 
             if (Node != AsInsertionOptionalNodeIndex.Node)
-                return false;
+                return comparer.Failed();
 
             return true;
         }

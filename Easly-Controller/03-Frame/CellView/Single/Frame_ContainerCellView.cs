@@ -140,16 +140,16 @@ namespace EaslyController.Frame
             Debug.Assert(other != null);
 
             if (!(other is IFrameContainerCellView AsContainerCellView))
-                return false;
+                return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsContainerCellView))
-                return false;
+                return comparer.Failed();
 
             if (!comparer.VerifyEqual(ParentCellView, AsContainerCellView.ParentCellView))
-                return false;
+                return comparer.Failed();
 
             if (!comparer.VerifyEqual(ChildStateView, AsContainerCellView.ChildStateView))
-                return false;
+                return comparer.Failed();
 
             return true;
         }

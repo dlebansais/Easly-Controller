@@ -34,6 +34,11 @@ namespace EaslyController.Writeable
         /// <param name="browsingIndex">Index of the state after it's inserted.</param>
         /// <param name="childState">State inserted.</param>
         void Update(IWriteableBrowsingCollectionNodeIndex browsingIndex, IWriteablePlaceholderNodeState childState);
+
+        /// <summary>
+        /// Creates an operation to undo the insert operation.
+        /// </summary>
+        IWriteableRemoveNodeOperation ToRemoveNodeOperation();
     }
 
     /// <summary>
@@ -93,6 +98,25 @@ namespace EaslyController.Writeable
 
             BrowsingIndex = browsingIndex;
             ChildState = childState;
+        }
+
+        /// <summary>
+        /// Creates an operation to undo the insert operation.
+        /// </summary>
+        public IWriteableRemoveNodeOperation ToRemoveNodeOperation()
+        {
+            return CreateRemoveNodeOperation(Inner, BrowsingIndex, HandlerUndo, HandlerRedo, IsNested);
+        }
+        #endregion
+
+        #region Create Methods
+        /// <summary>
+        /// Creates a IxxxRemoveNodeOperation object.
+        /// </summary>
+        protected virtual IWriteableRemoveNodeOperation CreateRemoveNodeOperation(IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> inner, IWriteableBrowsingCollectionNodeIndex nodeIndex, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        {
+            ControllerTools.AssertNoOverride(this, typeof(WriteableInsertNodeOperation));
+            return new WriteableRemoveNodeOperation(inner, nodeIndex, handlerRedo, handlerUndo, isNested);
         }
         #endregion
     }

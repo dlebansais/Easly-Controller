@@ -40,10 +40,10 @@ namespace EaslyController.Frame
             Debug.Assert(other != null);
 
             if (!(other is IFrameBrowsingPlaceholderNodeIndex AsBrowsingPlaceholderNodeIndex))
-                return false;
+                return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsBrowsingPlaceholderNodeIndex))
-                return false;
+                return comparer.Failed();
 
             return true;
         }

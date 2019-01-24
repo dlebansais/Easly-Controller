@@ -56,10 +56,10 @@ namespace EaslyController.Writeable
             Debug.Assert(other != null);
 
             if (!(other is IWriteableSourceStateView AsSourceStateView))
-                return false;
+                return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsSourceStateView))
-                return false;
+                return comparer.Failed();
 
             return true;
         }

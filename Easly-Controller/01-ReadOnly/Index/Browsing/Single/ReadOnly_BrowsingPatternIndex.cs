@@ -58,13 +58,13 @@ namespace EaslyController.ReadOnly
             Debug.Assert(other != null);
 
             if (!(other is IReadOnlyBrowsingPatternIndex AsPatternIndex))
-                return false;
+                return comparer.Failed();
 
             if (Node != AsPatternIndex.Node)
-                return false;
+                return comparer.Failed();
 
             if (PropertyName != AsPatternIndex.PropertyName)
-                return false;
+                return comparer.Failed();
 
             return true;
         }

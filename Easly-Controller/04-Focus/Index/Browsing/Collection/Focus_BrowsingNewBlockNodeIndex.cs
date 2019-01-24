@@ -44,10 +44,10 @@ namespace EaslyController.Focus
             Debug.Assert(other != null);
 
             if (!(other is IFocusBrowsingNewBlockNodeIndex AsBrowsingNewBlockNodeIndex))
-                return false;
+                return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsBrowsingNewBlockNodeIndex))
-                return false;
+                return comparer.Failed();
 
             return true;
         }

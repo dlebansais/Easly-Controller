@@ -438,17 +438,17 @@ namespace EaslyController.ReadOnly
             Debug.Assert(other != null);
 
             if (!(other is IReadOnlyBlockListInner<IIndex> AsBlockListInner))
-                return false;
+                return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsBlockListInner))
-                return false;
+                return comparer.Failed();
 
             if (BlockStateList.Count != AsBlockListInner.BlockStateList.Count)
-                return false;
+                return comparer.Failed();
 
             for (int i = 0; i < BlockStateList.Count; i++)
                 if (!comparer.VerifyEqual(BlockStateList[i], AsBlockListInner.BlockStateList[i]))
-                    return false;
+                    return comparer.Failed();
 
             return true;
         }

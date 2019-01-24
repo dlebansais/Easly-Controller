@@ -68,13 +68,13 @@ namespace EaslyController.Writeable
             Debug.Assert(other != null);
 
             if (!(other is IWriteableInsertionListNodeIndex AsInsertionListNodeIndex))
-                return false;
+                return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsInsertionListNodeIndex))
-                return false;
+                return comparer.Failed();
 
             if (Index != AsInsertionListNodeIndex.Index)
-                return false;
+                return comparer.Failed();
 
             return true;
         }

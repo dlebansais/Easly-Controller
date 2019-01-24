@@ -232,17 +232,17 @@ namespace EaslyController.ReadOnly
             Debug.Assert(other != null);
 
             if (!(other is IReadOnlyListInner<IIndex> AsListInner))
-                return false;
+                return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsListInner))
-                return false;
+                return comparer.Failed();
 
             if (StateList.Count != AsListInner.StateList.Count)
-                return false;
+                return comparer.Failed();
 
             for (int i = 0; i < StateList.Count; i++)
                 if (!comparer.VerifyEqual(StateList[i], AsListInner.StateList[i]))
-                    return false;
+                    return comparer.Failed();
 
             return true;
         }

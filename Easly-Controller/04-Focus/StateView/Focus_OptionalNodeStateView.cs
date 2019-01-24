@@ -123,10 +123,10 @@ namespace EaslyController.Focus
             Debug.Assert(other != null);
 
             if (!(other is IFocusOptionalNodeStateView AsOptionalNodeStateView))
-                return false;
+                return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsOptionalNodeStateView))
-                return false;
+                return comparer.Failed();
 
             return true;
         }

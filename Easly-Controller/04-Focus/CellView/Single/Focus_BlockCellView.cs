@@ -76,10 +76,10 @@ namespace EaslyController.Focus
             Debug.Assert(other != null);
 
             if (!(other is IFocusBlockCellView AsBlockCellView))
-                return false;
+                return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsBlockCellView))
-                return false;
+                return comparer.Failed();
 
             return true;
         }

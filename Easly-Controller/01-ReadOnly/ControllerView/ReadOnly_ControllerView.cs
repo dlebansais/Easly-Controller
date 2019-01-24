@@ -204,16 +204,16 @@ namespace EaslyController.ReadOnly
             Debug.Assert(other != null);
 
             if (!(other is IReadOnlyControllerView AsControllerView))
-                return false;
+                return comparer.Failed();
 
             if (Controller != AsControllerView.Controller)
-                return false;
+                return comparer.Failed();
 
             if (!comparer.VerifyEqual(StateViewTable, AsControllerView.StateViewTable))
-                return false;
+                return comparer.Failed();
 
             if (!comparer.VerifyEqual(BlockStateViewTable, AsControllerView.BlockStateViewTable))
-                return false;
+                return comparer.Failed();
 
             return true;
         }

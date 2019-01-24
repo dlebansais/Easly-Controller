@@ -101,16 +101,16 @@ namespace EaslyController.Frame
             Debug.Assert(other != null);
 
             if (!(other is IFrameBlockCellView AsBlockCellView))
-                return false;
+                return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsBlockCellView))
-                return false;
+                return comparer.Failed();
 
             if (!comparer.VerifyEqual(ParentCellView, AsBlockCellView.ParentCellView))
-                return false;
+                return comparer.Failed();
 
             if (!comparer.VerifyEqual(BlockStateView, AsBlockCellView.BlockStateView))
-                return false;
+                return comparer.Failed();
 
             return true;
         }

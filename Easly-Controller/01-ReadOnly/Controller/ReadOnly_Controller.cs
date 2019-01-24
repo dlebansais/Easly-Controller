@@ -593,19 +593,19 @@ namespace EaslyController.ReadOnly
             Debug.Assert(other != null);
 
             if (!(other is ReadOnlyController AsController))
-                return false;
+                return comparer.Failed();
 
             if (!comparer.VerifyEqual(RootIndex, AsController.RootIndex))
-                return false;
+                return comparer.Failed();
 
             if (!comparer.VerifyEqual(RootState, AsController.RootState))
-                return false;
+                return comparer.Failed();
 
             if (!comparer.VerifyEqual(Stats, AsController.Stats))
-                return false;
+                return comparer.Failed();
 
             if (StateTable.Count != AsController.StateTable.Count)
-                return false;
+                return comparer.Failed();
 
             List<IReadOnlyIndex> OtherTable = new List<IReadOnlyIndex>();
             foreach (KeyValuePair<IReadOnlyIndex, IReadOnlyNodeState> Entry in AsController.StateTable)
@@ -628,7 +628,7 @@ namespace EaslyController.ReadOnly
                     }
 
                 if (!Found)
-                    return false;
+                    return comparer.Failed();
             }
 
             foreach (KeyValuePair<IReadOnlyIndex, IReadOnlyIndex> Entry in MatchTable)
@@ -637,7 +637,7 @@ namespace EaslyController.ReadOnly
                 IReadOnlyNodeState OtherState = AsController.StateTable[Entry.Value];
 
                 if (!comparer.VerifyEqual(State, OtherState))
-                    return false;
+                    return comparer.Failed();
             }
 
             return true;

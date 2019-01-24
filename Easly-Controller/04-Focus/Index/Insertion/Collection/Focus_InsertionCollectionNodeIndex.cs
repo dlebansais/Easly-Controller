@@ -40,10 +40,10 @@ namespace EaslyController.Focus
             Debug.Assert(other != null);
 
             if (!(other is IFocusInsertionCollectionNodeIndex AsInsertionCollectionNodeIndex))
-                return false;
+                return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsInsertionCollectionNodeIndex))
-                return false;
+                return comparer.Failed();
 
             return true;
         }

@@ -38,10 +38,10 @@ namespace EaslyController.Focus
             Debug.Assert(other != null);
 
             if (!(other is IFocusRootNodeIndex AsRootNodeIndex))
-                return false;
+                return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsRootNodeIndex))
-                return false;
+                return comparer.Failed();
 
             return true;
         }

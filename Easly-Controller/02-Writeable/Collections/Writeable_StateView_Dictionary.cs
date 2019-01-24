@@ -77,10 +77,10 @@ namespace EaslyController.Writeable
             Debug.Assert(other != null);
 
             if (!(other is IWriteableStateViewDictionary AsStateViewDictionary))
-                return false;
+                return comparer.Failed();
 
             if (Count != AsStateViewDictionary.Count)
-                return false;
+                return comparer.Failed();
 
             foreach (KeyValuePair<IWriteableNodeState, IWriteableNodeStateView> Entry in this)
             {
@@ -88,10 +88,10 @@ namespace EaslyController.Writeable
                 IWriteableNodeStateView Value = Entry.Value;
 
                 if (!AsStateViewDictionary.ContainsKey(Key))
-                    return false;
+                    return comparer.Failed();
 
                 if (!comparer.VerifyEqual(Value, AsStateViewDictionary[Key]))
-                    return false;
+                    return comparer.Failed();
             }
 
             return true;

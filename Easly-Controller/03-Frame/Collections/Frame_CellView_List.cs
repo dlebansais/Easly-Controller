@@ -32,14 +32,14 @@ namespace EaslyController.Frame
             Debug.Assert(other != null);
 
             if (!(other is IFrameCellViewList AsCellViewList))
-                return false;
+                return comparer.Failed();
 
             if (Count != AsCellViewList.Count)
-                return false;
+                return comparer.Failed();
 
             for (int i = 0; i < Count; i++)
                 if (!comparer.VerifyEqual(this[i], AsCellViewList[i]))
-                    return false;
+                    return comparer.Failed();
 
             return true;
         }

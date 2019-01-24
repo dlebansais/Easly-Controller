@@ -39,10 +39,10 @@ namespace EaslyController.Frame
             Debug.Assert(other != null);
 
             if (!(other is IFrameBrowsingOptionalNodeIndex AsBrowsingOptionalNodeIndex))
-                return false;
+                return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsBrowsingOptionalNodeIndex))
-                return false;
+                return comparer.Failed();
 
             return true;
         }

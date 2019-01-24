@@ -62,10 +62,10 @@ namespace EaslyController.Focus
             Debug.Assert(other != null);
 
             if (!(other is IFocusTextFocusableCellView AsTextFocusableCellView))
-                return false;
+                return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsTextFocusableCellView))
-                return false;
+                return comparer.Failed();
 
             return true;
         }

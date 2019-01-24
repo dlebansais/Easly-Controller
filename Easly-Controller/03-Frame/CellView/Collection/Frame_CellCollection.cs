@@ -234,13 +234,13 @@ namespace EaslyController.Frame
             Debug.Assert(other != null);
 
             if (!(other is IFrameCellViewCollection AsCellViewCollection))
-                return false;
+                return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsCellViewCollection))
-                return false;
+                return comparer.Failed();
 
             if (!comparer.VerifyEqual(CellViewList, AsCellViewCollection.CellViewList))
-                return false;
+                return comparer.Failed();
 
             return true;
         }

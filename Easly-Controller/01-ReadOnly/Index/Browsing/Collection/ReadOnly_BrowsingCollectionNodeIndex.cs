@@ -54,13 +54,13 @@ namespace EaslyController.ReadOnly
             Debug.Assert(other != null);
 
             if (!(other is IReadOnlyBrowsingCollectionNodeIndex AsBlockNodeIndex))
-                return false;
+                return comparer.Failed();
 
             if (Node != AsBlockNodeIndex.Node)
-                return false;
+                return comparer.Failed();
 
             if (PropertyName != AsBlockNodeIndex.PropertyName)
-                return false;
+                return comparer.Failed();
 
             return true;
         }

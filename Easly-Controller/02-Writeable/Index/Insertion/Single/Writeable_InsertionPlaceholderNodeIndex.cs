@@ -77,16 +77,16 @@ namespace EaslyController.Writeable
             Debug.Assert(other != null);
 
             if (!(other is IWriteableInsertionPlaceholderNodeIndex AsInsertionPlaceholderNodeIndex))
-                return false;
+                return comparer.Failed();
 
             if (ParentNode != AsInsertionPlaceholderNodeIndex.ParentNode)
-                return false;
+                return comparer.Failed();
 
             if (PropertyName != AsInsertionPlaceholderNodeIndex.PropertyName)
-                return false;
+                return comparer.Failed();
 
             if (Node != AsInsertionPlaceholderNodeIndex.Node)
-                return false;
+                return comparer.Failed();
 
             return true;
         }

@@ -117,10 +117,10 @@ namespace EaslyController.Focus
             Debug.Assert(other != null);
 
             if (!(other is IFocusPlaceholderNodeStateView AsPlaceholderNodeStateView))
-                return false;
+                return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsPlaceholderNodeStateView))
-                return false;
+                return comparer.Failed();
 
             return true;
         }

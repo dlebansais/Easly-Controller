@@ -230,19 +230,19 @@ namespace EaslyController.Frame
             Debug.Assert(other != null);
 
             if (!(other is IFrameBlockStateView AsBlockStateView))
-                return false;
+                return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsBlockStateView))
-                return false;
+                return comparer.Failed();
 
             if (Template != AsBlockStateView.Template)
-                return false;
+                return comparer.Failed();
 
             if (!IsRootCellViewEqual(comparer, AsBlockStateView))
-                return false;
+                return comparer.Failed();
 
             if (!IsEmbeddingCellViewEqual(comparer, AsBlockStateView))
-                return false;
+                return comparer.Failed();
 
             return true;
         }
@@ -253,15 +253,15 @@ namespace EaslyController.Frame
             if (RootCellView != null)
             {
                 if (other.RootCellView == null)
-                    return false;
+                    return comparer.Failed();
                 else
                 {
                     if (!comparer.VerifyEqual(RootCellView, other.RootCellView))
-                        return false;
+                        return comparer.Failed();
                 }
             }
             else if (other.RootCellView != null)
-                return false;
+                return comparer.Failed();
 
             return true;
         }
@@ -272,15 +272,15 @@ namespace EaslyController.Frame
             if (EmbeddingCellView != null)
             {
                 if (other.EmbeddingCellView == null)
-                    return false;
+                    return comparer.Failed();
                 else
                 {
                     if (!comparer.VerifyEqual(EmbeddingCellView, other.EmbeddingCellView))
-                        return false;
+                        return comparer.Failed();
                 }
             }
             else if (other.EmbeddingCellView != null)
-                return false;
+                return comparer.Failed();
 
             return true;
         }

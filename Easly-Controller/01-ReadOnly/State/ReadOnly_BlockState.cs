@@ -331,28 +331,28 @@ namespace EaslyController.ReadOnly
             Debug.Assert(other != null);
 
             if (!(other is IReadOnlyBlockState AsBlockState))
-                return false;
+                return comparer.Failed();
 
             if (!comparer.VerifyEqual(ParentInner, AsBlockState.ParentInner))
-                return false;
+                return comparer.Failed();
 
             if (ChildBlock != AsBlockState.ChildBlock)
-                return false;
+                return comparer.Failed();
 
             if (!comparer.VerifyEqual(PatternIndex, AsBlockState.PatternIndex))
-                return false;
+                return comparer.Failed();
 
             if (!comparer.VerifyEqual(PatternState, AsBlockState.PatternState))
-                return false;
+                return comparer.Failed();
 
             if (!comparer.VerifyEqual(SourceIndex, AsBlockState.SourceIndex))
-                return false;
+                return comparer.Failed();
 
             if (!comparer.VerifyEqual(SourceState, AsBlockState.SourceState))
-                return false;
+                return comparer.Failed();
 
             if (!comparer.VerifyEqual(StateList, AsBlockState.StateList))
-                return false;
+                return comparer.Failed();
 
             return true;
         }

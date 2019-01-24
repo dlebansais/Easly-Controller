@@ -78,6 +78,15 @@ namespace EaslyController
             ComparedObjectList.Clear();
         }
 
+        /// <summary>
+        /// Proxy that breaks on failure.
+        /// </summary>
+        /// <returns>Always return false.</returns>
+        public bool Failed()
+        {
+            return false;
+        }
+
         private Dictionary<IEqualComparable, bool> ComparedObjectList = new Dictionary<IEqualComparable, bool>();
     }
 }

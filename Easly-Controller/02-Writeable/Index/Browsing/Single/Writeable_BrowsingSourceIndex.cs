@@ -50,10 +50,10 @@ namespace EaslyController.Writeable
             Debug.Assert(other != null);
 
             if (!(other is IWriteableBrowsingSourceIndex AsBrowsingSourceIndex))
-                return false;
+                return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsBrowsingSourceIndex))
-                return false;
+                return comparer.Failed();
 
             return true;
         }

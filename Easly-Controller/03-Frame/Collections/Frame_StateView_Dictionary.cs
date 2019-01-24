@@ -136,10 +136,10 @@ namespace EaslyController.Frame
             Debug.Assert(other != null);
 
             if (!(other is IFrameStateViewDictionary AsStateViewDictionary))
-                return false;
+                return comparer.Failed();
 
             if (Count != AsStateViewDictionary.Count)
-                return false;
+                return comparer.Failed();
 
             foreach (KeyValuePair<IFrameNodeState, IFrameNodeStateView> Entry in this)
             {
@@ -147,10 +147,10 @@ namespace EaslyController.Frame
                 IFrameNodeStateView Value = Entry.Value;
 
                 if (!AsStateViewDictionary.ContainsKey(Key))
-                    return false;
+                    return comparer.Failed();
 
                 if (!comparer.VerifyEqual(Value, AsStateViewDictionary[Key]))
-                    return false;
+                    return comparer.Failed();
             }
 
             return true;

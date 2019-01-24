@@ -100,14 +100,14 @@ namespace EaslyController.ReadOnly
             Debug.Assert(other != null);
 
             if (!(other is IReadOnlyIndexCollection<IIndex> AsIndexCollection))
-                return false;
+                return comparer.Failed();
 
             if (NodeIndexList.Count != AsIndexCollection.NodeIndexList.Count)
-                return false;
+                return comparer.Failed();
 
             for (int i = 0; i < NodeIndexList.Count; i++)
                 if (!comparer.VerifyEqual(NodeIndexList[i], AsIndexCollection.NodeIndexList[i]))
-                    return false;
+                    return comparer.Failed();
 
             return true;
         }

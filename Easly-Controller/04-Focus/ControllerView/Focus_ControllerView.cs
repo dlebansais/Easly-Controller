@@ -1419,10 +1419,10 @@ namespace EaslyController.Focus
             Debug.Assert(other != null);
 
             if (!(other is IFocusControllerView AsControllerView))
-                return false;
+                return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsControllerView))
-                return false;
+                return comparer.Failed();
 
             return true;
         }

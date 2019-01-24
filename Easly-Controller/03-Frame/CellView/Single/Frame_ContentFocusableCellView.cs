@@ -50,10 +50,10 @@ namespace EaslyController.Frame
             Debug.Assert(other != null);
 
             if (!(other is IFrameContentFocusableCellView AsContentFocusableCellView))
-                return false;
+                return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsContentFocusableCellView))
-                return false;
+                return comparer.Failed();
 
             return true;
         }

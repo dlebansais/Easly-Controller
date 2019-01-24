@@ -38,10 +38,10 @@ namespace EaslyController.Frame
             Debug.Assert(other != null);
 
             if (!(other is IFrameBrowsingPatternIndex AsBrowsingPatternIndex))
-                return false;
+                return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsBrowsingPatternIndex))
-                return false;
+                return comparer.Failed();
 
             return true;
         }

@@ -28,6 +28,11 @@ namespace EaslyController.Writeable
         /// </summary>
         /// <param name="childState">State removed.</param>
         void Update(IWriteablePlaceholderNodeState childState);
+
+        /// <summary>
+        /// Creates an operation to undo the remove operation.
+        /// </summary>
+        IWriteableInsertNodeOperation ToInsertNodeOperation();
     }
 
     /// <summary>
@@ -79,6 +84,28 @@ namespace EaslyController.Writeable
             Debug.Assert(childState != null);
 
             ChildState = childState;
+        }
+
+        /// <summary>
+        /// Creates an operation to undo the remove operation.
+        /// </summary>
+        public IWriteableInsertNodeOperation ToInsertNodeOperation()
+        {
+            IWriteableInsertionCollectionNodeIndex InsertionIndex = NodeIndex.ToInsertionIndex(Inner.Owner.Node, ChildState.Node) as IWriteableInsertionCollectionNodeIndex;
+            Debug.Assert(InsertionIndex != null);
+
+            return CreateInsertNodeOperation(Inner, InsertionIndex, HandlerUndo, HandlerRedo, IsNested);
+        }
+        #endregion
+
+        #region Create Methods
+        /// <summary>
+        /// Creates a IxxxInsertNodeOperation object.
+        /// </summary>
+        protected virtual IWriteableInsertNodeOperation CreateInsertNodeOperation(IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> inner, IWriteableInsertionCollectionNodeIndex insertionIndex, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        {
+            ControllerTools.AssertNoOverride(this, typeof(WriteableRemoveNodeOperation));
+            return new WriteableInsertNodeOperation(inner, insertionIndex, handlerRedo, handlerUndo, isNested);
         }
         #endregion
     }

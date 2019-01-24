@@ -52,28 +52,28 @@ namespace EaslyController
             Debug.Assert(other != null);
 
             if (!(other is Stats AsStats))
-                return false;
+                return comparer.Failed();
 
             if (NodeCount != AsStats.NodeCount)
-                return false;
+                return comparer.Failed();
 
             if (PlaceholderNodeCount != AsStats.PlaceholderNodeCount)
-                return false;
+                return comparer.Failed();
 
             if (OptionalNodeCount != AsStats.OptionalNodeCount)
-                return false;
+                return comparer.Failed();
 
             if (AssignedOptionalNodeCount != AsStats.AssignedOptionalNodeCount)
-                return false;
+                return comparer.Failed();
 
             if (ListCount != AsStats.ListCount)
-                return false;
+                return comparer.Failed();
 
             if (BlockListCount != AsStats.BlockListCount)
-                return false;
+                return comparer.Failed();
 
             if (BlockCount != AsStats.BlockCount)
-                return false;
+                return comparer.Failed();
 
             return true;
         }

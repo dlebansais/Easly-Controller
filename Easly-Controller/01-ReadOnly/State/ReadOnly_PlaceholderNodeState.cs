@@ -53,16 +53,16 @@ namespace EaslyController.ReadOnly
             Debug.Assert(other != null);
 
             if (!(other is IReadOnlyPlaceholderNodeState AsPlaceholderNodeState))
-                return false;
+                return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsPlaceholderNodeState))
-                return false;
+                return comparer.Failed();
 
             if (Node != AsPlaceholderNodeState.Node)
-                return false;
+                return comparer.Failed();
 
             if (!IsChildrenEqual(comparer, AsPlaceholderNodeState))
-                return false;
+                return comparer.Failed();
 
             return true;
         }

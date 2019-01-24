@@ -697,7 +697,8 @@ namespace EaslyController.Writeable
         protected virtual void InsertNewNode(IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> inner, IWriteableInsertionCollectionNodeIndex insertedIndex, out IWriteableBrowsingCollectionNodeIndex nodeIndex)
         {
             Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => ExecuteInsertNewNode(operation);
-            IWriteableInsertNodeOperation Operation = CreateInsertNodeOperation(inner, insertedIndex, HandlerRedo, null, isNested: false);
+            Action<IWriteableOperation> HandlerUndo = (IWriteableOperation operation) => UndoInsertNewNode(operation);
+            IWriteableInsertNodeOperation Operation = CreateInsertNodeOperation(inner, insertedIndex, HandlerRedo, HandlerUndo, isNested: false);
 
             Operation.Redo();
             SetLastOperation(Operation);
@@ -723,6 +724,21 @@ namespace EaslyController.Writeable
             Debug.Assert(Contains(BrowsingIndex));
 
             NotifyStateInserted(InsertNodeOperation);
+        }
+
+        /// <summary></summary>
+        protected virtual void UndoInsertNewNode(IWriteableOperation operation)
+        {
+            IWriteableInsertNodeOperation InsertNodeOperation = (IWriteableInsertNodeOperation)operation;
+            IWriteableRemoveNodeOperation RemoveNodeOperation = InsertNodeOperation.ToRemoveNodeOperation();
+
+            RemoveNodeOperation.Inner.Remove(RemoveNodeOperation);
+
+            IWriteableNodeState OldState = StateTable[RemoveNodeOperation.NodeIndex];
+            PruneState(OldState, true);
+            Stats.PlaceholderNodeCount--;
+
+            NotifyStateRemoved(RemoveNodeOperation);
         }
 
         /// <summary>
@@ -863,7 +879,8 @@ namespace EaslyController.Writeable
         protected virtual void RemoveNode(IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> inner, IWriteableBrowsingCollectionNodeIndex nodeIndex)
         {
             Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => ExecuteRemoveNode(operation);
-            IWriteableRemoveNodeOperation Operation = CreateRemoveNodeOperation(inner, nodeIndex, HandlerRedo, null, isNested: false);
+            Action<IWriteableOperation> HandlerUndo = (IWriteableOperation operation) => UndoRemoveNode(operation);
+            IWriteableRemoveNodeOperation Operation = CreateRemoveNodeOperation(inner, nodeIndex, HandlerRedo, HandlerUndo, isNested: false);
 
             Operation.Redo();
             SetLastOperation(Operation);
@@ -882,6 +899,26 @@ namespace EaslyController.Writeable
             Stats.PlaceholderNodeCount--;
 
             NotifyStateRemoved(RemoveNodeOperation);
+        }
+
+        /// <summary></summary>
+        protected virtual void UndoRemoveNode(IWriteableOperation operation)
+        {
+            IWriteableRemoveNodeOperation RemoveNodeOperation = (IWriteableRemoveNodeOperation)operation;
+            IWriteableInsertNodeOperation InsertNodeOperation = RemoveNodeOperation.ToInsertNodeOperation();
+
+            InsertNodeOperation.Inner.Insert(InsertNodeOperation);
+
+            IWriteableBrowsingCollectionNodeIndex BrowsingIndex = InsertNodeOperation.BrowsingIndex;
+            IWriteablePlaceholderNodeState ChildState = InsertNodeOperation.ChildState;
+
+            AddState(BrowsingIndex, ChildState);
+            Stats.PlaceholderNodeCount++;
+            BuildStateTable(InsertNodeOperation.Inner, null, BrowsingIndex, ChildState);
+
+            Debug.Assert(Contains(BrowsingIndex));
+
+            NotifyStateInserted(InsertNodeOperation);
         }
 
         /// <summary>
@@ -1623,6 +1660,12 @@ namespace EaslyController.Writeable
         public virtual void Undo()
         {
             Debug.Assert(CanUndo);
+
+            RedoIndex--;
+            IWriteableOperation Operation = OperationStack[RedoIndex];
+            Operation.Undo();
+
+            CheckInvariant();
         }
 
         /// <summary>
@@ -1631,6 +1674,12 @@ namespace EaslyController.Writeable
         public virtual void Redo()
         {
             Debug.Assert(CanRedo);
+
+            IWriteableOperation Operation = OperationStack[RedoIndex];
+            Operation.Redo();
+            RedoIndex++;
+
+            CheckInvariant();
         }
         #endregion
 

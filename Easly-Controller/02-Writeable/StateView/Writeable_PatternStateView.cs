@@ -56,10 +56,10 @@ namespace EaslyController.Writeable
             Debug.Assert(other != null);
 
             if (!(other is IWriteablePatternStateView AsPatternStateView))
-                return false;
+                return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsPatternStateView))
-                return false;
+                return comparer.Failed();
 
             return true;
         }

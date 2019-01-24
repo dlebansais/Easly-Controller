@@ -86,16 +86,16 @@ namespace EaslyController.ReadOnly
             Debug.Assert(other != null);
 
             if (!(other is IReadOnlyPatternState AsPatternState))
-                return false;
+                return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsPatternState))
-                return false;
+                return comparer.Failed();
 
             if (Node != AsPatternState.Node)
-                return false;
+                return comparer.Failed();
 
             if (!comparer.VerifyEqual(ParentBlockState, AsPatternState.ParentBlockState))
-                return false;
+                return comparer.Failed();
 
             return true;
         }

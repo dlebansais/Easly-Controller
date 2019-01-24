@@ -26,18 +26,18 @@ namespace EaslyController.ReadOnly
             Debug.Assert(other != null);
 
             if (!(other is IReadOnlyStateViewDictionary AsStateViewDictionary))
-                return false;
+                return comparer.Failed();
 
             if (Count != AsStateViewDictionary.Count)
-                return false;
+                return comparer.Failed();
 
             foreach (KeyValuePair<IReadOnlyNodeState, IReadOnlyNodeStateView> Entry in this)
             {
                 if (!AsStateViewDictionary.ContainsKey(Entry.Key))
-                    return false;
+                    return comparer.Failed();
 
                 if (!comparer.VerifyEqual(Entry.Value, AsStateViewDictionary[Entry.Key]))
-                    return false;
+                    return comparer.Failed();
             }
 
             return true;

@@ -108,18 +108,18 @@ namespace EaslyController.Focus
             Debug.Assert(other != null);
 
             if (!(other is IFocusInnerReadOnlyDictionary<TKey> AsInnerReadOnlyDictionary))
-                return false;
+                return comparer.Failed();
 
             if (Count != AsInnerReadOnlyDictionary.Count)
-                return false;
+                return comparer.Failed();
 
             foreach (KeyValuePair<TKey, IReadOnlyInner<IReadOnlyBrowsingChildIndex>> Entry in this)
             {
                 if (!AsInnerReadOnlyDictionary.ContainsKey(Entry.Key))
-                    return false;
+                    return comparer.Failed();
 
                 if (!comparer.VerifyEqual(Entry.Value, AsInnerReadOnlyDictionary[Entry.Key]))
-                    return false;
+                    return comparer.Failed();
             }
 
             return true;

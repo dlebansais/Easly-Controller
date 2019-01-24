@@ -41,10 +41,10 @@ namespace EaslyController.Focus
             Debug.Assert(other != null);
 
             if (!(other is IFocusInsertionPlaceholderNodeIndex AsInsertionPlaceholderNodeIndex))
-                return false;
+                return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsInsertionPlaceholderNodeIndex))
-                return false;
+                return comparer.Failed();
 
             return true;
         }

@@ -38,10 +38,10 @@ namespace EaslyController.Frame
             Debug.Assert(other != null);
 
             if (!(other is IFrameRootNodeIndex AsRootNodeIndex))
-                return false;
+                return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsRootNodeIndex))
-                return false;
+                return comparer.Failed();
 
             return true;
         }

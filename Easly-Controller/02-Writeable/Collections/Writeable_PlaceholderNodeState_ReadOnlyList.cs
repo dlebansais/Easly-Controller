@@ -47,14 +47,14 @@ namespace EaslyController.Writeable
             Debug.Assert(other != null);
 
             if (!(other is IWriteablePlaceholderNodeStateReadOnlyList AsPlaceholderNodeStateReadOnlyList))
-                return false;
+                return comparer.Failed();
 
             if (Count != AsPlaceholderNodeStateReadOnlyList.Count)
-                return false;
+                return comparer.Failed();
 
             for (int i = 0; i < Count; i++)
                 if (!comparer.VerifyEqual(this[i], AsPlaceholderNodeStateReadOnlyList[i]))
-                    return false;
+                    return comparer.Failed();
 
             return true;
         }

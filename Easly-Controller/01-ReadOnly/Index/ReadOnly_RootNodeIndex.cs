@@ -46,10 +46,10 @@ namespace EaslyController.ReadOnly
             Debug.Assert(other != null);
 
             if (!(other is IReadOnlyRootNodeIndex AsRootNodeIndex))
-                return false;
+                return comparer.Failed();
 
             if (Node != AsRootNodeIndex.Node)
-                return false;
+                return comparer.Failed();
 
             return true;
         }

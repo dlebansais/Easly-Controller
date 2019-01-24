@@ -48,10 +48,10 @@ namespace EaslyController.ReadOnly
             Debug.Assert(other != null);
 
             if (!(other is IReadOnlyPlaceholderNodeStateView AsPlaceholderNodeStateView))
-                return false;
+                return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsPlaceholderNodeStateView))
-                return false;
+                return comparer.Failed();
 
             return true;
         }

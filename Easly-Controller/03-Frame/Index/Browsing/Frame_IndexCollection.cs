@@ -48,10 +48,10 @@ namespace EaslyController.Frame
             Debug.Assert(other != null);
 
             if (!(other is IFrameIndexCollection<IIndex> AsIndexCollection))
-                return false;
+                return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsIndexCollection))
-                return false;
+                return comparer.Failed();
 
             return true;
         }

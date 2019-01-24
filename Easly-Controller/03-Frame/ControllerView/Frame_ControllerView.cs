@@ -927,19 +927,19 @@ namespace EaslyController.Frame
             Debug.Assert(other != null);
 
             if (!(other is IFrameControllerView AsControllerView))
-                return false;
+                return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsControllerView))
-                return false;
+                return comparer.Failed();
 
             if (TemplateSet != AsControllerView.TemplateSet)
-                return false;
+                return comparer.Failed();
 
             if (LastLineNumber != AsControllerView.LastLineNumber)
-                return false;
+                return comparer.Failed();
 
             if (LastColumnNumber != AsControllerView.LastColumnNumber)
-                return false;
+                return comparer.Failed();
 
             return true;
         }

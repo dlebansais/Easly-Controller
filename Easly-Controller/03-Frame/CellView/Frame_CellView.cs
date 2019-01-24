@@ -113,10 +113,10 @@ namespace EaslyController.Frame
             Debug.Assert(other != null);
 
             if (!(other is IFrameCellView AsCellView))
-                return false;
+                return comparer.Failed();
 
             if (!comparer.VerifyEqual(StateView, AsCellView.StateView))
-                return false;
+                return comparer.Failed();
 
             return true;
         }

@@ -51,10 +51,10 @@ namespace EaslyController.Writeable
             Debug.Assert(other != null);
 
             if (!(other is IWriteableBrowsingOptionalNodeIndex AsBrowsingOptionalNodeIndex))
-                return false;
+                return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsBrowsingOptionalNodeIndex))
-                return false;
+                return comparer.Failed();
 
             return true;
         }

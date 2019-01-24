@@ -62,10 +62,10 @@ namespace EaslyController.ReadOnly
             Debug.Assert(other != null);
 
             if (!(other is IReadOnlyBlockStateView AsBlockStateView))
-                return false;
+                return comparer.Failed();
 
             if (BlockState != AsBlockStateView.BlockState)
-                return false;
+                return comparer.Failed();
 
             return true;
         }

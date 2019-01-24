@@ -135,16 +135,16 @@ namespace EaslyController.Frame
             Debug.Assert(other != null);
 
             if (!(other is IFrameVisibleCellView AsVisibleCellView))
-                return false;
+                return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsVisibleCellView))
-                return false;
+                return comparer.Failed();
 
             if (LineNumber != AsVisibleCellView.LineNumber)
-                return false;
+                return comparer.Failed();
 
             if (ColumnNumber != AsVisibleCellView.ColumnNumber)
-                return false;
+                return comparer.Failed();
 
             return true;
         }

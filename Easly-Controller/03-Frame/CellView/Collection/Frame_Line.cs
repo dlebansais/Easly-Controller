@@ -78,10 +78,10 @@ namespace EaslyController.Frame
             Debug.Assert(other != null);
 
             if (!(other is IFrameLine AsLine))
-                return false;
+                return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsLine))
-                return false;
+                return comparer.Failed();
 
             return true;
         }

@@ -41,10 +41,10 @@ namespace EaslyController.Frame
             Debug.Assert(other != null);
 
             if (!(other is IFrameInsertionListNodeIndex AsInsertionListNodeIndex))
-                return false;
+                return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsInsertionListNodeIndex))
-                return false;
+                return comparer.Failed();
 
             return true;
         }
