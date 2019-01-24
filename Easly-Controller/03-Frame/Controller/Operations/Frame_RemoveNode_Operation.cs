@@ -36,9 +36,10 @@ namespace EaslyController.Frame
         /// <param name="inner">Inner where the removal is taking place.</param>
         /// <param name="nodeIndex">Index of the removed node.</param>
         /// <param name="handlerRedo">Handler to execute to redo the operation.</param>
+        /// <param name="handlerUndo">Handler to execute to undo the operation.</param>
         /// <param name="isNested">True if the operation is nested within another more general one.</param>
-        public FrameRemoveNodeOperation(IFrameCollectionInner<IFrameBrowsingCollectionNodeIndex> inner, IFrameBrowsingCollectionNodeIndex nodeIndex, Action<IWriteableOperation> handlerRedo, bool isNested)
-            : base(inner, nodeIndex, handlerRedo, isNested)
+        public FrameRemoveNodeOperation(IFrameCollectionInner<IFrameBrowsingCollectionNodeIndex> inner, IFrameBrowsingCollectionNodeIndex nodeIndex, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+            : base(inner, nodeIndex, handlerRedo, handlerUndo, isNested)
         {
         }
         #endregion

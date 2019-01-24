@@ -643,20 +643,19 @@ namespace EaslyController.Writeable
                 InsertNewBlock(AsBlockListInner, AsNewBlockIndex, out nodeIndex);
             else
                 InsertNewNode(inner, insertedIndex, out nodeIndex);
-
-            CheckInvariant();
         }
 
         /// <summary></summary>
         protected virtual void InsertNewBlock(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> blockListInner, IWriteableInsertionNewBlockNodeIndex newBlockIndex, out IWriteableBrowsingCollectionNodeIndex nodeIndex)
         {
             Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => ExecuteInsertNewBlock(operation);
-            IWriteableInsertBlockOperation Operation = CreateInsertBlockOperation(blockListInner, newBlockIndex, HandlerRedo, isNested: false);
+            IWriteableInsertBlockOperation Operation = CreateInsertBlockOperation(blockListInner, newBlockIndex, HandlerRedo, null, isNested: false);
 
-            ExecuteInsertNewBlock(Operation);
+            Operation.Redo();
+            SetLastOperation(Operation);
+            CheckInvariant();
 
             nodeIndex = Operation.BrowsingIndex;
-            SetLastOperation(Operation);
         }
 
         /// <summary></summary>
@@ -698,12 +697,13 @@ namespace EaslyController.Writeable
         protected virtual void InsertNewNode(IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> inner, IWriteableInsertionCollectionNodeIndex insertedIndex, out IWriteableBrowsingCollectionNodeIndex nodeIndex)
         {
             Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => ExecuteInsertNewNode(operation);
-            IWriteableInsertNodeOperation Operation = CreateInsertNodeOperation(inner, insertedIndex, HandlerRedo, isNested: false);
+            IWriteableInsertNodeOperation Operation = CreateInsertNodeOperation(inner, insertedIndex, HandlerRedo, null, isNested: false);
 
-            ExecuteInsertNewNode(Operation);
+            Operation.Redo();
+            SetLastOperation(Operation);
+            CheckInvariant();
 
             nodeIndex = Operation.BrowsingIndex;
-            SetLastOperation(Operation);
         }
 
         /// <summary></summary>
@@ -786,19 +786,17 @@ namespace EaslyController.Writeable
             }
             else
                 RemoveNode(inner, nodeIndex);
-
-            CheckInvariant();
         }
 
         /// <summary></summary>
         protected virtual void RemoveLastBlock(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> blockListInner, IWriteableBrowsingExistingBlockNodeIndex blockIndex)
         {
             Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => ExecuteRemoveLastBlock(operation);
-            IWriteableRemoveBlockOperation BlockOperation = CreateRemoveBlockOperation(blockListInner, blockIndex, HandlerRedo, isNested: false);
+            IWriteableRemoveBlockOperation Operation = CreateRemoveBlockOperation(blockListInner, blockIndex, HandlerRedo, null, isNested: false);
 
-            ExecuteRemoveLastBlock(BlockOperation);
-
-            SetLastOperation(BlockOperation);
+            Operation.Redo();
+            SetLastOperation(Operation);
+            CheckInvariant();
         }
 
         /// <summary></summary>
@@ -839,11 +837,11 @@ namespace EaslyController.Writeable
         protected virtual void RemoveNodeFromBlock(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> blockListInner, IWriteableBrowsingExistingBlockNodeIndex blockIndex)
         {
             Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => ExecuteRemoveNodeFromBlock(operation);
-            IWriteableRemoveNodeOperation NodeOperation = CreateRemoveNodeOperation(blockListInner, blockIndex, HandlerRedo, isNested: false);
+            IWriteableRemoveNodeOperation Operation = CreateRemoveNodeOperation(blockListInner, blockIndex, HandlerRedo, null, isNested: false);
 
-            ExecuteRemoveNodeFromBlock(NodeOperation);
-
-            SetLastOperation(NodeOperation);
+            Operation.Redo();
+            SetLastOperation(Operation);
+            CheckInvariant();
         }
 
         /// <summary></summary>
@@ -865,11 +863,11 @@ namespace EaslyController.Writeable
         protected virtual void RemoveNode(IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> inner, IWriteableBrowsingCollectionNodeIndex nodeIndex)
         {
             Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => ExecuteRemoveNode(operation);
-            IWriteableRemoveNodeOperation NodeOperation = CreateRemoveNodeOperation(inner, nodeIndex, HandlerRedo, isNested: false);
+            IWriteableRemoveNodeOperation Operation = CreateRemoveNodeOperation(inner, nodeIndex, HandlerRedo, null, isNested: false);
 
-            ExecuteRemoveNode(NodeOperation);
-
-            SetLastOperation(NodeOperation);
+            Operation.Redo();
+            SetLastOperation(Operation);
+            CheckInvariant();
         }
 
         /// <summary></summary>
@@ -905,14 +903,13 @@ namespace EaslyController.Writeable
             Debug.Assert(InnerTable[inner.PropertyName] == inner);
 
             Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => ExecuteReplace(operation);
-            IWriteableReplaceOperation Operation = CreateReplaceOperation(inner, replacementIndex, HandlerRedo, isNested: false);
+            IWriteableReplaceOperation Operation = CreateReplaceOperation(inner, replacementIndex, HandlerRedo, null, isNested: false);
 
-            ExecuteReplace(Operation);
+            Operation.Redo();
+            SetLastOperation(Operation);
+            CheckInvariant();
 
             nodeIndex = Operation.NewBrowsingIndex;
-            SetLastOperation(Operation);
-
-            CheckInvariant();
         }
 
         /// <summary></summary>
@@ -992,14 +989,12 @@ namespace EaslyController.Writeable
             if (!Inner.IsAssigned)
             {
                 Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => ExecuteAssign(operation);
-                IWriteableAssignmentOperation Operation = CreateAssignmentOperation(Inner, nodeIndex, HandlerRedo, isNested: false);
+                IWriteableAssignmentOperation Operation = CreateAssignmentOperation(Inner, nodeIndex, HandlerRedo, null, isNested: false);
 
-                ExecuteAssign(Operation);
-
+                Operation.Redo();
                 SetLastOperation(Operation);
+                CheckInvariant();
             }
-
-            CheckInvariant();
         }
 
         /// <summary></summary>
@@ -1032,14 +1027,12 @@ namespace EaslyController.Writeable
             if (Inner.IsAssigned)
             {
                 Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => ExecuteUnassign(operation);
-                IWriteableAssignmentOperation Operation = CreateAssignmentOperation(Inner, nodeIndex, HandlerRedo, isNested: false);
+                IWriteableAssignmentOperation Operation = CreateAssignmentOperation(Inner, nodeIndex, HandlerRedo, null, isNested: false);
 
-                ExecuteUnassign(Operation);
-
+                Operation.Redo();
                 SetLastOperation(Operation);
+                CheckInvariant();
             }
-
-            CheckInvariant();
         }
 
         /// <summary></summary>
@@ -1066,12 +1059,10 @@ namespace EaslyController.Writeable
             Debug.Assert(blockIndex >= 0 && blockIndex < inner.BlockStateList.Count);
 
             Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => ExecuteChangeReplication(operation);
-            IWriteableChangeBlockOperation Operation = CreateChangeBlockOperation(inner, blockIndex, replication, HandlerRedo, isNested: false);
+            IWriteableChangeBlockOperation Operation = CreateChangeBlockOperation(inner, blockIndex, replication, HandlerRedo, null, isNested: false);
 
-            ExecuteChangeReplication(Operation);
-
+            Operation.Redo();
             SetLastOperation(Operation);
-
             CheckInvariant();
         }
 
@@ -1099,12 +1090,10 @@ namespace EaslyController.Writeable
             Debug.Assert(value >= 0);
 
             Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => ExecuteChangeDiscreteValue(operation);
-            IWriteableChangeNodeOperation Operation = CreateChangeNodeOperation(nodeIndex, propertyName, value, HandlerRedo, isNested: false);
+            IWriteableChangeNodeOperation Operation = CreateChangeNodeOperation(nodeIndex, propertyName, value, HandlerRedo, null, isNested: false);
 
-            ExecuteChangeDiscreteValue(Operation);
-
+            Operation.Redo();
             SetLastOperation(Operation);
-
             CheckInvariant();
         }
 
@@ -1156,12 +1145,10 @@ namespace EaslyController.Writeable
             Debug.Assert(inner.IsSplittable(nodeIndex));
 
             Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => ExecuteSplitBlock(operation);
-            IWriteableSplitBlockOperation Operation = CreateSplitBlockOperation(inner, nodeIndex, HandlerRedo, isNested: false);
+            IWriteableSplitBlockOperation Operation = CreateSplitBlockOperation(inner, nodeIndex, HandlerRedo, null, isNested: false);
 
-            ExecuteSplitBlock(Operation);
-
+            Operation.Redo();
             SetLastOperation(Operation);
-
             CheckInvariant();
         }
 
@@ -1222,12 +1209,10 @@ namespace EaslyController.Writeable
             Debug.Assert(inner.IsMergeable(nodeIndex));
 
             Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => ExecuteMergeBlocks(operation);
-            IWriteableMergeBlocksOperation Operation = CreateMergeBlocksOperation(inner, nodeIndex, HandlerRedo, isNested: false);
+            IWriteableMergeBlocksOperation Operation = CreateMergeBlocksOperation(inner, nodeIndex, HandlerRedo, null, isNested: false);
 
-            ExecuteMergeBlocks(Operation);
-
+            Operation.Redo();
             SetLastOperation(Operation);
-
             CheckInvariant();
         }
 
@@ -1297,12 +1282,10 @@ namespace EaslyController.Writeable
             Debug.Assert(State != null);
 
             Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => ExecuteMove(operation);
-            IWriteableMoveNodeOperation Operation = CreateMoveNodeOperation(inner, nodeIndex, direction, HandlerRedo, isNested: false);
+            IWriteableMoveNodeOperation Operation = CreateMoveNodeOperation(inner, nodeIndex, direction, HandlerRedo, null, isNested: false);
 
-            ExecuteMove(Operation);
-
+            Operation.Redo();
             SetLastOperation(Operation);
-
             CheckInvariant();
         }
 
@@ -1340,12 +1323,10 @@ namespace EaslyController.Writeable
             Debug.Assert(inner != null);
 
             Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => ExecuteMoveBlock(operation);
-            IWriteableMoveBlockOperation Operation = CreateMoveBlockOperation(inner, blockIndex, direction, HandlerRedo, isNested: false);
+            IWriteableMoveBlockOperation Operation = CreateMoveBlockOperation(inner, blockIndex, direction, HandlerRedo, null, isNested: false);
 
-            ExecuteMoveBlock(Operation);
-
+            Operation.Redo();
             SetLastOperation(Operation);
-
             CheckInvariant();
         }
 
@@ -1393,8 +1374,6 @@ namespace EaslyController.Writeable
                 else if (Entry.Value is IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> AsBlockListInner)
                     ExpandBlockList(AsBlockListInner);
             }
-
-            CheckInvariant();
         }
 
         /// <summary>
@@ -1412,11 +1391,11 @@ namespace EaslyController.Writeable
             if (ParentIndex.Optional.HasItem)
             {
                 Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => ExecuteAssign(operation);
-                IWriteableAssignmentOperation Operation = CreateAssignmentOperation(optionalInner, ParentIndex, HandlerRedo, isNested: false);
+                IWriteableAssignmentOperation Operation = CreateAssignmentOperation(optionalInner, ParentIndex, HandlerRedo, null, isNested: false);
 
-                ExecuteAssign(Operation);
-
+                Operation.Redo();
                 SetLastOperation(Operation);
+                CheckInvariant();
             }
             else
             {
@@ -1426,11 +1405,11 @@ namespace EaslyController.Writeable
                 IWriteableInsertionOptionalNodeIndex NewOptionalNodeIndex = CreateNewOptionalNodeIndex(optionalInner.Owner.Node, optionalInner.PropertyName, NewNode);
 
                 Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => ExecuteReplace(operation);
-                IWriteableReplaceOperation Operation = CreateReplaceOperation(optionalInner, NewOptionalNodeIndex, HandlerRedo, isNested: false);
+                IWriteableReplaceOperation Operation = CreateReplaceOperation(optionalInner, NewOptionalNodeIndex, HandlerRedo, null, isNested: false);
 
-                ExecuteReplace(Operation);
-
+                Operation.Redo();
                 SetLastOperation(Operation);
+                CheckInvariant();
             }
         }
 
@@ -1453,11 +1432,11 @@ namespace EaslyController.Writeable
             IWriteableInsertionNewBlockNodeIndex NewBlockNodeIndex = CreateNewBlockNodeIndex(blockListInner.Owner.Node, blockListInner.PropertyName, NewArgument, 0, NewPattern, NewSource);
 
             Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => ExecuteExpandBlockList(operation);
-            IWriteableExpandArgumentOperation Operation = CreateExpandArgumentOperation(blockListInner, NewBlockNodeIndex, HandlerRedo, isNested: false);
+            IWriteableExpandArgumentOperation Operation = CreateExpandArgumentOperation(blockListInner, NewBlockNodeIndex, HandlerRedo, null, isNested: false);
 
-            ExecuteExpandBlockList(Operation);
-
+            Operation.Redo();
             SetLastOperation(Operation);
+            CheckInvariant();
         }
 
         /// <summary></summary>
@@ -1504,8 +1483,6 @@ namespace EaslyController.Writeable
             Debug.Assert(StateTable[reducedIndex] is IWriteablePlaceholderNodeState);
 
             Reduce(reducedIndex, isNested: false);
-
-            CheckInvariant();
         }
 
         /// <summary></summary>
@@ -1535,11 +1512,11 @@ namespace EaslyController.Writeable
                 IWriteableBrowsingOptionalNodeIndex ParentIndex = optionalInner.ChildState.ParentIndex;
 
                 Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => ExecuteUnassign(operation);
-                IWriteableAssignmentOperation Operation = CreateAssignmentOperation(optionalInner, ParentIndex, HandlerRedo, isNested);
+                IWriteableAssignmentOperation Operation = CreateAssignmentOperation(optionalInner, ParentIndex, HandlerRedo, null, isNested);
 
-                ExecuteUnassign(Operation);
-
+                Operation.Redo();
                 SetLastOperation(Operation);
+                CheckInvariant();
             }
         }
 
@@ -1566,11 +1543,11 @@ namespace EaslyController.Writeable
 
 
             Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => ExecuteRemoveLastBlock(operation);
-            IWriteableRemoveBlockOperation BlockOperation = CreateRemoveBlockOperation(blockListInner, FirstNodeIndex, HandlerRedo, isNested);
+            IWriteableRemoveBlockOperation Operation = CreateRemoveBlockOperation(blockListInner, FirstNodeIndex, HandlerRedo, null, isNested);
 
-            ExecuteRemoveLastBlock(BlockOperation);
-
-            SetLastOperation(BlockOperation);
+            Operation.Redo();
+            SetLastOperation(Operation);
+            CheckInvariant();
         }
 
         /// <summary>
@@ -1581,10 +1558,10 @@ namespace EaslyController.Writeable
             Canonicalize(RootState);
 
             Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => ExecuteRefresh(operation);
-            IWriteableGenericRefreshOperation Operation = CreateGenericRefreshOperation(RootState, HandlerRedo, isNested: false);
+            IWriteableGenericRefreshOperation Operation = CreateGenericRefreshOperation(RootState, HandlerRedo, null, isNested: false);
 
-            ExecuteRefresh(Operation);
-
+            Operation.Redo();
+            SetLastOperation(Operation);
             CheckInvariant();
         }
 
@@ -1718,9 +1695,9 @@ namespace EaslyController.Writeable
             for (int BlockIndex = inner.BlockStateList.Count; BlockIndex > 0; BlockIndex--)
             {
                 Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => ExecuteRemoveBlockView(operation);
-                IWriteableRemoveBlockViewOperation BlockOperation = CreateRemoveBlockViewOperation(inner, BlockIndex - 1, cleanupBlockList, HandlerRedo, isNested: true);
+                IWriteableRemoveBlockViewOperation Operation = CreateRemoveBlockViewOperation(inner, BlockIndex - 1, cleanupBlockList, HandlerRedo, null, isNested: true);
 
-                ExecuteRemoveBlockView(BlockOperation);
+                Operation.Redo();
             }
 
             if (cleanupBlockList)
@@ -2149,136 +2126,136 @@ namespace EaslyController.Writeable
         /// <summary>
         /// Creates a IxxxInsertNodeOperation object.
         /// </summary>
-        protected virtual IWriteableInsertNodeOperation CreateInsertNodeOperation(IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> inner, IWriteableInsertionCollectionNodeIndex insertionIndex, Action<IWriteableOperation> handlerRedo, bool isNested)
+        protected virtual IWriteableInsertNodeOperation CreateInsertNodeOperation(IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> inner, IWriteableInsertionCollectionNodeIndex insertionIndex, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableController));
-            return new WriteableInsertNodeOperation(inner, insertionIndex, handlerRedo, isNested);
+            return new WriteableInsertNodeOperation(inner, insertionIndex, handlerRedo, handlerUndo, isNested);
         }
 
         /// <summary>
         /// Creates a IxxxInsertBlockOperation object.
         /// </summary>
-        protected virtual IWriteableInsertBlockOperation CreateInsertBlockOperation(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, IWriteableInsertionNewBlockNodeIndex blockIndex, Action<IWriteableOperation> handlerRedo, bool isNested)
+        protected virtual IWriteableInsertBlockOperation CreateInsertBlockOperation(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, IWriteableInsertionNewBlockNodeIndex blockIndex, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableController));
-            return new WriteableInsertBlockOperation(inner, blockIndex, handlerRedo, isNested);
+            return new WriteableInsertBlockOperation(inner, blockIndex, handlerRedo, handlerUndo, isNested);
         }
 
         /// <summary>
         /// Creates a IxxxRemoveBlockOperation object.
         /// </summary>
-        protected virtual IWriteableRemoveBlockOperation CreateRemoveBlockOperation(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, IWriteableBrowsingExistingBlockNodeIndex blockIndex, Action<IWriteableOperation> handlerRedo, bool isNested)
+        protected virtual IWriteableRemoveBlockOperation CreateRemoveBlockOperation(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, IWriteableBrowsingExistingBlockNodeIndex blockIndex, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableController));
-            return new WriteableRemoveBlockOperation(inner, blockIndex, handlerRedo, isNested);
+            return new WriteableRemoveBlockOperation(inner, blockIndex, handlerRedo, handlerUndo, isNested);
         }
 
         /// <summary>
         /// Creates a IxxxRemoveBlockViewOperation object.
         /// </summary>
-        protected virtual IWriteableRemoveBlockViewOperation CreateRemoveBlockViewOperation(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, int blockIndex, bool cleanupBlockList, Action<IWriteableOperation> handlerRedo, bool isNested)
+        protected virtual IWriteableRemoveBlockViewOperation CreateRemoveBlockViewOperation(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, int blockIndex, bool cleanupBlockList, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableController));
-            return new WriteableRemoveBlockViewOperation(inner, blockIndex, cleanupBlockList, handlerRedo, isNested);
+            return new WriteableRemoveBlockViewOperation(inner, blockIndex, cleanupBlockList, handlerRedo, handlerUndo, isNested);
         }
 
         /// <summary>
         /// Creates a IxxxRemoveNodeOperation object.
         /// </summary>
-        protected virtual IWriteableRemoveNodeOperation CreateRemoveNodeOperation(IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> inner, IWriteableBrowsingCollectionNodeIndex nodeIndex, Action<IWriteableOperation> handlerRedo, bool isNested)
+        protected virtual IWriteableRemoveNodeOperation CreateRemoveNodeOperation(IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> inner, IWriteableBrowsingCollectionNodeIndex nodeIndex, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableController));
-            return new WriteableRemoveNodeOperation(inner, nodeIndex, handlerRedo, isNested);
+            return new WriteableRemoveNodeOperation(inner, nodeIndex, handlerRedo, handlerUndo, isNested);
         }
 
         /// <summary>
         /// Creates a IxxxReplaceOperation object.
         /// </summary>
-        protected virtual IWriteableReplaceOperation CreateReplaceOperation(IWriteableInner<IWriteableBrowsingChildIndex> inner, IWriteableInsertionChildIndex replacementIndex, Action<IWriteableOperation> handlerRedo, bool isNested)
+        protected virtual IWriteableReplaceOperation CreateReplaceOperation(IWriteableInner<IWriteableBrowsingChildIndex> inner, IWriteableInsertionChildIndex replacementIndex, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableController));
-            return new WriteableReplaceOperation(inner, replacementIndex, handlerRedo, isNested);
+            return new WriteableReplaceOperation(inner, replacementIndex, handlerRedo, handlerUndo, isNested);
         }
 
         /// <summary>
         /// Creates a IxxxAssignmentOperation object.
         /// </summary>
-        protected virtual IWriteableAssignmentOperation CreateAssignmentOperation(IWriteableOptionalInner<IWriteableBrowsingOptionalNodeIndex> inner, IWriteableBrowsingOptionalNodeIndex nodeIndex, Action<IWriteableOperation> handlerRedo, bool isNested)
+        protected virtual IWriteableAssignmentOperation CreateAssignmentOperation(IWriteableOptionalInner<IWriteableBrowsingOptionalNodeIndex> inner, IWriteableBrowsingOptionalNodeIndex nodeIndex, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableController));
-            return new WriteableAssignmentOperation(inner, nodeIndex, handlerRedo, isNested);
+            return new WriteableAssignmentOperation(inner, nodeIndex, handlerRedo, handlerUndo, isNested);
         }
 
         /// <summary>
         /// Creates a IxxxChangeNodeOperation object.
         /// </summary>
-        protected virtual IWriteableChangeNodeOperation CreateChangeNodeOperation(IWriteableIndex nodeIndex, string propertyName, int value, Action<IWriteableOperation> handlerRedo, bool isNested)
+        protected virtual IWriteableChangeNodeOperation CreateChangeNodeOperation(IWriteableIndex nodeIndex, string propertyName, int value, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableController));
-            return new WriteableChangeNodeOperation(nodeIndex, propertyName, value, handlerRedo, isNested);
+            return new WriteableChangeNodeOperation(nodeIndex, propertyName, value, handlerRedo, handlerUndo, isNested);
         }
 
         /// <summary>
         /// Creates a IxxxChangeBlockOperation object.
         /// </summary>
-        protected virtual IWriteableChangeBlockOperation CreateChangeBlockOperation(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, int blockIndex, ReplicationStatus replication, Action<IWriteableOperation> handlerRedo, bool isNested)
+        protected virtual IWriteableChangeBlockOperation CreateChangeBlockOperation(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, int blockIndex, ReplicationStatus replication, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableController));
-            return new WriteableChangeBlockOperation(inner, blockIndex, replication, handlerRedo, isNested);
+            return new WriteableChangeBlockOperation(inner, blockIndex, replication, handlerRedo, handlerUndo, isNested);
         }
 
         /// <summary>
         /// Creates a IxxxSplitBlockOperation object.
         /// </summary>
-        protected virtual IWriteableSplitBlockOperation CreateSplitBlockOperation(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, IWriteableBrowsingExistingBlockNodeIndex nodeIndex, Action<IWriteableOperation> handlerRedo, bool isNested)
+        protected virtual IWriteableSplitBlockOperation CreateSplitBlockOperation(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, IWriteableBrowsingExistingBlockNodeIndex nodeIndex, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableController));
-            return new WriteableSplitBlockOperation(inner, nodeIndex, handlerRedo, isNested);
+            return new WriteableSplitBlockOperation(inner, nodeIndex, handlerRedo, handlerUndo, isNested);
         }
 
         /// <summary>
         /// Creates a IxxxxMergeBlocksOperation object.
         /// </summary>
-        protected virtual IWriteableMergeBlocksOperation CreateMergeBlocksOperation(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, IWriteableBrowsingExistingBlockNodeIndex nodeIndex, Action<IWriteableOperation> handlerRedo, bool isNested)
+        protected virtual IWriteableMergeBlocksOperation CreateMergeBlocksOperation(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, IWriteableBrowsingExistingBlockNodeIndex nodeIndex, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableController));
-            return new WriteableMergeBlocksOperation(inner, nodeIndex, handlerRedo, isNested);
+            return new WriteableMergeBlocksOperation(inner, nodeIndex, handlerRedo, handlerUndo, isNested);
         }
 
         /// <summary>
         /// Creates a IxxxxMoveNodeOperation object.
         /// </summary>
-        protected virtual IWriteableMoveNodeOperation CreateMoveNodeOperation(IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> inner, IWriteableBrowsingCollectionNodeIndex nodeIndex, int direction, Action<IWriteableOperation> handlerRedo, bool isNested)
+        protected virtual IWriteableMoveNodeOperation CreateMoveNodeOperation(IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> inner, IWriteableBrowsingCollectionNodeIndex nodeIndex, int direction, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableController));
-            return new WriteableMoveNodeOperation(inner, nodeIndex, direction, handlerRedo, isNested);
+            return new WriteableMoveNodeOperation(inner, nodeIndex, direction, handlerRedo, handlerUndo, isNested);
         }
 
         /// <summary>
         /// Creates a IxxxxMoveBlockOperation object.
         /// </summary>
-        protected virtual IWriteableMoveBlockOperation CreateMoveBlockOperation(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, int blockIndex, int direction, Action<IWriteableOperation> handlerRedo, bool isNested)
+        protected virtual IWriteableMoveBlockOperation CreateMoveBlockOperation(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, int blockIndex, int direction, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableController));
-            return new WriteableMoveBlockOperation(inner, blockIndex, direction, handlerRedo, isNested);
+            return new WriteableMoveBlockOperation(inner, blockIndex, direction, handlerRedo, handlerUndo, isNested);
         }
 
         /// <summary>
         /// Creates a IxxxExpandArgumentOperation object.
         /// </summary>
-        protected virtual IWriteableExpandArgumentOperation CreateExpandArgumentOperation(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, IWriteableInsertionNewBlockNodeIndex blockIndex, Action<IWriteableOperation> handlerRedo, bool isNested)
+        protected virtual IWriteableExpandArgumentOperation CreateExpandArgumentOperation(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, IWriteableInsertionNewBlockNodeIndex blockIndex, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableController));
-            return new WriteableExpandArgumentOperation(inner, blockIndex, handlerRedo, isNested);
+            return new WriteableExpandArgumentOperation(inner, blockIndex, handlerRedo, handlerUndo, isNested);
         }
 
         /// <summary>
         /// Creates a IxxxGenericRefreshOperation object.
         /// </summary>
-        protected virtual IWriteableGenericRefreshOperation CreateGenericRefreshOperation(IWriteableNodeState refreshState, Action<IWriteableOperation> handlerRedo, bool isNested)
+        protected virtual IWriteableGenericRefreshOperation CreateGenericRefreshOperation(IWriteableNodeState refreshState, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableController));
-            return new WriteableGenericRefreshOperation(refreshState, handlerRedo, isNested);
+            return new WriteableGenericRefreshOperation(refreshState, handlerRedo, handlerUndo, isNested);
         }
 
         /// <summary>

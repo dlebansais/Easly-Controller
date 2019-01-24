@@ -54,9 +54,10 @@ namespace EaslyController.Writeable
         /// <param name="inner">Inner where the replacement is taking place.</param>
         /// <param name="replacementIndex">Position where the node is replaced.</param>
         /// <param name="handlerRedo">Handler to execute to redo the operation.</param>
+        /// <param name="handlerUndo">Handler to execute to undo the operation.</param>
         /// <param name="isNested">True if the operation is nested within another more general one.</param>
-        public WriteableReplaceOperation(IWriteableInner<IWriteableBrowsingChildIndex> inner, IWriteableInsertionChildIndex replacementIndex, Action<IWriteableOperation> handlerRedo, bool isNested)
-            : base(handlerRedo, isNested)
+        public WriteableReplaceOperation(IWriteableInner<IWriteableBrowsingChildIndex> inner, IWriteableInsertionChildIndex replacementIndex, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+            : base(handlerRedo, handlerUndo, isNested)
         {
             Inner = inner;
             ReplacementIndex = replacementIndex;

@@ -33,9 +33,10 @@ namespace EaslyController.Focus
         /// <param name="blockIndex">Index of the moved block.</param>
         /// <param name="direction">The change in position, relative to the current position.</param>
         /// <param name="handlerRedo">Handler to execute to redo the operation.</param>
+        /// <param name="handlerUndo">Handler to execute to undo the operation.</param>
         /// <param name="isNested">True if the operation is nested within another more general one.</param>
-        public FocusMoveBlockOperation(IFocusBlockListInner<IFocusBrowsingBlockNodeIndex> inner, int blockIndex, int direction, Action<IWriteableOperation> handlerRedo, bool isNested)
-            : base(inner, blockIndex, direction, handlerRedo, isNested)
+        public FocusMoveBlockOperation(IFocusBlockListInner<IFocusBrowsingBlockNodeIndex> inner, int blockIndex, int direction, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+            : base(inner, blockIndex, direction, handlerRedo, handlerUndo, isNested)
         {
         }
         #endregion

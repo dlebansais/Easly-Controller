@@ -54,9 +54,10 @@ namespace EaslyController.Writeable
         /// <param name="inner">Inner where the block insertion is taking place.</param>
         /// <param name="blockIndex">Index of the inserted block.</param>
         /// <param name="handlerRedo">Handler to execute to redo the operation.</param>
+        /// <param name="handlerUndo">Handler to execute to undo the operation.</param>
         /// <param name="isNested">True if the operation is nested within another more general one.</param>
-        public WriteableInsertBlockOperation(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, IWriteableInsertionNewBlockNodeIndex blockIndex, Action<IWriteableOperation> handlerRedo, bool isNested)
-            : base(handlerRedo, isNested)
+        public WriteableInsertBlockOperation(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, IWriteableInsertionNewBlockNodeIndex blockIndex, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+            : base(handlerRedo, handlerUndo, isNested)
         {
             Inner = inner;
             BlockIndex = blockIndex;

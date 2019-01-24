@@ -33,9 +33,10 @@ namespace EaslyController.Frame
         /// <param name="blockIndex">Index of the changed block.</param>
         /// <param name="replication">New replication value.</param>
         /// <param name="handlerRedo">Handler to execute to redo the operation.</param>
+        /// <param name="handlerUndo">Handler to execute to undo the operation.</param>
         /// <param name="isNested">True if the operation is nested within another more general one.</param>
-        public FrameChangeBlockOperation(IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> inner, int blockIndex, ReplicationStatus replication, Action<IWriteableOperation> handlerRedo, bool isNested)
-            : base(inner, blockIndex, replication, handlerRedo, isNested)
+        public FrameChangeBlockOperation(IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> inner, int blockIndex, ReplicationStatus replication, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+            : base(inner, blockIndex, replication, handlerRedo, handlerUndo, isNested)
         {
         }
         #endregion

@@ -14,9 +14,24 @@ namespace EaslyController.Writeable
         Action<IWriteableOperation> HandlerRedo { get; }
 
         /// <summary>
+        /// Handler to execute to undo the operation.
+        /// </summary>
+        Action<IWriteableOperation> HandlerUndo { get; }
+
+        /// <summary>
         /// True if the operation is nested within another more general one.
         /// </summary>
         bool IsNested { get; }
+
+        /// <summary>
+        /// Execute the operation.
+        /// </summary>
+        void Redo();
+
+        /// <summary>
+        /// Undo the operation.
+        /// </summary>
+        void Undo();
     }
 
     /// <summary>
@@ -29,12 +44,14 @@ namespace EaslyController.Writeable
         /// Initializes a new instance of a <see cref="WriteableOperation"/> object.
         /// </summary>
         /// <param name="handlerRedo">Handler to execute to redo the operation.</param>
+        /// <param name="handlerUndo">Handler to execute to undo the operation.</param>
         /// <param name="isNested">True if the operation is nested within another more general one.</param>
-        public WriteableOperation(Action<IWriteableOperation> handlerRedo, bool isNested)
+        public WriteableOperation(Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
         {
             Debug.Assert(handlerRedo != null);
 
             HandlerRedo = handlerRedo;
+            HandlerUndo = handlerUndo;
             IsNested = isNested;
         }
         #endregion
@@ -46,9 +63,32 @@ namespace EaslyController.Writeable
         public Action<IWriteableOperation> HandlerRedo { get; }
 
         /// <summary>
+        /// Handler to execute to undo the operation.
+        /// </summary>
+        public Action<IWriteableOperation> HandlerUndo { get; }
+
+        /// <summary>
         /// True if the operation is nested within another more general one.
         /// </summary>
         public bool IsNested { get; }
+        #endregion
+
+        #region Client Interface
+        /// <summary>
+        /// Execute the operation.
+        /// </summary>
+        public void Redo()
+        {
+            HandlerRedo(this);
+        }
+
+        /// <summary>
+        /// Undo the operation.
+        /// </summary>
+        public void Undo()
+        {
+            HandlerUndo(this);
+        }
         #endregion
     }
 }

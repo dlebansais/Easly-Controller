@@ -37,9 +37,10 @@ namespace EaslyController.Focus
         /// <param name="inner">Inner where the assignment is taking place.</param>
         /// <param name="nodeIndex">Position of the assigned or unassigned node.</param>
         /// <param name="handlerRedo">Handler to execute to redo the operation.</param>
+        /// <param name="handlerUndo">Handler to execute to undo the operation.</param>
         /// <param name="isNested">True if the operation is nested within another more general one.</param>
-        public FocusAssignmentOperation(IFocusOptionalInner<IFocusBrowsingOptionalNodeIndex> inner, IFocusBrowsingOptionalNodeIndex nodeIndex, Action<IWriteableOperation> handlerRedo, bool isNested)
-            : base(inner, nodeIndex, handlerRedo, isNested)
+        public FocusAssignmentOperation(IFocusOptionalInner<IFocusBrowsingOptionalNodeIndex> inner, IFocusBrowsingOptionalNodeIndex nodeIndex, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+            : base(inner, nodeIndex, handlerRedo, handlerUndo, isNested)
         {
         }
         #endregion

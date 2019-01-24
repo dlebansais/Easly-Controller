@@ -20,9 +20,10 @@ namespace EaslyController.Frame
         /// Initializes a new instance of a <see cref="FrameRemoveOperation"/> object.
         /// </summary>
         /// <param name="handlerRedo">Handler to execute to redo the operation.</param>
+        /// <param name="handlerUndo">Handler to execute to undo the operation.</param>
         /// <param name="isNested">True if the operation is nested within another more general one.</param>
-        public FrameRemoveOperation(Action<IWriteableOperation> handlerRedo, bool isNested)
-            : base(handlerRedo, isNested)
+        public FrameRemoveOperation(Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+            : base(handlerRedo, handlerUndo, isNested)
         {
         }
         #endregion

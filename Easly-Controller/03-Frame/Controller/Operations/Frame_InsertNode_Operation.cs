@@ -41,9 +41,10 @@ namespace EaslyController.Frame
         /// <param name="inner">Inner where the insertion is taking place.</param>
         /// <param name="insertionIndex">Position where the node is inserted.</param>
         /// <param name="handlerRedo">Handler to execute to redo the operation.</param>
+        /// <param name="handlerUndo">Handler to execute to undo the operation.</param>
         /// <param name="isNested">True if the operation is nested within another more general one.</param>
-        public FrameInsertNodeOperation(IFrameCollectionInner<IFrameBrowsingCollectionNodeIndex> inner, IFrameInsertionCollectionNodeIndex insertionIndex, Action<IWriteableOperation> handlerRedo, bool isNested)
-            : base(inner, insertionIndex, handlerRedo, isNested)
+        public FrameInsertNodeOperation(IFrameCollectionInner<IFrameBrowsingCollectionNodeIndex> inner, IFrameInsertionCollectionNodeIndex insertionIndex, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+            : base(inner, insertionIndex, handlerRedo, handlerUndo, isNested)
         {
         }
         #endregion

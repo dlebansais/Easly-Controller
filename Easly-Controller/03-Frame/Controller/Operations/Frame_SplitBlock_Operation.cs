@@ -36,9 +36,10 @@ namespace EaslyController.Frame
         /// <param name="inner">Inner where the block is split.</param>
         /// <param name="nodeIndex">Index of the last node to stay in the old block.</param>
         /// <param name="handlerRedo">Handler to execute to redo the operation.</param>
+        /// <param name="handlerUndo">Handler to execute to undo the operation.</param>
         /// <param name="isNested">True if the operation is nested within another more general one.</param>
-        public FrameSplitBlockOperation(IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> inner, IFrameBrowsingExistingBlockNodeIndex nodeIndex, Action<IWriteableOperation> handlerRedo, bool isNested)
-            : base(inner, nodeIndex, handlerRedo, isNested)
+        public FrameSplitBlockOperation(IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> inner, IFrameBrowsingExistingBlockNodeIndex nodeIndex, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+            : base(inner, nodeIndex, handlerRedo, handlerUndo, isNested)
         {
         }
         #endregion
