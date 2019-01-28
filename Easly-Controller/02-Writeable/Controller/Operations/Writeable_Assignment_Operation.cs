@@ -28,6 +28,11 @@ namespace EaslyController.Writeable
         /// </summary>
         /// <param name="state">The modified state.</param>
         void Update(IWriteableOptionalNodeState state);
+
+        /// <summary>
+        /// Creates an operation to undo the assignment operation.
+        /// </summary>
+        IWriteableAssignmentOperation ToInverseAssignment();
     }
 
     /// <summary>
@@ -63,6 +68,15 @@ namespace EaslyController.Writeable
 
             State = state;
         }
+
+        /// <summary>
+        /// Creates an operation to undo the assignment operation.
+        /// </summary>
+        public virtual IWriteableAssignmentOperation ToInverseAssignment()
+        {
+            IWriteableBrowsingOptionalNodeIndex BrowsingIndex = State.ParentIndex;
+            return CreateAssignmentOperation(Inner, BrowsingIndex, HandlerUndo, HandlerRedo, IsNested);
+        }
         #endregion
 
         #region Properties
@@ -80,6 +94,17 @@ namespace EaslyController.Writeable
         /// The modified state.
         /// </summary>
         public IWriteableOptionalNodeState State { get; private set; }
+        #endregion
+
+        #region Create Methods
+        /// <summary>
+        /// Creates a IxxxAssignmentOperation object.
+        /// </summary>
+        protected virtual IWriteableAssignmentOperation CreateAssignmentOperation(IWriteableOptionalInner<IWriteableBrowsingOptionalNodeIndex> inner, IWriteableBrowsingOptionalNodeIndex nodeIndex, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        {
+            ControllerTools.AssertNoOverride(this, typeof(WriteableAssignmentOperation));
+            return new WriteableAssignmentOperation(inner, nodeIndex, handlerRedo, handlerUndo, isNested);
+        }
         #endregion
     }
 }

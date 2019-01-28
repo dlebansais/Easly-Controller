@@ -34,6 +34,11 @@ namespace EaslyController.Writeable
         /// </summary>
         /// <param name="blockState">Block state changed.</param>
         void Update(IWriteableBlockState blockState);
+
+        /// <summary>
+        /// Creates an operation to undo the assignment operation.
+        /// </summary>
+        IWriteableChangeBlockOperation ToInverseChange();
     }
 
     /// <summary>
@@ -92,6 +97,25 @@ namespace EaslyController.Writeable
             Debug.Assert(blockState != null);
 
             BlockState = blockState;
+        }
+
+        /// <summary>
+        /// Creates an operation to undo the assignment operation.
+        /// </summary>
+        public virtual IWriteableChangeBlockOperation ToInverseChange()
+        {
+            return CreateChangeBlockOperation(Inner, BlockIndex, Replication == ReplicationStatus.Normal ? ReplicationStatus.Replicated : ReplicationStatus.Normal, HandlerUndo, HandlerRedo, IsNested);
+        }
+        #endregion
+
+        #region Create Methods
+        /// <summary>
+        /// Creates a IxxxChangeBlockOperation object.
+        /// </summary>
+        protected virtual IWriteableChangeBlockOperation CreateChangeBlockOperation(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, int blockIndex, ReplicationStatus replication, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        {
+            ControllerTools.AssertNoOverride(this, typeof(WriteableChangeBlockOperation));
+            return new WriteableChangeBlockOperation(inner, blockIndex, replication, handlerRedo, handlerUndo, isNested);
         }
         #endregion
     }

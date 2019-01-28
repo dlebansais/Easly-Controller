@@ -177,13 +177,15 @@ namespace EaslyController.Writeable
         /// Assign the optional node.
         /// </summary>
         /// <param name="nodeIndex">Index of the optional node.</param>
-        void Assign(IWriteableBrowsingOptionalNodeIndex nodeIndex);
+        /// <param name="isChanged">True upon return if the node was changed. False if the node was already assigned.</param>
+        void Assign(IWriteableBrowsingOptionalNodeIndex nodeIndex, out bool isChanged);
 
         /// <summary>
         /// Unassign the optional node.
         /// </summary>
         /// <param name="nodeIndex">Index of the optional node.</param>
-        void Unassign(IWriteableBrowsingOptionalNodeIndex nodeIndex);
+        /// <param name="isChanged">True upon return if the node was changed. False if the node was already not assigned.</param>
+        void Unassign(IWriteableBrowsingOptionalNodeIndex nodeIndex, out bool isChanged);
 
         /// <summary>
         /// Changes the replication state of a block.
@@ -1073,7 +1075,8 @@ namespace EaslyController.Writeable
         /// Assign the optional node.
         /// </summary>
         /// <param name="nodeIndex">Index of the optional node.</param>
-        public virtual void Assign(IWriteableBrowsingOptionalNodeIndex nodeIndex)
+        /// <param name="isChanged">True upon return if the node was changed. False if the node was already assigned.</param>
+        public virtual void Assign(IWriteableBrowsingOptionalNodeIndex nodeIndex, out bool isChanged)
         {
             Debug.Assert(nodeIndex != null);
             Debug.Assert(StateTable.ContainsKey(nodeIndex));
@@ -1087,12 +1090,17 @@ namespace EaslyController.Writeable
             if (!Inner.IsAssigned)
             {
                 Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => ExecuteAssign(operation);
-                IWriteableAssignmentOperation Operation = CreateAssignmentOperation(Inner, nodeIndex, HandlerRedo, null, isNested: false);
+                Action<IWriteableOperation> HandlerUndo = (IWriteableOperation operation) => UndoAssign(operation);
+                IWriteableAssignmentOperation Operation = CreateAssignmentOperation(Inner, nodeIndex, HandlerRedo, HandlerUndo, isNested: false);
 
                 Operation.Redo();
                 SetLastOperation(Operation);
                 CheckInvariant();
+
+                isChanged = true;
             }
+            else
+                isChanged = false;
         }
 
         /// <summary></summary>
@@ -1107,11 +1115,25 @@ namespace EaslyController.Writeable
             NotifyStateAssigned(AssignmentOperation);
         }
 
+        /// <summary></summary>
+        protected virtual void UndoAssign(IWriteableOperation operation)
+        {
+            IWriteableAssignmentOperation AssignmentOperation = (IWriteableAssignmentOperation)operation;
+            AssignmentOperation = AssignmentOperation.ToInverseAssignment();
+
+            AssignmentOperation.Inner.Unassign(AssignmentOperation);
+
+            Stats.AssignedOptionalNodeCount--;
+
+            NotifyStateUnassigned(AssignmentOperation);
+        }
+
         /// <summary>
         /// Unassign the optional node.
         /// </summary>
         /// <param name="nodeIndex">Index of the optional node.</param>
-        public virtual void Unassign(IWriteableBrowsingOptionalNodeIndex nodeIndex)
+        /// <param name="isChanged">True upon return if the node was changed. False if the node was already not assigned.</param>
+        public virtual void Unassign(IWriteableBrowsingOptionalNodeIndex nodeIndex, out bool isChanged)
         {
             Debug.Assert(nodeIndex != null);
             Debug.Assert(StateTable.ContainsKey(nodeIndex));
@@ -1125,12 +1147,17 @@ namespace EaslyController.Writeable
             if (Inner.IsAssigned)
             {
                 Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => ExecuteUnassign(operation);
-                IWriteableAssignmentOperation Operation = CreateAssignmentOperation(Inner, nodeIndex, HandlerRedo, null, isNested: false);
+                Action<IWriteableOperation> HandlerUndo = (IWriteableOperation operation) => UndoUnassign(operation);
+                IWriteableAssignmentOperation Operation = CreateAssignmentOperation(Inner, nodeIndex, HandlerRedo, HandlerUndo, isNested: false);
 
                 Operation.Redo();
                 SetLastOperation(Operation);
                 CheckInvariant();
+
+                isChanged = true;
             }
+            else
+                isChanged = false;
         }
 
         /// <summary></summary>
@@ -1145,6 +1172,19 @@ namespace EaslyController.Writeable
             NotifyStateUnassigned(AssignmentOperation);
         }
 
+        /// <summary></summary>
+        protected virtual void UndoUnassign(IWriteableOperation operation)
+        {
+            IWriteableAssignmentOperation AssignmentOperation = (IWriteableAssignmentOperation)operation;
+            AssignmentOperation = AssignmentOperation.ToInverseAssignment();
+
+            AssignmentOperation.Inner.Assign(AssignmentOperation);
+
+            Stats.AssignedOptionalNodeCount++;
+
+            NotifyStateAssigned(AssignmentOperation);
+        }
+
         /// <summary>
         /// Changes the replication state of a block.
         /// </summary>
@@ -1157,7 +1197,8 @@ namespace EaslyController.Writeable
             Debug.Assert(blockIndex >= 0 && blockIndex < inner.BlockStateList.Count);
 
             Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => ExecuteChangeReplication(operation);
-            IWriteableChangeBlockOperation Operation = CreateChangeBlockOperation(inner, blockIndex, replication, HandlerRedo, null, isNested: false);
+            Action<IWriteableOperation> HandlerUndo = (IWriteableOperation operation) => UndoChangeReplication(operation);
+            IWriteableChangeBlockOperation Operation = CreateChangeBlockOperation(inner, blockIndex, replication, HandlerRedo, HandlerUndo, isNested: false);
 
             Operation.Redo();
             SetLastOperation(Operation);
@@ -1168,6 +1209,17 @@ namespace EaslyController.Writeable
         protected virtual void ExecuteChangeReplication(IWriteableOperation operation)
         {
             IWriteableChangeBlockOperation ChangeBlockOperation = (IWriteableChangeBlockOperation)operation;
+
+            ChangeBlockOperation.Inner.ChangeReplication(ChangeBlockOperation, ChangeBlockOperation.Replication);
+
+            NotifyBlockStateChanged(ChangeBlockOperation);
+        }
+
+        /// <summary></summary>
+        protected virtual void UndoChangeReplication(IWriteableOperation operation)
+        {
+            IWriteableChangeBlockOperation ChangeBlockOperation = (IWriteableChangeBlockOperation)operation;
+            ChangeBlockOperation = ChangeBlockOperation.ToInverseChange();
 
             ChangeBlockOperation.Inner.ChangeReplication(ChangeBlockOperation, ChangeBlockOperation.Replication);
 

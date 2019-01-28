@@ -209,6 +209,7 @@ namespace TestDebug
             IWriteableController Controller = WriteableController.Create(RootIndex);
             Stats Stats = Controller.Stats;
             IWriteableController ControllerCheck;
+            bool IsChanged;
 
             INode RootNodeClone = Controller.RootState.CloneNode();
             ulong h1 = NodeHelper.NodeHash(rootNode);
@@ -316,7 +317,7 @@ namespace TestDebug
             IWriteableControllerView ControllerView8 = WriteableControllerView.Create(Controller);
             Debug.Assert(ControllerView8.IsEqual(CompareEqual.New(), ControllerView));
 
-            Controller.Unassign(OptionalInner.ChildState.ParentIndex);
+            Controller.Unassign(OptionalInner.ChildState.ParentIndex, out IsChanged);
 
             ControllerCheck = WriteableController.Create(new WriteableRootNodeIndex(rootNode));
             Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
@@ -324,7 +325,7 @@ namespace TestDebug
             IWriteableControllerView ControllerView9 = WriteableControllerView.Create(Controller);
             Debug.Assert(ControllerView9.IsEqual(CompareEqual.New(), ControllerView));
 
-            Controller.Assign(OptionalInner.ChildState.ParentIndex);
+            Controller.Assign(OptionalInner.ChildState.ParentIndex, out IsChanged);
 
             ControllerCheck = WriteableController.Create(new WriteableRootNodeIndex(rootNode));
             Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
@@ -428,6 +429,7 @@ namespace TestDebug
             IFrameControllerView CustomView = FrameControllerView.Create(Controller, CustomFrameTemplateSet.FrameTemplateSet);
             Stats Stats = Controller.Stats;
             IFrameController ControllerCheck;
+            bool IsChanged;
 
             INode RootNodeClone = Controller.RootState.CloneNode();
             ulong h1 = NodeHelper.NodeHash(rootNode);
@@ -542,7 +544,7 @@ namespace TestDebug
                 Debug.Assert(ControllerView8.IsEqual(CompareEqual.New(), ControllerView));
             }
 
-            Controller.Unassign(OptionalInner.ChildState.ParentIndex);
+            Controller.Unassign(OptionalInner.ChildState.ParentIndex, out IsChanged);
 
             ControllerCheck = FrameController.Create(new FrameRootNodeIndex(rootNode));
             Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
@@ -550,7 +552,7 @@ namespace TestDebug
             IFrameControllerView ControllerView9 = FrameControllerView.Create(Controller, FrameTemplateSet.Default);
             Debug.Assert(ControllerView9.IsEqual(CompareEqual.New(), ControllerView));
 
-            Controller.Assign(OptionalInner.ChildState.ParentIndex);
+            Controller.Assign(OptionalInner.ChildState.ParentIndex, out IsChanged);
 
             ControllerCheck = FrameController.Create(new FrameRootNodeIndex(rootNode));
             Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
@@ -658,6 +660,7 @@ namespace TestDebug
             IFocusControllerView CustomView = FocusControllerView.Create(Controller, CustomFocusTemplateSet.FocusTemplateSet);
             Stats Stats = Controller.Stats;
             IFocusController ControllerCheck;
+            bool IsChanged;
 
             INode RootNodeClone = Controller.RootState.CloneNode();
             ulong h1 = NodeHelper.NodeHash(rootNode);
@@ -779,7 +782,7 @@ namespace TestDebug
                 Debug.Assert(ControllerView8.IsEqual(CompareEqual.New(), ControllerView));
             }
 
-            Controller.Unassign(OptionalInner.ChildState.ParentIndex);
+            Controller.Unassign(OptionalInner.ChildState.ParentIndex, out IsChanged);
 
             ControllerCheck = FocusController.Create(new FocusRootNodeIndex(rootNode));
             Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
@@ -787,7 +790,7 @@ namespace TestDebug
             IFocusControllerView ControllerView9 = FocusControllerView.Create(Controller, FocusTemplateSet.Default);
             Debug.Assert(ControllerView9.IsEqual(CompareEqual.New(), ControllerView));
 
-            Controller.Assign(OptionalInner.ChildState.ParentIndex);
+            Controller.Assign(OptionalInner.ChildState.ParentIndex, out IsChanged);
 
             ControllerCheck = FocusController.Create(new FocusRootNodeIndex(rootNode));
             Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
