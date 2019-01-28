@@ -493,16 +493,15 @@ namespace EaslyController.Writeable
             IWriteableBlockState BlockState = BlockStateList[SplitBlockIndex];
             Debug.Assert(SplitIndex < BlockState.StateList.Count);
 
-            ReplicationStatus Replication = BlockState.ChildBlock.Replication;
-            IPattern NewPatternNode = NodeHelper.CreateSimplePattern(BlockState.ChildBlock.ReplicationPattern.Text);
-            IIdentifier NewSourceNode = NodeHelper.CreateSimpleIdentifier(BlockState.ChildBlock.SourceIdentifier.Text);
+            IBlock NewBlock = operation.NewBlock;
+            Debug.Assert(NewBlock != null);
 
-            NodeTreeHelperBlockList.SplitBlock(Owner.Node, PropertyName, SplitBlockIndex, SplitIndex, Replication, NewPatternNode, NewSourceNode, out IBlock ChildBlock);
+            NodeTreeHelperBlockList.SplitBlock(Owner.Node, PropertyName, SplitBlockIndex, SplitIndex, NewBlock);
 
-            NodeTreeHelperBlockList.GetChildNode(ChildBlock, 0, out INode NewBlockFirstNode);
-            IWriteableBrowsingNewBlockNodeIndex NewBlockIndex = CreateNewBlockNodeIndex(NewBlockFirstNode, SplitBlockIndex, NewPatternNode, NewSourceNode);
+            NodeTreeHelperBlockList.GetChildNode(NewBlock, 0, out INode NewBlockFirstNode);
+            IWriteableBrowsingNewBlockNodeIndex NewBlockIndex = CreateNewBlockNodeIndex(NewBlockFirstNode, SplitBlockIndex, NewBlock.ReplicationPattern, NewBlock.SourceIdentifier);
 
-            IWriteableBlockState NewBlockState = (IWriteableBlockState)CreateBlockState(NewBlockIndex, ChildBlock);
+            IWriteableBlockState NewBlockState = (IWriteableBlockState)CreateBlockState(NewBlockIndex, NewBlock);
             NewBlockState.InitBlockState();
             InsertInBlockStateList(NewBlockIndex.BlockIndex, NewBlockState);
 
@@ -573,11 +572,11 @@ namespace EaslyController.Writeable
             int MergeIndex = FirstBlockState.StateList.Count;
             Debug.Assert(MergeIndex > 0);
 
-            NodeTreeHelperBlockList.MergeBlocks(Owner.Node, PropertyName, MergeBlockIndex);
+            NodeTreeHelperBlockList.MergeBlocks(Owner.Node, PropertyName, MergeBlockIndex, out IBlock mergedBlock);
 
             RemoveFromBlockStateList(MergeBlockIndex - 1);
 
-            operation.Update();
+            operation.Update(mergedBlock);
 
             int i;
             for (i = 0; i < MergeIndex; i++)

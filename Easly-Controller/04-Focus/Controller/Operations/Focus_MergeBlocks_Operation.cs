@@ -50,11 +50,6 @@ namespace EaslyController.Focus
         /// Index of the first node in the merged block.
         /// </summary>
         public new IFocusBrowsingExistingBlockNodeIndex NodeIndex { get { return (IFocusBrowsingExistingBlockNodeIndex)base.NodeIndex; } }
-
-        /// <summary>
-        /// Block state inserted.
-        /// </summary>
-        public new IFocusBlockState BlockState { get { return (IFocusBlockState)base.BlockState; } }
         #endregion
     }
 }

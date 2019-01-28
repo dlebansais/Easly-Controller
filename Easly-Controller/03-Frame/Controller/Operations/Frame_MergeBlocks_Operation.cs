@@ -49,11 +49,6 @@ namespace EaslyController.Frame
         /// Index of the first node in the merged block.
         /// </summary>
         public new IFrameBrowsingExistingBlockNodeIndex NodeIndex { get { return (IFrameBrowsingExistingBlockNodeIndex)base.NodeIndex; } }
-
-        /// <summary>
-        /// Block state inserted.
-        /// </summary>
-        public new IFrameBlockState BlockState { get { return (IFrameBlockState)base.BlockState; } }
         #endregion
     }
 }

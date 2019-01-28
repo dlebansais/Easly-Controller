@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BaseNode;
+using System;
 
 namespace EaslyController.Writeable
 {
@@ -23,9 +24,20 @@ namespace EaslyController.Writeable
         int BlockIndex { get; }
 
         /// <summary>
+        /// The merged block.
+        /// </summary>
+        IBlock MergedBlock { get; }
+
+        /// <summary>
         /// Update the operation with details.
         /// </summary>
-        void Update();
+        /// <param name="mergedBlock">The merged block.</param>
+        void Update(IBlock mergedBlock);
+
+        /// <summary>
+        /// Creates an operation to undo the merge blocks operation.
+        /// </summary>
+        IWriteableSplitBlockOperation ToSplitBlockOperation();
     }
 
     /// <summary>
@@ -63,22 +75,43 @@ namespace EaslyController.Writeable
         public IWriteableBrowsingExistingBlockNodeIndex NodeIndex { get; }
 
         /// <summary>
-        /// Block state inserted.
-        /// </summary>
-        public IWriteableBlockState BlockState { get; private set; }
-
-        /// <summary>
         /// Index of the block split.
         /// </summary>
         public int BlockIndex { get; }
+
+        /// <summary>
+        /// The merged block.
+        /// </summary>
+        public IBlock MergedBlock { get; private set; }
         #endregion
 
         #region Client Interface
         /// <summary>
         /// Update the operation with details.
         /// </summary>
-        public virtual void Update()
+        /// <param name="mergedBlock">The merged block.</param>
+        public virtual void Update(IBlock mergedBlock)
         {
+            MergedBlock = mergedBlock;
+        }
+
+        /// <summary>
+        /// Creates an operation to undo the merge blocks operation.
+        /// </summary>
+        public virtual IWriteableSplitBlockOperation ToSplitBlockOperation()
+        {
+            return CreateSplitBlockOperation(Inner, NodeIndex, MergedBlock, HandlerUndo, HandlerRedo, IsNested);
+        }
+        #endregion
+
+        #region Create Methods
+        /// <summary>
+        /// Creates a IxxxSplitBlockOperation object.
+        /// </summary>
+        protected virtual IWriteableSplitBlockOperation CreateSplitBlockOperation(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, IWriteableBrowsingExistingBlockNodeIndex nodeIndex, IBlock newBlock, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        {
+            ControllerTools.AssertNoOverride(this, typeof(WriteableMergeBlocksOperation));
+            return new WriteableSplitBlockOperation(inner, nodeIndex, newBlock, handlerRedo, handlerUndo, isNested);
         }
         #endregion
     }

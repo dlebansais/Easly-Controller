@@ -584,10 +584,10 @@ namespace EaslyController.Focus
         /// <summary>
         /// Creates a IxxxSplitBlockOperation object.
         /// </summary>
-        protected override IWriteableSplitBlockOperation CreateSplitBlockOperation(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, IWriteableBrowsingExistingBlockNodeIndex nodeIndex, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        protected override IWriteableSplitBlockOperation CreateSplitBlockOperation(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, IWriteableBrowsingExistingBlockNodeIndex nodeIndex, IBlock newBlock, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusController));
-            return new FocusSplitBlockOperation((IFocusBlockListInner<IFocusBrowsingBlockNodeIndex>)inner, (IFocusBrowsingExistingBlockNodeIndex)nodeIndex, handlerRedo, handlerUndo, isNested);
+            return new FocusSplitBlockOperation((IFocusBlockListInner<IFocusBrowsingBlockNodeIndex>)inner, (IFocusBrowsingExistingBlockNodeIndex)nodeIndex, newBlock, handlerRedo, handlerUndo, isNested);
         }
 
         /// <summary>
