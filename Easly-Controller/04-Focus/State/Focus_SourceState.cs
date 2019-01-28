@@ -76,7 +76,7 @@ namespace EaslyController.Focus
         /// List of node indexes that can replace the current node. Can be null.
         /// Applies only to bodies and features.
         /// </summary>
-        public IFocusInsertionChildIndexList CycleIndexList { get; private set; }
+        public IFocusInsertionChildNodeIndexList CycleIndexList { get; private set; }
 
         /// <summary>
         /// Position of the current node in <see cref="CycleIndexList"/>.
@@ -96,7 +96,7 @@ namespace EaslyController.Focus
             // If it's the first time we're cycling through this node, initialize it.
             if (CycleIndexList == null)
             {
-                IFocusInsertionChildIndex ThisIndex = (IFocusInsertionChildIndex)ParentIndex.ToInsertionIndex(ParentState.Node, Node);
+                IFocusInsertionChildNodeIndex ThisIndex = (IFocusInsertionChildNodeIndex)ParentIndex.ToInsertionIndex(ParentState.Node, Node);
                 CycleIndexList = CreateInsertionChildIndexList();
                 CycleIndexList.Add(ThisIndex);
             }
@@ -138,7 +138,7 @@ namespace EaslyController.Focus
             IOptionalReference<IObjectType> AncestorType = null;
 
             List<Type> BodyTypeList = new List<Type>() { typeof(EffectiveBody), typeof(DeferredBody), typeof(ExternBody), typeof(PrecursorBody) };
-            foreach (IFocusInsertionChildIndex Index in CycleIndexList)
+            foreach (IFocusInsertionChildNodeIndex Index in CycleIndexList)
             {
                 IBody Body = Index.Node as IBody;
                 Debug.Assert(Body != null);
@@ -189,7 +189,7 @@ namespace EaslyController.Focus
 
                 INode NewBody = NodeHelper.CreateInitializedBody(NodeType, Documentation, RequireBlocks, EnsureBlocks, ExceptionIdentifierBlocks, EntityDeclarationBlocks, BodyInstructionBlocks, ExceptionHandlerBlocks, AncestorType);
 
-                IFocusInsertionChildIndex InsertionIndex = (IFocusInsertionChildIndex)ParentIndex.ToInsertionIndex(ParentState.Node, NewBody);
+                IFocusInsertionChildNodeIndex InsertionIndex = (IFocusInsertionChildNodeIndex)ParentIndex.ToInsertionIndex(ParentState.Node, NewBody);
                 CycleIndexList.Add(InsertionIndex);
             }
         }
@@ -218,7 +218,7 @@ namespace EaslyController.Focus
             ParameterEndStatus ParameterEnd = ParameterEndStatus.Closed;
 
             List<Type> FeatureTypeList = new List<Type>() { typeof(AttributeFeature), typeof(ConstantFeature), typeof(CreationFeature), typeof(FunctionFeature), typeof(ProcedureFeature), typeof(PropertyFeature), typeof(IndexerFeature) };
-            foreach (IFocusInsertionChildIndex Index in CycleIndexList)
+            foreach (IFocusInsertionChildNodeIndex Index in CycleIndexList)
             {
                 IFeature Feature = Index.Node as IFeature;
                 Debug.Assert(Feature != null);
@@ -304,7 +304,7 @@ namespace EaslyController.Focus
 
                 INode NewFeature = NodeHelper.CreateInitializedFeature(NodeType, Documentation, ExportIdentifier, Export, EntityName, EntityType, EnsureBlocks, ConstantValue, CommandOverloadBlocks, Once, QueryOverloadBlocks, PropertyKind, ModifiedQueryBlocks, GetterBody, SetterBody, IndexParameterBlocks, ParameterEnd);
 
-                IFocusInsertionChildIndex InsertionIndex = (IFocusInsertionChildIndex)ParentIndex.ToInsertionIndex(ParentState.Node, NewFeature);
+                IFocusInsertionChildNodeIndex InsertionIndex = (IFocusInsertionChildNodeIndex)ParentIndex.ToInsertionIndex(ParentState.Node, NewFeature);
                 CycleIndexList.Add(InsertionIndex);
             }
         }
@@ -313,7 +313,7 @@ namespace EaslyController.Focus
         /// Restores the cycle index list from which this state was created.
         /// </summary>
         /// <param name="cycleIndexList">The list to restore.</param>
-        public virtual void RestoreCycleIndexList(IFocusInsertionChildIndexList cycleIndexList)
+        public virtual void RestoreCycleIndexList(IFocusInsertionChildNodeIndexList cycleIndexList)
         {
             Debug.Assert(cycleIndexList != null && cycleIndexList.Count >= 2);
             Debug.Assert(CycleIndexList == null);
@@ -441,12 +441,12 @@ namespace EaslyController.Focus
         }
 
         /// <summary>
-        /// Creates a IxxxInsertionChildIndexList object.
+        /// Creates a IxxxInsertionChildNodeIndexList object.
         /// </summary>
-        protected virtual IFocusInsertionChildIndexList CreateInsertionChildIndexList()
+        protected virtual IFocusInsertionChildNodeIndexList CreateInsertionChildIndexList()
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusSourceState));
-            return new FocusInsertionChildIndexList();
+            return new FocusInsertionChildNodeIndexList();
         }
         #endregion
     }

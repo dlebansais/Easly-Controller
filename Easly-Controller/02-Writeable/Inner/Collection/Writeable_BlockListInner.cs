@@ -425,6 +425,7 @@ namespace EaslyController.Writeable
             INode ParentNode = Owner.Node;
 
             IWriteableNodeState OldChildState = BlockState.StateList[Index];
+            INode OldNode = OldChildState.Node;
             IWriteableBrowsingBlockNodeIndex OldBrowsingIndex = (IWriteableBrowsingBlockNodeIndex)OldChildState.ParentIndex;
             BlockState.Remove(OldBrowsingIndex, Index);
 
@@ -434,7 +435,7 @@ namespace EaslyController.Writeable
             IWriteablePlaceholderNodeState NewChildState = (IWriteablePlaceholderNodeState)CreateNodeState(NewBrowsingIndex);
             BlockState.Insert(NewBrowsingIndex, Index, NewChildState);
 
-            operation.Update(OldBrowsingIndex, NewBrowsingIndex, OldChildState, NewChildState);
+            operation.Update(OldBrowsingIndex, NewBrowsingIndex, OldNode, NewChildState);
         }
 
         /// <summary>

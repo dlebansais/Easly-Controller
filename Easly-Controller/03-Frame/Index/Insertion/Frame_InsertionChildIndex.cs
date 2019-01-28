@@ -3,9 +3,9 @@
 namespace EaslyController.Frame
 {
     /// <summary>
-    /// Index for an inserted child node.
+    /// Index for an inserted child.
     /// </summary>
-    public interface IFrameInsertionChildIndex : IWriteableInsertionChildIndex, IFrameChildIndex, IFrameNodeIndex
+    public interface IFrameInsertionChildIndex : IWriteableInsertionChildIndex, IFrameChildIndex
     {
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BaseNode;
+using System;
 using System.Diagnostics;
 
 namespace EaslyController.Writeable
@@ -29,9 +30,9 @@ namespace EaslyController.Writeable
         IWriteableBrowsingChildIndex NewBrowsingIndex { get; }
 
         /// <summary>
-        /// The old state.
+        /// The old node.
         /// </summary>
-        IWriteableNodeState OldChildState { get; }
+        INode OldNode { get; }
 
         /// <summary>
         /// The new state.
@@ -39,13 +40,18 @@ namespace EaslyController.Writeable
         IWriteableNodeState NewChildState { get; }
 
         /// <summary>
+        /// The new node.
+        /// </summary>
+        INode NewNode { get; }
+
+        /// <summary>
         /// Update the operation with details.
         /// </summary>
         /// <param name="oldBrowsingIndex">Index of the state before it's replaced.</param>
         /// <param name="newBrowsingIndex">Index of the state after it's replaced.</param>
-        /// <param name="oldChildState">The old state.</param>
+        /// <param name="oldNode">The old node.</param>
         /// <param name="newChildState">The new state.</param>
-        void Update(IWriteableBrowsingChildIndex oldBrowsingIndex, IWriteableBrowsingChildIndex newBrowsingIndex, IWriteableNodeState oldChildState, IWriteableNodeState newChildState);
+        void Update(IWriteableBrowsingChildIndex oldBrowsingIndex, IWriteableBrowsingChildIndex newBrowsingIndex, INode oldNode, IWriteableNodeState newChildState);
 
         /// <summary>
         /// Creates an operation to undo the replace operation.
@@ -70,6 +76,9 @@ namespace EaslyController.Writeable
         public WriteableReplaceOperation(IWriteableInner<IWriteableBrowsingChildIndex> inner, IWriteableInsertionChildIndex replacementIndex, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
             : base(handlerRedo, handlerUndo, isNested)
         {
+            Debug.Assert(inner != null);
+            Debug.Assert((replacementIndex != null) || (inner is IWriteableOptionalInner<IWriteableBrowsingOptionalNodeIndex>));
+
             Inner = inner;
             ReplacementIndex = replacementIndex;
         }
@@ -97,14 +106,19 @@ namespace EaslyController.Writeable
         public IWriteableBrowsingChildIndex NewBrowsingIndex { get; private set; }
 
         /// <summary>
-        /// The old state.
+        /// The old node.
         /// </summary>
-        public IWriteableNodeState OldChildState { get; private set; }
+        public INode OldNode { get; private set; }
 
         /// <summary>
         /// The new state.
         /// </summary>
         public IWriteableNodeState NewChildState { get; private set; }
+
+        /// <summary>
+        /// The new node.
+        /// </summary>
+        public INode NewNode { get; private set; }
         #endregion
 
         #region Client Interface
@@ -113,19 +127,20 @@ namespace EaslyController.Writeable
         /// </summary>
         /// <param name="oldBrowsingIndex">Index of the state before it's replaced.</param>
         /// <param name="newBrowsingIndex">Index of the state after it's replaced.</param>
-        /// <param name="oldChildState">The old state.</param>
+        /// <param name="oldNode">The old node.</param>
         /// <param name="newChildState">The new state.</param>
-        public virtual void Update(IWriteableBrowsingChildIndex oldBrowsingIndex, IWriteableBrowsingChildIndex newBrowsingIndex, IWriteableNodeState oldChildState, IWriteableNodeState newChildState)
+        public virtual void Update(IWriteableBrowsingChildIndex oldBrowsingIndex, IWriteableBrowsingChildIndex newBrowsingIndex, INode oldNode, IWriteableNodeState newChildState)
         {
             Debug.Assert(oldBrowsingIndex != null);
             Debug.Assert(newBrowsingIndex != null);
-            Debug.Assert(oldChildState != null);
+            Debug.Assert((oldNode != null) || (Inner is IWriteableOptionalInner<IWriteableBrowsingOptionalNodeIndex>));
             Debug.Assert(newChildState != null);
 
             OldBrowsingIndex = oldBrowsingIndex;
             NewBrowsingIndex = newBrowsingIndex;
-            OldChildState = oldChildState;
+            OldNode = oldNode;
             NewChildState = newChildState;
+            NewNode = newChildState.Node;
         }
 
         /// <summary>
@@ -133,7 +148,13 @@ namespace EaslyController.Writeable
         /// </summary>
         public IWriteableReplaceOperation ToInverseReplace()
         {
-            IWriteableInsertionChildIndex ReplacementIndex = NewBrowsingIndex.ToInsertionIndex(Inner.Owner.Node, OldChildState.Node);
+            IWriteableInsertionChildIndex ReplacementIndex;
+
+            if (OldNode == null)
+                ReplacementIndex = null;
+            else
+                ReplacementIndex = NewBrowsingIndex.ToInsertionIndex(Inner.Owner.Node, OldNode);
+
             return CreateReplaceOperation(Inner, ReplacementIndex, HandlerUndo, HandlerRedo, IsNested);
         }
         #endregion

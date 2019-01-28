@@ -30,11 +30,6 @@ namespace EaslyController.Focus
         new IFocusBrowsingChildIndex NewBrowsingIndex { get; }
 
         /// <summary>
-        /// The old state.
-        /// </summary>
-        new IFocusNodeState OldChildState { get; }
-
-        /// <summary>
         /// The new state.
         /// </summary>
         new IFocusNodeState NewChildState { get; }
@@ -80,11 +75,6 @@ namespace EaslyController.Focus
         /// Index of the state after it's replaced.
         /// </summary>
         public new IFocusBrowsingChildIndex NewBrowsingIndex { get { return (IFocusBrowsingChildIndex)base.NewBrowsingIndex; } }
-
-        /// <summary>
-        /// The new state.
-        /// </summary>
-        public new IFocusNodeState OldChildState { get { return (IFocusNodeState)base.OldChildState; } }
 
         /// <summary>
         /// The new state.

@@ -169,6 +169,8 @@
     <Compile Include="02-Writeable\Index\Insertion\Collection\Writeable_InsertionExistingBlockNodeIndex.cs" />
     <Compile Include="02-Writeable\Index\Insertion\Collection\Writeable_InsertionListNodeIndex.cs" />
     <Compile Include="02-Writeable\Index\Insertion\Collection\Writeable_InsertionNewBlockNodeIndex.cs" />
+    <Compile Include="02-Writeable\Index\Insertion\Single\Writeable_InsertionOptionalClearIndex.cs" />
+    <Compile Include="02-Writeable\Index\Insertion\Writeable_InsertionChildNodeIndex.cs" />
     <Compile Include="02-Writeable\Index\Insertion\Writeable_InsertionChildIndex.cs" />
     <Compile Include="02-Writeable\Index\Insertion\Single\Writeable_InsertionOptionalNodeIndex.cs" />
     <Compile Include="02-Writeable\Index\Insertion\Single\Writeable_InsertionPlaceholderNodeIndex.cs" />
@@ -302,6 +304,7 @@
     <Compile Include="03-Frame\Index\Insertion\Collection\Frame_InsertionExistingBlockNodeIndex.cs" />
     <Compile Include="03-Frame\Index\Insertion\Collection\Frame_InsertionListNodeIndex.cs" />
     <Compile Include="03-Frame\Index\Insertion\Collection\Frame_InsertionNewBlockNodeIndex.cs" />
+    <Compile Include="03-Frame\Index\Insertion\Frame_InsertionChildNodeIndex.cs" />
     <Compile Include="03-Frame\Index\Insertion\Single\Frame_InsertionOptionalNodeIndex.cs" />
     <Compile Include="03-Frame\Index\Insertion\Single\Frame_InsertionPlaceholderNodeIndex.cs" />
     <Compile Include="03-Frame\Index\Insertion\Frame_InsertionChildIndex.cs" />
@@ -353,7 +356,7 @@
     <Compile Include="04-Focus\Collections\Focus_AssignableCellView_Dictionary.cs" />
     <Compile Include="04-Focus\Collections\Focus_FrameSelector_List.cs" />
     <Compile Include="04-Focus\Collections\Focus_FocusableCellView_List.cs" />
-    <Compile Include="04-Focus\Collections\Focus_InsertionChildIndex_List.cs" />
+    <Compile Include="04-Focus\Collections\Focus_InsertionChildNodeIndex_List.cs" />
     <Compile Include="04-Focus\Collections\Focus_SelectableFrame_List.cs" />
     <Compile Include="04-Focus\Collections\Focus_VisibleCellView_List.cs" />
     <Compile Include="04-Focus\Collections\Focus_CellView_List.cs" />
@@ -464,6 +467,7 @@
     <Compile Include="04-Focus\Index\Insertion\Collection\Focus_InsertionExistingBlockNodeIndex.cs" />
     <Compile Include="04-Focus\Index\Insertion\Collection\Focus_InsertionListNodeIndex.cs" />
     <Compile Include="04-Focus\Index\Insertion\Collection\Focus_InsertionNewBlockNodeIndex.cs" />
+    <Compile Include="04-Focus\Index\Insertion\Focus_InsertionChildNodeIndex.cs" />
     <Compile Include="04-Focus\Index\Insertion\Focus_InsertionChildIndex.cs" />
     <Compile Include="04-Focus\Index\Insertion\Single\Focus_InsertionOptionalNodeIndex.cs" />
     <Compile Include="04-Focus\Index\Insertion\Single\Focus_InsertionPlaceholderNodeIndex.cs" />

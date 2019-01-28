@@ -11,7 +11,7 @@ namespace EaslyController.Focus
         /// <summary>
         /// Cycle of nodes that can replace the current node.
         /// </summary>
-        IFocusInsertionChildIndexList CycleIndexList { get; }
+        IFocusInsertionChildNodeIndexList CycleIndexList { get; }
 
         /// <summary>
         /// New position in the cycle.
@@ -34,7 +34,7 @@ namespace EaslyController.Focus
         /// <param name="handlerRedo">Handler to execute to redo the operation.</param>
         /// <param name="handlerUndo">Handler to execute to undo the operation.</param>
         /// <param name="isNested">True if the operation is nested within another more general one.</param>
-        public FocusReplaceWithCycleOperation(IFocusInner<IFocusBrowsingChildIndex> inner, IFocusInsertionChildIndexList cycleIndexList, int cyclePosition, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        public FocusReplaceWithCycleOperation(IFocusInner<IFocusBrowsingChildIndex> inner, IFocusInsertionChildNodeIndexList cycleIndexList, int cyclePosition, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
             : base(inner, cycleIndexList[cyclePosition], handlerRedo, handlerUndo, isNested)
         {
             CycleIndexList = cycleIndexList;
@@ -46,7 +46,7 @@ namespace EaslyController.Focus
         /// <summary>
         /// Cycle of nodes that can replace the current node.
         /// </summary>
-        public IFocusInsertionChildIndexList CycleIndexList { get; }
+        public IFocusInsertionChildNodeIndexList CycleIndexList { get; }
 
         /// <summary>
         /// New position in the cycle.

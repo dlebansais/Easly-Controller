@@ -76,6 +76,7 @@ namespace EaslyController.Writeable
 
             WriteableBrowsingPlaceholderNodeIndex OldBrowsingIndex = (WriteableBrowsingPlaceholderNodeIndex)ChildState.ParentIndex;
             IWriteablePlaceholderNodeState OldChildState = (IWriteablePlaceholderNodeState)ChildState;
+            INode OldNode = OldChildState.Node;
 
             NodeTreeHelperChild.SetChildNode(ParentNode, PropertyName, placeholderIndex.Node);
 
@@ -83,7 +84,7 @@ namespace EaslyController.Writeable
             IWriteablePlaceholderNodeState NewChildState = (IWriteablePlaceholderNodeState)CreateNodeState(NewBrowsingIndex);
             SetChildState(NewChildState);
 
-            operation.Update(OldBrowsingIndex, NewBrowsingIndex, OldChildState, NewChildState);
+            operation.Update(OldBrowsingIndex, NewBrowsingIndex, OldNode, NewChildState);
         }
         #endregion
 

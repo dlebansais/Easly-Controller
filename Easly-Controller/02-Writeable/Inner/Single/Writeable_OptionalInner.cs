@@ -95,8 +95,10 @@ namespace EaslyController.Writeable
         {
             Debug.Assert(operation != null);
 
-            if (operation.ReplacementIndex is IWriteableInsertionOptionalNodeIndex AsOptionalIndex)
-                Replace(operation, AsOptionalIndex);
+            if (operation.ReplacementIndex is IWriteableInsertionOptionalNodeIndex AsOptionalNodeIndex)
+                Replace(operation, AsOptionalNodeIndex);
+            else if (operation.ReplacementIndex is IWriteableInsertionOptionalClearIndex AsOptionalClearIndex)
+                Clear(operation, AsOptionalClearIndex);
             else
                 throw new ArgumentOutOfRangeException(nameof(operation));
         }
@@ -110,7 +112,7 @@ namespace EaslyController.Writeable
             INode ParentNode = Owner.Node;
 
             WriteableBrowsingOptionalNodeIndex OldBrowsingIndex = (WriteableBrowsingOptionalNodeIndex)ChildState.ParentIndex;
-            IWriteableOptionalNodeState OldChildState = (IWriteableOptionalNodeState)ChildState;
+            INode OldNode = ChildState.Optional.HasItem ? ChildState.Node : null;
 
             NodeTreeHelperOptional.SetOptionalChildNode(ParentNode, PropertyName, optionalIndex.Node);
 
@@ -118,7 +120,27 @@ namespace EaslyController.Writeable
             IWriteableOptionalNodeState NewChildState = (IWriteableOptionalNodeState)CreateNodeState(NewBrowsingIndex);
             SetChildState(NewChildState);
 
-            operation.Update(OldBrowsingIndex, NewBrowsingIndex, OldChildState, NewChildState);
+            operation.Update(OldBrowsingIndex, NewBrowsingIndex, OldNode, NewChildState);
+        }
+
+        /// <summary></summary>
+        protected virtual void Clear(IWriteableReplaceOperation operation, IWriteableInsertionOptionalClearIndex optionalIndex)
+        {
+            Debug.Assert(optionalIndex != null);
+            Debug.Assert(optionalIndex.Optional != null);
+
+            INode ParentNode = Owner.Node;
+
+            WriteableBrowsingOptionalNodeIndex OldBrowsingIndex = (WriteableBrowsingOptionalNodeIndex)ChildState.ParentIndex;
+            INode OldNode = ChildState.Optional.HasItem ? ChildState.Node : null;
+
+            NodeTreeHelperOptional.ClearOptionalChildNode(ParentNode, PropertyName);
+
+            WriteableBrowsingOptionalNodeIndex NewBrowsingIndex = (WriteableBrowsingOptionalNodeIndex)optionalIndex.ToBrowsingIndex();
+            IWriteableOptionalNodeState NewChildState = (IWriteableOptionalNodeState)CreateNodeState(NewBrowsingIndex);
+            SetChildState(NewChildState);
+
+            operation.Update(OldBrowsingIndex, NewBrowsingIndex, OldNode, NewChildState);
         }
 
         /// <summary>

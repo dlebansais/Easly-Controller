@@ -3,9 +3,9 @@
 namespace EaslyController.Focus
 {
     /// <summary>
-    /// Index for an inserted child node.
+    /// Index for an inserted child.
     /// </summary>
-    public interface IFocusInsertionChildIndex : IFrameInsertionChildIndex, IFocusChildIndex, IFocusNodeIndex
+    public interface IFocusInsertionChildIndex : IFrameInsertionChildIndex, IFocusChildIndex
     {
     }
 }

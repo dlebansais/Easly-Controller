@@ -906,7 +906,7 @@ namespace EaslyController.Focus
                 {
                     Controller.AddNodeToCycle(CurrentState);
 
-                    IFocusInsertionChildIndexList CycleIndexList = CurrentState.CycleIndexList;
+                    IFocusInsertionChildNodeIndexList CycleIndexList = CurrentState.CycleIndexList;
                     Debug.Assert(CycleIndexList.Count >= 2);
                     int CurrentPosition = CurrentState.CycleCurrentPosition;
                     Debug.Assert(CurrentPosition >= 0 && CurrentPosition < CycleIndexList.Count);

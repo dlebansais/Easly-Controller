@@ -35,7 +35,7 @@ namespace EaslyController.Focus
         /// List of node indexes that can replace the current node. Can be null.
         /// Applies only to bodies and features.
         /// </summary>
-        IFocusInsertionChildIndexList CycleIndexList { get; }
+        IFocusInsertionChildNodeIndexList CycleIndexList { get; }
 
         /// <summary>
         /// Position of the current node in <see cref="CycleIndexList"/>.
@@ -52,7 +52,7 @@ namespace EaslyController.Focus
         /// Restores the cycle index list from which this state was created.
         /// </summary>
         /// <param name="cycleIndexList">The list to restore.</param>
-        void RestoreCycleIndexList(IFocusInsertionChildIndexList cycleIndexList);
+        void RestoreCycleIndexList(IFocusInsertionChildNodeIndexList cycleIndexList);
     }
 
     /// <summary>
@@ -98,7 +98,7 @@ namespace EaslyController.Focus
         /// List of node indexes that can replace the current node. Can be null.
         /// Applies only to bodies and features.
         /// </summary>
-        public IFocusInsertionChildIndexList CycleIndexList { get; }
+        public IFocusInsertionChildNodeIndexList CycleIndexList { get; }
 
         /// <summary>
         /// Position of the current node in <see cref="CycleIndexList"/>.
@@ -117,7 +117,7 @@ namespace EaslyController.Focus
         /// Restores the cycle index list from which this state was created.
         /// </summary>
         /// <param name="cycleIndexList">The list to restore.</param>
-        public abstract void RestoreCycleIndexList(IFocusInsertionChildIndexList cycleIndexList);
+        public abstract void RestoreCycleIndexList(IFocusInsertionChildNodeIndexList cycleIndexList);
         #endregion
 
         #region Create Methods

@@ -84,6 +84,9 @@ namespace EaslyController
         /// <returns>Always return false.</returns>
         public bool Failed()
         {
+            if (!CanReturnFalse)
+                Debug.Fail("Objects are not equal");
+
             return false;
         }
 
