@@ -7,7 +7,7 @@ namespace EaslyController.Frame
     /// <summary>
     /// Base for list and block list insertion index classes.
     /// </summary>
-    public interface IFrameInsertionCollectionNodeIndex : IWriteableInsertionCollectionNodeIndex, IFrameInsertionChildIndex, IFrameNodeIndex
+    public interface IFrameInsertionCollectionNodeIndex : IWriteableInsertionCollectionNodeIndex, IFrameInsertionChildNodeIndex, IFrameNodeIndex
     {
     }
 

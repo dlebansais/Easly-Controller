@@ -89,7 +89,9 @@ namespace EaslyController.Focus
             // If it's the first time we're cycling through this node, initialize it.
             if (CycleIndexList == null)
             {
-                IFocusInsertionChildNodeIndex ThisIndex = (IFocusInsertionChildNodeIndex)((IFocusBrowsingChildIndex)ParentIndex).ToInsertionIndex(ParentState.Node, Node);
+                IFocusInsertionChildNodeIndex ThisIndex = ((IFocusBrowsingChildIndex)ParentIndex).ToInsertionIndex(ParentState.Node, Node) as IFocusInsertionChildNodeIndex;
+                Debug.Assert(ThisIndex != null);
+
                 CycleIndexList = CreateInsertionChildIndexList();
                 CycleIndexList.Add(ThisIndex);
             }

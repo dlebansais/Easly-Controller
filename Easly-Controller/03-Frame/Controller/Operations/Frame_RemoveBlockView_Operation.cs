@@ -30,12 +30,11 @@ namespace EaslyController.Frame
         /// </summary>
         /// <param name="inner">Inner where the block removal is taking place.</param>
         /// <param name="blockIndex">index of the removed block.</param>
-        /// <param name="cleanupBlockList">True if the block list should be cleared.</param>
         /// <param name="handlerRedo">Handler to execute to redo the operation.</param>
         /// <param name="handlerUndo">Handler to execute to undo the operation.</param>
         /// <param name="isNested">True if the operation is nested within another more general one.</param>
-        public FrameRemoveBlockViewOperation(IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> inner, int blockIndex, bool cleanupBlockList, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
-            : base(inner, blockIndex, cleanupBlockList, handlerRedo, handlerUndo, isNested)
+        public FrameRemoveBlockViewOperation(IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> inner, int blockIndex, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+            : base(inner, blockIndex, handlerRedo, handlerUndo, isNested)
         {
         }
         #endregion

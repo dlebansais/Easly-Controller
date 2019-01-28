@@ -8,7 +8,7 @@ namespace EaslyController.Focus
     /// <summary>
     /// Index for replacing an optional node.
     /// </summary>
-    public interface IFocusInsertionOptionalNodeIndex : IFrameInsertionOptionalNodeIndex, IFocusInsertionChildIndex, IFocusNodeIndex
+    public interface IFocusInsertionOptionalNodeIndex : IFrameInsertionOptionalNodeIndex, IFocusInsertionChildNodeIndex, IFocusNodeIndex
     {
     }
 

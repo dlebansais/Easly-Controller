@@ -148,13 +148,7 @@ namespace EaslyController.Writeable
         /// </summary>
         public IWriteableReplaceOperation ToInverseReplace()
         {
-            IWriteableInsertionChildIndex ReplacementIndex;
-
-            if (OldNode == null)
-                ReplacementIndex = null;
-            else
-                ReplacementIndex = NewBrowsingIndex.ToInsertionIndex(Inner.Owner.Node, OldNode);
-
+            IWriteableInsertionChildIndex ReplacementIndex = NewBrowsingIndex.ToInsertionIndex(Inner.Owner.Node, OldNode);
             return CreateReplaceOperation(Inner, ReplacementIndex, HandlerUndo, HandlerRedo, IsNested);
         }
         #endregion

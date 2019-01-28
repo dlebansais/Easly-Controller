@@ -7,7 +7,7 @@ namespace EaslyController.Focus
     /// <summary>
     /// Base for list and block list insertion index classes.
     /// </summary>
-    public interface IFocusInsertionCollectionNodeIndex : IFrameInsertionCollectionNodeIndex, IFocusInsertionChildIndex, IFocusNodeIndex
+    public interface IFocusInsertionCollectionNodeIndex : IFrameInsertionCollectionNodeIndex, IFocusInsertionChildNodeIndex, IFocusNodeIndex
     {
     }
 

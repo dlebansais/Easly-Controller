@@ -7,7 +7,7 @@ namespace EaslyController.Frame
     /// <summary>
     /// Index for replacing a child a node.
     /// </summary>
-    public interface IFrameInsertionPlaceholderNodeIndex : IWriteableInsertionPlaceholderNodeIndex, IFrameInsertionChildIndex, IFrameNodeIndex
+    public interface IFrameInsertionPlaceholderNodeIndex : IWriteableInsertionPlaceholderNodeIndex, IFrameInsertionChildNodeIndex, IFrameNodeIndex
     {
     }
 

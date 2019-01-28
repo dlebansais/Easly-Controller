@@ -19,11 +19,6 @@ namespace EaslyController.Writeable
         int BlockIndex { get; }
 
         /// <summary>
-        /// True if the block list should be cleared.
-        /// </summary>
-        bool CleanupBlockList { get; }
-
-        /// <summary>
         /// Block state removed.
         /// </summary>
         IWriteableBlockState BlockState { get; }
@@ -46,16 +41,14 @@ namespace EaslyController.Writeable
         /// </summary>
         /// <param name="inner">Inner where the block removal is taking place.</param>
         /// <param name="blockIndex">index of the removed block.</param>
-        /// <param name="cleanupBlockList">True if the block list should be cleared.</param>
         /// <param name="handlerRedo">Handler to execute to redo the operation.</param>
         /// <param name="handlerUndo">Handler to execute to undo the operation.</param>
         /// <param name="isNested">True if the operation is nested within another more general one.</param>
-        public WriteableRemoveBlockViewOperation(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, int blockIndex, bool cleanupBlockList, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        public WriteableRemoveBlockViewOperation(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, int blockIndex, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
             : base(handlerRedo, handlerUndo, isNested)
         {
             Inner = inner;
             BlockIndex = blockIndex;
-            CleanupBlockList = cleanupBlockList;
         }
         #endregion
 
@@ -69,11 +62,6 @@ namespace EaslyController.Writeable
         /// Index of the removed block.
         /// </summary>
         public int BlockIndex { get; }
-
-        /// <summary>
-        /// True if the block list should be cleared.
-        /// </summary>
-        public bool CleanupBlockList { get; }
 
         /// <summary>
         /// Block state removed.

@@ -530,10 +530,10 @@ namespace EaslyController.Focus
         /// <summary>
         /// Creates a IxxxRemoveBlockViewOperation object.
         /// </summary>
-        protected override IWriteableRemoveBlockViewOperation CreateRemoveBlockViewOperation(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, int blockIndex, bool cleanupBlockList, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        protected override IWriteableRemoveBlockViewOperation CreateRemoveBlockViewOperation(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, int blockIndex, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusController));
-            return new FocusRemoveBlockViewOperation((IFocusBlockListInner<IFocusBrowsingBlockNodeIndex>)inner, blockIndex, cleanupBlockList, handlerRedo, handlerUndo, isNested);
+            return new FocusRemoveBlockViewOperation((IFocusBlockListInner<IFocusBrowsingBlockNodeIndex>)inner, blockIndex, handlerRedo, handlerUndo, isNested);
         }
 
         /// <summary>

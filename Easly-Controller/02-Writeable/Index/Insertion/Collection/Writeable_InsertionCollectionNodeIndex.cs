@@ -8,7 +8,7 @@ namespace EaslyController.Writeable
     /// <summary>
     /// Base for list and block list insertion index classes.
     /// </summary>
-    public interface IWriteableInsertionCollectionNodeIndex : IWriteableInsertionChildIndex, IWriteableNodeIndex
+    public interface IWriteableInsertionCollectionNodeIndex : IWriteableInsertionChildNodeIndex, IWriteableNodeIndex
     {
     }
 

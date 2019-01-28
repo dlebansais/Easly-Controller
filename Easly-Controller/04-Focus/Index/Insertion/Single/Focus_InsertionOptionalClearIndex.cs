@@ -1,37 +1,37 @@
 ﻿using BaseNode;
+using EaslyController.Frame;
 using EaslyController.Writeable;
 using System.Diagnostics;
 
-namespace EaslyController.Frame
+namespace EaslyController.Focus
 {
     /// <summary>
     /// Index for replacing an optional node.
     /// </summary>
-    public interface IFrameInsertionOptionalNodeIndex : IWriteableInsertionOptionalNodeIndex, IFrameInsertionChildNodeIndex, IFrameNodeIndex
+    public interface IFocusInsertionOptionalClearIndex : IFrameInsertionOptionalClearIndex, IFocusInsertionChildIndex
     {
     }
 
     /// <summary>
     /// Index for replacing an optional node.
     /// </summary>
-    public class FrameInsertionOptionalNodeIndex : WriteableInsertionOptionalNodeIndex, IFrameInsertionOptionalNodeIndex
+    public class FocusInsertionOptionalClearIndex : FrameInsertionOptionalClearIndex, IFocusInsertionOptionalClearIndex
     {
         #region Init
         /// <summary>
-        /// Initializes a new instance of the <see cref="FrameInsertionOptionalNodeIndex"/> class.
+        /// Initializes a new instance of the <see cref="FocusInsertionOptionalClearIndex"/> class.
         /// </summary>
         /// <param name="parentNode">Node containing the indexed optional node.</param>
         /// <param name="propertyName">Property in <paramref name="parentNode"/> corresponding to the indexed optional node.</param>
-        /// <param name="node">The assigned node.</param>
-        public FrameInsertionOptionalNodeIndex(INode parentNode, string propertyName, INode node)
-            : base(parentNode, propertyName, node)
+        public FocusInsertionOptionalClearIndex(INode parentNode, string propertyName)
+            : base(parentNode, propertyName)
         {
         }
         #endregion
 
         #region Debugging
         /// <summary>
-        /// Compares two <see cref="IFrameIndex"/> objects.
+        /// Compares two <see cref="IFocusIndex"/> objects.
         /// </summary>
         /// <param name="comparer">The comparison support object.</param>
         /// <param name="other">The other object.</param>
@@ -39,10 +39,10 @@ namespace EaslyController.Frame
         {
             Debug.Assert(other != null);
 
-            if (!(other is IFrameInsertionOptionalNodeIndex AsInsertionOptionalNodeIndex))
+            if (!(other is IFocusInsertionOptionalClearIndex AsInsertionOptionalClearIndex))
                 return comparer.Failed();
 
-            if (!base.IsEqual(comparer, AsInsertionOptionalNodeIndex))
+            if (!base.IsEqual(comparer, AsInsertionOptionalClearIndex))
                 return comparer.Failed();
 
             return true;
@@ -55,8 +55,8 @@ namespace EaslyController.Frame
         /// </summary>
         protected override IWriteableBrowsingOptionalNodeIndex CreateBrowsingIndex()
         {
-            ControllerTools.AssertNoOverride(this, typeof(FrameInsertionOptionalNodeIndex));
-            return new FrameBrowsingOptionalNodeIndex(ParentNode, PropertyName);
+            ControllerTools.AssertNoOverride(this, typeof(FocusInsertionOptionalClearIndex));
+            return new FocusBrowsingOptionalNodeIndex(ParentNode, PropertyName);
         }
         #endregion
     }

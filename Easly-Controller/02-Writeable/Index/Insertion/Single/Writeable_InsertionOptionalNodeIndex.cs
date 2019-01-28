@@ -9,7 +9,7 @@ namespace EaslyController.Writeable
     /// <summary>
     /// Index for replacing an optional node.
     /// </summary>
-    public interface IWriteableInsertionOptionalNodeIndex : IWriteableInsertionChildIndex, IWriteableNodeIndex
+    public interface IWriteableInsertionOptionalNodeIndex : IWriteableInsertionChildNodeIndex, IWriteableNodeIndex
     {
         /// <summary>
         /// Interface to the optional object for the node.

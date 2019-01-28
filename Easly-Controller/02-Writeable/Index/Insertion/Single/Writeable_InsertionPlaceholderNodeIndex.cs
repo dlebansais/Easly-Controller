@@ -9,7 +9,7 @@ namespace EaslyController.Writeable
     /// <summary>
     /// Index for replacing a child a node.
     /// </summary>
-    public interface IWriteableInsertionPlaceholderNodeIndex : IWriteableInsertionChildIndex, IWriteableNodeIndex
+    public interface IWriteableInsertionPlaceholderNodeIndex : IWriteableInsertionChildNodeIndex, IWriteableNodeIndex
     {
     }
 
