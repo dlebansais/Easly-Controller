@@ -38,6 +38,11 @@ namespace EaslyController.Writeable
         /// </summary>
         /// <param name="childState">State moved.</param>
         void Update(IWriteablePlaceholderNodeState childState);
+
+        /// <summary>
+        /// Creates an operation to undo the move operation.
+        /// </summary>
+        IWriteableMoveNodeOperation ToInverseMove();
     }
 
     /// <summary>
@@ -109,6 +114,28 @@ namespace EaslyController.Writeable
             Debug.Assert(state != null);
 
             State = state;
+        }
+
+        /// <summary>
+        /// Creates an operation to undo the move operation.
+        /// </summary>
+        public virtual IWriteableMoveNodeOperation ToInverseMove()
+        {
+            IWriteableBrowsingCollectionNodeIndex CurrentIndex = State.ParentIndex as IWriteableBrowsingCollectionNodeIndex;
+            Debug.Assert(CurrentIndex != null);
+
+            return CreateMoveNodeOperation(Inner, CurrentIndex, -Direction, HandlerUndo, HandlerRedo, IsNested);
+        }
+        #endregion
+
+        #region Create Methods
+        /// <summary>
+        /// Creates a IxxxxMoveNodeOperation object.
+        /// </summary>
+        protected virtual IWriteableMoveNodeOperation CreateMoveNodeOperation(IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> inner, IWriteableBrowsingCollectionNodeIndex nodeIndex, int direction, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        {
+            ControllerTools.AssertNoOverride(this, typeof(WriteableMoveNodeOperation));
+            return new WriteableMoveNodeOperation(inner, nodeIndex, direction, handlerRedo, handlerUndo, isNested);
         }
         #endregion
     }

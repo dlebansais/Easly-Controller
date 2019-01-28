@@ -1533,7 +1533,8 @@ namespace EaslyController.Writeable
             Debug.Assert(State != null);
 
             Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => ExecuteMove(operation);
-            IWriteableMoveNodeOperation Operation = CreateMoveNodeOperation(inner, nodeIndex, direction, HandlerRedo, null, isNested: false);
+            Action<IWriteableOperation> HandlerUndo = (IWriteableOperation operation) => UndoMove(operation);
+            IWriteableMoveNodeOperation Operation = CreateMoveNodeOperation(inner, nodeIndex, direction, HandlerRedo, HandlerUndo, isNested: false);
 
             Operation.Redo();
             SetLastOperation(Operation);
@@ -1544,6 +1545,16 @@ namespace EaslyController.Writeable
         protected virtual void ExecuteMove(IWriteableOperation operation)
         {
             IWriteableMoveNodeOperation MoveNodeOperation = (IWriteableMoveNodeOperation)operation;
+
+            MoveNodeOperation.Inner.Move(MoveNodeOperation);
+            NotifyStateMoved(MoveNodeOperation);
+        }
+
+        /// <summary></summary>
+        protected virtual void UndoMove(IWriteableOperation operation)
+        {
+            IWriteableMoveNodeOperation MoveNodeOperation = (IWriteableMoveNodeOperation)operation;
+            MoveNodeOperation = MoveNodeOperation.ToInverseMove();
 
             MoveNodeOperation.Inner.Move(MoveNodeOperation);
             NotifyStateMoved(MoveNodeOperation);
