@@ -270,13 +270,15 @@ namespace EaslyController.Writeable
         /// * If the node is a feature call, with no arguments, an empty argument is inserted.
         /// </summary>
         /// <param name="expandedIndex">Index of the expanded node.</param>
-        void Expand(IWriteableNodeIndex expandedIndex);
+        /// <param name="isChanged">True upon return if the node was changed. False if the node was already expanded.</param>
+        void Expand(IWriteableNodeIndex expandedIndex, out bool isChanged);
 
         /// <summary>
         /// Reduces an existing node. Opposite of <see cref="Expand"/>.
         /// </summary>
         /// <param name="reducedIndex">Index of the reduced node.</param>
-        void Reduce(IWriteableNodeIndex reducedIndex);
+        /// <param name="isChanged">True upon return if the node was changed. False if the node was already reduced.</param>
+        void Reduce(IWriteableNodeIndex reducedIndex, out bool isChanged);
 
         /// <summary>
         /// Reduces all expanded nodes, and clear all unassigned optional nodes.
@@ -1640,7 +1642,8 @@ namespace EaslyController.Writeable
         /// * If the node is a feature call, with no arguments, an empty argument is inserted.
         /// </summary>
         /// <param name="expandedIndex">Index of the expanded node.</param>
-        public virtual void Expand(IWriteableNodeIndex expandedIndex)
+        /// <param name="isChanged">True upon return if the node was changed. False if the node was already expanded.</param>
+        public virtual void Expand(IWriteableNodeIndex expandedIndex, out bool isChanged)
         {
             Debug.Assert(expandedIndex != null);
             Debug.Assert(StateTable.ContainsKey(expandedIndex));
@@ -1650,14 +1653,24 @@ namespace EaslyController.Writeable
             Debug.Assert(State != null);
 
             IWriteableInnerReadOnlyDictionary<string> InnerTable = State.InnerTable;
+            IWriteableOperation LastOperation = null;
 
             foreach (KeyValuePair<string, IWriteableInner<IWriteableBrowsingChildIndex>> Entry in InnerTable)
             {
                 if (Entry.Value is IWriteableOptionalInner<IWriteableBrowsingOptionalNodeIndex> AsOptionalInner)
-                    ExpandOptional(AsOptionalInner);
+                    ExpandOptional(AsOptionalInner, ref LastOperation);
                 else if (Entry.Value is IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> AsBlockListInner)
-                    ExpandBlockList(AsBlockListInner);
+                    ExpandBlockList(AsBlockListInner, ref LastOperation);
             }
+
+            if (LastOperation != null)
+            {
+                CheckInvariant();
+
+                isChanged = true;
+            }
+            else
+                isChanged = false;
         }
 
         /// <summary>
@@ -1666,7 +1679,7 @@ namespace EaslyController.Writeable
         /// * If it has an item, assign it.
         /// * Otherwise, assign the item to a default node.
         /// </summary>
-        protected virtual void ExpandOptional(IWriteableOptionalInner<IWriteableBrowsingOptionalNodeIndex> optionalInner)
+        protected virtual void ExpandOptional(IWriteableOptionalInner<IWriteableBrowsingOptionalNodeIndex> optionalInner, ref IWriteableOperation lastOperation)
         {
             if (optionalInner.IsAssigned)
                 return;
@@ -1675,11 +1688,13 @@ namespace EaslyController.Writeable
             if (ParentIndex.Optional.HasItem)
             {
                 Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => ExecuteAssign(operation);
-                IWriteableAssignmentOperation Operation = CreateAssignmentOperation(optionalInner, ParentIndex, HandlerRedo, null, isNested: false);
+                Action<IWriteableOperation> HandlerUndo = (IWriteableOperation operation) => UndoAssign(operation);
+                IWriteableAssignmentOperation Operation = CreateAssignmentOperation(optionalInner, ParentIndex, HandlerRedo, HandlerUndo, isNested: false);
 
                 Operation.Redo();
                 SetLastOperation(Operation);
-                CheckInvariant();
+
+                lastOperation = Operation;
             }
             else
             {
@@ -1694,7 +1709,8 @@ namespace EaslyController.Writeable
 
                 Operation.Redo();
                 SetLastOperation(Operation);
-                CheckInvariant();
+
+                lastOperation = Operation;
             }
         }
 
@@ -1703,7 +1719,7 @@ namespace EaslyController.Writeable
         /// * Only expand block list of arguments
         /// * Only expand if the list is empty. In that case, add a single default argument.
         /// </summary>
-        protected virtual void ExpandBlockList(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> blockListInner)
+        protected virtual void ExpandBlockList(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> blockListInner, ref IWriteableOperation lastOperation)
         {
             if (!(blockListInner.InterfaceType == typeof(IArgument)))
                 return;
@@ -1717,11 +1733,13 @@ namespace EaslyController.Writeable
             IBlock NewBlock = NodeTreeHelperBlockList.CreateBlock(blockListInner.Owner.Node, blockListInner.PropertyName, ReplicationStatus.Normal, NewPattern, NewSource);
 
             Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => ExecuteExpandBlockList(operation);
-            IWriteableExpandArgumentOperation Operation = CreateExpandArgumentOperation(blockListInner, NewBlock, NewArgument, HandlerRedo, null, isNested: false);
+            Action<IWriteableOperation> HandlerUndo = (IWriteableOperation operation) => UndoExpandBlockList(operation);
+            IWriteableExpandArgumentOperation Operation = CreateExpandArgumentOperation(blockListInner, NewBlock, NewArgument, HandlerRedo, HandlerUndo, isNested: false);
 
             Operation.Redo();
             SetLastOperation(Operation);
-            CheckInvariant();
+
+            lastOperation = Operation;
         }
 
         /// <summary></summary>
@@ -1757,21 +1775,68 @@ namespace EaslyController.Writeable
             NotifyArgumentExpanded(ExpandArgumentOperation);
         }
 
+        /// <summary></summary>
+        protected virtual void UndoExpandBlockList(IWriteableOperation operation)
+        {
+            IWriteableExpandArgumentOperation ExpandArgumentOperation = (IWriteableExpandArgumentOperation)operation;
+            IWriteableRemoveBlockOperation RemoveBlockOperation = ExpandArgumentOperation.ToRemoveBlockOperation();
+
+            RemoveBlockOperation.Inner.RemoveWithBlock(RemoveBlockOperation);
+
+            IWriteableBlockState RemovedBlockState = RemoveBlockOperation.BlockState;
+            Debug.Assert(RemovedBlockState != null);
+
+            IWriteableBrowsingExistingBlockNodeIndex BlockIndex = RemoveBlockOperation.BlockIndex;
+            IWriteableBrowsingPatternIndex PatternIndex = RemovedBlockState.PatternIndex;
+            IWriteableBrowsingSourceIndex SourceIndex = RemovedBlockState.SourceIndex;
+
+            Debug.Assert(PatternIndex != null);
+            Debug.Assert(StateTable.ContainsKey(PatternIndex));
+            Debug.Assert(SourceIndex != null);
+            Debug.Assert(StateTable.ContainsKey(SourceIndex));
+
+            Stats.BlockCount--;
+
+            RemoveState(PatternIndex);
+            Stats.PlaceholderNodeCount--;
+
+            RemoveState(SourceIndex);
+            Stats.PlaceholderNodeCount--;
+
+            IWriteableNodeState RemovedChildState = StateTable[BlockIndex];
+            PruneState(RemovedChildState);
+            Stats.PlaceholderNodeCount--;
+
+            NotifyBlockStateRemoved(RemoveBlockOperation);
+        }
+
         /// <summary>
         /// Reduces an existing node. Opposite of <see cref="Expand"/>.
         /// </summary>
         /// <param name="reducedIndex">Index of the reduced node.</param>
-        public virtual void Reduce(IWriteableNodeIndex reducedIndex)
+        /// <param name="isChanged">True upon return if the node was changed. False if the node was already reduced.</param>
+        public virtual void Reduce(IWriteableNodeIndex reducedIndex, out bool isChanged)
         {
             Debug.Assert(reducedIndex != null);
             Debug.Assert(StateTable.ContainsKey(reducedIndex));
             Debug.Assert(StateTable[reducedIndex] is IWriteablePlaceholderNodeState);
 
-            Reduce(reducedIndex, isNested: false);
+            IWriteableOperation LastOperation = null;
+
+            Reduce(reducedIndex, ref LastOperation, isNested: false);
+
+            if (LastOperation != null)
+            {
+                CheckInvariant();
+
+                isChanged = true;
+            }
+            else
+                isChanged = false;
         }
 
         /// <summary></summary>
-        protected virtual void Reduce(IWriteableNodeIndex reducedIndex, bool isNested)
+        protected virtual void Reduce(IWriteableNodeIndex reducedIndex, ref IWriteableOperation lastOperation, bool isNested)
         {
             IWriteablePlaceholderNodeState State = StateTable[reducedIndex] as IWriteablePlaceholderNodeState;
             Debug.Assert(State != null);
@@ -1781,34 +1846,36 @@ namespace EaslyController.Writeable
             foreach (KeyValuePair<string, IWriteableInner<IWriteableBrowsingChildIndex>> Entry in InnerTable)
             {
                 if (Entry.Value is IWriteableOptionalInner<IWriteableBrowsingOptionalNodeIndex> AsOptionalInner)
-                    ReduceOptional(AsOptionalInner, isNested);
+                    ReduceOptional(AsOptionalInner, ref lastOperation, isNested);
                 else if (Entry.Value is IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> AsBlockListInner)
-                    ReduceBlockList(AsBlockListInner, isNested);
+                    ReduceBlockList(AsBlockListInner, ref lastOperation, isNested);
             }
         }
 
         /// <summary>
         /// Reduces the optional node.
         /// </summary>
-        protected virtual void ReduceOptional(IWriteableOptionalInner<IWriteableBrowsingOptionalNodeIndex> optionalInner, bool isNested)
+        protected virtual void ReduceOptional(IWriteableOptionalInner<IWriteableBrowsingOptionalNodeIndex> optionalInner, ref IWriteableOperation lastOperation, bool isNested)
         {
             if (optionalInner.IsAssigned)
             {
                 IWriteableBrowsingOptionalNodeIndex ParentIndex = optionalInner.ChildState.ParentIndex;
 
                 Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => ExecuteUnassign(operation);
-                IWriteableAssignmentOperation Operation = CreateAssignmentOperation(optionalInner, ParentIndex, HandlerRedo, null, isNested);
+                Action<IWriteableOperation> HandlerUndo = (IWriteableOperation operation) => UndoUnassign(operation);
+                IWriteableAssignmentOperation Operation = CreateAssignmentOperation(optionalInner, ParentIndex, HandlerRedo, HandlerUndo, isNested);
 
                 Operation.Redo();
                 SetLastOperation(Operation);
-                CheckInvariant();
+
+                lastOperation = Operation;
             }
         }
 
         /// <summary>
         /// Reduces the block list.
         /// </summary>
-        protected virtual void ReduceBlockList(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> blockListInner, bool isNested)
+        protected virtual void ReduceBlockList(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> blockListInner, ref IWriteableOperation lastOperation, bool isNested)
         {
             if (!(blockListInner.InterfaceType == typeof(IArgument)))
                 return;
@@ -1826,13 +1893,14 @@ namespace EaslyController.Writeable
             IWriteableBrowsingExistingBlockNodeIndex FirstNodeIndex = FirstState.ParentIndex as IWriteableBrowsingExistingBlockNodeIndex;
             Debug.Assert(FirstNodeIndex != null);
 
-
             Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => ExecuteRemoveBlock(operation);
-            IWriteableRemoveBlockOperation Operation = CreateRemoveBlockOperation(blockListInner, FirstNodeIndex, HandlerRedo, null, isNested);
+            Action<IWriteableOperation> HandlerUndo = (IWriteableOperation operation) => UndoRemoveBlock(operation);
+            IWriteableRemoveBlockOperation Operation = CreateRemoveBlockOperation(blockListInner, FirstNodeIndex, HandlerRedo, HandlerUndo, isNested);
 
             Operation.Redo();
             SetLastOperation(Operation);
-            CheckInvariant();
+
+            lastOperation = Operation;
         }
 
         /// <summary>
@@ -1840,7 +1908,8 @@ namespace EaslyController.Writeable
         /// </summary>
         public virtual void Canonicalize()
         {
-            Canonicalize(RootState);
+            IWriteableOperation LastOperation = null;
+            Canonicalize(RootState, ref LastOperation);
 
             Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => ExecuteRefresh(operation);
             IWriteableGenericRefreshOperation Operation = CreateGenericRefreshOperation(RootState, HandlerRedo, null, isNested: false);
@@ -1851,17 +1920,18 @@ namespace EaslyController.Writeable
         }
 
         /// <summary></summary>
-        protected virtual void Canonicalize(IWriteableNodeState state)
+        protected virtual void Canonicalize(IWriteableNodeState state, ref IWriteableOperation lastOperation)
         {
             IWriteableNodeIndex NodeIndex = state.ParentIndex as IWriteableNodeIndex;
             Debug.Assert(NodeIndex != null);
 
-            CanonicalizeChildren(state);
-            Reduce(NodeIndex, isNested: state != RootState);
+            CanonicalizeChildren(state, ref lastOperation);
+
+            Reduce(NodeIndex, ref lastOperation, isNested: state != RootState);
         }
 
         /// <summary></summary>
-        protected virtual void CanonicalizeChildren(IWriteableNodeState state)
+        protected virtual void CanonicalizeChildren(IWriteableNodeState state, ref IWriteableOperation lastOperation)
         {
             List<IWriteableNodeState> ChildStateList = new List<IWriteableNodeState>();
             foreach (KeyValuePair<string, IWriteableInner<IWriteableBrowsingChildIndex>> Entry in state.InnerTable)
@@ -1874,7 +1944,7 @@ namespace EaslyController.Writeable
 
                     case IWriteableOptionalInner<IWriteableBrowsingOptionalNodeIndex> AsOptionalInner:
                         if (AsOptionalInner.IsAssigned)
-                            CanonicalizeChildren(AsOptionalInner.ChildState);
+                            CanonicalizeChildren(AsOptionalInner.ChildState, ref lastOperation);
                         break;
 
                     case IWriteableListInner<IWriteableBrowsingListNodeIndex> AsListlInner:
@@ -1891,7 +1961,7 @@ namespace EaslyController.Writeable
             }
 
             foreach (IWriteableNodeState ChildState in ChildStateList)
-                Canonicalize(ChildState);
+                Canonicalize(ChildState, ref lastOperation);
         }
 
         /// <summary></summary>
