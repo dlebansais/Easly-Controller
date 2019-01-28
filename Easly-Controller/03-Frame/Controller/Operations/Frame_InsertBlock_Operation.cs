@@ -1,4 +1,5 @@
-﻿using EaslyController.Writeable;
+﻿using BaseNode;
+using EaslyController.Writeable;
 using System;
 
 namespace EaslyController.Frame
@@ -12,11 +13,6 @@ namespace EaslyController.Frame
         /// Inner where the block insertion is taking place.
         /// </summary>
         new IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> Inner { get; }
-
-        /// <summary>
-        /// Index of the inserted block.
-        /// </summary>
-        new IFrameInsertionNewBlockNodeIndex BlockIndex { get; }
 
         /// <summary>
         /// Index of the state after it's inserted.
@@ -45,11 +41,13 @@ namespace EaslyController.Frame
         /// </summary>
         /// <param name="inner">Inner where the block insertion is taking place.</param>
         /// <param name="blockIndex">Index of the inserted block.</param>
+        /// <param name="block">The inserted block.</param>
+        /// <param name="node">The inserted node.</param>
         /// <param name="handlerRedo">Handler to execute to redo the operation.</param>
         /// <param name="handlerUndo">Handler to execute to undo the operation.</param>
         /// <param name="isNested">True if the operation is nested within another more general one.</param>
-        public FrameInsertBlockOperation(IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> inner, IFrameInsertionNewBlockNodeIndex blockIndex, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
-            : base(inner, blockIndex, handlerRedo, handlerUndo, isNested)
+        public FrameInsertBlockOperation(IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> inner, int blockIndex, IBlock block, INode node, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+            : base(inner, blockIndex, block, node, handlerRedo, handlerUndo, isNested)
         {
         }
         #endregion
@@ -59,11 +57,6 @@ namespace EaslyController.Frame
         /// Inner where the block insertion is taking place.
         /// </summary>
         public new IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> Inner { get { return (IFrameBlockListInner<IFrameBrowsingBlockNodeIndex>)base.Inner; } }
-
-        /// <summary>
-        /// Index of the inserted block.
-        /// </summary>
-        public new IFrameInsertionNewBlockNodeIndex BlockIndex { get { return (IFrameInsertionNewBlockNodeIndex)base.BlockIndex; } }
 
         /// <summary>
         /// Index of the state after it's inserted.

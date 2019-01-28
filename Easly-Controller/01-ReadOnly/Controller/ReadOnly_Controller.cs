@@ -611,7 +611,7 @@ namespace EaslyController.ReadOnly
             foreach (KeyValuePair<IReadOnlyIndex, IReadOnlyNodeState> Entry in AsController.StateTable)
                 OtherTable.Add(Entry.Key);
 
-            CompareEqual MatchComparer = CompareEqual.New();
+            CompareEqual MatchComparer = CompareEqual.New(true);
             Dictionary<IReadOnlyIndex, IReadOnlyIndex> MatchTable = new Dictionary<IReadOnlyIndex, IReadOnlyIndex>();
             foreach (KeyValuePair<IReadOnlyIndex, IReadOnlyNodeState> Entry in StateTable)
             {

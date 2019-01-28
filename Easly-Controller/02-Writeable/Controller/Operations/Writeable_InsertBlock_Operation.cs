@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BaseNode;
+using System;
 using System.Diagnostics;
 
 namespace EaslyController.Writeable
@@ -16,7 +17,17 @@ namespace EaslyController.Writeable
         /// <summary>
         /// Index of the inserted block.
         /// </summary>
-        IWriteableInsertionNewBlockNodeIndex BlockIndex { get; }
+        int BlockIndex { get; }
+
+        /// <summary>
+        /// The inserted block.
+        /// </summary>
+        IBlock Block { get; }
+
+        /// <summary>
+        /// The inserted node.
+        /// </summary>
+        INode Node { get; }
 
         /// <summary>
         /// Index of the state after it's inserted.
@@ -58,14 +69,18 @@ namespace EaslyController.Writeable
         /// </summary>
         /// <param name="inner">Inner where the block insertion is taking place.</param>
         /// <param name="blockIndex">Index of the inserted block.</param>
+        /// <param name="block">The inserted block.</param>
+        /// <param name="node">The inserted node.</param>
         /// <param name="handlerRedo">Handler to execute to redo the operation.</param>
         /// <param name="handlerUndo">Handler to execute to undo the operation.</param>
         /// <param name="isNested">True if the operation is nested within another more general one.</param>
-        public WriteableInsertBlockOperation(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, IWriteableInsertionNewBlockNodeIndex blockIndex, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        public WriteableInsertBlockOperation(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, int blockIndex, IBlock block, INode node, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
             : base(handlerRedo, handlerUndo, isNested)
         {
             Inner = inner;
             BlockIndex = blockIndex;
+            Block = block;
+            Node = node;
         }
         #endregion
 
@@ -78,7 +93,17 @@ namespace EaslyController.Writeable
         /// <summary>
         /// Index of the inserted block.
         /// </summary>
-        public IWriteableInsertionNewBlockNodeIndex BlockIndex { get; }
+        public int BlockIndex { get; }
+
+        /// <summary>
+        /// The inserted block.
+        /// </summary>
+        public IBlock Block { get; }
+
+        /// <summary>
+        /// The inserted node.
+        /// </summary>
+        public INode Node { get; }
 
         /// <summary>
         /// Index of the state after it's inserted.

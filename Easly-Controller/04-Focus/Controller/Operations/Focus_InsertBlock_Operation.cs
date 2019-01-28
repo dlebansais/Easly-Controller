@@ -1,4 +1,5 @@
-﻿using EaslyController.Frame;
+﻿using BaseNode;
+using EaslyController.Frame;
 using EaslyController.Writeable;
 using System;
 
@@ -13,11 +14,6 @@ namespace EaslyController.Focus
         /// Inner where the block insertion is taking place.
         /// </summary>
         new IFocusBlockListInner<IFocusBrowsingBlockNodeIndex> Inner { get; }
-
-        /// <summary>
-        /// Index of the inserted block.
-        /// </summary>
-        new IFocusInsertionNewBlockNodeIndex BlockIndex { get; }
 
         /// <summary>
         /// Index of the state after it's inserted.
@@ -46,11 +42,13 @@ namespace EaslyController.Focus
         /// </summary>
         /// <param name="inner">Inner where the block insertion is taking place.</param>
         /// <param name="blockIndex">Index of the inserted block.</param>
+        /// <param name="block">The inserted block.</param>
+        /// <param name="node">The inserted node.</param>
         /// <param name="handlerRedo">Handler to execute to redo the operation.</param>
         /// <param name="handlerUndo">Handler to execute to undo the operation.</param>
         /// <param name="isNested">True if the operation is nested within another more general one.</param>
-        public FocusInsertBlockOperation(IFocusBlockListInner<IFocusBrowsingBlockNodeIndex> inner, IFocusInsertionNewBlockNodeIndex blockIndex, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
-            : base(inner, blockIndex, handlerRedo, handlerUndo, isNested)
+        public FocusInsertBlockOperation(IFocusBlockListInner<IFocusBrowsingBlockNodeIndex> inner, int blockIndex, IBlock block, INode node, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+            : base(inner, blockIndex, block, node, handlerRedo, handlerUndo, isNested)
         {
         }
         #endregion
@@ -60,11 +58,6 @@ namespace EaslyController.Focus
         /// Inner where the block insertion is taking place.
         /// </summary>
         public new IFocusBlockListInner<IFocusBrowsingBlockNodeIndex> Inner { get { return (IFocusBlockListInner<IFocusBrowsingBlockNodeIndex>)base.Inner; } }
-
-        /// <summary>
-        /// Index of the inserted block.
-        /// </summary>
-        public new IFocusInsertionNewBlockNodeIndex BlockIndex { get { return (IFocusInsertionNewBlockNodeIndex)base.BlockIndex; } }
 
         /// <summary>
         /// Index of the state after it's inserted.

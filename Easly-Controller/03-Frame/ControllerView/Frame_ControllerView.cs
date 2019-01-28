@@ -384,7 +384,7 @@ namespace EaslyController.Frame
             Debug.Assert(Inner != null);
             IFrameBrowsingChildIndex NewBrowsingIndex = ((IFrameReplaceOperation)operation).NewBrowsingIndex;
             Debug.Assert(NewBrowsingIndex != null);
-            IFrameNodeState ReplacedState = ((IFrameReplaceOperation)operation).ChildState;
+            IFrameNodeState ReplacedState = ((IFrameReplaceOperation)operation).NewChildState;
             Debug.Assert(ReplacedState != null);
 
             IFrameNodeStateView ReplacedStateView = StateViewTable[ReplacedState];

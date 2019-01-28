@@ -29,17 +29,28 @@ namespace EaslyController.Writeable
         IWriteableBrowsingChildIndex NewBrowsingIndex { get; }
 
         /// <summary>
+        /// The old state.
+        /// </summary>
+        IWriteableNodeState OldChildState { get; }
+
+        /// <summary>
         /// The new state.
         /// </summary>
-        IWriteableNodeState ChildState { get; }
+        IWriteableNodeState NewChildState { get; }
 
         /// <summary>
         /// Update the operation with details.
         /// </summary>
         /// <param name="oldBrowsingIndex">Index of the state before it's replaced.</param>
         /// <param name="newBrowsingIndex">Index of the state after it's replaced.</param>
-        /// <param name="childState">The new state.</param>
-        void Update(IWriteableBrowsingChildIndex oldBrowsingIndex, IWriteableBrowsingChildIndex newBrowsingIndex, IWriteableNodeState childState);
+        /// <param name="oldChildState">The old state.</param>
+        /// <param name="newChildState">The new state.</param>
+        void Update(IWriteableBrowsingChildIndex oldBrowsingIndex, IWriteableBrowsingChildIndex newBrowsingIndex, IWriteableNodeState oldChildState, IWriteableNodeState newChildState);
+
+        /// <summary>
+        /// Creates an operation to undo the replace operation.
+        /// </summary>
+        IWriteableReplaceOperation ToInverseReplace();
     }
 
     /// <summary>
@@ -86,9 +97,14 @@ namespace EaslyController.Writeable
         public IWriteableBrowsingChildIndex NewBrowsingIndex { get; private set; }
 
         /// <summary>
+        /// The old state.
+        /// </summary>
+        public IWriteableNodeState OldChildState { get; private set; }
+
+        /// <summary>
         /// The new state.
         /// </summary>
-        public IWriteableNodeState ChildState { get; private set; }
+        public IWriteableNodeState NewChildState { get; private set; }
         #endregion
 
         #region Client Interface
@@ -97,16 +113,39 @@ namespace EaslyController.Writeable
         /// </summary>
         /// <param name="oldBrowsingIndex">Index of the state before it's replaced.</param>
         /// <param name="newBrowsingIndex">Index of the state after it's replaced.</param>
-        /// <param name="childState">The new state.</param>
-        public virtual void Update(IWriteableBrowsingChildIndex oldBrowsingIndex, IWriteableBrowsingChildIndex newBrowsingIndex, IWriteableNodeState childState)
+        /// <param name="oldChildState">The old state.</param>
+        /// <param name="newChildState">The new state.</param>
+        public virtual void Update(IWriteableBrowsingChildIndex oldBrowsingIndex, IWriteableBrowsingChildIndex newBrowsingIndex, IWriteableNodeState oldChildState, IWriteableNodeState newChildState)
         {
             Debug.Assert(oldBrowsingIndex != null);
             Debug.Assert(newBrowsingIndex != null);
-            Debug.Assert(childState != null);
+            Debug.Assert(oldChildState != null);
+            Debug.Assert(newChildState != null);
 
             OldBrowsingIndex = oldBrowsingIndex;
             NewBrowsingIndex = newBrowsingIndex;
-            ChildState = childState;
+            OldChildState = oldChildState;
+            NewChildState = newChildState;
+        }
+
+        /// <summary>
+        /// Creates an operation to undo the replace operation.
+        /// </summary>
+        public IWriteableReplaceOperation ToInverseReplace()
+        {
+            IWriteableInsertionChildIndex ReplacementIndex = NewBrowsingIndex.ToInsertionIndex(Inner.Owner.Node, OldChildState.Node);
+            return CreateReplaceOperation(Inner, ReplacementIndex, HandlerUndo, HandlerRedo, IsNested);
+        }
+        #endregion
+
+        #region Create Methods
+        /// <summary>
+        /// Creates a IxxxReplaceOperation object.
+        /// </summary>
+        protected virtual IWriteableReplaceOperation CreateReplaceOperation(IWriteableInner<IWriteableBrowsingChildIndex> inner, IWriteableInsertionChildIndex replacementIndex, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        {
+            ControllerTools.AssertNoOverride(this, typeof(WriteableReplaceOperation));
+            return new WriteableReplaceOperation(inner, replacementIndex, handlerRedo, handlerUndo, isNested);
         }
         #endregion
     }

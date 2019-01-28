@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BaseNode;
+using System;
 using System.Diagnostics;
 
 namespace EaslyController.Writeable
@@ -19,15 +20,26 @@ namespace EaslyController.Writeable
         IWriteableBrowsingExistingBlockNodeIndex BlockIndex { get; }
 
         /// <summary>
-        /// Block state removed.
+        ///Block state removed.
         /// </summary>
         IWriteableBlockState BlockState { get; }
+
+        /// <summary>
+        /// The removed block.
+        /// </summary>
+        IBlock Block { get; }
+
+        /// <summary>
+        /// The removed node.
+        /// </summary>
+        INode Node { get; }
 
         /// <summary>
         /// Update the operation with details.
         /// </summary>
         /// <param name="blockState">Block state removed.</param>
-        void Update(IWriteableBlockState blockState);
+        /// <param name="node">The node removed.</param>
+        void Update(IWriteableBlockState blockState, INode node);
 
         /// <summary>
         /// Creates an operation to undo the remove block operation.
@@ -72,6 +84,16 @@ namespace EaslyController.Writeable
         /// Block state removed.
         /// </summary>
         public IWriteableBlockState BlockState { get; private set; }
+
+        /// <summary>
+        /// The removed block.
+        /// </summary>
+        public IBlock Block { get; private set; }
+
+        /// <summary>
+        /// The removed node.
+        /// </summary>
+        public INode Node { get; private set; }
         #endregion
 
         #region Client Interface
@@ -79,11 +101,15 @@ namespace EaslyController.Writeable
         /// Update the operation with details.
         /// </summary>
         /// <param name="blockState">Block state removed.</param>
-        public virtual void Update(IWriteableBlockState blockState)
+        /// <param name="node">The node removed.</param>
+        public virtual void Update(IWriteableBlockState blockState, INode node)
         {
             Debug.Assert(blockState != null);
+            Debug.Assert(blockState.StateList.Count == 0);
 
             BlockState = blockState;
+            Block = blockState.ChildBlock;
+            Node = node;
         }
 
         /// <summary>
@@ -91,10 +117,7 @@ namespace EaslyController.Writeable
         /// </summary>
         public IWriteableInsertBlockOperation ToInsertBlockOperation()
         {
-            IWriteableInsertionNewBlockNodeIndex InsertionIndex = BlockIndex.ToInsertionIndex(Inner.Owner.Node, BlockIndex.Node) as IWriteableInsertionNewBlockNodeIndex;
-            Debug.Assert(InsertionIndex != null);
-
-            return CreateInsertBlockOperation(Inner, InsertionIndex, HandlerUndo, HandlerRedo, IsNested);
+            return CreateInsertBlockOperation(Inner, BlockIndex.BlockIndex, Block, Node, HandlerUndo, HandlerRedo, IsNested);
         }
         #endregion
 
@@ -102,10 +125,10 @@ namespace EaslyController.Writeable
         /// <summary>
         /// Creates a IxxxInsertBlockOperation object.
         /// </summary>
-        protected virtual IWriteableInsertBlockOperation CreateInsertBlockOperation(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, IWriteableInsertionNewBlockNodeIndex blockIndex, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        protected virtual IWriteableInsertBlockOperation CreateInsertBlockOperation(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, int blockIndex, IBlock block, INode node, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableRemoveBlockOperation));
-            return new WriteableInsertBlockOperation(inner, blockIndex, handlerRedo, handlerUndo, isNested);
+            return new WriteableInsertBlockOperation(inner, blockIndex, block, node, handlerRedo, handlerUndo, isNested);
         }
         #endregion
     }

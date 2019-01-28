@@ -29,9 +29,14 @@ namespace EaslyController.Frame
         new IFrameBrowsingChildIndex NewBrowsingIndex { get; }
 
         /// <summary>
+        /// The old state.
+        /// </summary>
+        new IFrameNodeState OldChildState { get; }
+
+        /// <summary>
         /// The new state.
         /// </summary>
-        new IFrameNodeState ChildState { get; }
+        new IFrameNodeState NewChildState { get; }
     }
 
     /// <summary>
@@ -76,9 +81,14 @@ namespace EaslyController.Frame
         public new IFrameBrowsingChildIndex NewBrowsingIndex { get { return (IFrameBrowsingChildIndex)base.NewBrowsingIndex; } }
 
         /// <summary>
+        /// The old state.
+        /// </summary>
+        public new IFrameNodeState OldChildState { get { return (IFrameNodeState)base.OldChildState; } }
+
+        /// <summary>
         /// The new state.
         /// </summary>
-        public new IFrameNodeState ChildState { get { return (IFrameNodeState)base.ChildState; } }
+        public new IFrameNodeState NewChildState { get { return (IFrameNodeState)base.NewChildState; } }
         #endregion
     }
 }

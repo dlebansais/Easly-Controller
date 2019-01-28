@@ -110,13 +110,15 @@ namespace EaslyController.Writeable
             INode ParentNode = Owner.Node;
 
             WriteableBrowsingOptionalNodeIndex OldBrowsingIndex = (WriteableBrowsingOptionalNodeIndex)ChildState.ParentIndex;
+            IWriteableOptionalNodeState OldChildState = (IWriteableOptionalNodeState)ChildState;
+
             NodeTreeHelperOptional.SetOptionalChildNode(ParentNode, PropertyName, optionalIndex.Node);
 
             WriteableBrowsingOptionalNodeIndex NewBrowsingIndex = (WriteableBrowsingOptionalNodeIndex)optionalIndex.ToBrowsingIndex();
             IWriteableOptionalNodeState NewChildState = (IWriteableOptionalNodeState)CreateNodeState(NewBrowsingIndex);
             SetChildState(NewChildState);
 
-            operation.Update(OldBrowsingIndex, NewBrowsingIndex, NewChildState);
+            operation.Update(OldBrowsingIndex, NewBrowsingIndex, OldChildState, NewChildState);
         }
 
         /// <summary>

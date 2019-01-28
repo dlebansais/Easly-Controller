@@ -220,7 +220,8 @@ namespace EaslyController.ReadOnly
             IIdentifier SourceClone = CloneSource();
             Debug.Assert(SourceClone != null);
 
-            NodeTreeHelperBlockList.InsertIntoBlockList(parentNode, ParentInner.PropertyName, blockIndex, ChildBlock.Replication, PatternClone, SourceClone, out IBlock NewBlock);
+            IBlock NewBlock = NodeTreeHelperBlockList.CreateBlock(parentNode, ParentInner.PropertyName, ChildBlock.Replication, PatternClone, SourceClone);
+            NodeTreeHelperBlockList.InsertIntoBlockList(parentNode, ParentInner.PropertyName, blockIndex, NewBlock);
             NodeTreeHelper.CopyDocumentation(ChildBlock, NewBlock);
 
             // Clone children recursively.

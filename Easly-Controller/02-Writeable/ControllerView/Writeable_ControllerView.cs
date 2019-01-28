@@ -192,7 +192,7 @@ namespace EaslyController.Writeable
             Debug.Assert(operation != null);
             Debug.Assert(!operation.IsNested);
 
-            IWriteableNodeState ChildState = operation.ChildState;
+            IWriteableNodeState ChildState = operation.NewChildState;
             Debug.Assert(ChildState != null);
             Debug.Assert(StateViewTable.ContainsKey(ChildState));
         }

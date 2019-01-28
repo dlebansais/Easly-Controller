@@ -1,5 +1,5 @@
-﻿using System;
-using System.Diagnostics;
+﻿using BaseNode;
+using System;
 
 namespace EaslyController.Writeable
 {
@@ -8,6 +8,10 @@ namespace EaslyController.Writeable
     /// </summary>
     public interface IWriteableExpandArgumentOperation : IWriteableInsertBlockOperation
     {
+        /// <summary>
+        /// The inserted argument.
+        /// </summary>
+        IArgument Argument { get; }
     }
 
     /// <summary>
@@ -20,15 +24,22 @@ namespace EaslyController.Writeable
         /// Initializes a new instance of <see cref="WriteableExpandArgumentOperation"/>.
         /// </summary>
         /// <param name="inner">Inner where the block insertion is taking place.</param>
-        /// <param name="blockIndex">Position where the block is inserted.</param>
+        /// <param name="block">The inserted block.</param>
+        /// <param name="argument">The inserted argument.</param>
         /// <param name="handlerRedo">Handler to execute to redo the operation.</param>
         /// <param name="handlerUndo">Handler to execute to undo the operation.</param>
         /// <param name="isNested">True if the operation is nested within another more general one.</param>
-        public WriteableExpandArgumentOperation(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, IWriteableInsertionNewBlockNodeIndex blockIndex, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
-            : base(inner, blockIndex, handlerRedo, handlerUndo, isNested)
+        public WriteableExpandArgumentOperation(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, IBlock block, IArgument argument, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+            : base(inner, 0, block, argument, handlerRedo, handlerUndo, isNested)
         {
-            Debug.Assert(blockIndex.BlockIndex == 0);
         }
+        #endregion
+
+        #region Properties
+        /// <summary>
+        /// The inserted argument.
+        /// </summary>
+        public IArgument Argument { get { return (IArgument)Node; } }
         #endregion
     }
 }

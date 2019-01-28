@@ -224,20 +224,23 @@ namespace EaslyController.Writeable
         {
             Debug.Assert(operation != null);
 
-            IWriteableInsertionNewBlockNodeIndex NewBlockIndex = operation.BlockIndex;
-            Debug.Assert(NewBlockIndex != null);
-
-            int BlockIndex = NewBlockIndex.BlockIndex;
+            int BlockIndex = operation.BlockIndex;
             Debug.Assert(BlockIndex >= 0 && BlockIndex <= BlockStateList.Count);
 
-            INode ParentNode = Owner.Node;
-            NodeTreeHelperBlockList.InsertIntoBlockList(ParentNode, PropertyName, BlockIndex, ReplicationStatus.Normal, NewBlockIndex.PatternNode, NewBlockIndex.SourceNode, out IBlock ChildBlock);
-            NodeTreeHelperBlockList.InsertIntoBlock(ChildBlock, 0, NewBlockIndex.Node);
+            IBlock NewBlock = operation.Block;
+            Debug.Assert(NewBlock != null);
 
-            IWriteableBrowsingNewBlockNodeIndex BrowsingNewBlockIndex = (IWriteableBrowsingNewBlockNodeIndex)NewBlockIndex.ToBrowsingIndex();
+            INode NewNode = operation.Node;
+            Debug.Assert(NewBlock != null);
+
+            INode ParentNode = Owner.Node;
+            NodeTreeHelperBlockList.InsertIntoBlockList(ParentNode, PropertyName, BlockIndex, NewBlock);
+            NodeTreeHelperBlockList.InsertIntoBlock(NewBlock, 0, NewNode);
+
+            IWriteableBrowsingNewBlockNodeIndex BrowsingNewBlockIndex = CreateNewBlockNodeIndex(NewNode, BlockIndex, NewBlock.ReplicationPattern, NewBlock.SourceIdentifier);
             IWriteableBrowsingExistingBlockNodeIndex BrowsingExistingBlockIndex = (IWriteableBrowsingExistingBlockNodeIndex)BrowsingNewBlockIndex.ToExistingBlockIndex();
 
-            IWriteableBlockState BlockState = (IWriteableBlockState)CreateBlockState(BrowsingNewBlockIndex, ChildBlock);
+            IWriteableBlockState BlockState = (IWriteableBlockState)CreateBlockState(BrowsingNewBlockIndex, NewBlock);
             InsertInBlockStateList(BlockIndex, BlockState);
 
             IWriteablePlaceholderNodeState ChildState = (IWriteablePlaceholderNodeState)CreateNodeState(BrowsingExistingBlockIndex);
@@ -341,6 +344,8 @@ namespace EaslyController.Writeable
             INode ParentNode = Owner.Node;
 
             IWriteablePlaceholderNodeState OldChildState = BlockState.StateList[Index];
+            INode RemovedNode = OldChildState.Node;
+
             BlockState.Remove((IWriteableBrowsingBlockNodeIndex)OldChildState.ParentIndex, Index);
 
             NodeTreeHelperBlockList.RemoveFromBlock(ParentNode, PropertyName, BlockIndex, Index, out bool IsBlockRemoved);
@@ -351,7 +356,7 @@ namespace EaslyController.Writeable
 
                 RemoveFromBlockStateList(BlockIndex);
 
-                blockOperation.Update(BlockState);
+                blockOperation.Update(BlockState, RemovedNode);
 
                 for (; BlockIndex < BlockStateList.Count; BlockIndex++)
                 {
@@ -429,7 +434,7 @@ namespace EaslyController.Writeable
             IWriteablePlaceholderNodeState NewChildState = (IWriteablePlaceholderNodeState)CreateNodeState(NewBrowsingIndex);
             BlockState.Insert(NewBrowsingIndex, Index, NewChildState);
 
-            operation.Update(OldBrowsingIndex, NewBrowsingIndex, NewChildState);
+            operation.Update(OldBrowsingIndex, NewBrowsingIndex, OldChildState, NewChildState);
         }
 
         /// <summary>

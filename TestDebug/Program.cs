@@ -43,9 +43,9 @@ namespace TestDebug
                 Console.WriteLine(FileName);
 
                 //TestReadOnly(Serializer, FileName);
-                //TestWriteable(Serializer, FileName);
+                TestWriteable(Serializer, FileName);
                 //TestFrame(Serializer, FileName);
-                TestFocus(Serializer, FileName);
+                //TestFocus(Serializer, FileName);
             }
         }
         #endregion

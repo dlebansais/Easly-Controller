@@ -186,7 +186,7 @@ namespace EaslyController.Writeable
             IWriteablePlaceholderNodeState NewChildState = (IWriteablePlaceholderNodeState)CreateNodeState(NewBrowsingIndex);
             InsertInStateList(listIndex.Index, NewChildState);
 
-            operation.Update(OldBrowsingIndex, NewBrowsingIndex, NewChildState);
+            operation.Update(OldBrowsingIndex, NewBrowsingIndex, OldChildState, NewChildState);
         }
 
         /// <summary>
