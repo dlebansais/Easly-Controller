@@ -1585,7 +1585,8 @@ namespace EaslyController.Writeable
             Debug.Assert(inner != null);
 
             Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => ExecuteMoveBlock(operation);
-            IWriteableMoveBlockOperation Operation = CreateMoveBlockOperation(inner, blockIndex, direction, HandlerRedo, null, isNested: false);
+            Action<IWriteableOperation> HandlerUndo = (IWriteableOperation operation) => UndoMoveBlock(operation);
+            IWriteableMoveBlockOperation Operation = CreateMoveBlockOperation(inner, blockIndex, direction, HandlerRedo, HandlerUndo, isNested: false);
 
             Operation.Redo();
             SetLastOperation(Operation);
@@ -1596,6 +1597,27 @@ namespace EaslyController.Writeable
         protected virtual void ExecuteMoveBlock(IWriteableOperation operation)
         {
             IWriteableMoveBlockOperation MoveBlockOperation = (IWriteableMoveBlockOperation)operation;
+
+            IWriteableBlockState BlockState = MoveBlockOperation.Inner.BlockStateList[MoveBlockOperation.BlockIndex];
+            Debug.Assert(BlockState != null);
+            Debug.Assert(BlockState.StateList.Count > 0);
+
+            IWriteableNodeState State = BlockState.StateList[0];
+            Debug.Assert(State != null);
+
+            IWriteableBrowsingExistingBlockNodeIndex NodeIndex = State.ParentIndex as IWriteableBrowsingExistingBlockNodeIndex;
+            Debug.Assert(NodeIndex != null);
+
+            MoveBlockOperation.Inner.MoveBlock(MoveBlockOperation);
+
+            NotifyBlockStateMoved(MoveBlockOperation);
+        }
+
+        /// <summary></summary>
+        protected virtual void UndoMoveBlock(IWriteableOperation operation)
+        {
+            IWriteableMoveBlockOperation MoveBlockOperation = (IWriteableMoveBlockOperation)operation;
+            MoveBlockOperation = MoveBlockOperation.ToInverseMoveBlock();
 
             IWriteableBlockState BlockState = MoveBlockOperation.Inner.BlockStateList[MoveBlockOperation.BlockIndex];
             Debug.Assert(BlockState != null);

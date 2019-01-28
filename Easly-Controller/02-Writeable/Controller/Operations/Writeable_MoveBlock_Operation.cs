@@ -33,6 +33,11 @@ namespace EaslyController.Writeable
         /// </summary>
         /// <param name="blockState">The moved block state.</param>
         void Update(IWriteableBlockState blockState);
+
+        /// <summary>
+        /// Creates an operation to undo the move block operation.
+        /// </summary>
+        IWriteableMoveBlockOperation ToInverseMoveBlock();
     }
 
     /// <summary>
@@ -91,6 +96,25 @@ namespace EaslyController.Writeable
             Debug.Assert(blockState != null);
 
             BlockState = blockState;
+        }
+
+        /// <summary>
+        /// Creates an operation to undo the move block operation.
+        /// </summary>
+        public virtual IWriteableMoveBlockOperation ToInverseMoveBlock()
+        {
+            return CreateMoveBlockOperation(Inner, BlockIndex + Direction, -Direction, HandlerUndo, HandlerRedo, IsNested);
+        }
+        #endregion
+
+        #region Create Methods
+        /// <summary>
+        /// Creates a IxxxxMoveBlockOperation object.
+        /// </summary>
+        protected virtual IWriteableMoveBlockOperation CreateMoveBlockOperation(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, int blockIndex, int direction, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        {
+            ControllerTools.AssertNoOverride(this, typeof(WriteableMoveBlockOperation));
+            return new WriteableMoveBlockOperation(inner, blockIndex, direction, handlerRedo, handlerUndo, isNested);
         }
         #endregion
     }
