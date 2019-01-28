@@ -36,7 +36,7 @@ namespace EaslyController.Writeable
         void Update(IWriteableBlockState blockState);
 
         /// <summary>
-        /// Creates an operation to undo the assignment operation.
+        /// Creates an operation to undo the change replication operation.
         /// </summary>
         IWriteableChangeBlockOperation ToInverseChange();
     }
@@ -100,7 +100,7 @@ namespace EaslyController.Writeable
         }
 
         /// <summary>
-        /// Creates an operation to undo the assignment operation.
+        /// Creates an operation to undo the change replication operation.
         /// </summary>
         public virtual IWriteableChangeBlockOperation ToInverseChange()
         {

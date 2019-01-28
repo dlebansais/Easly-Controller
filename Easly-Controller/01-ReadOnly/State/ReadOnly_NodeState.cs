@@ -64,6 +64,16 @@ namespace EaslyController.ReadOnly
         IReadOnlyInner<IReadOnlyBrowsingChildIndex> PropertyToInner(string propertyName);
 
         /// <summary>
+        /// Gets the value corresponding to a value property.
+        /// The value type can be obtained from <see cref="ValuePropertyTypeTable"/>.
+        /// </summary>
+        /// <param name="propertyName">Property name.</param>
+        /// <param name="value">Value of the property upon return.</param>
+        /// <param name="minValue">Min value of the property upon return. Only applies to enum and booleans.</param>
+        /// <param name="maxValue">Max value of the property upon return. Only applies to enum and booleans.</param>
+        void PropertyToValue(string propertyName, out object value, out int minValue, out int maxValue);
+
+        /// <summary>
         /// Gets the first inner corresponding to the first optional child node that is not assigned.
         /// </summary>
         /// <param name="inner">The inner corresponding to the first optional child node that is not assigned, or null if none.</param>
@@ -341,6 +351,45 @@ namespace EaslyController.ReadOnly
             Debug.Assert(InnerTable.ContainsKey(propertyName));
 
             return InnerTable[propertyName];
+        }
+
+        /// <summary>
+        /// Gets the value corresponding to a value property.
+        /// The value type can be obtained from <see cref="ValuePropertyTypeTable"/>.
+        /// </summary>
+        /// <param name="propertyName">Property name.</param>
+        /// <param name="value">Value of the property upon return.</param>
+        /// <param name="minValue">Min value of the property upon return. Only applies to enum and booleans.</param>
+        /// <param name="maxValue">Max value of the property upon return. Only applies to enum and booleans.</param>
+        public virtual void PropertyToValue(string propertyName, out object value, out int minValue, out int maxValue)
+        {
+            Debug.Assert(!string.IsNullOrEmpty(propertyName));
+            Debug.Assert(ValuePropertyTypeTable.ContainsKey(propertyName));
+
+            switch (ValuePropertyTypeTable[propertyName])
+            {
+                case ValuePropertyType.Boolean:
+                case ValuePropertyType.Enum:
+                    value = NodeTreeHelper.GetEnumValue(Node, propertyName);
+                    NodeTreeHelper.GetEnumRange(Node.GetType(), propertyName, out minValue, out maxValue);
+                    break;
+
+                case ValuePropertyType.String:
+                    Debug.Assert(propertyName == "Text");
+                    value = NodeTreeHelper.GetText(Node);
+                    minValue = -1;
+                    maxValue = -1;
+                    break;
+
+                case ValuePropertyType.Guid:
+                    value = NodeTreeHelper.GetGuid(Node, propertyName);
+                    minValue = -1;
+                    maxValue = -1;
+                    break;
+
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(propertyName));
+            }
         }
 
         /// <summary>

@@ -232,7 +232,7 @@ namespace EaslyController.Writeable
         {
             Debug.Assert(operation != null);
 
-            IWriteablePlaceholderNodeState State = operation.State;
+            IWriteableNodeState State = operation.State;
             Debug.Assert(State != null);
             Debug.Assert(StateViewTable.ContainsKey(State));
         }

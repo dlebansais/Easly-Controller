@@ -16,7 +16,7 @@ namespace EaslyController.Frame
         /// <summary>
         /// State changed.
         /// </summary>
-        new IFramePlaceholderNodeState State { get; }
+        new IFrameNodeState State { get; }
     }
 
     /// <summary>
@@ -49,7 +49,7 @@ namespace EaslyController.Frame
         /// <summary>
         /// State changed.
         /// </summary>
-        public new IFramePlaceholderNodeState State { get { return (IFramePlaceholderNodeState)base.State; } }
+        public new IFrameNodeState State { get { return (IFrameNodeState)base.State; } }
         #endregion
     }
 }

@@ -1240,7 +1240,8 @@ namespace EaslyController.Writeable
             Debug.Assert(value >= 0);
 
             Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => ExecuteChangeDiscreteValue(operation);
-            IWriteableChangeNodeOperation Operation = CreateChangeNodeOperation(nodeIndex, propertyName, value, HandlerRedo, null, isNested: false);
+            Action<IWriteableOperation> HandlerUndo = (IWriteableOperation operation) => UndoChangeDiscreteValue(operation);
+            IWriteableChangeNodeOperation Operation = CreateChangeNodeOperation(nodeIndex, propertyName, value, HandlerRedo, HandlerUndo, isNested: false);
 
             Operation.Redo();
             SetLastOperation(Operation);
@@ -1253,19 +1254,45 @@ namespace EaslyController.Writeable
             IWriteableChangeNodeOperation ChangeNodeOperation = (IWriteableChangeNodeOperation)operation;
 
             string PropertyName = ChangeNodeOperation.PropertyName;
-            int Value = ChangeNodeOperation.Value;
-            IWriteablePlaceholderNodeState State = StateTable[ChangeNodeOperation.NodeIndex] as IWriteablePlaceholderNodeState;
+            int NewValue = ChangeNodeOperation.NewValue;
+            IWriteableNodeState State = StateTable[ChangeNodeOperation.NodeIndex];
             Debug.Assert(State != null);
             Debug.Assert(State.ValuePropertyTypeTable.ContainsKey(PropertyName));
             Debug.Assert(State.ValuePropertyTypeTable[PropertyName] == Constants.ValuePropertyType.Boolean || State.ValuePropertyTypeTable[PropertyName] == Constants.ValuePropertyType.Enum);
 
-            Debug.Assert(Value >= 0);
+            int OldValue = NodeTreeHelper.GetEnumValue(State.Node, PropertyName);
 
             NodeTreeHelper.GetEnumRange(State.Node.GetType(), PropertyName, out int Min, out int Max);
-            Value = ((Value - Min) % (Max - Min + 1)) + Min;
-            NodeTreeHelper.SetEnumValue(State.Node, PropertyName, Value);
+            Debug.Assert(NewValue >= Min && NewValue <= Max);
 
-            ChangeNodeOperation.Update(State);
+            NodeTreeHelper.SetEnumValue(State.Node, PropertyName, NewValue);
+
+            ChangeNodeOperation.Update(State, OldValue);
+
+            NotifyStateChanged(ChangeNodeOperation);
+        }
+
+        /// <summary></summary>
+        protected virtual void UndoChangeDiscreteValue(IWriteableOperation operation)
+        {
+            IWriteableChangeNodeOperation ChangeNodeOperation = (IWriteableChangeNodeOperation)operation;
+            ChangeNodeOperation = ChangeNodeOperation.ToInverseChange();
+
+            string PropertyName = ChangeNodeOperation.PropertyName;
+            int NewValue = ChangeNodeOperation.NewValue;
+            IWriteableNodeState State = StateTable[ChangeNodeOperation.NodeIndex];
+            Debug.Assert(State != null);
+            Debug.Assert(State.ValuePropertyTypeTable.ContainsKey(PropertyName));
+            Debug.Assert(State.ValuePropertyTypeTable[PropertyName] == Constants.ValuePropertyType.Boolean || State.ValuePropertyTypeTable[PropertyName] == Constants.ValuePropertyType.Enum);
+
+            int OldValue = NodeTreeHelper.GetEnumValue(State.Node, PropertyName);
+
+            NodeTreeHelper.GetEnumRange(State.Node.GetType(), PropertyName, out int Min, out int Max);
+            Debug.Assert(NewValue >= Min && NewValue <= Max);
+
+            NodeTreeHelper.SetEnumValue(State.Node, PropertyName, NewValue);
+
+            ChangeNodeOperation.Update(State, OldValue);
 
             NotifyStateChanged(ChangeNodeOperation);
         }

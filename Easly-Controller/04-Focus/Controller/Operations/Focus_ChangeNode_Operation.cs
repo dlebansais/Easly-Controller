@@ -17,7 +17,7 @@ namespace EaslyController.Focus
         /// <summary>
         /// State changed.
         /// </summary>
-        new IFocusPlaceholderNodeState State { get; }
+        new IFocusNodeState State { get; }
     }
 
     /// <summary>
@@ -50,7 +50,7 @@ namespace EaslyController.Focus
         /// <summary>
         /// State changed.
         /// </summary>
-        public new IFocusPlaceholderNodeState State { get { return (IFocusPlaceholderNodeState)base.State; } }
+        public new IFocusNodeState State { get { return (IFocusNodeState)base.State; } }
         #endregion
     }
 }

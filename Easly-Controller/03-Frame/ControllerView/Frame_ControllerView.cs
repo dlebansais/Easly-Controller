@@ -562,7 +562,7 @@ namespace EaslyController.Frame
         {
             base.OnStateChanged(operation);
 
-            IFramePlaceholderNodeState ChangedState = ((IFrameChangeNodeOperation)operation).State;
+            IFrameNodeState ChangedState = ((IFrameChangeNodeOperation)operation).State;
             Debug.Assert(ChangedState != null);
 
             IFrameNodeStateView ChangedStateView = StateViewTable[ChangedState];

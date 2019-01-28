@@ -19,20 +19,31 @@ namespace EaslyController.Writeable
         string PropertyName { get; }
 
         /// <summary>
+        /// The old value.
+        /// </summary>
+        int OldValue { get; }
+
+        /// <summary>
         /// The new value.
         /// </summary>
-        int Value { get; }
+        int NewValue { get; }
 
         /// <summary>
         /// State changed.
         /// </summary>
-        IWriteablePlaceholderNodeState State { get; }
+        IWriteableNodeState State { get; }
 
         /// <summary>
         /// Update the operation with details.
         /// </summary>
         /// <param name="state">State changed.</param>
-        void Update(IWriteablePlaceholderNodeState state);
+        /// <param name="oldValue">The old value.</param>
+        void Update(IWriteableNodeState state, int oldValue);
+
+        /// <summary>
+        /// Creates an operation to undo the change value operation.
+        /// </summary>
+        IWriteableChangeNodeOperation ToInverseChange();
     }
 
     /// <summary>
@@ -55,7 +66,7 @@ namespace EaslyController.Writeable
         {
             NodeIndex = nodeIndex;
             PropertyName = propertyName;
-            Value = value;
+            NewValue = value;
         }
         #endregion
 
@@ -71,14 +82,19 @@ namespace EaslyController.Writeable
         public string PropertyName { get; }
 
         /// <summary>
+        /// The old value.
+        /// </summary>
+        public int OldValue { get; private set; }
+
+        /// <summary>
         /// The new value.
         /// </summary>
-        public int Value { get; }
+        public int NewValue { get; }
 
         /// <summary>
         /// State changed.
         /// </summary>
-        public IWriteablePlaceholderNodeState State { get; private set; }
+        public IWriteableNodeState State { get; private set; }
         #endregion
 
         #region Client Interface
@@ -86,11 +102,32 @@ namespace EaslyController.Writeable
         /// Update the operation with details.
         /// </summary>
         /// <param name="state">State changed.</param>
-        public virtual void Update(IWriteablePlaceholderNodeState state)
+        /// <param name="oldValue">The old value.</param>
+        public virtual void Update(IWriteableNodeState state, int oldValue)
         {
             Debug.Assert(state != null);
 
             State = state;
+            OldValue = oldValue;
+        }
+
+        /// <summary>
+        /// Creates an operation to undo the change value operation.
+        /// </summary>
+        public virtual IWriteableChangeNodeOperation ToInverseChange()
+        {
+            return CreateChangeNodeOperation(NodeIndex, PropertyName, OldValue, HandlerUndo, HandlerRedo, IsNested);
+        }
+        #endregion
+
+        #region Create Methods
+        /// <summary>
+        /// Creates a IxxxChangeNodeOperation object.
+        /// </summary>
+        protected virtual IWriteableChangeNodeOperation CreateChangeNodeOperation(IWriteableIndex nodeIndex, string propertyName, int value, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        {
+            ControllerTools.AssertNoOverride(this, typeof(WriteableChangeNodeOperation));
+            return new WriteableChangeNodeOperation(nodeIndex, propertyName, value, handlerRedo, handlerUndo, isNested);
         }
         #endregion
     }
