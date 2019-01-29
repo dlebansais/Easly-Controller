@@ -1,6 +1,6 @@
-﻿using EaslyController.Writeable;
+﻿using BaseNode;
+using EaslyController.Writeable;
 using System;
-using System.Diagnostics;
 
 namespace EaslyController.Frame
 {
@@ -9,16 +9,6 @@ namespace EaslyController.Frame
     /// </summary>
     public interface IFrameAssignmentOperation : IWriteableAssignmentOperation, IFrameOperation
     {
-        /// <summary>
-        /// Inner where the assignment is taking place.
-        /// </summary>
-        new IFrameOptionalInner<IFrameBrowsingOptionalNodeIndex> Inner { get; }
-
-        /// <summary>
-        /// Position of the assigned or unassigned node.
-        /// </summary>
-        new IFrameBrowsingOptionalNodeIndex NodeIndex { get; }
-
         /// <summary>
         /// The modified state.
         /// </summary>
@@ -34,28 +24,18 @@ namespace EaslyController.Frame
         /// <summary>
         /// Initializes a new instance of <see cref="FrameAssignmentOperation"/>.
         /// </summary>
-        /// <param name="inner">Inner where the assignment is taking place.</param>
-        /// <param name="nodeIndex">Position of the assigned or unassigned node.</param>
+        /// <param name="parentNode">Node where the assignment is taking place.</param>
+        /// <param name="propertyName">Optional property of <paramref name="parentNode"/> for which assignment is changed.</param>
         /// <param name="handlerRedo">Handler to execute to redo the operation.</param>
         /// <param name="handlerUndo">Handler to execute to undo the operation.</param>
         /// <param name="isNested">True if the operation is nested within another more general one.</param>
-        public FrameAssignmentOperation(IFrameOptionalInner<IFrameBrowsingOptionalNodeIndex> inner, IFrameBrowsingOptionalNodeIndex nodeIndex, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
-            : base(inner, nodeIndex, handlerRedo, handlerUndo, isNested)
+        public FrameAssignmentOperation(INode parentNode, string propertyName, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+            : base(parentNode, propertyName, handlerRedo, handlerUndo, isNested)
         {
         }
         #endregion
 
         #region Properties
-        /// <summary>
-        /// Inner where the assignment is taking place.
-        /// </summary>
-        public new IFrameOptionalInner<IFrameBrowsingOptionalNodeIndex> Inner { get { return (IFrameOptionalInner<IFrameBrowsingOptionalNodeIndex>)base.Inner; } }
-
-        /// <summary>
-        /// Position of the assigned or unassigned node.
-        /// </summary>
-        public new IFrameBrowsingOptionalNodeIndex NodeIndex { get { return (IFrameBrowsingOptionalNodeIndex)base.NodeIndex; } }
-
         /// <summary>
         /// The modified state.
         /// </summary>

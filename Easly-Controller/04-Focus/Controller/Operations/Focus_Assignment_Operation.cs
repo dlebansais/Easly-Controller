@@ -1,4 +1,5 @@
-﻿using EaslyController.Frame;
+﻿using BaseNode;
+using EaslyController.Frame;
 using EaslyController.Writeable;
 using System;
 
@@ -9,16 +10,6 @@ namespace EaslyController.Focus
     /// </summary>
     public interface IFocusAssignmentOperation : IFrameAssignmentOperation, IFocusOperation
     {
-        /// <summary>
-        /// Inner where the assignment is taking place.
-        /// </summary>
-        new IFocusOptionalInner<IFocusBrowsingOptionalNodeIndex> Inner { get; }
-
-        /// <summary>
-        /// Position of the assigned or unassigned node.
-        /// </summary>
-        new IFocusBrowsingOptionalNodeIndex NodeIndex { get; }
-
         /// <summary>
         /// The modified state.
         /// </summary>
@@ -34,28 +25,18 @@ namespace EaslyController.Focus
         /// <summary>
         /// Initializes a new instance of <see cref="FocusAssignmentOperation"/>.
         /// </summary>
-        /// <param name="inner">Inner where the assignment is taking place.</param>
-        /// <param name="nodeIndex">Position of the assigned or unassigned node.</param>
+        /// <param name="parentNode">Node where the assignment is taking place.</param>
+        /// <param name="propertyName">Optional property of <paramref name="parentNode"/> for which assignment is changed.</param>
         /// <param name="handlerRedo">Handler to execute to redo the operation.</param>
         /// <param name="handlerUndo">Handler to execute to undo the operation.</param>
         /// <param name="isNested">True if the operation is nested within another more general one.</param>
-        public FocusAssignmentOperation(IFocusOptionalInner<IFocusBrowsingOptionalNodeIndex> inner, IFocusBrowsingOptionalNodeIndex nodeIndex, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
-            : base(inner, nodeIndex, handlerRedo, handlerUndo, isNested)
+        public FocusAssignmentOperation(INode parentNode, string propertyName, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+            : base(parentNode, propertyName, handlerRedo, handlerUndo, isNested)
         {
         }
         #endregion
 
         #region Properties
-        /// <summary>
-        /// Inner where the assignment is taking place.
-        /// </summary>
-        public new IFocusOptionalInner<IFocusBrowsingOptionalNodeIndex> Inner { get { return (IFocusOptionalInner<IFocusBrowsingOptionalNodeIndex>)base.Inner; } }
-
-        /// <summary>
-        /// Position of the assigned or unassigned node.
-        /// </summary>
-        public new IFocusBrowsingOptionalNodeIndex NodeIndex { get { return (IFocusBrowsingOptionalNodeIndex)base.NodeIndex; } }
-
         /// <summary>
         /// The modified state.
         /// </summary>

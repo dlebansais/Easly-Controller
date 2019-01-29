@@ -52,10 +52,19 @@ namespace EaslyController.Frame
         /// <summary>
         /// Creates a IxxxInsertionPlaceholderNodeIndex object.
         /// </summary>
-        protected override IWriteableInsertionOptionalNodeIndex CreateInsertionIndex(INode parentNode, INode node)
+        protected override IWriteableInsertionOptionalNodeIndex CreateInsertionOptionalNodeIndex(INode parentNode, INode node)
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameBrowsingOptionalNodeIndex));
             return new FrameInsertionOptionalNodeIndex(parentNode, PropertyName, node);
+        }
+
+        /// <summary>
+        /// Creates a IxxxInsertionOptionalClearIndex object.
+        /// </summary>
+        protected override IWriteableInsertionOptionalClearIndex CreateInsertionOptionalClearIndex(INode parentNode)
+        {
+            ControllerTools.AssertNoOverride(this, typeof(FrameBrowsingOptionalNodeIndex));
+            return new FrameInsertionOptionalClearIndex(parentNode, PropertyName);
         }
         #endregion
     }

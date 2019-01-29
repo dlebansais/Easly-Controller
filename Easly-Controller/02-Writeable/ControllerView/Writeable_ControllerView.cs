@@ -101,7 +101,6 @@ namespace EaslyController.Writeable
         public virtual void OnBlockStateInserted(IWriteableInsertBlockOperation operation)
         {
             Debug.Assert(operation != null);
-            Debug.Assert(!operation.IsNested);
 
             IWriteableBlockState BlockState = operation.BlockState;
 
@@ -204,7 +203,6 @@ namespace EaslyController.Writeable
         public virtual void OnStateAssigned(IWriteableAssignmentOperation operation)
         {
             Debug.Assert(operation != null);
-            Debug.Assert(!operation.IsNested);
 
             IWriteableOptionalNodeState State = operation.State;
             Debug.Assert(State != null);

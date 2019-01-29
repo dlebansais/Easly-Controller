@@ -113,7 +113,9 @@
     <Compile Include="01-ReadOnly\State\ReadOnly_NodeState.cs" />
     <Compile Include="01-ReadOnly\State\ReadOnly_PatternState.cs" />
     <Compile Include="01-ReadOnly\State\ReadOnly_SourceState.cs" />
+    <Compile Include="02-Writeable\Collections\Writeable_OperationGroup_List.cs" />
     <Compile Include="02-Writeable\Collections\Writeable_Operation_List.cs" />
+    <Compile Include="02-Writeable\Collections\Writeable_OperationGroup_ReadOnlyList.cs" />
     <Compile Include="02-Writeable\Collections\Writeable_Operation_ReadOnlyList.cs" />
     <Compile Include="02-Writeable\Collections\Writeable_BlockState_List.cs" />
     <Compile Include="02-Writeable\Collections\Writeable_BlockState_ReadOnlyList.cs" />
@@ -141,6 +143,7 @@
     <Compile Include="02-Writeable\Controller\Operations\Writeable_MergeBlocks_Operation.cs" />
     <Compile Include="02-Writeable\Controller\Operations\Writeable_MoveBlock_Operation.cs" />
     <Compile Include="02-Writeable\Controller\Operations\Writeable_GenericRefresh_Operation.cs" />
+    <Compile Include="02-Writeable\Controller\Operations\Writeable_OperationGroup.cs" />
     <Compile Include="02-Writeable\Controller\Operations\Writeable_RemoveBlockView_Operation.cs" />
     <Compile Include="02-Writeable\Controller\Operations\Writeable_SplitBlock_Operation.cs" />
     <Compile Include="02-Writeable\Controller\Operations\Writeable_Replace_Operation.cs" />
@@ -210,6 +213,8 @@
     <Compile Include="03-Frame\CellView\Single\Frame_TextFocusableCellView.cs" />
     <Compile Include="03-Frame\CellView\Single\Frame_EmptyCellView.cs" />
     <Compile Include="03-Frame\CellView\Single\Frame_VisibleCellView.cs" />
+    <Compile Include="03-Frame\Collections\Frame_OperationGroup_List.cs" />
+    <Compile Include="03-Frame\Collections\Frame_OperationGroup_ReadOnlyList.cs" />
     <Compile Include="03-Frame\Collections\Frame_VisibleCellView_List.cs" />
     <Compile Include="03-Frame\Collections\Frame_KeywordFrame_List.cs" />
     <Compile Include="03-Frame\Collections\Frame_Template_List.cs" />
@@ -261,6 +266,7 @@
     <Compile Include="03-Frame\Controller\Operations\Frame_MoveBlock_Operation.cs" />
     <Compile Include="03-Frame\Controller\Operations\Frame_GenericRefresh_Operation.cs" />
     <Compile Include="03-Frame\Controller\Operations\Frame_ChangeBlock_Operation.cs" />
+    <Compile Include="03-Frame\Controller\Operations\Frame_OperationGroup.cs" />
     <Compile Include="03-Frame\Frame\Frame_BlockFrame.cs" />
     <Compile Include="03-Frame\Frame\Frame_NumberFrame.cs" />
     <Compile Include="03-Frame\Frame\Frame_InsertFrame.cs" />
@@ -358,6 +364,8 @@
     <Compile Include="04-Focus\Collections\Focus_FrameSelector_List.cs" />
     <Compile Include="04-Focus\Collections\Focus_FocusableCellView_List.cs" />
     <Compile Include="04-Focus\Collections\Focus_InsertionChildNodeIndex_List.cs" />
+    <Compile Include="04-Focus\Collections\Focus_OperationGroup_List.cs" />
+    <Compile Include="04-Focus\Collections\Focus_OperationGroup_ReadOnlyList.cs" />
     <Compile Include="04-Focus\Collections\Focus_SelectableFrame_List.cs" />
     <Compile Include="04-Focus\Collections\Focus_VisibleCellView_List.cs" />
     <Compile Include="04-Focus\Collections\Focus_CellView_List.cs" />
@@ -406,6 +414,7 @@
     <Compile Include="04-Focus\Controller\Operations\Focus_SplitBlock_Operation.cs" />
     <Compile Include="04-Focus\Controller\Operations\Focus_ChangeNode_Operation.cs" />
     <Compile Include="04-Focus\Controller\Operations\Focus_ChangeBlock_Operation.cs" />
+    <Compile Include="04-Focus\Controller\Operations\Focus_OperationGroup.cs" />
     <Compile Include="04-Focus\FrameVisibility\Focus_BlockFrameVisibility.cs" />
     <Compile Include="04-Focus\FrameVisibility\Focus_OptionalFrameVisibility.cs" />
     <Compile Include="04-Focus\FrameVisibility\Focus_MixedFrameVisibility.cs" />

@@ -484,10 +484,10 @@ namespace EaslyController.Frame
         /// <summary>
         /// Creates a IxxxAssignmentOperation object.
         /// </summary>
-        protected override IWriteableAssignmentOperation CreateAssignmentOperation(IWriteableOptionalInner<IWriteableBrowsingOptionalNodeIndex> inner, IWriteableBrowsingOptionalNodeIndex nodeIndex, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        protected override IWriteableAssignmentOperation CreateAssignmentOperation(INode parentNode, string propertyName, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameController));
-            return new FrameAssignmentOperation((IFrameOptionalInner<IFrameBrowsingOptionalNodeIndex>)inner, (IFrameBrowsingOptionalNodeIndex)nodeIndex, handlerRedo, handlerUndo, isNested);
+            return new FrameAssignmentOperation(parentNode, propertyName, handlerRedo, handlerUndo, isNested);
         }
 
         /// <summary>
@@ -563,9 +563,27 @@ namespace EaslyController.Frame
         }
 
         /// <summary>
+        /// Creates a IxxxOperationGroupList object.
+        /// </summary>
+        protected override IWriteableOperationGroupList CreateOperationGroupStack()
+        {
+            ControllerTools.AssertNoOverride(this, typeof(FrameController));
+            return new FrameOperationGroupList();
+        }
+
+        /// <summary>
+        /// Creates a IxxxOperationGroupReadOnlyList object.
+        /// </summary>
+        protected override IWriteableOperationGroupReadOnlyList CreateOperationGroupReadOnlyStack(IWriteableOperationGroupList list)
+        {
+            ControllerTools.AssertNoOverride(this, typeof(FrameController));
+            return new FrameOperationGroupReadOnlyList((IFrameOperationGroupList)list);
+        }
+
+        /// <summary>
         /// Creates a IxxxOperationList object.
         /// </summary>
-        protected override IWriteableOperationList CreateOperationStack()
+        protected override IWriteableOperationList CreateOperationList()
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameController));
             return new FrameOperationList();
@@ -574,10 +592,19 @@ namespace EaslyController.Frame
         /// <summary>
         /// Creates a IxxxOperationReadOnlyList object.
         /// </summary>
-        protected override IWriteableOperationReadOnlyList CreateOperationReadOnlyStack(IWriteableOperationList list)
+        protected override IWriteableOperationReadOnlyList CreateOperationReadOnlyList(IWriteableOperationList list)
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameController));
             return new FrameOperationReadOnlyList((IFrameOperationList)list);
+        }
+
+        /// <summary>
+        /// Creates a IxxxOperationGroup object.
+        /// </summary>
+        protected override IWriteableOperationGroup CreateOperationGroup(IWriteableOperationReadOnlyList operationList)
+        {
+            ControllerTools.AssertNoOverride(this, typeof(FrameController));
+            return new FrameOperationGroup((IFrameOperationReadOnlyList)operationList);
         }
         #endregion
     }

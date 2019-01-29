@@ -66,7 +66,7 @@ namespace EaslyController.Writeable
         /// <summary>
         /// Index of the removed node.
         /// </summary>
-        public IWriteableBrowsingCollectionNodeIndex NodeIndex { get; private set; }
+        public IWriteableBrowsingCollectionNodeIndex NodeIndex { get; }
 
         /// <summary>
         /// State removed.

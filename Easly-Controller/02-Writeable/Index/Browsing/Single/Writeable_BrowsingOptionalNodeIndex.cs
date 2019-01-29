@@ -36,7 +36,10 @@ namespace EaslyController.Writeable
         /// <param name="node">The node inserted.</param>
         public virtual IWriteableInsertionChildIndex ToInsertionIndex(INode parentNode, INode node)
         {
-            return CreateInsertionIndex(parentNode, node);
+            if (node != null)
+                return CreateInsertionOptionalNodeIndex(parentNode, node);
+            else
+                return CreateInsertionOptionalClearIndex(parentNode);
         }
         #endregion
 
@@ -62,12 +65,21 @@ namespace EaslyController.Writeable
 
         #region Create Methods
         /// <summary>
-        /// Creates a IxxxInsertionPlaceholderNodeIndex object.
+        /// Creates a IxxxInsertionOptionalNodeIndex object.
         /// </summary>
-        protected virtual IWriteableInsertionOptionalNodeIndex CreateInsertionIndex(INode parentNode, INode node)
+        protected virtual IWriteableInsertionOptionalNodeIndex CreateInsertionOptionalNodeIndex(INode parentNode, INode node)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableBrowsingOptionalNodeIndex));
             return new WriteableInsertionOptionalNodeIndex(parentNode, PropertyName, node);
+        }
+
+        /// <summary>
+        /// Creates a IxxxInsertionOptionalClearIndex object.
+        /// </summary>
+        protected virtual IWriteableInsertionOptionalClearIndex CreateInsertionOptionalClearIndex(INode parentNode)
+        {
+            ControllerTools.AssertNoOverride(this, typeof(WriteableBrowsingOptionalNodeIndex));
+            return new WriteableInsertionOptionalClearIndex(parentNode, PropertyName);
         }
         #endregion
     }

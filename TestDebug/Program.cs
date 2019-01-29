@@ -363,7 +363,7 @@ namespace TestDebug
                 Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
             }
 
-            Controller.Canonicalize();
+            Controller.Canonicalize(out IsChanged);
 
             ControllerCheck = WriteableController.Create(new WriteableRootNodeIndex(rootNode));
             Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
@@ -593,7 +593,7 @@ namespace TestDebug
             Controller.Expand(Controller.RootIndex, out IsChanged);
             Controller.Reduce(Controller.RootIndex, out IsChanged);
             Controller.Expand(Controller.RootIndex, out IsChanged);
-            Controller.Canonicalize();
+            Controller.Canonicalize(out IsChanged);
 
             IFrameRootNodeIndex NewRootIndex = new FrameRootNodeIndex(Controller.RootIndex.Node);
             IFrameController NewController = FrameController.Create(NewRootIndex);
@@ -831,7 +831,7 @@ namespace TestDebug
             Controller.Expand(Controller.RootIndex, out IsChanged);
             Controller.Reduce(Controller.RootIndex, out IsChanged);
             Controller.Expand(Controller.RootIndex, out IsChanged);
-            Controller.Canonicalize();
+            Controller.Canonicalize(out IsChanged);
 
             IFocusRootNodeIndex NewRootIndex = new FocusRootNodeIndex(Controller.RootIndex.Node);
             IFocusController NewController = FocusController.Create(NewRootIndex);

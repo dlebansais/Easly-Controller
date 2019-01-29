@@ -53,10 +53,19 @@ namespace EaslyController.Focus
         /// <summary>
         /// Creates a IxxxInsertionPlaceholderNodeIndex object.
         /// </summary>
-        protected override IWriteableInsertionOptionalNodeIndex CreateInsertionIndex(INode parentNode, INode node)
+        protected override IWriteableInsertionOptionalNodeIndex CreateInsertionOptionalNodeIndex(INode parentNode, INode node)
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusBrowsingOptionalNodeIndex));
             return new FocusInsertionOptionalNodeIndex(parentNode, PropertyName, node);
+        }
+
+        /// <summary>
+        /// Creates a IxxxInsertionOptionalClearIndex object.
+        /// </summary>
+        protected override IWriteableInsertionOptionalClearIndex CreateInsertionOptionalClearIndex(INode parentNode)
+        {
+            ControllerTools.AssertNoOverride(this, typeof(FocusBrowsingOptionalNodeIndex));
+            return new FocusInsertionOptionalClearIndex(parentNode, PropertyName);
         }
         #endregion
     }

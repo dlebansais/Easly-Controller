@@ -557,10 +557,10 @@ namespace EaslyController.Focus
         /// <summary>
         /// Creates a IxxxAssignmentOperation object.
         /// </summary>
-        protected override IWriteableAssignmentOperation CreateAssignmentOperation(IWriteableOptionalInner<IWriteableBrowsingOptionalNodeIndex> inner, IWriteableBrowsingOptionalNodeIndex nodeIndex, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        protected override IWriteableAssignmentOperation CreateAssignmentOperation(INode parentNode, string propertyName, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusController));
-            return new FocusAssignmentOperation((IFocusOptionalInner<IFocusBrowsingOptionalNodeIndex>)inner, (IFocusBrowsingOptionalNodeIndex)nodeIndex, handlerRedo, handlerUndo, isNested);
+            return new FocusAssignmentOperation(parentNode, propertyName, handlerRedo, handlerUndo, isNested);
         }
 
         /// <summary>
@@ -636,9 +636,27 @@ namespace EaslyController.Focus
         }
 
         /// <summary>
+        /// Creates a IxxxOperationGroupList object.
+        /// </summary>
+        protected override IWriteableOperationGroupList CreateOperationGroupStack()
+        {
+            ControllerTools.AssertNoOverride(this, typeof(FocusController));
+            return new FocusOperationGroupList();
+        }
+
+        /// <summary>
+        /// Creates a IxxxOperationGroupReadOnlyList object.
+        /// </summary>
+        protected override IWriteableOperationGroupReadOnlyList CreateOperationGroupReadOnlyStack(IWriteableOperationGroupList list)
+        {
+            ControllerTools.AssertNoOverride(this, typeof(FocusController));
+            return new FocusOperationGroupReadOnlyList((IFocusOperationGroupList)list);
+        }
+
+        /// <summary>
         /// Creates a IxxxOperationList object.
         /// </summary>
-        protected override IWriteableOperationList CreateOperationStack()
+        protected override IWriteableOperationList CreateOperationList()
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusController));
             return new FocusOperationList();
@@ -647,10 +665,19 @@ namespace EaslyController.Focus
         /// <summary>
         /// Creates a IxxxOperationReadOnlyList object.
         /// </summary>
-        protected override IWriteableOperationReadOnlyList CreateOperationReadOnlyStack(IWriteableOperationList list)
+        protected override IWriteableOperationReadOnlyList CreateOperationReadOnlyList(IWriteableOperationList list)
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusController));
             return new FocusOperationReadOnlyList((IFocusOperationList)list);
+        }
+
+        /// <summary>
+        /// Creates a IxxxOperationGroup object.
+        /// </summary>
+        protected override IWriteableOperationGroup CreateOperationGroup(IWriteableOperationReadOnlyList operationList)
+        {
+            ControllerTools.AssertNoOverride(this, typeof(FocusController));
+            return new FocusOperationGroup((IFocusOperationReadOnlyList)operationList);
         }
 
         /// <summary>

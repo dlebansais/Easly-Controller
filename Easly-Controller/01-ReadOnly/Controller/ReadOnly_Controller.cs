@@ -1,4 +1,5 @@
-﻿using BaseNodeHelper;
+﻿using BaseNode;
+using BaseNodeHelper;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -565,6 +566,40 @@ namespace EaslyController.ReadOnly
                     BuildStateTable(Inner, browseContext, ChildState.ParentIndex, ChildState);
                 }
             }
+        }
+
+        /// <summary></summary>
+        protected virtual IReadOnlyInner<IReadOnlyBrowsingChildIndex> GetInner(INode parentNode, string propertyName)
+        {
+            foreach (KeyValuePair<IReadOnlyIndex, IReadOnlyNodeState> Entry in StateTable)
+            {
+                IReadOnlyNodeState State = Entry.Value;
+
+                if (State.Node == parentNode)
+                {
+                    IReadOnlyInner<IReadOnlyBrowsingChildIndex> Result = State.PropertyToInner(propertyName);
+                    Debug.Assert(Result != null);
+
+                    return Result;
+                }
+            }
+
+            throw new ArgumentOutOfRangeException(nameof(parentNode));
+        }
+
+        /// <summary></summary>
+        protected virtual IReadOnlyIndex GetIndex(INode node)
+        {
+            foreach (KeyValuePair<IReadOnlyIndex, IReadOnlyNodeState> Entry in StateTable)
+            {
+                IReadOnlyIndex Index = Entry.Key;
+                IReadOnlyNodeState State = Entry.Value;
+
+                if (State.Node == node)
+                    return Index;
+            }
+
+            throw new ArgumentOutOfRangeException(nameof(node));
         }
         #endregion
 
