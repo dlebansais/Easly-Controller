@@ -154,7 +154,7 @@ namespace EaslyController.Writeable
         /// <summary>
         /// Creates an operation to undo the insert block operation.
         /// </summary>
-        public IWriteableRemoveBlockOperation ToRemoveBlockOperation()
+        public virtual IWriteableRemoveBlockOperation ToRemoveBlockOperation()
         {
             return CreateRemoveBlockOperation(BlockIndex, HandlerUndo, HandlerRedo, IsNested);
         }

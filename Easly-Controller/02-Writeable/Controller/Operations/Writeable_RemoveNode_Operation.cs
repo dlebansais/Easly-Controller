@@ -125,7 +125,7 @@ namespace EaslyController.Writeable
         /// <summary>
         /// Creates an operation to undo the remove operation.
         /// </summary>
-        public IWriteableInsertNodeOperation ToInsertNodeOperation()
+        public virtual IWriteableInsertNodeOperation ToInsertNodeOperation()
         {
             return CreateInsertNodeOperation(BlockIndex, Index, RemovedNode, HandlerUndo, HandlerRedo, IsNested);
         }

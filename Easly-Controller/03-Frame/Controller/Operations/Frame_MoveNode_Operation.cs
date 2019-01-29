@@ -44,5 +44,16 @@ namespace EaslyController.Frame
         /// </summary>
         public new IFramePlaceholderNodeState State { get { return (IFramePlaceholderNodeState)base.State; } }
         #endregion
+
+        #region Create Methods
+        /// <summary>
+        /// Creates a IxxxxMoveNodeOperation object.
+        /// </summary>
+        protected override IWriteableMoveNodeOperation CreateMoveNodeOperation(int blockIndex, int index, int direction, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        {
+            ControllerTools.AssertNoOverride(this, typeof(FrameMoveNodeOperation));
+            return new FrameMoveNodeOperation(ParentNode, PropertyName, blockIndex, index, direction, handlerRedo, handlerUndo, isNested);
+        }
+        #endregion
     }
 }

@@ -72,6 +72,15 @@ namespace EaslyController.Frame
             ControllerTools.AssertNoOverride(this, typeof(FrameOptionalInner<IIndex, TIndex>));
             return new FrameOptionalNodeState((IFrameBrowsingOptionalNodeIndex)nodeIndex);
         }
+
+        /// <summary>
+        /// Creates a IxxxBrowsingOptionalNodeIndex object.
+        /// </summary>
+        protected override IWriteableBrowsingOptionalNodeIndex CreateBrowsingNodeIndex()
+        {
+            ControllerTools.AssertNoOverride(this, typeof(FrameOptionalInner<IIndex, TIndex>));
+            return new FrameBrowsingOptionalNodeIndex(Owner.Node, PropertyName);
+        }
         #endregion
     }
 }

@@ -64,5 +64,16 @@ namespace EaslyController.Frame
         /// </summary>
         public new IFramePlaceholderNodeState ChildState { get { return (IFramePlaceholderNodeState)base.ChildState; } }
         #endregion
+
+        #region Create Methods
+        /// <summary>
+        /// Creates a IxxxRemoveBlockOperation object.
+        /// </summary>
+        protected override IWriteableRemoveBlockOperation CreateRemoveBlockOperation(int blockIndex, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        {
+            ControllerTools.AssertNoOverride(this, typeof(FrameInsertBlockOperation));
+            return new FrameRemoveBlockOperation(ParentNode, PropertyName, blockIndex, handlerRedo, handlerUndo, isNested);
+        }
+        #endregion
     }
 }

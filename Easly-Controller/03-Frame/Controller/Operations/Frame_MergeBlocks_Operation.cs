@@ -42,5 +42,16 @@ namespace EaslyController.Frame
         /// </summary>
         public new IFrameBlockState BlockState { get { return (IFrameBlockState)base.BlockState; } }
         #endregion
+
+        #region Create Methods
+        /// <summary>
+        /// Creates a IxxxSplitBlockOperation object.
+        /// </summary>
+        protected override IWriteableSplitBlockOperation CreateSplitBlockOperation(int blockIndex, int index, IBlock block, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        {
+            ControllerTools.AssertNoOverride(this, typeof(FrameMergeBlocksOperation));
+            return new FrameSplitBlockOperation(ParentNode, PropertyName, blockIndex, index, block, handlerRedo, handlerUndo, isNested);
+        }
+        #endregion
     }
 }

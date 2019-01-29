@@ -42,5 +42,16 @@ namespace EaslyController.Focus
         /// </summary>
         public new IFocusOptionalNodeState State { get { return (IFocusOptionalNodeState)base.State; } }
         #endregion
+
+        #region Create Methods
+        /// <summary>
+        /// Creates a IxxxAssignmentOperation object.
+        /// </summary>
+        protected override IWriteableAssignmentOperation CreateAssignmentOperation(Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        {
+            ControllerTools.AssertNoOverride(this, typeof(FocusAssignmentOperation));
+            return new FocusAssignmentOperation(ParentNode, PropertyName, handlerRedo, handlerUndo, isNested);
+        }
+        #endregion
     }
 }

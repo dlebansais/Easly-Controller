@@ -55,5 +55,16 @@ namespace EaslyController.Focus
         /// </summary>
         public new IFocusPlaceholderNodeState ChildState { get { return (IFocusPlaceholderNodeState)base.ChildState; } }
         #endregion
+
+        #region Create Methods
+        /// <summary>
+        /// Creates a IxxxRemoveNodeOperation object.
+        /// </summary>
+        protected override IWriteableRemoveNodeOperation CreateRemoveNodeOperation(int blockIndex, int index, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        {
+            ControllerTools.AssertNoOverride(this, typeof(FocusInsertNodeOperation));
+            return new FocusRemoveNodeOperation(ParentNode, PropertyName, blockIndex, index, handlerRedo, handlerUndo, isNested);
+        }
+        #endregion
     }
 }

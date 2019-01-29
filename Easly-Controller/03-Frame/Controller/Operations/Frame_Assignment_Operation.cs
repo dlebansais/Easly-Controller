@@ -41,5 +41,16 @@ namespace EaslyController.Frame
         /// </summary>
         public new IFrameOptionalNodeState State { get { return (IFrameOptionalNodeState)base.State; } }
         #endregion
+
+        #region Create Methods
+        /// <summary>
+        /// Creates a IxxxAssignmentOperation object.
+        /// </summary>
+        protected override IWriteableAssignmentOperation CreateAssignmentOperation(Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        {
+            ControllerTools.AssertNoOverride(this, typeof(FrameAssignmentOperation));
+            return new FrameAssignmentOperation(ParentNode, PropertyName, handlerRedo, handlerUndo, isNested);
+        }
+        #endregion
     }
 }
