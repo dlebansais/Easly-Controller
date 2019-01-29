@@ -142,18 +142,7 @@ namespace EaslyController.Writeable
         {
             Debug.Assert(operation != null);
 
-            if (operation.ReplacementIndex is IWriteableInsertionListNodeIndex AsListIndex)
-                Replace(operation, AsListIndex);
-            else
-                throw new ArgumentOutOfRangeException(nameof(operation));
-        }
-
-        /// <summary></summary>
-        protected virtual void Replace(IWriteableReplaceOperation operation, IWriteableInsertionListNodeIndex listIndex)
-        {
-            Debug.Assert(listIndex != null);
-
-            int Index = listIndex.Index;
+            int Index = operation.Index;
             Debug.Assert(Index >= 0 && Index < StateList.Count);
 
             INode ParentNode = Owner.Node;
@@ -163,11 +152,11 @@ namespace EaslyController.Writeable
             IWriteableBrowsingListNodeIndex OldBrowsingIndex = (IWriteableBrowsingListNodeIndex)OldChildState.ParentIndex;
             RemoveFromStateList(Index);
 
-            NodeTreeHelperList.ReplaceNode(ParentNode, PropertyName, Index, listIndex.Node);
+            NodeTreeHelperList.ReplaceNode(ParentNode, PropertyName, Index, operation.NewNode);
 
-            IWriteableBrowsingListNodeIndex NewBrowsingIndex = (IWriteableBrowsingListNodeIndex)listIndex.ToBrowsingIndex();
+            IWriteableBrowsingListNodeIndex NewBrowsingIndex = CreateBrowsingNodeIndex(operation.NewNode, Index);
             IWriteablePlaceholderNodeState NewChildState = (IWriteablePlaceholderNodeState)CreateNodeState(NewBrowsingIndex);
-            InsertInStateList(listIndex.Index, NewChildState);
+            InsertInStateList(Index, NewChildState);
 
             operation.Update(OldBrowsingIndex, NewBrowsingIndex, OldNode, NewChildState);
         }

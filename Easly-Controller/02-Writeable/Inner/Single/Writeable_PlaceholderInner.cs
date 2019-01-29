@@ -61,26 +61,15 @@ namespace EaslyController.Writeable
         {
             Debug.Assert(operation != null);
 
-            if (operation.ReplacementIndex is IWriteableInsertionPlaceholderNodeIndex AsPlaceholderIndex)
-                Replace(operation, AsPlaceholderIndex);
-            else
-                throw new ArgumentOutOfRangeException(nameof(operation));
-        }
-
-        /// <summary></summary>
-        protected virtual void Replace(IWriteableReplaceOperation operation, IWriteableInsertionPlaceholderNodeIndex placeholderIndex)
-        {
-            Debug.Assert(placeholderIndex != null);
-
             INode ParentNode = Owner.Node;
 
             WriteableBrowsingPlaceholderNodeIndex OldBrowsingIndex = (WriteableBrowsingPlaceholderNodeIndex)ChildState.ParentIndex;
             IWriteablePlaceholderNodeState OldChildState = (IWriteablePlaceholderNodeState)ChildState;
             INode OldNode = OldChildState.Node;
 
-            NodeTreeHelperChild.SetChildNode(ParentNode, PropertyName, placeholderIndex.Node);
+            NodeTreeHelperChild.SetChildNode(ParentNode, PropertyName, operation.NewNode);
 
-            WriteableBrowsingPlaceholderNodeIndex NewBrowsingIndex = (WriteableBrowsingPlaceholderNodeIndex)placeholderIndex.ToBrowsingIndex();
+            IWriteableBrowsingPlaceholderNodeIndex NewBrowsingIndex = CreateBrowsingNodeIndex(operation.NewNode);
             IWriteablePlaceholderNodeState NewChildState = (IWriteablePlaceholderNodeState)CreateNodeState(NewBrowsingIndex);
             SetChildState(NewChildState);
 
@@ -96,6 +85,15 @@ namespace EaslyController.Writeable
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteablePlaceholderInner<IIndex, TIndex>));
             return new WriteablePlaceholderNodeState((IWriteableBrowsingPlaceholderNodeIndex)nodeIndex);
+        }
+
+        /// <summary>
+        /// Creates a IxxxBrowsingPlaceholderNodeIndex object.
+        /// </summary>
+        protected virtual IWriteableBrowsingPlaceholderNodeIndex CreateBrowsingNodeIndex(INode node)
+        {
+            ControllerTools.AssertNoOverride(this, typeof(WriteablePlaceholderInner<IIndex, TIndex>));
+            return new WriteableBrowsingPlaceholderNodeIndex(Owner.Node, node, PropertyName);
         }
         #endregion
     }

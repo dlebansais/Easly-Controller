@@ -475,10 +475,10 @@ namespace EaslyController.Frame
         /// <summary>
         /// Creates a IxxxReplaceOperation object.
         /// </summary>
-        protected override IWriteableReplaceOperation CreateReplaceOperation(IWriteableInner<IWriteableBrowsingChildIndex> inner, IWriteableInsertionChildIndex replacementIndex, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        protected override IWriteableReplaceOperation CreateReplaceOperation(INode parentNode, string propertyName, int blockIndex, int index, INode newNode, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameController));
-            return new FrameReplaceOperation((IFrameInner<IFrameBrowsingChildIndex>)inner, (IFrameInsertionChildIndex)replacementIndex, handlerRedo, handlerUndo, isNested);
+            return new FrameReplaceOperation(parentNode, propertyName, blockIndex, index, newNode, handlerRedo, handlerUndo, isNested);
         }
 
         /// <summary>

@@ -376,7 +376,8 @@ namespace EaslyController.Frame
         {
             base.OnStateReplaced(operation);
 
-            IFrameInner<IFrameBrowsingChildIndex> Inner = ((IFrameReplaceOperation)operation).Inner;
+            IFrameReplaceOperation ReplaceOperation = (IFrameReplaceOperation)operation;
+            IFrameInner<IFrameBrowsingChildIndex> Inner = ReplaceOperation.NewChildState.ParentInner;
             Debug.Assert(Inner != null);
             IFrameBrowsingChildIndex NewBrowsingIndex = ((IFrameReplaceOperation)operation).NewBrowsingIndex;
             Debug.Assert(NewBrowsingIndex != null);

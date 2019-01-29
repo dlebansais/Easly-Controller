@@ -10,14 +10,29 @@ namespace EaslyController.Writeable
     public interface IWriteableReplaceOperation : IWriteableOperation
     {
         /// <summary>
-        /// Inner where the replacement is taking place.
+        /// Node where the replacement is taking place.
         /// </summary>
-        IWriteableInner<IWriteableBrowsingChildIndex> Inner { get; }
+        INode ParentNode { get; }
 
         /// <summary>
-        /// Position where the node is replaced.
+        /// Property of <see cref="ParentNode"/> where the node is replaced.
         /// </summary>
-        IWriteableInsertionChildIndex ReplacementIndex { get; }
+        string PropertyName { get; }
+
+        /// <summary>
+        /// Block position where the node is replaced, if applicable.
+        /// </summary>
+        int BlockIndex { get; }
+
+        /// <summary>
+        /// Position where the node is replaced, if applicable.
+        /// </summary>
+        int Index { get; }
+
+        /// <summary>
+        /// The new node. Null to clear an optional node.
+        /// </summary>
+        INode NewNode { get; }
 
         /// <summary>
         /// Index of the state before it's replaced.
@@ -40,16 +55,11 @@ namespace EaslyController.Writeable
         IWriteableNodeState NewChildState { get; }
 
         /// <summary>
-        /// The new node.
-        /// </summary>
-        INode NewNode { get; }
-
-        /// <summary>
         /// Update the operation with details.
         /// </summary>
         /// <param name="oldBrowsingIndex">Index of the state before it's replaced.</param>
         /// <param name="newBrowsingIndex">Index of the state after it's replaced.</param>
-        /// <param name="oldNode">The old node.</param>
+        /// <param name="oldNode">The old node. Can be null if optional and replaced.</param>
         /// <param name="newChildState">The new state.</param>
         void Update(IWriteableBrowsingChildIndex oldBrowsingIndex, IWriteableBrowsingChildIndex newBrowsingIndex, INode oldNode, IWriteableNodeState newChildState);
 
@@ -68,32 +78,50 @@ namespace EaslyController.Writeable
         /// <summary>
         /// Initializes a new instance of <see cref="WriteableReplaceOperation"/>.
         /// </summary>
-        /// <param name="inner">Inner where the replacement is taking place.</param>
-        /// <param name="replacementIndex">Position where the node is replaced.</param>
+        /// <param name="parentNode">Node where the replacement is taking place.</param>
+        /// <param name="propertyName">Property of <paramref name="parentNode"/> where the node is replaced.</param>
+        /// <param name="blockIndex">Block position where the node is replaced, if applicable.</param>
+        /// <param name="index">Position where the node is replaced, if applicable.</param>
+        /// <param name="newNode">The new node. Null to clear an optional node.</param>
         /// <param name="handlerRedo">Handler to execute to redo the operation.</param>
         /// <param name="handlerUndo">Handler to execute to undo the operation.</param>
         /// <param name="isNested">True if the operation is nested within another more general one.</param>
-        public WriteableReplaceOperation(IWriteableInner<IWriteableBrowsingChildIndex> inner, IWriteableInsertionChildIndex replacementIndex, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        public WriteableReplaceOperation(INode parentNode, string propertyName, int blockIndex, int index, INode newNode, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
             : base(handlerRedo, handlerUndo, isNested)
         {
-            Debug.Assert(inner != null);
-            Debug.Assert((replacementIndex != null) || (inner is IWriteableOptionalInner<IWriteableBrowsingOptionalNodeIndex>));
-
-            Inner = inner;
-            ReplacementIndex = replacementIndex;
+            ParentNode = parentNode;
+            PropertyName = propertyName;
+            BlockIndex = blockIndex;
+            Index = index;
+            NewNode = newNode;
         }
         #endregion
 
         #region Properties
         /// <summary>
-        /// Inner where the replacement is taking place.
+        /// Node where the replacement is taking place.
         /// </summary>
-        public IWriteableInner<IWriteableBrowsingChildIndex> Inner { get; }
+        public INode ParentNode { get; }
 
         /// <summary>
-        /// Position where the node is replaced.
+        /// Property of <see cref="ParentNode"/> where the node is replaced.
         /// </summary>
-        public IWriteableInsertionChildIndex ReplacementIndex { get; }
+        public string PropertyName { get; }
+
+        /// <summary>
+        /// Block position where the node is replaced, if applicable.
+        /// </summary>
+        public int BlockIndex { get; }
+
+        /// <summary>
+        /// Position where the node is replaced, if applicable.
+        /// </summary>
+        public int Index { get; }
+
+        /// <summary>
+        /// The new node. Null to clear an optional node.
+        /// </summary>
+        public INode NewNode { get; }
 
         /// <summary>
         /// Index of the state before it's replaced.
@@ -114,11 +142,6 @@ namespace EaslyController.Writeable
         /// The new state.
         /// </summary>
         public IWriteableNodeState NewChildState { get; private set; }
-
-        /// <summary>
-        /// The new node.
-        /// </summary>
-        public INode NewNode { get; private set; }
         #endregion
 
         #region Client Interface
@@ -127,20 +150,18 @@ namespace EaslyController.Writeable
         /// </summary>
         /// <param name="oldBrowsingIndex">Index of the state before it's replaced.</param>
         /// <param name="newBrowsingIndex">Index of the state after it's replaced.</param>
-        /// <param name="oldNode">The old node.</param>
+        /// <param name="oldNode">The old node. Can be null if optional and replaced.</param>
         /// <param name="newChildState">The new state.</param>
         public virtual void Update(IWriteableBrowsingChildIndex oldBrowsingIndex, IWriteableBrowsingChildIndex newBrowsingIndex, INode oldNode, IWriteableNodeState newChildState)
         {
             Debug.Assert(oldBrowsingIndex != null);
             Debug.Assert(newBrowsingIndex != null);
-            Debug.Assert((oldNode != null) || (Inner is IWriteableOptionalInner<IWriteableBrowsingOptionalNodeIndex>));
             Debug.Assert(newChildState != null);
 
             OldBrowsingIndex = oldBrowsingIndex;
             NewBrowsingIndex = newBrowsingIndex;
             OldNode = oldNode;
             NewChildState = newChildState;
-            NewNode = newChildState.Node;
         }
 
         /// <summary>
@@ -148,8 +169,7 @@ namespace EaslyController.Writeable
         /// </summary>
         public IWriteableReplaceOperation ToInverseReplace()
         {
-            IWriteableInsertionChildIndex ReplacementIndex = NewBrowsingIndex.ToInsertionIndex(Inner.Owner.Node, OldNode);
-            return CreateReplaceOperation(Inner, ReplacementIndex, HandlerUndo, HandlerRedo, IsNested);
+            return CreateReplaceOperation(OldNode, HandlerUndo, HandlerRedo, IsNested);
         }
         #endregion
 
@@ -157,10 +177,10 @@ namespace EaslyController.Writeable
         /// <summary>
         /// Creates a IxxxReplaceOperation object.
         /// </summary>
-        protected virtual IWriteableReplaceOperation CreateReplaceOperation(IWriteableInner<IWriteableBrowsingChildIndex> inner, IWriteableInsertionChildIndex replacementIndex, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        protected virtual IWriteableReplaceOperation CreateReplaceOperation(INode node, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableReplaceOperation));
-            return new WriteableReplaceOperation(inner, replacementIndex, handlerRedo, handlerUndo, isNested);
+            return new WriteableReplaceOperation(ParentNode, PropertyName, BlockIndex, Index, node, handlerRedo, handlerUndo, isNested);
         }
         #endregion
     }

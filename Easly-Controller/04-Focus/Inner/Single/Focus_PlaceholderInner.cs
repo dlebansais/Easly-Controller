@@ -1,5 +1,7 @@
-﻿using EaslyController.Frame;
+﻿using BaseNode;
+using EaslyController.Frame;
 using EaslyController.ReadOnly;
+using EaslyController.Writeable;
 
 namespace EaslyController.Focus
 {
@@ -57,6 +59,15 @@ namespace EaslyController.Focus
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusPlaceholderInner<IIndex, TIndex>));
             return new FocusPlaceholderNodeState((IFocusBrowsingPlaceholderNodeIndex)nodeIndex);
+        }
+
+        /// <summary>
+        /// Creates a IxxxBrowsingPlaceholderNodeIndex object.
+        /// </summary>
+        protected override IWriteableBrowsingPlaceholderNodeIndex CreateBrowsingNodeIndex(INode node)
+        {
+            ControllerTools.AssertNoOverride(this, typeof(FocusPlaceholderInner<IIndex, TIndex>));
+            return new FocusBrowsingPlaceholderNodeIndex(Owner.Node, node, PropertyName);
         }
         #endregion
     }

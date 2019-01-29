@@ -4,7 +4,7 @@ using System.Diagnostics;
 namespace EaslyController.Writeable
 {
     /// <summary>
-    /// Operation details for removing a block from a block list.
+    /// Operation details for updating a view after block has been removed from a block list.
     /// </summary>
     public interface IWriteableRemoveBlockViewOperation : IWriteableRemoveOperation
     {
@@ -31,7 +31,7 @@ namespace EaslyController.Writeable
     }
 
     /// <summary>
-    /// Operation details for removing a block from a block list.
+    /// Operation details for updating a view after block has been removed from a block list.
     /// </summary>
     public class WriteableRemoveBlockViewOperation : WriteableRemoveOperation, IWriteableRemoveBlockViewOperation
     {

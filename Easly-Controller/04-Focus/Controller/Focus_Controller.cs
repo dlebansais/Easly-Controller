@@ -367,7 +367,7 @@ namespace EaslyController.Focus
             Debug.Assert(cyclePosition >= 0 && cyclePosition < cycleIndexList.Count);
 
             Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => ExecuteReplaceWithCycle(operation);
-            IFocusReplaceWithCycleOperation Operation = CreateReplaceWithCycleOperation(inner, cycleIndexList, cyclePosition, HandlerRedo, null, isNested: false);
+            IFocusReplaceWithCycleOperation Operation = CreateReplaceWithCycleOperation(inner.Owner.Node, inner.PropertyName, cycleIndexList, cyclePosition, HandlerRedo, null, isNested: false);
 
             ExecuteReplaceWithCycle(Operation);
 
@@ -382,7 +382,11 @@ namespace EaslyController.Focus
         {
             IFocusReplaceWithCycleOperation ReplaceWithCycleOperation = (IFocusReplaceWithCycleOperation)operation;
 
-            ReplaceState(ReplaceWithCycleOperation, ReplaceWithCycleOperation.Inner);
+            INode ParentNode = ReplaceWithCycleOperation.ParentNode;
+            string PropertyName = ReplaceWithCycleOperation.PropertyName;
+            IFocusInner<IFocusBrowsingChildIndex> Inner = GetInner(ParentNode, PropertyName) as IFocusInner<IFocusBrowsingChildIndex>;
+
+            ReplaceState(ReplaceWithCycleOperation, Inner);
 
             IFocusNodeState NewState = StateTable[ReplaceWithCycleOperation.NewBrowsingIndex];
             NewState.RestoreCycleIndexList(ReplaceWithCycleOperation.CycleIndexList);
@@ -548,10 +552,10 @@ namespace EaslyController.Focus
         /// <summary>
         /// Creates a IxxxReplaceOperation object.
         /// </summary>
-        protected override IWriteableReplaceOperation CreateReplaceOperation(IWriteableInner<IWriteableBrowsingChildIndex> inner, IWriteableInsertionChildIndex replacementIndex, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        protected override IWriteableReplaceOperation CreateReplaceOperation(INode parentNode, string propertyName, int blockIndex, int index, INode newNode, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusController));
-            return new FocusReplaceOperation((IFocusInner<IFocusBrowsingChildIndex>)inner, (IFocusInsertionChildIndex)replacementIndex, handlerRedo, handlerUndo, isNested);
+            return new FocusReplaceOperation(parentNode, propertyName, blockIndex, index, newNode, handlerRedo, handlerUndo, isNested);
         }
 
         /// <summary>
@@ -683,10 +687,10 @@ namespace EaslyController.Focus
         /// <summary>
         /// Creates a IxxxReplaceWithCycleOperation object.
         /// </summary>
-        protected virtual IFocusReplaceWithCycleOperation CreateReplaceWithCycleOperation(IWriteableInner<IWriteableBrowsingChildIndex> inner, IFocusInsertionChildNodeIndexList cycleIndexList, int cyclePosition, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        protected virtual IFocusReplaceWithCycleOperation CreateReplaceWithCycleOperation(INode parentNode, string propertyName, IFocusInsertionChildNodeIndexList cycleIndexList, int cyclePosition, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusController));
-            return new FocusReplaceWithCycleOperation((IFocusInner<IFocusBrowsingChildIndex>)inner, cycleIndexList, cyclePosition, handlerRedo, handlerUndo, isNested);
+            return new FocusReplaceWithCycleOperation(parentNode, propertyName, cycleIndexList, cyclePosition, handlerRedo, handlerUndo, isNested);
         }
         #endregion
     }

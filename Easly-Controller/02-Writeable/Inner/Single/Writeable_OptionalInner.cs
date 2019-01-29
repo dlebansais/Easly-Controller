@@ -95,28 +95,23 @@ namespace EaslyController.Writeable
         {
             Debug.Assert(operation != null);
 
-            if (operation.ReplacementIndex is IWriteableInsertionOptionalNodeIndex AsOptionalNodeIndex)
-                Replace(operation, AsOptionalNodeIndex);
-            else if (operation.ReplacementIndex is IWriteableInsertionOptionalClearIndex AsOptionalClearIndex)
-                Clear(operation, AsOptionalClearIndex);
+            if (operation.NewNode != null)
+                ReplaceOptional(operation);
             else
-                throw new ArgumentOutOfRangeException(nameof(operation));
+                ClearOptional(operation);
         }
 
         /// <summary></summary>
-        protected virtual void Replace(IWriteableReplaceOperation operation, IWriteableInsertionOptionalNodeIndex optionalIndex)
+        protected virtual void ReplaceOptional(IWriteableReplaceOperation operation)
         {
-            Debug.Assert(optionalIndex != null);
-            Debug.Assert(optionalIndex.Optional != null);
-
             INode ParentNode = Owner.Node;
 
             WriteableBrowsingOptionalNodeIndex OldBrowsingIndex = (WriteableBrowsingOptionalNodeIndex)ChildState.ParentIndex;
             INode OldNode = ChildState.Optional.HasItem ? ChildState.Node : null;
 
-            NodeTreeHelperOptional.SetOptionalChildNode(ParentNode, PropertyName, optionalIndex.Node);
+            NodeTreeHelperOptional.SetOptionalChildNode(ParentNode, PropertyName, operation.NewNode);
 
-            WriteableBrowsingOptionalNodeIndex NewBrowsingIndex = (WriteableBrowsingOptionalNodeIndex)optionalIndex.ToBrowsingIndex();
+            IWriteableBrowsingOptionalNodeIndex NewBrowsingIndex = CreateBrowsingNodeIndex();
             IWriteableOptionalNodeState NewChildState = (IWriteableOptionalNodeState)CreateNodeState(NewBrowsingIndex);
             SetChildState(NewChildState);
 
@@ -124,11 +119,8 @@ namespace EaslyController.Writeable
         }
 
         /// <summary></summary>
-        protected virtual void Clear(IWriteableReplaceOperation operation, IWriteableInsertionOptionalClearIndex optionalIndex)
+        protected virtual void ClearOptional(IWriteableReplaceOperation operation)
         {
-            Debug.Assert(optionalIndex != null);
-            Debug.Assert(optionalIndex.Optional != null);
-
             INode ParentNode = Owner.Node;
 
             WriteableBrowsingOptionalNodeIndex OldBrowsingIndex = (WriteableBrowsingOptionalNodeIndex)ChildState.ParentIndex;
@@ -136,7 +128,7 @@ namespace EaslyController.Writeable
 
             NodeTreeHelperOptional.ClearOptionalChildNode(ParentNode, PropertyName);
 
-            WriteableBrowsingOptionalNodeIndex NewBrowsingIndex = (WriteableBrowsingOptionalNodeIndex)optionalIndex.ToBrowsingIndex();
+            IWriteableBrowsingOptionalNodeIndex NewBrowsingIndex = CreateBrowsingNodeIndex();
             IWriteableOptionalNodeState NewChildState = (IWriteableOptionalNodeState)CreateNodeState(NewBrowsingIndex);
             SetChildState(NewChildState);
 
@@ -174,6 +166,15 @@ namespace EaslyController.Writeable
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableOptionalInner<IIndex, TIndex>));
             return new WriteableOptionalNodeState((IWriteableBrowsingOptionalNodeIndex)nodeIndex);
+        }
+
+        /// <summary>
+        /// Creates a IxxxBrowsingOptionalNodeIndex object.
+        /// </summary>
+        protected virtual IWriteableBrowsingOptionalNodeIndex CreateBrowsingNodeIndex()
+        {
+            ControllerTools.AssertNoOverride(this, typeof(WriteableOptionalInner<IIndex, TIndex>));
+            return new WriteableBrowsingOptionalNodeIndex(Owner.Node, PropertyName);
         }
         #endregion
     }

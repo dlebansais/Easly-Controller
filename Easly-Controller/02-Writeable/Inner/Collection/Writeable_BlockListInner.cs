@@ -383,23 +383,12 @@ namespace EaslyController.Writeable
         {
             Debug.Assert(operation != null);
 
-            if (operation.ReplacementIndex is IWriteableInsertionExistingBlockNodeIndex AsExistingBlockIndex)
-                Replace(operation, AsExistingBlockIndex);
-            else
-                throw new ArgumentOutOfRangeException(nameof(operation));
-        }
-
-        /// <summary></summary>
-        protected virtual void Replace(IWriteableReplaceOperation operation, IWriteableInsertionExistingBlockNodeIndex existingBlockIndex)
-        {
-            Debug.Assert(existingBlockIndex != null);
-
-            int BlockIndex = existingBlockIndex.BlockIndex;
+            int BlockIndex = operation.BlockIndex;
             Debug.Assert(BlockIndex >= 0 && BlockIndex < BlockStateList.Count);
 
             IWriteableBlockState BlockState = BlockStateList[BlockIndex];
 
-            int Index = existingBlockIndex.Index;
+            int Index = operation.Index;
             Debug.Assert(Index >= 0 && Index < BlockState.StateList.Count);
 
             IBlock ChildBlock = BlockState.ChildBlock;
@@ -410,9 +399,9 @@ namespace EaslyController.Writeable
             IWriteableBrowsingBlockNodeIndex OldBrowsingIndex = (IWriteableBrowsingBlockNodeIndex)OldChildState.ParentIndex;
             BlockState.Remove(OldBrowsingIndex, Index);
 
-            NodeTreeHelperBlockList.ReplaceInBlock(ChildBlock, Index, existingBlockIndex.Node);
+            NodeTreeHelperBlockList.ReplaceInBlock(ChildBlock, Index, operation.NewNode);
 
-            IWriteableBrowsingExistingBlockNodeIndex NewBrowsingIndex = (IWriteableBrowsingExistingBlockNodeIndex)existingBlockIndex.ToBrowsingIndex();
+            IWriteableBrowsingExistingBlockNodeIndex NewBrowsingIndex = CreateBrowsingNodeIndex(operation.NewNode, BlockIndex, Index);
             IWriteablePlaceholderNodeState NewChildState = (IWriteablePlaceholderNodeState)CreateNodeState(NewBrowsingIndex);
             BlockState.Insert(NewBrowsingIndex, Index, NewChildState);
 

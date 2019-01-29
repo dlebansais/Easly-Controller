@@ -1072,9 +1072,49 @@ namespace EaslyController.Writeable
             Debug.Assert(InnerTable.ContainsKey(inner.PropertyName));
             Debug.Assert(InnerTable[inner.PropertyName] == inner);
 
+            int BlockIndex;
+            int Index;
+            INode NewNode;
+
+            switch (replacementIndex)
+            {
+                case IWriteableInsertionPlaceholderNodeIndex AsPlaceholderNodeIndex:
+                    BlockIndex = -1;
+                    Index = -1;
+                    NewNode = AsPlaceholderNodeIndex.Node;
+                    break;
+
+                case IWriteableInsertionOptionalNodeIndex AsOptionalNodeIndex:
+                    BlockIndex = -1;
+                    Index = -1;
+                    NewNode = AsOptionalNodeIndex.Node;
+                    break;
+
+                case IWriteableInsertionOptionalClearIndex AsOptionalClearIndex:
+                    BlockIndex = -1;
+                    Index = -1;
+                    NewNode = null;
+                    break;
+
+                case IWriteableInsertionListNodeIndex AsListNodeIndex:
+                    BlockIndex = -1;
+                    Index = AsListNodeIndex.Index;
+                    NewNode = AsListNodeIndex.Node;
+                    break;
+
+                case IWriteableInsertionExistingBlockNodeIndex AsExistingBlockNodeIndex:
+                    BlockIndex = AsExistingBlockNodeIndex.BlockIndex;
+                    Index = AsExistingBlockNodeIndex.Index;
+                    NewNode = AsExistingBlockNodeIndex.Node;
+                    break;
+
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(nodeIndex));
+            }
+
             Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => ExecuteReplace(operation);
             Action<IWriteableOperation> HandlerUndo = (IWriteableOperation operation) => UndoReplace(operation);
-            IWriteableReplaceOperation Operation = CreateReplaceOperation(inner, replacementIndex, HandlerRedo, HandlerUndo, isNested: false);
+            IWriteableReplaceOperation Operation = CreateReplaceOperation(inner.Owner.Node, inner.PropertyName, BlockIndex, Index, NewNode, HandlerRedo, HandlerUndo, isNested: false);
 
             Operation.Redo();
             SetLastOperation(Operation);
@@ -1088,8 +1128,9 @@ namespace EaslyController.Writeable
         {
             IWriteableReplaceOperation ReplaceOperation = (IWriteableReplaceOperation)operation;
 
-            IWriteableInner<IWriteableBrowsingChildIndex> Inner = ReplaceOperation.Inner;
-            Inner = GetInner(Inner.Owner.Node, Inner.PropertyName) as IWriteableInner<IWriteableBrowsingChildIndex>;
+            INode ParentNode = ReplaceOperation.ParentNode;
+            string PropertyName = ReplaceOperation.PropertyName;
+            IWriteableInner<IWriteableBrowsingChildIndex> Inner = GetInner(ParentNode, PropertyName) as IWriteableInner<IWriteableBrowsingChildIndex>;
 
             ReplaceState(ReplaceOperation, Inner);
             Debug.Assert(Contains(ReplaceOperation.NewBrowsingIndex));
@@ -1103,8 +1144,9 @@ namespace EaslyController.Writeable
             IWriteableReplaceOperation ReplaceOperation = (IWriteableReplaceOperation)operation;
             ReplaceOperation = ReplaceOperation.ToInverseReplace();
 
-            IWriteableInner<IWriteableBrowsingChildIndex> Inner = ReplaceOperation.Inner;
-            Inner = GetInner(Inner.Owner.Node, Inner.PropertyName) as IWriteableInner<IWriteableBrowsingChildIndex>;
+            INode ParentNode = ReplaceOperation.ParentNode;
+            string PropertyName = ReplaceOperation.PropertyName;
+            IWriteableInner<IWriteableBrowsingChildIndex> Inner = GetInner(ParentNode, PropertyName) as IWriteableInner<IWriteableBrowsingChildIndex>;
 
             ReplaceState(ReplaceOperation, Inner);
             Debug.Assert(Contains(ReplaceOperation.NewBrowsingIndex));
@@ -1870,7 +1912,7 @@ namespace EaslyController.Writeable
 
                 Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => ExecuteReplace(operation);
                 Action<IWriteableOperation> HandlerUndo = (IWriteableOperation operation) => UndoReplace(operation);
-                IWriteableReplaceOperation Operation = CreateReplaceOperation(optionalInner, NewOptionalNodeIndex, HandlerRedo, HandlerUndo, isNested: false);
+                IWriteableReplaceOperation Operation = CreateReplaceOperation(optionalInner.Owner.Node, optionalInner.PropertyName, -1, -1, NewNode, HandlerRedo, HandlerUndo, isNested: false);
 
                 Operation.Redo();
 
@@ -2738,10 +2780,10 @@ namespace EaslyController.Writeable
         /// <summary>
         /// Creates a IxxxReplaceOperation object.
         /// </summary>
-        protected virtual IWriteableReplaceOperation CreateReplaceOperation(IWriteableInner<IWriteableBrowsingChildIndex> inner, IWriteableInsertionChildIndex replacementIndex, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        protected virtual IWriteableReplaceOperation CreateReplaceOperation(INode parentNode, string propertyName, int blockIndex, int index, INode newNode, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableController));
-            return new WriteableReplaceOperation(inner, replacementIndex, handlerRedo, handlerUndo, isNested);
+            return new WriteableReplaceOperation(parentNode, propertyName, blockIndex, index, newNode, handlerRedo, handlerUndo, isNested);
         }
 
         /// <summary>
