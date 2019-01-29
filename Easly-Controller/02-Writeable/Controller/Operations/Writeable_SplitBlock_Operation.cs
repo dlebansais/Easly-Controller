@@ -129,7 +129,7 @@ namespace EaslyController.Writeable
         /// </summary>
         public virtual IWriteableMergeBlocksOperation ToMergeBlocksOperation()
         {
-            return CreateMergeBlocksOperation(HandlerUndo, HandlerRedo, IsNested);
+            return CreateMergeBlocksOperation(BlockIndex + 1, HandlerUndo, HandlerRedo, IsNested);
         }
         #endregion
 
@@ -137,10 +137,10 @@ namespace EaslyController.Writeable
         /// <summary>
         /// Creates a IxxxxMergeBlocksOperation object.
         /// </summary>
-        protected virtual IWriteableMergeBlocksOperation CreateMergeBlocksOperation(Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        protected virtual IWriteableMergeBlocksOperation CreateMergeBlocksOperation(int blockIndex, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableSplitBlockOperation));
-            return new WriteableMergeBlocksOperation(ParentNode, PropertyName, BlockIndex + 1, handlerRedo, handlerUndo, isNested);
+            return new WriteableMergeBlocksOperation(ParentNode, PropertyName, blockIndex, handlerRedo, handlerUndo, isNested);
         }
         #endregion
     }

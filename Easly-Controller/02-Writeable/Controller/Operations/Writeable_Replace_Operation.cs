@@ -169,7 +169,7 @@ namespace EaslyController.Writeable
         /// </summary>
         public IWriteableReplaceOperation ToInverseReplace()
         {
-            return CreateReplaceOperation(OldNode, HandlerUndo, HandlerRedo, IsNested);
+            return CreateReplaceOperation(BlockIndex, Index, OldNode, HandlerUndo, HandlerRedo, IsNested);
         }
         #endregion
 
@@ -177,10 +177,10 @@ namespace EaslyController.Writeable
         /// <summary>
         /// Creates a IxxxReplaceOperation object.
         /// </summary>
-        protected virtual IWriteableReplaceOperation CreateReplaceOperation(INode node, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        protected virtual IWriteableReplaceOperation CreateReplaceOperation(int blockIndex, int index, INode node, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableReplaceOperation));
-            return new WriteableReplaceOperation(ParentNode, PropertyName, BlockIndex, Index, node, handlerRedo, handlerUndo, isNested);
+            return new WriteableReplaceOperation(ParentNode, PropertyName, blockIndex, index, node, handlerRedo, handlerUndo, isNested);
         }
         #endregion
     }

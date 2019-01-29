@@ -156,7 +156,7 @@ namespace EaslyController.Writeable
         /// </summary>
         public IWriteableRemoveBlockOperation ToRemoveBlockOperation()
         {
-            return CreateRemoveBlockOperation(HandlerUndo, HandlerRedo, IsNested);
+            return CreateRemoveBlockOperation(BlockIndex, HandlerUndo, HandlerRedo, IsNested);
         }
         #endregion
 
@@ -164,10 +164,10 @@ namespace EaslyController.Writeable
         /// <summary>
         /// Creates a IxxxRemoveBlockOperation object.
         /// </summary>
-        protected virtual IWriteableRemoveBlockOperation CreateRemoveBlockOperation(Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        protected virtual IWriteableRemoveBlockOperation CreateRemoveBlockOperation(int blockIndex, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableInsertBlockOperation));
-            return new WriteableRemoveBlockOperation(ParentNode, PropertyName, BlockIndex, handlerRedo, handlerUndo, isNested);
+            return new WriteableRemoveBlockOperation(ParentNode, PropertyName, blockIndex, handlerRedo, handlerUndo, isNested);
         }
         #endregion
     }

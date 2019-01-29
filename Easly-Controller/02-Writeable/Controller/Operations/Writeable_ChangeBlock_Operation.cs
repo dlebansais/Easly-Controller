@@ -47,7 +47,7 @@ namespace EaslyController.Writeable
     }
 
     /// <summary>
-    /// Operation details for changing a node.
+    /// Operation details for changing a block.
     /// </summary>
     public class WriteableChangeBlockOperation : WriteableOperation, IWriteableChangeBlockOperation
     {
@@ -116,7 +116,7 @@ namespace EaslyController.Writeable
         /// </summary>
         public virtual IWriteableChangeBlockOperation ToInverseChange()
         {
-            return CreateChangeBlockOperation(BlockIndex, Replication == ReplicationStatus.Normal ? ReplicationStatus.Replicated : ReplicationStatus.Normal, HandlerUndo, HandlerRedo, IsNested);
+            return CreateChangeBlockOperation(Replication == ReplicationStatus.Normal ? ReplicationStatus.Replicated : ReplicationStatus.Normal, HandlerUndo, HandlerRedo, IsNested);
         }
         #endregion
 
@@ -124,10 +124,10 @@ namespace EaslyController.Writeable
         /// <summary>
         /// Creates a IxxxChangeBlockOperation object.
         /// </summary>
-        protected virtual IWriteableChangeBlockOperation CreateChangeBlockOperation(int blockIndex, ReplicationStatus replication, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        protected virtual IWriteableChangeBlockOperation CreateChangeBlockOperation(ReplicationStatus replication, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableChangeBlockOperation));
-            return new WriteableChangeBlockOperation(ParentNode, PropertyName, blockIndex, replication, handlerRedo, handlerUndo, isNested);
+            return new WriteableChangeBlockOperation(ParentNode, PropertyName, BlockIndex, replication, handlerRedo, handlerUndo, isNested);
         }
         #endregion
     }

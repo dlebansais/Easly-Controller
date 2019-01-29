@@ -117,7 +117,7 @@ namespace EaslyController.Writeable
         /// </summary>
         public virtual IWriteableChangeNodeOperation ToInverseChange()
         {
-            return CreateChangeNodeOperation(PropertyName, OldValue, HandlerUndo, HandlerRedo, IsNested);
+            return CreateChangeNodeOperation(OldValue, HandlerUndo, HandlerRedo, IsNested);
         }
         #endregion
 
@@ -125,10 +125,10 @@ namespace EaslyController.Writeable
         /// <summary>
         /// Creates a IxxxChangeNodeOperation object.
         /// </summary>
-        protected virtual IWriteableChangeNodeOperation CreateChangeNodeOperation(string propertyName, int value, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        protected virtual IWriteableChangeNodeOperation CreateChangeNodeOperation(int value, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableChangeNodeOperation));
-            return new WriteableChangeNodeOperation(ParentNode, propertyName, value, handlerRedo, handlerUndo, isNested);
+            return new WriteableChangeNodeOperation(ParentNode, PropertyName, value, handlerRedo, handlerUndo, isNested);
         }
         #endregion
     }
