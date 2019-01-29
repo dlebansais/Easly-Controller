@@ -457,10 +457,10 @@ namespace EaslyController.Frame
         /// <summary>
         /// Creates a IxxxRemoveBlockViewOperation object.
         /// </summary>
-        protected override IWriteableRemoveBlockViewOperation CreateRemoveBlockViewOperation(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, int blockIndex, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        protected override IWriteableRemoveBlockViewOperation CreateRemoveBlockViewOperation(INode parentNode, string propertyName, int blockIndex, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameController));
-            return new FrameRemoveBlockViewOperation((IFrameBlockListInner<IFrameBrowsingBlockNodeIndex>)inner, blockIndex, handlerRedo, handlerUndo, isNested);
+            return new FrameRemoveBlockViewOperation(parentNode, propertyName, blockIndex, handlerRedo, handlerUndo, isNested);
         }
 
         /// <summary>

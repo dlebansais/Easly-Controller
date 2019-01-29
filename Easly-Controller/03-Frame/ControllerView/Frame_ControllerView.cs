@@ -204,7 +204,9 @@ namespace EaslyController.Frame
         {
             base.OnBlockViewRemoved(operation);
 
-            IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> ParentInner = ((IFrameRemoveBlockViewOperation)operation).Inner;
+            IFrameRemoveBlockViewOperation RemoveBlockViewOperation = (IFrameRemoveBlockViewOperation)operation;
+            IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> ParentInner = RemoveBlockViewOperation.BlockState.ParentInner as IFrameBlockListInner<IFrameBrowsingBlockNodeIndex>;
+            Debug.Assert(ParentInner != null);
             IFrameNodeState OwnerState = ParentInner.Owner;
             IFrameNodeStateView OwnerStateView = StateViewTable[OwnerState];
 

@@ -167,7 +167,7 @@ namespace EaslyController.Writeable
         /// <summary>
         /// Creates an operation to undo the replace operation.
         /// </summary>
-        public IWriteableReplaceOperation ToInverseReplace()
+        public virtual IWriteableReplaceOperation ToInverseReplace()
         {
             return CreateReplaceOperation(BlockIndex, Index, OldNode, HandlerUndo, HandlerRedo, IsNested);
         }

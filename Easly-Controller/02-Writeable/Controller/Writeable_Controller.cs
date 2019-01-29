@@ -2298,7 +2298,8 @@ namespace EaslyController.Writeable
             for (int BlockIndex = inner.BlockStateList.Count; BlockIndex > 0; BlockIndex--)
             {
                 Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => ExecuteRemoveBlockView(operation);
-                IWriteableRemoveBlockViewOperation Operation = CreateRemoveBlockViewOperation(inner, BlockIndex - 1, HandlerRedo, null, isNested: true);
+                Action<IWriteableOperation> HandlerUndo = (IWriteableOperation operation) => UndoRemoveBlockView(operation);
+                IWriteableRemoveBlockViewOperation Operation = CreateRemoveBlockViewOperation(inner.Owner.Node, inner.PropertyName, BlockIndex - 1, HandlerRedo, HandlerUndo, isNested: true);
 
                 Operation.Redo();
             }
@@ -2311,9 +2312,9 @@ namespace EaslyController.Writeable
         {
             IWriteableRemoveBlockViewOperation RemoveBlockViewOperation = (IWriteableRemoveBlockViewOperation)operation;
 
-            IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> Inner = RemoveBlockViewOperation.Inner;
-            Inner = GetInner(Inner.Owner.Node, Inner.PropertyName) as IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex>;
-
+            INode ParentNode = RemoveBlockViewOperation.ParentNode;
+            string PropertyName = RemoveBlockViewOperation.PropertyName;
+            IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> Inner = GetInner(ParentNode, PropertyName) as IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex>;
             IWriteableBlockState RemovedBlockState = Inner.BlockStateList[RemoveBlockViewOperation.BlockIndex];
 
             for (int Index = 0; Index < RemovedBlockState.StateList.Count; Index++)
@@ -2345,6 +2346,12 @@ namespace EaslyController.Writeable
             RemoveBlockViewOperation.Update(RemovedBlockState);
 
             NotifyBlockViewRemoved(RemoveBlockViewOperation);
+        }
+
+        /// <summary></summary>
+        protected virtual void UndoRemoveBlockView(IWriteableOperation operation)
+        {
+            throw new InvalidOperationException();
         }
 
         /// <summary></summary>
@@ -2762,10 +2769,10 @@ namespace EaslyController.Writeable
         /// <summary>
         /// Creates a IxxxRemoveBlockViewOperation object.
         /// </summary>
-        protected virtual IWriteableRemoveBlockViewOperation CreateRemoveBlockViewOperation(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, int blockIndex, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        protected virtual IWriteableRemoveBlockViewOperation CreateRemoveBlockViewOperation(INode parentNode, string propertyName, int blockIndex, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableController));
-            return new WriteableRemoveBlockViewOperation(inner, blockIndex, handlerRedo, handlerUndo, isNested);
+            return new WriteableRemoveBlockViewOperation(parentNode, propertyName, blockIndex, handlerRedo, handlerUndo, isNested);
         }
 
         /// <summary>
