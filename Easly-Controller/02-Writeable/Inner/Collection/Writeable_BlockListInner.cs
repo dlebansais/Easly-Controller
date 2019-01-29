@@ -624,19 +624,7 @@ namespace EaslyController.Writeable
         {
             Debug.Assert(operation != null);
 
-            if (operation.NodeIndex is IWriteableBrowsingExistingBlockNodeIndex AsExistingBlockNodeIndex)
-                Move(operation, AsExistingBlockNodeIndex);
-            else
-                throw new ArgumentOutOfRangeException(nameof(operation));
-        }
-
-        /// <summary></summary>
-        protected virtual void Move(IWriteableMoveNodeOperation operation, IWriteableBrowsingExistingBlockNodeIndex existingBlockIndex)
-        {
-            Debug.Assert(operation != null);
-            Debug.Assert(existingBlockIndex != null);
-
-            int BlockIndex = existingBlockIndex.BlockIndex;
+            int BlockIndex = operation.BlockIndex;
             Debug.Assert(BlockIndex >= 0 && BlockIndex < BlockStateList.Count);
 
             IWriteableBlockState BlockState = BlockStateList[BlockIndex];
@@ -647,7 +635,10 @@ namespace EaslyController.Writeable
             Debug.Assert(MoveIndex >= 0 && MoveIndex < StateList.Count);
             Debug.Assert(MoveIndex + Direction >= 0 && MoveIndex + Direction < StateList.Count);
 
-            BlockState.Move(existingBlockIndex, MoveIndex, Direction);
+            IWriteableBrowsingExistingBlockNodeIndex ExistingBlockNodeIndex = StateList[MoveIndex].ParentIndex as IWriteableBrowsingExistingBlockNodeIndex;
+            Debug.Assert(ExistingBlockNodeIndex != null);
+
+            BlockState.Move(ExistingBlockNodeIndex, MoveIndex, Direction);
 
             IBlock ChildBlock = BlockState.ChildBlock;
             NodeTreeHelperBlockList.MoveNode(ChildBlock, MoveIndex, Direction);
@@ -662,7 +653,7 @@ namespace EaslyController.Writeable
                     Debug.Assert(ChildNodeIndex != null);
 
                     ChildNodeIndex.MoveDown();
-                    existingBlockIndex.MoveUp();
+                    ExistingBlockNodeIndex.MoveUp();
                 }
             }
             else if (Direction < 0)
@@ -673,7 +664,7 @@ namespace EaslyController.Writeable
                     Debug.Assert(ChildNodeIndex != null);
 
                     ChildNodeIndex.MoveUp();
-                    existingBlockIndex.MoveDown();
+                    ExistingBlockNodeIndex.MoveDown();
                 }
             }
         }

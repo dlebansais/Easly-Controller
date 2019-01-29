@@ -529,10 +529,10 @@ namespace EaslyController.Frame
         /// <summary>
         /// Creates a IxxxxMoveNodeOperation object.
         /// </summary>
-        protected override IWriteableMoveNodeOperation CreateMoveNodeOperation(IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> inner, IWriteableBrowsingCollectionNodeIndex nodeIndex, int direction, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        protected override IWriteableMoveNodeOperation CreateMoveNodeOperation(INode parentNode, string propertyName, int blockIndex, int index, int direction, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameController));
-            return new FrameMoveNodeOperation((IFrameCollectionInner<IFrameBrowsingCollectionNodeIndex>)inner, (IFrameBrowsingCollectionNodeIndex)nodeIndex, direction, handlerRedo, handlerUndo, isNested);
+            return new FrameMoveNodeOperation(parentNode, propertyName, blockIndex, index, direction, handlerRedo, handlerUndo, isNested);
         }
 
         /// <summary>

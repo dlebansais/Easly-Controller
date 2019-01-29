@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BaseNode;
+using System;
 using System.Diagnostics;
 
 namespace EaslyController.Writeable
@@ -9,14 +10,19 @@ namespace EaslyController.Writeable
     public interface IWriteableMoveNodeOperation : IWriteableOperation
     {
         /// <summary>
-        /// Inner where the move is taking place.
+        /// Node where the node is moved.
         /// </summary>
-        IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> Inner { get; }
+        INode ParentNode { get; }
 
         /// <summary>
-        /// Index of the moved node.
+        /// Property of <see cref="ParentNode"/> where the node is moved.
         /// </summary>
-        IWriteableBrowsingCollectionNodeIndex NodeIndex { get; }
+        string PropertyName { get; }
+
+        /// <summary>
+        /// Block position where the node is moved, if applicable.
+        /// </summary>
+        int BlockIndex { get; }
 
         /// <summary>
         /// The current position before move.
@@ -54,39 +60,40 @@ namespace EaslyController.Writeable
         /// <summary>
         /// Initializes a new instance of <see cref="WriteableMoveNodeOperation"/>.
         /// </summary>
-        /// <param name="inner">Inner where the move is taking place.</param>
-        /// <param name="nodeIndex">Position where the node is moved.</param>
+        /// <param name="parentNode">Node where the node is moved.</param>
+        /// <param name="propertyName">Property of <paramref name="parentNode"/> where the node is moved.</param>
+        /// <param name="blockIndex">Block position where the node is moved, if applicable.</param>
+        /// <param name="index">The current position before move.</param>
         /// <param name="direction">The change in position, relative to the current position.</param>
         /// <param name="handlerRedo">Handler to execute to redo the operation.</param>
         /// <param name="handlerUndo">Handler to execute to undo the operation.</param>
         /// <param name="isNested">True if the operation is nested within another more general one.</param>
-        public WriteableMoveNodeOperation(IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> inner, IWriteableBrowsingCollectionNodeIndex nodeIndex, int direction, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        public WriteableMoveNodeOperation(INode parentNode, string propertyName, int blockIndex, int index, int direction, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
             : base(handlerRedo, handlerUndo, isNested)
         {
-            Inner = inner;
-            NodeIndex = nodeIndex;
-
-            if (nodeIndex is IWriteableBrowsingExistingBlockNodeIndex AsBlockIndex)
-                Index = AsBlockIndex.Index;
-            else if (nodeIndex is IWriteableBrowsingListNodeIndex AsListIndex)
-                Index = AsListIndex.Index;
-            else
-                throw new ArgumentOutOfRangeException(nameof(nodeIndex));
-
+            ParentNode = parentNode;
+            PropertyName = propertyName;
+            BlockIndex = blockIndex;
+            Index = index;
             Direction = direction;
         }
         #endregion
 
         #region Properties
         /// <summary>
-        /// Inner where the move is taking place.
+        /// Node where the node is moved.
         /// </summary>
-        public IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> Inner { get; }
+        public INode ParentNode { get; }
 
         /// <summary>
-        /// Index of the moved node.
+        /// Property of <see cref="ParentNode"/> where the node is moved.
         /// </summary>
-        public IWriteableBrowsingCollectionNodeIndex NodeIndex { get; }
+        public string PropertyName { get; }
+
+        /// <summary>
+        /// Block position where the node is moved, if applicable.
+        /// </summary>
+        public int BlockIndex { get; }
 
         /// <summary>
         /// The current position before move.
@@ -121,10 +128,7 @@ namespace EaslyController.Writeable
         /// </summary>
         public virtual IWriteableMoveNodeOperation ToInverseMove()
         {
-            IWriteableBrowsingCollectionNodeIndex CurrentIndex = State.ParentIndex as IWriteableBrowsingCollectionNodeIndex;
-            Debug.Assert(CurrentIndex != null);
-
-            return CreateMoveNodeOperation(Inner, CurrentIndex, -Direction, HandlerUndo, HandlerRedo, IsNested);
+            return CreateMoveNodeOperation(BlockIndex, Index + Direction, -Direction, HandlerUndo, HandlerRedo, IsNested);
         }
         #endregion
 
@@ -132,10 +136,10 @@ namespace EaslyController.Writeable
         /// <summary>
         /// Creates a IxxxxMoveNodeOperation object.
         /// </summary>
-        protected virtual IWriteableMoveNodeOperation CreateMoveNodeOperation(IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> inner, IWriteableBrowsingCollectionNodeIndex nodeIndex, int direction, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        protected virtual IWriteableMoveNodeOperation CreateMoveNodeOperation(int blockIndex, int index, int direction, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableMoveNodeOperation));
-            return new WriteableMoveNodeOperation(inner, nodeIndex, direction, handlerRedo, handlerUndo, isNested);
+            return new WriteableMoveNodeOperation(ParentNode, PropertyName, blockIndex, index, direction, handlerRedo, handlerUndo, isNested);
         }
         #endregion
     }

@@ -204,23 +204,13 @@ namespace EaslyController.Writeable
         {
             Debug.Assert(operation != null);
 
-            if (operation.NodeIndex is IWriteableBrowsingListNodeIndex AsListIndex)
-                Move(operation, AsListIndex);
-            else
-                throw new ArgumentOutOfRangeException(nameof(operation));
-        }
-
-        /// <summary></summary>
-        protected virtual void Move(IWriteableMoveNodeOperation operation, IWriteableBrowsingListNodeIndex listIndex)
-        {
-            Debug.Assert(operation != null);
-
             int MoveIndex = operation.Index;
             int Direction = operation.Direction;
-
-            Debug.Assert(listIndex != null);
             Debug.Assert(MoveIndex >= 0 && MoveIndex < StateList.Count);
             Debug.Assert(MoveIndex + operation.Direction >= 0 && MoveIndex + operation.Direction < StateList.Count);
+
+            IWriteableBrowsingListNodeIndex MovedNodeIndex = StateList[MoveIndex].ParentIndex as IWriteableBrowsingListNodeIndex;
+            Debug.Assert(MovedNodeIndex != null);
 
             INode ParentNode = Owner.Node;
 
@@ -237,7 +227,7 @@ namespace EaslyController.Writeable
                     Debug.Assert(ChildNodeIndex != null);
 
                     ChildNodeIndex.MoveDown();
-                    listIndex.MoveUp();
+                    MovedNodeIndex.MoveUp();
                 }
             }
             else if (Direction < 0)
@@ -248,7 +238,7 @@ namespace EaslyController.Writeable
                     Debug.Assert(ChildNodeIndex != null);
 
                     ChildNodeIndex.MoveUp();
-                    listIndex.MoveDown();
+                    MovedNodeIndex.MoveDown();
                 }
             }
         }

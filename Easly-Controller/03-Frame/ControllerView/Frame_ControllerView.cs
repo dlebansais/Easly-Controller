@@ -589,18 +589,19 @@ namespace EaslyController.Frame
         {
             base.OnStateMoved(operation);
 
-            IFrameCollectionInner<IFrameBrowsingCollectionNodeIndex> Inner = ((IFrameMoveNodeOperation)operation).Inner;
-            IFrameBrowsingCollectionNodeIndex NodeIndex = ((IFrameMoveNodeOperation)operation).NodeIndex;
-            int MoveIndex = ((IFrameMoveNodeOperation)operation).Index;
-            int Direction = ((IFrameMoveNodeOperation)operation).Direction;
+            IFrameMoveNodeOperation MoveNodeOperation = (IFrameMoveNodeOperation)operation;
+            IFrameCollectionInner<IFrameBrowsingCollectionNodeIndex> Inner = MoveNodeOperation.State.ParentInner as IFrameCollectionInner<IFrameBrowsingCollectionNodeIndex>;
+            int BlockIndex = MoveNodeOperation.BlockIndex;
+            int MoveIndex = MoveNodeOperation.Index;
+            int Direction = MoveNodeOperation.Direction;
             IFramePlaceholderNodeState MovedState = ((IFrameMoveNodeOperation)operation).State;
             Debug.Assert(MovedState != null);
             IFrameNodeState OwnerState = Inner.Owner;
 
-            if ((Inner is IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> AsBlockListInner) && (NodeIndex is IFrameBrowsingExistingBlockNodeIndex AsBlockListIndex))
-                OnBlockListStateMoved(AsBlockListInner, AsBlockListIndex, MoveIndex, Direction);
-            else if ((Inner is IFrameListInner<IFrameBrowsingListNodeIndex> AsListInner) && (NodeIndex is IFrameBrowsingListNodeIndex AsListIndex))
-                OnListStateMoved(AsListInner, AsListIndex, MoveIndex, Direction);
+            if (Inner is IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> AsBlockListInner)
+                OnBlockListStateMoved(AsBlockListInner, BlockIndex, MoveIndex, Direction);
+            else if (Inner is IFrameListInner<IFrameBrowsingListNodeIndex> AsListInner)
+                OnListStateMoved(AsListInner, MoveIndex, Direction);
             else
                 throw new ArgumentOutOfRangeException(nameof(operation));
 
@@ -608,16 +609,14 @@ namespace EaslyController.Frame
         }
 
         /// <summary></summary>
-        protected virtual void OnBlockListStateMoved(IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> inner, IFrameBrowsingExistingBlockNodeIndex nodeIndex, int index, int direction)
+        protected virtual void OnBlockListStateMoved(IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> inner, int blockIndex, int index, int direction)
         {
             Debug.Assert(inner != null);
-            Debug.Assert(nodeIndex != null);
 
             IFrameNodeState OwnerState = inner.Owner;
             IFrameNodeStateView OwnerStateView = StateViewTable[OwnerState];
 
-            int BlockIndex = nodeIndex.BlockIndex;
-            IFrameBlockState BlockState = inner.BlockStateList[BlockIndex];
+            IFrameBlockState BlockState = inner.BlockStateList[blockIndex];
             IFrameBlockStateView BlockStateView = BlockStateViewTable[BlockState];
             IFrameCellViewCollection EmbeddingCellView = BlockStateView.EmbeddingCellView;
             Debug.Assert(EmbeddingCellView != null);
@@ -626,10 +625,9 @@ namespace EaslyController.Frame
         }
 
         /// <summary></summary>
-        protected virtual void OnListStateMoved(IFrameListInner<IFrameBrowsingListNodeIndex> inner, IFrameBrowsingListNodeIndex nodeIndex, int index, int direction)
+        protected virtual void OnListStateMoved(IFrameListInner<IFrameBrowsingListNodeIndex> inner, int index, int direction)
         {
             Debug.Assert(inner != null);
-            Debug.Assert(nodeIndex != null);
 
             IFrameNodeState OwnerState = inner.Owner;
             IFrameNodeStateView OwnerStateView = StateViewTable[OwnerState];

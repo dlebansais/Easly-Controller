@@ -1661,9 +1661,28 @@ namespace EaslyController.Writeable
             IWriteableNodeState State = StateTable[nodeIndex];
             Debug.Assert(State != null);
 
+            int BlockIndex;
+            int Index;
+
+            switch (nodeIndex)
+            {
+                case IWriteableBrowsingListNodeIndex AsListNodeIndex:
+                    BlockIndex = -1;
+                    Index = AsListNodeIndex.Index;
+                    break;
+
+                case IWriteableBrowsingExistingBlockNodeIndex AsExistingBlockNodeIndex:
+                    BlockIndex = AsExistingBlockNodeIndex.BlockIndex;
+                    Index = AsExistingBlockNodeIndex.Index;
+                    break;
+
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(nodeIndex));
+            }
+
             Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => ExecuteMove(operation);
             Action<IWriteableOperation> HandlerUndo = (IWriteableOperation operation) => UndoMove(operation);
-            IWriteableMoveNodeOperation Operation = CreateMoveNodeOperation(inner, nodeIndex, direction, HandlerRedo, HandlerUndo, isNested: false);
+            IWriteableMoveNodeOperation Operation = CreateMoveNodeOperation(inner.Owner.Node, inner.PropertyName, BlockIndex, Index, direction, HandlerRedo, HandlerUndo, isNested: false);
 
             Operation.Redo();
             SetLastOperation(Operation);
@@ -1675,8 +1694,9 @@ namespace EaslyController.Writeable
         {
             IWriteableMoveNodeOperation MoveNodeOperation = (IWriteableMoveNodeOperation)operation;
 
-            IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> Inner = MoveNodeOperation.Inner;
-            Inner = GetInner(Inner.Owner.Node, Inner.PropertyName) as IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex>;
+            INode ParentNode = MoveNodeOperation.ParentNode;
+            string PropertyName = MoveNodeOperation.PropertyName;
+            IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> Inner = GetInner(ParentNode, PropertyName) as IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex>;
 
             Inner.Move(MoveNodeOperation);
             NotifyStateMoved(MoveNodeOperation);
@@ -1688,8 +1708,9 @@ namespace EaslyController.Writeable
             IWriteableMoveNodeOperation MoveNodeOperation = (IWriteableMoveNodeOperation)operation;
             MoveNodeOperation = MoveNodeOperation.ToInverseMove();
 
-            IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> Inner = MoveNodeOperation.Inner;
-            Inner = GetInner(Inner.Owner.Node, Inner.PropertyName) as IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex>;
+            INode ParentNode = MoveNodeOperation.ParentNode;
+            string PropertyName = MoveNodeOperation.PropertyName;
+            IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> Inner = GetInner(ParentNode, PropertyName) as IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex>;
 
             Inner.Move(MoveNodeOperation);
             NotifyStateMoved(MoveNodeOperation);
@@ -2771,10 +2792,10 @@ namespace EaslyController.Writeable
         /// <summary>
         /// Creates a IxxxxMoveNodeOperation object.
         /// </summary>
-        protected virtual IWriteableMoveNodeOperation CreateMoveNodeOperation(IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> inner, IWriteableBrowsingCollectionNodeIndex nodeIndex, int direction, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        protected virtual IWriteableMoveNodeOperation CreateMoveNodeOperation(INode parentNode, string propertyName, int blockIndex, int index, int direction, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableController));
-            return new WriteableMoveNodeOperation(inner, nodeIndex, direction, handlerRedo, handlerUndo, isNested);
+            return new WriteableMoveNodeOperation(parentNode, propertyName, blockIndex, index, direction, handlerRedo, handlerUndo, isNested);
         }
 
         /// <summary>
