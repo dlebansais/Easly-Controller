@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BaseNode;
+using System;
 using System.Diagnostics;
 
 namespace EaslyController.Writeable
@@ -9,19 +10,34 @@ namespace EaslyController.Writeable
     public interface IWriteableRemoveNodeOperation : IWriteableRemoveOperation
     {
         /// <summary>
-        /// Inner where the removal is taking place.
+        /// Node where the removal is taking place.
         /// </summary>
-        IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> Inner { get; }
+        INode ParentNode { get; }
 
         /// <summary>
-        /// Index of the removed node.
+        /// Property of <see cref="ParentNode"/> where a node is removed.
         /// </summary>
-        IWriteableBrowsingCollectionNodeIndex NodeIndex { get; }
+        string PropertyName { get; }
 
         /// <summary>
-        /// State removed.
+        /// Block position where the node is removed, if applicable.
         /// </summary>
-        IWriteablePlaceholderNodeState ChildState { get; }
+        int BlockIndex { get; }
+
+        /// <summary>
+        /// Position of the removed node.
+        /// </summary>
+        int Index { get; }
+
+        /// <summary>
+        /// The removed state.
+        /// </summary>
+        IWriteablePlaceholderNodeState RemovedState { get; }
+
+        /// <summary>
+        /// The removed node.
+        /// </summary>
+        INode RemovedNode { get; }
 
         /// <summary>
         /// Update the operation with details.
@@ -44,34 +60,53 @@ namespace EaslyController.Writeable
         /// <summary>
         /// Initializes a new instance of <see cref="WriteableRemoveNodeOperation"/>.
         /// </summary>
-        /// <param name="inner">Inner where the removal is taking place.</param>
-        /// <param name="nodeIndex">Index of the removed node.</param>
+        /// <param name="parentNode">Node where the removal is taking place.</param>
+        /// <param name="propertyName">Property of <paramref name="parentNode"/> where a node is removed.</param>
+        /// <param name="blockIndex">Block position where the node is removed, if applicable.</param>
+        /// <param name="index">Position of the removed node.</param>
         /// <param name="handlerRedo">Handler to execute to redo the operation.</param>
         /// <param name="handlerUndo">Handler to execute to undo the operation.</param>
         /// <param name="isNested">True if the operation is nested within another more general one.</param>
-        public WriteableRemoveNodeOperation(IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> inner, IWriteableBrowsingCollectionNodeIndex nodeIndex, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        public WriteableRemoveNodeOperation(INode parentNode, string propertyName, int blockIndex, int index, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
             : base(handlerRedo, handlerUndo, isNested)
         {
-            Inner = inner;
-            NodeIndex = nodeIndex;
+            ParentNode = parentNode;
+            PropertyName = propertyName;
+            BlockIndex = blockIndex;
+            Index = index;
         }
         #endregion
 
         #region Properties
         /// <summary>
-        /// Inner where the removal is taking place.
+        /// Node where the removal is taking place.
         /// </summary>
-        public IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> Inner { get; }
+        public INode ParentNode { get; }
 
         /// <summary>
-        /// Index of the removed node.
+        /// Property of <see cref="ParentNode"/> where a node is removed.
         /// </summary>
-        public IWriteableBrowsingCollectionNodeIndex NodeIndex { get; }
+        public string PropertyName { get; }
 
         /// <summary>
-        /// State removed.
+        /// Block position where the node is removed, if applicable.
         /// </summary>
-        public IWriteablePlaceholderNodeState ChildState { get; private set; }
+        public int BlockIndex { get; }
+
+        /// <summary>
+        /// Position of the removed node.
+        /// </summary>
+        public int Index { get; }
+
+        /// <summary>
+        /// The removed state.
+        /// </summary>
+        public IWriteablePlaceholderNodeState RemovedState { get; private set; }
+
+        /// <summary>
+        /// The removed node.
+        /// </summary>
+        public INode RemovedNode { get; private set; }
         #endregion
 
         #region Client Interface
@@ -83,7 +118,8 @@ namespace EaslyController.Writeable
         {
             Debug.Assert(childState != null);
 
-            ChildState = childState;
+            RemovedState = childState;
+            RemovedNode = childState.Node;
         }
 
         /// <summary>
@@ -91,10 +127,7 @@ namespace EaslyController.Writeable
         /// </summary>
         public IWriteableInsertNodeOperation ToInsertNodeOperation()
         {
-            IWriteableInsertionCollectionNodeIndex InsertionIndex = NodeIndex.ToInsertionIndex(Inner.Owner.Node, ChildState.Node) as IWriteableInsertionCollectionNodeIndex;
-            Debug.Assert(InsertionIndex != null);
-
-            return CreateInsertNodeOperation(Inner, InsertionIndex, HandlerUndo, HandlerRedo, IsNested);
+            return CreateInsertNodeOperation(HandlerUndo, HandlerRedo, IsNested);
         }
         #endregion
 
@@ -102,10 +135,10 @@ namespace EaslyController.Writeable
         /// <summary>
         /// Creates a IxxxInsertNodeOperation object.
         /// </summary>
-        protected virtual IWriteableInsertNodeOperation CreateInsertNodeOperation(IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> inner, IWriteableInsertionCollectionNodeIndex insertionIndex, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        protected virtual IWriteableInsertNodeOperation CreateInsertNodeOperation(Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableRemoveNodeOperation));
-            return new WriteableInsertNodeOperation(inner, insertionIndex, handlerRedo, handlerUndo, isNested);
+            return new WriteableInsertNodeOperation(ParentNode, PropertyName, BlockIndex, Index, RemovedNode, handlerRedo, handlerUndo, isNested);
         }
         #endregion
     }

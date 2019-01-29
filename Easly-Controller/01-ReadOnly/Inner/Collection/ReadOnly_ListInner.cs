@@ -275,15 +275,6 @@ namespace EaslyController.ReadOnly
             ControllerTools.AssertNoOverride(this, typeof(ReadOnlyListInner<IIndex, TIndex>));
             return new ReadOnlyPlaceholderNodeState(nodeIndex);
         }
-
-        /// <summary>
-        /// Creates a IxxxPlaceholderNodeState object.
-        /// </summary>
-        protected virtual IIndex CreateNodeIndex(IReadOnlyPlaceholderNodeState state, string propertyName, int index)
-        {
-            ControllerTools.AssertNoOverride(this, typeof(ReadOnlyListInner<IIndex, TIndex>));
-            return (TIndex)new ReadOnlyBrowsingListNodeIndex(Owner.Node, state.Node, propertyName, index);
-        }
         #endregion
     }
 }

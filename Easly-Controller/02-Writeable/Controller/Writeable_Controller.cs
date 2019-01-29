@@ -748,9 +748,31 @@ namespace EaslyController.Writeable
         /// <summary></summary>
         protected virtual void InsertNewNode(IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> inner, IWriteableInsertionCollectionNodeIndex insertedIndex, out IWriteableBrowsingCollectionNodeIndex nodeIndex)
         {
+            int BlockIndex;
+            int Index;
+            INode Node;
+
+            switch (insertedIndex)
+            {
+                case IWriteableInsertionListNodeIndex AsListNodeIndex:
+                    BlockIndex = -1;
+                    Index = AsListNodeIndex.Index;
+                    Node = AsListNodeIndex.Node;
+                    break;
+
+                case IWriteableInsertionExistingBlockNodeIndex AsExistingBlockNodeIndex:
+                    BlockIndex = AsExistingBlockNodeIndex.BlockIndex;
+                    Index = AsExistingBlockNodeIndex.Index;
+                    Node = AsExistingBlockNodeIndex.Node;
+                    break;
+
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(insertedIndex));
+            }
+
             Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => ExecuteInsertNewNode(operation);
             Action<IWriteableOperation> HandlerUndo = (IWriteableOperation operation) => UndoInsertNewNode(operation);
-            IWriteableInsertNodeOperation Operation = CreateInsertNodeOperation(inner, insertedIndex, HandlerRedo, HandlerUndo, isNested: false);
+            IWriteableInsertNodeOperation Operation = CreateInsertNodeOperation(inner.Owner.Node, inner.PropertyName, BlockIndex, Index, Node, HandlerRedo, HandlerUndo, isNested: false);
 
             Operation.Redo();
             SetLastOperation(Operation);
@@ -764,8 +786,10 @@ namespace EaslyController.Writeable
         {
             IWriteableInsertNodeOperation InsertNodeOperation = (IWriteableInsertNodeOperation)operation;
 
-            IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> Inner = InsertNodeOperation.Inner;
-            Inner = GetInner(Inner.Owner.Node, Inner.PropertyName) as IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex>;
+            INode ParentNode = InsertNodeOperation.ParentNode;
+            string PropertyName = InsertNodeOperation.PropertyName;
+            INode Node = InsertNodeOperation.Node;
+            IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> Inner = GetInner(ParentNode, PropertyName) as IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex>;
 
             Inner.Insert(InsertNodeOperation);
 
@@ -787,16 +811,14 @@ namespace EaslyController.Writeable
             IWriteableInsertNodeOperation InsertNodeOperation = (IWriteableInsertNodeOperation)operation;
             IWriteableRemoveNodeOperation RemoveNodeOperation = InsertNodeOperation.ToRemoveNodeOperation();
 
-            IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> Inner = RemoveNodeOperation.Inner;
-            Inner = GetInner(Inner.Owner.Node, Inner.PropertyName) as IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex>;
-
-            IWriteableBrowsingCollectionNodeIndex NodeIndex = RemoveNodeOperation.NodeIndex;
-            NodeIndex = GetIndex(NodeIndex.Node) as IWriteableBrowsingCollectionNodeIndex;
+            INode ParentNode = RemoveNodeOperation.ParentNode;
+            string PropertyName = RemoveNodeOperation.PropertyName;
+            IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> Inner = GetInner(ParentNode, PropertyName) as IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex>;
 
             Inner.Remove(RemoveNodeOperation);
 
-            IWriteableNodeState OldState = StateTable[NodeIndex];
-            PruneState(OldState);
+            IWriteableNodeState RemovedState = RemoveNodeOperation.RemovedState;
+            PruneState(RemovedState);
             Stats.PlaceholderNodeCount--;
 
             NotifyStateRemoved(RemoveNodeOperation);
@@ -851,18 +873,40 @@ namespace EaslyController.Writeable
             Debug.Assert(InnerTable.ContainsKey(inner.PropertyName));
             Debug.Assert(InnerTable[inner.PropertyName] == inner);
 
+            int BlockIndex;
+            int Index;
+            INode Node;
+
+            switch (nodeIndex)
+            {
+                case IWriteableBrowsingListNodeIndex AsListNodeIndex:
+                    BlockIndex = -1;
+                    Index = AsListNodeIndex.Index;
+                    Node = AsListNodeIndex.Node;
+                    break;
+
+                case IWriteableBrowsingExistingBlockNodeIndex AsExistingBlockNodeIndex:
+                    BlockIndex = AsExistingBlockNodeIndex.BlockIndex;
+                    Index = AsExistingBlockNodeIndex.Index;
+                    Node = AsExistingBlockNodeIndex.Node;
+                    break;
+
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(nodeIndex));
+            }
+
             if (inner is IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> AsBlockListInner)
             {
                 IWriteableBrowsingExistingBlockNodeIndex ExistingBlockIndex = nodeIndex as IWriteableBrowsingExistingBlockNodeIndex;
                 Debug.Assert(ExistingBlockIndex != null);
 
                 if (AsBlockListInner.BlockStateList[ExistingBlockIndex.BlockIndex].StateList.Count == 1)
-                    RemoveBlock(AsBlockListInner, ExistingBlockIndex.BlockIndex);
+                    RemoveBlock(AsBlockListInner, BlockIndex);
                 else
-                    RemoveNode(inner, nodeIndex);
+                    RemoveNode(inner, BlockIndex, Index);
             }
             else
-                RemoveNode(inner, nodeIndex);
+                RemoveNode(inner, BlockIndex, Index);
         }
 
         /// <summary></summary>
@@ -957,11 +1001,11 @@ namespace EaslyController.Writeable
         }
 
         /// <summary></summary>
-        protected virtual void RemoveNode(IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> inner, IWriteableBrowsingCollectionNodeIndex nodeIndex)
+        protected virtual void RemoveNode(IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> inner, int blockIndex, int index)
         {
             Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => ExecuteRemoveNode(operation);
             Action<IWriteableOperation> HandlerUndo = (IWriteableOperation operation) => UndoRemoveNode(operation);
-            IWriteableRemoveNodeOperation Operation = CreateRemoveNodeOperation(inner, nodeIndex, HandlerRedo, HandlerUndo, isNested: false);
+            IWriteableRemoveNodeOperation Operation = CreateRemoveNodeOperation(inner.Owner.Node, inner.PropertyName, blockIndex, index, HandlerRedo, HandlerUndo, isNested: false);
 
             Operation.Redo();
             SetLastOperation(Operation);
@@ -973,15 +1017,13 @@ namespace EaslyController.Writeable
         {
             IWriteableRemoveNodeOperation RemoveNodeOperation = (IWriteableRemoveNodeOperation)operation;
 
-            IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> Inner = RemoveNodeOperation.Inner;
-            Inner = GetInner(Inner.Owner.Node, Inner.PropertyName) as IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex>;
-
-            IWriteableBrowsingCollectionNodeIndex NodeIndex = RemoveNodeOperation.NodeIndex;
-            NodeIndex = GetIndex(NodeIndex.Node) as IWriteableBrowsingCollectionNodeIndex;
+            INode ParentNode = RemoveNodeOperation.ParentNode;
+            string PropertyName = RemoveNodeOperation.PropertyName;
+            IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> Inner = GetInner(ParentNode, PropertyName) as IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex>;
 
             Inner.Remove(RemoveNodeOperation);
 
-            IWriteableNodeState OldState = StateTable[RemoveNodeOperation.NodeIndex];
+            IWriteableNodeState OldState = RemoveNodeOperation.RemovedState;
             PruneState(OldState);
             Stats.PlaceholderNodeCount--;
 
@@ -994,8 +1036,9 @@ namespace EaslyController.Writeable
             IWriteableRemoveNodeOperation RemoveNodeOperation = (IWriteableRemoveNodeOperation)operation;
             IWriteableInsertNodeOperation InsertNodeOperation = RemoveNodeOperation.ToInsertNodeOperation();
 
-            IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> Inner = InsertNodeOperation.Inner;
-            Inner = GetInner(Inner.Owner.Node, Inner.PropertyName) as IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex>;
+            INode ParentNode = InsertNodeOperation.ParentNode;
+            string PropertyName = InsertNodeOperation.PropertyName;
+            IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> Inner = GetInner(ParentNode, PropertyName) as IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex>;
 
             Inner.Insert(InsertNodeOperation);
 
@@ -2639,10 +2682,10 @@ namespace EaslyController.Writeable
         /// <summary>
         /// Creates a IxxxInsertNodeOperation object.
         /// </summary>
-        protected virtual IWriteableInsertNodeOperation CreateInsertNodeOperation(IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> inner, IWriteableInsertionCollectionNodeIndex insertionIndex, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        protected virtual IWriteableInsertNodeOperation CreateInsertNodeOperation(INode parentNode, string propertyName, int blockIndex, int index, INode node, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableController));
-            return new WriteableInsertNodeOperation(inner, insertionIndex, handlerRedo, handlerUndo, isNested);
+            return new WriteableInsertNodeOperation(parentNode, propertyName, blockIndex, index, node, handlerRedo, handlerUndo, isNested);
         }
 
         /// <summary>
@@ -2675,10 +2718,10 @@ namespace EaslyController.Writeable
         /// <summary>
         /// Creates a IxxxRemoveNodeOperation object.
         /// </summary>
-        protected virtual IWriteableRemoveNodeOperation CreateRemoveNodeOperation(IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> inner, IWriteableBrowsingCollectionNodeIndex nodeIndex, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        protected virtual IWriteableRemoveNodeOperation CreateRemoveNodeOperation(INode parentNode, string propertyName, int blockIndex, int index, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableController));
-            return new WriteableRemoveNodeOperation(inner, nodeIndex, handlerRedo, handlerUndo, isNested);
+            return new WriteableRemoveNodeOperation(parentNode, propertyName, blockIndex, index, handlerRedo, handlerUndo, isNested);
         }
 
         /// <summary>

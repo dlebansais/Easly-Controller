@@ -95,12 +95,12 @@ namespace EaslyController.Frame
         }
 
         /// <summary>
-        /// Creates a IxxxPlaceholderNodeState object.
+        /// Creates a IxxxBrowsingListNodeIndex object.
         /// </summary>
-        protected override IIndex CreateNodeIndex(IReadOnlyPlaceholderNodeState state, string propertyName, int index)
+        protected override IWriteableBrowsingListNodeIndex CreateBrowsingNodeIndex(INode node, int index)
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameListInner<IIndex, TIndex>));
-            return (TIndex)new FrameBrowsingListNodeIndex(Owner.Node, state.Node, propertyName, index);
+            return new FrameBrowsingListNodeIndex(Owner.Node, node, PropertyName, index);
         }
         #endregion
     }

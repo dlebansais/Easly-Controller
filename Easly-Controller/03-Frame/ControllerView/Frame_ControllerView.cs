@@ -316,19 +316,17 @@ namespace EaslyController.Frame
         {
             base.OnStateRemoved(operation);
 
-            IFrameCollectionInner<IFrameBrowsingCollectionNodeIndex> Inner = ((IFrameRemoveNodeOperation)operation).Inner;
+            IFrameRemoveNodeOperation RemoveNodeOperation = (IFrameRemoveNodeOperation)operation;
+            IFramePlaceholderNodeState RemovedState = RemoveNodeOperation.RemovedState;
+            IFrameCollectionInner<IFrameBrowsingCollectionNodeIndex> Inner = (IFrameCollectionInner<IFrameBrowsingCollectionNodeIndex>)RemovedState.ParentInner;
             Debug.Assert(Inner != null);
-            IFrameBrowsingCollectionNodeIndex NodeIndex = ((IFrameRemoveNodeOperation)operation).NodeIndex;
-            Debug.Assert(NodeIndex != null);
-            IFramePlaceholderNodeState RemovedState = ((IFrameRemoveNodeOperation)operation).ChildState;
-            Debug.Assert(RemovedState != null);
 
             IFrameNodeState OwnerState = Inner.Owner;
 
-            if ((Inner is IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> AsBlockListInner) && (NodeIndex is IFrameBrowsingExistingBlockNodeIndex AsBlockListIndex))
-                OnBlockListStateRemoved(AsBlockListInner, AsBlockListIndex, RemovedState);
-            else if ((Inner is IFrameListInner<IFrameBrowsingListNodeIndex> AsListInner) && (NodeIndex is IFrameBrowsingListNodeIndex AsListIndex))
-                OnListStateRemoved(AsListInner, AsListIndex, RemovedState);
+            if (Inner is IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> AsBlockListInner)
+                OnBlockListStateRemoved(AsBlockListInner, RemoveNodeOperation.BlockIndex, RemoveNodeOperation.Index, RemovedState);
+            else if (Inner is IFrameListInner<IFrameBrowsingListNodeIndex> AsListInner)
+                OnListStateRemoved(AsListInner, RemoveNodeOperation.Index, RemovedState);
             else
                 throw new ArgumentOutOfRangeException(nameof(operation));
 
@@ -336,29 +334,25 @@ namespace EaslyController.Frame
         }
 
         /// <summary></summary>
-        protected virtual void OnBlockListStateRemoved(IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> inner, IFrameBrowsingExistingBlockNodeIndex nodeIndex, IFrameNodeState removedState)
+        protected virtual void OnBlockListStateRemoved(IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> inner, int blockIndex, int index, IFrameNodeState removedState)
         {
             Debug.Assert(inner != null);
-            Debug.Assert(nodeIndex != null);
 
             IFrameNodeState OwnerState = inner.Owner;
             IFrameNodeStateView OwnerStateView = StateViewTable[OwnerState];
 
-            int BlockIndex = nodeIndex.BlockIndex;
-            IFrameBlockState BlockState = inner.BlockStateList[BlockIndex];
+            IFrameBlockState BlockState = inner.BlockStateList[blockIndex];
             IFrameBlockStateView BlockStateView = BlockStateViewTable[BlockState];
             IFrameCellViewCollection EmbeddingCellView = BlockStateView.EmbeddingCellView;
             Debug.Assert(EmbeddingCellView != null);
 
-            int Index = nodeIndex.Index;
-            EmbeddingCellView.Remove(Index);
+            EmbeddingCellView.Remove(index);
         }
 
         /// <summary></summary>
-        protected virtual void OnListStateRemoved(IFrameListInner<IFrameBrowsingListNodeIndex> inner, IFrameBrowsingListNodeIndex nodeIndex, IFrameNodeState removedState)
+        protected virtual void OnListStateRemoved(IFrameListInner<IFrameBrowsingListNodeIndex> inner, int index, IFrameNodeState removedState)
         {
             Debug.Assert(inner != null);
-            Debug.Assert(nodeIndex != null);
 
             IFrameNodeState OwnerState = inner.Owner;
             IFrameNodeStateView OwnerStateView = StateViewTable[OwnerState];
@@ -371,8 +365,7 @@ namespace EaslyController.Frame
             IFrameCellViewCollection EmbeddingCellView = CellViewTable[PropertyName] as IFrameCellViewCollection;
             Debug.Assert(EmbeddingCellView != null);
 
-            int Index = nodeIndex.Index;
-            EmbeddingCellView.Remove(Index);
+            EmbeddingCellView.Remove(index);
         }
 
         /// <summary>

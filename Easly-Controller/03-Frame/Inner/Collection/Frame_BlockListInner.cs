@@ -142,12 +142,12 @@ namespace EaslyController.Frame
         }
 
         /// <summary>
-        /// Creates an index object.
+        /// Creates a IxxxBrowsingExistingBlockNodeIndex object.
         /// </summary>
-        protected override IIndex CreateNodeIndex(IReadOnlyPlaceholderNodeState state, string propertyName, int blockIndex, int index)
+        protected override IWriteableBrowsingExistingBlockNodeIndex CreateBrowsingNodeIndex(INode node, int blockIndex, int index)
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameBlockListInner<IIndex, TIndex>));
-            return (TIndex)(IFrameBrowsingBlockNodeIndex)new FrameBrowsingExistingBlockNodeIndex(Owner.Node, state.Node, propertyName, blockIndex, index);
+            return new FrameBrowsingExistingBlockNodeIndex(Owner.Node, node, PropertyName, blockIndex, index);
         }
 
         /// <summary>

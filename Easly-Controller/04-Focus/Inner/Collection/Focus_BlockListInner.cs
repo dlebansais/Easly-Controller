@@ -141,12 +141,12 @@ namespace EaslyController.Focus
         }
 
         /// <summary>
-        /// Creates an index object.
+        /// Creates a IxxxBrowsingExistingBlockNodeIndex object.
         /// </summary>
-        protected override IIndex CreateNodeIndex(IReadOnlyPlaceholderNodeState state, string propertyName, int blockIndex, int index)
+        protected override IWriteableBrowsingExistingBlockNodeIndex CreateBrowsingNodeIndex(INode node, int blockIndex, int index)
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusBlockListInner<IIndex, TIndex>));
-            return (TIndex)(IFocusBrowsingBlockNodeIndex)new FocusBrowsingExistingBlockNodeIndex(Owner.Node, state.Node, propertyName, blockIndex, index);
+            return new FocusBrowsingExistingBlockNodeIndex(Owner.Node, node, PropertyName, blockIndex, index);
         }
 
         /// <summary>

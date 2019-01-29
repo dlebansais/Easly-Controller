@@ -1,4 +1,5 @@
-﻿using EaslyController.Writeable;
+﻿using BaseNode;
+using EaslyController.Writeable;
 using System;
 
 namespace EaslyController.Frame
@@ -8,16 +9,6 @@ namespace EaslyController.Frame
     /// </summary>
     public interface IFrameInsertNodeOperation : IWriteableInsertNodeOperation, IFrameInsertOperation
     {
-        /// <summary>
-        /// Inner where the insertion is taking place.
-        /// </summary>
-        new IFrameCollectionInner<IFrameBrowsingCollectionNodeIndex> Inner { get; }
-
-        /// <summary>
-        /// Position where the node is inserted.
-        /// </summary>
-        new IFrameInsertionCollectionNodeIndex InsertionIndex { get; }
-
         /// <summary>
         /// Index of the state after it's inserted.
         /// </summary>
@@ -38,28 +29,21 @@ namespace EaslyController.Frame
         /// <summary>
         /// Initializes a new instance of <see cref="FrameInsertNodeOperation"/>.
         /// </summary>
-        /// <param name="inner">Inner where the insertion is taking place.</param>
-        /// <param name="insertionIndex">Position where the node is inserted.</param>
+        /// <param name="parentNode">Node where the insertion is taking place.</param>
+        /// <param name="propertyName">Property of <paramref name="parentNode"/> where a node is inserted.</param>
+        /// <param name="blockIndex">Block position where the node is inserted, if applicable.</param>
+        /// <param name="index">Position where the node is inserted.</param>
+        /// <param name="node">The inserted node.</param>
         /// <param name="handlerRedo">Handler to execute to redo the operation.</param>
         /// <param name="handlerUndo">Handler to execute to undo the operation.</param>
         /// <param name="isNested">True if the operation is nested within another more general one.</param>
-        public FrameInsertNodeOperation(IFrameCollectionInner<IFrameBrowsingCollectionNodeIndex> inner, IFrameInsertionCollectionNodeIndex insertionIndex, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
-            : base(inner, insertionIndex, handlerRedo, handlerUndo, isNested)
+        public FrameInsertNodeOperation(INode parentNode, string propertyName, int blockIndex, int index, INode node, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+            : base(parentNode, propertyName, blockIndex, index, node, handlerRedo, handlerUndo, isNested)
         {
         }
         #endregion
 
         #region Properties
-        /// <summary>
-        /// Inner where the insertion is taking place.
-        /// </summary>
-        public new IFrameCollectionInner<IFrameBrowsingCollectionNodeIndex> Inner { get { return (IFrameCollectionInner<IFrameBrowsingCollectionNodeIndex>)base.Inner; } }
-
-        /// <summary>
-        /// Position where the node is inserted.
-        /// </summary>
-        public new IFrameInsertionCollectionNodeIndex InsertionIndex { get { return (IFrameInsertionCollectionNodeIndex)base.InsertionIndex; } }
-
         /// <summary>
         /// Index of the state after it's inserted.
         /// </summary>

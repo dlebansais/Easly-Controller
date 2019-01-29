@@ -490,15 +490,6 @@ namespace EaslyController.ReadOnly
             ControllerTools.AssertNoOverride(this, typeof(ReadOnlyBlockListInner<IIndex, TIndex>));
             return new ReadOnlyPlaceholderNodeState(nodeIndex);
         }
-
-        /// <summary>
-        /// Creates an index object.
-        /// </summary>
-        protected virtual IIndex CreateNodeIndex(IReadOnlyPlaceholderNodeState state, string propertyName, int blockIndex, int index)
-        {
-            ControllerTools.AssertNoOverride(this, typeof(ReadOnlyBlockListInner<IIndex, TIndex>));
-            return (TIndex)(IReadOnlyBrowsingBlockNodeIndex)new ReadOnlyBrowsingExistingBlockNodeIndex(Owner.Node, state.Node, propertyName, blockIndex, index);
-        }
         #endregion
     }
 }

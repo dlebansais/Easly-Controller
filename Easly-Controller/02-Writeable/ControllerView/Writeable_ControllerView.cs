@@ -177,7 +177,7 @@ namespace EaslyController.Writeable
             Debug.Assert(operation != null);
             Debug.Assert(!operation.IsNested);
 
-            IWriteablePlaceholderNodeState RemovedState = operation.ChildState;
+            IWriteablePlaceholderNodeState RemovedState = operation.RemovedState;
             Debug.Assert(RemovedState != null);
             Debug.Assert(!StateViewTable.ContainsKey(RemovedState));
         }

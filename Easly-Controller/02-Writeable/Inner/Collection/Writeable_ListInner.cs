@@ -66,35 +66,28 @@ namespace EaslyController.Writeable
         #endregion
 
         #region Client Interface
+
         /// <summary>
-        /// Inserts a new node in a list or block list.
+        /// Inserts a new node in a list.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
         public virtual void Insert(IWriteableInsertNodeOperation operation)
         {
             Debug.Assert(operation != null);
 
-            if (operation.InsertionIndex is IWriteableInsertionListNodeIndex AsListIndex)
-                Insert(operation, AsListIndex);
-            else
-                throw new ArgumentOutOfRangeException(nameof(operation));
-        }
-
-        /// <summary></summary>
-        protected virtual void Insert(IWriteableInsertNodeOperation operation, IWriteableInsertionListNodeIndex listIndex)
-        {
-            int InsertionIndex = listIndex.Index;
+            int InsertionIndex = operation.Index;
             Debug.Assert(InsertionIndex >= 0 && InsertionIndex <= StateList.Count);
 
             INode ParentNode = Owner.Node;
-            NodeTreeHelperList.InsertIntoList(ParentNode, PropertyName, InsertionIndex, listIndex.Node);
+            INode Node = operation.Node;
+            NodeTreeHelperList.InsertIntoList(ParentNode, PropertyName, InsertionIndex, Node);
 
-            IWriteableBrowsingListNodeIndex BrowsingListIndex = (IWriteableBrowsingListNodeIndex)listIndex.ToBrowsingIndex();
+            IWriteableBrowsingListNodeIndex BrowsingIndex = CreateBrowsingNodeIndex(Node, InsertionIndex);
+            IWriteablePlaceholderNodeState ChildState = (IWriteablePlaceholderNodeState)CreateNodeState(BrowsingIndex);
 
-            IWriteablePlaceholderNodeState ChildState = (IWriteablePlaceholderNodeState)CreateNodeState(BrowsingListIndex);
             InsertInStateList(InsertionIndex, ChildState);
 
-            operation.Update(BrowsingListIndex, ChildState);
+            operation.Update(BrowsingIndex, ChildState);
 
             while (++InsertionIndex < StateList.Count)
             {
@@ -116,18 +109,7 @@ namespace EaslyController.Writeable
         {
             Debug.Assert(operation != null);
 
-            if (operation.NodeIndex is IWriteableBrowsingListNodeIndex AsListIndex)
-                Remove(operation, AsListIndex);
-            else
-                throw new ArgumentOutOfRangeException(nameof(operation));
-        }
-
-        /// <summary></summary>
-        protected virtual void Remove(IWriteableRemoveNodeOperation operation, IWriteableBrowsingListNodeIndex listIndex)
-        {
-            Debug.Assert(listIndex != null);
-
-            int RemoveIndex = listIndex.Index;
+            int RemoveIndex = operation.Index;
             Debug.Assert(RemoveIndex >= 0 && RemoveIndex < StateList.Count);
 
             IWriteablePlaceholderNodeState OldChildState = StateList[RemoveIndex];
@@ -301,12 +283,12 @@ namespace EaslyController.Writeable
         }
 
         /// <summary>
-        /// Creates a IxxxPlaceholderNodeState object.
+        /// Creates a IxxxBrowsingListNodeIndex object.
         /// </summary>
-        protected override IIndex CreateNodeIndex(IReadOnlyPlaceholderNodeState state, string propertyName, int index)
+        protected virtual IWriteableBrowsingListNodeIndex CreateBrowsingNodeIndex(INode node, int index)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableListInner<IIndex, TIndex>));
-            return (TIndex)new WriteableBrowsingListNodeIndex(Owner.Node, state.Node, propertyName, index);
+            return new WriteableBrowsingListNodeIndex(Owner.Node, node, PropertyName, index);
         }
         #endregion
     }

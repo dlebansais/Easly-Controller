@@ -208,10 +208,38 @@ namespace EaslyController.Writeable
         {
             Debug.Assert(operation != null);
 
-            if (operation.InsertionIndex is IWriteableInsertionExistingBlockNodeIndex AsExistingBlockIndex)
-                InsertExisting(operation, AsExistingBlockIndex);
-            else // The case of a new block is already handled.
-                throw new ArgumentOutOfRangeException(nameof(operation));
+            int BlockIndex = operation.BlockIndex;
+            Debug.Assert(BlockIndex >= 0 && BlockIndex < BlockStateList.Count);
+
+            IWriteableBlockState BlockState = BlockStateList[BlockIndex];
+
+            int Index = operation.Index;
+            Debug.Assert(Index >= 0 && Index <= BlockState.StateList.Count);
+
+            INode ParentNode = Owner.Node;
+            IBlock ChildBlock = BlockState.ChildBlock;
+            INode Node = operation.Node;
+
+            NodeTreeHelperBlockList.InsertIntoBlock(ChildBlock, Index, Node);
+
+            IWriteableBrowsingBlockNodeIndex BrowsingBlockIndex = CreateBrowsingNodeIndex(Node, BlockIndex, Index);
+            IWriteablePlaceholderNodeState ChildState = (IWriteablePlaceholderNodeState)CreateNodeState(BrowsingBlockIndex);
+
+            BlockState.Insert(BrowsingBlockIndex, Index, ChildState);
+
+            operation.Update(BrowsingBlockIndex, ChildState);
+
+            while (++Index < BlockState.StateList.Count)
+            {
+                IWriteablePlaceholderNodeState State = BlockState.StateList[Index];
+
+                IWriteableBrowsingExistingBlockNodeIndex NodeIndex = State.ParentIndex as IWriteableBrowsingExistingBlockNodeIndex;
+                Debug.Assert(NodeIndex != null);
+                Debug.Assert(NodeIndex.BlockIndex == BrowsingBlockIndex.BlockIndex);
+                Debug.Assert(NodeIndex.Index == Index - 1);
+
+                NodeIndex.MoveUp();
+            }
         }
 
         /// <summary>
@@ -261,44 +289,6 @@ namespace EaslyController.Writeable
             }
         }
 
-        /// <summary></summary>
-        protected virtual void InsertExisting(IWriteableInsertNodeOperation operation, IWriteableInsertionExistingBlockNodeIndex existingBlockIndex)
-        {
-            int BlockIndex = existingBlockIndex.BlockIndex;
-            int Index = existingBlockIndex.Index;
-
-            Debug.Assert(existingBlockIndex != null);
-            Debug.Assert(BlockIndex >= 0 && BlockIndex < BlockStateList.Count);
-
-            IWriteableBlockState BlockState = BlockStateList[BlockIndex];
-
-            Debug.Assert(Index >= 0 && Index <= BlockState.StateList.Count);
-
-            INode ParentNode = Owner.Node;
-            IBlock ChildBlock = BlockState.ChildBlock;
-
-            NodeTreeHelperBlockList.InsertIntoBlock(ChildBlock, Index, existingBlockIndex.Node);
-
-            IWriteableBrowsingBlockNodeIndex BrowsingBlockIndex = (IWriteableBrowsingBlockNodeIndex)existingBlockIndex.ToBrowsingIndex();
-
-            IWriteablePlaceholderNodeState ChildState = (IWriteablePlaceholderNodeState)CreateNodeState(BrowsingBlockIndex);
-            BlockState.Insert(BrowsingBlockIndex, Index, ChildState);
-
-            operation.Update(BrowsingBlockIndex, ChildState);
-
-            while (++Index < BlockState.StateList.Count)
-            {
-                IWriteablePlaceholderNodeState State = BlockState.StateList[Index];
-
-                IWriteableBrowsingExistingBlockNodeIndex NodeIndex = State.ParentIndex as IWriteableBrowsingExistingBlockNodeIndex;
-                Debug.Assert(NodeIndex != null);
-                Debug.Assert(NodeIndex.BlockIndex == BrowsingBlockIndex.BlockIndex);
-                Debug.Assert(NodeIndex.Index == Index - 1);
-
-                NodeIndex.MoveUp();
-            }
-        }
-
         /// <summary>
         /// Removes a node from a block list. This method is not allowed to remove the last node of a block.
         /// </summary>
@@ -307,13 +297,8 @@ namespace EaslyController.Writeable
         {
             Debug.Assert(operation != null);
 
-            if (operation.NodeIndex is IWriteableBrowsingExistingBlockNodeIndex AsExistingBlockIndex)
-            {
-                // Only the safe case where the block isn't removed is allowed for this version of Remove().
-                Remove(null, operation, AsExistingBlockIndex.BlockIndex, AsExistingBlockIndex.Index);
-            }
-            else
-                throw new ArgumentOutOfRangeException(nameof(operation));
+            // Only the safe case where the block isn't removed is allowed for this version of Remove().
+            Remove(null, operation, operation.BlockIndex, operation.Index);
         }
 
         /// <summary>
@@ -802,12 +787,12 @@ namespace EaslyController.Writeable
         }
 
         /// <summary>
-        /// Creates an index object.
+        /// Creates a IxxxBrowsingExistingBlockNodeIndex object.
         /// </summary>
-        protected override IIndex CreateNodeIndex(IReadOnlyPlaceholderNodeState state, string propertyName, int blockIndex, int index)
+        protected virtual IWriteableBrowsingExistingBlockNodeIndex CreateBrowsingNodeIndex(INode node, int blockIndex, int index)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableBlockListInner<IIndex, TIndex>));
-            return (TIndex)(IWriteableBrowsingBlockNodeIndex)new WriteableBrowsingExistingBlockNodeIndex(Owner.Node, state.Node, propertyName, blockIndex, index);
+            return new WriteableBrowsingExistingBlockNodeIndex(Owner.Node, node, PropertyName, blockIndex, index);
         }
 
         /// <summary>
