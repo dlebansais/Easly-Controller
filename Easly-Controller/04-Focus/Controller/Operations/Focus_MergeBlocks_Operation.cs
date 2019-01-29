@@ -1,4 +1,5 @@
-﻿using EaslyController.Frame;
+﻿using BaseNode;
+using EaslyController.Frame;
 using EaslyController.Writeable;
 using System;
 
@@ -10,14 +11,9 @@ namespace EaslyController.Focus
     public interface IFocusMergeBlocksOperation : IFrameMergeBlocksOperation, IFocusOperation
     {
         /// <summary>
-        /// Inner where blocks are merged.
+        /// The merged block state.
         /// </summary>
-        new IFocusBlockListInner<IFocusBrowsingBlockNodeIndex> Inner { get; }
-
-        /// <summary>
-        /// Index of the first node in the merged block.
-        /// </summary>
-        new IFocusBrowsingExistingBlockNodeIndex NodeIndex { get; }
+        new IFocusBlockState BlockState { get; }
     }
 
     /// <summary>
@@ -29,27 +25,23 @@ namespace EaslyController.Focus
         /// <summary>
         /// Initializes a new instance of <see cref="FocusMergeBlocksOperation"/>.
         /// </summary>
-        /// <param name="inner">Inner where the block is split.</param>
-        /// <param name="nodeIndex">Index of the last node to stay in the old block.</param>
+        /// <param name="parentNode">Node where the blocks are merged.</param>
+        /// <param name="propertyName">Property of <paramref name="parentNode"/> where blocks are merged.</param>
+        /// <param name="blockIndex">Position of the merged block.</param>
         /// <param name="handlerRedo">Handler to execute to redo the operation.</param>
         /// <param name="handlerUndo">Handler to execute to undo the operation.</param>
         /// <param name="isNested">True if the operation is nested within another more general one.</param>
-        public FocusMergeBlocksOperation(IFocusBlockListInner<IFocusBrowsingBlockNodeIndex> inner, IFocusBrowsingExistingBlockNodeIndex nodeIndex, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
-            : base(inner, nodeIndex, handlerRedo, handlerUndo, isNested)
+        public FocusMergeBlocksOperation(INode parentNode, string propertyName, int blockIndex, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+            : base(parentNode, propertyName, blockIndex, handlerRedo, handlerUndo, isNested)
         {
         }
         #endregion
 
         #region Properties
         /// <summary>
-        /// Inner where blocks are merged.
+        /// The merged block state.
         /// </summary>
-        public new IFocusBlockListInner<IFocusBrowsingBlockNodeIndex> Inner { get { return (IFocusBlockListInner<IFocusBrowsingBlockNodeIndex>)base.Inner; } }
-
-        /// <summary>
-        /// Index of the first node in the merged block.
-        /// </summary>
-        public new IFocusBrowsingExistingBlockNodeIndex NodeIndex { get { return (IFocusBrowsingExistingBlockNodeIndex)base.NodeIndex; } }
+        public new IFocusBlockState BlockState { get { return (IFocusBlockState)base.BlockState; } }
         #endregion
     }
 }

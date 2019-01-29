@@ -680,7 +680,8 @@ namespace EaslyController.Frame
         {
             base.OnBlockSplit(operation);
 
-            IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> Inner = ((IFrameSplitBlockOperation)operation).Inner;
+            IFrameSplitBlockOperation SplitBlockOperation = (IFrameSplitBlockOperation)operation;
+            IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> Inner = SplitBlockOperation.BlockState.ParentInner as IFrameBlockListInner<IFrameBrowsingBlockNodeIndex>;
             Debug.Assert(Inner != null);
             IFrameNodeState OwnerState = Inner.Owner;
             Debug.Assert(OwnerState != null);
@@ -730,7 +731,9 @@ namespace EaslyController.Frame
         /// <param name="operation">Details of the operation performed.</param>
         public override void OnBlocksMerged(IWriteableMergeBlocksOperation operation)
         {
-            IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> Inner = ((IFrameMergeBlocksOperation)operation).Inner;
+            IFrameMergeBlocksOperation MergeBlocksOperation = (IFrameMergeBlocksOperation)operation;
+            IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> Inner = MergeBlocksOperation.BlockState.ParentInner as IFrameBlockListInner<IFrameBrowsingBlockNodeIndex>;
+
             Debug.Assert(Inner != null);
             IFrameNodeState OwnerState = Inner.Owner;
             Debug.Assert(OwnerState != null);

@@ -10,14 +10,24 @@ namespace EaslyController.Writeable
     public interface IWriteableSplitBlockOperation : IWriteableOperation
     {
         /// <summary>
-        /// Inner where the block is split.
+        /// Node where the block is split.
         /// </summary>
-        IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> Inner { get; }
+        INode ParentNode { get; }
 
         /// <summary>
-        /// Index of the last node to stay in the old block.
+        /// Property of <see cref="ParentNode"/> where the block is split.
         /// </summary>
-        IWriteableBrowsingExistingBlockNodeIndex NodeIndex { get; }
+        string PropertyName { get; }
+
+        /// <summary>
+        /// Position of the split block.
+        /// </summary>
+        int BlockIndex { get; }
+
+        /// <summary>
+        /// Position of the last node to stay in the old block.
+        /// </summary>
+        int Index { get; }
 
         /// <summary>
         /// The inserted block.
@@ -25,17 +35,7 @@ namespace EaslyController.Writeable
         IBlock NewBlock { get; }
 
         /// <summary>
-        /// Index of the block split.
-        /// </summary>
-        int BlockIndex { get; }
-
-        /// <summary>
-        /// Index of the last node to remain in the old block.
-        /// </summary>
-        int Index { get; }
-
-        /// <summary>
-        /// Block state inserted.
+        /// The inserted block state.
         /// </summary>
         IWriteableBlockState BlockState { get; }
 
@@ -60,33 +60,45 @@ namespace EaslyController.Writeable
         /// <summary>
         /// Initializes a new instance of <see cref="WriteableSplitBlockOperation"/>.
         /// </summary>
-        /// <param name="inner">Inner where the block is split.</param>
-        /// <param name="nodeIndex">Index of the last node to stay in the old block.</param>
+        /// <param name="parentNode">Node where the block is split.</param>
+        /// <param name="propertyName">Property of <paramref name="parentNode"/> where the block is split.</param>
+        /// <param name="blockIndex">Position of the split block.</param>
+        /// <param name="index">Position of the last node to stay in the old block.</param>
         /// <param name="newBlock">The inserted block.</param>
         /// <param name="handlerRedo">Handler to execute to redo the operation.</param>
         /// <param name="handlerUndo">Handler to execute to undo the operation.</param>
         /// <param name="isNested">True if the operation is nested within another more general one.</param>
-        public WriteableSplitBlockOperation(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, IWriteableBrowsingExistingBlockNodeIndex nodeIndex, IBlock newBlock, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        public WriteableSplitBlockOperation(INode parentNode, string propertyName, int blockIndex, int index, IBlock newBlock, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
             : base(handlerRedo, handlerUndo, isNested)
         {
-            Inner = inner;
-            NodeIndex = nodeIndex;
+            ParentNode = parentNode;
+            PropertyName = propertyName;
+            BlockIndex = blockIndex;
+            Index = index;
             NewBlock = newBlock;
-            BlockIndex = nodeIndex.BlockIndex;
-            Index = nodeIndex.Index;
         }
         #endregion
 
         #region Properties
         /// <summary>
-        /// Inner where the block is split.
+        /// Node where the block is split.
         /// </summary>
-        public IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> Inner { get; }
+        public INode ParentNode { get; }
 
         /// <summary>
-        /// Index of the last node to stay in the old block.
+        /// Property of <see cref="ParentNode"/> where the block is split.
         /// </summary>
-        public IWriteableBrowsingExistingBlockNodeIndex NodeIndex { get; }
+        public string PropertyName { get; }
+
+        /// <summary>
+        /// Position of the split block.
+        /// </summary>
+        public int BlockIndex { get; }
+
+        /// <summary>
+        /// Position of the last node to stay in the old block.
+        /// </summary>
+        public int Index { get; }
 
         /// <summary>
         /// The inserted block.
@@ -94,19 +106,9 @@ namespace EaslyController.Writeable
         public IBlock NewBlock { get; }
 
         /// <summary>
-        /// Block state inserted.
+        /// The inserted block state.
         /// </summary>
         public IWriteableBlockState BlockState { get; private set; }
-
-        /// <summary>
-        /// Index of the block split.
-        /// </summary>
-        public int BlockIndex { get; }
-
-        /// <summary>
-        /// Index of the last node to remain in the old block.
-        /// </summary>
-        public int Index { get; }
         #endregion
 
         #region Client Interface
@@ -117,6 +119,7 @@ namespace EaslyController.Writeable
         public virtual void Update(IWriteableBlockState blockState)
         {
             Debug.Assert(blockState != null);
+            Debug.Assert(blockState.ChildBlock == NewBlock);
 
             BlockState = blockState;
         }
@@ -126,7 +129,7 @@ namespace EaslyController.Writeable
         /// </summary>
         public virtual IWriteableMergeBlocksOperation ToMergeBlocksOperation()
         {
-            return CreateMergeBlocksOperation(Inner, NodeIndex, HandlerUndo, HandlerRedo, IsNested);
+            return CreateMergeBlocksOperation(HandlerUndo, HandlerRedo, IsNested);
         }
         #endregion
 
@@ -134,10 +137,10 @@ namespace EaslyController.Writeable
         /// <summary>
         /// Creates a IxxxxMergeBlocksOperation object.
         /// </summary>
-        protected virtual IWriteableMergeBlocksOperation CreateMergeBlocksOperation(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, IWriteableBrowsingExistingBlockNodeIndex nodeIndex, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        protected virtual IWriteableMergeBlocksOperation CreateMergeBlocksOperation(Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableSplitBlockOperation));
-            return new WriteableMergeBlocksOperation(inner, nodeIndex, handlerRedo, handlerUndo, isNested);
+            return new WriteableMergeBlocksOperation(ParentNode, PropertyName, BlockIndex + 1, handlerRedo, handlerUndo, isNested);
         }
         #endregion
     }

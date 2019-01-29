@@ -462,13 +462,10 @@ namespace EaslyController.Writeable
         {
             Debug.Assert(operation != null);
 
-            IWriteableBrowsingExistingBlockNodeIndex NodeIndex = operation.NodeIndex;
-            Debug.Assert(NodeIndex != null);
-
-            int SplitBlockIndex = NodeIndex.BlockIndex;
+            int SplitBlockIndex = operation.BlockIndex;
             Debug.Assert(SplitBlockIndex >= 0 && SplitBlockIndex < BlockStateList.Count);
 
-            int SplitIndex = NodeIndex.Index;
+            int SplitIndex = operation.Index;
             Debug.Assert(SplitIndex > 0);
 
             IWriteableBlockState BlockState = BlockStateList[SplitBlockIndex];
@@ -541,11 +538,7 @@ namespace EaslyController.Writeable
         {
             Debug.Assert(operation != null);
 
-            IWriteableBrowsingExistingBlockNodeIndex NodeIndex = operation.NodeIndex;
-            Debug.Assert(NodeIndex != null);
-            Debug.Assert(NodeIndex.Index == 0);
-
-            int MergeBlockIndex = NodeIndex.BlockIndex;
+            int MergeBlockIndex = operation.BlockIndex;
             Debug.Assert(MergeBlockIndex > 0 && MergeBlockIndex < BlockStateList.Count);
 
             IWriteableBlockState FirstBlockState = BlockStateList[MergeBlockIndex - 1];
@@ -554,10 +547,11 @@ namespace EaslyController.Writeable
             Debug.Assert(MergeIndex > 0);
 
             NodeTreeHelperBlockList.MergeBlocks(Owner.Node, PropertyName, MergeBlockIndex, out IBlock mergedBlock);
+            Debug.Assert(FirstBlockState.ChildBlock == mergedBlock);
 
             RemoveFromBlockStateList(MergeBlockIndex - 1);
 
-            operation.Update(mergedBlock);
+            operation.Update(FirstBlockState, MergeIndex);
 
             int i;
             for (i = 0; i < MergeIndex; i++)

@@ -1446,7 +1446,7 @@ namespace EaslyController.Writeable
 
             Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => ExecuteSplitBlock(operation);
             Action<IWriteableOperation> HandlerUndo = (IWriteableOperation operation) => UndoSplitBlock(operation);
-            IWriteableSplitBlockOperation Operation = CreateSplitBlockOperation(inner, nodeIndex, NewBlock, HandlerRedo, HandlerUndo, isNested: false);
+            IWriteableSplitBlockOperation Operation = CreateSplitBlockOperation(inner.Owner.Node, inner.PropertyName, nodeIndex.BlockIndex, nodeIndex.Index, NewBlock, HandlerRedo, HandlerUndo, isNested: false);
 
             Operation.Redo();
             SetLastOperation(Operation);
@@ -1458,14 +1458,12 @@ namespace EaslyController.Writeable
         {
             IWriteableSplitBlockOperation SplitBlockOperation = (IWriteableSplitBlockOperation)operation;
 
-            IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> Inner = SplitBlockOperation.Inner;
-            Inner = GetInner(Inner.Owner.Node, Inner.PropertyName) as IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex>;
+            INode ParentNode = SplitBlockOperation.ParentNode;
+            string PropertyName = SplitBlockOperation.PropertyName;
+            IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> Inner = GetInner(ParentNode, PropertyName) as IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex>;
 
-            IWriteableBrowsingExistingBlockNodeIndex NodeIndex = SplitBlockOperation.NodeIndex;
-            NodeIndex = GetIndex(NodeIndex.Node) as IWriteableBrowsingExistingBlockNodeIndex;
-
-            IWriteableBlockState OldBlockState = Inner.BlockStateList[NodeIndex.BlockIndex];
-            Debug.Assert(NodeIndex.Index < OldBlockState.StateList.Count);
+            IWriteableBlockState OldBlockState = Inner.BlockStateList[SplitBlockOperation.BlockIndex];
+            Debug.Assert(SplitBlockOperation.Index < OldBlockState.StateList.Count);
 
             int OldNodeCount = OldBlockState.StateList.Count;
 
@@ -1476,7 +1474,6 @@ namespace EaslyController.Writeable
 
             Debug.Assert(OldBlockState.StateList.Count + NewBlockState.StateList.Count == OldNodeCount);
             Debug.Assert(NewBlockState.StateList.Count > 0);
-            Debug.Assert(OldBlockState.StateList[0].ParentIndex == NodeIndex);
 
             IReadOnlyBrowsingPatternIndex PatternIndex = NewBlockState.PatternIndex;
             IReadOnlyPatternState PatternState = NewBlockState.PatternState;
@@ -1497,13 +1494,11 @@ namespace EaslyController.Writeable
             IWriteableSplitBlockOperation SplitBlockOperation = (IWriteableSplitBlockOperation)operation;
             IWriteableMergeBlocksOperation MergeBlocksOperation = SplitBlockOperation.ToMergeBlocksOperation();
 
-            IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> Inner = MergeBlocksOperation.Inner;
-            Inner = GetInner(Inner.Owner.Node, Inner.PropertyName) as IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex>;
+            INode ParentNode = MergeBlocksOperation.ParentNode;
+            string PropertyName = MergeBlocksOperation.PropertyName;
+            IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> Inner = GetInner(ParentNode, PropertyName) as IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex>;
 
-            IWriteableBrowsingExistingBlockNodeIndex NodeIndex = MergeBlocksOperation.NodeIndex;
-            NodeIndex = GetIndex(NodeIndex.Node) as IWriteableBrowsingExistingBlockNodeIndex;
-
-            int BlockIndex = NodeIndex.BlockIndex;
+            int BlockIndex = MergeBlocksOperation.BlockIndex;
             IWriteableBlockState FirstBlockState = Inner.BlockStateList[BlockIndex - 1];
             IWriteableBlockState SecondBlockState = Inner.BlockStateList[BlockIndex];
 
@@ -1525,7 +1520,6 @@ namespace EaslyController.Writeable
 
             Debug.Assert(BlockState.StateList.Count == OldNodeCount);
             Debug.Assert(FirstNodeIndex < BlockState.StateList.Count);
-            Debug.Assert(BlockState.StateList[FirstNodeIndex].ParentIndex == NodeIndex);
 
             NotifyBlocksMerged(MergeBlocksOperation);
         }
@@ -1556,7 +1550,7 @@ namespace EaslyController.Writeable
 
             Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => ExecuteMergeBlocks(operation);
             Action<IWriteableOperation> HandlerUndo = (IWriteableOperation operation) => UndoMergeBlocks(operation);
-            IWriteableMergeBlocksOperation Operation = CreateMergeBlocksOperation(inner, nodeIndex, HandlerRedo, HandlerUndo, isNested: false);
+            IWriteableMergeBlocksOperation Operation = CreateMergeBlocksOperation(inner.Owner.Node, inner.PropertyName, nodeIndex.BlockIndex, HandlerRedo, HandlerUndo, isNested: false);
 
             Operation.Redo();
             SetLastOperation(Operation);
@@ -1568,13 +1562,11 @@ namespace EaslyController.Writeable
         {
             IWriteableMergeBlocksOperation MergeBlocksOperation = (IWriteableMergeBlocksOperation)operation;
 
-            IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> Inner = MergeBlocksOperation.Inner;
-            Inner = GetInner(Inner.Owner.Node, Inner.PropertyName) as IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex>;
+            INode ParentNode = MergeBlocksOperation.ParentNode;
+            string PropertyName = MergeBlocksOperation.PropertyName;
+            IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> Inner = GetInner(ParentNode, PropertyName) as IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex>;
 
-            IWriteableBrowsingExistingBlockNodeIndex NodeIndex = MergeBlocksOperation.NodeIndex;
-            NodeIndex = GetIndex(NodeIndex.Node) as IWriteableBrowsingExistingBlockNodeIndex;
-
-            int BlockIndex = NodeIndex.BlockIndex;
+            int BlockIndex = MergeBlocksOperation.BlockIndex;
             IWriteableBlockState FirstBlockState = Inner.BlockStateList[BlockIndex - 1];
             IWriteableBlockState SecondBlockState = Inner.BlockStateList[BlockIndex];
 
@@ -1596,7 +1588,6 @@ namespace EaslyController.Writeable
 
             Debug.Assert(BlockState.StateList.Count == OldNodeCount);
             Debug.Assert(FirstNodeIndex < BlockState.StateList.Count);
-            Debug.Assert(BlockState.StateList[FirstNodeIndex].ParentIndex == NodeIndex);
 
             NotifyBlocksMerged(MergeBlocksOperation);
         }
@@ -1607,14 +1598,12 @@ namespace EaslyController.Writeable
             IWriteableMergeBlocksOperation MergeBlocksOperation = (IWriteableMergeBlocksOperation)operation;
             IWriteableSplitBlockOperation SplitBlockOperation = MergeBlocksOperation.ToSplitBlockOperation();
 
-            IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> Inner = SplitBlockOperation.Inner;
-            Inner = GetInner(Inner.Owner.Node, Inner.PropertyName) as IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex>;
+            INode ParentNode = SplitBlockOperation.ParentNode;
+            string PropertyName = SplitBlockOperation.PropertyName;
+            IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> Inner = GetInner(ParentNode, PropertyName) as IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex>;
 
-            IWriteableBrowsingExistingBlockNodeIndex NodeIndex = SplitBlockOperation.NodeIndex;
-            NodeIndex = GetIndex(NodeIndex.Node) as IWriteableBrowsingExistingBlockNodeIndex;
-
-            IWriteableBlockState OldBlockState = Inner.BlockStateList[NodeIndex.BlockIndex];
-            Debug.Assert(NodeIndex.Index < OldBlockState.StateList.Count);
+            IWriteableBlockState OldBlockState = Inner.BlockStateList[SplitBlockOperation.BlockIndex];
+            Debug.Assert(SplitBlockOperation.Index < OldBlockState.StateList.Count);
 
             int OldNodeCount = OldBlockState.StateList.Count;
 
@@ -1625,7 +1614,6 @@ namespace EaslyController.Writeable
 
             Debug.Assert(OldBlockState.StateList.Count + NewBlockState.StateList.Count == OldNodeCount);
             Debug.Assert(NewBlockState.StateList.Count > 0);
-            Debug.Assert(OldBlockState.StateList[0].ParentIndex == NodeIndex);
 
             IReadOnlyBrowsingPatternIndex PatternIndex = NewBlockState.PatternIndex;
             IReadOnlyPatternState PatternState = NewBlockState.PatternState;
@@ -2763,19 +2751,19 @@ namespace EaslyController.Writeable
         /// <summary>
         /// Creates a IxxxSplitBlockOperation object.
         /// </summary>
-        protected virtual IWriteableSplitBlockOperation CreateSplitBlockOperation(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, IWriteableBrowsingExistingBlockNodeIndex nodeIndex, IBlock newBlock, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        protected virtual IWriteableSplitBlockOperation CreateSplitBlockOperation(INode parentNode, string propertyName, int blockIndex, int index, IBlock newBlock, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableController));
-            return new WriteableSplitBlockOperation(inner, nodeIndex, newBlock, handlerRedo, handlerUndo, isNested);
+            return new WriteableSplitBlockOperation(parentNode, propertyName, blockIndex, index, newBlock, handlerRedo, handlerUndo, isNested);
         }
 
         /// <summary>
         /// Creates a IxxxxMergeBlocksOperation object.
         /// </summary>
-        protected virtual IWriteableMergeBlocksOperation CreateMergeBlocksOperation(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, IWriteableBrowsingExistingBlockNodeIndex nodeIndex, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        protected virtual IWriteableMergeBlocksOperation CreateMergeBlocksOperation(INode parentNode, string propertyName, int blockIndex, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableController));
-            return new WriteableMergeBlocksOperation(inner, nodeIndex, handlerRedo, handlerUndo, isNested);
+            return new WriteableMergeBlocksOperation(parentNode, propertyName, blockIndex, handlerRedo, handlerUndo, isNested);
         }
 
         /// <summary>
