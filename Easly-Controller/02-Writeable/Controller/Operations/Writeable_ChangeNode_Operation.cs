@@ -1,17 +1,18 @@
-﻿using System;
+﻿using BaseNode;
+using System;
 using System.Diagnostics;
 
 namespace EaslyController.Writeable
 {
     /// <summary>
-    /// Operation details for changing a node.
+    /// Operation details for changing a discrete value.
     /// </summary>
     public interface IWriteableChangeNodeOperation : IWriteableOperation
     {
         /// <summary>
-        /// Index of the changed node.
+        /// Node where the change is taking place.
         /// </summary>
-        IWriteableIndex NodeIndex { get; }
+        INode ParentNode { get; }
 
         /// <summary>
         /// Name of the property to change.
@@ -47,7 +48,7 @@ namespace EaslyController.Writeable
     }
 
     /// <summary>
-    /// Operation details for changing a node.
+    /// Operation details for changing a discrete value.
     /// </summary>
     public class WriteableChangeNodeOperation : WriteableOperation, IWriteableChangeNodeOperation
     {
@@ -55,16 +56,16 @@ namespace EaslyController.Writeable
         /// <summary>
         /// Initializes a new instance of <see cref="WriteableChangeNodeOperation"/>.
         /// </summary>
-        /// <param name="nodeIndex">Index of the changed node.</param>
+        /// <param name="parentNode">Node where the change is taking place.</param>
         /// <param name="propertyName">Name of the property to change.</param>
         /// <param name="value">The new value.</param>
         /// <param name="handlerRedo">Handler to execute to redo the operation.</param>
         /// <param name="handlerUndo">Handler to execute to undo the operation.</param>
         /// <param name="isNested">True if the operation is nested within another more general one.</param>
-        public WriteableChangeNodeOperation(IWriteableIndex nodeIndex, string propertyName, int value, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        public WriteableChangeNodeOperation(INode parentNode, string propertyName, int value, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
             : base(handlerRedo, handlerUndo, isNested)
         {
-            NodeIndex = nodeIndex;
+            ParentNode = parentNode;
             PropertyName = propertyName;
             NewValue = value;
         }
@@ -72,9 +73,9 @@ namespace EaslyController.Writeable
 
         #region Properties
         /// <summary>
-        /// Index of the changed node.
+        /// Node where the change is taking place.
         /// </summary>
-        public IWriteableIndex NodeIndex { get; }
+        public INode ParentNode { get; }
 
         /// <summary>
         /// Name of the property to change.
@@ -116,7 +117,7 @@ namespace EaslyController.Writeable
         /// </summary>
         public virtual IWriteableChangeNodeOperation ToInverseChange()
         {
-            return CreateChangeNodeOperation(NodeIndex, PropertyName, OldValue, HandlerUndo, HandlerRedo, IsNested);
+            return CreateChangeNodeOperation(PropertyName, OldValue, HandlerUndo, HandlerRedo, IsNested);
         }
         #endregion
 
@@ -124,10 +125,10 @@ namespace EaslyController.Writeable
         /// <summary>
         /// Creates a IxxxChangeNodeOperation object.
         /// </summary>
-        protected virtual IWriteableChangeNodeOperation CreateChangeNodeOperation(IWriteableIndex nodeIndex, string propertyName, int value, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        protected virtual IWriteableChangeNodeOperation CreateChangeNodeOperation(string propertyName, int value, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableChangeNodeOperation));
-            return new WriteableChangeNodeOperation(nodeIndex, propertyName, value, handlerRedo, handlerUndo, isNested);
+            return new WriteableChangeNodeOperation(ParentNode, propertyName, value, handlerRedo, handlerUndo, isNested);
         }
         #endregion
     }

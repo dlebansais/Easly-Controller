@@ -1308,7 +1308,8 @@ namespace EaslyController.Writeable
 
             Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => ExecuteChangeDiscreteValue(operation);
             Action<IWriteableOperation> HandlerUndo = (IWriteableOperation operation) => UndoChangeDiscreteValue(operation);
-            IWriteableChangeNodeOperation Operation = CreateChangeNodeOperation(nodeIndex, propertyName, value, HandlerRedo, HandlerUndo, isNested: false);
+            IWriteableNodeState State = StateTable[nodeIndex];
+            IWriteableChangeNodeOperation Operation = CreateChangeNodeOperation(State.Node, propertyName, value, HandlerRedo, HandlerUndo, isNested: false);
 
             Operation.Redo();
             SetLastOperation(Operation);
@@ -1320,9 +1321,11 @@ namespace EaslyController.Writeable
         {
             IWriteableChangeNodeOperation ChangeNodeOperation = (IWriteableChangeNodeOperation)operation;
 
+            INode ParentNode = ChangeNodeOperation.ParentNode;
             string PropertyName = ChangeNodeOperation.PropertyName;
             int NewValue = ChangeNodeOperation.NewValue;
-            IWriteableNodeState State = StateTable[ChangeNodeOperation.NodeIndex];
+
+            IWriteableNodeState State = (IWriteableNodeState)GetState(ParentNode);
             Debug.Assert(State != null);
             Debug.Assert(State.ValuePropertyTypeTable.ContainsKey(PropertyName));
             Debug.Assert(State.ValuePropertyTypeTable[PropertyName] == Constants.ValuePropertyType.Boolean || State.ValuePropertyTypeTable[PropertyName] == Constants.ValuePropertyType.Enum);
@@ -1345,9 +1348,11 @@ namespace EaslyController.Writeable
             IWriteableChangeNodeOperation ChangeNodeOperation = (IWriteableChangeNodeOperation)operation;
             ChangeNodeOperation = ChangeNodeOperation.ToInverseChange();
 
+            INode ParentNode = ChangeNodeOperation.ParentNode;
             string PropertyName = ChangeNodeOperation.PropertyName;
             int NewValue = ChangeNodeOperation.NewValue;
-            IWriteableNodeState State = StateTable[ChangeNodeOperation.NodeIndex];
+
+            IWriteableNodeState State = (IWriteableNodeState)GetState(ParentNode);
             Debug.Assert(State != null);
             Debug.Assert(State.ValuePropertyTypeTable.ContainsKey(PropertyName));
             Debug.Assert(State.ValuePropertyTypeTable[PropertyName] == Constants.ValuePropertyType.Boolean || State.ValuePropertyTypeTable[PropertyName] == Constants.ValuePropertyType.Enum);
@@ -2697,10 +2702,10 @@ namespace EaslyController.Writeable
         /// <summary>
         /// Creates a IxxxChangeNodeOperation object.
         /// </summary>
-        protected virtual IWriteableChangeNodeOperation CreateChangeNodeOperation(IWriteableIndex nodeIndex, string propertyName, int value, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        protected virtual IWriteableChangeNodeOperation CreateChangeNodeOperation(INode parentNode, string propertyName, int value, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableController));
-            return new WriteableChangeNodeOperation(nodeIndex, propertyName, value, handlerRedo, handlerUndo, isNested);
+            return new WriteableChangeNodeOperation(parentNode, propertyName, value, handlerRedo, handlerUndo, isNested);
         }
 
         /// <summary>

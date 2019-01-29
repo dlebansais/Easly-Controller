@@ -569,6 +569,35 @@ namespace EaslyController.ReadOnly
         }
 
         /// <summary></summary>
+        protected virtual IReadOnlyNodeState GetState(INode node)
+        {
+            foreach (KeyValuePair<IReadOnlyIndex, IReadOnlyNodeState> Entry in StateTable)
+            {
+                IReadOnlyNodeState State = Entry.Value;
+
+                if (State.Node == node)
+                    return State;
+            }
+
+            throw new ArgumentOutOfRangeException(nameof(node));
+        }
+
+        /// <summary></summary>
+        protected virtual IReadOnlyIndex GetIndex(INode node)
+        {
+            foreach (KeyValuePair<IReadOnlyIndex, IReadOnlyNodeState> Entry in StateTable)
+            {
+                IReadOnlyIndex Index = Entry.Key;
+                IReadOnlyNodeState State = Entry.Value;
+
+                if (State.Node == node)
+                    return Index;
+            }
+
+            throw new ArgumentOutOfRangeException(nameof(node));
+        }
+
+        /// <summary></summary>
         protected virtual IReadOnlyInner<IReadOnlyBrowsingChildIndex> GetInner(INode parentNode, string propertyName)
         {
             foreach (KeyValuePair<IReadOnlyIndex, IReadOnlyNodeState> Entry in StateTable)
@@ -585,21 +614,6 @@ namespace EaslyController.ReadOnly
             }
 
             throw new ArgumentOutOfRangeException(nameof(parentNode));
-        }
-
-        /// <summary></summary>
-        protected virtual IReadOnlyIndex GetIndex(INode node)
-        {
-            foreach (KeyValuePair<IReadOnlyIndex, IReadOnlyNodeState> Entry in StateTable)
-            {
-                IReadOnlyIndex Index = Entry.Key;
-                IReadOnlyNodeState State = Entry.Value;
-
-                if (State.Node == node)
-                    return Index;
-            }
-
-            throw new ArgumentOutOfRangeException(nameof(node));
         }
         #endregion
 

@@ -1,4 +1,5 @@
-﻿using EaslyController.Frame;
+﻿using BaseNode;
+using EaslyController.Frame;
 using EaslyController.Writeable;
 using System;
 
@@ -9,11 +10,6 @@ namespace EaslyController.Focus
     /// </summary>
     public interface IFocusChangeNodeOperation : IFrameChangeNodeOperation, IFocusOperation
     {
-        /// <summary>
-        /// Index of the changed node.
-        /// </summary>
-        new IFocusIndex NodeIndex { get; }
-
         /// <summary>
         /// State changed.
         /// </summary>
@@ -29,24 +25,19 @@ namespace EaslyController.Focus
         /// <summary>
         /// Initializes a new instance of <see cref="FocusChangeNodeOperation"/>.
         /// </summary>
-        /// <param name="nodeIndex">Index of the changed node.</param>
+        /// <param name="parentNode">Node where the change is taking place.</param>
         /// <param name="propertyName">Name of the property to change.</param>
         /// <param name="value">The new value.</param>
         /// <param name="handlerRedo">Handler to execute to redo the operation.</param>
         /// <param name="handlerUndo">Handler to execute to undo the operation.</param>
         /// <param name="isNested">True if the operation is nested within another more general one.</param>
-        public FocusChangeNodeOperation(IFocusIndex nodeIndex, string propertyName, int value, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
-            : base(nodeIndex, propertyName, value, handlerRedo, handlerUndo, isNested)
+        public FocusChangeNodeOperation(INode parentNode, string propertyName, int value, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+            : base(parentNode, propertyName, value, handlerRedo, handlerUndo, isNested)
         {
         }
         #endregion
 
         #region Properties
-        /// <summary>
-        /// Index of the changed node.
-        /// </summary>
-        public new IFocusIndex NodeIndex { get { return (IFocusIndex)base.NodeIndex; } }
-
         /// <summary>
         /// State changed.
         /// </summary>

@@ -566,10 +566,10 @@ namespace EaslyController.Focus
         /// <summary>
         /// Creates a IxxxChangeNodeOperation object.
         /// </summary>
-        protected override IWriteableChangeNodeOperation CreateChangeNodeOperation(IWriteableIndex nodeIndex, string propertyName, int value, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        protected override IWriteableChangeNodeOperation CreateChangeNodeOperation(INode parentNode, string propertyName, int value, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusController));
-            return new FocusChangeNodeOperation((IFocusIndex)nodeIndex, propertyName, value, handlerRedo, handlerUndo, isNested);
+            return new FocusChangeNodeOperation(parentNode, propertyName, value, handlerRedo, handlerUndo, isNested);
         }
 
         /// <summary>
