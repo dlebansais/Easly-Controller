@@ -11,11 +11,6 @@ namespace EaslyController.Focus
     public interface IFocusInsertBlockOperation : IFrameInsertBlockOperation, IFocusInsertOperation
     {
         /// <summary>
-        /// Inner where the block insertion is taking place.
-        /// </summary>
-        new IFocusBlockListInner<IFocusBrowsingBlockNodeIndex> Inner { get; }
-
-        /// <summary>
         /// Index of the state after it's inserted.
         /// </summary>
         new IFocusBrowsingExistingBlockNodeIndex BrowsingIndex { get; }
@@ -40,25 +35,21 @@ namespace EaslyController.Focus
         /// <summary>
         /// Initializes a new instance of <see cref="FocusInsertBlockOperation"/>.
         /// </summary>
-        /// <param name="inner">Inner where the block insertion is taking place.</param>
+        /// <param name="parentNode">Node where the block insertion is taking place.</param>
+        /// <param name="propertyName">Block list property of <paramref name="parentNode"/> where a block is inserted.</param>
         /// <param name="blockIndex">Index of the inserted block.</param>
         /// <param name="block">The inserted block.</param>
         /// <param name="node">The inserted node.</param>
         /// <param name="handlerRedo">Handler to execute to redo the operation.</param>
         /// <param name="handlerUndo">Handler to execute to undo the operation.</param>
         /// <param name="isNested">True if the operation is nested within another more general one.</param>
-        public FocusInsertBlockOperation(IFocusBlockListInner<IFocusBrowsingBlockNodeIndex> inner, int blockIndex, IBlock block, INode node, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
-            : base(inner, blockIndex, block, node, handlerRedo, handlerUndo, isNested)
+        public FocusInsertBlockOperation(INode parentNode, string propertyName, int blockIndex, IBlock block, INode node, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+            : base(parentNode, propertyName, blockIndex, block, node, handlerRedo, handlerUndo, isNested)
         {
         }
         #endregion
 
         #region Properties
-        /// <summary>
-        /// Inner where the block insertion is taking place.
-        /// </summary>
-        public new IFocusBlockListInner<IFocusBrowsingBlockNodeIndex> Inner { get { return (IFocusBlockListInner<IFocusBrowsingBlockNodeIndex>)base.Inner; } }
-
         /// <summary>
         /// Index of the state after it's inserted.
         /// </summary>

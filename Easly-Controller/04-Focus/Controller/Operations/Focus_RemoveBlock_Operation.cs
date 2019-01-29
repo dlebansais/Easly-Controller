@@ -1,4 +1,5 @@
-﻿using EaslyController.Frame;
+﻿using BaseNode;
+using EaslyController.Frame;
 using EaslyController.Writeable;
 using System;
 
@@ -10,19 +11,14 @@ namespace EaslyController.Focus
     public interface IFocusRemoveBlockOperation : IFrameRemoveBlockOperation, IFocusRemoveOperation
     {
         /// <summary>
-        /// Inner where the block removal is taking place.
-        /// </summary>
-        new IFocusBlockListInner<IFocusBrowsingBlockNodeIndex> Inner { get; }
-
-        /// <summary>
-        /// Index of the removed block.
-        /// </summary>
-        new IFocusBrowsingExistingBlockNodeIndex BlockIndex { get; }
-
-        /// <summary>
-        /// Block state removed.
+        /// The removed block state.
         /// </summary>
         new IFocusBlockState BlockState { get; }
+
+        /// <summary>
+        /// The removed state.
+        /// </summary>
+        new IFocusNodeState RemovedState { get; }
     }
 
     /// <summary>
@@ -34,32 +30,28 @@ namespace EaslyController.Focus
         /// <summary>
         /// Initializes a new instance of <see cref="FocusRemoveBlockOperation"/>.
         /// </summary>
-        /// <param name="inner">Inner where the block removal is taking place.</param>
+        /// <param name="parentNode">Node where the block removal is taking place.</param>
+        /// <param name="propertyName">Block list property of <paramref name="parentNode"/> where a block is removed.</param>
         /// <param name="blockIndex">index of the removed block.</param>
         /// <param name="handlerRedo">Handler to execute to redo the operation.</param>
         /// <param name="handlerUndo">Handler to execute to undo the operation.</param>
         /// <param name="isNested">True if the operation is nested within another more general one.</param>
-        public FocusRemoveBlockOperation(IFocusBlockListInner<IFocusBrowsingBlockNodeIndex> inner, IFocusBrowsingExistingBlockNodeIndex blockIndex, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
-            : base(inner, blockIndex, handlerRedo, handlerUndo, isNested)
+        public FocusRemoveBlockOperation(INode parentNode, string propertyName, int blockIndex, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+            : base(parentNode, propertyName, blockIndex, handlerRedo, handlerUndo, isNested)
         {
         }
         #endregion
 
         #region Properties
         /// <summary>
-        /// Inner where the block removal is taking place.
-        /// </summary>
-        public new IFocusBlockListInner<IFocusBrowsingBlockNodeIndex> Inner { get { return (IFocusBlockListInner<IFocusBrowsingBlockNodeIndex>)base.Inner; } }
-
-        /// <summary>
-        /// Index of the removed block.
-        /// </summary>
-        public new IFocusBrowsingExistingBlockNodeIndex BlockIndex { get { return (IFocusBrowsingExistingBlockNodeIndex)base.BlockIndex; } }
-
-        /// <summary>
-        /// Block state removed.
+        /// The removed block state.
         /// </summary>
         public new IFocusBlockState BlockState { get { return (IFocusBlockState)base.BlockState; } }
+
+        /// <summary>
+        /// The removed state.
+        /// </summary>
+        public new IFocusNodeState RemovedState { get { return (IFocusNodeState)base.RemovedState; } }
         #endregion
     }
 }

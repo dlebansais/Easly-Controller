@@ -1,4 +1,5 @@
-﻿using EaslyController.ReadOnly;
+﻿using BaseNode;
+using EaslyController.ReadOnly;
 using EaslyController.Writeable;
 using System;
 using System.Diagnostics;
@@ -136,7 +137,8 @@ namespace EaslyController.Frame
         {
             base.OnBlockStateInserted(operation);
 
-            IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> ParentInner = ((IFrameInsertBlockOperation)operation).Inner;
+            IFrameInsertBlockOperation InsertBlockOperation = (IFrameInsertBlockOperation)operation;
+            IFrameBlockListInner <IFrameBrowsingBlockNodeIndex> ParentInner = (IFrameBlockListInner<IFrameBrowsingBlockNodeIndex>)InsertBlockOperation.BlockState.ParentInner;
             IFrameNodeState OwnerState = ParentInner.Owner;
             IFrameNodeStateView OwnerStateView = StateViewTable[OwnerState];
 
@@ -167,7 +169,8 @@ namespace EaslyController.Frame
         {
             base.OnBlockStateRemoved(operation);
 
-            IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> ParentInner = ((IFrameRemoveBlockOperation)operation).Inner;
+            IFrameRemoveBlockOperation RemoveBlockOperation = (IFrameRemoveBlockOperation)operation;
+            IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> ParentInner = (IFrameBlockListInner<IFrameBrowsingBlockNodeIndex>)RemoveBlockOperation.BlockState.ParentInner;
             IFrameNodeState OwnerState = ParentInner.Owner;
             IFrameNodeStateView OwnerStateView = StateViewTable[OwnerState];
 
@@ -180,7 +183,7 @@ namespace EaslyController.Frame
                 IFrameCellViewCollection EmbeddingCellView = CellViewTable[PropertyName] as IFrameCellViewCollection;
                 Debug.Assert(EmbeddingCellView != null);
 
-                int BlockIndex = operation.BlockIndex.BlockIndex;
+                int BlockIndex = operation.BlockIndex;
                 EmbeddingCellView.Remove(BlockIndex);
             }
             else
@@ -784,7 +787,8 @@ namespace EaslyController.Frame
         {
             base.OnArgumentExpanded(operation);
 
-            IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> ParentInner = ((IFrameInsertBlockOperation)operation).Inner;
+            IFrameInsertBlockOperation InsertBlockOperation = (IFrameInsertBlockOperation)operation;
+            IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> ParentInner = (IFrameBlockListInner<IFrameBrowsingBlockNodeIndex>)InsertBlockOperation.BlockState.ParentInner;
             IFrameNodeState OwnerState = ParentInner.Owner;
             IFrameNodeStateView OwnerStateView = StateViewTable[OwnerState];
 

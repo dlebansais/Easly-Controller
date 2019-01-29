@@ -310,7 +310,7 @@ namespace EaslyController.Writeable
             if (operation.NodeIndex is IWriteableBrowsingExistingBlockNodeIndex AsExistingBlockIndex)
             {
                 // Only the safe case where the block isn't removed is allowed for this version of Remove().
-                Remove(null, operation, AsExistingBlockIndex);
+                Remove(null, operation, AsExistingBlockIndex.BlockIndex, AsExistingBlockIndex.Index);
             }
             else
                 throw new ArgumentOutOfRangeException(nameof(operation));
@@ -322,49 +322,46 @@ namespace EaslyController.Writeable
         /// <param name="blockOperation">Details of the operation performed.</param>
         public virtual void RemoveWithBlock(IWriteableRemoveBlockOperation blockOperation)
         {
-            Remove(blockOperation, null, blockOperation.BlockIndex);
+            Remove(blockOperation, null, blockOperation.BlockIndex, 0);
         }
 
         /// <summary></summary>
-        protected virtual void Remove(IWriteableRemoveBlockOperation blockOperation, IWriteableRemoveNodeOperation nodeOperation, IWriteableBrowsingExistingBlockNodeIndex existingBlockIndex)
+        protected virtual void Remove(IWriteableRemoveBlockOperation blockOperation, IWriteableRemoveNodeOperation nodeOperation, int blockIndex, int index)
         {
-            Debug.Assert(existingBlockIndex != null);
+            Debug.Assert(blockIndex >= 0 && blockIndex < BlockStateList.Count);
 
-            int BlockIndex = existingBlockIndex.BlockIndex;
-            Debug.Assert(BlockIndex >= 0 && BlockIndex < BlockStateList.Count);
+            IWriteableBlockState BlockState = BlockStateList[blockIndex];
 
-            IWriteableBlockState BlockState = BlockStateList[BlockIndex];
-
-            int Index = existingBlockIndex.Index;
-            Debug.Assert(Index >= 0 && Index < BlockState.StateList.Count);
+            Debug.Assert(index >= 0 && index < BlockState.StateList.Count);
 
             IBlock ChildBlock = BlockState.ChildBlock;
             INode ParentNode = Owner.Node;
+            int i;
 
-            IWriteablePlaceholderNodeState OldChildState = BlockState.StateList[Index];
+            IWriteablePlaceholderNodeState OldChildState = BlockState.StateList[index];
             INode RemovedNode = OldChildState.Node;
 
-            BlockState.Remove((IWriteableBrowsingBlockNodeIndex)OldChildState.ParentIndex, Index);
+            BlockState.Remove((IWriteableBrowsingBlockNodeIndex)OldChildState.ParentIndex, index);
 
-            NodeTreeHelperBlockList.RemoveFromBlock(ParentNode, PropertyName, BlockIndex, Index, out bool IsBlockRemoved);
+            NodeTreeHelperBlockList.RemoveFromBlock(ParentNode, PropertyName, blockIndex, index, out bool IsBlockRemoved);
 
             if (IsBlockRemoved)
             {
                 Debug.Assert(blockOperation != null);
 
-                RemoveFromBlockStateList(BlockIndex);
+                RemoveFromBlockStateList(blockIndex);
 
-                blockOperation.Update(BlockState, RemovedNode);
+                blockOperation.Update(BlockState, OldChildState);
 
-                for (; BlockIndex < BlockStateList.Count; BlockIndex++)
+                for (i = blockIndex; i < BlockStateList.Count; i++)
                 {
-                    IWriteableBlockState NextBlockState = BlockStateList[BlockIndex];
+                    IWriteableBlockState NextBlockState = BlockStateList[i];
 
                     foreach (IWriteablePlaceholderNodeState State in NextBlockState.StateList)
                     {
                         IWriteableBrowsingExistingBlockNodeIndex NodeIndex = State.ParentIndex as IWriteableBrowsingExistingBlockNodeIndex;
                         Debug.Assert(NodeIndex != null);
-                        Debug.Assert(NodeIndex.BlockIndex == BlockIndex + 1);
+                        Debug.Assert(NodeIndex.BlockIndex == i + 1);
 
                         NodeIndex.MoveBlockDown();
                     }
@@ -377,18 +374,19 @@ namespace EaslyController.Writeable
                 nodeOperation.Update(OldChildState);
             }
 
-            while (Index < BlockState.StateList.Count)
+            i = index;
+            while (i < BlockState.StateList.Count)
             {
-                IWriteablePlaceholderNodeState State = BlockState.StateList[Index];
+                IWriteablePlaceholderNodeState State = BlockState.StateList[i];
 
                 IWriteableBrowsingExistingBlockNodeIndex NodeIndex = State.ParentIndex as IWriteableBrowsingExistingBlockNodeIndex;
                 Debug.Assert(NodeIndex != null);
-                Debug.Assert(NodeIndex.BlockIndex == existingBlockIndex.BlockIndex);
-                Debug.Assert(NodeIndex.Index == Index + 1);
+                Debug.Assert(NodeIndex.BlockIndex == blockIndex);
+                Debug.Assert(NodeIndex.Index == i + 1);
 
                 NodeIndex.MoveDown();
 
-                Index++;
+                i++;
             }
         }
 

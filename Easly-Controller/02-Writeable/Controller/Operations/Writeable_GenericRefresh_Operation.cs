@@ -3,7 +3,7 @@
 namespace EaslyController.Writeable
 {
     /// <summary>
-    /// Operation details for replacing a node.
+    /// Operation details for refreshing views.
     /// </summary>
     public interface IWriteableGenericRefreshOperation : IWriteableOperation
     {
@@ -14,7 +14,7 @@ namespace EaslyController.Writeable
     }
 
     /// <summary>
-    /// Operation details for replacing a node in a list or block list.
+    /// Operation details for refreshing views.
     /// </summary>
     public class WriteableGenericRefreshOperation : WriteableOperation, IWriteableGenericRefreshOperation
     {

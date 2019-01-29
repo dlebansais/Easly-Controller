@@ -10,11 +10,6 @@ namespace EaslyController.Frame
     public interface IFrameExpandArgumentOperation : IWriteableExpandArgumentOperation, IFrameInsertBlockOperation
     {
         /// <summary>
-        /// Inner where the block insertion is taking place.
-        /// </summary>
-        new IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> Inner { get; }
-
-        /// <summary>
         /// Index of the state after it's inserted.
         /// </summary>
         new IFrameBrowsingExistingBlockNodeIndex BrowsingIndex { get; }
@@ -39,24 +34,20 @@ namespace EaslyController.Frame
         /// <summary>
         /// Initializes a new instance of <see cref="FrameExpandArgumentOperation"/>.
         /// </summary>
-        /// <param name="inner">Inner where the block insertion is taking place.</param>
+        /// <param name="parentNode">Node where the block insertion is taking place.</param>
+        /// <param name="propertyName">Block list property of <paramref name="parentNode"/> where a block is inserted.</param>
         /// <param name="block">The inserted block.</param>
         /// <param name="argument">The inserted argument.</param>
         /// <param name="handlerRedo">Handler to execute to redo the operation.</param>
         /// <param name="handlerUndo">Handler to execute to undo the operation.</param>
         /// <param name="isNested">True if the operation is nested within another more general one.</param>
-        public FrameExpandArgumentOperation(IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> inner, IBlock block, IArgument argument, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
-            : base(inner, block, argument, handlerRedo, handlerUndo, isNested)
+        public FrameExpandArgumentOperation(INode parentNode, string propertyName, IBlock block, IArgument argument, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+            : base(parentNode, propertyName, block, argument, handlerRedo, handlerUndo, isNested)
         {
         }
         #endregion
 
         #region Properties
-        /// <summary>
-        /// Inner where the block insertion is taking place.
-        /// </summary>
-        public new IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> Inner { get { return (IFrameBlockListInner<IFrameBrowsingBlockNodeIndex>)base.Inner; } }
-
         /// <summary>
         /// Index of the state after it's inserted.
         /// </summary>
