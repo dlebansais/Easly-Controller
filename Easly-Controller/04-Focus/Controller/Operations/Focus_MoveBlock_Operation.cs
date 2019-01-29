@@ -1,4 +1,5 @@
-﻿using EaslyController.Frame;
+﻿using BaseNode;
+using EaslyController.Frame;
 using EaslyController.Writeable;
 using System;
 
@@ -9,11 +10,6 @@ namespace EaslyController.Focus
     /// </summary>
     public interface IFocusMoveBlockOperation : IFrameMoveBlockOperation, IFocusOperation
     {
-        /// <summary>
-        /// Inner where the block is moved.
-        /// </summary>
-        new IFocusBlockListInner<IFocusBrowsingBlockNodeIndex> Inner { get; }
-
         /// <summary>
         /// The moved block state.
         /// </summary>
@@ -29,24 +25,20 @@ namespace EaslyController.Focus
         /// <summary>
         /// Initializes a new instance of <see cref="FocusMoveBlockOperation"/>.
         /// </summary>
-        /// <param name="inner">Inner where the block is move.</param>
+        /// <param name="parentNode">Node where the block is moved.</param>
+        /// <param name="propertyName">Property of <paramref name="parentNode"/> where the block is moved.</param>
         /// <param name="blockIndex">Index of the moved block.</param>
         /// <param name="direction">The change in position, relative to the current position.</param>
         /// <param name="handlerRedo">Handler to execute to redo the operation.</param>
         /// <param name="handlerUndo">Handler to execute to undo the operation.</param>
         /// <param name="isNested">True if the operation is nested within another more general one.</param>
-        public FocusMoveBlockOperation(IFocusBlockListInner<IFocusBrowsingBlockNodeIndex> inner, int blockIndex, int direction, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
-            : base(inner, blockIndex, direction, handlerRedo, handlerUndo, isNested)
+        public FocusMoveBlockOperation(INode parentNode, string propertyName, int blockIndex, int direction, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+            : base(parentNode, propertyName, blockIndex, direction, handlerRedo, handlerUndo, isNested)
         {
         }
         #endregion
 
         #region Properties
-        /// <summary>
-        /// Inner where the block is moved.
-        /// </summary>
-        public new IFocusBlockListInner<IFocusBrowsingBlockNodeIndex> Inner { get { return (IFocusBlockListInner<IFocusBrowsingBlockNodeIndex>)base.Inner; } }
-
         /// <summary>
         /// The moved block state.
         /// </summary>

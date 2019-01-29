@@ -653,7 +653,8 @@ namespace EaslyController.Frame
         {
             base.OnBlockStateMoved(operation);
 
-            IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> Inner = ((IFrameMoveBlockOperation)operation).Inner;
+            IFrameMoveBlockOperation MoveBlockOperation = (IFrameMoveBlockOperation)operation;
+            IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> Inner = MoveBlockOperation.BlockState.ParentInner as IFrameBlockListInner<IFrameBrowsingBlockNodeIndex>;
             Debug.Assert(Inner != null);
             IFrameNodeState OwnerState = Inner.Owner;
             Debug.Assert(OwnerState != null);

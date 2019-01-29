@@ -538,10 +538,10 @@ namespace EaslyController.Frame
         /// <summary>
         /// Creates a IxxxxMoveBlockOperation object.
         /// </summary>
-        protected override IWriteableMoveBlockOperation CreateMoveBlockOperation(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, int blockIndex, int direction, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        protected override IWriteableMoveBlockOperation CreateMoveBlockOperation(INode parentNode, string propertyName, int blockIndex, int direction, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameController));
-            return new FrameMoveBlockOperation((IFrameBlockListInner<IFrameBrowsingBlockNodeIndex>)inner, blockIndex, direction, handlerRedo, handlerUndo, isNested);
+            return new FrameMoveBlockOperation(parentNode, propertyName, blockIndex, direction, handlerRedo, handlerUndo, isNested);
         }
 
         /// <summary>

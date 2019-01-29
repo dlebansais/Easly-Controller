@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BaseNode;
+using System;
 using System.Diagnostics;
 
 namespace EaslyController.Writeable
@@ -9,9 +10,14 @@ namespace EaslyController.Writeable
     public interface IWriteableMoveBlockOperation : IWriteableOperation
     {
         /// <summary>
-        /// Inner where the block is moved.
+        /// Node where the block is moved.
         /// </summary>
-        IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> Inner { get; }
+        INode ParentNode { get; }
+
+        /// <summary>
+        /// Property of <see cref="ParentNode"/> where the block is moved.
+        /// </summary>
+        string PropertyName { get; }
 
         /// <summary>
         /// Index of the moved block.
@@ -49,16 +55,18 @@ namespace EaslyController.Writeable
         /// <summary>
         /// Initializes a new instance of <see cref="WriteableMoveBlockOperation"/>.
         /// </summary>
-        /// <param name="inner">Inner where the block is move.</param>
+        /// <param name="parentNode">Node where the block is moved.</param>
+        /// <param name="propertyName">Property of <paramref name="parentNode"/> where the block is moved.</param>
         /// <param name="blockIndex">Index of the moved block.</param>
         /// <param name="direction">The change in position, relative to the current position.</param>
         /// <param name="handlerRedo">Handler to execute to redo the operation.</param>
         /// <param name="handlerUndo">Handler to execute to undo the operation.</param>
         /// <param name="isNested">True if the operation is nested within another more general one.</param>
-        public WriteableMoveBlockOperation(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, int blockIndex, int direction, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        public WriteableMoveBlockOperation(INode parentNode, string propertyName, int blockIndex, int direction, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
             : base(handlerRedo, handlerUndo, isNested)
         {
-            Inner = inner;
+            ParentNode = parentNode;
+            PropertyName = propertyName;
             BlockIndex = blockIndex;
             Direction = direction;
         }
@@ -66,9 +74,14 @@ namespace EaslyController.Writeable
 
         #region Properties
         /// <summary>
-        /// Inner where the block is moved.
+        /// Node where the block is moved.
         /// </summary>
-        public IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> Inner { get; }
+        public INode ParentNode { get; }
+
+        /// <summary>
+        /// Property of <see cref="ParentNode"/> where the block is moved.
+        /// </summary>
+        public string PropertyName { get; }
 
         /// <summary>
         /// Index of the moved block.
@@ -103,7 +116,7 @@ namespace EaslyController.Writeable
         /// </summary>
         public virtual IWriteableMoveBlockOperation ToInverseMoveBlock()
         {
-            return CreateMoveBlockOperation(Inner, BlockIndex + Direction, -Direction, HandlerUndo, HandlerRedo, IsNested);
+            return CreateMoveBlockOperation(BlockIndex + Direction, -Direction, HandlerUndo, HandlerRedo, IsNested);
         }
         #endregion
 
@@ -111,10 +124,10 @@ namespace EaslyController.Writeable
         /// <summary>
         /// Creates a IxxxxMoveBlockOperation object.
         /// </summary>
-        protected virtual IWriteableMoveBlockOperation CreateMoveBlockOperation(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, int blockIndex, int direction, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        protected virtual IWriteableMoveBlockOperation CreateMoveBlockOperation(int blockIndex, int direction, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableMoveBlockOperation));
-            return new WriteableMoveBlockOperation(inner, blockIndex, direction, handlerRedo, handlerUndo, isNested);
+            return new WriteableMoveBlockOperation(ParentNode, PropertyName, blockIndex, direction, handlerRedo, handlerUndo, isNested);
         }
         #endregion
     }

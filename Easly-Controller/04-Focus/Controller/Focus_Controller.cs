@@ -611,10 +611,10 @@ namespace EaslyController.Focus
         /// <summary>
         /// Creates a IxxxxMoveBlockOperation object.
         /// </summary>
-        protected override IWriteableMoveBlockOperation CreateMoveBlockOperation(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, int blockIndex, int direction, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        protected override IWriteableMoveBlockOperation CreateMoveBlockOperation(INode parentNode, string propertyName, int blockIndex, int direction, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusController));
-            return new FocusMoveBlockOperation((IFocusBlockListInner<IFocusBrowsingBlockNodeIndex>)inner, blockIndex, direction, handlerRedo, handlerUndo, isNested);
+            return new FocusMoveBlockOperation(parentNode, propertyName, blockIndex, direction, handlerRedo, handlerUndo, isNested);
         }
 
         /// <summary>

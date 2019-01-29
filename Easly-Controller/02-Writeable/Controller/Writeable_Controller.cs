@@ -1721,7 +1721,7 @@ namespace EaslyController.Writeable
 
             Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => ExecuteMoveBlock(operation);
             Action<IWriteableOperation> HandlerUndo = (IWriteableOperation operation) => UndoMoveBlock(operation);
-            IWriteableMoveBlockOperation Operation = CreateMoveBlockOperation(inner, blockIndex, direction, HandlerRedo, HandlerUndo, isNested: false);
+            IWriteableMoveBlockOperation Operation = CreateMoveBlockOperation(inner.Owner.Node, inner.PropertyName, blockIndex, direction, HandlerRedo, HandlerUndo, isNested: false);
 
             Operation.Redo();
             SetLastOperation(Operation);
@@ -1733,8 +1733,9 @@ namespace EaslyController.Writeable
         {
             IWriteableMoveBlockOperation MoveBlockOperation = (IWriteableMoveBlockOperation)operation;
 
-            IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> Inner = MoveBlockOperation.Inner;
-            Inner = GetInner(Inner.Owner.Node, Inner.PropertyName) as IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex>;
+            INode ParentNode = MoveBlockOperation.ParentNode;
+            string PropertyName = MoveBlockOperation.PropertyName;
+            IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> Inner = GetInner(ParentNode, PropertyName) as IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex>;
 
             IWriteableBlockState BlockState = Inner.BlockStateList[MoveBlockOperation.BlockIndex];
             Debug.Assert(BlockState != null);
@@ -1757,8 +1758,9 @@ namespace EaslyController.Writeable
             IWriteableMoveBlockOperation MoveBlockOperation = (IWriteableMoveBlockOperation)operation;
             MoveBlockOperation = MoveBlockOperation.ToInverseMoveBlock();
 
-            IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> Inner = MoveBlockOperation.Inner;
-            Inner = GetInner(Inner.Owner.Node, Inner.PropertyName) as IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex>;
+            INode ParentNode = MoveBlockOperation.ParentNode;
+            string PropertyName = MoveBlockOperation.PropertyName;
+            IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> Inner = GetInner(ParentNode, PropertyName) as IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex>;
 
             IWriteableBlockState BlockState = Inner.BlockStateList[MoveBlockOperation.BlockIndex];
             Debug.Assert(BlockState != null);
@@ -2778,10 +2780,10 @@ namespace EaslyController.Writeable
         /// <summary>
         /// Creates a IxxxxMoveBlockOperation object.
         /// </summary>
-        protected virtual IWriteableMoveBlockOperation CreateMoveBlockOperation(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, int blockIndex, int direction, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        protected virtual IWriteableMoveBlockOperation CreateMoveBlockOperation(INode parentNode, string propertyName, int blockIndex, int direction, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableController));
-            return new WriteableMoveBlockOperation(inner, blockIndex, direction, handlerRedo, handlerUndo, isNested);
+            return new WriteableMoveBlockOperation(parentNode, propertyName, blockIndex, direction, handlerRedo, handlerUndo, isNested);
         }
 
         /// <summary>

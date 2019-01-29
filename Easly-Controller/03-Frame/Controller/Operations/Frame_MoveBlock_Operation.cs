@@ -1,4 +1,5 @@
-﻿using EaslyController.Writeable;
+﻿using BaseNode;
+using EaslyController.Writeable;
 using System;
 
 namespace EaslyController.Frame
@@ -8,11 +9,6 @@ namespace EaslyController.Frame
     /// </summary>
     public interface IFrameMoveBlockOperation : IWriteableMoveBlockOperation, IFrameOperation
     {
-        /// <summary>
-        /// Inner where the block is moved.
-        /// </summary>
-        new IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> Inner { get; }
-
         /// <summary>
         /// The moved block state.
         /// </summary>
@@ -28,24 +24,20 @@ namespace EaslyController.Frame
         /// <summary>
         /// Initializes a new instance of <see cref="FrameMoveBlockOperation"/>.
         /// </summary>
-        /// <param name="inner">Inner where the block is move.</param>
+        /// <param name="parentNode">Node where the block is moved.</param>
+        /// <param name="propertyName">Property of <paramref name="parentNode"/> where the block is moved.</param>
         /// <param name="blockIndex">Index of the moved block.</param>
         /// <param name="direction">The change in position, relative to the current position.</param>
         /// <param name="handlerRedo">Handler to execute to redo the operation.</param>
         /// <param name="handlerUndo">Handler to execute to undo the operation.</param>
         /// <param name="isNested">True if the operation is nested within another more general one.</param>
-        public FrameMoveBlockOperation(IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> inner, int blockIndex, int direction, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
-            : base(inner, blockIndex, direction, handlerRedo, handlerUndo, isNested)
+        public FrameMoveBlockOperation(INode parentNode, string propertyName, int blockIndex, int direction, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+            : base(parentNode, propertyName, blockIndex, direction, handlerRedo, handlerUndo, isNested)
         {
         }
         #endregion
 
         #region Properties
-        /// <summary>
-        /// Inner where the block is moved.
-        /// </summary>
-        public new IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> Inner { get { return (IFrameBlockListInner<IFrameBrowsingBlockNodeIndex>)base.Inner; } }
-
         /// <summary>
         /// The moved block state.
         /// </summary>
