@@ -10,11 +10,6 @@ namespace EaslyController.Frame
     public interface IFrameChangeBlockOperation : IWriteableChangeBlockOperation, IFrameOperation
     {
         /// <summary>
-        /// Inner where the block change is taking place.
-        /// </summary>
-        new IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> Inner { get; }
-
-        /// <summary>
         /// Block state changed.
         /// </summary>
         new IFrameBlockState BlockState { get; }
@@ -29,24 +24,20 @@ namespace EaslyController.Frame
         /// <summary>
         /// Initializes a new instance of <see cref="FrameChangeBlockOperation"/>.
         /// </summary>
-        /// <param name="inner">Inner where the block change is taking place.</param>
+        /// <param name="parentNode">Node where the block change is taking place.</param>
+        /// <param name="propertyName">Block list property of <paramref name="parentNode"/> for which a block is changed.</param>
         /// <param name="blockIndex">Index of the changed block.</param>
         /// <param name="replication">New replication value.</param>
         /// <param name="handlerRedo">Handler to execute to redo the operation.</param>
         /// <param name="handlerUndo">Handler to execute to undo the operation.</param>
         /// <param name="isNested">True if the operation is nested within another more general one.</param>
-        public FrameChangeBlockOperation(IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> inner, int blockIndex, ReplicationStatus replication, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
-            : base(inner, blockIndex, replication, handlerRedo, handlerUndo, isNested)
+        public FrameChangeBlockOperation(INode parentNode, string propertyName, int blockIndex, ReplicationStatus replication, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+            : base(parentNode, propertyName, blockIndex, replication, handlerRedo, handlerUndo, isNested)
         {
         }
         #endregion
 
         #region Properties
-        /// <summary>
-        /// Inner where the block change is taking place.
-        /// </summary>
-        public new IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> Inner { get { return (IFrameBlockListInner<IFrameBrowsingBlockNodeIndex>)base.Inner; } }
-
         /// <summary>
         /// Block state changed.
         /// </summary>

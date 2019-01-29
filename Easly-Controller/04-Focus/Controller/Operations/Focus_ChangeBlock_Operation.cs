@@ -11,11 +11,6 @@ namespace EaslyController.Focus
     public interface IFocusChangeBlockOperation : IFrameChangeBlockOperation, IFocusOperation
     {
         /// <summary>
-        /// Inner where the block change is taking place.
-        /// </summary>
-        new IFocusBlockListInner<IFocusBrowsingBlockNodeIndex> Inner { get; }
-
-        /// <summary>
         /// Block state changed.
         /// </summary>
         new IFocusBlockState BlockState { get; }
@@ -30,24 +25,20 @@ namespace EaslyController.Focus
         /// <summary>
         /// Initializes a new instance of <see cref="FocusChangeBlockOperation"/>.
         /// </summary>
-        /// <param name="inner">Inner where the block change is taking place.</param>
+        /// <param name="parentNode">Node where the block change is taking place.</param>
+        /// <param name="propertyName">Block list property of <paramref name="parentNode"/> for which a block is changed.</param>
         /// <param name="blockIndex">Index of the changed block.</param>
         /// <param name="replication">New replication value.</param>
         /// <param name="handlerRedo">Handler to execute to redo the operation.</param>
         /// <param name="handlerUndo">Handler to execute to undo the operation.</param>
         /// <param name="isNested">True if the operation is nested within another more general one.</param>
-        public FocusChangeBlockOperation(IFocusBlockListInner<IFocusBrowsingBlockNodeIndex> inner, int blockIndex, ReplicationStatus replication, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
-            : base(inner, blockIndex, replication, handlerRedo, handlerUndo, isNested)
+        public FocusChangeBlockOperation(INode parentNode, string propertyName, int blockIndex, ReplicationStatus replication, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+            : base(parentNode, propertyName, blockIndex, replication, handlerRedo, handlerUndo, isNested)
         {
         }
         #endregion
 
         #region Properties
-        /// <summary>
-        /// Inner where the block change is taking place.
-        /// </summary>
-        public new IFocusBlockListInner<IFocusBrowsingBlockNodeIndex> Inner { get { return (IFocusBlockListInner<IFocusBrowsingBlockNodeIndex>)base.Inner; } }
-
         /// <summary>
         /// Block state changed.
         /// </summary>

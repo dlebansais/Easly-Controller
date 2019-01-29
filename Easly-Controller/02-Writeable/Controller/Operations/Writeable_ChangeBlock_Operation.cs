@@ -10,9 +10,14 @@ namespace EaslyController.Writeable
     public interface IWriteableChangeBlockOperation : IWriteableOperation
     {
         /// <summary>
-        /// Inner where the block change is taking place.
+        /// Node where the block change is taking place.
         /// </summary>
-        IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> Inner { get; }
+        INode ParentNode { get; }
+
+        /// <summary>
+        /// Block list property of <see cref="ParentNode"/> for which a block is changed.
+        /// </summary>
+        string PropertyName { get; }
 
         /// <summary>
         /// Index of the changed block.
@@ -50,16 +55,18 @@ namespace EaslyController.Writeable
         /// <summary>
         /// Initializes a new instance of <see cref="WriteableChangeBlockOperation"/>.
         /// </summary>
-        /// <param name="inner">Inner where the block change is taking place.</param>
+        /// <param name="parentNode">Node where the block change is taking place.</param>
+        /// <param name="propertyName">Block list property of <paramref name="parentNode"/> for which a block is changed.</param>
         /// <param name="blockIndex">Index of the changed block.</param>
         /// <param name="replication">New replication value.</param>
         /// <param name="handlerRedo">Handler to execute to redo the operation.</param>
         /// <param name="handlerUndo">Handler to execute to undo the operation.</param>
         /// <param name="isNested">True if the operation is nested within another more general one.</param>
-        public WriteableChangeBlockOperation(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, int blockIndex, ReplicationStatus replication, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        public WriteableChangeBlockOperation(INode parentNode, string propertyName, int blockIndex, ReplicationStatus replication, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
             : base(handlerRedo, handlerUndo, isNested)
         {
-            Inner = inner;
+            ParentNode = parentNode;
+            PropertyName = propertyName;
             BlockIndex = blockIndex;
             Replication = replication;
         }
@@ -67,9 +74,14 @@ namespace EaslyController.Writeable
 
         #region Properties
         /// <summary>
-        /// Inner where the block change is taking place.
+        /// Node where the block change is taking place.
         /// </summary>
-        public IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> Inner { get; }
+        public INode ParentNode { get; }
+
+        /// <summary>
+        /// Block list property of <see cref="ParentNode"/> for which a block is changed.
+        /// </summary>
+        public string PropertyName { get; }
 
         /// <summary>
         /// Index of the changed block.
@@ -104,7 +116,7 @@ namespace EaslyController.Writeable
         /// </summary>
         public virtual IWriteableChangeBlockOperation ToInverseChange()
         {
-            return CreateChangeBlockOperation(Inner, BlockIndex, Replication == ReplicationStatus.Normal ? ReplicationStatus.Replicated : ReplicationStatus.Normal, HandlerUndo, HandlerRedo, IsNested);
+            return CreateChangeBlockOperation(BlockIndex, Replication == ReplicationStatus.Normal ? ReplicationStatus.Replicated : ReplicationStatus.Normal, HandlerUndo, HandlerRedo, IsNested);
         }
         #endregion
 
@@ -112,10 +124,10 @@ namespace EaslyController.Writeable
         /// <summary>
         /// Creates a IxxxChangeBlockOperation object.
         /// </summary>
-        protected virtual IWriteableChangeBlockOperation CreateChangeBlockOperation(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, int blockIndex, ReplicationStatus replication, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        protected virtual IWriteableChangeBlockOperation CreateChangeBlockOperation(int blockIndex, ReplicationStatus replication, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableChangeBlockOperation));
-            return new WriteableChangeBlockOperation(inner, blockIndex, replication, handlerRedo, handlerUndo, isNested);
+            return new WriteableChangeBlockOperation(ParentNode, PropertyName, blockIndex, replication, handlerRedo, handlerUndo, isNested);
         }
         #endregion
     }

@@ -1257,7 +1257,7 @@ namespace EaslyController.Writeable
 
             Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => ExecuteChangeReplication(operation);
             Action<IWriteableOperation> HandlerUndo = (IWriteableOperation operation) => UndoChangeReplication(operation);
-            IWriteableChangeBlockOperation Operation = CreateChangeBlockOperation(inner, blockIndex, replication, HandlerRedo, HandlerUndo, isNested: false);
+            IWriteableChangeBlockOperation Operation = CreateChangeBlockOperation(inner.Owner.Node, inner.PropertyName, blockIndex, replication, HandlerRedo, HandlerUndo, isNested: false);
 
             Operation.Redo();
             SetLastOperation(Operation);
@@ -1269,10 +1269,11 @@ namespace EaslyController.Writeable
         {
             IWriteableChangeBlockOperation ChangeBlockOperation = (IWriteableChangeBlockOperation)operation;
 
-            IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> Inner = ChangeBlockOperation.Inner;
-            Inner = GetInner(Inner.Owner.Node, Inner.PropertyName) as IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex>;
+            INode ParentNode = ChangeBlockOperation.ParentNode;
+            string PropertyName = ChangeBlockOperation.PropertyName;
+            IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> Inner = GetInner(ParentNode, PropertyName) as IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex>;
 
-            Inner.ChangeReplication(ChangeBlockOperation, ChangeBlockOperation.Replication);
+            Inner.ChangeReplication(ChangeBlockOperation);
 
             NotifyBlockStateChanged(ChangeBlockOperation);
         }
@@ -1283,10 +1284,11 @@ namespace EaslyController.Writeable
             IWriteableChangeBlockOperation ChangeBlockOperation = (IWriteableChangeBlockOperation)operation;
             ChangeBlockOperation = ChangeBlockOperation.ToInverseChange();
 
-            IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> Inner = ChangeBlockOperation.Inner;
-            Inner = GetInner(Inner.Owner.Node, Inner.PropertyName) as IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex>;
+            INode ParentNode = ChangeBlockOperation.ParentNode;
+            string PropertyName = ChangeBlockOperation.PropertyName;
+            IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> Inner = GetInner(ParentNode, PropertyName) as IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex>;
 
-            Inner.ChangeReplication(ChangeBlockOperation, ChangeBlockOperation.Replication);
+            Inner.ChangeReplication(ChangeBlockOperation);
 
             NotifyBlockStateChanged(ChangeBlockOperation);
         }
@@ -2704,10 +2706,10 @@ namespace EaslyController.Writeable
         /// <summary>
         /// Creates a IxxxChangeBlockOperation object.
         /// </summary>
-        protected virtual IWriteableChangeBlockOperation CreateChangeBlockOperation(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, int blockIndex, ReplicationStatus replication, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        protected virtual IWriteableChangeBlockOperation CreateChangeBlockOperation(INode parentNode, string propertyName, int blockIndex, ReplicationStatus replication, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableController));
-            return new WriteableChangeBlockOperation(inner, blockIndex, replication, handlerRedo, handlerUndo, isNested);
+            return new WriteableChangeBlockOperation(parentNode, propertyName, blockIndex, replication, handlerRedo, handlerUndo, isNested);
         }
 
         /// <summary>
