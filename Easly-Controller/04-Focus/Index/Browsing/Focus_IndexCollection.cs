@@ -1,9 +1,9 @@
-﻿using EaslyController.Frame;
-using System.Collections.Generic;
-using System.Diagnostics;
-
-namespace EaslyController.Focus
+﻿namespace EaslyController.Focus
 {
+    using System.Collections.Generic;
+    using System.Diagnostics;
+    using EaslyController.Frame;
+
     /// <summary>
     /// Collection of node indexes.
     /// </summary>
@@ -14,6 +14,7 @@ namespace EaslyController.Focus
     /// <summary>
     /// Collection of node indexes.
     /// </summary>
+    /// <typeparam name="IIndex">Type of the index.</typeparam>
     public interface IFocusIndexCollection<out IIndex> : IFrameIndexCollection<IIndex>
         where IIndex : IFocusBrowsingChildIndex
     {
@@ -22,6 +23,7 @@ namespace EaslyController.Focus
     /// <summary>
     /// Collection of node indexes.
     /// </summary>
+    /// <typeparam name="IIndex">Type of the index.</typeparam>
     public class FocusIndexCollection<IIndex> : FrameIndexCollection<IIndex>, IFocusIndexCollection<IIndex>, IFocusIndexCollection
         where IIndex : IFocusBrowsingChildIndex
     {

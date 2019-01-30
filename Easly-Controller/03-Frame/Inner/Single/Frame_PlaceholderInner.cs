@@ -1,12 +1,9 @@
-﻿using BaseNode;
-using BaseNodeHelper;
-using EaslyController.ReadOnly;
-using EaslyController.Writeable;
-using System;
-using System.Diagnostics;
-
-namespace EaslyController.Frame
+﻿namespace EaslyController.Frame
 {
+    using BaseNode;
+    using EaslyController.ReadOnly;
+    using EaslyController.Writeable;
+
     /// <summary>
     /// Inner for a child node.
     /// </summary>
@@ -17,6 +14,7 @@ namespace EaslyController.Frame
     /// <summary>
     /// Inner for a child node.
     /// </summary>
+    /// <typeparam name="IIndex">Type of the index.</typeparam>
     public interface IFramePlaceholderInner<out IIndex> : IWriteablePlaceholderInner<IIndex>, IFrameSingleInner<IIndex>
         where IIndex : IFrameBrowsingPlaceholderNodeIndex
     {
@@ -25,6 +23,8 @@ namespace EaslyController.Frame
     /// <summary>
     /// Inner for a child node.
     /// </summary>
+    /// <typeparam name="IIndex">Type of the index as interface.</typeparam>
+    /// <typeparam name="TIndex">Type of the index as class.</typeparam>
     public class FramePlaceholderInner<IIndex, TIndex> : WriteablePlaceholderInner<IIndex, TIndex>, IFramePlaceholderInner<IIndex>, IFramePlaceholderInner
         where IIndex : IFrameBrowsingPlaceholderNodeIndex
         where TIndex : FrameBrowsingPlaceholderNodeIndex, IIndex

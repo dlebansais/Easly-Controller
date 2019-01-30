@@ -1,9 +1,9 @@
-﻿using BaseNode;
-using EaslyController.Writeable;
-using System;
-
-namespace EaslyController.Frame
+﻿namespace EaslyController.Frame
 {
+    using System;
+    using BaseNode;
+    using EaslyController.Writeable;
+
     /// <summary>
     /// Operation details for inserting a single argument in a block list.
     /// </summary>
@@ -32,7 +32,7 @@ namespace EaslyController.Frame
     {
         #region Init
         /// <summary>
-        /// Initializes a new instance of <see cref="FrameExpandArgumentOperation"/>.
+        /// Initializes a new instance of the <see cref="FrameExpandArgumentOperation"/> class.
         /// </summary>
         /// <param name="parentNode">Node where the block insertion is taking place.</param>
         /// <param name="propertyName">Block list property of <paramref name="parentNode"/> where a block is inserted.</param>

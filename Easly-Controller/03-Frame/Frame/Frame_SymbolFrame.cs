@@ -1,7 +1,7 @@
-﻿using EaslyController.Constants;
-
-namespace EaslyController.Frame
+﻿namespace EaslyController.Frame
 {
+    using EaslyController.Constants;
+
     /// <summary>
     /// Frame for decoration purpose only.
     /// </summary>

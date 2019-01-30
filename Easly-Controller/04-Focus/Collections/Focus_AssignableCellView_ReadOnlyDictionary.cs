@@ -1,15 +1,16 @@
-﻿using EaslyController.Frame;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Diagnostics;
-
-#pragma warning disable 1591
+﻿#pragma warning disable 1591
 
 namespace EaslyController.Focus
 {
+    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
+    using System.Diagnostics;
+    using EaslyController.Frame;
+
     /// <summary>
     /// Read-only dictionary of ..., IxxxAssignableCellView
     /// </summary>
+    /// <typeparam name="TKey">Type of the key.</typeparam>
     public interface IFocusAssignableCellViewReadOnlyDictionary<TKey> : IFrameAssignableCellViewReadOnlyDictionary<TKey>, IReadOnlyDictionary<TKey, IFocusAssignableCellView>, IEqualComparable
     {
         new int Count { get; }
@@ -21,6 +22,7 @@ namespace EaslyController.Focus
     /// <summary>
     /// Read-only dictionary of ..., IxxxAssignableCellView
     /// </summary>
+    /// <typeparam name="TKey">Type of the key.</typeparam>
     public class FocusAssignableCellViewReadOnlyDictionary<TKey> : ReadOnlyDictionary<TKey, IFocusAssignableCellView>, IFocusAssignableCellViewReadOnlyDictionary<TKey>
     {
         public FocusAssignableCellViewReadOnlyDictionary(IFocusAssignableCellViewDictionary<TKey> dictionary)

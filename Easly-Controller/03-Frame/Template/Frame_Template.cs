@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace EaslyController.Frame
+﻿namespace EaslyController.Frame
 {
+    using System;
+
     /// <summary>
     /// Template describing all components of a node.
     /// </summary>

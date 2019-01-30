@@ -1,7 +1,7 @@
-﻿using System.Diagnostics;
-
-namespace EaslyController.Frame
+﻿namespace EaslyController.Frame
 {
+    using System.Diagnostics;
+
     /// <summary>
     /// Context used when building the cell view tree.
     /// </summary>
@@ -48,7 +48,7 @@ namespace EaslyController.Frame
     {
         #region Init
         /// <summary>
-        /// Initializes a new instance of a <see cref="FrameCellViewTreeContext"/> object.
+        /// Initializes a new instance of the <see cref="FrameCellViewTreeContext"/> class.
         /// </summary>
         /// <param name="controllerView">The view in which cells are created.</param>
         /// <param name="stateView">The state view for which to create cells.</param>

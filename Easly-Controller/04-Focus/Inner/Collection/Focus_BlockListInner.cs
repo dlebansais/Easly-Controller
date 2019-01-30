@@ -1,11 +1,11 @@
-﻿using BaseNode;
-using EaslyController.Frame;
-using EaslyController.ReadOnly;
-using EaslyController.Writeable;
-using System;
-
-namespace EaslyController.Focus
+﻿namespace EaslyController.Focus
 {
+    using System;
+    using BaseNode;
+    using EaslyController.Frame;
+    using EaslyController.ReadOnly;
+    using EaslyController.Writeable;
+
     /// <summary>
     /// Inner for a block list.
     /// </summary>
@@ -30,6 +30,7 @@ namespace EaslyController.Focus
     /// <summary>
     /// Inner for a block list.
     /// </summary>
+    /// <typeparam name="IIndex">Type of the index.</typeparam>
     public interface IFocusBlockListInner<out IIndex> : IFrameBlockListInner<IIndex>, IFocusCollectionInner<IIndex>
         where IIndex : IFocusBrowsingBlockNodeIndex
     {
@@ -52,6 +53,8 @@ namespace EaslyController.Focus
     /// <summary>
     /// Inner for a block list.
     /// </summary>
+    /// <typeparam name="IIndex">Type of the index as interface.</typeparam>
+    /// <typeparam name="TIndex">Type of the index as class.</typeparam>
     public class FocusBlockListInner<IIndex, TIndex> : FrameBlockListInner<IIndex, TIndex>, IFocusBlockListInner<IIndex>, IFocusBlockListInner
         where IIndex : IFocusBrowsingBlockNodeIndex
         where TIndex : FocusBrowsingBlockNodeIndex, IIndex

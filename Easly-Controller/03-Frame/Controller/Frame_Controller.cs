@@ -1,10 +1,10 @@
-﻿using BaseNode;
-using EaslyController.ReadOnly;
-using EaslyController.Writeable;
-using System;
-
-namespace EaslyController.Frame
+﻿namespace EaslyController.Frame
 {
+    using System;
+    using BaseNode;
+    using EaslyController.ReadOnly;
+    using EaslyController.Writeable;
+
     /// <summary>
     /// Controller for a node tree.
     /// This controller supports:
@@ -136,7 +136,7 @@ namespace EaslyController.Frame
         }
 
         /// <summary>
-        /// Initializes a new instance of a <see cref="FrameController"/> object.
+        /// Initializes a new instance of the <see cref="FrameController"/> class.
         /// </summary>
         protected FrameController()
         {

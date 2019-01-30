@@ -1,7 +1,7 @@
-﻿using EaslyController.Frame;
-
-namespace EaslyController.Focus
+﻿namespace EaslyController.Focus
 {
+    using EaslyController.Frame;
+
     /// <summary>
     /// Focus describing a value property (or string) in a node.
     /// </summary>
@@ -54,7 +54,7 @@ namespace EaslyController.Focus
         /// Gets preferred frames to receive the focus when the source code is changed.
         /// </summary>
         /// <param name="firstPreferredFrame">The first preferred frame found.</param>
-        /// <param name="lastPreferredFrame">The first preferred frame found.</param>
+        /// <param name="lastPreferredFrame">The last preferred frame found.</param>
         public abstract void GetPreferredFrame(ref IFocusNodeFrame firstPreferredFrame, ref IFocusNodeFrame lastPreferredFrame);
         #endregion
     }

@@ -1,10 +1,10 @@
-﻿using BaseNode;
-using BaseNodeHelper;
-using EaslyController.ReadOnly;
-using System.Diagnostics;
-
-namespace EaslyController.Writeable
+﻿namespace EaslyController.Writeable
 {
+    using System.Diagnostics;
+    using BaseNode;
+    using BaseNodeHelper;
+    using EaslyController.ReadOnly;
+
     /// <summary>
     /// Index for a node in a block that is not the first.
     /// </summary>
@@ -58,7 +58,7 @@ namespace EaslyController.Writeable
         public virtual void MoveUp()
         {
             Debug.Assert(NodeTreeHelperBlockList.GetLastBlockChildIndex(ParentNode, PropertyName, BlockIndex, out int LastIndex) && Index + 1 < LastIndex);
-            
+
             Index++;
         }
 

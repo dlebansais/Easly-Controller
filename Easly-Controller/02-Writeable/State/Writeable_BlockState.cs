@@ -1,10 +1,9 @@
-﻿using BaseNode;
-using BaseNodeHelper;
-using EaslyController.ReadOnly;
-using System.Diagnostics;
-
-namespace EaslyController.Writeable
+﻿namespace EaslyController.Writeable
 {
+    using System.Diagnostics;
+    using BaseNode;
+    using EaslyController.ReadOnly;
+
     /// <summary>
     /// State of a block in a block list.
     /// </summary>
@@ -44,8 +43,8 @@ namespace EaslyController.Writeable
         /// Inserts a new node in a block.
         /// </summary>
         /// <param name="nodeIndex">Index of the node to insert.</param>
-        /// <param name="childState">Node state.</param>
         /// <param name="index">Position of the inserted node in the block.</param>
+        /// <param name="childState">Node state.</param>
         void Insert(IWriteableBrowsingBlockNodeIndex nodeIndex, int index, IReadOnlyPlaceholderNodeState childState);
 
         /// <summary>
@@ -119,8 +118,8 @@ namespace EaslyController.Writeable
         /// Inserts a new node in a block.
         /// </summary>
         /// <param name="nodeIndex">Index of the node to insert.</param>
-        /// <param name="childState">Node state.</param>
         /// <param name="index">Position of the inserted node in the block.</param>
+        /// <param name="childState">Node state.</param>
         public virtual void Insert(IWriteableBrowsingBlockNodeIndex nodeIndex, int index, IReadOnlyPlaceholderNodeState childState)
         {
             Debug.Assert(nodeIndex != null);

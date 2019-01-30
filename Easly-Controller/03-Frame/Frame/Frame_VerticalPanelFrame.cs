@@ -1,7 +1,7 @@
-﻿using System.Windows.Markup;
-
-namespace EaslyController.Frame
+﻿namespace EaslyController.Frame
 {
+    using System.Windows.Markup;
+
     /// <summary>
     /// Frame for displaying more frames vertically.
     /// </summary>

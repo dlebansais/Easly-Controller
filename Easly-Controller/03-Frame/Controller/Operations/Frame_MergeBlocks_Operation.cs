@@ -1,9 +1,9 @@
-﻿using BaseNode;
-using EaslyController.Writeable;
-using System;
-
-namespace EaslyController.Frame
+﻿namespace EaslyController.Frame
 {
+    using System;
+    using BaseNode;
+    using EaslyController.Writeable;
+
     /// <summary>
     /// Operation details for merging blocks in a block list.
     /// </summary>
@@ -22,7 +22,7 @@ namespace EaslyController.Frame
     {
         #region Init
         /// <summary>
-        /// Initializes a new instance of <see cref="FrameMergeBlocksOperation"/>.
+        /// Initializes a new instance of the <see cref="FrameMergeBlocksOperation"/> class.
         /// </summary>
         /// <param name="parentNode">Node where the blocks are merged.</param>
         /// <param name="propertyName">Property of <paramref name="parentNode"/> where blocks are merged.</param>

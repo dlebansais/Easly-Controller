@@ -1,11 +1,10 @@
-﻿using BaseNode;
-using EaslyController.ReadOnly;
-using EaslyController.Writeable;
-using System;
-using System.Diagnostics;
-
-namespace EaslyController.Frame
+﻿namespace EaslyController.Frame
 {
+    using System;
+    using System.Diagnostics;
+    using EaslyController.ReadOnly;
+    using EaslyController.Writeable;
+
     /// <summary>
     /// View of a IxxxController.
     /// </summary>
@@ -44,7 +43,7 @@ namespace EaslyController.Frame
         /// <summary>
         /// Enumerate all visible cell views.
         /// </summary>
-        /// <param name="list"></param>
+        /// <param name="list">List to contain enumerated cell views upon return.</param>
         void EnumerateVisibleCellViews(IFrameVisibleCellViewList list);
     }
 
@@ -67,7 +66,7 @@ namespace EaslyController.Frame
         }
 
         /// <summary>
-        /// Initializes a new instance of a <see cref="FrameControllerView"/> object.
+        /// Initializes a new instance of the <see cref="FrameControllerView"/> class.
         /// </summary>
         /// <param name="controller">The controller on which the view is attached.</param>
         /// <param name="templateSet">The template set used to describe the view.</param>
@@ -138,7 +137,7 @@ namespace EaslyController.Frame
             base.OnBlockStateInserted(operation);
 
             IFrameInsertBlockOperation InsertBlockOperation = (IFrameInsertBlockOperation)operation;
-            IFrameBlockListInner <IFrameBrowsingBlockNodeIndex> ParentInner = (IFrameBlockListInner<IFrameBrowsingBlockNodeIndex>)InsertBlockOperation.BlockState.ParentInner;
+            IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> ParentInner = (IFrameBlockListInner<IFrameBrowsingBlockNodeIndex>)InsertBlockOperation.BlockState.ParentInner;
             IFrameNodeState OwnerState = ParentInner.Owner;
             IFrameNodeStateView OwnerStateView = StateViewTable[OwnerState];
 
@@ -580,7 +579,7 @@ namespace EaslyController.Frame
         {
             base.OnBlockStateChanged(operation);
 
-            //TODO: only refresh the local state. Right now for some reason it doesn't work.
+            // TODO: only refresh the local state. Right now for some reason it doesn't work.
             Refresh(Controller.RootState);
         }
 
@@ -804,8 +803,6 @@ namespace EaslyController.Frame
 
             int BlockIndex = operation.BrowsingIndex.BlockIndex;
             EmbeddingCellView.Insert(BlockIndex, RootCellView);
-
-            //OnStateInserted(null, ArgumentNodeIndex, ArgumentChildState, true);
 
             Refresh(OwnerState);
         }

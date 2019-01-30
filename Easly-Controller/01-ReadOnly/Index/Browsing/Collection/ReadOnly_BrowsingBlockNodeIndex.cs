@@ -1,8 +1,8 @@
-﻿using BaseNode;
-using System.Diagnostics;
-
-namespace EaslyController.ReadOnly
+﻿namespace EaslyController.ReadOnly
 {
+    using System.Diagnostics;
+    using BaseNode;
+
     /// <summary>
     /// Base for block list index classes.
     /// </summary>

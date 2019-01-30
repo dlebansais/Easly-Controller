@@ -1,9 +1,9 @@
-﻿using BaseNode;
-using EaslyController.Writeable;
-using System;
-
-namespace EaslyController.Frame
+﻿namespace EaslyController.Frame
 {
+    using System;
+    using BaseNode;
+    using EaslyController.Writeable;
+
     /// <summary>
     /// Operation details for moving a block in a block list.
     /// </summary>
@@ -22,7 +22,7 @@ namespace EaslyController.Frame
     {
         #region Init
         /// <summary>
-        /// Initializes a new instance of <see cref="FrameMoveBlockOperation"/>.
+        /// Initializes a new instance of the <see cref="FrameMoveBlockOperation"/> class.
         /// </summary>
         /// <param name="parentNode">Node where the block is moved.</param>
         /// <param name="propertyName">Property of <paramref name="parentNode"/> where the block is moved.</param>

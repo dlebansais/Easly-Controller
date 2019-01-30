@@ -1,7 +1,7 @@
-﻿using EaslyController.Writeable;
-
-namespace EaslyController.Frame
+﻿namespace EaslyController.Frame
 {
+    using EaslyController.Writeable;
+
     /// <summary>
     /// Base inner for a single node inner.
     /// </summary>
@@ -16,6 +16,7 @@ namespace EaslyController.Frame
     /// <summary>
     /// Base inner for a single node inner.
     /// </summary>
+    /// <typeparam name="IIndex">Type of the index.</typeparam>
     public interface IFrameSingleInner<out IIndex> : IWriteableSingleInner<IIndex>, IFrameInner<IIndex>
         where IIndex : IFrameBrowsingChildIndex
     {
@@ -28,6 +29,7 @@ namespace EaslyController.Frame
     /// <summary>
     /// Base inner for a single node inner.
     /// </summary>
+    /// <typeparam name="IIndex">Type of the index.</typeparam>
     public abstract class FrameSingleInner<IIndex> : WriteableSingleInner<IIndex>, IFrameSingleInner<IIndex>, IFrameSingleInner
         where IIndex : IFrameBrowsingChildIndex
     {

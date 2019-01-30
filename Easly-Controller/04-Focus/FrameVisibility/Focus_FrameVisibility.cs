@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace EaslyController.Focus
+﻿namespace EaslyController.Focus
 {
+    using System;
+
     /// <summary>
     /// Base frame visibility.
     /// </summary>

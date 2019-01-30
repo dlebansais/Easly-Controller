@@ -1,12 +1,12 @@
-﻿using BaseNode;
-using BaseNodeHelper;
-using EaslyController.Constants;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-
-namespace EaslyController.ReadOnly
+﻿namespace EaslyController.ReadOnly
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics;
+    using BaseNode;
+    using BaseNodeHelper;
+    using EaslyController.Constants;
+
     /// <summary>
     /// State of a block in a block list.
     /// </summary>

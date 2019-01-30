@@ -1,7 +1,7 @@
-﻿using EaslyController.Writeable;
-
-namespace EaslyController.Frame
+﻿namespace EaslyController.Frame
 {
+    using EaslyController.Writeable;
+
     /// <summary>
     /// Index for a child node.
     /// </summary>

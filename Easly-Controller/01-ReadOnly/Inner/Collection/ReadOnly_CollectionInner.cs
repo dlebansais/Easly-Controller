@@ -1,8 +1,8 @@
-﻿using System;
-using System.Diagnostics;
-
-namespace EaslyController.ReadOnly
+﻿namespace EaslyController.ReadOnly
 {
+    using System;
+    using System.Diagnostics;
+
     /// <summary>
     /// Base inner for a list or a block list.
     /// </summary>
@@ -27,6 +27,7 @@ namespace EaslyController.ReadOnly
     /// <summary>
     /// Base inner for a list or a block list.
     /// </summary>
+    /// <typeparam name="IIndex">Type of the index.</typeparam>
     public interface IReadOnlyCollectionInner<out IIndex> : IReadOnlyInner<IIndex>
         where IIndex : IReadOnlyBrowsingCollectionNodeIndex
     {
@@ -49,6 +50,8 @@ namespace EaslyController.ReadOnly
     /// <summary>
     /// Base inner for a list or a block list.
     /// </summary>
+    /// <typeparam name="IIndex">Type of the index as interface.</typeparam>
+    /// <typeparam name="TIndex">Type of the index as class.</typeparam>
     public abstract class ReadOnlyCollectionInner<IIndex, TIndex> : ReadOnlyInner<IIndex>, IReadOnlyCollectionInner<IIndex>, IReadOnlyCollectionInner
         where IIndex : IReadOnlyBrowsingCollectionNodeIndex
         where TIndex : ReadOnlyBrowsingCollectionNodeIndex, IIndex

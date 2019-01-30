@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-
-#pragma warning disable 1591
+﻿#pragma warning disable 1591
 
 namespace EaslyController.Frame
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
+
     /// <summary>
     /// Read-only dictionary of Type, IxxxTemplate
     /// </summary>

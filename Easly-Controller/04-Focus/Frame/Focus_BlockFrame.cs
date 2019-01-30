@@ -1,7 +1,7 @@
-﻿using EaslyController.Frame;
-
-namespace EaslyController.Focus
+﻿namespace EaslyController.Focus
 {
+    using EaslyController.Frame;
+
     /// <summary>
     /// Frame for cells within a block.
     /// </summary>

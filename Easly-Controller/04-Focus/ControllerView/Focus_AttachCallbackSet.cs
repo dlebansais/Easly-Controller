@@ -1,9 +1,9 @@
-﻿using EaslyController.ReadOnly;
-using EaslyController.Frame;
-using System;
-
-namespace EaslyController.Focus
+﻿namespace EaslyController.Focus
 {
+    using System;
+    using EaslyController.Frame;
+    using EaslyController.ReadOnly;
+
     /// <summary>
     /// Handlers to call during enumeration of states, when attaching a view.
     /// </summary>

@@ -1,8 +1,8 @@
-﻿using EaslyController.ReadOnly;
-using EaslyController.Frame;
-
-namespace EaslyController.Focus
+﻿namespace EaslyController.Focus
 {
+    using EaslyController.Frame;
+    using EaslyController.ReadOnly;
+
     /// <summary>
     /// Context for browsing child nodes of a parent node.
     /// </summary>
@@ -26,7 +26,7 @@ namespace EaslyController.Focus
     {
         #region Init
         /// <summary>
-        /// Initializes a new instance of <see cref="FocusBrowseContext"/>.
+        /// Initializes a new instance of the <see cref="FocusBrowseContext"/> class.
         /// </summary>
         /// <param name="state">The state that will be browsed.</param>
         public FocusBrowseContext(IFocusNodeState state)

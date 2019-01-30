@@ -1,9 +1,9 @@
-﻿using BaseNode;
-using System;
-using System.Diagnostics;
-
-namespace EaslyController.Frame
+﻿namespace EaslyController.Frame
 {
+    using System;
+    using System.Diagnostics;
+    using BaseNode;
+
     /// <summary>
     /// Base frame for displaying more frames.
     /// </summary>
@@ -22,7 +22,7 @@ namespace EaslyController.Frame
     {
         #region Init
         /// <summary>
-        /// Initializes a new instance of <see cref="FramePanelFrame"/>.
+        /// Initializes a new instance of the <see cref="FramePanelFrame"/> class.
         /// </summary>
         public FramePanelFrame()
         {

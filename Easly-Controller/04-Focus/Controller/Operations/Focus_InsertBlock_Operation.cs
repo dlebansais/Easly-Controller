@@ -1,10 +1,10 @@
-﻿using BaseNode;
-using EaslyController.Frame;
-using EaslyController.Writeable;
-using System;
-
-namespace EaslyController.Focus
+﻿namespace EaslyController.Focus
 {
+    using System;
+    using BaseNode;
+    using EaslyController.Frame;
+    using EaslyController.Writeable;
+
     /// <summary>
     /// Operation details for inserting a block with a single node in a block list.
     /// </summary>
@@ -33,7 +33,7 @@ namespace EaslyController.Focus
     {
         #region Init
         /// <summary>
-        /// Initializes a new instance of <see cref="FocusInsertBlockOperation"/>.
+        /// Initializes a new instance of the <see cref="FocusInsertBlockOperation"/> class.
         /// </summary>
         /// <param name="parentNode">Node where the block insertion is taking place.</param>
         /// <param name="propertyName">Block list property of <paramref name="parentNode"/> where a block is inserted.</param>

@@ -1,9 +1,9 @@
-﻿using BaseNode;
-using System;
-using System.Diagnostics;
-
-namespace EaslyController.ReadOnly
+﻿namespace EaslyController.ReadOnly
 {
+    using System;
+    using System.Diagnostics;
+    using BaseNode;
+
     /// <summary>
     /// Interface for all inners.
     /// </summary>
@@ -34,6 +34,7 @@ namespace EaslyController.ReadOnly
     /// <summary>
     /// Interface for all inners.
     /// </summary>
+    /// <typeparam name="IIndex">Type of the index.</typeparam>
     public interface IReadOnlyInner<out IIndex> : IEqualComparable
         where IIndex : IReadOnlyBrowsingChildIndex
     {
@@ -83,6 +84,7 @@ namespace EaslyController.ReadOnly
     /// <summary>
     /// Interface for all inners.
     /// </summary>
+    /// <typeparam name="IIndex">Type of the index.</typeparam>
     public abstract class ReadOnlyInner<IIndex> : IReadOnlyInner<IIndex>, IReadOnlyInner
         where IIndex : IReadOnlyBrowsingChildIndex
     {

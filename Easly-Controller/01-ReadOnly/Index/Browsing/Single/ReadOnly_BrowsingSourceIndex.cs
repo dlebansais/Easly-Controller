@@ -1,8 +1,8 @@
-﻿using BaseNode;
-using System.Diagnostics;
-
-namespace EaslyController.ReadOnly
+﻿namespace EaslyController.ReadOnly
 {
+    using System.Diagnostics;
+    using BaseNode;
+
     /// <summary>
     /// Index for the source identifier node of a block.
     /// </summary>

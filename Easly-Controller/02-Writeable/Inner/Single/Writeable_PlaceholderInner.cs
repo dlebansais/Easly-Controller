@@ -1,11 +1,10 @@
-﻿using BaseNode;
-using BaseNodeHelper;
-using EaslyController.ReadOnly;
-using System;
-using System.Diagnostics;
-
-namespace EaslyController.Writeable
+﻿namespace EaslyController.Writeable
 {
+    using System.Diagnostics;
+    using BaseNode;
+    using BaseNodeHelper;
+    using EaslyController.ReadOnly;
+
     /// <summary>
     /// Inner for a child node.
     /// </summary>
@@ -16,6 +15,7 @@ namespace EaslyController.Writeable
     /// <summary>
     /// Inner for a child node.
     /// </summary>
+    /// <typeparam name="IIndex">Type of the index.</typeparam>
     public interface IWriteablePlaceholderInner<out IIndex> : IReadOnlyPlaceholderInner<IIndex>, IWriteableSingleInner<IIndex>
         where IIndex : IWriteableBrowsingPlaceholderNodeIndex
     {
@@ -24,6 +24,8 @@ namespace EaslyController.Writeable
     /// <summary>
     /// Inner for a child node.
     /// </summary>
+    /// <typeparam name="IIndex">Type of the index as interface.</typeparam>
+    /// <typeparam name="TIndex">Type of the index as class.</typeparam>
     public class WriteablePlaceholderInner<IIndex, TIndex> : ReadOnlyPlaceholderInner<IIndex, TIndex>, IWriteablePlaceholderInner<IIndex>, IWriteablePlaceholderInner
         where IIndex : IWriteableBrowsingPlaceholderNodeIndex
         where TIndex : WriteableBrowsingPlaceholderNodeIndex, IIndex

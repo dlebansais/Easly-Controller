@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics;
-
-namespace EaslyController.Frame
+﻿namespace EaslyController.Frame
 {
+    using System.Collections.Generic;
+    using System.Diagnostics;
+
     /// <summary>
     /// A leaf of the cell view tree for a child state.
     /// </summary>
@@ -26,7 +26,7 @@ namespace EaslyController.Frame
     {
         #region Init
         /// <summary>
-        /// Initializes an instance of <see cref="FrameContainerCellView"/>.
+        /// Initializes a new instance of the <see cref="FrameContainerCellView"/> class.
         /// </summary>
         /// <param name="stateView">The state view containing the tree with this cell.</param>
         /// <param name="parentCellView">The collection of cell views containing this view.</param>
@@ -161,7 +161,7 @@ namespace EaslyController.Frame
         /// <param name="isVerbose">True to verbose information.</param>
         public override string PrintTree(int indentation, bool isVerbose)
         {
-            string Result = "";
+            string Result = string.Empty;
             for (int i = 0; i < indentation; i++)
                 Result += " ";
 

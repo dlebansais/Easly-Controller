@@ -1,9 +1,9 @@
-﻿using EaslyController.Constants;
-using System.Collections.Generic;
-using System.Diagnostics;
-
-namespace EaslyController.ReadOnly
+﻿namespace EaslyController.ReadOnly
 {
+    using System.Collections.Generic;
+    using System.Diagnostics;
+    using EaslyController.Constants;
+
     /// <summary>
     /// Context for browsing child nodes of a parent node.
     /// </summary>
@@ -48,7 +48,7 @@ namespace EaslyController.ReadOnly
     {
         #region Init
         /// <summary>
-        /// Initializes a new instance of <see cref="ReadOnlyBrowseContext"/>.
+        /// Initializes a new instance of the <see cref="ReadOnlyBrowseContext"/> class.
         /// </summary>
         /// <param name="state">The state that will be browsed.</param>
         public ReadOnlyBrowseContext(IReadOnlyNodeState state)
@@ -119,7 +119,6 @@ namespace EaslyController.ReadOnly
         /// </summary>
         /// <param name="collection">The collection to check.</param>
         /// <param name="collectionList">The list of collections already accumulated.</param>
-        /// <returns></returns>
         public static bool IsCollectionSeparate(IReadOnlyIndexCollection collection, IReadOnlyIndexCollectionReadOnlyList collectionList)
         {
             foreach (IReadOnlyBrowsingChildIndex Index0 in collection.NodeIndexList)
@@ -160,7 +159,6 @@ namespace EaslyController.ReadOnly
         /// <summary>
         /// Creates a IxxxIndexCollectionReadOnlyList object.
         /// </summary>
-        /// <param name="list"></param>
         protected virtual IReadOnlyIndexCollectionReadOnlyList CreateIndexCollectionListReadOnly(IReadOnlyIndexCollectionList list)
         {
             ControllerTools.AssertNoOverride(this, typeof(ReadOnlyBrowseContext));

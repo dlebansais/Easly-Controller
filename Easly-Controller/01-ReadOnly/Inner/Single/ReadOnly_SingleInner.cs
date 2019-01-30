@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace EaslyController.ReadOnly
+﻿namespace EaslyController.ReadOnly
 {
+    using System;
+
     /// <summary>
     /// Base inner for a single node inner.
     /// </summary>
@@ -16,6 +16,7 @@ namespace EaslyController.ReadOnly
     /// <summary>
     /// Base inner for a single node inner.
     /// </summary>
+    /// <typeparam name="IIndex">Type of the index.</typeparam>
     public interface IReadOnlySingleInner<out IIndex> : IReadOnlyInner<IIndex>
         where IIndex : IReadOnlyBrowsingChildIndex
     {
@@ -28,6 +29,7 @@ namespace EaslyController.ReadOnly
     /// <summary>
     /// Base inner for a single node inner.
     /// </summary>
+    /// <typeparam name="IIndex">Type of the index.</typeparam>
     public abstract class ReadOnlySingleInner<IIndex> : ReadOnlyInner<IIndex>, IReadOnlySingleInner<IIndex>, IReadOnlySingleInner
         where IIndex : IReadOnlyBrowsingChildIndex
     {

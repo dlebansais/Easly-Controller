@@ -1,9 +1,9 @@
-﻿using BaseNode;
-using System;
-using System.Diagnostics;
-
-namespace EaslyController.Writeable
+﻿namespace EaslyController.Writeable
 {
+    using System;
+    using System.Diagnostics;
+    using BaseNode;
+
     /// <summary>
     /// Operation details for splitting a block in a block list.
     /// </summary>
@@ -58,7 +58,7 @@ namespace EaslyController.Writeable
     {
         #region Init
         /// <summary>
-        /// Initializes a new instance of <see cref="WriteableSplitBlockOperation"/>.
+        /// Initializes a new instance of the <see cref="WriteableSplitBlockOperation"/> class.
         /// </summary>
         /// <param name="parentNode">Node where the block is split.</param>
         /// <param name="propertyName">Property of <paramref name="parentNode"/> where the block is split.</param>

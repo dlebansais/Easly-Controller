@@ -1,10 +1,10 @@
-﻿using BaseNode;
-using EaslyController.Frame;
-using EaslyController.Writeable;
-using System;
-
-namespace EaslyController.Focus
+﻿namespace EaslyController.Focus
 {
+    using System;
+    using BaseNode;
+    using EaslyController.Frame;
+    using EaslyController.Writeable;
+
     /// <summary>
     /// Operation details for merging blocks in a block list.
     /// </summary>
@@ -23,7 +23,7 @@ namespace EaslyController.Focus
     {
         #region Init
         /// <summary>
-        /// Initializes a new instance of <see cref="FocusMergeBlocksOperation"/>.
+        /// Initializes a new instance of the <see cref="FocusMergeBlocksOperation"/> class.
         /// </summary>
         /// <param name="parentNode">Node where the blocks are merged.</param>
         /// <param name="propertyName">Property of <paramref name="parentNode"/> where blocks are merged.</param>

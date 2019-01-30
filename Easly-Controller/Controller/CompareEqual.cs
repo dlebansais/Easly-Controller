@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics;
-
-namespace EaslyController
+﻿namespace EaslyController
 {
+    using System.Collections.Generic;
+    using System.Diagnostics;
+
     /// <summary>
     /// Represent objects that can be compared for equality in a tree, while avoiding infinite recursion.
     /// </summary>
@@ -13,7 +13,6 @@ namespace EaslyController
         /// </summary>
         /// <param name="comparer">The comparison object to use.</param>
         /// <param name="other">The other instance of an object to compare with this one.</param>
-        /// <returns></returns>
         bool IsEqual(CompareEqual comparer, IEqualComparable other);
     }
 
@@ -32,9 +31,9 @@ namespace EaslyController
         }
 
         /// <summary>
-        /// Initializers a new instance of a <see cref="CompareEqual"/> object.
+        /// Initializes a new instance of the <see cref="CompareEqual"/> class.
         /// </summary>
-        /// <param name="canReturnFalse"></param>
+        /// <param name="canReturnFalse">True if the comparer should not break when a comparison fails.</param>
         public CompareEqual(bool canReturnFalse)
         {
             CanReturnFalse = canReturnFalse;

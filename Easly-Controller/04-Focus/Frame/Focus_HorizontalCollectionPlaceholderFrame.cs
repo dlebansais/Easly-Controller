@@ -1,9 +1,9 @@
-﻿using EaslyController.Frame;
-using System;
-using System.Diagnostics;
-
-namespace EaslyController.Focus
+﻿namespace EaslyController.Focus
 {
+    using System;
+    using System.Diagnostics;
+    using EaslyController.Frame;
+
     /// <summary>
     /// Focus for a placeholder node in a block list displayed horizontally.
     /// </summary>
@@ -18,7 +18,7 @@ namespace EaslyController.Focus
     {
         #region Init
         /// <summary>
-        /// Initializes a new instance of a <see cref="FocusHorizontalCollectionPlaceholderFrame"/> object.
+        /// Initializes a new instance of the <see cref="FocusHorizontalCollectionPlaceholderFrame"/> class.
         /// </summary>
         public FocusHorizontalCollectionPlaceholderFrame()
         {

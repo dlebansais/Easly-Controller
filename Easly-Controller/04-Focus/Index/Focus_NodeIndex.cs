@@ -1,7 +1,7 @@
-﻿using EaslyController.Frame;
-
-namespace EaslyController.Focus
+﻿namespace EaslyController.Focus
 {
+    using EaslyController.Frame;
+
     /// <summary>
     /// Base interface for any index representing a node.
     /// </summary>

@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace EaslyController.Focus
+﻿namespace EaslyController.Focus
 {
+    using System;
+
     /// <summary>
     /// Frame visibility that depends on the IsTextMatch template property.
     /// </summary>

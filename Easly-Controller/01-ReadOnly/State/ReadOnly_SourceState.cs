@@ -1,8 +1,8 @@
-﻿using BaseNode;
-using System.Diagnostics;
-
-namespace EaslyController.ReadOnly
+﻿namespace EaslyController.ReadOnly
 {
+    using System.Diagnostics;
+    using BaseNode;
+
     /// <summary>
     /// State of a source identifier node.
     /// </summary>

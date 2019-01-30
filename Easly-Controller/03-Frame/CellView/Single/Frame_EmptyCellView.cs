@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics;
-
-namespace EaslyController.Frame
+﻿namespace EaslyController.Frame
 {
+    using System.Collections.Generic;
+    using System.Diagnostics;
+
     /// <summary>
     /// Cell view with no content and that is not displayed.
     /// </summary>
@@ -17,7 +17,7 @@ namespace EaslyController.Frame
     {
         #region Init
         /// <summary>
-        /// Initializes an instance of <see cref="FrameEmptyCellView"/>.
+        /// Initializes a new instance of the <see cref="FrameEmptyCellView"/> class.
         /// </summary>
         /// <param name="stateView">The state view containing the tree with this cell.</param>
         public FrameEmptyCellView(IFrameNodeStateView stateView)
@@ -102,7 +102,7 @@ namespace EaslyController.Frame
         /// <param name="isVerbose">True to verbose information.</param>
         public override string PrintTree(int indentation, bool isVerbose)
         {
-            string Result = "";
+            string Result = string.Empty;
             for (int i = 0; i < indentation; i++)
                 Result += " ";
 

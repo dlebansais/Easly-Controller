@@ -1,8 +1,8 @@
-﻿using System;
-using System.Diagnostics;
-
-namespace EaslyController.Writeable
+﻿namespace EaslyController.Writeable
 {
+    using System;
+    using System.Diagnostics;
+
     /// <summary>
     /// Group of operations to make some tasks atomic.
     /// </summary>
@@ -41,7 +41,7 @@ namespace EaslyController.Writeable
     {
         #region Init
         /// <summary>
-        /// Initializes a new instance of a <see cref="WriteableOperationGroup"/> object.
+        /// Initializes a new instance of the <see cref="WriteableOperationGroup"/> class.
         /// </summary>
         /// <param name="operationList">List of operations belonging to this group.</param>
         /// <param name="refresh">Optional refresh operation to execute at the end of undo and redo.</param>

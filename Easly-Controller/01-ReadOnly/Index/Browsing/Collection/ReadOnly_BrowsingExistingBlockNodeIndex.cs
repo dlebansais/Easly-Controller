@@ -1,9 +1,9 @@
-﻿using BaseNode;
-using BaseNodeHelper;
-using System.Diagnostics;
-
-namespace EaslyController.ReadOnly
+﻿namespace EaslyController.ReadOnly
 {
+    using System.Diagnostics;
+    using BaseNode;
+    using BaseNodeHelper;
+
     /// <summary>
     /// Index for a node in a block.
     /// </summary>

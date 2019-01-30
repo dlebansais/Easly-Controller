@@ -1,7 +1,7 @@
-﻿using EaslyController.Frame;
-
-namespace EaslyController.Focus
+﻿namespace EaslyController.Focus
 {
+    using EaslyController.Frame;
+
     /// <summary>
     /// Group of operations to make some tasks atomic.
     /// </summary>
@@ -30,7 +30,7 @@ namespace EaslyController.Focus
     {
         #region Init
         /// <summary>
-        /// Initializes a new instance of a <see cref="FocusOperationGroup"/> object.
+        /// Initializes a new instance of the <see cref="FocusOperationGroup"/> class.
         /// </summary>
         /// <param name="operationList">List of operations belonging to this group.</param>
         /// <param name="refresh">Optional refresh operation to execute at the end of undo and redo.</param>

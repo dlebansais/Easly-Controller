@@ -1,8 +1,8 @@
-﻿using BaseNode;
-using System;
-
-namespace EaslyController.Writeable
+﻿namespace EaslyController.Writeable
 {
+    using System;
+    using BaseNode;
+
     /// <summary>
     /// Operation details for inserting a single argument in a block list.
     /// </summary>
@@ -21,7 +21,7 @@ namespace EaslyController.Writeable
     {
         #region Init
         /// <summary>
-        /// Initializes a new instance of <see cref="WriteableExpandArgumentOperation"/>.
+        /// Initializes a new instance of the <see cref="WriteableExpandArgumentOperation"/> class.
         /// </summary>
         /// <param name="parentNode">Node where the block insertion is taking place.</param>
         /// <param name="propertyName">Block list property of <paramref name="parentNode"/> where a block is inserted.</param>

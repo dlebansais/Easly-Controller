@@ -1,11 +1,11 @@
-﻿using BaseNode;
-using BaseNodeHelper;
-using EaslyController.ReadOnly;
-using EaslyController.Writeable;
-using System.Collections.Generic;
-
-namespace EaslyController.Frame
+﻿namespace EaslyController.Frame
 {
+    using System.Collections.Generic;
+    using BaseNode;
+    using BaseNodeHelper;
+    using EaslyController.ReadOnly;
+    using EaslyController.Writeable;
+
     /// <summary>
     /// State of an optional node.
     /// </summary>

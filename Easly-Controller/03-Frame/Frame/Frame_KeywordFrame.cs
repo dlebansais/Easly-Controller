@@ -1,9 +1,8 @@
-﻿using System;
-using System.Diagnostics;
-using System.Windows.Markup;
-
-namespace EaslyController.Frame
+﻿namespace EaslyController.Frame
 {
+    using System;
+    using System.Windows.Markup;
+
     /// <summary>
     /// Frame for decoration purpose only.
     /// </summary>

@@ -1,12 +1,8 @@
-﻿using BaseNode;
-using BaseNodeHelper;
-using EaslyController.Frame;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-
-namespace EaslyController.Focus
+﻿namespace EaslyController.Focus
 {
+    using BaseNodeHelper;
+    using EaslyController.Frame;
+
     /// <summary>
     /// Set of templates used to describe all possible nodes in the tree.
     /// </summary>
@@ -34,13 +30,15 @@ namespace EaslyController.Focus
         /// </summary>
         public static new IFocusTemplateSet Default { get { return (new FocusTemplateSet()).BuildDefault() as IFocusTemplateSet; } }
 
-        /// <summary></summary>
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FocusTemplateSet"/> class.
+        /// </summary>
         protected FocusTemplateSet()
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of <see cref="FocusTemplateSet"/>.
+        /// Initializes a new instance of the <see cref="FocusTemplateSet"/> class.
         /// </summary>
         /// <param name="nodeTemplateTable">Templates for nodes by their type.</param>
         /// <param name="blockTemplateTable">Templates for blocks of nodes.</param>

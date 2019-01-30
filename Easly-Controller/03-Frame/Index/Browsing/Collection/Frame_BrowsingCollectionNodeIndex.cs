@@ -1,8 +1,8 @@
-﻿using BaseNode;
-using EaslyController.Writeable;
-
-namespace EaslyController.Frame
+﻿namespace EaslyController.Frame
 {
+    using BaseNode;
+    using EaslyController.Writeable;
+
     /// <summary>
     /// Base for list and block list index classes.
     /// </summary>

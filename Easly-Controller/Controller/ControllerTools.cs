@@ -1,9 +1,9 @@
-﻿using System;
-using System.Diagnostics;
-using System.Runtime.CompilerServices;
-
-namespace EaslyController
+﻿namespace EaslyController
 {
+    using System;
+    using System.Diagnostics;
+    using System.Runtime.CompilerServices;
+
     /// <summary>
     /// Tool used to check that objects are created at the same layer than the caller.
     /// </summary>

@@ -1,7 +1,7 @@
-﻿using EaslyController.ReadOnly;
-
-namespace EaslyController.Writeable
+﻿namespace EaslyController.Writeable
 {
+    using EaslyController.ReadOnly;
+
     /// <summary>
     /// Interface for all inners.
     /// </summary>
@@ -22,6 +22,7 @@ namespace EaslyController.Writeable
     /// <summary>
     /// Interface for all inners.
     /// </summary>
+    /// <typeparam name="IIndex">Type of the index.</typeparam>
     public interface IWriteableInner<out IIndex> : IReadOnlyInner<IIndex>
         where IIndex : IWriteableBrowsingChildIndex
     {
@@ -40,6 +41,7 @@ namespace EaslyController.Writeable
     /// <summary>
     /// Interface for all inners.
     /// </summary>
+    /// <typeparam name="IIndex">Type of the index.</typeparam>
     public abstract class WriteableInner<IIndex> : ReadOnlyInner<IIndex>, IWriteableInner<IIndex>, IWriteableInner
         where IIndex : IWriteableBrowsingChildIndex
     {

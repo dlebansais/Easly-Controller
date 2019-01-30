@@ -1,10 +1,10 @@
-﻿using BaseNode;
-using EaslyController.ReadOnly;
-using System;
-using System.Diagnostics;
-
-namespace EaslyController.Writeable
+﻿namespace EaslyController.Writeable
 {
+    using System;
+    using System.Diagnostics;
+    using BaseNode;
+    using EaslyController.ReadOnly;
+
     /// <summary>
     /// Index for the first node in a block.
     /// </summary>

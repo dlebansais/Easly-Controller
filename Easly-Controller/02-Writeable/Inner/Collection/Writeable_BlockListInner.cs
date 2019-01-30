@@ -1,11 +1,11 @@
-﻿using BaseNode;
-using BaseNodeHelper;
-using EaslyController.ReadOnly;
-using System;
-using System.Diagnostics;
-
-namespace EaslyController.Writeable
+﻿namespace EaslyController.Writeable
 {
+    using System;
+    using System.Diagnostics;
+    using BaseNode;
+    using BaseNodeHelper;
+    using EaslyController.ReadOnly;
+
     /// <summary>
     /// Inner for a block list.
     /// </summary>
@@ -78,6 +78,7 @@ namespace EaslyController.Writeable
     /// <summary>
     /// Inner for a block list.
     /// </summary>
+    /// <typeparam name="IIndex">Type of the index.</typeparam>
     public interface IWriteableBlockListInner<out IIndex> : IReadOnlyBlockListInner<IIndex>, IWriteableCollectionInner<IIndex>
         where IIndex : IWriteableBrowsingBlockNodeIndex
     {
@@ -148,6 +149,8 @@ namespace EaslyController.Writeable
     /// <summary>
     /// Inner for a block list.
     /// </summary>
+    /// <typeparam name="IIndex">Type of the index as interface.</typeparam>
+    /// <typeparam name="TIndex">Type of the index as class.</typeparam>
     public class WriteableBlockListInner<IIndex, TIndex> : ReadOnlyBlockListInner<IIndex, TIndex>, IWriteableBlockListInner<IIndex>, IWriteableBlockListInner
         where IIndex : IWriteableBrowsingBlockNodeIndex
         where TIndex : WriteableBrowsingBlockNodeIndex, IIndex
@@ -277,7 +280,7 @@ namespace EaslyController.Writeable
             while (++BlockIndex < BlockStateList.Count)
             {
                 IWriteableBlockState NextBlockState = BlockStateList[BlockIndex];
-                
+
                 foreach (IWriteablePlaceholderNodeState State in NextBlockState.StateList)
                 {
                     IWriteableBrowsingExistingBlockNodeIndex NodeIndex = State.ParentIndex as IWriteableBrowsingExistingBlockNodeIndex;

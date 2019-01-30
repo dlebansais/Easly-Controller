@@ -1,9 +1,9 @@
-﻿using EaslyController.Frame;
-using EaslyController.Writeable;
-using System;
-
-namespace EaslyController.Focus
+﻿namespace EaslyController.Focus
 {
+    using System;
+    using EaslyController.Frame;
+    using EaslyController.Writeable;
+
     /// <summary>
     /// Operation details for replacing a node.
     /// </summary>
@@ -22,7 +22,7 @@ namespace EaslyController.Focus
     {
         #region Init
         /// <summary>
-        /// Initializes a new instance of <see cref="FocusGenericRefreshOperation"/>.
+        /// Initializes a new instance of the <see cref="FocusGenericRefreshOperation"/> class.
         /// </summary>
         /// <param name="refreshState">State in the source where to start refresh.</param>
         /// <param name="handlerRedo">Handler to execute to redo the operation.</param>

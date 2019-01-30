@@ -1,8 +1,8 @@
-﻿using EaslyController.Frame;
-using System.Diagnostics;
-
-namespace EaslyController.Focus
+﻿namespace EaslyController.Focus
 {
+    using System.Diagnostics;
+    using EaslyController.Frame;
+
     /// <summary>
     /// Atomic cell view of a component in a node.
     /// </summary>
@@ -27,7 +27,7 @@ namespace EaslyController.Focus
     {
         #region Init
         /// <summary>
-        /// Initializes an instance of <see cref="FocusCellView"/>.
+        /// Initializes a new instance of the <see cref="FocusCellView"/> class.
         /// </summary>
         /// <param name="stateView">The state view containing the tree with this cell.</param>
         public FocusCellView(IFocusNodeStateView stateView)

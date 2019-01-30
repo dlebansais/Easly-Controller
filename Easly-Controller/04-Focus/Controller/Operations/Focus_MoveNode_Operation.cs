@@ -1,10 +1,10 @@
-﻿using BaseNode;
-using EaslyController.Frame;
-using EaslyController.Writeable;
-using System;
-
-namespace EaslyController.Focus
+﻿namespace EaslyController.Focus
 {
+    using System;
+    using BaseNode;
+    using EaslyController.Frame;
+    using EaslyController.Writeable;
+
     /// <summary>
     /// Operation details for moving a node in a list or block list.
     /// </summary>
@@ -23,7 +23,7 @@ namespace EaslyController.Focus
     {
         #region Init
         /// <summary>
-        /// Initializes a new instance of <see cref="FocusMoveNodeOperation"/>.
+        /// Initializes a new instance of the <see cref="FocusMoveNodeOperation"/> class.
         /// </summary>
         /// <param name="parentNode">Node where the node is moved.</param>
         /// <param name="propertyName">Property of <paramref name="parentNode"/> where the node is moved.</param>

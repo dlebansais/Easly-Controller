@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace EaslyController.Focus
+﻿namespace EaslyController.Focus
 {
+    using System;
+
     /// <summary>
     /// Frame visibility that depends if the current state is not the first in the parent.
     /// </summary>

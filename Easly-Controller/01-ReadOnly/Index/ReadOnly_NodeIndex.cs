@@ -1,7 +1,7 @@
-﻿using BaseNode;
-
-namespace EaslyController.ReadOnly
+﻿namespace EaslyController.ReadOnly
 {
+    using BaseNode;
+
     /// <summary>
     /// Base interface for any index representing a node.
     /// </summary>

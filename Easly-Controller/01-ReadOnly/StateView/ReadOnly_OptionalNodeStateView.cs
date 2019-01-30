@@ -1,7 +1,7 @@
-﻿using System.Diagnostics;
-
-namespace EaslyController.ReadOnly
+﻿namespace EaslyController.ReadOnly
 {
+    using System.Diagnostics;
+
     /// <summary>
     /// View of an optional node state.
     /// </summary>

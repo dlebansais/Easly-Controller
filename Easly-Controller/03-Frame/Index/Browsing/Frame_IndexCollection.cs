@@ -1,9 +1,9 @@
-﻿using EaslyController.Writeable;
-using System.Collections.Generic;
-using System.Diagnostics;
-
-namespace EaslyController.Frame
+﻿namespace EaslyController.Frame
 {
+    using System.Collections.Generic;
+    using System.Diagnostics;
+    using EaslyController.Writeable;
+
     /// <summary>
     /// Collection of node indexes.
     /// </summary>
@@ -14,6 +14,7 @@ namespace EaslyController.Frame
     /// <summary>
     /// Collection of node indexes.
     /// </summary>
+    /// <typeparam name="IIndex">Type of the index.</typeparam>
     public interface IFrameIndexCollection<out IIndex> : IWriteableIndexCollection<IIndex>
         where IIndex : IFrameBrowsingChildIndex
     {
@@ -22,6 +23,7 @@ namespace EaslyController.Frame
     /// <summary>
     /// Collection of node indexes.
     /// </summary>
+    /// <typeparam name="IIndex">Type of the index.</typeparam>
     public class FrameIndexCollection<IIndex> : WriteableIndexCollection<IIndex>, IFrameIndexCollection<IIndex>, IFrameIndexCollection
         where IIndex : IFrameBrowsingChildIndex
     {

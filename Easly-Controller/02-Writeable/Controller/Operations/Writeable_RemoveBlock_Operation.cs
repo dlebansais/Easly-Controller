@@ -1,9 +1,9 @@
-﻿using BaseNode;
-using System;
-using System.Diagnostics;
-
-namespace EaslyController.Writeable
+﻿namespace EaslyController.Writeable
 {
+    using System;
+    using System.Diagnostics;
+    using BaseNode;
+
     /// <summary>
     /// Operation details for removing a block from a block list.
     /// </summary>
@@ -64,7 +64,7 @@ namespace EaslyController.Writeable
     {
         #region Init
         /// <summary>
-        /// Initializes a new instance of <see cref="WriteableRemoveBlockOperation"/>.
+        /// Initializes a new instance of the <see cref="WriteableRemoveBlockOperation"/> class.
         /// </summary>
         /// <param name="parentNode">Node where the block removal is taking place.</param>
         /// <param name="propertyName">Block list property of <paramref name="parentNode"/> where a block is removed.</param>

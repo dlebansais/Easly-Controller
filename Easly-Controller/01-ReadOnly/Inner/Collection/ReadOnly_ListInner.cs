@@ -1,10 +1,10 @@
-﻿using BaseNode;
-using BaseNodeHelper;
-using System;
-using System.Diagnostics;
-
-namespace EaslyController.ReadOnly
+﻿namespace EaslyController.ReadOnly
 {
+    using System;
+    using System.Diagnostics;
+    using BaseNode;
+    using BaseNodeHelper;
+
     /// <summary>
     /// Inner for a list of nodes.
     /// </summary>
@@ -26,6 +26,7 @@ namespace EaslyController.ReadOnly
     /// <summary>
     /// Inner for a list of nodes.
     /// </summary>
+    /// <typeparam name="IIndex">Type of the index.</typeparam>
     public interface IReadOnlyListInner<out IIndex> : IReadOnlyCollectionInner<IIndex>
         where IIndex : IReadOnlyBrowsingListNodeIndex
     {
@@ -45,6 +46,8 @@ namespace EaslyController.ReadOnly
     /// <summary>
     /// Inner for a list of nodes.
     /// </summary>
+    /// <typeparam name="IIndex">Type of the index as interface.</typeparam>
+    /// <typeparam name="TIndex">Type of the index as class.</typeparam>
     public class ReadOnlyListInner<IIndex, TIndex> : ReadOnlyCollectionInner<IIndex, TIndex>, IReadOnlyListInner<IIndex>, IReadOnlyListInner
         where IIndex : IReadOnlyBrowsingListNodeIndex
         where TIndex : ReadOnlyBrowsingListNodeIndex, IIndex

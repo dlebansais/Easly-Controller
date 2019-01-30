@@ -1,16 +1,17 @@
-﻿using EaslyController.Frame;
-using EaslyController.ReadOnly;
-using EaslyController.Writeable;
-using System;
-using System.Collections.Generic;
-
-#pragma warning disable 1591
+﻿#pragma warning disable 1591
 
 namespace EaslyController.Focus
 {
+    using System;
+    using System.Collections.Generic;
+    using EaslyController.Frame;
+    using EaslyController.ReadOnly;
+    using EaslyController.Writeable;
+
     /// <summary>
     /// Dictionary of ..., IxxxInner
     /// </summary>
+    /// <typeparam name="TKey">Type of the key.</typeparam>
     public interface IFocusInnerDictionary<TKey> : IFrameInnerDictionary<TKey>, IDictionary<TKey, IFocusInner<IFocusBrowsingChildIndex>>
     {
         new int Count { get; }
@@ -20,6 +21,7 @@ namespace EaslyController.Focus
     /// <summary>
     /// Dictionary of ..., IxxxInner
     /// </summary>
+    /// <typeparam name="TKey">Type of the key.</typeparam>
     public class FocusInnerDictionary<TKey> : Dictionary<TKey, IFocusInner<IFocusBrowsingChildIndex>>, IFocusInnerDictionary<TKey>
     {
         #region ReadOnly

@@ -1,11 +1,11 @@
-﻿using EaslyController.Writeable;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-
-#pragma warning disable 1591
+﻿#pragma warning disable 1591
 
 namespace EaslyController.Frame
 {
+    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
+    using EaslyController.Writeable;
+
     /// <summary>
     /// List of IxxxOperation
     /// </summary>

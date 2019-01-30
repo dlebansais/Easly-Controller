@@ -1,7 +1,7 @@
-﻿using EaslyController.Writeable;
-
-namespace EaslyController.Frame
+﻿namespace EaslyController.Frame
 {
+    using EaslyController.Writeable;
+
     /// <summary>
     /// Base inner for a list or a block list.
     /// </summary>
@@ -16,6 +16,7 @@ namespace EaslyController.Frame
     /// <summary>
     /// Base inner for a list or a block list.
     /// </summary>
+    /// <typeparam name="IIndex">Type of the index.</typeparam>
     public interface IFrameCollectionInner<out IIndex> : IWriteableCollectionInner<IIndex>, IFrameInner<IIndex>
         where IIndex : IFrameBrowsingCollectionNodeIndex
     {
@@ -28,6 +29,8 @@ namespace EaslyController.Frame
     /// <summary>
     /// Base inner for a list or a block list.
     /// </summary>
+    /// <typeparam name="IIndex">Type of the index as interface.</typeparam>
+    /// <typeparam name="TIndex">Type of the index as class.</typeparam>
     public abstract class FrameCollectionInner<IIndex, TIndex> : WriteableCollectionInner<IIndex, TIndex>, IFrameCollectionInner<IIndex>, IFrameCollectionInner
         where IIndex : IFrameBrowsingCollectionNodeIndex
         where TIndex : FrameBrowsingCollectionNodeIndex, IIndex

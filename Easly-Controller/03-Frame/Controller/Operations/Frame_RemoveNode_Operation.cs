@@ -1,9 +1,9 @@
-﻿using BaseNode;
-using EaslyController.Writeable;
-using System;
-
-namespace EaslyController.Frame
+﻿namespace EaslyController.Frame
 {
+    using System;
+    using BaseNode;
+    using EaslyController.Writeable;
+
     /// <summary>
     /// Operation details for removing a node in a list or block list.
     /// </summary>
@@ -22,7 +22,7 @@ namespace EaslyController.Frame
     {
         #region Init
         /// <summary>
-        /// Initializes a new instance of <see cref="FrameRemoveNodeOperation"/>.
+        /// Initializes a new instance of the <see cref="FrameRemoveNodeOperation"/> class.
         /// </summary>
         /// <param name="parentNode">Node where the removal is taking place.</param>
         /// <param name="propertyName">Property of <paramref name="parentNode"/> where a node is removed.</param>

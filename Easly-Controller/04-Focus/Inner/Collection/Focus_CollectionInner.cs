@@ -1,7 +1,7 @@
-﻿using EaslyController.Frame;
-
-namespace EaslyController.Focus
+﻿namespace EaslyController.Focus
 {
+    using EaslyController.Frame;
+
     /// <summary>
     /// Base inner for a list or a block list.
     /// </summary>
@@ -16,6 +16,7 @@ namespace EaslyController.Focus
     /// <summary>
     /// Base inner for a list or a block list.
     /// </summary>
+    /// <typeparam name="IIndex">Type of the index.</typeparam>
     public interface IFocusCollectionInner<out IIndex> : IFrameCollectionInner<IIndex>, IFocusInner<IIndex>
         where IIndex : IFocusBrowsingCollectionNodeIndex
     {/// <summary>
@@ -27,6 +28,8 @@ namespace EaslyController.Focus
     /// <summary>
     /// Base inner for a list or a block list.
     /// </summary>
+    /// <typeparam name="IIndex">Type of the index as interface.</typeparam>
+    /// <typeparam name="TIndex">Type of the index as class.</typeparam>
     public abstract class FocusCollectionInner<IIndex, TIndex> : FrameCollectionInner<IIndex, TIndex>, IFocusCollectionInner<IIndex>, IFocusCollectionInner
         where IIndex : IFocusBrowsingCollectionNodeIndex
         where TIndex : FocusBrowsingCollectionNodeIndex, IIndex

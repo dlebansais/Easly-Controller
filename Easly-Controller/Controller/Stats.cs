@@ -1,7 +1,7 @@
-﻿using System.Diagnostics;
-
-namespace EaslyController
+﻿namespace EaslyController
 {
+    using System.Diagnostics;
+
     /// <summary>
     /// Statistics for a node tree.
     /// </summary>

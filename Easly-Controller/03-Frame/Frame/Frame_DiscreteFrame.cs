@@ -1,10 +1,10 @@
-﻿using BaseNodeHelper;
-using System;
-using System.Diagnostics;
-using System.Windows.Markup;
-
-namespace EaslyController.Frame
+﻿namespace EaslyController.Frame
 {
+    using System;
+    using System.Diagnostics;
+    using System.Windows.Markup;
+    using BaseNodeHelper;
+
     /// <summary>
     /// Frame describing an enum value that can be displayed with different frames depending on its value.
     /// </summary>
@@ -25,7 +25,7 @@ namespace EaslyController.Frame
     {
         #region Init
         /// <summary>
-        /// Initializes a new instance of <see cref="FrameDiscreteFrame"/>.
+        /// Initializes a new instance of the <see cref="FrameDiscreteFrame"/> class.
         /// </summary>
         public FrameDiscreteFrame()
         {

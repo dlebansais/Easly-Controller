@@ -1,10 +1,10 @@
-﻿using BaseNode;
-using EaslyController.Frame;
-using EaslyController.Writeable;
-using System;
-
-namespace EaslyController.Focus
+﻿namespace EaslyController.Focus
 {
+    using System;
+    using BaseNode;
+    using EaslyController.Frame;
+    using EaslyController.Writeable;
+
     /// <summary>
     /// Operation details for splitting a block in a block list.
     /// </summary>
@@ -23,7 +23,7 @@ namespace EaslyController.Focus
     {
         #region Init
         /// <summary>
-        /// Initializes a new instance of <see cref="FocusSplitBlockOperation"/>.
+        /// Initializes a new instance of the <see cref="FocusSplitBlockOperation"/> class.
         /// </summary>
         /// <param name="parentNode">Node where the block is split.</param>
         /// <param name="propertyName">Property of <paramref name="parentNode"/> where the block is split.</param>

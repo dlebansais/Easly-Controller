@@ -1,10 +1,10 @@
-﻿using BaseNode;
-using EaslyController.Frame;
-using EaslyController.Writeable;
-using System;
-
-namespace EaslyController.Focus
+﻿namespace EaslyController.Focus
 {
+    using System;
+    using BaseNode;
+    using EaslyController.Frame;
+    using EaslyController.Writeable;
+
     /// <summary>
     /// Operation details for changing a block.
     /// </summary>
@@ -23,7 +23,7 @@ namespace EaslyController.Focus
     {
         #region Init
         /// <summary>
-        /// Initializes a new instance of <see cref="FocusChangeBlockOperation"/>.
+        /// Initializes a new instance of the <see cref="FocusChangeBlockOperation"/> class.
         /// </summary>
         /// <param name="parentNode">Node where the block change is taking place.</param>
         /// <param name="propertyName">Block list property of <paramref name="parentNode"/> for which a block is changed.</param>

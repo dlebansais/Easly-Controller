@@ -1,7 +1,7 @@
-﻿using System.Diagnostics;
-
-namespace EaslyController.Frame
+﻿namespace EaslyController.Frame
 {
+    using System.Diagnostics;
+
     /// <summary>
     /// Cell view for components that can receive the focus and be modified.
     /// </summary>
@@ -20,7 +20,7 @@ namespace EaslyController.Frame
     {
         #region Init
         /// <summary>
-        /// Initializes an instance of <see cref="FrameContentFocusableCellView"/>.
+        /// Initializes a new instance of the <see cref="FrameContentFocusableCellView"/> class.
         /// </summary>
         /// <param name="stateView">The state view containing the tree with this cell.</param>
         /// <param name="frame">The frame that created this cell view.</param>

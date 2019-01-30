@@ -1,11 +1,11 @@
-﻿using BaseNode;
-using BaseNodeHelper;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-
-namespace EaslyController.ReadOnly
+﻿namespace EaslyController.ReadOnly
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics;
+    using BaseNode;
+    using BaseNodeHelper;
+
     /// <summary>
     /// Controller for a node tree.
     /// This controller supports read-only access only.
@@ -108,7 +108,7 @@ namespace EaslyController.ReadOnly
         }
 
         /// <summary>
-        /// Initializes a new instance of a <see cref="ReadOnlyController"/> object.
+        /// Initializes a new instance of the <see cref="ReadOnlyController"/> class.
         /// </summary>
         protected ReadOnlyController()
         {
@@ -147,7 +147,7 @@ namespace EaslyController.ReadOnly
             remove { RemoveNodeStateCreatedDelegate(value); }
         }
 #pragma warning disable 1591
-        protected Action<IReadOnlyNodeState> NodeStateCreatedHandler;
+        private Action<IReadOnlyNodeState> NodeStateCreatedHandler;
         protected virtual void AddNodeStateCreatedDelegate(Action<IReadOnlyNodeState> handler) { NodeStateCreatedHandler += handler; }
         protected virtual void RemoveNodeStateCreatedDelegate(Action<IReadOnlyNodeState> handler) { NodeStateCreatedHandler -= handler; }
 #pragma warning restore 1591
@@ -161,7 +161,7 @@ namespace EaslyController.ReadOnly
             remove { RemoveNodeStateInitializedDelegate(value); }
         }
 #pragma warning disable 1591
-        protected Action<IReadOnlyNodeState> NodeStateInitializedHandler;
+        private Action<IReadOnlyNodeState> NodeStateInitializedHandler;
         protected virtual void AddNodeStateInitializedDelegate(Action<IReadOnlyNodeState> handler) { NodeStateInitializedHandler += handler; }
         protected virtual void RemoveNodeStateInitializedDelegate(Action<IReadOnlyNodeState> handler) { NodeStateInitializedHandler -= handler; }
 #pragma warning restore 1591
@@ -175,7 +175,7 @@ namespace EaslyController.ReadOnly
             remove { RemoveNodeStateRemovedDelegate(value); }
         }
 #pragma warning disable 1591
-        protected Action<IReadOnlyNodeState> NodeStateRemovedHandler;
+        private Action<IReadOnlyNodeState> NodeStateRemovedHandler;
         protected virtual void AddNodeStateRemovedDelegate(Action<IReadOnlyNodeState> handler) { NodeStateRemovedHandler += handler; }
         protected virtual void RemoveNodeStateRemovedDelegate(Action<IReadOnlyNodeState> handler) { NodeStateRemovedHandler -= handler; }
 #pragma warning restore 1591
@@ -189,7 +189,7 @@ namespace EaslyController.ReadOnly
             remove { RemoveBlockListInnerCreatedDelegate(value); }
         }
 #pragma warning disable 1591
-        protected Action<IReadOnlyBlockListInner> BlockListInnerCreatedHandler;
+        private Action<IReadOnlyBlockListInner> BlockListInnerCreatedHandler;
         protected virtual void AddBlockListInnerCreatedDelegate(Action<IReadOnlyBlockListInner> handler) { BlockListInnerCreatedHandler += handler; }
         protected virtual void RemoveBlockListInnerCreatedDelegate(Action<IReadOnlyBlockListInner> handler) { BlockListInnerCreatedHandler -= handler; }
 #pragma warning restore 1591
@@ -500,7 +500,7 @@ namespace EaslyController.ReadOnly
 
                         IReadOnlyBrowsingPatternIndex PatternIndex = BlockState.PatternIndex;
                         IReadOnlyPatternState PatternState = BlockState.PatternState;
-                        AddState(PatternIndex , PatternState);
+                        AddState(PatternIndex, PatternState);
                         Stats.PlaceholderNodeCount++;
 
                         IReadOnlyBrowsingSourceIndex SourceIndex = BlockState.SourceIndex;

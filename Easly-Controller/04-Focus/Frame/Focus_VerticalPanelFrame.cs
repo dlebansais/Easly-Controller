@@ -1,10 +1,10 @@
-﻿using EaslyController.Frame;
-using System;
-using System.Diagnostics;
-using System.Windows.Markup;
-
-namespace EaslyController.Focus
+﻿namespace EaslyController.Focus
 {
+    using System;
+    using System.Diagnostics;
+    using System.Windows.Markup;
+    using EaslyController.Frame;
+
     /// <summary>
     /// Focus for displaying more frames vertically.
     /// </summary>
@@ -150,7 +150,7 @@ namespace EaslyController.Focus
         /// Gets preferred frames to receive the focus when the source code is changed.
         /// </summary>
         /// <param name="firstPreferredFrame">The first preferred frame found.</param>
-        /// <param name="lastPreferredFrame">The first preferred frame found.</param>
+        /// <param name="lastPreferredFrame">The last preferred frame found.</param>
         public virtual void GetPreferredFrame(ref IFocusNodeFrame firstPreferredFrame, ref IFocusNodeFrame lastPreferredFrame)
         {
             foreach (IFocusFrame Item in Items)

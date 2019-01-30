@@ -1,8 +1,8 @@
-﻿using BaseNode;
-using EaslyController.Frame;
-
-namespace EaslyController.Focus
+﻿namespace EaslyController.Focus
 {
+    using BaseNode;
+    using EaslyController.Frame;
+
     /// <summary>
     /// Base for block list index classes.
     /// </summary>

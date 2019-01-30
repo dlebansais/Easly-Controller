@@ -1,12 +1,10 @@
-﻿using BaseNode;
-using BaseNodeHelper;
-using EaslyController.ReadOnly;
-using EaslyController.Writeable;
-using System;
-using System.Diagnostics;
-
-namespace EaslyController.Frame
+﻿namespace EaslyController.Frame
 {
+    using System;
+    using BaseNode;
+    using EaslyController.ReadOnly;
+    using EaslyController.Writeable;
+
     /// <summary>
     /// Inner for a block list.
     /// </summary>
@@ -31,6 +29,7 @@ namespace EaslyController.Frame
     /// <summary>
     /// Inner for a block list.
     /// </summary>
+    /// <typeparam name="IIndex">Type of the index.</typeparam>
     public interface IFrameBlockListInner<out IIndex> : IWriteableBlockListInner<IIndex>, IFrameCollectionInner<IIndex>
         where IIndex : IFrameBrowsingBlockNodeIndex
     {
@@ -53,6 +52,8 @@ namespace EaslyController.Frame
     /// <summary>
     /// Inner for a block list.
     /// </summary>
+    /// <typeparam name="IIndex">Type of the index as interface.</typeparam>
+    /// <typeparam name="TIndex">Type of the index as class.</typeparam>
     public class FrameBlockListInner<IIndex, TIndex> : WriteableBlockListInner<IIndex, TIndex>, IFrameBlockListInner<IIndex>, IFrameBlockListInner
         where IIndex : IFrameBrowsingBlockNodeIndex
         where TIndex : FrameBrowsingBlockNodeIndex, IIndex

@@ -1,8 +1,8 @@
-﻿using EaslyController.Writeable;
-using System;
-
-namespace EaslyController.Frame
+﻿namespace EaslyController.Frame
 {
+    using System;
+    using EaslyController.Writeable;
+
     /// <summary>
     /// Base for all operations modifying the node tree.
     /// </summary>
@@ -17,7 +17,7 @@ namespace EaslyController.Frame
     {
         #region Init
         /// <summary>
-        /// Initializes a new instance of a <see cref="FrameOperation"/> object.
+        /// Initializes a new instance of the <see cref="FrameOperation"/> class.
         /// </summary>
         /// <param name="handlerRedo">Handler to execute to redo the operation.</param>
         /// <param name="handlerUndo">Handler to execute to undo the operation.</param>

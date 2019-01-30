@@ -1,13 +1,12 @@
-﻿using EaslyController.Frame;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Diagnostics;
-
-#pragma warning disable 1591
+﻿#pragma warning disable 1591
 
 namespace EaslyController.Focus
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
+    using EaslyController.Frame;
+
     /// <summary>
     /// Read-only dictionary of ..., IxxxTemplate
     /// </summary>

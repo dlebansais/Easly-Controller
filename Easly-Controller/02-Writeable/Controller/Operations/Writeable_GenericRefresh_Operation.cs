@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace EaslyController.Writeable
+﻿namespace EaslyController.Writeable
 {
+    using System;
+
     /// <summary>
     /// Operation details for refreshing views.
     /// </summary>
@@ -20,7 +20,7 @@ namespace EaslyController.Writeable
     {
         #region Init
         /// <summary>
-        /// Initializes a new instance of <see cref="WriteableReplaceOperation"/>.
+        /// Initializes a new instance of the <see cref="WriteableGenericRefreshOperation"/> class.
         /// </summary>
         /// <param name="refreshState">State in the source where to start refresh.</param>
         /// <param name="handlerRedo">Handler to execute to redo the operation.</param>

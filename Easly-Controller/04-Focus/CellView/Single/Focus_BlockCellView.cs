@@ -1,8 +1,8 @@
-﻿using EaslyController.Frame;
-using System.Diagnostics;
-
-namespace EaslyController.Focus
+﻿namespace EaslyController.Focus
 {
+    using System.Diagnostics;
+    using EaslyController.Frame;
+
     /// <summary>
     /// A cell view for a block state.
     /// </summary>
@@ -26,7 +26,7 @@ namespace EaslyController.Focus
     {
         #region Init
         /// <summary>
-        /// Initializes an instance of <see cref="FocusBlockCellView"/>.
+        /// Initializes a new instance of the <see cref="FocusBlockCellView"/> class.
         /// </summary>
         /// <param name="stateView">The state view containing the tree with this cell.</param>
         /// <param name="parentCellView">The collection of cell views containing this view.</param>

@@ -1,14 +1,15 @@
-﻿using EaslyController.Frame;
-using System;
-using System.Collections.Generic;
-
-#pragma warning disable 1591
+﻿#pragma warning disable 1591
 
 namespace EaslyController.Focus
 {
+    using System;
+    using System.Collections.Generic;
+    using EaslyController.Frame;
+
     /// <summary>
     /// Dictionary of ..., IxxxAssignableCellView
     /// </summary>
+    /// <typeparam name="TKey">Type of the key.</typeparam>
     public interface IFocusAssignableCellViewDictionary<TKey> : IFrameAssignableCellViewDictionary<TKey>, IDictionary<TKey, IFocusAssignableCellView>
     {
         new int Count { get; }
@@ -18,6 +19,7 @@ namespace EaslyController.Focus
     /// <summary>
     /// Dictionary of ..., IxxxAssignableCellView
     /// </summary>
+    /// <typeparam name="TKey">Type of the key.</typeparam>
     public class FocusAssignableCellViewDictionary<TKey> : Dictionary<TKey, IFocusAssignableCellView>, IFocusAssignableCellViewDictionary<TKey>
     {
         #region Frame

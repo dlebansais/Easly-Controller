@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-
-namespace EaslyController.Frame
+﻿namespace EaslyController.Frame
 {
+    using System.Collections.Generic;
+    using System.Diagnostics;
+
     /// <summary>
     /// Base interface for collection of cell views.
     /// </summary>
@@ -63,7 +62,7 @@ namespace EaslyController.Frame
     {
         #region Init
         /// <summary>
-        /// Initializes an instance of <see cref="FrameCellViewCollection"/>.
+        /// Initializes a new instance of the <see cref="FrameCellViewCollection"/> class.
         /// </summary>
         /// <param name="stateView">The state view containing the tree with this cell.</param>
         /// <param name="cellViewList">The list of child cell views.</param>

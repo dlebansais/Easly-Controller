@@ -1,12 +1,8 @@
-﻿using BaseNode;
-using BaseNodeHelper;
-using EaslyController.ReadOnly;
-using EaslyController.Writeable;
-using System;
-using System.Diagnostics;
-
-namespace EaslyController.Frame
+﻿namespace EaslyController.Frame
 {
+    using EaslyController.ReadOnly;
+    using EaslyController.Writeable;
+
     /// <summary>
     /// Inner for an optional node.
     /// </summary>
@@ -21,6 +17,7 @@ namespace EaslyController.Frame
     /// <summary>
     /// Inner for an optional node.
     /// </summary>
+    /// <typeparam name="IIndex">Type of the index.</typeparam>
     public interface IFrameOptionalInner<out IIndex> : IWriteableOptionalInner<IIndex>, IFrameSingleInner<IIndex>
         where IIndex : IFrameBrowsingOptionalNodeIndex
     {
@@ -33,6 +30,8 @@ namespace EaslyController.Frame
     /// <summary>
     /// Inner for an optional node.
     /// </summary>
+    /// <typeparam name="IIndex">Type of the index as interface.</typeparam>
+    /// <typeparam name="TIndex">Type of the index as class.</typeparam>
     public class FrameOptionalInner<IIndex, TIndex> : WriteableOptionalInner<IIndex, TIndex>, IFrameOptionalInner<IIndex>, IFrameOptionalInner
         where IIndex : IFrameBrowsingOptionalNodeIndex
         where TIndex : FrameBrowsingOptionalNodeIndex, IIndex

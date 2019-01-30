@@ -1,8 +1,8 @@
-﻿using EaslyController.Frame;
-using System.Diagnostics;
-
-namespace EaslyController.Focus
+﻿namespace EaslyController.Focus
 {
+    using System.Diagnostics;
+    using EaslyController.Frame;
+
     /// <summary>
     /// View of an optional node state.
     /// </summary>

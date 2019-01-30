@@ -1,10 +1,10 @@
-﻿using BaseNode;
-using BaseNodeHelper;
-using EaslyController.ReadOnly;
-using System.Collections.Generic;
-
-namespace EaslyController.Writeable
+﻿namespace EaslyController.Writeable
 {
+    using System.Collections.Generic;
+    using BaseNode;
+    using BaseNodeHelper;
+    using EaslyController.ReadOnly;
+
     /// <summary>
     /// State of an replication pattern node.
     /// </summary>

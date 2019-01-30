@@ -1,7 +1,7 @@
-﻿using System.Diagnostics;
-
-namespace EaslyController.Frame
+﻿namespace EaslyController.Frame
 {
+    using System.Diagnostics;
+
     /// <summary>
     /// Cell view for components that are displayed.
     /// </summary>
@@ -30,7 +30,7 @@ namespace EaslyController.Frame
     {
         #region Init
         /// <summary>
-        /// Initializes an instance of <see cref="FrameVisibleCellView"/>.
+        /// Initializes a new instance of the <see cref="FrameVisibleCellView"/> class.
         /// </summary>
         /// <param name="stateView">The state view containing the tree with this cell.</param>
         /// <param name="frame">The frame that created this cell view.</param>
@@ -156,7 +156,7 @@ namespace EaslyController.Frame
         /// <param name="isVerbose">True to verbose information.</param>
         public override string PrintTree(int indentation, bool isVerbose)
         {
-            string Result = "";
+            string Result = string.Empty;
             for (int i = 0; i < indentation; i++)
                 Result += " ";
 

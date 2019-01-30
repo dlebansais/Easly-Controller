@@ -1,10 +1,10 @@
-﻿using BaseNode;
-using BaseNodeHelper;
-using System;
-using System.Diagnostics;
-
-namespace EaslyController.ReadOnly
+﻿namespace EaslyController.ReadOnly
 {
+    using System;
+    using System.Diagnostics;
+    using BaseNode;
+    using BaseNodeHelper;
+
     /// <summary>
     /// Inner for an optional node.
     /// </summary>
@@ -24,6 +24,7 @@ namespace EaslyController.ReadOnly
     /// <summary>
     /// Inner for an optional node.
     /// </summary>
+    /// <typeparam name="IIndex">Type of the index.</typeparam>
     public interface IReadOnlyOptionalInner<out IIndex> : IReadOnlySingleInner<IIndex>
         where IIndex : IReadOnlyBrowsingOptionalNodeIndex
     {
@@ -41,6 +42,8 @@ namespace EaslyController.ReadOnly
     /// <summary>
     /// Inner for an optional node.
     /// </summary>
+    /// <typeparam name="IIndex">Type of the index as interface.</typeparam>
+    /// <typeparam name="TIndex">Type of the index as class.</typeparam>
     public class ReadOnlyOptionalInner<IIndex, TIndex> : ReadOnlySingleInner<IIndex>, IReadOnlyOptionalInner<IIndex>, IReadOnlyOptionalInner
         where IIndex : IReadOnlyBrowsingOptionalNodeIndex
         where TIndex : ReadOnlyBrowsingOptionalNodeIndex, IIndex

@@ -1,11 +1,11 @@
-﻿using BaseNode;
-using BaseNodeHelper;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-
-namespace EaslyController.Frame
+﻿namespace EaslyController.Frame
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics;
+    using BaseNode;
+    using BaseNodeHelper;
+
     /// <summary>
     /// Set of templates used to describe all possible nodes in the tree.
     /// </summary>
@@ -59,13 +59,15 @@ namespace EaslyController.Frame
         public static IFrameTemplateSet Default { get { return (new FrameTemplateSet()).BuildDefault() as IFrameTemplateSet; } }
         private static IFrameTemplateSet _Default;
 
-        /// <summary></summary>
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FrameTemplateSet"/> class.
+        /// </summary>
         protected FrameTemplateSet()
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of <see cref="FrameTemplateSet"/>.
+        /// Initializes a new instance of the <see cref="FrameTemplateSet"/> class.
         /// </summary>
         /// <param name="nodeTemplateTable">Templates for nodes by their type.</param>
         /// <param name="blockTemplateTable">Templates for blocks of nodes.</param>

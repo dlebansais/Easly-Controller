@@ -1,14 +1,14 @@
-﻿using BaseNode;
-using BaseNodeHelper;
-using EaslyController.Constants;
-using EaslyController.Frame;
-using EaslyController.ReadOnly;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-
-namespace EaslyController.Focus
+﻿namespace EaslyController.Focus
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics;
+    using BaseNode;
+    using BaseNodeHelper;
+    using EaslyController.Constants;
+    using EaslyController.Frame;
+    using EaslyController.ReadOnly;
+
     /// <summary>
     /// View of a IxxxController.
     /// </summary>
@@ -215,7 +215,7 @@ namespace EaslyController.Focus
         /// </summary>
         /// <param name="inner">Inner to use to split the identifier upon return.</param>
         /// <param name="replaceIndex">Index of the identifier to replace upon return.</param>
-        /// <param name="insertIndex">Index of the identifier to replace upon return.</param>
+        /// <param name="insertIndex">Index of the identifier to insert upon return.</param>
         /// <returns>True if an identifier can be split at the focus.</returns>
         bool IsIdentifierSplittable(out IFocusListInner<IFocusBrowsingListNodeIndex> inner, out IFocusInsertionListNodeIndex replaceIndex, out IFocusInsertionListNodeIndex insertIndex);
 
@@ -248,7 +248,7 @@ namespace EaslyController.Focus
         }
 
         /// <summary>
-        /// Initializes a new instance of a <see cref="FocusControllerView"/> object.
+        /// Initializes a new instance of the <see cref="FocusControllerView"/> class.
         /// </summary>
         /// <param name="controller">The controller on which the view is attached.</param>
         /// <param name="templateSet">The template set used to describe the view.</param>
@@ -969,7 +969,7 @@ namespace EaslyController.Focus
         /// </summary>
         /// <param name="inner">Inner to use to split the identifier upon return.</param>
         /// <param name="replaceIndex">Index of the identifier to replace upon return.</param>
-        /// <param name="insertIndex">Index of the identifier to replace upon return.</param>
+        /// <param name="insertIndex">Index of the identifier to insert upon return.</param>
         /// <returns>True if an identifier can be split at the focus.</returns>
         public virtual bool IsIdentifierSplittable(out IFocusListInner<IFocusBrowsingListNodeIndex> inner, out IFocusInsertionListNodeIndex replaceIndex, out IFocusInsertionListNodeIndex insertIndex)
         {
@@ -1001,7 +1001,7 @@ namespace EaslyController.Focus
                     Debug.Assert(replaceIndex != null);
 
                     insertIndex = CurrentIndex.ToInsertionIndex(ParentState.Node, SecondPart) as IFocusInsertionListNodeIndex;
-                    Debug.Assert(replaceIndex != null);
+                    Debug.Assert(insertIndex != null);
 
                     return true;
                 }
@@ -1078,7 +1078,7 @@ namespace EaslyController.Focus
             IFocusNodeStateView CurrentStateView = (IFocusNodeStateView)stateView;
             List<IFocusFrameSelectorList> SelectorStack = new List<IFocusFrameSelectorList>();
 
-            for(;;)
+            for (;;)
             {
                 IFocusInner<IFocusBrowsingChildIndex> ParentInner = CurrentStateView.State.ParentInner;
                 IFocusNodeState ParentState = CurrentStateView.State.ParentState;
@@ -1135,8 +1135,7 @@ namespace EaslyController.Focus
                 FocusedCellView = NewFocusChain[0];
                 ResetCaretPosition();
             }
-            // If the focus may have forcibly changed.
-            else if (!NewFocusChain.Contains(FocusedCellView))
+            else if (!NewFocusChain.Contains(FocusedCellView)) // If the focus may have forcibly changed.
                 RecoverFocus(state, NewFocusChain);
 
             FocusChain = NewFocusChain;

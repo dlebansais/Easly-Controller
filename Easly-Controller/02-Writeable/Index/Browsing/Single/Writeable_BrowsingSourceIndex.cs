@@ -1,9 +1,9 @@
-﻿using BaseNode;
-using EaslyController.ReadOnly;
-using System.Diagnostics;
-
-namespace EaslyController.Writeable
+﻿namespace EaslyController.Writeable
 {
+    using System.Diagnostics;
+    using BaseNode;
+    using EaslyController.ReadOnly;
+
     /// <summary>
     /// Index for the source identifier node of a block.
     /// </summary>

@@ -1,9 +1,9 @@
-﻿using BaseNode;
-using System;
-using System.Diagnostics;
-
-namespace EaslyController.Writeable
+﻿namespace EaslyController.Writeable
 {
+    using System;
+    using System.Diagnostics;
+    using BaseNode;
+
     /// <summary>
     /// Operation details for replacing a node.
     /// </summary>
@@ -76,7 +76,7 @@ namespace EaslyController.Writeable
     {
         #region Init
         /// <summary>
-        /// Initializes a new instance of <see cref="WriteableReplaceOperation"/>.
+        /// Initializes a new instance of the <see cref="WriteableReplaceOperation"/> class.
         /// </summary>
         /// <param name="parentNode">Node where the replacement is taking place.</param>
         /// <param name="propertyName">Property of <paramref name="parentNode"/> where the node is replaced.</param>

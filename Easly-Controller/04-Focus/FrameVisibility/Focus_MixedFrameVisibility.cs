@@ -1,8 +1,8 @@
-﻿using System;
-using System.Windows.Markup;
-
-namespace EaslyController.Focus
+﻿namespace EaslyController.Focus
 {
+    using System;
+    using System.Windows.Markup;
+
     /// <summary>
     /// Frame visibility that shows if one frame visibility among a list does.
     /// </summary>
@@ -23,7 +23,7 @@ namespace EaslyController.Focus
     {
         #region Init
         /// <summary>
-        /// Initializes a new instance of <see cref="FocusMixedFrameVisibility"/>.
+        /// Initializes a new instance of the <see cref="FocusMixedFrameVisibility"/> class.
         /// </summary>
         public FocusMixedFrameVisibility()
         {

@@ -1,8 +1,8 @@
-﻿using System;
-using System.Diagnostics;
-
-namespace EaslyController.Writeable
+﻿namespace EaslyController.Writeable
 {
+    using System;
+    using System.Diagnostics;
+
     /// <summary>
     /// Base for all operations modifying the node tree.
     /// </summary>
@@ -41,7 +41,7 @@ namespace EaslyController.Writeable
     {
         #region Init
         /// <summary>
-        /// Initializes a new instance of a <see cref="WriteableOperation"/> object.
+        /// Initializes a new instance of the <see cref="WriteableOperation"/> class.
         /// </summary>
         /// <param name="handlerRedo">Handler to execute to redo the operation.</param>
         /// <param name="handlerUndo">Handler to execute to undo the operation.</param>

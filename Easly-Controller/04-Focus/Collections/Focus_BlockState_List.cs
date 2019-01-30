@@ -1,13 +1,13 @@
-﻿using EaslyController.ReadOnly;
-using EaslyController.Writeable;
-using EaslyController.Frame;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-
-#pragma warning disable 1591
+﻿#pragma warning disable 1591
 
 namespace EaslyController.Focus
 {
+    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
+    using EaslyController.Frame;
+    using EaslyController.ReadOnly;
+    using EaslyController.Writeable;
+
     /// <summary>
     /// List of IxxxBlockState
     /// </summary>

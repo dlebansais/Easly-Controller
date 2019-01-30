@@ -1,11 +1,11 @@
-﻿using BaseNodeHelper;
-using EaslyController.Writeable;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-
-namespace EaslyController.Frame
+﻿namespace EaslyController.Frame
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics;
+    using BaseNodeHelper;
+    using EaslyController.Writeable;
+
     /// <summary>
     /// View of a child node.
     /// </summary>

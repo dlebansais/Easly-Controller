@@ -1,8 +1,8 @@
-﻿using EaslyController.Frame;
-using System.Windows.Markup;
-
-namespace EaslyController.Focus
+﻿namespace EaslyController.Focus
 {
+    using System.Windows.Markup;
+    using EaslyController.Frame;
+
     /// <summary>
     /// Template describing all components of a node.
     /// </summary>

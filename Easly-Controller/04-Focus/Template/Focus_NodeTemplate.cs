@@ -1,8 +1,8 @@
-﻿using EaslyController.Frame;
-using System.Windows.Markup;
-
-namespace EaslyController.Focus
+﻿namespace EaslyController.Focus
 {
+    using System.Windows.Markup;
+    using EaslyController.Frame;
+
     /// <summary>
     /// Template describing all components of a node.
     /// </summary>
@@ -25,7 +25,7 @@ namespace EaslyController.Focus
         /// Gets preferred frames to receive the focus when the source code is changed.
         /// </summary>
         /// <param name="firstPreferredFrame">The first preferred frame found.</param>
-        /// <param name="lastPreferredFrame">The first preferred frame found.</param>
+        /// <param name="lastPreferredFrame">The last preferred frame found.</param>
         void GetPreferredFrame(out IFocusNodeFrame firstPreferredFrame, out IFocusNodeFrame lastPreferredFrame);
     }
 
@@ -91,7 +91,7 @@ namespace EaslyController.Focus
         /// Gets preferred frames to receive the focus when the source code is changed.
         /// </summary>
         /// <param name="firstPreferredFrame">The first preferred frame found.</param>
-        /// <param name="lastPreferredFrame">The first preferred frame found.</param>
+        /// <param name="lastPreferredFrame">The last preferred frame found.</param>
         public virtual void GetPreferredFrame(out IFocusNodeFrame firstPreferredFrame, out IFocusNodeFrame lastPreferredFrame)
         {
             firstPreferredFrame = null;

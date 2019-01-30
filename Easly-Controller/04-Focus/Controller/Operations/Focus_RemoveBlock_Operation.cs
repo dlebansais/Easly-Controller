@@ -1,10 +1,10 @@
-﻿using BaseNode;
-using EaslyController.Frame;
-using EaslyController.Writeable;
-using System;
-
-namespace EaslyController.Focus
+﻿namespace EaslyController.Focus
 {
+    using System;
+    using BaseNode;
+    using EaslyController.Frame;
+    using EaslyController.Writeable;
+
     /// <summary>
     /// Operation details for removing a block from a block list.
     /// </summary>
@@ -28,7 +28,7 @@ namespace EaslyController.Focus
     {
         #region Init
         /// <summary>
-        /// Initializes a new instance of <see cref="FocusRemoveBlockOperation"/>.
+        /// Initializes a new instance of the <see cref="FocusRemoveBlockOperation"/> class.
         /// </summary>
         /// <param name="parentNode">Node where the block removal is taking place.</param>
         /// <param name="propertyName">Block list property of <paramref name="parentNode"/> where a block is removed.</param>

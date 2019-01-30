@@ -1,10 +1,10 @@
-﻿using BaseNode;
-using EaslyController.ReadOnly;
-using EaslyController.Frame;
-using System.Diagnostics;
-
-namespace EaslyController.Focus
+﻿namespace EaslyController.Focus
 {
+    using System.Diagnostics;
+    using BaseNode;
+    using EaslyController.Frame;
+    using EaslyController.ReadOnly;
+
     /// <summary>
     /// Index for the first node in a block.
     /// </summary>

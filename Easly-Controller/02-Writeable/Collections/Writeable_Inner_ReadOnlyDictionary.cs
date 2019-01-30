@@ -1,15 +1,16 @@
-﻿using EaslyController.ReadOnly;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Diagnostics;
-
-#pragma warning disable 1591
+﻿#pragma warning disable 1591
 
 namespace EaslyController.Writeable
 {
+    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
+    using System.Diagnostics;
+    using EaslyController.ReadOnly;
+
     /// <summary>
     /// Read-only dictionary of ..., IxxxInner
     /// </summary>
+    /// <typeparam name="TKey">Type of the key.</typeparam>
     public interface IWriteableInnerReadOnlyDictionary<TKey> : IReadOnlyInnerReadOnlyDictionary<TKey>, IReadOnlyDictionary<TKey, IWriteableInner<IWriteableBrowsingChildIndex>>
     {
         new int Count { get; }
@@ -21,6 +22,7 @@ namespace EaslyController.Writeable
     /// <summary>
     /// Read-only dictionary of ..., IxxxInner
     /// </summary>
+    /// <typeparam name="TKey">Type of the key.</typeparam>
     public class WriteableInnerReadOnlyDictionary<TKey> : ReadOnlyDictionary<TKey, IWriteableInner<IWriteableBrowsingChildIndex>>, IWriteableInnerReadOnlyDictionary<TKey>
     {
         public WriteableInnerReadOnlyDictionary(IWriteableInnerDictionary<TKey> dictionary)

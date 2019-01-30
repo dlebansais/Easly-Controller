@@ -1,14 +1,15 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Diagnostics;
-
-#pragma warning disable 1591
+﻿#pragma warning disable 1591
 
 namespace EaslyController.Frame
 {
+    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
+    using System.Diagnostics;
+
     /// <summary>
     /// Read-only dictionary of ..., IxxxInner
     /// </summary>
+    /// <typeparam name="TKey">Type of the key.</typeparam>
     public interface IFrameAssignableCellViewReadOnlyDictionary<TKey> : IReadOnlyDictionary<TKey, IFrameAssignableCellView>, IEqualComparable
     {
     }
@@ -16,6 +17,7 @@ namespace EaslyController.Frame
     /// <summary>
     /// Read-only dictionary of ..., IxxxInner
     /// </summary>
+    /// <typeparam name="TKey">Type of the key.</typeparam>
     public class FrameAssignableCellViewReadOnlyDictionary<TKey> : ReadOnlyDictionary<TKey, IFrameAssignableCellView>, IFrameAssignableCellViewReadOnlyDictionary<TKey>
     {
         public FrameAssignableCellViewReadOnlyDictionary(IFrameAssignableCellViewDictionary<TKey> dictionary)

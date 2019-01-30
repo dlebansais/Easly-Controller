@@ -1,12 +1,12 @@
-﻿using BaseNode;
-using BaseNodeHelper;
-using EaslyController.Constants;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-
-namespace EaslyController.ReadOnly
+﻿namespace EaslyController.ReadOnly
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics;
+    using BaseNode;
+    using BaseNodeHelper;
+    using EaslyController.Constants;
+
     /// <summary>
     /// Base interface for the state of a node.
     /// </summary>
@@ -609,9 +609,9 @@ namespace EaslyController.ReadOnly
         }
 
         /// <summary></summary>
-        protected void InvariantAssert(bool Condition)
+        protected void InvariantAssert(bool condition)
         {
-            Debug.Assert(Condition);
+            Debug.Assert(condition);
         }
         #endregion
 

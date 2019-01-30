@@ -1,11 +1,11 @@
-﻿using BaseNode;
-using BaseNodeHelper;
-using Easly;
-using System;
-using System.Diagnostics;
-
-namespace EaslyController.ReadOnly
+﻿namespace EaslyController.ReadOnly
 {
+    using System;
+    using System.Diagnostics;
+    using BaseNode;
+    using BaseNodeHelper;
+    using Easly;
+
     /// <summary>
     /// Index for an optional node.
     /// </summary>

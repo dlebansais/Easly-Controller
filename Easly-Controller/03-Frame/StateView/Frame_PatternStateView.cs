@@ -1,11 +1,11 @@
-﻿using BaseNode;
-using EaslyController.Writeable;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-
-namespace EaslyController.Frame
+﻿namespace EaslyController.Frame
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics;
+    using BaseNode;
+    using EaslyController.Writeable;
+
     /// <summary>
     /// View of a pattern state.
     /// </summary>
@@ -91,7 +91,7 @@ namespace EaslyController.Frame
         public virtual void BuildRootCellView(IFrameCellViewTreeContext context)
         {
             Debug.Assert(context.StateView == this);
-            
+
             Debug.Assert(State.InnerTable.Count == 0);
 
             Debug.Assert(RootCellView == null);

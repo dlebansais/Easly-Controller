@@ -1,7 +1,7 @@
-﻿using EaslyController.Writeable;
-
-namespace EaslyController.Frame
+﻿namespace EaslyController.Frame
 {
+    using EaslyController.Writeable;
+
     /// <summary>
     /// Group of operations to make some tasks atomic.
     /// </summary>
@@ -30,7 +30,7 @@ namespace EaslyController.Frame
     {
         #region Init
         /// <summary>
-        /// Initializes a new instance of a <see cref="FrameOperationGroup"/> object.
+        /// Initializes a new instance of the <see cref="FrameOperationGroup"/> class.
         /// </summary>
         /// <param name="operationList">List of operations belonging to this group.</param>
         /// <param name="refresh">Optional refresh operation to execute at the end of undo and redo.</param>

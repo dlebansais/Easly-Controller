@@ -1,7 +1,7 @@
-﻿using System.Diagnostics;
-
-namespace EaslyController.Frame
+﻿namespace EaslyController.Frame
 {
+    using System.Diagnostics;
+
     /// <summary>
     /// Base frame for a placeholder node in a block list.
     /// </summary>

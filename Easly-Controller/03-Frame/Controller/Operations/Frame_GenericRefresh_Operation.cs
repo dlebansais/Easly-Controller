@@ -1,8 +1,8 @@
-﻿using EaslyController.Writeable;
-using System;
-
-namespace EaslyController.Frame
+﻿namespace EaslyController.Frame
 {
+    using System;
+    using EaslyController.Writeable;
+
     /// <summary>
     /// Operation details for replacing a node.
     /// </summary>
@@ -21,7 +21,7 @@ namespace EaslyController.Frame
     {
         #region Init
         /// <summary>
-        /// Initializes a new instance of <see cref="FrameGenericRefreshOperation"/>.
+        /// Initializes a new instance of the <see cref="FrameGenericRefreshOperation"/> class.
         /// </summary>
         /// <param name="refreshState">State in the source where to start refresh.</param>
         /// <param name="handlerRedo">Handler to execute to redo the operation.</param>

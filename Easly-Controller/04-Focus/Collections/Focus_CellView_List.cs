@@ -1,12 +1,12 @@
-﻿using EaslyController.Frame;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Diagnostics;
-
-#pragma warning disable 1591
+﻿#pragma warning disable 1591
 
 namespace EaslyController.Focus
 {
+    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
+    using System.Diagnostics;
+    using EaslyController.Frame;
+
     /// <summary>
     /// List of IxxxCellView
     /// </summary>

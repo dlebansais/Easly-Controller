@@ -1,11 +1,11 @@
-﻿using BaseNode;
-using BaseNodeHelper;
-using EaslyController.ReadOnly;
-using EaslyController.Frame;
-using System.Collections.Generic;
-
-namespace EaslyController.Focus
+﻿namespace EaslyController.Focus
 {
+    using System.Collections.Generic;
+    using BaseNode;
+    using BaseNodeHelper;
+    using EaslyController.Frame;
+    using EaslyController.ReadOnly;
+
     /// <summary>
     /// Base interface for the state of a node.
     /// </summary>

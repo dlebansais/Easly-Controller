@@ -1,10 +1,10 @@
-﻿using BaseNode;
-using EaslyController.Frame;
-using EaslyController.ReadOnly;
-using EaslyController.Writeable;
-
-namespace EaslyController.Focus
+﻿namespace EaslyController.Focus
 {
+    using BaseNode;
+    using EaslyController.Frame;
+    using EaslyController.ReadOnly;
+    using EaslyController.Writeable;
+
     /// <summary>
     /// Inner for a child node.
     /// </summary>
@@ -15,6 +15,7 @@ namespace EaslyController.Focus
     /// <summary>
     /// Inner for a child node.
     /// </summary>
+    /// <typeparam name="IIndex">Type of the index.</typeparam>
     public interface IFocusPlaceholderInner<out IIndex> : IFramePlaceholderInner<IIndex>, IFocusSingleInner<IIndex>
         where IIndex : IFocusBrowsingPlaceholderNodeIndex
     {
@@ -23,6 +24,8 @@ namespace EaslyController.Focus
     /// <summary>
     /// Inner for a child node.
     /// </summary>
+    /// <typeparam name="IIndex">Type of the index as interface.</typeparam>
+    /// <typeparam name="TIndex">Type of the index as class.</typeparam>
     public class FocusPlaceholderInner<IIndex, TIndex> : FramePlaceholderInner<IIndex, TIndex>, IFocusPlaceholderInner<IIndex>, IFocusPlaceholderInner
         where IIndex : IFocusBrowsingPlaceholderNodeIndex
         where TIndex : FocusBrowsingPlaceholderNodeIndex, IIndex

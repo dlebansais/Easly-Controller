@@ -1,9 +1,9 @@
-﻿using EaslyController.Writeable;
-using System;
-using System.Diagnostics;
-
-namespace EaslyController.Frame
+﻿namespace EaslyController.Frame
 {
+    using System;
+    using System.Diagnostics;
+    using EaslyController.Writeable;
+
     /// <summary>
     /// View of a block state.
     /// </summary>

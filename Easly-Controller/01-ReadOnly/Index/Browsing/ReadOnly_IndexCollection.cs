@@ -1,9 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Diagnostics;
-
-namespace EaslyController.ReadOnly
+﻿namespace EaslyController.ReadOnly
 {
+    using System.Collections;
+    using System.Collections.Generic;
+    using System.Diagnostics;
+
     /// <summary>
     /// Collection of node indexes.
     /// </summary>
@@ -23,6 +23,7 @@ namespace EaslyController.ReadOnly
     /// <summary>
     /// Collection of node indexes.
     /// </summary>
+    /// <typeparam name="IIndex">Type of the index.</typeparam>
     public interface IReadOnlyIndexCollection<out IIndex> : IEqualComparable
         where IIndex : IReadOnlyBrowsingChildIndex
     {
@@ -40,6 +41,7 @@ namespace EaslyController.ReadOnly
     /// <summary>
     /// Collection of node indexes.
     /// </summary>
+    /// <typeparam name="IIndex">Type of the index.</typeparam>
     public class ReadOnlyIndexCollection<IIndex> : IReadOnlyIndexCollection<IIndex>, IReadOnlyIndexCollection
         where IIndex : IReadOnlyBrowsingChildIndex
     {

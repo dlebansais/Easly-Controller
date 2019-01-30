@@ -1,9 +1,9 @@
-﻿using BaseNode;
-using BaseNodeHelper;
-using System.Diagnostics;
-
-namespace EaslyController.ReadOnly
+﻿namespace EaslyController.ReadOnly
 {
+    using System.Diagnostics;
+    using BaseNode;
+    using BaseNodeHelper;
+
     /// <summary>
     /// Index for the first node in a block.
     /// </summary>
@@ -25,7 +25,7 @@ namespace EaslyController.ReadOnly
         IIdentifier SourceNode { get; }
 
         /// <summary>
-        /// Gets the index for this node in an existing block. 
+        /// Gets the index for this node in an existing block.
         /// </summary>
         IReadOnlyBrowsingExistingBlockNodeIndex ToExistingBlockIndex();
     }
@@ -83,7 +83,7 @@ namespace EaslyController.ReadOnly
 
         #region Client Interface
         /// <summary>
-        /// Gets the index for this node in an existing block. 
+        /// Gets the index for this node in an existing block.
         /// </summary>
         public virtual IReadOnlyBrowsingExistingBlockNodeIndex ToExistingBlockIndex()
         {

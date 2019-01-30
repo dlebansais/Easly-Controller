@@ -1,8 +1,8 @@
-﻿using EaslyController.Frame;
-using System;
-
-namespace EaslyController.Focus
+﻿namespace EaslyController.Focus
 {
+    using System;
+    using EaslyController.Frame;
+
     /// <summary>
     /// Base frame.
     /// </summary>
@@ -38,7 +38,7 @@ namespace EaslyController.Focus
         /// <summary>
         /// Singleton object representing the root of a tree of frames.
         /// </summary>
-        public static IFocusFrame FocusRoot = new FocusRootFrame();
+        public static IFocusFrame FocusRoot { get; } = new FocusRootFrame();
         #endregion
 
         #region Properties

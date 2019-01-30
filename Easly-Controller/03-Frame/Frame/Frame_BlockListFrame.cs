@@ -1,9 +1,9 @@
-﻿using BaseNodeHelper;
-using System;
-using System.Diagnostics;
-
-namespace EaslyController.Frame
+﻿namespace EaslyController.Frame
 {
+    using System;
+    using System.Diagnostics;
+    using BaseNodeHelper;
+
     /// <summary>
     /// Base frame for a block list.
     /// </summary>

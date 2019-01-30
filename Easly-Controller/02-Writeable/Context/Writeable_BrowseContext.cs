@@ -1,7 +1,7 @@
-﻿using EaslyController.ReadOnly;
-
-namespace EaslyController.Writeable
+﻿namespace EaslyController.Writeable
 {
+    using EaslyController.ReadOnly;
+
     /// <summary>
     /// Context for browsing child nodes of a parent node.
     /// </summary>
@@ -25,7 +25,7 @@ namespace EaslyController.Writeable
     {
         #region Init
         /// <summary>
-        /// Initializes a new instance of <see cref="WriteableBrowseContext"/>.
+        /// Initializes a new instance of the <see cref="WriteableBrowseContext"/> class.
         /// </summary>
         /// <param name="state">The state that will be browsed.</param>
         public WriteableBrowseContext(IWriteableNodeState state)
@@ -59,7 +59,6 @@ namespace EaslyController.Writeable
         /// <summary>
         /// Creates a IxxxIndexCollectionReadOnlyList object.
         /// </summary>
-        /// <param name="list"></param>
         protected override IReadOnlyIndexCollectionReadOnlyList CreateIndexCollectionListReadOnly(IReadOnlyIndexCollectionList list)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableBrowseContext));

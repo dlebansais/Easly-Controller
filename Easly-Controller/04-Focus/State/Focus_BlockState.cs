@@ -1,12 +1,9 @@
-﻿using BaseNode;
-using BaseNodeHelper;
-using EaslyController.Frame;
-using EaslyController.ReadOnly;
-using EaslyController.Writeable;
-using System.Diagnostics;
-
-namespace EaslyController.Focus
+﻿namespace EaslyController.Focus
 {
+    using BaseNode;
+    using EaslyController.Frame;
+    using EaslyController.ReadOnly;
+
     /// <summary>
     /// State of a block in a block list.
     /// </summary>

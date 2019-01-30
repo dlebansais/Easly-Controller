@@ -1,13 +1,9 @@
-﻿using BaseNode;
-using BaseNodeHelper;
-using EaslyController.ReadOnly;
-using EaslyController.Frame;
-using System;
-using System.Diagnostics;
-using EaslyController.Writeable;
-
-namespace EaslyController.Focus
+﻿namespace EaslyController.Focus
 {
+    using EaslyController.Frame;
+    using EaslyController.ReadOnly;
+    using EaslyController.Writeable;
+
     /// <summary>
     /// Inner for an optional node.
     /// </summary>
@@ -22,6 +18,7 @@ namespace EaslyController.Focus
     /// <summary>
     /// Inner for an optional node.
     /// </summary>
+    /// <typeparam name="IIndex">Type of the index.</typeparam>
     public interface IFocusOptionalInner<out IIndex> : IFrameOptionalInner<IIndex>, IFocusSingleInner<IIndex>
         where IIndex : IFocusBrowsingOptionalNodeIndex
     {
@@ -34,6 +31,8 @@ namespace EaslyController.Focus
     /// <summary>
     /// Inner for an optional node.
     /// </summary>
+    /// <typeparam name="IIndex">Type of the index as interface.</typeparam>
+    /// <typeparam name="TIndex">Type of the index as class.</typeparam>
     public class FocusOptionalInner<IIndex, TIndex> : FrameOptionalInner<IIndex, TIndex>, IFocusOptionalInner<IIndex>, IFocusOptionalInner
         where IIndex : IFocusBrowsingOptionalNodeIndex
         where TIndex : FocusBrowsingOptionalNodeIndex, IIndex

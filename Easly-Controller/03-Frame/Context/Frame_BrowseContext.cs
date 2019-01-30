@@ -1,8 +1,8 @@
-﻿using EaslyController.ReadOnly;
-using EaslyController.Writeable;
-
-namespace EaslyController.Frame
+﻿namespace EaslyController.Frame
 {
+    using EaslyController.ReadOnly;
+    using EaslyController.Writeable;
+
     /// <summary>
     /// Context for browsing child nodes of a parent node.
     /// </summary>
@@ -26,7 +26,7 @@ namespace EaslyController.Frame
     {
         #region Init
         /// <summary>
-        /// Initializes a new instance of <see cref="FrameBrowseContext"/>.
+        /// Initializes a new instance of the <see cref="FrameBrowseContext"/> class.
         /// </summary>
         /// <param name="state">The state that will be browsed.</param>
         public FrameBrowseContext(IFrameNodeState state)

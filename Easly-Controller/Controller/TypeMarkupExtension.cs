@@ -1,15 +1,14 @@
-﻿using BaseNode;
-using Easly;
-using System;
-using System.Diagnostics;
-using System.Reflection;
-using System.Windows.Markup;
-
-namespace EaslyController.Xaml
+﻿namespace EaslyController.Xaml
 {
+    using System;
+    using System.Diagnostics;
+    using System.Reflection;
+    using System.Windows.Markup;
+    using BaseNode;
+
     /// <summary>
     /// Markup extension to declare types in Xaml.
-    /// 
+    ///
     /// Xaml syntax:
     ///   xmlns:xaml="clr-namespace:EaslyController.Xaml;assembly=Easly-Controller"
     /// For INode:
@@ -21,6 +20,7 @@ namespace EaslyController.Xaml
     public class Type : MarkupExtension
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="Type"/> class.
         /// Creates a type with no generic argument.
         /// </summary>
         /// <param name="typeName">Type name, without namespace.</param>
@@ -32,6 +32,7 @@ namespace EaslyController.Xaml
         }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="Type"/> class.
         /// Creates a type with one generic argument.
         /// </summary>
         /// <param name="typeName">Type name, without namespace.</param>
@@ -46,6 +47,7 @@ namespace EaslyController.Xaml
         }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="Type"/> class.
         /// Creates a type with two generic arguments.
         /// </summary>
         /// <param name="typeName">Type name, without namespace.</param>

@@ -1,8 +1,8 @@
-﻿using System.Diagnostics;
-using System.Windows.Markup;
-
-namespace EaslyController.Frame
+﻿namespace EaslyController.Frame
 {
+    using System.Diagnostics;
+    using System.Windows.Markup;
+
     /// <summary>
     /// Template describing all components of a node.
     /// </summary>

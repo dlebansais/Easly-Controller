@@ -1,8 +1,8 @@
-﻿using EaslyController.Frame;
-using System.Diagnostics;
-
-namespace EaslyController.Focus
+﻿namespace EaslyController.Focus
 {
+    using System.Diagnostics;
+    using EaslyController.Frame;
+
     /// <summary>
     /// View of a source state.
     /// </summary>
@@ -52,7 +52,7 @@ namespace EaslyController.Focus
         /// <summary>
         /// Root cell for the view.
         /// </summary>
-        public new IFocusCellView RootCellView { get { return (IFocusCellView )base.RootCellView; } }
+        public new IFocusCellView RootCellView { get { return (IFocusCellView)base.RootCellView; } }
 
         /// <summary>
         /// Table of cell views that are mutable lists of cells.

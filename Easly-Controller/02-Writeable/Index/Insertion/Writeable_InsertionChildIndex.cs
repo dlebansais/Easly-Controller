@@ -1,7 +1,7 @@
-﻿using BaseNode;
-
-namespace EaslyController.Writeable
+﻿namespace EaslyController.Writeable
 {
+    using BaseNode;
+
     /// <summary>
     /// Index for an inserted child.
     /// </summary>

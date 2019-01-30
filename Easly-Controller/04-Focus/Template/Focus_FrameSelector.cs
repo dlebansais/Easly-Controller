@@ -1,9 +1,9 @@
-﻿using BaseNodeHelper;
-using System;
-using System.Diagnostics;
-
-namespace EaslyController.Focus
+﻿namespace EaslyController.Focus
 {
+    using System;
+    using System.Diagnostics;
+    using BaseNodeHelper;
+
     /// <summary>
     /// Selects specific frames in the remaining of the cell view tree.
     /// </summary>

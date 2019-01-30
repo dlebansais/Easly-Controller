@@ -1,10 +1,10 @@
-﻿using BaseNode;
-using BaseNodeHelper;
-using System;
-using System.Diagnostics;
-
-namespace EaslyController.ReadOnly
+﻿namespace EaslyController.ReadOnly
 {
+    using System;
+    using System.Diagnostics;
+    using BaseNode;
+    using BaseNodeHelper;
+
     /// <summary>
     /// Inner for a block list.
     /// </summary>
@@ -63,6 +63,7 @@ namespace EaslyController.ReadOnly
     /// <summary>
     /// Inner for a block list.
     /// </summary>
+    /// <typeparam name="IIndex">Type of the index.</typeparam>
     public interface IReadOnlyBlockListInner<out IIndex> : IReadOnlyCollectionInner<IIndex>
         where IIndex : IReadOnlyBrowsingBlockNodeIndex
     {
@@ -126,6 +127,8 @@ namespace EaslyController.ReadOnly
     /// <summary>
     /// Inner for a block list.
     /// </summary>
+    /// <typeparam name="IIndex">Type of the index as interface.</typeparam>
+    /// <typeparam name="TIndex">Type of the index as class.</typeparam>
     public class ReadOnlyBlockListInner<IIndex, TIndex> : ReadOnlyCollectionInner<IIndex, TIndex>, IReadOnlyBlockListInner<IIndex>, IReadOnlyBlockListInner
         where IIndex : IReadOnlyBrowsingBlockNodeIndex
         where TIndex : ReadOnlyBrowsingBlockNodeIndex, IIndex
@@ -260,7 +263,7 @@ namespace EaslyController.ReadOnly
             remove { RemoveBlockStateCreatedDelegate(value); }
         }
 #pragma warning disable 1591
-        protected Action<IReadOnlyBlockState> BlockStateCreatedHandler;
+        private Action<IReadOnlyBlockState> BlockStateCreatedHandler;
         protected virtual void AddBlockStateCreatedDelegate(Action<IReadOnlyBlockState> handler) { BlockStateCreatedHandler += handler; }
         protected virtual void RemoveBlockStateCreatedDelegate(Action<IReadOnlyBlockState> handler) { BlockStateCreatedHandler -= handler; }
 #pragma warning restore 1591
@@ -274,7 +277,7 @@ namespace EaslyController.ReadOnly
             remove { RemoveBlockStateRemovedDelegate(value); }
         }
 #pragma warning disable 1591
-        protected Action<IReadOnlyBlockState> BlockStateRemovedHandler;
+        private Action<IReadOnlyBlockState> BlockStateRemovedHandler;
         protected virtual void AddBlockStateRemovedDelegate(Action<IReadOnlyBlockState> handler) { BlockStateRemovedHandler += handler; }
         protected virtual void RemoveBlockStateRemovedDelegate(Action<IReadOnlyBlockState> handler) { BlockStateRemovedHandler -= handler; }
 #pragma warning restore 1591

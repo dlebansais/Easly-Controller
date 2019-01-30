@@ -1,8 +1,8 @@
-﻿using EaslyController.Writeable;
-using System;
-
-namespace EaslyController.Frame
+﻿namespace EaslyController.Frame
 {
+    using System;
+    using EaslyController.Writeable;
+
     /// <summary>
     /// Details for insertion operations.
     /// </summary>
@@ -17,7 +17,7 @@ namespace EaslyController.Frame
     {
         #region Init
         /// <summary>
-        /// Initializes a new instance of a <see cref="FrameInsertOperation"/> object.
+        /// Initializes a new instance of the <see cref="FrameInsertOperation"/> class.
         /// </summary>
         /// <param name="handlerRedo">Handler to execute to redo the operation.</param>
         /// <param name="handlerUndo">Handler to execute to undo the operation.</param>

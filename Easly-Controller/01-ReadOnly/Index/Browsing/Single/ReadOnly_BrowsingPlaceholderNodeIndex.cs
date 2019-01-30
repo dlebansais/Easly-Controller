@@ -1,9 +1,9 @@
-﻿using BaseNode;
-using BaseNodeHelper;
-using System.Diagnostics;
-
-namespace EaslyController.ReadOnly
+﻿namespace EaslyController.ReadOnly
 {
+    using System.Diagnostics;
+    using BaseNode;
+    using BaseNodeHelper;
+
     /// <summary>
     /// Index for a node.
     /// </summary>
@@ -14,7 +14,7 @@ namespace EaslyController.ReadOnly
     /// <summary>
     /// Index for a node.
     /// </summary>
-    public class ReadOnlyBrowsingPlaceholderNodeIndex : IReadOnlyBrowsingPlaceholderNodeIndex 
+    public class ReadOnlyBrowsingPlaceholderNodeIndex : IReadOnlyBrowsingPlaceholderNodeIndex
     {
         #region Init
         /// <summary>

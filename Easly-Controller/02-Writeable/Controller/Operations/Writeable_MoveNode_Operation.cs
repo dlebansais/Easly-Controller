@@ -1,9 +1,9 @@
-﻿using BaseNode;
-using System;
-using System.Diagnostics;
-
-namespace EaslyController.Writeable
+﻿namespace EaslyController.Writeable
 {
+    using System;
+    using System.Diagnostics;
+    using BaseNode;
+
     /// <summary>
     /// Operation details for moving a node in a list or block list.
     /// </summary>
@@ -58,7 +58,7 @@ namespace EaslyController.Writeable
     {
         #region Init
         /// <summary>
-        /// Initializes a new instance of <see cref="WriteableMoveNodeOperation"/>.
+        /// Initializes a new instance of the <see cref="WriteableMoveNodeOperation"/> class.
         /// </summary>
         /// <param name="parentNode">Node where the node is moved.</param>
         /// <param name="propertyName">Property of <paramref name="parentNode"/> where the node is moved.</param>

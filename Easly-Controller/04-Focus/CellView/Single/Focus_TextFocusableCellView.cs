@@ -1,8 +1,8 @@
-﻿using EaslyController.Frame;
-using System.Diagnostics;
-
-namespace EaslyController.Focus
+﻿namespace EaslyController.Focus
 {
+    using System.Diagnostics;
+    using EaslyController.Frame;
+
     /// <summary>
     /// Cell view for text components that can receive the focus and be modified (identifiers).
     /// </summary>
@@ -17,7 +17,7 @@ namespace EaslyController.Focus
     {
         #region Init
         /// <summary>
-        /// Initializes an instance of <see cref="FocusFocusableCellView"/>.
+        /// Initializes a new instance of the <see cref="FocusTextFocusableCellView"/> class.
         /// </summary>
         /// <param name="stateView">The state view containing the tree with this cell.</param>
         /// <param name="frame">The frame that created this cell view.</param>

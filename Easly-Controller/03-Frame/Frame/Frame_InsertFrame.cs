@@ -1,10 +1,9 @@
-﻿using BaseNodeHelper;
-using System;
-using System.Diagnostics;
-using System.Windows.Markup;
-
-namespace EaslyController.Frame
+﻿namespace EaslyController.Frame
 {
+    using System;
+    using System.Windows.Markup;
+    using BaseNodeHelper;
+
     /// <summary>
     /// Frame for bringing the focus to an insertion point.
     /// </summary>

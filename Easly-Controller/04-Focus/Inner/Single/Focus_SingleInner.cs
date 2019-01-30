@@ -1,7 +1,7 @@
-﻿using EaslyController.Frame;
-
-namespace EaslyController.Focus
+﻿namespace EaslyController.Focus
 {
+    using EaslyController.Frame;
+
     /// <summary>
     /// Base inner for a single node inner.
     /// </summary>
@@ -16,6 +16,7 @@ namespace EaslyController.Focus
     /// <summary>
     /// Base inner for a single node inner.
     /// </summary>
+    /// <typeparam name="IIndex">Type of the index.</typeparam>
     public interface IFocusSingleInner<out IIndex> : IFrameSingleInner<IIndex>, IFocusInner<IIndex>
         where IIndex : IFocusBrowsingChildIndex
     {
@@ -28,6 +29,7 @@ namespace EaslyController.Focus
     /// <summary>
     /// Base inner for a single node inner.
     /// </summary>
+    /// <typeparam name="IIndex">Type of the index.</typeparam>
     public abstract class FocusSingleInner<IIndex> : FrameSingleInner<IIndex>, IFocusSingleInner<IIndex>, IFocusSingleInner
         where IIndex : IFocusBrowsingChildIndex
     {

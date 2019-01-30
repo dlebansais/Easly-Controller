@@ -1,8 +1,8 @@
-﻿using BaseNodeHelper;
-using System;
-
-namespace EaslyController.Focus
+﻿namespace EaslyController.Focus
 {
+    using System;
+    using BaseNodeHelper;
+
     /// <summary>
     /// Frame visibility that depends if an enum or boolean has the default value.
     /// </summary>

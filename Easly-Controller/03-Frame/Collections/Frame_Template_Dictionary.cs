@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-
-#pragma warning disable 1591
+﻿#pragma warning disable 1591
 
 namespace EaslyController.Frame
 {
+    using System;
+    using System.Collections.Generic;
+
     /// <summary>
     /// Dictionary of Type, IxxxTemplate
     /// </summary>

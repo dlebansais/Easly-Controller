@@ -1,9 +1,9 @@
-﻿using BaseNode;
-using EaslyController.Frame;
-using System.Diagnostics;
-
-namespace EaslyController.Focus
+﻿namespace EaslyController.Focus
 {
+    using System.Diagnostics;
+    using BaseNode;
+    using EaslyController.Frame;
+
     /// <summary>
     /// Base for list and block list insertion index classes.
     /// </summary>

@@ -1,10 +1,10 @@
-﻿using EaslyController.Writeable;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-
-namespace EaslyController.Frame
+﻿namespace EaslyController.Frame
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics;
+    using EaslyController.Writeable;
+
     /// <summary>
     /// View of a node state.
     /// </summary>
@@ -46,6 +46,9 @@ namespace EaslyController.Frame
         /// <param name="context">Context used to build the cell view tree.</param>
         void BuildRootCellView(IFrameCellViewTreeContext context);
 
+        /// <summary>
+        /// Assign the cell view to the corresponding property.
+        /// </summary>
         /// <param name="propertyName">The property name of the inner.</param>
         /// <param name="cellView">The assigned cell view.</param>
         void AssignCellViewTable(string propertyName, IFrameAssignableCellView cellView);

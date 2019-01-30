@@ -1,12 +1,12 @@
-﻿using EaslyController.ReadOnly;
-using EaslyController.Writeable;
-using System;
-using System.Collections.Generic;
-
-#pragma warning disable 1591
+﻿#pragma warning disable 1591
 
 namespace EaslyController.Frame
 {
+    using System;
+    using System.Collections.Generic;
+    using EaslyController.ReadOnly;
+    using EaslyController.Writeable;
+
     /// <summary>
     /// Dictionary of IxxxIndex, IxxxNodeState
     /// </summary>

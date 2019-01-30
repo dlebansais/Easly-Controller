@@ -1,9 +1,9 @@
-﻿using EaslyController.ReadOnly;
-using System.Collections.Generic;
-using System.Diagnostics;
-
-namespace EaslyController.Writeable
+﻿namespace EaslyController.Writeable
 {
+    using System.Collections.Generic;
+    using System.Diagnostics;
+    using EaslyController.ReadOnly;
+
     /// <summary>
     /// Collection of node indexes.
     /// </summary>
@@ -14,6 +14,7 @@ namespace EaslyController.Writeable
     /// <summary>
     /// Collection of node indexes.
     /// </summary>
+    /// <typeparam name="IIndex">Type of the index.</typeparam>
     public interface IWriteableIndexCollection<out IIndex> : IReadOnlyIndexCollection<IIndex>
         where IIndex : IWriteableBrowsingChildIndex
     {
@@ -22,6 +23,7 @@ namespace EaslyController.Writeable
     /// <summary>
     /// Collection of node indexes.
     /// </summary>
+    /// <typeparam name="IIndex">Type of the index.</typeparam>
     public class WriteableIndexCollection<IIndex> : ReadOnlyIndexCollection<IIndex>, IWriteableIndexCollection<IIndex>, IWriteableIndexCollection
         where IIndex : IWriteableBrowsingChildIndex
     {

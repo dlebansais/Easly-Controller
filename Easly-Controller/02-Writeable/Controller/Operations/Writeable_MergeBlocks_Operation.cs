@@ -1,8 +1,8 @@
-﻿using BaseNode;
-using System;
-
-namespace EaslyController.Writeable
+﻿namespace EaslyController.Writeable
 {
+    using System;
+    using BaseNode;
+
     /// <summary>
     /// Operation details for merging blocks in a block list.
     /// </summary>
@@ -58,7 +58,7 @@ namespace EaslyController.Writeable
     {
         #region Init
         /// <summary>
-        /// Initializes a new instance of <see cref="WriteableMergeBlocksOperation"/>.
+        /// Initializes a new instance of the <see cref="WriteableMergeBlocksOperation"/> class.
         /// </summary>
         /// <param name="parentNode">Node where the blocks are merged.</param>
         /// <param name="propertyName">Property of <paramref name="parentNode"/> where blocks are merged.</param>

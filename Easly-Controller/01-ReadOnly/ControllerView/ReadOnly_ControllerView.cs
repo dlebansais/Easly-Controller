@@ -1,8 +1,8 @@
-﻿using System;
-using System.Diagnostics;
-
-namespace EaslyController.ReadOnly
+﻿namespace EaslyController.ReadOnly
 {
+    using System;
+    using System.Diagnostics;
+
     /// <summary>
     /// View of a IxxxController.
     /// </summary>
@@ -42,7 +42,7 @@ namespace EaslyController.ReadOnly
         }
 
         /// <summary>
-        /// Initializes a new instance of a <see cref="ReadOnlyControllerView"/> object.
+        /// Initializes a new instance of the <see cref="ReadOnlyControllerView"/> class.
         /// </summary>
         /// <param name="controller">The controller on which the view is attached.</param>
         protected ReadOnlyControllerView(IReadOnlyController controller)
@@ -303,9 +303,9 @@ namespace EaslyController.ReadOnly
 
         #region Implementation of IDisposable
 #pragma warning disable 1591
-        protected virtual void Dispose(bool IsDisposing)
+        protected virtual void Dispose(bool isDisposing)
         {
-            if (IsDisposing)
+            if (isDisposing)
                 DisposeNow();
         }
 

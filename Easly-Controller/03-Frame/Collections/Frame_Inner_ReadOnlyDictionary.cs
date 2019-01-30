@@ -1,16 +1,17 @@
-﻿using EaslyController.ReadOnly;
-using EaslyController.Writeable;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Diagnostics;
-
-#pragma warning disable 1591
+﻿#pragma warning disable 1591
 
 namespace EaslyController.Frame
 {
+    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
+    using System.Diagnostics;
+    using EaslyController.ReadOnly;
+    using EaslyController.Writeable;
+
     /// <summary>
     /// Read-only dictionary of ..., IxxxInner
     /// </summary>
+    /// <typeparam name="TKey">Type of the key.</typeparam>
     public interface IFrameInnerReadOnlyDictionary<TKey> : IWriteableInnerReadOnlyDictionary<TKey>, IReadOnlyDictionary<TKey, IFrameInner<IFrameBrowsingChildIndex>>
     {
         new int Count { get; }
@@ -22,6 +23,7 @@ namespace EaslyController.Frame
     /// <summary>
     /// Read-only dictionary of ..., IxxxInner
     /// </summary>
+    /// <typeparam name="TKey">Type of the key.</typeparam>
     public class FrameInnerReadOnlyDictionary<TKey> : ReadOnlyDictionary<TKey, IFrameInner<IFrameBrowsingChildIndex>>, IFrameInnerReadOnlyDictionary<TKey>
     {
         public FrameInnerReadOnlyDictionary(IFrameInnerDictionary<TKey> dictionary)

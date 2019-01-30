@@ -1,8 +1,8 @@
-﻿using EaslyController.ReadOnly;
-using System.Diagnostics;
-
-namespace EaslyController.Writeable
+﻿namespace EaslyController.Writeable
 {
+    using System.Diagnostics;
+    using EaslyController.ReadOnly;
+
     /// <summary>
     /// View of a IxxxController.
     /// </summary>
@@ -42,7 +42,7 @@ namespace EaslyController.Writeable
         }
 
         /// <summary>
-        /// Initializes a new instance of a <see cref="WriteableControllerView"/> object.
+        /// Initializes a new instance of the <see cref="WriteableControllerView"/> class.
         /// </summary>
         /// <param name="controller">The controller on which the view is attached.</param>
         protected WriteableControllerView(IWriteableController controller)
@@ -70,7 +70,7 @@ namespace EaslyController.Writeable
             Controller.StateMoved += OnStateMoved;
             Controller.BlockStateMoved += OnBlockStateMoved;
             Controller.BlockSplit += OnBlockSplit;
-            Controller.BlocksMerged+= OnBlocksMerged;
+            Controller.BlocksMerged += OnBlocksMerged;
             Controller.ArgumentExpanded += OnArgumentExpanded;
             Controller.GenericRefresh += OnGenericRefresh;
         }

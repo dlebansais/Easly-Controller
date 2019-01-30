@@ -1,7 +1,7 @@
-﻿using System.Diagnostics;
-
-namespace EaslyController.Frame
+﻿namespace EaslyController.Frame
 {
+    using System.Diagnostics;
+
     /// <summary>
     /// Atomic cell view of a component in a node.
     /// </summary>
@@ -59,7 +59,7 @@ namespace EaslyController.Frame
     {
         #region Init
         /// <summary>
-        /// Initializes an instance of <see cref="FrameCellView"/>.
+        /// Initializes a new instance of the <see cref="FrameCellView"/> class.
         /// </summary>
         /// <param name="stateView">The state view containing the tree with this cell.</param>
         public FrameCellView(IFrameNodeStateView stateView)

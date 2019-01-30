@@ -1,8 +1,8 @@
-﻿using System;
-using System.Diagnostics;
-
-namespace EaslyController.Frame
+﻿namespace EaslyController.Frame
 {
+    using System;
+    using System.Diagnostics;
+
     /// <summary>
     /// Base frame.
     /// </summary>
@@ -50,7 +50,7 @@ namespace EaslyController.Frame
         /// <summary>
         /// Singleton object representing the root of a tree of frames.
         /// </summary>
-        public static IFrameFrame FrameRoot = new FrameRootFrame();
+        public static IFrameFrame FrameRoot { get; } = new FrameRootFrame();
         #endregion
 
         #region Properties

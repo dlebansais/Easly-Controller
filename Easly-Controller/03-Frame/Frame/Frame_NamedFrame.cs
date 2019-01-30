@@ -1,8 +1,8 @@
-﻿using BaseNodeHelper;
-using System;
-
-namespace EaslyController.Frame
+﻿namespace EaslyController.Frame
 {
+    using System;
+    using BaseNodeHelper;
+
     /// <summary>
     /// Base frame for frames that describe property in a node.
     /// </summary>

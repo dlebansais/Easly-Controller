@@ -1,14 +1,12 @@
-﻿using BaseNode;
-using BaseNodeHelper;
-using EaslyController.Frame;
-using EaslyController.ReadOnly;
-using EaslyController.Writeable;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-
-namespace EaslyController.Focus
+﻿namespace EaslyController.Focus
 {
+    using System;
+    using System.Diagnostics;
+    using BaseNode;
+    using EaslyController.Frame;
+    using EaslyController.ReadOnly;
+    using EaslyController.Writeable;
+
     /// <summary>
     /// Controller for a node tree.
     /// This controller supports:
@@ -158,7 +156,7 @@ namespace EaslyController.Focus
         }
 
         /// <summary>
-        /// Initializes a new instance of a <see cref="FocusController"/> object.
+        /// Initializes a new instance of the <see cref="FocusController"/> class.
         /// </summary>
         protected FocusController()
         {

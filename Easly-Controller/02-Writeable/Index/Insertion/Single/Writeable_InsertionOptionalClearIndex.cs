@@ -1,11 +1,11 @@
-﻿using BaseNode;
-using BaseNodeHelper;
-using Easly;
-using EaslyController.ReadOnly;
-using System.Diagnostics;
-
-namespace EaslyController.Writeable
+﻿namespace EaslyController.Writeable
 {
+    using System.Diagnostics;
+    using BaseNode;
+    using BaseNodeHelper;
+    using Easly;
+    using EaslyController.ReadOnly;
+
     /// <summary>
     /// Index for clearing an optional node.
     /// </summary>

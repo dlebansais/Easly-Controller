@@ -1,9 +1,9 @@
-﻿using EaslyController.Frame;
-using System;
-using System.Diagnostics;
-
-namespace EaslyController.Focus
+﻿namespace EaslyController.Focus
 {
+    using System;
+    using System.Diagnostics;
+    using EaslyController.Frame;
+
     /// <summary>
     /// Base frame for displaying more frames.
     /// </summary>
@@ -152,7 +152,7 @@ namespace EaslyController.Focus
         /// Gets preferred frames to receive the focus when the source code is changed.
         /// </summary>
         /// <param name="firstPreferredFrame">The first preferred frame found.</param>
-        /// <param name="lastPreferredFrame">The first preferred frame found.</param>
+        /// <param name="lastPreferredFrame">The last preferred frame found.</param>
         public virtual void GetPreferredFrame(ref IFocusNodeFrame firstPreferredFrame, ref IFocusNodeFrame lastPreferredFrame)
         {
             foreach (IFocusFrame Item in Items)

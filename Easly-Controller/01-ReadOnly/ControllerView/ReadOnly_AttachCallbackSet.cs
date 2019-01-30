@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace EaslyController.ReadOnly
+﻿namespace EaslyController.ReadOnly
 {
+    using System;
+
     /// <summary>
     /// Handlers to call during enumeration of states, when attaching a view.
     /// </summary>

@@ -1,10 +1,10 @@
-﻿using BaseNode;
-using EaslyController.Frame;
-using EaslyController.Writeable;
-using System;
-
-namespace EaslyController.Focus
+﻿namespace EaslyController.Focus
 {
+    using System;
+    using BaseNode;
+    using EaslyController.Frame;
+    using EaslyController.Writeable;
+
     /// <summary>
     /// Operation details for replacing a node.
     /// </summary>
@@ -33,7 +33,7 @@ namespace EaslyController.Focus
     {
         #region Init
         /// <summary>
-        /// Initializes a new instance of <see cref="FocusReplaceOperation"/>.
+        /// Initializes a new instance of the <see cref="FocusReplaceOperation"/> class.
         /// </summary>
         /// <param name="parentNode">Node where the replacement is taking place.</param>
         /// <param name="propertyName">Property of <paramref name="parentNode"/> where the node is replaced.</param>

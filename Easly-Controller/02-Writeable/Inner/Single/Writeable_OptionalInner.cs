@@ -1,11 +1,10 @@
-﻿using BaseNode;
-using BaseNodeHelper;
-using EaslyController.ReadOnly;
-using System;
-using System.Diagnostics;
-
-namespace EaslyController.Writeable
+﻿namespace EaslyController.Writeable
 {
+    using System.Diagnostics;
+    using BaseNode;
+    using BaseNodeHelper;
+    using EaslyController.ReadOnly;
+
     /// <summary>
     /// Inner for an optional node.
     /// </summary>
@@ -32,6 +31,7 @@ namespace EaslyController.Writeable
     /// <summary>
     /// Inner for an optional node.
     /// </summary>
+    /// <typeparam name="IIndex">Type of the index.</typeparam>
     public interface IWriteableOptionalInner<out IIndex> : IReadOnlyOptionalInner<IIndex>, IWriteableSingleInner<IIndex>
         where IIndex : IWriteableBrowsingOptionalNodeIndex
     {
@@ -56,6 +56,8 @@ namespace EaslyController.Writeable
     /// <summary>
     /// Inner for an optional node.
     /// </summary>
+    /// <typeparam name="IIndex">Type of the index as interface.</typeparam>
+    /// <typeparam name="TIndex">Type of the index as class.</typeparam>
     public class WriteableOptionalInner<IIndex, TIndex> : ReadOnlyOptionalInner<IIndex, TIndex>, IWriteableOptionalInner<IIndex>, IWriteableOptionalInner
         where IIndex : IWriteableBrowsingOptionalNodeIndex
         where TIndex : WriteableBrowsingOptionalNodeIndex, IIndex

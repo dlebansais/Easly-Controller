@@ -1,8 +1,8 @@
-﻿using BaseNode;
-using EaslyController.ReadOnly;
-
-namespace EaslyController.Writeable
+﻿namespace EaslyController.Writeable
 {
+    using BaseNode;
+    using EaslyController.ReadOnly;
+
     /// <summary>
     /// Index for a child node.
     /// </summary>

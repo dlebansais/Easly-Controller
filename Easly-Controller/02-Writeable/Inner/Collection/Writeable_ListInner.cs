@@ -1,11 +1,11 @@
-﻿using BaseNode;
-using BaseNodeHelper;
-using EaslyController.ReadOnly;
-using System;
-using System.Diagnostics;
-
-namespace EaslyController.Writeable
+﻿namespace EaslyController.Writeable
 {
+    using System;
+    using System.Diagnostics;
+    using BaseNode;
+    using BaseNodeHelper;
+    using EaslyController.ReadOnly;
+
     /// <summary>
     /// Inner for a list of nodes.
     /// </summary>
@@ -20,6 +20,7 @@ namespace EaslyController.Writeable
     /// <summary>
     /// Inner for a list of nodes.
     /// </summary>
+    /// <typeparam name="IIndex">Type of the index.</typeparam>
     public interface IWriteableListInner<out IIndex> : IReadOnlyListInner<IIndex>, IWriteableCollectionInner<IIndex>
         where IIndex : IWriteableBrowsingListNodeIndex
     {
@@ -32,6 +33,8 @@ namespace EaslyController.Writeable
     /// <summary>
     /// Inner for a list of nodes.
     /// </summary>
+    /// <typeparam name="IIndex">Type of the index as interface.</typeparam>
+    /// <typeparam name="TIndex">Type of the index as class.</typeparam>
     public class WriteableListInner<IIndex, TIndex> : ReadOnlyListInner<IIndex, TIndex>, IWriteableListInner<IIndex>, IWriteableListInner
         where IIndex : IWriteableBrowsingListNodeIndex
         where TIndex : WriteableBrowsingListNodeIndex, IIndex

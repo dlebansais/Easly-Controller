@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-
-namespace EaslyController.ReadOnly
+﻿namespace EaslyController.ReadOnly
 {
+    using System.Collections.Generic;
+
     /// <summary>
     /// Dictionary of IxxxIndex, IxxxNodeState
     /// </summary>

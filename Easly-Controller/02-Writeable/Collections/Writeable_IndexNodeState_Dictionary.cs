@@ -1,11 +1,11 @@
-﻿using EaslyController.ReadOnly;
-using System;
-using System.Collections.Generic;
-
-#pragma warning disable 1591
+﻿#pragma warning disable 1591
 
 namespace EaslyController.Writeable
 {
+    using System;
+    using System.Collections.Generic;
+    using EaslyController.ReadOnly;
+
     /// <summary>
     /// Dictionary of IxxxIndex, IxxxNodeState
     /// </summary>

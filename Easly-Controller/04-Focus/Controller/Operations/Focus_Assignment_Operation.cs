@@ -1,10 +1,10 @@
-﻿using BaseNode;
-using EaslyController.Frame;
-using EaslyController.Writeable;
-using System;
-
-namespace EaslyController.Focus
+﻿namespace EaslyController.Focus
 {
+    using System;
+    using BaseNode;
+    using EaslyController.Frame;
+    using EaslyController.Writeable;
+
     /// <summary>
     /// Operation details for assigning or unassigning a node.
     /// </summary>
@@ -23,7 +23,7 @@ namespace EaslyController.Focus
     {
         #region Init
         /// <summary>
-        /// Initializes a new instance of <see cref="FocusAssignmentOperation"/>.
+        /// Initializes a new instance of the <see cref="FocusAssignmentOperation"/> class.
         /// </summary>
         /// <param name="parentNode">Node where the assignment is taking place.</param>
         /// <param name="propertyName">Optional property of <paramref name="parentNode"/> for which assignment is changed.</param>

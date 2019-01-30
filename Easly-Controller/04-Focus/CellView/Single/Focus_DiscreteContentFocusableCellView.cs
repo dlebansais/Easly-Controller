@@ -1,8 +1,8 @@
-﻿using EaslyController.Frame;
-using System.Diagnostics;
-
-namespace EaslyController.Focus
+﻿namespace EaslyController.Focus
 {
+    using System.Diagnostics;
+    using EaslyController.Frame;
+
     /// <summary>
     /// Cell view for discrete components that can receive the focus and be modified (enum, bool...)
     /// </summary>
@@ -21,7 +21,7 @@ namespace EaslyController.Focus
     {
         #region Init
         /// <summary>
-        /// Initializes an instance of <see cref="FocusDiscreteContentFocusableCellView"/>.
+        /// Initializes a new instance of the <see cref="FocusDiscreteContentFocusableCellView"/> class.
         /// </summary>
         /// <param name="stateView">The state view containing the tree with this cell.</param>
         /// <param name="frame">The frame that created this cell view.</param>

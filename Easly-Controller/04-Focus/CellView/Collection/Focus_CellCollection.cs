@@ -1,8 +1,8 @@
-﻿using EaslyController.Frame;
-using System.Diagnostics;
-
-namespace EaslyController.Focus
+﻿namespace EaslyController.Focus
 {
+    using System.Diagnostics;
+    using EaslyController.Frame;
+
     /// <summary>
     /// Base interface for collection of cell views.
     /// </summary>
@@ -21,7 +21,7 @@ namespace EaslyController.Focus
     {
         #region Init
         /// <summary>
-        /// Initializes an instance of <see cref="FrameCellViewCollection"/>.
+        /// Initializes a new instance of the <see cref="FocusCellViewCollection"/> class.
         /// </summary>
         /// <param name="stateView">The state view containing the tree with this cell.</param>
         /// <param name="cellViewList">The list of child cell views.</param>
