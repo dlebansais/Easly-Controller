@@ -18,7 +18,7 @@ namespace EaslyController.Writeable
     /// <summary>
     /// List of IxxxOperation
     /// </summary>
-    public class WriteableOperationList : Collection<IWriteableOperation>, IWriteableOperationList
+    internal class WriteableOperationList : Collection<IWriteableOperation>, IWriteableOperationList
     {
     }
 }

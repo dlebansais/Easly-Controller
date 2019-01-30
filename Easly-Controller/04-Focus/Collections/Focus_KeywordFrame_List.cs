@@ -19,7 +19,7 @@ namespace EaslyController.Focus
     /// <summary>
     /// List of IxxxKeywordFrame
     /// </summary>
-    public class FocusKeywordFrameList : Collection<IFocusKeywordFrame>, IFocusKeywordFrameList
+    internal class FocusKeywordFrameList : Collection<IFocusKeywordFrame>, IFocusKeywordFrameList
     {
         #region Frame
         public new IFrameKeywordFrame this[int index] { get { return base[index]; } set { base[index] = (IFocusKeywordFrame)value; } }

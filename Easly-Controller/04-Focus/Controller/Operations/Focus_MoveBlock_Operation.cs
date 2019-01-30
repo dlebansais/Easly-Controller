@@ -19,7 +19,7 @@
     /// <summary>
     /// Operation details for moving a block in a block list.
     /// </summary>
-    public class FocusMoveBlockOperation : FrameMoveBlockOperation, IFocusMoveBlockOperation
+    internal class FocusMoveBlockOperation : FrameMoveBlockOperation, IFocusMoveBlockOperation
     {
         #region Init
         /// <summary>

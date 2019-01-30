@@ -19,7 +19,7 @@ namespace EaslyController.Writeable
     /// <summary>
     /// List of IxxxIndexCollection
     /// </summary>
-    public class WriteableIndexCollectionList : Collection<IWriteableIndexCollection>, IWriteableIndexCollectionList
+    internal class WriteableIndexCollectionList : Collection<IWriteableIndexCollection>, IWriteableIndexCollectionList
     {
         #region ReadOnly
         public new IReadOnlyIndexCollection this[int index] { get { return base[index]; } set { base[index] = (IWriteableIndexCollection)value; } }

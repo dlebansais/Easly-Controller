@@ -17,7 +17,7 @@ namespace EaslyController.ReadOnly
     /// <summary>
     /// List of IxxxPlaceholderNodeState
     /// </summary>
-    public class ReadOnlyPlaceholderNodeStateList : Collection<IReadOnlyPlaceholderNodeState>, IReadOnlyPlaceholderNodeStateList
+    internal class ReadOnlyPlaceholderNodeStateList : Collection<IReadOnlyPlaceholderNodeState>, IReadOnlyPlaceholderNodeStateList
     {
     }
 }

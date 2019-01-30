@@ -23,7 +23,7 @@ namespace EaslyController.Focus
     /// <summary>
     /// Read-only list of IxxxIndexCollection
     /// </summary>
-    public class FocusIndexCollectionReadOnlyList : ReadOnlyCollection<IFocusIndexCollection>, IFocusIndexCollectionReadOnlyList
+    internal class FocusIndexCollectionReadOnlyList : ReadOnlyCollection<IFocusIndexCollection>, IFocusIndexCollectionReadOnlyList
     {
         public FocusIndexCollectionReadOnlyList(IFocusIndexCollectionList list)
             : base(list)

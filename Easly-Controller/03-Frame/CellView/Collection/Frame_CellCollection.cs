@@ -58,7 +58,7 @@
     /// <summary>
     /// Base interface for collection of cell views.
     /// </summary>
-    public abstract class FrameCellViewCollection : FrameCellView, IFrameCellViewCollection
+    internal abstract class FrameCellViewCollection : FrameCellView, IFrameCellViewCollection
     {
         #region Init
         /// <summary>

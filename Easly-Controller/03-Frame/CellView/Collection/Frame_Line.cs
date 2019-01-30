@@ -12,7 +12,7 @@
     /// <summary>
     /// A collection of cell views organized in a line.
     /// </summary>
-    public class FrameLine : FrameCellViewCollection, IFrameLine
+    internal class FrameLine : FrameCellViewCollection, IFrameLine
     {
         #region Init
         /// <summary>

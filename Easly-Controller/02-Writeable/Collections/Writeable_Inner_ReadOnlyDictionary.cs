@@ -23,7 +23,7 @@ namespace EaslyController.Writeable
     /// Read-only dictionary of ..., IxxxInner
     /// </summary>
     /// <typeparam name="TKey">Type of the key.</typeparam>
-    public class WriteableInnerReadOnlyDictionary<TKey> : ReadOnlyDictionary<TKey, IWriteableInner<IWriteableBrowsingChildIndex>>, IWriteableInnerReadOnlyDictionary<TKey>
+    internal class WriteableInnerReadOnlyDictionary<TKey> : ReadOnlyDictionary<TKey, IWriteableInner<IWriteableBrowsingChildIndex>>, IWriteableInnerReadOnlyDictionary<TKey>
     {
         public WriteableInnerReadOnlyDictionary(IWriteableInnerDictionary<TKey> dictionary)
             : base(dictionary)

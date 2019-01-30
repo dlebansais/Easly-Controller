@@ -20,7 +20,7 @@ namespace EaslyController.Focus
     /// <summary>
     /// List of IxxxOperationGroup
     /// </summary>
-    public class FocusOperationGroupList : Collection<IFocusOperationGroup>, IFocusOperationGroupList
+    internal class FocusOperationGroupList : Collection<IFocusOperationGroup>, IFocusOperationGroupList
     {
         #region Writeable
         bool ICollection<IWriteableOperationGroup>.IsReadOnly { get { return ((ICollection<IFocusOperationGroup>)this).IsReadOnly; } }

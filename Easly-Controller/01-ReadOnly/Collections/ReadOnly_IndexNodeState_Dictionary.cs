@@ -12,7 +12,7 @@
     /// <summary>
     /// Dictionary of IxxxIndex, IxxxNodeState
     /// </summary>
-    public class ReadOnlyIndexNodeStateDictionary : Dictionary<IReadOnlyIndex, IReadOnlyNodeState>, IReadOnlyIndexNodeStateDictionary
+    internal class ReadOnlyIndexNodeStateDictionary : Dictionary<IReadOnlyIndex, IReadOnlyNodeState>, IReadOnlyIndexNodeStateDictionary
     {
     }
 }

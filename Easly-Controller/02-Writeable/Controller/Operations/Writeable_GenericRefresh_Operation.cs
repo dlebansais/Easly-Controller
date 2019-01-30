@@ -16,7 +16,7 @@
     /// <summary>
     /// Operation details for refreshing views.
     /// </summary>
-    public class WriteableGenericRefreshOperation : WriteableOperation, IWriteableGenericRefreshOperation
+    internal class WriteableGenericRefreshOperation : WriteableOperation, IWriteableGenericRefreshOperation
     {
         #region Init
         /// <summary>

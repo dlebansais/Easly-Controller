@@ -19,7 +19,7 @@
     /// <summary>
     /// Operation details for removing a block from a block list.
     /// </summary>
-    public class FocusRemoveBlockViewOperation : FrameRemoveBlockViewOperation, IFocusRemoveBlockViewOperation
+    internal class FocusRemoveBlockViewOperation : FrameRemoveBlockViewOperation, IFocusRemoveBlockViewOperation
     {
         #region Init
         /// <summary>

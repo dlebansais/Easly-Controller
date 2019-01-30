@@ -22,7 +22,7 @@
     /// <summary>
     /// View of a block state.
     /// </summary>
-    public class WriteableBlockStateView : ReadOnlyBlockStateView, IWriteableBlockStateView
+    internal class WriteableBlockStateView : ReadOnlyBlockStateView, IWriteableBlockStateView
     {
         #region Init
         /// <summary>

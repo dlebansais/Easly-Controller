@@ -55,7 +55,7 @@
     /// <summary>
     /// Atomic cell view of a component in a node.
     /// </summary>
-    public abstract class FrameCellView : IFrameCellView
+    internal abstract class FrameCellView : IFrameCellView
     {
         #region Init
         /// <summary>

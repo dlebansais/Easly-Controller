@@ -18,7 +18,7 @@
     /// <summary>
     /// Operation details for moving a node in a list or block list.
     /// </summary>
-    public class FrameChangeNodeOperation : WriteableChangeNodeOperation, IFrameChangeNodeOperation
+    internal class FrameChangeNodeOperation : WriteableChangeNodeOperation, IFrameChangeNodeOperation
     {
         #region Init
         /// <summary>

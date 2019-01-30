@@ -22,7 +22,7 @@ namespace EaslyController.Focus
     /// Dictionary of ..., IxxxInner
     /// </summary>
     /// <typeparam name="TKey">Type of the key.</typeparam>
-    public class FocusInnerDictionary<TKey> : Dictionary<TKey, IFocusInner<IFocusBrowsingChildIndex>>, IFocusInnerDictionary<TKey>
+    internal class FocusInnerDictionary<TKey> : Dictionary<TKey, IFocusInner<IFocusBrowsingChildIndex>>, IFocusInnerDictionary<TKey>
     {
         #region ReadOnly
         IReadOnlyInner<IReadOnlyBrowsingChildIndex> IDictionary<TKey, IReadOnlyInner<IReadOnlyBrowsingChildIndex>>.this[TKey key] { get { return this[key]; } set { this[key] = (IFocusInner<IFocusBrowsingChildIndex>)value; } }

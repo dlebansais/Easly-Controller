@@ -20,7 +20,7 @@
     /// <summary>
     /// View of a pattern state.
     /// </summary>
-    public class FramePatternStateView : WriteablePatternStateView, IFramePatternStateView
+    internal class FramePatternStateView : WriteablePatternStateView, IFramePatternStateView
     {
         #region Init
         /// <summary>

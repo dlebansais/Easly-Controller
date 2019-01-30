@@ -17,7 +17,7 @@
     /// <summary>
     /// Base interface for collection of cell views.
     /// </summary>
-    public abstract class FocusCellViewCollection : FrameCellViewCollection, IFocusCellViewCollection
+    internal abstract class FocusCellViewCollection : FrameCellViewCollection, IFocusCellViewCollection
     {
         #region Init
         /// <summary>

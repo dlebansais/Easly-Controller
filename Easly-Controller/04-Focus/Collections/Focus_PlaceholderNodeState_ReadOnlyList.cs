@@ -24,7 +24,7 @@ namespace EaslyController.Focus
     /// <summary>
     /// Read-only list of IxxxPlaceholderNodeState
     /// </summary>
-    public class FocusPlaceholderNodeStateReadOnlyList : ReadOnlyCollection<IFocusPlaceholderNodeState>, IFocusPlaceholderNodeStateReadOnlyList
+    internal class FocusPlaceholderNodeStateReadOnlyList : ReadOnlyCollection<IFocusPlaceholderNodeState>, IFocusPlaceholderNodeStateReadOnlyList
     {
         public FocusPlaceholderNodeStateReadOnlyList(IFocusPlaceholderNodeStateList list)
             : base(list)

@@ -28,7 +28,7 @@
     /// <summary>
     /// Operation details for inserting a block with a single node in a block list.
     /// </summary>
-    public class FrameInsertBlockOperation : WriteableInsertBlockOperation, IFrameInsertBlockOperation
+    internal class FrameInsertBlockOperation : WriteableInsertBlockOperation, IFrameInsertBlockOperation
     {
         #region Init
         /// <summary>

@@ -17,7 +17,7 @@ namespace EaslyController.Writeable
     /// <summary>
     /// Read-only list of IxxxOperationGroup
     /// </summary>
-    public class WriteableOperationGroupReadOnlyList : ReadOnlyCollection<IWriteableOperationGroup>, IWriteableOperationGroupReadOnlyList
+    internal class WriteableOperationGroupReadOnlyList : ReadOnlyCollection<IWriteableOperationGroup>, IWriteableOperationGroupReadOnlyList
     {
         public WriteableOperationGroupReadOnlyList(IWriteableOperationGroupList list)
             : base(list)

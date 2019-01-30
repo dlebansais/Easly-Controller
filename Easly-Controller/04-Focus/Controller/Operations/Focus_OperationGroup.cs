@@ -26,7 +26,7 @@
     /// <summary>
     /// Group of operations to make some tasks atomic.
     /// </summary>
-    public class FocusOperationGroup : FrameOperationGroup, IFocusOperationGroup
+    internal class FocusOperationGroup : FrameOperationGroup, IFocusOperationGroup
     {
         #region Init
         /// <summary>

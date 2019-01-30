@@ -19,7 +19,7 @@ namespace EaslyController.Writeable
     /// <summary>
     /// Read-only dictionary of IxxxIndex, IxxxNodeState
     /// </summary>
-    public class WriteableIndexNodeStateReadOnlyDictionary : ReadOnlyDictionary<IWriteableIndex, IWriteableNodeState>, IWriteableIndexNodeStateReadOnlyDictionary
+    internal class WriteableIndexNodeStateReadOnlyDictionary : ReadOnlyDictionary<IWriteableIndex, IWriteableNodeState>, IWriteableIndexNodeStateReadOnlyDictionary
     {
         public WriteableIndexNodeStateReadOnlyDictionary(IWriteableIndexNodeStateDictionary dictionary)
             : base(dictionary)

@@ -21,7 +21,7 @@ namespace EaslyController.Writeable
     /// <summary>
     /// Read-only list of IxxxBlockState
     /// </summary>
-    public class WriteableBlockStateReadOnlyList : ReadOnlyCollection<IWriteableBlockState>, IWriteableBlockStateReadOnlyList
+    internal class WriteableBlockStateReadOnlyList : ReadOnlyCollection<IWriteableBlockState>, IWriteableBlockStateReadOnlyList
     {
         public WriteableBlockStateReadOnlyList(IWriteableBlockStateList list)
             : base(list)

@@ -12,7 +12,7 @@
     /// <summary>
     /// Details for removal operations.
     /// </summary>
-    public abstract class WriteableRemoveOperation : WriteableOperation, IWriteableRemoveOperation
+    internal abstract class WriteableRemoveOperation : WriteableOperation, IWriteableRemoveOperation
     {
         #region Init
         /// <summary>

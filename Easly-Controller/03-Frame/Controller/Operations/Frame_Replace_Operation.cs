@@ -28,7 +28,7 @@
     /// <summary>
     /// Operation details for replacing a node.
     /// </summary>
-    public class FrameReplaceOperation : WriteableReplaceOperation, IFrameReplaceOperation
+    internal class FrameReplaceOperation : WriteableReplaceOperation, IFrameReplaceOperation
     {
         #region Init
         /// <summary>

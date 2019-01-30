@@ -18,7 +18,7 @@
     /// <summary>
     /// Operation details for changing a node.
     /// </summary>
-    public class FrameChangeBlockOperation : WriteableChangeBlockOperation, IFrameChangeBlockOperation
+    internal class FrameChangeBlockOperation : WriteableChangeBlockOperation, IFrameChangeBlockOperation
     {
         #region Init
         /// <summary>

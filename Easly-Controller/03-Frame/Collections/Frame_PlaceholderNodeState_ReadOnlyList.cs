@@ -23,7 +23,7 @@ namespace EaslyController.Frame
     /// <summary>
     /// Read-only list of IxxxPlaceholderNodeState
     /// </summary>
-    public class FramePlaceholderNodeStateReadOnlyList : ReadOnlyCollection<IFramePlaceholderNodeState>, IFramePlaceholderNodeStateReadOnlyList
+    internal class FramePlaceholderNodeStateReadOnlyList : ReadOnlyCollection<IFramePlaceholderNodeState>, IFramePlaceholderNodeStateReadOnlyList
     {
         public FramePlaceholderNodeStateReadOnlyList(IFramePlaceholderNodeStateList list)
             : base(list)

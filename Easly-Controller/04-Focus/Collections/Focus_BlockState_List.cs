@@ -21,7 +21,7 @@ namespace EaslyController.Focus
     /// <summary>
     /// List of IxxxBlockState
     /// </summary>
-    public class FocusBlockStateList : Collection<IFocusBlockState>, IFocusBlockStateList
+    internal class FocusBlockStateList : Collection<IFocusBlockState>, IFocusBlockStateList
     {
         #region ReadOnly
         bool ICollection<IReadOnlyBlockState>.IsReadOnly { get { return ((ICollection<IFocusBlockState>)this).IsReadOnly; } }

@@ -29,7 +29,7 @@
     /// <summary>
     /// Operation details for inserting a block with a single node in a block list.
     /// </summary>
-    public class FocusInsertBlockOperation : FrameInsertBlockOperation, IFocusInsertBlockOperation
+    internal class FocusInsertBlockOperation : FrameInsertBlockOperation, IFocusInsertBlockOperation
     {
         #region Init
         /// <summary>

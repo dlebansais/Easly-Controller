@@ -24,7 +24,7 @@
     /// Collection of node indexes.
     /// </summary>
     /// <typeparam name="IIndex">Type of the index.</typeparam>
-    public class WriteableIndexCollection<IIndex> : ReadOnlyIndexCollection<IIndex>, IWriteableIndexCollection<IIndex>, IWriteableIndexCollection
+    internal class WriteableIndexCollection<IIndex> : ReadOnlyIndexCollection<IIndex>, IWriteableIndexCollection<IIndex>, IWriteableIndexCollection
         where IIndex : IWriteableBrowsingChildIndex
     {
         #region Init

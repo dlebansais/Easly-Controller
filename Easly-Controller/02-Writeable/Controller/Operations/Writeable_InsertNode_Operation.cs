@@ -60,7 +60,7 @@
     /// <summary>
     /// Operation details for inserting a node in a list or block list.
     /// </summary>
-    public class WriteableInsertNodeOperation : WriteableInsertOperation, IWriteableInsertNodeOperation
+    internal class WriteableInsertNodeOperation : WriteableInsertOperation, IWriteableInsertNodeOperation
     {
         #region Init
         /// <summary>

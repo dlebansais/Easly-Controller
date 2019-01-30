@@ -17,7 +17,7 @@
     /// <summary>
     /// Cell view for discrete components that can receive the focus and be modified (enum, bool...)
     /// </summary>
-    public class FocusDiscreteContentFocusableCellView : FrameDiscreteContentFocusableCellView, IFocusDiscreteContentFocusableCellView
+    internal class FocusDiscreteContentFocusableCellView : FrameDiscreteContentFocusableCellView, IFocusDiscreteContentFocusableCellView
     {
         #region Init
         /// <summary>

@@ -89,7 +89,7 @@
     /// <summary>
     /// State of a block in a block list.
     /// </summary>
-    public class ReadOnlyBlockState : IReadOnlyBlockState
+    internal class ReadOnlyBlockState : IReadOnlyBlockState
     {
         #region Init
         /// <summary>

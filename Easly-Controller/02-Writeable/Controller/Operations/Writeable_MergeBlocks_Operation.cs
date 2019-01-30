@@ -54,7 +54,7 @@
     /// <summary>
     /// Operation details for merging blocks in a block list.
     /// </summary>
-    public class WriteableMergeBlocksOperation : WriteableOperation, IWriteableMergeBlocksOperation
+    internal class WriteableMergeBlocksOperation : WriteableOperation, IWriteableMergeBlocksOperation
     {
         #region Init
         /// <summary>

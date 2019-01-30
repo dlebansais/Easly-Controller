@@ -30,7 +30,7 @@
     /// Base inner for a single node inner.
     /// </summary>
     /// <typeparam name="IIndex">Type of the index.</typeparam>
-    public abstract class FrameSingleInner<IIndex> : WriteableSingleInner<IIndex>, IFrameSingleInner<IIndex>, IFrameSingleInner
+    internal abstract class FrameSingleInner<IIndex> : WriteableSingleInner<IIndex>, IFrameSingleInner<IIndex>, IFrameSingleInner
         where IIndex : IFrameBrowsingChildIndex
     {
         #region Init

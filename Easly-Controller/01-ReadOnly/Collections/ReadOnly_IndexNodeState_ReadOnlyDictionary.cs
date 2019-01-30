@@ -15,7 +15,7 @@ namespace EaslyController.ReadOnly
     /// <summary>
     /// Read-only dictionary of IxxxIndex, IxxxNodeState
     /// </summary>
-    public class ReadOnlyIndexNodeStateReadOnlyDictionary : ReadOnlyDictionary<IReadOnlyIndex, IReadOnlyNodeState>, IReadOnlyIndexNodeStateReadOnlyDictionary
+    internal class ReadOnlyIndexNodeStateReadOnlyDictionary : ReadOnlyDictionary<IReadOnlyIndex, IReadOnlyNodeState>, IReadOnlyIndexNodeStateReadOnlyDictionary
     {
         public ReadOnlyIndexNodeStateReadOnlyDictionary(IReadOnlyIndexNodeStateDictionary dictionary)
             : base(dictionary)

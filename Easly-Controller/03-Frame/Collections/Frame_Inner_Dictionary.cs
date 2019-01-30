@@ -21,7 +21,7 @@ namespace EaslyController.Frame
     /// Dictionary of ..., IxxxInner
     /// </summary>
     /// <typeparam name="TKey">Type of the key.</typeparam>
-    public class FrameInnerDictionary<TKey> : Dictionary<TKey, IFrameInner<IFrameBrowsingChildIndex>>, IFrameInnerDictionary<TKey>
+    internal class FrameInnerDictionary<TKey> : Dictionary<TKey, IFrameInner<IFrameBrowsingChildIndex>>, IFrameInnerDictionary<TKey>
     {
         #region ReadOnly
         IReadOnlyInner<IReadOnlyBrowsingChildIndex> IDictionary<TKey, IReadOnlyInner<IReadOnlyBrowsingChildIndex>>.this[TKey key] { get { return this[key]; } set { this[key] = (IFrameInner<IFrameBrowsingChildIndex>)value; } }

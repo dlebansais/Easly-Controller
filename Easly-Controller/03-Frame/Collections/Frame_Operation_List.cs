@@ -19,7 +19,7 @@ namespace EaslyController.Frame
     /// <summary>
     /// List of IxxxOperation
     /// </summary>
-    public class FrameOperationList : Collection<IFrameOperation>, IFrameOperationList
+    internal class FrameOperationList : Collection<IFrameOperation>, IFrameOperationList
     {
         #region Writeable
         bool ICollection<IWriteableOperation>.IsReadOnly { get { return ((ICollection<IFrameOperation>)this).IsReadOnly; } }

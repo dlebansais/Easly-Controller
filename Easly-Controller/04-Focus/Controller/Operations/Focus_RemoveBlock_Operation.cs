@@ -24,7 +24,7 @@
     /// <summary>
     /// Operation details for removing a block from a block list.
     /// </summary>
-    public class FocusRemoveBlockOperation : FrameRemoveBlockOperation, IFocusRemoveBlockOperation
+    internal class FocusRemoveBlockOperation : FrameRemoveBlockOperation, IFocusRemoveBlockOperation
     {
         #region Init
         /// <summary>

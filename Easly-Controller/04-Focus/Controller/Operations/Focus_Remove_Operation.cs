@@ -14,7 +14,7 @@
     /// <summary>
     /// Details for removal operations.
     /// </summary>
-    public abstract class FocusRemoveOperation : FrameRemoveOperation, IFocusRemoveOperation
+    internal abstract class FocusRemoveOperation : FrameRemoveOperation, IFocusRemoveOperation
     {
         #region Init
         /// <summary>

@@ -18,7 +18,7 @@ namespace EaslyController.Frame
     /// <summary>
     /// Read-only list of IxxxCellView
     /// </summary>
-    public class FrameCellViewReadOnlyList : ReadOnlyCollection<IFrameCellView>, IFrameCellViewReadOnlyList
+    internal class FrameCellViewReadOnlyList : ReadOnlyCollection<IFrameCellView>, IFrameCellViewReadOnlyList
     {
         public FrameCellViewReadOnlyList(IFrameCellViewList list)
             : base(list)

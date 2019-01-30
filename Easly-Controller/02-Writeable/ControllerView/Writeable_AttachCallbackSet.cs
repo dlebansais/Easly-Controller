@@ -13,7 +13,7 @@
     /// <summary>
     /// Handlers to call during enumeration of states, when attaching a view.
     /// </summary>
-    public class WriteableAttachCallbackSet : ReadOnlyAttachCallbackSet, IWriteableAttachCallbackSet
+    internal class WriteableAttachCallbackSet : ReadOnlyAttachCallbackSet, IWriteableAttachCallbackSet
     {
         #region Properties
         /// <summary>

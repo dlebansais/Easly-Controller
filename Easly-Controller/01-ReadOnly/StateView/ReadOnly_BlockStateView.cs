@@ -21,7 +21,7 @@
     /// <summary>
     /// View of a block state.
     /// </summary>
-    public class ReadOnlyBlockStateView : IReadOnlyBlockStateView
+    internal class ReadOnlyBlockStateView : IReadOnlyBlockStateView
     {
         #region Init
         /// <summary>

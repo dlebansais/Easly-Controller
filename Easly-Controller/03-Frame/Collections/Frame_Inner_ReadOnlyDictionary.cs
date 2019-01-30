@@ -24,7 +24,7 @@ namespace EaslyController.Frame
     /// Read-only dictionary of ..., IxxxInner
     /// </summary>
     /// <typeparam name="TKey">Type of the key.</typeparam>
-    public class FrameInnerReadOnlyDictionary<TKey> : ReadOnlyDictionary<TKey, IFrameInner<IFrameBrowsingChildIndex>>, IFrameInnerReadOnlyDictionary<TKey>
+    internal class FrameInnerReadOnlyDictionary<TKey> : ReadOnlyDictionary<TKey, IFrameInner<IFrameBrowsingChildIndex>>, IFrameInnerReadOnlyDictionary<TKey>
     {
         public FrameInnerReadOnlyDictionary(IFrameInnerDictionary<TKey> dictionary)
             : base(dictionary)

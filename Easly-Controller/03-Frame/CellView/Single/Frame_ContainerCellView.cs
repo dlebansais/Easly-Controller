@@ -22,7 +22,7 @@
     /// <summary>
     /// A leaf of the cell view tree for a child state.
     /// </summary>
-    public class FrameContainerCellView : FrameCellView, IFrameContainerCellView
+    internal class FrameContainerCellView : FrameCellView, IFrameContainerCellView
     {
         #region Init
         /// <summary>

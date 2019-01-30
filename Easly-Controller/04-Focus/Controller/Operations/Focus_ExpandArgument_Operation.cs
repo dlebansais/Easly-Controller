@@ -29,7 +29,7 @@
     /// <summary>
     /// Operation details for inserting a single argument in a block list.
     /// </summary>
-    public class FocusExpandArgumentOperation : FrameExpandArgumentOperation, IFocusExpandArgumentOperation
+    internal class FocusExpandArgumentOperation : FrameExpandArgumentOperation, IFocusExpandArgumentOperation
     {
         #region Init
         /// <summary>

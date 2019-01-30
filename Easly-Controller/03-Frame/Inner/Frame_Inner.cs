@@ -30,7 +30,7 @@
     /// Interface for all inners.
     /// </summary>
     /// <typeparam name="IIndex">Type of the index.</typeparam>
-    public abstract class FrameInner<IIndex> : WriteableInner<IIndex>, IFrameInner<IIndex>, IFrameInner
+    internal abstract class FrameInner<IIndex> : WriteableInner<IIndex>, IFrameInner<IIndex>, IFrameInner
         where IIndex : IFrameBrowsingChildIndex
     {
         #region Init

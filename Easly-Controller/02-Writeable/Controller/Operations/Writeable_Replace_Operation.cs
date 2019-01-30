@@ -72,7 +72,7 @@
     /// <summary>
     /// Operation details for replacing a node.
     /// </summary>
-    public class WriteableReplaceOperation : WriteableOperation, IWriteableReplaceOperation
+    internal class WriteableReplaceOperation : WriteableOperation, IWriteableReplaceOperation
     {
         #region Init
         /// <summary>

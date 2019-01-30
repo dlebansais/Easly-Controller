@@ -17,7 +17,7 @@
     /// <summary>
     /// View of a source state.
     /// </summary>
-    public class FocusSourceStateView : FrameSourceStateView, IFocusSourceStateView
+    internal class FocusSourceStateView : FrameSourceStateView, IFocusSourceStateView
     {
         #region Init
         /// <summary>

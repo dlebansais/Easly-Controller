@@ -22,7 +22,7 @@
     /// <summary>
     /// A leaf of the cell view tree for a child state.
     /// </summary>
-    public class FocusContainerCellView : FrameContainerCellView, IFocusContainerCellView
+    internal class FocusContainerCellView : FrameContainerCellView, IFocusContainerCellView
     {
         #region Init
         /// <summary>

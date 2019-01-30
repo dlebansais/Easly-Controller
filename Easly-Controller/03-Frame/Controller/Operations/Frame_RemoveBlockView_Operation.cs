@@ -18,7 +18,7 @@
     /// <summary>
     /// Operation details for removing a block from a block list.
     /// </summary>
-    public class FrameRemoveBlockViewOperation : WriteableRemoveBlockViewOperation, IFrameRemoveBlockViewOperation
+    internal class FrameRemoveBlockViewOperation : WriteableRemoveBlockViewOperation, IFrameRemoveBlockViewOperation
     {
         #region Init
         /// <summary>

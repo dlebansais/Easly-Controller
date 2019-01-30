@@ -12,7 +12,7 @@
     /// <summary>
     /// Cell view for discrete elements that can receive the focus but are not always the component of a node (insertion points, keywords and other decorations)
     /// </summary>
-    public class FrameFocusableCellView : FrameVisibleCellView, IFrameFocusableCellView
+    internal class FrameFocusableCellView : FrameVisibleCellView, IFrameFocusableCellView
     {
         #region Init
         /// <summary>

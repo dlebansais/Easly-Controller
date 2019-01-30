@@ -17,7 +17,7 @@
     /// <summary>
     /// Operation details for inserting a single argument in a block list.
     /// </summary>
-    public class WriteableExpandArgumentOperation : WriteableInsertBlockOperation, IWriteableExpandArgumentOperation
+    internal class WriteableExpandArgumentOperation : WriteableInsertBlockOperation, IWriteableExpandArgumentOperation
     {
         #region Init
         /// <summary>

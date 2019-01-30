@@ -20,7 +20,7 @@ namespace EaslyController.Focus
     /// <summary>
     /// Dictionary of IxxxIndex, IxxxNodeState
     /// </summary>
-    public class FocusIndexNodeStateDictionary : Dictionary<IFocusIndex, IFocusNodeState>, IFocusIndexNodeStateDictionary
+    internal class FocusIndexNodeStateDictionary : Dictionary<IFocusIndex, IFocusNodeState>, IFocusIndexNodeStateDictionary
     {
         #region ReadOnly
         void IDictionary<IReadOnlyIndex, IReadOnlyNodeState>.Add(IReadOnlyIndex key, IReadOnlyNodeState value) { Add((IFocusIndex)key, (IFocusNodeState)value); }

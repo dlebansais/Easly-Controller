@@ -89,7 +89,7 @@
     /// <summary>
     /// View of a node state.
     /// </summary>
-    public abstract class FrameNodeStateView : WriteableNodeStateView, IFrameNodeStateView
+    internal abstract class FrameNodeStateView : WriteableNodeStateView, IFrameNodeStateView
     {
         #region Init
         /// <summary>

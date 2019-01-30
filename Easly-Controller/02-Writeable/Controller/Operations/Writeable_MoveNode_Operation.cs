@@ -54,7 +54,7 @@
     /// <summary>
     /// Operation details for moving a node in a list or block list.
     /// </summary>
-    public class WriteableMoveNodeOperation : WriteableOperation, IWriteableMoveNodeOperation
+    internal class WriteableMoveNodeOperation : WriteableOperation, IWriteableMoveNodeOperation
     {
         #region Init
         /// <summary>

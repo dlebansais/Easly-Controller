@@ -22,7 +22,7 @@ namespace EaslyController.Focus
     /// <summary>
     /// Read-only list of IxxxCellView
     /// </summary>
-    public class FocusCellViewReadOnlyList : ReadOnlyCollection<IFocusCellView>, IFocusCellViewReadOnlyList
+    internal class FocusCellViewReadOnlyList : ReadOnlyCollection<IFocusCellView>, IFocusCellViewReadOnlyList
     {
         public FocusCellViewReadOnlyList(IFocusCellViewList list)
             : base(list)

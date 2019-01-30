@@ -19,7 +19,7 @@ namespace EaslyController.Writeable
     /// <summary>
     /// List of IxxxBlockState
     /// </summary>
-    public class WriteableBlockStateList : Collection<IWriteableBlockState>, IWriteableBlockStateList
+    internal class WriteableBlockStateList : Collection<IWriteableBlockState>, IWriteableBlockStateList
     {
         #region ReadOnly
         bool ICollection<IReadOnlyBlockState>.IsReadOnly { get { return ((ICollection<IWriteableBlockState>)this).IsReadOnly; } }

@@ -17,7 +17,7 @@
     /// <summary>
     /// View of a child node.
     /// </summary>
-    public class WriteablePlaceholderNodeStateView : ReadOnlyPlaceholderNodeStateView, IWriteablePlaceholderNodeStateView
+    internal class WriteablePlaceholderNodeStateView : ReadOnlyPlaceholderNodeStateView, IWriteablePlaceholderNodeStateView
     {
         #region Init
         /// <summary>

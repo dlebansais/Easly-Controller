@@ -20,7 +20,7 @@ namespace EaslyController.Frame
     /// <summary>
     /// List of IxxxNodeState
     /// </summary>
-    public class FrameNodeStateList : Collection<IFrameNodeState>, IFrameNodeStateList
+    internal class FrameNodeStateList : Collection<IFrameNodeState>, IFrameNodeStateList
     {
         #region ReadOnly
         public new IReadOnlyNodeState this[int index] { get { return base[index]; } set { base[index] = (IFrameNodeState)value; } }

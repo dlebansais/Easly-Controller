@@ -12,7 +12,7 @@
     /// <summary>
     /// Base frame for frames that describe property in a node.
     /// </summary>
-    public abstract class FocusNamedFrame : FrameNamedFrame, IFocusNamedFrame
+    internal abstract class FocusNamedFrame : FrameNamedFrame, IFocusNamedFrame
     {
         #region Properties
         /// <summary>

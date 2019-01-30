@@ -37,7 +37,7 @@
     /// <summary>
     /// Base for all operations modifying the node tree.
     /// </summary>
-    public class WriteableOperation : IWriteableOperation
+    internal class WriteableOperation : IWriteableOperation
     {
         #region Init
         /// <summary>

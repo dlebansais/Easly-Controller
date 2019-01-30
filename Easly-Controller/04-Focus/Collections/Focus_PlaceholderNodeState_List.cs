@@ -21,7 +21,7 @@ namespace EaslyController.Focus
     /// <summary>
     /// List of IxxxPlaceholderNodeState
     /// </summary>
-    public class FocusPlaceholderNodeStateList : Collection<IFocusPlaceholderNodeState>, IFocusPlaceholderNodeStateList
+    internal class FocusPlaceholderNodeStateList : Collection<IFocusPlaceholderNodeState>, IFocusPlaceholderNodeStateList
     {
         #region ReadOnly
         public new IReadOnlyPlaceholderNodeState this[int index] { get { return base[index]; } set { base[index] = (IFocusPlaceholderNodeState)value; } }

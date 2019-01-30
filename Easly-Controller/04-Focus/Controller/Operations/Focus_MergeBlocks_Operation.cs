@@ -19,7 +19,7 @@
     /// <summary>
     /// Operation details for merging blocks in a block list.
     /// </summary>
-    public class FocusMergeBlocksOperation : FrameMergeBlocksOperation, IFocusMergeBlocksOperation
+    internal class FocusMergeBlocksOperation : FrameMergeBlocksOperation, IFocusMergeBlocksOperation
     {
         #region Init
         /// <summary>

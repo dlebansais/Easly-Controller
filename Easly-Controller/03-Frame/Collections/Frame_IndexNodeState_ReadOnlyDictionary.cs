@@ -20,7 +20,7 @@ namespace EaslyController.Frame
     /// <summary>
     /// Read-only dictionary of IxxxIndex, IxxxNodeState
     /// </summary>
-    public class FrameIndexNodeStateReadOnlyDictionary : ReadOnlyDictionary<IFrameIndex, IFrameNodeState>, IFrameIndexNodeStateReadOnlyDictionary
+    internal class FrameIndexNodeStateReadOnlyDictionary : ReadOnlyDictionary<IFrameIndex, IFrameNodeState>, IFrameIndexNodeStateReadOnlyDictionary
     {
         public FrameIndexNodeStateReadOnlyDictionary(IFrameIndexNodeStateDictionary dictionary)
             : base(dictionary)

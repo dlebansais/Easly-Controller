@@ -19,7 +19,7 @@ namespace EaslyController.Writeable
     /// <summary>
     /// Dictionary of IxxxIndex, IxxxNodeState
     /// </summary>
-    public class WriteableStateViewDictionary : Dictionary<IWriteableNodeState, IWriteableNodeStateView>, IWriteableStateViewDictionary
+    internal class WriteableStateViewDictionary : Dictionary<IWriteableNodeState, IWriteableNodeStateView>, IWriteableStateViewDictionary
     {
         #region ReadOnly
         void IDictionary<IReadOnlyNodeState, IReadOnlyNodeStateView>.Add(IReadOnlyNodeState key, IReadOnlyNodeStateView value) { Add((IWriteableNodeState)key, (IWriteableNodeStateView)value); }

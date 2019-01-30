@@ -17,7 +17,7 @@ namespace EaslyController.ReadOnly
     /// <summary>
     /// List of IxxxBrowsingListNodeIndex
     /// </summary>
-    public class ReadOnlyBrowsingListNodeIndexList : Collection<IReadOnlyBrowsingListNodeIndex>, IReadOnlyBrowsingListNodeIndexList
+    internal class ReadOnlyBrowsingListNodeIndexList : Collection<IReadOnlyBrowsingListNodeIndex>, IReadOnlyBrowsingListNodeIndexList
     {
     }
 }

@@ -18,7 +18,7 @@
     /// <summary>
     /// Operation details for assigning or unassigning a node.
     /// </summary>
-    public class FrameAssignmentOperation : WriteableAssignmentOperation, IFrameAssignmentOperation
+    internal class FrameAssignmentOperation : WriteableAssignmentOperation, IFrameAssignmentOperation
     {
         #region Init
         /// <summary>

@@ -16,7 +16,7 @@
     /// <summary>
     /// View of a child node.
     /// </summary>
-    public class ReadOnlyPlaceholderNodeStateView : ReadOnlyNodeStateView, IReadOnlyPlaceholderNodeStateView
+    internal class ReadOnlyPlaceholderNodeStateView : ReadOnlyNodeStateView, IReadOnlyPlaceholderNodeStateView
     {
         #region Init
         /// <summary>

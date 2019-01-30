@@ -13,7 +13,7 @@
     /// <summary>
     /// Base for all operations modifying the node tree.
     /// </summary>
-    public class FrameOperation : WriteableOperation, IFrameOperation
+    internal class FrameOperation : WriteableOperation, IFrameOperation
     {
         #region Init
         /// <summary>

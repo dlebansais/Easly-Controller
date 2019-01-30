@@ -54,7 +54,7 @@
     /// <summary>
     /// Operation details for removing a node in a list or block list.
     /// </summary>
-    public class WriteableRemoveNodeOperation : WriteableRemoveOperation, IWriteableRemoveNodeOperation
+    internal class WriteableRemoveNodeOperation : WriteableRemoveOperation, IWriteableRemoveNodeOperation
     {
         #region Init
         /// <summary>

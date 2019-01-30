@@ -39,7 +39,7 @@
     /// <summary>
     /// Operation details for assigning or unassigning a node.
     /// </summary>
-    public class WriteableAssignmentOperation : WriteableOperation, IWriteableAssignmentOperation
+    internal class WriteableAssignmentOperation : WriteableOperation, IWriteableAssignmentOperation
     {
         #region Init
         /// <summary>

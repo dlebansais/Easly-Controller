@@ -43,7 +43,7 @@
     /// <summary>
     /// State of a block in a block list.
     /// </summary>
-    public class FocusBlockState : FrameBlockState, IFocusBlockState
+    internal class FocusBlockState : FrameBlockState, IFocusBlockState
     {
         #region Init
         /// <summary>

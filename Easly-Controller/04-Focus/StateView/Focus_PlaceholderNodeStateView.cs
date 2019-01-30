@@ -17,7 +17,7 @@
     /// <summary>
     /// View of a child node.
     /// </summary>
-    public class FocusPlaceholderNodeStateView : FramePlaceholderNodeStateView, IFocusPlaceholderNodeStateView
+    internal class FocusPlaceholderNodeStateView : FramePlaceholderNodeStateView, IFocusPlaceholderNodeStateView
     {
         #region Init
         /// <summary>

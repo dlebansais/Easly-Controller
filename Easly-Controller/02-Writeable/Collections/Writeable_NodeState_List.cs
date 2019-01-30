@@ -19,7 +19,7 @@ namespace EaslyController.Writeable
     /// <summary>
     /// List of IxxxNodeState
     /// </summary>
-    public class WriteableNodeStateList : Collection<IWriteableNodeState>, IWriteableNodeStateList
+    internal class WriteableNodeStateList : Collection<IWriteableNodeState>, IWriteableNodeStateList
     {
         #region ReadOnly
         public new IReadOnlyNodeState this[int index] { get { return base[index]; } set { base[index] = (IWriteableNodeState)value; } }

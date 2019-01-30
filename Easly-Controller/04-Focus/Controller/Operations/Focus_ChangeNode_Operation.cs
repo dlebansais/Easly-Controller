@@ -19,7 +19,7 @@
     /// <summary>
     /// Operation details for moving a node in a list or block list.
     /// </summary>
-    public class FocusChangeNodeOperation : FrameChangeNodeOperation, IFocusChangeNodeOperation
+    internal class FocusChangeNodeOperation : FrameChangeNodeOperation, IFocusChangeNodeOperation
     {
         #region Init
         /// <summary>

@@ -26,7 +26,7 @@
     /// <summary>
     /// Group of operations to make some tasks atomic.
     /// </summary>
-    public class FrameOperationGroup : WriteableOperationGroup, IFrameOperationGroup
+    internal class FrameOperationGroup : WriteableOperationGroup, IFrameOperationGroup
     {
         #region Init
         /// <summary>

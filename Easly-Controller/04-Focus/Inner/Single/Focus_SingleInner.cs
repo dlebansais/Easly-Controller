@@ -30,7 +30,7 @@
     /// Base inner for a single node inner.
     /// </summary>
     /// <typeparam name="IIndex">Type of the index.</typeparam>
-    public abstract class FocusSingleInner<IIndex> : FrameSingleInner<IIndex>, IFocusSingleInner<IIndex>, IFocusSingleInner
+    internal abstract class FocusSingleInner<IIndex> : FrameSingleInner<IIndex>, IFocusSingleInner<IIndex>, IFocusSingleInner
         where IIndex : IFocusBrowsingChildIndex
     {
         #region Init

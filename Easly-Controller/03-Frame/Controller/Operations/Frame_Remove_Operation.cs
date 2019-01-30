@@ -13,7 +13,7 @@
     /// <summary>
     /// Details for removal operations.
     /// </summary>
-    public abstract class FrameRemoveOperation : WriteableRemoveOperation, IFrameRemoveOperation
+    internal abstract class FrameRemoveOperation : WriteableRemoveOperation, IFrameRemoveOperation
     {
         #region Init
         /// <summary>

@@ -20,7 +20,7 @@ namespace EaslyController.Frame
     /// <summary>
     /// List of IxxxBrowsingBlockNodeIndex
     /// </summary>
-    public class FrameBrowsingBlockNodeIndexList : Collection<IFrameBrowsingBlockNodeIndex>, IFrameBrowsingBlockNodeIndexList
+    internal class FrameBrowsingBlockNodeIndexList : Collection<IFrameBrowsingBlockNodeIndex>, IFrameBrowsingBlockNodeIndexList
     {
         #region ReadOnly
         public new IReadOnlyBrowsingBlockNodeIndex this[int index] { get { return base[index]; } set { base[index] = (IFrameBrowsingBlockNodeIndex)value; } }

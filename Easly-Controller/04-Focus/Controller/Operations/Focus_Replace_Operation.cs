@@ -29,7 +29,7 @@
     /// <summary>
     /// Operation details for replacing a node.
     /// </summary>
-    public class FocusReplaceOperation : FrameReplaceOperation, IFocusReplaceOperation
+    internal class FocusReplaceOperation : FrameReplaceOperation, IFocusReplaceOperation
     {
         #region Init
         /// <summary>

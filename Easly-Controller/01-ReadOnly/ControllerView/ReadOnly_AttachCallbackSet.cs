@@ -47,7 +47,7 @@
     /// <summary>
     /// Handlers to call during enumeration of states, when attaching a view.
     /// </summary>
-    public class ReadOnlyAttachCallbackSet : IReadOnlyAttachCallbackSet
+    internal class ReadOnlyAttachCallbackSet : IReadOnlyAttachCallbackSet
     {
         #region Properties
         /// <summary>

@@ -19,7 +19,7 @@ namespace EaslyController.Focus
     /// <summary>
     /// List of IxxxFrame
     /// </summary>
-    public class FocusFrameList : Collection<IFocusFrame>, IFocusFrameList
+    internal class FocusFrameList : Collection<IFocusFrame>, IFocusFrameList
     {
         #region Frame
         public new IFrameFrame this[int index] { get { return base[index]; } set { base[index] = (IFocusFrame)value; } }

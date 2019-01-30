@@ -14,7 +14,7 @@
     /// <summary>
     /// Handlers to call during enumeration of states, when attaching a view.
     /// </summary>
-    public class FrameAttachCallbackSet : WriteableAttachCallbackSet, IFrameAttachCallbackSet
+    internal class FrameAttachCallbackSet : WriteableAttachCallbackSet, IFrameAttachCallbackSet
     {
         #region Properties
         /// <summary>

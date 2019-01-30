@@ -43,7 +43,7 @@
     /// <summary>
     /// State of a block in a block list.
     /// </summary>
-    public class FrameBlockState : WriteableBlockState, IFrameBlockState
+    internal class FrameBlockState : WriteableBlockState, IFrameBlockState
     {
         #region Init
         /// <summary>

@@ -66,7 +66,7 @@
     /// <summary>
     /// State of a block in a block list.
     /// </summary>
-    public class WriteableBlockState : ReadOnlyBlockState, IWriteableBlockState
+    internal class WriteableBlockState : ReadOnlyBlockState, IWriteableBlockState
     {
         #region Init
         /// <summary>

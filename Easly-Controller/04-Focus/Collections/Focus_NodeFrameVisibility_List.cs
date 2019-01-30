@@ -18,7 +18,7 @@ namespace EaslyController.Focus
     /// <summary>
     /// List of IxxxNodeFrameVisibility
     /// </summary>
-    public class FocusNodeFrameVisibilityList : Collection<IFocusNodeFrameVisibility>, IFocusNodeFrameVisibilityList
+    internal class FocusNodeFrameVisibilityList : Collection<IFocusNodeFrameVisibility>, IFocusNodeFrameVisibilityList
     {
     }
 }

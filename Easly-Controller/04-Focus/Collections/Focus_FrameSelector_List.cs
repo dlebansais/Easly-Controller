@@ -17,7 +17,7 @@ namespace EaslyController.Focus
     /// <summary>
     /// List of IxxxFrameSelector
     /// </summary>
-    public class FocusFrameSelectorList : Collection<IFocusFrameSelector>, IFocusFrameSelectorList
+    internal class FocusFrameSelectorList : Collection<IFocusFrameSelector>, IFocusFrameSelectorList
     {
     }
 }

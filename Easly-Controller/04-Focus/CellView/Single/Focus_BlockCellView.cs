@@ -22,7 +22,7 @@
     /// <summary>
     /// A leaf of the cell view tree for a child state.
     /// </summary>
-    public class FocusBlockCellView : FrameBlockCellView, IFocusBlockCellView
+    internal class FocusBlockCellView : FrameBlockCellView, IFocusBlockCellView
     {
         #region Init
         /// <summary>

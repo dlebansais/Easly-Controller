@@ -30,7 +30,7 @@
     /// Interface for all inners.
     /// </summary>
     /// <typeparam name="IIndex">Type of the index.</typeparam>
-    public abstract class FocusInner<IIndex> : FrameInner<IIndex>, IFocusInner<IIndex>, IFocusInner
+    internal abstract class FocusInner<IIndex> : FrameInner<IIndex>, IFocusInner<IIndex>, IFocusInner
         where IIndex : IFocusBrowsingChildIndex
     {
         #region Init

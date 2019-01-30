@@ -13,7 +13,7 @@
     /// <summary>
     /// Cell view for components that can receive the focus and be modified.
     /// </summary>
-    public abstract class FocusContentFocusableCellView : FrameContentFocusableCellView, IFocusContentFocusableCellView
+    internal abstract class FocusContentFocusableCellView : FrameContentFocusableCellView, IFocusContentFocusableCellView
     {
         #region Init
         /// <summary>

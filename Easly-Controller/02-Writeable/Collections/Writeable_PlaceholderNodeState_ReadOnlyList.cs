@@ -22,7 +22,7 @@ namespace EaslyController.Writeable
     /// <summary>
     /// Read-only list of IxxxPlaceholderNodeState
     /// </summary>
-    public class WriteablePlaceholderNodeStateReadOnlyList : ReadOnlyCollection<IWriteablePlaceholderNodeState>, IWriteablePlaceholderNodeStateReadOnlyList
+    internal class WriteablePlaceholderNodeStateReadOnlyList : ReadOnlyCollection<IWriteablePlaceholderNodeState>, IWriteablePlaceholderNodeStateReadOnlyList
     {
         public WriteablePlaceholderNodeStateReadOnlyList(IWriteablePlaceholderNodeStateList list)
             : base(list)

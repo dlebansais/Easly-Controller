@@ -37,7 +37,7 @@
     /// <summary>
     /// Group of operations to make some tasks atomic.
     /// </summary>
-    public class WriteableOperationGroup : IWriteableOperationGroup
+    internal class WriteableOperationGroup : IWriteableOperationGroup
     {
         #region Init
         /// <summary>

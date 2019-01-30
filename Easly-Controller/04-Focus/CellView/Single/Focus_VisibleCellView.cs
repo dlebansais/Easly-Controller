@@ -17,7 +17,7 @@
     /// <summary>
     /// Cell view for components that are displayed.
     /// </summary>
-    public class FocusVisibleCellView : FrameVisibleCellView, IFocusVisibleCellView
+    internal class FocusVisibleCellView : FrameVisibleCellView, IFocusVisibleCellView
     {
         #region Init
         /// <summary>

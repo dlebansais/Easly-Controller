@@ -22,7 +22,7 @@ namespace EaslyController.Frame
     /// <summary>
     /// Read-only list of IxxxNodeState
     /// </summary>
-    public class FrameNodeStateReadOnlyList : ReadOnlyCollection<IFrameNodeState>, IFrameNodeStateReadOnlyList
+    internal class FrameNodeStateReadOnlyList : ReadOnlyCollection<IFrameNodeState>, IFrameNodeStateReadOnlyList
     {
         public FrameNodeStateReadOnlyList(IFrameNodeStateList list)
             : base(list)

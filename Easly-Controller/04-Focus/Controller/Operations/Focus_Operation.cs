@@ -14,7 +14,7 @@
     /// <summary>
     /// Base for all operations modifying the node tree.
     /// </summary>
-    public class FocusOperation : FrameOperation, IFocusOperation
+    internal class FocusOperation : FrameOperation, IFocusOperation
     {
         #region Init
         /// <summary>

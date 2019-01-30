@@ -66,7 +66,7 @@
     /// <summary>
     /// Operation details for inserting a block with a single node in a block list.
     /// </summary>
-    public class WriteableInsertBlockOperation : WriteableInsertOperation, IWriteableInsertBlockOperation
+    internal class WriteableInsertBlockOperation : WriteableInsertOperation, IWriteableInsertBlockOperation
     {
         #region Init
         /// <summary>

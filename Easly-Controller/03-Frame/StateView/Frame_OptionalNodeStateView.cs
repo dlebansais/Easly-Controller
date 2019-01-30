@@ -22,7 +22,7 @@
     /// <summary>
     /// View of an optional node state.
     /// </summary>
-    public class FrameOptionalNodeStateView : WriteableOptionalNodeStateView, IFrameOptionalNodeStateView
+    internal class FrameOptionalNodeStateView : WriteableOptionalNodeStateView, IFrameOptionalNodeStateView
     {
         #region Init
         /// <summary>

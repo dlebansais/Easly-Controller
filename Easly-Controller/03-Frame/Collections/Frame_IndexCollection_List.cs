@@ -20,7 +20,7 @@ namespace EaslyController.Frame
     /// <summary>
     /// List of IxxxIndexCollection
     /// </summary>
-    public class FrameIndexCollectionList : Collection<IFrameIndexCollection>, IFrameIndexCollectionList
+    internal class FrameIndexCollectionList : Collection<IFrameIndexCollection>, IFrameIndexCollectionList
     {
         #region ReadOnly
         public new IReadOnlyIndexCollection this[int index] { get { return base[index]; } set { base[index] = (IFrameIndexCollection)value; } }

@@ -13,7 +13,7 @@
     /// <summary>
     /// Details for insertion operations.
     /// </summary>
-    public abstract class FrameInsertOperation : WriteableInsertOperation, IFrameInsertOperation
+    internal abstract class FrameInsertOperation : WriteableInsertOperation, IFrameInsertOperation
     {
         #region Init
         /// <summary>

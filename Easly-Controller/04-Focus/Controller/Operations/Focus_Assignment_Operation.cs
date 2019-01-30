@@ -19,7 +19,7 @@
     /// <summary>
     /// Operation details for assigning or unassigning a node.
     /// </summary>
-    public class FocusAssignmentOperation : FrameAssignmentOperation, IFocusAssignmentOperation
+    internal class FocusAssignmentOperation : FrameAssignmentOperation, IFocusAssignmentOperation
     {
         #region Init
         /// <summary>

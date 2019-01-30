@@ -25,7 +25,7 @@ namespace EaslyController.Focus
     /// Read-only dictionary of ..., IxxxInner
     /// </summary>
     /// <typeparam name="TKey">Type of the key.</typeparam>
-    public class FocusInnerReadOnlyDictionary<TKey> : ReadOnlyDictionary<TKey, IFocusInner<IFocusBrowsingChildIndex>>, IFocusInnerReadOnlyDictionary<TKey>
+    internal class FocusInnerReadOnlyDictionary<TKey> : ReadOnlyDictionary<TKey, IFocusInner<IFocusBrowsingChildIndex>>, IFocusInnerReadOnlyDictionary<TKey>
     {
         public FocusInnerReadOnlyDictionary(IFocusInnerDictionary<TKey> dictionary)
             : base(dictionary)

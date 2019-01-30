@@ -44,7 +44,7 @@
     /// <summary>
     /// Context used when building the cell view tree.
     /// </summary>
-    public class FrameCellViewTreeContext : IFrameCellViewTreeContext
+    internal class FrameCellViewTreeContext : IFrameCellViewTreeContext
     {
         #region Init
         /// <summary>

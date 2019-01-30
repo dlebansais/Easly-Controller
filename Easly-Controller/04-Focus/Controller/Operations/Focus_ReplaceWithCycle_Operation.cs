@@ -29,7 +29,7 @@
     /// <summary>
     /// Operation details for replacing a node with another from a cycle.
     /// </summary>
-    public class FocusReplaceWithCycleOperation : FocusReplaceOperation, IFocusReplaceWithCycleOperation
+    internal class FocusReplaceWithCycleOperation : FocusReplaceOperation, IFocusReplaceWithCycleOperation
     {
         #region Init
         /// <summary>

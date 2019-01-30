@@ -21,7 +21,7 @@ namespace EaslyController.Writeable
     /// <summary>
     /// Read-only list of IxxxIndexCollection
     /// </summary>
-    public class WriteableIndexCollectionReadOnlyList : ReadOnlyCollection<IWriteableIndexCollection>, IWriteableIndexCollectionReadOnlyList
+    internal class WriteableIndexCollectionReadOnlyList : ReadOnlyCollection<IWriteableIndexCollection>, IWriteableIndexCollectionReadOnlyList
     {
         public WriteableIndexCollectionReadOnlyList(IWriteableIndexCollectionList list)
             : base(list)

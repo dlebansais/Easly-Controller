@@ -12,7 +12,7 @@
     /// <summary>
     /// A collection of cell views organized in a column.
     /// </summary>
-    public class FrameColumn : FrameCellViewCollection, IFrameColumn
+    internal class FrameColumn : FrameCellViewCollection, IFrameColumn
     {
         #region Init
         /// <summary>

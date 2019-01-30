@@ -17,7 +17,7 @@
     /// <summary>
     /// Operation details for replacing a node in a list or block list.
     /// </summary>
-    public class FrameGenericRefreshOperation : WriteableGenericRefreshOperation, IFrameGenericRefreshOperation
+    internal class FrameGenericRefreshOperation : WriteableGenericRefreshOperation, IFrameGenericRefreshOperation
     {
         #region Init
         /// <summary>

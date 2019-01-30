@@ -17,7 +17,7 @@
     /// <summary>
     /// View of an optional node state.
     /// </summary>
-    public class FocusOptionalNodeStateView : FrameOptionalNodeStateView, IFocusOptionalNodeStateView
+    internal class FocusOptionalNodeStateView : FrameOptionalNodeStateView, IFocusOptionalNodeStateView
     {
         #region Init
         /// <summary>

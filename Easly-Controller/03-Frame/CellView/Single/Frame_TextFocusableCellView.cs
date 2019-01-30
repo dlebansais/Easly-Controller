@@ -12,7 +12,7 @@
     /// <summary>
     /// Cell view for text components that can receive the focus and be modified (identifiers).
     /// </summary>
-    public class FrameTextFocusableCellView : FrameContentFocusableCellView, IFrameTextFocusableCellView
+    internal class FrameTextFocusableCellView : FrameContentFocusableCellView, IFrameTextFocusableCellView
     {
         #region Init
         /// <summary>

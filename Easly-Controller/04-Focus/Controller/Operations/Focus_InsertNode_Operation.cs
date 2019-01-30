@@ -24,7 +24,7 @@
     /// <summary>
     /// Operation details for inserting a node in a list or block list.
     /// </summary>
-    public class FocusInsertNodeOperation : FrameInsertNodeOperation, IFocusInsertNodeOperation
+    internal class FocusInsertNodeOperation : FrameInsertNodeOperation, IFocusInsertNodeOperation
     {
         #region Init
         /// <summary>

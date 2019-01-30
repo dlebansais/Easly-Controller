@@ -19,7 +19,7 @@ namespace EaslyController.Frame
     /// <summary>
     /// List of IxxxCellView
     /// </summary>
-    public class FrameCellViewList : Collection<IFrameCellView>, IFrameCellViewList
+    internal class FrameCellViewList : Collection<IFrameCellView>, IFrameCellViewList
     {
         #region Debugging
         /// <summary>

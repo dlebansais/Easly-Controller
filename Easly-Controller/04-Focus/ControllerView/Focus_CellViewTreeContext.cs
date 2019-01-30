@@ -111,7 +111,7 @@
     /// <summary>
     /// Context used when building the cell view tree.
     /// </summary>
-    public class FocusCellViewTreeContext : FrameCellViewTreeContext, IFocusCellViewTreeContext
+    internal class FocusCellViewTreeContext : FrameCellViewTreeContext, IFocusCellViewTreeContext
     {
         #region Init
         /// <summary>

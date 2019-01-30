@@ -50,7 +50,7 @@
     /// <summary>
     /// Operation details for changing a discrete value.
     /// </summary>
-    public class WriteableChangeNodeOperation : WriteableOperation, IWriteableChangeNodeOperation
+    internal class WriteableChangeNodeOperation : WriteableOperation, IWriteableChangeNodeOperation
     {
         #region Init
         /// <summary>

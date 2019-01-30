@@ -22,7 +22,7 @@ namespace EaslyController.Focus
     /// <summary>
     /// Read-only list of IxxxOperation
     /// </summary>
-    public class FocusOperationReadOnlyList : ReadOnlyCollection<IFocusOperation>, IFocusOperationReadOnlyList
+    internal class FocusOperationReadOnlyList : ReadOnlyCollection<IFocusOperation>, IFocusOperationReadOnlyList
     {
         public FocusOperationReadOnlyList(IFocusOperationList list)
             : base(list)

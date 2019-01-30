@@ -21,7 +21,7 @@ namespace EaslyController.Focus
     /// <summary>
     /// List of IxxxBrowsingBlockNodeIndex
     /// </summary>
-    public class FocusBrowsingBlockNodeIndexList : Collection<IFocusBrowsingBlockNodeIndex>, IFocusBrowsingBlockNodeIndexList
+    internal class FocusBrowsingBlockNodeIndexList : Collection<IFocusBrowsingBlockNodeIndex>, IFocusBrowsingBlockNodeIndexList
     {
         #region ReadOnly
         public new IReadOnlyBrowsingBlockNodeIndex this[int index] { get { return base[index]; } set { base[index] = (IFocusBrowsingBlockNodeIndex)value; } }

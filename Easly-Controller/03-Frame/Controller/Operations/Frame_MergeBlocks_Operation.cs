@@ -18,7 +18,7 @@
     /// <summary>
     /// Operation details for merging blocks in a block list.
     /// </summary>
-    public class FrameMergeBlocksOperation : WriteableMergeBlocksOperation, IFrameMergeBlocksOperation
+    internal class FrameMergeBlocksOperation : WriteableMergeBlocksOperation, IFrameMergeBlocksOperation
     {
         #region Init
         /// <summary>

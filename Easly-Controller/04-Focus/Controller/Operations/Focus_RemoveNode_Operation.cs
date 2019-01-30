@@ -19,7 +19,7 @@
     /// <summary>
     /// Operation details for removing a node in a list or block list.
     /// </summary>
-    public class FocusRemoveNodeOperation : FrameRemoveNodeOperation, IFocusRemoveNodeOperation
+    internal class FocusRemoveNodeOperation : FrameRemoveNodeOperation, IFocusRemoveNodeOperation
     {
         #region Init
         /// <summary>

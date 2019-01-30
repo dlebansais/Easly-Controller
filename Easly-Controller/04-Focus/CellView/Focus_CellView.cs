@@ -23,7 +23,7 @@
     /// <summary>
     /// Atomic cell view of a component in a node.
     /// </summary>
-    public abstract class FocusCellView : FrameCellView, IFocusCellView
+    internal abstract class FocusCellView : FrameCellView, IFocusCellView
     {
         #region Init
         /// <summary>

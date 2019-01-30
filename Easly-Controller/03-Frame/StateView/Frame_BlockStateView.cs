@@ -81,7 +81,7 @@
     /// <summary>
     /// View of a block state.
     /// </summary>
-    public class FrameBlockStateView : WriteableBlockStateView, IFrameBlockStateView
+    internal class FrameBlockStateView : WriteableBlockStateView, IFrameBlockStateView
     {
         #region Init
         /// <summary>

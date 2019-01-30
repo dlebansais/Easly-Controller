@@ -18,7 +18,7 @@ namespace EaslyController.Focus
     /// <summary>
     /// List of IxxxInsertionChildNodeIndex
     /// </summary>
-    public class FocusInsertionChildNodeIndexList : Collection<IFocusInsertionChildNodeIndex>, IFocusInsertionChildNodeIndexList
+    internal class FocusInsertionChildNodeIndexList : Collection<IFocusInsertionChildNodeIndex>, IFocusInsertionChildNodeIndexList
     {
     }
 }

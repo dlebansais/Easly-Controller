@@ -13,7 +13,7 @@
     /// <summary>
     /// Cell view with no content and that is not displayed.
     /// </summary>
-    public class FrameEmptyCellView : FrameCellView, IFrameEmptyCellView
+    internal class FrameEmptyCellView : FrameCellView, IFrameEmptyCellView
     {
         #region Init
         /// <summary>

@@ -54,7 +54,7 @@
     /// <summary>
     /// Operation details for splitting a block in a block list.
     /// </summary>
-    public class WriteableSplitBlockOperation : WriteableOperation, IWriteableSplitBlockOperation
+    internal class WriteableSplitBlockOperation : WriteableOperation, IWriteableSplitBlockOperation
     {
         #region Init
         /// <summary>

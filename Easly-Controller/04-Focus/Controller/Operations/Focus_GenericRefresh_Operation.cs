@@ -18,7 +18,7 @@
     /// <summary>
     /// Operation details for replacing a node in a list or block list.
     /// </summary>
-    public class FocusGenericRefreshOperation : FrameGenericRefreshOperation, IFocusGenericRefreshOperation
+    internal class FocusGenericRefreshOperation : FrameGenericRefreshOperation, IFocusGenericRefreshOperation
     {
         #region Init
         /// <summary>

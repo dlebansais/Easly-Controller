@@ -20,7 +20,7 @@
     /// <summary>
     /// View of a child node.
     /// </summary>
-    public class FramePlaceholderNodeStateView : WriteablePlaceholderNodeStateView, IFramePlaceholderNodeStateView
+    internal class FramePlaceholderNodeStateView : WriteablePlaceholderNodeStateView, IFramePlaceholderNodeStateView
     {
         #region Init
         /// <summary>

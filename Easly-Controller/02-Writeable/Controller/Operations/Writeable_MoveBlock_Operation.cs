@@ -49,7 +49,7 @@
     /// <summary>
     /// Operation details for moving a block in a block list.
     /// </summary>
-    public class WriteableMoveBlockOperation : WriteableOperation, IWriteableMoveBlockOperation
+    internal class WriteableMoveBlockOperation : WriteableOperation, IWriteableMoveBlockOperation
     {
         #region Init
         /// <summary>

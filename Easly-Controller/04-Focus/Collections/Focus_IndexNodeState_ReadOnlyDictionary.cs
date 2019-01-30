@@ -21,7 +21,7 @@ namespace EaslyController.Focus
     /// <summary>
     /// Read-only dictionary of IxxxIndex, IxxxNodeState
     /// </summary>
-    public class FocusIndexNodeStateReadOnlyDictionary : ReadOnlyDictionary<IFocusIndex, IFocusNodeState>, IFocusIndexNodeStateReadOnlyDictionary
+    internal class FocusIndexNodeStateReadOnlyDictionary : ReadOnlyDictionary<IFocusIndex, IFocusNodeState>, IFocusIndexNodeStateReadOnlyDictionary
     {
         public FocusIndexNodeStateReadOnlyDictionary(IFocusIndexNodeStateDictionary dictionary)
             : base(dictionary)

@@ -19,7 +19,7 @@
     /// <summary>
     /// Operation details for changing a node.
     /// </summary>
-    public class FocusChangeBlockOperation : FrameChangeBlockOperation, IFocusChangeBlockOperation
+    internal class FocusChangeBlockOperation : FrameChangeBlockOperation, IFocusChangeBlockOperation
     {
         #region Init
         /// <summary>

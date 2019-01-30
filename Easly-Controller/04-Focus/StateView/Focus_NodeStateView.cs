@@ -54,7 +54,7 @@
     /// <summary>
     /// View of a node state.
     /// </summary>
-    public abstract class FocusNodeStateView : FrameNodeStateView, IFocusNodeStateView
+    internal abstract class FocusNodeStateView : FrameNodeStateView, IFocusNodeStateView
     {
         #region Init
         /// <summary>

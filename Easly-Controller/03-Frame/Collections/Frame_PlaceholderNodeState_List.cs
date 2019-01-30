@@ -20,7 +20,7 @@ namespace EaslyController.Frame
     /// <summary>
     /// List of IxxxPlaceholderNodeState
     /// </summary>
-    public class FramePlaceholderNodeStateList : Collection<IFramePlaceholderNodeState>, IFramePlaceholderNodeStateList
+    internal class FramePlaceholderNodeStateList : Collection<IFramePlaceholderNodeState>, IFramePlaceholderNodeStateList
     {
         #region ReadOnly
         public new IReadOnlyPlaceholderNodeState this[int index] { get { return base[index]; } set { base[index] = (IFramePlaceholderNodeState)value; } }

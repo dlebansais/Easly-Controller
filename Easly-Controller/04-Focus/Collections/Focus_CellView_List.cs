@@ -20,7 +20,7 @@ namespace EaslyController.Focus
     /// <summary>
     /// List of IxxxCellView
     /// </summary>
-    public class FocusCellViewList : Collection<IFocusCellView>, IFocusCellViewList
+    internal class FocusCellViewList : Collection<IFocusCellView>, IFocusCellViewList
     {
         #region Frame
         public new IFrameCellView this[int index] { get { return base[index]; } set { base[index] = (IFocusCellView)value; } }

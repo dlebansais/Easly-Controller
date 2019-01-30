@@ -85,7 +85,7 @@
     /// Interface for all inners.
     /// </summary>
     /// <typeparam name="IIndex">Type of the index.</typeparam>
-    public abstract class ReadOnlyInner<IIndex> : IReadOnlyInner<IIndex>, IReadOnlyInner
+    internal abstract class ReadOnlyInner<IIndex> : IReadOnlyInner<IIndex>, IReadOnlyInner
         where IIndex : IReadOnlyBrowsingChildIndex
     {
         #region Init

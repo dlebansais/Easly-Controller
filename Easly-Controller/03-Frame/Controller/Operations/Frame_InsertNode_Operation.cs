@@ -23,7 +23,7 @@
     /// <summary>
     /// Operation details for inserting a node in a list or block list.
     /// </summary>
-    public class FrameInsertNodeOperation : WriteableInsertNodeOperation, IFrameInsertNodeOperation
+    internal class FrameInsertNodeOperation : WriteableInsertNodeOperation, IFrameInsertNodeOperation
     {
         #region Init
         /// <summary>

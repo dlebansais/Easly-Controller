@@ -14,7 +14,7 @@
     /// Dictionary of ..., IxxxAssignableCellView
     /// </summary>
     /// <typeparam name="TKey">Type of the key.</typeparam>
-    public class FrameAssignableCellViewDictionary<TKey> : Dictionary<TKey, IFrameAssignableCellView>, IFrameAssignableCellViewDictionary<TKey>
+    internal class FrameAssignableCellViewDictionary<TKey> : Dictionary<TKey, IFrameAssignableCellView>, IFrameAssignableCellViewDictionary<TKey>
     {
     }
 }

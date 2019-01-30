@@ -21,7 +21,7 @@ namespace EaslyController.Focus
     /// <summary>
     /// List of IxxxIndexCollection
     /// </summary>
-    public class FocusIndexCollectionList : Collection<IFocusIndexCollection>, IFocusIndexCollectionList
+    internal class FocusIndexCollectionList : Collection<IFocusIndexCollection>, IFocusIndexCollectionList
     {
         #region ReadOnly
         public new IReadOnlyIndexCollection this[int index] { get { return base[index]; } set { base[index] = (IFocusIndexCollection)value; } }

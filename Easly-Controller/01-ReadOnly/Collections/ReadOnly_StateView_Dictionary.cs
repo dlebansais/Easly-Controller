@@ -13,7 +13,7 @@
     /// <summary>
     /// Dictionary of IxxxNodeState, IxxxNodeStateView
     /// </summary>
-    public class ReadOnlyStateViewDictionary : Dictionary<IReadOnlyNodeState, IReadOnlyNodeStateView>, IReadOnlyStateViewDictionary
+    internal class ReadOnlyStateViewDictionary : Dictionary<IReadOnlyNodeState, IReadOnlyNodeStateView>, IReadOnlyStateViewDictionary
     {
         #region Debugging
         /// <summary>

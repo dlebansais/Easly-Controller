@@ -21,7 +21,7 @@
     /// <summary>
     /// A leaf of the cell view tree for a child state.
     /// </summary>
-    public class FrameBlockCellView : FrameCellView, IFrameBlockCellView
+    internal class FrameBlockCellView : FrameCellView, IFrameBlockCellView
     {
         #region Init
         /// <summary>

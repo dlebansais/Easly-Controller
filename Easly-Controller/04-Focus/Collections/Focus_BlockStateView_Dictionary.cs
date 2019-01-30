@@ -21,7 +21,7 @@ namespace EaslyController.Focus
     /// <summary>
     /// Dictionary of IxxxIndex, IxxxBlockState
     /// </summary>
-    public class FocusBlockStateViewDictionary : Dictionary<IFocusBlockState, IFocusBlockStateView>, IFocusBlockStateViewDictionary
+    internal class FocusBlockStateViewDictionary : Dictionary<IFocusBlockState, IFocusBlockStateView>, IFocusBlockStateViewDictionary
     {
         #region ReadOnly
         void IDictionary<IReadOnlyBlockState, IReadOnlyBlockStateView>.Add(IReadOnlyBlockState key, IReadOnlyBlockStateView value) { Add((IFocusBlockState)key, (IFocusBlockStateView)value); }

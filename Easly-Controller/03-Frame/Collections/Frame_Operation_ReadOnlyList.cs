@@ -21,7 +21,7 @@ namespace EaslyController.Frame
     /// <summary>
     /// Read-only list of IxxxOperation
     /// </summary>
-    public class FrameOperationReadOnlyList : ReadOnlyCollection<IFrameOperation>, IFrameOperationReadOnlyList
+    internal class FrameOperationReadOnlyList : ReadOnlyCollection<IFrameOperation>, IFrameOperationReadOnlyList
     {
         public FrameOperationReadOnlyList(IFrameOperationList list)
             : base(list)

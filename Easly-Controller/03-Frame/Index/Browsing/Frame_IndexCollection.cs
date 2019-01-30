@@ -24,7 +24,7 @@
     /// Collection of node indexes.
     /// </summary>
     /// <typeparam name="IIndex">Type of the index.</typeparam>
-    public class FrameIndexCollection<IIndex> : WriteableIndexCollection<IIndex>, IFrameIndexCollection<IIndex>, IFrameIndexCollection
+    internal class FrameIndexCollection<IIndex> : WriteableIndexCollection<IIndex>, IFrameIndexCollection<IIndex>, IFrameIndexCollection
         where IIndex : IFrameBrowsingChildIndex
     {
         #region Init

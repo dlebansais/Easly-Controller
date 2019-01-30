@@ -18,7 +18,7 @@ namespace EaslyController.Frame
     /// <summary>
     /// List of IxxxKeywordFrame
     /// </summary>
-    public class FrameKeywordFrameList : Collection<IFrameKeywordFrame>, IFrameKeywordFrameList
+    internal class FrameKeywordFrameList : Collection<IFrameKeywordFrame>, IFrameKeywordFrameList
     {
     }
 }

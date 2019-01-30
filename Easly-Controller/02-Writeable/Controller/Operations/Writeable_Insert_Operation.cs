@@ -12,7 +12,7 @@
     /// <summary>
     /// Details for insertion operations.
     /// </summary>
-    public abstract class WriteableInsertOperation : WriteableOperation, IWriteableInsertOperation
+    internal abstract class WriteableInsertOperation : WriteableOperation, IWriteableInsertOperation
     {
         #region Init
         /// <summary>

@@ -14,7 +14,7 @@
     /// <summary>
     /// Details for insertion operations.
     /// </summary>
-    public abstract class FocusInsertOperation : FrameInsertOperation, IFocusInsertOperation
+    internal abstract class FocusInsertOperation : FrameInsertOperation, IFocusInsertOperation
     {
         #region Init
         /// <summary>

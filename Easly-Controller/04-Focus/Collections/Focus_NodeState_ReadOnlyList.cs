@@ -23,7 +23,7 @@ namespace EaslyController.Focus
     /// <summary>
     /// Read-only list of IxxxNodeState
     /// </summary>
-    public class FocusNodeStateReadOnlyList : ReadOnlyCollection<IFocusNodeState>, IFocusNodeStateReadOnlyList
+    internal class FocusNodeStateReadOnlyList : ReadOnlyCollection<IFocusNodeState>, IFocusNodeStateReadOnlyList
     {
         public FocusNodeStateReadOnlyList(IFocusNodeStateList list)
             : base(list)

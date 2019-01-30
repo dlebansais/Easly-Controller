@@ -20,7 +20,7 @@ namespace EaslyController.Frame
     /// <summary>
     /// List of IxxxBlockState
     /// </summary>
-    public class FrameBlockStateList : Collection<IFrameBlockState>, IFrameBlockStateList
+    internal class FrameBlockStateList : Collection<IFrameBlockState>, IFrameBlockStateList
     {
         #region ReadOnly
         bool ICollection<IReadOnlyBlockState>.IsReadOnly { get { return ((ICollection<IFrameBlockState>)this).IsReadOnly; } }

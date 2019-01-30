@@ -43,7 +43,7 @@
     /// <summary>
     /// View of a block state.
     /// </summary>
-    public class FocusBlockStateView : FrameBlockStateView, IFocusBlockStateView
+    internal class FocusBlockStateView : FrameBlockStateView, IFocusBlockStateView
     {
         #region Init
         /// <summary>

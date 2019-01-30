@@ -18,7 +18,7 @@
     /// <summary>
     /// Operation details for moving a block in a block list.
     /// </summary>
-    public class FrameMoveBlockOperation : WriteableMoveBlockOperation, IFrameMoveBlockOperation
+    internal class FrameMoveBlockOperation : WriteableMoveBlockOperation, IFrameMoveBlockOperation
     {
         #region Init
         /// <summary>

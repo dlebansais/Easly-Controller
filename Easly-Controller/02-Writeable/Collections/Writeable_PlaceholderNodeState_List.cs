@@ -19,7 +19,7 @@ namespace EaslyController.Writeable
     /// <summary>
     /// List of IxxxPlaceholderNodeState
     /// </summary>
-    public class WriteablePlaceholderNodeStateList : Collection<IWriteablePlaceholderNodeState>, IWriteablePlaceholderNodeStateList
+    internal class WriteablePlaceholderNodeStateList : Collection<IWriteablePlaceholderNodeState>, IWriteablePlaceholderNodeStateList
     {
         #region ReadOnly
         public new IReadOnlyPlaceholderNodeState this[int index] { get { return base[index]; } set { base[index] = (IWriteablePlaceholderNodeState)value; } }

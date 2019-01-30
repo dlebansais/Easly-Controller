@@ -26,7 +26,7 @@
     /// <summary>
     /// Cell view for components that are displayed.
     /// </summary>
-    public class FrameVisibleCellView : FrameCellView, IFrameVisibleCellView
+    internal class FrameVisibleCellView : FrameCellView, IFrameVisibleCellView
     {
         #region Init
         /// <summary>

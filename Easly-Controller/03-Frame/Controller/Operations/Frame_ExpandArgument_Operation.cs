@@ -28,7 +28,7 @@
     /// <summary>
     /// Operation details for inserting a single argument in a block list.
     /// </summary>
-    public class FrameExpandArgumentOperation : WriteableExpandArgumentOperation, IFrameExpandArgumentOperation
+    internal class FrameExpandArgumentOperation : WriteableExpandArgumentOperation, IFrameExpandArgumentOperation
     {
         #region Init
         /// <summary>

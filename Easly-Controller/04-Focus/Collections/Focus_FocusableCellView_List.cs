@@ -17,7 +17,7 @@ namespace EaslyController.Focus
     /// <summary>
     /// List of IxxxFocusableCellView
     /// </summary>
-    public class FocusFocusableCellViewList : Collection<IFocusFocusableCellView>, IFocusFocusableCellViewList
+    internal class FocusFocusableCellViewList : Collection<IFocusFocusableCellView>, IFocusFocusableCellViewList
     {
     }
 }

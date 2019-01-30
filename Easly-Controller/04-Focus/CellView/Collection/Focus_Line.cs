@@ -13,7 +13,7 @@
     /// <summary>
     /// A collection of cell views organized in a column.
     /// </summary>
-    public class FocusLine : FrameLine, IFocusLine
+    internal class FocusLine : FrameLine, IFocusLine
     {
         #region Init
         /// <summary>

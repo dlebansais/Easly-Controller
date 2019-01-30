@@ -22,7 +22,7 @@
     /// <summary>
     /// View of a node state.
     /// </summary>
-    public abstract class WriteableNodeStateView : ReadOnlyNodeStateView, IWriteableNodeStateView
+    internal abstract class WriteableNodeStateView : ReadOnlyNodeStateView, IWriteableNodeStateView
     {
         #region Init
         /// <summary>

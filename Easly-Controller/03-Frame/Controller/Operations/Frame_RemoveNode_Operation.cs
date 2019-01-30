@@ -18,7 +18,7 @@
     /// <summary>
     /// Operation details for removing a node in a list or block list.
     /// </summary>
-    public class FrameRemoveNodeOperation : WriteableRemoveNodeOperation, IFrameRemoveNodeOperation
+    internal class FrameRemoveNodeOperation : WriteableRemoveNodeOperation, IFrameRemoveNodeOperation
     {
         #region Init
         /// <summary>

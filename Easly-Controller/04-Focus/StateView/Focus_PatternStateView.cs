@@ -17,7 +17,7 @@
     /// <summary>
     /// View of a pattern state.
     /// </summary>
-    public class FocusPatternStateView : FramePatternStateView, IFocusPatternStateView
+    internal class FocusPatternStateView : FramePatternStateView, IFocusPatternStateView
     {
         #region Init
         /// <summary>

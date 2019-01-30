@@ -39,7 +39,7 @@
     /// <summary>
     /// Operation details for updating a view after block has been removed from a block list.
     /// </summary>
-    public class WriteableRemoveBlockViewOperation : WriteableRemoveOperation, IWriteableRemoveBlockViewOperation
+    internal class WriteableRemoveBlockViewOperation : WriteableRemoveOperation, IWriteableRemoveBlockViewOperation
     {
         #region Init
         /// <summary>

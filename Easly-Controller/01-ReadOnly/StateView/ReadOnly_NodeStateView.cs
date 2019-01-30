@@ -21,7 +21,7 @@
     /// <summary>
     /// View of a node state.
     /// </summary>
-    public abstract class ReadOnlyNodeStateView : IReadOnlyNodeStateView
+    internal abstract class ReadOnlyNodeStateView : IReadOnlyNodeStateView
     {
         #region Init
         /// <summary>

@@ -18,7 +18,7 @@
     /// <summary>
     /// Operation details for splitting a block in a block list.
     /// </summary>
-    public class FrameSplitBlockOperation : WriteableSplitBlockOperation, IFrameSplitBlockOperation
+    internal class FrameSplitBlockOperation : WriteableSplitBlockOperation, IFrameSplitBlockOperation
     {
         #region Init
         /// <summary>
