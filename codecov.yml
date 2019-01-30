@@ -26,6 +26,6 @@ comment:
   require_changes: no
 
 ignore:
-  - "Easly-Controller/02-Writeable/.*"
-  - "Easly-Controller/03-Frame/.*"
-  - "Easly-Controller/04-Focus/.*"
+  - "Easly-Controller/02-Writeable"
+  - "Easly-Controller/03-Frame"
+  - "Easly-Controller/04-Focus"
