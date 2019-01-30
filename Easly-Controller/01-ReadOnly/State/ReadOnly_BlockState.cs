@@ -222,7 +222,7 @@
 
             IBlock NewBlock = NodeTreeHelperBlockList.CreateBlock(parentNode, ParentInner.PropertyName, ChildBlock.Replication, PatternClone, SourceClone);
             NodeTreeHelperBlockList.InsertIntoBlockList(parentNode, ParentInner.PropertyName, blockIndex, NewBlock);
-            NodeTreeHelper.CopyDocumentation(ChildBlock, NewBlock);
+            NodeTreeHelper.CopyDocumentation(ChildBlock, NewBlock, cloneCommentGuid: true);
 
             // Clone children recursively.
             CloneChildren(parentNode, NewBlock);

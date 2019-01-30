@@ -206,6 +206,7 @@
                 if (NodeTreeHelperChild.IsChildNodeProperty(node, PropertyName, out ChildNodeType))
                 {
                     NodeTreeHelperChild.GetChildNode(node, PropertyName, out ChildNode);
+                    Debug.Assert(ChildNode != null);
                     IReadOnlyBrowsingPlaceholderNodeIndex ChildNodeIndex = CreateChildNodeIndex(browseNodeContext, node, PropertyName, ChildNode);
 
                     // Create a collection containing one index for this child node.
@@ -223,6 +224,7 @@
                 else if (NodeTreeHelperList.IsNodeListProperty(node, PropertyName, out ChildNodeType))
                 {
                     NodeTreeHelperList.GetChildNodeList(node, PropertyName, out ChildNodeList);
+                    Debug.Assert(ChildNodeList != null);
 
                     // Create a collection containing indexes for each children.
                     IReadOnlyIndexCollection IndexCollection = BrowseNodeList(browseNodeContext, node, PropertyName, ChildNodeList);
@@ -231,6 +233,7 @@
                 else if (NodeTreeHelperBlockList.IsBlockListProperty(node, PropertyName, out ChildInterfaceType, out ChildNodeType))
                 {
                     NodeTreeHelperBlockList.GetChildBlockList(node, PropertyName, out ChildBlockList);
+                    Debug.Assert(ChildBlockList != null);
 
                     // Create a collection containing indexes for each child blocks and their children.
                     IReadOnlyIndexCollection IndexCollection = BrowseNodeBlockList(browseNodeContext, node, PropertyName, ChildBlockList);
@@ -261,6 +264,7 @@
             for (int Index = 0; Index < childNodeList.Count; Index++)
             {
                 INode ChildNode = childNodeList[Index];
+                Debug.Assert(ChildNode != null);
 
                 IReadOnlyBrowsingListNodeIndex NewNodeIndex = CreateListNodeIndex(browseNodeContext, node, propertyName, ChildNode, Index);
                 NodeIndexList.Add(NewNodeIndex);
@@ -375,8 +379,7 @@
                     break;
 
                 case ValuePropertyType.String:
-                    Debug.Assert(propertyName == "Text");
-                    value = NodeTreeHelper.GetText(Node);
+                    value = NodeTreeHelper.GetString(Node, propertyName);
                     minValue = -1;
                     maxValue = -1;
                     break;
@@ -585,7 +588,7 @@
             }
 
             // Also copy comments.
-            NodeTreeHelper.CopyDocumentation(Node, NewNode);
+            NodeTreeHelper.CopyDocumentation(Node, NewNode, cloneCommentGuid: true);
 
             return NewNode;
         }

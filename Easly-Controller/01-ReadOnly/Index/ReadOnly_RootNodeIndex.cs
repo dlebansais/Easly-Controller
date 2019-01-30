@@ -1,7 +1,9 @@
 ﻿namespace EaslyController.ReadOnly
 {
+    using System;
     using System.Diagnostics;
     using BaseNode;
+    using BaseNodeHelper;
 
     /// <summary>
     /// Index for the root node of the node tree.
@@ -22,6 +24,12 @@
         /// <param name="node">The indexed root node.</param>
         public ReadOnlyRootNodeIndex(INode node)
         {
+            if (!NodeTreeDiagnostic.IsValid(node))
+            {
+                Exception InnerException = null;
+                throw new ArgumentException(nameof(node), InnerException);
+            }
+
             Debug.Assert(node != null);
 
             Node = node;

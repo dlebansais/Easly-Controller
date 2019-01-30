@@ -351,7 +351,7 @@
             // Copy comments.
             IBlockList BlockList = NodeTreeHelperBlockList.GetBlockList(Owner.Node, PropertyName);
             IBlockList NewBlockList = NodeTreeHelperBlockList.GetBlockList(parentNode, PropertyName);
-            NodeTreeHelper.CopyDocumentation(BlockList, NewBlockList);
+            NodeTreeHelper.CopyDocumentation(BlockList, NewBlockList, cloneCommentGuid: true);
         }
 
         /// <summary>

@@ -335,9 +335,8 @@
                 {
                     INode Node = AsText.StateView.State.Node;
                     string PropertyName = AsText.PropertyName;
-                    Debug.Assert(PropertyName == "Text");
 
-                    return NodeTreeHelper.GetText(Node);
+                    return NodeTreeHelper.GetString(Node, PropertyName);
                 }
                 else
                     return null;
@@ -513,7 +512,7 @@
                     Debug.Assert(AsPlaceholderInner.InterfaceType == typeof(IIdentifier));
                     IFocusPlaceholderNodeState ChildState = AsPlaceholderInner.ChildState as IFocusPlaceholderNodeState;
                     Debug.Assert(ChildState != null);
-                    return NodeTreeHelper.GetText(ChildState.Node) == textPattern;
+                    return NodeTreeHelper.GetString(ChildState.Node, nameof(IIdentifier.Text)) == textPattern;
 
                 default:
                     throw new ArgumentOutOfRangeException(nameof(propertyName));
@@ -552,9 +551,8 @@
             {
                 INode Node = AsText.StateView.State.Node;
                 string PropertyName = AsText.PropertyName;
-                Debug.Assert(PropertyName == "Text");
 
-                return SetTextCaretPosition(Node, position);
+                return SetTextCaretPosition(Node, PropertyName, position);
             }
 
             return false;
@@ -1388,9 +1386,9 @@
         }
 
         /// <summary></summary>
-        protected virtual bool SetTextCaretPosition(INode node, int position)
+        protected virtual bool SetTextCaretPosition(INode node, string propertyName, int position)
         {
-            string Text = NodeTreeHelper.GetText(node);
+            string Text = NodeTreeHelper.GetString(node, propertyName);
             int OldPosition = CaretPosition;
 
             if (position < 0)

@@ -2523,6 +2523,8 @@
         protected virtual bool IsNodeTreeChildNodeValid(INode node, string propertyName)
         {
             NodeTreeHelperChild.GetChildNode(node, propertyName, out INode ChildNode);
+            Debug.Assert(ChildNode != null);
+
             if (!IsNodeTreeValid(ChildNode))
                 return InvariantFailed();
 
@@ -2544,6 +2546,7 @@
         protected virtual bool IsNodeTreeListValid(INode node, string propertyName)
         {
             NodeTreeHelperList.GetChildNodeList(node, propertyName, out IReadOnlyList<INode> ChildNodeList);
+            Debug.Assert(ChildNodeList != null);
 
             if (ChildNodeList.Count == 0)
                 if (!IsEmptyListValid(node, propertyName))
@@ -2552,6 +2555,8 @@
             for (int Index = 0; Index < ChildNodeList.Count; Index++)
             {
                 INode ChildNode = ChildNodeList[Index];
+                Debug.Assert(ChildNode != null);
+
                 if (!IsNodeTreeValid(ChildNode))
                     return InvariantFailed();
             }
@@ -2563,6 +2568,7 @@
         protected virtual bool IsNodeTreeBlockListValid(INode node, string propertyName)
         {
             NodeTreeHelperBlockList.GetChildBlockList(node, propertyName, out IReadOnlyList<INodeTreeBlock> ChildBlockList);
+            Debug.Assert(ChildBlockList != null);
 
             if (ChildBlockList.Count == 0)
                 if (!IsEmptyBlockListValid(node, propertyName))

@@ -169,7 +169,7 @@
                 }
 
                 // Also copy comments.
-                NodeTreeHelper.CopyDocumentation(Node, NewNode);
+                NodeTreeHelper.CopyDocumentation(Node, NewNode, cloneCommentGuid: true);
 
                 return NewNode;
             }

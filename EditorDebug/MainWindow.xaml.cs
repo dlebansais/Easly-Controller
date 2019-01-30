@@ -388,7 +388,7 @@ namespace EditorDebug
                             throw new ArgumentOutOfRangeException(nameof(CellView));
                         break;
                     case IFrameTextFocusableCellView AsTextFocusable: // String
-                        Child.Text = NodeTreeHelper.GetText(ChildNode);
+                        Child.Text = NodeTreeHelper.GetString(ChildNode, AsTextFocusable.PropertyName);
                         break;
                     case IFrameFocusableCellView AsFocusable: // Insert
                         Child.Foreground = Brushes.Blue;
@@ -495,7 +495,7 @@ namespace EditorDebug
                         Child.Text = AsDiscreteContentFocusable.KeywordFrame.Text;
                         break;
                     case IFocusTextFocusableCellView AsTextFocusable: // String
-                        Child.Text = NodeTreeHelper.GetText(ChildNode);
+                        Child.Text = NodeTreeHelper.GetString(ChildNode, AsTextFocusable.PropertyName);
                         break;
                     case IFocusFocusableCellView AsFocusable: // Insert
                         Child.Foreground = Brushes.Blue;

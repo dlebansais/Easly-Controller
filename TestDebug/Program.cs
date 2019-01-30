@@ -42,10 +42,10 @@ namespace TestDebug
             {
                 Console.WriteLine(FileName);
 
-                //TestReadOnly(Serializer, FileName);
+                TestReadOnly(Serializer, FileName);
                 TestWriteable(Serializer, FileName);
-                //TestFrame(Serializer, FileName);
-                //TestFocus(Serializer, FileName);
+                TestFrame(Serializer, FileName);
+                TestFocus(Serializer, FileName);
             }
         }
         #endregion
@@ -103,7 +103,7 @@ namespace TestDebug
             using (FileStream fs = new FileStream(fileName, FileMode.Open, FileAccess.Read))
             {
                 INode RootNode = serializer.Deserialize(fs) as INode;
-                INode ClonedNode = NodeHelper.DeepCloneNode(RootNode);
+                INode ClonedNode = NodeHelper.DeepCloneNode(RootNode, cloneCommentGuid: true);
                 Debug.Assert(NodeHelper.NodeHash(RootNode) == NodeHelper.NodeHash(ClonedNode));
 
                 TestReadOnly(RootNode);
@@ -155,7 +155,7 @@ namespace TestDebug
             using (FileStream fs = new FileStream(fileName, FileMode.Open, FileAccess.Read))
             {
                 INode RootNode = serializer.Deserialize(fs) as INode;
-                INode ClonedNode = NodeHelper.DeepCloneNode(RootNode);
+                INode ClonedNode = NodeHelper.DeepCloneNode(RootNode, cloneCommentGuid: true);
                 ulong Hash1 = NodeHelper.NodeHash(RootNode);
                 ulong Hash2 = NodeHelper.NodeHash(ClonedNode);
                 Debug.Assert(Hash1 == Hash2);
@@ -194,6 +194,8 @@ namespace TestDebug
 
         static void TestWriteable(INode rootNode)
         {
+            bool IsValid = NodeTreeDiagnostic.IsValid(rootNode);
+
             if (!(rootNode is IClass))
             {
                 if (!(rootNode is IGlobalReplicate))
@@ -376,7 +378,7 @@ namespace TestDebug
             using (FileStream fs = new FileStream(fileName, FileMode.Open, FileAccess.Read))
             {
                 INode RootNode = serializer.Deserialize(fs) as INode;
-                INode ClonedNode = NodeHelper.DeepCloneNode(RootNode);
+                INode ClonedNode = NodeHelper.DeepCloneNode(RootNode, cloneCommentGuid: true);
                 Debug.Assert(NodeHelper.NodeHash(RootNode) == NodeHelper.NodeHash(ClonedNode));
 
                 TestFrame(RootNode);
@@ -607,7 +609,7 @@ namespace TestDebug
             using (FileStream fs = new FileStream(fileName, FileMode.Open, FileAccess.Read))
             {
                 INode RootNode = serializer.Deserialize(fs) as INode;
-                INode ClonedNode = NodeHelper.DeepCloneNode(RootNode);
+                INode ClonedNode = NodeHelper.DeepCloneNode(RootNode, cloneCommentGuid: true);
                 Debug.Assert(NodeHelper.NodeHash(RootNode) == NodeHelper.NodeHash(ClonedNode));
 
                 TestFocus(RootNode);
