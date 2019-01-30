@@ -311,6 +311,11 @@
 
         private void DisposeNow()
         {
+            Controller.NodeStateCreated -= OnNodeStateCreated;
+            Controller.NodeStateInitialized -= OnNodeStateInitialized;
+            Controller.NodeStateRemoved -= OnNodeStateRemoved;
+            Controller.BlockListInnerCreated -= OnBlockListInnerCreated;
+
             IReadOnlyAttachCallbackSet CallbackSet = CreateCallbackSet();
             Controller.Detach(this, CallbackSet);
 
