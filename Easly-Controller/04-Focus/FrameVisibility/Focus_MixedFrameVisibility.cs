@@ -80,7 +80,7 @@
         /// <summary>
         /// Creates a IxxxNodeFrameVisibilityList object.
         /// </summary>
-        protected virtual IFocusNodeFrameVisibilityList CreateNodeFrameVisibilityList()
+        private protected virtual IFocusNodeFrameVisibilityList CreateNodeFrameVisibilityList()
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusMixedFrameVisibility));
             return new FocusNodeFrameVisibilityList();

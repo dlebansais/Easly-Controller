@@ -23,7 +23,7 @@
     /// <summary>
     /// Index for a node in a block.
     /// </summary>
-    public class ReadOnlyBrowsingExistingBlockNodeIndex : ReadOnlyBrowsingBlockNodeIndex, IReadOnlyBrowsingExistingBlockNodeIndex
+    internal class ReadOnlyBrowsingExistingBlockNodeIndex : ReadOnlyBrowsingBlockNodeIndex, IReadOnlyBrowsingExistingBlockNodeIndex
     {
         #region Init
         /// <summary>
@@ -58,7 +58,7 @@
         /// <summary>
         /// Position of the node in the block.
         /// </summary>
-        public int Index { get; protected set; }
+        public int Index { get; private protected set; }
         #endregion
 
         #region Debugging

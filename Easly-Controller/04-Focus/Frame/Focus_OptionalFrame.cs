@@ -134,7 +134,7 @@
         /// <summary>
         /// Creates a IxxxContainerCellView object.
         /// </summary>
-        protected override IFrameContainerCellView CreateFrameCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, IFrameNodeStateView childStateView)
+        private protected override IFrameContainerCellView CreateFrameCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, IFrameNodeStateView childStateView)
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusOptionalFrame));
             return new FocusContainerCellView((IFocusNodeStateView)stateView, (IFocusCellViewCollection)parentCellView, (IFocusNodeStateView)childStateView);
@@ -143,7 +143,7 @@
         /// <summary>
         /// Creates a IxxxFrameSelectorList object.
         /// </summary>
-        protected virtual IFocusFrameSelectorList CreateEmptySelectorList()
+        private protected virtual IFocusFrameSelectorList CreateEmptySelectorList()
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusOptionalFrame));
             return new FocusFrameSelectorList();

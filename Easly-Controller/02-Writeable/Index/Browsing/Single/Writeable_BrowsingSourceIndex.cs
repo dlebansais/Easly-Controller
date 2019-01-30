@@ -14,7 +14,7 @@
     /// <summary>
     /// Index for the source identifier node of a block.
     /// </summary>
-    public class WriteableBrowsingSourceIndex : ReadOnlyBrowsingSourceIndex, IWriteableBrowsingSourceIndex
+    internal class WriteableBrowsingSourceIndex : ReadOnlyBrowsingSourceIndex, IWriteableBrowsingSourceIndex
     {
         #region Init
         /// <summary>
@@ -63,7 +63,7 @@
         /// <summary>
         /// Creates a IxxxInsertionPlaceholderNodeIndex object.
         /// </summary>
-        protected virtual IWriteableInsertionPlaceholderNodeIndex CreateInsertionIndex(INode parentNode, INode node)
+        private protected virtual IWriteableInsertionPlaceholderNodeIndex CreateInsertionIndex(INode parentNode, INode node)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableBrowsingSourceIndex));
             return new WriteableInsertionPlaceholderNodeIndex(parentNode, PropertyName, node);

@@ -319,7 +319,7 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="WriteableController"/> class.
         /// </summary>
-        protected WriteableController()
+        private protected WriteableController()
         {
             _OperationStack = CreateOperationGroupStack();
             OperationStack = CreateOperationGroupReadOnlyStack(_OperationStack);
@@ -405,8 +405,8 @@
         }
 #pragma warning disable 1591
         private Action<IWriteableInsertBlockOperation> BlockStateInsertedHandler;
-        protected virtual void AddBlockStateInsertedDelegate(Action<IWriteableInsertBlockOperation> handler) { BlockStateInsertedHandler += handler; }
-        protected virtual void RemoveBlockStateInsertedDelegate(Action<IWriteableInsertBlockOperation> handler) { BlockStateInsertedHandler -= handler; }
+        private protected virtual void AddBlockStateInsertedDelegate(Action<IWriteableInsertBlockOperation> handler) { BlockStateInsertedHandler += handler; }
+        private protected virtual void RemoveBlockStateInsertedDelegate(Action<IWriteableInsertBlockOperation> handler) { BlockStateInsertedHandler -= handler; }
 #pragma warning restore 1591
 
         /// <summary>
@@ -419,8 +419,8 @@
         }
 #pragma warning disable 1591
         private Action<IWriteableRemoveBlockOperation> BlockStateRemovedHandler;
-        protected virtual void AddBlockStateRemovedDelegate(Action<IWriteableRemoveBlockOperation> handler) { BlockStateRemovedHandler += handler; }
-        protected virtual void RemoveBlockStateRemovedDelegate(Action<IWriteableRemoveBlockOperation> handler) { BlockStateRemovedHandler -= handler; }
+        private protected virtual void AddBlockStateRemovedDelegate(Action<IWriteableRemoveBlockOperation> handler) { BlockStateRemovedHandler += handler; }
+        private protected virtual void RemoveBlockStateRemovedDelegate(Action<IWriteableRemoveBlockOperation> handler) { BlockStateRemovedHandler -= handler; }
 #pragma warning restore 1591
 
         /// <summary>
@@ -433,8 +433,8 @@
         }
 #pragma warning disable 1591
         private Action<IWriteableRemoveBlockViewOperation> BlockViewRemovedHandler;
-        protected virtual void AddBlockViewRemovedDelegate(Action<IWriteableRemoveBlockViewOperation> handler) { BlockViewRemovedHandler += handler; }
-        protected virtual void RemoveBlockViewRemovedDelegate(Action<IWriteableRemoveBlockViewOperation> handler) { BlockViewRemovedHandler -= handler; }
+        private protected virtual void AddBlockViewRemovedDelegate(Action<IWriteableRemoveBlockViewOperation> handler) { BlockViewRemovedHandler += handler; }
+        private protected virtual void RemoveBlockViewRemovedDelegate(Action<IWriteableRemoveBlockViewOperation> handler) { BlockViewRemovedHandler -= handler; }
 #pragma warning restore 1591
 
         /// <summary>
@@ -447,8 +447,8 @@
         }
 #pragma warning disable 1591
         private Action<IWriteableInsertNodeOperation> StateInsertedHandler;
-        protected virtual void AddStateInsertedDelegate(Action<IWriteableInsertNodeOperation> handler) { StateInsertedHandler += handler; }
-        protected virtual void RemoveStateInsertedDelegate(Action<IWriteableInsertNodeOperation> handler) { StateInsertedHandler -= handler; }
+        private protected virtual void AddStateInsertedDelegate(Action<IWriteableInsertNodeOperation> handler) { StateInsertedHandler += handler; }
+        private protected virtual void RemoveStateInsertedDelegate(Action<IWriteableInsertNodeOperation> handler) { StateInsertedHandler -= handler; }
 #pragma warning restore 1591
 
         /// <summary>
@@ -461,8 +461,8 @@
         }
 #pragma warning disable 1591
         private Action<IWriteableRemoveNodeOperation> StateRemovedHandler;
-        protected virtual void AddStateRemovedDelegate(Action<IWriteableRemoveNodeOperation> handler) { StateRemovedHandler += handler; }
-        protected virtual void RemoveStateRemovedDelegate(Action<IWriteableRemoveNodeOperation> handler) { StateRemovedHandler -= handler; }
+        private protected virtual void AddStateRemovedDelegate(Action<IWriteableRemoveNodeOperation> handler) { StateRemovedHandler += handler; }
+        private protected virtual void RemoveStateRemovedDelegate(Action<IWriteableRemoveNodeOperation> handler) { StateRemovedHandler -= handler; }
 #pragma warning restore 1591
 
         /// <summary>
@@ -475,8 +475,8 @@
         }
 #pragma warning disable 1591
         private Action<IWriteableReplaceOperation> StateReplacedHandler;
-        protected virtual void AddStateReplacedDelegate(Action<IWriteableReplaceOperation> handler) { StateReplacedHandler += handler; }
-        protected virtual void RemoveStateReplacedDelegate(Action<IWriteableReplaceOperation> handler) { StateReplacedHandler -= handler; }
+        private protected virtual void AddStateReplacedDelegate(Action<IWriteableReplaceOperation> handler) { StateReplacedHandler += handler; }
+        private protected virtual void RemoveStateReplacedDelegate(Action<IWriteableReplaceOperation> handler) { StateReplacedHandler -= handler; }
 #pragma warning restore 1591
 
         /// <summary>
@@ -489,8 +489,8 @@
         }
 #pragma warning disable 1591
         private Action<IWriteableAssignmentOperation> StateAssignedHandler;
-        protected virtual void AddStateAssignedDelegate(Action<IWriteableAssignmentOperation> handler) { StateAssignedHandler += handler; }
-        protected virtual void RemoveStateAssignedDelegate(Action<IWriteableAssignmentOperation> handler) { StateAssignedHandler -= handler; }
+        private protected virtual void AddStateAssignedDelegate(Action<IWriteableAssignmentOperation> handler) { StateAssignedHandler += handler; }
+        private protected virtual void RemoveStateAssignedDelegate(Action<IWriteableAssignmentOperation> handler) { StateAssignedHandler -= handler; }
 #pragma warning restore 1591
 
         /// <summary>
@@ -503,8 +503,8 @@
         }
 #pragma warning disable 1591
         private Action<IWriteableAssignmentOperation> StateUnassignedHandler;
-        protected virtual void AddStateUnassignedDelegate(Action<IWriteableAssignmentOperation> handler) { StateUnassignedHandler += handler; }
-        protected virtual void RemoveStateUnassignedDelegate(Action<IWriteableAssignmentOperation> handler) { StateUnassignedHandler -= handler; }
+        private protected virtual void AddStateUnassignedDelegate(Action<IWriteableAssignmentOperation> handler) { StateUnassignedHandler += handler; }
+        private protected virtual void RemoveStateUnassignedDelegate(Action<IWriteableAssignmentOperation> handler) { StateUnassignedHandler -= handler; }
 #pragma warning restore 1591
 
         /// <summary>
@@ -517,8 +517,8 @@
         }
 #pragma warning disable 1591
         private Action<IWriteableChangeNodeOperation> StateChangedHandler;
-        protected virtual void AddStateChangedDelegate(Action<IWriteableChangeNodeOperation> handler) { StateChangedHandler += handler; }
-        protected virtual void RemoveStateChangedDelegate(Action<IWriteableChangeNodeOperation> handler) { StateChangedHandler -= handler; }
+        private protected virtual void AddStateChangedDelegate(Action<IWriteableChangeNodeOperation> handler) { StateChangedHandler += handler; }
+        private protected virtual void RemoveStateChangedDelegate(Action<IWriteableChangeNodeOperation> handler) { StateChangedHandler -= handler; }
 #pragma warning restore 1591
 
         /// <summary>
@@ -531,8 +531,8 @@
         }
 #pragma warning disable 1591
         private Action<IWriteableChangeBlockOperation> BlockStateChangedHandler;
-        protected virtual void AddBlockStateChangedDelegate(Action<IWriteableChangeBlockOperation> handler) { BlockStateChangedHandler += handler; }
-        protected virtual void RemoveBlockStateChangedDelegate(Action<IWriteableChangeBlockOperation> handler) { BlockStateChangedHandler -= handler; }
+        private protected virtual void AddBlockStateChangedDelegate(Action<IWriteableChangeBlockOperation> handler) { BlockStateChangedHandler += handler; }
+        private protected virtual void RemoveBlockStateChangedDelegate(Action<IWriteableChangeBlockOperation> handler) { BlockStateChangedHandler -= handler; }
 #pragma warning restore 1591
 
         /// <summary>
@@ -545,8 +545,8 @@
         }
 #pragma warning disable 1591
         private Action<IWriteableMoveNodeOperation> StateMovedHandler;
-        protected virtual void AddStateMovedDelegate(Action<IWriteableMoveNodeOperation> handler) { StateMovedHandler += handler; }
-        protected virtual void RemoveStateMovedDelegate(Action<IWriteableMoveNodeOperation> handler) { StateMovedHandler -= handler; }
+        private protected virtual void AddStateMovedDelegate(Action<IWriteableMoveNodeOperation> handler) { StateMovedHandler += handler; }
+        private protected virtual void RemoveStateMovedDelegate(Action<IWriteableMoveNodeOperation> handler) { StateMovedHandler -= handler; }
 #pragma warning restore 1591
 
         /// <summary>
@@ -559,8 +559,8 @@
         }
 #pragma warning disable 1591
         private Action<IWriteableMoveBlockOperation> BlockStateMovedHandler;
-        protected virtual void AddBlockStateMovedDelegate(Action<IWriteableMoveBlockOperation> handler) { BlockStateMovedHandler += handler; }
-        protected virtual void RemoveBlockStateMovedDelegate(Action<IWriteableMoveBlockOperation> handler) { BlockStateMovedHandler -= handler; }
+        private protected virtual void AddBlockStateMovedDelegate(Action<IWriteableMoveBlockOperation> handler) { BlockStateMovedHandler += handler; }
+        private protected virtual void RemoveBlockStateMovedDelegate(Action<IWriteableMoveBlockOperation> handler) { BlockStateMovedHandler -= handler; }
 #pragma warning restore 1591
 
         /// <summary>
@@ -573,8 +573,8 @@
         }
 #pragma warning disable 1591
         private Action<IWriteableSplitBlockOperation> BlockSplitHandler;
-        protected virtual void AddBlockSplitDelegate(Action<IWriteableSplitBlockOperation> handler) { BlockSplitHandler += handler; }
-        protected virtual void RemoveBlockSplitDelegate(Action<IWriteableSplitBlockOperation> handler) { BlockSplitHandler -= handler; }
+        private protected virtual void AddBlockSplitDelegate(Action<IWriteableSplitBlockOperation> handler) { BlockSplitHandler += handler; }
+        private protected virtual void RemoveBlockSplitDelegate(Action<IWriteableSplitBlockOperation> handler) { BlockSplitHandler -= handler; }
 #pragma warning restore 1591
 
         /// <summary>
@@ -587,8 +587,8 @@
         }
 #pragma warning disable 1591
         private Action<IWriteableMergeBlocksOperation> BlocksMergedHandler;
-        protected virtual void AddBlocksMergedDelegate(Action<IWriteableMergeBlocksOperation> handler) { BlocksMergedHandler += handler; }
-        protected virtual void RemoveBlocksMergedDelegate(Action<IWriteableMergeBlocksOperation> handler) { BlocksMergedHandler -= handler; }
+        private protected virtual void AddBlocksMergedDelegate(Action<IWriteableMergeBlocksOperation> handler) { BlocksMergedHandler += handler; }
+        private protected virtual void RemoveBlocksMergedDelegate(Action<IWriteableMergeBlocksOperation> handler) { BlocksMergedHandler -= handler; }
 #pragma warning restore 1591
 
         /// <summary>
@@ -601,8 +601,8 @@
         }
 #pragma warning disable 1591
         private Action<IWriteableExpandArgumentOperation> ArgumentExpandedHandler;
-        protected virtual void AddArgumentExpandedDelegate(Action<IWriteableExpandArgumentOperation> handler) { ArgumentExpandedHandler += handler; }
-        protected virtual void RemoveArgumentExpandedDelegate(Action<IWriteableExpandArgumentOperation> handler) { ArgumentExpandedHandler -= handler; }
+        private protected virtual void AddArgumentExpandedDelegate(Action<IWriteableExpandArgumentOperation> handler) { ArgumentExpandedHandler += handler; }
+        private protected virtual void RemoveArgumentExpandedDelegate(Action<IWriteableExpandArgumentOperation> handler) { ArgumentExpandedHandler -= handler; }
 #pragma warning restore 1591
 
         /// <summary>
@@ -615,14 +615,14 @@
         }
 #pragma warning disable 1591
         private Action<IWriteableGenericRefreshOperation> GenericRefreshHandler;
-        protected virtual void AddGenericRefreshDelegate(Action<IWriteableGenericRefreshOperation> handler) { GenericRefreshHandler += handler; }
-        protected virtual void RemoveGenericRefreshDelegate(Action<IWriteableGenericRefreshOperation> handler) { GenericRefreshHandler -= handler; }
+        private protected virtual void AddGenericRefreshDelegate(Action<IWriteableGenericRefreshOperation> handler) { GenericRefreshHandler += handler; }
+        private protected virtual void RemoveGenericRefreshDelegate(Action<IWriteableGenericRefreshOperation> handler) { GenericRefreshHandler -= handler; }
 #pragma warning restore 1591
 
         /// <summary>
         /// State table.
         /// </summary>
-        protected new IWriteableIndexNodeStateReadOnlyDictionary StateTable { get { return (IWriteableIndexNodeStateReadOnlyDictionary)base.StateTable; } }
+        private protected new IWriteableIndexNodeStateReadOnlyDictionary StateTable { get { return (IWriteableIndexNodeStateReadOnlyDictionary)base.StateTable; } }
         #endregion
 
         #region Client Interface
@@ -651,7 +651,7 @@
         }
 
         /// <summary></summary>
-        protected virtual void InsertNewBlock(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> blockListInner, IWriteableInsertionNewBlockNodeIndex newBlockIndex, out IWriteableBrowsingCollectionNodeIndex nodeIndex)
+        private protected virtual void InsertNewBlock(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> blockListInner, IWriteableInsertionNewBlockNodeIndex newBlockIndex, out IWriteableBrowsingCollectionNodeIndex nodeIndex)
         {
             IBlock NewBlock = NodeTreeHelperBlockList.CreateBlock(blockListInner.Owner.Node, blockListInner.PropertyName, ReplicationStatus.Normal, newBlockIndex.PatternNode, newBlockIndex.SourceNode);
 
@@ -667,7 +667,7 @@
         }
 
         /// <summary></summary>
-        protected virtual void ExecuteInsertNewBlock(IWriteableOperation operation)
+        private protected virtual void ExecuteInsertNewBlock(IWriteableOperation operation)
         {
             IWriteableInsertBlockOperation InsertBlockOperation = (IWriteableInsertBlockOperation)operation;
 
@@ -706,7 +706,7 @@
         }
 
         /// <summary></summary>
-        protected virtual void UndoInsertNewBlock(IWriteableOperation operation)
+        private protected virtual void UndoInsertNewBlock(IWriteableOperation operation)
         {
             IWriteableInsertBlockOperation InsertBlockOperation = (IWriteableInsertBlockOperation)operation;
             IWriteableRemoveBlockOperation RemoveBlockOperation = InsertBlockOperation.ToRemoveBlockOperation();
@@ -746,7 +746,7 @@
         }
 
         /// <summary></summary>
-        protected virtual void InsertNewNode(IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> inner, IWriteableInsertionCollectionNodeIndex insertedIndex, out IWriteableBrowsingCollectionNodeIndex nodeIndex)
+        private protected virtual void InsertNewNode(IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> inner, IWriteableInsertionCollectionNodeIndex insertedIndex, out IWriteableBrowsingCollectionNodeIndex nodeIndex)
         {
             int BlockIndex;
             int Index;
@@ -782,7 +782,7 @@
         }
 
         /// <summary></summary>
-        protected virtual void ExecuteInsertNewNode(IWriteableOperation operation)
+        private protected virtual void ExecuteInsertNewNode(IWriteableOperation operation)
         {
             IWriteableInsertNodeOperation InsertNodeOperation = (IWriteableInsertNodeOperation)operation;
 
@@ -806,7 +806,7 @@
         }
 
         /// <summary></summary>
-        protected virtual void UndoInsertNewNode(IWriteableOperation operation)
+        private protected virtual void UndoInsertNewNode(IWriteableOperation operation)
         {
             IWriteableInsertNodeOperation InsertNodeOperation = (IWriteableInsertNodeOperation)operation;
             IWriteableRemoveNodeOperation RemoveNodeOperation = InsertNodeOperation.ToRemoveNodeOperation();
@@ -910,7 +910,7 @@
         }
 
         /// <summary></summary>
-        protected virtual void RemoveBlock(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> blockListInner, int blockIndex)
+        private protected virtual void RemoveBlock(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> blockListInner, int blockIndex)
         {
             Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => ExecuteRemoveBlock(operation);
             Action<IWriteableOperation> HandlerUndo = (IWriteableOperation operation) => UndoRemoveBlock(operation);
@@ -922,7 +922,7 @@
         }
 
         /// <summary></summary>
-        protected virtual void ExecuteRemoveBlock(IWriteableOperation operation)
+        private protected virtual void ExecuteRemoveBlock(IWriteableOperation operation)
         {
             IWriteableRemoveBlockOperation RemoveBlockOperation = (IWriteableRemoveBlockOperation)operation;
 
@@ -961,7 +961,7 @@
         }
 
         /// <summary></summary>
-        protected virtual void UndoRemoveBlock(IWriteableOperation operation)
+        private protected virtual void UndoRemoveBlock(IWriteableOperation operation)
         {
             IWriteableRemoveBlockOperation RemoveBlockOperation = (IWriteableRemoveBlockOperation)operation;
             IWriteableInsertBlockOperation InsertBlockOperation = RemoveBlockOperation.ToInsertBlockOperation();
@@ -1001,7 +1001,7 @@
         }
 
         /// <summary></summary>
-        protected virtual void RemoveNode(IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> inner, int blockIndex, int index)
+        private protected virtual void RemoveNode(IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> inner, int blockIndex, int index)
         {
             Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => ExecuteRemoveNode(operation);
             Action<IWriteableOperation> HandlerUndo = (IWriteableOperation operation) => UndoRemoveNode(operation);
@@ -1013,7 +1013,7 @@
         }
 
         /// <summary></summary>
-        protected virtual void ExecuteRemoveNode(IWriteableOperation operation)
+        private protected virtual void ExecuteRemoveNode(IWriteableOperation operation)
         {
             IWriteableRemoveNodeOperation RemoveNodeOperation = (IWriteableRemoveNodeOperation)operation;
 
@@ -1031,7 +1031,7 @@
         }
 
         /// <summary></summary>
-        protected virtual void UndoRemoveNode(IWriteableOperation operation)
+        private protected virtual void UndoRemoveNode(IWriteableOperation operation)
         {
             IWriteableRemoveNodeOperation RemoveNodeOperation = (IWriteableRemoveNodeOperation)operation;
             IWriteableInsertNodeOperation InsertNodeOperation = RemoveNodeOperation.ToInsertNodeOperation();
@@ -1124,7 +1124,7 @@
         }
 
         /// <summary></summary>
-        protected virtual void ExecuteReplace(IWriteableOperation operation)
+        private protected virtual void ExecuteReplace(IWriteableOperation operation)
         {
             IWriteableReplaceOperation ReplaceOperation = (IWriteableReplaceOperation)operation;
 
@@ -1139,7 +1139,7 @@
         }
 
         /// <summary></summary>
-        protected virtual void UndoReplace(IWriteableOperation operation)
+        private protected virtual void UndoReplace(IWriteableOperation operation)
         {
             IWriteableReplaceOperation ReplaceOperation = (IWriteableReplaceOperation)operation;
             ReplaceOperation = ReplaceOperation.ToInverseReplace();
@@ -1155,7 +1155,7 @@
         }
 
         /// <summary></summary>
-        protected virtual void ReplaceState(IWriteableReplaceOperation operation, IWriteableInner<IWriteableBrowsingChildIndex> inner)
+        private protected virtual void ReplaceState(IWriteableReplaceOperation operation, IWriteableInner<IWriteableBrowsingChildIndex> inner)
         {
             Debug.Assert(inner != null);
             IWriteableNodeState Owner = inner.Owner;
@@ -1234,7 +1234,7 @@
         }
 
         /// <summary></summary>
-        protected virtual void ExecuteAssign(IWriteableOperation operation)
+        private protected virtual void ExecuteAssign(IWriteableOperation operation)
         {
             IWriteableAssignmentOperation AssignmentOperation = (IWriteableAssignmentOperation)operation;
 
@@ -1250,7 +1250,7 @@
         }
 
         /// <summary></summary>
-        protected virtual void UndoAssign(IWriteableOperation operation)
+        private protected virtual void UndoAssign(IWriteableOperation operation)
         {
             IWriteableAssignmentOperation AssignmentOperation = (IWriteableAssignmentOperation)operation;
             AssignmentOperation = AssignmentOperation.ToInverseAssignment();
@@ -1299,7 +1299,7 @@
         }
 
         /// <summary></summary>
-        protected virtual void ExecuteUnassign(IWriteableOperation operation)
+        private protected virtual void ExecuteUnassign(IWriteableOperation operation)
         {
             IWriteableAssignmentOperation AssignmentOperation = (IWriteableAssignmentOperation)operation;
 
@@ -1315,7 +1315,7 @@
         }
 
         /// <summary></summary>
-        protected virtual void UndoUnassign(IWriteableOperation operation)
+        private protected virtual void UndoUnassign(IWriteableOperation operation)
         {
             IWriteableAssignmentOperation AssignmentOperation = (IWriteableAssignmentOperation)operation;
             AssignmentOperation = AssignmentOperation.ToInverseAssignment();
@@ -1352,7 +1352,7 @@
         }
 
         /// <summary></summary>
-        protected virtual void ExecuteChangeReplication(IWriteableOperation operation)
+        private protected virtual void ExecuteChangeReplication(IWriteableOperation operation)
         {
             IWriteableChangeBlockOperation ChangeBlockOperation = (IWriteableChangeBlockOperation)operation;
 
@@ -1366,7 +1366,7 @@
         }
 
         /// <summary></summary>
-        protected virtual void UndoChangeReplication(IWriteableOperation operation)
+        private protected virtual void UndoChangeReplication(IWriteableOperation operation)
         {
             IWriteableChangeBlockOperation ChangeBlockOperation = (IWriteableChangeBlockOperation)operation;
             ChangeBlockOperation = ChangeBlockOperation.ToInverseChange();
@@ -1404,7 +1404,7 @@
         }
 
         /// <summary></summary>
-        protected virtual void ExecuteChangeDiscreteValue(IWriteableOperation operation)
+        private protected virtual void ExecuteChangeDiscreteValue(IWriteableOperation operation)
         {
             IWriteableChangeNodeOperation ChangeNodeOperation = (IWriteableChangeNodeOperation)operation;
 
@@ -1430,7 +1430,7 @@
         }
 
         /// <summary></summary>
-        protected virtual void UndoChangeDiscreteValue(IWriteableOperation operation)
+        private protected virtual void UndoChangeDiscreteValue(IWriteableOperation operation)
         {
             IWriteableChangeNodeOperation ChangeNodeOperation = (IWriteableChangeNodeOperation)operation;
             ChangeNodeOperation = ChangeNodeOperation.ToInverseChange();
@@ -1496,7 +1496,7 @@
         }
 
         /// <summary></summary>
-        protected virtual void ExecuteSplitBlock(IWriteableOperation operation)
+        private protected virtual void ExecuteSplitBlock(IWriteableOperation operation)
         {
             IWriteableSplitBlockOperation SplitBlockOperation = (IWriteableSplitBlockOperation)operation;
 
@@ -1531,7 +1531,7 @@
         }
 
         /// <summary></summary>
-        protected virtual void UndoSplitBlock(IWriteableOperation operation)
+        private protected virtual void UndoSplitBlock(IWriteableOperation operation)
         {
             IWriteableSplitBlockOperation SplitBlockOperation = (IWriteableSplitBlockOperation)operation;
             IWriteableMergeBlocksOperation MergeBlocksOperation = SplitBlockOperation.ToMergeBlocksOperation();
@@ -1600,7 +1600,7 @@
         }
 
         /// <summary></summary>
-        protected virtual void ExecuteMergeBlocks(IWriteableOperation operation)
+        private protected virtual void ExecuteMergeBlocks(IWriteableOperation operation)
         {
             IWriteableMergeBlocksOperation MergeBlocksOperation = (IWriteableMergeBlocksOperation)operation;
 
@@ -1635,7 +1635,7 @@
         }
 
         /// <summary></summary>
-        protected virtual void UndoMergeBlocks(IWriteableOperation operation)
+        private protected virtual void UndoMergeBlocks(IWriteableOperation operation)
         {
             IWriteableMergeBlocksOperation MergeBlocksOperation = (IWriteableMergeBlocksOperation)operation;
             IWriteableSplitBlockOperation SplitBlockOperation = MergeBlocksOperation.ToSplitBlockOperation();
@@ -1732,7 +1732,7 @@
         }
 
         /// <summary></summary>
-        protected virtual void ExecuteMove(IWriteableOperation operation)
+        private protected virtual void ExecuteMove(IWriteableOperation operation)
         {
             IWriteableMoveNodeOperation MoveNodeOperation = (IWriteableMoveNodeOperation)operation;
 
@@ -1745,7 +1745,7 @@
         }
 
         /// <summary></summary>
-        protected virtual void UndoMove(IWriteableOperation operation)
+        private protected virtual void UndoMove(IWriteableOperation operation)
         {
             IWriteableMoveNodeOperation MoveNodeOperation = (IWriteableMoveNodeOperation)operation;
             MoveNodeOperation = MoveNodeOperation.ToInverseMove();
@@ -1792,7 +1792,7 @@
         }
 
         /// <summary></summary>
-        protected virtual void ExecuteMoveBlock(IWriteableOperation operation)
+        private protected virtual void ExecuteMoveBlock(IWriteableOperation operation)
         {
             IWriteableMoveBlockOperation MoveBlockOperation = (IWriteableMoveBlockOperation)operation;
 
@@ -1816,7 +1816,7 @@
         }
 
         /// <summary></summary>
-        protected virtual void UndoMoveBlock(IWriteableOperation operation)
+        private protected virtual void UndoMoveBlock(IWriteableOperation operation)
         {
             IWriteableMoveBlockOperation MoveBlockOperation = (IWriteableMoveBlockOperation)operation;
             MoveBlockOperation = MoveBlockOperation.ToInverseMoveBlock();
@@ -1887,7 +1887,7 @@
         /// * If it has an item, assign it.
         /// * Otherwise, assign the item to a default node.
         /// </summary>
-        protected virtual void ExpandOptional(IWriteableOptionalInner<IWriteableBrowsingOptionalNodeIndex> optionalInner, IWriteableOperationList operationList)
+        private protected virtual void ExpandOptional(IWriteableOptionalInner<IWriteableBrowsingOptionalNodeIndex> optionalInner, IWriteableOperationList operationList)
         {
             if (optionalInner.IsAssigned)
                 return;
@@ -1925,7 +1925,7 @@
         /// * Only expand block list of arguments
         /// * Only expand if the list is empty. In that case, add a single default argument.
         /// </summary>
-        protected virtual void ExpandBlockList(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> blockListInner, IWriteableOperationList operationList)
+        private protected virtual void ExpandBlockList(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> blockListInner, IWriteableOperationList operationList)
         {
             if (!(blockListInner.InterfaceType == typeof(IArgument)))
                 return;
@@ -1948,7 +1948,7 @@
         }
 
         /// <summary></summary>
-        protected virtual void ExecuteExpandBlockList(IWriteableOperation operation)
+        private protected virtual void ExecuteExpandBlockList(IWriteableOperation operation)
         {
             IWriteableExpandArgumentOperation ExpandArgumentOperation = (IWriteableExpandArgumentOperation)operation;
 
@@ -1985,7 +1985,7 @@
         }
 
         /// <summary></summary>
-        protected virtual void UndoExpandBlockList(IWriteableOperation operation)
+        private protected virtual void UndoExpandBlockList(IWriteableOperation operation)
         {
             IWriteableExpandArgumentOperation ExpandArgumentOperation = (IWriteableExpandArgumentOperation)operation;
             IWriteableRemoveBlockOperation RemoveBlockOperation = ExpandArgumentOperation.ToRemoveBlockOperation();
@@ -2054,7 +2054,7 @@
         }
 
         /// <summary></summary>
-        protected virtual void Reduce(IWriteableNodeIndex reducedIndex, IWriteableOperationList operationList, bool isNested)
+        private protected virtual void Reduce(IWriteableNodeIndex reducedIndex, IWriteableOperationList operationList, bool isNested)
         {
             IWriteablePlaceholderNodeState State = StateTable[reducedIndex] as IWriteablePlaceholderNodeState;
             Debug.Assert(State != null);
@@ -2073,7 +2073,7 @@
         /// <summary>
         /// Reduces the optional node.
         /// </summary>
-        protected virtual void ReduceOptional(IWriteableOptionalInner<IWriteableBrowsingOptionalNodeIndex> optionalInner, IWriteableOperationList operationList, bool isNested)
+        private protected virtual void ReduceOptional(IWriteableOptionalInner<IWriteableBrowsingOptionalNodeIndex> optionalInner, IWriteableOperationList operationList, bool isNested)
         {
             if (optionalInner.IsAssigned)
             {
@@ -2092,7 +2092,7 @@
         /// <summary>
         /// Reduces the block list.
         /// </summary>
-        protected virtual void ReduceBlockList(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> blockListInner, IWriteableOperationList operationList, bool isNested)
+        private protected virtual void ReduceBlockList(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> blockListInner, IWriteableOperationList operationList, bool isNested)
         {
             if (!(blockListInner.InterfaceType == typeof(IArgument)))
                 return;
@@ -2146,7 +2146,7 @@
         }
 
         /// <summary></summary>
-        protected virtual void Canonicalize(IWriteableNodeState state, IWriteableOperationList operationList)
+        private protected virtual void Canonicalize(IWriteableNodeState state, IWriteableOperationList operationList)
         {
             IWriteableNodeIndex NodeIndex = state.ParentIndex as IWriteableNodeIndex;
             Debug.Assert(NodeIndex != null);
@@ -2157,7 +2157,7 @@
         }
 
         /// <summary></summary>
-        protected virtual void CanonicalizeChildren(IWriteableNodeState state, IWriteableOperationList operationList)
+        private protected virtual void CanonicalizeChildren(IWriteableNodeState state, IWriteableOperationList operationList)
         {
             List<IWriteableNodeState> ChildStateList = new List<IWriteableNodeState>();
             foreach (KeyValuePair<string, IWriteableInner<IWriteableBrowsingChildIndex>> Entry in state.InnerTable)
@@ -2191,7 +2191,7 @@
         }
 
         /// <summary></summary>
-        protected virtual void ExecuteRefresh(IWriteableOperation operation)
+        private protected virtual void ExecuteRefresh(IWriteableOperation operation)
         {
             IWriteableGenericRefreshOperation GenericRefreshOperation = (IWriteableGenericRefreshOperation)operation;
 
@@ -2199,7 +2199,7 @@
         }
 
         /// <summary></summary>
-        protected virtual void UndoRefresh(IWriteableOperation operation)
+        private protected virtual void UndoRefresh(IWriteableOperation operation)
         {
             IWriteableGenericRefreshOperation GenericRefreshOperation = (IWriteableGenericRefreshOperation)operation;
 
@@ -2237,14 +2237,14 @@
 
         #region Descendant Interface
         /// <summary></summary>
-        protected virtual void PruneState(IWriteableNodeState state)
+        private protected virtual void PruneState(IWriteableNodeState state)
         {
             PruneStateChildren(state);
             RemoveState(state.ParentIndex);
         }
 
         /// <summary></summary>
-        protected virtual void PruneStateChildren(IWriteableNodeState state)
+        private protected virtual void PruneStateChildren(IWriteableNodeState state)
         {
             foreach (KeyValuePair<string, IWriteableInner<IWriteableBrowsingChildIndex>> Entry in state.InnerTable)
                 if (Entry.Value is IWriteablePlaceholderInner<IWriteableBrowsingPlaceholderNodeIndex> AsPlaceholderInner)
@@ -2260,7 +2260,7 @@
         }
 
         /// <summary></summary>
-        protected virtual void PrunePlaceholderInner(IWriteablePlaceholderInner<IWriteableBrowsingPlaceholderNodeIndex> inner)
+        private protected virtual void PrunePlaceholderInner(IWriteablePlaceholderInner<IWriteableBrowsingPlaceholderNodeIndex> inner)
         {
             PruneState(inner.ChildState);
 
@@ -2268,7 +2268,7 @@
         }
 
         /// <summary></summary>
-        protected virtual void PruneOptionalInner(IWriteableOptionalInner<IWriteableBrowsingOptionalNodeIndex> inner)
+        private protected virtual void PruneOptionalInner(IWriteableOptionalInner<IWriteableBrowsingOptionalNodeIndex> inner)
         {
             PruneState(inner.ChildState);
 
@@ -2278,7 +2278,7 @@
         }
 
         /// <summary></summary>
-        protected virtual void PruneListInner(IWriteableListInner<IWriteableBrowsingListNodeIndex> inner)
+        private protected virtual void PruneListInner(IWriteableListInner<IWriteableBrowsingListNodeIndex> inner)
         {
             foreach (IWriteableNodeState State in inner.StateList)
             {
@@ -2291,7 +2291,7 @@
         }
 
         /// <summary></summary>
-        protected virtual void PruneBlockListInner(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner)
+        private protected virtual void PruneBlockListInner(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner)
         {
             for (int BlockIndex = inner.BlockStateList.Count; BlockIndex > 0; BlockIndex--)
             {
@@ -2306,7 +2306,7 @@
         }
 
         /// <summary></summary>
-        protected virtual void ExecuteRemoveBlockView(IWriteableOperation operation)
+        private protected virtual void ExecuteRemoveBlockView(IWriteableOperation operation)
         {
             IWriteableRemoveBlockViewOperation RemoveBlockViewOperation = (IWriteableRemoveBlockViewOperation)operation;
 
@@ -2347,109 +2347,109 @@
         }
 
         /// <summary></summary>
-        protected virtual void UndoRemoveBlockView(IWriteableOperation operation)
+        private protected virtual void UndoRemoveBlockView(IWriteableOperation operation)
         {
             throw new InvalidOperationException();
         }
 
         /// <summary></summary>
-        protected virtual void NotifyBlockStateInserted(IWriteableInsertBlockOperation operation)
+        private protected virtual void NotifyBlockStateInserted(IWriteableInsertBlockOperation operation)
         {
             BlockStateInsertedHandler?.Invoke(operation);
         }
 
         /// <summary></summary>
-        protected virtual void NotifyBlockStateRemoved(IWriteableRemoveBlockOperation operation)
+        private protected virtual void NotifyBlockStateRemoved(IWriteableRemoveBlockOperation operation)
         {
             BlockStateRemovedHandler?.Invoke(operation);
         }
 
         /// <summary></summary>
-        protected virtual void NotifyBlockViewRemoved(IWriteableRemoveBlockViewOperation operation)
+        private protected virtual void NotifyBlockViewRemoved(IWriteableRemoveBlockViewOperation operation)
         {
             BlockViewRemovedHandler?.Invoke(operation);
         }
 
         /// <summary></summary>
-        protected virtual void NotifyStateInserted(IWriteableInsertNodeOperation operation)
+        private protected virtual void NotifyStateInserted(IWriteableInsertNodeOperation operation)
         {
             StateInsertedHandler?.Invoke(operation);
         }
 
         /// <summary></summary>
-        protected virtual void NotifyStateRemoved(IWriteableRemoveNodeOperation operation)
+        private protected virtual void NotifyStateRemoved(IWriteableRemoveNodeOperation operation)
         {
             StateRemovedHandler?.Invoke(operation);
         }
 
         /// <summary></summary>
-        protected virtual void NotifyStateReplaced(IWriteableReplaceOperation operation)
+        private protected virtual void NotifyStateReplaced(IWriteableReplaceOperation operation)
         {
             StateReplacedHandler?.Invoke(operation);
         }
 
         /// <summary></summary>
-        protected virtual void NotifyStateAssigned(IWriteableAssignmentOperation operation)
+        private protected virtual void NotifyStateAssigned(IWriteableAssignmentOperation operation)
         {
             StateAssignedHandler?.Invoke(operation);
         }
 
         /// <summary></summary>
-        protected virtual void NotifyStateUnassigned(IWriteableAssignmentOperation operation)
+        private protected virtual void NotifyStateUnassigned(IWriteableAssignmentOperation operation)
         {
             StateUnassignedHandler?.Invoke(operation);
         }
 
         /// <summary></summary>
-        protected virtual void NotifyStateChanged(IWriteableChangeNodeOperation operation)
+        private protected virtual void NotifyStateChanged(IWriteableChangeNodeOperation operation)
         {
             StateChangedHandler?.Invoke(operation);
         }
 
         /// <summary></summary>
-        protected virtual void NotifyBlockStateChanged(IWriteableChangeBlockOperation operation)
+        private protected virtual void NotifyBlockStateChanged(IWriteableChangeBlockOperation operation)
         {
             BlockStateChangedHandler?.Invoke(operation);
         }
 
         /// <summary></summary>
-        protected virtual void NotifyStateMoved(IWriteableMoveNodeOperation operation)
+        private protected virtual void NotifyStateMoved(IWriteableMoveNodeOperation operation)
         {
             StateMovedHandler?.Invoke(operation);
         }
 
         /// <summary></summary>
-        protected virtual void NotifyBlockStateMoved(IWriteableMoveBlockOperation operation)
+        private protected virtual void NotifyBlockStateMoved(IWriteableMoveBlockOperation operation)
         {
             BlockStateMovedHandler?.Invoke(operation);
         }
 
         /// <summary></summary>
-        protected virtual void NotifyBlockSplit(IWriteableSplitBlockOperation operation)
+        private protected virtual void NotifyBlockSplit(IWriteableSplitBlockOperation operation)
         {
             BlockSplitHandler?.Invoke(operation);
         }
 
         /// <summary></summary>
-        protected virtual void NotifyBlocksMerged(IWriteableMergeBlocksOperation operation)
+        private protected virtual void NotifyBlocksMerged(IWriteableMergeBlocksOperation operation)
         {
             BlocksMergedHandler?.Invoke(operation);
         }
 
         /// <summary></summary>
-        protected virtual void NotifyArgumentExpanded(IWriteableExpandArgumentOperation operation)
+        private protected virtual void NotifyArgumentExpanded(IWriteableExpandArgumentOperation operation)
         {
             ArgumentExpandedHandler?.Invoke(operation);
         }
 
         /// <summary></summary>
-        protected virtual void NotifyGenericRefresh(IWriteableGenericRefreshOperation operation)
+        private protected virtual void NotifyGenericRefresh(IWriteableGenericRefreshOperation operation)
         {
             GenericRefreshHandler?.Invoke(operation);
         }
 
         /// <summary></summary>
-        protected virtual void SetLastOperation(IWriteableOperation operation)
+        private protected virtual void SetLastOperation(IWriteableOperation operation)
         {
             IWriteableOperationList OperationList = CreateOperationList();
             OperationList.Add(operation);
@@ -2460,7 +2460,7 @@
         }
 
         /// <summary></summary>
-        protected virtual void SetLastOperation(IWriteableOperationGroup operationGroup)
+        private protected virtual void SetLastOperation(IWriteableOperationGroup operationGroup)
         {
             Debug.Assert(RedoIndex >= 0 && RedoIndex <= _OperationStack.Count);
 
@@ -2478,7 +2478,7 @@
 
         #region Invariant
         /// <summary></summary>
-        protected override void CheckInvariant()
+        private protected override void CheckInvariant()
         {
             base.CheckInvariant();
 
@@ -2487,7 +2487,7 @@
         }
 
         /// <summary></summary>
-        protected virtual bool IsNodeTreeValid(INode node)
+        private protected virtual bool IsNodeTreeValid(INode node)
         {
             Type ChildNodeType;
             IList<string> PropertyNames = NodeTreeHelper.EnumChildNodeProperties(node);
@@ -2520,7 +2520,7 @@
         }
 
         /// <summary></summary>
-        protected virtual bool IsNodeTreeChildNodeValid(INode node, string propertyName)
+        private protected virtual bool IsNodeTreeChildNodeValid(INode node, string propertyName)
         {
             NodeTreeHelperChild.GetChildNode(node, propertyName, out INode ChildNode);
             Debug.Assert(ChildNode != null);
@@ -2532,7 +2532,7 @@
         }
 
         /// <summary></summary>
-        protected virtual bool IsNodeTreeOptionalNodeValid(INode node, string propertyName)
+        private protected virtual bool IsNodeTreeOptionalNodeValid(INode node, string propertyName)
         {
             NodeTreeHelperOptional.GetChildNode(node, propertyName, out bool IsAssigned, out INode ChildNode);
             if (IsAssigned)
@@ -2543,7 +2543,7 @@
         }
 
         /// <summary></summary>
-        protected virtual bool IsNodeTreeListValid(INode node, string propertyName)
+        private protected virtual bool IsNodeTreeListValid(INode node, string propertyName)
         {
             NodeTreeHelperList.GetChildNodeList(node, propertyName, out IReadOnlyList<INode> ChildNodeList);
             Debug.Assert(ChildNodeList != null);
@@ -2565,7 +2565,7 @@
         }
 
         /// <summary></summary>
-        protected virtual bool IsNodeTreeBlockListValid(INode node, string propertyName)
+        private protected virtual bool IsNodeTreeBlockListValid(INode node, string propertyName)
         {
             NodeTreeHelperBlockList.GetChildBlockList(node, propertyName, out IReadOnlyList<INodeTreeBlock> ChildBlockList);
             Debug.Assert(ChildBlockList != null);
@@ -2591,7 +2591,7 @@
         }
 
         /// <summary></summary>
-        protected virtual bool IsEmptyListValid(INode node, string propertyName)
+        private protected virtual bool IsEmptyListValid(INode node, string propertyName)
         {
             Type NodeType = node.GetType();
             Debug.Assert(NodeTreeHelperList.IsNodeListProperty(NodeType, propertyName, out Type ChildNodeType));
@@ -2609,7 +2609,7 @@
         }
 
         /// <summary></summary>
-        protected virtual bool IsEmptyBlockListValid(INode node, string propertyName)
+        private protected virtual bool IsEmptyBlockListValid(INode node, string propertyName)
         {
             Type NodeType = node.GetType();
             Debug.Assert(NodeTreeHelperBlockList.IsBlockListProperty(NodeType, propertyName, out Type ChildInterfaceType, out Type ChildNodeType));
@@ -2627,7 +2627,7 @@
         }
 
         /// <summary></summary>
-        protected bool InvariantFailed()
+        private protected bool InvariantFailed()
         {
             Debug.Fail("Invariant");
             return false;
@@ -2638,7 +2638,7 @@
         /// <summary>
         /// Creates a IxxxIndexNodeStateDictionary object.
         /// </summary>
-        protected override IReadOnlyIndexNodeStateDictionary CreateStateTable()
+        private protected override IReadOnlyIndexNodeStateDictionary CreateStateTable()
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableController));
             return new WriteableIndexNodeStateDictionary();
@@ -2647,7 +2647,7 @@
         /// <summary>
         /// Creates a IxxxIndexNodeStateReadOnlyDictionary object.
         /// </summary>
-        protected override IReadOnlyIndexNodeStateReadOnlyDictionary CreateStateTableReadOnly(IReadOnlyIndexNodeStateDictionary stateTable)
+        private protected override IReadOnlyIndexNodeStateReadOnlyDictionary CreateStateTableReadOnly(IReadOnlyIndexNodeStateDictionary stateTable)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableController));
             return new WriteableIndexNodeStateReadOnlyDictionary((IWriteableIndexNodeStateDictionary)stateTable);
@@ -2656,7 +2656,7 @@
         /// <summary>
         /// Creates a IxxxInnerDictionary{string} object.
         /// </summary>
-        protected override IReadOnlyInnerDictionary<string> CreateInnerTable()
+        private protected override IReadOnlyInnerDictionary<string> CreateInnerTable()
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableController));
             return new WriteableInnerDictionary<string>();
@@ -2665,7 +2665,7 @@
         /// <summary>
         /// Creates a IxxxInnerReadOnlyDictionary{string} object.
         /// </summary>
-        protected override IReadOnlyInnerReadOnlyDictionary<string> CreateInnerTableReadOnly(IReadOnlyInnerDictionary<string> innerTable)
+        private protected override IReadOnlyInnerReadOnlyDictionary<string> CreateInnerTableReadOnly(IReadOnlyInnerDictionary<string> innerTable)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableController));
             return new WriteableInnerReadOnlyDictionary<string>((IWriteableInnerDictionary<string>)innerTable);
@@ -2674,7 +2674,7 @@
         /// <summary>
         /// Creates a IxxxIndexNodeStateDictionary object.
         /// </summary>
-        protected override IReadOnlyIndexNodeStateDictionary CreateChildStateTable()
+        private protected override IReadOnlyIndexNodeStateDictionary CreateChildStateTable()
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableController));
             return new WriteableIndexNodeStateDictionary();
@@ -2683,7 +2683,7 @@
         /// <summary>
         /// Creates a IxxxxBrowseContext object.
         /// </summary>
-        protected override IReadOnlyBrowseContext CreateBrowseContext(IReadOnlyBrowseContext parentBrowseContext, IReadOnlyNodeState state)
+        private protected override IReadOnlyBrowseContext CreateBrowseContext(IReadOnlyBrowseContext parentBrowseContext, IReadOnlyNodeState state)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableController));
             return new WriteableBrowseContext((IWriteableNodeState)state);
@@ -2692,7 +2692,7 @@
         /// <summary>
         /// Creates a IxxxPlaceholderInner{IxxxBrowsingPlaceholderNodeIndex} object.
         /// </summary>
-        protected override IReadOnlyPlaceholderInner<IReadOnlyBrowsingPlaceholderNodeIndex> CreatePlaceholderInner(IReadOnlyNodeState owner, IReadOnlyIndexCollection<IReadOnlyBrowsingPlaceholderNodeIndex> nodeIndexCollection)
+        private protected override IReadOnlyPlaceholderInner<IReadOnlyBrowsingPlaceholderNodeIndex> CreatePlaceholderInner(IReadOnlyNodeState owner, IReadOnlyIndexCollection<IReadOnlyBrowsingPlaceholderNodeIndex> nodeIndexCollection)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableController));
             return new WriteablePlaceholderInner<IWriteableBrowsingPlaceholderNodeIndex, WriteableBrowsingPlaceholderNodeIndex>((IWriteableNodeState)owner, nodeIndexCollection.PropertyName);
@@ -2701,7 +2701,7 @@
         /// <summary>
         /// Creates a IxxxOptionalInner{IxxxBrowsingOptionalNodeIndex} object.
         /// </summary>
-        protected override IReadOnlyOptionalInner<IReadOnlyBrowsingOptionalNodeIndex> CreateOptionalInner(IReadOnlyNodeState owner, IReadOnlyIndexCollection<IReadOnlyBrowsingOptionalNodeIndex> nodeIndexCollection)
+        private protected override IReadOnlyOptionalInner<IReadOnlyBrowsingOptionalNodeIndex> CreateOptionalInner(IReadOnlyNodeState owner, IReadOnlyIndexCollection<IReadOnlyBrowsingOptionalNodeIndex> nodeIndexCollection)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableController));
             return new WriteableOptionalInner<IWriteableBrowsingOptionalNodeIndex, WriteableBrowsingOptionalNodeIndex>((IWriteableNodeState)owner, nodeIndexCollection.PropertyName);
@@ -2710,7 +2710,7 @@
         /// <summary>
         /// Creates a IxxxListInner{IxxxBrowsingListNodeIndex} object.
         /// </summary>
-        protected override IReadOnlyListInner<IReadOnlyBrowsingListNodeIndex> CreateListInner(IReadOnlyNodeState owner, IReadOnlyIndexCollection<IReadOnlyBrowsingListNodeIndex> nodeIndexCollection)
+        private protected override IReadOnlyListInner<IReadOnlyBrowsingListNodeIndex> CreateListInner(IReadOnlyNodeState owner, IReadOnlyIndexCollection<IReadOnlyBrowsingListNodeIndex> nodeIndexCollection)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableController));
             return new WriteableListInner<IWriteableBrowsingListNodeIndex, WriteableBrowsingListNodeIndex>((IWriteableNodeState)owner, nodeIndexCollection.PropertyName);
@@ -2719,7 +2719,7 @@
         /// <summary>
         /// Creates a IxxxBlockListInner{IxxxBrowsingBlockNodeIndex} object.
         /// </summary>
-        protected override IReadOnlyBlockListInner<IReadOnlyBrowsingBlockNodeIndex> CreateBlockListInner(IReadOnlyNodeState owner, IReadOnlyIndexCollection<IReadOnlyBrowsingBlockNodeIndex> nodeIndexCollection)
+        private protected override IReadOnlyBlockListInner<IReadOnlyBrowsingBlockNodeIndex> CreateBlockListInner(IReadOnlyNodeState owner, IReadOnlyIndexCollection<IReadOnlyBrowsingBlockNodeIndex> nodeIndexCollection)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableController));
             return new WriteableBlockListInner<IWriteableBrowsingBlockNodeIndex, WriteableBrowsingBlockNodeIndex>((IWriteableNodeState)owner, nodeIndexCollection.PropertyName);
@@ -2728,7 +2728,7 @@
         /// <summary>
         /// Creates a IxxxPlaceholderNodeState object.
         /// </summary>
-        protected override IReadOnlyPlaceholderNodeState CreateRootNodeState(IReadOnlyRootNodeIndex nodeIndex)
+        private protected override IReadOnlyPlaceholderNodeState CreateRootNodeState(IReadOnlyRootNodeIndex nodeIndex)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableController));
             return new WriteablePlaceholderNodeState((IWriteableRootNodeIndex)nodeIndex);
@@ -2737,7 +2737,7 @@
         /// <summary>
         /// Creates a IxxxWriteableInsertionOptionalNodeIndex object.
         /// </summary>
-        protected virtual IWriteableInsertionOptionalNodeIndex CreateNewOptionalNodeIndex(INode parentNode, string propertyName, INode node)
+        private protected virtual IWriteableInsertionOptionalNodeIndex CreateNewOptionalNodeIndex(INode parentNode, string propertyName, INode node)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableController));
             return new WriteableInsertionOptionalNodeIndex(parentNode, propertyName, node);
@@ -2746,7 +2746,7 @@
         /// <summary>
         /// Creates a IxxxInsertNodeOperation object.
         /// </summary>
-        protected virtual IWriteableInsertNodeOperation CreateInsertNodeOperation(INode parentNode, string propertyName, int blockIndex, int index, INode node, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        private protected virtual IWriteableInsertNodeOperation CreateInsertNodeOperation(INode parentNode, string propertyName, int blockIndex, int index, INode node, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableController));
             return new WriteableInsertNodeOperation(parentNode, propertyName, blockIndex, index, node, handlerRedo, handlerUndo, isNested);
@@ -2755,7 +2755,7 @@
         /// <summary>
         /// Creates a IxxxInsertBlockOperation object.
         /// </summary>
-        protected virtual IWriteableInsertBlockOperation CreateInsertBlockOperation(INode parentNode, string propertyName, int blockIndex, IBlock block, INode node, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        private protected virtual IWriteableInsertBlockOperation CreateInsertBlockOperation(INode parentNode, string propertyName, int blockIndex, IBlock block, INode node, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableController));
             return new WriteableInsertBlockOperation(parentNode, propertyName, blockIndex, block, node, handlerRedo, handlerUndo, isNested);
@@ -2764,7 +2764,7 @@
         /// <summary>
         /// Creates a IxxxRemoveBlockOperation object.
         /// </summary>
-        protected virtual IWriteableRemoveBlockOperation CreateRemoveBlockOperation(INode parentNode, string propertyName, int blockIndex, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        private protected virtual IWriteableRemoveBlockOperation CreateRemoveBlockOperation(INode parentNode, string propertyName, int blockIndex, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableController));
             return new WriteableRemoveBlockOperation(parentNode, propertyName, blockIndex, handlerRedo, handlerUndo, isNested);
@@ -2773,7 +2773,7 @@
         /// <summary>
         /// Creates a IxxxRemoveBlockViewOperation object.
         /// </summary>
-        protected virtual IWriteableRemoveBlockViewOperation CreateRemoveBlockViewOperation(INode parentNode, string propertyName, int blockIndex, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        private protected virtual IWriteableRemoveBlockViewOperation CreateRemoveBlockViewOperation(INode parentNode, string propertyName, int blockIndex, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableController));
             return new WriteableRemoveBlockViewOperation(parentNode, propertyName, blockIndex, handlerRedo, handlerUndo, isNested);
@@ -2782,7 +2782,7 @@
         /// <summary>
         /// Creates a IxxxRemoveNodeOperation object.
         /// </summary>
-        protected virtual IWriteableRemoveNodeOperation CreateRemoveNodeOperation(INode parentNode, string propertyName, int blockIndex, int index, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        private protected virtual IWriteableRemoveNodeOperation CreateRemoveNodeOperation(INode parentNode, string propertyName, int blockIndex, int index, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableController));
             return new WriteableRemoveNodeOperation(parentNode, propertyName, blockIndex, index, handlerRedo, handlerUndo, isNested);
@@ -2791,7 +2791,7 @@
         /// <summary>
         /// Creates a IxxxReplaceOperation object.
         /// </summary>
-        protected virtual IWriteableReplaceOperation CreateReplaceOperation(INode parentNode, string propertyName, int blockIndex, int index, INode newNode, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        private protected virtual IWriteableReplaceOperation CreateReplaceOperation(INode parentNode, string propertyName, int blockIndex, int index, INode newNode, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableController));
             return new WriteableReplaceOperation(parentNode, propertyName, blockIndex, index, newNode, handlerRedo, handlerUndo, isNested);
@@ -2800,7 +2800,7 @@
         /// <summary>
         /// Creates a IxxxAssignmentOperation object.
         /// </summary>
-        protected virtual IWriteableAssignmentOperation CreateAssignmentOperation(INode parentNode, string propertyName, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        private protected virtual IWriteableAssignmentOperation CreateAssignmentOperation(INode parentNode, string propertyName, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableController));
             return new WriteableAssignmentOperation(parentNode, propertyName, handlerRedo, handlerUndo, isNested);
@@ -2809,7 +2809,7 @@
         /// <summary>
         /// Creates a IxxxChangeNodeOperation object.
         /// </summary>
-        protected virtual IWriteableChangeNodeOperation CreateChangeNodeOperation(INode parentNode, string propertyName, int value, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        private protected virtual IWriteableChangeNodeOperation CreateChangeNodeOperation(INode parentNode, string propertyName, int value, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableController));
             return new WriteableChangeNodeOperation(parentNode, propertyName, value, handlerRedo, handlerUndo, isNested);
@@ -2818,7 +2818,7 @@
         /// <summary>
         /// Creates a IxxxChangeBlockOperation object.
         /// </summary>
-        protected virtual IWriteableChangeBlockOperation CreateChangeBlockOperation(INode parentNode, string propertyName, int blockIndex, ReplicationStatus replication, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        private protected virtual IWriteableChangeBlockOperation CreateChangeBlockOperation(INode parentNode, string propertyName, int blockIndex, ReplicationStatus replication, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableController));
             return new WriteableChangeBlockOperation(parentNode, propertyName, blockIndex, replication, handlerRedo, handlerUndo, isNested);
@@ -2827,7 +2827,7 @@
         /// <summary>
         /// Creates a IxxxSplitBlockOperation object.
         /// </summary>
-        protected virtual IWriteableSplitBlockOperation CreateSplitBlockOperation(INode parentNode, string propertyName, int blockIndex, int index, IBlock newBlock, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        private protected virtual IWriteableSplitBlockOperation CreateSplitBlockOperation(INode parentNode, string propertyName, int blockIndex, int index, IBlock newBlock, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableController));
             return new WriteableSplitBlockOperation(parentNode, propertyName, blockIndex, index, newBlock, handlerRedo, handlerUndo, isNested);
@@ -2836,7 +2836,7 @@
         /// <summary>
         /// Creates a IxxxxMergeBlocksOperation object.
         /// </summary>
-        protected virtual IWriteableMergeBlocksOperation CreateMergeBlocksOperation(INode parentNode, string propertyName, int blockIndex, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        private protected virtual IWriteableMergeBlocksOperation CreateMergeBlocksOperation(INode parentNode, string propertyName, int blockIndex, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableController));
             return new WriteableMergeBlocksOperation(parentNode, propertyName, blockIndex, handlerRedo, handlerUndo, isNested);
@@ -2845,7 +2845,7 @@
         /// <summary>
         /// Creates a IxxxxMoveNodeOperation object.
         /// </summary>
-        protected virtual IWriteableMoveNodeOperation CreateMoveNodeOperation(INode parentNode, string propertyName, int blockIndex, int index, int direction, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        private protected virtual IWriteableMoveNodeOperation CreateMoveNodeOperation(INode parentNode, string propertyName, int blockIndex, int index, int direction, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableController));
             return new WriteableMoveNodeOperation(parentNode, propertyName, blockIndex, index, direction, handlerRedo, handlerUndo, isNested);
@@ -2854,7 +2854,7 @@
         /// <summary>
         /// Creates a IxxxxMoveBlockOperation object.
         /// </summary>
-        protected virtual IWriteableMoveBlockOperation CreateMoveBlockOperation(INode parentNode, string propertyName, int blockIndex, int direction, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        private protected virtual IWriteableMoveBlockOperation CreateMoveBlockOperation(INode parentNode, string propertyName, int blockIndex, int direction, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableController));
             return new WriteableMoveBlockOperation(parentNode, propertyName, blockIndex, direction, handlerRedo, handlerUndo, isNested);
@@ -2863,7 +2863,7 @@
         /// <summary>
         /// Creates a IxxxExpandArgumentOperation object.
         /// </summary>
-        protected virtual IWriteableExpandArgumentOperation CreateExpandArgumentOperation(INode parentNode, string propertyName, IBlock block, IArgument argument, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        private protected virtual IWriteableExpandArgumentOperation CreateExpandArgumentOperation(INode parentNode, string propertyName, IBlock block, IArgument argument, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableController));
             return new WriteableExpandArgumentOperation(parentNode, propertyName, block, argument, handlerRedo, handlerUndo, isNested);
@@ -2872,7 +2872,7 @@
         /// <summary>
         /// Creates a IxxxGenericRefreshOperation object.
         /// </summary>
-        protected virtual IWriteableGenericRefreshOperation CreateGenericRefreshOperation(IWriteableNodeState refreshState, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        private protected virtual IWriteableGenericRefreshOperation CreateGenericRefreshOperation(IWriteableNodeState refreshState, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableController));
             return new WriteableGenericRefreshOperation(refreshState, handlerRedo, handlerUndo, isNested);
@@ -2881,7 +2881,7 @@
         /// <summary>
         /// Creates a IxxxOperationGroupList object.
         /// </summary>
-        protected virtual IWriteableOperationGroupList CreateOperationGroupStack()
+        private protected virtual IWriteableOperationGroupList CreateOperationGroupStack()
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableController));
             return new WriteableOperationGroupList();
@@ -2890,7 +2890,7 @@
         /// <summary>
         /// Creates a IxxxOperationGroupReadOnlyList object.
         /// </summary>
-        protected virtual IWriteableOperationGroupReadOnlyList CreateOperationGroupReadOnlyStack(IWriteableOperationGroupList list)
+        private protected virtual IWriteableOperationGroupReadOnlyList CreateOperationGroupReadOnlyStack(IWriteableOperationGroupList list)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableController));
             return new WriteableOperationGroupReadOnlyList(list);
@@ -2899,7 +2899,7 @@
         /// <summary>
         /// Creates a IxxxOperationList object.
         /// </summary>
-        protected virtual IWriteableOperationList CreateOperationList()
+        private protected virtual IWriteableOperationList CreateOperationList()
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableController));
             return new WriteableOperationList();
@@ -2908,7 +2908,7 @@
         /// <summary>
         /// Creates a IxxxOperationReadOnlyList object.
         /// </summary>
-        protected virtual IWriteableOperationReadOnlyList CreateOperationReadOnlyList(IWriteableOperationList list)
+        private protected virtual IWriteableOperationReadOnlyList CreateOperationReadOnlyList(IWriteableOperationList list)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableController));
             return new WriteableOperationReadOnlyList(list);
@@ -2917,7 +2917,7 @@
         /// <summary>
         /// Creates a IxxxOperationGroup object.
         /// </summary>
-        protected virtual IWriteableOperationGroup CreateOperationGroup(IWriteableOperationReadOnlyList operationList, IWriteableGenericRefreshOperation refresh)
+        private protected virtual IWriteableOperationGroup CreateOperationGroup(IWriteableOperationReadOnlyList operationList, IWriteableGenericRefreshOperation refresh)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableController));
             return new WriteableOperationGroup(operationList, refresh);

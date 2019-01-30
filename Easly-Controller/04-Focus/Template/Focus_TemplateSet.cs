@@ -33,7 +33,7 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="FocusTemplateSet"/> class.
         /// </summary>
-        protected FocusTemplateSet()
+        private protected FocusTemplateSet()
         {
         }
 
@@ -62,7 +62,7 @@
 
         #region Helper
         /// <summary></summary>
-        protected override IFrameFrame GetRoot()
+        private protected override IFrameFrame GetRoot()
         {
             return FocusFrame.FocusRoot;
         }
@@ -72,7 +72,7 @@
         /// <summary>
         /// Creates a IxxxTemplateDictionary object.
         /// </summary>
-        protected override IFrameTemplateDictionary CreateEmptyTemplateDictionary()
+        private protected override IFrameTemplateDictionary CreateEmptyTemplateDictionary()
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusTemplateSet));
             return new FocusTemplateDictionary();
@@ -81,7 +81,7 @@
         /// <summary>
         /// Creates a IxxxTemplateDictionary object.
         /// </summary>
-        protected override IFrameTemplateDictionary CreateDefaultTemplateDictionary()
+        private protected override IFrameTemplateDictionary CreateDefaultTemplateDictionary()
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusTemplateSet));
             return new FocusTemplateDictionary(NodeHelper.CreateNodeDictionary<IFocusTemplate>());
@@ -90,7 +90,7 @@
         /// <summary>
         /// Creates a IxxxTemplateReadOnlyDictionary object.
         /// </summary>
-        protected override IFrameTemplateReadOnlyDictionary CreateTemplateReadOnlyDictionary(IFrameTemplateDictionary dictionary)
+        private protected override IFrameTemplateReadOnlyDictionary CreateTemplateReadOnlyDictionary(IFrameTemplateDictionary dictionary)
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusTemplateSet));
             return new FocusTemplateReadOnlyDictionary((IFocusTemplateDictionary)dictionary);
@@ -99,7 +99,7 @@
         /// <summary>
         /// Creates a IxxxHorizontalPanelFrame object.
         /// </summary>
-        protected override IFrameHorizontalPanelFrame CreateHorizontalPanelFrame()
+        private protected override IFrameHorizontalPanelFrame CreateHorizontalPanelFrame()
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusTemplateSet));
             return new FocusHorizontalPanelFrame();
@@ -108,7 +108,7 @@
         /// <summary>
         /// Creates a IxxxHorizontalCollectionPlaceholderFrame object.
         /// </summary>
-        protected override IFrameHorizontalCollectionPlaceholderFrame CreateHorizontalCollectionPlaceholderFrame()
+        private protected override IFrameHorizontalCollectionPlaceholderFrame CreateHorizontalCollectionPlaceholderFrame()
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusTemplateSet));
             return new FocusHorizontalCollectionPlaceholderFrame();
@@ -117,7 +117,7 @@
         /// <summary>
         /// Creates a IxxxPlaceholderFrame object.
         /// </summary>
-        protected override IFramePlaceholderFrame CreatePlaceholderFrame()
+        private protected override IFramePlaceholderFrame CreatePlaceholderFrame()
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusTemplateSet));
             return new FocusPlaceholderFrame();
@@ -126,7 +126,7 @@
         /// <summary>
         /// Creates a IxxxOptionalFrame object.
         /// </summary>
-        protected override IFrameOptionalFrame CreateOptionalFrame()
+        private protected override IFrameOptionalFrame CreateOptionalFrame()
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusTemplateSet));
             return new FocusOptionalFrame();
@@ -135,7 +135,7 @@
         /// <summary>
         /// Creates a IxxxHorizontalListFrame object.
         /// </summary>
-        protected override IFrameHorizontalListFrame CreateHorizontalListFrame()
+        private protected override IFrameHorizontalListFrame CreateHorizontalListFrame()
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusTemplateSet));
             return new FocusHorizontalListFrame();
@@ -144,7 +144,7 @@
         /// <summary>
         /// Creates a IxxxHorizontalBlockListFrame object.
         /// </summary>
-        protected override IFrameHorizontalBlockListFrame CreateHorizontalBlockListFrame()
+        private protected override IFrameHorizontalBlockListFrame CreateHorizontalBlockListFrame()
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusTemplateSet));
             return new FocusHorizontalBlockListFrame();
@@ -153,7 +153,7 @@
         /// <summary>
         /// Creates a IxxxDiscreteFrame object.
         /// </summary>
-        protected override IFrameDiscreteFrame CreateDiscreteFrame()
+        private protected override IFrameDiscreteFrame CreateDiscreteFrame()
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusTemplateSet));
             return new FocusDiscreteFrame();
@@ -162,7 +162,7 @@
         /// <summary>
         /// Creates a IxxxKeywordFrame object.
         /// </summary>
-        protected override IFrameKeywordFrame CreateKeywordFrame()
+        private protected override IFrameKeywordFrame CreateKeywordFrame()
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusTemplateSet));
             return new FocusKeywordFrame();
@@ -171,7 +171,7 @@
         /// <summary>
         /// Creates a IxxxTextValueFrame object.
         /// </summary>
-        protected override IFrameTextValueFrame CreateTextValueFrame()
+        private protected override IFrameTextValueFrame CreateTextValueFrame()
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusTemplateSet));
             return new FocusTextValueFrame();
@@ -180,7 +180,7 @@
         /// <summary>
         /// Creates a IxxxTemplate object.
         /// </summary>
-        protected override IFrameNodeTemplate CreateNodeTemplate()
+        private protected override IFrameNodeTemplate CreateNodeTemplate()
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusTemplateSet));
             return new FocusNodeTemplate();
@@ -189,7 +189,7 @@
         /// <summary>
         /// Creates a IxxxTemplate object.
         /// </summary>
-        protected override IFrameBlockTemplate CreateBlockTemplate()
+        private protected override IFrameBlockTemplate CreateBlockTemplate()
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusTemplateSet));
             return new FocusBlockTemplate();
@@ -198,7 +198,7 @@
         /// <summary>
         /// Creates a IxxxTemplateSet object.
         /// </summary>
-        protected override IFrameTemplateSet CreateDefaultTemplateSet(IFrameTemplateReadOnlyDictionary nodeTemplateTable, IFrameTemplateReadOnlyDictionary blockTemplateTable)
+        private protected override IFrameTemplateSet CreateDefaultTemplateSet(IFrameTemplateReadOnlyDictionary nodeTemplateTable, IFrameTemplateReadOnlyDictionary blockTemplateTable)
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusTemplateSet));
             return new FocusTemplateSet((IFocusTemplateReadOnlyDictionary)nodeTemplateTable, (IFocusTemplateReadOnlyDictionary)blockTemplateTable);

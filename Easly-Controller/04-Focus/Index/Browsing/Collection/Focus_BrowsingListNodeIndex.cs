@@ -15,7 +15,7 @@
     /// <summary>
     /// Index for a node in a list of nodes.
     /// </summary>
-    public class FocusBrowsingListNodeIndex : FrameBrowsingListNodeIndex, IFocusBrowsingListNodeIndex
+    internal class FocusBrowsingListNodeIndex : FrameBrowsingListNodeIndex, IFocusBrowsingListNodeIndex
     {
         #region Init
         /// <summary>
@@ -55,7 +55,7 @@
         /// <summary>
         /// Creates a IxxxInsertionListNodeIndex object.
         /// </summary>
-        protected override IWriteableInsertionListNodeIndex CreateInsertionIndex(INode parentNode, INode node)
+        private protected override IWriteableInsertionListNodeIndex CreateInsertionIndex(INode parentNode, INode node)
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusBrowsingListNodeIndex));
             return new FocusInsertionListNodeIndex(parentNode, PropertyName, node, Index);

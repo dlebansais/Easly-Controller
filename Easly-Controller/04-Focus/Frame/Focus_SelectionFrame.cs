@@ -40,7 +40,7 @@
         public IFocusSelectableFrameList Items { get; }
 
         /// <summary></summary>
-        protected virtual bool IsParentRoot { get { return ParentFrame == FocusRoot; } }
+        private protected virtual bool IsParentRoot { get { return ParentFrame == FocusRoot; } }
         #endregion
 
         #region Client Interface
@@ -134,7 +134,7 @@
         /// <summary>
         /// Creates a IxxxSelectableFrameList object.
         /// </summary>
-        protected virtual IFocusSelectableFrameList CreateSelectableFrameList()
+        private protected virtual IFocusSelectableFrameList CreateSelectableFrameList()
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusSelectionFrame));
             return new FocusSelectableFrameList();

@@ -54,7 +54,7 @@
         /// <summary>
         /// Creates a IxxxBrowsingListNodeIndex object.
         /// </summary>
-        protected override IWriteableBrowsingListNodeIndex CreateBrowsingIndex()
+        private protected override IWriteableBrowsingListNodeIndex CreateBrowsingIndex()
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameInsertionListNodeIndex));
             return new FrameBrowsingListNodeIndex(ParentNode, Node, PropertyName, Index);

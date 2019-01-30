@@ -13,7 +13,7 @@
     /// <summary>
     /// Base for list and block list index classes.
     /// </summary>
-    public abstract class FrameBrowsingCollectionNodeIndex : WriteableBrowsingCollectionNodeIndex, IFrameBrowsingCollectionNodeIndex
+    internal abstract class FrameBrowsingCollectionNodeIndex : WriteableBrowsingCollectionNodeIndex, IFrameBrowsingCollectionNodeIndex
     {
         #region Init
         /// <summary>

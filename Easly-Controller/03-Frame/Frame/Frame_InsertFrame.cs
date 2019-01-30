@@ -62,7 +62,7 @@
         }
 
         /// <summary></summary>
-        protected virtual void UpdateInterfaceType(Type nodeType)
+        private protected virtual void UpdateInterfaceType(Type nodeType)
         {
             if (InterfaceType != null)
                 return;
@@ -99,7 +99,7 @@
         /// <summary>
         /// Creates a IxxxFocusableCellView object.
         /// </summary>
-        protected override IFrameVisibleCellView CreateFrameCellView(IFrameNodeStateView stateView)
+        private protected override IFrameVisibleCellView CreateFrameCellView(IFrameNodeStateView stateView)
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameInsertFrame));
             return new FrameFocusableCellView(stateView, this);

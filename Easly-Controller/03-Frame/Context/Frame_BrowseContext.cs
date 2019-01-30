@@ -22,7 +22,7 @@
     /// <summary>
     /// Context for browsing child nodes of a parent node.
     /// </summary>
-    public class FrameBrowseContext : WriteableBrowseContext, IFrameBrowseContext
+    internal class FrameBrowseContext : WriteableBrowseContext, IFrameBrowseContext
     {
         #region Init
         /// <summary>
@@ -51,7 +51,7 @@
         /// <summary>
         /// Creates a IxxxCollectionList object.
         /// </summary>
-        protected override IReadOnlyIndexCollectionList CreateIndexCollectionList()
+        private protected override IReadOnlyIndexCollectionList CreateIndexCollectionList()
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameBrowseContext));
             return new FrameIndexCollectionList();
@@ -60,7 +60,7 @@
         /// <summary>
         /// Creates a IxxxIndexCollectionReadOnlyList object.
         /// </summary>
-        protected override IReadOnlyIndexCollectionReadOnlyList CreateIndexCollectionListReadOnly(IReadOnlyIndexCollectionList list)
+        private protected override IReadOnlyIndexCollectionReadOnlyList CreateIndexCollectionListReadOnly(IReadOnlyIndexCollectionList list)
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameBrowseContext));
             return new FrameIndexCollectionReadOnlyList((IFrameIndexCollectionList)list);

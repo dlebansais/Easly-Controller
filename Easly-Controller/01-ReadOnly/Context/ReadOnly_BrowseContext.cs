@@ -44,7 +44,7 @@
     /// <summary>
     /// Context for browsing child nodes of a parent node.
     /// </summary>
-    public class ReadOnlyBrowseContext : IReadOnlyBrowseContext
+    internal class ReadOnlyBrowseContext : IReadOnlyBrowseContext
     {
         #region Init
         /// <summary>
@@ -150,7 +150,7 @@
         /// <summary>
         /// Creates a IxxxCollectionList object.
         /// </summary>
-        protected virtual IReadOnlyIndexCollectionList CreateIndexCollectionList()
+        private protected virtual IReadOnlyIndexCollectionList CreateIndexCollectionList()
         {
             ControllerTools.AssertNoOverride(this, typeof(ReadOnlyBrowseContext));
             return new ReadOnlyIndexCollectionList();
@@ -159,7 +159,7 @@
         /// <summary>
         /// Creates a IxxxIndexCollectionReadOnlyList object.
         /// </summary>
-        protected virtual IReadOnlyIndexCollectionReadOnlyList CreateIndexCollectionListReadOnly(IReadOnlyIndexCollectionList list)
+        private protected virtual IReadOnlyIndexCollectionReadOnlyList CreateIndexCollectionListReadOnly(IReadOnlyIndexCollectionList list)
         {
             ControllerTools.AssertNoOverride(this, typeof(ReadOnlyBrowseContext));
             return new ReadOnlyIndexCollectionReadOnlyList(list);

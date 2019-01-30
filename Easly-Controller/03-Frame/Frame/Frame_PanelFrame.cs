@@ -130,7 +130,7 @@
         }
 
         /// <summary></summary>
-        protected virtual IFrameCellView BuildBlockCellsForPlaceholderFrame(IFrameCellViewTreeContext context, IFramePlaceholderFrame frame, IFrameCellViewCollection embeddingCellView, IFrameBlockState blockState)
+        private protected virtual IFrameCellView BuildBlockCellsForPlaceholderFrame(IFrameCellViewTreeContext context, IFramePlaceholderFrame frame, IFrameCellViewCollection embeddingCellView, IFrameBlockState blockState)
         {
             IFrameCellView ItemCellView;
 
@@ -145,7 +145,7 @@
         }
 
         /// <summary></summary>
-        protected virtual IFrameCellView BuildPlaceholderCells(IFrameCellViewTreeContext context, IFrameCellViewCollection parentCellView, IFrameNodeState childState)
+        private protected virtual IFrameCellView BuildPlaceholderCells(IFrameCellViewTreeContext context, IFrameCellViewCollection parentCellView, IFrameNodeState childState)
         {
             IFrameStateViewDictionary StateViewTable = context.ControllerView.StateViewTable;
             Debug.Assert(StateViewTable.ContainsKey(childState));
@@ -167,7 +167,7 @@
         /// <summary>
         /// Creates a IxxxFrameList object.
         /// </summary>
-        protected virtual IFrameFrameList CreateItems()
+        private protected virtual IFrameFrameList CreateItems()
         {
             ControllerTools.AssertNoOverride(this, typeof(FramePanelFrame));
             return new FrameFrameList();
@@ -176,7 +176,7 @@
         /// <summary>
         /// Creates a IxxxCellViewList object.
         /// </summary>
-        protected virtual IFrameCellViewList CreateCellViewList()
+        private protected virtual IFrameCellViewList CreateCellViewList()
         {
             ControllerTools.AssertNoOverride(this, typeof(FramePanelFrame));
             return new FrameCellViewList();
@@ -185,7 +185,7 @@
         /// <summary>
         /// Creates a IxxxContainerCellView object.
         /// </summary>
-        protected virtual IFrameContainerCellView CreateFrameCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, IFrameNodeStateView childStateView)
+        private protected virtual IFrameContainerCellView CreateFrameCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, IFrameNodeStateView childStateView)
         {
             ControllerTools.AssertNoOverride(this, typeof(FramePanelFrame));
             return new FrameContainerCellView(stateView, parentCellView, childStateView);
@@ -194,7 +194,7 @@
         /// <summary>
         /// Creates a IxxxCellViewCollection object.
         /// </summary>
-        protected abstract IFrameCellViewCollection CreateEmbeddingCellView(IFrameNodeStateView stateView, IFrameCellViewList list);
+        private protected abstract IFrameCellViewCollection CreateEmbeddingCellView(IFrameNodeStateView stateView, IFrameCellViewList list);
         #endregion
     }
 }

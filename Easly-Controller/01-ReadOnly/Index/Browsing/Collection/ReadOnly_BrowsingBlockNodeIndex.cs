@@ -17,7 +17,7 @@
     /// <summary>
     /// Base for block list index classes.
     /// </summary>
-    public abstract class ReadOnlyBrowsingBlockNodeIndex : ReadOnlyBrowsingCollectionNodeIndex, IReadOnlyBrowsingBlockNodeIndex
+    internal abstract class ReadOnlyBrowsingBlockNodeIndex : ReadOnlyBrowsingCollectionNodeIndex, IReadOnlyBrowsingBlockNodeIndex
     {
         #region Init
         /// <summary>
@@ -39,7 +39,7 @@
         /// <summary>
         /// Position of the block in the block list.
         /// </summary>
-        public virtual int BlockIndex { get; protected set; }
+        public virtual int BlockIndex { get; private protected set; }
         #endregion
 
         #region Debugging

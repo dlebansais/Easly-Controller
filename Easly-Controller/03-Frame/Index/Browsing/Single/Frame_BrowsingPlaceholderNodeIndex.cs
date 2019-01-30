@@ -14,7 +14,7 @@
     /// <summary>
     /// Index for a node.
     /// </summary>
-    public class FrameBrowsingPlaceholderNodeIndex : WriteableBrowsingPlaceholderNodeIndex, IFrameBrowsingPlaceholderNodeIndex
+    internal class FrameBrowsingPlaceholderNodeIndex : WriteableBrowsingPlaceholderNodeIndex, IFrameBrowsingPlaceholderNodeIndex
     {
         #region Init
         /// <summary>
@@ -53,7 +53,7 @@
         /// <summary>
         /// Creates a IxxxInsertionPlaceholderNodeIndex object.
         /// </summary>
-        protected override IWriteableInsertionPlaceholderNodeIndex CreateInsertionIndex(INode parentNode, INode node)
+        private protected override IWriteableInsertionPlaceholderNodeIndex CreateInsertionIndex(INode parentNode, INode node)
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameBrowsingPlaceholderNodeIndex));
             return new FrameInsertionPlaceholderNodeIndex(parentNode, PropertyName, node);

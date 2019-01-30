@@ -107,7 +107,7 @@
         }
 
         /// <summary></summary>
-        protected virtual void InitCellViewTable()
+        private protected virtual void InitCellViewTable()
         {
             _CellViewTable = CreateCellViewTable();
             foreach (KeyValuePair<string, IFrameInner<IFrameBrowsingChildIndex>> Entry in State.InnerTable)
@@ -115,7 +115,7 @@
         }
 
         /// <summary></summary>
-        protected virtual void SetRootCellView(IFrameCellView cellView)
+        private protected virtual void SetRootCellView(IFrameCellView cellView)
         {
             Debug.Assert(cellView != null);
             Debug.Assert(RootCellView == null);
@@ -124,7 +124,7 @@
         }
 
         /// <summary></summary>
-        protected virtual void SealCellViewTable()
+        private protected virtual void SealCellViewTable()
         {
             CellViewTable = CreateCellViewReadOnlyTable(_CellViewTable);
         }
@@ -261,7 +261,7 @@
         }
 
         /// <summary></summary>
-        protected virtual bool AllCellViewsProperlyAssigned(IFrameAssignableCellViewReadOnlyDictionary<string> expectedCellViewTable, IFrameAssignableCellViewDictionary<string> actualCellViewTable)
+        private protected virtual bool AllCellViewsProperlyAssigned(IFrameAssignableCellViewReadOnlyDictionary<string> expectedCellViewTable, IFrameAssignableCellViewDictionary<string> actualCellViewTable)
         {
             int ActualCount = 0;
             foreach (KeyValuePair<string, IFrameAssignableCellView> Entry in CellViewTable)
@@ -283,7 +283,7 @@
         /// <summary>
         /// Creates a IxxxAssignableCellViewDictionary{string} object.
         /// </summary>
-        protected virtual IFrameAssignableCellViewDictionary<string> CreateCellViewTable()
+        private protected virtual IFrameAssignableCellViewDictionary<string> CreateCellViewTable()
         {
             ControllerTools.AssertNoOverride(this, typeof(FramePlaceholderNodeStateView));
             return new FrameAssignableCellViewDictionary<string>();
@@ -292,7 +292,7 @@
         /// <summary>
         /// Creates a IxxxAssignableCellViewReadOnlyDictionary{string} object.
         /// </summary>
-        protected virtual IFrameAssignableCellViewReadOnlyDictionary<string> CreateCellViewReadOnlyTable(IFrameAssignableCellViewDictionary<string> dictionary)
+        private protected virtual IFrameAssignableCellViewReadOnlyDictionary<string> CreateCellViewReadOnlyTable(IFrameAssignableCellViewDictionary<string> dictionary)
         {
             ControllerTools.AssertNoOverride(this, typeof(FramePlaceholderNodeStateView));
             return new FrameAssignableCellViewReadOnlyDictionary<string>(dictionary);

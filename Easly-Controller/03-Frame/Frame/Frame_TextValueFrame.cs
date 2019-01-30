@@ -48,7 +48,7 @@
         /// <summary>
         /// Creates a IxxxTextFocusableCellView object.
         /// </summary>
-        protected virtual IFrameVisibleCellView CreateFrameCellView(IFrameNodeStateView stateView)
+        private protected virtual IFrameVisibleCellView CreateFrameCellView(IFrameNodeStateView stateView)
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameTextValueFrame));
             return new FrameTextFocusableCellView(stateView, this, PropertyName);

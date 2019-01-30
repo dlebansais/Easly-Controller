@@ -55,7 +55,7 @@
         public bool IsSimple { get; set; }
 
         /// <summary></summary>
-        protected override bool IsRootValid { get { return (Root.ParentFrame == FocusFrame.FocusRoot); } }
+        private protected override bool IsRootValid { get { return (Root.ParentFrame == FocusFrame.FocusRoot); } }
 
         /// <summary>
         /// Checks that a template and all its frames are valid.

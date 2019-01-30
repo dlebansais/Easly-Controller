@@ -31,7 +31,7 @@
     /// </summary>
     /// <typeparam name="IIndex">Type of the index as interface.</typeparam>
     /// <typeparam name="TIndex">Type of the index as class.</typeparam>
-    public abstract class FrameCollectionInner<IIndex, TIndex> : WriteableCollectionInner<IIndex, TIndex>, IFrameCollectionInner<IIndex>, IFrameCollectionInner
+    internal abstract class FrameCollectionInner<IIndex, TIndex> : WriteableCollectionInner<IIndex, TIndex>, IFrameCollectionInner<IIndex>, IFrameCollectionInner
         where IIndex : IFrameBrowsingCollectionNodeIndex
         where TIndex : FrameBrowsingCollectionNodeIndex, IIndex
     {

@@ -129,7 +129,7 @@
     /// </summary>
     /// <typeparam name="IIndex">Type of the index as interface.</typeparam>
     /// <typeparam name="TIndex">Type of the index as class.</typeparam>
-    public class ReadOnlyBlockListInner<IIndex, TIndex> : ReadOnlyCollectionInner<IIndex, TIndex>, IReadOnlyBlockListInner<IIndex>, IReadOnlyBlockListInner
+    internal class ReadOnlyBlockListInner<IIndex, TIndex> : ReadOnlyCollectionInner<IIndex, TIndex>, IReadOnlyBlockListInner<IIndex>, IReadOnlyBlockListInner
         where IIndex : IReadOnlyBrowsingBlockNodeIndex
         where TIndex : ReadOnlyBrowsingBlockNodeIndex, IIndex
     {
@@ -183,7 +183,7 @@
         /// </summary>
         /// <param name="nodeIndex">Index of the node.</param>
         /// <returns>The created node state.</returns>
-        protected virtual IReadOnlyPlaceholderNodeState InitChildState(IReadOnlyBrowsingBlockNodeIndex nodeIndex)
+        private protected virtual IReadOnlyPlaceholderNodeState InitChildState(IReadOnlyBrowsingBlockNodeIndex nodeIndex)
         {
             Debug.Assert(nodeIndex != null);
             Debug.Assert(nodeIndex.PropertyName == PropertyName);
@@ -264,8 +264,8 @@
         }
 #pragma warning disable 1591
         private Action<IReadOnlyBlockState> BlockStateCreatedHandler;
-        protected virtual void AddBlockStateCreatedDelegate(Action<IReadOnlyBlockState> handler) { BlockStateCreatedHandler += handler; }
-        protected virtual void RemoveBlockStateCreatedDelegate(Action<IReadOnlyBlockState> handler) { BlockStateCreatedHandler -= handler; }
+        private protected virtual void AddBlockStateCreatedDelegate(Action<IReadOnlyBlockState> handler) { BlockStateCreatedHandler += handler; }
+        private protected virtual void RemoveBlockStateCreatedDelegate(Action<IReadOnlyBlockState> handler) { BlockStateCreatedHandler -= handler; }
 #pragma warning restore 1591
 
         /// <summary>
@@ -278,8 +278,8 @@
         }
 #pragma warning disable 1591
         private Action<IReadOnlyBlockState> BlockStateRemovedHandler;
-        protected virtual void AddBlockStateRemovedDelegate(Action<IReadOnlyBlockState> handler) { BlockStateRemovedHandler += handler; }
-        protected virtual void RemoveBlockStateRemovedDelegate(Action<IReadOnlyBlockState> handler) { BlockStateRemovedHandler -= handler; }
+        private protected virtual void AddBlockStateRemovedDelegate(Action<IReadOnlyBlockState> handler) { BlockStateRemovedHandler += handler; }
+        private protected virtual void RemoveBlockStateRemovedDelegate(Action<IReadOnlyBlockState> handler) { BlockStateRemovedHandler -= handler; }
 #pragma warning restore 1591
 
         /// <summary>
@@ -392,7 +392,7 @@
 
         #region Descendant Interface
         /// <summary></summary>
-        protected virtual void InsertInBlockStateList(int blockIndex, IReadOnlyBlockState blockState)
+        private protected virtual void InsertInBlockStateList(int blockIndex, IReadOnlyBlockState blockState)
         {
             Debug.Assert(blockIndex >= 0 && blockIndex <= BlockStateList.Count);
             Debug.Assert(blockState != null);
@@ -403,7 +403,7 @@
         }
 
         /// <summary></summary>
-        protected virtual void RemoveFromBlockStateList(int blockIndex)
+        private protected virtual void RemoveFromBlockStateList(int blockIndex)
         {
             Debug.Assert(blockIndex >= 0 && blockIndex < BlockStateList.Count);
 
@@ -413,7 +413,7 @@
         }
 
         /// <summary></summary>
-        protected virtual void MoveInBlockStateList(int blockIndex, int direction)
+        private protected virtual void MoveInBlockStateList(int blockIndex, int direction)
         {
             Debug.Assert(blockIndex >= 0 && blockIndex < BlockStateList.Count);
             Debug.Assert(blockIndex + direction >= 0 && blockIndex + direction < BlockStateList.Count);
@@ -424,7 +424,7 @@
         }
 
         /// <summary></summary>
-        protected virtual void NotifyBlockStateCreated(IReadOnlyBlockState blockState)
+        private protected virtual void NotifyBlockStateCreated(IReadOnlyBlockState blockState)
         {
             BlockStateCreatedHandler?.Invoke(blockState);
         }
@@ -461,7 +461,7 @@
         /// <summary>
         /// Creates a IxxxBlockStateList object.
         /// </summary>
-        protected virtual IReadOnlyBlockStateList CreateBlockStateList()
+        private protected virtual IReadOnlyBlockStateList CreateBlockStateList()
         {
             ControllerTools.AssertNoOverride(this, typeof(ReadOnlyBlockListInner<IIndex, TIndex>));
             return new ReadOnlyBlockStateList();
@@ -470,7 +470,7 @@
         /// <summary>
         /// Creates a IxxxBlockStateReadOnlyList object.
         /// </summary>
-        protected virtual IReadOnlyBlockStateReadOnlyList CreateBlockStateListReadOnly(IReadOnlyBlockStateList blockStateList)
+        private protected virtual IReadOnlyBlockStateReadOnlyList CreateBlockStateListReadOnly(IReadOnlyBlockStateList blockStateList)
         {
             ControllerTools.AssertNoOverride(this, typeof(ReadOnlyBlockListInner<IIndex, TIndex>));
             return new ReadOnlyBlockStateReadOnlyList(blockStateList);
@@ -479,7 +479,7 @@
         /// <summary>
         /// Creates a IxxxBlockState object.
         /// </summary>
-        protected virtual IReadOnlyBlockState CreateBlockState(IReadOnlyBrowsingNewBlockNodeIndex nodeIndex, IBlock childBlock)
+        private protected virtual IReadOnlyBlockState CreateBlockState(IReadOnlyBrowsingNewBlockNodeIndex nodeIndex, IBlock childBlock)
         {
             ControllerTools.AssertNoOverride(this, typeof(ReadOnlyBlockListInner<IIndex, TIndex>));
             return new ReadOnlyBlockState(this, nodeIndex, childBlock);
@@ -488,7 +488,7 @@
         /// <summary>
         /// Creates a IxxxPlaceholderNodeState object.
         /// </summary>
-        protected virtual IReadOnlyPlaceholderNodeState CreateNodeState(IReadOnlyNodeIndex nodeIndex)
+        private protected virtual IReadOnlyPlaceholderNodeState CreateNodeState(IReadOnlyNodeIndex nodeIndex)
         {
             ControllerTools.AssertNoOverride(this, typeof(ReadOnlyBlockListInner<IIndex, TIndex>));
             return new ReadOnlyPlaceholderNodeState(nodeIndex);

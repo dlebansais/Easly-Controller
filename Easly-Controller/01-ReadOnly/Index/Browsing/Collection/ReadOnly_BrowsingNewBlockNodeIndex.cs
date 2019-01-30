@@ -33,7 +33,7 @@
     /// <summary>
     /// Index for the first node in a block.
     /// </summary>
-    public class ReadOnlyBrowsingNewBlockNodeIndex : ReadOnlyBrowsingBlockNodeIndex, IReadOnlyBrowsingNewBlockNodeIndex
+    internal class ReadOnlyBrowsingNewBlockNodeIndex : ReadOnlyBrowsingBlockNodeIndex, IReadOnlyBrowsingNewBlockNodeIndex
     {
         #region Init
         /// <summary>
@@ -124,7 +124,7 @@
         /// <summary>
         /// Creates a IxxxBrowsingExistingBlockNodeIndex object.
         /// </summary>
-        protected virtual IReadOnlyBrowsingExistingBlockNodeIndex CreateExistingBlockIndex()
+        private protected virtual IReadOnlyBrowsingExistingBlockNodeIndex CreateExistingBlockIndex()
         {
             ControllerTools.AssertNoOverride(this, typeof(ReadOnlyBrowsingNewBlockNodeIndex));
             return new ReadOnlyBrowsingExistingBlockNodeIndex(ParentNode, Node, PropertyName, BlockIndex, 0);

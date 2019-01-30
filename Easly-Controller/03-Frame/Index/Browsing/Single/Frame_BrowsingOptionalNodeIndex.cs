@@ -14,7 +14,7 @@
     /// <summary>
     /// Index for an optional node.
     /// </summary>
-    public class FrameBrowsingOptionalNodeIndex : WriteableBrowsingOptionalNodeIndex, IFrameBrowsingOptionalNodeIndex
+    internal class FrameBrowsingOptionalNodeIndex : WriteableBrowsingOptionalNodeIndex, IFrameBrowsingOptionalNodeIndex
     {
         #region Init
         /// <summary>
@@ -52,7 +52,7 @@
         /// <summary>
         /// Creates a IxxxInsertionPlaceholderNodeIndex object.
         /// </summary>
-        protected override IWriteableInsertionOptionalNodeIndex CreateInsertionOptionalNodeIndex(INode parentNode, INode node)
+        private protected override IWriteableInsertionOptionalNodeIndex CreateInsertionOptionalNodeIndex(INode parentNode, INode node)
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameBrowsingOptionalNodeIndex));
             return new FrameInsertionOptionalNodeIndex(parentNode, PropertyName, node);
@@ -61,7 +61,7 @@
         /// <summary>
         /// Creates a IxxxInsertionOptionalClearIndex object.
         /// </summary>
-        protected override IWriteableInsertionOptionalClearIndex CreateInsertionOptionalClearIndex(INode parentNode)
+        private protected override IWriteableInsertionOptionalClearIndex CreateInsertionOptionalClearIndex(INode parentNode)
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameBrowsingOptionalNodeIndex));
             return new FrameInsertionOptionalClearIndex(parentNode, PropertyName);

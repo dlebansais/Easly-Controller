@@ -33,7 +33,7 @@
     /// </summary>
     /// <typeparam name="IIndex">Type of the index as interface.</typeparam>
     /// <typeparam name="TIndex">Type of the index as class.</typeparam>
-    public class FocusOptionalInner<IIndex, TIndex> : FrameOptionalInner<IIndex, TIndex>, IFocusOptionalInner<IIndex>, IFocusOptionalInner
+    internal class FocusOptionalInner<IIndex, TIndex> : FrameOptionalInner<IIndex, TIndex>, IFocusOptionalInner<IIndex>, IFocusOptionalInner
         where IIndex : IFocusBrowsingOptionalNodeIndex
         where TIndex : FocusBrowsingOptionalNodeIndex, IIndex
     {
@@ -67,7 +67,7 @@
         /// <summary>
         /// Creates a IxxxOptionalNodeState object.
         /// </summary>
-        protected override IReadOnlyOptionalNodeState CreateNodeState(IReadOnlyBrowsingOptionalNodeIndex nodeIndex)
+        private protected override IReadOnlyOptionalNodeState CreateNodeState(IReadOnlyBrowsingOptionalNodeIndex nodeIndex)
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusOptionalInner<IIndex, TIndex>));
             return new FocusOptionalNodeState((IFocusBrowsingOptionalNodeIndex)nodeIndex);
@@ -76,7 +76,7 @@
         /// <summary>
         /// Creates a IxxxBrowsingOptionalNodeIndex object.
         /// </summary>
-        protected override IWriteableBrowsingOptionalNodeIndex CreateBrowsingNodeIndex()
+        private protected override IWriteableBrowsingOptionalNodeIndex CreateBrowsingNodeIndex()
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusOptionalInner<IIndex, TIndex>));
             return new FocusBrowsingOptionalNodeIndex(Owner.Node, PropertyName);

@@ -138,7 +138,7 @@
         /// <summary>
         /// Creates a IxxxAssignableCellViewDictionary{string} object.
         /// </summary>
-        protected override IFrameAssignableCellViewDictionary<string> CreateCellViewTable()
+        private protected override IFrameAssignableCellViewDictionary<string> CreateCellViewTable()
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusNodeStateView));
             return new FocusAssignableCellViewDictionary<string>();

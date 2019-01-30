@@ -133,7 +133,7 @@
         /// <summary>
         /// Creates a IxxxAssignableCellViewDictionary{string} object.
         /// </summary>
-        protected override IFrameAssignableCellViewDictionary<string> CreateCellViewTable()
+        private protected override IFrameAssignableCellViewDictionary<string> CreateCellViewTable()
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusBlockStateView));
             return new FocusAssignableCellViewDictionary<string>();
@@ -142,7 +142,7 @@
         /// <summary>
         /// Creates a IxxxAssignableCellViewReadOnlyDictionary{string} object.
         /// </summary>
-        protected override IFrameAssignableCellViewReadOnlyDictionary<string> CreateCellViewReadOnlyTable(IFrameAssignableCellViewDictionary<string> dictionary)
+        private protected override IFrameAssignableCellViewReadOnlyDictionary<string> CreateCellViewReadOnlyTable(IFrameAssignableCellViewDictionary<string> dictionary)
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusBlockStateView));
             return new FocusAssignableCellViewReadOnlyDictionary<string>((IFocusAssignableCellViewDictionary<string>)dictionary);
@@ -151,7 +151,7 @@
         /// <summary>
         /// Creates a IxxxEmptyCellView object.
         /// </summary>
-        protected virtual IFocusEmptyCellView CreateEmptyCellView(IFocusNodeStateView stateView)
+        private protected virtual IFocusEmptyCellView CreateEmptyCellView(IFocusNodeStateView stateView)
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusBlockStateView));
             return new FocusEmptyCellView(stateView);

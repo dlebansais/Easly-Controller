@@ -48,7 +48,7 @@
     /// </summary>
     /// <typeparam name="IIndex">Type of the index as interface.</typeparam>
     /// <typeparam name="TIndex">Type of the index as class.</typeparam>
-    public class ReadOnlyListInner<IIndex, TIndex> : ReadOnlyCollectionInner<IIndex, TIndex>, IReadOnlyListInner<IIndex>, IReadOnlyListInner
+    internal class ReadOnlyListInner<IIndex, TIndex> : ReadOnlyCollectionInner<IIndex, TIndex>, IReadOnlyListInner<IIndex>, IReadOnlyListInner
         where IIndex : IReadOnlyBrowsingListNodeIndex
         where TIndex : ReadOnlyBrowsingListNodeIndex, IIndex
     {
@@ -81,7 +81,7 @@
         /// </summary>
         /// <param name="nodeIndex">Index of the node.</param>
         /// <returns>The created node state.</returns>
-        protected virtual IReadOnlyNodeState InitChildState(IReadOnlyBrowsingListNodeIndex nodeIndex)
+        private protected virtual IReadOnlyNodeState InitChildState(IReadOnlyBrowsingListNodeIndex nodeIndex)
         {
             Debug.Assert(nodeIndex != null);
             Debug.Assert(nodeIndex.PropertyName == PropertyName);
@@ -195,7 +195,7 @@
 
         #region Implementation
         /// <summary></summary>
-        protected virtual void InsertInStateList(int index, IReadOnlyPlaceholderNodeState nodeState)
+        private protected virtual void InsertInStateList(int index, IReadOnlyPlaceholderNodeState nodeState)
         {
             Debug.Assert(index >= 0 && index <= _StateList.Count);
             Debug.Assert(nodeState != null);
@@ -205,7 +205,7 @@
         }
 
         /// <summary></summary>
-        protected virtual void RemoveFromStateList(int index)
+        private protected virtual void RemoveFromStateList(int index)
         {
             Debug.Assert(index >= 0 && index < _StateList.Count);
 
@@ -213,7 +213,7 @@
         }
 
         /// <summary></summary>
-        protected virtual void MoveInStateList(int index, int direction)
+        private protected virtual void MoveInStateList(int index, int direction)
         {
             Debug.Assert(index >= 0 && index < _StateList.Count);
             Debug.Assert(index + direction >= 0 && index + direction < _StateList.Count);
@@ -255,7 +255,7 @@
         /// <summary>
         /// Creates a IxxxPlaceholderNodeStateList object.
         /// </summary>
-        protected virtual IReadOnlyPlaceholderNodeStateList CreateStateList()
+        private protected virtual IReadOnlyPlaceholderNodeStateList CreateStateList()
         {
             ControllerTools.AssertNoOverride(this, typeof(ReadOnlyListInner<IIndex, TIndex>));
             return new ReadOnlyPlaceholderNodeStateList();
@@ -264,7 +264,7 @@
         /// <summary>
         /// Creates a IxxxPlaceholderNodeStateReadOnlyList object.
         /// </summary>
-        protected virtual IReadOnlyPlaceholderNodeStateReadOnlyList CreateStateListReadOnly(IReadOnlyPlaceholderNodeStateList stateList)
+        private protected virtual IReadOnlyPlaceholderNodeStateReadOnlyList CreateStateListReadOnly(IReadOnlyPlaceholderNodeStateList stateList)
         {
             ControllerTools.AssertNoOverride(this, typeof(ReadOnlyListInner<IIndex, TIndex>));
             return new ReadOnlyPlaceholderNodeStateReadOnlyList(stateList);
@@ -273,7 +273,7 @@
         /// <summary>
         /// Creates a IxxxPlaceholderNodeState object.
         /// </summary>
-        protected virtual IReadOnlyPlaceholderNodeState CreateNodeState(IReadOnlyNodeIndex nodeIndex)
+        private protected virtual IReadOnlyPlaceholderNodeState CreateNodeState(IReadOnlyNodeIndex nodeIndex)
         {
             ControllerTools.AssertNoOverride(this, typeof(ReadOnlyListInner<IIndex, TIndex>));
             return new ReadOnlyPlaceholderNodeState(nodeIndex);

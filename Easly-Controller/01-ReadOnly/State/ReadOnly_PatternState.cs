@@ -33,7 +33,7 @@
     /// <summary>
     /// State of an replication pattern node.
     /// </summary>
-    public class ReadOnlyPatternState : ReadOnlyPlaceholderNodeState, IReadOnlyPatternState
+    internal class ReadOnlyPatternState : ReadOnlyPlaceholderNodeState, IReadOnlyPatternState
     {
         #region Init
         /// <summary>

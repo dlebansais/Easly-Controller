@@ -147,7 +147,7 @@
         /// <summary>
         /// Creates a IxxxCellViewList object.
         /// </summary>
-        protected override IFrameCellViewList CreateCellViewList()
+        private protected override IFrameCellViewList CreateCellViewList()
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusBlockListFrame));
             return new FocusCellViewList();
@@ -156,7 +156,7 @@
         /// <summary>
         /// Creates a IxxxBlockCellView object.
         /// </summary>
-        protected override IFrameBlockCellView CreateBlockCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, IFrameBlockStateView blockStateView)
+        private protected override IFrameBlockCellView CreateBlockCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, IFrameBlockStateView blockStateView)
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusBlockListFrame));
             return new FocusBlockCellView((IFocusNodeStateView)stateView, (IFocusCellViewCollection)parentCellView, (IFocusBlockStateView)blockStateView);
@@ -165,7 +165,7 @@
         /// <summary>
         /// Creates a IxxxFrameSelectorList object.
         /// </summary>
-        protected virtual IFocusFrameSelectorList CreateEmptySelectorList()
+        private protected virtual IFocusFrameSelectorList CreateEmptySelectorList()
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusBlockListFrame));
             return new FocusFrameSelectorList();

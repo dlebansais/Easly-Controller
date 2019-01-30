@@ -15,7 +15,7 @@
     /// <summary>
     /// Index for a node in a block that is not the first.
     /// </summary>
-    public class FocusBrowsingExistingBlockNodeIndex : FrameBrowsingExistingBlockNodeIndex, IFocusBrowsingExistingBlockNodeIndex
+    internal class FocusBrowsingExistingBlockNodeIndex : FrameBrowsingExistingBlockNodeIndex, IFocusBrowsingExistingBlockNodeIndex
     {
         #region Init
         /// <summary>
@@ -56,7 +56,7 @@
         /// <summary>
         /// Creates a IxxxInsertionExistingBlockNodeIndex object.
         /// </summary>
-        protected override IWriteableInsertionExistingBlockNodeIndex CreateInsertionIndex(INode parentNode, INode node)
+        private protected override IWriteableInsertionExistingBlockNodeIndex CreateInsertionIndex(INode parentNode, INode node)
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusBrowsingExistingBlockNodeIndex));
             return new FocusInsertionExistingBlockNodeIndex(parentNode, PropertyName, node, BlockIndex, Index);

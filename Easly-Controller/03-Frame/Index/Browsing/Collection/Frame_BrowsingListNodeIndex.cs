@@ -14,7 +14,7 @@
     /// <summary>
     /// Index for a node in a list of nodes.
     /// </summary>
-    public class FrameBrowsingListNodeIndex : WriteableBrowsingListNodeIndex, IFrameBrowsingListNodeIndex
+    internal class FrameBrowsingListNodeIndex : WriteableBrowsingListNodeIndex, IFrameBrowsingListNodeIndex
     {
         #region Init
         /// <summary>
@@ -54,7 +54,7 @@
         /// <summary>
         /// Creates a IxxxInsertionListNodeIndex object.
         /// </summary>
-        protected override IWriteableInsertionListNodeIndex CreateInsertionIndex(INode parentNode, INode node)
+        private protected override IWriteableInsertionListNodeIndex CreateInsertionIndex(INode parentNode, INode node)
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameBrowsingListNodeIndex));
             return new FrameInsertionListNodeIndex(parentNode, PropertyName, node, Index);

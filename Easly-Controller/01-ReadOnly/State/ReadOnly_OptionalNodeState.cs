@@ -32,7 +32,7 @@
     /// <summary>
     /// State of an optional node.
     /// </summary>
-    public class ReadOnlyOptionalNodeState : ReadOnlyNodeState, IReadOnlyOptionalNodeState
+    internal class ReadOnlyOptionalNodeState : ReadOnlyNodeState, IReadOnlyOptionalNodeState
     {
         #region Init
         /// <summary>
@@ -188,7 +188,7 @@
 
         #region Invariant
         /// <summary></summary>
-        protected override void CheckInvariant()
+        private protected override void CheckInvariant()
         {
             InvariantAssert(IsInitialized);
             InvariantAssert(InnerTable != null);

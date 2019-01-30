@@ -15,7 +15,7 @@
     /// <summary>
     /// Index for a node.
     /// </summary>
-    public class FocusBrowsingPlaceholderNodeIndex : FrameBrowsingPlaceholderNodeIndex, IFocusBrowsingPlaceholderNodeIndex
+    internal class FocusBrowsingPlaceholderNodeIndex : FrameBrowsingPlaceholderNodeIndex, IFocusBrowsingPlaceholderNodeIndex
     {
         #region Init
         /// <summary>
@@ -54,7 +54,7 @@
         /// <summary>
         /// Creates a IxxxInsertionPlaceholderNodeIndex object.
         /// </summary>
-        protected override IWriteableInsertionPlaceholderNodeIndex CreateInsertionIndex(INode parentNode, INode node)
+        private protected override IWriteableInsertionPlaceholderNodeIndex CreateInsertionIndex(INode parentNode, INode node)
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusBrowsingPlaceholderNodeIndex));
             return new FocusInsertionPlaceholderNodeIndex(parentNode, PropertyName, node);

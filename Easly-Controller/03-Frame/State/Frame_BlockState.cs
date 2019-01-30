@@ -94,7 +94,7 @@
         /// <summary>
         /// Creates a IxxxPlaceholderNodeStateList object.
         /// </summary>
-        protected override IReadOnlyPlaceholderNodeStateList CreateStateList()
+        private protected override IReadOnlyPlaceholderNodeStateList CreateStateList()
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameBlockState));
             return new FramePlaceholderNodeStateList();
@@ -103,7 +103,7 @@
         /// <summary>
         /// Creates a IxxxPlaceholderNodeStateReadOnlyList object.
         /// </summary>
-        protected override IReadOnlyPlaceholderNodeStateReadOnlyList CreateStateListReadOnly(IReadOnlyPlaceholderNodeStateList stateList)
+        private protected override IReadOnlyPlaceholderNodeStateReadOnlyList CreateStateListReadOnly(IReadOnlyPlaceholderNodeStateList stateList)
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameBlockState));
             return new FramePlaceholderNodeStateReadOnlyList((IFramePlaceholderNodeStateList)stateList);
@@ -112,7 +112,7 @@
         /// <summary>
         /// Creates a IxxxInnerDictionary{string} object.
         /// </summary>
-        protected override IReadOnlyInnerDictionary<string> CreateInnerTable()
+        private protected override IReadOnlyInnerDictionary<string> CreateInnerTable()
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameBlockState));
             return new FrameInnerDictionary<string>();
@@ -121,7 +121,7 @@
         /// <summary>
         /// Creates a IxxxInnerReadOnlyDictionary{string} object.
         /// </summary>
-        protected override IReadOnlyInnerReadOnlyDictionary<string> CreateInnerTableReadOnly(IReadOnlyInnerDictionary<string> innerTable)
+        private protected override IReadOnlyInnerReadOnlyDictionary<string> CreateInnerTableReadOnly(IReadOnlyInnerDictionary<string> innerTable)
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameBlockState));
             return new FrameInnerReadOnlyDictionary<string>((IFrameInnerDictionary<string>)innerTable);
@@ -130,7 +130,7 @@
         /// <summary>
         /// Creates a IxxxPlaceholderInner{IxxxBrowsingPlaceholderNodeIndex} object.
         /// </summary>
-        protected override IReadOnlyPlaceholderInner<IReadOnlyBrowsingPlaceholderNodeIndex> CreatePatternInner(IReadOnlyNodeState owner)
+        private protected override IReadOnlyPlaceholderInner<IReadOnlyBrowsingPlaceholderNodeIndex> CreatePatternInner(IReadOnlyNodeState owner)
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameBlockState));
             return new FramePlaceholderInner<IFrameBrowsingPlaceholderNodeIndex, FrameBrowsingPlaceholderNodeIndex>((IFrameNodeState)owner, nameof(IBlock.ReplicationPattern));
@@ -139,7 +139,7 @@
         /// <summary>
         /// Creates a IxxxPlaceholderInner{IxxxBrowsingPlaceholderNodeIndex} object.
         /// </summary>
-        protected override IReadOnlyPlaceholderInner<IReadOnlyBrowsingPlaceholderNodeIndex> CreateSourceInner(IReadOnlyNodeState owner)
+        private protected override IReadOnlyPlaceholderInner<IReadOnlyBrowsingPlaceholderNodeIndex> CreateSourceInner(IReadOnlyNodeState owner)
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameBlockState));
             return new FramePlaceholderInner<IFrameBrowsingPlaceholderNodeIndex, FrameBrowsingPlaceholderNodeIndex>((IFrameNodeState)owner, nameof(IBlock.SourceIdentifier));
@@ -148,7 +148,7 @@
         /// <summary>
         /// Creates a IxxxBrowsingPatternIndex object.
         /// </summary>
-        protected override IReadOnlyBrowsingPatternIndex CreateExistingPatternIndex()
+        private protected override IReadOnlyBrowsingPatternIndex CreateExistingPatternIndex()
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameBlockState));
             return new FrameBrowsingPatternIndex(ChildBlock);
@@ -157,7 +157,7 @@
         /// <summary>
         /// Creates a IxxxBrowsingSourceIndex object.
         /// </summary>
-        protected override IReadOnlyBrowsingSourceIndex CreateExistingSourceIndex()
+        private protected override IReadOnlyBrowsingSourceIndex CreateExistingSourceIndex()
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameBlockState));
             return new FrameBrowsingSourceIndex(ChildBlock);
@@ -166,7 +166,7 @@
         /// <summary>
         /// Creates a IxxxPatternState object.
         /// </summary>
-        protected override IReadOnlyPatternState CreatePatternState(IReadOnlyBrowsingPatternIndex patternIndex)
+        private protected override IReadOnlyPatternState CreatePatternState(IReadOnlyBrowsingPatternIndex patternIndex)
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameBlockState));
             return new FramePatternState(this, (IFrameBrowsingPatternIndex)patternIndex);
@@ -175,7 +175,7 @@
         /// <summary>
         /// Creates a IxxxSourceState object.
         /// </summary>
-        protected override IReadOnlySourceState CreateSourceState(IReadOnlyBrowsingSourceIndex sourceIndex)
+        private protected override IReadOnlySourceState CreateSourceState(IReadOnlyBrowsingSourceIndex sourceIndex)
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameBlockState));
             return new FrameSourceState(this, (IFrameBrowsingSourceIndex)sourceIndex);

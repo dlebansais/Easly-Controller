@@ -95,7 +95,7 @@
         /// <summary>
         /// Creates a IxxxBrowsingPlaceholderNodeIndex object.
         /// </summary>
-        protected virtual IWriteableBrowsingPlaceholderNodeIndex CreateBrowsingIndex()
+        private protected virtual IWriteableBrowsingPlaceholderNodeIndex CreateBrowsingIndex()
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableInsertionPlaceholderNodeIndex));
             return new WriteableBrowsingPlaceholderNodeIndex(ParentNode, Node, PropertyName);

@@ -53,7 +53,7 @@
         /// <summary>
         /// Creates a IxxxBrowsingOptionalNodeIndex object.
         /// </summary>
-        protected override IWriteableBrowsingOptionalNodeIndex CreateBrowsingIndex()
+        private protected override IWriteableBrowsingOptionalNodeIndex CreateBrowsingIndex()
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameInsertionOptionalNodeIndex));
             return new FrameBrowsingOptionalNodeIndex(ParentNode, PropertyName);

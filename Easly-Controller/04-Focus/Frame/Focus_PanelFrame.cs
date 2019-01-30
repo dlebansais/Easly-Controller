@@ -119,7 +119,7 @@
         }
 
         /// <summary></summary>
-        protected override IFrameCellView BuildBlockCellsForPlaceholderFrame(IFrameCellViewTreeContext context, IFramePlaceholderFrame frame, IFrameCellViewCollection embeddingCellView, IFrameBlockState blockState)
+        private protected override IFrameCellView BuildBlockCellsForPlaceholderFrame(IFrameCellViewTreeContext context, IFramePlaceholderFrame frame, IFrameCellViewCollection embeddingCellView, IFrameBlockState blockState)
         {
             Type OldSelectorType = null;
             string OldSelectorName = null;
@@ -165,7 +165,7 @@
         /// <summary>
         /// Creates a IxxxFrameList object.
         /// </summary>
-        protected override IFrameFrameList CreateItems()
+        private protected override IFrameFrameList CreateItems()
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusPanelFrame));
             return new FocusFrameList();
@@ -174,7 +174,7 @@
         /// <summary>
         /// Creates a IxxxCellViewList object.
         /// </summary>
-        protected override IFrameCellViewList CreateCellViewList()
+        private protected override IFrameCellViewList CreateCellViewList()
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusPanelFrame));
             return new FocusCellViewList();
@@ -183,7 +183,7 @@
         /// <summary>
         /// Creates a IxxxContainerCellView object.
         /// </summary>
-        protected override IFrameContainerCellView CreateFrameCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, IFrameNodeStateView childStateView)
+        private protected override IFrameContainerCellView CreateFrameCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, IFrameNodeStateView childStateView)
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusPanelFrame));
             return new FocusContainerCellView((IFocusNodeStateView)stateView, (IFocusCellViewCollection)parentCellView, (IFocusNodeStateView)childStateView);

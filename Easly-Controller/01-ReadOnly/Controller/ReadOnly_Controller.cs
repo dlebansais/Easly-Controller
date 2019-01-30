@@ -110,7 +110,7 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="ReadOnlyController"/> class.
         /// </summary>
-        protected ReadOnlyController()
+        private protected ReadOnlyController()
         {
             IsInitialized = false;
             _StateTable = CreateStateTable();
@@ -119,7 +119,7 @@
         }
 
         /// <summary></summary>
-        protected bool IsInitialized { get; private set; }
+        private protected bool IsInitialized { get; private set; }
         #endregion
 
         #region Properties
@@ -148,8 +148,8 @@
         }
 #pragma warning disable 1591
         private Action<IReadOnlyNodeState> NodeStateCreatedHandler;
-        protected virtual void AddNodeStateCreatedDelegate(Action<IReadOnlyNodeState> handler) { NodeStateCreatedHandler += handler; }
-        protected virtual void RemoveNodeStateCreatedDelegate(Action<IReadOnlyNodeState> handler) { NodeStateCreatedHandler -= handler; }
+        private protected virtual void AddNodeStateCreatedDelegate(Action<IReadOnlyNodeState> handler) { NodeStateCreatedHandler += handler; }
+        private protected virtual void RemoveNodeStateCreatedDelegate(Action<IReadOnlyNodeState> handler) { NodeStateCreatedHandler -= handler; }
 #pragma warning restore 1591
 
         /// <summary>
@@ -162,8 +162,8 @@
         }
 #pragma warning disable 1591
         private Action<IReadOnlyNodeState> NodeStateInitializedHandler;
-        protected virtual void AddNodeStateInitializedDelegate(Action<IReadOnlyNodeState> handler) { NodeStateInitializedHandler += handler; }
-        protected virtual void RemoveNodeStateInitializedDelegate(Action<IReadOnlyNodeState> handler) { NodeStateInitializedHandler -= handler; }
+        private protected virtual void AddNodeStateInitializedDelegate(Action<IReadOnlyNodeState> handler) { NodeStateInitializedHandler += handler; }
+        private protected virtual void RemoveNodeStateInitializedDelegate(Action<IReadOnlyNodeState> handler) { NodeStateInitializedHandler -= handler; }
 #pragma warning restore 1591
 
         /// <summary>
@@ -176,8 +176,8 @@
         }
 #pragma warning disable 1591
         private Action<IReadOnlyNodeState> NodeStateRemovedHandler;
-        protected virtual void AddNodeStateRemovedDelegate(Action<IReadOnlyNodeState> handler) { NodeStateRemovedHandler += handler; }
-        protected virtual void RemoveNodeStateRemovedDelegate(Action<IReadOnlyNodeState> handler) { NodeStateRemovedHandler -= handler; }
+        private protected virtual void AddNodeStateRemovedDelegate(Action<IReadOnlyNodeState> handler) { NodeStateRemovedHandler += handler; }
+        private protected virtual void RemoveNodeStateRemovedDelegate(Action<IReadOnlyNodeState> handler) { NodeStateRemovedHandler -= handler; }
 #pragma warning restore 1591
 
         /// <summary>
@@ -190,14 +190,14 @@
         }
 #pragma warning disable 1591
         private Action<IReadOnlyBlockListInner> BlockListInnerCreatedHandler;
-        protected virtual void AddBlockListInnerCreatedDelegate(Action<IReadOnlyBlockListInner> handler) { BlockListInnerCreatedHandler += handler; }
-        protected virtual void RemoveBlockListInnerCreatedDelegate(Action<IReadOnlyBlockListInner> handler) { BlockListInnerCreatedHandler -= handler; }
+        private protected virtual void AddBlockListInnerCreatedDelegate(Action<IReadOnlyBlockListInner> handler) { BlockListInnerCreatedHandler += handler; }
+        private protected virtual void RemoveBlockListInnerCreatedDelegate(Action<IReadOnlyBlockListInner> handler) { BlockListInnerCreatedHandler -= handler; }
 #pragma warning restore 1591
 
         /// <summary>
         /// State table.
         /// </summary>
-        protected IReadOnlyIndexNodeStateReadOnlyDictionary StateTable { get; }
+        private protected IReadOnlyIndexNodeStateReadOnlyDictionary StateTable { get; }
         private IReadOnlyIndexNodeStateDictionary _StateTable;
         #endregion
 
@@ -280,25 +280,25 @@
 
         #region Descendant Interface
         /// <summary></summary>
-        protected virtual void NotifyNodeStateCreated(IReadOnlyNodeState state)
+        private protected virtual void NotifyNodeStateCreated(IReadOnlyNodeState state)
         {
             NodeStateCreatedHandler?.Invoke(state);
         }
 
         /// <summary></summary>
-        protected virtual void NotifyNodeStateInitialized(IReadOnlyNodeState state)
+        private protected virtual void NotifyNodeStateInitialized(IReadOnlyNodeState state)
         {
             NodeStateInitializedHandler?.Invoke(state);
         }
 
         /// <summary></summary>
-        protected virtual void NotifyNodeStateRemoved(IReadOnlyNodeState state)
+        private protected virtual void NotifyNodeStateRemoved(IReadOnlyNodeState state)
         {
             NodeStateRemovedHandler?.Invoke(state);
         }
 
         /// <summary></summary>
-        protected virtual void NotifyBlockListInnerCreated(IReadOnlyBlockListInner inner)
+        private protected virtual void NotifyBlockListInnerCreated(IReadOnlyBlockListInner inner)
         {
             BlockListInnerCreatedHandler?.Invoke(inner);
         }
@@ -306,7 +306,7 @@
 
         #region Implementation
         /// <summary></summary>
-        protected virtual void SetRoot(IReadOnlyRootNodeIndex rootIndex)
+        private protected virtual void SetRoot(IReadOnlyRootNodeIndex rootIndex)
         {
             Debug.Assert(rootIndex != null);
             Debug.Assert(!IsInitialized); // Must be called during initialization
@@ -321,7 +321,7 @@
         }
 
         /// <summary></summary>
-        protected virtual void SetInitialized()
+        private protected virtual void SetInitialized()
         {
             Debug.Assert(!IsInitialized); // Must be called during initialization
 
@@ -330,7 +330,7 @@
         }
 
         /// <summary></summary>
-        protected virtual void AddState(IReadOnlyIndex index, IReadOnlyNodeState state)
+        private protected virtual void AddState(IReadOnlyIndex index, IReadOnlyNodeState state)
         {
             Debug.Assert(state != null);
             Debug.Assert(!StateTable.ContainsKey(index));
@@ -344,7 +344,7 @@
         }
 
         /// <summary></summary>
-        protected virtual void RemoveState(IReadOnlyIndex index)
+        private protected virtual void RemoveState(IReadOnlyIndex index)
         {
             Debug.Assert(index != null);
             Debug.Assert(StateTable.ContainsKey(index));
@@ -358,7 +358,7 @@
         }
 
         /// <summary></summary>
-        protected virtual void BuildStateTable(IReadOnlyInner<IReadOnlyBrowsingChildIndex> parentInner, IReadOnlyBrowseContext parentBrowseContext, IReadOnlyIndex nodeIndex, IReadOnlyNodeState state)
+        private protected virtual void BuildStateTable(IReadOnlyInner<IReadOnlyBrowsingChildIndex> parentInner, IReadOnlyBrowseContext parentBrowseContext, IReadOnlyIndex nodeIndex, IReadOnlyNodeState state)
         {
             Debug.Assert((parentBrowseContext == null) || (parentBrowseContext != null && parentInner != null));
             Debug.Assert(nodeIndex != null);
@@ -384,7 +384,7 @@
         }
 
         /// <summary></summary>
-        protected virtual void BrowseStateChildren(IReadOnlyBrowseContext browseContext, IReadOnlyInner<IReadOnlyBrowsingChildIndex> parentInner)
+        private protected virtual void BrowseStateChildren(IReadOnlyBrowseContext browseContext, IReadOnlyInner<IReadOnlyBrowsingChildIndex> parentInner)
         {
             Debug.Assert(browseContext != null);
             Debug.Assert(browseContext.IndexCollectionList.Count == 0);
@@ -394,7 +394,7 @@
         }
 
         /// <summary></summary>
-        protected virtual IReadOnlyInnerReadOnlyDictionary<string> BuildInnerTable(IReadOnlyBrowseContext browseContext)
+        private protected virtual IReadOnlyInnerReadOnlyDictionary<string> BuildInnerTable(IReadOnlyBrowseContext browseContext)
         {
             Debug.Assert(browseContext != null);
 
@@ -417,7 +417,7 @@
         }
 
         /// <summary></summary>
-        protected virtual IReadOnlyInner<IReadOnlyBrowsingChildIndex> BuildInner(IReadOnlyNodeState parentState, IReadOnlyIndexCollection nodeIndexCollection)
+        private protected virtual IReadOnlyInner<IReadOnlyBrowsingChildIndex> BuildInner(IReadOnlyNodeState parentState, IReadOnlyIndexCollection nodeIndexCollection)
         {
             Debug.Assert(parentState != null);
             Debug.Assert(nodeIndexCollection != null);
@@ -446,7 +446,7 @@
         }
 
         /// <summary></summary>
-        protected virtual void InitState(IReadOnlyBrowseContext browseContext, IReadOnlyInner<IReadOnlyBrowsingChildIndex> parentInner, IReadOnlyIndex nodeIndex, IReadOnlyInnerReadOnlyDictionary<string> innerTable)
+        private protected virtual void InitState(IReadOnlyBrowseContext browseContext, IReadOnlyInner<IReadOnlyBrowsingChildIndex> parentInner, IReadOnlyIndex nodeIndex, IReadOnlyInnerReadOnlyDictionary<string> innerTable)
         {
             Debug.Assert(browseContext != null);
             Debug.Assert(nodeIndex != null);
@@ -468,7 +468,7 @@
         }
 
         /// <summary></summary>
-        protected virtual IReadOnlyIndexNodeStateDictionary BuildChildrenStateTable(IReadOnlyBrowseContext browseContext)
+        private protected virtual IReadOnlyIndexNodeStateDictionary BuildChildrenStateTable(IReadOnlyBrowseContext browseContext)
         {
             Debug.Assert(browseContext != null);
 
@@ -520,7 +520,7 @@
         }
 
         /// <summary></summary>
-        protected virtual IReadOnlyNodeState BuildChildState(IReadOnlyInner<IReadOnlyBrowsingChildIndex> inner, IReadOnlyBrowsingChildIndex nodeIndex)
+        private protected virtual IReadOnlyNodeState BuildChildState(IReadOnlyInner<IReadOnlyBrowsingChildIndex> inner, IReadOnlyBrowsingChildIndex nodeIndex)
         {
             Debug.Assert(inner != null);
             Debug.Assert(nodeIndex != null);
@@ -542,7 +542,7 @@
         }
 
         /// <summary></summary>
-        protected virtual void BuildChildrenStates(IReadOnlyBrowseContext browseContext, IReadOnlyIndexNodeStateDictionary childrenStateTable)
+        private protected virtual void BuildChildrenStates(IReadOnlyBrowseContext browseContext, IReadOnlyIndexNodeStateDictionary childrenStateTable)
         {
             Debug.Assert(browseContext != null);
             Debug.Assert(childrenStateTable != null);
@@ -569,7 +569,7 @@
         }
 
         /// <summary></summary>
-        protected virtual IReadOnlyNodeState GetState(INode node)
+        private protected virtual IReadOnlyNodeState GetState(INode node)
         {
             foreach (KeyValuePair<IReadOnlyIndex, IReadOnlyNodeState> Entry in StateTable)
             {
@@ -583,7 +583,7 @@
         }
 
         /// <summary></summary>
-        protected virtual IReadOnlyIndex GetIndex(INode node)
+        private protected virtual IReadOnlyIndex GetIndex(INode node)
         {
             foreach (KeyValuePair<IReadOnlyIndex, IReadOnlyNodeState> Entry in StateTable)
             {
@@ -598,7 +598,7 @@
         }
 
         /// <summary></summary>
-        protected virtual IReadOnlyInner<IReadOnlyBrowsingChildIndex> GetInner(INode parentNode, string propertyName)
+        private protected virtual IReadOnlyInner<IReadOnlyBrowsingChildIndex> GetInner(INode parentNode, string propertyName)
         {
             foreach (KeyValuePair<IReadOnlyIndex, IReadOnlyNodeState> Entry in StateTable)
             {
@@ -619,13 +619,13 @@
 
         #region Invariant
         /// <summary></summary>
-        protected virtual void CheckInvariant()
+        private protected virtual void CheckInvariant()
         {
             InvariantAssert(IsInitialized);
         }
 
         /// <summary></summary>
-        protected void InvariantAssert(bool condition)
+        private protected void InvariantAssert(bool condition)
         {
             Debug.Assert(condition);
         }
@@ -697,7 +697,7 @@
         /// <summary>
         /// Creates a IxxxIndexNodeStateDictionary object.
         /// </summary>
-        protected virtual IReadOnlyIndexNodeStateDictionary CreateStateTable()
+        private protected virtual IReadOnlyIndexNodeStateDictionary CreateStateTable()
         {
             ControllerTools.AssertNoOverride(this, typeof(ReadOnlyController));
             return new ReadOnlyIndexNodeStateDictionary();
@@ -706,7 +706,7 @@
         /// <summary>
         /// Creates a IxxxIndexNodeStateReadOnlyDictionary object.
         /// </summary>
-        protected virtual IReadOnlyIndexNodeStateReadOnlyDictionary CreateStateTableReadOnly(IReadOnlyIndexNodeStateDictionary stateTable)
+        private protected virtual IReadOnlyIndexNodeStateReadOnlyDictionary CreateStateTableReadOnly(IReadOnlyIndexNodeStateDictionary stateTable)
         {
             ControllerTools.AssertNoOverride(this, typeof(ReadOnlyController));
             return new ReadOnlyIndexNodeStateReadOnlyDictionary(stateTable);
@@ -715,7 +715,7 @@
         /// <summary>
         /// Creates a IxxxInnerDictionary{string} object.
         /// </summary>
-        protected virtual IReadOnlyInnerDictionary<string> CreateInnerTable()
+        private protected virtual IReadOnlyInnerDictionary<string> CreateInnerTable()
         {
             ControllerTools.AssertNoOverride(this, typeof(ReadOnlyController));
             return new ReadOnlyInnerDictionary<string>();
@@ -724,7 +724,7 @@
         /// <summary>
         /// Creates a IxxxInnerReadOnlyDictionary{string} object.
         /// </summary>
-        protected virtual IReadOnlyInnerReadOnlyDictionary<string> CreateInnerTableReadOnly(IReadOnlyInnerDictionary<string> innerTable)
+        private protected virtual IReadOnlyInnerReadOnlyDictionary<string> CreateInnerTableReadOnly(IReadOnlyInnerDictionary<string> innerTable)
         {
             ControllerTools.AssertNoOverride(this, typeof(ReadOnlyController));
             return new ReadOnlyInnerReadOnlyDictionary<string>(innerTable);
@@ -733,7 +733,7 @@
         /// <summary>
         /// Creates a IxxxIndexNodeStateDictionary object.
         /// </summary>
-        protected virtual IReadOnlyIndexNodeStateDictionary CreateChildStateTable()
+        private protected virtual IReadOnlyIndexNodeStateDictionary CreateChildStateTable()
         {
             ControllerTools.AssertNoOverride(this, typeof(ReadOnlyController));
             return new ReadOnlyIndexNodeStateDictionary();
@@ -742,7 +742,7 @@
         /// <summary>
         /// Creates a IxxxxBrowseContext object.
         /// </summary>
-        protected virtual IReadOnlyBrowseContext CreateBrowseContext(IReadOnlyBrowseContext parentBrowseContext, IReadOnlyNodeState state)
+        private protected virtual IReadOnlyBrowseContext CreateBrowseContext(IReadOnlyBrowseContext parentBrowseContext, IReadOnlyNodeState state)
         {
             ControllerTools.AssertNoOverride(this, typeof(ReadOnlyController));
             return new ReadOnlyBrowseContext(state);
@@ -751,7 +751,7 @@
         /// <summary>
         /// Creates a IxxxPlaceholderInner{IxxxBrowsingPlaceholderNodeIndex} object.
         /// </summary>
-        protected virtual IReadOnlyPlaceholderInner<IReadOnlyBrowsingPlaceholderNodeIndex> CreatePlaceholderInner(IReadOnlyNodeState owner, IReadOnlyIndexCollection<IReadOnlyBrowsingPlaceholderNodeIndex> nodeIndexCollection)
+        private protected virtual IReadOnlyPlaceholderInner<IReadOnlyBrowsingPlaceholderNodeIndex> CreatePlaceholderInner(IReadOnlyNodeState owner, IReadOnlyIndexCollection<IReadOnlyBrowsingPlaceholderNodeIndex> nodeIndexCollection)
         {
             ControllerTools.AssertNoOverride(this, typeof(ReadOnlyController));
             return new ReadOnlyPlaceholderInner<IReadOnlyBrowsingPlaceholderNodeIndex, ReadOnlyBrowsingPlaceholderNodeIndex>(owner, nodeIndexCollection.PropertyName);
@@ -760,7 +760,7 @@
         /// <summary>
         /// Creates a IxxxOptionalInner{IxxxBrowsingOptionalNodeIndex} object.
         /// </summary>
-        protected virtual IReadOnlyOptionalInner<IReadOnlyBrowsingOptionalNodeIndex> CreateOptionalInner(IReadOnlyNodeState owner, IReadOnlyIndexCollection<IReadOnlyBrowsingOptionalNodeIndex> nodeIndexCollection)
+        private protected virtual IReadOnlyOptionalInner<IReadOnlyBrowsingOptionalNodeIndex> CreateOptionalInner(IReadOnlyNodeState owner, IReadOnlyIndexCollection<IReadOnlyBrowsingOptionalNodeIndex> nodeIndexCollection)
         {
             ControllerTools.AssertNoOverride(this, typeof(ReadOnlyController));
             return new ReadOnlyOptionalInner<IReadOnlyBrowsingOptionalNodeIndex, ReadOnlyBrowsingOptionalNodeIndex>(owner, nodeIndexCollection.PropertyName);
@@ -769,7 +769,7 @@
         /// <summary>
         /// Creates a IxxxListInner{IxxxBrowsingListNodeIndex} object.
         /// </summary>
-        protected virtual IReadOnlyListInner<IReadOnlyBrowsingListNodeIndex> CreateListInner(IReadOnlyNodeState owner, IReadOnlyIndexCollection<IReadOnlyBrowsingListNodeIndex> nodeIndexCollection)
+        private protected virtual IReadOnlyListInner<IReadOnlyBrowsingListNodeIndex> CreateListInner(IReadOnlyNodeState owner, IReadOnlyIndexCollection<IReadOnlyBrowsingListNodeIndex> nodeIndexCollection)
         {
             ControllerTools.AssertNoOverride(this, typeof(ReadOnlyController));
             return new ReadOnlyListInner<IReadOnlyBrowsingListNodeIndex, ReadOnlyBrowsingListNodeIndex>(owner, nodeIndexCollection.PropertyName);
@@ -778,7 +778,7 @@
         /// <summary>
         /// Creates a IxxxBlockListInner{IxxxBrowsingBlockNodeIndex} object.
         /// </summary>
-        protected virtual IReadOnlyBlockListInner<IReadOnlyBrowsingBlockNodeIndex> CreateBlockListInner(IReadOnlyNodeState owner, IReadOnlyIndexCollection<IReadOnlyBrowsingBlockNodeIndex> nodeIndexCollection)
+        private protected virtual IReadOnlyBlockListInner<IReadOnlyBrowsingBlockNodeIndex> CreateBlockListInner(IReadOnlyNodeState owner, IReadOnlyIndexCollection<IReadOnlyBrowsingBlockNodeIndex> nodeIndexCollection)
         {
             ControllerTools.AssertNoOverride(this, typeof(ReadOnlyController));
             return new ReadOnlyBlockListInner<IReadOnlyBrowsingBlockNodeIndex, ReadOnlyBrowsingBlockNodeIndex>(owner, nodeIndexCollection.PropertyName);
@@ -787,7 +787,7 @@
         /// <summary>
         /// Creates a IxxxPlaceholderNodeState object.
         /// </summary>
-        protected virtual IReadOnlyPlaceholderNodeState CreateRootNodeState(IReadOnlyRootNodeIndex nodeIndex)
+        private protected virtual IReadOnlyPlaceholderNodeState CreateRootNodeState(IReadOnlyRootNodeIndex nodeIndex)
         {
             ControllerTools.AssertNoOverride(this, typeof(ReadOnlyController));
             return new ReadOnlyPlaceholderNodeState(nodeIndex);

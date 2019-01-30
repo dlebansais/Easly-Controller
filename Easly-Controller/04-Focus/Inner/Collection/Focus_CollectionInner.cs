@@ -30,7 +30,7 @@
     /// </summary>
     /// <typeparam name="IIndex">Type of the index as interface.</typeparam>
     /// <typeparam name="TIndex">Type of the index as class.</typeparam>
-    public abstract class FocusCollectionInner<IIndex, TIndex> : FrameCollectionInner<IIndex, TIndex>, IFocusCollectionInner<IIndex>, IFocusCollectionInner
+    internal abstract class FocusCollectionInner<IIndex, TIndex> : FrameCollectionInner<IIndex, TIndex>, IFocusCollectionInner<IIndex>, IFocusCollectionInner
         where IIndex : IFocusBrowsingCollectionNodeIndex
         where TIndex : FocusBrowsingCollectionNodeIndex, IIndex
     {

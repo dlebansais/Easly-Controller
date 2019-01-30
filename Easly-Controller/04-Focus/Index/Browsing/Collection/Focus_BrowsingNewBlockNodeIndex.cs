@@ -15,7 +15,7 @@
     /// <summary>
     /// Index for the first node in a block.
     /// </summary>
-    public class FocusBrowsingNewBlockNodeIndex : FrameBrowsingNewBlockNodeIndex, IFocusBrowsingNewBlockNodeIndex
+    internal class FocusBrowsingNewBlockNodeIndex : FrameBrowsingNewBlockNodeIndex, IFocusBrowsingNewBlockNodeIndex
     {
         #region Init
         /// <summary>
@@ -57,7 +57,7 @@
         /// <summary>
         /// Creates a IxxxBrowsingExistingBlockNodeIndex object.
         /// </summary>
-        protected override IReadOnlyBrowsingExistingBlockNodeIndex CreateExistingBlockIndex()
+        private protected override IReadOnlyBrowsingExistingBlockNodeIndex CreateExistingBlockIndex()
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusBrowsingNewBlockNodeIndex));
             return new FocusBrowsingExistingBlockNodeIndex(ParentNode, Node, PropertyName, BlockIndex, 0);

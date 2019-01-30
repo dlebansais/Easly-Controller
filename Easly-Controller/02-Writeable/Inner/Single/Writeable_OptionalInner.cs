@@ -58,7 +58,7 @@
     /// </summary>
     /// <typeparam name="IIndex">Type of the index as interface.</typeparam>
     /// <typeparam name="TIndex">Type of the index as class.</typeparam>
-    public class WriteableOptionalInner<IIndex, TIndex> : ReadOnlyOptionalInner<IIndex, TIndex>, IWriteableOptionalInner<IIndex>, IWriteableOptionalInner
+    internal class WriteableOptionalInner<IIndex, TIndex> : ReadOnlyOptionalInner<IIndex, TIndex>, IWriteableOptionalInner<IIndex>, IWriteableOptionalInner
         where IIndex : IWriteableBrowsingOptionalNodeIndex
         where TIndex : WriteableBrowsingOptionalNodeIndex, IIndex
     {
@@ -104,7 +104,7 @@
         }
 
         /// <summary></summary>
-        protected virtual void ReplaceOptional(IWriteableReplaceOperation operation)
+        private protected virtual void ReplaceOptional(IWriteableReplaceOperation operation)
         {
             INode ParentNode = Owner.Node;
 
@@ -121,7 +121,7 @@
         }
 
         /// <summary></summary>
-        protected virtual void ClearOptional(IWriteableReplaceOperation operation)
+        private protected virtual void ClearOptional(IWriteableReplaceOperation operation)
         {
             INode ParentNode = Owner.Node;
 
@@ -164,7 +164,7 @@
         /// <summary>
         /// Creates a IxxxOptionalNodeState object.
         /// </summary>
-        protected override IReadOnlyOptionalNodeState CreateNodeState(IReadOnlyBrowsingOptionalNodeIndex nodeIndex)
+        private protected override IReadOnlyOptionalNodeState CreateNodeState(IReadOnlyBrowsingOptionalNodeIndex nodeIndex)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableOptionalInner<IIndex, TIndex>));
             return new WriteableOptionalNodeState((IWriteableBrowsingOptionalNodeIndex)nodeIndex);
@@ -173,7 +173,7 @@
         /// <summary>
         /// Creates a IxxxBrowsingOptionalNodeIndex object.
         /// </summary>
-        protected virtual IWriteableBrowsingOptionalNodeIndex CreateBrowsingNodeIndex()
+        private protected virtual IWriteableBrowsingOptionalNodeIndex CreateBrowsingNodeIndex()
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableOptionalInner<IIndex, TIndex>));
             return new WriteableBrowsingOptionalNodeIndex(Owner.Node, PropertyName);

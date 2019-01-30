@@ -56,7 +56,7 @@
         /// <summary>
         /// Creates a IxxxBrowsingNewBlockNodeIndex object.
         /// </summary>
-        protected override IWriteableBrowsingNewBlockNodeIndex CreateBrowsingIndex()
+        private protected override IWriteableBrowsingNewBlockNodeIndex CreateBrowsingIndex()
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameInsertionNewBlockNodeIndex));
             return new FrameBrowsingNewBlockNodeIndex(ParentNode, Node, PropertyName, BlockIndex, PatternNode, SourceNode);

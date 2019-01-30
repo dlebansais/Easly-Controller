@@ -54,7 +54,7 @@
         /// <summary>
         /// Creates a IxxxBrowsingPlaceholderNodeIndex object.
         /// </summary>
-        protected override IWriteableBrowsingPlaceholderNodeIndex CreateBrowsingIndex()
+        private protected override IWriteableBrowsingPlaceholderNodeIndex CreateBrowsingIndex()
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusInsertionPlaceholderNodeIndex));
             return new FocusBrowsingPlaceholderNodeIndex(ParentNode, Node, PropertyName);

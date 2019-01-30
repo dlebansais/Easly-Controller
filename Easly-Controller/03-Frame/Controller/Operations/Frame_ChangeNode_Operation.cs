@@ -47,7 +47,7 @@
         /// <summary>
         /// Creates a IxxxChangeNodeOperation object.
         /// </summary>
-        protected override IWriteableChangeNodeOperation CreateChangeNodeOperation(int value, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        private protected override IWriteableChangeNodeOperation CreateChangeNodeOperation(int value, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameChangeNodeOperation));
             return new FrameChangeNodeOperation(ParentNode, PropertyName, value, handlerRedo, handlerUndo, isNested);

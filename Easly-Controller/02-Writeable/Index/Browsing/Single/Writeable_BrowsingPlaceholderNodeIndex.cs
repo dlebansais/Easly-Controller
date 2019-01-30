@@ -14,7 +14,7 @@
     /// <summary>
     /// Index for a node.
     /// </summary>
-    public class WriteableBrowsingPlaceholderNodeIndex : ReadOnlyBrowsingPlaceholderNodeIndex, IWriteableBrowsingPlaceholderNodeIndex
+    internal class WriteableBrowsingPlaceholderNodeIndex : ReadOnlyBrowsingPlaceholderNodeIndex, IWriteableBrowsingPlaceholderNodeIndex
     {
         #region Init
         /// <summary>
@@ -65,7 +65,7 @@
         /// <summary>
         /// Creates a IxxxInsertionPlaceholderNodeIndex object.
         /// </summary>
-        protected virtual IWriteableInsertionPlaceholderNodeIndex CreateInsertionIndex(INode parentNode, INode node)
+        private protected virtual IWriteableInsertionPlaceholderNodeIndex CreateInsertionIndex(INode parentNode, INode node)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableBrowsingPlaceholderNodeIndex));
             return new WriteableInsertionPlaceholderNodeIndex(parentNode, PropertyName, node);

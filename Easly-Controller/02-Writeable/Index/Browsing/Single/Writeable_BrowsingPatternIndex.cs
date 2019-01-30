@@ -14,7 +14,7 @@
     /// <summary>
     /// Index for the replication pattern node of a block.
     /// </summary>
-    public class WriteableBrowsingPatternIndex : ReadOnlyBrowsingPatternIndex, IWriteableBrowsingPatternIndex
+    internal class WriteableBrowsingPatternIndex : ReadOnlyBrowsingPatternIndex, IWriteableBrowsingPatternIndex
     {
         #region Init
         /// <summary>
@@ -63,7 +63,7 @@
         /// <summary>
         /// Creates a IxxxInsertionPlaceholderNodeIndex object.
         /// </summary>
-        protected virtual IWriteableInsertionPlaceholderNodeIndex CreateInsertionIndex(INode parentNode, INode node)
+        private protected virtual IWriteableInsertionPlaceholderNodeIndex CreateInsertionIndex(INode parentNode, INode node)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableBrowsingPatternIndex));
             return new WriteableInsertionPlaceholderNodeIndex(parentNode, PropertyName, node);

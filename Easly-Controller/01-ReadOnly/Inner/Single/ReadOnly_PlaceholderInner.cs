@@ -26,7 +26,7 @@
     /// </summary>
     /// <typeparam name="IIndex">Type of the index as interface.</typeparam>
     /// <typeparam name="TIndex">Type of the index as class.</typeparam>
-    public class ReadOnlyPlaceholderInner<IIndex, TIndex> : ReadOnlySingleInner<IIndex>, IReadOnlyPlaceholderInner<IIndex>, IReadOnlyPlaceholderInner
+    internal class ReadOnlyPlaceholderInner<IIndex, TIndex> : ReadOnlySingleInner<IIndex>, IReadOnlyPlaceholderInner<IIndex>, IReadOnlyPlaceholderInner
         where IIndex : IReadOnlyBrowsingPlaceholderNodeIndex
         where TIndex : ReadOnlyBrowsingPlaceholderNodeIndex, IIndex
     {
@@ -58,7 +58,7 @@
         /// </summary>
         /// <param name="nodeIndex">Index of the node.</param>
         /// <returns>The created node state.</returns>
-        protected virtual IReadOnlyPlaceholderNodeState InitChildState(IReadOnlyBrowsingPlaceholderNodeIndex nodeIndex)
+        private protected virtual IReadOnlyPlaceholderNodeState InitChildState(IReadOnlyBrowsingPlaceholderNodeIndex nodeIndex)
         {
             Debug.Assert(nodeIndex != null);
             Debug.Assert(nodeIndex.PropertyName == PropertyName);
@@ -124,7 +124,7 @@
 
         #region Implementation
         /// <summary></summary>
-        protected virtual void SetChildState(IReadOnlyPlaceholderNodeState childState)
+        private protected virtual void SetChildState(IReadOnlyPlaceholderNodeState childState)
         {
             Debug.Assert(childState != null);
 
@@ -136,7 +136,7 @@
         /// <summary>
         /// Creates a IxxxPlaceholderNodeState object.
         /// </summary>
-        protected virtual IReadOnlyPlaceholderNodeState CreateNodeState(IReadOnlyBrowsingPlaceholderNodeIndex nodeIndex)
+        private protected virtual IReadOnlyPlaceholderNodeState CreateNodeState(IReadOnlyBrowsingPlaceholderNodeIndex nodeIndex)
         {
             ControllerTools.AssertNoOverride(this, typeof(ReadOnlyPlaceholderInner<IIndex, TIndex>));
             return new ReadOnlyPlaceholderNodeState(nodeIndex);

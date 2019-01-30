@@ -57,7 +57,7 @@
         /// <summary>
         /// Creates a IxxxInsertBlockOperation object.
         /// </summary>
-        protected override IWriteableInsertBlockOperation CreateInsertBlockOperation(int blockIndex, IBlock block, INode node, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        private protected override IWriteableInsertBlockOperation CreateInsertBlockOperation(int blockIndex, IBlock block, INode node, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameRemoveBlockOperation));
             return new FrameInsertBlockOperation(ParentNode, PropertyName, blockIndex, block, node, handlerRedo, handlerUndo, isNested);

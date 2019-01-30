@@ -229,19 +229,19 @@
         }
 
         /// <summary></summary>
-        protected virtual IPattern ClonePattern()
+        private protected virtual IPattern ClonePattern()
         {
             return PatternState.CloneNode();
         }
 
         /// <summary></summary>
-        protected virtual IIdentifier CloneSource()
+        private protected virtual IIdentifier CloneSource()
         {
             return SourceState.CloneNode();
         }
 
         /// <summary></summary>
-        protected virtual void CloneChildren(INode parentNode, IBlock parentBlock)
+        private protected virtual void CloneChildren(INode parentNode, IBlock parentBlock)
         {
             for (int i = 0; i < StateList.Count; i++)
             {
@@ -292,7 +292,7 @@
 
         #region Implementation
         /// <summary></summary>
-        protected virtual void InsertState(int index, IReadOnlyPlaceholderNodeState state)
+        private protected virtual void InsertState(int index, IReadOnlyPlaceholderNodeState state)
         {
             Debug.Assert(index >= 0 && index <= _StateList.Count);
             Debug.Assert(state != null);
@@ -302,7 +302,7 @@
         }
 
         /// <summary></summary>
-        protected virtual void RemoveState(int index)
+        private protected virtual void RemoveState(int index)
         {
             Debug.Assert(index >= 0 && index < _StateList.Count);
 
@@ -310,7 +310,7 @@
         }
 
         /// <summary></summary>
-        protected virtual void MoveState(int index, int direction)
+        private protected virtual void MoveState(int index, int direction)
         {
             Debug.Assert(index >= 0 && index < _StateList.Count);
             Debug.Assert(index + direction >= 0 && index + direction < _StateList.Count);
@@ -371,7 +371,7 @@
         /// <summary>
         /// Creates a IxxxPlaceholderNodeStateList object.
         /// </summary>
-        protected virtual IReadOnlyPlaceholderNodeStateList CreateStateList()
+        private protected virtual IReadOnlyPlaceholderNodeStateList CreateStateList()
         {
             ControllerTools.AssertNoOverride(this, typeof(ReadOnlyBlockState));
             return new ReadOnlyPlaceholderNodeStateList();
@@ -380,7 +380,7 @@
         /// <summary>
         /// Creates a IxxxPlaceholderNodeStateReadOnlyList object.
         /// </summary>
-        protected virtual IReadOnlyPlaceholderNodeStateReadOnlyList CreateStateListReadOnly(IReadOnlyPlaceholderNodeStateList stateList)
+        private protected virtual IReadOnlyPlaceholderNodeStateReadOnlyList CreateStateListReadOnly(IReadOnlyPlaceholderNodeStateList stateList)
         {
             ControllerTools.AssertNoOverride(this, typeof(ReadOnlyBlockState));
             return new ReadOnlyPlaceholderNodeStateReadOnlyList(stateList);
@@ -389,7 +389,7 @@
         /// <summary>
         /// Creates a IxxxInnerDictionary{string} object.
         /// </summary>
-        protected virtual IReadOnlyInnerDictionary<string> CreateInnerTable()
+        private protected virtual IReadOnlyInnerDictionary<string> CreateInnerTable()
         {
             ControllerTools.AssertNoOverride(this, typeof(ReadOnlyBlockState));
             return new ReadOnlyInnerDictionary<string>();
@@ -398,7 +398,7 @@
         /// <summary>
         /// Creates a IxxxInnerReadOnlyDictionary{string} object.
         /// </summary>
-        protected virtual IReadOnlyInnerReadOnlyDictionary<string> CreateInnerTableReadOnly(IReadOnlyInnerDictionary<string> innerTable)
+        private protected virtual IReadOnlyInnerReadOnlyDictionary<string> CreateInnerTableReadOnly(IReadOnlyInnerDictionary<string> innerTable)
         {
             ControllerTools.AssertNoOverride(this, typeof(ReadOnlyBlockState));
             return new ReadOnlyInnerReadOnlyDictionary<string>(innerTable);
@@ -407,7 +407,7 @@
         /// <summary>
         /// Creates a IxxxPlaceholderInner{IxxxBrowsingPlaceholderNodeIndex} object.
         /// </summary>
-        protected virtual IReadOnlyPlaceholderInner<IReadOnlyBrowsingPlaceholderNodeIndex> CreatePatternInner(IReadOnlyNodeState owner)
+        private protected virtual IReadOnlyPlaceholderInner<IReadOnlyBrowsingPlaceholderNodeIndex> CreatePatternInner(IReadOnlyNodeState owner)
         {
             ControllerTools.AssertNoOverride(this, typeof(ReadOnlyBlockState));
             return new ReadOnlyPlaceholderInner<IReadOnlyBrowsingPlaceholderNodeIndex, ReadOnlyBrowsingPlaceholderNodeIndex>(owner, nameof(IBlock.ReplicationPattern));
@@ -416,7 +416,7 @@
         /// <summary>
         /// Creates a IxxxPlaceholderInner{IxxxBrowsingPlaceholderNodeIndex} object.
         /// </summary>
-        protected virtual IReadOnlyPlaceholderInner<IReadOnlyBrowsingPlaceholderNodeIndex> CreateSourceInner(IReadOnlyNodeState owner)
+        private protected virtual IReadOnlyPlaceholderInner<IReadOnlyBrowsingPlaceholderNodeIndex> CreateSourceInner(IReadOnlyNodeState owner)
         {
             ControllerTools.AssertNoOverride(this, typeof(ReadOnlyBlockState));
             return new ReadOnlyPlaceholderInner<IReadOnlyBrowsingPlaceholderNodeIndex, ReadOnlyBrowsingPlaceholderNodeIndex>(owner, nameof(IBlock.SourceIdentifier));
@@ -425,7 +425,7 @@
         /// <summary>
         /// Creates a IxxxBrowsingPatternIndex object.
         /// </summary>
-        protected virtual IReadOnlyBrowsingPatternIndex CreateExistingPatternIndex()
+        private protected virtual IReadOnlyBrowsingPatternIndex CreateExistingPatternIndex()
         {
             ControllerTools.AssertNoOverride(this, typeof(ReadOnlyBlockState));
             return new ReadOnlyBrowsingPatternIndex(ChildBlock);
@@ -434,7 +434,7 @@
         /// <summary>
         /// Creates a IxxxBrowsingSourceIndex object.
         /// </summary>
-        protected virtual IReadOnlyBrowsingSourceIndex CreateExistingSourceIndex()
+        private protected virtual IReadOnlyBrowsingSourceIndex CreateExistingSourceIndex()
         {
             ControllerTools.AssertNoOverride(this, typeof(ReadOnlyBlockState));
             return new ReadOnlyBrowsingSourceIndex(ChildBlock);
@@ -443,7 +443,7 @@
         /// <summary>
         /// Creates a IxxxPatternState object.
         /// </summary>
-        protected virtual IReadOnlyPatternState CreatePatternState(IReadOnlyBrowsingPatternIndex patternIndex)
+        private protected virtual IReadOnlyPatternState CreatePatternState(IReadOnlyBrowsingPatternIndex patternIndex)
         {
             ControllerTools.AssertNoOverride(this, typeof(ReadOnlyBlockState));
             return new ReadOnlyPatternState(this, patternIndex);
@@ -452,7 +452,7 @@
         /// <summary>
         /// Creates a IxxxSourceState object.
         /// </summary>
-        protected virtual IReadOnlySourceState CreateSourceState(IReadOnlyBrowsingSourceIndex sourceIndex)
+        private protected virtual IReadOnlySourceState CreateSourceState(IReadOnlyBrowsingSourceIndex sourceIndex)
         {
             ControllerTools.AssertNoOverride(this, typeof(ReadOnlyBlockState));
             return new ReadOnlySourceState(this, sourceIndex);

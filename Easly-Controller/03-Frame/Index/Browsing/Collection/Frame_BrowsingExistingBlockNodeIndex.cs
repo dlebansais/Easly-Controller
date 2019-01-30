@@ -14,7 +14,7 @@
     /// <summary>
     /// Index for a node in a block that is not the first.
     /// </summary>
-    public class FrameBrowsingExistingBlockNodeIndex : WriteableBrowsingExistingBlockNodeIndex, IFrameBrowsingExistingBlockNodeIndex
+    internal class FrameBrowsingExistingBlockNodeIndex : WriteableBrowsingExistingBlockNodeIndex, IFrameBrowsingExistingBlockNodeIndex
     {
         #region Init
         /// <summary>
@@ -55,7 +55,7 @@
         /// <summary>
         /// Creates a IxxxInsertionExistingBlockNodeIndex object.
         /// </summary>
-        protected override IWriteableInsertionExistingBlockNodeIndex CreateInsertionIndex(INode parentNode, INode node)
+        private protected override IWriteableInsertionExistingBlockNodeIndex CreateInsertionIndex(INode parentNode, INode node)
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameBrowsingExistingBlockNodeIndex));
             return new FrameInsertionExistingBlockNodeIndex(parentNode, PropertyName, node, BlockIndex, Index);

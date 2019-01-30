@@ -159,7 +159,7 @@
         }
 
         /// <summary></summary>
-        protected virtual void SetRootCellView(IFrameCellView cellView)
+        private protected virtual void SetRootCellView(IFrameCellView cellView)
         {
             Debug.Assert(cellView != null);
             Debug.Assert(RootCellView == null);
@@ -248,7 +248,7 @@
         }
 
         /// <summary></summary>
-        protected virtual bool IsRootCellViewEqual(CompareEqual comparer, IFrameBlockStateView other)
+        private protected virtual bool IsRootCellViewEqual(CompareEqual comparer, IFrameBlockStateView other)
         {
             if (RootCellView != null)
             {
@@ -267,7 +267,7 @@
         }
 
         /// <summary></summary>
-        protected virtual bool IsEmbeddingCellViewEqual(CompareEqual comparer, IFrameBlockStateView other)
+        private protected virtual bool IsEmbeddingCellViewEqual(CompareEqual comparer, IFrameBlockStateView other)
         {
             if (EmbeddingCellView != null)
             {
@@ -310,7 +310,7 @@
         /// <summary>
         /// Creates a IxxxAssignableCellViewDictionary{string} object.
         /// </summary>
-        protected virtual IFrameAssignableCellViewDictionary<string> CreateCellViewTable()
+        private protected virtual IFrameAssignableCellViewDictionary<string> CreateCellViewTable()
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameBlockStateView));
             return new FrameAssignableCellViewDictionary<string>();
@@ -319,7 +319,7 @@
         /// <summary>
         /// Creates a IxxxAssignableCellViewReadOnlyDictionary{string} object.
         /// </summary>
-        protected virtual IFrameAssignableCellViewReadOnlyDictionary<string> CreateCellViewReadOnlyTable(IFrameAssignableCellViewDictionary<string> dictionary)
+        private protected virtual IFrameAssignableCellViewReadOnlyDictionary<string> CreateCellViewReadOnlyTable(IFrameAssignableCellViewDictionary<string> dictionary)
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameBlockStateView));
             return new FrameAssignableCellViewReadOnlyDictionary<string>(dictionary);

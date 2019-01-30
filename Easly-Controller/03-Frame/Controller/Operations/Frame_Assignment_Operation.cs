@@ -46,7 +46,7 @@
         /// <summary>
         /// Creates a IxxxAssignmentOperation object.
         /// </summary>
-        protected override IWriteableAssignmentOperation CreateAssignmentOperation(Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        private protected override IWriteableAssignmentOperation CreateAssignmentOperation(Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameAssignmentOperation));
             return new FrameAssignmentOperation(ParentNode, PropertyName, handlerRedo, handlerUndo, isNested);

@@ -45,7 +45,7 @@
         /// Initializes a new instance of the <see cref="WriteableControllerView"/> class.
         /// </summary>
         /// <param name="controller">The controller on which the view is attached.</param>
-        protected WriteableControllerView(IWriteableController controller)
+        private protected WriteableControllerView(IWriteableController controller)
             : base(controller)
         {
         }
@@ -53,7 +53,7 @@
         /// <summary>
         /// Initializes the view by attaching it to the controller.
         /// </summary>
-        protected override void Init()
+        private protected override void Init()
         {
             base.Init();
 
@@ -362,7 +362,7 @@
         /// <summary>
         /// Creates a IxxxStateViewDictionary object.
         /// </summary>
-        protected override IReadOnlyStateViewDictionary CreateStateViewTable()
+        private protected override IReadOnlyStateViewDictionary CreateStateViewTable()
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableControllerView));
             return new WriteableStateViewDictionary();
@@ -371,7 +371,7 @@
         /// <summary>
         /// Creates a IxxxBlockStateViewDictionary object.
         /// </summary>
-        protected override IReadOnlyBlockStateViewDictionary CreateBlockStateViewTable()
+        private protected override IReadOnlyBlockStateViewDictionary CreateBlockStateViewTable()
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableControllerView));
             return new WriteableBlockStateViewDictionary();
@@ -380,7 +380,7 @@
         /// <summary>
         /// Creates a IxxxAttachCallbackSet object.
         /// </summary>
-        protected override IReadOnlyAttachCallbackSet CreateCallbackSet()
+        private protected override IReadOnlyAttachCallbackSet CreateCallbackSet()
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableControllerView));
             return new WriteableAttachCallbackSet()
@@ -397,7 +397,7 @@
         /// <summary>
         /// Creates a IxxxPlaceholderNodeStateView object.
         /// </summary>
-        protected override IReadOnlyPlaceholderNodeStateView CreatePlaceholderNodeStateView(IReadOnlyPlaceholderNodeState state)
+        private protected override IReadOnlyPlaceholderNodeStateView CreatePlaceholderNodeStateView(IReadOnlyPlaceholderNodeState state)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableControllerView));
             return new WriteablePlaceholderNodeStateView(this, (IWriteablePlaceholderNodeState)state);
@@ -406,7 +406,7 @@
         /// <summary>
         /// Creates a IxxxOptionalNodeStateView object.
         /// </summary>
-        protected override IReadOnlyOptionalNodeStateView CreateOptionalNodeStateView(IReadOnlyOptionalNodeState state)
+        private protected override IReadOnlyOptionalNodeStateView CreateOptionalNodeStateView(IReadOnlyOptionalNodeState state)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableControllerView));
             return new WriteableOptionalNodeStateView(this, (IWriteableOptionalNodeState)state);
@@ -415,7 +415,7 @@
         /// <summary>
         /// Creates a IxxxPatternStateView object.
         /// </summary>
-        protected override IReadOnlyPatternStateView CreatePatternStateView(IReadOnlyPatternState state)
+        private protected override IReadOnlyPatternStateView CreatePatternStateView(IReadOnlyPatternState state)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableControllerView));
             return new WriteablePatternStateView(this, (IWriteablePatternState)state);
@@ -424,7 +424,7 @@
         /// <summary>
         /// Creates a IxxxSourceStateView object.
         /// </summary>
-        protected override IReadOnlySourceStateView CreateSourceStateView(IReadOnlySourceState state)
+        private protected override IReadOnlySourceStateView CreateSourceStateView(IReadOnlySourceState state)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableControllerView));
             return new WriteableSourceStateView(this, (IWriteableSourceState)state);
@@ -433,7 +433,7 @@
         /// <summary>
         /// Creates a IxxxBlockStateView object.
         /// </summary>
-        protected override IReadOnlyBlockStateView CreateBlockStateView(IReadOnlyBlockState blockState)
+        private protected override IReadOnlyBlockStateView CreateBlockStateView(IReadOnlyBlockState blockState)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableControllerView));
             return new WriteableBlockStateView(this, (IWriteableBlockState)blockState);

@@ -45,7 +45,7 @@
         /// Initializes a new instance of the <see cref="ReadOnlyControllerView"/> class.
         /// </summary>
         /// <param name="controller">The controller on which the view is attached.</param>
-        protected ReadOnlyControllerView(IReadOnlyController controller)
+        private protected ReadOnlyControllerView(IReadOnlyController controller)
         {
             Controller = controller;
 
@@ -56,7 +56,7 @@
         /// <summary>
         /// Initializes the view by attaching it to the controller.
         /// </summary>
-        protected virtual void Init()
+        private protected virtual void Init()
         {
             IReadOnlyAttachCallbackSet CallbackSet = CreateCallbackSet();
             Controller.Attach(this, CallbackSet);
@@ -223,7 +223,7 @@
         /// <summary>
         /// Creates a IxxxStateViewDictionary object.
         /// </summary>
-        protected virtual IReadOnlyStateViewDictionary CreateStateViewTable()
+        private protected virtual IReadOnlyStateViewDictionary CreateStateViewTable()
         {
             ControllerTools.AssertNoOverride(this, typeof(ReadOnlyControllerView));
             return new ReadOnlyStateViewDictionary();
@@ -232,7 +232,7 @@
         /// <summary>
         /// Creates a IxxxBlockStateViewDictionary object.
         /// </summary>
-        protected virtual IReadOnlyBlockStateViewDictionary CreateBlockStateViewTable()
+        private protected virtual IReadOnlyBlockStateViewDictionary CreateBlockStateViewTable()
         {
             ControllerTools.AssertNoOverride(this, typeof(ReadOnlyControllerView));
             return new ReadOnlyBlockStateViewDictionary();
@@ -241,7 +241,7 @@
         /// <summary>
         /// Creates a IxxxAttachCallbackSet object.
         /// </summary>
-        protected virtual IReadOnlyAttachCallbackSet CreateCallbackSet()
+        private protected virtual IReadOnlyAttachCallbackSet CreateCallbackSet()
         {
             ControllerTools.AssertNoOverride(this, typeof(ReadOnlyControllerView));
             return new ReadOnlyAttachCallbackSet()
@@ -258,7 +258,7 @@
         /// <summary>
         /// Creates a IxxxPlaceholderNodeStateView object.
         /// </summary>
-        protected virtual IReadOnlyPlaceholderNodeStateView CreatePlaceholderNodeStateView(IReadOnlyPlaceholderNodeState state)
+        private protected virtual IReadOnlyPlaceholderNodeStateView CreatePlaceholderNodeStateView(IReadOnlyPlaceholderNodeState state)
         {
             ControllerTools.AssertNoOverride(this, typeof(ReadOnlyControllerView));
             return new ReadOnlyPlaceholderNodeStateView(this, state);
@@ -267,7 +267,7 @@
         /// <summary>
         /// Creates a IxxxOptionalNodeStateView object.
         /// </summary>
-        protected virtual IReadOnlyOptionalNodeStateView CreateOptionalNodeStateView(IReadOnlyOptionalNodeState state)
+        private protected virtual IReadOnlyOptionalNodeStateView CreateOptionalNodeStateView(IReadOnlyOptionalNodeState state)
         {
             ControllerTools.AssertNoOverride(this, typeof(ReadOnlyControllerView));
             return new ReadOnlyOptionalNodeStateView(this, state);
@@ -276,7 +276,7 @@
         /// <summary>
         /// Creates a IxxxPatternStateView object.
         /// </summary>
-        protected virtual IReadOnlyPatternStateView CreatePatternStateView(IReadOnlyPatternState state)
+        private protected virtual IReadOnlyPatternStateView CreatePatternStateView(IReadOnlyPatternState state)
         {
             ControllerTools.AssertNoOverride(this, typeof(ReadOnlyControllerView));
             return new ReadOnlyPatternStateView(this, state);
@@ -285,7 +285,7 @@
         /// <summary>
         /// Creates a IxxxSourceStateView object.
         /// </summary>
-        protected virtual IReadOnlySourceStateView CreateSourceStateView(IReadOnlySourceState state)
+        private protected virtual IReadOnlySourceStateView CreateSourceStateView(IReadOnlySourceState state)
         {
             ControllerTools.AssertNoOverride(this, typeof(ReadOnlyControllerView));
             return new ReadOnlySourceStateView(this, state);
@@ -294,7 +294,7 @@
         /// <summary>
         /// Creates a IxxxBlockStateView object.
         /// </summary>
-        protected virtual IReadOnlyBlockStateView CreateBlockStateView(IReadOnlyBlockState blockState)
+        private protected virtual IReadOnlyBlockStateView CreateBlockStateView(IReadOnlyBlockState blockState)
         {
             ControllerTools.AssertNoOverride(this, typeof(ReadOnlyControllerView));
             return new ReadOnlyBlockStateView(this, blockState);
@@ -303,7 +303,7 @@
 
         #region Implementation of IDisposable
 #pragma warning disable 1591
-        protected virtual void Dispose(bool isDisposing)
+        private protected virtual void Dispose(bool isDisposing)
         {
             if (isDisposing)
                 DisposeNow();

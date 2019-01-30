@@ -35,7 +35,7 @@
     /// </summary>
     /// <typeparam name="IIndex">Type of the index as interface.</typeparam>
     /// <typeparam name="TIndex">Type of the index as class.</typeparam>
-    public class WriteableListInner<IIndex, TIndex> : ReadOnlyListInner<IIndex, TIndex>, IWriteableListInner<IIndex>, IWriteableListInner
+    internal class WriteableListInner<IIndex, TIndex> : ReadOnlyListInner<IIndex, TIndex>, IWriteableListInner<IIndex>, IWriteableListInner
         where IIndex : IWriteableBrowsingListNodeIndex
         where TIndex : WriteableBrowsingListNodeIndex, IIndex
     {
@@ -178,7 +178,7 @@
         }
 
         /// <summary></summary>
-        protected virtual bool IsMoveable(IWriteableBrowsingListNodeIndex listIndex, int direction)
+        private protected virtual bool IsMoveable(IWriteableBrowsingListNodeIndex listIndex, int direction)
         {
             Debug.Assert(listIndex != null);
 
@@ -240,7 +240,7 @@
         /// <summary>
         /// Creates a IxxxPlaceholderNodeStateList object.
         /// </summary>
-        protected override IReadOnlyPlaceholderNodeStateList CreateStateList()
+        private protected override IReadOnlyPlaceholderNodeStateList CreateStateList()
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableListInner<IIndex, TIndex>));
             return new WriteablePlaceholderNodeStateList();
@@ -249,7 +249,7 @@
         /// <summary>
         /// Creates a IxxxPlaceholderNodeStateReadOnlyList object.
         /// </summary>
-        protected override IReadOnlyPlaceholderNodeStateReadOnlyList CreateStateListReadOnly(IReadOnlyPlaceholderNodeStateList stateList)
+        private protected override IReadOnlyPlaceholderNodeStateReadOnlyList CreateStateListReadOnly(IReadOnlyPlaceholderNodeStateList stateList)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableListInner<IIndex, TIndex>));
             return new WriteablePlaceholderNodeStateReadOnlyList((IWriteablePlaceholderNodeStateList)stateList);
@@ -258,7 +258,7 @@
         /// <summary>
         /// Creates a IxxxPlaceholderNodeState object.
         /// </summary>
-        protected override IReadOnlyPlaceholderNodeState CreateNodeState(IReadOnlyNodeIndex nodeIndex)
+        private protected override IReadOnlyPlaceholderNodeState CreateNodeState(IReadOnlyNodeIndex nodeIndex)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableListInner<IIndex, TIndex>));
             return new WriteablePlaceholderNodeState((IWriteableNodeIndex)nodeIndex);
@@ -267,7 +267,7 @@
         /// <summary>
         /// Creates a IxxxBrowsingListNodeIndex object.
         /// </summary>
-        protected virtual IWriteableBrowsingListNodeIndex CreateBrowsingNodeIndex(INode node, int index)
+        private protected virtual IWriteableBrowsingListNodeIndex CreateBrowsingNodeIndex(INode node, int index)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableListInner<IIndex, TIndex>));
             return new WriteableBrowsingListNodeIndex(Owner.Node, node, PropertyName, index);

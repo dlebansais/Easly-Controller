@@ -25,7 +25,7 @@
     /// </summary>
     /// <typeparam name="IIndex">Type of the index as interface.</typeparam>
     /// <typeparam name="TIndex">Type of the index as class.</typeparam>
-    public class FramePlaceholderInner<IIndex, TIndex> : WriteablePlaceholderInner<IIndex, TIndex>, IFramePlaceholderInner<IIndex>, IFramePlaceholderInner
+    internal class FramePlaceholderInner<IIndex, TIndex> : WriteablePlaceholderInner<IIndex, TIndex>, IFramePlaceholderInner<IIndex>, IFramePlaceholderInner
         where IIndex : IFrameBrowsingPlaceholderNodeIndex
         where TIndex : FrameBrowsingPlaceholderNodeIndex, IIndex
     {
@@ -57,7 +57,7 @@
         /// <summary>
         /// Creates a IxxxPlaceholderNodeState object.
         /// </summary>
-        protected override IReadOnlyPlaceholderNodeState CreateNodeState(IReadOnlyBrowsingPlaceholderNodeIndex nodeIndex)
+        private protected override IReadOnlyPlaceholderNodeState CreateNodeState(IReadOnlyBrowsingPlaceholderNodeIndex nodeIndex)
         {
             ControllerTools.AssertNoOverride(this, typeof(FramePlaceholderInner<IIndex, TIndex>));
             return new FramePlaceholderNodeState((IFrameBrowsingPlaceholderNodeIndex)nodeIndex);
@@ -66,7 +66,7 @@
         /// <summary>
         /// Creates a IxxxBrowsingPlaceholderNodeIndex object.
         /// </summary>
-        protected override IWriteableBrowsingPlaceholderNodeIndex CreateBrowsingNodeIndex(INode node)
+        private protected override IWriteableBrowsingPlaceholderNodeIndex CreateBrowsingNodeIndex(INode node)
         {
             ControllerTools.AssertNoOverride(this, typeof(FramePlaceholderInner<IIndex, TIndex>));
             return new FrameBrowsingPlaceholderNodeIndex(Owner.Node, node, PropertyName);

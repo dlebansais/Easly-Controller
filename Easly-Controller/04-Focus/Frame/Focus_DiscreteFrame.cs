@@ -121,7 +121,7 @@
         /// <summary>
         /// Creates a IxxxKeywordFrameList object.
         /// </summary>
-        protected override IFrameKeywordFrameList CreateKeywordFrameList()
+        private protected override IFrameKeywordFrameList CreateKeywordFrameList()
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusDiscreteFrame));
             return new FocusKeywordFrameList();
@@ -130,7 +130,7 @@
         /// <summary>
         /// Creates a IxxxDiscreteContentFocusableCellView object.
         /// </summary>
-        protected override IFrameDiscreteContentFocusableCellView CreateDiscreteContentFocusableCellView(IFrameNodeStateView stateView, IFrameKeywordFrame keywordFrame)
+        private protected override IFrameDiscreteContentFocusableCellView CreateDiscreteContentFocusableCellView(IFrameNodeStateView stateView, IFrameKeywordFrame keywordFrame)
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusDiscreteFrame));
             return new FocusDiscreteContentFocusableCellView((IFocusNodeStateView)stateView, this, PropertyName, (IFocusKeywordFrame)keywordFrame);
@@ -139,7 +139,7 @@
         /// <summary>
         /// Creates a IxxxEmptyCellView object.
         /// </summary>
-        protected virtual IFocusEmptyCellView CreateEmptyCellView(IFocusNodeStateView stateView)
+        private protected virtual IFocusEmptyCellView CreateEmptyCellView(IFocusNodeStateView stateView)
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusDiscreteFrame));
             return new FocusEmptyCellView(stateView);

@@ -252,7 +252,7 @@
         /// </summary>
         /// <param name="controller">The controller on which the view is attached.</param>
         /// <param name="templateSet">The template set used to describe the view.</param>
-        protected FocusControllerView(IFocusController controller, IFocusTemplateSet templateSet)
+        private protected FocusControllerView(IFocusController controller, IFocusTemplateSet templateSet)
             : base(controller, templateSet)
         {
         }
@@ -284,7 +284,7 @@
         /// </summary>
         public IFocusFocusableCellView FocusedCellView { get; private set; }
         /// <summary></summary>
-        protected IFocusFocusableCellViewList FocusChain { get; private set; }
+        private protected IFocusFocusableCellViewList FocusChain { get; private set; }
 
         /// <summary>
         /// Lowest valid value for <see cref="MoveFocus"/>.
@@ -591,7 +591,7 @@
         }
 
         /// <summary></summary>
-        protected virtual IFocusNodeStateView GetFirstNonSimpleStateView(IFocusNodeStateView stateView)
+        private protected virtual IFocusNodeStateView GetFirstNonSimpleStateView(IFocusNodeStateView stateView)
         {
             Debug.Assert(stateView != null);
             IFocusNodeStateView CurrentStateView = stateView;
@@ -668,7 +668,7 @@
         }
 
         /// <summary></summary>
-        protected virtual INode BuildNewInsertableItem(Type insertType)
+        private protected virtual INode BuildNewInsertableItem(Type insertType)
         {
             return NodeHelper.CreateEmptyNode(insertType);
         }
@@ -1069,7 +1069,7 @@
 
         #region Implementation
         /// <summary></summary>
-        protected override IFrameCellViewTreeContext InitializedCellViewTreeContext(IFrameNodeStateView stateView)
+        private protected override IFrameCellViewTreeContext InitializedCellViewTreeContext(IFrameNodeStateView stateView)
         {
             IFocusCellViewTreeContext Context = (IFocusCellViewTreeContext)CreateCellViewTreeContext(stateView);
 
@@ -1107,7 +1107,7 @@
         }
 
         /// <summary></summary>
-        protected override void Refresh(IFrameNodeState state)
+        private protected override void Refresh(IFrameNodeState state)
         {
             base.Refresh(state);
 
@@ -1115,7 +1115,7 @@
         }
 
         /// <summary></summary>
-        protected virtual void UpdateFocusChain(IFocusNodeState state)
+        private protected virtual void UpdateFocusChain(IFocusNodeState state)
         {
             IFocusFocusableCellViewList NewFocusChain = CreateFocusChain();
             IFocusNodeState RootState = Controller.RootState;
@@ -1143,7 +1143,7 @@
         }
 
         /// <summary></summary>
-        protected virtual void RecoverFocus(IFocusNodeState state, IFocusFocusableCellViewList newFocusChain)
+        private protected virtual void RecoverFocus(IFocusNodeState state, IFocusFocusableCellViewList newFocusChain)
         {
             IFocusNodeState CurrentState = state;
             List<IFocusNodeStateView> StateViewList = new List<IFocusNodeStateView>();
@@ -1175,7 +1175,7 @@
         }
 
         /// <summary></summary>
-        protected virtual void FindPreferredFrame(IFocusNodeStateView mainStateView, List<IFocusFocusableCellView> sameStateFocusableList)
+        private protected virtual void FindPreferredFrame(IFocusNodeStateView mainStateView, List<IFocusFocusableCellView> sameStateFocusableList)
         {
             bool IsFrameSet = false;
             IFocusNodeTemplate Template = mainStateView.Template as IFocusNodeTemplate;
@@ -1199,7 +1199,7 @@
         }
 
         /// <summary></summary>
-        protected virtual bool GetFocusedStateAndChildren(IFocusFocusableCellViewList newFocusChain, IFocusNodeState state, out IFocusNodeStateView mainStateView, out List<IFocusNodeStateView> stateViewList, out List<IFocusFocusableCellView> sameStateFocusableList)
+        private protected virtual bool GetFocusedStateAndChildren(IFocusFocusableCellViewList newFocusChain, IFocusNodeState state, out IFocusNodeStateView mainStateView, out List<IFocusNodeStateView> stateViewList, out List<IFocusFocusableCellView> sameStateFocusableList)
         {
             mainStateView = StateViewTable[state];
 
@@ -1224,7 +1224,7 @@
         }
 
         /// <summary></summary>
-        protected virtual bool RecursiveFocusableCellViewSearch(IFocusFocusableCellViewList focusChain, IFocusNodeStateView stateView, List<IFocusFocusableCellView> cellViewList, out IFocusNodeStateView selectedStateView)
+        private protected virtual bool RecursiveFocusableCellViewSearch(IFocusFocusableCellViewList focusChain, IFocusNodeStateView stateView, List<IFocusFocusableCellView> cellViewList, out IFocusNodeStateView selectedStateView)
         {
             foreach (IFocusFocusableCellView CellView in focusChain)
                 if (CellView.StateView == stateView)
@@ -1265,7 +1265,7 @@
         }
 
         /// <summary></summary>
-        protected virtual bool CellViewSearchInPlaceholderInner(IFocusFocusableCellViewList focusChain, List<IFocusFocusableCellView> cellViewList, IFocusPlaceholderInner<IFocusBrowsingPlaceholderNodeIndex> inner, out IFocusNodeStateView selectedStateView)
+        private protected virtual bool CellViewSearchInPlaceholderInner(IFocusFocusableCellViewList focusChain, List<IFocusFocusableCellView> cellViewList, IFocusPlaceholderInner<IFocusBrowsingPlaceholderNodeIndex> inner, out IFocusNodeStateView selectedStateView)
         {
             IFocusNodeStateView ChildStateView = StateViewTable[inner.ChildState];
             if (RecursiveFocusableCellViewSearch(focusChain, ChildStateView, cellViewList, out selectedStateView))
@@ -1275,7 +1275,7 @@
         }
 
         /// <summary></summary>
-        protected virtual bool CellViewSearchInOptionalInner(IFocusFocusableCellViewList focusChain, List<IFocusFocusableCellView> cellViewList, IFocusOptionalInner<IFocusBrowsingOptionalNodeIndex> inner, out IFocusNodeStateView selectedStateView)
+        private protected virtual bool CellViewSearchInOptionalInner(IFocusFocusableCellViewList focusChain, List<IFocusFocusableCellView> cellViewList, IFocusOptionalInner<IFocusBrowsingOptionalNodeIndex> inner, out IFocusNodeStateView selectedStateView)
         {
             if (inner.IsAssigned)
             {
@@ -1289,7 +1289,7 @@
         }
 
         /// <summary></summary>
-        protected virtual bool CellViewSearchInListInner(IFocusFocusableCellViewList focusChain, List<IFocusFocusableCellView> cellViewList, IFocusListInner<IFocusBrowsingListNodeIndex> inner, out IFocusNodeStateView selectedStateView)
+        private protected virtual bool CellViewSearchInListInner(IFocusFocusableCellViewList focusChain, List<IFocusFocusableCellView> cellViewList, IFocusListInner<IFocusBrowsingListNodeIndex> inner, out IFocusNodeStateView selectedStateView)
         {
             foreach (IFocusNodeState ChildState in inner.StateList)
             {
@@ -1303,7 +1303,7 @@
         }
 
         /// <summary></summary>
-        protected virtual bool CellViewSearchInBlockListInner(IFocusFocusableCellViewList focusChain, List<IFocusFocusableCellView> cellViewList, IFocusBlockListInner<IFocusBrowsingBlockNodeIndex> inner, out IFocusNodeStateView selectedStateView)
+        private protected virtual bool CellViewSearchInBlockListInner(IFocusFocusableCellViewList focusChain, List<IFocusFocusableCellView> cellViewList, IFocusBlockListInner<IFocusBrowsingBlockNodeIndex> inner, out IFocusNodeStateView selectedStateView)
         {
             foreach (IFocusBlockState BlockState in inner.BlockStateList)
             {
@@ -1328,7 +1328,7 @@
         }
 
         /// <summary></summary>
-        protected virtual void GetChildrenStateView(IFocusNodeStateView stateView, List<IFocusNodeStateView> stateViewList)
+        private protected virtual void GetChildrenStateView(IFocusNodeStateView stateView, List<IFocusNodeStateView> stateViewList)
         {
             stateViewList.Add(stateView);
 
@@ -1377,7 +1377,7 @@
         }
 
         /// <summary></summary>
-        protected virtual void ResetCaretPosition()
+        private protected virtual void ResetCaretPosition()
         {
             if (FocusedCellView is IFocusTextFocusableCellView AsText)
                 CaretPosition = 0;
@@ -1386,7 +1386,7 @@
         }
 
         /// <summary></summary>
-        protected virtual bool SetTextCaretPosition(INode node, string propertyName, int position)
+        private protected virtual bool SetTextCaretPosition(INode node, string propertyName, int position)
         {
             string Text = NodeTreeHelper.GetString(node, propertyName);
             int OldPosition = CaretPosition;
@@ -1429,7 +1429,7 @@
         /// <summary>
         /// Creates a IxxxStateViewDictionary object.
         /// </summary>
-        protected override IReadOnlyStateViewDictionary CreateStateViewTable()
+        private protected override IReadOnlyStateViewDictionary CreateStateViewTable()
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusControllerView));
             return new FocusStateViewDictionary();
@@ -1438,7 +1438,7 @@
         /// <summary>
         /// Creates a IxxxBlockStateViewDictionary object.
         /// </summary>
-        protected override IReadOnlyBlockStateViewDictionary CreateBlockStateViewTable()
+        private protected override IReadOnlyBlockStateViewDictionary CreateBlockStateViewTable()
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusControllerView));
             return new FocusBlockStateViewDictionary();
@@ -1447,7 +1447,7 @@
         /// <summary>
         /// Creates a IxxxAttachCallbackSet object.
         /// </summary>
-        protected override IReadOnlyAttachCallbackSet CreateCallbackSet()
+        private protected override IReadOnlyAttachCallbackSet CreateCallbackSet()
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusControllerView));
             return new FocusAttachCallbackSet()
@@ -1464,7 +1464,7 @@
         /// <summary>
         /// Creates a IxxxPlaceholderNodeStateView object.
         /// </summary>
-        protected override IReadOnlyPlaceholderNodeStateView CreatePlaceholderNodeStateView(IReadOnlyPlaceholderNodeState state)
+        private protected override IReadOnlyPlaceholderNodeStateView CreatePlaceholderNodeStateView(IReadOnlyPlaceholderNodeState state)
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusControllerView));
             return new FocusPlaceholderNodeStateView(this, (IFocusPlaceholderNodeState)state);
@@ -1473,7 +1473,7 @@
         /// <summary>
         /// Creates a IxxxOptionalNodeStateView object.
         /// </summary>
-        protected override IReadOnlyOptionalNodeStateView CreateOptionalNodeStateView(IReadOnlyOptionalNodeState state)
+        private protected override IReadOnlyOptionalNodeStateView CreateOptionalNodeStateView(IReadOnlyOptionalNodeState state)
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusControllerView));
             return new FocusOptionalNodeStateView(this, (IFocusOptionalNodeState)state);
@@ -1482,7 +1482,7 @@
         /// <summary>
         /// Creates a IxxxPatternStateView object.
         /// </summary>
-        protected override IReadOnlyPatternStateView CreatePatternStateView(IReadOnlyPatternState state)
+        private protected override IReadOnlyPatternStateView CreatePatternStateView(IReadOnlyPatternState state)
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusControllerView));
             return new FocusPatternStateView(this, (IFocusPatternState)state);
@@ -1491,7 +1491,7 @@
         /// <summary>
         /// Creates a IxxxSourceStateView object.
         /// </summary>
-        protected override IReadOnlySourceStateView CreateSourceStateView(IReadOnlySourceState state)
+        private protected override IReadOnlySourceStateView CreateSourceStateView(IReadOnlySourceState state)
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusControllerView));
             return new FocusSourceStateView(this, (IFocusSourceState)state);
@@ -1500,7 +1500,7 @@
         /// <summary>
         /// Creates a IxxxBlockStateView object.
         /// </summary>
-        protected override IReadOnlyBlockStateView CreateBlockStateView(IReadOnlyBlockState blockState)
+        private protected override IReadOnlyBlockStateView CreateBlockStateView(IReadOnlyBlockState blockState)
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusControllerView));
             return new FocusBlockStateView(this, (IFocusBlockState)blockState);
@@ -1509,7 +1509,7 @@
         /// <summary>
         /// Creates a IxxxContainerCellView object.
         /// </summary>
-        protected override IFrameContainerCellView CreateFrameCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, IFrameNodeStateView childStateView)
+        private protected override IFrameContainerCellView CreateFrameCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, IFrameNodeStateView childStateView)
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusControllerView));
             return new FocusContainerCellView((IFocusNodeStateView)stateView, (IFocusCellViewCollection)parentCellView, (IFocusNodeStateView)childStateView);
@@ -1518,7 +1518,7 @@
         /// <summary>
         /// Creates a IxxxBlockCellView object.
         /// </summary>
-        protected override IFrameBlockCellView CreateBlockCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, IFrameBlockStateView blockStateView)
+        private protected override IFrameBlockCellView CreateBlockCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, IFrameBlockStateView blockStateView)
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusControllerView));
             return new FocusBlockCellView((IFocusNodeStateView)stateView, (IFocusCellViewCollection)parentCellView, (IFocusBlockStateView)blockStateView);
@@ -1527,7 +1527,7 @@
         /// <summary>
         /// Creates a IxxxCellViewTreeContext object.
         /// </summary>
-        protected override IFrameCellViewTreeContext CreateCellViewTreeContext(IFrameNodeStateView stateView)
+        private protected override IFrameCellViewTreeContext CreateCellViewTreeContext(IFrameNodeStateView stateView)
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusControllerView));
             return new FocusCellViewTreeContext(this, (IFocusNodeStateView)stateView);
@@ -1536,7 +1536,7 @@
         /// <summary>
         /// Creates a IxxxFocusableCellViewList object.
         /// </summary>
-        protected virtual IFocusFocusableCellViewList CreateFocusChain()
+        private protected virtual IFocusFocusableCellViewList CreateFocusChain()
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusControllerView));
             return new FocusFocusableCellViewList();
@@ -1545,7 +1545,7 @@
         /// <summary>
         /// Creates a IxxxInsertionNewBlockNodeIndex object.
         /// </summary>
-        protected virtual IFocusInsertionNewBlockNodeIndex CreateNewBlockNodeIndex(INode parentNode, string propertyName, INode node, int blockIndex, IPattern patternNode, IIdentifier sourceNode)
+        private protected virtual IFocusInsertionNewBlockNodeIndex CreateNewBlockNodeIndex(INode parentNode, string propertyName, INode node, int blockIndex, IPattern patternNode, IIdentifier sourceNode)
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusControllerView));
             return new FocusInsertionNewBlockNodeIndex(parentNode, propertyName, node, 0, patternNode, sourceNode);
@@ -1554,7 +1554,7 @@
         /// <summary>
         /// Creates a IxxxInsertionExistingBlockNodeIndex object.
         /// </summary>
-        protected virtual IFocusInsertionExistingBlockNodeIndex CreateExistingBlockNodeIndex(INode parentNode, string propertyName, INode node, int blockIndex, int index)
+        private protected virtual IFocusInsertionExistingBlockNodeIndex CreateExistingBlockNodeIndex(INode parentNode, string propertyName, INode node, int blockIndex, int index)
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusControllerView));
             return new FocusInsertionExistingBlockNodeIndex(parentNode, propertyName, node, blockIndex, index);
@@ -1563,7 +1563,7 @@
         /// <summary>
         /// Creates a IxxxInsertionListNodeIndex object.
         /// </summary>
-        protected virtual IFocusInsertionListNodeIndex CreateListNodeIndex(INode parentNode, string propertyName, INode node, int index)
+        private protected virtual IFocusInsertionListNodeIndex CreateListNodeIndex(INode parentNode, string propertyName, INode node, int index)
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusControllerView));
             return new FocusInsertionListNodeIndex(parentNode, propertyName, node, index);

@@ -23,7 +23,7 @@
     /// <summary>
     /// Index for a node in a list of nodes.
     /// </summary>
-    public class ReadOnlyBrowsingListNodeIndex : ReadOnlyBrowsingCollectionNodeIndex, IReadOnlyBrowsingListNodeIndex
+    internal class ReadOnlyBrowsingListNodeIndex : ReadOnlyBrowsingCollectionNodeIndex, IReadOnlyBrowsingListNodeIndex
     {
         #region Init
         /// <summary>
@@ -54,7 +54,7 @@
         /// <summary>
         /// Position of the node in the list.
         /// </summary>
-        public int Index { get; protected set; }
+        public int Index { get; private protected set; }
         #endregion
 
         #region Debugging

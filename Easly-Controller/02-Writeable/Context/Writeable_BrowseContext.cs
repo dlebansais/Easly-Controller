@@ -21,7 +21,7 @@
     /// <summary>
     /// Context for browsing child nodes of a parent node.
     /// </summary>
-    public class WriteableBrowseContext : ReadOnlyBrowseContext, IWriteableBrowseContext
+    internal class WriteableBrowseContext : ReadOnlyBrowseContext, IWriteableBrowseContext
     {
         #region Init
         /// <summary>
@@ -50,7 +50,7 @@
         /// <summary>
         /// Creates a IxxxCollectionList object.
         /// </summary>
-        protected override IReadOnlyIndexCollectionList CreateIndexCollectionList()
+        private protected override IReadOnlyIndexCollectionList CreateIndexCollectionList()
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableBrowseContext));
             return new WriteableIndexCollectionList();
@@ -59,7 +59,7 @@
         /// <summary>
         /// Creates a IxxxIndexCollectionReadOnlyList object.
         /// </summary>
-        protected override IReadOnlyIndexCollectionReadOnlyList CreateIndexCollectionListReadOnly(IReadOnlyIndexCollectionList list)
+        private protected override IReadOnlyIndexCollectionReadOnlyList CreateIndexCollectionListReadOnly(IReadOnlyIndexCollectionList list)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableBrowseContext));
             return new WriteableIndexCollectionReadOnlyList((IWriteableIndexCollectionList)list);

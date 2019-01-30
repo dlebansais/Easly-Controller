@@ -100,7 +100,7 @@
         /// <summary>
         /// Creates a IxxxAssignmentOperation object.
         /// </summary>
-        protected virtual IWriteableAssignmentOperation CreateAssignmentOperation(Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        private protected virtual IWriteableAssignmentOperation CreateAssignmentOperation(Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableAssignmentOperation));
             return new WriteableAssignmentOperation(ParentNode, PropertyName, handlerRedo, handlerUndo, isNested);

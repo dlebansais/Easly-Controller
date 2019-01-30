@@ -245,7 +245,7 @@
         }
 
         /// <summary></summary>
-        protected virtual bool AllCellViewsProperlyAssigned(IFrameAssignableCellViewReadOnlyDictionary<string> expectedCellViewTable, IFrameAssignableCellViewDictionary<string> actualCellViewTable)
+        private protected virtual bool AllCellViewsProperlyAssigned(IFrameAssignableCellViewReadOnlyDictionary<string> expectedCellViewTable, IFrameAssignableCellViewDictionary<string> actualCellViewTable)
         {
             int ActualCount = 0;
             foreach (KeyValuePair<string, IFrameAssignableCellView> Entry in CellViewTable)
@@ -267,7 +267,7 @@
         /// <summary>
         /// Creates a IxxxAssignableCellViewDictionary{string} object.
         /// </summary>
-        protected virtual IFrameAssignableCellViewDictionary<string> CreateCellViewTable()
+        private protected virtual IFrameAssignableCellViewDictionary<string> CreateCellViewTable()
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameNodeStateView));
             return new FrameAssignableCellViewDictionary<string>();

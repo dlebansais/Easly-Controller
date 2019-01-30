@@ -56,7 +56,7 @@
         /// <summary>
         /// Creates a IxxxBrowsingExistingBlockNodeIndex object.
         /// </summary>
-        protected override IWriteableBrowsingExistingBlockNodeIndex CreateBrowsingIndex()
+        private protected override IWriteableBrowsingExistingBlockNodeIndex CreateBrowsingIndex()
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusInsertionExistingBlockNodeIndex));
             return new FocusBrowsingExistingBlockNodeIndex(ParentNode, Node, PropertyName, BlockIndex, Index);

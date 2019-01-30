@@ -70,7 +70,7 @@
         /// </summary>
         /// <param name="controller">The controller on which the view is attached.</param>
         /// <param name="templateSet">The template set used to describe the view.</param>
-        protected FrameControllerView(IFrameController controller, IFrameTemplateSet templateSet)
+        private protected FrameControllerView(IFrameController controller, IFrameTemplateSet templateSet)
             : base(controller)
         {
             Debug.Assert(templateSet != null);
@@ -81,7 +81,7 @@
         /// <summary>
         /// Initializes the view by attaching it to the controller.
         /// </summary>
-        protected override void Init()
+        private protected override void Init()
         {
             base.Init();
 
@@ -262,7 +262,7 @@
         }
 
         /// <summary></summary>
-        protected virtual void OnBlockListStateInserted(IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> inner, IFrameBrowsingExistingBlockNodeIndex nodeIndex, IFrameNodeState insertedState)
+        private protected virtual void OnBlockListStateInserted(IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> inner, IFrameBrowsingExistingBlockNodeIndex nodeIndex, IFrameNodeState insertedState)
         {
             Debug.Assert(inner != null);
             Debug.Assert(nodeIndex != null);
@@ -285,7 +285,7 @@
         }
 
         /// <summary></summary>
-        protected virtual void OnListStateInserted(IFrameListInner<IFrameBrowsingListNodeIndex> inner, IFrameBrowsingListNodeIndex nodeIndex, IFrameNodeState insertedState)
+        private protected virtual void OnListStateInserted(IFrameListInner<IFrameBrowsingListNodeIndex> inner, IFrameBrowsingListNodeIndex nodeIndex, IFrameNodeState insertedState)
         {
             Debug.Assert(inner != null);
             Debug.Assert(nodeIndex != null);
@@ -335,7 +335,7 @@
         }
 
         /// <summary></summary>
-        protected virtual void OnBlockListStateRemoved(IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> inner, int blockIndex, int index, IFrameNodeState removedState)
+        private protected virtual void OnBlockListStateRemoved(IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> inner, int blockIndex, int index, IFrameNodeState removedState)
         {
             Debug.Assert(inner != null);
 
@@ -351,7 +351,7 @@
         }
 
         /// <summary></summary>
-        protected virtual void OnListStateRemoved(IFrameListInner<IFrameBrowsingListNodeIndex> inner, int index, IFrameNodeState removedState)
+        private protected virtual void OnListStateRemoved(IFrameListInner<IFrameBrowsingListNodeIndex> inner, int index, IFrameNodeState removedState)
         {
             Debug.Assert(inner != null);
 
@@ -407,7 +407,7 @@
         }
 
         /// <summary></summary>
-        protected virtual void OnPlaceholderStateReplaced(IFramePlaceholderInner<IFrameBrowsingPlaceholderNodeIndex> inner, IFrameBrowsingPlaceholderNodeIndex nodeIndex, IFrameNodeState replacedState)
+        private protected virtual void OnPlaceholderStateReplaced(IFramePlaceholderInner<IFrameBrowsingPlaceholderNodeIndex> inner, IFrameBrowsingPlaceholderNodeIndex nodeIndex, IFrameNodeState replacedState)
         {
             Debug.Assert(inner != null);
             Debug.Assert(nodeIndex != null);
@@ -437,7 +437,7 @@
         }
 
         /// <summary></summary>
-        protected virtual void OnOptionalStateReplaced(IFrameOptionalInner<IFrameBrowsingOptionalNodeIndex> inner, IFrameBrowsingOptionalNodeIndex nodeIndex, IFrameNodeState replacedState)
+        private protected virtual void OnOptionalStateReplaced(IFrameOptionalInner<IFrameBrowsingOptionalNodeIndex> inner, IFrameBrowsingOptionalNodeIndex nodeIndex, IFrameNodeState replacedState)
         {
             Debug.Assert(inner != null);
             Debug.Assert(nodeIndex != null);
@@ -467,7 +467,7 @@
         }
 
         /// <summary></summary>
-        protected virtual void OnBlockListStateReplaced(IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> inner, IFrameBrowsingExistingBlockNodeIndex nodeIndex, IFrameNodeState replacedState)
+        private protected virtual void OnBlockListStateReplaced(IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> inner, IFrameBrowsingExistingBlockNodeIndex nodeIndex, IFrameNodeState replacedState)
         {
             Debug.Assert(inner != null);
             Debug.Assert(nodeIndex != null);
@@ -490,7 +490,7 @@
         }
 
         /// <summary></summary>
-        protected virtual void OnListStateReplaced(IFrameListInner<IFrameBrowsingListNodeIndex> inner, IFrameBrowsingListNodeIndex nodeIndex, IFrameNodeState replacedState)
+        private protected virtual void OnListStateReplaced(IFrameListInner<IFrameBrowsingListNodeIndex> inner, IFrameBrowsingListNodeIndex nodeIndex, IFrameNodeState replacedState)
         {
             Debug.Assert(inner != null);
             Debug.Assert(nodeIndex != null);
@@ -611,7 +611,7 @@
         }
 
         /// <summary></summary>
-        protected virtual void OnBlockListStateMoved(IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> inner, int blockIndex, int index, int direction)
+        private protected virtual void OnBlockListStateMoved(IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> inner, int blockIndex, int index, int direction)
         {
             Debug.Assert(inner != null);
 
@@ -627,7 +627,7 @@
         }
 
         /// <summary></summary>
-        protected virtual void OnListStateMoved(IFrameListInner<IFrameBrowsingListNodeIndex> inner, int index, int direction)
+        private protected virtual void OnListStateMoved(IFrameListInner<IFrameBrowsingListNodeIndex> inner, int index, int direction)
         {
             Debug.Assert(inner != null);
 
@@ -836,7 +836,7 @@
 
         #region Implementation
         /// <summary></summary>
-        protected virtual IFrameCellView BuildCellView(IFrameNodeStateView stateView)
+        private protected virtual IFrameCellView BuildCellView(IFrameNodeStateView stateView)
         {
             IFrameCellViewTreeContext Context = InitializedCellViewTreeContext(stateView);
             stateView.BuildRootCellView(Context);
@@ -844,19 +844,19 @@
         }
 
         /// <summary></summary>
-        protected virtual IFrameCellViewTreeContext InitializedCellViewTreeContext(IFrameNodeStateView stateView)
+        private protected virtual IFrameCellViewTreeContext InitializedCellViewTreeContext(IFrameNodeStateView stateView)
         {
             return CreateCellViewTreeContext(stateView);
         }
 
         /// <summary></summary>
-        protected virtual void ClearCellView(IFrameNodeStateView stateView)
+        private protected virtual void ClearCellView(IFrameNodeStateView stateView)
         {
             stateView.ClearRootCellView();
         }
 
         /// <summary></summary>
-        protected virtual IFrameBlockCellView BuildBlockCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, IFrameBlockStateView blockStateView)
+        private protected virtual IFrameBlockCellView BuildBlockCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, IFrameBlockStateView blockStateView)
         {
             IFrameCellViewTreeContext Context = InitializedCellViewTreeContext(stateView);
             Context.SetBlockStateView(blockStateView);
@@ -867,13 +867,13 @@
         }
 
         /// <summary></summary>
-        protected virtual void ClearBlockCellView(IFrameNodeStateView stateView, IFrameBlockStateView blockStateView)
+        private protected virtual void ClearBlockCellView(IFrameNodeStateView stateView, IFrameBlockStateView blockStateView)
         {
             blockStateView.ClearRootCellView(stateView);
         }
 
         /// <summary></summary>
-        protected virtual void Refresh(IFrameNodeState state)
+        private protected virtual void Refresh(IFrameNodeState state)
         {
             Debug.Assert(StateViewTable.ContainsKey(state));
 
@@ -897,7 +897,7 @@
         }
 
         /// <summary></summary>
-        protected virtual void UpdateLineNumbers()
+        private protected virtual void UpdateLineNumbers()
         {
             IFrameNodeState RootState = Controller.RootState;
             IFrameNodeStateView RootStateView = StateViewTable[RootState];
@@ -944,7 +944,7 @@
         }
 
         /// <summary></summary>
-        protected virtual void PrintCellViewTree(bool isVerbose)
+        private protected virtual void PrintCellViewTree(bool isVerbose)
         {
             IFrameNodeState RootState = Controller.RootState;
             IFrameNodeStateView RootStateView = StateViewTable[RootState];
@@ -952,7 +952,7 @@
         }
 
         /// <summary></summary>
-        protected virtual void PrintCellViewTree(IFrameCellView cellView, bool isVerbose)
+        private protected virtual void PrintCellViewTree(IFrameCellView cellView, bool isVerbose)
         {
             string Tree = cellView.PrintTree(0, isVerbose);
 
@@ -965,7 +965,7 @@
         /// <summary>
         /// Creates a IxxxStateViewDictionary object.
         /// </summary>
-        protected override IReadOnlyStateViewDictionary CreateStateViewTable()
+        private protected override IReadOnlyStateViewDictionary CreateStateViewTable()
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameControllerView));
             return new FrameStateViewDictionary();
@@ -974,7 +974,7 @@
         /// <summary>
         /// Creates a IxxxBlockStateViewDictionary object.
         /// </summary>
-        protected override IReadOnlyBlockStateViewDictionary CreateBlockStateViewTable()
+        private protected override IReadOnlyBlockStateViewDictionary CreateBlockStateViewTable()
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameControllerView));
             return new FrameBlockStateViewDictionary();
@@ -983,7 +983,7 @@
         /// <summary>
         /// Creates a IxxxAttachCallbackSet object.
         /// </summary>
-        protected override IReadOnlyAttachCallbackSet CreateCallbackSet()
+        private protected override IReadOnlyAttachCallbackSet CreateCallbackSet()
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameControllerView));
             return new FrameAttachCallbackSet()
@@ -1000,7 +1000,7 @@
         /// <summary>
         /// Creates a IxxxPlaceholderNodeStateView object.
         /// </summary>
-        protected override IReadOnlyPlaceholderNodeStateView CreatePlaceholderNodeStateView(IReadOnlyPlaceholderNodeState state)
+        private protected override IReadOnlyPlaceholderNodeStateView CreatePlaceholderNodeStateView(IReadOnlyPlaceholderNodeState state)
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameControllerView));
             return new FramePlaceholderNodeStateView(this, (IFramePlaceholderNodeState)state);
@@ -1009,7 +1009,7 @@
         /// <summary>
         /// Creates a IxxxOptionalNodeStateView object.
         /// </summary>
-        protected override IReadOnlyOptionalNodeStateView CreateOptionalNodeStateView(IReadOnlyOptionalNodeState state)
+        private protected override IReadOnlyOptionalNodeStateView CreateOptionalNodeStateView(IReadOnlyOptionalNodeState state)
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameControllerView));
             return new FrameOptionalNodeStateView(this, (IFrameOptionalNodeState)state);
@@ -1018,7 +1018,7 @@
         /// <summary>
         /// Creates a IxxxPatternStateView object.
         /// </summary>
-        protected override IReadOnlyPatternStateView CreatePatternStateView(IReadOnlyPatternState state)
+        private protected override IReadOnlyPatternStateView CreatePatternStateView(IReadOnlyPatternState state)
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameControllerView));
             return new FramePatternStateView(this, (IFramePatternState)state);
@@ -1027,7 +1027,7 @@
         /// <summary>
         /// Creates a IxxxSourceStateView object.
         /// </summary>
-        protected override IReadOnlySourceStateView CreateSourceStateView(IReadOnlySourceState state)
+        private protected override IReadOnlySourceStateView CreateSourceStateView(IReadOnlySourceState state)
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameControllerView));
             return new FrameSourceStateView(this, (IFrameSourceState)state);
@@ -1036,7 +1036,7 @@
         /// <summary>
         /// Creates a IxxxBlockStateView object.
         /// </summary>
-        protected override IReadOnlyBlockStateView CreateBlockStateView(IReadOnlyBlockState blockState)
+        private protected override IReadOnlyBlockStateView CreateBlockStateView(IReadOnlyBlockState blockState)
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameControllerView));
             return new FrameBlockStateView(this, (IFrameBlockState)blockState);
@@ -1045,7 +1045,7 @@
         /// <summary>
         /// Creates a IxxxContainerCellView object.
         /// </summary>
-        protected virtual IFrameContainerCellView CreateFrameCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, IFrameNodeStateView childStateView)
+        private protected virtual IFrameContainerCellView CreateFrameCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, IFrameNodeStateView childStateView)
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameControllerView));
             return new FrameContainerCellView(stateView, parentCellView, childStateView);
@@ -1054,7 +1054,7 @@
         /// <summary>
         /// Creates a IxxxBlockCellView object.
         /// </summary>
-        protected virtual IFrameBlockCellView CreateBlockCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, IFrameBlockStateView blockStateView)
+        private protected virtual IFrameBlockCellView CreateBlockCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, IFrameBlockStateView blockStateView)
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameControllerView));
             return new FrameBlockCellView(stateView, parentCellView, blockStateView);
@@ -1063,7 +1063,7 @@
         /// <summary>
         /// Creates a IxxxCellViewTreeContext object.
         /// </summary>
-        protected virtual IFrameCellViewTreeContext CreateCellViewTreeContext(IFrameNodeStateView stateView)
+        private protected virtual IFrameCellViewTreeContext CreateCellViewTreeContext(IFrameNodeStateView stateView)
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameControllerView));
             return new FrameCellViewTreeContext(this, stateView);

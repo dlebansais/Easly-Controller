@@ -24,7 +24,7 @@
     /// <summary>
     /// Index for a node in a list of nodes.
     /// </summary>
-    public class WriteableBrowsingListNodeIndex : ReadOnlyBrowsingListNodeIndex, IWriteableBrowsingListNodeIndex
+    internal class WriteableBrowsingListNodeIndex : ReadOnlyBrowsingListNodeIndex, IWriteableBrowsingListNodeIndex
     {
         #region Init
         /// <summary>
@@ -96,7 +96,7 @@
         /// <summary>
         /// Creates a IxxxInsertionListNodeIndex object.
         /// </summary>
-        protected virtual IWriteableInsertionListNodeIndex CreateInsertionIndex(INode parentNode, INode node)
+        private protected virtual IWriteableInsertionListNodeIndex CreateInsertionIndex(INode parentNode, INode node)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableBrowsingListNodeIndex));
             return new WriteableInsertionListNodeIndex(parentNode, PropertyName, node, Index);

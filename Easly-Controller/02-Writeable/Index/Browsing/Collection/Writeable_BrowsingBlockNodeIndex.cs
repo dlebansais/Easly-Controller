@@ -13,7 +13,7 @@
     /// <summary>
     /// Base for block list index classes.
     /// </summary>
-    public abstract class WriteableBrowsingBlockNodeIndex : ReadOnlyBrowsingBlockNodeIndex, IWriteableBrowsingBlockNodeIndex
+    internal abstract class WriteableBrowsingBlockNodeIndex : ReadOnlyBrowsingBlockNodeIndex, IWriteableBrowsingBlockNodeIndex
     {
         #region Init
         /// <summary>

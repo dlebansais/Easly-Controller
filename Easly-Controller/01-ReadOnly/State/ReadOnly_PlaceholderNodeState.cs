@@ -17,7 +17,7 @@
     /// <summary>
     /// State of an child node.
     /// </summary>
-    public class ReadOnlyPlaceholderNodeState : ReadOnlyNodeState, IReadOnlyPlaceholderNodeState
+    internal class ReadOnlyPlaceholderNodeState : ReadOnlyNodeState, IReadOnlyPlaceholderNodeState
     {
         #region Init
         /// <summary>

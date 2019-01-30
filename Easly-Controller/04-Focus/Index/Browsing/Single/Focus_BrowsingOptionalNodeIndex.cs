@@ -15,7 +15,7 @@
     /// <summary>
     /// Index for an optional node.
     /// </summary>
-    public class FocusBrowsingOptionalNodeIndex : FrameBrowsingOptionalNodeIndex, IFocusBrowsingOptionalNodeIndex
+    internal class FocusBrowsingOptionalNodeIndex : FrameBrowsingOptionalNodeIndex, IFocusBrowsingOptionalNodeIndex
     {
         #region Init
         /// <summary>
@@ -53,7 +53,7 @@
         /// <summary>
         /// Creates a IxxxInsertionPlaceholderNodeIndex object.
         /// </summary>
-        protected override IWriteableInsertionOptionalNodeIndex CreateInsertionOptionalNodeIndex(INode parentNode, INode node)
+        private protected override IWriteableInsertionOptionalNodeIndex CreateInsertionOptionalNodeIndex(INode parentNode, INode node)
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusBrowsingOptionalNodeIndex));
             return new FocusInsertionOptionalNodeIndex(parentNode, PropertyName, node);
@@ -62,7 +62,7 @@
         /// <summary>
         /// Creates a IxxxInsertionOptionalClearIndex object.
         /// </summary>
-        protected override IWriteableInsertionOptionalClearIndex CreateInsertionOptionalClearIndex(INode parentNode)
+        private protected override IWriteableInsertionOptionalClearIndex CreateInsertionOptionalClearIndex(INode parentNode)
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusBrowsingOptionalNodeIndex));
             return new FocusInsertionOptionalClearIndex(parentNode, PropertyName);

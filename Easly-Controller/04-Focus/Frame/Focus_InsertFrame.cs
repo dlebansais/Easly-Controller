@@ -97,7 +97,7 @@
         }
 
         /// <summary></summary>
-        protected override void UpdateInterfaceType(Type nodeType)
+        private protected override void UpdateInterfaceType(Type nodeType)
         {
             base.UpdateInterfaceType(nodeType);
 
@@ -209,7 +209,7 @@
         /// <summary>
         /// Creates a IxxxFocusableCellView object.
         /// </summary>
-        protected override IFrameVisibleCellView CreateFrameCellView(IFrameNodeStateView stateView)
+        private protected override IFrameVisibleCellView CreateFrameCellView(IFrameNodeStateView stateView)
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusInsertFrame));
             return new FocusFocusableCellView((IFocusNodeStateView)stateView, this);
@@ -218,7 +218,7 @@
         /// <summary>
         /// Creates a IxxxEmptyCellView object.
         /// </summary>
-        protected virtual IFocusEmptyCellView CreateEmptyCellView(IFocusNodeStateView stateView)
+        private protected virtual IFocusEmptyCellView CreateEmptyCellView(IFocusNodeStateView stateView)
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusInsertFrame));
             return new FocusEmptyCellView(stateView);

@@ -75,7 +75,7 @@
         }
 
         /// <summary></summary>
-        protected virtual void AssignEmbeddingCellView(IFrameNodeStateView stateView, IFrameAssignableCellView embeddingCellView)
+        private protected virtual void AssignEmbeddingCellView(IFrameNodeStateView stateView, IFrameAssignableCellView embeddingCellView)
         {
             embeddingCellView.AssignToCellViewTable();
             stateView.AssignCellViewTable(PropertyName, embeddingCellView);
@@ -86,7 +86,7 @@
         /// <summary>
         /// Creates a IxxxCellViewList object.
         /// </summary>
-        protected virtual IFrameCellViewList CreateCellViewList()
+        private protected virtual IFrameCellViewList CreateCellViewList()
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameBlockListFrame));
             return new FrameCellViewList();
@@ -95,7 +95,7 @@
         /// <summary>
         /// Creates a IxxxBlockCellView object.
         /// </summary>
-        protected virtual IFrameBlockCellView CreateBlockCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, IFrameBlockStateView blockStateView)
+        private protected virtual IFrameBlockCellView CreateBlockCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, IFrameBlockStateView blockStateView)
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameBlockListFrame));
             return new FrameBlockCellView(stateView, parentCellView, blockStateView);
@@ -104,7 +104,7 @@
         /// <summary>
         /// Creates a IxxxCellViewCollection object.
         /// </summary>
-        protected abstract IFrameCellViewCollection CreateEmbeddingCellView(IFrameNodeStateView stateView, IFrameCellViewList list);
+        private protected abstract IFrameCellViewCollection CreateEmbeddingCellView(IFrameNodeStateView stateView, IFrameCellViewList list);
         #endregion
     }
 }

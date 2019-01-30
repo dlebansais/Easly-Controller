@@ -262,7 +262,7 @@
         }
 
         /// <summary></summary>
-        protected virtual bool IsCellViewProperlyAssigned(IFrameAssignableCellViewReadOnlyDictionary<string> expectedCellViewTable, IFrameAssignableCellViewDictionary<string> actualCellViewTable)
+        private protected virtual bool IsCellViewProperlyAssigned(IFrameAssignableCellViewReadOnlyDictionary<string> expectedCellViewTable, IFrameAssignableCellViewDictionary<string> actualCellViewTable)
         {
             string PropertyName = null;
             foreach (KeyValuePair<string, IFrameAssignableCellView> Entry in expectedCellViewTable)

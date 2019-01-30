@@ -13,7 +13,7 @@
     /// <summary>
     /// Base for list and block list index classes.
     /// </summary>
-    public abstract class FocusBrowsingCollectionNodeIndex : FrameBrowsingCollectionNodeIndex, IFocusBrowsingCollectionNodeIndex
+    internal abstract class FocusBrowsingCollectionNodeIndex : FrameBrowsingCollectionNodeIndex, IFocusBrowsingCollectionNodeIndex
     {
         #region Init
         /// <summary>

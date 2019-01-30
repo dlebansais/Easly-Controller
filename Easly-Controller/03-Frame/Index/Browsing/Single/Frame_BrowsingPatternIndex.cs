@@ -14,7 +14,7 @@
     /// <summary>
     /// Index for the replication pattern node of a block.
     /// </summary>
-    public class FrameBrowsingPatternIndex : WriteableBrowsingPatternIndex, IFrameBrowsingPatternIndex
+    internal class FrameBrowsingPatternIndex : WriteableBrowsingPatternIndex, IFrameBrowsingPatternIndex
     {
         #region Init
         /// <summary>
@@ -51,7 +51,7 @@
         /// <summary>
         /// Creates a IxxxInsertionPlaceholderNodeIndex object.
         /// </summary>
-        protected override IWriteableInsertionPlaceholderNodeIndex CreateInsertionIndex(INode parentNode, INode node)
+        private protected override IWriteableInsertionPlaceholderNodeIndex CreateInsertionIndex(INode parentNode, INode node)
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameBrowsingPatternIndex));
             return new FrameInsertionPlaceholderNodeIndex(parentNode, PropertyName, node);

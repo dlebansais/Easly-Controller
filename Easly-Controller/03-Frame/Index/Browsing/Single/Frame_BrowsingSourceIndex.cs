@@ -14,7 +14,7 @@
     /// <summary>
     /// Index for the source identifier node of a block.
     /// </summary>
-    public class FrameBrowsingSourceIndex : WriteableBrowsingSourceIndex, IFrameBrowsingSourceIndex
+    internal class FrameBrowsingSourceIndex : WriteableBrowsingSourceIndex, IFrameBrowsingSourceIndex
     {
         #region Init
         /// <summary>
@@ -51,7 +51,7 @@
         /// <summary>
         /// Creates a IxxxInsertionPlaceholderNodeIndex object.
         /// </summary>
-        protected override IWriteableInsertionPlaceholderNodeIndex CreateInsertionIndex(INode parentNode, INode node)
+        private protected override IWriteableInsertionPlaceholderNodeIndex CreateInsertionIndex(INode parentNode, INode node)
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameBrowsingSourceIndex));
             return new FrameInsertionPlaceholderNodeIndex(parentNode, PropertyName, node);

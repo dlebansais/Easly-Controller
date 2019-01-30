@@ -62,7 +62,7 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="FrameTemplateSet"/> class.
         /// </summary>
-        protected FrameTemplateSet()
+        private protected FrameTemplateSet()
         {
         }
 
@@ -224,7 +224,7 @@
 
         #region Helper
         /// <summary></summary>
-        protected virtual IFrameTemplateSet BuildDefault()
+        private protected virtual IFrameTemplateSet BuildDefault()
         {
             if (_Default != null && _Default.GetType() == GetType()) // Recreate the default if the layer has changed.
                 return _Default;
@@ -241,7 +241,7 @@
         }
 
         /// <summary></summary>
-        protected virtual IFrameTemplateReadOnlyDictionary BuildDefaultNodeTemplateTable()
+        private protected virtual IFrameTemplateReadOnlyDictionary BuildDefaultNodeTemplateTable()
         {
             IFrameTemplateDictionary DefaultDictionary = CreateDefaultTemplateDictionary();
 
@@ -253,7 +253,7 @@
         }
 
         /// <summary></summary>
-        protected virtual void SetNodeTypeToDefault(IFrameTemplateDictionary dictionary, Type nodeType)
+        private protected virtual void SetNodeTypeToDefault(IFrameTemplateDictionary dictionary, Type nodeType)
         {
             Debug.Assert(dictionary.ContainsKey(nodeType));
 
@@ -343,13 +343,13 @@
         }
 
         /// <summary></summary>
-        protected virtual IFrameFrame GetRoot()
+        private protected virtual IFrameFrame GetRoot()
         {
             return FrameFrame.FrameRoot;
         }
 
         /// <summary></summary>
-        protected virtual IFrameTemplateReadOnlyDictionary BuildDefaultBlockListTemplate()
+        private protected virtual IFrameTemplateReadOnlyDictionary BuildDefaultBlockListTemplate()
         {
             List<Type> Keys = new List<Type>(NodeHelper.CreateNodeDictionary<object>().Keys);
 
@@ -384,7 +384,7 @@
         }
 
         /// <summary></summary>
-        protected virtual void AddBlockNodeTypes(IFrameTemplateDictionary dictionary, Type nodeType)
+        private protected virtual void AddBlockNodeTypes(IFrameTemplateDictionary dictionary, Type nodeType)
         {
             IList<string> Properties = NodeTreeHelper.EnumChildNodeProperties(nodeType);
             foreach (string PropertyName in Properties)
@@ -402,7 +402,7 @@
         /// <summary>
         /// Creates a IxxxTemplateDictionary object.
         /// </summary>
-        protected virtual IFrameTemplateDictionary CreateEmptyTemplateDictionary()
+        private protected virtual IFrameTemplateDictionary CreateEmptyTemplateDictionary()
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameTemplateSet));
             return new FrameTemplateDictionary();
@@ -411,7 +411,7 @@
         /// <summary>
         /// Creates a IxxxTemplateDictionary object.
         /// </summary>
-        protected virtual IFrameTemplateDictionary CreateDefaultTemplateDictionary()
+        private protected virtual IFrameTemplateDictionary CreateDefaultTemplateDictionary()
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameTemplateSet));
             return new FrameTemplateDictionary(NodeHelper.CreateNodeDictionary<IFrameTemplate>());
@@ -420,7 +420,7 @@
         /// <summary>
         /// Creates a IxxxTemplateReadOnlyDictionary object.
         /// </summary>
-        protected virtual IFrameTemplateReadOnlyDictionary CreateTemplateReadOnlyDictionary(IFrameTemplateDictionary dictionary)
+        private protected virtual IFrameTemplateReadOnlyDictionary CreateTemplateReadOnlyDictionary(IFrameTemplateDictionary dictionary)
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameTemplateSet));
             return new FrameTemplateReadOnlyDictionary(dictionary);
@@ -429,7 +429,7 @@
         /// <summary>
         /// Creates a IxxxHorizontalPanelFrame object.
         /// </summary>
-        protected virtual IFrameHorizontalPanelFrame CreateHorizontalPanelFrame()
+        private protected virtual IFrameHorizontalPanelFrame CreateHorizontalPanelFrame()
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameTemplateSet));
             return new FrameHorizontalPanelFrame();
@@ -438,7 +438,7 @@
         /// <summary>
         /// Creates a IxxxHorizontalCollectionPlaceholderFrame object.
         /// </summary>
-        protected virtual IFrameHorizontalCollectionPlaceholderFrame CreateHorizontalCollectionPlaceholderFrame()
+        private protected virtual IFrameHorizontalCollectionPlaceholderFrame CreateHorizontalCollectionPlaceholderFrame()
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameTemplateSet));
             return new FrameHorizontalCollectionPlaceholderFrame();
@@ -447,7 +447,7 @@
         /// <summary>
         /// Creates a IxxxPlaceholderFrame object.
         /// </summary>
-        protected virtual IFramePlaceholderFrame CreatePlaceholderFrame()
+        private protected virtual IFramePlaceholderFrame CreatePlaceholderFrame()
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameTemplateSet));
             return new FramePlaceholderFrame();
@@ -456,7 +456,7 @@
         /// <summary>
         /// Creates a IxxxOptionalFrame object.
         /// </summary>
-        protected virtual IFrameOptionalFrame CreateOptionalFrame()
+        private protected virtual IFrameOptionalFrame CreateOptionalFrame()
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameTemplateSet));
             return new FrameOptionalFrame();
@@ -465,7 +465,7 @@
         /// <summary>
         /// Creates a IxxxHorizontalListFrame object.
         /// </summary>
-        protected virtual IFrameHorizontalListFrame CreateHorizontalListFrame()
+        private protected virtual IFrameHorizontalListFrame CreateHorizontalListFrame()
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameTemplateSet));
             return new FrameHorizontalListFrame();
@@ -474,7 +474,7 @@
         /// <summary>
         /// Creates a IxxxHorizontalBlockListFrame object.
         /// </summary>
-        protected virtual IFrameHorizontalBlockListFrame CreateHorizontalBlockListFrame()
+        private protected virtual IFrameHorizontalBlockListFrame CreateHorizontalBlockListFrame()
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameTemplateSet));
             return new FrameHorizontalBlockListFrame();
@@ -483,7 +483,7 @@
         /// <summary>
         /// Creates a IxxxDiscreteFrame object.
         /// </summary>
-        protected virtual IFrameDiscreteFrame CreateDiscreteFrame()
+        private protected virtual IFrameDiscreteFrame CreateDiscreteFrame()
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameTemplateSet));
             return new FrameDiscreteFrame();
@@ -492,7 +492,7 @@
         /// <summary>
         /// Creates a IxxxKeywordFrame object.
         /// </summary>
-        protected virtual IFrameKeywordFrame CreateKeywordFrame()
+        private protected virtual IFrameKeywordFrame CreateKeywordFrame()
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameTemplateSet));
             return new FrameKeywordFrame();
@@ -501,7 +501,7 @@
         /// <summary>
         /// Creates a IxxxTextValueFrame object.
         /// </summary>
-        protected virtual IFrameTextValueFrame CreateTextValueFrame()
+        private protected virtual IFrameTextValueFrame CreateTextValueFrame()
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameTemplateSet));
             return new FrameTextValueFrame();
@@ -510,7 +510,7 @@
         /// <summary>
         /// Creates a IxxxTemplate object.
         /// </summary>
-        protected virtual IFrameNodeTemplate CreateNodeTemplate()
+        private protected virtual IFrameNodeTemplate CreateNodeTemplate()
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameTemplateSet));
             return new FrameNodeTemplate();
@@ -519,7 +519,7 @@
         /// <summary>
         /// Creates a IxxxTemplate object.
         /// </summary>
-        protected virtual IFrameBlockTemplate CreateBlockTemplate()
+        private protected virtual IFrameBlockTemplate CreateBlockTemplate()
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameTemplateSet));
             return new FrameBlockTemplate();
@@ -528,7 +528,7 @@
         /// <summary>
         /// Creates a IxxxTemplateSet object.
         /// </summary>
-        protected virtual IFrameTemplateSet CreateDefaultTemplateSet(IFrameTemplateReadOnlyDictionary nodeTemplateTable, IFrameTemplateReadOnlyDictionary blockTemplateTable)
+        private protected virtual IFrameTemplateSet CreateDefaultTemplateSet(IFrameTemplateReadOnlyDictionary nodeTemplateTable, IFrameTemplateReadOnlyDictionary blockTemplateTable)
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameTemplateSet));
             return new FrameTemplateSet(nodeTemplateTable, blockTemplateTable);

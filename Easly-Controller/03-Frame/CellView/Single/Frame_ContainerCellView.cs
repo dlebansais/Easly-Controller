@@ -112,7 +112,7 @@
         /// <param name="maxLineNumber">The maximum line number observed, updated upon return.</param>
         /// <param name="columnNumber">The current column number, updated upon return.</param>
         /// <param name="maxColumnNumber">The maximum column number observed, updated upon return.</param>
-        protected virtual void RecalculateChildLineNumbers(IFrameNodeStateView nodeStateView, ref int lineNumber, ref int maxLineNumber, ref int columnNumber, ref int maxColumnNumber)
+        private protected virtual void RecalculateChildLineNumbers(IFrameNodeStateView nodeStateView, ref int lineNumber, ref int maxLineNumber, ref int columnNumber, ref int maxColumnNumber)
         {
             nodeStateView.UpdateLineNumbers(ref lineNumber, ref maxLineNumber, ref columnNumber, ref maxColumnNumber);
         }
@@ -197,7 +197,7 @@
         }
 
         /// <summary></summary>
-        protected virtual bool IsCellViewProperlyAssigned(IFrameAssignableCellViewReadOnlyDictionary<string> expectedCellViewTable, IFrameAssignableCellViewDictionary<string> actualCellViewTable)
+        private protected virtual bool IsCellViewProperlyAssigned(IFrameAssignableCellViewReadOnlyDictionary<string> expectedCellViewTable, IFrameAssignableCellViewDictionary<string> actualCellViewTable)
         {
             string PropertyName = null;
             foreach (KeyValuePair<string, IFrameAssignableCellView> Entry in expectedCellViewTable)

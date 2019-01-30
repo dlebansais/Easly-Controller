@@ -53,7 +53,7 @@
         /// <summary>
         /// Creates a IxxxBrowsingPlaceholderNodeIndex object.
         /// </summary>
-        protected override IWriteableBrowsingPlaceholderNodeIndex CreateBrowsingIndex()
+        private protected override IWriteableBrowsingPlaceholderNodeIndex CreateBrowsingIndex()
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameInsertionPlaceholderNodeIndex));
             return new FrameBrowsingPlaceholderNodeIndex(ParentNode, Node, PropertyName);

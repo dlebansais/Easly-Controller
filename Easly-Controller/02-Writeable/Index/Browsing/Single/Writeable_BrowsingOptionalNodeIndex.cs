@@ -14,7 +14,7 @@
     /// <summary>
     /// Index for an optional node.
     /// </summary>
-    public class WriteableBrowsingOptionalNodeIndex : ReadOnlyBrowsingOptionalNodeIndex, IWriteableBrowsingOptionalNodeIndex
+    internal class WriteableBrowsingOptionalNodeIndex : ReadOnlyBrowsingOptionalNodeIndex, IWriteableBrowsingOptionalNodeIndex
     {
         #region Init
         /// <summary>
@@ -67,7 +67,7 @@
         /// <summary>
         /// Creates a IxxxInsertionOptionalNodeIndex object.
         /// </summary>
-        protected virtual IWriteableInsertionOptionalNodeIndex CreateInsertionOptionalNodeIndex(INode parentNode, INode node)
+        private protected virtual IWriteableInsertionOptionalNodeIndex CreateInsertionOptionalNodeIndex(INode parentNode, INode node)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableBrowsingOptionalNodeIndex));
             return new WriteableInsertionOptionalNodeIndex(parentNode, PropertyName, node);
@@ -76,7 +76,7 @@
         /// <summary>
         /// Creates a IxxxInsertionOptionalClearIndex object.
         /// </summary>
-        protected virtual IWriteableInsertionOptionalClearIndex CreateInsertionOptionalClearIndex(INode parentNode)
+        private protected virtual IWriteableInsertionOptionalClearIndex CreateInsertionOptionalClearIndex(INode parentNode)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableBrowsingOptionalNodeIndex));
             return new WriteableInsertionOptionalClearIndex(parentNode, PropertyName);

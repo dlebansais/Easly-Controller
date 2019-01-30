@@ -15,7 +15,7 @@
     /// <summary>
     /// Index for the replication pattern node of a block.
     /// </summary>
-    public class FocusBrowsingPatternIndex : FrameBrowsingPatternIndex, IFocusBrowsingPatternIndex
+    internal class FocusBrowsingPatternIndex : FrameBrowsingPatternIndex, IFocusBrowsingPatternIndex
     {
         #region Init
         /// <summary>
@@ -52,7 +52,7 @@
         /// <summary>
         /// Creates a IxxxInsertionPlaceholderNodeIndex object.
         /// </summary>
-        protected override IWriteableInsertionPlaceholderNodeIndex CreateInsertionIndex(INode parentNode, INode node)
+        private protected override IWriteableInsertionPlaceholderNodeIndex CreateInsertionIndex(INode parentNode, INode node)
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusBrowsingPatternIndex));
             return new FocusInsertionPlaceholderNodeIndex(parentNode, PropertyName, node);

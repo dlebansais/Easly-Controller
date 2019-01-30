@@ -108,7 +108,7 @@
         /// <summary>
         /// Creates a IxxxTextFocusableCellView object.
         /// </summary>
-        protected override IFrameVisibleCellView CreateFrameCellView(IFrameNodeStateView stateView)
+        private protected override IFrameVisibleCellView CreateFrameCellView(IFrameNodeStateView stateView)
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusNumberFrame));
             return new FocusTextFocusableCellView((IFocusNodeStateView)stateView, this, PropertyName);
@@ -117,7 +117,7 @@
         /// <summary>
         /// Creates a IxxxEmptyCellView object.
         /// </summary>
-        protected virtual IFocusEmptyCellView CreateEmptyCellView(IFocusNodeStateView stateView)
+        private protected virtual IFocusEmptyCellView CreateEmptyCellView(IFocusNodeStateView stateView)
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusNumberFrame));
             return new FocusEmptyCellView(stateView);

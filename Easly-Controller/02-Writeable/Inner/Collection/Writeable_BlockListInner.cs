@@ -151,7 +151,7 @@
     /// </summary>
     /// <typeparam name="IIndex">Type of the index as interface.</typeparam>
     /// <typeparam name="TIndex">Type of the index as class.</typeparam>
-    public class WriteableBlockListInner<IIndex, TIndex> : ReadOnlyBlockListInner<IIndex, TIndex>, IWriteableBlockListInner<IIndex>, IWriteableBlockListInner
+    internal class WriteableBlockListInner<IIndex, TIndex> : ReadOnlyBlockListInner<IIndex, TIndex>, IWriteableBlockListInner<IIndex>, IWriteableBlockListInner
         where IIndex : IWriteableBrowsingBlockNodeIndex
         where TIndex : WriteableBrowsingBlockNodeIndex, IIndex
     {
@@ -314,7 +314,7 @@
         }
 
         /// <summary></summary>
-        protected virtual void Remove(IWriteableRemoveBlockOperation blockOperation, IWriteableRemoveNodeOperation nodeOperation, int blockIndex, int index)
+        private protected virtual void Remove(IWriteableRemoveBlockOperation blockOperation, IWriteableRemoveNodeOperation nodeOperation, int blockIndex, int index)
         {
             Debug.Assert(blockIndex >= 0 && blockIndex < BlockStateList.Count);
 
@@ -592,7 +592,7 @@
         }
 
         /// <summary></summary>
-        protected virtual bool IsMoveable(IWriteableBrowsingExistingBlockNodeIndex existingBlockIndex, int direction)
+        private protected virtual bool IsMoveable(IWriteableBrowsingExistingBlockNodeIndex existingBlockIndex, int direction)
         {
             Debug.Assert(existingBlockIndex != null);
 
@@ -730,7 +730,7 @@
         /// <summary>
         /// Creates a IxxxBlockStateList object.
         /// </summary>
-        protected override IReadOnlyBlockStateList CreateBlockStateList()
+        private protected override IReadOnlyBlockStateList CreateBlockStateList()
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableBlockListInner<IIndex, TIndex>));
             return new WriteableBlockStateList();
@@ -739,7 +739,7 @@
         /// <summary>
         /// Creates a IxxxBlockStateReadOnlyList object.
         /// </summary>
-        protected override IReadOnlyBlockStateReadOnlyList CreateBlockStateListReadOnly(IReadOnlyBlockStateList blockStateList)
+        private protected override IReadOnlyBlockStateReadOnlyList CreateBlockStateListReadOnly(IReadOnlyBlockStateList blockStateList)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableBlockListInner<IIndex, TIndex>));
             return new WriteableBlockStateReadOnlyList((IWriteableBlockStateList)blockStateList);
@@ -748,7 +748,7 @@
         /// <summary>
         /// Creates a IxxxBlockState object.
         /// </summary>
-        protected override IReadOnlyBlockState CreateBlockState(IReadOnlyBrowsingNewBlockNodeIndex nodeIndex, IBlock childBlock)
+        private protected override IReadOnlyBlockState CreateBlockState(IReadOnlyBrowsingNewBlockNodeIndex nodeIndex, IBlock childBlock)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableBlockListInner<IIndex, TIndex>));
             return new WriteableBlockState(this, (IWriteableBrowsingNewBlockNodeIndex)nodeIndex, childBlock);
@@ -757,7 +757,7 @@
         /// <summary>
         /// Creates a IxxxPlaceholderNodeState object.
         /// </summary>
-        protected override IReadOnlyPlaceholderNodeState CreateNodeState(IReadOnlyNodeIndex nodeIndex)
+        private protected override IReadOnlyPlaceholderNodeState CreateNodeState(IReadOnlyNodeIndex nodeIndex)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableBlockListInner<IIndex, TIndex>));
             return new WriteablePlaceholderNodeState((IWriteableNodeIndex)nodeIndex);
@@ -766,7 +766,7 @@
         /// <summary>
         /// Creates a IxxxBrowsingExistingBlockNodeIndex object.
         /// </summary>
-        protected virtual IWriteableBrowsingExistingBlockNodeIndex CreateBrowsingNodeIndex(INode node, int blockIndex, int index)
+        private protected virtual IWriteableBrowsingExistingBlockNodeIndex CreateBrowsingNodeIndex(INode node, int blockIndex, int index)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableBlockListInner<IIndex, TIndex>));
             return new WriteableBrowsingExistingBlockNodeIndex(Owner.Node, node, PropertyName, blockIndex, index);
@@ -775,7 +775,7 @@
         /// <summary>
         /// Creates a IxxxBrowsingNewBlockNodeIndex object.
         /// </summary>
-        protected virtual IWriteableBrowsingNewBlockNodeIndex CreateNewBlockNodeIndex(INode node, int blockIndex, IPattern patternNode, IIdentifier sourceNode)
+        private protected virtual IWriteableBrowsingNewBlockNodeIndex CreateNewBlockNodeIndex(INode node, int blockIndex, IPattern patternNode, IIdentifier sourceNode)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableBlockListInner<IIndex, TIndex>));
             return new WriteableBrowsingNewBlockNodeIndex(Owner.Node, node, PropertyName, blockIndex, patternNode, sourceNode);

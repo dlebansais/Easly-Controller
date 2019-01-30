@@ -112,13 +112,13 @@
 
         #region Descendant Interface
         /// <summary></summary>
-        protected virtual void IncrementLineNumber(ref int lineNumber)
+        private protected virtual void IncrementLineNumber(ref int lineNumber)
         {
             lineNumber++;
         }
 
         /// <summary></summary>
-        protected virtual void IncrementColumnNumber(ref int columnNumber)
+        private protected virtual void IncrementColumnNumber(ref int columnNumber)
         {
             columnNumber++;
         }

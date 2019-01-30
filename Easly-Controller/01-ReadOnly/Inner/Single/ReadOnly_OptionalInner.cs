@@ -44,7 +44,7 @@
     /// </summary>
     /// <typeparam name="IIndex">Type of the index as interface.</typeparam>
     /// <typeparam name="TIndex">Type of the index as class.</typeparam>
-    public class ReadOnlyOptionalInner<IIndex, TIndex> : ReadOnlySingleInner<IIndex>, IReadOnlyOptionalInner<IIndex>, IReadOnlyOptionalInner
+    internal class ReadOnlyOptionalInner<IIndex, TIndex> : ReadOnlySingleInner<IIndex>, IReadOnlyOptionalInner<IIndex>, IReadOnlyOptionalInner
         where IIndex : IReadOnlyBrowsingOptionalNodeIndex
         where TIndex : ReadOnlyBrowsingOptionalNodeIndex, IIndex
     {
@@ -76,7 +76,7 @@
         /// </summary>
         /// <param name="nodeIndex">Index of the node.</param>
         /// <returns>The created node state.</returns>
-        protected virtual IReadOnlyOptionalNodeState InitChildState(IReadOnlyBrowsingOptionalNodeIndex nodeIndex)
+        private protected virtual IReadOnlyOptionalNodeState InitChildState(IReadOnlyBrowsingOptionalNodeIndex nodeIndex)
         {
             Debug.Assert(nodeIndex != null);
             Debug.Assert(nodeIndex.PropertyName == PropertyName);
@@ -150,7 +150,7 @@
 
         #region Implementation
         /// <summary></summary>
-        protected virtual void SetChildState(IReadOnlyOptionalNodeState childState)
+        private protected virtual void SetChildState(IReadOnlyOptionalNodeState childState)
         {
             Debug.Assert(childState != null);
 
@@ -162,7 +162,7 @@
         /// <summary>
         /// Creates a IxxxOptionalNodeState object.
         /// </summary>
-        protected virtual IReadOnlyOptionalNodeState CreateNodeState(IReadOnlyBrowsingOptionalNodeIndex nodeIndex)
+        private protected virtual IReadOnlyOptionalNodeState CreateNodeState(IReadOnlyBrowsingOptionalNodeIndex nodeIndex)
         {
             ControllerTools.AssertNoOverride(this, typeof(ReadOnlyOptionalInner<IIndex, TIndex>));
             return new ReadOnlyOptionalNodeState(nodeIndex);

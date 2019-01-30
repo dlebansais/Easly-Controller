@@ -96,7 +96,7 @@
         /// <summary>
         /// Creates a IxxxBrowsingOptionalNodeIndex object.
         /// </summary>
-        protected virtual IWriteableBrowsingOptionalNodeIndex CreateBrowsingIndex()
+        private protected virtual IWriteableBrowsingOptionalNodeIndex CreateBrowsingIndex()
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableInsertionOptionalClearIndex));
             return new WriteableBrowsingOptionalNodeIndex(ParentNode, PropertyName);

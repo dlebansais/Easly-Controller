@@ -33,7 +33,7 @@
     /// <summary>
     /// State of a source identifier node.
     /// </summary>
-    public class ReadOnlySourceState : ReadOnlyPlaceholderNodeState, IReadOnlySourceState
+    internal class ReadOnlySourceState : ReadOnlyPlaceholderNodeState, IReadOnlySourceState
     {
         #region Init
         /// <summary>

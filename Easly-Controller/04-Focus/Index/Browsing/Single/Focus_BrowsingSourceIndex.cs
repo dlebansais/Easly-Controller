@@ -15,7 +15,7 @@
     /// <summary>
     /// Index for the source identifier node of a block.
     /// </summary>
-    public class FocusBrowsingSourceIndex : FrameBrowsingSourceIndex, IFocusBrowsingSourceIndex
+    internal class FocusBrowsingSourceIndex : FrameBrowsingSourceIndex, IFocusBrowsingSourceIndex
     {
         #region Init
         /// <summary>
@@ -52,7 +52,7 @@
         /// <summary>
         /// Creates a IxxxInsertionPlaceholderNodeIndex object.
         /// </summary>
-        protected override IWriteableInsertionPlaceholderNodeIndex CreateInsertionIndex(INode parentNode, INode node)
+        private protected override IWriteableInsertionPlaceholderNodeIndex CreateInsertionIndex(INode parentNode, INode node)
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusBrowsingSourceIndex));
             return new FocusInsertionPlaceholderNodeIndex(parentNode, PropertyName, node);
