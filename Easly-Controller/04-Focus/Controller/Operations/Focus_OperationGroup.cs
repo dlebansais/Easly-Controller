@@ -16,6 +16,11 @@ namespace EaslyController.Focus
         /// The main operation for this group.
         /// </summary>
         new IFocusOperation MainOperation { get; }
+
+        /// <summary>
+        /// Optional refresh operation to execute at the end of undo and redo.
+        /// </summary>
+        new IFocusGenericRefreshOperation Refresh { get; }
     }
 
     /// <summary>
@@ -28,8 +33,9 @@ namespace EaslyController.Focus
         /// Initializes a new instance of a <see cref="FocusOperationGroup"/> object.
         /// </summary>
         /// <param name="operationList">List of operations belonging to this group.</param>
-        public FocusOperationGroup(IFocusOperationReadOnlyList operationList)
-            : base(operationList)
+        /// <param name="refresh">Optional refresh operation to execute at the end of undo and redo.</param>
+        public FocusOperationGroup(IFocusOperationReadOnlyList operationList, IFocusGenericRefreshOperation refresh)
+            : base(operationList, refresh)
         {
         }
         #endregion
@@ -44,6 +50,11 @@ namespace EaslyController.Focus
         /// The main operation for this group.
         /// </summary>
         public new IFocusOperation MainOperation { get { return (IFocusOperation)base.MainOperation; } }
+
+        /// <summary>
+        /// Optional refresh operation to execute at the end of undo and redo.
+        /// </summary>
+        public new IFocusGenericRefreshOperation Refresh { get { return (IFocusGenericRefreshOperation)base.Refresh; } }
         #endregion
     }
 }

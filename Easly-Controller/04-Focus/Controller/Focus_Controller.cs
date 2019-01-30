@@ -728,10 +728,10 @@ namespace EaslyController.Focus
         /// <summary>
         /// Creates a IxxxOperationGroup object.
         /// </summary>
-        protected override IWriteableOperationGroup CreateOperationGroup(IWriteableOperationReadOnlyList operationList)
+        protected override IWriteableOperationGroup CreateOperationGroup(IWriteableOperationReadOnlyList operationList, IWriteableGenericRefreshOperation refresh)
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusController));
-            return new FocusOperationGroup((IFocusOperationReadOnlyList)operationList);
+            return new FocusOperationGroup((IFocusOperationReadOnlyList)operationList, (IFocusGenericRefreshOperation)refresh);
         }
 
         /// <summary>

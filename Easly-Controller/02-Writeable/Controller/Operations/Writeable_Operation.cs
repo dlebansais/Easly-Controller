@@ -49,6 +49,7 @@ namespace EaslyController.Writeable
         public WriteableOperation(Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
         {
             Debug.Assert(handlerRedo != null);
+            Debug.Assert(handlerUndo != null);
 
             HandlerRedo = handlerRedo;
             HandlerUndo = handlerUndo;

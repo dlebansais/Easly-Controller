@@ -1870,7 +1870,7 @@ namespace EaslyController.Writeable
             if (OperationList.Count > 0)
             {
                 IWriteableOperationReadOnlyList OperationReadOnlyList = CreateOperationReadOnlyList(OperationList);
-                IWriteableOperationGroup OperationGroup = CreateOperationGroup(OperationReadOnlyList);
+                IWriteableOperationGroup OperationGroup = CreateOperationGroup(OperationReadOnlyList, null);
 
                 SetLastOperation(OperationGroup);
                 CheckInvariant();
@@ -2042,7 +2042,7 @@ namespace EaslyController.Writeable
             if (OperationList.Count > 0)
             {
                 IWriteableOperationReadOnlyList OperationReadOnlyList = CreateOperationReadOnlyList(OperationList);
-                IWriteableOperationGroup OperationGroup = CreateOperationGroup(OperationReadOnlyList);
+                IWriteableOperationGroup OperationGroup = CreateOperationGroup(OperationReadOnlyList, null);
 
                 SetLastOperation(OperationGroup);
                 CheckInvariant();
@@ -2129,14 +2129,12 @@ namespace EaslyController.Writeable
             {
                 Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => ExecuteRefresh(operation);
                 Action<IWriteableOperation> HandlerUndo = (IWriteableOperation operation) => UndoRefresh(operation);
-                IWriteableGenericRefreshOperation Operation = CreateGenericRefreshOperation(RootState, HandlerRedo, HandlerUndo, isNested: false);
+                IWriteableGenericRefreshOperation RefreshOperation = CreateGenericRefreshOperation(RootState, HandlerRedo, HandlerUndo, isNested: false);
 
-                Operation.Redo();
-
-                OperationList.Add(Operation);
+                RefreshOperation.Redo();
 
                 IWriteableOperationReadOnlyList OperationReadOnlyList = CreateOperationReadOnlyList(OperationList);
-                IWriteableOperationGroup OperationGroup = CreateOperationGroup(OperationReadOnlyList);
+                IWriteableOperationGroup OperationGroup = CreateOperationGroup(OperationReadOnlyList, RefreshOperation);
 
                 SetLastOperation(OperationGroup);
                 CheckInvariant();
@@ -2456,7 +2454,7 @@ namespace EaslyController.Writeable
             IWriteableOperationList OperationList = CreateOperationList();
             OperationList.Add(operation);
             IWriteableOperationReadOnlyList OperationReadOnlyList = CreateOperationReadOnlyList(OperationList);
-            IWriteableOperationGroup OperationGroup = CreateOperationGroup(OperationReadOnlyList);
+            IWriteableOperationGroup OperationGroup = CreateOperationGroup(OperationReadOnlyList, null);
 
             SetLastOperation(OperationGroup);
         }
@@ -2913,10 +2911,10 @@ namespace EaslyController.Writeable
         /// <summary>
         /// Creates a IxxxOperationGroup object.
         /// </summary>
-        protected virtual IWriteableOperationGroup CreateOperationGroup(IWriteableOperationReadOnlyList operationList)
+        protected virtual IWriteableOperationGroup CreateOperationGroup(IWriteableOperationReadOnlyList operationList, IWriteableGenericRefreshOperation refresh)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableController));
-            return new WriteableOperationGroup(operationList);
+            return new WriteableOperationGroup(operationList, refresh);
         }
         #endregion
     }

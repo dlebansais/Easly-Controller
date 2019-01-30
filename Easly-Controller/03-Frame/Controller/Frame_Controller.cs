@@ -601,10 +601,10 @@ namespace EaslyController.Frame
         /// <summary>
         /// Creates a IxxxOperationGroup object.
         /// </summary>
-        protected override IWriteableOperationGroup CreateOperationGroup(IWriteableOperationReadOnlyList operationList)
+        protected override IWriteableOperationGroup CreateOperationGroup(IWriteableOperationReadOnlyList operationList, IWriteableGenericRefreshOperation refresh)
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameController));
-            return new FrameOperationGroup((IFrameOperationReadOnlyList)operationList);
+            return new FrameOperationGroup((IFrameOperationReadOnlyList)operationList, (IFrameGenericRefreshOperation)refresh);
         }
         #endregion
     }

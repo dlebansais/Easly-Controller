@@ -16,6 +16,11 @@ namespace EaslyController.Frame
         /// The main operation for this group.
         /// </summary>
         new IFrameOperation MainOperation { get; }
+
+        /// <summary>
+        /// Optional refresh operation to execute at the end of undo and redo.
+        /// </summary>
+        new IFrameGenericRefreshOperation Refresh { get; }
     }
 
     /// <summary>
@@ -28,8 +33,9 @@ namespace EaslyController.Frame
         /// Initializes a new instance of a <see cref="FrameOperationGroup"/> object.
         /// </summary>
         /// <param name="operationList">List of operations belonging to this group.</param>
-        public FrameOperationGroup(IFrameOperationReadOnlyList operationList)
-            : base(operationList)
+        /// <param name="refresh">Optional refresh operation to execute at the end of undo and redo.</param>
+        public FrameOperationGroup(IFrameOperationReadOnlyList operationList, IFrameGenericRefreshOperation refresh)
+            : base(operationList, refresh)
         {
         }
         #endregion
@@ -44,6 +50,11 @@ namespace EaslyController.Frame
         /// The main operation for this group.
         /// </summary>
         public new IFrameOperation MainOperation { get { return (IFrameOperation)base.MainOperation; } }
+
+        /// <summary>
+        /// Optional refresh operation to execute at the end of undo and redo.
+        /// </summary>
+        public new IFrameGenericRefreshOperation Refresh { get { return (IFrameGenericRefreshOperation)base.Refresh; } }
         #endregion
     }
 }
