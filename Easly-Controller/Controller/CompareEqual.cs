@@ -245,7 +245,7 @@
 
             int ComparisonCount = Comparer.ComparisonCount;
 
-            for (int i = 0; i < ComparisonCount; i++)
+            for (int i = 0; i <= ComparisonCount; i++)
             {
                 Comparer.SetFailIndex(i);
                 object1.IsEqual(Comparer, object2);
