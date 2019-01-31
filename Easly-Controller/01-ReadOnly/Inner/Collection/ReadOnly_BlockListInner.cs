@@ -162,6 +162,7 @@
             NodeTreeHelperBlockList.GetChildBlock(Owner.Node, PropertyName, BlockIndex, out IBlock ChildBlock);
 
             IReadOnlyBlockState BlockState = CreateBlockState(newBlockIndex, ChildBlock);
+            Debug.Assert(BlockState.ToString() != null); // For code coverage.
             InsertInBlockStateList(BlockIndex, BlockState);
 
             return BlockState;

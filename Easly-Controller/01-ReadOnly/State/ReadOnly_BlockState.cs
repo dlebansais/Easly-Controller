@@ -192,17 +192,21 @@
         {
             Debug.Assert(!string.IsNullOrEmpty(propertyName));
 
+            IReadOnlyInner<IReadOnlyBrowsingChildIndex> Result = null;
+
             switch (propertyName)
             {
                 case nameof(IBlock.ReplicationPattern):
-                    return PatternInner;
+                    Result = PatternInner;
+                    break;
 
                 case nameof(IBlock.SourceIdentifier):
-                    return SourceInner;
-
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(propertyName));
+                    Result = SourceInner;
+                    break;
             }
+
+            Debug.Assert(Result != null);
+            return Result;
         }
 
         /// <summary>
