@@ -74,13 +74,6 @@
         void PropertyToValue(string propertyName, out object value, out int minValue, out int maxValue);
 
         /// <summary>
-        /// Gets the first inner corresponding to the first optional child node that is not assigned.
-        /// </summary>
-        /// <param name="inner">The inner corresponding to the first optional child node that is not assigned, or null if none.</param>
-        /// <returns>True if an unassigned optional child was found, false if the state contains no optional node child or if they are all assigned.</returns>
-        bool FindFirstUnassignedOptional(out IReadOnlyOptionalInner inner);
-
-        /// <summary>
         /// Returns a list of states for all child nodes.
         /// </summary>
         IReadOnlyNodeStateReadOnlyList GetAllChildren();
@@ -202,6 +195,7 @@
                 Type ChildInterfaceType, ChildNodeType;
                 IReadOnlyList<INode> ChildNodeList;
                 IReadOnlyList<INodeTreeBlock> ChildBlockList;
+                bool IsHandled = false;
 
                 if (NodeTreeHelperChild.IsChildNodeProperty(node, PropertyName, out ChildNodeType))
                 {
@@ -212,6 +206,8 @@
                     // Create a collection containing one index for this child node.
                     IReadOnlyIndexCollection IndexCollection = CreatePlaceholderIndexCollection(browseNodeContext, PropertyName, ChildNodeIndex);
                     browseNodeContext.AddIndexCollection(IndexCollection);
+
+                    IsHandled = true;
                 }
                 else if (NodeTreeHelperOptional.IsOptionalChildNodeProperty(node, PropertyName, out ChildNodeType))
                 {
@@ -220,6 +216,8 @@
                     // Create a collection containing one index for this optional node.
                     IReadOnlyIndexCollection IndexCollection = CreateOptionalIndexCollection(browseNodeContext, PropertyName, OptionalNodeIndex);
                     browseNodeContext.AddIndexCollection(IndexCollection);
+
+                    IsHandled = true;
                 }
                 else if (NodeTreeHelperList.IsNodeListProperty(node, PropertyName, out ChildNodeType))
                 {
@@ -229,6 +227,8 @@
                     // Create a collection containing indexes for each children.
                     IReadOnlyIndexCollection IndexCollection = BrowseNodeList(browseNodeContext, node, PropertyName, ChildNodeList);
                     browseNodeContext.AddIndexCollection(IndexCollection);
+
+                    IsHandled = true;
                 }
                 else if (NodeTreeHelperBlockList.IsBlockListProperty(node, PropertyName, out ChildInterfaceType, out ChildNodeType))
                 {
@@ -238,19 +238,35 @@
                     // Create a collection containing indexes for each child blocks and their children.
                     IReadOnlyIndexCollection IndexCollection = BrowseNodeBlockList(browseNodeContext, node, PropertyName, ChildBlockList);
                     browseNodeContext.AddIndexCollection(IndexCollection);
+
+                    IsHandled = true;
                 }
                 else if (NodeTreeHelper.IsBooleanProperty(node, PropertyName))
+                {
                     browseNodeContext.AddValueProperty(PropertyName, ValuePropertyType.Boolean);
+                    IsHandled = true;
+                }
                 else if (NodeTreeHelper.IsEnumProperty(node, PropertyName))
+                {
                     browseNodeContext.AddValueProperty(PropertyName, ValuePropertyType.Enum);
+                    IsHandled = true;
+                }
                 else if (NodeTreeHelper.IsStringProperty(node, PropertyName))
+                {
                     browseNodeContext.AddValueProperty(PropertyName, ValuePropertyType.String);
+                    IsHandled = true;
+                }
                 else if (NodeTreeHelper.IsGuidProperty(node, PropertyName))
+                {
                     browseNodeContext.AddValueProperty(PropertyName, ValuePropertyType.Guid);
+                    IsHandled = true;
+                }
                 else if (NodeTreeHelper.IsDocumentProperty(node, PropertyName))
-                { } // Ignore the doc node.
-                else
-                    throw new ArgumentOutOfRangeException(nameof(PropertyName));
+                {
+                    IsHandled = true; // Ignore the doc node.
+                }
+
+                Debug.Assert(IsHandled);
             }
         }
 
@@ -396,29 +412,6 @@
         }
 
         /// <summary>
-        /// Gets the first inner corresponding to the first optional child node that is not assigned.
-        /// </summary>
-        /// <param name="inner">The inner corresponding to the first optional child node that is not assigned, or null if none.</param>
-        /// <returns>True if an unassigned optional child was found, false if the state contains no optional node child or if they are all assigned.</returns>
-        public virtual bool FindFirstUnassignedOptional(out IReadOnlyOptionalInner inner)
-        {
-            if (ParentInner is IReadOnlyOptionalInner AsOptional)
-                if (!AsOptional.IsAssigned)
-                {
-                    inner = AsOptional;
-                    return true;
-                }
-
-            if (ParentState == null)
-            {
-                inner = null;
-                return false;
-            }
-
-            return ParentState.FindFirstUnassignedOptional(out inner);
-        }
-
-        /// <summary>
         /// Returns a list of states for all child nodes.
         /// </summary>
         public IReadOnlyNodeStateReadOnlyList GetAllChildren()
@@ -439,25 +432,25 @@
 
         private void AddChildInner(IReadOnlyNodeStateList stateList, IReadOnlyInner<IReadOnlyBrowsingChildIndex> inner)
         {
-            bool Success = false;
+            bool IsHandled = false;
 
             switch (inner)
             {
                 case IReadOnlyPlaceholderInner AsPlaceholderInner:
                     AddChildStates(stateList, AsPlaceholderInner.ChildState);
-                    Success = true;
+                    IsHandled = true;
                     break;
 
                 case IReadOnlyOptionalInner AsOptionalInner:
                     if (AsOptionalInner.IsAssigned)
                         AddChildStates(stateList, AsOptionalInner.ChildState);
-                    Success = true;
+                    IsHandled = true;
                     break;
 
                 case IReadOnlyListInner AsListInner:
                     foreach (IReadOnlyNodeState ChildState in AsListInner.StateList)
                         AddChildStates(stateList, ChildState);
-                    Success = true;
+                    IsHandled = true;
                     break;
 
                 case IReadOnlyBlockListInner AsBlockListInner:
@@ -469,11 +462,11 @@
                         foreach (IReadOnlyNodeState ChildState in Block.StateList)
                             AddChildStates(stateList, ChildState);
                     }
-                    Success = true;
+                    IsHandled = true;
                     break;
             }
 
-            Debug.Assert(Success);
+            Debug.Assert(IsHandled);
         }
 
         /// <summary>
@@ -525,10 +518,10 @@
             if (!comparer.VerifyEqual(ParentIndex, AsNodeState.ParentIndex))
                 return comparer.Failed();
 
-            if ((ParentInner == null && AsNodeState.ParentInner != null) || (ParentInner != null && (AsNodeState.ParentInner == null || !comparer.VerifyEqual(ParentInner, AsNodeState.ParentInner))))
+            if (!comparer.IsTrue((ParentInner == null && AsNodeState.ParentInner == null) || (ParentInner != null && AsNodeState.ParentInner != null)) || (ParentInner != null && !comparer.VerifyEqual(ParentInner, AsNodeState.ParentInner)))
                 return comparer.Failed();
 
-            if ((ParentState == null && AsNodeState.ParentState != null) || (ParentState != null && (AsNodeState.ParentState == null || !comparer.VerifyEqual(ParentState, AsNodeState.ParentState))))
+            if (!comparer.IsTrue((ParentState == null && AsNodeState.ParentState == null) || (ParentState != null && AsNodeState.ParentState != null)) || (ParentState != null && !comparer.VerifyEqual(ParentState, AsNodeState.ParentState)))
                 return comparer.Failed();
 
             return true;
@@ -540,15 +533,15 @@
             if (!comparer.VerifyEqual(InnerTable, nodeState.InnerTable))
                 return comparer.Failed();
 
-            if (ValuePropertyTypeTable.Count != nodeState.ValuePropertyTypeTable.Count)
+            if (!comparer.IsSameCount(ValuePropertyTypeTable.Count, nodeState.ValuePropertyTypeTable.Count))
                 return comparer.Failed();
 
             foreach (KeyValuePair<string, ValuePropertyType> Entry in ValuePropertyTypeTable)
             {
-                if (!nodeState.ValuePropertyTypeTable.ContainsKey(Entry.Key))
+                if (!comparer.IsTrue(nodeState.ValuePropertyTypeTable.ContainsKey(Entry.Key)))
                     return comparer.Failed();
 
-                if (nodeState.ValuePropertyTypeTable[Entry.Key] != Entry.Value)
+                if (!comparer.IsTrue(nodeState.ValuePropertyTypeTable[Entry.Key] == Entry.Value))
                     return comparer.Failed();
             }
 
@@ -577,24 +570,32 @@
             {
                 string PropertyName = Entry.Key;
                 ValuePropertyType Type = Entry.Value;
+                bool IsHandled = false;
 
                 switch (Type)
                 {
                     case ValuePropertyType.Boolean:
                         NodeTreeHelper.CopyBooleanProperty(Node, NewNode, Entry.Key);
+                        IsHandled = true;
                         break;
+
                     case ValuePropertyType.Enum:
                         NodeTreeHelper.CopyEnumProperty(Node, NewNode, Entry.Key);
+                        IsHandled = true;
                         break;
+
                     case ValuePropertyType.String:
                         NodeTreeHelper.CopyStringProperty(Node, NewNode, Entry.Key);
+                        IsHandled = true;
                         break;
+
                     case ValuePropertyType.Guid:
                         NodeTreeHelper.CopyGuidProperty(Node, NewNode, Entry.Key);
+                        IsHandled = true;
                         break;
-                    default:
-                        throw new ArgumentOutOfRangeException(nameof(Type));
                 }
+
+                Debug.Assert(IsHandled);
             }
 
             // Also copy comments.

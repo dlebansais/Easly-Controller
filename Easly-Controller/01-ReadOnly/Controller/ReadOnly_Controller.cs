@@ -85,6 +85,20 @@
         /// <param name="index">Index of the node.</param>
         /// <param name="propertyName">Name of the property to read.</param>
         int GetDiscreteValue(IReadOnlyIndex index, string propertyName);
+
+        /// <summary>
+        /// Returns the value of a string.
+        /// </summary>
+        /// <param name="index">Index of the node.</param>
+        /// <param name="propertyName">Name of the property to read.</param>
+        string GetStringValue(IReadOnlyIndex index, string propertyName);
+
+        /// <summary>
+        /// Returns the value of a guid.
+        /// </summary>
+        /// <param name="index">Index of the node.</param>
+        /// <param name="propertyName">Name of the property to read.</param>
+        Guid GetGuidValue(IReadOnlyIndex index, string propertyName);
     }
 
     /// <summary>
@@ -273,6 +287,46 @@
             Debug.Assert(State.ValuePropertyTypeTable[propertyName] == Constants.ValuePropertyType.Boolean || State.ValuePropertyTypeTable[propertyName] == Constants.ValuePropertyType.Enum);
 
             int Value = NodeTreeHelper.GetEnumValue(State.Node, propertyName);
+
+            return Value;
+        }
+
+        /// <summary>
+        /// Returns the value of a string.
+        /// </summary>
+        /// <param name="index">Index of the node.</param>
+        /// <param name="propertyName">Name of the property to read.</param>
+        public virtual string GetStringValue(IReadOnlyIndex index, string propertyName)
+        {
+            Debug.Assert(index != null);
+            Debug.Assert(Contains(index));
+
+            IReadOnlyNodeState State = StateTable[index];
+            Debug.Assert(State != null);
+            Debug.Assert(State.ValuePropertyTypeTable.ContainsKey(propertyName));
+            Debug.Assert(State.ValuePropertyTypeTable[propertyName] == Constants.ValuePropertyType.String);
+
+            string Value = NodeTreeHelper.GetString(State.Node, propertyName);
+
+            return Value;
+        }
+
+        /// <summary>
+        /// Returns the value of a guid.
+        /// </summary>
+        /// <param name="index">Index of the node.</param>
+        /// <param name="propertyName">Name of the property to read.</param>
+        public virtual Guid GetGuidValue(IReadOnlyIndex index, string propertyName)
+        {
+            Debug.Assert(index != null);
+            Debug.Assert(Contains(index));
+
+            IReadOnlyNodeState State = StateTable[index];
+            Debug.Assert(State != null);
+            Debug.Assert(State.ValuePropertyTypeTable.ContainsKey(propertyName));
+            Debug.Assert(State.ValuePropertyTypeTable[propertyName] == Constants.ValuePropertyType.Guid);
+
+            Guid Value = NodeTreeHelper.GetGuid(State.Node, propertyName);
 
             return Value;
         }
