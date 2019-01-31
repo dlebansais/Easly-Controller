@@ -2349,7 +2349,7 @@
         /// <summary></summary>
         private protected virtual void UndoRemoveBlockView(IWriteableOperation operation)
         {
-            throw new InvalidOperationException();
+            throw new NotImplementedException();
         }
 
         /// <summary></summary>

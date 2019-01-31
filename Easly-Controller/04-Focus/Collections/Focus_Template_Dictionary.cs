@@ -41,7 +41,7 @@ namespace EaslyController.Focus
         bool IDictionary<Type, IFrameTemplate>.ContainsKey(Type key) { return ContainsKey((Type)key); }
         void ICollection<KeyValuePair<Type, IFrameTemplate>>.Add(KeyValuePair<Type, IFrameTemplate> item) { Add((Type)item.Key, (IFocusTemplate)item.Value); }
         bool ICollection<KeyValuePair<Type, IFrameTemplate>>.Contains(KeyValuePair<Type, IFrameTemplate> item) { return ContainsKey((Type)item.Key) && base[(Type)item.Key] == item.Value; }
-        void ICollection<KeyValuePair<Type, IFrameTemplate>>.CopyTo(KeyValuePair<Type, IFrameTemplate>[] array, int arrayIndex) { throw new InvalidOperationException(); }
+        void ICollection<KeyValuePair<Type, IFrameTemplate>>.CopyTo(KeyValuePair<Type, IFrameTemplate>[] array, int arrayIndex) { throw new NotImplementedException(); }
         bool ICollection<KeyValuePair<Type, IFrameTemplate>>.Remove(KeyValuePair<Type, IFrameTemplate> item) { return Remove((Type)item.Key); }
         IFrameTemplate IDictionary<Type, IFrameTemplate>.this[Type key] { get { return this[(Type)key]; } set { this[(Type)key] = (IFocusTemplate)value; } }
         ICollection<Type> IDictionary<Type, IFrameTemplate>.Keys { get { return new List<Type>(Keys); } }
@@ -69,7 +69,7 @@ namespace EaslyController.Focus
         }
         public void Add(KeyValuePair<Type, IFrameTemplate> item) { base.Add(item.Key, (IFocusTemplate)item.Value); }
         public bool Contains(KeyValuePair<Type, IFrameTemplate> item) { return ContainsKey(item.Key) && base[item.Key] == item.Value; }
-        public void CopyTo(KeyValuePair<Type, IFrameTemplate>[] array, int arrayIndex) { throw new InvalidOperationException(); }
+        public void CopyTo(KeyValuePair<Type, IFrameTemplate>[] array, int arrayIndex) { throw new NotImplementedException(); }
         public bool Remove(KeyValuePair<Type, IFrameTemplate> item) { return Remove(item.Key); }
         bool ICollection<KeyValuePair<Type, IFrameTemplate>>.IsReadOnly { get { return ((ICollection<KeyValuePair<Type, IFocusTemplate>>)this).IsReadOnly; } }
         #endregion

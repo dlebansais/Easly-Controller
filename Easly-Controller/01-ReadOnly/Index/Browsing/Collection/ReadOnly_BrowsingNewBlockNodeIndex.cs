@@ -1,5 +1,6 @@
 ﻿namespace EaslyController.ReadOnly
 {
+    using System;
     using System.Diagnostics;
     using BaseNode;
     using BaseNodeHelper;
@@ -71,18 +72,7 @@
         /// <param name="other">The other object.</param>
         public override bool IsEqual(CompareEqual comparer, IEqualComparable other)
         {
-            Debug.Assert(other != null);
-
-            if (!comparer.IsSameType(other, out ReadOnlyBrowsingNewBlockNodeIndex AsNewBlockNodeIndex))
-                return comparer.Failed();
-
-            if (!base.IsEqual(comparer, AsNewBlockNodeIndex))
-                return comparer.Failed();
-
-            if (!comparer.IsSameReference(ParentNode, AsNewBlockNodeIndex.ParentNode))
-                return comparer.Failed();
-
-            return true;
+            throw new NotImplementedException();
         }
         #endregion
 

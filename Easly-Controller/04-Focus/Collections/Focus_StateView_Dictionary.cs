@@ -35,7 +35,7 @@ namespace EaslyController.Focus
         bool IDictionary<IReadOnlyNodeState, IReadOnlyNodeStateView>.ContainsKey(IReadOnlyNodeState key) { return ContainsKey((IFocusNodeState)key); }
         void ICollection<KeyValuePair<IReadOnlyNodeState, IReadOnlyNodeStateView>>.Add(KeyValuePair<IReadOnlyNodeState, IReadOnlyNodeStateView> item) { Add((IFocusNodeState)item.Key, (IFocusNodeStateView)item.Value); }
         bool ICollection<KeyValuePair<IReadOnlyNodeState, IReadOnlyNodeStateView>>.Contains(KeyValuePair<IReadOnlyNodeState, IReadOnlyNodeStateView> item) { return ContainsKey((IFocusNodeState)item.Key) && base[(IFocusNodeState)item.Key] == item.Value; }
-        void ICollection<KeyValuePair<IReadOnlyNodeState, IReadOnlyNodeStateView>>.CopyTo(KeyValuePair<IReadOnlyNodeState, IReadOnlyNodeStateView>[] array, int arrayIndex) { throw new InvalidOperationException(); }
+        void ICollection<KeyValuePair<IReadOnlyNodeState, IReadOnlyNodeStateView>>.CopyTo(KeyValuePair<IReadOnlyNodeState, IReadOnlyNodeStateView>[] array, int arrayIndex) { throw new NotImplementedException(); }
         bool ICollection<KeyValuePair<IReadOnlyNodeState, IReadOnlyNodeStateView>>.Remove(KeyValuePair<IReadOnlyNodeState, IReadOnlyNodeStateView> item) { return Remove((IFocusNodeState)item.Key); }
         IReadOnlyNodeStateView IDictionary<IReadOnlyNodeState, IReadOnlyNodeStateView>.this[IReadOnlyNodeState key] { get { return this[(IFocusNodeState)key]; } set { this[(IFocusNodeState)key] = (IFocusNodeStateView)value; } }
         ICollection<IReadOnlyNodeState> IDictionary<IReadOnlyNodeState, IReadOnlyNodeStateView>.Keys { get { return new List<IReadOnlyNodeState>(Keys); } }
@@ -63,7 +63,7 @@ namespace EaslyController.Focus
         }
         public void Add(KeyValuePair<IFocusNodeState, IReadOnlyNodeStateView> item) { base.Add(item.Key, (IFocusNodeStateView)item.Value); }
         public bool Contains(KeyValuePair<IFocusNodeState, IReadOnlyNodeStateView> item) { return ContainsKey(item.Key) && base[item.Key] == item.Value; }
-        public void CopyTo(KeyValuePair<IFocusNodeState, IReadOnlyNodeStateView>[] array, int arrayIndex) { throw new InvalidOperationException(); }
+        public void CopyTo(KeyValuePair<IFocusNodeState, IReadOnlyNodeStateView>[] array, int arrayIndex) { throw new NotImplementedException(); }
         public bool Remove(KeyValuePair<IFocusNodeState, IReadOnlyNodeStateView> item) { return Remove(item.Key); }
         bool ICollection<KeyValuePair<IReadOnlyNodeState, IReadOnlyNodeStateView>>.IsReadOnly { get { return ((ICollection<KeyValuePair<IFocusNodeState, IFocusNodeStateView>>)this).IsReadOnly; } }
         #endregion
@@ -80,7 +80,7 @@ namespace EaslyController.Focus
         bool IDictionary<IWriteableNodeState, IWriteableNodeStateView>.ContainsKey(IWriteableNodeState key) { return ContainsKey((IFocusNodeState)key); }
         void ICollection<KeyValuePair<IWriteableNodeState, IWriteableNodeStateView>>.Add(KeyValuePair<IWriteableNodeState, IWriteableNodeStateView> item) { Add((IFocusNodeState)item.Key, (IFocusNodeStateView)item.Value); }
         bool ICollection<KeyValuePair<IWriteableNodeState, IWriteableNodeStateView>>.Contains(KeyValuePair<IWriteableNodeState, IWriteableNodeStateView> item) { return ContainsKey((IFocusNodeState)item.Key) && base[(IFocusNodeState)item.Key] == item.Value; }
-        void ICollection<KeyValuePair<IWriteableNodeState, IWriteableNodeStateView>>.CopyTo(KeyValuePair<IWriteableNodeState, IWriteableNodeStateView>[] array, int arrayIndex) { throw new InvalidOperationException(); }
+        void ICollection<KeyValuePair<IWriteableNodeState, IWriteableNodeStateView>>.CopyTo(KeyValuePair<IWriteableNodeState, IWriteableNodeStateView>[] array, int arrayIndex) { throw new NotImplementedException(); }
         bool ICollection<KeyValuePair<IWriteableNodeState, IWriteableNodeStateView>>.Remove(KeyValuePair<IWriteableNodeState, IWriteableNodeStateView> item) { return Remove((IFocusNodeState)item.Key); }
         IWriteableNodeStateView IDictionary<IWriteableNodeState, IWriteableNodeStateView>.this[IWriteableNodeState key] { get { return this[(IFocusNodeState)key]; } set { this[(IFocusNodeState)key] = (IFocusNodeStateView)value; } }
         ICollection<IWriteableNodeState> IDictionary<IWriteableNodeState, IWriteableNodeStateView>.Keys { get { return new List<IWriteableNodeState>(Keys); } }
@@ -121,7 +121,7 @@ namespace EaslyController.Focus
         }
         public void Add(KeyValuePair<IFocusNodeState, IWriteableNodeStateView> item) { base.Add(item.Key, (IFocusNodeStateView)item.Value); }
         public bool Contains(KeyValuePair<IFocusNodeState, IWriteableNodeStateView> item) { return ContainsKey(item.Key) && base[item.Key] == item.Value; }
-        public void CopyTo(KeyValuePair<IFocusNodeState, IWriteableNodeStateView>[] array, int arrayIndex) { throw new InvalidOperationException(); }
+        public void CopyTo(KeyValuePair<IFocusNodeState, IWriteableNodeStateView>[] array, int arrayIndex) { throw new NotImplementedException(); }
         public bool Remove(KeyValuePair<IFocusNodeState, IWriteableNodeStateView> item) { return Remove(item.Key); }
         bool ICollection<KeyValuePair<IWriteableNodeState, IWriteableNodeStateView>>.IsReadOnly { get { return ((ICollection<KeyValuePair<IFocusNodeState, IFocusNodeStateView>>)this).IsReadOnly; } }
         #endregion
@@ -138,7 +138,7 @@ namespace EaslyController.Focus
         bool IDictionary<IFrameNodeState, IFrameNodeStateView>.ContainsKey(IFrameNodeState key) { return ContainsKey((IFocusNodeState)key); }
         void ICollection<KeyValuePair<IFrameNodeState, IFrameNodeStateView>>.Add(KeyValuePair<IFrameNodeState, IFrameNodeStateView> item) { Add((IFocusNodeState)item.Key, (IFocusNodeStateView)item.Value); }
         bool ICollection<KeyValuePair<IFrameNodeState, IFrameNodeStateView>>.Contains(KeyValuePair<IFrameNodeState, IFrameNodeStateView> item) { return ContainsKey((IFocusNodeState)item.Key) && base[(IFocusNodeState)item.Key] == item.Value; }
-        void ICollection<KeyValuePair<IFrameNodeState, IFrameNodeStateView>>.CopyTo(KeyValuePair<IFrameNodeState, IFrameNodeStateView>[] array, int arrayIndex) { throw new InvalidOperationException(); }
+        void ICollection<KeyValuePair<IFrameNodeState, IFrameNodeStateView>>.CopyTo(KeyValuePair<IFrameNodeState, IFrameNodeStateView>[] array, int arrayIndex) { throw new NotImplementedException(); }
         bool ICollection<KeyValuePair<IFrameNodeState, IFrameNodeStateView>>.Remove(KeyValuePair<IFrameNodeState, IFrameNodeStateView> item) { return Remove((IFocusNodeState)item.Key); }
         IFrameNodeStateView IDictionary<IFrameNodeState, IFrameNodeStateView>.this[IFrameNodeState key] { get { return this[(IFocusNodeState)key]; } set { this[(IFocusNodeState)key] = (IFocusNodeStateView)value; } }
         ICollection<IFrameNodeState> IDictionary<IFrameNodeState, IFrameNodeStateView>.Keys { get { return new List<IFrameNodeState>(Keys); } }
@@ -179,7 +179,7 @@ namespace EaslyController.Focus
         }
         public void Add(KeyValuePair<IFocusNodeState, IFrameNodeStateView> item) { base.Add(item.Key, (IFocusNodeStateView)item.Value); }
         public bool Contains(KeyValuePair<IFocusNodeState, IFrameNodeStateView> item) { return ContainsKey(item.Key) && base[item.Key] == item.Value; }
-        public void CopyTo(KeyValuePair<IFocusNodeState, IFrameNodeStateView>[] array, int arrayIndex) { throw new InvalidOperationException(); }
+        public void CopyTo(KeyValuePair<IFocusNodeState, IFrameNodeStateView>[] array, int arrayIndex) { throw new NotImplementedException(); }
         public bool Remove(KeyValuePair<IFocusNodeState, IFrameNodeStateView> item) { return Remove(item.Key); }
         bool ICollection<KeyValuePair<IFrameNodeState, IFrameNodeStateView>>.IsReadOnly { get { return ((ICollection<KeyValuePair<IFocusNodeState, IFocusNodeStateView>>)this).IsReadOnly; } }
         #endregion

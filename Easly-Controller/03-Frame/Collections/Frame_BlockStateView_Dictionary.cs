@@ -34,7 +34,7 @@ namespace EaslyController.Frame
         bool IDictionary<IReadOnlyBlockState, IReadOnlyBlockStateView>.ContainsKey(IReadOnlyBlockState key) { return ContainsKey((IFrameBlockState)key); }
         void ICollection<KeyValuePair<IReadOnlyBlockState, IReadOnlyBlockStateView>>.Add(KeyValuePair<IReadOnlyBlockState, IReadOnlyBlockStateView> item) { Add((IFrameBlockState)item.Key, (IFrameBlockStateView)item.Value); }
         bool ICollection<KeyValuePair<IReadOnlyBlockState, IReadOnlyBlockStateView>>.Contains(KeyValuePair<IReadOnlyBlockState, IReadOnlyBlockStateView> item) { return ContainsKey((IFrameBlockState)item.Key) && base[(IFrameBlockState)item.Key] == item.Value; }
-        void ICollection<KeyValuePair<IReadOnlyBlockState, IReadOnlyBlockStateView>>.CopyTo(KeyValuePair<IReadOnlyBlockState, IReadOnlyBlockStateView>[] array, int arrayIndex) { throw new InvalidOperationException(); }
+        void ICollection<KeyValuePair<IReadOnlyBlockState, IReadOnlyBlockStateView>>.CopyTo(KeyValuePair<IReadOnlyBlockState, IReadOnlyBlockStateView>[] array, int arrayIndex) { throw new NotImplementedException(); }
         bool ICollection<KeyValuePair<IReadOnlyBlockState, IReadOnlyBlockStateView>>.Remove(KeyValuePair<IReadOnlyBlockState, IReadOnlyBlockStateView> item) { return Remove((IFrameBlockState)item.Key); }
         IReadOnlyBlockStateView IDictionary<IReadOnlyBlockState, IReadOnlyBlockStateView>.this[IReadOnlyBlockState key] { get { return this[(IFrameBlockState)key]; } set { this[(IFrameBlockState)key] = (IFrameBlockStateView)value; } }
         ICollection<IReadOnlyBlockState> IDictionary<IReadOnlyBlockState, IReadOnlyBlockStateView>.Keys { get { return new List<IReadOnlyBlockState>(Keys); } }
@@ -62,7 +62,7 @@ namespace EaslyController.Frame
         }
         public void Add(KeyValuePair<IFrameBlockState, IReadOnlyBlockStateView> item) { base.Add(item.Key, (IFrameBlockStateView)item.Value); }
         public bool Contains(KeyValuePair<IFrameBlockState, IReadOnlyBlockStateView> item) { return ContainsKey(item.Key) && base[item.Key] == item.Value; }
-        public void CopyTo(KeyValuePair<IFrameBlockState, IReadOnlyBlockStateView>[] array, int arrayIndex) { throw new InvalidOperationException(); }
+        public void CopyTo(KeyValuePair<IFrameBlockState, IReadOnlyBlockStateView>[] array, int arrayIndex) { throw new NotImplementedException(); }
         public bool Remove(KeyValuePair<IFrameBlockState, IReadOnlyBlockStateView> item) { return Remove(item.Key); }
         bool ICollection<KeyValuePair<IReadOnlyBlockState, IReadOnlyBlockStateView>>.IsReadOnly { get { return ((ICollection<KeyValuePair<IFrameBlockState, IFrameBlockStateView>>)this).IsReadOnly; } }
         #endregion
@@ -79,7 +79,7 @@ namespace EaslyController.Frame
         bool IDictionary<IWriteableBlockState, IWriteableBlockStateView>.ContainsKey(IWriteableBlockState key) { return ContainsKey((IFrameBlockState)key); }
         void ICollection<KeyValuePair<IWriteableBlockState, IWriteableBlockStateView>>.Add(KeyValuePair<IWriteableBlockState, IWriteableBlockStateView> item) { Add((IFrameBlockState)item.Key, (IFrameBlockStateView)item.Value); }
         bool ICollection<KeyValuePair<IWriteableBlockState, IWriteableBlockStateView>>.Contains(KeyValuePair<IWriteableBlockState, IWriteableBlockStateView> item) { return ContainsKey((IFrameBlockState)item.Key) && base[(IFrameBlockState)item.Key] == item.Value; }
-        void ICollection<KeyValuePair<IWriteableBlockState, IWriteableBlockStateView>>.CopyTo(KeyValuePair<IWriteableBlockState, IWriteableBlockStateView>[] array, int arrayIndex) { throw new InvalidOperationException(); }
+        void ICollection<KeyValuePair<IWriteableBlockState, IWriteableBlockStateView>>.CopyTo(KeyValuePair<IWriteableBlockState, IWriteableBlockStateView>[] array, int arrayIndex) { throw new NotImplementedException(); }
         bool ICollection<KeyValuePair<IWriteableBlockState, IWriteableBlockStateView>>.Remove(KeyValuePair<IWriteableBlockState, IWriteableBlockStateView> item) { return Remove((IFrameBlockState)item.Key); }
         IWriteableBlockStateView IDictionary<IWriteableBlockState, IWriteableBlockStateView>.this[IWriteableBlockState key] { get { return this[(IFrameBlockState)key]; } set { this[(IFrameBlockState)key] = (IFrameBlockStateView)value; } }
         ICollection<IWriteableBlockState> IDictionary<IWriteableBlockState, IWriteableBlockStateView>.Keys { get { return new List<IWriteableBlockState>(Keys); } }
@@ -120,7 +120,7 @@ namespace EaslyController.Frame
         }
         public void Add(KeyValuePair<IFrameBlockState, IWriteableBlockStateView> item) { base.Add(item.Key, (IFrameBlockStateView)item.Value); }
         public bool Contains(KeyValuePair<IFrameBlockState, IWriteableBlockStateView> item) { return ContainsKey(item.Key) && base[item.Key] == item.Value; }
-        public void CopyTo(KeyValuePair<IFrameBlockState, IWriteableBlockStateView>[] array, int arrayIndex) { throw new InvalidOperationException(); }
+        public void CopyTo(KeyValuePair<IFrameBlockState, IWriteableBlockStateView>[] array, int arrayIndex) { throw new NotImplementedException(); }
         public bool Remove(KeyValuePair<IFrameBlockState, IWriteableBlockStateView> item) { return Remove(item.Key); }
         bool ICollection<KeyValuePair<IWriteableBlockState, IWriteableBlockStateView>>.IsReadOnly { get { return ((ICollection<KeyValuePair<IFrameBlockState, IFrameBlockStateView>>)this).IsReadOnly; } }
         #endregion

@@ -134,7 +134,7 @@
         /// <param name="cellView">The assigned cell view.</param>
         public virtual void AssignCellViewTable(string propertyName, IFrameAssignableCellView cellView)
         {
-            throw new InvalidOperationException();
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -157,7 +157,7 @@
         /// <param name="cellView">The new cell view.</param>
         public virtual void ReplaceCellView(string propertyName, IFrameContainerCellView cellView)
         {
-            throw new InvalidOperationException();
+            throw new NotImplementedException();
         }
 
         /// <summary>

@@ -41,10 +41,10 @@
         #region Init
         private class FrameRootFrame : IFrameFrame
         {
-            public IFrameTemplate ParentTemplate { get { throw new InvalidOperationException(); } }
-            public IFrameFrame ParentFrame { get { throw new InvalidOperationException(); } }
+            public IFrameTemplate ParentTemplate { get { throw new NotImplementedException(); } }
+            public IFrameFrame ParentFrame { get { throw new NotImplementedException(); } }
             public bool IsValid(Type nodeType, IFrameTemplateReadOnlyDictionary nodeTemplateTable) { return false; }
-            public void UpdateParent(IFrameTemplate parentTemplate, IFrameFrame parentFrame) { throw new InvalidOperationException(); }
+            public void UpdateParent(IFrameTemplate parentTemplate, IFrameFrame parentFrame) { throw new NotImplementedException(); }
         }
 
         /// <summary>

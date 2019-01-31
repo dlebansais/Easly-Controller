@@ -117,17 +117,17 @@
         /// <summary>
         /// The template used to display the state.
         /// </summary>
-        public virtual IFrameTemplate Template { get { throw new InvalidOperationException(); } } // Can't make this abstract, thank you C#...
+        public virtual IFrameTemplate Template { get { throw new NotImplementedException(); } } // Can't make this abstract, thank you C#...
 
         /// <summary>
         /// Root cell for the view.
         /// </summary>
-        public virtual IFrameCellView RootCellView { get { throw new InvalidOperationException(); } } // Can't make this abstract, thank you C#...
+        public virtual IFrameCellView RootCellView { get { throw new NotImplementedException(); } } // Can't make this abstract, thank you C#...
 
         /// <summary>
         /// Table of cell views that are mutable lists of cells.
         /// </summary>
-        public virtual IFrameAssignableCellViewReadOnlyDictionary<string> CellViewTable { get { throw new InvalidOperationException(); } } // Can't make this abstract, thank you C#...
+        public virtual IFrameAssignableCellViewReadOnlyDictionary<string> CellViewTable { get { throw new NotImplementedException(); } } // Can't make this abstract, thank you C#...
 
         /// <summary>
         /// True if the node view contain at least one visible cell view.

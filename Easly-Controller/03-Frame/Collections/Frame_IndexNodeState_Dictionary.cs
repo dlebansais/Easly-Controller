@@ -33,7 +33,7 @@ namespace EaslyController.Frame
         bool IDictionary<IReadOnlyIndex, IReadOnlyNodeState>.ContainsKey(IReadOnlyIndex key) { return ContainsKey((IFrameIndex)key); }
         void ICollection<KeyValuePair<IReadOnlyIndex, IReadOnlyNodeState>>.Add(KeyValuePair<IReadOnlyIndex, IReadOnlyNodeState> item) { Add((IFrameIndex)item.Key, (IFrameNodeState)item.Value); }
         bool ICollection<KeyValuePair<IReadOnlyIndex, IReadOnlyNodeState>>.Contains(KeyValuePair<IReadOnlyIndex, IReadOnlyNodeState> item) { return ContainsKey((IFrameIndex)item.Key) && base[(IFrameIndex)item.Key] == item.Value; }
-        void ICollection<KeyValuePair<IReadOnlyIndex, IReadOnlyNodeState>>.CopyTo(KeyValuePair<IReadOnlyIndex, IReadOnlyNodeState>[] array, int arrayIndex) { throw new InvalidOperationException(); }
+        void ICollection<KeyValuePair<IReadOnlyIndex, IReadOnlyNodeState>>.CopyTo(KeyValuePair<IReadOnlyIndex, IReadOnlyNodeState>[] array, int arrayIndex) { throw new NotImplementedException(); }
         bool ICollection<KeyValuePair<IReadOnlyIndex, IReadOnlyNodeState>>.Remove(KeyValuePair<IReadOnlyIndex, IReadOnlyNodeState> item) { return Remove((IFrameIndex)item.Key); }
         IReadOnlyNodeState IDictionary<IReadOnlyIndex, IReadOnlyNodeState>.this[IReadOnlyIndex key] { get { return this[(IFrameIndex)key]; } set { this[(IFrameIndex)key] = (IFrameNodeState)value; } }
         ICollection<IReadOnlyIndex> IDictionary<IReadOnlyIndex, IReadOnlyNodeState>.Keys { get { return new List<IReadOnlyIndex>(Keys); } }
@@ -61,7 +61,7 @@ namespace EaslyController.Frame
         }
         public void Add(KeyValuePair<IFrameIndex, IReadOnlyNodeState> item) { base.Add(item.Key, (IFrameNodeState)item.Value); }
         public bool Contains(KeyValuePair<IFrameIndex, IReadOnlyNodeState> item) { return ContainsKey(item.Key) && base[item.Key] == item.Value; }
-        public void CopyTo(KeyValuePair<IFrameIndex, IReadOnlyNodeState>[] array, int arrayIndex) { throw new InvalidOperationException(); }
+        public void CopyTo(KeyValuePair<IFrameIndex, IReadOnlyNodeState>[] array, int arrayIndex) { throw new NotImplementedException(); }
         public bool Remove(KeyValuePair<IFrameIndex, IReadOnlyNodeState> item) { return Remove(item.Key); }
         bool ICollection<KeyValuePair<IReadOnlyIndex, IReadOnlyNodeState>>.IsReadOnly { get { return ((ICollection<KeyValuePair<IFrameIndex, IFrameNodeState>>)this).IsReadOnly; } }
         #endregion
@@ -78,7 +78,7 @@ namespace EaslyController.Frame
         bool IDictionary<IWriteableIndex, IWriteableNodeState>.ContainsKey(IWriteableIndex key) { return ContainsKey((IFrameIndex)key); }
         void ICollection<KeyValuePair<IWriteableIndex, IWriteableNodeState>>.Add(KeyValuePair<IWriteableIndex, IWriteableNodeState> item) { Add((IFrameIndex)item.Key, (IFrameNodeState)item.Value); }
         bool ICollection<KeyValuePair<IWriteableIndex, IWriteableNodeState>>.Contains(KeyValuePair<IWriteableIndex, IWriteableNodeState> item) { return ContainsKey((IFrameIndex)item.Key) && base[(IFrameIndex)item.Key] == item.Value; }
-        void ICollection<KeyValuePair<IWriteableIndex, IWriteableNodeState>>.CopyTo(KeyValuePair<IWriteableIndex, IWriteableNodeState>[] array, int arrayIndex) { throw new InvalidOperationException(); }
+        void ICollection<KeyValuePair<IWriteableIndex, IWriteableNodeState>>.CopyTo(KeyValuePair<IWriteableIndex, IWriteableNodeState>[] array, int arrayIndex) { throw new NotImplementedException(); }
         bool ICollection<KeyValuePair<IWriteableIndex, IWriteableNodeState>>.Remove(KeyValuePair<IWriteableIndex, IWriteableNodeState> item) { return Remove((IFrameIndex)item.Key); }
         IWriteableNodeState IDictionary<IWriteableIndex, IWriteableNodeState>.this[IWriteableIndex key] { get { return this[(IFrameIndex)key]; } set { this[(IFrameIndex)key] = (IFrameNodeState)value; } }
         ICollection<IWriteableIndex> IDictionary<IWriteableIndex, IWriteableNodeState>.Keys { get { return new List<IWriteableIndex>(Keys); } }
@@ -119,7 +119,7 @@ namespace EaslyController.Frame
         }
         public void Add(KeyValuePair<IFrameIndex, IWriteableNodeState> item) { base.Add(item.Key, (IFrameNodeState)item.Value); }
         public bool Contains(KeyValuePair<IFrameIndex, IWriteableNodeState> item) { return ContainsKey(item.Key) && base[item.Key] == item.Value; }
-        public void CopyTo(KeyValuePair<IFrameIndex, IWriteableNodeState>[] array, int arrayIndex) { throw new InvalidOperationException(); }
+        public void CopyTo(KeyValuePair<IFrameIndex, IWriteableNodeState>[] array, int arrayIndex) { throw new NotImplementedException(); }
         public bool Remove(KeyValuePair<IFrameIndex, IWriteableNodeState> item) { return Remove(item.Key); }
         bool ICollection<KeyValuePair<IWriteableIndex, IWriteableNodeState>>.IsReadOnly { get { return ((ICollection<KeyValuePair<IFrameIndex, IFrameNodeState>>)this).IsReadOnly; } }
         #endregion

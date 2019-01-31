@@ -39,7 +39,7 @@
         /// <param name="node">The node inserted.</param>
         public virtual IWriteableInsertionChildIndex ToInsertionIndex(INode parentNode, INode node)
         {
-            throw new InvalidOperationException();
+            throw new NotImplementedException();
         }
         #endregion
 

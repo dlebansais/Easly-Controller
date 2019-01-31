@@ -50,7 +50,7 @@ namespace EaslyController.Frame
         }
         public void Add(KeyValuePair<TKey, IReadOnlyInner<IReadOnlyBrowsingChildIndex>> item) { base.Add(item.Key, (IFrameInner<IFrameBrowsingChildIndex>)item.Value); }
         public bool Contains(KeyValuePair<TKey, IReadOnlyInner<IReadOnlyBrowsingChildIndex>> item) { return ContainsKey(item.Key) && base[item.Key] == item.Value; }
-        public void CopyTo(KeyValuePair<TKey, IReadOnlyInner<IReadOnlyBrowsingChildIndex>>[] array, int arrayIndex) { throw new InvalidOperationException(); }
+        public void CopyTo(KeyValuePair<TKey, IReadOnlyInner<IReadOnlyBrowsingChildIndex>>[] array, int arrayIndex) { throw new NotImplementedException(); }
         public bool Remove(KeyValuePair<TKey, IReadOnlyInner<IReadOnlyBrowsingChildIndex>> item) { return Remove(item.Key); }
         bool ICollection<KeyValuePair<TKey, IReadOnlyInner<IReadOnlyBrowsingChildIndex>>>.IsReadOnly { get { return ((ICollection<KeyValuePair<TKey, IFrameInner>>)this).IsReadOnly; } }
         #endregion
@@ -95,7 +95,7 @@ namespace EaslyController.Frame
         }
         public void Add(KeyValuePair<TKey, IWriteableInner<IWriteableBrowsingChildIndex>> item) { base.Add(item.Key, (IFrameInner<IFrameBrowsingChildIndex>)item.Value); }
         public bool Contains(KeyValuePair<TKey, IWriteableInner<IWriteableBrowsingChildIndex>> item) { return ContainsKey(item.Key) && base[item.Key] == item.Value; }
-        public void CopyTo(KeyValuePair<TKey, IWriteableInner<IWriteableBrowsingChildIndex>>[] array, int arrayIndex) { throw new InvalidOperationException(); }
+        public void CopyTo(KeyValuePair<TKey, IWriteableInner<IWriteableBrowsingChildIndex>>[] array, int arrayIndex) { throw new NotImplementedException(); }
         public bool Remove(KeyValuePair<TKey, IWriteableInner<IWriteableBrowsingChildIndex>> item) { return Remove(item.Key); }
         bool ICollection<KeyValuePair<TKey, IWriteableInner<IWriteableBrowsingChildIndex>>>.IsReadOnly { get { return ((ICollection<KeyValuePair<TKey, IFrameInner>>)this).IsReadOnly; } }
         #endregion

@@ -27,12 +27,12 @@
         #region Init
         private class FocusRootFrame : IFocusFrame
         {
-            public IFocusTemplate ParentTemplate { get { throw new InvalidOperationException(); } }
-            IFrameTemplate IFrameFrame.ParentTemplate { get { throw new InvalidOperationException(); } }
-            public IFocusFrame ParentFrame { get { throw new InvalidOperationException(); } }
-            IFrameFrame IFrameFrame.ParentFrame { get { throw new InvalidOperationException(); } }
+            public IFocusTemplate ParentTemplate { get { throw new NotImplementedException(); } }
+            IFrameTemplate IFrameFrame.ParentTemplate { get { throw new NotImplementedException(); } }
+            public IFocusFrame ParentFrame { get { throw new NotImplementedException(); } }
+            IFrameFrame IFrameFrame.ParentFrame { get { throw new NotImplementedException(); } }
             public bool IsValid(Type nodeType, IFrameTemplateReadOnlyDictionary nodeTemplateTable) { return false; }
-            public void UpdateParent(IFrameTemplate parentTemplate, IFrameFrame parentFrame) { throw new InvalidOperationException(); }
+            public void UpdateParent(IFrameTemplate parentTemplate, IFrameFrame parentFrame) { throw new NotImplementedException(); }
         }
 
         /// <summary>

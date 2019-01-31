@@ -49,7 +49,7 @@
         /// <summary>
         /// State of the node.
         /// </summary>
-        public virtual IReadOnlyNodeState ChildState { get { throw new InvalidOperationException(); } private protected set { throw new InvalidOperationException(); } } // Can't make this abstract, thank you C#...
+        public virtual IReadOnlyNodeState ChildState { get { throw new NotImplementedException(); } private protected set { throw new NotImplementedException(); } } // Can't make this abstract, thank you C#...
         #endregion
     }
 }

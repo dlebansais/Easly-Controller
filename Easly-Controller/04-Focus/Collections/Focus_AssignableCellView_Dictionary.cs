@@ -49,7 +49,7 @@ namespace EaslyController.Focus
         }
         public void Add(KeyValuePair<TKey, IFrameAssignableCellView> item) { base.Add(item.Key, (IFocusAssignableCellView)item.Value); }
         public bool Contains(KeyValuePair<TKey, IFrameAssignableCellView> item) { return ContainsKey(item.Key) && base[item.Key] == item.Value; }
-        public void CopyTo(KeyValuePair<TKey, IFrameAssignableCellView>[] array, int arrayIndex) { throw new InvalidOperationException(); }
+        public void CopyTo(KeyValuePair<TKey, IFrameAssignableCellView>[] array, int arrayIndex) { throw new NotImplementedException(); }
         public bool Remove(KeyValuePair<TKey, IFrameAssignableCellView> item) { return Remove(item.Key); }
         bool ICollection<KeyValuePair<TKey, IFrameAssignableCellView>>.IsReadOnly { get { return ((ICollection<KeyValuePair<TKey, IFocusAssignableCellView>>)this).IsReadOnly; } }
         #endregion
