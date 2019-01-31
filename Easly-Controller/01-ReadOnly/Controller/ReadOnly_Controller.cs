@@ -524,6 +524,7 @@
             Debug.Assert(State.ValuePropertyTypeTable == null || State.ValuePropertyTypeTable.Count == 0);
 
             State.Init(parentInner, innerTable, browseContext.ValuePropertyTypeTable);
+            Debug.Assert(State.ToString() != null); // For code coverage.
 
             NotifyNodeStateInitialized(State);
         }

@@ -129,11 +129,13 @@
         /// <returns>The cloned node.</returns>
         public override INode CloneNode()
         {
+            INode NewNode = null;
+
             NodeTreeHelperOptional.GetChildNode(Optional, out bool IsAssigned, out INode ChildNode);
             if (ChildNode != null)
             {
                 // Create a clone, initially empty and full of null references.
-                INode NewNode = NodeHelper.CreateEmptyNode(ChildNode.GetType());
+                NewNode = NodeHelper.CreateEmptyNode(ChildNode.GetType());
 
                 // Clone and assign reference to all nodes, optional or not, list and block lists.
                 foreach (KeyValuePair<string, IReadOnlyInner<IReadOnlyBrowsingChildIndex>> Entry in InnerTable)
@@ -148,33 +150,39 @@
                 {
                     string PropertyName = Entry.Key;
                     ValuePropertyType Type = Entry.Value;
+                    bool IsHandled = false;
 
                     switch (Type)
                     {
                         case ValuePropertyType.Boolean:
                             NodeTreeHelper.CopyBooleanProperty(Node, NewNode, Entry.Key);
+                            IsHandled = true;
                             break;
+
                         case ValuePropertyType.Enum:
                             NodeTreeHelper.CopyEnumProperty(Node, NewNode, Entry.Key);
+                            IsHandled = true;
                             break;
+
                         case ValuePropertyType.String:
                             NodeTreeHelper.CopyStringProperty(Node, NewNode, Entry.Key);
+                            IsHandled = true;
                             break;
+
                         case ValuePropertyType.Guid:
                             NodeTreeHelper.CopyGuidProperty(Node, NewNode, Entry.Key);
+                            IsHandled = true;
                             break;
-                        default:
-                            throw new ArgumentOutOfRangeException(nameof(Type));
                     }
+
+                    Debug.Assert(IsHandled);
                 }
 
                 // Also copy comments.
                 NodeTreeHelper.CopyDocumentation(Node, NewNode, cloneCommentGuid: true);
-
-                return NewNode;
             }
-            else
-                return null;
+
+            return NewNode;
         }
 
         /// <summary>
