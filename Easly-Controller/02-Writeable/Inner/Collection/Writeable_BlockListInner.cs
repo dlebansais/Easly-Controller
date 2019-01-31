@@ -266,7 +266,7 @@
             NodeTreeHelperBlockList.InsertIntoBlockList(ParentNode, PropertyName, BlockIndex, NewBlock);
             NodeTreeHelperBlockList.InsertIntoBlock(NewBlock, 0, NewNode);
 
-            IWriteableBrowsingNewBlockNodeIndex BrowsingNewBlockIndex = CreateNewBlockNodeIndex(NewNode, BlockIndex, NewBlock.ReplicationPattern, NewBlock.SourceIdentifier);
+            IWriteableBrowsingNewBlockNodeIndex BrowsingNewBlockIndex = CreateNewBlockNodeIndex(NewNode, BlockIndex);
             IWriteableBrowsingExistingBlockNodeIndex BrowsingExistingBlockIndex = (IWriteableBrowsingExistingBlockNodeIndex)BrowsingNewBlockIndex.ToExistingBlockIndex();
 
             IWriteableBlockState BlockState = (IWriteableBlockState)CreateBlockState(BrowsingNewBlockIndex, NewBlock);
@@ -469,7 +469,7 @@
             NodeTreeHelperBlockList.SplitBlock(Owner.Node, PropertyName, SplitBlockIndex, SplitIndex, NewBlock);
 
             NodeTreeHelperBlockList.GetChildNode(NewBlock, 0, out INode NewBlockFirstNode);
-            IWriteableBrowsingNewBlockNodeIndex NewBlockIndex = CreateNewBlockNodeIndex(NewBlockFirstNode, SplitBlockIndex, NewBlock.ReplicationPattern, NewBlock.SourceIdentifier);
+            IWriteableBrowsingNewBlockNodeIndex NewBlockIndex = CreateNewBlockNodeIndex(NewBlockFirstNode, SplitBlockIndex);
 
             IWriteableBlockState NewBlockState = (IWriteableBlockState)CreateBlockState(NewBlockIndex, NewBlock);
             NewBlockState.InitBlockState();
@@ -775,10 +775,10 @@
         /// <summary>
         /// Creates a IxxxBrowsingNewBlockNodeIndex object.
         /// </summary>
-        private protected virtual IWriteableBrowsingNewBlockNodeIndex CreateNewBlockNodeIndex(INode node, int blockIndex, IPattern patternNode, IIdentifier sourceNode)
+        private protected virtual IWriteableBrowsingNewBlockNodeIndex CreateNewBlockNodeIndex(INode node, int blockIndex)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableBlockListInner<IIndex, TIndex>));
-            return new WriteableBrowsingNewBlockNodeIndex(Owner.Node, node, PropertyName, blockIndex, patternNode, sourceNode);
+            return new WriteableBrowsingNewBlockNodeIndex(Owner.Node, node, PropertyName, blockIndex);
         }
         #endregion
     }

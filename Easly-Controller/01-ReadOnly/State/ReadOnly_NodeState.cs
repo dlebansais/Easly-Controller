@@ -300,7 +300,7 @@
 
                 IReadOnlyBrowsingBlockNodeIndex NewNodeIndex;
                 if (Index == 0) // For the first node, we use a IxxxBrowsingNewBlockNodeIndex, otherwise a IxxxBrowsingExistingBlockNodeIndex.
-                    NewNodeIndex = CreateNewBlockNodeIndex(browseNodeContext, node, propertyName, childBlock, blockIndex, ChildNode);
+                    NewNodeIndex = CreateNewBlockNodeIndex(browseNodeContext, node, propertyName, blockIndex, ChildNode);
                 else
                     NewNodeIndex = CreateExistingBlockNodeIndex(browseNodeContext, node, propertyName, blockIndex, Index, ChildNode);
 
@@ -677,10 +677,10 @@
         /// <summary>
         /// Creates a IxxxBrowsingNewBlockNodeIndex object.
         /// </summary>
-        private protected virtual IReadOnlyBrowsingNewBlockNodeIndex CreateNewBlockNodeIndex(IReadOnlyBrowseContext browseNodeContext, INode node, string propertyName, INodeTreeBlock childBlock, int blockIndex, INode childNode)
+        private protected virtual IReadOnlyBrowsingNewBlockNodeIndex CreateNewBlockNodeIndex(IReadOnlyBrowseContext browseNodeContext, INode node, string propertyName, int blockIndex, INode childNode)
         {
             ControllerTools.AssertNoOverride(this, typeof(ReadOnlyNodeState));
-            return new ReadOnlyBrowsingNewBlockNodeIndex(node, childNode, propertyName, blockIndex, childBlock.ReplicationPattern, childBlock.SourceIdentifier);
+            return new ReadOnlyBrowsingNewBlockNodeIndex(node, childNode, propertyName, blockIndex);
         }
 
         /// <summary>

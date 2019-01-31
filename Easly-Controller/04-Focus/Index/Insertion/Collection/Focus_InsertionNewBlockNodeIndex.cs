@@ -60,7 +60,7 @@
         private protected override IWriteableBrowsingNewBlockNodeIndex CreateBrowsingIndex()
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusInsertionNewBlockNodeIndex));
-            return new FocusBrowsingNewBlockNodeIndex(ParentNode, Node, PropertyName, BlockIndex, PatternNode, SourceNode);
+            return new FocusBrowsingNewBlockNodeIndex(ParentNode, Node, PropertyName, BlockIndex);
         }
         #endregion
     }

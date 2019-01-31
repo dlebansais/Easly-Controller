@@ -439,5 +439,29 @@
             return new WriteableBlockStateView(this, (IWriteableBlockState)blockState);
         }
         #endregion
+
+        #region Implementation of IDisposable
+        private protected override void DisposeNow()
+        {
+            Controller.BlockStateInserted -= OnBlockStateInserted;
+            Controller.BlockStateRemoved -= OnBlockStateRemoved;
+            Controller.BlockViewRemoved -= OnBlockViewRemoved;
+            Controller.StateInserted -= OnStateInserted;
+            Controller.StateRemoved -= OnStateRemoved;
+            Controller.StateReplaced -= OnStateReplaced;
+            Controller.StateAssigned -= OnStateAssigned;
+            Controller.StateUnassigned -= OnStateUnassigned;
+            Controller.StateChanged -= OnStateChanged;
+            Controller.BlockStateChanged -= OnBlockStateChanged;
+            Controller.StateMoved -= OnStateMoved;
+            Controller.BlockStateMoved -= OnBlockStateMoved;
+            Controller.BlockSplit -= OnBlockSplit;
+            Controller.BlocksMerged -= OnBlocksMerged;
+            Controller.ArgumentExpanded -= OnArgumentExpanded;
+            Controller.GenericRefresh -= OnGenericRefresh;
+
+            base.DisposeNow();
+        }
+        #endregion
     }
 }

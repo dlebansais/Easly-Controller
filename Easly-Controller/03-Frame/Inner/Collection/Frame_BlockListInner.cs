@@ -154,10 +154,10 @@
         /// <summary>
         /// Creates a IxxxBrowsingNewBlockNodeIndex object.
         /// </summary>
-        private protected override IWriteableBrowsingNewBlockNodeIndex CreateNewBlockNodeIndex(INode node, int blockIndex, IPattern patternNode, IIdentifier sourceNode)
+        private protected override IWriteableBrowsingNewBlockNodeIndex CreateNewBlockNodeIndex(INode node, int blockIndex)
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameBlockListInner<IIndex, TIndex>));
-            return new FrameBrowsingNewBlockNodeIndex(Owner.Node, node, PropertyName, blockIndex, patternNode, sourceNode);
+            return new FrameBrowsingNewBlockNodeIndex(Owner.Node, node, PropertyName, blockIndex);
         }
         #endregion
     }

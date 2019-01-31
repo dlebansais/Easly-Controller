@@ -119,7 +119,7 @@
         private protected virtual IWriteableBrowsingNewBlockNodeIndex CreateBrowsingIndex()
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableInsertionNewBlockNodeIndex));
-            return new WriteableBrowsingNewBlockNodeIndex(ParentNode, Node, PropertyName, BlockIndex, PatternNode, SourceNode);
+            return new WriteableBrowsingNewBlockNodeIndex(ParentNode, Node, PropertyName, BlockIndex);
         }
         #endregion
     }

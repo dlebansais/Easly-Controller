@@ -25,10 +25,8 @@
         /// <param name="node">First node in the block.</param>
         /// <param name="propertyName">Property in <paramref name="parentNode"/> corresponding to the block list.</param>
         /// <param name="blockIndex">Position of the block in the block list.</param>
-        /// <param name="patternNode">Replication pattern in the block.</param>
-        /// <param name="sourceNode">Source identifier in the block.</param>
-        public WriteableBrowsingNewBlockNodeIndex(INode parentNode, INode node, string propertyName, int blockIndex, IPattern patternNode, IIdentifier sourceNode)
-            : base(parentNode, node, propertyName, blockIndex, patternNode, sourceNode)
+        public WriteableBrowsingNewBlockNodeIndex(INode parentNode, INode node, string propertyName, int blockIndex)
+            : base(parentNode, node, propertyName, blockIndex)
         {
         }
         #endregion

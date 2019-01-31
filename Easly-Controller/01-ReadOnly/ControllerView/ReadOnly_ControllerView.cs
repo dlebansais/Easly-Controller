@@ -307,7 +307,7 @@
                 DisposeNow();
         }
 
-        private void DisposeNow()
+        private protected virtual void DisposeNow()
         {
             Controller.NodeStateCreated -= OnNodeStateCreated;
             Controller.NodeStateInitialized -= OnNodeStateInitialized;
@@ -325,11 +325,6 @@
         {
             Dispose(true);
             GC.SuppressFinalize(this);
-        }
-
-        ~ReadOnlyControllerView()
-        {
-            Dispose(false);
         }
 #pragma warning restore 1591
         #endregion

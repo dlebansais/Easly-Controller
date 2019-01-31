@@ -38,25 +38,5 @@
         {
         }
         #endregion
-
-        #region Debugging
-        /// <summary>
-        /// Compares two <see cref="IFocusIndexCollection"/> objects.
-        /// </summary>
-        /// <param name="comparer">The comparison support object.</param>
-        /// <param name="other">The other object.</param>
-        public override bool IsEqual(CompareEqual comparer, IEqualComparable other)
-        {
-            Debug.Assert(other != null);
-
-            if (!comparer.IsSameType(other, out FocusIndexCollection<IIndex> AsIndexCollection))
-                return comparer.Failed();
-
-            if (!base.IsEqual(comparer, AsIndexCollection))
-                return comparer.Failed();
-
-            return true;
-        }
-        #endregion
     }
 }

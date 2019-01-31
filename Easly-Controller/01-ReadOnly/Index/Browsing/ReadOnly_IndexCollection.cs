@@ -7,7 +7,7 @@
     /// <summary>
     /// Collection of node indexes.
     /// </summary>
-    public interface IReadOnlyIndexCollection : IEqualComparable
+    public interface IReadOnlyIndexCollection
     {
         /// <summary>
         /// Property indexed for all nodes in the collection.
@@ -29,7 +29,7 @@
     /// Collection of node indexes.
     /// </summary>
     /// <typeparam name="IIndex">Type of the index.</typeparam>
-    public interface IReadOnlyIndexCollection<out IIndex> : IEqualComparable
+    public interface IReadOnlyIndexCollection<out IIndex>
         where IIndex : IReadOnlyBrowsingChildIndex
     {
         /// <summary>
@@ -65,6 +65,7 @@
         {
             Debug.Assert(!string.IsNullOrEmpty(propertyName));
             Debug.Assert(IsSamePropertyName(propertyName, nodeIndexList));
+            Debug.Assert(nodeIndexList.Count == 0 || !IsSamePropertyName(string.Empty, nodeIndexList));
 
             PropertyName = propertyName;
             NodeIndexList = nodeIndexList;
@@ -97,34 +98,12 @@
         /// <param name="nodeIndexList">Collection of node indexes.</param>
         public static bool IsSamePropertyName(string propertyName, IReadOnlyList<IIndex> nodeIndexList)
         {
-            Debug.Assert(!string.IsNullOrEmpty(propertyName));
+            Debug.Assert(propertyName != null); // The empty string is acceptable.
             Debug.Assert(nodeIndexList != null);
 
             foreach (IIndex item in nodeIndexList)
                 if (item.PropertyName != propertyName)
                     return false;
-
-            return true;
-        }
-
-        /// <summary>
-        /// Compares two <see cref="IReadOnlyIndexCollection"/> objects.
-        /// </summary>
-        /// <param name="comparer">The comparison support object.</param>
-        /// <param name="other">The other object.</param>
-        public virtual bool IsEqual(CompareEqual comparer, IEqualComparable other)
-        {
-            Debug.Assert(other != null);
-
-            if (!comparer.IsSameType(other, out ReadOnlyIndexCollection<IIndex> AsIndexCollection))
-                return comparer.Failed();
-
-            if (!comparer.IsSameCount(NodeIndexList.Count, AsIndexCollection.NodeIndexList.Count))
-                return comparer.Failed();
-
-            for (int i = 0; i < NodeIndexList.Count; i++)
-                if (!comparer.VerifyEqual(NodeIndexList[i], AsIndexCollection.NodeIndexList[i]))
-                    return comparer.Failed();
 
             return true;
         }

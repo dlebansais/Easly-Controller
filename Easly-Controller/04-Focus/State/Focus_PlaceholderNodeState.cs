@@ -370,10 +370,10 @@
         /// <summary>
         /// Creates a IxxxBrowsingNewBlockNodeIndex object.
         /// </summary>
-        private protected override IReadOnlyBrowsingNewBlockNodeIndex CreateNewBlockNodeIndex(IReadOnlyBrowseContext browseNodeContext, INode node, string propertyName, INodeTreeBlock childBlock, int blockIndex, INode childNode)
+        private protected override IReadOnlyBrowsingNewBlockNodeIndex CreateNewBlockNodeIndex(IReadOnlyBrowseContext browseNodeContext, INode node, string propertyName, int blockIndex, INode childNode)
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusPlaceholderNodeState));
-            return new FocusBrowsingNewBlockNodeIndex(node, childNode, propertyName, blockIndex, childBlock.ReplicationPattern, childBlock.SourceIdentifier);
+            return new FocusBrowsingNewBlockNodeIndex(node, childNode, propertyName, blockIndex);
         }
 
         /// <summary>
