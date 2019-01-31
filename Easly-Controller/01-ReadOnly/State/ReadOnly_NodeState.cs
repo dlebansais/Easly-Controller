@@ -439,19 +439,29 @@
 
         private void AddChildInner(IReadOnlyNodeStateList stateList, IReadOnlyInner<IReadOnlyBrowsingChildIndex> inner)
         {
+            bool Success = false;
+
             switch (inner)
             {
-                case IReadOnlySingleInner AsSingle:
-                    AddChildStates(stateList, AsSingle.ChildState);
+                case IReadOnlyPlaceholderInner AsPlaceholderInner:
+                    AddChildStates(stateList, AsPlaceholderInner.ChildState);
+                    Success = true;
                     break;
 
-                case IReadOnlyListInner AsList:
-                    foreach (IReadOnlyNodeState ChildState in AsList.StateList)
+                case IReadOnlyOptionalInner AsOptionalInner:
+                    if (AsOptionalInner.IsAssigned)
+                        AddChildStates(stateList, AsOptionalInner.ChildState);
+                    Success = true;
+                    break;
+
+                case IReadOnlyListInner AsListInner:
+                    foreach (IReadOnlyNodeState ChildState in AsListInner.StateList)
                         AddChildStates(stateList, ChildState);
+                    Success = true;
                     break;
 
-                case IReadOnlyBlockListInner AsBlockList:
-                    foreach (IReadOnlyBlockState Block in AsBlockList.BlockStateList)
+                case IReadOnlyBlockListInner AsBlockListInner:
+                    foreach (IReadOnlyBlockState Block in AsBlockListInner.BlockStateList)
                     {
                         stateList.Add(Block.PatternState);
                         stateList.Add(Block.SourceState);
@@ -459,11 +469,11 @@
                         foreach (IReadOnlyNodeState ChildState in Block.StateList)
                             AddChildStates(stateList, ChildState);
                     }
+                    Success = true;
                     break;
-
-                default:
-                    throw new InvalidCastException(nameof(inner));
             }
+
+            Debug.Assert(Success);
         }
 
         /// <summary>

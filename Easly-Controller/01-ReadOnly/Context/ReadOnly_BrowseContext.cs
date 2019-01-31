@@ -96,7 +96,7 @@
 
             _IndexCollectionList.Add(collection);
 
-            Debug.Assert(!IsCollectionSeparate(collection, IndexCollectionList) || collection.IsEmpty);
+            Debug.Assert(collection.IsEmpty || !IsCollectionSeparate(collection, IndexCollectionList));
         }
 
         /// <summary>

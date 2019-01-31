@@ -98,7 +98,7 @@
             Debug.Assert(state != null);
             Debug.Assert(!StateViewTable.ContainsKey(state));
 
-            IReadOnlyNodeStateView StateView;
+            IReadOnlyNodeStateView StateView = null;
 
             switch (state)
             {
@@ -117,11 +117,9 @@
                 case IReadOnlyOptionalNodeState AsOptionalState:
                     StateView = CreateOptionalNodeStateView(AsOptionalState);
                     break;
-
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(state));
             }
 
+            Debug.Assert(StateView != null);
             StateViewTable.Add(state, StateView);
         }
 
