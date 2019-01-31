@@ -66,14 +66,23 @@
             Debug.Assert(obj1 != null);
             Debug.Assert(obj2 != null);
 
+            bool Result;
+
             if (!ComparedObjectList.ContainsKey(obj1))
                 ComparedObjectList.Add(obj1, false);
             else if (!ComparedObjectList.ContainsKey(obj2))
                 ComparedObjectList.Add(obj2, false);
             else
-                return true;
+            {
+                Result = true;
 
-            bool Result;
+                if (ComparisonCount == FailIndex)
+                    return false;
+
+                ComparisonCount++;
+
+                return Result;
+            }
 
             if (obj1.IsEqual(this, obj2))
                 Result = true;
