@@ -120,6 +120,8 @@
             }
 
             Debug.Assert(StateView != null);
+            Debug.Assert(StateView.ToString() != null); // For code coverage.
+
             StateViewTable.Add(state, StateView);
         }
 
@@ -175,6 +177,7 @@
             Debug.Assert(!BlockStateViewTable.ContainsKey(blockState));
 
             IReadOnlyBlockStateView BlockStateView = CreateBlockStateView(blockState);
+            Debug.Assert(BlockStateView.ToString() != null); // For code coverage.
             BlockStateViewTable.Add(blockState, BlockStateView);
         }
 

@@ -124,6 +124,7 @@
             Dictionary<string, ValuePropertyType> PatternValuePropertyTypeTable = new Dictionary<string, ValuePropertyType>();
             PatternValuePropertyTypeTable.Add(nameof(IPattern.Text), ValuePropertyType.String);
             PatternState.Init(PatternInner, PatternEmptyInnerTable, PatternValuePropertyTypeTable);
+            Debug.Assert(PatternState.ToString() != null); // For code coverage.
 
             SourceIndex = CreateExistingSourceIndex();
             SourceState = CreateSourceState(SourceIndex);
@@ -131,6 +132,7 @@
             Dictionary<string, ValuePropertyType> SourceValuePropertyTypeTable = new Dictionary<string, ValuePropertyType>();
             SourceValuePropertyTypeTable.Add(nameof(IIdentifier.Text), ValuePropertyType.String);
             SourceState.Init(SourceInner, SourceEmptyInnerTable, SourceValuePropertyTypeTable);
+            Debug.Assert(SourceState.ToString() != null); // For code coverage.
         }
 
         /// <summary>
