@@ -197,7 +197,7 @@
         {
             Debug.Assert(other != null);
 
-            if (!(other is IFramePatternStateView AsPatternStateView))
+            if (!comparer.IsSameType(other, out FramePatternStateView AsPatternStateView))
                 return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsPatternStateView))

@@ -102,7 +102,7 @@
         {
             Debug.Assert(other != null);
 
-            if (!(other is IReadOnlyOptionalNodeState AsOptionalNodeState))
+            if (!comparer.IsSameType(other, out ReadOnlyOptionalNodeState AsOptionalNodeState))
                 return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsOptionalNodeState))

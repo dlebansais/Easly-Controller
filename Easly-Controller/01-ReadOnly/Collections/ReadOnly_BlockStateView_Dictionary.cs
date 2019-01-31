@@ -25,15 +25,15 @@
         {
             Debug.Assert(other != null);
 
-            if (!(other is IReadOnlyBlockStateViewDictionary AsBlockStateViewDictionary))
+            if (!comparer.IsSameType(other, out ReadOnlyBlockStateViewDictionary AsBlockStateViewDictionary))
                 return comparer.Failed();
 
-            if (Count != AsBlockStateViewDictionary.Count)
+            if (!comparer.IsSameCount(Count, AsBlockStateViewDictionary.Count))
                 return comparer.Failed();
 
             foreach (KeyValuePair<IReadOnlyBlockState, IReadOnlyBlockStateView> Entry in this)
             {
-                if (!AsBlockStateViewDictionary.ContainsKey(Entry.Key))
+                if (!comparer.IsTrue(AsBlockStateViewDictionary.ContainsKey(Entry.Key)))
                     return comparer.Failed();
 
                 if (!comparer.VerifyEqual(Entry.Value, AsBlockStateViewDictionary[Entry.Key]))

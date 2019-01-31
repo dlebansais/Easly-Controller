@@ -160,7 +160,7 @@
         {
             Debug.Assert(other != null);
 
-            if (!(other is IReadOnlyInner<IIndex> AsInner))
+            if (!comparer.IsSameType(other, out ReadOnlyInner<IIndex> AsInner))
                 return comparer.Failed();
 
             if (!comparer.VerifyEqual(Owner, AsInner.Owner))

@@ -42,7 +42,7 @@
         {
             Debug.Assert(other != null);
 
-            if (!(other is IFrameInsertionNewBlockNodeIndex AsInsertionNewBlockNodeIndex))
+            if (!comparer.IsSameType(other, out FrameInsertionNewBlockNodeIndex AsInsertionNewBlockNodeIndex))
                 return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsInsertionNewBlockNodeIndex))

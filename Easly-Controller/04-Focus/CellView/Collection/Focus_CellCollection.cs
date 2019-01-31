@@ -65,7 +65,7 @@
         {
             Debug.Assert(other != null);
 
-            if (!(other is IFocusCellViewCollection AsCellViewCollection))
+            if (!comparer.IsSameType(other, out FocusCellViewCollection AsCellViewCollection))
                 return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsCellViewCollection))

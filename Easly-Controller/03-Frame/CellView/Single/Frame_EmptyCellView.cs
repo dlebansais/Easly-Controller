@@ -86,7 +86,7 @@
         {
             Debug.Assert(other != null);
 
-            if (!(other is IFrameEmptyCellView AsEmptyCellView))
+            if (!comparer.IsSameType(other, out FrameEmptyCellView AsEmptyCellView))
                 return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsEmptyCellView))

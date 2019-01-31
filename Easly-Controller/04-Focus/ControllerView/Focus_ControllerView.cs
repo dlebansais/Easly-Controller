@@ -1415,7 +1415,7 @@
         {
             Debug.Assert(other != null);
 
-            if (!(other is IFocusControllerView AsControllerView))
+            if (!comparer.IsSameType(other, out FocusControllerView AsControllerView))
                 return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsControllerView))

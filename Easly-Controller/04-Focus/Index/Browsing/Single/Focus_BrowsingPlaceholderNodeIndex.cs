@@ -40,7 +40,7 @@
         {
             Debug.Assert(other != null);
 
-            if (!(other is IFocusBrowsingPlaceholderNodeIndex AsBrowsingPlaceholderNodeIndex))
+            if (!comparer.IsSameType(other, out FocusBrowsingPlaceholderNodeIndex AsBrowsingPlaceholderNodeIndex))
                 return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsBrowsingPlaceholderNodeIndex))

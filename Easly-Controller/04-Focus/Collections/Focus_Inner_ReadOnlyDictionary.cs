@@ -109,7 +109,7 @@ namespace EaslyController.Focus
         {
             Debug.Assert(other != null);
 
-            if (!(other is IFocusInnerReadOnlyDictionary<TKey> AsInnerReadOnlyDictionary))
+            if (!comparer.IsSameType(other, out FocusInnerReadOnlyDictionary<TKey> AsInnerReadOnlyDictionary))
                 return comparer.Failed();
 
             if (Count != AsInnerReadOnlyDictionary.Count)

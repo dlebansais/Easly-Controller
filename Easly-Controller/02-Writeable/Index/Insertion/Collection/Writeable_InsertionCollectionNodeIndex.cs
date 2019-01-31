@@ -72,7 +72,7 @@
         {
             Debug.Assert(other != null);
 
-            if (!(other is IWriteableInsertionCollectionNodeIndex AsInsertionCollectionNodeIndex))
+            if (!comparer.IsSameType(other, out WriteableInsertionCollectionNodeIndex AsInsertionCollectionNodeIndex))
                 return comparer.Failed();
 
             if (ParentNode != AsInsertionCollectionNodeIndex.ParentNode)

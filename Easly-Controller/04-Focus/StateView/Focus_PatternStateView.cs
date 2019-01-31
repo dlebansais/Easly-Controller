@@ -113,7 +113,7 @@
         {
             Debug.Assert(other != null);
 
-            if (!(other is IFocusPatternStateView AsPatternStateView))
+            if (!comparer.IsSameType(other, out FocusPatternStateView AsPatternStateView))
                 return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsPatternStateView))

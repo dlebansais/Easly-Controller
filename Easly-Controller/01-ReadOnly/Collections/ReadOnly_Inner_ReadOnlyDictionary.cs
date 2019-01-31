@@ -35,7 +35,7 @@ namespace EaslyController.ReadOnly
         {
             Debug.Assert(other != null);
 
-            if (!(other is IReadOnlyInnerReadOnlyDictionary<TKey> AsInnerReadOnlyDictionary))
+            if (!comparer.IsSameType(other, out ReadOnlyInnerReadOnlyDictionary<TKey> AsInnerReadOnlyDictionary))
                 return comparer.Failed();
 
             if (Count != AsInnerReadOnlyDictionary.Count)

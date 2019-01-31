@@ -85,7 +85,7 @@
         {
             Debug.Assert(other != null);
 
-            if (!(other is IReadOnlySourceState AsSourceState))
+            if (!comparer.IsSameType(other, out ReadOnlySourceState AsSourceState))
                 return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsSourceState))

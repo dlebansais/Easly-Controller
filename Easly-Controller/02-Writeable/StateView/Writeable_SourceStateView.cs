@@ -55,7 +55,7 @@
         {
             Debug.Assert(other != null);
 
-            if (!(other is IWriteableSourceStateView AsSourceStateView))
+            if (!comparer.IsSameType(other, out WriteableSourceStateView AsSourceStateView))
                 return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsSourceStateView))

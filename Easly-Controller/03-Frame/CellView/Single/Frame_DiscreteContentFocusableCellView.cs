@@ -50,7 +50,7 @@
         {
             Debug.Assert(other != null);
 
-            if (!(other is IFrameDiscreteContentFocusableCellView AsMultiDiscreteFocusableCellView))
+            if (!comparer.IsSameType(other, out FrameDiscreteContentFocusableCellView AsMultiDiscreteFocusableCellView))
                 return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsMultiDiscreteFocusableCellView))

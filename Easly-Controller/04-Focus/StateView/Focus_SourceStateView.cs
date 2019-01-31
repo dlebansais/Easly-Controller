@@ -113,7 +113,7 @@
         {
             Debug.Assert(other != null);
 
-            if (!(other is IFocusSourceStateView AsSourceStateView))
+            if (!comparer.IsSameType(other, out FocusSourceStateView AsSourceStateView))
                 return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsSourceStateView))

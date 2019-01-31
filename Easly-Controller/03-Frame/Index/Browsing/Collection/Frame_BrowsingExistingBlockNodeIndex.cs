@@ -41,7 +41,7 @@
         {
             Debug.Assert(other != null);
 
-            if (!(other is IFrameBrowsingExistingBlockNodeIndex AsBrowsingExistingBlockNodeIndex))
+            if (!comparer.IsSameType(other, out FrameBrowsingExistingBlockNodeIndex AsBrowsingExistingBlockNodeIndex))
                 return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsBrowsingExistingBlockNodeIndex))

@@ -139,7 +139,7 @@
         {
             Debug.Assert(other != null);
 
-            if (!(other is IFrameContainerCellView AsContainerCellView))
+            if (!comparer.IsSameType(other, out FrameContainerCellView AsContainerCellView))
                 return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsContainerCellView))

@@ -135,7 +135,7 @@ namespace EaslyController.Frame
         {
             Debug.Assert(other != null);
 
-            if (!(other is IFrameStateViewDictionary AsStateViewDictionary))
+            if (!comparer.IsSameType(other, out FrameStateViewDictionary AsStateViewDictionary))
                 return comparer.Failed();
 
             if (Count != AsStateViewDictionary.Count)

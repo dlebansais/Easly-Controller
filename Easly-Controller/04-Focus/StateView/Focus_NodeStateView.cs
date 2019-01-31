@@ -124,7 +124,7 @@
         {
             Debug.Assert(other != null);
 
-            if (!(other is IFocusNodeStateView AsNodeStateView))
+            if (!comparer.IsSameType(other, out FocusNodeStateView AsNodeStateView))
                 return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsNodeStateView))

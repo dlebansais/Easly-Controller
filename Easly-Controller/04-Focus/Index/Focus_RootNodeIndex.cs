@@ -37,7 +37,7 @@
         {
             Debug.Assert(other != null);
 
-            if (!(other is IFocusRootNodeIndex AsRootNodeIndex))
+            if (!comparer.IsSameType(other, out FocusRootNodeIndex AsRootNodeIndex))
                 return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsRootNodeIndex))

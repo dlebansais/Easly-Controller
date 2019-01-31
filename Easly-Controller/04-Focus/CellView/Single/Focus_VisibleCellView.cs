@@ -63,7 +63,7 @@
         {
             Debug.Assert(other != null);
 
-            if (!(other is IFocusVisibleCellView AsVisibleCellView))
+            if (!comparer.IsSameType(other, out FocusVisibleCellView AsVisibleCellView))
                 return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsVisibleCellView))

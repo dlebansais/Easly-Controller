@@ -35,7 +35,7 @@ namespace EaslyController.Frame
         {
             Debug.Assert(other != null);
 
-            if (!(other is IFrameAssignableCellViewReadOnlyDictionary<TKey> AsAssignableCellViewReadOnlyDictionary))
+            if (!comparer.IsSameType(other, out FrameAssignableCellViewReadOnlyDictionary<TKey> AsAssignableCellViewReadOnlyDictionary))
                 return comparer.Failed();
 
             if (Count != AsAssignableCellViewReadOnlyDictionary.Count)

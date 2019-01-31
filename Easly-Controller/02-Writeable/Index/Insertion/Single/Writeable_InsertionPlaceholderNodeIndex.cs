@@ -75,7 +75,7 @@
         {
             Debug.Assert(other != null);
 
-            if (!(other is IWriteableInsertionPlaceholderNodeIndex AsInsertionPlaceholderNodeIndex))
+            if (!comparer.IsSameType(other, out WriteableInsertionPlaceholderNodeIndex AsInsertionPlaceholderNodeIndex))
                 return comparer.Failed();
 
             if (ParentNode != AsInsertionPlaceholderNodeIndex.ParentNode)

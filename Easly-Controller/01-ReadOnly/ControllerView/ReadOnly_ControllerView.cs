@@ -203,10 +203,10 @@
         {
             Debug.Assert(other != null);
 
-            if (!(other is IReadOnlyControllerView AsControllerView))
+            if (!comparer.IsSameType(other, out ReadOnlyControllerView AsControllerView))
                 return comparer.Failed();
 
-            if (Controller != AsControllerView.Controller)
+            if (!comparer.IsSameReference(Controller, AsControllerView.Controller))
                 return comparer.Failed();
 
             if (!comparer.VerifyEqual(StateViewTable, AsControllerView.StateViewTable))

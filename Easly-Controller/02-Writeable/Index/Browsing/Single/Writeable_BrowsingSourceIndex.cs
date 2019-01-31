@@ -49,7 +49,7 @@
         {
             Debug.Assert(other != null);
 
-            if (!(other is IWriteableBrowsingSourceIndex AsBrowsingSourceIndex))
+            if (!comparer.IsSameType(other, out WriteableBrowsingSourceIndex AsBrowsingSourceIndex))
                 return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsBrowsingSourceIndex))

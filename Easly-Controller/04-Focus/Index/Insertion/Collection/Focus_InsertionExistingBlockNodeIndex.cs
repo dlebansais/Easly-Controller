@@ -42,7 +42,7 @@
         {
             Debug.Assert(other != null);
 
-            if (!(other is IFocusInsertionExistingBlockNodeIndex AsInsertionExistingBlockNodeIndex))
+            if (!comparer.IsSameType(other, out FocusInsertionExistingBlockNodeIndex AsInsertionExistingBlockNodeIndex))
                 return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsInsertionExistingBlockNodeIndex))

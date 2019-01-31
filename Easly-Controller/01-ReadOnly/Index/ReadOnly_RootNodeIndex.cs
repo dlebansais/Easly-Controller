@@ -56,7 +56,7 @@
             if (!comparer.IsSameType(other, out ReadOnlyRootNodeIndex AsRootNodeIndex))
                 return comparer.Failed();
 
-            if (Node != AsRootNodeIndex.Node)
+            if (!comparer.IsSameReference(Node, AsRootNodeIndex.Node))
                 return comparer.Failed();
 
             return true;

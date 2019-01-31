@@ -54,7 +54,7 @@
         {
             Debug.Assert(other != null);
 
-            if (!(other is IWriteablePlaceholderNodeStateView AsPlaceholderNodeStateView))
+            if (!comparer.IsSameType(other, out WriteablePlaceholderNodeStateView AsPlaceholderNodeStateView))
                 return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsPlaceholderNodeStateView))

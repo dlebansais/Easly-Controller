@@ -40,7 +40,7 @@
         {
             Debug.Assert(other != null);
 
-            if (!(other is IFocusInsertionOptionalNodeIndex AsInsertionOptionalNodeIndex))
+            if (!comparer.IsSameType(other, out FocusInsertionOptionalNodeIndex AsInsertionOptionalNodeIndex))
                 return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsInsertionOptionalNodeIndex))

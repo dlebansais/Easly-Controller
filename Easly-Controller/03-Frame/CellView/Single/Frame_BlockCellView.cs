@@ -100,7 +100,7 @@
         {
             Debug.Assert(other != null);
 
-            if (!(other is IFrameBlockCellView AsBlockCellView))
+            if (!comparer.IsSameType(other, out FrameBlockCellView AsBlockCellView))
                 return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsBlockCellView))

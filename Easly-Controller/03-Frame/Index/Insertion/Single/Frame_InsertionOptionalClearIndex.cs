@@ -38,7 +38,7 @@
         {
             Debug.Assert(other != null);
 
-            if (!(other is IFrameInsertionOptionalClearIndex AsInsertionOptionalClearIndex))
+            if (!comparer.IsSameType(other, out FrameInsertionOptionalClearIndex AsInsertionOptionalClearIndex))
                 return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsInsertionOptionalClearIndex))

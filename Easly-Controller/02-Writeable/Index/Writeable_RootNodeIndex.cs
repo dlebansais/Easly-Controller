@@ -37,7 +37,7 @@
         {
             Debug.Assert(other != null);
 
-            if (!(other is IWriteableRootNodeIndex AsRootNodeIndex))
+            if (!comparer.IsSameType(other, out WriteableRootNodeIndex AsRootNodeIndex))
                 return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsRootNodeIndex))

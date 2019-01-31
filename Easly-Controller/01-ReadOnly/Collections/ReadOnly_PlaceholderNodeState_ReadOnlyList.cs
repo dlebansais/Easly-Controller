@@ -35,7 +35,7 @@ namespace EaslyController.ReadOnly
         {
             Debug.Assert(other != null);
 
-            if (!(other is IReadOnlyPlaceholderNodeStateReadOnlyList AsPlaceholderNodeStateReadOnlyList))
+            if (!comparer.IsSameType(other, out ReadOnlyPlaceholderNodeStateReadOnlyList AsPlaceholderNodeStateReadOnlyList))
                 return comparer.Failed();
 
             if (Count != AsPlaceholderNodeStateReadOnlyList.Count)

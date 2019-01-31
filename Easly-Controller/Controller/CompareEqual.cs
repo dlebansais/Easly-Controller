@@ -123,6 +123,20 @@
         }
 
         /// <summary>
+        /// Check that a condition is true.
+        /// </summary>
+        /// <param name="condition">The condition to check.</param>
+        public bool IsTrue(bool condition)
+        {
+            if (ComparisonCount == FailIndex)
+                return false;
+
+            ComparisonCount++;
+
+            return condition;
+        }
+
+        /// <summary>
         /// Checks if an object is of the expected type, and return the corresponding converted reference
         /// </summary>
         /// <typeparam name="TObject">Any <see cref="IEqualComparable"/>.</typeparam>
@@ -131,16 +145,62 @@
         public bool IsSameType<TObject>(IEqualComparable obj, out TObject asTObject)
             where TObject : IEqualComparable
         {
+            bool Result;
+
             if (obj is TObject AsTObject)
             {
                 asTObject = AsTObject;
-                return true;
+                Result = true;
             }
             else
             {
                 asTObject = default;
+                Result = false;
+            }
+
+            if (ComparisonCount == FailIndex)
+            {
+                asTObject = default;
                 return false;
             }
+
+            ComparisonCount++;
+
+            return Result;
+        }
+
+        /// <summary>
+        /// Checks that two references refer to the same object.
+        /// </summary>
+        /// <param name="object1">The first reference.</param>
+        /// <param name="object2">The second reference.</param>
+        public bool IsSameReference(object object1, object object2)
+        {
+            bool Result = (object1 == object2);
+
+            if (ComparisonCount == FailIndex)
+                return false;
+
+            ComparisonCount++;
+
+            return Result;
+        }
+
+        /// <summary>
+        /// Checks that two integer values are equal.
+        /// </summary>
+        /// <param name="count1">The first value.</param>
+        /// <param name="count2">The second value.</param>
+        public bool IsSameCount(int count1, int count2)
+        {
+            bool Result = (count1 == count2);
+
+            if (ComparisonCount == FailIndex)
+                return false;
+
+            ComparisonCount++;
+
+            return Result;
         }
 
         /// <summary>

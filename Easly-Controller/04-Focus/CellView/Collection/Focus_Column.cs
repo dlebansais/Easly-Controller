@@ -61,7 +61,7 @@
         {
             Debug.Assert(other != null);
 
-            if (!(other is IFocusColumn AsColumn))
+            if (!comparer.IsSameType(other, out FocusColumn AsColumn))
                 return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsColumn))

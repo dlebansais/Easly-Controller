@@ -77,7 +77,7 @@
         {
             Debug.Assert(other != null);
 
-            if (!(other is IFrameLine AsLine))
+            if (!comparer.IsSameType(other, out FrameLine AsLine))
                 return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsLine))

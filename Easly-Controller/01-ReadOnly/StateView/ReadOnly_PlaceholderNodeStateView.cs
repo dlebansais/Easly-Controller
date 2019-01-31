@@ -47,7 +47,7 @@
         {
             Debug.Assert(other != null);
 
-            if (!(other is IReadOnlyPlaceholderNodeStateView AsPlaceholderNodeStateView))
+            if (!comparer.IsSameType(other, out ReadOnlyPlaceholderNodeStateView AsPlaceholderNodeStateView))
                 return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsPlaceholderNodeStateView))

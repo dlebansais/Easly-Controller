@@ -47,7 +47,7 @@
         {
             Debug.Assert(other != null);
 
-            if (!(other is IReadOnlySourceStateView AsSourceStateView))
+            if (!comparer.IsSameType(other, out ReadOnlySourceStateView AsSourceStateView))
                 return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsSourceStateView))

@@ -49,7 +49,7 @@
         {
             Debug.Assert(other != null);
 
-            if (!(other is IFrameIndexCollection<IIndex> AsIndexCollection))
+            if (!comparer.IsSameType(other, out FrameIndexCollection<IIndex> AsIndexCollection))
                 return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsIndexCollection))

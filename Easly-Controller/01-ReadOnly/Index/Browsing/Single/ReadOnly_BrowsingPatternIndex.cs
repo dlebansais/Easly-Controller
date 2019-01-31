@@ -57,7 +57,7 @@
         {
             Debug.Assert(other != null);
 
-            if (!(other is IReadOnlyBrowsingPatternIndex AsPatternIndex))
+            if (!comparer.IsSameType(other, out ReadOnlyBrowsingPatternIndex AsPatternIndex))
                 return comparer.Failed();
 
             if (Node != AsPatternIndex.Node)

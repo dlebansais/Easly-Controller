@@ -53,7 +53,7 @@
         {
             Debug.Assert(other != null);
 
-            if (!(other is IFocusEmptyCellView AsEmptyCellView))
+            if (!comparer.IsSameType(other, out FocusEmptyCellView AsEmptyCellView))
                 return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsEmptyCellView))

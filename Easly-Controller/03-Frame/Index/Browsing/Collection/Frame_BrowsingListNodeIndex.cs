@@ -40,7 +40,7 @@
         {
             Debug.Assert(other != null);
 
-            if (!(other is IFrameBrowsingListNodeIndex AsBrowsingListNodeIndex))
+            if (!comparer.IsSameType(other, out FrameBrowsingListNodeIndex AsBrowsingListNodeIndex))
                 return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsBrowsingListNodeIndex))

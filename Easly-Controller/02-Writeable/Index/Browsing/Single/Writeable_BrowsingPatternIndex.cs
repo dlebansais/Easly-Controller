@@ -49,7 +49,7 @@
         {
             Debug.Assert(other != null);
 
-            if (!(other is IWriteableBrowsingPatternIndex AsBrowsingPatternIndex))
+            if (!comparer.IsSameType(other, out WriteableBrowsingPatternIndex AsBrowsingPatternIndex))
                 return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsBrowsingPatternIndex))

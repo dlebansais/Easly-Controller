@@ -58,7 +58,7 @@
         {
             Debug.Assert(other != null);
 
-            if (!(other is IWriteableBlockStateView AsBlockStateView))
+            if (!comparer.IsSameType(other, out WriteableBlockStateView AsBlockStateView))
                 return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsBlockStateView))

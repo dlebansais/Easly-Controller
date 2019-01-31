@@ -234,7 +234,7 @@
         {
             Debug.Assert(other != null);
 
-            if (!(other is IReadOnlyListInner<IIndex> AsListInner))
+            if (!comparer.IsSameType(other, out ReadOnlyListInner<IIndex, TIndex> AsListInner))
                 return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsListInner))

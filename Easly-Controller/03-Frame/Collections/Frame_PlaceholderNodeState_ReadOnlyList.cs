@@ -56,7 +56,7 @@ namespace EaslyController.Frame
         {
             Debug.Assert(other != null);
 
-            if (!(other is IFramePlaceholderNodeStateReadOnlyList AsPlaceholderNodeStateReadOnlyList))
+            if (!comparer.IsSameType(other, out FramePlaceholderNodeStateReadOnlyList AsPlaceholderNodeStateReadOnlyList))
                 return comparer.Failed();
 
             if (Count != AsPlaceholderNodeStateReadOnlyList.Count)

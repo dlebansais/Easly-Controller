@@ -37,7 +37,7 @@
         {
             Debug.Assert(other != null);
 
-            if (!(other is IFrameBrowsingPatternIndex AsBrowsingPatternIndex))
+            if (!comparer.IsSameType(other, out FrameBrowsingPatternIndex AsBrowsingPatternIndex))
                 return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsBrowsingPatternIndex))

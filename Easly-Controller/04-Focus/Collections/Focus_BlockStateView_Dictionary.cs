@@ -194,7 +194,7 @@ namespace EaslyController.Focus
         {
             Debug.Assert(other != null);
 
-            if (!(other is IFocusBlockStateViewDictionary AsBlockStateViewDictionary))
+            if (!comparer.IsSameType(other, out FocusBlockStateViewDictionary AsBlockStateViewDictionary))
                 return comparer.Failed();
 
             if (Count != AsBlockStateViewDictionary.Count)

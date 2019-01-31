@@ -112,7 +112,7 @@
         {
             Debug.Assert(other != null);
 
-            if (!(other is IFrameCellView AsCellView))
+            if (!comparer.IsSameType(other, out FrameCellView AsCellView))
                 return comparer.Failed();
 
             if (!comparer.VerifyEqual(StateView, AsCellView.StateView))

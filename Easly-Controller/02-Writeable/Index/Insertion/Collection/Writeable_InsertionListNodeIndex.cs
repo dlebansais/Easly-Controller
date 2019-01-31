@@ -67,7 +67,7 @@
         {
             Debug.Assert(other != null);
 
-            if (!(other is IWriteableInsertionListNodeIndex AsInsertionListNodeIndex))
+            if (!comparer.IsSameType(other, out WriteableInsertionListNodeIndex AsInsertionListNodeIndex))
                 return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsInsertionListNodeIndex))

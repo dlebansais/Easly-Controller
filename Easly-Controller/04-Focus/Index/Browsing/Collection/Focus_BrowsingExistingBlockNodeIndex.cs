@@ -42,7 +42,7 @@
         {
             Debug.Assert(other != null);
 
-            if (!(other is IFocusBrowsingExistingBlockNodeIndex AsBrowsingExistingBlockNodeIndex))
+            if (!comparer.IsSameType(other, out FocusBrowsingExistingBlockNodeIndex AsBrowsingExistingBlockNodeIndex))
                 return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsBrowsingExistingBlockNodeIndex))

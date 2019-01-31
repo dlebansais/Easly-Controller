@@ -53,7 +53,7 @@
         {
             Debug.Assert(other != null);
 
-            if (!(other is IWriteableBrowsingOptionalNodeIndex AsBrowsingOptionalNodeIndex))
+            if (!comparer.IsSameType(other, out WriteableBrowsingOptionalNodeIndex AsBrowsingOptionalNodeIndex))
                 return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsBrowsingOptionalNodeIndex))

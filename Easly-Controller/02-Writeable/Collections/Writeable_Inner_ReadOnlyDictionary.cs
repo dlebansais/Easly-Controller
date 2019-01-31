@@ -61,7 +61,7 @@ namespace EaslyController.Writeable
         {
             Debug.Assert(other != null);
 
-            if (!(other is IWriteableInnerReadOnlyDictionary<TKey> AsInnerReadOnlyDictionary))
+            if (!comparer.IsSameType(other, out WriteableInnerReadOnlyDictionary<TKey> AsInnerReadOnlyDictionary))
                 return comparer.Failed();
 
             if (Count != AsInnerReadOnlyDictionary.Count)

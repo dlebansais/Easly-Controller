@@ -41,7 +41,7 @@
         {
             Debug.Assert(other != null);
 
-            if (!(other is IFocusBrowsingListNodeIndex AsBrowsingListNodeIndex))
+            if (!comparer.IsSameType(other, out FocusBrowsingListNodeIndex AsBrowsingListNodeIndex))
                 return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsBrowsingListNodeIndex))

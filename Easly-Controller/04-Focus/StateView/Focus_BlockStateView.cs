@@ -119,7 +119,7 @@
         {
             Debug.Assert(other != null);
 
-            if (!(other is IFocusBlockStateView AsBlockStateView))
+            if (!comparer.IsSameType(other, out FocusBlockStateView AsBlockStateView))
                 return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsBlockStateView))

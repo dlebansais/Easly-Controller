@@ -51,7 +51,7 @@
         {
             Debug.Assert(other != null);
 
-            if (!(other is IWriteableBrowsingPlaceholderNodeIndex AsBrowsingPlaceholderNodeIndex))
+            if (!comparer.IsSameType(other, out WriteableBrowsingPlaceholderNodeIndex AsBrowsingPlaceholderNodeIndex))
                 return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsBrowsingPlaceholderNodeIndex))

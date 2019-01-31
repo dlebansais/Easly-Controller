@@ -35,7 +35,7 @@ namespace EaslyController.Frame
         {
             Debug.Assert(other != null);
 
-            if (!(other is IFrameCellViewReadOnlyList AsCellViewList))
+            if (!comparer.IsSameType(other, out FrameCellViewReadOnlyList AsCellViewList))
                 return comparer.Failed();
 
             if (Count != AsCellViewList.Count)

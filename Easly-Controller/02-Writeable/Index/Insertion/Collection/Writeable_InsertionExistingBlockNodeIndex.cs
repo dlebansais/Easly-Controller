@@ -80,7 +80,7 @@
         {
             Debug.Assert(other != null);
 
-            if (!(other is IWriteableInsertionExistingBlockNodeIndex AsInsertionExistingBlockNodeIndex))
+            if (!comparer.IsSameType(other, out WriteableInsertionExistingBlockNodeIndex AsInsertionExistingBlockNodeIndex))
                 return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsInsertionExistingBlockNodeIndex))

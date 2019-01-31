@@ -88,7 +88,7 @@
         {
             Debug.Assert(other != null);
 
-            if (!(other is IWriteableInsertionOptionalNodeIndex AsInsertionOptionalNodeIndex))
+            if (!comparer.IsSameType(other, out WriteableInsertionOptionalNodeIndex AsInsertionOptionalNodeIndex))
                 return comparer.Failed();
 
             if (ParentNode != AsInsertionOptionalNodeIndex.ParentNode)

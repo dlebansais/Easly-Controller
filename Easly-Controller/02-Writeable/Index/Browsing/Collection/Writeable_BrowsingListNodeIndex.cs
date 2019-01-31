@@ -82,7 +82,7 @@
         {
             Debug.Assert(other != null);
 
-            if (!(other is IWriteableBrowsingListNodeIndex AsBrowsingListNodeIndex))
+            if (!comparer.IsSameType(other, out WriteableBrowsingListNodeIndex AsBrowsingListNodeIndex))
                 return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsBrowsingListNodeIndex))

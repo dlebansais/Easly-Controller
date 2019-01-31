@@ -66,7 +66,7 @@ namespace EaslyController.Focus
         {
             Debug.Assert(other != null);
 
-            if (!(other is IFocusPlaceholderNodeStateReadOnlyList AsPlaceholderNodeStateReadOnlyList))
+            if (!comparer.IsSameType(other, out FocusPlaceholderNodeStateReadOnlyList AsPlaceholderNodeStateReadOnlyList))
                 return comparer.Failed();
 
             if (Count != AsPlaceholderNodeStateReadOnlyList.Count)

@@ -229,7 +229,7 @@
         {
             Debug.Assert(other != null);
 
-            if (!(other is IFrameBlockStateView AsBlockStateView))
+            if (!comparer.IsSameType(other, out FrameBlockStateView AsBlockStateView))
                 return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsBlockStateView))

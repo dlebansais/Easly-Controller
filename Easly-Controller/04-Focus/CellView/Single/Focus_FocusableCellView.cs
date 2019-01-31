@@ -60,7 +60,7 @@
         {
             Debug.Assert(other != null);
 
-            if (!(other is IFocusFocusableCellView AsFocusableCellView))
+            if (!comparer.IsSameType(other, out FocusFocusableCellView AsFocusableCellView))
                 return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsFocusableCellView))

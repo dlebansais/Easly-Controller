@@ -40,7 +40,7 @@
         {
             Debug.Assert(other != null);
 
-            if (!(other is IFocusInsertionPlaceholderNodeIndex AsInsertionPlaceholderNodeIndex))
+            if (!comparer.IsSameType(other, out FocusInsertionPlaceholderNodeIndex AsInsertionPlaceholderNodeIndex))
                 return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsInsertionPlaceholderNodeIndex))

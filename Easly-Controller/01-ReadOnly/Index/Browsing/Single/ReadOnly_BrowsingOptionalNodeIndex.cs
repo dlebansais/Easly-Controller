@@ -63,7 +63,7 @@
         {
             Debug.Assert(other != null);
 
-            if (!(other is IReadOnlyBrowsingOptionalNodeIndex AsOptionalNodeIndex))
+            if (!comparer.IsSameType(other, out ReadOnlyBrowsingOptionalNodeIndex AsOptionalNodeIndex))
                 return comparer.Failed();
 
             if (Optional != AsOptionalNodeIndex.Optional)

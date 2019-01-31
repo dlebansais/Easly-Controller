@@ -509,7 +509,7 @@
         {
             Debug.Assert(other != null);
 
-            if (!(other is IReadOnlyNodeState AsNodeState))
+            if (!comparer.IsSameType(other, out ReadOnlyNodeState AsNodeState))
                 return comparer.Failed();
 
             if (!comparer.VerifyEqual(ParentIndex, AsNodeState.ParentIndex))

@@ -52,7 +52,7 @@
         {
             Debug.Assert(other != null);
 
-            if (!(other is IReadOnlyPlaceholderNodeState AsPlaceholderNodeState))
+            if (!comparer.IsSameType(other, out ReadOnlyPlaceholderNodeState AsPlaceholderNodeState))
                 return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsPlaceholderNodeState))

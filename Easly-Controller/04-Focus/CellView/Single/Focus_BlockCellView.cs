@@ -75,7 +75,7 @@
         {
             Debug.Assert(other != null);
 
-            if (!(other is IFocusBlockCellView AsBlockCellView))
+            if (!comparer.IsSameType(other, out FocusBlockCellView AsBlockCellView))
                 return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsBlockCellView))

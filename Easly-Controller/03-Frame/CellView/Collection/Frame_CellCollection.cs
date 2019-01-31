@@ -232,7 +232,7 @@
         {
             Debug.Assert(other != null);
 
-            if (!(other is IFrameCellViewCollection AsCellViewCollection))
+            if (!comparer.IsSameType(other, out FrameCellViewCollection AsCellViewCollection))
                 return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsCellViewCollection))

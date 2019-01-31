@@ -47,7 +47,7 @@
         {
             Debug.Assert(other != null);
 
-            if (!(other is IReadOnlyPatternStateView AsPatternStateView))
+            if (!comparer.IsSameType(other, out ReadOnlyPatternStateView AsPatternStateView))
                 return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsPatternStateView))

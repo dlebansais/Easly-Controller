@@ -39,7 +39,7 @@
         {
             Debug.Assert(other != null);
 
-            if (!(other is IFocusBrowsingOptionalNodeIndex AsBrowsingOptionalNodeIndex))
+            if (!comparer.IsSameType(other, out FocusBrowsingOptionalNodeIndex AsBrowsingOptionalNodeIndex))
                 return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsBrowsingOptionalNodeIndex))

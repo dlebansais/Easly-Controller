@@ -53,7 +53,7 @@
         {
             Debug.Assert(other != null);
 
-            if (!(other is IReadOnlyBrowsingCollectionNodeIndex AsBlockNodeIndex))
+            if (!comparer.IsSameType(other, out ReadOnlyBrowsingCollectionNodeIndex AsBlockNodeIndex))
                 return comparer.Failed();
 
             if (Node != AsBlockNodeIndex.Node)

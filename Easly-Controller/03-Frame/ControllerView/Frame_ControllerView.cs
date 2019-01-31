@@ -925,7 +925,7 @@
         {
             Debug.Assert(other != null);
 
-            if (!(other is IFrameControllerView AsControllerView))
+            if (!comparer.IsSameType(other, out FrameControllerView AsControllerView))
                 return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsControllerView))

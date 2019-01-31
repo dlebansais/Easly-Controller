@@ -55,7 +55,7 @@
         {
             Debug.Assert(other != null);
 
-            if (!(other is IWriteableBrowsingNewBlockNodeIndex AsBrowsingNewBlockNodeIndex))
+            if (!comparer.IsSameType(other, out WriteableBrowsingNewBlockNodeIndex AsBrowsingNewBlockNodeIndex))
                 return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsBrowsingNewBlockNodeIndex))

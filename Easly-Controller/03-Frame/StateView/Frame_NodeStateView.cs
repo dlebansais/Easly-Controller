@@ -194,7 +194,7 @@
         {
             Debug.Assert(other != null);
 
-            if (!(other is IFrameNodeStateView AsNodeStateView))
+            if (!comparer.IsSameType(other, out FrameNodeStateView AsNodeStateView))
                 return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsNodeStateView))

@@ -75,7 +75,7 @@
         {
             Debug.Assert(other != null);
 
-            if (!(other is IFocusContainerCellView AsContainerCellView))
+            if (!comparer.IsSameType(other, out FocusContainerCellView AsContainerCellView))
                 return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsContainerCellView))

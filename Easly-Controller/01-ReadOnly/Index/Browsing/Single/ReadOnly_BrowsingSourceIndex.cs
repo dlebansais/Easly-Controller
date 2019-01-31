@@ -57,7 +57,7 @@
         {
             Debug.Assert(other != null);
 
-            if (!(other is IReadOnlyBrowsingSourceIndex AsSourceIndex))
+            if (!comparer.IsSameType(other, out ReadOnlyBrowsingSourceIndex AsSourceIndex))
                 return comparer.Failed();
 
             if (Node != AsSourceIndex.Node)

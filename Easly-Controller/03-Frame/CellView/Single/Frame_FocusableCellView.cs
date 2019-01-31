@@ -36,7 +36,7 @@
         {
             Debug.Assert(other != null);
 
-            if (!(other is IFrameFocusableCellView AsFocusableCellView))
+            if (!comparer.IsSameType(other, out FrameFocusableCellView AsFocusableCellView))
                 return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsFocusableCellView))

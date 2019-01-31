@@ -113,7 +113,7 @@
         {
             Debug.Assert(other != null);
 
-            if (!(other is IWriteableBrowsingExistingBlockNodeIndex AsBrowsingExistingBlockNodeIndex))
+            if (!comparer.IsSameType(other, out WriteableBrowsingExistingBlockNodeIndex AsBrowsingExistingBlockNodeIndex))
                 return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsBrowsingExistingBlockNodeIndex))

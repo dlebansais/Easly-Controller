@@ -46,7 +46,7 @@ namespace EaslyController.Focus
         {
             Debug.Assert(other != null);
 
-            if (!(other is IFocusCellViewReadOnlyList AsCellViewList))
+            if (!comparer.IsSameType(other, out FocusCellViewReadOnlyList AsCellViewList))
                 return comparer.Failed();
 
             if (Count != AsCellViewList.Count)

@@ -38,7 +38,7 @@
         {
             Debug.Assert(other != null);
 
-            if (!(other is IFrameBrowsingOptionalNodeIndex AsBrowsingOptionalNodeIndex))
+            if (!comparer.IsSameType(other, out FrameBrowsingOptionalNodeIndex AsBrowsingOptionalNodeIndex))
                 return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsBrowsingOptionalNodeIndex))

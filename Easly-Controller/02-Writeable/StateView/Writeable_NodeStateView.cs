@@ -58,7 +58,7 @@
         {
             Debug.Assert(other != null);
 
-            if (!(other is IWriteableNodeStateView AsNodeStateView))
+            if (!comparer.IsSameType(other, out WriteableNodeStateView AsNodeStateView))
                 return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsNodeStateView))

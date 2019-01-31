@@ -331,7 +331,7 @@
         {
             Debug.Assert(other != null);
 
-            if (!(other is IReadOnlyBlockState AsBlockState))
+            if (!comparer.IsSameType(other, out ReadOnlyBlockState AsBlockState))
                 return comparer.Failed();
 
             if (!comparer.VerifyEqual(ParentInner, AsBlockState.ParentInner))

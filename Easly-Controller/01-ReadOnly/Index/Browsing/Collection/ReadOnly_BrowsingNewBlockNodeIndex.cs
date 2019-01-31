@@ -101,7 +101,7 @@
         {
             Debug.Assert(other != null);
 
-            if (!(other is IReadOnlyBrowsingNewBlockNodeIndex AsNewBlockNodeIndex))
+            if (!comparer.IsSameType(other, out ReadOnlyBrowsingNewBlockNodeIndex AsNewBlockNodeIndex))
                 return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsNewBlockNodeIndex))

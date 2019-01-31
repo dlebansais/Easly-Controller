@@ -95,7 +95,7 @@
         {
             Debug.Assert(other != null);
 
-            if (!(other is IReadOnlyCollectionInner<IIndex> AsCollectionInner))
+            if (!comparer.IsSameType(other, out ReadOnlyCollectionInner<IIndex, TIndex> AsCollectionInner))
                 return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsCollectionInner))

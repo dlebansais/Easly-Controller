@@ -38,7 +38,7 @@
         {
             Debug.Assert(other != null);
 
-            if (!(other is IFocusBrowsingPatternIndex AsBrowsingPatternIndex))
+            if (!comparer.IsSameType(other, out FocusBrowsingPatternIndex AsBrowsingPatternIndex))
                 return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsBrowsingPatternIndex))

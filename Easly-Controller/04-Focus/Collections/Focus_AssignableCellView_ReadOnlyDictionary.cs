@@ -61,7 +61,7 @@ namespace EaslyController.Focus
         {
             Debug.Assert(other != null);
 
-            if (!(other is IFocusAssignableCellViewReadOnlyDictionary<TKey> AsAssignableCellViewReadOnlyDictionary))
+            if (!comparer.IsSameType(other, out FocusAssignableCellViewReadOnlyDictionary<TKey> AsAssignableCellViewReadOnlyDictionary))
                 return comparer.Failed();
 
             if (Count != AsAssignableCellViewReadOnlyDictionary.Count)

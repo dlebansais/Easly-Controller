@@ -39,7 +39,7 @@
         {
             Debug.Assert(other != null);
 
-            if (!(other is IFrameBrowsingPlaceholderNodeIndex AsBrowsingPlaceholderNodeIndex))
+            if (!comparer.IsSameType(other, out FrameBrowsingPlaceholderNodeIndex AsBrowsingPlaceholderNodeIndex))
                 return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsBrowsingPlaceholderNodeIndex))

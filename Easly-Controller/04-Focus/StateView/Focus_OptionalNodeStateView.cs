@@ -122,7 +122,7 @@
         {
             Debug.Assert(other != null);
 
-            if (!(other is IFocusOptionalNodeStateView AsOptionalNodeStateView))
+            if (!comparer.IsSameType(other, out FocusOptionalNodeStateView AsOptionalNodeStateView))
                 return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsOptionalNodeStateView))

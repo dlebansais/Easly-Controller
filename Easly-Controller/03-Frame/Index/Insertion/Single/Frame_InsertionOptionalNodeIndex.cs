@@ -39,7 +39,7 @@
         {
             Debug.Assert(other != null);
 
-            if (!(other is IFrameInsertionOptionalNodeIndex AsInsertionOptionalNodeIndex))
+            if (!comparer.IsSameType(other, out FrameInsertionOptionalNodeIndex AsInsertionOptionalNodeIndex))
                 return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsInsertionOptionalNodeIndex))

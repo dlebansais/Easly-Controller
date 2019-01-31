@@ -85,7 +85,7 @@ namespace EaslyController.Frame
         {
             Debug.Assert(other != null);
 
-            if (!(other is IFrameInnerReadOnlyDictionary<TKey> AsInnerReadOnlyDictionary))
+            if (!comparer.IsSameType(other, out FrameInnerReadOnlyDictionary<TKey> AsInnerReadOnlyDictionary))
                 return comparer.Failed();
 
             if (Count != AsInnerReadOnlyDictionary.Count)

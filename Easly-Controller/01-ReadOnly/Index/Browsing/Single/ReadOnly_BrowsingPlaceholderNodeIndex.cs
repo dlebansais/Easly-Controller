@@ -57,7 +57,7 @@
         {
             Debug.Assert(other != null);
 
-            if (!(other is IReadOnlyBrowsingPlaceholderNodeIndex AsPlaceholderNodeIndex))
+            if (!comparer.IsSameType(other, out ReadOnlyBrowsingPlaceholderNodeIndex AsPlaceholderNodeIndex))
                 return comparer.Failed();
 
             if (Node != AsPlaceholderNodeIndex.Node)

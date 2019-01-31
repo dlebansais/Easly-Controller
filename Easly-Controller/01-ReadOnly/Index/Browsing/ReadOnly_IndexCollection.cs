@@ -101,7 +101,7 @@
         {
             Debug.Assert(other != null);
 
-            if (!(other is IReadOnlyIndexCollection<IIndex> AsIndexCollection))
+            if (!comparer.IsSameType(other, out ReadOnlyIndexCollection<IIndex> AsIndexCollection))
                 return comparer.Failed();
 
             if (NodeIndexList.Count != AsIndexCollection.NodeIndexList.Count)

@@ -71,7 +71,7 @@
         {
             Debug.Assert(other != null);
 
-            if (!(other is IReadOnlyBrowsingExistingBlockNodeIndex AsExistingBlockNodeIndex))
+            if (!comparer.IsSameType(other, out ReadOnlyBrowsingExistingBlockNodeIndex AsExistingBlockNodeIndex))
                 return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsExistingBlockNodeIndex))

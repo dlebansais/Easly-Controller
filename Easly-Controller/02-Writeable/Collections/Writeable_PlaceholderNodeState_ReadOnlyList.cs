@@ -46,7 +46,7 @@ namespace EaslyController.Writeable
         {
             Debug.Assert(other != null);
 
-            if (!(other is IWriteablePlaceholderNodeStateReadOnlyList AsPlaceholderNodeStateReadOnlyList))
+            if (!comparer.IsSameType(other, out WriteablePlaceholderNodeStateReadOnlyList AsPlaceholderNodeStateReadOnlyList))
                 return comparer.Failed();
 
             if (Count != AsPlaceholderNodeStateReadOnlyList.Count)

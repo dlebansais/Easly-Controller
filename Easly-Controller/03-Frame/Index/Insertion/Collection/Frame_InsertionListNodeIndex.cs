@@ -40,7 +40,7 @@
         {
             Debug.Assert(other != null);
 
-            if (!(other is IFrameInsertionListNodeIndex AsInsertionListNodeIndex))
+            if (!comparer.IsSameType(other, out FrameInsertionListNodeIndex AsInsertionListNodeIndex))
                 return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsInsertionListNodeIndex))

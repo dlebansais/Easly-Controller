@@ -440,7 +440,7 @@
         {
             Debug.Assert(other != null);
 
-            if (!(other is IReadOnlyBlockListInner<IIndex> AsBlockListInner))
+            if (!comparer.IsSameType(other, out ReadOnlyBlockListInner<IIndex, TIndex> AsBlockListInner))
                 return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsBlockListInner))

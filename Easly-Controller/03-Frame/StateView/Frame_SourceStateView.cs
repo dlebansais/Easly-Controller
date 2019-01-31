@@ -197,7 +197,7 @@
         {
             Debug.Assert(other != null);
 
-            if (!(other is IFrameSourceStateView AsSourceStateView))
+            if (!comparer.IsSameType(other, out FrameSourceStateView AsSourceStateView))
                 return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsSourceStateView))

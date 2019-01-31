@@ -61,7 +61,7 @@
         {
             Debug.Assert(other != null);
 
-            if (!(other is IReadOnlyNodeStateView AsNodeStateView))
+            if (!comparer.IsSameType(other, out ReadOnlyNodeStateView AsNodeStateView))
                 return comparer.Failed();
 
             if (State != AsNodeStateView.State)

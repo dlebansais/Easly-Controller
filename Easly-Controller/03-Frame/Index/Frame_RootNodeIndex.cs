@@ -37,7 +37,7 @@
         {
             Debug.Assert(other != null);
 
-            if (!(other is IFrameRootNodeIndex AsRootNodeIndex))
+            if (!comparer.IsSameType(other, out FrameRootNodeIndex AsRootNodeIndex))
                 return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsRootNodeIndex))

@@ -77,7 +77,7 @@
         {
             Debug.Assert(other != null);
 
-            if (!(other is IFrameColumn AsColumn))
+            if (!comparer.IsSameType(other, out FrameColumn AsColumn))
                 return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsColumn))

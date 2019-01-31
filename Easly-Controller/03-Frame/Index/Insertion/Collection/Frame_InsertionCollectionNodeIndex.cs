@@ -39,7 +39,7 @@
         {
             Debug.Assert(other != null);
 
-            if (!(other is IFrameInsertionCollectionNodeIndex AsInsertionCollectionNodeIndex))
+            if (!comparer.IsSameType(other, out FrameInsertionCollectionNodeIndex AsInsertionCollectionNodeIndex))
                 return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsInsertionCollectionNodeIndex))

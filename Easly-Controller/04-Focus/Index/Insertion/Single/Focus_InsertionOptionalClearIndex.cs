@@ -39,7 +39,7 @@
         {
             Debug.Assert(other != null);
 
-            if (!(other is IFocusInsertionOptionalClearIndex AsInsertionOptionalClearIndex))
+            if (!comparer.IsSameType(other, out FocusInsertionOptionalClearIndex AsInsertionOptionalClearIndex))
                 return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsInsertionOptionalClearIndex))

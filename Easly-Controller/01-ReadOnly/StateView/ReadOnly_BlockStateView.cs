@@ -61,7 +61,7 @@
         {
             Debug.Assert(other != null);
 
-            if (!(other is IReadOnlyBlockStateView AsBlockStateView))
+            if (!comparer.IsSameType(other, out ReadOnlyBlockStateView AsBlockStateView))
                 return comparer.Failed();
 
             if (BlockState != AsBlockStateView.BlockState)

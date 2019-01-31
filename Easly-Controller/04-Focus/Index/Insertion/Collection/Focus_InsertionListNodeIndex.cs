@@ -41,7 +41,7 @@
         {
             Debug.Assert(other != null);
 
-            if (!(other is IFocusInsertionListNodeIndex AsInsertionListNodeIndex))
+            if (!comparer.IsSameType(other, out FocusInsertionListNodeIndex AsInsertionListNodeIndex))
                 return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsInsertionListNodeIndex))

@@ -49,7 +49,7 @@
         {
             Debug.Assert(other != null);
 
-            if (!(other is IWriteableIndexCollection<IIndex> AsIndexCollection))
+            if (!comparer.IsSameType(other, out WriteableIndexCollection<IIndex> AsIndexCollection))
                 return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsIndexCollection))

@@ -85,7 +85,7 @@
         {
             Debug.Assert(other != null);
 
-            if (!(other is IReadOnlyPatternState AsPatternState))
+            if (!comparer.IsSameType(other, out ReadOnlyPatternState AsPatternState))
                 return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsPatternState))

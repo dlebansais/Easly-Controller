@@ -134,7 +134,7 @@
         {
             Debug.Assert(other != null);
 
-            if (!(other is IFrameVisibleCellView AsVisibleCellView))
+            if (!comparer.IsSameType(other, out FrameVisibleCellView AsVisibleCellView))
                 return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsVisibleCellView))

@@ -55,7 +55,7 @@
         {
             Debug.Assert(other != null);
 
-            if (!(other is IWriteablePatternStateView AsPatternStateView))
+            if (!comparer.IsSameType(other, out WriteablePatternStateView AsPatternStateView))
                 return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsPatternStateView))

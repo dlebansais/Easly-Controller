@@ -76,7 +76,7 @@ namespace EaslyController.Writeable
         {
             Debug.Assert(other != null);
 
-            if (!(other is IWriteableBlockStateViewDictionary AsBlockStateViewDictionary))
+            if (!comparer.IsSameType(other, out WriteableBlockStateViewDictionary AsBlockStateViewDictionary))
                 return comparer.Failed();
 
             if (Count != AsBlockStateViewDictionary.Count)

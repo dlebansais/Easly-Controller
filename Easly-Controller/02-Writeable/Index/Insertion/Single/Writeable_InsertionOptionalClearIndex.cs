@@ -79,7 +79,7 @@
         {
             Debug.Assert(other != null);
 
-            if (!(other is IWriteableInsertionOptionalClearIndex AsInsertionOptionalClearIndex))
+            if (!comparer.IsSameType(other, out WriteableInsertionOptionalClearIndex AsInsertionOptionalClearIndex))
                 return comparer.Failed();
 
             if (ParentNode != AsInsertionOptionalClearIndex.ParentNode)

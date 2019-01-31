@@ -67,7 +67,7 @@
         {
             Debug.Assert(other != null);
 
-            if (!(other is IReadOnlyBrowsingListNodeIndex AsListNodeIndex))
+            if (!comparer.IsSameType(other, out ReadOnlyBrowsingListNodeIndex AsListNodeIndex))
                 return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsListNodeIndex))

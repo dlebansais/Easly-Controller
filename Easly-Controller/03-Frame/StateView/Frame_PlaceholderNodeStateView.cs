@@ -207,7 +207,7 @@
         {
             Debug.Assert(other != null);
 
-            if (!(other is IFramePlaceholderNodeStateView AsPlaceholderNodeStateView))
+            if (!comparer.IsSameType(other, out FramePlaceholderNodeStateView AsPlaceholderNodeStateView))
                 return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsPlaceholderNodeStateView))
