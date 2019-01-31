@@ -232,10 +232,10 @@
             if (!base.IsEqual(comparer, AsOptionalNodeStateView))
                 return comparer.Failed();
 
-            if (Template != AsOptionalNodeStateView.Template)
+            if (!comparer.IsSameReference(Template, AsOptionalNodeStateView.Template))
                 return comparer.Failed();
 
-            if ((RootCellView != null && AsOptionalNodeStateView.RootCellView == null) || (RootCellView == null && AsOptionalNodeStateView.RootCellView != null))
+            if (!comparer.IsTrue((RootCellView == null || AsOptionalNodeStateView.RootCellView != null) && (RootCellView != null || AsOptionalNodeStateView.RootCellView == null)))
                 return comparer.Failed();
 
             if (RootCellView != null)

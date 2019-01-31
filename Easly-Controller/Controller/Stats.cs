@@ -51,28 +51,28 @@
         {
             Debug.Assert(other != null);
 
-            if (!(other is Stats AsStats))
+            if (!comparer.IsSameType(other, out Stats AsStats))
                 return comparer.Failed();
 
-            if (NodeCount != AsStats.NodeCount)
+            if (!comparer.IsSameCount(NodeCount, AsStats.NodeCount))
                 return comparer.Failed();
 
-            if (PlaceholderNodeCount != AsStats.PlaceholderNodeCount)
+            if (!comparer.IsSameCount(PlaceholderNodeCount, AsStats.PlaceholderNodeCount))
                 return comparer.Failed();
 
-            if (OptionalNodeCount != AsStats.OptionalNodeCount)
+            if (!comparer.IsSameCount(OptionalNodeCount, AsStats.OptionalNodeCount))
                 return comparer.Failed();
 
-            if (AssignedOptionalNodeCount != AsStats.AssignedOptionalNodeCount)
+            if (!comparer.IsSameCount(AssignedOptionalNodeCount, AsStats.AssignedOptionalNodeCount))
                 return comparer.Failed();
 
-            if (ListCount != AsStats.ListCount)
+            if (!comparer.IsSameCount(ListCount, AsStats.ListCount))
                 return comparer.Failed();
 
-            if (BlockListCount != AsStats.BlockListCount)
+            if (!comparer.IsSameCount(BlockListCount, AsStats.BlockListCount))
                 return comparer.Failed();
 
-            if (BlockCount != AsStats.BlockCount)
+            if (!comparer.IsSameCount(BlockCount, AsStats.BlockCount))
                 return comparer.Failed();
 
             return true;

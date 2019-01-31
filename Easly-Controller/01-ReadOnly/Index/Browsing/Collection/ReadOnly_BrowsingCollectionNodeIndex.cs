@@ -56,10 +56,10 @@
             if (!comparer.IsSameType(other, out ReadOnlyBrowsingCollectionNodeIndex AsBlockNodeIndex))
                 return comparer.Failed();
 
-            if (Node != AsBlockNodeIndex.Node)
+            if (!comparer.IsSameReference(Node, AsBlockNodeIndex.Node))
                 return comparer.Failed();
 
-            if (PropertyName != AsBlockNodeIndex.PropertyName)
+            if (!comparer.IsSameString(PropertyName, AsBlockNodeIndex.PropertyName))
                 return comparer.Failed();
 
             return true;

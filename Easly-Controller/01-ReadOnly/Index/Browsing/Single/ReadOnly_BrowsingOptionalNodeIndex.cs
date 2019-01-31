@@ -66,10 +66,10 @@
             if (!comparer.IsSameType(other, out ReadOnlyBrowsingOptionalNodeIndex AsOptionalNodeIndex))
                 return comparer.Failed();
 
-            if (Optional != AsOptionalNodeIndex.Optional)
+            if (!comparer.IsSameReference(Optional, AsOptionalNodeIndex.Optional))
                 return comparer.Failed();
 
-            if (PropertyName != AsOptionalNodeIndex.PropertyName)
+            if (!comparer.IsSameString(PropertyName, AsOptionalNodeIndex.PropertyName))
                 return comparer.Failed();
 
             return true;

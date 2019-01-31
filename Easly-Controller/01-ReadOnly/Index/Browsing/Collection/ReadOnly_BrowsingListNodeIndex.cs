@@ -73,10 +73,10 @@
             if (!base.IsEqual(comparer, AsListNodeIndex))
                 return comparer.Failed();
 
-            if (ParentNode != AsListNodeIndex.ParentNode)
+            if (!comparer.IsSameReference(ParentNode, AsListNodeIndex.ParentNode))
                 return comparer.Failed();
 
-            if (Index != AsListNodeIndex.Index)
+            if (!comparer.IsSameInteger(Index, AsListNodeIndex.Index))
                 return comparer.Failed();
 
             return true;

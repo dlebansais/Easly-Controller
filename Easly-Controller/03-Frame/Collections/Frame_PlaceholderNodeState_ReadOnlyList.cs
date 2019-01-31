@@ -59,7 +59,7 @@ namespace EaslyController.Frame
             if (!comparer.IsSameType(other, out FramePlaceholderNodeStateReadOnlyList AsPlaceholderNodeStateReadOnlyList))
                 return comparer.Failed();
 
-            if (Count != AsPlaceholderNodeStateReadOnlyList.Count)
+            if (!comparer.IsSameCount(Count, AsPlaceholderNodeStateReadOnlyList.Count))
                 return comparer.Failed();
 
             for (int i = 0; i < Count; i++)

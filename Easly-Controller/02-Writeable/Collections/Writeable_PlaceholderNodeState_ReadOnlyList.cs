@@ -49,7 +49,7 @@ namespace EaslyController.Writeable
             if (!comparer.IsSameType(other, out WriteablePlaceholderNodeStateReadOnlyList AsPlaceholderNodeStateReadOnlyList))
                 return comparer.Failed();
 
-            if (Count != AsPlaceholderNodeStateReadOnlyList.Count)
+            if (!comparer.IsSameCount(Count, AsPlaceholderNodeStateReadOnlyList.Count))
                 return comparer.Failed();
 
             for (int i = 0; i < Count; i++)

@@ -108,12 +108,12 @@
             if (!base.IsEqual(comparer, AsOptionalNodeState))
                 return comparer.Failed();
 
-            if (Optional.IsAssigned != AsOptionalNodeState.Optional.IsAssigned)
+            if (!comparer.IsTrue(Optional.IsAssigned == AsOptionalNodeState.Optional.IsAssigned))
                 return comparer.Failed();
 
             if (Optional.HasItem)
             {
-                if (Node != AsOptionalNodeState.Node)
+                if (!comparer.IsSameReference(Node, AsOptionalNodeState.Node))
                     return comparer.Failed();
 
                 if (!IsChildrenEqual(comparer, AsOptionalNodeState))

@@ -64,7 +64,7 @@
             if (!comparer.IsSameType(other, out ReadOnlyBlockStateView AsBlockStateView))
                 return comparer.Failed();
 
-            if (BlockState != AsBlockStateView.BlockState)
+            if (!comparer.IsSameReference(BlockState, AsBlockStateView.BlockState))
                 return comparer.Failed();
 
             return true;

@@ -56,7 +56,7 @@
             if (!base.IsEqual(comparer, AsMultiDiscreteFocusableCellView))
                 return comparer.Failed();
 
-            if (PropertyName != AsMultiDiscreteFocusableCellView.PropertyName)
+            if (!comparer.IsSameString(PropertyName, AsMultiDiscreteFocusableCellView.PropertyName))
                 return comparer.Failed();
 
             return true;

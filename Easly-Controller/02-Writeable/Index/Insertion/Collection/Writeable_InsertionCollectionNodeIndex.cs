@@ -75,13 +75,13 @@
             if (!comparer.IsSameType(other, out WriteableInsertionCollectionNodeIndex AsInsertionCollectionNodeIndex))
                 return comparer.Failed();
 
-            if (ParentNode != AsInsertionCollectionNodeIndex.ParentNode)
+            if (!comparer.IsSameReference(ParentNode, AsInsertionCollectionNodeIndex.ParentNode))
                 return comparer.Failed();
 
-            if (PropertyName != AsInsertionCollectionNodeIndex.PropertyName)
+            if (!comparer.IsSameString(PropertyName, AsInsertionCollectionNodeIndex.PropertyName))
                 return comparer.Failed();
 
-            if (Node != AsInsertionCollectionNodeIndex.Node)
+            if (!comparer.IsSameReference(Node, AsInsertionCollectionNodeIndex.Node))
                 return comparer.Failed();
 
             return true;

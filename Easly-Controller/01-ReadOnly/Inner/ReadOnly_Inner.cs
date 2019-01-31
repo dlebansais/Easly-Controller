@@ -166,7 +166,7 @@
             if (!comparer.VerifyEqual(Owner, AsInner.Owner))
                 return comparer.Failed();
 
-            if (PropertyName != AsInner.PropertyName)
+            if (!comparer.IsSameString(PropertyName, AsInner.PropertyName))
                 return comparer.Failed();
 
             return true;

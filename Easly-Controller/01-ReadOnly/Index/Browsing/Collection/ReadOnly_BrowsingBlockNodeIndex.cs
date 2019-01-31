@@ -58,7 +58,7 @@
             if (!base.IsEqual(comparer, AsBlockNodeIndex))
                 return comparer.Failed();
 
-            if (BlockIndex != AsBlockNodeIndex.BlockIndex)
+            if (!comparer.IsSameInteger(BlockIndex, AsBlockNodeIndex.BlockIndex))
                 return comparer.Failed();
 
             return true;

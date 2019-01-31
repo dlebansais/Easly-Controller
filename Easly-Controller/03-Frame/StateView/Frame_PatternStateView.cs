@@ -203,10 +203,10 @@
             if (!base.IsEqual(comparer, AsPatternStateView))
                 return comparer.Failed();
 
-            if (Template != AsPatternStateView.Template)
+            if (!comparer.IsSameReference(Template, AsPatternStateView.Template))
                 return comparer.Failed();
 
-            if ((RootCellView != null && AsPatternStateView.RootCellView == null) || (RootCellView == null && AsPatternStateView.RootCellView != null))
+            if (!comparer.IsTrue((RootCellView == null || AsPatternStateView.RootCellView != null) && (RootCellView != null || AsPatternStateView.RootCellView == null)))
                 return comparer.Failed();
 
             if (RootCellView != null)

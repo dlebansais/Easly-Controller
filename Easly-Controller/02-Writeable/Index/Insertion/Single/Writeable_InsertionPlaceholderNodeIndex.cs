@@ -78,13 +78,13 @@
             if (!comparer.IsSameType(other, out WriteableInsertionPlaceholderNodeIndex AsInsertionPlaceholderNodeIndex))
                 return comparer.Failed();
 
-            if (ParentNode != AsInsertionPlaceholderNodeIndex.ParentNode)
+            if (!comparer.IsSameReference(ParentNode, AsInsertionPlaceholderNodeIndex.ParentNode))
                 return comparer.Failed();
 
-            if (PropertyName != AsInsertionPlaceholderNodeIndex.PropertyName)
+            if (!comparer.IsSameString(PropertyName, AsInsertionPlaceholderNodeIndex.PropertyName))
                 return comparer.Failed();
 
-            if (Node != AsInsertionPlaceholderNodeIndex.Node)
+            if (!comparer.IsSameReference(Node, AsInsertionPlaceholderNodeIndex.Node))
                 return comparer.Failed();
 
             return true;

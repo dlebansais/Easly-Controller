@@ -240,7 +240,7 @@
             if (!base.IsEqual(comparer, AsListInner))
                 return comparer.Failed();
 
-            if (StateList.Count != AsListInner.StateList.Count)
+            if (!comparer.IsSameCount(StateList.Count, AsListInner.StateList.Count))
                 return comparer.Failed();
 
             for (int i = 0; i < StateList.Count; i++)

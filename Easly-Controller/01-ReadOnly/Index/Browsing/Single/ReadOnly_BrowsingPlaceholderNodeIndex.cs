@@ -60,10 +60,10 @@
             if (!comparer.IsSameType(other, out ReadOnlyBrowsingPlaceholderNodeIndex AsPlaceholderNodeIndex))
                 return comparer.Failed();
 
-            if (Node != AsPlaceholderNodeIndex.Node)
+            if (!comparer.IsSameReference(Node, AsPlaceholderNodeIndex.Node))
                 return comparer.Failed();
 
-            if (PropertyName != AsPlaceholderNodeIndex.PropertyName)
+            if (!comparer.IsSameString(PropertyName, AsPlaceholderNodeIndex.PropertyName))
                 return comparer.Failed();
 
             return true;

@@ -200,10 +200,10 @@
             if (!base.IsEqual(comparer, AsNodeStateView))
                 return comparer.Failed();
 
-            if (Template != AsNodeStateView.Template)
+            if (!comparer.IsSameReference(Template, AsNodeStateView.Template))
                 return comparer.Failed();
 
-            if ((RootCellView != null && AsNodeStateView.RootCellView == null) || (RootCellView == null && AsNodeStateView.RootCellView != null))
+            if (!comparer.IsTrue((RootCellView == null || AsNodeStateView.RootCellView != null) && (RootCellView != null || AsNodeStateView.RootCellView == null)))
                 return comparer.Failed();
 
             if (RootCellView != null)

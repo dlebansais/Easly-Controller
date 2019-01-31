@@ -187,13 +187,40 @@
         }
 
         /// <summary>
-        /// Checks that two integer values are equal.
+        /// Checks that two counts are equal.
         /// </summary>
-        /// <param name="count1">The first value.</param>
-        /// <param name="count2">The second value.</param>
+        /// <param name="count1">The first count.</param>
+        /// <param name="count2">The second count.</param>
         public bool IsSameCount(int count1, int count2)
         {
-            bool Result = (count1 == count2);
+            return IsSameInteger(count1, count2);
+        }
+
+        /// <summary>
+        /// Checks that two integer values are equal.
+        /// </summary>
+        /// <param name="int1">The first value.</param>
+        /// <param name="int2">The second value.</param>
+        public bool IsSameInteger(int int1, int int2)
+        {
+            bool Result = (int1 == int2);
+
+            if (ComparisonCount == FailIndex)
+                return false;
+
+            ComparisonCount++;
+
+            return Result;
+        }
+
+        /// <summary>
+        /// Checks that two strings are equal.
+        /// </summary>
+        /// <param name="string1">The first string.</param>
+        /// <param name="string2">The second string.</param>
+        public bool IsSameString(string string1, string string2)
+        {
+            bool Result = (string1 == string2);
 
             if (ComparisonCount == FailIndex)
                 return false;

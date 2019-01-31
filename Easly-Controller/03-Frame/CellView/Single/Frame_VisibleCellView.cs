@@ -140,10 +140,10 @@
             if (!base.IsEqual(comparer, AsVisibleCellView))
                 return comparer.Failed();
 
-            if (LineNumber != AsVisibleCellView.LineNumber)
+            if (!comparer.IsSameInteger(LineNumber, AsVisibleCellView.LineNumber))
                 return comparer.Failed();
 
-            if (ColumnNumber != AsVisibleCellView.ColumnNumber)
+            if (!comparer.IsSameInteger(ColumnNumber, AsVisibleCellView.ColumnNumber))
                 return comparer.Failed();
 
             return true;

@@ -47,7 +47,7 @@ namespace EaslyController.Focus
             if (!comparer.IsSameType(other, out FocusVisibleCellViewList AsVisibleCellViewList))
                 return comparer.Failed();
 
-            if (Count != AsVisibleCellViewList.Count)
+            if (!comparer.IsSameCount(Count, AsVisibleCellViewList.Count))
                 return comparer.Failed();
 
             for (int i = 0; i < Count; i++)

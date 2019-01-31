@@ -931,13 +931,13 @@
             if (!base.IsEqual(comparer, AsControllerView))
                 return comparer.Failed();
 
-            if (TemplateSet != AsControllerView.TemplateSet)
+            if (!comparer.IsSameReference(TemplateSet, AsControllerView.TemplateSet))
                 return comparer.Failed();
 
-            if (LastLineNumber != AsControllerView.LastLineNumber)
+            if (!comparer.IsSameInteger(LastLineNumber, AsControllerView.LastLineNumber))
                 return comparer.Failed();
 
-            if (LastColumnNumber != AsControllerView.LastColumnNumber)
+            if (!comparer.IsSameInteger(LastColumnNumber, AsControllerView.LastColumnNumber))
                 return comparer.Failed();
 
             return true;

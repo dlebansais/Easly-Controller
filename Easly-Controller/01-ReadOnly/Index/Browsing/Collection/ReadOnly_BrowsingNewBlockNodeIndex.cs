@@ -107,13 +107,13 @@
             if (!base.IsEqual(comparer, AsNewBlockNodeIndex))
                 return comparer.Failed();
 
-            if (ParentNode != AsNewBlockNodeIndex.ParentNode)
+            if (!comparer.IsSameReference(ParentNode, AsNewBlockNodeIndex.ParentNode))
                 return comparer.Failed();
 
-            if (PatternNode != AsNewBlockNodeIndex.PatternNode)
+            if (!comparer.IsSameReference(PatternNode, AsNewBlockNodeIndex.PatternNode))
                 return comparer.Failed();
 
-            if (SourceNode != AsNewBlockNodeIndex.SourceNode)
+            if (!comparer.IsSameReference(SourceNode, AsNewBlockNodeIndex.SourceNode))
                 return comparer.Failed();
 
             return true;

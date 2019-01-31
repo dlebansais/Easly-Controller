@@ -60,10 +60,10 @@
             if (!comparer.IsSameType(other, out ReadOnlyBrowsingPatternIndex AsPatternIndex))
                 return comparer.Failed();
 
-            if (Node != AsPatternIndex.Node)
+            if (!comparer.IsSameReference(Node, AsPatternIndex.Node))
                 return comparer.Failed();
 
-            if (PropertyName != AsPatternIndex.PropertyName)
+            if (!comparer.IsSameString(PropertyName, AsPatternIndex.PropertyName))
                 return comparer.Failed();
 
             return true;

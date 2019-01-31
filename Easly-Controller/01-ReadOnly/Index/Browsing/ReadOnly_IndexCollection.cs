@@ -104,7 +104,7 @@
             if (!comparer.IsSameType(other, out ReadOnlyIndexCollection<IIndex> AsIndexCollection))
                 return comparer.Failed();
 
-            if (NodeIndexList.Count != AsIndexCollection.NodeIndexList.Count)
+            if (!comparer.IsSameCount(NodeIndexList.Count, AsIndexCollection.NodeIndexList.Count))
                 return comparer.Failed();
 
             for (int i = 0; i < NodeIndexList.Count; i++)

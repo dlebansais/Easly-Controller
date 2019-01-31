@@ -86,10 +86,10 @@
             if (!base.IsEqual(comparer, AsInsertionExistingBlockNodeIndex))
                 return comparer.Failed();
 
-            if (BlockIndex != AsInsertionExistingBlockNodeIndex.BlockIndex)
+            if (!comparer.IsSameInteger(BlockIndex, AsInsertionExistingBlockNodeIndex.BlockIndex))
                 return comparer.Failed();
 
-            if (Index != AsInsertionExistingBlockNodeIndex.Index)
+            if (!comparer.IsSameInteger(Index, AsInsertionExistingBlockNodeIndex.Index))
                 return comparer.Failed();
 
             return true;

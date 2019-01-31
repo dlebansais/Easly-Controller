@@ -34,7 +34,7 @@ namespace EaslyController.Frame
             if (!comparer.IsSameType(other, out FrameVisibleCellViewList AsVisibleCellViewList))
                 return comparer.Failed();
 
-            if (Count != AsVisibleCellViewList.Count)
+            if (!comparer.IsSameCount(Count, AsVisibleCellViewList.Count))
                 return comparer.Failed();
 
             for (int i = 0; i < Count; i++)

@@ -446,7 +446,7 @@
             if (!base.IsEqual(comparer, AsBlockListInner))
                 return comparer.Failed();
 
-            if (BlockStateList.Count != AsBlockListInner.BlockStateList.Count)
+            if (!comparer.IsSameCount(BlockStateList.Count, AsBlockListInner.BlockStateList.Count))
                 return comparer.Failed();
 
             for (int i = 0; i < BlockStateList.Count; i++)

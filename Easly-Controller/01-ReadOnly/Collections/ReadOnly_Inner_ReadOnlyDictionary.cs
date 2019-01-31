@@ -38,12 +38,12 @@ namespace EaslyController.ReadOnly
             if (!comparer.IsSameType(other, out ReadOnlyInnerReadOnlyDictionary<TKey> AsInnerReadOnlyDictionary))
                 return comparer.Failed();
 
-            if (Count != AsInnerReadOnlyDictionary.Count)
+            if (!comparer.IsSameCount(Count, AsInnerReadOnlyDictionary.Count))
                 return comparer.Failed();
 
             foreach (KeyValuePair<TKey, IReadOnlyInner<IReadOnlyBrowsingChildIndex>> Entry in this)
             {
-                if (!AsInnerReadOnlyDictionary.ContainsKey(Entry.Key))
+                if (!comparer.IsTrue(AsInnerReadOnlyDictionary.ContainsKey(Entry.Key)))
                     return comparer.Failed();
 
                 if (!comparer.VerifyEqual(Entry.Value, AsInnerReadOnlyDictionary[Entry.Key] as IReadOnlyInner))

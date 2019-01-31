@@ -91,13 +91,13 @@
             if (!comparer.IsSameType(other, out WriteableInsertionOptionalNodeIndex AsInsertionOptionalNodeIndex))
                 return comparer.Failed();
 
-            if (ParentNode != AsInsertionOptionalNodeIndex.ParentNode)
+            if (!comparer.IsSameReference(ParentNode, AsInsertionOptionalNodeIndex.ParentNode))
                 return comparer.Failed();
 
-            if (PropertyName != AsInsertionOptionalNodeIndex.PropertyName)
+            if (!comparer.IsSameString(PropertyName, AsInsertionOptionalNodeIndex.PropertyName))
                 return comparer.Failed();
 
-            if (Node != AsInsertionOptionalNodeIndex.Node)
+            if (!comparer.IsSameReference(Node, AsInsertionOptionalNodeIndex.Node))
                 return comparer.Failed();
 
             return true;

@@ -79,7 +79,7 @@ namespace EaslyController.Writeable
             if (!comparer.IsSameType(other, out WriteableBlockStateViewDictionary AsBlockStateViewDictionary))
                 return comparer.Failed();
 
-            if (Count != AsBlockStateViewDictionary.Count)
+            if (!comparer.IsSameCount(Count, AsBlockStateViewDictionary.Count))
                 return comparer.Failed();
 
             foreach (KeyValuePair<IWriteableBlockState, IWriteableBlockStateView> Entry in this)
@@ -87,7 +87,7 @@ namespace EaslyController.Writeable
                 IWriteableBlockState Key = Entry.Key;
                 IWriteableBlockStateView Value = Entry.Value;
 
-                if (!AsBlockStateViewDictionary.ContainsKey(Key))
+                if (!comparer.IsTrue(AsBlockStateViewDictionary.ContainsKey(Key)))
                     return comparer.Failed();
 
                 if (!comparer.VerifyEqual(Value, AsBlockStateViewDictionary[Key]))

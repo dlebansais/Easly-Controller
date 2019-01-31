@@ -337,7 +337,7 @@
             if (!comparer.VerifyEqual(ParentInner, AsBlockState.ParentInner))
                 return comparer.Failed();
 
-            if (ChildBlock != AsBlockState.ChildBlock)
+            if (!comparer.IsSameReference(ChildBlock, AsBlockState.ChildBlock))
                 return comparer.Failed();
 
             if (!comparer.VerifyEqual(PatternIndex, AsBlockState.PatternIndex))

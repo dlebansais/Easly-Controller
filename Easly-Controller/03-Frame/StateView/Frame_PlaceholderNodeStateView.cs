@@ -213,10 +213,10 @@
             if (!base.IsEqual(comparer, AsPlaceholderNodeStateView))
                 return comparer.Failed();
 
-            if (Template != AsPlaceholderNodeStateView.Template)
+            if (!comparer.IsSameReference(Template, AsPlaceholderNodeStateView.Template))
                 return comparer.Failed();
 
-            if ((RootCellView != null && AsPlaceholderNodeStateView.RootCellView == null) || (RootCellView == null && AsPlaceholderNodeStateView.RootCellView != null))
+            if (!comparer.IsTrue((RootCellView == null || AsPlaceholderNodeStateView.RootCellView != null) && (RootCellView != null || AsPlaceholderNodeStateView.RootCellView == null)))
                 return comparer.Failed();
 
             if (RootCellView != null)

@@ -58,7 +58,7 @@
             if (!base.IsEqual(comparer, AsPlaceholderNodeState))
                 return comparer.Failed();
 
-            if (Node != AsPlaceholderNodeState.Node)
+            if (!comparer.IsSameReference(Node, AsPlaceholderNodeState.Node))
                 return comparer.Failed();
 
             if (!IsChildrenEqual(comparer, AsPlaceholderNodeState))

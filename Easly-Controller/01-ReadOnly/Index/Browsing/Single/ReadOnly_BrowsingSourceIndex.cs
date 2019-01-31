@@ -60,10 +60,10 @@
             if (!comparer.IsSameType(other, out ReadOnlyBrowsingSourceIndex AsSourceIndex))
                 return comparer.Failed();
 
-            if (Node != AsSourceIndex.Node)
+            if (!comparer.IsSameReference(Node, AsSourceIndex.Node))
                 return comparer.Failed();
 
-            if (PropertyName != AsSourceIndex.PropertyName)
+            if (!comparer.IsSameString(PropertyName, AsSourceIndex.PropertyName))
                 return comparer.Failed();
 
             return true;

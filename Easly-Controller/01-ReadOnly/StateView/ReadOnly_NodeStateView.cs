@@ -64,7 +64,7 @@
             if (!comparer.IsSameType(other, out ReadOnlyNodeStateView AsNodeStateView))
                 return comparer.Failed();
 
-            if (State != AsNodeStateView.State)
+            if (!comparer.IsSameReference(State, AsNodeStateView.State))
                 return comparer.Failed();
 
             return true;

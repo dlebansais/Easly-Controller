@@ -91,7 +91,7 @@
             if (!base.IsEqual(comparer, AsPatternState))
                 return comparer.Failed();
 
-            if (Node != AsPatternState.Node)
+            if (!comparer.IsSameReference(Node, AsPatternState.Node))
                 return comparer.Failed();
 
             if (!comparer.VerifyEqual(ParentBlockState, AsPatternState.ParentBlockState))

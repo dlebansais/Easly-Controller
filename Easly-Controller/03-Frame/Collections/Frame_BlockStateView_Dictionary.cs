@@ -138,7 +138,7 @@ namespace EaslyController.Frame
             if (!comparer.IsSameType(other, out FrameBlockStateViewDictionary AsBlockStateViewDictionary))
                 return comparer.Failed();
 
-            if (Count != AsBlockStateViewDictionary.Count)
+            if (!comparer.IsSameCount(Count, AsBlockStateViewDictionary.Count))
                 return comparer.Failed();
 
             foreach (KeyValuePair<IFrameBlockState, IFrameBlockStateView> Entry in this)
@@ -146,7 +146,7 @@ namespace EaslyController.Frame
                 IFrameBlockState Key = Entry.Key;
                 IFrameBlockStateView Value = Entry.Value;
 
-                if (!AsBlockStateViewDictionary.ContainsKey(Key))
+                if (!comparer.IsTrue(AsBlockStateViewDictionary.ContainsKey(Key)))
                     return comparer.Failed();
 
                 if (!comparer.VerifyEqual(Value, AsBlockStateViewDictionary[Key]))

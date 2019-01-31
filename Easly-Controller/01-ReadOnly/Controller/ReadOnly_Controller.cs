@@ -641,7 +641,7 @@
         {
             Debug.Assert(other != null);
 
-            if (!(other is ReadOnlyController AsController))
+            if (!comparer.IsSameType(other, out ReadOnlyController AsController))
                 return comparer.Failed();
 
             if (!comparer.VerifyEqual(RootIndex, AsController.RootIndex))
@@ -653,7 +653,7 @@
             if (!comparer.VerifyEqual(Stats, AsController.Stats))
                 return comparer.Failed();
 
-            if (StateTable.Count != AsController.StateTable.Count)
+            if (!comparer.IsSameCount(StateTable.Count, AsController.StateTable.Count))
                 return comparer.Failed();
 
             List<IReadOnlyIndex> OtherTable = new List<IReadOnlyIndex>();
@@ -676,7 +676,7 @@
                         break;
                     }
 
-                if (!Found)
+                if (!comparer.IsTrue(Found))
                     return comparer.Failed();
             }
 

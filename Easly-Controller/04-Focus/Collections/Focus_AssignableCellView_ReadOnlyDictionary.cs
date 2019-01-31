@@ -64,14 +64,14 @@ namespace EaslyController.Focus
             if (!comparer.IsSameType(other, out FocusAssignableCellViewReadOnlyDictionary<TKey> AsAssignableCellViewReadOnlyDictionary))
                 return comparer.Failed();
 
-            if (Count != AsAssignableCellViewReadOnlyDictionary.Count)
+            if (!comparer.IsSameCount(Count, AsAssignableCellViewReadOnlyDictionary.Count))
                 return comparer.Failed();
 
             foreach (KeyValuePair<TKey, IFrameAssignableCellView> Entry in this)
             {
                 Debug.Assert(Entry.Key != null);
 
-                if (!AsAssignableCellViewReadOnlyDictionary.ContainsKey(Entry.Key))
+                if (!comparer.IsTrue(AsAssignableCellViewReadOnlyDictionary.ContainsKey(Entry.Key)))
                     return comparer.Failed();
 
                 IFocusAssignableCellView OtherValue = AsAssignableCellViewReadOnlyDictionary[Entry.Key] as IFocusAssignableCellView;
@@ -81,7 +81,7 @@ namespace EaslyController.Focus
                     if (!comparer.VerifyEqual(Entry.Value, OtherValue))
                         return comparer.Failed();
                 }
-                else if (Entry.Value != null || OtherValue != null)
+                else if (!comparer.IsTrue(Entry.Value == null && OtherValue == null))
                     return comparer.Failed();
             }
 

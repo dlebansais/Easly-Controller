@@ -82,10 +82,10 @@
             if (!comparer.IsSameType(other, out WriteableInsertionOptionalClearIndex AsInsertionOptionalClearIndex))
                 return comparer.Failed();
 
-            if (ParentNode != AsInsertionOptionalClearIndex.ParentNode)
+            if (!comparer.IsSameReference(ParentNode, AsInsertionOptionalClearIndex.ParentNode))
                 return comparer.Failed();
 
-            if (PropertyName != AsInsertionOptionalClearIndex.PropertyName)
+            if (!comparer.IsSameString(PropertyName, AsInsertionOptionalClearIndex.PropertyName))
                 return comparer.Failed();
 
             return true;

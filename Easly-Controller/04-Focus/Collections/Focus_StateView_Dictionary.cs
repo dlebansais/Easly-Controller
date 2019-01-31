@@ -197,7 +197,7 @@ namespace EaslyController.Focus
             if (!comparer.IsSameType(other, out FocusStateViewDictionary AsStateViewDictionary))
                 return comparer.Failed();
 
-            if (Count != AsStateViewDictionary.Count)
+            if (!comparer.IsSameCount(Count, AsStateViewDictionary.Count))
                 return comparer.Failed();
 
             foreach (KeyValuePair<IFocusNodeState, IFocusNodeStateView> Entry in this)
@@ -205,7 +205,7 @@ namespace EaslyController.Focus
                 IFocusNodeState Key = Entry.Key;
                 IFocusNodeStateView Value = Entry.Value;
 
-                if (!AsStateViewDictionary.ContainsKey(Key))
+                if (!comparer.IsTrue(AsStateViewDictionary.ContainsKey(Key)))
                     return comparer.Failed();
 
                 if (!comparer.VerifyEqual(Value, AsStateViewDictionary[Key]))

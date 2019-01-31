@@ -73,7 +73,7 @@
             if (!base.IsEqual(comparer, AsInsertionListNodeIndex))
                 return comparer.Failed();
 
-            if (Index != AsInsertionListNodeIndex.Index)
+            if (!comparer.IsSameInteger(Index, AsInsertionListNodeIndex.Index))
                 return comparer.Failed();
 
             return true;

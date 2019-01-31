@@ -77,10 +77,10 @@
             if (!base.IsEqual(comparer, AsExistingBlockNodeIndex))
                 return comparer.Failed();
 
-            if (ParentNode != AsExistingBlockNodeIndex.ParentNode)
+            if (!comparer.IsSameReference(ParentNode, AsExistingBlockNodeIndex.ParentNode))
                 return comparer.Failed();
 
-            if (Index != AsExistingBlockNodeIndex.Index)
+            if (!comparer.IsSameInteger(Index, AsExistingBlockNodeIndex.Index))
                 return comparer.Failed();
 
             return true;

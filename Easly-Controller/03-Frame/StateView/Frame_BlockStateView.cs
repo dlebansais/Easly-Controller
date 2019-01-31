@@ -235,7 +235,7 @@
             if (!base.IsEqual(comparer, AsBlockStateView))
                 return comparer.Failed();
 
-            if (Template != AsBlockStateView.Template)
+            if (!comparer.IsSameReference(Template, AsBlockStateView.Template))
                 return comparer.Failed();
 
             if (!IsRootCellViewEqual(comparer, AsBlockStateView))
@@ -252,7 +252,7 @@
         {
             if (RootCellView != null)
             {
-                if (other.RootCellView == null)
+                if (!comparer.IsTrue(other.RootCellView != null))
                     return comparer.Failed();
                 else
                 {
@@ -260,7 +260,7 @@
                         return comparer.Failed();
                 }
             }
-            else if (other.RootCellView != null)
+            else if (!comparer.IsTrue(other.RootCellView == null))
                 return comparer.Failed();
 
             return true;
@@ -271,7 +271,7 @@
         {
             if (EmbeddingCellView != null)
             {
-                if (other.EmbeddingCellView == null)
+                if (!comparer.IsTrue(other.EmbeddingCellView != null))
                     return comparer.Failed();
                 else
                 {
@@ -279,7 +279,7 @@
                         return comparer.Failed();
                 }
             }
-            else if (other.EmbeddingCellView != null)
+            else if (!comparer.IsTrue(other.EmbeddingCellView == null))
                 return comparer.Failed();
 
             return true;
