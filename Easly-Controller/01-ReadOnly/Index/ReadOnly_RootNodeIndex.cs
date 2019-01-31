@@ -53,7 +53,7 @@
         {
             Debug.Assert(other != null);
 
-            if (!(other is IReadOnlyRootNodeIndex AsRootNodeIndex))
+            if (!comparer.IsSameType(other, out ReadOnlyRootNodeIndex AsRootNodeIndex))
                 return comparer.Failed();
 
             if (Node != AsRootNodeIndex.Node)
