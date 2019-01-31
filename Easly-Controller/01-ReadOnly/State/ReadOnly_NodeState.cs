@@ -386,29 +386,32 @@
             Debug.Assert(!string.IsNullOrEmpty(propertyName));
             Debug.Assert(ValuePropertyTypeTable.ContainsKey(propertyName));
 
+            value = null;
+            minValue = -1;
+            maxValue = -1;
+            bool IsHandled = false;
+
             switch (ValuePropertyTypeTable[propertyName])
             {
                 case ValuePropertyType.Boolean:
                 case ValuePropertyType.Enum:
                     value = NodeTreeHelper.GetEnumValue(Node, propertyName);
                     NodeTreeHelper.GetEnumRange(Node.GetType(), propertyName, out minValue, out maxValue);
+                    IsHandled = true;
                     break;
 
                 case ValuePropertyType.String:
                     value = NodeTreeHelper.GetString(Node, propertyName);
-                    minValue = -1;
-                    maxValue = -1;
+                    IsHandled = true;
                     break;
 
                 case ValuePropertyType.Guid:
                     value = NodeTreeHelper.GetGuid(Node, propertyName);
-                    minValue = -1;
-                    maxValue = -1;
+                    IsHandled = true;
                     break;
-
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(propertyName));
             }
+
+            Debug.Assert(IsHandled);
         }
 
         /// <summary>
