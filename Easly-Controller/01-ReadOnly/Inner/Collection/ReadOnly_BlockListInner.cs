@@ -174,42 +174,26 @@
         /// <returns>The created node state.</returns>
         public override IReadOnlyNodeState InitChildState(IReadOnlyBrowsingChildIndex nodeIndex)
         {
-            Debug.Assert(nodeIndex is IReadOnlyBrowsingBlockNodeIndex);
-            return InitChildState((IReadOnlyBrowsingBlockNodeIndex)nodeIndex);
+            Debug.Assert(nodeIndex is IReadOnlyBrowsingExistingBlockNodeIndex);
+            return InitChildState((IReadOnlyBrowsingExistingBlockNodeIndex)nodeIndex);
         }
 
         /// <summary>
         /// Initializes a newly created state for a node in the inner.
         /// </summary>
-        /// <param name="nodeIndex">Index of the node.</param>
+        /// <param name="existingNodeIndex">Index of the node.</param>
         /// <returns>The created node state.</returns>
-        private protected virtual IReadOnlyPlaceholderNodeState InitChildState(IReadOnlyBrowsingBlockNodeIndex nodeIndex)
+        private protected virtual IReadOnlyPlaceholderNodeState InitChildState(IReadOnlyBrowsingExistingBlockNodeIndex existingNodeIndex)
         {
-            Debug.Assert(nodeIndex != null);
-            Debug.Assert(nodeIndex.PropertyName == PropertyName);
+            Debug.Assert(existingNodeIndex != null);
+            Debug.Assert(existingNodeIndex.PropertyName == PropertyName);
 
-            int BlockIndex;
-            int Index;
-
-            switch (nodeIndex)
-            {
-                case IReadOnlyBrowsingNewBlockNodeIndex AsNewBlockIndex:
-                    BlockIndex = AsNewBlockIndex.BlockIndex;
-                    Index = 0;
-                    break;
-
-                case IReadOnlyBrowsingExistingBlockNodeIndex AsExistingBlockIndex:
-                    BlockIndex = AsExistingBlockIndex.BlockIndex;
-                    Index = AsExistingBlockIndex.Index;
-                    break;
-
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(nodeIndex));
-            }
+            int BlockIndex = existingNodeIndex.BlockIndex;
+            int Index = existingNodeIndex.Index;
 
             Debug.Assert(BlockIndex < BlockStateList.Count);
 
-            IReadOnlyPlaceholderNodeState State = CreateNodeState(nodeIndex);
+            IReadOnlyPlaceholderNodeState State = CreateNodeState(existingNodeIndex);
             IReadOnlyBlockState CurrentBlock = BlockStateList[BlockIndex];
             CurrentBlock.InitNodeState(State);
 
