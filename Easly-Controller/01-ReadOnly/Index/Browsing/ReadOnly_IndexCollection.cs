@@ -18,6 +18,11 @@
         /// Collection of node indexes.
         /// </summary>
         IEnumerable NodeIndexList { get; }
+
+        /// <summary>
+        /// True is the collection is empty.
+        /// </summary>
+        bool IsEmpty { get; }
     }
 
     /// <summary>
@@ -36,6 +41,11 @@
         /// Collection of node indexes.
         /// </summary>
         IReadOnlyList<IIndex> NodeIndexList { get; }
+
+        /// <summary>
+        /// True is the collection is empty.
+        /// </summary>
+        bool IsEmpty { get; }
     }
 
     /// <summary>
@@ -72,6 +82,11 @@
         /// </summary>
         public IReadOnlyList<IIndex> NodeIndexList { get; }
         IEnumerable IReadOnlyIndexCollection.NodeIndexList { get { return NodeIndexList; } }
+
+        /// <summary>
+        /// True is the collection is empty.
+        /// </summary>
+        public bool IsEmpty { get { return NodeIndexList.Count == 0; } }
         #endregion
 
         #region Debugging

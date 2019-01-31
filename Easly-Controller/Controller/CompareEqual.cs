@@ -176,7 +176,7 @@
         /// <param name="object2">The second reference.</param>
         public bool IsSameReference(object object1, object object2)
         {
-            bool Result = (object1 == object2);
+            bool Result = object1 == object2;
 
             if (ComparisonCount == FailIndex)
                 return false;
@@ -203,7 +203,7 @@
         /// <param name="int2">The second value.</param>
         public bool IsSameInteger(int int1, int int2)
         {
-            bool Result = (int1 == int2);
+            bool Result = int1 == int2;
 
             if (ComparisonCount == FailIndex)
                 return false;
@@ -220,7 +220,7 @@
         /// <param name="string2">The second string.</param>
         public bool IsSameString(string string1, string string2)
         {
-            bool Result = (string1 == string2);
+            bool Result = string1 == string2;
 
             if (ComparisonCount == FailIndex)
                 return false;

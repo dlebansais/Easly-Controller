@@ -92,7 +92,7 @@
 
             if (!((IFocusCellViewTreeContext)context).IsVisible)
             {
-                Debug.Assert((EmbeddingCellView is IFocusContainerCellView AsContainer) && AsContainer.ChildStateView.RootCellView is IFocusEmptyCellView);
+                Debug.Assert(EmbeddingCellView is IFocusContainerCellView AsContainer && AsContainer.ChildStateView.RootCellView is IFocusEmptyCellView);
             }
 
             ((IFocusCellViewTreeContext)context).RemoveSelectors(Selectors);

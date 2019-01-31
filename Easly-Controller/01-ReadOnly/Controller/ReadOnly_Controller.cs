@@ -368,6 +368,7 @@
 
             // Browse the uninitialized state for children
             IReadOnlyBrowseContext BrowseContext = CreateBrowseContext(parentBrowseContext, state);
+            Debug.Assert(BrowseContext.ToString() != null); // For code coverage.
             BrowseStateChildren(BrowseContext, parentInner);
 
             // Build inners for each child
@@ -422,27 +423,33 @@
             Debug.Assert(parentState != null);
             Debug.Assert(nodeIndexCollection != null);
 
+            IReadOnlyInner<IReadOnlyBrowsingChildIndex> Result = null;
+
             switch (nodeIndexCollection)
             {
                 case IReadOnlyIndexCollection<IReadOnlyBrowsingPlaceholderNodeIndex> AsPlaceholderNodeIndexCollection:
-                    return CreatePlaceholderInner(parentState, AsPlaceholderNodeIndexCollection);
+                    Result = CreatePlaceholderInner(parentState, AsPlaceholderNodeIndexCollection);
+                    break;
 
                 case IReadOnlyIndexCollection<IReadOnlyBrowsingOptionalNodeIndex> AsOptionalNodeIndexCollection:
-                    return CreateOptionalInner(parentState, AsOptionalNodeIndexCollection);
+                    Result = CreateOptionalInner(parentState, AsOptionalNodeIndexCollection);
+                    break;
 
                 case IReadOnlyIndexCollection<IReadOnlyBrowsingListNodeIndex> AsListNodeIndexCollection:
                     Stats.ListCount++;
-                    return CreateListInner(parentState, AsListNodeIndexCollection);
+                    Result = CreateListInner(parentState, AsListNodeIndexCollection);
+                    break;
 
                 case IReadOnlyIndexCollection<IReadOnlyBrowsingBlockNodeIndex> AsBlockNodeIndexCollection:
                     Stats.BlockListCount++;
                     IReadOnlyBlockListInner<IReadOnlyBrowsingBlockNodeIndex> Inner = CreateBlockListInner(parentState, AsBlockNodeIndexCollection);
                     NotifyBlockListInnerCreated(Inner as IReadOnlyBlockListInner);
-                    return Inner;
-
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(nodeIndexCollection));
+                    Result = Inner;
+                    break;
             }
+
+            Debug.Assert(Result != null);
+            return Result;
         }
 
         /// <summary></summary>
@@ -492,7 +499,7 @@
                     IReadOnlyBrowsingChildIndex ChildIndex = NodeIndexList[i];
 
                     // If the inner is that of a block list, and the index is for the first node in the block, add block-specific states
-                    if ((Inner is IReadOnlyBlockListInner<IReadOnlyBrowsingBlockNodeIndex> AsBlockListInner) && (ChildIndex is IReadOnlyBrowsingNewBlockNodeIndex AsNewBlockIndex))
+                    if (Inner is IReadOnlyBlockListInner<IReadOnlyBrowsingBlockNodeIndex> AsBlockListInner && ChildIndex is IReadOnlyBrowsingNewBlockNodeIndex AsNewBlockIndex)
                     {
                         IReadOnlyBlockState BlockState = AsBlockListInner.InitNewBlock(AsNewBlockIndex);
                         BlockState.InitBlockState();

@@ -28,7 +28,14 @@
         /// <summary>
         /// Returns a default template set.
         /// </summary>
-        public static new IFocusTemplateSet Default { get { return (new FocusTemplateSet()).BuildDefault() as IFocusTemplateSet; } }
+        public static new IFocusTemplateSet Default
+        {
+            get
+            {
+                FocusTemplateSet Temporary = new FocusTemplateSet();
+                return Temporary.BuildDefault() as IFocusTemplateSet;
+            }
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FocusTemplateSet"/> class.

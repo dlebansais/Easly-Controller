@@ -95,6 +95,8 @@
             Debug.Assert(IsCollectionSeparate(collection, IndexCollectionList));
 
             _IndexCollectionList.Add(collection);
+
+            Debug.Assert(!IsCollectionSeparate(collection, IndexCollectionList) || collection.IsEmpty);
         }
 
         /// <summary>
@@ -121,20 +123,22 @@
         /// <param name="collectionList">The list of collections already accumulated.</param>
         public static bool IsCollectionSeparate(IReadOnlyIndexCollection collection, IReadOnlyIndexCollectionReadOnlyList collectionList)
         {
+            bool Result = true;
+
             foreach (IReadOnlyBrowsingChildIndex Index0 in collection.NodeIndexList)
             {
                 foreach (IReadOnlyIndexCollection Item in collectionList)
                 {
                     if (Item.PropertyName == collection.PropertyName)
-                        return true;
+                        Result = false;
 
                     foreach (IReadOnlyBrowsingChildIndex Index1 in Item.NodeIndexList)
                         if (Index0.Equals(Index1))
-                            return false;
+                            Result = false;
                 }
             }
 
-            return true;
+            return Result;
         }
 
         /// <summary>
@@ -142,7 +146,7 @@
         /// </summary>
         public override string ToString()
         {
-            return $"{State}, {IndexCollectionList.Count} collections, {ValuePropertyTypeTable.Count} values";
+            return $"{State.GetType().Name}, {IndexCollectionList.Count} collections, {ValuePropertyTypeTable.Count} values";
         }
         #endregion
 

@@ -80,21 +80,23 @@
             IFocusNodeTemplate Template = nodeTemplateTable[SelectorType] as IFocusNodeTemplate;
             Debug.Assert(Template != null);
 
-            if (!(Template.Root is IFocusSelectionFrame AsSelectionFrame))
+            if (Template.Root is IFocusSelectionFrame AsSelectionFrame)
+            {
+                IFocusSelectableFrame SelectedItem = null;
+                foreach (IFocusSelectableFrame Item in AsSelectionFrame.Items)
+                    if (Item.Name == SelectorName)
+                    {
+                        SelectedItem = Item;
+                        break;
+                    }
+
+                if (SelectedItem == null)
+                    return false;
+
+                return true;
+            }
+            else
                 return false;
-
-            IFocusSelectableFrame SelectedItem = null;
-            foreach (IFocusSelectableFrame Item in AsSelectionFrame.Items)
-                if (Item.Name == SelectorName)
-                {
-                    SelectedItem = Item;
-                    break;
-                }
-
-            if (SelectedItem == null)
-                return false;
-
-            return true;
         }
         #endregion
     }

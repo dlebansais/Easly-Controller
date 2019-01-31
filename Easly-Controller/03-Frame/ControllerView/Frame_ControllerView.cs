@@ -251,9 +251,9 @@
             IFrameInner<IFrameBrowsingChildIndex> ParentInner = InsertedState.ParentInner;
             Debug.Assert(ParentInner != null);
 
-            if ((ParentInner is IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> AsBlockListInner) && (nodeIndex is IFrameBrowsingExistingBlockNodeIndex AsBlockListIndex))
+            if (ParentInner is IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> AsBlockListInner && nodeIndex is IFrameBrowsingExistingBlockNodeIndex AsBlockListIndex)
                 OnBlockListStateInserted(AsBlockListInner, AsBlockListIndex, InsertedState);
-            else if ((ParentInner is IFrameListInner<IFrameBrowsingListNodeIndex> AsListInner) && (nodeIndex is IFrameBrowsingListNodeIndex AsListIndex))
+            else if (ParentInner is IFrameListInner<IFrameBrowsingListNodeIndex> AsListInner && nodeIndex is IFrameBrowsingListNodeIndex AsListIndex)
                 OnListStateInserted(AsListInner, AsListIndex, InsertedState);
             else
                 throw new ArgumentOutOfRangeException(nameof(operation));
@@ -392,13 +392,13 @@
             IFrameInner<IFrameBrowsingChildIndex> ParentInner = ReplacedState.ParentInner;
             Debug.Assert(ParentInner != null);
 
-            if ((Inner is IFramePlaceholderInner<IFrameBrowsingPlaceholderNodeIndex> AsPlaceholderInner) && (NewBrowsingIndex is IFrameBrowsingPlaceholderNodeIndex AsPlaceholderIndex))
+            if (Inner is IFramePlaceholderInner<IFrameBrowsingPlaceholderNodeIndex> AsPlaceholderInner && NewBrowsingIndex is IFrameBrowsingPlaceholderNodeIndex AsPlaceholderIndex)
                 OnPlaceholderStateReplaced(AsPlaceholderInner, AsPlaceholderIndex, ReplacedState);
-            else if ((Inner is IFrameOptionalInner<IFrameBrowsingOptionalNodeIndex> AsOptionalInner) && (NewBrowsingIndex is IFrameBrowsingOptionalNodeIndex AsOptionalIndex))
+            else if (Inner is IFrameOptionalInner<IFrameBrowsingOptionalNodeIndex> AsOptionalInner && NewBrowsingIndex is IFrameBrowsingOptionalNodeIndex AsOptionalIndex)
                 OnOptionalStateReplaced(AsOptionalInner, AsOptionalIndex, ReplacedState);
-            else if ((Inner is IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> AsBlockListInner) && (NewBrowsingIndex is IFrameBrowsingExistingBlockNodeIndex AsBlockListIndex))
+            else if (Inner is IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> AsBlockListInner && NewBrowsingIndex is IFrameBrowsingExistingBlockNodeIndex AsBlockListIndex)
                 OnBlockListStateReplaced(AsBlockListInner, AsBlockListIndex, ReplacedState);
-            else if ((Inner is IFrameListInner<IFrameBrowsingListNodeIndex> AsListInner) && (NewBrowsingIndex is IFrameBrowsingListNodeIndex AsListIndex))
+            else if (Inner is IFrameListInner<IFrameBrowsingListNodeIndex> AsListInner && NewBrowsingIndex is IFrameBrowsingListNodeIndex AsListIndex)
                 OnListStateReplaced(AsListInner, AsListIndex, ReplacedState);
             else
                 throw new ArgumentOutOfRangeException(nameof(operation));

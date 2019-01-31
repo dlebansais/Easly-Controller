@@ -64,7 +64,7 @@
         }
 
         /// <summary></summary>
-        private protected virtual bool IsRootValid { get { return (Root.ParentFrame == FrameFrame.FrameRoot); } }
+        private protected virtual bool IsRootValid { get { return Root.ParentFrame == FrameFrame.FrameRoot; } }
         #endregion
     }
 }

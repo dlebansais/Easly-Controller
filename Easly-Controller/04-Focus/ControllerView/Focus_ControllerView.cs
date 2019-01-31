@@ -650,18 +650,19 @@
                 else
                     throw new ArgumentOutOfRangeException(nameof(CollectionInner));
             }
-            else if ((FocusedCellView.Frame is IFocusTextValueFrame AsTextValueFrame) && CaretPosition == 0)
+            else if (FocusedCellView.Frame is IFocusTextValueFrame AsTextValueFrame)
             {
-                if (State.ParentInner is IFocusListInner<IFocusBrowsingListNodeIndex> AsListInner)
-                {
-                    Type InsertType = NodeTreeHelper.InterfaceTypeToNodeType(AsListInner.InterfaceType);
-                    INode NewItem = BuildNewInsertableItem(InsertType);
+                if (CaretPosition == 0)
+                    if (State.ParentInner is IFocusListInner<IFocusBrowsingListNodeIndex> AsListInner)
+                    {
+                        Type InsertType = NodeTreeHelper.InterfaceTypeToNodeType(AsListInner.InterfaceType);
+                        INode NewItem = BuildNewInsertableItem(InsertType);
 
-                    inner = AsListInner;
-                    index = CreateListNodeIndex(inner.Owner.Node, inner.PropertyName, NewItem, 0);
+                        inner = AsListInner;
+                        index = CreateListNodeIndex(inner.Owner.Node, inner.PropertyName, NewItem, 0);
 
-                    return true;
-                }
+                        return true;
+                    }
             }
 
             return false;

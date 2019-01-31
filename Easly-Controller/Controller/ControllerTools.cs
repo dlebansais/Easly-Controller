@@ -43,8 +43,9 @@
             {
                 string ThisName = thisType.FullName;
 
-                if ((ThisName.LastIndexOf('.') is int ThisNameIndex) && ThisNameIndex >= 0)
-                    ThisName = ThisName.Substring(0, ThisNameIndex);
+                if (ThisName.LastIndexOf('.') is int ThisNameIndex)
+                    if (ThisNameIndex >= 0)
+                        ThisName = ThisName.Substring(0, ThisNameIndex);
 
                 if (ExpectedName == null)
                     ExpectedName = ThisName;

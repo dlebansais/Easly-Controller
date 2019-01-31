@@ -56,7 +56,14 @@
         /// <summary>
         /// Returns a default template set.
         /// </summary>
-        public static IFrameTemplateSet Default { get { return (new FrameTemplateSet()).BuildDefault() as IFrameTemplateSet; } }
+        public static IFrameTemplateSet Default
+        {
+            get
+            {
+                FrameTemplateSet Temporary = new FrameTemplateSet();
+                return Temporary.BuildDefault() as IFrameTemplateSet;
+            }
+        }
         private static IFrameTemplateSet _Default;
 
         /// <summary>

@@ -644,7 +644,7 @@
             Debug.Assert(InnerTable.ContainsKey(inner.PropertyName));
             Debug.Assert(InnerTable[inner.PropertyName] == inner);
 
-            if ((inner is IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> AsBlockListInner) && (insertedIndex is IWriteableInsertionNewBlockNodeIndex AsNewBlockIndex))
+            if (inner is IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> AsBlockListInner && insertedIndex is IWriteableInsertionNewBlockNodeIndex AsNewBlockIndex)
                 InsertNewBlock(AsBlockListInner, AsNewBlockIndex, out nodeIndex);
             else
                 InsertNewNode(inner, insertedIndex, out nodeIndex);
