@@ -1370,6 +1370,7 @@
             Debug.Assert(State != null);
             Debug.Assert(State.ValuePropertyTypeTable.ContainsKey(PropertyName));
             Debug.Assert(State.ValuePropertyTypeTable[PropertyName] == Constants.ValuePropertyType.Boolean || State.ValuePropertyTypeTable[PropertyName] == Constants.ValuePropertyType.Enum);
+            Debug.Assert(State.ParentInner == GetInner(ParentNode, PropertyName));
 
             int OldValue = NodeTreeHelper.GetEnumValue(State.Node, PropertyName);
 
