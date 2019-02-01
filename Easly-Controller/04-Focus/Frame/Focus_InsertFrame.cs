@@ -176,21 +176,23 @@
                 if (i + 1 < Split.Length)
                 {
                     Debug.Assert(state.InnerTable.ContainsKey(PropertyName));
+                    bool IsHandled = false;
 
                     switch (state.InnerTable[PropertyName])
                     {
                         case IFocusPlaceholderInner<IFocusBrowsingPlaceholderNodeIndex> AsPlaceholderInner:
                             state = AsPlaceholderInner.ChildState;
+                            IsHandled = true;
                             break;
 
                         case IFocusOptionalInner<IFocusBrowsingOptionalNodeIndex> AsOptionalInner:
                             Debug.Assert(AsOptionalInner.IsAssigned);
                             state = AsOptionalInner.ChildState;
+                            IsHandled = true;
                             break;
-
-                        default:
-                            throw new ArgumentOutOfRangeException(nameof(PropertyName));
                     }
+
+                    Debug.Assert(IsHandled);
                 }
                 else
                 {

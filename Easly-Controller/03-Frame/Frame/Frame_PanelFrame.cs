@@ -110,18 +110,29 @@
             IFrameBlockState BlockState = BlockStateView.BlockState;
             IFrameCellViewList CellViewList = CreateCellViewList();
             IFrameCellViewCollection EmbeddingCellView = CreateEmbeddingCellView(context.StateView, CellViewList);
-            IFrameCellView ItemCellView;
+            IFrameCellView ItemCellView = null;
 
             foreach (IFrameFrame Item in Items)
             {
+                bool IsHandled = false;
+
                 if (Item is IFrameBlockFrame AsBlockFrame)
+                {
                     ItemCellView = AsBlockFrame.BuildBlockCells(context);
+                    IsHandled = true;
+                }
                 else if (Item is FramePlaceholderFrame AsPlaceholderFrame)
+                {
                     ItemCellView = BuildBlockCellsForPlaceholderFrame(context, AsPlaceholderFrame, EmbeddingCellView, BlockState);
+                    IsHandled = true;
+                }
                 else if (Item is IFrameNodeFrame AsNodeFrame)
+                {
                     ItemCellView = AsNodeFrame.BuildNodeCells(context, EmbeddingCellView);
-                else
-                    throw new ArgumentOutOfRangeException(nameof(Item));
+                    IsHandled = true;
+                }
+
+                Debug.Assert(IsHandled);
 
                 CellViewList.Add(ItemCellView);
             }
@@ -132,14 +143,21 @@
         /// <summary></summary>
         private protected virtual IFrameCellView BuildBlockCellsForPlaceholderFrame(IFrameCellViewTreeContext context, IFramePlaceholderFrame frame, IFrameCellViewCollection embeddingCellView, IFrameBlockState blockState)
         {
-            IFrameCellView ItemCellView;
+            IFrameCellView ItemCellView = null;
+            bool IsHandled = false;
 
             if (frame.PropertyName == nameof(IBlock.ReplicationPattern))
+            {
                 ItemCellView = BuildPlaceholderCells(context, embeddingCellView, blockState.PatternState);
+                IsHandled = true;
+            }
             else if (frame.PropertyName == nameof(IBlock.SourceIdentifier))
+            {
                 ItemCellView = BuildPlaceholderCells(context, embeddingCellView, blockState.SourceState);
-            else
-                throw new ArgumentOutOfRangeException(nameof(frame));
+                IsHandled = true;
+            }
+
+            Debug.Assert(IsHandled);
 
             return ItemCellView;
         }

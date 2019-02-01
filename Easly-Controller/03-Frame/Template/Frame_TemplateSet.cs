@@ -278,29 +278,36 @@
             Type ChildNodeType;
             IList<string> Properties = NodeTreeHelper.EnumChildNodeProperties(nodeType);
             foreach (string PropertyName in Properties)
+            {
+                bool IsHandled = false;
+
                 if (NodeTreeHelperChild.IsChildNodeProperty(nodeType, PropertyName, out ChildNodeType))
                 {
                     IFramePlaceholderFrame NewFrame = CreatePlaceholderFrame();
                     NewFrame.PropertyName = PropertyName;
                     RootFrame.Items.Add(NewFrame);
+                    IsHandled = true;
                 }
                 else if (NodeTreeHelperOptional.IsOptionalChildNodeProperty(nodeType, PropertyName, out ChildNodeType))
                 {
                     IFrameOptionalFrame NewFrame = CreateOptionalFrame();
                     NewFrame.PropertyName = PropertyName;
                     RootFrame.Items.Add(NewFrame);
+                    IsHandled = true;
                 }
                 else if (NodeTreeHelperList.IsNodeListProperty(nodeType, PropertyName, out Type ListNodeType))
                 {
                     IFrameHorizontalListFrame NewFrame = CreateHorizontalListFrame();
                     NewFrame.PropertyName = PropertyName;
                     RootFrame.Items.Add(NewFrame);
+                    IsHandled = true;
                 }
                 else if (NodeTreeHelperBlockList.IsBlockListProperty(nodeType, PropertyName, out Type ChildInterfaceType, out Type ChildItemType))
                 {
                     IFrameHorizontalBlockListFrame NewFrame = CreateHorizontalBlockListFrame();
                     NewFrame.PropertyName = PropertyName;
                     RootFrame.Items.Add(NewFrame);
+                    IsHandled = true;
                 }
                 else if (NodeTreeHelper.IsBooleanProperty(nodeType, PropertyName))
                 {
@@ -316,6 +323,7 @@
                     NewDiscreteFrame.Items.Add(KeywordTrueFrame);
 
                     RootFrame.Items.Add(NewDiscreteFrame);
+                    IsHandled = true;
                 }
                 else if (NodeTreeHelper.IsEnumProperty(nodeType, PropertyName))
                 {
@@ -332,19 +340,26 @@
                     }
 
                     RootFrame.Items.Add(NewDiscreteFrame);
+                    IsHandled = true;
                 }
                 else if (NodeTreeHelper.IsStringProperty(nodeType, PropertyName))
                 {
                     IFrameTextValueFrame NewDiscreteFrame = CreateTextValueFrame();
                     NewDiscreteFrame.PropertyName = PropertyName;
                     RootFrame.Items.Add(NewDiscreteFrame);
+                    IsHandled = true;
                 }
                 else if (NodeTreeHelper.IsGuidProperty(nodeType, PropertyName))
-                { }
+                {
+                    IsHandled = true;
+                }
                 else if (NodeTreeHelper.IsDocumentProperty(nodeType, PropertyName))
-                { }
-                else
-                    throw new ArgumentOutOfRangeException(nameof(PropertyName));
+                {
+                    IsHandled = true;
+                }
+
+                Debug.Assert(IsHandled);
+            }
 
             RootFrame.UpdateParent(RootTemplate, GetRoot());
         }

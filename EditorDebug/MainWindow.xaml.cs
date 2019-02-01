@@ -373,33 +373,45 @@ namespace EditorDebug
                 IFrameVisibleCellView OldCellView = Assigned[Row, Column];
                 Debug.Assert(OldCellView == null);
 
+                bool IsHandled = false;
+
                 switch (CellView)
                 {
                     case IFrameDiscreteContentFocusableCellView AsDiscreteContentFocusable: // Enum, bool
                         PropertyName = AsDiscreteContentFocusable.PropertyName;
                         if (NodeTreeHelper.IsEnumProperty(ChildNode, PropertyName))
+                        {
                             Child.Text = $"{PropertyName}: {NodeTreeHelper.GetEnumValue(ChildNode, PropertyName)}";
+                            IsHandled = true;
+                        }
                         else if (NodeTreeHelper.IsBooleanProperty(ChildNode, PropertyName))
+                        {
                             if (NodeTreeHelper.GetEnumValue(ChildNode, PropertyName) != 0)
                                 Child.Text = $"{PropertyName}: True";
                             else
                                 Child.Text = $"{PropertyName}: False";
-                        else
-                            throw new ArgumentOutOfRangeException(nameof(CellView));
+                            IsHandled = true;
+                        }
                         break;
+
                     case IFrameTextFocusableCellView AsTextFocusable: // String
                         Child.Text = NodeTreeHelper.GetString(ChildNode, AsTextFocusable.PropertyName);
+                        IsHandled = true;
                         break;
+
                     case IFrameFocusableCellView AsFocusable: // Insert
                         Child.Foreground = Brushes.Blue;
                         Child.FontWeight = FontWeights.Bold;
                         Child.Text = "◄";
+                        IsHandled = true;
                         break;
+
                     case IFrameVisibleCellView AsVisible: // Others
                         if (Frame is IFrameKeywordFrame AsKeywordFrame)
                         {
                             Child.FontWeight = FontWeights.Bold;
                             Child.Text = AsKeywordFrame.Text;
+                            IsHandled = true;
                         }
                         else if (Frame is IFrameSymbolFrame AsSymbolFrame)
                         {
@@ -410,34 +422,42 @@ namespace EditorDebug
                             {
                                 case Symbols.LeftArrow:
                                     Child.Text = "←";
+                                    IsHandled = true;
                                     break;
                                 case Symbols.Dot:
                                     Child.Text = ".";
+                                    IsHandled = true;
                                     break;
                                 case Symbols.LeftBracket:
                                     Child.Text = "[";
+                                    IsHandled = true;
                                     break;
                                 case Symbols.RightBracket:
                                     Child.Text = "]";
+                                    IsHandled = true;
                                     break;
                                 case Symbols.LeftCurlyBracket:
                                     Child.Text = "{";
+                                    IsHandled = true;
                                     break;
                                 case Symbols.RightCurlyBracket:
                                     Child.Text = "}";
+                                    IsHandled = true;
                                     break;
                                 case Symbols.LeftParenthesis:
                                     Child.Text = "(";
+                                    IsHandled = true;
                                     break;
                                 case Symbols.RightParenthesis:
                                     Child.Text = ")";
+                                    IsHandled = true;
                                     break;
                             }
                         }
-                        else
-                            throw new ArgumentOutOfRangeException(nameof(CellView));
                         break;
                 }
+
+                Debug.Assert(IsHandled);
 
                 Child.Margin = new Thickness(0, 0, 5, 0);
                 Grid.SetRow(Child, Row);
@@ -488,25 +508,34 @@ namespace EditorDebug
                 IFocusVisibleCellView OldCellView = Assigned[Row, Column];
                 Debug.Assert(OldCellView == null);
 
+                bool IsHandled = false;
+
                 switch (CellView)
                 {
                     case IFocusDiscreteContentFocusableCellView AsDiscreteContentFocusable: // Enum, bool
                         Child.Foreground = Brushes.Purple;
                         Child.Text = AsDiscreteContentFocusable.KeywordFrame.Text;
+                        IsHandled = true;
                         break;
+
                     case IFocusTextFocusableCellView AsTextFocusable: // String
                         Child.Text = NodeTreeHelper.GetString(ChildNode, AsTextFocusable.PropertyName);
+                        IsHandled = true;
                         break;
+
                     case IFocusFocusableCellView AsFocusable: // Insert
                         Child.Foreground = Brushes.Blue;
                         Child.FontWeight = FontWeights.Bold;
                         Child.Text = "◄";
+                        IsHandled = true;
                         break;
+
                     case IFocusVisibleCellView AsVisible: // Others
                         if (Frame is IFocusKeywordFrame AsKeywordFocus)
                         {
                             Child.FontWeight = FontWeights.Bold;
                             Child.Text = AsKeywordFocus.Text;
+                            IsHandled = true;
                         }
                         else if (Frame is IFocusSymbolFrame AsSymbolFocus)
                         {
@@ -517,34 +546,42 @@ namespace EditorDebug
                             {
                                 case Symbols.LeftArrow:
                                     Child.Text = "←";
+                                    IsHandled = true;
                                     break;
                                 case Symbols.Dot:
                                     Child.Text = ".";
+                                    IsHandled = true;
                                     break;
                                 case Symbols.LeftBracket:
                                     Child.Text = "[";
+                                    IsHandled = true;
                                     break;
                                 case Symbols.RightBracket:
                                     Child.Text = "]";
+                                    IsHandled = true;
                                     break;
                                 case Symbols.LeftCurlyBracket:
                                     Child.Text = "{";
+                                    IsHandled = true;
                                     break;
                                 case Symbols.RightCurlyBracket:
                                     Child.Text = "}";
+                                    IsHandled = true;
                                     break;
                                 case Symbols.LeftParenthesis:
                                     Child.Text = "(";
+                                    IsHandled = true;
                                     break;
                                 case Symbols.RightParenthesis:
                                     Child.Text = ")";
+                                    IsHandled = true;
                                     break;
                             }
                         }
-                        else
-                            throw new ArgumentOutOfRangeException(nameof(CellView));
                         break;
                 }
+
+                Debug.Assert(IsHandled);
 
                 Child.Margin = new Thickness(0, 0, 5, 0);
                 Child.DataContext = CellView;

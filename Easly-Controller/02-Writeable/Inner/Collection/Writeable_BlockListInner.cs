@@ -585,26 +585,26 @@
         /// <param name="direction">Direction of the move, relative to the current position of the item.</param>
         public virtual bool IsMoveable(IWriteableBrowsingCollectionNodeIndex nodeIndex, int direction)
         {
+            bool IsHandled = false;
+            bool Result = false;
+
             if (nodeIndex is IWriteableBrowsingExistingBlockNodeIndex AsExistingBlockNodeIndex)
-                return IsMoveable(AsExistingBlockNodeIndex, direction);
-            else
-                throw new ArgumentOutOfRangeException(nameof(nodeIndex));
-        }
+            {
+                Debug.Assert(AsExistingBlockNodeIndex != null);
 
-        /// <summary></summary>
-        private protected virtual bool IsMoveable(IWriteableBrowsingExistingBlockNodeIndex existingBlockIndex, int direction)
-        {
-            Debug.Assert(existingBlockIndex != null);
+                int BlockIndex = AsExistingBlockNodeIndex.BlockIndex;
+                Debug.Assert(BlockIndex >= 0 && BlockIndex < BlockStateList.Count);
 
-            int BlockIndex = existingBlockIndex.BlockIndex;
-            Debug.Assert(BlockIndex >= 0 && BlockIndex < BlockStateList.Count);
+                IWriteableBlockState BlockState = BlockStateList[BlockIndex];
+                IWriteablePlaceholderNodeStateReadOnlyList StateList = BlockState.StateList;
 
-            IWriteableBlockState BlockState = BlockStateList[BlockIndex];
-            IWriteablePlaceholderNodeStateReadOnlyList StateList = BlockState.StateList;
+                int NewPosition = AsExistingBlockNodeIndex.Index + direction;
+                Result = NewPosition >= 0 && NewPosition < StateList.Count;
 
-            int NewPosition = existingBlockIndex.Index + direction;
-            bool Result = NewPosition >= 0 && NewPosition < StateList.Count;
+                IsHandled = true;
+            }
 
+            Debug.Assert(IsHandled);
             return Result;
         }
 

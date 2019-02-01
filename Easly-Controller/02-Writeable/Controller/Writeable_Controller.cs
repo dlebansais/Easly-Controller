@@ -677,27 +677,29 @@
         /// <summary></summary>
         private protected virtual void InsertNewNode(IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> inner, IWriteableInsertionCollectionNodeIndex insertedIndex, out IWriteableBrowsingCollectionNodeIndex nodeIndex)
         {
-            int BlockIndex;
-            int Index;
-            INode Node;
+            int BlockIndex = -1;
+            int Index = -1;
+            INode Node = null;
+
+            bool IsHandled = false;
 
             switch (insertedIndex)
             {
                 case IWriteableInsertionListNodeIndex AsListNodeIndex:
-                    BlockIndex = -1;
                     Index = AsListNodeIndex.Index;
                     Node = AsListNodeIndex.Node;
+                    IsHandled = true;
                     break;
 
                 case IWriteableInsertionExistingBlockNodeIndex AsExistingBlockNodeIndex:
                     BlockIndex = AsExistingBlockNodeIndex.BlockIndex;
                     Index = AsExistingBlockNodeIndex.Index;
                     Node = AsExistingBlockNodeIndex.Node;
+                    IsHandled = true;
                     break;
-
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(insertedIndex));
             }
+
+            Debug.Assert(IsHandled);
 
             Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => RedoInsertNewNode(operation);
             Action<IWriteableOperation> HandlerUndo = (IWriteableOperation operation) => UndoInsertNewNode(operation);
@@ -796,29 +798,30 @@
             Debug.Assert(InnerTable.ContainsKey(inner.PropertyName));
             Debug.Assert(InnerTable[inner.PropertyName] == inner);
 
-            int BlockIndex;
-            int Index;
-            INode Node;
+            int BlockIndex = -1;
+            int Index = -1;
+            INode Node = null;
+            bool IsHandled = false;
 
             switch (nodeIndex)
             {
                 case IWriteableBrowsingListNodeIndex AsListNodeIndex:
-                    BlockIndex = -1;
                     Index = AsListNodeIndex.Index;
                     Node = AsListNodeIndex.Node;
+                    IsHandled = true;
                     break;
 
                 case IWriteableBrowsingExistingBlockNodeIndex AsExistingBlockNodeIndex:
                     BlockIndex = AsExistingBlockNodeIndex.BlockIndex;
                     Index = AsExistingBlockNodeIndex.Index;
                     Node = AsExistingBlockNodeIndex.Node;
+                    IsHandled = true;
                     break;
-
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(nodeIndex));
             }
 
-            bool IsHandled = false;
+            Debug.Assert(IsHandled);
+
+            IsHandled = false;
 
             if (inner is IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> AsBlockListInner && nodeIndex is IWriteableBrowsingExistingBlockNodeIndex ExistingBlockIndex)
             {
@@ -965,45 +968,42 @@
             Debug.Assert(InnerTable.ContainsKey(inner.PropertyName));
             Debug.Assert(InnerTable[inner.PropertyName] == inner);
 
-            int BlockIndex;
-            int Index;
-            INode NewNode;
+            int BlockIndex = -1;
+            int Index = -1;
+            INode NewNode = null;
+            bool IsHandled = false;
 
             switch (replacementIndex)
             {
                 case IWriteableInsertionPlaceholderNodeIndex AsPlaceholderNodeIndex:
-                    BlockIndex = -1;
-                    Index = -1;
                     NewNode = AsPlaceholderNodeIndex.Node;
+                    IsHandled = true;
                     break;
 
                 case IWriteableInsertionOptionalNodeIndex AsOptionalNodeIndex:
-                    BlockIndex = -1;
-                    Index = -1;
                     NewNode = AsOptionalNodeIndex.Node;
+                    IsHandled = true;
                     break;
 
                 case IWriteableInsertionOptionalClearIndex AsOptionalClearIndex:
-                    BlockIndex = -1;
-                    Index = -1;
-                    NewNode = null;
+                    IsHandled = true;
                     break;
 
                 case IWriteableInsertionListNodeIndex AsListNodeIndex:
-                    BlockIndex = -1;
                     Index = AsListNodeIndex.Index;
                     NewNode = AsListNodeIndex.Node;
+                    IsHandled = true;
                     break;
 
                 case IWriteableInsertionExistingBlockNodeIndex AsExistingBlockNodeIndex:
                     BlockIndex = AsExistingBlockNodeIndex.BlockIndex;
                     Index = AsExistingBlockNodeIndex.Index;
                     NewNode = AsExistingBlockNodeIndex.Node;
+                    IsHandled = true;
                     break;
-
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(nodeIndex));
             }
+
+            Debug.Assert(IsHandled);
 
             Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => RedoReplace(operation);
             Action<IWriteableOperation> HandlerUndo = (IWriteableOperation operation) => UndoReplace(operation);
@@ -1530,24 +1530,25 @@
             IWriteableNodeState State = StateTable[nodeIndex];
             Debug.Assert(State != null);
 
-            int BlockIndex;
-            int Index;
+            int BlockIndex = -1;
+            int Index = -1;
+            bool IsHandled = false;
 
             switch (nodeIndex)
             {
                 case IWriteableBrowsingListNodeIndex AsListNodeIndex:
-                    BlockIndex = -1;
                     Index = AsListNodeIndex.Index;
+                    IsHandled = true;
                     break;
 
                 case IWriteableBrowsingExistingBlockNodeIndex AsExistingBlockNodeIndex:
                     BlockIndex = AsExistingBlockNodeIndex.BlockIndex;
                     Index = AsExistingBlockNodeIndex.Index;
+                    IsHandled = true;
                     break;
-
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(nodeIndex));
             }
+
+            Debug.Assert(IsHandled);
 
             Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => RedoMove(operation);
             Action<IWriteableOperation> HandlerUndo = (IWriteableOperation operation) => UndoMove(operation);

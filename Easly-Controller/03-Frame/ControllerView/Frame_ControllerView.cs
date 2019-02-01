@@ -331,13 +331,20 @@
             Debug.Assert(Inner != null);
 
             IFrameNodeState OwnerState = Inner.Owner;
+            bool IsHandled = false;
 
             if (Inner is IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> AsBlockListInner)
+            {
                 OnBlockListStateRemoved(AsBlockListInner, RemoveNodeOperation.BlockIndex, RemoveNodeOperation.Index, RemovedState);
+                IsHandled = true;
+            }
             else if (Inner is IFrameListInner<IFrameBrowsingListNodeIndex> AsListInner)
+            {
                 OnListStateRemoved(AsListInner, RemoveNodeOperation.Index, RemovedState);
-            else
-                throw new ArgumentOutOfRangeException(nameof(operation));
+                IsHandled = true;
+            }
+
+            Debug.Assert(IsHandled);
 
             Refresh(OwnerState);
         }
@@ -622,12 +629,20 @@
             Debug.Assert(MovedState != null);
             IFrameNodeState OwnerState = Inner.Owner;
 
+            bool IsHandled = false;
+
             if (Inner is IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> AsBlockListInner)
+            {
                 OnBlockListStateMoved(AsBlockListInner, BlockIndex, MoveIndex, Direction);
+                IsHandled = true;
+            }
             else if (Inner is IFrameListInner<IFrameBrowsingListNodeIndex> AsListInner)
+            {
                 OnListStateMoved(AsListInner, MoveIndex, Direction);
-            else
-                throw new ArgumentOutOfRangeException(nameof(operation));
+                IsHandled = true;
+            }
+
+            Debug.Assert(IsHandled);
 
             Refresh(OwnerState);
         }

@@ -393,17 +393,25 @@
             IFocusNodeState State = stateView.State;
             Debug.Assert(State.InnerTable.ContainsKey(propertyName));
 
+            bool IsHandled = false;
+            bool Result = false;
+
             switch (State.InnerTable[propertyName])
             {
                 case IFocusListInner AsListInner:
-                    return AsListInner.Count > 0;
+                    Result = AsListInner.Count > 0;
+                    IsHandled = true;
+                    break;
 
                 case IFocusBlockListInner AsBlockListInner:
-                    return AsBlockListInner.Count > 0;
-
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(propertyName));
+                    Result = AsBlockListInner.Count > 0;
+                    IsHandled = true;
+                    break;
             }
+
+            Debug.Assert(IsHandled);
+
+            return Result;
         }
 
         /// <summary>
@@ -433,15 +441,21 @@
             IFocusNodeState State = stateView.State;
             Debug.Assert(State.ValuePropertyTypeTable.ContainsKey(propertyName));
 
+            bool IsHandled = false;
+            bool Result = false;
+
             switch (State.ValuePropertyTypeTable[propertyName])
             {
                 case ValuePropertyType.Boolean:
                 case ValuePropertyType.Enum:
-                    return NodeTreeHelper.GetEnumValue(State.Node, propertyName) == defaultValue;
-
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(propertyName));
+                    Result = NodeTreeHelper.GetEnumValue(State.Node, propertyName) == defaultValue;
+                    IsHandled = true;
+                    break;
             }
+
+            Debug.Assert(IsHandled);
+
+            return Result;
         }
 
         /// <summary>
@@ -456,6 +470,8 @@
 
             IFocusPlaceholderNodeStateReadOnlyList StateList;
             int Index;
+            bool IsHandled = false;
+            bool Result = false;
 
             switch (State.ParentInner)
             {
@@ -463,7 +479,9 @@
                     StateList = AsListInner.StateList;
                     Index = StateList.IndexOf(State);
                     Debug.Assert(Index >= 0 && Index < StateList.Count);
-                    return Index == 0;
+                    Result = Index == 0;
+                    IsHandled = true;
+                    break;
 
                 case IFocusBlockListInner AsBlockListInner:
                     for (int BlockIndex = 0; BlockIndex < AsBlockListInner.BlockStateList.Count; BlockIndex++)
@@ -473,14 +491,15 @@
                         if (Index >= 0)
                         {
                             Debug.Assert(Index < StateList.Count);
-                            return BlockIndex == 0 && Index == 0;
+                            Result = BlockIndex == 0 && Index == 0;
+                            IsHandled = true;
                         }
                     }
-                    throw new ArgumentOutOfRangeException(nameof(stateView));
-
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(stateView));
+                    break;
             }
+
+            Debug.Assert(IsHandled);
+            return Result;
         }
 
         /// <summary>
@@ -506,17 +525,22 @@
             IFocusNodeState State = stateView.State;
             Debug.Assert(State.InnerTable.ContainsKey(propertyName));
 
+            bool IsHandled = false;
+            bool Result = false;
+
             switch (State.InnerTable[propertyName])
             {
                 case IFocusPlaceholderInner AsPlaceholderInner:
                     Debug.Assert(AsPlaceholderInner.InterfaceType == typeof(IIdentifier));
                     IFocusPlaceholderNodeState ChildState = AsPlaceholderInner.ChildState as IFocusPlaceholderNodeState;
                     Debug.Assert(ChildState != null);
-                    return NodeTreeHelper.GetString(ChildState.Node, nameof(IIdentifier.Text)) == textPattern;
-
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(propertyName));
+                    Result = NodeTreeHelper.GetString(ChildState.Node, nameof(IIdentifier.Text)) == textPattern;
+                    IsHandled = true;
+                    break;
             }
+
+            Debug.Assert(IsHandled);
+            return Result;
         }
 
         /// <summary>
@@ -616,6 +640,8 @@
             Debug.Assert(FocusedCellView != null);
 
             IFocusNodeState State = FocusedCellView.StateView.State;
+            bool IsHandled = false;
+            bool Result = false;
 
             if (FocusedCellView.Frame is IFocusInsertFrame AsInsertFrame)
             {
@@ -638,17 +664,19 @@
                     else
                         index = CreateExistingBlockNodeIndex(State.Node, CollectionInner.PropertyName, NewItem, 0, 0);
 
-                    return true;
+                    Result = true;
+                    IsHandled = true;
                 }
                 else if (CollectionInner is IFocusListInner AsListInner)
                 {
                     inner = AsListInner;
                     index = CreateListNodeIndex(State.Node, AsListInner.PropertyName, NewItem, 0);
 
-                    return true;
+                    Result = true;
+                    IsHandled = true;
                 }
-                else
-                    throw new ArgumentOutOfRangeException(nameof(CollectionInner));
+
+                Debug.Assert(IsHandled);
             }
             else if (FocusedCellView.Frame is IFocusTextValueFrame AsTextValueFrame)
             {
@@ -661,11 +689,11 @@
                         inner = AsListInner;
                         index = CreateListNodeIndex(inner.Owner.Node, inner.PropertyName, NewItem, 0);
 
-                        return true;
+                        Result = true;
                     }
             }
 
-            return false;
+            return Result;
         }
 
         /// <summary></summary>

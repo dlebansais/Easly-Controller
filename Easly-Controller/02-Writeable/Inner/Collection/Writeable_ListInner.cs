@@ -171,20 +171,18 @@
         /// <param name="direction">Direction of the move, relative to the current position of the item.</param>
         public virtual bool IsMoveable(IWriteableBrowsingCollectionNodeIndex nodeIndex, int direction)
         {
+            bool IsHandled = false;
+            bool Result = false;
+
             if (nodeIndex is IWriteableBrowsingListNodeIndex AsListIndex)
-                return IsMoveable(AsListIndex, direction);
-            else
-                throw new ArgumentOutOfRangeException(nameof(nodeIndex));
-        }
+            {
+                int NewPosition = AsListIndex.Index + direction;
+                Result = NewPosition >= 0 && NewPosition < StateList.Count;
 
-        /// <summary></summary>
-        private protected virtual bool IsMoveable(IWriteableBrowsingListNodeIndex listIndex, int direction)
-        {
-            Debug.Assert(listIndex != null);
+                IsHandled = true;
+            }
 
-            int NewPosition = listIndex.Index + direction;
-            bool Result = NewPosition >= 0 && NewPosition < StateList.Count;
-
+            Debug.Assert(IsHandled);
             return Result;
         }
 
