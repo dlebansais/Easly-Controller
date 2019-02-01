@@ -769,16 +769,18 @@
             string PropertyName = inner.PropertyName;
             Debug.Assert(Node != null);
 
+            bool Result = true;
+
             Type InterfaceType = NodeTreeHelper.NodeTypeToInterfaceType(inner.Owner.Node.GetType());
             IReadOnlyDictionary<Type, string[]> NeverEmptyCollectionTable = NodeHelper.NeverEmptyCollectionTable;
             if (NeverEmptyCollectionTable.ContainsKey(InterfaceType))
             {
                 foreach (string Item in NeverEmptyCollectionTable[InterfaceType])
                     if (Item == PropertyName)
-                        return false;
+                        Result = false;
             }
 
-            return true;
+            return Result;
         }
 
         /// <summary>
