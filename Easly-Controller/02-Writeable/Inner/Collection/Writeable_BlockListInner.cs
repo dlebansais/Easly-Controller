@@ -30,7 +30,7 @@
         /// Inserts a new block with one node in a block list.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        void InsertNew(IWriteableInsertBlockOperation operation);
+        void InsertNewBlock(IWriteableInsertBlockOperation operation);
 
         /// <summary>
         /// Removes a node from a block list. This method is allowed to remove the last node of a block.
@@ -101,7 +101,7 @@
         /// Inserts a new block with one node in a block list.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        void InsertNew(IWriteableInsertBlockOperation operation);
+        void InsertNewBlock(IWriteableInsertBlockOperation operation);
 
         /// <summary>
         /// Removes a node from a block list. This method is allowed to remove the last node of a block.
@@ -249,7 +249,7 @@
         /// Inserts a new block with one node in a block list.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        public virtual void InsertNew(IWriteableInsertBlockOperation operation)
+        public virtual void InsertNewBlock(IWriteableInsertBlockOperation operation)
         {
             Debug.Assert(operation != null);
 

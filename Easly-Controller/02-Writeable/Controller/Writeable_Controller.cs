@@ -666,7 +666,7 @@
         {
             IBlock NewBlock = NodeTreeHelperBlockList.CreateBlock(blockListInner.Owner.Node, blockListInner.PropertyName, ReplicationStatus.Normal, newBlockIndex.PatternNode, newBlockIndex.SourceNode);
 
-            Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => ExecuteInsertNewBlock(operation);
+            Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => RedoInsertNewBlock(operation);
             Action<IWriteableOperation> HandlerUndo = (IWriteableOperation operation) => UndoInsertNewBlock(operation);
             IWriteableInsertBlockOperation Operation = CreateInsertBlockOperation(blockListInner.Owner.Node, blockListInner.PropertyName, newBlockIndex.BlockIndex, NewBlock, newBlockIndex.Node, HandlerRedo, HandlerUndo, isNested: false);
 
@@ -678,19 +678,24 @@
         }
 
         /// <summary></summary>
-        private protected virtual void ExecuteInsertNewBlock(IWriteableOperation operation)
+        private protected virtual void RedoInsertNewBlock(IWriteableOperation operation)
         {
             IWriteableInsertBlockOperation InsertBlockOperation = (IWriteableInsertBlockOperation)operation;
+            ExecuteInsertNewBlock(InsertBlockOperation);
+        }
 
-            INode ParentNode = InsertBlockOperation.ParentNode;
-            string PropertyName = InsertBlockOperation.PropertyName;
+        /// <summary></summary>
+        private protected virtual void ExecuteInsertNewBlock(IWriteableInsertBlockOperation operation)
+        {
+            INode ParentNode = operation.ParentNode;
+            string PropertyName = operation.PropertyName;
             IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> Inner = GetInner(ParentNode, PropertyName) as IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex>;
 
-            Inner.InsertNew(InsertBlockOperation);
+            Inner.InsertNewBlock(operation);
 
-            IWriteableBrowsingExistingBlockNodeIndex BrowsingIndex = InsertBlockOperation.BrowsingIndex;
-            IWriteableBlockState BlockState = InsertBlockOperation.BlockState;
-            IWriteablePlaceholderNodeState ChildState = InsertBlockOperation.ChildState;
+            IWriteableBrowsingExistingBlockNodeIndex BrowsingIndex = operation.BrowsingIndex;
+            IWriteableBlockState BlockState = operation.BlockState;
+            IWriteablePlaceholderNodeState ChildState = operation.ChildState;
 
             Debug.Assert(BlockState.StateList.Count == 1);
             Debug.Assert(BlockState.StateList[0] == ChildState);
@@ -713,7 +718,7 @@
 
             Debug.Assert(Contains(BrowsingIndex));
 
-            NotifyBlockStateInserted(InsertBlockOperation);
+            NotifyBlockStateInserted(operation);
         }
 
         /// <summary></summary>
@@ -722,38 +727,7 @@
             IWriteableInsertBlockOperation InsertBlockOperation = (IWriteableInsertBlockOperation)operation;
             IWriteableRemoveBlockOperation RemoveBlockOperation = InsertBlockOperation.ToRemoveBlockOperation();
 
-            INode ParentNode = RemoveBlockOperation.ParentNode;
-            string PropertyName = RemoveBlockOperation.PropertyName;
-            IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> Inner = GetInner(ParentNode, PropertyName) as IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex>;
-
-            Inner.RemoveWithBlock(RemoveBlockOperation);
-
-            IWriteableBlockState RemovedBlockState = RemoveBlockOperation.BlockState;
-            Debug.Assert(RemovedBlockState != null);
-
-            IWriteableBrowsingPatternIndex PatternIndex = RemovedBlockState.PatternIndex;
-            IWriteableBrowsingSourceIndex SourceIndex = RemovedBlockState.SourceIndex;
-
-            Debug.Assert(PatternIndex != null);
-            Debug.Assert(StateTable.ContainsKey(PatternIndex));
-            Debug.Assert(SourceIndex != null);
-            Debug.Assert(StateTable.ContainsKey(SourceIndex));
-
-            Stats.BlockCount--;
-
-            RemoveState(PatternIndex);
-            Stats.PlaceholderNodeCount--;
-
-            RemoveState(SourceIndex);
-            Stats.PlaceholderNodeCount--;
-
-            IWriteableNodeState RemovedState = RemoveBlockOperation.RemovedState;
-            Debug.Assert(RemovedState != null);
-
-            PruneState(RemovedState);
-            Stats.PlaceholderNodeCount--;
-
-            NotifyBlockStateRemoved(RemoveBlockOperation);
+            ExecuteRemoveBlock(RemoveBlockOperation);
         }
 
         /// <summary></summary>
@@ -781,7 +755,7 @@
                     throw new ArgumentOutOfRangeException(nameof(insertedIndex));
             }
 
-            Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => ExecuteInsertNewNode(operation);
+            Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => RedoInsertNewNode(operation);
             Action<IWriteableOperation> HandlerUndo = (IWriteableOperation operation) => UndoInsertNewNode(operation);
             IWriteableInsertNodeOperation Operation = CreateInsertNodeOperation(inner.Owner.Node, inner.PropertyName, BlockIndex, Index, Node, HandlerRedo, HandlerUndo, isNested: false);
 
@@ -793,19 +767,23 @@
         }
 
         /// <summary></summary>
-        private protected virtual void ExecuteInsertNewNode(IWriteableOperation operation)
+        private protected virtual void RedoInsertNewNode(IWriteableOperation operation)
         {
             IWriteableInsertNodeOperation InsertNodeOperation = (IWriteableInsertNodeOperation)operation;
+            ExecuteInsertNewNode(InsertNodeOperation);
+        }
 
-            INode ParentNode = InsertNodeOperation.ParentNode;
-            string PropertyName = InsertNodeOperation.PropertyName;
-            INode Node = InsertNodeOperation.Node;
+        /// <summary></summary>
+        private protected virtual void ExecuteInsertNewNode(IWriteableInsertNodeOperation operation)
+        {
+            INode ParentNode = operation.ParentNode;
+            string PropertyName = operation.PropertyName;
             IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> Inner = GetInner(ParentNode, PropertyName) as IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex>;
 
-            Inner.Insert(InsertNodeOperation);
+            Inner.Insert(operation);
 
-            IWriteableBrowsingCollectionNodeIndex BrowsingIndex = InsertNodeOperation.BrowsingIndex;
-            IWriteablePlaceholderNodeState ChildState = InsertNodeOperation.ChildState;
+            IWriteableBrowsingCollectionNodeIndex BrowsingIndex = operation.BrowsingIndex;
+            IWriteablePlaceholderNodeState ChildState = operation.ChildState;
 
             AddState(BrowsingIndex, ChildState);
             Stats.PlaceholderNodeCount++;
@@ -813,7 +791,7 @@
 
             Debug.Assert(Contains(BrowsingIndex));
 
-            NotifyStateInserted(InsertNodeOperation);
+            NotifyStateInserted(operation);
         }
 
         /// <summary></summary>
@@ -822,17 +800,7 @@
             IWriteableInsertNodeOperation InsertNodeOperation = (IWriteableInsertNodeOperation)operation;
             IWriteableRemoveNodeOperation RemoveNodeOperation = InsertNodeOperation.ToRemoveNodeOperation();
 
-            INode ParentNode = RemoveNodeOperation.ParentNode;
-            string PropertyName = RemoveNodeOperation.PropertyName;
-            IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> Inner = GetInner(ParentNode, PropertyName) as IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex>;
-
-            Inner.Remove(RemoveNodeOperation);
-
-            IWriteableNodeState RemovedState = RemoveNodeOperation.RemovedState;
-            PruneState(RemovedState);
-            Stats.PlaceholderNodeCount--;
-
-            NotifyStateRemoved(RemoveNodeOperation);
+            ExecuteRemoveNode(RemoveNodeOperation);
         }
 
         /// <summary>
@@ -929,7 +897,7 @@
         /// <summary></summary>
         private protected virtual void RemoveBlock(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> blockListInner, int blockIndex)
         {
-            Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => ExecuteRemoveBlock(operation);
+            Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => RedoRemoveBlock(operation);
             Action<IWriteableOperation> HandlerUndo = (IWriteableOperation operation) => UndoRemoveBlock(operation);
             IWriteableRemoveBlockOperation Operation = CreateRemoveBlockOperation(blockListInner.Owner.Node, blockListInner.PropertyName, blockIndex, HandlerRedo, HandlerUndo, isNested: false);
 
@@ -939,17 +907,22 @@
         }
 
         /// <summary></summary>
-        private protected virtual void ExecuteRemoveBlock(IWriteableOperation operation)
+        private protected virtual void RedoRemoveBlock(IWriteableOperation operation)
         {
             IWriteableRemoveBlockOperation RemoveBlockOperation = (IWriteableRemoveBlockOperation)operation;
+            ExecuteRemoveBlock(RemoveBlockOperation);
+        }
 
-            INode ParentNode = RemoveBlockOperation.ParentNode;
-            string PropertyName = RemoveBlockOperation.PropertyName;
+        /// <summary></summary>
+        private protected virtual void ExecuteRemoveBlock(IWriteableRemoveBlockOperation operation)
+        {
+            INode ParentNode = operation.ParentNode;
+            string PropertyName = operation.PropertyName;
             IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> Inner = GetInner(ParentNode, PropertyName) as IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex>;
 
-            Inner.RemoveWithBlock(RemoveBlockOperation);
+            Inner.RemoveWithBlock(operation);
 
-            IWriteableBlockState RemovedBlockState = RemoveBlockOperation.BlockState;
+            IWriteableBlockState RemovedBlockState = operation.BlockState;
             Debug.Assert(RemovedBlockState != null);
 
             IWriteableBrowsingPatternIndex PatternIndex = RemovedBlockState.PatternIndex;
@@ -968,13 +941,13 @@
             RemoveState(SourceIndex);
             Stats.PlaceholderNodeCount--;
 
-            IWriteableNodeState RemovedState = RemoveBlockOperation.RemovedState;
+            IWriteableNodeState RemovedState = operation.RemovedState;
             Debug.Assert(RemovedState != null);
 
             PruneState(RemovedState);
             Stats.PlaceholderNodeCount--;
 
-            NotifyBlockStateRemoved(RemoveBlockOperation);
+            NotifyBlockStateRemoved(operation);
         }
 
         /// <summary></summary>
@@ -983,44 +956,13 @@
             IWriteableRemoveBlockOperation RemoveBlockOperation = (IWriteableRemoveBlockOperation)operation;
             IWriteableInsertBlockOperation InsertBlockOperation = RemoveBlockOperation.ToInsertBlockOperation();
 
-            INode ParentNode = InsertBlockOperation.ParentNode;
-            string PropertyName = InsertBlockOperation.PropertyName;
-            IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> Inner = GetInner(ParentNode, PropertyName) as IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex>;
-
-            Inner.InsertNew(InsertBlockOperation);
-
-            IWriteableBrowsingExistingBlockNodeIndex BrowsingIndex = InsertBlockOperation.BrowsingIndex;
-            IWriteableBlockState BlockState = InsertBlockOperation.BlockState;
-            IWriteablePlaceholderNodeState ChildState = InsertBlockOperation.ChildState;
-
-            Debug.Assert(BlockState.StateList.Count == 1);
-            Debug.Assert(BlockState.StateList[0] == ChildState);
-            ((IWriteableBlockState<IWriteableInner<IWriteableBrowsingChildIndex>>)BlockState).InitBlockState();
-            Stats.BlockCount++;
-
-            IWriteableBrowsingPatternIndex PatternIndex = BlockState.PatternIndex;
-            IWriteablePatternState PatternState = BlockState.PatternState;
-            AddState(PatternIndex, PatternState);
-            Stats.PlaceholderNodeCount++;
-
-            IWriteableBrowsingSourceIndex SourceIndex = BlockState.SourceIndex;
-            IWriteableSourceState SourceState = BlockState.SourceState;
-            AddState(SourceIndex, SourceState);
-            Stats.PlaceholderNodeCount++;
-
-            AddState(BrowsingIndex, ChildState);
-            Stats.PlaceholderNodeCount++;
-            BuildStateTable(Inner, null, BrowsingIndex, ChildState);
-
-            Debug.Assert(Contains(BrowsingIndex));
-
-            NotifyBlockStateInserted(InsertBlockOperation);
+            ExecuteInsertNewBlock(InsertBlockOperation);
         }
 
         /// <summary></summary>
         private protected virtual void RemoveNode(IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> inner, int blockIndex, int index)
         {
-            Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => ExecuteRemoveNode(operation);
+            Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => RedoRemoveNode(operation);
             Action<IWriteableOperation> HandlerUndo = (IWriteableOperation operation) => UndoRemoveNode(operation);
             IWriteableRemoveNodeOperation Operation = CreateRemoveNodeOperation(inner.Owner.Node, inner.PropertyName, blockIndex, index, HandlerRedo, HandlerUndo, isNested: false);
 
@@ -1030,21 +972,26 @@
         }
 
         /// <summary></summary>
-        private protected virtual void ExecuteRemoveNode(IWriteableOperation operation)
+        private protected virtual void RedoRemoveNode(IWriteableOperation operation)
         {
             IWriteableRemoveNodeOperation RemoveNodeOperation = (IWriteableRemoveNodeOperation)operation;
+            ExecuteRemoveNode(RemoveNodeOperation);
+        }
 
-            INode ParentNode = RemoveNodeOperation.ParentNode;
-            string PropertyName = RemoveNodeOperation.PropertyName;
+        /// <summary></summary>
+        private protected virtual void ExecuteRemoveNode(IWriteableRemoveNodeOperation operation)
+        {
+            INode ParentNode = operation.ParentNode;
+            string PropertyName = operation.PropertyName;
             IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> Inner = GetInner(ParentNode, PropertyName) as IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex>;
 
-            Inner.Remove(RemoveNodeOperation);
+            Inner.Remove(operation);
 
-            IWriteableNodeState OldState = RemoveNodeOperation.RemovedState;
-            PruneState(OldState);
+            IWriteableNodeState RemovedState = operation.RemovedState;
+            PruneState(RemovedState);
             Stats.PlaceholderNodeCount--;
 
-            NotifyStateRemoved(RemoveNodeOperation);
+            NotifyStateRemoved(operation);
         }
 
         /// <summary></summary>
@@ -1053,22 +1000,7 @@
             IWriteableRemoveNodeOperation RemoveNodeOperation = (IWriteableRemoveNodeOperation)operation;
             IWriteableInsertNodeOperation InsertNodeOperation = RemoveNodeOperation.ToInsertNodeOperation();
 
-            INode ParentNode = InsertNodeOperation.ParentNode;
-            string PropertyName = InsertNodeOperation.PropertyName;
-            IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> Inner = GetInner(ParentNode, PropertyName) as IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex>;
-
-            Inner.Insert(InsertNodeOperation);
-
-            IWriteableBrowsingCollectionNodeIndex BrowsingIndex = InsertNodeOperation.BrowsingIndex;
-            IWriteablePlaceholderNodeState ChildState = InsertNodeOperation.ChildState;
-
-            AddState(BrowsingIndex, ChildState);
-            Stats.PlaceholderNodeCount++;
-            BuildStateTable(Inner, null, BrowsingIndex, ChildState);
-
-            Debug.Assert(Contains(BrowsingIndex));
-
-            NotifyStateInserted(InsertNodeOperation);
+            ExecuteInsertNewNode(InsertNodeOperation);
         }
 
         /// <summary>
@@ -1129,7 +1061,7 @@
                     throw new ArgumentOutOfRangeException(nameof(nodeIndex));
             }
 
-            Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => ExecuteReplace(operation);
+            Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => RedoReplace(operation);
             Action<IWriteableOperation> HandlerUndo = (IWriteableOperation operation) => UndoReplace(operation);
             IWriteableReplaceOperation Operation = CreateReplaceOperation(inner.Owner.Node, inner.PropertyName, BlockIndex, Index, NewNode, HandlerRedo, HandlerUndo, isNested: false);
 
@@ -1141,18 +1073,10 @@
         }
 
         /// <summary></summary>
-        private protected virtual void ExecuteReplace(IWriteableOperation operation)
+        private protected virtual void RedoReplace(IWriteableOperation operation)
         {
             IWriteableReplaceOperation ReplaceOperation = (IWriteableReplaceOperation)operation;
-
-            INode ParentNode = ReplaceOperation.ParentNode;
-            string PropertyName = ReplaceOperation.PropertyName;
-            IWriteableInner<IWriteableBrowsingChildIndex> Inner = GetInner(ParentNode, PropertyName) as IWriteableInner<IWriteableBrowsingChildIndex>;
-
-            ReplaceState(ReplaceOperation, Inner);
-            Debug.Assert(Contains(ReplaceOperation.NewBrowsingIndex));
-
-            NotifyStateReplaced(ReplaceOperation);
+            ExecuteReplace(ReplaceOperation);
         }
 
         /// <summary></summary>
@@ -1161,14 +1085,20 @@
             IWriteableReplaceOperation ReplaceOperation = (IWriteableReplaceOperation)operation;
             ReplaceOperation = ReplaceOperation.ToInverseReplace();
 
-            INode ParentNode = ReplaceOperation.ParentNode;
-            string PropertyName = ReplaceOperation.PropertyName;
+            ExecuteReplace(ReplaceOperation);
+        }
+
+        /// <summary></summary>
+        private protected virtual void ExecuteReplace(IWriteableReplaceOperation operation)
+        {
+            INode ParentNode = operation.ParentNode;
+            string PropertyName = operation.PropertyName;
             IWriteableInner<IWriteableBrowsingChildIndex> Inner = GetInner(ParentNode, PropertyName) as IWriteableInner<IWriteableBrowsingChildIndex>;
 
-            ReplaceState(ReplaceOperation, Inner);
-            Debug.Assert(Contains(ReplaceOperation.NewBrowsingIndex));
+            ReplaceState(operation, Inner);
+            Debug.Assert(Contains(operation.NewBrowsingIndex));
 
-            NotifyStateReplaced(ReplaceOperation);
+            NotifyStateReplaced(operation);
         }
 
         /// <summary></summary>
@@ -1236,7 +1166,7 @@
 
             if (!Inner.IsAssigned)
             {
-                Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => ExecuteAssign(operation);
+                Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => RedoAssign(operation);
                 Action<IWriteableOperation> HandlerUndo = (IWriteableOperation operation) => UndoAssign(operation);
                 IWriteableAssignmentOperation Operation = CreateAssignmentOperation(Inner.Owner.Node, Inner.PropertyName, HandlerRedo, HandlerUndo, isNested: false);
 
@@ -1251,19 +1181,24 @@
         }
 
         /// <summary></summary>
-        private protected virtual void ExecuteAssign(IWriteableOperation operation)
+        private protected virtual void RedoAssign(IWriteableOperation operation)
         {
             IWriteableAssignmentOperation AssignmentOperation = (IWriteableAssignmentOperation)operation;
+            ExecuteAssign(AssignmentOperation);
+        }
 
-            INode ParentNode = AssignmentOperation.ParentNode;
-            string PropertyName = AssignmentOperation.PropertyName;
+        /// <summary></summary>
+        private protected virtual void ExecuteAssign(IWriteableAssignmentOperation operation)
+        {
+            INode ParentNode = operation.ParentNode;
+            string PropertyName = operation.PropertyName;
             IWriteableOptionalInner<IWriteableBrowsingOptionalNodeIndex> Inner = GetInner(ParentNode, PropertyName) as IWriteableOptionalInner<IWriteableBrowsingOptionalNodeIndex>;
 
-            Inner.Assign(AssignmentOperation);
+            Inner.Assign(operation);
 
             Stats.AssignedOptionalNodeCount++;
 
-            NotifyStateAssigned(AssignmentOperation);
+            NotifyStateAssigned(operation);
         }
 
         /// <summary></summary>
@@ -1272,15 +1207,7 @@
             IWriteableAssignmentOperation AssignmentOperation = (IWriteableAssignmentOperation)operation;
             AssignmentOperation = AssignmentOperation.ToInverseAssignment();
 
-            INode ParentNode = AssignmentOperation.ParentNode;
-            string PropertyName = AssignmentOperation.PropertyName;
-            IWriteableOptionalInner<IWriteableBrowsingOptionalNodeIndex> Inner = GetInner(ParentNode, PropertyName) as IWriteableOptionalInner<IWriteableBrowsingOptionalNodeIndex>;
-
-            Inner.Unassign(AssignmentOperation);
-
-            Stats.AssignedOptionalNodeCount--;
-
-            NotifyStateUnassigned(AssignmentOperation);
+            ExecuteUnassign(AssignmentOperation);
         }
 
         /// <summary>
@@ -1301,7 +1228,7 @@
 
             if (Inner.IsAssigned)
             {
-                Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => ExecuteUnassign(operation);
+                Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => RedoUnassign(operation);
                 Action<IWriteableOperation> HandlerUndo = (IWriteableOperation operation) => UndoUnassign(operation);
                 IWriteableAssignmentOperation Operation = CreateAssignmentOperation(Inner.Owner.Node, Inner.PropertyName, HandlerRedo, HandlerUndo, isNested: false);
 
@@ -1316,19 +1243,24 @@
         }
 
         /// <summary></summary>
-        private protected virtual void ExecuteUnassign(IWriteableOperation operation)
+        private protected virtual void RedoUnassign(IWriteableOperation operation)
         {
             IWriteableAssignmentOperation AssignmentOperation = (IWriteableAssignmentOperation)operation;
+            ExecuteUnassign(AssignmentOperation);
+        }
 
-            INode ParentNode = AssignmentOperation.ParentNode;
-            string PropertyName = AssignmentOperation.PropertyName;
+        /// <summary></summary>
+        private protected virtual void ExecuteUnassign(IWriteableAssignmentOperation operation)
+        {
+            INode ParentNode = operation.ParentNode;
+            string PropertyName = operation.PropertyName;
             IWriteableOptionalInner<IWriteableBrowsingOptionalNodeIndex> Inner = GetInner(ParentNode, PropertyName) as IWriteableOptionalInner<IWriteableBrowsingOptionalNodeIndex>;
 
-            Inner.Unassign(AssignmentOperation);
+            Inner.Unassign(operation);
 
             Stats.AssignedOptionalNodeCount--;
 
-            NotifyStateUnassigned(AssignmentOperation);
+            NotifyStateUnassigned(operation);
         }
 
         /// <summary></summary>
@@ -1337,15 +1269,7 @@
             IWriteableAssignmentOperation AssignmentOperation = (IWriteableAssignmentOperation)operation;
             AssignmentOperation = AssignmentOperation.ToInverseAssignment();
 
-            INode ParentNode = AssignmentOperation.ParentNode;
-            string PropertyName = AssignmentOperation.PropertyName;
-            IWriteableOptionalInner<IWriteableBrowsingOptionalNodeIndex> Inner = GetInner(ParentNode, PropertyName) as IWriteableOptionalInner<IWriteableBrowsingOptionalNodeIndex>;
-
-            Inner.Assign(AssignmentOperation);
-
-            Stats.AssignedOptionalNodeCount++;
-
-            NotifyStateAssigned(AssignmentOperation);
+            ExecuteAssign(AssignmentOperation);
         }
 
         /// <summary>
@@ -1359,7 +1283,7 @@
             Debug.Assert(inner != null);
             Debug.Assert(blockIndex >= 0 && blockIndex < inner.BlockStateList.Count);
 
-            Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => ExecuteChangeReplication(operation);
+            Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => RedoChangeReplication(operation);
             Action<IWriteableOperation> HandlerUndo = (IWriteableOperation operation) => UndoChangeReplication(operation);
             IWriteableChangeBlockOperation Operation = CreateChangeBlockOperation(inner.Owner.Node, inner.PropertyName, blockIndex, replication, HandlerRedo, HandlerUndo, isNested: false);
 
@@ -1369,17 +1293,10 @@
         }
 
         /// <summary></summary>
-        private protected virtual void ExecuteChangeReplication(IWriteableOperation operation)
+        private protected virtual void RedoChangeReplication(IWriteableOperation operation)
         {
             IWriteableChangeBlockOperation ChangeBlockOperation = (IWriteableChangeBlockOperation)operation;
-
-            INode ParentNode = ChangeBlockOperation.ParentNode;
-            string PropertyName = ChangeBlockOperation.PropertyName;
-            IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> Inner = GetInner(ParentNode, PropertyName) as IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex>;
-
-            Inner.ChangeReplication(ChangeBlockOperation);
-
-            NotifyBlockStateChanged(ChangeBlockOperation);
+            ExecuteChangeReplication(ChangeBlockOperation);
         }
 
         /// <summary></summary>
@@ -1388,13 +1305,19 @@
             IWriteableChangeBlockOperation ChangeBlockOperation = (IWriteableChangeBlockOperation)operation;
             ChangeBlockOperation = ChangeBlockOperation.ToInverseChange();
 
-            INode ParentNode = ChangeBlockOperation.ParentNode;
-            string PropertyName = ChangeBlockOperation.PropertyName;
+            ExecuteChangeReplication(ChangeBlockOperation);
+        }
+
+        /// <summary></summary>
+        private protected virtual void ExecuteChangeReplication(IWriteableChangeBlockOperation operation)
+        {
+            INode ParentNode = operation.ParentNode;
+            string PropertyName = operation.PropertyName;
             IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> Inner = GetInner(ParentNode, PropertyName) as IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex>;
 
-            Inner.ChangeReplication(ChangeBlockOperation);
+            Inner.ChangeReplication(operation);
 
-            NotifyBlockStateChanged(ChangeBlockOperation);
+            NotifyBlockStateChanged(operation);
         }
 
         /// <summary>
@@ -1410,7 +1333,7 @@
             Debug.Assert(StateTable.ContainsKey(nodeIndex));
             Debug.Assert(value >= 0);
 
-            Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => ExecuteChangeDiscreteValue(operation);
+            Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => RedoChangeDiscreteValue(operation);
             Action<IWriteableOperation> HandlerUndo = (IWriteableOperation operation) => UndoChangeDiscreteValue(operation);
             IWriteableNodeState State = StateTable[nodeIndex];
             IWriteableChangeNodeOperation Operation = CreateChangeNodeOperation(State.Node, propertyName, value, HandlerRedo, HandlerUndo, isNested: false);
@@ -1421,29 +1344,10 @@
         }
 
         /// <summary></summary>
-        private protected virtual void ExecuteChangeDiscreteValue(IWriteableOperation operation)
+        private protected virtual void RedoChangeDiscreteValue(IWriteableOperation operation)
         {
             IWriteableChangeNodeOperation ChangeNodeOperation = (IWriteableChangeNodeOperation)operation;
-
-            INode ParentNode = ChangeNodeOperation.ParentNode;
-            string PropertyName = ChangeNodeOperation.PropertyName;
-            int NewValue = ChangeNodeOperation.NewValue;
-
-            IWriteableNodeState State = (IWriteableNodeState)GetState(ParentNode);
-            Debug.Assert(State != null);
-            Debug.Assert(State.ValuePropertyTypeTable.ContainsKey(PropertyName));
-            Debug.Assert(State.ValuePropertyTypeTable[PropertyName] == Constants.ValuePropertyType.Boolean || State.ValuePropertyTypeTable[PropertyName] == Constants.ValuePropertyType.Enum);
-
-            int OldValue = NodeTreeHelper.GetEnumValue(State.Node, PropertyName);
-
-            NodeTreeHelper.GetEnumRange(State.Node.GetType(), PropertyName, out int Min, out int Max);
-            Debug.Assert(NewValue >= Min && NewValue <= Max);
-
-            NodeTreeHelper.SetEnumValue(State.Node, PropertyName, NewValue);
-
-            ChangeNodeOperation.Update(State, OldValue);
-
-            NotifyStateChanged(ChangeNodeOperation);
+            ExecuteChangeDiscreteValue(ChangeNodeOperation);
         }
 
         /// <summary></summary>
@@ -1452,9 +1356,15 @@
             IWriteableChangeNodeOperation ChangeNodeOperation = (IWriteableChangeNodeOperation)operation;
             ChangeNodeOperation = ChangeNodeOperation.ToInverseChange();
 
-            INode ParentNode = ChangeNodeOperation.ParentNode;
-            string PropertyName = ChangeNodeOperation.PropertyName;
-            int NewValue = ChangeNodeOperation.NewValue;
+            ExecuteChangeDiscreteValue(ChangeNodeOperation);
+        }
+
+        /// <summary></summary>
+        private protected virtual void ExecuteChangeDiscreteValue(IWriteableChangeNodeOperation operation)
+        {
+            INode ParentNode = operation.ParentNode;
+            string PropertyName = operation.PropertyName;
+            int NewValue = operation.NewValue;
 
             IWriteableNodeState State = (IWriteableNodeState)GetState(ParentNode);
             Debug.Assert(State != null);
@@ -1468,9 +1378,9 @@
 
             NodeTreeHelper.SetEnumValue(State.Node, PropertyName, NewValue);
 
-            ChangeNodeOperation.Update(State, OldValue);
+            operation.Update(State, OldValue);
 
-            NotifyStateChanged(ChangeNodeOperation);
+            NotifyStateChanged(operation);
         }
 
         /// <summary>
@@ -1503,7 +1413,7 @@
             IIdentifier NewSourceNode = NodeHelper.CreateSimpleIdentifier(BlockState.ChildBlock.SourceIdentifier.Text);
             IBlock NewBlock = NodeTreeHelperBlockList.CreateBlock(inner.Owner.Node, inner.PropertyName, Replication, NewPatternNode, NewSourceNode);
 
-            Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => ExecuteSplitBlock(operation);
+            Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => RedoSplitBlock(operation);
             Action<IWriteableOperation> HandlerUndo = (IWriteableOperation operation) => UndoSplitBlock(operation);
             IWriteableSplitBlockOperation Operation = CreateSplitBlockOperation(inner.Owner.Node, inner.PropertyName, nodeIndex.BlockIndex, nodeIndex.Index, NewBlock, HandlerRedo, HandlerUndo, isNested: false);
 
@@ -1513,23 +1423,28 @@
         }
 
         /// <summary></summary>
-        private protected virtual void ExecuteSplitBlock(IWriteableOperation operation)
+        private protected virtual void RedoSplitBlock(IWriteableOperation operation)
         {
             IWriteableSplitBlockOperation SplitBlockOperation = (IWriteableSplitBlockOperation)operation;
+            ExecuteSplitBlock(SplitBlockOperation);
+        }
 
-            INode ParentNode = SplitBlockOperation.ParentNode;
-            string PropertyName = SplitBlockOperation.PropertyName;
+        /// <summary></summary>
+        private protected virtual void ExecuteSplitBlock(IWriteableSplitBlockOperation operation)
+        {
+            INode ParentNode = operation.ParentNode;
+            string PropertyName = operation.PropertyName;
             IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> Inner = GetInner(ParentNode, PropertyName) as IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex>;
 
-            IWriteableBlockState OldBlockState = Inner.BlockStateList[SplitBlockOperation.BlockIndex];
-            Debug.Assert(SplitBlockOperation.Index < OldBlockState.StateList.Count);
+            IWriteableBlockState OldBlockState = Inner.BlockStateList[operation.BlockIndex];
+            Debug.Assert(operation.Index < OldBlockState.StateList.Count);
 
             int OldNodeCount = OldBlockState.StateList.Count;
 
-            Inner.SplitBlock(SplitBlockOperation);
+            Inner.SplitBlock(operation);
             Stats.BlockCount++;
 
-            IWriteableBlockState NewBlockState = SplitBlockOperation.BlockState;
+            IWriteableBlockState NewBlockState = operation.BlockState;
 
             Debug.Assert(OldBlockState.StateList.Count + NewBlockState.StateList.Count == OldNodeCount);
             Debug.Assert(NewBlockState.StateList.Count > 0);
@@ -1544,7 +1459,7 @@
             AddState(SourceIndex, SourceState);
             Stats.PlaceholderNodeCount++;
 
-            NotifyBlockSplit(SplitBlockOperation);
+            NotifyBlockSplit(operation);
         }
 
         /// <summary></summary>
@@ -1553,34 +1468,7 @@
             IWriteableSplitBlockOperation SplitBlockOperation = (IWriteableSplitBlockOperation)operation;
             IWriteableMergeBlocksOperation MergeBlocksOperation = SplitBlockOperation.ToMergeBlocksOperation();
 
-            INode ParentNode = MergeBlocksOperation.ParentNode;
-            string PropertyName = MergeBlocksOperation.PropertyName;
-            IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> Inner = GetInner(ParentNode, PropertyName) as IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex>;
-
-            int BlockIndex = MergeBlocksOperation.BlockIndex;
-            IWriteableBlockState FirstBlockState = Inner.BlockStateList[BlockIndex - 1];
-            IWriteableBlockState SecondBlockState = Inner.BlockStateList[BlockIndex];
-
-            IReadOnlyBrowsingSourceIndex SourceIndex = FirstBlockState.SourceIndex;
-            RemoveState(SourceIndex);
-            Stats.PlaceholderNodeCount--;
-
-            IReadOnlyBrowsingPatternIndex PatternIndex = FirstBlockState.PatternIndex;
-            RemoveState(PatternIndex);
-            Stats.PlaceholderNodeCount--;
-
-            int OldNodeCount = FirstBlockState.StateList.Count + SecondBlockState.StateList.Count;
-            int FirstNodeIndex = FirstBlockState.StateList.Count;
-
-            Inner.MergeBlocks(MergeBlocksOperation);
-            Stats.BlockCount--;
-
-            IWriteableBlockState BlockState = Inner.BlockStateList[BlockIndex - 1];
-
-            Debug.Assert(BlockState.StateList.Count == OldNodeCount);
-            Debug.Assert(FirstNodeIndex < BlockState.StateList.Count);
-
-            NotifyBlocksMerged(MergeBlocksOperation);
+            ExecuteMergeBlocks(MergeBlocksOperation);
         }
 
         /// <summary>
@@ -1607,7 +1495,7 @@
             Debug.Assert(nodeIndex != null);
             Debug.Assert(inner.IsMergeable(nodeIndex));
 
-            Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => ExecuteMergeBlocks(operation);
+            Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => RedoMergeBlocks(operation);
             Action<IWriteableOperation> HandlerUndo = (IWriteableOperation operation) => UndoMergeBlocks(operation);
             IWriteableMergeBlocksOperation Operation = CreateMergeBlocksOperation(inner.Owner.Node, inner.PropertyName, nodeIndex.BlockIndex, HandlerRedo, HandlerUndo, isNested: false);
 
@@ -1617,15 +1505,20 @@
         }
 
         /// <summary></summary>
-        private protected virtual void ExecuteMergeBlocks(IWriteableOperation operation)
+        private protected virtual void RedoMergeBlocks(IWriteableOperation operation)
         {
             IWriteableMergeBlocksOperation MergeBlocksOperation = (IWriteableMergeBlocksOperation)operation;
+            ExecuteMergeBlocks(MergeBlocksOperation);
+        }
 
-            INode ParentNode = MergeBlocksOperation.ParentNode;
-            string PropertyName = MergeBlocksOperation.PropertyName;
+        /// <summary></summary>
+        private protected virtual void ExecuteMergeBlocks(IWriteableMergeBlocksOperation operation)
+        {
+            INode ParentNode = operation.ParentNode;
+            string PropertyName = operation.PropertyName;
             IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> Inner = GetInner(ParentNode, PropertyName) as IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex>;
 
-            int BlockIndex = MergeBlocksOperation.BlockIndex;
+            int BlockIndex = operation.BlockIndex;
             IWriteableBlockState FirstBlockState = Inner.BlockStateList[BlockIndex - 1];
             IWriteableBlockState SecondBlockState = Inner.BlockStateList[BlockIndex];
 
@@ -1640,7 +1533,7 @@
             int OldNodeCount = FirstBlockState.StateList.Count + SecondBlockState.StateList.Count;
             int FirstNodeIndex = FirstBlockState.StateList.Count;
 
-            Inner.MergeBlocks(MergeBlocksOperation);
+            Inner.MergeBlocks(operation);
             Stats.BlockCount--;
 
             IWriteableBlockState BlockState = Inner.BlockStateList[BlockIndex - 1];
@@ -1648,7 +1541,7 @@
             Debug.Assert(BlockState.StateList.Count == OldNodeCount);
             Debug.Assert(FirstNodeIndex < BlockState.StateList.Count);
 
-            NotifyBlocksMerged(MergeBlocksOperation);
+            NotifyBlocksMerged(operation);
         }
 
         /// <summary></summary>
@@ -1657,34 +1550,7 @@
             IWriteableMergeBlocksOperation MergeBlocksOperation = (IWriteableMergeBlocksOperation)operation;
             IWriteableSplitBlockOperation SplitBlockOperation = MergeBlocksOperation.ToSplitBlockOperation();
 
-            INode ParentNode = SplitBlockOperation.ParentNode;
-            string PropertyName = SplitBlockOperation.PropertyName;
-            IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> Inner = GetInner(ParentNode, PropertyName) as IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex>;
-
-            IWriteableBlockState OldBlockState = Inner.BlockStateList[SplitBlockOperation.BlockIndex];
-            Debug.Assert(SplitBlockOperation.Index < OldBlockState.StateList.Count);
-
-            int OldNodeCount = OldBlockState.StateList.Count;
-
-            Inner.SplitBlock(SplitBlockOperation);
-            Stats.BlockCount++;
-
-            IWriteableBlockState NewBlockState = SplitBlockOperation.BlockState;
-
-            Debug.Assert(OldBlockState.StateList.Count + NewBlockState.StateList.Count == OldNodeCount);
-            Debug.Assert(NewBlockState.StateList.Count > 0);
-
-            IReadOnlyBrowsingPatternIndex PatternIndex = NewBlockState.PatternIndex;
-            IReadOnlyPatternState PatternState = NewBlockState.PatternState;
-            AddState(PatternIndex, PatternState);
-            Stats.PlaceholderNodeCount++;
-
-            IReadOnlyBrowsingSourceIndex SourceIndex = NewBlockState.SourceIndex;
-            IReadOnlySourceState SourceState = NewBlockState.SourceState;
-            AddState(SourceIndex, SourceState);
-            Stats.PlaceholderNodeCount++;
-
-            NotifyBlockSplit(SplitBlockOperation);
+            ExecuteSplitBlock(SplitBlockOperation);
         }
 
         /// <summary>
@@ -1739,7 +1605,7 @@
                     throw new ArgumentOutOfRangeException(nameof(nodeIndex));
             }
 
-            Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => ExecuteMove(operation);
+            Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => RedoMove(operation);
             Action<IWriteableOperation> HandlerUndo = (IWriteableOperation operation) => UndoMove(operation);
             IWriteableMoveNodeOperation Operation = CreateMoveNodeOperation(inner.Owner.Node, inner.PropertyName, BlockIndex, Index, direction, HandlerRedo, HandlerUndo, isNested: false);
 
@@ -1749,16 +1615,10 @@
         }
 
         /// <summary></summary>
-        private protected virtual void ExecuteMove(IWriteableOperation operation)
+        private protected virtual void RedoMove(IWriteableOperation operation)
         {
             IWriteableMoveNodeOperation MoveNodeOperation = (IWriteableMoveNodeOperation)operation;
-
-            INode ParentNode = MoveNodeOperation.ParentNode;
-            string PropertyName = MoveNodeOperation.PropertyName;
-            IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> Inner = GetInner(ParentNode, PropertyName) as IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex>;
-
-            Inner.Move(MoveNodeOperation);
-            NotifyStateMoved(MoveNodeOperation);
+            ExecuteMove(MoveNodeOperation);
         }
 
         /// <summary></summary>
@@ -1767,12 +1627,18 @@
             IWriteableMoveNodeOperation MoveNodeOperation = (IWriteableMoveNodeOperation)operation;
             MoveNodeOperation = MoveNodeOperation.ToInverseMove();
 
-            INode ParentNode = MoveNodeOperation.ParentNode;
-            string PropertyName = MoveNodeOperation.PropertyName;
+            ExecuteMove(MoveNodeOperation);
+        }
+
+        /// <summary></summary>
+        private protected virtual void ExecuteMove(IWriteableMoveNodeOperation operation)
+        {
+            INode ParentNode = operation.ParentNode;
+            string PropertyName = operation.PropertyName;
             IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> Inner = GetInner(ParentNode, PropertyName) as IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex>;
 
-            Inner.Move(MoveNodeOperation);
-            NotifyStateMoved(MoveNodeOperation);
+            Inner.Move(operation);
+            NotifyStateMoved(operation);
         }
 
         /// <summary>
@@ -1799,7 +1665,7 @@
         {
             Debug.Assert(inner != null);
 
-            Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => ExecuteMoveBlock(operation);
+            Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => RedoMoveBlock(operation);
             Action<IWriteableOperation> HandlerUndo = (IWriteableOperation operation) => UndoMoveBlock(operation);
             IWriteableMoveBlockOperation Operation = CreateMoveBlockOperation(inner.Owner.Node, inner.PropertyName, blockIndex, direction, HandlerRedo, HandlerUndo, isNested: false);
 
@@ -1809,27 +1675,10 @@
         }
 
         /// <summary></summary>
-        private protected virtual void ExecuteMoveBlock(IWriteableOperation operation)
+        private protected virtual void RedoMoveBlock(IWriteableOperation operation)
         {
             IWriteableMoveBlockOperation MoveBlockOperation = (IWriteableMoveBlockOperation)operation;
-
-            INode ParentNode = MoveBlockOperation.ParentNode;
-            string PropertyName = MoveBlockOperation.PropertyName;
-            IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> Inner = GetInner(ParentNode, PropertyName) as IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex>;
-
-            IWriteableBlockState BlockState = Inner.BlockStateList[MoveBlockOperation.BlockIndex];
-            Debug.Assert(BlockState != null);
-            Debug.Assert(BlockState.StateList.Count > 0);
-
-            IWriteableNodeState State = BlockState.StateList[0];
-            Debug.Assert(State != null);
-
-            IWriteableBrowsingExistingBlockNodeIndex NodeIndex = State.ParentIndex as IWriteableBrowsingExistingBlockNodeIndex;
-            Debug.Assert(NodeIndex != null);
-
-            Inner.MoveBlock(MoveBlockOperation);
-
-            NotifyBlockStateMoved(MoveBlockOperation);
+            ExecuteMoveBlock(MoveBlockOperation);
         }
 
         /// <summary></summary>
@@ -1838,11 +1687,17 @@
             IWriteableMoveBlockOperation MoveBlockOperation = (IWriteableMoveBlockOperation)operation;
             MoveBlockOperation = MoveBlockOperation.ToInverseMoveBlock();
 
-            INode ParentNode = MoveBlockOperation.ParentNode;
-            string PropertyName = MoveBlockOperation.PropertyName;
+            ExecuteMoveBlock(MoveBlockOperation);
+        }
+
+        /// <summary></summary>
+        private protected virtual void ExecuteMoveBlock(IWriteableMoveBlockOperation operation)
+        {
+            INode ParentNode = operation.ParentNode;
+            string PropertyName = operation.PropertyName;
             IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> Inner = GetInner(ParentNode, PropertyName) as IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex>;
 
-            IWriteableBlockState BlockState = Inner.BlockStateList[MoveBlockOperation.BlockIndex];
+            IWriteableBlockState BlockState = Inner.BlockStateList[operation.BlockIndex];
             Debug.Assert(BlockState != null);
             Debug.Assert(BlockState.StateList.Count > 0);
 
@@ -1852,9 +1707,9 @@
             IWriteableBrowsingExistingBlockNodeIndex NodeIndex = State.ParentIndex as IWriteableBrowsingExistingBlockNodeIndex;
             Debug.Assert(NodeIndex != null);
 
-            Inner.MoveBlock(MoveBlockOperation);
+            Inner.MoveBlock(operation);
 
-            NotifyBlockStateMoved(MoveBlockOperation);
+            NotifyBlockStateMoved(operation);
         }
 
         /// <summary>
@@ -1912,7 +1767,7 @@
             IWriteableBrowsingOptionalNodeIndex ParentIndex = optionalInner.ChildState.ParentIndex;
             if (ParentIndex.Optional.HasItem)
             {
-                Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => ExecuteAssign(operation);
+                Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => RedoAssign(operation);
                 Action<IWriteableOperation> HandlerUndo = (IWriteableOperation operation) => UndoAssign(operation);
                 IWriteableAssignmentOperation Operation = CreateAssignmentOperation(optionalInner.Owner.Node, optionalInner.PropertyName, HandlerRedo, HandlerUndo, isNested: false);
 
@@ -1927,7 +1782,7 @@
 
                 IWriteableInsertionOptionalNodeIndex NewOptionalNodeIndex = CreateNewOptionalNodeIndex(optionalInner.Owner.Node, optionalInner.PropertyName, NewNode);
 
-                Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => ExecuteReplace(operation);
+                Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => RedoReplace(operation);
                 Action<IWriteableOperation> HandlerUndo = (IWriteableOperation operation) => UndoReplace(operation);
                 IWriteableReplaceOperation Operation = CreateReplaceOperation(optionalInner.Owner.Node, optionalInner.PropertyName, -1, -1, NewNode, HandlerRedo, HandlerUndo, isNested: false);
 
@@ -1955,7 +1810,7 @@
             IIdentifier NewSource = NodeHelper.CreateEmptyIdentifier();
             IBlock NewBlock = NodeTreeHelperBlockList.CreateBlock(blockListInner.Owner.Node, blockListInner.PropertyName, ReplicationStatus.Normal, NewPattern, NewSource);
 
-            Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => ExecuteExpandBlockList(operation);
+            Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => RedoExpandBlockList(operation);
             Action<IWriteableOperation> HandlerUndo = (IWriteableOperation operation) => UndoExpandBlockList(operation);
             IWriteableExpandArgumentOperation Operation = CreateExpandArgumentOperation(blockListInner.Owner.Node, blockListInner.PropertyName, NewBlock, NewArgument, HandlerRedo, HandlerUndo, isNested: false);
 
@@ -1965,40 +1820,10 @@
         }
 
         /// <summary></summary>
-        private protected virtual void ExecuteExpandBlockList(IWriteableOperation operation)
+        private protected virtual void RedoExpandBlockList(IWriteableOperation operation)
         {
             IWriteableExpandArgumentOperation ExpandArgumentOperation = (IWriteableExpandArgumentOperation)operation;
-
-            INode ParentNode = ExpandArgumentOperation.ParentNode;
-            string PropertyName = ExpandArgumentOperation.PropertyName;
-            IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> Inner = GetInner(ParentNode, PropertyName) as IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex>;
-
-            Inner.InsertNew(ExpandArgumentOperation);
-
-            IWriteableBrowsingExistingBlockNodeIndex ArgumentNodeIndex = ExpandArgumentOperation.BrowsingIndex;
-            IWriteableBlockState BlockState = ExpandArgumentOperation.BlockState;
-            IWriteablePlaceholderNodeState ArgumentChildState = ExpandArgumentOperation.ChildState;
-
-            Debug.Assert(BlockState.StateList.Count == 1);
-            Debug.Assert(BlockState.StateList[0] == ArgumentChildState);
-            ((IWriteableBlockState<IWriteableInner<IWriteableBrowsingChildIndex>>)BlockState).InitBlockState();
-            Stats.BlockCount++;
-
-            IReadOnlyBrowsingPatternIndex PatternIndex = BlockState.PatternIndex;
-            IReadOnlyPatternState PatternState = BlockState.PatternState;
-            AddState(PatternIndex, PatternState);
-            Stats.PlaceholderNodeCount++;
-
-            IReadOnlyBrowsingSourceIndex SourceIndex = BlockState.SourceIndex;
-            IReadOnlySourceState SourceState = BlockState.SourceState;
-            AddState(SourceIndex, SourceState);
-            Stats.PlaceholderNodeCount++;
-
-            AddState(ArgumentNodeIndex, ArgumentChildState);
-            Stats.PlaceholderNodeCount++;
-            BuildStateTable(Inner, null, ArgumentNodeIndex, ArgumentChildState);
-
-            NotifyArgumentExpanded(ExpandArgumentOperation);
+            ExecuteInsertNewBlock(ExpandArgumentOperation);
         }
 
         /// <summary></summary>
@@ -2007,38 +1832,7 @@
             IWriteableExpandArgumentOperation ExpandArgumentOperation = (IWriteableExpandArgumentOperation)operation;
             IWriteableRemoveBlockOperation RemoveBlockOperation = ExpandArgumentOperation.ToRemoveBlockOperation();
 
-            INode ParentNode = RemoveBlockOperation.ParentNode;
-            string PropertyName = RemoveBlockOperation.PropertyName;
-            IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> Inner = GetInner(ParentNode, PropertyName) as IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex>;
-
-            Inner.RemoveWithBlock(RemoveBlockOperation);
-
-            IWriteableBlockState RemovedBlockState = RemoveBlockOperation.BlockState;
-            Debug.Assert(RemovedBlockState != null);
-
-            IWriteableBrowsingPatternIndex PatternIndex = RemovedBlockState.PatternIndex;
-            IWriteableBrowsingSourceIndex SourceIndex = RemovedBlockState.SourceIndex;
-
-            Debug.Assert(PatternIndex != null);
-            Debug.Assert(StateTable.ContainsKey(PatternIndex));
-            Debug.Assert(SourceIndex != null);
-            Debug.Assert(StateTable.ContainsKey(SourceIndex));
-
-            Stats.BlockCount--;
-
-            RemoveState(PatternIndex);
-            Stats.PlaceholderNodeCount--;
-
-            RemoveState(SourceIndex);
-            Stats.PlaceholderNodeCount--;
-
-            IWriteableNodeState RemovedState = RemoveBlockOperation.RemovedState;
-            Debug.Assert(RemovedState != null);
-
-            PruneState(RemovedState);
-            Stats.PlaceholderNodeCount--;
-
-            NotifyBlockStateRemoved(RemoveBlockOperation);
+            ExecuteRemoveBlock(RemoveBlockOperation);
         }
 
         /// <summary>
@@ -2096,7 +1890,7 @@
             {
                 IWriteableBrowsingOptionalNodeIndex ParentIndex = optionalInner.ChildState.ParentIndex;
 
-                Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => ExecuteUnassign(operation);
+                Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => RedoUnassign(operation);
                 Action<IWriteableOperation> HandlerUndo = (IWriteableOperation operation) => UndoUnassign(operation);
                 IWriteableAssignmentOperation Operation = CreateAssignmentOperation(optionalInner.Owner.Node, optionalInner.PropertyName, HandlerRedo, HandlerUndo, isNested);
 
@@ -2124,7 +1918,7 @@
             if (!NodeHelper.IsDefaultArgument(FirstState.Node))
                 return;
 
-            Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => ExecuteRemoveBlock(operation);
+            Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => RedoRemoveBlock(operation);
             Action<IWriteableOperation> HandlerUndo = (IWriteableOperation operation) => UndoRemoveBlock(operation);
             IWriteableRemoveBlockOperation Operation = CreateRemoveBlockOperation(blockListInner.Owner.Node, blockListInner.PropertyName, 0, HandlerRedo, HandlerUndo, isNested);
 
