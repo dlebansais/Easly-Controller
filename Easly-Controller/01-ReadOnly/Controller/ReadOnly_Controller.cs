@@ -640,49 +640,41 @@
         /// <summary></summary>
         private protected virtual IReadOnlyNodeState GetState(INode node)
         {
+            IReadOnlyNodeState Result = null;
+
             foreach (KeyValuePair<IReadOnlyIndex, IReadOnlyNodeState> Entry in StateTable)
             {
                 IReadOnlyNodeState State = Entry.Value;
 
                 if (State.Node == node)
-                    return State;
+                {
+                    Result = State;
+                    break;
+                }
             }
 
-            throw new ArgumentOutOfRangeException(nameof(node));
-        }
-
-        /// <summary></summary>
-        private protected virtual IReadOnlyIndex GetIndex(INode node)
-        {
-            foreach (KeyValuePair<IReadOnlyIndex, IReadOnlyNodeState> Entry in StateTable)
-            {
-                IReadOnlyIndex Index = Entry.Key;
-                IReadOnlyNodeState State = Entry.Value;
-
-                if (State.Node == node)
-                    return Index;
-            }
-
-            throw new ArgumentOutOfRangeException(nameof(node));
+            Debug.Assert(Result != null);
+            return Result;
         }
 
         /// <summary></summary>
         private protected virtual IReadOnlyInner<IReadOnlyBrowsingChildIndex> GetInner(INode parentNode, string propertyName)
         {
+            IReadOnlyInner<IReadOnlyBrowsingChildIndex> Result = null;
+
             foreach (KeyValuePair<IReadOnlyIndex, IReadOnlyNodeState> Entry in StateTable)
             {
                 IReadOnlyNodeState State = Entry.Value;
 
                 if (State.Node == parentNode)
                 {
-                    IReadOnlyInner<IReadOnlyBrowsingChildIndex> Result = State.PropertyToInner(propertyName) as IReadOnlyInner<IReadOnlyBrowsingChildIndex>;
-                    Debug.Assert(Result != null);
-
-                    return Result;
+                    Result = State.PropertyToInner(propertyName) as IReadOnlyInner<IReadOnlyBrowsingChildIndex>;
+                    break;
                 }
             }
 
-            throw new ArgumentOutOfRangeException(nameof(parentNode));
+            Debug.Assert(Result != null);
+            return Result;
         }
         #endregion
 
