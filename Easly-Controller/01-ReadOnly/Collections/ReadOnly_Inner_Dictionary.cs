@@ -6,7 +6,7 @@
     /// Dictionary of ..., IxxxInner
     /// </summary>
     /// <typeparam name="TKey">Type of the key.</typeparam>
-    public interface IReadOnlyInnerDictionary<TKey> : IDictionary<TKey, IReadOnlyInner<IReadOnlyBrowsingChildIndex>>
+    public interface IReadOnlyInnerDictionary<TKey> : IDictionary<TKey, IReadOnlyInner>
     {
     }
 
@@ -14,7 +14,7 @@
     /// Dictionary of ..., IxxxInner
     /// </summary>
     /// <typeparam name="TKey">Type of the key.</typeparam>
-    internal class ReadOnlyInnerDictionary<TKey> : Dictionary<TKey, IReadOnlyInner<IReadOnlyBrowsingChildIndex>>, IReadOnlyInnerDictionary<TKey>
+    internal class ReadOnlyInnerDictionary<TKey> : Dictionary<TKey, IReadOnlyInner>, IReadOnlyInnerDictionary<TKey>
     {
     }
 }

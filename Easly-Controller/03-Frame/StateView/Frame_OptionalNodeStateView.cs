@@ -129,7 +129,7 @@
             _CellViewTable = CreateCellViewTable();
 
             if (initProperties)
-                foreach (KeyValuePair<string, IFrameInner<IFrameBrowsingChildIndex>> Entry in State.InnerTable)
+                foreach (KeyValuePair<string, IFrameInner> Entry in State.InnerTable)
                     _CellViewTable.Add(Entry.Value.PropertyName, null);
         }
 

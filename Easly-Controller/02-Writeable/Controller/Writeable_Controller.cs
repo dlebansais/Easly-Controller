@@ -1876,7 +1876,7 @@
             IWriteableInnerReadOnlyDictionary<string> InnerTable = State.InnerTable;
             IWriteableOperationList OperationList = CreateOperationList();
 
-            foreach (KeyValuePair<string, IWriteableInner<IWriteableBrowsingChildIndex>> Entry in InnerTable)
+            foreach (KeyValuePair<string, IWriteableInner> Entry in InnerTable)
             {
                 if (Entry.Value is IWriteableOptionalInner<IWriteableBrowsingOptionalNodeIndex> AsOptionalInner)
                     ExpandOptional(AsOptionalInner, OperationList);
@@ -2078,7 +2078,7 @@
 
             IWriteableInnerReadOnlyDictionary<string> InnerTable = State.InnerTable;
 
-            foreach (KeyValuePair<string, IWriteableInner<IWriteableBrowsingChildIndex>> Entry in InnerTable)
+            foreach (KeyValuePair<string, IWriteableInner> Entry in InnerTable)
             {
                 if (Entry.Value is IWriteableOptionalInner<IWriteableBrowsingOptionalNodeIndex> AsOptionalInner)
                     ReduceOptional(AsOptionalInner, operationList, isNested);
@@ -2177,7 +2177,7 @@
         private protected virtual void CanonicalizeChildren(IWriteableNodeState state, IWriteableOperationList operationList)
         {
             List<IWriteableNodeState> ChildStateList = new List<IWriteableNodeState>();
-            foreach (KeyValuePair<string, IWriteableInner<IWriteableBrowsingChildIndex>> Entry in state.InnerTable)
+            foreach (KeyValuePair<string, IWriteableInner> Entry in state.InnerTable)
             {
                 switch (Entry.Value)
                 {
@@ -2263,7 +2263,7 @@
         /// <summary></summary>
         private protected virtual void PruneStateChildren(IWriteableNodeState state)
         {
-            foreach (KeyValuePair<string, IWriteableInner<IWriteableBrowsingChildIndex>> Entry in state.InnerTable)
+            foreach (KeyValuePair<string, IWriteableInner> Entry in state.InnerTable)
                 if (Entry.Value is IWriteablePlaceholderInner<IWriteableBrowsingPlaceholderNodeIndex> AsPlaceholderInner)
                     PrunePlaceholderInner(AsPlaceholderInner);
                 else if (Entry.Value is IWriteableOptionalInner<IWriteableBrowsingOptionalNodeIndex> AsOptionalInner)

@@ -439,11 +439,11 @@
         {
             stateList.Add(state);
 
-            foreach (KeyValuePair<string, IReadOnlyInner<IReadOnlyBrowsingChildIndex>> Entry in state.InnerTable)
+            foreach (KeyValuePair<string, IReadOnlyInner> Entry in state.InnerTable)
                 AddChildInner(stateList, Entry.Value);
         }
 
-        private void AddChildInner(IReadOnlyNodeStateList stateList, IReadOnlyInner<IReadOnlyBrowsingChildIndex> inner)
+        private void AddChildInner(IReadOnlyNodeStateList stateList, IReadOnlyInner inner)
         {
             bool IsHandled = false;
 
@@ -491,10 +491,10 @@
         {
             callbackSet.OnNodeStateAttached(this);
 
-            foreach (KeyValuePair<string, IReadOnlyInner<IReadOnlyBrowsingChildIndex>> Entry in InnerTable)
+            foreach (KeyValuePair<string, IReadOnlyInner> Entry in InnerTable)
             {
-                IReadOnlyInner<IReadOnlyBrowsingChildIndex> Inner = Entry.Value;
-                Inner.Attach(view, callbackSet);
+                IReadOnlyInner Inner = Entry.Value;
+                ((IReadOnlyInner<IReadOnlyBrowsingChildIndex>)Inner).Attach(view, callbackSet);
             }
         }
 
@@ -505,10 +505,10 @@
         /// <param name="callbackSet">The set of callbacks to no longer call when enumerating existing states.</param>
         public virtual void Detach(IReadOnlyControllerView view, IReadOnlyAttachCallbackSet callbackSet)
         {
-            foreach (KeyValuePair<string, IReadOnlyInner<IReadOnlyBrowsingChildIndex>> Entry in InnerTable)
+            foreach (KeyValuePair<string, IReadOnlyInner> Entry in InnerTable)
             {
-                IReadOnlyInner<IReadOnlyBrowsingChildIndex> Inner = Entry.Value;
-                Inner.Detach(view, callbackSet);
+                IReadOnlyInner Inner = Entry.Value;
+                ((IReadOnlyInner<IReadOnlyBrowsingChildIndex>)Inner).Detach(view, callbackSet);
             }
 
             callbackSet.OnNodeStateDetached(this);
@@ -571,11 +571,11 @@
             INode NewNode = NodeHelper.CreateEmptyNode(Node.GetType());
 
             // Clone and assign reference to all nodes, optional or not, list and block lists.
-            foreach (KeyValuePair<string, IReadOnlyInner<IReadOnlyBrowsingChildIndex>> Entry in InnerTable)
+            foreach (KeyValuePair<string, IReadOnlyInner> Entry in InnerTable)
             {
                 string PropertyName = Entry.Key;
-                IReadOnlyInner<IReadOnlyBrowsingChildIndex> Inner = Entry.Value;
-                Inner.CloneChildren(NewNode);
+                IReadOnlyInner Inner = Entry.Value;
+                ((IReadOnlyInner<IReadOnlyBrowsingChildIndex>)Inner).CloneChildren(NewNode);
             }
 
             // Copy other properties.
@@ -626,9 +626,9 @@
             InvariantAssert(Node != null);
             InvariantAssert(InnerTable != null);
 
-            foreach (KeyValuePair<string, IReadOnlyInner<IReadOnlyBrowsingChildIndex>> Entry in InnerTable)
+            foreach (KeyValuePair<string, IReadOnlyInner> Entry in InnerTable)
             {
-                IReadOnlyInner<IReadOnlyBrowsingChildIndex> Inner = Entry.Value;
+                IReadOnlyInner Inner = Entry.Value;
 
                 InvariantAssert((Inner is IReadOnlyBlockListInner) || (Inner is IReadOnlyListInner) || (Inner is IReadOnlyOptionalInner) || (Inner is IReadOnlyPlaceholderInner));
                 InvariantAssert(Inner.Owner == this);

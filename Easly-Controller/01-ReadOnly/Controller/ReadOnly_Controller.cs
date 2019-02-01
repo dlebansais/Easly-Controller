@@ -464,7 +464,7 @@
                 string PropertyName = NodeIndexCollection.PropertyName;
                 Debug.Assert(!InnerTable.ContainsKey(PropertyName));
 
-                IReadOnlyInner<IReadOnlyBrowsingChildIndex> Inner = BuildInner(State, NodeIndexCollection);
+                IReadOnlyInner Inner = BuildInner(State, NodeIndexCollection);
                 InnerTable.Add(PropertyName, Inner);
             }
 
@@ -472,31 +472,31 @@
         }
 
         /// <summary></summary>
-        private protected virtual IReadOnlyInner<IReadOnlyBrowsingChildIndex> BuildInner(IReadOnlyNodeState parentState, IReadOnlyIndexCollection nodeIndexCollection)
+        private protected virtual IReadOnlyInner BuildInner(IReadOnlyNodeState parentState, IReadOnlyIndexCollection nodeIndexCollection)
         {
             Debug.Assert(parentState != null);
             Debug.Assert(nodeIndexCollection != null);
 
-            IReadOnlyInner<IReadOnlyBrowsingChildIndex> Result = null;
+            IReadOnlyInner Result = null;
 
             switch (nodeIndexCollection)
             {
                 case IReadOnlyIndexCollection<IReadOnlyBrowsingPlaceholderNodeIndex> AsPlaceholderNodeIndexCollection:
-                    Result = CreatePlaceholderInner(parentState, AsPlaceholderNodeIndexCollection);
+                    Result = (IReadOnlyPlaceholderInner)CreatePlaceholderInner(parentState, AsPlaceholderNodeIndexCollection);
                     break;
 
                 case IReadOnlyIndexCollection<IReadOnlyBrowsingOptionalNodeIndex> AsOptionalNodeIndexCollection:
-                    Result = CreateOptionalInner(parentState, AsOptionalNodeIndexCollection);
+                    Result = (IReadOnlyOptionalInner)CreateOptionalInner(parentState, AsOptionalNodeIndexCollection);
                     break;
 
                 case IReadOnlyIndexCollection<IReadOnlyBrowsingListNodeIndex> AsListNodeIndexCollection:
                     Stats.ListCount++;
-                    Result = CreateListInner(parentState, AsListNodeIndexCollection);
+                    Result = (IReadOnlyListInner)CreateListInner(parentState, AsListNodeIndexCollection);
                     break;
 
                 case IReadOnlyIndexCollection<IReadOnlyBrowsingBlockNodeIndex> AsBlockNodeIndexCollection:
                     Stats.BlockListCount++;
-                    IReadOnlyBlockListInner<IReadOnlyBrowsingBlockNodeIndex> Inner = CreateBlockListInner(parentState, AsBlockNodeIndexCollection);
+                    IReadOnlyBlockListInner Inner = (IReadOnlyBlockListInner)CreateBlockListInner(parentState, AsBlockNodeIndexCollection);
                     NotifyBlockListInnerCreated(Inner as IReadOnlyBlockListInner);
                     Result = Inner;
                     break;
@@ -618,7 +618,7 @@
             {
                 IReadOnlyList<IReadOnlyBrowsingChildIndex> NodeIndexList = NodeIndexCollection.NodeIndexList;
                 string PropertyName = NodeIndexCollection.PropertyName;
-                IReadOnlyInner<IReadOnlyBrowsingChildIndex> Inner = InnerTable[PropertyName];
+                IReadOnlyInner<IReadOnlyBrowsingChildIndex> Inner = (IReadOnlyInner<IReadOnlyBrowsingChildIndex>)InnerTable[PropertyName];
 
                 for (int i = 0; i < NodeIndexList.Count; i++)
                 {

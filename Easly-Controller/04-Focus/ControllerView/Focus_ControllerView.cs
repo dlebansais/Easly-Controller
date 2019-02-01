@@ -1237,7 +1237,7 @@
                 return true;
             }
 
-            foreach (KeyValuePair<string, IFocusInner<IFocusBrowsingChildIndex>> Entry in stateView.State.InnerTable)
+            foreach (KeyValuePair<string, IFocusInner> Entry in stateView.State.InnerTable)
                 if (Entry.Value is IFocusPlaceholderInner<IFocusBrowsingPlaceholderNodeIndex> AsPlaceholderInner)
                 {
                     if (CellViewSearchInPlaceholderInner(focusChain, cellViewList, AsPlaceholderInner, out selectedStateView))
@@ -1333,7 +1333,7 @@
         {
             stateViewList.Add(stateView);
 
-            foreach (KeyValuePair<string, IFocusInner<IFocusBrowsingChildIndex>> Entry in stateView.State.InnerTable)
+            foreach (KeyValuePair<string, IFocusInner> Entry in stateView.State.InnerTable)
                 if (Entry.Value is IFocusPlaceholderInner<IFocusBrowsingPlaceholderNodeIndex> AsPlaceholderInner)
                 {
                     Debug.Assert(StateViewTable.ContainsKey(AsPlaceholderInner.ChildState));

@@ -10,7 +10,7 @@ namespace EaslyController.ReadOnly
     /// Read-only dictionary of ..., IxxxInner
     /// </summary>
     /// <typeparam name="TKey">Type of the key.</typeparam>
-    public interface IReadOnlyInnerReadOnlyDictionary<TKey> : IReadOnlyDictionary<TKey, IReadOnlyInner<IReadOnlyBrowsingChildIndex>>, IEqualComparable
+    public interface IReadOnlyInnerReadOnlyDictionary<TKey> : IReadOnlyDictionary<TKey, IReadOnlyInner>, IEqualComparable
     {
     }
 
@@ -18,7 +18,7 @@ namespace EaslyController.ReadOnly
     /// Read-only dictionary of ..., IxxxInner
     /// </summary>
     /// <typeparam name="TKey">Type of the key.</typeparam>
-    internal class ReadOnlyInnerReadOnlyDictionary<TKey> : ReadOnlyDictionary<TKey, IReadOnlyInner<IReadOnlyBrowsingChildIndex>>, IReadOnlyInnerReadOnlyDictionary<TKey>
+    internal class ReadOnlyInnerReadOnlyDictionary<TKey> : ReadOnlyDictionary<TKey, IReadOnlyInner>, IReadOnlyInnerReadOnlyDictionary<TKey>
     {
         public ReadOnlyInnerReadOnlyDictionary(IReadOnlyInnerDictionary<TKey> dictionary)
             : base(dictionary)
@@ -41,7 +41,7 @@ namespace EaslyController.ReadOnly
             if (!comparer.IsSameCount(Count, AsInnerReadOnlyDictionary.Count))
                 return comparer.Failed();
 
-            foreach (KeyValuePair<TKey, IReadOnlyInner<IReadOnlyBrowsingChildIndex>> Entry in this)
+            foreach (KeyValuePair<TKey, IReadOnlyInner> Entry in this)
             {
                 if (!comparer.IsTrue(AsInnerReadOnlyDictionary.ContainsKey(Entry.Key)))
                     return comparer.Failed();

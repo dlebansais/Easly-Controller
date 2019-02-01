@@ -149,11 +149,11 @@
                 NewNode = NodeHelper.CreateEmptyNode(ChildNode.GetType());
 
                 // Clone and assign reference to all nodes, optional or not, list and block lists.
-                foreach (KeyValuePair<string, IReadOnlyInner<IReadOnlyBrowsingChildIndex>> Entry in InnerTable)
+                foreach (KeyValuePair<string, IReadOnlyInner> Entry in InnerTable)
                 {
                     string PropertyName = Entry.Key;
-                    IReadOnlyInner<IReadOnlyBrowsingChildIndex> Inner = Entry.Value;
-                    Inner.CloneChildren(NewNode);
+                    IReadOnlyInner Inner = Entry.Value;
+                    ((IReadOnlyInner<IReadOnlyBrowsingChildIndex>)Inner).CloneChildren(NewNode);
                 }
 
                 // Copy other properties.
@@ -212,9 +212,9 @@
             InvariantAssert(IsInitialized);
             InvariantAssert(InnerTable != null);
 
-            foreach (KeyValuePair<string, IReadOnlyInner<IReadOnlyBrowsingChildIndex>> Entry in InnerTable)
+            foreach (KeyValuePair<string, IReadOnlyInner> Entry in InnerTable)
             {
-                IReadOnlyInner<IReadOnlyBrowsingChildIndex> Inner = Entry.Value;
+                IReadOnlyInner Inner = Entry.Value;
 
                 InvariantAssert((Inner is IReadOnlyBlockListInner) || (Inner is IReadOnlyListInner) || (Inner is IReadOnlyOptionalInner) || (Inner is IReadOnlyPlaceholderInner));
                 InvariantAssert(Inner.Owner == this);

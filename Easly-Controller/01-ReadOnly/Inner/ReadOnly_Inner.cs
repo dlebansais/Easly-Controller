@@ -23,12 +23,6 @@
         /// Interface type for all nodes in the inner.
         /// </summary>
         Type InterfaceType { get; }
-
-        /// <summary>
-        /// Creates a clone of all children of the inner, using <paramref name="parentNode"/> as their parent.
-        /// </summary>
-        /// <param name="parentNode">The node that will contains references to cloned children upon return.</param>
-        void CloneChildren(INode parentNode);
     }
 
     /// <summary>

@@ -12,11 +12,11 @@ namespace EaslyController.Frame
     /// Read-only dictionary of ..., IxxxInner
     /// </summary>
     /// <typeparam name="TKey">Type of the key.</typeparam>
-    public interface IFrameInnerReadOnlyDictionary<TKey> : IWriteableInnerReadOnlyDictionary<TKey>, IReadOnlyDictionary<TKey, IFrameInner<IFrameBrowsingChildIndex>>
+    public interface IFrameInnerReadOnlyDictionary<TKey> : IWriteableInnerReadOnlyDictionary<TKey>, IReadOnlyDictionary<TKey, IFrameInner>
     {
         new int Count { get; }
-        new IFrameInner<IFrameBrowsingChildIndex> this[TKey key] { get; }
-        new IEnumerator<KeyValuePair<TKey, IFrameInner<IFrameBrowsingChildIndex>>> GetEnumerator();
+        new IFrameInner this[TKey key] { get; }
+        new IEnumerator<KeyValuePair<TKey, IFrameInner>> GetEnumerator();
         new bool ContainsKey(TKey key);
     }
 
@@ -24,7 +24,7 @@ namespace EaslyController.Frame
     /// Read-only dictionary of ..., IxxxInner
     /// </summary>
     /// <typeparam name="TKey">Type of the key.</typeparam>
-    internal class FrameInnerReadOnlyDictionary<TKey> : ReadOnlyDictionary<TKey, IFrameInner<IFrameBrowsingChildIndex>>, IFrameInnerReadOnlyDictionary<TKey>
+    internal class FrameInnerReadOnlyDictionary<TKey> : ReadOnlyDictionary<TKey, IFrameInner>, IFrameInnerReadOnlyDictionary<TKey>
     {
         public FrameInnerReadOnlyDictionary(IFrameInnerDictionary<TKey> dictionary)
             : base(dictionary)
@@ -32,44 +32,44 @@ namespace EaslyController.Frame
         }
 
         #region ReadOnly
-        public new IReadOnlyInner<IReadOnlyBrowsingChildIndex> this[TKey key] { get { return base[key]; } }
+        public new IReadOnlyInner this[TKey key] { get { return base[key]; } }
         public new IEnumerable<TKey> Keys { get { return base.Keys; } }
-        public new IEnumerable<IReadOnlyInner<IReadOnlyBrowsingChildIndex>> Values { get { return base.Values; } }
+        public new IEnumerable<IReadOnlyInner> Values { get { return base.Values; } }
 
-        public new IEnumerator<KeyValuePair<TKey, IReadOnlyInner<IReadOnlyBrowsingChildIndex>>> GetEnumerator()
+        public new IEnumerator<KeyValuePair<TKey, IReadOnlyInner>> GetEnumerator()
         {
-            List<KeyValuePair<TKey, IReadOnlyInner<IReadOnlyBrowsingChildIndex>>> NewList = new List<KeyValuePair<TKey, IReadOnlyInner<IReadOnlyBrowsingChildIndex>>>();
-            foreach (KeyValuePair<TKey, IFrameInner<IFrameBrowsingChildIndex>> Entry in Dictionary)
-                NewList.Add(new KeyValuePair<TKey, IReadOnlyInner<IReadOnlyBrowsingChildIndex>>(Entry.Key, Entry.Value));
+            List<KeyValuePair<TKey, IReadOnlyInner>> NewList = new List<KeyValuePair<TKey, IReadOnlyInner>>();
+            foreach (KeyValuePair<TKey, IFrameInner> Entry in Dictionary)
+                NewList.Add(new KeyValuePair<TKey, IReadOnlyInner>(Entry.Key, Entry.Value));
 
             return NewList.GetEnumerator();
         }
-        public bool TryGetValue(TKey key, out IReadOnlyInner<IReadOnlyBrowsingChildIndex> value)
+        public bool TryGetValue(TKey key, out IReadOnlyInner value)
         {
-            bool Result = TryGetValue(key, out IFrameInner<IFrameBrowsingChildIndex> Value);
+            bool Result = TryGetValue(key, out IFrameInner Value);
             value = Value;
             return Result;
         }
         #endregion
 
         #region Writeable
-        IWriteableInner<IWriteableBrowsingChildIndex> IWriteableInnerReadOnlyDictionary<TKey>.this[TKey key] { get { return base[key]; } }
-        IWriteableInner<IWriteableBrowsingChildIndex> IReadOnlyDictionary<TKey, IWriteableInner<IWriteableBrowsingChildIndex>>.this[TKey key] { get { return base[key]; } }
-        IEnumerable<IWriteableInner<IWriteableBrowsingChildIndex>> IReadOnlyDictionary<TKey, IWriteableInner<IWriteableBrowsingChildIndex>>.Values { get { return base.Values; } }
+        IWriteableInner IWriteableInnerReadOnlyDictionary<TKey>.this[TKey key] { get { return base[key]; } }
+        IWriteableInner IReadOnlyDictionary<TKey, IWriteableInner>.this[TKey key] { get { return base[key]; } }
+        IEnumerable<IWriteableInner> IReadOnlyDictionary<TKey, IWriteableInner>.Values { get { return base.Values; } }
 
-        IEnumerator<KeyValuePair<TKey, IWriteableInner<IWriteableBrowsingChildIndex>>> IWriteableInnerReadOnlyDictionary<TKey>.GetEnumerator()
+        IEnumerator<KeyValuePair<TKey, IWriteableInner>> IWriteableInnerReadOnlyDictionary<TKey>.GetEnumerator()
         {
-            List<KeyValuePair<TKey, IWriteableInner<IWriteableBrowsingChildIndex>>> NewList = new List<KeyValuePair<TKey, IWriteableInner<IWriteableBrowsingChildIndex>>>();
-            foreach (KeyValuePair<TKey, IFrameInner<IFrameBrowsingChildIndex>> Entry in Dictionary)
-                NewList.Add(new KeyValuePair<TKey, IWriteableInner<IWriteableBrowsingChildIndex>>(Entry.Key, Entry.Value));
+            List<KeyValuePair<TKey, IWriteableInner>> NewList = new List<KeyValuePair<TKey, IWriteableInner>>();
+            foreach (KeyValuePair<TKey, IFrameInner> Entry in Dictionary)
+                NewList.Add(new KeyValuePair<TKey, IWriteableInner>(Entry.Key, Entry.Value));
 
             return NewList.GetEnumerator();
         }
-        IEnumerator<KeyValuePair<TKey, IWriteableInner<IWriteableBrowsingChildIndex>>> IEnumerable<KeyValuePair<TKey, IWriteableInner<IWriteableBrowsingChildIndex>>>.GetEnumerator() { return ((IWriteableInnerReadOnlyDictionary<TKey>)this).GetEnumerator(); }
+        IEnumerator<KeyValuePair<TKey, IWriteableInner>> IEnumerable<KeyValuePair<TKey, IWriteableInner>>.GetEnumerator() { return ((IWriteableInnerReadOnlyDictionary<TKey>)this).GetEnumerator(); }
 
-        public bool TryGetValue(TKey key, out IWriteableInner<IWriteableBrowsingChildIndex> value)
+        public bool TryGetValue(TKey key, out IWriteableInner value)
         {
-            bool Result = TryGetValue(key, out IFrameInner<IFrameBrowsingChildIndex> Value);
+            bool Result = TryGetValue(key, out IFrameInner Value);
             value = Value;
             return Result;
         }
@@ -91,7 +91,7 @@ namespace EaslyController.Frame
             if (!comparer.IsSameCount(Count, AsInnerReadOnlyDictionary.Count))
                 return comparer.Failed();
 
-            foreach (KeyValuePair<TKey, IReadOnlyInner<IReadOnlyBrowsingChildIndex>> Entry in this)
+            foreach (KeyValuePair<TKey, IReadOnlyInner> Entry in this)
             {
                 if (!comparer.IsTrue(AsInnerReadOnlyDictionary.ContainsKey(Entry.Key)))
                     return comparer.Failed();
