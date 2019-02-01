@@ -51,11 +51,11 @@
         }
 
         /// <summary>
-        /// Initializes the view by attaching it to the controller.
+        /// Add events to handlers.
         /// </summary>
-        private protected override void Init()
+        private protected override void InitAddEvents()
         {
-            base.Init();
+            base.InitAddEvents();
 
             Controller.BlockStateInserted += OnBlockStateInserted;
             Controller.BlockStateRemoved += OnBlockStateRemoved;

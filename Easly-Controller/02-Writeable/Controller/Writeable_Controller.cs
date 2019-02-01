@@ -24,26 +24,6 @@
         new IWriteablePlaceholderNodeState RootState { get; }
 
         /// <summary>
-        /// Called when a state is created.
-        /// </summary>
-        new event Action<IWriteableNodeState> NodeStateCreated;
-
-        /// <summary>
-        /// Called when a state is initialized.
-        /// </summary>
-        new event Action<IWriteableNodeState> NodeStateInitialized;
-
-        /// <summary>
-        /// Called when a state is removed.
-        /// </summary>
-        new event Action<IWriteableNodeState> NodeStateRemoved;
-
-        /// <summary>
-        /// Called when a block list inner is created.
-        /// </summary>
-        new event Action<IWriteableBlockListInner> BlockListInnerCreated;
-
-        /// <summary>
         /// List of operations that have been performed, and can be undone or redone.
         /// </summary>
         IWriteableOperationGroupReadOnlyList OperationStack { get; }
@@ -337,42 +317,6 @@
         /// State of the root node.
         /// </summary>
         public new IWriteablePlaceholderNodeState RootState { get { return (IWriteablePlaceholderNodeState)base.RootState; } }
-
-        /// <summary>
-        /// Called when a state is created.
-        /// </summary>
-        public new event Action<IWriteableNodeState> NodeStateCreated
-        {
-            add { AddNodeStateCreatedDelegate((Action<IReadOnlyNodeState>)value); }
-            remove { RemoveNodeStateCreatedDelegate((Action<IReadOnlyNodeState>)value); }
-        }
-
-        /// <summary>
-        /// Called when a state is initialized.
-        /// </summary>
-        public new event Action<IWriteableNodeState> NodeStateInitialized
-        {
-            add { AddNodeStateInitializedDelegate((Action<IReadOnlyNodeState>)value); }
-            remove { RemoveNodeStateInitializedDelegate((Action<IReadOnlyNodeState>)value); }
-        }
-
-        /// <summary>
-        /// Called when a state is removed.
-        /// </summary>
-        public new event Action<IWriteableNodeState> NodeStateRemoved
-        {
-            add { AddNodeStateRemovedDelegate((Action<IReadOnlyNodeState>)value); }
-            remove { RemoveNodeStateRemovedDelegate((Action<IReadOnlyNodeState>)value); }
-        }
-
-        /// <summary>
-        /// Called when a block list inner is created.
-        /// </summary>
-        public new event Action<IWriteableBlockListInner> BlockListInnerCreated
-        {
-            add { AddBlockListInnerCreatedDelegate((Action<IReadOnlyBlockListInner>)value); }
-            remove { RemoveBlockListInnerCreatedDelegate((Action<IReadOnlyBlockListInner>)value); }
-        }
 
         /// <summary>
         /// List of operations that have been performed, and can be undone or redone.

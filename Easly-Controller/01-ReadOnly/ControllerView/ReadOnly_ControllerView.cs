@@ -64,6 +64,14 @@
             Debug.Assert(StateViewTable.Count == Controller.Stats.NodeCount);
             Debug.Assert(BlockStateViewTable.Count == Controller.Stats.BlockCount);
 
+            InitAddEvents();
+        }
+
+        /// <summary>
+        /// Add events to handlers.
+        /// </summary>
+        private protected virtual void InitAddEvents()
+        {
             Controller.NodeStateCreated += OnNodeStateCreated;
             Controller.NodeStateInitialized += OnNodeStateInitialized;
             Controller.NodeStateRemoved += OnNodeStateRemoved;
