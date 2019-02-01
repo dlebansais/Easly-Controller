@@ -26,7 +26,7 @@
         /// <summary>
         /// List of operations that have been performed, and can be undone or redone.
         /// </summary>
-        new IFrameOperationReadOnlyList OperationStack { get; }
+        new IFrameOperationGroupReadOnlyList OperationStack { get; }
 
         /// <summary>
         /// Called when a state is created.
@@ -157,7 +157,7 @@
         /// <summary>
         /// List of operations that have been performed, and can be undone or redone.
         /// </summary>
-        public new IFrameOperationReadOnlyList OperationStack { get { return (IFrameOperationReadOnlyList)base.OperationStack; } }
+        public new IFrameOperationGroupReadOnlyList OperationStack { get { return (IFrameOperationGroupReadOnlyList)base.OperationStack; } }
 
         /// <summary>
         /// Called when a state is created.

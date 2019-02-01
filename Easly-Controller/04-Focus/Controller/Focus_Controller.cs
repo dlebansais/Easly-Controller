@@ -28,7 +28,7 @@
         /// <summary>
         /// List of operations that have been performed, and can be undone or redone.
         /// </summary>
-        new IFocusOperationReadOnlyList OperationStack { get; }
+        new IFocusOperationGroupReadOnlyList OperationStack { get; }
 
         /// <summary>
         /// Called when a state is created.
@@ -177,7 +177,7 @@
         /// <summary>
         /// List of operations that have been performed, and can be undone or redone.
         /// </summary>
-        public new IFocusOperationReadOnlyList OperationStack { get { return (IFocusOperationReadOnlyList)base.OperationStack; } }
+        public new IFocusOperationGroupReadOnlyList OperationStack { get { return (IFocusOperationGroupReadOnlyList)base.OperationStack; } }
 
         /// <summary>
         /// Called when a state is created.
