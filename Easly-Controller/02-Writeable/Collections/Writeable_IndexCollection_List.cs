@@ -9,7 +9,7 @@ namespace EaslyController.Writeable
     /// <summary>
     /// List of IxxxIndexCollection
     /// </summary>
-    public interface IWriteableIndexCollectionList : IReadOnlyIndexCollectionList, IList<IWriteableIndexCollection>, IReadOnlyList<IWriteableIndexCollection>
+    internal interface IWriteableIndexCollectionList : IReadOnlyIndexCollectionList, IList<IWriteableIndexCollection>, IReadOnlyList<IWriteableIndexCollection>
     {
         new int Count { get; }
         new IWriteableIndexCollection this[int index] { get; set; }

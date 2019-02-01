@@ -6,7 +6,7 @@
     /// <summary>
     /// Context for browsing child nodes of a parent node.
     /// </summary>
-    public interface IFrameBrowseContext : IWriteableBrowseContext
+    internal interface IFrameBrowseContext : IWriteableBrowseContext
     {
         /// <summary>
         /// State this context is browsing.

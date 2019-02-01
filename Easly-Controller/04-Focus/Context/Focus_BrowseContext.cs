@@ -6,7 +6,7 @@
     /// <summary>
     /// Context for browsing child nodes of a parent node.
     /// </summary>
-    public interface IFocusBrowseContext : IFrameBrowseContext
+    internal interface IFocusBrowseContext : IFrameBrowseContext
     {
         /// <summary>
         /// State this context is browsing.

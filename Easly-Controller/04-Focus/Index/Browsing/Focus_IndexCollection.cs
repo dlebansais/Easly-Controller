@@ -1,13 +1,12 @@
 ﻿namespace EaslyController.Focus
 {
     using System.Collections.Generic;
-    using System.Diagnostics;
     using EaslyController.Frame;
 
     /// <summary>
     /// Collection of node indexes.
     /// </summary>
-    public interface IFocusIndexCollection : IFrameIndexCollection
+    internal interface IFocusIndexCollection : IFrameIndexCollection
     {
     }
 
@@ -15,7 +14,7 @@
     /// Collection of node indexes.
     /// </summary>
     /// <typeparam name="IIndex">Type of the index.</typeparam>
-    public interface IFocusIndexCollection<out IIndex> : IFrameIndexCollection<IIndex>
+    internal interface IFocusIndexCollection<out IIndex> : IFrameIndexCollection<IIndex>
         where IIndex : IFocusBrowsingChildIndex
     {
     }

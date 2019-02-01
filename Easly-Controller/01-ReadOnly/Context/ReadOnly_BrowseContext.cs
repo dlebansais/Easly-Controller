@@ -7,7 +7,7 @@
     /// <summary>
     /// Context for browsing child nodes of a parent node.
     /// </summary>
-    public interface IReadOnlyBrowseContext
+    internal interface IReadOnlyBrowseContext
     {
         /// <summary>
         /// State this context is browsing.

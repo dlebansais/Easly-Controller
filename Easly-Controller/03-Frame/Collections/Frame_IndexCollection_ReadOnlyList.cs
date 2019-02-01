@@ -10,7 +10,7 @@ namespace EaslyController.Frame
     /// <summary>
     /// Read-only list of IxxxIndexCollection
     /// </summary>
-    public interface IFrameIndexCollectionReadOnlyList : IWriteableIndexCollectionReadOnlyList, IReadOnlyList<IFrameIndexCollection>
+    internal interface IFrameIndexCollectionReadOnlyList : IWriteableIndexCollectionReadOnlyList, IReadOnlyList<IFrameIndexCollection>
     {
         new int Count { get; }
         new IFrameIndexCollection this[int index] { get; }

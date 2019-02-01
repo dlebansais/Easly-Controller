@@ -52,12 +52,6 @@
         /// <param name="index">Position of the node in the block.</param>
         /// <returns>The index of the node at position <paramref name="blockIndex"/> and <paramref name="index"/>.</returns>
         IReadOnlyBrowsingExistingBlockNodeIndex IndexAt(int blockIndex, int index);
-
-        /// <summary>
-        /// Requests that the notification that a block has been removed be sent.
-        /// </summary>
-        /// <param name="blockState">The removed block.</param>
-        void NotifyBlockStateRemoved(IReadOnlyBlockState blockState);
     }
 
     /// <summary>
@@ -330,7 +324,7 @@
             for (int BlockIndex = 0; BlockIndex < BlockStateList.Count; BlockIndex++)
             {
                 IReadOnlyBlockState BlockState = BlockStateList[BlockIndex];
-                BlockState.CloneBlock(parentNode, BlockIndex);
+                ((IReadOnlyBlockState<IReadOnlyInner<IReadOnlyBrowsingChildIndex>>)BlockState).CloneBlock(parentNode, BlockIndex);
             }
 
             // Copy comments.

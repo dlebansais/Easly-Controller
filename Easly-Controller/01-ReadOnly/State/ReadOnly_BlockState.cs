@@ -51,13 +51,6 @@
         /// </summary>
         /// <param name="propertyName">Property name.</param>
         IReadOnlyInner<IReadOnlyBrowsingChildIndex> PropertyToInner(string propertyName);
-
-        /// <summary>
-        /// Creates a clone of the block and assigns it in the provided parent.
-        /// </summary>
-        /// <param name="parentNode">The node that will contains a reference to the cloned block upon return.</param>
-        /// <param name="blockIndex">Position where to insert the block in <paramref name="parentNode"/>.</param>
-        void CloneBlock(INode parentNode, int blockIndex);
     }
 
     /// <summary>
@@ -91,6 +84,13 @@
         /// <param name="view">The attaching view.</param>
         /// <param name="callbackSet">The set of callbacks to no longer call when enumerating existing states.</param>
         void Detach(IReadOnlyControllerView view, IReadOnlyAttachCallbackSet callbackSet);
+
+        /// <summary>
+        /// Creates a clone of the block and assigns it in the provided parent.
+        /// </summary>
+        /// <param name="parentNode">The node that will contains a reference to the cloned block upon return.</param>
+        /// <param name="blockIndex">Position where to insert the block in <paramref name="parentNode"/>.</param>
+        void CloneBlock(INode parentNode, int blockIndex);
     }
 
     /// <summary>

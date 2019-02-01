@@ -10,7 +10,7 @@ namespace EaslyController.Frame
     /// <summary>
     /// List of IxxxIndexCollection
     /// </summary>
-    public interface IFrameIndexCollectionList : IWriteableIndexCollectionList, IList<IFrameIndexCollection>, IReadOnlyList<IFrameIndexCollection>
+    internal interface IFrameIndexCollectionList : IWriteableIndexCollectionList, IList<IFrameIndexCollection>, IReadOnlyList<IFrameIndexCollection>
     {
         new int Count { get; }
         new IFrameIndexCollection this[int index] { get; set; }

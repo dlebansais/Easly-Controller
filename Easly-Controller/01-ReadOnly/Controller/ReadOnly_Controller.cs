@@ -60,20 +60,6 @@
         IReadOnlyNodeState IndexToState(IReadOnlyIndex index);
 
         /// <summary>
-        /// Attach a controller view.
-        /// </summary>
-        /// <param name="view">The attaching view.</param>
-        /// <param name="callbackSet">The set of callbacks to call when enumerating existing states.</param>
-        void Attach(IReadOnlyControllerView view, IReadOnlyAttachCallbackSet callbackSet);
-
-        /// <summary>
-        /// Detach a controller view.
-        /// </summary>
-        /// <param name="view">The detaching view.</param>
-        /// <param name="callbackSet">The set of callbacks to no longer call when enumerating existing states.</param>
-        void Detach(IReadOnlyControllerView view, IReadOnlyAttachCallbackSet callbackSet);
-
-        /// <summary>
         /// Returns the assigned state of an optional node.
         /// </summary>
         /// <param name="index">Index of the node.</param>
@@ -105,7 +91,28 @@
     /// Controller for a node tree.
     /// This controller supports read-only access only.
     /// </summary>
-    public class ReadOnlyController : IReadOnlyController
+    internal interface IReadOnlyControllerInternal : IEqualComparable
+    {
+        /// <summary>
+        /// Attach a controller view.
+        /// </summary>
+        /// <param name="view">The attaching view.</param>
+        /// <param name="callbackSet">The set of callbacks to call when enumerating existing states.</param>
+        void Attach(IReadOnlyControllerView view, IReadOnlyAttachCallbackSet callbackSet);
+
+        /// <summary>
+        /// Detach a controller view.
+        /// </summary>
+        /// <param name="view">The detaching view.</param>
+        /// <param name="callbackSet">The set of callbacks to no longer call when enumerating existing states.</param>
+        void Detach(IReadOnlyControllerView view, IReadOnlyAttachCallbackSet callbackSet);
+    }
+
+    /// <summary>
+    /// Controller for a node tree.
+    /// This controller supports read-only access only.
+    /// </summary>
+    public class ReadOnlyController : IReadOnlyControllerInternal, IReadOnlyController
     {
         #region Init
         /// <summary>

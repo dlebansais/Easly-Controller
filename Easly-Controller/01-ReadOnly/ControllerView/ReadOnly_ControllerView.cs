@@ -59,7 +59,7 @@
         private protected virtual void Init()
         {
             IReadOnlyAttachCallbackSet CallbackSet = CreateCallbackSet();
-            Controller.Attach(this, CallbackSet);
+            ((IReadOnlyControllerInternal)Controller).Attach(this, CallbackSet);
 
             Debug.Assert(StateViewTable.Count == Controller.Stats.NodeCount);
             Debug.Assert(BlockStateViewTable.Count == Controller.Stats.BlockCount);
@@ -320,7 +320,7 @@
             Controller.BlockListInnerCreated -= OnBlockListInnerCreated;
 
             IReadOnlyAttachCallbackSet CallbackSet = CreateCallbackSet();
-            Controller.Detach(this, CallbackSet);
+            ((IReadOnlyControllerInternal)Controller).Detach(this, CallbackSet);
 
             Debug.Assert(StateViewTable.Count == 0);
             Debug.Assert(BlockStateViewTable.Count == 0);

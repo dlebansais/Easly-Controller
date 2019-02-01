@@ -7,7 +7,7 @@
     /// <summary>
     /// Collection of node indexes.
     /// </summary>
-    public interface IReadOnlyIndexCollection
+    internal interface IReadOnlyIndexCollection
     {
         /// <summary>
         /// Property indexed for all nodes in the collection.
@@ -29,7 +29,7 @@
     /// Collection of node indexes.
     /// </summary>
     /// <typeparam name="IIndex">Type of the index.</typeparam>
-    public interface IReadOnlyIndexCollection<out IIndex>
+    internal interface IReadOnlyIndexCollection<out IIndex>
         where IIndex : IReadOnlyBrowsingChildIndex
     {
         /// <summary>

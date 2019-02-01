@@ -11,7 +11,7 @@ namespace EaslyController.Focus
     /// <summary>
     /// Read-only list of IxxxIndexCollection
     /// </summary>
-    public interface IFocusIndexCollectionReadOnlyList : IFrameIndexCollectionReadOnlyList, IReadOnlyList<IFocusIndexCollection>
+    internal interface IFocusIndexCollectionReadOnlyList : IFrameIndexCollectionReadOnlyList, IReadOnlyList<IFocusIndexCollection>
     {
         new int Count { get; }
         new IFocusIndexCollection this[int index] { get; }

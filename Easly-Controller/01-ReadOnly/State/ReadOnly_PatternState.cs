@@ -14,11 +14,6 @@
         new IPattern Node { get; }
 
         /// <summary>
-        /// The parent block state.
-        /// </summary>
-        IReadOnlyBlockState ParentBlockState { get; }
-
-        /// <summary>
         /// The index that was used to create the state.
         /// </summary>
         new IReadOnlyBrowsingPatternIndex ParentIndex { get; }
@@ -28,6 +23,11 @@
         /// </summary>
         /// <returns>The cloned node.</returns>
         new IPattern CloneNode();
+
+        /// <summary>
+        /// The parent block state.
+        /// </summary>
+        IReadOnlyBlockState ParentBlockState { get; }
     }
 
     /// <summary>
