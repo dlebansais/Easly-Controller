@@ -20,7 +20,7 @@
     /// Inner for a list of nodes.
     /// </summary>
     /// <typeparam name="IIndex">Type of the index.</typeparam>
-    public interface IFocusListInner<out IIndex> : IFrameListInner<IIndex>, IFocusCollectionInner<IIndex>
+    internal interface IFocusListInner<out IIndex> : IFrameListInner<IIndex>, IFocusCollectionInner<IIndex>
         where IIndex : IFocusBrowsingListNodeIndex
     {
         /// <summary>
@@ -92,7 +92,7 @@
         private protected override IReadOnlyPlaceholderNodeState CreateNodeState(IReadOnlyNodeIndex nodeIndex)
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusListInner<IIndex, TIndex>));
-            return new FocusPlaceholderNodeState((IFocusNodeIndex)nodeIndex);
+            return new FocusPlaceholderNodeState<IFocusInner<IFocusBrowsingChildIndex>>((IFocusNodeIndex)nodeIndex);
         }
 
         /// <summary>

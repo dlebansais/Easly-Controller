@@ -120,7 +120,6 @@
             }
 
             Debug.Assert(StateView != null);
-            Debug.Assert(StateView.ToString() != null); // For code coverage.
 
             StateViewTable.Add(state, StateView);
         }
@@ -133,6 +132,9 @@
         {
             Debug.Assert(state != null);
             Debug.Assert(StateViewTable.ContainsKey(state));
+
+            IReadOnlyNodeStateView StateView = StateViewTable[state];
+            Debug.Assert(StateView.ToString() != null); // For code coverage.
         }
 
         /// <summary>

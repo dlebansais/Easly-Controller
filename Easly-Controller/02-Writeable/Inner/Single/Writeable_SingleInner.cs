@@ -17,7 +17,7 @@
     /// Base inner for a single node inner.
     /// </summary>
     /// <typeparam name="IIndex">Type of the index.</typeparam>
-    public interface IWriteableSingleInner<out IIndex> : IReadOnlySingleInner<IIndex>, IWriteableInner<IIndex>
+    internal interface IWriteableSingleInner<out IIndex> : IReadOnlySingleInner<IIndex>, IWriteableInner<IIndex>
         where IIndex : IWriteableBrowsingChildIndex
     {
         /// <summary>

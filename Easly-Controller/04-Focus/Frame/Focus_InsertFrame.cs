@@ -27,7 +27,7 @@
         /// </summary>
         /// <param name="state">The state, modified if <see cref="IFrameInsertFrame.CollectionName"/> points to a different state.</param>
         /// <param name="inner">The inner associated to the collection in <paramref name="state"/>.</param>
-        void CollectionNameToInner(ref IFocusNodeState state, ref IFocusCollectionInner<IFocusBrowsingCollectionNodeIndex> inner);
+        void CollectionNameToInner(ref IFocusNodeState state, ref IFocusCollectionInner inner);
     }
 
     /// <summary>
@@ -163,7 +163,7 @@
         /// </summary>
         /// <param name="state">The state, modified if <see cref="IFrameInsertFrame.CollectionName"/> points to a different state.</param>
         /// <param name="inner">The inner associated to the collection in <paramref name="state"/>.</param>
-        public virtual void CollectionNameToInner(ref IFocusNodeState state, ref IFocusCollectionInner<IFocusBrowsingCollectionNodeIndex> inner)
+        public virtual void CollectionNameToInner(ref IFocusNodeState state, ref IFocusCollectionInner inner)
         {
             Debug.Assert(inner == null);
 
@@ -195,7 +195,7 @@
                 else
                 {
                     Debug.Assert(state.InnerTable.ContainsKey(PropertyName));
-                    inner = state.InnerTable[PropertyName] as IFocusCollectionInner<IFocusBrowsingCollectionNodeIndex>;
+                    inner = state.InnerTable[PropertyName] as IFocusCollectionInner;
                 }
             }
 

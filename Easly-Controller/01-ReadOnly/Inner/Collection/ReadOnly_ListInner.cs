@@ -27,7 +27,7 @@
     /// Inner for a list of nodes.
     /// </summary>
     /// <typeparam name="IIndex">Type of the index.</typeparam>
-    public interface IReadOnlyListInner<out IIndex> : IReadOnlyCollectionInner<IIndex>
+    internal interface IReadOnlyListInner<out IIndex> : IReadOnlyCollectionInner<IIndex>
         where IIndex : IReadOnlyBrowsingListNodeIndex
     {
         /// <summary>
@@ -178,7 +178,7 @@
         public override void Attach(IReadOnlyControllerView view, IReadOnlyAttachCallbackSet callbackSet)
         {
             foreach (IReadOnlyNodeState ChildState in StateList)
-                ChildState.Attach(view, callbackSet);
+                ((IReadOnlyNodeState<IReadOnlyInner<IReadOnlyBrowsingChildIndex>>)ChildState).Attach(view, callbackSet);
         }
 
         /// <summary>
@@ -189,7 +189,7 @@
         public override void Detach(IReadOnlyControllerView view, IReadOnlyAttachCallbackSet callbackSet)
         {
             foreach (IReadOnlyNodeState ChildState in StateList)
-                ChildState.Detach(view, callbackSet);
+                ((IReadOnlyNodeState<IReadOnlyInner<IReadOnlyBrowsingChildIndex>>)ChildState).Detach(view, callbackSet);
         }
         #endregion
 
@@ -276,7 +276,7 @@
         private protected virtual IReadOnlyPlaceholderNodeState CreateNodeState(IReadOnlyNodeIndex nodeIndex)
         {
             ControllerTools.AssertNoOverride(this, typeof(ReadOnlyListInner<IIndex, TIndex>));
-            return new ReadOnlyPlaceholderNodeState(nodeIndex);
+            return new ReadOnlyPlaceholderNodeState<IReadOnlyInner<IReadOnlyBrowsingChildIndex>>(nodeIndex);
         }
         #endregion
     }

@@ -129,7 +129,7 @@
         /// <param name="cycleIndexList">Cycle of nodes that can replace the current node.</param>
         /// <param name="cyclePosition">New position in the cycle.</param>
         /// <param name="nodeIndex">Index of the replacing node upon return.</param>
-        void Replace(IFocusInner<IFocusBrowsingChildIndex> inner, IFocusInsertionChildNodeIndexList cycleIndexList, int cyclePosition, out IFocusBrowsingChildIndex nodeIndex);
+        void Replace(IFocusInner inner, IFocusInsertionChildNodeIndexList cycleIndexList, int cyclePosition, out IFocusBrowsingChildIndex nodeIndex);
     }
 
     /// <summary>
@@ -358,7 +358,7 @@
         /// <param name="cycleIndexList">Cycle of nodes that can replace the current node.</param>
         /// <param name="cyclePosition">New position in the cycle.</param>
         /// <param name="nodeIndex">Index of the replacing node upon return.</param>
-        public virtual void Replace(IFocusInner<IFocusBrowsingChildIndex> inner, IFocusInsertionChildNodeIndexList cycleIndexList, int cyclePosition, out IFocusBrowsingChildIndex nodeIndex)
+        public virtual void Replace(IFocusInner inner, IFocusInsertionChildNodeIndexList cycleIndexList, int cyclePosition, out IFocusBrowsingChildIndex nodeIndex)
         {
             Debug.Assert(cycleIndexList != null);
             Debug.Assert(cycleIndexList.Count >= 2);
@@ -540,7 +540,7 @@
         private protected override IReadOnlyPlaceholderNodeState CreateRootNodeState(IReadOnlyRootNodeIndex nodeIndex)
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusController));
-            return new FocusPlaceholderNodeState((IFocusRootNodeIndex)nodeIndex);
+            return new FocusPlaceholderNodeState<IFocusInner<IFocusBrowsingChildIndex>>((IFocusRootNodeIndex)nodeIndex);
         }
 
         /// <summary>

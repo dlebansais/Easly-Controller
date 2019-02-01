@@ -43,11 +43,22 @@
     /// <summary>
     /// State of a block in a block list.
     /// </summary>
-    internal class FocusBlockState : FrameBlockState, IFocusBlockState
+    /// <typeparam name="IInner">Parent inner of the block state.</typeparam>
+    internal interface IFocusBlockState<out IInner> : IFrameBlockState<IInner>
+        where IInner : IFocusInner<IFocusBrowsingChildIndex>
+    {
+    }
+
+    /// <summary>
+    /// State of a block in a block list.
+    /// </summary>
+    /// <typeparam name="IInner">Parent inner of the block state.</typeparam>
+    internal class FocusBlockState<IInner> : FrameBlockState<IInner>, IFocusBlockState<IInner>, IFocusBlockState
+        where IInner : IFocusInner<IFocusBrowsingChildIndex>
     {
         #region Init
         /// <summary>
-        /// Initializes a new instance of the <see cref="FocusBlockState"/> class.
+        /// Initializes a new instance of the <see cref="FocusBlockState{IInner}"/> class.
         /// </summary>
         /// <param name="parentInner">Inner containing the block state.</param>
         /// <param name="newBlockIndex">Index that was used to create the block state.</param>
@@ -96,7 +107,7 @@
         /// </summary>
         private protected override IReadOnlyPlaceholderNodeStateList CreateStateList()
         {
-            ControllerTools.AssertNoOverride(this, typeof(FocusBlockState));
+            ControllerTools.AssertNoOverride(this, typeof(FocusBlockState<IInner>));
             return new FocusPlaceholderNodeStateList();
         }
 
@@ -105,7 +116,7 @@
         /// </summary>
         private protected override IReadOnlyPlaceholderNodeStateReadOnlyList CreateStateListReadOnly(IReadOnlyPlaceholderNodeStateList stateList)
         {
-            ControllerTools.AssertNoOverride(this, typeof(FocusBlockState));
+            ControllerTools.AssertNoOverride(this, typeof(FocusBlockState<IInner>));
             return new FocusPlaceholderNodeStateReadOnlyList((IFocusPlaceholderNodeStateList)stateList);
         }
 
@@ -114,7 +125,7 @@
         /// </summary>
         private protected override IReadOnlyInnerDictionary<string> CreateInnerTable()
         {
-            ControllerTools.AssertNoOverride(this, typeof(FocusBlockState));
+            ControllerTools.AssertNoOverride(this, typeof(FocusBlockState<IInner>));
             return new FocusInnerDictionary<string>();
         }
 
@@ -123,7 +134,7 @@
         /// </summary>
         private protected override IReadOnlyInnerReadOnlyDictionary<string> CreateInnerTableReadOnly(IReadOnlyInnerDictionary<string> innerTable)
         {
-            ControllerTools.AssertNoOverride(this, typeof(FocusBlockState));
+            ControllerTools.AssertNoOverride(this, typeof(FocusBlockState<IInner>));
             return new FocusInnerReadOnlyDictionary<string>((IFocusInnerDictionary<string>)innerTable);
         }
 
@@ -132,7 +143,7 @@
         /// </summary>
         private protected override IReadOnlyPlaceholderInner<IReadOnlyBrowsingPlaceholderNodeIndex> CreatePatternInner(IReadOnlyNodeState owner)
         {
-            ControllerTools.AssertNoOverride(this, typeof(FocusBlockState));
+            ControllerTools.AssertNoOverride(this, typeof(FocusBlockState<IInner>));
             return new FocusPlaceholderInner<IFocusBrowsingPlaceholderNodeIndex, FocusBrowsingPlaceholderNodeIndex>((IFocusNodeState)owner, nameof(IBlock.ReplicationPattern));
         }
 
@@ -141,7 +152,7 @@
         /// </summary>
         private protected override IReadOnlyPlaceholderInner<IReadOnlyBrowsingPlaceholderNodeIndex> CreateSourceInner(IReadOnlyNodeState owner)
         {
-            ControllerTools.AssertNoOverride(this, typeof(FocusBlockState));
+            ControllerTools.AssertNoOverride(this, typeof(FocusBlockState<IInner>));
             return new FocusPlaceholderInner<IFocusBrowsingPlaceholderNodeIndex, FocusBrowsingPlaceholderNodeIndex>((IFocusNodeState)owner, nameof(IBlock.SourceIdentifier));
         }
 
@@ -150,7 +161,7 @@
         /// </summary>
         private protected override IReadOnlyBrowsingPatternIndex CreateExistingPatternIndex()
         {
-            ControllerTools.AssertNoOverride(this, typeof(FocusBlockState));
+            ControllerTools.AssertNoOverride(this, typeof(FocusBlockState<IInner>));
             return new FocusBrowsingPatternIndex(ChildBlock);
         }
 
@@ -159,7 +170,7 @@
         /// </summary>
         private protected override IReadOnlyBrowsingSourceIndex CreateExistingSourceIndex()
         {
-            ControllerTools.AssertNoOverride(this, typeof(FocusBlockState));
+            ControllerTools.AssertNoOverride(this, typeof(FocusBlockState<IInner>));
             return new FocusBrowsingSourceIndex(ChildBlock);
         }
 
@@ -168,8 +179,8 @@
         /// </summary>
         private protected override IReadOnlyPatternState CreatePatternState(IReadOnlyBrowsingPatternIndex patternIndex)
         {
-            ControllerTools.AssertNoOverride(this, typeof(FocusBlockState));
-            return new FocusPatternState(this, (IFocusBrowsingPatternIndex)patternIndex);
+            ControllerTools.AssertNoOverride(this, typeof(FocusBlockState<IInner>));
+            return new FocusPatternState<IInner>(this, (IFocusBrowsingPatternIndex)patternIndex);
         }
 
         /// <summary>
@@ -177,8 +188,8 @@
         /// </summary>
         private protected override IReadOnlySourceState CreateSourceState(IReadOnlyBrowsingSourceIndex sourceIndex)
         {
-            ControllerTools.AssertNoOverride(this, typeof(FocusBlockState));
-            return new FocusSourceState(this, (IFocusBrowsingSourceIndex)sourceIndex);
+            ControllerTools.AssertNoOverride(this, typeof(FocusBlockState<IInner>));
+            return new FocusSourceState<IInner>(this, (IFocusBrowsingSourceIndex)sourceIndex);
         }
         #endregion
     }

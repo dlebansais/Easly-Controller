@@ -17,7 +17,7 @@
     /// Base inner for a single node inner.
     /// </summary>
     /// <typeparam name="IIndex">Type of the index.</typeparam>
-    public interface IFocusSingleInner<out IIndex> : IFrameSingleInner<IIndex>, IFocusInner<IIndex>
+    internal interface IFocusSingleInner<out IIndex> : IFrameSingleInner<IIndex>, IFocusInner<IIndex>
         where IIndex : IFocusBrowsingChildIndex
     {
         /// <summary>

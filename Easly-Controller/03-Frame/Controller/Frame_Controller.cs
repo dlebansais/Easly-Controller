@@ -415,7 +415,7 @@
         private protected override IReadOnlyPlaceholderNodeState CreateRootNodeState(IReadOnlyRootNodeIndex nodeIndex)
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameController));
-            return new FramePlaceholderNodeState((IFrameRootNodeIndex)nodeIndex);
+            return new FramePlaceholderNodeState<IFrameInner<IFrameBrowsingChildIndex>>((IFrameRootNodeIndex)nodeIndex);
         }
 
         /// <summary>

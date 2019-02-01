@@ -4,7 +4,7 @@
     using BaseNode;
 
     /// <summary>
-    /// State of an child node.
+    /// State of a child node.
     /// </summary>
     public interface IReadOnlyPlaceholderNodeState : IReadOnlyNodeState
     {
@@ -15,13 +15,24 @@
     }
 
     /// <summary>
-    /// State of an child node.
+    /// State of a child node.
     /// </summary>
-    internal class ReadOnlyPlaceholderNodeState : ReadOnlyNodeState, IReadOnlyPlaceholderNodeState
+    /// <typeparam name="IInner">Parent inner of the state.</typeparam>
+    internal interface IReadOnlyPlaceholderNodeState<out IInner> : IReadOnlyNodeState<IInner>
+        where IInner : IReadOnlyInner<IReadOnlyBrowsingChildIndex>
+    {
+    }
+
+    /// <summary>
+    /// State of a child node.
+    /// </summary>
+    /// <typeparam name="IInner">Parent inner of the state.</typeparam>
+    internal class ReadOnlyPlaceholderNodeState<IInner> : ReadOnlyNodeState<IInner>, IReadOnlyPlaceholderNodeState<IInner>, IReadOnlyPlaceholderNodeState
+        where IInner : IReadOnlyInner<IReadOnlyBrowsingChildIndex>
     {
         #region Init
         /// <summary>
-        /// Initializes a new instance of the <see cref="ReadOnlyPlaceholderNodeState"/> class.
+        /// Initializes a new instance of the <see cref="ReadOnlyPlaceholderNodeState{IInner}"/> class.
         /// </summary>
         /// <param name="parentIndex">The index used to create the state.</param>
         public ReadOnlyPlaceholderNodeState(IReadOnlyNodeIndex parentIndex)
@@ -52,7 +63,7 @@
         {
             Debug.Assert(other != null);
 
-            if (!comparer.IsSameType(other, out ReadOnlyPlaceholderNodeState AsPlaceholderNodeState))
+            if (!comparer.IsSameType(other, out ReadOnlyPlaceholderNodeState<IInner> AsPlaceholderNodeState))
                 return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsPlaceholderNodeState))

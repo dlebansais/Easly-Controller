@@ -33,11 +33,22 @@
     /// <summary>
     /// State of an replication pattern node.
     /// </summary>
-    internal class ReadOnlyPatternState : ReadOnlyPlaceholderNodeState, IReadOnlyPatternState
+    /// <typeparam name="IInner">Parent inner of the state.</typeparam>
+    internal interface IReadOnlyPatternState<out IInner> : IReadOnlyPlaceholderNodeState<IInner>
+        where IInner : IReadOnlyInner<IReadOnlyBrowsingChildIndex>
+    {
+    }
+
+    /// <summary>
+    /// State of an replication pattern node.
+    /// </summary>
+    /// <typeparam name="IInner">Parent inner of the state.</typeparam>
+    internal class ReadOnlyPatternState<IInner> : ReadOnlyPlaceholderNodeState<IInner>, IReadOnlyPatternState<IInner>, IReadOnlyPatternState
+        where IInner : IReadOnlyInner<IReadOnlyBrowsingChildIndex>
     {
         #region Init
         /// <summary>
-        /// Initializes a new instance of the <see cref="ReadOnlyPatternState"/> class.
+        /// Initializes a new instance of the <see cref="ReadOnlyPatternState{IInner}"/> class.
         /// </summary>
         /// <param name="parentBlockState">The parent block state.</param>
         /// <param name="index">The index used to create the state.</param>
@@ -85,7 +96,7 @@
         {
             Debug.Assert(other != null);
 
-            if (!comparer.IsSameType(other, out ReadOnlyPatternState AsPatternState))
+            if (!comparer.IsSameType(other, out ReadOnlyPatternState<IInner> AsPatternState))
                 return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsPatternState))

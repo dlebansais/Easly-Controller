@@ -178,7 +178,7 @@ namespace TestDebug
             IWriteableNodeState RootState = Controller.RootState;
             IWriteableInnerReadOnlyDictionary<string> InnerTable = RootState.InnerTable;
 
-            IWriteableListInner<IWriteableBrowsingListNodeIndex> ListInner2 = (IWriteableListInner<IWriteableBrowsingListNodeIndex>)InnerTable[nameof(IGlobalReplicate.Patterns)];
+            IWriteableListInner ListInner2 = (IWriteableListInner)InnerTable[nameof(IGlobalReplicate.Patterns)];
             if (ListInner2.StateList.Count > 30)
             {
                 IPattern TestNode = ListInner2.StateList[31].Node as IPattern;
@@ -228,7 +228,7 @@ namespace TestDebug
 
             IWriteableNodeState RootState = Controller.RootState;
             IWriteableInnerReadOnlyDictionary<string> InnerTable = RootState.InnerTable;
-            IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> ListInner = (IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex>)InnerTable[nameof(IClass.ImportBlocks)];
+            IWriteableBlockListInner ListInner = (IWriteableBlockListInner)InnerTable[nameof(IClass.ImportBlocks)];
 
             IPattern PatternNode = NodeHelper.CreateEmptyPattern();
             IIdentifier SourceNode = NodeHelper.CreateEmptyIdentifier();
@@ -279,7 +279,7 @@ namespace TestDebug
 
             IName FifthNode = NodeHelper.CreateSimpleName("a");
 
-            IWriteableSingleInner<IWriteableBrowsingChildIndex> ChildInner = (IWriteableSingleInner<IWriteableBrowsingChildIndex>)InnerTable[nameof(IClass.EntityName)];
+            IWriteableSingleInner ChildInner = (IWriteableSingleInner)InnerTable[nameof(IClass.EntityName)];
             WriteableInsertionPlaceholderNodeIndex InsertIndex5 = new WriteableInsertionPlaceholderNodeIndex(rootNode, ChildInner.PropertyName, FifthNode);
             Controller.Replace(ChildInner, InsertIndex5, out IWriteableBrowsingChildIndex InsertedIndex5);
 
@@ -291,7 +291,7 @@ namespace TestDebug
 
             IIdentifier SixthNode = NodeHelper.CreateSimpleIdentifier("b");
 
-            IWriteableOptionalInner<IWriteableBrowsingOptionalNodeIndex> OptionalInner = (IWriteableOptionalInner<IWriteableBrowsingOptionalNodeIndex>)InnerTable[nameof(IClass.FromIdentifier)];
+            IWriteableOptionalInner OptionalInner = (IWriteableOptionalInner)InnerTable[nameof(IClass.FromIdentifier)];
             WriteableInsertionOptionalNodeIndex InsertIndex6 = new WriteableInsertionOptionalNodeIndex(rootNode, OptionalInner.PropertyName, SixthNode);
             Controller.Replace(OptionalInner, InsertIndex6, out IWriteableBrowsingChildIndex InsertedIndex6);
 
@@ -356,7 +356,7 @@ namespace TestDebug
                 Debug.Assert(ControllerView12.IsEqual(CompareEqual.New(), ControllerView));
             }
 
-            IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> ListInner2 = (IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex>)InnerTable[nameof(IClass.FeatureBlocks)];
+            IWriteableBlockListInner ListInner2 = (IWriteableBlockListInner)InnerTable[nameof(IClass.FeatureBlocks)];
             if (ListInner2.BlockStateList.Count > 1)
             {
                 Controller.MoveBlock(ListInner2, 0, 1);
@@ -399,7 +399,7 @@ namespace TestDebug
             IFrameNodeState RootState = Controller.RootState;
             IFrameInnerReadOnlyDictionary<string> InnerTable = RootState.InnerTable;
 
-            IFrameListInner<IFrameBrowsingListNodeIndex> ListInner2 = (IFrameListInner<IFrameBrowsingListNodeIndex>)InnerTable[nameof(IGlobalReplicate.Patterns)];
+            IFrameListInner ListInner2 = (IFrameListInner)InnerTable[nameof(IGlobalReplicate.Patterns)];
             if (ListInner2.StateList.Count > 30)
             {
                 IPattern TestNode = ListInner2.StateList[31].Node as IPattern;
@@ -448,7 +448,7 @@ namespace TestDebug
 
             IFrameNodeState RootState = Controller.RootState;
             IFrameInnerReadOnlyDictionary<string> InnerTable = RootState.InnerTable;
-            IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> ListInner = (IFrameBlockListInner<IFrameBrowsingBlockNodeIndex>)InnerTable[nameof(IClass.ImportBlocks)];
+            IFrameBlockListInner ListInner = (IFrameBlockListInner)InnerTable[nameof(IClass.ImportBlocks)];
 
             IPattern PatternNode = NodeHelper.CreateEmptyPattern();
             IIdentifier SourceNode = NodeHelper.CreateEmptyIdentifier();
@@ -502,7 +502,7 @@ namespace TestDebug
 
             IName FifthNode = NodeHelper.CreateSimpleName("a");
 
-            IFrameSingleInner<IFrameBrowsingChildIndex> ChildInner = (IFrameSingleInner<IFrameBrowsingChildIndex>)InnerTable[nameof(IClass.EntityName)];
+            IFrameSingleInner ChildInner = (IFrameSingleInner)InnerTable[nameof(IClass.EntityName)];
             FrameInsertionPlaceholderNodeIndex InsertIndex5 = new FrameInsertionPlaceholderNodeIndex(rootNode, ChildInner.PropertyName, FifthNode);
             Controller.Replace(ChildInner, InsertIndex5, out IWriteableBrowsingChildIndex InsertedIndex5);
 
@@ -514,7 +514,7 @@ namespace TestDebug
 
             IIdentifier SixthNode = NodeHelper.CreateSimpleIdentifier("b");
 
-            IFrameOptionalInner<IFrameBrowsingOptionalNodeIndex> OptionalInner = (IFrameOptionalInner<IFrameBrowsingOptionalNodeIndex>)InnerTable[nameof(IClass.FromIdentifier)];
+            IFrameOptionalInner OptionalInner = (IFrameOptionalInner)InnerTable[nameof(IClass.FromIdentifier)];
             FrameInsertionOptionalNodeIndex InsertIndex6 = new FrameInsertionOptionalNodeIndex(rootNode, OptionalInner.PropertyName, SixthNode);
             Controller.Replace(OptionalInner, InsertIndex6, out IWriteableBrowsingChildIndex InsertedIndex6);
 
@@ -583,7 +583,7 @@ namespace TestDebug
                 Debug.Assert(ControllerView12.IsEqual(CompareEqual.New(), ControllerView));
             }
 
-            IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> ListInner2 = (IFrameBlockListInner<IFrameBrowsingBlockNodeIndex>)InnerTable[nameof(IClass.FeatureBlocks)];
+            IFrameBlockListInner ListInner2 = (IFrameBlockListInner)InnerTable[nameof(IClass.FeatureBlocks)];
             if (ListInner.BlockStateList.Count > 1)
             {
                 Controller.MoveBlock(ListInner, 0, 1);
@@ -630,7 +630,7 @@ namespace TestDebug
             IFocusNodeState RootState = Controller.RootState;
             IFocusInnerReadOnlyDictionary<string> InnerTable = RootState.InnerTable;
 
-            IFocusListInner<IFocusBrowsingListNodeIndex> ListInner2 = (IFocusListInner<IFocusBrowsingListNodeIndex>)InnerTable[nameof(IGlobalReplicate.Patterns)];
+            IFocusListInner ListInner2 = (IFocusListInner)InnerTable[nameof(IGlobalReplicate.Patterns)];
             if (ListInner2.StateList.Count > 30)
             {
                 IPattern TestNode = ListInner2.StateList[31].Node as IPattern;
@@ -684,7 +684,7 @@ namespace TestDebug
 
             IFocusNodeState RootState = Controller.RootState;
             IFocusInnerReadOnlyDictionary<string> InnerTable = RootState.InnerTable;
-            IFocusBlockListInner<IFocusBrowsingBlockNodeIndex> ListInner = (IFocusBlockListInner<IFocusBrowsingBlockNodeIndex>)InnerTable[nameof(IClass.ImportBlocks)];
+            IFocusBlockListInner ListInner = (IFocusBlockListInner)InnerTable[nameof(IClass.ImportBlocks)];
 
             IPattern PatternNode = NodeHelper.CreateEmptyPattern();
             IIdentifier SourceNode = NodeHelper.CreateEmptyIdentifier();
@@ -738,7 +738,7 @@ namespace TestDebug
 
             IName FifthNode = NodeHelper.CreateSimpleName("a");
 
-            IFocusSingleInner<IFocusBrowsingChildIndex> ChildInner = (IFocusSingleInner<IFocusBrowsingChildIndex>)InnerTable[nameof(IClass.EntityName)];
+            IFocusSingleInner ChildInner = (IFocusSingleInner)InnerTable[nameof(IClass.EntityName)];
             FocusInsertionPlaceholderNodeIndex InsertIndex5 = new FocusInsertionPlaceholderNodeIndex(rootNode, ChildInner.PropertyName, FifthNode);
             Controller.Replace(ChildInner, InsertIndex5, out IWriteableBrowsingChildIndex InsertedIndex5);
 
@@ -750,7 +750,7 @@ namespace TestDebug
 
             IIdentifier SixthNode = NodeHelper.CreateSimpleIdentifier("b");
 
-            IFocusOptionalInner<IFocusBrowsingOptionalNodeIndex> OptionalInner = (IFocusOptionalInner<IFocusBrowsingOptionalNodeIndex>)InnerTable[nameof(IClass.FromIdentifier)];
+            IFocusOptionalInner OptionalInner = (IFocusOptionalInner)InnerTable[nameof(IClass.FromIdentifier)];
             FocusInsertionOptionalNodeIndex InsertIndex6 = new FocusInsertionOptionalNodeIndex(rootNode, OptionalInner.PropertyName, SixthNode);
             Controller.Replace(OptionalInner, InsertIndex6, out IWriteableBrowsingChildIndex InsertedIndex6);
 
@@ -821,7 +821,7 @@ namespace TestDebug
                 Debug.Assert(ControllerView12.IsEqual(CompareEqual.New(), ControllerView));
             }
 
-            IFocusBlockListInner<IFocusBrowsingBlockNodeIndex> ListInner2 = (IFocusBlockListInner<IFocusBrowsingBlockNodeIndex>)InnerTable[nameof(IClass.FeatureBlocks)];
+            IFocusBlockListInner ListInner2 = (IFocusBlockListInner)InnerTable[nameof(IClass.FeatureBlocks)];
             if (ListInner.BlockStateList.Count > 1)
             {
                 Controller.MoveBlock(ListInner, 0, 1);

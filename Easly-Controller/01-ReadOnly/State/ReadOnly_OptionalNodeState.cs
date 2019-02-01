@@ -21,7 +21,7 @@
         /// <summary>
         /// Inner containing this state.
         /// </summary>
-        new IReadOnlyOptionalInner<IReadOnlyBrowsingOptionalNodeIndex> ParentInner { get; }
+        new IReadOnlyOptionalInner ParentInner { get; }
 
         /// <summary>
         /// Interface to the optional object for the node.
@@ -32,11 +32,22 @@
     /// <summary>
     /// State of an optional node.
     /// </summary>
-    internal class ReadOnlyOptionalNodeState : ReadOnlyNodeState, IReadOnlyOptionalNodeState
+    /// <typeparam name="IInner">Parent inner of the state.</typeparam>
+    internal interface IReadOnlyOptionalNodeState<out IInner> : IReadOnlyNodeState<IInner>
+        where IInner : IReadOnlyInner<IReadOnlyBrowsingChildIndex>
+    {
+    }
+
+    /// <summary>
+    /// State of an optional node.
+    /// </summary>
+    /// <typeparam name="IInner">Parent inner of the state.</typeparam>
+    internal class ReadOnlyOptionalNodeState<IInner> : ReadOnlyNodeState<IInner>, IReadOnlyOptionalNodeState<IInner>, IReadOnlyOptionalNodeState
+        where IInner : IReadOnlyInner<IReadOnlyBrowsingChildIndex>
     {
         #region Init
         /// <summary>
-        /// Initializes a new instance of the <see cref="ReadOnlyOptionalNodeState"/> class.
+        /// Initializes a new instance of the <see cref="ReadOnlyOptionalNodeState{IInner}"/> class.
         /// </summary>
         /// <param name="parentIndex">The index used to create the state.</param>
         public ReadOnlyOptionalNodeState(IReadOnlyBrowsingOptionalNodeIndex parentIndex)
@@ -54,7 +65,7 @@
         /// <summary>
         /// Inner containing this state.
         /// </summary>
-        public new IReadOnlyOptionalInner<IReadOnlyBrowsingOptionalNodeIndex> ParentInner { get { return (IReadOnlyOptionalInner<IReadOnlyBrowsingOptionalNodeIndex>)base.ParentInner; } }
+        public new IReadOnlyOptionalInner ParentInner { get { return (IReadOnlyOptionalInner)base.ParentInner; } }
 
         /// <summary>
         /// The node, or null if not assigned.
@@ -102,7 +113,7 @@
         {
             Debug.Assert(other != null);
 
-            if (!comparer.IsSameType(other, out ReadOnlyOptionalNodeState AsOptionalNodeState))
+            if (!comparer.IsSameType(other, out ReadOnlyOptionalNodeState<IInner> AsOptionalNodeState))
                 return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsOptionalNodeState))

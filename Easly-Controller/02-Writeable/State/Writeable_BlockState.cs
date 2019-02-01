@@ -66,11 +66,22 @@
     /// <summary>
     /// State of a block in a block list.
     /// </summary>
-    internal class WriteableBlockState : ReadOnlyBlockState, IWriteableBlockState
+    /// <typeparam name="IInner">Parent inner of the block state.</typeparam>
+    internal interface IWriteableBlockState<out IInner> : IReadOnlyBlockState<IInner>
+        where IInner : IWriteableInner<IWriteableBrowsingChildIndex>
+    {
+    }
+
+    /// <summary>
+    /// State of a block in a block list.
+    /// </summary>
+    /// <typeparam name="IInner">Parent inner of the block state.</typeparam>
+    internal class WriteableBlockState<IInner> : ReadOnlyBlockState<IInner>, IWriteableBlockState<IInner>, IWriteableBlockState
+        where IInner : IWriteableInner<IWriteableBrowsingChildIndex>
     {
         #region Init
         /// <summary>
-        /// Initializes a new instance of the <see cref="WriteableBlockState"/> class.
+        /// Initializes a new instance of the <see cref="WriteableBlockState{IInner}"/> class.
         /// </summary>
         /// <param name="parentInner">Inner containing the block state.</param>
         /// <param name="newBlockIndex">Index that was used to create the block state.</param>
@@ -163,7 +174,7 @@
         /// </summary>
         private protected override IReadOnlyPlaceholderNodeStateList CreateStateList()
         {
-            ControllerTools.AssertNoOverride(this, typeof(WriteableBlockState));
+            ControllerTools.AssertNoOverride(this, typeof(WriteableBlockState<IInner>));
             return new WriteablePlaceholderNodeStateList();
         }
 
@@ -172,7 +183,7 @@
         /// </summary>
         private protected override IReadOnlyPlaceholderNodeStateReadOnlyList CreateStateListReadOnly(IReadOnlyPlaceholderNodeStateList stateList)
         {
-            ControllerTools.AssertNoOverride(this, typeof(WriteableBlockState));
+            ControllerTools.AssertNoOverride(this, typeof(WriteableBlockState<IInner>));
             return new WriteablePlaceholderNodeStateReadOnlyList((IWriteablePlaceholderNodeStateList)stateList);
         }
 
@@ -181,7 +192,7 @@
         /// </summary>
         private protected override IReadOnlyInnerDictionary<string> CreateInnerTable()
         {
-            ControllerTools.AssertNoOverride(this, typeof(WriteableBlockState));
+            ControllerTools.AssertNoOverride(this, typeof(WriteableBlockState<IInner>));
             return new WriteableInnerDictionary<string>();
         }
 
@@ -190,7 +201,7 @@
         /// </summary>
         private protected override IReadOnlyInnerReadOnlyDictionary<string> CreateInnerTableReadOnly(IReadOnlyInnerDictionary<string> innerTable)
         {
-            ControllerTools.AssertNoOverride(this, typeof(WriteableBlockState));
+            ControllerTools.AssertNoOverride(this, typeof(WriteableBlockState<IInner>));
             return new WriteableInnerReadOnlyDictionary<string>((IWriteableInnerDictionary<string>)innerTable);
         }
 
@@ -199,7 +210,7 @@
         /// </summary>
         private protected override IReadOnlyPlaceholderInner<IReadOnlyBrowsingPlaceholderNodeIndex> CreatePatternInner(IReadOnlyNodeState owner)
         {
-            ControllerTools.AssertNoOverride(this, typeof(WriteableBlockState));
+            ControllerTools.AssertNoOverride(this, typeof(WriteableBlockState<IInner>));
             return new WriteablePlaceholderInner<IWriteableBrowsingPlaceholderNodeIndex, WriteableBrowsingPlaceholderNodeIndex>((IWriteableNodeState)owner, nameof(IBlock.ReplicationPattern));
         }
 
@@ -208,7 +219,7 @@
         /// </summary>
         private protected override IReadOnlyPlaceholderInner<IReadOnlyBrowsingPlaceholderNodeIndex> CreateSourceInner(IReadOnlyNodeState owner)
         {
-            ControllerTools.AssertNoOverride(this, typeof(WriteableBlockState));
+            ControllerTools.AssertNoOverride(this, typeof(WriteableBlockState<IInner>));
             return new WriteablePlaceholderInner<IWriteableBrowsingPlaceholderNodeIndex, WriteableBrowsingPlaceholderNodeIndex>((IWriteableNodeState)owner, nameof(IBlock.SourceIdentifier));
         }
 
@@ -217,7 +228,7 @@
         /// </summary>
         private protected override IReadOnlyBrowsingPatternIndex CreateExistingPatternIndex()
         {
-            ControllerTools.AssertNoOverride(this, typeof(WriteableBlockState));
+            ControllerTools.AssertNoOverride(this, typeof(WriteableBlockState<IInner>));
             return new WriteableBrowsingPatternIndex(ChildBlock);
         }
 
@@ -226,7 +237,7 @@
         /// </summary>
         private protected override IReadOnlyBrowsingSourceIndex CreateExistingSourceIndex()
         {
-            ControllerTools.AssertNoOverride(this, typeof(WriteableBlockState));
+            ControllerTools.AssertNoOverride(this, typeof(WriteableBlockState<IInner>));
             return new WriteableBrowsingSourceIndex(ChildBlock);
         }
 
@@ -235,8 +246,8 @@
         /// </summary>
         private protected override IReadOnlyPatternState CreatePatternState(IReadOnlyBrowsingPatternIndex patternIndex)
         {
-            ControllerTools.AssertNoOverride(this, typeof(WriteableBlockState));
-            return new WriteablePatternState(this, (IWriteableBrowsingPatternIndex)patternIndex);
+            ControllerTools.AssertNoOverride(this, typeof(WriteableBlockState<IInner>));
+            return new WriteablePatternState<IInner>(this, (IWriteableBrowsingPatternIndex)patternIndex);
         }
 
         /// <summary>
@@ -244,8 +255,8 @@
         /// </summary>
         private protected override IReadOnlySourceState CreateSourceState(IReadOnlyBrowsingSourceIndex sourceIndex)
         {
-            ControllerTools.AssertNoOverride(this, typeof(WriteableBlockState));
-            return new WriteableSourceState(this, (IWriteableBrowsingSourceIndex)sourceIndex);
+            ControllerTools.AssertNoOverride(this, typeof(WriteableBlockState<IInner>));
+            return new WriteableSourceState<IInner>(this, (IWriteableBrowsingSourceIndex)sourceIndex);
         }
         #endregion
     }

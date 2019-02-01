@@ -16,7 +16,7 @@
     /// Inner for a child node.
     /// </summary>
     /// <typeparam name="IIndex">Type of the index.</typeparam>
-    public interface IWriteablePlaceholderInner<out IIndex> : IReadOnlyPlaceholderInner<IIndex>, IWriteableSingleInner<IIndex>
+    internal interface IWriteablePlaceholderInner<out IIndex> : IReadOnlyPlaceholderInner<IIndex>, IWriteableSingleInner<IIndex>
         where IIndex : IWriteableBrowsingPlaceholderNodeIndex
     {
     }
@@ -86,7 +86,7 @@
         private protected override IReadOnlyPlaceholderNodeState CreateNodeState(IReadOnlyBrowsingPlaceholderNodeIndex nodeIndex)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteablePlaceholderInner<IIndex, TIndex>));
-            return new WriteablePlaceholderNodeState((IWriteableBrowsingPlaceholderNodeIndex)nodeIndex);
+            return new WriteablePlaceholderNodeState<IWriteableInner<IWriteableBrowsingChildIndex>>((IWriteableBrowsingPlaceholderNodeIndex)nodeIndex);
         }
 
         /// <summary>

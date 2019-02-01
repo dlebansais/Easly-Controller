@@ -17,7 +17,7 @@
     /// Base inner for a list or a block list.
     /// </summary>
     /// <typeparam name="IIndex">Type of the index.</typeparam>
-    public interface IFrameCollectionInner<out IIndex> : IWriteableCollectionInner<IIndex>, IFrameInner<IIndex>
+    internal interface IFrameCollectionInner<out IIndex> : IWriteableCollectionInner<IIndex>, IFrameInner<IIndex>
         where IIndex : IFrameBrowsingCollectionNodeIndex
     {
         /// <summary>

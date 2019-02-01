@@ -64,7 +64,7 @@
     /// Inner for a block list.
     /// </summary>
     /// <typeparam name="IIndex">Type of the index.</typeparam>
-    public interface IReadOnlyBlockListInner<out IIndex> : IReadOnlyCollectionInner<IIndex>
+    internal interface IReadOnlyBlockListInner<out IIndex> : IReadOnlyCollectionInner<IIndex>
         where IIndex : IReadOnlyBrowsingBlockNodeIndex
     {
         /// <summary>
@@ -196,7 +196,7 @@
 
             IReadOnlyPlaceholderNodeState State = CreateNodeState(existingNodeIndex);
             IReadOnlyBlockState CurrentBlock = BlockStateList[BlockIndex];
-            CurrentBlock.InitNodeState(State);
+            ((IReadOnlyBlockState<IReadOnlyInner<IReadOnlyBrowsingChildIndex>>)CurrentBlock).InitNodeState(State);
 
             return State;
         }
@@ -349,7 +349,7 @@
             callbackSet.OnBlockListInnerAttached(this);
 
             foreach (IReadOnlyBlockState BlockState in BlockStateList)
-                BlockState.Attach(view, callbackSet);
+                ((IReadOnlyBlockState<IReadOnlyInner<IReadOnlyBrowsingChildIndex>>)BlockState).Attach(view, callbackSet);
         }
 
         /// <summary>
@@ -360,7 +360,7 @@
         public override void Detach(IReadOnlyControllerView view, IReadOnlyAttachCallbackSet callbackSet)
         {
             foreach (IReadOnlyBlockState BlockState in BlockStateList)
-                BlockState.Detach(view, callbackSet);
+                ((IReadOnlyBlockState<IReadOnlyInner<IReadOnlyBrowsingChildIndex>>)BlockState).Detach(view, callbackSet);
 
             callbackSet.OnBlockListInnerDetached(this);
         }
@@ -467,7 +467,7 @@
         private protected virtual IReadOnlyBlockState CreateBlockState(IReadOnlyBrowsingNewBlockNodeIndex nodeIndex, IBlock childBlock)
         {
             ControllerTools.AssertNoOverride(this, typeof(ReadOnlyBlockListInner<IIndex, TIndex>));
-            return new ReadOnlyBlockState(this, nodeIndex, childBlock);
+            return new ReadOnlyBlockState<IReadOnlyInner<IReadOnlyBrowsingChildIndex>>(this, nodeIndex, childBlock);
         }
 
         /// <summary>
@@ -476,7 +476,7 @@
         private protected virtual IReadOnlyPlaceholderNodeState CreateNodeState(IReadOnlyNodeIndex nodeIndex)
         {
             ControllerTools.AssertNoOverride(this, typeof(ReadOnlyBlockListInner<IIndex, TIndex>));
-            return new ReadOnlyPlaceholderNodeState(nodeIndex);
+            return new ReadOnlyPlaceholderNodeState<IReadOnlyInner<IReadOnlyBrowsingChildIndex>>(nodeIndex);
         }
         #endregion
     }

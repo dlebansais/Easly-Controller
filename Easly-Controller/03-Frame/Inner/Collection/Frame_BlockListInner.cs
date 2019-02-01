@@ -30,7 +30,7 @@
     /// Inner for a block list.
     /// </summary>
     /// <typeparam name="IIndex">Type of the index.</typeparam>
-    public interface IFrameBlockListInner<out IIndex> : IWriteableBlockListInner<IIndex>, IFrameCollectionInner<IIndex>
+    internal interface IFrameBlockListInner<out IIndex> : IWriteableBlockListInner<IIndex>, IFrameCollectionInner<IIndex>
         where IIndex : IFrameBrowsingBlockNodeIndex
     {
         /// <summary>
@@ -130,7 +130,7 @@
         private protected override IReadOnlyBlockState CreateBlockState(IReadOnlyBrowsingNewBlockNodeIndex nodeIndex, IBlock childBlock)
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameBlockListInner<IIndex, TIndex>));
-            return new FrameBlockState(this, (IFrameBrowsingNewBlockNodeIndex)nodeIndex, childBlock);
+            return new FrameBlockState<IFrameInner<IFrameBrowsingChildIndex>>(this, (IFrameBrowsingNewBlockNodeIndex)nodeIndex, childBlock);
         }
 
         /// <summary>
@@ -139,7 +139,7 @@
         private protected override IReadOnlyPlaceholderNodeState CreateNodeState(IReadOnlyNodeIndex nodeIndex)
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameBlockListInner<IIndex, TIndex>));
-            return new FramePlaceholderNodeState((IFrameNodeIndex)nodeIndex);
+            return new FramePlaceholderNodeState<IFrameInner<IFrameBrowsingChildIndex>>((IFrameNodeIndex)nodeIndex);
         }
 
         /// <summary>

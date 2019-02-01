@@ -16,7 +16,7 @@
     /// Inner for a child node.
     /// </summary>
     /// <typeparam name="IIndex">Type of the index.</typeparam>
-    public interface IFocusPlaceholderInner<out IIndex> : IFramePlaceholderInner<IIndex>, IFocusSingleInner<IIndex>
+    internal interface IFocusPlaceholderInner<out IIndex> : IFramePlaceholderInner<IIndex>, IFocusSingleInner<IIndex>
         where IIndex : IFocusBrowsingPlaceholderNodeIndex
     {
     }
@@ -61,7 +61,7 @@
         private protected override IReadOnlyPlaceholderNodeState CreateNodeState(IReadOnlyBrowsingPlaceholderNodeIndex nodeIndex)
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusPlaceholderInner<IIndex, TIndex>));
-            return new FocusPlaceholderNodeState((IFocusBrowsingPlaceholderNodeIndex)nodeIndex);
+            return new FocusPlaceholderNodeState<IFocusInner<IFocusBrowsingChildIndex>>((IFocusBrowsingPlaceholderNodeIndex)nodeIndex);
         }
 
         /// <summary>

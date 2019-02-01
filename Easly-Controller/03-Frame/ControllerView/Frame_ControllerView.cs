@@ -248,15 +248,23 @@
             IFrameNodeStateView InsertedStateView = StateViewTable[InsertedState];
             BuildCellView(InsertedStateView);
 
-            IFrameInner<IFrameBrowsingChildIndex> ParentInner = InsertedState.ParentInner;
+            IFrameInner ParentInner = InsertedState.ParentInner;
             Debug.Assert(ParentInner != null);
 
+            bool IsHandled = false;
+
             if (ParentInner is IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> AsBlockListInner && nodeIndex is IFrameBrowsingExistingBlockNodeIndex AsBlockListIndex)
+            {
                 OnBlockListStateInserted(AsBlockListInner, AsBlockListIndex, InsertedState);
+                IsHandled = true;
+            }
             else if (ParentInner is IFrameListInner<IFrameBrowsingListNodeIndex> AsListInner && nodeIndex is IFrameBrowsingListNodeIndex AsListIndex)
+            {
                 OnListStateInserted(AsListInner, AsListIndex, InsertedState);
-            else
-                throw new ArgumentOutOfRangeException(nameof(operation));
+                IsHandled = true;
+            }
+
+            Debug.Assert(IsHandled);
 
             Refresh(InsertedState);
         }
@@ -378,7 +386,7 @@
             base.OnStateReplaced(operation);
 
             IFrameReplaceOperation ReplaceOperation = (IFrameReplaceOperation)operation;
-            IFrameInner<IFrameBrowsingChildIndex> Inner = ReplaceOperation.NewChildState.ParentInner;
+            IFrameInner Inner = ReplaceOperation.NewChildState.ParentInner;
             Debug.Assert(Inner != null);
             IFrameBrowsingChildIndex NewBrowsingIndex = ((IFrameReplaceOperation)operation).NewBrowsingIndex;
             Debug.Assert(NewBrowsingIndex != null);
@@ -389,19 +397,33 @@
             ClearCellView(ReplacedStateView);
             BuildCellView(ReplacedStateView);
 
-            IFrameInner<IFrameBrowsingChildIndex> ParentInner = ReplacedState.ParentInner;
+            IFrameInner ParentInner = ReplacedState.ParentInner;
             Debug.Assert(ParentInner != null);
 
+            bool IsHandled = false;
+
             if (Inner is IFramePlaceholderInner<IFrameBrowsingPlaceholderNodeIndex> AsPlaceholderInner && NewBrowsingIndex is IFrameBrowsingPlaceholderNodeIndex AsPlaceholderIndex)
+            {
                 OnPlaceholderStateReplaced(AsPlaceholderInner, AsPlaceholderIndex, ReplacedState);
+                IsHandled = true;
+            }
             else if (Inner is IFrameOptionalInner<IFrameBrowsingOptionalNodeIndex> AsOptionalInner && NewBrowsingIndex is IFrameBrowsingOptionalNodeIndex AsOptionalIndex)
+            {
                 OnOptionalStateReplaced(AsOptionalInner, AsOptionalIndex, ReplacedState);
+                IsHandled = true;
+            }
             else if (Inner is IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> AsBlockListInner && NewBrowsingIndex is IFrameBrowsingExistingBlockNodeIndex AsBlockListIndex)
+            {
                 OnBlockListStateReplaced(AsBlockListInner, AsBlockListIndex, ReplacedState);
+                IsHandled = true;
+            }
             else if (Inner is IFrameListInner<IFrameBrowsingListNodeIndex> AsListInner && NewBrowsingIndex is IFrameBrowsingListNodeIndex AsListIndex)
+            {
                 OnListStateReplaced(AsListInner, AsListIndex, ReplacedState);
-            else
-                throw new ArgumentOutOfRangeException(nameof(operation));
+                IsHandled = true;
+            }
+
+            Debug.Assert(IsHandled);
 
             Refresh(ReplacedState);
         }

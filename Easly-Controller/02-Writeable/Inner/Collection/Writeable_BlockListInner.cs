@@ -79,7 +79,7 @@
     /// Inner for a block list.
     /// </summary>
     /// <typeparam name="IIndex">Type of the index.</typeparam>
-    public interface IWriteableBlockListInner<out IIndex> : IReadOnlyBlockListInner<IIndex>, IWriteableCollectionInner<IIndex>
+    internal interface IWriteableBlockListInner<out IIndex> : IReadOnlyBlockListInner<IIndex>, IWriteableCollectionInner<IIndex>
         where IIndex : IWriteableBrowsingBlockNodeIndex
     {
         /// <summary>
@@ -472,7 +472,7 @@
             IWriteableBrowsingNewBlockNodeIndex NewBlockIndex = CreateNewBlockNodeIndex(NewBlockFirstNode, SplitBlockIndex);
 
             IWriteableBlockState NewBlockState = (IWriteableBlockState)CreateBlockState(NewBlockIndex, NewBlock);
-            NewBlockState.InitBlockState();
+            ((IWriteableBlockState<IWriteableInner<IWriteableBrowsingChildIndex>>)NewBlockState).InitBlockState();
             InsertInBlockStateList(NewBlockIndex.BlockIndex, NewBlockState);
 
             for (int i = 0; i < SplitIndex; i++)
@@ -751,7 +751,7 @@
         private protected override IReadOnlyBlockState CreateBlockState(IReadOnlyBrowsingNewBlockNodeIndex nodeIndex, IBlock childBlock)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableBlockListInner<IIndex, TIndex>));
-            return new WriteableBlockState(this, (IWriteableBrowsingNewBlockNodeIndex)nodeIndex, childBlock);
+            return new WriteableBlockState<IWriteableInner<IWriteableBrowsingChildIndex>>(this, (IWriteableBrowsingNewBlockNodeIndex)nodeIndex, childBlock);
         }
 
         /// <summary>
@@ -760,7 +760,7 @@
         private protected override IReadOnlyPlaceholderNodeState CreateNodeState(IReadOnlyNodeIndex nodeIndex)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableBlockListInner<IIndex, TIndex>));
-            return new WriteablePlaceholderNodeState((IWriteableNodeIndex)nodeIndex);
+            return new WriteablePlaceholderNodeState<IWriteableInner<IWriteableBrowsingChildIndex>>((IWriteableNodeIndex)nodeIndex);
         }
 
         /// <summary>

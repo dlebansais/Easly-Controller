@@ -18,7 +18,7 @@
     /// Inner for an optional node.
     /// </summary>
     /// <typeparam name="IIndex">Type of the index.</typeparam>
-    public interface IFrameOptionalInner<out IIndex> : IWriteableOptionalInner<IIndex>, IFrameSingleInner<IIndex>
+    internal interface IFrameOptionalInner<out IIndex> : IWriteableOptionalInner<IIndex>, IFrameSingleInner<IIndex>
         where IIndex : IFrameBrowsingOptionalNodeIndex
     {
         /// <summary>
@@ -69,7 +69,7 @@
         private protected override IReadOnlyOptionalNodeState CreateNodeState(IReadOnlyBrowsingOptionalNodeIndex nodeIndex)
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameOptionalInner<IIndex, TIndex>));
-            return new FrameOptionalNodeState((IFrameBrowsingOptionalNodeIndex)nodeIndex);
+            return new FrameOptionalNodeState<IFrameInner<IFrameBrowsingChildIndex>>((IFrameBrowsingOptionalNodeIndex)nodeIndex);
         }
 
         /// <summary>

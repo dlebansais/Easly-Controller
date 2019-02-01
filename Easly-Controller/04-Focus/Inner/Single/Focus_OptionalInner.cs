@@ -19,7 +19,7 @@
     /// Inner for an optional node.
     /// </summary>
     /// <typeparam name="IIndex">Type of the index.</typeparam>
-    public interface IFocusOptionalInner<out IIndex> : IFrameOptionalInner<IIndex>, IFocusSingleInner<IIndex>
+    internal interface IFocusOptionalInner<out IIndex> : IFrameOptionalInner<IIndex>, IFocusSingleInner<IIndex>
         where IIndex : IFocusBrowsingOptionalNodeIndex
     {
         /// <summary>
@@ -70,7 +70,7 @@
         private protected override IReadOnlyOptionalNodeState CreateNodeState(IReadOnlyBrowsingOptionalNodeIndex nodeIndex)
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusOptionalInner<IIndex, TIndex>));
-            return new FocusOptionalNodeState((IFocusBrowsingOptionalNodeIndex)nodeIndex);
+            return new FocusOptionalNodeState<IFocusInner<IFocusBrowsingChildIndex>>((IFocusBrowsingOptionalNodeIndex)nodeIndex);
         }
 
         /// <summary>

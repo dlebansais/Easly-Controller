@@ -17,7 +17,7 @@
     /// Base inner for a single node inner.
     /// </summary>
     /// <typeparam name="IIndex">Type of the index.</typeparam>
-    public interface IFrameSingleInner<out IIndex> : IWriteableSingleInner<IIndex>, IFrameInner<IIndex>
+    internal interface IFrameSingleInner<out IIndex> : IWriteableSingleInner<IIndex>, IFrameInner<IIndex>
         where IIndex : IFrameBrowsingChildIndex
     {
         /// <summary>

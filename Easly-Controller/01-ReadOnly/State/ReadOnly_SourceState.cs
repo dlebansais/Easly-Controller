@@ -33,11 +33,22 @@
     /// <summary>
     /// State of a source identifier node.
     /// </summary>
-    internal class ReadOnlySourceState : ReadOnlyPlaceholderNodeState, IReadOnlySourceState
+    /// <typeparam name="IInner">Parent inner of the state.</typeparam>
+    internal interface IReadOnlySourceState<out IInner> : IReadOnlyPlaceholderNodeState<IInner>
+        where IInner : IReadOnlyInner<IReadOnlyBrowsingChildIndex>
+    {
+    }
+
+    /// <summary>
+    /// State of a source identifier node.
+    /// </summary>
+    /// <typeparam name="IInner">Parent inner of the state.</typeparam>
+    internal class ReadOnlySourceState<IInner> : ReadOnlyPlaceholderNodeState<IInner>, IReadOnlySourceState<IInner>, IReadOnlySourceState
+        where IInner : IReadOnlyInner<IReadOnlyBrowsingChildIndex>
     {
         #region Init
         /// <summary>
-        /// Initializes a new instance of the <see cref="ReadOnlySourceState"/> class.
+        /// Initializes a new instance of the <see cref="ReadOnlySourceState{IInner}"/> class.
         /// </summary>
         /// <param name="parentBlockState">The parent block state.</param>
         /// <param name="index">The index used to create the state.</param>
@@ -85,7 +96,7 @@
         {
             Debug.Assert(other != null);
 
-            if (!comparer.IsSameType(other, out ReadOnlySourceState AsSourceState))
+            if (!comparer.IsSameType(other, out ReadOnlySourceState<IInner> AsSourceState))
                 return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsSourceState))

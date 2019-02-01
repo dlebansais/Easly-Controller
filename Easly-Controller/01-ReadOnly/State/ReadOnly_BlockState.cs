@@ -1,6 +1,5 @@
 ﻿namespace EaslyController.ReadOnly
 {
-    using System;
     using System.Collections.Generic;
     using System.Diagnostics;
     using BaseNode;
@@ -48,17 +47,6 @@
         IReadOnlyPlaceholderNodeStateReadOnlyList StateList { get; }
 
         /// <summary>
-        /// Initializes the block state.
-        /// </summary>
-        void InitBlockState();
-
-        /// <summary>
-        /// Initializes the state for a node of the block.
-        /// </summary>
-        /// <param name="state">The state to initialize.</param>
-        void InitNodeState(IReadOnlyPlaceholderNodeState state);
-
-        /// <summary>
         /// Gets the inner corresponding to a property.
         /// </summary>
         /// <param name="propertyName">Property name.</param>
@@ -70,6 +58,25 @@
         /// <param name="parentNode">The node that will contains a reference to the cloned block upon return.</param>
         /// <param name="blockIndex">Position where to insert the block in <paramref name="parentNode"/>.</param>
         void CloneBlock(INode parentNode, int blockIndex);
+    }
+
+    /// <summary>
+    /// State of a block in a block list.
+    /// </summary>
+    /// <typeparam name="IInner">Parent inner of the block state.</typeparam>
+    internal interface IReadOnlyBlockState<out IInner> : IEqualComparable
+        where IInner : IReadOnlyInner<IReadOnlyBrowsingChildIndex>
+    {
+        /// <summary>
+        /// Initializes the block state.
+        /// </summary>
+        void InitBlockState();
+
+        /// <summary>
+        /// Initializes the state for a node of the block.
+        /// </summary>
+        /// <param name="state">The state to initialize.</param>
+        void InitNodeState(IReadOnlyPlaceholderNodeState state);
 
         /// <summary>
         /// Attach a view to the block state.
@@ -89,11 +96,13 @@
     /// <summary>
     /// State of a block in a block list.
     /// </summary>
-    internal class ReadOnlyBlockState : IReadOnlyBlockState
+    /// <typeparam name="IInner">Parent inner of the block state.</typeparam>
+    internal class ReadOnlyBlockState<IInner> : IReadOnlyBlockState<IInner>, IReadOnlyBlockState
+        where IInner : IReadOnlyInner<IReadOnlyBrowsingChildIndex>
     {
         #region Init
         /// <summary>
-        /// Initializes a new instance of the <see cref="ReadOnlyBlockState"/> class.
+        /// Initializes a new instance of the <see cref="ReadOnlyBlockState{IInner}"/> class.
         /// </summary>
         /// <param name="parentInner">Inner containing the block state.</param>
         /// <param name="newBlockIndex">Index that was used to create the block state.</param>
@@ -123,7 +132,7 @@
             IReadOnlyInnerReadOnlyDictionary<string> PatternEmptyInnerTable = CreateInnerTableReadOnly(CreateInnerTable());
             Dictionary<string, ValuePropertyType> PatternValuePropertyTypeTable = new Dictionary<string, ValuePropertyType>();
             PatternValuePropertyTypeTable.Add(nameof(IPattern.Text), ValuePropertyType.String);
-            PatternState.Init(PatternInner, PatternEmptyInnerTable, PatternValuePropertyTypeTable);
+            ((IReadOnlyPatternState<IInner>)PatternState).Init(PatternInner, PatternEmptyInnerTable, PatternValuePropertyTypeTable);
             Debug.Assert(PatternState.ToString() != null); // For code coverage.
 
             SourceIndex = CreateExistingSourceIndex();
@@ -131,7 +140,7 @@
             IReadOnlyInnerReadOnlyDictionary<string> SourceEmptyInnerTable = CreateInnerTableReadOnly(CreateInnerTable());
             Dictionary<string, ValuePropertyType> SourceValuePropertyTypeTable = new Dictionary<string, ValuePropertyType>();
             SourceValuePropertyTypeTable.Add(nameof(IIdentifier.Text), ValuePropertyType.String);
-            SourceState.Init(SourceInner, SourceEmptyInnerTable, SourceValuePropertyTypeTable);
+            ((IReadOnlySourceState<IInner>)SourceState).Init(SourceInner, SourceEmptyInnerTable, SourceValuePropertyTypeTable);
             Debug.Assert(SourceState.ToString() != null); // For code coverage.
         }
 
@@ -269,11 +278,11 @@
         {
             callbackSet.OnBlockStateAttached(this);
 
-            PatternState.Attach(view, callbackSet);
-            SourceState.Attach(view, callbackSet);
+            ((IReadOnlyPatternState<IInner>)PatternState).Attach(view, callbackSet);
+            ((IReadOnlySourceState<IInner>)SourceState).Attach(view, callbackSet);
 
             foreach (IReadOnlyNodeState ChildState in StateList)
-                ChildState.Attach(view, callbackSet);
+                ((IReadOnlyNodeState<IInner>)ChildState).Attach(view, callbackSet);
         }
 
         /// <summary>
@@ -284,10 +293,10 @@
         public virtual void Detach(IReadOnlyControllerView view, IReadOnlyAttachCallbackSet callbackSet)
         {
             foreach (IReadOnlyNodeState ChildState in StateList)
-                ChildState.Detach(view, callbackSet);
+                ((IReadOnlyNodeState<IInner>)ChildState).Detach(view, callbackSet);
 
-            SourceState.Detach(view, callbackSet);
-            PatternState.Detach(view, callbackSet);
+            ((IReadOnlySourceState<IInner>)SourceState).Detach(view, callbackSet);
+            ((IReadOnlyPatternState<IInner>)PatternState).Detach(view, callbackSet);
 
             callbackSet.OnBlockStateDetached(this);
         }
@@ -337,7 +346,7 @@
         {
             Debug.Assert(other != null);
 
-            if (!comparer.IsSameType(other, out ReadOnlyBlockState AsBlockState))
+            if (!comparer.IsSameType(other, out ReadOnlyBlockState<IInner> AsBlockState))
                 return comparer.Failed();
 
             if (!comparer.VerifyEqual(ParentInner, AsBlockState.ParentInner))
@@ -379,7 +388,7 @@
         /// </summary>
         private protected virtual IReadOnlyPlaceholderNodeStateList CreateStateList()
         {
-            ControllerTools.AssertNoOverride(this, typeof(ReadOnlyBlockState));
+            ControllerTools.AssertNoOverride(this, typeof(ReadOnlyBlockState<IInner>));
             return new ReadOnlyPlaceholderNodeStateList();
         }
 
@@ -388,7 +397,7 @@
         /// </summary>
         private protected virtual IReadOnlyPlaceholderNodeStateReadOnlyList CreateStateListReadOnly(IReadOnlyPlaceholderNodeStateList stateList)
         {
-            ControllerTools.AssertNoOverride(this, typeof(ReadOnlyBlockState));
+            ControllerTools.AssertNoOverride(this, typeof(ReadOnlyBlockState<IInner>));
             return new ReadOnlyPlaceholderNodeStateReadOnlyList(stateList);
         }
 
@@ -397,7 +406,7 @@
         /// </summary>
         private protected virtual IReadOnlyInnerDictionary<string> CreateInnerTable()
         {
-            ControllerTools.AssertNoOverride(this, typeof(ReadOnlyBlockState));
+            ControllerTools.AssertNoOverride(this, typeof(ReadOnlyBlockState<IInner>));
             return new ReadOnlyInnerDictionary<string>();
         }
 
@@ -406,7 +415,7 @@
         /// </summary>
         private protected virtual IReadOnlyInnerReadOnlyDictionary<string> CreateInnerTableReadOnly(IReadOnlyInnerDictionary<string> innerTable)
         {
-            ControllerTools.AssertNoOverride(this, typeof(ReadOnlyBlockState));
+            ControllerTools.AssertNoOverride(this, typeof(ReadOnlyBlockState<IInner>));
             return new ReadOnlyInnerReadOnlyDictionary<string>(innerTable);
         }
 
@@ -415,7 +424,7 @@
         /// </summary>
         private protected virtual IReadOnlyPlaceholderInner<IReadOnlyBrowsingPlaceholderNodeIndex> CreatePatternInner(IReadOnlyNodeState owner)
         {
-            ControllerTools.AssertNoOverride(this, typeof(ReadOnlyBlockState));
+            ControllerTools.AssertNoOverride(this, typeof(ReadOnlyBlockState<IInner>));
             return new ReadOnlyPlaceholderInner<IReadOnlyBrowsingPlaceholderNodeIndex, ReadOnlyBrowsingPlaceholderNodeIndex>(owner, nameof(IBlock.ReplicationPattern));
         }
 
@@ -424,7 +433,7 @@
         /// </summary>
         private protected virtual IReadOnlyPlaceholderInner<IReadOnlyBrowsingPlaceholderNodeIndex> CreateSourceInner(IReadOnlyNodeState owner)
         {
-            ControllerTools.AssertNoOverride(this, typeof(ReadOnlyBlockState));
+            ControllerTools.AssertNoOverride(this, typeof(ReadOnlyBlockState<IInner>));
             return new ReadOnlyPlaceholderInner<IReadOnlyBrowsingPlaceholderNodeIndex, ReadOnlyBrowsingPlaceholderNodeIndex>(owner, nameof(IBlock.SourceIdentifier));
         }
 
@@ -433,7 +442,7 @@
         /// </summary>
         private protected virtual IReadOnlyBrowsingPatternIndex CreateExistingPatternIndex()
         {
-            ControllerTools.AssertNoOverride(this, typeof(ReadOnlyBlockState));
+            ControllerTools.AssertNoOverride(this, typeof(ReadOnlyBlockState<IInner>));
             return new ReadOnlyBrowsingPatternIndex(ChildBlock);
         }
 
@@ -442,7 +451,7 @@
         /// </summary>
         private protected virtual IReadOnlyBrowsingSourceIndex CreateExistingSourceIndex()
         {
-            ControllerTools.AssertNoOverride(this, typeof(ReadOnlyBlockState));
+            ControllerTools.AssertNoOverride(this, typeof(ReadOnlyBlockState<IInner>));
             return new ReadOnlyBrowsingSourceIndex(ChildBlock);
         }
 
@@ -451,8 +460,8 @@
         /// </summary>
         private protected virtual IReadOnlyPatternState CreatePatternState(IReadOnlyBrowsingPatternIndex patternIndex)
         {
-            ControllerTools.AssertNoOverride(this, typeof(ReadOnlyBlockState));
-            return new ReadOnlyPatternState(this, patternIndex);
+            ControllerTools.AssertNoOverride(this, typeof(ReadOnlyBlockState<IInner>));
+            return new ReadOnlyPatternState<IInner>(this, patternIndex);
         }
 
         /// <summary>
@@ -460,8 +469,8 @@
         /// </summary>
         private protected virtual IReadOnlySourceState CreateSourceState(IReadOnlyBrowsingSourceIndex sourceIndex)
         {
-            ControllerTools.AssertNoOverride(this, typeof(ReadOnlyBlockState));
-            return new ReadOnlySourceState(this, sourceIndex);
+            ControllerTools.AssertNoOverride(this, typeof(ReadOnlyBlockState<IInner>));
+            return new ReadOnlySourceState<IInner>(this, sourceIndex);
         }
         #endregion
     }

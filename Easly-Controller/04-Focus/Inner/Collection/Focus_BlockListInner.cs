@@ -31,7 +31,7 @@
     /// Inner for a block list.
     /// </summary>
     /// <typeparam name="IIndex">Type of the index.</typeparam>
-    public interface IFocusBlockListInner<out IIndex> : IFrameBlockListInner<IIndex>, IFocusCollectionInner<IIndex>
+    internal interface IFocusBlockListInner<out IIndex> : IFrameBlockListInner<IIndex>, IFocusCollectionInner<IIndex>
         where IIndex : IFocusBrowsingBlockNodeIndex
     {
         /// <summary>
@@ -131,7 +131,7 @@
         private protected override IReadOnlyBlockState CreateBlockState(IReadOnlyBrowsingNewBlockNodeIndex nodeIndex, IBlock childBlock)
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusBlockListInner<IIndex, TIndex>));
-            return new FocusBlockState(this, (IFocusBrowsingNewBlockNodeIndex)nodeIndex, childBlock);
+            return new FocusBlockState<IFocusInner<IFocusBrowsingChildIndex>>(this, (IFocusBrowsingNewBlockNodeIndex)nodeIndex, childBlock);
         }
 
         /// <summary>
@@ -140,7 +140,7 @@
         private protected override IReadOnlyPlaceholderNodeState CreateNodeState(IReadOnlyNodeIndex nodeIndex)
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusBlockListInner<IIndex, TIndex>));
-            return new FocusPlaceholderNodeState((IFocusNodeIndex)nodeIndex);
+            return new FocusPlaceholderNodeState<IFocusInner<IFocusBrowsingChildIndex>>((IFocusNodeIndex)nodeIndex);
         }
 
         /// <summary>

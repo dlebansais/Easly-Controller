@@ -149,7 +149,7 @@
         /// <param name="inner">Inner to use to insert the new item upon return.</param>
         /// <param name="index">Index of the new item to insert upon return.</param>
         /// <returns>True if a new item can be inserted at the focus.</returns>
-        bool IsNewItemInsertable(out IFocusCollectionInner<IFocusBrowsingCollectionNodeIndex> inner, out IFocusInsertionCollectionNodeIndex index);
+        bool IsNewItemInsertable(out IFocusCollectionInner inner, out IFocusInsertionCollectionNodeIndex index);
 
         /// <summary>
         /// Checks if an existing item can be removed at the focus.
@@ -157,7 +157,7 @@
         /// <param name="inner">Inner to use to remove the item upon return.</param>
         /// <param name="index">Index of the item to remove upon return.</param>
         /// <returns>True if an item can be removed at the focus.</returns>
-        bool IsItemRemoveable(out IFocusCollectionInner<IFocusBrowsingCollectionNodeIndex> inner, out IFocusBrowsingCollectionNodeIndex index);
+        bool IsItemRemoveable(out IFocusCollectionInner inner, out IFocusBrowsingCollectionNodeIndex index);
 
         /// <summary>
         /// Checks if an existing block at the focus can be split in two.
@@ -165,7 +165,7 @@
         /// <param name="inner">Inner to use to split the block upon return.</param>
         /// <param name="index">Index of the block to split upon return.</param>
         /// <returns>True if a block can be split at the focus.</returns>
-        bool IsItemSplittable(out IFocusBlockListInner<IFocusBrowsingBlockNodeIndex> inner, out IFocusBrowsingExistingBlockNodeIndex index);
+        bool IsItemSplittable(out IFocusBlockListInner inner, out IFocusBrowsingExistingBlockNodeIndex index);
 
         /// <summary>
         /// Checks if two existing blocks at the focus can be merged.
@@ -173,7 +173,7 @@
         /// <param name="inner">Inner to use to merge the blocks upon return.</param>
         /// <param name="index">Index of the last item in the block to merge upon return.</param>
         /// <returns>True if two blocks can be merged at the focus.</returns>
-        bool IsItemMergeable(out IFocusBlockListInner<IFocusBrowsingBlockNodeIndex> inner, out IFocusBrowsingExistingBlockNodeIndex index);
+        bool IsItemMergeable(out IFocusBlockListInner inner, out IFocusBrowsingExistingBlockNodeIndex index);
 
         /// <summary>
         /// Checks if an existing item at the focus can be moved up or down.
@@ -182,7 +182,7 @@
         /// <param name="inner">Inner to use to move the item upon return.</param>
         /// <param name="index">Index of the item to move upon return.</param>
         /// <returns>True if an item can be moved at the focus.</returns>
-        bool IsItemMoveable(int direction, out IFocusCollectionInner<IFocusBrowsingCollectionNodeIndex> inner, out IFocusBrowsingCollectionNodeIndex index);
+        bool IsItemMoveable(int direction, out IFocusCollectionInner inner, out IFocusBrowsingCollectionNodeIndex index);
 
         /// <summary>
         /// Checks if an existing block at the focus can be moved up or down.
@@ -191,7 +191,7 @@
         /// <param name="inner">Inner to use to move the block upon return.</param>
         /// <param name="blockIndex">Index of the block to move upon return.</param>
         /// <returns>True if an item can be moved at the focus.</returns>
-        bool IsBlockMoveable(int direction, out IFocusBlockListInner<IFocusBrowsingBlockNodeIndex> inner, out int blockIndex);
+        bool IsBlockMoveable(int direction, out IFocusBlockListInner inner, out int blockIndex);
 
         /// <summary>
         /// Checks if an existing item at the focus or above that can be cycled through.
@@ -208,7 +208,7 @@
         /// <param name="inner">Inner to use to replace the node upon return.</param>
         /// <param name="index">Index of the simpler node upon return.</param>
         /// <returns>True if a node can be simplified at the focus.</returns>
-        bool IsItemSimplifiable(out IFocusInner<IFocusBrowsingChildIndex> inner, out IFocusInsertionChildIndex index);
+        bool IsItemSimplifiable(out IFocusInner inner, out IFocusInsertionChildIndex index);
 
         /// <summary>
         /// Checks if an existing identifier at the focus can be split in two.
@@ -217,7 +217,7 @@
         /// <param name="replaceIndex">Index of the identifier to replace upon return.</param>
         /// <param name="insertIndex">Index of the identifier to insert upon return.</param>
         /// <returns>True if an identifier can be split at the focus.</returns>
-        bool IsIdentifierSplittable(out IFocusListInner<IFocusBrowsingListNodeIndex> inner, out IFocusInsertionListNodeIndex replaceIndex, out IFocusInsertionListNodeIndex insertIndex);
+        bool IsIdentifierSplittable(out IFocusListInner inner, out IFocusInsertionListNodeIndex replaceIndex, out IFocusInsertionListNodeIndex insertIndex);
 
         /// <summary>
         /// Checks if an existing block can have its replication status changed.
@@ -226,7 +226,7 @@
         /// <param name="blockIndex">Index of the block that can be changed upon return.</param>
         /// <param name="replication">The current replication status upon return.</param>
         /// <returns>True if an existing block can have its replication status changed at the focus.</returns>
-        bool IsReplicationModifiable(out IFocusBlockListInner<IFocusBrowsingBlockNodeIndex> inner, out int blockIndex, out ReplicationStatus replication);
+        bool IsReplicationModifiable(out IFocusBlockListInner inner, out int blockIndex, out ReplicationStatus replication);
     }
 
     /// <summary>
@@ -608,7 +608,7 @@
         /// <param name="inner">Inner to use to insert the new item upon return.</param>
         /// <param name="index">Index of the new item to insert upon return.</param>
         /// <returns>True if a new item can be inserted at the focus.</returns>
-        public virtual bool IsNewItemInsertable(out IFocusCollectionInner<IFocusBrowsingCollectionNodeIndex> inner, out IFocusInsertionCollectionNodeIndex index)
+        public virtual bool IsNewItemInsertable(out IFocusCollectionInner inner, out IFocusInsertionCollectionNodeIndex index)
         {
             inner = null;
             index = null;
@@ -621,11 +621,11 @@
             {
                 INode NewItem = BuildNewInsertableItem(AsInsertFrame.InsertType);
 
-                IFocusCollectionInner<IFocusBrowsingCollectionNodeIndex> CollectionInner = null;
+                IFocusCollectionInner CollectionInner = null;
                 AsInsertFrame.CollectionNameToInner(ref State, ref CollectionInner);
                 Debug.Assert(CollectionInner != null);
 
-                if (CollectionInner is IFocusBlockListInner<IFocusBrowsingBlockNodeIndex> AsBlockListInner)
+                if (CollectionInner is IFocusBlockListInner AsBlockListInner)
                 {
                     inner = AsBlockListInner;
 
@@ -640,7 +640,7 @@
 
                     return true;
                 }
-                else if (CollectionInner is IFocusListInner<IFocusBrowsingListNodeIndex> AsListInner)
+                else if (CollectionInner is IFocusListInner AsListInner)
                 {
                     inner = AsListInner;
                     index = CreateListNodeIndex(State.Node, AsListInner.PropertyName, NewItem, 0);
@@ -653,7 +653,7 @@
             else if (FocusedCellView.Frame is IFocusTextValueFrame AsTextValueFrame)
             {
                 if (CaretPosition == 0)
-                    if (State.ParentInner is IFocusListInner<IFocusBrowsingListNodeIndex> AsListInner)
+                    if (State.ParentInner is IFocusListInner AsListInner)
                     {
                         Type InsertType = NodeTreeHelper.InterfaceTypeToNodeType(AsListInner.InterfaceType);
                         INode NewItem = BuildNewInsertableItem(InsertType);
@@ -680,7 +680,7 @@
         /// <param name="inner">Inner to use to remove the item upon return.</param>
         /// <param name="index">Index of the item to remove upon return.</param>
         /// <returns>True if an item can be removed at the focus.</returns>
-        public virtual bool IsItemRemoveable(out IFocusCollectionInner<IFocusBrowsingCollectionNodeIndex> inner, out IFocusBrowsingCollectionNodeIndex index)
+        public virtual bool IsItemRemoveable(out IFocusCollectionInner inner, out IFocusBrowsingCollectionNodeIndex index)
         {
             inner = null;
             index = null;
@@ -696,7 +696,7 @@
                 // Search recursively for a collection parent, up to 3 levels up.
                 for (int i = 0; i < 3 && State != null; i++)
                 {
-                    if (State.ParentInner is IFocusCollectionInner<IFocusBrowsingCollectionNodeIndex> AsCollectionInner)
+                    if (State.ParentInner is IFocusCollectionInner AsCollectionInner)
                     {
                         inner = AsCollectionInner;
                         index = State.ParentIndex as IFocusBrowsingCollectionNodeIndex;
@@ -721,7 +721,7 @@
         /// <param name="inner">Inner to use to split the block upon return.</param>
         /// <param name="index">Index of the block to split upon return.</param>
         /// <returns>True if a block can be split at the focus.</returns>
-        public virtual bool IsItemSplittable(out IFocusBlockListInner<IFocusBrowsingBlockNodeIndex> inner, out IFocusBrowsingExistingBlockNodeIndex index)
+        public virtual bool IsItemSplittable(out IFocusBlockListInner inner, out IFocusBrowsingExistingBlockNodeIndex index)
         {
             inner = null;
             index = null;
@@ -737,7 +737,7 @@
                 // Search recursively for a collection parent, up to 3 levels up.
                 for (int i = 0; i < 3 && State != null; i++)
                 {
-                    if (State.ParentInner is IFocusBlockListInner<IFocusBrowsingBlockNodeIndex> AsBlockListInner)
+                    if (State.ParentInner is IFocusBlockListInner AsBlockListInner)
                     {
                         inner = AsBlockListInner;
                         index = State.ParentIndex as IFocusBrowsingExistingBlockNodeIndex;
@@ -762,7 +762,7 @@
         /// <param name="inner">Inner to use to merge the blocks upon return.</param>
         /// <param name="index">Index of the last item in the block to merge upon return.</param>
         /// <returns>True if two blocks can be merged at the focus.</returns>
-        public virtual bool IsItemMergeable(out IFocusBlockListInner<IFocusBrowsingBlockNodeIndex> inner, out IFocusBrowsingExistingBlockNodeIndex index)
+        public virtual bool IsItemMergeable(out IFocusBlockListInner inner, out IFocusBrowsingExistingBlockNodeIndex index)
         {
             inner = null;
             index = null;
@@ -778,7 +778,7 @@
                 // Search recursively for a collection parent, up to 3 levels up.
                 for (int i = 0; i < 3 && State != null; i++)
                 {
-                    if (State.ParentInner is IFocusBlockListInner<IFocusBrowsingBlockNodeIndex> AsBlockListInner)
+                    if (State.ParentInner is IFocusBlockListInner AsBlockListInner)
                     {
                         inner = AsBlockListInner;
                         index = State.ParentIndex as IFocusBrowsingExistingBlockNodeIndex;
@@ -804,7 +804,7 @@
         /// <param name="inner">Inner to use to move the item upon return.</param>
         /// <param name="index">Index of the item to move upon return.</param>
         /// <returns>True if an item can be moved at the focus.</returns>
-        public virtual bool IsItemMoveable(int direction, out IFocusCollectionInner<IFocusBrowsingCollectionNodeIndex> inner, out IFocusBrowsingCollectionNodeIndex index)
+        public virtual bool IsItemMoveable(int direction, out IFocusCollectionInner inner, out IFocusBrowsingCollectionNodeIndex index)
         {
             inner = null;
             index = null;
@@ -820,7 +820,7 @@
                 // Search recursively for a collection parent, up to 3 levels up.
                 for (int i = 0; i < 3 && State != null; i++)
                 {
-                    if (State.ParentInner is IFocusCollectionInner<IFocusBrowsingCollectionNodeIndex> AsCollectionInner)
+                    if (State.ParentInner is IFocusCollectionInner AsCollectionInner)
                     {
                         inner = AsCollectionInner;
                         index = State.ParentIndex as IFocusBrowsingCollectionNodeIndex;
@@ -846,7 +846,7 @@
         /// <param name="inner">Inner to use to move the block upon return.</param>
         /// <param name="blockIndex">Index of the block to move upon return.</param>
         /// <returns>True if an item can be moved at the focus.</returns>
-        public virtual bool IsBlockMoveable(int direction, out IFocusBlockListInner<IFocusBrowsingBlockNodeIndex> inner, out int blockIndex)
+        public virtual bool IsBlockMoveable(int direction, out IFocusBlockListInner inner, out int blockIndex)
         {
             inner = null;
             blockIndex = -1;
@@ -862,7 +862,7 @@
                 // Search recursively for a collection parent, up to 3 levels up.
                 for (int i = 0; i < 3 && State != null; i++)
                 {
-                    if (State.ParentInner is IFocusBlockListInner<IFocusBrowsingBlockNodeIndex> AsBlockListInner)
+                    if (State.ParentInner is IFocusBlockListInner AsBlockListInner)
                     {
                         inner = AsBlockListInner;
                         IFocusBrowsingExistingBlockNodeIndex ParentIndex = State.ParentIndex as IFocusBrowsingExistingBlockNodeIndex;
@@ -928,7 +928,7 @@
         /// <param name="inner">Inner to use to replace the node upon return.</param>
         /// <param name="index">Index of the simpler node upon return.</param>
         /// <returns>True if a node can be simplified at the focus.</returns>
-        public virtual bool IsItemSimplifiable(out IFocusInner<IFocusBrowsingChildIndex> inner, out IFocusInsertionChildIndex index)
+        public virtual bool IsItemSimplifiable(out IFocusInner inner, out IFocusInsertionChildIndex index)
         {
             inner = null;
             index = null;
@@ -970,7 +970,7 @@
         /// <param name="replaceIndex">Index of the identifier to replace upon return.</param>
         /// <param name="insertIndex">Index of the identifier to insert upon return.</param>
         /// <returns>True if an identifier can be split at the focus.</returns>
-        public virtual bool IsIdentifierSplittable(out IFocusListInner<IFocusBrowsingListNodeIndex> inner, out IFocusInsertionListNodeIndex replaceIndex, out IFocusInsertionListNodeIndex insertIndex)
+        public virtual bool IsIdentifierSplittable(out IFocusListInner inner, out IFocusInsertionListNodeIndex replaceIndex, out IFocusInsertionListNodeIndex insertIndex)
         {
             inner = null;
             replaceIndex = null;
@@ -987,7 +987,7 @@
                     string Text = AsIdentifier.Text;
                     Debug.Assert(CaretPosition >= 0 && CaretPosition <= Text.Length);
 
-                    inner = IdentifierState.ParentInner as IFocusListInner<IFocusBrowsingListNodeIndex>;
+                    inner = IdentifierState.ParentInner as IFocusListInner;
                     Debug.Assert(inner != null);
 
                     IFocusBrowsingListNodeIndex CurrentIndex = IdentifierState.ParentIndex as IFocusBrowsingListNodeIndex;
@@ -1016,7 +1016,7 @@
         /// <param name="blockIndex">Index of the block that can be changed upon return.</param>
         /// <param name="replication">The current replication status upon return.</param>
         /// <returns>True if an existing block can have its replication status changed at the focus.</returns>
-        public virtual bool IsReplicationModifiable(out IFocusBlockListInner<IFocusBrowsingBlockNodeIndex> inner, out int blockIndex, out ReplicationStatus replication)
+        public virtual bool IsReplicationModifiable(out IFocusBlockListInner inner, out int blockIndex, out ReplicationStatus replication)
         {
             inner = null;
             blockIndex = -1;
@@ -1032,7 +1032,7 @@
                 if (State is IFocusPatternState AsPatternState)
                 {
                     IFocusBlockState ParentBlock = AsPatternState.ParentBlockState;
-                    IFocusBlockListInner<IFocusBrowsingBlockNodeIndex> BlockListInner = ParentBlock.ParentInner as IFocusBlockListInner<IFocusBrowsingBlockNodeIndex>;
+                    IFocusBlockListInner BlockListInner = ParentBlock.ParentInner as IFocusBlockListInner;
                     Debug.Assert(BlockListInner != null);
 
                     inner = BlockListInner;
@@ -1043,7 +1043,7 @@
                 else if (State is IFocusSourceState AsSourceState)
                 {
                     IFocusBlockState ParentBlock = AsSourceState.ParentBlockState;
-                    IFocusBlockListInner<IFocusBrowsingBlockNodeIndex> BlockListInner = ParentBlock.ParentInner as IFocusBlockListInner<IFocusBrowsingBlockNodeIndex>;
+                    IFocusBlockListInner BlockListInner = ParentBlock.ParentInner as IFocusBlockListInner;
                     Debug.Assert(BlockListInner != null);
 
                     inner = BlockListInner;
@@ -1051,7 +1051,7 @@
                     replication = ParentBlock.ChildBlock.Replication;
                     return true;
                 }
-                else if (State.ParentInner is IFocusBlockListInner<IFocusBrowsingBlockNodeIndex> AsBlockListInner)
+                else if (State.ParentInner is IFocusBlockListInner AsBlockListInner)
                 {
                     inner = AsBlockListInner;
                     IFocusBrowsingExistingBlockNodeIndex ParentIndex = State.ParentIndex as IFocusBrowsingExistingBlockNodeIndex;
@@ -1079,7 +1079,7 @@
 
             for (;;)
             {
-                IFocusInner<IFocusBrowsingChildIndex> ParentInner = CurrentStateView.State.ParentInner;
+                IFocusInner ParentInner = CurrentStateView.State.ParentInner;
                 IFocusNodeState ParentState = CurrentStateView.State.ParentState;
                 if (ParentInner == null)
                 {

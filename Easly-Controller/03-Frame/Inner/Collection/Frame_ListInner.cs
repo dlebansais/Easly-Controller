@@ -19,7 +19,7 @@
     /// Inner for a list of nodes.
     /// </summary>
     /// <typeparam name="IIndex">Type of the index.</typeparam>
-    public interface IFrameListInner<out IIndex> : IWriteableListInner<IIndex>, IFrameCollectionInner<IIndex>
+    internal interface IFrameListInner<out IIndex> : IWriteableListInner<IIndex>, IFrameCollectionInner<IIndex>
         where IIndex : IFrameBrowsingListNodeIndex
     {
         /// <summary>
@@ -91,7 +91,7 @@
         private protected override IReadOnlyPlaceholderNodeState CreateNodeState(IReadOnlyNodeIndex nodeIndex)
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameListInner<IIndex, TIndex>));
-            return new FramePlaceholderNodeState((IFrameNodeIndex)nodeIndex);
+            return new FramePlaceholderNodeState<IFrameInner<IFrameBrowsingChildIndex>>((IFrameNodeIndex)nodeIndex);
         }
 
         /// <summary>

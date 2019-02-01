@@ -15,7 +15,7 @@
     /// Inner for a child node.
     /// </summary>
     /// <typeparam name="IIndex">Type of the index.</typeparam>
-    public interface IFramePlaceholderInner<out IIndex> : IWriteablePlaceholderInner<IIndex>, IFrameSingleInner<IIndex>
+    internal interface IFramePlaceholderInner<out IIndex> : IWriteablePlaceholderInner<IIndex>, IFrameSingleInner<IIndex>
         where IIndex : IFrameBrowsingPlaceholderNodeIndex
     {
     }
@@ -60,7 +60,7 @@
         private protected override IReadOnlyPlaceholderNodeState CreateNodeState(IReadOnlyBrowsingPlaceholderNodeIndex nodeIndex)
         {
             ControllerTools.AssertNoOverride(this, typeof(FramePlaceholderInner<IIndex, TIndex>));
-            return new FramePlaceholderNodeState((IFrameBrowsingPlaceholderNodeIndex)nodeIndex);
+            return new FramePlaceholderNodeState<IFrameInner<IFrameBrowsingChildIndex>>((IFrameBrowsingPlaceholderNodeIndex)nodeIndex);
         }
 
         /// <summary>

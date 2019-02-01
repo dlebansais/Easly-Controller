@@ -149,21 +149,21 @@
         /// <param name="inner">The inner for the list or block list where the node is inserted.</param>
         /// <param name="insertedIndex">Index for the insertion operation.</param>
         /// <param name="nodeIndex">Index of the inserted node upon return.</param>
-        void Insert(IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> inner, IWriteableInsertionCollectionNodeIndex insertedIndex, out IWriteableBrowsingCollectionNodeIndex nodeIndex);
+        void Insert(IWriteableCollectionInner inner, IWriteableInsertionCollectionNodeIndex insertedIndex, out IWriteableBrowsingCollectionNodeIndex nodeIndex);
 
         /// <summary>
         /// Checks whether a node can be removed from a list.
         /// </summary>
         /// <param name="inner">The inner where the node is.</param>
         /// <param name="nodeIndex">Index of the node that would be removed.</param>
-        bool IsRemoveable(IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> inner, IWriteableBrowsingCollectionNodeIndex nodeIndex);
+        bool IsRemoveable(IWriteableCollectionInner inner, IWriteableBrowsingCollectionNodeIndex nodeIndex);
 
         /// <summary>
         /// Removes a node from a list or block list.
         /// </summary>
         /// <param name="inner">The inner for the list or block list from which the node is removed.</param>
         /// <param name="nodeIndex">Index for the removed node.</param>
-        void Remove(IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> inner, IWriteableBrowsingCollectionNodeIndex nodeIndex);
+        void Remove(IWriteableCollectionInner inner, IWriteableBrowsingCollectionNodeIndex nodeIndex);
 
         /// <summary>
         /// Replace an existing node with a new one.
@@ -171,7 +171,7 @@
         /// <param name="inner">The inner where the node is replaced.</param>
         /// <param name="insertedIndex">Index for the replace operation.</param>
         /// <param name="nodeIndex">Index of the replacing node upon return.</param>
-        void Replace(IWriteableInner<IWriteableBrowsingChildIndex> inner, IWriteableInsertionChildIndex insertedIndex, out IWriteableBrowsingChildIndex nodeIndex);
+        void Replace(IWriteableInner inner, IWriteableInsertionChildIndex insertedIndex, out IWriteableBrowsingChildIndex nodeIndex);
 
         /// <summary>
         /// Assign the optional node.
@@ -193,7 +193,7 @@
         /// <param name="inner">The inner where the blok is changed.</param>
         /// <param name="blockIndex">Position of the block in the block list.</param>
         /// <param name="replication">New replication value.</param>
-        void ChangeReplication(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, int blockIndex, ReplicationStatus replication);
+        void ChangeReplication(IWriteableBlockListInner inner, int blockIndex, ReplicationStatus replication);
 
         /// <summary>
         /// Changes the value of an enum or boolean.
@@ -209,28 +209,28 @@
         /// </summary>
         /// <param name="inner">The inner where the block would be split.</param>
         /// <param name="nodeIndex">Index of the last node to stay in the old block.</param>
-        bool IsSplittable(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, IWriteableBrowsingExistingBlockNodeIndex nodeIndex);
+        bool IsSplittable(IWriteableBlockListInner inner, IWriteableBrowsingExistingBlockNodeIndex nodeIndex);
 
         /// <summary>
         /// Splits a block in two at the given index.
         /// </summary>
         /// <param name="inner">The inner where the block is split.</param>
         /// <param name="nodeIndex">Index of the last node to stay in the old block.</param>
-        void SplitBlock(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, IWriteableBrowsingExistingBlockNodeIndex nodeIndex);
+        void SplitBlock(IWriteableBlockListInner inner, IWriteableBrowsingExistingBlockNodeIndex nodeIndex);
 
         /// <summary>
         /// Checks whether a block can be merged at the given index.
         /// </summary>
         /// <param name="inner">The inner where the block would be split.</param>
         /// <param name="nodeIndex">Index of the first node in the block to merge.</param>
-        bool IsMergeable(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, IWriteableBrowsingExistingBlockNodeIndex nodeIndex);
+        bool IsMergeable(IWriteableBlockListInner inner, IWriteableBrowsingExistingBlockNodeIndex nodeIndex);
 
         /// <summary>
         /// Merges two blocks at the given index.
         /// </summary>
         /// <param name="inner">The inner where blocks are merged.</param>
         /// <param name="nodeIndex">Index of the first node in the block to merge.</param>
-        void MergeBlocks(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, IWriteableBrowsingExistingBlockNodeIndex nodeIndex);
+        void MergeBlocks(IWriteableBlockListInner inner, IWriteableBrowsingExistingBlockNodeIndex nodeIndex);
 
         /// <summary>
         /// Checks whether a node can be moved in a list.
@@ -238,7 +238,7 @@
         /// <param name="inner">The inner where the node is.</param>
         /// <param name="nodeIndex">Index of the node that would be moved.</param>
         /// <param name="direction">Direction of the move, relative to the current position of the item.</param>
-        bool IsMoveable(IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> inner, IWriteableBrowsingCollectionNodeIndex nodeIndex, int direction);
+        bool IsMoveable(IWriteableCollectionInner inner, IWriteableBrowsingCollectionNodeIndex nodeIndex, int direction);
 
         /// <summary>
         /// Moves a node around in a list or block list. In a block list, the node stays in same block.
@@ -246,7 +246,7 @@
         /// <param name="inner">The inner for the list or block list in which the node is moved.</param>
         /// <param name="nodeIndex">Index for the moved node.</param>
         /// <param name="direction">The change in position, relative to the current position.</param>
-        void Move(IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> inner, IWriteableBrowsingCollectionNodeIndex nodeIndex, int direction);
+        void Move(IWriteableCollectionInner inner, IWriteableBrowsingCollectionNodeIndex nodeIndex, int direction);
 
         /// <summary>
         /// Checks whether a block can be moved in a block list.
@@ -254,7 +254,7 @@
         /// <param name="inner">The inner where the block is.</param>
         /// <param name="blockIndex">Index of the block that would be moved.</param>
         /// <param name="direction">Direction of the move, relative to the current position of the item.</param>
-        bool IsBlockMoveable(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, int blockIndex, int direction);
+        bool IsBlockMoveable(IWriteableBlockListInner inner, int blockIndex, int direction);
 
         /// <summary>
         /// Moves a block around in a block list.
@@ -262,7 +262,7 @@
         /// <param name="inner">The inner where the block is moved.</param>
         /// <param name="blockIndex">Index of the block to move.</param>
         /// <param name="direction">The change in position, relative to the current block position.</param>
-        void MoveBlock(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, int blockIndex, int direction);
+        void MoveBlock(IWriteableBlockListInner inner, int blockIndex, int direction);
 
         /// <summary>
         /// Expands an existing node. In the node:
@@ -632,7 +632,7 @@
         /// <param name="inner">The inner for the list or block list where the node is inserted.</param>
         /// <param name="insertedIndex">Index for the insertion operation.</param>
         /// <param name="nodeIndex">Index of the inserted node upon return.</param>
-        public virtual void Insert(IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> inner, IWriteableInsertionCollectionNodeIndex insertedIndex, out IWriteableBrowsingCollectionNodeIndex nodeIndex)
+        public virtual void Insert(IWriteableCollectionInner inner, IWriteableInsertionCollectionNodeIndex insertedIndex, out IWriteableBrowsingCollectionNodeIndex nodeIndex)
         {
             Debug.Assert(inner != null);
             Debug.Assert(insertedIndex != null);
@@ -644,10 +644,21 @@
             Debug.Assert(InnerTable.ContainsKey(inner.PropertyName));
             Debug.Assert(InnerTable[inner.PropertyName] == inner);
 
+            bool IsHandled = false;
+            nodeIndex = null;
+
             if (inner is IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> AsBlockListInner && insertedIndex is IWriteableInsertionNewBlockNodeIndex AsNewBlockIndex)
+            {
                 InsertNewBlock(AsBlockListInner, AsNewBlockIndex, out nodeIndex);
-            else
-                InsertNewNode(inner, insertedIndex, out nodeIndex);
+                IsHandled = true;
+            }
+            else if (inner is IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> AsCollectionInner && insertedIndex is IWriteableInsertionCollectionNodeIndex AsCollectionIndex)
+            {
+                InsertNewNode(AsCollectionInner, AsCollectionIndex, out nodeIndex);
+                IsHandled = true;
+            }
+
+            Debug.Assert(IsHandled);
         }
 
         /// <summary></summary>
@@ -683,7 +694,7 @@
 
             Debug.Assert(BlockState.StateList.Count == 1);
             Debug.Assert(BlockState.StateList[0] == ChildState);
-            BlockState.InitBlockState();
+            ((IWriteableBlockState<IWriteableInner<IWriteableBrowsingChildIndex>>)BlockState).InitBlockState();
             Stats.BlockCount++;
 
             IWriteableBrowsingPatternIndex PatternIndex = BlockState.PatternIndex;
@@ -829,7 +840,7 @@
         /// </summary>
         /// <param name="inner">The inner where the node is.</param>
         /// <param name="nodeIndex">Index of the node that would be removed.</param>
-        public bool IsRemoveable(IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> inner, IWriteableBrowsingCollectionNodeIndex nodeIndex)
+        public bool IsRemoveable(IWriteableCollectionInner inner, IWriteableBrowsingCollectionNodeIndex nodeIndex)
         {
             Debug.Assert(inner != null);
             Debug.Assert(nodeIndex != null);
@@ -861,7 +872,7 @@
         /// </summary>
         /// <param name="inner">The inner for the list or block list from which the node is removed.</param>
         /// <param name="nodeIndex">Index for the removed node.</param>
-        public virtual void Remove(IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> inner, IWriteableBrowsingCollectionNodeIndex nodeIndex)
+        public virtual void Remove(IWriteableCollectionInner inner, IWriteableBrowsingCollectionNodeIndex nodeIndex)
         {
             Debug.Assert(inner != null);
             Debug.Assert(nodeIndex != null);
@@ -895,18 +906,24 @@
                     throw new ArgumentOutOfRangeException(nameof(nodeIndex));
             }
 
-            if (inner is IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> AsBlockListInner)
-            {
-                IWriteableBrowsingExistingBlockNodeIndex ExistingBlockIndex = nodeIndex as IWriteableBrowsingExistingBlockNodeIndex;
-                Debug.Assert(ExistingBlockIndex != null);
+            bool IsHandled = false;
 
+            if (inner is IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> AsBlockListInner && nodeIndex is IWriteableBrowsingExistingBlockNodeIndex ExistingBlockIndex)
+            {
                 if (AsBlockListInner.BlockStateList[ExistingBlockIndex.BlockIndex].StateList.Count == 1)
                     RemoveBlock(AsBlockListInner, BlockIndex);
                 else
-                    RemoveNode(inner, BlockIndex, Index);
+                    RemoveNode(AsBlockListInner, BlockIndex, Index);
+
+                IsHandled = true;
             }
-            else
-                RemoveNode(inner, BlockIndex, Index);
+            else if (inner is IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> AsCollectionInner)
+            {
+                RemoveNode(AsCollectionInner, BlockIndex, Index);
+                IsHandled = true;
+            }
+
+            Debug.Assert(IsHandled);
         }
 
         /// <summary></summary>
@@ -978,7 +995,7 @@
 
             Debug.Assert(BlockState.StateList.Count == 1);
             Debug.Assert(BlockState.StateList[0] == ChildState);
-            BlockState.InitBlockState();
+            ((IWriteableBlockState<IWriteableInner<IWriteableBrowsingChildIndex>>)BlockState).InitBlockState();
             Stats.BlockCount++;
 
             IWriteableBrowsingPatternIndex PatternIndex = BlockState.PatternIndex;
@@ -1060,7 +1077,7 @@
         /// <param name="inner">The inner where the node is replaced.</param>
         /// <param name="replacementIndex">Index for the replace operation.</param>
         /// <param name="nodeIndex">Index of the replacing node upon return.</param>
-        public void Replace(IWriteableInner<IWriteableBrowsingChildIndex> inner, IWriteableInsertionChildIndex replacementIndex, out IWriteableBrowsingChildIndex nodeIndex)
+        public void Replace(IWriteableInner inner, IWriteableInsertionChildIndex replacementIndex, out IWriteableBrowsingChildIndex nodeIndex)
         {
             Debug.Assert(inner != null);
             Debug.Assert(replacementIndex != null);
@@ -1337,7 +1354,7 @@
         /// <param name="inner">The inner where the blok is changed.</param>
         /// <param name="blockIndex">Position of the block in the block list.</param>
         /// <param name="replication">New replication value.</param>
-        public virtual void ChangeReplication(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, int blockIndex, ReplicationStatus replication)
+        public virtual void ChangeReplication(IWriteableBlockListInner inner, int blockIndex, ReplicationStatus replication)
         {
             Debug.Assert(inner != null);
             Debug.Assert(blockIndex >= 0 && blockIndex < inner.BlockStateList.Count);
@@ -1461,7 +1478,7 @@
         /// </summary>
         /// <param name="inner">The inner where the block would be split.</param>
         /// <param name="nodeIndex">Index of the last node to stay in the old block.</param>
-        public virtual bool IsSplittable(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, IWriteableBrowsingExistingBlockNodeIndex nodeIndex)
+        public virtual bool IsSplittable(IWriteableBlockListInner inner, IWriteableBrowsingExistingBlockNodeIndex nodeIndex)
         {
             Debug.Assert(inner != null);
             Debug.Assert(nodeIndex != null);
@@ -1474,7 +1491,7 @@
         /// </summary>
         /// <param name="inner">The inner where the block is split.</param>
         /// <param name="nodeIndex">Index of the last node to stay in the old block.</param>
-        public virtual void SplitBlock(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, IWriteableBrowsingExistingBlockNodeIndex nodeIndex)
+        public virtual void SplitBlock(IWriteableBlockListInner inner, IWriteableBrowsingExistingBlockNodeIndex nodeIndex)
         {
             Debug.Assert(inner != null);
             Debug.Assert(nodeIndex != null);
@@ -1571,7 +1588,7 @@
         /// </summary>
         /// <param name="inner">The inner where the block would be split.</param>
         /// <param name="nodeIndex">Index of the first node in the block to merge.</param>
-        public virtual bool IsMergeable(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, IWriteableBrowsingExistingBlockNodeIndex nodeIndex)
+        public virtual bool IsMergeable(IWriteableBlockListInner inner, IWriteableBrowsingExistingBlockNodeIndex nodeIndex)
         {
             Debug.Assert(inner != null);
             Debug.Assert(nodeIndex != null);
@@ -1584,7 +1601,7 @@
         /// </summary>
         /// <param name="inner">The inner where blocks are merged.</param>
         /// <param name="nodeIndex">Index of the first node in the block to merge.</param>
-        public virtual void MergeBlocks(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, IWriteableBrowsingExistingBlockNodeIndex nodeIndex)
+        public virtual void MergeBlocks(IWriteableBlockListInner inner, IWriteableBrowsingExistingBlockNodeIndex nodeIndex)
         {
             Debug.Assert(inner != null);
             Debug.Assert(nodeIndex != null);
@@ -1676,7 +1693,7 @@
         /// <param name="inner">The inner where the node is.</param>
         /// <param name="nodeIndex">Index of the node that would be moved.</param>
         /// <param name="direction">Direction of the move, relative to the current position of the item.</param>
-        public virtual bool IsMoveable(IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> inner, IWriteableBrowsingCollectionNodeIndex nodeIndex, int direction)
+        public virtual bool IsMoveable(IWriteableCollectionInner inner, IWriteableBrowsingCollectionNodeIndex nodeIndex, int direction)
         {
             Debug.Assert(inner != null);
             Debug.Assert(nodeIndex != null);
@@ -1695,7 +1712,7 @@
         /// <param name="inner">The inner for the list or block list in which the node is moved.</param>
         /// <param name="nodeIndex">Index for the moved node.</param>
         /// <param name="direction">The change in position, relative to the current position.</param>
-        public virtual void Move(IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> inner, IWriteableBrowsingCollectionNodeIndex nodeIndex, int direction)
+        public virtual void Move(IWriteableCollectionInner inner, IWriteableBrowsingCollectionNodeIndex nodeIndex, int direction)
         {
             Debug.Assert(inner != null);
             Debug.Assert(nodeIndex != null);
@@ -1764,7 +1781,7 @@
         /// <param name="inner">The inner where the block is.</param>
         /// <param name="blockIndex">Index of the block that would be moved.</param>
         /// <param name="direction">Direction of the move, relative to the current position of the item.</param>
-        public virtual bool IsBlockMoveable(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, int blockIndex, int direction)
+        public virtual bool IsBlockMoveable(IWriteableBlockListInner inner, int blockIndex, int direction)
         {
             Debug.Assert(inner != null);
             Debug.Assert(blockIndex >= 0 && blockIndex < inner.BlockStateList.Count);
@@ -1778,7 +1795,7 @@
         /// <param name="inner">The inner where the block is moved.</param>
         /// <param name="blockIndex">Index of the block to move.</param>
         /// <param name="direction">The change in position, relative to the current block position.</param>
-        public virtual void MoveBlock(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner, int blockIndex, int direction)
+        public virtual void MoveBlock(IWriteableBlockListInner inner, int blockIndex, int direction)
         {
             Debug.Assert(inner != null);
 
@@ -1964,7 +1981,7 @@
 
             Debug.Assert(BlockState.StateList.Count == 1);
             Debug.Assert(BlockState.StateList[0] == ArgumentChildState);
-            BlockState.InitBlockState();
+            ((IWriteableBlockState<IWriteableInner<IWriteableBrowsingChildIndex>>)BlockState).InitBlockState();
             Stats.BlockCount++;
 
             IReadOnlyBrowsingPatternIndex PatternIndex = BlockState.PatternIndex;
@@ -2731,7 +2748,7 @@
         private protected override IReadOnlyPlaceholderNodeState CreateRootNodeState(IReadOnlyRootNodeIndex nodeIndex)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableController));
-            return new WriteablePlaceholderNodeState((IWriteableRootNodeIndex)nodeIndex);
+            return new WriteablePlaceholderNodeState<IWriteableInner<IWriteableBrowsingChildIndex>>((IWriteableRootNodeIndex)nodeIndex);
         }
 
         /// <summary>

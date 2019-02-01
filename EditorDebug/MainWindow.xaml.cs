@@ -149,7 +149,7 @@ namespace EditorDebug
         {
             if (ControllerView == null)
                 return;
-            if (!ControllerView.IsNewItemInsertable(out IFocusCollectionInner<IFocusBrowsingCollectionNodeIndex> inner, out IFocusInsertionCollectionNodeIndex index))
+            if (!ControllerView.IsNewItemInsertable(out IFocusCollectionInner inner, out IFocusInsertionCollectionNodeIndex index))
                 return;
 
             ControllerView.Controller.Insert(inner, index, out IWriteableBrowsingCollectionNodeIndex nodeIndex);
@@ -160,7 +160,7 @@ namespace EditorDebug
         {
             if (ControllerView == null)
                 return;
-            if (!ControllerView.IsItemRemoveable(out IFocusCollectionInner<IFocusBrowsingCollectionNodeIndex> inner, out IFocusBrowsingCollectionNodeIndex index))
+            if (!ControllerView.IsItemRemoveable(out IFocusCollectionInner inner, out IFocusBrowsingCollectionNodeIndex index))
                 return;
 
             ControllerView.Controller.Remove(inner, index);
@@ -171,7 +171,7 @@ namespace EditorDebug
         {
             if (ControllerView == null)
                 return;
-            if (!ControllerView.IsBlockMoveable(direction, out IFocusBlockListInner<IFocusBrowsingBlockNodeIndex> inner, out int blockIndex))
+            if (!ControllerView.IsBlockMoveable(direction, out IFocusBlockListInner inner, out int blockIndex))
                 return;
 
             ControllerView.Controller.MoveBlock(inner, blockIndex, direction);
@@ -182,7 +182,7 @@ namespace EditorDebug
         {
             if (ControllerView == null)
                 return;
-            if (!ControllerView.IsItemMoveable(direction, out IFocusCollectionInner<IFocusBrowsingCollectionNodeIndex> inner, out IFocusBrowsingCollectionNodeIndex index))
+            if (!ControllerView.IsItemMoveable(direction, out IFocusCollectionInner inner, out IFocusBrowsingCollectionNodeIndex index))
                 return;
 
             ControllerView.Controller.Move(inner, index, direction);
@@ -193,7 +193,7 @@ namespace EditorDebug
         {
             if (ControllerView == null)
                 return;
-            if (!ControllerView.IsItemSplittable(out IFocusBlockListInner<IFocusBrowsingBlockNodeIndex> inner, out IFocusBrowsingExistingBlockNodeIndex index))
+            if (!ControllerView.IsItemSplittable(out IFocusBlockListInner inner, out IFocusBrowsingExistingBlockNodeIndex index))
                 return;
 
             ControllerView.Controller.SplitBlock(inner, index);
@@ -204,7 +204,7 @@ namespace EditorDebug
         {
             if (ControllerView == null)
                 return;
-            if (!ControllerView.IsItemMergeable(out IFocusBlockListInner<IFocusBrowsingBlockNodeIndex> inner, out IFocusBrowsingExistingBlockNodeIndex index))
+            if (!ControllerView.IsItemMergeable(out IFocusBlockListInner inner, out IFocusBrowsingExistingBlockNodeIndex index))
                 return;
 
             ControllerView.Controller.MergeBlocks(inner, index);
@@ -227,7 +227,7 @@ namespace EditorDebug
         {
             if (ControllerView == null)
                 return;
-            if (!ControllerView.IsItemSimplifiable(out IFocusInner<IFocusBrowsingChildIndex> Inner, out IFocusInsertionChildIndex Index))
+            if (!ControllerView.IsItemSimplifiable(out IFocusInner Inner, out IFocusInsertionChildIndex Index))
                 return;
 
             ControllerView.Controller.Replace(Inner, Index, out IWriteableBrowsingChildIndex nodeIndex);
@@ -238,7 +238,7 @@ namespace EditorDebug
         {
             if (ControllerView == null)
                 return;
-            if (!ControllerView.IsReplicationModifiable(out IFocusBlockListInner<IFocusBrowsingBlockNodeIndex> Inner, out int BlockIndex, out ReplicationStatus Replication))
+            if (!ControllerView.IsReplicationModifiable(out IFocusBlockListInner Inner, out int BlockIndex, out ReplicationStatus Replication))
                 return;
 
             switch (Replication)
@@ -306,7 +306,7 @@ namespace EditorDebug
         {
             if (ControllerView == null)
                 return;
-            if (!ControllerView.IsIdentifierSplittable(out IFocusListInner<IFocusBrowsingListNodeIndex> Inner, out IFocusInsertionListNodeIndex ReplaceIndex, out IFocusInsertionListNodeIndex InsertIndex))
+            if (!ControllerView.IsIdentifierSplittable(out IFocusListInner Inner, out IFocusInsertionListNodeIndex ReplaceIndex, out IFocusInsertionListNodeIndex InsertIndex))
                 return;
 
             ControllerView.Controller.Replace(Inner, ReplaceIndex, out IWriteableBrowsingChildIndex FirstIndex);

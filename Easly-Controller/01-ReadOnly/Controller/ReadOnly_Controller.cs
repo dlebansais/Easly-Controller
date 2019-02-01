@@ -246,7 +246,7 @@
         /// <param name="callbackSet">The set of callbacks to call when enumerating existing states.</param>
         public virtual void Attach(IReadOnlyControllerView view, IReadOnlyAttachCallbackSet callbackSet)
         {
-            RootState.Attach(view, callbackSet);
+            ((IReadOnlyPlaceholderNodeState<IReadOnlyInner<IReadOnlyBrowsingChildIndex>>)RootState).Attach(view, callbackSet);
         }
 
         /// <summary>
@@ -256,7 +256,7 @@
         /// <param name="callbackSet">The set of callbacks to no longer call when enumerating existing states.</param>
         public virtual void Detach(IReadOnlyControllerView view, IReadOnlyAttachCallbackSet callbackSet)
         {
-            RootState.Detach(view, callbackSet);
+            ((IReadOnlyPlaceholderNodeState<IReadOnlyInner<IReadOnlyBrowsingChildIndex>>)RootState).Detach(view, callbackSet);
         }
 
         /// <summary>
@@ -445,7 +445,7 @@
             Debug.Assert(browseContext.IndexCollectionList.Count == 0);
 
             IReadOnlyNodeState State = browseContext.State;
-            State.BrowseChildren(browseContext, parentInner);
+            ((IReadOnlyNodeState<IReadOnlyInner<IReadOnlyBrowsingChildIndex>>)State).BrowseChildren(browseContext, parentInner);
         }
 
         /// <summary></summary>
@@ -523,7 +523,7 @@
             Debug.Assert(State.InnerTable == null);
             Debug.Assert(State.ValuePropertyTypeTable == null || State.ValuePropertyTypeTable.Count == 0);
 
-            State.Init(parentInner, innerTable, browseContext.ValuePropertyTypeTable);
+            ((IReadOnlyNodeState<IReadOnlyInner<IReadOnlyBrowsingChildIndex>>)State).Init(parentInner, innerTable, browseContext.ValuePropertyTypeTable);
             Debug.Assert(State.ToString() != null); // For code coverage.
 
             NotifyNodeStateInitialized(State);
@@ -557,7 +557,7 @@
                     if (Inner is IReadOnlyBlockListInner<IReadOnlyBrowsingBlockNodeIndex> AsBlockListInner && ChildIndex is IReadOnlyBrowsingNewBlockNodeIndex AsNewBlockIndex)
                     {
                         IReadOnlyBlockState BlockState = AsBlockListInner.InitNewBlock(AsNewBlockIndex);
-                        BlockState.InitBlockState();
+                        ((IReadOnlyBlockState<IReadOnlyInner<IReadOnlyBrowsingChildIndex>>)BlockState).InitBlockState();
                         Stats.BlockCount++;
 
                         IReadOnlyBrowsingPatternIndex PatternIndex = BlockState.PatternIndex;
@@ -668,7 +668,7 @@
 
                 if (State.Node == parentNode)
                 {
-                    IReadOnlyInner<IReadOnlyBrowsingChildIndex> Result = State.PropertyToInner(propertyName);
+                    IReadOnlyInner<IReadOnlyBrowsingChildIndex> Result = State.PropertyToInner(propertyName) as IReadOnlyInner<IReadOnlyBrowsingChildIndex>;
                     Debug.Assert(Result != null);
 
                     return Result;
@@ -852,7 +852,7 @@
         private protected virtual IReadOnlyPlaceholderNodeState CreateRootNodeState(IReadOnlyRootNodeIndex nodeIndex)
         {
             ControllerTools.AssertNoOverride(this, typeof(ReadOnlyController));
-            return new ReadOnlyPlaceholderNodeState(nodeIndex);
+            return new ReadOnlyPlaceholderNodeState<IReadOnlyInner<IReadOnlyBrowsingChildIndex>>(nodeIndex);
         }
         #endregion
     }
