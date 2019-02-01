@@ -1,5 +1,6 @@
 ﻿namespace EaslyController.Writeable
 {
+    using System.Diagnostics;
     using EaslyController.ReadOnly;
 
     /// <summary>
@@ -31,6 +32,9 @@
         public WriteableBrowseContext(IWriteableNodeState state)
             : base(state)
         {
+            Debug.Assert(State == state);
+            Debug.Assert(IndexCollectionList != null);
+            Debug.Assert(IndexCollectionList.Count == 0);
         }
         #endregion
 
