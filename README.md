@@ -77,6 +77,10 @@ The opposite operation, reduce, will unassign all optional nodes that only conta
 
 Since multiple expand operations can be performed, it may be difficult to track them over time. A single "canonicalize" operation is therefore provided: it will look for any expanded node and will reduce it to its canonical, non-default parts.
 
+### Undo/Redo
+
+The writeable layers supports undoing and redoing operations, by calling the `Undo` and `Redo` methods. The list of operations that can be undone or redone is also available.
+
 ## Frame
 
 The Frame layer introduces a first level of display by creating a grid and assigning all individual components of the source code to a cell. There is no visual display, but with the cell system you can have line and column numbers.
