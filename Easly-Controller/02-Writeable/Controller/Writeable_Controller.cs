@@ -1866,8 +1866,8 @@
 
             if (OperationList.Count > 0)
             {
-                Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => ExecuteRefresh(operation);
-                Action<IWriteableOperation> HandlerUndo = (IWriteableOperation operation) => UndoRefresh(operation);
+                Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => RedoRefresh(operation);
+                Action<IWriteableOperation> HandlerUndo = (IWriteableOperation operation) => throw new NotImplementedException(); // Undo is not possible.
                 IWriteableGenericRefreshOperation RefreshOperation = CreateGenericRefreshOperation(RootState, HandlerRedo, HandlerUndo, isNested: false);
 
                 RefreshOperation.Redo();
@@ -1930,11 +1930,16 @@
         }
 
         /// <summary></summary>
-        private protected virtual void ExecuteRefresh(IWriteableOperation operation)
+        private protected virtual void RedoRefresh(IWriteableOperation operation)
         {
             IWriteableGenericRefreshOperation GenericRefreshOperation = (IWriteableGenericRefreshOperation)operation;
+            ExecuteRefresh(GenericRefreshOperation);
+        }
 
-            NotifyGenericRefresh(GenericRefreshOperation);
+        /// <summary></summary>
+        private protected virtual void ExecuteRefresh(IWriteableGenericRefreshOperation operation)
+        {
+            NotifyGenericRefresh(operation);
         }
 
         /// <summary></summary>
