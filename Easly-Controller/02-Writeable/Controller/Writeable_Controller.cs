@@ -2258,7 +2258,7 @@
                 }
             }
 
-            return true;
+            return IsValid;
         }
 
         /// <summary></summary>
