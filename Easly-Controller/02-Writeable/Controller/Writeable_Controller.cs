@@ -1942,14 +1942,6 @@
             NotifyGenericRefresh(operation);
         }
 
-        /// <summary></summary>
-        private protected virtual void UndoRefresh(IWriteableOperation operation)
-        {
-            IWriteableGenericRefreshOperation GenericRefreshOperation = (IWriteableGenericRefreshOperation)operation;
-
-            NotifyGenericRefresh(GenericRefreshOperation);
-        }
-
         /// <summary>
         /// Undo the last operation.
         /// </summary>
@@ -2244,28 +2236,25 @@
         {
             Type ChildNodeType;
             IList<string> PropertyNames = NodeTreeHelper.EnumChildNodeProperties(node);
+            bool IsValid = true;
 
             foreach (string PropertyName in PropertyNames)
             {
                 if (NodeTreeHelperChild.IsChildNodeProperty(node, PropertyName, out ChildNodeType))
                 {
-                    if (!IsNodeTreeChildNodeValid(node, PropertyName))
-                        return InvariantFailed();
+                    IsValid &= InvariantFailed(IsNodeTreeChildNodeValid(node, PropertyName));
                 }
                 else if (NodeTreeHelperOptional.IsOptionalChildNodeProperty(node, PropertyName, out ChildNodeType))
                 {
-                    if (!IsNodeTreeOptionalNodeValid(node, PropertyName))
-                        return InvariantFailed();
+                    IsValid &= InvariantFailed(IsNodeTreeOptionalNodeValid(node, PropertyName));
                 }
                 else if (NodeTreeHelperList.IsNodeListProperty(node, PropertyName, out ChildNodeType))
                 {
-                    if (!IsNodeTreeListValid(node, PropertyName))
-                        return InvariantFailed();
+                    IsValid &= InvariantFailed(IsNodeTreeListValid(node, PropertyName));
                 }
                 else if (NodeTreeHelperBlockList.IsBlockListProperty(node, PropertyName, out Type ChildInterfaceType, out ChildNodeType))
                 {
-                    if (!IsNodeTreeBlockListValid(node, PropertyName))
-                        return InvariantFailed();
+                    IsValid &= InvariantFailed(IsNodeTreeBlockListValid(node, PropertyName));
                 }
             }
 
@@ -2278,21 +2267,23 @@
             NodeTreeHelperChild.GetChildNode(node, propertyName, out INode ChildNode);
             Debug.Assert(ChildNode != null);
 
-            if (!IsNodeTreeValid(ChildNode))
-                return InvariantFailed();
+            bool IsValid = InvariantFailed(IsNodeTreeValid(ChildNode));
 
-            return true;
+            return IsValid;
         }
 
         /// <summary></summary>
         private protected virtual bool IsNodeTreeOptionalNodeValid(INode node, string propertyName)
         {
+            bool IsValid = true;
+
             NodeTreeHelperOptional.GetChildNode(node, propertyName, out bool IsAssigned, out INode ChildNode);
             if (IsAssigned)
-                if (!IsNodeTreeValid(ChildNode))
-                    return InvariantFailed();
+            {
+                IsValid &= InvariantFailed(IsNodeTreeValid(ChildNode));
+            }
 
-            return true;
+            return IsValid;
         }
 
         /// <summary></summary>
@@ -2301,20 +2292,22 @@
             NodeTreeHelperList.GetChildNodeList(node, propertyName, out IReadOnlyList<INode> ChildNodeList);
             Debug.Assert(ChildNodeList != null);
 
+            bool IsValid = true;
+
             if (ChildNodeList.Count == 0)
-                if (!IsEmptyListValid(node, propertyName))
-                    return InvariantFailed();
+            {
+                IsValid &= InvariantFailed(IsEmptyListValid(node, propertyName));
+            }
 
             for (int Index = 0; Index < ChildNodeList.Count; Index++)
             {
                 INode ChildNode = ChildNodeList[Index];
                 Debug.Assert(ChildNode != null);
 
-                if (!IsNodeTreeValid(ChildNode))
-                    return InvariantFailed();
+                IsValid &= InvariantFailed(IsNodeTreeValid(ChildNode));
             }
 
-            return true;
+            return IsValid;
         }
 
         /// <summary></summary>
@@ -2323,9 +2316,12 @@
             NodeTreeHelperBlockList.GetChildBlockList(node, propertyName, out IReadOnlyList<INodeTreeBlock> ChildBlockList);
             Debug.Assert(ChildBlockList != null);
 
+            bool IsValid = true;
+
             if (ChildBlockList.Count == 0)
-                if (!IsEmptyBlockListValid(node, propertyName))
-                    return InvariantFailed();
+            {
+                IsValid &= InvariantFailed(IsEmptyBlockListValid(node, propertyName));
+            }
 
             for (int BlockIndex = 0; BlockIndex < ChildBlockList.Count; BlockIndex++)
             {
@@ -2335,12 +2331,13 @@
                 for (int Index = 0; Index < Block.NodeList.Count; Index++)
                 {
                     INode ChildNode = Block.NodeList[Index];
-                    if (!IsNodeTreeValid(ChildNode))
-                        return InvariantFailed();
+                    Debug.Assert(ChildNode != null);
+
+                    IsValid &= InvariantFailed(IsNodeTreeValid(ChildNode));
                 }
             }
 
-            return true;
+            return IsValid;
         }
 
         /// <summary></summary>
@@ -2349,16 +2346,19 @@
             Type NodeType = node.GetType();
             Debug.Assert(NodeTreeHelperList.IsNodeListProperty(NodeType, propertyName, out Type ChildNodeType));
 
+            bool IsValid = true;
+
             Type InterfaceType = NodeTreeHelper.NodeTypeToInterfaceType(NodeType);
             IReadOnlyDictionary<Type, string[]> NeverEmptyCollectionTable = NodeHelper.NeverEmptyCollectionTable;
             if (NeverEmptyCollectionTable.ContainsKey(InterfaceType))
             {
                 foreach (string Item in NeverEmptyCollectionTable[InterfaceType])
-                    if (Item == propertyName)
-                        return InvariantFailed();
+                {
+                    IsValid &= InvariantFailed(Item != propertyName);
+                }
             }
 
-            return true;
+            return IsValid;
         }
 
         /// <summary></summary>
@@ -2367,23 +2367,26 @@
             Type NodeType = node.GetType();
             Debug.Assert(NodeTreeHelperBlockList.IsBlockListProperty(NodeType, propertyName, out Type ChildInterfaceType, out Type ChildNodeType));
 
+            bool IsValid = true;
+
             Type InterfaceType = NodeTreeHelper.NodeTypeToInterfaceType(NodeType);
             IReadOnlyDictionary<Type, string[]> NeverEmptyCollectionTable = NodeHelper.NeverEmptyCollectionTable;
             if (NeverEmptyCollectionTable.ContainsKey(InterfaceType))
             {
                 foreach (string Item in NeverEmptyCollectionTable[InterfaceType])
-                    if (Item == propertyName)
-                        return InvariantFailed();
+                {
+                    IsValid &= InvariantFailed(Item != propertyName);
+                }
             }
 
-            return true;
+            return IsValid;
         }
 
         /// <summary></summary>
-        private protected bool InvariantFailed()
+        private protected bool InvariantFailed(bool condition)
         {
-            Debug.Fail("Invariant");
-            return false;
+            Debug.Assert(condition, "Invariant");
+            return condition;
         }
         #endregion
 
