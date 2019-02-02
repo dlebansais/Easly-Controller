@@ -2050,8 +2050,8 @@
         {
             for (int BlockIndex = inner.BlockStateList.Count; BlockIndex > 0; BlockIndex--)
             {
-                Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => ExecuteRemoveBlockView(operation);
-                Action<IWriteableOperation> HandlerUndo = (IWriteableOperation operation) => UndoRemoveBlockView(operation);
+                Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => RedoRemoveBlockView(operation);
+                Action<IWriteableOperation> HandlerUndo = (IWriteableOperation operation) => throw new NotImplementedException(); // Undo is not possible.
                 IWriteableRemoveBlockViewOperation Operation = CreateRemoveBlockViewOperation(inner.Owner.Node, inner.PropertyName, BlockIndex - 1, HandlerRedo, HandlerUndo, isNested: true);
 
                 Operation.Redo();
@@ -2061,14 +2061,19 @@
         }
 
         /// <summary></summary>
-        private protected virtual void ExecuteRemoveBlockView(IWriteableOperation operation)
+        private protected virtual void RedoRemoveBlockView(IWriteableOperation operation)
         {
             IWriteableRemoveBlockViewOperation RemoveBlockViewOperation = (IWriteableRemoveBlockViewOperation)operation;
+            ExecuteRemoveBlockView(RemoveBlockViewOperation);
+        }
 
-            INode ParentNode = RemoveBlockViewOperation.ParentNode;
-            string PropertyName = RemoveBlockViewOperation.PropertyName;
+        /// <summary></summary>
+        private protected virtual void ExecuteRemoveBlockView(IWriteableRemoveBlockViewOperation operation)
+        {
+            INode ParentNode = operation.ParentNode;
+            string PropertyName = operation.PropertyName;
             IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> Inner = GetInner(ParentNode, PropertyName) as IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex>;
-            IWriteableBlockState RemovedBlockState = Inner.BlockStateList[RemoveBlockViewOperation.BlockIndex];
+            IWriteableBlockState RemovedBlockState = Inner.BlockStateList[operation.BlockIndex];
 
             for (int Index = 0; Index < RemovedBlockState.StateList.Count; Index++)
             {
@@ -2096,15 +2101,9 @@
 
             Stats.BlockCount--;
 
-            RemoveBlockViewOperation.Update(RemovedBlockState);
+            operation.Update(RemovedBlockState);
 
-            NotifyBlockViewRemoved(RemoveBlockViewOperation);
-        }
-
-        /// <summary></summary>
-        private protected virtual void UndoRemoveBlockView(IWriteableOperation operation)
-        {
-            throw new NotImplementedException();
+            NotifyBlockViewRemoved(operation);
         }
 
         /// <summary></summary>
