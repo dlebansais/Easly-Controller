@@ -114,11 +114,6 @@
         event Action<IWriteableMergeBlocksOperation> BlocksMerged;
 
         /// <summary>
-        /// Called when an argument block is expanded.
-        /// </summary>
-        event Action<IWriteableExpandArgumentOperation> ArgumentExpanded;
-
-        /// <summary>
         /// Called to refresh views.
         /// </summary>
         event Action<IWriteableGenericRefreshOperation> GenericRefresh;
@@ -533,20 +528,6 @@
         private Action<IWriteableMergeBlocksOperation> BlocksMergedHandler;
         private protected virtual void AddBlocksMergedDelegate(Action<IWriteableMergeBlocksOperation> handler) { BlocksMergedHandler += handler; }
         private protected virtual void RemoveBlocksMergedDelegate(Action<IWriteableMergeBlocksOperation> handler) { BlocksMergedHandler -= handler; }
-#pragma warning restore 1591
-
-        /// <summary>
-        /// Called when an argument block is expanded.
-        /// </summary>
-        public event Action<IWriteableExpandArgumentOperation> ArgumentExpanded
-        {
-            add { AddArgumentExpandedDelegate(value); }
-            remove { RemoveArgumentExpandedDelegate(value); }
-        }
-#pragma warning disable 1591
-        private Action<IWriteableExpandArgumentOperation> ArgumentExpandedHandler;
-        private protected virtual void AddArgumentExpandedDelegate(Action<IWriteableExpandArgumentOperation> handler) { ArgumentExpandedHandler += handler; }
-        private protected virtual void RemoveArgumentExpandedDelegate(Action<IWriteableExpandArgumentOperation> handler) { ArgumentExpandedHandler -= handler; }
 #pragma warning restore 1591
 
         /// <summary>
@@ -1746,20 +1727,20 @@
         /// </summary>
         private protected virtual void ExpandBlockList(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> blockListInner, IWriteableOperationList operationList)
         {
-            if (!(blockListInner.InterfaceType == typeof(IArgument)))
-                return;
-
             if (!blockListInner.IsEmpty)
                 return;
 
-            IArgument NewArgument = NodeHelper.CreateDefaultArgument();
+            if (!NodeHelper.IsCollectionWithExpand(blockListInner.Owner.Node, blockListInner.PropertyName))
+                return;
+
+            INode NewItem = NodeHelper.CreateEmptyNode(blockListInner.ItemType);
             IPattern NewPattern = NodeHelper.CreateEmptyPattern();
             IIdentifier NewSource = NodeHelper.CreateEmptyIdentifier();
             IBlock NewBlock = NodeTreeHelperBlockList.CreateBlock(blockListInner.Owner.Node, blockListInner.PropertyName, ReplicationStatus.Normal, NewPattern, NewSource);
 
             Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => RedoExpandBlockList(operation);
             Action<IWriteableOperation> HandlerUndo = (IWriteableOperation operation) => UndoExpandBlockList(operation);
-            IWriteableExpandArgumentOperation Operation = CreateExpandArgumentOperation(blockListInner.Owner.Node, blockListInner.PropertyName, NewBlock, NewArgument, HandlerRedo, HandlerUndo, isNested: false);
+            IWriteableExpandArgumentOperation Operation = CreateExpandArgumentOperation(blockListInner.Owner.Node, blockListInner.PropertyName, NewBlock, NewItem, HandlerRedo, HandlerUndo, isNested: false);
 
             Operation.Redo();
 
@@ -2195,12 +2176,6 @@
         }
 
         /// <summary></summary>
-        private protected virtual void NotifyArgumentExpanded(IWriteableExpandArgumentOperation operation)
-        {
-            ArgumentExpandedHandler?.Invoke(operation);
-        }
-
-        /// <summary></summary>
         private protected virtual void NotifyGenericRefresh(IWriteableGenericRefreshOperation operation)
         {
             GenericRefreshHandler?.Invoke(operation);
@@ -2621,10 +2596,10 @@
         /// <summary>
         /// Creates a IxxxExpandArgumentOperation object.
         /// </summary>
-        private protected virtual IWriteableExpandArgumentOperation CreateExpandArgumentOperation(INode parentNode, string propertyName, IBlock block, IArgument argument, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        private protected virtual IWriteableExpandArgumentOperation CreateExpandArgumentOperation(INode parentNode, string propertyName, IBlock block, INode node, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableController));
-            return new WriteableExpandArgumentOperation(parentNode, propertyName, block, argument, handlerRedo, handlerUndo, isNested);
+            return new WriteableExpandArgumentOperation(parentNode, propertyName, block, node, handlerRedo, handlerUndo, isNested);
         }
 
         /// <summary>

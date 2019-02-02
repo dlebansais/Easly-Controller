@@ -814,37 +814,6 @@
         }
 
         /// <summary>
-        /// Handler called every time an argument block is expanded.
-        /// </summary>
-        /// <param name="operation">Details of the operation performed.</param>
-        public override void OnArgumentExpanded(IWriteableExpandArgumentOperation operation)
-        {
-            base.OnArgumentExpanded(operation);
-
-            IFrameInsertBlockOperation InsertBlockOperation = (IFrameInsertBlockOperation)operation;
-            IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> ParentInner = (IFrameBlockListInner<IFrameBrowsingBlockNodeIndex>)InsertBlockOperation.BlockState.ParentInner;
-            IFrameNodeState OwnerState = ParentInner.Owner;
-            IFrameNodeStateView OwnerStateView = StateViewTable[OwnerState];
-
-            IFrameAssignableCellViewReadOnlyDictionary<string> CellViewTable = OwnerStateView.CellViewTable;
-            string PropertyName = ParentInner.PropertyName;
-
-            Debug.Assert(CellViewTable != null);
-            Debug.Assert(CellViewTable.ContainsKey(PropertyName));
-            IFrameCellViewCollection EmbeddingCellView = CellViewTable[PropertyName] as IFrameCellViewCollection;
-            Debug.Assert(EmbeddingCellView != null);
-
-            IFrameBlockStateView BlockStateView = BlockStateViewTable[((IFrameInsertBlockOperation)operation).BlockState];
-            ClearBlockCellView(OwnerStateView, BlockStateView);
-            IFrameCellView RootCellView = BuildBlockCellView(OwnerStateView, EmbeddingCellView, BlockStateView);
-
-            int BlockIndex = operation.BrowsingIndex.BlockIndex;
-            EmbeddingCellView.Insert(BlockIndex, RootCellView);
-
-            Refresh(OwnerState);
-        }
-
-        /// <summary>
         /// Handler called to refresh views.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>

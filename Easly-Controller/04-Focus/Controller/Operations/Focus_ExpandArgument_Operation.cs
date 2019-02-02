@@ -38,12 +38,12 @@
         /// <param name="parentNode">Node where the block insertion is taking place.</param>
         /// <param name="propertyName">Block list property of <paramref name="parentNode"/> where a block is inserted.</param>
         /// <param name="block">The inserted block.</param>
-        /// <param name="argument">The inserted argument.</param>
+        /// <param name="node">The inserted item.</param>
         /// <param name="handlerRedo">Handler to execute to redo the operation.</param>
         /// <param name="handlerUndo">Handler to execute to undo the operation.</param>
         /// <param name="isNested">True if the operation is nested within another more general one.</param>
-        public FocusExpandArgumentOperation(INode parentNode, string propertyName, IBlock block, IArgument argument, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
-            : base(parentNode, propertyName, block, argument, handlerRedo, handlerUndo, isNested)
+        public FocusExpandArgumentOperation(INode parentNode, string propertyName, IBlock block, INode node, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+            : base(parentNode, propertyName, block, node, handlerRedo, handlerUndo, isNested)
         {
         }
         #endregion

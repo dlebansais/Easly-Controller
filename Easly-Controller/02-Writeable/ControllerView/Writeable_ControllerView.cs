@@ -71,7 +71,6 @@
             Controller.BlockStateMoved += OnBlockStateMoved;
             Controller.BlockSplit += OnBlockSplit;
             Controller.BlocksMerged += OnBlocksMerged;
-            Controller.ArgumentExpanded += OnArgumentExpanded;
             Controller.GenericRefresh += OnGenericRefresh;
         }
         #endregion
@@ -302,27 +301,6 @@
         }
 
         /// <summary>
-        /// Handler called every time an argument block is expanded.
-        /// </summary>
-        /// <param name="operation">Details of the operation performed.</param>
-        public virtual void OnArgumentExpanded(IWriteableExpandArgumentOperation operation)
-        {
-            Debug.Assert(operation != null);
-            Debug.Assert(!operation.IsNested);
-
-            IWriteableBlockState BlockState = operation.BlockState;
-
-            Debug.Assert(BlockState != null);
-            Debug.Assert(BlockStateViewTable.ContainsKey(BlockState));
-
-            Debug.Assert(StateViewTable.ContainsKey(BlockState.PatternState));
-            Debug.Assert(StateViewTable.ContainsKey(BlockState.SourceState));
-
-            Debug.Assert(BlockState.StateList.Count == 1);
-            Debug.Assert(StateViewTable.ContainsKey(BlockState.StateList[0]));
-        }
-
-        /// <summary>
         /// Handler called to refresh views.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
@@ -457,7 +435,6 @@
             Controller.BlockStateMoved -= OnBlockStateMoved;
             Controller.BlockSplit -= OnBlockSplit;
             Controller.BlocksMerged -= OnBlocksMerged;
-            Controller.ArgumentExpanded -= OnArgumentExpanded;
             Controller.GenericRefresh -= OnGenericRefresh;
 
             base.DisposeNow();

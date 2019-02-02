@@ -433,10 +433,10 @@
         /// <summary>
         /// Creates a IxxxExpandArgumentOperation object.
         /// </summary>
-        private protected override IWriteableExpandArgumentOperation CreateExpandArgumentOperation(INode parentNode, string propertyName, IBlock block, IArgument argument, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        private protected override IWriteableExpandArgumentOperation CreateExpandArgumentOperation(INode parentNode, string propertyName, IBlock block, INode node, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusController));
-            return new FocusExpandArgumentOperation(parentNode, propertyName, block, argument, handlerRedo, handlerUndo, isNested);
+            return new FocusExpandArgumentOperation(parentNode, propertyName, block, node, handlerRedo, handlerUndo, isNested);
         }
 
         /// <summary>
