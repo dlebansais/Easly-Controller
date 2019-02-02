@@ -1986,16 +1986,32 @@
         private protected virtual void PruneStateChildren(IWriteableNodeState state)
         {
             foreach (KeyValuePair<string, IWriteableInner> Entry in state.InnerTable)
+            {
+                bool IsHandled = false;
+
                 if (Entry.Value is IWriteablePlaceholderInner<IWriteableBrowsingPlaceholderNodeIndex> AsPlaceholderInner)
+                {
                     PrunePlaceholderInner(AsPlaceholderInner);
+                    IsHandled = true;
+                }
                 else if (Entry.Value is IWriteableOptionalInner<IWriteableBrowsingOptionalNodeIndex> AsOptionalInner)
+                {
                     PruneOptionalInner(AsOptionalInner);
+                    IsHandled = true;
+                }
                 else if (Entry.Value is IWriteableListInner<IWriteableBrowsingListNodeIndex> AsListInner)
+                {
                     PruneListInner(AsListInner);
+                    IsHandled = true;
+                }
                 else if (Entry.Value is IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> AsBlockListInner)
+                {
                     PruneBlockListInner(AsBlockListInner);
-                else
-                    Debug.Assert(false);
+                    IsHandled = true;
+                }
+
+                Debug.Assert(IsHandled);
+            }
         }
 
         /// <summary></summary>
