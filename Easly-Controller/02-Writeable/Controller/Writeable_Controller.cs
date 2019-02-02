@@ -1833,17 +1833,17 @@
         /// </summary>
         private protected virtual void ReduceBlockList(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> blockListInner, IWriteableOperationList operationList, bool isNested)
         {
-            if (!(blockListInner.InterfaceType == typeof(IArgument)))
+            if (!blockListInner.IsSingle)
                 return;
 
-            if (!blockListInner.IsSingle)
+            if (!NodeHelper.IsCollectionWithExpand(blockListInner.Owner.Node, blockListInner.PropertyName))
                 return;
 
             Debug.Assert(blockListInner.BlockStateList.Count == 1);
             Debug.Assert(blockListInner.BlockStateList[0].StateList.Count == 1);
             IWriteableNodeState FirstState = blockListInner.BlockStateList[0].StateList[0];
 
-            if (!NodeHelper.IsDefaultArgument(FirstState.Node))
+            if (!NodeHelper.IsDefaultNode(FirstState.Node))
                 return;
 
             Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => RedoRemoveBlock(operation);
