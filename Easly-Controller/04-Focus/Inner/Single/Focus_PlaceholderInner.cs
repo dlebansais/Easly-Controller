@@ -10,6 +10,10 @@
     /// </summary>
     public interface IFocusPlaceholderInner : IFramePlaceholderInner, IFocusSingleInner
     {
+        /// <summary>
+        /// The state of the node.
+        /// </summary>
+        new IFocusPlaceholderNodeState ChildState { get; }
     }
 
     /// <summary>
@@ -19,6 +23,10 @@
     internal interface IFocusPlaceholderInner<out IIndex> : IFramePlaceholderInner<IIndex>, IFocusSingleInner<IIndex>
         where IIndex : IFocusBrowsingPlaceholderNodeIndex
     {
+        /// <summary>
+        /// The state of the node.
+        /// </summary>
+        new IFocusPlaceholderNodeState ChildState { get; }
     }
 
     /// <summary>
@@ -51,7 +59,7 @@
         /// <summary>
         /// The state of the optional node.
         /// </summary>
-        public new IFocusNodeState ChildState { get { return (IFocusNodeState)base.ChildState; } }
+        public new IFocusPlaceholderNodeState ChildState { get { return (IFocusPlaceholderNodeState)base.ChildState; } }
         #endregion
 
         #region Create Methods

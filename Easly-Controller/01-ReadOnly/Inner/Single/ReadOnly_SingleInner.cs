@@ -1,16 +1,10 @@
 ﻿namespace EaslyController.ReadOnly
 {
-    using System;
-
     /// <summary>
     /// Base inner for a single node inner.
     /// </summary>
     public interface IReadOnlySingleInner : IReadOnlyInner
     {
-        /// <summary>
-        /// The state of the node.
-        /// </summary>
-        IReadOnlyNodeState ChildState { get; }
     }
 
     /// <summary>
@@ -20,10 +14,6 @@
     internal interface IReadOnlySingleInner<out IIndex> : IReadOnlyInner<IIndex>
         where IIndex : IReadOnlyBrowsingChildIndex
     {
-        /// <summary>
-        /// The state of the node.
-        /// </summary>
-        IReadOnlyNodeState ChildState { get; }
     }
 
     /// <summary>
@@ -43,13 +33,6 @@
             : base(owner, propertyName)
         {
         }
-        #endregion
-
-        #region Properties
-        /// <summary>
-        /// State of the node.
-        /// </summary>
-        public virtual IReadOnlyNodeState ChildState { get { throw new NotImplementedException(); } private protected set { throw new NotImplementedException(); } } // Can't make this abstract, thank you C#...
         #endregion
     }
 }

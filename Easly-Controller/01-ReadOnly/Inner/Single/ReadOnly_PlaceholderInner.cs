@@ -10,6 +10,10 @@
     /// </summary>
     public interface IReadOnlyPlaceholderInner : IReadOnlySingleInner
     {
+        /// <summary>
+        /// The state of the node.
+        /// </summary>
+        IReadOnlyPlaceholderNodeState ChildState { get; }
     }
 
     /// <summary>
@@ -19,6 +23,10 @@
     internal interface IReadOnlyPlaceholderInner<out IIndex> : IReadOnlySingleInner<IIndex>
         where IIndex : IReadOnlyBrowsingPlaceholderNodeIndex
     {
+        /// <summary>
+        /// The state of the node.
+        /// </summary>
+        IReadOnlyPlaceholderNodeState ChildState { get; }
     }
 
     /// <summary>
@@ -39,7 +47,7 @@
         public ReadOnlyPlaceholderInner(IReadOnlyNodeState owner, string propertyName)
             : base(owner, propertyName)
         {
-            _ChildState = null;
+            ChildState = null;
         }
 
         /// <summary>
@@ -80,8 +88,7 @@
         /// <summary>
         /// The state of the child node.
         /// </summary>
-        public override IReadOnlyNodeState ChildState { get { return _ChildState; } }
-        private IReadOnlyPlaceholderNodeState _ChildState;
+        public IReadOnlyPlaceholderNodeState ChildState { get; private set; }
         #endregion
 
         #region Client Interface
@@ -128,7 +135,7 @@
         {
             Debug.Assert(childState != null);
 
-            _ChildState = childState;
+            ChildState = childState;
         }
         #endregion
 

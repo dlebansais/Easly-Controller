@@ -47,21 +47,6 @@
             : base(owner, propertyName)
         {
         }
-
-        /// <summary>
-        /// Initializes a newly created state for the node in the inner, provided or not.
-        /// </summary>
-        /// <param name="nodeIndex">Index of the node.</param>
-        /// <returns>The created node state.</returns>
-        private protected override IReadOnlyOptionalNodeState InitChildState(IReadOnlyBrowsingOptionalNodeIndex nodeIndex)
-        {
-            IFrameOptionalNodeState State = base.InitChildState(nodeIndex) as IFrameOptionalNodeState;
-            Debug.Assert(State != null);
-            Debug.Assert(this is IFrameSingleInner AsSingle && AsSingle.ChildState != null);
-            Debug.Assert(this is IFrameSingleInner<IIndex> AsSingleGeneric && AsSingleGeneric.ChildState != null);
-
-            return State;
-        }
         #endregion
 
         #region Properties
@@ -74,8 +59,6 @@
         /// The state of the optional node.
         /// </summary>
         public new IFrameOptionalNodeState ChildState { get { return (IFrameOptionalNodeState)base.ChildState; } }
-        IFrameNodeState IFrameSingleInner.ChildState { get { return ChildState; } }
-        IFrameNodeState IFrameSingleInner<IIndex>.ChildState { get { return ChildState; } }
         #endregion
 
         #region Create Methods

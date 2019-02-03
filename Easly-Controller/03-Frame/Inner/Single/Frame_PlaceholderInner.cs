@@ -9,6 +9,10 @@
     /// </summary>
     public interface IFramePlaceholderInner : IWriteablePlaceholderInner, IFrameSingleInner
     {
+        /// <summary>
+        /// The state of the node.
+        /// </summary>
+        new IFramePlaceholderNodeState ChildState { get; }
     }
 
     /// <summary>
@@ -18,6 +22,10 @@
     internal interface IFramePlaceholderInner<out IIndex> : IWriteablePlaceholderInner<IIndex>, IFrameSingleInner<IIndex>
         where IIndex : IFrameBrowsingPlaceholderNodeIndex
     {
+        /// <summary>
+        /// The state of the node.
+        /// </summary>
+        new IFramePlaceholderNodeState ChildState { get; }
     }
 
     /// <summary>
@@ -50,7 +58,7 @@
         /// <summary>
         /// The state of the optional node.
         /// </summary>
-        public new IFrameNodeState ChildState { get { return (IFrameNodeState)base.ChildState; } }
+        public new IFramePlaceholderNodeState ChildState { get { return (IFramePlaceholderNodeState)base.ChildState; } }
         #endregion
 
         #region Create Methods

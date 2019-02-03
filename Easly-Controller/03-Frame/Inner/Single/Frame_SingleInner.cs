@@ -7,10 +7,6 @@
     /// </summary>
     public interface IFrameSingleInner : IWriteableSingleInner, IFrameInner
     {
-        /// <summary>
-        /// State of the node.
-        /// </summary>
-        new IFrameNodeState ChildState { get; }
     }
 
     /// <summary>
@@ -20,10 +16,6 @@
     internal interface IFrameSingleInner<out IIndex> : IWriteableSingleInner<IIndex>, IFrameInner<IIndex>
         where IIndex : IFrameBrowsingChildIndex
     {
-        /// <summary>
-        /// State of the node.
-        /// </summary>
-        new IFrameNodeState ChildState { get; }
     }
 
     /// <summary>
@@ -50,11 +42,6 @@
         /// Parent containing the inner.
         /// </summary>
         public new IFrameNodeState Owner { get { return (IFrameNodeState)base.Owner; } }
-
-        /// <summary>
-        /// State of the node.
-        /// </summary>
-        public new IFrameNodeState ChildState { get { return (IFrameNodeState)base.ChildState; } }
         #endregion
     }
 }

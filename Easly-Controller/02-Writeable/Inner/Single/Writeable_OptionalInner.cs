@@ -72,21 +72,6 @@
             : base(owner, propertyName)
         {
         }
-
-        /// <summary>
-        /// Initializes a newly created state for the node in the inner, provided or not.
-        /// </summary>
-        /// <param name="nodeIndex">Index of the node.</param>
-        /// <returns>The created node state.</returns>
-        private protected override IReadOnlyOptionalNodeState InitChildState(IReadOnlyBrowsingOptionalNodeIndex nodeIndex)
-        {
-            IWriteableOptionalNodeState State = base.InitChildState(nodeIndex) as IWriteableOptionalNodeState;
-            Debug.Assert(State != null);
-            Debug.Assert(this is IWriteableSingleInner AsSingle && AsSingle.ChildState != null);
-            Debug.Assert(this is IWriteableSingleInner<IIndex> AsSingleGeneric && AsSingleGeneric.ChildState != null);
-
-            return State;
-        }
         #endregion
 
         #region Properties
@@ -99,8 +84,6 @@
         /// The state of the optional node.
         /// </summary>
         public new IWriteableOptionalNodeState ChildState { get { return (IWriteableOptionalNodeState)base.ChildState; } }
-        IWriteableNodeState IWriteableSingleInner.ChildState { get { return ChildState; } }
-        IWriteableNodeState IWriteableSingleInner<IIndex>.ChildState { get { return ChildState; } }
         #endregion
 
         #region Client Interface

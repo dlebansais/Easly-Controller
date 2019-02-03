@@ -13,7 +13,7 @@
         /// <summary>
         /// The state of the node.
         /// </summary>
-        new IReadOnlyOptionalNodeState ChildState { get; }
+        IReadOnlyOptionalNodeState ChildState { get; }
 
         /// <summary>
         /// True if the optional node is provided.
@@ -31,7 +31,7 @@
         /// <summary>
         /// The state of the node.
         /// </summary>
-        new IReadOnlyOptionalNodeState ChildState { get; }
+        IReadOnlyOptionalNodeState ChildState { get; }
 
         /// <summary>
         /// True if the optional node is provided.
@@ -103,7 +103,7 @@
         /// <summary>
         /// The state of the optional node.
         /// </summary>
-        public new virtual IReadOnlyOptionalNodeState ChildState { get; private set; }
+        public IReadOnlyOptionalNodeState ChildState { get; private set; }
         #endregion
 
         #region Client Interface

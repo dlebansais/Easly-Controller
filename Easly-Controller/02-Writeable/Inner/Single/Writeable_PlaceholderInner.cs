@@ -10,6 +10,10 @@
     /// </summary>
     public interface IWriteablePlaceholderInner : IReadOnlyPlaceholderInner, IWriteableSingleInner
     {
+        /// <summary>
+        /// The state of the node.
+        /// </summary>
+        new IWriteablePlaceholderNodeState ChildState { get; }
     }
 
     /// <summary>
@@ -19,6 +23,10 @@
     internal interface IWriteablePlaceholderInner<out IIndex> : IReadOnlyPlaceholderInner<IIndex>, IWriteableSingleInner<IIndex>
         where IIndex : IWriteableBrowsingPlaceholderNodeIndex
     {
+        /// <summary>
+        /// The state of the node.
+        /// </summary>
+        new IWriteablePlaceholderNodeState ChildState { get; }
     }
 
     /// <summary>
@@ -51,7 +59,7 @@
         /// <summary>
         /// The state of the optional node.
         /// </summary>
-        public new IWriteableNodeState ChildState { get { return (IWriteableNodeState)base.ChildState; } }
+        public new IWriteablePlaceholderNodeState ChildState { get { return (IWriteablePlaceholderNodeState)base.ChildState; } }
         #endregion
 
         #region Client Interface

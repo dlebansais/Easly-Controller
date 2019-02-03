@@ -7,10 +7,6 @@
     /// </summary>
     public interface IWriteableSingleInner : IReadOnlySingleInner, IWriteableInner
     {
-        /// <summary>
-        /// State of the node.
-        /// </summary>
-        new IWriteableNodeState ChildState { get; }
     }
 
     /// <summary>
@@ -20,10 +16,6 @@
     internal interface IWriteableSingleInner<out IIndex> : IReadOnlySingleInner<IIndex>, IWriteableInner<IIndex>
         where IIndex : IWriteableBrowsingChildIndex
     {
-        /// <summary>
-        /// State of the node.
-        /// </summary>
-        new IWriteableNodeState ChildState { get; }
     }
 
     /// <summary>
@@ -50,11 +42,6 @@
         /// Parent containing the inner.
         /// </summary>
         public new IWriteableNodeState Owner { get { return (IWriteableNodeState)base.Owner; } }
-
-        /// <summary>
-        /// State of the node.
-        /// </summary>
-        public new IWriteableNodeState ChildState { get { return (IWriteableNodeState)base.ChildState; } }
         #endregion
 
         #region Client Interface

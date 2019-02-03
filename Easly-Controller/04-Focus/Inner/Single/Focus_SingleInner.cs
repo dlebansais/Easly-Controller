@@ -7,10 +7,6 @@
     /// </summary>
     public interface IFocusSingleInner : IFrameSingleInner, IFocusInner
     {
-        /// <summary>
-        /// State of the node.
-        /// </summary>
-        new IFocusNodeState ChildState { get; }
     }
 
     /// <summary>
@@ -20,10 +16,6 @@
     internal interface IFocusSingleInner<out IIndex> : IFrameSingleInner<IIndex>, IFocusInner<IIndex>
         where IIndex : IFocusBrowsingChildIndex
     {
-        /// <summary>
-        /// State of the node.
-        /// </summary>
-        new IFocusNodeState ChildState { get; }
     }
 
     /// <summary>
@@ -50,11 +42,6 @@
         /// Parent containing the inner.
         /// </summary>
         public new IFocusNodeState Owner { get { return (IFocusNodeState)base.Owner; } }
-
-        /// <summary>
-        /// State of the node.
-        /// </summary>
-        public new IFocusNodeState ChildState { get { return (IFocusNodeState)base.ChildState; } }
         #endregion
     }
 }
