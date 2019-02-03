@@ -1,5 +1,6 @@
 ﻿namespace EaslyController.Focus
 {
+    using System.Diagnostics;
     using EaslyController.Frame;
     using EaslyController.ReadOnly;
     using EaslyController.Writeable;
@@ -46,6 +47,21 @@
         public FocusOptionalInner(IFocusNodeState owner, string propertyName)
             : base(owner, propertyName)
         {
+        }
+
+        /// <summary>
+        /// Initializes a newly created state for the node in the inner, provided or not.
+        /// </summary>
+        /// <param name="nodeIndex">Index of the node.</param>
+        /// <returns>The created node state.</returns>
+        private protected override IReadOnlyOptionalNodeState InitChildState(IReadOnlyBrowsingOptionalNodeIndex nodeIndex)
+        {
+            IFocusOptionalNodeState State = base.InitChildState(nodeIndex) as IFocusOptionalNodeState;
+            Debug.Assert(State != null);
+            Debug.Assert(this is IFocusSingleInner AsSingle && AsSingle.ChildState != null);
+            Debug.Assert(this is IFocusSingleInner<IIndex> AsSingleGeneric && AsSingleGeneric.ChildState != null);
+
+            return State;
         }
         #endregion
 
