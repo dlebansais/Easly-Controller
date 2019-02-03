@@ -25,6 +25,7 @@ comment:
   behavior: default
   require_changes: no
 
+
 ignore:
   - "Easly-Controller/02-Writeable/Index/Browsing/Collection/Writeable_BrowsingBlockNodeIndex.cs"
   - "Easly-Controller/02-Writeable/Index/Browsing/Collection/Writeable_BrowsingCollectionNodeIndex.cs"
