@@ -8,7 +8,7 @@
     /// <summary>
     /// Index for an optional node.
     /// </summary>
-    public interface IFocusBrowsingOptionalNodeIndex : IFrameBrowsingOptionalNodeIndex, IFocusBrowsingChildIndex
+    public interface IFocusBrowsingOptionalNodeIndex : IFrameBrowsingOptionalNodeIndex, IFocusBrowsingChildIndex, IFocusBrowsingInsertableIndex
     {
     }
 

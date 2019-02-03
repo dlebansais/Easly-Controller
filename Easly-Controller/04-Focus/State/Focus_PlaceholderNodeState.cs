@@ -100,7 +100,7 @@
             // If it's the first time we're cycling through this node, initialize it.
             if (CycleIndexList == null)
             {
-                IFocusInsertionChildNodeIndex ThisIndex = ((IFocusBrowsingChildIndex)ParentIndex).ToInsertionIndex(ParentState.Node, Node) as IFocusInsertionChildNodeIndex;
+                IFocusInsertionChildNodeIndex ThisIndex = ((IFocusBrowsingInsertableIndex)ParentIndex).ToInsertionIndex(ParentState.Node, Node) as IFocusInsertionChildNodeIndex;
                 Debug.Assert(ThisIndex != null);
 
                 CycleIndexList = CreateInsertionChildIndexList();
@@ -195,7 +195,7 @@
 
                 INode NewBody = NodeHelper.CreateInitializedBody(NodeType, Documentation, RequireBlocks, EnsureBlocks, ExceptionIdentifierBlocks, EntityDeclarationBlocks, BodyInstructionBlocks, ExceptionHandlerBlocks, AncestorType);
 
-                IFocusInsertionChildNodeIndex InsertionIndex = (IFocusInsertionChildNodeIndex)((IFocusBrowsingChildIndex)ParentIndex).ToInsertionIndex(ParentState.Node, NewBody);
+                IFocusInsertionChildNodeIndex InsertionIndex = (IFocusInsertionChildNodeIndex)((IFocusBrowsingInsertableIndex)ParentIndex).ToInsertionIndex(ParentState.Node, NewBody);
                 CycleIndexList.Add(InsertionIndex);
             }
         }
@@ -314,7 +314,7 @@
 
                 INode NewFeature = NodeHelper.CreateInitializedFeature(NodeType, Documentation, ExportIdentifier, Export, EntityName, EntityType, EnsureBlocks, ConstantValue, CommandOverloadBlocks, Once, QueryOverloadBlocks, PropertyKind, ModifiedQueryBlocks, GetterBody, SetterBody, IndexParameterBlocks, ParameterEnd);
 
-                IFocusInsertionChildNodeIndex InsertionIndex = (IFocusInsertionChildNodeIndex)((IFocusBrowsingChildIndex)ParentIndex).ToInsertionIndex(ParentState.Node, NewFeature);
+                IFocusInsertionChildNodeIndex InsertionIndex = (IFocusInsertionChildNodeIndex)((IFocusBrowsingInsertableIndex)ParentIndex).ToInsertionIndex(ParentState.Node, NewFeature);
                 CycleIndexList.Add(InsertionIndex);
             }
         }

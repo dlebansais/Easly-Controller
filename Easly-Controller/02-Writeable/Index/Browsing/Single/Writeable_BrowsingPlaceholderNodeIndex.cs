@@ -7,7 +7,7 @@
     /// <summary>
     /// Index for a node.
     /// </summary>
-    public interface IWriteableBrowsingPlaceholderNodeIndex : IReadOnlyBrowsingPlaceholderNodeIndex, IWriteableBrowsingChildIndex, IWriteableNodeIndex
+    public interface IWriteableBrowsingPlaceholderNodeIndex : IReadOnlyBrowsingPlaceholderNodeIndex, IWriteableBrowsingChildIndex, IWriteableBrowsingInsertableIndex, IWriteableNodeIndex
     {
     }
 

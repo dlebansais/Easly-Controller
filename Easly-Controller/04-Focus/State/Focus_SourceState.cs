@@ -102,6 +102,7 @@
         /// </summary>
         public virtual void AddNodeToCycle()
         {
+            /*
             Debug.Assert((Node is IBody) || (Node is IFeature));
 
             // If it's the first time we're cycling through this node, initialize it.
@@ -131,8 +132,9 @@
                 }
 
             Debug.Assert(CycleCurrentPosition >= 0 && CycleCurrentPosition < CycleIndexList.Count);
+            */
         }
-
+        /*
         /// <summary></summary>
         private protected virtual void AddBodyToCycle()
         {
@@ -319,7 +321,7 @@
                 CycleIndexList.Add(InsertionIndex);
             }
         }
-
+        */
         /// <summary>
         /// Restores the cycle index list from which this state was created.
         /// </summary>

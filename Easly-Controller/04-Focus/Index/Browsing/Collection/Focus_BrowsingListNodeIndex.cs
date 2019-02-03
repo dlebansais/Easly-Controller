@@ -8,7 +8,7 @@
     /// <summary>
     /// Index for a node in a list of nodes.
     /// </summary>
-    public interface IFocusBrowsingListNodeIndex : IFrameBrowsingListNodeIndex, IFocusBrowsingCollectionNodeIndex
+    public interface IFocusBrowsingListNodeIndex : IFrameBrowsingListNodeIndex, IFocusBrowsingCollectionNodeIndex, IFocusBrowsingInsertableIndex
     {
     }
 

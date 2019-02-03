@@ -168,6 +168,7 @@
     <Compile Include="02-Writeable\Index\Browsing\Collection\Writeable_BrowsingExistingBlockNodeIndex.cs" />
     <Compile Include="02-Writeable\Index\Browsing\Collection\Writeable_BrowsingListNodeIndex.cs" />
     <Compile Include="02-Writeable\Index\Browsing\Collection\Writeable_BrowsingNewBlockNodeIndex.cs" />
+    <Compile Include="02-Writeable\Index\Browsing\Writeable_BrowsingInsertableIndex.cs" />
     <Compile Include="02-Writeable\Index\Browsing\Writeable_BrowsingChildIndex.cs" />
     <Compile Include="02-Writeable\Index\Browsing\Writeable_IndexCollection.cs" />
     <Compile Include="02-Writeable\Index\Browsing\Single\Writeable_BrowsingOptionalNodeIndex.cs" />
@@ -312,6 +313,7 @@
     <Compile Include="03-Frame\Index\Browsing\Single\Frame_BrowsingSourceIndex.cs" />
     <Compile Include="03-Frame\Index\Browsing\Frame_BrowsingChildIndex.cs" />
     <Compile Include="03-Frame\Index\Browsing\Frame_IndexCollection.cs" />
+    <Compile Include="03-Frame\Index\Browsing\Frame_BrowsingInsertableIndex.cs" />
     <Compile Include="03-Frame\Index\Insertion\Collection\Frame_InsertionBlockNodeIndex.cs" />
     <Compile Include="03-Frame\Index\Insertion\Collection\Frame_InsertionCollectionNodeIndex.cs" />
     <Compile Include="03-Frame\Index\Insertion\Collection\Frame_InsertionExistingBlockNodeIndex.cs" />
@@ -471,6 +473,7 @@
     <Compile Include="04-Focus\Index\Browsing\Collection\Focus_BrowsingNewBlockNodeIndex.cs" />
     <Compile Include="04-Focus\Index\Browsing\Focus_BrowsingChildIndex.cs" />
     <Compile Include="04-Focus\Index\Browsing\Focus_IndexCollection.cs" />
+    <Compile Include="04-Focus\Index\Browsing\Focus_BrowsingInsertableIndex.cs" />
     <Compile Include="04-Focus\Index\Browsing\Single\Focus_BrowsingOptionalNodeIndex.cs" />
     <Compile Include="04-Focus\Index\Browsing\Single\Focus_BrowsingPatternIndex.cs" />
     <Compile Include="04-Focus\Index\Browsing\Single\Focus_BrowsingPlaceholderNodeIndex.cs" />

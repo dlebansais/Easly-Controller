@@ -7,7 +7,7 @@
     /// <summary>
     /// Index for an optional node.
     /// </summary>
-    public interface IWriteableBrowsingOptionalNodeIndex : IReadOnlyBrowsingOptionalNodeIndex, IWriteableBrowsingChildIndex
+    public interface IWriteableBrowsingOptionalNodeIndex : IReadOnlyBrowsingOptionalNodeIndex, IWriteableBrowsingChildIndex, IWriteableBrowsingInsertableIndex
     {
     }
 

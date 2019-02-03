@@ -8,7 +8,7 @@
     /// <summary>
     /// Index for a node in a block that is not the first.
     /// </summary>
-    public interface IFocusBrowsingExistingBlockNodeIndex : IFrameBrowsingExistingBlockNodeIndex, IFocusBrowsingBlockNodeIndex
+    public interface IFocusBrowsingExistingBlockNodeIndex : IFrameBrowsingExistingBlockNodeIndex, IFocusBrowsingBlockNodeIndex, IFocusBrowsingInsertableIndex
     {
     }
 

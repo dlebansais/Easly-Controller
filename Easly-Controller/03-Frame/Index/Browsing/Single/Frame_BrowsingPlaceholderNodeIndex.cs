@@ -7,7 +7,7 @@
     /// <summary>
     /// Index for a node.
     /// </summary>
-    public interface IFrameBrowsingPlaceholderNodeIndex : IWriteableBrowsingPlaceholderNodeIndex, IFrameBrowsingChildIndex, IFrameNodeIndex
+    public interface IFrameBrowsingPlaceholderNodeIndex : IWriteableBrowsingPlaceholderNodeIndex, IFrameBrowsingChildIndex, IFrameBrowsingInsertableIndex, IFrameNodeIndex
     {
     }
 

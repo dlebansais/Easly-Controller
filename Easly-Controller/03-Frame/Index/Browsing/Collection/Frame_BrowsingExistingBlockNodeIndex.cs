@@ -7,7 +7,7 @@
     /// <summary>
     /// Index for a node in a block that is not the first.
     /// </summary>
-    public interface IFrameBrowsingExistingBlockNodeIndex : IWriteableBrowsingExistingBlockNodeIndex, IFrameBrowsingBlockNodeIndex
+    public interface IFrameBrowsingExistingBlockNodeIndex : IWriteableBrowsingExistingBlockNodeIndex, IFrameBrowsingBlockNodeIndex, IFrameBrowsingInsertableIndex
     {
     }
 

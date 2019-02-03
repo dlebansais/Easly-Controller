@@ -7,7 +7,7 @@
     /// <summary>
     /// Index for an optional node.
     /// </summary>
-    public interface IFrameBrowsingOptionalNodeIndex : IWriteableBrowsingOptionalNodeIndex, IFrameBrowsingChildIndex
+    public interface IFrameBrowsingOptionalNodeIndex : IWriteableBrowsingOptionalNodeIndex, IFrameBrowsingChildIndex, IFrameBrowsingInsertableIndex
     {
     }
 

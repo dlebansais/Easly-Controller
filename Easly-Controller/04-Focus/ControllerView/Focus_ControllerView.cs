@@ -981,7 +981,7 @@
                     Debug.Assert(ParentIndex != null);
 
                     inner = CurrentState.ParentInner;
-                    index = ParentIndex.ToInsertionIndex(inner.Owner.Node, SimplifiedNode) as IFocusInsertionChildIndex;
+                    index = ((IFocusBrowsingInsertableIndex)ParentIndex).ToInsertionIndex(inner.Owner.Node, SimplifiedNode) as IFocusInsertionChildIndex;
                     return true;
                 }
 

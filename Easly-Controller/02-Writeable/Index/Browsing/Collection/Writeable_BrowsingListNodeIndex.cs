@@ -8,7 +8,7 @@
     /// <summary>
     /// Index for a node in a list of nodes.
     /// </summary>
-    public interface IWriteableBrowsingListNodeIndex : IReadOnlyBrowsingListNodeIndex, IWriteableBrowsingCollectionNodeIndex
+    public interface IWriteableBrowsingListNodeIndex : IReadOnlyBrowsingListNodeIndex, IWriteableBrowsingCollectionNodeIndex, IWriteableBrowsingInsertableIndex
     {
         /// <summary>
         /// Modifies the index to address the next position in a list.

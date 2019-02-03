@@ -1733,7 +1733,7 @@
             if (!NodeHelper.IsCollectionWithExpand(blockListInner.Owner.Node, blockListInner.PropertyName))
                 return;
 
-            INode NewItem = NodeHelper.CreateEmptyNode(blockListInner.ItemType);
+            INode NewItem = NodeHelper.CreateDefaultFromInterface(blockListInner.InterfaceType);
             IPattern NewPattern = NodeHelper.CreateEmptyPattern();
             IIdentifier NewSource = NodeHelper.CreateEmptyIdentifier();
             IBlock NewBlock = NodeTreeHelperBlockList.CreateBlock(blockListInner.Owner.Node, blockListInner.PropertyName, ReplicationStatus.Normal, NewPattern, NewSource);
@@ -1834,6 +1834,9 @@
         private protected virtual void ReduceBlockList(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> blockListInner, IWriteableOperationList operationList, bool isNested)
         {
             if (!blockListInner.IsSingle)
+                return;
+
+            if (NodeHelper.IsCollectionNeverEmpty(blockListInner.Owner.Node, blockListInner.PropertyName))
                 return;
 
             if (!NodeHelper.IsCollectionWithExpand(blockListInner.Owner.Node, blockListInner.PropertyName))

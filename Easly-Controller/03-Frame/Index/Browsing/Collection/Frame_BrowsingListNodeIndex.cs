@@ -7,7 +7,7 @@
     /// <summary>
     /// Index for a node in a list of nodes.
     /// </summary>
-    public interface IFrameBrowsingListNodeIndex : IWriteableBrowsingListNodeIndex, IFrameBrowsingCollectionNodeIndex
+    public interface IFrameBrowsingListNodeIndex : IWriteableBrowsingListNodeIndex, IFrameBrowsingCollectionNodeIndex, IFrameBrowsingInsertableIndex
     {
     }
 
