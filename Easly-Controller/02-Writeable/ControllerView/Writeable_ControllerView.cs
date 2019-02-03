@@ -109,8 +109,8 @@
             Debug.Assert(StateViewTable.ContainsKey(BlockState.PatternState));
             Debug.Assert(StateViewTable.ContainsKey(BlockState.SourceState));
 
-            foreach (IWriteableNodeState State in BlockState.StateList)
-                Debug.Assert(StateViewTable.ContainsKey(State));
+            Debug.Assert(BlockState.StateList.Count == 1);
+            Debug.Assert(StateViewTable.ContainsKey(BlockState.StateList[0]));
         }
 
         /// <summary>
@@ -129,8 +129,7 @@
             Debug.Assert(!StateViewTable.ContainsKey(BlockState.PatternState));
             Debug.Assert(!StateViewTable.ContainsKey(BlockState.SourceState));
 
-            foreach (IWriteableNodeState State in BlockState.StateList)
-                Debug.Assert(!StateViewTable.ContainsKey(State));
+            Debug.Assert(BlockState.StateList.Count == 0);
         }
 
         /// <summary>
