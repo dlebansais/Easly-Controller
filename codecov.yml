@@ -33,5 +33,6 @@ ignore:
   - Easly-Controller/02-Writeable/Inner/Single/Writeable_SingleInner.cs
   - Easly-Controller/02-Writeable/Inner/Writeable_Inner.cs
   - Easly-Controller/02-Writeable/State/Writeable_NodeState.cs
+  - Easly-Controller/02-Writeable/StateView/Writeable_NodeStateView.cs
   - Easly-Controller/03-Frame
   - Easly-Controller/04-Focus
