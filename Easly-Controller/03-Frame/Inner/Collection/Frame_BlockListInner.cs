@@ -19,16 +19,6 @@
         /// First node state that can be enumerated in the inner.
         /// </summary>
         new IFramePlaceholderNodeState FirstNodeState { get; }
-
-        /// <summary>
-        /// Called when a block state is created.
-        /// </summary>
-        new event Action<IFrameBlockState> BlockStateCreated;
-
-        /// <summary>
-        /// Called when a block state is removed.
-        /// </summary>
-        new event Action<IFrameBlockState> BlockStateRemoved;
     }
 
     /// <summary>
@@ -47,16 +37,6 @@
         /// First node state that can be enumerated in the inner.
         /// </summary>
         new IFramePlaceholderNodeState FirstNodeState { get; }
-
-        /// <summary>
-        /// Called when a block state is created.
-        /// </summary>
-        new event Action<IFrameBlockState> BlockStateCreated;
-
-        /// <summary>
-        /// Called when a block state is removed.
-        /// </summary>
-        new event Action<IFrameBlockState> BlockStateRemoved;
     }
 
     /// <summary>
@@ -95,24 +75,6 @@
         /// First node state that can be enumerated in the inner.
         /// </summary>
         public new IFramePlaceholderNodeState FirstNodeState { get { return (IFramePlaceholderNodeState)base.FirstNodeState; } }
-
-        /// <summary>
-        /// Called when a block state is created.
-        /// </summary>
-        public new event Action<IFrameBlockState> BlockStateCreated
-        {
-            add { AddBlockStateCreatedDelegate((Action<IReadOnlyBlockState>)value); }
-            remove { RemoveBlockStateCreatedDelegate((Action<IReadOnlyBlockState>)value); }
-        }
-
-        /// <summary>
-        /// Called when a block state is removed.
-        /// </summary>
-        public new event Action<IFrameBlockState> BlockStateRemoved
-        {
-            add { AddBlockStateRemovedDelegate((Action<IReadOnlyBlockState>)value); }
-            remove { RemoveBlockStateRemovedDelegate((Action<IReadOnlyBlockState>)value); }
-        }
         #endregion
 
         #region Create Methods

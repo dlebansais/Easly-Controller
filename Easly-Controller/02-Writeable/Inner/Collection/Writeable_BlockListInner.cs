@@ -22,16 +22,6 @@
         new IWriteablePlaceholderNodeState FirstNodeState { get; }
 
         /// <summary>
-        /// Called when a block state is created.
-        /// </summary>
-        new event Action<IWriteableBlockState> BlockStateCreated;
-
-        /// <summary>
-        /// Called when a block state is removed.
-        /// </summary>
-        new event Action<IWriteableBlockState> BlockStateRemoved;
-
-        /// <summary>
         /// Inserts a new block with one node in a block list.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
@@ -96,16 +86,6 @@
         /// First node state that can be enumerated in the inner.
         /// </summary>
         new IWriteablePlaceholderNodeState FirstNodeState { get; }
-
-        /// <summary>
-        /// Called when a block state is created.
-        /// </summary>
-        new event Action<IWriteableBlockState> BlockStateCreated;
-
-        /// <summary>
-        /// Called when a block state is removed.
-        /// </summary>
-        new event Action<IWriteableBlockState> BlockStateRemoved;
 
         /// <summary>
         /// Inserts a new block with one node in a block list.
@@ -192,24 +172,6 @@
         /// First node state that can be enumerated in the inner.
         /// </summary>
         public new IWriteablePlaceholderNodeState FirstNodeState { get { return (IWriteablePlaceholderNodeState)base.FirstNodeState; } }
-
-        /// <summary>
-        /// Called when a block state is created.
-        /// </summary>
-        public new event Action<IWriteableBlockState> BlockStateCreated
-        {
-            add { AddBlockStateCreatedDelegate((Action<IReadOnlyBlockState>)value); }
-            remove { RemoveBlockStateCreatedDelegate((Action<IReadOnlyBlockState>)value); }
-        }
-
-        /// <summary>
-        /// Called when a block state is removed.
-        /// </summary>
-        public new event Action<IWriteableBlockState> BlockStateRemoved
-        {
-            add { AddBlockStateRemovedDelegate((Action<IReadOnlyBlockState>)value); }
-            remove { RemoveBlockStateRemovedDelegate((Action<IReadOnlyBlockState>)value); }
-        }
         #endregion
 
         #region Client Interface

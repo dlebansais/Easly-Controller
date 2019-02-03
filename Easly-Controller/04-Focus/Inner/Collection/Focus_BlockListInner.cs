@@ -20,16 +20,6 @@
         /// First node state that can be enumerated in the inner.
         /// </summary>
         new IFocusPlaceholderNodeState FirstNodeState { get; }
-
-        /// <summary>
-        /// Called when a block state is created.
-        /// </summary>
-        new event Action<IFocusBlockState> BlockStateCreated;
-
-        /// <summary>
-        /// Called when a block state is removed.
-        /// </summary>
-        new event Action<IFocusBlockState> BlockStateRemoved;
     }
 
     /// <summary>
@@ -48,16 +38,6 @@
         /// First node state that can be enumerated in the inner.
         /// </summary>
         new IFocusPlaceholderNodeState FirstNodeState { get; }
-
-        /// <summary>
-        /// Called when a block state is created.
-        /// </summary>
-        new event Action<IFocusBlockState> BlockStateCreated;
-
-        /// <summary>
-        /// Called when a block state is removed.
-        /// </summary>
-        new event Action<IFocusBlockState> BlockStateRemoved;
     }
 
     /// <summary>
@@ -96,24 +76,6 @@
         /// First node state that can be enumerated in the inner.
         /// </summary>
         public new IFocusPlaceholderNodeState FirstNodeState { get { return (IFocusPlaceholderNodeState)base.FirstNodeState; } }
-
-        /// <summary>
-        /// Called when a block state is created.
-        /// </summary>
-        public new event Action<IFocusBlockState> BlockStateCreated
-        {
-            add { AddBlockStateCreatedDelegate((Action<IReadOnlyBlockState>)value); }
-            remove { RemoveBlockStateCreatedDelegate((Action<IReadOnlyBlockState>)value); }
-        }
-
-        /// <summary>
-        /// Called when a block state is removed.
-        /// </summary>
-        public new event Action<IFocusBlockState> BlockStateRemoved
-        {
-            add { AddBlockStateRemovedDelegate((Action<IReadOnlyBlockState>)value); }
-            remove { RemoveBlockStateRemovedDelegate((Action<IReadOnlyBlockState>)value); }
-        }
         #endregion
 
         #region Create Methods

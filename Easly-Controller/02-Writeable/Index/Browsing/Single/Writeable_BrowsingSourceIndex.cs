@@ -46,16 +46,5 @@
             return true;
         }
         #endregion
-
-        #region Create Methods
-        /// <summary>
-        /// Creates a IxxxInsertionPlaceholderNodeIndex object.
-        /// </summary>
-        private protected virtual IWriteableInsertionPlaceholderNodeIndex CreateInsertionIndex(INode parentNode, INode node)
-        {
-            ControllerTools.AssertNoOverride(this, typeof(WriteableBrowsingSourceIndex));
-            return new WriteableInsertionPlaceholderNodeIndex(parentNode, PropertyName, node);
-        }
-        #endregion
     }
 }
