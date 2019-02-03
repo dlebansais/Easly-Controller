@@ -17,6 +17,11 @@
         new IWriteableBlockStateReadOnlyList BlockStateList { get; }
 
         /// <summary>
+        /// First node state that can be enumerated in the inner.
+        /// </summary>
+        new IWriteablePlaceholderNodeState FirstNodeState { get; }
+
+        /// <summary>
         /// Called when a block state is created.
         /// </summary>
         new event Action<IWriteableBlockState> BlockStateCreated;
@@ -86,6 +91,11 @@
         /// States of blocks in the block list.
         /// </summary>
         new IWriteableBlockStateReadOnlyList BlockStateList { get; }
+
+        /// <summary>
+        /// First node state that can be enumerated in the inner.
+        /// </summary>
+        new IWriteablePlaceholderNodeState FirstNodeState { get; }
 
         /// <summary>
         /// Called when a block state is created.

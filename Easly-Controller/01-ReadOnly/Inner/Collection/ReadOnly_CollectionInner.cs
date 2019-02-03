@@ -1,6 +1,5 @@
 ﻿namespace EaslyController.ReadOnly
 {
-    using System;
     using System.Diagnostics;
 
     /// <summary>
@@ -17,11 +16,6 @@
         /// Checks if the inner must have at list one item.
         /// </summary>
         bool IsNeverEmpty { get; }
-
-        /// <summary>
-        /// First node state that can be enumerated in the inner.
-        /// </summary>
-        IReadOnlyPlaceholderNodeState FirstNodeState { get; }
     }
 
     /// <summary>
@@ -40,11 +34,6 @@
         /// Checks if the inner must have at list one item.
         /// </summary>
         bool IsNeverEmpty { get; }
-
-        /// <summary>
-        /// First node state that can be enumerated in the inner.
-        /// </summary>
-        IReadOnlyPlaceholderNodeState FirstNodeState { get; }
     }
 
     /// <summary>
@@ -78,11 +67,6 @@
         /// Checks if the inner must have at list one item.
         /// </summary>
         public abstract bool IsNeverEmpty { get; }
-
-        /// <summary>
-        /// First node state that can be enumerated in the inner.
-        /// </summary>
-        public virtual IReadOnlyPlaceholderNodeState FirstNodeState { get { throw new NotImplementedException(); } } // Can't make this abstract, thank you C#...
         #endregion
 
         #region Debugging

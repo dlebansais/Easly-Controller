@@ -16,6 +16,11 @@
         IReadOnlyPlaceholderNodeStateReadOnlyList StateList { get; }
 
         /// <summary>
+        /// First node state that can be enumerated in the inner.
+        /// </summary>
+        IReadOnlyPlaceholderNodeState FirstNodeState { get; }
+
+        /// <summary>
         /// Gets the index of the node at the given position.
         /// </summary>
         /// <param name="index">Position of the node in the list.</param>
@@ -34,6 +39,11 @@
         /// States of nodes in the list.
         /// </summary>
         IReadOnlyPlaceholderNodeStateReadOnlyList StateList { get; }
+
+        /// <summary>
+        /// First node state that can be enumerated in the inner.
+        /// </summary>
+        IReadOnlyPlaceholderNodeState FirstNodeState { get; }
 
         /// <summary>
         /// Gets the index of the node at the given position.
@@ -124,7 +134,7 @@
         /// <summary>
         /// First node state that can be enumerated in the inner.
         /// </summary>
-        public override IReadOnlyPlaceholderNodeState FirstNodeState
+        public virtual IReadOnlyPlaceholderNodeState FirstNodeState
         {
             get
             {

@@ -8,11 +8,6 @@
     public interface IWriteableCollectionInner : IReadOnlyCollectionInner, IWriteableInner
     {
         /// <summary>
-        /// First node state that can be enumerated in the inner.
-        /// </summary>
-        new IWriteablePlaceholderNodeState FirstNodeState { get; }
-
-        /// <summary>
         /// Inserts a new node in a list or block list.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
@@ -45,11 +40,6 @@
     internal interface IWriteableCollectionInner<out IIndex> : IReadOnlyCollectionInner<IIndex>, IWriteableInner<IIndex>
         where IIndex : IWriteableBrowsingCollectionNodeIndex
     {
-        /// <summary>
-        /// First node state that can be enumerated in the inner.
-        /// </summary>
-        new IWriteablePlaceholderNodeState FirstNodeState { get; }
-
         /// <summary>
         /// Inserts a new node in a list or block list.
         /// </summary>
@@ -102,11 +92,6 @@
         /// Parent containing the inner.
         /// </summary>
         public new IWriteableNodeState Owner { get { return (IWriteableNodeState)base.Owner; } }
-
-        /// <summary>
-        /// First node state that can be enumerated in the inner.
-        /// </summary>
-        public new IWriteablePlaceholderNodeState FirstNodeState { get { return (IWriteablePlaceholderNodeState)base.FirstNodeState; } }
         #endregion
 
         #region Client Interface

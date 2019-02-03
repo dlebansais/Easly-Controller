@@ -7,10 +7,6 @@
     /// </summary>
     public interface IFocusCollectionInner : IFrameCollectionInner, IFocusInner
     {
-        /// <summary>
-        /// First node state that can be enumerated in the inner.
-        /// </summary>
-        new IFocusPlaceholderNodeState FirstNodeState { get; }
     }
 
     /// <summary>
@@ -19,10 +15,7 @@
     /// <typeparam name="IIndex">Type of the index.</typeparam>
     internal interface IFocusCollectionInner<out IIndex> : IFrameCollectionInner<IIndex>, IFocusInner<IIndex>
         where IIndex : IFocusBrowsingCollectionNodeIndex
-    {/// <summary>
-        /// First node state that can be enumerated in the inner.
-        /// </summary>
-        new IFocusPlaceholderNodeState FirstNodeState { get; }
+    {
     }
 
     /// <summary>
@@ -51,11 +44,6 @@
         /// Parent containing the inner.
         /// </summary>
         public new IFocusNodeState Owner { get { return (IFocusNodeState)base.Owner; } }
-
-        /// <summary>
-        /// First node state that can be enumerated in the inner.
-        /// </summary>
-        public new IFocusPlaceholderNodeState FirstNodeState { get { return (IFocusPlaceholderNodeState)base.FirstNodeState; } }
         #endregion
     }
 }

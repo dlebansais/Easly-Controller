@@ -13,6 +13,11 @@
         /// States of nodes in the list.
         /// </summary>
         new IFramePlaceholderNodeStateReadOnlyList StateList { get; }
+
+        /// <summary>
+        /// First node state that can be enumerated in the inner.
+        /// </summary>
+        new IFramePlaceholderNodeState FirstNodeState { get; }
     }
 
     /// <summary>
@@ -26,6 +31,11 @@
         /// States of nodes in the list.
         /// </summary>
         new IFramePlaceholderNodeStateReadOnlyList StateList { get; }
+
+        /// <summary>
+        /// First node state that can be enumerated in the inner.
+        /// </summary>
+        new IFramePlaceholderNodeState FirstNodeState { get; }
     }
 
     /// <summary>

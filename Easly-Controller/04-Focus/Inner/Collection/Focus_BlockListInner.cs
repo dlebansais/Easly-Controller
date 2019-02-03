@@ -17,6 +17,11 @@
         new IFocusBlockStateReadOnlyList BlockStateList { get; }
 
         /// <summary>
+        /// First node state that can be enumerated in the inner.
+        /// </summary>
+        new IFocusPlaceholderNodeState FirstNodeState { get; }
+
+        /// <summary>
         /// Called when a block state is created.
         /// </summary>
         new event Action<IFocusBlockState> BlockStateCreated;
@@ -38,6 +43,11 @@
         /// States of blocks in the block list.
         /// </summary>
         new IFocusBlockStateReadOnlyList BlockStateList { get; }
+
+        /// <summary>
+        /// First node state that can be enumerated in the inner.
+        /// </summary>
+        new IFocusPlaceholderNodeState FirstNodeState { get; }
 
         /// <summary>
         /// Called when a block state is created.

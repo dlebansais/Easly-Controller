@@ -16,6 +16,11 @@
         new IFrameBlockStateReadOnlyList BlockStateList { get; }
 
         /// <summary>
+        /// First node state that can be enumerated in the inner.
+        /// </summary>
+        new IFramePlaceholderNodeState FirstNodeState { get; }
+
+        /// <summary>
         /// Called when a block state is created.
         /// </summary>
         new event Action<IFrameBlockState> BlockStateCreated;
@@ -37,6 +42,11 @@
         /// States of blocks in the block list.
         /// </summary>
         new IFrameBlockStateReadOnlyList BlockStateList { get; }
+
+        /// <summary>
+        /// First node state that can be enumerated in the inner.
+        /// </summary>
+        new IFramePlaceholderNodeState FirstNodeState { get; }
 
         /// <summary>
         /// Called when a block state is created.

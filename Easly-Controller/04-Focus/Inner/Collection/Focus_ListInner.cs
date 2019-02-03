@@ -14,6 +14,11 @@
         /// States of nodes in the list.
         /// </summary>
         new IFocusPlaceholderNodeStateReadOnlyList StateList { get; }
+
+        /// <summary>
+        /// First node state that can be enumerated in the inner.
+        /// </summary>
+        new IFocusPlaceholderNodeState FirstNodeState { get; }
     }
 
     /// <summary>
@@ -27,6 +32,11 @@
         /// States of nodes in the list.
         /// </summary>
         new IFocusPlaceholderNodeStateReadOnlyList StateList { get; }
+
+        /// <summary>
+        /// First node state that can be enumerated in the inner.
+        /// </summary>
+        new IFocusPlaceholderNodeState FirstNodeState { get; }
     }
 
     /// <summary>

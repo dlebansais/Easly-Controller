@@ -36,6 +36,11 @@
         bool IsSingle { get; }
 
         /// <summary>
+        /// First node state that can be enumerated in the inner.
+        /// </summary>
+        IReadOnlyPlaceholderNodeState FirstNodeState { get; }
+
+        /// <summary>
         /// Called when a block state is created.
         /// </summary>
         event Action<IReadOnlyBlockState> BlockStateCreated;
@@ -85,6 +90,11 @@
         /// Checks if the inner has only ont child node.
         /// </summary>
         bool IsSingle { get; }
+
+        /// <summary>
+        /// First node state that can be enumerated in the inner.
+        /// </summary>
+        IReadOnlyPlaceholderNodeState FirstNodeState { get; }
 
         /// <summary>
         /// Called when a block state is created.
@@ -280,7 +290,7 @@
         /// <summary>
         /// First node state that can be enumerated in the inner.
         /// </summary>
-        public override IReadOnlyPlaceholderNodeState FirstNodeState
+        public virtual IReadOnlyPlaceholderNodeState FirstNodeState
         {
             get
             {
