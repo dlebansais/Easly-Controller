@@ -8,7 +8,7 @@
     /// <summary>
     /// Index for the root node of the node tree.
     /// </summary>
-    public interface IReadOnlyRootNodeIndex : IReadOnlyNodeIndex
+    public interface IReadOnlyRootNodeIndex : IReadOnlyNodeIndex, IEqualComparable
     {
     }
 

@@ -7,7 +7,7 @@
     /// <summary>
     /// Index for a node.
     /// </summary>
-    public interface IReadOnlyBrowsingPlaceholderNodeIndex : IReadOnlyBrowsingChildIndex, IReadOnlyNodeIndex
+    public interface IReadOnlyBrowsingPlaceholderNodeIndex : IReadOnlyBrowsingChildIndex, IReadOnlyNodeIndex, IEqualComparable
     {
     }
 

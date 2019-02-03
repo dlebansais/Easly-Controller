@@ -6,7 +6,7 @@
     /// <summary>
     /// Index for the source identifier node of a block.
     /// </summary>
-    public interface IReadOnlyBrowsingSourceIndex : IReadOnlyBrowsingChildIndex, IReadOnlyNodeIndex
+    public interface IReadOnlyBrowsingSourceIndex : IReadOnlyBrowsingChildIndex, IReadOnlyNodeIndex, IEqualComparable
     {
         /// <summary>
         /// The indexed source identifier node.

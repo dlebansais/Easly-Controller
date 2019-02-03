@@ -41,28 +41,5 @@
         /// </summary>
         public virtual int BlockIndex { get; private protected set; }
         #endregion
-
-        #region Debugging
-        /// <summary>
-        /// Compares two <see cref="IReadOnlyIndex"/> objects.
-        /// </summary>
-        /// <param name="comparer">The comparison support object.</param>
-        /// <param name="other">The other object.</param>
-        public override bool IsEqual(CompareEqual comparer, IEqualComparable other)
-        {
-            Debug.Assert(other != null);
-
-            if (!comparer.IsSameType(other, out ReadOnlyBrowsingBlockNodeIndex AsBlockNodeIndex))
-                return comparer.Failed();
-
-            if (!base.IsEqual(comparer, AsBlockNodeIndex))
-                return comparer.Failed();
-
-            if (!comparer.IsSameInteger(BlockIndex, AsBlockNodeIndex.BlockIndex))
-                return comparer.Failed();
-
-            return true;
-        }
-        #endregion
     }
 }

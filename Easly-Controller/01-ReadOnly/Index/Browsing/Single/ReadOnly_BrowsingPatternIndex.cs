@@ -6,7 +6,7 @@
     /// <summary>
     /// Index for the replication pattern node of a block.
     /// </summary>
-    public interface IReadOnlyBrowsingPatternIndex : IReadOnlyBrowsingChildIndex, IReadOnlyNodeIndex
+    public interface IReadOnlyBrowsingPatternIndex : IReadOnlyBrowsingChildIndex, IReadOnlyNodeIndex, IEqualComparable
     {
         /// <summary>
         /// The indexed replication pattern node.

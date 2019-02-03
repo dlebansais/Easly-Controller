@@ -42,28 +42,5 @@
         /// </summary>
         public string PropertyName { get; }
         #endregion
-
-        #region Debugging
-        /// <summary>
-        /// Compares two <see cref="IReadOnlyIndex"/> objects.
-        /// </summary>
-        /// <param name="comparer">The comparison support object.</param>
-        /// <param name="other">The other object.</param>
-        public virtual bool IsEqual(CompareEqual comparer, IEqualComparable other)
-        {
-            Debug.Assert(other != null);
-
-            if (!comparer.IsSameType(other, out ReadOnlyBrowsingCollectionNodeIndex AsBlockNodeIndex))
-                return comparer.Failed();
-
-            if (!comparer.IsSameReference(Node, AsBlockNodeIndex.Node))
-                return comparer.Failed();
-
-            if (!comparer.IsSameString(PropertyName, AsBlockNodeIndex.PropertyName))
-                return comparer.Failed();
-
-            return true;
-        }
-        #endregion
     }
 }

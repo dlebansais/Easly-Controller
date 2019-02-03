@@ -9,7 +9,7 @@
     /// <summary>
     /// Index for replacing an optional node.
     /// </summary>
-    public interface IWriteableInsertionOptionalNodeIndex : IWriteableInsertionChildNodeIndex, IWriteableNodeIndex
+    public interface IWriteableInsertionOptionalNodeIndex : IWriteableInsertionChildNodeIndex, IWriteableNodeIndex, IEqualComparable
     {
         /// <summary>
         /// Interface to the optional object for the node.

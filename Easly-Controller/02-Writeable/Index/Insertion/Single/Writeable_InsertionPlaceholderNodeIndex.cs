@@ -8,7 +8,7 @@
     /// <summary>
     /// Index for replacing a child a node.
     /// </summary>
-    public interface IWriteableInsertionPlaceholderNodeIndex : IWriteableInsertionChildNodeIndex, IWriteableNodeIndex
+    public interface IWriteableInsertionPlaceholderNodeIndex : IWriteableInsertionChildNodeIndex, IWriteableNodeIndex, IEqualComparable
     {
     }
 

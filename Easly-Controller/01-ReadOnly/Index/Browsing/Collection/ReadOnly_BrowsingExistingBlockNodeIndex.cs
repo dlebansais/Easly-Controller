@@ -7,7 +7,7 @@
     /// <summary>
     /// Index for a node in a block.
     /// </summary>
-    public interface IReadOnlyBrowsingExistingBlockNodeIndex : IReadOnlyBrowsingBlockNodeIndex
+    public interface IReadOnlyBrowsingExistingBlockNodeIndex : IReadOnlyBrowsingBlockNodeIndex, IEqualComparable
     {
         /// <summary>
         /// The parent node.
@@ -67,20 +67,26 @@
         /// </summary>
         /// <param name="comparer">The comparison support object.</param>
         /// <param name="other">The other object.</param>
-        public override bool IsEqual(CompareEqual comparer, IEqualComparable other)
+        public virtual bool IsEqual(CompareEqual comparer, IEqualComparable other)
         {
             Debug.Assert(other != null);
 
             if (!comparer.IsSameType(other, out ReadOnlyBrowsingExistingBlockNodeIndex AsExistingBlockNodeIndex))
                 return comparer.Failed();
 
-            if (!base.IsEqual(comparer, AsExistingBlockNodeIndex))
-                return comparer.Failed();
-
             if (!comparer.IsSameReference(ParentNode, AsExistingBlockNodeIndex.ParentNode))
                 return comparer.Failed();
 
+            if (!comparer.IsSameString(PropertyName, AsExistingBlockNodeIndex.PropertyName))
+                return comparer.Failed();
+
+            if (!comparer.IsSameInteger(BlockIndex, AsExistingBlockNodeIndex.BlockIndex))
+                return comparer.Failed();
+
             if (!comparer.IsSameInteger(Index, AsExistingBlockNodeIndex.Index))
+                return comparer.Failed();
+
+            if (!comparer.IsSameReference(Node, AsExistingBlockNodeIndex.Node))
                 return comparer.Failed();
 
             return true;

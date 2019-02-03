@@ -528,7 +528,7 @@
             if (!comparer.IsSameType(other, out ReadOnlyNodeState<IInner> AsNodeState))
                 return comparer.Failed();
 
-            if (!comparer.VerifyEqual(ParentIndex, AsNodeState.ParentIndex))
+            if (!comparer.VerifyEqual((IEqualComparable)ParentIndex, (IEqualComparable)AsNodeState.ParentIndex))
                 return comparer.Failed();
 
             if (!comparer.IsTrue((ParentInner == null && AsNodeState.ParentInner == null) || (ParentInner != null && AsNodeState.ParentInner != null)) || (ParentInner != null && !comparer.VerifyEqual(ParentInner, AsNodeState.ParentInner)))

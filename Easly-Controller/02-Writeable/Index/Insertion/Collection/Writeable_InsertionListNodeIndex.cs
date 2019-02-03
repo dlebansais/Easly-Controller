@@ -8,7 +8,7 @@
     /// <summary>
     /// Index for inserting a node in a list of nodes.
     /// </summary>
-    public interface IWriteableInsertionListNodeIndex : IWriteableInsertionCollectionNodeIndex
+    public interface IWriteableInsertionListNodeIndex : IWriteableInsertionCollectionNodeIndex, IEqualComparable
     {
         /// <summary>
         /// Position where to insert in the list.

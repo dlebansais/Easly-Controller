@@ -9,7 +9,7 @@
     /// <summary>
     /// Index for an optional node.
     /// </summary>
-    public interface IReadOnlyBrowsingOptionalNodeIndex : IReadOnlyBrowsingChildIndex
+    public interface IReadOnlyBrowsingOptionalNodeIndex : IReadOnlyBrowsingChildIndex, IEqualComparable
     {
         /// <summary>
         /// Interface to the optional object for the node.

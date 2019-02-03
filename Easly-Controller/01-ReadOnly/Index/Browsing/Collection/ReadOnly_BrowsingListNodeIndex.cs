@@ -7,7 +7,7 @@
     /// <summary>
     /// Index for a node in a list of nodes.
     /// </summary>
-    public interface IReadOnlyBrowsingListNodeIndex : IReadOnlyBrowsingCollectionNodeIndex
+    public interface IReadOnlyBrowsingListNodeIndex : IReadOnlyBrowsingCollectionNodeIndex, IEqualComparable
     {
         /// <summary>
         /// The parent node.
@@ -63,20 +63,23 @@
         /// </summary>
         /// <param name="comparer">The comparison support object.</param>
         /// <param name="other">The other object.</param>
-        public override bool IsEqual(CompareEqual comparer, IEqualComparable other)
+        public virtual bool IsEqual(CompareEqual comparer, IEqualComparable other)
         {
             Debug.Assert(other != null);
 
             if (!comparer.IsSameType(other, out ReadOnlyBrowsingListNodeIndex AsListNodeIndex))
                 return comparer.Failed();
 
-            if (!base.IsEqual(comparer, AsListNodeIndex))
+            if (!comparer.IsSameString(PropertyName, AsListNodeIndex.PropertyName))
                 return comparer.Failed();
 
             if (!comparer.IsSameReference(ParentNode, AsListNodeIndex.ParentNode))
                 return comparer.Failed();
 
             if (!comparer.IsSameInteger(Index, AsListNodeIndex.Index))
+                return comparer.Failed();
+
+            if (!comparer.IsSameReference(Node, AsListNodeIndex.Node))
                 return comparer.Failed();
 
             return true;

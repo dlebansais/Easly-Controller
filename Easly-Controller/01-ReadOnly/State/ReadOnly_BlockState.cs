@@ -355,13 +355,13 @@
             if (!comparer.IsSameReference(ChildBlock, AsBlockState.ChildBlock))
                 return comparer.Failed();
 
-            if (!comparer.VerifyEqual(PatternIndex, AsBlockState.PatternIndex))
+            if (!comparer.VerifyEqual((IEqualComparable)PatternIndex, (IEqualComparable)AsBlockState.PatternIndex))
                 return comparer.Failed();
 
             if (!comparer.VerifyEqual(PatternState, AsBlockState.PatternState))
                 return comparer.Failed();
 
-            if (!comparer.VerifyEqual(SourceIndex, AsBlockState.SourceIndex))
+            if (!comparer.VerifyEqual((IEqualComparable)SourceIndex, (IEqualComparable)AsBlockState.SourceIndex))
                 return comparer.Failed();
 
             if (!comparer.VerifyEqual(SourceState, AsBlockState.SourceState))

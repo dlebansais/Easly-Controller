@@ -9,7 +9,7 @@
     /// <summary>
     /// Index for clearing an optional node.
     /// </summary>
-    public interface IWriteableInsertionOptionalClearIndex : IWriteableInsertionChildIndex
+    public interface IWriteableInsertionOptionalClearIndex : IWriteableInsertionChildIndex, IEqualComparable
     {
         /// <summary>
         /// Interface to the optional object for the node.

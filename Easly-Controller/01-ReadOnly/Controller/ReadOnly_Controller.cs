@@ -729,7 +729,7 @@
 
                 bool Found = false;
                 for (int i = 0; i < OtherTable.Count; i++)
-                    if (MatchComparer.VerifyEqual(Entry.Key, OtherTable[i]))
+                    if (MatchComparer.VerifyEqual((IEqualComparable)Entry.Key, (IEqualComparable)OtherTable[i]))
                     {
                         MatchTable.Add(Entry.Key, OtherTable[i]);
                         OtherTable.RemoveAt(i);

@@ -8,7 +8,7 @@
     /// <summary>
     /// Index for inserting the first node of a new block.
     /// </summary>
-    public interface IWriteableInsertionNewBlockNodeIndex : IWriteableInsertionBlockNodeIndex
+    public interface IWriteableInsertionNewBlockNodeIndex : IWriteableInsertionBlockNodeIndex, IEqualComparable
     {
         /// <summary>
         /// Position of the inserted block in the block list.
