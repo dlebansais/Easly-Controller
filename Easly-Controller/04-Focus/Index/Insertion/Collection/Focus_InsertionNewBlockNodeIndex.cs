@@ -55,12 +55,12 @@
 
         #region Create Methods
         /// <summary>
-        /// Creates a IxxxBrowsingNewBlockNodeIndex object.
+        /// Creates a IxxxBrowsingExistingBlockNodeIndex.
         /// </summary>
-        private protected override IWriteableBrowsingNewBlockNodeIndex CreateBrowsingIndex()
+        private protected override IWriteableBrowsingExistingBlockNodeIndex CreateBrowsingIndex()
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusInsertionNewBlockNodeIndex));
-            return new FocusBrowsingNewBlockNodeIndex(ParentNode, Node, PropertyName, BlockIndex);
+            return new FocusBrowsingExistingBlockNodeIndex(ParentNode, Node, PropertyName, BlockIndex, 0);
         }
         #endregion
     }

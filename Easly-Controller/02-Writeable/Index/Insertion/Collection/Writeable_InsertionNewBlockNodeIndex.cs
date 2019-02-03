@@ -114,12 +114,12 @@
 
         #region Create Methods
         /// <summary>
-        /// Creates a IxxxBrowsingNewBlockNodeIndex object.
+        /// Creates a IxxxBrowsingExistingBlockNodeIndex.
         /// </summary>
-        private protected virtual IWriteableBrowsingNewBlockNodeIndex CreateBrowsingIndex()
+        private protected virtual IWriteableBrowsingExistingBlockNodeIndex CreateBrowsingIndex()
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableInsertionNewBlockNodeIndex));
-            return new WriteableBrowsingNewBlockNodeIndex(ParentNode, Node, PropertyName, BlockIndex);
+            return new WriteableBrowsingExistingBlockNodeIndex(ParentNode, Node, PropertyName, BlockIndex, 0);
         }
         #endregion
     }
