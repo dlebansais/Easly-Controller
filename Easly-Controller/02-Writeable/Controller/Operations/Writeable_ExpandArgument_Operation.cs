@@ -8,10 +8,6 @@
     /// </summary>
     public interface IWriteableExpandArgumentOperation : IWriteableInsertBlockOperation
     {
-        /// <summary>
-        /// The inserted argument.
-        /// </summary>
-        IArgument Argument { get; }
     }
 
     /// <summary>
@@ -34,13 +30,6 @@
             : base(parentNode, propertyName, 0, block, node, handlerRedo, handlerUndo, isNested)
         {
         }
-        #endregion
-
-        #region Properties
-        /// <summary>
-        /// The inserted argument.
-        /// </summary>
-        public IArgument Argument { get { return (IArgument)Node; } }
         #endregion
     }
 }
