@@ -71,6 +71,9 @@
         public WriteableOptionalInner(IWriteableNodeState owner, string propertyName)
             : base(owner, propertyName)
         {
+            Debug.Assert(ChildState == null);
+            Debug.Assert(((IWriteableSingleInner)ChildState) == null);
+            Debug.Assert(((IWriteableSingleInner<IIndex>)ChildState) == null);
         }
         #endregion
 
