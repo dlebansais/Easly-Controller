@@ -1,5 +1,6 @@
 ﻿namespace EaslyController.Focus
 {
+    using System;
     using System.Diagnostics;
     using BaseNode;
     using EaslyController.Frame;
@@ -39,15 +40,7 @@
         /// <param name="other">The other object.</param>
         public override bool IsEqual(CompareEqual comparer, IEqualComparable other)
         {
-            Debug.Assert(other != null);
-
-            if (!comparer.IsSameType(other, out FocusBrowsingNewBlockNodeIndex AsBrowsingNewBlockNodeIndex))
-                return comparer.Failed();
-
-            if (!base.IsEqual(comparer, AsBrowsingNewBlockNodeIndex))
-                return comparer.Failed();
-
-            return true;
+            throw new NotImplementedException();
         }
         #endregion
 

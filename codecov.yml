@@ -26,5 +26,7 @@ comment:
   require_changes: no
 
 ignore:
+  - "Easly-Controller/02-Writeable/Index/Browsing/Collection/Writeable_BrowsingBlockNodeIndex.cs"
+  - "Easly-Controller/02-Writeable/Index/Browsing/Collection/Writeable_BrowsingCollectionNodeIndex.cs"
   - "Easly-Controller/03-Frame"
   - "Easly-Controller/04-Focus"
