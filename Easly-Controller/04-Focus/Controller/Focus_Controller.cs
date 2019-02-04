@@ -204,6 +204,14 @@
         }
         #endregion
 
+        #region Implementation
+        /// <summary></summary>
+        private protected override void CheckContextConsistency(IReadOnlyBrowseContext browseContext)
+        {
+            ((FocusBrowseContext)browseContext).CheckConsistency();
+        }
+        #endregion
+
         #region Create Methods
         /// <summary>
         /// Creates a IxxxIndexNodeStateDictionary object.

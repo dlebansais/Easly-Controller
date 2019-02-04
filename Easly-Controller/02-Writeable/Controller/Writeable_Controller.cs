@@ -1976,6 +1976,12 @@
 
         #region Descendant Interface
         /// <summary></summary>
+        private protected override void CheckContextConsistency(IReadOnlyBrowseContext browseContext)
+        {
+            ((WriteableBrowseContext)browseContext).CheckConsistency();
+        }
+
+        /// <summary></summary>
         private protected virtual void PruneState(IWriteableNodeState state)
         {
             PruneStateChildren(state);

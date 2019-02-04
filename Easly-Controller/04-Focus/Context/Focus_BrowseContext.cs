@@ -1,5 +1,6 @@
 ﻿namespace EaslyController.Focus
 {
+    using System.Diagnostics;
     using EaslyController.Frame;
     using EaslyController.ReadOnly;
 
@@ -45,6 +46,28 @@
         /// List of index collections that have been added during browsing.
         /// </summary>
         public new IFocusIndexCollectionReadOnlyList IndexCollectionList { get { return (IFocusIndexCollectionReadOnlyList)base.IndexCollectionList; } }
+        #endregion
+
+        #region Client Interface
+        /// <summary>
+        /// Checks the context consistency, for debug purpose.
+        /// </summary>
+        public override void CheckConsistency()
+        {
+            IFocusIndexCollectionList InternalList = InternalIndexCollectionList as IFocusIndexCollectionList;
+            IFocusIndexCollectionReadOnlyList PublicList = IndexCollectionList;
+
+            for (int i = 0; i < InternalList.Count; i++)
+            {
+                IFocusIndexCollection InternalItem = InternalList[i];
+                Debug.Assert(PublicList.Contains(InternalItem));
+                Debug.Assert(PublicList.IndexOf(InternalItem) >= 0);
+
+                IFocusIndexCollection PublicItem = PublicList[i];
+                Debug.Assert(InternalList.Contains(PublicItem));
+                Debug.Assert(InternalList.IndexOf(PublicItem) >= 0);
+            }
+        }
         #endregion
 
         #region Create Methods

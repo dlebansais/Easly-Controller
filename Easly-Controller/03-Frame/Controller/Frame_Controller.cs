@@ -80,6 +80,14 @@
         private protected new IFrameIndexNodeStateReadOnlyDictionary StateTable { get { return (IFrameIndexNodeStateReadOnlyDictionary)base.StateTable; } }
         #endregion
 
+        #region Implementation
+        /// <summary></summary>
+        private protected override void CheckContextConsistency(IReadOnlyBrowseContext browseContext)
+        {
+            ((FrameBrowseContext)browseContext).CheckConsistency();
+        }
+        #endregion
+
         #region Create Methods
         /// <summary>
         /// Creates a IxxxIndexNodeStateDictionary object.

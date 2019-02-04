@@ -56,8 +56,8 @@
             Debug.Assert(state != null);
 
             State = state;
-            _IndexCollectionList = CreateIndexCollectionList();
-            IndexCollectionList = CreateIndexCollectionListReadOnly(_IndexCollectionList);
+            InternalIndexCollectionList = CreateIndexCollectionList();
+            IndexCollectionList = CreateIndexCollectionListReadOnly(InternalIndexCollectionList);
             _ValuePropertyTypeTable = new Dictionary<string, ValuePropertyType>();
         }
         #endregion
@@ -72,7 +72,7 @@
         /// List of index collections that have been added during browsing.
         /// </summary>
         public IReadOnlyIndexCollectionReadOnlyList IndexCollectionList { get; }
-        private IReadOnlyIndexCollectionList _IndexCollectionList;
+        protected IReadOnlyIndexCollectionList InternalIndexCollectionList { get; }
 
         /// <summary>
         /// List of properties that are not nodes, list of nodes or block lists, that have been added during browsing.
@@ -94,7 +94,7 @@
             Debug.Assert(collection != null);
             Debug.Assert(IsCollectionSeparate(collection, IndexCollectionList));
 
-            _IndexCollectionList.Add(collection);
+            InternalIndexCollectionList.Add(collection);
 
             Debug.Assert(collection.IsEmpty || !IsCollectionSeparate(collection, IndexCollectionList));
         }
@@ -110,6 +110,27 @@
             Debug.Assert(!ValuePropertyTypeTable.ContainsKey(propertyName));
 
             _ValuePropertyTypeTable.Add(propertyName, type);
+        }
+
+        /// <summary>
+        /// Checks the context consistency, for debug purpose.
+        /// </summary>
+        [Conditional("DEBUG")]
+        public virtual void CheckConsistency()
+        {
+            IReadOnlyIndexCollectionList InternalList = InternalIndexCollectionList;
+            IReadOnlyIndexCollectionReadOnlyList PublicList = IndexCollectionList;
+
+            for (int i = 0; i < InternalList.Count; i++)
+            {
+                IReadOnlyIndexCollection InternalItem = InternalList[i];
+                Debug.Assert(PublicList.Contains(InternalItem));
+                Debug.Assert(PublicList.IndexOf(InternalItem) >= 0);
+
+                IReadOnlyIndexCollection PublicItem = PublicList[i];
+                Debug.Assert(InternalList.Contains(PublicItem));
+                Debug.Assert(InternalList.IndexOf(PublicItem) >= 0);
+            }
         }
         #endregion
 

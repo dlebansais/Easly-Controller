@@ -429,7 +429,6 @@
 
             // Browse the uninitialized state for children
             IReadOnlyBrowseContext BrowseContext = CreateBrowseContext(parentBrowseContext, state);
-            Debug.Assert(BrowseContext.ToString() != null); // For code coverage.
             BrowseStateChildren(BrowseContext, parentInner);
 
             // Build inners for each child
@@ -450,9 +449,18 @@
         {
             Debug.Assert(browseContext != null);
             Debug.Assert(browseContext.IndexCollectionList.Count == 0);
+            Debug.Assert(browseContext.ToString() != null); // For code coverage.
 
             IReadOnlyNodeState State = browseContext.State;
             ((IReadOnlyNodeState<IReadOnlyInner<IReadOnlyBrowsingChildIndex>>)State).BrowseChildren(browseContext, parentInner);
+
+            CheckContextConsistency(browseContext);
+        }
+
+        /// <summary></summary>
+        private protected virtual void CheckContextConsistency(IReadOnlyBrowseContext browseContext)
+        {
+            ((ReadOnlyBrowseContext)browseContext).CheckConsistency();
         }
 
         /// <summary></summary>

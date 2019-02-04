@@ -50,6 +50,28 @@
         public new IWriteableIndexCollectionReadOnlyList IndexCollectionList { get { return (IWriteableIndexCollectionReadOnlyList)base.IndexCollectionList; } }
         #endregion
 
+        #region Client Interface
+        /// <summary>
+        /// Checks the context consistency, for debug purpose.
+        /// </summary>
+        public override void CheckConsistency()
+        {
+            IWriteableIndexCollectionList InternalList = InternalIndexCollectionList as IWriteableIndexCollectionList;
+            IWriteableIndexCollectionReadOnlyList PublicList = IndexCollectionList;
+
+            for (int i = 0; i < InternalList.Count; i++)
+            {
+                IWriteableIndexCollection InternalItem = InternalList[i];
+                Debug.Assert(PublicList.Contains(InternalItem));
+                Debug.Assert(PublicList.IndexOf(InternalItem) >= 0);
+
+                IWriteableIndexCollection PublicItem = PublicList[i];
+                Debug.Assert(InternalList.Contains(PublicItem));
+                Debug.Assert(InternalList.IndexOf(PublicItem) >= 0);
+            }
+        }
+        #endregion
+
         #region Create Methods
         /// <summary>
         /// Creates a IxxxCollectionList object.

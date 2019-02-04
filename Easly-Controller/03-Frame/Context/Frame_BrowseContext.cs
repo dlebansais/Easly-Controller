@@ -1,5 +1,6 @@
 ﻿namespace EaslyController.Frame
 {
+    using System.Diagnostics;
     using EaslyController.ReadOnly;
     using EaslyController.Writeable;
 
@@ -45,6 +46,28 @@
         /// List of index collections that have been added during browsing.
         /// </summary>
         public new IFrameIndexCollectionReadOnlyList IndexCollectionList { get { return (IFrameIndexCollectionReadOnlyList)base.IndexCollectionList; } }
+        #endregion
+
+        #region Client Interface
+        /// <summary>
+        /// Checks the context consistency, for debug purpose.
+        /// </summary>
+        public override void CheckConsistency()
+        {
+            IFrameIndexCollectionList InternalList = InternalIndexCollectionList as IFrameIndexCollectionList;
+            IFrameIndexCollectionReadOnlyList PublicList = IndexCollectionList;
+
+            for (int i = 0; i < InternalList.Count; i++)
+            {
+                IFrameIndexCollection InternalItem = InternalList[i];
+                Debug.Assert(PublicList.Contains(InternalItem));
+                Debug.Assert(PublicList.IndexOf(InternalItem) >= 0);
+
+                IFrameIndexCollection PublicItem = PublicList[i];
+                Debug.Assert(InternalList.Contains(PublicItem));
+                Debug.Assert(InternalList.IndexOf(PublicItem) >= 0);
+            }
+        }
         #endregion
 
         #region Create Methods
