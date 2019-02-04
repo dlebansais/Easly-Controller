@@ -9,7 +9,7 @@ install:
 script:
 - msbuild Easly-Controller.sln /p:Configuration=Travis
 - cp ./testrunner/NUnit.3.11.0/lib/net45/nunit.framework.dll ./Easly-Controller/bin/x64/Travis/
-# - mono ./testrunner/NUnit.ConsoleRunner.3.9.0/tools/nunit3-console.exe --trace=Debug --labels=All ./Easly-Controller/bin/x64/Travis/Test-Easly-Controller.dll
+ - mono ./testrunner/NUnit.ConsoleRunner.3.9.0/tools/nunit3-console.exe --trace=Debug --labels=All ./Easly-Controller/bin/x64/Travis/Test-Easly-Controller.dll
 
 deploy:
   provider: pages
