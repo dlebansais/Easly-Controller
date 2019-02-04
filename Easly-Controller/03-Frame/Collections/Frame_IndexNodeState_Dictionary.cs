@@ -53,16 +53,6 @@ namespace EaslyController.Frame
             return NewList.GetEnumerator();
         }
 
-        public bool TryGetValue(IFrameIndex key, out IReadOnlyNodeState value)
-        {
-            bool Result = TryGetValue(key, out IFrameNodeState Value);
-            value = Value;
-            return Result;
-        }
-        public void Add(KeyValuePair<IFrameIndex, IReadOnlyNodeState> item) { base.Add(item.Key, (IFrameNodeState)item.Value); }
-        public bool Contains(KeyValuePair<IFrameIndex, IReadOnlyNodeState> item) { return ContainsKey(item.Key) && base[item.Key] == item.Value; }
-        public void CopyTo(KeyValuePair<IFrameIndex, IReadOnlyNodeState>[] array, int arrayIndex) { throw new NotImplementedException(); }
-        public bool Remove(KeyValuePair<IFrameIndex, IReadOnlyNodeState> item) { return Remove(item.Key); }
         bool ICollection<KeyValuePair<IReadOnlyIndex, IReadOnlyNodeState>>.IsReadOnly { get { return ((ICollection<KeyValuePair<IFrameIndex, IFrameNodeState>>)this).IsReadOnly; } }
         #endregion
 
@@ -111,16 +101,6 @@ namespace EaslyController.Frame
             return NewDictionary.GetEnumerator();
         }
 
-        public bool TryGetValue(IFrameIndex key, out IWriteableNodeState value)
-        {
-            bool Result = TryGetValue(key, out IFrameNodeState Value);
-            value = Value;
-            return Result;
-        }
-        public void Add(KeyValuePair<IFrameIndex, IWriteableNodeState> item) { base.Add(item.Key, (IFrameNodeState)item.Value); }
-        public bool Contains(KeyValuePair<IFrameIndex, IWriteableNodeState> item) { return ContainsKey(item.Key) && base[item.Key] == item.Value; }
-        public void CopyTo(KeyValuePair<IFrameIndex, IWriteableNodeState>[] array, int arrayIndex) { throw new NotImplementedException(); }
-        public bool Remove(KeyValuePair<IFrameIndex, IWriteableNodeState> item) { return Remove(item.Key); }
         bool ICollection<KeyValuePair<IWriteableIndex, IWriteableNodeState>>.IsReadOnly { get { return ((ICollection<KeyValuePair<IFrameIndex, IFrameNodeState>>)this).IsReadOnly; } }
         #endregion
     }

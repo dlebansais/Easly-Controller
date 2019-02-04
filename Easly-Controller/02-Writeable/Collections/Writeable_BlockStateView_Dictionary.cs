@@ -52,17 +52,6 @@ namespace EaslyController.Writeable
 
             return NewList.GetEnumerator();
         }
-
-        public bool TryGetValue(IWriteableBlockState key, out IReadOnlyBlockStateView value)
-        {
-            bool Result = TryGetValue(key, out IWriteableBlockStateView Value);
-            value = Value;
-            return Result;
-        }
-        public void Add(KeyValuePair<IWriteableBlockState, IReadOnlyBlockStateView> item) { base.Add(item.Key, (IWriteableBlockStateView)item.Value); }
-        public bool Contains(KeyValuePair<IWriteableBlockState, IReadOnlyBlockStateView> item) { return ContainsKey(item.Key) && base[item.Key] == item.Value; }
-        public void CopyTo(KeyValuePair<IWriteableBlockState, IReadOnlyBlockStateView>[] array, int arrayIndex) { throw new NotImplementedException(); }
-        public bool Remove(KeyValuePair<IWriteableBlockState, IReadOnlyBlockStateView> item) { return Remove(item.Key); }
         bool ICollection<KeyValuePair<IReadOnlyBlockState, IReadOnlyBlockStateView>>.IsReadOnly { get { return ((ICollection<KeyValuePair<IWriteableBlockState, IWriteableBlockStateView>>)this).IsReadOnly; } }
         #endregion
 

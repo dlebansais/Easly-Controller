@@ -54,16 +54,6 @@ namespace EaslyController.Focus
             return NewList.GetEnumerator();
         }
 
-        public bool TryGetValue(IFocusIndex key, out IReadOnlyNodeState value)
-        {
-            bool Result = TryGetValue(key, out IFocusNodeState Value);
-            value = Value;
-            return Result;
-        }
-        public void Add(KeyValuePair<IFocusIndex, IReadOnlyNodeState> item) { base.Add(item.Key, (IFocusNodeState)item.Value); }
-        public bool Contains(KeyValuePair<IFocusIndex, IReadOnlyNodeState> item) { return ContainsKey(item.Key) && base[item.Key] == item.Value; }
-        public void CopyTo(KeyValuePair<IFocusIndex, IReadOnlyNodeState>[] array, int arrayIndex) { throw new NotImplementedException(); }
-        public bool Remove(KeyValuePair<IFocusIndex, IReadOnlyNodeState> item) { return Remove(item.Key); }
         bool ICollection<KeyValuePair<IReadOnlyIndex, IReadOnlyNodeState>>.IsReadOnly { get { return ((ICollection<KeyValuePair<IFocusIndex, IFocusNodeState>>)this).IsReadOnly; } }
         #endregion
 
@@ -112,16 +102,6 @@ namespace EaslyController.Focus
             return NewDictionary.GetEnumerator();
         }
 
-        public bool TryGetValue(IFocusIndex key, out IWriteableNodeState value)
-        {
-            bool Result = TryGetValue(key, out IFocusNodeState Value);
-            value = Value;
-            return Result;
-        }
-        public void Add(KeyValuePair<IFocusIndex, IWriteableNodeState> item) { base.Add(item.Key, (IFocusNodeState)item.Value); }
-        public bool Contains(KeyValuePair<IFocusIndex, IWriteableNodeState> item) { return ContainsKey(item.Key) && base[item.Key] == item.Value; }
-        public void CopyTo(KeyValuePair<IFocusIndex, IWriteableNodeState>[] array, int arrayIndex) { throw new NotImplementedException(); }
-        public bool Remove(KeyValuePair<IFocusIndex, IWriteableNodeState> item) { return Remove(item.Key); }
         bool ICollection<KeyValuePair<IWriteableIndex, IWriteableNodeState>>.IsReadOnly { get { return ((ICollection<KeyValuePair<IFocusIndex, IFocusNodeState>>)this).IsReadOnly; } }
         #endregion
 
@@ -170,16 +150,6 @@ namespace EaslyController.Focus
             return NewDictionary.GetEnumerator();
         }
 
-        public bool TryGetValue(IFocusIndex key, out IFrameNodeState value)
-        {
-            bool Result = TryGetValue(key, out IFocusNodeState Value);
-            value = Value;
-            return Result;
-        }
-        public void Add(KeyValuePair<IFocusIndex, IFrameNodeState> item) { base.Add(item.Key, (IFocusNodeState)item.Value); }
-        public bool Contains(KeyValuePair<IFocusIndex, IFrameNodeState> item) { return ContainsKey(item.Key) && base[item.Key] == item.Value; }
-        public void CopyTo(KeyValuePair<IFocusIndex, IFrameNodeState>[] array, int arrayIndex) { throw new NotImplementedException(); }
-        public bool Remove(KeyValuePair<IFocusIndex, IFrameNodeState> item) { return Remove(item.Key); }
         bool ICollection<KeyValuePair<IFrameIndex, IFrameNodeState>>.IsReadOnly { get { return ((ICollection<KeyValuePair<IFocusIndex, IFocusNodeState>>)this).IsReadOnly; } }
         #endregion
     }

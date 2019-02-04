@@ -61,16 +61,6 @@ namespace EaslyController.Focus
             return NewList.GetEnumerator();
         }
 
-        public bool TryGetValue(Type key, out IFrameTemplate value)
-        {
-            bool Result = TryGetValue(key, out IFocusTemplate Value);
-            value = Value;
-            return Result;
-        }
-        public void Add(KeyValuePair<Type, IFrameTemplate> item) { base.Add(item.Key, (IFocusTemplate)item.Value); }
-        public bool Contains(KeyValuePair<Type, IFrameTemplate> item) { return ContainsKey(item.Key) && base[item.Key] == item.Value; }
-        public void CopyTo(KeyValuePair<Type, IFrameTemplate>[] array, int arrayIndex) { throw new NotImplementedException(); }
-        public bool Remove(KeyValuePair<Type, IFrameTemplate> item) { return Remove(item.Key); }
         bool ICollection<KeyValuePair<Type, IFrameTemplate>>.IsReadOnly { get { return ((ICollection<KeyValuePair<Type, IFocusTemplate>>)this).IsReadOnly; } }
         #endregion
     }

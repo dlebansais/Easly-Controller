@@ -41,6 +41,7 @@ namespace EaslyController.Focus
 
             return NewList.GetEnumerator();
         }
+
         public bool TryGetValue(Type key, out IFrameTemplate value)
         {
             bool Result = TryGetValue(key, out IFocusTemplate Value);
