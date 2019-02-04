@@ -30,15 +30,15 @@ namespace EaslyController.Focus
         }
 
         #region Writeable
-        IWriteableOperation IReadOnlyList<IWriteableOperation>.this[int index] { get { return base[index]; } }
+        IWriteableOperation IReadOnlyList<IWriteableOperation>.this[int index] { get { return this[index]; } }
         public bool Contains(IWriteableOperation value) { return base.Contains((IFocusOperation)value); }
         public int IndexOf(IWriteableOperation value) { return base.IndexOf((IFocusOperation)value); }
         IEnumerator<IWriteableOperation> IEnumerable<IWriteableOperation>.GetEnumerator() { return GetEnumerator(); }
         #endregion
 
         #region Frame
-        IFrameOperation IFrameOperationReadOnlyList.this[int index] { get { return base[index]; } }
-        IFrameOperation IReadOnlyList<IFrameOperation>.this[int index] { get { return base[index]; } }
+        IFrameOperation IFrameOperationReadOnlyList.this[int index] { get { return this[index]; } }
+        IFrameOperation IReadOnlyList<IFrameOperation>.this[int index] { get { return this[index]; } }
         public bool Contains(IFrameOperation value) { return base.Contains((IFocusOperation)value); }
         public int IndexOf(IFrameOperation value) { return base.IndexOf((IFocusOperation)value); }
         IEnumerator<IFrameOperation> IFrameOperationReadOnlyList.GetEnumerator() { return GetEnumerator(); }

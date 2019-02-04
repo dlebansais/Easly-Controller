@@ -30,15 +30,15 @@ namespace EaslyController.Frame
         }
 
         #region ReadOnly
-        IReadOnlyBlockState IReadOnlyList<IReadOnlyBlockState>.this[int index] { get { return base[index]; } }
+        IReadOnlyBlockState IReadOnlyList<IReadOnlyBlockState>.this[int index] { get { return this[index]; } }
         public bool Contains(IReadOnlyBlockState value) { return base.Contains((IFrameBlockState)value); }
         public int IndexOf(IReadOnlyBlockState value) { return base.IndexOf((IFrameBlockState)value); }
         IEnumerator<IReadOnlyBlockState> IEnumerable<IReadOnlyBlockState>.GetEnumerator() { return GetEnumerator(); }
         #endregion
 
         #region Writeable
-        IWriteableBlockState IWriteableBlockStateReadOnlyList.this[int index] { get { return base[index]; } }
-        IWriteableBlockState IReadOnlyList<IWriteableBlockState>.this[int index] { get { return base[index]; } }
+        IWriteableBlockState IWriteableBlockStateReadOnlyList.this[int index] { get { return this[index]; } }
+        IWriteableBlockState IReadOnlyList<IWriteableBlockState>.this[int index] { get { return this[index]; } }
         public bool Contains(IWriteableBlockState value) { return base.Contains((IFrameBlockState)value); }
         public int IndexOf(IWriteableBlockState value) { return base.IndexOf((IFrameBlockState)value); }
         IEnumerator<IWriteableBlockState> IWriteableBlockStateReadOnlyList.GetEnumerator() { return GetEnumerator(); }
