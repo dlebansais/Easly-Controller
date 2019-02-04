@@ -54,6 +54,8 @@
         /// </summary>
         public override void CheckConsistency()
         {
+            base.CheckConsistency();
+
             IFrameIndexCollectionList InternalList = InternalIndexCollectionList as IFrameIndexCollectionList;
             IFrameIndexCollectionReadOnlyList PublicList = IndexCollectionList;
 

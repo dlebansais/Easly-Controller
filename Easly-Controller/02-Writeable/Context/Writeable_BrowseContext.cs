@@ -56,6 +56,8 @@
         /// </summary>
         public override void CheckConsistency()
         {
+            base.CheckConsistency();
+
             IWriteableIndexCollectionList InternalList = InternalIndexCollectionList as IWriteableIndexCollectionList;
             IWriteableIndexCollectionReadOnlyList PublicList = IndexCollectionList;
 

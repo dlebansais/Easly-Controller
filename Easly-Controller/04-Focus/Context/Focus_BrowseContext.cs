@@ -54,6 +54,8 @@
         /// </summary>
         public override void CheckConsistency()
         {
+            base.CheckConsistency();
+
             IFocusIndexCollectionList InternalList = InternalIndexCollectionList as IFocusIndexCollectionList;
             IFocusIndexCollectionReadOnlyList PublicList = IndexCollectionList;
 
