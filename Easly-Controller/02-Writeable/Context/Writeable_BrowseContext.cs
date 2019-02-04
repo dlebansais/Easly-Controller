@@ -1,5 +1,6 @@
 ﻿namespace EaslyController.Writeable
 {
+    using System.Collections.Generic;
     using System.Diagnostics;
     using EaslyController.ReadOnly;
 
@@ -52,7 +53,7 @@
 
         #region Client Interface
         /// <summary>
-        /// Checks the context consistency, for debug purpose.
+        /// Checks the context consistency, for code coverage purpose.
         /// </summary>
         public override void CheckConsistency()
         {
@@ -70,6 +71,24 @@
                 IWriteableIndexCollection PublicItem = PublicList[i];
                 Debug.Assert(InternalList.Contains(PublicItem));
                 Debug.Assert(InternalList.IndexOf(PublicItem) >= 0);
+
+                if (i == 0)
+                {
+                    Debug.Assert(!((ICollection<IWriteableIndexCollection>)InternalList).IsReadOnly);
+
+                    InternalList.Remove(InternalItem);
+                    InternalList.Insert(0, InternalItem);
+
+                    if (InternalList.GetType() == typeof(IWriteableIndexCollectionList))
+                        InternalList.CopyTo(new IWriteableIndexCollection[InternalList.Count], 0);
+
+                    IEnumerable<IWriteableIndexCollection> AsEnumerable = InternalList;
+                    foreach (IWriteableIndexCollection Item in AsEnumerable)
+                    {
+                        Debug.Assert(Item == InternalItem);
+                        break;
+                    }
+                }
             }
         }
         #endregion

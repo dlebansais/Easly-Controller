@@ -30,7 +30,7 @@ namespace EaslyController.Frame
         }
 
         #region ReadOnly
-        public new IReadOnlyBlockState this[int index] { get { return base[index]; } }
+        IReadOnlyBlockState IReadOnlyList<IReadOnlyBlockState>.this[int index] { get { return base[index]; } }
         public bool Contains(IReadOnlyBlockState value) { return base.Contains((IFrameBlockState)value); }
         public int IndexOf(IReadOnlyBlockState value) { return base.IndexOf((IFrameBlockState)value); }
         IEnumerator<IReadOnlyBlockState> IEnumerable<IReadOnlyBlockState>.GetEnumerator() { return GetEnumerator(); }

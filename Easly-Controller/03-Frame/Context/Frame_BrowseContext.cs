@@ -1,5 +1,6 @@
 ﻿namespace EaslyController.Frame
 {
+    using System.Collections.Generic;
     using System.Diagnostics;
     using EaslyController.ReadOnly;
     using EaslyController.Writeable;
@@ -50,7 +51,7 @@
 
         #region Client Interface
         /// <summary>
-        /// Checks the context consistency, for debug purpose.
+        /// Checks the context consistency, for code coverage purpose.
         /// </summary>
         public override void CheckConsistency()
         {
@@ -68,6 +69,24 @@
                 IFrameIndexCollection PublicItem = PublicList[i];
                 Debug.Assert(InternalList.Contains(PublicItem));
                 Debug.Assert(InternalList.IndexOf(PublicItem) >= 0);
+
+                if (i == 0)
+                {
+                    Debug.Assert(!((ICollection<IFrameIndexCollection>)InternalList).IsReadOnly);
+
+                    InternalList.Remove(InternalItem);
+                    InternalList.Insert(0, InternalItem);
+
+                    if (InternalList.GetType() == typeof(IFrameIndexCollectionList))
+                        InternalList.CopyTo(new IFrameIndexCollection[InternalList.Count], 0);
+
+                    IEnumerable<IFrameIndexCollection> AsEnumerable = InternalList;
+                    foreach (IFrameIndexCollection Item in AsEnumerable)
+                    {
+                        Debug.Assert(Item == InternalItem);
+                        break;
+                    }
+                }
             }
         }
         #endregion

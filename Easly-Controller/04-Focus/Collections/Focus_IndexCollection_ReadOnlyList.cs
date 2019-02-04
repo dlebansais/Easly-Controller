@@ -31,7 +31,7 @@ namespace EaslyController.Focus
         }
 
         #region ReadOnly
-        public new IReadOnlyIndexCollection this[int index] { get { return base[index]; } }
+        IReadOnlyIndexCollection IReadOnlyList<IReadOnlyIndexCollection>.this[int index] { get { return base[index]; } }
         public bool Contains(IReadOnlyIndexCollection value) { return base.Contains((IFocusIndexCollection)value); }
         public int IndexOf(IReadOnlyIndexCollection value) { return base.IndexOf((IFocusIndexCollection)value); }
         IEnumerator<IReadOnlyIndexCollection> IEnumerable<IReadOnlyIndexCollection>.GetEnumerator() { return GetEnumerator(); }

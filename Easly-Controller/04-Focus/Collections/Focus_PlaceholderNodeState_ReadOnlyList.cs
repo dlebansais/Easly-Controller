@@ -32,7 +32,7 @@ namespace EaslyController.Focus
         }
 
         #region ReadOnly
-        public new IReadOnlyPlaceholderNodeState this[int index] { get { return base[index]; } }
+        IReadOnlyPlaceholderNodeState IReadOnlyList<IReadOnlyPlaceholderNodeState>.this[int index] { get { return base[index]; } }
         public bool Contains(IReadOnlyPlaceholderNodeState value) { return base.Contains((IFocusPlaceholderNodeState)value); }
         public int IndexOf(IReadOnlyPlaceholderNodeState value) { return base.IndexOf((IFocusPlaceholderNodeState)value); }
         IEnumerator<IReadOnlyPlaceholderNodeState> IEnumerable<IReadOnlyPlaceholderNodeState>.GetEnumerator() { return GetEnumerator(); }

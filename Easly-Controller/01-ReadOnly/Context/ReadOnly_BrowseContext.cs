@@ -113,7 +113,7 @@
         }
 
         /// <summary>
-        /// Checks the context consistency, for debug purpose.
+        /// Checks the context consistency, for code coverage purpose.
         /// </summary>
         [Conditional("DEBUG")]
         public virtual void CheckConsistency()
@@ -130,6 +130,24 @@
                 IReadOnlyIndexCollection PublicItem = PublicList[i];
                 Debug.Assert(InternalList.Contains(PublicItem));
                 Debug.Assert(InternalList.IndexOf(PublicItem) >= 0);
+
+                if (i == 0)
+                {
+                    Debug.Assert(!((ICollection<IReadOnlyIndexCollection>)InternalList).IsReadOnly);
+
+                    InternalList.Remove(InternalItem);
+                    InternalList.Insert(0, InternalItem);
+
+                    if (InternalList.GetType() == typeof(IReadOnlyIndexCollectionList))
+                        InternalList.CopyTo(new IReadOnlyIndexCollection[InternalList.Count], 0);
+
+                    IEnumerable<IReadOnlyIndexCollection> AsEnumerable = InternalList;
+                    foreach (IReadOnlyIndexCollection Item in AsEnumerable)
+                    {
+                        Debug.Assert(Item == InternalItem);
+                        break;
+                    }
+                }
             }
         }
         #endregion

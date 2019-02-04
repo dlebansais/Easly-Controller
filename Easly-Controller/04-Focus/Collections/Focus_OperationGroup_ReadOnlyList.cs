@@ -30,7 +30,7 @@ namespace EaslyController.Focus
         }
 
         #region Writeable
-        public new IWriteableOperationGroup this[int index] { get { return base[index]; } }
+        IWriteableOperationGroup IReadOnlyList<IWriteableOperationGroup>.this[int index] { get { return base[index]; } }
         public bool Contains(IWriteableOperationGroup value) { return base.Contains((IFocusOperationGroup)value); }
         public int IndexOf(IWriteableOperationGroup value) { return base.IndexOf((IFocusOperationGroup)value); }
         IEnumerator<IWriteableOperationGroup> IEnumerable<IWriteableOperationGroup>.GetEnumerator() { return GetEnumerator(); }

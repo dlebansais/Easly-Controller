@@ -29,7 +29,7 @@ namespace EaslyController.Frame
         }
 
         #region Writeable
-        public new IWriteableOperation this[int index] { get { return base[index]; } }
+        IWriteableOperation IReadOnlyList<IWriteableOperation>.this[int index] { get { return base[index]; } }
         public bool Contains(IWriteableOperation value) { return base.Contains((IFrameOperation)value); }
         public int IndexOf(IWriteableOperation value) { return base.IndexOf((IFrameOperation)value); }
         IEnumerator<IWriteableOperation> IEnumerable<IWriteableOperation>.GetEnumerator() { return GetEnumerator(); }
