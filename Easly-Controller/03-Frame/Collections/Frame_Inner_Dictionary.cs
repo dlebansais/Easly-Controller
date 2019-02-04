@@ -48,9 +48,15 @@ namespace EaslyController.Frame
             value = Value;
             return Result;
         }
+
+        public void CopyTo(KeyValuePair<TKey, IReadOnlyInner>[] array, int arrayIndex)
+        {
+            foreach (KeyValuePair<TKey, IFrameInner> Entry in this)
+                array[arrayIndex++] = new KeyValuePair<TKey, IReadOnlyInner>(Entry.Key, Entry.Value);
+        }
+
         public void Add(KeyValuePair<TKey, IReadOnlyInner> item) { base.Add(item.Key, (IFrameInner)item.Value); }
         public bool Contains(KeyValuePair<TKey, IReadOnlyInner> item) { return ContainsKey(item.Key) && base[item.Key] == item.Value; }
-        public void CopyTo(KeyValuePair<TKey, IReadOnlyInner>[] array, int arrayIndex) { throw new NotImplementedException(); }
         public bool Remove(KeyValuePair<TKey, IReadOnlyInner> item) { return Remove(item.Key); }
         bool ICollection<KeyValuePair<TKey, IReadOnlyInner>>.IsReadOnly { get { return ((ICollection<KeyValuePair<TKey, IFrameInner>>)this).IsReadOnly; } }
         #endregion
@@ -93,9 +99,15 @@ namespace EaslyController.Frame
             value = Value;
             return Result;
         }
+
+        public void CopyTo(KeyValuePair<TKey, IWriteableInner>[] array, int arrayIndex)
+        {
+            foreach (KeyValuePair<TKey, IFrameInner> Entry in this)
+                array[arrayIndex++] = new KeyValuePair<TKey, IWriteableInner>(Entry.Key, Entry.Value);
+        }
+
         public void Add(KeyValuePair<TKey, IWriteableInner> item) { base.Add(item.Key, (IFrameInner)item.Value); }
         public bool Contains(KeyValuePair<TKey, IWriteableInner> item) { return ContainsKey(item.Key) && base[item.Key] == item.Value; }
-        public void CopyTo(KeyValuePair<TKey, IWriteableInner>[] array, int arrayIndex) { throw new NotImplementedException(); }
         public bool Remove(KeyValuePair<TKey, IWriteableInner> item) { return Remove(item.Key); }
         bool ICollection<KeyValuePair<TKey, IWriteableInner>>.IsReadOnly { get { return ((ICollection<KeyValuePair<TKey, IFrameInner>>)this).IsReadOnly; } }
         #endregion

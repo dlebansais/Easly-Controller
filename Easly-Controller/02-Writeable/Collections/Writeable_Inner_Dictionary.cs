@@ -47,9 +47,15 @@ namespace EaslyController.Writeable
             value = Value;
             return Result;
         }
+
+        public void CopyTo(KeyValuePair<TKey, IReadOnlyInner>[] array, int arrayIndex)
+        {
+            foreach (KeyValuePair<TKey, IWriteableInner> Entry in this)
+                array[arrayIndex++] = new KeyValuePair<TKey, IReadOnlyInner>(Entry.Key, Entry.Value);
+        }
+
         public void Add(KeyValuePair<TKey, IReadOnlyInner> item) { base.Add(item.Key, (IWriteableInner)item.Value); }
         public bool Contains(KeyValuePair<TKey, IReadOnlyInner> item) { return ContainsKey(item.Key) && base[item.Key] == item.Value; }
-        public void CopyTo(KeyValuePair<TKey, IReadOnlyInner>[] array, int arrayIndex) { throw new NotImplementedException(); }
         public bool Remove(KeyValuePair<TKey, IReadOnlyInner> item) { return Remove(item.Key); }
         bool ICollection<KeyValuePair<TKey, IReadOnlyInner>>.IsReadOnly { get { return ((ICollection<KeyValuePair<TKey, IWriteableInner>>)this).IsReadOnly; } }
         #endregion
