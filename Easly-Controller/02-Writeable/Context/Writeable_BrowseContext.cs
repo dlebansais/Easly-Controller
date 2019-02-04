@@ -80,7 +80,7 @@
                     InternalList.Insert(0, InternalItem);
 
                     if (InternalList.GetType() == typeof(WriteableIndexCollectionList))
-                        InternalList.CopyTo(new IWriteableIndexCollection[InternalList.Count], 0);
+                        InternalList.CopyTo((IReadOnlyIndexCollection[])(new IWriteableIndexCollection[InternalList.Count]), 0);
 
                     IEnumerable<IWriteableIndexCollection> AsEnumerable = InternalList;
                     foreach (IWriteableIndexCollection Item in AsEnumerable)

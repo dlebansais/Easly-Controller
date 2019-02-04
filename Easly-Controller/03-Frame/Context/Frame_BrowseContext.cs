@@ -78,7 +78,10 @@
                     InternalList.Insert(0, InternalItem);
 
                     if (InternalList.GetType() == typeof(FrameIndexCollectionList))
-                        InternalList.CopyTo(new IFrameIndexCollection[InternalList.Count], 0);
+                    {
+                        InternalList.CopyTo((IReadOnlyIndexCollection[])(new IFrameIndexCollection[InternalList.Count]), 0);
+                        InternalList.CopyTo((IWriteableIndexCollection[])(new IFrameIndexCollection[InternalList.Count]), 0);
+                    }
 
                     IEnumerable<IFrameIndexCollection> AsEnumerable = InternalList;
                     foreach (IFrameIndexCollection Item in AsEnumerable)

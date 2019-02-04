@@ -4,6 +4,7 @@
     using System.Diagnostics;
     using EaslyController.Frame;
     using EaslyController.ReadOnly;
+    using EaslyController.Writeable;
 
     /// <summary>
     /// Context for browsing child nodes of a parent node.
@@ -78,7 +79,11 @@
                     InternalList.Insert(0, InternalItem);
 
                     if (InternalList.GetType() == typeof(FocusIndexCollectionList))
-                        InternalList.CopyTo(new IFocusIndexCollection[InternalList.Count], 0);
+                    {
+                        InternalList.CopyTo((IReadOnlyIndexCollection[])(new IFocusIndexCollection[InternalList.Count]), 0);
+                        InternalList.CopyTo((IWriteableIndexCollection[])(new IFocusIndexCollection[InternalList.Count]), 0);
+                        InternalList.CopyTo((IFrameIndexCollection[])(new IFocusIndexCollection[InternalList.Count]), 0);
+                    }
 
                     IEnumerable<IFocusIndexCollection> AsEnumerable = InternalList;
                     foreach (IFocusIndexCollection Item in AsEnumerable)
