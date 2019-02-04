@@ -35,7 +35,7 @@ namespace EaslyController.Writeable
         public new IEnumerable<TKey> Keys { get { return base.Keys; } }
         public new IEnumerable<IReadOnlyInner> Values { get { return base.Values; } }
 
-        public new IEnumerator<KeyValuePair<TKey, IReadOnlyInner>> GetEnumerator()
+        IEnumerator<KeyValuePair<TKey, IReadOnlyInner>> IEnumerable<KeyValuePair<TKey, IReadOnlyInner>>.GetEnumerator()
         {
             List<KeyValuePair<TKey, IReadOnlyInner>> NewList = new List<KeyValuePair<TKey, IReadOnlyInner>>();
             foreach (KeyValuePair<TKey, IWriteableInner> Entry in Dictionary)
@@ -43,6 +43,7 @@ namespace EaslyController.Writeable
 
             return NewList.GetEnumerator();
         }
+
         public bool TryGetValue(TKey key, out IReadOnlyInner value)
         {
             bool Result = TryGetValue(key, out IWriteableInner Value);
@@ -67,7 +68,7 @@ namespace EaslyController.Writeable
             if (!comparer.IsSameCount(Count, AsInnerReadOnlyDictionary.Count))
                 return comparer.Failed();
 
-            foreach (KeyValuePair<TKey, IReadOnlyInner> Entry in this)
+            foreach (KeyValuePair<TKey, IWriteableInner> Entry in this)
             {
                 if (!comparer.IsTrue(AsInnerReadOnlyDictionary.ContainsKey(Entry.Key)))
                     return comparer.Failed();

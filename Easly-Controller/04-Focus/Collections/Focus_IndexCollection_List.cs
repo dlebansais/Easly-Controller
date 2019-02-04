@@ -32,7 +32,7 @@ namespace EaslyController.Focus
         bool ICollection<IReadOnlyIndexCollection>.IsReadOnly { get { return ((ICollection<IFocusIndexCollection>)this).IsReadOnly; } }
         public bool Contains(IReadOnlyIndexCollection value) { return base.Contains((IFocusIndexCollection)value); }
         public int IndexOf(IReadOnlyIndexCollection value) { return base.IndexOf((IFocusIndexCollection)value); }
-        public new IEnumerator<IReadOnlyIndexCollection> GetEnumerator() { return base.GetEnumerator(); }
+        IEnumerator<IReadOnlyIndexCollection> IEnumerable<IReadOnlyIndexCollection>.GetEnumerator() { return GetEnumerator(); }
         #endregion
 
         #region Writeable
@@ -46,8 +46,8 @@ namespace EaslyController.Focus
         bool ICollection<IWriteableIndexCollection>.IsReadOnly { get { return ((ICollection<IFocusIndexCollection>)this).IsReadOnly; } }
         public bool Contains(IWriteableIndexCollection value) { return base.Contains((IFocusIndexCollection)value); }
         public int IndexOf(IWriteableIndexCollection value) { return base.IndexOf((IFocusIndexCollection)value); }
-        IEnumerator<IWriteableIndexCollection> IWriteableIndexCollectionList.GetEnumerator() { return base.GetEnumerator(); }
-        IEnumerator<IWriteableIndexCollection> IEnumerable<IWriteableIndexCollection>.GetEnumerator() { return base.GetEnumerator(); }
+        IEnumerator<IWriteableIndexCollection> IWriteableIndexCollectionList.GetEnumerator() { return GetEnumerator(); }
+        IEnumerator<IWriteableIndexCollection> IEnumerable<IWriteableIndexCollection>.GetEnumerator() { return GetEnumerator(); }
         #endregion
 
         #region Frame
@@ -61,8 +61,8 @@ namespace EaslyController.Focus
         bool ICollection<IFrameIndexCollection>.IsReadOnly { get { return ((ICollection<IFocusIndexCollection>)this).IsReadOnly; } }
         public bool Contains(IFrameIndexCollection value) { return base.Contains((IFocusIndexCollection)value); }
         public int IndexOf(IFrameIndexCollection value) { return base.IndexOf((IFocusIndexCollection)value); }
-        IEnumerator<IFrameIndexCollection> IFrameIndexCollectionList.GetEnumerator() { return base.GetEnumerator(); }
-        IEnumerator<IFrameIndexCollection> IEnumerable<IFrameIndexCollection>.GetEnumerator() { return base.GetEnumerator(); }
+        IEnumerator<IFrameIndexCollection> IFrameIndexCollectionList.GetEnumerator() { return GetEnumerator(); }
+        IEnumerator<IFrameIndexCollection> IEnumerable<IFrameIndexCollection>.GetEnumerator() { return GetEnumerator(); }
         #endregion
     }
 }

@@ -32,7 +32,7 @@ namespace EaslyController.Writeable
         public new IReadOnlyNodeState this[int index] { get { return base[index]; } }
         public bool Contains(IReadOnlyNodeState value) { return base.Contains((IWriteableNodeState)value); }
         public int IndexOf(IReadOnlyNodeState value) { return base.IndexOf((IWriteableNodeState)value); }
-        public new IEnumerator<IReadOnlyNodeState> GetEnumerator() { return base.GetEnumerator(); }
+        IEnumerator<IReadOnlyNodeState> IEnumerable<IReadOnlyNodeState>.GetEnumerator() { return GetEnumerator(); }
         #endregion
     }
 }

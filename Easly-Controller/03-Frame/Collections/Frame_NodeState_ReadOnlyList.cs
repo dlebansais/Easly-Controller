@@ -33,7 +33,7 @@ namespace EaslyController.Frame
         public new IReadOnlyNodeState this[int index] { get { return base[index]; } }
         public bool Contains(IReadOnlyNodeState value) { return base.Contains((IFrameNodeState)value); }
         public int IndexOf(IReadOnlyNodeState value) { return base.IndexOf((IFrameNodeState)value); }
-        public new IEnumerator<IReadOnlyNodeState> GetEnumerator() { return base.GetEnumerator(); }
+        IEnumerator<IReadOnlyNodeState> IEnumerable<IReadOnlyNodeState>.GetEnumerator() { return GetEnumerator(); }
         #endregion
 
         #region Writeable
@@ -41,8 +41,8 @@ namespace EaslyController.Frame
         IWriteableNodeState IReadOnlyList<IWriteableNodeState>.this[int index] { get { return base[index]; } }
         public bool Contains(IWriteableNodeState value) { return base.Contains((IFrameNodeState)value); }
         public int IndexOf(IWriteableNodeState value) { return base.IndexOf((IFrameNodeState)value); }
-        IEnumerator<IWriteableNodeState> IWriteableNodeStateReadOnlyList.GetEnumerator() { return base.GetEnumerator(); }
-        IEnumerator<IWriteableNodeState> IEnumerable<IWriteableNodeState>.GetEnumerator() { return base.GetEnumerator(); }
+        IEnumerator<IWriteableNodeState> IWriteableNodeStateReadOnlyList.GetEnumerator() { return GetEnumerator(); }
+        IEnumerator<IWriteableNodeState> IEnumerable<IWriteableNodeState>.GetEnumerator() { return GetEnumerator(); }
         #endregion
     }
 }

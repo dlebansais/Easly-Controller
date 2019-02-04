@@ -30,7 +30,8 @@ namespace EaslyController.Focus
         bool ICollection<IFrameKeywordFrame>.IsReadOnly { get { return ((ICollection<IFocusKeywordFrame>)this).IsReadOnly; } }
         public bool Contains(IFrameKeywordFrame value) { return base.Contains((IFocusKeywordFrame)value); }
         public int IndexOf(IFrameKeywordFrame value) { return base.IndexOf((IFocusKeywordFrame)value); }
-        public new IEnumerator<IFrameKeywordFrame> GetEnumerator() { return base.GetEnumerator(); }
+        IEnumerator<IFrameKeywordFrame> IFrameKeywordFrameList.GetEnumerator() { return GetEnumerator(); }
+        IEnumerator<IFrameKeywordFrame> IEnumerable<IFrameKeywordFrame>.GetEnumerator() { return GetEnumerator(); }
         #endregion
     }
 }

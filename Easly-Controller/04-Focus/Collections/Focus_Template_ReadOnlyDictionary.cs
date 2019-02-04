@@ -33,7 +33,7 @@ namespace EaslyController.Focus
         public new IEnumerable<Type> Keys { get { return base.Keys; } }
         public new IEnumerable<IFrameTemplate> Values { get { return base.Values; } }
 
-        public new IEnumerator<KeyValuePair<Type, IFrameTemplate>> GetEnumerator()
+        IEnumerator<KeyValuePair<Type, IFrameTemplate>> IEnumerable<KeyValuePair<Type, IFrameTemplate>>.GetEnumerator()
         {
             List<KeyValuePair<Type, IFrameTemplate>> NewList = new List<KeyValuePair<Type, IFrameTemplate>>();
             foreach (KeyValuePair<Type, IFocusTemplate> Entry in Dictionary)

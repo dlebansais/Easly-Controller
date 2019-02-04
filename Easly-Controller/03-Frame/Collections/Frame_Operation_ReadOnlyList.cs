@@ -32,7 +32,7 @@ namespace EaslyController.Frame
         public new IWriteableOperation this[int index] { get { return base[index]; } }
         public bool Contains(IWriteableOperation value) { return base.Contains((IFrameOperation)value); }
         public int IndexOf(IWriteableOperation value) { return base.IndexOf((IFrameOperation)value); }
-        public new IEnumerator<IWriteableOperation> GetEnumerator() { return base.GetEnumerator(); }
+        IEnumerator<IWriteableOperation> IEnumerable<IWriteableOperation>.GetEnumerator() { return GetEnumerator(); }
         #endregion
     }
 }

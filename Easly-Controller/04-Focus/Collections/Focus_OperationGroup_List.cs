@@ -33,8 +33,8 @@ namespace EaslyController.Focus
         public void CopyTo(IWriteableOperationGroup[] array, int index) { base.CopyTo((IFocusOperationGroup[])array, index); }
         public bool Contains(IWriteableOperationGroup value) { return base.Contains((IFocusOperationGroup)value); }
         public int IndexOf(IWriteableOperationGroup value) { return base.IndexOf((IFocusOperationGroup)value); }
-        IEnumerator<IWriteableOperationGroup> IEnumerable<IWriteableOperationGroup>.GetEnumerator() { return base.GetEnumerator(); }
-        IEnumerator<IWriteableOperationGroup> IWriteableOperationGroupList.GetEnumerator() { return base.GetEnumerator(); }
+        IEnumerator<IWriteableOperationGroup> IWriteableOperationGroupList.GetEnumerator() { return GetEnumerator(); }
+        IEnumerator<IWriteableOperationGroup> IEnumerable<IWriteableOperationGroup>.GetEnumerator() { return GetEnumerator(); }
         #endregion
 
         #region Frame
@@ -46,7 +46,8 @@ namespace EaslyController.Focus
         public void CopyTo(IFrameOperationGroup[] array, int index) { base.CopyTo((IFocusOperationGroup[])array, index); }
         public bool Contains(IFrameOperationGroup value) { return base.Contains((IFocusOperationGroup)value); }
         public int IndexOf(IFrameOperationGroup value) { return base.IndexOf((IFocusOperationGroup)value); }
-        public new IEnumerator<IFrameOperationGroup> GetEnumerator() { return base.GetEnumerator(); }
+        IEnumerator<IFrameOperationGroup> IFrameOperationGroupList.GetEnumerator() { return GetEnumerator(); }
+        IEnumerator<IFrameOperationGroup> IEnumerable<IFrameOperationGroup>.GetEnumerator() { return GetEnumerator(); }
         #endregion
     }
 }

@@ -36,7 +36,7 @@ namespace EaslyController.Frame
         public new IEnumerable<TKey> Keys { get { return base.Keys; } }
         public new IEnumerable<IReadOnlyInner> Values { get { return base.Values; } }
 
-        public new IEnumerator<KeyValuePair<TKey, IReadOnlyInner>> GetEnumerator()
+        IEnumerator<KeyValuePair<TKey, IReadOnlyInner>> IEnumerable<KeyValuePair<TKey, IReadOnlyInner>>.GetEnumerator()
         {
             List<KeyValuePair<TKey, IReadOnlyInner>> NewList = new List<KeyValuePair<TKey, IReadOnlyInner>>();
             foreach (KeyValuePair<TKey, IFrameInner> Entry in Dictionary)
@@ -91,7 +91,7 @@ namespace EaslyController.Frame
             if (!comparer.IsSameCount(Count, AsInnerReadOnlyDictionary.Count))
                 return comparer.Failed();
 
-            foreach (KeyValuePair<TKey, IReadOnlyInner> Entry in this)
+            foreach (KeyValuePair<TKey, IFrameInner> Entry in this)
             {
                 if (!comparer.IsTrue(AsInnerReadOnlyDictionary.ContainsKey(Entry.Key)))
                     return comparer.Failed();

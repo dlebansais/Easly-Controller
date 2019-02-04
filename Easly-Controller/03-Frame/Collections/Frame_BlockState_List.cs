@@ -33,7 +33,7 @@ namespace EaslyController.Frame
         public void CopyTo(IReadOnlyBlockState[] array, int index) { base.CopyTo((IFrameBlockState[])array, index); }
         public bool Contains(IReadOnlyBlockState value) { return base.Contains((IFrameBlockState)value); }
         public int IndexOf(IReadOnlyBlockState value) { return base.IndexOf((IFrameBlockState)value); }
-        IEnumerator<IReadOnlyBlockState> IEnumerable<IReadOnlyBlockState>.GetEnumerator() { return base.GetEnumerator(); }
+        IEnumerator<IReadOnlyBlockState> IEnumerable<IReadOnlyBlockState>.GetEnumerator() { return GetEnumerator(); }
         #endregion
 
         #region Writeable
@@ -45,7 +45,8 @@ namespace EaslyController.Frame
         public void CopyTo(IWriteableBlockState[] array, int index) { base.CopyTo((IFrameBlockState[])array, index); }
         public bool Contains(IWriteableBlockState value) { return base.Contains((IFrameBlockState)value); }
         public int IndexOf(IWriteableBlockState value) { return base.IndexOf((IFrameBlockState)value); }
-        public new IEnumerator<IWriteableBlockState> GetEnumerator() { return base.GetEnumerator(); }
+        IEnumerator<IWriteableBlockState> IWriteableBlockStateList.GetEnumerator() { return GetEnumerator(); }
+        IEnumerator<IWriteableBlockState> IEnumerable<IWriteableBlockState>.GetEnumerator() { return GetEnumerator(); }
         #endregion
     }
 }

@@ -33,7 +33,7 @@ namespace EaslyController.Focus
         public new IFrameCellView this[int index] { get { return base[index]; } }
         public bool Contains(IFrameCellView value) { return base.Contains((IFocusCellView)value); }
         public int IndexOf(IFrameCellView value) { return base.IndexOf((IFocusCellView)value); }
-        public new IEnumerator<IFrameCellView> GetEnumerator() { return base.GetEnumerator(); }
+        IEnumerator<IFrameCellView> IEnumerable<IFrameCellView>.GetEnumerator() { return GetEnumerator(); }
         #endregion
 
         #region Debugging

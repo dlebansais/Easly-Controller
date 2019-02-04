@@ -34,7 +34,7 @@ namespace EaslyController.Focus
         public void CopyTo(IReadOnlyBlockState[] array, int index) { base.CopyTo((IFocusBlockState[])array, index); }
         public bool Contains(IReadOnlyBlockState value) { return base.Contains((IFocusBlockState)value); }
         public int IndexOf(IReadOnlyBlockState value) { return base.IndexOf((IFocusBlockState)value); }
-        IEnumerator<IReadOnlyBlockState> IEnumerable<IReadOnlyBlockState>.GetEnumerator() { return base.GetEnumerator(); }
+        IEnumerator<IReadOnlyBlockState> IEnumerable<IReadOnlyBlockState>.GetEnumerator() { return GetEnumerator(); }
         #endregion
 
         #region Writeable
@@ -48,8 +48,8 @@ namespace EaslyController.Focus
         public void CopyTo(IWriteableBlockState[] array, int index) { base.CopyTo((IFocusBlockState[])array, index); }
         public bool Contains(IWriteableBlockState value) { return base.Contains((IFocusBlockState)value); }
         public int IndexOf(IWriteableBlockState value) { return base.IndexOf((IFocusBlockState)value); }
-        IEnumerator<IWriteableBlockState> IWriteableBlockStateList.GetEnumerator() { return base.GetEnumerator(); }
-        IEnumerator<IWriteableBlockState> IEnumerable<IWriteableBlockState>.GetEnumerator() { return base.GetEnumerator(); }
+        IEnumerator<IWriteableBlockState> IWriteableBlockStateList.GetEnumerator() { return GetEnumerator(); }
+        IEnumerator<IWriteableBlockState> IEnumerable<IWriteableBlockState>.GetEnumerator() { return GetEnumerator(); }
         #endregion
 
         #region Frame
@@ -61,7 +61,8 @@ namespace EaslyController.Focus
         public void CopyTo(IFrameBlockState[] array, int index) { base.CopyTo((IFocusBlockState[])array, index); }
         public bool Contains(IFrameBlockState value) { return base.Contains((IFocusBlockState)value); }
         public int IndexOf(IFrameBlockState value) { return base.IndexOf((IFocusBlockState)value); }
-        public new IEnumerator<IFrameBlockState> GetEnumerator() { return base.GetEnumerator(); }
+        IEnumerator<IFrameBlockState> IFrameBlockStateList.GetEnumerator() { return GetEnumerator(); }
+        IEnumerator<IFrameBlockState> IEnumerable<IFrameBlockState>.GetEnumerator() { return GetEnumerator(); }
         #endregion
     }
 }

@@ -30,7 +30,8 @@ namespace EaslyController.Frame
         public void CopyTo(IWriteableOperation[] array, int index) { base.CopyTo((IFrameOperation[])array, index); }
         public bool Contains(IWriteableOperation value) { return base.Contains((IFrameOperation)value); }
         public int IndexOf(IWriteableOperation value) { return base.IndexOf((IFrameOperation)value); }
-        public new IEnumerator<IWriteableOperation> GetEnumerator() { return base.GetEnumerator(); }
+        IEnumerator<IWriteableOperation> IWriteableOperationList.GetEnumerator() { return GetEnumerator(); }
+        IEnumerator<IWriteableOperation> IEnumerable<IWriteableOperation>.GetEnumerator() { return GetEnumerator(); }
         #endregion
     }
 }

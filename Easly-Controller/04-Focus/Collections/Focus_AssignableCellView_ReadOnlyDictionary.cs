@@ -35,7 +35,7 @@ namespace EaslyController.Focus
         public new IEnumerable<TKey> Keys { get { return base.Keys; } }
         public new IEnumerable<IFrameAssignableCellView> Values { get { return base.Values; } }
 
-        public new IEnumerator<KeyValuePair<TKey, IFrameAssignableCellView>> GetEnumerator()
+        IEnumerator<KeyValuePair<TKey, IFrameAssignableCellView>> IEnumerable<KeyValuePair<TKey, IFrameAssignableCellView>>.GetEnumerator()
         {
             List<KeyValuePair<TKey, IFrameAssignableCellView>> NewList = new List<KeyValuePair<TKey, IFrameAssignableCellView>>();
             foreach (KeyValuePair<TKey, IFocusAssignableCellView> Entry in Dictionary)
@@ -67,7 +67,7 @@ namespace EaslyController.Focus
             if (!comparer.IsSameCount(Count, AsAssignableCellViewReadOnlyDictionary.Count))
                 return comparer.Failed();
 
-            foreach (KeyValuePair<TKey, IFrameAssignableCellView> Entry in this)
+            foreach (KeyValuePair<TKey, IFocusAssignableCellView> Entry in this)
             {
                 Debug.Assert(Entry.Key != null);
 

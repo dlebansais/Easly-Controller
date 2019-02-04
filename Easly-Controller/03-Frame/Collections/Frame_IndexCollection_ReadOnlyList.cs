@@ -33,7 +33,7 @@ namespace EaslyController.Frame
         public new IReadOnlyIndexCollection this[int index] { get { return base[index]; } }
         public bool Contains(IReadOnlyIndexCollection value) { return base.Contains((IFrameIndexCollection)value); }
         public int IndexOf(IReadOnlyIndexCollection value) { return base.IndexOf((IFrameIndexCollection)value); }
-        public new IEnumerator<IReadOnlyIndexCollection> GetEnumerator() { return base.GetEnumerator(); }
+        IEnumerator<IReadOnlyIndexCollection> IEnumerable<IReadOnlyIndexCollection>.GetEnumerator() { return GetEnumerator(); }
         #endregion
 
         #region Writeable
@@ -41,8 +41,8 @@ namespace EaslyController.Frame
         IWriteableIndexCollection IReadOnlyList<IWriteableIndexCollection>.this[int index] { get { return base[index]; } }
         public bool Contains(IWriteableIndexCollection value) { return base.Contains((IFrameIndexCollection)value); }
         public int IndexOf(IWriteableIndexCollection value) { return base.IndexOf((IFrameIndexCollection)value); }
-        IEnumerator<IWriteableIndexCollection> IWriteableIndexCollectionReadOnlyList.GetEnumerator() { return base.GetEnumerator(); }
-        IEnumerator<IWriteableIndexCollection> IEnumerable<IWriteableIndexCollection>.GetEnumerator() { return base.GetEnumerator(); }
+        IEnumerator<IWriteableIndexCollection> IWriteableIndexCollectionReadOnlyList.GetEnumerator() { return GetEnumerator(); }
+        IEnumerator<IWriteableIndexCollection> IEnumerable<IWriteableIndexCollection>.GetEnumerator() { return GetEnumerator(); }
         #endregion
     }
 }

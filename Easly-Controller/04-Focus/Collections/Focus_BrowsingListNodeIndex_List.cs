@@ -32,7 +32,7 @@ namespace EaslyController.Focus
         bool ICollection<IReadOnlyBrowsingListNodeIndex>.IsReadOnly { get { return ((ICollection<IFocusBrowsingListNodeIndex>)this).IsReadOnly; } }
         public bool Contains(IReadOnlyBrowsingListNodeIndex value) { return base.Contains((IFocusBrowsingListNodeIndex)value); }
         public int IndexOf(IReadOnlyBrowsingListNodeIndex value) { return base.IndexOf((IFocusBrowsingListNodeIndex)value); }
-        public new IEnumerator<IReadOnlyBrowsingListNodeIndex> GetEnumerator() { return base.GetEnumerator(); }
+        IEnumerator<IReadOnlyBrowsingListNodeIndex> IEnumerable<IReadOnlyBrowsingListNodeIndex>.GetEnumerator() { return GetEnumerator(); }
         #endregion
 
         #region Writeable
@@ -46,8 +46,8 @@ namespace EaslyController.Focus
         bool ICollection<IWriteableBrowsingListNodeIndex>.IsReadOnly { get { return ((ICollection<IFocusBrowsingListNodeIndex>)this).IsReadOnly; } }
         public bool Contains(IWriteableBrowsingListNodeIndex value) { return base.Contains((IFocusBrowsingListNodeIndex)value); }
         public int IndexOf(IWriteableBrowsingListNodeIndex value) { return base.IndexOf((IFocusBrowsingListNodeIndex)value); }
-        IEnumerator<IWriteableBrowsingListNodeIndex> IWriteableBrowsingListNodeIndexList.GetEnumerator() { return base.GetEnumerator(); }
-        IEnumerator<IWriteableBrowsingListNodeIndex> IEnumerable<IWriteableBrowsingListNodeIndex>.GetEnumerator() { return base.GetEnumerator(); }
+        IEnumerator<IWriteableBrowsingListNodeIndex> IWriteableBrowsingListNodeIndexList.GetEnumerator() { return GetEnumerator(); }
+        IEnumerator<IWriteableBrowsingListNodeIndex> IEnumerable<IWriteableBrowsingListNodeIndex>.GetEnumerator() { return GetEnumerator(); }
         #endregion
 
         #region Frame
@@ -61,8 +61,8 @@ namespace EaslyController.Focus
         bool ICollection<IFrameBrowsingListNodeIndex>.IsReadOnly { get { return ((ICollection<IFocusBrowsingListNodeIndex>)this).IsReadOnly; } }
         public bool Contains(IFrameBrowsingListNodeIndex value) { return base.Contains((IFocusBrowsingListNodeIndex)value); }
         public int IndexOf(IFrameBrowsingListNodeIndex value) { return base.IndexOf((IFocusBrowsingListNodeIndex)value); }
-        IEnumerator<IFrameBrowsingListNodeIndex> IFrameBrowsingListNodeIndexList.GetEnumerator() { return base.GetEnumerator(); }
-        IEnumerator<IFrameBrowsingListNodeIndex> IEnumerable<IFrameBrowsingListNodeIndex>.GetEnumerator() { return base.GetEnumerator(); }
+        IEnumerator<IFrameBrowsingListNodeIndex> IFrameBrowsingListNodeIndexList.GetEnumerator() { return GetEnumerator(); }
+        IEnumerator<IFrameBrowsingListNodeIndex> IEnumerable<IFrameBrowsingListNodeIndex>.GetEnumerator() { return GetEnumerator(); }
         #endregion
     }
 }

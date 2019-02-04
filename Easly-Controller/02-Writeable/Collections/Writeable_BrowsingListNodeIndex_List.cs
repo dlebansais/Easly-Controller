@@ -30,7 +30,7 @@ namespace EaslyController.Writeable
         bool ICollection<IReadOnlyBrowsingListNodeIndex>.IsReadOnly { get { return ((ICollection<IWriteableBrowsingListNodeIndex>)this).IsReadOnly; } }
         public bool Contains(IReadOnlyBrowsingListNodeIndex value) { return base.Contains((IWriteableBrowsingListNodeIndex)value); }
         public int IndexOf(IReadOnlyBrowsingListNodeIndex value) { return base.IndexOf((IWriteableBrowsingListNodeIndex)value); }
-        public new IEnumerator<IReadOnlyBrowsingListNodeIndex> GetEnumerator() { return base.GetEnumerator(); }
+        IEnumerator<IReadOnlyBrowsingListNodeIndex> IEnumerable<IReadOnlyBrowsingListNodeIndex>.GetEnumerator() { return GetEnumerator(); }
         #endregion
     }
 }

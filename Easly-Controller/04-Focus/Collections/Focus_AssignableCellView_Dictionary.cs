@@ -28,10 +28,10 @@ namespace EaslyController.Focus
         ICollection<IFrameAssignableCellView> IDictionary<TKey, IFrameAssignableCellView>.Values { get { return new List<IFrameAssignableCellView>(Values); } }
         public void Add(TKey key, IFrameAssignableCellView value) { base.Add(key, (IFocusAssignableCellView)value); }
 
-        public new IEnumerator<KeyValuePair<TKey, IFrameAssignableCellView>> GetEnumerator()
+        IEnumerator<KeyValuePair<TKey, IFrameAssignableCellView>> IEnumerable<KeyValuePair<TKey, IFrameAssignableCellView>>.GetEnumerator()
         {
             List<KeyValuePair<TKey, IFrameAssignableCellView>> NewList = new List<KeyValuePair<TKey, IFrameAssignableCellView>>();
-            IEnumerator<KeyValuePair<TKey, IFocusAssignableCellView>> Enumerator = base.GetEnumerator();
+            IEnumerator<KeyValuePair<TKey, IFocusAssignableCellView>> Enumerator = GetEnumerator();
             while (Enumerator.MoveNext())
             {
                 KeyValuePair<TKey, IFocusAssignableCellView> Entry = Enumerator.Current;

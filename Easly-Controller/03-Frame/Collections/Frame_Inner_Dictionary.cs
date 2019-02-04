@@ -29,10 +29,10 @@ namespace EaslyController.Frame
         ICollection<IReadOnlyInner> IDictionary<TKey, IReadOnlyInner>.Values { get { return new List<IReadOnlyInner>(Values); } }
         public void Add(TKey key, IReadOnlyInner value) { base.Add(key, (IFrameInner)value); }
 
-        public new IEnumerator<KeyValuePair<TKey, IReadOnlyInner>> GetEnumerator()
+        IEnumerator<KeyValuePair<TKey, IReadOnlyInner>> IEnumerable<KeyValuePair<TKey, IReadOnlyInner>>.GetEnumerator()
         {
             List<KeyValuePair<TKey, IReadOnlyInner>> NewList = new List<KeyValuePair<TKey, IReadOnlyInner>>();
-            IEnumerator<KeyValuePair<TKey, IFrameInner>> Enumerator = base.GetEnumerator();
+            IEnumerator<KeyValuePair<TKey, IFrameInner>> Enumerator = GetEnumerator();
             while (Enumerator.MoveNext())
             {
                 KeyValuePair<TKey, IFrameInner> Entry = Enumerator.Current;
@@ -64,7 +64,7 @@ namespace EaslyController.Frame
         IEnumerator<KeyValuePair<TKey, IWriteableInner>> IEnumerable<KeyValuePair<TKey, IWriteableInner>>.GetEnumerator()
         {
             List<KeyValuePair<TKey, IWriteableInner>> NewList = new List<KeyValuePair<TKey, IWriteableInner>>();
-            IEnumerator<KeyValuePair<TKey, IFrameInner>> Enumerator = base.GetEnumerator();
+            IEnumerator<KeyValuePair<TKey, IFrameInner>> Enumerator = GetEnumerator();
             while (Enumerator.MoveNext())
             {
                 KeyValuePair<TKey, IFrameInner> Entry = Enumerator.Current;
@@ -77,7 +77,7 @@ namespace EaslyController.Frame
         Dictionary<TKey, IWriteableInner>.Enumerator IWriteableInnerDictionary<TKey>.GetEnumerator()
         {
             Dictionary<TKey, IWriteableInner> NewDictionary = new Dictionary<TKey, IWriteableInner>();
-            IEnumerator<KeyValuePair<TKey, IFrameInner>> Enumerator = base.GetEnumerator();
+            IEnumerator<KeyValuePair<TKey, IFrameInner>> Enumerator = GetEnumerator();
             while (Enumerator.MoveNext())
             {
                 KeyValuePair<TKey, IFrameInner> Entry = Enumerator.Current;

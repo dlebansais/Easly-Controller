@@ -30,10 +30,10 @@ namespace EaslyController.Focus
         ICollection<IReadOnlyInner> IDictionary<TKey, IReadOnlyInner>.Values { get { return new List<IReadOnlyInner>(Values); } }
         public void Add(TKey key, IReadOnlyInner value) { base.Add(key, (IFocusInner)value); }
 
-        public new IEnumerator<KeyValuePair<TKey, IReadOnlyInner>> GetEnumerator()
+        IEnumerator<KeyValuePair<TKey, IReadOnlyInner>> IEnumerable<KeyValuePair<TKey, IReadOnlyInner>>.GetEnumerator()
         {
             List<KeyValuePair<TKey, IReadOnlyInner>> NewList = new List<KeyValuePair<TKey, IReadOnlyInner>>();
-            IEnumerator<KeyValuePair<TKey, IFocusInner>> Enumerator = base.GetEnumerator();
+            IEnumerator<KeyValuePair<TKey, IFocusInner>> Enumerator = GetEnumerator();
             while (Enumerator.MoveNext())
             {
                 KeyValuePair<TKey, IFocusInner> Entry = Enumerator.Current;
@@ -65,7 +65,7 @@ namespace EaslyController.Focus
         IEnumerator<KeyValuePair<TKey, IWriteableInner>> IEnumerable<KeyValuePair<TKey, IWriteableInner>>.GetEnumerator()
         {
             List<KeyValuePair<TKey, IWriteableInner>> NewList = new List<KeyValuePair<TKey, IWriteableInner>>();
-            IEnumerator<KeyValuePair<TKey, IFocusInner>> Enumerator = base.GetEnumerator();
+            IEnumerator<KeyValuePair<TKey, IFocusInner>> Enumerator = GetEnumerator();
             while (Enumerator.MoveNext())
             {
                 KeyValuePair<TKey, IFocusInner> Entry = Enumerator.Current;
@@ -78,7 +78,7 @@ namespace EaslyController.Focus
         Dictionary<TKey, IWriteableInner>.Enumerator IWriteableInnerDictionary<TKey>.GetEnumerator()
         {
             Dictionary<TKey, IWriteableInner> NewDictionary = new Dictionary<TKey, IWriteableInner>();
-            IEnumerator<KeyValuePair<TKey, IFocusInner>> Enumerator = base.GetEnumerator();
+            IEnumerator<KeyValuePair<TKey, IFocusInner>> Enumerator = GetEnumerator();
             while (Enumerator.MoveNext())
             {
                 KeyValuePair<TKey, IFocusInner> Entry = Enumerator.Current;
@@ -110,7 +110,7 @@ namespace EaslyController.Focus
         IEnumerator<KeyValuePair<TKey, IFrameInner>> IEnumerable<KeyValuePair<TKey, IFrameInner>>.GetEnumerator()
         {
             List<KeyValuePair<TKey, IFrameInner>> NewList = new List<KeyValuePair<TKey, IFrameInner>>();
-            IEnumerator<KeyValuePair<TKey, IFocusInner>> Enumerator = base.GetEnumerator();
+            IEnumerator<KeyValuePair<TKey, IFocusInner>> Enumerator = GetEnumerator();
             while (Enumerator.MoveNext())
             {
                 KeyValuePair<TKey, IFocusInner> Entry = Enumerator.Current;
@@ -123,7 +123,7 @@ namespace EaslyController.Focus
         Dictionary<TKey, IFrameInner>.Enumerator IFrameInnerDictionary<TKey>.GetEnumerator()
         {
             Dictionary<TKey, IFrameInner> NewDictionary = new Dictionary<TKey, IFrameInner>();
-            IEnumerator<KeyValuePair<TKey, IFocusInner>> Enumerator = base.GetEnumerator();
+            IEnumerator<KeyValuePair<TKey, IFocusInner>> Enumerator = GetEnumerator();
             while (Enumerator.MoveNext())
             {
                 KeyValuePair<TKey, IFocusInner> Entry = Enumerator.Current;

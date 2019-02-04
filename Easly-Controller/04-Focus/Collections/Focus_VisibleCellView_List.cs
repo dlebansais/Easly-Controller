@@ -31,7 +31,8 @@ namespace EaslyController.Focus
         bool ICollection<IFrameVisibleCellView>.IsReadOnly { get { return ((ICollection<IFocusVisibleCellView>)this).IsReadOnly; } }
         public bool Contains(IFrameVisibleCellView value) { return base.Contains((IFocusVisibleCellView)value); }
         public int IndexOf(IFrameVisibleCellView value) { return base.IndexOf((IFocusVisibleCellView)value); }
-        public new IEnumerator<IFrameVisibleCellView> GetEnumerator() { return base.GetEnumerator(); }
+        IEnumerator<IFrameVisibleCellView> IFrameVisibleCellViewList.GetEnumerator() { return GetEnumerator(); }
+        IEnumerator<IFrameVisibleCellView> IEnumerable<IFrameVisibleCellView>.GetEnumerator() { return GetEnumerator(); }
         #endregion
 
         #region Debugging

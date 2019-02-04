@@ -31,7 +31,7 @@ namespace EaslyController.Frame
         bool ICollection<IReadOnlyBrowsingListNodeIndex>.IsReadOnly { get { return ((ICollection<IFrameBrowsingListNodeIndex>)this).IsReadOnly; } }
         public bool Contains(IReadOnlyBrowsingListNodeIndex value) { return base.Contains((IFrameBrowsingListNodeIndex)value); }
         public int IndexOf(IReadOnlyBrowsingListNodeIndex value) { return base.IndexOf((IFrameBrowsingListNodeIndex)value); }
-        public new IEnumerator<IReadOnlyBrowsingListNodeIndex> GetEnumerator() { return base.GetEnumerator(); }
+        IEnumerator<IReadOnlyBrowsingListNodeIndex> IEnumerable<IReadOnlyBrowsingListNodeIndex>.GetEnumerator() { return GetEnumerator(); }
         #endregion
 
         #region Writeable
@@ -45,8 +45,8 @@ namespace EaslyController.Frame
         bool ICollection<IWriteableBrowsingListNodeIndex>.IsReadOnly { get { return ((ICollection<IFrameBrowsingListNodeIndex>)this).IsReadOnly; } }
         public bool Contains(IWriteableBrowsingListNodeIndex value) { return base.Contains((IFrameBrowsingListNodeIndex)value); }
         public int IndexOf(IWriteableBrowsingListNodeIndex value) { return base.IndexOf((IFrameBrowsingListNodeIndex)value); }
-        IEnumerator<IWriteableBrowsingListNodeIndex> IWriteableBrowsingListNodeIndexList.GetEnumerator() { return base.GetEnumerator(); }
-        IEnumerator<IWriteableBrowsingListNodeIndex> IEnumerable<IWriteableBrowsingListNodeIndex>.GetEnumerator() { return base.GetEnumerator(); }
+        IEnumerator<IWriteableBrowsingListNodeIndex> IWriteableBrowsingListNodeIndexList.GetEnumerator() { return GetEnumerator(); }
+        IEnumerator<IWriteableBrowsingListNodeIndex> IEnumerable<IWriteableBrowsingListNodeIndex>.GetEnumerator() { return GetEnumerator(); }
         #endregion
     }
 }

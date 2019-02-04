@@ -28,10 +28,10 @@ namespace EaslyController.Writeable
         ICollection<IReadOnlyInner> IDictionary<TKey, IReadOnlyInner>.Values { get { return new List<IReadOnlyInner>(Values); } }
         public void Add(TKey key, IReadOnlyInner value) { base.Add(key, (IWriteableInner)value); }
 
-        public new IEnumerator<KeyValuePair<TKey, IReadOnlyInner>> GetEnumerator()
+        IEnumerator<KeyValuePair<TKey, IReadOnlyInner>> IEnumerable<KeyValuePair<TKey, IReadOnlyInner>>.GetEnumerator()
         {
             List<KeyValuePair<TKey, IReadOnlyInner>> NewList = new List<KeyValuePair<TKey, IReadOnlyInner>>();
-            IEnumerator<KeyValuePair<TKey, IWriteableInner>> Enumerator = base.GetEnumerator();
+            IEnumerator<KeyValuePair<TKey, IWriteableInner>> Enumerator = GetEnumerator();
             while (Enumerator.MoveNext())
             {
                 KeyValuePair<TKey, IWriteableInner> Entry = Enumerator.Current;
