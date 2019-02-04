@@ -494,6 +494,8 @@
                 InnerTable.Add(PropertyName, Inner);
             }
 
+            DebugObjects.AddReference(InnerTable);
+
             return CreateInnerTableReadOnly(InnerTable);
         }
 
