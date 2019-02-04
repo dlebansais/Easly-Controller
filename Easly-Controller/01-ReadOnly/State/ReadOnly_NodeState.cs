@@ -432,6 +432,8 @@
             IReadOnlyNodeStateList StateList = CreateNodeStateList();
             AddChildStates(StateList, this);
 
+            DebugObjects.AddReference(StateList);
+
             return CreateNodeStateReadOnlyList(StateList);
         }
 

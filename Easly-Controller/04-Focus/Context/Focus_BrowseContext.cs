@@ -91,6 +91,12 @@
                         Debug.Assert(Item == InternalItem);
                         break;
                     }
+
+                    IList<IFrameIndexCollection> AsIList = InternalList;
+                    Debug.Assert(AsIList[0] == InternalItem);
+
+                    IReadOnlyList<IFrameIndexCollection> AsIReadOnlyList = InternalList;
+                    Debug.Assert(AsIReadOnlyList[0] == InternalItem);
                 }
             }
         }

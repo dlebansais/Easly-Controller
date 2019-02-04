@@ -88,6 +88,12 @@
                         Debug.Assert(Item == InternalItem);
                         break;
                     }
+
+                    IList<IReadOnlyIndexCollection> AsIList = InternalList;
+                    Debug.Assert(AsIList[0] == InternalItem);
+
+                    IReadOnlyList<IReadOnlyIndexCollection> AsIReadOnlyList = InternalList;
+                    Debug.Assert(AsIReadOnlyList[0] == InternalItem);
                 }
             }
         }

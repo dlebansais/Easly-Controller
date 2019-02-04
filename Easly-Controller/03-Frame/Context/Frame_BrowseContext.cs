@@ -89,6 +89,12 @@
                         Debug.Assert(Item == InternalItem);
                         break;
                     }
+
+                    IList<IWriteableIndexCollection> AsIList = InternalList;
+                    Debug.Assert(AsIList[0] == InternalItem);
+
+                    IReadOnlyList<IWriteableIndexCollection> AsIReadOnlyList = InternalList;
+                    Debug.Assert(AsIReadOnlyList[0] == InternalItem);
                 }
             }
         }

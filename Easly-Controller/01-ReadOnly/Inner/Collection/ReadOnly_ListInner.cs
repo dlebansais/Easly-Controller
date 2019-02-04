@@ -132,6 +132,10 @@
         /// </summary>
         public IReadOnlyPlaceholderNodeStateReadOnlyList StateList { get; }
         private IReadOnlyPlaceholderNodeStateList _StateList;
+#pragma warning disable 1591
+        [Conditional("DEBUG")]
+        public void DebugGetStateList() { DebugObjects.AddReference(_StateList); }
+#pragma warning restore 1591
 
         /// <summary>
         /// Count of all node states in the inner.
@@ -150,6 +154,7 @@
             {
                 Debug.Assert(Count > 0);
 
+                DebugGetStateList();
                 return StateList[0];
             }
         }
