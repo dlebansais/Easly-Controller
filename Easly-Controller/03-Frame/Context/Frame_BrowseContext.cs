@@ -77,7 +77,7 @@
                     InternalList.Remove(InternalItem);
                     InternalList.Insert(0, InternalItem);
 
-                    if (InternalList.GetType() == typeof(IFrameIndexCollectionList))
+                    if (InternalList.GetType() == typeof(FrameIndexCollectionList))
                         InternalList.CopyTo(new IFrameIndexCollection[InternalList.Count], 0);
 
                     IEnumerable<IFrameIndexCollection> AsEnumerable = InternalList;

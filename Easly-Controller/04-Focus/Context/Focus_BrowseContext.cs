@@ -77,7 +77,7 @@
                     InternalList.Remove(InternalItem);
                     InternalList.Insert(0, InternalItem);
 
-                    if (InternalList.GetType() == typeof(IFocusIndexCollectionList))
+                    if (InternalList.GetType() == typeof(FocusIndexCollectionList))
                         InternalList.CopyTo(new IFocusIndexCollection[InternalList.Count], 0);
 
                     IEnumerable<IFocusIndexCollection> AsEnumerable = InternalList;

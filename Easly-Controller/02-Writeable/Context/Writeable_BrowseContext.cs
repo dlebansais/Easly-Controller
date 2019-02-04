@@ -79,7 +79,7 @@
                     InternalList.Remove(InternalItem);
                     InternalList.Insert(0, InternalItem);
 
-                    if (InternalList.GetType() == typeof(IWriteableIndexCollectionList))
+                    if (InternalList.GetType() == typeof(WriteableIndexCollectionList))
                         InternalList.CopyTo(new IWriteableIndexCollection[InternalList.Count], 0);
 
                     IEnumerable<IWriteableIndexCollection> AsEnumerable = InternalList;
