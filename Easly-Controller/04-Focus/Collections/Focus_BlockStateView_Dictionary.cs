@@ -35,7 +35,13 @@ namespace EaslyController.Focus
         bool IDictionary<IReadOnlyBlockState, IReadOnlyBlockStateView>.ContainsKey(IReadOnlyBlockState key) { return ContainsKey((IFocusBlockState)key); }
         void ICollection<KeyValuePair<IReadOnlyBlockState, IReadOnlyBlockStateView>>.Add(KeyValuePair<IReadOnlyBlockState, IReadOnlyBlockStateView> item) { Add((IFocusBlockState)item.Key, (IFocusBlockStateView)item.Value); }
         bool ICollection<KeyValuePair<IReadOnlyBlockState, IReadOnlyBlockStateView>>.Contains(KeyValuePair<IReadOnlyBlockState, IReadOnlyBlockStateView> item) { return ContainsKey((IFocusBlockState)item.Key) && base[(IFocusBlockState)item.Key] == item.Value; }
-        void ICollection<KeyValuePair<IReadOnlyBlockState, IReadOnlyBlockStateView>>.CopyTo(KeyValuePair<IReadOnlyBlockState, IReadOnlyBlockStateView>[] array, int arrayIndex) { throw new NotImplementedException(); }
+
+        void ICollection<KeyValuePair<IReadOnlyBlockState, IReadOnlyBlockStateView>>.CopyTo(KeyValuePair<IReadOnlyBlockState, IReadOnlyBlockStateView>[] array, int arrayIndex)
+        {
+            foreach (KeyValuePair<IFocusBlockState, IFocusBlockStateView> Entry in this)
+                array[arrayIndex++] = new KeyValuePair<IReadOnlyBlockState, IReadOnlyBlockStateView>(Entry.Key, Entry.Value);
+        }
+
         bool ICollection<KeyValuePair<IReadOnlyBlockState, IReadOnlyBlockStateView>>.Remove(KeyValuePair<IReadOnlyBlockState, IReadOnlyBlockStateView> item) { return Remove((IFocusBlockState)item.Key); }
         IReadOnlyBlockStateView IDictionary<IReadOnlyBlockState, IReadOnlyBlockStateView>.this[IReadOnlyBlockState key] { get { return this[(IFocusBlockState)key]; } set { this[(IFocusBlockState)key] = (IFocusBlockStateView)value; } }
         ICollection<IReadOnlyBlockState> IDictionary<IReadOnlyBlockState, IReadOnlyBlockStateView>.Keys { get { return new List<IReadOnlyBlockState>(Keys); } }
@@ -70,7 +76,13 @@ namespace EaslyController.Focus
         bool IDictionary<IWriteableBlockState, IWriteableBlockStateView>.ContainsKey(IWriteableBlockState key) { return ContainsKey((IFocusBlockState)key); }
         void ICollection<KeyValuePair<IWriteableBlockState, IWriteableBlockStateView>>.Add(KeyValuePair<IWriteableBlockState, IWriteableBlockStateView> item) { Add((IFocusBlockState)item.Key, (IFocusBlockStateView)item.Value); }
         bool ICollection<KeyValuePair<IWriteableBlockState, IWriteableBlockStateView>>.Contains(KeyValuePair<IWriteableBlockState, IWriteableBlockStateView> item) { return ContainsKey((IFocusBlockState)item.Key) && base[(IFocusBlockState)item.Key] == item.Value; }
-        void ICollection<KeyValuePair<IWriteableBlockState, IWriteableBlockStateView>>.CopyTo(KeyValuePair<IWriteableBlockState, IWriteableBlockStateView>[] array, int arrayIndex) { throw new NotImplementedException(); }
+
+        void ICollection<KeyValuePair<IWriteableBlockState, IWriteableBlockStateView>>.CopyTo(KeyValuePair<IWriteableBlockState, IWriteableBlockStateView>[] array, int arrayIndex)
+        {
+            foreach (KeyValuePair<IFocusBlockState, IFocusBlockStateView> Entry in this)
+                array[arrayIndex++] = new KeyValuePair<IWriteableBlockState, IWriteableBlockStateView>(Entry.Key, Entry.Value);
+        }
+
         bool ICollection<KeyValuePair<IWriteableBlockState, IWriteableBlockStateView>>.Remove(KeyValuePair<IWriteableBlockState, IWriteableBlockStateView> item) { return Remove((IFocusBlockState)item.Key); }
         IWriteableBlockStateView IDictionary<IWriteableBlockState, IWriteableBlockStateView>.this[IWriteableBlockState key] { get { return this[(IFocusBlockState)key]; } set { this[(IFocusBlockState)key] = (IFocusBlockStateView)value; } }
         ICollection<IWriteableBlockState> IDictionary<IWriteableBlockState, IWriteableBlockStateView>.Keys { get { return new List<IWriteableBlockState>(Keys); } }
@@ -118,7 +130,13 @@ namespace EaslyController.Focus
         bool IDictionary<IFrameBlockState, IFrameBlockStateView>.ContainsKey(IFrameBlockState key) { return ContainsKey((IFocusBlockState)key); }
         void ICollection<KeyValuePair<IFrameBlockState, IFrameBlockStateView>>.Add(KeyValuePair<IFrameBlockState, IFrameBlockStateView> item) { Add((IFocusBlockState)item.Key, (IFocusBlockStateView)item.Value); }
         bool ICollection<KeyValuePair<IFrameBlockState, IFrameBlockStateView>>.Contains(KeyValuePair<IFrameBlockState, IFrameBlockStateView> item) { return ContainsKey((IFocusBlockState)item.Key) && base[(IFocusBlockState)item.Key] == item.Value; }
-        void ICollection<KeyValuePair<IFrameBlockState, IFrameBlockStateView>>.CopyTo(KeyValuePair<IFrameBlockState, IFrameBlockStateView>[] array, int arrayIndex) { throw new NotImplementedException(); }
+
+        void ICollection<KeyValuePair<IFrameBlockState, IFrameBlockStateView>>.CopyTo(KeyValuePair<IFrameBlockState, IFrameBlockStateView>[] array, int arrayIndex)
+        {
+            foreach (KeyValuePair<IFocusBlockState, IFocusBlockStateView> Entry in this)
+                array[arrayIndex++] = new KeyValuePair<IFrameBlockState, IFrameBlockStateView>(Entry.Key, Entry.Value);
+        }
+
         bool ICollection<KeyValuePair<IFrameBlockState, IFrameBlockStateView>>.Remove(KeyValuePair<IFrameBlockState, IFrameBlockStateView> item) { return Remove((IFocusBlockState)item.Key); }
         IFrameBlockStateView IDictionary<IFrameBlockState, IFrameBlockStateView>.this[IFrameBlockState key] { get { return this[(IFocusBlockState)key]; } set { this[(IFocusBlockState)key] = (IFocusBlockStateView)value; } }
         ICollection<IFrameBlockState> IDictionary<IFrameBlockState, IFrameBlockStateView>.Keys { get { return new List<IFrameBlockState>(Keys); } }
