@@ -242,6 +242,8 @@
         /// </summary>
         public IReadOnlyBlockStateReadOnlyList BlockStateList { get; }
         private IReadOnlyBlockStateList _BlockStateList;
+        [Conditional("DEBUG")]
+        public void DebugGetBlockStateList() { DebugObjects.Reference = _BlockStateList; }
 
         /// <summary>
         /// Called when a block state is created.
@@ -297,6 +299,7 @@
                 Debug.Assert(BlockStateList.Count > 0);
                 Debug.Assert(BlockStateList[0].StateList.Count > 0);
 
+                DebugGetBlockStateList();
                 return BlockStateList[0].StateList[0];
             }
         }
