@@ -36,3 +36,4 @@ ignore:
   - Easly-Controller/02-Writeable/StateView/Writeable_NodeStateView.cs
   - Easly-Controller/03-Frame
   - Easly-Controller/04-Focus
+  - Easly-Controller/Controller/TypeMarkupExtension.cs
