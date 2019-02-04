@@ -252,8 +252,10 @@
         /// </summary>
         public IReadOnlyBlockStateReadOnlyList BlockStateList { get; }
         private IReadOnlyBlockStateList _BlockStateList;
+#pragma warning disable 1591
         [Conditional("DEBUG")]
-        public void DebugGetBlockStateList() { DebugObjects.Reference = _BlockStateList; }
+        public void DebugGetBlockStateList() { DebugObjects.AddReference(_BlockStateList); }
+#pragma warning restore 1591
 
         /// <summary>
         /// Called when a block state is created.

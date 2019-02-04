@@ -220,6 +220,10 @@
         /// </summary>
         private protected IReadOnlyIndexNodeStateReadOnlyDictionary StateTable { get; }
         private IReadOnlyIndexNodeStateDictionary _StateTable;
+#pragma warning disable 1591
+        [Conditional("DEBUG")]
+        public void DebugGetStateTable() { DebugObjects.AddReference(_StateTable); }
+#pragma warning restore 1591
         #endregion
 
         #region Client Interface
@@ -388,6 +392,8 @@
 
             IsInitialized = true;
             CheckInvariant();
+
+            DebugGetStateTable();
         }
 
         /// <summary></summary>
