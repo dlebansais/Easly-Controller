@@ -34,5 +34,10 @@ namespace EaslyController.Writeable
         public int IndexOf(IReadOnlyBlockState value) { return base.IndexOf((IWriteableBlockState)value); }
         IEnumerator<IReadOnlyBlockState> IEnumerable<IReadOnlyBlockState>.GetEnumerator() { return GetEnumerator(); }
         #endregion
+
+        public virtual IReadOnlyBlockStateReadOnlyList ToReadOnly()
+        {
+            return new WriteableBlockStateReadOnlyList(this);
+        }
     }
 }

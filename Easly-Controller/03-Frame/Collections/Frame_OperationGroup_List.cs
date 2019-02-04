@@ -35,5 +35,10 @@ namespace EaslyController.Frame
         IEnumerator<IWriteableOperationGroup> IWriteableOperationGroupList.GetEnumerator() { return GetEnumerator(); }
         IEnumerator<IWriteableOperationGroup> IEnumerable<IWriteableOperationGroup>.GetEnumerator() { return GetEnumerator(); }
         #endregion
+
+        public virtual IWriteableOperationGroupReadOnlyList ToReadOnly()
+        {
+            return new FrameOperationGroupReadOnlyList(this);
+        }
     }
 }

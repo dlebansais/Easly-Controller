@@ -50,5 +50,10 @@ namespace EaslyController.Frame
         IEnumerator<IWriteableBlockState> IWriteableBlockStateList.GetEnumerator() { return GetEnumerator(); }
         IEnumerator<IWriteableBlockState> IEnumerable<IWriteableBlockState>.GetEnumerator() { return GetEnumerator(); }
         #endregion
+
+        public virtual IReadOnlyBlockStateReadOnlyList ToReadOnly()
+        {
+            return new FrameBlockStateReadOnlyList(this);
+        }
     }
 }

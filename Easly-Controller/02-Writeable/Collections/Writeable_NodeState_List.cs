@@ -34,5 +34,10 @@ namespace EaslyController.Writeable
         public int IndexOf(IReadOnlyNodeState value) { return base.IndexOf((IWriteableNodeState)value); }
         IEnumerator<IReadOnlyNodeState> IEnumerable<IReadOnlyNodeState>.GetEnumerator() { return GetEnumerator(); }
         #endregion
+
+        public virtual IReadOnlyNodeStateReadOnlyList ToReadOnly()
+        {
+            return new WriteableNodeStateReadOnlyList(this);
+        }
     }
 }

@@ -471,30 +471,12 @@
         }
 
         /// <summary>
-        /// Creates a IxxxOperationGroupReadOnlyList object.
-        /// </summary>
-        private protected override IWriteableOperationGroupReadOnlyList CreateOperationGroupReadOnlyStack(IWriteableOperationGroupList list)
-        {
-            ControllerTools.AssertNoOverride(this, typeof(FocusController));
-            return new FocusOperationGroupReadOnlyList((IFocusOperationGroupList)list);
-        }
-
-        /// <summary>
         /// Creates a IxxxOperationList object.
         /// </summary>
         private protected override IWriteableOperationList CreateOperationList()
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusController));
             return new FocusOperationList();
-        }
-
-        /// <summary>
-        /// Creates a IxxxOperationReadOnlyList object.
-        /// </summary>
-        private protected override IWriteableOperationReadOnlyList CreateOperationReadOnlyList(IWriteableOperationList list)
-        {
-            ControllerTools.AssertNoOverride(this, typeof(FocusController));
-            return new FocusOperationReadOnlyList((IFocusOperationList)list);
         }
 
         /// <summary>

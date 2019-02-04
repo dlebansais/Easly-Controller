@@ -344,15 +344,6 @@
             ControllerTools.AssertNoOverride(this, typeof(FocusSourceState<IInner>));
             return new FocusNodeStateList();
         }
-
-        /// <summary>
-        /// Creates a IxxxNodeStateReadOnlyList object.
-        /// </summary>
-        private protected override IReadOnlyNodeStateReadOnlyList CreateNodeStateReadOnlyList(IReadOnlyNodeStateList list)
-        {
-            ControllerTools.AssertNoOverride(this, typeof(FocusSourceState<IInner>));
-            return new FocusNodeStateReadOnlyList((IFocusNodeStateList)list);
-        }
         #endregion
     }
 }

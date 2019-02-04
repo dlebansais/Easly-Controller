@@ -157,7 +157,7 @@
             : base(owner, propertyName)
         {
             _BlockStateList = CreateBlockStateList();
-            BlockStateList = CreateBlockStateListReadOnly(_BlockStateList);
+            BlockStateList = _BlockStateList.ToReadOnly();
         }
 
         /// <summary>
@@ -488,15 +488,6 @@
         {
             ControllerTools.AssertNoOverride(this, typeof(ReadOnlyBlockListInner<IIndex, TIndex>));
             return new ReadOnlyBlockStateList();
-        }
-
-        /// <summary>
-        /// Creates a IxxxBlockStateReadOnlyList object.
-        /// </summary>
-        private protected virtual IReadOnlyBlockStateReadOnlyList CreateBlockStateListReadOnly(IReadOnlyBlockStateList blockStateList)
-        {
-            ControllerTools.AssertNoOverride(this, typeof(ReadOnlyBlockListInner<IIndex, TIndex>));
-            return new ReadOnlyBlockStateReadOnlyList(blockStateList);
         }
 
         /// <summary>

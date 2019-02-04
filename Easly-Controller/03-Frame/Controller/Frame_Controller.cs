@@ -347,30 +347,12 @@
         }
 
         /// <summary>
-        /// Creates a IxxxOperationGroupReadOnlyList object.
-        /// </summary>
-        private protected override IWriteableOperationGroupReadOnlyList CreateOperationGroupReadOnlyStack(IWriteableOperationGroupList list)
-        {
-            ControllerTools.AssertNoOverride(this, typeof(FrameController));
-            return new FrameOperationGroupReadOnlyList((IFrameOperationGroupList)list);
-        }
-
-        /// <summary>
         /// Creates a IxxxOperationList object.
         /// </summary>
         private protected override IWriteableOperationList CreateOperationList()
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameController));
             return new FrameOperationList();
-        }
-
-        /// <summary>
-        /// Creates a IxxxOperationReadOnlyList object.
-        /// </summary>
-        private protected override IWriteableOperationReadOnlyList CreateOperationReadOnlyList(IWriteableOperationList list)
-        {
-            ControllerTools.AssertNoOverride(this, typeof(FrameController));
-            return new FrameOperationReadOnlyList((IFrameOperationList)list);
         }
 
         /// <summary>

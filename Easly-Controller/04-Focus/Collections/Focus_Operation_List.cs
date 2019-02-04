@@ -51,5 +51,10 @@ namespace EaslyController.Focus
         IEnumerator<IFrameOperation> IFrameOperationList.GetEnumerator() { return GetEnumerator(); }
         IEnumerator<IFrameOperation> IEnumerable<IFrameOperation>.GetEnumerator() { return GetEnumerator(); }
         #endregion
+
+        public virtual IWriteableOperationReadOnlyList ToReadOnly()
+        {
+            return new FocusOperationReadOnlyList(this);
+        }
     }
 }

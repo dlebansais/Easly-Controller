@@ -434,7 +434,7 @@
 
             DebugObjects.AddReference(StateList);
 
-            return CreateNodeStateReadOnlyList(StateList);
+            return StateList.ToReadOnly();
         }
 
         private void AddChildStates(IReadOnlyNodeStateList stateList, IReadOnlyNodeState state)
@@ -652,15 +652,6 @@
         {
             ControllerTools.AssertNoOverride(this, typeof(ReadOnlyNodeState<IInner>));
             return new ReadOnlyNodeStateList();
-        }
-
-        /// <summary>
-        /// Creates a IxxxNodeStateReadOnlyList object.
-        /// </summary>
-        private protected virtual IReadOnlyNodeStateReadOnlyList CreateNodeStateReadOnlyList(IReadOnlyNodeStateList list)
-        {
-            ControllerTools.AssertNoOverride(this, typeof(ReadOnlyNodeState<IInner>));
-            return new ReadOnlyNodeStateReadOnlyList(list);
         }
 
         /// <summary>

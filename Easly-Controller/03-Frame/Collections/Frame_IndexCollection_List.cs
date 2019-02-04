@@ -50,5 +50,10 @@ namespace EaslyController.Frame
         IEnumerator<IWriteableIndexCollection> IWriteableIndexCollectionList.GetEnumerator() { return GetEnumerator(); }
         IEnumerator<IWriteableIndexCollection> IEnumerable<IWriteableIndexCollection>.GetEnumerator() { return GetEnumerator(); }
         #endregion
+
+        public virtual IReadOnlyIndexCollectionReadOnlyList ToReadOnly()
+        {
+            return new FrameIndexCollectionReadOnlyList(this);
+        }
     }
 }

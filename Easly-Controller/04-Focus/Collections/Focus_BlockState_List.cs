@@ -66,5 +66,10 @@ namespace EaslyController.Focus
         IEnumerator<IFrameBlockState> IFrameBlockStateList.GetEnumerator() { return GetEnumerator(); }
         IEnumerator<IFrameBlockState> IEnumerable<IFrameBlockState>.GetEnumerator() { return GetEnumerator(); }
         #endregion
+
+        public virtual IReadOnlyBlockStateReadOnlyList ToReadOnly()
+        {
+            return new FocusBlockStateReadOnlyList(this);
+        }
     }
 }

@@ -109,15 +109,6 @@
             ControllerTools.AssertNoOverride(this, typeof(FrameBrowseContext));
             return new FrameIndexCollectionList();
         }
-
-        /// <summary>
-        /// Creates a IxxxIndexCollectionReadOnlyList object.
-        /// </summary>
-        private protected override IReadOnlyIndexCollectionReadOnlyList CreateIndexCollectionListReadOnly(IReadOnlyIndexCollectionList list)
-        {
-            ControllerTools.AssertNoOverride(this, typeof(FrameBrowseContext));
-            return new FrameIndexCollectionReadOnlyList((IFrameIndexCollectionList)list);
-        }
         #endregion
     }
 }

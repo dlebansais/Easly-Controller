@@ -87,15 +87,6 @@
             ControllerTools.AssertNoOverride(this, typeof(FrameSourceState<IInner>));
             return new FrameNodeStateList();
         }
-
-        /// <summary>
-        /// Creates a IxxxNodeStateReadOnlyList object.
-        /// </summary>
-        private protected override IReadOnlyNodeStateReadOnlyList CreateNodeStateReadOnlyList(IReadOnlyNodeStateList list)
-        {
-            ControllerTools.AssertNoOverride(this, typeof(FrameSourceState<IInner>));
-            return new FrameNodeStateReadOnlyList((IFrameNodeStateList)list);
-        }
         #endregion
     }
 }

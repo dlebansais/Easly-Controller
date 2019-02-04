@@ -13,6 +13,7 @@ namespace EaslyController.Writeable
         new int Count { get; }
         new IWriteableOperationGroup this[int index] { get; set; }
         new IEnumerator<IWriteableOperationGroup> GetEnumerator();
+        IWriteableOperationGroupReadOnlyList ToReadOnly();
     }
 
     /// <summary>
@@ -20,5 +21,9 @@ namespace EaslyController.Writeable
     /// </summary>
     internal class WriteableOperationGroupList : Collection<IWriteableOperationGroup>, IWriteableOperationGroupList
     {
+        public virtual IWriteableOperationGroupReadOnlyList ToReadOnly()
+        {
+            return new WriteableOperationGroupReadOnlyList(this);
+        }
     }
 }

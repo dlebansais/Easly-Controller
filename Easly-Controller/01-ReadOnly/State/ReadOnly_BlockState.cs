@@ -117,7 +117,7 @@
             ChildBlock = childBlock;
 
             _StateList = CreateStateList();
-            StateList = CreateStateListReadOnly(_StateList);
+            StateList = _StateList.ToReadOnly();
             PatternInner = CreatePatternInner(ParentInner.Owner);
             SourceInner = CreateSourceInner(ParentInner.Owner);
         }
@@ -390,15 +390,6 @@
         {
             ControllerTools.AssertNoOverride(this, typeof(ReadOnlyBlockState<IInner>));
             return new ReadOnlyPlaceholderNodeStateList();
-        }
-
-        /// <summary>
-        /// Creates a IxxxPlaceholderNodeStateReadOnlyList object.
-        /// </summary>
-        private protected virtual IReadOnlyPlaceholderNodeStateReadOnlyList CreateStateListReadOnly(IReadOnlyPlaceholderNodeStateList stateList)
-        {
-            ControllerTools.AssertNoOverride(this, typeof(ReadOnlyBlockState<IInner>));
-            return new ReadOnlyPlaceholderNodeStateReadOnlyList(stateList);
         }
 
         /// <summary>

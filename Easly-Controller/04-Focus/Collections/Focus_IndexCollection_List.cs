@@ -66,5 +66,10 @@ namespace EaslyController.Focus
         IEnumerator<IFrameIndexCollection> IFrameIndexCollectionList.GetEnumerator() { return GetEnumerator(); }
         IEnumerator<IFrameIndexCollection> IEnumerable<IFrameIndexCollection>.GetEnumerator() { return GetEnumerator(); }
         #endregion
+
+        public virtual IReadOnlyIndexCollectionReadOnlyList ToReadOnly()
+        {
+            return new FocusIndexCollectionReadOnlyList(this);
+        }
     }
 }

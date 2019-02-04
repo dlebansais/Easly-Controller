@@ -87,15 +87,6 @@
         }
 
         /// <summary>
-        /// Creates a IxxxPlaceholderNodeStateReadOnlyList object.
-        /// </summary>
-        private protected override IReadOnlyPlaceholderNodeStateReadOnlyList CreateStateListReadOnly(IReadOnlyPlaceholderNodeStateList stateList)
-        {
-            ControllerTools.AssertNoOverride(this, typeof(FrameListInner<IIndex, TIndex>));
-            return new FramePlaceholderNodeStateReadOnlyList((IFramePlaceholderNodeStateList)stateList);
-        }
-
-        /// <summary>
         /// Creates a IxxxPlaceholderNodeState object.
         /// </summary>
         private protected override IReadOnlyPlaceholderNodeState CreateNodeState(IReadOnlyNodeIndex nodeIndex)

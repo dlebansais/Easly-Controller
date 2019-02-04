@@ -88,15 +88,6 @@
         }
 
         /// <summary>
-        /// Creates a IxxxPlaceholderNodeStateReadOnlyList object.
-        /// </summary>
-        private protected override IReadOnlyPlaceholderNodeStateReadOnlyList CreateStateListReadOnly(IReadOnlyPlaceholderNodeStateList stateList)
-        {
-            ControllerTools.AssertNoOverride(this, typeof(FocusListInner<IIndex, TIndex>));
-            return new FocusPlaceholderNodeStateReadOnlyList((IFocusPlaceholderNodeStateList)stateList);
-        }
-
-        /// <summary>
         /// Creates a IxxxPlaceholderNodeState object.
         /// </summary>
         private protected override IReadOnlyPlaceholderNodeState CreateNodeState(IReadOnlyNodeIndex nodeIndex)

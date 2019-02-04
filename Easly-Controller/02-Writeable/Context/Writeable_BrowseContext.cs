@@ -108,15 +108,6 @@
             ControllerTools.AssertNoOverride(this, typeof(WriteableBrowseContext));
             return new WriteableIndexCollectionList();
         }
-
-        /// <summary>
-        /// Creates a IxxxIndexCollectionReadOnlyList object.
-        /// </summary>
-        private protected override IReadOnlyIndexCollectionReadOnlyList CreateIndexCollectionListReadOnly(IReadOnlyIndexCollectionList list)
-        {
-            ControllerTools.AssertNoOverride(this, typeof(WriteableBrowseContext));
-            return new WriteableIndexCollectionReadOnlyList((IWriteableIndexCollectionList)list);
-        }
         #endregion
     }
 }

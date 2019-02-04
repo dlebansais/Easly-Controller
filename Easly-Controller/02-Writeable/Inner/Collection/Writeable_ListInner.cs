@@ -255,15 +255,6 @@
         }
 
         /// <summary>
-        /// Creates a IxxxPlaceholderNodeStateReadOnlyList object.
-        /// </summary>
-        private protected override IReadOnlyPlaceholderNodeStateReadOnlyList CreateStateListReadOnly(IReadOnlyPlaceholderNodeStateList stateList)
-        {
-            ControllerTools.AssertNoOverride(this, typeof(WriteableListInner<IIndex, TIndex>));
-            return new WriteablePlaceholderNodeStateReadOnlyList((IWriteablePlaceholderNodeStateList)stateList);
-        }
-
-        /// <summary>
         /// Creates a IxxxPlaceholderNodeState object.
         /// </summary>
         private protected override IReadOnlyPlaceholderNodeState CreateNodeState(IReadOnlyNodeIndex nodeIndex)

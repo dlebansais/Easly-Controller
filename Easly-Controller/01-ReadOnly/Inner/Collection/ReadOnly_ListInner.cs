@@ -82,7 +82,7 @@
             : base(owner, propertyName)
         {
             _StateList = CreateStateList();
-            StateList = CreateStateListReadOnly(_StateList);
+            StateList = _StateList.ToReadOnly();
         }
 
         /// <summary>
@@ -302,15 +302,6 @@
         {
             ControllerTools.AssertNoOverride(this, typeof(ReadOnlyListInner<IIndex, TIndex>));
             return new ReadOnlyPlaceholderNodeStateList();
-        }
-
-        /// <summary>
-        /// Creates a IxxxPlaceholderNodeStateReadOnlyList object.
-        /// </summary>
-        private protected virtual IReadOnlyPlaceholderNodeStateReadOnlyList CreateStateListReadOnly(IReadOnlyPlaceholderNodeStateList stateList)
-        {
-            ControllerTools.AssertNoOverride(this, typeof(ReadOnlyListInner<IIndex, TIndex>));
-            return new ReadOnlyPlaceholderNodeStateReadOnlyList(stateList);
         }
 
         /// <summary>

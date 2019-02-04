@@ -91,15 +91,6 @@
         }
 
         /// <summary>
-        /// Creates a IxxxNodeStateReadOnlyList object.
-        /// </summary>
-        private protected override IReadOnlyNodeStateReadOnlyList CreateNodeStateReadOnlyList(IReadOnlyNodeStateList list)
-        {
-            ControllerTools.AssertNoOverride(this, typeof(FrameNodeState<IInner>));
-            return new FrameNodeStateReadOnlyList((IFrameNodeStateList)list);
-        }
-
-        /// <summary>
         /// Creates a IxxxBrowsingPlaceholderNodeIndex object.
         /// </summary>
         private protected override IReadOnlyBrowsingPlaceholderNodeIndex CreateChildNodeIndex(IReadOnlyBrowseContext browseNodeContext, INode node, string propertyName, INode childNode)

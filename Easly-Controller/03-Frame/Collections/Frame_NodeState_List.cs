@@ -50,5 +50,10 @@ namespace EaslyController.Frame
         IEnumerator<IWriteableNodeState> IWriteableNodeStateList.GetEnumerator() { return GetEnumerator(); }
         IEnumerator<IWriteableNodeState> IEnumerable<IWriteableNodeState>.GetEnumerator() { return GetEnumerator(); }
         #endregion
+
+        public virtual IReadOnlyNodeStateReadOnlyList ToReadOnly()
+        {
+            return new FrameNodeStateReadOnlyList(this);
+        }
     }
 }

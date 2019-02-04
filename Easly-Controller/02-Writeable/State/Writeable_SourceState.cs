@@ -86,15 +86,6 @@
             ControllerTools.AssertNoOverride(this, typeof(WriteableSourceState<IInner>));
             return new WriteableNodeStateList();
         }
-
-        /// <summary>
-        /// Creates a IxxxNodeStateReadOnlyList object.
-        /// </summary>
-        private protected override IReadOnlyNodeStateReadOnlyList CreateNodeStateReadOnlyList(IReadOnlyNodeStateList list)
-        {
-            ControllerTools.AssertNoOverride(this, typeof(WriteableSourceState<IInner>));
-            return new WriteableNodeStateReadOnlyList((IWriteableNodeStateList)list);
-        }
         #endregion
     }
 }

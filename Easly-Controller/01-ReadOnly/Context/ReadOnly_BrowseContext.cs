@@ -57,7 +57,7 @@
 
             State = state;
             InternalIndexCollectionList = CreateIndexCollectionList();
-            IndexCollectionList = CreateIndexCollectionListReadOnly(InternalIndexCollectionList);
+            IndexCollectionList = InternalIndexCollectionList.ToReadOnly();
             _ValuePropertyTypeTable = new Dictionary<string, ValuePropertyType>();
         }
         #endregion
@@ -194,15 +194,6 @@
         {
             ControllerTools.AssertNoOverride(this, typeof(ReadOnlyBrowseContext));
             return new ReadOnlyIndexCollectionList();
-        }
-
-        /// <summary>
-        /// Creates a IxxxIndexCollectionReadOnlyList object.
-        /// </summary>
-        private protected virtual IReadOnlyIndexCollectionReadOnlyList CreateIndexCollectionListReadOnly(IReadOnlyIndexCollectionList list)
-        {
-            ControllerTools.AssertNoOverride(this, typeof(ReadOnlyBrowseContext));
-            return new ReadOnlyIndexCollectionReadOnlyList(list);
         }
         #endregion
     }

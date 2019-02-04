@@ -302,7 +302,7 @@
         private protected WriteableController()
         {
             _OperationStack = CreateOperationGroupStack();
-            OperationStack = CreateOperationGroupReadOnlyStack(_OperationStack);
+            OperationStack = _OperationStack.ToReadOnly();
             RedoIndex = 0;
         }
         #endregion
@@ -1674,7 +1674,7 @@
 
             if (OperationList.Count > 0)
             {
-                IWriteableOperationReadOnlyList OperationReadOnlyList = CreateOperationReadOnlyList(OperationList);
+                IWriteableOperationReadOnlyList OperationReadOnlyList = OperationList.ToReadOnly();
                 IWriteableOperationGroup OperationGroup = CreateOperationGroup(OperationReadOnlyList, null);
 
                 SetLastOperation(OperationGroup);
@@ -1785,7 +1785,7 @@
 
             if (OperationList.Count > 0)
             {
-                IWriteableOperationReadOnlyList OperationReadOnlyList = CreateOperationReadOnlyList(OperationList);
+                IWriteableOperationReadOnlyList OperationReadOnlyList = OperationList.ToReadOnly();
                 IWriteableOperationGroup OperationGroup = CreateOperationGroup(OperationReadOnlyList, null);
 
                 SetLastOperation(OperationGroup);
@@ -1880,7 +1880,7 @@
 
                 RefreshOperation.Redo();
 
-                IWriteableOperationReadOnlyList OperationReadOnlyList = CreateOperationReadOnlyList(OperationList);
+                IWriteableOperationReadOnlyList OperationReadOnlyList = OperationList.ToReadOnly();
                 IWriteableOperationGroup OperationGroup = CreateOperationGroup(OperationReadOnlyList, RefreshOperation);
 
                 SetLastOperation(OperationGroup);
@@ -2212,7 +2212,7 @@
         {
             IWriteableOperationList OperationList = CreateOperationList();
             OperationList.Add(operation);
-            IWriteableOperationReadOnlyList OperationReadOnlyList = CreateOperationReadOnlyList(OperationList);
+            IWriteableOperationReadOnlyList OperationReadOnlyList = OperationList.ToReadOnly();
             IWriteableOperationGroup OperationGroup = CreateOperationGroup(OperationReadOnlyList, null);
 
             SetLastOperation(OperationGroup);
@@ -2658,30 +2658,12 @@
         }
 
         /// <summary>
-        /// Creates a IxxxOperationGroupReadOnlyList object.
-        /// </summary>
-        private protected virtual IWriteableOperationGroupReadOnlyList CreateOperationGroupReadOnlyStack(IWriteableOperationGroupList list)
-        {
-            ControllerTools.AssertNoOverride(this, typeof(WriteableController));
-            return new WriteableOperationGroupReadOnlyList(list);
-        }
-
-        /// <summary>
         /// Creates a IxxxOperationList object.
         /// </summary>
         private protected virtual IWriteableOperationList CreateOperationList()
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableController));
             return new WriteableOperationList();
-        }
-
-        /// <summary>
-        /// Creates a IxxxOperationReadOnlyList object.
-        /// </summary>
-        private protected virtual IWriteableOperationReadOnlyList CreateOperationReadOnlyList(IWriteableOperationList list)
-        {
-            ControllerTools.AssertNoOverride(this, typeof(WriteableController));
-            return new WriteableOperationReadOnlyList(list);
         }
 
         /// <summary>

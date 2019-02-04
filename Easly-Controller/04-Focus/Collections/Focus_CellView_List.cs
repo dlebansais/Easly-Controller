@@ -37,6 +37,11 @@ namespace EaslyController.Focus
         IEnumerator<IFrameCellView> IEnumerable<IFrameCellView>.GetEnumerator() { return GetEnumerator(); }
         #endregion
 
+        public virtual IFrameCellViewReadOnlyList ToReadOnly()
+        {
+            return new FocusCellViewReadOnlyList(this);
+        }
+
         #region Debugging
         /// <summary>
         /// Compares two <see cref="IFocusCellViewList"/> objects.

@@ -12,6 +12,7 @@ namespace EaslyController.ReadOnly
     {
         new int Count { get; }
         new IReadOnlyIndexCollection this[int index] { get; set; }
+        IReadOnlyIndexCollectionReadOnlyList ToReadOnly();
     }
 
     /// <summary>
@@ -19,5 +20,9 @@ namespace EaslyController.ReadOnly
     /// </summary>
     internal class ReadOnlyIndexCollectionList : Collection<IReadOnlyIndexCollection>, IReadOnlyIndexCollectionList
     {
+        public virtual IReadOnlyIndexCollectionReadOnlyList ToReadOnly()
+        {
+            return new ReadOnlyIndexCollectionReadOnlyList(this);
+        }
     }
 }

@@ -89,15 +89,6 @@
         }
 
         /// <summary>
-        /// Creates a IxxxBlockStateReadOnlyList object.
-        /// </summary>
-        private protected override IReadOnlyBlockStateReadOnlyList CreateBlockStateListReadOnly(IReadOnlyBlockStateList blockStateList)
-        {
-            ControllerTools.AssertNoOverride(this, typeof(FocusBlockListInner<IIndex, TIndex>));
-            return new FocusBlockStateReadOnlyList((IFocusBlockStateList)blockStateList);
-        }
-
-        /// <summary>
         /// Creates a IxxxBlockState object.
         /// </summary>
         private protected override IReadOnlyBlockState CreateBlockState(IReadOnlyBrowsingNewBlockNodeIndex nodeIndex, IBlock childBlock)

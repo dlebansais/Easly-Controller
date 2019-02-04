@@ -12,6 +12,7 @@ namespace EaslyController.ReadOnly
     {
         new int Count { get; }
         new IReadOnlyPlaceholderNodeState this[int index] { get; set; }
+        IReadOnlyPlaceholderNodeStateReadOnlyList ToReadOnly();
     }
 
     /// <summary>
@@ -19,5 +20,9 @@ namespace EaslyController.ReadOnly
     /// </summary>
     internal class ReadOnlyPlaceholderNodeStateList : Collection<IReadOnlyPlaceholderNodeState>, IReadOnlyPlaceholderNodeStateList
     {
+        public virtual IReadOnlyPlaceholderNodeStateReadOnlyList ToReadOnly()
+        {
+            return new ReadOnlyPlaceholderNodeStateReadOnlyList(this);
+        }
     }
 }

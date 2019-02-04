@@ -111,15 +111,6 @@
             ControllerTools.AssertNoOverride(this, typeof(FocusBrowseContext));
             return new FocusIndexCollectionList();
         }
-
-        /// <summary>
-        /// Creates a IxxxIndexCollectionReadOnlyList object.
-        /// </summary>
-        private protected override IReadOnlyIndexCollectionReadOnlyList CreateIndexCollectionListReadOnly(IReadOnlyIndexCollectionList list)
-        {
-            ControllerTools.AssertNoOverride(this, typeof(FocusBrowseContext));
-            return new FocusIndexCollectionReadOnlyList((IFocusIndexCollectionList)list);
-        }
         #endregion
     }
 }
