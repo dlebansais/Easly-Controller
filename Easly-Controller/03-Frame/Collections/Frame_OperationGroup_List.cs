@@ -22,10 +22,12 @@ namespace EaslyController.Frame
     internal class FrameOperationGroupList : Collection<IFrameOperationGroup>, IFrameOperationGroupList
     {
         #region Writeable
+        IWriteableOperationGroup IWriteableOperationGroupList.this[int index] { get { return this[index]; } set { this[index] = (IFrameOperationGroup)value; } }
+        IWriteableOperationGroup IList<IWriteableOperationGroup>.this[int index] { get { return this[index]; } set { this[index] = (IFrameOperationGroup)value; } }
+        IWriteableOperationGroup IReadOnlyList<IWriteableOperationGroup>.this[int index] { get { return this[index]; } }
         bool ICollection<IWriteableOperationGroup>.IsReadOnly { get { return ((ICollection<IFrameOperationGroup>)this).IsReadOnly; } }
         public void Add(IWriteableOperationGroup item) { base.Add((IFrameOperationGroup)item); }
         public void Insert(int index, IWriteableOperationGroup item) { base.Insert(index, (IFrameOperationGroup)item); }
-        public new IWriteableOperationGroup this[int index] { get { return base[index]; } set { base[index] = (IFrameOperationGroup)value; } }
         public bool Remove(IWriteableOperationGroup item) { return base.Remove((IFrameOperationGroup)item); }
         public void CopyTo(IWriteableOperationGroup[] array, int index) { base.CopyTo((IFrameOperationGroup[])array, index); }
         public bool Contains(IWriteableOperationGroup value) { return base.Contains((IFrameOperationGroup)value); }

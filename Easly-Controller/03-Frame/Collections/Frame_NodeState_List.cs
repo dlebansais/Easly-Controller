@@ -23,7 +23,9 @@ namespace EaslyController.Frame
     internal class FrameNodeStateList : Collection<IFrameNodeState>, IFrameNodeStateList
     {
         #region ReadOnly
-        public new IReadOnlyNodeState this[int index] { get { return base[index]; } set { base[index] = (IFrameNodeState)value; } }
+        IReadOnlyNodeState IReadOnlyNodeStateList.this[int index] { get { return this[index]; } set { this[index] = (IFrameNodeState)value; } }
+        IReadOnlyNodeState IList<IReadOnlyNodeState>.this[int index] { get { return this[index]; } set { this[index] = (IFrameNodeState)value; } }
+        IReadOnlyNodeState IReadOnlyList<IReadOnlyNodeState>.this[int index] { get { return this[index]; } }
         public void Add(IReadOnlyNodeState item) { base.Add((IFrameNodeState)item); }
         public void Insert(int index, IReadOnlyNodeState item) { base.Insert(index, (IFrameNodeState)item); }
         public bool Remove(IReadOnlyNodeState item) { return base.Remove((IFrameNodeState)item); }
@@ -35,9 +37,9 @@ namespace EaslyController.Frame
         #endregion
 
         #region Writeable
-        IWriteableNodeState IWriteableNodeStateList.this[int index] { get { return base[index]; } set { base[index] = (IFrameNodeState)value; } }
-        IWriteableNodeState IList<IWriteableNodeState>.this[int index] { get { return base[index]; } set { base[index] = (IFrameNodeState)value; } }
-        IWriteableNodeState IReadOnlyList<IWriteableNodeState>.this[int index] { get { return base[index]; } }
+        IWriteableNodeState IWriteableNodeStateList.this[int index] { get { return this[index]; } set { this[index] = (IFrameNodeState)value; } }
+        IWriteableNodeState IList<IWriteableNodeState>.this[int index] { get { return this[index]; } set { this[index] = (IFrameNodeState)value; } }
+        IWriteableNodeState IReadOnlyList<IWriteableNodeState>.this[int index] { get { return this[index]; } }
         public void Add(IWriteableNodeState item) { base.Add((IFrameNodeState)item); }
         public void Insert(int index, IWriteableNodeState item) { base.Insert(index, (IFrameNodeState)item); }
         public bool Remove(IWriteableNodeState item) { return base.Remove((IFrameNodeState)item); }

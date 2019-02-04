@@ -23,12 +23,12 @@ namespace EaslyController.Focus
     internal class FocusOperationList : Collection<IFocusOperation>, IFocusOperationList
     {
         #region Writeable
+        IWriteableOperation IWriteableOperationList.this[int index] { get { return this[index]; } set { this[index] = (IFocusOperation)value; } }
+        IWriteableOperation IList<IWriteableOperation>.this[int index] { get { return this[index]; } set { this[index] = (IFocusOperation)value; } }
+        IWriteableOperation IReadOnlyList<IWriteableOperation>.this[int index] { get { return this[index]; } }
         bool ICollection<IWriteableOperation>.IsReadOnly { get { return ((ICollection<IFocusOperation>)this).IsReadOnly; } }
         public void Add(IWriteableOperation item) { base.Add((IFocusOperation)item); }
         public void Insert(int index, IWriteableOperation item) { base.Insert(index, (IFocusOperation)item); }
-        IWriteableOperation IWriteableOperationList.this[int index] { get { return base[index]; } set { base[index] = (IFocusOperation)value; } }
-        IWriteableOperation IList<IWriteableOperation>.this[int index] { get { return base[index]; } set { base[index] = (IFocusOperation)value; } }
-        IWriteableOperation IReadOnlyList<IWriteableOperation>.this[int index] { get { return base[index]; } }
         public bool Remove(IWriteableOperation item) { return base.Remove((IFocusOperation)item); }
         public void CopyTo(IWriteableOperation[] array, int index) { base.CopyTo((IFocusOperation[])array, index); }
         public bool Contains(IWriteableOperation value) { return base.Contains((IFocusOperation)value); }
@@ -38,10 +38,12 @@ namespace EaslyController.Focus
         #endregion
 
         #region Frame
+        IFrameOperation IFrameOperationList.this[int index] { get { return this[index]; } set { this[index] = (IFocusOperation)value; } }
+        IFrameOperation IList<IFrameOperation>.this[int index] { get { return this[index]; } set { this[index] = (IFocusOperation)value; } }
+        IFrameOperation IReadOnlyList<IFrameOperation>.this[int index] { get { return this[index]; } }
         bool ICollection<IFrameOperation>.IsReadOnly { get { return ((ICollection<IFocusOperation>)this).IsReadOnly; } }
         public void Add(IFrameOperation item) { base.Add((IFocusOperation)item); }
         public void Insert(int index, IFrameOperation item) { base.Insert(index, (IFocusOperation)item); }
-        public new IFrameOperation this[int index] { get { return base[index]; } set { base[index] = (IFocusOperation)value; } }
         public bool Remove(IFrameOperation item) { return base.Remove((IFocusOperation)item); }
         public void CopyTo(IFrameOperation[] array, int index) { base.CopyTo((IFocusOperation[])array, index); }
         public bool Contains(IFrameOperation value) { return base.Contains((IFocusOperation)value); }

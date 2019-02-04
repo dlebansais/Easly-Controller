@@ -23,7 +23,9 @@ namespace EaslyController.Frame
     internal class FrameIndexCollectionList : Collection<IFrameIndexCollection>, IFrameIndexCollectionList
     {
         #region ReadOnly
-        public new IReadOnlyIndexCollection this[int index] { get { return base[index]; } set { base[index] = (IFrameIndexCollection)value; } }
+        IReadOnlyIndexCollection IReadOnlyIndexCollectionList.this[int index] { get { return this[index]; } set { this[index] = (IFrameIndexCollection)value; } }
+        IReadOnlyIndexCollection IList<IReadOnlyIndexCollection>.this[int index] { get { return this[index]; } set { this[index] = (IFrameIndexCollection)value; } }
+        IReadOnlyIndexCollection IReadOnlyList<IReadOnlyIndexCollection>.this[int index] { get { return this[index]; } }
         public void Add(IReadOnlyIndexCollection item) { base.Add((IFrameIndexCollection)item); }
         public void Insert(int index, IReadOnlyIndexCollection item) { base.Insert(index, (IFrameIndexCollection)item); }
         public bool Remove(IReadOnlyIndexCollection item) { return base.Remove((IFrameIndexCollection)item); }
@@ -35,9 +37,9 @@ namespace EaslyController.Frame
         #endregion
 
         #region Writeable
-        IWriteableIndexCollection IWriteableIndexCollectionList.this[int index] { get { return base[index]; } set { base[index] = (IFrameIndexCollection)value; } }
-        IWriteableIndexCollection IList<IWriteableIndexCollection>.this[int index] { get { return base[index]; } set { base[index] = (IFrameIndexCollection)value; } }
-        IWriteableIndexCollection IReadOnlyList<IWriteableIndexCollection>.this[int index] { get { return base[index]; } }
+        IWriteableIndexCollection IWriteableIndexCollectionList.this[int index] { get { return this[index]; } set { this[index] = (IFrameIndexCollection)value; } }
+        IWriteableIndexCollection IList<IWriteableIndexCollection>.this[int index] { get { return this[index]; } set { this[index] = (IFrameIndexCollection)value; } }
+        IWriteableIndexCollection IReadOnlyList<IWriteableIndexCollection>.this[int index] { get { return this[index]; } }
         public void Add(IWriteableIndexCollection item) { base.Add((IFrameIndexCollection)item); }
         public void Insert(int index, IWriteableIndexCollection item) { base.Insert(index, (IFrameIndexCollection)item); }
         public bool Remove(IWriteableIndexCollection item) { return base.Remove((IFrameIndexCollection)item); }

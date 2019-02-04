@@ -24,7 +24,9 @@ namespace EaslyController.Focus
     internal class FocusIndexCollectionList : Collection<IFocusIndexCollection>, IFocusIndexCollectionList
     {
         #region ReadOnly
-        public new IReadOnlyIndexCollection this[int index] { get { return base[index]; } set { base[index] = (IFocusIndexCollection)value; } }
+        IReadOnlyIndexCollection IReadOnlyIndexCollectionList.this[int index] { get { return this[index]; } set { this[index] = (IFocusIndexCollection)value; } }
+        IReadOnlyIndexCollection IList<IReadOnlyIndexCollection>.this[int index] { get { return this[index]; } set { this[index] = (IFocusIndexCollection)value; } }
+        IReadOnlyIndexCollection IReadOnlyList<IReadOnlyIndexCollection>.this[int index] { get { return this[index]; } }
         public void Add(IReadOnlyIndexCollection item) { base.Add((IFocusIndexCollection)item); }
         public void Insert(int index, IReadOnlyIndexCollection item) { base.Insert(index, (IFocusIndexCollection)item); }
         public bool Remove(IReadOnlyIndexCollection item) { return base.Remove((IFocusIndexCollection)item); }
@@ -36,9 +38,9 @@ namespace EaslyController.Focus
         #endregion
 
         #region Writeable
-        IWriteableIndexCollection IWriteableIndexCollectionList.this[int index] { get { return base[index]; } set { base[index] = (IFocusIndexCollection)value; } }
-        IWriteableIndexCollection IList<IWriteableIndexCollection>.this[int index] { get { return base[index]; } set { base[index] = (IFocusIndexCollection)value; } }
-        IWriteableIndexCollection IReadOnlyList<IWriteableIndexCollection>.this[int index] { get { return base[index]; } }
+        IWriteableIndexCollection IWriteableIndexCollectionList.this[int index] { get { return this[index]; } set { this[index] = (IFocusIndexCollection)value; } }
+        IWriteableIndexCollection IList<IWriteableIndexCollection>.this[int index] { get { return this[index]; } set { this[index] = (IFocusIndexCollection)value; } }
+        IWriteableIndexCollection IReadOnlyList<IWriteableIndexCollection>.this[int index] { get { return this[index]; } }
         public void Add(IWriteableIndexCollection item) { base.Add((IFocusIndexCollection)item); }
         public void Insert(int index, IWriteableIndexCollection item) { base.Insert(index, (IFocusIndexCollection)item); }
         public bool Remove(IWriteableIndexCollection item) { return base.Remove((IFocusIndexCollection)item); }
@@ -51,9 +53,9 @@ namespace EaslyController.Focus
         #endregion
 
         #region Frame
-        IFrameIndexCollection IFrameIndexCollectionList.this[int index] { get { return base[index]; } set { base[index] = (IFocusIndexCollection)value; } }
-        IFrameIndexCollection IList<IFrameIndexCollection>.this[int index] { get { return base[index]; } set { base[index] = (IFocusIndexCollection)value; } }
-        IFrameIndexCollection IReadOnlyList<IFrameIndexCollection>.this[int index] { get { return base[index]; } }
+        IFrameIndexCollection IFrameIndexCollectionList.this[int index] { get { return this[index]; } set { this[index] = (IFocusIndexCollection)value; } }
+        IFrameIndexCollection IList<IFrameIndexCollection>.this[int index] { get { return this[index]; } set { this[index] = (IFocusIndexCollection)value; } }
+        IFrameIndexCollection IReadOnlyList<IFrameIndexCollection>.this[int index] { get { return this[index]; } }
         public void Add(IFrameIndexCollection item) { base.Add((IFocusIndexCollection)item); }
         public void Insert(int index, IFrameIndexCollection item) { base.Insert(index, (IFocusIndexCollection)item); }
         public bool Remove(IFrameIndexCollection item) { return base.Remove((IFocusIndexCollection)item); }

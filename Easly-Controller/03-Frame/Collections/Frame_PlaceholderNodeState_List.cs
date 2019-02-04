@@ -23,7 +23,9 @@ namespace EaslyController.Frame
     internal class FramePlaceholderNodeStateList : Collection<IFramePlaceholderNodeState>, IFramePlaceholderNodeStateList
     {
         #region ReadOnly
-        public new IReadOnlyPlaceholderNodeState this[int index] { get { return base[index]; } set { base[index] = (IFramePlaceholderNodeState)value; } }
+        IReadOnlyPlaceholderNodeState IReadOnlyPlaceholderNodeStateList.this[int index] { get { return this[index]; } set { this[index] = (IFramePlaceholderNodeState)value; } }
+        IReadOnlyPlaceholderNodeState IList<IReadOnlyPlaceholderNodeState>.this[int index] { get { return this[index]; } set { this[index] = (IFramePlaceholderNodeState)value; } }
+        IReadOnlyPlaceholderNodeState IReadOnlyList<IReadOnlyPlaceholderNodeState>.this[int index] { get { return this[index]; } }
         public void Add(IReadOnlyPlaceholderNodeState item) { base.Add((IFramePlaceholderNodeState)item); }
         public void Insert(int index, IReadOnlyPlaceholderNodeState item) { base.Insert(index, (IFramePlaceholderNodeState)item); }
         public bool Remove(IReadOnlyPlaceholderNodeState item) { return base.Remove((IFramePlaceholderNodeState)item); }
@@ -35,9 +37,9 @@ namespace EaslyController.Frame
         #endregion
 
         #region Writeable
-        IWriteablePlaceholderNodeState IWriteablePlaceholderNodeStateList.this[int index] { get { return base[index]; } set { base[index] = (IFramePlaceholderNodeState)value; } }
-        IWriteablePlaceholderNodeState IList<IWriteablePlaceholderNodeState>.this[int index] { get { return base[index]; } set { base[index] = (IFramePlaceholderNodeState)value; } }
-        IWriteablePlaceholderNodeState IReadOnlyList<IWriteablePlaceholderNodeState>.this[int index] { get { return base[index]; } }
+        IWriteablePlaceholderNodeState IWriteablePlaceholderNodeStateList.this[int index] { get { return this[index]; } set { this[index] = (IFramePlaceholderNodeState)value; } }
+        IWriteablePlaceholderNodeState IList<IWriteablePlaceholderNodeState>.this[int index] { get { return this[index]; } set { this[index] = (IFramePlaceholderNodeState)value; } }
+        IWriteablePlaceholderNodeState IReadOnlyList<IWriteablePlaceholderNodeState>.this[int index] { get { return this[index]; } }
         public void Add(IWriteablePlaceholderNodeState item) { base.Add((IFramePlaceholderNodeState)item); }
         public void Insert(int index, IWriteablePlaceholderNodeState item) { base.Insert(index, (IFramePlaceholderNodeState)item); }
         public bool Remove(IWriteablePlaceholderNodeState item) { return base.Remove((IFramePlaceholderNodeState)item); }

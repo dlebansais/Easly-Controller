@@ -23,7 +23,9 @@ namespace EaslyController.Focus
     internal class FocusCellViewList : Collection<IFocusCellView>, IFocusCellViewList
     {
         #region Frame
-        public new IFrameCellView this[int index] { get { return base[index]; } set { base[index] = (IFocusCellView)value; } }
+        IFrameCellView IFrameCellViewList.this[int index] { get { return this[index]; } set { this[index] = (IFocusCellView)value; } }
+        IFrameCellView IList<IFrameCellView>.this[int index] { get { return this[index]; } set { this[index] = (IFocusCellView)value; } }
+        IFrameCellView IReadOnlyList<IFrameCellView>.this[int index] { get { return this[index]; } }
         public void Add(IFrameCellView item) { base.Add((IFocusCellView)item); }
         public void Insert(int index, IFrameCellView item) { base.Insert(index, (IFocusCellView)item); }
         public bool Remove(IFrameCellView item) { return base.Remove((IFocusCellView)item); }

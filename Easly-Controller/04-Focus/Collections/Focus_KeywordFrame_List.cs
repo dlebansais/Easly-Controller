@@ -22,7 +22,9 @@ namespace EaslyController.Focus
     internal class FocusKeywordFrameList : Collection<IFocusKeywordFrame>, IFocusKeywordFrameList
     {
         #region Frame
-        public new IFrameKeywordFrame this[int index] { get { return base[index]; } set { base[index] = (IFocusKeywordFrame)value; } }
+        IFrameKeywordFrame IFrameKeywordFrameList.this[int index] { get { return this[index]; } set { this[index] = (IFocusKeywordFrame)value; } }
+        IFrameKeywordFrame IList<IFrameKeywordFrame>.this[int index] { get { return this[index]; } set { this[index] = (IFocusKeywordFrame)value; } }
+        IFrameKeywordFrame IReadOnlyList<IFrameKeywordFrame>.this[int index] { get { return this[index]; } }
         public void Add(IFrameKeywordFrame item) { base.Add((IFocusKeywordFrame)item); }
         public void Insert(int index, IFrameKeywordFrame item) { base.Insert(index, (IFocusKeywordFrame)item); }
         public bool Remove(IFrameKeywordFrame item) { return base.Remove((IFocusKeywordFrame)item); }

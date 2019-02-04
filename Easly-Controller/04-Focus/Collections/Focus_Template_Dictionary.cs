@@ -47,7 +47,7 @@ namespace EaslyController.Focus
 
         bool IDictionary<Type, IFrameTemplate>.ContainsKey(Type key) { return ContainsKey((Type)key); }
         void ICollection<KeyValuePair<Type, IFrameTemplate>>.Add(KeyValuePair<Type, IFrameTemplate> item) { Add((Type)item.Key, (IFocusTemplate)item.Value); }
-        bool ICollection<KeyValuePair<Type, IFrameTemplate>>.Contains(KeyValuePair<Type, IFrameTemplate> item) { return ContainsKey((Type)item.Key) && base[(Type)item.Key] == item.Value; }
+        bool ICollection<KeyValuePair<Type, IFrameTemplate>>.Contains(KeyValuePair<Type, IFrameTemplate> item) { return ContainsKey((Type)item.Key) && this[(Type)item.Key] == item.Value; }
         bool ICollection<KeyValuePair<Type, IFrameTemplate>>.Remove(KeyValuePair<Type, IFrameTemplate> item) { return Remove((Type)item.Key); }
         IFrameTemplate IDictionary<Type, IFrameTemplate>.this[Type key] { get { return this[(Type)key]; } set { this[(Type)key] = (IFocusTemplate)value; } }
         ICollection<Type> IDictionary<Type, IFrameTemplate>.Keys { get { return new List<Type>(Keys); } }

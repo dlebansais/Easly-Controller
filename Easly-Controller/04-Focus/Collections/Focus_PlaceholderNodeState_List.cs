@@ -24,7 +24,9 @@ namespace EaslyController.Focus
     internal class FocusPlaceholderNodeStateList : Collection<IFocusPlaceholderNodeState>, IFocusPlaceholderNodeStateList
     {
         #region ReadOnly
-        public new IReadOnlyPlaceholderNodeState this[int index] { get { return base[index]; } set { base[index] = (IFocusPlaceholderNodeState)value; } }
+        IReadOnlyPlaceholderNodeState IReadOnlyPlaceholderNodeStateList.this[int index] { get { return this[index]; } set { this[index] = (IFocusPlaceholderNodeState)value; } }
+        IReadOnlyPlaceholderNodeState IList<IReadOnlyPlaceholderNodeState>.this[int index] { get { return this[index]; } set { this[index] = (IFocusPlaceholderNodeState)value; } }
+        IReadOnlyPlaceholderNodeState IReadOnlyList<IReadOnlyPlaceholderNodeState>.this[int index] { get { return this[index]; } }
         public void Add(IReadOnlyPlaceholderNodeState item) { base.Add((IFocusPlaceholderNodeState)item); }
         public void Insert(int index, IReadOnlyPlaceholderNodeState item) { base.Insert(index, (IFocusPlaceholderNodeState)item); }
         public bool Remove(IReadOnlyPlaceholderNodeState item) { return base.Remove((IFocusPlaceholderNodeState)item); }
@@ -36,9 +38,9 @@ namespace EaslyController.Focus
         #endregion
 
         #region Writeable
-        IWriteablePlaceholderNodeState IWriteablePlaceholderNodeStateList.this[int index] { get { return base[index]; } set { base[index] = (IFocusPlaceholderNodeState)value; } }
-        IWriteablePlaceholderNodeState IList<IWriteablePlaceholderNodeState>.this[int index] { get { return base[index]; } set { base[index] = (IFocusPlaceholderNodeState)value; } }
-        IWriteablePlaceholderNodeState IReadOnlyList<IWriteablePlaceholderNodeState>.this[int index] { get { return base[index]; } }
+        IWriteablePlaceholderNodeState IWriteablePlaceholderNodeStateList.this[int index] { get { return this[index]; } set { this[index] = (IFocusPlaceholderNodeState)value; } }
+        IWriteablePlaceholderNodeState IList<IWriteablePlaceholderNodeState>.this[int index] { get { return this[index]; } set { this[index] = (IFocusPlaceholderNodeState)value; } }
+        IWriteablePlaceholderNodeState IReadOnlyList<IWriteablePlaceholderNodeState>.this[int index] { get { return this[index]; } }
         public void Add(IWriteablePlaceholderNodeState item) { base.Add((IFocusPlaceholderNodeState)item); }
         public void Insert(int index, IWriteablePlaceholderNodeState item) { base.Insert(index, (IFocusPlaceholderNodeState)item); }
         public bool Remove(IWriteablePlaceholderNodeState item) { return base.Remove((IFocusPlaceholderNodeState)item); }
@@ -51,9 +53,9 @@ namespace EaslyController.Focus
         #endregion
 
         #region Frame
-        IFramePlaceholderNodeState IFramePlaceholderNodeStateList.this[int index] { get { return base[index]; } set { base[index] = (IFocusPlaceholderNodeState)value; } }
-        IFramePlaceholderNodeState IList<IFramePlaceholderNodeState>.this[int index] { get { return base[index]; } set { base[index] = (IFocusPlaceholderNodeState)value; } }
-        IFramePlaceholderNodeState IReadOnlyList<IFramePlaceholderNodeState>.this[int index] { get { return base[index]; } }
+        IFramePlaceholderNodeState IFramePlaceholderNodeStateList.this[int index] { get { return this[index]; } set { this[index] = (IFocusPlaceholderNodeState)value; } }
+        IFramePlaceholderNodeState IList<IFramePlaceholderNodeState>.this[int index] { get { return this[index]; } set { this[index] = (IFocusPlaceholderNodeState)value; } }
+        IFramePlaceholderNodeState IReadOnlyList<IFramePlaceholderNodeState>.this[int index] { get { return this[index]; } }
         public void Add(IFramePlaceholderNodeState item) { base.Add((IFocusPlaceholderNodeState)item); }
         public void Insert(int index, IFramePlaceholderNodeState item) { base.Insert(index, (IFocusPlaceholderNodeState)item); }
         public bool Remove(IFramePlaceholderNodeState item) { return base.Remove((IFocusPlaceholderNodeState)item); }

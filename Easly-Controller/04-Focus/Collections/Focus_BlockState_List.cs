@@ -24,12 +24,12 @@ namespace EaslyController.Focus
     internal class FocusBlockStateList : Collection<IFocusBlockState>, IFocusBlockStateList
     {
         #region ReadOnly
+        IReadOnlyBlockState IReadOnlyBlockStateList.this[int index] { get { return this[index]; } set { this[index] = (IFocusBlockState)value; } }
+        IReadOnlyBlockState IList<IReadOnlyBlockState>.this[int index] { get { return this[index]; } set { this[index] = (IFocusBlockState)value; } }
+        IReadOnlyBlockState IReadOnlyList<IReadOnlyBlockState>.this[int index] { get { return this[index]; } }
         bool ICollection<IReadOnlyBlockState>.IsReadOnly { get { return ((ICollection<IFocusBlockState>)this).IsReadOnly; } }
         public void Add(IReadOnlyBlockState item) { base.Add((IFocusBlockState)item); }
         public void Insert(int index, IReadOnlyBlockState item) { base.Insert(index, (IFocusBlockState)item); }
-        IReadOnlyBlockState IReadOnlyBlockStateList.this[int index] { get { return base[index]; } set { base[index] = (IFocusBlockState)value; } }
-        IReadOnlyBlockState IList<IReadOnlyBlockState>.this[int index] { get { return base[index]; } set { base[index] = (IFocusBlockState)value; } }
-        IReadOnlyBlockState IReadOnlyList<IReadOnlyBlockState>.this[int index] { get { return base[index]; } }
         public bool Remove(IReadOnlyBlockState item) { return base.Remove((IFocusBlockState)item); }
         public void CopyTo(IReadOnlyBlockState[] array, int index) { base.CopyTo((IFocusBlockState[])array, index); }
         public bool Contains(IReadOnlyBlockState value) { return base.Contains((IFocusBlockState)value); }
@@ -38,12 +38,12 @@ namespace EaslyController.Focus
         #endregion
 
         #region Writeable
+        IWriteableBlockState IWriteableBlockStateList.this[int index] { get { return this[index]; } set { this[index] = (IFocusBlockState)value; } }
+        IWriteableBlockState IList<IWriteableBlockState>.this[int index] { get { return this[index]; } set { this[index] = (IFocusBlockState)value; } }
+        IWriteableBlockState IReadOnlyList<IWriteableBlockState>.this[int index] { get { return this[index]; } }
         bool ICollection<IWriteableBlockState>.IsReadOnly { get { return ((ICollection<IFocusBlockState>)this).IsReadOnly; } }
         public void Add(IWriteableBlockState item) { base.Add((IFocusBlockState)item); }
         public void Insert(int index, IWriteableBlockState item) { base.Insert(index, (IFocusBlockState)item); }
-        IWriteableBlockState IWriteableBlockStateList.this[int index] { get { return base[index]; } set { base[index] = (IFocusBlockState)value; } }
-        IWriteableBlockState IList<IWriteableBlockState>.this[int index] { get { return base[index]; } set { base[index] = (IFocusBlockState)value; } }
-        IWriteableBlockState IReadOnlyList<IWriteableBlockState>.this[int index] { get { return base[index]; } }
         public bool Remove(IWriteableBlockState item) { return base.Remove((IFocusBlockState)item); }
         public void CopyTo(IWriteableBlockState[] array, int index) { base.CopyTo((IFocusBlockState[])array, index); }
         public bool Contains(IWriteableBlockState value) { return base.Contains((IFocusBlockState)value); }
@@ -53,10 +53,12 @@ namespace EaslyController.Focus
         #endregion
 
         #region Frame
+        IFrameBlockState IFrameBlockStateList.this[int index] { get { return this[index]; } set { this[index] = (IFocusBlockState)value; } }
+        IFrameBlockState IList<IFrameBlockState>.this[int index] { get { return this[index]; } set { this[index] = (IFocusBlockState)value; } }
+        IFrameBlockState IReadOnlyList<IFrameBlockState>.this[int index] { get { return this[index]; } }
         bool ICollection<IFrameBlockState>.IsReadOnly { get { return ((ICollection<IFocusBlockState>)this).IsReadOnly; } }
         public void Add(IFrameBlockState item) { base.Add((IFocusBlockState)item); }
         public void Insert(int index, IFrameBlockState item) { base.Insert(index, (IFocusBlockState)item); }
-        public new IFrameBlockState this[int index] { get { return base[index]; } set { base[index] = (IFocusBlockState)value; } }
         public bool Remove(IFrameBlockState item) { return base.Remove((IFocusBlockState)item); }
         public void CopyTo(IFrameBlockState[] array, int index) { base.CopyTo((IFocusBlockState[])array, index); }
         public bool Contains(IFrameBlockState value) { return base.Contains((IFocusBlockState)value); }

@@ -32,9 +32,9 @@ namespace EaslyController.Frame
         }
 
         #region ReadOnly
-        public new IReadOnlyInner this[TKey key] { get { return base[key]; } }
-        public new IEnumerable<TKey> Keys { get { return base.Keys; } }
-        public new IEnumerable<IReadOnlyInner> Values { get { return base.Values; } }
+        IReadOnlyInner IReadOnlyDictionary<TKey, IReadOnlyInner>.this[TKey key] { get { return this[key]; } }
+        IEnumerable<TKey> IReadOnlyDictionary<TKey, IReadOnlyInner>.Keys { get { return Keys; } }
+        IEnumerable<IReadOnlyInner> IReadOnlyDictionary<TKey, IReadOnlyInner>.Values { get { return Values; } }
 
         IEnumerator<KeyValuePair<TKey, IReadOnlyInner>> IEnumerable<KeyValuePair<TKey, IReadOnlyInner>>.GetEnumerator()
         {
@@ -53,9 +53,10 @@ namespace EaslyController.Frame
         #endregion
 
         #region Writeable
-        IWriteableInner IWriteableInnerReadOnlyDictionary<TKey>.this[TKey key] { get { return base[key]; } }
-        IWriteableInner IReadOnlyDictionary<TKey, IWriteableInner>.this[TKey key] { get { return base[key]; } }
-        IEnumerable<IWriteableInner> IReadOnlyDictionary<TKey, IWriteableInner>.Values { get { return base.Values; } }
+        IWriteableInner IWriteableInnerReadOnlyDictionary<TKey>.this[TKey key] { get { return this[key]; } }
+        IWriteableInner IReadOnlyDictionary<TKey, IWriteableInner>.this[TKey key] { get { return this[key]; } }
+        IEnumerable<TKey> IReadOnlyDictionary<TKey, IWriteableInner>.Keys { get { return Keys; } }
+        IEnumerable<IWriteableInner> IReadOnlyDictionary<TKey, IWriteableInner>.Values { get { return Values; } }
 
         IEnumerator<KeyValuePair<TKey, IWriteableInner>> IWriteableInnerReadOnlyDictionary<TKey>.GetEnumerator()
         {

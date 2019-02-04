@@ -23,12 +23,12 @@ namespace EaslyController.Focus
     internal class FocusOperationGroupList : Collection<IFocusOperationGroup>, IFocusOperationGroupList
     {
         #region Writeable
+        IWriteableOperationGroup IWriteableOperationGroupList.this[int index] { get { return this[index]; } set { this[index] = (IFocusOperationGroup)value; } }
+        IWriteableOperationGroup IList<IWriteableOperationGroup>.this[int index] { get { return this[index]; } set { this[index] = (IFocusOperationGroup)value; } }
+        IWriteableOperationGroup IReadOnlyList<IWriteableOperationGroup>.this[int index] { get { return this[index]; } }
         bool ICollection<IWriteableOperationGroup>.IsReadOnly { get { return ((ICollection<IFocusOperationGroup>)this).IsReadOnly; } }
         public void Add(IWriteableOperationGroup item) { base.Add((IFocusOperationGroup)item); }
         public void Insert(int index, IWriteableOperationGroup item) { base.Insert(index, (IFocusOperationGroup)item); }
-        IWriteableOperationGroup IWriteableOperationGroupList.this[int index] { get { return base[index]; } set { base[index] = (IFocusOperationGroup)value; } }
-        IWriteableOperationGroup IList<IWriteableOperationGroup>.this[int index] { get { return base[index]; } set { base[index] = (IFocusOperationGroup)value; } }
-        IWriteableOperationGroup IReadOnlyList<IWriteableOperationGroup>.this[int index] { get { return base[index]; } }
         public bool Remove(IWriteableOperationGroup item) { return base.Remove((IFocusOperationGroup)item); }
         public void CopyTo(IWriteableOperationGroup[] array, int index) { base.CopyTo((IFocusOperationGroup[])array, index); }
         public bool Contains(IWriteableOperationGroup value) { return base.Contains((IFocusOperationGroup)value); }
@@ -38,10 +38,12 @@ namespace EaslyController.Focus
         #endregion
 
         #region Frame
+        IFrameOperationGroup IFrameOperationGroupList.this[int index] { get { return this[index]; } set { this[index] = (IFocusOperationGroup)value; } }
+        IFrameOperationGroup IList<IFrameOperationGroup>.this[int index] { get { return this[index]; } set { this[index] = (IFocusOperationGroup)value; } }
+        IFrameOperationGroup IReadOnlyList<IFrameOperationGroup>.this[int index] { get { return this[index]; } }
         bool ICollection<IFrameOperationGroup>.IsReadOnly { get { return ((ICollection<IFocusOperationGroup>)this).IsReadOnly; } }
         public void Add(IFrameOperationGroup item) { base.Add((IFocusOperationGroup)item); }
         public void Insert(int index, IFrameOperationGroup item) { base.Insert(index, (IFocusOperationGroup)item); }
-        public new IFrameOperationGroup this[int index] { get { return base[index]; } set { base[index] = (IFocusOperationGroup)value; } }
         public bool Remove(IFrameOperationGroup item) { return base.Remove((IFocusOperationGroup)item); }
         public void CopyTo(IFrameOperationGroup[] array, int index) { base.CopyTo((IFocusOperationGroup[])array, index); }
         public bool Contains(IFrameOperationGroup value) { return base.Contains((IFocusOperationGroup)value); }

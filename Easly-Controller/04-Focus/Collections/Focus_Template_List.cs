@@ -22,7 +22,9 @@ namespace EaslyController.Focus
     public class FocusTemplateList : Collection<IFocusTemplate>, IFocusTemplateList
     {
         #region Frame
-        public new IFrameTemplate this[int index] { get { return base[index]; } set { base[index] = (IFocusTemplate)value; } }
+        IFrameTemplate IFrameTemplateList.this[int index] { get { return this[index]; } set { this[index] = (IFocusTemplate)value; } }
+        IFrameTemplate IList<IFrameTemplate>.this[int index] { get { return this[index]; } set { this[index] = (IFocusTemplate)value; } }
+        IFrameTemplate IReadOnlyList<IFrameTemplate>.this[int index] { get { return this[index]; } }
         public void Add(IFrameTemplate item) { base.Add((IFocusTemplate)item); }
         public void Insert(int index, IFrameTemplate item) { base.Insert(index, (IFocusTemplate)item); }
         public bool Remove(IFrameTemplate item) { return base.Remove((IFocusTemplate)item); }

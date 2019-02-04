@@ -31,9 +31,9 @@ namespace EaslyController.Focus
         }
 
         #region Frame
-        public new IFrameAssignableCellView this[TKey key] { get { return base[key]; } }
-        public new IEnumerable<TKey> Keys { get { return base.Keys; } }
-        public new IEnumerable<IFrameAssignableCellView> Values { get { return base.Values; } }
+        IFrameAssignableCellView IReadOnlyDictionary<TKey, IFrameAssignableCellView>.this[TKey key] { get { return this[key]; } }
+        IEnumerable<TKey> IReadOnlyDictionary<TKey, IFrameAssignableCellView>.Keys { get { return Keys; } }
+        IEnumerable<IFrameAssignableCellView> IReadOnlyDictionary<TKey, IFrameAssignableCellView>.Values { get { return Values; } }
 
         IEnumerator<KeyValuePair<TKey, IFrameAssignableCellView>> IEnumerable<KeyValuePair<TKey, IFrameAssignableCellView>>.GetEnumerator()
         {

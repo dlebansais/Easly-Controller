@@ -23,7 +23,9 @@ namespace EaslyController.Frame
     internal class FrameBrowsingListNodeIndexList : Collection<IFrameBrowsingListNodeIndex>, IFrameBrowsingListNodeIndexList
     {
         #region ReadOnly
-        public new IReadOnlyBrowsingListNodeIndex this[int index] { get { return base[index]; } set { base[index] = (IFrameBrowsingListNodeIndex)value; } }
+        IReadOnlyBrowsingListNodeIndex IReadOnlyBrowsingListNodeIndexList.this[int index] { get { return this[index]; } set { this[index] = (IFrameBrowsingListNodeIndex)value; } }
+        IReadOnlyBrowsingListNodeIndex IList<IReadOnlyBrowsingListNodeIndex>.this[int index] { get { return this[index]; } set { this[index] = (IFrameBrowsingListNodeIndex)value; } }
+        IReadOnlyBrowsingListNodeIndex IReadOnlyList<IReadOnlyBrowsingListNodeIndex>.this[int index] { get { return this[index]; } }
         public void Add(IReadOnlyBrowsingListNodeIndex item) { base.Add((IFrameBrowsingListNodeIndex)item); }
         public void Insert(int index, IReadOnlyBrowsingListNodeIndex item) { base.Insert(index, (IFrameBrowsingListNodeIndex)item); }
         public bool Remove(IReadOnlyBrowsingListNodeIndex item) { return base.Remove((IFrameBrowsingListNodeIndex)item); }
@@ -35,9 +37,9 @@ namespace EaslyController.Frame
         #endregion
 
         #region Writeable
-        IWriteableBrowsingListNodeIndex IWriteableBrowsingListNodeIndexList.this[int index] { get { return base[index]; } set { base[index] = (IFrameBrowsingListNodeIndex)value; } }
-        IWriteableBrowsingListNodeIndex IList<IWriteableBrowsingListNodeIndex>.this[int index] { get { return base[index]; } set { base[index] = (IFrameBrowsingListNodeIndex)value; } }
-        IWriteableBrowsingListNodeIndex IReadOnlyList<IWriteableBrowsingListNodeIndex>.this[int index] { get { return base[index]; } }
+        IWriteableBrowsingListNodeIndex IWriteableBrowsingListNodeIndexList.this[int index] { get { return this[index]; } set { this[index] = (IFrameBrowsingListNodeIndex)value; } }
+        IWriteableBrowsingListNodeIndex IList<IWriteableBrowsingListNodeIndex>.this[int index] { get { return this[index]; } set { this[index] = (IFrameBrowsingListNodeIndex)value; } }
+        IWriteableBrowsingListNodeIndex IReadOnlyList<IWriteableBrowsingListNodeIndex>.this[int index] { get { return this[index]; } }
         public void Add(IWriteableBrowsingListNodeIndex item) { base.Add((IFrameBrowsingListNodeIndex)item); }
         public void Insert(int index, IWriteableBrowsingListNodeIndex item) { base.Insert(index, (IFrameBrowsingListNodeIndex)item); }
         public bool Remove(IWriteableBrowsingListNodeIndex item) { return base.Remove((IFrameBrowsingListNodeIndex)item); }

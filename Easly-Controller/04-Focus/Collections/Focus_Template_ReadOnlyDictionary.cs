@@ -29,9 +29,9 @@ namespace EaslyController.Focus
         }
 
         #region Frame
-        public new IFrameTemplate this[Type key] { get { return base[key]; } }
-        public new IEnumerable<Type> Keys { get { return base.Keys; } }
-        public new IEnumerable<IFrameTemplate> Values { get { return base.Values; } }
+        IFrameTemplate IReadOnlyDictionary<Type, IFrameTemplate>.this[Type key] { get { return this[key]; } }
+        IEnumerable<Type> IReadOnlyDictionary<Type, IFrameTemplate>.Keys { get { return Keys; } }
+        IEnumerable<IFrameTemplate> IReadOnlyDictionary<Type, IFrameTemplate>.Values { get { return Values; } }
 
         IEnumerator<KeyValuePair<Type, IFrameTemplate>> IEnumerable<KeyValuePair<Type, IFrameTemplate>>.GetEnumerator()
         {

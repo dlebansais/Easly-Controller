@@ -22,10 +22,12 @@ namespace EaslyController.Writeable
     internal class WriteableBlockStateList : Collection<IWriteableBlockState>, IWriteableBlockStateList
     {
         #region ReadOnly
+        IReadOnlyBlockState IReadOnlyBlockStateList.this[int index] { get { return this[index]; } set { this[index] = (IWriteableBlockState)value; } }
+        IReadOnlyBlockState IList<IReadOnlyBlockState>.this[int index] { get { return this[index]; } set { this[index] = (IWriteableBlockState)value; } }
+        IReadOnlyBlockState IReadOnlyList<IReadOnlyBlockState>.this[int index] { get { return this[index]; } }
         bool ICollection<IReadOnlyBlockState>.IsReadOnly { get { return ((ICollection<IWriteableBlockState>)this).IsReadOnly; } }
         public void Add(IReadOnlyBlockState item) { base.Add((IWriteableBlockState)item); }
         public void Insert(int index, IReadOnlyBlockState item) { base.Insert(index, (IWriteableBlockState)item); }
-        public new IReadOnlyBlockState this[int index] { get { return base[index]; } set { base[index] = (IWriteableBlockState)value; } }
         public bool Remove(IReadOnlyBlockState item) { return base.Remove((IWriteableBlockState)item); }
         public void CopyTo(IReadOnlyBlockState[] array, int index) { base.CopyTo((IWriteableBlockState[])array, index); }
         public bool Contains(IReadOnlyBlockState value) { return base.Contains((IWriteableBlockState)value); }

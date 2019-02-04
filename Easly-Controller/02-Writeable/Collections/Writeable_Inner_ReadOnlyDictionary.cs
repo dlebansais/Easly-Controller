@@ -31,9 +31,9 @@ namespace EaslyController.Writeable
         }
 
         #region ReadOnly
-        public new IReadOnlyInner this[TKey key] { get { return base[key]; } }
-        public new IEnumerable<TKey> Keys { get { return base.Keys; } }
-        public new IEnumerable<IReadOnlyInner> Values { get { return base.Values; } }
+        IReadOnlyInner IReadOnlyDictionary<TKey, IReadOnlyInner>.this[TKey key] { get { return this[key]; } }
+        IEnumerable<TKey> IReadOnlyDictionary<TKey, IReadOnlyInner>.Keys { get { return Keys; } }
+        IEnumerable<IReadOnlyInner> IReadOnlyDictionary<TKey, IReadOnlyInner>.Values { get { return Values; } }
 
         IEnumerator<KeyValuePair<TKey, IReadOnlyInner>> IEnumerable<KeyValuePair<TKey, IReadOnlyInner>>.GetEnumerator()
         {

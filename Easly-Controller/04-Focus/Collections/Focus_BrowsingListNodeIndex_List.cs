@@ -24,7 +24,9 @@ namespace EaslyController.Focus
     internal class FocusBrowsingListNodeIndexList : Collection<IFocusBrowsingListNodeIndex>, IFocusBrowsingListNodeIndexList
     {
         #region ReadOnly
-        public new IReadOnlyBrowsingListNodeIndex this[int index] { get { return base[index]; } set { base[index] = (IFocusBrowsingListNodeIndex)value; } }
+        IReadOnlyBrowsingListNodeIndex IReadOnlyBrowsingListNodeIndexList.this[int index] { get { return this[index]; } set { this[index] = (IFocusBrowsingListNodeIndex)value; } }
+        IReadOnlyBrowsingListNodeIndex IList<IReadOnlyBrowsingListNodeIndex>.this[int index] { get { return this[index]; } set { this[index] = (IFocusBrowsingListNodeIndex)value; } }
+        IReadOnlyBrowsingListNodeIndex IReadOnlyList<IReadOnlyBrowsingListNodeIndex>.this[int index] { get { return this[index]; } }
         public void Add(IReadOnlyBrowsingListNodeIndex item) { base.Add((IFocusBrowsingListNodeIndex)item); }
         public void Insert(int index, IReadOnlyBrowsingListNodeIndex item) { base.Insert(index, (IFocusBrowsingListNodeIndex)item); }
         public bool Remove(IReadOnlyBrowsingListNodeIndex item) { return base.Remove((IFocusBrowsingListNodeIndex)item); }
@@ -36,9 +38,9 @@ namespace EaslyController.Focus
         #endregion
 
         #region Writeable
-        IWriteableBrowsingListNodeIndex IWriteableBrowsingListNodeIndexList.this[int index] { get { return base[index]; } set { base[index] = (IFocusBrowsingListNodeIndex)value; } }
-        IWriteableBrowsingListNodeIndex IList<IWriteableBrowsingListNodeIndex>.this[int index] { get { return base[index]; } set { base[index] = (IFocusBrowsingListNodeIndex)value; } }
-        IWriteableBrowsingListNodeIndex IReadOnlyList<IWriteableBrowsingListNodeIndex>.this[int index] { get { return base[index]; } }
+        IWriteableBrowsingListNodeIndex IWriteableBrowsingListNodeIndexList.this[int index] { get { return this[index]; } set { this[index] = (IFocusBrowsingListNodeIndex)value; } }
+        IWriteableBrowsingListNodeIndex IList<IWriteableBrowsingListNodeIndex>.this[int index] { get { return this[index]; } set { this[index] = (IFocusBrowsingListNodeIndex)value; } }
+        IWriteableBrowsingListNodeIndex IReadOnlyList<IWriteableBrowsingListNodeIndex>.this[int index] { get { return this[index]; } }
         public void Add(IWriteableBrowsingListNodeIndex item) { base.Add((IFocusBrowsingListNodeIndex)item); }
         public void Insert(int index, IWriteableBrowsingListNodeIndex item) { base.Insert(index, (IFocusBrowsingListNodeIndex)item); }
         public bool Remove(IWriteableBrowsingListNodeIndex item) { return base.Remove((IFocusBrowsingListNodeIndex)item); }
@@ -51,9 +53,9 @@ namespace EaslyController.Focus
         #endregion
 
         #region Frame
-        IFrameBrowsingListNodeIndex IFrameBrowsingListNodeIndexList.this[int index] { get { return base[index]; } set { base[index] = (IFocusBrowsingListNodeIndex)value; } }
-        IFrameBrowsingListNodeIndex IList<IFrameBrowsingListNodeIndex>.this[int index] { get { return base[index]; } set { base[index] = (IFocusBrowsingListNodeIndex)value; } }
-        IFrameBrowsingListNodeIndex IReadOnlyList<IFrameBrowsingListNodeIndex>.this[int index] { get { return base[index]; } }
+        IFrameBrowsingListNodeIndex IFrameBrowsingListNodeIndexList.this[int index] { get { return this[index]; } set { this[index] = (IFocusBrowsingListNodeIndex)value; } }
+        IFrameBrowsingListNodeIndex IList<IFrameBrowsingListNodeIndex>.this[int index] { get { return this[index]; } set { this[index] = (IFocusBrowsingListNodeIndex)value; } }
+        IFrameBrowsingListNodeIndex IReadOnlyList<IFrameBrowsingListNodeIndex>.this[int index] { get { return this[index]; } }
         public void Add(IFrameBrowsingListNodeIndex item) { base.Add((IFocusBrowsingListNodeIndex)item); }
         public void Insert(int index, IFrameBrowsingListNodeIndex item) { base.Insert(index, (IFocusBrowsingListNodeIndex)item); }
         public bool Remove(IFrameBrowsingListNodeIndex item) { return base.Remove((IFocusBrowsingListNodeIndex)item); }

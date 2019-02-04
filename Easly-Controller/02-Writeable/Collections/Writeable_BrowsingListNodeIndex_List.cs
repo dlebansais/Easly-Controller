@@ -22,7 +22,9 @@ namespace EaslyController.Writeable
     internal class WriteableBrowsingListNodeIndexList : Collection<IWriteableBrowsingListNodeIndex>, IWriteableBrowsingListNodeIndexList
     {
         #region ReadOnly
-        public new IReadOnlyBrowsingListNodeIndex this[int index] { get { return base[index]; } set { base[index] = (IWriteableBrowsingListNodeIndex)value; } }
+        IReadOnlyBrowsingListNodeIndex IReadOnlyBrowsingListNodeIndexList.this[int index] { get { return this[index]; } set { this[index] = (IWriteableBrowsingListNodeIndex)value; } }
+        IReadOnlyBrowsingListNodeIndex IList<IReadOnlyBrowsingListNodeIndex>.this[int index] { get { return this[index]; } set { this[index] = (IWriteableBrowsingListNodeIndex)value; } }
+        IReadOnlyBrowsingListNodeIndex IReadOnlyList<IReadOnlyBrowsingListNodeIndex>.this[int index] { get { return this[index]; } }
         public void Add(IReadOnlyBrowsingListNodeIndex item) { base.Add((IWriteableBrowsingListNodeIndex)item); }
         public void Insert(int index, IReadOnlyBrowsingListNodeIndex item) { base.Insert(index, (IWriteableBrowsingListNodeIndex)item); }
         public bool Remove(IReadOnlyBrowsingListNodeIndex item) { return base.Remove((IWriteableBrowsingListNodeIndex)item); }

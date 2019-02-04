@@ -34,7 +34,7 @@ namespace EaslyController.Focus
         }
         bool IDictionary<IReadOnlyBlockState, IReadOnlyBlockStateView>.ContainsKey(IReadOnlyBlockState key) { return ContainsKey((IFocusBlockState)key); }
         void ICollection<KeyValuePair<IReadOnlyBlockState, IReadOnlyBlockStateView>>.Add(KeyValuePair<IReadOnlyBlockState, IReadOnlyBlockStateView> item) { Add((IFocusBlockState)item.Key, (IFocusBlockStateView)item.Value); }
-        bool ICollection<KeyValuePair<IReadOnlyBlockState, IReadOnlyBlockStateView>>.Contains(KeyValuePair<IReadOnlyBlockState, IReadOnlyBlockStateView> item) { return ContainsKey((IFocusBlockState)item.Key) && base[(IFocusBlockState)item.Key] == item.Value; }
+        bool ICollection<KeyValuePair<IReadOnlyBlockState, IReadOnlyBlockStateView>>.Contains(KeyValuePair<IReadOnlyBlockState, IReadOnlyBlockStateView> item) { return ContainsKey((IFocusBlockState)item.Key) && this[(IFocusBlockState)item.Key] == item.Value; }
 
         void ICollection<KeyValuePair<IReadOnlyBlockState, IReadOnlyBlockStateView>>.CopyTo(KeyValuePair<IReadOnlyBlockState, IReadOnlyBlockStateView>[] array, int arrayIndex)
         {
@@ -75,7 +75,7 @@ namespace EaslyController.Focus
         }
         bool IDictionary<IWriteableBlockState, IWriteableBlockStateView>.ContainsKey(IWriteableBlockState key) { return ContainsKey((IFocusBlockState)key); }
         void ICollection<KeyValuePair<IWriteableBlockState, IWriteableBlockStateView>>.Add(KeyValuePair<IWriteableBlockState, IWriteableBlockStateView> item) { Add((IFocusBlockState)item.Key, (IFocusBlockStateView)item.Value); }
-        bool ICollection<KeyValuePair<IWriteableBlockState, IWriteableBlockStateView>>.Contains(KeyValuePair<IWriteableBlockState, IWriteableBlockStateView> item) { return ContainsKey((IFocusBlockState)item.Key) && base[(IFocusBlockState)item.Key] == item.Value; }
+        bool ICollection<KeyValuePair<IWriteableBlockState, IWriteableBlockStateView>>.Contains(KeyValuePair<IWriteableBlockState, IWriteableBlockStateView> item) { return ContainsKey((IFocusBlockState)item.Key) && this[(IFocusBlockState)item.Key] == item.Value; }
 
         void ICollection<KeyValuePair<IWriteableBlockState, IWriteableBlockStateView>>.CopyTo(KeyValuePair<IWriteableBlockState, IWriteableBlockStateView>[] array, int arrayIndex)
         {
@@ -129,7 +129,7 @@ namespace EaslyController.Focus
         }
         bool IDictionary<IFrameBlockState, IFrameBlockStateView>.ContainsKey(IFrameBlockState key) { return ContainsKey((IFocusBlockState)key); }
         void ICollection<KeyValuePair<IFrameBlockState, IFrameBlockStateView>>.Add(KeyValuePair<IFrameBlockState, IFrameBlockStateView> item) { Add((IFocusBlockState)item.Key, (IFocusBlockStateView)item.Value); }
-        bool ICollection<KeyValuePair<IFrameBlockState, IFrameBlockStateView>>.Contains(KeyValuePair<IFrameBlockState, IFrameBlockStateView> item) { return ContainsKey((IFocusBlockState)item.Key) && base[(IFocusBlockState)item.Key] == item.Value; }
+        bool ICollection<KeyValuePair<IFrameBlockState, IFrameBlockStateView>>.Contains(KeyValuePair<IFrameBlockState, IFrameBlockStateView> item) { return ContainsKey((IFocusBlockState)item.Key) && this[(IFocusBlockState)item.Key] == item.Value; }
 
         void ICollection<KeyValuePair<IFrameBlockState, IFrameBlockStateView>>.CopyTo(KeyValuePair<IFrameBlockState, IFrameBlockStateView>[] array, int arrayIndex)
         {
