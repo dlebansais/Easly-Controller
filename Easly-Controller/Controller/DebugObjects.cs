@@ -36,7 +36,7 @@
         public static object GetReferenceByInterface(Type t)
         {
             foreach (KeyValuePair<Type, object> Entry in ReferenceTable)
-                if (Entry.Key.GetInterface(t.FullName) != null)
+                if (Entry.Key.GetInterface(t.Name) != null)
                     return Entry.Value;
 
             return null;
