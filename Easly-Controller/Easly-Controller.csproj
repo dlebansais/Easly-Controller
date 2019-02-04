@@ -43,6 +43,7 @@
     <Optimize>true</Optimize>
     <PlatformTarget>x64</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
+    <DocumentationFile>bin\x64\Travis\Easly-Controller.xml</DocumentationFile>
     <LangVersion>7.2</LangVersion>
   </PropertyGroup>
   <ItemGroup>
