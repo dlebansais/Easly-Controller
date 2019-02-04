@@ -57,6 +57,11 @@
         /// <param name="index">Position of the node in the block.</param>
         /// <returns>The index of the node at position <paramref name="blockIndex"/> and <paramref name="index"/>.</returns>
         IReadOnlyBrowsingExistingBlockNodeIndex IndexAt(int blockIndex, int index);
+
+        /// <summary>
+        /// Gets indexes for all nodes in the inner.
+        /// </summary>
+        IReadOnlyBrowsingBlockNodeIndexList AllIndexes();
     }
 
     /// <summary>
@@ -113,6 +118,11 @@
         /// <param name="index">Position of the node in the block.</param>
         /// <returns>The index of the node at position <paramref name="blockIndex"/> and <paramref name="index"/>.</returns>
         IReadOnlyBrowsingExistingBlockNodeIndex IndexAt(int blockIndex, int index);
+
+        /// <summary>
+        /// Gets indexes for all nodes in the inner.
+        /// </summary>
+        IReadOnlyBrowsingBlockNodeIndexList AllIndexes();
 
         /// <summary>
         /// Creates and initializes a new block state in the inner.
@@ -324,6 +334,25 @@
         }
 
         /// <summary>
+        /// Gets indexes for all nodes in the inner.
+        /// </summary>
+        public virtual IReadOnlyBrowsingBlockNodeIndexList AllIndexes()
+        {
+            IReadOnlyBrowsingBlockNodeIndexList Result = CreateBlockNodeIndexList();
+
+            foreach (IReadOnlyBlockState BlockState in BlockStateList)
+                foreach (IReadOnlyPlaceholderNodeState NodeState in BlockState.StateList)
+                {
+                    IReadOnlyBrowsingBlockNodeIndex ParentIndex = NodeState.ParentIndex as IReadOnlyBrowsingBlockNodeIndex;
+                    Debug.Assert(ParentIndex != null);
+
+                    Result.Add(ParentIndex);
+                }
+
+            return Result;
+        }
+
+        /// <summary>
         /// Creates a clone of all children of the inner, using <paramref name="parentNode"/> as their parent.
         /// </summary>
         /// <param name="parentNode">The node that will contains references to cloned children upon return.</param>
@@ -484,6 +513,15 @@
         {
             ControllerTools.AssertNoOverride(this, typeof(ReadOnlyBlockListInner<IIndex, TIndex>));
             return new ReadOnlyPlaceholderNodeState<IReadOnlyInner<IReadOnlyBrowsingChildIndex>>(nodeIndex);
+        }
+
+        /// <summary>
+        /// Creates a IxxxBrowsingBlockNodeIndexList.
+        /// </summary>
+        private protected virtual IReadOnlyBrowsingBlockNodeIndexList CreateBlockNodeIndexList()
+        {
+            ControllerTools.AssertNoOverride(this, typeof(ReadOnlyBlockListInner<IIndex, TIndex>));
+            return new ReadOnlyBrowsingBlockNodeIndexList();
         }
         #endregion
     }

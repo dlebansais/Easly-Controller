@@ -116,6 +116,15 @@
         }
 
         /// <summary>
+        /// Creates a IxxxBrowsingBlockNodeIndexList.
+        /// </summary>
+        private protected override IReadOnlyBrowsingBlockNodeIndexList CreateBlockNodeIndexList()
+        {
+            ControllerTools.AssertNoOverride(this, typeof(FocusBlockListInner<IIndex, TIndex>));
+            return new FocusBrowsingBlockNodeIndexList();
+        }
+
+        /// <summary>
         /// Creates a IxxxBrowsingExistingBlockNodeIndex object.
         /// </summary>
         private protected override IWriteableBrowsingExistingBlockNodeIndex CreateBrowsingNodeIndex(INode node, int blockIndex, int index)

@@ -736,6 +736,15 @@
         }
 
         /// <summary>
+        /// Creates a IxxxBrowsingBlockNodeIndexList.
+        /// </summary>
+        private protected override IReadOnlyBrowsingBlockNodeIndexList CreateBlockNodeIndexList()
+        {
+            ControllerTools.AssertNoOverride(this, typeof(WriteableBlockListInner<IIndex, TIndex>));
+            return new WriteableBrowsingBlockNodeIndexList();
+        }
+
+        /// <summary>
         /// Creates a IxxxBrowsingExistingBlockNodeIndex object.
         /// </summary>
         private protected virtual IWriteableBrowsingExistingBlockNodeIndex CreateBrowsingNodeIndex(INode node, int blockIndex, int index)

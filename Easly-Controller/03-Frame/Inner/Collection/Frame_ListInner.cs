@@ -105,6 +105,15 @@
         }
 
         /// <summary>
+        /// Creates a IxxxBrowsingListNodeIndexList.
+        /// </summary>
+        private protected override IReadOnlyBrowsingListNodeIndexList CreateListNodeIndexList()
+        {
+            ControllerTools.AssertNoOverride(this, typeof(FrameListInner<IIndex, TIndex>));
+            return new FrameBrowsingListNodeIndexList();
+        }
+
+        /// <summary>
         /// Creates a IxxxBrowsingListNodeIndex object.
         /// </summary>
         private protected override IWriteableBrowsingListNodeIndex CreateBrowsingNodeIndex(INode node, int index)

@@ -26,6 +26,11 @@
         /// <param name="index">Position of the node in the list.</param>
         /// <returns>The index of the node at position <paramref name="index"/>.</returns>
         IReadOnlyBrowsingListNodeIndex IndexAt(int index);
+
+        /// <summary>
+        /// Gets indexes for all nodes in the inner.
+        /// </summary>
+        IReadOnlyBrowsingListNodeIndexList AllIndexes();
     }
 
     /// <summary>
@@ -51,6 +56,11 @@
         /// <param name="index">Position of the node in the list.</param>
         /// <returns>The index of the node at position <paramref name="index"/>.</returns>
         IReadOnlyBrowsingListNodeIndex IndexAt(int index);
+
+        /// <summary>
+        /// Gets indexes for all nodes in the inner.
+        /// </summary>
+        IReadOnlyBrowsingListNodeIndexList AllIndexes();
     }
 
     /// <summary>
@@ -156,6 +166,24 @@
             Debug.Assert(index >= 0 && index < StateList.Count);
 
             return (IReadOnlyBrowsingListNodeIndex)StateList[index].ParentIndex;
+        }
+
+        /// <summary>
+        /// Gets indexes for all nodes in the inner.
+        /// </summary>
+        public virtual IReadOnlyBrowsingListNodeIndexList AllIndexes()
+        {
+            IReadOnlyBrowsingListNodeIndexList Result = CreateListNodeIndexList();
+
+            foreach (IReadOnlyPlaceholderNodeState NodeState in StateList)
+            {
+                IReadOnlyBrowsingListNodeIndex ParentIndex = NodeState.ParentIndex as IReadOnlyBrowsingListNodeIndex;
+                Debug.Assert(ParentIndex != null);
+
+                Result.Add(ParentIndex);
+            }
+
+            return Result;
         }
 
         /// <summary>
@@ -287,6 +315,15 @@
         {
             ControllerTools.AssertNoOverride(this, typeof(ReadOnlyListInner<IIndex, TIndex>));
             return new ReadOnlyPlaceholderNodeState<IReadOnlyInner<IReadOnlyBrowsingChildIndex>>(nodeIndex);
+        }
+
+        /// <summary>
+        /// Creates a IxxxBrowsingListNodeIndexList.
+        /// </summary>
+        private protected virtual IReadOnlyBrowsingListNodeIndexList CreateListNodeIndexList()
+        {
+            ControllerTools.AssertNoOverride(this, typeof(ReadOnlyListInner<IIndex, TIndex>));
+            return new ReadOnlyBrowsingListNodeIndexList();
         }
         #endregion
     }
