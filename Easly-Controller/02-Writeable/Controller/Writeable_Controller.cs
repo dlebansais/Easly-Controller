@@ -24,6 +24,11 @@
         new IWriteablePlaceholderNodeState RootState { get; }
 
         /// <summary>
+        /// State table.
+        /// </summary>
+        new IWriteableIndexNodeStateReadOnlyDictionary StateTable { get; }
+
+        /// <summary>
         /// List of operations that have been performed, and can be undone or redone.
         /// </summary>
         IWriteableOperationGroupReadOnlyList OperationStack { get; }
@@ -314,6 +319,11 @@
         public new IWriteablePlaceholderNodeState RootState { get { return (IWriteablePlaceholderNodeState)base.RootState; } }
 
         /// <summary>
+        /// State table.
+        /// </summary>
+        public new IWriteableIndexNodeStateReadOnlyDictionary StateTable { get { return (IWriteableIndexNodeStateReadOnlyDictionary)base.StateTable; } }
+
+        /// <summary>
         /// List of operations that have been performed, and can be undone or redone.
         /// </summary>
         public IWriteableOperationGroupReadOnlyList OperationStack { get; }
@@ -543,11 +553,6 @@
         private protected virtual void AddGenericRefreshDelegate(Action<IWriteableGenericRefreshOperation> handler) { GenericRefreshHandler += handler; }
         private protected virtual void RemoveGenericRefreshDelegate(Action<IWriteableGenericRefreshOperation> handler) { GenericRefreshHandler -= handler; }
 #pragma warning restore 1591
-
-        /// <summary>
-        /// State table.
-        /// </summary>
-        private protected new IWriteableIndexNodeStateReadOnlyDictionary StateTable { get { return (IWriteableIndexNodeStateReadOnlyDictionary)base.StateTable; } }
         #endregion
 
         #region Client Interface

@@ -26,6 +26,11 @@
         new IFocusPlaceholderNodeState RootState { get; }
 
         /// <summary>
+        /// State table.
+        /// </summary>
+        new IFocusIndexNodeStateReadOnlyDictionary StateTable { get; }
+
+        /// <summary>
         /// List of operations that have been performed, and can be undone or redone.
         /// </summary>
         new IFocusOperationGroupReadOnlyList OperationStack { get; }
@@ -90,14 +95,14 @@
         public new IFocusPlaceholderNodeState RootState { get { return (IFocusPlaceholderNodeState)base.RootState; } }
 
         /// <summary>
+        /// State table.
+        /// </summary>
+        public new IFocusIndexNodeStateReadOnlyDictionary StateTable { get { return (IFocusIndexNodeStateReadOnlyDictionary)base.StateTable; } }
+
+        /// <summary>
         /// List of operations that have been performed, and can be undone or redone.
         /// </summary>
         public new IFocusOperationGroupReadOnlyList OperationStack { get { return (IFocusOperationGroupReadOnlyList)base.OperationStack; } }
-
-        /// <summary>
-        /// State table.
-        /// </summary>
-        private protected new IFocusIndexNodeStateReadOnlyDictionary StateTable { get { return (IFocusIndexNodeStateReadOnlyDictionary)base.StateTable; } }
         #endregion
 
         #region Client Interface

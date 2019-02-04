@@ -24,6 +24,11 @@
         new IFramePlaceholderNodeState RootState { get; }
 
         /// <summary>
+        /// State table.
+        /// </summary>
+        new IFrameIndexNodeStateReadOnlyDictionary StateTable { get; }
+
+        /// <summary>
         /// List of operations that have been performed, and can be undone or redone.
         /// </summary>
         new IFrameOperationGroupReadOnlyList OperationStack { get; }
@@ -70,14 +75,14 @@
         public new IFramePlaceholderNodeState RootState { get { return (IFramePlaceholderNodeState)base.RootState; } }
 
         /// <summary>
+        /// State table.
+        /// </summary>
+        public new IFrameIndexNodeStateReadOnlyDictionary StateTable { get { return (IFrameIndexNodeStateReadOnlyDictionary)base.StateTable; } }
+
+        /// <summary>
         /// List of operations that have been performed, and can be undone or redone.
         /// </summary>
         public new IFrameOperationGroupReadOnlyList OperationStack { get { return (IFrameOperationGroupReadOnlyList)base.OperationStack; } }
-
-        /// <summary>
-        /// State table.
-        /// </summary>
-        private protected new IFrameIndexNodeStateReadOnlyDictionary StateTable { get { return (IFrameIndexNodeStateReadOnlyDictionary)base.StateTable; } }
         #endregion
 
         #region Implementation

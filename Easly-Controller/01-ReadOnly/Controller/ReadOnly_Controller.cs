@@ -23,6 +23,11 @@
         IReadOnlyPlaceholderNodeState RootState { get; }
 
         /// <summary>
+        /// State table.
+        /// </summary>
+        IReadOnlyIndexNodeStateReadOnlyDictionary StateTable { get; }
+
+        /// <summary>
         /// Stats for debugging and test purpose.
         /// </summary>
         Stats Stats { get; }
@@ -218,7 +223,7 @@
         /// <summary>
         /// State table.
         /// </summary>
-        private protected IReadOnlyIndexNodeStateReadOnlyDictionary StateTable { get; }
+        public IReadOnlyIndexNodeStateReadOnlyDictionary StateTable { get; }
         private IReadOnlyIndexNodeStateDictionary _StateTable;
 #pragma warning disable 1591
         [Conditional("DEBUG")]
