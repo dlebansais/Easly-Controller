@@ -138,9 +138,6 @@
                     InternalList.Remove(InternalItem);
                     InternalList.Insert(0, InternalItem);
 
-                    if (InternalList.GetType() == typeof(IReadOnlyIndexCollectionList))
-                        InternalList.CopyTo(new IReadOnlyIndexCollection[InternalList.Count], 0);
-
                     IEnumerable<IReadOnlyIndexCollection> AsEnumerable = InternalList;
                     foreach (IReadOnlyIndexCollection Item in AsEnumerable)
                     {
