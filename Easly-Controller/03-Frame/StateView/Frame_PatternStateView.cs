@@ -237,28 +237,11 @@
             {
                 IFrameAssignableCellViewDictionary<string> ActualCellViewTable = CreateCellViewTable();
                 IsValid &= RootCellView.IsCellViewTreeValid(CellViewTable, ActualCellViewTable);
-                IsValid &= AllCellViewsProperlyAssigned(CellViewTable, ActualCellViewTable);
+
+                Debug.Assert(ActualCellViewTable.Count == 0);
             }
 
             return IsValid;
-        }
-
-        /// <summary></summary>
-        private protected virtual bool AllCellViewsProperlyAssigned(IFrameAssignableCellViewReadOnlyDictionary<string> expectedCellViewTable, IFrameAssignableCellViewDictionary<string> actualCellViewTable)
-        {
-            bool IsAssigned = true;
-
-            int ActualCount = 0;
-            foreach (KeyValuePair<string, IFrameAssignableCellView> Entry in CellViewTable)
-                if (Entry.Value != null)
-                {
-                    ActualCount++;
-                    IsAssigned &= actualCellViewTable.ContainsKey(Entry.Key);
-                }
-
-            IsAssigned &= actualCellViewTable.Count == ActualCount;
-
-            return IsAssigned;
         }
         #endregion
 

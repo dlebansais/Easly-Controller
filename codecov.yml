@@ -39,6 +39,7 @@ ignore:
   - Easly-Controller/03-Frame/Index/Browsing/Collection/Frame_BrowsingBlockNodeIndex.cs
   - Easly-Controller/03-Frame/Index/Browsing/Collection/Frame_BrowsingCollectionNodeIndex.cs
   - Easly-Controller/03-Frame/Index/Insertion/Collection/Frame_InsertionBlockNodeIndex.cs
+  - Easly-Controller/03-Frame/Index/Insertion/Collection/Frame_InsertionCollectionNodeIndex.cs
   - Easly-Controller/03-Frame/Inner/Collection/Frame_CollectionInner.cs
   - Easly-Controller/03-Frame/Inner/Single/Frame_SingleInner.cs
   - Easly-Controller/03-Frame/Inner/Frame_Inner.cs

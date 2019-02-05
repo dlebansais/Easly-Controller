@@ -249,11 +249,6 @@
                 if (!comparer.VerifyEqual(CellViewTable, AsOptionalNodeStateView.CellViewTable))
                     return comparer.Failed();
             }
-            else
-            {
-                Debug.Assert(CellViewTable == null);
-                Debug.Assert(AsOptionalNodeStateView.CellViewTable == null);
-            }
 
             return true;
         }

@@ -250,18 +250,14 @@
         /// <summary></summary>
         private protected virtual bool IsRootCellViewEqual(CompareEqual comparer, IFrameBlockStateView other)
         {
+            if (!comparer.IsTrue((RootCellView == null && other.RootCellView == null) || (RootCellView != null && other.RootCellView != null)))
+                return comparer.Failed();
+
             if (RootCellView != null)
             {
-                if (!comparer.IsTrue(other.RootCellView != null))
+                if (!comparer.VerifyEqual(RootCellView, other.RootCellView))
                     return comparer.Failed();
-                else
-                {
-                    if (!comparer.VerifyEqual(RootCellView, other.RootCellView))
-                        return comparer.Failed();
-                }
             }
-            else if (!comparer.IsTrue(other.RootCellView == null))
-                return comparer.Failed();
 
             return true;
         }
@@ -269,18 +265,14 @@
         /// <summary></summary>
         private protected virtual bool IsEmbeddingCellViewEqual(CompareEqual comparer, IFrameBlockStateView other)
         {
+            if (!comparer.IsTrue((EmbeddingCellView == null && other.EmbeddingCellView == null) || (EmbeddingCellView != null && other.EmbeddingCellView != null)))
+                return comparer.Failed();
+
             if (EmbeddingCellView != null)
             {
-                if (!comparer.IsTrue(other.EmbeddingCellView != null))
+                if (!comparer.VerifyEqual(EmbeddingCellView, other.EmbeddingCellView))
                     return comparer.Failed();
-                else
-                {
-                    if (!comparer.VerifyEqual(EmbeddingCellView, other.EmbeddingCellView))
-                        return comparer.Failed();
-                }
             }
-            else if (!comparer.IsTrue(other.EmbeddingCellView == null))
-                return comparer.Failed();
 
             return true;
         }
