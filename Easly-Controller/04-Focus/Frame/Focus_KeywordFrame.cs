@@ -1,6 +1,7 @@
 ﻿namespace EaslyController.Focus
 {
     using System;
+    using System.Diagnostics;
     using System.Windows.Markup;
     using EaslyController.Frame;
 
@@ -55,16 +56,14 @@
         /// <param name="nodeTemplateTable">Table of templates with all frames.</param>
         public override bool IsValid(Type nodeType, IFrameTemplateReadOnlyDictionary nodeTemplateTable)
         {
-            if (!base.IsValid(nodeType, nodeTemplateTable))
-                return false;
+            bool IsValid = true;
 
-            if (Visibility != null && !Visibility.IsValid(nodeType))
-                return false;
+            IsValid &= base.IsValid(nodeType, nodeTemplateTable);
+            IsValid &= Visibility == null || Visibility.IsValid(nodeType);
+            IsValid &= BlockVisibility == null || BlockVisibility.IsValid(nodeType);
 
-            if (BlockVisibility != null && !BlockVisibility.IsValid(nodeType))
-                return false;
-
-            return true;
+            Debug.Assert(IsValid);
+            return IsValid;
         }
 
         /// <summary>

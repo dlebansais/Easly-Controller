@@ -24,13 +24,13 @@
         /// <param name="nodeTemplateTable">Table of templates with all frames.</param>
         public override bool IsValid(Type nodeType, IFrameTemplateReadOnlyDictionary nodeTemplateTable)
         {
-            if (!base.IsValid(nodeType, nodeTemplateTable))
-                return false;
+            bool IsValid = true;
 
-            if (!NodeTreeHelperOptional.IsOptionalChildNodeProperty(nodeType, PropertyName, out Type ChildNodeType))
-                return false;
+            IsValid &= base.IsValid(nodeType, nodeTemplateTable);
+            IsValid &= NodeTreeHelperOptional.IsOptionalChildNodeProperty(nodeType, PropertyName, out Type ChildNodeType);
 
-            return true;
+            Debug.Assert(IsValid);
+            return IsValid;
         }
 
         /// <summary>

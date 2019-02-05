@@ -51,28 +51,23 @@
         /// <param name="nodeTemplateTable">Table of templates with all frames.</param>
         public override bool IsValid(Type nodeType, IFrameTemplateReadOnlyDictionary nodeTemplateTable)
         {
-            if (!base.IsValid(nodeType, nodeTemplateTable))
-                return false;
+            bool IsValid = true;
 
-            if (Items.Count == 0)
-                return false;
-
-            if (!IsParentRoot)
-                return false;
+            IsValid &= base.IsValid(nodeType, nodeTemplateTable);
+            IsValid &= Items.Count > 0;
+            IsValid &= IsParentRoot;
 
             List<string> NameList = new List<string>();
             foreach (IFocusSelectableFrame Item in Items)
             {
-                if (!Item.IsValid(nodeType, nodeTemplateTable))
-                    return false;
-
-                if (NameList.Contains(Item.Name))
-                    return false;
+                IsValid &= Item.IsValid(nodeType, nodeTemplateTable);
+                IsValid &= !NameList.Contains(Item.Name);
 
                 NameList.Add(Item.Name);
             }
 
-            return true;
+            Debug.Assert(IsValid);
+            return IsValid;
         }
 
         /// <summary>

@@ -45,17 +45,16 @@
         /// <param name="nodeTemplateTable">Table of templates with all frames.</param>
         public override bool IsValid(Type nodeType, IFrameTemplateReadOnlyDictionary nodeTemplateTable)
         {
-            if (!base.IsValid(nodeType, nodeTemplateTable))
-                return false;
+            bool IsValid = true;
 
-            if (Items == null || Items.Count == 0)
-                return false;
+            IsValid &= base.IsValid(nodeType, nodeTemplateTable);
+            IsValid &= Items != null && Items.Count > 0;
 
             foreach (IFrameFrame Item in Items)
-                if (!Item.IsValid(nodeType, nodeTemplateTable))
-                    return false;
+                IsValid &= Item.IsValid(nodeType, nodeTemplateTable);
 
-            return true;
+            Debug.Assert(IsValid);
+            return IsValid;
         }
 
         /// <summary>

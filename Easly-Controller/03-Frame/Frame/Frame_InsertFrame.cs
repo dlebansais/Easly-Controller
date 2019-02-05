@@ -1,6 +1,7 @@
 ﻿namespace EaslyController.Frame
 {
     using System;
+    using System.Diagnostics;
     using System.Windows.Markup;
     using BaseNodeHelper;
 
@@ -48,17 +49,17 @@
         /// <param name="nodeTemplateTable">Table of templates with all frames.</param>
         public override bool IsValid(Type nodeType, IFrameTemplateReadOnlyDictionary nodeTemplateTable)
         {
-            if (!base.IsValid(nodeType, nodeTemplateTable))
-                return false;
+            bool IsValid = true;
 
-            if (string.IsNullOrEmpty(CollectionName))
-                return false;
+            IsValid &= base.IsValid(nodeType, nodeTemplateTable);
+            IsValid &= !string.IsNullOrEmpty(CollectionName);
 
             UpdateInterfaceType(nodeType);
-            if (InterfaceType == null)
-                return false;
 
-            return true;
+            IsValid &= InterfaceType != null;
+
+            Debug.Assert(IsValid);
+            return IsValid;
         }
 
         /// <summary></summary>
