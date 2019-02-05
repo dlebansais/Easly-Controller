@@ -115,9 +115,6 @@
                 if (!nodeTemplateTable.ContainsKey(Entry.Key))
                     return false;
 
-            if (nodeTemplateTable.Count != DefaultDictionary.Count)
-                return false;
-
             foreach (KeyValuePair<Type, IFrameTemplate> Entry in nodeTemplateTable)
             {
                 Type NodeType = Entry.Key;
@@ -182,9 +179,6 @@
             foreach (KeyValuePair<Type, IFrameTemplate> Entry in DefaultDictionary)
                 if (!blockTemplateTable.ContainsKey(Entry.Key))
                     return false;
-
-            if (blockTemplateTable.Count != DefaultDictionary.Count)
-                return false;
 
             foreach (KeyValuePair<Type, IFrameTemplate> Entry in blockTemplateTable)
             {

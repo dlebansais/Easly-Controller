@@ -70,28 +70,41 @@
         /// <param name="serviceProvider">A service provider helper that can provide services for the markup extension.</param>
         public override object ProvideValue(IServiceProvider serviceProvider)
         {
+            Debug.Assert(serviceProvider != null);
             Debug.Assert(TypeName != null);
             Debug.Assert((Arg1 == null && Arg2 == null) || (Arg1 != null && Arg2 == null) || (Arg1 != null && Arg2 != null));
 
-            Assembly EaslyAssembly = typeof(INode).Assembly;
+            IXamlTypeResolver XamlTypeResolver = serviceProvider.GetService(typeof(IXamlTypeResolver)) as IXamlTypeResolver;
+
             System.Type Type = null;
 
             if (Arg1 == null && Arg2 == null)
-                Type = EaslyAssembly.GetType(ToFullName(TypeName));
+                Type = XamlTypeResolver.Resolve(TypeName);
+
             else if (Arg1 != null && Arg2 == null)
             {
-                System.Type GenericDefinitionType = EaslyAssembly.GetType(ToFullNameWithArguments(TypeName, 1));
+                System.Type Arg1Type;
+                System.Type GenericDefinitionType;
 
-                System.Type Arg1Type = EaslyAssembly.GetType(ToFullName(Arg1));
+                Arg1Type = XamlTypeResolver.Resolve(Arg1);
+                GenericDefinitionType = XamlTypeResolver.Resolve($"{TypeName}`1");
+
                 System.Type[] GenericArguments = new System.Type[] { Arg1Type };
                 Type = GenericDefinitionType.MakeGenericType(GenericArguments);
             }
             else if (Arg1 != null && Arg1 != null)
             {
-                System.Type GenericDefinitionType = EaslyAssembly.GetType(ToFullNameWithArguments(TypeName, 2));
+                System.Type Arg1Type;
+                System.Type Arg2Type;
+                System.Type GenericDefinitionType;
 
-                System.Type Arg1Type = EaslyAssembly.GetType(ToFullName(Arg1));
-                System.Type Arg2Type = EaslyAssembly.GetType(ToFullName(Arg2));
+                Arg1Type = XamlTypeResolver.Resolve(Arg1);
+                Arg2Type = XamlTypeResolver.Resolve(Arg2);
+
+                GenericDefinitionType = XamlTypeResolver.Resolve(TypeName);
+                Assembly GenericDefinitionAssembly = GenericDefinitionType.Assembly;
+                GenericDefinitionType = GenericDefinitionAssembly.GetType(ToFullNameWithArguments(GenericDefinitionType.Name, 2));
+
                 System.Type[] GenericArguments = new System.Type[] { Arg1Type, Arg2Type };
                 Type = GenericDefinitionType.MakeGenericType(GenericArguments);
             }
