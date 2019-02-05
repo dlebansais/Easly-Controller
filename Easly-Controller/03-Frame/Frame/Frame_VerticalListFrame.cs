@@ -18,7 +18,7 @@
         /// </summary>
         private protected override IFrameCellViewCollection CreateEmbeddingCellView(IFrameNodeStateView stateView, IFrameCellViewList list)
         {
-            ControllerTools.AssertNoOverride(this, typeof(FrameHorizontalListFrame));
+            ControllerTools.AssertNoOverride(this, typeof(FrameVerticalListFrame));
             return new FrameColumn(stateView, list);
         }
         #endregion

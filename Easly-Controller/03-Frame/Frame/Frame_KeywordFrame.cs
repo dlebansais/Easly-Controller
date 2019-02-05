@@ -56,5 +56,16 @@
             return CreateFrameCellView(context.StateView);
         }
         #endregion
+
+        #region Create Methods
+        /// <summary>
+        /// Creates a IxxxVisibleCellView object.
+        /// </summary>
+        private protected override IFrameVisibleCellView CreateFrameCellView(IFrameNodeStateView stateView)
+        {
+            ControllerTools.AssertNoOverride(this, typeof(FrameKeywordFrame));
+            return new FrameVisibleCellView(stateView, this);
+        }
+        #endregion
     }
 }

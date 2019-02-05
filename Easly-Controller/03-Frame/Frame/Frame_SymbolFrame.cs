@@ -26,5 +26,16 @@
         /// </summary>
         public Symbols Symbol { get; set; }
         #endregion
+
+        #region Create Methods
+        /// <summary>
+        /// Creates a IxxxVisibleCellView object.
+        /// </summary>
+        private protected override IFrameVisibleCellView CreateFrameCellView(IFrameNodeStateView stateView)
+        {
+            ControllerTools.AssertNoOverride(this, typeof(FrameSymbolFrame));
+            return new FrameVisibleCellView(stateView, this);
+        }
+        #endregion
     }
 }

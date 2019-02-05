@@ -28,11 +28,7 @@
         /// <summary>
         /// Creates a IxxxVisibleCellView object.
         /// </summary>
-        private protected virtual IFrameVisibleCellView CreateFrameCellView(IFrameNodeStateView stateView)
-        {
-            ControllerTools.AssertNoOverride(this, typeof(FrameStaticFrame));
-            return new FrameVisibleCellView(stateView, this);
-        }
+        private protected abstract IFrameVisibleCellView CreateFrameCellView(IFrameNodeStateView stateView);
         #endregion
     }
 }
