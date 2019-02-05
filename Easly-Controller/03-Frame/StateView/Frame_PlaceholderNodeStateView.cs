@@ -230,11 +230,6 @@
                 if (!comparer.VerifyEqual(CellViewTable, AsPlaceholderNodeStateView.CellViewTable))
                     return comparer.Failed();
             }
-            else
-            {
-                Debug.Assert(CellViewTable == null);
-                Debug.Assert(AsPlaceholderNodeStateView.CellViewTable == null);
-            }
 
             return true;
         }

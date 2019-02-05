@@ -1,6 +1,7 @@
 ﻿namespace EaslyController.Frame
 {
     using System;
+    using System.Diagnostics;
 
     /// <summary>
     /// Template describing all components of a node.
@@ -50,16 +51,14 @@
         {
             get
             {
-                if (NodeType == null)
-                    return false;
+                bool IsValid = true;
 
-                if (Root == null)
-                    return false;
+                IsValid &= NodeType != null;
+                IsValid &= Root != null;
+                IsValid &= IsRootValid;
 
-                if (!IsRootValid)
-                    return false;
-
-                return true;
+                Debug.Assert(IsValid);
+                return IsValid;
             }
         }
 

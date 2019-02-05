@@ -58,29 +58,27 @@
         /// <param name="propertyName">The property for which frames can be selected.</param>
         public virtual bool IsValid(Type nodeType, IFocusTemplateReadOnlyDictionary nodeTemplateTable, string propertyName)
         {
-            if (SelectorType == null)
-                return false;
+            bool IsValid = true;
 
-            if (string.IsNullOrEmpty(SelectorName))
-                return false;
+            IsValid &= SelectorType != null;
+            IsValid &= !string.IsNullOrEmpty(SelectorName);
 
             Type ChildInterfaceType, ChildNodeType;
-            if (!NodeTreeHelperChild.IsChildNodeProperty(nodeType, propertyName, out ChildInterfaceType) &&
-                !NodeTreeHelperOptional.IsOptionalChildNodeProperty(nodeType, propertyName, out ChildInterfaceType) &&
-                !NodeTreeHelperList.IsNodeListProperty(nodeType, propertyName, out ChildInterfaceType) &&
-                !NodeTreeHelperBlockList.IsBlockListProperty(nodeType, propertyName, out ChildInterfaceType, out ChildNodeType))
-                return false;
+            IsValid &= NodeTreeHelperChild.IsChildNodeProperty(nodeType, propertyName, out ChildInterfaceType) ||
+                       NodeTreeHelperOptional.IsOptionalChildNodeProperty(nodeType, propertyName, out ChildInterfaceType) ||
+                       NodeTreeHelperList.IsNodeListProperty(nodeType, propertyName, out ChildInterfaceType) ||
+                       NodeTreeHelperBlockList.IsBlockListProperty(nodeType, propertyName, out ChildInterfaceType, out ChildNodeType);
 
-            if (!ChildInterfaceType.IsAssignableFrom(SelectorType))
-                return false;
-
-            if (!nodeTemplateTable.ContainsKey(SelectorType))
-                return false;
+            IsValid &= ChildInterfaceType.IsAssignableFrom(SelectorType);
+            IsValid &= nodeTemplateTable.ContainsKey(SelectorType);
 
             IFocusNodeTemplate Template = nodeTemplateTable[SelectorType] as IFocusNodeTemplate;
             Debug.Assert(Template != null);
 
-            if (Template.Root is IFocusSelectionFrame AsSelectionFrame)
+            IFocusSelectionFrame AsSelectionFrame = Template.Root as IFocusSelectionFrame;
+            IsValid &= AsSelectionFrame != null;
+
+            if (IsValid)
             {
                 IFocusSelectableFrame SelectedItem = null;
                 foreach (IFocusSelectableFrame Item in AsSelectionFrame.Items)
@@ -90,13 +88,11 @@
                         break;
                     }
 
-                if (SelectedItem == null)
-                    return false;
-
-                return true;
+                IsValid &= SelectedItem != null;
             }
-            else
-                return false;
+
+            Debug.Assert(IsValid);
+            return IsValid;
         }
         #endregion
     }

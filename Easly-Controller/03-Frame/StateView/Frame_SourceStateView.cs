@@ -220,11 +220,6 @@
                 if (!comparer.VerifyEqual(CellViewTable, AsSourceStateView.CellViewTable))
                     return comparer.Failed();
             }
-            else
-            {
-                Debug.Assert(CellViewTable == null);
-                Debug.Assert(AsSourceStateView.CellViewTable == null);
-            }
 
             return true;
         }

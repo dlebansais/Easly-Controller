@@ -111,26 +111,23 @@
 
             IFrameTemplateDictionary DefaultDictionary = CreateDefaultTemplateDictionary();
 
+            bool IsValid = true;
+
             foreach (KeyValuePair<Type, IFrameTemplate> Entry in DefaultDictionary)
-                if (!nodeTemplateTable.ContainsKey(Entry.Key))
-                    return false;
+                IsValid &= nodeTemplateTable.ContainsKey(Entry.Key);
 
             foreach (KeyValuePair<Type, IFrameTemplate> Entry in nodeTemplateTable)
             {
                 Type NodeType = Entry.Key;
                 IFrameTemplate Template = Entry.Value;
 
-                if (!Template.IsValid)
-                    return false;
-
-                if (!IsValidNodeType(NodeType, Template.NodeType))
-                    return false;
-
-                if (!Template.Root.IsValid(NodeType, nodeTemplateTable))
-                    return false;
+                IsValid &= Template.IsValid;
+                IsValid &= IsValidNodeType(NodeType, Template.NodeType);
+                IsValid &= Template.Root.IsValid(NodeType, nodeTemplateTable);
             }
 
-            return true;
+            Debug.Assert(IsValid);
+            return IsValid;
         }
 
         /// <summary>
@@ -356,6 +353,8 @@
             }
 
             RootFrame.UpdateParent(RootTemplate, GetRoot());
+
+            Debug.Assert(RootTemplate.ToString() != null); // For code coverage.
         }
 
         /// <summary></summary>
@@ -391,6 +390,7 @@
             RootTemplate.Root = RootFrame;
 
             RootFrame.UpdateParent(RootTemplate, GetRoot());
+            Debug.Assert(RootTemplate.ToString() != null); // For code coverage.
 
             List<Type> BlockKeys = new List<Type>(DefaultDictionary.Keys);
             foreach (Type Key in BlockKeys)

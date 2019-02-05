@@ -63,19 +63,15 @@
         /// <param name="nodeTemplateTable">Table of templates with all frames.</param>
         public virtual bool IsValid(Type nodeType, IFrameTemplateReadOnlyDictionary nodeTemplateTable)
         {
-            if (Content == null)
-                return false;
+            bool IsValid = true;
 
-            if (string.IsNullOrEmpty(Name))
-                return false;
+            IsValid &= Content != null;
+            IsValid &= !string.IsNullOrEmpty(Name);
+            IsValid &= ParentFrame is IFocusSelectionFrame;
+            IsValid &= Content.IsValid(nodeType, nodeTemplateTable);
 
-            if (!(ParentFrame is IFocusSelectionFrame))
-                return false;
-
-            if (!Content.IsValid(nodeType, nodeTemplateTable))
-                return false;
-
-            return true;
+            Debug.Assert(IsValid);
+            return IsValid;
         }
 
         /// <summary>
