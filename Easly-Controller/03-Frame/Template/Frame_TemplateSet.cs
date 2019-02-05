@@ -137,13 +137,11 @@
         /// <param name="providedType">The type a template has declared.</param>
         public virtual bool IsValidNodeType(Type expectedType, Type providedType)
         {
-            if (expectedType == providedType)
-                return true;
+            bool IsValid = true;
 
-            if (expectedType.IsAssignableFrom(providedType))
-                return true;
+            IsValid &= (expectedType == providedType) || expectedType.IsAssignableFrom(providedType);
 
-            if (expectedType.IsGenericType)
+            if (!IsValid && expectedType.IsGenericType)
             {
                 Type GenericTypeDefinition = expectedType.GetGenericTypeDefinition();
                 string GenericTypeDefinitionName = GenericTypeDefinition.Name;
@@ -151,11 +149,11 @@
                 if (GenericCharIndex > 0)
                     GenericTypeDefinitionName = GenericTypeDefinitionName.Substring(0, GenericCharIndex);
 
-                if (GenericTypeDefinitionName == providedType.Name)
-                    return true;
+                IsValid = GenericTypeDefinitionName == providedType.Name;
             }
 
-            return false;
+            Debug.Assert(IsValid);
+            return IsValid;
         }
 
         /// <summary>
@@ -173,26 +171,23 @@
             foreach (Type Key in BlockKeys)
                 AddBlockNodeTypes(DefaultDictionary, Key);
 
+            bool IsValid = true;
+
             foreach (KeyValuePair<Type, IFrameTemplate> Entry in DefaultDictionary)
-                if (!blockTemplateTable.ContainsKey(Entry.Key))
-                    return false;
+                IsValid &= blockTemplateTable.ContainsKey(Entry.Key);
 
             foreach (KeyValuePair<Type, IFrameTemplate> Entry in blockTemplateTable)
             {
                 Type NodeType = Entry.Key;
                 IFrameTemplate Template = Entry.Value;
 
-                if (!NodeTreeHelper.IsBlockType(NodeType))
-                    return false;
-
-                if (!Template.IsValid)
-                    return false;
-
-                if (!Template.Root.IsValid(NodeType, nodeTemplateTable))
-                    return false;
+                IsValid &= NodeTreeHelper.IsBlockType(NodeType);
+                IsValid &= Template.IsValid;
+                IsValid &= Template.Root.IsValid(NodeType, nodeTemplateTable);
             }
 
-            return true;
+            Debug.Assert(IsValid);
+            return IsValid;
         }
 
         /// <summary>
