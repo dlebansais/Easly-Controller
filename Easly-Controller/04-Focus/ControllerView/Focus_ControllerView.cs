@@ -8,6 +8,7 @@
     using EaslyController.Constants;
     using EaslyController.Frame;
     using EaslyController.ReadOnly;
+    using EaslyController.Writeable;
 
     /// <summary>
     /// View of a IxxxController.
@@ -1097,6 +1098,239 @@
         #endregion
 
         #region Implementation
+        /// <summary>
+        /// Handler called every time a block state is inserted in the controller.
+        /// </summary>
+        /// <param name="operation">Details of the operation performed.</param>
+        private protected override void OnBlockStateInserted(IWriteableInsertBlockOperation operation)
+        {
+            base.OnBlockStateInserted(operation);
+
+            IFocusBlockState BlockState = ((IFocusInsertBlockOperation)operation).BlockState;
+
+            Debug.Assert(BlockState != null);
+            Debug.Assert(BlockStateViewTable.ContainsKey(BlockState));
+
+            Debug.Assert(StateViewTable.ContainsKey(BlockState.PatternState));
+            Debug.Assert(StateViewTable.ContainsKey(BlockState.SourceState));
+
+            Debug.Assert(BlockState.StateList.Count == 1);
+
+            IFocusPlaceholderNodeState ChildState = ((IFocusInsertBlockOperation)operation).ChildState;
+            Debug.Assert(ChildState == BlockState.StateList[0]);
+            Debug.Assert(ChildState.ParentIndex == ((IFocusInsertBlockOperation)operation).BrowsingIndex);
+            Debug.Assert(StateViewTable.ContainsKey(ChildState));
+        }
+
+        /// <summary>
+        /// Handler called every time a block state is removed from the controller.
+        /// </summary>
+        /// <param name="operation">Details of the operation performed.</param>
+        private protected override void OnBlockStateRemoved(IWriteableRemoveBlockOperation operation)
+        {
+            base.OnBlockStateRemoved(operation);
+
+            IFocusBlockState BlockState = ((IFocusRemoveBlockOperation)operation).BlockState;
+
+            Debug.Assert(BlockState != null);
+            Debug.Assert(!BlockStateViewTable.ContainsKey(BlockState));
+
+            Debug.Assert(!StateViewTable.ContainsKey(BlockState.PatternState));
+            Debug.Assert(!StateViewTable.ContainsKey(BlockState.SourceState));
+
+            IFocusNodeState RemovedState = ((IFocusRemoveBlockOperation)operation).RemovedState;
+            Debug.Assert(!StateViewTable.ContainsKey(RemovedState));
+
+            Debug.Assert(BlockState.StateList.Count == 0);
+        }
+
+        /// <summary>
+        /// Handler called every time a block view must be removed from the controller view.
+        /// </summary>
+        /// <param name="operation">Details of the operation performed.</param>
+        private protected override void OnBlockViewRemoved(IWriteableRemoveBlockViewOperation operation)
+        {
+            base.OnBlockViewRemoved(operation);
+
+            IFocusBlockState BlockState = ((IFocusRemoveBlockViewOperation)operation).BlockState;
+
+            Debug.Assert(BlockState != null);
+            Debug.Assert(!BlockStateViewTable.ContainsKey(BlockState));
+
+            Debug.Assert(!StateViewTable.ContainsKey(BlockState.PatternState));
+            Debug.Assert(!StateViewTable.ContainsKey(BlockState.SourceState));
+
+            foreach (IFocusNodeState State in BlockState.StateList)
+                Debug.Assert(!StateViewTable.ContainsKey(State));
+        }
+
+        /// <summary>
+        /// Handler called every time a state is inserted in the controller.
+        /// </summary>
+        /// <param name="operation">Details of the operation performed.</param>
+        private protected override void OnStateInserted(IWriteableInsertNodeOperation operation)
+        {
+            base.OnStateInserted(operation);
+
+            IFocusNodeState ChildState = ((IFocusInsertNodeOperation)operation).ChildState;
+            Debug.Assert(ChildState != null);
+            Debug.Assert(StateViewTable.ContainsKey(ChildState));
+
+            IFocusBrowsingCollectionNodeIndex BrowsingIndex = ((IFocusInsertNodeOperation)operation).BrowsingIndex;
+            Debug.Assert(ChildState.ParentIndex == BrowsingIndex);
+        }
+
+        /// <summary>
+        /// Handler called every time a state is removed from the controller.
+        /// </summary>
+        /// <param name="operation">Details of the operation performed.</param>
+        private protected override void OnStateRemoved(IWriteableRemoveNodeOperation operation)
+        {
+            base.OnStateRemoved(operation);
+
+            IFocusPlaceholderNodeState RemovedState = ((IFocusRemoveNodeOperation)operation).RemovedState;
+            Debug.Assert(RemovedState != null);
+            Debug.Assert(!StateViewTable.ContainsKey(RemovedState));
+        }
+
+        /// <summary>
+        /// Handler called every time a state is inserted in the controller.
+        /// </summary>
+        /// <param name="operation">Details of the operation performed.</param>
+        private protected override void OnStateReplaced(IWriteableReplaceOperation operation)
+        {
+            base.OnStateReplaced(operation);
+
+            IFocusNodeState NewChildState = ((IFocusReplaceOperation)operation).NewChildState;
+            Debug.Assert(NewChildState != null);
+            Debug.Assert(StateViewTable.ContainsKey(NewChildState));
+
+            IFocusBrowsingChildIndex OldBrowsingIndex = ((IFocusReplaceOperation)operation).OldBrowsingIndex;
+            Debug.Assert(OldBrowsingIndex != null);
+            Debug.Assert(NewChildState.ParentIndex != OldBrowsingIndex);
+
+            IFocusBrowsingChildIndex NewBrowsingIndex = ((IFocusReplaceOperation)operation).NewBrowsingIndex;
+            Debug.Assert(NewBrowsingIndex != null);
+            Debug.Assert(NewChildState.ParentIndex == NewBrowsingIndex);
+        }
+
+        /// <summary>
+        /// Handler called every time a state is assigned in the controller.
+        /// </summary>
+        /// <param name="operation">Details of the operation performed.</param>
+        private protected override void OnStateAssigned(IWriteableAssignmentOperation operation)
+        {
+            base.OnStateAssigned(operation);
+
+            IFocusOptionalNodeState State = ((IFocusAssignmentOperation)operation).State;
+            Debug.Assert(State != null);
+            Debug.Assert(StateViewTable.ContainsKey(State));
+        }
+
+        /// <summary>
+        /// Handler called every time a state is unassigned in the controller.
+        /// </summary>
+        /// <param name="operation">Details of the operation performed.</param>
+        private protected override void OnStateUnassigned(IWriteableAssignmentOperation operation)
+        {
+            base.OnStateUnassigned(operation);
+
+            IFocusOptionalNodeState State = ((IFocusAssignmentOperation)operation).State;
+            Debug.Assert(State != null);
+            Debug.Assert(StateViewTable.ContainsKey(State));
+        }
+
+        /// <summary>
+        /// Handler called every time a state is changed in the controller.
+        /// </summary>
+        /// <param name="operation">Details of the operation performed.</param>
+        private protected override void OnStateChanged(IWriteableChangeNodeOperation operation)
+        {
+            base.OnStateChanged(operation);
+
+            IFocusNodeState State = ((IFocusChangeNodeOperation)operation).State;
+            Debug.Assert(State != null);
+            Debug.Assert(StateViewTable.ContainsKey(State));
+        }
+
+        /// <summary>
+        /// Handler called every time a block state is changed in the controller.
+        /// </summary>
+        /// <param name="operation">Details of the operation performed.</param>
+        private protected override void OnBlockStateChanged(IWriteableChangeBlockOperation operation)
+        {
+            base.OnBlockStateChanged(operation);
+
+            IFocusBlockState BlockState = ((IFocusChangeBlockOperation)operation).BlockState;
+            Debug.Assert(BlockState != null);
+            Debug.Assert(BlockStateViewTable.ContainsKey(BlockState));
+        }
+
+        /// <summary>
+        /// Handler called every time a state is moved in the controller.
+        /// </summary>
+        /// <param name="operation">Details of the operation performed.</param>
+        private protected override void OnStateMoved(IWriteableMoveNodeOperation operation)
+        {
+            base.OnStateMoved(operation);
+
+            IFocusPlaceholderNodeState State = ((IFocusMoveNodeOperation)operation).State;
+            Debug.Assert(State != null);
+            Debug.Assert(StateViewTable.ContainsKey(State));
+        }
+
+        /// <summary>
+        /// Handler called every time a block state is moved in the controller.
+        /// </summary>
+        /// <param name="operation">Details of the operation performed.</param>
+        private protected override void OnBlockStateMoved(IWriteableMoveBlockOperation operation)
+        {
+            base.OnBlockStateMoved(operation);
+
+            IFocusBlockState BlockState = ((IFocusMoveBlockOperation)operation).BlockState;
+            Debug.Assert(BlockState != null);
+            Debug.Assert(BlockStateViewTable.ContainsKey(BlockState));
+        }
+
+        /// <summary>
+        /// Handler called every time a block split in the controller.
+        /// </summary>
+        /// <param name="operation">Details of the operation performed.</param>
+        private protected override void OnBlockSplit(IWriteableSplitBlockOperation operation)
+        {
+            base.OnBlockSplit(operation);
+
+            IFocusBlockState BlockState = ((IFocusSplitBlockOperation)operation).BlockState;
+            Debug.Assert(BlockState != null);
+            Debug.Assert(BlockStateViewTable.ContainsKey(BlockState));
+        }
+
+        /// <summary>
+        /// Handler called every time two blocks are merged.
+        /// </summary>
+        /// <param name="operation">Details of the operation performed.</param>
+        private protected override void OnBlocksMerged(IWriteableMergeBlocksOperation operation)
+        {
+            base.OnBlocksMerged(operation);
+
+            IFocusBlockState BlockState = ((IFocusMergeBlocksOperation)operation).BlockState;
+            Debug.Assert(BlockState != null);
+            Debug.Assert(!BlockStateViewTable.ContainsKey(BlockState));
+        }
+
+        /// <summary>
+        /// Handler called to refresh views.
+        /// </summary>
+        /// <param name="operation">Details of the operation performed.</param>
+        private protected override void OnGenericRefresh(IWriteableGenericRefreshOperation operation)
+        {
+            base.OnGenericRefresh(operation);
+
+            IFocusNodeState RefreshState = ((IFocusGenericRefreshOperation)operation).RefreshState;
+            Debug.Assert(RefreshState != null);
+            Debug.Assert(StateViewTable.ContainsKey(RefreshState));
+        }
+
         /// <summary></summary>
         private protected override IFrameCellViewTreeContext InitializedCellViewTreeContext(IFrameNodeStateView stateView)
         {

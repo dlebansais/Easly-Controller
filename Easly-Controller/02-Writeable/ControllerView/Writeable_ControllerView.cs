@@ -92,12 +92,12 @@
         public new IWriteableBlockStateViewDictionary BlockStateViewTable { get { return (IWriteableBlockStateViewDictionary)base.BlockStateViewTable; } }
         #endregion
 
-        #region Client Interface
+        #region Implementation
         /// <summary>
         /// Handler called every time a block state is inserted in the controller.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        public virtual void OnBlockStateInserted(IWriteableInsertBlockOperation operation)
+        private protected virtual void OnBlockStateInserted(IWriteableInsertBlockOperation operation)
         {
             Debug.Assert(operation != null);
 
@@ -111,7 +111,8 @@
 
             Debug.Assert(BlockState.StateList.Count == 1);
 
-            IWriteablePlaceholderNodeState ChildState = BlockState.StateList[0];
+            IWriteablePlaceholderNodeState ChildState = operation.ChildState;
+            Debug.Assert(ChildState == BlockState.StateList[0]);
             Debug.Assert(ChildState.ParentIndex == operation.BrowsingIndex);
             Debug.Assert(StateViewTable.ContainsKey(ChildState));
         }
@@ -120,7 +121,7 @@
         /// Handler called every time a block state is removed from the controller.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        public virtual void OnBlockStateRemoved(IWriteableRemoveBlockOperation operation)
+        private protected virtual void OnBlockStateRemoved(IWriteableRemoveBlockOperation operation)
         {
             Debug.Assert(operation != null);
 
@@ -142,7 +143,7 @@
         /// Handler called every time a block view must be removed from the controller view.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        public virtual void OnBlockViewRemoved(IWriteableRemoveBlockViewOperation operation)
+        private protected virtual void OnBlockViewRemoved(IWriteableRemoveBlockViewOperation operation)
         {
             Debug.Assert(operation != null);
 
@@ -162,7 +163,7 @@
         /// Handler called every time a state is inserted in the controller.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        public virtual void OnStateInserted(IWriteableInsertNodeOperation operation)
+        private protected virtual void OnStateInserted(IWriteableInsertNodeOperation operation)
         {
             Debug.Assert(operation != null);
             Debug.Assert(!operation.IsNested);
@@ -179,7 +180,7 @@
         /// Handler called every time a state is removed from the controller.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        public virtual void OnStateRemoved(IWriteableRemoveNodeOperation operation)
+        private protected virtual void OnStateRemoved(IWriteableRemoveNodeOperation operation)
         {
             Debug.Assert(operation != null);
             Debug.Assert(!operation.IsNested);
@@ -193,7 +194,7 @@
         /// Handler called every time a state is replaced in the controller.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        public virtual void OnStateReplaced(IWriteableReplaceOperation operation)
+        private protected virtual void OnStateReplaced(IWriteableReplaceOperation operation)
         {
             Debug.Assert(operation != null);
             Debug.Assert(!operation.IsNested);
@@ -215,7 +216,7 @@
         /// Handler called every time a state is assigned in the controller.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        public virtual void OnStateAssigned(IWriteableAssignmentOperation operation)
+        private protected virtual void OnStateAssigned(IWriteableAssignmentOperation operation)
         {
             Debug.Assert(operation != null);
 
@@ -228,7 +229,7 @@
         /// Handler called every time a state is unassigned in the controller.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        public virtual void OnStateUnassigned(IWriteableAssignmentOperation operation)
+        private protected virtual void OnStateUnassigned(IWriteableAssignmentOperation operation)
         {
             Debug.Assert(operation != null);
 
@@ -241,7 +242,7 @@
         /// Handler called every time a state is changed in the controller.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        public virtual void OnStateChanged(IWriteableChangeNodeOperation operation)
+        private protected virtual void OnStateChanged(IWriteableChangeNodeOperation operation)
         {
             Debug.Assert(operation != null);
 
@@ -254,7 +255,7 @@
         /// Handler called every time a block state is changed in the controller.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        public virtual void OnBlockStateChanged(IWriteableChangeBlockOperation operation)
+        private protected virtual void OnBlockStateChanged(IWriteableChangeBlockOperation operation)
         {
             Debug.Assert(operation != null);
 
@@ -267,7 +268,7 @@
         /// Handler called every time a state is moved in the controller.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        public virtual void OnStateMoved(IWriteableMoveNodeOperation operation)
+        private protected virtual void OnStateMoved(IWriteableMoveNodeOperation operation)
         {
             Debug.Assert(operation != null);
             Debug.Assert(!operation.IsNested);
@@ -281,7 +282,7 @@
         /// Handler called every time a block state is moved in the controller.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        public virtual void OnBlockStateMoved(IWriteableMoveBlockOperation operation)
+        private protected virtual void OnBlockStateMoved(IWriteableMoveBlockOperation operation)
         {
             Debug.Assert(operation != null);
             Debug.Assert(!operation.IsNested);
@@ -295,7 +296,7 @@
         /// Handler called every time a block split in the controller.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        public virtual void OnBlockSplit(IWriteableSplitBlockOperation operation)
+        private protected virtual void OnBlockSplit(IWriteableSplitBlockOperation operation)
         {
             Debug.Assert(operation != null);
             Debug.Assert(!operation.IsNested);
@@ -309,7 +310,7 @@
         /// Handler called every time two blocks are merged.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        public virtual void OnBlocksMerged(IWriteableMergeBlocksOperation operation)
+        private protected virtual void OnBlocksMerged(IWriteableMergeBlocksOperation operation)
         {
             Debug.Assert(operation != null);
             Debug.Assert(!operation.IsNested);
@@ -323,7 +324,7 @@
         /// Handler called to refresh views.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        public virtual void OnGenericRefresh(IWriteableGenericRefreshOperation operation)
+        private protected virtual void OnGenericRefresh(IWriteableGenericRefreshOperation operation)
         {
             Debug.Assert(operation != null);
             Debug.Assert(!operation.IsNested);

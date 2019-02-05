@@ -1,6 +1,5 @@
 ﻿namespace EaslyController.Frame
 {
-    using System;
     using System.Diagnostics;
     using EaslyController.ReadOnly;
     using EaslyController.Writeable;
@@ -135,10 +134,38 @@
 
         #region Client Interface
         /// <summary>
+        /// Enumerate all visible cell views.
+        /// </summary>
+        /// <param name="list">The list of visible cell views upon return.</param>
+        public void EnumerateVisibleCellViews(IFrameVisibleCellViewList list)
+        {
+            Debug.Assert(list != null);
+            Debug.Assert(list.Count == 0);
+
+            IFrameNodeState RootState = Controller.RootState;
+            IFrameNodeStateView RootStateView = StateViewTable[RootState];
+
+            RootStateView.EnumerateVisibleCellViews(list);
+        }
+
+        /// <summary>
+        /// Prints the cell view tree.
+        /// </summary>
+        /// <param name="isVerbose">Prints all information.</param>
+        public virtual void PrintCellViewTree(bool isVerbose)
+        {
+            IFrameNodeState RootState = Controller.RootState;
+            IFrameNodeStateView RootStateView = StateViewTable[RootState];
+            PrintCellViewTree(RootStateView.RootCellView, isVerbose);
+        }
+        #endregion
+
+        #region Implementation
+        /// <summary>
         /// Handler called every time a block state is inserted in the controller.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        public override void OnBlockStateInserted(IWriteableInsertBlockOperation operation)
+        private protected override void OnBlockStateInserted(IWriteableInsertBlockOperation operation)
         {
             base.OnBlockStateInserted(operation);
 
@@ -152,7 +179,8 @@
 
             Debug.Assert(BlockState.StateList.Count == 1);
 
-            IFramePlaceholderNodeState ChildState = BlockState.StateList[0];
+            IFramePlaceholderNodeState ChildState = ((IFrameInsertBlockOperation)operation).ChildState;
+            Debug.Assert(ChildState == BlockState.StateList[0]);
             Debug.Assert(ChildState.ParentIndex == ((IFrameInsertBlockOperation)operation).BrowsingIndex);
             Debug.Assert(StateViewTable.ContainsKey(ChildState));
 
@@ -184,7 +212,7 @@
         /// Handler called every time a block state is removed from the controller.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        public override void OnBlockStateRemoved(IWriteableRemoveBlockOperation operation)
+        private protected override void OnBlockStateRemoved(IWriteableRemoveBlockOperation operation)
         {
             base.OnBlockStateRemoved(operation);
 
@@ -232,7 +260,7 @@
         /// Handler called every time a block view must be removed from the controller view.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        public override void OnBlockViewRemoved(IWriteableRemoveBlockViewOperation operation)
+        private protected override void OnBlockViewRemoved(IWriteableRemoveBlockViewOperation operation)
         {
             base.OnBlockViewRemoved(operation);
 
@@ -279,7 +307,7 @@
         /// Handler called every time a state is inserted in the controller.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        public override void OnStateInserted(IWriteableInsertNodeOperation operation)
+        private protected override void OnStateInserted(IWriteableInsertNodeOperation operation)
         {
             base.OnStateInserted(operation);
 
@@ -289,8 +317,6 @@
 
             IFrameBrowsingCollectionNodeIndex BrowsingIndex = ((IFrameInsertNodeOperation)operation).BrowsingIndex;
             Debug.Assert(ChildState.ParentIndex == BrowsingIndex);
-
-            IFrameBrowsingCollectionNodeIndex nodeIndex = ((IFrameInsertNodeOperation)operation).BrowsingIndex;
 
             IFrameNodeState InsertedState = ((IFrameInsertNodeOperation)operation).ChildState;
             Debug.Assert(InsertedState != null);
@@ -304,12 +330,12 @@
 
             bool IsHandled = false;
 
-            if (ParentInner is IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> AsBlockListInner && nodeIndex is IFrameBrowsingExistingBlockNodeIndex AsBlockListIndex)
+            if (ParentInner is IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> AsBlockListInner && BrowsingIndex is IFrameBrowsingExistingBlockNodeIndex AsBlockListIndex)
             {
                 OnBlockListStateInserted(AsBlockListInner, AsBlockListIndex, InsertedState);
                 IsHandled = true;
             }
-            else if (ParentInner is IFrameListInner<IFrameBrowsingListNodeIndex> AsListInner && nodeIndex is IFrameBrowsingListNodeIndex AsListIndex)
+            else if (ParentInner is IFrameListInner<IFrameBrowsingListNodeIndex> AsListInner && BrowsingIndex is IFrameBrowsingListNodeIndex AsListIndex)
             {
                 OnListStateInserted(AsListInner, AsListIndex, InsertedState);
                 IsHandled = true;
@@ -372,7 +398,7 @@
         /// Handler called every time a state is removed from the controller.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        public override void OnStateRemoved(IWriteableRemoveNodeOperation operation)
+        private protected override void OnStateRemoved(IWriteableRemoveNodeOperation operation)
         {
             base.OnStateRemoved(operation);
 
@@ -441,7 +467,7 @@
         /// Handler called every time a state is inserted in the controller.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        public override void OnStateReplaced(IWriteableReplaceOperation operation)
+        private protected override void OnStateReplaced(IWriteableReplaceOperation operation)
         {
             base.OnStateReplaced(operation);
 
@@ -610,7 +636,7 @@
         /// Handler called every time a state is assigned in the controller.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        public override void OnStateAssigned(IWriteableAssignmentOperation operation)
+        private protected override void OnStateAssigned(IWriteableAssignmentOperation operation)
         {
             base.OnStateAssigned(operation);
 
@@ -629,7 +655,7 @@
         /// Handler called every time a state is unassigned in the controller.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        public override void OnStateUnassigned(IWriteableAssignmentOperation operation)
+        private protected override void OnStateUnassigned(IWriteableAssignmentOperation operation)
         {
             base.OnStateUnassigned(operation);
 
@@ -649,7 +675,7 @@
         /// Handler called every time a state is changed in the controller.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        public override void OnStateChanged(IWriteableChangeNodeOperation operation)
+        private protected override void OnStateChanged(IWriteableChangeNodeOperation operation)
         {
             base.OnStateChanged(operation);
 
@@ -669,7 +695,7 @@
         /// Handler called every time a block state is changed in the controller.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        public override void OnBlockStateChanged(IWriteableChangeBlockOperation operation)
+        private protected override void OnBlockStateChanged(IWriteableChangeBlockOperation operation)
         {
             base.OnBlockStateChanged(operation);
 
@@ -685,7 +711,7 @@
         /// Handler called every time a state is moved in the controller.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        public override void OnStateMoved(IWriteableMoveNodeOperation operation)
+        private protected override void OnStateMoved(IWriteableMoveNodeOperation operation)
         {
             base.OnStateMoved(operation);
 
@@ -757,7 +783,7 @@
         /// Handler called every time a block state is moved in the controller.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        public override void OnBlockStateMoved(IWriteableMoveBlockOperation operation)
+        private protected override void OnBlockStateMoved(IWriteableMoveBlockOperation operation)
         {
             base.OnBlockStateMoved(operation);
 
@@ -788,7 +814,7 @@
         /// Handler called every time a block split in the controller.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        public override void OnBlockSplit(IWriteableSplitBlockOperation operation)
+        private protected override void OnBlockSplit(IWriteableSplitBlockOperation operation)
         {
             base.OnBlockSplit(operation);
 
@@ -844,7 +870,7 @@
         /// Handler called every time two blocks are merged.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        public override void OnBlocksMerged(IWriteableMergeBlocksOperation operation)
+        private protected override void OnBlocksMerged(IWriteableMergeBlocksOperation operation)
         {
             base.OnBlocksMerged(operation);
 
@@ -899,46 +925,17 @@
         /// Handler called to refresh views.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        public override void OnGenericRefresh(IWriteableGenericRefreshOperation operation)
+        private protected override void OnGenericRefresh(IWriteableGenericRefreshOperation operation)
         {
             base.OnGenericRefresh(operation);
 
             IFrameNodeState RefreshState = ((IFrameGenericRefreshOperation)operation).RefreshState;
-
             Debug.Assert(RefreshState != null);
             Debug.Assert(StateViewTable.ContainsKey(RefreshState));
 
             Refresh((IFrameNodeState)operation.RefreshState);
         }
 
-        /// <summary>
-        /// Enumerate all visible cell views.
-        /// </summary>
-        /// <param name="list">The list of visible cell views upon return.</param>
-        public void EnumerateVisibleCellViews(IFrameVisibleCellViewList list)
-        {
-            Debug.Assert(list != null);
-            Debug.Assert(list.Count == 0);
-
-            IFrameNodeState RootState = Controller.RootState;
-            IFrameNodeStateView RootStateView = StateViewTable[RootState];
-
-            RootStateView.EnumerateVisibleCellViews(list);
-        }
-
-        /// <summary>
-        /// Prints the cell view tree.
-        /// </summary>
-        /// <param name="isVerbose">Prints all information.</param>
-        public virtual void PrintCellViewTree(bool isVerbose)
-        {
-            IFrameNodeState RootState = Controller.RootState;
-            IFrameNodeStateView RootStateView = StateViewTable[RootState];
-            PrintCellViewTree(RootStateView.RootCellView, isVerbose);
-        }
-        #endregion
-
-        #region Implementation
         /// <summary></summary>
         private protected virtual IFrameCellView BuildCellView(IFrameNodeStateView stateView)
         {
