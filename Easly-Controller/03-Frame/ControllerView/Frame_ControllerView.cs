@@ -142,6 +142,20 @@
         {
             base.OnBlockStateInserted(operation);
 
+            IFrameBlockState BlockState = ((IFrameInsertBlockOperation)operation).BlockState;
+
+            Debug.Assert(BlockState != null);
+            Debug.Assert(BlockStateViewTable.ContainsKey(BlockState));
+
+            Debug.Assert(StateViewTable.ContainsKey(BlockState.PatternState));
+            Debug.Assert(StateViewTable.ContainsKey(BlockState.SourceState));
+
+            Debug.Assert(BlockState.StateList.Count == 1);
+
+            IFramePlaceholderNodeState ChildState = BlockState.StateList[0];
+            Debug.Assert(ChildState.ParentIndex == ((IFrameInsertBlockOperation)operation).BrowsingIndex);
+            Debug.Assert(StateViewTable.ContainsKey(ChildState));
+
             IFrameInsertBlockOperation InsertBlockOperation = (IFrameInsertBlockOperation)operation;
             IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> ParentInner = (IFrameBlockListInner<IFrameBrowsingBlockNodeIndex>)InsertBlockOperation.BlockState.ParentInner;
             IFrameNodeState OwnerState = ParentInner.Owner;
@@ -173,6 +187,19 @@
         public override void OnBlockStateRemoved(IWriteableRemoveBlockOperation operation)
         {
             base.OnBlockStateRemoved(operation);
+
+            IFrameBlockState BlockState = ((IFrameRemoveBlockOperation)operation).BlockState;
+
+            Debug.Assert(BlockState != null);
+            Debug.Assert(!BlockStateViewTable.ContainsKey(BlockState));
+
+            Debug.Assert(!StateViewTable.ContainsKey(BlockState.PatternState));
+            Debug.Assert(!StateViewTable.ContainsKey(BlockState.SourceState));
+
+            IFrameNodeState RemovedState = ((IFrameRemoveBlockOperation)operation).RemovedState;
+            Debug.Assert(!StateViewTable.ContainsKey(RemovedState));
+
+            Debug.Assert(BlockState.StateList.Count == 0);
 
             IFrameRemoveBlockOperation RemoveBlockOperation = (IFrameRemoveBlockOperation)operation;
             IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> ParentInner = (IFrameBlockListInner<IFrameBrowsingBlockNodeIndex>)RemoveBlockOperation.BlockState.ParentInner;
@@ -209,6 +236,17 @@
         {
             base.OnBlockViewRemoved(operation);
 
+            IFrameBlockState BlockState = ((IFrameRemoveBlockViewOperation)operation).BlockState;
+
+            Debug.Assert(BlockState != null);
+            Debug.Assert(!BlockStateViewTable.ContainsKey(BlockState));
+
+            Debug.Assert(!StateViewTable.ContainsKey(BlockState.PatternState));
+            Debug.Assert(!StateViewTable.ContainsKey(BlockState.SourceState));
+
+            foreach (IFrameNodeState State in BlockState.StateList)
+                Debug.Assert(!StateViewTable.ContainsKey(State));
+
             IFrameRemoveBlockViewOperation RemoveBlockViewOperation = (IFrameRemoveBlockViewOperation)operation;
             IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> ParentInner = RemoveBlockViewOperation.BlockState.ParentInner as IFrameBlockListInner<IFrameBrowsingBlockNodeIndex>;
             Debug.Assert(ParentInner != null);
@@ -244,6 +282,13 @@
         public override void OnStateInserted(IWriteableInsertNodeOperation operation)
         {
             base.OnStateInserted(operation);
+
+            IFrameNodeState ChildState = ((IFrameInsertNodeOperation)operation).ChildState;
+            Debug.Assert(ChildState != null);
+            Debug.Assert(StateViewTable.ContainsKey(ChildState));
+
+            IFrameBrowsingCollectionNodeIndex BrowsingIndex = ((IFrameInsertNodeOperation)operation).BrowsingIndex;
+            Debug.Assert(ChildState.ParentIndex == BrowsingIndex);
 
             IFrameBrowsingCollectionNodeIndex nodeIndex = ((IFrameInsertNodeOperation)operation).BrowsingIndex;
 
@@ -331,8 +376,10 @@
         {
             base.OnStateRemoved(operation);
 
-            IFrameRemoveNodeOperation RemoveNodeOperation = (IFrameRemoveNodeOperation)operation;
-            IFramePlaceholderNodeState RemovedState = RemoveNodeOperation.RemovedState;
+            IFramePlaceholderNodeState RemovedState = ((IFrameRemoveNodeOperation)operation).RemovedState;
+            Debug.Assert(RemovedState != null);
+            Debug.Assert(!StateViewTable.ContainsKey(RemovedState));
+
             IFrameCollectionInner<IFrameBrowsingCollectionNodeIndex> Inner = (IFrameCollectionInner<IFrameBrowsingCollectionNodeIndex>)RemovedState.ParentInner;
             Debug.Assert(Inner != null);
 
@@ -341,12 +388,12 @@
 
             if (Inner is IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> AsBlockListInner)
             {
-                OnBlockListStateRemoved(AsBlockListInner, RemoveNodeOperation.BlockIndex, RemoveNodeOperation.Index, RemovedState);
+                OnBlockListStateRemoved(AsBlockListInner, ((IFrameRemoveNodeOperation)operation).BlockIndex, ((IFrameRemoveNodeOperation)operation).Index, RemovedState);
                 IsHandled = true;
             }
             else if (Inner is IFrameListInner<IFrameBrowsingListNodeIndex> AsListInner)
             {
-                OnListStateRemoved(AsListInner, RemoveNodeOperation.Index, RemovedState);
+                OnListStateRemoved(AsListInner, ((IFrameRemoveNodeOperation)operation).Index, RemovedState);
                 IsHandled = true;
             }
 
@@ -398,10 +445,20 @@
         {
             base.OnStateReplaced(operation);
 
-            IFrameReplaceOperation ReplaceOperation = (IFrameReplaceOperation)operation;
-            IFrameInner Inner = ReplaceOperation.NewChildState.ParentInner;
-            Debug.Assert(Inner != null);
+            IFrameNodeState NewChildState = ((IFrameReplaceOperation)operation).NewChildState;
+            Debug.Assert(NewChildState != null);
+            Debug.Assert(StateViewTable.ContainsKey(NewChildState));
+
+            IFrameBrowsingChildIndex OldBrowsingIndex = ((IFrameReplaceOperation)operation).OldBrowsingIndex;
+            Debug.Assert(OldBrowsingIndex != null);
+            Debug.Assert(NewChildState.ParentIndex != OldBrowsingIndex);
+
             IFrameBrowsingChildIndex NewBrowsingIndex = ((IFrameReplaceOperation)operation).NewBrowsingIndex;
+            Debug.Assert(NewBrowsingIndex != null);
+            Debug.Assert(NewChildState.ParentIndex == NewBrowsingIndex);
+
+            IFrameInner Inner = NewChildState.ParentInner;
+            Debug.Assert(Inner != null);
             Debug.Assert(NewBrowsingIndex != null);
             IFrameNodeState ReplacedState = ((IFrameReplaceOperation)operation).NewChildState;
             Debug.Assert(ReplacedState != null);
@@ -557,15 +614,15 @@
         {
             base.OnStateAssigned(operation);
 
-            IFrameOptionalNodeState AssignedState = ((IFrameAssignmentOperation)operation).State;
+            IFrameOptionalNodeState State = ((IFrameAssignmentOperation)operation).State;
+            Debug.Assert(State != null);
+            Debug.Assert(StateViewTable.ContainsKey(State));
 
-            Debug.Assert(AssignedState != null);
-
-            IFrameNodeStateView AssignedStateView = StateViewTable[AssignedState];
+            IFrameNodeStateView AssignedStateView = StateViewTable[State];
             ClearCellView(AssignedStateView);
             BuildCellView(AssignedStateView);
 
-            Refresh(AssignedState);
+            Refresh(State);
         }
 
         /// <summary>
@@ -576,15 +633,16 @@
         {
             base.OnStateUnassigned(operation);
 
-            IFrameOptionalNodeState UnassignedState = ((IFrameAssignmentOperation)operation).State;
-            Debug.Assert(UnassignedState != null);
+            IFrameOptionalNodeState State = ((IFrameAssignmentOperation)operation).State;
+            Debug.Assert(State != null);
+            Debug.Assert(StateViewTable.ContainsKey(State));
 
-            IFrameNodeStateView UnassignedStateView = StateViewTable[UnassignedState];
+            IFrameNodeStateView UnassignedStateView = StateViewTable[State];
             ClearCellView(UnassignedStateView);
             BuildCellView(UnassignedStateView);
 
             if (!operation.IsNested)
-                Refresh(UnassignedState);
+                Refresh(State);
         }
 
         /// <summary>
@@ -595,15 +653,16 @@
         {
             base.OnStateChanged(operation);
 
-            IFrameNodeState ChangedState = ((IFrameChangeNodeOperation)operation).State;
-            Debug.Assert(ChangedState != null);
+            IFrameNodeState State = ((IFrameChangeNodeOperation)operation).State;
+            Debug.Assert(State != null);
+            Debug.Assert(StateViewTable.ContainsKey(State));
 
-            IFrameNodeStateView ChangedStateView = StateViewTable[ChangedState];
+            IFrameNodeStateView ChangedStateView = StateViewTable[State];
             ClearCellView(ChangedStateView);
             BuildCellView(ChangedStateView);
 
             if (!operation.IsNested)
-                Refresh(ChangedStateView.State);
+                Refresh(State);
         }
 
         /// <summary>
@@ -613,6 +672,10 @@
         public override void OnBlockStateChanged(IWriteableChangeBlockOperation operation)
         {
             base.OnBlockStateChanged(operation);
+
+            IFrameBlockState BlockState = ((IFrameChangeBlockOperation)operation).BlockState;
+            Debug.Assert(BlockState != null);
+            Debug.Assert(BlockStateViewTable.ContainsKey(BlockState));
 
             // TODO: only refresh the local state. Right now for some reason it doesn't work.
             Refresh(Controller.RootState);
@@ -626,13 +689,15 @@
         {
             base.OnStateMoved(operation);
 
-            IFrameMoveNodeOperation MoveNodeOperation = (IFrameMoveNodeOperation)operation;
-            IFrameCollectionInner<IFrameBrowsingCollectionNodeIndex> Inner = MoveNodeOperation.State.ParentInner as IFrameCollectionInner<IFrameBrowsingCollectionNodeIndex>;
-            int BlockIndex = MoveNodeOperation.BlockIndex;
-            int MoveIndex = MoveNodeOperation.Index;
-            int Direction = MoveNodeOperation.Direction;
-            IFramePlaceholderNodeState MovedState = ((IFrameMoveNodeOperation)operation).State;
-            Debug.Assert(MovedState != null);
+            IFramePlaceholderNodeState State = ((IFrameMoveNodeOperation)operation).State;
+            Debug.Assert(State != null);
+            Debug.Assert(StateViewTable.ContainsKey(State));
+
+            IFrameCollectionInner<IFrameBrowsingCollectionNodeIndex> Inner = State.ParentInner as IFrameCollectionInner<IFrameBrowsingCollectionNodeIndex>;
+            int BlockIndex = ((IFrameMoveNodeOperation)operation).BlockIndex;
+            int MoveIndex = ((IFrameMoveNodeOperation)operation).Index;
+            int Direction = ((IFrameMoveNodeOperation)operation).Direction;
+            Debug.Assert(State != null);
             IFrameNodeState OwnerState = Inner.Owner;
 
             bool IsHandled = false;
@@ -696,8 +761,11 @@
         {
             base.OnBlockStateMoved(operation);
 
-            IFrameMoveBlockOperation MoveBlockOperation = (IFrameMoveBlockOperation)operation;
-            IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> Inner = MoveBlockOperation.BlockState.ParentInner as IFrameBlockListInner<IFrameBrowsingBlockNodeIndex>;
+            IFrameBlockState BlockState = ((IFrameMoveBlockOperation)operation).BlockState;
+            Debug.Assert(BlockState != null);
+            Debug.Assert(BlockStateViewTable.ContainsKey(BlockState));
+
+            IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> Inner = BlockState.ParentInner as IFrameBlockListInner<IFrameBrowsingBlockNodeIndex>;
             Debug.Assert(Inner != null);
             IFrameNodeState OwnerState = Inner.Owner;
             Debug.Assert(OwnerState != null);
@@ -711,7 +779,7 @@
             IFrameCellViewCollection EmbeddingCellView = CellViewTable[PropertyName] as IFrameCellViewCollection;
             Debug.Assert(EmbeddingCellView != null);
 
-            EmbeddingCellView.Move(operation.BlockIndex, operation.Direction);
+            EmbeddingCellView.Move(((IFrameMoveBlockOperation)operation).BlockIndex, ((IFrameMoveBlockOperation)operation).Direction);
 
             Refresh(OwnerState);
         }
@@ -724,8 +792,11 @@
         {
             base.OnBlockSplit(operation);
 
-            IFrameSplitBlockOperation SplitBlockOperation = (IFrameSplitBlockOperation)operation;
-            IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> Inner = SplitBlockOperation.BlockState.ParentInner as IFrameBlockListInner<IFrameBrowsingBlockNodeIndex>;
+            IFrameBlockState BlockState = ((IFrameSplitBlockOperation)operation).BlockState;
+            Debug.Assert(BlockState != null);
+            Debug.Assert(BlockStateViewTable.ContainsKey(BlockState));
+
+            IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> Inner = BlockState.ParentInner as IFrameBlockListInner<IFrameBrowsingBlockNodeIndex>;
             Debug.Assert(Inner != null);
             IFrameNodeState OwnerState = Inner.Owner;
             Debug.Assert(OwnerState != null);
@@ -775,8 +846,13 @@
         /// <param name="operation">Details of the operation performed.</param>
         public override void OnBlocksMerged(IWriteableMergeBlocksOperation operation)
         {
-            IFrameMergeBlocksOperation MergeBlocksOperation = (IFrameMergeBlocksOperation)operation;
-            IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> Inner = MergeBlocksOperation.BlockState.ParentInner as IFrameBlockListInner<IFrameBrowsingBlockNodeIndex>;
+            base.OnBlocksMerged(operation);
+
+            IFrameBlockState BlockState = ((IFrameMergeBlocksOperation)operation).BlockState;
+            Debug.Assert(BlockState != null);
+            Debug.Assert(!BlockStateViewTable.ContainsKey(BlockState));
+
+            IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> Inner = BlockState.ParentInner as IFrameBlockListInner<IFrameBrowsingBlockNodeIndex>;
 
             Debug.Assert(Inner != null);
             IFrameNodeState OwnerState = Inner.Owner;
@@ -826,6 +902,11 @@
         public override void OnGenericRefresh(IWriteableGenericRefreshOperation operation)
         {
             base.OnGenericRefresh(operation);
+
+            IFrameNodeState RefreshState = ((IFrameGenericRefreshOperation)operation).RefreshState;
+
+            Debug.Assert(RefreshState != null);
+            Debug.Assert(StateViewTable.ContainsKey(RefreshState));
 
             Refresh((IFrameNodeState)operation.RefreshState);
         }

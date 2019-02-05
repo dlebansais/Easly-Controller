@@ -110,7 +110,10 @@
             Debug.Assert(StateViewTable.ContainsKey(BlockState.SourceState));
 
             Debug.Assert(BlockState.StateList.Count == 1);
-            Debug.Assert(StateViewTable.ContainsKey(BlockState.StateList[0]));
+
+            IWriteablePlaceholderNodeState ChildState = BlockState.StateList[0];
+            Debug.Assert(ChildState.ParentIndex == operation.BrowsingIndex);
+            Debug.Assert(StateViewTable.ContainsKey(ChildState));
         }
 
         /// <summary>
@@ -128,6 +131,9 @@
 
             Debug.Assert(!StateViewTable.ContainsKey(BlockState.PatternState));
             Debug.Assert(!StateViewTable.ContainsKey(BlockState.SourceState));
+
+            IWriteableNodeState RemovedState = operation.RemovedState;
+            Debug.Assert(!StateViewTable.ContainsKey(RemovedState));
 
             Debug.Assert(BlockState.StateList.Count == 0);
         }
@@ -164,6 +170,9 @@
             IWriteableNodeState ChildState = operation.ChildState;
             Debug.Assert(ChildState != null);
             Debug.Assert(StateViewTable.ContainsKey(ChildState));
+
+            IWriteableBrowsingCollectionNodeIndex BrowsingIndex = operation.BrowsingIndex;
+            Debug.Assert(ChildState.ParentIndex == BrowsingIndex);
         }
 
         /// <summary>
@@ -189,9 +198,17 @@
             Debug.Assert(operation != null);
             Debug.Assert(!operation.IsNested);
 
-            IWriteableNodeState ChildState = operation.NewChildState;
-            Debug.Assert(ChildState != null);
-            Debug.Assert(StateViewTable.ContainsKey(ChildState));
+            IWriteableNodeState NewChildState = operation.NewChildState;
+            Debug.Assert(NewChildState != null);
+            Debug.Assert(StateViewTable.ContainsKey(NewChildState));
+
+            IWriteableBrowsingChildIndex OldBrowsingIndex = operation.OldBrowsingIndex;
+            Debug.Assert(OldBrowsingIndex != null);
+            Debug.Assert(NewChildState.ParentIndex != OldBrowsingIndex);
+
+            IWriteableBrowsingChildIndex NewBrowsingIndex = operation.NewBrowsingIndex;
+            Debug.Assert(NewBrowsingIndex != null);
+            Debug.Assert(NewChildState.ParentIndex == NewBrowsingIndex);
         }
 
         /// <summary>
@@ -284,7 +301,6 @@
             Debug.Assert(!operation.IsNested);
 
             IWriteableBlockState BlockState = operation.BlockState;
-
             Debug.Assert(BlockState != null);
             Debug.Assert(BlockStateViewTable.ContainsKey(BlockState));
         }
@@ -297,6 +313,10 @@
         {
             Debug.Assert(operation != null);
             Debug.Assert(!operation.IsNested);
+
+            IWriteableBlockState BlockState = operation.BlockState;
+            Debug.Assert(BlockState != null);
+            Debug.Assert(!BlockStateViewTable.ContainsKey(BlockState));
         }
 
         /// <summary>
