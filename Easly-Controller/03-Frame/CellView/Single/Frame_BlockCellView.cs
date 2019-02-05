@@ -132,10 +132,11 @@
         /// <param name="actualCellViewTable">Cell views that are found in the tree.</param>
         public override bool IsCellViewTreeValid(IFrameAssignableCellViewReadOnlyDictionary<string> expectedCellViewTable, IFrameAssignableCellViewDictionary<string> actualCellViewTable)
         {
-            if (!BlockStateView.IsCellViewTreeValid())
-                return false;
+            bool IsValid = true;
 
-            return true;
+            IsValid &= BlockStateView.IsCellViewTreeValid();
+
+            return IsValid;
         }
         #endregion
     }

@@ -263,38 +263,36 @@
         /// </summary>
         public virtual bool IsCellViewTreeValid()
         {
-            if (RootCellView == null)
-                return false;
+            bool IsValid = true;
 
-            if (!(RootCellView is IFrameEmptyCellView))
+            IsValid &= RootCellView != null;
+
+            if (IsValid && !(RootCellView is IFrameEmptyCellView))
             {
                 IFrameAssignableCellViewDictionary<string> ActualCellViewTable = CreateCellViewTable();
-                if (!RootCellView.IsCellViewTreeValid(CellViewTable, ActualCellViewTable))
-                    return false;
-
-                if (!AllCellViewsProperlyAssigned(CellViewTable, ActualCellViewTable))
-                    return false;
+                IsValid &= RootCellView.IsCellViewTreeValid(CellViewTable, ActualCellViewTable);
+                IsValid &= AllCellViewsProperlyAssigned(CellViewTable, ActualCellViewTable);
             }
 
-            return true;
+            return IsValid;
         }
 
         /// <summary></summary>
         private protected virtual bool AllCellViewsProperlyAssigned(IFrameAssignableCellViewReadOnlyDictionary<string> expectedCellViewTable, IFrameAssignableCellViewDictionary<string> actualCellViewTable)
         {
+            bool IsAssigned = true;
+
             int ActualCount = 0;
             foreach (KeyValuePair<string, IFrameAssignableCellView> Entry in CellViewTable)
                 if (Entry.Value != null)
                 {
                     ActualCount++;
-                    if (!actualCellViewTable.ContainsKey(Entry.Key))
-                        return false;
+                    IsAssigned &= actualCellViewTable.ContainsKey(Entry.Key);
                 }
 
-            if (actualCellViewTable.Count != ActualCount)
-                return false;
+            IsAssigned &= actualCellViewTable.Count == ActualCount;
 
-            return true;
+            return IsAssigned;
         }
         #endregion
 

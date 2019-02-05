@@ -187,18 +187,19 @@
         /// <param name="actualCellViewTable">Cell views that are found in the tree.</param>
         public override bool IsCellViewTreeValid(IFrameAssignableCellViewReadOnlyDictionary<string> expectedCellViewTable, IFrameAssignableCellViewDictionary<string> actualCellViewTable)
         {
-            if (!ChildStateView.IsCellViewTreeValid())
-                return false;
+            bool IsValid = true;
 
-            if (!IsCellViewProperlyAssigned(expectedCellViewTable, actualCellViewTable))
-                return false;
+            IsValid &= ChildStateView.IsCellViewTreeValid();
+            IsValid &= IsCellViewProperlyAssigned(expectedCellViewTable, actualCellViewTable);
 
-            return true;
+            return IsValid;
         }
 
         /// <summary></summary>
         private protected virtual bool IsCellViewProperlyAssigned(IFrameAssignableCellViewReadOnlyDictionary<string> expectedCellViewTable, IFrameAssignableCellViewDictionary<string> actualCellViewTable)
         {
+            bool IsAssigned = true;
+
             string PropertyName = null;
             foreach (KeyValuePair<string, IFrameAssignableCellView> Entry in expectedCellViewTable)
                 if (Entry.Value == this)
@@ -207,8 +208,7 @@
                     break;
                 }
 
-            if (IsAssignedToTable != (PropertyName != null))
-                return false;
+            IsAssigned &= IsAssignedToTable == (PropertyName != null);
 
             if (PropertyName != null)
             {
@@ -219,13 +219,13 @@
                         IsActual = true;
                         break;
                     }
-                if (IsActual)
-                    return false;
+
+                IsAssigned &= !IsActual;
 
                 actualCellViewTable.Add(PropertyName, this);
             }
 
-            return true;
+            return IsAssigned;
         }
         #endregion
     }

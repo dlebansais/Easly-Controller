@@ -290,19 +290,20 @@
         /// </summary>
         public virtual bool IsCellViewTreeValid()
         {
-            if (RootCellView == null)
-                return false;
+            bool IsValid = true;
 
-            IFrameAssignableCellViewDictionary<string> EmptyCellViewTable = CreateCellViewTable();
-            IFrameAssignableCellViewReadOnlyDictionary<string> ExpectedCellViewTable = CreateCellViewReadOnlyTable(EmptyCellViewTable);
-            IFrameAssignableCellViewDictionary<string> ActualCellViewTable = CreateCellViewTable();
-            if (!RootCellView.IsCellViewTreeValid(ExpectedCellViewTable, ActualCellViewTable))
-                return false;
+            IsValid &= RootCellView != null;
 
-            if (ActualCellViewTable.Count != 0)
-                return false;
+            if (IsValid)
+            {
+                IFrameAssignableCellViewDictionary<string> EmptyCellViewTable = CreateCellViewTable();
+                IFrameAssignableCellViewReadOnlyDictionary<string> ExpectedCellViewTable = CreateCellViewReadOnlyTable(EmptyCellViewTable);
+                IFrameAssignableCellViewDictionary<string> ActualCellViewTable = CreateCellViewTable();
+                IsValid &= RootCellView.IsCellViewTreeValid(ExpectedCellViewTable, ActualCellViewTable);
+                IsValid &= ActualCellViewTable.Count == 0;
+            }
 
-            return true;
+            return IsValid;
         }
         #endregion
 

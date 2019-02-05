@@ -914,6 +914,8 @@
             int MaxColumnNumber = 1;
 
             Debug.Assert(RootStateView.IsCellViewTreeValid());
+            Debug.Assert(RootStateView.HasVisibleCellView);
+
             RootStateView.UpdateLineNumbers(ref LineNumber, ref MaxLineNumber, ref ColumnNumber, ref MaxColumnNumber);
 
             LastLineNumber = MaxLineNumber;
