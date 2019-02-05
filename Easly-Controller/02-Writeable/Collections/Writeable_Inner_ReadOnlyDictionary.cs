@@ -44,7 +44,7 @@ namespace EaslyController.Writeable
             return NewList.GetEnumerator();
         }
 
-        public bool TryGetValue(TKey key, out IReadOnlyInner value)
+        bool IReadOnlyDictionary<TKey, IReadOnlyInner>.TryGetValue(TKey key, out IReadOnlyInner value)
         {
             bool Result = TryGetValue(key, out IWriteableInner Value);
             value = Value;

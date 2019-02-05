@@ -59,6 +59,8 @@
         {
             base.CheckConsistency();
 
+            Debug.Assert(State != null);
+
             IWriteableIndexCollectionList InternalList = InternalIndexCollectionList as IWriteableIndexCollectionList;
             IWriteableIndexCollectionReadOnlyList PublicList = IndexCollectionList;
 

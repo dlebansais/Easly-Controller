@@ -52,7 +52,6 @@ namespace EaslyController.Focus
         IFrameTemplate IDictionary<Type, IFrameTemplate>.this[Type key] { get { return this[(Type)key]; } set { this[(Type)key] = (IFocusTemplate)value; } }
         ICollection<Type> IDictionary<Type, IFrameTemplate>.Keys { get { return new List<Type>(Keys); } }
         ICollection<IFrameTemplate> IDictionary<Type, IFrameTemplate>.Values { get { return new List<IFrameTemplate>(Values); } }
-        public void Add(Type key, IFrameTemplate value) { base.Add(key, (IFocusTemplate)value); }
 
         IEnumerator<KeyValuePair<Type, IFrameTemplate>> IEnumerable<KeyValuePair<Type, IFrameTemplate>>.GetEnumerator()
         {

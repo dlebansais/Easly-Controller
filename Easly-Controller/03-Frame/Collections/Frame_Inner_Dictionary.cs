@@ -2,7 +2,6 @@
 
 namespace EaslyController.Frame
 {
-    using System;
     using System.Collections.Generic;
     using EaslyController.ReadOnly;
     using EaslyController.Writeable;
@@ -27,7 +26,7 @@ namespace EaslyController.Frame
         IReadOnlyInner IDictionary<TKey, IReadOnlyInner>.this[TKey key] { get { return this[key]; } set { this[key] = (IFrameInner)value; } }
         ICollection<TKey> IDictionary<TKey, IReadOnlyInner>.Keys { get { return Keys; } }
         ICollection<IReadOnlyInner> IDictionary<TKey, IReadOnlyInner>.Values { get { return new List<IReadOnlyInner>(Values); } }
-        public void Add(TKey key, IReadOnlyInner value) { base.Add(key, (IFrameInner)value); }
+        void IDictionary<TKey, IReadOnlyInner>.Add(TKey key, IReadOnlyInner value) { Add(key, (IFrameInner)value); }
 
         IEnumerator<KeyValuePair<TKey, IReadOnlyInner>> IEnumerable<KeyValuePair<TKey, IReadOnlyInner>>.GetEnumerator()
         {
@@ -42,22 +41,22 @@ namespace EaslyController.Frame
             return NewList.GetEnumerator();
         }
 
-        public bool TryGetValue(TKey key, out IReadOnlyInner value)
+        bool IDictionary<TKey, IReadOnlyInner>.TryGetValue(TKey key, out IReadOnlyInner value)
         {
             bool Result = TryGetValue(key, out IFrameInner Value);
             value = Value;
             return Result;
         }
 
-        public void CopyTo(KeyValuePair<TKey, IReadOnlyInner>[] array, int arrayIndex)
+        void ICollection<KeyValuePair<TKey, IReadOnlyInner>>.CopyTo(KeyValuePair<TKey, IReadOnlyInner>[] array, int arrayIndex)
         {
             foreach (KeyValuePair<TKey, IFrameInner> Entry in this)
                 array[arrayIndex++] = new KeyValuePair<TKey, IReadOnlyInner>(Entry.Key, Entry.Value);
         }
 
-        public void Add(KeyValuePair<TKey, IReadOnlyInner> item) { base.Add(item.Key, (IFrameInner)item.Value); }
-        public bool Contains(KeyValuePair<TKey, IReadOnlyInner> item) { return ContainsKey(item.Key) && base[item.Key] == item.Value; }
-        public bool Remove(KeyValuePair<TKey, IReadOnlyInner> item) { return Remove(item.Key); }
+        void ICollection<KeyValuePair<TKey, IReadOnlyInner>>.Add(KeyValuePair<TKey, IReadOnlyInner> item) { Add(item.Key, (IFrameInner)item.Value); }
+        bool ICollection<KeyValuePair<TKey, IReadOnlyInner>>.Contains(KeyValuePair<TKey, IReadOnlyInner> item) { return ContainsKey(item.Key) && this[item.Key] == item.Value; }
+        bool ICollection<KeyValuePair<TKey, IReadOnlyInner>>.Remove(KeyValuePair<TKey, IReadOnlyInner> item) { return Remove(item.Key); }
         bool ICollection<KeyValuePair<TKey, IReadOnlyInner>>.IsReadOnly { get { return ((ICollection<KeyValuePair<TKey, IFrameInner>>)this).IsReadOnly; } }
         #endregion
 
@@ -65,7 +64,7 @@ namespace EaslyController.Frame
         IWriteableInner IDictionary<TKey, IWriteableInner>.this[TKey key] { get { return this[key]; } set { this[key] = (IFrameInner)value; } }
         ICollection<TKey> IDictionary<TKey, IWriteableInner>.Keys { get { return Keys; } }
         ICollection<IWriteableInner> IDictionary<TKey, IWriteableInner>.Values { get { return new List<IWriteableInner>(Values); } }
-        public void Add(TKey key, IWriteableInner value) { base.Add(key, (IFrameInner)value); }
+        void IDictionary<TKey, IWriteableInner>.Add(TKey key, IWriteableInner value) { Add(key, (IFrameInner)value); }
 
         IEnumerator<KeyValuePair<TKey, IWriteableInner>> IEnumerable<KeyValuePair<TKey, IWriteableInner>>.GetEnumerator()
         {
@@ -93,22 +92,22 @@ namespace EaslyController.Frame
             return NewDictionary.GetEnumerator();
         }
 
-        public bool TryGetValue(TKey key, out IWriteableInner value)
+        bool IDictionary<TKey, IWriteableInner>.TryGetValue(TKey key, out IWriteableInner value)
         {
             bool Result = TryGetValue(key, out IFrameInner Value);
             value = Value;
             return Result;
         }
 
-        public void CopyTo(KeyValuePair<TKey, IWriteableInner>[] array, int arrayIndex)
+        void ICollection<KeyValuePair<TKey, IWriteableInner>>.CopyTo(KeyValuePair<TKey, IWriteableInner>[] array, int arrayIndex)
         {
             foreach (KeyValuePair<TKey, IFrameInner> Entry in this)
                 array[arrayIndex++] = new KeyValuePair<TKey, IWriteableInner>(Entry.Key, Entry.Value);
         }
 
-        public void Add(KeyValuePair<TKey, IWriteableInner> item) { base.Add(item.Key, (IFrameInner)item.Value); }
-        public bool Contains(KeyValuePair<TKey, IWriteableInner> item) { return ContainsKey(item.Key) && base[item.Key] == item.Value; }
-        public bool Remove(KeyValuePair<TKey, IWriteableInner> item) { return Remove(item.Key); }
+        void ICollection<KeyValuePair<TKey, IWriteableInner>>.Add(KeyValuePair<TKey, IWriteableInner> item) { Add(item.Key, (IFrameInner)item.Value); }
+        bool ICollection<KeyValuePair<TKey, IWriteableInner>>.Contains(KeyValuePair<TKey, IWriteableInner> item) { return ContainsKey(item.Key) && this[item.Key] == item.Value; }
+        bool ICollection<KeyValuePair<TKey, IWriteableInner>>.Remove(KeyValuePair<TKey, IWriteableInner> item) { return Remove(item.Key); }
         bool ICollection<KeyValuePair<TKey, IWriteableInner>>.IsReadOnly { get { return ((ICollection<KeyValuePair<TKey, IFrameInner>>)this).IsReadOnly; } }
         #endregion
     }

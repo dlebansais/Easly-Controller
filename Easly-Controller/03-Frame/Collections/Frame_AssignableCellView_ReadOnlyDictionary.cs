@@ -50,13 +50,14 @@ namespace EaslyController.Frame
 
                 IFrameAssignableCellView OtherValue = AsAssignableCellViewReadOnlyDictionary[Entry.Key] as IFrameAssignableCellView;
 
-                if (Entry.Value != null && OtherValue != null)
+                if (!comparer.IsTrue((Entry.Value != null && OtherValue != null) || (Entry.Value == null && OtherValue == null)))
+                    return comparer.Failed();
+
+                if (Entry.Value != null)
                 {
                     if (!comparer.VerifyEqual(Entry.Value, OtherValue))
                         return comparer.Failed();
                 }
-                else if (!comparer.IsTrue(Entry.Value == null && OtherValue == null))
-                    return comparer.Failed();
             }
 
             return true;

@@ -2,7 +2,6 @@
 
 namespace EaslyController.Focus
 {
-    using System;
     using System.Collections.Generic;
     using EaslyController.Frame;
     using EaslyController.ReadOnly;
@@ -45,7 +44,6 @@ namespace EaslyController.Focus
         IReadOnlyNodeState IDictionary<IReadOnlyIndex, IReadOnlyNodeState>.this[IReadOnlyIndex key] { get { return this[(IFocusIndex)key]; } set { this[(IFocusIndex)key] = (IFocusNodeState)value; } }
         ICollection<IReadOnlyIndex> IDictionary<IReadOnlyIndex, IReadOnlyNodeState>.Keys { get { return new List<IReadOnlyIndex>(Keys); } }
         ICollection<IReadOnlyNodeState> IDictionary<IReadOnlyIndex, IReadOnlyNodeState>.Values { get { return new List<IReadOnlyNodeState>(Values); } }
-        public void Add(IFocusIndex key, IReadOnlyNodeState value) { base.Add(key, (IFocusNodeState)value); }
 
         IEnumerator<KeyValuePair<IReadOnlyIndex, IReadOnlyNodeState>> IEnumerable<KeyValuePair<IReadOnlyIndex, IReadOnlyNodeState>>.GetEnumerator()
         {
@@ -86,7 +84,6 @@ namespace EaslyController.Focus
         IWriteableNodeState IDictionary<IWriteableIndex, IWriteableNodeState>.this[IWriteableIndex key] { get { return this[(IFocusIndex)key]; } set { this[(IFocusIndex)key] = (IFocusNodeState)value; } }
         ICollection<IWriteableIndex> IDictionary<IWriteableIndex, IWriteableNodeState>.Keys { get { return new List<IWriteableIndex>(Keys); } }
         ICollection<IWriteableNodeState> IDictionary<IWriteableIndex, IWriteableNodeState>.Values { get { return new List<IWriteableNodeState>(Values); } }
-        public void Add(IFocusIndex key, IWriteableNodeState value) { base.Add(key, (IFocusNodeState)value); }
 
         IEnumerator<KeyValuePair<IWriteableIndex, IWriteableNodeState>> IEnumerable<KeyValuePair<IWriteableIndex, IWriteableNodeState>>.GetEnumerator()
         {
@@ -140,7 +137,6 @@ namespace EaslyController.Focus
         IFrameNodeState IDictionary<IFrameIndex, IFrameNodeState>.this[IFrameIndex key] { get { return this[(IFocusIndex)key]; } set { this[(IFocusIndex)key] = (IFocusNodeState)value; } }
         ICollection<IFrameIndex> IDictionary<IFrameIndex, IFrameNodeState>.Keys { get { return new List<IFrameIndex>(Keys); } }
         ICollection<IFrameNodeState> IDictionary<IFrameIndex, IFrameNodeState>.Values { get { return new List<IFrameNodeState>(Values); } }
-        public void Add(IFocusIndex key, IFrameNodeState value) { base.Add(key, (IFocusNodeState)value); }
 
         IEnumerator<KeyValuePair<IFrameIndex, IFrameNodeState>> IEnumerable<KeyValuePair<IFrameIndex, IFrameNodeState>>.GetEnumerator()
         {

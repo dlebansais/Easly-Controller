@@ -2,7 +2,6 @@
 
 namespace EaslyController.Frame
 {
-    using System;
     using System.Collections.Generic;
     using System.Diagnostics;
     using EaslyController.ReadOnly;
@@ -45,7 +44,6 @@ namespace EaslyController.Frame
         IReadOnlyBlockStateView IDictionary<IReadOnlyBlockState, IReadOnlyBlockStateView>.this[IReadOnlyBlockState key] { get { return this[(IFrameBlockState)key]; } set { this[(IFrameBlockState)key] = (IFrameBlockStateView)value; } }
         ICollection<IReadOnlyBlockState> IDictionary<IReadOnlyBlockState, IReadOnlyBlockStateView>.Keys { get { return new List<IReadOnlyBlockState>(Keys); } }
         ICollection<IReadOnlyBlockStateView> IDictionary<IReadOnlyBlockState, IReadOnlyBlockStateView>.Values { get { return new List<IReadOnlyBlockStateView>(Values); } }
-        public void Add(IFrameBlockState key, IReadOnlyBlockStateView value) { base.Add(key, (IFrameBlockStateView)value); }
 
         IEnumerator<KeyValuePair<IReadOnlyBlockState, IReadOnlyBlockStateView>> IEnumerable<KeyValuePair<IReadOnlyBlockState, IReadOnlyBlockStateView>>.GetEnumerator()
         {
@@ -86,7 +84,6 @@ namespace EaslyController.Frame
         IWriteableBlockStateView IDictionary<IWriteableBlockState, IWriteableBlockStateView>.this[IWriteableBlockState key] { get { return this[(IFrameBlockState)key]; } set { this[(IFrameBlockState)key] = (IFrameBlockStateView)value; } }
         ICollection<IWriteableBlockState> IDictionary<IWriteableBlockState, IWriteableBlockStateView>.Keys { get { return new List<IWriteableBlockState>(Keys); } }
         ICollection<IWriteableBlockStateView> IDictionary<IWriteableBlockState, IWriteableBlockStateView>.Values { get { return new List<IWriteableBlockStateView>(Values); } }
-        public void Add(IFrameBlockState key, IWriteableBlockStateView value) { base.Add(key, (IFrameBlockStateView)value); }
 
         IEnumerator<KeyValuePair<IWriteableBlockState, IWriteableBlockStateView>> IEnumerable<KeyValuePair<IWriteableBlockState, IWriteableBlockStateView>>.GetEnumerator()
         {

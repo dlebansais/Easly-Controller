@@ -45,7 +45,6 @@ namespace EaslyController.Frame
         IReadOnlyNodeStateView IDictionary<IReadOnlyNodeState, IReadOnlyNodeStateView>.this[IReadOnlyNodeState key] { get { return this[(IFrameNodeState)key]; } set { this[(IFrameNodeState)key] = (IFrameNodeStateView)value; } }
         ICollection<IReadOnlyNodeState> IDictionary<IReadOnlyNodeState, IReadOnlyNodeStateView>.Keys { get { return new List<IReadOnlyNodeState>(Keys); } }
         ICollection<IReadOnlyNodeStateView> IDictionary<IReadOnlyNodeState, IReadOnlyNodeStateView>.Values { get { return new List<IReadOnlyNodeStateView>(Values); } }
-        public void Add(IFrameNodeState key, IReadOnlyNodeStateView value) { base.Add(key, (IFrameNodeStateView)value); }
 
         IEnumerator<KeyValuePair<IReadOnlyNodeState, IReadOnlyNodeStateView>> IEnumerable<KeyValuePair<IReadOnlyNodeState, IReadOnlyNodeStateView>>.GetEnumerator()
         {
@@ -86,7 +85,6 @@ namespace EaslyController.Frame
         IWriteableNodeStateView IDictionary<IWriteableNodeState, IWriteableNodeStateView>.this[IWriteableNodeState key] { get { return this[(IFrameNodeState)key]; } set { this[(IFrameNodeState)key] = (IFrameNodeStateView)value; } }
         ICollection<IWriteableNodeState> IDictionary<IWriteableNodeState, IWriteableNodeStateView>.Keys { get { return new List<IWriteableNodeState>(Keys); } }
         ICollection<IWriteableNodeStateView> IDictionary<IWriteableNodeState, IWriteableNodeStateView>.Values { get { return new List<IWriteableNodeStateView>(Values); } }
-        public void Add(IFrameNodeState key, IWriteableNodeStateView value) { base.Add(key, (IFrameNodeStateView)value); }
 
         IEnumerator<KeyValuePair<IWriteableNodeState, IWriteableNodeStateView>> IEnumerable<KeyValuePair<IWriteableNodeState, IWriteableNodeStateView>>.GetEnumerator()
         {

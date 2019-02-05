@@ -44,7 +44,6 @@ namespace EaslyController.Writeable
         IReadOnlyNodeStateView IDictionary<IReadOnlyNodeState, IReadOnlyNodeStateView>.this[IReadOnlyNodeState key] { get { return this[(IWriteableNodeState)key]; } set { this[(IWriteableNodeState)key] = (IWriteableNodeStateView)value; } }
         ICollection<IReadOnlyNodeState> IDictionary<IReadOnlyNodeState, IReadOnlyNodeStateView>.Keys { get { return new List<IReadOnlyNodeState>(Keys); } }
         ICollection<IReadOnlyNodeStateView> IDictionary<IReadOnlyNodeState, IReadOnlyNodeStateView>.Values { get { return new List<IReadOnlyNodeStateView>(Values); } }
-        public void Add(IWriteableNodeState key, IReadOnlyNodeStateView value) { base.Add(key, (IWriteableNodeStateView)value); }
 
         IEnumerator<KeyValuePair<IReadOnlyNodeState, IReadOnlyNodeStateView>> IEnumerable<KeyValuePair<IReadOnlyNodeState, IReadOnlyNodeStateView>>.GetEnumerator()
         {

@@ -2,7 +2,6 @@
 
 namespace EaslyController.Focus
 {
-    using System;
     using System.Collections.Generic;
     using System.Diagnostics;
     using EaslyController.Frame;
@@ -46,7 +45,6 @@ namespace EaslyController.Focus
         IReadOnlyBlockStateView IDictionary<IReadOnlyBlockState, IReadOnlyBlockStateView>.this[IReadOnlyBlockState key] { get { return this[(IFocusBlockState)key]; } set { this[(IFocusBlockState)key] = (IFocusBlockStateView)value; } }
         ICollection<IReadOnlyBlockState> IDictionary<IReadOnlyBlockState, IReadOnlyBlockStateView>.Keys { get { return new List<IReadOnlyBlockState>(Keys); } }
         ICollection<IReadOnlyBlockStateView> IDictionary<IReadOnlyBlockState, IReadOnlyBlockStateView>.Values { get { return new List<IReadOnlyBlockStateView>(Values); } }
-        public void Add(IFocusBlockState key, IReadOnlyBlockStateView value) { base.Add(key, (IFocusBlockStateView)value); }
 
         IEnumerator<KeyValuePair<IReadOnlyBlockState, IReadOnlyBlockStateView>> IEnumerable<KeyValuePair<IReadOnlyBlockState, IReadOnlyBlockStateView>>.GetEnumerator()
         {
@@ -141,7 +139,6 @@ namespace EaslyController.Focus
         IFrameBlockStateView IDictionary<IFrameBlockState, IFrameBlockStateView>.this[IFrameBlockState key] { get { return this[(IFocusBlockState)key]; } set { this[(IFocusBlockState)key] = (IFocusBlockStateView)value; } }
         ICollection<IFrameBlockState> IDictionary<IFrameBlockState, IFrameBlockStateView>.Keys { get { return new List<IFrameBlockState>(Keys); } }
         ICollection<IFrameBlockStateView> IDictionary<IFrameBlockState, IFrameBlockStateView>.Values { get { return new List<IFrameBlockStateView>(Values); } }
-        public void Add(IFocusBlockState key, IFrameBlockStateView value) { base.Add(key, (IFocusBlockStateView)value); }
 
         IEnumerator<KeyValuePair<IFrameBlockState, IFrameBlockStateView>> IEnumerable<KeyValuePair<IFrameBlockState, IFrameBlockStateView>>.GetEnumerator()
         {

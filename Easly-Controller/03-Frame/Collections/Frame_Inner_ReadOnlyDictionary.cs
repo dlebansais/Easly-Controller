@@ -44,7 +44,8 @@ namespace EaslyController.Frame
 
             return NewList.GetEnumerator();
         }
-        public bool TryGetValue(TKey key, out IReadOnlyInner value)
+
+        bool IReadOnlyDictionary<TKey, IReadOnlyInner>.TryGetValue(TKey key, out IReadOnlyInner value)
         {
             bool Result = TryGetValue(key, out IFrameInner Value);
             value = Value;
@@ -68,7 +69,7 @@ namespace EaslyController.Frame
         }
         IEnumerator<KeyValuePair<TKey, IWriteableInner>> IEnumerable<KeyValuePair<TKey, IWriteableInner>>.GetEnumerator() { return ((IWriteableInnerReadOnlyDictionary<TKey>)this).GetEnumerator(); }
 
-        public bool TryGetValue(TKey key, out IWriteableInner value)
+        bool IReadOnlyDictionary<TKey, IWriteableInner>.TryGetValue(TKey key, out IWriteableInner value)
         {
             bool Result = TryGetValue(key, out IFrameInner Value);
             value = Value;

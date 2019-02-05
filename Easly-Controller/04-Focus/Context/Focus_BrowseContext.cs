@@ -58,6 +58,8 @@
         {
             base.CheckConsistency();
 
+            Debug.Assert(State != null);
+
             IFocusIndexCollectionList InternalList = InternalIndexCollectionList as IFocusIndexCollectionList;
             IFocusIndexCollectionReadOnlyList PublicList = IndexCollectionList;
 

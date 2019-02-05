@@ -27,12 +27,12 @@ namespace EaslyController.Frame
         IReadOnlyBlockState IList<IReadOnlyBlockState>.this[int index] { get { return this[index]; } set { this[index] = (IFrameBlockState)value; } }
         IReadOnlyBlockState IReadOnlyList<IReadOnlyBlockState>.this[int index] { get { return this[index]; } }
         bool ICollection<IReadOnlyBlockState>.IsReadOnly { get { return ((ICollection<IFrameBlockState>)this).IsReadOnly; } }
-        public void Add(IReadOnlyBlockState item) { base.Add((IFrameBlockState)item); }
-        public void Insert(int index, IReadOnlyBlockState item) { base.Insert(index, (IFrameBlockState)item); }
-        public bool Remove(IReadOnlyBlockState item) { return base.Remove((IFrameBlockState)item); }
-        public void CopyTo(IReadOnlyBlockState[] array, int index) { base.CopyTo((IFrameBlockState[])array, index); }
-        public bool Contains(IReadOnlyBlockState value) { return base.Contains((IFrameBlockState)value); }
-        public int IndexOf(IReadOnlyBlockState value) { return base.IndexOf((IFrameBlockState)value); }
+        void ICollection<IReadOnlyBlockState>.Add(IReadOnlyBlockState item) { Add((IFrameBlockState)item); }
+        void IList<IReadOnlyBlockState>.Insert(int index, IReadOnlyBlockState item) { Insert(index, (IFrameBlockState)item); }
+        bool ICollection<IReadOnlyBlockState>.Remove(IReadOnlyBlockState item) { return Remove((IFrameBlockState)item); }
+        void ICollection<IReadOnlyBlockState>.CopyTo(IReadOnlyBlockState[] array, int index) { CopyTo((IFrameBlockState[])array, index); }
+        bool ICollection<IReadOnlyBlockState>.Contains(IReadOnlyBlockState value) { return Contains((IFrameBlockState)value); }
+        int IList<IReadOnlyBlockState>.IndexOf(IReadOnlyBlockState value) { return IndexOf((IFrameBlockState)value); }
         IEnumerator<IReadOnlyBlockState> IEnumerable<IReadOnlyBlockState>.GetEnumerator() { return GetEnumerator(); }
         #endregion
 
@@ -41,12 +41,12 @@ namespace EaslyController.Frame
         IWriteableBlockState IList<IWriteableBlockState>.this[int index] { get { return this[index]; } set { this[index] = (IFrameBlockState)value; } }
         IWriteableBlockState IReadOnlyList<IWriteableBlockState>.this[int index] { get { return this[index]; } }
         bool ICollection<IWriteableBlockState>.IsReadOnly { get { return ((ICollection<IFrameBlockState>)this).IsReadOnly; } }
-        public void Add(IWriteableBlockState item) { base.Add((IFrameBlockState)item); }
-        public void Insert(int index, IWriteableBlockState item) { base.Insert(index, (IFrameBlockState)item); }
-        public bool Remove(IWriteableBlockState item) { return base.Remove((IFrameBlockState)item); }
-        public void CopyTo(IWriteableBlockState[] array, int index) { base.CopyTo((IFrameBlockState[])array, index); }
-        public bool Contains(IWriteableBlockState value) { return base.Contains((IFrameBlockState)value); }
-        public int IndexOf(IWriteableBlockState value) { return base.IndexOf((IFrameBlockState)value); }
+        void ICollection<IWriteableBlockState>.Add(IWriteableBlockState item) { Add((IFrameBlockState)item); }
+        void IList<IWriteableBlockState>.Insert(int index, IWriteableBlockState item) { Insert(index, (IFrameBlockState)item); }
+        bool ICollection<IWriteableBlockState>.Remove(IWriteableBlockState item) { return Remove((IFrameBlockState)item); }
+        void ICollection<IWriteableBlockState>.CopyTo(IWriteableBlockState[] array, int index) { CopyTo((IFrameBlockState[])array, index); }
+        bool ICollection<IWriteableBlockState>.Contains(IWriteableBlockState value) { return Contains((IFrameBlockState)value); }
+        int IList<IWriteableBlockState>.IndexOf(IWriteableBlockState value) { return IndexOf((IFrameBlockState)value); }
         IEnumerator<IWriteableBlockState> IWriteableBlockStateList.GetEnumerator() { return GetEnumerator(); }
         IEnumerator<IWriteableBlockState> IEnumerable<IWriteableBlockState>.GetEnumerator() { return GetEnumerator(); }
         #endregion

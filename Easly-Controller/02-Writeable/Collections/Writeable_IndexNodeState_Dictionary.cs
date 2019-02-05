@@ -2,7 +2,6 @@
 
 namespace EaslyController.Writeable
 {
-    using System;
     using System.Collections.Generic;
     using EaslyController.ReadOnly;
 
@@ -43,7 +42,6 @@ namespace EaslyController.Writeable
         IReadOnlyNodeState IDictionary<IReadOnlyIndex, IReadOnlyNodeState>.this[IReadOnlyIndex key] { get { return this[(IWriteableIndex)key]; } set { this[(IWriteableIndex)key] = (IWriteableNodeState)value; } }
         ICollection<IReadOnlyIndex> IDictionary<IReadOnlyIndex, IReadOnlyNodeState>.Keys { get { return new List<IReadOnlyIndex>(Keys); } }
         ICollection<IReadOnlyNodeState> IDictionary<IReadOnlyIndex, IReadOnlyNodeState>.Values { get { return new List<IReadOnlyNodeState>(Values); } }
-        public void Add(IWriteableIndex key, IReadOnlyNodeState value) { base.Add(key, (IWriteableNodeState)value); }
 
         IEnumerator<KeyValuePair<IReadOnlyIndex, IReadOnlyNodeState>> IEnumerable<KeyValuePair<IReadOnlyIndex, IReadOnlyNodeState>>.GetEnumerator()
         {

@@ -57,6 +57,8 @@
         {
             base.CheckConsistency();
 
+            Debug.Assert(State != null);
+
             IFrameIndexCollectionList InternalList = InternalIndexCollectionList as IFrameIndexCollectionList;
             IFrameIndexCollectionReadOnlyList PublicList = IndexCollectionList;
 

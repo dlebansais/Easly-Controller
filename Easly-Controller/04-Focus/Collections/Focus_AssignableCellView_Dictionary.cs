@@ -26,7 +26,7 @@ namespace EaslyController.Focus
         IFrameAssignableCellView IDictionary<TKey, IFrameAssignableCellView>.this[TKey key] { get { return this[key]; } set { this[key] = (IFocusAssignableCellView)value; } }
         ICollection<TKey> IDictionary<TKey, IFrameAssignableCellView>.Keys { get { return Keys; } }
         ICollection<IFrameAssignableCellView> IDictionary<TKey, IFrameAssignableCellView>.Values { get { return new List<IFrameAssignableCellView>(Values); } }
-        public void Add(TKey key, IFrameAssignableCellView value) { base.Add(key, (IFocusAssignableCellView)value); }
+        void IDictionary<TKey, IFrameAssignableCellView>.Add(TKey key, IFrameAssignableCellView value) { Add(key, (IFocusAssignableCellView)value); }
 
         IEnumerator<KeyValuePair<TKey, IFrameAssignableCellView>> IEnumerable<KeyValuePair<TKey, IFrameAssignableCellView>>.GetEnumerator()
         {
@@ -41,22 +41,22 @@ namespace EaslyController.Focus
             return NewList.GetEnumerator();
         }
 
-        public bool TryGetValue(TKey key, out IFrameAssignableCellView value)
+        bool IDictionary<TKey, IFrameAssignableCellView>.TryGetValue(TKey key, out IFrameAssignableCellView value)
         {
             bool Result = TryGetValue(key, out IFocusAssignableCellView Value);
             value = Value;
             return Result;
         }
 
-        public void CopyTo(KeyValuePair<TKey, IFrameAssignableCellView>[] array, int arrayIndex)
+        void ICollection<KeyValuePair<TKey, IFrameAssignableCellView>>.CopyTo(KeyValuePair<TKey, IFrameAssignableCellView>[] array, int arrayIndex)
         {
             foreach (KeyValuePair<TKey, IFocusAssignableCellView> Entry in this)
                 array[arrayIndex++] = new KeyValuePair<TKey, IFrameAssignableCellView>(Entry.Key, Entry.Value);
         }
 
-        public void Add(KeyValuePair<TKey, IFrameAssignableCellView> item) { base.Add(item.Key, (IFocusAssignableCellView)item.Value); }
-        public bool Contains(KeyValuePair<TKey, IFrameAssignableCellView> item) { return ContainsKey(item.Key) && base[item.Key] == item.Value; }
-        public bool Remove(KeyValuePair<TKey, IFrameAssignableCellView> item) { return Remove(item.Key); }
+        void ICollection<KeyValuePair<TKey, IFrameAssignableCellView>>.Add(KeyValuePair<TKey, IFrameAssignableCellView> item) { Add(item.Key, (IFocusAssignableCellView)item.Value); }
+        bool ICollection<KeyValuePair<TKey, IFrameAssignableCellView>>.Contains(KeyValuePair<TKey, IFrameAssignableCellView> item) { return ContainsKey(item.Key) && this[item.Key] == item.Value; }
+        bool ICollection<KeyValuePair<TKey, IFrameAssignableCellView>>.Remove(KeyValuePair<TKey, IFrameAssignableCellView> item) { return Remove(item.Key); }
         bool ICollection<KeyValuePair<TKey, IFrameAssignableCellView>>.IsReadOnly { get { return ((ICollection<KeyValuePair<TKey, IFocusAssignableCellView>>)this).IsReadOnly; } }
         #endregion
     }

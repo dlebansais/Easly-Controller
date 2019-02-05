@@ -2,7 +2,6 @@
 
 namespace EaslyController.Writeable
 {
-    using System;
     using System.Collections.Generic;
     using System.Diagnostics;
     using EaslyController.ReadOnly;
@@ -44,7 +43,6 @@ namespace EaslyController.Writeable
         IReadOnlyBlockStateView IDictionary<IReadOnlyBlockState, IReadOnlyBlockStateView>.this[IReadOnlyBlockState key] { get { return this[(IWriteableBlockState)key]; } set { this[(IWriteableBlockState)key] = (IWriteableBlockStateView)value; } }
         ICollection<IReadOnlyBlockState> IDictionary<IReadOnlyBlockState, IReadOnlyBlockStateView>.Keys { get { return new List<IReadOnlyBlockState>(Keys); } }
         ICollection<IReadOnlyBlockStateView> IDictionary<IReadOnlyBlockState, IReadOnlyBlockStateView>.Values { get { return new List<IReadOnlyBlockStateView>(Values); } }
-        public void Add(IWriteableBlockState key, IReadOnlyBlockStateView value) { base.Add(key, (IWriteableBlockStateView)value); }
 
         IEnumerator<KeyValuePair<IReadOnlyBlockState, IReadOnlyBlockStateView>> IEnumerable<KeyValuePair<IReadOnlyBlockState, IReadOnlyBlockStateView>>.GetEnumerator()
         {
