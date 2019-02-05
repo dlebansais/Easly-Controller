@@ -9,7 +9,7 @@
     /// <summary>
     /// View of a child node.
     /// </summary>
-    public interface IFramePlaceholderNodeStateView : IWriteablePlaceholderNodeStateView, IFrameNodeStateView
+    public interface IFramePlaceholderNodeStateView : IWriteablePlaceholderNodeStateView, IFrameNodeStateView, IFrameReplaceableStateView
     {
         /// <summary>
         /// The child node.

@@ -59,13 +59,6 @@
         void ClearRootCellView();
 
         /// <summary>
-        /// Replaces the cell view for the given property.
-        /// </summary>
-        /// <param name="propertyName">The property name.</param>
-        /// <param name="cellView">The new cell view.</param>
-        void ReplaceCellView(string propertyName, IFrameContainerCellView cellView);
-
-        /// <summary>
         /// Update line numbers in the root cell view.
         /// </summary>
         /// <param name="lineNumber">The current line number, updated upon return.</param>
@@ -160,13 +153,6 @@
         /// Clears the cell view tree for this view.
         /// </summary>
         public abstract void ClearRootCellView();
-
-        /// <summary>
-        /// Replaces the cell view for the given property.
-        /// </summary>
-        /// <param name="propertyName">The property name.</param>
-        /// <param name="cellView">The new cell view.</param>
-        public abstract void ReplaceCellView(string propertyName, IFrameContainerCellView cellView);
 
         /// <summary>
         /// Update line numbers in the root cell view.

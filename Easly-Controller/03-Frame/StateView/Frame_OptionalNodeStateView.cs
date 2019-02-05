@@ -11,7 +11,7 @@
     /// <summary>
     /// View of an optional node state.
     /// </summary>
-    public interface IFrameOptionalNodeStateView : IWriteableOptionalNodeStateView, IFrameNodeStateView
+    public interface IFrameOptionalNodeStateView : IWriteableOptionalNodeStateView, IFrameNodeStateView, IFrameReplaceableStateView
     {
         /// <summary>
         /// The optional node state.

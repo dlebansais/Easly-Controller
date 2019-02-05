@@ -6,7 +6,7 @@
     /// <summary>
     /// View of an optional node state.
     /// </summary>
-    public interface IFocusOptionalNodeStateView : IFrameOptionalNodeStateView, IFocusNodeStateView
+    public interface IFocusOptionalNodeStateView : IFrameOptionalNodeStateView, IFocusNodeStateView, IFocusReplaceableStateView
     {
         /// <summary>
         /// The optional node state.

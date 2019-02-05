@@ -1,7 +1,6 @@
 ﻿namespace EaslyController.Frame
 {
     using System;
-    using System.Collections.Generic;
     using System.Diagnostics;
     using BaseNode;
     using EaslyController.Writeable;
@@ -9,7 +8,7 @@
     /// <summary>
     /// View of a pattern state.
     /// </summary>
-    public interface IFramePatternStateView : IWriteablePatternStateView, IFramePlaceholderNodeStateView
+    public interface IFramePatternStateView : IWriteablePatternStateView, IFrameNodeStateView
     {
         /// <summary>
         /// The pattern state.
@@ -45,7 +44,6 @@
         /// </summary>
         public new IFramePatternState State { get { return (IFramePatternState)base.State; } }
         IFrameNodeState IFrameNodeStateView.State { get { return State; } }
-        IFramePlaceholderNodeState IFramePlaceholderNodeStateView.State { get { return State; } }
 
         /// <summary>
         /// The template used to display the state.
@@ -148,16 +146,6 @@
             RootCellView = null;
             _CellViewTable = null;
             CellViewTable = null;
-        }
-
-        /// <summary>
-        /// Replaces the cell view for the given property.
-        /// </summary>
-        /// <param name="propertyName">The property name.</param>
-        /// <param name="cellView">The new cell view.</param>
-        public virtual void ReplaceCellView(string propertyName, IFrameContainerCellView cellView)
-        {
-            throw new NotImplementedException();
         }
 
         /// <summary>

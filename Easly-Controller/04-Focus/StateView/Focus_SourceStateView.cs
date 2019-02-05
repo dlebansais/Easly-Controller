@@ -6,7 +6,7 @@
     /// <summary>
     /// View of a source state.
     /// </summary>
-    public interface IFocusSourceStateView : IFrameSourceStateView, IFocusPlaceholderNodeStateView
+    public interface IFocusSourceStateView : IFrameSourceStateView, IFocusNodeStateView
     {
         /// <summary>
         /// The pattern state.
@@ -42,7 +42,6 @@
         /// </summary>
         public new IFocusSourceState State { get { return (IFocusSourceState)base.State; } }
         IFocusNodeState IFocusNodeStateView.State { get { return State; } }
-        IFocusPlaceholderNodeState IFocusPlaceholderNodeStateView.State { get { return State; } }
 
         /// <summary>
         /// The template used to display the state.

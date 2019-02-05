@@ -6,7 +6,7 @@
     /// <summary>
     /// View of a child node.
     /// </summary>
-    public interface IFocusPlaceholderNodeStateView : IFramePlaceholderNodeStateView, IFocusNodeStateView
+    public interface IFocusPlaceholderNodeStateView : IFramePlaceholderNodeStateView, IFocusNodeStateView, IFocusReplaceableStateView
     {
         /// <summary>
         /// The child node.

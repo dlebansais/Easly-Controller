@@ -337,6 +337,7 @@
     <Compile Include="03-Frame\Inner\Single\Frame_SingleInner.cs" />
     <Compile Include="03-Frame\Inner\Frame_Inner.cs" />
     <Compile Include="03-Frame\StateView\Frame_BlockStateView.cs" />
+    <Compile Include="03-Frame\StateView\Frame_ReplaceableStateView.cs" />
     <Compile Include="03-Frame\StateView\Frame_NodeStateView.cs" />
     <Compile Include="03-Frame\StateView\Frame_OptionalNodeStateView.cs" />
     <Compile Include="03-Frame\StateView\Frame_PatternStateView.cs" />
@@ -506,6 +507,7 @@
     <Compile Include="04-Focus\StateView\Focus_PatternStateView.cs" />
     <Compile Include="04-Focus\StateView\Focus_PlaceholderNodeStateView.cs" />
     <Compile Include="04-Focus\StateView\Focus_SourceStateView.cs" />
+    <Compile Include="04-Focus\StateView\Focus_ReplaceableStateView.cs" />
     <Compile Include="04-Focus\State\Focus_BlockState.cs" />
     <Compile Include="04-Focus\State\Focus_NodeState.cs" />
     <Compile Include="04-Focus\State\Focus_OptionalNodeState.cs" />

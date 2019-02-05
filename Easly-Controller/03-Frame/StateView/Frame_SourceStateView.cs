@@ -9,7 +9,7 @@
     /// <summary>
     /// View of a source state.
     /// </summary>
-    public interface IFrameSourceStateView : IWriteableSourceStateView, IFramePlaceholderNodeStateView
+    public interface IFrameSourceStateView : IWriteableSourceStateView, IFrameNodeStateView
     {
         /// <summary>
         /// The pattern state.
@@ -45,7 +45,6 @@
         /// </summary>
         public new IFrameSourceState State { get { return (IFrameSourceState)base.State; } }
         IFrameNodeState IFrameNodeStateView.State { get { return State; } }
-        IFramePlaceholderNodeState IFramePlaceholderNodeStateView.State { get { return State; } }
 
         /// <summary>
         /// The template used to display the state.
@@ -148,16 +147,6 @@
             RootCellView = null;
             _CellViewTable = null;
             CellViewTable = null;
-        }
-
-        /// <summary>
-        /// Replaces the cell view for the given property.
-        /// </summary>
-        /// <param name="propertyName">The property name.</param>
-        /// <param name="cellView">The new cell view.</param>
-        public virtual void ReplaceCellView(string propertyName, IFrameContainerCellView cellView)
-        {
-            throw new NotImplementedException();
         }
 
         /// <summary>

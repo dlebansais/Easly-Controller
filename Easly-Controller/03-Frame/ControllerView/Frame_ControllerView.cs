@@ -551,7 +551,7 @@
             Debug.Assert(PreviousCellView.IsAssignedToTable);
             ReplacedCellView.AssignToCellViewTable();
             EmbeddingCellView.Replace(PreviousCellView, ReplacedCellView);
-            OwnerStateView.ReplaceCellView(PropertyName, ReplacedCellView);
+            ((IFrameReplaceableStateView)OwnerStateView).ReplaceCellView(PropertyName, ReplacedCellView);
         }
 
         /// <summary></summary>
@@ -581,7 +581,7 @@
             Debug.Assert(PreviousCellView.IsAssignedToTable);
             ReplacedCellView.AssignToCellViewTable();
             EmbeddingCellView.Replace(PreviousCellView, ReplacedCellView);
-            OwnerStateView.ReplaceCellView(PropertyName, ReplacedCellView);
+            ((IFrameReplaceableStateView)OwnerStateView).ReplaceCellView(PropertyName, ReplacedCellView);
         }
 
         /// <summary></summary>
