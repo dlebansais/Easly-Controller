@@ -88,11 +88,7 @@
                 IFrameCellView ItemCellView = NodeFrame.BuildNodeCells(context, EmbeddingCellView);
 
                 // Only add cell views that are not empty and that are not empty collections.
-                if (ItemCellView is IFrameEmptyCellView)
-                { }
-                else if (ItemCellView is IFrameCellViewCollection AsCollection && AsCollection.CellViewList.Count == 0 && !AsCollection.IsAssignedToTable)
-                { }
-                else
+                if (!(ItemCellView is IFrameEmptyCellView) && !(ItemCellView is IFrameCellViewCollection AsCollection && AsCollection.CellViewList.Count == 0 && !AsCollection.IsAssignedToTable))
                     CellViewList.Add(ItemCellView);
             }
 
@@ -125,11 +121,13 @@
                     ItemCellView = BuildBlockCellsForPlaceholderFrame(context, AsPlaceholderFrame, EmbeddingCellView, BlockState);
                     IsHandled = true;
                 }
+
+                /*
                 else if (Item is IFrameNodeFrame AsNodeFrame)
                 {
                     ItemCellView = AsNodeFrame.BuildNodeCells(context, EmbeddingCellView);
                     IsHandled = true;
-                }
+                }*/
 
                 Debug.Assert(IsHandled);
 

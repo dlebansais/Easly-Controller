@@ -1,6 +1,7 @@
 ﻿namespace EaslyController.Focus
 {
     using System;
+    using System.Diagnostics;
     using EaslyController.Frame;
 
     /// <summary>
@@ -27,12 +28,20 @@
         #region Init
         private class FocusRootFrame : IFocusFrame
         {
-            public IFocusTemplate ParentTemplate { get { throw new NotImplementedException(); } }
-            IFrameTemplate IFrameFrame.ParentTemplate { get { throw new NotImplementedException(); } }
-            public IFocusFrame ParentFrame { get { throw new NotImplementedException(); } }
-            IFrameFrame IFrameFrame.ParentFrame { get { throw new NotImplementedException(); } }
+            public FocusRootFrame()
+            {
+                UpdateParent(null, null);
+                Debug.Assert(ParentTemplate == null);
+                Debug.Assert(ParentFrame == null);
+                Debug.Assert(!IsValid(null, null));
+            }
+
+            public IFocusTemplate ParentTemplate { get; }
+            IFrameTemplate IFrameFrame.ParentTemplate { get { return ParentTemplate; } }
+            public IFocusFrame ParentFrame { get; }
+            IFrameFrame IFrameFrame.ParentFrame { get { return ParentFrame; } }
             public bool IsValid(Type nodeType, IFrameTemplateReadOnlyDictionary nodeTemplateTable) { return false; }
-            public void UpdateParent(IFrameTemplate parentTemplate, IFrameFrame parentFrame) { throw new NotImplementedException(); }
+            public void UpdateParent(IFrameTemplate parentTemplate, IFrameFrame parentFrame) { }
         }
 
         /// <summary>

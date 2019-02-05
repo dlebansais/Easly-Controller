@@ -41,10 +41,18 @@
         #region Init
         private class FrameRootFrame : IFrameFrame
         {
-            public IFrameTemplate ParentTemplate { get { throw new NotImplementedException(); } }
-            public IFrameFrame ParentFrame { get { throw new NotImplementedException(); } }
+            public FrameRootFrame()
+            {
+                UpdateParent(null, null);
+                Debug.Assert(ParentTemplate == null);
+                Debug.Assert(ParentFrame == null);
+                Debug.Assert(!IsValid(null, null));
+            }
+
+            public IFrameTemplate ParentTemplate { get; }
+            public IFrameFrame ParentFrame { get; }
             public bool IsValid(Type nodeType, IFrameTemplateReadOnlyDictionary nodeTemplateTable) { return false; }
-            public void UpdateParent(IFrameTemplate parentTemplate, IFrameFrame parentFrame) { throw new NotImplementedException(); }
+            public void UpdateParent(IFrameTemplate parentTemplate, IFrameFrame parentFrame) { }
         }
 
         /// <summary>
@@ -91,16 +99,6 @@
 
             Debug.Assert(ParentFrame == null);
             ParentFrame = parentFrame;
-        }
-        #endregion
-
-        #region Debugging
-        /// <summary>
-        /// Returns a string that represents the current object.
-        /// </summary>
-        public override string ToString()
-        {
-            return base.ToString() + " (" + GetHashCode() + ")";
         }
         #endregion
     }

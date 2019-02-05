@@ -65,34 +65,34 @@
         /// <summary></summary>
         private protected virtual void UpdateInterfaceType(Type nodeType)
         {
-            if (InterfaceType != null)
-                return;
-
-            string[] Split = CollectionName.Split('.');
-            Type BaseType = nodeType;
-
-            for (int i = 0; i < Split.Length; i++)
+            if (InterfaceType == null)
             {
-                string PropertyName = Split[i];
-                Type ChildNodeType;
+                string[] Split = CollectionName.Split('.');
+                Type BaseType = nodeType;
 
-                if (i + 1 < Split.Length)
+                for (int i = 0; i < Split.Length; i++)
                 {
-                    if (!NodeTreeHelperChild.IsChildNodeProperty(BaseType, PropertyName, out ChildNodeType) && !NodeTreeHelperOptional.IsOptionalChildNodeProperty(BaseType, PropertyName, out ChildNodeType))
-                        return;
+                    string PropertyName = Split[i];
+                    Type ChildNodeType;
 
-                    BaseType = ChildNodeType;
-                }
-                else
-                {
-                    if (!NodeTreeHelperBlockList.IsBlockListProperty(BaseType, PropertyName, out Type ChildInterfaceType, out ChildNodeType) && !NodeTreeHelperList.IsNodeListProperty(BaseType, PropertyName, out ChildInterfaceType))
-                        return;
+                    if (i + 1 < Split.Length)
+                    {
+                        bool IsValidProperty = NodeTreeHelperChild.IsChildNodeProperty(BaseType, PropertyName, out ChildNodeType) || NodeTreeHelperOptional.IsOptionalChildNodeProperty(BaseType, PropertyName, out ChildNodeType);
+                        Debug.Assert(IsValidProperty);
 
-                    BaseType = ChildInterfaceType;
+                        BaseType = ChildNodeType;
+                    }
+                    else
+                    {
+                        bool IsValidProperty = NodeTreeHelperBlockList.IsBlockListProperty(BaseType, PropertyName, out Type ChildInterfaceType, out ChildNodeType) || NodeTreeHelperList.IsNodeListProperty(BaseType, PropertyName, out ChildInterfaceType);
+                        Debug.Assert(IsValidProperty);
+
+                        BaseType = ChildInterfaceType;
+                    }
                 }
+
+                InterfaceType = BaseType;
             }
-
-            InterfaceType = BaseType;
         }
         #endregion
 

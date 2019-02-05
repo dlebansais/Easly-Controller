@@ -99,6 +99,7 @@
             base.UpdateInterfaceType(nodeType);
 
             Debug.Assert(InterfaceType != null);
+
             Type EstimatedItemType = NodeTreeHelper.InterfaceTypeToNodeType(InterfaceType);
             Debug.Assert(EstimatedItemType != null);
 
