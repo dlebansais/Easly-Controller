@@ -43,13 +43,6 @@
         /// <summary>
         /// Moves a cell view around in the collection.
         /// </summary>
-        /// <param name="cellView">The cell view to move.</param>
-        /// <param name="direction">The change in position, relative to the current position.</param>
-        void Move(IFrameCellView cellView, int direction);
-
-        /// <summary>
-        /// Moves a cell view around in the collection.
-        /// </summary>
         /// <param name="index">Index of the cell view to move.</param>
         /// <param name="direction">The change in position, relative to the current position.</param>
         void Move(int index, int direction);
@@ -168,19 +161,6 @@
             foreach (IFrameCellView Item in CellViewList)
                 if (Item is IFrameContainerCellView AsContainerCellView)
                     Debug.Assert(AsContainerCellView.ParentCellView == this);
-        }
-
-        /// <summary>
-        /// Moves a cell view around in the collection.
-        /// </summary>
-        /// <param name="cellView">The cell view to move.</param>
-        /// <param name="direction">The change in position, relative to the current position.</param>
-        public virtual void Move(IFrameCellView cellView, int direction)
-        {
-            Debug.Assert(CellViewList.Contains(cellView));
-
-            int Index = CellViewList.IndexOf(cellView);
-            Move(Index, direction);
         }
 
         /// <summary>

@@ -6,7 +6,7 @@
     /// <summary>
     /// Cell view with no content and that is not displayed.
     /// </summary>
-    public interface IFocusEmptyCellView : IFrameEmptyCellView, IFocusCellView, IFocusAssignableCellView
+    public interface IFocusEmptyCellView : IFrameEmptyCellView, IFocusCellView
     {
     }
 

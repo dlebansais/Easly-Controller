@@ -6,7 +6,7 @@
     /// <summary>
     /// Cell view with no content and that is not displayed.
     /// </summary>
-    public interface IFrameEmptyCellView : IFrameCellView, IFrameAssignableCellView
+    public interface IFrameEmptyCellView : IFrameCellView
     {
     }
 
@@ -28,27 +28,12 @@
 
         #region Properties
         /// <summary>
-        /// True if the cell is assigned to a property in a cell view table.
-        /// </summary>
-        public bool IsAssignedToTable { get; private set; }
-
-        /// <summary>
         /// True if the cell view is visible or contains at least one visible cell view.
         /// </summary>
         public override bool HasVisibleCellView { get { return false; } }
         #endregion
 
         #region Client Interface
-        /// <summary>
-        /// Indicates that the cell view is assigned to a property in a cell view table.
-        /// </summary>
-        public virtual void AssignToCellViewTable()
-        {
-            Debug.Assert(!IsAssignedToTable);
-
-            IsAssignedToTable = true;
-        }
-
         /// <summary>
         /// Clears all views (cells and states) within this cell view.
         /// </summary>

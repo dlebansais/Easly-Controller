@@ -165,17 +165,14 @@
             for (int i = 0; i < indentation; i++)
                 Result += " ";
 
+            string NoRoot = " (no root)";
             if (ChildStateView.RootCellView != null)
-            {
-                Result += $"Container, state: {ChildStateView}\n";
+                NoRoot = string.Empty;
 
-                if (isVerbose)
-                    Result += ChildStateView.RootCellView.PrintTree(indentation + 1, isVerbose);
-            }
-            else
-            {
-                Result += $"Container, state: {ChildStateView} (no root)\n";
-            }
+            Result += $"Container, state: {ChildStateView}{NoRoot}\n";
+
+            if (ChildStateView.RootCellView != null && isVerbose)
+                Result += ChildStateView.RootCellView.PrintTree(indentation + 1, isVerbose);
 
             return Result;
         }

@@ -85,7 +85,8 @@
             Debug.Assert(Value >= 0 && Value < Items.Count);
 
             IFrameKeywordFrame KeywordFrame = Items[Value];
-            IFrameCellView CellView = CreateDiscreteContentFocusableCellView(context.StateView, KeywordFrame);
+            IFrameDiscreteContentFocusableCellView CellView = CreateDiscreteContentFocusableCellView(context.StateView, KeywordFrame);
+            Debug.Assert(CellView.KeywordFrame == KeywordFrame);
 
             return CellView;
         }
