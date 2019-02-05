@@ -45,6 +45,12 @@
         /// </summary>
         /// <param name="list">List to contain enumerated cell views upon return.</param>
         void EnumerateVisibleCellViews(IFrameVisibleCellViewList list);
+
+        /// <summary>
+        /// Prints the cell view tree.
+        /// </summary>
+        /// <param name="isVerbose">Prints all information.</param>
+        void PrintCellViewTree(bool isVerbose);
     }
 
     /// <summary>
@@ -838,6 +844,17 @@
 
             RootStateView.EnumerateVisibleCellViews(list);
         }
+
+        /// <summary>
+        /// Prints the cell view tree.
+        /// </summary>
+        /// <param name="isVerbose">Prints all information.</param>
+        public virtual void PrintCellViewTree(bool isVerbose)
+        {
+            IFrameNodeState RootState = Controller.RootState;
+            IFrameNodeStateView RootStateView = StateViewTable[RootState];
+            PrintCellViewTree(RootStateView.RootCellView, isVerbose);
+        }
         #endregion
 
         #region Implementation
@@ -949,14 +966,6 @@
                 return comparer.Failed();
 
             return true;
-        }
-
-        /// <summary></summary>
-        private protected virtual void PrintCellViewTree(bool isVerbose)
-        {
-            IFrameNodeState RootState = Controller.RootState;
-            IFrameNodeStateView RootStateView = StateViewTable[RootState];
-            PrintCellViewTree(RootStateView.RootCellView, isVerbose);
         }
 
         /// <summary></summary>

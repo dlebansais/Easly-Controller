@@ -278,15 +278,8 @@
 
             if (PropertyName != null)
             {
-                bool IsActual = false;
                 foreach (KeyValuePair<string, IFrameAssignableCellView> Entry in actualCellViewTable)
-                    if (Entry.Value == this)
-                    {
-                        IsActual = true;
-                        break;
-                    }
-
-                IsAssigned &= !IsActual;
+                    IsAssigned &= Entry.Value != this;
 
                 actualCellViewTable.Add(PropertyName, this);
             }
