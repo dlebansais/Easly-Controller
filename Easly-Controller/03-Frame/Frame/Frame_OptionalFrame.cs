@@ -72,7 +72,7 @@
         private protected virtual void AssignEmbeddingCellView(IFrameNodeStateView stateView, IFrameAssignableCellView embeddingCellView)
         {
             embeddingCellView.AssignToCellViewTable();
-            stateView.AssignCellViewTable(PropertyName, embeddingCellView);
+            ((IFrameReplaceableStateView)stateView).AssignCellViewTable(PropertyName, embeddingCellView);
         }
         #endregion
 

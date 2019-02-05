@@ -127,16 +127,6 @@
         }
 
         /// <summary>
-        /// Assign the cell view corresponding to an inner.
-        /// </summary>
-        /// <param name="propertyName">The property name of the inner.</param>
-        /// <param name="cellView">The assigned cell view.</param>
-        public virtual void AssignCellViewTable(string propertyName, IFrameAssignableCellView cellView)
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <summary>
         /// Clears the cell view tree for this view.
         /// </summary>
         public virtual void ClearRootCellView()

@@ -47,13 +47,6 @@
         void BuildRootCellView(IFrameCellViewTreeContext context);
 
         /// <summary>
-        /// Assign the cell view to the corresponding property.
-        /// </summary>
-        /// <param name="propertyName">The property name of the inner.</param>
-        /// <param name="cellView">The assigned cell view.</param>
-        void AssignCellViewTable(string propertyName, IFrameAssignableCellView cellView);
-
-        /// <summary>
         /// Clears the cell view tree for this view.
         /// </summary>
         void ClearRootCellView();
@@ -141,13 +134,6 @@
         /// </summary>
         /// <param name="context">Context used to build the cell view tree.</param>
         public abstract void BuildRootCellView(IFrameCellViewTreeContext context);
-
-        /// <summary>
-        /// Assign the cell view corresponding to an inner.
-        /// </summary>
-        /// <param name="propertyName">The property name of the inner.</param>
-        /// <param name="cellView">The assigned cell view.</param>
-        public abstract void AssignCellViewTable(string propertyName, IFrameAssignableCellView cellView);
 
         /// <summary>
         /// Clears the cell view tree for this view.
