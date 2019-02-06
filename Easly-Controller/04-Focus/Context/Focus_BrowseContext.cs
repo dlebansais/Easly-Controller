@@ -87,17 +87,22 @@
                         InternalList.CopyTo((IFrameIndexCollection[])(new IFocusIndexCollection[InternalList.Count]), 0);
                     }
 
-                    IEnumerable<IFocusIndexCollection> AsEnumerable;
-
-                    AsEnumerable = InternalList;
-                    foreach (IFocusIndexCollection Item in AsEnumerable)
+                    IEnumerable<IFocusIndexCollection> AsFocusEnumerable = InternalList;
+                    foreach (IFocusIndexCollection Item in AsFocusEnumerable)
                     {
                         Debug.Assert(Item == InternalItem);
                         break;
                     }
 
-                    AsEnumerable = PublicList;
-                    foreach (IFocusIndexCollection Item in AsEnumerable)
+                    IEnumerable<IWriteableIndexCollection> AsWriteableEnumerable = PublicList;
+                    foreach (IFocusIndexCollection Item in AsWriteableEnumerable)
+                    {
+                        Debug.Assert(Item == InternalItem);
+                        break;
+                    }
+
+                    IEnumerable<IFrameIndexCollection> AsFrameEnumerable = PublicList;
+                    foreach (IFocusIndexCollection Item in AsFrameEnumerable)
                     {
                         Debug.Assert(Item == InternalItem);
                         break;
