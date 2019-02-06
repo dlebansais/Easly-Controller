@@ -85,7 +85,16 @@
                         InternalList.CopyTo((IWriteableIndexCollection[])(new IFrameIndexCollection[InternalList.Count]), 0);
                     }
 
-                    IEnumerable<IFrameIndexCollection> AsEnumerable = InternalList;
+                    IEnumerable<IFrameIndexCollection> AsEnumerable;
+
+                    AsEnumerable = InternalList;
+                    foreach (IFrameIndexCollection Item in AsEnumerable)
+                    {
+                        Debug.Assert(Item == InternalItem);
+                        break;
+                    }
+
+                    AsEnumerable = PublicList;
                     foreach (IFrameIndexCollection Item in AsEnumerable)
                     {
                         Debug.Assert(Item == InternalItem);
@@ -95,8 +104,27 @@
                     IList<IWriteableIndexCollection> AsIList = InternalList;
                     Debug.Assert(AsIList[0] == InternalItem);
 
-                    IReadOnlyList<IWriteableIndexCollection> AsIReadOnlyList = InternalList;
+                    IReadOnlyList<IWriteableIndexCollection> AsIReadOnlyList;
+
+                    AsIReadOnlyList = InternalList;
                     Debug.Assert(AsIReadOnlyList[0] == InternalItem);
+
+                    AsIReadOnlyList = PublicList;
+                    Debug.Assert(AsIReadOnlyList[0] == InternalItem);
+
+                    ICollection<IWriteableIndexCollection> AsICollection = InternalList;
+                    AsICollection.Remove(InternalItem);
+                    AsICollection.Add(InternalItem);
+                    AsICollection.Remove(InternalItem);
+                    InternalList.Insert(0, InternalItem);
+
+                    IEnumerator<IWriteableIndexCollection> InternalListEnumerator = ((IWriteableIndexCollectionList)InternalList).GetEnumerator();
+                    InternalListEnumerator.MoveNext();
+                    Debug.Assert(InternalListEnumerator.Current == InternalItem);
+
+                    IEnumerator<IWriteableIndexCollection> PublicListEnumerator = ((IWriteableIndexCollectionReadOnlyList)PublicList).GetEnumerator();
+                    PublicListEnumerator.MoveNext();
+                    Debug.Assert(PublicListEnumerator.Current == InternalItem);
                 }
             }
         }

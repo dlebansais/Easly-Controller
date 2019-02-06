@@ -87,7 +87,16 @@
                         InternalList.CopyTo((IFrameIndexCollection[])(new IFocusIndexCollection[InternalList.Count]), 0);
                     }
 
-                    IEnumerable<IFocusIndexCollection> AsEnumerable = InternalList;
+                    IEnumerable<IFocusIndexCollection> AsEnumerable;
+
+                    AsEnumerable = InternalList;
+                    foreach (IFocusIndexCollection Item in AsEnumerable)
+                    {
+                        Debug.Assert(Item == InternalItem);
+                        break;
+                    }
+
+                    AsEnumerable = PublicList;
                     foreach (IFocusIndexCollection Item in AsEnumerable)
                     {
                         Debug.Assert(Item == InternalItem);
@@ -97,8 +106,27 @@
                     IList<IFrameIndexCollection> AsIList = InternalList;
                     Debug.Assert(AsIList[0] == InternalItem);
 
-                    IReadOnlyList<IFrameIndexCollection> AsIReadOnlyList = InternalList;
+                    IReadOnlyList<IFrameIndexCollection> AsIReadOnlyList;
+
+                    AsIReadOnlyList = InternalList;
                     Debug.Assert(AsIReadOnlyList[0] == InternalItem);
+
+                    AsIReadOnlyList = PublicList;
+                    Debug.Assert(AsIReadOnlyList[0] == InternalItem);
+
+                    ICollection<IFrameIndexCollection> AsICollection = InternalList;
+                    AsICollection.Remove(InternalItem);
+                    AsICollection.Add(InternalItem);
+                    AsICollection.Remove(InternalItem);
+                    InternalList.Insert(0, InternalItem);
+
+                    IEnumerator<IFrameIndexCollection> InternalListEnumerator = ((IFrameIndexCollectionList)InternalList).GetEnumerator();
+                    InternalListEnumerator.MoveNext();
+                    Debug.Assert(InternalListEnumerator.Current == InternalItem);
+
+                    IEnumerator<IFrameIndexCollection> PublicListEnumerator = ((IFrameIndexCollectionReadOnlyList)PublicList).GetEnumerator();
+                    PublicListEnumerator.MoveNext();
+                    Debug.Assert(PublicListEnumerator.Current == InternalItem);
                 }
             }
         }
