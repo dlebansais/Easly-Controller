@@ -141,17 +141,6 @@
 
             IsValid &= (expectedType == providedType) || expectedType.IsAssignableFrom(providedType);
 
-            if (expectedType.IsGenericType)
-            {
-                Type GenericTypeDefinition = expectedType.GetGenericTypeDefinition();
-                string GenericTypeDefinitionName = GenericTypeDefinition.Name;
-                int GenericCharIndex = GenericTypeDefinitionName.IndexOf("`");
-                if (GenericCharIndex > 0)
-                    GenericTypeDefinitionName = GenericTypeDefinitionName.Substring(0, GenericCharIndex);
-
-                IsValid |= GenericTypeDefinitionName == providedType.Name;
-            }
-
             Debug.Assert(IsValid);
             return IsValid;
         }
