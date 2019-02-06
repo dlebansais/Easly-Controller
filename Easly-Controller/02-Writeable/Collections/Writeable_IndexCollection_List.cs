@@ -25,13 +25,13 @@ namespace EaslyController.Writeable
         IReadOnlyIndexCollection IReadOnlyIndexCollectionList.this[int index] { get { return this[index]; } set { this[index] = (IWriteableIndexCollection)value; } }
         IReadOnlyIndexCollection IList<IReadOnlyIndexCollection>.this[int index] { get { return this[index]; } set { this[index] = (IWriteableIndexCollection)value; } }
         IReadOnlyIndexCollection IReadOnlyList<IReadOnlyIndexCollection>.this[int index] { get { return this[index]; } }
-        public void Add(IReadOnlyIndexCollection item) { base.Add((IWriteableIndexCollection)item); }
-        public void Insert(int index, IReadOnlyIndexCollection item) { base.Insert(index, (IWriteableIndexCollection)item); }
-        public bool Remove(IReadOnlyIndexCollection item) { return base.Remove((IWriteableIndexCollection)item); }
-        public void CopyTo(IReadOnlyIndexCollection[] array, int index) { base.CopyTo((IWriteableIndexCollection[])array, index); }
+        void ICollection<IReadOnlyIndexCollection>.Add(IReadOnlyIndexCollection item) { Add((IWriteableIndexCollection)item); }
+        void IList<IReadOnlyIndexCollection>.Insert(int index, IReadOnlyIndexCollection item) { Insert(index, (IWriteableIndexCollection)item); }
+        bool ICollection<IReadOnlyIndexCollection>.Remove(IReadOnlyIndexCollection item) { return Remove((IWriteableIndexCollection)item); }
+        void ICollection<IReadOnlyIndexCollection>.CopyTo(IReadOnlyIndexCollection[] array, int index) { CopyTo((IWriteableIndexCollection[])array, index); }
         bool ICollection<IReadOnlyIndexCollection>.IsReadOnly { get { return ((ICollection<IWriteableIndexCollection>)this).IsReadOnly; } }
-        public bool Contains(IReadOnlyIndexCollection value) { return base.Contains((IWriteableIndexCollection)value); }
-        public int IndexOf(IReadOnlyIndexCollection value) { return base.IndexOf((IWriteableIndexCollection)value); }
+        bool ICollection<IReadOnlyIndexCollection>.Contains(IReadOnlyIndexCollection value) { return Contains((IWriteableIndexCollection)value); }
+        int IList<IReadOnlyIndexCollection>.IndexOf(IReadOnlyIndexCollection value) { return IndexOf((IWriteableIndexCollection)value); }
         IEnumerator<IReadOnlyIndexCollection> IEnumerable<IReadOnlyIndexCollection>.GetEnumerator() { return GetEnumerator(); }
         #endregion
 

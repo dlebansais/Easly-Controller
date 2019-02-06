@@ -31,16 +31,16 @@ namespace EaslyController.Focus
 
         #region Writeable
         IWriteableOperationGroup IReadOnlyList<IWriteableOperationGroup>.this[int index] { get { return this[index]; } }
-        public bool Contains(IWriteableOperationGroup value) { return base.Contains((IFocusOperationGroup)value); }
-        public int IndexOf(IWriteableOperationGroup value) { return base.IndexOf((IFocusOperationGroup)value); }
+        bool IWriteableOperationGroupReadOnlyList.Contains(IWriteableOperationGroup value) { return Contains((IFocusOperationGroup)value); }
+        int IWriteableOperationGroupReadOnlyList.IndexOf(IWriteableOperationGroup value) { return IndexOf((IFocusOperationGroup)value); }
         IEnumerator<IWriteableOperationGroup> IEnumerable<IWriteableOperationGroup>.GetEnumerator() { return GetEnumerator(); }
         #endregion
 
         #region Frame
         IFrameOperationGroup IFrameOperationGroupReadOnlyList.this[int index] { get { return this[index]; } }
         IFrameOperationGroup IReadOnlyList<IFrameOperationGroup>.this[int index] { get { return this[index]; } }
-        public bool Contains(IFrameOperationGroup value) { return base.Contains((IFocusOperationGroup)value); }
-        public int IndexOf(IFrameOperationGroup value) { return base.IndexOf((IFocusOperationGroup)value); }
+        bool IFrameOperationGroupReadOnlyList.Contains(IFrameOperationGroup value) { return Contains((IFocusOperationGroup)value); }
+        int IFrameOperationGroupReadOnlyList.IndexOf(IFrameOperationGroup value) { return IndexOf((IFocusOperationGroup)value); }
         IEnumerator<IFrameOperationGroup> IFrameOperationGroupReadOnlyList.GetEnumerator() { return GetEnumerator(); }
         IEnumerator<IFrameOperationGroup> IEnumerable<IFrameOperationGroup>.GetEnumerator() { return GetEnumerator(); }
         #endregion

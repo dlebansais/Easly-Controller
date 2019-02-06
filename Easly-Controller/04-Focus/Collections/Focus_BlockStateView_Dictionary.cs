@@ -85,7 +85,6 @@ namespace EaslyController.Focus
         IWriteableBlockStateView IDictionary<IWriteableBlockState, IWriteableBlockStateView>.this[IWriteableBlockState key] { get { return this[(IFocusBlockState)key]; } set { this[(IFocusBlockState)key] = (IFocusBlockStateView)value; } }
         ICollection<IWriteableBlockState> IDictionary<IWriteableBlockState, IWriteableBlockStateView>.Keys { get { return new List<IWriteableBlockState>(Keys); } }
         ICollection<IWriteableBlockStateView> IDictionary<IWriteableBlockState, IWriteableBlockStateView>.Values { get { return new List<IWriteableBlockStateView>(Values); } }
-        public void Add(IFocusBlockState key, IWriteableBlockStateView value) { base.Add(key, (IFocusBlockStateView)value); }
 
         IEnumerator<KeyValuePair<IWriteableBlockState, IWriteableBlockStateView>> IEnumerable<KeyValuePair<IWriteableBlockState, IWriteableBlockStateView>>.GetEnumerator()
         {

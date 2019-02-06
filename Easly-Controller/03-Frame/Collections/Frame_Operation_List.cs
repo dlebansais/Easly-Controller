@@ -26,12 +26,12 @@ namespace EaslyController.Frame
         IWriteableOperation IList<IWriteableOperation>.this[int index] { get { return this[index]; } set { this[index] = (IFrameOperation)value; } }
         IWriteableOperation IReadOnlyList<IWriteableOperation>.this[int index] { get { return this[index]; } }
         bool ICollection<IWriteableOperation>.IsReadOnly { get { return ((ICollection<IFrameOperation>)this).IsReadOnly; } }
-        public void Add(IWriteableOperation item) { base.Add((IFrameOperation)item); }
-        public void Insert(int index, IWriteableOperation item) { base.Insert(index, (IFrameOperation)item); }
-        public bool Remove(IWriteableOperation item) { return base.Remove((IFrameOperation)item); }
-        public void CopyTo(IWriteableOperation[] array, int index) { base.CopyTo((IFrameOperation[])array, index); }
-        public bool Contains(IWriteableOperation value) { return base.Contains((IFrameOperation)value); }
-        public int IndexOf(IWriteableOperation value) { return base.IndexOf((IFrameOperation)value); }
+        void ICollection<IWriteableOperation>.Add(IWriteableOperation item) { Add((IFrameOperation)item); }
+        void IList<IWriteableOperation>.Insert(int index, IWriteableOperation item) { Insert(index, (IFrameOperation)item); }
+        bool ICollection<IWriteableOperation>.Remove(IWriteableOperation item) { return Remove((IFrameOperation)item); }
+        void ICollection<IWriteableOperation>.CopyTo(IWriteableOperation[] array, int index) { CopyTo((IFrameOperation[])array, index); }
+        bool ICollection<IWriteableOperation>.Contains(IWriteableOperation value) { return Contains((IFrameOperation)value); }
+        int IList<IWriteableOperation>.IndexOf(IWriteableOperation value) { return IndexOf((IFrameOperation)value); }
         IEnumerator<IWriteableOperation> IWriteableOperationList.GetEnumerator() { return GetEnumerator(); }
         IEnumerator<IWriteableOperation> IEnumerable<IWriteableOperation>.GetEnumerator() { return GetEnumerator(); }
         #endregion

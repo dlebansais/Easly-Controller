@@ -27,12 +27,12 @@ namespace EaslyController.Focus
         IWriteableOperationGroup IList<IWriteableOperationGroup>.this[int index] { get { return this[index]; } set { this[index] = (IFocusOperationGroup)value; } }
         IWriteableOperationGroup IReadOnlyList<IWriteableOperationGroup>.this[int index] { get { return this[index]; } }
         bool ICollection<IWriteableOperationGroup>.IsReadOnly { get { return ((ICollection<IFocusOperationGroup>)this).IsReadOnly; } }
-        public void Add(IWriteableOperationGroup item) { base.Add((IFocusOperationGroup)item); }
-        public void Insert(int index, IWriteableOperationGroup item) { base.Insert(index, (IFocusOperationGroup)item); }
-        public bool Remove(IWriteableOperationGroup item) { return base.Remove((IFocusOperationGroup)item); }
-        public void CopyTo(IWriteableOperationGroup[] array, int index) { base.CopyTo((IFocusOperationGroup[])array, index); }
-        public bool Contains(IWriteableOperationGroup value) { return base.Contains((IFocusOperationGroup)value); }
-        public int IndexOf(IWriteableOperationGroup value) { return base.IndexOf((IFocusOperationGroup)value); }
+        void ICollection<IWriteableOperationGroup>.Add(IWriteableOperationGroup item) { Add((IFocusOperationGroup)item); }
+        void IList<IWriteableOperationGroup>.Insert(int index, IWriteableOperationGroup item) { Insert(index, (IFocusOperationGroup)item); }
+        bool ICollection<IWriteableOperationGroup>.Remove(IWriteableOperationGroup item) { return Remove((IFocusOperationGroup)item); }
+        void ICollection<IWriteableOperationGroup>.CopyTo(IWriteableOperationGroup[] array, int index) { CopyTo((IFocusOperationGroup[])array, index); }
+        bool ICollection<IWriteableOperationGroup>.Contains(IWriteableOperationGroup value) { return Contains((IFocusOperationGroup)value); }
+        int IList<IWriteableOperationGroup>.IndexOf(IWriteableOperationGroup value) { return IndexOf((IFocusOperationGroup)value); }
         IEnumerator<IWriteableOperationGroup> IWriteableOperationGroupList.GetEnumerator() { return GetEnumerator(); }
         IEnumerator<IWriteableOperationGroup> IEnumerable<IWriteableOperationGroup>.GetEnumerator() { return GetEnumerator(); }
         #endregion
@@ -42,12 +42,12 @@ namespace EaslyController.Focus
         IFrameOperationGroup IList<IFrameOperationGroup>.this[int index] { get { return this[index]; } set { this[index] = (IFocusOperationGroup)value; } }
         IFrameOperationGroup IReadOnlyList<IFrameOperationGroup>.this[int index] { get { return this[index]; } }
         bool ICollection<IFrameOperationGroup>.IsReadOnly { get { return ((ICollection<IFocusOperationGroup>)this).IsReadOnly; } }
-        public void Add(IFrameOperationGroup item) { base.Add((IFocusOperationGroup)item); }
-        public void Insert(int index, IFrameOperationGroup item) { base.Insert(index, (IFocusOperationGroup)item); }
-        public bool Remove(IFrameOperationGroup item) { return base.Remove((IFocusOperationGroup)item); }
-        public void CopyTo(IFrameOperationGroup[] array, int index) { base.CopyTo((IFocusOperationGroup[])array, index); }
-        public bool Contains(IFrameOperationGroup value) { return base.Contains((IFocusOperationGroup)value); }
-        public int IndexOf(IFrameOperationGroup value) { return base.IndexOf((IFocusOperationGroup)value); }
+        void ICollection<IFrameOperationGroup>.Add(IFrameOperationGroup item) { Add((IFocusOperationGroup)item); }
+        void IList<IFrameOperationGroup>.Insert(int index, IFrameOperationGroup item) { Insert(index, (IFocusOperationGroup)item); }
+        bool ICollection<IFrameOperationGroup>.Remove(IFrameOperationGroup item) { return Remove((IFocusOperationGroup)item); }
+        void ICollection<IFrameOperationGroup>.CopyTo(IFrameOperationGroup[] array, int index) { CopyTo((IFocusOperationGroup[])array, index); }
+        bool ICollection<IFrameOperationGroup>.Contains(IFrameOperationGroup value) { return Contains((IFocusOperationGroup)value); }
+        int IList<IFrameOperationGroup>.IndexOf(IFrameOperationGroup value) { return IndexOf((IFocusOperationGroup)value); }
         IEnumerator<IFrameOperationGroup> IFrameOperationGroupList.GetEnumerator() { return GetEnumerator(); }
         IEnumerator<IFrameOperationGroup> IEnumerable<IFrameOperationGroup>.GetEnumerator() { return GetEnumerator(); }
         #endregion

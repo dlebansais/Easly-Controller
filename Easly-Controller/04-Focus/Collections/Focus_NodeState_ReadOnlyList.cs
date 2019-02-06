@@ -32,16 +32,16 @@ namespace EaslyController.Focus
 
         #region ReadOnly
         IReadOnlyNodeState IReadOnlyList<IReadOnlyNodeState>.this[int index] { get { return this[index]; } }
-        public bool Contains(IReadOnlyNodeState value) { return base.Contains((IFocusNodeState)value); }
-        public int IndexOf(IReadOnlyNodeState value) { return base.IndexOf((IFocusNodeState)value); }
+        bool IReadOnlyNodeStateReadOnlyList.Contains(IReadOnlyNodeState value) { return Contains((IFocusNodeState)value); }
+        int IReadOnlyNodeStateReadOnlyList.IndexOf(IReadOnlyNodeState value) { return IndexOf((IFocusNodeState)value); }
         IEnumerator<IReadOnlyNodeState> IEnumerable<IReadOnlyNodeState>.GetEnumerator() { return GetEnumerator(); }
         #endregion
 
         #region Writeable
         IWriteableNodeState IWriteableNodeStateReadOnlyList.this[int index] { get { return this[index]; } }
         IWriteableNodeState IReadOnlyList<IWriteableNodeState>.this[int index] { get { return this[index]; } }
-        public bool Contains(IWriteableNodeState value) { return base.Contains((IFocusNodeState)value); }
-        public int IndexOf(IWriteableNodeState value) { return base.IndexOf((IFocusNodeState)value); }
+        bool IWriteableNodeStateReadOnlyList.Contains(IWriteableNodeState value) { return Contains((IFocusNodeState)value); }
+        int IWriteableNodeStateReadOnlyList.IndexOf(IWriteableNodeState value) { return IndexOf((IFocusNodeState)value); }
         IEnumerator<IWriteableNodeState> IWriteableNodeStateReadOnlyList.GetEnumerator() { return GetEnumerator(); }
         IEnumerator<IWriteableNodeState> IEnumerable<IWriteableNodeState>.GetEnumerator() { return GetEnumerator(); }
         #endregion
@@ -49,8 +49,8 @@ namespace EaslyController.Focus
         #region Frame
         IFrameNodeState IFrameNodeStateReadOnlyList.this[int index] { get { return this[index]; } }
         IFrameNodeState IReadOnlyList<IFrameNodeState>.this[int index] { get { return this[index]; } }
-        public bool Contains(IFrameNodeState value) { return base.Contains((IFocusNodeState)value); }
-        public int IndexOf(IFrameNodeState value) { return base.IndexOf((IFocusNodeState)value); }
+        bool IFrameNodeStateReadOnlyList.Contains(IFrameNodeState value) { return Contains((IFocusNodeState)value); }
+        int IFrameNodeStateReadOnlyList.IndexOf(IFrameNodeState value) { return IndexOf((IFocusNodeState)value); }
         IEnumerator<IFrameNodeState> IFrameNodeStateReadOnlyList.GetEnumerator() { return GetEnumerator(); }
         IEnumerator<IFrameNodeState> IEnumerable<IFrameNodeState>.GetEnumerator() { return GetEnumerator(); }
         #endregion

@@ -26,13 +26,13 @@ namespace EaslyController.Focus
         IFrameVisibleCellView IFrameVisibleCellViewList.this[int index] { get { return this[index]; } set { this[index] = (IFocusVisibleCellView)value; } }
         IFrameVisibleCellView IList<IFrameVisibleCellView>.this[int index] { get { return this[index]; } set { this[index] = (IFocusVisibleCellView)value; } }
         IFrameVisibleCellView IReadOnlyList<IFrameVisibleCellView>.this[int index] { get { return this[index]; } }
-        public void Add(IFrameVisibleCellView item) { base.Add((IFocusVisibleCellView)item); }
-        public void Insert(int index, IFrameVisibleCellView item) { base.Insert(index, (IFocusVisibleCellView)item); }
-        public bool Remove(IFrameVisibleCellView item) { return base.Remove((IFocusVisibleCellView)item); }
-        public void CopyTo(IFrameVisibleCellView[] array, int index) { base.CopyTo((IFocusVisibleCellView[])array, index); }
+        void ICollection<IFrameVisibleCellView>.Add(IFrameVisibleCellView item) { Add((IFocusVisibleCellView)item); }
+        void IList<IFrameVisibleCellView>.Insert(int index, IFrameVisibleCellView item) { Insert(index, (IFocusVisibleCellView)item); }
+        bool ICollection<IFrameVisibleCellView>.Remove(IFrameVisibleCellView item) { return Remove((IFocusVisibleCellView)item); }
+        void ICollection<IFrameVisibleCellView>.CopyTo(IFrameVisibleCellView[] array, int index) { CopyTo((IFocusVisibleCellView[])array, index); }
         bool ICollection<IFrameVisibleCellView>.IsReadOnly { get { return ((ICollection<IFocusVisibleCellView>)this).IsReadOnly; } }
-        public bool Contains(IFrameVisibleCellView value) { return base.Contains((IFocusVisibleCellView)value); }
-        public int IndexOf(IFrameVisibleCellView value) { return base.IndexOf((IFocusVisibleCellView)value); }
+        bool ICollection<IFrameVisibleCellView>.Contains(IFrameVisibleCellView value) { return Contains((IFocusVisibleCellView)value); }
+        int IList<IFrameVisibleCellView>.IndexOf(IFrameVisibleCellView value) { return IndexOf((IFocusVisibleCellView)value); }
         IEnumerator<IFrameVisibleCellView> IFrameVisibleCellViewList.GetEnumerator() { return GetEnumerator(); }
         IEnumerator<IFrameVisibleCellView> IEnumerable<IFrameVisibleCellView>.GetEnumerator() { return GetEnumerator(); }
         #endregion

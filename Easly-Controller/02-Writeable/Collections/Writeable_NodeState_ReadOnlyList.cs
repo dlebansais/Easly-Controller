@@ -30,8 +30,8 @@ namespace EaslyController.Writeable
 
         #region ReadOnly
         IReadOnlyNodeState IReadOnlyList<IReadOnlyNodeState>.this[int index] { get { return this[index]; } }
-        public bool Contains(IReadOnlyNodeState value) { return base.Contains((IWriteableNodeState)value); }
-        public int IndexOf(IReadOnlyNodeState value) { return base.IndexOf((IWriteableNodeState)value); }
+        bool IReadOnlyNodeStateReadOnlyList.Contains(IReadOnlyNodeState value) { return Contains((IWriteableNodeState)value); }
+        int IReadOnlyNodeStateReadOnlyList.IndexOf(IReadOnlyNodeState value) { return IndexOf((IWriteableNodeState)value); }
         IEnumerator<IReadOnlyNodeState> IEnumerable<IReadOnlyNodeState>.GetEnumerator() { return GetEnumerator(); }
         #endregion
     }

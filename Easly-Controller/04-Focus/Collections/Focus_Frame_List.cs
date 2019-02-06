@@ -25,13 +25,13 @@ namespace EaslyController.Focus
         IFrameFrame IFrameFrameList.this[int index] { get { return this[index]; } set { this[index] = (IFocusFrame)value; } }
         IFrameFrame IList<IFrameFrame>.this[int index] { get { return this[index]; } set { this[index] = (IFocusFrame)value; } }
         IFrameFrame IReadOnlyList<IFrameFrame>.this[int index] { get { return this[index]; } }
-        public void Add(IFrameFrame item) { base.Add((IFocusFrame)item); }
-        public void Insert(int index, IFrameFrame item) { base.Insert(index, (IFocusFrame)item); }
-        public bool Remove(IFrameFrame item) { return base.Remove((IFocusFrame)item); }
-        public void CopyTo(IFrameFrame[] array, int index) { base.CopyTo((IFocusFrame[])array, index); }
+        void ICollection<IFrameFrame>.Add(IFrameFrame item) { Add((IFocusFrame)item); }
+        void IList<IFrameFrame>.Insert(int index, IFrameFrame item) { Insert(index, (IFocusFrame)item); }
+        bool ICollection<IFrameFrame>.Remove(IFrameFrame item) { return Remove((IFocusFrame)item); }
+        void ICollection<IFrameFrame>.CopyTo(IFrameFrame[] array, int index) { CopyTo((IFocusFrame[])array, index); }
         bool ICollection<IFrameFrame>.IsReadOnly { get { return ((ICollection<IFocusFrame>)this).IsReadOnly; } }
-        public bool Contains(IFrameFrame value) { return base.Contains((IFocusFrame)value); }
-        public int IndexOf(IFrameFrame value) { return base.IndexOf((IFocusFrame)value); }
+        bool ICollection<IFrameFrame>.Contains(IFrameFrame value) { return Contains((IFocusFrame)value); }
+        int IList<IFrameFrame>.IndexOf(IFrameFrame value) { return IndexOf((IFocusFrame)value); }
         IEnumerator<IFrameFrame> IFrameFrameList.GetEnumerator() { return GetEnumerator(); }
         IEnumerator<IFrameFrame> IEnumerable<IFrameFrame>.GetEnumerator() { return GetEnumerator(); }
         #endregion

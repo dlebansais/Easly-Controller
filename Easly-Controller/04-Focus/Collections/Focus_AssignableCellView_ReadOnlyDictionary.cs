@@ -43,7 +43,8 @@ namespace EaslyController.Focus
 
             return NewList.GetEnumerator();
         }
-        public bool TryGetValue(TKey key, out IFrameAssignableCellView value)
+
+        bool IReadOnlyDictionary<TKey, IFrameAssignableCellView>.TryGetValue(TKey key, out IFrameAssignableCellView value)
         {
             bool Result = TryGetValue(key, out IFocusAssignableCellView Value);
             value = Value;

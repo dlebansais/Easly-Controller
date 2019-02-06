@@ -25,13 +25,13 @@ namespace EaslyController.Writeable
         IReadOnlyBrowsingListNodeIndex IReadOnlyBrowsingListNodeIndexList.this[int index] { get { return this[index]; } set { this[index] = (IWriteableBrowsingListNodeIndex)value; } }
         IReadOnlyBrowsingListNodeIndex IList<IReadOnlyBrowsingListNodeIndex>.this[int index] { get { return this[index]; } set { this[index] = (IWriteableBrowsingListNodeIndex)value; } }
         IReadOnlyBrowsingListNodeIndex IReadOnlyList<IReadOnlyBrowsingListNodeIndex>.this[int index] { get { return this[index]; } }
-        public void Add(IReadOnlyBrowsingListNodeIndex item) { base.Add((IWriteableBrowsingListNodeIndex)item); }
-        public void Insert(int index, IReadOnlyBrowsingListNodeIndex item) { base.Insert(index, (IWriteableBrowsingListNodeIndex)item); }
-        public bool Remove(IReadOnlyBrowsingListNodeIndex item) { return base.Remove((IWriteableBrowsingListNodeIndex)item); }
-        public void CopyTo(IReadOnlyBrowsingListNodeIndex[] array, int index) { base.CopyTo((IWriteableBrowsingListNodeIndex[])array, index); }
+        void ICollection<IReadOnlyBrowsingListNodeIndex>.Add(IReadOnlyBrowsingListNodeIndex item) { Add((IWriteableBrowsingListNodeIndex)item); }
+        void IList<IReadOnlyBrowsingListNodeIndex>.Insert(int index, IReadOnlyBrowsingListNodeIndex item) { Insert(index, (IWriteableBrowsingListNodeIndex)item); }
+        bool ICollection<IReadOnlyBrowsingListNodeIndex>.Remove(IReadOnlyBrowsingListNodeIndex item) { return Remove((IWriteableBrowsingListNodeIndex)item); }
+        void ICollection<IReadOnlyBrowsingListNodeIndex>.CopyTo(IReadOnlyBrowsingListNodeIndex[] array, int index) { CopyTo((IWriteableBrowsingListNodeIndex[])array, index); }
         bool ICollection<IReadOnlyBrowsingListNodeIndex>.IsReadOnly { get { return ((ICollection<IWriteableBrowsingListNodeIndex>)this).IsReadOnly; } }
-        public bool Contains(IReadOnlyBrowsingListNodeIndex value) { return base.Contains((IWriteableBrowsingListNodeIndex)value); }
-        public int IndexOf(IReadOnlyBrowsingListNodeIndex value) { return base.IndexOf((IWriteableBrowsingListNodeIndex)value); }
+        bool ICollection<IReadOnlyBrowsingListNodeIndex>.Contains(IReadOnlyBrowsingListNodeIndex value) { return Contains((IWriteableBrowsingListNodeIndex)value); }
+        int IList<IReadOnlyBrowsingListNodeIndex>.IndexOf(IReadOnlyBrowsingListNodeIndex value) { return IndexOf((IWriteableBrowsingListNodeIndex)value); }
         IEnumerator<IReadOnlyBrowsingListNodeIndex> IEnumerable<IReadOnlyBrowsingListNodeIndex>.GetEnumerator() { return GetEnumerator(); }
         #endregion
     }

@@ -26,13 +26,13 @@ namespace EaslyController.Focus
         IFrameCellView IFrameCellViewList.this[int index] { get { return this[index]; } set { this[index] = (IFocusCellView)value; } }
         IFrameCellView IList<IFrameCellView>.this[int index] { get { return this[index]; } set { this[index] = (IFocusCellView)value; } }
         IFrameCellView IReadOnlyList<IFrameCellView>.this[int index] { get { return this[index]; } }
-        public void Add(IFrameCellView item) { base.Add((IFocusCellView)item); }
-        public void Insert(int index, IFrameCellView item) { base.Insert(index, (IFocusCellView)item); }
-        public bool Remove(IFrameCellView item) { return base.Remove((IFocusCellView)item); }
-        public void CopyTo(IFrameCellView[] array, int index) { base.CopyTo((IFocusCellView[])array, index); }
+        void ICollection<IFrameCellView>.Add(IFrameCellView item) { Add((IFocusCellView)item); }
+        void IList<IFrameCellView>.Insert(int index, IFrameCellView item) { Insert(index, (IFocusCellView)item); }
+        bool ICollection<IFrameCellView>.Remove(IFrameCellView item) { return Remove((IFocusCellView)item); }
+        void ICollection<IFrameCellView>.CopyTo(IFrameCellView[] array, int index) { CopyTo((IFocusCellView[])array, index); }
         bool ICollection<IFrameCellView>.IsReadOnly { get { return ((ICollection<IFocusCellView>)this).IsReadOnly; } }
-        public bool Contains(IFrameCellView value) { return base.Contains((IFocusCellView)value); }
-        public int IndexOf(IFrameCellView value) { return base.IndexOf((IFocusCellView)value); }
+        bool ICollection<IFrameCellView>.Contains(IFrameCellView value) { return Contains((IFocusCellView)value); }
+        int IList<IFrameCellView>.IndexOf(IFrameCellView value) { return IndexOf((IFocusCellView)value); }
         IEnumerator<IFrameCellView> IFrameCellViewList.GetEnumerator() { return GetEnumerator(); }
         IEnumerator<IFrameCellView> IEnumerable<IFrameCellView>.GetEnumerator() { return GetEnumerator(); }
         #endregion

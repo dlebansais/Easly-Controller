@@ -27,13 +27,13 @@ namespace EaslyController.Focus
         IReadOnlyBrowsingBlockNodeIndex IReadOnlyBrowsingBlockNodeIndexList.this[int index] { get { return this[index]; } set { this[index] = (IFocusBrowsingBlockNodeIndex)value; } }
         IReadOnlyBrowsingBlockNodeIndex IList<IReadOnlyBrowsingBlockNodeIndex>.this[int index] { get { return this[index]; } set { this[index] = (IFocusBrowsingBlockNodeIndex)value; } }
         IReadOnlyBrowsingBlockNodeIndex IReadOnlyList<IReadOnlyBrowsingBlockNodeIndex>.this[int index] { get { return this[index]; } }
-        public void Add(IReadOnlyBrowsingBlockNodeIndex item) { base.Add((IFocusBrowsingBlockNodeIndex)item); }
-        public void Insert(int index, IReadOnlyBrowsingBlockNodeIndex item) { base.Insert(index, (IFocusBrowsingBlockNodeIndex)item); }
-        public bool Remove(IReadOnlyBrowsingBlockNodeIndex item) { return base.Remove((IFocusBrowsingBlockNodeIndex)item); }
-        public void CopyTo(IReadOnlyBrowsingBlockNodeIndex[] array, int index) { base.CopyTo((IFocusBrowsingBlockNodeIndex[])array, index); }
+        void ICollection<IReadOnlyBrowsingBlockNodeIndex>.Add(IReadOnlyBrowsingBlockNodeIndex item) { Add((IFocusBrowsingBlockNodeIndex)item); }
+        void IList<IReadOnlyBrowsingBlockNodeIndex>.Insert(int index, IReadOnlyBrowsingBlockNodeIndex item) { Insert(index, (IFocusBrowsingBlockNodeIndex)item); }
+        bool ICollection<IReadOnlyBrowsingBlockNodeIndex>.Remove(IReadOnlyBrowsingBlockNodeIndex item) { return Remove((IFocusBrowsingBlockNodeIndex)item); }
+        void ICollection<IReadOnlyBrowsingBlockNodeIndex>.CopyTo(IReadOnlyBrowsingBlockNodeIndex[] array, int index) { CopyTo((IFocusBrowsingBlockNodeIndex[])array, index); }
         bool ICollection<IReadOnlyBrowsingBlockNodeIndex>.IsReadOnly { get { return ((ICollection<IFocusBrowsingBlockNodeIndex>)this).IsReadOnly; } }
-        public bool Contains(IReadOnlyBrowsingBlockNodeIndex value) { return base.Contains((IFocusBrowsingBlockNodeIndex)value); }
-        public int IndexOf(IReadOnlyBrowsingBlockNodeIndex value) { return base.IndexOf((IFocusBrowsingBlockNodeIndex)value); }
+        bool ICollection<IReadOnlyBrowsingBlockNodeIndex>.Contains(IReadOnlyBrowsingBlockNodeIndex value) { return Contains((IFocusBrowsingBlockNodeIndex)value); }
+        int IList<IReadOnlyBrowsingBlockNodeIndex>.IndexOf(IReadOnlyBrowsingBlockNodeIndex value) { return IndexOf((IFocusBrowsingBlockNodeIndex)value); }
         IEnumerator<IReadOnlyBrowsingBlockNodeIndex> IEnumerable<IReadOnlyBrowsingBlockNodeIndex>.GetEnumerator() { return GetEnumerator(); }
         #endregion
 
@@ -41,13 +41,13 @@ namespace EaslyController.Focus
         IWriteableBrowsingBlockNodeIndex IWriteableBrowsingBlockNodeIndexList.this[int index] { get { return this[index]; } set { this[index] = (IFocusBrowsingBlockNodeIndex)value; } }
         IWriteableBrowsingBlockNodeIndex IList<IWriteableBrowsingBlockNodeIndex>.this[int index] { get { return this[index]; } set { this[index] = (IFocusBrowsingBlockNodeIndex)value; } }
         IWriteableBrowsingBlockNodeIndex IReadOnlyList<IWriteableBrowsingBlockNodeIndex>.this[int index] { get { return this[index]; } }
-        public void Add(IWriteableBrowsingBlockNodeIndex item) { base.Add((IFocusBrowsingBlockNodeIndex)item); }
-        public void Insert(int index, IWriteableBrowsingBlockNodeIndex item) { base.Insert(index, (IFocusBrowsingBlockNodeIndex)item); }
-        public bool Remove(IWriteableBrowsingBlockNodeIndex item) { return base.Remove((IFocusBrowsingBlockNodeIndex)item); }
-        public void CopyTo(IWriteableBrowsingBlockNodeIndex[] array, int index) { base.CopyTo((IFocusBrowsingBlockNodeIndex[])array, index); }
+        void ICollection<IWriteableBrowsingBlockNodeIndex>.Add(IWriteableBrowsingBlockNodeIndex item) { Add((IFocusBrowsingBlockNodeIndex)item); }
+        void IList<IWriteableBrowsingBlockNodeIndex>.Insert(int index, IWriteableBrowsingBlockNodeIndex item) { Insert(index, (IFocusBrowsingBlockNodeIndex)item); }
+        bool ICollection<IWriteableBrowsingBlockNodeIndex>.Remove(IWriteableBrowsingBlockNodeIndex item) { return Remove((IFocusBrowsingBlockNodeIndex)item); }
+        void ICollection<IWriteableBrowsingBlockNodeIndex>.CopyTo(IWriteableBrowsingBlockNodeIndex[] array, int index) { CopyTo((IFocusBrowsingBlockNodeIndex[])array, index); }
         bool ICollection<IWriteableBrowsingBlockNodeIndex>.IsReadOnly { get { return ((ICollection<IFocusBrowsingBlockNodeIndex>)this).IsReadOnly; } }
-        public bool Contains(IWriteableBrowsingBlockNodeIndex value) { return base.Contains((IFocusBrowsingBlockNodeIndex)value); }
-        public int IndexOf(IWriteableBrowsingBlockNodeIndex value) { return base.IndexOf((IFocusBrowsingBlockNodeIndex)value); }
+        bool ICollection<IWriteableBrowsingBlockNodeIndex>.Contains(IWriteableBrowsingBlockNodeIndex value) { return Contains((IFocusBrowsingBlockNodeIndex)value); }
+        int IList<IWriteableBrowsingBlockNodeIndex>.IndexOf(IWriteableBrowsingBlockNodeIndex value) { return IndexOf((IFocusBrowsingBlockNodeIndex)value); }
         IEnumerator<IWriteableBrowsingBlockNodeIndex> IWriteableBrowsingBlockNodeIndexList.GetEnumerator() { return GetEnumerator(); }
         IEnumerator<IWriteableBrowsingBlockNodeIndex> IEnumerable<IWriteableBrowsingBlockNodeIndex>.GetEnumerator() { return GetEnumerator(); }
         #endregion
@@ -56,13 +56,13 @@ namespace EaslyController.Focus
         IFrameBrowsingBlockNodeIndex IFrameBrowsingBlockNodeIndexList.this[int index] { get { return this[index]; } set { this[index] = (IFocusBrowsingBlockNodeIndex)value; } }
         IFrameBrowsingBlockNodeIndex IList<IFrameBrowsingBlockNodeIndex>.this[int index] { get { return this[index]; } set { this[index] = (IFocusBrowsingBlockNodeIndex)value; } }
         IFrameBrowsingBlockNodeIndex IReadOnlyList<IFrameBrowsingBlockNodeIndex>.this[int index] { get { return this[index]; } }
-        public void Add(IFrameBrowsingBlockNodeIndex item) { base.Add((IFocusBrowsingBlockNodeIndex)item); }
-        public void Insert(int index, IFrameBrowsingBlockNodeIndex item) { base.Insert(index, (IFocusBrowsingBlockNodeIndex)item); }
-        public bool Remove(IFrameBrowsingBlockNodeIndex item) { return base.Remove((IFocusBrowsingBlockNodeIndex)item); }
-        public void CopyTo(IFrameBrowsingBlockNodeIndex[] array, int index) { base.CopyTo((IFocusBrowsingBlockNodeIndex[])array, index); }
+        void ICollection<IFrameBrowsingBlockNodeIndex>.Add(IFrameBrowsingBlockNodeIndex item) { Add((IFocusBrowsingBlockNodeIndex)item); }
+        void IList<IFrameBrowsingBlockNodeIndex>.Insert(int index, IFrameBrowsingBlockNodeIndex item) { Insert(index, (IFocusBrowsingBlockNodeIndex)item); }
+        bool ICollection<IFrameBrowsingBlockNodeIndex>.Remove(IFrameBrowsingBlockNodeIndex item) { return Remove((IFocusBrowsingBlockNodeIndex)item); }
+        void ICollection<IFrameBrowsingBlockNodeIndex>.CopyTo(IFrameBrowsingBlockNodeIndex[] array, int index) { CopyTo((IFocusBrowsingBlockNodeIndex[])array, index); }
         bool ICollection<IFrameBrowsingBlockNodeIndex>.IsReadOnly { get { return ((ICollection<IFocusBrowsingBlockNodeIndex>)this).IsReadOnly; } }
-        public bool Contains(IFrameBrowsingBlockNodeIndex value) { return base.Contains((IFocusBrowsingBlockNodeIndex)value); }
-        public int IndexOf(IFrameBrowsingBlockNodeIndex value) { return base.IndexOf((IFocusBrowsingBlockNodeIndex)value); }
+        bool ICollection<IFrameBrowsingBlockNodeIndex>.Contains(IFrameBrowsingBlockNodeIndex value) { return Contains((IFocusBrowsingBlockNodeIndex)value); }
+        int IList<IFrameBrowsingBlockNodeIndex>.IndexOf(IFrameBrowsingBlockNodeIndex value) { return IndexOf((IFocusBrowsingBlockNodeIndex)value); }
         IEnumerator<IFrameBrowsingBlockNodeIndex> IFrameBrowsingBlockNodeIndexList.GetEnumerator() { return GetEnumerator(); }
         IEnumerator<IFrameBrowsingBlockNodeIndex> IEnumerable<IFrameBrowsingBlockNodeIndex>.GetEnumerator() { return GetEnumerator(); }
         #endregion

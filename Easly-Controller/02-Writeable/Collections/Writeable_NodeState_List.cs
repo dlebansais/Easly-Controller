@@ -25,13 +25,13 @@ namespace EaslyController.Writeable
         IReadOnlyNodeState IReadOnlyNodeStateList.this[int index] { get { return this[index]; } set { this[index] = (IWriteableNodeState)value; } }
         IReadOnlyNodeState IList<IReadOnlyNodeState>.this[int index] { get { return this[index]; } set { this[index] = (IWriteableNodeState)value; } }
         IReadOnlyNodeState IReadOnlyList<IReadOnlyNodeState>.this[int index] { get { return this[index]; } }
-        public void Add(IReadOnlyNodeState item) { base.Add((IWriteableNodeState)item); }
-        public void Insert(int index, IReadOnlyNodeState item) { base.Insert(index, (IWriteableNodeState)item); }
-        public bool Remove(IReadOnlyNodeState item) { return base.Remove((IWriteableNodeState)item); }
-        public void CopyTo(IReadOnlyNodeState[] array, int index) { base.CopyTo((IWriteableNodeState[])array, index); }
+        void ICollection<IReadOnlyNodeState>.Add(IReadOnlyNodeState item) { Add((IWriteableNodeState)item); }
+        void IList<IReadOnlyNodeState>.Insert(int index, IReadOnlyNodeState item) { Insert(index, (IWriteableNodeState)item); }
+        bool ICollection<IReadOnlyNodeState>.Remove(IReadOnlyNodeState item) { return Remove((IWriteableNodeState)item); }
+        void ICollection<IReadOnlyNodeState>.CopyTo(IReadOnlyNodeState[] array, int index) { CopyTo((IWriteableNodeState[])array, index); }
         bool ICollection<IReadOnlyNodeState>.IsReadOnly { get { return ((ICollection<IWriteableNodeState>)this).IsReadOnly; } }
-        public bool Contains(IReadOnlyNodeState value) { return base.Contains((IWriteableNodeState)value); }
-        public int IndexOf(IReadOnlyNodeState value) { return base.IndexOf((IWriteableNodeState)value); }
+        bool ICollection<IReadOnlyNodeState>.Contains(IReadOnlyNodeState value) { return Contains((IWriteableNodeState)value); }
+        int IList<IReadOnlyNodeState>.IndexOf(IReadOnlyNodeState value) { return IndexOf((IWriteableNodeState)value); }
         IEnumerator<IReadOnlyNodeState> IEnumerable<IReadOnlyNodeState>.GetEnumerator() { return GetEnumerator(); }
         #endregion
 

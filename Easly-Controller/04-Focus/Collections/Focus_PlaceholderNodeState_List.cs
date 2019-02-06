@@ -27,13 +27,13 @@ namespace EaslyController.Focus
         IReadOnlyPlaceholderNodeState IReadOnlyPlaceholderNodeStateList.this[int index] { get { return this[index]; } set { this[index] = (IFocusPlaceholderNodeState)value; } }
         IReadOnlyPlaceholderNodeState IList<IReadOnlyPlaceholderNodeState>.this[int index] { get { return this[index]; } set { this[index] = (IFocusPlaceholderNodeState)value; } }
         IReadOnlyPlaceholderNodeState IReadOnlyList<IReadOnlyPlaceholderNodeState>.this[int index] { get { return this[index]; } }
-        public void Add(IReadOnlyPlaceholderNodeState item) { base.Add((IFocusPlaceholderNodeState)item); }
-        public void Insert(int index, IReadOnlyPlaceholderNodeState item) { base.Insert(index, (IFocusPlaceholderNodeState)item); }
-        public bool Remove(IReadOnlyPlaceholderNodeState item) { return base.Remove((IFocusPlaceholderNodeState)item); }
-        public void CopyTo(IReadOnlyPlaceholderNodeState[] array, int index) { base.CopyTo((IFocusPlaceholderNodeState[])array, index); }
+        void ICollection<IReadOnlyPlaceholderNodeState>.Add(IReadOnlyPlaceholderNodeState item) { Add((IFocusPlaceholderNodeState)item); }
+        void IList<IReadOnlyPlaceholderNodeState>.Insert(int index, IReadOnlyPlaceholderNodeState item) { Insert(index, (IFocusPlaceholderNodeState)item); }
+        bool ICollection<IReadOnlyPlaceholderNodeState>.Remove(IReadOnlyPlaceholderNodeState item) { return Remove((IFocusPlaceholderNodeState)item); }
+        void ICollection<IReadOnlyPlaceholderNodeState>.CopyTo(IReadOnlyPlaceholderNodeState[] array, int index) { CopyTo((IFocusPlaceholderNodeState[])array, index); }
         bool ICollection<IReadOnlyPlaceholderNodeState>.IsReadOnly { get { return ((ICollection<IFocusPlaceholderNodeState>)this).IsReadOnly; } }
-        public bool Contains(IReadOnlyPlaceholderNodeState value) { return base.Contains((IFocusPlaceholderNodeState)value); }
-        public int IndexOf(IReadOnlyPlaceholderNodeState value) { return base.IndexOf((IFocusPlaceholderNodeState)value); }
+        bool ICollection<IReadOnlyPlaceholderNodeState>.Contains(IReadOnlyPlaceholderNodeState value) { return Contains((IFocusPlaceholderNodeState)value); }
+        int IList<IReadOnlyPlaceholderNodeState>.IndexOf(IReadOnlyPlaceholderNodeState value) { return IndexOf((IFocusPlaceholderNodeState)value); }
         IEnumerator<IReadOnlyPlaceholderNodeState> IEnumerable<IReadOnlyPlaceholderNodeState>.GetEnumerator() { return GetEnumerator(); }
         #endregion
 
@@ -41,13 +41,13 @@ namespace EaslyController.Focus
         IWriteablePlaceholderNodeState IWriteablePlaceholderNodeStateList.this[int index] { get { return this[index]; } set { this[index] = (IFocusPlaceholderNodeState)value; } }
         IWriteablePlaceholderNodeState IList<IWriteablePlaceholderNodeState>.this[int index] { get { return this[index]; } set { this[index] = (IFocusPlaceholderNodeState)value; } }
         IWriteablePlaceholderNodeState IReadOnlyList<IWriteablePlaceholderNodeState>.this[int index] { get { return this[index]; } }
-        public void Add(IWriteablePlaceholderNodeState item) { base.Add((IFocusPlaceholderNodeState)item); }
-        public void Insert(int index, IWriteablePlaceholderNodeState item) { base.Insert(index, (IFocusPlaceholderNodeState)item); }
-        public bool Remove(IWriteablePlaceholderNodeState item) { return base.Remove((IFocusPlaceholderNodeState)item); }
-        public void CopyTo(IWriteablePlaceholderNodeState[] array, int index) { base.CopyTo((IFocusPlaceholderNodeState[])array, index); }
+        void ICollection<IWriteablePlaceholderNodeState>.Add(IWriteablePlaceholderNodeState item) { Add((IFocusPlaceholderNodeState)item); }
+        void IList<IWriteablePlaceholderNodeState>.Insert(int index, IWriteablePlaceholderNodeState item) { Insert(index, (IFocusPlaceholderNodeState)item); }
+        bool ICollection<IWriteablePlaceholderNodeState>.Remove(IWriteablePlaceholderNodeState item) { return Remove((IFocusPlaceholderNodeState)item); }
+        void ICollection<IWriteablePlaceholderNodeState>.CopyTo(IWriteablePlaceholderNodeState[] array, int index) { CopyTo((IFocusPlaceholderNodeState[])array, index); }
         bool ICollection<IWriteablePlaceholderNodeState>.IsReadOnly { get { return ((ICollection<IFocusPlaceholderNodeState>)this).IsReadOnly; } }
-        public bool Contains(IWriteablePlaceholderNodeState value) { return base.Contains((IFocusPlaceholderNodeState)value); }
-        public int IndexOf(IWriteablePlaceholderNodeState value) { return base.IndexOf((IFocusPlaceholderNodeState)value); }
+        bool ICollection<IWriteablePlaceholderNodeState>.Contains(IWriteablePlaceholderNodeState value) { return Contains((IFocusPlaceholderNodeState)value); }
+        int IList<IWriteablePlaceholderNodeState>.IndexOf(IWriteablePlaceholderNodeState value) { return IndexOf((IFocusPlaceholderNodeState)value); }
         IEnumerator<IWriteablePlaceholderNodeState> IWriteablePlaceholderNodeStateList.GetEnumerator() { return GetEnumerator(); }
         IEnumerator<IWriteablePlaceholderNodeState> IEnumerable<IWriteablePlaceholderNodeState>.GetEnumerator() { return GetEnumerator(); }
         #endregion
@@ -56,13 +56,13 @@ namespace EaslyController.Focus
         IFramePlaceholderNodeState IFramePlaceholderNodeStateList.this[int index] { get { return this[index]; } set { this[index] = (IFocusPlaceholderNodeState)value; } }
         IFramePlaceholderNodeState IList<IFramePlaceholderNodeState>.this[int index] { get { return this[index]; } set { this[index] = (IFocusPlaceholderNodeState)value; } }
         IFramePlaceholderNodeState IReadOnlyList<IFramePlaceholderNodeState>.this[int index] { get { return this[index]; } }
-        public void Add(IFramePlaceholderNodeState item) { base.Add((IFocusPlaceholderNodeState)item); }
-        public void Insert(int index, IFramePlaceholderNodeState item) { base.Insert(index, (IFocusPlaceholderNodeState)item); }
-        public bool Remove(IFramePlaceholderNodeState item) { return base.Remove((IFocusPlaceholderNodeState)item); }
-        public void CopyTo(IFramePlaceholderNodeState[] array, int index) { base.CopyTo((IFocusPlaceholderNodeState[])array, index); }
+        void ICollection<IFramePlaceholderNodeState>.Add(IFramePlaceholderNodeState item) { Add((IFocusPlaceholderNodeState)item); }
+        void IList<IFramePlaceholderNodeState>.Insert(int index, IFramePlaceholderNodeState item) { Insert(index, (IFocusPlaceholderNodeState)item); }
+        bool ICollection<IFramePlaceholderNodeState>.Remove(IFramePlaceholderNodeState item) { return Remove((IFocusPlaceholderNodeState)item); }
+        void ICollection<IFramePlaceholderNodeState>.CopyTo(IFramePlaceholderNodeState[] array, int index) { CopyTo((IFocusPlaceholderNodeState[])array, index); }
         bool ICollection<IFramePlaceholderNodeState>.IsReadOnly { get { return ((ICollection<IFocusPlaceholderNodeState>)this).IsReadOnly; } }
-        public bool Contains(IFramePlaceholderNodeState value) { return base.Contains((IFocusPlaceholderNodeState)value); }
-        public int IndexOf(IFramePlaceholderNodeState value) { return base.IndexOf((IFocusPlaceholderNodeState)value); }
+        bool ICollection<IFramePlaceholderNodeState>.Contains(IFramePlaceholderNodeState value) { return Contains((IFocusPlaceholderNodeState)value); }
+        int IList<IFramePlaceholderNodeState>.IndexOf(IFramePlaceholderNodeState value) { return IndexOf((IFocusPlaceholderNodeState)value); }
         IEnumerator<IFramePlaceholderNodeState> IFramePlaceholderNodeStateList.GetEnumerator() { return GetEnumerator(); }
         IEnumerator<IFramePlaceholderNodeState> IEnumerable<IFramePlaceholderNodeState>.GetEnumerator() { return GetEnumerator(); }
         #endregion
