@@ -11,8 +11,8 @@ namespace EaslyController.Writeable
     /// </summary>
     public interface IWriteableNodeStateList : IReadOnlyNodeStateList, IList<IWriteableNodeState>, IReadOnlyList<IWriteableNodeState>
     {
-        new int Count { get; }
         new IWriteableNodeState this[int index] { get; set; }
+        new int Count { get; }
         new IEnumerator<IWriteableNodeState> GetEnumerator();
     }
 
@@ -24,15 +24,15 @@ namespace EaslyController.Writeable
         #region ReadOnly
         IReadOnlyNodeState IReadOnlyNodeStateList.this[int index] { get { return this[index]; } set { this[index] = (IWriteableNodeState)value; } }
         IReadOnlyNodeState IList<IReadOnlyNodeState>.this[int index] { get { return this[index]; } set { this[index] = (IWriteableNodeState)value; } }
-        IReadOnlyNodeState IReadOnlyList<IReadOnlyNodeState>.this[int index] { get { return this[index]; } }
-        void ICollection<IReadOnlyNodeState>.Add(IReadOnlyNodeState item) { Add((IWriteableNodeState)item); }
+        int IList<IReadOnlyNodeState>.IndexOf(IReadOnlyNodeState value) { return IndexOf((IWriteableNodeState)value); }
         void IList<IReadOnlyNodeState>.Insert(int index, IReadOnlyNodeState item) { Insert(index, (IWriteableNodeState)item); }
-        bool ICollection<IReadOnlyNodeState>.Remove(IReadOnlyNodeState item) { return Remove((IWriteableNodeState)item); }
+        void ICollection<IReadOnlyNodeState>.Add(IReadOnlyNodeState item) { Add((IWriteableNodeState)item); }
+        bool ICollection<IReadOnlyNodeState>.Contains(IReadOnlyNodeState value) { return Contains((IWriteableNodeState)value); }
         void ICollection<IReadOnlyNodeState>.CopyTo(IReadOnlyNodeState[] array, int index) { CopyTo((IWriteableNodeState[])array, index); }
         bool ICollection<IReadOnlyNodeState>.IsReadOnly { get { return ((ICollection<IWriteableNodeState>)this).IsReadOnly; } }
-        bool ICollection<IReadOnlyNodeState>.Contains(IReadOnlyNodeState value) { return Contains((IWriteableNodeState)value); }
-        int IList<IReadOnlyNodeState>.IndexOf(IReadOnlyNodeState value) { return IndexOf((IWriteableNodeState)value); }
+        bool ICollection<IReadOnlyNodeState>.Remove(IReadOnlyNodeState item) { return Remove((IWriteableNodeState)item); }
         IEnumerator<IReadOnlyNodeState> IEnumerable<IReadOnlyNodeState>.GetEnumerator() { return GetEnumerator(); }
+        IReadOnlyNodeState IReadOnlyList<IReadOnlyNodeState>.this[int index] { get { return this[index]; } }
         #endregion
 
         public virtual IReadOnlyNodeStateReadOnlyList ToReadOnly()

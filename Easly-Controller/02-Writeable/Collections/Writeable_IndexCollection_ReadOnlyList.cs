@@ -11,11 +11,11 @@ namespace EaslyController.Writeable
     /// </summary>
     internal interface IWriteableIndexCollectionReadOnlyList : IReadOnlyIndexCollectionReadOnlyList, IReadOnlyList<IWriteableIndexCollection>
     {
-        new int Count { get; }
         new IWriteableIndexCollection this[int index] { get; }
+        new int Count { get; }
         bool Contains(IWriteableIndexCollection value);
-        int IndexOf(IWriteableIndexCollection value);
         new IEnumerator<IWriteableIndexCollection> GetEnumerator();
+        int IndexOf(IWriteableIndexCollection value);
     }
 
     /// <summary>
@@ -29,10 +29,10 @@ namespace EaslyController.Writeable
         }
 
         #region ReadOnly
-        IReadOnlyIndexCollection IReadOnlyList<IReadOnlyIndexCollection>.this[int index] { get { return this[index]; } }
         bool IReadOnlyIndexCollectionReadOnlyList.Contains(IReadOnlyIndexCollection value) { return Contains((IWriteableIndexCollection)value); }
         int IReadOnlyIndexCollectionReadOnlyList.IndexOf(IReadOnlyIndexCollection value) { return IndexOf((IWriteableIndexCollection)value); }
         IEnumerator<IReadOnlyIndexCollection> IEnumerable<IReadOnlyIndexCollection>.GetEnumerator() { return GetEnumerator(); }
+        IReadOnlyIndexCollection IReadOnlyList<IReadOnlyIndexCollection>.this[int index] { get { return this[index]; } }
         #endregion
     }
 }

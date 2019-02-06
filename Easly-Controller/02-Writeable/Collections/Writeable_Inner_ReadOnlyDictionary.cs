@@ -13,10 +13,10 @@ namespace EaslyController.Writeable
     /// <typeparam name="TKey">Type of the key.</typeparam>
     public interface IWriteableInnerReadOnlyDictionary<TKey> : IReadOnlyInnerReadOnlyDictionary<TKey>, IReadOnlyDictionary<TKey, IWriteableInner>
     {
-        new int Count { get; }
         new IWriteableInner this[TKey key] { get; }
-        new IEnumerator<KeyValuePair<TKey, IWriteableInner>> GetEnumerator();
+        new int Count { get; }
         new bool ContainsKey(TKey key);
+        new IEnumerator<KeyValuePair<TKey, IWriteableInner>> GetEnumerator();
     }
 
     /// <summary>
@@ -33,6 +33,14 @@ namespace EaslyController.Writeable
         #region ReadOnly
         IReadOnlyInner IReadOnlyDictionary<TKey, IReadOnlyInner>.this[TKey key] { get { return this[key]; } }
         IEnumerable<TKey> IReadOnlyDictionary<TKey, IReadOnlyInner>.Keys { get { return Keys; } }
+
+        bool IReadOnlyDictionary<TKey, IReadOnlyInner>.TryGetValue(TKey key, out IReadOnlyInner value)
+        {
+            bool Result = TryGetValue(key, out IWriteableInner Value);
+            value = Value;
+            return Result;
+        }
+
         IEnumerable<IReadOnlyInner> IReadOnlyDictionary<TKey, IReadOnlyInner>.Values { get { return Values; } }
 
         IEnumerator<KeyValuePair<TKey, IReadOnlyInner>> IEnumerable<KeyValuePair<TKey, IReadOnlyInner>>.GetEnumerator()
@@ -42,13 +50,6 @@ namespace EaslyController.Writeable
                 NewList.Add(new KeyValuePair<TKey, IReadOnlyInner>(Entry.Key, Entry.Value));
 
             return NewList.GetEnumerator();
-        }
-
-        bool IReadOnlyDictionary<TKey, IReadOnlyInner>.TryGetValue(TKey key, out IReadOnlyInner value)
-        {
-            bool Result = TryGetValue(key, out IWriteableInner Value);
-            value = Value;
-            return Result;
         }
         #endregion
 

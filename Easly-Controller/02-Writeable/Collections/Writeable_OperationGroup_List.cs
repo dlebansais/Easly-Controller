@@ -10,8 +10,8 @@ namespace EaslyController.Writeable
     /// </summary>
     public interface IWriteableOperationGroupList : IList<IWriteableOperationGroup>, IReadOnlyList<IWriteableOperationGroup>
     {
-        new int Count { get; }
         new IWriteableOperationGroup this[int index] { get; set; }
+        new int Count { get; }
         new IEnumerator<IWriteableOperationGroup> GetEnumerator();
         IWriteableOperationGroupReadOnlyList ToReadOnly();
     }

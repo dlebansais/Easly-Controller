@@ -12,11 +12,11 @@ namespace EaslyController.Writeable
     /// </summary>
     public interface IWriteablePlaceholderNodeStateReadOnlyList : IReadOnlyPlaceholderNodeStateReadOnlyList, IReadOnlyList<IWriteablePlaceholderNodeState>
     {
-        new int Count { get; }
         new IWriteablePlaceholderNodeState this[int index] { get; }
+        new int Count { get; }
         bool Contains(IWriteablePlaceholderNodeState value);
-        int IndexOf(IWriteablePlaceholderNodeState value);
         new IEnumerator<IWriteablePlaceholderNodeState> GetEnumerator();
+        int IndexOf(IWriteablePlaceholderNodeState value);
     }
 
     /// <summary>
@@ -30,10 +30,10 @@ namespace EaslyController.Writeable
         }
 
         #region ReadOnly
-        IReadOnlyPlaceholderNodeState IReadOnlyList<IReadOnlyPlaceholderNodeState>.this[int index] { get { return this[index]; } }
         bool IReadOnlyPlaceholderNodeStateReadOnlyList.Contains(IReadOnlyPlaceholderNodeState value) { return Contains((IWriteablePlaceholderNodeState)value); }
         int IReadOnlyPlaceholderNodeStateReadOnlyList.IndexOf(IReadOnlyPlaceholderNodeState value) { return IndexOf((IWriteablePlaceholderNodeState)value); }
         IEnumerator<IReadOnlyPlaceholderNodeState> IEnumerable<IReadOnlyPlaceholderNodeState>.GetEnumerator() { return GetEnumerator(); }
+        IReadOnlyPlaceholderNodeState IReadOnlyList<IReadOnlyPlaceholderNodeState>.this[int index] { get { return this[index]; } }
         #endregion
 
         #region Debugging

@@ -11,8 +11,8 @@ namespace EaslyController.Writeable
     /// </summary>
     public interface IWriteableBrowsingListNodeIndexList : IReadOnlyBrowsingListNodeIndexList, IList<IWriteableBrowsingListNodeIndex>, IReadOnlyList<IWriteableBrowsingListNodeIndex>
     {
-        new int Count { get; }
         new IWriteableBrowsingListNodeIndex this[int index] { get; set; }
+        new int Count { get; }
         new IEnumerator<IWriteableBrowsingListNodeIndex> GetEnumerator();
     }
 
@@ -24,15 +24,15 @@ namespace EaslyController.Writeable
         #region ReadOnly
         IReadOnlyBrowsingListNodeIndex IReadOnlyBrowsingListNodeIndexList.this[int index] { get { return this[index]; } set { this[index] = (IWriteableBrowsingListNodeIndex)value; } }
         IReadOnlyBrowsingListNodeIndex IList<IReadOnlyBrowsingListNodeIndex>.this[int index] { get { return this[index]; } set { this[index] = (IWriteableBrowsingListNodeIndex)value; } }
-        IReadOnlyBrowsingListNodeIndex IReadOnlyList<IReadOnlyBrowsingListNodeIndex>.this[int index] { get { return this[index]; } }
-        void ICollection<IReadOnlyBrowsingListNodeIndex>.Add(IReadOnlyBrowsingListNodeIndex item) { Add((IWriteableBrowsingListNodeIndex)item); }
+        int IList<IReadOnlyBrowsingListNodeIndex>.IndexOf(IReadOnlyBrowsingListNodeIndex value) { return IndexOf((IWriteableBrowsingListNodeIndex)value); }
         void IList<IReadOnlyBrowsingListNodeIndex>.Insert(int index, IReadOnlyBrowsingListNodeIndex item) { Insert(index, (IWriteableBrowsingListNodeIndex)item); }
-        bool ICollection<IReadOnlyBrowsingListNodeIndex>.Remove(IReadOnlyBrowsingListNodeIndex item) { return Remove((IWriteableBrowsingListNodeIndex)item); }
+        void ICollection<IReadOnlyBrowsingListNodeIndex>.Add(IReadOnlyBrowsingListNodeIndex item) { Add((IWriteableBrowsingListNodeIndex)item); }
+        bool ICollection<IReadOnlyBrowsingListNodeIndex>.Contains(IReadOnlyBrowsingListNodeIndex value) { return Contains((IWriteableBrowsingListNodeIndex)value); }
         void ICollection<IReadOnlyBrowsingListNodeIndex>.CopyTo(IReadOnlyBrowsingListNodeIndex[] array, int index) { CopyTo((IWriteableBrowsingListNodeIndex[])array, index); }
         bool ICollection<IReadOnlyBrowsingListNodeIndex>.IsReadOnly { get { return ((ICollection<IWriteableBrowsingListNodeIndex>)this).IsReadOnly; } }
-        bool ICollection<IReadOnlyBrowsingListNodeIndex>.Contains(IReadOnlyBrowsingListNodeIndex value) { return Contains((IWriteableBrowsingListNodeIndex)value); }
-        int IList<IReadOnlyBrowsingListNodeIndex>.IndexOf(IReadOnlyBrowsingListNodeIndex value) { return IndexOf((IWriteableBrowsingListNodeIndex)value); }
+        bool ICollection<IReadOnlyBrowsingListNodeIndex>.Remove(IReadOnlyBrowsingListNodeIndex item) { return Remove((IWriteableBrowsingListNodeIndex)item); }
         IEnumerator<IReadOnlyBrowsingListNodeIndex> IEnumerable<IReadOnlyBrowsingListNodeIndex>.GetEnumerator() { return GetEnumerator(); }
+        IReadOnlyBrowsingListNodeIndex IReadOnlyList<IReadOnlyBrowsingListNodeIndex>.this[int index] { get { return this[index]; } }
         #endregion
     }
 }
