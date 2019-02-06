@@ -11,8 +11,8 @@ namespace EaslyController.Frame
     /// </summary>
     public interface IFrameVisibleCellViewList : IList<IFrameVisibleCellView>, IReadOnlyList<IFrameVisibleCellView>, IEqualComparable
     {
-        new int Count { get; }
         new IFrameVisibleCellView this[int index] { get; set; }
+        new int Count { get; }
         new IEnumerator<IFrameVisibleCellView> GetEnumerator();
     }
 

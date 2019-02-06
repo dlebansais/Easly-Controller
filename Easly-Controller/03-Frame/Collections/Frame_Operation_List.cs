@@ -11,8 +11,8 @@ namespace EaslyController.Frame
     /// </summary>
     public interface IFrameOperationList : IWriteableOperationList, IList<IFrameOperation>, IReadOnlyList<IFrameOperation>
     {
-        new int Count { get; }
         new IFrameOperation this[int index] { get; set; }
+        new int Count { get; }
         new IEnumerator<IFrameOperation> GetEnumerator();
     }
 
@@ -23,17 +23,17 @@ namespace EaslyController.Frame
     {
         #region Writeable
         IWriteableOperation IWriteableOperationList.this[int index] { get { return this[index]; } set { this[index] = (IFrameOperation)value; } }
-        IWriteableOperation IList<IWriteableOperation>.this[int index] { get { return this[index]; } set { this[index] = (IFrameOperation)value; } }
-        IWriteableOperation IReadOnlyList<IWriteableOperation>.this[int index] { get { return this[index]; } }
-        bool ICollection<IWriteableOperation>.IsReadOnly { get { return ((ICollection<IFrameOperation>)this).IsReadOnly; } }
-        void ICollection<IWriteableOperation>.Add(IWriteableOperation item) { Add((IFrameOperation)item); }
-        void IList<IWriteableOperation>.Insert(int index, IWriteableOperation item) { Insert(index, (IFrameOperation)item); }
-        bool ICollection<IWriteableOperation>.Remove(IWriteableOperation item) { return Remove((IFrameOperation)item); }
-        void ICollection<IWriteableOperation>.CopyTo(IWriteableOperation[] array, int index) { CopyTo((IFrameOperation[])array, index); }
-        bool ICollection<IWriteableOperation>.Contains(IWriteableOperation value) { return Contains((IFrameOperation)value); }
-        int IList<IWriteableOperation>.IndexOf(IWriteableOperation value) { return IndexOf((IFrameOperation)value); }
         IEnumerator<IWriteableOperation> IWriteableOperationList.GetEnumerator() { return GetEnumerator(); }
+        IWriteableOperation IList<IWriteableOperation>.this[int index] { get { return this[index]; } set { this[index] = (IFrameOperation)value; } }
+        int IList<IWriteableOperation>.IndexOf(IWriteableOperation value) { return IndexOf((IFrameOperation)value); }
+        void IList<IWriteableOperation>.Insert(int index, IWriteableOperation item) { Insert(index, (IFrameOperation)item); }
+        void ICollection<IWriteableOperation>.Add(IWriteableOperation item) { Add((IFrameOperation)item); }
+        bool ICollection<IWriteableOperation>.Contains(IWriteableOperation value) { return Contains((IFrameOperation)value); }
+        void ICollection<IWriteableOperation>.CopyTo(IWriteableOperation[] array, int index) { CopyTo((IFrameOperation[])array, index); }
+        bool ICollection<IWriteableOperation>.IsReadOnly { get { return ((ICollection<IFrameOperation>)this).IsReadOnly; } }
+        bool ICollection<IWriteableOperation>.Remove(IWriteableOperation item) { return Remove((IFrameOperation)item); }
         IEnumerator<IWriteableOperation> IEnumerable<IWriteableOperation>.GetEnumerator() { return GetEnumerator(); }
+        IWriteableOperation IReadOnlyList<IWriteableOperation>.this[int index] { get { return this[index]; } }
         #endregion
 
         public virtual IWriteableOperationReadOnlyList ToReadOnly()

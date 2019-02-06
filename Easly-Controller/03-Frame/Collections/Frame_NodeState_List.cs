@@ -12,8 +12,8 @@ namespace EaslyController.Frame
     /// </summary>
     public interface IFrameNodeStateList : IWriteableNodeStateList, IList<IFrameNodeState>, IReadOnlyList<IFrameNodeState>
     {
-        new int Count { get; }
         new IFrameNodeState this[int index] { get; set; }
+        new int Count { get; }
         new IEnumerator<IFrameNodeState> GetEnumerator();
     }
 
@@ -25,30 +25,30 @@ namespace EaslyController.Frame
         #region ReadOnly
         IReadOnlyNodeState IReadOnlyNodeStateList.this[int index] { get { return this[index]; } set { this[index] = (IFrameNodeState)value; } }
         IReadOnlyNodeState IList<IReadOnlyNodeState>.this[int index] { get { return this[index]; } set { this[index] = (IFrameNodeState)value; } }
-        IReadOnlyNodeState IReadOnlyList<IReadOnlyNodeState>.this[int index] { get { return this[index]; } }
-        void ICollection<IReadOnlyNodeState>.Add(IReadOnlyNodeState item) { Add((IFrameNodeState)item); }
+        int IList<IReadOnlyNodeState>.IndexOf(IReadOnlyNodeState value) { return IndexOf((IFrameNodeState)value); }
         void IList<IReadOnlyNodeState>.Insert(int index, IReadOnlyNodeState item) { Insert(index, (IFrameNodeState)item); }
-        bool ICollection<IReadOnlyNodeState>.Remove(IReadOnlyNodeState item) { return Remove((IFrameNodeState)item); }
+        void ICollection<IReadOnlyNodeState>.Add(IReadOnlyNodeState item) { Add((IFrameNodeState)item); }
+        bool ICollection<IReadOnlyNodeState>.Contains(IReadOnlyNodeState value) { return Contains((IFrameNodeState)value); }
         void ICollection<IReadOnlyNodeState>.CopyTo(IReadOnlyNodeState[] array, int index) { CopyTo((IFrameNodeState[])array, index); }
         bool ICollection<IReadOnlyNodeState>.IsReadOnly { get { return ((ICollection<IFrameNodeState>)this).IsReadOnly; } }
-        bool ICollection<IReadOnlyNodeState>.Contains(IReadOnlyNodeState value) { return Contains((IFrameNodeState)value); }
-        int IList<IReadOnlyNodeState>.IndexOf(IReadOnlyNodeState value) { return IndexOf((IFrameNodeState)value); }
+        bool ICollection<IReadOnlyNodeState>.Remove(IReadOnlyNodeState item) { return Remove((IFrameNodeState)item); }
         IEnumerator<IReadOnlyNodeState> IEnumerable<IReadOnlyNodeState>.GetEnumerator() { return GetEnumerator(); }
+        IReadOnlyNodeState IReadOnlyList<IReadOnlyNodeState>.this[int index] { get { return this[index]; } }
         #endregion
 
         #region Writeable
         IWriteableNodeState IWriteableNodeStateList.this[int index] { get { return this[index]; } set { this[index] = (IFrameNodeState)value; } }
+        IEnumerator<IWriteableNodeState> IWriteableNodeStateList.GetEnumerator() { return GetEnumerator(); }
         IWriteableNodeState IList<IWriteableNodeState>.this[int index] { get { return this[index]; } set { this[index] = (IFrameNodeState)value; } }
-        IWriteableNodeState IReadOnlyList<IWriteableNodeState>.this[int index] { get { return this[index]; } }
-        void ICollection<IWriteableNodeState>.Add(IWriteableNodeState item) { Add((IFrameNodeState)item); }
+        int IList<IWriteableNodeState>.IndexOf(IWriteableNodeState value) { return IndexOf((IFrameNodeState)value); }
         void IList<IWriteableNodeState>.Insert(int index, IWriteableNodeState item) { Insert(index, (IFrameNodeState)item); }
-        bool ICollection<IWriteableNodeState>.Remove(IWriteableNodeState item) { return Remove((IFrameNodeState)item); }
+        void ICollection<IWriteableNodeState>.Add(IWriteableNodeState item) { Add((IFrameNodeState)item); }
+        bool ICollection<IWriteableNodeState>.Contains(IWriteableNodeState value) { return Contains((IFrameNodeState)value); }
         void ICollection<IWriteableNodeState>.CopyTo(IWriteableNodeState[] array, int index) { CopyTo((IFrameNodeState[])array, index); }
         bool ICollection<IWriteableNodeState>.IsReadOnly { get { return ((ICollection<IFrameNodeState>)this).IsReadOnly; } }
-        bool ICollection<IWriteableNodeState>.Contains(IWriteableNodeState value) { return Contains((IFrameNodeState)value); }
-        int IList<IWriteableNodeState>.IndexOf(IWriteableNodeState value) { return IndexOf((IFrameNodeState)value); }
-        IEnumerator<IWriteableNodeState> IWriteableNodeStateList.GetEnumerator() { return GetEnumerator(); }
+        bool ICollection<IWriteableNodeState>.Remove(IWriteableNodeState item) { return Remove((IFrameNodeState)item); }
         IEnumerator<IWriteableNodeState> IEnumerable<IWriteableNodeState>.GetEnumerator() { return GetEnumerator(); }
+        IWriteableNodeState IReadOnlyList<IWriteableNodeState>.this[int index] { get { return this[index]; } }
         #endregion
 
         public virtual IReadOnlyNodeStateReadOnlyList ToReadOnly()

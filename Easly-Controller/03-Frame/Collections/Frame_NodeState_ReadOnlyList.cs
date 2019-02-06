@@ -12,11 +12,11 @@ namespace EaslyController.Frame
     /// </summary>
     public interface IFrameNodeStateReadOnlyList : IWriteableNodeStateReadOnlyList, IReadOnlyList<IFrameNodeState>
     {
-        new int Count { get; }
         new IFrameNodeState this[int index] { get; }
+        new int Count { get; }
         bool Contains(IFrameNodeState value);
-        int IndexOf(IFrameNodeState value);
         new IEnumerator<IFrameNodeState> GetEnumerator();
+        int IndexOf(IFrameNodeState value);
     }
 
     /// <summary>
@@ -30,19 +30,19 @@ namespace EaslyController.Frame
         }
 
         #region ReadOnly
-        IReadOnlyNodeState IReadOnlyList<IReadOnlyNodeState>.this[int index] { get { return this[index]; } }
         bool IReadOnlyNodeStateReadOnlyList.Contains(IReadOnlyNodeState value) { return Contains((IFrameNodeState)value); }
         int IReadOnlyNodeStateReadOnlyList.IndexOf(IReadOnlyNodeState value) { return IndexOf((IFrameNodeState)value); }
         IEnumerator<IReadOnlyNodeState> IEnumerable<IReadOnlyNodeState>.GetEnumerator() { return GetEnumerator(); }
+        IReadOnlyNodeState IReadOnlyList<IReadOnlyNodeState>.this[int index] { get { return this[index]; } }
         #endregion
 
         #region Writeable
         IWriteableNodeState IWriteableNodeStateReadOnlyList.this[int index] { get { return this[index]; } }
-        IWriteableNodeState IReadOnlyList<IWriteableNodeState>.this[int index] { get { return this[index]; } }
         bool IWriteableNodeStateReadOnlyList.Contains(IWriteableNodeState value) { return Contains((IFrameNodeState)value); }
-        int IWriteableNodeStateReadOnlyList.IndexOf(IWriteableNodeState value) { return IndexOf((IFrameNodeState)value); }
         IEnumerator<IWriteableNodeState> IWriteableNodeStateReadOnlyList.GetEnumerator() { return GetEnumerator(); }
+        int IWriteableNodeStateReadOnlyList.IndexOf(IWriteableNodeState value) { return IndexOf((IFrameNodeState)value); }
         IEnumerator<IWriteableNodeState> IEnumerable<IWriteableNodeState>.GetEnumerator() { return GetEnumerator(); }
+        IWriteableNodeState IReadOnlyList<IWriteableNodeState>.this[int index] { get { return this[index]; } }
         #endregion
     }
 }

@@ -11,11 +11,11 @@ namespace EaslyController.Frame
     /// </summary>
     public interface IFrameOperationGroupReadOnlyList : IWriteableOperationGroupReadOnlyList, IReadOnlyList<IFrameOperationGroup>
     {
-        new int Count { get; }
         new IFrameOperationGroup this[int index] { get; }
+        new int Count { get; }
         bool Contains(IFrameOperationGroup value);
-        int IndexOf(IFrameOperationGroup value);
         new IEnumerator<IFrameOperationGroup> GetEnumerator();
+        int IndexOf(IFrameOperationGroup value);
     }
 
     /// <summary>
@@ -29,10 +29,10 @@ namespace EaslyController.Frame
         }
 
         #region Writeable
-        IWriteableOperationGroup IReadOnlyList<IWriteableOperationGroup>.this[int index] { get { return this[index]; } }
         bool IWriteableOperationGroupReadOnlyList.Contains(IWriteableOperationGroup value) { return Contains((IFrameOperationGroup)value); }
         int IWriteableOperationGroupReadOnlyList.IndexOf(IWriteableOperationGroup value) { return IndexOf((IFrameOperationGroup)value); }
         IEnumerator<IWriteableOperationGroup> IEnumerable<IWriteableOperationGroup>.GetEnumerator() { return GetEnumerator(); }
+        IWriteableOperationGroup IReadOnlyList<IWriteableOperationGroup>.this[int index] { get { return this[index]; } }
         #endregion
     }
 }

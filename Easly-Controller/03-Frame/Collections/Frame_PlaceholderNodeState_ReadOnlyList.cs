@@ -13,11 +13,11 @@ namespace EaslyController.Frame
     /// </summary>
     public interface IFramePlaceholderNodeStateReadOnlyList : IWriteablePlaceholderNodeStateReadOnlyList, IReadOnlyList<IFramePlaceholderNodeState>
     {
-        new int Count { get; }
         new IFramePlaceholderNodeState this[int index] { get; }
+        new int Count { get; }
         bool Contains(IFramePlaceholderNodeState value);
-        int IndexOf(IFramePlaceholderNodeState value);
         new IEnumerator<IFramePlaceholderNodeState> GetEnumerator();
+        int IndexOf(IFramePlaceholderNodeState value);
     }
 
     /// <summary>
@@ -31,19 +31,19 @@ namespace EaslyController.Frame
         }
 
         #region ReadOnly
-        IReadOnlyPlaceholderNodeState IReadOnlyList<IReadOnlyPlaceholderNodeState>.this[int index] { get { return this[index]; } }
         bool IReadOnlyPlaceholderNodeStateReadOnlyList.Contains(IReadOnlyPlaceholderNodeState value) { return Contains((IFramePlaceholderNodeState)value); }
         int IReadOnlyPlaceholderNodeStateReadOnlyList.IndexOf(IReadOnlyPlaceholderNodeState value) { return IndexOf((IFramePlaceholderNodeState)value); }
         IEnumerator<IReadOnlyPlaceholderNodeState> IEnumerable<IReadOnlyPlaceholderNodeState>.GetEnumerator() { return GetEnumerator(); }
+        IReadOnlyPlaceholderNodeState IReadOnlyList<IReadOnlyPlaceholderNodeState>.this[int index] { get { return this[index]; } }
         #endregion
 
         #region Writeable
         IWriteablePlaceholderNodeState IWriteablePlaceholderNodeStateReadOnlyList.this[int index] { get { return this[index]; } }
-        IWriteablePlaceholderNodeState IReadOnlyList<IWriteablePlaceholderNodeState>.this[int index] { get { return this[index]; } }
         bool IWriteablePlaceholderNodeStateReadOnlyList.Contains(IWriteablePlaceholderNodeState value) { return Contains((IFramePlaceholderNodeState)value); }
-        int IWriteablePlaceholderNodeStateReadOnlyList.IndexOf(IWriteablePlaceholderNodeState value) { return IndexOf((IFramePlaceholderNodeState)value); }
         IEnumerator<IWriteablePlaceholderNodeState> IWriteablePlaceholderNodeStateReadOnlyList.GetEnumerator() { return GetEnumerator(); }
+        int IWriteablePlaceholderNodeStateReadOnlyList.IndexOf(IWriteablePlaceholderNodeState value) { return IndexOf((IFramePlaceholderNodeState)value); }
         IEnumerator<IWriteablePlaceholderNodeState> IEnumerable<IWriteablePlaceholderNodeState>.GetEnumerator() { return GetEnumerator(); }
+        IWriteablePlaceholderNodeState IReadOnlyList<IWriteablePlaceholderNodeState>.this[int index] { get { return this[index]; } }
         #endregion
 
         #region Debugging

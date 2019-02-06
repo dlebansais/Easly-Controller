@@ -12,11 +12,11 @@ namespace EaslyController.Focus
     /// </summary>
     public interface IFocusCellViewReadOnlyList : IFrameCellViewReadOnlyList, IReadOnlyList<IFocusCellView>, IEqualComparable
     {
-        new int Count { get; }
         new IFocusCellView this[int index] { get; }
+        new int Count { get; }
         bool Contains(IFocusCellView value);
-        int IndexOf(IFocusCellView value);
         new IEnumerator<IFocusCellView> GetEnumerator();
+        int IndexOf(IFocusCellView value);
     }
 
     /// <summary>
@@ -30,10 +30,10 @@ namespace EaslyController.Focus
         }
 
         #region Frame
-        IFrameCellView IReadOnlyList<IFrameCellView>.this[int index] { get { return this[index]; } }
         bool IFrameCellViewReadOnlyList.Contains(IFrameCellView value) { return Contains((IFocusCellView)value); }
         int IFrameCellViewReadOnlyList.IndexOf(IFrameCellView value) { return IndexOf((IFocusCellView)value); }
         IEnumerator<IFrameCellView> IEnumerable<IFrameCellView>.GetEnumerator() { return GetEnumerator(); }
+        IFrameCellView IReadOnlyList<IFrameCellView>.this[int index] { get { return this[index]; } }
         #endregion
 
         #region Debugging

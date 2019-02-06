@@ -12,10 +12,10 @@ namespace EaslyController.Focus
     /// </summary>
     public interface IFocusTemplateReadOnlyDictionary : IFrameTemplateReadOnlyDictionary, IReadOnlyDictionary<Type, IFocusTemplate>
     {
-        new int Count { get; }
         new IFocusTemplate this[Type key] { get; }
-        new IEnumerator<KeyValuePair<Type, IFocusTemplate>> GetEnumerator();
+        new int Count { get; }
         new bool ContainsKey(Type key);
+        new IEnumerator<KeyValuePair<Type, IFocusTemplate>> GetEnumerator();
     }
 
     /// <summary>
@@ -31,6 +31,14 @@ namespace EaslyController.Focus
         #region Frame
         IFrameTemplate IReadOnlyDictionary<Type, IFrameTemplate>.this[Type key] { get { return this[key]; } }
         IEnumerable<Type> IReadOnlyDictionary<Type, IFrameTemplate>.Keys { get { return Keys; } }
+
+        bool IReadOnlyDictionary<Type, IFrameTemplate>.TryGetValue(Type key, out IFrameTemplate value)
+        {
+            bool Result = TryGetValue(key, out IFocusTemplate Value);
+            value = Value;
+            return Result;
+        }
+
         IEnumerable<IFrameTemplate> IReadOnlyDictionary<Type, IFrameTemplate>.Values { get { return Values; } }
 
         IEnumerator<KeyValuePair<Type, IFrameTemplate>> IEnumerable<KeyValuePair<Type, IFrameTemplate>>.GetEnumerator()
@@ -40,13 +48,6 @@ namespace EaslyController.Focus
                 NewList.Add(new KeyValuePair<Type, IFrameTemplate>(Entry.Key, Entry.Value));
 
             return NewList.GetEnumerator();
-        }
-
-        bool IReadOnlyDictionary<Type, IFrameTemplate>.TryGetValue(Type key, out IFrameTemplate value)
-        {
-            bool Result = TryGetValue(key, out IFocusTemplate Value);
-            value = Value;
-            return Result;
         }
         #endregion
     }

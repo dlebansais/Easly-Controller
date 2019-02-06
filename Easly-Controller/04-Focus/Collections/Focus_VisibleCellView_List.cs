@@ -12,8 +12,8 @@ namespace EaslyController.Focus
     /// </summary>
     public interface IFocusVisibleCellViewList : IFrameVisibleCellViewList, IList<IFocusVisibleCellView>, IReadOnlyList<IFocusVisibleCellView>, IEqualComparable
     {
-        new int Count { get; }
         new IFocusVisibleCellView this[int index] { get; set; }
+        new int Count { get; }
         new IEnumerator<IFocusVisibleCellView> GetEnumerator();
     }
 
@@ -24,17 +24,17 @@ namespace EaslyController.Focus
     {
         #region Frame
         IFrameVisibleCellView IFrameVisibleCellViewList.this[int index] { get { return this[index]; } set { this[index] = (IFocusVisibleCellView)value; } }
+        IEnumerator<IFrameVisibleCellView> IFrameVisibleCellViewList.GetEnumerator() { return GetEnumerator(); }
         IFrameVisibleCellView IList<IFrameVisibleCellView>.this[int index] { get { return this[index]; } set { this[index] = (IFocusVisibleCellView)value; } }
-        IFrameVisibleCellView IReadOnlyList<IFrameVisibleCellView>.this[int index] { get { return this[index]; } }
-        void ICollection<IFrameVisibleCellView>.Add(IFrameVisibleCellView item) { Add((IFocusVisibleCellView)item); }
+        int IList<IFrameVisibleCellView>.IndexOf(IFrameVisibleCellView value) { return IndexOf((IFocusVisibleCellView)value); }
         void IList<IFrameVisibleCellView>.Insert(int index, IFrameVisibleCellView item) { Insert(index, (IFocusVisibleCellView)item); }
-        bool ICollection<IFrameVisibleCellView>.Remove(IFrameVisibleCellView item) { return Remove((IFocusVisibleCellView)item); }
+        void ICollection<IFrameVisibleCellView>.Add(IFrameVisibleCellView item) { Add((IFocusVisibleCellView)item); }
+        bool ICollection<IFrameVisibleCellView>.Contains(IFrameVisibleCellView value) { return Contains((IFocusVisibleCellView)value); }
         void ICollection<IFrameVisibleCellView>.CopyTo(IFrameVisibleCellView[] array, int index) { CopyTo((IFocusVisibleCellView[])array, index); }
         bool ICollection<IFrameVisibleCellView>.IsReadOnly { get { return ((ICollection<IFocusVisibleCellView>)this).IsReadOnly; } }
-        bool ICollection<IFrameVisibleCellView>.Contains(IFrameVisibleCellView value) { return Contains((IFocusVisibleCellView)value); }
-        int IList<IFrameVisibleCellView>.IndexOf(IFrameVisibleCellView value) { return IndexOf((IFocusVisibleCellView)value); }
-        IEnumerator<IFrameVisibleCellView> IFrameVisibleCellViewList.GetEnumerator() { return GetEnumerator(); }
+        bool ICollection<IFrameVisibleCellView>.Remove(IFrameVisibleCellView item) { return Remove((IFocusVisibleCellView)item); }
         IEnumerator<IFrameVisibleCellView> IEnumerable<IFrameVisibleCellView>.GetEnumerator() { return GetEnumerator(); }
+        IFrameVisibleCellView IReadOnlyList<IFrameVisibleCellView>.this[int index] { get { return this[index]; } }
         #endregion
 
         #region Debugging

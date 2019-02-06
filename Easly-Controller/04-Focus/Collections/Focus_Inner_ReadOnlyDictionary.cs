@@ -15,10 +15,10 @@ namespace EaslyController.Focus
     /// <typeparam name="TKey">Type of the key.</typeparam>
     public interface IFocusInnerReadOnlyDictionary<TKey> : IFrameInnerReadOnlyDictionary<TKey>, IReadOnlyDictionary<TKey, IFocusInner>
     {
-        new int Count { get; }
         new IFocusInner this[TKey key] { get; }
-        new IEnumerator<KeyValuePair<TKey, IFocusInner>> GetEnumerator();
+        new int Count { get; }
         new bool ContainsKey(TKey key);
+        new IEnumerator<KeyValuePair<TKey, IFocusInner>> GetEnumerator();
     }
 
     /// <summary>
@@ -35,6 +35,14 @@ namespace EaslyController.Focus
         #region ReadOnly
         IReadOnlyInner IReadOnlyDictionary<TKey, IReadOnlyInner>.this[TKey key] { get { return this[key]; } }
         IEnumerable<TKey> IReadOnlyDictionary<TKey, IReadOnlyInner>.Keys { get { return Keys; } }
+
+        bool IReadOnlyDictionary<TKey, IReadOnlyInner>.TryGetValue(TKey key, out IReadOnlyInner value)
+        {
+            bool Result = TryGetValue(key, out IFocusInner Value);
+            value = Value;
+            return Result;
+        }
+
         IEnumerable<IReadOnlyInner> IReadOnlyDictionary<TKey, IReadOnlyInner>.Values { get { return Values; } }
 
         IEnumerator<KeyValuePair<TKey, IReadOnlyInner>> IEnumerable<KeyValuePair<TKey, IReadOnlyInner>>.GetEnumerator()
@@ -45,20 +53,10 @@ namespace EaslyController.Focus
 
             return NewList.GetEnumerator();
         }
-
-        bool IReadOnlyDictionary<TKey, IReadOnlyInner>.TryGetValue(TKey key, out IReadOnlyInner value)
-        {
-            bool Result = TryGetValue(key, out IFocusInner Value);
-            value = Value;
-            return Result;
-        }
         #endregion
 
         #region Writeable
         IWriteableInner IWriteableInnerReadOnlyDictionary<TKey>.this[TKey key] { get { return this[key]; } }
-        IWriteableInner IReadOnlyDictionary<TKey, IWriteableInner>.this[TKey key] { get { return this[key]; } }
-        IEnumerable<TKey> IReadOnlyDictionary<TKey, IWriteableInner>.Keys { get { return Keys; } }
-        IEnumerable<IWriteableInner> IReadOnlyDictionary<TKey, IWriteableInner>.Values { get { return Values; } }
 
         IEnumerator<KeyValuePair<TKey, IWriteableInner>> IWriteableInnerReadOnlyDictionary<TKey>.GetEnumerator()
         {
@@ -69,7 +67,8 @@ namespace EaslyController.Focus
             return NewList.GetEnumerator();
         }
 
-        IEnumerator<KeyValuePair<TKey, IWriteableInner>> IEnumerable<KeyValuePair<TKey, IWriteableInner>>.GetEnumerator() { return ((IWriteableInnerReadOnlyDictionary<TKey>)this).GetEnumerator(); }
+        IWriteableInner IReadOnlyDictionary<TKey, IWriteableInner>.this[TKey key] { get { return this[key]; } }
+        IEnumerable<TKey> IReadOnlyDictionary<TKey, IWriteableInner>.Keys { get { return Keys; } }
 
         bool IReadOnlyDictionary<TKey, IWriteableInner>.TryGetValue(TKey key, out IWriteableInner value)
         {
@@ -77,13 +76,21 @@ namespace EaslyController.Focus
             value = Value;
             return Result;
         }
+
+        IEnumerable<IWriteableInner> IReadOnlyDictionary<TKey, IWriteableInner>.Values { get { return Values; } }
+
+        IEnumerator<KeyValuePair<TKey, IWriteableInner>> IEnumerable<KeyValuePair<TKey, IWriteableInner>>.GetEnumerator()
+        {
+            List<KeyValuePair<TKey, IWriteableInner>> NewList = new List<KeyValuePair<TKey, IWriteableInner>>();
+            foreach (KeyValuePair<TKey, IFocusInner> Entry in Dictionary)
+                NewList.Add(new KeyValuePair<TKey, IWriteableInner>(Entry.Key, Entry.Value));
+
+            return NewList.GetEnumerator();
+        }
         #endregion
 
         #region Frame
         IFrameInner IFrameInnerReadOnlyDictionary<TKey>.this[TKey key] { get { return this[key]; } }
-        IFrameInner IReadOnlyDictionary<TKey, IFrameInner>.this[TKey key] { get { return this[key]; } }
-        IEnumerable<TKey> IReadOnlyDictionary<TKey, IFrameInner>.Keys { get { return Keys; } }
-        IEnumerable<IFrameInner> IReadOnlyDictionary<TKey, IFrameInner>.Values { get { return Values; } }
 
         IEnumerator<KeyValuePair<TKey, IFrameInner>> IFrameInnerReadOnlyDictionary<TKey>.GetEnumerator()
         {
@@ -94,13 +101,25 @@ namespace EaslyController.Focus
             return NewList.GetEnumerator();
         }
 
-        IEnumerator<KeyValuePair<TKey, IFrameInner>> IEnumerable<KeyValuePair<TKey, IFrameInner>>.GetEnumerator() { return ((IFrameInnerReadOnlyDictionary<TKey>)this).GetEnumerator(); }
+        IFrameInner IReadOnlyDictionary<TKey, IFrameInner>.this[TKey key] { get { return this[key]; } }
+        IEnumerable<TKey> IReadOnlyDictionary<TKey, IFrameInner>.Keys { get { return Keys; } }
 
         bool IReadOnlyDictionary<TKey, IFrameInner>.TryGetValue(TKey key, out IFrameInner value)
         {
             bool Result = TryGetValue(key, out IFocusInner Value);
             value = Value;
             return Result;
+        }
+
+        IEnumerable<IFrameInner> IReadOnlyDictionary<TKey, IFrameInner>.Values { get { return Values; } }
+
+        IEnumerator<KeyValuePair<TKey, IFrameInner>> IEnumerable<KeyValuePair<TKey, IFrameInner>>.GetEnumerator()
+        {
+            List<KeyValuePair<TKey, IFrameInner>> NewList = new List<KeyValuePair<TKey, IFrameInner>>();
+            foreach (KeyValuePair<TKey, IFocusInner> Entry in Dictionary)
+                NewList.Add(new KeyValuePair<TKey, IFrameInner>(Entry.Key, Entry.Value));
+
+            return NewList.GetEnumerator();
         }
         #endregion
 

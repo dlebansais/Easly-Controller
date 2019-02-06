@@ -11,8 +11,8 @@ namespace EaslyController.Focus
     /// </summary>
     public interface IFocusFrameList : IFrameFrameList, IList<IFocusFrame>, IReadOnlyList<IFocusFrame>
     {
-        new int Count { get; }
         new IFocusFrame this[int index] { get; set; }
+        new int Count { get; }
         new IEnumerator<IFocusFrame> GetEnumerator();
     }
 
@@ -23,17 +23,17 @@ namespace EaslyController.Focus
     {
         #region Frame
         IFrameFrame IFrameFrameList.this[int index] { get { return this[index]; } set { this[index] = (IFocusFrame)value; } }
+        IEnumerator<IFrameFrame> IFrameFrameList.GetEnumerator() { return GetEnumerator(); }
         IFrameFrame IList<IFrameFrame>.this[int index] { get { return this[index]; } set { this[index] = (IFocusFrame)value; } }
-        IFrameFrame IReadOnlyList<IFrameFrame>.this[int index] { get { return this[index]; } }
-        void ICollection<IFrameFrame>.Add(IFrameFrame item) { Add((IFocusFrame)item); }
+        int IList<IFrameFrame>.IndexOf(IFrameFrame value) { return IndexOf((IFocusFrame)value); }
         void IList<IFrameFrame>.Insert(int index, IFrameFrame item) { Insert(index, (IFocusFrame)item); }
-        bool ICollection<IFrameFrame>.Remove(IFrameFrame item) { return Remove((IFocusFrame)item); }
+        void ICollection<IFrameFrame>.Add(IFrameFrame item) { Add((IFocusFrame)item); }
+        bool ICollection<IFrameFrame>.Contains(IFrameFrame value) { return Contains((IFocusFrame)value); }
         void ICollection<IFrameFrame>.CopyTo(IFrameFrame[] array, int index) { CopyTo((IFocusFrame[])array, index); }
         bool ICollection<IFrameFrame>.IsReadOnly { get { return ((ICollection<IFocusFrame>)this).IsReadOnly; } }
-        bool ICollection<IFrameFrame>.Contains(IFrameFrame value) { return Contains((IFocusFrame)value); }
-        int IList<IFrameFrame>.IndexOf(IFrameFrame value) { return IndexOf((IFocusFrame)value); }
-        IEnumerator<IFrameFrame> IFrameFrameList.GetEnumerator() { return GetEnumerator(); }
+        bool ICollection<IFrameFrame>.Remove(IFrameFrame item) { return Remove((IFocusFrame)item); }
         IEnumerator<IFrameFrame> IEnumerable<IFrameFrame>.GetEnumerator() { return GetEnumerator(); }
+        IFrameFrame IReadOnlyList<IFrameFrame>.this[int index] { get { return this[index]; } }
         #endregion
     }
 }

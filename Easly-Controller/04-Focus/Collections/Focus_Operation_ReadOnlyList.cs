@@ -12,11 +12,11 @@ namespace EaslyController.Focus
     /// </summary>
     public interface IFocusOperationReadOnlyList : IFrameOperationReadOnlyList, IReadOnlyList<IFocusOperation>
     {
-        new int Count { get; }
         new IFocusOperation this[int index] { get; }
+        new int Count { get; }
         bool Contains(IFocusOperation value);
-        int IndexOf(IFocusOperation value);
         new IEnumerator<IFocusOperation> GetEnumerator();
+        int IndexOf(IFocusOperation value);
     }
 
     /// <summary>
@@ -30,19 +30,19 @@ namespace EaslyController.Focus
         }
 
         #region Writeable
-        IWriteableOperation IReadOnlyList<IWriteableOperation>.this[int index] { get { return this[index]; } }
         bool IWriteableOperationReadOnlyList.Contains(IWriteableOperation value) { return Contains((IFocusOperation)value); }
         int IWriteableOperationReadOnlyList.IndexOf(IWriteableOperation value) { return IndexOf((IFocusOperation)value); }
         IEnumerator<IWriteableOperation> IEnumerable<IWriteableOperation>.GetEnumerator() { return GetEnumerator(); }
+        IWriteableOperation IReadOnlyList<IWriteableOperation>.this[int index] { get { return this[index]; } }
         #endregion
 
         #region Frame
         IFrameOperation IFrameOperationReadOnlyList.this[int index] { get { return this[index]; } }
-        IFrameOperation IReadOnlyList<IFrameOperation>.this[int index] { get { return this[index]; } }
+        IEnumerator<IFrameOperation> IFrameOperationReadOnlyList.GetEnumerator() { return GetEnumerator(); }
         bool IFrameOperationReadOnlyList.Contains(IFrameOperation value) { return Contains((IFocusOperation)value); }
         int IFrameOperationReadOnlyList.IndexOf(IFrameOperation value) { return IndexOf((IFocusOperation)value); }
-        IEnumerator<IFrameOperation> IFrameOperationReadOnlyList.GetEnumerator() { return GetEnumerator(); }
         IEnumerator<IFrameOperation> IEnumerable<IFrameOperation>.GetEnumerator() { return GetEnumerator(); }
+        IFrameOperation IReadOnlyList<IFrameOperation>.this[int index] { get { return this[index]; } }
         #endregion
     }
 }

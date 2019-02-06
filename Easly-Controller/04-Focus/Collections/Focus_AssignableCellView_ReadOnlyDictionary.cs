@@ -13,10 +13,10 @@ namespace EaslyController.Focus
     /// <typeparam name="TKey">Type of the key.</typeparam>
     public interface IFocusAssignableCellViewReadOnlyDictionary<TKey> : IFrameAssignableCellViewReadOnlyDictionary<TKey>, IReadOnlyDictionary<TKey, IFocusAssignableCellView>, IEqualComparable
     {
-        new int Count { get; }
         new IFocusAssignableCellView this[TKey key] { get; }
-        new IEnumerator<KeyValuePair<TKey, IFocusAssignableCellView>> GetEnumerator();
+        new int Count { get; }
         new bool ContainsKey(TKey key);
+        new IEnumerator<KeyValuePair<TKey, IFocusAssignableCellView>> GetEnumerator();
     }
 
     /// <summary>
@@ -33,6 +33,14 @@ namespace EaslyController.Focus
         #region Frame
         IFrameAssignableCellView IReadOnlyDictionary<TKey, IFrameAssignableCellView>.this[TKey key] { get { return this[key]; } }
         IEnumerable<TKey> IReadOnlyDictionary<TKey, IFrameAssignableCellView>.Keys { get { return Keys; } }
+
+        bool IReadOnlyDictionary<TKey, IFrameAssignableCellView>.TryGetValue(TKey key, out IFrameAssignableCellView value)
+        {
+            bool Result = TryGetValue(key, out IFocusAssignableCellView Value);
+            value = Value;
+            return Result;
+        }
+
         IEnumerable<IFrameAssignableCellView> IReadOnlyDictionary<TKey, IFrameAssignableCellView>.Values { get { return Values; } }
 
         IEnumerator<KeyValuePair<TKey, IFrameAssignableCellView>> IEnumerable<KeyValuePair<TKey, IFrameAssignableCellView>>.GetEnumerator()
@@ -42,13 +50,6 @@ namespace EaslyController.Focus
                 NewList.Add(new KeyValuePair<TKey, IFrameAssignableCellView>(Entry.Key, Entry.Value));
 
             return NewList.GetEnumerator();
-        }
-
-        bool IReadOnlyDictionary<TKey, IFrameAssignableCellView>.TryGetValue(TKey key, out IFrameAssignableCellView value)
-        {
-            bool Result = TryGetValue(key, out IFocusAssignableCellView Value);
-            value = Value;
-            return Result;
         }
         #endregion
 

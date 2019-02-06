@@ -12,11 +12,11 @@ namespace EaslyController.Frame
     /// </summary>
     internal interface IFrameIndexCollectionReadOnlyList : IWriteableIndexCollectionReadOnlyList, IReadOnlyList<IFrameIndexCollection>
     {
-        new int Count { get; }
         new IFrameIndexCollection this[int index] { get; }
+        new int Count { get; }
         bool Contains(IFrameIndexCollection value);
-        int IndexOf(IFrameIndexCollection value);
         new IEnumerator<IFrameIndexCollection> GetEnumerator();
+        int IndexOf(IFrameIndexCollection value);
     }
 
     /// <summary>
@@ -30,19 +30,19 @@ namespace EaslyController.Frame
         }
 
         #region ReadOnly
-        IReadOnlyIndexCollection IReadOnlyList<IReadOnlyIndexCollection>.this[int index] { get { return this[index]; } }
         bool IReadOnlyIndexCollectionReadOnlyList.Contains(IReadOnlyIndexCollection value) { return Contains((IFrameIndexCollection)value); }
         int IReadOnlyIndexCollectionReadOnlyList.IndexOf(IReadOnlyIndexCollection value) { return IndexOf((IFrameIndexCollection)value); }
         IEnumerator<IReadOnlyIndexCollection> IEnumerable<IReadOnlyIndexCollection>.GetEnumerator() { return GetEnumerator(); }
+        IReadOnlyIndexCollection IReadOnlyList<IReadOnlyIndexCollection>.this[int index] { get { return this[index]; } }
         #endregion
 
         #region Writeable
         IWriteableIndexCollection IWriteableIndexCollectionReadOnlyList.this[int index] { get { return this[index]; } }
-        IWriteableIndexCollection IReadOnlyList<IWriteableIndexCollection>.this[int index] { get { return this[index]; } }
         bool IWriteableIndexCollectionReadOnlyList.Contains(IWriteableIndexCollection value) { return Contains((IFrameIndexCollection)value); }
-        int IWriteableIndexCollectionReadOnlyList.IndexOf(IWriteableIndexCollection value) { return IndexOf((IFrameIndexCollection)value); }
         IEnumerator<IWriteableIndexCollection> IWriteableIndexCollectionReadOnlyList.GetEnumerator() { return GetEnumerator(); }
+        int IWriteableIndexCollectionReadOnlyList.IndexOf(IWriteableIndexCollection value) { return IndexOf((IFrameIndexCollection)value); }
         IEnumerator<IWriteableIndexCollection> IEnumerable<IWriteableIndexCollection>.GetEnumerator() { return GetEnumerator(); }
+        IWriteableIndexCollection IReadOnlyList<IWriteableIndexCollection>.this[int index] { get { return this[index]; } }
         #endregion
     }
 }
