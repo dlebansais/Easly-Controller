@@ -45,5 +45,4 @@ ignore:
   - Easly-Controller/03-Frame/Inner/Frame_Inner.cs
   - Easly-Controller/03-Frame/State/Frame_NodeState.cs
   - Easly-Controller/03-Frame/StateView/Frame_NodeStateView.cs
-  - Easly-Controller/04-Focus
   - Easly-Controller/Controller/TypeMarkupExtension.cs
