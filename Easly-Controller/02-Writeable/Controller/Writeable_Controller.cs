@@ -302,6 +302,7 @@
         private protected WriteableController()
         {
             _OperationStack = CreateOperationGroupStack();
+            DebugObjects.AddReference(_OperationStack);
             OperationStack = _OperationStack.ToReadOnly();
             RedoIndex = 0;
         }
@@ -1874,6 +1875,8 @@
 
             if (OperationList.Count > 0)
             {
+                DebugObjects.AddReference(OperationList);
+
                 Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => RedoRefresh(operation);
                 Action<IWriteableOperation> HandlerUndo = (IWriteableOperation operation) => throw new NotImplementedException(); // Undo is not possible.
                 IWriteableGenericRefreshOperation RefreshOperation = CreateGenericRefreshOperation(RootState, HandlerRedo, HandlerUndo, isNested: false);
