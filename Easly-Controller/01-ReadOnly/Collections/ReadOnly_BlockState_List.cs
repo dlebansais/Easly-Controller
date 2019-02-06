@@ -10,8 +10,8 @@ namespace EaslyController.ReadOnly
     /// </summary>
     public interface IReadOnlyBlockStateList : IList<IReadOnlyBlockState>, IReadOnlyList<IReadOnlyBlockState>
     {
-        new int Count { get; }
         new IReadOnlyBlockState this[int index] { get; set; }
+        new int Count { get; }
         IReadOnlyBlockStateReadOnlyList ToReadOnly();
     }
 

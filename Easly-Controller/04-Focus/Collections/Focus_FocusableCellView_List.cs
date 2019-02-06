@@ -10,8 +10,8 @@ namespace EaslyController.Focus
     /// </summary>
     public interface IFocusFocusableCellViewList : IList<IFocusFocusableCellView>, IReadOnlyList<IFocusFocusableCellView>
     {
-        new int Count { get; }
         new IFocusFocusableCellView this[int index] { get; set; }
+        new int Count { get; }
     }
 
     /// <summary>

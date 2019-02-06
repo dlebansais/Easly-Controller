@@ -10,9 +10,8 @@ namespace EaslyController.Focus
     /// </summary>
     public interface IFocusInsertionChildNodeIndexList : IList<IFocusInsertionChildNodeIndex>, IReadOnlyList<IFocusInsertionChildNodeIndex>
     {
-        new int Count { get; }
         new IFocusInsertionChildNodeIndex this[int index] { get; set; }
-        new IEnumerator<IFocusInsertionChildNodeIndex> GetEnumerator();
+        new int Count { get; }
     }
 
     /// <summary>

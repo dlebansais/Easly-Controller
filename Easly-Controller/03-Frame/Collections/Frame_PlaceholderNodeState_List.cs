@@ -12,8 +12,8 @@ namespace EaslyController.Frame
     /// </summary>
     public interface IFramePlaceholderNodeStateList : IWriteablePlaceholderNodeStateList, IList<IFramePlaceholderNodeState>, IReadOnlyList<IFramePlaceholderNodeState>
     {
-        new int Count { get; }
         new IFramePlaceholderNodeState this[int index] { get; set; }
+        new int Count { get; }
         new IEnumerator<IFramePlaceholderNodeState> GetEnumerator();
     }
 

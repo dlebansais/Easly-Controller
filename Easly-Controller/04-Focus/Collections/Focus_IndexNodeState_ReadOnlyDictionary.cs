@@ -14,8 +14,9 @@ namespace EaslyController.Focus
     public interface IFocusIndexNodeStateReadOnlyDictionary : IFrameIndexNodeStateReadOnlyDictionary, IReadOnlyDictionary<IFocusIndex, IFocusNodeState>
     {
         new IFocusNodeState this[IFocusIndex key] { get; }
-        new IEnumerator<KeyValuePair<IFocusIndex, IFocusNodeState>> GetEnumerator();
+        new int Count { get; }
         new bool ContainsKey(IFocusIndex key);
+        new IEnumerator<KeyValuePair<IFocusIndex, IFocusNodeState>> GetEnumerator();
     }
 
     /// <summary>

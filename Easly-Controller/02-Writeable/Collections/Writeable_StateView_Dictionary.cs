@@ -2,7 +2,6 @@
 
 namespace EaslyController.Writeable
 {
-    using System;
     using System.Collections.Generic;
     using System.Diagnostics;
     using EaslyController.ReadOnly;

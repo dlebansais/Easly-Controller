@@ -10,8 +10,8 @@ namespace EaslyController.ReadOnly
     /// </summary>
     public interface IReadOnlyBrowsingListNodeIndexList : IList<IReadOnlyBrowsingListNodeIndex>, IReadOnlyList<IReadOnlyBrowsingListNodeIndex>
     {
-        new int Count { get; }
         new IReadOnlyBrowsingListNodeIndex this[int index] { get; set; }
+        new int Count { get; }
     }
 
     /// <summary>

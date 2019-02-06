@@ -10,8 +10,8 @@ namespace EaslyController.Focus
     /// </summary>
     public interface IFocusSelectableFrameList : IList<IFocusSelectableFrame>, IReadOnlyList<IFocusSelectableFrame>
     {
-        new int Count { get; }
         new IFocusSelectableFrame this[int index] { get; set; }
+        new int Count { get; }
     }
 
     /// <summary>

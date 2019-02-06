@@ -12,7 +12,6 @@ namespace EaslyController.Writeable
     {
         new IWriteableOperationGroup this[int index] { get; set; }
         new int Count { get; }
-        new IEnumerator<IWriteableOperationGroup> GetEnumerator();
         IWriteableOperationGroupReadOnlyList ToReadOnly();
     }
 

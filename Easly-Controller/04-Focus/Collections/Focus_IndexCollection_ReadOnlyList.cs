@@ -13,8 +13,8 @@ namespace EaslyController.Focus
     /// </summary>
     internal interface IFocusIndexCollectionReadOnlyList : IFrameIndexCollectionReadOnlyList, IReadOnlyList<IFocusIndexCollection>
     {
-        new int Count { get; }
         new IFocusIndexCollection this[int index] { get; }
+        new int Count { get; }
         bool Contains(IFocusIndexCollection value);
         int IndexOf(IFocusIndexCollection value);
         new IEnumerator<IFocusIndexCollection> GetEnumerator();

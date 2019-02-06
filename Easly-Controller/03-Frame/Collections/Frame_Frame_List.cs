@@ -10,9 +10,8 @@ namespace EaslyController.Frame
     /// </summary>
     public interface IFrameFrameList : IList<IFrameFrame>, IReadOnlyList<IFrameFrame>
     {
-        new int Count { get; }
         new IFrameFrame this[int index] { get; set; }
-        new IEnumerator<IFrameFrame> GetEnumerator();
+        new int Count { get; }
     }
 
     /// <summary>

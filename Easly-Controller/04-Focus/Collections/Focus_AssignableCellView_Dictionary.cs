@@ -2,7 +2,6 @@
 
 namespace EaslyController.Focus
 {
-    using System;
     using System.Collections.Generic;
     using EaslyController.Frame;
 

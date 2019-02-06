@@ -24,7 +24,6 @@ namespace EaslyController.Focus
     {
         #region Writeable
         IWriteableOperationGroup IWriteableOperationGroupList.this[int index] { get { return this[index]; } set { this[index] = (IFocusOperationGroup)value; } }
-        IEnumerator<IWriteableOperationGroup> IWriteableOperationGroupList.GetEnumerator() { return GetEnumerator(); }
         IWriteableOperationGroup IList<IWriteableOperationGroup>.this[int index] { get { return this[index]; } set { this[index] = (IFocusOperationGroup)value; } }
         int IList<IWriteableOperationGroup>.IndexOf(IWriteableOperationGroup value) { return IndexOf((IFocusOperationGroup)value); }
         void IList<IWriteableOperationGroup>.Insert(int index, IWriteableOperationGroup item) { Insert(index, (IFocusOperationGroup)item); }

@@ -11,9 +11,8 @@ namespace EaslyController.Frame
     /// </summary>
     public interface IFrameCellViewList : IList<IFrameCellView>, IReadOnlyList<IFrameCellView>, IEqualComparable
     {
-        new int Count { get; }
         new IFrameCellView this[int index] { get; set; }
-        new IEnumerator<IFrameCellView> GetEnumerator();
+        new int Count { get; }
         IFrameCellViewReadOnlyList ToReadOnly();
     }
 

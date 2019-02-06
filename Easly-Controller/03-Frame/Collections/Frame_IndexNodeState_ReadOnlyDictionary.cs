@@ -13,8 +13,9 @@ namespace EaslyController.Frame
     public interface IFrameIndexNodeStateReadOnlyDictionary : IWriteableIndexNodeStateReadOnlyDictionary, IReadOnlyDictionary<IFrameIndex, IFrameNodeState>
     {
         new IFrameNodeState this[IFrameIndex key] { get; }
-        new IEnumerator<KeyValuePair<IFrameIndex, IFrameNodeState>> GetEnumerator();
+        new int Count { get; }
         new bool ContainsKey(IFrameIndex key);
+        new IEnumerator<KeyValuePair<IFrameIndex, IFrameNodeState>> GetEnumerator();
     }
 
     /// <summary>

@@ -23,7 +23,6 @@ namespace EaslyController.Focus
     {
         #region Frame
         IFrameKeywordFrame IFrameKeywordFrameList.this[int index] { get { return this[index]; } set { this[index] = (IFocusKeywordFrame)value; } }
-        IEnumerator<IFrameKeywordFrame> IFrameKeywordFrameList.GetEnumerator() { return GetEnumerator(); }
         IFrameKeywordFrame IList<IFrameKeywordFrame>.this[int index] { get { return this[index]; } set { this[index] = (IFocusKeywordFrame)value; } }
         int IList<IFrameKeywordFrame>.IndexOf(IFrameKeywordFrame value) { return IndexOf((IFocusKeywordFrame)value); }
         void IList<IFrameKeywordFrame>.Insert(int index, IFrameKeywordFrame item) { Insert(index, (IFocusKeywordFrame)item); }

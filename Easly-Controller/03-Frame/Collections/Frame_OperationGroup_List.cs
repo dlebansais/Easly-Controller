@@ -23,7 +23,6 @@ namespace EaslyController.Frame
     {
         #region Writeable
         IWriteableOperationGroup IWriteableOperationGroupList.this[int index] { get { return this[index]; } set { this[index] = (IFrameOperationGroup)value; } }
-        IEnumerator<IWriteableOperationGroup> IWriteableOperationGroupList.GetEnumerator() { return GetEnumerator(); }
         IWriteableOperationGroup IList<IWriteableOperationGroup>.this[int index] { get { return this[index]; } set { this[index] = (IFrameOperationGroup)value; } }
         int IList<IWriteableOperationGroup>.IndexOf(IWriteableOperationGroup value) { return IndexOf((IFrameOperationGroup)value); }
         void IList<IWriteableOperationGroup>.Insert(int index, IWriteableOperationGroup item) { Insert(index, (IFrameOperationGroup)item); }

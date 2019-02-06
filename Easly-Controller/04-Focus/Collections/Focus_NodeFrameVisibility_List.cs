@@ -10,9 +10,8 @@ namespace EaslyController.Focus
     /// </summary>
     public interface IFocusNodeFrameVisibilityList : IList<IFocusNodeFrameVisibility>, IReadOnlyList<IFocusNodeFrameVisibility>
     {
-        new int Count { get; }
         new IFocusNodeFrameVisibility this[int index] { get; set; }
-        new IEnumerator<IFocusNodeFrameVisibility> GetEnumerator();
+        new int Count { get; }
     }
 
     /// <summary>

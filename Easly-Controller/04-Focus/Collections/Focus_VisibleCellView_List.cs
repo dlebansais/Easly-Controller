@@ -24,7 +24,6 @@ namespace EaslyController.Focus
     {
         #region Frame
         IFrameVisibleCellView IFrameVisibleCellViewList.this[int index] { get { return this[index]; } set { this[index] = (IFocusVisibleCellView)value; } }
-        IEnumerator<IFrameVisibleCellView> IFrameVisibleCellViewList.GetEnumerator() { return GetEnumerator(); }
         IFrameVisibleCellView IList<IFrameVisibleCellView>.this[int index] { get { return this[index]; } set { this[index] = (IFocusVisibleCellView)value; } }
         int IList<IFrameVisibleCellView>.IndexOf(IFrameVisibleCellView value) { return IndexOf((IFocusVisibleCellView)value); }
         void IList<IFrameVisibleCellView>.Insert(int index, IFrameVisibleCellView item) { Insert(index, (IFocusVisibleCellView)item); }
