@@ -263,6 +263,6 @@
             return true;
         }
 
-        private Dictionary<IEqualComparable, bool> ComparedObjectList = new Dictionary<IEqualComparable, bool>();
+        private IDictionary<IEqualComparable, bool> ComparedObjectList = new Dictionary<IEqualComparable, bool>();
     }
 }

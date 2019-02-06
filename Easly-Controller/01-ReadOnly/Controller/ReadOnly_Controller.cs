@@ -744,7 +744,7 @@
                 OtherTable.Add(Entry.Key);
 
             CompareEqual MatchComparer = CompareEqual.New(true);
-            Dictionary<IReadOnlyIndex, IReadOnlyIndex> MatchTable = new Dictionary<IReadOnlyIndex, IReadOnlyIndex>();
+            IDictionary<IReadOnlyIndex, IReadOnlyIndex> MatchTable = new Dictionary<IReadOnlyIndex, IReadOnlyIndex>();
             foreach (KeyValuePair<IReadOnlyIndex, IReadOnlyNodeState> Entry in StateTable)
             {
                 MatchComparer.Reset();
