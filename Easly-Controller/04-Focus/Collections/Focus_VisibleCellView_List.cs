@@ -4,13 +4,12 @@ namespace EaslyController.Focus
 {
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
-    using System.Diagnostics;
     using EaslyController.Frame;
 
     /// <summary>
     /// List of IxxxVisibleCellView
     /// </summary>
-    public interface IFocusVisibleCellViewList : IFrameVisibleCellViewList, IList<IFocusVisibleCellView>, IReadOnlyList<IFocusVisibleCellView>, IEqualComparable
+    public interface IFocusVisibleCellViewList : IFrameVisibleCellViewList, IList<IFocusVisibleCellView>, IReadOnlyList<IFocusVisibleCellView>
     {
         new IFocusVisibleCellView this[int index] { get; set; }
         new int Count { get; }
@@ -34,30 +33,6 @@ namespace EaslyController.Focus
         bool ICollection<IFrameVisibleCellView>.Remove(IFrameVisibleCellView item) { return Remove((IFocusVisibleCellView)item); }
         IEnumerator<IFrameVisibleCellView> IEnumerable<IFrameVisibleCellView>.GetEnumerator() { return GetEnumerator(); }
         IFrameVisibleCellView IReadOnlyList<IFrameVisibleCellView>.this[int index] { get { return this[index]; } }
-        #endregion
-
-        #region Debugging
-        /// <summary>
-        /// Compares two <see cref="IFocusVisibleCellViewList"/> objects.
-        /// </summary>
-        /// <param name="comparer">The comparison support object.</param>
-        /// <param name="other">The other object.</param>
-        public virtual bool IsEqual(CompareEqual comparer, IEqualComparable other)
-        {
-            Debug.Assert(other != null);
-
-            if (!comparer.IsSameType(other, out FocusVisibleCellViewList AsVisibleCellViewList))
-                return comparer.Failed();
-
-            if (!comparer.IsSameCount(Count, AsVisibleCellViewList.Count))
-                return comparer.Failed();
-
-            for (int i = 0; i < Count; i++)
-                if (!comparer.VerifyEqual(this[i], AsVisibleCellViewList[i]))
-                    return comparer.Failed();
-
-            return true;
-        }
         #endregion
     }
 }
