@@ -13,7 +13,6 @@ namespace EaslyController.Frame
     {
         new IFrameCellView this[int index] { get; set; }
         new int Count { get; }
-        IFrameCellViewReadOnlyList ToReadOnly();
     }
 
     /// <summary>
@@ -21,11 +20,6 @@ namespace EaslyController.Frame
     /// </summary>
     internal class FrameCellViewList : Collection<IFrameCellView>, IFrameCellViewList
     {
-        public virtual IFrameCellViewReadOnlyList ToReadOnly()
-        {
-            return new FrameCellViewReadOnlyList(this);
-        }
-
         #region Debugging
         /// <summary>
         /// Compares two <see cref="IFrameCellViewList"/> objects.

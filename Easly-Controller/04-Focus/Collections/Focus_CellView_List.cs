@@ -36,11 +36,6 @@ namespace EaslyController.Focus
         IFrameCellView IReadOnlyList<IFrameCellView>.this[int index] { get { return this[index]; } }
         #endregion
 
-        public virtual IFrameCellViewReadOnlyList ToReadOnly()
-        {
-            return new FocusCellViewReadOnlyList(this);
-        }
-
         #region Debugging
         /// <summary>
         /// Compares two <see cref="IFocusCellViewList"/> objects.

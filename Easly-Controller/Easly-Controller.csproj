@@ -247,7 +247,6 @@
     <Compile Include="03-Frame\Collections\Frame_Template_Dictionary.cs" />
     <Compile Include="03-Frame\Collections\Frame_Frame_List.cs" />
     <Compile Include="03-Frame\Collections\Frame_CellView_List.cs" />
-    <Compile Include="03-Frame\Collections\Frame_CellView_ReadOnlyList.cs" />
     <Compile Include="03-Frame\Collections\Frame_AssignableCellView_Dictionary.cs" />
     <Compile Include="03-Frame\Collections\Frame_AssignableCellView_ReadOnlyDictionary.cs" />
     <Compile Include="03-Frame\Collections\Frame_Operation_List.cs" />
@@ -381,7 +380,6 @@
     <Compile Include="04-Focus\Collections\Focus_VisibleCellView_List.cs" />
     <Compile Include="04-Focus\Collections\Focus_CellView_List.cs" />
     <Compile Include="04-Focus\Collections\Focus_AssignableCellView_ReadOnlyDictionary.cs" />
-    <Compile Include="04-Focus\Collections\Focus_CellView_ReadOnlyList.cs" />
     <Compile Include="04-Focus\Collections\Focus_Frame_List.cs" />
     <Compile Include="04-Focus\Collections\Focus_IndexCollection_List.cs" />
     <Compile Include="04-Focus\Collections\Focus_IndexCollection_ReadOnlyList.cs" />
