@@ -23,7 +23,7 @@ namespace EaslyController.Writeable
     {
         #region ReadOnly
         IReadOnlyInner IDictionary<TKey, IReadOnlyInner>.this[TKey key] { get { return this[key]; } set { this[key] = (IWriteableInner)value; } }
-        void IDictionary<TKey, IReadOnlyInner>.Add(TKey key, IReadOnlyInner value) { Add((TKey)key, (IWriteableInner)value); }
+        void IDictionary<TKey, IReadOnlyInner>.Add(TKey key, IReadOnlyInner value) { Add(key, (IWriteableInner)value); }
         ICollection<TKey> IDictionary<TKey, IReadOnlyInner>.Keys { get { return Keys; } }
 
         bool IDictionary<TKey, IReadOnlyInner>.TryGetValue(TKey key, out IReadOnlyInner value)

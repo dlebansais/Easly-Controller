@@ -23,7 +23,7 @@ namespace EaslyController.Focus
     {
         #region Frame
         IFrameAssignableCellView IDictionary<TKey, IFrameAssignableCellView>.this[TKey key] { get { return this[key]; } set { this[key] = (IFocusAssignableCellView)value; } }
-        void IDictionary<TKey, IFrameAssignableCellView>.Add(TKey key, IFrameAssignableCellView value) { Add((TKey)key, (IFocusAssignableCellView)value); }
+        void IDictionary<TKey, IFrameAssignableCellView>.Add(TKey key, IFrameAssignableCellView value) { Add(key, (IFocusAssignableCellView)value); }
         ICollection<TKey> IDictionary<TKey, IFrameAssignableCellView>.Keys { get { return Keys; } }
 
         bool IDictionary<TKey, IFrameAssignableCellView>.TryGetValue(TKey key, out IFrameAssignableCellView value)

@@ -25,7 +25,7 @@ namespace EaslyController.Focus
     {
         #region ReadOnly
         IReadOnlyInner IDictionary<TKey, IReadOnlyInner>.this[TKey key] { get { return this[key]; } set { this[key] = (IFocusInner)value; } }
-        void IDictionary<TKey, IReadOnlyInner>.Add(TKey key, IReadOnlyInner value) { Add((TKey)key, (IFocusInner)value); }
+        void IDictionary<TKey, IReadOnlyInner>.Add(TKey key, IReadOnlyInner value) { Add(key, (IFocusInner)value); }
         ICollection<TKey> IDictionary<TKey, IReadOnlyInner>.Keys { get { return Keys; } }
 
         bool IDictionary<TKey, IReadOnlyInner>.TryGetValue(TKey key, out IReadOnlyInner value)
@@ -77,7 +77,7 @@ namespace EaslyController.Focus
         }
 
         IWriteableInner IDictionary<TKey, IWriteableInner>.this[TKey key] { get { return this[key]; } set { this[key] = (IFocusInner)value; } }
-        void IDictionary<TKey, IWriteableInner>.Add(TKey key, IWriteableInner value) { Add((TKey)key, (IFocusInner)value); }
+        void IDictionary<TKey, IWriteableInner>.Add(TKey key, IWriteableInner value) { Add(key, (IFocusInner)value); }
         ICollection<TKey> IDictionary<TKey, IWriteableInner>.Keys { get { return Keys; } }
 
         bool IDictionary<TKey, IWriteableInner>.TryGetValue(TKey key, out IWriteableInner value)
@@ -129,7 +129,7 @@ namespace EaslyController.Focus
         }
 
         IFrameInner IDictionary<TKey, IFrameInner>.this[TKey key] { get { return this[key]; } set { this[key] = (IFocusInner)value; } }
-        void IDictionary<TKey, IFrameInner>.Add(TKey key, IFrameInner value) { Add((TKey)key, (IFocusInner)value); }
+        void IDictionary<TKey, IFrameInner>.Add(TKey key, IFrameInner value) { Add(key, (IFocusInner)value); }
         ICollection<TKey> IDictionary<TKey, IFrameInner>.Keys { get { return Keys; } }
 
         bool IDictionary<TKey, IFrameInner>.TryGetValue(TKey key, out IFrameInner value)
