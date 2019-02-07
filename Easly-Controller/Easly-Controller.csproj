@@ -371,6 +371,7 @@
     <Compile Include="04-Focus\Collections\Focus_BrowsingBlockNodeIndex_List.cs" />
     <Compile Include="04-Focus\Collections\Focus_BrowsingListNodeIndex_List.cs" />
     <Compile Include="04-Focus\Collections\Focus_AssignableCellView_Dictionary.cs" />
+    <Compile Include="04-Focus\Collections\Focus_CycleManager_List.cs" />
     <Compile Include="04-Focus\Collections\Focus_FrameSelector_List.cs" />
     <Compile Include="04-Focus\Collections\Focus_FocusableCellView_List.cs" />
     <Compile Include="04-Focus\Collections\Focus_InsertionChildNodeIndex_List.cs" />
@@ -424,6 +425,9 @@
     <Compile Include="04-Focus\Controller\Operations\Focus_ChangeNode_Operation.cs" />
     <Compile Include="04-Focus\Controller\Operations\Focus_ChangeBlock_Operation.cs" />
     <Compile Include="04-Focus\Controller\Operations\Focus_OperationGroup.cs" />
+    <Compile Include="04-Focus\Cycle\Focus_CycleManagerFeature.cs" />
+    <Compile Include="04-Focus\Cycle\Focus_CycleManagerBody.cs" />
+    <Compile Include="04-Focus\Cycle\Focus_CycleManager.cs" />
     <Compile Include="04-Focus\FrameVisibility\Focus_BlockFrameVisibility.cs" />
     <Compile Include="04-Focus\FrameVisibility\Focus_OptionalFrameVisibility.cs" />
     <Compile Include="04-Focus\FrameVisibility\Focus_MixedFrameVisibility.cs" />
@@ -507,6 +511,7 @@
     <Compile Include="04-Focus\StateView\Focus_SourceStateView.cs" />
     <Compile Include="04-Focus\StateView\Focus_ReplaceableStateView.cs" />
     <Compile Include="04-Focus\State\Focus_BlockState.cs" />
+    <Compile Include="04-Focus\State\Focus_CyclableNodeState.cs" />
     <Compile Include="04-Focus\State\Focus_NodeState.cs" />
     <Compile Include="04-Focus\State\Focus_OptionalNodeState.cs" />
     <Compile Include="04-Focus\State\Focus_PatternState.cs" />

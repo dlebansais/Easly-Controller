@@ -215,7 +215,7 @@ namespace EditorDebug
         {
             if (ControllerView == null)
                 return;
-            if (!ControllerView.IsItemCyclableThrough(out IFocusNodeState state, out int cyclePosition))
+            if (!ControllerView.IsItemCyclableThrough(out IFocusCyclableNodeState state, out int cyclePosition))
                 return;
 
             cyclePosition = (cyclePosition + 1) % state.CycleIndexList.Count;

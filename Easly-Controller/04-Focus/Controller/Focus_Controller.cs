@@ -1,6 +1,7 @@
 ﻿namespace EaslyController.Focus
 {
     using System;
+    using System.Collections.Generic;
     using System.Diagnostics;
     using BaseNode;
     using EaslyController.Frame;
@@ -36,11 +37,17 @@
         new IFocusOperationGroupReadOnlyList OperationStack { get; }
 
         /// <summary>
-        /// Adds a new node to the list of nodes that can replace the current one. Does nothing if all types of nodes have been added.
-        /// Applies only to bodies and features.
+        /// List of supported cycle managers.
         /// </summary>
-        /// <param name="state">Node that can be replaced.</param>
-        void AddNodeToCycle(IFocusNodeState state);
+        IFocusCycleManagerList CycleManagerList { get; }
+
+        /// <summary>
+        /// Checks whether a node is member of a supported cycle.
+        /// </summary>
+        /// <param name="state">State corresponding to the node to check.</param>
+        /// <param name="cycleManager">The cycle manager for this node type upon return. Null if none.</param>
+        /// <returns>True if a cycle manager exists for the node.</returns>
+        bool IsMemberOfCycle(IFocusNodeState state, out IFocusCycleManager cycleManager);
 
         /// <summary>
         /// Replace an existing node with a new one, keeping its cycle.
@@ -70,6 +77,7 @@
         {
             FocusController Controller = new FocusController();
             Controller.SetRoot(nodeIndex);
+            Controller.SetCycleManagerList();
             Controller.SetInitialized();
 
             return Controller;
@@ -103,19 +111,31 @@
         /// List of operations that have been performed, and can be undone or redone.
         /// </summary>
         public new IFocusOperationGroupReadOnlyList OperationStack { get { return (IFocusOperationGroupReadOnlyList)base.OperationStack; } }
+
+        /// <summary>
+        /// List of supported cycle managers.
+        /// </summary>
+        public IFocusCycleManagerList CycleManagerList { get; private set; }
         #endregion
 
         #region Client Interface
         /// <summary>
-        /// Adds a new node to the list of nodes that can replace the current one. Does nothing if all types of nodes have been added.
-        /// Applies only to bodies and features.
+        /// Checks whether a node is member of a supported cycle.
         /// </summary>
-        /// <param name="state">Node that can be replaced.</param>
-        public virtual void AddNodeToCycle(IFocusNodeState state)
+        /// <param name="state">State corresponding to the node to check.</param>
+        /// <param name="cycleManager">The cycle manager for this node type upon return. Null if none.</param>
+        /// <returns>True if a cycle manager exists for the node.</returns>
+        public virtual bool IsMemberOfCycle(IFocusNodeState state, out IFocusCycleManager cycleManager)
         {
-            Debug.Assert(state != null);
+            cycleManager = null;
 
-            state.AddNodeToCycle();
+            List<Type> Interfaces = new List<Type>(state.Node.GetType().GetInterfaces());
+
+            foreach (IFocusCycleManager Item in CycleManagerList)
+                if (Interfaces.Contains(Item.InterfaceType))
+                    cycleManager = Item;
+
+            return cycleManager != null;
         }
 
         /// <summary>
@@ -184,7 +204,9 @@
 
             ReplaceState(ReplaceWithCycleOperation, Inner);
 
-            IFocusNodeState NewState = StateTable[ReplaceWithCycleOperation.NewBrowsingIndex];
+            IFocusCyclableNodeState NewState = StateTable[ReplaceWithCycleOperation.NewBrowsingIndex] as IFocusCyclableNodeState;
+            Debug.Assert(NewState != null);
+
             NewState.RestoreCycleIndexList(ReplaceWithCycleOperation.CycleIndexList);
 
             NotifyStateReplaced(ReplaceWithCycleOperation);
@@ -202,7 +224,9 @@
 
             ReplaceState(ReplaceWithCycleOperation, Inner);
 
-            IFocusNodeState NewState = StateTable[ReplaceWithCycleOperation.NewBrowsingIndex];
+            IFocusCyclableNodeState NewState = StateTable[ReplaceWithCycleOperation.NewBrowsingIndex] as IFocusCyclableNodeState;
+            Debug.Assert(NewState != null);
+
             NewState.RestoreCycleIndexList(ReplaceWithCycleOperation.CycleIndexList);
 
             NotifyStateReplaced(ReplaceWithCycleOperation);
@@ -210,6 +234,16 @@
         #endregion
 
         #region Implementation
+        /// <summary></summary>
+        private protected virtual void SetCycleManagerList()
+        {
+            Debug.Assert(!IsInitialized); // Must be called during initialization
+
+            CycleManagerList = CreateCycleManagerList();
+            CycleManagerList.Add(CreateCycleManagerBody());
+            CycleManagerList.Add(CreateCycleManagerFeature());
+        }
+
         /// <summary></summary>
         private protected override void CheckContextConsistency(IReadOnlyBrowseContext browseContext)
         {
@@ -495,6 +529,33 @@
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusController));
             return new FocusReplaceWithCycleOperation(parentNode, propertyName, blockIndex, index, cycleIndexList, cyclePosition, handlerRedo, handlerUndo, isNested);
+        }
+
+        /// <summary>
+        /// Creates a IxxxCycleManagerList object.
+        /// </summary>
+        private protected virtual IFocusCycleManagerList CreateCycleManagerList()
+        {
+            ControllerTools.AssertNoOverride(this, typeof(FocusController));
+            return new FocusCycleManagerList();
+        }
+
+        /// <summary>
+        /// Creates a IxxxCycleManagerBody object.
+        /// </summary>
+        private protected virtual IFocusCycleManagerBody CreateCycleManagerBody()
+        {
+            ControllerTools.AssertNoOverride(this, typeof(FocusController));
+            return new FocusCycleManagerBody();
+        }
+
+        /// <summary>
+        /// Creates a IxxxCycleManagerFeature object.
+        /// </summary>
+        private protected virtual IFocusCycleManagerFeature CreateCycleManagerFeature()
+        {
+            ControllerTools.AssertNoOverride(this, typeof(FocusController));
+            return new FocusCycleManagerFeature();
         }
         #endregion
     }

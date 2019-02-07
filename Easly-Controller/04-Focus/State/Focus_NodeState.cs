@@ -29,29 +29,6 @@
         /// Table for all inners in this state.
         /// </summary>
         new IFocusInnerReadOnlyDictionary<string> InnerTable { get; }
-
-        /// <summary>
-        /// List of node indexes that can replace the current node. Can be null.
-        /// Applies only to bodies and features.
-        /// </summary>
-        IFocusInsertionChildNodeIndexList CycleIndexList { get; }
-
-        /// <summary>
-        /// Position of the current node in <see cref="CycleIndexList"/>.
-        /// </summary>
-        int CycleCurrentPosition { get; }
-
-        /// <summary>
-        /// Adds a new node to the list of nodes that can replace the current one. Does nothing if all types of nodes have been added.
-        /// Applies only to bodies and features.
-        /// </summary>
-        void AddNodeToCycle();
-
-        /// <summary>
-        /// Restores the cycle index list from which this state was created.
-        /// </summary>
-        /// <param name="cycleIndexList">The list to restore.</param>
-        void RestoreCycleIndexList(IFocusInsertionChildNodeIndexList cycleIndexList);
     }
 
     /// <summary>
@@ -78,8 +55,6 @@
         public FocusNodeState(IFocusIndex parentIndex)
             : base(parentIndex)
         {
-            CycleIndexList = null;
-            CycleCurrentPosition = -1;
         }
         #endregion
 
@@ -103,31 +78,6 @@
         /// Table for all inners in this state.
         /// </summary>
         public new IFocusInnerReadOnlyDictionary<string> InnerTable { get { return (IFocusInnerReadOnlyDictionary<string>)base.InnerTable; } }
-
-        /// <summary>
-        /// List of node indexes that can replace the current node. Can be null.
-        /// Applies only to bodies and features.
-        /// </summary>
-        public IFocusInsertionChildNodeIndexList CycleIndexList { get; }
-
-        /// <summary>
-        /// Position of the current node in <see cref="CycleIndexList"/>.
-        /// </summary>
-        public int CycleCurrentPosition { get; }
-        #endregion
-
-        #region Client Interface
-        /// <summary>
-        /// Adds a new node to the list of nodes that can replace the current one. Does nothing if all types of nodes have been added.
-        /// Applies only to bodies and features.
-        /// </summary>
-        public abstract void AddNodeToCycle();
-
-        /// <summary>
-        /// Restores the cycle index list from which this state was created.
-        /// </summary>
-        /// <param name="cycleIndexList">The list to restore.</param>
-        public abstract void RestoreCycleIndexList(IFocusInsertionChildNodeIndexList cycleIndexList);
         #endregion
 
         #region Create Methods

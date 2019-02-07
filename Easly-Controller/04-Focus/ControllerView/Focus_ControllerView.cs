@@ -201,7 +201,7 @@
         /// <param name="state">State that can be replaced the item upon return.</param>
         /// <param name="cyclePosition">Position of the current node in the cycle upon return.</param>
         /// <returns>True if an item can be cycled through at the focus.</returns>
-        bool IsItemCyclableThrough(out IFocusNodeState state, out int cyclePosition);
+        bool IsItemCyclableThrough(out IFocusCyclableNodeState state, out int cyclePosition);
 
         /// <summary>
         /// Checks if a node can be simplified.
@@ -918,7 +918,7 @@
         /// <param name="state">State that can be replaced the item upon return.</param>
         /// <param name="cyclePosition">Position of the current node in the cycle upon return.</param>
         /// <returns>True if an item can be cycled through at the focus.</returns>
-        public virtual bool IsItemCyclableThrough(out IFocusNodeState state, out int cyclePosition)
+        public virtual bool IsItemCyclableThrough(out IFocusCyclableNodeState state, out int cyclePosition)
         {
             state = null;
             cyclePosition = -1;
@@ -930,16 +930,16 @@
             // Search recursively for a collection parent.
             while (CurrentState != null)
             {
-                if ((CurrentState.Node is IBody) || (CurrentState.Node is IFeature))
+                if (CurrentState is IFocusCyclableNodeState AsCyclableNodeState && Controller.IsMemberOfCycle(AsCyclableNodeState, out IFocusCycleManager CycleManager))
                 {
-                    Controller.AddNodeToCycle(CurrentState);
+                    CycleManager.AddNodeToCycle(AsCyclableNodeState);
 
-                    IFocusInsertionChildNodeIndexList CycleIndexList = CurrentState.CycleIndexList;
+                    IFocusInsertionChildNodeIndexList CycleIndexList = AsCyclableNodeState.CycleIndexList;
                     Debug.Assert(CycleIndexList.Count >= 2);
-                    int CurrentPosition = CurrentState.CycleCurrentPosition;
+                    int CurrentPosition = AsCyclableNodeState.CycleCurrentPosition;
                     Debug.Assert(CurrentPosition >= 0 && CurrentPosition < CycleIndexList.Count);
 
-                    state = CurrentState;
+                    state = AsCyclableNodeState;
                     cyclePosition = CurrentPosition;
 
                     return true;
