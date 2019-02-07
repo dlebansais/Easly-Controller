@@ -648,8 +648,6 @@
             {
                 Type InsertType = AsInsertFrame.InsertType;
                 Debug.Assert(InsertType != null);
-                if (InsertType.FullName.Length == 0)
-                    return false;
 
                 INode NewItem = BuildNewInsertableItem(InsertType);
 
