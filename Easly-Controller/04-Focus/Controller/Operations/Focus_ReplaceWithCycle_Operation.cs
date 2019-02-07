@@ -92,7 +92,9 @@
                 }
             }
 
-            Debug.Assert(i < CycleIndexList.Count);
+            Debug.Assert(NewCyclePosition < CycleIndexList.Count);
+            Debug.Assert(OldCyclePosition < CycleIndexList.Count);
+            Debug.Assert(OldCyclePosition != NewCyclePosition);
         }
 
         /// <summary>
@@ -110,7 +112,7 @@
         /// </summary>
         private protected virtual IFocusReplaceWithCycleOperation CreateReplaceWithCycleOperation(int blockIndex, int index, IFocusInsertionChildNodeIndexList cycleIndexList, int cyclePosition, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
         {
-            ControllerTools.AssertNoOverride(this, typeof(WriteableReplaceOperation));
+            ControllerTools.AssertNoOverride(this, typeof(FocusReplaceWithCycleOperation));
             return new FocusReplaceWithCycleOperation(ParentNode, PropertyName, blockIndex, index, cycleIndexList, cyclePosition, handlerRedo, handlerUndo, isNested);
         }
         #endregion

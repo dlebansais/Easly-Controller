@@ -7,7 +7,7 @@
     /// <summary>
     /// State of a source identifier node.
     /// </summary>
-    public interface IWriteableSourceState : IReadOnlySourceState, IWriteablePlaceholderNodeState
+    public interface IWriteableSourceState : IReadOnlySourceState, IWriteableNodeState
     {
         /// <summary>
         /// The parent block state.
@@ -59,7 +59,6 @@
         /// </summary>
         public new IWriteableBrowsingSourceIndex ParentIndex { get { return (IWriteableBrowsingSourceIndex)base.ParentIndex; } }
         IWriteableIndex IWriteableNodeState.ParentIndex { get { return ParentIndex; } }
-        IWriteableNodeIndex IWriteablePlaceholderNodeState.ParentIndex { get { return ParentIndex; } }
 
         /// <summary>
         /// Inner containing this state.

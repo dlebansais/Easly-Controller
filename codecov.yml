@@ -48,7 +48,7 @@ ignore:
   - Easly-Controller/04-Focus/CellView/Collection/Focus_CellCollection.cs
   - Easly-Controller/04-Focus/CellView/Single/Focus_ContentFocusableCellView.cs
   - Easly-Controller/04-Focus/CellView/Focus_CellView.cs
-  - Easly-Controller/04-Focus/Controller/Operations/Frame_Operation.cs
-  - Easly-Controller/04-Focus/Controller/Operations/Frame_Insert_Operation.cs
-  - Easly-Controller/04-Focus/Controller/Operations/Frame_Remove_Operation.cs
+  - Easly-Controller/04-Focus/Controller/Operations/Focus_Operation.cs
+  - Easly-Controller/04-Focus/Controller/Operations/Focus_Insert_Operation.cs
+  - Easly-Controller/04-Focus/Controller/Operations/Focus_Remove_Operation.cs
   - Easly-Controller/Controller/TypeMarkupExtension.cs

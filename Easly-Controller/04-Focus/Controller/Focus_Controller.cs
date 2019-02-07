@@ -153,33 +153,7 @@
 
             IFocusInsertionChildNodeIndex ReplacementIndex = cycleIndexList[cyclePosition];
 
-            int BlockIndex = -1;
-            int Index = -1;
-            bool IsHandled = false;
-
-            switch (ReplacementIndex)
-            {
-                case IWriteableInsertionPlaceholderNodeIndex AsPlaceholderNodeIndex:
-                    IsHandled = true;
-                    break;
-
-                case IWriteableInsertionOptionalNodeIndex AsOptionalNodeIndex: // ClearIndex not acceptable for a cyclic replacement
-                    IsHandled = true;
-                    break;
-
-                case IWriteableInsertionListNodeIndex AsListNodeIndex:
-                    Index = AsListNodeIndex.Index;
-                    IsHandled = true;
-                    break;
-
-                case IWriteableInsertionExistingBlockNodeIndex AsExistingBlockNodeIndex:
-                    BlockIndex = AsExistingBlockNodeIndex.BlockIndex;
-                    Index = AsExistingBlockNodeIndex.Index;
-                    IsHandled = true;
-                    break;
-            }
-
-            Debug.Assert(IsHandled);
+            IndexToPositionAndNode(ReplacementIndex, out int BlockIndex, out int Index, out INode Node);
 
             Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => ExecuteReplaceWithCycle(operation);
             Action<IWriteableOperation> HandlerUndo = (IWriteableOperation operation) => UndoReplaceWithCycle(operation);

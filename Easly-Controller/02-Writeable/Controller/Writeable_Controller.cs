@@ -664,29 +664,7 @@
         /// <summary></summary>
         private protected virtual void InsertNewNode(IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> inner, IWriteableInsertionCollectionNodeIndex insertedIndex, out IWriteableBrowsingCollectionNodeIndex nodeIndex)
         {
-            int BlockIndex = -1;
-            int Index = -1;
-            INode Node = null;
-
-            bool IsHandled = false;
-
-            switch (insertedIndex)
-            {
-                case IWriteableInsertionListNodeIndex AsListNodeIndex:
-                    Index = AsListNodeIndex.Index;
-                    Node = AsListNodeIndex.Node;
-                    IsHandled = true;
-                    break;
-
-                case IWriteableInsertionExistingBlockNodeIndex AsExistingBlockNodeIndex:
-                    BlockIndex = AsExistingBlockNodeIndex.BlockIndex;
-                    Index = AsExistingBlockNodeIndex.Index;
-                    Node = AsExistingBlockNodeIndex.Node;
-                    IsHandled = true;
-                    break;
-            }
-
-            Debug.Assert(IsHandled);
+            IndexToPositionAndNode(insertedIndex, out int BlockIndex, out int Index, out INode Node);
 
             Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => RedoInsertNewNode(operation);
             Action<IWriteableOperation> HandlerUndo = (IWriteableOperation operation) => UndoInsertNewNode(operation);
@@ -787,30 +765,9 @@
             Debug.Assert(InnerTable.ContainsKey(inner.PropertyName));
             Debug.Assert(InnerTable[inner.PropertyName] == inner);
 
-            int BlockIndex = -1;
-            int Index = -1;
-            INode Node = null;
+            IndexToPositionAndNode(nodeIndex, out int BlockIndex, out int Index, out INode Node);
+
             bool IsHandled = false;
-
-            switch (nodeIndex)
-            {
-                case IWriteableBrowsingListNodeIndex AsListNodeIndex:
-                    Index = AsListNodeIndex.Index;
-                    Node = AsListNodeIndex.Node;
-                    IsHandled = true;
-                    break;
-
-                case IWriteableBrowsingExistingBlockNodeIndex AsExistingBlockNodeIndex:
-                    BlockIndex = AsExistingBlockNodeIndex.BlockIndex;
-                    Index = AsExistingBlockNodeIndex.Index;
-                    Node = AsExistingBlockNodeIndex.Node;
-                    IsHandled = true;
-                    break;
-            }
-
-            Debug.Assert(IsHandled);
-
-            IsHandled = false;
 
             if (inner is IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> AsBlockListInner && nodeIndex is IWriteableBrowsingExistingBlockNodeIndex ExistingBlockIndex)
             {
@@ -957,42 +914,7 @@
             Debug.Assert(InnerTable.ContainsKey(inner.PropertyName));
             Debug.Assert(InnerTable[inner.PropertyName] == inner);
 
-            int BlockIndex = -1;
-            int Index = -1;
-            INode NewNode = null;
-            bool IsHandled = false;
-
-            switch (replacementIndex)
-            {
-                case IWriteableInsertionPlaceholderNodeIndex AsPlaceholderNodeIndex:
-                    NewNode = AsPlaceholderNodeIndex.Node;
-                    IsHandled = true;
-                    break;
-
-                case IWriteableInsertionOptionalNodeIndex AsOptionalNodeIndex:
-                    NewNode = AsOptionalNodeIndex.Node;
-                    IsHandled = true;
-                    break;
-
-                case IWriteableInsertionOptionalClearIndex AsOptionalClearIndex:
-                    IsHandled = true;
-                    break;
-
-                case IWriteableInsertionListNodeIndex AsListNodeIndex:
-                    Index = AsListNodeIndex.Index;
-                    NewNode = AsListNodeIndex.Node;
-                    IsHandled = true;
-                    break;
-
-                case IWriteableInsertionExistingBlockNodeIndex AsExistingBlockNodeIndex:
-                    BlockIndex = AsExistingBlockNodeIndex.BlockIndex;
-                    Index = AsExistingBlockNodeIndex.Index;
-                    NewNode = AsExistingBlockNodeIndex.Node;
-                    IsHandled = true;
-                    break;
-            }
-
-            Debug.Assert(IsHandled);
+            IndexToPositionAndNode(replacementIndex, out int BlockIndex, out int Index, out INode NewNode);
 
             Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => RedoReplace(operation);
             Action<IWriteableOperation> HandlerUndo = (IWriteableOperation operation) => UndoReplace(operation);
@@ -1519,25 +1441,7 @@
             IWriteableNodeState State = StateTable[nodeIndex];
             Debug.Assert(State != null);
 
-            int BlockIndex = -1;
-            int Index = -1;
-            bool IsHandled = false;
-
-            switch (nodeIndex)
-            {
-                case IWriteableBrowsingListNodeIndex AsListNodeIndex:
-                    Index = AsListNodeIndex.Index;
-                    IsHandled = true;
-                    break;
-
-                case IWriteableBrowsingExistingBlockNodeIndex AsExistingBlockNodeIndex:
-                    BlockIndex = AsExistingBlockNodeIndex.BlockIndex;
-                    Index = AsExistingBlockNodeIndex.Index;
-                    IsHandled = true;
-                    break;
-            }
-
-            Debug.Assert(IsHandled);
+            IndexToPositionAndNode(nodeIndex, out int BlockIndex, out int Index, out INode Node);
 
             Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => RedoMove(operation);
             Action<IWriteableOperation> HandlerUndo = (IWriteableOperation operation) => UndoMove(operation);
@@ -1979,6 +1883,60 @@
             RedoIndex++;
 
             CheckInvariant();
+        }
+
+        /// <summary></summary>
+        private protected virtual void IndexToPositionAndNode(IWriteableIndex nodeIndex, out int blockIndex, out int index, out INode node)
+        {
+            blockIndex = -1;
+            index = -1;
+            node = null;
+            bool IsHandled = false;
+
+            switch (nodeIndex)
+            {
+                case IWriteableInsertionPlaceholderNodeIndex AsPlaceholderNodeIndex:
+                    node = AsPlaceholderNodeIndex.Node;
+                    IsHandled = true;
+                    break;
+
+                case IWriteableInsertionOptionalNodeIndex AsOptionalNodeIndex:
+                    node = AsOptionalNodeIndex.Node;
+                    IsHandled = true;
+                    break;
+
+                case IWriteableInsertionOptionalClearIndex AsOptionalClearIndex:
+                    IsHandled = true;
+                    break;
+
+                case IWriteableInsertionListNodeIndex AsListNodeIndex:
+                    index = AsListNodeIndex.Index;
+                    node = AsListNodeIndex.Node;
+                    IsHandled = true;
+                    break;
+
+                case IWriteableInsertionExistingBlockNodeIndex AsExistingBlockNodeIndex:
+                    blockIndex = AsExistingBlockNodeIndex.BlockIndex;
+                    index = AsExistingBlockNodeIndex.Index;
+                    node = AsExistingBlockNodeIndex.Node;
+                    IsHandled = true;
+                    break;
+
+                case IWriteableBrowsingListNodeIndex AsListNodeIndex:
+                    index = AsListNodeIndex.Index;
+                    node = AsListNodeIndex.Node;
+                    IsHandled = true;
+                    break;
+
+                case IWriteableBrowsingExistingBlockNodeIndex AsExistingBlockNodeIndex:
+                    blockIndex = AsExistingBlockNodeIndex.BlockIndex;
+                    index = AsExistingBlockNodeIndex.Index;
+                    node = AsExistingBlockNodeIndex.Node;
+                    IsHandled = true;
+                    break;
+            }
+
+            Debug.Assert(IsHandled);
         }
         #endregion
 

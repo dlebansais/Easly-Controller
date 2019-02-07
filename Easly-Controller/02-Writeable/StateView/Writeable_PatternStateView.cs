@@ -6,7 +6,7 @@
     /// <summary>
     /// View of a pattern state.
     /// </summary>
-    public interface IWriteablePatternStateView : IReadOnlyPatternStateView, IWriteablePlaceholderNodeStateView
+    public interface IWriteablePatternStateView : IReadOnlyPatternStateView, IWriteableNodeStateView
     {
         /// <summary>
         /// The pattern state.
@@ -42,7 +42,6 @@
         /// </summary>
         public new IWriteablePatternState State { get { return (IWriteablePatternState)base.State; } }
         IWriteableNodeState IWriteableNodeStateView.State { get { return State; } }
-        IWriteablePlaceholderNodeState IWriteablePlaceholderNodeStateView.State { get { return State; } }
         #endregion
 
         #region Debugging

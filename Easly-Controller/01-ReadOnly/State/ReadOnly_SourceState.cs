@@ -6,7 +6,7 @@
     /// <summary>
     /// State of a source identifier node.
     /// </summary>
-    public interface IReadOnlySourceState : IReadOnlyPlaceholderNodeState
+    public interface IReadOnlySourceState : IReadOnlyNodeState
     {
         /// <summary>
         /// The source identifier  node.

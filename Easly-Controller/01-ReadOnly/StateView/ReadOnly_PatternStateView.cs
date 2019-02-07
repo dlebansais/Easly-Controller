@@ -5,7 +5,7 @@
     /// <summary>
     /// View of a pattern state.
     /// </summary>
-    public interface IReadOnlyPatternStateView : IReadOnlyPlaceholderNodeStateView
+    public interface IReadOnlyPatternStateView : IReadOnlyNodeStateView
     {
         /// <summary>
         /// The pattern state.
@@ -16,7 +16,7 @@
     /// <summary>
     /// View of a pattern state.
     /// </summary>
-    internal class ReadOnlyPatternStateView : ReadOnlyPlaceholderNodeStateView, IReadOnlyPatternStateView
+    internal class ReadOnlyPatternStateView : ReadOnlyNodeStateView, IReadOnlyPatternStateView
     {
         #region Init
         /// <summary>

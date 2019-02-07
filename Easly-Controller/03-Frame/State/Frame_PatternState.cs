@@ -8,7 +8,7 @@
     /// <summary>
     /// State of an replication pattern node.
     /// </summary>
-    public interface IFramePatternState : IWriteablePatternState, IFramePlaceholderNodeState
+    public interface IFramePatternState : IWriteablePatternState, IFrameNodeState
     {
         /// <summary>
         /// The parent block state.
@@ -60,7 +60,6 @@
         /// </summary>
         public new IFrameBrowsingPatternIndex ParentIndex { get { return (IFrameBrowsingPatternIndex)base.ParentIndex; } }
         IFrameIndex IFrameNodeState.ParentIndex { get { return ParentIndex; } }
-        IFrameNodeIndex IFramePlaceholderNodeState.ParentIndex { get { return ParentIndex; } }
 
         /// <summary>
         /// Inner containing this state.

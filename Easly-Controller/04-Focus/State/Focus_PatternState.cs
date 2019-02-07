@@ -12,7 +12,7 @@
     /// <summary>
     /// State of an replication pattern node.
     /// </summary>
-    public interface IFocusPatternState : IFramePatternState, IFocusPlaceholderNodeState
+    public interface IFocusPatternState : IFramePatternState, IFocusNodeState
     {
         /// <summary>
         /// The parent block state.
@@ -50,8 +50,6 @@
         public FocusPatternState(IFocusBlockState parentBlockState, IFocusBrowsingPatternIndex index)
             : base(parentBlockState, index)
         {
-            CycleIndexList = null;
-            CycleCurrentPosition = -1;
         }
         #endregion
 
@@ -66,7 +64,6 @@
         /// </summary>
         public new IFocusBrowsingPatternIndex ParentIndex { get { return (IFocusBrowsingPatternIndex)base.ParentIndex; } }
         IFocusIndex IFocusNodeState.ParentIndex { get { return ParentIndex; } }
-        IFocusNodeIndex IFocusPlaceholderNodeState.ParentIndex { get { return ParentIndex; } }
 
         /// <summary>
         /// Inner containing this state.
@@ -82,45 +79,6 @@
         /// Table for all inners in this state.
         /// </summary>
         public new IFocusInnerReadOnlyDictionary<string> InnerTable { get { return (IFocusInnerReadOnlyDictionary<string>)base.InnerTable; } }
-
-        /// <summary>
-        /// List of node indexes that can replace the current node. Can be null.
-        /// Applies only to bodies and features.
-        /// </summary>
-        public IFocusInsertionChildNodeIndexList CycleIndexList { get; private set; }
-
-        /// <summary>
-        /// Position of the current node in <see cref="CycleIndexList"/>.
-        /// </summary>
-        public int CycleCurrentPosition { get; private set; }
-        #endregion
-
-        #region Client Interface
-        /// <summary>
-        /// Initializes the cycle index list if not already initialized.
-        /// </summary>
-        public virtual void InitializeCycleIndexList()
-        {
-        }
-
-        /// <summary>
-        /// Updates the position of the node in the cycle.
-        /// </summary>
-        public virtual void UpdateCyclePosition()
-        {
-        }
-
-        /// <summary>
-        /// Restores the cycle index list from which this state was created.
-        /// </summary>
-        /// <param name="cycleIndexList">The list to restore.</param>
-        public virtual void RestoreCycleIndexList(IFocusInsertionChildNodeIndexList cycleIndexList)
-        {
-            Debug.Assert(cycleIndexList != null && cycleIndexList.Count >= 2);
-            Debug.Assert(CycleIndexList == null);
-
-            CycleIndexList = cycleIndexList;
-        }
         #endregion
 
         #region Create Methods

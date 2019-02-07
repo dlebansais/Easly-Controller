@@ -5,7 +5,7 @@
     /// <summary>
     /// View of a source state.
     /// </summary>
-    public interface IReadOnlySourceStateView : IReadOnlyPlaceholderNodeStateView
+    public interface IReadOnlySourceStateView : IReadOnlyNodeStateView
     {
         /// <summary>
         /// The source state.
@@ -16,7 +16,7 @@
     /// <summary>
     /// View of a source state.
     /// </summary>
-    internal class ReadOnlySourceStateView : ReadOnlyPlaceholderNodeStateView, IReadOnlySourceStateView
+    internal class ReadOnlySourceStateView : ReadOnlyNodeStateView, IReadOnlySourceStateView
     {
         #region Init
         /// <summary>

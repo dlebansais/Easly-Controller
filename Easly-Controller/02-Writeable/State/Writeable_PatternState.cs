@@ -7,7 +7,7 @@
     /// <summary>
     /// State of an replication pattern node.
     /// </summary>
-    public interface IWriteablePatternState : IReadOnlyPatternState, IWriteablePlaceholderNodeState
+    public interface IWriteablePatternState : IReadOnlyPatternState, IWriteableNodeState
     {
         /// <summary>
         /// The parent block state.
@@ -59,7 +59,6 @@
         /// </summary>
         public new IWriteableBrowsingPatternIndex ParentIndex { get { return (IWriteableBrowsingPatternIndex)base.ParentIndex; } }
         IWriteableIndex IWriteableNodeState.ParentIndex { get { return ParentIndex; } }
-        IWriteableNodeIndex IWriteablePlaceholderNodeState.ParentIndex { get { return ParentIndex; } }
 
         /// <summary>
         /// Inner containing this state.

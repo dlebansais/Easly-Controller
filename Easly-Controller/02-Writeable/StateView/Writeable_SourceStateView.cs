@@ -6,7 +6,7 @@
     /// <summary>
     /// View of a source state.
     /// </summary>
-    public interface IWriteableSourceStateView : IReadOnlySourceStateView, IWriteablePlaceholderNodeStateView
+    public interface IWriteableSourceStateView : IReadOnlySourceStateView, IWriteableNodeStateView
     {
         /// <summary>
         /// The pattern state.
@@ -42,7 +42,6 @@
         /// </summary>
         public new IWriteableSourceState State { get { return (IWriteableSourceState)base.State; } }
         IWriteableNodeState IWriteableNodeStateView.State { get { return State; } }
-        IWriteablePlaceholderNodeState IWriteablePlaceholderNodeStateView.State { get { return State; } }
         #endregion
 
         #region Debugging

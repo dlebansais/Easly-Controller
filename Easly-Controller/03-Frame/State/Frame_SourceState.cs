@@ -8,7 +8,7 @@
     /// <summary>
     /// State of a source identifier node.
     /// </summary>
-    public interface IFrameSourceState : IWriteableSourceState, IFramePlaceholderNodeState
+    public interface IFrameSourceState : IWriteableSourceState, IFrameNodeState
     {
         /// <summary>
         /// The parent block state.
@@ -60,7 +60,6 @@
         /// </summary>
         public new IFrameBrowsingSourceIndex ParentIndex { get { return (IFrameBrowsingSourceIndex)base.ParentIndex; } }
         IFrameIndex IFrameNodeState.ParentIndex { get { return ParentIndex; } }
-        IFrameNodeIndex IFramePlaceholderNodeState.ParentIndex { get { return ParentIndex; } }
 
         /// <summary>
         /// Inner containing this state.

@@ -6,7 +6,7 @@
     /// <summary>
     /// State of an replication pattern node.
     /// </summary>
-    public interface IReadOnlyPatternState : IReadOnlyPlaceholderNodeState
+    public interface IReadOnlyPatternState : IReadOnlyNodeState
     {
         /// <summary>
         /// The replication pattern node.
