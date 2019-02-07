@@ -53,13 +53,22 @@
 
             IsValid &= base.IsValid(nodeType, nodeTemplateTable);
             IsValid &= !string.IsNullOrEmpty(CollectionName);
-
-            UpdateInterfaceType(nodeType);
-
             IsValid &= InterfaceType != null;
 
             Debug.Assert(IsValid);
             return IsValid;
+        }
+
+        /// <summary>
+        /// Update the reference to the parent frame.
+        /// </summary>
+        /// <param name="parentTemplate">The parent template.</param>
+        /// <param name="parentFrame">The parent frame.</param>
+        public override void UpdateParent(IFrameTemplate parentTemplate, IFrameFrame parentFrame)
+        {
+            base.UpdateParent(parentTemplate, parentFrame);
+
+            UpdateInterfaceType(parentTemplate.NodeType);
         }
 
         /// <summary></summary>

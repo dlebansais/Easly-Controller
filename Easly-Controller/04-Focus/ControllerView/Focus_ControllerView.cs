@@ -646,7 +646,12 @@
 
             if (FocusedCellView.Frame is IFocusInsertFrame AsInsertFrame)
             {
-                INode NewItem = BuildNewInsertableItem(AsInsertFrame.InsertType);
+                Type InsertType = AsInsertFrame.InsertType;
+                Debug.Assert(InsertType != null);
+                if (InsertType.FullName.Length == 0)
+                    return false;
+
+                INode NewItem = BuildNewInsertableItem(InsertType);
 
                 IFocusCollectionInner CollectionInner = null;
                 AsInsertFrame.CollectionNameToInner(ref State, ref CollectionInner);
