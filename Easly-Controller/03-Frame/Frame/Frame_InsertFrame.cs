@@ -96,11 +96,20 @@
         }
         #endregion
 
+        #region Implementation
+        /// <summary></summary>
+        private protected override void ValidateVisibleCellView(IFrameCellViewTreeContext context, IFrameVisibleCellView cellView)
+        {
+            Debug.Assert(cellView.StateView == context.StateView);
+            Debug.Assert(cellView.Frame == this);
+        }
+        #endregion
+
         #region Create Methods
         /// <summary>
         /// Creates a IxxxFocusableCellView object.
         /// </summary>
-        private protected override IFrameVisibleCellView CreateFrameCellView(IFrameNodeStateView stateView)
+        private protected override IFrameVisibleCellView CreateVisibleCellView(IFrameNodeStateView stateView)
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameInsertFrame));
             return new FrameFocusableCellView(stateView, this);

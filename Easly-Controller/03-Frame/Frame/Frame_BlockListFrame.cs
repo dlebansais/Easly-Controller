@@ -52,6 +52,7 @@
             IFrameCellViewList CellViewList = CreateCellViewList();
 
             IFrameCellViewCollection EmbeddingCellView = CreateEmbeddingCellView(context.StateView, CellViewList);
+            ValidateEmbeddingCellView(context, EmbeddingCellView);
 
             Type BlockType = Inner.BlockType;
             IFrameTemplateSet TemplateSet = context.ControllerView.TemplateSet;
@@ -65,6 +66,7 @@
                 context.SetBlockStateView(BlockStateView);
                 BlockStateView.BuildRootCellView(context);
                 IFrameBlockCellView BlockCellView = CreateBlockCellView(context.StateView, EmbeddingCellView, BlockStateView);
+                ValidateBlockCellView(context.StateView, EmbeddingCellView, BlockCellView);
 
                 CellViewList.Add(BlockCellView);
             }
@@ -72,6 +74,19 @@
             AssignEmbeddingCellView(context.StateView, EmbeddingCellView);
 
             return EmbeddingCellView;
+        }
+
+        /// <summary></summary>
+        private protected virtual void ValidateEmbeddingCellView(IFrameCellViewTreeContext context, IFrameCellViewCollection embeddingCellView)
+        {
+            Debug.Assert(embeddingCellView.StateView == context.StateView);
+        }
+
+        /// <summary></summary>
+        private protected virtual void ValidateBlockCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, IFrameBlockCellView blockCellView)
+        {
+            Debug.Assert(blockCellView.StateView == stateView);
+            Debug.Assert(blockCellView.ParentCellView == parentCellView);
         }
 
         /// <summary></summary>

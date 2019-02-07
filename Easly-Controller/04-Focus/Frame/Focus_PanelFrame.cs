@@ -159,6 +159,14 @@
         }
         #endregion
 
+        #region Implementation
+        /// <summary></summary>
+        private protected override void ValidateEmbeddingCellView(IFrameCellViewTreeContext context, IFrameCellViewCollection embeddingCellView)
+        {
+            Debug.Assert(((IFocusCellViewCollection)embeddingCellView).StateView == ((IFocusCellViewTreeContext)context).StateView);
+        }
+        #endregion
+
         #region Create Methods
         /// <summary>
         /// Creates a IxxxFrameList object.

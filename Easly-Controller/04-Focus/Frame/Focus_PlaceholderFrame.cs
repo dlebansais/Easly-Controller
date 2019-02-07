@@ -136,6 +136,16 @@
         }
         #endregion
 
+        #region Implementation
+        /// <summary></summary>
+        private protected override void ValidateContainerCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, IFrameNodeStateView childStateView, IFrameContainerCellView containerCellView)
+        {
+            Debug.Assert(((IFocusContainerCellView)containerCellView).StateView == (IFocusNodeStateView)stateView);
+            Debug.Assert(((IFocusContainerCellView)containerCellView).ParentCellView == (IFocusCellViewCollection)parentCellView);
+            Debug.Assert(((IFocusContainerCellView)containerCellView).ChildStateView == (IFocusNodeStateView)childStateView);
+        }
+        #endregion
+
         #region Create Methods
         /// <summary>
         /// Creates a IxxxContainerCellView object.

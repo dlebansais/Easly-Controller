@@ -20,15 +20,20 @@
         /// <param name="parentCellView">The parent cell view.</param>
         public virtual IFrameCellView BuildNodeCells(IFrameCellViewTreeContext context, IFrameCellViewCollection parentCellView)
         {
-            return CreateFrameCellView(context.StateView);
+            IFrameVisibleCellView CellView = CreateVisibleCellView(context.StateView);
+            ValidateVisibleCellView(context, CellView);
+            return CellView;
         }
+
+        /// <summary></summary>
+        private protected abstract void ValidateVisibleCellView(IFrameCellViewTreeContext context, IFrameVisibleCellView cellView);
         #endregion
 
         #region Create Methods
         /// <summary>
         /// Creates a IxxxVisibleCellView object.
         /// </summary>
-        private protected abstract IFrameVisibleCellView CreateFrameCellView(IFrameNodeStateView stateView);
+        private protected abstract IFrameVisibleCellView CreateVisibleCellView(IFrameNodeStateView stateView);
         #endregion
     }
 }

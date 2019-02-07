@@ -53,7 +53,19 @@
         /// <param name="context">Context used to build the cell view tree.</param>
         public virtual IFrameCellView BuildBlockCells(IFrameCellViewTreeContext context)
         {
-            return CreateFrameCellView(context.StateView);
+            IFrameVisibleCellView CellView = CreateVisibleCellView(context.StateView);
+            ValidateVisibleCellView(context, CellView);
+
+            return CellView;
+        }
+        #endregion
+
+        #region Implementation
+        /// <summary></summary>
+        private protected override void ValidateVisibleCellView(IFrameCellViewTreeContext context, IFrameVisibleCellView cellView)
+        {
+            Debug.Assert(cellView.StateView == context.StateView);
+            Debug.Assert(cellView.Frame == this);
         }
         #endregion
 
@@ -61,7 +73,7 @@
         /// <summary>
         /// Creates a IxxxVisibleCellView object.
         /// </summary>
-        private protected override IFrameVisibleCellView CreateFrameCellView(IFrameNodeStateView stateView)
+        private protected override IFrameVisibleCellView CreateVisibleCellView(IFrameNodeStateView stateView)
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameKeywordFrame));
             return new FrameVisibleCellView(stateView, this);

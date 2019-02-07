@@ -63,9 +63,19 @@
             Debug.Assert(ChildStateView.RootCellView != null);
 
             IFrameContainerCellView EmbeddingCellView = CreateFrameCellView(context.StateView, parentCellView, ChildStateView);
+            ValidateContainerCellView(context.StateView, parentCellView, ChildStateView, EmbeddingCellView);
+
             AssignEmbeddingCellView(context.StateView, EmbeddingCellView);
 
             return EmbeddingCellView;
+        }
+
+        /// <summary></summary>
+        private protected virtual void ValidateContainerCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, IFrameNodeStateView childStateView, IFrameContainerCellView containerCellView)
+        {
+            Debug.Assert(containerCellView.StateView == stateView);
+            Debug.Assert(containerCellView.ParentCellView == parentCellView);
+            Debug.Assert(containerCellView.ChildStateView == childStateView);
         }
 
         /// <summary></summary>

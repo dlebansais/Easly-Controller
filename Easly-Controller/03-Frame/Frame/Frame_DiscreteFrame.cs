@@ -80,9 +80,17 @@
 
             IFrameKeywordFrame KeywordFrame = Items[Value];
             IFrameDiscreteContentFocusableCellView CellView = CreateDiscreteContentFocusableCellView(context.StateView, KeywordFrame);
-            Debug.Assert(CellView.KeywordFrame == KeywordFrame);
+            ValidateDiscreteContentFocusableCellView(context, KeywordFrame, CellView);
 
             return CellView;
+        }
+
+        /// <summary></summary>
+        private protected virtual void ValidateDiscreteContentFocusableCellView(IFrameCellViewTreeContext context, IFrameKeywordFrame keywordFrame, IFrameDiscreteContentFocusableCellView cellView)
+        {
+            Debug.Assert(cellView.StateView == context.StateView);
+            Debug.Assert(cellView.Frame == this);
+            Debug.Assert(cellView.KeywordFrame == keywordFrame);
         }
         #endregion
 

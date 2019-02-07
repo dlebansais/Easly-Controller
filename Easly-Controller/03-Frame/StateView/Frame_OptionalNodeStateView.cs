@@ -117,10 +117,21 @@
             if (NodeTemplate != null)
                 EmbeddingCellView = NodeTemplate.BuildNodeCells(context);
             else
-                EmbeddingCellView = CreateEmptyCellView(this);
+            {
+                IFrameEmptyCellView EmptyCellView = CreateEmptyCellView(this);
+                ValidateEmptyCellView(context, EmptyCellView);
+
+                EmbeddingCellView = EmptyCellView;
+            }
 
             SetRootCellView(EmbeddingCellView);
             SealCellViewTable();
+        }
+
+        /// <summary></summary>
+        private protected virtual void ValidateEmptyCellView(IFrameCellViewTreeContext context, IFrameEmptyCellView emptyCellView)
+        {
+            Debug.Assert(emptyCellView.StateView == context.StateView);
         }
 
         /// <summary></summary>

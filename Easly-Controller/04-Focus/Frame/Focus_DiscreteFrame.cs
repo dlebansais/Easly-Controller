@@ -83,7 +83,12 @@
             if (((IFocusCellViewTreeContext)context).IsVisible)
                 Result = base.BuildNodeCells(context, parentCellView) as IFocusCellView;
             else
-                Result = CreateEmptyCellView(((IFocusCellViewTreeContext)context).StateView);
+            {
+                IFocusEmptyCellView EmptyCellView = CreateEmptyCellView(((IFocusCellViewTreeContext)context).StateView);
+                ValidateEmptyCellView((IFocusCellViewTreeContext)context, EmptyCellView);
+
+                Result = EmptyCellView;
+            }
 
             ((IFocusCellViewTreeContext)context).RestoreFrameVisibility(OldFrameVisibility);
 
@@ -115,6 +120,22 @@
 
                 lastPreferredFrame = this;
             }
+        }
+        #endregion
+
+        #region Implementation
+        /// <summary></summary>
+        private protected override void ValidateDiscreteContentFocusableCellView(IFrameCellViewTreeContext context, IFrameKeywordFrame keywordFrame, IFrameDiscreteContentFocusableCellView cellView)
+        {
+            Debug.Assert(((IFocusDiscreteContentFocusableCellView)cellView).StateView == ((IFocusCellViewTreeContext)context).StateView);
+            Debug.Assert(((IFocusDiscreteContentFocusableCellView)cellView).Frame == this);
+            Debug.Assert(((IFocusDiscreteContentFocusableCellView)cellView).KeywordFrame == (IFocusKeywordFrame)keywordFrame);
+        }
+
+        /// <summary></summary>
+        private protected virtual void ValidateEmptyCellView(IFocusCellViewTreeContext context, IFocusEmptyCellView emptyCellView)
+        {
+            Debug.Assert(emptyCellView.StateView == context.StateView);
         }
         #endregion
 

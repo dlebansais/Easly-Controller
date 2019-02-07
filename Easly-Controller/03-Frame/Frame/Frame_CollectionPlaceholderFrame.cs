@@ -31,6 +31,7 @@
             IFrameStateViewDictionary StateViewTable = context.ControllerView.StateViewTable;
             IFrameCellViewList CellViewList = CreateCellViewList();
             IFrameCellViewCollection EmbeddingCellView = CreateEmbeddingCellView(context.StateView, CellViewList);
+            ValidateEmbeddingCellView(context, EmbeddingCellView);
 
             foreach (IFrameNodeState ChildState in BlockState.StateList)
             {
@@ -45,13 +46,29 @@
                 context.RestoreParentStateView(StateView);
                 Debug.Assert(ChildStateView.RootCellView != null);
 
-                IFrameCellView FrameCellView = CreateFrameCellView(context.StateView, EmbeddingCellView, ChildStateView);
+                IFrameContainerCellView FrameCellView = CreateFrameCellView(context.StateView, EmbeddingCellView, ChildStateView);
+                ValidateContainerCellView(context.StateView, EmbeddingCellView, ChildStateView, FrameCellView);
+
                 CellViewList.Add(FrameCellView);
             }
 
             AssignEmbeddingCellView(BlockStateView, EmbeddingCellView);
 
             return EmbeddingCellView;
+        }
+
+        /// <summary></summary>
+        private protected virtual void ValidateEmbeddingCellView(IFrameCellViewTreeContext context, IFrameCellViewCollection embeddingCellView)
+        {
+            Debug.Assert(embeddingCellView.StateView == context.StateView);
+        }
+
+        /// <summary></summary>
+        private protected virtual void ValidateContainerCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, IFrameNodeStateView childStateView, IFrameContainerCellView containerCellView)
+        {
+            Debug.Assert(containerCellView.StateView == stateView);
+            Debug.Assert(containerCellView.ParentCellView == parentCellView);
+            Debug.Assert(containerCellView.ChildStateView == childStateView);
         }
 
         /// <summary></summary>

@@ -79,7 +79,12 @@
             if (((IFocusCellViewTreeContext)context).IsVisible)
                 Result = base.BuildNodeCells(context, parentCellView) as IFocusCellView;
             else
-                Result = CreateEmptyCellView(((IFocusCellViewTreeContext)context).StateView);
+            {
+                IFocusEmptyCellView EmptyCellView = CreateEmptyCellView(((IFocusCellViewTreeContext)context).StateView);
+                ValidateEmptyCellView((IFocusCellViewTreeContext)context, EmptyCellView);
+
+                Result = EmptyCellView;
+            }
 
             ((IFocusCellViewTreeContext)context).RestoreFrameVisibility(OldFrameVisibility);
 
@@ -98,7 +103,12 @@
             if (((IFocusCellViewTreeContext)context).IsVisible)
                 Result = base.BuildBlockCells(context) as IFocusCellView;
             else
-                Result = CreateEmptyCellView(((IFocusCellViewTreeContext)context).StateView);
+            {
+                IFocusEmptyCellView EmptyCellView = CreateEmptyCellView(((IFocusCellViewTreeContext)context).StateView);
+                ValidateEmptyCellView((IFocusCellViewTreeContext)context, EmptyCellView);
+
+                Result = EmptyCellView;
+            }
 
             ((IFocusCellViewTreeContext)context).RestoreFrameVisibility(OldFrameVisibility);
 
@@ -126,11 +136,26 @@
         }
         #endregion
 
+        #region Implementation
+        /// <summary></summary>
+        private protected override void ValidateVisibleCellView(IFrameCellViewTreeContext context, IFrameVisibleCellView cellView)
+        {
+            Debug.Assert(((IFocusVisibleCellView)cellView).StateView == ((IFocusCellViewTreeContext)context).StateView);
+            Debug.Assert(((IFocusVisibleCellView)cellView).Frame == this);
+        }
+
+        /// <summary></summary>
+        private protected virtual void ValidateEmptyCellView(IFocusCellViewTreeContext context, IFocusEmptyCellView emptyCellView)
+        {
+            Debug.Assert(emptyCellView.StateView == context.StateView);
+        }
+        #endregion
+
         #region Create Methods
         /// <summary>
         /// Creates a IxxxVisibleCellView object.
         /// </summary>
-        private protected override IFrameVisibleCellView CreateFrameCellView(IFrameNodeStateView stateView)
+        private protected override IFrameVisibleCellView CreateVisibleCellView(IFrameNodeStateView stateView)
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusKeywordFrame));
             return new FocusVisibleCellView((IFocusNodeStateView)stateView, this);

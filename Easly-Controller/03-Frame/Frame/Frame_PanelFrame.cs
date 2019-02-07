@@ -79,6 +79,7 @@
         {
             IFrameCellViewList CellViewList = CreateCellViewList();
             IFrameCellViewCollection EmbeddingCellView = CreateEmbeddingCellView(context.StateView, CellViewList);
+            ValidateEmbeddingCellView(context, EmbeddingCellView);
 
             foreach (IFrameFrame Item in Items)
             {
@@ -95,6 +96,12 @@
             return EmbeddingCellView;
         }
 
+        /// <summary></summary>
+        private protected virtual void ValidateEmbeddingCellView(IFrameCellViewTreeContext context, IFrameCellViewCollection embeddingCellView)
+        {
+            Debug.Assert(embeddingCellView.StateView == context.StateView);
+        }
+
         /// <summary>
         /// Create cells for the provided state view.
         /// </summary>
@@ -105,6 +112,7 @@
             IFrameBlockState BlockState = BlockStateView.BlockState;
             IFrameCellViewList CellViewList = CreateCellViewList();
             IFrameCellViewCollection EmbeddingCellView = CreateEmbeddingCellView(context.StateView, CellViewList);
+            ValidateEmbeddingCellView(context, EmbeddingCellView);
             IFrameCellView ItemCellView = null;
 
             foreach (IFrameFrame Item in Items)

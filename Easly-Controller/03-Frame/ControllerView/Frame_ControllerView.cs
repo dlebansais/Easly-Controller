@@ -364,6 +364,7 @@
             IFrameNodeStateView InsertedStateView = StateViewTable[insertedState];
             Debug.Assert(InsertedStateView.RootCellView != null);
             IFrameContainerCellView InsertedCellView = CreateFrameCellView(OwnerStateView, EmbeddingCellView, InsertedStateView);
+            ValidateContainerCellView(OwnerStateView, EmbeddingCellView, InsertedStateView, InsertedCellView);
 
             int Index = nodeIndex.Index;
             EmbeddingCellView.Insert(Index, InsertedCellView);
@@ -389,6 +390,7 @@
             IFrameNodeStateView InsertedStateView = StateViewTable[insertedState];
             Debug.Assert(InsertedStateView.RootCellView != null);
             IFrameContainerCellView InsertedCellView = CreateFrameCellView(OwnerStateView, EmbeddingCellView, InsertedStateView);
+            ValidateContainerCellView(OwnerStateView, EmbeddingCellView, InsertedStateView, InsertedCellView);
 
             int Index = nodeIndex.Index;
             EmbeddingCellView.Insert(Index, InsertedCellView);
@@ -547,6 +549,7 @@
             IFrameNodeStateView ReplacedStateView = StateViewTable[replacedState];
             Debug.Assert(ReplacedStateView.RootCellView != null);
             IFrameContainerCellView ReplacedCellView = CreateFrameCellView(OwnerStateView, EmbeddingCellView, ReplacedStateView);
+            ValidateContainerCellView(OwnerStateView, EmbeddingCellView, ReplacedStateView, ReplacedCellView);
 
             Debug.Assert(PreviousCellView.IsAssignedToTable);
             ReplacedCellView.AssignToCellViewTable();
@@ -577,6 +580,7 @@
             IFrameNodeStateView ReplacedStateView = StateViewTable[replacedState];
             Debug.Assert(ReplacedStateView.RootCellView != null);
             IFrameContainerCellView ReplacedCellView = CreateFrameCellView(OwnerStateView, EmbeddingCellView, ReplacedStateView);
+            ValidateContainerCellView(OwnerStateView, EmbeddingCellView, ReplacedStateView, ReplacedCellView);
 
             Debug.Assert(PreviousCellView.IsAssignedToTable);
             ReplacedCellView.AssignToCellViewTable();
@@ -602,6 +606,7 @@
             IFrameNodeStateView ReplacedStateView = StateViewTable[replacedState];
             Debug.Assert(ReplacedStateView.RootCellView != null);
             IFrameContainerCellView ReplacedCellView = CreateFrameCellView(OwnerStateView, EmbeddingCellView, ReplacedStateView);
+            ValidateContainerCellView(OwnerStateView, EmbeddingCellView, ReplacedStateView, ReplacedCellView);
 
             int Index = nodeIndex.Index;
             EmbeddingCellView.Replace(Index, ReplacedCellView);
@@ -627,6 +632,7 @@
             IFrameNodeStateView ReplacedStateView = StateViewTable[replacedState];
             Debug.Assert(ReplacedStateView.RootCellView != null);
             IFrameContainerCellView ReplacedCellView = CreateFrameCellView(OwnerStateView, EmbeddingCellView, ReplacedStateView);
+            ValidateContainerCellView(OwnerStateView, EmbeddingCellView, ReplacedStateView, ReplacedCellView);
 
             int Index = nodeIndex.Index;
             EmbeddingCellView.Replace(Index, ReplacedCellView);
@@ -964,7 +970,16 @@
             blockStateView.BuildRootCellView(Context);
 
             IFrameBlockCellView BlockCellView = CreateBlockCellView(stateView, parentCellView, blockStateView);
+            ValidateBlockCellView(stateView, parentCellView, BlockCellView);
+
             return BlockCellView;
+        }
+
+        /// <summary></summary>
+        private protected virtual void ValidateBlockCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, IFrameBlockCellView blockCellView)
+        {
+            Debug.Assert(blockCellView.StateView == stateView);
+            Debug.Assert(blockCellView.ParentCellView == parentCellView);
         }
 
         /// <summary></summary>
@@ -1015,6 +1030,14 @@
 
             LastLineNumber = MaxLineNumber;
             LastColumnNumber = MaxColumnNumber;
+        }
+
+        /// <summary></summary>
+        private protected virtual void ValidateContainerCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, IFrameNodeStateView childStateView, IFrameContainerCellView containerCellView)
+        {
+            Debug.Assert(containerCellView.StateView == stateView);
+            Debug.Assert(containerCellView.ParentCellView == parentCellView);
+            Debug.Assert(containerCellView.ChildStateView == childStateView);
         }
         #endregion
 
