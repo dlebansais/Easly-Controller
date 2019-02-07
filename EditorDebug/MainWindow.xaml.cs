@@ -402,7 +402,10 @@ namespace EditorDebug
                     case IFrameFocusableCellView AsFocusable: // Insert
                         Child.Foreground = Brushes.Blue;
                         Child.FontWeight = FontWeights.Bold;
-                        Child.Text = "◄";
+                        if (CellView.Frame is IFrameKeywordFrame AsFocusableKeywordFrame)
+                            Child.Text = AsFocusableKeywordFrame.Text;
+                        else
+                            Child.Text = "◄";
                         IsHandled = true;
                         break;
 
@@ -523,10 +526,13 @@ namespace EditorDebug
                         IsHandled = true;
                         break;
 
-                    case IFocusFocusableCellView AsFocusable: // Insert
+                    case IFocusFocusableCellView AsFocusable: // Insert or focusable keyword
                         Child.Foreground = Brushes.Blue;
                         Child.FontWeight = FontWeights.Bold;
-                        Child.Text = "◄";
+                        if (CellView.Frame is IFrameKeywordFrame AsFocusableKeywordFrame)
+                            Child.Text = AsFocusableKeywordFrame.Text;
+                        else
+                            Child.Text = "◄";
                         IsHandled = true;
                         break;
 

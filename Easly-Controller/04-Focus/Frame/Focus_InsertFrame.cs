@@ -229,10 +229,19 @@
         /// <summary>
         /// Creates a IxxxFocusableCellView object.
         /// </summary>
-        private protected override IFrameVisibleCellView CreateVisibleCellView(IFrameNodeStateView stateView)
+        private protected override IFrameFocusableCellView CreateFocusableCellView(IFrameNodeStateView stateView)
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusInsertFrame));
             return new FocusFocusableCellView((IFocusNodeStateView)stateView, this);
+        }
+
+        /// <summary>
+        /// Creates a IxxxVisibleCellView object.
+        /// </summary>
+        private protected override IFrameVisibleCellView CreateVisibleCellView(IFrameNodeStateView stateView)
+        {
+            ControllerTools.AssertNoOverride(this, typeof(FocusInsertFrame));
+            return new FocusVisibleCellView((IFocusNodeStateView)stateView, this);
         }
 
         /// <summary>

@@ -14,6 +14,12 @@
         /// (Set in Xaml)
         /// </summary>
         string Text { get; set; }
+
+        /// <summary>
+        /// True if the keyword should be allowed to receive the focus.
+        /// (Set in Xaml)
+        /// </summary>
+        bool IsFocusable { get; set; }
     }
 
     /// <summary>
@@ -28,6 +34,15 @@
         /// (Set in Xaml)
         /// </summary>
         public string Text { get; set; }
+
+        /// <summary>
+        /// True if the keyword should be allowed to receive the focus.
+        /// (Set in Xaml)
+        /// </summary>
+        public bool IsFocusable { get; set; }
+
+        /// <summary></summary>
+        private protected override bool IsFrameFocusable { get { return true; } }
         #endregion
 
         #region Client Interface
@@ -57,26 +72,6 @@
             ValidateVisibleCellView(context, CellView);
 
             return CellView;
-        }
-        #endregion
-
-        #region Implementation
-        /// <summary></summary>
-        private protected override void ValidateVisibleCellView(IFrameCellViewTreeContext context, IFrameVisibleCellView cellView)
-        {
-            Debug.Assert(cellView.StateView == context.StateView);
-            Debug.Assert(cellView.Frame == this);
-        }
-        #endregion
-
-        #region Create Methods
-        /// <summary>
-        /// Creates a IxxxVisibleCellView object.
-        /// </summary>
-        private protected override IFrameVisibleCellView CreateVisibleCellView(IFrameNodeStateView stateView)
-        {
-            ControllerTools.AssertNoOverride(this, typeof(FrameKeywordFrame));
-            return new FrameVisibleCellView(stateView, this);
         }
         #endregion
     }

@@ -39,6 +39,9 @@
         /// Interface type of items in the collection associated to this frame.
         /// </summary>
         public Type InterfaceType { get; private set; }
+
+        /// <summary></summary>
+        private protected override bool IsFrameFocusable { get { return true; } }
         #endregion
 
         #region Client Interface
@@ -102,26 +105,6 @@
 
                 InterfaceType = BaseType;
             }
-        }
-        #endregion
-
-        #region Implementation
-        /// <summary></summary>
-        private protected override void ValidateVisibleCellView(IFrameCellViewTreeContext context, IFrameVisibleCellView cellView)
-        {
-            Debug.Assert(cellView.StateView == context.StateView);
-            Debug.Assert(cellView.Frame == this);
-        }
-        #endregion
-
-        #region Create Methods
-        /// <summary>
-        /// Creates a IxxxFocusableCellView object.
-        /// </summary>
-        private protected override IFrameVisibleCellView CreateVisibleCellView(IFrameNodeStateView stateView)
-        {
-            ControllerTools.AssertNoOverride(this, typeof(FrameInsertFrame));
-            return new FrameFocusableCellView(stateView, this);
         }
         #endregion
     }

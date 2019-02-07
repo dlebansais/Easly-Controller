@@ -26,26 +26,9 @@
         /// (Set in Xaml)
         /// </summary>
         public Symbols Symbol { get; set; }
-        #endregion
 
-        #region Implementation
         /// <summary></summary>
-        private protected override void ValidateVisibleCellView(IFrameCellViewTreeContext context, IFrameVisibleCellView cellView)
-        {
-            Debug.Assert(cellView.StateView == context.StateView);
-            Debug.Assert(cellView.Frame == this);
-        }
-        #endregion
-
-        #region Create Methods
-        /// <summary>
-        /// Creates a IxxxVisibleCellView object.
-        /// </summary>
-        private protected override IFrameVisibleCellView CreateVisibleCellView(IFrameNodeStateView stateView)
-        {
-            ControllerTools.AssertNoOverride(this, typeof(FrameSymbolFrame));
-            return new FrameVisibleCellView(stateView, this);
-        }
+        private protected override bool IsFrameFocusable { get { return false; } }
         #endregion
     }
 }

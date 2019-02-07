@@ -665,7 +665,7 @@ namespace TestDebug
             <FrameVerticalPanelFrame>
                 <FrameHorizontalPanelFrame>
                     <FrameKeywordFrame>getter</FrameKeywordFrame>
-                    <FrameKeywordFrame>deferred</FrameKeywordFrame>
+                    <FrameKeywordFrame IsFocusable=""true"">deferred</FrameKeywordFrame>
                 </FrameHorizontalPanelFrame>
             </FrameVerticalPanelFrame>
             <FrameVerticalPanelFrame>
@@ -747,7 +747,7 @@ namespace TestDebug
             <FrameVerticalPanelFrame>
                 <FrameHorizontalPanelFrame>
                     <FrameKeywordFrame>getter</FrameKeywordFrame>
-                    <FrameKeywordFrame>extern</FrameKeywordFrame>
+                    <FrameKeywordFrame IsFocusable=""true"">extern</FrameKeywordFrame>
                 </FrameHorizontalPanelFrame>
             </FrameVerticalPanelFrame>
             <FrameVerticalPanelFrame>

@@ -120,6 +120,15 @@
 
         #region Create Methods
         /// <summary>
+        /// Creates a IxxxFocusableCellView object.
+        /// </summary>
+        private protected override IFrameFocusableCellView CreateFocusableCellView(IFrameNodeStateView stateView)
+        {
+            ControllerTools.AssertNoOverride(this, typeof(FocusStaticFrame));
+            return new FocusFocusableCellView((IFocusNodeStateView)stateView, this);
+        }
+
+        /// <summary>
         /// Creates a IxxxVisibleCellView object.
         /// </summary>
         private protected override IFrameVisibleCellView CreateVisibleCellView(IFrameNodeStateView stateView)
