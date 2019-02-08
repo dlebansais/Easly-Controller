@@ -7,7 +7,7 @@
     /// <summary>
     /// Base frame for a list of nodes.
     /// </summary>
-    public interface IFocusListFrame : IFrameListFrame, IFocusNamedFrame, IFocusNodeFrameWithVisibility, IFocusNodeFrameWithSelector
+    public interface IFocusListFrame : IFrameListFrame, IFocusNamedFrame, IFocusNodeFrameWithVisibility, IFocusNodeFrameWithSelector, IFocusSelectorPropertyFrame
     {
     }
 

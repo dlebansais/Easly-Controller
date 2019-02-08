@@ -55,7 +55,17 @@
         public bool IsSimple { get; set; }
 
         /// <summary></summary>
-        private protected override bool IsRootValid { get { return Root.ParentFrame == FocusFrame.FocusRoot; } }
+        private protected override bool IsRootValid
+        {
+            get
+            {
+                bool IsValid = true;
+
+                IsValid &= Root.ParentFrame == FocusFrame.FocusRoot;
+
+                return IsValid;
+            }
+        }
 
         /// <summary>
         /// Checks that a template and all its frames are valid.
@@ -84,7 +94,13 @@
         /// <param name="frame">Frame found upon return. Null if not matching <paramref name="propertyName"/>.</param>
         public virtual bool FrameSelectorForProperty(string propertyName, out IFocusNodeFrameWithSelector frame)
         {
-            return ((IFocusNodeFrame)Root).FrameSelectorForProperty(propertyName, out frame);
+            frame = null;
+            bool Found = false;
+
+            if (Root is IFocusSelectorPropertyFrame AsSelectorPropertyFrame)
+                Found = AsSelectorPropertyFrame.FrameSelectorForProperty(propertyName, out frame);
+
+            return Found;
         }
 
         /// <summary>

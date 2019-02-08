@@ -7,7 +7,7 @@
     /// <summary>
     /// Focus for describing an optional child node.
     /// </summary>
-    public interface IFocusOptionalFrame : IFrameOptionalFrame, IFocusNamedFrame, IFocusNodeFrameWithVisibility, IFocusNodeFrameWithSelector
+    public interface IFocusOptionalFrame : IFrameOptionalFrame, IFocusNamedFrame, IFocusNodeFrameWithVisibility, IFocusNodeFrameWithSelector, IFocusSelectorPropertyFrame
     {
     }
 

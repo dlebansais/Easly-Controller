@@ -7,7 +7,7 @@
     /// <summary>
     /// Base frame for a block list.
     /// </summary>
-    public interface IFocusBlockListFrame : IFrameBlockListFrame, IFocusNamedFrame, IFocusNodeFrameWithVisibility, IFocusNodeFrameWithSelector
+    public interface IFocusBlockListFrame : IFrameBlockListFrame, IFocusNamedFrame, IFocusNodeFrameWithVisibility, IFocusNodeFrameWithSelector, IFocusSelectorPropertyFrame
     {
     }
 
@@ -107,7 +107,7 @@
         }
 
         /// <summary>
-        /// Returns the frame associated to a property if can have selectors.
+        /// Returns the frame associated to a property if it can have selectors.
         /// </summary>
         /// <param name="propertyName">Name of the property to look for.</param>
         /// <param name="frame">Frame found upon return. Null if not matching <paramref name="propertyName"/>.</param>

@@ -135,13 +135,18 @@
         /// <param name="frame">Frame found upon return. Null if not matching <paramref name="propertyName"/>.</param>
         public virtual bool FrameSelectorForProperty(string propertyName, out IFocusNodeFrameWithSelector frame)
         {
-            foreach (IFocusFrame Item in Items)
-                if (Item is IFocusNodeFrame AsNodeFrame)
-                    if (AsNodeFrame.FrameSelectorForProperty(propertyName, out frame))
-                        return true;
-
             frame = null;
-            return false;
+            bool IsFound = false;
+
+            foreach (IFocusFrame Item in Items)
+                if (Item is IFocusSelectorPropertyFrame AsSelectorPropertyFrame)
+                    if (AsSelectorPropertyFrame.FrameSelectorForProperty(propertyName, out frame))
+                    {
+                        IsFound = true;
+                        break;
+                    }
+
+            return IsFound;
         }
 
         /// <summary>
