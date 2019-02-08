@@ -12,8 +12,10 @@ namespace EaslyController.Frame
     /// <typeparam name="TKey">Type of the key.</typeparam>
     public interface IFrameInnerDictionary<TKey> : IWriteableInnerDictionary<TKey>, IDictionary<TKey, IFrameInner>
     {
+        new IFrameInner this[TKey key] { get; set; }
         new int Count { get; }
         new Dictionary<TKey, IFrameInner>.Enumerator GetEnumerator();
+        new bool ContainsKey(TKey key);
     }
 
     /// <summary>
@@ -70,6 +72,7 @@ namespace EaslyController.Frame
         #endregion
 
         #region Writeable
+        IWriteableInner IWriteableInnerDictionary<TKey>.this[TKey key] { get { return this[key]; } set { this[key] = (IFrameInner)value; } }
         Dictionary<TKey, IWriteableInner>.Enumerator IWriteableInnerDictionary<TKey>.GetEnumerator()
         {
             Dictionary<TKey, IWriteableInner> NewDictionary = new Dictionary<TKey, IWriteableInner>();

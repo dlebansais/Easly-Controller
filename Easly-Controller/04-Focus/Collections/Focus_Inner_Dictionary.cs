@@ -13,8 +13,10 @@ namespace EaslyController.Focus
     /// <typeparam name="TKey">Type of the key.</typeparam>
     public interface IFocusInnerDictionary<TKey> : IFrameInnerDictionary<TKey>, IDictionary<TKey, IFocusInner>
     {
+        new IFocusInner this[TKey key] { get; set; }
         new int Count { get; }
         new Dictionary<TKey, IFocusInner>.Enumerator GetEnumerator();
+        new bool ContainsKey(TKey key);
     }
 
     /// <summary>
@@ -71,6 +73,7 @@ namespace EaslyController.Focus
         #endregion
 
         #region Writeable
+        IWriteableInner IWriteableInnerDictionary<TKey>.this[TKey key] { get { return this[key]; } set { this[key] = (IFocusInner)value; } }
         Dictionary<TKey, IWriteableInner>.Enumerator IWriteableInnerDictionary<TKey>.GetEnumerator()
         {
             Dictionary<TKey, IWriteableInner> NewDictionary = new Dictionary<TKey, IWriteableInner>();
@@ -123,6 +126,7 @@ namespace EaslyController.Focus
         #endregion
 
         #region Frame
+        IFrameInner IFrameInnerDictionary<TKey>.this[TKey key] { get { return this[key]; } set { this[key] = (IFocusInner)value; } }
         Dictionary<TKey, IFrameInner>.Enumerator IFrameInnerDictionary<TKey>.GetEnumerator()
         {
             Dictionary<TKey, IFrameInner> NewDictionary = new Dictionary<TKey, IFrameInner>();

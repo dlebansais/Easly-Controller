@@ -11,8 +11,10 @@ namespace EaslyController.Writeable
     /// <typeparam name="TKey">Type of the key.</typeparam>
     public interface IWriteableInnerDictionary<TKey> : IReadOnlyInnerDictionary<TKey>, IDictionary<TKey, IWriteableInner>
     {
+        new IWriteableInner this[TKey key] { get; set; }
         new int Count { get; }
         new Dictionary<TKey, IWriteableInner>.Enumerator GetEnumerator();
+        new bool ContainsKey(TKey key);
     }
 
     /// <summary>

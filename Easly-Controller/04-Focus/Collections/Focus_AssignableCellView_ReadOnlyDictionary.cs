@@ -78,13 +78,14 @@ namespace EaslyController.Focus
 
                 IFocusAssignableCellView OtherValue = AsAssignableCellViewReadOnlyDictionary[Entry.Key] as IFocusAssignableCellView;
 
-                if (Entry.Value != null && OtherValue != null)
+                if (!comparer.IsTrue((Entry.Value != null && OtherValue != null) || (Entry.Value == null && OtherValue == null)))
+                    return comparer.Failed();
+
+                if (Entry.Value != null)
                 {
                     if (!comparer.VerifyEqual(Entry.Value, OtherValue))
                         return comparer.Failed();
                 }
-                else if (!comparer.IsTrue(Entry.Value == null && OtherValue == null))
-                    return comparer.Failed();
             }
 
             return true;

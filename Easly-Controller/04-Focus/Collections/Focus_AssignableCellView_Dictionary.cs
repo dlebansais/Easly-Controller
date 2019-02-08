@@ -11,8 +11,10 @@ namespace EaslyController.Focus
     /// <typeparam name="TKey">Type of the key.</typeparam>
     public interface IFocusAssignableCellViewDictionary<TKey> : IFrameAssignableCellViewDictionary<TKey>, IDictionary<TKey, IFocusAssignableCellView>
     {
+        new IFocusAssignableCellView this[TKey key] { get; set; }
         new int Count { get; }
         new Dictionary<TKey, IFocusAssignableCellView>.Enumerator GetEnumerator();
+        new bool ContainsKey(TKey key);
     }
 
     /// <summary>
