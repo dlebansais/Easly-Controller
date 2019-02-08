@@ -30,7 +30,7 @@ namespace TestDebug
                     TemplateDictionary.Add(Item.NodeType, Item);
                 }
 
-                IFocusTemplateReadOnlyDictionary Result = new FocusTemplateReadOnlyDictionary(TemplateDictionary);
+                IFocusTemplateReadOnlyDictionary Result = TemplateDictionary.ToReadOnly() as IFocusTemplateReadOnlyDictionary;
                 return Result;
             }
         }

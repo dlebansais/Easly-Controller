@@ -34,7 +34,7 @@ namespace EaslyController.Focus
         /// </summary>
         public virtual IFrameTemplateReadOnlyDictionary ToReadOnly()
         {
-            return new FrameTemplateReadOnlyDictionary(this);
+            return new FocusTemplateReadOnlyDictionary(this);
         }
 
         #region Frame
