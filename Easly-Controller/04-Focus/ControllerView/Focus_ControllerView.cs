@@ -979,6 +979,7 @@
         {
             inner = null;
             index = null;
+            bool IsSimplifiable = false;
 
             Debug.Assert(FocusedCellView != null);
 
@@ -989,25 +990,27 @@
             {
                 if (NodeHelper.GetSimplifiedNode(CurrentState.Node, out INode SimplifiedNode))
                 {
-                    if (SimplifiedNode == null)
-                        return false;
+                    if (SimplifiedNode != null)
+                    {
+                        Type InterfaceType = CurrentState.ParentInner.InterfaceType;
+                        if (InterfaceType.IsAssignableFrom(SimplifiedNode.GetType()))
+                        {
+                            IFocusBrowsingChildIndex ParentIndex = CurrentState.ParentIndex as IFocusBrowsingChildIndex;
+                            Debug.Assert(ParentIndex != null);
 
-                    Type InterfaceType = CurrentState.ParentInner.InterfaceType;
-                    if (!InterfaceType.IsAssignableFrom(SimplifiedNode.GetType()))
-                        return false;
+                            inner = CurrentState.ParentInner;
+                            index = ((IFocusBrowsingInsertableIndex)ParentIndex).ToInsertionIndex(inner.Owner.Node, SimplifiedNode) as IFocusInsertionChildIndex;
+                            IsSimplifiable = true;
+                        }
+                    }
 
-                    IFocusBrowsingChildIndex ParentIndex = CurrentState.ParentIndex as IFocusBrowsingChildIndex;
-                    Debug.Assert(ParentIndex != null);
-
-                    inner = CurrentState.ParentInner;
-                    index = ((IFocusBrowsingInsertableIndex)ParentIndex).ToInsertionIndex(inner.Owner.Node, SimplifiedNode) as IFocusInsertionChildIndex;
-                    return true;
+                    break;
                 }
 
                 CurrentState = CurrentState.ParentState;
             }
 
-            return false;
+            return IsSimplifiable;
         }
 
         /// <summary>
@@ -1022,6 +1025,7 @@
             inner = null;
             replaceIndex = null;
             insertIndex = null;
+            bool IsSplittable = false;
 
             Debug.Assert(FocusedCellView != null);
 
@@ -1049,11 +1053,11 @@
                     insertIndex = CurrentIndex.ToInsertionIndex(ParentState.Node, SecondPart) as IFocusInsertionListNodeIndex;
                     Debug.Assert(insertIndex != null);
 
-                    return true;
+                    IsSplittable = true;
                 }
             }
 
-            return false;
+            return IsSplittable;
         }
 
         /// <summary>
@@ -1068,6 +1072,7 @@
             inner = null;
             blockIndex = -1;
             replication = ReplicationStatus.Normal;
+            bool IsModifiable = false;
 
             Debug.Assert(FocusedCellView != null);
 
@@ -1085,7 +1090,8 @@
                     inner = BlockListInner;
                     blockIndex = inner.BlockStateList.IndexOf(ParentBlock);
                     replication = ParentBlock.ChildBlock.Replication;
-                    return true;
+                    IsModifiable = true;
+                    break;
                 }
                 else if (State is IFocusSourceState AsSourceState)
                 {
@@ -1096,7 +1102,8 @@
                     inner = BlockListInner;
                     blockIndex = inner.BlockStateList.IndexOf(ParentBlock);
                     replication = ParentBlock.ChildBlock.Replication;
-                    return true;
+                    IsModifiable = true;
+                    break;
                 }
                 else if (State.ParentInner is IFocusBlockListInner AsBlockListInner)
                 {
@@ -1105,13 +1112,14 @@
                     Debug.Assert(ParentIndex != null);
                     blockIndex = ParentIndex.BlockIndex;
                     replication = inner.BlockStateList[blockIndex].ChildBlock.Replication;
-                    return true;
+                    IsModifiable = true;
+                    break;
                 }
 
                 State = State.ParentState;
             }
 
-            return false;
+            return IsModifiable;
         }
         #endregion
 
