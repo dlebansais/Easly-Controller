@@ -186,6 +186,7 @@
         public virtual void UpdateNodeFrameVisibility(IFocusNodeFrameWithVisibility frame, out bool oldFrameVisibility)
         {
             oldFrameVisibility = IsFrameVisible;
+            bool IsPreferred = frame.IsPreferred;
 
             if (frame.Visibility != null)
             {
