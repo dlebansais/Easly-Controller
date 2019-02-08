@@ -1498,122 +1498,19 @@
 
             // Find all focusable cells belonging to these states.
             foreach (IFocusFocusableCellView CellView in newFocusChain)
+            {
                 foreach (IFocusNodeStateView StateView in stateViewList)
-                    if (CellView.StateView == StateView)
+                    if (CellView.StateView == StateView && !sameStateFocusableList.Contains(CellView))
                     {
                         sameStateFocusableList.Add(CellView);
-                        return true;
+                        break;
                     }
+            }
 
-            if (sameStateFocusableList.Count > 0)
-                return true;
+            bool Found = sameStateFocusableList.Count > 0;
 
             // If it doesn't work, try the parent state, down to the root (in case of a removal or unassign).
-            return false;
-        }
-
-        /// <summary></summary>
-        private protected virtual bool RecursiveFocusableCellViewSearch(IFocusFocusableCellViewList focusChain, IFocusNodeStateView stateView, List<IFocusFocusableCellView> cellViewList, out IFocusNodeStateView selectedStateView)
-        {
-            foreach (IFocusFocusableCellView CellView in focusChain)
-                if (CellView.StateView == stateView)
-                    cellViewList.Add(CellView);
-
-            if (cellViewList.Count > 0)
-            {
-                selectedStateView = stateView;
-                return true;
-            }
-
-            foreach (KeyValuePair<string, IFocusInner> Entry in stateView.State.InnerTable)
-                if (Entry.Value is IFocusPlaceholderInner<IFocusBrowsingPlaceholderNodeIndex> AsPlaceholderInner)
-                {
-                    if (CellViewSearchInPlaceholderInner(focusChain, cellViewList, AsPlaceholderInner, out selectedStateView))
-                        return true;
-                }
-                else if (Entry.Value is IFocusOptionalInner<IFocusBrowsingOptionalNodeIndex> AsOptionalInner)
-                {
-                    if (CellViewSearchInOptionalInner(focusChain, cellViewList, AsOptionalInner, out selectedStateView))
-                        return true;
-                }
-                else if (Entry.Value is IFocusListInner<IFocusBrowsingListNodeIndex> AsListInner)
-                {
-                    if (CellViewSearchInListInner(focusChain, cellViewList, AsListInner, out selectedStateView))
-                        return true;
-                }
-                else if (Entry.Value is IFocusBlockListInner<IFocusBrowsingBlockNodeIndex> AsBlockListInner)
-                {
-                    if (CellViewSearchInBlockListInner(focusChain, cellViewList, AsBlockListInner, out selectedStateView))
-                        return true;
-                }
-                else
-                    Debug.Assert(false);
-
-            selectedStateView = null;
-            return false;
-        }
-
-        /// <summary></summary>
-        private protected virtual bool CellViewSearchInPlaceholderInner(IFocusFocusableCellViewList focusChain, List<IFocusFocusableCellView> cellViewList, IFocusPlaceholderInner<IFocusBrowsingPlaceholderNodeIndex> inner, out IFocusNodeStateView selectedStateView)
-        {
-            IFocusNodeStateView ChildStateView = StateViewTable[inner.ChildState];
-            if (RecursiveFocusableCellViewSearch(focusChain, ChildStateView, cellViewList, out selectedStateView))
-                return true;
-
-            return false;
-        }
-
-        /// <summary></summary>
-        private protected virtual bool CellViewSearchInOptionalInner(IFocusFocusableCellViewList focusChain, List<IFocusFocusableCellView> cellViewList, IFocusOptionalInner<IFocusBrowsingOptionalNodeIndex> inner, out IFocusNodeStateView selectedStateView)
-        {
-            if (inner.IsAssigned)
-            {
-                IFocusNodeStateView ChildStateView = StateViewTable[inner.ChildState];
-                if (RecursiveFocusableCellViewSearch(focusChain, ChildStateView, cellViewList, out selectedStateView))
-                    return true;
-            }
-
-            selectedStateView = null;
-            return false;
-        }
-
-        /// <summary></summary>
-        private protected virtual bool CellViewSearchInListInner(IFocusFocusableCellViewList focusChain, List<IFocusFocusableCellView> cellViewList, IFocusListInner<IFocusBrowsingListNodeIndex> inner, out IFocusNodeStateView selectedStateView)
-        {
-            foreach (IFocusNodeState ChildState in inner.StateList)
-            {
-                IFocusNodeStateView ChildStateView = StateViewTable[ChildState];
-                if (RecursiveFocusableCellViewSearch(focusChain, ChildStateView, cellViewList, out selectedStateView))
-                    return true;
-            }
-
-            selectedStateView = null;
-            return false;
-        }
-
-        /// <summary></summary>
-        private protected virtual bool CellViewSearchInBlockListInner(IFocusFocusableCellViewList focusChain, List<IFocusFocusableCellView> cellViewList, IFocusBlockListInner<IFocusBrowsingBlockNodeIndex> inner, out IFocusNodeStateView selectedStateView)
-        {
-            foreach (IFocusBlockState BlockState in inner.BlockStateList)
-            {
-                IFocusNodeStateView PatternStateView = StateViewTable[BlockState.PatternState];
-                if (RecursiveFocusableCellViewSearch(focusChain, PatternStateView, cellViewList, out selectedStateView))
-                    return true;
-
-                IFocusNodeStateView SourceStateView = StateViewTable[BlockState.SourceState];
-                if (RecursiveFocusableCellViewSearch(focusChain, SourceStateView, cellViewList, out selectedStateView))
-                    return true;
-
-                foreach (IFocusNodeState ChildState in BlockState.StateList)
-                {
-                    IFocusNodeStateView ChildStateView = StateViewTable[ChildState];
-                    if (RecursiveFocusableCellViewSearch(focusChain, ChildStateView, cellViewList, out selectedStateView))
-                        return true;
-                }
-            }
-
-            selectedStateView = null;
-            return false;
+            return Found;
         }
 
         /// <summary></summary>
@@ -1622,11 +1519,16 @@
             stateViewList.Add(stateView);
 
             foreach (KeyValuePair<string, IFocusInner> Entry in stateView.State.InnerTable)
+            {
+                bool IsHandled = false;
+
                 if (Entry.Value is IFocusPlaceholderInner<IFocusBrowsingPlaceholderNodeIndex> AsPlaceholderInner)
                 {
                     Debug.Assert(StateViewTable.ContainsKey(AsPlaceholderInner.ChildState));
                     IFocusNodeStateView ChildStateView = StateViewTable[AsPlaceholderInner.ChildState];
                     GetChildrenStateView(ChildStateView, stateViewList);
+
+                    IsHandled = true;
                 }
                 else if (Entry.Value is IFocusOptionalInner<IFocusBrowsingOptionalNodeIndex> AsOptionalInner)
                 {
@@ -1635,6 +1537,8 @@
                         IFocusNodeStateView ChildStateView = StateViewTable[AsOptionalInner.ChildState];
                         GetChildrenStateView(ChildStateView, stateViewList);
                     }
+
+                    IsHandled = true;
                 }
                 else if (Entry.Value is IFocusListInner<IFocusBrowsingListNodeIndex> AsListInner)
                 {
@@ -1643,6 +1547,8 @@
                         IFocusNodeStateView ChildStateView = StateViewTable[ChildState];
                         GetChildrenStateView(ChildStateView, stateViewList);
                     }
+
+                    IsHandled = true;
                 }
                 else if (Entry.Value is IFocusBlockListInner<IFocusBrowsingBlockNodeIndex> AsBlockListInner)
                 {
@@ -1660,9 +1566,12 @@
                             GetChildrenStateView(ChildStateView, stateViewList);
                         }
                     }
+
+                    IsHandled = true;
                 }
-                else
-                    Debug.Assert(false);
+
+                Debug.Assert(IsHandled);
+            }
         }
 
         /// <summary></summary>
