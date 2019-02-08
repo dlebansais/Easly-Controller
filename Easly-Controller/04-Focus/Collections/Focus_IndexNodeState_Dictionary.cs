@@ -21,6 +21,14 @@ namespace EaslyController.Focus
     /// </summary>
     internal class FocusIndexNodeStateDictionary : Dictionary<IFocusIndex, IFocusNodeState>, IFocusIndexNodeStateDictionary
     {
+        /// <summary>
+        /// Gets a read-only view of the dictionary.
+        /// </summary>
+        public virtual IReadOnlyIndexNodeStateReadOnlyDictionary ToReadOnly()
+        {
+            return new FocusIndexNodeStateReadOnlyDictionary(this);
+        }
+
         #region ReadOnly
         IReadOnlyNodeState IDictionary<IReadOnlyIndex, IReadOnlyNodeState>.this[IReadOnlyIndex key] { get { return this[(IFocusIndex)key]; } set { this[(IFocusIndex)key] = (IFocusNodeState)value; } }
         void IDictionary<IReadOnlyIndex, IReadOnlyNodeState>.Add(IReadOnlyIndex key, IReadOnlyNodeState value) { Add((IFocusIndex)key, (IFocusNodeState)value); }

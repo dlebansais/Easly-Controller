@@ -121,15 +121,6 @@
         }
 
         /// <summary>
-        /// Creates a IxxxInnerReadOnlyDictionary{string} object.
-        /// </summary>
-        private protected override IReadOnlyInnerReadOnlyDictionary<string> CreateInnerTableReadOnly(IReadOnlyInnerDictionary<string> innerTable)
-        {
-            ControllerTools.AssertNoOverride(this, typeof(FrameBlockState<IInner>));
-            return new FrameInnerReadOnlyDictionary<string>((IFrameInnerDictionary<string>)innerTable);
-        }
-
-        /// <summary>
         /// Creates a IxxxPlaceholderInner{IxxxBrowsingPlaceholderNodeIndex} object.
         /// </summary>
         private protected override IReadOnlyPlaceholderInner<IReadOnlyBrowsingPlaceholderNodeIndex> CreatePatternInner(IReadOnlyNodeState owner)

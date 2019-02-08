@@ -236,30 +236,12 @@
         }
 
         /// <summary>
-        /// Creates a IxxxIndexNodeStateReadOnlyDictionary object.
-        /// </summary>
-        private protected override IReadOnlyIndexNodeStateReadOnlyDictionary CreateStateTableReadOnly(IReadOnlyIndexNodeStateDictionary stateTable)
-        {
-            ControllerTools.AssertNoOverride(this, typeof(FocusController));
-            return new FocusIndexNodeStateReadOnlyDictionary((IFocusIndexNodeStateDictionary)stateTable);
-        }
-
-        /// <summary>
         /// Creates a IxxxInnerDictionary{string} object.
         /// </summary>
         private protected override IReadOnlyInnerDictionary<string> CreateInnerTable()
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusController));
             return new FocusInnerDictionary<string>();
-        }
-
-        /// <summary>
-        /// Creates a IxxxInnerReadOnlyDictionary{string} object.
-        /// </summary>
-        private protected override IReadOnlyInnerReadOnlyDictionary<string> CreateInnerTableReadOnly(IReadOnlyInnerDictionary<string> innerTable)
-        {
-            ControllerTools.AssertNoOverride(this, typeof(FocusController));
-            return new FocusInnerReadOnlyDictionary<string>((IFocusInnerDictionary<string>)innerTable);
         }
 
         /// <summary>

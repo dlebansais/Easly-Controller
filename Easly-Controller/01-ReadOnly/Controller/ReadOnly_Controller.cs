@@ -140,7 +140,7 @@
         {
             IsInitialized = false;
             _StateTable = CreateStateTable();
-            StateTable = CreateStateTableReadOnly(_StateTable);
+            StateTable = _StateTable.ToReadOnly();
             Stats = new Stats();
         }
 
@@ -497,7 +497,7 @@
             if (InnerTable.Count > 0)
                 DebugObjects.AddReference(InnerTable);
 
-            return CreateInnerTableReadOnly(InnerTable);
+            return InnerTable.ToReadOnly();
         }
 
         /// <summary></summary>
@@ -787,30 +787,12 @@
         }
 
         /// <summary>
-        /// Creates a IxxxIndexNodeStateReadOnlyDictionary object.
-        /// </summary>
-        private protected virtual IReadOnlyIndexNodeStateReadOnlyDictionary CreateStateTableReadOnly(IReadOnlyIndexNodeStateDictionary stateTable)
-        {
-            ControllerTools.AssertNoOverride(this, typeof(ReadOnlyController));
-            return new ReadOnlyIndexNodeStateReadOnlyDictionary(stateTable);
-        }
-
-        /// <summary>
         /// Creates a IxxxInnerDictionary{string} object.
         /// </summary>
         private protected virtual IReadOnlyInnerDictionary<string> CreateInnerTable()
         {
             ControllerTools.AssertNoOverride(this, typeof(ReadOnlyController));
             return new ReadOnlyInnerDictionary<string>();
-        }
-
-        /// <summary>
-        /// Creates a IxxxInnerReadOnlyDictionary{string} object.
-        /// </summary>
-        private protected virtual IReadOnlyInnerReadOnlyDictionary<string> CreateInnerTableReadOnly(IReadOnlyInnerDictionary<string> innerTable)
-        {
-            ControllerTools.AssertNoOverride(this, typeof(ReadOnlyController));
-            return new ReadOnlyInnerReadOnlyDictionary<string>(innerTable);
         }
 
         /// <summary>

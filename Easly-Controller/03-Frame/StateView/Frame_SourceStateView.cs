@@ -123,7 +123,7 @@
         /// <summary></summary>
         private protected virtual void SealCellViewTable()
         {
-            CellViewTable = CreateCellViewReadOnlyTable(_CellViewTable);
+            CellViewTable = _CellViewTable.ToReadOnly();
         }
 
         /// <summary>
@@ -232,15 +232,6 @@
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameSourceStateView));
             return new FrameAssignableCellViewDictionary<string>();
-        }
-
-        /// <summary>
-        /// Creates a IxxxAssignableCellViewReadOnlyDictionary{string} object.
-        /// </summary>
-        private protected virtual IFrameAssignableCellViewReadOnlyDictionary<string> CreateCellViewReadOnlyTable(IFrameAssignableCellViewDictionary<string> dictionary)
-        {
-            ControllerTools.AssertNoOverride(this, typeof(FrameSourceStateView));
-            return new FrameAssignableCellViewReadOnlyDictionary<string>(dictionary);
         }
         #endregion
     }

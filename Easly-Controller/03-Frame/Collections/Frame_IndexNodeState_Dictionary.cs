@@ -20,6 +20,14 @@ namespace EaslyController.Frame
     /// </summary>
     internal class FrameIndexNodeStateDictionary : Dictionary<IFrameIndex, IFrameNodeState>, IFrameIndexNodeStateDictionary
     {
+        /// <summary>
+        /// Gets a read-only view of the dictionary.
+        /// </summary>
+        public virtual IReadOnlyIndexNodeStateReadOnlyDictionary ToReadOnly()
+        {
+            return new FrameIndexNodeStateReadOnlyDictionary(this);
+        }
+
         #region ReadOnly
         IReadOnlyNodeState IDictionary<IReadOnlyIndex, IReadOnlyNodeState>.this[IReadOnlyIndex key] { get { return this[(IFrameIndex)key]; } set { this[(IFrameIndex)key] = (IFrameNodeState)value; } }
         void IDictionary<IReadOnlyIndex, IReadOnlyNodeState>.Add(IReadOnlyIndex key, IReadOnlyNodeState value) { Add((IFrameIndex)key, (IFrameNodeState)value); }

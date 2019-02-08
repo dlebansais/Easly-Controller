@@ -29,6 +29,14 @@ namespace EaslyController.Focus
         {
         }
 
+        /// <summary>
+        /// Gets a read-only view of the dictionary.
+        /// </summary>
+        public virtual IFrameTemplateReadOnlyDictionary ToReadOnly()
+        {
+            return new FrameTemplateReadOnlyDictionary(this);
+        }
+
         #region Frame
         IFrameTemplate IDictionary<Type, IFrameTemplate>.this[Type key] { get { return this[key]; } set { this[key] = (IFocusTemplate)value; } }
         void IDictionary<Type, IFrameTemplate>.Add(Type key, IFrameTemplate value) { Add(key, (IFocusTemplate)value); }

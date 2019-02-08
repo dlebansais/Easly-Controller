@@ -126,7 +126,7 @@
         /// <summary></summary>
         private protected virtual void SealCellViewTable()
         {
-            CellViewTable = CreateCellViewReadOnlyTable(_CellViewTable);
+            CellViewTable = _CellViewTable.ToReadOnly();
         }
 
         /// <summary>
@@ -248,6 +248,8 @@
                 IFrameAssignableCellViewDictionary<string> ActualCellViewTable = CreateCellViewTable();
                 IsValid &= RootCellView.IsCellViewTreeValid(CellViewTable, ActualCellViewTable);
                 IsValid &= AllCellViewsProperlyAssigned(CellViewTable, ActualCellViewTable);
+
+                DebugObjects.AddReference(ActualCellViewTable);
             }
 
             return IsValid;
@@ -280,15 +282,6 @@
         {
             ControllerTools.AssertNoOverride(this, typeof(FramePlaceholderNodeStateView));
             return new FrameAssignableCellViewDictionary<string>();
-        }
-
-        /// <summary>
-        /// Creates a IxxxAssignableCellViewReadOnlyDictionary{string} object.
-        /// </summary>
-        private protected virtual IFrameAssignableCellViewReadOnlyDictionary<string> CreateCellViewReadOnlyTable(IFrameAssignableCellViewDictionary<string> dictionary)
-        {
-            ControllerTools.AssertNoOverride(this, typeof(FramePlaceholderNodeStateView));
-            return new FrameAssignableCellViewReadOnlyDictionary<string>(dictionary);
         }
         #endregion
     }

@@ -289,7 +289,7 @@
             if (IsValid)
             {
                 IFrameAssignableCellViewDictionary<string> EmptyCellViewTable = CreateCellViewTable();
-                IFrameAssignableCellViewReadOnlyDictionary<string> ExpectedCellViewTable = CreateCellViewReadOnlyTable(EmptyCellViewTable);
+                IFrameAssignableCellViewReadOnlyDictionary<string> ExpectedCellViewTable = EmptyCellViewTable.ToReadOnly();
                 IFrameAssignableCellViewDictionary<string> ActualCellViewTable = CreateCellViewTable();
                 IsValid &= RootCellView.IsCellViewTreeValid(ExpectedCellViewTable, ActualCellViewTable);
                 IsValid &= ActualCellViewTable.Count == 0;
@@ -307,15 +307,6 @@
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameBlockStateView));
             return new FrameAssignableCellViewDictionary<string>();
-        }
-
-        /// <summary>
-        /// Creates a IxxxAssignableCellViewReadOnlyDictionary{string} object.
-        /// </summary>
-        private protected virtual IFrameAssignableCellViewReadOnlyDictionary<string> CreateCellViewReadOnlyTable(IFrameAssignableCellViewDictionary<string> dictionary)
-        {
-            ControllerTools.AssertNoOverride(this, typeof(FrameBlockStateView));
-            return new FrameAssignableCellViewReadOnlyDictionary<string>(dictionary);
         }
         #endregion
     }

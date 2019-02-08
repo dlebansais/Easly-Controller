@@ -231,7 +231,7 @@
             foreach (Type Key in Keys)
                 SetNodeTypeToDefault(DefaultDictionary, Key);
 
-            return CreateTemplateReadOnlyDictionary(DefaultDictionary);
+            return DefaultDictionary.ToReadOnly();
         }
 
         /// <summary></summary>
@@ -380,7 +380,7 @@
             foreach (Type Key in BlockKeys)
                 DefaultDictionary[Key] = RootTemplate;
 
-            return CreateTemplateReadOnlyDictionary(DefaultDictionary);
+            return DefaultDictionary.ToReadOnly();
         }
 
         /// <summary></summary>
@@ -415,15 +415,6 @@
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameTemplateSet));
             return new FrameTemplateDictionary(NodeHelper.CreateNodeDictionary<IFrameTemplate>());
-        }
-
-        /// <summary>
-        /// Creates a IxxxTemplateReadOnlyDictionary object.
-        /// </summary>
-        private protected virtual IFrameTemplateReadOnlyDictionary CreateTemplateReadOnlyDictionary(IFrameTemplateDictionary dictionary)
-        {
-            ControllerTools.AssertNoOverride(this, typeof(FrameTemplateSet));
-            return new FrameTemplateReadOnlyDictionary(dictionary);
         }
 
         /// <summary>

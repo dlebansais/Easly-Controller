@@ -95,15 +95,6 @@
         }
 
         /// <summary>
-        /// Creates a IxxxTemplateReadOnlyDictionary object.
-        /// </summary>
-        private protected override IFrameTemplateReadOnlyDictionary CreateTemplateReadOnlyDictionary(IFrameTemplateDictionary dictionary)
-        {
-            ControllerTools.AssertNoOverride(this, typeof(FocusTemplateSet));
-            return new FocusTemplateReadOnlyDictionary((IFocusTemplateDictionary)dictionary);
-        }
-
-        /// <summary>
         /// Creates a IxxxHorizontalPanelFrame object.
         /// </summary>
         private protected override IFrameHorizontalPanelFrame CreateHorizontalPanelFrame()

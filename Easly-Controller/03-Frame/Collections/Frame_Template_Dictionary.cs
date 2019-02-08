@@ -10,6 +10,10 @@ namespace EaslyController.Frame
     /// </summary>
     public interface IFrameTemplateDictionary : IDictionary<Type, IFrameTemplate>
     {
+        /// <summary>
+        /// Gets a read-only view of the dictionary.
+        /// </summary>
+        IFrameTemplateReadOnlyDictionary ToReadOnly();
     }
 
     /// <summary>
@@ -24,6 +28,14 @@ namespace EaslyController.Frame
         public FrameTemplateDictionary(IDictionary<Type, IFrameTemplate> dictionary)
             : base(dictionary)
         {
+        }
+
+        /// <summary>
+        /// Gets a read-only view of the dictionary.
+        /// </summary>
+        public virtual IFrameTemplateReadOnlyDictionary ToReadOnly()
+        {
+            return new FrameTemplateReadOnlyDictionary(this);
         }
     }
 }

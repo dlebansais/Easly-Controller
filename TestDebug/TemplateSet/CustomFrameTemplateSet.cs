@@ -30,7 +30,7 @@ namespace TestDebug
                     TemplateDictionary.Add(Item.NodeType, Item);
                 }
 
-                IFrameTemplateReadOnlyDictionary Result = new FrameTemplateReadOnlyDictionary(TemplateDictionary);
+                IFrameTemplateReadOnlyDictionary Result = TemplateDictionary.ToReadOnly();
                 return Result;
             }
         }

@@ -21,6 +21,14 @@ namespace EaslyController.Focus
     /// <typeparam name="TKey">Type of the key.</typeparam>
     internal class FocusAssignableCellViewDictionary<TKey> : Dictionary<TKey, IFocusAssignableCellView>, IFocusAssignableCellViewDictionary<TKey>
     {
+        /// <summary>
+        /// Gets a read-only view of the dictionary.
+        /// </summary>
+        public virtual IFrameAssignableCellViewReadOnlyDictionary<TKey> ToReadOnly()
+        {
+            return new FocusAssignableCellViewReadOnlyDictionary<TKey>(this);
+        }
+
         #region Frame
         IFrameAssignableCellView IDictionary<TKey, IFrameAssignableCellView>.this[TKey key] { get { return this[key]; } set { this[key] = (IFocusAssignableCellView)value; } }
         void IDictionary<TKey, IFrameAssignableCellView>.Add(TKey key, IFrameAssignableCellView value) { Add(key, (IFocusAssignableCellView)value); }

@@ -19,6 +19,14 @@ namespace EaslyController.Writeable
     /// </summary>
     internal class WriteableIndexNodeStateDictionary : Dictionary<IWriteableIndex, IWriteableNodeState>, IWriteableIndexNodeStateDictionary
     {
+        /// <summary>
+        /// Gets a read-only view of the dictionary.
+        /// </summary>
+        public virtual IReadOnlyIndexNodeStateReadOnlyDictionary ToReadOnly()
+        {
+            return new WriteableIndexNodeStateReadOnlyDictionary(this);
+        }
+
         #region ReadOnly
         IReadOnlyNodeState IDictionary<IReadOnlyIndex, IReadOnlyNodeState>.this[IReadOnlyIndex key] { get { return this[(IWriteableIndex)key]; } set { this[(IWriteableIndex)key] = (IWriteableNodeState)value; } }
         void IDictionary<IReadOnlyIndex, IReadOnlyNodeState>.Add(IReadOnlyIndex key, IReadOnlyNodeState value) { Add((IWriteableIndex)key, (IWriteableNodeState)value); }

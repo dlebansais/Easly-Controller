@@ -133,15 +133,6 @@
         }
 
         /// <summary>
-        /// Creates a IxxxAssignableCellViewReadOnlyDictionary{string} object.
-        /// </summary>
-        private protected override IFrameAssignableCellViewReadOnlyDictionary<string> CreateCellViewReadOnlyTable(IFrameAssignableCellViewDictionary<string> dictionary)
-        {
-            ControllerTools.AssertNoOverride(this, typeof(FocusPatternStateView));
-            return new FocusAssignableCellViewReadOnlyDictionary<string>((IFocusAssignableCellViewDictionary<string>)dictionary);
-        }
-
-        /// <summary>
         /// Creates a IxxxEmptyCellView object.
         /// </summary>
         private protected virtual IFocusEmptyCellView CreateEmptyCellView(IFocusNodeStateView stateView)

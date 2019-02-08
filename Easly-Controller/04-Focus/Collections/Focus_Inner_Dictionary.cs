@@ -23,6 +23,14 @@ namespace EaslyController.Focus
     /// <typeparam name="TKey">Type of the key.</typeparam>
     internal class FocusInnerDictionary<TKey> : Dictionary<TKey, IFocusInner>, IFocusInnerDictionary<TKey>
     {
+        /// <summary>
+        /// Gets a read-only view of the dictionary.
+        /// </summary>
+        public virtual IReadOnlyInnerReadOnlyDictionary<TKey> ToReadOnly()
+        {
+            return new FocusInnerReadOnlyDictionary<TKey>(this);
+        }
+
         #region ReadOnly
         IReadOnlyInner IDictionary<TKey, IReadOnlyInner>.this[TKey key] { get { return this[key]; } set { this[key] = (IFocusInner)value; } }
         void IDictionary<TKey, IReadOnlyInner>.Add(TKey key, IReadOnlyInner value) { Add(key, (IFocusInner)value); }

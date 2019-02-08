@@ -129,7 +129,7 @@
         {
             PatternIndex = CreateExistingPatternIndex();
             PatternState = CreatePatternState(PatternIndex);
-            IReadOnlyInnerReadOnlyDictionary<string> PatternEmptyInnerTable = CreateInnerTableReadOnly(CreateInnerTable());
+            IReadOnlyInnerReadOnlyDictionary<string> PatternEmptyInnerTable = CreateInnerTable().ToReadOnly();
             Dictionary<string, ValuePropertyType> PatternValuePropertyTypeTable = new Dictionary<string, ValuePropertyType>();
             PatternValuePropertyTypeTable.Add(nameof(IPattern.Text), ValuePropertyType.String);
             ((IReadOnlyPatternState<IInner>)PatternState).Init(PatternInner, PatternEmptyInnerTable, PatternValuePropertyTypeTable);
@@ -137,7 +137,7 @@
 
             SourceIndex = CreateExistingSourceIndex();
             SourceState = CreateSourceState(SourceIndex);
-            IReadOnlyInnerReadOnlyDictionary<string> SourceEmptyInnerTable = CreateInnerTableReadOnly(CreateInnerTable());
+            IReadOnlyInnerReadOnlyDictionary<string> SourceEmptyInnerTable = CreateInnerTable().ToReadOnly();
             Dictionary<string, ValuePropertyType> SourceValuePropertyTypeTable = new Dictionary<string, ValuePropertyType>();
             SourceValuePropertyTypeTable.Add(nameof(IIdentifier.Text), ValuePropertyType.String);
             ((IReadOnlySourceState<IInner>)SourceState).Init(SourceInner, SourceEmptyInnerTable, SourceValuePropertyTypeTable);
@@ -399,15 +399,6 @@
         {
             ControllerTools.AssertNoOverride(this, typeof(ReadOnlyBlockState<IInner>));
             return new ReadOnlyInnerDictionary<string>();
-        }
-
-        /// <summary>
-        /// Creates a IxxxInnerReadOnlyDictionary{string} object.
-        /// </summary>
-        private protected virtual IReadOnlyInnerReadOnlyDictionary<string> CreateInnerTableReadOnly(IReadOnlyInnerDictionary<string> innerTable)
-        {
-            ControllerTools.AssertNoOverride(this, typeof(ReadOnlyBlockState<IInner>));
-            return new ReadOnlyInnerReadOnlyDictionary<string>(innerTable);
         }
 
         /// <summary>

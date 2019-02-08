@@ -21,6 +21,14 @@ namespace EaslyController.Writeable
     /// <typeparam name="TKey">Type of the key.</typeparam>
     internal class WriteableInnerDictionary<TKey> : Dictionary<TKey, IWriteableInner>, IWriteableInnerDictionary<TKey>
     {
+        /// <summary>
+        /// Gets a read-only view of the dictionary.
+        /// </summary>
+        public virtual IReadOnlyInnerReadOnlyDictionary<TKey> ToReadOnly()
+        {
+            return new WriteableInnerReadOnlyDictionary<TKey>(this);
+        }
+
         #region ReadOnly
         IReadOnlyInner IDictionary<TKey, IReadOnlyInner>.this[TKey key] { get { return this[key]; } set { this[key] = (IWriteableInner)value; } }
         void IDictionary<TKey, IReadOnlyInner>.Add(TKey key, IReadOnlyInner value) { Add(key, (IWriteableInner)value); }
