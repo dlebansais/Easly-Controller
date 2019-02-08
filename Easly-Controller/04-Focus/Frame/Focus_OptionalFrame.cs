@@ -107,16 +107,16 @@
         /// <param name="frame">Frame found upon return. Null if not matching <paramref name="propertyName"/>.</param>
         public virtual bool FrameSelectorForProperty(string propertyName, out IFocusNodeFrameWithSelector frame)
         {
+            frame = null;
+            bool Found = false;
+
             if (propertyName == PropertyName)
             {
                 frame = this;
-                return true;
+                Found = true;
             }
-            else
-            {
-                frame = null;
-                return false;
-            }
+
+            return Found;
         }
 
         /// <summary>

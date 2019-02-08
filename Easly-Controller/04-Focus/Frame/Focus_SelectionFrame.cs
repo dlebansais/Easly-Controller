@@ -93,12 +93,17 @@
             Debug.Assert(((IFocusCellViewTreeContext)context).SelectorTable.ContainsKey(ParentTemplate.NodeType));
             string SelectorName = ((IFocusCellViewTreeContext)context).SelectorTable[ParentTemplate.NodeType];
 
+            IFrameCellView Result = null;
+
             foreach (IFocusSelectableFrame Item in Items)
                 if (Item.Name == SelectorName)
-                    return Item.BuildNodeCells(context, parentCellView);
+                {
+                    Result = Item.BuildNodeCells(context, parentCellView);
+                    break;
+                }
 
-            Debug.Assert(false);
-            return null;
+            Debug.Assert(Result != null);
+            return Result;
         }
 
         /// <summary>
