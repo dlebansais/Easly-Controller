@@ -52,13 +52,12 @@
         /// <param name="nodeType">Type of the node this frame visibility can describe.</param>
         public override bool IsValid(Type nodeType)
         {
-            if (string.IsNullOrEmpty(PropertyName))
-                return false;
+            bool IsValid = true;
 
-            if (!NodeTreeHelper.IsEnumProperty(nodeType, PropertyName) && !NodeTreeHelper.IsBooleanProperty(nodeType, PropertyName))
-                return false;
+            IsValid &= !string.IsNullOrEmpty(PropertyName);
+            IsValid &= NodeTreeHelper.IsEnumProperty(nodeType, PropertyName) || NodeTreeHelper.IsBooleanProperty(nodeType, PropertyName);
 
-            return true;
+            return IsValid;
         }
 
         /// <summary>

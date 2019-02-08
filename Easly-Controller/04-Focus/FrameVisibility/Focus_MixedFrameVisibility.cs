@@ -51,14 +51,14 @@
         /// <param name="nodeType">Type of the node this frame visibility can describe.</param>
         public override bool IsValid(Type nodeType)
         {
-            if (Items == null || Items.Count == 0)
-                return false;
+            bool IsValid = true;
+
+            IsValid &= Items != null && Items.Count > 0;
 
             foreach (IFocusNodeFrameVisibility Item in Items)
-                if (!Item.IsValid(nodeType))
-                    return false;
+                IsValid &= Item.IsValid(nodeType);
 
-            return true;
+            return IsValid;
         }
 
         /// <summary>

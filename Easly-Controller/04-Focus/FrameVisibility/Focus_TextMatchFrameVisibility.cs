@@ -51,10 +51,11 @@
         /// <param name="nodeType">Type of the node this frame visibility can describe.</param>
         public override bool IsValid(Type nodeType)
         {
-            if (string.IsNullOrEmpty(TextPattern))
-                return false;
+            bool IsValid = true;
 
-            return true;
+            IsValid &= !string.IsNullOrEmpty(TextPattern);
+
+            return IsValid;
         }
 
         /// <summary>

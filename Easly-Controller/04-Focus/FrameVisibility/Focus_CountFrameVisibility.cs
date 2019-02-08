@@ -40,14 +40,14 @@
         /// <param name="nodeType">Type of the node this frame visibility can describe.</param>
         public override bool IsValid(Type nodeType)
         {
-            if (string.IsNullOrEmpty(PropertyName))
-                return false;
+            bool IsValid = true;
+
+            IsValid &= !string.IsNullOrEmpty(PropertyName);
 
             Type ChildInterfaceType, ChildNodeType;
-            if (!NodeTreeHelperList.IsNodeListProperty(nodeType, PropertyName, out ChildNodeType) && !NodeTreeHelperBlockList.IsBlockListProperty(nodeType, PropertyName, out ChildInterfaceType, out ChildNodeType))
-                return false;
+            IsValid &= NodeTreeHelperList.IsNodeListProperty(nodeType, PropertyName, out ChildNodeType) || NodeTreeHelperBlockList.IsBlockListProperty(nodeType, PropertyName, out ChildInterfaceType, out ChildNodeType);
 
-            return true;
+            return IsValid;
         }
 
         /// <summary>
