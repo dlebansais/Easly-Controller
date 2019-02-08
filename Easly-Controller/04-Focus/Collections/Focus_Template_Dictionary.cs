@@ -11,8 +11,10 @@ namespace EaslyController.Focus
     /// </summary>
     public interface IFocusTemplateDictionary : IFrameTemplateDictionary, IDictionary<Type, IFocusTemplate>
     {
+        new IFocusTemplate this[Type key] { get; set; }
         new int Count { get; }
         new Dictionary<Type, IFocusTemplate>.Enumerator GetEnumerator();
+        new bool ContainsKey(Type key);
     }
 
     /// <summary>

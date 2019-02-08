@@ -11,12 +11,14 @@ namespace TestDebug
 #if !TRAVIS
         static CustomFrameTemplateSet()
         {
-            IFrameTemplateReadOnlyDictionary FrameCustomNodeTemplates = LoadTemplate(FrameTemplateListString);
-            IFrameTemplateReadOnlyDictionary FrameCustomBlockTemplates = LoadTemplate(FrameBlockTemplateString);
+            NodeTemplateDictionary = LoadTemplate(FrameTemplateListString);
+            IFrameTemplateReadOnlyDictionary FrameCustomNodeTemplates = NodeTemplateDictionary.ToReadOnly();
+            BlockTemplateDictionary = LoadTemplate(FrameBlockTemplateString);
+            IFrameTemplateReadOnlyDictionary FrameCustomBlockTemplates = BlockTemplateDictionary.ToReadOnly();
             FrameTemplateSet = new FrameTemplateSet(FrameCustomNodeTemplates, FrameCustomBlockTemplates);
         }
 
-        private static IFrameTemplateReadOnlyDictionary LoadTemplate(string s)
+        private static IFrameTemplateDictionary LoadTemplate(string s)
         {
             byte[] ByteArray = Encoding.UTF8.GetBytes(s);
             using (MemoryStream ms = new MemoryStream(ByteArray))
@@ -30,8 +32,7 @@ namespace TestDebug
                     TemplateDictionary.Add(Item.NodeType, Item);
                 }
 
-                IFrameTemplateReadOnlyDictionary Result = TemplateDictionary.ToReadOnly();
-                return Result;
+                return TemplateDictionary;
             }
         }
 
@@ -42,6 +43,8 @@ namespace TestDebug
         #endregion
 
         #region Properties
+        public static IFrameTemplateDictionary NodeTemplateDictionary { get; private set; }
+        public static IFrameTemplateDictionary BlockTemplateDictionary { get; private set; }
         public static IFrameTemplateSet FrameTemplateSet { get; private set; }
         #endregion
 

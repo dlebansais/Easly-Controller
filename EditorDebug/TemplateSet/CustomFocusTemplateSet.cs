@@ -11,12 +11,14 @@ namespace TestDebug
 #if !TRAVIS
         static CustomFocusTemplateSet()
         {
-            IFocusTemplateReadOnlyDictionary FocusCustomNodeTemplates = LoadTemplate(FocusTemplateListString);
-            IFocusTemplateReadOnlyDictionary FocusCustomBlockTemplates = LoadTemplate(FocusBlockTemplateString);
+            NodeTemplateDictionary = LoadTemplate(FocusTemplateListString);
+            IFocusTemplateReadOnlyDictionary FocusCustomNodeTemplates = NodeTemplateDictionary.ToReadOnly() as IFocusTemplateReadOnlyDictionary;
+            BlockTemplateDictionary = LoadTemplate(FocusBlockTemplateString);
+            IFocusTemplateReadOnlyDictionary FocusCustomBlockTemplates = BlockTemplateDictionary.ToReadOnly() as IFocusTemplateReadOnlyDictionary;
             FocusTemplateSet = new FocusTemplateSet(FocusCustomNodeTemplates, FocusCustomBlockTemplates);
         }
 
-        private static IFocusTemplateReadOnlyDictionary LoadTemplate(string s)
+        private static IFocusTemplateDictionary LoadTemplate(string s)
         {
             byte[] ByteArray = Encoding.UTF8.GetBytes(s);
             using (MemoryStream ms = new MemoryStream(ByteArray))
@@ -30,8 +32,7 @@ namespace TestDebug
                     TemplateDictionary.Add(Item.NodeType, Item);
                 }
 
-                IFocusTemplateReadOnlyDictionary Result = TemplateDictionary.ToReadOnly() as IFocusTemplateReadOnlyDictionary;
-                return Result;
+                return TemplateDictionary;
             }
         }
 
@@ -42,6 +43,8 @@ namespace TestDebug
         #endregion
 
         #region Properties
+        public static IFocusTemplateDictionary NodeTemplateDictionary { get; private set; }
+        public static IFocusTemplateDictionary BlockTemplateDictionary { get; private set; }
         public static IFocusTemplateSet FocusTemplateSet { get; private set; }
         #endregion
 
