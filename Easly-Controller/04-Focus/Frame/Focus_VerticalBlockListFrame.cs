@@ -67,7 +67,7 @@
             bool IsValid = true;
 
             IsValid &= base.IsValid(nodeType, nodeTemplateTable);
-            IsValid &= Visibility == null || !Visibility.IsValid(nodeType);
+            IsValid &= Visibility == null || Visibility.IsValid(nodeType);
 
             Debug.Assert(IsValid);
             return IsValid;

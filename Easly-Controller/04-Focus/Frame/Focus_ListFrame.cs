@@ -93,10 +93,10 @@
             {
                 foreach (IFocusCellView CellView in EmbeddingCellView.CellViewList)
                 {
-                    IFocusBlockCellView AsBlockCellView = CellView as IFocusBlockCellView;
-                    Debug.Assert(AsBlockCellView != null);
-                    Debug.Assert(AsBlockCellView.BlockStateView != null);
-                    Debug.Assert(AsBlockCellView.BlockStateView.RootCellView is IFocusEmptyCellView);
+                    IFocusContainerCellView AsContainerCellView = CellView as IFocusContainerCellView;
+                    Debug.Assert(AsContainerCellView != null);
+                    Debug.Assert(AsContainerCellView.ChildStateView != null);
+                    Debug.Assert(AsContainerCellView.ChildStateView.RootCellView is IFocusEmptyCellView);
                 }
             }
 
