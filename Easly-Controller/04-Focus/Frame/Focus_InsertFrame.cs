@@ -224,14 +224,7 @@
             return new FocusFocusableCellView((IFocusNodeStateView)stateView, this);
         }
 
-        /// <summary>
-        /// Creates a IxxxVisibleCellView object.
-        /// </summary>
-        private protected override IFrameVisibleCellView CreateVisibleCellView(IFrameNodeStateView stateView)
-        {
-            ControllerTools.AssertNoOverride(this, typeof(FocusInsertFrame));
-            return new FocusVisibleCellView((IFocusNodeStateView)stateView, this);
-        }
+        // This class should not need CreateVisibleCellView().
 
         /// <summary>
         /// Creates a IxxxEmptyCellView object.
