@@ -51,4 +51,11 @@ ignore:
   - Easly-Controller/04-Focus/Controller/Operations/Focus_Operation.cs
   - Easly-Controller/04-Focus/Controller/Operations/Focus_Insert_Operation.cs
   - Easly-Controller/04-Focus/Controller/Operations/Focus_Remove_Operation.cs
+  - Easly-Controller/04-Focus/Frame/Focus_BlockListFrame.cs
+  - Easly-Controller/04-Focus/Frame/Focus_CollectionPlaceholderFrame.cs
+  - Easly-Controller/04-Focus/Frame/Focus_ListFrame.cs
+  - Easly-Controller/04-Focus/Frame/Focus_NamedFrame.cs
+  - Easly-Controller/04-Focus/Frame/Focus_PanelFrame.cs
+  - Easly-Controller/04-Focus/Frame/Focus_StaticFrame.cs
+  - Easly-Controller/04-Focus/Frame/Focus_ValueFrame.cs
   - Easly-Controller/Controller/TypeMarkupExtension.cs
