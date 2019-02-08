@@ -92,9 +92,8 @@
                 }
             }
 
-            Debug.Assert(NewCyclePosition < CycleIndexList.Count);
             Debug.Assert(OldCyclePosition < CycleIndexList.Count);
-            Debug.Assert(OldCyclePosition != NewCyclePosition);
+            Debug.Assert(NewCyclePosition < CycleIndexList.Count);
         }
 
         /// <summary>

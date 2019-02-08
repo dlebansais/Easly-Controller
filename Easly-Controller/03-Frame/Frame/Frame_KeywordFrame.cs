@@ -42,7 +42,7 @@
         public bool IsFocusable { get; set; }
 
         /// <summary></summary>
-        private protected override bool IsFrameFocusable { get { return true; } }
+        private protected override bool IsFrameFocusable { get { return IsFocusable; } }
         #endregion
 
         #region Client Interface

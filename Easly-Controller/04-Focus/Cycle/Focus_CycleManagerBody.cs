@@ -32,7 +32,7 @@
         {
             IFocusInsertionChildNodeIndexList CycleIndexList = state.CycleIndexList;
             INode ParentNode = state.ParentState.Node;
-            IFocusNodeIndex NodeIndex = state.ParentIndex as IFocusNodeIndex;
+            IFocusIndex NodeIndex = state.ParentIndex;
 
             IDocument Documentation = null;
             IBlockList<IAssertion, Assertion> RequireBlocks = null;
@@ -95,7 +95,11 @@
 
                 INode NewBody = NodeHelper.CreateInitializedBody(NodeType, Documentation, RequireBlocks, EnsureBlocks, ExceptionIdentifierBlocks, EntityDeclarationBlocks, BodyInstructionBlocks, ExceptionHandlerBlocks, AncestorType);
 
-                IFocusInsertionChildNodeIndex InsertionIndex = (IFocusInsertionChildNodeIndex)((IFocusBrowsingInsertableIndex)NodeIndex).ToInsertionIndex(ParentNode, NewBody);
+                IFocusBrowsingInsertableIndex InsertableNodeIndex = NodeIndex as IFocusBrowsingInsertableIndex;
+                Debug.Assert(InsertableNodeIndex != null);
+                IFocusInsertionChildNodeIndex InsertionIndex = InsertableNodeIndex.ToInsertionIndex(ParentNode, NewBody) as IFocusInsertionChildNodeIndex;
+                Debug.Assert(InsertionIndex != null);
+
                 CycleIndexList.Add(InsertionIndex);
             }
         }
