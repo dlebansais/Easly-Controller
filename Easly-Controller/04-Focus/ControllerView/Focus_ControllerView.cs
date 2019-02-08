@@ -716,15 +716,18 @@
         {
             inner = null;
             index = null;
+            bool IsRemoveable;
 
             Debug.Assert(FocusedCellView != null);
 
             IFocusNodeState State = FocusedCellView.StateView.State;
 
             if (FocusedCellView.Frame is IFocusInsertFrame AsInsertFrame)
-                return false;
+                IsRemoveable = false;
             else
             {
+                IsRemoveable = false;
+
                 // Search recursively for a collection parent, up to 3 levels up.
                 for (int i = 0; i < 3 && State != null; i++)
                 {
@@ -735,16 +738,16 @@
                         Debug.Assert(index != null);
 
                         if (Controller.IsRemoveable(inner, index))
-                            return true;
-                        else
-                            return false;
+                            IsRemoveable = true;
+
+                        break;
                     }
 
                     State = State.ParentState;
                 }
             }
 
-            return false;
+            return IsRemoveable;
         }
 
         /// <summary>
@@ -757,15 +760,18 @@
         {
             inner = null;
             index = null;
+            bool IsSplittable;
 
             Debug.Assert(FocusedCellView != null);
 
             IFocusNodeState State = FocusedCellView.StateView.State;
 
             if (FocusedCellView.Frame is IFocusInsertFrame AsInsertFrame)
-                return false;
+                IsSplittable = false;
             else
             {
+                IsSplittable = false;
+
                 // Search recursively for a collection parent, up to 3 levels up.
                 for (int i = 0; i < 3 && State != null; i++)
                 {
@@ -776,16 +782,16 @@
                         Debug.Assert(index != null);
 
                         if (Controller.IsSplittable(inner, index))
-                            return true;
-                        else
-                            return false;
+                            IsSplittable = true;
+
+                        break;
                     }
 
                     State = State.ParentState;
                 }
             }
 
-            return false;
+            return IsSplittable;
         }
 
         /// <summary>
@@ -798,15 +804,18 @@
         {
             inner = null;
             index = null;
+            bool IsMergeable;
 
             Debug.Assert(FocusedCellView != null);
 
             IFocusNodeState State = FocusedCellView.StateView.State;
 
             if (FocusedCellView.Frame is IFocusInsertFrame AsInsertFrame)
-                return false;
+                IsMergeable = false;
             else
             {
+                IsMergeable = false;
+
                 // Search recursively for a collection parent, up to 3 levels up.
                 for (int i = 0; i < 3 && State != null; i++)
                 {
@@ -817,16 +826,16 @@
                         Debug.Assert(index != null);
 
                         if (Controller.IsMergeable(inner, index))
-                            return true;
-                        else
-                            return false;
+                            IsMergeable = true;
+
+                        break;
                     }
 
                     State = State.ParentState;
                 }
             }
 
-            return false;
+            return IsMergeable;
         }
 
         /// <summary>
@@ -840,15 +849,18 @@
         {
             inner = null;
             index = null;
+            bool IsMoveable;
 
             Debug.Assert(FocusedCellView != null);
 
             IFocusNodeState State = FocusedCellView.StateView.State;
 
             if (FocusedCellView.Frame is IFocusInsertFrame AsInsertFrame)
-                return false;
+                IsMoveable = false;
             else
             {
+                IsMoveable = false;
+
                 // Search recursively for a collection parent, up to 3 levels up.
                 for (int i = 0; i < 3 && State != null; i++)
                 {
@@ -859,16 +871,16 @@
                         Debug.Assert(index != null);
 
                         if (Controller.IsMoveable(inner, index, direction))
-                            return true;
-                        else
-                            return false;
+                            IsMoveable = true;
+
+                        break;
                     }
 
                     State = State.ParentState;
                 }
             }
 
-            return false;
+            return IsMoveable;
         }
 
         /// <summary>
@@ -882,15 +894,18 @@
         {
             inner = null;
             blockIndex = -1;
+            bool IsBlockMoveable;
 
             Debug.Assert(FocusedCellView != null);
 
             IFocusNodeState State = FocusedCellView.StateView.State;
 
             if (FocusedCellView.Frame is IFocusInsertFrame AsInsertFrame)
-                return false;
+                IsBlockMoveable = false;
             else
             {
+                IsBlockMoveable = false;
+
                 // Search recursively for a collection parent, up to 3 levels up.
                 for (int i = 0; i < 3 && State != null; i++)
                 {
@@ -902,16 +917,16 @@
                         blockIndex = ParentIndex.BlockIndex;
 
                         if (Controller.IsBlockMoveable(inner, blockIndex, direction))
-                            return true;
-                        else
-                            return false;
+                            IsBlockMoveable = true;
+
+                        break;
                     }
 
                     State = State.ParentState;
                 }
             }
 
-            return false;
+            return IsBlockMoveable;
         }
 
         /// <summary>
