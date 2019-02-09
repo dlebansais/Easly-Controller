@@ -395,24 +395,41 @@
             Debug.Assert(State.InnerTable.ContainsKey(propertyName));
 
             bool IsHandled = false;
-            bool Result = false;
+            bool HasItems = false;
 
             switch (State.InnerTable[propertyName])
             {
                 case IFocusListInner AsListInner:
-                    Result = AsListInner.Count > 0;
+                    HasItems = AsListInner.Count > 0;
+                    if (HasItems)
+                    {
+                        IFocusPlaceholderNodeState NodeState = AsListInner.StateList[0];
+                        Debug.Assert(StateViewTable.ContainsKey(NodeState));
+                        IFocusNodeStateView StateView = StateViewTable[NodeState];
+                        IFocusTemplate Template = StateView.Template;
+                    }
+
                     IsHandled = true;
                     break;
 
                 case IFocusBlockListInner AsBlockListInner:
-                    Result = AsBlockListInner.Count > 0;
+                    HasItems = AsBlockListInner.Count > 0;
+                    if (HasItems)
+                    {
+                        IFocusBlockState BlockState = AsBlockListInner.BlockStateList[0];
+                        Debug.Assert(BlockStateViewTable.ContainsKey(BlockState));
+                        IFocusBlockStateView BlockStateView = BlockStateViewTable[BlockState];
+                        IFocusTemplate Template = BlockStateView.Template;
+                        IFocusCellViewCollection EmbeddingCellView = BlockStateView.EmbeddingCellView;
+                    }
+
                     IsHandled = true;
                     break;
             }
 
             Debug.Assert(IsHandled);
 
-            return Result;
+            return HasItems;
         }
 
         /// <summary>
