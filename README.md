@@ -2,7 +2,7 @@
 
 Manage and edit Easly source code.
 
-![Easly](https://www.easly.org/images/16.png) [![CodeFactor](https://www.codefactor.io/repository/github/dlebansais/easly-controller/badge)](https://www.codefactor.io/repository/github/dlebansais/easly-controller)
+![Easly](https://www.easly.org/images/16.png) [![CodeFactor](https://www.codefactor.io/repository/github/dlebansais/easly-controller/badge)](https://www.codefactor.io/repository/github/dlebansais/easly-controller) [![codecov](https://codecov.io/gh/dlebansais/Easly-Controller/branch/master/graph/badge.svg)](https://codecov.io/gh/dlebansais/Easly-Controller)
 
 Easly source code is defined in the [Easly-Language](https://github.com/dlebansais/Easly-Language/) assembly. A controller, created and initialized with any of the Easly objects, can display the source code content in a .NET WPF application, allowing modification of the source code.
 
@@ -62,7 +62,8 @@ The writeable layer, as the name suggests, adds features to modify the source co
   * Splitting and joining blocks.
   * Changing the replication type.
   * Moving blocks around in the block list.
-+ Expand or reduce a node (see below).
++ Expanding or reducing a node (see below).
++ Modifying values in a node, for exemple discrete values.
 
 This layer also adds insertion indexes. They represent the index of a node to add/replace/insert rather than an existing child node. An insertion index is created by a client of the controller, and upon return of the requested operation (say, insert), the corresponding browsing index is provided. This returned index can be used for further operations like changing the node again. 
 
