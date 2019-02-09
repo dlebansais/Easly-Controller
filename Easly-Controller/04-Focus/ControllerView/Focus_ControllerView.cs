@@ -401,28 +401,11 @@
             {
                 case IFocusListInner AsListInner:
                     HasItems = AsListInner.Count > 0;
-                    if (HasItems)
-                    {
-                        IFocusPlaceholderNodeState NodeState = AsListInner.StateList[0];
-                        Debug.Assert(StateViewTable.ContainsKey(NodeState));
-                        IFocusNodeStateView StateView = StateViewTable[NodeState];
-                        IFocusTemplate Template = StateView.Template;
-                    }
-
                     IsHandled = true;
                     break;
 
                 case IFocusBlockListInner AsBlockListInner:
                     HasItems = AsBlockListInner.Count > 0;
-                    if (HasItems)
-                    {
-                        IFocusBlockState BlockState = AsBlockListInner.BlockStateList[0];
-                        Debug.Assert(BlockStateViewTable.ContainsKey(BlockState));
-                        IFocusBlockStateView BlockStateView = BlockStateViewTable[BlockState];
-                        IFocusTemplate Template = BlockStateView.Template;
-                        IFocusCellViewCollection EmbeddingCellView = BlockStateView.EmbeddingCellView;
-                    }
-
                     IsHandled = true;
                     break;
             }
@@ -1550,12 +1533,20 @@
             foreach (KeyValuePair<string, IFocusInner> Entry in stateView.State.InnerTable)
             {
                 bool IsHandled = false;
+                IFocusTemplate Template;
+                IFocusAssignableCellViewReadOnlyDictionary<string> CellViewTable;
+                IFocusCellViewCollection EmbeddingCellView;
 
                 if (Entry.Value is IFocusPlaceholderInner<IFocusBrowsingPlaceholderNodeIndex> AsPlaceholderInner)
                 {
                     Debug.Assert(StateViewTable.ContainsKey(AsPlaceholderInner.ChildState));
                     IFocusNodeStateView ChildStateView = StateViewTable[AsPlaceholderInner.ChildState];
+                    Debug.Assert(ChildStateView != null);
+
                     GetChildrenStateView(ChildStateView, stateViewList);
+
+                    Template = ChildStateView.Template;
+                    CellViewTable = ChildStateView.CellViewTable;
 
                     IsHandled = true;
                 }
@@ -1563,8 +1554,14 @@
                 {
                     if (AsOptionalInner.IsAssigned)
                     {
-                        IFocusNodeStateView ChildStateView = StateViewTable[AsOptionalInner.ChildState];
+                        Debug.Assert(StateViewTable.ContainsKey(AsOptionalInner.ChildState));
+                        IFocusOptionalNodeStateView ChildStateView = StateViewTable[AsOptionalInner.ChildState] as IFocusOptionalNodeStateView;
+                        Debug.Assert(ChildStateView != null);
+
                         GetChildrenStateView(ChildStateView, stateViewList);
+
+                        Template = ChildStateView.Template;
+                        CellViewTable = ChildStateView.CellViewTable;
                     }
 
                     IsHandled = true;
@@ -1575,6 +1572,9 @@
                     {
                         IFocusNodeStateView ChildStateView = StateViewTable[ChildState];
                         GetChildrenStateView(ChildStateView, stateViewList);
+
+                        Template = ChildStateView.Template;
+                        CellViewTable = ChildStateView.CellViewTable;
                     }
 
                     IsHandled = true;
@@ -1585,14 +1585,23 @@
                     {
                         IFocusNodeStateView PatternStateView = StateViewTable[BlockState.PatternState];
                         GetChildrenStateView(PatternStateView, stateViewList);
+                        Template = PatternStateView.Template;
 
                         IFocusNodeStateView SourceStateView = StateViewTable[BlockState.SourceState];
                         GetChildrenStateView(SourceStateView, stateViewList);
+                        Template = SourceStateView.Template;
+
+                        IFocusBlockStateView BlockStateView = BlockStateViewTable[BlockState];
+                        Template = BlockStateView.Template;
+                        EmbeddingCellView = BlockStateView.EmbeddingCellView;
 
                         foreach (IFocusNodeState ChildState in BlockState.StateList)
                         {
                             IFocusNodeStateView ChildStateView = StateViewTable[ChildState];
                             GetChildrenStateView(ChildStateView, stateViewList);
+
+                            Template = ChildStateView.Template;
+                            CellViewTable = ChildStateView.CellViewTable;
                         }
                     }
 
