@@ -15,6 +15,12 @@
         bool IsComplex { get; set; }
 
         /// <summary>
+        /// True if the parent template rather than this template should be fully displayed when visibility is enforced.
+        /// (Set in Xaml)
+        /// </summary>
+        bool IsSimple { get; set; }
+
+        /// <summary>
         /// Returns the frame associated to a property if can have selectors.
         /// </summary>
         /// <param name="propertyName">Name of the property to look for.</param>
@@ -74,14 +80,14 @@
         {
             get
             {
-                if (!base.IsValid)
-                    return false;
+                bool IsValid = true;
+
+                IsValid &= base.IsValid;
 
                 GetPreferredFrame(out IFocusNodeFrame FirstPreferredFrame, out IFocusNodeFrame LastPreferredFrame);
-                if (FirstPreferredFrame == null || LastPreferredFrame == null)
-                    return false;
+                IsValid &= FirstPreferredFrame != null && LastPreferredFrame != null;
 
-                return true;
+                return IsValid;
             }
         }
         #endregion

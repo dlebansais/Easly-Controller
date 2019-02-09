@@ -633,7 +633,7 @@
             Debug.Assert(stateView != null);
             IFocusNodeStateView CurrentStateView = stateView;
 
-            while (CurrentStateView.Template.IsSimple && CurrentStateView.State.ParentState != null)
+            while (((IFocusNodeTemplate)CurrentStateView.Template).IsSimple && CurrentStateView.State.ParentState != null)
                 CurrentStateView = StateViewTable[CurrentStateView.State.ParentState];
 
             return CurrentStateView;
@@ -1586,10 +1586,12 @@
                         IFocusNodeStateView PatternStateView = StateViewTable[BlockState.PatternState];
                         GetChildrenStateView(PatternStateView, stateViewList);
                         Template = PatternStateView.Template;
+                        CellViewTable = PatternStateView.CellViewTable;
 
                         IFocusNodeStateView SourceStateView = StateViewTable[BlockState.SourceState];
                         GetChildrenStateView(SourceStateView, stateViewList);
                         Template = SourceStateView.Template;
+                        CellViewTable = SourceStateView.CellViewTable;
 
                         IFocusBlockStateView BlockStateView = BlockStateViewTable[BlockState];
                         Template = BlockStateView.Template;
