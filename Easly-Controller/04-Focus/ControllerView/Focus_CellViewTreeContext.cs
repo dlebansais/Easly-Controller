@@ -188,9 +188,12 @@
             oldFrameVisibility = IsFrameVisible;
             bool IsPreferred = frame.IsPreferred;
 
-            if (frame.Visibility != null)
+            IFocusNodeFrameVisibility Visibility = frame.Visibility;
+            if (Visibility != null)
             {
-                bool IsVisible = frame.Visibility.IsVisible(this, frame);
+                bool IsVolatile = Visibility.IsVolatile;
+
+                bool IsVisible = Visibility.IsVisible(this, frame);
                 IsFrameVisible &= IsVisible;
             }
         }

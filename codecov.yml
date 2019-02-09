@@ -58,4 +58,13 @@ ignore:
   - Easly-Controller/04-Focus/Frame/Focus_PanelFrame.cs
   - Easly-Controller/04-Focus/Frame/Focus_StaticFrame.cs
   - Easly-Controller/04-Focus/Frame/Focus_ValueFrame.cs
+  - Easly-Controller/04-Focus/Index/Browsing/Collection/Focus_BrowsingBlockNodeIndex.cs
+  - Easly-Controller/04-Focus/Index/Browsing/Collection/Focus_BrowsingCollectionNodeIndex.cs
+  - Easly-Controller/04-Focus/Index/Insertion/Collection/Focus_InsertionBlockNodeIndex.cs
+  - Easly-Controller/04-Focus/Index/Insertion/Collection/Focus_InsertionCollectionNodeIndex.cs
+  - Easly-Controller/04-Focus/Inner/Collection/Focus_CollectionInner.cs
+  - Easly-Controller/04-Focus/Inner/Single/Focus_SingleInner.cs
+  - Easly-Controller/04-Focus/Inner/Focus_Inner.cs
+  - Easly-Controller/04-Focus/State/Focus_NodeState.cs
+  - Easly-Controller/04-Focus/StateView/Focus_NodeStateView.cs
   - Easly-Controller/Controller/TypeMarkupExtension.cs
