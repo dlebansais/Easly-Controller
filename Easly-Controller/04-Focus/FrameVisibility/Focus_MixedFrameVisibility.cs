@@ -35,7 +35,7 @@
         /// <summary>
         /// True if the visibility depends on the show/hidden state of the view with the focus.
         /// </summary>
-        public override bool IsVolatile { get { return false; } }
+        public virtual bool IsVolatile { get { return false; } }
 
         /// <summary>
         /// List of frame visibilities that must be satisfied at least for one.

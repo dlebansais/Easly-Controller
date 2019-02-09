@@ -24,7 +24,7 @@
         /// <summary>
         /// True if the visibility depends on the show/hidden state of the view with the focus.
         /// </summary>
-        public override bool IsVolatile { get { return false; } }
+        public virtual bool IsVolatile { get { return false; } }
 
         /// <summary>
         /// Name of the property that can be complex or not.
@@ -55,10 +55,11 @@
         /// <param name="frame">The frame with the associated visibility.</param>
         public virtual bool IsVisible(IFocusCellViewTreeContext context, IFocusNodeFrameWithVisibility frame)
         {
-            if (!context.ControllerView.IsTemplateComplex(context.StateView, PropertyName))
-                return false;
+            bool IsVisible = true;
 
-            return true;
+            IsVisible &= context.ControllerView.IsTemplateComplex(context.StateView, PropertyName);
+
+            return IsVisible;
         }
         #endregion
     }

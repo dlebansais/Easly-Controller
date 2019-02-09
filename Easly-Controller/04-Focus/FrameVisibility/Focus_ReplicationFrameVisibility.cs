@@ -14,13 +14,6 @@
     /// </summary>
     public class FocusReplicationFrameVisibility : FocusFrameVisibility, IFocusReplicationFrameVisibility
     {
-        #region Properties
-        /// <summary>
-        /// True if the visibility depends on the show/hidden state of the view with the focus.
-        /// </summary>
-        public override bool IsVolatile { get { return false; } }
-        #endregion
-
         #region Client Interface
         /// <summary>
         /// Checks that a frame visibility is correctly constructed.
@@ -38,10 +31,11 @@
         /// <param name="frame">The frame with the associated visibility.</param>
         public virtual bool IsBlockVisible(IFocusCellViewTreeContext context, IFocusBlockFrame frame)
         {
-            if (!context.ControllerView.IsInReplicatedBlock(context.BlockStateView))
-                return false;
+            bool IsVisible = true;
 
-            return true;
+            IsVisible &= context.ControllerView.IsInReplicatedBlock(context.BlockStateView);
+
+            return IsVisible;
         }
         #endregion
     }

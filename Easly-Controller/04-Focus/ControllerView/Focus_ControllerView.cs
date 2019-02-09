@@ -465,41 +465,53 @@
         /// <param name="stateView">The state view.</param>
         public virtual bool IsFirstItem(IFocusNodeStateView stateView)
         {
-            IFocusPlaceholderNodeState State = stateView.State as IFocusPlaceholderNodeState;
-            Debug.Assert(State != null);
-            Debug.Assert(State.ParentInner != null);
+            Debug.Assert(stateView != null);
 
+            IFocusNodeState State = stateView.State;
+            Debug.Assert(State != null);
+
+            IFocusInner ParentInner = State.ParentInner;
+            Debug.Assert(ParentInner != null);
+
+            IFocusPlaceholderNodeState PlaceholderNodeState;
             IFocusPlaceholderNodeStateReadOnlyList StateList;
             int Index;
-            bool IsHandled = false;
-            bool Result = false;
+            bool Result;
 
-            switch (State.ParentInner)
+            switch (ParentInner)
             {
                 case IFocusListInner AsListInner:
+                    PlaceholderNodeState = State as IFocusPlaceholderNodeState;
+                    Debug.Assert(PlaceholderNodeState != null);
+
                     StateList = AsListInner.StateList;
-                    Index = StateList.IndexOf(State);
+                    Index = StateList.IndexOf(PlaceholderNodeState);
                     Debug.Assert(Index >= 0 && Index < StateList.Count);
                     Result = Index == 0;
-                    IsHandled = true;
                     break;
 
                 case IFocusBlockListInner AsBlockListInner:
+                    PlaceholderNodeState = State as IFocusPlaceholderNodeState;
+                    Debug.Assert(PlaceholderNodeState != null);
+
+                    Result = false;
                     for (int BlockIndex = 0; BlockIndex < AsBlockListInner.BlockStateList.Count; BlockIndex++)
                     {
                         StateList = AsBlockListInner.BlockStateList[BlockIndex].StateList;
-                        Index = StateList.IndexOf(State);
+                        Index = StateList.IndexOf(PlaceholderNodeState);
                         if (Index >= 0)
                         {
                             Debug.Assert(Index < StateList.Count);
                             Result = BlockIndex == 0 && Index == 0;
-                            IsHandled = true;
                         }
                     }
                     break;
+
+                default:
+                    Result = true;
+                    break;
             }
 
-            Debug.Assert(IsHandled);
             return Result;
         }
 

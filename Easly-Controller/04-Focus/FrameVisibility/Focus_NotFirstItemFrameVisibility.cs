@@ -18,7 +18,7 @@
         /// <summary>
         /// True if the visibility depends on the show/hidden state of the view with the focus.
         /// </summary>
-        public override bool IsVolatile { get { return false; } }
+        public virtual bool IsVolatile { get { return false; } }
         #endregion
 
         #region Client Interface
@@ -38,10 +38,11 @@
         /// <param name="frame">The frame with the associated visibility.</param>
         public virtual bool IsVisible(IFocusCellViewTreeContext context, IFocusNodeFrameWithVisibility frame)
         {
-            if (context.ControllerView.IsFirstItem(context.StateView))
-                return false;
+            bool IsVisible = true;
 
-            return true;
+            IsVisible &= !context.ControllerView.IsFirstItem(context.StateView);
+
+            return IsVisible;
         }
         #endregion
     }
