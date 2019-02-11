@@ -66,7 +66,7 @@
                 context.SetBlockStateView(BlockStateView);
                 BlockStateView.BuildRootCellView(context);
                 IFrameBlockCellView BlockCellView = CreateBlockCellView(context.StateView, EmbeddingCellView, BlockStateView);
-                ValidateBlockCellView(context.StateView, EmbeddingCellView, BlockCellView);
+                ValidateBlockCellView(context.StateView, EmbeddingCellView, BlockStateView, BlockCellView);
 
                 CellViewList.Add(BlockCellView);
             }
@@ -83,10 +83,11 @@
         }
 
         /// <summary></summary>
-        private protected virtual void ValidateBlockCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, IFrameBlockCellView blockCellView)
+        private protected virtual void ValidateBlockCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, IFrameBlockStateView blockStateView, IFrameBlockCellView blockCellView)
         {
             Debug.Assert(blockCellView.StateView == stateView);
             Debug.Assert(blockCellView.ParentCellView == parentCellView);
+            Debug.Assert(blockCellView.BlockStateView == blockStateView);
         }
 
         /// <summary></summary>

@@ -3,6 +3,7 @@
     using System.Collections.Generic;
     using System.Diagnostics;
     using EaslyController.Focus;
+    using EaslyController.Frame;
     using EaslyController.ReadOnly;
     using EaslyController.Writeable;
 
@@ -84,6 +85,7 @@
                     {
                         InternalList.CopyTo((IReadOnlyIndexCollection[])(new ILayoutIndexCollection[InternalList.Count]), 0);
                         InternalList.CopyTo((IWriteableIndexCollection[])(new ILayoutIndexCollection[InternalList.Count]), 0);
+                        InternalList.CopyTo((IFrameIndexCollection[])(new ILayoutIndexCollection[InternalList.Count]), 0);
                         InternalList.CopyTo((IFocusIndexCollection[])(new ILayoutIndexCollection[InternalList.Count]), 0);
                     }
 
@@ -96,6 +98,13 @@
 
                     IEnumerable<IWriteableIndexCollection> AsWriteableEnumerable = PublicList;
                     foreach (ILayoutIndexCollection Item in AsWriteableEnumerable)
+                    {
+                        Debug.Assert(Item == InternalItem);
+                        break;
+                    }
+
+                    IEnumerable<IFrameIndexCollection> AsFrameEnumerable = PublicList;
+                    foreach (ILayoutIndexCollection Item in AsFrameEnumerable)
                     {
                         Debug.Assert(Item == InternalItem);
                         break;

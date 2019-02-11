@@ -284,6 +284,7 @@
         /// Cell view with the focus.
         /// </summary>
         public IFocusFocusableCellView FocusedCellView { get; private set; }
+
         /// <summary></summary>
         private protected IFocusFocusableCellViewList FocusChain { get; private set; }
 
@@ -1438,6 +1439,7 @@
                 RecoverFocus(state, NewFocusChain);
 
             FocusChain = NewFocusChain;
+            DebugObjects.AddReference(NewFocusChain);
 
             Debug.Assert(FocusedCellView != null);
             Debug.Assert(FocusChain.Contains(FocusedCellView));
