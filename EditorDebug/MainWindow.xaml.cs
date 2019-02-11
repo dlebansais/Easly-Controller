@@ -537,17 +537,17 @@ namespace EditorDebug
                         break;
 
                     case IFocusVisibleCellView AsVisible: // Others
-                        if (Frame is IFocusKeywordFrame AsKeywordFocus)
+                        if (Frame is IFocusKeywordFrame AsKeywordFrame)
                         {
                             Child.FontWeight = FontWeights.Bold;
-                            Child.Text = AsKeywordFocus.Text;
+                            Child.Text = AsKeywordFrame.Text;
                             IsHandled = true;
                         }
-                        else if (Frame is IFocusSymbolFrame AsSymbolFocus)
+                        else if (Frame is IFocusSymbolFrame AsSymbolFrame)
                         {
                             Child.Foreground = Brushes.Blue;
 
-                            Symbols Symbol = AsSymbolFocus.Symbol;
+                            Symbols Symbol = AsSymbolFrame.Symbol;
                             switch (Symbol)
                             {
                                 case Symbols.LeftArrow:

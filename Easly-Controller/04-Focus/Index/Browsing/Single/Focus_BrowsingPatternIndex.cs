@@ -3,7 +3,6 @@
     using System.Diagnostics;
     using BaseNode;
     using EaslyController.Frame;
-    using EaslyController.Writeable;
 
     /// <summary>
     /// Index for the replication pattern node of a block.

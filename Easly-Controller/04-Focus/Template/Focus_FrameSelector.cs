@@ -49,7 +49,7 @@
         public string SelectorName { get; set; }
         #endregion
 
-        #region Properties
+        #region Client Interface
         /// <summary>
         /// Checks that a frame selector is correctly constructed.
         /// </summary>
@@ -69,7 +69,6 @@
                        NodeTreeHelperList.IsNodeListProperty(nodeType, propertyName, out ChildInterfaceType) ||
                        NodeTreeHelperBlockList.IsBlockListProperty(nodeType, propertyName, out ChildInterfaceType, out ChildNodeType);
 
-            IsValid &= ChildInterfaceType.IsAssignableFrom(SelectorType);
             IsValid &= nodeTemplateTable.ContainsKey(SelectorType);
 
             IFocusNodeTemplate Template = nodeTemplateTable[SelectorType] as IFocusNodeTemplate;

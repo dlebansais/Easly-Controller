@@ -69,6 +69,9 @@
             IsValid &= base.IsValid(nodeType, nodeTemplateTable);
             IsValid &= Visibility == null || Visibility.IsValid(nodeType);
 
+            foreach (IFocusFrameSelector Selector in Selectors)
+                IsValid &= Selector.IsValid(nodeType, (IFocusTemplateReadOnlyDictionary)nodeTemplateTable, PropertyName);
+
             Debug.Assert(IsValid);
             return IsValid;
         }

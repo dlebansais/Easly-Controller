@@ -14,7 +14,7 @@
     /// <summary>
     /// Frame for a block list displayed horizontally.
     /// </summary>
-    public class FocusHorizontalBlockListFrame : FrameBlockListFrame, IFocusHorizontalBlockListFrame
+    public class FocusHorizontalBlockListFrame : FrameHorizontalBlockListFrame, IFocusHorizontalBlockListFrame
     {
         #region Init
         /// <summary>
@@ -68,6 +68,9 @@
 
             IsValid &= base.IsValid(nodeType, nodeTemplateTable);
             IsValid &= Visibility == null || Visibility.IsValid(nodeType);
+
+            foreach (IFocusFrameSelector Selector in Selectors)
+                IsValid &= Selector.IsValid(nodeType, (IFocusTemplateReadOnlyDictionary)nodeTemplateTable, PropertyName);
 
             Debug.Assert(IsValid);
             return IsValid;

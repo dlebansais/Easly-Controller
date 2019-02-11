@@ -1,7 +1,5 @@
 ﻿namespace EaslyController.Focus
 {
-    using System;
-    using System.Diagnostics;
     using BaseNode;
     using EaslyController.Frame;
     using EaslyController.ReadOnly;
