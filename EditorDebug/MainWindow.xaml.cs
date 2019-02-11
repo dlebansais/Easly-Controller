@@ -16,6 +16,7 @@ using EaslyController.Constants;
 using System.Windows.Media;
 using EaslyController.Focus;
 using EaslyController.Writeable;
+using EaslyController.Layout;
 
 namespace EditorDebug
 {
@@ -338,7 +339,7 @@ namespace EditorDebug
 
                 Serializer Serializer = new Serializer();
                 INode RootNode = Serializer.Deserialize(fs) as INode;
-                LoadFileFocus(RootNode);
+                LoadFileLayout(RootNode);
             }
         }
 
@@ -544,6 +545,140 @@ namespace EditorDebug
                             IsHandled = true;
                         }
                         else if (Frame is IFocusSymbolFrame AsSymbolFrame)
+                        {
+                            Child.Foreground = Brushes.Blue;
+
+                            Symbols Symbol = AsSymbolFrame.Symbol;
+                            switch (Symbol)
+                            {
+                                case Symbols.LeftArrow:
+                                    Child.Text = "←";
+                                    IsHandled = true;
+                                    break;
+                                case Symbols.Dot:
+                                    Child.Text = ".";
+                                    IsHandled = true;
+                                    break;
+                                case Symbols.LeftBracket:
+                                    Child.Text = "[";
+                                    IsHandled = true;
+                                    break;
+                                case Symbols.RightBracket:
+                                    Child.Text = "]";
+                                    IsHandled = true;
+                                    break;
+                                case Symbols.LeftCurlyBracket:
+                                    Child.Text = "{";
+                                    IsHandled = true;
+                                    break;
+                                case Symbols.RightCurlyBracket:
+                                    Child.Text = "}";
+                                    IsHandled = true;
+                                    break;
+                                case Symbols.LeftParenthesis:
+                                    Child.Text = "(";
+                                    IsHandled = true;
+                                    break;
+                                case Symbols.RightParenthesis:
+                                    Child.Text = ")";
+                                    IsHandled = true;
+                                    break;
+                            }
+                        }
+                        break;
+                }
+
+                Debug.Assert(IsHandled);
+
+                Child.Margin = new Thickness(0, 0, 5, 0);
+                Child.DataContext = CellView;
+
+                Grid.SetRow(Child, Row);
+                Grid.SetColumn(Child, Column);
+                Assigned[Row, Column] = CellView;
+
+                if (CellView == ControllerView.FocusedCellView)
+                    Child.Background = Brushes.LightCyan;
+                else
+                    Child.Background = Brushes.Transparent;
+
+                gridMain.Children.Add(Child);
+            }
+        }
+        #endregion
+
+        #region Layout
+        private void LoadFileLayout(INode rootNode)
+        {
+            ILayoutRootNodeIndex RootIndex = new LayoutRootNodeIndex(rootNode);
+            ILayoutController Controller = LayoutController.Create(RootIndex);
+            ControllerView = LayoutControllerView.Create(Controller, CustomLayoutTemplateSet.LayoutTemplateSet, LayoutDrawContext.Default);
+
+            UpdateLayoutView();
+        }
+
+        private void UpdateLayoutView()
+        {
+            gridMain.RowDefinitions.Clear();
+            gridMain.ColumnDefinitions.Clear();
+            gridMain.Children.Clear();
+
+            int MaxRow = ControllerView.LastLineNumber;
+            int MaxColumn = ControllerView.LastColumnNumber;
+
+            for (int i = 0; i < MaxRow; i++)
+                gridMain.RowDefinitions.Add(new RowDefinition());
+            for (int i = 0; i < MaxColumn; i++)
+                gridMain.ColumnDefinitions.Add(new ColumnDefinition());
+
+            ILayoutVisibleCellView[,] Assigned = new ILayoutVisibleCellView[MaxRow, MaxColumn];
+
+            ILayoutVisibleCellViewList CellList = new LayoutVisibleCellViewList();
+            ControllerView.EnumerateVisibleCellViews(CellList);
+
+            foreach (ILayoutVisibleCellView CellView in CellList)
+            {
+                int Row = CellView.LineNumber - 1;
+                int Column = CellView.ColumnNumber - 1;
+                ILayoutFrame Frame = CellView.Frame;
+                INode ChildNode = CellView.StateView.State.Node;
+                TextBlock Child = new TextBlock();
+                ILayoutVisibleCellView OldCellView = Assigned[Row, Column];
+                Debug.Assert(OldCellView == null);
+
+                bool IsHandled = false;
+
+                switch (CellView)
+                {
+                    case ILayoutDiscreteContentFocusableCellView AsDiscreteContentFocusable: // Enum, bool
+                        Child.Foreground = Brushes.Purple;
+                        Child.Text = AsDiscreteContentFocusable.KeywordFrame.Text;
+                        IsHandled = true;
+                        break;
+
+                    case ILayoutTextFocusableCellView AsTextFocusable: // String
+                        Child.Text = NodeTreeHelper.GetString(ChildNode, AsTextFocusable.PropertyName);
+                        IsHandled = true;
+                        break;
+
+                    case ILayoutFocusableCellView AsFocusable: // Insert or focusable keyword
+                        Child.Foreground = Brushes.Blue;
+                        Child.FontWeight = FontWeights.Bold;
+                        if (CellView.Frame is IFrameKeywordFrame AsFocusableKeywordFrame)
+                            Child.Text = AsFocusableKeywordFrame.Text;
+                        else
+                            Child.Text = "◄";
+                        IsHandled = true;
+                        break;
+
+                    case ILayoutVisibleCellView AsVisible: // Others
+                        if (Frame is ILayoutKeywordFrame AsKeywordFrame)
+                        {
+                            Child.FontWeight = FontWeights.Bold;
+                            Child.Text = AsKeywordFrame.Text;
+                            IsHandled = true;
+                        }
+                        else if (Frame is ILayoutSymbolFrame AsSymbolFrame)
                         {
                             Child.Foreground = Brushes.Blue;
 

@@ -3,6 +3,7 @@ using BaseNodeHelper;
 using EaslyController;
 using EaslyController.Focus;
 using EaslyController.Frame;
+using EaslyController.Layout;
 using EaslyController.ReadOnly;
 using EaslyController.Writeable;
 using PolySerializer;
@@ -837,6 +838,244 @@ namespace TestDebug
 
             IFocusRootNodeIndex NewRootIndex = new FocusRootNodeIndex(Controller.RootIndex.Node);
             IFocusController NewController = FocusController.Create(NewRootIndex);
+            Debug.Assert(NewController.IsEqual(CompareEqual.New(), Controller));
+        }
+        #endregion
+
+        #region Layout
+        static void TestLayout(Serializer serializer, string fileName)
+        {
+            using (FileStream fs = new FileStream(fileName, FileMode.Open, FileAccess.Read))
+            {
+                INode RootNode = serializer.Deserialize(fs) as INode;
+                INode ClonedNode = NodeHelper.DeepCloneNode(RootNode, cloneCommentGuid: true);
+                Debug.Assert(NodeHelper.NodeHash(RootNode) == NodeHelper.NodeHash(ClonedNode));
+
+                TestLayout(RootNode);
+            }
+        }
+
+        static void TestLayoutGR(IGlobalReplicate rootNode)
+        {
+            ControllerTools.ResetExpectedName();
+
+            ILayoutRootNodeIndex RootIndex = new LayoutRootNodeIndex(rootNode);
+            ILayoutController Controller = LayoutController.Create(RootIndex);
+            Stats Stats = Controller.Stats;
+            ILayoutController ControllerCheck;
+
+            ILayoutControllerView ControllerView = LayoutControllerView.Create(Controller, LayoutTemplateSet.Default, LayoutDrawContext.Default);
+
+            ILayoutNodeState RootState = Controller.RootState;
+            ILayoutInnerReadOnlyDictionary<string> InnerTable = RootState.InnerTable;
+
+            ILayoutListInner ListInner2 = (ILayoutListInner)InnerTable[nameof(IGlobalReplicate.Patterns)];
+            if (ListInner2.StateList.Count > 30)
+            {
+                IPattern TestNode = ListInner2.StateList[31].Node as IPattern;
+
+                ILayoutBrowsingListNodeIndex InsertIndex0 = (ILayoutBrowsingListNodeIndex)ListInner2.IndexAt(31);
+                Controller.Move(ListInner2, InsertIndex0, -5);
+
+                ControllerCheck = LayoutController.Create(new LayoutRootNodeIndex(rootNode));
+                Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
+            }
+
+        }
+
+        static void TestLayout(INode rootNode)
+        {
+            if (!(rootNode is IClass))
+            {
+                if (!(rootNode is IGlobalReplicate))
+                    return;
+
+                TestLayoutGR(rootNode as IGlobalReplicate);
+                return;
+            }
+
+            ControllerTools.ResetExpectedName();
+
+            ILayoutRootNodeIndex RootIndex = new LayoutRootNodeIndex(rootNode);
+            ILayoutController Controller = LayoutController.Create(RootIndex);
+            ILayoutControllerView CustomView = LayoutControllerView.Create(Controller, CustomLayoutTemplateSet.LayoutTemplateSet, LayoutDrawContext.Default);
+            Stats Stats = Controller.Stats;
+            ILayoutController ControllerCheck;
+            bool IsChanged;
+
+            INode RootNodeClone = Controller.RootState.CloneNode();
+            ulong h1 = NodeHelper.NodeHash(rootNode);
+            ulong h2 = NodeHelper.NodeHash(RootNodeClone);
+
+            byte[] RootData = GetData(rootNode);
+            byte[] RootCloneData = GetData(RootNodeClone);
+
+            bool IsEqual = ByteArrayCompare(RootData, RootCloneData);
+            Debug.Assert(IsEqual);
+            Debug.Assert(h1 == h2);
+
+            ILayoutControllerView ControllerView = LayoutControllerView.Create(Controller, LayoutTemplateSet.Default, LayoutDrawContext.Default);
+            //Debug.WriteLine(ControllerView.LastColumnNumber.ToString());
+
+            ILayoutVisibleCellViewList CellList = new LayoutVisibleCellViewList();
+            ControllerView.EnumerateVisibleCellViews(CellList);
+            Debug.Assert(CellList.Count > 0);
+
+            ILayoutNodeState RootState = Controller.RootState;
+            ILayoutInnerReadOnlyDictionary<string> InnerTable = RootState.InnerTable;
+            ILayoutBlockListInner ListInner = (ILayoutBlockListInner)InnerTable[nameof(IClass.ImportBlocks)];
+
+            IPattern PatternNode = NodeHelper.CreateEmptyPattern();
+            IIdentifier SourceNode = NodeHelper.CreateEmptyIdentifier();
+            IImport FirstNode = NodeHelper.CreateSimpleImport("x", "x", ImportType.Latest);
+
+            LayoutInsertionNewBlockNodeIndex InsertIndex0 = new LayoutInsertionNewBlockNodeIndex(rootNode, ListInner.PropertyName, FirstNode, 0, PatternNode, SourceNode);
+            Controller.Insert(ListInner, InsertIndex0, out IWriteableBrowsingCollectionNodeIndex InsertedIndex0);
+
+            ILayoutControllerView ControllerView2 = LayoutControllerView.Create(Controller, LayoutTemplateSet.Default, LayoutDrawContext.Default);
+            Debug.Assert(ControllerView2.IsEqual(CompareEqual.New(), ControllerView));
+
+            ControllerCheck = LayoutController.Create(new LayoutRootNodeIndex(rootNode));
+            Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
+
+            IImport SecondNode = NodeHelper.CreateSimpleImport("y", "y", ImportType.Latest);
+
+            LayoutInsertionExistingBlockNodeIndex InsertIndex1 = new LayoutInsertionExistingBlockNodeIndex(rootNode, ListInner.PropertyName, SecondNode, 0, 1);
+            Controller.Insert(ListInner, InsertIndex1, out IWriteableBrowsingCollectionNodeIndex InsertedIndex1);
+
+            ControllerCheck = LayoutController.Create(new LayoutRootNodeIndex(rootNode));
+            Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
+
+            Debug.Assert(ControllerView.StateViewTable.Count == Controller.Stats.NodeCount);
+
+            ControllerView2 = LayoutControllerView.Create(Controller, LayoutTemplateSet.Default, LayoutDrawContext.Default);
+            Debug.Assert(ControllerView2.IsEqual(CompareEqual.New(), ControllerView));
+
+            Controller.ChangeReplication(ListInner, 0, ReplicationStatus.Replicated);
+
+            ControllerCheck = LayoutController.Create(new LayoutRootNodeIndex(rootNode));
+            Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
+
+            IImport ThirdNode = NodeHelper.CreateSimpleImport("z", "z", ImportType.Latest);
+
+            LayoutInsertionExistingBlockNodeIndex InsertIndex3 = new LayoutInsertionExistingBlockNodeIndex(rootNode, ListInner.PropertyName, ThirdNode, 0, 1);
+            Controller.Replace(ListInner, InsertIndex3, out IWriteableBrowsingChildIndex InsertedIndex3);
+
+            ControllerCheck = LayoutController.Create(new LayoutRootNodeIndex(rootNode));
+            Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
+
+            IImport FourthNode = NodeHelper.CreateSimpleImport("a", "a", ImportType.Latest);
+
+            LayoutInsertionExistingBlockNodeIndex InsertIndex4 = new LayoutInsertionExistingBlockNodeIndex(rootNode, ListInner.PropertyName, FourthNode, 0, 0);
+            Controller.Replace(ListInner, InsertIndex4, out IWriteableBrowsingChildIndex InsertedIndex4);
+
+            ControllerCheck = LayoutController.Create(new LayoutRootNodeIndex(rootNode));
+            Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
+
+            ILayoutControllerView ControllerView3 = LayoutControllerView.Create(Controller, LayoutTemplateSet.Default, LayoutDrawContext.Default);
+            Debug.Assert(ControllerView3.IsEqual(CompareEqual.New(), ControllerView));
+
+            IName FifthNode = NodeHelper.CreateSimpleName("a");
+
+            ILayoutSingleInner ChildInner = (ILayoutSingleInner)InnerTable[nameof(IClass.EntityName)];
+            LayoutInsertionPlaceholderNodeIndex InsertIndex5 = new LayoutInsertionPlaceholderNodeIndex(rootNode, ChildInner.PropertyName, FifthNode);
+            Controller.Replace(ChildInner, InsertIndex5, out IWriteableBrowsingChildIndex InsertedIndex5);
+
+            ControllerCheck = LayoutController.Create(new LayoutRootNodeIndex(rootNode));
+            Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
+
+            ILayoutControllerView ControllerView4 = LayoutControllerView.Create(Controller, LayoutTemplateSet.Default, LayoutDrawContext.Default);
+            Debug.Assert(ControllerView4.IsEqual(CompareEqual.New(), ControllerView));
+
+            IIdentifier SixthNode = NodeHelper.CreateSimpleIdentifier("b");
+
+            ILayoutOptionalInner OptionalInner = (ILayoutOptionalInner)InnerTable[nameof(IClass.FromIdentifier)];
+            LayoutInsertionOptionalNodeIndex InsertIndex6 = new LayoutInsertionOptionalNodeIndex(rootNode, OptionalInner.PropertyName, SixthNode);
+            Controller.Replace(OptionalInner, InsertIndex6, out IWriteableBrowsingChildIndex InsertedIndex6);
+
+            ControllerCheck = LayoutController.Create(new LayoutRootNodeIndex(rootNode));
+            Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
+
+            ILayoutControllerView ControllerView5 = LayoutControllerView.Create(Controller, LayoutTemplateSet.Default, LayoutDrawContext.Default);
+            Debug.Assert(ControllerView5.IsEqual(CompareEqual.New(), ControllerView));
+
+            bool TestRemove = true;
+            if (TestRemove)
+            {
+                ILayoutBrowsingBlockNodeIndex InsertIndex7 = (ILayoutBrowsingBlockNodeIndex)ListInner.IndexAt(0, 0);
+                Debug.Assert(Controller.IsRemoveable(ListInner, InsertIndex7));
+                Controller.Remove(ListInner, InsertIndex7);
+
+                ControllerCheck = LayoutController.Create(new LayoutRootNodeIndex(rootNode));
+                Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
+
+                ILayoutControllerView ControllerView7 = LayoutControllerView.Create(Controller, LayoutTemplateSet.Default, LayoutDrawContext.Default);
+                Debug.Assert(ControllerView7.IsEqual(CompareEqual.New(), ControllerView));
+
+                ILayoutBrowsingBlockNodeIndex InsertIndex8 = (ILayoutBrowsingBlockNodeIndex)ListInner.IndexAt(0, 0);
+                Debug.Assert(Controller.IsRemoveable(ListInner, InsertIndex8));
+                Controller.Remove(ListInner, InsertIndex8);
+
+                ControllerCheck = LayoutController.Create(new LayoutRootNodeIndex(rootNode));
+                Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
+
+                ILayoutControllerView ControllerView8 = LayoutControllerView.Create(Controller, LayoutTemplateSet.Default, LayoutDrawContext.Default);
+                Debug.Assert(ControllerView8.IsEqual(CompareEqual.New(), ControllerView));
+            }
+
+            Controller.Unassign(OptionalInner.ChildState.ParentIndex, out IsChanged);
+
+            ControllerCheck = LayoutController.Create(new LayoutRootNodeIndex(rootNode));
+            Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
+
+            ILayoutControllerView ControllerView9 = LayoutControllerView.Create(Controller, LayoutTemplateSet.Default, LayoutDrawContext.Default);
+            Debug.Assert(ControllerView9.IsEqual(CompareEqual.New(), ControllerView));
+
+            Controller.Assign(OptionalInner.ChildState.ParentIndex, out IsChanged);
+
+            ControllerCheck = LayoutController.Create(new LayoutRootNodeIndex(rootNode));
+            Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
+
+            ILayoutControllerView ControllerView10 = LayoutControllerView.Create(Controller, LayoutTemplateSet.Default, LayoutDrawContext.Default);
+            Debug.Assert(ControllerView10.IsEqual(CompareEqual.New(), ControllerView));
+
+            if (ListInner.BlockStateList.Count >= 2)
+            {
+                ILayoutBrowsingExistingBlockNodeIndex SplitIndex1 = (ILayoutBrowsingExistingBlockNodeIndex)ListInner.IndexAt(0, 1);
+                Controller.SplitBlock(ListInner, SplitIndex1);
+
+                ControllerCheck = LayoutController.Create(new LayoutRootNodeIndex(rootNode));
+                Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
+
+                ILayoutControllerView ControllerView11 = LayoutControllerView.Create(Controller, LayoutTemplateSet.Default, LayoutDrawContext.Default);
+                Debug.Assert(ControllerView11.IsEqual(CompareEqual.New(), ControllerView));
+
+                ILayoutBrowsingExistingBlockNodeIndex SplitIndex2 = (ILayoutBrowsingExistingBlockNodeIndex)ListInner.IndexAt(1, 0);
+                Controller.MergeBlocks(ListInner, SplitIndex2);
+
+                ControllerCheck = LayoutController.Create(new LayoutRootNodeIndex(rootNode));
+                Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
+
+                ILayoutControllerView ControllerView12 = LayoutControllerView.Create(Controller, LayoutTemplateSet.Default, LayoutDrawContext.Default);
+                Debug.Assert(ControllerView12.IsEqual(CompareEqual.New(), ControllerView));
+            }
+
+            ILayoutBlockListInner ListInner2 = (ILayoutBlockListInner)InnerTable[nameof(IClass.FeatureBlocks)];
+            if (ListInner.BlockStateList.Count > 1)
+            {
+                Controller.MoveBlock(ListInner, 0, 1);
+
+                ControllerCheck = LayoutController.Create(new LayoutRootNodeIndex(rootNode));
+                Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
+            }
+
+            Controller.Expand(Controller.RootIndex, out IsChanged);
+            Controller.Reduce(Controller.RootIndex, out IsChanged);
+            Controller.Expand(Controller.RootIndex, out IsChanged);
+            Controller.Canonicalize(out IsChanged);
+
+            ILayoutRootNodeIndex NewRootIndex = new LayoutRootNodeIndex(Controller.RootIndex.Node);
+            ILayoutController NewController = LayoutController.Create(NewRootIndex);
             Debug.Assert(NewController.IsEqual(CompareEqual.New(), Controller));
         }
         #endregion

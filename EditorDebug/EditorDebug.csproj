@@ -65,6 +65,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="DrawContext\LayoutDrawContext.cs" />
+    <Compile Include="TemplateSet\CustomLayoutTemplateSet.cs" />
     <Compile Include="TemplateSet\CustomFocusTemplateSet.cs" />
     <Compile Include="TemplateSet\CustomFrameTemplateSet.cs" />
     <Page Include="MainWindow.xaml">

@@ -69,10 +69,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DrawContext\LayoutDrawContext.cs" />
     <Compile Include="TemplateSet\CustomFocusTemplateSet.cs" />
     <Compile Include="TemplateSet\CustomFrameTemplateSet.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TemplateSet\CustomLayoutTemplateSet.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
