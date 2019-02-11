@@ -1,6 +1,7 @@
 ﻿namespace EaslyController.Layout
 {
     using System.Diagnostics;
+    using EaslyController.Controller;
     using EaslyController.Focus;
     using EaslyController.Frame;
 
@@ -33,6 +34,16 @@
         /// Table of cell views that are mutable lists of cells.
         /// </summary>
         new ILayoutAssignableCellViewReadOnlyDictionary<string> CellViewTable { get; }
+
+        /// <summary>
+        /// Size of cells in this state view.
+        /// </summary>
+        Size CellSize { get; }
+
+        /// <summary>
+        /// Measure all cells in this state view.
+        /// </summary>
+        void MeasureCells();
     }
 
     /// <summary>
@@ -49,6 +60,7 @@
         public LayoutNodeStateView(ILayoutControllerView controllerView, ILayoutNodeState state)
             : base(controllerView, state)
         {
+            CellSize = MeasureHelper.InvalidSize;
         }
         #endregion
 
@@ -77,6 +89,26 @@
         /// Table of cell views that are mutable lists of cells.
         /// </summary>
         public new ILayoutAssignableCellViewReadOnlyDictionary<string> CellViewTable { get { return (ILayoutAssignableCellViewReadOnlyDictionary<string>)base.CellViewTable; } }
+
+        /// <summary>
+        /// Size of cells in this state view.
+        /// </summary>
+        public Size CellSize { get; private set; }
+        #endregion
+
+        #region Client Interface
+        /// <summary>
+        /// Measure all cells in this state view.
+        /// </summary>
+        public void MeasureCells()
+        {
+            Debug.Assert(RootCellView != null);
+            RootCellView.Measure();
+
+            CellSize = RootCellView.CellSize;
+
+            Debug.Assert(MeasureHelper.IsValid(CellSize));
+        }
         #endregion
 
         #region Debugging

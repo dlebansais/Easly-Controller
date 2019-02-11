@@ -2,13 +2,14 @@
 {
     using System.Diagnostics;
     using System.Windows.Markup;
+    using EaslyController.Controller;
     using EaslyController.Focus;
     using EaslyController.Frame;
 
     /// <summary>
     /// Layout for decoration purpose only.
     /// </summary>
-    public interface ILayoutKeywordFrame : IFocusKeywordFrame, ILayoutFrame, ILayoutBlockFrame, ILayoutNodeFrameWithVisibility
+    public interface ILayoutKeywordFrame : IFocusKeywordFrame, ILayoutFrame, ILayoutBlockFrame, ILayoutNodeFrameWithVisibility, ILayoutMeasurableFrame
     {
     }
 
@@ -40,6 +41,21 @@
         /// (Set in Xaml)
         /// </summary>
         public new ILayoutBlockFrameVisibility BlockVisibility { get { return (ILayoutBlockFrameVisibility)base.BlockVisibility; } set { base.BlockVisibility = value; } }
+        #endregion
+
+        #region Client Interface
+        /// <summary>
+        /// Measures a cell created with this frame.
+        /// </summary>
+        /// <param name="drawContext">The context used to measure the cell.</param>
+        /// <param name="cellView">The cell to measure.</param>
+        public virtual Size Measure(ILayoutDrawContext drawContext, ILayoutCellView cellView)
+        {
+            Size Result = drawContext.MeasureText(Text);
+
+            Debug.Assert(MeasureHelper.IsValid(Result));
+            return Result;
+        }
         #endregion
 
         #region Implementation

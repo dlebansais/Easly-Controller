@@ -1,6 +1,7 @@
 ﻿namespace EaslyController.Layout
 {
     using System.Diagnostics;
+    using EaslyController.Controller;
     using EaslyController.Focus;
     using EaslyController.Frame;
 
@@ -33,6 +34,16 @@
         /// List of cell views for each child node.
         /// </summary>
         new ILayoutCellViewCollection EmbeddingCellView { get; }
+
+        /// <summary>
+        /// Size of cells in this block state view.
+        /// </summary>
+        Size CellSize { get; }
+
+        /// <summary>
+        /// Measure all cells in this block state view.
+        /// </summary>
+        void MeasureCells();
     }
 
     /// <summary>
@@ -49,6 +60,7 @@
         public LayoutBlockStateView(ILayoutControllerView controllerView, ILayoutBlockState blockState)
             : base(controllerView, blockState)
         {
+            CellSize = MeasureHelper.InvalidSize;
         }
         #endregion
 
@@ -77,6 +89,26 @@
         /// List of cell views for each child node.
         /// </summary>
         public new ILayoutCellViewCollection EmbeddingCellView { get { return (ILayoutCellViewCollection)base.EmbeddingCellView; } }
+
+        /// <summary>
+        /// Size of cells in this block state view.
+        /// </summary>
+        public Size CellSize { get; private set; }
+        #endregion
+
+        #region Client Interface
+        /// <summary>
+        /// Measure all cells in this block state view.
+        /// </summary>
+        public void MeasureCells()
+        {
+            Debug.Assert(RootCellView != null);
+            RootCellView.Measure();
+
+            CellSize = RootCellView.CellSize;
+
+            Debug.Assert(MeasureHelper.IsValid(CellSize));
+        }
         #endregion
 
         #region Debugging

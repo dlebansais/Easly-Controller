@@ -1,6 +1,7 @@
 ﻿namespace EaslyController.Layout
 {
     using System.Diagnostics;
+    using EaslyController.Controller;
     using EaslyController.Focus;
 
     /// <summary>
@@ -25,6 +26,7 @@
         public LayoutContentFocusableCellView(ILayoutNodeStateView stateView, ILayoutFrame frame, string propertyName)
             : base(stateView, frame, propertyName)
         {
+            CellSize = MeasureHelper.InvalidSize;
         }
         #endregion
 
@@ -38,6 +40,18 @@
         /// The frame that created this cell view.
         /// </summary>
         public new ILayoutFrame Frame { get { return (ILayoutFrame)base.Frame; } }
+
+        /// <summary>
+        /// Size of the cell.
+        /// </summary>
+        public Size CellSize { get; private set; }
+        #endregion
+
+        #region Client Interface
+        /// <summary>
+        /// Measures the cell.
+        /// </summary>
+        public abstract void Measure();
         #endregion
 
         #region Debugging

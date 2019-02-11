@@ -1,6 +1,7 @@
 ﻿namespace EaslyController.Layout
 {
     using System.Diagnostics;
+    using EaslyController.Controller;
     using EaslyController.Focus;
 
     /// <summary>
@@ -34,6 +35,7 @@
         public LayoutContainerCellView(ILayoutNodeStateView stateView, ILayoutCellViewCollection parentCellView, ILayoutNodeStateView childStateView)
             : base(stateView, parentCellView, childStateView)
         {
+            CellSize = MeasureHelper.InvalidSize;
         }
         #endregion
 
@@ -52,6 +54,26 @@
         /// The state view containing the tree with this cell.
         /// </summary>
         public new ILayoutNodeStateView StateView { get { return (ILayoutNodeStateView)base.StateView; } }
+
+        /// <summary>
+        /// Size of the cell.
+        /// </summary>
+        public Size CellSize { get; private set; }
+        #endregion
+
+        #region Client Interface
+        /// <summary>
+        /// Measures the cell.
+        /// </summary>
+        public virtual void Measure()
+        {
+            Debug.Assert(ChildStateView != null);
+            ChildStateView.MeasureCells();
+
+            CellSize = ChildStateView.CellSize;
+
+            Debug.Assert(MeasureHelper.IsValid(CellSize));
+        }
         #endregion
 
         #region Debugging

@@ -1,6 +1,7 @@
 ﻿namespace EaslyController.Layout
 {
     using System.Diagnostics;
+    using EaslyController.Controller;
     using EaslyController.Focus;
 
     /// <summary>
@@ -25,9 +26,10 @@
         /// </summary>
         /// <param name="stateView">The state view containing the tree with this cell.</param>
         /// <param name="frame">The frame that created this cell view.</param>
-        public LayoutVisibleCellView(ILayoutNodeStateView stateView, ILayoutFrame frame)
+        public LayoutVisibleCellView(ILayoutNodeStateView stateView, ILayoutMeasurableFrame frame)
             : base(stateView, frame)
         {
+            CellSize = MeasureHelper.InvalidSize;
         }
         #endregion
 
@@ -41,6 +43,32 @@
         /// The frame that created this cell view.
         /// </summary>
         public new ILayoutFrame Frame { get { return (ILayoutFrame)base.Frame; } }
+
+        /// <summary>
+        /// Size of the cell.
+        /// </summary>
+        public Size CellSize { get; private set; }
+        #endregion
+
+        #region Client Interface
+        /// <summary>
+        /// Measures the cell.
+        /// </summary>
+        public virtual void Measure()
+        {
+            Debug.Assert(StateView != null);
+            Debug.Assert(StateView.ControllerView != null);
+
+            ILayoutDrawContext DrawContext = StateView.ControllerView.DrawContext;
+            Debug.Assert(DrawContext != null);
+
+            ILayoutMeasurableFrame AsMeasurableFrame = Frame as ILayoutMeasurableFrame;
+            Debug.Assert(AsMeasurableFrame != null);
+
+            CellSize = AsMeasurableFrame.Measure(DrawContext, this);
+
+            Debug.Assert(MeasureHelper.IsValid(CellSize));
+        }
         #endregion
 
         #region Debugging

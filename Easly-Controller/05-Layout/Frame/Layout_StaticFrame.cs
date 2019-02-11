@@ -1,13 +1,14 @@
 ﻿namespace EaslyController.Layout
 {
     using System.Diagnostics;
+    using EaslyController.Controller;
     using EaslyController.Focus;
     using EaslyController.Frame;
 
     /// <summary>
     /// Layout for decoration purpose only.
     /// </summary>
-    public interface ILayoutStaticFrame : IFocusStaticFrame, ILayoutFrame, ILayoutNodeFrameWithVisibility
+    public interface ILayoutStaticFrame : IFocusStaticFrame, ILayoutFrame, ILayoutNodeFrameWithVisibility, ILayoutMeasurableFrame
     {
     }
 
@@ -32,6 +33,15 @@
         /// (Set in Xaml)
         /// </summary>
         public new ILayoutNodeFrameVisibility Visibility { get { return (ILayoutNodeFrameVisibility)base.Visibility; } set { base.Visibility = value; } }
+        #endregion
+
+        #region Client Interface
+        /// <summary>
+        /// Measures a cell created with this frame.
+        /// </summary>
+        /// <param name="drawContext">The context used to measure the cell.</param>
+        /// <param name="cellView">The cell to measure.</param>
+        public abstract Size Measure(ILayoutDrawContext drawContext, ILayoutCellView cellView);
         #endregion
 
         #region Implementation

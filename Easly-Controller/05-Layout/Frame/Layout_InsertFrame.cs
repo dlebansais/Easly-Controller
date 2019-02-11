@@ -2,13 +2,14 @@
 {
     using System.Diagnostics;
     using System.Windows.Markup;
+    using EaslyController.Controller;
     using EaslyController.Focus;
     using EaslyController.Frame;
 
     /// <summary>
     /// Layout for bringing the focus to an insertion point.
     /// </summary>
-    public interface ILayoutInsertFrame : IFocusInsertFrame, ILayoutStaticFrame
+    public interface ILayoutInsertFrame : IFocusInsertFrame, ILayoutStaticFrame, ILayoutMeasurableFrame
     {
     }
 
@@ -34,6 +35,25 @@
         /// (Set in Xaml)
         /// </summary>
         public new ILayoutNodeFrameVisibility Visibility { get { return (ILayoutNodeFrameVisibility)base.Visibility; } set { base.Visibility = value; } }
+        #endregion
+
+        #region Client Interface
+        /// <summary>
+        /// Measures a cell created with this frame.
+        /// </summary>
+        /// <param name="drawContext">The context used to measure the cell.</param>
+        /// <param name="cellView">The cell to measure.</param>
+        public virtual Size Measure(ILayoutDrawContext drawContext, ILayoutCellView cellView)
+        {
+            Size Result;
+
+            double Width = drawContext.LineHeight;
+            double Height = drawContext.LineHeight;
+            Result = new Size(Width, Height);
+
+            Debug.Assert(MeasureHelper.IsValid(Result));
+            return Result;
+        }
         #endregion
 
         #region Implementation

@@ -1,6 +1,7 @@
 ﻿namespace EaslyController.Layout
 {
     using System.Diagnostics;
+    using EaslyController.Controller;
     using EaslyController.Focus;
 
     /// <summary>
@@ -24,6 +25,7 @@
         public LayoutColumn(ILayoutNodeStateView stateView, ILayoutCellViewList cellViewList)
             : base(stateView, cellViewList)
         {
+            CellSize = MeasureHelper.InvalidSize;
         }
         #endregion
 
@@ -37,6 +39,51 @@
         /// The state view containing the tree with this cell.
         /// </summary>
         public new ILayoutNodeStateView StateView { get { return (ILayoutNodeStateView)base.StateView; } }
+
+        /// <summary>
+        /// Size of the cell.
+        /// </summary>
+        public Size CellSize { get; private set; }
+        #endregion
+
+        #region Client Interface
+        /// <summary>
+        /// Measures the cell.
+        /// </summary>
+        public virtual void Measure()
+        {
+            double Width = double.NaN;
+            double Height = 0;
+
+            foreach (ILayoutCellView CellView in CellViewList)
+            {
+                CellView.Measure();
+
+                Size NestedCellSize = CellView.CellSize;
+                Debug.Assert(MeasureHelper.IsValid(NestedCellSize));
+
+                bool IsFixed = MeasureHelper.IsFixed(NestedCellSize);
+                bool IsStretched = MeasureHelper.IsStretchedHorizontally(NestedCellSize);
+                Debug.Assert(IsFixed || IsStretched);
+
+                Debug.Assert(!double.IsNaN(NestedCellSize.Height));
+                Height += NestedCellSize.Height;
+
+                if (IsFixed)
+                {
+                    Debug.Assert(!double.IsNaN(NestedCellSize.Width));
+                    if (double.IsNaN(Width) || Width < NestedCellSize.Width)
+                        Width = NestedCellSize.Width;
+                }
+            }
+
+            if (Height == 0)
+                CellSize = Size.Empty;
+            else
+                CellSize = new Size(Width, Height);
+
+            Debug.Assert(MeasureHelper.IsValid(CellSize));
+        }
         #endregion
 
         #region Debugging

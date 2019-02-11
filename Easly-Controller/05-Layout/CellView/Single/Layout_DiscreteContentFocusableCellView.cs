@@ -1,6 +1,7 @@
 ﻿namespace EaslyController.Layout
 {
     using System.Diagnostics;
+    using EaslyController.Controller;
     using EaslyController.Focus;
 
     /// <summary>
@@ -30,6 +31,7 @@
         public LayoutDiscreteContentFocusableCellView(ILayoutNodeStateView stateView, ILayoutFrame frame, string propertyName, ILayoutKeywordFrame keywordFocus)
             : base(stateView, frame, propertyName, keywordFocus)
         {
+            CellSize = MeasureHelper.InvalidSize;
         }
         #endregion
 
@@ -48,6 +50,29 @@
         /// The keyword frame that was used to create this cell.
         /// </summary>
         public new ILayoutKeywordFrame KeywordFrame { get { return (ILayoutKeywordFrame)base.KeywordFrame; } }
+
+        /// <summary>
+        /// Size of the cell.
+        /// </summary>
+        public Size CellSize { get; private set; }
+        #endregion
+
+        #region Client Interface
+        /// <summary>
+        /// Measures the cell.
+        /// </summary>
+        public virtual void Measure()
+        {
+            Debug.Assert(StateView != null);
+            Debug.Assert(StateView.ControllerView != null);
+
+            ILayoutDrawContext DrawContext = StateView.ControllerView.DrawContext;
+            Debug.Assert(DrawContext != null);
+
+            CellSize = KeywordFrame.Measure(DrawContext, this);
+
+            Debug.Assert(MeasureHelper.IsValid(CellSize));
+        }
         #endregion
 
         #region Debugging

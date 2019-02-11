@@ -1,14 +1,15 @@
 ﻿namespace EaslyController.Layout
 {
-    using System;
     using System.Diagnostics;
+    using BaseNode;
+    using EaslyController.Controller;
     using EaslyController.Focus;
     using EaslyController.Frame;
 
     /// <summary>
     /// Layout describing a string value property in a node.
     /// </summary>
-    public interface ILayoutTextValueFrame : IFocusTextValueFrame, ILayoutValueFrame
+    public interface ILayoutTextValueFrame : IFocusTextValueFrame, ILayoutValueFrame, ILayoutMeasurableFrame
     {
     }
 
@@ -33,6 +34,24 @@
         /// (Set in Xaml)
         /// </summary>
         public new ILayoutNodeFrameVisibility Visibility { get { return (ILayoutNodeFrameVisibility)base.Visibility; } set { base.Visibility = value; } }
+        #endregion
+
+        #region Client Interface
+        /// <summary>
+        /// Measures a cell created with this frame.
+        /// </summary>
+        /// <param name="drawContext">The context used to measure the cell.</param>
+        /// <param name="cellView">The cell to measure.</param>
+        public virtual Size Measure(ILayoutDrawContext drawContext, ILayoutCellView cellView)
+        {
+            INode Node = cellView.StateView.State.Node;
+            string Text = BaseNodeHelper.NodeTreeHelper.GetString(Node, PropertyName);
+
+            Size Result = drawContext.MeasureText(Text);
+
+            Debug.Assert(MeasureHelper.IsValid(Result));
+            return Result;
+        }
         #endregion
 
         #region Implementation

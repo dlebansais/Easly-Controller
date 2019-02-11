@@ -2,6 +2,7 @@
 {
     using System.Diagnostics;
     using BaseNode;
+    using EaslyController.Controller;
     using EaslyController.Focus;
     using EaslyController.Frame;
     using EaslyController.ReadOnly;
@@ -36,6 +37,16 @@
         /// Cell view with the focus.
         /// </summary>
         new ILayoutFocusableCellView FocusedCellView { get; }
+
+        /// <summary>
+        /// The draw context.
+        /// </summary>
+        ILayoutDrawContext DrawContext { get; }
+
+        /// <summary>
+        /// Size of view.
+        /// </summary>
+        Size ViewSize { get; }
     }
 
     /// <summary>
@@ -49,9 +60,10 @@
         /// </summary>
         /// <param name="controller">The controller on which the view is attached.</param>
         /// <param name="templateSet">The template set used to describe the view.</param>
-        public static ILayoutControllerView Create(ILayoutController controller, ILayoutTemplateSet templateSet)
+        /// <param name="drawContext">The draw context used to measure, arrange and draw the view.</param>
+        public static ILayoutControllerView Create(ILayoutController controller, ILayoutTemplateSet templateSet, ILayoutDrawContext drawContext)
         {
-            LayoutControllerView View = new LayoutControllerView(controller, templateSet);
+            LayoutControllerView View = new LayoutControllerView(controller, templateSet, drawContext);
             View.Init();
             return View;
         }
@@ -61,9 +73,12 @@
         /// </summary>
         /// <param name="controller">The controller on which the view is attached.</param>
         /// <param name="templateSet">The template set used to describe the view.</param>
-        private protected LayoutControllerView(ILayoutController controller, ILayoutTemplateSet templateSet)
+        /// <param name="drawContext">The draw context used to measure, arrange and draw the view.</param>
+        private protected LayoutControllerView(ILayoutController controller, ILayoutTemplateSet templateSet, ILayoutDrawContext drawContext)
             : base(controller, templateSet)
         {
+            DrawContext = drawContext;
+            ViewSize = MeasureHelper.InvalidSize;
         }
         #endregion
 
@@ -92,6 +107,16 @@
         /// Cell view with the focus.
         /// </summary>
         public new ILayoutFocusableCellView FocusedCellView { get { return (ILayoutFocusableCellView)base.FocusedCellView; } }
+
+        /// <summary>
+        /// The draw context.
+        /// </summary>
+        public ILayoutDrawContext DrawContext { get; private set; }
+
+        /// <summary>
+        /// Size of view.
+        /// </summary>
+        public Size ViewSize { get; private set; }
         #endregion
 
         #region Implementation
@@ -351,6 +376,32 @@
             Debug.Assert(((ILayoutContainerCellView)containerCellView).StateView == (ILayoutNodeStateView)stateView);
             Debug.Assert(((ILayoutContainerCellView)containerCellView).ParentCellView == (ILayoutCellViewCollection)parentCellView);
             Debug.Assert(((ILayoutContainerCellView)containerCellView).ChildStateView == (ILayoutNodeStateView)childStateView);
+        }
+
+        /// <summary></summary>
+        private protected override void Refresh(IFrameNodeState state)
+        {
+            base.Refresh(state);
+
+            MeasureCells();
+            ArrangeCells();
+        }
+
+        /// <summary></summary>
+        private protected virtual void MeasureCells()
+        {
+            ILayoutPlaceholderNodeState RootState = Controller.RootState;
+            ILayoutNodeStateView RootStateView = StateViewTable[RootState];
+            RootStateView.MeasureCells();
+
+            ViewSize = RootStateView.CellSize;
+
+            Debug.Assert(MeasureHelper.IsFixed(ViewSize));
+        }
+
+        /// <summary></summary>
+        private protected virtual void ArrangeCells()
+        {
         }
         #endregion
 

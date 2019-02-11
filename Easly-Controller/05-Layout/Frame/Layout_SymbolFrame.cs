@@ -2,6 +2,7 @@
 {
     using System;
     using System.Diagnostics;
+    using EaslyController.Controller;
     using EaslyController.Focus;
     using EaslyController.Frame;
 
@@ -33,6 +34,21 @@
         /// (Set in Xaml)
         /// </summary>
         public new ILayoutNodeFrameVisibility Visibility { get { return (ILayoutNodeFrameVisibility)base.Visibility; } set { base.Visibility = value; } }
+        #endregion
+
+        #region Client Interface
+        /// <summary>
+        /// Measures a cell created with this frame.
+        /// </summary>
+        /// <param name="drawContext">The context used to measure the cell.</param>
+        /// <param name="cellView">The cell to measure.</param>
+        public virtual Size Measure(ILayoutDrawContext drawContext, ILayoutCellView cellView)
+        {
+            Size Result = drawContext.MeasureSymbol(Symbol);
+
+            Debug.Assert(MeasureHelper.IsValid(Result));
+            return Result;
+        }
         #endregion
 
         #region Implementation
