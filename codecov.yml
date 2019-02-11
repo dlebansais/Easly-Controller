@@ -48,8 +48,8 @@ ignore:
   - Easly-Controller/04-Focus/CellView/Collection/Focus_CellCollection.cs
   - Easly-Controller/04-Focus/CellView/Single/Focus_ContentFocusableCellView.cs
   - Easly-Controller/04-Focus/CellView/Focus_CellView.cs
-  - Easly-Controller/04-Focus/Controller/Operations/Focus_Operation.cs
   - Easly-Controller/04-Focus/Controller/Operations/Focus_Insert_Operation.cs
+  - Easly-Controller/04-Focus/Controller/Operations/Focus_Operation.cs
   - Easly-Controller/04-Focus/Controller/Operations/Focus_Remove_Operation.cs
   - Easly-Controller/04-Focus/Frame/Focus_BlockListFrame.cs
   - Easly-Controller/04-Focus/Frame/Focus_CollectionPlaceholderFrame.cs
@@ -68,4 +68,27 @@ ignore:
   - Easly-Controller/04-Focus/State/Focus_NodeState.cs
   - Easly-Controller/04-Focus/StateView/Focus_NodeStateView.cs
   - Easly-Controller/04-Focus/Template/Focus_Template.cs
+  - Easly-Controller/05-Layout/CellView/Collection/Layout_CellCollection.cs
+  - Easly-Controller/05-Layout/CellView/Single/Layout_ContentFocusableCellView.cs
+  - Easly-Controller/05-Layout/CellView/Layout_CellView.cs
+  - Easly-Controller/05-Layout/Controller/Operations/Layout_Insert_Operation.cs
+  - Easly-Controller/05-Layout/Controller/Operations/Layout_Operation.cs
+  - Easly-Controller/05-Layout/Controller/Operations/Layout_Remove_Operation.cs
+  - Easly-Controller/05-Layout/Frame/Layout_BlockListFrame.cs
+  - Easly-Controller/05-Layout/Frame/Layout_CollectionPlaceholderFrame.cs
+  - Easly-Controller/05-Layout/Frame/Layout_ListFrame.cs
+  - Easly-Controller/05-Layout/Frame/Layout_NamedFrame.cs
+  - Easly-Controller/05-Layout/Frame/Layout_PanelFrame.cs
+  - Easly-Controller/05-Layout/Frame/Layout_StaticFrame.cs
+  - Easly-Controller/05-Layout/Frame/Layout_ValueFrame.cs
+  - Easly-Controller/05-Layout/Index/Browsing/Collection/Layout_BrowsingBlockNodeIndex.cs
+  - Easly-Controller/05-Layout/Index/Browsing/Collection/Layout_BrowsingCollectionNodeIndex.cs
+  - Easly-Controller/05-Layout/Index/Insertion/Collection/Layout_InsertionBlockNodeIndex.cs
+  - Easly-Controller/05-Layout/Index/Insertion/Collection/Layout_InsertionCollectionNodeIndex.cs
+  - Easly-Controller/05-Layout/Inner/Collection/Layout_CollectionInner.cs
+  - Easly-Controller/05-Layout/Inner/Single/Layout_SingleInner.cs
+  - Easly-Controller/05-Layout/Inner/Layout_Inner.cs
+  - Easly-Controller/05-Layout/State/Layout_NodeState.cs
+  - Easly-Controller/05-Layout/StateView/Layout_NodeStateView.cs
+  - Easly-Controller/05-Layout/Template/Layout_Template.cs
   - Easly-Controller/Controller/TypeMarkupExtension.cs
