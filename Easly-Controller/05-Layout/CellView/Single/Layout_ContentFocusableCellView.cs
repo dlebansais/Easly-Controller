@@ -26,6 +26,7 @@
         public LayoutContentFocusableCellView(ILayoutNodeStateView stateView, ILayoutFrame frame, string propertyName)
             : base(stateView, frame, propertyName)
         {
+            CellOrigin = ArrangeHelper.InvalidOrigin;
             CellSize = MeasureHelper.InvalidSize;
         }
         #endregion
@@ -42,6 +43,11 @@
         public new ILayoutFrame Frame { get { return (ILayoutFrame)base.Frame; } }
 
         /// <summary>
+        /// Location of the cell.
+        /// </summary>
+        public Point CellOrigin { get; private set; }
+
+        /// <summary>
         /// Size of the cell.
         /// </summary>
         public Size CellSize { get; private set; }
@@ -52,6 +58,11 @@
         /// Measures the cell.
         /// </summary>
         public abstract void Measure();
+
+        /// <summary>
+        /// Arranges the cell.
+        /// </summary>
+        public abstract void Arrange(Point origin);
         #endregion
 
         #region Debugging

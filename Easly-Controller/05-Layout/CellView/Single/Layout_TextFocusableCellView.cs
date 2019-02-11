@@ -26,6 +26,7 @@
         public LayoutTextFocusableCellView(ILayoutNodeStateView stateView, ILayoutMeasurableFrame frame, string propertyName)
             : base(stateView, frame, propertyName)
         {
+            CellOrigin = ArrangeHelper.InvalidOrigin;
             CellSize = MeasureHelper.InvalidSize;
         }
         #endregion
@@ -40,6 +41,11 @@
         /// The frame that created this cell view.
         /// </summary>
         public new ILayoutFrame Frame { get { return (ILayoutFrame)base.Frame; } }
+
+        /// <summary>
+        /// Location of the cell.
+        /// </summary>
+        public Point CellOrigin { get; private set; }
 
         /// <summary>
         /// Size of the cell.
@@ -65,6 +71,14 @@
             CellSize = AsMeasurableFrame.Measure(DrawContext, this);
 
             Debug.Assert(MeasureHelper.IsValid(CellSize));
+        }
+
+        /// <summary>
+        /// Arranges the cell.
+        /// </summary>
+        public virtual void Arrange(Point origin)
+        {
+            CellOrigin = origin;
         }
         #endregion
 

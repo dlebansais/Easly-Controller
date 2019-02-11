@@ -36,6 +36,11 @@
         new ILayoutCellViewCollection EmbeddingCellView { get; }
 
         /// <summary>
+        /// Location of the block state view.
+        /// </summary>
+        Point CellOrigin { get; }
+
+        /// <summary>
         /// Size of cells in this block state view.
         /// </summary>
         Size CellSize { get; }
@@ -44,6 +49,11 @@
         /// Measure all cells in this block state view.
         /// </summary>
         void MeasureCells();
+
+        /// <summary>
+        /// Arranges cells in this block state view.
+        /// </summary>
+        void ArrangeCells(Point origin);
     }
 
     /// <summary>
@@ -60,6 +70,7 @@
         public LayoutBlockStateView(ILayoutControllerView controllerView, ILayoutBlockState blockState)
             : base(controllerView, blockState)
         {
+            CellOrigin = ArrangeHelper.InvalidOrigin;
             CellSize = MeasureHelper.InvalidSize;
         }
         #endregion
@@ -91,6 +102,11 @@
         public new ILayoutCellViewCollection EmbeddingCellView { get { return (ILayoutCellViewCollection)base.EmbeddingCellView; } }
 
         /// <summary>
+        /// Location of the block state view.
+        /// </summary>
+        public Point CellOrigin { get; private set; }
+
+        /// <summary>
         /// Size of cells in this block state view.
         /// </summary>
         public Size CellSize { get; private set; }
@@ -108,6 +124,19 @@
             CellSize = RootCellView.CellSize;
 
             Debug.Assert(MeasureHelper.IsValid(CellSize));
+        }
+
+        /// <summary>
+        /// Arranges cells in this block state view.
+        /// </summary>
+        public virtual void ArrangeCells(Point origin)
+        {
+            Debug.Assert(RootCellView != null);
+            RootCellView.Arrange(origin);
+
+            CellOrigin = RootCellView.CellOrigin;
+
+            Debug.Assert(ArrangeHelper.IsValid(CellOrigin));
         }
         #endregion
 

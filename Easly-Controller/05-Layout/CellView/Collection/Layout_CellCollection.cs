@@ -29,6 +29,7 @@
         public LayoutCellViewCollection(ILayoutNodeStateView stateView, ILayoutCellViewList cellViewList)
             : base(stateView, cellViewList)
         {
+            CellOrigin = ArrangeHelper.InvalidOrigin;
             CellSize = MeasureHelper.InvalidSize;
         }
         #endregion
@@ -45,6 +46,11 @@
         public new ILayoutNodeStateView StateView { get { return (ILayoutNodeStateView)base.StateView; } }
 
         /// <summary>
+        /// Location of the cell.
+        /// </summary>
+        public Point CellOrigin { get; private set; }
+
+        /// <summary>
         /// Size of the cell.
         /// </summary>
         public Size CellSize { get; private set; }
@@ -55,6 +61,11 @@
         /// Measures the cell.
         /// </summary>
         public abstract void Measure();
+
+        /// <summary>
+        /// Arranges the cell.
+        /// </summary>
+        public abstract void Arrange(Point origin);
         #endregion
 
         #region Debugging

@@ -30,6 +30,7 @@
         public LayoutOptionalNodeStateView(ILayoutControllerView controllerView, ILayoutOptionalNodeState state)
             : base(controllerView, state)
         {
+            CellOrigin = ArrangeHelper.InvalidOrigin;
             CellSize = MeasureHelper.InvalidSize;
         }
         #endregion
@@ -62,6 +63,11 @@
         public new ILayoutAssignableCellViewReadOnlyDictionary<string> CellViewTable { get { return (ILayoutAssignableCellViewReadOnlyDictionary<string>)base.CellViewTable; } }
 
         /// <summary>
+        /// Location of the state view.
+        /// </summary>
+        public Point CellOrigin { get; private set; }
+
+        /// <summary>
         /// Size of cells in this state view.
         /// </summary>
         public Size CellSize { get; private set; }
@@ -79,6 +85,19 @@
             CellSize = RootCellView.CellSize;
 
             Debug.Assert(MeasureHelper.IsValid(CellSize));
+        }
+
+        /// <summary>
+        /// Arranges cells in this state view.
+        /// </summary>
+        public virtual void ArrangeCells(Point origin)
+        {
+            Debug.Assert(RootCellView != null);
+            RootCellView.Arrange(origin);
+
+            CellOrigin = RootCellView.CellOrigin;
+
+            Debug.Assert(ArrangeHelper.IsValid(CellOrigin));
         }
         #endregion
 

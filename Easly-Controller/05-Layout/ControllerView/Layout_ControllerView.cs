@@ -402,6 +402,14 @@
         /// <summary></summary>
         private protected virtual void ArrangeCells()
         {
+            ILayoutPlaceholderNodeState RootState = Controller.RootState;
+            ILayoutNodeStateView RootStateView = StateViewTable[RootState];
+
+            RootStateView.ArrangeCells(Point.Origin);
+
+            Point ViewOrigin = RootStateView.CellOrigin;
+
+            Debug.Assert(ViewOrigin.IsOrigin);
         }
         #endregion
 

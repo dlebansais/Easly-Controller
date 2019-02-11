@@ -15,6 +15,11 @@
         new ILayoutNodeStateView StateView { get; }
 
         /// <summary>
+        /// Location of the cell.
+        /// </summary>
+        Point CellOrigin { get; }
+
+        /// <summary>
         /// Size of the cell.
         /// </summary>
         Size CellSize { get; }
@@ -23,6 +28,11 @@
         /// Measures the cell.
         /// </summary>
         void Measure();
+
+        /// <summary>
+        /// Arranges the cell.
+        /// </summary>
+        void Arrange(Point origin);
     }
 
     /// <summary>
@@ -38,6 +48,7 @@
         public LayoutCellView(ILayoutNodeStateView stateView)
             : base(stateView)
         {
+            CellOrigin = ArrangeHelper.InvalidOrigin;
             CellSize = MeasureHelper.InvalidSize;
         }
         #endregion
@@ -47,6 +58,11 @@
         /// The state view containing the tree with this cell.
         /// </summary>
         public new ILayoutNodeStateView StateView { get { return (ILayoutNodeStateView)base.StateView; } }
+
+        /// <summary>
+        /// Location of the cell.
+        /// </summary>
+        public Point CellOrigin { get; }
 
         /// <summary>
         /// Size of the cell.
@@ -59,6 +75,11 @@
         /// Measures the cell.
         /// </summary>
         public abstract void Measure();
+
+        /// <summary>
+        /// Arranges the cell.
+        /// </summary>
+        public abstract void Arrange(Point origin);
         #endregion
 
         #region Debugging

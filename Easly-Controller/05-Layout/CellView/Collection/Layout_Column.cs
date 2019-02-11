@@ -25,6 +25,7 @@
         public LayoutColumn(ILayoutNodeStateView stateView, ILayoutCellViewList cellViewList)
             : base(stateView, cellViewList)
         {
+            CellOrigin = ArrangeHelper.InvalidOrigin;
             CellSize = MeasureHelper.InvalidSize;
         }
         #endregion
@@ -39,6 +40,11 @@
         /// The state view containing the tree with this cell.
         /// </summary>
         public new ILayoutNodeStateView StateView { get { return (ILayoutNodeStateView)base.StateView; } }
+
+        /// <summary>
+        /// Location of the cell.
+        /// </summary>
+        public Point CellOrigin { get; private set; }
 
         /// <summary>
         /// Size of the cell.
@@ -83,6 +89,27 @@
                 CellSize = new Size(Width, Height);
 
             Debug.Assert(MeasureHelper.IsValid(CellSize));
+        }
+
+        /// <summary>
+        /// Arranges the cell.
+        /// </summary>
+        public virtual void Arrange(Point origin)
+        {
+            CellOrigin = origin;
+
+            Point LineOrigin = origin;
+
+            foreach (ILayoutCellView CellView in CellViewList)
+            {
+                CellView.Arrange(LineOrigin);
+
+                Size NestedCellSize = CellView.CellSize;
+                Debug.Assert(!double.IsNaN(NestedCellSize.Height));
+                LineOrigin.Y += NestedCellSize.Height;
+            }
+
+            Debug.Assert(LineOrigin.Y == CellOrigin.Y + CellSize.Height);
         }
         #endregion
 

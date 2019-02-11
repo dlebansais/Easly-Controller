@@ -24,6 +24,7 @@
         public LayoutEmptyCellView(ILayoutNodeStateView stateView)
             : base(stateView)
         {
+            CellOrigin = ArrangeHelper.InvalidOrigin;
             CellSize = MeasureHelper.InvalidSize;
         }
         #endregion
@@ -33,6 +34,11 @@
         /// The state view containing the tree with this cell.
         /// </summary>
         public new ILayoutNodeStateView StateView { get { return (ILayoutNodeStateView)base.StateView; } }
+
+        /// <summary>
+        /// Location of the cell.
+        /// </summary>
+        public Point CellOrigin { get; private set; }
 
         /// <summary>
         /// Size of the cell.
@@ -47,6 +53,14 @@
         public virtual void Measure()
         {
             CellSize = Size.Empty;
+        }
+
+        /// <summary>
+        /// Arranges the cell.
+        /// </summary>
+        public virtual void Arrange(Point origin)
+        {
+            CellOrigin = origin;
         }
         #endregion
 

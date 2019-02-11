@@ -31,6 +31,7 @@
         public LayoutDiscreteContentFocusableCellView(ILayoutNodeStateView stateView, ILayoutFrame frame, string propertyName, ILayoutKeywordFrame keywordFocus)
             : base(stateView, frame, propertyName, keywordFocus)
         {
+            CellOrigin = ArrangeHelper.InvalidOrigin;
             CellSize = MeasureHelper.InvalidSize;
         }
         #endregion
@@ -50,6 +51,11 @@
         /// The keyword frame that was used to create this cell.
         /// </summary>
         public new ILayoutKeywordFrame KeywordFrame { get { return (ILayoutKeywordFrame)base.KeywordFrame; } }
+
+        /// <summary>
+        /// Location of the cell.
+        /// </summary>
+        public Point CellOrigin { get; private set; }
 
         /// <summary>
         /// Size of the cell.
@@ -72,6 +78,14 @@
             CellSize = KeywordFrame.Measure(DrawContext, this);
 
             Debug.Assert(MeasureHelper.IsValid(CellSize));
+        }
+
+        /// <summary>
+        /// Arranges the cell.
+        /// </summary>
+        public virtual void Arrange(Point origin)
+        {
+            CellOrigin = origin;
         }
         #endregion
 

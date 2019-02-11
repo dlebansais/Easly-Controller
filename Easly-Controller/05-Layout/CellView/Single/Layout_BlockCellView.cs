@@ -35,6 +35,7 @@
         public LayoutBlockCellView(ILayoutNodeStateView stateView, ILayoutCellViewCollection parentCellView, ILayoutBlockStateView blockStateView)
             : base(stateView, parentCellView, blockStateView)
         {
+            CellOrigin = ArrangeHelper.InvalidOrigin;
             CellSize = MeasureHelper.InvalidSize;
         }
         #endregion
@@ -56,6 +57,11 @@
         public new ILayoutNodeStateView StateView { get { return (ILayoutNodeStateView)base.StateView; } }
 
         /// <summary>
+        /// Location of the cell.
+        /// </summary>
+        public Point CellOrigin { get; private set; }
+
+        /// <summary>
         /// Size of the cell.
         /// </summary>
         public Size CellSize { get; private set; }
@@ -73,6 +79,19 @@
             CellSize = BlockStateView.CellSize;
 
             Debug.Assert(MeasureHelper.IsValid(CellSize));
+        }
+
+        /// <summary>
+        /// Arranges the cell.
+        /// </summary>
+        public virtual void Arrange(Point origin)
+        {
+            Debug.Assert(BlockStateView != null);
+            BlockStateView.ArrangeCells(origin);
+
+            CellOrigin = BlockStateView.CellOrigin;
+
+            Debug.Assert(ArrangeHelper.IsValid(CellOrigin));
         }
         #endregion
 
