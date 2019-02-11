@@ -10,6 +10,15 @@
     /// </summary>
     public interface ILayoutFrame : IFocusFrame
     {
+        /// <summary>
+        /// Parent template.
+        /// </summary>
+        new ILayoutTemplate ParentTemplate { get; }
+
+        /// <summary>
+        /// Parent frame, or null for the root frame in a template.
+        /// </summary>
+        new ILayoutFrame ParentFrame { get; }
     }
 
     /// <summary>
@@ -50,6 +59,18 @@
         /// Singleton object representing the root of a tree of frames.
         /// </summary>
         public static ILayoutFrame LayoutRoot { get; } = new LayoutRootFrame();
+        #endregion
+
+        #region Properties
+        /// <summary>
+        /// Parent template.
+        /// </summary>
+        public new ILayoutTemplate ParentTemplate { get { return (ILayoutTemplate)base.ParentTemplate; } }
+
+        /// <summary>
+        /// Parent frame, or null for the root frame in a template.
+        /// </summary>
+        public new ILayoutFrame ParentFrame { get { return (ILayoutFrame)base.ParentFrame; } }
         #endregion
     }
 }
