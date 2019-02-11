@@ -79,6 +79,9 @@
         {
             base.UpdateParent(parentTemplate, parentFrame);
 
+            Debug.Assert(ParentTemplate == parentTemplate);
+            Debug.Assert(ParentFrame == parentFrame);
+
             foreach (IFocusSelectableFrame Item in Items)
                 Item.UpdateParent(parentTemplate, this);
         }

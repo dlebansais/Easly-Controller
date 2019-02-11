@@ -35,9 +35,9 @@
                 Debug.Assert(ParentFrame == null);
                 Debug.Assert(!IsValid(null, null));
 
-                IFrameFrame AsFrame = this;
-                Debug.Assert(AsFrame.ParentTemplate == null);
-                Debug.Assert(AsFrame.ParentFrame == null);
+                IFrameFrame AsFrameFrame = this;
+                Debug.Assert(AsFrameFrame.ParentTemplate == null);
+                Debug.Assert(AsFrameFrame.ParentFrame == null);
             }
 
             public IFocusTemplate ParentTemplate { get; }

@@ -1,7 +1,9 @@
 ﻿namespace EaslyController.Layout
 {
+    using System.Diagnostics;
     using System.Windows.Markup;
     using EaslyController.Focus;
+    using EaslyController.Frame;
 
     /// <summary>
     /// Focus selecting sub-frames.
@@ -38,6 +40,21 @@
 
         /// <summary></summary>
         private protected override bool IsParentRoot { get { return ParentFrame == LayoutFrame.LayoutRoot; } }
+        #endregion
+
+        #region Client Interface
+        /// <summary>
+        /// Update the reference to the parent frame.
+        /// </summary>
+        /// <param name="parentTemplate">The parent template.</param>
+        /// <param name="parentFrame">The parent frame.</param>
+        public override void UpdateParent(IFrameTemplate parentTemplate, IFrameFrame parentFrame)
+        {
+            base.UpdateParent(parentTemplate, parentFrame);
+
+            Debug.Assert(ParentTemplate == parentTemplate);
+            Debug.Assert(ParentFrame == parentFrame);
+        }
         #endregion
 
         #region Create Methods

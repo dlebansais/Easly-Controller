@@ -1,11 +1,7 @@
 ﻿namespace EaslyController.Layout
 {
-    using System;
-    using System.Collections.Generic;
     using System.Diagnostics;
     using BaseNode;
-    using BaseNodeHelper;
-    using EaslyController.Constants;
     using EaslyController.Focus;
     using EaslyController.Frame;
     using EaslyController.ReadOnly;
@@ -330,6 +326,16 @@
             ILayoutNodeState RefreshState = ((ILayoutGenericRefreshOperation)operation).RefreshState;
             Debug.Assert(RefreshState != null);
             Debug.Assert(StateViewTable.ContainsKey(RefreshState));
+        }
+
+        /// <summary></summary>
+        private protected override IFrameCellViewTreeContext InitializedCellViewTreeContext(IFrameNodeStateView stateView)
+        {
+            ILayoutCellViewTreeContext Context = base.InitializedCellViewTreeContext(stateView) as ILayoutCellViewTreeContext;
+            Debug.Assert(Context.ControllerView == this);
+            Debug.Assert(Context.BlockStateView == null);
+
+            return Context;
         }
 
         /// <summary></summary>
