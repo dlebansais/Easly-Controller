@@ -52,6 +52,24 @@
 
         #region Client Interface
         /// <summary>
+        /// Checks that a frame is correctly constructed.
+        /// </summary>
+        /// <param name="nodeType">Type of the node this frame can describe.</param>
+        /// <param name="nodeTemplateTable">Table of templates with all frames.</param>
+        public override bool IsValid(Type nodeType, IFrameTemplateReadOnlyDictionary nodeTemplateTable)
+        {
+            bool IsValid = true;
+
+            IsValid &= base.IsValid(nodeType, nodeTemplateTable);
+
+            foreach (IFocusFrameSelector Selector in Selectors)
+                IsValid &= Selector.IsValid(nodeType, (IFocusTemplateReadOnlyDictionary)nodeTemplateTable, nameof(BaseNode.IBlock.NodeList));
+
+            Debug.Assert(IsValid);
+            return IsValid;
+        }
+
+        /// <summary>
         /// Create cells for the provided state view.
         /// </summary>
         /// <param name="context">Context used to build the cell view tree.</param>
