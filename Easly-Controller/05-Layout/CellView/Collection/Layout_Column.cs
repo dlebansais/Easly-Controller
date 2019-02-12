@@ -9,6 +9,10 @@
     /// </summary>
     public interface ILayoutColumn : IFocusColumn, ILayoutCellViewCollection
     {
+        /// <summary>
+        /// The frame that was used to create this cell. Can be null.
+        /// </summary>
+        ILayoutFrame Frame { get; }
     }
 
     /// <summary>
@@ -22,9 +26,11 @@
         /// </summary>
         /// <param name="stateView">The state view containing the tree with this cell.</param>
         /// <param name="cellViewList">The list of child cell views.</param>
-        public LayoutColumn(ILayoutNodeStateView stateView, ILayoutCellViewList cellViewList)
+        /// <param name="frame">The frame that was used to create this cell. Can be null.</param>
+        public LayoutColumn(ILayoutNodeStateView stateView, ILayoutCellViewList cellViewList, ILayoutFrame frame)
             : base(stateView, cellViewList)
         {
+            Frame = frame;
             CellOrigin = ArrangeHelper.InvalidOrigin;
             CellSize = MeasureHelper.InvalidSize;
             CellPadding = Padding.Empty;
@@ -41,6 +47,11 @@
         /// The state view containing the tree with this cell.
         /// </summary>
         public new ILayoutNodeStateView StateView { get { return (ILayoutNodeStateView)base.StateView; } }
+
+        /// <summary>
+        /// The frame that was used to create this cell. Can be null.
+        /// </summary>
+        public ILayoutFrame Frame { get; }
 
         /// <summary>
         /// Location of the cell.
@@ -64,6 +75,12 @@
         /// </summary>
         public virtual void Measure()
         {
+            Debug.Assert(StateView != null);
+            Debug.Assert(StateView.ControllerView != null);
+
+            ILayoutDrawContext DrawContext = StateView.ControllerView.DrawContext;
+            Debug.Assert(DrawContext != null);
+
             double Width = double.NaN;
             double Height = 0;
 
@@ -92,7 +109,13 @@
             if (Height == 0)
                 CellSize = Size.Empty;
             else
+            {
+                if (Frame is ILayoutVerticalTabulatedFrame AsTabulatedFrame)
+                    if (AsTabulatedFrame.HasTabulationMargin)
+                        Width += DrawContext.TabulationWidth;
+
                 CellSize = new Size(Width, Height);
+            }
 
             Debug.Assert(MeasureHelper.IsValid(CellSize));
         }
@@ -104,7 +127,17 @@
         {
             CellOrigin = origin;
 
-            Point LineOrigin = origin;
+            Debug.Assert(StateView != null);
+            Debug.Assert(StateView.ControllerView != null);
+
+            ILayoutDrawContext DrawContext = StateView.ControllerView.DrawContext;
+            Debug.Assert(DrawContext != null);
+
+            double LeftPadding = CellPadding.Left;
+            if (Frame is ILayoutVerticalTabulatedFrame AsTabulatedFrame && AsTabulatedFrame.HasTabulationMargin)
+                LeftPadding += DrawContext.TabulationWidth;
+
+            Point LineOrigin = new Point(origin.X + LeftPadding, origin.Y);
 
             foreach (ILayoutCellView CellView in CellViewList)
             {
@@ -116,7 +149,7 @@
             }
 
             Point FinalOrigin = new Point(LineOrigin.X, LineOrigin.Y);
-            Point ExpectedOrigin = new Point(CellOrigin.X, CellOrigin.Y + CellSize.Height);
+            Point ExpectedOrigin = new Point(CellOrigin.X + LeftPadding, CellOrigin.Y + CellSize.Height);
             bool IsEqual = Point.IsEqual(FinalOrigin, ExpectedOrigin);
             Debug.Assert(IsEqual);
         }

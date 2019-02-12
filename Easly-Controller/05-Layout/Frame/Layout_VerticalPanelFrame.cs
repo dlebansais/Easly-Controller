@@ -1,6 +1,5 @@
 ﻿namespace EaslyController.Layout
 {
-    using System;
     using System.Diagnostics;
     using System.Windows.Markup;
     using EaslyController.Focus;
@@ -9,7 +8,7 @@
     /// <summary>
     /// Layout for displaying more frames vertically.
     /// </summary>
-    public interface ILayoutVerticalPanelFrame : IFocusVerticalPanelFrame, ILayoutPanelFrame
+    public interface ILayoutVerticalPanelFrame : IFocusVerticalPanelFrame, ILayoutPanelFrame, ILayoutVerticalTabulatedFrame
     {
     }
 
@@ -46,6 +45,12 @@
         /// (Set in Xaml)
         /// </summary>
         public new ILayoutBlockFrameVisibility BlockVisibility { get { return (ILayoutBlockFrameVisibility)base.BlockVisibility; } set { base.BlockVisibility = value; } }
+
+        /// <summary>
+        /// Indicates that the frame should have a tabulation margin on the left.
+        /// (Set in Xaml)
+        /// </summary>
+        public bool HasTabulationMargin { get; set; }
         #endregion
 
         #region Implementation
@@ -81,7 +86,7 @@
         private protected override IFrameContainerCellView CreateFrameCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, IFrameNodeStateView childStateView)
         {
             ControllerTools.AssertNoOverride(this, typeof(LayoutVerticalPanelFrame));
-            return new LayoutContainerCellView((ILayoutNodeStateView)stateView, (ILayoutCellViewCollection)parentCellView, (ILayoutNodeStateView)childStateView, null);
+            return new LayoutContainerCellView((ILayoutNodeStateView)stateView, (ILayoutCellViewCollection)parentCellView, (ILayoutNodeStateView)childStateView, this);
         }
 
         /// <summary>
@@ -90,7 +95,7 @@
         private protected override IFrameCellViewCollection CreateEmbeddingCellView(IFrameNodeStateView stateView, IFrameCellViewList list)
         {
             ControllerTools.AssertNoOverride(this, typeof(LayoutVerticalPanelFrame));
-            return new LayoutColumn((ILayoutNodeStateView)stateView, (ILayoutCellViewList)list);
+            return new LayoutColumn((ILayoutNodeStateView)stateView, (ILayoutCellViewList)list, this);
         }
         #endregion
     }

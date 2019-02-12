@@ -73,7 +73,7 @@
         private protected override IFrameContainerCellView CreateFrameCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, IFrameNodeStateView childStateView)
         {
             ControllerTools.AssertNoOverride(this, typeof(LayoutVerticalCollectionPlaceholderFrame));
-            return new LayoutContainerCellView((ILayoutNodeStateView)stateView, (ILayoutCellViewCollection)parentCellView, (ILayoutNodeStateView)childStateView, null);
+            return new LayoutContainerCellView((ILayoutNodeStateView)stateView, (ILayoutCellViewCollection)parentCellView, (ILayoutNodeStateView)childStateView, this);
         }
 
         /// <summary>
@@ -82,7 +82,7 @@
         private protected override IFrameCellViewCollection CreateEmbeddingCellView(IFrameNodeStateView stateView, IFrameCellViewList list)
         {
             ControllerTools.AssertNoOverride(this, typeof(LayoutVerticalCollectionPlaceholderFrame));
-            return new LayoutColumn((ILayoutNodeStateView)stateView, (ILayoutCellViewList)list);
+            return new LayoutColumn((ILayoutNodeStateView)stateView, (ILayoutCellViewList)list, this);
         }
 
         /// <summary>

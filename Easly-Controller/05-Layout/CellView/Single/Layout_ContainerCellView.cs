@@ -22,7 +22,7 @@
         /// <summary>
         /// The frame that was used to create this cell. Can be null.
         /// </summary>
-        ILayoutMeasurableFrame Frame { get; }
+        ILayoutFrame Frame { get; }
     }
 
     /// <summary>
@@ -38,7 +38,7 @@
         /// <param name="parentCellView">The collection of cell views containing this view.</param>
         /// <param name="childStateView">The state view of the state associated to this cell.</param>
         /// <param name="frame">The frame that was used to create this cell. Can be null.</param>
-        public LayoutContainerCellView(ILayoutNodeStateView stateView, ILayoutCellViewCollection parentCellView, ILayoutNodeStateView childStateView, ILayoutMeasurableFrame frame)
+        public LayoutContainerCellView(ILayoutNodeStateView stateView, ILayoutCellViewCollection parentCellView, ILayoutNodeStateView childStateView, ILayoutFrame frame)
             : base(stateView, parentCellView, childStateView)
         {
             Frame = frame;
@@ -67,7 +67,7 @@
         /// <summary>
         /// The frame that was used to create this cell. Can be null.
         /// </summary>
-        public ILayoutMeasurableFrame Frame { get; }
+        public ILayoutFrame Frame { get; }
 
         /// <summary>
         /// Location of the cell.
@@ -91,16 +91,18 @@
         /// </summary>
         public virtual void Measure()
         {
-            if (Frame != null)
+            Debug.Assert(StateView != null);
+            Debug.Assert(StateView.ControllerView != null);
+
+            ILayoutDrawContext DrawContext = StateView.ControllerView.DrawContext;
+            Debug.Assert(DrawContext != null);
+
+            Size MeasuredSize;
+
+            if (Frame is ILayoutMeasurableFrame AsMeasurableFrame)
             {
-                Debug.Assert(StateView != null);
-                Debug.Assert(StateView.ControllerView != null);
-
-                ILayoutDrawContext DrawContext = StateView.ControllerView.DrawContext;
-                Debug.Assert(DrawContext != null);
-
-                Frame.Measure(DrawContext, this, out Size Size, out Padding Padding);
-                CellSize = Size;
+                AsMeasurableFrame.Measure(DrawContext, this, out Size Size, out Padding Padding);
+                MeasuredSize = Size;
                 CellPadding = Padding;
             }
             else
@@ -108,8 +110,14 @@
                 Debug.Assert(ChildStateView != null);
                 ChildStateView.MeasureCells();
 
-                CellSize = ChildStateView.CellSize;
+                MeasuredSize = ChildStateView.CellSize;
             }
+
+            if (Frame is ILayoutVerticalTabulatedFrame AsTabulatedFrame)
+                if (AsTabulatedFrame.HasTabulationMargin)
+                    MeasuredSize = new Size(MeasuredSize.Width + DrawContext.TabulationWidth, MeasuredSize.Height);
+
+            CellSize = MeasuredSize;
 
             Debug.Assert(MeasureHelper.IsValid(CellSize));
         }
@@ -121,7 +129,17 @@
         {
             CellOrigin = origin;
 
-            Point OriginWithPadding = new Point(origin.X + CellPadding.Left, origin.Y);
+            Debug.Assert(StateView != null);
+            Debug.Assert(StateView.ControllerView != null);
+
+            ILayoutDrawContext DrawContext = StateView.ControllerView.DrawContext;
+            Debug.Assert(DrawContext != null);
+
+            double LeftPadding = CellPadding.Left;
+            if (Frame is ILayoutVerticalTabulatedFrame AsTabulatedFrame && AsTabulatedFrame.HasTabulationMargin)
+                LeftPadding += DrawContext.TabulationWidth;
+
+            Point OriginWithPadding = new Point(origin.X + LeftPadding, origin.Y);
 
             Debug.Assert(ChildStateView != null);
             ChildStateView.ArrangeCells(OriginWithPadding);

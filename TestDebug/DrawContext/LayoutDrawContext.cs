@@ -9,6 +9,7 @@ namespace TestDebug
         public static LayoutDrawContext Default = new LayoutDrawContext();
 
         public double LineHeight { get { return 12; } }
+        public double TabulationWidth { get { return 12; } }
 
         public Size MeasureSymbol(Symbols symbol)
         {

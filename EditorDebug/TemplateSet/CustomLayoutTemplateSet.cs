@@ -134,7 +134,7 @@ namespace TestDebug
                     <LayoutKeywordFrame>import</LayoutKeywordFrame>
                     <LayoutInsertFrame CollectionName=""ImportBlocks"" />
                 </LayoutHorizontalPanelFrame>
-                <LayoutVerticalBlockListFrame PropertyName=""ImportBlocks"" />
+                <LayoutVerticalBlockListFrame PropertyName=""ImportBlocks"" HasTabulationMargin=""True""/>
             </LayoutVerticalPanelFrame>
             <LayoutVerticalPanelFrame>
                 <LayoutVerticalPanelFrame.Visibility>
@@ -144,7 +144,7 @@ namespace TestDebug
                     <LayoutKeywordFrame>generic</LayoutKeywordFrame>
                     <LayoutInsertFrame CollectionName=""GenericBlocks"" />
                 </LayoutHorizontalPanelFrame>
-                <LayoutVerticalBlockListFrame PropertyName=""GenericBlocks"" />
+                <LayoutVerticalBlockListFrame PropertyName=""GenericBlocks"" HasTabulationMargin=""True""/>
             </LayoutVerticalPanelFrame>
             <LayoutVerticalPanelFrame>
                 <LayoutVerticalPanelFrame.Visibility>
@@ -154,7 +154,7 @@ namespace TestDebug
                     <LayoutKeywordFrame>export</LayoutKeywordFrame>
                     <LayoutInsertFrame CollectionName=""ExportBlocks"" />
                 </LayoutHorizontalPanelFrame>
-                <LayoutVerticalBlockListFrame PropertyName=""ExportBlocks"" />
+                <LayoutVerticalBlockListFrame PropertyName=""ExportBlocks"" HasTabulationMargin=""True""/>
             </LayoutVerticalPanelFrame>
             <LayoutVerticalPanelFrame>
                 <LayoutVerticalPanelFrame.Visibility>
@@ -164,7 +164,7 @@ namespace TestDebug
                     <LayoutKeywordFrame>typedef</LayoutKeywordFrame>
                     <LayoutInsertFrame CollectionName=""TypedefBlocks"" />
                 </LayoutHorizontalPanelFrame>
-                <LayoutVerticalBlockListFrame PropertyName=""TypedefBlocks"" />
+                <LayoutVerticalBlockListFrame PropertyName=""TypedefBlocks"" HasTabulationMargin=""True""/>
             </LayoutVerticalPanelFrame>
             <LayoutVerticalPanelFrame>
                 <LayoutVerticalPanelFrame.Visibility>
@@ -174,7 +174,7 @@ namespace TestDebug
                     <LayoutKeywordFrame>inheritance</LayoutKeywordFrame>
                     <LayoutInsertFrame CollectionName=""InheritanceBlocks"" />
                 </LayoutHorizontalPanelFrame>
-                <LayoutVerticalBlockListFrame PropertyName=""InheritanceBlocks"" />
+                <LayoutVerticalBlockListFrame PropertyName=""InheritanceBlocks"" HasTabulationMargin=""True""/>
             </LayoutVerticalPanelFrame>
             <LayoutVerticalPanelFrame>
                 <LayoutVerticalPanelFrame.Visibility>
@@ -184,7 +184,7 @@ namespace TestDebug
                     <LayoutKeywordFrame>discrete</LayoutKeywordFrame>
                     <LayoutInsertFrame CollectionName=""DiscreteBlocks"" />
                 </LayoutHorizontalPanelFrame>
-                <LayoutVerticalBlockListFrame PropertyName=""DiscreteBlocks"" />
+                <LayoutVerticalBlockListFrame PropertyName=""DiscreteBlocks"" HasTabulationMargin=""True""/>
             </LayoutVerticalPanelFrame>
             <LayoutVerticalPanelFrame>
                 <LayoutVerticalPanelFrame.Visibility>
@@ -194,7 +194,7 @@ namespace TestDebug
                     <LayoutKeywordFrame>replicate</LayoutKeywordFrame>
                     <LayoutInsertFrame CollectionName=""ClassReplicateBlocks"" />
                 </LayoutHorizontalPanelFrame>
-                <LayoutVerticalBlockListFrame PropertyName=""ClassReplicateBlocks"" />
+                <LayoutVerticalBlockListFrame PropertyName=""ClassReplicateBlocks"" HasTabulationMargin=""True""/>
             </LayoutVerticalPanelFrame>
             <LayoutVerticalPanelFrame>
                 <LayoutVerticalPanelFrame.Visibility>
@@ -204,7 +204,7 @@ namespace TestDebug
                     <LayoutKeywordFrame>feature</LayoutKeywordFrame>
                     <LayoutInsertFrame CollectionName=""FeatureBlocks"" ItemType=""{xaml:Type easly:AttributeFeature}""/>
                 </LayoutHorizontalPanelFrame>
-                <LayoutVerticalBlockListFrame PropertyName=""FeatureBlocks"" />
+                <LayoutVerticalBlockListFrame PropertyName=""FeatureBlocks"" HasTabulationMargin=""True""/>
             </LayoutVerticalPanelFrame>
             <LayoutVerticalPanelFrame>
                 <LayoutVerticalPanelFrame.Visibility>
@@ -212,9 +212,9 @@ namespace TestDebug
                 </LayoutVerticalPanelFrame.Visibility>
                 <LayoutHorizontalPanelFrame>
                     <LayoutKeywordFrame>conversion</LayoutKeywordFrame>
-                    <LayoutInsertFrame CollectionName=""ConversionBlocks"" />
+                    <LayoutInsertFrame CollectionName=""ConversionBlocks""/>
                 </LayoutHorizontalPanelFrame>
-                <LayoutVerticalBlockListFrame PropertyName=""ConversionBlocks"">
+                <LayoutVerticalBlockListFrame PropertyName=""ConversionBlocks"" HasTabulationMargin=""True"">
                     <LayoutVerticalBlockListFrame.Selectors>
                         <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Feature""/>
                     </LayoutVerticalBlockListFrame.Selectors>
@@ -228,7 +228,7 @@ namespace TestDebug
                     <LayoutKeywordFrame>invariant</LayoutKeywordFrame>
                     <LayoutInsertFrame CollectionName=""InvariantBlocks"" />
                 </LayoutHorizontalPanelFrame>
-                <LayoutVerticalBlockListFrame PropertyName=""InvariantBlocks"" />
+                <LayoutVerticalBlockListFrame PropertyName=""InvariantBlocks"" HasTabulationMargin=""True""/>
             </LayoutVerticalPanelFrame>
             <LayoutKeywordFrame Text=""end"">
                 <LayoutKeywordFrame.Visibility>
@@ -272,7 +272,7 @@ namespace TestDebug
                     </LayoutDiscreteFrame>
                     <LayoutInsertFrame CollectionName=""ParameterBlocks"" />
                 </LayoutHorizontalPanelFrame>
-                <LayoutVerticalBlockListFrame PropertyName=""ParameterBlocks"" />
+                <LayoutVerticalBlockListFrame PropertyName=""ParameterBlocks"" HasTabulationMargin=""True""/>
             </LayoutVerticalPanelFrame>
             <LayoutPlaceholderFrame PropertyName=""CommandBody"">
                 <LayoutPlaceholderFrame.Selectors>
@@ -298,9 +298,9 @@ namespace TestDebug
                             <LayoutKeywordFrame>closed</LayoutKeywordFrame>
                             <LayoutKeywordFrame>open</LayoutKeywordFrame>
                         </LayoutDiscreteFrame>
-                        <LayoutInsertFrame CollectionName=""ParameterBlocks"" />
+                        <LayoutInsertFrame CollectionName=""ParameterBlocks""/>
                     </LayoutHorizontalPanelFrame>
-                    <LayoutVerticalBlockListFrame PropertyName=""ParameterBlocks"" />
+                    <LayoutVerticalBlockListFrame PropertyName=""ParameterBlocks"" HasTabulationMargin=""True""/>
                 </LayoutVerticalPanelFrame>
                 <LayoutVerticalPanelFrame>
                     <LayoutVerticalPanelFrame.Visibility>
@@ -310,7 +310,7 @@ namespace TestDebug
                         <LayoutKeywordFrame>require</LayoutKeywordFrame>
                         <LayoutInsertFrame CollectionName=""RequireBlocks"" />
                     </LayoutHorizontalPanelFrame>
-                    <LayoutVerticalBlockListFrame PropertyName=""RequireBlocks"" />
+                    <LayoutVerticalBlockListFrame PropertyName=""RequireBlocks"" HasTabulationMargin=""True""/>
                 </LayoutVerticalPanelFrame>
                 <LayoutVerticalPanelFrame>
                     <LayoutVerticalPanelFrame.Visibility>
@@ -320,7 +320,7 @@ namespace TestDebug
                         <LayoutKeywordFrame>ensure</LayoutKeywordFrame>
                         <LayoutInsertFrame CollectionName=""EnsureBlocks"" />
                     </LayoutHorizontalPanelFrame>
-                    <LayoutVerticalBlockListFrame PropertyName=""EnsureBlocks"" />
+                    <LayoutVerticalBlockListFrame PropertyName=""EnsureBlocks"" HasTabulationMargin=""True""/>
                 </LayoutVerticalPanelFrame>
                 <LayoutVerticalPanelFrame>
                     <LayoutVerticalPanelFrame.Visibility>
@@ -330,7 +330,7 @@ namespace TestDebug
                         <LayoutKeywordFrame>exception</LayoutKeywordFrame>
                         <LayoutInsertFrame CollectionName=""ExceptionIdentifierBlocks"" />
                     </LayoutHorizontalPanelFrame>
-                    <LayoutVerticalBlockListFrame PropertyName=""ExceptionIdentifierBlocks"">
+                    <LayoutVerticalBlockListFrame PropertyName=""ExceptionIdentifierBlocks"" HasTabulationMargin=""True"">
                         <LayoutVerticalBlockListFrame.Selectors>
                             <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Class""/>
                         </LayoutVerticalBlockListFrame.Selectors>
@@ -360,7 +360,7 @@ namespace TestDebug
     <LayoutNodeTemplate NodeType=""{xaml:Type easly:IConstraint}"">
         <LayoutVerticalPanelFrame>
             <LayoutPlaceholderFrame PropertyName=""ParentType"" />
-            <LayoutVerticalPanelFrame>
+            <LayoutVerticalPanelFrame HasTabulationMargin=""True"">
                 <LayoutVerticalPanelFrame.Visibility>
                     <LayoutCountFrameVisibility PropertyName=""RenameBlocks""/>
                 </LayoutVerticalPanelFrame.Visibility>
@@ -368,7 +368,7 @@ namespace TestDebug
                     <LayoutKeywordFrame>rename</LayoutKeywordFrame>
                     <LayoutInsertFrame CollectionName=""RenameBlocks"" />
                 </LayoutHorizontalPanelFrame>
-                <LayoutVerticalBlockListFrame PropertyName=""RenameBlocks"" />
+                <LayoutVerticalBlockListFrame PropertyName=""RenameBlocks"" HasTabulationMargin=""True""/>
             </LayoutVerticalPanelFrame>
         </LayoutVerticalPanelFrame>
     </LayoutNodeTemplate>
@@ -388,7 +388,7 @@ namespace TestDebug
                         <LayoutKeywordFrame>cleanup</LayoutKeywordFrame>
                         <LayoutInsertFrame CollectionName=""CleanupBlocks"" ItemType=""{xaml:Type easly:CommandInstruction}""/>
                     </LayoutHorizontalPanelFrame>
-                    <LayoutVerticalBlockListFrame PropertyName=""CleanupBlocks"" />
+                    <LayoutVerticalBlockListFrame PropertyName=""CleanupBlocks"" HasTabulationMargin=""True""/>
                 </LayoutVerticalPanelFrame>
             </LayoutVerticalPanelFrame>
         </LayoutVerticalPanelFrame>
@@ -479,7 +479,7 @@ namespace TestDebug
                     <LayoutKeywordFrame>conform to</LayoutKeywordFrame>
                     <LayoutInsertFrame CollectionName=""ConstraintBlocks"" />
                 </LayoutHorizontalPanelFrame>
-                <LayoutVerticalBlockListFrame PropertyName=""ConstraintBlocks"" />
+                <LayoutVerticalBlockListFrame PropertyName=""ConstraintBlocks"" HasTabulationMargin=""True""/>
             </LayoutVerticalPanelFrame>
             <LayoutKeywordFrame Text=""end"">
                 <LayoutKeywordFrame.Visibility>
@@ -522,7 +522,7 @@ namespace TestDebug
                     </LayoutOptionalFrame>
                 </LayoutHorizontalPanelFrame>
             </LayoutHorizontalPanelFrame>
-            <LayoutVerticalPanelFrame>
+            <LayoutVerticalPanelFrame HasTabulationMargin=""True"">
                 <LayoutVerticalPanelFrame.Visibility>
                     <LayoutCountFrameVisibility PropertyName=""RenameBlocks""/>
                 </LayoutVerticalPanelFrame.Visibility>
@@ -530,9 +530,9 @@ namespace TestDebug
                     <LayoutKeywordFrame>rename</LayoutKeywordFrame>
                     <LayoutInsertFrame CollectionName=""RenameBlocks"" />
                 </LayoutHorizontalPanelFrame>
-                <LayoutVerticalBlockListFrame PropertyName=""RenameBlocks"" />
+                <LayoutVerticalBlockListFrame PropertyName=""RenameBlocks"" HasTabulationMargin=""True""/>
             </LayoutVerticalPanelFrame>
-            <LayoutVerticalPanelFrame>
+            <LayoutVerticalPanelFrame HasTabulationMargin=""True"">
                 <LayoutVerticalPanelFrame.Visibility>
                     <LayoutMixedFrameVisibility>
                         <LayoutCountFrameVisibility PropertyName=""RenameBlocks""/>
@@ -554,7 +554,7 @@ namespace TestDebug
                 </LayoutDiscreteFrame>
                 <LayoutPlaceholderFrame PropertyName=""ParentType""/>
             </LayoutHorizontalPanelFrame>
-            <LayoutVerticalPanelFrame>
+            <LayoutVerticalPanelFrame HasTabulationMargin=""True"">
                 <LayoutVerticalPanelFrame>
                     <LayoutVerticalPanelFrame.Visibility>
                         <LayoutCountFrameVisibility PropertyName=""RenameBlocks""/>
@@ -563,7 +563,7 @@ namespace TestDebug
                         <LayoutKeywordFrame>rename</LayoutKeywordFrame>
                         <LayoutInsertFrame CollectionName=""RenameBlocks"" />
                     </LayoutHorizontalPanelFrame>
-                    <LayoutVerticalBlockListFrame PropertyName=""RenameBlocks"" />
+                    <LayoutVerticalBlockListFrame PropertyName=""RenameBlocks"" HasTabulationMargin=""True""/>
                 </LayoutVerticalPanelFrame>
                 <LayoutVerticalPanelFrame>
                     <LayoutVerticalPanelFrame.Visibility>
@@ -573,7 +573,7 @@ namespace TestDebug
                         <LayoutKeywordFrame>forget</LayoutKeywordFrame>
                         <LayoutInsertFrame CollectionName=""ForgetBlocks"" />
                     </LayoutHorizontalPanelFrame>
-                    <LayoutVerticalBlockListFrame PropertyName=""ForgetBlocks"">
+                    <LayoutVerticalBlockListFrame PropertyName=""ForgetBlocks"" HasTabulationMargin=""True"">
                         <LayoutVerticalBlockListFrame.Selectors>
                             <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Feature""/>
                         </LayoutVerticalBlockListFrame.Selectors>
@@ -587,7 +587,7 @@ namespace TestDebug
                         <LayoutKeywordFrame>keep</LayoutKeywordFrame>
                         <LayoutInsertFrame CollectionName=""KeepBlocks"" />
                     </LayoutHorizontalPanelFrame>
-                    <LayoutVerticalBlockListFrame PropertyName=""KeepBlocks"">
+                    <LayoutVerticalBlockListFrame PropertyName=""KeepBlocks"" HasTabulationMargin=""True"">
                         <LayoutVerticalBlockListFrame.Selectors>
                             <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Feature""/>
                         </LayoutVerticalBlockListFrame.Selectors>
@@ -601,7 +601,7 @@ namespace TestDebug
                         <LayoutKeywordFrame>discontinue</LayoutKeywordFrame>
                         <LayoutInsertFrame CollectionName=""DiscontinueBlocks"" />
                     </LayoutHorizontalPanelFrame>
-                    <LayoutVerticalBlockListFrame PropertyName=""DiscontinueBlocks"">
+                    <LayoutVerticalBlockListFrame PropertyName=""DiscontinueBlocks"" HasTabulationMargin=""True"">
                         <LayoutVerticalBlockListFrame.Selectors>
                             <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Feature""/>
                         </LayoutVerticalBlockListFrame.Selectors>
@@ -615,7 +615,7 @@ namespace TestDebug
                         <LayoutKeywordFrame>export</LayoutKeywordFrame>
                         <LayoutInsertFrame CollectionName=""ExportChangeBlocks"" />
                     </LayoutHorizontalPanelFrame>
-                    <LayoutVerticalBlockListFrame PropertyName=""ExportChangeBlocks"" />
+                    <LayoutVerticalBlockListFrame PropertyName=""ExportChangeBlocks"" HasTabulationMargin=""True""/>
                 </LayoutVerticalPanelFrame>
                 <LayoutDiscreteFrame PropertyName=""ForgetIndexer"" RightMargin=""Whitespace"">
                     <LayoutDiscreteFrame.Visibility>
@@ -676,7 +676,7 @@ namespace TestDebug
                     <LayoutKeywordFrame>import</LayoutKeywordFrame>
                     <LayoutInsertFrame CollectionName=""ImportBlocks"" />
                 </LayoutHorizontalPanelFrame>
-                <LayoutVerticalBlockListFrame PropertyName=""ImportBlocks"" />
+                <LayoutVerticalBlockListFrame PropertyName=""ImportBlocks"" HasTabulationMargin=""True""/>
             </LayoutVerticalPanelFrame>
             <LayoutVerticalPanelFrame>
                 <LayoutVerticalPanelFrame.Visibility>
@@ -686,7 +686,7 @@ namespace TestDebug
                     <LayoutKeywordFrame>class</LayoutKeywordFrame>
                     <LayoutInsertFrame CollectionName=""ClassIdentifierBlocks"" />
                 </LayoutHorizontalPanelFrame>
-                <LayoutVerticalBlockListFrame PropertyName=""ClassIdentifierBlocks"">
+                <LayoutVerticalBlockListFrame PropertyName=""ClassIdentifierBlocks"" HasTabulationMargin=""True"">
                     <LayoutVerticalBlockListFrame.Selectors>
                         <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Feature""/>
                     </LayoutVerticalBlockListFrame.Selectors>
@@ -729,7 +729,7 @@ namespace TestDebug
                     </LayoutDiscreteFrame>
                     <LayoutInsertFrame CollectionName=""ParameterBlocks"" />
                 </LayoutHorizontalPanelFrame>
-                <LayoutVerticalBlockListFrame PropertyName=""ParameterBlocks"" />
+                <LayoutVerticalBlockListFrame PropertyName=""ParameterBlocks"" HasTabulationMargin=""True""/>
             </LayoutVerticalPanelFrame>
             <LayoutVerticalPanelFrame>
                 <LayoutVerticalPanelFrame.Visibility>
@@ -739,7 +739,7 @@ namespace TestDebug
                     <LayoutKeywordFrame>result</LayoutKeywordFrame>
                     <LayoutInsertFrame CollectionName=""ResultBlocks"" />
                 </LayoutHorizontalPanelFrame>
-                <LayoutVerticalBlockListFrame PropertyName=""ResultBlocks""/>
+                <LayoutVerticalBlockListFrame PropertyName=""ResultBlocks"" HasTabulationMargin=""True""/>
             </LayoutVerticalPanelFrame>
             <LayoutVerticalPanelFrame>
                 <LayoutVerticalPanelFrame.Visibility>
@@ -749,7 +749,7 @@ namespace TestDebug
                     <LayoutKeywordFrame>modified</LayoutKeywordFrame>
                     <LayoutInsertFrame CollectionName=""ModifiedQueryBlocks"" />
                 </LayoutHorizontalPanelFrame>
-                <LayoutVerticalBlockListFrame PropertyName=""ModifiedQueryBlocks"">
+                <LayoutVerticalBlockListFrame PropertyName=""ModifiedQueryBlocks"" HasTabulationMargin=""True"">
                     <LayoutVerticalBlockListFrame.Selectors>
                         <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Feature""/>
                     </LayoutVerticalBlockListFrame.Selectors>
@@ -785,14 +785,14 @@ namespace TestDebug
                         </LayoutDiscreteFrame>
                         <LayoutInsertFrame CollectionName=""ParameterBlocks"" />
                     </LayoutHorizontalPanelFrame>
-                    <LayoutVerticalBlockListFrame PropertyName=""ParameterBlocks"" />
+                    <LayoutVerticalBlockListFrame PropertyName=""ParameterBlocks"" HasTabulationMargin=""True""/>
                 </LayoutVerticalPanelFrame>
                 <LayoutVerticalPanelFrame>
                     <LayoutHorizontalPanelFrame>
                         <LayoutKeywordFrame>return</LayoutKeywordFrame>
                         <LayoutInsertFrame CollectionName=""ResultBlocks"" />
                     </LayoutHorizontalPanelFrame>
-                    <LayoutVerticalBlockListFrame PropertyName=""ResultBlocks""/>
+                    <LayoutVerticalBlockListFrame PropertyName=""ResultBlocks"" HasTabulationMargin=""True""/>
                 </LayoutVerticalPanelFrame>
                 <LayoutVerticalPanelFrame>
                     <LayoutVerticalPanelFrame.Visibility>
@@ -802,7 +802,7 @@ namespace TestDebug
                         <LayoutKeywordFrame>require</LayoutKeywordFrame>
                         <LayoutInsertFrame CollectionName=""RequireBlocks"" />
                     </LayoutHorizontalPanelFrame>
-                    <LayoutVerticalBlockListFrame PropertyName=""RequireBlocks"" />
+                    <LayoutVerticalBlockListFrame PropertyName=""RequireBlocks"" HasTabulationMargin=""True""/>
                 </LayoutVerticalPanelFrame>
                 <LayoutVerticalPanelFrame>
                     <LayoutVerticalPanelFrame.Visibility>
@@ -812,7 +812,7 @@ namespace TestDebug
                         <LayoutKeywordFrame>ensure</LayoutKeywordFrame>
                         <LayoutInsertFrame CollectionName=""EnsureBlocks"" />
                     </LayoutHorizontalPanelFrame>
-                    <LayoutVerticalBlockListFrame PropertyName=""EnsureBlocks"" />
+                    <LayoutVerticalBlockListFrame PropertyName=""EnsureBlocks"" HasTabulationMargin=""True""/>
                 </LayoutVerticalPanelFrame>
                 <LayoutVerticalPanelFrame>
                     <LayoutVerticalPanelFrame.Visibility>
@@ -822,7 +822,7 @@ namespace TestDebug
                         <LayoutKeywordFrame>exception</LayoutKeywordFrame>
                         <LayoutInsertFrame CollectionName=""ExceptionIdentifierBlocks"" />
                     </LayoutHorizontalPanelFrame>
-                    <LayoutVerticalBlockListFrame PropertyName=""ExceptionIdentifierBlocks"">
+                    <LayoutVerticalBlockListFrame PropertyName=""ExceptionIdentifierBlocks"" HasTabulationMargin=""True"">
                         <LayoutVerticalBlockListFrame.Selectors>
                             <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Class""/>
                         </LayoutVerticalBlockListFrame.Selectors>
@@ -902,14 +902,14 @@ namespace TestDebug
                     <LayoutKeywordFrame>local</LayoutKeywordFrame>
                     <LayoutInsertFrame CollectionName=""EntityDeclarationBlocks"" />
                 </LayoutHorizontalPanelFrame>
-                <LayoutVerticalBlockListFrame PropertyName=""EntityDeclarationBlocks"" />
+                <LayoutVerticalBlockListFrame PropertyName=""EntityDeclarationBlocks"" HasTabulationMargin=""True""/>
             </LayoutVerticalPanelFrame>
             <LayoutVerticalPanelFrame>
                 <LayoutHorizontalPanelFrame>
                     <LayoutKeywordFrame>do</LayoutKeywordFrame>
                     <LayoutInsertFrame CollectionName=""InstructionBlocks"" ItemType=""{xaml:Type easly:CommandInstruction}""/>
                 </LayoutHorizontalPanelFrame>
-                <LayoutVerticalBlockListFrame PropertyName=""InstructionBlocks"" />
+                <LayoutVerticalBlockListFrame PropertyName=""InstructionBlocks"" HasTabulationMargin=""True""/>
             </LayoutVerticalPanelFrame>
         </LayoutVerticalPanelFrame>
     </LayoutNodeTemplate>
@@ -958,7 +958,7 @@ namespace TestDebug
                             <LayoutKeywordFrame>require</LayoutKeywordFrame>
                             <LayoutInsertFrame CollectionName=""RequireBlocks"" />
                         </LayoutHorizontalPanelFrame>
-                        <LayoutVerticalBlockListFrame PropertyName=""RequireBlocks"" />
+                        <LayoutVerticalBlockListFrame PropertyName=""RequireBlocks"" HasTabulationMargin=""True""/>
                     </LayoutVerticalPanelFrame>
                     <LayoutVerticalPanelFrame>
                         <LayoutVerticalPanelFrame.Visibility>
@@ -987,7 +987,7 @@ namespace TestDebug
                             <LayoutKeywordFrame>ensure</LayoutKeywordFrame>
                             <LayoutInsertFrame CollectionName=""EnsureBlocks"" />
                         </LayoutHorizontalPanelFrame>
-                        <LayoutVerticalBlockListFrame PropertyName=""EnsureBlocks"" />
+                        <LayoutVerticalBlockListFrame PropertyName=""EnsureBlocks"" HasTabulationMargin=""True""/>
                     </LayoutVerticalPanelFrame>
                 </LayoutVerticalPanelFrame>
             </LayoutSelectableFrame>
@@ -1001,7 +1001,7 @@ namespace TestDebug
                             <LayoutKeywordFrame>require</LayoutKeywordFrame>
                             <LayoutInsertFrame CollectionName=""RequireBlocks"" />
                         </LayoutHorizontalPanelFrame>
-                        <LayoutVerticalBlockListFrame PropertyName=""RequireBlocks"" />
+                        <LayoutVerticalBlockListFrame PropertyName=""RequireBlocks"" HasTabulationMargin=""True""/>
                     </LayoutVerticalPanelFrame>
                     <LayoutVerticalPanelFrame>
                         <LayoutVerticalPanelFrame.Visibility>
@@ -1031,7 +1031,7 @@ namespace TestDebug
                             <LayoutKeywordFrame>ensure</LayoutKeywordFrame>
                             <LayoutInsertFrame CollectionName=""EnsureBlocks"" />
                         </LayoutHorizontalPanelFrame>
-                        <LayoutVerticalBlockListFrame PropertyName=""EnsureBlocks"" />
+                        <LayoutVerticalBlockListFrame PropertyName=""EnsureBlocks"" HasTabulationMargin=""True""/>
                     </LayoutVerticalPanelFrame>
                 </LayoutVerticalPanelFrame>
             </LayoutSelectableFrame>
@@ -1045,7 +1045,7 @@ namespace TestDebug
                             <LayoutKeywordFrame>require</LayoutKeywordFrame>
                             <LayoutInsertFrame CollectionName=""RequireBlocks"" />
                         </LayoutHorizontalPanelFrame>
-                        <LayoutVerticalBlockListFrame PropertyName=""RequireBlocks"" />
+                        <LayoutVerticalBlockListFrame PropertyName=""RequireBlocks"" HasTabulationMargin=""True""/>
                     </LayoutVerticalPanelFrame>
                     <LayoutVerticalPanelFrame>
                         <LayoutVerticalPanelFrame.Visibility>
@@ -1075,7 +1075,7 @@ namespace TestDebug
                             <LayoutKeywordFrame>ensure</LayoutKeywordFrame>
                             <LayoutInsertFrame CollectionName=""EnsureBlocks"" />
                         </LayoutHorizontalPanelFrame>
-                        <LayoutVerticalBlockListFrame PropertyName=""EnsureBlocks"" />
+                        <LayoutVerticalBlockListFrame PropertyName=""EnsureBlocks"" HasTabulationMargin=""True""/>
                     </LayoutVerticalPanelFrame>
                 </LayoutVerticalPanelFrame>
             </LayoutSelectableFrame>
@@ -1093,7 +1093,7 @@ namespace TestDebug
                             <LayoutKeywordFrame>require</LayoutKeywordFrame>
                             <LayoutInsertFrame CollectionName=""RequireBlocks"" />
                         </LayoutHorizontalPanelFrame>
-                        <LayoutVerticalBlockListFrame PropertyName=""RequireBlocks"" />
+                        <LayoutVerticalBlockListFrame PropertyName=""RequireBlocks"" HasTabulationMargin=""True""/>
                     </LayoutVerticalPanelFrame>
                     <LayoutVerticalPanelFrame>
                         <LayoutVerticalPanelFrame.Visibility>
@@ -1117,7 +1117,7 @@ namespace TestDebug
                             <LayoutKeywordFrame>local</LayoutKeywordFrame>
                             <LayoutInsertFrame CollectionName=""EntityDeclarationBlocks"" />
                         </LayoutHorizontalPanelFrame>
-                        <LayoutVerticalBlockListFrame PropertyName=""EntityDeclarationBlocks"" />
+                        <LayoutVerticalBlockListFrame PropertyName=""EntityDeclarationBlocks"" HasTabulationMargin=""True""/>
                     </LayoutVerticalPanelFrame>
                     <LayoutVerticalPanelFrame>
                         <LayoutVerticalPanelFrame.Visibility>
@@ -1127,7 +1127,7 @@ namespace TestDebug
                             <LayoutKeywordFrame IsFocusable=""true"">do</LayoutKeywordFrame>
                             <LayoutInsertFrame CollectionName=""BodyInstructionBlocks"" ItemType=""{xaml:Type easly:CommandInstruction}""/>
                         </LayoutHorizontalPanelFrame>
-                        <LayoutVerticalBlockListFrame PropertyName=""BodyInstructionBlocks"" />
+                        <LayoutVerticalBlockListFrame PropertyName=""BodyInstructionBlocks"" HasTabulationMargin=""True""/>
                     </LayoutVerticalPanelFrame>
                     <LayoutVerticalPanelFrame>
                         <LayoutVerticalPanelFrame.Visibility>
@@ -1137,7 +1137,7 @@ namespace TestDebug
                             <LayoutKeywordFrame>exception</LayoutKeywordFrame>
                             <LayoutInsertFrame CollectionName=""ExceptionHandlerBlocks"" />
                         </LayoutHorizontalPanelFrame>
-                        <LayoutVerticalBlockListFrame PropertyName=""ExceptionHandlerBlocks"" />
+                        <LayoutVerticalBlockListFrame PropertyName=""ExceptionHandlerBlocks"" HasTabulationMargin=""True""/>
                     </LayoutVerticalPanelFrame>
                     <LayoutVerticalPanelFrame>
                         <LayoutVerticalPanelFrame.Visibility>
@@ -1147,7 +1147,7 @@ namespace TestDebug
                             <LayoutKeywordFrame>ensure</LayoutKeywordFrame>
                             <LayoutInsertFrame CollectionName=""EnsureBlocks"" />
                         </LayoutHorizontalPanelFrame>
-                        <LayoutVerticalBlockListFrame PropertyName=""EnsureBlocks"" />
+                        <LayoutVerticalBlockListFrame PropertyName=""EnsureBlocks"" HasTabulationMargin=""True""/>
                     </LayoutVerticalPanelFrame>
                 </LayoutVerticalPanelFrame>
             </LayoutSelectableFrame>
@@ -1161,7 +1161,7 @@ namespace TestDebug
                             <LayoutKeywordFrame>require</LayoutKeywordFrame>
                             <LayoutInsertFrame CollectionName=""RequireBlocks"" />
                         </LayoutHorizontalPanelFrame>
-                        <LayoutVerticalBlockListFrame PropertyName=""RequireBlocks"" />
+                        <LayoutVerticalBlockListFrame PropertyName=""RequireBlocks"" HasTabulationMargin=""True""/>
                     </LayoutVerticalPanelFrame>
                     <LayoutVerticalPanelFrame>
                         <LayoutVerticalPanelFrame.Visibility>
@@ -1185,7 +1185,7 @@ namespace TestDebug
                             <LayoutKeywordFrame>local</LayoutKeywordFrame>
                             <LayoutInsertFrame CollectionName=""EntityDeclarationBlocks"" />
                         </LayoutHorizontalPanelFrame>
-                        <LayoutVerticalBlockListFrame PropertyName=""EntityDeclarationBlocks"" />
+                        <LayoutVerticalBlockListFrame PropertyName=""EntityDeclarationBlocks"" HasTabulationMargin=""True""/>
                     </LayoutVerticalPanelFrame>
                     <LayoutVerticalPanelFrame>
                         <LayoutVerticalPanelFrame.Visibility>
@@ -1195,7 +1195,7 @@ namespace TestDebug
                             <LayoutKeywordFrame IsFocusable=""true"">getter</LayoutKeywordFrame>
                             <LayoutInsertFrame CollectionName=""BodyInstructionBlocks"" ItemType=""{xaml:Type easly:CommandInstruction}""/>
                         </LayoutHorizontalPanelFrame>
-                        <LayoutVerticalBlockListFrame PropertyName=""BodyInstructionBlocks"" />
+                        <LayoutVerticalBlockListFrame PropertyName=""BodyInstructionBlocks"" HasTabulationMargin=""True""/>
                     </LayoutVerticalPanelFrame>
                     <LayoutVerticalPanelFrame>
                         <LayoutVerticalPanelFrame.Visibility>
@@ -1205,7 +1205,7 @@ namespace TestDebug
                             <LayoutKeywordFrame>exception</LayoutKeywordFrame>
                             <LayoutInsertFrame CollectionName=""ExceptionHandlerBlocks"" />
                         </LayoutHorizontalPanelFrame>
-                        <LayoutVerticalBlockListFrame PropertyName=""ExceptionHandlerBlocks"" />
+                        <LayoutVerticalBlockListFrame PropertyName=""ExceptionHandlerBlocks"" HasTabulationMargin=""True""/>
                     </LayoutVerticalPanelFrame>
                     <LayoutVerticalPanelFrame>
                         <LayoutVerticalPanelFrame.Visibility>
@@ -1215,7 +1215,7 @@ namespace TestDebug
                             <LayoutKeywordFrame>ensure</LayoutKeywordFrame>
                             <LayoutInsertFrame CollectionName=""EnsureBlocks"" />
                         </LayoutHorizontalPanelFrame>
-                        <LayoutVerticalBlockListFrame PropertyName=""EnsureBlocks"" />
+                        <LayoutVerticalBlockListFrame PropertyName=""EnsureBlocks"" HasTabulationMargin=""True""/>
                     </LayoutVerticalPanelFrame>
                 </LayoutVerticalPanelFrame>
             </LayoutSelectableFrame>
@@ -1229,7 +1229,7 @@ namespace TestDebug
                             <LayoutKeywordFrame>require</LayoutKeywordFrame>
                             <LayoutInsertFrame CollectionName=""RequireBlocks"" />
                         </LayoutHorizontalPanelFrame>
-                        <LayoutVerticalBlockListFrame PropertyName=""RequireBlocks"" />
+                        <LayoutVerticalBlockListFrame PropertyName=""RequireBlocks"" HasTabulationMargin=""True""/>
                     </LayoutVerticalPanelFrame>
                     <LayoutVerticalPanelFrame>
                         <LayoutVerticalPanelFrame.Visibility>
@@ -1253,7 +1253,7 @@ namespace TestDebug
                             <LayoutKeywordFrame>local</LayoutKeywordFrame>
                             <LayoutInsertFrame CollectionName=""EntityDeclarationBlocks"" />
                         </LayoutHorizontalPanelFrame>
-                        <LayoutVerticalBlockListFrame PropertyName=""EntityDeclarationBlocks"" />
+                        <LayoutVerticalBlockListFrame PropertyName=""EntityDeclarationBlocks"" HasTabulationMargin=""True""/>
                     </LayoutVerticalPanelFrame>
                     <LayoutVerticalPanelFrame>
                         <LayoutVerticalPanelFrame.Visibility>
@@ -1263,7 +1263,7 @@ namespace TestDebug
                             <LayoutKeywordFrame IsFocusable=""true"">setter</LayoutKeywordFrame>
                             <LayoutInsertFrame CollectionName=""BodyInstructionBlocks"" ItemType=""{xaml:Type easly:CommandInstruction}""/>
                         </LayoutHorizontalPanelFrame>
-                        <LayoutVerticalBlockListFrame PropertyName=""BodyInstructionBlocks"" />
+                        <LayoutVerticalBlockListFrame PropertyName=""BodyInstructionBlocks"" HasTabulationMargin=""True""/>
                     </LayoutVerticalPanelFrame>
                     <LayoutVerticalPanelFrame>
                         <LayoutVerticalPanelFrame.Visibility>
@@ -1273,7 +1273,7 @@ namespace TestDebug
                             <LayoutKeywordFrame>exception</LayoutKeywordFrame>
                             <LayoutInsertFrame CollectionName=""ExceptionHandlerBlocks"" />
                         </LayoutHorizontalPanelFrame>
-                        <LayoutVerticalBlockListFrame PropertyName=""ExceptionHandlerBlocks"" />
+                        <LayoutVerticalBlockListFrame PropertyName=""ExceptionHandlerBlocks"" HasTabulationMargin=""True""/>
                     </LayoutVerticalPanelFrame>
                     <LayoutVerticalPanelFrame>
                         <LayoutVerticalPanelFrame.Visibility>
@@ -1283,7 +1283,7 @@ namespace TestDebug
                             <LayoutKeywordFrame>ensure</LayoutKeywordFrame>
                             <LayoutInsertFrame CollectionName=""EnsureBlocks"" />
                         </LayoutHorizontalPanelFrame>
-                        <LayoutVerticalBlockListFrame PropertyName=""EnsureBlocks"" />
+                        <LayoutVerticalBlockListFrame PropertyName=""EnsureBlocks"" HasTabulationMargin=""True""/>
                     </LayoutVerticalPanelFrame>
                 </LayoutVerticalPanelFrame>
             </LayoutSelectableFrame>
@@ -1301,7 +1301,7 @@ namespace TestDebug
                             <LayoutKeywordFrame>require</LayoutKeywordFrame>
                             <LayoutInsertFrame CollectionName=""RequireBlocks"" />
                         </LayoutHorizontalPanelFrame>
-                        <LayoutVerticalBlockListFrame PropertyName=""RequireBlocks"" />
+                        <LayoutVerticalBlockListFrame PropertyName=""RequireBlocks"" HasTabulationMargin=""True""/>
                     </LayoutVerticalPanelFrame>
                     <LayoutVerticalPanelFrame>
                         <LayoutVerticalPanelFrame.Visibility>
@@ -1330,7 +1330,7 @@ namespace TestDebug
                             <LayoutKeywordFrame>ensure</LayoutKeywordFrame>
                             <LayoutInsertFrame CollectionName=""EnsureBlocks"" />
                         </LayoutHorizontalPanelFrame>
-                        <LayoutVerticalBlockListFrame PropertyName=""EnsureBlocks"" />
+                        <LayoutVerticalBlockListFrame PropertyName=""EnsureBlocks"" HasTabulationMargin=""True""/>
                     </LayoutVerticalPanelFrame>
                 </LayoutVerticalPanelFrame>
             </LayoutSelectableFrame>
@@ -1344,7 +1344,7 @@ namespace TestDebug
                             <LayoutKeywordFrame>require</LayoutKeywordFrame>
                             <LayoutInsertFrame CollectionName=""RequireBlocks"" />
                         </LayoutHorizontalPanelFrame>
-                        <LayoutVerticalBlockListFrame PropertyName=""RequireBlocks"" />
+                        <LayoutVerticalBlockListFrame PropertyName=""RequireBlocks"" HasTabulationMargin=""True""/>
                     </LayoutVerticalPanelFrame>
                     <LayoutVerticalPanelFrame>
                         <LayoutVerticalPanelFrame.Visibility>
@@ -1374,7 +1374,7 @@ namespace TestDebug
                             <LayoutKeywordFrame>ensure</LayoutKeywordFrame>
                             <LayoutInsertFrame CollectionName=""EnsureBlocks"" />
                         </LayoutHorizontalPanelFrame>
-                        <LayoutVerticalBlockListFrame PropertyName=""EnsureBlocks"" />
+                        <LayoutVerticalBlockListFrame PropertyName=""EnsureBlocks"" HasTabulationMargin=""True""/>
                     </LayoutVerticalPanelFrame>
                 </LayoutVerticalPanelFrame>
             </LayoutSelectableFrame>
@@ -1388,7 +1388,7 @@ namespace TestDebug
                             <LayoutKeywordFrame>require</LayoutKeywordFrame>
                             <LayoutInsertFrame CollectionName=""RequireBlocks"" />
                         </LayoutHorizontalPanelFrame>
-                        <LayoutVerticalBlockListFrame PropertyName=""RequireBlocks"" />
+                        <LayoutVerticalBlockListFrame PropertyName=""RequireBlocks"" HasTabulationMargin=""True""/>
                     </LayoutVerticalPanelFrame>
                     <LayoutVerticalPanelFrame>
                         <LayoutVerticalPanelFrame.Visibility>
@@ -1418,7 +1418,7 @@ namespace TestDebug
                             <LayoutKeywordFrame>ensure</LayoutKeywordFrame>
                             <LayoutInsertFrame CollectionName=""EnsureBlocks"" />
                         </LayoutHorizontalPanelFrame>
-                        <LayoutVerticalBlockListFrame PropertyName=""EnsureBlocks"" />
+                        <LayoutVerticalBlockListFrame PropertyName=""EnsureBlocks"" HasTabulationMargin=""True""/>
                     </LayoutVerticalPanelFrame>
                 </LayoutVerticalPanelFrame>
             </LayoutSelectableFrame>
@@ -1436,7 +1436,7 @@ namespace TestDebug
                             <LayoutKeywordFrame>require</LayoutKeywordFrame>
                             <LayoutInsertFrame CollectionName=""RequireBlocks"" />
                         </LayoutHorizontalPanelFrame>
-                        <LayoutVerticalBlockListFrame PropertyName=""RequireBlocks"" />
+                        <LayoutVerticalBlockListFrame PropertyName=""RequireBlocks"" HasTabulationMargin=""True""/>
                     </LayoutVerticalPanelFrame>
                     <LayoutVerticalPanelFrame>
                         <LayoutVerticalPanelFrame.Visibility>
@@ -1465,7 +1465,7 @@ namespace TestDebug
                             <LayoutKeywordFrame>ensure</LayoutKeywordFrame>
                             <LayoutInsertFrame CollectionName=""EnsureBlocks"" />
                         </LayoutHorizontalPanelFrame>
-                        <LayoutVerticalBlockListFrame PropertyName=""EnsureBlocks"" />
+                        <LayoutVerticalBlockListFrame PropertyName=""EnsureBlocks"" HasTabulationMargin=""True""/>
                     </LayoutVerticalPanelFrame>
                 </LayoutVerticalPanelFrame>
             </LayoutSelectableFrame>
@@ -1479,7 +1479,7 @@ namespace TestDebug
                             <LayoutKeywordFrame>require</LayoutKeywordFrame>
                             <LayoutInsertFrame CollectionName=""RequireBlocks"" />
                         </LayoutHorizontalPanelFrame>
-                        <LayoutVerticalBlockListFrame PropertyName=""RequireBlocks"" />
+                        <LayoutVerticalBlockListFrame PropertyName=""RequireBlocks"" HasTabulationMargin=""True""/>
                     </LayoutVerticalPanelFrame>
                     <LayoutVerticalPanelFrame>
                         <LayoutVerticalPanelFrame.Visibility>
@@ -1509,7 +1509,7 @@ namespace TestDebug
                             <LayoutKeywordFrame>ensure</LayoutKeywordFrame>
                             <LayoutInsertFrame CollectionName=""EnsureBlocks"" />
                         </LayoutHorizontalPanelFrame>
-                        <LayoutVerticalBlockListFrame PropertyName=""EnsureBlocks"" />
+                        <LayoutVerticalBlockListFrame PropertyName=""EnsureBlocks"" HasTabulationMargin=""True""/>
                     </LayoutVerticalPanelFrame>
                 </LayoutVerticalPanelFrame>
             </LayoutSelectableFrame>
@@ -1523,7 +1523,7 @@ namespace TestDebug
                             <LayoutKeywordFrame>require</LayoutKeywordFrame>
                             <LayoutInsertFrame CollectionName=""RequireBlocks"" />
                         </LayoutHorizontalPanelFrame>
-                        <LayoutVerticalBlockListFrame PropertyName=""RequireBlocks"" />
+                        <LayoutVerticalBlockListFrame PropertyName=""RequireBlocks"" HasTabulationMargin=""True""/>
                     </LayoutVerticalPanelFrame>
                     <LayoutVerticalPanelFrame>
                         <LayoutVerticalPanelFrame.Visibility>
@@ -1553,7 +1553,7 @@ namespace TestDebug
                             <LayoutKeywordFrame>ensure</LayoutKeywordFrame>
                             <LayoutInsertFrame CollectionName=""EnsureBlocks"" />
                         </LayoutHorizontalPanelFrame>
-                        <LayoutVerticalBlockListFrame PropertyName=""EnsureBlocks"" />
+                        <LayoutVerticalBlockListFrame PropertyName=""EnsureBlocks"" HasTabulationMargin=""True""/>
                     </LayoutVerticalPanelFrame>
                 </LayoutVerticalPanelFrame>
             </LayoutSelectableFrame>
@@ -1968,7 +1968,7 @@ namespace TestDebug
                 <LayoutKeywordFrame>:</LayoutKeywordFrame>
                 <LayoutPlaceholderFrame PropertyName=""EntityType"" LeftMargin=""Whitespace""/>
             </LayoutHorizontalPanelFrame>
-            <LayoutVerticalPanelFrame>
+            <LayoutVerticalPanelFrame HasTabulationMargin=""True"">
                 <LayoutVerticalPanelFrame>
                     <LayoutVerticalPanelFrame.Visibility>
                         <LayoutCountFrameVisibility PropertyName=""EnsureBlocks""/>
@@ -1977,7 +1977,7 @@ namespace TestDebug
                         <LayoutKeywordFrame>ensure</LayoutKeywordFrame>
                         <LayoutInsertFrame CollectionName=""EnsureBlocks"" />
                     </LayoutHorizontalPanelFrame>
-                    <LayoutVerticalBlockListFrame PropertyName=""EnsureBlocks"" />
+                    <LayoutVerticalBlockListFrame PropertyName=""EnsureBlocks"" HasTabulationMargin=""True""/>
                 </LayoutVerticalPanelFrame>
                 <LayoutHorizontalPanelFrame>
                     <LayoutHorizontalPanelFrame.Visibility>
@@ -2017,7 +2017,7 @@ namespace TestDebug
                 <LayoutKeywordFrame>=</LayoutKeywordFrame>
                 <LayoutPlaceholderFrame PropertyName=""ConstantValue"" LeftMargin=""Whitespace""/>
             </LayoutHorizontalPanelFrame>
-            <LayoutVerticalPanelFrame>
+            <LayoutVerticalPanelFrame HasTabulationMargin=""True"">
                 <LayoutHorizontalPanelFrame>
                     <LayoutHorizontalPanelFrame.Visibility>
                         <LayoutTextMatchFrameVisibility PropertyName=""ExportIdentifier"" TextPattern=""All""/>
@@ -2053,7 +2053,7 @@ namespace TestDebug
                 <LayoutKeywordFrame>creation</LayoutKeywordFrame>
                 <LayoutInsertFrame CollectionName=""OverloadBlocks"" />
             </LayoutHorizontalPanelFrame>
-            <LayoutVerticalPanelFrame>
+            <LayoutVerticalPanelFrame HasTabulationMargin=""True"">
                 <LayoutVerticalBlockListFrame PropertyName=""OverloadBlocks""/>
                 <LayoutHorizontalPanelFrame>
                     <LayoutHorizontalPanelFrame.Visibility>
@@ -2096,7 +2096,7 @@ namespace TestDebug
                 <LayoutKeywordFrame LeftMargin=""Whitespace"">function</LayoutKeywordFrame>
                 <LayoutInsertFrame CollectionName=""OverloadBlocks"" />
             </LayoutHorizontalPanelFrame>
-            <LayoutVerticalPanelFrame>
+            <LayoutVerticalPanelFrame HasTabulationMargin=""True"">
                 <LayoutVerticalBlockListFrame PropertyName=""OverloadBlocks""/>
                 <LayoutHorizontalPanelFrame>
                     <LayoutHorizontalPanelFrame.Visibility>
@@ -2126,7 +2126,7 @@ namespace TestDebug
                 <LayoutKeywordFrame IsFocusable=""true"">indexer</LayoutKeywordFrame>
                 <LayoutPlaceholderFrame PropertyName=""EntityType"" LeftMargin=""Whitespace""/>
             </LayoutHorizontalPanelFrame>
-            <LayoutVerticalPanelFrame>
+            <LayoutVerticalPanelFrame HasTabulationMargin=""True"">
                 <LayoutVerticalPanelFrame>
                     <LayoutVerticalPanelFrame.Visibility>
                         <LayoutCountFrameVisibility PropertyName=""IndexParameterBlocks""/>
@@ -2142,7 +2142,7 @@ namespace TestDebug
                         <LayoutKeywordFrame>parameter</LayoutKeywordFrame>
                         <LayoutInsertFrame CollectionName=""IndexParameterBlocks"" />
                     </LayoutHorizontalPanelFrame>
-                    <LayoutVerticalBlockListFrame PropertyName=""IndexParameterBlocks"" />
+                    <LayoutVerticalBlockListFrame PropertyName=""IndexParameterBlocks"" HasTabulationMargin=""True""/>
                 </LayoutVerticalPanelFrame>
                 <LayoutVerticalPanelFrame>
                     <LayoutVerticalPanelFrame.Visibility>
@@ -2152,7 +2152,7 @@ namespace TestDebug
                         <LayoutKeywordFrame>modify</LayoutKeywordFrame>
                         <LayoutInsertFrame CollectionName=""ModifiedQueryBlocks"" />
                     </LayoutHorizontalPanelFrame>
-                    <LayoutVerticalPanelFrame>
+                    <LayoutVerticalPanelFrame HasTabulationMargin=""True"">
                         <LayoutHorizontalBlockListFrame PropertyName=""ModifiedQueryBlocks"">
                             <LayoutHorizontalBlockListFrame.Selectors>
                                 <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Identifier""/>
@@ -2209,7 +2209,7 @@ namespace TestDebug
                 <LayoutKeywordFrame LeftMargin=""Whitespace"">procedure</LayoutKeywordFrame>
                 <LayoutInsertFrame CollectionName=""OverloadBlocks"" />
             </LayoutHorizontalPanelFrame>
-            <LayoutVerticalPanelFrame>
+            <LayoutVerticalPanelFrame HasTabulationMargin=""True"">
                 <LayoutVerticalBlockListFrame PropertyName=""OverloadBlocks""/>
                 <LayoutHorizontalPanelFrame>
                     <LayoutHorizontalPanelFrame.Visibility>
@@ -2240,7 +2240,7 @@ namespace TestDebug
                 <LayoutKeywordFrame>is</LayoutKeywordFrame>
                 <LayoutPlaceholderFrame PropertyName=""EntityType"" LeftMargin=""Whitespace""/>
             </LayoutHorizontalPanelFrame>
-            <LayoutVerticalPanelFrame>
+            <LayoutVerticalPanelFrame HasTabulationMargin=""True"">
                 <LayoutVerticalPanelFrame>
                     <LayoutVerticalPanelFrame.Visibility>
                         <LayoutCountFrameVisibility PropertyName=""ModifiedQueryBlocks""/>
@@ -2249,7 +2249,7 @@ namespace TestDebug
                         <LayoutKeywordFrame>modify</LayoutKeywordFrame>
                         <LayoutInsertFrame CollectionName=""ModifiedQueryBlocks"" />
                     </LayoutHorizontalPanelFrame>
-                    <LayoutVerticalPanelFrame>
+                    <LayoutVerticalPanelFrame HasTabulationMargin=""True"">
                         <LayoutHorizontalBlockListFrame PropertyName=""ModifiedQueryBlocks"">
                             <LayoutHorizontalBlockListFrame.Selectors>
                                 <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Identifier""/>
@@ -2335,7 +2335,7 @@ namespace TestDebug
                 <LayoutPlaceholderFrame PropertyName=""ContinueCondition"" LeftMargin=""Whitespace""/>
                 <LayoutInsertFrame CollectionName=""ContinuationBlocks""/>
             </LayoutHorizontalPanelFrame>
-            <LayoutVerticalPanelFrame>
+            <LayoutVerticalPanelFrame HasTabulationMargin=""True"">
                 <LayoutVerticalBlockListFrame PropertyName=""ContinuationBlocks""/>
                 <LayoutVerticalPanelFrame>
                     <LayoutVerticalPanelFrame.Visibility>
@@ -2367,7 +2367,7 @@ namespace TestDebug
                 <LayoutHorizontalBlockListFrame PropertyName=""EntityNameBlocks""/>
                 <LayoutInsertFrame CollectionName=""AttachmentBlocks"" />
             </LayoutHorizontalPanelFrame>
-            <LayoutVerticalPanelFrame>
+            <LayoutVerticalPanelFrame HasTabulationMargin=""True"">
                 <LayoutVerticalBlockListFrame PropertyName=""AttachmentBlocks""/>
                 <LayoutVerticalPanelFrame>
                     <LayoutVerticalPanelFrame.Visibility>
@@ -2452,7 +2452,7 @@ namespace TestDebug
     <LayoutNodeTemplate NodeType=""{xaml:Type easly:IForLoopInstruction}"">
         <LayoutVerticalPanelFrame>
             <LayoutKeywordFrame>loop</LayoutKeywordFrame>
-            <LayoutVerticalPanelFrame>
+            <LayoutVerticalPanelFrame HasTabulationMargin=""True"">
                 <LayoutVerticalPanelFrame>
                     <LayoutVerticalPanelFrame.Visibility>
                         <LayoutCountFrameVisibility PropertyName=""EntityDeclarationBlocks""/>
@@ -2461,7 +2461,7 @@ namespace TestDebug
                         <LayoutKeywordFrame>local</LayoutKeywordFrame>
                         <LayoutInsertFrame CollectionName=""EntityDeclarationBlocks"" />
                     </LayoutHorizontalPanelFrame>
-                    <LayoutVerticalBlockListFrame PropertyName=""EntityDeclarationBlocks"" />
+                    <LayoutVerticalBlockListFrame PropertyName=""EntityDeclarationBlocks"" HasTabulationMargin=""True""/>
                 </LayoutVerticalPanelFrame>
                 <LayoutVerticalPanelFrame>
                     <LayoutVerticalPanelFrame.Visibility>
@@ -2471,14 +2471,14 @@ namespace TestDebug
                         <LayoutKeywordFrame>init</LayoutKeywordFrame>
                         <LayoutInsertFrame CollectionName=""InitInstructionBlocks"" ItemType=""{xaml:Type easly:CommandInstruction}""/>
                     </LayoutHorizontalPanelFrame>
-                    <LayoutVerticalBlockListFrame PropertyName=""InitInstructionBlocks"" />
+                    <LayoutVerticalBlockListFrame PropertyName=""InitInstructionBlocks"" HasTabulationMargin=""True""/>
                 </LayoutVerticalPanelFrame>
                 <LayoutHorizontalPanelFrame>
                     <LayoutKeywordFrame>while</LayoutKeywordFrame>
                     <LayoutPlaceholderFrame PropertyName=""WhileCondition"" LeftMargin=""Whitespace""/>
                     <LayoutInsertFrame CollectionName=""LoopInstructionBlocks"" ItemType=""{xaml:Type easly:CommandInstruction}""/>
                 </LayoutHorizontalPanelFrame>
-                <LayoutVerticalBlockListFrame PropertyName=""LoopInstructionBlocks"" />
+                <LayoutVerticalBlockListFrame PropertyName=""LoopInstructionBlocks"" HasTabulationMargin=""True""/>
                 <LayoutVerticalPanelFrame>
                     <LayoutVerticalPanelFrame.Visibility>
                         <LayoutCountFrameVisibility PropertyName=""IterationInstructionBlocks""/>
@@ -2487,7 +2487,7 @@ namespace TestDebug
                         <LayoutKeywordFrame>iterate</LayoutKeywordFrame>
                         <LayoutInsertFrame CollectionName=""IterationInstructionBlocks"" ItemType=""{xaml:Type easly:CommandInstruction}""/>
                     </LayoutHorizontalPanelFrame>
-                    <LayoutVerticalBlockListFrame PropertyName=""IterationInstructionBlocks"" />
+                    <LayoutVerticalBlockListFrame PropertyName=""IterationInstructionBlocks"" HasTabulationMargin=""True""/>
                 </LayoutVerticalPanelFrame>
                 <LayoutVerticalPanelFrame>
                     <LayoutVerticalPanelFrame.Visibility>
@@ -2497,7 +2497,7 @@ namespace TestDebug
                         <LayoutKeywordFrame>invariant</LayoutKeywordFrame>
                         <LayoutInsertFrame CollectionName=""InvariantBlocks"" />
                     </LayoutHorizontalPanelFrame>
-                    <LayoutVerticalBlockListFrame PropertyName=""InvariantBlocks"" />
+                    <LayoutVerticalBlockListFrame PropertyName=""InvariantBlocks"" HasTabulationMargin=""True""/>
                 </LayoutVerticalPanelFrame>
                 <LayoutHorizontalPanelFrame>
                     <LayoutHorizontalPanelFrame.Visibility>
@@ -2548,7 +2548,7 @@ namespace TestDebug
                 <LayoutPlaceholderFrame PropertyName=""Source"" />
                 <LayoutInsertFrame CollectionName=""WithBlocks"" />
             </LayoutHorizontalPanelFrame>
-            <LayoutVerticalPanelFrame>
+            <LayoutVerticalPanelFrame HasTabulationMargin=""True"">
                 <LayoutVerticalBlockListFrame PropertyName=""WithBlocks""/>
                 <LayoutVerticalPanelFrame>
                     <LayoutVerticalPanelFrame.Visibility>
@@ -2595,7 +2595,7 @@ namespace TestDebug
                 </LayoutDiscreteFrame>
                 <LayoutInsertFrame CollectionName=""LoopInstructions.InstructionBlocks"" ItemType=""{xaml:Type easly:CommandInstruction}""/>
             </LayoutHorizontalPanelFrame>
-            <LayoutVerticalPanelFrame>
+            <LayoutVerticalPanelFrame HasTabulationMargin=""True"">
                 <LayoutPlaceholderFrame PropertyName=""LoopInstructions"" />
                 <LayoutHorizontalPanelFrame>
                     <LayoutHorizontalPanelFrame.Visibility>
@@ -2616,7 +2616,7 @@ namespace TestDebug
                         <LayoutKeywordFrame>invariant</LayoutKeywordFrame>
                         <LayoutInsertFrame CollectionName=""InvariantBlocks"" />
                     </LayoutHorizontalPanelFrame>
-                    <LayoutVerticalBlockListFrame PropertyName=""InvariantBlocks"" />
+                    <LayoutVerticalBlockListFrame PropertyName=""InvariantBlocks"" HasTabulationMargin=""True""/>
                 </LayoutVerticalPanelFrame>
             </LayoutVerticalPanelFrame>
             <LayoutKeywordFrame>end</LayoutKeywordFrame>
@@ -2771,7 +2771,7 @@ namespace TestDebug
                         </LayoutDiscreteFrame>
                         <LayoutInsertFrame CollectionName=""IndexParameterBlocks"" />
                     </LayoutHorizontalPanelFrame>
-                    <LayoutVerticalBlockListFrame PropertyName=""IndexParameterBlocks""/>
+                    <LayoutVerticalBlockListFrame PropertyName=""IndexParameterBlocks"" HasTabulationMargin=""True""/>
                 </LayoutVerticalPanelFrame>
                 <LayoutDiscreteFrame PropertyName=""IndexerKind"">
                     <LayoutKeywordFrame>read-only</LayoutKeywordFrame>
@@ -2786,7 +2786,7 @@ namespace TestDebug
                         <LayoutKeywordFrame>getter require</LayoutKeywordFrame>
                         <LayoutInsertFrame CollectionName=""GetRequireBlocks"" />
                     </LayoutHorizontalPanelFrame>
-                    <LayoutVerticalBlockListFrame PropertyName=""GetRequireBlocks"" />
+                    <LayoutVerticalBlockListFrame PropertyName=""GetRequireBlocks"" HasTabulationMargin=""True""/>
                 </LayoutVerticalPanelFrame>
                 <LayoutVerticalPanelFrame>
                     <LayoutVerticalPanelFrame.Visibility>
@@ -2796,7 +2796,7 @@ namespace TestDebug
                         <LayoutKeywordFrame>getter ensure</LayoutKeywordFrame>
                         <LayoutInsertFrame CollectionName=""GetEnsureBlocks"" />
                     </LayoutHorizontalPanelFrame>
-                    <LayoutVerticalBlockListFrame PropertyName=""GetEnsureBlocks"" />
+                    <LayoutVerticalBlockListFrame PropertyName=""GetEnsureBlocks"" HasTabulationMargin=""True""/>
                 </LayoutVerticalPanelFrame>
                 <LayoutVerticalPanelFrame>
                     <LayoutVerticalPanelFrame.Visibility>
@@ -2806,7 +2806,7 @@ namespace TestDebug
                         <LayoutKeywordFrame>getter exception</LayoutKeywordFrame>
                         <LayoutInsertFrame CollectionName=""GetExceptionIdentifierBlocks"" />
                     </LayoutHorizontalPanelFrame>
-                    <LayoutVerticalBlockListFrame PropertyName=""GetExceptionIdentifierBlocks"">
+                    <LayoutVerticalBlockListFrame PropertyName=""GetExceptionIdentifierBlocks"" HasTabulationMargin=""True"">
                         <LayoutVerticalBlockListFrame.Selectors>
                             <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Identifier""/>
                         </LayoutVerticalBlockListFrame.Selectors>
@@ -2820,7 +2820,7 @@ namespace TestDebug
                         <LayoutKeywordFrame>setter require</LayoutKeywordFrame>
                         <LayoutInsertFrame CollectionName=""SetRequireBlocks"" />
                     </LayoutHorizontalPanelFrame>
-                    <LayoutVerticalBlockListFrame PropertyName=""SetRequireBlocks"" />
+                    <LayoutVerticalBlockListFrame PropertyName=""SetRequireBlocks"" HasTabulationMargin=""True""/>
                 </LayoutVerticalPanelFrame>
                 <LayoutVerticalPanelFrame>
                     <LayoutVerticalPanelFrame.Visibility>
@@ -2830,7 +2830,7 @@ namespace TestDebug
                         <LayoutKeywordFrame>setter ensure</LayoutKeywordFrame>
                         <LayoutInsertFrame CollectionName=""SetEnsureBlocks"" />
                     </LayoutHorizontalPanelFrame>
-                    <LayoutVerticalBlockListFrame PropertyName=""SetEnsureBlocks"" />
+                    <LayoutVerticalBlockListFrame PropertyName=""SetEnsureBlocks"" HasTabulationMargin=""True""/>
                 </LayoutVerticalPanelFrame>
                 <LayoutVerticalPanelFrame>
                     <LayoutVerticalPanelFrame.Visibility>
@@ -2840,7 +2840,7 @@ namespace TestDebug
                         <LayoutKeywordFrame>setter exception</LayoutKeywordFrame>
                         <LayoutInsertFrame CollectionName=""SetExceptionIdentifierBlocks"" />
                     </LayoutHorizontalPanelFrame>
-                    <LayoutVerticalBlockListFrame PropertyName=""SetExceptionIdentifierBlocks"">
+                    <LayoutVerticalBlockListFrame PropertyName=""SetExceptionIdentifierBlocks"" HasTabulationMargin=""True"">
                         <LayoutVerticalBlockListFrame.Selectors>
                             <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Feature""/>
                         </LayoutVerticalBlockListFrame.Selectors>
@@ -2894,7 +2894,7 @@ namespace TestDebug
                         <LayoutKeywordFrame>getter ensure</LayoutKeywordFrame>
                         <LayoutInsertFrame CollectionName=""GetEnsureBlocks"" />
                     </LayoutHorizontalPanelFrame>
-                    <LayoutVerticalBlockListFrame PropertyName=""GetEnsureBlocks"" />
+                    <LayoutVerticalBlockListFrame PropertyName=""GetEnsureBlocks"" HasTabulationMargin=""True""/>
                 </LayoutVerticalPanelFrame>
                 <LayoutVerticalPanelFrame>
                     <LayoutVerticalPanelFrame.Visibility>
@@ -2904,7 +2904,7 @@ namespace TestDebug
                         <LayoutKeywordFrame>getter exception</LayoutKeywordFrame>
                         <LayoutInsertFrame CollectionName=""GetExceptionIdentifierBlocks"" />
                     </LayoutHorizontalPanelFrame>
-                    <LayoutVerticalBlockListFrame PropertyName=""GetExceptionIdentifierBlocks"">
+                    <LayoutVerticalBlockListFrame PropertyName=""GetExceptionIdentifierBlocks"" HasTabulationMargin=""True"">
                         <LayoutVerticalBlockListFrame.Selectors>
                             <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Feature""/>
                         </LayoutVerticalBlockListFrame.Selectors>
@@ -2918,7 +2918,7 @@ namespace TestDebug
                         <LayoutKeywordFrame>setter require</LayoutKeywordFrame>
                         <LayoutInsertFrame CollectionName=""SetRequireBlocks"" />
                     </LayoutHorizontalPanelFrame>
-                    <LayoutVerticalBlockListFrame PropertyName=""SetRequireBlocks"" />
+                    <LayoutVerticalBlockListFrame PropertyName=""SetRequireBlocks"" HasTabulationMargin=""True""/>
                 </LayoutVerticalPanelFrame>
                 <LayoutVerticalPanelFrame>
                     <LayoutVerticalPanelFrame.Visibility>
@@ -2928,7 +2928,7 @@ namespace TestDebug
                         <LayoutKeywordFrame>setter exception</LayoutKeywordFrame>
                         <LayoutInsertFrame CollectionName=""SetExceptionIdentifierBlocks"" />
                     </LayoutHorizontalPanelFrame>
-                    <LayoutVerticalBlockListFrame PropertyName=""SetExceptionIdentifierBlocks"">
+                    <LayoutVerticalBlockListFrame PropertyName=""SetExceptionIdentifierBlocks"" HasTabulationMargin=""True"">
                         <LayoutVerticalBlockListFrame.Selectors>
                             <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Feature""/>
                         </LayoutVerticalBlockListFrame.Selectors>

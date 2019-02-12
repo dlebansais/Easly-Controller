@@ -83,6 +83,8 @@ namespace EditorDebug
         #region Events
         private void OnKeyDown(object sender, KeyEventArgs e)
         {
+            ControllerView = layoutControl.ControllerView;
+
             if (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl))
             {
                 switch (e.Key)
@@ -186,7 +188,7 @@ namespace EditorDebug
                 return;
 
             ControllerView.Controller.Insert(inner, index, out IWriteableBrowsingCollectionNodeIndex nodeIndex);
-            UpdateFocusView();
+            UpdateView();
         }
 
         private void RemoveExistingItem()
@@ -197,7 +199,7 @@ namespace EditorDebug
                 return;
 
             ControllerView.Controller.Remove(inner, index);
-            UpdateFocusView();
+            UpdateView();
         }
 
         private void MoveExistingBlock(int direction)
@@ -208,7 +210,7 @@ namespace EditorDebug
                 return;
 
             ControllerView.Controller.MoveBlock(inner, blockIndex, direction);
-            UpdateFocusView();
+            UpdateView();
         }
 
         private void MoveExistingItem(int direction)
@@ -219,7 +221,7 @@ namespace EditorDebug
                 return;
 
             ControllerView.Controller.Move(inner, index, direction);
-            UpdateFocusView();
+            UpdateView();
         }
 
         private void SplitExistingItem()
@@ -230,7 +232,7 @@ namespace EditorDebug
                 return;
 
             ControllerView.Controller.SplitBlock(inner, index);
-            UpdateFocusView();
+            UpdateView();
         }
 
         private void MergeExistingItem()
@@ -241,7 +243,7 @@ namespace EditorDebug
                 return;
 
             ControllerView.Controller.MergeBlocks(inner, index);
-            UpdateFocusView();
+            UpdateView();
         }
 
         private void CycleThroughExistingItem()
@@ -253,7 +255,7 @@ namespace EditorDebug
 
             cyclePosition = (cyclePosition + 1) % state.CycleIndexList.Count;
             ControllerView.Controller.Replace(state.ParentInner, state.CycleIndexList, cyclePosition, out IFocusBrowsingChildIndex nodeIndex);
-            UpdateFocusView();
+            UpdateView();
         }
 
         private void SimplifyExistingItem()
@@ -264,7 +266,7 @@ namespace EditorDebug
                 return;
 
             ControllerView.Controller.Replace(Inner, Index, out IWriteableBrowsingChildIndex nodeIndex);
-            UpdateFocusView();
+            UpdateView();
         }
 
         private void ToggleReplicate()
@@ -285,7 +287,7 @@ namespace EditorDebug
             }
 
             ControllerView.Controller.ChangeReplication(Inner, BlockIndex, Replication);
-            UpdateFocusView();
+            UpdateView();
         }
 
         private void ToggleUserVisible()
@@ -294,7 +296,7 @@ namespace EditorDebug
                 return;
 
             ControllerView.SetUserVisible(!ControllerView.IsUserVisible);
-            UpdateFocusView();
+            UpdateView();
         }
 
         private void MoveFocus(int direction)
@@ -331,7 +333,7 @@ namespace EditorDebug
                 int Value = ControllerView.Controller.GetDiscreteValue(Index, AsContentCellView.PropertyName);
                 ControllerView.Controller.ChangeDiscreteValue(Index, AsContentCellView.PropertyName, Value + change);
 
-                UpdateFocusView();
+                UpdateView();
             }
         }
 
@@ -344,279 +346,7 @@ namespace EditorDebug
 
             ControllerView.Controller.Replace(Inner, ReplaceIndex, out IWriteableBrowsingChildIndex FirstIndex);
             ControllerView.Controller.Insert(Inner, InsertIndex, out IWriteableBrowsingCollectionNodeIndex SecondIndex);
-            UpdateFocusView();
-        }
-        #endregion
-
-        #region Frame
-        private void LoadFileFrame(INode rootNode)
-        {
-            IFrameRootNodeIndex RootIndex = new FrameRootNodeIndex(rootNode);
-            IFrameController Controller = FrameController.Create(RootIndex);
-            IFrameControllerView ControllerView = FrameControllerView.Create(Controller, CustomFrameTemplateSet.FrameTemplateSet);
-
-            int MaxRow = ControllerView.LastLineNumber;
-            int MaxColumn = ControllerView.LastColumnNumber;
-
-            for (int i = 0; i < MaxRow; i++)
-                gridMain.RowDefinitions.Add(new RowDefinition());
-            for (int i = 0; i < MaxColumn; i++)
-                gridMain.ColumnDefinitions.Add(new ColumnDefinition());
-
-            IFrameVisibleCellView[,] Assigned = new IFrameVisibleCellView[MaxRow, MaxColumn];
-
-            IFrameVisibleCellViewList CellList = new FrameVisibleCellViewList();
-            ControllerView.EnumerateVisibleCellViews(CellList);
-
-            foreach (IFrameVisibleCellView CellView in CellList)
-            {
-                int Row = CellView.LineNumber - 1;
-                int Column = CellView.ColumnNumber - 1;
-                IFrameFrame Frame = CellView.Frame;
-                INode ChildNode = CellView.StateView.State.Node;
-                string PropertyName;
-                TextBlock Child = new TextBlock();
-                IFrameVisibleCellView OldCellView = Assigned[Row, Column];
-                Debug.Assert(OldCellView == null);
-
-                bool IsHandled = false;
-
-                switch (CellView)
-                {
-                    case IFrameDiscreteContentFocusableCellView AsDiscreteContentFocusable: // Enum, bool
-                        PropertyName = AsDiscreteContentFocusable.PropertyName;
-                        if (NodeTreeHelper.IsEnumProperty(ChildNode, PropertyName))
-                        {
-                            Child.Text = $"{PropertyName}: {NodeTreeHelper.GetEnumValue(ChildNode, PropertyName)}";
-                            IsHandled = true;
-                        }
-                        else if (NodeTreeHelper.IsBooleanProperty(ChildNode, PropertyName))
-                        {
-                            if (NodeTreeHelper.GetEnumValue(ChildNode, PropertyName) != 0)
-                                Child.Text = $"{PropertyName}: True";
-                            else
-                                Child.Text = $"{PropertyName}: False";
-                            IsHandled = true;
-                        }
-                        break;
-
-                    case IFrameTextFocusableCellView AsTextFocusable: // String
-                        Child.Text = NodeTreeHelper.GetString(ChildNode, AsTextFocusable.PropertyName);
-                        IsHandled = true;
-                        break;
-
-                    case IFrameFocusableCellView AsFocusable: // Insert
-                        Child.Foreground = Brushes.Blue;
-                        Child.FontWeight = FontWeights.Bold;
-                        if (CellView.Frame is IFrameKeywordFrame AsFocusableKeywordFrame)
-                            Child.Text = AsFocusableKeywordFrame.Text;
-                        else
-                            Child.Text = "◄";
-                        IsHandled = true;
-                        break;
-
-                    case IFrameVisibleCellView AsVisible: // Others
-                        if (Frame is IFrameKeywordFrame AsKeywordFrame)
-                        {
-                            Child.FontWeight = FontWeights.Bold;
-                            Child.Text = AsKeywordFrame.Text;
-                            IsHandled = true;
-                        }
-                        else if (Frame is IFrameSymbolFrame AsSymbolFrame)
-                        {
-                            Child.Foreground = Brushes.Blue;
-
-                            Symbols Symbol = AsSymbolFrame.Symbol;
-                            switch (Symbol)
-                            {
-                                case Symbols.LeftArrow:
-                                    Child.Text = "←";
-                                    IsHandled = true;
-                                    break;
-                                case Symbols.Dot:
-                                    Child.Text = ".";
-                                    IsHandled = true;
-                                    break;
-                                case Symbols.InsertSign:
-                                    Child.Text = "◄";
-                                    IsHandled = true;
-                                    break;
-                                case Symbols.LeftBracket:
-                                    Child.Text = "[";
-                                    IsHandled = true;
-                                    break;
-                                case Symbols.RightBracket:
-                                    Child.Text = "]";
-                                    IsHandled = true;
-                                    break;
-                                case Symbols.LeftCurlyBracket:
-                                    Child.Text = "{";
-                                    IsHandled = true;
-                                    break;
-                                case Symbols.RightCurlyBracket:
-                                    Child.Text = "}";
-                                    IsHandled = true;
-                                    break;
-                                case Symbols.LeftParenthesis:
-                                    Child.Text = "(";
-                                    IsHandled = true;
-                                    break;
-                                case Symbols.RightParenthesis:
-                                    Child.Text = ")";
-                                    IsHandled = true;
-                                    break;
-                            }
-                        }
-                        break;
-                }
-
-                Debug.Assert(IsHandled);
-
-                Child.Margin = new Thickness(0, 0, 5, 0);
-                Grid.SetRow(Child, Row);
-                Grid.SetColumn(Child, Column);
-                Assigned[Row, Column] = CellView;
-
-                gridMain.Children.Add(Child);
-            }
-        }
-        #endregion
-
-        #region Focus
-        private void LoadFileFocus(INode rootNode)
-        {
-            IFocusRootNodeIndex RootIndex = new FocusRootNodeIndex(rootNode);
-            IFocusController Controller = FocusController.Create(RootIndex);
-            IFocusControllerView ControllerView = FocusControllerView.Create(Controller, CustomFocusTemplateSet.FocusTemplateSet);
-
-            UpdateFocusView();
-        }
-
-        private void UpdateFocusView()
-        {
-            gridMain.RowDefinitions.Clear();
-            gridMain.ColumnDefinitions.Clear();
-            gridMain.Children.Clear();
-
-            int MaxRow = ControllerView.LastLineNumber;
-            int MaxColumn = ControllerView.LastColumnNumber;
-
-            for (int i = 0; i < MaxRow; i++)
-                gridMain.RowDefinitions.Add(new RowDefinition());
-            for (int i = 0; i < MaxColumn; i++)
-                gridMain.ColumnDefinitions.Add(new ColumnDefinition());
-
-            IFocusVisibleCellView[,] Assigned = new IFocusVisibleCellView[MaxRow, MaxColumn];
-
-            IFocusVisibleCellViewList CellList = new FocusVisibleCellViewList();
-            ControllerView.EnumerateVisibleCellViews(CellList);
-
-            foreach (IFocusVisibleCellView CellView in CellList)
-            {
-                int Row = CellView.LineNumber - 1;
-                int Column = CellView.ColumnNumber - 1;
-                IFocusFrame Frame = CellView.Frame;
-                INode ChildNode = CellView.StateView.State.Node;
-                TextBlock Child = new TextBlock();
-                IFocusVisibleCellView OldCellView = Assigned[Row, Column];
-                Debug.Assert(OldCellView == null);
-
-                bool IsHandled = false;
-
-                switch (CellView)
-                {
-                    case IFocusDiscreteContentFocusableCellView AsDiscreteContentFocusable: // Enum, bool
-                        Child.Foreground = Brushes.Purple;
-                        Child.Text = AsDiscreteContentFocusable.KeywordFrame.Text;
-                        IsHandled = true;
-                        break;
-
-                    case IFocusTextFocusableCellView AsTextFocusable: // String
-                        Child.Text = NodeTreeHelper.GetString(ChildNode, AsTextFocusable.PropertyName);
-                        IsHandled = true;
-                        break;
-
-                    case IFocusFocusableCellView AsFocusable: // Insert or focusable keyword
-                        Child.Foreground = Brushes.Blue;
-                        Child.FontWeight = FontWeights.Bold;
-                        if (CellView.Frame is IFrameKeywordFrame AsFocusableKeywordFrame)
-                            Child.Text = AsFocusableKeywordFrame.Text;
-                        else
-                            Child.Text = "◄";
-                        IsHandled = true;
-                        break;
-
-                    case IFocusVisibleCellView AsVisible: // Others
-                        if (Frame is IFocusKeywordFrame AsKeywordFrame)
-                        {
-                            Child.FontWeight = FontWeights.Bold;
-                            Child.Text = AsKeywordFrame.Text;
-                            IsHandled = true;
-                        }
-                        else if (Frame is IFocusSymbolFrame AsSymbolFrame)
-                        {
-                            Child.Foreground = Brushes.Blue;
-
-                            Symbols Symbol = AsSymbolFrame.Symbol;
-                            switch (Symbol)
-                            {
-                                case Symbols.LeftArrow:
-                                    Child.Text = "←";
-                                    IsHandled = true;
-                                    break;
-                                case Symbols.Dot:
-                                    Child.Text = ".";
-                                    IsHandled = true;
-                                    break;
-                                case Symbols.InsertSign:
-                                    Child.Text = "◄";
-                                    IsHandled = true;
-                                    break;
-                                case Symbols.LeftBracket:
-                                    Child.Text = "[";
-                                    IsHandled = true;
-                                    break;
-                                case Symbols.RightBracket:
-                                    Child.Text = "]";
-                                    IsHandled = true;
-                                    break;
-                                case Symbols.LeftCurlyBracket:
-                                    Child.Text = "{";
-                                    IsHandled = true;
-                                    break;
-                                case Symbols.RightCurlyBracket:
-                                    Child.Text = "}";
-                                    IsHandled = true;
-                                    break;
-                                case Symbols.LeftParenthesis:
-                                    Child.Text = "(";
-                                    IsHandled = true;
-                                    break;
-                                case Symbols.RightParenthesis:
-                                    Child.Text = ")";
-                                    IsHandled = true;
-                                    break;
-                            }
-                        }
-                        break;
-                }
-
-                Debug.Assert(IsHandled);
-
-                Child.Margin = new Thickness(0, 0, 5, 0);
-                Child.DataContext = CellView;
-
-                Grid.SetRow(Child, Row);
-                Grid.SetColumn(Child, Column);
-                Assigned[Row, Column] = CellView;
-
-                if (CellView == ControllerView.FocusedCellView)
-                    Child.Background = Brushes.LightCyan;
-                else
-                    Child.Background = Brushes.Transparent;
-
-                gridMain.Children.Add(Child);
-            }
+            UpdateView();
         }
         #endregion
 
@@ -628,27 +358,9 @@ namespace EditorDebug
             layoutControl.SetController(Controller);
         }
 
-        protected override void OnRender(DrawingContext dc)
+        private void UpdateView()
         {
-            base.OnRender(dc);
-        }
-
-        private void UpdateLayoutView()
-        {
-            ILayoutVisibleCellViewList CellList = new LayoutVisibleCellViewList();
-            ControllerView.EnumerateVisibleCellViews(CellList);
-
-            foreach (ILayoutVisibleCellView CellView in CellList)
-            {
-                int Row = CellView.LineNumber - 1;
-                int Column = CellView.ColumnNumber - 1;
-                ILayoutFrame Frame = CellView.Frame;
-                INode ChildNode = CellView.StateView.State.Node;
-                Debug.Assert(ArrangeHelper.IsValid(CellView.CellOrigin));
-                Debug.Assert(MeasureHelper.IsValid(CellView.CellSize));
-
-                CellView.Draw();
-            }
+            layoutControl.InvalidateVisual();
         }
         #endregion
 

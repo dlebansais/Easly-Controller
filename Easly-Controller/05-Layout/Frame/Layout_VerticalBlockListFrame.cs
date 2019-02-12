@@ -1,6 +1,5 @@
 ﻿namespace EaslyController.Layout
 {
-    using System;
     using System.Diagnostics;
     using EaslyController.Focus;
     using EaslyController.Frame;
@@ -8,7 +7,7 @@
     /// <summary>
     /// Layout for a block list displayed vertically.
     /// </summary>
-    public interface ILayoutVerticalBlockListFrame : IFocusVerticalBlockListFrame, ILayoutBlockListFrame
+    public interface ILayoutVerticalBlockListFrame : IFocusVerticalBlockListFrame, ILayoutBlockListFrame, ILayoutVerticalTabulatedFrame
     {
     }
 
@@ -39,6 +38,12 @@
         /// (Set in Xaml)
         /// </summary>
         public new ILayoutFrameSelectorList Selectors { get { return (ILayoutFrameSelectorList)base.Selectors; } }
+
+        /// <summary>
+        /// Indicates that the frame should have a tabulation margin on the left.
+        /// (Set in Xaml)
+        /// </summary>
+        public bool HasTabulationMargin { get; set; }
         #endregion
 
         #region Implementation
@@ -82,7 +87,7 @@
         private protected override IFrameCellViewCollection CreateEmbeddingCellView(IFrameNodeStateView stateView, IFrameCellViewList list)
         {
             ControllerTools.AssertNoOverride(this, typeof(LayoutVerticalBlockListFrame));
-            return new LayoutColumn((ILayoutNodeStateView)stateView, (ILayoutCellViewList)list);
+            return new LayoutColumn((ILayoutNodeStateView)stateView, (ILayoutCellViewList)list, this);
         }
 
         /// <summary>

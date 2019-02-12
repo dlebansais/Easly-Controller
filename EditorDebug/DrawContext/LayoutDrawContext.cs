@@ -19,6 +19,7 @@
             FormattedText ft = new FormattedText(" ", CultureInfo.CurrentCulture, FlowDirection.LeftToRight, Typeface, FontSize, Foreground);
             WhitespaceWidth = ft.WidthIncludingTrailingWhitespace;
             LineHeight = ft.Height;
+            TabulationWidth = WhitespaceWidth * 2;
         }
 
         private DrawingContext dc;
@@ -27,6 +28,7 @@
         public Brush Foreground { get; }
         public double WhitespaceWidth { get; }
         public double LineHeight { get; }
+        public double TabulationWidth { get; }
 
         public EaslyController.Controller.Size MeasureText(string text)
         {

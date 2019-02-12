@@ -7,7 +7,7 @@
     /// <summary>
     /// Base frame for a list of nodes displayed vertically.
     /// </summary>
-    public interface ILayoutVerticalListFrame : IFocusVerticalListFrame, ILayoutListFrame
+    public interface ILayoutVerticalListFrame : IFocusVerticalListFrame, ILayoutListFrame, ILayoutVerticalTabulatedFrame
     {
     }
 
@@ -38,6 +38,12 @@
         /// (Set in Xaml)
         /// </summary>
         public new ILayoutFrameSelectorList Selectors { get { return (ILayoutFrameSelectorList)base.Selectors; } }
+
+        /// <summary>
+        /// Indicates that the frame should have a tabulation margin on the left.
+        /// (Set in Xaml)
+        /// </summary>
+        public bool HasTabulationMargin { get; set; }
         #endregion
 
         #region Implementation
@@ -72,7 +78,7 @@
         private protected override IFrameContainerCellView CreateFrameCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, IFrameNodeStateView childStateView)
         {
             ControllerTools.AssertNoOverride(this, typeof(LayoutVerticalListFrame));
-            return new LayoutContainerCellView((ILayoutNodeStateView)stateView, (ILayoutCellViewCollection)parentCellView, (ILayoutNodeStateView)childStateView, null);
+            return new LayoutContainerCellView((ILayoutNodeStateView)stateView, (ILayoutCellViewCollection)parentCellView, (ILayoutNodeStateView)childStateView, this);
         }
 
         /// <summary>
@@ -81,7 +87,7 @@
         private protected override IFrameCellViewCollection CreateEmbeddingCellView(IFrameNodeStateView stateView, IFrameCellViewList list)
         {
             ControllerTools.AssertNoOverride(this, typeof(LayoutVerticalListFrame));
-            return new LayoutColumn((ILayoutNodeStateView)stateView, (ILayoutCellViewList)list);
+            return new LayoutColumn((ILayoutNodeStateView)stateView, (ILayoutCellViewList)list, this);
         }
 
         /// <summary>

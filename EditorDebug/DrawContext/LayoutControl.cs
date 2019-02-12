@@ -1,6 +1,5 @@
 ﻿namespace EditorDebug
 {
-    using System.Diagnostics;
     using System.Windows;
     using System.Windows.Media;
     using EaslyController.Controller;
@@ -12,44 +11,48 @@
         public void SetController(ILayoutController controller)
         {
             Controller = controller;
-            ControllerView = null;
 
+            DrawingVisual = new DrawingVisual();
+            DrawingContext = DrawingVisual.RenderOpen();
+            DrawContext = new LayoutDrawContext(DrawingContext);
+
+            ControllerView = LayoutControllerView.Create(Controller, CustomLayoutTemplateSet.LayoutTemplateSet, DrawContext);
+
+            InvalidateMeasure();
             InvalidateVisual();
         }
 
         private ILayoutController Controller;
-        private ILayoutControllerView ControllerView;
+        private DrawingVisual DrawingVisual;
+        private DrawingContext DrawingContext;
+        private LayoutDrawContext DrawContext;
+
+        public ILayoutControllerView ControllerView { get; private set; }
+
+        protected override System.Windows.Size MeasureOverride(System.Windows.Size availableSize)
+        {
+            if (ControllerView != null)
+                return new System.Windows.Size(ControllerView.ViewSize.Width, ControllerView.ViewSize.Height);
+            else
+                return base.MeasureOverride(availableSize);
+        }
 
         protected override void OnRender(DrawingContext dc)
         {
             base.OnRender(dc);
 
-            if (Controller != null && ControllerView == null)
+            if (ControllerView != null)
             {
-                LayoutDrawContext DrawContext = new LayoutDrawContext(dc);
-                ControllerView = LayoutControllerView.Create(Controller, CustomLayoutTemplateSet.LayoutTemplateSet, DrawContext);
-            }
-            else if (ControllerView != null)
-            {
-                LayoutDrawContext DrawContext = ControllerView.DrawContext as LayoutDrawContext;
                 DrawContext.UpdateDC(dc);
-            }
 
-            System.Windows.Size Size;
+                //Debug.WriteLine($"OnRender, view size={Size}");
 
-            if (ControllerView != null && MeasureHelper.IsValid(ControllerView.ViewSize) && ControllerView.ViewSize.IsVisible)
-                Size = new System.Windows.Size(ControllerView.ViewSize.Width, ControllerView.ViewSize.Height);
-            else
-                Size = System.Windows.Size.Empty;
+                Brush WriteBrush = Brushes.White;
+                Rect Fullrect = new Rect(0, 0, ActualWidth, ActualHeight);
+                dc.DrawRectangle(WriteBrush, null, Fullrect);
 
-            //Debug.WriteLine($"OnRender, view size={Size}");
-
-            Brush WriteBrush = Brushes.White;
-            Rect Fullrect = new Rect(0, 0, ActualWidth, ActualHeight);
-            dc.DrawRectangle(WriteBrush, null, Fullrect);
-
-            if (Size != System.Windows.Size.Empty)
                 UpdateLayoutView();
+            }
         }
 
         private void UpdateLayoutView()

@@ -9,6 +9,11 @@
     public interface ILayoutDrawContext
     {
         /// <summary>
+        /// Width of a tabulation margin.
+        /// </summary>
+        double TabulationWidth { get; }
+
+        /// <summary>
         /// Measures a string.
         /// </summary>
         /// <param name="text">The string to measure.</param>
