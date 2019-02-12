@@ -59,6 +59,7 @@
 
         /// <summary>
         /// Size of the cell.
+        /// 
         /// </summary>
         public Size CellSize { get; private set; }
         #endregion
@@ -75,7 +76,10 @@
             ILayoutDrawContext DrawContext = StateView.ControllerView.DrawContext;
             Debug.Assert(DrawContext != null);
 
-            CellSize = KeywordFrame.Measure(DrawContext, this);
+            if (KeywordFrame.ParentFrame is ILayoutDiscreteFrame AsDiscreteFrame)
+                CellSize = AsDiscreteFrame.Measure(DrawContext, this);
+            else
+                CellSize = KeywordFrame.Measure(DrawContext, this);
 
             Debug.Assert(MeasureHelper.IsValid(CellSize));
         }
