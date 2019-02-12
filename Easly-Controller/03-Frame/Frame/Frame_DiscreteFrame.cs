@@ -67,6 +67,19 @@
         }
 
         /// <summary>
+        /// Update the reference to the parent frame.
+        /// </summary>
+        /// <param name="parentTemplate">The parent template.</param>
+        /// <param name="parentFrame">The parent frame.</param>
+        public override void UpdateParent(IFrameTemplate parentTemplate, IFrameFrame parentFrame)
+        {
+            base.UpdateParent(parentTemplate, parentFrame);
+
+            foreach (IFrameKeywordFrame Item in Items)
+                Item.UpdateParent(parentTemplate, this);
+        }
+
+        /// <summary>
         /// Create cells for the provided state view.
         /// </summary>
         /// <param name="context">Context used to build the cell view tree.</param>

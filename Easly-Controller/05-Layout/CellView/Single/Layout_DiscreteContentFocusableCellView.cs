@@ -59,7 +59,6 @@
 
         /// <summary>
         /// Size of the cell.
-        /// 
         /// </summary>
         public Size CellSize { get; private set; }
         #endregion
