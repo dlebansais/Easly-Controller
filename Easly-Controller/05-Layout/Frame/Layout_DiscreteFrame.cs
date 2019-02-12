@@ -4,6 +4,7 @@
     using System.Windows.Markup;
     using EaslyController.Focus;
     using EaslyController.Frame;
+    using NodeController;
 
     /// <summary>
     /// Layout describing an enum value that can be displayed with different frames depending on its value.
@@ -15,6 +16,18 @@
         /// (Set in Xaml)
         /// </summary>
         new ILayoutKeywordFrameList Items { get; }
+
+        /// <summary>
+        /// Margin the right side of the cell.
+        /// (Set in Xaml)
+        /// </summary>
+        Margins RightMargin { get; }
+
+        /// <summary>
+        /// Margin the left side of the cell.
+        /// (Set in Xaml)
+        /// </summary>
+        Margins LeftMargin { get; }
     }
 
     /// <summary>
@@ -45,6 +58,18 @@
         /// (Set in Xaml)
         /// </summary>
         public new ILayoutNodeFrameVisibility Visibility { get { return (ILayoutNodeFrameVisibility)base.Visibility; } set { base.Visibility = value; } }
+
+        /// <summary>
+        /// Margin the right side of the cell.
+        /// (Set in Xaml)
+        /// </summary>
+        public Margins RightMargin { get; set; }
+
+        /// <summary>
+        /// Margin the left side of the cell.
+        /// (Set in Xaml)
+        /// </summary>
+        public Margins LeftMargin { get; set; }
         #endregion
 
         #region Implementation

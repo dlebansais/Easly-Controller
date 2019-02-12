@@ -3,12 +3,24 @@
     using System.Diagnostics;
     using EaslyController.Focus;
     using EaslyController.Frame;
+    using NodeController;
 
     /// <summary>
     /// Layout for describing an child node.
     /// </summary>
     public interface ILayoutPlaceholderFrame : IFocusPlaceholderFrame, ILayoutNamedFrame, ILayoutNodeFrameWithVisibility, ILayoutNodeFrameWithSelector, ILayoutSelectorPropertyFrame
     {
+        /// <summary>
+        /// Margin the right side of the cell.
+        /// (Set in Xaml)
+        /// </summary>
+        Margins RightMargin { get; }
+
+        /// <summary>
+        /// Margin the left side of the cell.
+        /// (Set in Xaml)
+        /// </summary>
+        Margins LeftMargin { get; }
     }
 
     /// <summary>
@@ -38,6 +50,18 @@
         /// (Set in Xaml)
         /// </summary>
         public new ILayoutFrameSelectorList Selectors { get { return (ILayoutFrameSelectorList)base.Selectors; } }
+
+        /// <summary>
+        /// Margin the right side of the cell.
+        /// (Set in Xaml)
+        /// </summary>
+        public Margins RightMargin { get; set; }
+
+        /// <summary>
+        /// Margin the left side of the cell.
+        /// (Set in Xaml)
+        /// </summary>
+        public Margins LeftMargin { get; set; }
         #endregion
 
         #region Implementation

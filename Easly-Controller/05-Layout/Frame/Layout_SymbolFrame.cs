@@ -5,12 +5,24 @@
     using EaslyController.Controller;
     using EaslyController.Focus;
     using EaslyController.Frame;
+    using NodeController;
 
     /// <summary>
     /// Layout for decoration purpose only.
     /// </summary>
     public interface ILayoutSymbolFrame : IFocusSymbolFrame, ILayoutStaticFrame
     {
+        /// <summary>
+        /// Margin the right side of the cell.
+        /// (Set in Xaml)
+        /// </summary>
+        Margins RightMargin { get; }
+
+        /// <summary>
+        /// Margin the left side of the cell.
+        /// (Set in Xaml)
+        /// </summary>
+        Margins LeftMargin { get; }
     }
 
     /// <summary>
@@ -34,6 +46,18 @@
         /// (Set in Xaml)
         /// </summary>
         public new ILayoutNodeFrameVisibility Visibility { get { return (ILayoutNodeFrameVisibility)base.Visibility; } set { base.Visibility = value; } }
+
+        /// <summary>
+        /// Margin the right side of the cell.
+        /// (Set in Xaml)
+        /// </summary>
+        public Margins RightMargin { get; set; }
+
+        /// <summary>
+        /// Margin the left side of the cell.
+        /// (Set in Xaml)
+        /// </summary>
+        public Margins LeftMargin { get; set; }
         #endregion
 
         #region Client Interface
