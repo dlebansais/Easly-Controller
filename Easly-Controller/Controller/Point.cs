@@ -26,7 +26,8 @@
         /// <param name="y">The vertical coordinate.</param>
         public Point(double x, double y)
         {
-            Debug.Assert((x >= 0 && y >= 0) || (double.IsNaN(x) && double.IsNaN(y)));
+            bool IsInvalidOrigin = double.IsNaN(x) && double.IsNaN(y);
+            Debug.Assert(IsInvalidOrigin || (x >= 0 && y >= 0));
 
             X = x;
             Y = y;

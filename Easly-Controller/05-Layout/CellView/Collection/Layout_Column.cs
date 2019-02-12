@@ -117,7 +117,8 @@
 
             Point FinalOrigin = new Point(LineOrigin.X, LineOrigin.Y);
             Point ExpectedOrigin = new Point(CellOrigin.X, CellOrigin.Y + CellSize.Height);
-            Debug.Assert(Point.IsEqual(FinalOrigin, ExpectedOrigin));
+            bool IsEqual = Point.IsEqual(FinalOrigin, ExpectedOrigin);
+            Debug.Assert(IsEqual);
         }
         #endregion
 
