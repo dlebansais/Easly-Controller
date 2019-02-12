@@ -17,8 +17,9 @@
         /// Measures a string.
         /// </summary>
         /// <param name="text">The string to measure.</param>
+        /// <param name="textStyle">Style to use for the text.</param>
         /// <returns>The size of the string.</returns>
-        Size MeasureText(string text);
+        Size MeasureText(string text, TextStyles textStyle);
 
         /// <summary>
         /// Measures a symbol.
@@ -41,7 +42,8 @@
         /// </summary>
         /// <param name="text">The text to draw.</param>
         /// <param name="origin">The location where to start drawing.</param>
-        void DrawText(string text, Point origin);
+        /// <param name="textStyle">Style to use for the text.</param>
+        void DrawText(string text, Point origin, TextStyles textStyle);
 
         /// <summary>
         /// Draws a symbol, at the location specified in <paramref name="origin"/>.

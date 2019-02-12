@@ -2,6 +2,7 @@
 {
     using System.Diagnostics;
     using BaseNode;
+    using EaslyController.Constants;
     using EaslyController.Controller;
     using EaslyController.Focus;
     using EaslyController.Frame;
@@ -9,7 +10,7 @@
     /// <summary>
     /// Layout describing a string value property in a node.
     /// </summary>
-    public interface ILayoutTextValueFrame : IFocusTextValueFrame, ILayoutValueFrame, ILayoutMeasurableFrame, ILayoutDrawableFrame
+    public interface ILayoutTextValueFrame : IFocusTextValueFrame, ILayoutValueFrame, ILayoutMeasurableFrame, ILayoutDrawableFrame, ILayoutNodeFrameWithTextStyle
     {
     }
 
@@ -46,6 +47,12 @@
         /// (Set in Xaml)
         /// </summary>
         public Margins RightMargin { get; set; }
+
+        /// <summary>
+        /// Text style.
+        /// (Set in Xaml)
+        /// </summary>
+        public TextStyles TextStyle { get; set; }
         #endregion
 
         #region Client Interface
@@ -61,7 +68,7 @@
             INode Node = cellView.StateView.State.Node;
             string Text = BaseNodeHelper.NodeTreeHelper.GetString(Node, PropertyName);
 
-            size = drawContext.MeasureText(Text);
+            size = drawContext.MeasureText(Text, TextStyle);
             drawContext.UpdatePadding(LeftMargin, RightMargin, ref size, out padding);
 
             Debug.Assert(MeasureHelper.IsValid(size));
@@ -81,7 +88,7 @@
             string Text = BaseNodeHelper.NodeTreeHelper.GetString(Node, PropertyName);
 
             Point OriginWithPadding = new Point(origin.X + padding.Left, origin.Y + padding.Top);
-            drawContext.DrawText(Text, OriginWithPadding);
+            drawContext.DrawText(Text, OriginWithPadding, TextStyle);
         }
         #endregion
 

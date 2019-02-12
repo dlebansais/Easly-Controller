@@ -2321,7 +2321,7 @@ namespace TestDebug
                 <LayoutTextValueFrame PropertyName=""Text""/>
             </LayoutSelectableFrame>
             <LayoutSelectableFrame Name=""Type"">
-                <LayoutTextValueFrame PropertyName=""Text""/>
+                <LayoutTextValueFrame PropertyName=""Text"" TextStyle=""Type""/>
             </LayoutSelectableFrame>
             <LayoutSelectableFrame Name=""Pattern"">
                 <LayoutTextValueFrame PropertyName=""Text""/>

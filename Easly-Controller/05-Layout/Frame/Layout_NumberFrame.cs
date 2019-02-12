@@ -2,6 +2,7 @@
 {
     using System.Diagnostics;
     using BaseNode;
+    using EaslyController.Constants;
     using EaslyController.Controller;
     using EaslyController.Focus;
     using EaslyController.Frame;
@@ -61,7 +62,7 @@
             INode Node = cellView.StateView.State.Node;
             string Text = BaseNodeHelper.NodeTreeHelper.GetString(Node, PropertyName);
 
-            size = drawContext.MeasureText(Text);
+            size = drawContext.MeasureText(Text, TextStyles.Number);
             drawContext.UpdatePadding(LeftMargin, RightMargin, ref size, out padding);
 
             Debug.Assert(MeasureHelper.IsValid(size));
@@ -81,7 +82,7 @@
             string Text = BaseNodeHelper.NodeTreeHelper.GetString(Node, PropertyName);
 
             Point OriginWithPadding = new Point(origin.X + padding.Left, origin.Y + padding.Top);
-            drawContext.DrawText(Text, OriginWithPadding);
+            drawContext.DrawText(Text, OriginWithPadding, TextStyles.Number);
         }
         #endregion
 

@@ -30,7 +30,7 @@ namespace TestDebug
             }
         }
 
-        public Size MeasureText(string text)
+        public Size MeasureText(string text, TextStyles textStyle)
         {
             return new Size(text.Length * 20, LineHeight);
         }
@@ -40,7 +40,7 @@ namespace TestDebug
             padding = Padding.Empty;
         }
 
-        public void DrawText(string text, Point origin)
+        public void DrawText(string text, Point origin, TextStyles textStyle)
         {
         }
 

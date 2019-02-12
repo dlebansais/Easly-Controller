@@ -30,9 +30,10 @@
         public double LineHeight { get; }
         public double TabulationWidth { get; }
 
-        public EaslyController.Controller.Size MeasureText(string text)
+        public EaslyController.Controller.Size MeasureText(string text, TextStyles textStyle)
         {
-            FormattedText ft = new FormattedText(text, CultureInfo.CurrentCulture, FlowDirection.LeftToRight, Typeface, FontSize, Foreground);
+            Brush Brush = StyleTuBrush(textStyle);
+            FormattedText ft = new FormattedText(text, CultureInfo.CurrentCulture, FlowDirection.LeftToRight, Typeface, FontSize, Brush);
 
             return new EaslyController.Controller.Size(ft.Width, LineHeight);
         }
@@ -81,7 +82,7 @@
         public EaslyController.Controller.Size MeasureSymbol(Symbols symbol)
         {
             string Text = SymbolToText(symbol);
-            FormattedText ft = new FormattedText(Text, CultureInfo.CurrentCulture, FlowDirection.LeftToRight, Typeface, FontSize, Foreground);
+            FormattedText ft = new FormattedText(Text, CultureInfo.CurrentCulture, FlowDirection.LeftToRight, Typeface, FontSize, Brushes.Blue);
 
             switch (symbol)
             {
@@ -133,16 +134,37 @@
             padding = new EaslyController.Controller.Padding(LeftPadding, 0, RightPadding, 0);
         }
 
-        public void DrawText(string text, EaslyController.Controller.Point origin)
+        private Brush StyleTuBrush(TextStyles textStyle)
         {
-            FormattedText ft = new FormattedText(text, CultureInfo.CurrentCulture, FlowDirection.LeftToRight, Typeface, FontSize, Foreground);
+            switch (textStyle)
+            {
+                default:
+                case TextStyles.Default:
+                    return Foreground;
+                case TextStyles.Character:
+                    return Brushes.Orange;
+                case TextStyles.Discrete:
+                    return Brushes.Red;
+                case TextStyles.Keyword:
+                    return Brushes.Blue;
+                case TextStyles.Number:
+                    return Brushes.Green;
+                case TextStyles.Type:
+                    return Brushes.LightBlue;
+            }
+        }
+
+        public void DrawText(string text, EaslyController.Controller.Point origin, TextStyles textStyle)
+        {
+            Brush Brush = StyleTuBrush(textStyle);
+            FormattedText ft = new FormattedText(text, CultureInfo.CurrentCulture, FlowDirection.LeftToRight, Typeface, FontSize, Brush);
             dc.DrawText(ft, new Point(origin.X, origin.Y));
         }
 
         public void DrawSymbol(Symbols symbol, EaslyController.Controller.Point origin)
         {
             string Text = SymbolToText(symbol);
-            FormattedText ft = new FormattedText(Text, CultureInfo.CurrentCulture, FlowDirection.LeftToRight, Typeface, FontSize, Foreground);
+            FormattedText ft = new FormattedText(Text, CultureInfo.CurrentCulture, FlowDirection.LeftToRight, Typeface, FontSize, Brushes.Blue);
             dc.DrawText(ft, new Point(origin.X, origin.Y));
         }
 

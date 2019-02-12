@@ -1,0 +1,16 @@
+﻿namespace EaslyController.Layout
+{
+    using EaslyController.Constants;
+
+    /// <summary>
+    /// Focus that can have a custom visibility.
+    /// </summary>
+    public interface ILayoutNodeFrameWithTextStyle : ILayoutNodeFrame
+    {
+        /// <summary>
+        /// Text style.
+        /// (Set in Xaml)
+        /// </summary>
+        TextStyles TextStyle { get; }
+    }
+}

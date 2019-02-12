@@ -2,6 +2,7 @@
 {
     using System.Diagnostics;
     using System.Windows.Markup;
+    using EaslyController.Constants;
     using EaslyController.Controller;
     using EaslyController.Focus;
     using EaslyController.Frame;
@@ -53,6 +54,18 @@
         /// (Set in Xaml)
         /// </summary>
         public Margins RightMargin { get; set; }
+
+        /// <summary></summary>
+        protected virtual TextStyles TextStyle
+        {
+            get
+            {
+                if (ParentFrame is ILayoutDiscreteFrame)
+                    return TextStyles.Discrete;
+                else
+                    return TextStyles.Keyword;
+            }
+        }
         #endregion
 
         #region Client Interface
@@ -65,7 +78,7 @@
         /// <param name="padding">The cell padding.</param>
         public virtual void Measure(ILayoutDrawContext drawContext, ILayoutCellView cellView, out Size size, out Padding padding)
         {
-            size = drawContext.MeasureText(Text);
+            size = drawContext.MeasureText(Text, TextStyle);
             drawContext.UpdatePadding(LeftMargin, RightMargin, ref size, out padding);
 
             Debug.Assert(MeasureHelper.IsValid(size));
@@ -82,7 +95,7 @@
         public virtual void Draw(ILayoutDrawContext drawContext, ILayoutCellView cellView, Point origin, Size size, Padding padding)
         {
             Point OriginWithPadding = new Point(origin.X + padding.Left, origin.Y + padding.Top);
-            drawContext.DrawText(Text, OriginWithPadding);
+            drawContext.DrawText(Text, OriginWithPadding, TextStyle);
         }
         #endregion
 
