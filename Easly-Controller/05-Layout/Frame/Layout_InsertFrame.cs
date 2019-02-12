@@ -2,15 +2,15 @@
 {
     using System.Diagnostics;
     using System.Windows.Markup;
+    using EaslyController.Constants;
     using EaslyController.Controller;
     using EaslyController.Focus;
     using EaslyController.Frame;
-    using NodeController;
 
     /// <summary>
     /// Layout for bringing the focus to an insertion point.
     /// </summary>
-    public interface ILayoutInsertFrame : IFocusInsertFrame, ILayoutStaticFrame, ILayoutMeasurableFrame
+    public interface ILayoutInsertFrame : IFocusInsertFrame, ILayoutStaticFrame, ILayoutMeasurableFrame, ILayoutDrawableFrame
     {
     }
 
@@ -56,17 +56,28 @@
         /// </summary>
         /// <param name="drawContext">The context used to measure the cell.</param>
         /// <param name="cellView">The cell to measure.</param>
-        public virtual Size Measure(ILayoutDrawContext drawContext, ILayoutCellView cellView)
+        /// <param name="size">The cell size upon return, padding included.</param>
+        /// <param name="padding">The cell padding.</param>
+        public virtual void Measure(ILayoutDrawContext drawContext, ILayoutCellView cellView, out Size size, out Padding padding)
         {
-            Size Result;
+            size = drawContext.MeasureSymbol(Symbols.InsertSign);
+            drawContext.UpdatePadding(LeftMargin, RightMargin, ref size, out padding);
 
-            double Width = drawContext.LineHeight;
-            double Height = drawContext.LineHeight;
-            Result = new Size(Width, Height);
-            Result = drawContext.MarginExtended(Result, LeftMargin, RightMargin);
+            Debug.Assert(MeasureHelper.IsValid(size));
+        }
 
-            Debug.Assert(MeasureHelper.IsValid(Result));
-            return Result;
+        /// <summary>
+        /// Draws a cell created with this frame.
+        /// </summary>
+        /// <param name="drawContext">The context used to draw the cell.</param>
+        /// <param name="cellView">The cell to draw.</param>
+        /// <param name="origin">The location where to start drawing.</param>
+        /// <param name="size">The drawing size, padding included.</param>
+        /// <param name="padding">The padding to use when drawing.</param>
+        public virtual void Draw(ILayoutDrawContext drawContext, ILayoutCellView cellView, Point origin, Size size, Padding padding)
+        {
+            Point OriginWithPadding = new Point(origin.X + padding.Left, origin.Y + padding.Top);
+            drawContext.DrawSymbol(Symbols.InsertSign, OriginWithPadding);
         }
         #endregion
 

@@ -1,6 +1,7 @@
 ﻿namespace EaslyController.Controller
 {
     using System;
+    using System.Diagnostics;
 
     /// <summary>
     /// Implements a structure that is used to describe the size of an object.
@@ -25,6 +26,9 @@
         /// <param name="height">The height.</param>
         public Size(double width, double height)
         {
+            Debug.Assert(double.IsNaN(width) || width >= 0);
+            Debug.Assert(double.IsNaN(height) || height >= 0);
+
             Width = width;
             Height = height;
         }
@@ -34,22 +38,27 @@
         /// <summary>
         /// Width.
         /// </summary>
-        public double Width { get; set; }
+        public double Width { get; }
 
         /// <summary>
         /// Height.
         /// </summary>
-        public double Height { get; set; }
+        public double Height { get; }
 
         /// <summary>
         /// True if the object is the empty size.
         /// </summary>
         public bool IsEmpty { get { return Width == 0 && Height == 0; } }
+
+        /// <summary>
+        /// True if the object represents a visible region.
+        /// </summary>
+        public bool IsVisible { get { return Width > 0 && Height > 0; } }
         #endregion
 
         #region Client Interface
         /// <summary>
-        /// Compares two sizes.
+        /// Compares two sizes. Stretched sizes are never equal, even to themselves.
         /// </summary>
         /// <param name="size1">The first size.</param>
         /// <param name="size2">The second size.</param>

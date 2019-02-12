@@ -1,4 +1,4 @@
-﻿namespace NodeController
+﻿namespace EaslyController.Controller
 {
     /// <summary>
     /// Margins to use when drawing frames.

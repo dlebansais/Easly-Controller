@@ -13,6 +13,11 @@
         /// The frame that created this cell view.
         /// </summary>
         new ILayoutFrame Frame { get; }
+
+        /// <summary>
+        /// Draws the cell.
+        /// </summary>
+        void Draw();
     }
 
     /// <summary>
@@ -26,11 +31,15 @@
         /// </summary>
         /// <param name="stateView">The state view containing the tree with this cell.</param>
         /// <param name="frame">The frame that created this cell view.</param>
-        public LayoutVisibleCellView(ILayoutNodeStateView stateView, ILayoutMeasurableFrame frame)
+        public LayoutVisibleCellView(ILayoutNodeStateView stateView, ILayoutFrame frame)
             : base(stateView, frame)
         {
+            Debug.Assert(frame is ILayoutMeasurableFrame);
+            Debug.Assert(frame is ILayoutDrawableFrame);
+
             CellOrigin = ArrangeHelper.InvalidOrigin;
             CellSize = MeasureHelper.InvalidSize;
+            CellPadding = Padding.Empty;
         }
         #endregion
 
@@ -54,6 +63,11 @@
         /// Size of the cell.
         /// </summary>
         public Size CellSize { get; private set; }
+
+        /// <summary>
+        /// Padding inside the cell.
+        /// </summary>
+        public Padding CellPadding { get; private set; }
         #endregion
 
         #region Client Interface
@@ -71,7 +85,9 @@
             ILayoutMeasurableFrame AsMeasurableFrame = Frame as ILayoutMeasurableFrame;
             Debug.Assert(AsMeasurableFrame != null);
 
-            CellSize = AsMeasurableFrame.Measure(DrawContext, this);
+            AsMeasurableFrame.Measure(DrawContext, this, out Size Size, out Padding Padding);
+            CellSize = Size;
+            CellPadding = Padding;
 
             Debug.Assert(MeasureHelper.IsValid(CellSize));
         }
@@ -82,6 +98,23 @@
         public virtual void Arrange(Point origin)
         {
             CellOrigin = origin;
+        }
+
+        /// <summary>
+        /// Draws the cell.
+        /// </summary>
+        public virtual void Draw()
+        {
+            Debug.Assert(StateView != null);
+            Debug.Assert(StateView.ControllerView != null);
+
+            ILayoutDrawContext DrawContext = StateView.ControllerView.DrawContext;
+            Debug.Assert(DrawContext != null);
+
+            ILayoutDrawableFrame AsDrawableFrame = Frame as ILayoutDrawableFrame;
+            Debug.Assert(AsDrawableFrame != null);
+
+            AsDrawableFrame.Draw(DrawContext, this, CellOrigin, CellSize, CellPadding);
         }
         #endregion
 

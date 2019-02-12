@@ -616,6 +616,7 @@
     <Compile Include="05-Layout\Frame\Layout_CharacterFrame.cs" />
     <Compile Include="05-Layout\Frame\Layout_CollectionPlaceholderFrame.cs" />
     <Compile Include="05-Layout\Frame\Layout_DiscreteFrame.cs" />
+    <Compile Include="05-Layout\Frame\Layout_DrawableFrame.cs" />
     <Compile Include="05-Layout\Frame\Layout_MeasurableFrame.cs" />
     <Compile Include="05-Layout\Frame\Layout_Frame.cs" />
     <Compile Include="05-Layout\Frame\Layout_HorizontalBlockListFrame.cs" />
@@ -702,6 +703,7 @@
     <Compile Include="Controller\Margins.cs" />
     <Compile Include="Controller\MeasureHelper.cs" />
     <Compile Include="Controller\Point.cs" />
+    <Compile Include="Controller\Padding.cs" />
     <Compile Include="Controller\Size.cs" />
     <Compile Include="Controller\Symbols.cs" />
     <Compile Include="Controller\TypeMarkupExtension.cs" />

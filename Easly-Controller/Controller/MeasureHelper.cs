@@ -1,5 +1,7 @@
 ﻿namespace EaslyController.Controller
 {
+    using System.Diagnostics;
+
     /// <summary>
     /// Helper class dedicated to cell measure.
     /// </summary>

@@ -17,11 +17,13 @@ using System.Windows.Media;
 using EaslyController.Focus;
 using EaslyController.Writeable;
 using EaslyController.Layout;
+using EaslyController.Controller;
 
 namespace EditorDebug
 {
     public partial class MainWindow : Window, INotifyPropertyChanged
     {
+        #region Init
         public MainWindow()
         {
             InitializeComponent();
@@ -47,8 +49,37 @@ namespace EditorDebug
             //MaxHeight = ActualHeight;
         }
 
-        IFocusControllerView ControllerView;
+        private void OnBrowse(object sender, ExecutedRoutedEventArgs e)
+        {
+            OpenFileDialog Dlg = new OpenFileDialog();
+            Dlg.FileName = CurrentDirectory;
 
+            bool? Result = Dlg.ShowDialog(this);
+            if (Result.HasValue && Result.Value)
+            {
+                LoadFile(Dlg.FileName);
+            }
+        }
+
+        private void LoadFile(string fileName)
+        {
+            using (FileStream fs = new FileStream(fileName, FileMode.Open, FileAccess.Read))
+            {
+                CurrentFileName = fileName;
+                NotifyPropertyChanged(nameof(CurrentFileName));
+
+                Serializer Serializer = new Serializer();
+                INode RootNode = Serializer.Deserialize(fs) as INode;
+                LoadFileLayout(RootNode);
+            }
+        }
+
+        public string CurrentDirectory { get; private set; }
+        public string CurrentFileName { get; private set; }
+        ILayoutControllerView ControllerView;
+        #endregion
+
+        #region Events
         private void OnKeyDown(object sender, KeyEventArgs e)
         {
             if (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl))
@@ -314,34 +345,7 @@ namespace EditorDebug
             ControllerView.Controller.Insert(Inner, InsertIndex, out IWriteableBrowsingCollectionNodeIndex SecondIndex);
             UpdateFocusView();
         }
-
-        public string CurrentDirectory { get; private set; }
-        public string CurrentFileName { get; private set; }
-
-        private void OnBrowse(object sender, ExecutedRoutedEventArgs e)
-        {
-            OpenFileDialog Dlg = new OpenFileDialog();
-            Dlg.FileName = CurrentDirectory;
-
-            bool? Result = Dlg.ShowDialog(this);
-            if (Result.HasValue && Result.Value)
-            {
-                LoadFile(Dlg.FileName);
-            }
-        }
-
-        private void LoadFile(string fileName)
-        {
-            using (FileStream fs = new FileStream(fileName, FileMode.Open, FileAccess.Read))
-            {
-                CurrentFileName = fileName;
-                NotifyPropertyChanged(nameof(CurrentFileName));
-
-                Serializer Serializer = new Serializer();
-                INode RootNode = Serializer.Deserialize(fs) as INode;
-                LoadFileLayout(RootNode);
-            }
-        }
+        #endregion
 
         #region Frame
         private void LoadFileFrame(INode rootNode)
@@ -432,6 +436,10 @@ namespace EditorDebug
                                     Child.Text = ".";
                                     IsHandled = true;
                                     break;
+                                case Symbols.InsertSign:
+                                    Child.Text = "◄";
+                                    IsHandled = true;
+                                    break;
                                 case Symbols.LeftBracket:
                                     Child.Text = "[";
                                     IsHandled = true;
@@ -478,7 +486,7 @@ namespace EditorDebug
         {
             IFocusRootNodeIndex RootIndex = new FocusRootNodeIndex(rootNode);
             IFocusController Controller = FocusController.Create(RootIndex);
-            ControllerView = FocusControllerView.Create(Controller, CustomFocusTemplateSet.FocusTemplateSet);
+            IFocusControllerView ControllerView = FocusControllerView.Create(Controller, CustomFocusTemplateSet.FocusTemplateSet);
 
             UpdateFocusView();
         }
@@ -559,6 +567,10 @@ namespace EditorDebug
                                     Child.Text = ".";
                                     IsHandled = true;
                                     break;
+                                case Symbols.InsertSign:
+                                    Child.Text = "◄";
+                                    IsHandled = true;
+                                    break;
                                 case Symbols.LeftBracket:
                                     Child.Text = "[";
                                     IsHandled = true;
@@ -614,25 +626,35 @@ namespace EditorDebug
             ILayoutController Controller = LayoutController.Create(RootIndex);
             ControllerView = LayoutControllerView.Create(Controller, CustomLayoutTemplateSet.LayoutTemplateSet, LayoutDrawContext.Default);
 
-            UpdateLayoutView();
+            InvalidateVisual();
+        }
+
+        protected override void OnRender(DrawingContext dc)
+        {
+            System.Windows.Size Size;
+
+            if (ControllerView != null && MeasureHelper.IsValid(ControllerView.ViewSize) && ControllerView.ViewSize.IsVisible)
+                Size = new System.Windows.Size(ControllerView.ViewSize.Width, ControllerView.ViewSize.Height);
+            else
+                Size = System.Windows.Size.Empty;
+
+            Debug.WriteLine($"OnRender, view size={Size}");
+
+            Brush WriteBrush = Brushes.White;
+            Rect Fullrect = new Rect(0, 0, ActualWidth, ActualHeight);
+            dc.DrawRectangle(WriteBrush, null, Fullrect);
+
+            if (Size != System.Windows.Size.Empty)
+            {
+                LayoutDrawContext DrawContext = ControllerView.DrawContext as LayoutDrawContext;
+                DrawContext.SetDC(dc);
+
+                UpdateLayoutView();
+            }
         }
 
         private void UpdateLayoutView()
         {
-            gridMain.RowDefinitions.Clear();
-            gridMain.ColumnDefinitions.Clear();
-            gridMain.Children.Clear();
-
-            int MaxRow = ControllerView.LastLineNumber;
-            int MaxColumn = ControllerView.LastColumnNumber;
-
-            for (int i = 0; i < MaxRow; i++)
-                gridMain.RowDefinitions.Add(new RowDefinition());
-            for (int i = 0; i < MaxColumn; i++)
-                gridMain.ColumnDefinitions.Add(new ColumnDefinition());
-
-            ILayoutVisibleCellView[,] Assigned = new ILayoutVisibleCellView[MaxRow, MaxColumn];
-
             ILayoutVisibleCellViewList CellList = new LayoutVisibleCellViewList();
             ControllerView.EnumerateVisibleCellViews(CellList);
 
@@ -642,101 +664,10 @@ namespace EditorDebug
                 int Column = CellView.ColumnNumber - 1;
                 ILayoutFrame Frame = CellView.Frame;
                 INode ChildNode = CellView.StateView.State.Node;
-                TextBlock Child = new TextBlock();
-                ILayoutVisibleCellView OldCellView = Assigned[Row, Column];
-                Debug.Assert(OldCellView == null);
+                Debug.Assert(ArrangeHelper.IsValid(CellView.CellOrigin));
+                Debug.Assert(MeasureHelper.IsValid(CellView.CellSize));
 
-                bool IsHandled = false;
-
-                switch (CellView)
-                {
-                    case ILayoutDiscreteContentFocusableCellView AsDiscreteContentFocusable: // Enum, bool
-                        Child.Foreground = Brushes.Purple;
-                        Child.Text = AsDiscreteContentFocusable.KeywordFrame.Text;
-                        IsHandled = true;
-                        break;
-
-                    case ILayoutTextFocusableCellView AsTextFocusable: // String
-                        Child.Text = NodeTreeHelper.GetString(ChildNode, AsTextFocusable.PropertyName);
-                        IsHandled = true;
-                        break;
-
-                    case ILayoutFocusableCellView AsFocusable: // Insert or focusable keyword
-                        Child.Foreground = Brushes.Blue;
-                        Child.FontWeight = FontWeights.Bold;
-                        if (CellView.Frame is IFrameKeywordFrame AsFocusableKeywordFrame)
-                            Child.Text = AsFocusableKeywordFrame.Text;
-                        else
-                            Child.Text = "◄";
-                        IsHandled = true;
-                        break;
-
-                    case ILayoutVisibleCellView AsVisible: // Others
-                        if (Frame is ILayoutKeywordFrame AsKeywordFrame)
-                        {
-                            Child.FontWeight = FontWeights.Bold;
-                            Child.Text = AsKeywordFrame.Text;
-                            IsHandled = true;
-                        }
-                        else if (Frame is ILayoutSymbolFrame AsSymbolFrame)
-                        {
-                            Child.Foreground = Brushes.Blue;
-
-                            Symbols Symbol = AsSymbolFrame.Symbol;
-                            switch (Symbol)
-                            {
-                                case Symbols.LeftArrow:
-                                    Child.Text = "←";
-                                    IsHandled = true;
-                                    break;
-                                case Symbols.Dot:
-                                    Child.Text = ".";
-                                    IsHandled = true;
-                                    break;
-                                case Symbols.LeftBracket:
-                                    Child.Text = "[";
-                                    IsHandled = true;
-                                    break;
-                                case Symbols.RightBracket:
-                                    Child.Text = "]";
-                                    IsHandled = true;
-                                    break;
-                                case Symbols.LeftCurlyBracket:
-                                    Child.Text = "{";
-                                    IsHandled = true;
-                                    break;
-                                case Symbols.RightCurlyBracket:
-                                    Child.Text = "}";
-                                    IsHandled = true;
-                                    break;
-                                case Symbols.LeftParenthesis:
-                                    Child.Text = "(";
-                                    IsHandled = true;
-                                    break;
-                                case Symbols.RightParenthesis:
-                                    Child.Text = ")";
-                                    IsHandled = true;
-                                    break;
-                            }
-                        }
-                        break;
-                }
-
-                Debug.Assert(IsHandled);
-
-                Child.Margin = new Thickness(0, 0, 5, 0);
-                Child.DataContext = CellView;
-
-                Grid.SetRow(Child, Row);
-                Grid.SetColumn(Child, Column);
-                Assigned[Row, Column] = CellView;
-
-                if (CellView == ControllerView.FocusedCellView)
-                    Child.Background = Brushes.LightCyan;
-                else
-                    Child.Background = Brushes.Transparent;
-
-                gridMain.Children.Add(Child);
+                CellView.Draw();
             }
         }
         #endregion

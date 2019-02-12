@@ -1,6 +1,7 @@
 ﻿namespace EaslyController.Controller
 {
     using System;
+    using System.Diagnostics;
 
     /// <summary>
     /// Implements a structure that is used to describe the location of an object.
@@ -25,6 +26,8 @@
         /// <param name="y">The vertical coordinate.</param>
         public Point(double x, double y)
         {
+            Debug.Assert((x >= 0 && y >= 0) || (double.IsNaN(x) && double.IsNaN(y)));
+
             X = x;
             Y = x;
         }
@@ -51,11 +54,11 @@
         /// <summary>
         /// Compares two points.
         /// </summary>
-        /// <param name="pt1">The first point.</param>
-        /// <param name="pt2">The second point.</param>
-        public static bool IsEqual(Point pt1, Point pt2)
+        /// <param name="point1">The first point.</param>
+        /// <param name="point2">The second point.</param>
+        public static bool IsEqual(Point point1, Point point2)
         {
-            return pt1.X == pt2.X && pt1.Y == pt2.Y;
+            return point1.X == point2.X && point1.Y == point2.Y;
         }
 
         /// <summary>

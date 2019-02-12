@@ -5,12 +5,11 @@
     using EaslyController.Controller;
     using EaslyController.Focus;
     using EaslyController.Frame;
-    using NodeController;
 
     /// <summary>
     /// Focus describing a single-character string value property in a node.
     /// </summary>
-    public interface ILayoutCharacterFrame : IFocusCharacterFrame, ILayoutValueFrame, ILayoutMeasurableFrame
+    public interface ILayoutCharacterFrame : IFocusCharacterFrame, ILayoutValueFrame, ILayoutMeasurableFrame, ILayoutDrawableFrame
     {
     }
 
@@ -55,17 +54,36 @@
         /// </summary>
         /// <param name="drawContext">The context used to measure the cell.</param>
         /// <param name="cellView">The cell to measure.</param>
-        public virtual Size Measure(ILayoutDrawContext drawContext, ILayoutCellView cellView)
+        /// <param name="size">The cell size upon return, padding included.</param>
+        /// <param name="padding">The cell padding.</param>
+        public virtual void Measure(ILayoutDrawContext drawContext, ILayoutCellView cellView, out Size size, out Padding padding)
         {
             INode Node = cellView.StateView.State.Node;
             string Text = BaseNodeHelper.NodeTreeHelper.GetString(Node, PropertyName);
             Debug.Assert(Text != null && Text.Length == 1);
 
-            Size Result = drawContext.MeasureText(Text);
-            Result = drawContext.MarginExtended(Result, LeftMargin, RightMargin);
+            size = drawContext.MeasureText(Text);
+            drawContext.UpdatePadding(LeftMargin, RightMargin, ref size, out padding);
 
-            Debug.Assert(MeasureHelper.IsValid(Result));
-            return Result;
+            Debug.Assert(MeasureHelper.IsValid(size));
+        }
+
+        /// <summary>
+        /// Draws a cell created with this frame.
+        /// </summary>
+        /// <param name="drawContext">The context used to draw the cell.</param>
+        /// <param name="cellView">The cell to draw.</param>
+        /// <param name="origin">The location where to start drawing.</param>
+        /// <param name="size">The drawing size, padding included.</param>
+        /// <param name="padding">The padding to use when drawing.</param>
+        public virtual void Draw(ILayoutDrawContext drawContext, ILayoutCellView cellView, Point origin, Size size, Padding padding)
+        {
+            INode Node = cellView.StateView.State.Node;
+            string Text = BaseNodeHelper.NodeTreeHelper.GetString(Node, PropertyName);
+            Debug.Assert(Text != null && Text.Length == 1);
+
+            Point OriginWithPadding = new Point(origin.X + padding.Left, origin.Y + padding.Top);
+            drawContext.DrawText(Text, OriginWithPadding);
         }
         #endregion
 

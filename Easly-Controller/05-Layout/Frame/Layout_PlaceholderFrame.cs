@@ -4,7 +4,6 @@
     using EaslyController.Controller;
     using EaslyController.Focus;
     using EaslyController.Frame;
-    using NodeController;
 
     /// <summary>
     /// Layout for describing an child node.
@@ -60,7 +59,9 @@
         /// </summary>
         /// <param name="drawContext">The context used to measure the cell.</param>
         /// <param name="cellView">The cell to measure.</param>
-        public virtual Size Measure(ILayoutDrawContext drawContext, ILayoutCellView cellView)
+        /// <param name="size">The cell size upon return, padding included.</param>
+        /// <param name="padding">The cell padding.</param>
+        public virtual void Measure(ILayoutDrawContext drawContext, ILayoutCellView cellView, out Size size, out Padding padding)
         {
             ILayoutContainerCellView ContainerCellView = cellView as ILayoutContainerCellView;
             Debug.Assert(ContainerCellView != null);
@@ -71,11 +72,10 @@
 
             Debug.Assert(MeasureHelper.IsValid(ChildStateView.CellSize));
 
-            Size Result = ChildStateView.CellSize;
-            Result = drawContext.MarginExtended(Result, LeftMargin, RightMargin);
+            size = ChildStateView.CellSize;
+            drawContext.UpdatePadding(LeftMargin, RightMargin, ref size, out padding);
 
-            Debug.Assert(MeasureHelper.IsValid(Result));
-            return Result;
+            Debug.Assert(MeasureHelper.IsValid(size));
         }
         #endregion
 

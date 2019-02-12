@@ -25,6 +25,11 @@
         Size CellSize { get; }
 
         /// <summary>
+        /// Padding inside the cell.
+        /// </summary>
+        Padding CellPadding { get; }
+
+        /// <summary>
         /// Measures the cell.
         /// </summary>
         void Measure();
@@ -50,6 +55,7 @@
         {
             CellOrigin = ArrangeHelper.InvalidOrigin;
             CellSize = MeasureHelper.InvalidSize;
+            CellPadding = Padding.Empty;
         }
         #endregion
 
@@ -68,6 +74,11 @@
         /// Size of the cell.
         /// </summary>
         public Size CellSize { get; }
+
+        /// <summary>
+        /// Padding inside the cell.
+        /// </summary>
+        public Padding CellPadding { get; }
         #endregion
 
         #region Client Interface

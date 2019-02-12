@@ -33,6 +33,7 @@
         {
             CellOrigin = ArrangeHelper.InvalidOrigin;
             CellSize = MeasureHelper.InvalidSize;
+            CellPadding = Padding.Empty;
         }
         #endregion
 
@@ -61,6 +62,11 @@
         /// Size of the cell.
         /// </summary>
         public Size CellSize { get; private set; }
+
+        /// <summary>
+        /// Padding inside the cell.
+        /// </summary>
+        public Padding CellPadding { get; private set; }
         #endregion
 
         #region Client Interface
@@ -75,10 +81,15 @@
             ILayoutDrawContext DrawContext = StateView.ControllerView.DrawContext;
             Debug.Assert(DrawContext != null);
 
+            Size Size;
+            Padding Padding;
             if (KeywordFrame.ParentFrame is ILayoutDiscreteFrame AsDiscreteFrame)
-                CellSize = AsDiscreteFrame.Measure(DrawContext, this);
+                AsDiscreteFrame.Measure(DrawContext, this, out Size, out Padding);
             else
-                CellSize = KeywordFrame.Measure(DrawContext, this);
+                KeywordFrame.Measure(DrawContext, this, out Size, out Padding);
+
+            CellSize = Size;
+            CellPadding = Padding;
 
             Debug.Assert(MeasureHelper.IsValid(CellSize));
         }
@@ -89,6 +100,23 @@
         public virtual void Arrange(Point origin)
         {
             CellOrigin = origin;
+        }
+
+        /// <summary>
+        /// Draws the cell.
+        /// </summary>
+        public virtual void Draw()
+        {
+            Debug.Assert(StateView != null);
+            Debug.Assert(StateView.ControllerView != null);
+
+            ILayoutDrawContext DrawContext = StateView.ControllerView.DrawContext;
+            Debug.Assert(DrawContext != null);
+
+            if (KeywordFrame.ParentFrame is ILayoutDiscreteFrame AsDiscreteFrame)
+                AsDiscreteFrame.Draw(DrawContext, this, CellOrigin, CellSize, CellPadding);
+            else
+                KeywordFrame.Draw(DrawContext, this, CellOrigin, CellSize, CellPadding);
         }
         #endregion
 

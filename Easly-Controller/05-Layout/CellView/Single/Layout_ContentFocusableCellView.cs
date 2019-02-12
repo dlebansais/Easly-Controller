@@ -28,6 +28,7 @@
         {
             CellOrigin = ArrangeHelper.InvalidOrigin;
             CellSize = MeasureHelper.InvalidSize;
+            CellPadding = Padding.Empty;
         }
         #endregion
 
@@ -51,6 +52,11 @@
         /// Size of the cell.
         /// </summary>
         public Size CellSize { get; private set; }
+
+        /// <summary>
+        /// Padding inside the cell.
+        /// </summary>
+        public Padding CellPadding { get; private set; }
         #endregion
 
         #region Client Interface
@@ -63,6 +69,11 @@
         /// Arranges the cell.
         /// </summary>
         public abstract void Arrange(Point origin);
+
+        /// <summary>
+        /// Draws the cell.
+        /// </summary>
+        public abstract void Draw();
         #endregion
 
         #region Debugging

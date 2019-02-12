@@ -2,7 +2,6 @@
 {
     using EaslyController.Constants;
     using EaslyController.Controller;
-    using NodeController;
 
     /// <summary>
     /// Context for measuring, arranging and drawing cells in a view.
@@ -31,10 +30,24 @@
         /// <summary>
         /// Extends a size according to the left and right margin settings.
         /// </summary>
-        /// <param name="size">The size to extend.</param>
         /// <param name="leftMargin">The left margin setting.</param>
         /// <param name="rightMargin">The right margin setting.</param>
-        /// <returns>The new size.</returns>
-        Size MarginExtended(Size size, Margins leftMargin, Margins rightMargin);
+        /// <param name="size">The size to extend with the calculated padding.</param>
+        /// <param name="padding">The padding calculated from <paramref name="leftMargin"/> and <paramref name="rightMargin"/>.</param>
+        void UpdatePadding(Margins leftMargin, Margins rightMargin, ref Size size, out Padding padding);
+
+        /// <summary>
+        /// Draws a string, at the location specified in <paramref name="origin"/>.
+        /// </summary>
+        /// <param name="text">The text to draw.</param>
+        /// <param name="origin">The location where to start drawing.</param>
+        void DrawText(string text, Point origin);
+
+        /// <summary>
+        /// Draws a symbol, at the location specified in <paramref name="origin"/>.
+        /// </summary>
+        /// <param name="symbol">The symbol to draw.</param>
+        /// <param name="origin">The location where to start drawing.</param>
+        void DrawSymbol(Symbols symbol, Point origin);
     }
 }

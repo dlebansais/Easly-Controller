@@ -9,6 +9,7 @@
         MaxWidth="2000"
         MaxHeight="1400"
         KeyDown="OnKeyDown"
+        Background="Transparent"
         Title="MainWindow">
     <Window.Resources>
         <RoutedCommand x:Key="BrowseCommand"/>

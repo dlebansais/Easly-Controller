@@ -1,7 +1,6 @@
 ﻿using EaslyController.Constants;
 using EaslyController.Controller;
 using EaslyController.Layout;
-using NodeController;
 
 namespace TestDebug
 {
@@ -18,6 +17,7 @@ namespace TestDebug
                 default:
                 case Symbols.LeftArrow:
                 case Symbols.Dot:
+                case Symbols.InsertSign:
                     return new Size(20, LineHeight);
                 case Symbols.LeftBracket:
                 case Symbols.RightBracket:
@@ -25,8 +25,7 @@ namespace TestDebug
                 case Symbols.RightCurlyBracket:
                 case Symbols.LeftParenthesis:
                 case Symbols.RightParenthesis:
-                    return new Size(20, LineHeight);
-                    //return new Size(20, double.NaN);
+                    return new Size(20, double.NaN);
             }
         }
 
@@ -35,9 +34,17 @@ namespace TestDebug
             return new Size(text.Length * 20, LineHeight);
         }
 
-        public Size MarginExtended(Size size, Margins leftMargin, Margins rightMargin)
+        public void UpdatePadding(Margins leftMargin, Margins rightMargin, ref Size size, out Padding padding)
         {
-            return size;
+            padding = Padding.Empty;
+        }
+
+        public void DrawText(string text, Point origin)
+        {
+        }
+
+        public void DrawSymbol(Symbols symbol, Point origin)
+        {
         }
     }
 }

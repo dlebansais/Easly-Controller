@@ -1,7 +1,6 @@
 ﻿namespace EaslyController.Layout
 {
     using EaslyController.Controller;
-    using NodeController;
 
     /// <summary>
     /// Base frame.
@@ -25,6 +24,8 @@
         /// </summary>
         /// <param name="drawContext">The context used to measure the cell.</param>
         /// <param name="cellView">The cell to measure.</param>
-        Size Measure(ILayoutDrawContext drawContext, ILayoutCellView cellView);
+        /// <param name="size">The cell size upon return, padding included.</param>
+        /// <param name="padding">The cell padding.</param>
+        void Measure(ILayoutDrawContext drawContext, ILayoutCellView cellView, out Size size, out Padding padding);
     }
 }

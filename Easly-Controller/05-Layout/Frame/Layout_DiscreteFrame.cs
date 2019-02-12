@@ -6,12 +6,11 @@
     using EaslyController.Controller;
     using EaslyController.Focus;
     using EaslyController.Frame;
-    using NodeController;
 
     /// <summary>
     /// Layout describing an enum value that can be displayed with different frames depending on its value.
     /// </summary>
-    public interface ILayoutDiscreteFrame : IFocusDiscreteFrame, ILayoutValueFrame, ILayoutMeasurableFrame
+    public interface ILayoutDiscreteFrame : IFocusDiscreteFrame, ILayoutValueFrame, ILayoutMeasurableFrame, ILayoutDrawableFrame
     {
         /// <summary>
         /// List of frames that can be displayed.
@@ -86,7 +85,9 @@
         /// </summary>
         /// <param name="drawContext">The context used to measure the cell.</param>
         /// <param name="cellView">The cell to measure.</param>
-        public virtual Size Measure(ILayoutDrawContext drawContext, ILayoutCellView cellView)
+        /// <param name="size">The cell size upon return, padding included.</param>
+        /// <param name="padding">The cell padding.</param>
+        public virtual void Measure(ILayoutDrawContext drawContext, ILayoutCellView cellView, out Size size, out Padding padding)
         {
             ILayoutDiscreteContentFocusableCellView DiscreteContentFocusableCellView = cellView as ILayoutDiscreteContentFocusableCellView;
             Debug.Assert(DiscreteContentFocusableCellView != null);
@@ -94,11 +95,31 @@
             ILayoutKeywordFrame KeywordFrame = DiscreteContentFocusableCellView.KeywordFrame;
             Debug.Assert(KeywordFrame != null);
 
-            Size Result = KeywordFrame.Measure(drawContext, DiscreteContentFocusableCellView);
-            Result = drawContext.MarginExtended(Result, LeftMargin, RightMargin);
+            KeywordFrame.Measure(drawContext, DiscreteContentFocusableCellView, out size, out padding);
 
-            Debug.Assert(MeasureHelper.IsValid(Result));
-            return Result;
+            Debug.Assert(padding.IsEmpty);
+            drawContext.UpdatePadding(LeftMargin, RightMargin, ref size, out padding);
+
+            Debug.Assert(MeasureHelper.IsValid(size));
+        }
+
+        /// <summary>
+        /// Draws a cell created with this frame.
+        /// </summary>
+        /// <param name="drawContext">The context used to draw the cell.</param>
+        /// <param name="cellView">The cell to draw.</param>
+        /// <param name="origin">The location where to start drawing.</param>
+        /// <param name="size">The drawing size, padding included.</param>
+        /// <param name="padding">The padding to use when drawing.</param>
+        public virtual void Draw(ILayoutDrawContext drawContext, ILayoutCellView cellView, Point origin, Size size, Padding padding)
+        {
+            ILayoutDiscreteContentFocusableCellView DiscreteContentFocusableCellView = cellView as ILayoutDiscreteContentFocusableCellView;
+            Debug.Assert(DiscreteContentFocusableCellView != null);
+
+            ILayoutKeywordFrame KeywordFrame = DiscreteContentFocusableCellView.KeywordFrame;
+            Debug.Assert(KeywordFrame != null);
+
+            KeywordFrame.Draw(drawContext, DiscreteContentFocusableCellView, origin, size, padding);
         }
         #endregion
 

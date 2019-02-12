@@ -16,6 +16,11 @@
         Dot,
 
         /// <summary>
+        /// A sign to indicate an insertion point
+        /// </summary>
+        InsertSign,
+
+        /// <summary>
         /// [
         /// </summary>
         LeftBracket,
