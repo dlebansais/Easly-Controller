@@ -27,10 +27,12 @@
         /// <param name="stateView">The state view containing the tree with this cell.</param>
         /// <param name="frame">The frame that created this cell view.</param>
         /// <param name="propertyName">Property corresponding to the component of the node.</param>
-        /// <param name="keywordFocus">The keyword frame that was used to create this cell.</param>
-        public LayoutDiscreteContentFocusableCellView(ILayoutNodeStateView stateView, ILayoutFrame frame, string propertyName, ILayoutKeywordFrame keywordFocus)
-            : base(stateView, frame, propertyName, keywordFocus)
+        /// <param name="keywordFrame">The keyword frame that was used to create this cell.</param>
+        public LayoutDiscreteContentFocusableCellView(ILayoutNodeStateView stateView, ILayoutFrame frame, string propertyName, ILayoutKeywordFrame keywordFrame)
+            : base(stateView, frame, propertyName, keywordFrame)
         {
+            Debug.Assert(keywordFrame.ParentFrame is ILayoutDiscreteFrame);
+
             CellOrigin = ArrangeHelper.InvalidOrigin;
             CellSize = MeasureHelper.InvalidSize;
             CellPadding = Padding.Empty;
@@ -81,13 +83,10 @@
             ILayoutDrawContext DrawContext = StateView.ControllerView.DrawContext;
             Debug.Assert(DrawContext != null);
 
-            Size Size;
-            Padding Padding;
-            if (KeywordFrame.ParentFrame is ILayoutDiscreteFrame AsDiscreteFrame)
-                AsDiscreteFrame.Measure(DrawContext, this, out Size, out Padding);
-            else
-                KeywordFrame.Measure(DrawContext, this, out Size, out Padding);
+            ILayoutDiscreteFrame AsDiscreteFrame = KeywordFrame.ParentFrame as ILayoutDiscreteFrame;
+            Debug.Assert(AsDiscreteFrame != null);
 
+            AsDiscreteFrame.Measure(DrawContext, this, out Size Size, out Padding Padding);
             CellSize = Size;
             CellPadding = Padding;
 
@@ -113,10 +112,10 @@
             ILayoutDrawContext DrawContext = StateView.ControllerView.DrawContext;
             Debug.Assert(DrawContext != null);
 
-            if (KeywordFrame.ParentFrame is ILayoutDiscreteFrame AsDiscreteFrame)
-                AsDiscreteFrame.Draw(DrawContext, this, CellOrigin, CellSize, CellPadding);
-            else
-                KeywordFrame.Draw(DrawContext, this, CellOrigin, CellSize, CellPadding);
+            ILayoutDiscreteFrame AsDiscreteFrame = KeywordFrame.ParentFrame as ILayoutDiscreteFrame;
+            Debug.Assert(AsDiscreteFrame != null);
+
+            AsDiscreteFrame.Draw(DrawContext, this, CellOrigin, CellSize, CellPadding);
         }
         #endregion
 
