@@ -4,6 +4,7 @@
     using EaslyController.Controller;
     using EaslyController.Focus;
     using EaslyController.Frame;
+    using NodeController;
 
     /// <summary>
     /// Layout for decoration purpose only.
@@ -33,6 +34,18 @@
         /// (Set in Xaml)
         /// </summary>
         public new ILayoutNodeFrameVisibility Visibility { get { return (ILayoutNodeFrameVisibility)base.Visibility; } set { base.Visibility = value; } }
+
+        /// <summary>
+        /// Margin at the left side of the cell.
+        /// (Set in Xaml)
+        /// </summary>
+        public Margins LeftMargin { get; set; }
+
+        /// <summary>
+        /// Margin at the right side of the cell.
+        /// (Set in Xaml)
+        /// </summary>
+        public Margins RightMargin { get; set; }
         #endregion
 
         #region Client Interface

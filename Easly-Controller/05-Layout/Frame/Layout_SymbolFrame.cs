@@ -1,6 +1,5 @@
 ﻿namespace EaslyController.Layout
 {
-    using System;
     using System.Diagnostics;
     using EaslyController.Controller;
     using EaslyController.Focus;
@@ -10,19 +9,8 @@
     /// <summary>
     /// Layout for decoration purpose only.
     /// </summary>
-    public interface ILayoutSymbolFrame : IFocusSymbolFrame, ILayoutStaticFrame
+    public interface ILayoutSymbolFrame : IFocusSymbolFrame, ILayoutStaticFrame, ILayoutMeasurableFrame
     {
-        /// <summary>
-        /// Margin the right side of the cell.
-        /// (Set in Xaml)
-        /// </summary>
-        Margins RightMargin { get; }
-
-        /// <summary>
-        /// Margin the left side of the cell.
-        /// (Set in Xaml)
-        /// </summary>
-        Margins LeftMargin { get; }
     }
 
     /// <summary>
@@ -48,16 +36,16 @@
         public new ILayoutNodeFrameVisibility Visibility { get { return (ILayoutNodeFrameVisibility)base.Visibility; } set { base.Visibility = value; } }
 
         /// <summary>
-        /// Margin the right side of the cell.
-        /// (Set in Xaml)
-        /// </summary>
-        public Margins RightMargin { get; set; }
-
-        /// <summary>
-        /// Margin the left side of the cell.
+        /// Margin at the left side of the cell.
         /// (Set in Xaml)
         /// </summary>
         public Margins LeftMargin { get; set; }
+
+        /// <summary>
+        /// Margin at the right side of the cell.
+        /// (Set in Xaml)
+        /// </summary>
+        public Margins RightMargin { get; set; }
         #endregion
 
         #region Client Interface
@@ -69,6 +57,7 @@
         public virtual Size Measure(ILayoutDrawContext drawContext, ILayoutCellView cellView)
         {
             Size Result = drawContext.MeasureSymbol(Symbol);
+            Result = drawContext.MarginExtended(Result, LeftMargin, RightMargin);
 
             Debug.Assert(MeasureHelper.IsValid(Result));
             return Result;

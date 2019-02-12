@@ -18,6 +18,11 @@
         /// The state view of the state associated to this cell.
         /// </summary>
         new ILayoutNodeStateView ChildStateView { get; }
+
+        /// <summary>
+        /// The frame that was used to create this cell. Can be null.
+        /// </summary>
+        ILayoutMeasurableFrame Frame { get; }
     }
 
     /// <summary>
@@ -32,9 +37,11 @@
         /// <param name="stateView">The state view containing the tree with this cell.</param>
         /// <param name="parentCellView">The collection of cell views containing this view.</param>
         /// <param name="childStateView">The state view of the state associated to this cell.</param>
-        public LayoutContainerCellView(ILayoutNodeStateView stateView, ILayoutCellViewCollection parentCellView, ILayoutNodeStateView childStateView)
+        /// <param name="frame">The frame that was used to create this cell. Can be null.</param>
+        public LayoutContainerCellView(ILayoutNodeStateView stateView, ILayoutCellViewCollection parentCellView, ILayoutNodeStateView childStateView, ILayoutMeasurableFrame frame)
             : base(stateView, parentCellView, childStateView)
         {
+            Frame = frame;
             CellOrigin = ArrangeHelper.InvalidOrigin;
             CellSize = MeasureHelper.InvalidSize;
         }
@@ -57,6 +64,11 @@
         public new ILayoutNodeStateView StateView { get { return (ILayoutNodeStateView)base.StateView; } }
 
         /// <summary>
+        /// The frame that was used to create this cell. Can be null.
+        /// </summary>
+        public ILayoutMeasurableFrame Frame { get; }
+
+        /// <summary>
         /// Location of the cell.
         /// </summary>
         public Point CellOrigin { get; private set; }
@@ -73,10 +85,23 @@
         /// </summary>
         public virtual void Measure()
         {
-            Debug.Assert(ChildStateView != null);
-            ChildStateView.MeasureCells();
+            if (Frame != null)
+            {
+                Debug.Assert(StateView != null);
+                Debug.Assert(StateView.ControllerView != null);
 
-            CellSize = ChildStateView.CellSize;
+                ILayoutDrawContext DrawContext = StateView.ControllerView.DrawContext;
+                Debug.Assert(DrawContext != null);
+
+                CellSize = Frame.Measure(DrawContext, this);
+            }
+            else
+            {
+                Debug.Assert(ChildStateView != null);
+                ChildStateView.MeasureCells();
+
+                CellSize = ChildStateView.CellSize;
+            }
 
             Debug.Assert(MeasureHelper.IsValid(CellSize));
         }

@@ -1,7 +1,9 @@
 ﻿namespace EaslyController.Layout
 {
+    using System;
     using System.Diagnostics;
     using System.Windows.Markup;
+    using EaslyController.Controller;
     using EaslyController.Focus;
     using EaslyController.Frame;
     using NodeController;
@@ -9,25 +11,13 @@
     /// <summary>
     /// Layout describing an enum value that can be displayed with different frames depending on its value.
     /// </summary>
-    public interface ILayoutDiscreteFrame : IFocusDiscreteFrame, ILayoutValueFrame
+    public interface ILayoutDiscreteFrame : IFocusDiscreteFrame, ILayoutValueFrame, ILayoutMeasurableFrame
     {
         /// <summary>
         /// List of frames that can be displayed.
         /// (Set in Xaml)
         /// </summary>
         new ILayoutKeywordFrameList Items { get; }
-
-        /// <summary>
-        /// Margin the right side of the cell.
-        /// (Set in Xaml)
-        /// </summary>
-        Margins RightMargin { get; }
-
-        /// <summary>
-        /// Margin the left side of the cell.
-        /// (Set in Xaml)
-        /// </summary>
-        Margins LeftMargin { get; }
     }
 
     /// <summary>
@@ -60,16 +50,56 @@
         public new ILayoutNodeFrameVisibility Visibility { get { return (ILayoutNodeFrameVisibility)base.Visibility; } set { base.Visibility = value; } }
 
         /// <summary>
-        /// Margin the right side of the cell.
-        /// (Set in Xaml)
-        /// </summary>
-        public Margins RightMargin { get; set; }
-
-        /// <summary>
-        /// Margin the left side of the cell.
+        /// Margin at the left side of the cell.
         /// (Set in Xaml)
         /// </summary>
         public Margins LeftMargin { get; set; }
+
+        /// <summary>
+        /// Margin at the right side of the cell.
+        /// (Set in Xaml)
+        /// </summary>
+        public Margins RightMargin { get; set; }
+        #endregion
+
+        #region Client Interface
+        /// <summary>
+        /// Checks that a frame is correctly constructed.
+        /// </summary>
+        /// <param name="nodeType">Type of the node this frame can describe.</param>
+        /// <param name="nodeTemplateTable">Table of templates with all frames.</param>
+        public override bool IsValid(Type nodeType, IFrameTemplateReadOnlyDictionary nodeTemplateTable)
+        {
+            bool IsValid = true;
+
+            IsValid &= base.IsValid(nodeType, nodeTemplateTable);
+
+            foreach (ILayoutKeywordFrame Item in Items)
+                IsValid &= (Item.LeftMargin == Margins.None) && (Item.RightMargin == Margins.None);
+
+            Debug.Assert(IsValid);
+            return IsValid;
+        }
+
+        /// <summary>
+        /// Measures a cell created with this frame.
+        /// </summary>
+        /// <param name="drawContext">The context used to measure the cell.</param>
+        /// <param name="cellView">The cell to measure.</param>
+        public virtual Size Measure(ILayoutDrawContext drawContext, ILayoutCellView cellView)
+        {
+            ILayoutDiscreteContentFocusableCellView DiscreteContentFocusableCellView = cellView as ILayoutDiscreteContentFocusableCellView;
+            Debug.Assert(DiscreteContentFocusableCellView != null);
+
+            ILayoutKeywordFrame KeywordFrame = DiscreteContentFocusableCellView.KeywordFrame;
+            Debug.Assert(KeywordFrame != null);
+
+            Size Result = KeywordFrame.Measure(drawContext, DiscreteContentFocusableCellView);
+            Result = drawContext.MarginExtended(Result, LeftMargin, RightMargin);
+
+            Debug.Assert(MeasureHelper.IsValid(Result));
+            return Result;
+        }
         #endregion
 
         #region Implementation

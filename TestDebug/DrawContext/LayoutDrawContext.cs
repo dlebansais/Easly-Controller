@@ -1,6 +1,7 @@
 ﻿using EaslyController.Constants;
 using EaslyController.Controller;
 using EaslyController.Layout;
+using NodeController;
 
 namespace TestDebug
 {
@@ -32,6 +33,11 @@ namespace TestDebug
         public Size MeasureText(string text)
         {
             return new Size(text.Length * 20, LineHeight);
+        }
+
+        public Size MarginExtended(Size size, Margins leftMargin, Margins rightMargin)
+        {
+            return size;
         }
     }
 }

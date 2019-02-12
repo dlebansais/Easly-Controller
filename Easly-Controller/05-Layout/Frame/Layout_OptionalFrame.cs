@@ -1,6 +1,7 @@
 ﻿namespace EaslyController.Layout
 {
     using System.Diagnostics;
+    using EaslyController.Controller;
     using EaslyController.Focus;
     using EaslyController.Frame;
     using NodeController;
@@ -8,19 +9,8 @@
     /// <summary>
     /// Layout for describing an optional child node.
     /// </summary>
-    public interface ILayoutOptionalFrame : IFocusOptionalFrame, ILayoutNamedFrame, ILayoutNodeFrameWithVisibility, ILayoutNodeFrameWithSelector, ILayoutSelectorPropertyFrame
+    public interface ILayoutOptionalFrame : IFocusOptionalFrame, ILayoutNamedFrame, ILayoutNodeFrameWithVisibility, ILayoutNodeFrameWithSelector, ILayoutSelectorPropertyFrame, ILayoutMeasurableFrame
     {
-        /// <summary>
-        /// Margin the right side of the cell.
-        /// (Set in Xaml)
-        /// </summary>
-        Margins RightMargin { get; }
-
-        /// <summary>
-        /// Margin the left side of the cell.
-        /// (Set in Xaml)
-        /// </summary>
-        Margins LeftMargin { get; }
     }
 
     /// <summary>
@@ -52,16 +42,41 @@
         public new ILayoutFrameSelectorList Selectors { get { return (ILayoutFrameSelectorList)base.Selectors; } }
 
         /// <summary>
-        /// Margin the right side of the cell.
-        /// (Set in Xaml)
-        /// </summary>
-        public Margins RightMargin { get; set; }
-
-        /// <summary>
-        /// Margin the left side of the cell.
+        /// Margin at the left side of the cell.
         /// (Set in Xaml)
         /// </summary>
         public Margins LeftMargin { get; set; }
+
+        /// <summary>
+        /// Margin at the right side of the cell.
+        /// (Set in Xaml)
+        /// </summary>
+        public Margins RightMargin { get; set; }
+        #endregion
+
+        #region Client Interface
+        /// <summary>
+        /// Measures a cell created with this frame.
+        /// </summary>
+        /// <param name="drawContext">The context used to measure the cell.</param>
+        /// <param name="cellView">The cell to measure.</param>
+        public virtual Size Measure(ILayoutDrawContext drawContext, ILayoutCellView cellView)
+        {
+            ILayoutContainerCellView ContainerCellView = cellView as ILayoutContainerCellView;
+            Debug.Assert(ContainerCellView != null);
+
+            ILayoutNodeStateView ChildStateView = ContainerCellView.ChildStateView;
+            Debug.Assert(ChildStateView != null);
+            ChildStateView.MeasureCells();
+
+            Debug.Assert(MeasureHelper.IsValid(ChildStateView.CellSize));
+
+            Size Result = ChildStateView.CellSize;
+            Result = drawContext.MarginExtended(Result, LeftMargin, RightMargin);
+
+            Debug.Assert(MeasureHelper.IsValid(Result));
+            return Result;
+        }
         #endregion
 
         #region Implementation
@@ -81,7 +96,7 @@
         private protected override IFrameContainerCellView CreateFrameCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, IFrameNodeStateView childStateView)
         {
             ControllerTools.AssertNoOverride(this, typeof(LayoutOptionalFrame));
-            return new LayoutContainerCellView((ILayoutNodeStateView)stateView, (ILayoutCellViewCollection)parentCellView, (ILayoutNodeStateView)childStateView);
+            return new LayoutContainerCellView((ILayoutNodeStateView)stateView, (ILayoutCellViewCollection)parentCellView, (ILayoutNodeStateView)childStateView, this);
         }
 
         /// <summary>
