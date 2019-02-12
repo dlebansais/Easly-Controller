@@ -193,3 +193,7 @@ Having the focus set on some part of the code enable the possibility of special 
 + Simplifying a node.
 + Changing the replication status of the current block.
 + Moving the current block.
+
+## Layout
+
+This layer is dedicated to measuring, arranging and drawing cell views.
