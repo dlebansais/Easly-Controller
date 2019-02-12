@@ -9,11 +9,6 @@
     public interface ILayoutDrawContext
     {
         /// <summary>
-        /// Height of a line
-        /// </summary>
-        double LineHeight { get; }
-
-        /// <summary>
         /// Measures a string.
         /// </summary>
         /// <param name="text">The string to measure.</param>

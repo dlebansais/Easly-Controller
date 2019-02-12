@@ -29,7 +29,7 @@
             Debug.Assert((x >= 0 && y >= 0) || (double.IsNaN(x) && double.IsNaN(y)));
 
             X = x;
-            Y = x;
+            Y = y;
         }
         #endregion
 
@@ -58,7 +58,10 @@
         /// <param name="point2">The second point.</param>
         public static bool IsEqual(Point point1, Point point2)
         {
-            return point1.X == point2.X && point1.Y == point2.Y;
+            double DiffX = Math.Abs(point2.X - point1.X);
+            double DiffY = Math.Abs(point2.Y - point1.Y);
+
+            return DiffX <= 1e-10 && DiffY <= 1e-10;
         }
 
         /// <summary>

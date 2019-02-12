@@ -408,7 +408,6 @@
             RootStateView.ArrangeCells(Point.Origin);
 
             Point ViewOrigin = RootStateView.CellOrigin;
-
             Debug.Assert(ViewOrigin.IsOrigin);
         }
         #endregion

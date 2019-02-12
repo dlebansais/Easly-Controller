@@ -1,6 +1,7 @@
 ﻿<Window x:Class="EditorDebug.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:EditorDebug"
         WindowStartupLocation="CenterScreen"
         ResizeMode="CanResize"
         SizeToContent="WidthAndHeight"
@@ -9,7 +10,6 @@
         MaxWidth="2000"
         MaxHeight="1400"
         KeyDown="OnKeyDown"
-        Background="Transparent"
         Title="MainWindow">
     <Window.Resources>
         <RoutedCommand x:Key="BrowseCommand"/>
@@ -23,7 +23,9 @@
             <TextBlock Text="{Binding CurrentFileName}" VerticalAlignment="Center" Margin="10,0,0,0"/>
         </DockPanel>
         <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Margin="0,10,0,0">
-            <Grid x:Name="gridMain"/>
+            <Grid x:Name="gridMain">
+                <local:LayoutControl x:Name="layoutControl"/>
+            </Grid>
         </ScrollViewer>
     </DockPanel>
 </Window>

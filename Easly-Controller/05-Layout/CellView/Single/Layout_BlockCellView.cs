@@ -92,10 +92,12 @@
         /// </summary>
         public virtual void Arrange(Point origin)
         {
-            Debug.Assert(BlockStateView != null);
-            BlockStateView.ArrangeCells(origin);
+            CellOrigin = origin;
 
-            CellOrigin = BlockStateView.CellOrigin;
+            Point OriginWithPadding = new Point(origin.X + CellPadding.Left, origin.Y);
+
+            Debug.Assert(BlockStateView != null);
+            BlockStateView.ArrangeCells(OriginWithPadding);
 
             Debug.Assert(ArrangeHelper.IsValid(CellOrigin));
         }

@@ -76,7 +76,8 @@ namespace EditorDebug
 
         public string CurrentDirectory { get; private set; }
         public string CurrentFileName { get; private set; }
-        ILayoutControllerView ControllerView;
+        ILayoutController Controller;
+        ILayoutControllerView ControllerView = null;
         #endregion
 
         #region Events
@@ -623,34 +624,13 @@ namespace EditorDebug
         private void LoadFileLayout(INode rootNode)
         {
             ILayoutRootNodeIndex RootIndex = new LayoutRootNodeIndex(rootNode);
-            ILayoutController Controller = LayoutController.Create(RootIndex);
-            ControllerView = LayoutControllerView.Create(Controller, CustomLayoutTemplateSet.LayoutTemplateSet, LayoutDrawContext.Default);
-
-            InvalidateVisual();
+            Controller = LayoutController.Create(RootIndex);
+            layoutControl.SetController(Controller);
         }
 
         protected override void OnRender(DrawingContext dc)
         {
-            System.Windows.Size Size;
-
-            if (ControllerView != null && MeasureHelper.IsValid(ControllerView.ViewSize) && ControllerView.ViewSize.IsVisible)
-                Size = new System.Windows.Size(ControllerView.ViewSize.Width, ControllerView.ViewSize.Height);
-            else
-                Size = System.Windows.Size.Empty;
-
-            Debug.WriteLine($"OnRender, view size={Size}");
-
-            Brush WriteBrush = Brushes.White;
-            Rect Fullrect = new Rect(0, 0, ActualWidth, ActualHeight);
-            dc.DrawRectangle(WriteBrush, null, Fullrect);
-
-            if (Size != System.Windows.Size.Empty)
-            {
-                LayoutDrawContext DrawContext = ControllerView.DrawContext as LayoutDrawContext;
-                DrawContext.SetDC(dc);
-
-                UpdateLayoutView();
-            }
+            base.OnRender(dc);
         }
 
         private void UpdateLayoutView()

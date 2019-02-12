@@ -115,7 +115,9 @@
                 LineOrigin.Y += NestedCellSize.Height;
             }
 
-            Debug.Assert(LineOrigin.Y == CellOrigin.Y + CellSize.Height);
+            Point FinalOrigin = new Point(LineOrigin.X, LineOrigin.Y);
+            Point ExpectedOrigin = new Point(CellOrigin.X, CellOrigin.Y + CellSize.Height);
+            Debug.Assert(Point.IsEqual(FinalOrigin, ExpectedOrigin));
         }
         #endregion
 

@@ -119,10 +119,12 @@
         /// </summary>
         public virtual void Arrange(Point origin)
         {
-            Debug.Assert(ChildStateView != null);
-            ChildStateView.ArrangeCells(origin);
+            CellOrigin = origin;
 
-            CellOrigin = ChildStateView.CellOrigin;
+            Point OriginWithPadding = new Point(origin.X + CellPadding.Left, origin.Y);
+
+            Debug.Assert(ChildStateView != null);
+            ChildStateView.ArrangeCells(OriginWithPadding);
 
             Debug.Assert(ArrangeHelper.IsValid(CellOrigin));
         }
