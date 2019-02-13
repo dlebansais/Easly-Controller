@@ -107,19 +107,19 @@
         /// <summary>
         /// Creates a IxxxTextFocusableCellView object.
         /// </summary>
-        private protected override IFrameVisibleCellView CreateVisibleCellView(IFrameNodeStateView stateView)
+        private protected override IFrameVisibleCellView CreateVisibleCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView)
         {
             ControllerTools.AssertNoOverride(this, typeof(LayoutCharacterFrame));
-            return new LayoutTextFocusableCellView((ILayoutNodeStateView)stateView, this, PropertyName);
+            return new LayoutTextFocusableCellView((ILayoutNodeStateView)stateView, (ILayoutCellViewCollection)parentCellView, this, PropertyName);
         }
 
         /// <summary>
         /// Creates a IxxxEmptyCellView object.
         /// </summary>
-        private protected override IFocusEmptyCellView CreateEmptyCellView(IFocusNodeStateView stateView)
+        private protected override IFocusEmptyCellView CreateEmptyCellView(IFocusNodeStateView stateView, IFocusCellViewCollection parentCellView)
         {
             ControllerTools.AssertNoOverride(this, typeof(LayoutCharacterFrame));
-            return new LayoutEmptyCellView((ILayoutNodeStateView)stateView);
+            return new LayoutEmptyCellView((ILayoutNodeStateView)stateView, (ILayoutCellViewCollection)parentCellView);
         }
         #endregion
     }

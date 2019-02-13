@@ -111,7 +111,7 @@
         /// </summary>
         /// <param name="propertyName">Name of the property to look for.</param>
         /// <param name="frame">Frame found upon return. Null if not matching <paramref name="propertyName"/>.</param>
-        public virtual bool FrameSelectorForProperty(string propertyName, out IFocusNodeFrameWithSelector frame)
+        public virtual bool FrameSelectorForProperty(string propertyName, out IFocusFrameWithSelector frame)
         {
             frame = null;
             bool Found = false;
@@ -180,10 +180,10 @@
         /// <summary>
         /// Creates a IxxxCellViewCollection object.
         /// </summary>
-        private protected override IFrameCellViewCollection CreateEmbeddingCellView(IFrameNodeStateView stateView, IFrameCellViewList list)
+        private protected override IFrameCellViewCollection CreateEmbeddingCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, IFrameCellViewList list)
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusHorizontalBlockListFrame));
-            return new FocusLine((IFocusNodeStateView)stateView, (IFocusCellViewList)list);
+            return new FocusLine((IFocusNodeStateView)stateView, (IFocusCellViewCollection)parentCellView, (IFocusCellViewList)list);
         }
 
         /// <summary>

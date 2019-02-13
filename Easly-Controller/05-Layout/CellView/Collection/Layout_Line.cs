@@ -9,6 +9,10 @@
     /// </summary>
     public interface ILayoutLine : IFocusLine, ILayoutCellViewCollection
     {
+        /// <summary>
+        /// Frame providing the horizontal separator to insert between cells. Can be null.
+        /// </summary>
+        ILayoutFrame Frame { get; }
     }
 
     /// <summary>
@@ -21,10 +25,13 @@
         /// Initializes a new instance of the <see cref="LayoutLine"/> class.
         /// </summary>
         /// <param name="stateView">The state view containing the tree with this cell.</param>
+        /// <param name="parentCellView">The collection of cell views containing this view. Null for the root of the cell tree.</param>
         /// <param name="cellViewList">The list of child cell views.</param>
-        public LayoutLine(ILayoutNodeStateView stateView, ILayoutCellViewList cellViewList)
-            : base(stateView, cellViewList)
+        /// <param name="frame">Frame providing the horizontal separator to insert between cells. Can be null.</param>
+        public LayoutLine(ILayoutNodeStateView stateView, ILayoutCellViewCollection parentCellView, ILayoutCellViewList cellViewList, ILayoutFrame frame)
+            : base(stateView, parentCellView, cellViewList)
         {
+            Frame = frame;
             CellOrigin = ArrangeHelper.InvalidOrigin;
             CellSize = MeasureHelper.InvalidSize;
             CellPadding = Padding.Empty;
@@ -41,6 +48,11 @@
         /// The state view containing the tree with this cell.
         /// </summary>
         public new ILayoutNodeStateView StateView { get { return (ILayoutNodeStateView)base.StateView; } }
+
+        /// <summary>
+        /// Frame providing the horizontal separator to insert between cells. Can be null.
+        /// </summary>
+        public ILayoutFrame Frame { get; }
 
         /// <summary>
         /// Location of the cell.
@@ -64,11 +76,24 @@
         /// </summary>
         public virtual void Measure()
         {
+            Debug.Assert(StateView != null);
+            Debug.Assert(StateView.ControllerView != null);
+
+            ILayoutDrawContext DrawContext = StateView.ControllerView.DrawContext;
+            Debug.Assert(DrawContext != null);
+
             double Width = 0;
             double Height = double.NaN;
 
+            double SeparatorWidth = 0;
+            if (Frame is ILayoutFrameWithHorizontalSeparator AsFrameWithHorizontalSeparator)
+                SeparatorWidth = DrawContext.GetHorizontalSeparatorWidth(AsFrameWithHorizontalSeparator.Separator);
+
             foreach (ILayoutCellView CellView in CellViewList)
             {
+                if (Width > 0)
+                    Width += SeparatorWidth;
+
                 CellView.Measure();
 
                 Size NestedCellSize = CellView.CellSize;
@@ -104,10 +129,23 @@
         {
             CellOrigin = origin;
 
+            Debug.Assert(StateView != null);
+            Debug.Assert(StateView.ControllerView != null);
+
+            ILayoutDrawContext DrawContext = StateView.ControllerView.DrawContext;
+            Debug.Assert(DrawContext != null);
+
             Point ColumnOrigin = origin;
+
+            double SeparatorWidth = 0;
+            if (Frame is ILayoutFrameWithHorizontalSeparator AsFrameWithHorizontalSeparator)
+                SeparatorWidth = DrawContext.GetHorizontalSeparatorWidth(AsFrameWithHorizontalSeparator.Separator);
 
             foreach (ILayoutCellView CellView in CellViewList)
             {
+                if (ColumnOrigin.X > origin.X)
+                    ColumnOrigin.X += SeparatorWidth;
+
                 CellView.Arrange(ColumnOrigin);
 
                 Size NestedCellSize = CellView.CellSize;

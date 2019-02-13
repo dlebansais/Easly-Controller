@@ -1,6 +1,5 @@
 ﻿namespace EaslyController.Frame
 {
-    using System.Collections.Generic;
     using System.Diagnostics;
 
     /// <summary>
@@ -20,8 +19,9 @@
         /// Initializes a new instance of the <see cref="FrameEmptyCellView"/> class.
         /// </summary>
         /// <param name="stateView">The state view containing the tree with this cell.</param>
-        public FrameEmptyCellView(IFrameNodeStateView stateView)
-            : base(stateView)
+        /// <param name="parentCellView">The collection of cell views containing this view. Null for the root of the cell tree.</param>
+        public FrameEmptyCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView)
+            : base(stateView, parentCellView)
         {
         }
         #endregion

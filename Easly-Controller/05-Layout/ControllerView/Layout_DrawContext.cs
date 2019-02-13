@@ -14,6 +14,18 @@
         double TabulationWidth { get; }
 
         /// <summary>
+        /// Gets the width corresponding to a separator between cells in a line.
+        /// </summary>
+        /// <param name="separator">The separator.</param>
+        double GetHorizontalSeparatorWidth(HorizontalSeparators separator);
+
+        /// <summary>
+        /// Gets the height corresponding to a separator between cells in a column.
+        /// </summary>
+        /// <param name="separator">The separator.</param>
+        double GetVerticalSeparatorHeight(VerticalSeparators separator);
+
+        /// <summary>
         /// Measures a string.
         /// </summary>
         /// <param name="text">The string to measure.</param>

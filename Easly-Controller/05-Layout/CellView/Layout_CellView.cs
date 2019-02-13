@@ -50,8 +50,9 @@
         /// Initializes a new instance of the <see cref="LayoutCellView"/> class.
         /// </summary>
         /// <param name="stateView">The state view containing the tree with this cell.</param>
-        public LayoutCellView(ILayoutNodeStateView stateView)
-            : base(stateView)
+        /// <param name="parentCellView">The collection of cell views containing this view. Null for the root of the cell tree.</param>
+        public LayoutCellView(ILayoutNodeStateView stateView, ILayoutCellViewCollection parentCellView)
+            : base(stateView, parentCellView)
         {
             CellOrigin = ArrangeHelper.InvalidOrigin;
             CellSize = MeasureHelper.InvalidSize;

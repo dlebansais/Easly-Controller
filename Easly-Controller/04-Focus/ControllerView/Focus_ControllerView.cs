@@ -1396,7 +1396,7 @@
                 IFocusNodeTemplate Template = CurrentStateView.Template as IFocusNodeTemplate;
                 Debug.Assert(Template != null);
 
-                if (Template.FrameSelectorForProperty(PropertyName, out IFocusNodeFrameWithSelector Frame))
+                if (Template.FrameSelectorForProperty(PropertyName, out IFocusFrameWithSelector Frame))
                     if (Frame != null)
                         if (Frame.Selectors.Count > 0)
                             SelectorStack.Insert(0, Frame.Selectors);

@@ -3,6 +3,7 @@
     using System;
     using System.Diagnostics;
     using System.Windows.Markup;
+    using EaslyController.Constants;
     using EaslyController.Controller;
     using EaslyController.Focus;
     using EaslyController.Frame;
@@ -152,19 +153,19 @@
         /// <summary>
         /// Creates a IxxxDiscreteContentFocusableCellView object.
         /// </summary>
-        private protected override IFrameDiscreteContentFocusableCellView CreateDiscreteContentFocusableCellView(IFrameNodeStateView stateView, IFrameKeywordFrame keywordFrame)
+        private protected override IFrameDiscreteContentFocusableCellView CreateDiscreteContentFocusableCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, IFrameKeywordFrame keywordFrame)
         {
             ControllerTools.AssertNoOverride(this, typeof(LayoutDiscreteFrame));
-            return new LayoutDiscreteContentFocusableCellView((ILayoutNodeStateView)stateView, this, PropertyName, (ILayoutKeywordFrame)keywordFrame);
+            return new LayoutDiscreteContentFocusableCellView((ILayoutNodeStateView)stateView, (ILayoutCellViewCollection)parentCellView, this, PropertyName, (ILayoutKeywordFrame)keywordFrame);
         }
 
         /// <summary>
         /// Creates a IxxxEmptyCellView object.
         /// </summary>
-        private protected override IFocusEmptyCellView CreateEmptyCellView(IFocusNodeStateView stateView)
+        private protected override IFocusEmptyCellView CreateEmptyCellView(IFocusNodeStateView stateView, IFocusCellViewCollection parentCellView)
         {
             ControllerTools.AssertNoOverride(this, typeof(LayoutDiscreteFrame));
-            return new LayoutEmptyCellView((ILayoutNodeStateView)stateView);
+            return new LayoutEmptyCellView((ILayoutNodeStateView)stateView, (ILayoutCellViewCollection)parentCellView);
         }
         #endregion
     }

@@ -140,10 +140,10 @@
         /// <summary>
         /// Creates a IxxxEmptyCellView object.
         /// </summary>
-        private protected override IFocusEmptyCellView CreateEmptyCellView(IFocusNodeStateView stateView)
+        private protected override IFocusEmptyCellView CreateEmptyCellView(IFocusNodeStateView stateView, IFocusCellViewCollection parentCellView)
         {
             ControllerTools.AssertNoOverride(this, typeof(LayoutPatternStateView));
-            return new LayoutEmptyCellView((ILayoutNodeStateView)stateView);
+            return new LayoutEmptyCellView((ILayoutNodeStateView)stateView, (ILayoutCellViewCollection)parentCellView);
         }
         #endregion
     }

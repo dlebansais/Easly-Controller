@@ -10,7 +10,7 @@
     /// <summary>
     /// Frame describing a string value property in a node.
     /// </summary>
-    public interface ILayoutTextValueFrame : IFocusTextValueFrame, ILayoutValueFrame, ILayoutMeasurableFrame, ILayoutDrawableFrame, ILayoutNodeFrameWithTextStyle
+    public interface ILayoutTextValueFrame : IFocusTextValueFrame, ILayoutValueFrame, ILayoutMeasurableFrame, ILayoutDrawableFrame, ILayoutFrameWithTextStyle
     {
     }
 
@@ -111,19 +111,19 @@
         /// <summary>
         /// Creates a IxxxTextFocusableCellView object.
         /// </summary>
-        private protected override IFrameVisibleCellView CreateVisibleCellView(IFrameNodeStateView stateView)
+        private protected override IFrameVisibleCellView CreateVisibleCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView)
         {
             ControllerTools.AssertNoOverride(this, typeof(LayoutTextValueFrame));
-            return new LayoutTextFocusableCellView((ILayoutNodeStateView)stateView, this, PropertyName);
+            return new LayoutTextFocusableCellView((ILayoutNodeStateView)stateView, (ILayoutCellViewCollection)parentCellView, this, PropertyName);
         }
 
         /// <summary>
         /// Creates a IxxxEmptyCellView object.
         /// </summary>
-        private protected override IFocusEmptyCellView CreateEmptyCellView(IFocusNodeStateView stateView)
+        private protected override IFocusEmptyCellView CreateEmptyCellView(IFocusNodeStateView stateView, IFocusCellViewCollection parentCellView)
         {
             ControllerTools.AssertNoOverride(this, typeof(LayoutTextValueFrame));
-            return new LayoutEmptyCellView((ILayoutNodeStateView)stateView);
+            return new LayoutEmptyCellView((ILayoutNodeStateView)stateView, (ILayoutCellViewCollection)parentCellView);
         }
         #endregion
     }

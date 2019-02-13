@@ -51,7 +51,7 @@
             IFrameBlockStateViewDictionary BlockStateViewTable = context.ControllerView.BlockStateViewTable;
             IFrameCellViewList CellViewList = CreateCellViewList();
 
-            IFrameCellViewCollection EmbeddingCellView = CreateEmbeddingCellView(context.StateView, CellViewList);
+            IFrameCellViewCollection EmbeddingCellView = CreateEmbeddingCellView(context.StateView, parentCellView, CellViewList);
             ValidateEmbeddingCellView(context, EmbeddingCellView);
 
             Type BlockType = Inner.BlockType;
@@ -120,7 +120,7 @@
         /// <summary>
         /// Creates a IxxxCellViewCollection object.
         /// </summary>
-        private protected abstract IFrameCellViewCollection CreateEmbeddingCellView(IFrameNodeStateView stateView, IFrameCellViewList list);
+        private protected abstract IFrameCellViewCollection CreateEmbeddingCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, IFrameCellViewList list);
         #endregion
     }
 }

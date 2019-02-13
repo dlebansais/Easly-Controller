@@ -8,11 +8,6 @@
     public interface IFrameBlockCellView : IFrameCellView
     {
         /// <summary>
-        /// The collection of cell views containing this view.
-        /// </summary>
-        IFrameCellViewCollection ParentCellView { get; }
-
-        /// <summary>
         /// The block state view of the state associated to this cell.
         /// </summary>
         IFrameBlockStateView BlockStateView { get; }
@@ -28,24 +23,18 @@
         /// Initializes a new instance of the <see cref="FrameBlockCellView"/> class.
         /// </summary>
         /// <param name="stateView">The state view containing the tree with this cell.</param>
-        /// <param name="parentCellView">The collection of cell views containing this view.</param>
+        /// <param name="parentCellView">The collection of cell views containing this view. Null for the root of the cell tree.</param>
         /// <param name="blockStateView">The block state view of the state associated to this cell.</param>
         public FrameBlockCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, IFrameBlockStateView blockStateView)
-            : base(stateView)
+            : base(stateView, parentCellView)
         {
             Debug.Assert(blockStateView.RootCellView != null);
 
-            ParentCellView = parentCellView;
             BlockStateView = blockStateView;
         }
         #endregion
 
         #region Properties
-        /// <summary>
-        /// The collection of cell views containing this view.
-        /// </summary>
-        public IFrameCellViewCollection ParentCellView { get; }
-
         /// <summary>
         /// The block state view of the state associated to this cell.
         /// </summary>

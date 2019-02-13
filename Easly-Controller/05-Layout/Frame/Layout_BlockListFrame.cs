@@ -7,7 +7,7 @@
     /// <summary>
     /// Base frame for a block list.
     /// </summary>
-    public interface ILayoutBlockListFrame : IFocusBlockListFrame, ILayoutNamedFrame, ILayoutNodeFrameWithVisibility, ILayoutNodeFrameWithSelector, ILayoutSelectorPropertyFrame
+    public interface ILayoutBlockListFrame : IFocusBlockListFrame, ILayoutNamedFrame, ILayoutNodeFrameWithVisibility, ILayoutFrameWithSelector, ILayoutSelectorPropertyFrame
     {
     }
 

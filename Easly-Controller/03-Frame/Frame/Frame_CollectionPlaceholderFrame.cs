@@ -19,7 +19,8 @@
         /// Create cells for the provided state view.
         /// </summary>
         /// <param name="context">Context used to build the cell view tree.</param>
-        public virtual IFrameCellView BuildBlockCells(IFrameCellViewTreeContext context)
+        /// <param name="parentCellView">The collection of cell views containing this view. Null for the root of the cell tree.</param>
+        public virtual IFrameCellView BuildBlockCells(IFrameCellViewTreeContext context, IFrameCellViewCollection parentCellView)
         {
             IFrameBlockStateView BlockStateView = context.BlockStateView;
             IFrameBlockState BlockState = BlockStateView.BlockState;
@@ -30,7 +31,7 @@
 
             IFrameStateViewDictionary StateViewTable = context.ControllerView.StateViewTable;
             IFrameCellViewList CellViewList = CreateCellViewList();
-            IFrameCellViewCollection EmbeddingCellView = CreateEmbeddingCellView(context.StateView, CellViewList);
+            IFrameCellViewCollection EmbeddingCellView = CreateEmbeddingCellView(context.StateView, parentCellView, CellViewList);
             ValidateEmbeddingCellView(context, EmbeddingCellView);
 
             foreach (IFrameNodeState ChildState in BlockState.StateList)
@@ -100,7 +101,7 @@
         /// <summary>
         /// Creates a IxxxCellViewCollection object.
         /// </summary>
-        private protected abstract IFrameCellViewCollection CreateEmbeddingCellView(IFrameNodeStateView stateView, IFrameCellViewList list);
+        private protected abstract IFrameCellViewCollection CreateEmbeddingCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, IFrameCellViewList list);
         #endregion
     }
 }

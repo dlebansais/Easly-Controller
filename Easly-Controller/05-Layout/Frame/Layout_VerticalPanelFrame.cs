@@ -2,13 +2,14 @@
 {
     using System.Diagnostics;
     using System.Windows.Markup;
+    using EaslyController.Constants;
     using EaslyController.Focus;
     using EaslyController.Frame;
 
     /// <summary>
     /// Frame for displaying more frames vertically.
     /// </summary>
-    public interface ILayoutVerticalPanelFrame : IFocusVerticalPanelFrame, ILayoutPanelFrame, ILayoutVerticalTabulatedFrame
+    public interface ILayoutVerticalPanelFrame : IFocusVerticalPanelFrame, ILayoutPanelFrame, ILayoutVerticalTabulatedFrame, ILayoutFrameWithVerticalSeparator
     {
     }
 
@@ -51,6 +52,12 @@
         /// (Set in Xaml)
         /// </summary>
         public bool HasTabulationMargin { get; set; }
+
+        /// <summary>
+        /// Vertical separator.
+        /// (Set in Xaml)
+        /// </summary>
+        public VerticalSeparators Separator { get; set; }
         #endregion
 
         #region Implementation
@@ -92,10 +99,10 @@
         /// <summary>
         /// Creates a IxxxCellViewCollection object.
         /// </summary>
-        private protected override IFrameCellViewCollection CreateEmbeddingCellView(IFrameNodeStateView stateView, IFrameCellViewList list)
+        private protected override IFrameCellViewCollection CreateEmbeddingCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, IFrameCellViewList list)
         {
             ControllerTools.AssertNoOverride(this, typeof(LayoutVerticalPanelFrame));
-            return new LayoutColumn((ILayoutNodeStateView)stateView, (ILayoutCellViewList)list, this);
+            return new LayoutColumn((ILayoutNodeStateView)stateView, (ILayoutCellViewCollection)parentCellView, (ILayoutCellViewList)list, this);
         }
         #endregion
     }

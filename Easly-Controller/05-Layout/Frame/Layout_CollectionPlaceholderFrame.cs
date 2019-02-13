@@ -7,7 +7,7 @@
     /// <summary>
     /// Base frame for a placeholder node in a block list.
     /// </summary>
-    public interface ILayoutCollectionPlaceholderFrame : IFocusCollectionPlaceholderFrame, ILayoutFrame, ILayoutBlockFrame, ILayoutNodeFrameWithSelector
+    public interface ILayoutCollectionPlaceholderFrame : IFocusCollectionPlaceholderFrame, ILayoutFrame, ILayoutBlockFrame, ILayoutFrameWithSelector
     {
     }
 

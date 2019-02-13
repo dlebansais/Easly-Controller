@@ -5,7 +5,7 @@
     /// <summary>
     /// Frame that can have a custom text style.
     /// </summary>
-    public interface ILayoutNodeFrameWithTextStyle : ILayoutNodeFrame
+    public interface ILayoutFrameWithTextStyle : ILayoutFrame
     {
         /// <summary>
         /// Text style.

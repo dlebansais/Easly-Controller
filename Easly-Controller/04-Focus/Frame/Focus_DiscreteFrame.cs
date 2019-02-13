@@ -84,7 +84,7 @@
                 Result = base.BuildNodeCells(context, parentCellView) as IFocusCellView;
             else
             {
-                IFocusEmptyCellView EmptyCellView = CreateEmptyCellView(((IFocusCellViewTreeContext)context).StateView);
+                IFocusEmptyCellView EmptyCellView = CreateEmptyCellView(((IFocusCellViewTreeContext)context).StateView, (IFocusCellViewCollection)parentCellView);
                 ValidateEmptyCellView((IFocusCellViewTreeContext)context, EmptyCellView);
 
                 Result = EmptyCellView;
@@ -141,19 +141,19 @@
         /// <summary>
         /// Creates a IxxxDiscreteContentFocusableCellView object.
         /// </summary>
-        private protected override IFrameDiscreteContentFocusableCellView CreateDiscreteContentFocusableCellView(IFrameNodeStateView stateView, IFrameKeywordFrame keywordFrame)
+        private protected override IFrameDiscreteContentFocusableCellView CreateDiscreteContentFocusableCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, IFrameKeywordFrame keywordFrame)
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusDiscreteFrame));
-            return new FocusDiscreteContentFocusableCellView((IFocusNodeStateView)stateView, this, PropertyName, (IFocusKeywordFrame)keywordFrame);
+            return new FocusDiscreteContentFocusableCellView((IFocusNodeStateView)stateView, (IFocusCellViewCollection)parentCellView, this, PropertyName, (IFocusKeywordFrame)keywordFrame);
         }
 
         /// <summary>
         /// Creates a IxxxEmptyCellView object.
         /// </summary>
-        private protected virtual IFocusEmptyCellView CreateEmptyCellView(IFocusNodeStateView stateView)
+        private protected virtual IFocusEmptyCellView CreateEmptyCellView(IFocusNodeStateView stateView, IFocusCellViewCollection parentCellView)
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusDiscreteFrame));
-            return new FocusEmptyCellView(stateView);
+            return new FocusEmptyCellView(stateView, parentCellView);
         }
         #endregion
     }

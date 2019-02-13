@@ -33,9 +33,10 @@
         /// Initializes a new instance of the <see cref="FrameVisibleCellView"/> class.
         /// </summary>
         /// <param name="stateView">The state view containing the tree with this cell.</param>
+        /// <param name="parentCellView">The collection of cell views containing this view. Null for the root of the cell tree.</param>
         /// <param name="frame">The frame that created this cell view.</param>
-        public FrameVisibleCellView(IFrameNodeStateView stateView, IFrameFrame frame)
-            : base(stateView)
+        public FrameVisibleCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, IFrameFrame frame)
+            : base(stateView, parentCellView)
         {
             Frame = frame;
             LineNumber = 0;

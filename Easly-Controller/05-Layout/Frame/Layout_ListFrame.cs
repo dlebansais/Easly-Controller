@@ -7,7 +7,7 @@
     /// <summary>
     /// Base frame for a list of nodes.
     /// </summary>
-    public interface ILayoutListFrame : IFocusListFrame, ILayoutNamedFrame, ILayoutNodeFrameWithVisibility, ILayoutNodeFrameWithSelector, ILayoutSelectorPropertyFrame
+    public interface ILayoutListFrame : IFocusListFrame, ILayoutNamedFrame, ILayoutNodeFrameWithVisibility, ILayoutFrameWithSelector, ILayoutSelectorPropertyFrame
     {
     }
 

@@ -153,7 +153,7 @@
             IFrameBlockTemplate BlockTemplate = Template as IFrameBlockTemplate;
             Debug.Assert(BlockTemplate != null);
 
-            SetRootCellView(BlockTemplate.BuildBlockCells(context));
+            SetRootCellView(BlockTemplate.BuildBlockCells(context, null));
 
             Debug.Assert(EmbeddingCellView != null);
         }

@@ -66,9 +66,10 @@
         /// Create cells for the provided state view.
         /// </summary>
         /// <param name="context">Context used to build the cell view tree.</param>
-        public virtual IFrameCellView BuildBlockCells(IFrameCellViewTreeContext context)
+        /// <param name="parentCellView">The collection of cell views containing this view. Null for the root of the cell tree.</param>
+        public virtual IFrameCellView BuildBlockCells(IFrameCellViewTreeContext context, IFrameCellViewCollection parentCellView)
         {
-            IFrameVisibleCellView CellView = CreateVisibleCellView(context.StateView);
+            IFrameVisibleCellView CellView = CreateVisibleCellView(context.StateView, parentCellView);
             ValidateVisibleCellView(context, CellView);
 
             return CellView;

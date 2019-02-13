@@ -1,14 +1,14 @@
 ﻿namespace EaslyController.Layout
 {
-    using System;
     using System.Diagnostics;
+    using EaslyController.Constants;
     using EaslyController.Focus;
     using EaslyController.Frame;
 
     /// <summary>
     /// Frame for a placeholder node in a block list displayed vertically.
     /// </summary>
-    public interface ILayoutVerticalCollectionPlaceholderFrame : IFocusVerticalCollectionPlaceholderFrame, ILayoutCollectionPlaceholderFrame, ILayoutNodeFrameWithSelector
+    public interface ILayoutVerticalCollectionPlaceholderFrame : IFocusVerticalCollectionPlaceholderFrame, ILayoutCollectionPlaceholderFrame, ILayoutFrameWithSelector, ILayoutFrameWithVerticalSeparator
     {
     }
 
@@ -39,6 +39,12 @@
         /// (Set in Xaml)
         /// </summary>
         public new ILayoutFrameSelectorList Selectors { get { return (ILayoutFrameSelectorList)base.Selectors; } }
+
+        /// <summary>
+        /// Vertical separator.
+        /// (Set in Xaml)
+        /// </summary>
+        public VerticalSeparators Separator { get; set; }
         #endregion
 
         #region Implementation
@@ -79,10 +85,10 @@
         /// <summary>
         /// Creates a IxxxCellViewCollection object.
         /// </summary>
-        private protected override IFrameCellViewCollection CreateEmbeddingCellView(IFrameNodeStateView stateView, IFrameCellViewList list)
+        private protected override IFrameCellViewCollection CreateEmbeddingCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, IFrameCellViewList list)
         {
             ControllerTools.AssertNoOverride(this, typeof(LayoutVerticalCollectionPlaceholderFrame));
-            return new LayoutColumn((ILayoutNodeStateView)stateView, (ILayoutCellViewList)list, this);
+            return new LayoutColumn((ILayoutNodeStateView)stateView, (ILayoutCellViewCollection)parentCellView, (ILayoutCellViewList)list, this);
         }
 
         /// <summary>

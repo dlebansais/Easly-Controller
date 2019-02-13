@@ -40,7 +40,7 @@
         /// <param name="parentCellView">The parent cell view.</param>
         public override IFrameCellView BuildNodeCells(IFrameCellViewTreeContext context, IFrameCellViewCollection parentCellView)
         {
-            IFrameVisibleCellView EmbeddingCellView = CreateVisibleCellView(context.StateView);
+            IFrameVisibleCellView EmbeddingCellView = CreateVisibleCellView(context.StateView, parentCellView);
             ValidateVisibleCellView(context, EmbeddingCellView);
 
             return EmbeddingCellView;
@@ -60,10 +60,10 @@
         /// <summary>
         /// Creates a IxxxTextFocusableCellView object.
         /// </summary>
-        private protected virtual IFrameVisibleCellView CreateVisibleCellView(IFrameNodeStateView stateView)
+        private protected virtual IFrameVisibleCellView CreateVisibleCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView)
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameTextValueFrame));
-            return new FrameTextFocusableCellView(stateView, this, PropertyName);
+            return new FrameTextFocusableCellView(stateView, parentCellView, this, PropertyName);
         }
         #endregion
     }

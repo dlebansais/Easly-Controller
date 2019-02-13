@@ -19,9 +19,10 @@
         /// Initializes a new instance of the <see cref="FrameFocusableCellView"/> class.
         /// </summary>
         /// <param name="stateView">The state view containing the tree with this cell.</param>
+        /// <param name="parentCellView">The collection of cell views containing this view. Null for the root of the cell tree.</param>
         /// <param name="frame">The frame that created this cell view.</param>
-        public FrameFocusableCellView(IFrameNodeStateView stateView, IFrameFrame frame)
-            : base(stateView, frame)
+        public FrameFocusableCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, IFrameFrame frame)
+            : base(stateView, parentCellView, frame)
         {
         }
         #endregion

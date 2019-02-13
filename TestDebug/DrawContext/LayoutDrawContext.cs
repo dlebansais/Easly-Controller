@@ -11,6 +11,16 @@ namespace TestDebug
         public double LineHeight { get { return 12; } }
         public double TabulationWidth { get { return 12; } }
 
+        public double GetHorizontalSeparatorWidth(HorizontalSeparators separator)
+        {
+            return 0;
+        }
+
+        public double GetVerticalSeparatorHeight(VerticalSeparators separator)
+        {
+            return 0;
+        }
+
         public Size MeasureSymbol(Symbols symbol)
         {
             switch (symbol)

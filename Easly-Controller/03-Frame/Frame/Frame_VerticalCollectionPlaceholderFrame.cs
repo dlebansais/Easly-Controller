@@ -16,10 +16,10 @@
         /// <summary>
         /// Creates a IxxxCellViewCollection object.
         /// </summary>
-        private protected override IFrameCellViewCollection CreateEmbeddingCellView(IFrameNodeStateView stateView, IFrameCellViewList list)
+        private protected override IFrameCellViewCollection CreateEmbeddingCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, IFrameCellViewList list)
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameVerticalCollectionPlaceholderFrame));
-            return new FrameColumn(stateView, list);
+            return new FrameColumn(stateView, parentCellView, list);
         }
         #endregion
     }

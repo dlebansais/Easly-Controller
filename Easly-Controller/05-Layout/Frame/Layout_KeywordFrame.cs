@@ -118,28 +118,28 @@
         /// <summary>
         /// Creates a IxxxFocusableCellView object.
         /// </summary>
-        private protected override IFrameFocusableCellView CreateFocusableCellView(IFrameNodeStateView stateView)
+        private protected override IFrameFocusableCellView CreateFocusableCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView)
         {
             ControllerTools.AssertNoOverride(this, typeof(LayoutKeywordFrame));
-            return new LayoutFocusableCellView((ILayoutNodeStateView)stateView, this);
+            return new LayoutFocusableCellView((ILayoutNodeStateView)stateView, (ILayoutCellViewCollection)parentCellView, this);
         }
 
         /// <summary>
         /// Creates a IxxxVisibleCellView object.
         /// </summary>
-        private protected override IFrameVisibleCellView CreateVisibleCellView(IFrameNodeStateView stateView)
+        private protected override IFrameVisibleCellView CreateVisibleCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView)
         {
             ControllerTools.AssertNoOverride(this, typeof(LayoutKeywordFrame));
-            return new LayoutVisibleCellView((ILayoutNodeStateView)stateView, this);
+            return new LayoutVisibleCellView((ILayoutNodeStateView)stateView, (ILayoutCellViewCollection)parentCellView, this);
         }
 
         /// <summary>
         /// Creates a IxxxEmptyCellView object.
         /// </summary>
-        private protected override IFocusEmptyCellView CreateEmptyCellView(IFocusNodeStateView stateView)
+        private protected override IFocusEmptyCellView CreateEmptyCellView(IFocusNodeStateView stateView, IFocusCellViewCollection parentCellView)
         {
             ControllerTools.AssertNoOverride(this, typeof(LayoutKeywordFrame));
-            return new LayoutEmptyCellView((ILayoutNodeStateView)stateView);
+            return new LayoutEmptyCellView((ILayoutNodeStateView)stateView, (ILayoutCellViewCollection)parentCellView);
         }
         #endregion
     }

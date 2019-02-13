@@ -9,11 +9,6 @@
     public interface IFrameContainerCellView : IFrameCellView, IFrameAssignableCellView
     {
         /// <summary>
-        /// The collection of cell views containing this view.
-        /// </summary>
-        IFrameCellViewCollection ParentCellView { get; }
-
-        /// <summary>
         /// The state view of the state associated to this cell.
         /// </summary>
         IFrameNodeStateView ChildStateView { get; }
@@ -32,22 +27,16 @@
         /// <param name="parentCellView">The collection of cell views containing this view.</param>
         /// <param name="childStateView">The state view of the state associated to this cell.</param>
         public FrameContainerCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, IFrameNodeStateView childStateView)
-            : base(stateView)
+            : base(stateView, parentCellView)
         {
             Debug.Assert(parentCellView != null);
             Debug.Assert(childStateView != null);
 
-            ParentCellView = parentCellView;
             ChildStateView = childStateView;
         }
         #endregion
 
         #region Properties
-        /// <summary>
-        /// The collection of cell views containing this view.
-        /// </summary>
-        public IFrameCellViewCollection ParentCellView { get; }
-
         /// <summary>
         /// The state view of the state associated to this cell.
         /// </summary>

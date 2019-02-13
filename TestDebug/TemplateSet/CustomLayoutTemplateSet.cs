@@ -74,7 +74,7 @@ namespace TestDebug
                     </LayoutKeywordFrame.Visibility>
                 </LayoutKeywordFrame>
                 <LayoutKeywordFrame RightMargin=""Whitespace"">as</LayoutKeywordFrame>
-                <LayoutHorizontalBlockListFrame PropertyName=""AttachTypeBlocks""/>
+                <LayoutHorizontalBlockListFrame PropertyName=""AttachTypeBlocks"" Separator=""Comma""/>
                 <LayoutInsertFrame CollectionName=""Instructions.InstructionBlocks"" ItemType=""{xaml:Type easly:CommandInstruction}""/>
             </LayoutHorizontalPanelFrame>
             <LayoutPlaceholderFrame PropertyName=""Instructions"" />
@@ -252,7 +252,7 @@ namespace TestDebug
         <LayoutHorizontalPanelFrame>
             <LayoutPlaceholderFrame PropertyName=""ReplicateName"" />
             <LayoutKeywordFrame LeftMargin=""Whitespace"" RightMargin=""Whitespace"">to</LayoutKeywordFrame>
-            <LayoutHorizontalBlockListFrame PropertyName=""PatternBlocks""/>
+            <LayoutHorizontalBlockListFrame PropertyName=""PatternBlocks"" Separator=""Comma""/>
         </LayoutHorizontalPanelFrame>
     </LayoutNodeTemplate>
     <LayoutNodeTemplate NodeType=""{xaml:Type easly:ICommandOverload}"">
@@ -437,7 +437,7 @@ namespace TestDebug
         <LayoutHorizontalPanelFrame>
             <LayoutPlaceholderFrame PropertyName=""EntityName"" />
             <LayoutKeywordFrame LeftMargin=""Whitespace"" RightMargin=""Whitespace"">to</LayoutKeywordFrame>
-            <LayoutHorizontalBlockListFrame PropertyName=""ClassIdentifierBlocks"">
+            <LayoutHorizontalBlockListFrame PropertyName=""ClassIdentifierBlocks"" Separator=""Comma"">
                 <LayoutHorizontalBlockListFrame.Selectors>
                     <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""ClassOrExport""/>
                 </LayoutHorizontalBlockListFrame.Selectors>
@@ -452,7 +452,7 @@ namespace TestDebug
                 </LayoutPlaceholderFrame.Selectors>
             </LayoutPlaceholderFrame>
             <LayoutKeywordFrame LeftMargin=""Whitespace"" RightMargin=""Whitespace"">to</LayoutKeywordFrame>
-            <LayoutHorizontalBlockListFrame PropertyName=""IdentifierBlocks"">
+            <LayoutHorizontalBlockListFrame PropertyName=""IdentifierBlocks"" Separator=""Comma"">
                 <LayoutHorizontalBlockListFrame.Selectors>
                     <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Feature""/>
                 </LayoutHorizontalBlockListFrame.Selectors>
@@ -494,7 +494,7 @@ namespace TestDebug
         <LayoutHorizontalPanelFrame>
             <LayoutPlaceholderFrame PropertyName=""ReplicateName""/>
             <LayoutKeywordFrame LeftMargin=""Whitespace"" RightMargin=""Whitespace"">to</LayoutKeywordFrame>
-            <LayoutHorizontalListFrame PropertyName=""Patterns""/>
+            <LayoutHorizontalListFrame PropertyName=""Patterns"" Separator=""Comma""/>
         </LayoutHorizontalPanelFrame>
     </LayoutNodeTemplate>
     <LayoutNodeTemplate NodeType=""{xaml:Type easly:IImport}"">
@@ -709,7 +709,7 @@ namespace TestDebug
         <LayoutTextValueFrame PropertyName=""Text""/>
     </LayoutNodeTemplate>
     <LayoutNodeTemplate NodeType=""{xaml:Type easly:IQualifiedName}"">
-        <LayoutHorizontalListFrame PropertyName=""Path"">
+        <LayoutHorizontalListFrame PropertyName=""Path"" Separator=""Dot"">
             <LayoutHorizontalListFrame.Selectors>
                 <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Feature""/>
             </LayoutHorizontalListFrame.Selectors>
@@ -924,7 +924,7 @@ namespace TestDebug
         <LayoutVerticalPanelFrame>
             <LayoutHorizontalPanelFrame>
                 <LayoutKeywordFrame RightMargin=""Whitespace"">case</LayoutKeywordFrame>
-                <LayoutHorizontalBlockListFrame PropertyName=""RangeBlocks""/>
+                <LayoutHorizontalBlockListFrame PropertyName=""RangeBlocks"" Separator=""Comma""/>
                 <LayoutInsertFrame CollectionName=""RangeBlocks""/>
             </LayoutHorizontalPanelFrame>
             <LayoutPlaceholderFrame PropertyName=""Instructions""/>
@@ -932,7 +932,7 @@ namespace TestDebug
     </LayoutNodeTemplate>
     <LayoutNodeTemplate NodeType=""{xaml:Type easly:IAssignmentArgument}"">
         <LayoutHorizontalPanelFrame>
-            <LayoutHorizontalBlockListFrame PropertyName=""ParameterBlocks"">
+            <LayoutHorizontalBlockListFrame PropertyName=""ParameterBlocks"" Separator=""Comma"">
                 <LayoutHorizontalBlockListFrame.Selectors>
                     <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Feature""/>
                 </LayoutHorizontalBlockListFrame.Selectors>
@@ -968,7 +968,7 @@ namespace TestDebug
                             <LayoutKeywordFrame>throw</LayoutKeywordFrame>
                             <LayoutInsertFrame CollectionName=""ExceptionIdentifierBlocks"" />
                         </LayoutHorizontalPanelFrame>
-                        <LayoutHorizontalBlockListFrame PropertyName=""ExceptionIdentifierBlocks"">
+                        <LayoutHorizontalBlockListFrame PropertyName=""ExceptionIdentifierBlocks"" Separator=""Comma"">
                             <LayoutHorizontalBlockListFrame.Selectors>
                                 <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Class""/>
                             </LayoutHorizontalBlockListFrame.Selectors>
@@ -1011,7 +1011,7 @@ namespace TestDebug
                             <LayoutKeywordFrame>throw</LayoutKeywordFrame>
                             <LayoutInsertFrame CollectionName=""ExceptionIdentifierBlocks"" />
                         </LayoutHorizontalPanelFrame>
-                        <LayoutHorizontalBlockListFrame PropertyName=""ExceptionIdentifierBlocks"">
+                        <LayoutHorizontalBlockListFrame PropertyName=""ExceptionIdentifierBlocks"" Separator=""Comma"">
                             <LayoutHorizontalBlockListFrame.Selectors>
                                 <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Class""/>
                             </LayoutHorizontalBlockListFrame.Selectors>
@@ -1055,7 +1055,7 @@ namespace TestDebug
                             <LayoutKeywordFrame>throw</LayoutKeywordFrame>
                             <LayoutInsertFrame CollectionName=""ExceptionIdentifierBlocks"" />
                         </LayoutHorizontalPanelFrame>
-                        <LayoutHorizontalBlockListFrame PropertyName=""ExceptionIdentifierBlocks"">
+                        <LayoutHorizontalBlockListFrame PropertyName=""ExceptionIdentifierBlocks"" Separator=""Comma"">
                             <LayoutHorizontalBlockListFrame.Selectors>
                                 <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Class""/>
                             </LayoutHorizontalBlockListFrame.Selectors>
@@ -1103,7 +1103,7 @@ namespace TestDebug
                             <LayoutKeywordFrame>throw</LayoutKeywordFrame>
                             <LayoutInsertFrame CollectionName=""ExceptionIdentifierBlocks"" />
                         </LayoutHorizontalPanelFrame>
-                        <LayoutHorizontalBlockListFrame PropertyName=""ExceptionIdentifierBlocks"">
+                        <LayoutHorizontalBlockListFrame PropertyName=""ExceptionIdentifierBlocks"" Separator=""Comma"">
                             <LayoutHorizontalBlockListFrame.Selectors>
                                 <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Class""/>
                             </LayoutHorizontalBlockListFrame.Selectors>
@@ -1171,7 +1171,7 @@ namespace TestDebug
                             <LayoutKeywordFrame>throw</LayoutKeywordFrame>
                             <LayoutInsertFrame CollectionName=""ExceptionIdentifierBlocks"" />
                         </LayoutHorizontalPanelFrame>
-                        <LayoutHorizontalBlockListFrame PropertyName=""ExceptionIdentifierBlocks"">
+                        <LayoutHorizontalBlockListFrame PropertyName=""ExceptionIdentifierBlocks"" Separator=""Comma"">
                             <LayoutHorizontalBlockListFrame.Selectors>
                                 <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Class""/>
                             </LayoutHorizontalBlockListFrame.Selectors>
@@ -1239,7 +1239,7 @@ namespace TestDebug
                             <LayoutKeywordFrame>throw</LayoutKeywordFrame>
                             <LayoutInsertFrame CollectionName=""ExceptionIdentifierBlocks"" />
                         </LayoutHorizontalPanelFrame>
-                        <LayoutHorizontalBlockListFrame PropertyName=""ExceptionIdentifierBlocks"">
+                        <LayoutHorizontalBlockListFrame PropertyName=""ExceptionIdentifierBlocks"" Separator=""Comma"">
                             <LayoutHorizontalBlockListFrame.Selectors>
                                 <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Class""/>
                             </LayoutHorizontalBlockListFrame.Selectors>
@@ -1311,7 +1311,7 @@ namespace TestDebug
                             <LayoutKeywordFrame>throw</LayoutKeywordFrame>
                             <LayoutInsertFrame CollectionName=""ExceptionIdentifierBlocks"" />
                         </LayoutHorizontalPanelFrame>
-                        <LayoutHorizontalBlockListFrame PropertyName=""ExceptionIdentifierBlocks"">
+                        <LayoutHorizontalBlockListFrame PropertyName=""ExceptionIdentifierBlocks"" Separator=""Comma"">
                             <LayoutHorizontalBlockListFrame.Selectors>
                                 <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Class""/>
                             </LayoutHorizontalBlockListFrame.Selectors>
@@ -1354,7 +1354,7 @@ namespace TestDebug
                             <LayoutKeywordFrame>throw</LayoutKeywordFrame>
                             <LayoutInsertFrame CollectionName=""ExceptionIdentifierBlocks"" />
                         </LayoutHorizontalPanelFrame>
-                        <LayoutHorizontalBlockListFrame PropertyName=""ExceptionIdentifierBlocks"">
+                        <LayoutHorizontalBlockListFrame PropertyName=""ExceptionIdentifierBlocks"" Separator=""Comma"">
                             <LayoutHorizontalBlockListFrame.Selectors>
                                 <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Class""/>
                             </LayoutHorizontalBlockListFrame.Selectors>
@@ -1398,7 +1398,7 @@ namespace TestDebug
                             <LayoutKeywordFrame>throw</LayoutKeywordFrame>
                             <LayoutInsertFrame CollectionName=""ExceptionIdentifierBlocks"" />
                         </LayoutHorizontalPanelFrame>
-                        <LayoutHorizontalBlockListFrame PropertyName=""ExceptionIdentifierBlocks"">
+                        <LayoutHorizontalBlockListFrame PropertyName=""ExceptionIdentifierBlocks"" Separator=""Comma"">
                             <LayoutHorizontalBlockListFrame.Selectors>
                                 <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Class""/>
                             </LayoutHorizontalBlockListFrame.Selectors>
@@ -1446,7 +1446,7 @@ namespace TestDebug
                             <LayoutKeywordFrame>throw</LayoutKeywordFrame>
                             <LayoutInsertFrame CollectionName=""ExceptionIdentifierBlocks"" />
                         </LayoutHorizontalPanelFrame>
-                        <LayoutHorizontalBlockListFrame PropertyName=""ExceptionIdentifierBlocks"">
+                        <LayoutHorizontalBlockListFrame PropertyName=""ExceptionIdentifierBlocks"" Separator=""Comma"">
                             <LayoutHorizontalBlockListFrame.Selectors>
                                 <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Class""/>
                             </LayoutHorizontalBlockListFrame.Selectors>
@@ -1489,7 +1489,7 @@ namespace TestDebug
                             <LayoutKeywordFrame>throw</LayoutKeywordFrame>
                             <LayoutInsertFrame CollectionName=""ExceptionIdentifierBlocks"" />
                         </LayoutHorizontalPanelFrame>
-                        <LayoutHorizontalBlockListFrame PropertyName=""ExceptionIdentifierBlocks"">
+                        <LayoutHorizontalBlockListFrame PropertyName=""ExceptionIdentifierBlocks"" Separator=""Comma"">
                             <LayoutHorizontalBlockListFrame.Selectors>
                                 <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Class""/>
                             </LayoutHorizontalBlockListFrame.Selectors>
@@ -1533,7 +1533,7 @@ namespace TestDebug
                             <LayoutKeywordFrame>throw</LayoutKeywordFrame>
                             <LayoutInsertFrame CollectionName=""ExceptionIdentifierBlocks"" />
                         </LayoutHorizontalPanelFrame>
-                        <LayoutHorizontalBlockListFrame PropertyName=""ExceptionIdentifierBlocks"">
+                        <LayoutHorizontalBlockListFrame PropertyName=""ExceptionIdentifierBlocks"" Separator=""Comma"">
                             <LayoutHorizontalBlockListFrame.Selectors>
                                 <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Class""/>
                             </LayoutHorizontalBlockListFrame.Selectors>
@@ -1762,7 +1762,7 @@ namespace TestDebug
                 </LayoutSymbolFrame>
             </LayoutHorizontalPanelFrame>
             <LayoutSymbolFrame Symbol=""{x:Static const:Symbols.LeftBracket}"" LeftMargin=""ThinSpace"" RightMargin=""ThinSpace""/>
-            <LayoutHorizontalBlockListFrame PropertyName=""ArgumentBlocks""/>
+            <LayoutHorizontalBlockListFrame PropertyName=""ArgumentBlocks"" Separator=""Comma""/>
             <LayoutSymbolFrame Symbol=""{x:Static const:Symbols.RightBracket}"" LeftMargin=""ThinSpace""/>
         </LayoutHorizontalPanelFrame>
     </LayoutNodeTemplate>
@@ -1838,7 +1838,7 @@ namespace TestDebug
                         <LayoutCountFrameVisibility PropertyName=""ArgumentBlocks""/>
                     </LayoutSymbolFrame.Visibility>
                 </LayoutSymbolFrame>
-                <LayoutHorizontalBlockListFrame PropertyName=""ArgumentBlocks"" />
+                <LayoutHorizontalBlockListFrame PropertyName=""ArgumentBlocks"" Separator=""Comma""/>
                 <LayoutSymbolFrame Symbol=""{x:Static const:Symbols.RightParenthesis}"" LeftMargin=""ThinSpace"">
                     <LayoutSymbolFrame.Visibility>
                         <LayoutCountFrameVisibility PropertyName=""ArgumentBlocks""/>
@@ -1860,7 +1860,7 @@ namespace TestDebug
             </LayoutHorizontalPanelFrame>
             <LayoutHorizontalPanelFrame>
                 <LayoutSymbolFrame Symbol=""{x:Static const:Symbols.LeftBracket}"" LeftMargin=""Whitespace"" RightMargin=""ThinSpace""/>
-                <LayoutHorizontalBlockListFrame PropertyName=""ArgumentBlocks""/>
+                <LayoutHorizontalBlockListFrame PropertyName=""ArgumentBlocks"" Separator=""Comma""/>
                 <LayoutSymbolFrame Symbol=""{x:Static const:Symbols.RightBracket}"" LeftMargin=""ThinSpace""/>
             </LayoutHorizontalPanelFrame>
         </LayoutHorizontalPanelFrame>
@@ -1887,7 +1887,7 @@ namespace TestDebug
                         <LayoutCountFrameVisibility PropertyName=""ArgumentBlocks""/>
                     </LayoutSymbolFrame.Visibility>
                 </LayoutSymbolFrame>
-                <LayoutHorizontalBlockListFrame PropertyName=""ArgumentBlocks"" />
+                <LayoutHorizontalBlockListFrame PropertyName=""ArgumentBlocks"" Separator=""Comma""/>
                 <LayoutSymbolFrame Symbol=""{x:Static const:Symbols.RightParenthesis}"" LeftMargin=""ThinSpace"">
                     <LayoutSymbolFrame.Visibility>
                         <LayoutCountFrameVisibility PropertyName=""ArgumentBlocks""/>
@@ -2153,7 +2153,7 @@ namespace TestDebug
                         <LayoutInsertFrame CollectionName=""ModifiedQueryBlocks"" />
                     </LayoutHorizontalPanelFrame>
                     <LayoutVerticalPanelFrame HasTabulationMargin=""True"">
-                        <LayoutHorizontalBlockListFrame PropertyName=""ModifiedQueryBlocks"">
+                        <LayoutHorizontalBlockListFrame PropertyName=""ModifiedQueryBlocks"" Separator=""Comma"">
                             <LayoutHorizontalBlockListFrame.Selectors>
                                 <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Identifier""/>
                             </LayoutHorizontalBlockListFrame.Selectors>
@@ -2250,7 +2250,7 @@ namespace TestDebug
                         <LayoutInsertFrame CollectionName=""ModifiedQueryBlocks"" />
                     </LayoutHorizontalPanelFrame>
                     <LayoutVerticalPanelFrame HasTabulationMargin=""True"">
-                        <LayoutHorizontalBlockListFrame PropertyName=""ModifiedQueryBlocks"">
+                        <LayoutHorizontalBlockListFrame PropertyName=""ModifiedQueryBlocks"" Separator=""Comma"">
                             <LayoutHorizontalBlockListFrame.Selectors>
                                 <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Identifier""/>
                             </LayoutHorizontalBlockListFrame.Selectors>
@@ -2353,7 +2353,7 @@ namespace TestDebug
     </LayoutNodeTemplate>
     <LayoutNodeTemplate NodeType=""{xaml:Type easly:IAssignmentInstruction}"">
         <LayoutHorizontalPanelFrame>
-            <LayoutHorizontalBlockListFrame PropertyName=""DestinationBlocks""/>
+            <LayoutHorizontalBlockListFrame PropertyName=""DestinationBlocks"" Separator=""Comma""/>
             <LayoutSymbolFrame Symbol=""{x:Static const:Symbols.LeftArrow}"" LeftMargin=""Whitespace"" RightMargin=""Whitespace""/>
             <LayoutPlaceholderFrame PropertyName=""Source"" />
         </LayoutHorizontalPanelFrame>
@@ -2364,7 +2364,7 @@ namespace TestDebug
                 <LayoutKeywordFrame RightMargin=""Whitespace"">attach</LayoutKeywordFrame>
                 <LayoutPlaceholderFrame PropertyName=""Source"" RightMargin=""Whitespace""/>
                 <LayoutKeywordFrame RightMargin=""Whitespace"">to</LayoutKeywordFrame>
-                <LayoutHorizontalBlockListFrame PropertyName=""EntityNameBlocks""/>
+                <LayoutHorizontalBlockListFrame PropertyName=""EntityNameBlocks"" Separator=""Comma""/>
                 <LayoutInsertFrame CollectionName=""AttachmentBlocks"" />
             </LayoutHorizontalPanelFrame>
             <LayoutVerticalPanelFrame HasTabulationMargin=""True"">
@@ -2398,7 +2398,7 @@ namespace TestDebug
                         <LayoutCountFrameVisibility PropertyName=""ArgumentBlocks""/>
                     </LayoutSymbolFrame.Visibility>
                 </LayoutSymbolFrame>
-                <LayoutHorizontalBlockListFrame PropertyName=""ArgumentBlocks"" />
+                <LayoutHorizontalBlockListFrame PropertyName=""ArgumentBlocks"" Separator=""Comma""/>
                 <LayoutSymbolFrame Symbol=""{x:Static const:Symbols.RightParenthesis}"" LeftMargin=""ThinSpace"">
                     <LayoutSymbolFrame.Visibility>
                         <LayoutCountFrameVisibility PropertyName=""ArgumentBlocks""/>
@@ -2424,7 +2424,7 @@ namespace TestDebug
                 </LayoutPlaceholderFrame>
                 <LayoutHorizontalPanelFrame>
                     <LayoutSymbolFrame Symbol=""{x:Static const:Symbols.LeftParenthesis}"" LeftMargin=""ThinSpace"" RightMargin=""ThinSpace""/>
-                    <LayoutHorizontalBlockListFrame PropertyName=""ArgumentBlocks"" />
+                    <LayoutHorizontalBlockListFrame PropertyName=""ArgumentBlocks"" Separator=""Comma""/>
                     <LayoutSymbolFrame Symbol=""{x:Static const:Symbols.RightParenthesis}"" LeftMargin=""ThinSpace""/>
                 </LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame>
@@ -2534,7 +2534,7 @@ namespace TestDebug
                     <LayoutCountFrameVisibility PropertyName=""ArgumentBlocks""/>
                 </LayoutHorizontalPanelFrame.Visibility>
                 <LayoutSymbolFrame Symbol=""{x:Static const:Symbols.LeftBracket}"" LeftMargin=""ThinSpace"" RightMargin=""ThinSpace""/>
-                <LayoutHorizontalBlockListFrame PropertyName=""ArgumentBlocks"" />
+                <LayoutHorizontalBlockListFrame PropertyName=""ArgumentBlocks"" Separator=""Comma""/>
                 <LayoutSymbolFrame Symbol=""{x:Static const:Symbols.RightBracket}"" LeftMargin=""ThinSpace""/>
             </LayoutHorizontalPanelFrame>
             <LayoutSymbolFrame Symbol=""{x:Static const:Symbols.LeftArrow}"" LeftMargin=""Whitespace"" RightMargin=""Whitespace""/>
@@ -2585,7 +2585,7 @@ namespace TestDebug
                 <LayoutKeywordFrame RightMargin=""Whitespace"">over</LayoutKeywordFrame>
                 <LayoutPlaceholderFrame PropertyName=""OverList"" RightMargin=""Whitespace""/>
                 <LayoutKeywordFrame RightMargin=""Whitespace"">for each</LayoutKeywordFrame>
-                <LayoutHorizontalBlockListFrame PropertyName=""IndexerBlocks""/>
+                <LayoutHorizontalBlockListFrame PropertyName=""IndexerBlocks"" Separator=""Comma""/>
                 <LayoutDiscreteFrame PropertyName=""Iteration"" LeftMargin=""Whitespace"">
                     <LayoutDiscreteFrame.Visibility>
                         <LayoutDefaultDiscreteFrameVisibility PropertyName=""Iteration""/>
@@ -2635,7 +2635,7 @@ namespace TestDebug
                 <LayoutOptionalFrame PropertyName=""AncestorType"" />
             </LayoutHorizontalPanelFrame>
             <LayoutSymbolFrame Symbol=""{x:Static const:Symbols.LeftBracket}"" LeftMargin=""ThinSpace"" RightMargin=""ThinSpace""/>
-            <LayoutHorizontalBlockListFrame PropertyName=""ArgumentBlocks""/>
+            <LayoutHorizontalBlockListFrame PropertyName=""ArgumentBlocks"" Separator=""Comma""/>
             <LayoutSymbolFrame Symbol=""{x:Static const:Symbols.RightBracket}"" LeftMargin=""ThinSpace""/>
             <LayoutSymbolFrame Symbol=""{x:Static const:Symbols.LeftArrow}"" LeftMargin=""Whitespace"" RightMargin=""Whitespace""/>
             <LayoutPlaceholderFrame PropertyName=""Source"" />
@@ -2658,7 +2658,7 @@ namespace TestDebug
                     <LayoutCountFrameVisibility PropertyName=""ArgumentBlocks""/>
                 </LayoutHorizontalPanelFrame.Visibility>
                 <LayoutSymbolFrame Symbol=""{x:Static const:Symbols.LeftParenthesis}"" LeftMargin=""ThinSpace"" RightMargin=""ThinSpace""/>
-                <LayoutHorizontalBlockListFrame PropertyName=""ArgumentBlocks"" />
+                <LayoutHorizontalBlockListFrame PropertyName=""ArgumentBlocks"" Separator=""Comma""/>
                 <LayoutSymbolFrame Symbol=""{x:Static const:Symbols.RightParenthesis}"" LeftMargin=""ThinSpace""/>
             </LayoutHorizontalPanelFrame>
         </LayoutHorizontalPanelFrame>
@@ -2701,7 +2701,7 @@ namespace TestDebug
                     <LayoutCountFrameVisibility PropertyName=""ArgumentBlocks""/>
                 </LayoutHorizontalPanelFrame.Visibility>
                 <LayoutSymbolFrame Symbol=""{x:Static const:Symbols.LeftParenthesis}"" LeftMargin=""ThinSpace"" RightMargin=""ThinSpace""/>
-                <LayoutHorizontalBlockListFrame PropertyName=""ArgumentBlocks"" />
+                <LayoutHorizontalBlockListFrame PropertyName=""ArgumentBlocks"" Separator=""Comma""/>
                 <LayoutSymbolFrame Symbol=""{x:Static const:Symbols.RightParenthesis}"" LeftMargin=""ThinSpace""/>
             </LayoutHorizontalPanelFrame>
         </LayoutHorizontalPanelFrame>
@@ -2734,7 +2734,7 @@ namespace TestDebug
                 </LayoutPlaceholderFrame.Selectors>
             </LayoutPlaceholderFrame>
             <LayoutSymbolFrame Symbol=""{x:Static const:Symbols.LeftBracket}"" LeftMargin=""ThinSpace"" RightMargin=""ThinSpace""/>
-            <LayoutHorizontalBlockListFrame PropertyName=""TypeArgumentBlocks""/>
+            <LayoutHorizontalBlockListFrame PropertyName=""TypeArgumentBlocks"" Separator=""Comma""/>
             <LayoutSymbolFrame Symbol=""{x:Static const:Symbols.RightBracket}"" LeftMargin=""ThinSpace""/>
             <LayoutDiscreteFrame PropertyName=""Sharing"" LeftMargin=""Whitespace"">
                 <LayoutDiscreteFrame.Visibility>

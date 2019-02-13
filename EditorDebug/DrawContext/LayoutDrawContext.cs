@@ -1,11 +1,12 @@
 ﻿namespace EditorDebug
 {
+    using System.Collections.Generic;
     using System.Globalization;
     using System.Windows;
     using System.Windows.Media;
     using EaslyController.Constants;
     using EaslyController.Layout;
-    using static EaslyController.Controller.Margins;
+    using static EaslyController.Constants.Margins;
 
     public class LayoutDrawContext : ILayoutDrawContext
     {
@@ -16,10 +17,19 @@
             FontSize = 20;
             Foreground = Brushes.Black;
 
-            FormattedText ft = new FormattedText(" ", CultureInfo.CurrentCulture, FlowDirection.LeftToRight, Typeface, FontSize, Foreground);
+            FormattedText ft;
+
+            ft = new FormattedText(" ", CultureInfo.CurrentCulture, FlowDirection.LeftToRight, Typeface, FontSize, Foreground);
             WhitespaceWidth = ft.WidthIncludingTrailingWhitespace;
             LineHeight = ft.Height;
             TabulationWidth = WhitespaceWidth * 2;
+            VerticalSeparatorWidthTable[VerticalSeparators.Line] = LineHeight;
+
+            ft = new FormattedText(", ", CultureInfo.CurrentCulture, FlowDirection.LeftToRight, Typeface, FontSize, Foreground);
+            HorizontalSeparatorWidthTable[HorizontalSeparators.Comma] = ft.WidthIncludingTrailingWhitespace;
+
+            ft = new FormattedText(".", CultureInfo.CurrentCulture, FlowDirection.LeftToRight, Typeface, FontSize, Foreground);
+            HorizontalSeparatorWidthTable[HorizontalSeparators.Dot] = ft.WidthIncludingTrailingWhitespace;
         }
 
         private DrawingContext dc;
@@ -29,6 +39,27 @@
         public double WhitespaceWidth { get; }
         public double LineHeight { get; }
         public double TabulationWidth { get; }
+        private Dictionary<HorizontalSeparators, double> HorizontalSeparatorWidthTable = new Dictionary<HorizontalSeparators, double>()
+        {
+            {  HorizontalSeparators.None, 0},
+            {  HorizontalSeparators.Comma, 0},
+            {  HorizontalSeparators.Dot, 0},
+        };
+        private Dictionary<VerticalSeparators, double> VerticalSeparatorWidthTable = new Dictionary<VerticalSeparators, double>()
+        {
+            {  VerticalSeparators.None, 0},
+            {  VerticalSeparators.Line, 0},
+        };
+
+        public double GetHorizontalSeparatorWidth(HorizontalSeparators separator)
+        {
+            return HorizontalSeparatorWidthTable[separator];
+        }
+
+        public double GetVerticalSeparatorHeight(VerticalSeparators separator)
+        {
+            return VerticalSeparatorWidthTable[separator];
+        }
 
         public EaslyController.Controller.Size MeasureText(string text, TextStyles textStyle)
         {
@@ -101,7 +132,7 @@
             }
         }
 
-        public void UpdatePadding(EaslyController.Controller.Margins leftMargin, EaslyController.Controller.Margins rightMargin, ref EaslyController.Controller.Size size, out EaslyController.Controller.Padding padding)
+        public void UpdatePadding(Margins leftMargin, Margins rightMargin, ref EaslyController.Controller.Size size, out EaslyController.Controller.Padding padding)
         {
             double LeftPadding = 0;
             double RightPadding = 0;

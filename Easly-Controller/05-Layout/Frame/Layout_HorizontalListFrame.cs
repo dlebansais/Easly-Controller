@@ -1,13 +1,14 @@
 ﻿namespace EaslyController.Layout
 {
     using System.Diagnostics;
+    using EaslyController.Constants;
     using EaslyController.Focus;
     using EaslyController.Frame;
 
     /// <summary>
     /// Base frame for a list of nodes displayed horizontally.
     /// </summary>
-    public interface ILayoutHorizontalListFrame : IFocusHorizontalListFrame, ILayoutListFrame
+    public interface ILayoutHorizontalListFrame : IFocusHorizontalListFrame, ILayoutListFrame, ILayoutFrameWithHorizontalSeparator
     {
     }
 
@@ -38,6 +39,12 @@
         /// (Set in Xaml)
         /// </summary>
         public new ILayoutFrameSelectorList Selectors { get { return (ILayoutFrameSelectorList)base.Selectors; } }
+
+        /// <summary>
+        /// Horizontal separator.
+        /// (Set in Xaml)
+        /// </summary>
+        public HorizontalSeparators Separator { get; set; }
         #endregion
 
         #region Implementation
@@ -78,10 +85,10 @@
         /// <summary>
         /// Creates a IxxxCellViewCollection object.
         /// </summary>
-        private protected override IFrameCellViewCollection CreateEmbeddingCellView(IFrameNodeStateView stateView, IFrameCellViewList list)
+        private protected override IFrameCellViewCollection CreateEmbeddingCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, IFrameCellViewList list)
         {
             ControllerTools.AssertNoOverride(this, typeof(LayoutHorizontalListFrame));
-            return new LayoutLine((ILayoutNodeStateView)stateView, (ILayoutCellViewList)list);
+            return new LayoutLine((ILayoutNodeStateView)stateView, (ILayoutCellViewCollection)parentCellView, (ILayoutCellViewList)list, this);
         }
 
         /// <summary>

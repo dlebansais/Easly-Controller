@@ -1,23 +1,23 @@
 ﻿namespace EaslyController.Constants
 {
     /// <summary>
-    /// Margins to use when drawing frames.
+    /// Separators between cells of an horizontal list or block list of nodes.
     /// </summary>
-    public enum Margins
+    public enum HorizontalSeparators
     {
         /// <summary>
-        /// No margin.
+        /// No separator.
         /// </summary>
         None,
 
         /// <summary>
-        /// A thin margin.
+        /// A comma with a whitespace.
         /// </summary>
-        ThinSpace,
+        Comma,
 
         /// <summary>
-        /// A margin the width of a whitespace character.
+        /// A dot.
         /// </summary>
-        Whitespace,
+        Dot,
     }
 }

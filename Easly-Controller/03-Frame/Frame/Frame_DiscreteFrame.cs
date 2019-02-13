@@ -92,7 +92,7 @@
             Debug.Assert(Value >= 0 && Value < Items.Count);
 
             IFrameKeywordFrame KeywordFrame = Items[Value];
-            IFrameDiscreteContentFocusableCellView CellView = CreateDiscreteContentFocusableCellView(context.StateView, KeywordFrame);
+            IFrameDiscreteContentFocusableCellView CellView = CreateDiscreteContentFocusableCellView(context.StateView, parentCellView, KeywordFrame);
             ValidateDiscreteContentFocusableCellView(context, KeywordFrame, CellView);
 
             return CellView;
@@ -120,10 +120,10 @@
         /// <summary>
         /// Creates a IxxxDiscreteContentFocusableCellView object.
         /// </summary>
-        private protected virtual IFrameDiscreteContentFocusableCellView CreateDiscreteContentFocusableCellView(IFrameNodeStateView stateView, IFrameKeywordFrame keywordFrame)
+        private protected virtual IFrameDiscreteContentFocusableCellView CreateDiscreteContentFocusableCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, IFrameKeywordFrame keywordFrame)
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameDiscreteFrame));
-            return new FrameDiscreteContentFocusableCellView(stateView, this, PropertyName, keywordFrame);
+            return new FrameDiscreteContentFocusableCellView(stateView, parentCellView, this, PropertyName, keywordFrame);
         }
         #endregion
     }

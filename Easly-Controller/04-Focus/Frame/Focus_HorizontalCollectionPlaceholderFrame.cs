@@ -7,7 +7,7 @@
     /// <summary>
     /// Frame for a placeholder node in a block list displayed horizontally.
     /// </summary>
-    public interface IFocusHorizontalCollectionPlaceholderFrame : IFrameHorizontalCollectionPlaceholderFrame, IFocusCollectionPlaceholderFrame, IFocusNodeFrameWithSelector
+    public interface IFocusHorizontalCollectionPlaceholderFrame : IFrameHorizontalCollectionPlaceholderFrame, IFocusCollectionPlaceholderFrame, IFocusFrameWithSelector
     {
     }
 
@@ -73,7 +73,8 @@
         /// Create cells for the provided state view.
         /// </summary>
         /// <param name="context">Context used to build the cell view tree.</param>
-        public override IFrameCellView BuildBlockCells(IFrameCellViewTreeContext context)
+        /// <param name="parentCellView">The collection of cell views containing this view. Null for the root of the cell tree.</param>
+        public override IFrameCellView BuildBlockCells(IFrameCellViewTreeContext context, IFrameCellViewCollection parentCellView)
         {
             ((IFocusCellViewTreeContext)context).UpdateBlockFrameVisibility(this, out bool OldFrameVisibility);
             Type OldSelectorType = null;
@@ -82,7 +83,7 @@
 
             Debug.Assert(((IFocusCellViewTreeContext)context).IsVisible);
 
-            IFocusCellViewCollection EmbeddingCellView = base.BuildBlockCells(context) as IFocusCellViewCollection;
+            IFocusCellViewCollection EmbeddingCellView = base.BuildBlockCells(context, parentCellView) as IFocusCellViewCollection;
             Debug.Assert(EmbeddingCellView != null);
 
             ((IFocusCellViewTreeContext)context).RemoveOrRestoreSelectors(Selectors, OldSelectorType, OldSelectorName);
@@ -130,10 +131,10 @@
         /// <summary>
         /// Creates a IxxxCellViewCollection object.
         /// </summary>
-        private protected override IFrameCellViewCollection CreateEmbeddingCellView(IFrameNodeStateView stateView, IFrameCellViewList list)
+        private protected override IFrameCellViewCollection CreateEmbeddingCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, IFrameCellViewList list)
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusHorizontalCollectionPlaceholderFrame));
-            return new FocusLine((IFocusNodeStateView)stateView, (IFocusCellViewList)list);
+            return new FocusLine((IFocusNodeStateView)stateView, (IFocusCellViewCollection)parentCellView, (IFocusCellViewList)list);
         }
 
         /// <summary>

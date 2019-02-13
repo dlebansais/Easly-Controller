@@ -80,7 +80,7 @@
                 Result = base.BuildNodeCells(context, parentCellView) as IFocusCellView;
             else
             {
-                IFocusEmptyCellView EmptyCellView = CreateEmptyCellView(((IFocusCellViewTreeContext)context).StateView);
+                IFocusEmptyCellView EmptyCellView = CreateEmptyCellView(((IFocusCellViewTreeContext)context).StateView, (IFocusCellViewCollection)parentCellView);
                 ValidateEmptyCellView((IFocusCellViewTreeContext)context, EmptyCellView);
 
                 Result = EmptyCellView;
@@ -95,16 +95,17 @@
         /// Create cells for the provided state view.
         /// </summary>
         /// <param name="context">Context used to build the cell view tree.</param>
-        public override IFrameCellView BuildBlockCells(IFrameCellViewTreeContext context)
+        /// <param name="parentCellView">The collection of cell views containing this view. Null for the root of the cell tree.</param>
+        public override IFrameCellView BuildBlockCells(IFrameCellViewTreeContext context, IFrameCellViewCollection parentCellView)
         {
             ((IFocusCellViewTreeContext)context).UpdateBlockFrameVisibility(this, out bool OldFrameVisibility);
 
             IFocusCellView Result;
             if (((IFocusCellViewTreeContext)context).IsVisible)
-                Result = base.BuildBlockCells(context) as IFocusCellView;
+                Result = base.BuildBlockCells(context, parentCellView) as IFocusCellView;
             else
             {
-                IFocusEmptyCellView EmptyCellView = CreateEmptyCellView(((IFocusCellViewTreeContext)context).StateView);
+                IFocusEmptyCellView EmptyCellView = CreateEmptyCellView(((IFocusCellViewTreeContext)context).StateView, (IFocusCellViewCollection)parentCellView);
                 ValidateEmptyCellView((IFocusCellViewTreeContext)context, EmptyCellView);
 
                 Result = EmptyCellView;
@@ -144,28 +145,28 @@
         /// <summary>
         /// Creates a IxxxFocusableCellView object.
         /// </summary>
-        private protected override IFrameFocusableCellView CreateFocusableCellView(IFrameNodeStateView stateView)
+        private protected override IFrameFocusableCellView CreateFocusableCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView)
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusKeywordFrame));
-            return new FocusFocusableCellView((IFocusNodeStateView)stateView, this);
+            return new FocusFocusableCellView((IFocusNodeStateView)stateView, (IFocusCellViewCollection)parentCellView, this);
         }
 
         /// <summary>
         /// Creates a IxxxVisibleCellView object.
         /// </summary>
-        private protected override IFrameVisibleCellView CreateVisibleCellView(IFrameNodeStateView stateView)
+        private protected override IFrameVisibleCellView CreateVisibleCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView)
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusKeywordFrame));
-            return new FocusVisibleCellView((IFocusNodeStateView)stateView, this);
+            return new FocusVisibleCellView((IFocusNodeStateView)stateView, (IFocusCellViewCollection)parentCellView, this);
         }
 
         /// <summary>
         /// Creates a IxxxEmptyCellView object.
         /// </summary>
-        private protected virtual IFocusEmptyCellView CreateEmptyCellView(IFocusNodeStateView stateView)
+        private protected virtual IFocusEmptyCellView CreateEmptyCellView(IFocusNodeStateView stateView, IFocusCellViewCollection parentCellView)
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusKeywordFrame));
-            return new FocusEmptyCellView(stateView);
+            return new FocusEmptyCellView(stateView, parentCellView);
         }
         #endregion
     }

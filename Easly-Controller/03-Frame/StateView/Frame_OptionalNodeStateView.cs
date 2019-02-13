@@ -118,7 +118,7 @@
                 EmbeddingCellView = NodeTemplate.BuildNodeCells(context);
             else
             {
-                IFrameEmptyCellView EmptyCellView = CreateEmptyCellView(this);
+                IFrameEmptyCellView EmptyCellView = CreateEmptyCellView(this, null);
                 ValidateEmptyCellView(context, EmptyCellView);
 
                 EmbeddingCellView = EmptyCellView;
@@ -315,10 +315,10 @@
         /// <summary>
         /// Creates a IxxxEmptyCellView object.
         /// </summary>
-        private protected virtual IFrameEmptyCellView CreateEmptyCellView(IFrameNodeStateView stateView)
+        private protected virtual IFrameEmptyCellView CreateEmptyCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView)
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameOptionalNodeStateView));
-            return new FrameEmptyCellView(stateView);
+            return new FrameEmptyCellView(stateView, parentCellView);
         }
         #endregion
     }

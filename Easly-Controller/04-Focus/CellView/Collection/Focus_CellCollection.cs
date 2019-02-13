@@ -24,9 +24,10 @@
         /// Initializes a new instance of the <see cref="FocusCellViewCollection"/> class.
         /// </summary>
         /// <param name="stateView">The state view containing the tree with this cell.</param>
+        /// <param name="parentCellView">The collection of cell views containing this view. Null for the root of the cell tree.</param>
         /// <param name="cellViewList">The list of child cell views.</param>
-        public FocusCellViewCollection(IFocusNodeStateView stateView, IFocusCellViewList cellViewList)
-            : base(stateView, cellViewList)
+        public FocusCellViewCollection(IFocusNodeStateView stateView, IFocusCellViewCollection parentCellView, IFocusCellViewList cellViewList)
+            : base(stateView, parentCellView, cellViewList)
         {
         }
         #endregion

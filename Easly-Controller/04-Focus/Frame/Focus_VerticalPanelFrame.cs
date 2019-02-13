@@ -97,11 +97,12 @@
         /// Create cells for the provided state view.
         /// </summary>
         /// <param name="context">Context used to build the cell view tree.</param>
-        public override IFrameCellView BuildBlockCells(IFrameCellViewTreeContext context)
+        /// <param name="parentCellView">The collection of cell views containing this view. Null for the root of the cell tree.</param>
+        public override IFrameCellView BuildBlockCells(IFrameCellViewTreeContext context, IFrameCellViewCollection parentCellView)
         {
             ((IFocusCellViewTreeContext)context).UpdateBlockFrameVisibility(this, out bool OldFrameVisibility);
 
-            IFocusCellViewCollection EmbeddingCellView = base.BuildBlockCells(context) as IFocusCellViewCollection;
+            IFocusCellViewCollection EmbeddingCellView = base.BuildBlockCells(context, parentCellView) as IFocusCellViewCollection;
             Debug.Assert(EmbeddingCellView != null);
 
             if (!((IFocusCellViewTreeContext)context).IsVisible)
@@ -133,7 +134,7 @@
         /// </summary>
         /// <param name="propertyName">Name of the property to look for.</param>
         /// <param name="frame">Frame found upon return. Null if not matching <paramref name="propertyName"/>.</param>
-        public virtual bool FrameSelectorForProperty(string propertyName, out IFocusNodeFrameWithSelector frame)
+        public virtual bool FrameSelectorForProperty(string propertyName, out IFocusFrameWithSelector frame)
         {
             frame = null;
             bool IsFound = false;
@@ -201,10 +202,10 @@
         /// <summary>
         /// Creates a IxxxCellViewCollection object.
         /// </summary>
-        private protected override IFrameCellViewCollection CreateEmbeddingCellView(IFrameNodeStateView stateView, IFrameCellViewList list)
+        private protected override IFrameCellViewCollection CreateEmbeddingCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, IFrameCellViewList list)
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusVerticalPanelFrame));
-            return new FocusColumn((IFocusNodeStateView)stateView, (IFocusCellViewList)list);
+            return new FocusColumn((IFocusNodeStateView)stateView, (IFocusCellViewCollection)parentCellView, (IFocusCellViewList)list);
         }
         #endregion
     }

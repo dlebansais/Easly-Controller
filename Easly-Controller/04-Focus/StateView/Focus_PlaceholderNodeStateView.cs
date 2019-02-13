@@ -78,7 +78,7 @@
             else
             {
                 InitCellViewTable();
-                SetRootCellView(CreateEmptyCellView(((IFocusCellViewTreeContext)context).StateView));
+                SetRootCellView(CreateEmptyCellView(((IFocusCellViewTreeContext)context).StateView, null));
                 SealCellViewTable();
             }
 
@@ -139,10 +139,10 @@
         /// <summary>
         /// Creates a IxxxEmptyCellView object.
         /// </summary>
-        private protected virtual IFocusEmptyCellView CreateEmptyCellView(IFocusNodeStateView stateView)
+        private protected virtual IFocusEmptyCellView CreateEmptyCellView(IFocusNodeStateView stateView, IFocusCellViewCollection parentCellView)
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusPlaceholderNodeStateView));
-            return new FocusEmptyCellView(stateView);
+            return new FocusEmptyCellView(stateView, parentCellView);
         }
         #endregion
     }

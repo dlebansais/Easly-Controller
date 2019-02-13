@@ -7,7 +7,7 @@
     /// <summary>
     /// Base frame for a list of nodes.
     /// </summary>
-    public interface IFocusListFrame : IFrameListFrame, IFocusNamedFrame, IFocusNodeFrameWithVisibility, IFocusNodeFrameWithSelector, IFocusSelectorPropertyFrame
+    public interface IFocusListFrame : IFrameListFrame, IFocusNamedFrame, IFocusNodeFrameWithVisibility, IFocusFrameWithSelector, IFocusSelectorPropertyFrame
     {
     }
 
@@ -111,7 +111,7 @@
         /// </summary>
         /// <param name="propertyName">Name of the property to look for.</param>
         /// <param name="frame">Frame found upon return. Null if not matching <paramref name="propertyName"/>.</param>
-        public virtual bool FrameSelectorForProperty(string propertyName, out IFocusNodeFrameWithSelector frame)
+        public virtual bool FrameSelectorForProperty(string propertyName, out IFocusFrameWithSelector frame)
         {
             frame = null;
             bool Found = false;

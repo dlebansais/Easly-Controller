@@ -446,7 +446,7 @@
     <Compile Include="04-Focus\Frame\Focus_DiscreteFrame.cs" />
     <Compile Include="04-Focus\Frame\Focus_Frame.cs" />
     <Compile Include="04-Focus\Frame\Focus_SelectorPropertyFrame.cs" />
-    <Compile Include="04-Focus\Frame\Focus_NodeFrameWithSelector.cs" />
+    <Compile Include="04-Focus\Frame\Focus_FrameWithSelector.cs" />
     <Compile Include="04-Focus\Frame\Focus_NodeFrameWithVisibility.cs" />
     <Compile Include="04-Focus\Frame\Focus_HorizontalBlockListFrame.cs" />
     <Compile Include="04-Focus\Frame\Focus_HorizontalCollectionPlaceholderFrame.cs" />
@@ -617,7 +617,9 @@
     <Compile Include="05-Layout\Frame\Layout_CollectionPlaceholderFrame.cs" />
     <Compile Include="05-Layout\Frame\Layout_DiscreteFrame.cs" />
     <Compile Include="05-Layout\Frame\Layout_DrawableFrame.cs" />
-    <Compile Include="05-Layout\Frame\Layout_NodeFrameWithTextStyle.cs" />
+    <Compile Include="05-Layout\Frame\Layout_FrameWithVerticalSeparator.cs" />
+    <Compile Include="05-Layout\Frame\Layout_FrameWithHorizontalSeparator.cs" />
+    <Compile Include="05-Layout\Frame\Layout_FrameWithTextStyle.cs" />
     <Compile Include="05-Layout\Frame\Layout_VerticalTabulatedFrame.cs" />
     <Compile Include="05-Layout\Frame\Layout_MeasurableFrame.cs" />
     <Compile Include="05-Layout\Frame\Layout_Frame.cs" />
@@ -630,7 +632,7 @@
     <Compile Include="05-Layout\Frame\Layout_ListFrame.cs" />
     <Compile Include="05-Layout\Frame\Layout_NamedFrame.cs" />
     <Compile Include="05-Layout\Frame\Layout_NodeFrame.cs" />
-    <Compile Include="05-Layout\Frame\Layout_NodeFrameWithSelector.cs" />
+    <Compile Include="05-Layout\Frame\Layout_FrameWithSelector.cs" />
     <Compile Include="05-Layout\Frame\Layout_NodeFrameWithVisibility.cs" />
     <Compile Include="05-Layout\Frame\Layout_NumberFrame.cs" />
     <Compile Include="05-Layout\Frame\Layout_OptionalFrame.cs" />
@@ -702,6 +704,8 @@
     <Compile Include="Controller\CaretModes.cs" />
     <Compile Include="Controller\DebugObjects.cs" />
     <Compile Include="Controller\ArrangeHelper.cs" />
+    <Compile Include="Controller\HorizontalContainers.cs" />
+    <Compile Include="Controller\HorizontalSeparators.cs" />
     <Compile Include="Controller\Margins.cs" />
     <Compile Include="Controller\MeasureHelper.cs" />
     <Compile Include="Controller\Point.cs" />
@@ -714,6 +718,7 @@
     <Compile Include="Controller\ControllerTools.cs" />
     <Compile Include="Controller\Stats.cs" />
     <Compile Include="Controller\ValuePropertyType.cs" />
+    <Compile Include="Controller\VerticalSeparators.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

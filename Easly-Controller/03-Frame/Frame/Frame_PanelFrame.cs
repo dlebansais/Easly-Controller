@@ -78,7 +78,7 @@
         public virtual IFrameCellView BuildNodeCells(IFrameCellViewTreeContext context, IFrameCellViewCollection parentCellView)
         {
             IFrameCellViewList CellViewList = CreateCellViewList();
-            IFrameCellViewCollection EmbeddingCellView = CreateEmbeddingCellView(context.StateView, CellViewList);
+            IFrameCellViewCollection EmbeddingCellView = CreateEmbeddingCellView(context.StateView, parentCellView, CellViewList);
             ValidateEmbeddingCellView(context, EmbeddingCellView);
 
             foreach (IFrameFrame Item in Items)
@@ -106,12 +106,13 @@
         /// Create cells for the provided state view.
         /// </summary>
         /// <param name="context">Context used to build the cell view tree.</param>
-        public virtual IFrameCellView BuildBlockCells(IFrameCellViewTreeContext context)
+        /// <param name="parentCellView">The collection of cell views containing this view. Null for the root of the cell tree.</param>
+        public virtual IFrameCellView BuildBlockCells(IFrameCellViewTreeContext context, IFrameCellViewCollection parentCellView)
         {
             IFrameBlockStateView BlockStateView = context.BlockStateView;
             IFrameBlockState BlockState = BlockStateView.BlockState;
             IFrameCellViewList CellViewList = CreateCellViewList();
-            IFrameCellViewCollection EmbeddingCellView = CreateEmbeddingCellView(context.StateView, CellViewList);
+            IFrameCellViewCollection EmbeddingCellView = CreateEmbeddingCellView(context.StateView, parentCellView, CellViewList);
             ValidateEmbeddingCellView(context, EmbeddingCellView);
             IFrameCellView ItemCellView = null;
 
@@ -121,7 +122,7 @@
 
                 if (Item is IFrameBlockFrame AsBlockFrame)
                 {
-                    ItemCellView = AsBlockFrame.BuildBlockCells(context);
+                    ItemCellView = AsBlockFrame.BuildBlockCells(context, EmbeddingCellView);
                     IsHandled = true;
                 }
                 else if (Item is FramePlaceholderFrame AsPlaceholderFrame)
@@ -217,7 +218,7 @@
         /// <summary>
         /// Creates a IxxxCellViewCollection object.
         /// </summary>
-        private protected abstract IFrameCellViewCollection CreateEmbeddingCellView(IFrameNodeStateView stateView, IFrameCellViewList list);
+        private protected abstract IFrameCellViewCollection CreateEmbeddingCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, IFrameCellViewList list);
         #endregion
     }
 }

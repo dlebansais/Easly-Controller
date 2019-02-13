@@ -25,7 +25,7 @@
         /// </summary>
         /// <param name="propertyName">Name of the property to look for.</param>
         /// <param name="frame">Frame found upon return. Null if not matching <paramref name="propertyName"/>.</param>
-        bool FrameSelectorForProperty(string propertyName, out IFocusNodeFrameWithSelector frame);
+        bool FrameSelectorForProperty(string propertyName, out IFocusFrameWithSelector frame);
 
         /// <summary>
         /// Gets preferred frames to receive the focus when the source code is changed.
@@ -88,7 +88,7 @@
         /// </summary>
         /// <param name="propertyName">Name of the property to look for.</param>
         /// <param name="frame">Frame found upon return. Null if not matching <paramref name="propertyName"/>.</param>
-        public virtual bool FrameSelectorForProperty(string propertyName, out IFocusNodeFrameWithSelector frame)
+        public virtual bool FrameSelectorForProperty(string propertyName, out IFocusFrameWithSelector frame)
         {
             frame = null;
             bool Found = false;

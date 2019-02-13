@@ -21,9 +21,10 @@
         /// Initializes a new instance of the <see cref="LayoutFocusableCellView"/> class.
         /// </summary>
         /// <param name="stateView">The state view containing the tree with this cell.</param>
+        /// <param name="parentCellView">The collection of cell views containing this view. Null for the root of the cell tree.</param>
         /// <param name="frame">The frame that created this cell view.</param>
-        public LayoutFocusableCellView(ILayoutNodeStateView stateView, ILayoutFrame frame)
-            : base(stateView, frame)
+        public LayoutFocusableCellView(ILayoutNodeStateView stateView, ILayoutCellViewCollection parentCellView, ILayoutFrame frame)
+            : base(stateView, parentCellView, frame)
         {
             Debug.Assert(frame is ILayoutMeasurableFrame);
             Debug.Assert(frame is ILayoutDrawableFrame);

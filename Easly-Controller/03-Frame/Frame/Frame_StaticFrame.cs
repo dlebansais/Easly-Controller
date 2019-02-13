@@ -30,9 +30,9 @@
             IFrameVisibleCellView CellView;
 
             if (IsFrameFocusable)
-                CellView = CreateFocusableCellView(context.StateView);
+                CellView = CreateFocusableCellView(context.StateView, parentCellView);
             else
-                CellView = CreateVisibleCellView(context.StateView);
+                CellView = CreateVisibleCellView(context.StateView, parentCellView);
 
             ValidateVisibleCellView(context, CellView);
 
@@ -53,19 +53,19 @@
         /// <summary>
         /// Creates a IxxxFocusableCellView object.
         /// </summary>
-        private protected virtual IFrameFocusableCellView CreateFocusableCellView(IFrameNodeStateView stateView)
+        private protected virtual IFrameFocusableCellView CreateFocusableCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView)
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameStaticFrame));
-            return new FrameFocusableCellView(stateView, this);
+            return new FrameFocusableCellView(stateView, parentCellView, this);
         }
 
         /// <summary>
         /// Creates a IxxxVisibleCellView object.
         /// </summary>
-        private protected virtual IFrameVisibleCellView CreateVisibleCellView(IFrameNodeStateView stateView)
+        private protected virtual IFrameVisibleCellView CreateVisibleCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView)
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameStaticFrame));
-            return new FrameVisibleCellView(stateView, this);
+            return new FrameVisibleCellView(stateView, parentCellView, this);
         }
         #endregion
     }

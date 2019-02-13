@@ -1,13 +1,14 @@
 ﻿namespace EaslyController.Layout
 {
     using System.Diagnostics;
+    using EaslyController.Constants;
     using EaslyController.Focus;
     using EaslyController.Frame;
 
     /// <summary>
     /// Frame for a block list displayed vertically.
     /// </summary>
-    public interface ILayoutVerticalBlockListFrame : IFocusVerticalBlockListFrame, ILayoutBlockListFrame, ILayoutVerticalTabulatedFrame
+    public interface ILayoutVerticalBlockListFrame : IFocusVerticalBlockListFrame, ILayoutBlockListFrame, ILayoutVerticalTabulatedFrame, ILayoutFrameWithVerticalSeparator
     {
     }
 
@@ -44,6 +45,12 @@
         /// (Set in Xaml)
         /// </summary>
         public bool HasTabulationMargin { get; set; }
+
+        /// <summary>
+        /// Vertical separator.
+        /// (Set in Xaml)
+        /// </summary>
+        public VerticalSeparators Separator { get; set; }
         #endregion
 
         #region Implementation
@@ -84,10 +91,10 @@
         /// <summary>
         /// Creates a IxxxCellViewCollection object.
         /// </summary>
-        private protected override IFrameCellViewCollection CreateEmbeddingCellView(IFrameNodeStateView stateView, IFrameCellViewList list)
+        private protected override IFrameCellViewCollection CreateEmbeddingCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, IFrameCellViewList list)
         {
             ControllerTools.AssertNoOverride(this, typeof(LayoutVerticalBlockListFrame));
-            return new LayoutColumn((ILayoutNodeStateView)stateView, (ILayoutCellViewList)list, this);
+            return new LayoutColumn((ILayoutNodeStateView)stateView, (ILayoutCellViewCollection)parentCellView, (ILayoutCellViewList)list, this);
         }
 
         /// <summary>

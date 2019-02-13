@@ -2,13 +2,14 @@
 {
     using System.Diagnostics;
     using System.Windows.Markup;
+    using EaslyController.Constants;
     using EaslyController.Focus;
     using EaslyController.Frame;
 
     /// <summary>
     /// Frame for displaying more frames horizontally.
     /// </summary>
-    public interface ILayoutHorizontalPanelFrame : IFocusHorizontalPanelFrame, ILayoutPanelFrame
+    public interface ILayoutHorizontalPanelFrame : IFocusHorizontalPanelFrame, ILayoutPanelFrame, ILayoutFrameWithHorizontalSeparator
     {
     }
 
@@ -45,6 +46,12 @@
         /// (Set in Xaml)
         /// </summary>
         public new ILayoutBlockFrameVisibility BlockVisibility { get { return (ILayoutBlockFrameVisibility)base.BlockVisibility; } set { base.BlockVisibility = value; } }
+
+        /// <summary>
+        /// Horizontal separator.
+        /// (Set in Xaml)
+        /// </summary>
+        public HorizontalSeparators Separator { get; set; }
         #endregion
 
         #region Implementation
@@ -86,10 +93,10 @@
         /// <summary>
         /// Creates a IxxxCellViewCollection object.
         /// </summary>
-        private protected override IFrameCellViewCollection CreateEmbeddingCellView(IFrameNodeStateView stateView, IFrameCellViewList list)
+        private protected override IFrameCellViewCollection CreateEmbeddingCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, IFrameCellViewList list)
         {
             ControllerTools.AssertNoOverride(this, typeof(LayoutHorizontalPanelFrame));
-            return new LayoutLine((ILayoutNodeStateView)stateView, (ILayoutCellViewList)list);
+            return new LayoutLine((ILayoutNodeStateView)stateView, (ILayoutCellViewCollection)parentCellView, (ILayoutCellViewList)list, this);
         }
         #endregion
     }

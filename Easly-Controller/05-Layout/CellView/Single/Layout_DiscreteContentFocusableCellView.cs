@@ -25,11 +25,12 @@
         /// Initializes a new instance of the <see cref="LayoutDiscreteContentFocusableCellView"/> class.
         /// </summary>
         /// <param name="stateView">The state view containing the tree with this cell.</param>
+        /// <param name="parentCellView">The collection of cell views containing this view. Null for the root of the cell tree.</param>
         /// <param name="frame">The frame that created this cell view.</param>
         /// <param name="propertyName">Property corresponding to the component of the node.</param>
         /// <param name="keywordFrame">The keyword frame that was used to create this cell.</param>
-        public LayoutDiscreteContentFocusableCellView(ILayoutNodeStateView stateView, ILayoutFrame frame, string propertyName, ILayoutKeywordFrame keywordFrame)
-            : base(stateView, frame, propertyName, keywordFrame)
+        public LayoutDiscreteContentFocusableCellView(ILayoutNodeStateView stateView, ILayoutCellViewCollection parentCellView, ILayoutFrame frame, string propertyName, ILayoutKeywordFrame keywordFrame)
+            : base(stateView, parentCellView, frame, propertyName, keywordFrame)
         {
             Debug.Assert(keywordFrame.ParentFrame is ILayoutDiscreteFrame);
 

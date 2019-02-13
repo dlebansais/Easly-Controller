@@ -1,5 +1,6 @@
 ﻿namespace EaslyController.Layout
 {
+    using EaslyController.Constants;
     using EaslyController.Controller;
 
     /// <summary>

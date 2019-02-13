@@ -25,10 +25,11 @@
         /// Initializes a new instance of the <see cref="LayoutColumn"/> class.
         /// </summary>
         /// <param name="stateView">The state view containing the tree with this cell.</param>
+        /// <param name="parentCellView">The collection of cell views containing this view. Null for the root of the cell tree.</param>
         /// <param name="cellViewList">The list of child cell views.</param>
         /// <param name="frame">The frame that was used to create this cell. Can be null.</param>
-        public LayoutColumn(ILayoutNodeStateView stateView, ILayoutCellViewList cellViewList, ILayoutFrame frame)
-            : base(stateView, cellViewList)
+        public LayoutColumn(ILayoutNodeStateView stateView, ILayoutCellViewCollection parentCellView, ILayoutCellViewList cellViewList, ILayoutFrame frame)
+            : base(stateView, parentCellView, cellViewList)
         {
             Frame = frame;
             CellOrigin = ArrangeHelper.InvalidOrigin;
@@ -84,8 +85,15 @@
             double Width = double.NaN;
             double Height = 0;
 
+            double SeparatorHeight = 0;
+            if (Frame is ILayoutFrameWithVerticalSeparator AsFrameWithVerticalSeparator)
+                SeparatorHeight = DrawContext.GetVerticalSeparatorHeight(AsFrameWithVerticalSeparator.Separator);
+
             foreach (ILayoutCellView CellView in CellViewList)
             {
+                if (Height > 0)
+                    Height += SeparatorHeight;
+
                 CellView.Measure();
 
                 Size NestedCellSize = CellView.CellSize;
@@ -139,8 +147,15 @@
 
             Point LineOrigin = new Point(origin.X + LeftPadding, origin.Y);
 
+            double SeparatorHeight = 0;
+            if (Frame is ILayoutFrameWithVerticalSeparator AsFrameWithVerticalSeparator)
+                SeparatorHeight = DrawContext.GetVerticalSeparatorHeight(AsFrameWithVerticalSeparator.Separator);
+
             foreach (ILayoutCellView CellView in CellViewList)
             {
+                if (LineOrigin.Y > origin.Y)
+                    LineOrigin.Y += SeparatorHeight;
+
                 CellView.Arrange(LineOrigin);
 
                 Size NestedCellSize = CellView.CellSize;

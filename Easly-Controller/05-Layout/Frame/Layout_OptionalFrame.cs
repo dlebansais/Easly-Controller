@@ -1,6 +1,7 @@
 ﻿namespace EaslyController.Layout
 {
     using System.Diagnostics;
+    using EaslyController.Constants;
     using EaslyController.Controller;
     using EaslyController.Focus;
     using EaslyController.Frame;
@@ -8,7 +9,7 @@
     /// <summary>
     /// Frame for describing an optional child node.
     /// </summary>
-    public interface ILayoutOptionalFrame : IFocusOptionalFrame, ILayoutNamedFrame, ILayoutNodeFrameWithVisibility, ILayoutNodeFrameWithSelector, ILayoutSelectorPropertyFrame, ILayoutMeasurableFrame
+    public interface ILayoutOptionalFrame : IFocusOptionalFrame, ILayoutNamedFrame, ILayoutNodeFrameWithVisibility, ILayoutFrameWithSelector, ILayoutSelectorPropertyFrame, ILayoutMeasurableFrame
     {
     }
 

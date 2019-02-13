@@ -13,6 +13,11 @@
         IFrameNodeStateView StateView { get; }
 
         /// <summary>
+        /// The collection of cell views containing this view. Null for the root of the cell tree.
+        /// </summary>
+        IFrameCellViewCollection ParentCellView { get; }
+
+        /// <summary>
         /// True if the cell view is visible or contains at least one visible cell view.
         /// </summary>
         bool HasVisibleCellView { get; }
@@ -62,9 +67,11 @@
         /// Initializes a new instance of the <see cref="FrameCellView"/> class.
         /// </summary>
         /// <param name="stateView">The state view containing the tree with this cell.</param>
-        public FrameCellView(IFrameNodeStateView stateView)
+        /// <param name="parentCellView">The collection of cell views containing this view. Null for the root of the cell tree.</param>
+        public FrameCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView)
         {
             StateView = stateView;
+            ParentCellView = parentCellView;
         }
         #endregion
 
@@ -72,7 +79,12 @@
         /// <summary>
         /// The state view containing the tree with this cell.
         /// </summary>
-        public IFrameNodeStateView StateView { get; private set; }
+        public IFrameNodeStateView StateView { get; }
+
+        /// <summary>
+        /// The collection of cell views containing this view. Null for the root of the cell tree.
+        /// </summary>
+        public IFrameCellViewCollection ParentCellView { get; }
 
         /// <summary>
         /// True if the cell view is visible or contains at least one visible cell view.
