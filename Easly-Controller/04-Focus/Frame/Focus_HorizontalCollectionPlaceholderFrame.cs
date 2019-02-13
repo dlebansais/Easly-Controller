@@ -98,6 +98,7 @@
         private protected override void ValidateEmbeddingCellView(IFrameCellViewTreeContext context, IFrameCellViewCollection embeddingCellView)
         {
             Debug.Assert(((IFocusCellViewCollection)embeddingCellView).StateView == ((IFocusCellViewTreeContext)context).StateView);
+            Debug.Assert(((IFocusCellViewCollection)embeddingCellView).ParentCellView != null || embeddingCellView == ((IFocusCellViewCollection)embeddingCellView).StateView.RootCellView);
         }
 
         /// <summary></summary>

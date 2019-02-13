@@ -45,7 +45,7 @@ ignore:
   - Easly-Controller/03-Frame/Inner/Frame_Inner.cs
   - Easly-Controller/03-Frame/State/Frame_NodeState.cs
   - Easly-Controller/03-Frame/StateView/Frame_NodeStateView.cs
-  - Easly-Controller/04-Focus/CellView/Collection/Focus_CellCollection.cs
+  - Easly-Controller/04-Focus/CellView/Collection/Focus_CellViewCollection.cs
   - Easly-Controller/04-Focus/CellView/Single/Focus_ContentFocusableCellView.cs
   - Easly-Controller/04-Focus/CellView/Focus_CellView.cs
   - Easly-Controller/04-Focus/Controller/Operations/Focus_Insert_Operation.cs
@@ -68,7 +68,7 @@ ignore:
   - Easly-Controller/04-Focus/State/Focus_NodeState.cs
   - Easly-Controller/04-Focus/StateView/Focus_NodeStateView.cs
   - Easly-Controller/04-Focus/Template/Focus_Template.cs
-  - Easly-Controller/05-Layout/CellView/Collection/Layout_CellCollection.cs
+  - Easly-Controller/05-Layout/CellView/Collection/Layout_CellViewCollection.cs
   - Easly-Controller/05-Layout/CellView/Single/Layout_ContentFocusableCellView.cs
   - Easly-Controller/05-Layout/CellView/Layout_CellView.cs
   - Easly-Controller/05-Layout/Controller/Operations/Layout_Insert_Operation.cs
