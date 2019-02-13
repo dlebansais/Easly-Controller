@@ -13,13 +13,13 @@
         /// Free text.
         /// (Set in Xaml)
         /// </summary>
-        string Text { get; set; }
+        string Text { get; }
 
         /// <summary>
         /// True if the keyword should be allowed to receive the focus.
         /// (Set in Xaml)
         /// </summary>
-        bool IsFocusable { get; set; }
+        bool IsFocusable { get; }
     }
 
     /// <summary>

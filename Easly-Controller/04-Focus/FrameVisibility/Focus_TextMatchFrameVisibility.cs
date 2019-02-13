@@ -11,13 +11,13 @@
         /// Name of the string property to check.
         /// (Set in Xaml)
         /// </summary>
-        string PropertyName { get; set; }
+        string PropertyName { get; }
 
         /// <summary>
         /// Text that must match to show the frame.
         /// (Set in Xaml)
         /// </summary>
-        string TextPattern { get; set; }
+        string TextPattern { get; }
     }
 
     /// <summary>

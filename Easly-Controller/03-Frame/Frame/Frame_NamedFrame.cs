@@ -13,7 +13,7 @@
         /// The property name.
         /// (Set in Xaml)
         /// </summary>
-        string PropertyName { get; set; }
+        string PropertyName { get; }
     }
 
     /// <summary>

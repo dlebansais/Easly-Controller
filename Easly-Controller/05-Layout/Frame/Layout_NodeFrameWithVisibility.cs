@@ -11,6 +11,6 @@
         /// Node frame visibility. Null if always visible.
         /// (Set in Xaml)
         /// </summary>
-        new ILayoutNodeFrameVisibility Visibility { get; set; }
+        new ILayoutNodeFrameVisibility Visibility { get; }
     }
 }

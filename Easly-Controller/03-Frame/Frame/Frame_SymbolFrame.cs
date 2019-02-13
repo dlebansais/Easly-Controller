@@ -12,7 +12,7 @@
         /// Free symbol.
         /// (Set in Xaml)
         /// </summary>
-        Symbols Symbol { get; set; }
+        Symbols Symbol { get; }
     }
 
     /// <summary>

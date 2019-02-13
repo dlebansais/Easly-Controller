@@ -12,13 +12,13 @@
         /// Type of the node associated to this template (an interface type).
         /// (Set in Xaml)
         /// </summary>
-        Type NodeType { get; set; }
+        Type NodeType { get; }
 
         /// <summary>
         /// Root frame.
         /// (Set in Xaml)
         /// </summary>
-        IFrameFrame Root { get; set; }
+        IFrameFrame Root { get; }
 
         /// <summary>
         /// Checks that a template and all its frames are valid.

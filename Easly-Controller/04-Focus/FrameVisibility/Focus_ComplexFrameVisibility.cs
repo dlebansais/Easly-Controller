@@ -12,7 +12,7 @@
         /// Name of the property that can be complex or not.
         /// (Set in Xaml)
         /// </summary>
-        string PropertyName { get; set; }
+        string PropertyName { get; }
     }
 
     /// <summary>

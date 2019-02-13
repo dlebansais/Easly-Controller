@@ -13,13 +13,13 @@
         /// Base type this selector can specify.
         /// (Set in Xaml)
         /// </summary>
-        Type SelectorType { get; set; }
+        Type SelectorType { get; }
 
         /// <summary>
         /// Selector name.
         /// (Set in Xaml)
         /// </summary>
-        string SelectorName { get; set; }
+        string SelectorName { get; }
 
         /// <summary>
         /// Checks that a frame selector is correctly constructed.

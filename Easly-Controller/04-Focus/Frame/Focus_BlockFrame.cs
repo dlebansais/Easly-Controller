@@ -11,6 +11,6 @@
         /// Block frame visibility. Null if always visible.
         /// (Set in Xaml)
         /// </summary>
-        IFocusBlockFrameVisibility BlockVisibility { get; set; }
+        IFocusBlockFrameVisibility BlockVisibility { get; }
     }
 }

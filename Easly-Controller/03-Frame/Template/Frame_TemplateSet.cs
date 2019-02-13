@@ -242,8 +242,8 @@
             if (dictionary[nodeType] != null)
                 return;
 
-            IFrameHorizontalPanelFrame RootFrame = CreateHorizontalPanelFrame();
-            IFrameNodeTemplate RootTemplate = CreateNodeTemplate();
+            FrameHorizontalPanelFrame RootFrame = (FrameHorizontalPanelFrame)CreateHorizontalPanelFrame();
+            FrameNodeTemplate RootTemplate = (FrameNodeTemplate)CreateNodeTemplate();
             RootTemplate.NodeType = nodeType;
             RootTemplate.Root = RootFrame;
 
@@ -258,42 +258,42 @@
 
                 if (NodeTreeHelperChild.IsChildNodeProperty(nodeType, PropertyName, out ChildNodeType))
                 {
-                    IFramePlaceholderFrame NewFrame = CreatePlaceholderFrame();
+                    FramePlaceholderFrame NewFrame = (FramePlaceholderFrame)CreatePlaceholderFrame();
                     NewFrame.PropertyName = PropertyName;
                     RootFrame.Items.Add(NewFrame);
                     IsHandled = true;
                 }
                 else if (NodeTreeHelperOptional.IsOptionalChildNodeProperty(nodeType, PropertyName, out ChildNodeType))
                 {
-                    IFrameOptionalFrame NewFrame = CreateOptionalFrame();
+                    FrameOptionalFrame NewFrame = (FrameOptionalFrame)CreateOptionalFrame();
                     NewFrame.PropertyName = PropertyName;
                     RootFrame.Items.Add(NewFrame);
                     IsHandled = true;
                 }
                 else if (NodeTreeHelperList.IsNodeListProperty(nodeType, PropertyName, out Type ListNodeType))
                 {
-                    IFrameHorizontalListFrame NewFrame = CreateHorizontalListFrame();
+                    FrameHorizontalListFrame NewFrame = (FrameHorizontalListFrame)CreateHorizontalListFrame();
                     NewFrame.PropertyName = PropertyName;
                     RootFrame.Items.Add(NewFrame);
                     IsHandled = true;
                 }
                 else if (NodeTreeHelperBlockList.IsBlockListProperty(nodeType, PropertyName, out Type ChildInterfaceType, out Type ChildItemType))
                 {
-                    IFrameHorizontalBlockListFrame NewFrame = CreateHorizontalBlockListFrame();
+                    FrameHorizontalBlockListFrame NewFrame = (FrameHorizontalBlockListFrame)CreateHorizontalBlockListFrame();
                     NewFrame.PropertyName = PropertyName;
                     RootFrame.Items.Add(NewFrame);
                     IsHandled = true;
                 }
                 else if (NodeTreeHelper.IsBooleanProperty(nodeType, PropertyName))
                 {
-                    IFrameDiscreteFrame NewDiscreteFrame = CreateDiscreteFrame();
+                    FrameDiscreteFrame NewDiscreteFrame = (FrameDiscreteFrame)CreateDiscreteFrame();
                     NewDiscreteFrame.PropertyName = PropertyName;
 
-                    IFrameKeywordFrame KeywordFalseFrame = CreateKeywordFrame();
+                    FrameKeywordFrame KeywordFalseFrame = (FrameKeywordFrame)CreateKeywordFrame();
                     KeywordFalseFrame.Text = $"{PropertyName}=False";
                     NewDiscreteFrame.Items.Add(KeywordFalseFrame);
 
-                    IFrameKeywordFrame KeywordTrueFrame = CreateKeywordFrame();
+                    FrameKeywordFrame KeywordTrueFrame = (FrameKeywordFrame)CreateKeywordFrame();
                     KeywordTrueFrame.Text = $"{PropertyName}=True";
                     NewDiscreteFrame.Items.Add(KeywordTrueFrame);
 
@@ -304,12 +304,12 @@
                 {
                     NodeTreeHelper.GetEnumRange(nodeType, PropertyName, out int Min, out int Max);
 
-                    IFrameDiscreteFrame NewDiscreteFrame = CreateDiscreteFrame();
+                    FrameDiscreteFrame NewDiscreteFrame = (FrameDiscreteFrame)CreateDiscreteFrame();
                     NewDiscreteFrame.PropertyName = PropertyName;
 
                     for (int i = Min; i <= Max; i++)
                     {
-                        IFrameKeywordFrame KeywordFrame = CreateKeywordFrame();
+                        FrameKeywordFrame KeywordFrame = (FrameKeywordFrame)CreateKeywordFrame();
                         KeywordFrame.Text = $"{PropertyName}={i}";
                         NewDiscreteFrame.Items.Add(KeywordFrame);
                     }
@@ -319,7 +319,7 @@
                 }
                 else if (NodeTreeHelper.IsStringProperty(nodeType, PropertyName))
                 {
-                    IFrameTextValueFrame NewDiscreteFrame = CreateTextValueFrame();
+                    FrameTextValueFrame NewDiscreteFrame = (FrameTextValueFrame)CreateTextValueFrame();
                     NewDiscreteFrame.PropertyName = PropertyName;
                     RootFrame.Items.Add(NewDiscreteFrame);
                     IsHandled = true;
@@ -356,10 +356,10 @@
             foreach (Type Key in Keys)
                 AddBlockNodeTypes(DefaultDictionary, Key);
 
-            IFramePlaceholderFrame PatternFrame = CreatePlaceholderFrame();
+            FramePlaceholderFrame PatternFrame = (FramePlaceholderFrame)CreatePlaceholderFrame();
             PatternFrame.PropertyName = nameof(IBlock.ReplicationPattern);
 
-            IFramePlaceholderFrame SourceFrame = CreatePlaceholderFrame();
+            FramePlaceholderFrame SourceFrame = (FramePlaceholderFrame)CreatePlaceholderFrame();
             SourceFrame.PropertyName = nameof(IBlock.SourceIdentifier);
 
             IFrameHorizontalCollectionPlaceholderFrame CollectionPlaceholderFrame = CreateHorizontalCollectionPlaceholderFrame();
@@ -369,7 +369,7 @@
             RootFrame.Items.Add(SourceFrame);
             RootFrame.Items.Add(CollectionPlaceholderFrame);
 
-            IFrameBlockTemplate RootTemplate = CreateBlockTemplate();
+            FrameBlockTemplate RootTemplate = (FrameBlockTemplate)CreateBlockTemplate();
             RootTemplate.NodeType = typeof(IBlock);
             RootTemplate.Root = RootFrame;
 

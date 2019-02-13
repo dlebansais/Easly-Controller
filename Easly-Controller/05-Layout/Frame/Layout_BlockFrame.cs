@@ -11,6 +11,6 @@
         /// Block frame visibility. Null if always visible.
         /// (Set in Xaml)
         /// </summary>
-        new ILayoutBlockFrameVisibility BlockVisibility { get; set; }
+        new ILayoutBlockFrameVisibility BlockVisibility { get; }
     }
 }

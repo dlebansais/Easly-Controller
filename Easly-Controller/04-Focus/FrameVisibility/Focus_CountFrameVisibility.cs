@@ -12,7 +12,7 @@
         /// Name of the collection property.
         /// (Set in Xaml)
         /// </summary>
-        string PropertyName { get; set; }
+        string PropertyName { get; }
     }
 
     /// <summary>

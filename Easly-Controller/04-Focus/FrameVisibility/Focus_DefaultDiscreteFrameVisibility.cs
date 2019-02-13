@@ -12,13 +12,13 @@
         /// Name of the enum or boolean property.
         /// (Set in Xaml)
         /// </summary>
-        string PropertyName { get; set; }
+        string PropertyName { get; }
 
         /// <summary>
         /// Default value as int.
         /// (Set in Xaml)
         /// </summary>
-        int DefaultValue { get; set; }
+        int DefaultValue { get; }
     }
 
     /// <summary>

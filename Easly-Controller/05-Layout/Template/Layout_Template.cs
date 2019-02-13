@@ -11,7 +11,7 @@
         /// Root frame.
         /// (Set in Xaml)
         /// </summary>
-        new ILayoutFrame Root { get; set; }
+        new ILayoutFrame Root { get; }
     }
 
     /// <summary>

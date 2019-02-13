@@ -12,7 +12,7 @@
         /// The selectable frame.
         /// (Set in Xaml)
         /// </summary>
-        new ILayoutNodeFrame Content { get; set; }
+        new ILayoutNodeFrame Content { get; }
     }
 
     /// <summary>

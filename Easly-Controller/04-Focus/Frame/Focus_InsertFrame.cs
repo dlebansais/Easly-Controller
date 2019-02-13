@@ -15,7 +15,7 @@
         /// Type to use when creating a new item in the associated block list or list. Only when it's an abstract type.
         /// (Set in Xaml)
         /// </summary>
-        Type ItemType { get; set; }
+        Type ItemType { get; }
 
         /// <summary>
         /// Type to use when inserting a new item in the collection.

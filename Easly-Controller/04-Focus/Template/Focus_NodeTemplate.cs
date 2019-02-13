@@ -12,13 +12,13 @@
         /// True if the associated expression should be surrounded with parenthesis.
         /// (Set in Xaml)
         /// </summary>
-        bool IsComplex { get; set; }
+        bool IsComplex { get; }
 
         /// <summary>
         /// True if the parent template rather than this template should be fully displayed when visibility is enforced.
         /// (Set in Xaml)
         /// </summary>
-        bool IsSimple { get; set; }
+        bool IsSimple { get; }
 
         /// <summary>
         /// Returns the frame associated to a property if can have selectors.

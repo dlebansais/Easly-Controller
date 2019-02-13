@@ -11,7 +11,7 @@
         /// Root frame.
         /// (Set in Xaml)
         /// </summary>
-        new IFocusFrame Root { get; set; }
+        new IFocusFrame Root { get; }
     }
 
     /// <summary>

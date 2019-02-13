@@ -14,7 +14,7 @@
         /// The property name for the list or block list where new elements should be inserted.
         /// (Set in Xaml)
         /// </summary>
-        string CollectionName { get; set; }
+        string CollectionName { get; }
 
         /// <summary>
         /// Interface type of items in the collection associated to this frame.

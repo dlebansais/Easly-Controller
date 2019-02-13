@@ -14,13 +14,13 @@
         /// The selectable frame.
         /// (Set in Xaml)
         /// </summary>
-        IFocusNodeFrame Content { get; set; }
+        IFocusNodeFrame Content { get; }
 
         /// <summary>
         /// Frame name for selection.
         /// (Set in Xaml)
         /// </summary>
-        string Name { get; set; }
+        string Name { get; }
     }
 
     /// <summary>
