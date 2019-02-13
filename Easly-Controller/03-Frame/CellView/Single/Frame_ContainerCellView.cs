@@ -14,7 +14,7 @@
         IFrameNodeStateView ChildStateView { get; }
 
         /// <summary>
-        /// The frame that was used to create this cell. Can be null.
+        /// The frame that was used to create this cell.
         /// </summary>
         IFrameFrame Frame { get; }
     }
@@ -31,7 +31,7 @@
         /// <param name="stateView">The state view containing the tree with this cell.</param>
         /// <param name="parentCellView">The collection of cell views containing this view.</param>
         /// <param name="childStateView">The state view of the state associated to this cell.</param>
-        /// <param name="frame">The frame that was used to create this cell. Can be null.</param>
+        /// <param name="frame">The frame that was used to create this cell.</param>
         public FrameContainerCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, IFrameNodeStateView childStateView, IFrameFrame frame)
             : base(stateView, parentCellView)
         {
@@ -51,7 +51,7 @@
         public IFrameNodeStateView ChildStateView { get; }
 
         /// <summary>
-        /// The frame that was used to create this cell. Can be null.
+        /// The frame that was used to create this cell.
         /// </summary>
         public IFrameFrame Frame { get; }
 

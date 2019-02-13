@@ -18,6 +18,26 @@
         /// The frame that was used to create this cell. Can be null.
         /// </summary>
         new ILayoutFrame Frame { get; }
+
+        /// <summary>
+        /// Draws container or separator before an element of a collection.
+        /// </summary>
+        /// <param name="drawContext">The context used to draw the cell.</param>
+        /// <param name="cellView">The cell to draw.</param>
+        /// <param name="origin">The location where to start drawing.</param>
+        /// <param name="size">The drawing size, padding included.</param>
+        /// <param name="padding">The padding to use when drawing.</param>
+        void DrawBeforeItem(ILayoutDrawContext drawContext, ILayoutCellView cellView, Point origin, Size size, Padding padding);
+
+        /// <summary>
+        /// Draws container or separator after an element of a collection.
+        /// </summary>
+        /// <param name="drawContext">The context used to draw the cell.</param>
+        /// <param name="cellView">The cell to draw.</param>
+        /// <param name="origin">The location where to start drawing.</param>
+        /// <param name="size">The drawing size, padding included.</param>
+        /// <param name="padding">The padding to use when drawing.</param>
+        void DrawAfterItem(ILayoutDrawContext drawContext, ILayoutCellView cellView, Point origin, Size size, Padding padding);
     }
 
     /// <summary>
@@ -47,6 +67,11 @@
         /// The state view containing the tree with this cell.
         /// </summary>
         public new ILayoutNodeStateView StateView { get { return (ILayoutNodeStateView)base.StateView; } }
+
+        /// <summary>
+        /// The collection of cell views containing this view. Null for the root of the cell tree.
+        /// </summary>
+        public new ILayoutCellViewCollection ParentCellView { get { return (ILayoutCellViewCollection)base.ParentCellView; } }
 
         /// <summary>
         /// The collection of child cells.
@@ -84,6 +109,26 @@
         /// Arranges the cell.
         /// </summary>
         public abstract void Arrange(Point origin);
+
+        /// <summary>
+        /// Draws container or separator before an element of a collection.
+        /// </summary>
+        /// <param name="drawContext">The context used to draw the cell.</param>
+        /// <param name="cellView">The cell to draw.</param>
+        /// <param name="origin">The location where to start drawing.</param>
+        /// <param name="size">The drawing size, padding included.</param>
+        /// <param name="padding">The padding to use when drawing.</param>
+        public abstract void DrawBeforeItem(ILayoutDrawContext drawContext, ILayoutCellView cellView, Point origin, Size size, Padding padding);
+
+        /// <summary>
+        /// Draws container or separator after an element of a collection.
+        /// </summary>
+        /// <param name="drawContext">The context used to draw the cell.</param>
+        /// <param name="cellView">The cell to draw.</param>
+        /// <param name="origin">The location where to start drawing.</param>
+        /// <param name="size">The drawing size, padding included.</param>
+        /// <param name="padding">The padding to use when drawing.</param>
+        public abstract void DrawAfterItem(ILayoutDrawContext drawContext, ILayoutCellView cellView, Point origin, Size size, Padding padding);
         #endregion
 
         #region Debugging

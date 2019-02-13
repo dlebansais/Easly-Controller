@@ -35,14 +35,19 @@
 
         #region Properties
         /// <summary>
-        /// The collection of child cells.
-        /// </summary>
-        public new ILayoutCellViewList CellViewList { get { return (ILayoutCellViewList)base.CellViewList; } }
-
-        /// <summary>
         /// The state view containing the tree with this cell.
         /// </summary>
         public new ILayoutNodeStateView StateView { get { return (ILayoutNodeStateView)base.StateView; } }
+
+        /// <summary>
+        /// The collection of cell views containing this view. Null for the root of the cell tree.
+        /// </summary>
+        public new ILayoutCellViewCollection ParentCellView { get { return (ILayoutCellViewCollection)base.ParentCellView; } }
+
+        /// <summary>
+        /// The collection of child cells.
+        /// </summary>
+        public new ILayoutCellViewList CellViewList { get { return (ILayoutCellViewList)base.CellViewList; } }
 
         /// <summary>
         /// The frame that was used to create this cell. Can be null.
@@ -152,6 +157,30 @@
             Point ExpectedOrigin = new Point(CellOrigin.X + CellSize.Width, CellOrigin.Y);
             bool IsEqual = Point.IsEqual(FinalOrigin, ExpectedOrigin);
             Debug.Assert(IsEqual);
+        }
+
+        /// <summary>
+        /// Draws container or separator before an element of a collection.
+        /// </summary>
+        /// <param name="drawContext">The context used to draw the cell.</param>
+        /// <param name="cellView">The cell to draw.</param>
+        /// <param name="origin">The location where to start drawing.</param>
+        /// <param name="size">The drawing size, padding included.</param>
+        /// <param name="padding">The padding to use when drawing.</param>
+        public virtual void DrawBeforeItem(ILayoutDrawContext drawContext, ILayoutCellView cellView, Point origin, Size size, Padding padding)
+        {
+        }
+
+        /// <summary>
+        /// Draws container or separator after an element of a collection.
+        /// </summary>
+        /// <param name="drawContext">The context used to draw the cell.</param>
+        /// <param name="cellView">The cell to draw.</param>
+        /// <param name="origin">The location where to start drawing.</param>
+        /// <param name="size">The drawing size, padding included.</param>
+        /// <param name="padding">The padding to use when drawing.</param>
+        public virtual void DrawAfterItem(ILayoutDrawContext drawContext, ILayoutCellView cellView, Point origin, Size size, Padding padding)
+        {
         }
         #endregion
 

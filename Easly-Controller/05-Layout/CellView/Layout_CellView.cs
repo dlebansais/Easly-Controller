@@ -15,6 +15,11 @@
         new ILayoutNodeStateView StateView { get; }
 
         /// <summary>
+        /// The collection of cell views containing this view. Null for the root of the cell tree.
+        /// </summary>
+        new ILayoutCellViewCollection ParentCellView { get; }
+
+        /// <summary>
         /// Location of the cell.
         /// </summary>
         Point CellOrigin { get; }
@@ -65,6 +70,11 @@
         /// The state view containing the tree with this cell.
         /// </summary>
         public new ILayoutNodeStateView StateView { get { return (ILayoutNodeStateView)base.StateView; } }
+
+        /// <summary>
+        /// The collection of cell views containing this view.
+        /// </summary>
+        public new ILayoutCellViewCollection ParentCellView { get { return (ILayoutCellViewCollection)base.ParentCellView; } }
 
         /// <summary>
         /// Location of the cell.

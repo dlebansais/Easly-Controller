@@ -35,6 +35,11 @@
         public new IFocusNodeStateView StateView { get { return (IFocusNodeStateView)base.StateView; } }
 
         /// <summary>
+        /// The collection of cell views containing this view. Null for the root of the cell tree.
+        /// </summary>
+        public new IFocusCellViewCollection ParentCellView { get { return (IFocusCellViewCollection)base.ParentCellView; } }
+
+        /// <summary>
         /// The frame that created this cell view.
         /// </summary>
         public new IFocusFrame Frame { get { return (IFocusFrame)base.Frame; } }

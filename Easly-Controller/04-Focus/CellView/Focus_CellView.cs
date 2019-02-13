@@ -14,6 +14,11 @@
         new IFocusNodeStateView StateView { get; }
 
         /// <summary>
+        /// The collection of cell views containing this view. Null for the root of the cell tree.
+        /// </summary>
+        new IFocusCellViewCollection ParentCellView { get; }
+
+        /// <summary>
         /// Updates the focus chain with cells in the tree.
         /// </summary>
         /// <param name="focusChain">The list of focusable cell views found in the tree.</param>
@@ -42,6 +47,11 @@
         /// The state view containing the tree with this cell.
         /// </summary>
         public new IFocusNodeStateView StateView { get { return (IFocusNodeStateView)base.StateView; } }
+
+        /// <summary>
+        /// The collection of cell views containing this view. Null for the root of the cell tree.
+        /// </summary>
+        public new IFocusCellViewCollection ParentCellView { get { return (IFocusCellViewCollection)base.ParentCellView; } }
         #endregion
 
         #region Client Interface

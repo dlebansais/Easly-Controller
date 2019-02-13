@@ -47,6 +47,11 @@
         public new ILayoutNodeStateView StateView { get { return (ILayoutNodeStateView)base.StateView; } }
 
         /// <summary>
+        /// The collection of cell views containing this view. Null for the root of the cell tree.
+        /// </summary>
+        public new ILayoutCellViewCollection ParentCellView { get { return (ILayoutCellViewCollection)base.ParentCellView; } }
+
+        /// <summary>
         /// The frame that created this cell view.
         /// </summary>
         public new ILayoutFrame Frame { get { return (ILayoutFrame)base.Frame; } }
@@ -116,7 +121,9 @@
             ILayoutDiscreteFrame AsDiscreteFrame = KeywordFrame.ParentFrame as ILayoutDiscreteFrame;
             Debug.Assert(AsDiscreteFrame != null);
 
+            ParentCellView.DrawBeforeItem(DrawContext, this, CellOrigin, CellSize, CellPadding);
             AsDiscreteFrame.Draw(DrawContext, this, CellOrigin, CellSize, CellPadding);
+            ParentCellView.DrawAfterItem(DrawContext, this, CellOrigin, CellSize, CellPadding);
         }
         #endregion
 

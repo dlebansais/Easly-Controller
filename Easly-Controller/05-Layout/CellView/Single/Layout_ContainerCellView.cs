@@ -20,7 +20,7 @@
         new ILayoutNodeStateView ChildStateView { get; }
 
         /// <summary>
-        /// The frame that was used to create this cell. Can be null.
+        /// The frame that was used to create this cell.
         /// </summary>
         new ILayoutFrame Frame { get; }
     }
@@ -37,7 +37,7 @@
         /// <param name="stateView">The state view containing the tree with this cell.</param>
         /// <param name="parentCellView">The collection of cell views containing this view.</param>
         /// <param name="childStateView">The state view of the state associated to this cell.</param>
-        /// <param name="frame">The frame that was used to create this cell. Can be null.</param>
+        /// <param name="frame">The frame that was used to create this cell.</param>
         public LayoutContainerCellView(ILayoutNodeStateView stateView, ILayoutCellViewCollection parentCellView, ILayoutNodeStateView childStateView, ILayoutFrame frame)
             : base(stateView, parentCellView, childStateView, frame)
         {
@@ -49,6 +49,11 @@
 
         #region Properties
         /// <summary>
+        /// The state view containing the tree with this cell.
+        /// </summary>
+        public new ILayoutNodeStateView StateView { get { return (ILayoutNodeStateView)base.StateView; } }
+
+        /// <summary>
         /// The collection of cell views containing this view.
         /// </summary>
         public new ILayoutCellViewCollection ParentCellView { get { return (ILayoutCellViewCollection)base.ParentCellView; } }
@@ -59,12 +64,7 @@
         public new ILayoutNodeStateView ChildStateView { get { return (ILayoutNodeStateView)base.ChildStateView; } }
 
         /// <summary>
-        /// The state view containing the tree with this cell.
-        /// </summary>
-        public new ILayoutNodeStateView StateView { get { return (ILayoutNodeStateView)base.StateView; } }
-
-        /// <summary>
-        /// The frame that was used to create this cell. Can be null.
+        /// The frame that was used to create this cell.
         /// </summary>
         public new ILayoutFrame Frame { get { return (ILayoutFrame)base.Frame; } }
 

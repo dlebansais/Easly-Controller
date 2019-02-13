@@ -32,6 +32,11 @@
         /// The state view containing the tree with this cell.
         /// </summary>
         public new IFocusNodeStateView StateView { get { return (IFocusNodeStateView)base.StateView; } }
+
+        /// <summary>
+        /// The collection of cell views containing this view. Null for the root of the cell tree.
+        /// </summary>
+        public new IFocusCellViewCollection ParentCellView { get { return (IFocusCellViewCollection)base.ParentCellView; } }
         #endregion
 
         #region Client Interface
