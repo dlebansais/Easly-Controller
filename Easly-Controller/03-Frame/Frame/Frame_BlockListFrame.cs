@@ -80,7 +80,7 @@
         private protected virtual void ValidateEmbeddingCellView(IFrameCellViewTreeContext context, IFrameCellViewCollection embeddingCellView)
         {
             Debug.Assert(embeddingCellView.StateView == context.StateView);
-            Debug.Assert(embeddingCellView.ParentCellView != null || embeddingCellView == embeddingCellView.StateView.RootCellView);
+            IFrameCellViewCollection ParentCellView = embeddingCellView.ParentCellView;
         }
 
         /// <summary></summary>

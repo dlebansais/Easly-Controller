@@ -111,6 +111,7 @@
         private protected virtual void ValidateEmptyCellView(IFocusCellViewTreeContext context, IFocusEmptyCellView emptyCellView)
         {
             Debug.Assert(emptyCellView.StateView == context.StateView);
+            IFocusCellViewCollection ParentCellView = emptyCellView.ParentCellView;
         }
         #endregion
 

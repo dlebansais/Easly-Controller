@@ -132,6 +132,7 @@
         private protected virtual void ValidateEmptyCellView(IFrameCellViewTreeContext context, IFrameEmptyCellView emptyCellView)
         {
             Debug.Assert(emptyCellView.StateView == context.StateView);
+            IFrameCellViewCollection ParentCellView = emptyCellView.ParentCellView;
         }
 
         /// <summary></summary>

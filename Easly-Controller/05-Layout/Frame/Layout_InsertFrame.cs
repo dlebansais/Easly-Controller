@@ -92,7 +92,8 @@
         /// <summary></summary>
         private protected override void ValidateEmptyCellView(IFocusCellViewTreeContext context, IFocusEmptyCellView emptyCellView)
         {
-            Debug.Assert(emptyCellView.StateView == context.StateView);
+            Debug.Assert(((ILayoutEmptyCellView)emptyCellView).StateView == ((ILayoutCellViewTreeContext)context).StateView);
+            ILayoutCellViewCollection ParentCellView = ((ILayoutEmptyCellView)emptyCellView).ParentCellView;
         }
         #endregion
 

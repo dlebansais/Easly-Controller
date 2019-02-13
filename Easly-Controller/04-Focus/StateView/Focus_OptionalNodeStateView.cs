@@ -117,6 +117,7 @@
         private protected override void ValidateEmptyCellView(IFrameCellViewTreeContext context, IFrameEmptyCellView emptyCellView)
         {
             Debug.Assert(((IFocusEmptyCellView)emptyCellView).StateView == ((IFocusCellViewTreeContext)context).StateView);
+            IFocusCellViewCollection ParentCellView = ((IFocusEmptyCellView)emptyCellView).ParentCellView;
         }
         #endregion
 
