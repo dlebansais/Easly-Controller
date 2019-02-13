@@ -14,6 +14,11 @@
         /// <param name="context">Context used to build the cell view tree.</param>
         /// <param name="parentCellView">The collection of cell views containing this view. Null for the root of the cell tree.</param>
         IFrameCellView BuildBlockCells(IFrameCellViewTreeContext context, IFrameCellViewCollection parentCellView);
+
+        /// <summary>
+        /// Gets the collection placeholder frame that creates cells for nodes using this template.
+        /// </summary>
+        IFrameCollectionPlaceholderFrame GetPlaceholderFrame();
     }
 
     /// <summary>
@@ -34,6 +39,37 @@
             Debug.Assert(BlockFrame != null);
 
             return BlockFrame.BuildBlockCells(context, parentCellView);
+        }
+
+        /// <summary>
+        /// Gets the collection placeholder frame that creates cells for nodes using this template.
+        /// </summary>
+        public virtual IFrameCollectionPlaceholderFrame GetPlaceholderFrame()
+        {
+            bool Found = GetFirstCollectionPlaceholderFrame(Root, out IFrameCollectionPlaceholderFrame Result);
+            Debug.Assert(Found);
+            Debug.Assert(Result != null);
+
+            return Result;
+        }
+
+        private protected bool GetFirstCollectionPlaceholderFrame(IFrameFrame root, out IFrameCollectionPlaceholderFrame frame)
+        {
+            if (root is IFrameCollectionPlaceholderFrame AsCollectionPlaceholderFrame)
+            {
+                frame = AsCollectionPlaceholderFrame;
+                return true;
+            }
+
+            if (root is IFramePanelFrame AsPanelFrame)
+            {
+                foreach (IFrameFrame Item in AsPanelFrame.Items)
+                    if (GetFirstCollectionPlaceholderFrame(Item, out frame))
+                        return true;
+            }
+
+            frame = null;
+            return false;
         }
         #endregion
 

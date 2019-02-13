@@ -22,7 +22,7 @@
         private protected override IFrameCellViewCollection CreateEmbeddingCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, IFrameCellViewList list)
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameVerticalPanelFrame));
-            return new FrameColumn(stateView, parentCellView, list);
+            return new FrameColumn(stateView, parentCellView, list, this);
         }
         #endregion
     }

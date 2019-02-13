@@ -352,7 +352,7 @@
             Debug.Assert(inner != null);
             Debug.Assert(nodeIndex != null);
 
-            IFrameNodeState OwnerState = (IFrameNodeState)inner.Owner;
+            IFrameNodeState OwnerState = inner.Owner;
             IFrameNodeStateView OwnerStateView = StateViewTable[OwnerState];
 
             int BlockIndex = nodeIndex.BlockIndex;
@@ -361,13 +361,23 @@
             IFrameCellViewCollection EmbeddingCellView = BlockStateView.EmbeddingCellView;
             Debug.Assert(EmbeddingCellView != null);
 
+            IFrameFrame AssociatedFrame = TemplateSet.InnerToFrame(inner);
+            Debug.Assert(AssociatedFrame != null);
+
             IFrameNodeStateView InsertedStateView = StateViewTable[insertedState];
             Debug.Assert(InsertedStateView.RootCellView != null);
-            IFrameContainerCellView InsertedCellView = CreateFrameCellView(OwnerStateView, EmbeddingCellView, InsertedStateView);
+            IFrameContainerCellView InsertedCellView = CreateFrameCellView(OwnerStateView, EmbeddingCellView, InsertedStateView, AssociatedFrame);
             ValidateContainerCellView(OwnerStateView, EmbeddingCellView, InsertedStateView, InsertedCellView);
 
             int Index = nodeIndex.Index;
             EmbeddingCellView.Insert(Index, InsertedCellView);
+
+            foreach (IFrameCellView CellView in EmbeddingCellView.CellViewList)
+            {
+                IFrameContainerCellView AsContainerCellView = CellView as IFrameContainerCellView;
+                Debug.Assert(AsContainerCellView != null);
+                Debug.Assert(AsContainerCellView.Frame == AssociatedFrame);
+            }
         }
 
         /// <summary></summary>
@@ -387,13 +397,23 @@
             IFrameCellViewCollection EmbeddingCellView = CellViewTable[PropertyName] as IFrameCellViewCollection;
             Debug.Assert(EmbeddingCellView != null);
 
+            IFrameFrame AssociatedFrame = TemplateSet.InnerToFrame(inner);
+            Debug.Assert(AssociatedFrame != null);
+
             IFrameNodeStateView InsertedStateView = StateViewTable[insertedState];
             Debug.Assert(InsertedStateView.RootCellView != null);
-            IFrameContainerCellView InsertedCellView = CreateFrameCellView(OwnerStateView, EmbeddingCellView, InsertedStateView);
+            IFrameContainerCellView InsertedCellView = CreateFrameCellView(OwnerStateView, EmbeddingCellView, InsertedStateView, AssociatedFrame);
             ValidateContainerCellView(OwnerStateView, EmbeddingCellView, InsertedStateView, InsertedCellView);
 
             int Index = nodeIndex.Index;
             EmbeddingCellView.Insert(Index, InsertedCellView);
+
+            foreach (IFrameCellView CellView in EmbeddingCellView.CellViewList)
+            {
+                IFrameContainerCellView AsContainerCellView = CellView as IFrameContainerCellView;
+                Debug.Assert(AsContainerCellView != null);
+                Debug.Assert(AsContainerCellView.Frame == AssociatedFrame);
+            }
         }
 
         /// <summary>
@@ -546,9 +566,13 @@
             Debug.Assert(PreviousCellView != null);
             IFrameCellViewCollection EmbeddingCellView = PreviousCellView.ParentCellView;
 
+            IFrameFrame AssociatedFrame = TemplateSet.InnerToFrame(inner);
+            Debug.Assert(AssociatedFrame != null);
+            Debug.Assert(AssociatedFrame == PreviousCellView.Frame);
+
             IFrameNodeStateView ReplacedStateView = StateViewTable[replacedState];
             Debug.Assert(ReplacedStateView.RootCellView != null);
-            IFrameContainerCellView ReplacedCellView = CreateFrameCellView(OwnerStateView, EmbeddingCellView, ReplacedStateView);
+            IFrameContainerCellView ReplacedCellView = CreateFrameCellView(OwnerStateView, EmbeddingCellView, ReplacedStateView, AssociatedFrame);
             ValidateContainerCellView(OwnerStateView, EmbeddingCellView, ReplacedStateView, ReplacedCellView);
 
             Debug.Assert(PreviousCellView.IsAssignedToTable);
@@ -577,9 +601,13 @@
             Debug.Assert(PreviousCellView != null);
             IFrameCellViewCollection EmbeddingCellView = PreviousCellView.ParentCellView;
 
+            IFrameFrame AssociatedFrame = TemplateSet.InnerToFrame(inner);
+            Debug.Assert(AssociatedFrame != null);
+            Debug.Assert(AssociatedFrame == PreviousCellView.Frame);
+
             IFrameNodeStateView ReplacedStateView = StateViewTable[replacedState];
             Debug.Assert(ReplacedStateView.RootCellView != null);
-            IFrameContainerCellView ReplacedCellView = CreateFrameCellView(OwnerStateView, EmbeddingCellView, ReplacedStateView);
+            IFrameContainerCellView ReplacedCellView = CreateFrameCellView(OwnerStateView, EmbeddingCellView, ReplacedStateView, AssociatedFrame);
             ValidateContainerCellView(OwnerStateView, EmbeddingCellView, ReplacedStateView, ReplacedCellView);
 
             Debug.Assert(PreviousCellView.IsAssignedToTable);
@@ -603,12 +631,20 @@
             IFrameCellViewCollection EmbeddingCellView = BlockStateView.EmbeddingCellView;
             Debug.Assert(EmbeddingCellView != null);
 
+            IFrameFrame AssociatedFrame = TemplateSet.InnerToFrame(inner);
+            Debug.Assert(AssociatedFrame != null);
+
             IFrameNodeStateView ReplacedStateView = StateViewTable[replacedState];
             Debug.Assert(ReplacedStateView.RootCellView != null);
-            IFrameContainerCellView ReplacedCellView = CreateFrameCellView(OwnerStateView, EmbeddingCellView, ReplacedStateView);
+            IFrameContainerCellView ReplacedCellView = CreateFrameCellView(OwnerStateView, EmbeddingCellView, ReplacedStateView, AssociatedFrame);
             ValidateContainerCellView(OwnerStateView, EmbeddingCellView, ReplacedStateView, ReplacedCellView);
 
             int Index = nodeIndex.Index;
+
+            IFrameContainerCellView PreviousCellView = EmbeddingCellView.CellViewList[Index] as IFrameContainerCellView;
+            Debug.Assert(PreviousCellView != null);
+            Debug.Assert(AssociatedFrame == PreviousCellView.Frame);
+
             EmbeddingCellView.Replace(Index, ReplacedCellView);
         }
 
@@ -629,12 +665,20 @@
             IFrameCellViewCollection EmbeddingCellView = CellViewTable[PropertyName] as IFrameCellViewCollection;
             Debug.Assert(EmbeddingCellView != null);
 
+            IFrameFrame AssociatedFrame = TemplateSet.InnerToFrame(inner);
+            Debug.Assert(AssociatedFrame != null);
+
             IFrameNodeStateView ReplacedStateView = StateViewTable[replacedState];
             Debug.Assert(ReplacedStateView.RootCellView != null);
-            IFrameContainerCellView ReplacedCellView = CreateFrameCellView(OwnerStateView, EmbeddingCellView, ReplacedStateView);
+            IFrameContainerCellView ReplacedCellView = CreateFrameCellView(OwnerStateView, EmbeddingCellView, ReplacedStateView, AssociatedFrame);
             ValidateContainerCellView(OwnerStateView, EmbeddingCellView, ReplacedStateView, ReplacedCellView);
 
             int Index = nodeIndex.Index;
+
+            IFrameContainerCellView PreviousCellView = EmbeddingCellView.CellViewList[Index] as IFrameContainerCellView;
+            Debug.Assert(PreviousCellView != null);
+            Debug.Assert(AssociatedFrame == PreviousCellView.Frame);
+
             EmbeddingCellView.Replace(Index, ReplacedCellView);
         }
 
@@ -1163,10 +1207,10 @@
         /// <summary>
         /// Creates a IxxxContainerCellView object.
         /// </summary>
-        private protected virtual IFrameContainerCellView CreateFrameCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, IFrameNodeStateView childStateView)
+        private protected virtual IFrameContainerCellView CreateFrameCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, IFrameNodeStateView childStateView, IFrameFrame frame)
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameControllerView));
-            return new FrameContainerCellView(stateView, parentCellView, childStateView);
+            return new FrameContainerCellView(stateView, parentCellView, childStateView, frame);
         }
 
         /// <summary>

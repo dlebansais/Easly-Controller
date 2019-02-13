@@ -21,8 +21,9 @@
         /// <param name="stateView">The state view containing the tree with this cell.</param>
         /// <param name="parentCellView">The collection of cell views containing this view. Null for the root of the cell tree.</param>
         /// <param name="cellViewList">The list of child cell views.</param>
-        public FrameColumn(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, IFrameCellViewList cellViewList)
-            : base(stateView, parentCellView, cellViewList)
+        /// <param name="frame">The frame that was used to create this cell. Can be null.</param>
+        public FrameColumn(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, IFrameCellViewList cellViewList, IFrameFrame frame)
+            : base(stateView, parentCellView, cellViewList, frame)
         {
         }
         #endregion

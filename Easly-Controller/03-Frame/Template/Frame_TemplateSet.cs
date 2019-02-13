@@ -45,6 +45,12 @@
         /// </summary>
         /// <param name="blockType">Type of the block for which a template is requested.</param>
         IFrameBlockTemplate BlockTypeToTemplate(Type blockType);
+
+        /// <summary>
+        /// Gets the frame that creates cells associated to states in the inner.
+        /// </summary>
+        /// <param name="inner">The inner.</param>
+        IFrameFrame InnerToFrame(IFrameInner<IFrameBrowsingChildIndex> inner);
     }
 
     /// <summary>
@@ -201,6 +207,32 @@
             Debug.Assert(BlockTemplateTable.ContainsKey(blockType));
 
             return BlockTemplateTable[blockType] as IFrameBlockTemplate;
+        }
+
+        /// <summary>
+        /// Gets the frame that creates cells associated to states in the inner.
+        /// </summary>
+        /// <param name="inner">The inner.</param>
+        public virtual IFrameFrame InnerToFrame(IFrameInner<IFrameBrowsingChildIndex> inner)
+        {
+            IFrameNodeState Owner = inner.Owner;
+            Type OwnerType = Owner.Node.GetType();
+            Type InterfaceType = NodeTreeHelper.NodeTypeToInterfaceType(OwnerType);
+            IFrameNodeTemplate Template = NodeTypeToTemplate(InterfaceType);
+            IFrameFrame Frame = Template.PropertyToFrame(inner.PropertyName);
+
+            if (Frame is IFrameBlockListFrame AsBlockListFrame)
+            {
+                IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> BlockListInner = inner as IFrameBlockListInner<IFrameBrowsingBlockNodeIndex>;
+                Debug.Assert(BlockListInner != null);
+
+                Type BlockType = NodeTreeHelperBlockList.BlockListBlockType(Owner.Node, BlockListInner.PropertyName);
+                IFrameBlockTemplate BlockTemplate = BlockTypeToTemplate(BlockType);
+
+                Frame = BlockTemplate.GetPlaceholderFrame();
+            }
+
+            return Frame;
         }
         #endregion
 

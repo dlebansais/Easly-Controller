@@ -12,6 +12,11 @@
         /// The state view of the state associated to this cell.
         /// </summary>
         IFrameNodeStateView ChildStateView { get; }
+
+        /// <summary>
+        /// The frame that was used to create this cell. Can be null.
+        /// </summary>
+        IFrameFrame Frame { get; }
     }
 
     /// <summary>
@@ -26,13 +31,16 @@
         /// <param name="stateView">The state view containing the tree with this cell.</param>
         /// <param name="parentCellView">The collection of cell views containing this view.</param>
         /// <param name="childStateView">The state view of the state associated to this cell.</param>
-        public FrameContainerCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, IFrameNodeStateView childStateView)
+        /// <param name="frame">The frame that was used to create this cell. Can be null.</param>
+        public FrameContainerCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, IFrameNodeStateView childStateView, IFrameFrame frame)
             : base(stateView, parentCellView)
         {
             Debug.Assert(parentCellView != null);
             Debug.Assert(childStateView != null);
+            Debug.Assert(frame != null);
 
             ChildStateView = childStateView;
+            Frame = frame;
         }
         #endregion
 
@@ -41,6 +49,11 @@
         /// The state view of the state associated to this cell.
         /// </summary>
         public IFrameNodeStateView ChildStateView { get; }
+
+        /// <summary>
+        /// The frame that was used to create this cell. Can be null.
+        /// </summary>
+        public IFrameFrame Frame { get; }
 
         /// <summary>
         /// True if the cell is assigned to a property in a cell view table.

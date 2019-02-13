@@ -196,7 +196,7 @@
         private protected override IFrameContainerCellView CreateFrameCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, IFrameNodeStateView childStateView)
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusHorizontalPanelFrame));
-            return new FocusContainerCellView((IFocusNodeStateView)stateView, (IFocusCellViewCollection)parentCellView, (IFocusNodeStateView)childStateView);
+            return new FocusContainerCellView((IFocusNodeStateView)stateView, (IFocusCellViewCollection)parentCellView, (IFocusNodeStateView)childStateView, this);
         }
 
         /// <summary>
@@ -205,7 +205,7 @@
         private protected override IFrameCellViewCollection CreateEmbeddingCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, IFrameCellViewList list)
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusHorizontalPanelFrame));
-            return new FocusLine((IFocusNodeStateView)stateView, (IFocusCellViewCollection)parentCellView, (IFocusCellViewList)list);
+            return new FocusLine((IFocusNodeStateView)stateView, (IFocusCellViewCollection)parentCellView, (IFocusCellViewList)list, this);
         }
         #endregion
     }

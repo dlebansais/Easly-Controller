@@ -95,7 +95,7 @@
         private protected virtual IFrameContainerCellView CreateFrameCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, IFrameNodeStateView childStateView)
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameCollectionPlaceholderFrame));
-            return new FrameContainerCellView(stateView, parentCellView, childStateView);
+            return new FrameContainerCellView(stateView, parentCellView, childStateView, this);
         }
 
         /// <summary>

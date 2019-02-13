@@ -183,7 +183,7 @@
         private protected override IFrameCellViewCollection CreateEmbeddingCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, IFrameCellViewList list)
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusHorizontalBlockListFrame));
-            return new FocusLine((IFocusNodeStateView)stateView, (IFocusCellViewCollection)parentCellView, (IFocusCellViewList)list);
+            return new FocusLine((IFocusNodeStateView)stateView, (IFocusCellViewCollection)parentCellView, (IFocusCellViewList)list, this);
         }
 
         /// <summary>

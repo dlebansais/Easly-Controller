@@ -22,7 +22,7 @@
         /// <summary>
         /// The frame that was used to create this cell. Can be null.
         /// </summary>
-        ILayoutFrame Frame { get; }
+        new ILayoutFrame Frame { get; }
     }
 
     /// <summary>
@@ -39,9 +39,8 @@
         /// <param name="childStateView">The state view of the state associated to this cell.</param>
         /// <param name="frame">The frame that was used to create this cell. Can be null.</param>
         public LayoutContainerCellView(ILayoutNodeStateView stateView, ILayoutCellViewCollection parentCellView, ILayoutNodeStateView childStateView, ILayoutFrame frame)
-            : base(stateView, parentCellView, childStateView)
+            : base(stateView, parentCellView, childStateView, frame)
         {
-            Frame = frame;
             CellOrigin = ArrangeHelper.InvalidOrigin;
             CellSize = MeasureHelper.InvalidSize;
             CellPadding = Padding.Empty;
@@ -67,7 +66,7 @@
         /// <summary>
         /// The frame that was used to create this cell. Can be null.
         /// </summary>
-        public ILayoutFrame Frame { get; }
+        public new ILayoutFrame Frame { get { return (ILayoutFrame)base.Frame; } }
 
         /// <summary>
         /// Location of the cell.

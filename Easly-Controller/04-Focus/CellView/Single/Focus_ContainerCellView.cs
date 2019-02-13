@@ -17,6 +17,11 @@
         /// The state view of the state associated to this cell.
         /// </summary>
         new IFocusNodeStateView ChildStateView { get; }
+
+        /// <summary>
+        /// The frame that was used to create this cell. Can be null.
+        /// </summary>
+        new IFocusFrame Frame { get; }
     }
 
     /// <summary>
@@ -31,8 +36,9 @@
         /// <param name="stateView">The state view containing the tree with this cell.</param>
         /// <param name="parentCellView">The collection of cell views containing this view.</param>
         /// <param name="childStateView">The state view of the state associated to this cell.</param>
-        public FocusContainerCellView(IFocusNodeStateView stateView, IFocusCellViewCollection parentCellView, IFocusNodeStateView childStateView)
-            : base(stateView, parentCellView, childStateView)
+        /// <param name="frame">The frame that was used to create this cell. Can be null.</param>
+        public FocusContainerCellView(IFocusNodeStateView stateView, IFocusCellViewCollection parentCellView, IFocusNodeStateView childStateView, IFrameFrame frame)
+            : base(stateView, parentCellView, childStateView, frame)
         {
         }
         #endregion
@@ -47,6 +53,11 @@
         /// The state view of the state associated to this cell.
         /// </summary>
         public new IFocusNodeStateView ChildStateView { get { return (IFocusNodeStateView)base.ChildStateView; } }
+
+        /// <summary>
+        /// The frame that was used to create this cell. Can be null.
+        /// </summary>
+        public new IFocusFrame Frame { get { return (IFocusFrame)base.Frame; } }
 
         /// <summary>
         /// The state view containing the tree with this cell.

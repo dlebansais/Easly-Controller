@@ -12,6 +12,11 @@
         /// The collection of child cells.
         /// </summary>
         new IFocusCellViewList CellViewList { get; }
+
+        /// <summary>
+        /// The frame that was used to create this cell. Can be null.
+        /// </summary>
+        new IFocusFrame Frame { get; }
     }
 
     /// <summary>
@@ -26,22 +31,28 @@
         /// <param name="stateView">The state view containing the tree with this cell.</param>
         /// <param name="parentCellView">The collection of cell views containing this view. Null for the root of the cell tree.</param>
         /// <param name="cellViewList">The list of child cell views.</param>
-        public FocusCellViewCollection(IFocusNodeStateView stateView, IFocusCellViewCollection parentCellView, IFocusCellViewList cellViewList)
-            : base(stateView, parentCellView, cellViewList)
+        /// <param name="frame">The frame that was used to create this cell. Can be null.</param>
+        public FocusCellViewCollection(IFocusNodeStateView stateView, IFocusCellViewCollection parentCellView, IFocusCellViewList cellViewList, IFocusFrame frame)
+            : base(stateView, parentCellView, cellViewList, frame)
         {
         }
         #endregion
 
         #region Properties
         /// <summary>
+        /// The state view containing the tree with this cell.
+        /// </summary>
+        public new IFocusNodeStateView StateView { get { return (IFocusNodeStateView)base.StateView; } }
+
+        /// <summary>
         /// The collection of child cells.
         /// </summary>
         public new IFocusCellViewList CellViewList { get { return (IFocusCellViewList)base.CellViewList; } }
 
         /// <summary>
-        /// The state view containing the tree with this cell.
+        /// The frame that was used to create this cell. Can be null.
         /// </summary>
-        public new IFocusNodeStateView StateView { get { return (IFocusNodeStateView)base.StateView; } }
+        public new IFocusFrame Frame { get { return (IFocusFrame)base.Frame; } }
         #endregion
 
         #region Client Interface

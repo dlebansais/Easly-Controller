@@ -9,10 +9,6 @@
     /// </summary>
     public interface ILayoutLine : IFocusLine, ILayoutCellViewCollection
     {
-        /// <summary>
-        /// Frame providing the horizontal separator to insert between cells. Can be null.
-        /// </summary>
-        ILayoutFrame Frame { get; }
     }
 
     /// <summary>
@@ -29,9 +25,8 @@
         /// <param name="cellViewList">The list of child cell views.</param>
         /// <param name="frame">Frame providing the horizontal separator to insert between cells. Can be null.</param>
         public LayoutLine(ILayoutNodeStateView stateView, ILayoutCellViewCollection parentCellView, ILayoutCellViewList cellViewList, ILayoutFrame frame)
-            : base(stateView, parentCellView, cellViewList)
+            : base(stateView, parentCellView, cellViewList, frame)
         {
-            Frame = frame;
             CellOrigin = ArrangeHelper.InvalidOrigin;
             CellSize = MeasureHelper.InvalidSize;
             CellPadding = Padding.Empty;
@@ -50,9 +45,9 @@
         public new ILayoutNodeStateView StateView { get { return (ILayoutNodeStateView)base.StateView; } }
 
         /// <summary>
-        /// Frame providing the horizontal separator to insert between cells. Can be null.
+        /// The frame that was used to create this cell. Can be null.
         /// </summary>
-        public ILayoutFrame Frame { get; }
+        public new ILayoutFrame Frame { get { return (ILayoutFrame)base.Frame; } }
 
         /// <summary>
         /// Location of the cell.

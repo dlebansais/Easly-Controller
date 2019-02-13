@@ -14,6 +14,11 @@
         IFrameCellViewList CellViewList { get; }
 
         /// <summary>
+        /// The frame that was used to create this cell. Can be null.
+        /// </summary>
+        IFrameFrame Frame { get; }
+
+        /// <summary>
         /// Inserts a new cell view in the collection.
         /// </summary>
         /// <param name="index">Index where to insert the cell view.</param>
@@ -60,9 +65,11 @@
         /// <param name="stateView">The state view containing the tree with this cell.</param>
         /// <param name="parentCellView">The collection of cell views containing this view. Null for the root of the cell tree.</param>
         /// <param name="cellViewList">The list of child cell views.</param>
-        public FrameCellViewCollection(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, IFrameCellViewList cellViewList)
+        /// <param name="frame">The frame that was used to create this cell. Can be null.</param>
+        public FrameCellViewCollection(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, IFrameCellViewList cellViewList, IFrameFrame frame)
             : base(stateView, parentCellView)
         {
+            Frame = frame;
             CellViewList = cellViewList;
         }
         #endregion
@@ -72,6 +79,11 @@
         /// The collection of child cells.
         /// </summary>
         public IFrameCellViewList CellViewList { get; }
+
+        /// <summary>
+        /// The frame that was used to create this cell. Can be null.
+        /// </summary>
+        public IFrameFrame Frame { get; }
 
         /// <summary>
         /// True if the cell is assigned to a property in a cell view table.

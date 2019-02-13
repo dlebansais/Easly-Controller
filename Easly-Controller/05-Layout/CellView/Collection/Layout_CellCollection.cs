@@ -13,6 +13,11 @@
         /// The collection of child cells.
         /// </summary>
         new ILayoutCellViewList CellViewList { get; }
+
+        /// <summary>
+        /// The frame that was used to create this cell. Can be null.
+        /// </summary>
+        new ILayoutFrame Frame { get; }
     }
 
     /// <summary>
@@ -27,8 +32,9 @@
         /// <param name="stateView">The state view containing the tree with this cell.</param>
         /// <param name="parentCellView">The collection of cell views containing this view. Null for the root of the cell tree.</param>
         /// <param name="cellViewList">The list of child cell views.</param>
-        public LayoutCellViewCollection(ILayoutNodeStateView stateView, ILayoutCellViewCollection parentCellView, ILayoutCellViewList cellViewList)
-            : base(stateView, parentCellView, cellViewList)
+        /// <param name="frame">The frame that was used to create this cell. Can be null.</param>
+        public LayoutCellViewCollection(ILayoutNodeStateView stateView, ILayoutCellViewCollection parentCellView, ILayoutCellViewList cellViewList, ILayoutFrame frame)
+            : base(stateView, parentCellView, cellViewList, frame)
         {
             CellOrigin = ArrangeHelper.InvalidOrigin;
             CellSize = MeasureHelper.InvalidSize;
@@ -38,14 +44,19 @@
 
         #region Properties
         /// <summary>
+        /// The state view containing the tree with this cell.
+        /// </summary>
+        public new ILayoutNodeStateView StateView { get { return (ILayoutNodeStateView)base.StateView; } }
+
+        /// <summary>
         /// The collection of child cells.
         /// </summary>
         public new ILayoutCellViewList CellViewList { get { return (ILayoutCellViewList)base.CellViewList; } }
 
         /// <summary>
-        /// The state view containing the tree with this cell.
+        /// The frame that was used to create this cell. Can be null.
         /// </summary>
-        public new ILayoutNodeStateView StateView { get { return (ILayoutNodeStateView)base.StateView; } }
+        public new ILayoutFrame Frame { get { return (ILayoutFrame)base.Frame; } }
 
         /// <summary>
         /// Location of the cell.

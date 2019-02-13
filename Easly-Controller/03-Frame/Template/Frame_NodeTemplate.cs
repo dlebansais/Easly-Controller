@@ -13,6 +13,12 @@
         /// </summary>
         /// <param name="context">Context used to build the cell view tree.</param>
         IFrameCellView BuildNodeCells(IFrameCellViewTreeContext context);
+
+        /// <summary>
+        /// Gets the frame that associated to a given property.
+        /// </summary>
+        /// <param name="propertyName">The property name.</param>
+        IFrameNamedFrame PropertyToFrame(string propertyName);
     }
 
     /// <summary>
@@ -32,6 +38,41 @@
             Debug.Assert(NodeFrame != null);
 
             return NodeFrame.BuildNodeCells(context, null);
+        }
+
+        /// <summary>
+        /// Gets the frame that associated to a given property.
+        /// </summary>
+        /// <param name="propertyName">The property name.</param>
+        public virtual IFrameNamedFrame PropertyToFrame(string propertyName)
+        {
+            bool Found = GetFirstNamedFrame(Root, propertyName, out IFrameNamedFrame Result);
+            Debug.Assert(Found);
+            Debug.Assert(Result != null);
+
+            return Result;
+        }
+
+        private protected bool GetFirstNamedFrame(IFrameFrame root, string propertyName, out IFrameNamedFrame frame)
+        {
+            if (root is IFrameNamedFrame AsNamedFrame)
+            {
+                if (AsNamedFrame.PropertyName == propertyName)
+                {
+                    frame = AsNamedFrame;
+                    return true;
+                }
+            }
+
+            if (root is IFramePanelFrame AsPanelFrame)
+            {
+                foreach (IFrameFrame Item in AsPanelFrame.Items)
+                    if (GetFirstNamedFrame(Item, propertyName, out frame))
+                        return true;
+            }
+
+            frame = null;
+            return false;
         }
         #endregion
 
