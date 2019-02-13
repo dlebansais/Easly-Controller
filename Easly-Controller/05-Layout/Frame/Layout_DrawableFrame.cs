@@ -3,7 +3,7 @@
     using EaslyController.Controller;
 
     /// <summary>
-    /// Base frame.
+    /// Frames that have associated cells that can be displayed.
     /// </summary>
     public interface ILayoutDrawableFrame : ILayoutFrame
     {

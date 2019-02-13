@@ -3,7 +3,7 @@
     using EaslyController.Constants;
 
     /// <summary>
-    /// Frame that can have a custom visibility.
+    /// Frame that can have a custom text style.
     /// </summary>
     public interface ILayoutNodeFrameWithTextStyle : ILayoutNodeFrame
     {

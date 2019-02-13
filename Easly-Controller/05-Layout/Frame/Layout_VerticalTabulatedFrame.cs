@@ -1,7 +1,7 @@
 ﻿namespace EaslyController.Layout
 {
     /// <summary>
-    /// Base frame.
+    /// Frames that can have a tabulation margin on their left.
     /// </summary>
     public interface ILayoutVerticalTabulatedFrame : ILayoutFrame
     {
