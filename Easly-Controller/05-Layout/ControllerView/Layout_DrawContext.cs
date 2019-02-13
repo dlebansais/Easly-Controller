@@ -63,5 +63,21 @@
         /// <param name="symbol">The symbol to draw.</param>
         /// <param name="origin">The location where to start drawing.</param>
         void DrawSymbol(Symbols symbol, Point origin);
+
+        /// <summary>
+        /// Draws the horizontal separator left of the specified origin and with the specified height.
+        /// </summary>
+        /// <param name="separator">The separator to draw.</param>
+        /// <param name="origin">The location where to draw.</param>
+        /// <param name="height">The separator height.</param>
+        void DrawHorizontalSeparator(HorizontalSeparators separator, Point origin, double height);
+
+        /// <summary>
+        /// Draws the vertical separator above the specified origin and with the specified width.
+        /// </summary>
+        /// <param name="separator">The separator to draw.</param>
+        /// <param name="origin">The location where to draw.</param>
+        /// <param name="width">The separator width.</param>
+        void DrawVerticalSeparator(VerticalSeparators separator, Point origin, double width);
     }
 }

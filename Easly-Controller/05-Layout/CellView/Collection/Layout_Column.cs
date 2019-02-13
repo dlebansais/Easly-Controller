@@ -179,6 +179,12 @@
         /// <param name="padding">The padding to use when drawing.</param>
         public virtual void DrawBeforeItem(ILayoutDrawContext drawContext, ILayoutCellView cellView, Point origin, Size size, Padding padding)
         {
+            int Index = CellViewList.IndexOf(cellView);
+            Debug.Assert(Index >= 0);
+
+            if (Index > 0)
+                if (Frame is ILayoutFrameWithVerticalSeparator AsFrameWithVerticalSeparator)
+                    drawContext.DrawVerticalSeparator(AsFrameWithVerticalSeparator.Separator, origin, size.Width);
         }
 
         /// <summary>

@@ -80,6 +80,11 @@
                 return RootCellView.HasVisibleCellView;
             }
         }
+
+        /// <summary>
+        /// The cell view that is embedding this state view. Can be null.
+        /// </summary>
+        public IFrameCellView ParentContainer { get; private set; }
         #endregion
 
         #region Client Interface
@@ -90,9 +95,7 @@
         public virtual void BuildRootCellView(IFrameCellViewTreeContext context)
         {
             Debug.Assert(context.StateView == this);
-
             Debug.Assert(State.InnerTable.Count == 0);
-
             Debug.Assert(RootCellView == null);
 
             InitCellViewTable();
@@ -124,6 +127,15 @@
         private protected virtual void SealCellViewTable()
         {
             CellViewTable = _CellViewTable.ToReadOnly();
+        }
+
+        /// <summary>
+        /// Set the container for this state view.
+        /// </summary>
+        /// <param name="parentContainer">The cell view where the tree is restarted.</param>
+        public virtual void SetContainerCellView(IFrameCellView parentContainer)
+        {
+            ParentContainer = parentContainer;
         }
 
         /// <summary>

@@ -41,10 +41,20 @@
         bool HasVisibleCellView { get; }
 
         /// <summary>
+        /// The cell view that is embedding this state view. Can be null.
+        /// </summary>
+        IFrameCellView ParentContainer { get; }
+
+        /// <summary>
         /// Builds the cell view tree for this view.
         /// </summary>
         /// <param name="context">Context used to build the cell view tree.</param>
         void BuildRootCellView(IFrameCellViewTreeContext context);
+
+        /// <summary>
+        /// Set the container for this state view.
+        /// </summary>
+        void SetContainerCellView(IFrameCellView parentContainer);
 
         /// <summary>
         /// Clears the cell view tree for this view.
@@ -126,6 +136,11 @@
                 return RootCellView.HasVisibleCellView;
             }
         }
+
+        /// <summary>
+        /// The cell view that is embedding this state view. Can be null.
+        /// </summary>
+        public virtual IFrameCellView ParentContainer { get; }
         #endregion
 
         #region Client Interface
@@ -134,6 +149,12 @@
         /// </summary>
         /// <param name="context">Context used to build the cell view tree.</param>
         public abstract void BuildRootCellView(IFrameCellViewTreeContext context);
+
+        /// <summary>
+        /// Set the container for this state view.
+        /// </summary>
+        /// <param name="parentContainer">The cell view where the tree is restarted.</param>
+        public abstract void SetContainerCellView(IFrameCellView parentContainer);
 
         /// <summary>
         /// Clears the cell view tree for this view.

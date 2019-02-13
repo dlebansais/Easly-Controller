@@ -36,6 +36,11 @@
         new ILayoutAssignableCellViewReadOnlyDictionary<string> CellViewTable { get; }
 
         /// <summary>
+        /// The cell view that is embedding this state view. Can be null.
+        /// </summary>
+        new ILayoutCellView ParentContainer { get; }
+
+        /// <summary>
         /// Location of the state view.
         /// </summary>
         Point CellOrigin { get; }
@@ -101,6 +106,11 @@
         /// Table of cell views that are mutable lists of cells.
         /// </summary>
         public new ILayoutAssignableCellViewReadOnlyDictionary<string> CellViewTable { get { return (ILayoutAssignableCellViewReadOnlyDictionary<string>)base.CellViewTable; } }
+
+        /// <summary>
+        /// The cell view that is embedding this state view. Can be null.
+        /// </summary>
+        public new ILayoutCellView ParentContainer { get { return (ILayoutCellView)base.ParentContainer; } }
 
         /// <summary>
         /// Location of the state view.

@@ -94,6 +94,11 @@
                 return RootCellView.HasVisibleCellView;
             }
         }
+
+        /// <summary>
+        /// The cell view that is embedding this state view. Can be null.
+        /// </summary>
+        public IFrameCellView ParentContainer { get; private set; }
         #endregion
 
         #region Client Interface
@@ -112,19 +117,19 @@
 
             Debug.Assert(RootCellView == null);
 
-            IFrameCellView EmbeddingCellView;
+            IFrameCellView CellView;
             IFrameNodeTemplate NodeTemplate = Template as IFrameNodeTemplate;
             if (NodeTemplate != null)
-                EmbeddingCellView = NodeTemplate.BuildNodeCells(context);
+                CellView = NodeTemplate.BuildNodeCells(context);
             else
             {
                 IFrameEmptyCellView EmptyCellView = CreateEmptyCellView(this, null);
                 ValidateEmptyCellView(context, EmptyCellView);
 
-                EmbeddingCellView = EmptyCellView;
+                CellView = EmptyCellView;
             }
 
-            SetRootCellView(EmbeddingCellView);
+            SetRootCellView(CellView);
             SealCellViewTable();
         }
 
@@ -172,6 +177,15 @@
             Debug.Assert(cellView != null);
 
             _CellViewTable[propertyName] = cellView;
+        }
+
+        /// <summary>
+        /// Set the container for this state view.
+        /// </summary>
+        /// <param name="parentContainer">The cell view where the tree is restarted.</param>
+        public virtual void SetContainerCellView(IFrameCellView parentContainer)
+        {
+            ParentContainer = parentContainer;
         }
 
         /// <summary>

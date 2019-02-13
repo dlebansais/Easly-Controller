@@ -34,6 +34,11 @@
         new IFocusAssignableCellViewReadOnlyDictionary<string> CellViewTable { get; }
 
         /// <summary>
+        /// The cell view that is embedding this state view. Can be null.
+        /// </summary>
+        new IFocusCellView ParentContainer { get; }
+
+        /// <summary>
         /// Indicates if this view has all its frames forced to visible.
         /// </summary>
         bool IsUserVisible { get; }
@@ -93,6 +98,11 @@
         /// Table of cell views that are mutable lists of cells.
         /// </summary>
         public new IFocusAssignableCellViewReadOnlyDictionary<string> CellViewTable { get { return (IFocusAssignableCellViewReadOnlyDictionary<string>)base.CellViewTable; } }
+
+        /// <summary>
+        /// The cell view that is embedding this state view. Can be null.
+        /// </summary>
+        public new IFocusCellView ParentContainer { get { return (IFocusCellView)base.ParentContainer; } }
 
         /// <summary>
         /// Indicates if this view has all its frames forced to visible.

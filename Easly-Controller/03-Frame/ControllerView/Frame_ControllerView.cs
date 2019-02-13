@@ -991,6 +991,8 @@
         {
             IFrameCellViewTreeContext Context = InitializedCellViewTreeContext(stateView);
             stateView.BuildRootCellView(Context);
+            stateView.SetContainerCellView(null);
+
             return stateView.RootCellView;
         }
 

@@ -32,6 +32,11 @@
             HorizontalSeparatorWidthTable[HorizontalSeparators.Dot] = ft.WidthIncludingTrailingWhitespace;
         }
 
+        public void UpdateDC(DrawingContext dc)
+        {
+            this.dc = dc;
+        }
+
         private DrawingContext dc;
         public Typeface Typeface { get; }
         public double FontSize { get; }
@@ -53,6 +58,9 @@
 
         public double GetHorizontalSeparatorWidth(HorizontalSeparators separator)
         {
+            if (separator == HorizontalSeparators.Dot)
+                separator = HorizontalSeparators.Dot;
+
             return HorizontalSeparatorWidthTable[separator];
         }
 
@@ -199,9 +207,39 @@
             dc.DrawText(ft, new Point(origin.X, origin.Y));
         }
 
-        public void UpdateDC(DrawingContext dc)
+        /// <summary>
+        /// Draws the horizontal separator left of the specified origin and with the specified height.
+        /// </summary>
+        /// <param name="separator">The separator to draw.</param>
+        /// <param name="origin">The location where to draw.</param>
+        /// <param name="height">The separator height.</param>
+        public void DrawHorizontalSeparator(HorizontalSeparators separator, EaslyController.Controller.Point origin, double height)
         {
-            this.dc = dc;
+            FormattedText ft;
+
+            switch (separator)
+            {
+                case HorizontalSeparators.None:
+                    break;
+                case HorizontalSeparators.Dot:
+                    ft = new FormattedText(".", CultureInfo.CurrentCulture, FlowDirection.LeftToRight, Typeface, FontSize, Brushes.Blue);
+                    dc.DrawText(ft, new Point(origin.X - ft.WidthIncludingTrailingWhitespace, origin.Y));
+                    break;
+                case HorizontalSeparators.Comma:
+                    ft = new FormattedText(", ", CultureInfo.CurrentCulture, FlowDirection.LeftToRight, Typeface, FontSize, Brushes.Blue);
+                    dc.DrawText(ft, new Point(origin.X - ft.WidthIncludingTrailingWhitespace, origin.Y));
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// Draws the vertical separator above the specified origin and with the specified width.
+        /// </summary>
+        /// <param name="separator">The separator to draw.</param>
+        /// <param name="origin">The location where to draw.</param>
+        /// <param name="width">The separator width.</param>
+        public void DrawVerticalSeparator(VerticalSeparators separator, EaslyController.Controller.Point origin, double width)
+        {
         }
     }
 }

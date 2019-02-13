@@ -62,6 +62,11 @@
         /// Indicates if this view has all its frames forced to visible.
         /// </summary>
         public bool IsUserVisible { get; private set; }
+
+        /// <summary>
+        /// The cell view that is embedding this state view. Can be null.
+        /// </summary>
+        public new IFocusCellView ParentContainer { get { return (IFocusCellView)base.ParentContainer; } }
         #endregion
 
         #region Client Interface

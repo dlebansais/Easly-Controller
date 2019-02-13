@@ -57,5 +57,13 @@ namespace TestDebug
         public void DrawSymbol(Symbols symbol, Point origin)
         {
         }
+
+        public void DrawHorizontalSeparator(HorizontalSeparators separator, Point origin, double height)
+        {
+        }
+
+        public void DrawVerticalSeparator(VerticalSeparators separator, Point origin, double width)
+        {
+        }
     }
 }

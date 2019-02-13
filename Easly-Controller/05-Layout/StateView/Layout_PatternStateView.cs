@@ -64,6 +64,11 @@
         public new ILayoutAssignableCellViewReadOnlyDictionary<string> CellViewTable { get { return (ILayoutAssignableCellViewReadOnlyDictionary<string>)base.CellViewTable; } }
 
         /// <summary>
+        /// The cell view that is embedding this state view. Can be null.
+        /// </summary>
+        public new ILayoutCellView ParentContainer { get { return (ILayoutCellView)base.ParentContainer; } }
+
+        /// <summary>
         /// Location of the state view.
         /// </summary>
         public Point CellOrigin { get; private set; }

@@ -184,7 +184,11 @@
             context.RestoreParentStateView(StateView);
             Debug.Assert(ChildStateView.RootCellView != null);
 
-            return CreateFrameCellView(context.StateView, parentCellView, ChildStateView);
+            IFrameContainerCellView Result = CreateFrameCellView(context.StateView, parentCellView, ChildStateView);
+
+            ChildStateView.SetContainerCellView(Result);
+
+            return Result;
         }
         #endregion
 

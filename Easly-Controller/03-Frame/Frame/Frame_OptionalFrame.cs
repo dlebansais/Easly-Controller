@@ -65,6 +65,8 @@
             IFrameContainerCellView EmbeddingCellView = CreateFrameCellView(context.StateView, parentCellView, ChildStateView);
             ValidateContainerCellView(context.StateView, parentCellView, ChildStateView, EmbeddingCellView);
 
+            ChildStateView.SetContainerCellView(EmbeddingCellView);
+
             AssignEmbeddingCellView(context.StateView, EmbeddingCellView);
 
             return EmbeddingCellView;

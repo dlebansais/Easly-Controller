@@ -121,9 +121,14 @@
             ILayoutDiscreteFrame AsDiscreteFrame = KeywordFrame.ParentFrame as ILayoutDiscreteFrame;
             Debug.Assert(AsDiscreteFrame != null);
 
-            ParentCellView.DrawBeforeItem(DrawContext, this, CellOrigin, CellSize, CellPadding);
+            if ((AsDiscreteFrame is ILayoutFrameWithHorizontalSeparator) || (AsDiscreteFrame is ILayoutFrameWithVerticalSeparator))
+            {
+                Debug.Assert(ParentCellView != null);
+            }
+
+            ParentCellView?.DrawBeforeItem(DrawContext, this, CellOrigin, CellSize, CellPadding);
             AsDiscreteFrame.Draw(DrawContext, this, CellOrigin, CellSize, CellPadding);
-            ParentCellView.DrawAfterItem(DrawContext, this, CellOrigin, CellSize, CellPadding);
+            ParentCellView?.DrawAfterItem(DrawContext, this, CellOrigin, CellSize, CellPadding);
         }
         #endregion
 

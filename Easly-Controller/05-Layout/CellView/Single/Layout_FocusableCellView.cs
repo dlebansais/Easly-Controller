@@ -111,9 +111,14 @@
             ILayoutDrawableFrame AsDrawableFrame = Frame as ILayoutDrawableFrame;
             Debug.Assert(AsDrawableFrame != null);
 
-            ParentCellView.DrawBeforeItem(DrawContext, this, CellOrigin, CellSize, CellPadding);
+            if ((AsDrawableFrame is ILayoutFrameWithHorizontalSeparator) || (AsDrawableFrame is ILayoutFrameWithVerticalSeparator))
+            {
+                Debug.Assert(ParentCellView != null);
+            }
+
+            ParentCellView?.DrawBeforeItem(DrawContext, this, CellOrigin, CellSize, CellPadding);
             AsDrawableFrame.Draw(DrawContext, this, CellOrigin, CellSize, CellPadding);
-            ParentCellView.DrawAfterItem(DrawContext, this, CellOrigin, CellSize, CellPadding);
+            ParentCellView?.DrawAfterItem(DrawContext, this, CellOrigin, CellSize, CellPadding);
         }
         #endregion
 

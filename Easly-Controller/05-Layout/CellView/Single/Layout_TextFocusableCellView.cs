@@ -112,9 +112,51 @@
             ILayoutDrawableFrame AsDrawableFrame = Frame as ILayoutDrawableFrame;
             Debug.Assert(AsDrawableFrame != null);
 
-            ParentCellView.DrawBeforeItem(DrawContext, this, CellOrigin, CellSize, CellPadding);
+            GetCollectionWithSeparator(out ILayoutCellViewCollection CollectionWithSeparator, out ILayoutCellView ReferenceCell);
+
+            CollectionWithSeparator?.DrawBeforeItem(DrawContext, ReferenceCell, CellOrigin, CellSize, CellPadding);
             AsDrawableFrame.Draw(DrawContext, this, CellOrigin, CellSize, CellPadding);
-            ParentCellView.DrawAfterItem(DrawContext, this, CellOrigin, CellSize, CellPadding);
+            CollectionWithSeparator?.DrawAfterItem(DrawContext, ReferenceCell, CellOrigin, CellSize, CellPadding);
+        }
+
+        protected virtual void GetCollectionWithSeparator(out ILayoutCellViewCollection collectionWithSeparator, out ILayoutCellView referenceCell)
+        {
+            collectionWithSeparator = null;
+            referenceCell = null;
+
+            ILayoutCellView CurrentCellView = this;
+            ILayoutCellView CurrentReference = null;
+            ILayoutFrame CurrentFrame = Frame;
+            ILayoutNodeStateView CurrentStateView = StateView;
+
+            while (CurrentFrame != null && !(CurrentFrame is ILayoutFrameWithHorizontalSeparator) && !(CurrentFrame is ILayoutFrameWithVerticalSeparator))
+            {
+                if (CurrentCellView.ParentCellView != null)
+                {
+                    CurrentReference = CurrentCellView;
+                    CurrentCellView = CurrentCellView.ParentCellView;
+                    CurrentFrame = CurrentCellView.ParentCellView.Frame;
+                }
+                else if (StateView.ParentContainer != null)
+                {
+                    CurrentReference = StateView.ParentContainer;
+                    ILayoutCellViewCollection EmbeddingCellView = CurrentReference.ParentCellView as ILayoutCellViewCollection;
+                    Debug.Assert(EmbeddingCellView != null);
+
+                    CurrentCellView = EmbeddingCellView;
+                    CurrentFrame = EmbeddingCellView.Frame;
+                    CurrentStateView = EmbeddingCellView.StateView;
+                }
+                else
+                    break;
+            }
+
+            if (((CurrentFrame is ILayoutFrameWithHorizontalSeparator) || (CurrentFrame is ILayoutFrameWithVerticalSeparator)) && CurrentCellView is ILayoutCellViewCollection)
+            {
+                Debug.Assert(CurrentReference != null);
+                collectionWithSeparator = CurrentCellView as ILayoutCellViewCollection;
+                referenceCell = CurrentReference;
+            }
         }
         #endregion
 
