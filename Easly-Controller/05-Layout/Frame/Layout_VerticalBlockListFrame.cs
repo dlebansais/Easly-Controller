@@ -5,14 +5,14 @@
     using EaslyController.Frame;
 
     /// <summary>
-    /// Layout for a block list displayed vertically.
+    /// Frame for a block list displayed vertically.
     /// </summary>
     public interface ILayoutVerticalBlockListFrame : IFocusVerticalBlockListFrame, ILayoutBlockListFrame, ILayoutVerticalTabulatedFrame
     {
     }
 
     /// <summary>
-    /// Layout for a block list displayed vertically.
+    /// Frame for a block list displayed vertically.
     /// </summary>
     public class LayoutVerticalBlockListFrame : FocusVerticalBlockListFrame, ILayoutVerticalBlockListFrame
     {

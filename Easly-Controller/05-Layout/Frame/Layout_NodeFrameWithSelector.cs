@@ -3,7 +3,7 @@
     using EaslyController.Focus;
 
     /// <summary>
-    /// Focus that can have selectors.
+    /// Frame that can have selectors.
     /// </summary>
     public interface ILayoutNodeFrameWithSelector : IFocusNodeFrameWithSelector
     {

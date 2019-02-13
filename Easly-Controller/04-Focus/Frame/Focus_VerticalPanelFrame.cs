@@ -6,14 +6,14 @@
     using EaslyController.Frame;
 
     /// <summary>
-    /// Focus for displaying more frames vertically.
+    /// Frame for displaying more frames vertically.
     /// </summary>
     public interface IFocusVerticalPanelFrame : IFrameVerticalPanelFrame, IFocusPanelFrame
     {
     }
 
     /// <summary>
-    /// Focus for displaying more frames vertically.
+    /// Frame for displaying more frames vertically.
     /// </summary>
     [ContentProperty("Items")]
     public class FocusVerticalPanelFrame : FrameVerticalPanelFrame, IFocusVerticalPanelFrame

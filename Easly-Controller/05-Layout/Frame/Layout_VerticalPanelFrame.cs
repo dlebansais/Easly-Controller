@@ -6,14 +6,14 @@
     using EaslyController.Frame;
 
     /// <summary>
-    /// Layout for displaying more frames vertically.
+    /// Frame for displaying more frames vertically.
     /// </summary>
     public interface ILayoutVerticalPanelFrame : IFocusVerticalPanelFrame, ILayoutPanelFrame, ILayoutVerticalTabulatedFrame
     {
     }
 
     /// <summary>
-    /// Layout for displaying more frames vertically.
+    /// Frame for displaying more frames vertically.
     /// </summary>
     [ContentProperty("Items")]
     public class LayoutVerticalPanelFrame : FocusVerticalPanelFrame, ILayoutVerticalPanelFrame

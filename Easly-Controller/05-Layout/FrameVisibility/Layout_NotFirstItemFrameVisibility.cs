@@ -3,14 +3,14 @@
     using EaslyController.Focus;
 
     /// <summary>
-    /// Focus visibility that depends if the current state is not the first in the parent.
+    /// Frame visibility that depends if the current state is not the first in the parent.
     /// </summary>
     public interface ILayoutNotFirstItemFrameVisibility : IFocusNotFirstItemFrameVisibility, ILayoutFrameVisibility, ILayoutNodeFrameVisibility
     {
     }
 
     /// <summary>
-    /// Focus visibility that depends if the current state is not the first in the parent.
+    /// Frame visibility that depends if the current state is not the first in the parent.
     /// </summary>
     public class LayoutNotFirstItemFrameVisibility : FocusNotFirstItemFrameVisibility, ILayoutNotFirstItemFrameVisibility
     {

@@ -6,7 +6,7 @@
     using EaslyController.Frame;
 
     /// <summary>
-    /// Focus selecting sub-frames.
+    /// Frame selecting sub-frames.
     /// </summary>
     public interface ILayoutSelectionFrame : IFocusSelectionFrame, ILayoutFrame, ILayoutNodeFrame
     {
@@ -17,7 +17,7 @@
     }
 
     /// <summary>
-    /// Focus selecting sub-frames.
+    /// Frame selecting sub-frames.
     /// </summary>
     [ContentProperty("Items")]
     public class LayoutSelectionFrame : FocusSelectionFrame, ILayoutSelectionFrame

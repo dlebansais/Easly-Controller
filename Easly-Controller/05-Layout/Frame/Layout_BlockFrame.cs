@@ -3,7 +3,7 @@
     using EaslyController.Focus;
 
     /// <summary>
-    /// Focus for cells within a block.
+    /// Frame for cells within a block.
     /// </summary>
     public interface ILayoutBlockFrame : IFocusBlockFrame, ILayoutFrame
     {

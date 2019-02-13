@@ -6,14 +6,14 @@
     using EaslyController.Frame;
 
     /// <summary>
-    /// Layout for describing an optional child node.
+    /// Frame for describing an optional child node.
     /// </summary>
     public interface ILayoutOptionalFrame : IFocusOptionalFrame, ILayoutNamedFrame, ILayoutNodeFrameWithVisibility, ILayoutNodeFrameWithSelector, ILayoutSelectorPropertyFrame, ILayoutMeasurableFrame
     {
     }
 
     /// <summary>
-    /// Layout for describing an optional child node.
+    /// Frame for describing an optional child node.
     /// </summary>
     public class LayoutOptionalFrame : FocusOptionalFrame, ILayoutOptionalFrame
     {

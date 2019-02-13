@@ -4,7 +4,7 @@
     using EaslyController.Focus;
 
     /// <summary>
-    /// Focus visibility that shows if one frame visibility among a list does.
+    /// Frame visibility that shows if one frame visibility among a list does.
     /// </summary>
     public interface ILayoutMixedFrameVisibility : IFocusMixedFrameVisibility, ILayoutFrameVisibility, ILayoutNodeFrameVisibility
     {
@@ -16,7 +16,7 @@
     }
 
     /// <summary>
-    /// Focus visibility that shows if one frame visibility among a list does.
+    /// Frame visibility that shows if one frame visibility among a list does.
     /// </summary>
     [ContentProperty("Items")]
     public class LayoutMixedFrameVisibility : FocusMixedFrameVisibility, ILayoutMixedFrameVisibility

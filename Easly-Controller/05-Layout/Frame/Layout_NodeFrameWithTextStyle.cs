@@ -3,7 +3,7 @@
     using EaslyController.Constants;
 
     /// <summary>
-    /// Focus that can have a custom visibility.
+    /// Frame that can have a custom visibility.
     /// </summary>
     public interface ILayoutNodeFrameWithTextStyle : ILayoutNodeFrame
     {

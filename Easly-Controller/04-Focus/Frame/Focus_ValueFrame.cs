@@ -3,14 +3,14 @@
     using EaslyController.Frame;
 
     /// <summary>
-    /// Focus describing a value property (or string) in a node.
+    /// Frame describing a value property (or string) in a node.
     /// </summary>
     public interface IFocusValueFrame : IFrameValueFrame, IFocusNamedFrame, IFocusNodeFrameWithVisibility
     {
     }
 
     /// <summary>
-    /// Focus describing a value property (or string) in a node.
+    /// Frame describing a value property (or string) in a node.
     /// </summary>
     public abstract class FocusValueFrame : FrameValueFrame, IFocusValueFrame
     {

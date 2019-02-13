@@ -8,14 +8,14 @@
     using EaslyController.Frame;
 
     /// <summary>
-    /// Layout describing a number string value property in a node.
+    /// Frame describing a number string value property in a node.
     /// </summary>
     public interface ILayoutNumberFrame : IFocusNumberFrame, ILayoutValueFrame, ILayoutMeasurableFrame, ILayoutDrawableFrame
     {
     }
 
     /// <summary>
-    /// Layout describing a number string value property in a node.
+    /// Frame describing a number string value property in a node.
     /// </summary>
     public class LayoutNumberFrame : FocusNumberFrame, ILayoutNumberFrame
     {

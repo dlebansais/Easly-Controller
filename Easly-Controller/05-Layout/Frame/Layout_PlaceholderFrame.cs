@@ -6,14 +6,14 @@
     using EaslyController.Frame;
 
     /// <summary>
-    /// Layout for describing an child node.
+    /// Frame for describing an child node.
     /// </summary>
     public interface ILayoutPlaceholderFrame : IFocusPlaceholderFrame, ILayoutNamedFrame, ILayoutNodeFrameWithVisibility, ILayoutNodeFrameWithSelector, ILayoutSelectorPropertyFrame, ILayoutMeasurableFrame
     {
     }
 
     /// <summary>
-    /// Layout for describing an child node.
+    /// Frame for describing an child node.
     /// </summary>
     public class LayoutPlaceholderFrame : FocusPlaceholderFrame, ILayoutPlaceholderFrame
     {

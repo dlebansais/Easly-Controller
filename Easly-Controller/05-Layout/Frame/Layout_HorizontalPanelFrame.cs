@@ -6,14 +6,14 @@
     using EaslyController.Frame;
 
     /// <summary>
-    /// Layout for displaying more frames horizontally.
+    /// Frame for displaying more frames horizontally.
     /// </summary>
     public interface ILayoutHorizontalPanelFrame : IFocusHorizontalPanelFrame, ILayoutPanelFrame
     {
     }
 
     /// <summary>
-    /// Layout for displaying more frames horizontally.
+    /// Frame for displaying more frames horizontally.
     /// </summary>
     [ContentProperty("Items")]
     public class LayoutHorizontalPanelFrame : FocusHorizontalPanelFrame, ILayoutHorizontalPanelFrame

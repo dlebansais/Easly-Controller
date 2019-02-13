@@ -5,14 +5,14 @@
     using EaslyController.Frame;
 
     /// <summary>
-    /// Focus for describing an optional child node.
+    /// Frame for describing an optional child node.
     /// </summary>
     public interface IFocusOptionalFrame : IFrameOptionalFrame, IFocusNamedFrame, IFocusNodeFrameWithVisibility, IFocusNodeFrameWithSelector, IFocusSelectorPropertyFrame
     {
     }
 
     /// <summary>
-    /// Focus for describing an optional child node.
+    /// Frame for describing an optional child node.
     /// </summary>
     public class FocusOptionalFrame : FrameOptionalFrame, IFocusOptionalFrame
     {

@@ -6,14 +6,14 @@
     using EaslyController.Frame;
 
     /// <summary>
-    /// Layout for decoration purpose only.
+    /// Frame for decoration purpose only.
     /// </summary>
     public interface ILayoutStaticFrame : IFocusStaticFrame, ILayoutFrame, ILayoutNodeFrameWithVisibility, ILayoutMeasurableFrame, ILayoutDrawableFrame
     {
     }
 
     /// <summary>
-    /// Layout for decoration purpose only.
+    /// Frame for decoration purpose only.
     /// </summary>
     public abstract class LayoutStaticFrame : FocusStaticFrame, ILayoutStaticFrame
     {

@@ -8,14 +8,14 @@
     using EaslyController.Frame;
 
     /// <summary>
-    /// Layout for bringing the focus to an insertion point.
+    /// Frame for bringing the focus to an insertion point.
     /// </summary>
     public interface ILayoutInsertFrame : IFocusInsertFrame, ILayoutStaticFrame, ILayoutMeasurableFrame, ILayoutDrawableFrame
     {
     }
 
     /// <summary>
-    /// Layout for bringing the focus to an insertion point.
+    /// Frame for bringing the focus to an insertion point.
     /// </summary>
     [ContentProperty("CollectionName")]
     public class LayoutInsertFrame : FocusInsertFrame, ILayoutInsertFrame

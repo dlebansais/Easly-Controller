@@ -5,14 +5,14 @@
     using EaslyController.Frame;
 
     /// <summary>
-    /// Focus describing a string value property in a node.
+    /// Frame describing a string value property in a node.
     /// </summary>
     public interface IFocusTextValueFrame : IFrameTextValueFrame, IFocusValueFrame
     {
     }
 
     /// <summary>
-    /// Focus describing a string value property in a node.
+    /// Frame describing a string value property in a node.
     /// </summary>
     public class FocusTextValueFrame : FrameTextValueFrame, IFocusTextValueFrame
     {

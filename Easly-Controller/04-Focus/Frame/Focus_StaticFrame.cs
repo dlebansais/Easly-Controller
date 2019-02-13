@@ -5,14 +5,14 @@
     using EaslyController.Frame;
 
     /// <summary>
-    /// Focus for decoration purpose only.
+    /// Frame for decoration purpose only.
     /// </summary>
     public interface IFocusStaticFrame : IFrameStaticFrame, IFocusFrame, IFocusNodeFrameWithVisibility
     {
     }
 
     /// <summary>
-    /// Focus for decoration purpose only.
+    /// Frame for decoration purpose only.
     /// </summary>
     public abstract class FocusStaticFrame : FrameStaticFrame, IFocusStaticFrame
     {

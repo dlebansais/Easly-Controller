@@ -5,14 +5,14 @@
     using EaslyController.Frame;
 
     /// <summary>
-    /// Focus for a placeholder node in a block list displayed horizontally.
+    /// Frame for a placeholder node in a block list displayed horizontally.
     /// </summary>
     public interface IFocusHorizontalCollectionPlaceholderFrame : IFrameHorizontalCollectionPlaceholderFrame, IFocusCollectionPlaceholderFrame, IFocusNodeFrameWithSelector
     {
     }
 
     /// <summary>
-    /// Focus for a placeholder node in a block list displayed horizontally.
+    /// Frame for a placeholder node in a block list displayed horizontally.
     /// </summary>
     public class FocusHorizontalCollectionPlaceholderFrame : FrameHorizontalCollectionPlaceholderFrame, IFocusHorizontalCollectionPlaceholderFrame
     {

@@ -6,7 +6,7 @@
     using EaslyController.Frame;
 
     /// <summary>
-    /// Focus describing an enum value that can be displayed with different frames depending on its value.
+    /// Frame describing an enum value that can be displayed with different frames depending on its value.
     /// </summary>
     public interface IFocusDiscreteFrame : IFrameDiscreteFrame, IFocusValueFrame
     {
@@ -18,7 +18,7 @@
     }
 
     /// <summary>
-    /// Focus describing an enum value that can be displayed with different frames depending on its value.
+    /// Frame describing an enum value that can be displayed with different frames depending on its value.
     /// </summary>
     [ContentProperty("Items")]
     public class FocusDiscreteFrame : FrameDiscreteFrame, IFocusDiscreteFrame

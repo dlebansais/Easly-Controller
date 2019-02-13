@@ -8,14 +8,14 @@
     using EaslyController.Frame;
 
     /// <summary>
-    /// Layout for decoration purpose only.
+    /// Frame for decoration purpose only.
     /// </summary>
     public interface ILayoutKeywordFrame : IFocusKeywordFrame, ILayoutFrame, ILayoutBlockFrame, ILayoutNodeFrameWithVisibility, ILayoutMeasurableFrame, ILayoutDrawableFrame
     {
     }
 
     /// <summary>
-    /// Layout for decoration purpose only.
+    /// Frame for decoration purpose only.
     /// </summary>
     [ContentProperty("Text")]
     public class LayoutKeywordFrame : FocusKeywordFrame, ILayoutKeywordFrame

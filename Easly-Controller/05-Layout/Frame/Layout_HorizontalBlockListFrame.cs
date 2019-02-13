@@ -5,14 +5,14 @@
     using EaslyController.Frame;
 
     /// <summary>
-    /// Focus for a block list displayed horizontally.
+    /// Frame for a block list displayed horizontally.
     /// </summary>
     public interface ILayoutHorizontalBlockListFrame : IFocusHorizontalBlockListFrame, ILayoutBlockListFrame
     {
     }
 
     /// <summary>
-    /// Focus for a block list displayed horizontally.
+    /// Frame for a block list displayed horizontally.
     /// </summary>
     public class LayoutHorizontalBlockListFrame : FocusHorizontalBlockListFrame, ILayoutHorizontalBlockListFrame
     {

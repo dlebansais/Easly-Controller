@@ -4,7 +4,7 @@
     using EaslyController.Focus;
 
     /// <summary>
-    /// Focus selectable by name.
+    /// Frame selectable by name.
     /// </summary>
     public interface ILayoutSelectableFrame : IFocusSelectableFrame, ILayoutFrame, ILayoutNodeFrame
     {
@@ -16,7 +16,7 @@
     }
 
     /// <summary>
-    /// Focus selectable by name.
+    /// Frame selectable by name.
     /// </summary>
     [ContentProperty("Content")]
     public class LayoutSelectableFrame : FocusSelectableFrame, ILayoutSelectableFrame

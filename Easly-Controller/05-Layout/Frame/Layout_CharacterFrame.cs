@@ -8,14 +8,14 @@
     using EaslyController.Frame;
 
     /// <summary>
-    /// Focus describing a single-character string value property in a node.
+    /// Frame describing a single-character string value property in a node.
     /// </summary>
     public interface ILayoutCharacterFrame : IFocusCharacterFrame, ILayoutValueFrame, ILayoutMeasurableFrame, ILayoutDrawableFrame
     {
     }
 
     /// <summary>
-    /// Focus describing a single-character string value property in a node.
+    /// Frame describing a single-character string value property in a node.
     /// </summary>
     public class LayoutCharacterFrame : FocusCharacterFrame, ILayoutCharacterFrame
     {

@@ -6,14 +6,14 @@
     using EaslyController.Frame;
 
     /// <summary>
-    /// Layout for a placeholder node in a block list displayed vertically.
+    /// Frame for a placeholder node in a block list displayed vertically.
     /// </summary>
     public interface ILayoutVerticalCollectionPlaceholderFrame : IFocusVerticalCollectionPlaceholderFrame, ILayoutCollectionPlaceholderFrame, ILayoutNodeFrameWithSelector
     {
     }
 
     /// <summary>
-    /// Layout for a placeholder node in a block list displayed vertically.
+    /// Frame for a placeholder node in a block list displayed vertically.
     /// </summary>
     public class LayoutVerticalCollectionPlaceholderFrame : FocusVerticalCollectionPlaceholderFrame, ILayoutVerticalCollectionPlaceholderFrame
     {

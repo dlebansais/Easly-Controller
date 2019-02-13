@@ -3,14 +3,14 @@
     using EaslyController.Focus;
 
     /// <summary>
-    /// Layout describing a value property (or string) in a node.
+    /// Frame describing a value property (or string) in a node.
     /// </summary>
     public interface ILayoutValueFrame : IFocusValueFrame, ILayoutNamedFrame, ILayoutNodeFrameWithVisibility
     {
     }
 
     /// <summary>
-    /// Layout describing a value property (or string) in a node.
+    /// Frame describing a value property (or string) in a node.
     /// </summary>
     public abstract class LayoutValueFrame : FocusValueFrame, ILayoutValueFrame
     {

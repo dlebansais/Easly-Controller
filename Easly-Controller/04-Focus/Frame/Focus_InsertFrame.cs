@@ -7,7 +7,7 @@
     using EaslyController.Frame;
 
     /// <summary>
-    /// Focus for bringing the focus to an insertion point.
+    /// Frame for bringing the focus to an insertion point.
     /// </summary>
     public interface IFocusInsertFrame : IFrameInsertFrame, IFocusStaticFrame
     {
@@ -31,7 +31,7 @@
     }
 
     /// <summary>
-    /// Focus for bringing the focus to an insertion point.
+    /// Frame for bringing the focus to an insertion point.
     /// </summary>
     [ContentProperty("CollectionName")]
     public class FocusInsertFrame : FrameInsertFrame, IFocusInsertFrame

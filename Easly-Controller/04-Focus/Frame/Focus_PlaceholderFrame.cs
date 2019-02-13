@@ -5,14 +5,14 @@
     using EaslyController.Frame;
 
     /// <summary>
-    /// Focus for describing an child node.
+    /// Frame for describing an child node.
     /// </summary>
     public interface IFocusPlaceholderFrame : IFramePlaceholderFrame, IFocusNamedFrame, IFocusNodeFrameWithVisibility, IFocusNodeFrameWithSelector, IFocusSelectorPropertyFrame
     {
     }
 
     /// <summary>
-    /// Focus for describing an child node.
+    /// Frame for describing an child node.
     /// </summary>
     public class FocusPlaceholderFrame : FramePlaceholderFrame, IFocusPlaceholderFrame
     {
