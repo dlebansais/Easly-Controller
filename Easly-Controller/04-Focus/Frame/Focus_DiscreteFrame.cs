@@ -119,6 +119,7 @@
             Debug.Assert(((IFocusDiscreteContentFocusableCellView)cellView).StateView == ((IFocusCellViewTreeContext)context).StateView);
             Debug.Assert(((IFocusDiscreteContentFocusableCellView)cellView).Frame == this);
             Debug.Assert(((IFocusDiscreteContentFocusableCellView)cellView).KeywordFrame == (IFocusKeywordFrame)keywordFrame);
+            IFocusCellViewCollection ParentCellView = ((IFocusDiscreteContentFocusableCellView)cellView).ParentCellView;
         }
 
         /// <summary></summary>

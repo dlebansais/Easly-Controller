@@ -104,6 +104,7 @@
             Debug.Assert(cellView.StateView == context.StateView);
             Debug.Assert(cellView.Frame == this);
             Debug.Assert(cellView.KeywordFrame == keywordFrame);
+            IFrameCellViewCollection ParentCellView = cellView.ParentCellView;
         }
         #endregion
 

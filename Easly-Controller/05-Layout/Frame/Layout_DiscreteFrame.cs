@@ -131,6 +131,7 @@
             Debug.Assert(((ILayoutDiscreteContentFocusableCellView)cellView).StateView == ((ILayoutCellViewTreeContext)context).StateView);
             Debug.Assert(((ILayoutDiscreteContentFocusableCellView)cellView).Frame == this);
             Debug.Assert(((ILayoutDiscreteContentFocusableCellView)cellView).KeywordFrame == (ILayoutKeywordFrame)keywordFrame);
+            ILayoutCellViewCollection ParentCellView = ((ILayoutDiscreteContentFocusableCellView)cellView).ParentCellView;
         }
 
         /// <summary></summary>

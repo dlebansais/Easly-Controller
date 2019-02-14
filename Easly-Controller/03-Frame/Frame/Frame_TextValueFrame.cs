@@ -53,6 +53,7 @@
         {
             Debug.Assert(cellView.StateView == context.StateView);
             Debug.Assert(cellView.Frame == this);
+            IFrameCellViewCollection ParentCellView = cellView.ParentCellView;
         }
         #endregion
 

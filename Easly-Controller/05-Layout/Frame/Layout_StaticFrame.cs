@@ -75,6 +75,7 @@
         {
             Debug.Assert(((ILayoutVisibleCellView)cellView).StateView == ((ILayoutCellViewTreeContext)context).StateView);
             Debug.Assert(((ILayoutVisibleCellView)cellView).Frame == this);
+            ILayoutCellViewCollection ParentCellView = ((ILayoutVisibleCellView)cellView).ParentCellView;
         }
 
         /// <summary></summary>

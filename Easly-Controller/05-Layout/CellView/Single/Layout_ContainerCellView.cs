@@ -113,8 +113,7 @@
             }
 
             if (Frame is ILayoutVerticalTabulatedFrame AsTabulatedFrame)
-                if (AsTabulatedFrame.HasTabulationMargin)
-                    MeasuredSize = new Size(MeasuredSize.Width + DrawContext.TabulationWidth, MeasuredSize.Height);
+                MeasuredSize = new Size(MeasuredSize.Width + (AsTabulatedFrame.HasTabulationMargin ? DrawContext.TabulationWidth : 0), MeasuredSize.Height);
 
             CellSize = MeasuredSize;
 
@@ -135,8 +134,8 @@
             Debug.Assert(DrawContext != null);
 
             double LeftPadding = CellPadding.Left;
-            if (Frame is ILayoutVerticalTabulatedFrame AsTabulatedFrame && AsTabulatedFrame.HasTabulationMargin)
-                LeftPadding += DrawContext.TabulationWidth;
+            if (Frame is ILayoutVerticalTabulatedFrame AsTabulatedFrame)
+                LeftPadding += AsTabulatedFrame.HasTabulationMargin ? DrawContext.TabulationWidth : 0;
 
             Point OriginWithPadding = new Point(origin.X + LeftPadding, origin.Y);
 

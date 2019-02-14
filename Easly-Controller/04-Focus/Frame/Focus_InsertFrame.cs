@@ -205,6 +205,7 @@
         {
             Debug.Assert(((IFocusVisibleCellView)cellView).StateView == ((IFocusCellViewTreeContext)context).StateView);
             Debug.Assert(((IFocusVisibleCellView)cellView).Frame == this);
+            IFocusCellViewCollection ParentCellView = ((IFocusVisibleCellView)cellView).ParentCellView;
         }
 
         /// <summary></summary>
