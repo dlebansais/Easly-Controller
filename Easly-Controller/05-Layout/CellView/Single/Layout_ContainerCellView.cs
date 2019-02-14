@@ -124,7 +124,7 @@
         /// <summary>
         /// Arranges the cell.
         /// </summary>
-        public virtual void Arrange(Point origin)
+        public virtual void Arrange(Point origin, ILayoutCellViewCollection collectionWithSeparator, ILayoutCellView referenceContainer)
         {
             CellOrigin = origin;
 
@@ -141,7 +141,7 @@
             Point OriginWithPadding = new Point(origin.X + LeftPadding, origin.Y);
 
             Debug.Assert(ChildStateView != null);
-            ChildStateView.ArrangeCells(OriginWithPadding);
+            ChildStateView.ArrangeCells(OriginWithPadding, collectionWithSeparator, referenceContainer);
 
             Debug.Assert(ArrangeHelper.IsValid(CellOrigin));
         }

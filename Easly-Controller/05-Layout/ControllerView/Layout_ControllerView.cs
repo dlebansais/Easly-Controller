@@ -405,7 +405,7 @@
             ILayoutPlaceholderNodeState RootState = Controller.RootState;
             ILayoutNodeStateView RootStateView = StateViewTable[RootState];
 
-            RootStateView.ArrangeCells(Point.Origin);
+            RootStateView.ArrangeCells(Point.Origin, null, null);
 
             Point ViewOrigin = RootStateView.CellOrigin;
             Debug.Assert(ViewOrigin.IsOrigin);

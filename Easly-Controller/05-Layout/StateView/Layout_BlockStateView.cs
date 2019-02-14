@@ -53,7 +53,7 @@
         /// <summary>
         /// Arranges cells in this block state view.
         /// </summary>
-        void ArrangeCells(Point origin);
+        void ArrangeCells(Point origin, ILayoutCellViewCollection collectionWithSeparator, ILayoutCellView referenceContainer);
     }
 
     /// <summary>
@@ -135,10 +135,10 @@
         /// <summary>
         /// Arranges cells in this block state view.
         /// </summary>
-        public virtual void ArrangeCells(Point origin)
+        public virtual void ArrangeCells(Point origin, ILayoutCellViewCollection collectionWithSeparator, ILayoutCellView referenceContainer)
         {
             Debug.Assert(RootCellView != null);
-            RootCellView.Arrange(origin);
+            RootCellView.Arrange(origin, collectionWithSeparator, referenceContainer);
 
             CellOrigin = RootCellView.CellOrigin;
 

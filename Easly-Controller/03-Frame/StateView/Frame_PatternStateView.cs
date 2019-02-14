@@ -83,7 +83,7 @@
         /// <summary>
         /// The cell view that is embedding this state view. Can be null.
         /// </summary>
-        public IFrameCellView ParentContainer { get; private set; }
+        public IFrameContainerCellView ParentContainer { get; private set; }
         #endregion
 
         #region Client Interface
@@ -132,7 +132,7 @@
         /// Set the container for this state view.
         /// </summary>
         /// <param name="parentContainer">The cell view where the tree is restarted.</param>
-        public virtual void SetContainerCellView(IFrameCellView parentContainer)
+        public virtual void SetContainerCellView(IFrameContainerCellView parentContainer)
         {
             ParentContainer = parentContainer;
         }

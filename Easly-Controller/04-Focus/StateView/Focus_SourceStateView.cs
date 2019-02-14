@@ -61,7 +61,7 @@
         /// <summary>
         /// The cell view that is embedding this state view. Can be null.
         /// </summary>
-        public new IFocusCellView ParentContainer { get { return (IFocusCellView)base.ParentContainer; } }
+        public new IFocusContainerCellView ParentContainer { get { return (IFocusContainerCellView)base.ParentContainer; } }
 
         /// <summary>
         /// Indicates if this view has all its frames forced to visible.

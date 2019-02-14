@@ -90,14 +90,14 @@
         /// <summary>
         /// Arranges the cell.
         /// </summary>
-        public virtual void Arrange(Point origin)
+        public virtual void Arrange(Point origin, ILayoutCellViewCollection collectionWithSeparator, ILayoutCellView referenceContainer)
         {
             CellOrigin = origin;
 
             Point OriginWithPadding = new Point(origin.X + CellPadding.Left, origin.Y);
 
             Debug.Assert(BlockStateView != null);
-            BlockStateView.ArrangeCells(OriginWithPadding);
+            BlockStateView.ArrangeCells(OriginWithPadding, collectionWithSeparator, referenceContainer);
 
             Debug.Assert(ArrangeHelper.IsValid(CellOrigin));
         }

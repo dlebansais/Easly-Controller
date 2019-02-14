@@ -70,8 +70,12 @@
         /// <summary>
         /// Arranges the cell.
         /// </summary>
-        public virtual void Arrange(Point origin)
+        public virtual void Arrange(Point origin, ILayoutCellViewCollection collectionWithSeparator, ILayoutCellView referenceContainer)
         {
+            Debug.Assert(collectionWithSeparator != null);
+            Debug.Assert(referenceContainer != null);
+            Debug.Assert(collectionWithSeparator.CellViewList.Contains(referenceContainer));
+
             CellOrigin = origin;
         }
         #endregion

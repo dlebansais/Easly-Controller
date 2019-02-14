@@ -43,7 +43,7 @@
         /// <summary>
         /// The cell view that is embedding this state view. Can be null.
         /// </summary>
-        IFrameCellView ParentContainer { get; }
+        IFrameContainerCellView ParentContainer { get; }
 
         /// <summary>
         /// Builds the cell view tree for this view.
@@ -54,7 +54,7 @@
         /// <summary>
         /// Set the container for this state view.
         /// </summary>
-        void SetContainerCellView(IFrameCellView parentContainer);
+        void SetContainerCellView(IFrameContainerCellView parentContainer);
 
         /// <summary>
         /// Clears the cell view tree for this view.
@@ -140,7 +140,7 @@
         /// <summary>
         /// The cell view that is embedding this state view. Can be null.
         /// </summary>
-        public virtual IFrameCellView ParentContainer { get; }
+        public virtual IFrameContainerCellView ParentContainer { get; }
         #endregion
 
         #region Client Interface
@@ -154,7 +154,7 @@
         /// Set the container for this state view.
         /// </summary>
         /// <param name="parentContainer">The cell view where the tree is restarted.</param>
-        public abstract void SetContainerCellView(IFrameCellView parentContainer);
+        public abstract void SetContainerCellView(IFrameContainerCellView parentContainer);
 
         /// <summary>
         /// Clears the cell view tree for this view.

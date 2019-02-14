@@ -125,7 +125,7 @@
         /// <summary>
         /// Arranges the cell.
         /// </summary>
-        public virtual void Arrange(Point origin)
+        public virtual void Arrange(Point origin, ILayoutCellViewCollection collectionWithSeparator, ILayoutCellView referenceContainer)
         {
             CellOrigin = origin;
 
@@ -146,7 +146,7 @@
                 if (ColumnOrigin.X > origin.X)
                     ColumnOrigin.X += SeparatorWidth;
 
-                CellView.Arrange(ColumnOrigin);
+                CellView.Arrange(ColumnOrigin, this, CellView);
 
                 Size NestedCellSize = CellView.CellSize;
                 Debug.Assert(!double.IsNaN(NestedCellSize.Width));

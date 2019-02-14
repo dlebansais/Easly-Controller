@@ -66,7 +66,7 @@
         /// <summary>
         /// The cell view that is embedding this state view. Can be null.
         /// </summary>
-        public new ILayoutCellView ParentContainer { get { return (ILayoutCellView)base.ParentContainer; } }
+        public new ILayoutContainerCellView ParentContainer { get { return (ILayoutContainerCellView)base.ParentContainer; } }
 
         /// <summary>
         /// Location of the state view.
@@ -101,10 +101,10 @@
         /// <summary>
         /// Arranges cells in this state view.
         /// </summary>
-        public virtual void ArrangeCells(Point origin)
+        public virtual void ArrangeCells(Point origin, ILayoutCellViewCollection collectionWithSeparator, ILayoutCellView referenceContainer)
         {
             Debug.Assert(RootCellView != null);
-            RootCellView.Arrange(origin);
+            RootCellView.Arrange(origin, collectionWithSeparator, referenceContainer);
 
             CellOrigin = RootCellView.CellOrigin;
 

@@ -74,6 +74,16 @@
         /// Padding inside the cell.
         /// </summary>
         public Padding CellPadding { get; private set; }
+
+        /// <summary>
+        /// The collection that can add the separator before this item.
+        /// </summary>
+        protected ILayoutCellViewCollection CollectionWithSeparator { get; private set; }
+
+        /// <summary>
+        /// The reference when displaying the separator.
+        /// </summary>
+        protected ILayoutCellView ReferenceContainer { get; private set; }
         #endregion
 
         #region Client Interface
@@ -101,9 +111,15 @@
         /// <summary>
         /// Arranges the cell.
         /// </summary>
-        public virtual void Arrange(Point origin)
+        public virtual void Arrange(Point origin, ILayoutCellViewCollection collectionWithSeparator, ILayoutCellView referenceContainer)
         {
+            Debug.Assert(collectionWithSeparator != null);
+            Debug.Assert(referenceContainer != null);
+            Debug.Assert(collectionWithSeparator.CellViewList.Contains(referenceContainer));
+
             CellOrigin = origin;
+            CollectionWithSeparator = collectionWithSeparator;
+            ReferenceContainer = referenceContainer;
         }
 
         /// <summary>
@@ -120,14 +136,9 @@
             ILayoutDrawableFrame AsDrawableFrame = Frame as ILayoutDrawableFrame;
             Debug.Assert(AsDrawableFrame != null);
 
-            if ((AsDrawableFrame is ILayoutFrameWithHorizontalSeparator) || (AsDrawableFrame is ILayoutFrameWithVerticalSeparator))
-            {
-                Debug.Assert(ParentCellView != null);
-            }
-
-            ParentCellView?.DrawBeforeItem(DrawContext, this, CellOrigin, CellSize, CellPadding);
+            CollectionWithSeparator.DrawBeforeItem(DrawContext, ReferenceContainer, CellOrigin, CellSize, CellPadding);
             AsDrawableFrame.Draw(DrawContext, this, CellOrigin, CellSize, CellPadding);
-            ParentCellView?.DrawAfterItem(DrawContext, this, CellOrigin, CellSize, CellPadding);
+            CollectionWithSeparator.DrawAfterItem(DrawContext, ReferenceContainer, CellOrigin, CellSize, CellPadding);
         }
         #endregion
 

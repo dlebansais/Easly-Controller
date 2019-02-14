@@ -108,7 +108,7 @@
         /// <summary>
         /// Arranges the cell.
         /// </summary>
-        public abstract void Arrange(Point origin);
+        public abstract void Arrange(Point origin, ILayoutCellViewCollection collectionWithSeparator, ILayoutCellView referenceContainer);
 
         /// <summary>
         /// Draws container or separator before an element of a collection.
