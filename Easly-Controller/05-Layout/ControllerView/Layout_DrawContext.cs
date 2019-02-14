@@ -62,7 +62,9 @@
         /// </summary>
         /// <param name="symbol">The symbol to draw.</param>
         /// <param name="origin">The location where to start drawing.</param>
-        void DrawSymbol(Symbols symbol, Point origin);
+        /// <param name="size">The drawing size, padding included.</param>
+        /// <param name="padding">The padding to use when drawing.</param>
+        void DrawSymbol(Symbols symbol, Point origin, Size size, Padding padding);
 
         /// <summary>
         /// Draws the horizontal separator left of the specified origin and with the specified height.

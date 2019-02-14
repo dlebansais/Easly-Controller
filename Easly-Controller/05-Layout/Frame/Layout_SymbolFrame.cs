@@ -77,8 +77,7 @@
         /// <param name="padding">The padding to use when drawing.</param>
         public virtual void Draw(ILayoutDrawContext drawContext, ILayoutCellView cellView, Point origin, Size size, Padding padding)
         {
-            Point OriginWithPadding = new Point(origin.X + padding.Left, origin.Y + padding.Top);
-            drawContext.DrawSymbol(Symbol, OriginWithPadding);
+            drawContext.DrawSymbol(Symbol, origin, size, padding);
         }
         #endregion
 

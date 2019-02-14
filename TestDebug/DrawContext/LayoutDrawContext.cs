@@ -54,7 +54,7 @@ namespace TestDebug
         {
         }
 
-        public void DrawSymbol(Symbols symbol, Point origin)
+        public void DrawSymbol(Symbols symbol, Point origin, Size size, Padding padding)
         {
         }
 

@@ -23,7 +23,7 @@
             ft = new FormattedText(" ", CultureInfo.CurrentCulture, FlowDirection.LeftToRight, Typeface, FontSize, Foreground);
             WhitespaceWidth = ft.WidthIncludingTrailingWhitespace;
             LineHeight = ft.Height;
-            TabulationWidth = WhitespaceWidth * 2;
+            TabulationWidth = WhitespaceWidth * 3;
             VerticalSeparatorWidthTable[VerticalSeparators.Line] = LineHeight;
 
             ft = new FormattedText(", ", CultureInfo.CurrentCulture, FlowDirection.LeftToRight, Typeface, FontSize, Foreground);
@@ -31,11 +31,29 @@
 
             ft = new FormattedText(DotText, CultureInfo.CurrentCulture, FlowDirection.LeftToRight, Typeface, FontSize, Foreground);
             HorizontalSeparatorWidthTable[HorizontalSeparators.Dot] = ft.WidthIncludingTrailingWhitespace;
+
+            LeftBracket = ScaleGlyphGeometry("[", true, 0.3, 0.3);
+            RightBracket = ScaleGlyphGeometry("]", true, 0.3, 0.3);
+            LeftCurlyBracket = ScaleGlyphGeometry("{", true, 0.25, 0.3);
+            RightCurlyBracket = ScaleGlyphGeometry("}", true, 0.25, 0.3);
+            LeftParenthesis = ScaleGlyphGeometry("(", true, 0, 0);
+            RightParenthesis = ScaleGlyphGeometry(")", true, 0, 0);
         }
 
         public void UpdateDC(DrawingContext dc)
         {
             this.dc = dc;
+        }
+
+        protected ScalableGeometry ScaleGlyphGeometry(string Text, bool IsHeightScaled, double TopPercent, double BottomPercent)
+        {
+            FormattedText GlyphText = new FormattedText(Text, CultureInfo.CurrentCulture, FlowDirection.LeftToRight, Typeface, FontSize, Foreground);
+            GlyphText.Trimming = TextTrimming.None;
+
+            Rect Bounds = new Rect(new Point(0, 0), new Size(GlyphText.Width, GlyphText.Height));
+            Geometry GlyphGeometry = GlyphText.BuildGeometry(Bounds.Location);
+
+            return new ScalableGeometry(GlyphGeometry, Bounds, false, 0, 0, IsHeightScaled, TopPercent, BottomPercent);
         }
 
         //IClassReplicate Node = null;
@@ -55,15 +73,18 @@
         private Dictionary<VerticalSeparators, double> VerticalSeparatorWidthTable = new Dictionary<VerticalSeparators, double>()
         {
             {  VerticalSeparators.None, 0},
-            {  VerticalSeparators.Line, 0},
+            {  VerticalSeparators.Line, 30},
         };
         public static readonly string DotText = "·";
+        ScalableGeometry LeftBracket;
+        ScalableGeometry RightBracket;
+        ScalableGeometry LeftCurlyBracket;
+        ScalableGeometry RightCurlyBracket;
+        ScalableGeometry LeftParenthesis;
+        ScalableGeometry RightParenthesis;
 
         public double GetHorizontalSeparatorWidth(HorizontalSeparators separator)
         {
-            if (separator == HorizontalSeparators.Dot)
-                separator = HorizontalSeparators.Dot;
-
             return HorizontalSeparatorWidthTable[separator];
         }
 
@@ -205,11 +226,94 @@
             dc.DrawText(ft, new Point(origin.X, origin.Y));
         }
 
-        public void DrawSymbol(Symbols symbol, EaslyController.Controller.Point origin)
+        public void DrawSymbol(Symbols symbol, EaslyController.Controller.Point origin, EaslyController.Controller.Size size, EaslyController.Controller.Padding padding)
         {
-            string Text = SymbolToText(symbol);
-            FormattedText ft = new FormattedText(Text, CultureInfo.CurrentCulture, FlowDirection.LeftToRight, Typeface, FontSize, Brushes.Blue);
-            dc.DrawText(ft, new Point(origin.X, origin.Y));
+            switch (symbol)
+            {
+                default:
+                case Symbols.LeftArrow:
+                case Symbols.Dot:
+                case Symbols.InsertSign:
+                    DrawTextSymbol(SymbolToText(symbol), origin, size, padding);
+                    break;
+                case Symbols.LeftBracket:
+                    DrawGeometrySymbol(LeftBracket, origin, size, padding);
+                    break;
+                case Symbols.RightBracket:
+                    DrawGeometrySymbol(RightBracket, origin, size, padding);
+                    break;
+                case Symbols.LeftCurlyBracket:
+                    DrawGeometrySymbol(LeftCurlyBracket, origin, size, padding);
+                    break;
+                case Symbols.RightCurlyBracket:
+                    DrawGeometrySymbol(RightCurlyBracket, origin, size, padding);
+                    break;
+                case Symbols.LeftParenthesis:
+                    DrawGeometrySymbol(LeftParenthesis, origin, size, padding);
+                    break;
+                case Symbols.RightParenthesis:
+                    DrawGeometrySymbol(RightParenthesis, origin, size, padding);
+                    break;
+            }
+        }
+
+        public void DrawTextSymbol(string text, EaslyController.Controller.Point origin, EaslyController.Controller.Size size, EaslyController.Controller.Padding padding)
+        {
+            FormattedText ft = new FormattedText(text, CultureInfo.CurrentCulture, FlowDirection.LeftToRight, Typeface, FontSize, Brushes.Blue);
+            dc.DrawText(ft, new Point(origin.X + padding.Left, origin.Y + padding.Top));
+        }
+
+        public void DrawGeometrySymbol(ScalableGeometry geometry, EaslyController.Controller.Point origin, EaslyController.Controller.Size size, EaslyController.Controller.Padding padding)
+        {
+            Point PaddedOrigin = new Point(origin.X + padding.Left, origin.Y + padding.Top);
+            Size PaddedSize = new Size(size.Width - padding.Left - padding.Right, size.Height - padding.Top - padding.Bottom);
+            Geometry GeometryAtOrigin = MoveAndScaleGeometry(geometry, PaddedOrigin, GeometryScalings.None, GeometryScalings.Stretch, PaddedSize);
+
+            dc.DrawGeometry(Brushes.Blue, null, GeometryAtOrigin);
+        }
+
+        private Geometry MoveAndScaleGeometry(ScalableGeometry geometry, Point origin, GeometryScalings widthScaling, GeometryScalings heightScaling, Size measuredSize)
+        {
+            double Width, Height;
+
+            switch (widthScaling)
+            {
+                default:
+                case GeometryScalings.None:
+                    Width = double.NaN;
+                    break;
+
+                case GeometryScalings.Font:
+                    Width = WhitespaceWidth;
+                    break;
+
+                case GeometryScalings.Stretch:
+                    Width = measuredSize.Width;
+                    break;
+            }
+
+            switch (heightScaling)
+            {
+                default:
+                case GeometryScalings.None:
+                    Height = double.NaN;
+                    break;
+
+                case GeometryScalings.Font:
+                    Height = LineHeight;
+                    break;
+
+                case GeometryScalings.Stretch:
+                    Height = measuredSize.Height;
+                    break;
+            }
+
+            Geometry Result = geometry.Scaled(Width, Height);
+            Result.Transform = new TranslateTransform(origin.X, origin.Y);
+
+            Result.Freeze();
+
+            return Result;
         }
 
         /// <summary>

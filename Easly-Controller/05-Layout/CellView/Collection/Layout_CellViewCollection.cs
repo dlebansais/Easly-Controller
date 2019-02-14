@@ -30,6 +30,12 @@
         void DrawBeforeItem(ILayoutDrawContext drawContext, ILayoutCellView cellView, Point origin, Size size, Padding padding);
 
         /// <summary>
+        /// Returns the measured size of streched cells in the collection.
+        /// </summary>
+        /// <param name="size">The cell size.</param>
+        Size GetMeasuredSize(Size size);
+
+        /// <summary>
         /// Draws container or separator after an element of a collection.
         /// </summary>
         /// <param name="drawContext">The context used to draw the cell.</param>
@@ -138,6 +144,12 @@
         /// <param name="size">The drawing size, padding included.</param>
         /// <param name="padding">The padding to use when drawing.</param>
         public abstract void DrawBeforeItem(ILayoutDrawContext drawContext, ILayoutCellView cellView, Point origin, Size size, Padding padding);
+
+        /// <summary>
+        /// Returns the measured size of streched cells in the collection.
+        /// </summary>
+        /// <param name="size">The cell size.</param>
+        public abstract Size GetMeasuredSize(Size size);
 
         /// <summary>
         /// Draws container or separator after an element of a collection.

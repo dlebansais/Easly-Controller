@@ -231,6 +231,27 @@
         }
 
         /// <summary>
+        /// Returns the measured size of streched cells in the collection.
+        /// </summary>
+        /// <param name="size">The cell size.</param>
+        public virtual Size GetMeasuredSize(Size size)
+        {
+            Debug.Assert(!double.IsNaN(size.Height));
+
+            double Width = size.Width;
+            if (double.IsNaN(Width))
+                Width = CellSize.Width;
+
+            if (!double.IsNaN(Width))
+            {
+                Size MeasuredSize = new Size(Width, size.Height);
+                return MeasuredSize;
+            }
+            else
+                return ParentCellView.GetMeasuredSize(size);
+        }
+
+        /// <summary>
         /// Draws container or separator after an element of a collection.
         /// </summary>
         /// <param name="drawContext">The context used to draw the cell.</param>
