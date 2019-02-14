@@ -135,6 +135,9 @@
         /// <summary>
         /// Arranges cells in this block state view.
         /// </summary>
+        /// <param name="origin">The cell location.</param>
+        /// <param name="collectionWithSeparator">A collection that can draw separators on the left and right of the cell.</param>
+        /// <param name="referenceContainer">The cell view in <paramref name="collectionWithSeparator"/> that contains this cell.</param>
         public virtual void ArrangeCells(Point origin, ILayoutCellViewCollection collectionWithSeparator, ILayoutCellView referenceContainer)
         {
             Debug.Assert(RootCellView != null);
