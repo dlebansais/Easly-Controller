@@ -78,11 +78,12 @@
         bool IsTemplateComplex(IFocusNodeStateView stateView, string propertyName);
 
         /// <summary>
-        /// Checks if the collection associated to the <paramref name="propertyName"/> property of the <paramref name="stateView"/> state is has at least one item.
+        /// Checks if the collection associated to the <paramref name="propertyName"/> property of the <paramref name="stateView"/> state has more than <paramref name="count"/> item.
         /// </summary>
         /// <param name="stateView">The state view for the node with property <paramref name="propertyName"/>.</param>
         /// <param name="propertyName">Name of the property pointing to the collection to check.</param>
-        bool CollectionHasItems(IFocusNodeStateView stateView, string propertyName);
+        /// <param name="count">The number of items.</param>
+        bool CollectionHasItems(IFocusNodeStateView stateView, string propertyName, int count);
 
         /// <summary>
         /// Checks if the optional node associated to <paramref name="propertyName"/> is assigned.
@@ -386,11 +387,12 @@
         }
 
         /// <summary>
-        /// Checks if the collection associated to the <paramref name="propertyName"/> property of the <paramref name="stateView"/> state is has at least one item.
+        /// Checks if the collection associated to the <paramref name="propertyName"/> property of the <paramref name="stateView"/> state has more than <paramref name="count"/> item.
         /// </summary>
         /// <param name="stateView">The state view for the node with property <paramref name="propertyName"/>.</param>
         /// <param name="propertyName">Name of the property pointing to the collection to check.</param>
-        public virtual bool CollectionHasItems(IFocusNodeStateView stateView, string propertyName)
+        /// <param name="count">The number of items.</param>
+        public virtual bool CollectionHasItems(IFocusNodeStateView stateView, string propertyName, int count)
         {
             IFocusNodeState State = stateView.State;
             Debug.Assert(State.InnerTable.ContainsKey(propertyName));
@@ -401,12 +403,12 @@
             switch (State.InnerTable[propertyName])
             {
                 case IFocusListInner AsListInner:
-                    HasItems = AsListInner.Count > 0;
+                    HasItems = AsListInner.Count > count;
                     IsHandled = true;
                     break;
 
                 case IFocusBlockListInner AsBlockListInner:
-                    HasItems = AsBlockListInner.Count > 0;
+                    HasItems = AsBlockListInner.Count > count;
                     IsHandled = true;
                     break;
             }

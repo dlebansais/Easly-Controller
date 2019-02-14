@@ -13,6 +13,12 @@
         /// (Set in Xaml)
         /// </summary>
         string PropertyName { get; }
+
+        /// <summary>
+        /// Max count before the frame becomes visible.
+        /// (Set in Xaml)
+        /// </summary>
+        int MaxInvisibleCount { get; }
     }
 
     /// <summary>
@@ -31,6 +37,12 @@
         /// (Set in Xaml)
         /// </summary>
         public string PropertyName { get; set; }
+
+        /// <summary>
+        /// Max count before the frame becomes visible.
+        /// (Set in Xaml)
+        /// </summary>
+        public int MaxInvisibleCount { get; set; }
         #endregion
 
         #region Client Interface
@@ -43,6 +55,7 @@
             bool IsValid = true;
 
             IsValid &= !string.IsNullOrEmpty(PropertyName);
+            IsValid &= MaxInvisibleCount >= 0;
 
             Type ChildInterfaceType, ChildNodeType;
             IsValid &= NodeTreeHelperList.IsNodeListProperty(nodeType, PropertyName, out ChildNodeType) || NodeTreeHelperBlockList.IsBlockListProperty(nodeType, PropertyName, out ChildInterfaceType, out ChildNodeType);
@@ -59,7 +72,7 @@
         {
             bool IsVisible = true;
 
-            IsVisible &= context.ControllerView.CollectionHasItems(context.StateView, PropertyName);
+            IsVisible &= context.ControllerView.CollectionHasItems(context.StateView, PropertyName, MaxInvisibleCount);
 
             return IsVisible;
         }

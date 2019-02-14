@@ -935,11 +935,21 @@ namespace TestDebug
     </LayoutNodeTemplate>
     <LayoutNodeTemplate NodeType=""{xaml:Type easly:IAssignmentArgument}"">
         <LayoutHorizontalPanelFrame>
+            <LayoutSymbolFrame Symbol=""{x:Static const:Symbols.LeftParenthesis}"" RightMargin=""ThinSpace"">
+                <LayoutSymbolFrame.Visibility>
+                    <LayoutCountFrameVisibility PropertyName=""ParameterBlocks"" MaxInvisibleCount=""1""/>
+                </LayoutSymbolFrame.Visibility>
+            </LayoutSymbolFrame>
             <LayoutHorizontalBlockListFrame PropertyName=""ParameterBlocks"" Separator=""Comma"">
                 <LayoutHorizontalBlockListFrame.Selectors>
                     <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Feature""/>
                 </LayoutHorizontalBlockListFrame.Selectors>
             </LayoutHorizontalBlockListFrame>
+            <LayoutSymbolFrame Symbol=""{x:Static const:Symbols.RightParenthesis}"" LeftMargin=""ThinSpace"">
+                <LayoutSymbolFrame.Visibility>
+                    <LayoutCountFrameVisibility PropertyName=""ParameterBlocks"" MaxInvisibleCount=""1""/>
+                </LayoutSymbolFrame.Visibility>
+            </LayoutSymbolFrame>
             <LayoutSymbolFrame Symbol=""LeftArrow"" LeftMargin=""Whitespace"" RightMargin=""Whitespace""/>
             <LayoutPlaceholderFrame PropertyName=""Source""/>
         </LayoutHorizontalPanelFrame>
