@@ -4,6 +4,7 @@
     using System.Globalization;
     using System.Windows;
     using System.Windows.Media;
+    using BaseNode;
     using EaslyController.Constants;
     using EaslyController.Layout;
     using static EaslyController.Constants.Margins;
@@ -28,7 +29,7 @@
             ft = new FormattedText(", ", CultureInfo.CurrentCulture, FlowDirection.LeftToRight, Typeface, FontSize, Foreground);
             HorizontalSeparatorWidthTable[HorizontalSeparators.Comma] = ft.WidthIncludingTrailingWhitespace;
 
-            ft = new FormattedText(".", CultureInfo.CurrentCulture, FlowDirection.LeftToRight, Typeface, FontSize, Foreground);
+            ft = new FormattedText(DotText, CultureInfo.CurrentCulture, FlowDirection.LeftToRight, Typeface, FontSize, Foreground);
             HorizontalSeparatorWidthTable[HorizontalSeparators.Dot] = ft.WidthIncludingTrailingWhitespace;
         }
 
@@ -37,6 +38,7 @@
             this.dc = dc;
         }
 
+        //IClassReplicate Node = null;
         private DrawingContext dc;
         public Typeface Typeface { get; }
         public double FontSize { get; }
@@ -55,6 +57,7 @@
             {  VerticalSeparators.None, 0},
             {  VerticalSeparators.Line, 0},
         };
+        public static readonly string DotText = "·";
 
         public double GetHorizontalSeparatorWidth(HorizontalSeparators separator)
         {
@@ -90,7 +93,7 @@
                     Text = "←";
                     break;
                 case Symbols.Dot:
-                    Text = ".";
+                    Text = DotText;
                     break;
                 case Symbols.InsertSign:
                     Text = "◄";
@@ -175,6 +178,8 @@
 
         private Brush StyleTuBrush(TextStyles textStyle)
         {
+            Color LightBlueColor = Color.FromArgb(0xFF, 0x2B, 0x91, 0xAF);
+
             switch (textStyle)
             {
                 default:
@@ -183,13 +188,13 @@
                 case TextStyles.Character:
                     return Brushes.Orange;
                 case TextStyles.Discrete:
-                    return Brushes.Red;
+                    return Brushes.DarkRed;
                 case TextStyles.Keyword:
                     return Brushes.Blue;
                 case TextStyles.Number:
                     return Brushes.Green;
                 case TextStyles.Type:
-                    return Brushes.LightBlue;
+                    return new SolidColorBrush(LightBlueColor);
             }
         }
 
@@ -222,7 +227,7 @@
                 case HorizontalSeparators.None:
                     break;
                 case HorizontalSeparators.Dot:
-                    ft = new FormattedText(".", CultureInfo.CurrentCulture, FlowDirection.LeftToRight, Typeface, FontSize, Brushes.Blue);
+                    ft = new FormattedText(DotText, CultureInfo.CurrentCulture, FlowDirection.LeftToRight, Typeface, FontSize, Brushes.Blue);
                     dc.DrawText(ft, new Point(origin.X - ft.WidthIncludingTrailingWhitespace, origin.Y));
                     break;
                 case HorizontalSeparators.Comma:

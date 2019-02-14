@@ -67,22 +67,34 @@
         public Padding CellPadding { get; private set; }
 
         /// <summary>
-        /// The collection that can add the separator before this item.
+        /// The collection that can add separators around this item.
         /// </summary>
-        protected ILayoutCellViewCollection CollectionWithSeparator { get; private set; }
+        public ILayoutCellViewCollection CollectionWithSeparator { get; private set; }
 
         /// <summary>
-        /// The reference when displaying the separator.
+        /// The reference when displaying separators.
         /// </summary>
-        protected ILayoutCellView ReferenceContainer { get; private set; }
+        public ILayoutCellView ReferenceContainer { get; private set; }
+
+        /// <summary>
+        /// The length of the separator.
+        /// </summary>
+        public double SeparatorLength { get; private set; }
         #endregion
 
         #region Client Interface
         /// <summary>
         /// Measures the cell.
         /// </summary>
-        public virtual void Measure()
+        /// <param name="collectionWithSeparator">A collection that can draw separators around the cell.</param>
+        /// <param name="referenceContainer">The cell view in <paramref name="collectionWithSeparator"/> that contains this cell.</param>
+        /// <param name="separatorLength">The length of the separator in <paramref name="collectionWithSeparator"/>.</param>
+        public virtual void Measure(ILayoutCellViewCollection collectionWithSeparator, ILayoutCellView referenceContainer, double separatorLength)
         {
+            CollectionWithSeparator = collectionWithSeparator;
+            ReferenceContainer = referenceContainer;
+            SeparatorLength = separatorLength;
+
             Debug.Assert(StateView != null);
             Debug.Assert(StateView.ControllerView != null);
 
@@ -92,7 +104,7 @@
             ILayoutMeasurableFrame AsMeasurableFrame = Frame as ILayoutMeasurableFrame;
             Debug.Assert(AsMeasurableFrame != null);
 
-            AsMeasurableFrame.Measure(DrawContext, this, out Size Size, out Padding Padding);
+            AsMeasurableFrame.Measure(DrawContext, this, collectionWithSeparator, referenceContainer, separatorLength, out Size Size, out Padding Padding);
             CellSize = Size;
             CellPadding = Padding;
 
@@ -102,18 +114,13 @@
         /// <summary>
         /// Arranges the cell.
         /// </summary>
-        /// <param name="origin">The cell location.</param>
-        /// <param name="collectionWithSeparator">A collection that can draw separators on the left and right of the cell.</param>
+        /// <param name="collectionWithSeparator">A collection that can draw separators around the cell.</param>
         /// <param name="referenceContainer">The cell view in <paramref name="collectionWithSeparator"/> that contains this cell.</param>
-        public virtual void Arrange(Point origin, ILayoutCellViewCollection collectionWithSeparator, ILayoutCellView referenceContainer)
+        /// <param name="separatorLength">The length of the separator in <paramref name="collectionWithSeparator"/>.</param>
+        /// <param name="origin">The cell location.</param>
+        public virtual void Arrange(ILayoutCellViewCollection collectionWithSeparator, ILayoutCellView referenceContainer, double separatorLength, Point origin)
         {
-            Debug.Assert(collectionWithSeparator != null);
-            Debug.Assert(referenceContainer != null);
-            Debug.Assert(collectionWithSeparator.CellViewList.Contains(referenceContainer));
-
             CellOrigin = origin;
-            CollectionWithSeparator = collectionWithSeparator;
-            ReferenceContainer = referenceContainer;
         }
 
         /// <summary>

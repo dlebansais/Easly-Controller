@@ -86,9 +86,12 @@
         /// </summary>
         /// <param name="drawContext">The context used to measure the cell.</param>
         /// <param name="cellView">The cell to measure.</param>
+        /// <param name="collectionWithSeparator">A collection that can draw separators around the cell.</param>
+        /// <param name="referenceContainer">The cell view in <paramref name="collectionWithSeparator"/> that contains this cell.</param>
+        /// <param name="separatorLength">The length of the separator in <paramref name="collectionWithSeparator"/>.</param>
         /// <param name="size">The cell size upon return, padding included.</param>
         /// <param name="padding">The cell padding.</param>
-        public virtual void Measure(ILayoutDrawContext drawContext, ILayoutCellView cellView, out Size size, out Padding padding)
+        public virtual void Measure(ILayoutDrawContext drawContext, ILayoutCellView cellView, ILayoutCellViewCollection collectionWithSeparator, ILayoutCellView referenceContainer, double separatorLength, out Size size, out Padding padding)
         {
             ILayoutDiscreteContentFocusableCellView DiscreteContentFocusableCellView = cellView as ILayoutDiscreteContentFocusableCellView;
             Debug.Assert(DiscreteContentFocusableCellView != null);
@@ -96,7 +99,7 @@
             ILayoutKeywordFrame KeywordFrame = DiscreteContentFocusableCellView.KeywordFrame;
             Debug.Assert(KeywordFrame != null);
 
-            KeywordFrame.Measure(drawContext, DiscreteContentFocusableCellView, out size, out padding);
+            KeywordFrame.Measure(drawContext, DiscreteContentFocusableCellView, collectionWithSeparator, referenceContainer, separatorLength, out size, out padding);
 
             Debug.Assert(padding.IsEmpty);
             drawContext.UpdatePadding(LeftMargin, RightMargin, ref size, out padding);

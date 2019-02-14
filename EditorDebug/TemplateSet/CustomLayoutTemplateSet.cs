@@ -724,6 +724,9 @@ namespace TestDebug
                 <LayoutHorizontalPanelFrame>
                     <LayoutKeywordFrame>parameter</LayoutKeywordFrame>
                     <LayoutDiscreteFrame PropertyName=""ParameterEnd"" LeftMargin=""Whitespace"">
+                        <LayoutDiscreteFrame.Visibility>
+                            <LayoutDefaultDiscreteFrameVisibility PropertyName=""ParameterEnd""/>
+                        </LayoutDiscreteFrame.Visibility>
                         <LayoutKeywordFrame>closed</LayoutKeywordFrame>
                         <LayoutKeywordFrame>open</LayoutKeywordFrame>
                     </LayoutDiscreteFrame>
@@ -1120,9 +1123,6 @@ namespace TestDebug
                         <LayoutVerticalBlockListFrame PropertyName=""EntityDeclarationBlocks"" HasTabulationMargin=""True""/>
                     </LayoutVerticalPanelFrame>
                     <LayoutVerticalPanelFrame>
-                        <LayoutVerticalPanelFrame.Visibility>
-                            <LayoutCountFrameVisibility PropertyName=""BodyInstructionBlocks""/>
-                        </LayoutVerticalPanelFrame.Visibility>
                         <LayoutHorizontalPanelFrame>
                             <LayoutKeywordFrame IsFocusable=""true"">do</LayoutKeywordFrame>
                             <LayoutInsertFrame CollectionName=""BodyInstructionBlocks"" ItemType=""{xaml:Type easly:CommandInstruction}""/>
@@ -3017,7 +3017,7 @@ namespace TestDebug
                 </LayoutPlaceholderFrame>
                 <LayoutKeywordFrame RightMargin=""Whitespace"">All</LayoutKeywordFrame>
             </LayoutHorizontalPanelFrame>
-            <LayoutHorizontalCollectionPlaceholderFrame/>
+            <LayoutHorizontalCollectionPlaceholderFrame Separator=""Comma""/>
             <LayoutKeywordFrame Text=""end"" LeftMargin=""Whitespace"">
                 <LayoutKeywordFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
@@ -3050,7 +3050,7 @@ namespace TestDebug
         </LayoutVerticalPanelFrame>
     </LayoutBlockTemplate>
     <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:IAssignmentArgument,easly:AssignmentArgument}"">
-        <LayoutHorizontalPanelFrame>
+        <LayoutVerticalPanelFrame>
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
@@ -3065,13 +3065,13 @@ namespace TestDebug
                 </LayoutPlaceholderFrame>
                 <LayoutKeywordFrame RightMargin=""Whitespace"">All</LayoutKeywordFrame>
             </LayoutHorizontalPanelFrame>
-            <LayoutHorizontalCollectionPlaceholderFrame/>
+            <LayoutVerticalCollectionPlaceholderFrame/>
             <LayoutKeywordFrame Text=""end"" LeftMargin=""Whitespace"">
                 <LayoutKeywordFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
                 </LayoutKeywordFrame.BlockVisibility>
             </LayoutKeywordFrame>
-        </LayoutHorizontalPanelFrame>
+        </LayoutVerticalPanelFrame>
     </LayoutBlockTemplate>
     <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:IAttachment,easly:Attachment}"">
         <LayoutVerticalPanelFrame>
@@ -3137,7 +3137,7 @@ namespace TestDebug
                 </LayoutPlaceholderFrame>
                 <LayoutKeywordFrame RightMargin=""Whitespace"">All</LayoutKeywordFrame>
             </LayoutHorizontalPanelFrame>
-            <LayoutHorizontalCollectionPlaceholderFrame/>
+            <LayoutHorizontalCollectionPlaceholderFrame Separator=""Comma""/>
             <LayoutKeywordFrame Text=""end"" LeftMargin=""Whitespace"">
                 <LayoutKeywordFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
@@ -3233,7 +3233,7 @@ namespace TestDebug
                 </LayoutPlaceholderFrame>
                 <LayoutKeywordFrame RightMargin=""Whitespace"">All</LayoutKeywordFrame>
             </LayoutHorizontalPanelFrame>
-            <LayoutHorizontalCollectionPlaceholderFrame/>
+            <LayoutHorizontalCollectionPlaceholderFrame Separator=""Comma""/>
             <LayoutKeywordFrame Text=""end"" LeftMargin=""Whitespace"">
                 <LayoutKeywordFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
@@ -3353,7 +3353,7 @@ namespace TestDebug
                 </LayoutPlaceholderFrame>
                 <LayoutKeywordFrame RightMargin=""Whitespace"">All</LayoutKeywordFrame>
             </LayoutHorizontalPanelFrame>
-            <LayoutHorizontalCollectionPlaceholderFrame/>
+            <LayoutHorizontalCollectionPlaceholderFrame Separator=""Comma""/>
             <LayoutKeywordFrame Text=""end"" LeftMargin=""Whitespace"">
                 <LayoutKeywordFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
@@ -3377,7 +3377,7 @@ namespace TestDebug
                 </LayoutPlaceholderFrame>
                 <LayoutKeywordFrame RightMargin=""Whitespace"">All</LayoutKeywordFrame>
             </LayoutHorizontalPanelFrame>
-            <LayoutHorizontalCollectionPlaceholderFrame/>
+            <LayoutHorizontalCollectionPlaceholderFrame Separator=""Comma""/>
             <LayoutKeywordFrame Text=""end"" LeftMargin=""Whitespace"">
                 <LayoutKeywordFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
@@ -3449,7 +3449,7 @@ namespace TestDebug
                 </LayoutPlaceholderFrame>
                 <LayoutKeywordFrame RightMargin=""Whitespace"">All</LayoutKeywordFrame>
             </LayoutHorizontalPanelFrame>
-            <LayoutHorizontalCollectionPlaceholderFrame>
+            <LayoutHorizontalCollectionPlaceholderFrame Separator=""Comma"">
                 <LayoutHorizontalCollectionPlaceholderFrame.Selectors>
                     <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Identifier""/>
                 </LayoutHorizontalCollectionPlaceholderFrame.Selectors>
@@ -3573,7 +3573,7 @@ namespace TestDebug
                 </LayoutPlaceholderFrame>
                 <LayoutKeywordFrame RightMargin=""Whitespace"">All</LayoutKeywordFrame>
             </LayoutHorizontalPanelFrame>
-            <LayoutHorizontalCollectionPlaceholderFrame/>
+            <LayoutHorizontalCollectionPlaceholderFrame Separator=""Comma""/>
             <LayoutKeywordFrame Text=""end"" LeftMargin=""Whitespace"">
                 <LayoutKeywordFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
@@ -3597,7 +3597,7 @@ namespace TestDebug
                 </LayoutPlaceholderFrame>
                 <LayoutKeywordFrame RightMargin=""Whitespace"">All</LayoutKeywordFrame>
             </LayoutHorizontalPanelFrame>
-            <LayoutHorizontalCollectionPlaceholderFrame/>
+            <LayoutHorizontalCollectionPlaceholderFrame Separator=""Comma""/>
             <LayoutKeywordFrame Text=""end"" LeftMargin=""Whitespace"">
                 <LayoutKeywordFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
@@ -3621,7 +3621,7 @@ namespace TestDebug
                 </LayoutPlaceholderFrame>
                 <LayoutKeywordFrame RightMargin=""Whitespace"">All</LayoutKeywordFrame>
             </LayoutHorizontalPanelFrame>
-            <LayoutHorizontalCollectionPlaceholderFrame/>
+            <LayoutHorizontalCollectionPlaceholderFrame Separator=""Comma""/>
             <LayoutKeywordFrame Text=""end"" LeftMargin=""Whitespace"">
                 <LayoutKeywordFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
@@ -3645,7 +3645,7 @@ namespace TestDebug
                 </LayoutPlaceholderFrame>
                 <LayoutKeywordFrame RightMargin=""Whitespace"">All</LayoutKeywordFrame>
             </LayoutHorizontalPanelFrame>
-            <LayoutHorizontalCollectionPlaceholderFrame/>
+            <LayoutHorizontalCollectionPlaceholderFrame Separator=""Comma""/>
             <LayoutKeywordFrame Text=""end"" LeftMargin=""Whitespace"">
                 <LayoutKeywordFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
@@ -3717,7 +3717,7 @@ namespace TestDebug
                 </LayoutPlaceholderFrame>
                 <LayoutKeywordFrame RightMargin=""Whitespace"">All</LayoutKeywordFrame>
             </LayoutHorizontalPanelFrame>
-            <LayoutHorizontalCollectionPlaceholderFrame/>
+            <LayoutHorizontalCollectionPlaceholderFrame Separator=""Comma""/>
             <LayoutKeywordFrame Text=""end"" LeftMargin=""Whitespace"">
                 <LayoutKeywordFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
@@ -3765,7 +3765,7 @@ namespace TestDebug
                 </LayoutPlaceholderFrame>
                 <LayoutKeywordFrame RightMargin=""Whitespace"">All</LayoutKeywordFrame>
             </LayoutHorizontalPanelFrame>
-            <LayoutHorizontalCollectionPlaceholderFrame/>
+            <LayoutHorizontalCollectionPlaceholderFrame Separator=""Comma""/>
             <LayoutKeywordFrame Text=""end"" LeftMargin=""Whitespace"">
                 <LayoutKeywordFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>

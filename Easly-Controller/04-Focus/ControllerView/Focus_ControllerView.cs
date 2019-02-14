@@ -443,6 +443,9 @@
             IFocusNodeState State = stateView.State;
             Debug.Assert(State.ValuePropertyTypeTable.ContainsKey(propertyName));
 
+            if (propertyName == "ParametedEnd")
+                propertyName = "ParametedEnd";
+
             bool IsHandled = false;
             bool Result = false;
 

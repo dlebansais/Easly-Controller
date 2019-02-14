@@ -53,12 +53,19 @@
         /// <summary>
         /// Measure all cells in this state view.
         /// </summary>
-        void MeasureCells();
+        /// <param name="collectionWithSeparator">A collection that can draw separators around the cell.</param>
+        /// <param name="referenceContainer">The cell view in <paramref name="collectionWithSeparator"/> that contains this cell.</param>
+        /// <param name="separatorLength">The length of the separator in <paramref name="collectionWithSeparator"/>.</param>
+        void MeasureCells(ILayoutCellViewCollection collectionWithSeparator, ILayoutCellView referenceContainer, double separatorLength);
 
         /// <summary>
         /// Arranges cells in this state view.
         /// </summary>
-        void ArrangeCells(Point origin, ILayoutCellViewCollection collectionWithSeparator, ILayoutCellView referenceContainer);
+        /// <param name="collectionWithSeparator">A collection that can draw separators around the cell.</param>
+        /// <param name="referenceContainer">The cell view in <paramref name="collectionWithSeparator"/> that contains this cell.</param>
+        /// <param name="separatorLength">The length of the separator in <paramref name="collectionWithSeparator"/>.</param>
+        /// <param name="origin">The cell location.</param>
+        void ArrangeCells(ILayoutCellViewCollection collectionWithSeparator, ILayoutCellView referenceContainer, double separatorLength, Point origin);
     }
 
     /// <summary>
@@ -132,10 +139,13 @@
         /// <summary>
         /// Measure all cells in this state view.
         /// </summary>
-        public void MeasureCells()
+        /// <param name="collectionWithSeparator">A collection that can draw separators around the cell.</param>
+        /// <param name="referenceContainer">The cell view in <paramref name="collectionWithSeparator"/> that contains this cell.</param>
+        /// <param name="separatorLength">The length of the separator in <paramref name="collectionWithSeparator"/>.</param>
+        public void MeasureCells(ILayoutCellViewCollection collectionWithSeparator, ILayoutCellView referenceContainer, double separatorLength)
         {
             Debug.Assert(RootCellView != null);
-            RootCellView.Measure();
+            RootCellView.Measure(collectionWithSeparator, referenceContainer, separatorLength);
 
             CellSize = RootCellView.CellSize;
 
@@ -145,13 +155,14 @@
         /// <summary>
         /// Arranges cells in this state view.
         /// </summary>
-        /// <param name="origin">The cell location.</param>
-        /// <param name="collectionWithSeparator">A collection that can draw separators on the left and right of the cell.</param>
+        /// <param name="collectionWithSeparator">A collection that can draw separators around the cell.</param>
         /// <param name="referenceContainer">The cell view in <paramref name="collectionWithSeparator"/> that contains this cell.</param>
-        public virtual void ArrangeCells(Point origin, ILayoutCellViewCollection collectionWithSeparator, ILayoutCellView referenceContainer)
+        /// <param name="separatorLength">The length of the separator in <paramref name="collectionWithSeparator"/>.</param>
+        /// <param name="origin">The cell location.</param>
+        public virtual void ArrangeCells(ILayoutCellViewCollection collectionWithSeparator, ILayoutCellView referenceContainer, double separatorLength, Point origin)
         {
             Debug.Assert(RootCellView != null);
-            RootCellView.Arrange(origin, collectionWithSeparator, referenceContainer);
+            RootCellView.Arrange(collectionWithSeparator, referenceContainer, separatorLength, origin);
 
             CellOrigin = RootCellView.CellOrigin;
 

@@ -97,21 +97,40 @@
         /// Padding inside the cell.
         /// </summary>
         public Padding CellPadding { get; private set; }
+
+        /// <summary>
+        /// The collection that can add separators around this item.
+        /// </summary>
+        public ILayoutCellViewCollection CollectionWithSeparator { get; private set; }
+
+        /// <summary>
+        /// The reference when displaying separators.
+        /// </summary>
+        public ILayoutCellView ReferenceContainer { get; private set; }
+
+        /// <summary>
+        /// The length of the separator.
+        /// </summary>
+        public double SeparatorLength { get; private set; }
         #endregion
 
         #region Client Interface
         /// <summary>
         /// Measures the cell.
         /// </summary>
-        public abstract void Measure();
+        /// <param name="collectionWithSeparator">A collection that can draw separators around the cell.</param>
+        /// <param name="referenceContainer">The cell view in <paramref name="collectionWithSeparator"/> that contains this cell.</param>
+        /// <param name="separatorLength">The length of the separator in <paramref name="collectionWithSeparator"/>.</param>
+        public abstract void Measure(ILayoutCellViewCollection collectionWithSeparator, ILayoutCellView referenceContainer, double separatorLength);
 
         /// <summary>
         /// Arranges the cell.
         /// </summary>
-        /// <param name="origin">The cell location.</param>
-        /// <param name="collectionWithSeparator">A collection that can draw separators on the left and right of the cell.</param>
+        /// <param name="collectionWithSeparator">A collection that can draw separators around the cell.</param>
         /// <param name="referenceContainer">The cell view in <paramref name="collectionWithSeparator"/> that contains this cell.</param>
-        public abstract void Arrange(Point origin, ILayoutCellViewCollection collectionWithSeparator, ILayoutCellView referenceContainer);
+        /// <param name="separatorLength">The length of the separator in <paramref name="collectionWithSeparator"/>.</param>
+        /// <param name="origin">The cell location.</param>
+        public abstract void Arrange(ILayoutCellViewCollection collectionWithSeparator, ILayoutCellView referenceContainer, double separatorLength, Point origin);
 
         /// <summary>
         /// Draws container or separator before an element of a collection.

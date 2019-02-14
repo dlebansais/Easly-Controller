@@ -392,7 +392,7 @@
         {
             ILayoutPlaceholderNodeState RootState = Controller.RootState;
             ILayoutNodeStateView RootStateView = StateViewTable[RootState];
-            RootStateView.MeasureCells();
+            RootStateView.MeasureCells(null, null, double.NaN);
 
             ViewSize = RootStateView.CellSize;
 
@@ -405,7 +405,7 @@
             ILayoutPlaceholderNodeState RootState = Controller.RootState;
             ILayoutNodeStateView RootStateView = StateViewTable[RootState];
 
-            RootStateView.ArrangeCells(Point.Origin, null, null);
+            RootStateView.ArrangeCells(null, null, double.NaN, Point.Origin);
 
             Point ViewOrigin = RootStateView.CellOrigin;
             Debug.Assert(ViewOrigin.IsOrigin);

@@ -82,14 +82,36 @@
         /// Padding inside the cell.
         /// </summary>
         public Padding CellPadding { get; private set; }
+
+        /// <summary>
+        /// The collection that can add separators around this item.
+        /// </summary>
+        public ILayoutCellViewCollection CollectionWithSeparator { get; private set; }
+
+        /// <summary>
+        /// The reference when displaying separators.
+        /// </summary>
+        public ILayoutCellView ReferenceContainer { get; private set; }
+
+        /// <summary>
+        /// The length of the separator.
+        /// </summary>
+        public double SeparatorLength { get; private set; }
         #endregion
 
         #region Client Interface
         /// <summary>
         /// Measures the cell.
         /// </summary>
-        public virtual void Measure()
+        /// <param name="collectionWithSeparator">A collection that can draw separators around the cell.</param>
+        /// <param name="referenceContainer">The cell view in <paramref name="collectionWithSeparator"/> that contains this cell.</param>
+        /// <param name="separatorLength">The length of the separator in <paramref name="collectionWithSeparator"/>.</param>
+        public virtual void Measure(ILayoutCellViewCollection collectionWithSeparator, ILayoutCellView referenceContainer, double separatorLength)
         {
+            CollectionWithSeparator = collectionWithSeparator;
+            ReferenceContainer = referenceContainer;
+            SeparatorLength = separatorLength;
+
             Debug.Assert(StateView != null);
             Debug.Assert(StateView.ControllerView != null);
 
@@ -100,20 +122,17 @@
 
             if (Frame is ILayoutMeasurableFrame AsMeasurableFrame)
             {
-                AsMeasurableFrame.Measure(DrawContext, this, out Size Size, out Padding Padding);
+                AsMeasurableFrame.Measure(DrawContext, this, collectionWithSeparator, referenceContainer, separatorLength, out Size Size, out Padding Padding);
                 MeasuredSize = Size;
                 CellPadding = Padding;
             }
             else
             {
                 Debug.Assert(ChildStateView != null);
-                ChildStateView.MeasureCells();
+                ChildStateView.MeasureCells(collectionWithSeparator, referenceContainer, separatorLength);
 
                 MeasuredSize = ChildStateView.CellSize;
             }
-
-            if (Frame is ILayoutVerticalTabulatedFrame AsTabulatedFrame)
-                MeasuredSize = new Size(MeasuredSize.Width + (AsTabulatedFrame.HasTabulationMargin ? DrawContext.TabulationWidth : 0), MeasuredSize.Height);
 
             CellSize = MeasuredSize;
 
@@ -123,10 +142,11 @@
         /// <summary>
         /// Arranges the cell.
         /// </summary>
-        /// <param name="origin">The cell location.</param>
-        /// <param name="collectionWithSeparator">A collection that can draw separators on the left and right of the cell.</param>
+        /// <param name="collectionWithSeparator">A collection that can draw separators around the cell.</param>
         /// <param name="referenceContainer">The cell view in <paramref name="collectionWithSeparator"/> that contains this cell.</param>
-        public virtual void Arrange(Point origin, ILayoutCellViewCollection collectionWithSeparator, ILayoutCellView referenceContainer)
+        /// <param name="separatorLength">The length of the separator in <paramref name="collectionWithSeparator"/>.</param>
+        /// <param name="origin">The cell location.</param>
+        public virtual void Arrange(ILayoutCellViewCollection collectionWithSeparator, ILayoutCellView referenceContainer, double separatorLength, Point origin)
         {
             CellOrigin = origin;
 
@@ -136,14 +156,10 @@
             ILayoutDrawContext DrawContext = StateView.ControllerView.DrawContext;
             Debug.Assert(DrawContext != null);
 
-            double LeftPadding = CellPadding.Left;
-            if (Frame is ILayoutVerticalTabulatedFrame AsTabulatedFrame)
-                LeftPadding += AsTabulatedFrame.HasTabulationMargin ? DrawContext.TabulationWidth : 0;
-
-            Point OriginWithPadding = new Point(origin.X + LeftPadding, origin.Y);
+            Point OriginWithPadding = new Point(origin.X + CellPadding.Left, origin.Y);
 
             Debug.Assert(ChildStateView != null);
-            ChildStateView.ArrangeCells(OriginWithPadding, collectionWithSeparator, referenceContainer);
+            ChildStateView.ArrangeCells(collectionWithSeparator, referenceContainer, separatorLength, OriginWithPadding);
 
             Debug.Assert(ArrangeHelper.IsValid(CellOrigin));
         }

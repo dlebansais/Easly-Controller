@@ -68,33 +68,56 @@
         /// Padding inside the cell.
         /// </summary>
         public Padding CellPadding { get; private set; }
+
+        /// <summary>
+        /// The collection that can add separators around this item.
+        /// </summary>
+        public ILayoutCellViewCollection CollectionWithSeparator { get; private set; }
+
+        /// <summary>
+        /// The reference when displaying separators.
+        /// </summary>
+        public ILayoutCellView ReferenceContainer { get; private set; }
+
+        /// <summary>
+        /// The length of the separator.
+        /// </summary>
+        public double SeparatorLength { get; private set; }
         #endregion
 
         #region Client Interface
         /// <summary>
         /// Measures the cell.
         /// </summary>
-        public virtual void Measure()
+        /// <param name="collectionWithSeparator">A collection that can draw separators around the cell.</param>
+        /// <param name="referenceContainer">The cell view in <paramref name="collectionWithSeparator"/> that contains this cell.</param>
+        /// <param name="separatorLength">The length of the separator in <paramref name="collectionWithSeparator"/>.</param>
+        public virtual void Measure(ILayoutCellViewCollection collectionWithSeparator, ILayoutCellView referenceContainer, double separatorLength)
         {
+            CollectionWithSeparator = collectionWithSeparator;
+            ReferenceContainer = referenceContainer;
+            SeparatorLength = separatorLength;
+
             Debug.Assert(StateView != null);
             Debug.Assert(StateView.ControllerView != null);
 
             ILayoutDrawContext DrawContext = StateView.ControllerView.DrawContext;
             Debug.Assert(DrawContext != null);
 
+            double LeftPadding = (Frame is ILayoutVerticalTabulatedFrame AsTabulatedFrame && AsTabulatedFrame.HasTabulationMargin) ? DrawContext.TabulationWidth : 0;
+
+            GetSeparatorOverrides(ref collectionWithSeparator, ref referenceContainer, ref separatorLength, out bool OverrideCollectionWithSeparator, out bool OverrideReferenceContainer);
+
             double Width = double.NaN;
             double Height = 0;
 
-            double SeparatorHeight = 0;
-            if (Frame is ILayoutFrameWithVerticalSeparator AsFrameWithVerticalSeparator)
-                SeparatorHeight = DrawContext.GetVerticalSeparatorHeight(AsFrameWithVerticalSeparator.Separator);
-
-            foreach (ILayoutCellView CellView in CellViewList)
+            for (int i = 0; i < CellViewList.Count; i++)
             {
-                if (Height > 0)
-                    Height += SeparatorHeight;
+                ILayoutCellView CellView = CellViewList[i];
 
-                CellView.Measure();
+                ApplySeparatorOverrides(i, CellView, OverrideCollectionWithSeparator, ref OverrideReferenceContainer, ref collectionWithSeparator, ref referenceContainer, ref separatorLength, ref Height);
+
+                CellView.Measure(collectionWithSeparator, referenceContainer, separatorLength);
 
                 Size NestedCellSize = CellView.CellSize;
                 Debug.Assert(MeasureHelper.IsValid(NestedCellSize));
@@ -117,13 +140,7 @@
             if (Height == 0)
                 CellSize = Size.Empty;
             else
-            {
-                if (Frame is ILayoutVerticalTabulatedFrame AsTabulatedFrame)
-                    if (AsTabulatedFrame.HasTabulationMargin)
-                        Width += DrawContext.TabulationWidth;
-
-                CellSize = new Size(Width, Height);
-            }
+                CellSize = new Size(Width + LeftPadding, Height);
 
             Debug.Assert(MeasureHelper.IsValid(CellSize));
         }
@@ -131,10 +148,11 @@
         /// <summary>
         /// Arranges the cell.
         /// </summary>
-        /// <param name="origin">The cell location.</param>
-        /// <param name="collectionWithSeparator">A collection that can draw separators on the left and right of the cell.</param>
+        /// <param name="collectionWithSeparator">A collection that can draw separators around the cell.</param>
         /// <param name="referenceContainer">The cell view in <paramref name="collectionWithSeparator"/> that contains this cell.</param>
-        public virtual void Arrange(Point origin, ILayoutCellViewCollection collectionWithSeparator, ILayoutCellView referenceContainer)
+        /// <param name="separatorLength">The length of the separator in <paramref name="collectionWithSeparator"/>.</param>
+        /// <param name="origin">The cell location.</param>
+        public virtual void Arrange(ILayoutCellViewCollection collectionWithSeparator, ILayoutCellView referenceContainer, double separatorLength, Point origin)
         {
             CellOrigin = origin;
 
@@ -144,32 +162,78 @@
             ILayoutDrawContext DrawContext = StateView.ControllerView.DrawContext;
             Debug.Assert(DrawContext != null);
 
-            double LeftPadding = CellPadding.Left;
-            if (Frame is ILayoutVerticalTabulatedFrame AsTabulatedFrame && AsTabulatedFrame.HasTabulationMargin)
-                LeftPadding += DrawContext.TabulationWidth;
+            double LeftPadding = (Frame is ILayoutVerticalTabulatedFrame AsTabulatedFrame && AsTabulatedFrame.HasTabulationMargin) ? DrawContext.TabulationWidth : 0;
 
-            Point LineOrigin = new Point(origin.X + LeftPadding, origin.Y);
+            double OriginX = origin.X + LeftPadding;
+            double OriginY = origin.Y;
 
-            double SeparatorHeight = 0;
-            if (Frame is ILayoutFrameWithVerticalSeparator AsFrameWithVerticalSeparator)
-                SeparatorHeight = DrawContext.GetVerticalSeparatorHeight(AsFrameWithVerticalSeparator.Separator);
+            //GetSeparatorOverrides(ref collectionWithSeparator, ref referenceContainer, ref separatorLength, out bool OverrideCollectionWithSeparator, out bool OverrideReferenceContainer);
 
-            foreach (ILayoutCellView CellView in CellViewList)
+            for (int i = 0; i < CellViewList.Count; i++)
             {
-                if (LineOrigin.Y > origin.Y)
-                    LineOrigin.Y += SeparatorHeight;
+                ILayoutCellView CellView = CellViewList[i];
 
-                CellView.Arrange(LineOrigin, this, CellView);
+                //ApplySeparatorOverrides(OverrideCollectionWithSeparator, OverrideReferenceContainer, i, CellView, ref collectionWithSeparator, ref referenceContainer, ref separatorLength, ref OriginY);
+
+                if (i > 0)
+                    OriginY += CellView.SeparatorLength;
+
+                Point LineOrigin = new Point(OriginX, OriginY);
+                CellView.Arrange(collectionWithSeparator, referenceContainer, separatorLength, LineOrigin);
 
                 Size NestedCellSize = CellView.CellSize;
                 Debug.Assert(!double.IsNaN(NestedCellSize.Height));
-                LineOrigin.Y += NestedCellSize.Height;
+                OriginY += NestedCellSize.Height;
             }
 
-            Point FinalOrigin = new Point(LineOrigin.X, LineOrigin.Y);
+            Point FinalOrigin = new Point(OriginX, OriginY);
             Point ExpectedOrigin = new Point(CellOrigin.X + LeftPadding, CellOrigin.Y + CellSize.Height);
             bool IsEqual = Point.IsEqual(FinalOrigin, ExpectedOrigin);
             Debug.Assert(IsEqual);
+        }
+
+        /// <summary></summary>
+        protected virtual void GetSeparatorOverrides(ref ILayoutCellViewCollection collectionWithSeparator, ref ILayoutCellView referenceContainer, ref double separatorLength, out bool overrideCollectionWithSeparator, out bool overrideReferenceContainer)
+        {
+            ILayoutFrameWithVerticalSeparator AsFrameWithVerticalSeparator = Frame as ILayoutFrameWithVerticalSeparator;
+            Debug.Assert(AsFrameWithVerticalSeparator != null);
+
+            overrideCollectionWithSeparator = (collectionWithSeparator == null && referenceContainer == null) || !(Frame is ILayoutPanelFrame) || AsFrameWithVerticalSeparator.Separator != Constants.VerticalSeparators.None;
+            overrideReferenceContainer = false;
+
+            // Ensures arguments of Arrange() are valid.
+            if (collectionWithSeparator == null && referenceContainer == null)
+            {
+                collectionWithSeparator = this;
+                overrideReferenceContainer = true;
+                separatorLength = 0;
+            }
+        }
+
+        /// <summary></summary>
+        protected virtual void ApplySeparatorOverrides(int cellViewIndex, ILayoutCellView cellView, bool overrideCollectionWithSeparator, ref bool overrideReferenceContainer, ref ILayoutCellViewCollection collectionWithSeparator, ref ILayoutCellView referenceContainer, ref double separatorLength, ref double length)
+        {
+            if (cellViewIndex > 0)
+            {
+                if (cellViewIndex == 1 && overrideCollectionWithSeparator)
+                {
+                    collectionWithSeparator = this;
+                    overrideReferenceContainer = true;
+
+                    ILayoutDrawContext DrawContext = StateView.ControllerView.DrawContext;
+                    Debug.Assert(DrawContext != null);
+
+                    ILayoutFrameWithVerticalSeparator AsFrameWithVerticalSeparator = Frame as ILayoutFrameWithVerticalSeparator;
+                    Debug.Assert(AsFrameWithVerticalSeparator != null);
+
+                    separatorLength = DrawContext.GetVerticalSeparatorHeight(AsFrameWithVerticalSeparator.Separator);
+                }
+
+                length += separatorLength;
+            }
+
+            if (overrideReferenceContainer)
+                referenceContainer = cellView;
         }
 
         /// <summary>
@@ -185,9 +249,11 @@
             int Index = CellViewList.IndexOf(cellView);
             Debug.Assert(Index >= 0);
 
+            ILayoutFrameWithVerticalSeparator AsFrameWithVerticalSeparator = Frame as ILayoutFrameWithVerticalSeparator;
+            Debug.Assert(AsFrameWithVerticalSeparator != null);
+
             if (Index > 0)
-                if (Frame is ILayoutFrameWithVerticalSeparator AsFrameWithVerticalSeparator)
-                    drawContext.DrawVerticalSeparator(AsFrameWithVerticalSeparator.Separator, origin, size.Width);
+                drawContext.DrawVerticalSeparator(AsFrameWithVerticalSeparator.Separator, cellView.CellOrigin, cellView.CellSize.Width);
         }
 
         /// <summary>
