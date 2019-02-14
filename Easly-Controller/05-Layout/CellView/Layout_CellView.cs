@@ -60,11 +60,8 @@
         /// <summary>
         /// Arranges the cell.
         /// </summary>
-        /// <param name="collectionWithSeparator">A collection that can draw separators around the cell.</param>
-        /// <param name="referenceContainer">The cell view in <paramref name="collectionWithSeparator"/> that contains this cell.</param>
-        /// <param name="separatorLength">The length of the separator in <paramref name="collectionWithSeparator"/>.</param>
         /// <param name="origin">The cell location.</param>
-        void Arrange(ILayoutCellViewCollection collectionWithSeparator, ILayoutCellView referenceContainer, double separatorLength, Point origin);
+        void Arrange(Point origin);
     }
 
     /// <summary>
@@ -141,11 +138,8 @@
         /// <summary>
         /// Arranges the cell.
         /// </summary>
-        /// <param name="collectionWithSeparator">A collection that can draw separators around the cell.</param>
-        /// <param name="referenceContainer">The cell view in <paramref name="collectionWithSeparator"/> that contains this cell.</param>
-        /// <param name="separatorLength">The length of the separator in <paramref name="collectionWithSeparator"/>.</param>
         /// <param name="origin">The cell location.</param>
-        public abstract void Arrange(ILayoutCellViewCollection collectionWithSeparator, ILayoutCellView referenceContainer, double separatorLength, Point origin);
+        public abstract void Arrange(Point origin);
         #endregion
 
         #region Debugging

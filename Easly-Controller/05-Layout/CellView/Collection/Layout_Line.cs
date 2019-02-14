@@ -27,6 +27,8 @@
         public LayoutLine(ILayoutNodeStateView stateView, ILayoutCellViewCollection parentCellView, ILayoutCellViewList cellViewList, ILayoutFrame frame)
             : base(stateView, parentCellView, cellViewList, frame)
         {
+            Debug.Assert(frame is ILayoutFrameWithHorizontalSeparator);
+
             CellOrigin = ArrangeHelper.InvalidOrigin;
             CellSize = MeasureHelper.InvalidSize;
             CellPadding = Padding.Empty;
@@ -104,7 +106,18 @@
             ILayoutDrawContext DrawContext = StateView.ControllerView.DrawContext;
             Debug.Assert(DrawContext != null);
 
-            GetSeparatorOverrides(ref collectionWithSeparator, ref referenceContainer, ref separatorLength, out bool OverrideCollectionWithSeparator, out bool OverrideReferenceContainer);
+            ILayoutFrameWithHorizontalSeparator AsFrameWithHorizontalSeparator = Frame as ILayoutFrameWithHorizontalSeparator;
+            Debug.Assert(AsFrameWithHorizontalSeparator != null);
+
+            bool OverrideReferenceContainer = false;
+
+            // Ensures arguments of Arrange() are valid. This only happens for the root cell view, where there is no separator.
+            if (collectionWithSeparator == null && referenceContainer == null)
+            {
+                collectionWithSeparator = this;
+                OverrideReferenceContainer = true;
+                separatorLength = 0;
+            }
 
             double Width = 0;
             double Height = double.NaN;
@@ -113,7 +126,21 @@
             {
                 ILayoutCellView CellView = CellViewList[i];
 
-                ApplySeparatorOverrides(i, CellView, OverrideCollectionWithSeparator, ref OverrideReferenceContainer, ref collectionWithSeparator, ref referenceContainer, ref separatorLength, ref Width);
+                if (i > 0)
+                {
+                    // Starting with the second cell, we use the separator of our frame.
+                    if (i == 1)
+                    {
+                        collectionWithSeparator = this;
+                        OverrideReferenceContainer = true;
+                        separatorLength = DrawContext.GetHorizontalSeparatorWidth(AsFrameWithHorizontalSeparator.Separator);
+                    }
+
+                    Width += separatorLength;
+                }
+
+                if (OverrideReferenceContainer)
+                    referenceContainer = CellView;
 
                 Debug.Assert(collectionWithSeparator != this || CellViewList.IndexOf(referenceContainer) == i);
                 CellView.Measure(collectionWithSeparator, referenceContainer, separatorLength);
@@ -147,11 +174,8 @@
         /// <summary>
         /// Arranges the cell.
         /// </summary>
-        /// <param name="collectionWithSeparator">A collection that can draw separators around the cell.</param>
-        /// <param name="referenceContainer">The cell view in <paramref name="collectionWithSeparator"/> that contains this cell.</param>
-        /// <param name="separatorLength">The length of the separator in <paramref name="collectionWithSeparator"/>.</param>
         /// <param name="origin">The cell location.</param>
-        public virtual void Arrange(ILayoutCellViewCollection collectionWithSeparator, ILayoutCellView referenceContainer, double separatorLength, Point origin)
+        public virtual void Arrange(Point origin)
         {
             CellOrigin = origin;
 
@@ -164,19 +188,16 @@
             double OriginX = origin.X;
             double OriginY = origin.Y;
 
-            //GetSeparatorOverrides(ref collectionWithSeparator, ref referenceContainer, ref separatorLength, out bool OverrideCollectionWithSeparator, out bool OverrideReferenceContainer);
-
             for (int i = 0; i < CellViewList.Count; i++)
             {
                 ILayoutCellView CellView = CellViewList[i];
 
-                //ApplySeparatorOverrides(OverrideCollectionWithSeparator, OverrideReferenceContainer, i, CellView, ref collectionWithSeparator, ref referenceContainer, ref separatorLength, ref OriginX);
-
+                // The separator length has been calculated in Measure().
                 if (i > 0)
                     OriginX += CellView.SeparatorLength;
 
                 Point ColumnOrigin = new Point(OriginX, OriginY);
-                CellView.Arrange(collectionWithSeparator, referenceContainer, separatorLength, ColumnOrigin);
+                CellView.Arrange(ColumnOrigin);
 
                 Size NestedCellSize = CellView.CellSize;
                 Debug.Assert(!double.IsNaN(NestedCellSize.Width));
@@ -187,51 +208,6 @@
             Point ExpectedOrigin = new Point(CellOrigin.X + CellSize.Width, CellOrigin.Y);
             bool IsEqual = Point.IsEqual(FinalOrigin, ExpectedOrigin);
             Debug.Assert(IsEqual);
-        }
-
-        /// <summary></summary>
-        protected virtual void GetSeparatorOverrides(ref ILayoutCellViewCollection collectionWithSeparator, ref ILayoutCellView referenceContainer, ref double separatorLength, out bool overrideCollectionWithSeparator, out bool overrideReferenceContainer)
-        {
-            ILayoutFrameWithHorizontalSeparator AsFrameWithHorizontalSeparator = Frame as ILayoutFrameWithHorizontalSeparator;
-            Debug.Assert(AsFrameWithHorizontalSeparator != null);
-
-            //overrideCollectionWithSeparator = (collectionWithSeparator == null && referenceContainer == null) || !(Frame is ILayoutPanelFrame) || AsFrameWithHorizontalSeparator.Separator != Constants.HorizontalSeparators.None;
-            overrideCollectionWithSeparator = true;
-            overrideReferenceContainer = false;
-
-            // Ensures arguments of Arrange() are valid.
-            if (collectionWithSeparator == null && referenceContainer == null)
-            {
-                collectionWithSeparator = this;
-                overrideReferenceContainer = true;
-                separatorLength = 0;
-            }
-        }
-
-        /// <summary></summary>
-        protected virtual void ApplySeparatorOverrides(int cellViewIndex, ILayoutCellView cellView, bool overrideCollectionWithSeparator, ref bool overrideReferenceContainer, ref ILayoutCellViewCollection collectionWithSeparator, ref ILayoutCellView referenceContainer, ref double separatorLength, ref double length)
-        {
-            if (cellViewIndex > 0)
-            {
-                if (cellViewIndex == 1 && overrideCollectionWithSeparator)
-                {
-                    collectionWithSeparator = this;
-                    overrideReferenceContainer = true;
-
-                    ILayoutDrawContext DrawContext = StateView.ControllerView.DrawContext;
-                    Debug.Assert(DrawContext != null);
-
-                    ILayoutFrameWithHorizontalSeparator AsFrameWithHorizontalSeparator = Frame as ILayoutFrameWithHorizontalSeparator;
-                    Debug.Assert(AsFrameWithHorizontalSeparator != null);
-
-                    separatorLength = DrawContext.GetHorizontalSeparatorWidth(AsFrameWithHorizontalSeparator.Separator);
-                }
-
-                length += separatorLength;
-            }
-
-            if (overrideReferenceContainer)
-                referenceContainer = cellView;
         }
 
         /// <summary>
@@ -245,13 +221,10 @@
         public virtual void DrawBeforeItem(ILayoutDrawContext drawContext, ILayoutCellView cellView, Point origin, Size size, Padding padding)
         {
             int Index = CellViewList.IndexOf(cellView);
-            Debug.Assert(Index >= 0);
-
-            ILayoutFrameWithHorizontalSeparator AsFrameWithHorizontalSeparator = Frame as ILayoutFrameWithHorizontalSeparator;
-            Debug.Assert(AsFrameWithHorizontalSeparator != null);
+            Debug.Assert(Index >= 0 && Index < CellViewList.Count);
 
             if (Index > 0)
-                drawContext.DrawHorizontalSeparator(AsFrameWithHorizontalSeparator.Separator, cellView.CellOrigin, cellView.CellSize.Height);
+                drawContext.DrawHorizontalSeparator(((ILayoutFrameWithHorizontalSeparator)Frame).Separator, cellView.CellOrigin, cellView.CellSize.Height);
         }
 
         /// <summary>

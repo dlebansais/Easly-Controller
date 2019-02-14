@@ -104,14 +104,11 @@
         /// <summary>
         /// Arranges cells in this state view.
         /// </summary>
-        /// <param name="collectionWithSeparator">A collection that can draw separators around the cell.</param>
-        /// <param name="referenceContainer">The cell view in <paramref name="collectionWithSeparator"/> that contains this cell.</param>
-        /// <param name="separatorLength">The length of the separator in <paramref name="collectionWithSeparator"/>.</param>
         /// <param name="origin">The cell location.</param>
-        public virtual void ArrangeCells(ILayoutCellViewCollection collectionWithSeparator, ILayoutCellView referenceContainer, double separatorLength, Point origin)
+        public virtual void ArrangeCells(Point origin)
         {
             Debug.Assert(RootCellView != null);
-            RootCellView.Arrange(collectionWithSeparator, referenceContainer, separatorLength, origin);
+            RootCellView.Arrange(origin);
 
             CellOrigin = RootCellView.CellOrigin;
 
