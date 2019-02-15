@@ -204,7 +204,7 @@ namespace TestDebug
                     <LayoutKeywordFrame>feature</LayoutKeywordFrame>
                     <LayoutInsertFrame CollectionName=""FeatureBlocks"" ItemType=""{xaml:Type easly:AttributeFeature}""/>
                 </LayoutHorizontalPanelFrame>
-                <LayoutVerticalBlockListFrame PropertyName=""FeatureBlocks"" HasTabulationMargin=""True""/>
+                <LayoutVerticalBlockListFrame PropertyName=""FeatureBlocks"" HasTabulationMargin=""True"" Separator=""Line""/>
             </LayoutVerticalPanelFrame>
             <LayoutVerticalPanelFrame>
                 <LayoutVerticalPanelFrame.Visibility>
@@ -3411,7 +3411,7 @@ namespace TestDebug
                 </LayoutPlaceholderFrame>
                 <LayoutKeywordFrame RightMargin=""Whitespace"">All</LayoutKeywordFrame>
             </LayoutHorizontalPanelFrame>
-            <LayoutVerticalCollectionPlaceholderFrame/>
+            <LayoutVerticalCollectionPlaceholderFrame Separator=""Line""/>
             <LayoutKeywordFrame Text=""end"" LeftMargin=""Whitespace"">
                 <LayoutKeywordFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
