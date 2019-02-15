@@ -144,7 +144,15 @@
             ILayoutDiscreteFrame AsDiscreteFrame = KeywordFrame.ParentFrame as ILayoutDiscreteFrame;
             Debug.Assert(AsDiscreteFrame != null);
 
-            Size size = MeasureHelper.IsFixed(CellSize) ? CellSize : ParentCellView.GetMeasuredSize(CellSize);
+            Size size;
+            if (ParentCellView != null)
+                size = ParentCellView.GetMeasuredSize(CellSize);
+            else
+            {
+                Debug.Assert(MeasureHelper.IsFixed(CellSize));
+                size = CellSize;
+            }
+
             CollectionWithSeparator.DrawBeforeItem(DrawContext, ReferenceContainer, CellOrigin, size, CellPadding);
             AsDiscreteFrame.Draw(DrawContext, this, CellOrigin, size, CellPadding);
             CollectionWithSeparator.DrawAfterItem(DrawContext, ReferenceContainer, CellOrigin, size, CellPadding);

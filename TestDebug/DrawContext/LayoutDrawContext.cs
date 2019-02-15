@@ -37,6 +37,8 @@ namespace TestDebug
                 case Symbols.LeftParenthesis:
                 case Symbols.RightParenthesis:
                     return new Size(20, double.NaN);
+                case Symbols.HorizontalLine:
+                    return new Size(double.NaN, 20);
             }
         }
 

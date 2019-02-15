@@ -49,5 +49,10 @@
         /// )
         /// </summary>
         RightParenthesis,
+
+        /// <summary>
+        /// An horizontal line.
+        /// </summary>
+        HorizontalLine,
     }
 }

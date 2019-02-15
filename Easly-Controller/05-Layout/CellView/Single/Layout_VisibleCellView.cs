@@ -143,7 +143,15 @@
             ILayoutDrawableFrame AsDrawableFrame = Frame as ILayoutDrawableFrame;
             Debug.Assert(AsDrawableFrame != null);
 
-            Size size = MeasureHelper.IsFixed(CellSize) ? CellSize : ParentCellView.GetMeasuredSize(CellSize);
+            Size size;
+            if (ParentCellView != null)
+                size = ParentCellView.GetMeasuredSize(CellSize);
+            else
+            {
+                Debug.Assert(MeasureHelper.IsFixed(CellSize));
+                size = CellSize;
+            }
+
             CollectionWithSeparator.DrawBeforeItem(DrawContext, ReferenceContainer, CellOrigin, size, CellPadding);
             AsDrawableFrame.Draw(DrawContext, this, CellOrigin, size, CellPadding);
             CollectionWithSeparator.DrawAfterItem(DrawContext, ReferenceContainer, CellOrigin, size, CellPadding);

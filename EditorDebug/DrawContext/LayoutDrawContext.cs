@@ -38,11 +38,23 @@
             RightCurlyBracket = ScaleGlyphGeometry("}", true, 0.25, 0.3);
             LeftParenthesis = ScaleGlyphGeometry("(", true, 0, 0);
             RightParenthesis = ScaleGlyphGeometry(")", true, 0, 0);
+            HorizontalLine = ScaleGlyphGeometryWidth("-", true);
         }
 
         public void UpdateDC(DrawingContext dc)
         {
             this.dc = dc;
+        }
+
+        protected ScalableGeometry ScaleGlyphGeometryWidth(string Text, bool IsWidthScaled)
+        {
+            FormattedText GlyphText = new FormattedText(Text, CultureInfo.CurrentCulture, FlowDirection.LeftToRight, Typeface, FontSize, Foreground);
+            GlyphText.Trimming = TextTrimming.None;
+
+            Rect Bounds = new Rect(new Point(0, 0), new Size(GlyphText.Width, GlyphText.Height));
+            Geometry GlyphGeometry = GlyphText.BuildGeometry(Bounds.Location);
+
+            return new ScalableGeometry(GlyphGeometry, Bounds, IsWidthScaled, 0, 0, false, 0, 0);
         }
 
         protected ScalableGeometry ScaleGlyphGeometry(string Text, bool IsHeightScaled, double TopPercent, double BottomPercent)
@@ -82,6 +94,7 @@
         ScalableGeometry RightCurlyBracket;
         ScalableGeometry LeftParenthesis;
         ScalableGeometry RightParenthesis;
+        ScalableGeometry HorizontalLine;
 
         public double GetHorizontalSeparatorWidth(HorizontalSeparators separator)
         {
@@ -137,6 +150,9 @@
                 case Symbols.RightParenthesis:
                     Text = ")";
                     break;
+                case Symbols.HorizontalLine:
+                    Text = "-";
+                    break;
             }
 
             return Text;
@@ -161,6 +177,8 @@
                 case Symbols.LeftParenthesis:
                 case Symbols.RightParenthesis:
                     return new EaslyController.Controller.Size(ft.Width, double.NaN);
+                case Symbols.HorizontalLine:
+                    return new EaslyController.Controller.Size(double.NaN, ft.Height);
             }
         }
 
@@ -253,6 +271,9 @@
                     break;
                 case Symbols.RightParenthesis:
                     DrawGeometrySymbol(RightParenthesis, origin, size, padding);
+                    break;
+                case Symbols.HorizontalLine:
+                    DrawGeometrySymbol(HorizontalLine, origin, size, padding);
                     break;
             }
         }
