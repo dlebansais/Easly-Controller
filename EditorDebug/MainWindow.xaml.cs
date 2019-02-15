@@ -81,103 +81,116 @@ namespace EditorDebug
         #endregion
 
         #region Events
+        private void OnKeyDownCtrl(Key key)
+        {
+            switch (key)
+            {
+                case Key.Up:
+                    if (Keyboard.IsKeyDown(Key.LeftShift) || Keyboard.IsKeyDown(Key.RightShift))
+                        MoveExistingBlock(-1);
+                    else
+                        MoveExistingItem(-1);
+                    break;
+
+                case Key.Down:
+                    if (Keyboard.IsKeyDown(Key.LeftShift) || Keyboard.IsKeyDown(Key.RightShift))
+                        MoveExistingBlock(+1);
+                    else
+                        MoveExistingItem(+1);
+                    break;
+
+                case Key.E:
+                    ToggleUserVisible();
+                    break;
+
+                case Key.Y:
+                    RemoveExistingItem();
+                    break;
+
+                case Key.S:
+                    SplitExistingItem();
+                    break;
+
+                case Key.M:
+                    MergeExistingItem();
+                    break;
+
+                case Key.T:
+                    CycleThroughExistingItem();
+                    break;
+
+                case Key.I:
+                    SimplifyExistingItem();
+                    break;
+
+                case Key.R: // toggle replicate
+                    ToggleReplicate();
+                    break;
+
+                case Key.D: // expand/reduce selection
+                case Key.Z: // undo/redo
+                    break;
+            }
+        }
+
+        private void OnKeyDown(Key key)
+        {
+            switch (key)
+            {
+                case Key.Subtract:
+                    ChangeDiscreteValue(-1);
+                    break;
+
+                case Key.Add:
+                    ChangeDiscreteValue(+1);
+                    break;
+
+                case Key.Up:
+                    MoveFocus(-1);
+                    break;
+
+                case Key.Down:
+                    MoveFocus(+1);
+                    break;
+
+                case Key.Enter:
+                    InsertNewItem();
+                    break;
+
+                case Key.OemPeriod:
+                    SplitIdentifier();
+                    break;
+
+                case Key.Back:
+                case Key.Delete:
+                case Key.Tab: // Comments
+                case Key.Home:
+                case Key.End:
+                case Key.PageUp: // Focus up
+                case Key.PageDown: // Focus down
+                case Key.Space: // Compact
+                    break;
+
+                case Key.Left:
+                    MoveCaretLeft();
+                    break;
+                case Key.Right:
+                    MoveCaretRight();
+                    break;
+                case Key.Insert:
+                    ToggleCaretMode();
+                    break;
+            }
+        }
+
         private void OnKeyDown(object sender, KeyEventArgs e)
         {
             ControllerView = layoutControl.ControllerView;
 
             if (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl))
-            {
-                switch (e.Key)
-                {
-                    case Key.Up:
-                        if (Keyboard.IsKeyDown(Key.LeftShift) || Keyboard.IsKeyDown(Key.RightShift))
-                            MoveExistingBlock(-1);
-                        else
-                            MoveExistingItem(-1);
-                        break;
-
-                    case Key.Down:
-                        if (Keyboard.IsKeyDown(Key.LeftShift) || Keyboard.IsKeyDown(Key.RightShift))
-                            MoveExistingBlock(+1);
-                        else
-                            MoveExistingItem(+1);
-                        break;
-
-                    case Key.E:
-                        ToggleUserVisible();
-                        break;
-
-                    case Key.Y:
-                        RemoveExistingItem();
-                        break;
-
-                    case Key.S:
-                        SplitExistingItem();
-                        break;
-
-                    case Key.M:
-                        MergeExistingItem();
-                        break;
-
-                    case Key.T:
-                        CycleThroughExistingItem();
-                        break;
-
-                    case Key.I:
-                        SimplifyExistingItem();
-                        break;
-
-                    case Key.R: // toggle replicate
-                        ToggleReplicate();
-                        break;
-
-                    case Key.D: // expand/reduce selection
-                    case Key.Z: // undo/redo
-                        break;
-                }
-            }
+                OnKeyDownCtrl(e.Key);
             else
-            {
-                switch (e.Key)
-                {
-                    case Key.Subtract:
-                        ChangeDiscreteValue(-1);
-                        break;
-
-                    case Key.Add:
-                        ChangeDiscreteValue(+1);
-                        break;
-
-                    case Key.Up:
-                        MoveFocus(-1);
-                        break;
-
-                    case Key.Down:
-                        MoveFocus(+1);
-                        break;
-
-                    case Key.Enter:
-                        InsertNewItem();
-                        break;
-
-                    case Key.OemPeriod:
-                        SplitIdentifier();
-                        break;
-
-                    case Key.Back:
-                    case Key.Delete:
-                    case Key.Insert:
-                    case Key.Tab: // Comments
-                    case Key.Left:
-                    case Key.Right:
-                    case Key.Home:
-                    case Key.End:
-                    case Key.PageUp: // Focus up
-                    case Key.PageDown: // Focus down
-                    case Key.Space: // Compact
-                        break;
-                }
-            }
+                OnKeyDown(e.Key);
         }
 
         private void InsertNewItem()
@@ -347,6 +360,36 @@ namespace EditorDebug
             ControllerView.Controller.Replace(Inner, ReplaceIndex, out IWriteableBrowsingChildIndex FirstIndex);
             ControllerView.Controller.Insert(Inner, InsertIndex, out IWriteableBrowsingCollectionNodeIndex SecondIndex);
             UpdateView();
+        }
+
+        private void MoveCaretRight()
+        {
+            if (ControllerView.CaretPosition < ControllerView.MaxCaretPosition)
+                ControllerView.SetCaretPosition(ControllerView.CaretPosition + 1);
+            else if (ControllerView.MaxFocusMove > 0)
+                ControllerView.MoveFocus(+1);
+
+            layoutControl.InvalidateVisual();
+        }
+
+        private void MoveCaretLeft()
+        {
+            if (ControllerView.CaretPosition > 0)
+                ControllerView.SetCaretPosition(ControllerView.CaretPosition - 1);
+            else if (ControllerView.MinFocusMove < 0)
+                ControllerView.MoveFocus(-1);
+
+            layoutControl.InvalidateVisual();
+        }
+
+        private void ToggleCaretMode()
+        {
+            if (ControllerView.CaretMode == CaretModes.Insertion && ControllerView.CaretPosition < ControllerView.MaxCaretPosition)
+                ControllerView.SetCaretMode(CaretModes.Override);
+            else
+                ControllerView.SetCaretMode(CaretModes.Insertion);
+
+            layoutControl.InvalidateVisual();
         }
         #endregion
 

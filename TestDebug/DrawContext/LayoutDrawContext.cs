@@ -1,4 +1,5 @@
-﻿using EaslyController.Constants;
+﻿using System.Diagnostics;
+using EaslyController.Constants;
 using EaslyController.Controller;
 using EaslyController.Layout;
 
@@ -52,11 +53,11 @@ namespace TestDebug
             padding = Padding.Empty;
         }
 
-        public void DrawText(string text, Point origin, TextStyles textStyle)
+        public void DrawText(string text, Point origin, TextStyles textStyle, bool isFocused)
         {
         }
 
-        public void DrawSymbol(Symbols symbol, Point origin, Size size, Padding padding)
+        public void DrawSymbol(Symbols symbol, Point origin, Size size, Padding padding, bool isFocused)
         {
         }
 
@@ -65,6 +66,15 @@ namespace TestDebug
         }
 
         public void DrawVerticalSeparator(VerticalSeparators separator, Point origin, double width)
+        {
+        }
+
+        public void ShowCaret(Point origin, string text, TextStyles textStyle, CaretModes mode, int position)
+        {
+            Debug.Assert(position >= 0 && ((mode == CaretModes.Insertion && position <= text.Length) || (mode == CaretModes.Override && position < text.Length)));
+        }
+
+        public void HideCaret()
         {
         }
     }

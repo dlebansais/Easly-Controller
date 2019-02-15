@@ -50,17 +50,9 @@
                 Rect Fullrect = new Rect(0, 0, ActualWidth, ActualHeight);
                 dc.DrawRectangle(WriteBrush, null, Fullrect);
 
-                UpdateLayoutView();
+                ControllerView.Draw();
+                ControllerView.ShowCaret(true);
             }
-        }
-
-        private void UpdateLayoutView()
-        {
-            ILayoutVisibleCellViewList CellList = new LayoutVisibleCellViewList();
-            ControllerView.EnumerateVisibleCellViews(CellList);
-
-            foreach (ILayoutVisibleCellView CellView in CellList)
-                CellView.Draw();
         }
     }
 }

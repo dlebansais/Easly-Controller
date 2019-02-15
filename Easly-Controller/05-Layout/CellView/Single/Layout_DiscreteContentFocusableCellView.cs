@@ -133,7 +133,8 @@
         /// <summary>
         /// Draws the cell.
         /// </summary>
-        public virtual void Draw()
+        /// <param name="isFocused">True if this cell has the focus.</param>
+        public virtual void Draw(bool isFocused)
         {
             Debug.Assert(StateView != null);
             Debug.Assert(StateView.ControllerView != null);
@@ -151,7 +152,7 @@
             Debug.Assert(MeasureHelper.IsFixed(size));
 
             CollectionWithSeparator.DrawBeforeItem(DrawContext, ReferenceContainer, CellOrigin, size, CellPadding);
-            AsDiscreteFrame.Draw(DrawContext, this, CellOrigin, size, CellPadding);
+            AsDiscreteFrame.Draw(DrawContext, this, CellOrigin, size, CellPadding, isFocused);
             CollectionWithSeparator.DrawAfterItem(DrawContext, ReferenceContainer, CellOrigin, size, CellPadding);
         }
         #endregion

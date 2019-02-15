@@ -65,6 +65,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="DrawContext\FlashEasingFunction.cs" />
     <Compile Include="DrawContext\GeometryScalings.cs" />
     <Compile Include="DrawContext\ScalableGeometry.cs" />
     <Compile Include="DrawContext\GeometryScale.cs" />

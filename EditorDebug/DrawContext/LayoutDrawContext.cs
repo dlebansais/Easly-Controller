@@ -1,9 +1,12 @@
 ﻿namespace EditorDebug
 {
+    using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Globalization;
     using System.Windows;
     using System.Windows.Media;
+    using System.Windows.Media.Animation;
     using BaseNode;
     using EaslyController.Constants;
     using EaslyController.Layout;
@@ -39,6 +42,11 @@
             LeftParenthesis = ScaleGlyphGeometry("(", true, 0, 0);
             RightParenthesis = ScaleGlyphGeometry(")", true, 0, 0);
             HorizontalLine = ScaleGlyphGeometryWidth("-", true);
+
+            FlashAnimation = new DoubleAnimation(0, new Duration(TimeSpan.FromSeconds(1)));
+            FlashAnimation.RepeatBehavior = RepeatBehavior.Forever;
+            FlashAnimation.EasingFunction = new FlashEasingFunction();
+            FlashClock = FlashAnimation.CreateClock();
         }
 
         public void UpdateDC(DrawingContext dc)
@@ -95,6 +103,8 @@
         ScalableGeometry LeftParenthesis;
         ScalableGeometry RightParenthesis;
         ScalableGeometry HorizontalLine;
+        DoubleAnimation FlashAnimation;
+        AnimationClock FlashClock;
 
         public double GetHorizontalSeparatorWidth(HorizontalSeparators separator)
         {
@@ -108,7 +118,7 @@
 
         public EaslyController.Controller.Size MeasureText(string text, TextStyles textStyle)
         {
-            Brush Brush = StyleTuBrush(textStyle);
+            Brush Brush = StyleToBrush(textStyle);
             FormattedText ft = new FormattedText(text, CultureInfo.CurrentCulture, FlowDirection.LeftToRight, Typeface, FontSize, Brush);
 
             return new EaslyController.Controller.Size(ft.Width, LineHeight);
@@ -215,7 +225,7 @@
             padding = new EaslyController.Controller.Padding(LeftPadding, 0, RightPadding, 0);
         }
 
-        private Brush StyleTuBrush(TextStyles textStyle)
+        private Brush StyleToBrush(TextStyles textStyle)
         {
             Color LightBlueColor = Color.FromArgb(0xFF, 0x2B, 0x91, 0xAF);
 
@@ -237,22 +247,34 @@
             }
         }
 
-        public void DrawText(string text, EaslyController.Controller.Point origin, TextStyles textStyle)
+        public void DrawText(string text, EaslyController.Controller.Point origin, TextStyles textStyle, bool isFocused)
         {
-            Brush Brush = StyleTuBrush(textStyle);
+            if (isFocused)
+                dc.PushOpacity(1, FlashClock);
+
+            Brush Brush = StyleToBrush(textStyle);
             FormattedText ft = new FormattedText(text, CultureInfo.CurrentCulture, FlowDirection.LeftToRight, Typeface, FontSize, Brush);
             dc.DrawText(ft, new Point(origin.X, origin.Y));
+
+            if (isFocused)
+                dc.Pop();
         }
 
-        public void DrawSymbol(Symbols symbol, EaslyController.Controller.Point origin, EaslyController.Controller.Size size, EaslyController.Controller.Padding padding)
+        public void DrawSymbol(Symbols symbol, EaslyController.Controller.Point origin, EaslyController.Controller.Size size, EaslyController.Controller.Padding padding, bool isFocused)
         {
+            if (isFocused)
+                dc.PushOpacity(1, FlashClock);
+
             switch (symbol)
             {
                 default:
                 case Symbols.LeftArrow:
                 case Symbols.Dot:
-                case Symbols.InsertSign:
                     DrawTextSymbol(SymbolToText(symbol), origin, size, padding);
+                    break;
+                case Symbols.InsertSign:
+                    if (isFocused)
+                        DrawTextSymbol(SymbolToText(symbol), origin, size, padding);
                     break;
                 case Symbols.LeftBracket:
                     DrawGeometrySymbol(LeftBracket, origin, size, padding);
@@ -276,6 +298,9 @@
                     DrawGeometrySymbol(HorizontalLine, origin, size, padding);
                     break;
             }
+
+            if (isFocused)
+                dc.Pop();
         }
 
         public void DrawTextSymbol(string text, EaslyController.Controller.Point origin, EaslyController.Controller.Size size, EaslyController.Controller.Padding padding)
@@ -369,6 +394,42 @@
         /// <param name="origin">The location where to draw.</param>
         /// <param name="width">The separator width.</param>
         public void DrawVerticalSeparator(VerticalSeparators separator, EaslyController.Controller.Point origin, double width)
+        {
+        }
+
+        public void ShowCaret(EaslyController.Controller.Point origin, string text, TextStyles textStyle, CaretModes mode, int position)
+        {
+            Debug.Assert(position >= 0 && ((mode == CaretModes.Insertion && position <= text.Length) || (mode == CaretModes.Override && position < text.Length)));
+
+            string LeftText = text.Substring(0, position);
+
+            Brush Brush = StyleToBrush(textStyle);
+            FormattedText ft = new FormattedText(LeftText, CultureInfo.CurrentCulture, FlowDirection.LeftToRight, Typeface, FontSize, Brush);
+            double X = origin.X + ft.WidthIncludingTrailingWhitespace;
+            double Y = origin.Y;
+
+            if (mode == CaretModes.Insertion)
+            {
+                Rect CaretRect = new Rect(X, Y, WhitespaceWidth / 4, LineHeight);
+
+                dc.PushOpacity(1, FlashClock);
+                dc.DrawRectangle(Brushes.Black, null, CaretRect);
+                dc.Pop();
+            }
+            else
+            {
+                string CharText = text.Substring(position, 1);
+                ft = new FormattedText(CharText, CultureInfo.CurrentCulture, FlowDirection.LeftToRight, Typeface, FontSize, Brushes.DarkGray);
+
+                Rect CaretRect = new Rect(X, Y, ft.WidthIncludingTrailingWhitespace, LineHeight);
+
+                dc.PushOpacity(1, FlashClock);
+                dc.DrawRectangle(Brushes.DarkGray, null, CaretRect);
+                dc.Pop();
+            }
+        }
+
+        public void HideCaret()
         {
         }
     }

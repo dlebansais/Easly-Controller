@@ -56,6 +56,11 @@
         int CaretPosition { get; }
 
         /// <summary>
+        /// Max position of the caret in a string property with the focus, -1 otherwise.
+        /// </summary>
+        int MaxCaretPosition { get; }
+
+        /// <summary>
         /// Current caret mode when editing text.
         /// </summary>
         CaretModes CaretMode { get; }
@@ -323,6 +328,11 @@
         public int CaretPosition { get; private set; }
 
         /// <summary>
+        /// Max position of the caret in a string property with the focus, -1 otherwise.
+        /// </summary>
+        public int MaxCaretPosition { get; private set; }
+
+        /// <summary>
         /// Current caret mode when editing text.
         /// </summary>
         public CaretModes CaretMode { get; private set; }
@@ -580,7 +590,7 @@
             Debug.Assert(FocusIndex >= 0 && FocusIndex < FocusChain.Count);
             FocusedCellView = FocusChain[FocusIndex];
 
-            ResetCaretPosition();
+            ResetCaretPosition(direction);
         }
 
         /// <summary>
@@ -1445,7 +1455,7 @@
             {
                 Debug.Assert(FocusChain == null);
                 FocusedCellView = NewFocusChain[0];
-                ResetCaretPosition();
+                ResetCaretPosition(0);
             }
             else if (!NewFocusChain.Contains(FocusedCellView)) // If the focus may have forcibly changed.
                 RecoverFocus(state, NewFocusChain);
@@ -1486,7 +1496,7 @@
             if (IsFrameChanged)
                 FindPreferredFrame(MainStateView, SameStateFocusableList);
 
-            ResetCaretPosition();
+            ResetCaretPosition(0);
         }
 
         /// <summary></summary>
@@ -1629,12 +1639,28 @@
         }
 
         /// <summary></summary>
-        private protected virtual void ResetCaretPosition()
+        private protected virtual void ResetCaretPosition(int direction)
         {
             if (FocusedCellView is IFocusTextFocusableCellView AsText)
-                CaretPosition = 0;
+            {
+                string Text = FocusedText;
+                Debug.Assert(Text != null);
+
+                if (CaretMode == CaretModes.Insertion || Text.Length == 0)
+                    MaxCaretPosition = Text.Length;
+                else
+                    MaxCaretPosition = Text.Length - 1;
+
+                if (direction >= 0)
+                    CaretPosition = 0;
+                else
+                    CaretPosition = MaxCaretPosition;
+            }
             else
+            {
                 CaretPosition = -1;
+                MaxCaretPosition = -1;
+            }
         }
 
         /// <summary></summary>
@@ -1645,8 +1671,10 @@
 
             if (position < 0)
                 CaretPosition = 0;
-            else if (position >= Text.Length)
+            else if ((CaretMode == CaretModes.Insertion && position > Text.Length) || Text.Length == 0)
                 CaretPosition = Text.Length;
+            else if (CaretMode == CaretModes.Override && position >= Text.Length)
+                CaretPosition = Text.Length - 1;
             else
                 CaretPosition = position;
 

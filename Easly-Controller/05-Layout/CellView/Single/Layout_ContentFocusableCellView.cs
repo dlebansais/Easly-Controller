@@ -98,7 +98,8 @@
         /// <summary>
         /// Draws the cell.
         /// </summary>
-        public abstract void Draw();
+        /// <param name="isFocused">True if this cell has the focus.</param>
+        public abstract void Draw(bool isFocused);
         #endregion
 
         #region Debugging

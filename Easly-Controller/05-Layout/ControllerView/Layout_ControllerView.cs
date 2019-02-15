@@ -2,6 +2,8 @@
 {
     using System.Diagnostics;
     using BaseNode;
+    using BaseNodeHelper;
+    using EaslyController.Constants;
     using EaslyController.Controller;
     using EaslyController.Focus;
     using EaslyController.Frame;
@@ -47,6 +49,27 @@
         /// Size of view.
         /// </summary>
         Size ViewSize { get; }
+
+        /// <summary>
+        /// Current text style if the focus is on a string property. Default otherwise.
+        /// </summary>
+        TextStyles FocusedTextStyle { get; }
+
+        /// <summary>
+        /// Indicates if the caret is shown or hidden.
+        /// </summary>
+        bool IsCaretShown { get; }
+
+        /// <summary>
+        /// Draws all visible cells in the view using <see cref="DrawContext"/>.
+        /// </summary>
+        void Draw();
+
+        /// <summary>
+        /// Shows or hides the caret.
+        /// </summary>
+        /// <param name="show">Shows the caret if true. Otherwise, hides it.</param>
+        void ShowCaret(bool show);
     }
 
     /// <summary>
@@ -117,6 +140,122 @@
         /// Size of view.
         /// </summary>
         public Size ViewSize { get; private set; }
+
+        /// <summary>
+        /// Current text style if the focus is on a string property. Default otherwise.
+        /// </summary>
+        public TextStyles FocusedTextStyle
+        {
+            get
+            {
+                TextStyles Result = TextStyles.Default;
+                bool IsHandled = false;
+
+                if (FocusedCellView is ILayoutTextFocusableCellView AsText)
+                {
+                    switch (AsText.Frame)
+                    {
+                        case ILayoutCharacterFrame AsCharacterFrame:
+                            Result = TextStyles.Character;
+                            IsHandled = true;
+                            break;
+
+                        case ILayoutNumberFrame AsNumberFrame:
+                            Result = TextStyles.Number;
+                            IsHandled = true;
+                            break;
+
+                        case ILayoutTextValueFrame AsTextValueFrame:
+                            Result = AsTextValueFrame.TextStyle;
+                            IsHandled = true;
+                            break;
+                    }
+                }
+                else
+                    IsHandled = true;
+
+                Debug.Assert(IsHandled);
+                return Result;
+            }
+        }
+
+        /// <summary>
+        /// Indicates if the caret is shown or hidden.
+        /// </summary>
+        public bool IsCaretShown { get; private set; }
+        #endregion
+
+        #region Client Interface
+        /// <summary>
+        /// Draws all visible cells in the view using <see cref="DrawContext"/>.
+        /// </summary>
+        public virtual void Draw()
+        {
+            if (IsCaretShown)
+                DrawContext.HideCaret();
+
+            ILayoutVisibleCellViewList CellList = new LayoutVisibleCellViewList();
+            EnumerateVisibleCellViews(CellList);
+
+            foreach (ILayoutVisibleCellView CellView in CellList)
+            {
+                bool IsFocused = CellView == FocusedCellView;
+                CellView.Draw(IsFocused);
+            }
+
+            if (IsCaretShown)
+                DrawCaret();
+        }
+
+        /// <summary>
+        /// Shows or hides the caret.
+        /// </summary>
+        /// <param name="show">Shows the caret if true. Otherwise, hides it.</param>
+        public virtual void ShowCaret(bool show)
+        {
+            if (IsCaretShown == show)
+                return;
+
+            IsCaretShown = show;
+
+            if (IsCaretShown)
+                DrawCaret();
+            else
+                DrawContext.HideCaret();
+        }
+
+        /// <summary></summary>
+        private protected void DrawCaret()
+        {
+            if (FocusedCellView is IFocusTextFocusableCellView AsText)
+            {
+                bool IsHandled = false;
+
+                switch (AsText.Frame)
+                {
+                    case ILayoutCharacterFrame AsCharacterFrame:
+                        IsHandled = true; // The focus was displayed directly with the character.
+                        break;
+
+                    case ILayoutNumberFrame AsNumberFrame:
+                    case ILayoutTextValueFrame AsTextValueFrame:
+                        INode Node = AsText.StateView.State.Node;
+                        string PropertyName = AsText.PropertyName;
+                        string Text = NodeTreeHelper.GetString(Node, PropertyName);
+
+                        Point CellOrigin = FocusedCellView.CellOrigin;
+                        Padding CellPadding = FocusedCellView.CellPadding;
+
+                        Point OriginWithPadding = new Point(CellOrigin.X + CellPadding.Left, CellOrigin.Y);
+                        DrawContext.ShowCaret(OriginWithPadding, FocusedText, FocusedTextStyle, CaretMode, CaretPosition);
+
+                        IsHandled = true;
+                        break;
+                }
+
+                Debug.Assert(IsHandled);
+            }
+        }
         #endregion
 
         #region Implementation

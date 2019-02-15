@@ -55,7 +55,8 @@
         /// <param name="text">The text to draw.</param>
         /// <param name="origin">The location where to start drawing.</param>
         /// <param name="textStyle">Style to use for the text.</param>
-        void DrawText(string text, Point origin, TextStyles textStyle);
+        /// <param name="isFocused">true if the whole text has the focus.</param>
+        void DrawText(string text, Point origin, TextStyles textStyle, bool isFocused);
 
         /// <summary>
         /// Draws a symbol, at the location specified in <paramref name="origin"/>.
@@ -64,7 +65,8 @@
         /// <param name="origin">The location where to start drawing.</param>
         /// <param name="size">The drawing size, padding included.</param>
         /// <param name="padding">The padding to use when drawing.</param>
-        void DrawSymbol(Symbols symbol, Point origin, Size size, Padding padding);
+        /// <param name="isFocused">true if the symbol text has the focus.</param>
+        void DrawSymbol(Symbols symbol, Point origin, Size size, Padding padding, bool isFocused);
 
         /// <summary>
         /// Draws the horizontal separator left of the specified origin and with the specified height.
@@ -81,5 +83,20 @@
         /// <param name="origin">The location where to draw.</param>
         /// <param name="width">The separator width.</param>
         void DrawVerticalSeparator(VerticalSeparators separator, Point origin, double width);
+
+        /// <summary>
+        /// Shows the caret.
+        /// </summary>
+        /// <param name="origin">Location of the cell with the caret.</param>
+        /// <param name="text">The full cell text.</param>
+        /// <param name="textStyle">The text style.</param>
+        /// <param name="mode">The caret mode.</param>
+        /// <param name="position">The position of the caret in <paramref name="text"/>.</param>
+        void ShowCaret(Point origin, string text, TextStyles textStyle,  CaretModes mode, int position);
+
+        /// <summary>
+        /// Hides the caret.
+        /// </summary>
+        void HideCaret();
     }
 }
