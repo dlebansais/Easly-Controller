@@ -1380,10 +1380,20 @@
         {
             IFocusCellViewTreeContext Context = (IFocusCellViewTreeContext)CreateCellViewTreeContext(stateView);
 
-            IFocusNodeStateView CurrentStateView = (IFocusNodeStateView)stateView;
-            List<IFocusFrameSelectorList> SelectorStack = new List<IFocusFrameSelectorList>();
+            List<IFocusFrameSelectorList> SelectorStack = GetSelectorStack((IFocusNodeStateView)stateView);
+            foreach (IFocusFrameSelectorList Selectors in SelectorStack)
+                Context.AddSelectors(Selectors);
 
-            for (;;)
+            return Context;
+        }
+
+        /// <summary></summary>
+        private protected virtual List<IFocusFrameSelectorList> GetSelectorStack(IFocusNodeStateView stateView)
+        {
+            List<IFocusFrameSelectorList> SelectorStack = new List<IFocusFrameSelectorList>();
+            IFocusNodeStateView CurrentStateView = stateView;
+
+            for (; ;)
             {
                 IFocusInner ParentInner = CurrentStateView.State.ParentInner;
                 IFocusNodeState ParentState = CurrentStateView.State.ParentState;
@@ -1407,10 +1417,7 @@
                             SelectorStack.Insert(0, Frame.Selectors);
             }
 
-            foreach (IFocusFrameSelectorList Selectors in SelectorStack)
-                Context.AddSelectors(Selectors);
-
-            return Context;
+            return SelectorStack;
         }
 
         /// <summary></summary>
@@ -1647,6 +1654,18 @@
                 return true;
             else
                 return false;
+        }
+
+        /// <summary></summary>
+        private protected override IFrameFrame GetAssociatedFrame(IFrameInner<IFrameBrowsingChildIndex> inner)
+        {
+            IFocusNodeState Owner = ((IFocusInner<IFocusBrowsingChildIndex>)inner).Owner;
+            IFocusNodeStateView StateView = StateViewTable[Owner];
+            List<IFocusFrameSelectorList> SelectorStack = GetSelectorStack(StateView);
+
+            IFocusFrame AssociatedFrame = TemplateSet.InnerToFrame((IFocusInner<IFocusBrowsingChildIndex>)inner, SelectorStack) as IFocusFrame;
+
+            return AssociatedFrame;
         }
 
         /// <summary></summary>

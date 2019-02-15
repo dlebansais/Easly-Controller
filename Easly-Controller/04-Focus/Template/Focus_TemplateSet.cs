@@ -1,5 +1,8 @@
 ﻿namespace EaslyController.Focus
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics;
     using BaseNodeHelper;
     using EaslyController.Frame;
 
@@ -17,6 +20,14 @@
         /// Templates for blocks of nodes.
         /// </summary>
         new IFocusTemplateReadOnlyDictionary BlockTemplateTable { get; }
+
+        /// <summary>
+        /// Gets the frame that creates cells associated to states in the inner.
+        /// This overload uses selectors to choose the correct frame.
+        /// </summary>
+        /// <param name="inner">The inner.</param>
+        /// <param name="selectorStack">A list of selectors to choose the correct frame.</param>
+        IFocusFrame InnerToFrame(IFocusInner<IFocusBrowsingChildIndex> inner, List<IFocusFrameSelectorList> selectorStack);
     }
 
     /// <summary>
@@ -65,6 +76,36 @@
         /// Templates for blocks of nodes.
         /// </summary>
         public new IFocusTemplateReadOnlyDictionary BlockTemplateTable { get { return (IFocusTemplateReadOnlyDictionary)base.BlockTemplateTable; } }
+        #endregion
+
+        #region Client Interface
+        /// <summary>
+        /// Gets the frame that creates cells associated to states in the inner.
+        /// This overload uses selectors to choose the correct frame.
+        /// </summary>
+        /// <param name="inner">The inner.</param>
+        /// <param name="selectorStack">A list of selectors to choose the correct frame.</param>
+        public virtual IFocusFrame InnerToFrame(IFocusInner<IFocusBrowsingChildIndex> inner, List<IFocusFrameSelectorList> selectorStack)
+        {
+            IFocusNodeState Owner = inner.Owner;
+            Type OwnerType = Owner.Node.GetType();
+            Type InterfaceType = NodeTreeHelper.NodeTypeToInterfaceType(OwnerType);
+            IFocusNodeTemplate Template = (IFocusNodeTemplate)NodeTypeToTemplate(InterfaceType);
+            IFocusFrame Frame = Template.PropertyToFrame(inner.PropertyName, selectorStack);
+
+            if (Frame is IFocusBlockListFrame AsBlockListFrame)
+            {
+                IFocusBlockListInner<IFocusBrowsingBlockNodeIndex> BlockListInner = inner as IFocusBlockListInner<IFocusBrowsingBlockNodeIndex>;
+                Debug.Assert(BlockListInner != null);
+
+                Type BlockType = NodeTreeHelperBlockList.BlockListBlockType(Owner.Node, BlockListInner.PropertyName);
+                IFocusBlockTemplate BlockTemplate = (IFocusBlockTemplate)BlockTypeToTemplate(BlockType);
+
+                Frame = (IFocusFrame)BlockTemplate.GetPlaceholderFrame();
+            }
+
+            return Frame;
+        }
         #endregion
 
         #region Helper

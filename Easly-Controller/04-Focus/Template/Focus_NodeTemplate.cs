@@ -1,5 +1,7 @@
 ﻿namespace EaslyController.Focus
 {
+    using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Windows.Markup;
     using EaslyController.Frame;
 
@@ -33,6 +35,14 @@
         /// <param name="firstPreferredFrame">The first preferred frame found.</param>
         /// <param name="lastPreferredFrame">The last preferred frame found.</param>
         void GetPreferredFrame(out IFocusNodeFrame firstPreferredFrame, out IFocusNodeFrame lastPreferredFrame);
+
+        /// <summary>
+        /// Gets the frame that associated to a given property.
+        /// This overload uses selectors to choose the correct frame.
+        /// </summary>
+        /// <param name="propertyName">The property name.</param>
+        /// <param name="selectorStack">A list of selectors to choose the correct frame.</param>
+        IFocusNamedFrame PropertyToFrame(string propertyName, List<IFocusFrameSelectorList> selectorStack);
     }
 
     /// <summary>
@@ -109,6 +119,72 @@
             firstPreferredFrame = null;
             lastPreferredFrame = null;
             ((IFocusNodeFrame)Root).GetPreferredFrame(ref firstPreferredFrame, ref lastPreferredFrame);
+        }
+
+        /// <summary>
+        /// Gets the frame that associated to a given property.
+        /// This overload uses selectors to choose the correct frame.
+        /// </summary>
+        /// <param name="propertyName">The property name.</param>
+        /// <param name="selectorStack">A list of selectors to choose the correct frame.</param>
+        public virtual IFocusNamedFrame PropertyToFrame(string propertyName, List<IFocusFrameSelectorList> selectorStack)
+        {
+            bool Found = GetFirstNamedFrame(Root, propertyName, selectorStack, out IFocusNamedFrame Result);
+            Debug.Assert(Found);
+            Debug.Assert(Result != null);
+
+            return Result;
+        }
+
+        private protected bool GetFirstNamedFrame(IFocusFrame root, string propertyName, List<IFocusFrameSelectorList> selectorStack, out IFocusNamedFrame frame)
+        {
+            if (root is IFocusNamedFrame AsNamedFrame)
+            {
+                if (AsNamedFrame.PropertyName == propertyName)
+                {
+                    frame = AsNamedFrame;
+                    return true;
+                }
+            }
+
+            if (root is IFocusPanelFrame AsPanelFrame)
+            {
+                foreach (IFocusFrame Item in AsPanelFrame.Items)
+                    if (GetFirstNamedFrame(Item, propertyName, selectorStack, out frame))
+                        return true;
+            }
+
+            else if (root is IFocusSelectionFrame AsSelectionFrame)
+            {
+                IFocusSelectableFrame SelectedFrame = null;
+
+                foreach (IFocusSelectableFrame Item in AsSelectionFrame.Items)
+                {
+                    foreach (IFocusFrameSelectorList SelectorList in selectorStack)
+                    {
+                        foreach (IFocusFrameSelector Selector in SelectorList)
+                        {
+                            if (Selector.SelectorType == NodeType)
+                                if (Selector.SelectorName == Item.Name)
+                                {
+                                    SelectedFrame = Item;
+                                    break;
+                                }
+                        }
+                        if (SelectedFrame != null)
+                            break;
+                    }
+                    if (SelectedFrame != null)
+                        break;
+                }
+
+                if (SelectedFrame != null)
+                    if (GetFirstNamedFrame(SelectedFrame.Content, propertyName, selectorStack, out frame))
+                        return true;
+            }
+
+            frame = null;
+            return false;
         }
         #endregion
     }

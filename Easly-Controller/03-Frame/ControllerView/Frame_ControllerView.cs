@@ -361,7 +361,7 @@
             IFrameCellViewCollection EmbeddingCellView = BlockStateView.EmbeddingCellView;
             Debug.Assert(EmbeddingCellView != null);
 
-            IFrameFrame AssociatedFrame = TemplateSet.InnerToFrame(inner);
+            IFrameFrame AssociatedFrame = GetAssociatedFrame(inner);
             Debug.Assert(AssociatedFrame != null);
 
             IFrameNodeStateView InsertedStateView = StateViewTable[insertedState];
@@ -397,7 +397,7 @@
             IFrameCellViewCollection EmbeddingCellView = CellViewTable[PropertyName] as IFrameCellViewCollection;
             Debug.Assert(EmbeddingCellView != null);
 
-            IFrameFrame AssociatedFrame = TemplateSet.InnerToFrame(inner);
+            IFrameFrame AssociatedFrame = GetAssociatedFrame(inner);
             Debug.Assert(AssociatedFrame != null);
 
             IFrameNodeStateView InsertedStateView = StateViewTable[insertedState];
@@ -566,7 +566,7 @@
             Debug.Assert(PreviousCellView != null);
             IFrameCellViewCollection EmbeddingCellView = PreviousCellView.ParentCellView;
 
-            IFrameFrame AssociatedFrame = TemplateSet.InnerToFrame(inner);
+            IFrameFrame AssociatedFrame = GetAssociatedFrame(inner);
             Debug.Assert(AssociatedFrame != null);
             Debug.Assert(AssociatedFrame == PreviousCellView.Frame);
 
@@ -601,7 +601,7 @@
             Debug.Assert(PreviousCellView != null);
             IFrameCellViewCollection EmbeddingCellView = PreviousCellView.ParentCellView;
 
-            IFrameFrame AssociatedFrame = TemplateSet.InnerToFrame(inner);
+            IFrameFrame AssociatedFrame = GetAssociatedFrame(inner);
             Debug.Assert(AssociatedFrame != null);
             Debug.Assert(AssociatedFrame == PreviousCellView.Frame);
 
@@ -631,7 +631,7 @@
             IFrameCellViewCollection EmbeddingCellView = BlockStateView.EmbeddingCellView;
             Debug.Assert(EmbeddingCellView != null);
 
-            IFrameFrame AssociatedFrame = TemplateSet.InnerToFrame(inner);
+            IFrameFrame AssociatedFrame = GetAssociatedFrame(inner);
             Debug.Assert(AssociatedFrame != null);
 
             IFrameNodeStateView ReplacedStateView = StateViewTable[replacedState];
@@ -665,7 +665,7 @@
             IFrameCellViewCollection EmbeddingCellView = CellViewTable[PropertyName] as IFrameCellViewCollection;
             Debug.Assert(EmbeddingCellView != null);
 
-            IFrameFrame AssociatedFrame = TemplateSet.InnerToFrame(inner);
+            IFrameFrame AssociatedFrame = GetAssociatedFrame(inner);
             Debug.Assert(AssociatedFrame != null);
 
             IFrameNodeStateView ReplacedStateView = StateViewTable[replacedState];
@@ -1076,6 +1076,14 @@
 
             LastLineNumber = MaxLineNumber;
             LastColumnNumber = MaxColumnNumber;
+        }
+
+        /// <summary></summary>
+        private protected virtual IFrameFrame GetAssociatedFrame(IFrameInner<IFrameBrowsingChildIndex> inner)
+        {
+            IFrameFrame AssociatedFrame = TemplateSet.InnerToFrame(inner);
+
+            return AssociatedFrame;
         }
 
         /// <summary></summary>
