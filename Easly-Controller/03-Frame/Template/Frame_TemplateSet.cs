@@ -270,9 +270,7 @@
         private protected virtual void SetNodeTypeToDefault(IFrameTemplateDictionary dictionary, Type nodeType)
         {
             Debug.Assert(dictionary.ContainsKey(nodeType));
-
-            if (dictionary[nodeType] != null)
-                return;
+            Debug.Assert(dictionary[nodeType] == null);
 
             FrameHorizontalPanelFrame RootFrame = (FrameHorizontalPanelFrame)CreateHorizontalPanelFrame();
             FrameNodeTemplate RootTemplate = (FrameNodeTemplate)CreateNodeTemplate();

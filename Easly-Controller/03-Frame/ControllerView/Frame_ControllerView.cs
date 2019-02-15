@@ -237,20 +237,14 @@
             IFrameAssignableCellViewReadOnlyDictionary<string> CellViewTable = OwnerStateView.CellViewTable;
             string PropertyName = ParentInner.PropertyName;
 
-            if (CellViewTable != null)
-            {
-                Debug.Assert(CellViewTable.ContainsKey(PropertyName));
-                IFrameCellViewCollection EmbeddingCellView = CellViewTable[PropertyName] as IFrameCellViewCollection;
-                Debug.Assert(EmbeddingCellView != null);
+            Debug.Assert(CellViewTable != null);
+            Debug.Assert(CellViewTable.ContainsKey(PropertyName));
 
-                int BlockIndex = operation.BlockIndex;
-                EmbeddingCellView.Remove(BlockIndex);
-            }
-            else
-            {
-                Debug.Assert(OwnerStateView.RootCellView == null);
-                Debug.Assert(operation.IsNested);
-            }
+            IFrameCellViewCollection EmbeddingCellView = CellViewTable[PropertyName] as IFrameCellViewCollection;
+            Debug.Assert(EmbeddingCellView != null);
+
+            int BlockIndex = operation.BlockIndex;
+            EmbeddingCellView.Remove(BlockIndex);
 
             if (!operation.IsNested)
                 Refresh(OwnerState);
@@ -284,23 +278,16 @@
             IFrameAssignableCellViewReadOnlyDictionary<string> CellViewTable = OwnerStateView.CellViewTable;
             string PropertyName = ParentInner.PropertyName;
 
-            if (CellViewTable != null)
-            {
-                Debug.Assert(CellViewTable.ContainsKey(PropertyName));
-                IFrameCellViewCollection EmbeddingCellView = CellViewTable[PropertyName] as IFrameCellViewCollection;
-                Debug.Assert(EmbeddingCellView != null);
+            Debug.Assert(CellViewTable != null);
+            Debug.Assert(CellViewTable.ContainsKey(PropertyName));
 
-                int BlockIndex = operation.BlockIndex;
-                EmbeddingCellView.Remove(BlockIndex);
-            }
-            else
-            {
-                Debug.Assert(OwnerStateView.RootCellView == null);
-                Debug.Assert(operation.IsNested);
-            }
+            IFrameCellViewCollection EmbeddingCellView = CellViewTable[PropertyName] as IFrameCellViewCollection;
+            Debug.Assert(EmbeddingCellView != null);
 
-            if (!operation.IsNested)
-                Refresh(OwnerState);
+            int BlockIndex = operation.BlockIndex;
+            EmbeddingCellView.Remove(BlockIndex);
+
+            Debug.Assert(operation.IsNested);
         }
 
         /// <summary>

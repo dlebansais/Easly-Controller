@@ -53,26 +53,31 @@
             return Result;
         }
 
-        private protected bool GetFirstNamedFrame(IFrameFrame root, string propertyName, out IFrameNamedFrame frame)
+        private protected virtual bool GetFirstNamedFrame(IFrameFrame root, string propertyName, out IFrameNamedFrame frame)
         {
+            bool Found = false;
+            frame = null;
+
             if (root is IFrameNamedFrame AsNamedFrame)
             {
                 if (AsNamedFrame.PropertyName == propertyName)
                 {
                     frame = AsNamedFrame;
-                    return true;
+                    Found = true;
                 }
             }
 
-            if (root is IFramePanelFrame AsPanelFrame)
+            if (!Found && root is IFramePanelFrame AsPanelFrame)
             {
                 foreach (IFrameFrame Item in AsPanelFrame.Items)
                     if (GetFirstNamedFrame(Item, propertyName, out frame))
-                        return true;
+                    {
+                        Found = true;
+                        break;
+                    }
             }
 
-            frame = null;
-            return false;
+            return Found;
         }
         #endregion
 
