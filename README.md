@@ -197,3 +197,26 @@ Having the focus set on some part of the code enable the possibility of special 
 ## Layout
 
 This layer is dedicated to measuring, arranging and drawing cell views.
+These operations are executed as follow.
+
+1. Measure
+
+The cell tree is measured, starting from the root and recursively. Each cell is measured, either by measuring and concatenating nested cells, or by measuring the size that takes the frame that created the cell for a leaf of the tree.
+
+Some cells are stretched, i.e. one of their width or height is known but not both. For example, in a line some cells like text cells can have a fixed size, and others like parenthesis or bracket symbols have a stretched height. A streched dimension is represented by a NaN value and is resolved during the draw phase.
+
+2. Arrange
+
+Once cells have been measured (stretched cells are supposed to fit later), they are arranged and positioned on a canva.
+
+3. Draw
+
+When the client wants to display cells, it can just call the Draw() method, and it be called back with as many draw operations as necessary to complete the request, each with a location and size as well as an atomic draw operation to perform. For example, draw text, or a geometry associated to a symbol.
+
+### Separators
+
+They are not registered as cells but instead handled during the draw phase. The measure phase simply adds empty space between cells as necessary.
+
+Each line and column has an associated frame with an associated separator. As long as the separator isn't specified in a child frame, it is used for all cell children, so eventually all cells end up with the reference to a parent cell that was the last one with a specified separator. When the draw phase is executed, it is this parent cell that must take care of drawing the separator.
+
+
