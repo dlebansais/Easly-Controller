@@ -22,21 +22,24 @@
         public DrawContext()
         {
             Typeface = new Typeface("Consolas");
-            FontSize = 10;
+            FontSize = 14;
             Culture = CultureInfo.CurrentCulture;
             FlowDirection = System.Windows.FlowDirection.LeftToRight;
             DotCharacter = '·';
+            IsLastFocusedFullCell = false;
 
-            BrushTable = new Dictionary<BrushSettings, Brush>();
-            BrushTable.Add(BrushSettings.Default, Brushes.Black);
-            BrushTable.Add(BrushSettings.Keyword, Brushes.Blue);
-            BrushTable.Add(BrushSettings.Symbol, Brushes.Blue);
-            BrushTable.Add(BrushSettings.Character, Brushes.Orange);
-            BrushTable.Add(BrushSettings.Discrete, Brushes.DarkRed);
-            BrushTable.Add(BrushSettings.Number, Brushes.Green);
-            BrushTable.Add(BrushSettings.TypeIdentifier, new SolidColorBrush(Color.FromArgb(0xFF, 0x2B, 0x91, 0xAF)));
-            BrushTable.Add(BrushSettings.CaretInsertion, Brushes.Black);
-            BrushTable.Add(BrushSettings.CaretOverride, Brushes.DarkGray);
+            BrushTable = new Dictionary<BrushSettings, Brush>
+            {
+                { BrushSettings.Default, Brushes.Black },
+                { BrushSettings.Keyword, Brushes.Blue },
+                { BrushSettings.Symbol, Brushes.Blue },
+                { BrushSettings.Character, Brushes.Orange },
+                { BrushSettings.Discrete, Brushes.DarkRed },
+                { BrushSettings.Number, Brushes.Green },
+                { BrushSettings.TypeIdentifier, new SolidColorBrush(Color.FromArgb(0xFF, 0x2B, 0x91, 0xAF)) },
+                { BrushSettings.CaretInsertion, Brushes.Black },
+                { BrushSettings.CaretOverride, Brushes.DarkGray }
+            };
 
             FlashAnimation = new DoubleAnimation(0, new System.Windows.Duration(TimeSpan.FromSeconds(1)));
             FlashAnimation.RepeatBehavior = RepeatBehavior.Forever;
@@ -263,14 +266,20 @@
             Debug.Assert(WpfDrawingContext != null);
 
             if (isFocused)
+            {
+                ChangeFlashClockOpacity(isVisible: true);
                 WpfDrawingContext.PushOpacity(1, FlashClock);
+            }
 
             Brush Brush = StyleToBrush(textStyle);
             FormattedText ft = new FormattedText(text, Culture, FlowDirection, Typeface, FontSize, Brush);
             WpfDrawingContext.DrawText(ft, new System.Windows.Point(origin.X, origin.Y));
 
             if (isFocused)
+            {
                 WpfDrawingContext.Pop();
+                IsLastFocusedFullCell = true;
+            }
         }
 
         /// <summary>
@@ -286,7 +295,10 @@
             Debug.Assert(WpfDrawingContext != null);
 
             if (isFocused)
+            {
+                ChangeFlashClockOpacity(isVisible: true);
                 WpfDrawingContext.PushOpacity(1, FlashClock);
+            }
 
             switch (symbol)
             {
@@ -323,7 +335,10 @@
             }
 
             if (isFocused)
+            {
                 WpfDrawingContext.Pop();
+                IsLastFocusedFullCell = true;
+            }
         }
 
         /// <summary></summary>
@@ -469,6 +484,8 @@
                 WpfDrawingContext.DrawRectangle(BrushTable[BrushSettings.CaretOverride], null, CaretRect);
                 WpfDrawingContext.Pop();
             }
+
+            IsLastFocusedFullCell = false;
         }
 
         /// <summary>
@@ -483,7 +500,7 @@
         protected virtual void ChangeFlashClockOpacity(bool isVisible)
         {
             FlashEasingFunction EasingFunction = FlashAnimation.EasingFunction as FlashEasingFunction;
-            EasingFunction.SetIsVisible(isVisible);
+            EasingFunction.SetIsVisible(isVisible, IsLastFocusedFullCell);
         }
         #endregion
 
@@ -576,6 +593,7 @@
         private ScalableGeometry HorizontalLineGeometry;
         private DoubleAnimation FlashAnimation;
         private AnimationClock FlashClock;
+        private bool IsLastFocusedFullCell;
         #endregion
     }
 }

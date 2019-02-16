@@ -65,12 +65,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="DrawContext\FlashEasingFunction.cs" />
-    <Compile Include="DrawContext\GeometryScalings.cs" />
-    <Compile Include="DrawContext\ScalableGeometry.cs" />
-    <Compile Include="DrawContext\GeometryScale.cs" />
     <Compile Include="DrawContext\LayoutControl.cs" />
-    <Compile Include="DrawContext\LayoutDrawContext.cs" />
     <Compile Include="TemplateSet\CustomLayoutTemplateSet.cs" />
     <Compile Include="TemplateSet\CustomFocusTemplateSet.cs" />
     <Compile Include="TemplateSet\CustomFrameTemplateSet.cs" />
@@ -117,6 +112,10 @@
     <ProjectReference Include="..\Easly-Controller\Easly-Controller.csproj">
       <Project>{e746cfce-8c74-4025-93dd-2c380f810161}</Project>
       <Name>Easly-Controller</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Easly-Draw\Easly-Draw.csproj">
+      <Project>{182a2175-4c93-434a-a027-e101fbd55f48}</Project>
+      <Name>Easly-Draw</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

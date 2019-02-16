@@ -89,7 +89,8 @@
         /// Shows or hides the caret.
         /// </summary>
         /// <param name="show">Shows the caret if true. Otherwise, hides it.</param>
-        void ShowCaret(bool show);
+        /// <param name="draw">Draws the caret according to <paramref name="show"/> if true. Otherwise, just save the setting.</param>
+        void ShowCaret(bool show, bool draw);
     }
 
     /// <summary>
@@ -269,35 +270,44 @@
                 CellView.Draw(IsFocused);
             }
 
-            if (IsCaretShown)
-                DrawCaret();
+            if (IsCaretShown && IsCaretOnText(out IFocusTextFocusableCellView TextFocusableCellView))
+                DrawTextCaret(TextFocusableCellView);
         }
 
         /// <summary>
         /// Shows or hides the caret.
         /// </summary>
         /// <param name="show">Shows the caret if true. Otherwise, hides it.</param>
-        public virtual void ShowCaret(bool show)
+        /// <param name="draw">Draws the caret according to <paramref name="show"/> if true. Otherwise, just save the setting.</param>
+        public virtual void ShowCaret(bool show, bool draw)
         {
             if (IsCaretShown == show)
                 return;
 
             IsCaretShown = show;
 
-            if (IsCaretShown)
-                DrawCaret();
-            else
-                DrawContext.HideCaret();
+            if (draw)
+                if (IsCaretShown)
+                {
+                    if (IsCaretOnText(out IFocusTextFocusableCellView TextFocusableCellView))
+                        DrawTextCaret(TextFocusableCellView);
+                    else
+                        FocusedCellView.Draw(true);
+                }
+                else
+                    DrawContext.HideCaret();
         }
 
         /// <summary></summary>
-        private protected void DrawCaret()
+        private protected bool IsCaretOnText(out IFocusTextFocusableCellView textFocusableCellView)
         {
-            if (FocusedCellView is IFocusTextFocusableCellView AsText)
+            textFocusableCellView = null;
+
+            if (FocusedCellView is IFocusTextFocusableCellView AsTextFocusableCellView)
             {
                 bool IsHandled = false;
 
-                switch (AsText.Frame)
+                switch (AsTextFocusableCellView.Frame)
                 {
                     case ILayoutCharacterFrame AsCharacterFrame:
                         IsHandled = true; // The focus was displayed directly with the character.
@@ -305,22 +315,29 @@
 
                     case ILayoutNumberFrame AsNumberFrame:
                     case ILayoutTextValueFrame AsTextValueFrame:
-                        INode Node = AsText.StateView.State.Node;
-                        string PropertyName = AsText.PropertyName;
-                        string Text = NodeTreeHelper.GetString(Node, PropertyName);
-
-                        Point CellOrigin = FocusedCellView.CellOrigin;
-                        Padding CellPadding = FocusedCellView.CellPadding;
-
-                        Point OriginWithPadding = new Point(CellOrigin.X + CellPadding.Left, CellOrigin.Y);
-                        DrawContext.ShowCaret(OriginWithPadding, FocusedText, FocusedTextStyle, CaretMode, CaretPosition);
-
+                        textFocusableCellView = AsTextFocusableCellView;
                         IsHandled = true;
                         break;
                 }
 
                 Debug.Assert(IsHandled);
             }
+
+            return textFocusableCellView != null;
+        }
+
+        /// <summary></summary>
+        private protected void DrawTextCaret(IFocusTextFocusableCellView textFocusableCellView)
+        {
+            INode Node = textFocusableCellView.StateView.State.Node;
+            string PropertyName = textFocusableCellView.PropertyName;
+            string Text = NodeTreeHelper.GetString(Node, PropertyName);
+
+            Point CellOrigin = FocusedCellView.CellOrigin;
+            Padding CellPadding = FocusedCellView.CellPadding;
+
+            Point OriginWithPadding = new Point(CellOrigin.X + CellPadding.Left, CellOrigin.Y);
+            DrawContext.ShowCaret(OriginWithPadding, FocusedText, FocusedTextStyle, CaretMode, CaretPosition);
         }
         #endregion
 

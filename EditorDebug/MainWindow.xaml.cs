@@ -391,6 +391,16 @@ namespace EditorDebug
 
             layoutControl.InvalidateVisual();
         }
+
+        public void OnActivated()
+        {
+            layoutControl.OnActivated();
+        }
+
+        public void OnDeactivated()
+        {
+            layoutControl.OnDeactivated();
+        }
         #endregion
 
         #region Layout

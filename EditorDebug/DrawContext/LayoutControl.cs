@@ -4,6 +4,7 @@
     using System.Windows;
     using System.Windows.Media;
     using EaslyController.Layout;
+    using EaslyDraw;
     using TestDebug;
 
     public class LayoutControl : FrameworkElement
@@ -14,10 +15,11 @@
 
             DrawingVisual = new DrawingVisual();
             DrawingContext = DrawingVisual.RenderOpen();
-            DrawContext = new LayoutDrawContext(DrawingContext);
+            DrawContext = new DrawContext();
 
             ControllerView = LayoutControllerView.Create(Controller, CustomLayoutTemplateSet.LayoutTemplateSet, DrawContext);
             ControllerView.MeasureAndArrange();
+            ControllerView.ShowCaret(true, draw: false);
 
             DrawingContext.Close();
 
@@ -25,10 +27,27 @@
             InvalidateVisual();
         }
 
+        public void OnActivated()
+        {
+            if (ControllerView != null)
+            {
+                ControllerView.ShowCaret(true, draw: false);
+                InvalidateVisual();
+            }
+        }
+
+        public void OnDeactivated()
+        {
+            if (ControllerView != null)
+            {
+                ControllerView.ShowCaret(false, draw: true);
+            }
+        }
+
         private ILayoutController Controller;
         private DrawingVisual DrawingVisual;
         private DrawingContext DrawingContext;
-        private LayoutDrawContext DrawContext;
+        private DrawContext DrawContext;
 
         public ILayoutControllerView ControllerView { get; private set; }
 
@@ -49,16 +68,13 @@
 
             if (ControllerView != null)
             {
-                DrawContext.UpdateDC(dc);
-
-                //Debug.WriteLine($"OnRender, view size={Size}");
+                DrawContext.SetWpfDrawingContext(dc);
 
                 Brush WriteBrush = Brushes.White;
                 Rect Fullrect = new Rect(0, 0, ActualWidth, ActualHeight);
                 dc.DrawRectangle(WriteBrush, null, Fullrect);
 
                 ControllerView.Draw();
-                ControllerView.ShowCaret(true);
             }
         }
     }
