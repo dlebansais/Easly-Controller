@@ -17,7 +17,7 @@
         public LayoutDrawContext(DrawingContext dc)
         {
             this.dc = dc;
-            Typeface = new Typeface("Verdana");
+            Typeface = new Typeface("Consolas");
             FontSize = 20;
             Foreground = Brushes.Black;
 

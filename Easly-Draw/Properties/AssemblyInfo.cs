@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Easly-Controller")]
-[assembly: AssemblyDescription("Manage and edit Easly source code")]
+[assembly: AssemblyTitle("Easly-Draw")]
+[assembly: AssemblyDescription("An implementation of IxxxDrawContext")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("Easly")]
-[assembly: AssemblyCopyright("Copyright © 2018 David Le Bansais")]
+[assembly: AssemblyCopyright("Copyright © 2019 David Le Bansais")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("e746cfce-8c74-4025-93dd-2c380f810161")]
+[assembly: Guid("182a2175-4c93-434a-a027-e101fbd55f48")]
 
 // Version information for an assembly consists of the following four values:
 //
@@ -33,5 +33,5 @@ using System.Runtime.InteropServices;
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("1.0.0.3246")]
-[assembly: AssemblyFileVersion("1.0.0.3193")]
+[assembly: AssemblyFileVersion("1.0.0.4")]
 [assembly: NeutralResourcesLanguage("en-US")]
