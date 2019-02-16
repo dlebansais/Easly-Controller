@@ -78,8 +78,8 @@
         public LayoutCellView(ILayoutNodeStateView stateView, ILayoutCellViewCollection parentCellView)
             : base(stateView, parentCellView)
         {
-            CellOrigin = ArrangeHelper.InvalidOrigin;
-            CellSize = MeasureHelper.InvalidSize;
+            CellOrigin = RegionHelper.InvalidOrigin;
+            CellSize = RegionHelper.InvalidSize;
             CellPadding = Padding.Empty;
         }
         #endregion

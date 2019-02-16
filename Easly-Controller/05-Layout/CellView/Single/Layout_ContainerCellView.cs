@@ -41,8 +41,8 @@
         public LayoutContainerCellView(ILayoutNodeStateView stateView, ILayoutCellViewCollection parentCellView, ILayoutNodeStateView childStateView, ILayoutFrame frame)
             : base(stateView, parentCellView, childStateView, frame)
         {
-            CellOrigin = ArrangeHelper.InvalidOrigin;
-            CellSize = MeasureHelper.InvalidSize;
+            CellOrigin = RegionHelper.InvalidOrigin;
+            CellSize = RegionHelper.InvalidSize;
             CellPadding = Padding.Empty;
         }
         #endregion
@@ -136,7 +136,7 @@
 
             CellSize = MeasuredSize;
 
-            Debug.Assert(MeasureHelper.IsValid(CellSize));
+            Debug.Assert(RegionHelper.IsValid(CellSize));
         }
 
         /// <summary>
@@ -158,7 +158,7 @@
             Debug.Assert(ChildStateView != null);
             ChildStateView.ArrangeCells(OriginWithPadding);
 
-            Debug.Assert(ArrangeHelper.IsValid(CellOrigin));
+            Debug.Assert(RegionHelper.IsValid(CellOrigin));
         }
         #endregion
 

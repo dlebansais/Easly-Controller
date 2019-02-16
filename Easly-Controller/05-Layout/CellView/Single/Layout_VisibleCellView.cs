@@ -39,8 +39,8 @@
             Debug.Assert(frame is ILayoutMeasurableFrame);
             Debug.Assert(frame is ILayoutDrawableFrame);
 
-            CellOrigin = ArrangeHelper.InvalidOrigin;
-            CellSize = MeasureHelper.InvalidSize;
+            CellOrigin = RegionHelper.InvalidOrigin;
+            CellSize = RegionHelper.InvalidSize;
             CellPadding = Padding.Empty;
         }
         #endregion
@@ -118,7 +118,7 @@
             CellSize = Size;
             CellPadding = Padding;
 
-            Debug.Assert(MeasureHelper.IsValid(CellSize));
+            Debug.Assert(RegionHelper.IsValid(CellSize));
         }
 
         /// <summary>
@@ -149,7 +149,7 @@
             if (ParentCellView != null)
                 size = ParentCellView.GetMeasuredSize(CellSize);
 
-            Debug.Assert(MeasureHelper.IsFixed(size));
+            Debug.Assert(RegionHelper.IsFixed(size));
 
             CollectionWithSeparator.DrawBeforeItem(DrawContext, ReferenceContainer, CellOrigin, size, CellPadding);
             AsDrawableFrame.Draw(DrawContext, this, CellOrigin, size, CellPadding, isFocused);

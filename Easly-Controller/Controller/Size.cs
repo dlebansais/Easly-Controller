@@ -64,7 +64,10 @@
         /// <param name="size2">The second size.</param>
         public static bool IsEqual(Size size1, Size size2)
         {
-            return size1.Width == size2.Width && size1.Height == size2.Height;
+            double DiffCX = Math.Abs(size2.Width - size1.Width);
+            double DiffCY = Math.Abs(size2.Height - size1.Height);
+
+            return DiffCX <= RegionHelper.Tolerance && DiffCY <= RegionHelper.Tolerance;
         }
 
         /// <summary>

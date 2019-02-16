@@ -74,8 +74,8 @@
         public LayoutBlockStateView(ILayoutControllerView controllerView, ILayoutBlockState blockState)
             : base(controllerView, blockState)
         {
-            CellOrigin = ArrangeHelper.InvalidOrigin;
-            CellSize = MeasureHelper.InvalidSize;
+            CellOrigin = RegionHelper.InvalidOrigin;
+            CellSize = RegionHelper.InvalidSize;
             CellPadding = Padding.Empty;
         }
         #endregion
@@ -136,7 +136,7 @@
 
             CellSize = RootCellView.CellSize;
 
-            Debug.Assert(MeasureHelper.IsValid(CellSize));
+            Debug.Assert(RegionHelper.IsValid(CellSize));
         }
 
         /// <summary>
@@ -150,7 +150,7 @@
 
             CellOrigin = RootCellView.CellOrigin;
 
-            Debug.Assert(ArrangeHelper.IsValid(CellOrigin));
+            Debug.Assert(RegionHelper.IsValid(CellOrigin));
         }
         #endregion
 

@@ -62,7 +62,7 @@
             double DiffX = Math.Abs(point2.X - point1.X);
             double DiffY = Math.Abs(point2.Y - point1.Y);
 
-            return DiffX <= 1e-10 && DiffY <= 1e-10;
+            return DiffX <= RegionHelper.Tolerance && DiffY <= RegionHelper.Tolerance;
         }
 
         /// <summary>

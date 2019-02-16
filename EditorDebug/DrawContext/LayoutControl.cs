@@ -1,5 +1,6 @@
 ﻿namespace EditorDebug
 {
+    using System.Diagnostics;
     using System.Windows;
     using System.Windows.Media;
     using EaslyController.Layout;
@@ -16,6 +17,9 @@
             DrawContext = new LayoutDrawContext(DrawingContext);
 
             ControllerView = LayoutControllerView.Create(Controller, CustomLayoutTemplateSet.LayoutTemplateSet, DrawContext);
+            ControllerView.MeasureAndArrange();
+
+            DrawingContext.Close();
 
             InvalidateMeasure();
             InvalidateVisual();
@@ -28,10 +32,13 @@
 
         public ILayoutControllerView ControllerView { get; private set; }
 
-        protected override System.Windows.Size MeasureOverride(System.Windows.Size availableSize)
+        protected override Size MeasureOverride(Size availableSize)
         {
             if (ControllerView != null)
-                return new System.Windows.Size(ControllerView.ViewSize.Width, ControllerView.ViewSize.Height);
+            {
+                Debug.Assert(!ControllerView.IsInvalidated);
+                return new Size(ControllerView.ViewSize.Width, ControllerView.ViewSize.Height);
+            }
             else
                 return base.MeasureOverride(availableSize);
         }

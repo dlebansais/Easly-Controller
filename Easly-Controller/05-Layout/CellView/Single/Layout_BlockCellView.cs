@@ -35,8 +35,8 @@
         public LayoutBlockCellView(ILayoutNodeStateView stateView, ILayoutCellViewCollection parentCellView, ILayoutBlockStateView blockStateView)
             : base(stateView, parentCellView, blockStateView)
         {
-            CellOrigin = ArrangeHelper.InvalidOrigin;
-            CellSize = MeasureHelper.InvalidSize;
+            CellOrigin = RegionHelper.InvalidOrigin;
+            CellSize = RegionHelper.InvalidSize;
             CellPadding = Padding.Empty;
         }
         #endregion
@@ -106,7 +106,7 @@
 
             CellSize = BlockStateView.CellSize;
 
-            Debug.Assert(MeasureHelper.IsValid(CellSize));
+            Debug.Assert(RegionHelper.IsValid(CellSize));
         }
 
         /// <summary>
@@ -122,7 +122,7 @@
             Debug.Assert(BlockStateView != null);
             BlockStateView.ArrangeCells(OriginWithPadding);
 
-            Debug.Assert(ArrangeHelper.IsValid(CellOrigin));
+            Debug.Assert(RegionHelper.IsValid(CellOrigin));
         }
         #endregion
 

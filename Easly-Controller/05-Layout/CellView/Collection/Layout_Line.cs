@@ -29,8 +29,8 @@
         {
             Debug.Assert(frame is ILayoutFrameWithHorizontalSeparator);
 
-            CellOrigin = ArrangeHelper.InvalidOrigin;
-            CellSize = MeasureHelper.InvalidSize;
+            CellOrigin = RegionHelper.InvalidOrigin;
+            CellSize = RegionHelper.InvalidSize;
             CellPadding = Padding.Empty;
         }
         #endregion
@@ -146,10 +146,10 @@
                 CellView.Measure(collectionWithSeparator, referenceContainer, separatorLength);
 
                 Size NestedCellSize = CellView.CellSize;
-                Debug.Assert(MeasureHelper.IsValid(NestedCellSize));
+                Debug.Assert(RegionHelper.IsValid(NestedCellSize));
 
-                bool IsFixed = MeasureHelper.IsFixed(NestedCellSize);
-                bool IsStretched = MeasureHelper.IsStretchedVertically(NestedCellSize);
+                bool IsFixed = RegionHelper.IsFixed(NestedCellSize);
+                bool IsStretched = RegionHelper.IsStretchedVertically(NestedCellSize);
                 Debug.Assert(IsFixed || IsStretched);
 
                 Debug.Assert(!double.IsNaN(NestedCellSize.Width));
@@ -168,7 +168,7 @@
             else
                 CellSize = new Size(Width, Height);
 
-            Debug.Assert(MeasureHelper.IsValid(CellSize));
+            Debug.Assert(RegionHelper.IsValid(CellSize));
         }
 
         /// <summary>

@@ -61,6 +61,26 @@
         bool IsCaretShown { get; }
 
         /// <summary>
+        /// Indicates if there are cells that must be measured and arranged.
+        /// </summary>
+        bool IsInvalidated { get; }
+
+        /// <summary>
+        /// Invalidates the entire view.
+        /// </summary>
+        void Invalidate();
+
+        /// <summary>
+        /// Invalidates the specified region.
+        /// </summary>
+        void Invalidate(Rect region);
+
+        /// <summary>
+        /// Measure and arrange cells in the view.
+        /// </summary>
+        void MeasureAndArrange();
+
+        /// <summary>
         /// Draws all visible cells in the view using <see cref="DrawContext"/>.
         /// </summary>
         void Draw();
@@ -101,7 +121,8 @@
             : base(controller, templateSet)
         {
             DrawContext = drawContext;
-            ViewSize = MeasureHelper.InvalidSize;
+            InternalViewSize = RegionHelper.InvalidSize;
+            IsInvalidated = true;
         }
         #endregion
 
@@ -139,7 +160,17 @@
         /// <summary>
         /// Size of view.
         /// </summary>
-        public Size ViewSize { get; private set; }
+        public Size ViewSize
+        {
+            get
+            {
+                if (IsInvalidated)
+                    MeasureAndArrange();
+
+                return InternalViewSize;
+            }
+        }
+        private Size InternalViewSize;
 
         /// <summary>
         /// Current text style if the focus is on a string property. Default otherwise.
@@ -183,14 +214,49 @@
         /// Indicates if the caret is shown or hidden.
         /// </summary>
         public bool IsCaretShown { get; private set; }
+
+        /// <summary>
+        /// Indicates if there are cells that must be measured and arranged.
+        /// </summary>
+        public bool IsInvalidated { get; private set; }
         #endregion
 
         #region Client Interface
+        /// <summary>
+        /// Invalidates the entire view.
+        /// </summary>
+        public virtual void Invalidate()
+        {
+            IsInvalidated = true;
+        }
+
+        /// <summary>
+        /// Invalidates the specified region.
+        /// </summary>
+        public virtual void Invalidate(Rect region)
+        {
+            IsInvalidated = true;
+        }
+
+        /// <summary>
+        /// Measure and arrange cells in the view.
+        /// </summary>
+        public virtual void MeasureAndArrange()
+        {
+            IsInvalidated = false;
+
+            MeasureCells();
+            ArrangeCells();
+        }
+
         /// <summary>
         /// Draws all visible cells in the view using <see cref="DrawContext"/>.
         /// </summary>
         public virtual void Draw()
         {
+            if (IsInvalidated)
+                MeasureAndArrange();
+
             if (IsCaretShown)
                 DrawContext.HideCaret();
 
@@ -522,8 +588,7 @@
         {
             base.Refresh(state);
 
-            MeasureCells();
-            ArrangeCells();
+            IsInvalidated = true;
         }
 
         /// <summary></summary>
@@ -533,9 +598,9 @@
             ILayoutNodeStateView RootStateView = StateViewTable[RootState];
             RootStateView.MeasureCells(null, null, double.NaN);
 
-            ViewSize = RootStateView.CellSize;
+            InternalViewSize = RootStateView.CellSize;
 
-            Debug.Assert(MeasureHelper.IsFixed(ViewSize));
+            Debug.Assert(RegionHelper.IsFixed(InternalViewSize));
         }
 
         /// <summary></summary>

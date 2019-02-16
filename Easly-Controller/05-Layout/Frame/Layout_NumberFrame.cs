@@ -68,7 +68,7 @@
             size = drawContext.MeasureText(Text, TextStyles.Number);
             drawContext.UpdatePadding(LeftMargin, RightMargin, ref size, out padding);
 
-            Debug.Assert(MeasureHelper.IsValid(size));
+            Debug.Assert(RegionHelper.IsValid(size));
         }
 
         /// <summary>
