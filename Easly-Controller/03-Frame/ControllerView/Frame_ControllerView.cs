@@ -540,8 +540,7 @@
             Debug.Assert(nodeIndex != null);
 
             IFrameNodeState OwnerState = inner.Owner;
-            IFrameNodeStateView OwnerStateView = StateViewTable[OwnerState];
-
+            IFramePlaceholderNodeStateView OwnerStateView = StateViewTable[OwnerState] as IFramePlaceholderNodeStateView;
             Debug.Assert(OwnerStateView != null);
 
             IFrameAssignableCellViewReadOnlyDictionary<string> CellViewTable = OwnerStateView.CellViewTable;
@@ -565,7 +564,7 @@
             Debug.Assert(PreviousCellView.IsAssignedToTable);
             ReplacedCellView.AssignToCellViewTable();
             EmbeddingCellView.Replace(PreviousCellView, ReplacedCellView);
-            ((IFrameReplaceableStateView)OwnerStateView).ReplaceCellView(PropertyName, ReplacedCellView);
+            OwnerStateView.ReplaceCellView(PropertyName, ReplacedCellView);
         }
 
         /// <summary></summary>
@@ -575,8 +574,7 @@
             Debug.Assert(nodeIndex != null);
 
             IFrameNodeState OwnerState = inner.Owner;
-            IFrameNodeStateView OwnerStateView = StateViewTable[OwnerState];
-
+            IFramePlaceholderNodeStateView OwnerStateView = StateViewTable[OwnerState] as IFramePlaceholderNodeStateView;
             Debug.Assert(OwnerStateView != null);
 
             IFrameAssignableCellViewReadOnlyDictionary<string> CellViewTable = OwnerStateView.CellViewTable;
@@ -600,7 +598,7 @@
             Debug.Assert(PreviousCellView.IsAssignedToTable);
             ReplacedCellView.AssignToCellViewTable();
             EmbeddingCellView.Replace(PreviousCellView, ReplacedCellView);
-            ((IFrameReplaceableStateView)OwnerStateView).ReplaceCellView(PropertyName, ReplacedCellView);
+            OwnerStateView.ReplaceCellView(PropertyName, ReplacedCellView);
         }
 
         /// <summary></summary>
