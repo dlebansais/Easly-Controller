@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EditorDebug", "EditorDebug\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Easly-Draw", "Easly-Draw\Easly-Draw.csproj", "{182A2175-4C93-434A-A027-E101FBD55F48}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Easly-Preview", "Easly-Preview\Easly-Preview.csproj", "{6346EEB6-3C0B-49FA-A674-815E8AAD5336}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -37,6 +39,11 @@ Global
 		{182A2175-4C93-434A-A027-E101FBD55F48}.Release|x64.ActiveCfg = Release|x64
 		{182A2175-4C93-434A-A027-E101FBD55F48}.Release|x64.Build.0 = Release|x64
 		{182A2175-4C93-434A-A027-E101FBD55F48}.Travis|x64.ActiveCfg = Release|x64
+		{6346EEB6-3C0B-49FA-A674-815E8AAD5336}.Debug|x64.ActiveCfg = Debug|x64
+		{6346EEB6-3C0B-49FA-A674-815E8AAD5336}.Debug|x64.Build.0 = Debug|x64
+		{6346EEB6-3C0B-49FA-A674-815E8AAD5336}.Release|x64.ActiveCfg = Release|x64
+		{6346EEB6-3C0B-49FA-A674-815E8AAD5336}.Release|x64.Build.0 = Release|x64
+		{6346EEB6-3C0B-49FA-A674-815E8AAD5336}.Travis|x64.ActiveCfg = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

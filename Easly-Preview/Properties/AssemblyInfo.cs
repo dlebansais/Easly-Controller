@@ -1,16 +1,17 @@
-﻿using System.Reflection;
+﻿using System.Resources;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("TestDebug")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("Easly-Preview")]
+[assembly: AssemblyDescription("Draws a preview of an easly file ina  bitmap.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("TestDebug")]
-[assembly: AssemblyCopyright("Copyright ©  2018")]
+[assembly: AssemblyProduct("Easly")]
+[assembly: AssemblyCopyright("Copyright © 2019 David Le Bansais")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -20,7 +21,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("041bf2a9-a363-4c05-b2ab-86fa3f5d4f63")]
+[assembly: Guid("6346eeb6-3c0b-49fa-a674-815e8aad5336")]
 
 // Version information for an assembly consists of the following four values:
 //
@@ -33,4 +34,6 @@ using System.Runtime.InteropServices;
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("1.0.0.3280")]
-[assembly: AssemblyFileVersion("1.0.0.148")]
+[assembly: AssemblyFileVersion("1.0.0.17")]
+[assembly: NeutralResourcesLanguage("en-US")]
+
