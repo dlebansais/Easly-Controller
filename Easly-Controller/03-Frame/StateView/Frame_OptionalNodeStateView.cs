@@ -202,6 +202,20 @@
         }
 
         /// <summary>
+        /// Replaces the cell view for the given property.
+        /// </summary>
+        /// <param name="propertyName">The property name.</param>
+        /// <param name="cellView">The new cell view.</param>
+        public virtual void ReplaceCellView(string propertyName, IFrameContainerCellView cellView)
+        {
+            Debug.Assert(_CellViewTable.ContainsKey(propertyName));
+            Debug.Assert(_CellViewTable[propertyName] != null);
+            Debug.Assert(cellView != null);
+
+            _CellViewTable[propertyName] = cellView;
+        }
+
+        /// <summary>
         /// Update line numbers in the root cell view.
         /// </summary>
         /// <param name="lineNumber">The current line number, updated upon return.</param>
