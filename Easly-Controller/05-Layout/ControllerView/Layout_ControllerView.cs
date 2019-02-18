@@ -401,8 +401,7 @@
             {
                 Debug.Assert(BestCellIndex >= MinFocusMove + FocusIndex && BestCellIndex <= MaxFocusMove + FocusIndex);
 
-                MoveFocus(BestCellIndex - FocusIndex);
-                isMoved = true;
+                MoveFocus(BestCellIndex - FocusIndex, out isMoved);
             }
             else
                 isMoved = false;

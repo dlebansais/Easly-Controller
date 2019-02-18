@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace EaslyController.Controller
+﻿namespace EaslyController.Controller
 {
+    using System;
+
     /// <summary>
     /// Helper class dedicated to measuring and arranging cells.
     /// </summary>

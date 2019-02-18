@@ -159,6 +159,14 @@ namespace EditorDebug
                         MoveExistingItem(+1);
                     break;
 
+                case Key.Left:
+                    MoveFocus(-1);
+                    break;
+
+                case Key.Right:
+                    MoveFocus(+1);
+                    break;
+
                 case Key.E:
                     ToggleUserVisible();
                     break;
@@ -316,6 +324,30 @@ namespace EditorDebug
         {
             if (ControllerView == null)
                 return;
+
+            bool IsMoved;
+
+            if (ControllerView.MinFocusMove <= direction && direction <= ControllerView.MaxFocusMove)
+                ControllerView.MoveFocus(direction, out IsMoved);
+            else
+            {
+                if (direction < 0 && ControllerView.CaretPosition > 0)
+                {
+                    ControllerView.SetCaretPosition(0);
+                    IsMoved = true;
+                }
+
+                else if (direction > 0 && ControllerView.CaretPosition < ControllerView.MaxCaretPosition)
+                {
+                    ControllerView.SetCaretPosition(ControllerView.MaxCaretPosition);
+                    IsMoved = true;
+                }
+                else
+                    IsMoved = false;
+            }
+
+            if (IsMoved)
+                layoutControl.InvalidateVisual();
         }
 
         private void MoveFocusVertically(int direction)
@@ -358,22 +390,34 @@ namespace EditorDebug
 
         private void MoveCaretRight()
         {
-            if (ControllerView.CaretPosition < ControllerView.MaxCaretPosition)
-                ControllerView.SetCaretPosition(ControllerView.CaretPosition + 1);
-            else if (ControllerView.MaxFocusMove > 0)
-                ControllerView.MoveFocus(+1);
+            bool IsMoved;
 
-            layoutControl.InvalidateVisual();
+            if (ControllerView.CaretPosition < ControllerView.MaxCaretPosition)
+            {
+                ControllerView.SetCaretPosition(ControllerView.CaretPosition + 1);
+                IsMoved = true;
+            }
+            else
+                ControllerView.MoveFocus(+1, out IsMoved);
+
+            if (IsMoved)
+                layoutControl.InvalidateVisual();
         }
 
         private void MoveCaretLeft()
         {
-            if (ControllerView.CaretPosition > 0)
-                ControllerView.SetCaretPosition(ControllerView.CaretPosition - 1);
-            else if (ControllerView.MinFocusMove < 0)
-                ControllerView.MoveFocus(-1);
+            bool IsMoved;
 
-            layoutControl.InvalidateVisual();
+            if (ControllerView.CaretPosition > 0)
+            {
+                ControllerView.SetCaretPosition(ControllerView.CaretPosition - 1);
+                IsMoved = true;
+            }
+            else
+                ControllerView.MoveFocus(-1, out IsMoved);
+
+            if (IsMoved)
+                layoutControl.InvalidateVisual();
         }
 
         private void ToggleCaretMode()

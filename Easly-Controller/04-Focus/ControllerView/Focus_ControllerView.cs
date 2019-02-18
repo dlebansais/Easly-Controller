@@ -129,7 +129,8 @@
         /// Moves the current focus in the focus chain.
         /// </summary>
         /// <param name="direction">The change in position, relative to the current position.</param>
-        void MoveFocus(int direction);
+        /// <param name="isMoved">True upon return if the focus was moved.</param>
+        void MoveFocus(int direction, out bool isMoved);
 
         /// <summary>
         /// Changes the caret position. Does nothing if the focus isn't on a string property.
@@ -573,21 +574,28 @@
         /// Moves the current focus in the focus chain.
         /// </summary>
         /// <param name="direction">The change in position, relative to the current position.</param>
-        public virtual void MoveFocus(int direction)
+        /// <param name="isMoved">True upon return if the focus was moved.</param>
+        public virtual void MoveFocus(int direction, out bool isMoved)
         {
-            int FocusIndex = FocusChain.IndexOf(FocusedCellView);
-            Debug.Assert(FocusIndex >= 0 && FocusIndex < FocusChain.Count);
+            int OldFocusIndex = FocusChain.IndexOf(FocusedCellView);
+            Debug.Assert(OldFocusIndex >= 0 && OldFocusIndex < FocusChain.Count);
 
-            FocusIndex += direction;
-            if (FocusIndex < 0)
-                FocusIndex = 0;
-            else if (FocusIndex >= FocusChain.Count)
-                FocusIndex = FocusChain.Count - 1;
+            int NewFocusIndex = OldFocusIndex + direction;
+            if (NewFocusIndex < 0)
+                NewFocusIndex = 0;
+            else if (NewFocusIndex >= FocusChain.Count)
+                NewFocusIndex = FocusChain.Count - 1;
 
-            Debug.Assert(FocusIndex >= 0 && FocusIndex < FocusChain.Count);
-            FocusedCellView = FocusChain[FocusIndex];
+            Debug.Assert(NewFocusIndex >= 0 && NewFocusIndex < FocusChain.Count);
 
-            ResetCaretPosition(direction);
+            if (NewFocusIndex != OldFocusIndex)
+            {
+                FocusedCellView = FocusChain[NewFocusIndex];
+                ResetCaretPosition(direction);
+                isMoved = true;
+            }
+            else
+                isMoved = false;
         }
 
         /// <summary>
