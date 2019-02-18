@@ -22,7 +22,7 @@
         /// Updates the focus chain with cells in the tree.
         /// </summary>
         /// <param name="focusChain">The list of focusable cell views found in the tree.</param>
-        void UpdateFocusChain(IFocusFocusableCellViewList focusChain);
+        void UpdateFocusChain(IFocusFocusList focusChain);
     }
 
     /// <summary>
@@ -59,7 +59,7 @@
         /// Updates the focus chain with cells in the tree.
         /// </summary>
         /// <param name="focusChain">The list of focusable cell views found in the tree.</param>
-        public abstract void UpdateFocusChain(IFocusFocusableCellViewList focusChain);
+        public abstract void UpdateFocusChain(IFocusFocusList focusChain);
         #endregion
 
         #region Debugging

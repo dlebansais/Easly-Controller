@@ -182,5 +182,16 @@
             return true;
         }
         #endregion
+
+        #region Create Methods
+        /// <summary>
+        /// Creates a IxxxDiscreteContentCellFocus object.
+        /// </summary>
+        protected override IFocusDiscreteContentCellFocus CreateFocus()
+        {
+            ControllerTools.AssertNoOverride(this, typeof(LayoutDiscreteContentFocusableCellView));
+            return new LayoutDiscreteContentCellFocus(this);
+        }
+        #endregion
     }
 }

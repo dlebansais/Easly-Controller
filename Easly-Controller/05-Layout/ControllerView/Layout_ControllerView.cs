@@ -39,7 +39,7 @@
         /// <summary>
         /// Cell view with the focus.
         /// </summary>
-        new ILayoutFocusableCellView FocusedCellView { get; }
+        new ILayoutFocus Focus { get; }
 
         /// <summary>
         /// The draw context.
@@ -160,7 +160,7 @@
         /// <summary>
         /// Cell view with the focus.
         /// </summary>
-        public new ILayoutFocusableCellView FocusedCellView { get { return (ILayoutFocusableCellView)base.FocusedCellView; } }
+        public new ILayoutFocus Focus { get { return (ILayoutFocus)base.Focus; } }
 
         /// <summary>
         /// The draw context.
@@ -192,9 +192,9 @@
                 TextStyles Result = TextStyles.Default;
                 bool IsHandled = false;
 
-                if (FocusedCellView is ILayoutTextFocusableCellView AsText)
+                if (Focus is ILayoutTextCellFocus AsText)
                 {
-                    switch (AsText.Frame)
+                    switch (AsText.CellView.Frame)
                     {
                         case ILayoutCharacterFrame AsCharacterFrame:
                             Result = TextStyles.Character;
@@ -277,10 +277,10 @@
 
             foreach (ILayoutVisibleCellView CellView in CellList)
             {
-                bool IsFocused = CellView == FocusedCellView;
+                bool IsFocused = Focus is ILayoutCellFocus AsCellFocus && CellView == AsCellFocus.CellView;
                 CellView.Draw(IsFocused, out Size MeasuredSize);
 
-                if (CellView != FocusedCellView)
+                if (!IsFocused)
                 {
                     IDocument Documentation = CellView.StateView.State.Node.Documentation;
                     if (Documentation.Comment.Length > 0 && LastDocumentation != Documentation)
@@ -293,8 +293,8 @@
                 }
             }
 
-            if (IsCaretShown && IsCaretOnText(out IFocusTextFocusableCellView TextFocusableCellView))
-                DrawTextCaret(TextFocusableCellView);
+            if (IsCaretShown && IsCaretOnText(out ILayoutTextCellFocus TextCellFocus))
+                DrawTextCaret(TextCellFocus);
         }
 
         /// <summary>
@@ -312,25 +312,25 @@
             if (draw)
                 if (IsCaretShown)
                 {
-                    if (IsCaretOnText(out IFocusTextFocusableCellView TextFocusableCellView))
-                        DrawTextCaret(TextFocusableCellView);
-                    else
-                        FocusedCellView.Draw(true, out Size MeasuredSize);
+                    if (IsCaretOnText(out ILayoutTextCellFocus TextCellFocus))
+                        DrawTextCaret(TextCellFocus);
+                    else if (Focus is ILayoutCellFocus AsCellFocus)
+                        AsCellFocus.CellView.Draw(true, out Size MeasuredSize);
                 }
                 else
                     DrawContext.HideCaret();
         }
 
         /// <summary></summary>
-        private protected bool IsCaretOnText(out IFocusTextFocusableCellView textFocusableCellView)
+        private protected bool IsCaretOnText(out ILayoutTextCellFocus textCellFocus)
         {
-            textFocusableCellView = null;
+            textCellFocus = null;
 
-            if (FocusedCellView is IFocusTextFocusableCellView AsTextFocusableCellView)
+            if (Focus is ILayoutTextCellFocus AsTextCellFocus)
             {
                 bool IsHandled = false;
 
-                switch (AsTextFocusableCellView.Frame)
+                switch (AsTextCellFocus.CellView.Frame)
                 {
                     case ILayoutCharacterFrame AsCharacterFrame:
                         IsHandled = true; // The focus was displayed directly with the character.
@@ -338,7 +338,7 @@
 
                     case ILayoutNumberFrame AsNumberFrame:
                     case ILayoutTextValueFrame AsTextValueFrame:
-                        textFocusableCellView = AsTextFocusableCellView;
+                        textCellFocus = AsTextCellFocus;
                         IsHandled = true;
                         break;
                 }
@@ -346,18 +346,20 @@
                 Debug.Assert(IsHandled);
             }
 
-            return textFocusableCellView != null;
+            return textCellFocus != null;
         }
 
         /// <summary></summary>
-        private protected void DrawTextCaret(IFocusTextFocusableCellView textFocusableCellView)
+        private protected void DrawTextCaret(ILayoutTextCellFocus textCellFocus)
         {
-            INode Node = textFocusableCellView.StateView.State.Node;
-            string PropertyName = textFocusableCellView.PropertyName;
+            ILayoutTextFocusableCellView CellView = textCellFocus.CellView;
+
+            INode Node = CellView.StateView.State.Node;
+            string PropertyName = CellView.PropertyName;
             string Text = NodeTreeHelper.GetString(Node, PropertyName);
 
-            Point CellOrigin = FocusedCellView.CellOrigin;
-            Padding CellPadding = FocusedCellView.CellPadding;
+            Point CellOrigin = CellView.CellOrigin;
+            Padding CellPadding = CellView.CellPadding;
 
             Point OriginWithPadding = CellOrigin.Moved(CellPadding.Left, 0);
             DrawContext.ShowCaret(OriginWithPadding, FocusedText, FocusedTextStyle, CaretMode, CaretPosition);
@@ -375,38 +377,43 @@
             double BestVerticalDistance = 0;
             double BestHorizontalDistance = 0;
             int BestCellIndex = -1;
-            int FocusIndex = FocusChain.IndexOf(FocusedCellView);
+            int FocusIndex = FocusChain.IndexOf(Focus);
 
             for (int i = 0; i < FocusChain.Count; i++)
             {
                 int CellIndex = distance < 0 ? i : FocusChain.Count - i - 1;
-                ILayoutFocusableCellView CellView = (ILayoutFocusableCellView)FocusChain[CellIndex];
+                ILayoutFocus Focus = (ILayoutFocus)FocusChain[CellIndex];
 
-                // If we check against the current focus, it might be the closest cell and then we don't move!
-                if (CellIndex == FocusIndex)
-                    continue;
-
-                // Don't consider cells that are in the wrong direction;
-                if ((distance < 0 && CellView.CellOrigin.Y >= Origin.Y) || (distance > 0 && CellView.CellOrigin.Y + CellView.CellSize.Height <= Origin.Y))
-                    continue;
-
-                if (CellView.CellRect.IsPointInRect(Origin))
+                if (Focus is ILayoutCellFocus AsCellFocus)
                 {
-                    BestCellIndex = CellIndex;
-                    break;
-                }
-                else
-                {
-                    Point Center = CellView.CellRect.Center;
+                    ILayoutFocusableCellView CellView = AsCellFocus.CellView;
 
-                    double VerticalDistance = Math.Abs(Center.Y - Origin.Y);
-                    double HorizontalDistance = Math.Abs(Center.X - Origin.X);
+                    // If we check against the current focus, it might be the closest cell and then we don't move!
+                    if (CellIndex == FocusIndex)
+                        continue;
 
-                    if (BestCellIndex < 0 || BestVerticalDistance > VerticalDistance || (RegionHelper.IsZero(BestVerticalDistance - VerticalDistance) && BestHorizontalDistance > HorizontalDistance))
+                    // Don't consider cells that are in the wrong direction;
+                    if ((distance < 0 && CellView.CellOrigin.Y >= Origin.Y) || (distance > 0 && CellView.CellOrigin.Y + CellView.CellSize.Height <= Origin.Y))
+                        continue;
+
+                    if (CellView.CellRect.IsPointInRect(Origin))
                     {
-                        BestVerticalDistance = VerticalDistance;
-                        BestHorizontalDistance = HorizontalDistance;
                         BestCellIndex = CellIndex;
+                        break;
+                    }
+                    else
+                    {
+                        Point Center = CellView.CellRect.Center;
+
+                        double VerticalDistance = Math.Abs(Center.Y - Origin.Y);
+                        double HorizontalDistance = Math.Abs(Center.X - Origin.X);
+
+                        if (BestCellIndex < 0 || BestVerticalDistance > VerticalDistance || (RegionHelper.IsZero(BestVerticalDistance - VerticalDistance) && BestHorizontalDistance > HorizontalDistance))
+                        {
+                            BestVerticalDistance = VerticalDistance;
+                            BestHorizontalDistance = HorizontalDistance;
+                            BestCellIndex = CellIndex;
+                        }
                     }
                 }
             }
@@ -426,32 +433,36 @@
         {
             Point Origin = RegionHelper.InvalidOrigin;
 
-            if (FocusedCellView is ILayoutTextFocusableCellView)
+            if (Focus is ILayoutTextCellFocus AsTextCellFocus)
             {
                 bool IsHandled = false;
+                ILayoutTextFocusableCellView CellView = AsTextCellFocus.CellView;
                 double Position;
 
                 switch (CaretMode)
                 {
                     case CaretModes.Insertion:
                         Debug.Assert(CaretPosition >= 0 && CaretPosition <= MaxCaretPosition);
-                        Position = (FocusedCellView.CellSize.Width * CaretPosition) / MaxCaretPosition;
-                        Origin = FocusedCellView.CellOrigin.Moved(Position, FocusedCellView.CellSize.Height / 2);
+                        Position = (CellView.CellSize.Width * CaretPosition) / MaxCaretPosition;
+                        Origin = CellView.CellOrigin.Moved(Position, CellView.CellSize.Height / 2);
                         IsHandled = true;
                         break;
 
                     case CaretModes.Override:
                         Debug.Assert(CaretPosition >= 0 && CaretPosition < MaxCaretPosition);
-                        Position = (FocusedCellView.CellSize.Width * ((CaretPosition * 2) + 1)) / (MaxCaretPosition * 2);
-                        Origin = FocusedCellView.CellOrigin.Moved(Position, FocusedCellView.CellSize.Height / 2);
+                        Position = (CellView.CellSize.Width * ((CaretPosition * 2) + 1)) / (MaxCaretPosition * 2);
+                        Origin = CellView.CellOrigin.Moved(Position, CellView.CellSize.Height / 2);
                         IsHandled = true;
                         break;
                 }
 
                 Debug.Assert(IsHandled);
             }
-            else
-                Origin = FocusedCellView.CellOrigin.Moved(FocusedCellView.CellSize.Width / 2, FocusedCellView.CellSize.Height / 2);
+            else if (Focus is ILayoutCellFocus AsCellFocus)
+            {
+                ILayoutFocusableCellView CellView = AsCellFocus.CellView;
+                Origin = CellView.CellOrigin.Moved(CellView.CellSize.Width / 2, CellView.CellSize.Height / 2);
+            }
 
             Debug.Assert(RegionHelper.IsValid(Origin));
 
@@ -882,12 +893,12 @@
         }
 
         /// <summary>
-        /// Creates a IxxxFocusableCellViewList object.
+        /// Creates a IxxxFocusList object.
         /// </summary>
-        private protected override IFocusFocusableCellViewList CreateFocusChain()
+        private protected override IFocusFocusList CreateFocusChain()
         {
             ControllerTools.AssertNoOverride(this, typeof(LayoutControllerView));
-            return new LayoutFocusableCellViewList();
+            return new LayoutFocusList();
         }
 
         /// <summary>

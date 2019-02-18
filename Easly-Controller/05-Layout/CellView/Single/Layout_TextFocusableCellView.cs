@@ -173,5 +173,16 @@
             return true;
         }
         #endregion
+
+        #region Create Methods
+        /// <summary>
+        /// Creates a IxxxTextCellFocus object.
+        /// </summary>
+        protected override IFocusTextCellFocus CreateFocus()
+        {
+            ControllerTools.AssertNoOverride(this, typeof(LayoutTextFocusableCellView));
+            return new LayoutTextCellFocus(this);
+        }
+        #endregion
     }
 }

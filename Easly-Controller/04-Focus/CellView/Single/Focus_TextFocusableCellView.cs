@@ -51,9 +51,9 @@
         /// Updates the focus chain with cells in the tree.
         /// </summary>
         /// <param name="focusChain">The list of focusable cell views found in the tree.</param>
-        public virtual void UpdateFocusChain(IFocusFocusableCellViewList focusChain)
+        public virtual void UpdateFocusChain(IFocusFocusList focusChain)
         {
-            focusChain.Add(this);
+            focusChain.Add(CreateFocus());
         }
         #endregion
 
@@ -74,6 +74,17 @@
                 return comparer.Failed();
 
             return true;
+        }
+        #endregion
+
+        #region Create Methods
+        /// <summary>
+        /// Creates a IxxxTextCellFocus object.
+        /// </summary>
+        protected virtual IFocusTextCellFocus CreateFocus()
+        {
+            ControllerTools.AssertNoOverride(this, typeof(FocusTextFocusableCellView));
+            return new FocusTextCellFocus(this);
         }
         #endregion
     }

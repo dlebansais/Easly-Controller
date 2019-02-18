@@ -65,7 +65,7 @@
         /// Updates the focus chain with cells in the tree.
         /// </summary>
         /// <param name="focusChain">The list of focusable cell views found in the tree.</param>
-        public virtual void UpdateFocusChain(IFocusFocusableCellViewList focusChain)
+        public virtual void UpdateFocusChain(IFocusFocusList focusChain)
         {
             foreach (IFocusCellView Item in CellViewList)
                 Item.UpdateFocusChain(focusChain);

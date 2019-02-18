@@ -372,8 +372,8 @@
     <Compile Include="04-Focus\Collections\Focus_BrowsingListNodeIndex_List.cs" />
     <Compile Include="04-Focus\Collections\Focus_AssignableCellView_Dictionary.cs" />
     <Compile Include="04-Focus\Collections\Focus_CycleManager_List.cs" />
+    <Compile Include="04-Focus\Collections\Focus_Focus_List.cs" />
     <Compile Include="04-Focus\Collections\Focus_FrameSelector_List.cs" />
-    <Compile Include="04-Focus\Collections\Focus_FocusableCellView_List.cs" />
     <Compile Include="04-Focus\Collections\Focus_InsertionChildNodeIndex_List.cs" />
     <Compile Include="04-Focus\Collections\Focus_OperationGroup_List.cs" />
     <Compile Include="04-Focus\Collections\Focus_OperationGroup_ReadOnlyList.cs" />
@@ -428,6 +428,10 @@
     <Compile Include="04-Focus\Cycle\Focus_CycleManagerFeature.cs" />
     <Compile Include="04-Focus\Cycle\Focus_CycleManagerBody.cs" />
     <Compile Include="04-Focus\Cycle\Focus_CycleManager.cs" />
+    <Compile Include="04-Focus\Focus\Focus_DiscreteContentCellFocus.cs" />
+    <Compile Include="04-Focus\Focus\Focus_TextCellFocus.cs" />
+    <Compile Include="04-Focus\Focus\Focus_CellFocus.cs" />
+    <Compile Include="04-Focus\Focus\Focus_Focus.cs" />
     <Compile Include="04-Focus\FrameVisibility\Focus_BlockFrameVisibility.cs" />
     <Compile Include="04-Focus\FrameVisibility\Focus_OptionalFrameVisibility.cs" />
     <Compile Include="04-Focus\FrameVisibility\Focus_MixedFrameVisibility.cs" />
@@ -546,7 +550,7 @@
     <Compile Include="05-Layout\Collections\Layout_BrowsingListNodeIndex_List.cs" />
     <Compile Include="05-Layout\Collections\Layout_CellView_List.cs" />
     <Compile Include="05-Layout\Collections\Layout_CycleManager_List.cs" />
-    <Compile Include="05-Layout\Collections\Layout_FocusableCellView_List.cs" />
+    <Compile Include="05-Layout\Collections\Layout_Focus_List.cs" />
     <Compile Include="05-Layout\Collections\Layout_FrameSelector_List.cs" />
     <Compile Include="05-Layout\Collections\Layout_Frame_List.cs" />
     <Compile Include="05-Layout\Collections\Layout_IndexCollection_List.cs" />
@@ -600,6 +604,10 @@
     <Compile Include="05-Layout\Cycle\Layout_CycleManager.cs" />
     <Compile Include="05-Layout\Cycle\Layout_CycleManagerBody.cs" />
     <Compile Include="05-Layout\Cycle\Layout_CycleManagerFeature.cs" />
+    <Compile Include="05-Layout\Focus\Layout_CellFocus.cs" />
+    <Compile Include="05-Layout\Focus\Layout_DiscreteContentCellFocus.cs" />
+    <Compile Include="05-Layout\Focus\Layout_Focus.cs" />
+    <Compile Include="05-Layout\Focus\Layout_TextCellFocus.cs" />
     <Compile Include="05-Layout\FrameVisibility\Layout_BlockFrameVisibility.cs" />
     <Compile Include="05-Layout\FrameVisibility\Layout_ComplexFrameVisibility.cs" />
     <Compile Include="05-Layout\FrameVisibility\Layout_CountFrameVisibility.cs" />
