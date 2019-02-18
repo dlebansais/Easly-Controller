@@ -136,8 +136,8 @@
         /// Changes the caret position. Does nothing if the focus isn't on a string property.
         /// </summary>
         /// <param name="position">The new position.</param>
-        /// <returns>True if the position was changed. False otherwise.</returns>
-        bool SetCaretPosition(int position);
+        /// <param name="isMoved">True if the position was changed. False otherwise.</param>
+        void SetCaretPosition(int position, out bool isMoved);
 
         /// <summary>
         /// Changes the caret mode.
@@ -602,18 +602,18 @@
         /// Changes the caret position. Does nothing if the focus isn't on a string property.
         /// </summary>
         /// <param name="position">The new position.</param>
-        /// <returns>True if the position was changed. False otherwise.</returns>
-        public virtual bool SetCaretPosition(int position)
+        /// <param name="isMoved">True if the position was changed. False otherwise.</param>
+        public virtual void SetCaretPosition(int position, out bool isMoved)
         {
             if (FocusedCellView is IFocusTextFocusableCellView AsText)
             {
                 INode Node = AsText.StateView.State.Node;
                 string PropertyName = AsText.PropertyName;
 
-                return SetTextCaretPosition(Node, PropertyName, position);
+                SetTextCaretPosition(Node, PropertyName, position, out isMoved);
             }
-
-            return false;
+            else
+                isMoved = false;
         }
 
         /// <summary>
@@ -1669,7 +1669,7 @@
         }
 
         /// <summary></summary>
-        private protected virtual bool SetTextCaretPosition(INode node, string propertyName, int position)
+        private protected virtual void SetTextCaretPosition(INode node, string propertyName, int position, out bool isMoved)
         {
             string Text = NodeTreeHelper.GetString(node, propertyName);
             int OldPosition = CaretPosition;
@@ -1683,10 +1683,7 @@
             else
                 CaretPosition = position;
 
-            if (CaretPosition != OldPosition)
-                return true;
-            else
-                return false;
+            isMoved = CaretPosition != OldPosition;
         }
 
         /// <summary></summary>

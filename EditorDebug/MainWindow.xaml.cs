@@ -332,16 +332,9 @@ namespace EditorDebug
             else
             {
                 if (direction < 0 && ControllerView.CaretPosition > 0)
-                {
-                    ControllerView.SetCaretPosition(0);
-                    IsMoved = true;
-                }
-
+                    ControllerView.SetCaretPosition(0, out IsMoved);
                 else if (direction > 0 && ControllerView.CaretPosition < ControllerView.MaxCaretPosition)
-                {
-                    ControllerView.SetCaretPosition(ControllerView.MaxCaretPosition);
-                    IsMoved = true;
-                }
+                    ControllerView.SetCaretPosition(ControllerView.MaxCaretPosition, out IsMoved);
                 else
                     IsMoved = false;
             }
@@ -393,10 +386,7 @@ namespace EditorDebug
             bool IsMoved;
 
             if (ControllerView.CaretPosition < ControllerView.MaxCaretPosition)
-            {
-                ControllerView.SetCaretPosition(ControllerView.CaretPosition + 1);
-                IsMoved = true;
-            }
+                ControllerView.SetCaretPosition(ControllerView.CaretPosition + 1, out IsMoved);
             else
                 ControllerView.MoveFocus(+1, out IsMoved);
 
@@ -409,10 +399,7 @@ namespace EditorDebug
             bool IsMoved;
 
             if (ControllerView.CaretPosition > 0)
-            {
-                ControllerView.SetCaretPosition(ControllerView.CaretPosition - 1);
-                IsMoved = true;
-            }
+                ControllerView.SetCaretPosition(ControllerView.CaretPosition - 1, out IsMoved);
             else
                 ControllerView.MoveFocus(-1, out IsMoved);
 
