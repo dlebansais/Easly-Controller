@@ -273,10 +273,24 @@
             ILayoutVisibleCellViewList CellList = new LayoutVisibleCellViewList();
             EnumerateVisibleCellViews(CellList);
 
+            IDocument LastDocumentation = null;
+
             foreach (ILayoutVisibleCellView CellView in CellList)
             {
                 bool IsFocused = CellView == FocusedCellView;
-                CellView.Draw(IsFocused);
+                CellView.Draw(IsFocused, out Size MeasuredSize);
+
+                if (CellView != FocusedCellView)
+                {
+                    IDocument Documentation = CellView.StateView.State.Node.Documentation;
+                    if (Documentation.Comment.Length > 0 && LastDocumentation != Documentation)
+                    {
+                        Debug.Assert(RegionHelper.IsFixed(MeasuredSize));
+
+                        LastDocumentation = Documentation;
+                        DrawContext.DrawCommentIcon(new Rect(CellView.CellOrigin, MeasuredSize));
+                    }
+                }
             }
 
             if (IsCaretShown && IsCaretOnText(out IFocusTextFocusableCellView TextFocusableCellView))
@@ -301,7 +315,7 @@
                     if (IsCaretOnText(out IFocusTextFocusableCellView TextFocusableCellView))
                         DrawTextCaret(TextFocusableCellView);
                     else
-                        FocusedCellView.Draw(true);
+                        FocusedCellView.Draw(true, out Size MeasuredSize);
                 }
                 else
                     DrawContext.HideCaret();

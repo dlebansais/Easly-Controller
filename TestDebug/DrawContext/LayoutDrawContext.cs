@@ -77,5 +77,9 @@ namespace TestDebug
         public void HideCaret()
         {
         }
+
+        public void DrawCommentIcon(Rect region)
+        {
+        }
     }
 }

@@ -104,7 +104,8 @@
         /// Draws the cell.
         /// </summary>
         /// <param name="isFocused">True if this cell has the focus.</param>
-        public abstract void Draw(bool isFocused);
+        /// <param name="measuredSize">Size that was used to draw the cell upon return.</param>
+        public abstract void Draw(bool isFocused, out Size measuredSize);
         #endregion
 
         #region Debugging

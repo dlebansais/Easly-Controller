@@ -103,5 +103,11 @@
         /// Hides the caret.
         /// </summary>
         void HideCaret();
+
+        /// <summary>
+        /// Draws the vertical separator above the specified origin and with the specified width.
+        /// </summary>
+        /// <param name="region">The region corresponding to the node that has a comment.</param>
+        void DrawCommentIcon(Rect region);
     }
 }

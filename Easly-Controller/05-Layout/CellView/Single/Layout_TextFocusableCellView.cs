@@ -130,7 +130,8 @@
         /// Draws the cell.
         /// </summary>
         /// <param name="isFocused">True if this cell has the focus.</param>
-        public virtual void Draw(bool isFocused)
+        /// <param name="measuredSize">Size that was used to draw the cell upon return.</param>
+        public virtual void Draw(bool isFocused, out Size measuredSize)
         {
             Debug.Assert(StateView != null);
             Debug.Assert(StateView.ControllerView != null);
@@ -141,15 +142,15 @@
             ILayoutDrawableFrame AsDrawableFrame = Frame as ILayoutDrawableFrame;
             Debug.Assert(AsDrawableFrame != null);
 
-            Size size = CellSize;
+            measuredSize = CellSize;
             if (ParentCellView != null)
-                size = ParentCellView.GetMeasuredSize(CellSize);
+                measuredSize = ParentCellView.GetMeasuredSize(CellSize);
 
-            Debug.Assert(RegionHelper.IsFixed(size));
+            Debug.Assert(RegionHelper.IsFixed(measuredSize));
 
-            CollectionWithSeparator.DrawBeforeItem(DrawContext, ReferenceContainer, CellOrigin, size, CellPadding);
-            AsDrawableFrame.Draw(DrawContext, this, CellOrigin, size, CellPadding, isFocused);
-            CollectionWithSeparator.DrawAfterItem(DrawContext, ReferenceContainer, CellOrigin, size, CellPadding);
+            CollectionWithSeparator.DrawBeforeItem(DrawContext, ReferenceContainer, CellOrigin, measuredSize, CellPadding);
+            AsDrawableFrame.Draw(DrawContext, this, CellOrigin, measuredSize, CellPadding, isFocused);
+            CollectionWithSeparator.DrawAfterItem(DrawContext, ReferenceContainer, CellOrigin, measuredSize, CellPadding);
         }
         #endregion
 

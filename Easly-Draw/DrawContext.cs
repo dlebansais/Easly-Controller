@@ -4,8 +4,13 @@
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Globalization;
+    using System.IO;
+    using System.Reflection;
+    using System.Runtime.InteropServices;
+    using System.Windows.Interop;
     using System.Windows.Media;
     using System.Windows.Media.Animation;
+    using System.Windows.Media.Imaging;
     using EaslyController.Constants;
     using EaslyController.Controller;
     using EaslyController.Layout;
@@ -45,8 +50,41 @@
             FlashAnimation.RepeatBehavior = RepeatBehavior.Forever;
             FlashAnimation.EasingFunction = new FlashEasingFunction();
             FlashClock = FlashAnimation.CreateClock();
+            CommentIcon = LoadPngResource("Comment");
 
             Update();
+        }
+
+        private BitmapSource LoadPngResource(string resourceName)
+        {
+            Assembly CurrentAssembly = Assembly.GetExecutingAssembly();
+            string ResourcePath = $"EaslyDraw.Resources.{resourceName}.png";
+
+            using (Stream ResourceStream = CurrentAssembly.GetManifestResourceStream(ResourcePath))
+            {
+                System.Drawing.Bitmap bmp = new System.Drawing.Bitmap(ResourceStream);
+                return BitmapToBitmapSource(bmp);
+            }
+        }
+
+        [DllImport("gdi32")]
+        private static extern int DeleteObject(IntPtr o);
+
+        private BitmapSource BitmapToBitmapSource(System.Drawing.Bitmap bmp)
+        {
+            IntPtr ip = bmp.GetHbitmap();
+            try
+            {
+                return Imaging.CreateBitmapSourceFromHBitmap(ip, IntPtr.Zero, System.Windows.Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+            finally
+            {
+                DeleteObject(ip);
+            }
         }
         #endregion
 
@@ -507,6 +545,17 @@
             FlashEasingFunction EasingFunction = FlashAnimation.EasingFunction as FlashEasingFunction;
             EasingFunction.SetIsVisible(isVisible, IsLastFocusedFullCell);
         }
+
+        /// <summary>
+        /// Draws the vertical separator above the specified origin and with the specified width.
+        /// </summary>
+        /// <param name="region">The region corresponding to the node that has a comment.</param>
+        public virtual void DrawCommentIcon(Rect region)
+        {
+            WpfDrawingContext.PushOpacity(0.5);
+            WpfDrawingContext.DrawImage(CommentIcon, new System.Windows.Rect(region.X - (CommentIcon.Width / 2), region.Y - (CommentIcon.Height / 2), CommentIcon.Width, CommentIcon.Height));
+            WpfDrawingContext.Pop();
+        }
         #endregion
 
         #region Client Interface
@@ -598,6 +647,7 @@
         private DoubleAnimation FlashAnimation;
         private AnimationClock FlashClock;
         private bool IsLastFocusedFullCell;
+        private BitmapSource CommentIcon;
         #endregion
     }
 }
