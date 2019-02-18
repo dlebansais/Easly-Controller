@@ -81,6 +81,66 @@ namespace EditorDebug
         #endregion
 
         #region Events
+        private void OnKeyDown(object sender, KeyEventArgs e)
+        {
+            ControllerView = layoutControl.ControllerView;
+
+            if (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl))
+                OnKeyDownCtrl(e.Key);
+            else
+                OnKeyDown(e.Key);
+        }
+
+        private void OnKeyDown(Key key)
+        {
+            switch (key)
+            {
+                case Key.Subtract:
+                    ChangeDiscreteValue(-1);
+                    break;
+
+                case Key.Add:
+                    ChangeDiscreteValue(+1);
+                    break;
+
+                case Key.Up:
+                    MoveFocusVertically(-1);
+                    break;
+
+                case Key.Down:
+                    MoveFocusVertically(+1);
+                    break;
+
+                case Key.Enter:
+                    InsertNewItem();
+                    break;
+
+                case Key.OemPeriod:
+                    SplitIdentifier();
+                    break;
+
+                case Key.Back:
+                case Key.Delete:
+                case Key.Tab: // Comments
+                case Key.Home:
+                case Key.End:
+                case Key.PageUp: // Focus up
+                case Key.PageDown: // Focus down
+                case Key.Space: // Compact
+                    break;
+
+                case Key.Left:
+                    MoveCaretLeft();
+                    break;
+                case Key.Right:
+                    MoveCaretRight();
+                    break;
+                case Key.Insert:
+                    ToggleCaretMode();
+                    break;
+            }
+        }
+
         private void OnKeyDownCtrl(Key key)
         {
             switch (key)
@@ -131,66 +191,6 @@ namespace EditorDebug
                 case Key.Z: // undo/redo
                     break;
             }
-        }
-
-        private void OnKeyDown(Key key)
-        {
-            switch (key)
-            {
-                case Key.Subtract:
-                    ChangeDiscreteValue(-1);
-                    break;
-
-                case Key.Add:
-                    ChangeDiscreteValue(+1);
-                    break;
-
-                case Key.Up:
-                    MoveFocus(-1);
-                    break;
-
-                case Key.Down:
-                    MoveFocus(+1);
-                    break;
-
-                case Key.Enter:
-                    InsertNewItem();
-                    break;
-
-                case Key.OemPeriod:
-                    SplitIdentifier();
-                    break;
-
-                case Key.Back:
-                case Key.Delete:
-                case Key.Tab: // Comments
-                case Key.Home:
-                case Key.End:
-                case Key.PageUp: // Focus up
-                case Key.PageDown: // Focus down
-                case Key.Space: // Compact
-                    break;
-
-                case Key.Left:
-                    MoveCaretLeft();
-                    break;
-                case Key.Right:
-                    MoveCaretRight();
-                    break;
-                case Key.Insert:
-                    ToggleCaretMode();
-                    break;
-            }
-        }
-
-        private void OnKeyDown(object sender, KeyEventArgs e)
-        {
-            ControllerView = layoutControl.ControllerView;
-
-            if (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl))
-                OnKeyDownCtrl(e.Key);
-            else
-                OnKeyDown(e.Key);
         }
 
         private void InsertNewItem()
@@ -316,22 +316,16 @@ namespace EditorDebug
         {
             if (ControllerView == null)
                 return;
+        }
 
-            foreach (TextBlock Child in gridMain.Children)
-                if (Child.DataContext == ControllerView.FocusedCellView)
-                {
-                    Child.Background = Brushes.Transparent;
-                    break;
-                }
+        private void MoveFocusVertically(int direction)
+        {
+            if (ControllerView == null)
+                return;
 
-            ControllerView.MoveFocus(direction);
-
-            foreach (TextBlock Child in gridMain.Children)
-                if (Child.DataContext == ControllerView.FocusedCellView)
-                {
-                    Child.Background = Brushes.LightCyan;
-                    break;
-                }
+            ControllerView.MoveFocusVertically(ControllerView.DrawContext.LineHeight * direction, out bool IsMoved);
+            if (IsMoved)
+                layoutControl.InvalidateVisual();
         }
 
         private void ChangeDiscreteValue(int change)

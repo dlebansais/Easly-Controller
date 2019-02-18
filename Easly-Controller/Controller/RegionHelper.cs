@@ -1,4 +1,6 @@
-﻿namespace EaslyController.Controller
+﻿using System;
+
+namespace EaslyController.Controller
 {
     /// <summary>
     /// Helper class dedicated to measuring and arranging cells.
@@ -19,6 +21,15 @@
         /// An invalid size that can be used for initialization purpose.
         /// </summary>
         public static Size InvalidSize { get { return new Size(double.NaN, double.NaN); } }
+
+        /// <summary>
+        /// Checks if a value is zero, within a tolerance.
+        /// </summary>
+        /// <param name="value">The value.</param>
+        public static bool IsZero(double value)
+        {
+            return Math.Abs(value) <= Tolerance;
+        }
 
         /// <summary>
         /// Checks that a cell location is valid.

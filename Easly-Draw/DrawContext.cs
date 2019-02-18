@@ -94,6 +94,11 @@
         public double TabulationWidth { get; private set; }
 
         /// <summary>
+        /// Height of a line of text.
+        /// </summary>
+        public double LineHeight { get; private set; }
+
+        /// <summary>
         /// Gets the width corresponding to a separator between cells in a line.
         /// </summary>
         /// <param name="separator">The separator.</param>
@@ -355,7 +360,7 @@
         {
             Debug.Assert(WpfDrawingContext != null);
 
-            Point PaddedOrigin = new Point(origin.X + padding.Left, origin.Y + padding.Top);
+            Point PaddedOrigin = origin.Moved(padding.Left, padding.Top);
             Size PaddedSize = new Size(size.Width - padding.Left - padding.Right, size.Height - padding.Top - padding.Bottom);
             Geometry GeometryAtOrigin = MoveAndScaleGeometry(geometry, PaddedOrigin, GeometryScalings.None, GeometryScalings.Stretch, PaddedSize);
 
@@ -571,7 +576,6 @@
         }
 
         private double WhitespaceWidth;
-        private double LineHeight;
         private Dictionary<HorizontalSeparators, double> HorizontalSeparatorWidthTable = new Dictionary<HorizontalSeparators, double>()
         {
             { HorizontalSeparators.None, 0 },

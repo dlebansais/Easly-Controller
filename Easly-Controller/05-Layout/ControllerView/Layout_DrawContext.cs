@@ -14,6 +14,11 @@
         double TabulationWidth { get; }
 
         /// <summary>
+        /// Height of a line of text.
+        /// </summary>
+        double LineHeight { get; }
+
+        /// <summary>
         /// Gets the width corresponding to a separator between cells in a line.
         /// </summary>
         /// <param name="separator">The separator.</param>

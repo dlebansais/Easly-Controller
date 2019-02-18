@@ -26,9 +26,6 @@
         /// <param name="y">The vertical coordinate.</param>
         public Point(double x, double y)
         {
-            bool IsInvalidOrigin = double.IsNaN(x) && double.IsNaN(y);
-            Debug.Assert(IsInvalidOrigin || (x >= 0 && y >= 0));
-
             X = x;
             Y = y;
         }
@@ -53,6 +50,36 @@
 
         #region Client Interface
         /// <summary>
+        /// Returns a location corresponding to this point moved by the specified distance.
+        /// </summary>
+        /// <param name="distanceX">The horizontal distance.</param>
+        /// <param name="distanceY">The vertical distance.</param>
+        public Point Moved(double distanceX, double distanceY)
+        {
+            return new Point(X + distanceX, Y + distanceY);
+        }
+
+        /// <summary>
+        /// Euclidean distance between two points.
+        /// </summary>
+        /// <param name="point1">The first point.</param>
+        /// <param name="point2">The second point.</param>
+        public static double Distance(Point point1, Point point2)
+        {
+            return Math.Sqrt(((point2.X - point1.X) * (point2.X - point1.X)) + ((point2.Y - point1.Y) * (point2.Y - point1.Y)));
+        }
+
+        /// <summary>
+        /// Euclidean distance between two points, squared.
+        /// </summary>
+        /// <param name="point1">The first point.</param>
+        /// <param name="point2">The second point.</param>
+        public static double SquaredDistance(Point point1, Point point2)
+        {
+            return ((point2.X - point1.X) * (point2.X - point1.X)) + ((point2.Y - point1.Y) * (point2.Y - point1.Y));
+        }
+
+        /// <summary>
         /// Compares two points.
         /// </summary>
         /// <param name="point1">The first point.</param>
@@ -62,7 +89,7 @@
             double DiffX = Math.Abs(point2.X - point1.X);
             double DiffY = Math.Abs(point2.Y - point1.Y);
 
-            return DiffX <= RegionHelper.Tolerance && DiffY <= RegionHelper.Tolerance;
+            return RegionHelper.IsZero(DiffX) && RegionHelper.IsZero(DiffY);
         }
 
         /// <summary>

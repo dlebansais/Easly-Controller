@@ -1,5 +1,6 @@
 ﻿namespace EaslyController.Layout
 {
+    using System;
     using System.Diagnostics;
     using BaseNode;
     using BaseNodeHelper;
@@ -91,6 +92,14 @@
         /// <param name="show">Shows the caret if true. Otherwise, hides it.</param>
         /// <param name="draw">Draws the caret according to <paramref name="show"/> if true. Otherwise, just save the setting.</param>
         void ShowCaret(bool show, bool draw);
+
+        /// <summary>
+        /// Moves the focus up or down.
+        /// The starting point is the center of the area covered by the current focus.
+        /// </summary>
+        /// <param name="distance">The distance to cross.</param>
+        /// <param name="isMoved">True if the focus has changed.</param>
+        void MoveFocusVertically(double distance, out bool isMoved);
     }
 
     /// <summary>
@@ -336,8 +345,106 @@
             Point CellOrigin = FocusedCellView.CellOrigin;
             Padding CellPadding = FocusedCellView.CellPadding;
 
-            Point OriginWithPadding = new Point(CellOrigin.X + CellPadding.Left, CellOrigin.Y);
+            Point OriginWithPadding = CellOrigin.Moved(CellPadding.Left, 0);
             DrawContext.ShowCaret(OriginWithPadding, FocusedText, FocusedTextStyle, CaretMode, CaretPosition);
+        }
+
+        /// <summary>
+        /// Moves the focus up or down.
+        /// The starting point is the center of the area covered by the current focus.
+        /// </summary>
+        /// <param name="distance">The distance to cross.</param>
+        /// <param name="isMoved">True if the focus has changed.</param>
+        public virtual void MoveFocusVertically(double distance, out bool isMoved)
+        {
+            Point Origin = GetMoveFocusDestinationLocation(distance);
+            double BestVerticalDistance = 0;
+            double BestHorizontalDistance = 0;
+            int BestCellIndex = -1;
+            int FocusIndex = FocusChain.IndexOf(FocusedCellView);
+
+            for (int i = 0; i < FocusChain.Count; i++)
+            {
+                int CellIndex = distance < 0 ? i : FocusChain.Count - i - 1;
+                ILayoutFocusableCellView CellView = (ILayoutFocusableCellView)FocusChain[CellIndex];
+
+                // If we check against the current focus, it might be the closest cell and then we don't move!
+                if (CellIndex == FocusIndex)
+                    continue;
+
+                // Don't consider cells that are in the wrong direction;
+                if ((distance < 0 && CellView.CellOrigin.Y >= Origin.Y) || (distance > 0 && CellView.CellOrigin.Y + CellView.CellSize.Height <= Origin.Y))
+                    continue;
+
+                if (CellView.CellRect.IsPointInRect(Origin))
+                {
+                    BestCellIndex = CellIndex;
+                    break;
+                }
+                else
+                {
+                    Point Center = CellView.CellRect.Center;
+
+                    double VerticalDistance = Math.Abs(Center.Y - Origin.Y);
+                    double HorizontalDistance = Math.Abs(Center.X - Origin.X);
+
+                    if (BestCellIndex < 0 || BestVerticalDistance > VerticalDistance || (RegionHelper.IsZero(BestVerticalDistance - VerticalDistance) && BestHorizontalDistance > HorizontalDistance))
+                    {
+                        BestVerticalDistance = VerticalDistance;
+                        BestHorizontalDistance = HorizontalDistance;
+                        BestCellIndex = CellIndex;
+                    }
+                }
+            }
+
+            if (BestCellIndex >= 0 && BestCellIndex != FocusIndex)
+            {
+                Debug.Assert(BestCellIndex >= MinFocusMove + FocusIndex && BestCellIndex <= MaxFocusMove + FocusIndex);
+
+                MoveFocus(BestCellIndex - FocusIndex);
+                isMoved = true;
+            }
+            else
+                isMoved = false;
+        }
+
+        /// <summary></summary>
+        private protected Point GetMoveFocusDestinationLocation(double distance)
+        {
+            Point Origin = RegionHelper.InvalidOrigin;
+
+            if (FocusedCellView is ILayoutTextFocusableCellView)
+            {
+                bool IsHandled = false;
+                double Position;
+
+                switch (CaretMode)
+                {
+                    case CaretModes.Insertion:
+                        Debug.Assert(CaretPosition >= 0 && CaretPosition <= MaxCaretPosition);
+                        Position = (FocusedCellView.CellSize.Width * CaretPosition) / MaxCaretPosition;
+                        Origin = FocusedCellView.CellOrigin.Moved(Position, FocusedCellView.CellSize.Height / 2);
+                        IsHandled = true;
+                        break;
+
+                    case CaretModes.Override:
+                        Debug.Assert(CaretPosition >= 0 && CaretPosition < MaxCaretPosition);
+                        Position = (FocusedCellView.CellSize.Width * ((CaretPosition * 2) + 1)) / (MaxCaretPosition * 2);
+                        Origin = FocusedCellView.CellOrigin.Moved(Position, FocusedCellView.CellSize.Height / 2);
+                        IsHandled = true;
+                        break;
+                }
+
+                Debug.Assert(IsHandled);
+            }
+            else
+                Origin = FocusedCellView.CellOrigin.Moved(FocusedCellView.CellSize.Width / 2, FocusedCellView.CellSize.Height / 2);
+
+            Debug.Assert(RegionHelper.IsValid(Origin));
+
+            Origin = Origin.Moved(0, distance);
+
+            return Origin;
         }
         #endregion
 

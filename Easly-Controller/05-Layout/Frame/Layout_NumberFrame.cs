@@ -85,7 +85,7 @@
             INode Node = cellView.StateView.State.Node;
             string Text = BaseNodeHelper.NodeTreeHelper.GetString(Node, PropertyName);
 
-            Point OriginWithPadding = new Point(origin.X + padding.Left, origin.Y + padding.Top);
+            Point OriginWithPadding = origin.Moved(padding.Left, padding.Top);
             drawContext.DrawText(Text, OriginWithPadding, TextStyles.Number, false);
 
             // The caret is drawn separately.

@@ -87,7 +87,7 @@
             string Text = BaseNodeHelper.NodeTreeHelper.GetString(Node, PropertyName);
             Debug.Assert(Text != null && Text.Length == 1);
 
-            Point OriginWithPadding = new Point(origin.X + padding.Left, origin.Y + padding.Top);
+            Point OriginWithPadding = origin.Moved(padding.Left, padding.Top);
             drawContext.DrawText(Text, OriginWithPadding, TextStyles.Character, isFocused);
         }
         #endregion

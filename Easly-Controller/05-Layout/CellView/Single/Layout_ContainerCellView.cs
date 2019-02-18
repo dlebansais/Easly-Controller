@@ -79,6 +79,11 @@
         public Size CellSize { get; private set; }
 
         /// <summary>
+        /// Rectangular region for the cell.
+        /// </summary>
+        public Rect CellRect { get { return new Rect(CellOrigin, CellSize); } }
+
+        /// <summary>
         /// Padding inside the cell.
         /// </summary>
         public Padding CellPadding { get; private set; }
@@ -153,7 +158,7 @@
             ILayoutDrawContext DrawContext = StateView.ControllerView.DrawContext;
             Debug.Assert(DrawContext != null);
 
-            Point OriginWithPadding = new Point(origin.X + CellPadding.Left, origin.Y);
+            Point OriginWithPadding = origin.Moved(CellPadding.Left, 0);
 
             Debug.Assert(ChildStateView != null);
             ChildStateView.ArrangeCells(OriginWithPadding);

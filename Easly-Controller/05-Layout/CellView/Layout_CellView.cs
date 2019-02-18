@@ -30,6 +30,11 @@
         Size CellSize { get; }
 
         /// <summary>
+        /// Rectangular region for the cell.
+        /// </summary>
+        Rect CellRect { get; }
+
+        /// <summary>
         /// Padding inside the cell.
         /// </summary>
         Padding CellPadding { get; }
@@ -104,6 +109,11 @@
         /// Size of the cell.
         /// </summary>
         public Size CellSize { get; }
+
+        /// <summary>
+        /// Rectangular region for the cell.
+        /// </summary>
+        public Rect CellRect { get { return new Rect(CellOrigin, CellSize); } }
 
         /// <summary>
         /// Padding inside the cell.

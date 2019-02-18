@@ -67,7 +67,7 @@
             double DiffCX = Math.Abs(size2.Width - size1.Width);
             double DiffCY = Math.Abs(size2.Height - size1.Height);
 
-            return DiffCX <= RegionHelper.Tolerance && DiffCY <= RegionHelper.Tolerance;
+            return RegionHelper.IsZero(DiffCX) && RegionHelper.IsZero(DiffCY);
         }
 
         /// <summary>

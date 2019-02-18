@@ -92,9 +92,23 @@
         /// True if the object represents a visible region.
         /// </summary>
         public bool IsVisible { get { return Width > 0 && Height > 0; } }
+
+        /// <summary>
+        /// Location of the rectangle center.
+        /// </summary>
+        public Point Center { get { return new Point(X + (Width / 2), Y + (Height / 2)); } }
         #endregion
 
         #region Client Interface
+        /// <summary>
+        /// Checks if a point is within the rectangular region.
+        /// </summary>
+        /// <param name="point">The point to check.</param>
+        public bool IsPointInRect(Point point)
+        {
+            return point.X >= X && point.X < X + Width && point.Y >= Y && point.Y < Y + Height;
+        }
+
         /// <summary>
         /// Compares two regions.
         /// </summary>
@@ -107,7 +121,7 @@
             double DiffCX = Math.Abs(rect2.Width - rect1.Width);
             double DiffCY = Math.Abs(rect2.Height - rect1.Height);
 
-            return DiffX <= RegionHelper.Tolerance && DiffY <= RegionHelper.Tolerance && DiffCX <= RegionHelper.Tolerance && DiffCY <= RegionHelper.Tolerance;
+            return RegionHelper.IsZero(DiffX) && RegionHelper.IsZero(DiffY) && RegionHelper.IsZero(DiffCX) && RegionHelper.IsZero(DiffCY);
         }
 
         /// <summary>

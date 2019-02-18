@@ -98,7 +98,7 @@
         /// <param name="isFocused">True if this cell has the focus.</param>
         public virtual void Draw(ILayoutDrawContext drawContext, ILayoutCellView cellView, Point origin, Size size, Padding padding, bool isFocused)
         {
-            Point OriginWithPadding = new Point(origin.X + padding.Left, origin.Y + padding.Top);
+            Point OriginWithPadding = origin.Moved(padding.Left, padding.Top);
             drawContext.DrawText(Text, OriginWithPadding, TextStyle, isFocused);
         }
         #endregion

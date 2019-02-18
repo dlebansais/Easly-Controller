@@ -60,6 +60,11 @@
         public Size CellSize { get; private set; }
 
         /// <summary>
+        /// Rectangular region for the cell.
+        /// </summary>
+        public Rect CellRect { get { return new Rect(CellOrigin, CellSize); } }
+
+        /// <summary>
         /// Padding inside the cell.
         /// </summary>
         public Padding CellPadding { get; private set; }
