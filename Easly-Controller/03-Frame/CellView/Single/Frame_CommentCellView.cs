@@ -57,6 +57,9 @@
             if (!base.IsEqual(comparer, AsCommentCellView))
                 return comparer.Failed();
 
+            if (!comparer.IsSameReference(Documentation, AsCommentCellView.Documentation))
+                return comparer.Failed();
+
             return true;
         }
         #endregion
