@@ -623,6 +623,8 @@
         /// <param name="isMoved">True if the position was changed. False otherwise.</param>
         public virtual void SetCaretPosition(int position, out bool isMoved)
         {
+            isMoved = false;
+
             if (Focus is IFocusTextCellFocus AsTextCellFocus)
             {
                 IFocusTextFocusableCellView CellView = AsTextCellFocus.CellView;
@@ -632,6 +634,7 @@
 
                 SetTextCaretPosition(Text, position, out isMoved);
             }
+
             else if (Focus is IFocusCommentCellFocus AsCommentCellFocus)
             {
                 IFocusCommentCellView CellView = AsCommentCellFocus.CellView;
@@ -639,8 +642,6 @@
 
                 SetTextCaretPosition(Text, position, out isMoved);
             }
-            else
-                isMoved = false;
         }
 
         /// <summary>
