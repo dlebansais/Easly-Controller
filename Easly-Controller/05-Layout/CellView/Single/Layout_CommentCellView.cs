@@ -1,6 +1,7 @@
 ﻿namespace EaslyController.Layout
 {
     using System.Diagnostics;
+    using BaseNode;
     using EaslyController.Controller;
     using EaslyController.Focus;
 
@@ -23,8 +24,9 @@
         /// <param name="stateView">The state view containing the tree with this cell.</param>
         /// <param name="parentCellView">The collection of cell views containing this view. Null for the root of the cell tree.</param>
         /// <param name="frame">The frame that created this cell view.</param>
-        public LayoutCommentCellView(ILayoutNodeStateView stateView, ILayoutCellViewCollection parentCellView, ILayoutFrame frame)
-            : base(stateView, parentCellView, frame)
+        /// <param name="documentation">The comment this cell is displaying.</param>
+        public LayoutCommentCellView(ILayoutNodeStateView stateView, ILayoutCellViewCollection parentCellView, ILayoutFrame frame, IDocument documentation)
+            : base(stateView, parentCellView, frame, documentation)
         {
         }
         #endregion
@@ -122,9 +124,8 @@
         /// <summary>
         /// Draws the cell.
         /// </summary>
-        /// <param name="isFocused">True if this cell has the focus.</param>
         /// <param name="measuredSize">Size that was used to draw the cell upon return.</param>
-        public virtual void Draw(bool isFocused, out Size measuredSize)
+        public virtual void Draw(out Size measuredSize)
         {
             Debug.Assert(StateView != null);
             Debug.Assert(StateView.ControllerView != null);
@@ -142,7 +143,7 @@
             Debug.Assert(RegionHelper.IsFixed(measuredSize));
 
             CollectionWithSeparator.DrawBeforeItem(DrawContext, ReferenceContainer, CellOrigin, measuredSize, CellPadding);
-            AsDrawableFrame.Draw(DrawContext, this, CellOrigin, measuredSize, CellPadding, isFocused);
+            AsDrawableFrame.Draw(DrawContext, this, CellOrigin, measuredSize, CellPadding);
             CollectionWithSeparator.DrawAfterItem(DrawContext, ReferenceContainer, CellOrigin, measuredSize, CellPadding);
         }
         #endregion

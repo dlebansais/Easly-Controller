@@ -47,6 +47,11 @@
         IReadOnlyPlaceholderNodeStateReadOnlyList StateList { get; }
 
         /// <summary>
+        /// The comment associated to this block state. Null if none.
+        /// </summary>
+        string Comment { get; }
+
+        /// <summary>
         /// Gets the inner corresponding to a property.
         /// </summary>
         /// <param name="propertyName">Property name.</param>
@@ -192,6 +197,11 @@
         /// </summary>
         public IReadOnlyPlaceholderNodeStateReadOnlyList StateList { get; }
         private IReadOnlyPlaceholderNodeStateList _StateList;
+
+        /// <summary>
+        /// The comment associated to this state. Null if none.
+        /// </summary>
+        public string Comment { get { return ChildBlock.Documentation.Comment; } }
         #endregion
 
         #region Client Interface

@@ -80,15 +80,16 @@
         /// <param name="origin">The location where to start drawing.</param>
         /// <param name="size">The drawing size, padding included.</param>
         /// <param name="padding">The padding to use when drawing.</param>
-        /// <param name="isFocused">True if this cell has the focus.</param>
-        public virtual void Draw(ILayoutDrawContext drawContext, ILayoutCellView cellView, Point origin, Size size, Padding padding, bool isFocused)
+        public virtual void Draw(ILayoutDrawContext drawContext, ILayoutCellView cellView, Point origin, Size size, Padding padding)
         {
             INode Node = cellView.StateView.State.Node;
             string Text = BaseNodeHelper.NodeTreeHelper.GetString(Node, PropertyName);
             Debug.Assert(Text != null && Text.Length == 1);
 
+            bool IsFocused = cellView.StateView.ControllerView.Focus is ILayoutCellFocus AsCellFocus && AsCellFocus.CellView == cellView;
+
             Point OriginWithPadding = origin.Moved(padding.Left, padding.Top);
-            drawContext.DrawText(Text, OriginWithPadding, TextStyles.Character, isFocused);
+            drawContext.DrawText(Text, OriginWithPadding, TextStyles.Character, IsFocused);
         }
         #endregion
 

@@ -273,28 +273,16 @@
             ILayoutVisibleCellViewList CellList = new LayoutVisibleCellViewList();
             EnumerateVisibleCellViews(CellList);
 
-            IDocument LastDocumentation = null;
-
             foreach (ILayoutVisibleCellView CellView in CellList)
+                CellView.Draw(out Size MeasuredSize);
+
+            if (IsCaretShown)
             {
-                bool IsFocused = Focus is ILayoutCellFocus AsCellFocus && CellView == AsCellFocus.CellView;
-                CellView.Draw(IsFocused, out Size MeasuredSize);
-
-                if (!IsFocused)
-                {
-                    IDocument Documentation = CellView.StateView.State.Node.Documentation;
-                    if (Documentation.Comment.Length == 0 && LastDocumentation != Documentation)
-                    {
-                        Debug.Assert(RegionHelper.IsFixed(MeasuredSize));
-
-                        LastDocumentation = Documentation;
-                        DrawContext.DrawCommentIcon(new Rect(CellView.CellOrigin, MeasuredSize));
-                    }
-                }
+                if (IsCaretOnText(out ILayoutTextCellFocus TextCellFocus))
+                    DrawTextCaret(TextCellFocus);
+                else if (IsCaretOnComment(out ILayoutCommentCellFocus CommentCellFocus))
+                    DrawCommentCaret(CommentCellFocus);
             }
-
-            if (IsCaretShown && IsCaretOnText(out ILayoutTextCellFocus TextCellFocus))
-                DrawTextCaret(TextCellFocus);
         }
 
         /// <summary>
@@ -314,8 +302,10 @@
                 {
                     if (IsCaretOnText(out ILayoutTextCellFocus TextCellFocus))
                         DrawTextCaret(TextCellFocus);
+                    else if (IsCaretOnComment(out ILayoutCommentCellFocus CommentCellFocus))
+                        DrawCommentCaret(CommentCellFocus);
                     else if (Focus is ILayoutCellFocus AsCellFocus)
-                        AsCellFocus.CellView.Draw(true, out Size MeasuredSize);
+                        AsCellFocus.CellView.Draw(out Size MeasuredSize);
                 }
                 else
                     DrawContext.HideCaret();
@@ -362,7 +352,27 @@
             Padding CellPadding = CellView.CellPadding;
 
             Point OriginWithPadding = CellOrigin.Moved(CellPadding.Left, 0);
-            DrawContext.ShowCaret(OriginWithPadding, FocusedText, FocusedTextStyle, CaretMode, CaretPosition);
+            DrawContext.ShowCaret(OriginWithPadding, Text, FocusedTextStyle, CaretMode, CaretPosition);
+        }
+
+        /// <summary></summary>
+        private protected bool IsCaretOnComment(out ILayoutCommentCellFocus commentCellFocus)
+        {
+            commentCellFocus = Focus as ILayoutCommentCellFocus;
+            return commentCellFocus != null;
+        }
+
+        /// <summary></summary>
+        private protected void DrawCommentCaret(ILayoutCommentCellFocus commentCellFocus)
+        {
+            ILayoutCommentCellView CellView = commentCellFocus.CellView;
+            string Text = CommentHelper.Get(CellView.Documentation);
+
+            Point CellOrigin = CellView.CellOrigin;
+            Padding CellPadding = CellView.CellPadding;
+
+            Point OriginWithPadding = CellOrigin.Moved(CellPadding.Left, 0);
+            DrawContext.ShowCaret(OriginWithPadding, Text, TextStyles.Comment, CaretMode, CaretPosition);
         }
 
         /// <summary>
@@ -761,6 +771,15 @@
 
             Point ViewOrigin = RootStateView.CellOrigin;
             Debug.Assert(ViewOrigin.IsOrigin);
+        }
+
+        /// <summary></summary>
+        private protected override void ChangeFocus(int direction, int oldIndex, int newIndex)
+        {
+            base.ChangeFocus(direction, oldIndex, newIndex);
+
+            if (FocusChain[oldIndex] is ILayoutCommentCellFocus || FocusChain[newIndex] is ILayoutCommentCellFocus)
+                Invalidate();
         }
         #endregion
 

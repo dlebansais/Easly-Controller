@@ -43,6 +43,11 @@
         IReadOnlyDictionary<string, ValuePropertyType> ValuePropertyTypeTable { get; }
 
         /// <summary>
+        /// The comment associated to this state. Null if none.
+        /// </summary>
+        string Comment { get; }
+
+        /// <summary>
         /// Gets the inner corresponding to a property.
         /// </summary>
         /// <param name="propertyName">Property name.</param>
@@ -368,6 +373,11 @@
         /// Table of children that are not nodes.
         /// </summary>
         public IReadOnlyDictionary<string, ValuePropertyType> ValuePropertyTypeTable { get; private set; }
+
+        /// <summary>
+        /// The comment associated to this state. Null if none.
+        /// </summary>
+        public abstract string Comment { get; }
         #endregion
 
         #region Client Interface

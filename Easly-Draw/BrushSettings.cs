@@ -41,6 +41,11 @@
         TypeIdentifier,
 
         /// <summary>
+        /// The brush for comment background.
+        /// </summary>
+        CommentBackground,
+
+        /// <summary>
         /// The brush for comment foreground.
         /// </summary>
         CommentForeground,

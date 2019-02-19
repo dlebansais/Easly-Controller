@@ -54,10 +54,7 @@
         protected override Size MeasureOverride(Size availableSize)
         {
             if (ControllerView != null)
-            {
-                Debug.Assert(!ControllerView.IsInvalidated);
                 return new Size(ControllerView.ViewSize.Width, ControllerView.ViewSize.Height);
-            }
             else
                 return base.MeasureOverride(availableSize);
         }

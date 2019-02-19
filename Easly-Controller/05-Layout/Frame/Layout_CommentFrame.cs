@@ -56,9 +56,13 @@
         {
             padding = Padding.Empty;
 
-            INode Node = cellView.StateView.State.Node;
-            string Text = Node.Documentation.Comment;
-            if (!string.IsNullOrEmpty(Text))
+            ILayoutCommentCellView CommentCellView = cellView as ILayoutCommentCellView;
+            Debug.Assert(CommentCellView != null);
+            string Text = CommentHelper.Get(CommentCellView.Documentation);
+
+            bool IsFocused = cellView.StateView.ControllerView.Focus is ILayoutCellFocus AsCellFocus && AsCellFocus.CellView == cellView;
+
+            if (Text != null && IsFocused)
                 size = drawContext.MeasureText(Text, TextStyles.Comment, double.NaN);
             else
                 size = Size.Empty;
@@ -74,19 +78,26 @@
         /// <param name="origin">The location where to start drawing.</param>
         /// <param name="size">The drawing size, padding included.</param>
         /// <param name="padding">The padding to use when drawing.</param>
-        /// <param name="isFocused">True if this cell has the focus.</param>
-        public virtual void Draw(ILayoutDrawContext drawContext, ILayoutCellView cellView, Point origin, Size size, Padding padding, bool isFocused)
+        public virtual void Draw(ILayoutDrawContext drawContext, ILayoutCellView cellView, Point origin, Size size, Padding padding)
         {
-            INode Node = cellView.StateView.State.Node;
-            string Text = Node.Documentation.Comment;
+            ILayoutCommentCellView CommentCellView = cellView as ILayoutCommentCellView;
+            Debug.Assert(CommentCellView != null);
+            string Text = CommentHelper.Get(CommentCellView.Documentation);
 
-            if (!string.IsNullOrEmpty(Text))
+            bool IsFocused = cellView.StateView.ControllerView.Focus is ILayoutCellFocus AsCellFocus && AsCellFocus.CellView == cellView;
+            if (IsFocused && Text == null)
+                Text = string.Empty;
+
+            if (Text != null)
             {
-                Point OriginWithPadding = origin.Moved(padding.Left, padding.Top);
-                drawContext.DrawText(Text, OriginWithPadding, TextStyles.Comment, false);
+                if (IsFocused)
+                {
+                    Point OriginWithPadding = origin.Moved(padding.Left, padding.Top);
+                    drawContext.DrawText(Text, OriginWithPadding, TextStyles.Comment, isFocused: false); // The caret is drawn separately.
+                }
+                else
+                    drawContext.DrawCommentIcon(new Rect(cellView.CellOrigin, Size.Empty));
             }
-
-            // The caret is drawn separately.
         }
         #endregion
 
@@ -98,16 +109,32 @@
             Debug.Assert(((ILayoutVisibleCellView)cellView).Frame == this);
             ILayoutCellViewCollection ParentCellView = ((ILayoutVisibleCellView)cellView).ParentCellView;
         }
+
+        /// <summary></summary>
+        private protected override void ValidateEmptyCellView(IFrameCellViewTreeContext context, IFrameEmptyCellView emptyCellView)
+        {
+            Debug.Assert(((ILayoutEmptyCellView)emptyCellView).StateView == ((ILayoutCellViewTreeContext)context).StateView);
+            ILayoutCellViewCollection ParentCellView = ((ILayoutEmptyCellView)emptyCellView).ParentCellView;
+        }
         #endregion
 
         #region Create Methods
         /// <summary>
         /// Creates a IxxxCommentCellView object.
         /// </summary>
-        private protected override IFrameCommentCellView CreateCommentCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView)
+        private protected override IFrameCommentCellView CreateCommentCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, IDocument documentation)
         {
             ControllerTools.AssertNoOverride(this, typeof(LayoutCommentFrame));
-            return new LayoutCommentCellView((ILayoutNodeStateView)stateView, (ILayoutCellViewCollection)parentCellView, this);
+            return new LayoutCommentCellView((ILayoutNodeStateView)stateView, (ILayoutCellViewCollection)parentCellView, this, documentation);
+        }
+
+        /// <summary>
+        /// Creates a IxxxEmptyCellView object.
+        /// </summary>
+        private protected override IFrameEmptyCellView CreateEmptyCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView)
+        {
+            ControllerTools.AssertNoOverride(this, typeof(LayoutCommentFrame));
+            return new LayoutEmptyCellView((ILayoutNodeStateView)stateView, (ILayoutCellViewCollection)parentCellView);
         }
         #endregion
     }

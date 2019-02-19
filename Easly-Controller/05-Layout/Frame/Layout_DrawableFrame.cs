@@ -15,7 +15,6 @@
         /// <param name="origin">The location where to start drawing.</param>
         /// <param name="size">The drawing size, padding included.</param>
         /// <param name="padding">The padding to use when drawing.</param>
-        /// <param name="isFocused">True if this cell has the focus.</param>
-        void Draw(ILayoutDrawContext drawContext, ILayoutCellView cellView, Point origin, Size size, Padding padding, bool isFocused);
+        void Draw(ILayoutDrawContext drawContext, ILayoutCellView cellView, Point origin, Size size, Padding padding);
     }
 }

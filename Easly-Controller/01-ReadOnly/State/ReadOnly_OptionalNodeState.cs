@@ -80,6 +80,18 @@
         }
 
         /// <summary>
+        /// The comment associated to this state. Null if none.
+        /// </summary>
+        public override string Comment
+        {
+            get
+            {
+                NodeTreeHelperOptional.GetChildNode(Optional, out bool IsAssigned, out INode ChildNode);
+                return IsAssigned ? ChildNode.Documentation.Comment : null;
+            }
+        }
+
+        /// <summary>
         /// Interface to the optional object for the node.
         /// </summary>
         public IOptionalReference Optional { get { return ParentIndex.Optional; } }

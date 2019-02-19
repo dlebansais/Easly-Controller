@@ -2,6 +2,8 @@
 {
     using System;
     using System.Diagnostics;
+    using BaseNode;
+    using EaslyController.Controller;
 
     /// <summary>
     /// Frame to display comments.
@@ -38,10 +40,23 @@
         /// <param name="parentCellView">The parent cell view.</param>
         public virtual IFrameCellView BuildNodeCells(IFrameCellViewTreeContext context, IFrameCellViewCollection parentCellView)
         {
-            IFrameVisibleCellView CellView = CreateCommentCellView(context.StateView, parentCellView);
-            ValidateVisibleCellView(context, CellView);
+            IDocument Documentation = context.StateView.State.Node.Documentation;
+            string Text = CommentHelper.Get(Documentation);
 
-            return CellView;
+            if (Text != null)
+            {
+                IFrameVisibleCellView CellView = CreateCommentCellView(context.StateView, parentCellView, context.StateView.State.Node.Documentation);
+                ValidateVisibleCellView(context, CellView);
+
+                return CellView;
+            }
+            else
+            {
+                IFrameEmptyCellView CellView = CreateEmptyCellView(context.StateView, parentCellView);
+                ValidateEmptyCellView(context, CellView);
+
+                return CellView;
+            }
         }
 
         /// <summary>
@@ -51,10 +66,23 @@
         /// <param name="parentCellView">The collection of cell views containing this view. Null for the root of the cell tree.</param>
         public virtual IFrameCellView BuildBlockCells(IFrameCellViewTreeContext context, IFrameCellViewCollection parentCellView)
         {
-            IFrameVisibleCellView CellView = CreateCommentCellView(context.StateView, parentCellView);
-            ValidateVisibleCellView(context, CellView);
+            IDocument Documentation = context.BlockStateView.BlockState.ChildBlock.Documentation;
+            string Text = CommentHelper.Get(Documentation);
 
-            return CellView;
+            if (Text != null)
+            {
+                IFrameVisibleCellView CellView = CreateCommentCellView(context.StateView, parentCellView, Documentation);
+                ValidateVisibleCellView(context, CellView);
+
+                return CellView;
+            }
+            else
+            {
+                IFrameEmptyCellView CellView = CreateEmptyCellView(context.StateView, parentCellView);
+                ValidateEmptyCellView(context, CellView);
+
+                return CellView;
+            }
         }
         #endregion
 
@@ -66,16 +94,32 @@
             Debug.Assert(cellView.Frame == this);
             IFrameCellViewCollection ParentCellView = cellView.ParentCellView;
         }
+
+        /// <summary></summary>
+        private protected virtual void ValidateEmptyCellView(IFrameCellViewTreeContext context, IFrameEmptyCellView emptyCellView)
+        {
+            Debug.Assert(emptyCellView.StateView == context.StateView);
+            IFrameCellViewCollection ParentCellView = emptyCellView.ParentCellView;
+        }
         #endregion
 
         #region Create Methods
         /// <summary>
         /// Creates a IxxxCommentCellView object.
         /// </summary>
-        private protected virtual IFrameCommentCellView CreateCommentCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView)
+        private protected virtual IFrameCommentCellView CreateCommentCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, IDocument documentation)
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameCommentFrame));
-            return new FrameCommentCellView(stateView, parentCellView, this);
+            return new FrameCommentCellView(stateView, parentCellView, this, documentation);
+        }
+
+        /// <summary>
+        /// Creates a IxxxEmptyCellView object.
+        /// </summary>
+        private protected virtual IFrameEmptyCellView CreateEmptyCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView)
+        {
+            ControllerTools.AssertNoOverride(this, typeof(FrameCommentFrame));
+            return new FrameEmptyCellView(stateView, parentCellView);
         }
         #endregion
     }

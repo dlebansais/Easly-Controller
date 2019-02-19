@@ -392,7 +392,12 @@ namespace EditorDebug
                 ControllerView.MoveFocus(+1, out IsMoved);
 
             if (IsMoved)
+            {
+                if (ControllerView.IsInvalidated)
+                    layoutControl.InvalidateMeasure();
+
                 layoutControl.InvalidateVisual();
+            }
         }
 
         private void MoveCaretLeft()
@@ -405,7 +410,12 @@ namespace EditorDebug
                 ControllerView.MoveFocus(-1, out IsMoved);
 
             if (IsMoved)
+            {
+                if (ControllerView.IsInvalidated)
+                    layoutControl.InvalidateMeasure();
+
                 layoutControl.InvalidateVisual();
+            }
         }
 
         private void ToggleCaretMode()

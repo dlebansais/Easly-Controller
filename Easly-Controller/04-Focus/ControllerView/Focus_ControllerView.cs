@@ -6,6 +6,7 @@
     using BaseNode;
     using BaseNodeHelper;
     using EaslyController.Constants;
+    using EaslyController.Controller;
     using EaslyController.Frame;
     using EaslyController.ReadOnly;
     using EaslyController.Writeable;
@@ -599,14 +600,20 @@
 
             Debug.Assert(NewFocusIndex >= 0 && NewFocusIndex < FocusChain.Count);
 
-            if (NewFocusIndex != OldFocusIndex)
+            if (OldFocusIndex != NewFocusIndex)
             {
-                Focus = FocusChain[NewFocusIndex];
-                ResetCaretPosition(direction);
+                ChangeFocus(direction, OldFocusIndex, NewFocusIndex);
                 isMoved = true;
             }
             else
                 isMoved = false;
+        }
+
+        /// <summary></summary>
+        private protected virtual void ChangeFocus(int direction, int oldIndex, int newIndex)
+        {
+            Focus = FocusChain[newIndex];
+            ResetCaretPosition(direction);
         }
 
         /// <summary>
@@ -621,8 +628,16 @@
                 IFocusTextFocusableCellView CellView = AsTextCellFocus.CellView;
                 INode Node = CellView.StateView.State.Node;
                 string PropertyName = CellView.PropertyName;
+                string Text = NodeTreeHelper.GetString(Node, PropertyName);
 
-                SetTextCaretPosition(Node, PropertyName, position, out isMoved);
+                SetTextCaretPosition(Text, position, out isMoved);
+            }
+            else if (Focus is IFocusCommentCellFocus AsCommentCellFocus)
+            {
+                IFocusCommentCellView CellView = AsCommentCellFocus.CellView;
+                string Text = CommentHelper.Get(CellView.Documentation);
+
+                SetTextCaretPosition(Text, position, out isMoved);
             }
             else
                 isMoved = false;
@@ -1737,11 +1752,21 @@
         /// <summary></summary>
         private protected virtual void ResetCaretPosition(int direction)
         {
+            string Text = null;
+
             if (Focus is IFocusTextCellFocus AsTextCellFocus)
             {
-                string Text = FocusedText;
+                Text = FocusedText;
                 Debug.Assert(Text != null);
+            }
+            else if (Focus is IFocusCommentCellFocus AsCommentCellFocus)
+            {
+                IFocusCommentCellView CellView = AsCommentCellFocus.CellView;
+                Text = CommentHelper.Get(CellView.Documentation);
+            }
 
+            if (Text != null)
+            {
                 if (CaretMode == CaretModes.Insertion || Text.Length == 0)
                     MaxCaretPosition = Text.Length;
                 else
@@ -1760,17 +1785,16 @@
         }
 
         /// <summary></summary>
-        private protected virtual void SetTextCaretPosition(INode node, string propertyName, int position, out bool isMoved)
+        private protected virtual void SetTextCaretPosition(string text, int position, out bool isMoved)
         {
-            string Text = NodeTreeHelper.GetString(node, propertyName);
             int OldPosition = CaretPosition;
 
             if (position < 0)
                 CaretPosition = 0;
-            else if ((CaretMode == CaretModes.Insertion && position > Text.Length) || Text.Length == 0)
-                CaretPosition = Text.Length;
-            else if (CaretMode == CaretModes.Override && position >= Text.Length)
-                CaretPosition = Text.Length - 1;
+            else if ((CaretMode == CaretModes.Insertion && position > text.Length) || text.Length == 0)
+                CaretPosition = text.Length;
+            else if (CaretMode == CaretModes.Override && position >= text.Length)
+                CaretPosition = text.Length - 1;
             else
                 CaretPosition = position;
 

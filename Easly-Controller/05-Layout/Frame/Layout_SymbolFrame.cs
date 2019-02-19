@@ -75,10 +75,11 @@
         /// <param name="origin">The location where to start drawing.</param>
         /// <param name="size">The drawing size, padding included.</param>
         /// <param name="padding">The padding to use when drawing.</param>
-        /// <param name="isFocused">True if this cell has the focus.</param>
-        public virtual void Draw(ILayoutDrawContext drawContext, ILayoutCellView cellView, Point origin, Size size, Padding padding, bool isFocused)
+        public virtual void Draw(ILayoutDrawContext drawContext, ILayoutCellView cellView, Point origin, Size size, Padding padding)
         {
-            drawContext.DrawSymbol(Symbol, origin, size, padding, isFocused);
+            bool IsFocused = cellView.StateView.ControllerView.Focus is ILayoutCellFocus AsCellFocus && AsCellFocus.CellView == cellView;
+
+            drawContext.DrawSymbol(Symbol, origin, size, padding, IsFocused);
         }
         #endregion
 

@@ -1,6 +1,7 @@
 ﻿namespace EaslyController.Focus
 {
     using System.Diagnostics;
+    using BaseNode;
     using EaslyController.Frame;
 
     /// <summary>
@@ -46,16 +47,32 @@
             Debug.Assert(((IFocusVisibleCellView)cellView).Frame == this);
             IFocusCellViewCollection ParentCellView = ((IFocusVisibleCellView)cellView).ParentCellView;
         }
+
+        /// <summary></summary>
+        private protected override void ValidateEmptyCellView(IFrameCellViewTreeContext context, IFrameEmptyCellView emptyCellView)
+        {
+            Debug.Assert(((IFocusEmptyCellView)emptyCellView).StateView == ((IFocusCellViewTreeContext)context).StateView);
+            IFocusCellViewCollection ParentCellView = ((IFocusEmptyCellView)emptyCellView).ParentCellView;
+        }
         #endregion
 
         #region Create Methods
         /// <summary>
         /// Creates a IxxxCommentCellView object.
         /// </summary>
-        private protected override IFrameCommentCellView CreateCommentCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView)
+        private protected override IFrameCommentCellView CreateCommentCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, IDocument documentation)
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusCommentFrame));
-            return new FocusCommentCellView((IFocusNodeStateView)stateView, (IFocusCellViewCollection)parentCellView, this);
+            return new FocusCommentCellView((IFocusNodeStateView)stateView, (IFocusCellViewCollection)parentCellView, this, documentation);
+        }
+
+        /// <summary>
+        /// Creates a IxxxEmptyCellView object.
+        /// </summary>
+        private protected override IFrameEmptyCellView CreateEmptyCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView)
+        {
+            ControllerTools.AssertNoOverride(this, typeof(FocusCommentFrame));
+            return new FocusEmptyCellView((IFocusNodeStateView)stateView, (IFocusCellViewCollection)parentCellView);
         }
         #endregion
     }

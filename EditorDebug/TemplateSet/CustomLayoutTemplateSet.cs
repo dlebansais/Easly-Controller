@@ -82,6 +82,7 @@ namespace TestDebug
     </LayoutNodeTemplate>
     <LayoutNodeTemplate NodeType=""{xaml:Type easly:IClass}"">
         <LayoutVerticalPanelFrame>
+            <LayoutCommentFrame/>
             <LayoutHorizontalPanelFrame>
                 <LayoutDiscreteFrame PropertyName=""CopySpecification"" RightMargin=""Whitespace"">
                     <LayoutDiscreteFrame.Visibility>
@@ -703,7 +704,10 @@ namespace TestDebug
         </LayoutVerticalPanelFrame>
     </LayoutNodeTemplate>
     <LayoutNodeTemplate NodeType=""{xaml:Type easly:IName}"" IsSimple=""True"">
-        <LayoutTextValueFrame PropertyName=""Text""/>
+        <LayoutVerticalPanelFrame>
+            <LayoutCommentFrame/>
+            <LayoutTextValueFrame PropertyName=""Text""/>
+        </LayoutVerticalPanelFrame>
     </LayoutNodeTemplate>
     <LayoutNodeTemplate NodeType=""{xaml:Type easly:IPattern}"" IsSimple=""True"">
         <LayoutTextValueFrame PropertyName=""Text""/>

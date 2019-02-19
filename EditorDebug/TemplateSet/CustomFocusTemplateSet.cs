@@ -82,6 +82,7 @@ namespace TestDebug
     </FocusNodeTemplate>
     <FocusNodeTemplate NodeType=""{xaml:Type easly:IClass}"">
         <FocusVerticalPanelFrame>
+            <FocusCommentFrame/>
             <FocusHorizontalPanelFrame>
                 <FocusDiscreteFrame PropertyName=""CopySpecification"">
                     <FocusDiscreteFrame.Visibility>

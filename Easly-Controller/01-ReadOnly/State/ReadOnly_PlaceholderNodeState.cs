@@ -51,6 +51,11 @@
         /// The index that was used to create the state.
         /// </summary>
         public new IReadOnlyNodeIndex ParentIndex { get { return (IReadOnlyNodeIndex)base.ParentIndex; } }
+
+        /// <summary>
+        /// The comment associated to this state. Null if none.
+        /// </summary>
+        public override string Comment { get { return Node.Documentation.Comment; } }
         #endregion
 
         #region Debugging

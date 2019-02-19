@@ -42,6 +42,8 @@
                 { BrushSettings.Discrete, Brushes.DarkRed },
                 { BrushSettings.Number, Brushes.Green },
                 { BrushSettings.TypeIdentifier, new SolidColorBrush(Color.FromArgb(0xFF, 0x2B, 0x91, 0xAF)) },
+                { BrushSettings.CommentBackground, Brushes.LightGreen },
+                { BrushSettings.CommentForeground, Brushes.Black },
                 { BrushSettings.CaretInsertion, Brushes.Black },
                 { BrushSettings.CaretOverride, Brushes.DarkGray }
             };
@@ -130,14 +132,14 @@
         public BitmapSource CommentIcon { get; set; }
 
         /// <summary>
-        /// The left margin applied to the entire page.
+        /// The padding margin applied to comment text.
         /// </summary>
-        public double LeftMargin { get; private set; }
+        public Padding CommentPadding { get; private set; }
 
         /// <summary>
-        /// The top tmargin applied to the entire page.
+        /// The padding applied to the entire page.
         /// </summary>
-        public double TopMargin { get; private set; }
+        public Padding PagePadding { get; private set; }
         #endregion
 
         #region Implementation of IxxxDrawContext
@@ -178,16 +180,22 @@
         /// <returns>The size of the string.</returns>
         public virtual Size MeasureText(string text, TextStyles textStyle, double maxTextWidth)
         {
-            Brush Brush = StyleToBrush(textStyle);
+            Brush Brush = StyleToForegroundBrush(textStyle);
             FormattedText ft = new FormattedText(text, Culture, FlowDirection, Typeface, FontSize, Brush);
             if (!double.IsNaN(maxTextWidth))
                 ft.MaxTextWidth = maxTextWidth;
 
-            return new Size(ft.Width, LineHeight);
+            double Width = ft.Width;
+            double Height = LineHeight;
+
+            if (textStyle == TextStyles.Comment)
+                return new Size(CommentPadding.Left + Width + CommentPadding.Right, CommentPadding.Top + Height + CommentPadding.Bottom);
+            else
+                return new Size(Width, Height);
         }
 
         /// <summary></summary>
-        protected virtual Brush StyleToBrush(TextStyles textStyle)
+        protected virtual Brush StyleToForegroundBrush(TextStyles textStyle)
         {
             switch (textStyle)
             {
@@ -334,9 +342,23 @@
                 WpfDrawingContext.PushOpacity(1, FlashClock);
             }
 
-            Brush Brush = StyleToBrush(textStyle);
+            Brush Brush = StyleToForegroundBrush(textStyle);
             FormattedText ft = new FormattedText(text, Culture, FlowDirection, Typeface, FontSize, Brush);
-            WpfDrawingContext.DrawText(ft, new System.Windows.Point(LeftMargin + origin.X, TopMargin + origin.Y));
+
+            double X = PagePadding.Left + origin.X;
+            double Y = PagePadding.Top + origin.Y;
+            double Width = ft.Width;
+            double Height = LineHeight;
+
+            if (textStyle == TextStyles.Comment)
+            {
+                WpfDrawingContext.DrawRectangle(BrushTable[BrushSettings.CommentBackground], null, new System.Windows.Rect(X, Y, CommentPadding.Left + Width + CommentPadding.Right, CommentPadding.Top + Height + CommentPadding.Bottom));
+
+                X += CommentPadding.Left;
+                Y += CommentPadding.Top;
+            }
+
+            WpfDrawingContext.DrawText(ft, new System.Windows.Point(X, Y));
 
             if (isFocused)
             {
@@ -410,7 +432,7 @@
             Debug.Assert(WpfDrawingContext != null);
 
             FormattedText ft = new FormattedText(text, Culture, FlowDirection, Typeface, FontSize, BrushTable[BrushSettings.Symbol]);
-            WpfDrawingContext.DrawText(ft, new System.Windows.Point(LeftMargin + origin.X + padding.Left, TopMargin + origin.Y + padding.Top));
+            WpfDrawingContext.DrawText(ft, new System.Windows.Point(PagePadding.Left + origin.X + padding.Left, PagePadding.Top + origin.Y + padding.Top));
         }
 
         /// <summary></summary>
@@ -418,7 +440,7 @@
         {
             Debug.Assert(WpfDrawingContext != null);
 
-            Point PaddedOrigin = origin.Moved(LeftMargin + padding.Left, TopMargin + padding.Top);
+            Point PaddedOrigin = origin.Moved(PagePadding.Left + padding.Left, PagePadding.Top + padding.Top);
             Size PaddedSize = new Size(size.Width - padding.Left - padding.Right, size.Height - padding.Top - padding.Bottom);
             Geometry GeometryAtOrigin = MoveAndScaleGeometry(geometry, PaddedOrigin, GeometryScalings.None, GeometryScalings.Stretch, PaddedSize);
 
@@ -486,11 +508,11 @@
             {
                 case HorizontalSeparators.Dot:
                     ft = new FormattedText(DotText, Culture, FlowDirection, Typeface, FontSize, BrushTable[BrushSettings.Symbol]);
-                    WpfDrawingContext.DrawText(ft, new System.Windows.Point(LeftMargin + origin.X - ft.WidthIncludingTrailingWhitespace, TopMargin + origin.Y));
+                    WpfDrawingContext.DrawText(ft, new System.Windows.Point(PagePadding.Left + origin.X - ft.WidthIncludingTrailingWhitespace, PagePadding.Top + origin.Y));
                     break;
                 case HorizontalSeparators.Comma:
                     ft = new FormattedText(", ", Culture, FlowDirection, Typeface, FontSize, BrushTable[BrushSettings.Symbol]);
-                    WpfDrawingContext.DrawText(ft, new System.Windows.Point(LeftMargin + origin.X - ft.WidthIncludingTrailingWhitespace, TopMargin + origin.Y));
+                    WpfDrawingContext.DrawText(ft, new System.Windows.Point(PagePadding.Left + origin.X - ft.WidthIncludingTrailingWhitespace, PagePadding.Top + origin.Y));
                     break;
             }
         }
@@ -521,16 +543,22 @@
 
             string LeftText = text.Substring(0, position);
 
-            Brush Brush = StyleToBrush(textStyle);
+            Brush Brush = StyleToForegroundBrush(textStyle);
             FormattedText ft = new FormattedText(LeftText, Culture, FlowDirection, Typeface, FontSize, Brush);
             double X = origin.X + ft.WidthIncludingTrailingWhitespace;
             double Y = origin.Y;
+
+            if (textStyle == TextStyles.Comment)
+            {
+                X += CommentPadding.Left;
+                Y += CommentPadding.Top;
+            }
 
             ChangeFlashClockOpacity(isVisible: true);
 
             if (mode == CaretModes.Insertion)
             {
-                System.Windows.Rect CaretRect = new System.Windows.Rect(LeftMargin + X, TopMargin + Y, WhitespaceWidth / 4, LineHeight);
+                System.Windows.Rect CaretRect = new System.Windows.Rect(PagePadding.Left + X, PagePadding.Top + Y, WhitespaceWidth / 4, LineHeight);
 
                 WpfDrawingContext.PushOpacity(1, FlashClock);
                 WpfDrawingContext.DrawRectangle(BrushTable[BrushSettings.CaretInsertion], null, CaretRect);
@@ -541,7 +569,7 @@
                 string CharText = text.Substring(position, 1);
                 ft = new FormattedText(CharText, Culture, FlowDirection, Typeface, FontSize, BrushTable[BrushSettings.CaretOverride]);
 
-                System.Windows.Rect CaretRect = new System.Windows.Rect(LeftMargin + X, TopMargin + Y, ft.WidthIncludingTrailingWhitespace, LineHeight);
+                System.Windows.Rect CaretRect = new System.Windows.Rect(PagePadding.Left + X, PagePadding.Right + Y, ft.WidthIncludingTrailingWhitespace, LineHeight);
 
                 WpfDrawingContext.PushOpacity(1, FlashClock);
                 WpfDrawingContext.DrawRectangle(BrushTable[BrushSettings.CaretOverride], null, CaretRect);
@@ -575,7 +603,7 @@
             if (CommentIcon != null)
             {
                 WpfDrawingContext.PushOpacity(0.5);
-                WpfDrawingContext.DrawImage(CommentIcon, new System.Windows.Rect(LeftMargin + region.X - (CommentIcon.Width / 2), TopMargin + region.Y - (CommentIcon.Height / 2), CommentIcon.Width, CommentIcon.Height));
+                WpfDrawingContext.DrawImage(CommentIcon, new System.Windows.Rect(PagePadding.Left + region.X - (CommentIcon.Width / 2), PagePadding.Top + region.Y - (CommentIcon.Height / 2), CommentIcon.Width, CommentIcon.Height));
                 WpfDrawingContext.Pop();
             }
         }
@@ -619,17 +647,12 @@
             LeftParenthesisGeometry = ScaleGlyphGeometryHeight("(", true, 0, 0);
             RightParenthesisGeometry = ScaleGlyphGeometryHeight(")", true, 0, 0);
             HorizontalLineGeometry = ScaleGlyphGeometryWidth("-", true, 0, 0);
+            CommentPadding = new Padding(WhitespaceWidth / 2, LineHeight / 4, WhitespaceWidth / 2, LineHeight / 4);
 
             if (CommentIcon != null)
-            {
-                LeftMargin = CommentIcon.Width / 2;
-                TopMargin = CommentIcon.Height / 2;
-            }
+                PagePadding = new Padding(CommentIcon.Width / 2, CommentIcon.Height / 2, 0, 0);
             else
-            {
-                LeftMargin = 0;
-                TopMargin = 0;
-            }
+                PagePadding = Padding.Empty;
         }
         #endregion
 

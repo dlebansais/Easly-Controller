@@ -1,6 +1,7 @@
 ﻿namespace EaslyController.Focus
 {
     using System.Diagnostics;
+    using BaseNode;
     using EaslyController.Frame;
 
     /// <summary>
@@ -22,8 +23,9 @@
         /// <param name="stateView">The state view containing the tree with this cell.</param>
         /// <param name="parentCellView">The collection of cell views containing this view. Null for the root of the cell tree.</param>
         /// <param name="frame">The frame that created this cell view.</param>
-        public FocusCommentCellView(IFocusNodeStateView stateView, IFocusCellViewCollection parentCellView, IFocusFrame frame)
-            : base(stateView, parentCellView, frame)
+        /// <param name="documentation">The comment this cell is displaying.</param>
+        public FocusCommentCellView(IFocusNodeStateView stateView, IFocusCellViewCollection parentCellView, IFocusFrame frame, IDocument documentation)
+            : base(stateView, parentCellView, frame, documentation)
         {
         }
         #endregion

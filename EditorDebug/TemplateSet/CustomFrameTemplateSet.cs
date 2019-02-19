@@ -79,6 +79,7 @@ namespace TestDebug
     </FrameNodeTemplate>
     <FrameNodeTemplate NodeType=""{xaml:Type easly:IClass}"">
         <FrameVerticalPanelFrame>
+            <FrameCommentFrame/>
             <FrameHorizontalPanelFrame>
                 <FrameDiscreteFrame PropertyName=""CopySpecification"">
                     <FrameKeywordFrame>any</FrameKeywordFrame>
