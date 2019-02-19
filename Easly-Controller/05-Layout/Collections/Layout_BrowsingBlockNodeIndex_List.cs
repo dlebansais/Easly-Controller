@@ -17,6 +17,7 @@ namespace EaslyController.Layout
         new ILayoutBrowsingBlockNodeIndex this[int index] { get; set; }
         new int Count { get; }
         new IEnumerator<ILayoutBrowsingBlockNodeIndex> GetEnumerator();
+        new void Clear();
     }
 
     /// <summary>

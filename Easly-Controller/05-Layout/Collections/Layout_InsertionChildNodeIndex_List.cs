@@ -14,6 +14,7 @@ namespace EaslyController.Layout
         new ILayoutInsertionChildNodeIndex this[int index] { get; set; }
         new int Count { get; }
         new IEnumerator<ILayoutInsertionChildNodeIndex> GetEnumerator();
+        new void Clear();
     }
 
     /// <summary>

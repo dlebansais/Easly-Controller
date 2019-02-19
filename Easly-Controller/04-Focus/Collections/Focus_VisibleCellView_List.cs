@@ -14,6 +14,7 @@ namespace EaslyController.Focus
         new IFocusVisibleCellView this[int index] { get; set; }
         new int Count { get; }
         new IEnumerator<IFocusVisibleCellView> GetEnumerator();
+        new void Clear();
     }
 
     /// <summary>

@@ -16,6 +16,7 @@ namespace EaslyController.Layout
         new ILayoutCellView this[int index] { get; set; }
         new int Count { get; }
         new IEnumerator<ILayoutCellView> GetEnumerator();
+        new void Clear();
     }
 
     /// <summary>

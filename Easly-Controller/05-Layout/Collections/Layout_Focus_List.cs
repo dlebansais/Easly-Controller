@@ -14,6 +14,7 @@ namespace EaslyController.Layout
         new ILayoutFocus this[int index] { get; set; }
         new int Count { get; }
         new IEnumerator<ILayoutFocus> GetEnumerator();
+        new void Clear();
     }
 
     /// <summary>

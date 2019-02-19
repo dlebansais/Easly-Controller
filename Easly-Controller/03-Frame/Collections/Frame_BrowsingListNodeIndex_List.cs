@@ -15,6 +15,7 @@ namespace EaslyController.Frame
         new IFrameBrowsingListNodeIndex this[int index] { get; set; }
         new int Count { get; }
         new IEnumerator<IFrameBrowsingListNodeIndex> GetEnumerator();
+        new void Clear();
     }
 
     /// <summary>

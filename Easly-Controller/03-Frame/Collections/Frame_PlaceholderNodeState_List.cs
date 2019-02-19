@@ -15,6 +15,7 @@ namespace EaslyController.Frame
         new IFramePlaceholderNodeState this[int index] { get; set; }
         new int Count { get; }
         new IEnumerator<IFramePlaceholderNodeState> GetEnumerator();
+        new void Clear();
     }
 
     /// <summary>

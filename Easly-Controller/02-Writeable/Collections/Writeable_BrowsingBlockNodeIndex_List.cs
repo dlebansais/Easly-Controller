@@ -14,6 +14,7 @@ namespace EaslyController.Writeable
         new IWriteableBrowsingBlockNodeIndex this[int index] { get; set; }
         new int Count { get; }
         new IEnumerator<IWriteableBrowsingBlockNodeIndex> GetEnumerator();
+        new void Clear();
     }
 
     /// <summary>

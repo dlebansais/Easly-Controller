@@ -15,6 +15,7 @@ namespace EaslyController.Focus
         new IFocusOperation this[int index] { get; set; }
         new int Count { get; }
         new IEnumerator<IFocusOperation> GetEnumerator();
+        new void Clear();
     }
 
     /// <summary>

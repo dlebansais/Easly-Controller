@@ -87,7 +87,7 @@
             get
             {
                 NodeTreeHelperOptional.GetChildNode(Optional, out bool IsAssigned, out INode ChildNode);
-                return IsAssigned ? ChildNode.Documentation.Comment : null;
+                return IsAssigned ? ChildNode.Documentation.Comment : string.Empty;
             }
         }
 

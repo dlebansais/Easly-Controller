@@ -16,6 +16,7 @@ namespace EaslyController.Layout
         new ILayoutOperationGroup this[int index] { get; set; }
         new int Count { get; }
         new IEnumerator<ILayoutOperationGroup> GetEnumerator();
+        new void Clear();
     }
 
     /// <summary>

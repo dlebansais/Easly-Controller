@@ -15,6 +15,7 @@ namespace EaslyController.Layout
         new ILayoutTemplate this[int index] { get; set; }
         new int Count { get; }
         new IEnumerator<ILayoutTemplate> GetEnumerator();
+        new void Clear();
     }
 
     /// <summary>

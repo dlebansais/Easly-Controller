@@ -75,7 +75,7 @@
             IDocument Documentation = context.BlockStateView.BlockState.ChildBlock.Documentation;
             string Text = CommentHelper.Get(Documentation);
 
-            if (Text != null)
+            if (IsDisplayed(context, Text))
             {
                 IFrameVisibleCellView CellView = CreateCommentCellView(context.StateView, parentCellView, Documentation);
                 ValidateVisibleCellView(context, CellView);

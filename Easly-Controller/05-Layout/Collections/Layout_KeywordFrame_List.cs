@@ -15,6 +15,7 @@ namespace EaslyController.Layout
         new ILayoutKeywordFrame this[int index] { get; set; }
         new int Count { get; }
         new IEnumerator<ILayoutKeywordFrame> GetEnumerator();
+        new void Clear();
     }
 
     /// <summary>

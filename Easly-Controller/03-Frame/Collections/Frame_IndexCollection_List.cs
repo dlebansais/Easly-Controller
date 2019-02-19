@@ -15,6 +15,7 @@ namespace EaslyController.Frame
         new IFrameIndexCollection this[int index] { get; set; }
         new int Count { get; }
         new IEnumerator<IFrameIndexCollection> GetEnumerator();
+        new void Clear();
     }
 
     /// <summary>

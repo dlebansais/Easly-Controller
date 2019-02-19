@@ -14,6 +14,7 @@ namespace EaslyController.Writeable
         new IWriteablePlaceholderNodeState this[int index] { get; set; }
         new int Count { get; }
         new IEnumerator<IWriteablePlaceholderNodeState> GetEnumerator();
+        new void Clear();
     }
 
     /// <summary>
