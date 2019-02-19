@@ -34,5 +34,10 @@
         /// A type identifier.
         /// </summary>
         Type,
+
+        /// <summary>
+        /// A comment.
+        /// </summary>
+        Comment,
     }
 }

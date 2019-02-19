@@ -41,6 +41,11 @@
         TypeIdentifier,
 
         /// <summary>
+        /// The brush for comment foreground.
+        /// </summary>
+        CommentForeground,
+
+        /// <summary>
         /// The caret brush when in insertion mode.
         /// </summary>
         CaretInsertion,

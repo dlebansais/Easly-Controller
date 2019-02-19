@@ -35,8 +35,9 @@
         /// </summary>
         /// <param name="text">The string to measure.</param>
         /// <param name="textStyle">Style to use for the text.</param>
+        /// <param name="maxTextWidth">The maximum width for a line of text. NaN means no limit.</param>
         /// <returns>The size of the string.</returns>
-        Size MeasureText(string text, TextStyles textStyle);
+        Size MeasureText(string text, TextStyles textStyle, double maxTextWidth);
 
         /// <summary>
         /// Measures a symbol.

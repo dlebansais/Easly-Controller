@@ -81,7 +81,7 @@
         /// <param name="padding">The cell padding.</param>
         public virtual void Measure(ILayoutDrawContext drawContext, ILayoutCellView cellView, ILayoutCellViewCollection collectionWithSeparator, ILayoutCellView referenceContainer, double separatorLength, out Size size, out Padding padding)
         {
-            size = drawContext.MeasureText(Text, TextStyle);
+            size = drawContext.MeasureText(Text, TextStyle, double.NaN);
             drawContext.UpdatePadding(LeftMargin, RightMargin, ref size, out padding);
 
             Debug.Assert(RegionHelper.IsValid(size));

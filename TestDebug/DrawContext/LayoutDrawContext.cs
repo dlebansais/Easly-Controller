@@ -43,7 +43,7 @@ namespace TestDebug
             }
         }
 
-        public Size MeasureText(string text, TextStyles textStyle)
+        public Size MeasureText(string text, TextStyles textStyle, double maxTextWidth)
         {
             return new Size(text.Length * 20, LineHeight);
         }

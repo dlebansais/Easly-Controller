@@ -159,11 +159,14 @@
         /// </summary>
         /// <param name="text">The string to measure.</param>
         /// <param name="textStyle">Style to use for the text.</param>
+        /// <param name="maxTextWidth">The maximum width for a line of text. NaN means no limit.</param>
         /// <returns>The size of the string.</returns>
-        public virtual Size MeasureText(string text, TextStyles textStyle)
+        public virtual Size MeasureText(string text, TextStyles textStyle, double maxTextWidth)
         {
             Brush Brush = StyleToBrush(textStyle);
             FormattedText ft = new FormattedText(text, Culture, FlowDirection, Typeface, FontSize, Brush);
+            if (!double.IsNaN(maxTextWidth))
+                ft.MaxTextWidth = maxTextWidth;
 
             return new Size(ft.Width, LineHeight);
         }
@@ -186,6 +189,8 @@
                     return BrushTable[BrushSettings.Number];
                 case TextStyles.Type:
                     return BrushTable[BrushSettings.TypeIdentifier];
+                case TextStyles.Comment:
+                    return BrushTable[BrushSettings.CommentForeground];
             }
         }
 
