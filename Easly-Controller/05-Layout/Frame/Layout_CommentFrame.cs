@@ -60,9 +60,16 @@
             Debug.Assert(CommentCellView != null);
             string Text = CommentHelper.Get(CommentCellView.Documentation);
 
-            bool IsFocused = cellView.StateView.ControllerView.Focus is ILayoutCellFocus AsCellFocus && AsCellFocus.CellView == cellView;
+            CommentDisplayModes DisplayMode = cellView.StateView.ControllerView.CommentDisplayMode;
+            Debug.Assert(DisplayMode == CommentDisplayModes.OnFocus || DisplayMode == CommentDisplayModes.All);
 
-            if (Text != null && IsFocused)
+            bool IsFocused = cellView.StateView.ControllerView.Focus is ILayoutCellFocus AsCellFocus && AsCellFocus.CellView == cellView;
+            if (IsFocused && Text == null)
+                Text = string.Empty;
+
+            bool IsDisplayed = Text != null && ((DisplayMode == CommentDisplayModes.OnFocus && IsFocused) || DisplayMode == CommentDisplayModes.All);
+
+            if (IsDisplayed)
                 size = drawContext.MeasureText(Text, TextStyles.Comment, double.NaN);
             else
                 size = Size.Empty;
@@ -84,18 +91,21 @@
             Debug.Assert(CommentCellView != null);
             string Text = CommentHelper.Get(CommentCellView.Documentation);
 
+            CommentDisplayModes DisplayMode = cellView.StateView.ControllerView.CommentDisplayMode;
+            Debug.Assert(DisplayMode == CommentDisplayModes.OnFocus || DisplayMode == CommentDisplayModes.All);
+
             bool IsFocused = cellView.StateView.ControllerView.Focus is ILayoutCellFocus AsCellFocus && AsCellFocus.CellView == cellView;
             if (IsFocused && Text == null)
                 Text = string.Empty;
 
             if (Text != null)
             {
-                if (IsFocused)
+                if ((DisplayMode == CommentDisplayModes.OnFocus && IsFocused) || DisplayMode == CommentDisplayModes.All)
                 {
                     Point OriginWithPadding = origin.Moved(padding.Left, padding.Top);
                     drawContext.DrawText(Text, OriginWithPadding, TextStyles.Comment, isFocused: false); // The caret is drawn separately.
                 }
-                else
+                else if (DisplayMode == CommentDisplayModes.OnFocus && cellView.StateView.ControllerView.ShowUnfocusedComments)
                     drawContext.DrawCommentIcon(new Rect(cellView.CellOrigin, Size.Empty));
             }
         }

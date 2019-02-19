@@ -41,6 +41,12 @@
 
         #region Implementation
         /// <summary></summary>
+        protected override bool IsDisplayed(IFrameCellViewTreeContext context, string text)
+        {
+            return (context.ControllerView.CommentDisplayMode == Constants.CommentDisplayModes.OnFocus || context.ControllerView.CommentDisplayMode == Constants.CommentDisplayModes.All) && text != null;
+        }
+
+        /// <summary></summary>
         private protected override void ValidateVisibleCellView(IFrameCellViewTreeContext context, IFrameVisibleCellView cellView)
         {
             Debug.Assert(((IFocusVisibleCellView)cellView).StateView == ((IFocusCellViewTreeContext)context).StateView);

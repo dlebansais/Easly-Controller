@@ -67,6 +67,11 @@
         bool IsInvalidated { get; }
 
         /// <summary>
+        /// Shows a comment sign over comments in <see cref="CommentDisplayModes.OnFocus"/> mode.
+        /// </summary>
+        bool ShowUnfocusedComments { get; }
+
+        /// <summary>
         /// Invalidates the entire view.
         /// </summary>
         void Invalidate();
@@ -100,6 +105,11 @@
         /// <param name="distance">The distance to cross.</param>
         /// <param name="isMoved">True if the focus has changed.</param>
         void MoveFocusVertically(double distance, out bool isMoved);
+
+        /// <summary>
+        /// Sets <see cref="ShowUnfocusedComments"/>.
+        /// </summary>
+        void SetShowUnfocusedComments(bool show);
     }
 
     /// <summary>
@@ -229,6 +239,11 @@
         /// Indicates if there are cells that must be measured and arranged.
         /// </summary>
         public bool IsInvalidated { get; private set; }
+
+        /// <summary>
+        /// Shows a comment sign over comments in <see cref="CommentDisplayModes.OnFocus"/> mode.
+        /// </summary>
+        public bool ShowUnfocusedComments { get; private set; }
         #endregion
 
         #region Client Interface
@@ -479,6 +494,18 @@
             Origin = Origin.Moved(0, distance);
 
             return Origin;
+        }
+
+        /// <summary>
+        /// Sets <see cref="ShowUnfocusedComments"/>.
+        /// </summary>
+        public virtual void SetShowUnfocusedComments(bool show)
+        {
+            if (ShowUnfocusedComments != show)
+            {
+                ShowUnfocusedComments = show;
+                Refresh(Controller.RootState);
+            }
         }
         #endregion
 

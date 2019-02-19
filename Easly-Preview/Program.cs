@@ -93,6 +93,7 @@
 
                 // Create a view using custom frames (for how code is organized).
                 ILayoutControllerView ControllerView = LayoutControllerView.Create(Controller, TestDebug.CustomLayoutTemplateSet.LayoutTemplateSet, DrawContext);
+                ControllerView.SetCommentDisplayMode(EaslyController.Constants.CommentDisplayModes.All);
 
                 // Run the measure step to obtain the bitmap size.
                 ControllerView.MeasureAndArrange();

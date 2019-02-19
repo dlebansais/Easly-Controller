@@ -720,6 +720,7 @@
     <Compile Include="05-Layout\Template\Layout_Template.cs" />
     <Compile Include="05-Layout\Template\Layout_TemplateSet.cs" />
     <Compile Include="Controller\CaretModes.cs" />
+    <Compile Include="Controller\CommentDisplayModes.cs" />
     <Compile Include="Controller\CommentHelper.cs" />
     <Compile Include="Controller\DebugObjects.cs" />
     <Compile Include="Controller\RegionHelper.cs" />

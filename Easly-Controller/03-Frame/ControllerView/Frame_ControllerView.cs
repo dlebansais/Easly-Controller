@@ -1,6 +1,7 @@
 ﻿namespace EaslyController.Frame
 {
     using System.Diagnostics;
+    using EaslyController.Constants;
     using EaslyController.ReadOnly;
     using EaslyController.Writeable;
 
@@ -40,6 +41,11 @@
         int LastColumnNumber { get; }
 
         /// <summary>
+        /// The display mode for comments.
+        /// </summary>
+        CommentDisplayModes CommentDisplayMode { get; }
+
+        /// <summary>
         /// Enumerate all visible cell views.
         /// </summary>
         /// <param name="list">List to contain enumerated cell views upon return.</param>
@@ -50,6 +56,12 @@
         /// </summary>
         /// <param name="isVerbose">Prints all information.</param>
         void PrintCellViewTree(bool isVerbose);
+
+        /// <summary>
+        /// Sets the comment display mode.
+        /// </summary>
+        /// <param name="mode">The new mode.</param>
+        void SetCommentDisplayMode(CommentDisplayModes mode);
     }
 
     /// <summary>
@@ -89,6 +101,8 @@
         private protected override void Init()
         {
             base.Init();
+
+            CommentDisplayMode = CommentDisplayModes.Tooltip;
 
             IFrameNodeState RootState = Controller.RootState;
             IFrameNodeStateView RootStateView = StateViewTable[RootState];
@@ -130,6 +144,12 @@
         /// Last column number in the cell tree.
         /// </summary>
         public int LastColumnNumber { get; private set; }
+
+        /// <summary>
+        /// Gets and sets the display mode for comments.
+        /// All modes are quivalent to <see cref="CommentDisplayModes.None"/> except <see cref="CommentDisplayModes.All"/>.
+        /// </summary>
+        public CommentDisplayModes CommentDisplayMode { get; private set; }
         #endregion
 
         #region Client Interface
@@ -157,6 +177,19 @@
             IFrameNodeState RootState = Controller.RootState;
             IFrameNodeStateView RootStateView = StateViewTable[RootState];
             PrintCellViewTree(RootStateView.RootCellView, isVerbose);
+        }
+
+        /// <summary>
+        /// Sets the comment display mode.
+        /// </summary>
+        /// <param name="mode">The new mode.</param>
+        public virtual void SetCommentDisplayMode(CommentDisplayModes mode)
+        {
+            if (CommentDisplayMode != mode)
+            {
+                CommentDisplayMode = mode;
+                Refresh(Controller.RootState);
+            }
         }
         #endregion
 

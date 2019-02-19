@@ -43,7 +43,7 @@
             IDocument Documentation = context.StateView.State.Node.Documentation;
             string Text = CommentHelper.Get(Documentation);
 
-            if (Text != null)
+            if (IsDisplayed(context, Text))
             {
                 IFrameVisibleCellView CellView = CreateCommentCellView(context.StateView, parentCellView, context.StateView.State.Node.Documentation);
                 ValidateVisibleCellView(context, CellView);
@@ -57,6 +57,12 @@
 
                 return CellView;
             }
+        }
+
+        /// <summary></summary>
+        protected virtual bool IsDisplayed(IFrameCellViewTreeContext context, string text)
+        {
+            return context.ControllerView.CommentDisplayMode == Constants.CommentDisplayModes.All && text != null;
         }
 
         /// <summary>
