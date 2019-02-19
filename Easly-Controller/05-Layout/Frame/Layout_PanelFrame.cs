@@ -7,7 +7,7 @@
     /// <summary>
     /// Base frame for displaying more frames.
     /// </summary>
-    public interface ILayoutPanelFrame : IFocusPanelFrame, ILayoutFrame, ILayoutNodeFrameWithVisibility, ILayoutBlockFrame, ILayoutSelectorPropertyFrame
+    public interface ILayoutPanelFrame : IFocusPanelFrame, ILayoutFrame, ILayoutNodeFrameWithVisibility, ILayoutBlockFrameWithVisibility, ILayoutSelectorPropertyFrame
     {
         /// <summary>
         /// List of frames within this frame.

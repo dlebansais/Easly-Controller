@@ -8,7 +8,7 @@
     /// <summary>
     /// Frame for decoration purpose only.
     /// </summary>
-    public interface IFocusKeywordFrame : IFrameKeywordFrame, IFocusFrame, IFocusBlockFrame, IFocusNodeFrameWithVisibility
+    public interface IFocusKeywordFrame : IFrameKeywordFrame, IFocusFrame, IFocusNodeFrameWithVisibility, IFocusBlockFrameWithVisibility
     {
     }
 

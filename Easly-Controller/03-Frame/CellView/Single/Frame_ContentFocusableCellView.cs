@@ -56,6 +56,9 @@
             if (!base.IsEqual(comparer, AsContentFocusableCellView))
                 return comparer.Failed();
 
+            if (!comparer.IsSameString(PropertyName, AsContentFocusableCellView.PropertyName))
+                return comparer.Failed();
+
             return true;
         }
         #endregion

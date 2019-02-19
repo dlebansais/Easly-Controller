@@ -38,12 +38,6 @@
         public new IFocusFrame ParentFrame { get { return (IFocusFrame)base.ParentFrame; } }
 
         /// <summary>
-        /// Block frame visibility. Null if always visible.
-        /// (Set in Xaml)
-        /// </summary>
-        public IFocusBlockFrameVisibility BlockVisibility { get; set; }
-
-        /// <summary>
         /// List of optional selectors.
         /// (Set in Xaml)
         /// </summary>
@@ -58,7 +52,6 @@
         /// <param name="parentCellView">The collection of cell views containing this view. Null for the root of the cell tree.</param>
         public override IFrameCellView BuildBlockCells(IFrameCellViewTreeContext context, IFrameCellViewCollection parentCellView)
         {
-            ((IFocusCellViewTreeContext)context).UpdateBlockFrameVisibility(this, out bool OldFrameVisibility);
             Type OldSelectorType = null;
             string OldSelectorName = null;
             ((IFocusCellViewTreeContext)context).AddOrReplaceSelectors(Selectors, out OldSelectorType, out OldSelectorName);
@@ -69,7 +62,6 @@
             Debug.Assert(EmbeddingCellView != null);
 
             ((IFocusCellViewTreeContext)context).RemoveOrRestoreSelectors(Selectors, OldSelectorType, OldSelectorName);
-            ((IFocusCellViewTreeContext)context).RestoreFrameVisibility(OldFrameVisibility);
 
             return EmbeddingCellView;
         }

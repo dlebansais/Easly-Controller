@@ -57,7 +57,7 @@
         /// </summary>
         /// <param name="frame">The frame with the visibility to check.</param>
         /// <param name="oldFrameVisibility">The previous visibility upon return.</param>
-        void UpdateBlockFrameVisibility(IFocusBlockFrame frame, out bool oldFrameVisibility);
+        void UpdateBlockFrameVisibility(IFocusBlockFrameWithVisibility frame, out bool oldFrameVisibility);
 
         /// <summary>
         /// Restores the frame visibility that was changed with <see cref="UpdateNodeFrameVisibility"/> or <see cref="UpdateBlockFrameVisibility"/>.
@@ -203,7 +203,7 @@
         /// </summary>
         /// <param name="frame">The frame with the visibility to check.</param>
         /// <param name="oldFrameVisibility">The previous visibility upon return.</param>
-        public virtual void UpdateBlockFrameVisibility(IFocusBlockFrame frame, out bool oldFrameVisibility)
+        public virtual void UpdateBlockFrameVisibility(IFocusBlockFrameWithVisibility frame, out bool oldFrameVisibility)
         {
             oldFrameVisibility = IsFrameVisible;
 

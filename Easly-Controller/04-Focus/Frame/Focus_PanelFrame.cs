@@ -7,7 +7,7 @@
     /// <summary>
     /// Base frame for displaying more frames.
     /// </summary>
-    public interface IFocusPanelFrame : IFramePanelFrame, IFocusFrame, IFocusNodeFrameWithVisibility, IFocusBlockFrame, IFocusSelectorPropertyFrame
+    public interface IFocusPanelFrame : IFramePanelFrame, IFocusFrame, IFocusNodeFrameWithVisibility, IFocusBlockFrameWithVisibility, IFocusSelectorPropertyFrame
     {
         /// <summary>
         /// List of frames within this frame.

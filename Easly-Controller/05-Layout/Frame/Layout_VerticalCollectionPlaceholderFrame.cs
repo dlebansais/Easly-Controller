@@ -29,12 +29,6 @@
         public new ILayoutFrame ParentFrame { get { return (ILayoutFrame)base.ParentFrame; } }
 
         /// <summary>
-        /// Block frame visibility. Null if always visible.
-        /// (Set in Xaml)
-        /// </summary>
-        public new ILayoutBlockFrameVisibility BlockVisibility { get { return (ILayoutBlockFrameVisibility)base.BlockVisibility; } set { base.BlockVisibility = value; } }
-
-        /// <summary>
         /// List of optional selectors.
         /// (Set in Xaml)
         /// </summary>
