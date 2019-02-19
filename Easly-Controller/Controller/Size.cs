@@ -64,8 +64,9 @@
         /// <param name="size2">The second size.</param>
         public static bool IsEqual(Size size1, Size size2)
         {
-            double DiffCX = Math.Abs(size2.Width - size1.Width);
-            double DiffCY = Math.Abs(size2.Height - size1.Height);
+            double DiffCX = double.IsNaN(size1.Width) && double.IsNaN(size2.Width) ? 0 : Math.Abs(size2.Width - size1.Width);
+            double DiffCY = double.IsNaN(size1.Height) && double.IsNaN(size2.Height) ? 0 : Math.Abs(size2.Height - size1.Height);
+            Debug.Assert(!double.IsNaN(DiffCX) && !double.IsNaN(DiffCY));
 
             return RegionHelper.IsZero(DiffCX) && RegionHelper.IsZero(DiffCY);
         }

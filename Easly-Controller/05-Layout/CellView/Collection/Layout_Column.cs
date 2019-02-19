@@ -128,6 +128,7 @@
 
             double Width = double.NaN;
             double Height = 0;
+            Size AccumulatedSize = Size.Empty;
 
             for (int i = 0; i < CellViewList.Count; i++)
             {
@@ -169,10 +170,10 @@
                 }
             }
 
-            if (Height == 0)
-                CellSize = Size.Empty;
-            else
-                CellSize = new Size(Width + LeftPadding, Height);
+            if (Height != 0)
+                AccumulatedSize = new Size(Width + LeftPadding, Height);
+
+            CellSize = AccumulatedSize;
 
             Debug.Assert(RegionHelper.IsValid(CellSize));
         }
@@ -216,6 +217,7 @@
             Point ExpectedOrigin = CellOrigin.Moved(LeftPadding, CellSize.Height);
             bool IsEqual = Point.IsEqual(FinalOrigin, ExpectedOrigin);
             Debug.Assert(IsEqual);
+            Debug.Assert(Size.IsEqual(CellRect.Size, CellSize));
         }
 
         /// <summary>

@@ -124,6 +124,7 @@
         public virtual void Arrange(Point origin)
         {
             CellOrigin = origin;
+            Debug.Assert(Size.IsEqual(CellRect.Size, CellSize));
         }
 
         /// <summary>

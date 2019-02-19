@@ -28,7 +28,7 @@
         /// <param name="height">The region height.</param>
         public Rect(double x, double y, double width, double height)
         {
-            Debug.Assert(x >= 0 && y >= 0 && width >= 0 && height >= 0);
+            Debug.Assert(x >= 0 && y >= 0 && ((width >= 0 && height >= 0) || (double.IsNaN(width) && height >= 0) || (width >= 0 && double.IsNaN(height))));
 
             X = x;
             Y = y;
@@ -43,7 +43,7 @@
         /// <param name="size">The region size.</param>
         public Rect(Point origin, Size size)
         {
-            Debug.Assert(origin.X >= 0 && origin.Y >= 0 && size.Width >= 0 && size.Height >= 0);
+            Debug.Assert(origin.X >= 0 && origin.Y >= 0 && ((size.Width >= 0 && size.Height >= 0) || (double.IsNaN(size.Width) && size.Height >= 0) || (size.Width >= 0 && double.IsNaN(size.Height))));
 
             X = origin.X;
             Y = origin.Y;

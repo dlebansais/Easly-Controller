@@ -101,6 +101,7 @@
         public virtual void Arrange(Point origin)
         {
             CellOrigin = origin;
+            Debug.Assert(CellRect.Size.IsEmpty);
         }
         #endregion
 

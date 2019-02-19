@@ -164,6 +164,7 @@
             ChildStateView.ArrangeCells(OriginWithPadding);
 
             Debug.Assert(RegionHelper.IsValid(CellOrigin));
+            Debug.Assert(Size.IsEqual(CellRect.Size, CellSize));
         }
         #endregion
 

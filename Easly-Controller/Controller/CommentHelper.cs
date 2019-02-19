@@ -13,7 +13,7 @@
         /// <param name="documentation">The document with the comment.</param>
         public static string Get(IDocument documentation)
         {
-#if DEBUG_COMMENT
+#if !DEBUG_COMMENT
             if (!string.IsNullOrEmpty(documentation.Comment))
                 return documentation.Comment;
             else
