@@ -123,6 +123,21 @@
         /// The WPF context used to draw.
         /// </summary>
         public DrawingContext WpfDrawingContext { get; private set; }
+
+        /// <summary>
+        /// The icon to use to signal a comment.
+        /// </summary>
+        public BitmapSource CommentIcon { get; set; }
+
+        /// <summary>
+        /// The left margin applied to the entire page.
+        /// </summary>
+        public double LeftMargin { get; private set; }
+
+        /// <summary>
+        /// The top tmargin applied to the entire page.
+        /// </summary>
+        public double TopMargin { get; private set; }
         #endregion
 
         #region Implementation of IxxxDrawContext
@@ -321,7 +336,7 @@
 
             Brush Brush = StyleToBrush(textStyle);
             FormattedText ft = new FormattedText(text, Culture, FlowDirection, Typeface, FontSize, Brush);
-            WpfDrawingContext.DrawText(ft, new System.Windows.Point(origin.X, origin.Y));
+            WpfDrawingContext.DrawText(ft, new System.Windows.Point(LeftMargin + origin.X, TopMargin + origin.Y));
 
             if (isFocused)
             {
@@ -395,7 +410,7 @@
             Debug.Assert(WpfDrawingContext != null);
 
             FormattedText ft = new FormattedText(text, Culture, FlowDirection, Typeface, FontSize, BrushTable[BrushSettings.Symbol]);
-            WpfDrawingContext.DrawText(ft, new System.Windows.Point(origin.X + padding.Left, origin.Y + padding.Top));
+            WpfDrawingContext.DrawText(ft, new System.Windows.Point(LeftMargin + origin.X + padding.Left, TopMargin + origin.Y + padding.Top));
         }
 
         /// <summary></summary>
@@ -403,7 +418,7 @@
         {
             Debug.Assert(WpfDrawingContext != null);
 
-            Point PaddedOrigin = origin.Moved(padding.Left, padding.Top);
+            Point PaddedOrigin = origin.Moved(LeftMargin + padding.Left, TopMargin + padding.Top);
             Size PaddedSize = new Size(size.Width - padding.Left - padding.Right, size.Height - padding.Top - padding.Bottom);
             Geometry GeometryAtOrigin = MoveAndScaleGeometry(geometry, PaddedOrigin, GeometryScalings.None, GeometryScalings.Stretch, PaddedSize);
 
@@ -471,11 +486,11 @@
             {
                 case HorizontalSeparators.Dot:
                     ft = new FormattedText(DotText, Culture, FlowDirection, Typeface, FontSize, BrushTable[BrushSettings.Symbol]);
-                    WpfDrawingContext.DrawText(ft, new System.Windows.Point(origin.X - ft.WidthIncludingTrailingWhitespace, origin.Y));
+                    WpfDrawingContext.DrawText(ft, new System.Windows.Point(LeftMargin + origin.X - ft.WidthIncludingTrailingWhitespace, TopMargin + origin.Y));
                     break;
                 case HorizontalSeparators.Comma:
                     ft = new FormattedText(", ", Culture, FlowDirection, Typeface, FontSize, BrushTable[BrushSettings.Symbol]);
-                    WpfDrawingContext.DrawText(ft, new System.Windows.Point(origin.X - ft.WidthIncludingTrailingWhitespace, origin.Y));
+                    WpfDrawingContext.DrawText(ft, new System.Windows.Point(LeftMargin + origin.X - ft.WidthIncludingTrailingWhitespace, TopMargin + origin.Y));
                     break;
             }
         }
@@ -515,7 +530,7 @@
 
             if (mode == CaretModes.Insertion)
             {
-                System.Windows.Rect CaretRect = new System.Windows.Rect(X, Y, WhitespaceWidth / 4, LineHeight);
+                System.Windows.Rect CaretRect = new System.Windows.Rect(LeftMargin + X, TopMargin + Y, WhitespaceWidth / 4, LineHeight);
 
                 WpfDrawingContext.PushOpacity(1, FlashClock);
                 WpfDrawingContext.DrawRectangle(BrushTable[BrushSettings.CaretInsertion], null, CaretRect);
@@ -526,7 +541,7 @@
                 string CharText = text.Substring(position, 1);
                 ft = new FormattedText(CharText, Culture, FlowDirection, Typeface, FontSize, BrushTable[BrushSettings.CaretOverride]);
 
-                System.Windows.Rect CaretRect = new System.Windows.Rect(X, Y, ft.WidthIncludingTrailingWhitespace, LineHeight);
+                System.Windows.Rect CaretRect = new System.Windows.Rect(LeftMargin + X, TopMargin + Y, ft.WidthIncludingTrailingWhitespace, LineHeight);
 
                 WpfDrawingContext.PushOpacity(1, FlashClock);
                 WpfDrawingContext.DrawRectangle(BrushTable[BrushSettings.CaretOverride], null, CaretRect);
@@ -557,9 +572,12 @@
         /// <param name="region">The region corresponding to the node that has a comment.</param>
         public virtual void DrawCommentIcon(Rect region)
         {
-            WpfDrawingContext.PushOpacity(0.5);
-            WpfDrawingContext.DrawImage(CommentIcon, new System.Windows.Rect(region.X - (CommentIcon.Width / 2), region.Y - (CommentIcon.Height / 2), CommentIcon.Width, CommentIcon.Height));
-            WpfDrawingContext.Pop();
+            if (CommentIcon != null)
+            {
+                WpfDrawingContext.PushOpacity(0.5);
+                WpfDrawingContext.DrawImage(CommentIcon, new System.Windows.Rect(LeftMargin + region.X - (CommentIcon.Width / 2), TopMargin + region.Y - (CommentIcon.Height / 2), CommentIcon.Width, CommentIcon.Height));
+                WpfDrawingContext.Pop();
+            }
         }
         #endregion
 
@@ -601,6 +619,17 @@
             LeftParenthesisGeometry = ScaleGlyphGeometryHeight("(", true, 0, 0);
             RightParenthesisGeometry = ScaleGlyphGeometryHeight(")", true, 0, 0);
             HorizontalLineGeometry = ScaleGlyphGeometryWidth("-", true, 0, 0);
+
+            if (CommentIcon != null)
+            {
+                LeftMargin = CommentIcon.Width / 2;
+                TopMargin = CommentIcon.Height / 2;
+            }
+            else
+            {
+                LeftMargin = 0;
+                TopMargin = 0;
+            }
         }
         #endregion
 
@@ -652,7 +681,6 @@
         private DoubleAnimation FlashAnimation;
         private AnimationClock FlashClock;
         private bool IsLastFocusedFullCell;
-        private BitmapSource CommentIcon;
         #endregion
     }
 }

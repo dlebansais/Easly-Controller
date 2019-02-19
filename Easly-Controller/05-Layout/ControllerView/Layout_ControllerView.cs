@@ -283,7 +283,7 @@
                 if (!IsFocused)
                 {
                     IDocument Documentation = CellView.StateView.State.Node.Documentation;
-                    if (Documentation.Comment.Length > 0 && LastDocumentation != Documentation)
+                    if (Documentation.Comment.Length == 0 && LastDocumentation != Documentation)
                     {
                         Debug.Assert(RegionHelper.IsFixed(MeasuredSize));
 
