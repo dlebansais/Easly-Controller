@@ -30,10 +30,10 @@
         /// <param name="text">The comment text.</param>
         public static void Set(IDocument documentation, string text)
         {
-            if (!string.IsNullOrEmpty(documentation.Comment))
-                documentation.Comment = text;
+            if (!string.IsNullOrEmpty(text))
+                BaseNodeHelper.NodeTreeHelper.SetCommentText(documentation, text);
             else
-                documentation.Comment = string.Empty;
+                BaseNodeHelper.NodeTreeHelper.SetCommentText(documentation, string.Empty);
         }
     }
 }

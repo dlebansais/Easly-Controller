@@ -138,12 +138,15 @@
 
         private protected bool GetFirstNamedFrame(IFocusFrame root, string propertyName, List<IFocusFrameSelectorList> selectorStack, out IFocusNamedFrame frame)
         {
+            frame = null;
+            bool Found = false;
+
             if (root is IFocusNamedFrame AsNamedFrame)
             {
                 if (AsNamedFrame.PropertyName == propertyName)
                 {
                     frame = AsNamedFrame;
-                    return true;
+                    Found = true;
                 }
             }
 
@@ -151,7 +154,10 @@
             {
                 foreach (IFocusFrame Item in AsPanelFrame.Items)
                     if (GetFirstNamedFrame(Item, propertyName, selectorStack, out frame))
-                        return true;
+                    {
+                        Found = true;
+                        break;
+                    }
             }
 
             else if (root is IFocusSelectionFrame AsSelectionFrame)
@@ -180,11 +186,10 @@
 
                 if (SelectedFrame != null)
                     if (GetFirstNamedFrame(SelectedFrame.Content, propertyName, selectorStack, out frame))
-                        return true;
+                        Found = true;
             }
 
-            frame = null;
-            return false;
+            return Found;
         }
         #endregion
     }

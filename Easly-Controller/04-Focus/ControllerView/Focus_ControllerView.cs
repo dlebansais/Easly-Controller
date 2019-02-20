@@ -153,6 +153,11 @@
         void SetUserVisible(bool isUserVisible);
 
         /// <summary>
+        /// Force the comment attached to the node with the focus to show, if empty, and move the focus to this comment.
+        /// </summary>
+        void ForceShowComment(out bool isMoved);
+
+        /// <summary>
         /// Checks if a new item can be inserted at the focus.
         /// </summary>
         /// <param name="inner">Inner to use to insert the new item upon return.</param>
@@ -692,6 +697,32 @@
                 CurrentStateView = StateViewTable[CurrentStateView.State.ParentState];
 
             return CurrentStateView;
+        }
+
+        /// <summary>
+        /// Force the comment attached to the node with the focus to show, if empty, and move the focus to this comment.
+        /// </summary>
+        public virtual void ForceShowComment(out bool isMoved)
+        {
+            IFocusCellFocus CurrentFocus = Focus as IFocusCellFocus;
+            Debug.Assert(CurrentFocus != null);
+
+            IFocusNodeState State = CurrentFocus.CellView.StateView.State;
+            IDocument Documentation;
+            if (State is IFocusOptionalNodeState AsOptionalNodeState)
+            {
+                Debug.Assert(AsOptionalNodeState.ParentInner.IsAssigned);
+                Documentation = AsOptionalNodeState.Node.Documentation;
+            }
+            else
+                Documentation = State.Node.Documentation;
+
+            isMoved = false;
+
+            string Text = CommentHelper.Get(Documentation);
+            if (Text == null)
+            {
+            }
         }
 
         /// <summary>
