@@ -43,7 +43,13 @@
         /// <summary></summary>
         protected override bool IsDisplayed(IFrameCellViewTreeContext context, string text)
         {
-            return (context.ControllerView.CommentDisplayMode == Constants.CommentDisplayModes.OnFocus || context.ControllerView.CommentDisplayMode == Constants.CommentDisplayModes.All) && text != null;
+            if (text == null && ((IFocusCellViewTreeContext)context).ForcedCommentStateView != ((IFocusCellViewTreeContext)context).StateView)
+                return false;
+
+            if (context.ControllerView.CommentDisplayMode != Constants.CommentDisplayModes.OnFocus && context.ControllerView.CommentDisplayMode != Constants.CommentDisplayModes.All)
+                return false;
+
+            return true;
         }
 
         /// <summary></summary>

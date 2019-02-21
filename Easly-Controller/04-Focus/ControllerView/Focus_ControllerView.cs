@@ -269,6 +269,7 @@
         private protected FocusControllerView(IFocusController controller, IFocusTemplateSet templateSet)
             : base(controller, templateSet)
         {
+            ForcedCommentStateView = null;
         }
         #endregion
 
@@ -351,16 +352,28 @@
         {
             get
             {
-                if (Focus is IFocusTextCellFocus AsTextCellFocus)
-                {
-                    IFocusTextFocusableCellView CellView = AsTextCellFocus.CellView;
-                    INode Node = CellView.StateView.State.Node;
-                    string PropertyName = CellView.PropertyName;
+                string Result = null;
 
-                    return NodeTreeHelper.GetString(Node, PropertyName);
-                }
-                else
-                    return null;
+                if (Focus is IFocusTextCellFocus AsTextCellFocus)
+                    Result = GetFocusedStringText(AsTextCellFocus);
+
+                return Result;
+            }
+        }
+
+        /// <summary>
+        /// Current text if the focus is on a non-empty comment. Null otherwise.
+        /// </summary>
+        public string CommentText
+        {
+            get
+            {
+                string Result = null;
+
+                if (Focus is IFocusCommentCellFocus AsCommentCellFocus)
+                    Result = GetFocusedCommentText(AsCommentCellFocus);
+
+                return Result;
             }
         }
 
@@ -619,6 +632,15 @@
         {
             Focus = FocusChain[newIndex];
             ResetCaretPosition(direction);
+
+            if (FocusChain[oldIndex] is IFocusCommentCellFocus AsCommentCellFocus)
+            {
+                string Text = GetFocusedCommentText(AsCommentCellFocus);
+                if (Text == null)
+                {
+                    Refresh(Controller.RootState);
+                }
+            }
         }
 
         /// <summary>
@@ -632,18 +654,16 @@
 
             if (Focus is IFocusTextCellFocus AsTextCellFocus)
             {
-                IFocusTextFocusableCellView CellView = AsTextCellFocus.CellView;
-                INode Node = CellView.StateView.State.Node;
-                string PropertyName = CellView.PropertyName;
-                string Text = NodeTreeHelper.GetString(Node, PropertyName);
+                string Text = GetFocusedStringText(AsTextCellFocus);
 
                 SetTextCaretPosition(Text, position, out isMoved);
             }
 
             else if (Focus is IFocusCommentCellFocus AsCommentCellFocus)
             {
-                IFocusCommentCellView CellView = AsCommentCellFocus.CellView;
-                string Text = CommentHelper.Get(CellView.Documentation);
+                string Text = GetFocusedCommentText(AsCommentCellFocus);
+                if (Text == null)
+                    Text = string.Empty;
 
                 SetTextCaretPosition(Text, position, out isMoved);
             }
@@ -722,6 +742,21 @@
             string Text = CommentHelper.Get(Documentation);
             if (Text == null)
             {
+                IFocusNodeStateView CurrentStateView = CurrentFocus.CellView.StateView;
+                ForcedCommentStateView = CurrentStateView;
+
+                Refresh(Controller.RootState);
+                Debug.Assert(ForcedCommentStateView == null);
+
+                for (int i = 0; i < FocusChain.Count; i++)
+                    if (FocusChain[i] is IFocusCommentCellFocus AsCommentCellFocus && AsCommentCellFocus.CellView.StateView == CurrentStateView)
+                    {
+                        int Index = FocusChain.IndexOf(Focus);
+                        MoveFocus(i - Index, out isMoved);
+                        break;
+                    }
+
+                isMoved = true;
             }
         }
 
@@ -1522,6 +1557,7 @@
         private protected override IFrameCellViewTreeContext InitializedCellViewTreeContext(IFrameNodeStateView stateView)
         {
             IFocusCellViewTreeContext Context = (IFocusCellViewTreeContext)CreateCellViewTreeContext(stateView);
+            ForcedCommentStateView = null;
 
             List<IFocusFrameSelectorList> SelectorStack = GetSelectorStack((IFocusNodeStateView)stateView);
             foreach (IFocusFrameSelectorList Selectors in SelectorStack)
@@ -1788,13 +1824,17 @@
 
             if (Focus is IFocusTextCellFocus AsTextCellFocus)
             {
-                Text = FocusedText;
+                Text = GetFocusedStringText(AsTextCellFocus);
+
                 Debug.Assert(Text != null);
             }
             else if (Focus is IFocusCommentCellFocus AsCommentCellFocus)
             {
-                IFocusCommentCellView CellView = AsCommentCellFocus.CellView;
-                Text = CommentHelper.Get(CellView.Documentation);
+                Text = GetFocusedCommentText(AsCommentCellFocus);
+                if (Text == null)
+                    Text = string.Empty;
+
+                Debug.Assert(Text != null);
             }
 
             if (Text != null)
@@ -1859,6 +1899,27 @@
             Debug.Assert(((IFocusContainerCellView)containerCellView).ParentCellView == (IFocusCellViewCollection)parentCellView);
             Debug.Assert(((IFocusContainerCellView)containerCellView).ChildStateView == (IFocusNodeStateView)childStateView);
         }
+
+        /// <summary></summary>
+        private protected virtual string GetFocusedStringText(IFocusTextCellFocus textCellFocus)
+        {
+            IFocusTextFocusableCellView CellView = textCellFocus.CellView;
+            INode Node = CellView.StateView.State.Node;
+            string PropertyName = CellView.PropertyName;
+
+            return NodeTreeHelper.GetString(Node, PropertyName);
+        }
+
+        /// <summary></summary>
+        private protected virtual string GetFocusedCommentText(IFocusCommentCellFocus commentCellFocus)
+        {
+            IFocusCommentCellView CellView = commentCellFocus.CellView;
+            IDocument Documentation = CellView.StateView.State.Node.Documentation;
+
+            return CommentHelper.Get(Documentation);
+        }
+
+        private protected IFocusNodeStateView ForcedCommentStateView { get; private set; }
         #endregion
 
         #region Debugging
@@ -1986,7 +2047,7 @@
         private protected override IFrameCellViewTreeContext CreateCellViewTreeContext(IFrameNodeStateView stateView)
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusControllerView));
-            return new FocusCellViewTreeContext(this, (IFocusNodeStateView)stateView);
+            return new FocusCellViewTreeContext(this, (IFocusNodeStateView)stateView, ForcedCommentStateView);
         }
 
         /// <summary>

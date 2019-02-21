@@ -26,6 +26,11 @@
         new IFocusBlockStateView BlockStateView { get; }
 
         /// <summary>
+        /// The state view for which the comment must be visible, even if empty.
+        /// </summary>
+        IFocusNodeStateView ForcedCommentStateView { get; }
+
+        /// <summary>
         /// True if cells are shown ccording to the frame visibility.
         /// </summary>
         bool IsFrameVisible { get; }
@@ -119,9 +124,11 @@
         /// </summary>
         /// <param name="controllerView">The view in which cells are created.</param>
         /// <param name="stateView">The state view for which to create cells.</param>
-        public FocusCellViewTreeContext(IFrameControllerView controllerView, IFrameNodeStateView stateView)
+        /// <param name="forcedCommentStateView">The state view for which the comment must be visible, even if empty.</param>
+        public FocusCellViewTreeContext(IFrameControllerView controllerView, IFrameNodeStateView stateView, IFocusNodeStateView forcedCommentStateView)
             : base(controllerView, stateView)
         {
+            ForcedCommentStateView = forcedCommentStateView;
             IsFrameVisible = true;
             IsUserVisible = false;
             SelectorTable = new Dictionary<Type, string>();
@@ -143,6 +150,11 @@
         /// The block state view for which to create cells. Can be null.
         /// </summary>
         public new IFocusBlockStateView BlockStateView { get { return (IFocusBlockStateView)base.BlockStateView; } }
+
+        /// <summary>
+        /// The state view for which the comment must be visible, even if empty.
+        /// </summary>
+        public IFocusNodeStateView ForcedCommentStateView { get; }
 
         /// <summary>
         /// True if cells are shown ccording to the frame visibility.

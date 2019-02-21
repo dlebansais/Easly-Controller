@@ -382,6 +382,8 @@
         {
             ILayoutCommentCellView CellView = commentCellFocus.CellView;
             string Text = CommentHelper.Get(CellView.Documentation);
+            if (Text == null)
+                Text = string.Empty;
 
             Point CellOrigin = CellView.CellOrigin;
             Padding CellPadding = CellView.CellPadding;
@@ -935,7 +937,7 @@
         private protected override IFrameCellViewTreeContext CreateCellViewTreeContext(IFrameNodeStateView stateView)
         {
             ControllerTools.AssertNoOverride(this, typeof(LayoutControllerView));
-            return new LayoutCellViewTreeContext(this, (ILayoutNodeStateView)stateView);
+            return new LayoutCellViewTreeContext(this, (ILayoutNodeStateView)stateView, (ILayoutNodeStateView)ForcedCommentStateView);
         }
 
         /// <summary>

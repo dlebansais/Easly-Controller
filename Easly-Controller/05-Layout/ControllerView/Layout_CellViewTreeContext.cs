@@ -37,8 +37,9 @@
         /// </summary>
         /// <param name="controllerView">The view in which cells are created.</param>
         /// <param name="stateView">The state view for which to create cells.</param>
-        public LayoutCellViewTreeContext(IFocusControllerView controllerView, IFocusNodeStateView stateView)
-            : base(controllerView, stateView)
+        /// <param name="forcedCommentStateView">The state view for which the comment must be visible, even if empty.</param>
+        public LayoutCellViewTreeContext(ILayoutControllerView controllerView, ILayoutNodeStateView stateView, ILayoutNodeStateView forcedCommentStateView)
+            : base(controllerView, stateView, forcedCommentStateView)
         {
         }
         #endregion

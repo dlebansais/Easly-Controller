@@ -18,10 +18,11 @@
             DrawContext = new DrawContext();
 
             ControllerView = LayoutControllerView.Create(Controller, CustomLayoutTemplateSet.LayoutTemplateSet, DrawContext);
-            ControllerView.SetCommentDisplayMode(EaslyController.Constants.CommentDisplayModes.All);
+            ControllerView.SetCommentDisplayMode(EaslyController.Constants.CommentDisplayModes.OnFocus);
             ControllerView.SetShowUnfocusedComments(show: true);
             ControllerView.MeasureAndArrange();
             ControllerView.ShowCaret(true, draw: false);
+            ControllerView.ForceShowComment(out bool isMoved);
 
             DrawingContext.Close();
 

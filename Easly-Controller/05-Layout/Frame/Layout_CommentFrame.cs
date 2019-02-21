@@ -59,6 +59,8 @@
             ILayoutCommentCellView CommentCellView = cellView as ILayoutCommentCellView;
             Debug.Assert(CommentCellView != null);
             string Text = CommentHelper.Get(CommentCellView.Documentation);
+            if (Text == null)
+                Text = string.Empty;
 
             CommentDisplayModes DisplayMode = cellView.StateView.ControllerView.CommentDisplayMode;
             Debug.Assert(DisplayMode == CommentDisplayModes.OnFocus || DisplayMode == CommentDisplayModes.All);
@@ -90,6 +92,8 @@
             ILayoutCommentCellView CommentCellView = cellView as ILayoutCommentCellView;
             Debug.Assert(CommentCellView != null);
             string Text = CommentHelper.Get(CommentCellView.Documentation);
+            if (Text == null)
+                Text = string.Empty;
 
             CommentDisplayModes DisplayMode = cellView.StateView.ControllerView.CommentDisplayMode;
             Debug.Assert(DisplayMode == CommentDisplayModes.OnFocus || DisplayMode == CommentDisplayModes.All);
