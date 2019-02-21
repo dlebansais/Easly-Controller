@@ -202,7 +202,7 @@
                 TextStyles Result = TextStyles.Default;
                 bool IsHandled = false;
 
-                if (Focus is ILayoutTextCellFocus AsText)
+                if (Focus is ILayoutTextFocus AsText)
                 {
                     switch (AsText.CellView.Frame)
                     {
@@ -293,10 +293,10 @@
 
             if (IsCaretShown)
             {
-                if (IsCaretOnText(out ILayoutTextCellFocus TextCellFocus))
-                    DrawTextCaret(TextCellFocus);
-                else if (IsCaretOnComment(out ILayoutCommentCellFocus CommentCellFocus))
-                    DrawCommentCaret(CommentCellFocus);
+                if (IsCaretOnText(out ILayoutTextFocus TextFocus))
+                    DrawTextCaret(TextFocus);
+                else if (IsCaretOnComment(out ILayoutCommentFocus CommentFocus))
+                    DrawCommentCaret(CommentFocus);
             }
         }
 
@@ -315,27 +315,27 @@
             if (draw)
                 if (IsCaretShown)
                 {
-                    if (IsCaretOnText(out ILayoutTextCellFocus TextCellFocus))
-                        DrawTextCaret(TextCellFocus);
-                    else if (IsCaretOnComment(out ILayoutCommentCellFocus CommentCellFocus))
-                        DrawCommentCaret(CommentCellFocus);
-                    else if (Focus is ILayoutCellFocus AsCellFocus)
-                        AsCellFocus.CellView.Draw(out Size MeasuredSize);
+                    if (IsCaretOnText(out ILayoutTextFocus TextFocus))
+                        DrawTextCaret(TextFocus);
+                    else if (IsCaretOnComment(out ILayoutCommentFocus CommentFocus))
+                        DrawCommentCaret(CommentFocus);
+                    else
+                        Focus.CellView.Draw(out Size MeasuredSize);
                 }
                 else
                     DrawContext.HideCaret();
         }
 
         /// <summary></summary>
-        private protected bool IsCaretOnText(out ILayoutTextCellFocus textCellFocus)
+        private protected bool IsCaretOnText(out ILayoutTextFocus textCellFocus)
         {
             textCellFocus = null;
 
-            if (Focus is ILayoutTextCellFocus AsTextCellFocus)
+            if (Focus is ILayoutTextFocus AsTextFocus)
             {
                 bool IsHandled = false;
 
-                switch (AsTextCellFocus.CellView.Frame)
+                switch (AsTextFocus.CellView.Frame)
                 {
                     case ILayoutCharacterFrame AsCharacterFrame:
                         IsHandled = true; // The focus was displayed directly with the character.
@@ -343,7 +343,7 @@
 
                     case ILayoutNumberFrame AsNumberFrame:
                     case ILayoutTextValueFrame AsTextValueFrame:
-                        textCellFocus = AsTextCellFocus;
+                        textCellFocus = AsTextFocus;
                         IsHandled = true;
                         break;
                 }
@@ -355,7 +355,7 @@
         }
 
         /// <summary></summary>
-        private protected void DrawTextCaret(ILayoutTextCellFocus textCellFocus)
+        private protected void DrawTextCaret(ILayoutTextFocus textCellFocus)
         {
             ILayoutTextFocusableCellView CellView = textCellFocus.CellView;
 
@@ -371,16 +371,16 @@
         }
 
         /// <summary></summary>
-        private protected bool IsCaretOnComment(out ILayoutCommentCellFocus commentCellFocus)
+        private protected bool IsCaretOnComment(out ILayoutCommentFocus commentFocus)
         {
-            commentCellFocus = Focus as ILayoutCommentCellFocus;
-            return commentCellFocus != null;
+            commentFocus = Focus as ILayoutCommentFocus;
+            return commentFocus != null;
         }
 
         /// <summary></summary>
-        private protected void DrawCommentCaret(ILayoutCommentCellFocus commentCellFocus)
+        private protected void DrawCommentCaret(ILayoutCommentFocus commentFocus)
         {
-            ILayoutCommentCellView CellView = commentCellFocus.CellView;
+            ILayoutCommentCellView CellView = commentFocus.CellView;
             string Text = CommentHelper.Get(CellView.Documentation);
             if (Text == null)
                 Text = string.Empty;
@@ -409,38 +409,35 @@
             for (int i = 0; i < FocusChain.Count; i++)
             {
                 int CellIndex = distance < 0 ? i : FocusChain.Count - i - 1;
-                ILayoutFocus Focus = (ILayoutFocus)FocusChain[CellIndex];
+                ILayoutFocus TestFocus = (ILayoutFocus)FocusChain[CellIndex];
 
-                if (Focus is ILayoutCellFocus AsCellFocus)
+                ILayoutFocusableCellView CellView = TestFocus.CellView;
+
+                // If we check against the current focus, it might be the closest cell and then we don't move!
+                if (CellIndex == FocusIndex)
+                    continue;
+
+                // Don't consider cells that are in the wrong direction;
+                if ((distance < 0 && CellView.CellOrigin.Y >= Origin.Y) || (distance > 0 && CellView.CellOrigin.Y + CellView.CellSize.Height <= Origin.Y))
+                    continue;
+
+                if (CellView.CellRect.IsPointInRect(Origin))
                 {
-                    ILayoutFocusableCellView CellView = AsCellFocus.CellView;
+                    BestCellIndex = CellIndex;
+                    break;
+                }
+                else
+                {
+                    Point Center = CellView.CellRect.Center;
 
-                    // If we check against the current focus, it might be the closest cell and then we don't move!
-                    if (CellIndex == FocusIndex)
-                        continue;
+                    double VerticalDistance = Math.Abs(Center.Y - Origin.Y);
+                    double HorizontalDistance = Math.Abs(Center.X - Origin.X);
 
-                    // Don't consider cells that are in the wrong direction;
-                    if ((distance < 0 && CellView.CellOrigin.Y >= Origin.Y) || (distance > 0 && CellView.CellOrigin.Y + CellView.CellSize.Height <= Origin.Y))
-                        continue;
-
-                    if (CellView.CellRect.IsPointInRect(Origin))
+                    if (BestCellIndex < 0 || BestVerticalDistance > VerticalDistance || (RegionHelper.IsZero(BestVerticalDistance - VerticalDistance) && BestHorizontalDistance > HorizontalDistance))
                     {
+                        BestVerticalDistance = VerticalDistance;
+                        BestHorizontalDistance = HorizontalDistance;
                         BestCellIndex = CellIndex;
-                        break;
-                    }
-                    else
-                    {
-                        Point Center = CellView.CellRect.Center;
-
-                        double VerticalDistance = Math.Abs(Center.Y - Origin.Y);
-                        double HorizontalDistance = Math.Abs(Center.X - Origin.X);
-
-                        if (BestCellIndex < 0 || BestVerticalDistance > VerticalDistance || (RegionHelper.IsZero(BestVerticalDistance - VerticalDistance) && BestHorizontalDistance > HorizontalDistance))
-                        {
-                            BestVerticalDistance = VerticalDistance;
-                            BestHorizontalDistance = HorizontalDistance;
-                            BestCellIndex = CellIndex;
-                        }
                     }
                 }
             }
@@ -460,10 +457,10 @@
         {
             Point Origin = RegionHelper.InvalidOrigin;
 
-            if (Focus is ILayoutTextCellFocus AsTextCellFocus)
+            if (Focus is ILayoutTextFocus AsTextFocus)
             {
                 bool IsHandled = false;
-                ILayoutTextFocusableCellView CellView = AsTextCellFocus.CellView;
+                ILayoutTextFocusableCellView CellView = AsTextFocus.CellView;
                 double Position;
 
                 switch (CaretMode)
@@ -485,9 +482,9 @@
 
                 Debug.Assert(IsHandled);
             }
-            else if (Focus is ILayoutCellFocus AsCellFocus)
+            else
             {
-                ILayoutFocusableCellView CellView = AsCellFocus.CellView;
+                ILayoutFocusableCellView CellView = Focus.CellView;
                 Origin = CellView.CellOrigin.Moved(CellView.CellSize.Width / 2, CellView.CellSize.Height / 2);
             }
 
@@ -807,7 +804,7 @@
         {
             base.ChangeFocus(direction, oldIndex, newIndex);
 
-            if (FocusChain[oldIndex] is ILayoutCommentCellFocus || FocusChain[newIndex] is ILayoutCommentCellFocus)
+            if (FocusChain[oldIndex] is ILayoutCommentFocus || FocusChain[newIndex] is ILayoutCommentFocus)
                 Invalidate();
         }
         #endregion

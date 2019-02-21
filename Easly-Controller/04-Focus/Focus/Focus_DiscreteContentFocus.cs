@@ -3,7 +3,7 @@
     /// <summary>
     /// Focus on a discrete content focusable cell view.
     /// </summary>
-    public interface IFocusDiscreteContentCellFocus : IFocusCellFocus
+    public interface IFocusDiscreteContentFocus : IFocusFocus
     {
         /// <summary>
         /// The cell view with the focus.
@@ -14,13 +14,13 @@
     /// <summary>
     /// Focus on a discrete content focusable cell view.
     /// </summary>
-    public class FocusDiscreteContentCellFocus : FocusCellFocus, IFocusDiscreteContentCellFocus
+    public class FocusDiscreteContentFocus : FocusFocus, IFocusDiscreteContentFocus
     {
         #region Init
         /// <summary>
-        /// Initializes a new instance of the <see cref="FocusDiscreteContentCellFocus"/> class.
+        /// Initializes a new instance of the <see cref="FocusDiscreteContentFocus"/> class.
         /// </summary>
-        public FocusDiscreteContentCellFocus(IFocusDiscreteContentFocusableCellView cellView)
+        public FocusDiscreteContentFocus(IFocusDiscreteContentFocusableCellView cellView)
             : base(cellView)
         {
         }
@@ -31,7 +31,7 @@
         /// The cell view with the focus.
         /// </summary>
         public new IFocusDiscreteContentFocusableCellView CellView { get { return (IFocusDiscreteContentFocusableCellView)base.CellView; } }
-        IFocusFocusableCellView IFocusCellFocus.CellView { get { return CellView; } }
+        IFocusFocusableCellView IFocusFocus.CellView { get { return CellView; } }
         #endregion
     }
 }

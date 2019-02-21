@@ -171,12 +171,12 @@
 
         #region Create Methods
         /// <summary>
-        /// Creates a IxxxCommentCellFocus object.
+        /// Creates a IxxxCommentFocus object.
         /// </summary>
-        protected override IFocusCommentCellFocus CreateFocus()
+        protected override IFocusCommentFocus CreateFocus()
         {
             ControllerTools.AssertNoOverride(this, typeof(LayoutCommentCellView));
-            return new LayoutCommentCellFocus(this);
+            return new LayoutCommentFocus(this);
         }
         #endregion
     }

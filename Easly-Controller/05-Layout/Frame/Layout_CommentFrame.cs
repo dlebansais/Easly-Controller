@@ -65,7 +65,7 @@
             CommentDisplayModes DisplayMode = cellView.StateView.ControllerView.CommentDisplayMode;
             Debug.Assert(DisplayMode == CommentDisplayModes.OnFocus || DisplayMode == CommentDisplayModes.All);
 
-            bool IsFocused = cellView.StateView.ControllerView.Focus is ILayoutCellFocus AsCellFocus && AsCellFocus.CellView == cellView;
+            bool IsFocused = cellView.StateView.ControllerView.Focus.CellView == cellView;
             if (IsFocused && Text == null)
                 Text = string.Empty;
 
@@ -98,7 +98,7 @@
             CommentDisplayModes DisplayMode = cellView.StateView.ControllerView.CommentDisplayMode;
             Debug.Assert(DisplayMode == CommentDisplayModes.OnFocus || DisplayMode == CommentDisplayModes.All);
 
-            bool IsFocused = cellView.StateView.ControllerView.Focus is ILayoutCellFocus AsCellFocus && AsCellFocus.CellView == cellView;
+            bool IsFocused = cellView.StateView.ControllerView.Focus.CellView == cellView;
             if (IsFocused && Text == null)
                 Text = string.Empty;
 

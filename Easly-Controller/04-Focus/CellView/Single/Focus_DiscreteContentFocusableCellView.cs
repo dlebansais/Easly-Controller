@@ -89,12 +89,12 @@
 
         #region Create Methods
         /// <summary>
-        /// Creates a IxxxDiscreteContentCellFocus object.
+        /// Creates a IxxxDiscreteContentFocus object.
         /// </summary>
-        protected virtual IFocusDiscreteContentCellFocus CreateFocus()
+        protected virtual IFocusDiscreteContentFocus CreateFocus()
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusDiscreteContentFocusableCellView));
-            return new FocusDiscreteContentCellFocus(this);
+            return new FocusDiscreteContentFocus(this);
         }
         #endregion
     }

@@ -80,12 +80,12 @@
 
         #region Create Methods
         /// <summary>
-        /// Creates a IxxxCommentCellFocus object.
+        /// Creates a IxxxCommentFocus object.
         /// </summary>
-        protected virtual IFocusCommentCellFocus CreateFocus()
+        protected virtual IFocusCommentFocus CreateFocus()
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusCommentCellView));
-            return new FocusCommentCellFocus(this);
+            return new FocusCommentFocus(this);
         }
         #endregion
     }

@@ -78,12 +78,12 @@
 
         #region Create Methods
         /// <summary>
-        /// Creates a IxxxCellFocus object.
+        /// Creates a IxxxFocus object.
         /// </summary>
-        protected virtual IFocusCellFocus CreateFocus()
+        protected virtual IFocusFocus CreateFocus()
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusFocusableCellView));
-            return new FocusCellFocus(this);
+            return new FocusFocus(this);
         }
         #endregion
     }

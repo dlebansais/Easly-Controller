@@ -86,7 +86,7 @@
             string Text = BaseNodeHelper.NodeTreeHelper.GetString(Node, PropertyName);
             Debug.Assert(Text != null && Text.Length == 1);
 
-            bool IsFocused = cellView.StateView.ControllerView.Focus is ILayoutCellFocus AsCellFocus && AsCellFocus.CellView == cellView;
+            bool IsFocused = cellView.StateView.ControllerView.Focus.CellView == cellView;
 
             Point OriginWithPadding = origin.Moved(padding.Left, padding.Top);
             drawContext.DrawText(Text, OriginWithPadding, TextStyles.Character, IsFocused);

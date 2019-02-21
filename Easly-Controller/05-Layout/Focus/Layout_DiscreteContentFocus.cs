@@ -5,7 +5,7 @@
     /// <summary>
     /// Focus on a discrete content focusable cell view.
     /// </summary>
-    public interface ILayoutDiscreteContentCellFocus : IFocusDiscreteContentCellFocus, ILayoutCellFocus
+    public interface ILayoutDiscreteContentFocus : IFocusDiscreteContentFocus, ILayoutFocus
     {
         /// <summary>
         /// The cell view with the focus.
@@ -16,13 +16,13 @@
     /// <summary>
     /// Focus on a discrete content focusable cell view.
     /// </summary>
-    public class LayoutDiscreteContentCellFocus : FocusDiscreteContentCellFocus, ILayoutDiscreteContentCellFocus
+    public class LayoutDiscreteContentFocus : FocusDiscreteContentFocus, ILayoutDiscreteContentFocus
     {
         #region Init
         /// <summary>
-        /// Initializes a new instance of the <see cref="LayoutDiscreteContentCellFocus"/> class.
+        /// Initializes a new instance of the <see cref="LayoutDiscreteContentFocus"/> class.
         /// </summary>
-        public LayoutDiscreteContentCellFocus(ILayoutDiscreteContentFocusableCellView cellView)
+        public LayoutDiscreteContentFocus(ILayoutDiscreteContentFocusableCellView cellView)
             : base(cellView)
         {
         }
@@ -33,7 +33,7 @@
         /// The cell view with the focus.
         /// </summary>
         public new ILayoutDiscreteContentFocusableCellView CellView { get { return (ILayoutDiscreteContentFocusableCellView)base.CellView; } }
-        ILayoutFocusableCellView ILayoutCellFocus.CellView { get { return CellView; } }
+        ILayoutFocusableCellView ILayoutFocus.CellView { get { return CellView; } }
         #endregion
     }
 }

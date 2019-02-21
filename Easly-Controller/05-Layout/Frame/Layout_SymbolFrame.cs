@@ -77,7 +77,7 @@
         /// <param name="padding">The padding to use when drawing.</param>
         public virtual void Draw(ILayoutDrawContext drawContext, ILayoutCellView cellView, Point origin, Size size, Padding padding)
         {
-            bool IsFocused = cellView.StateView.ControllerView.Focus is ILayoutCellFocus AsCellFocus && AsCellFocus.CellView == cellView;
+            bool IsFocused = cellView.StateView.ControllerView.Focus.CellView == cellView;
 
             drawContext.DrawSymbol(Symbol, origin, size, padding, IsFocused);
         }

@@ -175,12 +175,12 @@
 
         #region Create Methods
         /// <summary>
-        /// Creates a IxxxCellFocus object.
+        /// Creates a IxxxFocus object.
         /// </summary>
-        protected override IFocusCellFocus CreateFocus()
+        protected override IFocusFocus CreateFocus()
         {
             ControllerTools.AssertNoOverride(this, typeof(LayoutFocusableCellView));
-            return new LayoutCellFocus(this);
+            return new LayoutFocus(this);
         }
         #endregion
     }

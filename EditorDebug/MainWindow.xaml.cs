@@ -358,9 +358,9 @@ namespace EditorDebug
             if (ControllerView == null)
                 return;
 
-            if (ControllerView.Focus is ILayoutDiscreteContentCellFocus AsDiscreteContentCellFocus)
+            if (ControllerView.Focus is ILayoutDiscreteContentFocus AsDiscreteContentFocus)
             {
-                ILayoutDiscreteContentFocusableCellView CellView = AsDiscreteContentCellFocus.CellView;
+                ILayoutDiscreteContentFocusableCellView CellView = AsDiscreteContentFocus.CellView;
                 IFocusIndex Index = CellView.StateView.State.ParentIndex;
 
                 int Value = ControllerView.Controller.GetDiscreteValue(Index, CellView.PropertyName);

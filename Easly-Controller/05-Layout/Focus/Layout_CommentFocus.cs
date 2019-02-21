@@ -3,9 +3,9 @@
     using EaslyController.Focus;
 
     /// <summary>
-    /// Focus on a text focusable cell view.
+    /// Focus on a comment cell view.
     /// </summary>
-    public interface ILayoutCommentCellFocus : IFocusCommentCellFocus, ILayoutCellFocus
+    public interface ILayoutCommentFocus : IFocusCommentFocus, ILayoutFocus
     {
         /// <summary>
         /// The cell view with the focus.
@@ -14,15 +14,15 @@
     }
 
     /// <summary>
-    /// Focus on a text focusable cell view.
+    /// Focus on a comment cell view.
     /// </summary>
-    public class LayoutCommentCellFocus : FocusCommentCellFocus, ILayoutCommentCellFocus
+    public class LayoutCommentFocus : FocusCommentFocus, ILayoutCommentFocus
     {
         #region Init
         /// <summary>
-        /// Initializes a new instance of the <see cref="LayoutCommentCellFocus"/> class.
+        /// Initializes a new instance of the <see cref="LayoutCommentFocus"/> class.
         /// </summary>
-        public LayoutCommentCellFocus(ILayoutCommentCellView cellView)
+        public LayoutCommentFocus(ILayoutCommentCellView cellView)
             : base(cellView)
         {
         }
@@ -33,7 +33,7 @@
         /// The cell view with the focus.
         /// </summary>
         public new ILayoutCommentCellView CellView { get { return (ILayoutCommentCellView)base.CellView; } }
-        ILayoutFocusableCellView ILayoutCellFocus.CellView { get { return CellView; } }
+        ILayoutFocusableCellView ILayoutFocus.CellView { get { return CellView; } }
         #endregion
     }
 }

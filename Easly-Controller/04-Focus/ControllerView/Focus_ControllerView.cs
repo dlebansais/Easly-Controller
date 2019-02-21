@@ -354,8 +354,8 @@
             {
                 string Result = null;
 
-                if (Focus is IFocusTextCellFocus AsTextCellFocus)
-                    Result = GetFocusedStringText(AsTextCellFocus);
+                if (Focus is IFocusTextFocus AsTextFocus)
+                    Result = GetFocusedStringText(AsTextFocus);
 
                 return Result;
             }
@@ -370,8 +370,8 @@
             {
                 string Result = null;
 
-                if (Focus is IFocusCommentCellFocus AsCommentCellFocus)
-                    Result = GetFocusedCommentText(AsCommentCellFocus);
+                if (Focus is IFocusCommentFocus AsCommentFocus)
+                    Result = GetFocusedCommentText(AsCommentFocus);
 
                 return Result;
             }
@@ -384,18 +384,10 @@
         {
             get
             {
-                bool IsHandled = false;
-                bool Result = false;
+                IFocusNodeStateView StateView = GetFirstNonSimpleStateView(Focus.CellView.StateView);
+                Debug.Assert(StateView != null);
 
-                if (Focus is IFocusCellFocus AsCellFocus)
-                {
-                    IFocusNodeStateView StateView = GetFirstNonSimpleStateView(AsCellFocus.CellView.StateView);
-                    Result = StateView.IsUserVisible;
-                    IsHandled = true;
-                }
-
-                Debug.Assert(IsHandled);
-                return Result;
+                return StateView.IsUserVisible;
             }
         }
         #endregion
@@ -633,9 +625,9 @@
             Focus = FocusChain[newIndex];
             ResetCaretPosition(direction);
 
-            if (FocusChain[oldIndex] is IFocusCommentCellFocus AsCommentCellFocus)
+            if (FocusChain[oldIndex] is IFocusCommentFocus AsCommentFocus)
             {
-                string Text = GetFocusedCommentText(AsCommentCellFocus);
+                string Text = GetFocusedCommentText(AsCommentFocus);
                 if (Text == null)
                 {
                     Refresh(Controller.RootState);
@@ -652,16 +644,16 @@
         {
             isMoved = false;
 
-            if (Focus is IFocusTextCellFocus AsTextCellFocus)
+            if (Focus is IFocusTextFocus AsTextFocus)
             {
-                string Text = GetFocusedStringText(AsTextCellFocus);
+                string Text = GetFocusedStringText(AsTextFocus);
 
                 SetTextCaretPosition(Text, position, out isMoved);
             }
 
-            else if (Focus is IFocusCommentCellFocus AsCommentCellFocus)
+            else if (Focus is IFocusCommentFocus AsCommentFocus)
             {
-                string Text = GetFocusedCommentText(AsCommentCellFocus);
+                string Text = GetFocusedCommentText(AsCommentFocus);
                 if (Text == null)
                     Text = string.Empty;
 
@@ -684,27 +676,20 @@
         /// </summary>
         public virtual void SetUserVisible(bool isUserVisible)
         {
-            bool IsHandled = false;
+            IFocusNodeStateView StateView = GetFirstNonSimpleStateView(Focus.CellView.StateView);
+            Debug.Assert(StateView != null);
 
-            if (Focus is IFocusCellFocus AsCellFocus)
+            if (isUserVisible)
             {
-                IFocusNodeStateView StateView = GetFirstNonSimpleStateView(AsCellFocus.CellView.StateView);
+                foreach (KeyValuePair<IFocusNodeState, IFocusNodeStateView> Entry in StateViewTable)
+                    Entry.Value.SetIsUserVisible(false);
 
-                if (isUserVisible)
-                {
-                    foreach (KeyValuePair<IFocusNodeState, IFocusNodeStateView> Entry in StateViewTable)
-                        Entry.Value.SetIsUserVisible(false);
-
-                    StateView.SetIsUserVisible(isUserVisible: true);
-                }
-                else
-                    StateView.SetIsUserVisible(isUserVisible: false);
-
-                Refresh(StateView.State);
-                IsHandled = true;
+                StateView.SetIsUserVisible(isUserVisible: true);
             }
+            else
+                StateView.SetIsUserVisible(isUserVisible: false);
 
-            Debug.Assert(IsHandled);
+            Refresh(StateView.State);
         }
 
         /// <summary></summary>
@@ -724,10 +709,7 @@
         /// </summary>
         public virtual void ForceShowComment(out bool isMoved)
         {
-            IFocusCellFocus CurrentFocus = Focus as IFocusCellFocus;
-            Debug.Assert(CurrentFocus != null);
-
-            IFocusNodeState State = CurrentFocus.CellView.StateView.State;
+            IFocusNodeState State = Focus.CellView.StateView.State;
             IDocument Documentation;
             if (State is IFocusOptionalNodeState AsOptionalNodeState)
             {
@@ -742,14 +724,14 @@
             string Text = CommentHelper.Get(Documentation);
             if (Text == null)
             {
-                IFocusNodeStateView CurrentStateView = CurrentFocus.CellView.StateView;
-                ForcedCommentStateView = CurrentStateView;
+                IFocusNodeStateView StateView = Focus.CellView.StateView;
+                ForcedCommentStateView = StateView;
 
                 Refresh(Controller.RootState);
                 Debug.Assert(ForcedCommentStateView == null);
 
                 for (int i = 0; i < FocusChain.Count; i++)
-                    if (FocusChain[i] is IFocusCommentCellFocus AsCommentCellFocus && AsCommentCellFocus.CellView.StateView == CurrentStateView)
+                    if (FocusChain[i] is IFocusCommentFocus AsCommentFocus && AsCommentFocus.CellView.StateView == StateView)
                     {
                         int Index = FocusChain.IndexOf(Focus);
                         MoveFocus(i - Index, out isMoved);
@@ -771,71 +753,60 @@
             inner = null;
             index = null;
 
-            bool IsHandled = false;
             bool Result = false;
 
-            if (Focus is IFocusCellFocus AsCellFocus)
+            IFocusNodeState State = Focus.CellView.StateView.State;
+            IFocusFrame Frame = Focus.CellView.Frame;
+
+            if (Frame is IFocusInsertFrame AsInsertFrame)
             {
-                IFocusNodeState State = AsCellFocus.CellView.StateView.State;
-                IFocusFrame Frame = AsCellFocus.CellView.Frame;
+                Type InsertType = AsInsertFrame.InsertType;
+                Debug.Assert(InsertType != null);
 
-                if (Frame is IFocusInsertFrame AsInsertFrame)
+                INode NewItem = BuildNewInsertableItem(InsertType);
+
+                IFocusCollectionInner CollectionInner = null;
+                AsInsertFrame.CollectionNameToInner(ref State, ref CollectionInner);
+                Debug.Assert(CollectionInner != null);
+
+                if (CollectionInner is IFocusBlockListInner AsBlockListInner)
                 {
-                    Type InsertType = AsInsertFrame.InsertType;
-                    Debug.Assert(InsertType != null);
+                    inner = AsBlockListInner;
 
-                    INode NewItem = BuildNewInsertableItem(InsertType);
-
-                    IFocusCollectionInner CollectionInner = null;
-                    AsInsertFrame.CollectionNameToInner(ref State, ref CollectionInner);
-                    Debug.Assert(CollectionInner != null);
-
-                    if (CollectionInner is IFocusBlockListInner AsBlockListInner)
+                    if (AsBlockListInner.Count == 0)
                     {
-                        inner = AsBlockListInner;
-
-                        if (AsBlockListInner.Count == 0)
-                        {
-                            IPattern NewPattern = NodeHelper.CreateEmptyPattern();
-                            IIdentifier NewSource = NodeHelper.CreateEmptyIdentifier();
-                            index = CreateNewBlockNodeIndex(State.Node, CollectionInner.PropertyName, NewItem, 0, NewPattern, NewSource);
-                        }
-                        else
-                            index = CreateExistingBlockNodeIndex(State.Node, CollectionInner.PropertyName, NewItem, 0, 0);
-
-                        Result = true;
-                        IsHandled = true;
+                        IPattern NewPattern = NodeHelper.CreateEmptyPattern();
+                        IIdentifier NewSource = NodeHelper.CreateEmptyIdentifier();
+                        index = CreateNewBlockNodeIndex(State.Node, CollectionInner.PropertyName, NewItem, 0, NewPattern, NewSource);
                     }
-                    else if (CollectionInner is IFocusListInner AsListInner)
+                    else
+                        index = CreateExistingBlockNodeIndex(State.Node, CollectionInner.PropertyName, NewItem, 0, 0);
+
+                    Result = true;
+                }
+                else if (CollectionInner is IFocusListInner AsListInner)
+                {
+                    inner = AsListInner;
+                    index = CreateListNodeIndex(State.Node, AsListInner.PropertyName, NewItem, 0);
+
+                    Result = true;
+                }
+            }
+            else if (Frame is IFocusTextValueFrame AsTextValueFrame)
+            {
+                if (CaretPosition == 0)
+                    if (State.ParentInner is IFocusListInner AsListInner)
                     {
+                        Type InsertType = NodeTreeHelper.InterfaceTypeToNodeType(AsListInner.InterfaceType);
+                        INode NewItem = BuildNewInsertableItem(InsertType);
+
                         inner = AsListInner;
-                        index = CreateListNodeIndex(State.Node, AsListInner.PropertyName, NewItem, 0);
+                        index = CreateListNodeIndex(inner.Owner.Node, inner.PropertyName, NewItem, 0);
 
                         Result = true;
-                        IsHandled = true;
                     }
-
-                    Debug.Assert(IsHandled);
-                }
-                else if (Frame is IFocusTextValueFrame AsTextValueFrame)
-                {
-                    if (CaretPosition == 0)
-                        if (State.ParentInner is IFocusListInner AsListInner)
-                        {
-                            Type InsertType = NodeTreeHelper.InterfaceTypeToNodeType(AsListInner.InterfaceType);
-                            INode NewItem = BuildNewInsertableItem(InsertType);
-
-                            inner = AsListInner;
-                            index = CreateListNodeIndex(inner.Owner.Node, inner.PropertyName, NewItem, 0);
-
-                            Result = true;
-                        }
-                }
-
-                IsHandled = true;
             }
 
-            Debug.Assert(IsHandled);
             return Result;
         }
 
@@ -856,42 +827,35 @@
             inner = null;
             index = null;
 
-            bool IsHandled = false;
             bool IsRemoveable = false;
 
-            if (Focus is IFocusCellFocus AsCellFocus)
+            IFocusNodeState State = Focus.CellView.StateView.State;
+
+            if (Focus.CellView.Frame is IFocusInsertFrame AsInsertFrame)
+                IsRemoveable = false;
+            else
             {
-                IFocusNodeState State = AsCellFocus.CellView.StateView.State;
+                IsRemoveable = false;
 
-                if (AsCellFocus.CellView.Frame is IFocusInsertFrame AsInsertFrame)
-                    IsRemoveable = false;
-                else
+                // Search recursively for a collection parent, up to 3 levels up.
+                for (int i = 0; i < 3 && State != null; i++)
                 {
-                    IsRemoveable = false;
-
-                    // Search recursively for a collection parent, up to 3 levels up.
-                    for (int i = 0; i < 3 && State != null; i++)
+                    if (State.ParentInner is IFocusCollectionInner AsCollectionInner)
                     {
-                        if (State.ParentInner is IFocusCollectionInner AsCollectionInner)
-                        {
-                            inner = AsCollectionInner;
-                            index = State.ParentIndex as IFocusBrowsingCollectionNodeIndex;
-                            Debug.Assert(index != null);
+                        inner = AsCollectionInner;
+                        index = State.ParentIndex as IFocusBrowsingCollectionNodeIndex;
+                        Debug.Assert(index != null);
 
-                            if (Controller.IsRemoveable(inner, index))
-                                IsRemoveable = true;
+                        if (Controller.IsRemoveable(inner, index))
+                            IsRemoveable = true;
 
-                            break;
-                        }
-
-                        State = State.ParentState;
+                        break;
                     }
-                }
 
-                IsHandled = true;
+                    State = State.ParentState;
+                }
             }
 
-            Debug.Assert(IsHandled);
             return IsRemoveable;
         }
 
@@ -906,42 +870,35 @@
             inner = null;
             index = null;
 
-            bool IsHandled = false;
             bool IsSplittable = false;
 
-            if (Focus is IFocusCellFocus AsCellFocus)
+            IFocusNodeState State = Focus.CellView.StateView.State;
+
+            if (Focus.CellView.Frame is IFocusInsertFrame AsInsertFrame)
+                IsSplittable = false;
+            else
             {
-                IFocusNodeState State = AsCellFocus.CellView.StateView.State;
+                IsSplittable = false;
 
-                if (AsCellFocus.CellView.Frame is IFocusInsertFrame AsInsertFrame)
-                    IsSplittable = false;
-                else
+                // Search recursively for a collection parent, up to 3 levels up.
+                for (int i = 0; i < 3 && State != null; i++)
                 {
-                    IsSplittable = false;
-
-                    // Search recursively for a collection parent, up to 3 levels up.
-                    for (int i = 0; i < 3 && State != null; i++)
+                    if (State.ParentInner is IFocusBlockListInner AsBlockListInner)
                     {
-                        if (State.ParentInner is IFocusBlockListInner AsBlockListInner)
-                        {
-                            inner = AsBlockListInner;
-                            index = State.ParentIndex as IFocusBrowsingExistingBlockNodeIndex;
-                            Debug.Assert(index != null);
+                        inner = AsBlockListInner;
+                        index = State.ParentIndex as IFocusBrowsingExistingBlockNodeIndex;
+                        Debug.Assert(index != null);
 
-                            if (Controller.IsSplittable(inner, index))
-                                IsSplittable = true;
+                        if (Controller.IsSplittable(inner, index))
+                            IsSplittable = true;
 
-                            break;
-                        }
-
-                        State = State.ParentState;
+                        break;
                     }
-                }
 
-                IsHandled = true;
+                    State = State.ParentState;
+                }
             }
 
-            Debug.Assert(IsHandled);
             return IsSplittable;
         }
 
@@ -956,42 +913,35 @@
             inner = null;
             index = null;
 
-            bool IsHandled = false;
             bool IsMergeable = false;
 
-            if (Focus is IFocusCellFocus AsCellFocus)
+            IFocusNodeState State = Focus.CellView.StateView.State;
+
+            if (Focus.CellView.Frame is IFocusInsertFrame AsInsertFrame)
+                IsMergeable = false;
+            else
             {
-                IFocusNodeState State = AsCellFocus.CellView.StateView.State;
+                IsMergeable = false;
 
-                if (AsCellFocus.CellView.Frame is IFocusInsertFrame AsInsertFrame)
-                    IsMergeable = false;
-                else
+                // Search recursively for a collection parent, up to 3 levels up.
+                for (int i = 0; i < 3 && State != null; i++)
                 {
-                    IsMergeable = false;
-
-                    // Search recursively for a collection parent, up to 3 levels up.
-                    for (int i = 0; i < 3 && State != null; i++)
+                    if (State.ParentInner is IFocusBlockListInner AsBlockListInner)
                     {
-                        if (State.ParentInner is IFocusBlockListInner AsBlockListInner)
-                        {
-                            inner = AsBlockListInner;
-                            index = State.ParentIndex as IFocusBrowsingExistingBlockNodeIndex;
-                            Debug.Assert(index != null);
+                        inner = AsBlockListInner;
+                        index = State.ParentIndex as IFocusBrowsingExistingBlockNodeIndex;
+                        Debug.Assert(index != null);
 
-                            if (Controller.IsMergeable(inner, index))
-                                IsMergeable = true;
+                        if (Controller.IsMergeable(inner, index))
+                            IsMergeable = true;
 
-                            break;
-                        }
-
-                        State = State.ParentState;
+                        break;
                     }
-                }
 
-                IsHandled = true;
+                    State = State.ParentState;
+                }
             }
 
-            Debug.Assert(IsHandled);
             return IsMergeable;
         }
 
@@ -1007,42 +957,35 @@
             inner = null;
             index = null;
 
-            bool IsHandled = false;
             bool IsMoveable = false;
 
-            if (Focus is IFocusCellFocus AsCellFocus)
+            IFocusNodeState State = Focus.CellView.StateView.State;
+
+            if (Focus.CellView.Frame is IFocusInsertFrame AsInsertFrame)
+                IsMoveable = false;
+            else
             {
-                IFocusNodeState State = AsCellFocus.CellView.StateView.State;
+                IsMoveable = false;
 
-                if (AsCellFocus.CellView.Frame is IFocusInsertFrame AsInsertFrame)
-                    IsMoveable = false;
-                else
+                // Search recursively for a collection parent, up to 3 levels up.
+                for (int i = 0; i < 3 && State != null; i++)
                 {
-                    IsMoveable = false;
-
-                    // Search recursively for a collection parent, up to 3 levels up.
-                    for (int i = 0; i < 3 && State != null; i++)
+                    if (State.ParentInner is IFocusCollectionInner AsCollectionInner)
                     {
-                        if (State.ParentInner is IFocusCollectionInner AsCollectionInner)
-                        {
-                            inner = AsCollectionInner;
-                            index = State.ParentIndex as IFocusBrowsingCollectionNodeIndex;
-                            Debug.Assert(index != null);
+                        inner = AsCollectionInner;
+                        index = State.ParentIndex as IFocusBrowsingCollectionNodeIndex;
+                        Debug.Assert(index != null);
 
-                            if (Controller.IsMoveable(inner, index, direction))
-                                IsMoveable = true;
+                        if (Controller.IsMoveable(inner, index, direction))
+                            IsMoveable = true;
 
-                            break;
-                        }
-
-                        State = State.ParentState;
+                        break;
                     }
-                }
 
-                IsHandled = true;
+                    State = State.ParentState;
+                }
             }
 
-            Debug.Assert(IsHandled);
             return IsMoveable;
         }
 
@@ -1058,43 +1001,36 @@
             inner = null;
             blockIndex = -1;
 
-            bool IsHandled = false;
             bool IsBlockMoveable = false;
 
-            if (Focus is IFocusCellFocus AsCellFocus)
+            IFocusNodeState State = Focus.CellView.StateView.State;
+
+            if (Focus.CellView.Frame is IFocusInsertFrame AsInsertFrame)
+                IsBlockMoveable = false;
+            else
             {
-                IFocusNodeState State = AsCellFocus.CellView.StateView.State;
+                IsBlockMoveable = false;
 
-                if (AsCellFocus.CellView.Frame is IFocusInsertFrame AsInsertFrame)
-                    IsBlockMoveable = false;
-                else
+                // Search recursively for a collection parent, up to 3 levels up.
+                for (int i = 0; i < 3 && State != null; i++)
                 {
-                    IsBlockMoveable = false;
-
-                    // Search recursively for a collection parent, up to 3 levels up.
-                    for (int i = 0; i < 3 && State != null; i++)
+                    if (State.ParentInner is IFocusBlockListInner AsBlockListInner)
                     {
-                        if (State.ParentInner is IFocusBlockListInner AsBlockListInner)
-                        {
-                            inner = AsBlockListInner;
-                            IFocusBrowsingExistingBlockNodeIndex ParentIndex = State.ParentIndex as IFocusBrowsingExistingBlockNodeIndex;
-                            Debug.Assert(ParentIndex != null);
-                            blockIndex = ParentIndex.BlockIndex;
+                        inner = AsBlockListInner;
+                        IFocusBrowsingExistingBlockNodeIndex ParentIndex = State.ParentIndex as IFocusBrowsingExistingBlockNodeIndex;
+                        Debug.Assert(ParentIndex != null);
+                        blockIndex = ParentIndex.BlockIndex;
 
-                            if (Controller.IsBlockMoveable(inner, blockIndex, direction))
-                                IsBlockMoveable = true;
+                        if (Controller.IsBlockMoveable(inner, blockIndex, direction))
+                            IsBlockMoveable = true;
 
-                            break;
-                        }
-
-                        State = State.ParentState;
+                        break;
                     }
-                }
 
-                IsHandled = true;
+                    State = State.ParentState;
+                }
             }
 
-            Debug.Assert(IsHandled);
             return IsBlockMoveable;
         }
 
@@ -1110,39 +1046,32 @@
             state = null;
             cyclePosition = -1;
 
-            bool IsHandled = false;
             bool IsCyclableThrough = false;
 
-            if (Focus is IFocusCellFocus AsCellFocus)
+            IFocusNodeState CurrentState = Focus.CellView.StateView.State;
+
+            // Search recursively for a collection parent.
+            while (CurrentState != null)
             {
-                IFocusNodeState CurrentState = AsCellFocus.CellView.StateView.State;
-
-                // Search recursively for a collection parent.
-                while (CurrentState != null)
+                if (CurrentState is IFocusCyclableNodeState AsCyclableNodeState && Controller.IsMemberOfCycle(AsCyclableNodeState, out IFocusCycleManager CycleManager))
                 {
-                    if (CurrentState is IFocusCyclableNodeState AsCyclableNodeState && Controller.IsMemberOfCycle(AsCyclableNodeState, out IFocusCycleManager CycleManager))
-                    {
-                        CycleManager.AddNodeToCycle(AsCyclableNodeState);
+                    CycleManager.AddNodeToCycle(AsCyclableNodeState);
 
-                        IFocusInsertionChildNodeIndexList CycleIndexList = AsCyclableNodeState.CycleIndexList;
-                        Debug.Assert(CycleIndexList.Count >= 2);
-                        int CurrentPosition = AsCyclableNodeState.CycleCurrentPosition;
-                        Debug.Assert(CurrentPosition >= 0 && CurrentPosition < CycleIndexList.Count);
+                    IFocusInsertionChildNodeIndexList CycleIndexList = AsCyclableNodeState.CycleIndexList;
+                    Debug.Assert(CycleIndexList.Count >= 2);
+                    int CurrentPosition = AsCyclableNodeState.CycleCurrentPosition;
+                    Debug.Assert(CurrentPosition >= 0 && CurrentPosition < CycleIndexList.Count);
 
-                        state = AsCyclableNodeState;
-                        cyclePosition = CurrentPosition;
+                    state = AsCyclableNodeState;
+                    cyclePosition = CurrentPosition;
 
-                        IsCyclableThrough = true;
-                        break;
-                    }
-
-                    CurrentState = CurrentState.ParentState;
+                    IsCyclableThrough = true;
+                    break;
                 }
 
-                IsHandled = true;
+                CurrentState = CurrentState.ParentState;
             }
 
-            Debug.Assert(IsHandled);
             return IsCyclableThrough;
         }
 
@@ -1157,42 +1086,35 @@
             inner = null;
             index = null;
 
-            bool IsHandled = false;
             bool IsSimplifiable = false;
 
-            if (Focus is IFocusCellFocus AsCellFocus)
+            IFocusNodeState CurrentState = Focus.CellView.StateView.State;
+
+            // Search recursively for a simplifiable node.
+            while (CurrentState != null)
             {
-                IFocusNodeState CurrentState = AsCellFocus.CellView.StateView.State;
-
-                // Search recursively for a simplifiable node.
-                while (CurrentState != null)
+                if (NodeHelper.GetSimplifiedNode(CurrentState.Node, out INode SimplifiedNode))
                 {
-                    if (NodeHelper.GetSimplifiedNode(CurrentState.Node, out INode SimplifiedNode))
+                    if (SimplifiedNode != null)
                     {
-                        if (SimplifiedNode != null)
+                        Type InterfaceType = CurrentState.ParentInner.InterfaceType;
+                        if (InterfaceType.IsAssignableFrom(SimplifiedNode.GetType()))
                         {
-                            Type InterfaceType = CurrentState.ParentInner.InterfaceType;
-                            if (InterfaceType.IsAssignableFrom(SimplifiedNode.GetType()))
-                            {
-                                IFocusBrowsingChildIndex ParentIndex = CurrentState.ParentIndex as IFocusBrowsingChildIndex;
-                                Debug.Assert(ParentIndex != null);
+                            IFocusBrowsingChildIndex ParentIndex = CurrentState.ParentIndex as IFocusBrowsingChildIndex;
+                            Debug.Assert(ParentIndex != null);
 
-                                inner = CurrentState.ParentInner;
-                                index = ((IFocusBrowsingInsertableIndex)ParentIndex).ToInsertionIndex(inner.Owner.Node, SimplifiedNode) as IFocusInsertionChildIndex;
-                                IsSimplifiable = true;
-                            }
+                            inner = CurrentState.ParentInner;
+                            index = ((IFocusBrowsingInsertableIndex)ParentIndex).ToInsertionIndex(inner.Owner.Node, SimplifiedNode) as IFocusInsertionChildIndex;
+                            IsSimplifiable = true;
                         }
-
-                        break;
                     }
 
-                    CurrentState = CurrentState.ParentState;
+                    break;
                 }
 
-                IsHandled = true;
+                CurrentState = CurrentState.ParentState;
             }
 
-            Debug.Assert(IsHandled);
             return IsSimplifiable;
         }
 
@@ -1209,44 +1131,37 @@
             replaceIndex = null;
             insertIndex = null;
 
-            bool IsHandled = false;
             bool IsSplittable = false;
 
-            if (Focus is IFocusCellFocus AsCellFocus)
+            IFocusNodeState IdentifierState = Focus.CellView.StateView.State;
+
+            if (IdentifierState.Node is IIdentifier AsIdentifier)
             {
-                IFocusNodeState IdentifierState = AsCellFocus.CellView.StateView.State;
-
-                if (IdentifierState.Node is IIdentifier AsIdentifier)
+                IFocusNodeState ParentState = IdentifierState.ParentState;
+                if (ParentState.Node is IQualifiedName)
                 {
-                    IFocusNodeState ParentState = IdentifierState.ParentState;
-                    if (ParentState.Node is IQualifiedName)
-                    {
-                        string Text = AsIdentifier.Text;
-                        Debug.Assert(CaretPosition >= 0 && CaretPosition <= Text.Length);
+                    string Text = AsIdentifier.Text;
+                    Debug.Assert(CaretPosition >= 0 && CaretPosition <= Text.Length);
 
-                        inner = IdentifierState.ParentInner as IFocusListInner;
-                        Debug.Assert(inner != null);
+                    inner = IdentifierState.ParentInner as IFocusListInner;
+                    Debug.Assert(inner != null);
 
-                        IFocusBrowsingListNodeIndex CurrentIndex = IdentifierState.ParentIndex as IFocusBrowsingListNodeIndex;
-                        Debug.Assert(CurrentIndex != null);
+                    IFocusBrowsingListNodeIndex CurrentIndex = IdentifierState.ParentIndex as IFocusBrowsingListNodeIndex;
+                    Debug.Assert(CurrentIndex != null);
 
-                        IIdentifier FirstPart = NodeHelper.CreateSimpleIdentifier(Text.Substring(0, CaretPosition));
-                        IIdentifier SecondPart = NodeHelper.CreateSimpleIdentifier(Text.Substring(CaretPosition));
+                    IIdentifier FirstPart = NodeHelper.CreateSimpleIdentifier(Text.Substring(0, CaretPosition));
+                    IIdentifier SecondPart = NodeHelper.CreateSimpleIdentifier(Text.Substring(CaretPosition));
 
-                        replaceIndex = CurrentIndex.ToInsertionIndex(ParentState.Node, FirstPart) as IFocusInsertionListNodeIndex;
-                        Debug.Assert(replaceIndex != null);
+                    replaceIndex = CurrentIndex.ToInsertionIndex(ParentState.Node, FirstPart) as IFocusInsertionListNodeIndex;
+                    Debug.Assert(replaceIndex != null);
 
-                        insertIndex = CurrentIndex.ToInsertionIndex(ParentState.Node, SecondPart) as IFocusInsertionListNodeIndex;
-                        Debug.Assert(insertIndex != null);
+                    insertIndex = CurrentIndex.ToInsertionIndex(ParentState.Node, SecondPart) as IFocusInsertionListNodeIndex;
+                    Debug.Assert(insertIndex != null);
 
-                        IsSplittable = true;
-                    }
+                    IsSplittable = true;
                 }
-
-                IsHandled = true;
             }
 
-            Debug.Assert(IsHandled);
             return IsSplittable;
         }
 
@@ -1263,58 +1178,51 @@
             blockIndex = -1;
             replication = ReplicationStatus.Normal;
 
-            bool IsHandled = false;
             bool IsModifiable = false;
 
-            if (Focus is IFocusCellFocus AsCellFocus)
+            IFocusNodeState State = Focus.CellView.StateView.State;
+
+            // Search recursively for a collection parent, up to 3 levels up.
+            for (int i = 0; i < 3 && State != null; i++)
             {
-                IFocusNodeState State = AsCellFocus.CellView.StateView.State;
-
-                // Search recursively for a collection parent, up to 3 levels up.
-                for (int i = 0; i < 3 && State != null; i++)
+                if (State is IFocusPatternState AsPatternState)
                 {
-                    if (State is IFocusPatternState AsPatternState)
-                    {
-                        IFocusBlockState ParentBlock = AsPatternState.ParentBlockState;
-                        IFocusBlockListInner BlockListInner = ParentBlock.ParentInner as IFocusBlockListInner;
-                        Debug.Assert(BlockListInner != null);
+                    IFocusBlockState ParentBlock = AsPatternState.ParentBlockState;
+                    IFocusBlockListInner BlockListInner = ParentBlock.ParentInner as IFocusBlockListInner;
+                    Debug.Assert(BlockListInner != null);
 
-                        inner = BlockListInner;
-                        blockIndex = inner.BlockStateList.IndexOf(ParentBlock);
-                        replication = ParentBlock.ChildBlock.Replication;
-                        IsModifiable = true;
-                        break;
-                    }
-                    else if (State is IFocusSourceState AsSourceState)
-                    {
-                        IFocusBlockState ParentBlock = AsSourceState.ParentBlockState;
-                        IFocusBlockListInner BlockListInner = ParentBlock.ParentInner as IFocusBlockListInner;
-                        Debug.Assert(BlockListInner != null);
+                    inner = BlockListInner;
+                    blockIndex = inner.BlockStateList.IndexOf(ParentBlock);
+                    replication = ParentBlock.ChildBlock.Replication;
+                    IsModifiable = true;
+                    break;
+                }
+                else if (State is IFocusSourceState AsSourceState)
+                {
+                    IFocusBlockState ParentBlock = AsSourceState.ParentBlockState;
+                    IFocusBlockListInner BlockListInner = ParentBlock.ParentInner as IFocusBlockListInner;
+                    Debug.Assert(BlockListInner != null);
 
-                        inner = BlockListInner;
-                        blockIndex = inner.BlockStateList.IndexOf(ParentBlock);
-                        replication = ParentBlock.ChildBlock.Replication;
-                        IsModifiable = true;
-                        break;
-                    }
-                    else if (State.ParentInner is IFocusBlockListInner AsBlockListInner)
-                    {
-                        inner = AsBlockListInner;
-                        IFocusBrowsingExistingBlockNodeIndex ParentIndex = State.ParentIndex as IFocusBrowsingExistingBlockNodeIndex;
-                        Debug.Assert(ParentIndex != null);
-                        blockIndex = ParentIndex.BlockIndex;
-                        replication = inner.BlockStateList[blockIndex].ChildBlock.Replication;
-                        IsModifiable = true;
-                        break;
-                    }
-
-                    State = State.ParentState;
+                    inner = BlockListInner;
+                    blockIndex = inner.BlockStateList.IndexOf(ParentBlock);
+                    replication = ParentBlock.ChildBlock.Replication;
+                    IsModifiable = true;
+                    break;
+                }
+                else if (State.ParentInner is IFocusBlockListInner AsBlockListInner)
+                {
+                    inner = AsBlockListInner;
+                    IFocusBrowsingExistingBlockNodeIndex ParentIndex = State.ParentIndex as IFocusBrowsingExistingBlockNodeIndex;
+                    Debug.Assert(ParentIndex != null);
+                    blockIndex = ParentIndex.BlockIndex;
+                    replication = inner.BlockStateList[blockIndex].ChildBlock.Replication;
+                    IsModifiable = true;
+                    break;
                 }
 
-                IsHandled = true;
+                State = State.ParentState;
             }
 
-            Debug.Assert(IsHandled);
             return IsModifiable;
         }
         #endregion
@@ -1642,7 +1550,7 @@
             IFocusNodeState CurrentState = state;
             List<IFocusNodeStateView> StateViewList = new List<IFocusNodeStateView>();
             IFocusNodeStateView MainStateView = null;
-            List<IFocusCellFocus> SameStateFocusableList = new List<IFocusCellFocus>();
+            List<IFocusFocus> SameStateFocusableList = new List<IFocusFocus>();
 
             // Get the state that should have the focus and all its children.
             while (CurrentState != null && !GetFocusedStateAndChildren(newFocusChain, CurrentState, out MainStateView, out StateViewList, out SameStateFocusableList))
@@ -1653,17 +1561,14 @@
             // Now that we have found candidates, try to select the original frame.
             bool IsFrameChanged = true;
 
-            if (Focus is IFocusCellFocus AsCellFocus)
-            {
-                IFocusFrame Frame = AsCellFocus.CellView.Frame;
-                foreach (IFocusCellFocus CellFocus in SameStateFocusableList)
-                    if (CellFocus.CellView.Frame == Frame)
-                    {
-                        IsFrameChanged = false;
-                        Focus = CellFocus;
-                        break;
-                    }
-            }
+            IFocusFrame Frame = Focus.CellView.Frame;
+            foreach (IFocusFocus CellFocus in SameStateFocusableList)
+                if (CellFocus.CellView.Frame == Frame)
+                {
+                    IsFrameChanged = false;
+                    Focus = CellFocus;
+                    break;
+                }
 
             // If the frame has changed, use a preferred frame.
             if (IsFrameChanged)
@@ -1673,7 +1578,7 @@
         }
 
         /// <summary></summary>
-        private protected virtual void FindPreferredFrame(IFocusNodeStateView mainStateView, List<IFocusCellFocus> sameStateFocusableList)
+        private protected virtual void FindPreferredFrame(IFocusNodeStateView mainStateView, List<IFocusFocus> sameStateFocusableList)
         {
             bool IsFrameSet = false;
             IFocusNodeTemplate Template = mainStateView.Template as IFocusNodeTemplate;
@@ -1683,7 +1588,7 @@
             Debug.Assert(FirstPreferredFrame != null);
             Debug.Assert(LastPreferredFrame != null);
 
-            foreach (IFocusCellFocus CellFocus in sameStateFocusableList)
+            foreach (IFocusFocus CellFocus in sameStateFocusableList)
             {
                 IFocusFocusableCellView CellView = CellFocus.CellView;
                 if (CellView.Frame == FirstPreferredFrame || CellView.Frame == LastPreferredFrame)
@@ -1700,27 +1605,26 @@
         }
 
         /// <summary></summary>
-        private protected virtual bool GetFocusedStateAndChildren(IFocusFocusList newFocusChain, IFocusNodeState state, out IFocusNodeStateView mainStateView, out List<IFocusNodeStateView> stateViewList, out List<IFocusCellFocus> sameStateFocusableList)
+        private protected virtual bool GetFocusedStateAndChildren(IFocusFocusList newFocusChain, IFocusNodeState state, out IFocusNodeStateView mainStateView, out List<IFocusNodeStateView> stateViewList, out List<IFocusFocus> sameStateFocusableList)
         {
             mainStateView = StateViewTable[state];
 
             stateViewList = new List<IFocusNodeStateView>();
-            sameStateFocusableList = new List<IFocusCellFocus>();
+            sameStateFocusableList = new List<IFocusFocus>();
             GetChildrenStateView(mainStateView, stateViewList);
 
             // Find all focusable cells belonging to these states.
             foreach (IFocusFocus NewFocus in newFocusChain)
-                if (NewFocus is IFocusCellFocus AsCellFocus)
-                {
-                    IFocusFocusableCellView CellView = AsCellFocus.CellView;
+            {
+                IFocusFocusableCellView CellView = NewFocus.CellView;
 
-                    foreach (IFocusNodeStateView StateView in stateViewList)
-                        if (CellView.StateView == StateView && !sameStateFocusableList.Contains(AsCellFocus))
-                        {
-                            sameStateFocusableList.Add(AsCellFocus);
-                            break;
-                        }
-                }
+                foreach (IFocusNodeStateView StateView in stateViewList)
+                    if (CellView.StateView == StateView && !sameStateFocusableList.Contains(NewFocus))
+                    {
+                        sameStateFocusableList.Add(NewFocus);
+                        break;
+                    }
+            }
 
             bool Found = sameStateFocusableList.Count > 0;
 
@@ -1822,15 +1726,15 @@
         {
             string Text = null;
 
-            if (Focus is IFocusTextCellFocus AsTextCellFocus)
+            if (Focus is IFocusTextFocus AsTextFocus)
             {
-                Text = GetFocusedStringText(AsTextCellFocus);
+                Text = GetFocusedStringText(AsTextFocus);
 
                 Debug.Assert(Text != null);
             }
-            else if (Focus is IFocusCommentCellFocus AsCommentCellFocus)
+            else if (Focus is IFocusCommentFocus AsCommentFocus)
             {
-                Text = GetFocusedCommentText(AsCommentCellFocus);
+                Text = GetFocusedCommentText(AsCommentFocus);
                 if (Text == null)
                     Text = string.Empty;
 
@@ -1901,7 +1805,7 @@
         }
 
         /// <summary></summary>
-        private protected virtual string GetFocusedStringText(IFocusTextCellFocus textCellFocus)
+        private protected virtual string GetFocusedStringText(IFocusTextFocus textCellFocus)
         {
             IFocusTextFocusableCellView CellView = textCellFocus.CellView;
             INode Node = CellView.StateView.State.Node;
@@ -1911,9 +1815,9 @@
         }
 
         /// <summary></summary>
-        private protected virtual string GetFocusedCommentText(IFocusCommentCellFocus commentCellFocus)
+        private protected virtual string GetFocusedCommentText(IFocusCommentFocus commentFocus)
         {
-            IFocusCommentCellView CellView = commentCellFocus.CellView;
+            IFocusCommentCellView CellView = commentFocus.CellView;
             IDocument Documentation = CellView.StateView.State.Node.Documentation;
 
             return CommentHelper.Get(Documentation);

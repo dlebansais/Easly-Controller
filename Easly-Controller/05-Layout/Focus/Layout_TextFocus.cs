@@ -5,7 +5,7 @@
     /// <summary>
     /// Focus on a text focusable cell view.
     /// </summary>
-    public interface ILayoutTextCellFocus : IFocusTextCellFocus, ILayoutCellFocus
+    public interface ILayoutTextFocus : IFocusTextFocus, ILayoutFocus
     {
         /// <summary>
         /// The cell view with the focus.
@@ -16,13 +16,13 @@
     /// <summary>
     /// Focus on a text focusable cell view.
     /// </summary>
-    public class LayoutTextCellFocus : FocusTextCellFocus, ILayoutTextCellFocus
+    public class LayoutTextFocus : FocusTextFocus, ILayoutTextFocus
     {
         #region Init
         /// <summary>
-        /// Initializes a new instance of the <see cref="LayoutTextCellFocus"/> class.
+        /// Initializes a new instance of the <see cref="LayoutTextFocus"/> class.
         /// </summary>
-        public LayoutTextCellFocus(ILayoutTextFocusableCellView cellView)
+        public LayoutTextFocus(ILayoutTextFocusableCellView cellView)
             : base(cellView)
         {
         }
@@ -33,7 +33,7 @@
         /// The cell view with the focus.
         /// </summary>
         public new ILayoutTextFocusableCellView CellView { get { return (ILayoutTextFocusableCellView)base.CellView; } }
-        ILayoutFocusableCellView ILayoutCellFocus.CellView { get { return CellView; } }
+        ILayoutFocusableCellView ILayoutFocus.CellView { get { return CellView; } }
         #endregion
     }
 }
