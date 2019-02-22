@@ -1365,14 +1365,10 @@
             IFocusNodeStateView MainStateView = null;
             List<IFocusFocus> SameStateFocusableList = new List<IFocusFocus>();
 
-            /*
             // Get the state that should have the focus and all its children.
             while (CurrentState != null && !GetFocusedStateAndChildren(newFocusChain, CurrentState, out MainStateView, out StateViewList, out SameStateFocusableList))
                 CurrentState = CurrentState.ParentState;
-            */
-            Debug.Assert(CurrentState != null);
-            bool IsFound = GetFocusedStateAndChildren(newFocusChain, CurrentState, out MainStateView, out StateViewList, out SameStateFocusableList);
-            Debug.Assert(IsFound);
+
             Debug.Assert(SameStateFocusableList.Count > 0);
 
             // Now that we have found candidates, try to select the original frame.
@@ -1447,7 +1443,6 @@
                 return true;
 
             // If it doesn't work, try the parent state, down to the root (in case of a removal or unassign).
-            Debug.Assert(false);
             return false;
         }
 
