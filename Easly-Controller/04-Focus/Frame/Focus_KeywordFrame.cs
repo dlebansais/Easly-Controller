@@ -123,6 +123,16 @@
         /// <param name="lastPreferredFrame">The last preferred frame found.</param>
         public virtual void GetPreferredFrame(ref IFocusNodeFrame firstPreferredFrame, ref IFocusNodeFrame lastPreferredFrame)
         {
+            if (IsFocusable)
+            {
+                if (Visibility == null || Visibility.IsVolatile || IsPreferred)
+                {
+                    if (firstPreferredFrame == null || IsPreferred)
+                        firstPreferredFrame = this;
+
+                    lastPreferredFrame = this;
+                }
+            }
         }
         #endregion
 
