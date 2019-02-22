@@ -121,7 +121,6 @@ namespace EditorDebug
 
                 case Key.Back:
                 case Key.Delete:
-                case Key.Tab: // Comments
                 case Key.Home:
                 case Key.End:
                 case Key.PageUp: // Focus up
@@ -137,6 +136,9 @@ namespace EditorDebug
                     break;
                 case Key.Insert:
                     ToggleCaretMode();
+                   break;
+                case Key.Tab:
+                    ForceShowComment();
                     break;
             }
         }
@@ -432,6 +434,16 @@ namespace EditorDebug
                 layoutControl.InvalidateVisual();
         }
 
+        private void ForceShowComment()
+        {
+            bool IsMoved;
+
+            ControllerView.ForceShowComment(out IsMoved);
+
+            if (IsMoved)
+                layoutControl.InvalidateVisual();
+        }
+        
         public void OnActivated()
         {
             layoutControl.OnActivated();
