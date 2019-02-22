@@ -22,7 +22,6 @@
             ControllerView.SetShowUnfocusedComments(show: true);
             ControllerView.MeasureAndArrange();
             ControllerView.ShowCaret(true, draw: false);
-            ControllerView.ForceShowComment(out bool isMoved);
 
             DrawingContext.Close();
 

@@ -400,11 +400,13 @@
         /// <param name="isMoved">True if the focus has changed.</param>
         public virtual void MoveFocusVertically(double distance, out bool isMoved)
         {
+            ulong OldFocusHash = FocusHash;
+
             Point Origin = GetMoveFocusDestinationLocation(distance);
+            int OldFocusIndex = FocusChain.IndexOf(Focus);
+            int NewFocusIndex = -1;
             double BestVerticalDistance = 0;
             double BestHorizontalDistance = 0;
-            int BestCellIndex = -1;
-            int FocusIndex = FocusChain.IndexOf(Focus);
 
             for (int i = 0; i < FocusChain.Count; i++)
             {
@@ -414,7 +416,7 @@
                 ILayoutFocusableCellView CellView = TestFocus.CellView;
 
                 // If we check against the current focus, it might be the closest cell and then we don't move!
-                if (CellIndex == FocusIndex)
+                if (CellIndex == OldFocusIndex)
                     continue;
 
                 // Don't consider cells that are in the wrong direction;
@@ -423,7 +425,7 @@
 
                 if (CellView.CellRect.IsPointInRect(Origin))
                 {
-                    BestCellIndex = CellIndex;
+                    NewFocusIndex = CellIndex;
                     break;
                 }
                 else
@@ -433,23 +435,26 @@
                     double VerticalDistance = Math.Abs(Center.Y - Origin.Y);
                     double HorizontalDistance = Math.Abs(Center.X - Origin.X);
 
-                    if (BestCellIndex < 0 || BestVerticalDistance > VerticalDistance || (RegionHelper.IsZero(BestVerticalDistance - VerticalDistance) && BestHorizontalDistance > HorizontalDistance))
+                    if (NewFocusIndex < 0 || BestVerticalDistance > VerticalDistance || (RegionHelper.IsZero(BestVerticalDistance - VerticalDistance) && BestHorizontalDistance > HorizontalDistance))
                     {
                         BestVerticalDistance = VerticalDistance;
                         BestHorizontalDistance = HorizontalDistance;
-                        BestCellIndex = CellIndex;
+                        NewFocusIndex = CellIndex;
                     }
                 }
             }
 
-            if (BestCellIndex >= 0 && BestCellIndex != FocusIndex)
+            if (NewFocusIndex >= 0 && NewFocusIndex != OldFocusIndex)
             {
-                Debug.Assert(BestCellIndex >= MinFocusMove + FocusIndex && BestCellIndex <= MaxFocusMove + FocusIndex);
+                Debug.Assert(NewFocusIndex >= MinFocusMove + OldFocusIndex && NewFocusIndex <= MaxFocusMove + OldFocusIndex);
 
-                MoveFocus(BestCellIndex - FocusIndex, out isMoved);
+                ChangeFocus(NewFocusIndex - OldFocusIndex, OldFocusIndex, NewFocusIndex);
+                isMoved = true;
             }
             else
                 isMoved = false;
+
+            Debug.Assert(isMoved || OldFocusHash == FocusHash);
         }
 
         /// <summary></summary>
@@ -802,9 +807,15 @@
         /// <summary></summary>
         private protected override void ChangeFocus(int direction, int oldIndex, int newIndex)
         {
+            ILayoutFocus OldFocus = (ILayoutFocus)FocusChain[oldIndex];
+            Debug.Assert(OldFocus == Focus);
+
             base.ChangeFocus(direction, oldIndex, newIndex);
 
-            if (FocusChain[oldIndex] is ILayoutCommentFocus || FocusChain[newIndex] is ILayoutCommentFocus)
+            ILayoutFocus NewFocus = Focus;
+            Debug.Assert(NewFocus != OldFocus);
+
+            if (OldFocus is ILayoutCommentFocus || NewFocus is ILayoutCommentFocus)
                 Invalidate();
         }
         #endregion

@@ -52,9 +52,25 @@
         /// Updates the focus chain with cells in the tree.
         /// </summary>
         /// <param name="focusChain">The list of focusable cell views found in the tree.</param>
-        public virtual void UpdateFocusChain(IFocusFocusList focusChain)
+        /// <param name="focusedNode">The currently focused node.</param>
+        /// <param name="focusedFrame">The currently focused frame in the template associated to <paramref name="focusedNode"/>.</param>
+        /// <param name="matchingFocus">The focus in <paramref name="focusChain"/> that match <paramref name="focusedNode"/> and <paramref name="focusedFrame"/> upon return.</param>
+        public virtual void UpdateFocusChain(IFocusFocusList focusChain, INode focusedNode, IFocusFrame focusedFrame, ref IFocusFocus matchingFocus)
         {
-            focusChain.Add(CreateFocus());
+            IFocusCommentFocus NewFocus = CreateFocus();
+            focusChain.Add(NewFocus);
+
+            if (focusedFrame == Frame)
+            {
+                IFocusOptionalNodeState AsOptionalNodeState = StateView.State as IFocusOptionalNodeState;
+                Debug.Assert(AsOptionalNodeState == null || AsOptionalNodeState.ParentInner.IsAssigned);
+
+                if (focusedNode == StateView.State.Node)
+                {
+                    Debug.Assert(matchingFocus == null);
+                    matchingFocus = NewFocus;
+                }
+            }
         }
         #endregion
 

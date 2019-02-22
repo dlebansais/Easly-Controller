@@ -99,7 +99,8 @@
         /// Changes the caret mode.
         /// </summary>
         /// <param name="mode">The new mode.</param>
-        void SetCaretMode(CaretModes mode);
+        /// <param name="isChanged">True if the mode was changed.</param>
+        void SetCaretMode(CaretModes mode, out bool isChanged);
 
         /// <summary>
         /// Sets the node with the focus to have all its frames visible.
@@ -349,211 +350,14 @@
 
         #region Client Interface
         /// <summary>
-        /// Checks if the template associated to the <paramref name="propertyName"/> property of the <paramref name="stateView"/> state is complex.
-        /// </summary>
-        /// <param name="stateView">The state view for the node with property <paramref name="propertyName"/>.</param>
-        /// <param name="propertyName">Name of the property pointing to the template to check.</param>
-        public virtual bool IsTemplateComplex(IFocusNodeStateView stateView, string propertyName)
-        {
-            IFocusNodeState State = stateView.State;
-            Debug.Assert(State.InnerTable.ContainsKey(propertyName));
-
-            IFocusPlaceholderInner ParentInner = State.InnerTable[propertyName] as IFocusPlaceholderInner;
-            Debug.Assert(ParentInner != null);
-
-            NodeTreeHelperChild.GetChildNode(stateView.State.Node, propertyName, out INode ChildNode);
-            Debug.Assert(ChildNode != null);
-
-            Type NodeType = ChildNode.GetType();
-            Type InterfaceType = NodeTreeHelper.NodeTypeToInterfaceType(NodeType);
-            Debug.Assert(TemplateSet.NodeTemplateTable.ContainsKey(InterfaceType));
-
-            IFocusNodeTemplate ParentTemplate = TemplateSet.NodeTemplateTable[InterfaceType] as IFocusNodeTemplate;
-            Debug.Assert(ParentTemplate != null);
-
-            return ParentTemplate.IsComplex;
-        }
-
-        /// <summary>
-        /// Checks if the collection associated to the <paramref name="propertyName"/> property of the <paramref name="stateView"/> state has more than <paramref name="count"/> item.
-        /// </summary>
-        /// <param name="stateView">The state view for the node with property <paramref name="propertyName"/>.</param>
-        /// <param name="propertyName">Name of the property pointing to the collection to check.</param>
-        /// <param name="count">The number of items.</param>
-        public virtual bool CollectionHasItems(IFocusNodeStateView stateView, string propertyName, int count)
-        {
-            IFocusNodeState State = stateView.State;
-            Debug.Assert(State.InnerTable.ContainsKey(propertyName));
-
-            bool IsHandled = false;
-            bool HasItems = false;
-
-            switch (State.InnerTable[propertyName])
-            {
-                case IFocusListInner AsListInner:
-                    HasItems = AsListInner.Count > count;
-                    IsHandled = true;
-                    break;
-
-                case IFocusBlockListInner AsBlockListInner:
-                    HasItems = AsBlockListInner.Count > count;
-                    IsHandled = true;
-                    break;
-            }
-
-            Debug.Assert(IsHandled);
-
-            return HasItems;
-        }
-
-        /// <summary>
-        /// Checks if the optional node associated to <paramref name="propertyName"/> is assigned.
-        /// </summary>
-        /// <param name="stateView">The state view for the node with property <paramref name="propertyName"/>.</param>
-        /// <param name="propertyName">Name of the property pointing to the node to check.</param>
-        public virtual bool IsOptionalNodeAssigned(IFocusNodeStateView stateView, string propertyName)
-        {
-            IFocusNodeState State = stateView.State;
-            Debug.Assert(State.InnerTable.ContainsKey(propertyName));
-
-            IFocusOptionalInner OptionalInner = State.InnerTable[propertyName] as IFocusOptionalInner;
-            Debug.Assert(OptionalInner != null);
-
-            return OptionalInner.IsAssigned;
-        }
-
-        /// <summary>
-        /// Checks if the enum or boolean associated to the <paramref name="propertyName"/> property of the <paramref name="stateView"/> state has value <paramref name="defaultValue"/>.
-        /// </summary>
-        /// <param name="stateView">The state view for the node with property <paramref name="propertyName"/>.</param>
-        /// <param name="propertyName">Name of the property pointing to the template to check.</param>
-        /// <param name="defaultValue">Expected default value.</param>
-        public virtual bool DiscreteHasDefaultValue(IFocusNodeStateView stateView, string propertyName, int defaultValue)
-        {
-            IFocusNodeState State = stateView.State;
-            Debug.Assert(State.ValuePropertyTypeTable.ContainsKey(propertyName));
-
-            bool IsHandled = false;
-            bool Result = false;
-
-            switch (State.ValuePropertyTypeTable[propertyName])
-            {
-                case ValuePropertyType.Boolean:
-                case ValuePropertyType.Enum:
-                    Result = NodeTreeHelper.GetEnumValue(State.Node, propertyName) == defaultValue;
-                    IsHandled = true;
-                    break;
-            }
-
-            Debug.Assert(IsHandled);
-
-            return Result;
-        }
-
-        /// <summary>
-        /// Checks if the <paramref name="stateView"/> state is the first in a collection in the parent.
-        /// </summary>
-        /// <param name="stateView">The state view.</param>
-        public virtual bool IsFirstItem(IFocusNodeStateView stateView)
-        {
-            Debug.Assert(stateView != null);
-
-            IFocusNodeState State = stateView.State;
-            Debug.Assert(State != null);
-
-            IFocusInner ParentInner = State.ParentInner;
-            Debug.Assert(ParentInner != null);
-
-            IFocusPlaceholderNodeState PlaceholderNodeState;
-            IFocusPlaceholderNodeStateReadOnlyList StateList;
-            int Index;
-            bool Result;
-
-            switch (ParentInner)
-            {
-                case IFocusListInner AsListInner:
-                    PlaceholderNodeState = State as IFocusPlaceholderNodeState;
-                    Debug.Assert(PlaceholderNodeState != null);
-
-                    StateList = AsListInner.StateList;
-                    Index = StateList.IndexOf(PlaceholderNodeState);
-                    Debug.Assert(Index >= 0 && Index < StateList.Count);
-                    Result = Index == 0;
-                    break;
-
-                case IFocusBlockListInner AsBlockListInner:
-                    PlaceholderNodeState = State as IFocusPlaceholderNodeState;
-                    Debug.Assert(PlaceholderNodeState != null);
-
-                    Result = false;
-                    for (int BlockIndex = 0; BlockIndex < AsBlockListInner.BlockStateList.Count; BlockIndex++)
-                    {
-                        StateList = AsBlockListInner.BlockStateList[BlockIndex].StateList;
-                        Index = StateList.IndexOf(PlaceholderNodeState);
-                        if (Index >= 0)
-                        {
-                            Debug.Assert(Index < StateList.Count);
-                            Result = BlockIndex == 0 && Index == 0;
-                        }
-                    }
-                    break;
-
-                default:
-                    Result = true;
-                    break;
-            }
-
-            return Result;
-        }
-
-        /// <summary>
-        /// Checks if the <paramref name="blockStateView"/> block state belongs to a replicated block.
-        /// </summary>
-        /// <param name="blockStateView">The block state view.</param>
-        public virtual bool IsInReplicatedBlock(IFocusBlockStateView blockStateView)
-        {
-            IFocusBlockState BlockState = blockStateView.BlockState;
-            Debug.Assert(BlockState != null);
-
-            return BlockState.ChildBlock.Replication == BaseNode.ReplicationStatus.Replicated;
-        }
-
-        /// <summary>
-        /// Checks if the string associated to the <paramref name="propertyName"/> property of the <paramref name="stateView"/> state matches the pattern in <paramref name="textPattern"/>.
-        /// </summary>
-        /// <param name="stateView">The state view for the node with property <paramref name="propertyName"/>.</param>
-        /// <param name="propertyName">Name of the property pointing to the template to check.</param>
-        /// <param name="textPattern">Expected text.</param>
-        public virtual bool StringMatchTextPattern(IFocusNodeStateView stateView, string propertyName, string textPattern)
-        {
-            IFocusNodeState State = stateView.State;
-            Debug.Assert(State.InnerTable.ContainsKey(propertyName));
-
-            bool IsHandled = false;
-            bool Result = false;
-
-            switch (State.InnerTable[propertyName])
-            {
-                case IFocusPlaceholderInner AsPlaceholderInner:
-                    Debug.Assert(AsPlaceholderInner.InterfaceType == typeof(IIdentifier));
-                    IFocusPlaceholderNodeState ChildState = AsPlaceholderInner.ChildState as IFocusPlaceholderNodeState;
-                    Debug.Assert(ChildState != null);
-                    Result = NodeTreeHelper.GetString(ChildState.Node, nameof(IIdentifier.Text)) == textPattern;
-                    IsHandled = true;
-                    break;
-            }
-
-            Debug.Assert(IsHandled);
-            return Result;
-        }
-
-        /// <summary>
         /// Moves the current focus in the focus chain.
         /// </summary>
         /// <param name="direction">The change in position, relative to the current position.</param>
         /// <param name="isMoved">True upon return if the focus was moved.</param>
         public virtual void MoveFocus(int direction, out bool isMoved)
         {
+            ulong OldFocusHash = FocusHash;
+
             int OldFocusIndex = FocusChain.IndexOf(Focus);
             Debug.Assert(OldFocusIndex >= 0 && OldFocusIndex < FocusChain.Count);
 
@@ -572,6 +376,8 @@
             }
             else
                 isMoved = false;
+
+            Debug.Assert(isMoved || OldFocusHash == FocusHash);
         }
 
         /// <summary></summary>
@@ -598,6 +404,7 @@
         public virtual void SetCaretPosition(int position, out bool isMoved)
         {
             isMoved = false;
+            ulong OldFocusHash = FocusHash;
 
             if (Focus is IFocusTextFocus AsTextFocus)
             {
@@ -614,15 +421,50 @@
 
                 SetTextCaretPosition(Text, position, out isMoved);
             }
+
+            Debug.Assert(isMoved || OldFocusHash == FocusHash);
         }
 
         /// <summary>
         /// Changes the caret mode.
         /// </summary>
         /// <param name="mode">The new mode.</param>
-        public virtual void SetCaretMode(CaretModes mode)
+        /// <param name="isChanged">True if the mode was changed.</param>
+        public virtual void SetCaretMode(CaretModes mode, out bool isChanged)
         {
-            CaretMode = mode;
+            isChanged = false;
+            ulong OldFocusHash = FocusHash;
+
+            if ((Focus is IFocusTextFocus) || (Focus is IFocusCommentFocus))
+            {
+                Debug.Assert(CaretPosition >= 0);
+                Debug.Assert(MaxCaretPosition >= 0);
+
+                bool IsHandled = false;
+                switch (mode)
+                {
+                    case CaretModes.Insertion:
+                        CaretMode = mode;
+                        isChanged = true;
+
+                        IsHandled = true;
+                        break;
+
+                    case CaretModes.Override:
+                        if (CaretPosition < MaxCaretPosition)
+                        {
+                            CaretMode = mode;
+                            isChanged = true;
+                        }
+
+                        IsHandled = true;
+                        break;
+                }
+
+                Debug.Assert(IsHandled);
+            }
+
+            Debug.Assert(isChanged || OldFocusHash == FocusHash);
         }
 
         /// <summary>
@@ -675,6 +517,7 @@
                 Documentation = State.Node.Documentation;
 
             isMoved = false;
+            ulong OldFocusHash = FocusHash;
 
             string Text = CommentHelper.Get(Documentation);
             if (Text == null)
@@ -688,13 +531,19 @@
                 for (int i = 0; i < FocusChain.Count; i++)
                     if (FocusChain[i] is IFocusCommentFocus AsCommentFocus && AsCommentFocus.CellView.StateView == StateView)
                     {
-                        int Index = FocusChain.IndexOf(Focus);
-                        MoveFocus(i - Index, out isMoved);
+                        int OldFocusIndex = FocusChain.IndexOf(Focus);
+                        int NewFocusIndex = i;
+                        Debug.Assert(OldFocusIndex != NewFocusIndex);
+
+                        ChangeFocus(NewFocusIndex - OldFocusIndex, OldFocusIndex, NewFocusIndex);
+                        isMoved = true;
                         break;
                     }
 
-                isMoved = true;
+                Debug.Assert(isMoved);
             }
+
+            Debug.Assert(isMoved || OldFocusHash == FocusHash);
         }
 
         /// <summary>
@@ -1465,19 +1314,26 @@
         /// <summary></summary>
         private protected override void Refresh(IFrameNodeState state)
         {
+            INode FocusedNode = null;
+            IFocusFrame FocusedFrame = null;
+
+            if (Focus != null)
+                Focus.GetLocationInSourceCode(out FocusedNode, out FocusedFrame);
+
             base.Refresh(state);
 
-            UpdateFocusChain((IFocusNodeState)state);
+            UpdateFocusChain((IFocusNodeState)state, FocusedNode, FocusedFrame);
         }
 
         /// <summary></summary>
-        private protected virtual void UpdateFocusChain(IFocusNodeState state)
+        private protected virtual void UpdateFocusChain(IFocusNodeState state, INode focusedNode, IFocusFrame focusedFrame)
         {
             IFocusFocusList NewFocusChain = CreateFocusChain();
             IFocusNodeState RootState = Controller.RootState;
             IFocusNodeStateView RootStateView = StateViewTable[RootState];
 
-            RootStateView.UpdateFocusChain(NewFocusChain);
+            IFocusFocus MatchingFocus = null;
+            RootStateView.UpdateFocusChain(NewFocusChain, focusedNode, focusedFrame, ref MatchingFocus);
 
             // Ensured by all templates having at least one preferred (hence focusable) frame.
             Debug.Assert(NewFocusChain.Count > 0);
@@ -1489,8 +1345,10 @@
                 Focus = NewFocusChain[0];
                 ResetCaretPosition(0);
             }
-            else if (!NewFocusChain.Contains(Focus)) // If the focus may have forcibly changed.
-                RecoverFocus(state, NewFocusChain);
+            else if (MatchingFocus != null)
+                Focus = MatchingFocus;
+            else
+                RecoverFocus(state, NewFocusChain); // The focus has forcibly changed.
 
             FocusChain = NewFocusChain;
             DebugObjects.AddReference(NewFocusChain);
@@ -1781,6 +1639,207 @@
         private protected IFocusNodeStateView ForcedCommentStateView { get; private set; }
         #endregion
 
+        #region Implementation of IFocusInternalControllerView
+        /// <summary>
+        /// Checks if the template associated to the <paramref name="propertyName"/> property of the <paramref name="stateView"/> state is complex.
+        /// </summary>
+        /// <param name="stateView">The state view for the node with property <paramref name="propertyName"/>.</param>
+        /// <param name="propertyName">Name of the property pointing to the template to check.</param>
+        public virtual bool IsTemplateComplex(IFocusNodeStateView stateView, string propertyName)
+        {
+            IFocusNodeState State = stateView.State;
+            Debug.Assert(State.InnerTable.ContainsKey(propertyName));
+
+            IFocusPlaceholderInner ParentInner = State.InnerTable[propertyName] as IFocusPlaceholderInner;
+            Debug.Assert(ParentInner != null);
+
+            NodeTreeHelperChild.GetChildNode(stateView.State.Node, propertyName, out INode ChildNode);
+            Debug.Assert(ChildNode != null);
+
+            Type NodeType = ChildNode.GetType();
+            Type InterfaceType = NodeTreeHelper.NodeTypeToInterfaceType(NodeType);
+            Debug.Assert(TemplateSet.NodeTemplateTable.ContainsKey(InterfaceType));
+
+            IFocusNodeTemplate ParentTemplate = TemplateSet.NodeTemplateTable[InterfaceType] as IFocusNodeTemplate;
+            Debug.Assert(ParentTemplate != null);
+
+            return ParentTemplate.IsComplex;
+        }
+
+        /// <summary>
+        /// Checks if the collection associated to the <paramref name="propertyName"/> property of the <paramref name="stateView"/> state has more than <paramref name="count"/> item.
+        /// </summary>
+        /// <param name="stateView">The state view for the node with property <paramref name="propertyName"/>.</param>
+        /// <param name="propertyName">Name of the property pointing to the collection to check.</param>
+        /// <param name="count">The number of items.</param>
+        public virtual bool CollectionHasItems(IFocusNodeStateView stateView, string propertyName, int count)
+        {
+            IFocusNodeState State = stateView.State;
+            Debug.Assert(State.InnerTable.ContainsKey(propertyName));
+
+            bool IsHandled = false;
+            bool HasItems = false;
+
+            switch (State.InnerTable[propertyName])
+            {
+                case IFocusListInner AsListInner:
+                    HasItems = AsListInner.Count > count;
+                    IsHandled = true;
+                    break;
+
+                case IFocusBlockListInner AsBlockListInner:
+                    HasItems = AsBlockListInner.Count > count;
+                    IsHandled = true;
+                    break;
+            }
+
+            Debug.Assert(IsHandled);
+
+            return HasItems;
+        }
+
+        /// <summary>
+        /// Checks if the optional node associated to <paramref name="propertyName"/> is assigned.
+        /// </summary>
+        /// <param name="stateView">The state view for the node with property <paramref name="propertyName"/>.</param>
+        /// <param name="propertyName">Name of the property pointing to the node to check.</param>
+        public virtual bool IsOptionalNodeAssigned(IFocusNodeStateView stateView, string propertyName)
+        {
+            IFocusNodeState State = stateView.State;
+            Debug.Assert(State.InnerTable.ContainsKey(propertyName));
+
+            IFocusOptionalInner OptionalInner = State.InnerTable[propertyName] as IFocusOptionalInner;
+            Debug.Assert(OptionalInner != null);
+
+            return OptionalInner.IsAssigned;
+        }
+
+        /// <summary>
+        /// Checks if the enum or boolean associated to the <paramref name="propertyName"/> property of the <paramref name="stateView"/> state has value <paramref name="defaultValue"/>.
+        /// </summary>
+        /// <param name="stateView">The state view for the node with property <paramref name="propertyName"/>.</param>
+        /// <param name="propertyName">Name of the property pointing to the template to check.</param>
+        /// <param name="defaultValue">Expected default value.</param>
+        public virtual bool DiscreteHasDefaultValue(IFocusNodeStateView stateView, string propertyName, int defaultValue)
+        {
+            IFocusNodeState State = stateView.State;
+            Debug.Assert(State.ValuePropertyTypeTable.ContainsKey(propertyName));
+
+            bool IsHandled = false;
+            bool Result = false;
+
+            switch (State.ValuePropertyTypeTable[propertyName])
+            {
+                case ValuePropertyType.Boolean:
+                case ValuePropertyType.Enum:
+                    Result = NodeTreeHelper.GetEnumValue(State.Node, propertyName) == defaultValue;
+                    IsHandled = true;
+                    break;
+            }
+
+            Debug.Assert(IsHandled);
+
+            return Result;
+        }
+
+        /// <summary>
+        /// Checks if the <paramref name="stateView"/> state is the first in a collection in the parent.
+        /// </summary>
+        /// <param name="stateView">The state view.</param>
+        public virtual bool IsFirstItem(IFocusNodeStateView stateView)
+        {
+            Debug.Assert(stateView != null);
+
+            IFocusNodeState State = stateView.State;
+            Debug.Assert(State != null);
+
+            IFocusInner ParentInner = State.ParentInner;
+            Debug.Assert(ParentInner != null);
+
+            IFocusPlaceholderNodeState PlaceholderNodeState;
+            IFocusPlaceholderNodeStateReadOnlyList StateList;
+            int Index;
+            bool Result;
+
+            switch (ParentInner)
+            {
+                case IFocusListInner AsListInner:
+                    PlaceholderNodeState = State as IFocusPlaceholderNodeState;
+                    Debug.Assert(PlaceholderNodeState != null);
+
+                    StateList = AsListInner.StateList;
+                    Index = StateList.IndexOf(PlaceholderNodeState);
+                    Debug.Assert(Index >= 0 && Index < StateList.Count);
+                    Result = Index == 0;
+                    break;
+
+                case IFocusBlockListInner AsBlockListInner:
+                    PlaceholderNodeState = State as IFocusPlaceholderNodeState;
+                    Debug.Assert(PlaceholderNodeState != null);
+
+                    Result = false;
+                    for (int BlockIndex = 0; BlockIndex < AsBlockListInner.BlockStateList.Count; BlockIndex++)
+                    {
+                        StateList = AsBlockListInner.BlockStateList[BlockIndex].StateList;
+                        Index = StateList.IndexOf(PlaceholderNodeState);
+                        if (Index >= 0)
+                        {
+                            Debug.Assert(Index < StateList.Count);
+                            Result = BlockIndex == 0 && Index == 0;
+                        }
+                    }
+                    break;
+
+                default:
+                    Result = true;
+                    break;
+            }
+
+            return Result;
+        }
+
+        /// <summary>
+        /// Checks if the <paramref name="blockStateView"/> block state belongs to a replicated block.
+        /// </summary>
+        /// <param name="blockStateView">The block state view.</param>
+        public virtual bool IsInReplicatedBlock(IFocusBlockStateView blockStateView)
+        {
+            IFocusBlockState BlockState = blockStateView.BlockState;
+            Debug.Assert(BlockState != null);
+
+            return BlockState.ChildBlock.Replication == BaseNode.ReplicationStatus.Replicated;
+        }
+
+        /// <summary>
+        /// Checks if the string associated to the <paramref name="propertyName"/> property of the <paramref name="stateView"/> state matches the pattern in <paramref name="textPattern"/>.
+        /// </summary>
+        /// <param name="stateView">The state view for the node with property <paramref name="propertyName"/>.</param>
+        /// <param name="propertyName">Name of the property pointing to the template to check.</param>
+        /// <param name="textPattern">Expected text.</param>
+        public virtual bool StringMatchTextPattern(IFocusNodeStateView stateView, string propertyName, string textPattern)
+        {
+            IFocusNodeState State = stateView.State;
+            Debug.Assert(State.InnerTable.ContainsKey(propertyName));
+
+            bool IsHandled = false;
+            bool Result = false;
+
+            switch (State.InnerTable[propertyName])
+            {
+                case IFocusPlaceholderInner AsPlaceholderInner:
+                    Debug.Assert(AsPlaceholderInner.InterfaceType == typeof(IIdentifier));
+                    IFocusPlaceholderNodeState ChildState = AsPlaceholderInner.ChildState as IFocusPlaceholderNodeState;
+                    Debug.Assert(ChildState != null);
+                    Result = NodeTreeHelper.GetString(ChildState.Node, nameof(IIdentifier.Text)) == textPattern;
+                    IsHandled = true;
+                    break;
+            }
+
+            Debug.Assert(IsHandled);
+            return Result;
+        }
+        #endregion
+
         #region Debugging
         /// <summary>
         /// Compares two <see cref="IFocusControllerView"/> objects.
@@ -1798,6 +1857,39 @@
                 return comparer.Failed();
 
             return true;
+        }
+
+        /// <summary></summary>
+        protected virtual ulong FocusHash
+        {
+            get
+            {
+                ulong Hash = 0;
+
+#if DEBUG
+                foreach (IFocusFocus Item in FocusChain)
+                    if (Item != Focus)
+                        MergeHash(ref Hash, ((FocusFocus)Item).Hash);
+
+                if (CaretPosition >= 0)
+                {
+                    Debug.Assert(MaxCaretPosition >= 0);
+
+                    MergeHash(ref Hash, (ulong)CaretPosition);
+                    MergeHash(ref Hash, (ulong)MaxCaretPosition);
+                }
+
+                MergeHash(ref Hash, (ulong)CaretMode);
+#endif
+
+                return Hash;
+            }
+        }
+
+        /// <summary></summary>
+        protected virtual void MergeHash(ref ulong hash, ulong value)
+        {
+            hash ^= CRC32.Get(value);
         }
         #endregion
 

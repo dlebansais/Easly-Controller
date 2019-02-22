@@ -569,7 +569,7 @@
                 string CharText = text.Substring(position, 1);
                 ft = new FormattedText(CharText, Culture, FlowDirection, Typeface, FontSize, BrushTable[BrushSettings.CaretOverride]);
 
-                System.Windows.Rect CaretRect = new System.Windows.Rect(PagePadding.Left + X, PagePadding.Right + Y, ft.WidthIncludingTrailingWhitespace, LineHeight);
+                System.Windows.Rect CaretRect = new System.Windows.Rect(PagePadding.Left + X, PagePadding.Top + Y, ft.WidthIncludingTrailingWhitespace, LineHeight);
 
                 WpfDrawingContext.PushOpacity(1, FlashClock);
                 WpfDrawingContext.DrawRectangle(BrushTable[BrushSettings.CaretOverride], null, CaretRect);

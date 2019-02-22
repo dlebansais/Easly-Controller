@@ -420,12 +420,16 @@ namespace EditorDebug
 
         private void ToggleCaretMode()
         {
-            if (ControllerView.CaretMode == CaretModes.Insertion && ControllerView.CaretPosition < ControllerView.MaxCaretPosition)
-                ControllerView.SetCaretMode(CaretModes.Override);
-            else
-                ControllerView.SetCaretMode(CaretModes.Insertion);
+            bool IsChanged;
 
-            layoutControl.InvalidateVisual();
+            CaretModes OldMode = ControllerView.CaretMode;
+            CaretModes NewMode = OldMode == CaretModes.Insertion ? CaretModes.Override : CaretModes.Insertion;
+
+            ControllerView.SetCaretMode(NewMode, out IsChanged);
+            Debug.Assert(IsChanged || (NewMode == CaretModes.Override && ControllerView.CaretPosition >= ControllerView.MaxCaretPosition));
+
+            if (IsChanged)
+                layoutControl.InvalidateVisual();
         }
 
         public void OnActivated()
