@@ -72,6 +72,11 @@
         string FocusedText { get; }
 
         /// <summary>
+        /// Current text if the focus is on a non-empty comment. Null otherwise.
+        /// </summary>
+        string CommentText { get; }
+
+        /// <summary>
         /// Indicates if the node with the focus has all its frames forced to visible.
         /// </summary>
         bool IsUserVisible { get; }

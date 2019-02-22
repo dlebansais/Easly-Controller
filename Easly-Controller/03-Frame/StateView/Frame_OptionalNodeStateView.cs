@@ -118,9 +118,14 @@
             Debug.Assert(RootCellView == null);
 
             IFrameCellView CellView;
-            IFrameNodeTemplate NodeTemplate = Template as IFrameNodeTemplate;
-            if (NodeTemplate != null)
+
+            if (Optional.IsAssigned)
+            {
+                IFrameNodeTemplate NodeTemplate = Template as IFrameNodeTemplate;
+                Debug.Assert(NodeTemplate != null);
+
                 CellView = NodeTemplate.BuildNodeCells(context);
+            }
             else
             {
                 IFrameEmptyCellView EmptyCellView = CreateEmptyCellView(this, null);

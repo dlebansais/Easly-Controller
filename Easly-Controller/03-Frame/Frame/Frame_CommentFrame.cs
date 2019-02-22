@@ -48,6 +48,9 @@
                 IFrameVisibleCellView CellView = CreateCommentCellView(context.StateView, parentCellView, context.StateView.State.Node.Documentation);
                 ValidateVisibleCellView(context, CellView);
 
+                if (context.StateView.State is IFrameOptionalNodeState AsOptionalNodeState)
+                    Debug.Assert(AsOptionalNodeState.ParentInner.IsAssigned);
+
                 return CellView;
             }
             else
