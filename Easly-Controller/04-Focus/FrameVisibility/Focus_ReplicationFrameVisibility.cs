@@ -33,7 +33,7 @@
         {
             bool IsVisible = true;
 
-            IsVisible &= context.ControllerView.IsInReplicatedBlock(context.BlockStateView);
+            IsVisible &= ((IFocusInternalControllerView)context.ControllerView).IsInReplicatedBlock(context.BlockStateView);
 
             return IsVisible;
         }

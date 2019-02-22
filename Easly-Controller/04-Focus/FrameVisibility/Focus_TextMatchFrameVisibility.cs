@@ -67,7 +67,7 @@
         {
             bool IsVisible = true;
 
-            IsVisible &= !context.ControllerView.StringMatchTextPattern(context.StateView, PropertyName, TextPattern);
+            IsVisible &= !((IFocusInternalControllerView)context.ControllerView).StringMatchTextPattern(context.StateView, PropertyName, TextPattern);
 
             return IsVisible;
         }

@@ -57,7 +57,7 @@
         {
             bool IsVisible = true;
 
-            IsVisible &= context.ControllerView.IsTemplateComplex(context.StateView, PropertyName);
+            IsVisible &= ((IFocusInternalControllerView)context.ControllerView).IsTemplateComplex(context.StateView, PropertyName);
 
             return IsVisible;
         }

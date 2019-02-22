@@ -40,7 +40,7 @@
         {
             bool IsVisible = true;
 
-            IsVisible &= !context.ControllerView.IsFirstItem(context.StateView);
+            IsVisible &= !((IFocusInternalControllerView)context.ControllerView).IsFirstItem(context.StateView);
 
             return IsVisible;
         }

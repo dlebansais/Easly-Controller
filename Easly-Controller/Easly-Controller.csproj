@@ -405,6 +405,7 @@
     <Compile Include="04-Focus\Collections\Focus_Operation_ReadOnlyList.cs" />
     <Compile Include="04-Focus\Context\Focus_BrowseContext.cs" />
     <Compile Include="04-Focus\ControllerView\Focus_AttachCallbackSet.cs" />
+    <Compile Include="04-Focus\ControllerView\Focus_InternalControllerView.cs" />
     <Compile Include="04-Focus\ControllerView\Focus_ControllerView.cs" />
     <Compile Include="04-Focus\ControllerView\Focus_CellViewTreeContext.cs" />
     <Compile Include="04-Focus\Controller\Focus_Controller.cs" />
@@ -582,6 +583,7 @@
     <Compile Include="05-Layout\Collections\Layout_Template_List.cs" />
     <Compile Include="05-Layout\Collections\Layout_Template_ReadOnlyDictionary.cs" />
     <Compile Include="05-Layout\Context\Layout_BrowseContext.cs" />
+    <Compile Include="05-Layout\ControllerView\Layout_InternalControllerView.cs" />
     <Compile Include="05-Layout\ControllerView\Layout_AttachCallbackSet.cs" />
     <Compile Include="05-Layout\ControllerView\Layout_CellViewTreeContext.cs" />
     <Compile Include="05-Layout\ControllerView\Layout_ControllerView.cs" />

@@ -115,7 +115,7 @@
     /// <summary>
     /// View of a IxxxController.
     /// </summary>
-    public class LayoutControllerView : FocusControllerView, ILayoutControllerView
+    public class LayoutControllerView : FocusControllerView, ILayoutControllerView, ILayoutInternalControllerView
     {
         #region Init
         /// <summary>

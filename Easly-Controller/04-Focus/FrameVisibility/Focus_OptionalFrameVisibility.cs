@@ -57,7 +57,7 @@
         {
             bool IsVisible = true;
 
-            IsVisible &= context.ControllerView.IsOptionalNodeAssigned(context.StateView, PropertyName);
+            IsVisible &= ((IFocusInternalControllerView)context.ControllerView).IsOptionalNodeAssigned(context.StateView, PropertyName);
 
             return IsVisible;
         }

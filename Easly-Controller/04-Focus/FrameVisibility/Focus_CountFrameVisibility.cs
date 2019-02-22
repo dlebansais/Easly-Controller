@@ -72,7 +72,7 @@
         {
             bool IsVisible = true;
 
-            IsVisible &= context.ControllerView.CollectionHasItems(context.StateView, PropertyName, MaxInvisibleCount);
+            IsVisible &= ((IFocusInternalControllerView)context.ControllerView).CollectionHasItems(context.StateView, PropertyName, MaxInvisibleCount);
 
             return IsVisible;
         }

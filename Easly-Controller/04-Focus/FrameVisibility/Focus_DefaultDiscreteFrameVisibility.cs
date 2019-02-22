@@ -69,7 +69,7 @@
         {
             bool IsVisible = true;
 
-            IsVisible &= !context.ControllerView.DiscreteHasDefaultValue(context.StateView, PropertyName, DefaultValue);
+            IsVisible &= !((IFocusInternalControllerView)context.ControllerView).DiscreteHasDefaultValue(context.StateView, PropertyName, DefaultValue);
 
             return IsVisible;
         }
