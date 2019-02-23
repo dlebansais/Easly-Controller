@@ -448,7 +448,7 @@
             {
                 Debug.Assert(NewFocusIndex >= MinFocusMove + OldFocusIndex && NewFocusIndex <= MaxFocusMove + OldFocusIndex);
 
-                ChangeFocus(NewFocusIndex - OldFocusIndex, OldFocusIndex, NewFocusIndex);
+                ChangeFocus(NewFocusIndex - OldFocusIndex, OldFocusIndex, NewFocusIndex, out bool IsRefreshed);
                 isMoved = true;
             }
             else
@@ -805,12 +805,12 @@
         }
 
         /// <summary></summary>
-        private protected override void ChangeFocus(int direction, int oldIndex, int newIndex)
+        private protected override void ChangeFocus(int direction, int oldIndex, int newIndex, out bool isRefreshed)
         {
             ILayoutFocus OldFocus = (ILayoutFocus)FocusChain[oldIndex];
             Debug.Assert(OldFocus == Focus);
 
-            base.ChangeFocus(direction, oldIndex, newIndex);
+            base.ChangeFocus(direction, oldIndex, newIndex, out isRefreshed);
 
             ILayoutFocus NewFocus = Focus;
             Debug.Assert(NewFocus != OldFocus);

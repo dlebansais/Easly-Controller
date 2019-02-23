@@ -373,7 +373,7 @@
 
             if (OldFocusIndex != NewFocusIndex)
             {
-                ChangeFocus(direction, OldFocusIndex, NewFocusIndex);
+                ChangeFocus(direction, OldFocusIndex, NewFocusIndex, out bool IsRefreshed);
                 isMoved = true;
             }
             else
@@ -383,8 +383,10 @@
         }
 
         /// <summary></summary>
-        private protected virtual void ChangeFocus(int direction, int oldIndex, int newIndex)
+        private protected virtual void ChangeFocus(int direction, int oldIndex, int newIndex, out bool isRefreshed)
         {
+            isRefreshed = false;
+
             Focus = FocusChain[newIndex];
 
             if (FocusChain[oldIndex] is IFocusCommentFocus AsCommentFocus)
@@ -393,6 +395,7 @@
                 if (Text == null)
                 {
                     Refresh(Controller.RootState);
+                    isRefreshed = true;
                 }
             }
 
@@ -441,9 +444,6 @@
                 CaretPosition = text.Length - 1;
             else
                 CaretPosition = position;
-
-            if (CaretMode == CaretModes.Override && CaretPosition == text.Length)
-                CaretMode = CaretModes.Insertion;
 
             CheckCaretInvariant(text);
 
@@ -549,28 +549,34 @@
             isMoved = false;
             ulong OldFocusHash = FocusHash;
 
-            string Text = CommentHelper.Get(Documentation);
-            if (Text == null)
+            if (!(Focus is IFocusCommentFocus))
             {
-                IFocusNodeStateView StateView = Focus.CellView.StateView;
-                ForcedCommentStateView = StateView;
+                string Text = CommentHelper.Get(Documentation);
+                if (Text == null)
+                {
+                    IFocusNodeStateView StateView = Focus.CellView.StateView;
+                    ForcedCommentStateView = StateView;
 
-                Refresh(Controller.RootState);
-                Debug.Assert(ForcedCommentStateView == null);
+                    Refresh(Controller.RootState);
+                    Debug.Assert(ForcedCommentStateView == null);
 
-                for (int i = 0; i < FocusChain.Count; i++)
-                    if (FocusChain[i] is IFocusCommentFocus AsCommentFocus && AsCommentFocus.CellView.StateView == StateView)
-                    {
-                        int OldFocusIndex = FocusChain.IndexOf(Focus);
-                        int NewFocusIndex = i;
-                        Debug.Assert(OldFocusIndex != NewFocusIndex);
+                    for (int i = 0; i < FocusChain.Count; i++)
+                        if (FocusChain[i] is IFocusCommentFocus AsCommentFocus && AsCommentFocus.CellView.StateView == StateView)
+                        {
+                            int OldFocusIndex = FocusChain.IndexOf(Focus);
+                            Debug.Assert(OldFocusIndex >= 0); // The old focus must have been preserved.
 
-                        ChangeFocus(NewFocusIndex - OldFocusIndex, OldFocusIndex, NewFocusIndex);
-                        isMoved = true;
-                        break;
-                    }
+                            int NewFocusIndex = i;
 
-                Debug.Assert(isMoved);
+                            ChangeFocus(NewFocusIndex - OldFocusIndex, OldFocusIndex, NewFocusIndex, out bool IsRefreshed);
+                            Debug.Assert(!IsRefreshed); // Refresh must not be done twice.
+
+                            isMoved = true;
+                            break;
+                        }
+
+                    Debug.Assert(isMoved);
+                }
             }
 
             Debug.Assert(isMoved || OldFocusHash == FocusHash);
