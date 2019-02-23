@@ -10,7 +10,7 @@
     /// <summary>
     /// Frame describing a single-character string value property in a node.
     /// </summary>
-    public interface ILayoutCharacterFrame : IFocusCharacterFrame, ILayoutValueFrame, ILayoutMeasurableFrame, ILayoutDrawableFrame
+    public interface ILayoutCharacterFrame : IFocusCharacterFrame, ILayoutValueFrame, ILayoutMeasurableFrame, ILayoutDrawableFrame, ILayoutFrameWithMargins
     {
     }
 

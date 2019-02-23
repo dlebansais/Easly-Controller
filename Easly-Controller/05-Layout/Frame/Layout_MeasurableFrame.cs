@@ -1,6 +1,5 @@
 ﻿namespace EaslyController.Layout
 {
-    using EaslyController.Constants;
     using EaslyController.Controller;
 
     /// <summary>
@@ -8,18 +7,6 @@
     /// </summary>
     public interface ILayoutMeasurableFrame : ILayoutFrame
     {
-        /// <summary>
-        /// Margin at the left side of the cell.
-        /// (Set in Xaml)
-        /// </summary>
-        Margins LeftMargin { get; }
-
-        /// <summary>
-        /// Margin at the right side of the cell.
-        /// (Set in Xaml)
-        /// </summary>
-        Margins RightMargin { get; }
-
         /// <summary>
         /// Measures a cell created with this frame.
         /// </summary>

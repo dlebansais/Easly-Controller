@@ -9,7 +9,7 @@
     /// <summary>
     /// Frame for decoration purpose only.
     /// </summary>
-    public interface ILayoutSymbolFrame : IFocusSymbolFrame, ILayoutStaticFrame, ILayoutMeasurableFrame, ILayoutDrawableFrame
+    public interface ILayoutSymbolFrame : IFocusSymbolFrame, ILayoutStaticFrame, ILayoutMeasurableFrame, ILayoutDrawableFrame, ILayoutFrameWithMargins
     {
     }
 

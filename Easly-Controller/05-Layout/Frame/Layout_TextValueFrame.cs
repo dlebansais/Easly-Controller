@@ -10,7 +10,7 @@
     /// <summary>
     /// Frame describing a string value property in a node.
     /// </summary>
-    public interface ILayoutTextValueFrame : IFocusTextValueFrame, ILayoutValueFrame, ILayoutMeasurableFrame, ILayoutDrawableFrame, ILayoutFrameWithTextStyle
+    public interface ILayoutTextValueFrame : IFocusTextValueFrame, ILayoutValueFrame, ILayoutMeasurableFrame, ILayoutDrawableFrame, ILayoutFrameWithTextStyle, ILayoutFrameWithMargins
     {
     }
 

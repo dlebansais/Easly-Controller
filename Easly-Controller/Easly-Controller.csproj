@@ -634,6 +634,7 @@
     <Compile Include="05-Layout\Frame\Layout_CollectionPlaceholderFrame.cs" />
     <Compile Include="05-Layout\Frame\Layout_DiscreteFrame.cs" />
     <Compile Include="05-Layout\Frame\Layout_DrawableFrame.cs" />
+    <Compile Include="05-Layout\Frame\Layout_FrameWithMargins.cs" />
     <Compile Include="05-Layout\Frame\Layout_FrameWithVerticalSeparator.cs" />
     <Compile Include="05-Layout\Frame\Layout_FrameWithHorizontalSeparator.cs" />
     <Compile Include="05-Layout\Frame\Layout_FrameWithTextStyle.cs" />

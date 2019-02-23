@@ -29,16 +29,6 @@
         /// Parent frame, or null for the root frame in a template.
         /// </summary>
         public new ILayoutFrame ParentFrame { get { return (ILayoutFrame)base.ParentFrame; } }
-
-        /// <summary>
-        /// Margin at the left side of the cell.
-        /// </summary>
-        public Margins LeftMargin { get { return Margins.None; } }
-
-        /// <summary>
-        /// Margin at the right side of the cell.
-        /// </summary>
-        public Margins RightMargin { get { return Margins.None; } }
         #endregion
 
         #region Client Interface

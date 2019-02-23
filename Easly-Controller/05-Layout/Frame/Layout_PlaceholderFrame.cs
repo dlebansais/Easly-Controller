@@ -9,7 +9,7 @@
     /// <summary>
     /// Frame for describing an child node.
     /// </summary>
-    public interface ILayoutPlaceholderFrame : IFocusPlaceholderFrame, ILayoutNamedFrame, ILayoutNodeFrameWithVisibility, ILayoutFrameWithSelector, ILayoutSelectorPropertyFrame, ILayoutMeasurableFrame
+    public interface ILayoutPlaceholderFrame : IFocusPlaceholderFrame, ILayoutNamedFrame, ILayoutNodeFrameWithVisibility, ILayoutFrameWithSelector, ILayoutSelectorPropertyFrame, ILayoutMeasurableFrame, ILayoutFrameWithMargins
     {
     }
 

@@ -10,7 +10,7 @@
     /// <summary>
     /// Frame for bringing the focus to an insertion point.
     /// </summary>
-    public interface ILayoutInsertFrame : IFocusInsertFrame, ILayoutStaticFrame, ILayoutMeasurableFrame, ILayoutDrawableFrame
+    public interface ILayoutInsertFrame : IFocusInsertFrame, ILayoutStaticFrame, ILayoutMeasurableFrame, ILayoutDrawableFrame, ILayoutFrameWithMargins
     {
     }
 

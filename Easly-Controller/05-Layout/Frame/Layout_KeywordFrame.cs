@@ -10,7 +10,7 @@
     /// <summary>
     /// Frame for decoration purpose only.
     /// </summary>
-    public interface ILayoutKeywordFrame : IFocusKeywordFrame, ILayoutFrame, ILayoutNodeFrameWithVisibility, ILayoutBlockFrameWithVisibility, ILayoutMeasurableFrame, ILayoutDrawableFrame
+    public interface ILayoutKeywordFrame : IFocusKeywordFrame, ILayoutFrame, ILayoutNodeFrameWithVisibility, ILayoutBlockFrameWithVisibility, ILayoutMeasurableFrame, ILayoutDrawableFrame, ILayoutFrameWithMargins
     {
     }
 

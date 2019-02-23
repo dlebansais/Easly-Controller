@@ -11,7 +11,7 @@
     /// <summary>
     /// Frame describing an enum value that can be displayed with different frames depending on its value.
     /// </summary>
-    public interface ILayoutDiscreteFrame : IFocusDiscreteFrame, ILayoutValueFrame, ILayoutMeasurableFrame, ILayoutDrawableFrame
+    public interface ILayoutDiscreteFrame : IFocusDiscreteFrame, ILayoutValueFrame, ILayoutMeasurableFrame, ILayoutDrawableFrame, ILayoutFrameWithMargins
     {
         /// <summary>
         /// List of frames that can be displayed.
