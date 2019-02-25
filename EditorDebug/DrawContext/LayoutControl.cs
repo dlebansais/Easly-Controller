@@ -7,6 +7,7 @@
     using EaslyController.Constants;
     using EaslyController.Layout;
     using EaslyDraw;
+    using KeyboardManager;
     using TestDebug;
 
     public class LayoutControl : FrameworkElement
@@ -18,7 +19,7 @@
 
         private void OnLoaded(object sender, RoutedEventArgs e)
         {
-            KeyboardManager = new KeyboardManager(this);
+            KeyboardManager = new Manager(this);
             KeyboardManager.KeyCharacterEvent += OnKeyCharacter;
             KeyboardManager.KeyMoveEvent += OnKeyMove;
         }
@@ -168,7 +169,7 @@
             InvalidateVisual();
         }
 
-        private KeyboardManager KeyboardManager;
+        private Manager KeyboardManager;
 
         public void OnActivated()
         {
