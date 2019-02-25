@@ -6,9 +6,9 @@
     using EaslyController.Writeable;
 
     /// <summary>
-    /// Operation details for changing a node.
+    /// Operation details for changing a discrete value.
     /// </summary>
-    public interface IFocusChangeNodeOperation : IFrameChangeNodeOperation, IFocusOperation
+    public interface IFocusChangeDiscreteValueOperation : IFrameChangeDiscreteValueOperation, IFocusOperation
     {
         /// <summary>
         /// State changed.
@@ -17,13 +17,13 @@
     }
 
     /// <summary>
-    /// Operation details for moving a node in a list or block list.
+    /// Operation details for changing a discrete value.
     /// </summary>
-    internal class FocusChangeNodeOperation : FrameChangeNodeOperation, IFocusChangeNodeOperation
+    internal class FocusChangeDiscreteValueOperation : FrameChangeDiscreteValueOperation, IFocusChangeDiscreteValueOperation
     {
         #region Init
         /// <summary>
-        /// Initializes a new instance of the <see cref="FocusChangeNodeOperation"/> class.
+        /// Initializes a new instance of the <see cref="FocusChangeDiscreteValueOperation"/> class.
         /// </summary>
         /// <param name="parentNode">Node where the change is taking place.</param>
         /// <param name="propertyName">Name of the property to change.</param>
@@ -31,7 +31,7 @@
         /// <param name="handlerRedo">Handler to execute to redo the operation.</param>
         /// <param name="handlerUndo">Handler to execute to undo the operation.</param>
         /// <param name="isNested">True if the operation is nested within another more general one.</param>
-        public FocusChangeNodeOperation(INode parentNode, string propertyName, int value, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        public FocusChangeDiscreteValueOperation(INode parentNode, string propertyName, int value, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
             : base(parentNode, propertyName, value, handlerRedo, handlerUndo, isNested)
         {
         }
@@ -46,12 +46,12 @@
 
         #region Create Methods
         /// <summary>
-        /// Creates a IxxxChangeNodeOperation object.
+        /// Creates a IxxxChangeDiscreteValueOperation object.
         /// </summary>
-        private protected override IWriteableChangeNodeOperation CreateChangeNodeOperation(int value, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        private protected override IWriteableChangeDiscreteValueOperation CreateChangeDiscreteValueOperation(int value, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
         {
-            ControllerTools.AssertNoOverride(this, typeof(FocusChangeNodeOperation));
-            return new FocusChangeNodeOperation(ParentNode, PropertyName, value, handlerRedo, handlerUndo, isNested);
+            ControllerTools.AssertNoOverride(this, typeof(FocusChangeDiscreteValueOperation));
+            return new FocusChangeDiscreteValueOperation(ParentNode, PropertyName, value, handlerRedo, handlerUndo, isNested);
         }
         #endregion
     }

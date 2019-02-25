@@ -1211,14 +1211,27 @@
         }
 
         /// <summary>
-        /// Handler called every time a state is changed in the controller.
+        /// Handler called every time a discrete value is changed in the controller.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        private protected override void OnStateChanged(IWriteableChangeNodeOperation operation)
+        private protected override void OnDiscreteValueChanged(IWriteableChangeDiscreteValueOperation operation)
         {
-            base.OnStateChanged(operation);
+            base.OnDiscreteValueChanged(operation);
 
-            IFocusNodeState State = ((IFocusChangeNodeOperation)operation).State;
+            IFocusNodeState State = ((IFocusChangeDiscreteValueOperation)operation).State;
+            Debug.Assert(State != null);
+            Debug.Assert(StateViewTable.ContainsKey(State));
+        }
+
+        /// <summary>
+        /// Handler called every time a text is changed in the controller.
+        /// </summary>
+        /// <param name="operation">Details of the operation performed.</param>
+        private protected override void OnTextChanged(IWriteableChangeTextOperation operation)
+        {
+            base.OnTextChanged(operation);
+
+            IFocusNodeState State = ((IFocusChangeTextOperation)operation).State;
             Debug.Assert(State != null);
             Debug.Assert(StateViewTable.ContainsKey(State));
         }
@@ -1382,7 +1395,10 @@
                 ResetCaretPosition(0);
             }
             else if (MatchingFocus != null)
+            {
                 Focus = MatchingFocus;
+                UpdateMaxCaretPosition(); // The focus didn't change, but the content may have.
+            }
             else
                 RecoverFocus(state, NewFocusChain); // The focus has forcibly changed.
 
@@ -1605,6 +1621,28 @@
             if (CaretMode == CaretModes.Override && CaretPosition == MaxCaretPosition)
                 CaretMode = CaretModes.Insertion;
 
+            CheckCaretInvariant(Text);
+        }
+
+        /// <summary></summary>
+        private protected virtual void UpdateMaxCaretPosition()
+        {
+            string Text = null;
+
+            if (Focus is IFocusTextFocus AsTextFocus)
+                Text = GetFocusedStringText(AsTextFocus);
+            else if (Focus is IFocusCommentFocus AsCommentFocus)
+            {
+                Text = GetFocusedCommentText(AsCommentFocus);
+                if (Text == null)
+                    Text = string.Empty;
+            }
+            else
+                return;
+
+            Debug.Assert(Text != null);
+
+            MaxCaretPosition = Text.Length;
             CheckCaretInvariant(Text);
         }
 

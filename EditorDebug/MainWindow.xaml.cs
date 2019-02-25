@@ -58,6 +58,7 @@ namespace EditorDebug
             if (Result.HasValue && Result.Value)
             {
                 LoadFile(Dlg.FileName);
+                bool b = layoutControl.Focus();
             }
         }
 
@@ -81,14 +82,31 @@ namespace EditorDebug
         #endregion
 
         #region Events
+        private void OnPreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            Debug.WriteLine($"OnPreviewKeyDown: {e.Key}");
+        }
+
         private void OnKeyDown(object sender, KeyEventArgs e)
         {
+            Debug.WriteLine($"OnKeyDown: {e.Key}");
+
             ControllerView = layoutControl.ControllerView;
 
             if (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl))
                 OnKeyDownCtrl(e.Key);
             else
                 OnKeyDown(e.Key);
+        }
+
+        private void OnPreviewKeyUp(object sender, KeyEventArgs e)
+        {
+            Debug.WriteLine($"OnPreviewKeyUp: {e.Key}");
+        }
+
+        private void OnKeyUp(object sender, KeyEventArgs e)
+        {
+            Debug.WriteLine($"OnKeyUp: {e.Key}");
         }
 
         private void OnKeyDown(Key key)

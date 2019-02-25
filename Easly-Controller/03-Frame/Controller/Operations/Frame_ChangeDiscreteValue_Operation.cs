@@ -5,9 +5,9 @@
     using EaslyController.Writeable;
 
     /// <summary>
-    /// Operation details for changing a node.
+    /// Operation details for changing a discrete value.
     /// </summary>
-    public interface IFrameChangeNodeOperation : IWriteableChangeNodeOperation, IFrameOperation
+    public interface IFrameChangeDiscreteValueOperation : IWriteableChangeDiscreteValueOperation, IFrameOperation
     {
         /// <summary>
         /// State changed.
@@ -16,13 +16,13 @@
     }
 
     /// <summary>
-    /// Operation details for moving a node in a list or block list.
+    /// Operation details for changing a discrete value.
     /// </summary>
-    internal class FrameChangeNodeOperation : WriteableChangeNodeOperation, IFrameChangeNodeOperation
+    internal class FrameChangeDiscreteValueOperation : WriteableChangeDiscreteValueOperation, IFrameChangeDiscreteValueOperation
     {
         #region Init
         /// <summary>
-        /// Initializes a new instance of the <see cref="FrameChangeNodeOperation"/> class.
+        /// Initializes a new instance of the <see cref="FrameChangeDiscreteValueOperation"/> class.
         /// </summary>
         /// <param name="parentNode">Node where the change is taking place.</param>
         /// <param name="propertyName">Name of the property to change.</param>
@@ -30,7 +30,7 @@
         /// <param name="handlerRedo">Handler to execute to redo the operation.</param>
         /// <param name="handlerUndo">Handler to execute to undo the operation.</param>
         /// <param name="isNested">True if the operation is nested within another more general one.</param>
-        public FrameChangeNodeOperation(INode parentNode, string propertyName, int value, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        public FrameChangeDiscreteValueOperation(INode parentNode, string propertyName, int value, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
             : base(parentNode, propertyName, value, handlerRedo, handlerUndo, isNested)
         {
         }
@@ -45,12 +45,12 @@
 
         #region Create Methods
         /// <summary>
-        /// Creates a IxxxChangeNodeOperation object.
+        /// Creates a IxxxChangeDiscreteValueOperation object.
         /// </summary>
-        private protected override IWriteableChangeNodeOperation CreateChangeNodeOperation(int value, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        private protected override IWriteableChangeDiscreteValueOperation CreateChangeDiscreteValueOperation(int value, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
         {
-            ControllerTools.AssertNoOverride(this, typeof(FrameChangeNodeOperation));
-            return new FrameChangeNodeOperation(ParentNode, PropertyName, value, handlerRedo, handlerUndo, isNested);
+            ControllerTools.AssertNoOverride(this, typeof(FrameChangeDiscreteValueOperation));
+            return new FrameChangeDiscreteValueOperation(ParentNode, PropertyName, value, handlerRedo, handlerUndo, isNested);
         }
         #endregion
     }

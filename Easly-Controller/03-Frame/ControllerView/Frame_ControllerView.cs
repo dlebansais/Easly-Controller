@@ -740,14 +740,34 @@
         }
 
         /// <summary>
-        /// Handler called every time a state is changed in the controller.
+        /// Handler called every time a discrete value is changed in the controller.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        private protected override void OnStateChanged(IWriteableChangeNodeOperation operation)
+        private protected override void OnDiscreteValueChanged(IWriteableChangeDiscreteValueOperation operation)
         {
-            base.OnStateChanged(operation);
+            base.OnDiscreteValueChanged(operation);
 
-            IFrameNodeState State = ((IFrameChangeNodeOperation)operation).State;
+            IFrameNodeState State = ((IFrameChangeDiscreteValueOperation)operation).State;
+            Debug.Assert(State != null);
+            Debug.Assert(StateViewTable.ContainsKey(State));
+
+            IFrameNodeStateView ChangedStateView = StateViewTable[State];
+            ClearCellView(ChangedStateView);
+            BuildCellView(ChangedStateView);
+
+            if (!operation.IsNested)
+                Refresh(State);
+        }
+
+        /// <summary>
+        /// Handler called every time a text is changed in the controller.
+        /// </summary>
+        /// <param name="operation">Details of the operation performed.</param>
+        private protected override void OnTextChanged(IWriteableChangeTextOperation operation)
+        {
+            base.OnTextChanged(operation);
+
+            IFrameNodeState State = ((IFrameChangeTextOperation)operation).State;
             Debug.Assert(State != null);
             Debug.Assert(StateViewTable.ContainsKey(State));
 

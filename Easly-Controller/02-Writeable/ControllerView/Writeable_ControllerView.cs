@@ -65,7 +65,8 @@
             Controller.StateReplaced += OnStateReplaced;
             Controller.StateAssigned += OnStateAssigned;
             Controller.StateUnassigned += OnStateUnassigned;
-            Controller.StateChanged += OnStateChanged;
+            Controller.DiscreteValueChanged += OnDiscreteValueChanged;
+            Controller.TextChanged += OnTextChanged;
             Controller.BlockStateChanged += OnBlockStateChanged;
             Controller.StateMoved += OnStateMoved;
             Controller.BlockStateMoved += OnBlockStateMoved;
@@ -239,10 +240,23 @@
         }
 
         /// <summary>
-        /// Handler called every time a state is changed in the controller.
+        /// Handler called every time a discrete value is changed in the controller.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        private protected virtual void OnStateChanged(IWriteableChangeNodeOperation operation)
+        private protected virtual void OnDiscreteValueChanged(IWriteableChangeDiscreteValueOperation operation)
+        {
+            Debug.Assert(operation != null);
+
+            IWriteableNodeState State = operation.State;
+            Debug.Assert(State != null);
+            Debug.Assert(StateViewTable.ContainsKey(State));
+        }
+
+        /// <summary>
+        /// Handler called every time a string is changed in the controller.
+        /// </summary>
+        /// <param name="operation">Details of the operation performed.</param>
+        private protected virtual void OnTextChanged(IWriteableChangeTextOperation operation)
         {
             Debug.Assert(operation != null);
 
@@ -449,7 +463,8 @@
             Controller.StateReplaced -= OnStateReplaced;
             Controller.StateAssigned -= OnStateAssigned;
             Controller.StateUnassigned -= OnStateUnassigned;
-            Controller.StateChanged -= OnStateChanged;
+            Controller.DiscreteValueChanged -= OnDiscreteValueChanged;
+            Controller.TextChanged -= OnTextChanged;
             Controller.BlockStateChanged -= OnBlockStateChanged;
             Controller.StateMoved -= OnStateMoved;
             Controller.BlockStateMoved -= OnBlockStateMoved;

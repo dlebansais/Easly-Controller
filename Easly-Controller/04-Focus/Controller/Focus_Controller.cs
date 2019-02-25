@@ -380,12 +380,21 @@
         }
 
         /// <summary>
-        /// Creates a IxxxChangeNodeOperation object.
+        /// Creates a IxxxChangeDiscreteValueOperation object.
         /// </summary>
-        private protected override IWriteableChangeNodeOperation CreateChangeNodeOperation(INode parentNode, string propertyName, int value, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        private protected override IWriteableChangeDiscreteValueOperation CreateChangeDiscreteValueOperation(INode parentNode, string propertyName, int value, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusController));
-            return new FocusChangeNodeOperation(parentNode, propertyName, value, handlerRedo, handlerUndo, isNested);
+            return new FocusChangeDiscreteValueOperation(parentNode, propertyName, value, handlerRedo, handlerUndo, isNested);
+        }
+
+        /// <summary>
+        /// Creates a IxxxChangeTextOperation object.
+        /// </summary>
+        private protected override IWriteableChangeTextOperation CreateChangeTextOperation(INode parentNode, string propertyName, string text, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        {
+            ControllerTools.AssertNoOverride(this, typeof(FocusController));
+            return new FocusChangeTextOperation(parentNode, propertyName, text, handlerRedo, handlerUndo, isNested);
         }
 
         /// <summary>

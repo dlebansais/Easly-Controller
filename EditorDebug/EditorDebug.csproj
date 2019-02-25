@@ -47,6 +47,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -65,7 +66,16 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Keyboard\KeyboardHelper.cs" />
+    <Compile Include="Keyboard\KeyFlags.cs" />
+    <Compile Include="Keyboard\KeyMap.cs" />
+    <Compile Include="Keyboard\KeyboardManager.cs" />
     <Compile Include="DrawContext\LayoutControl.cs" />
+    <Compile Include="Keyboard\MoveDirections.cs" />
+    <Compile Include="Keyboard\CharacterEventArgs.cs" />
+    <Compile Include="Keyboard\MoveEventArgs.cs" />
+    <Compile Include="Keyboard\CharacterEventHandler.cs" />
+    <Compile Include="Keyboard\MoveEventHandler.cs" />
     <Compile Include="TemplateSet\CustomLayoutTemplateSet.cs" />
     <Compile Include="TemplateSet\CustomFocusTemplateSet.cs" />
     <Compile Include="TemplateSet\CustomFrameTemplateSet.cs" />

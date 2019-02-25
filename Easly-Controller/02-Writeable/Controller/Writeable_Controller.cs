@@ -89,12 +89,17 @@
         event Action<IWriteableAssignmentOperation> StateUnassigned;
 
         /// <summary>
-        /// Called when a state is moved.
+        /// Called when a discrete value is changed.
         /// </summary>
-        event Action<IWriteableChangeNodeOperation> StateChanged;
+        event Action<IWriteableChangeDiscreteValueOperation> DiscreteValueChanged;
 
         /// <summary>
-        /// Called when a state is moved.
+        /// Called when text is changed.
+        /// </summary>
+        event Action<IWriteableChangeTextOperation> TextChanged;
+
+        /// <summary>
+        /// Called when a block state is changed.
         /// </summary>
         event Action<IWriteableChangeBlockOperation> BlockStateChanged;
 
@@ -183,6 +188,13 @@
         /// <param name="propertyName">Name of the property to change.</param>
         /// <param name="value">The new value.</param>
         void ChangeDiscreteValue(IWriteableIndex nodeIndex, string propertyName, int value);
+        /// <summary>
+        /// Changes the value of a text.
+        /// </summary>
+        /// <param name="nodeIndex">Index of the state with the string to change.</param>
+        /// <param name="propertyName">Name of the property to change.</param>
+        /// <param name="text">The new text.</param>
+        void ChangeText(IWriteableIndex nodeIndex, string propertyName, string text);
 
         /// <summary>
         /// Checks whether a block can be split at the given index.
@@ -458,21 +470,35 @@
 #pragma warning restore 1591
 
         /// <summary>
-        /// Called when a state is changed.
+        /// Called when a discrete value is changed.
         /// </summary>
-        public event Action<IWriteableChangeNodeOperation> StateChanged
+        public event Action<IWriteableChangeDiscreteValueOperation> DiscreteValueChanged
         {
-            add { AddStateChangedDelegate(value); }
-            remove { RemoveStateChangedDelegate(value); }
+            add { AddDiscreteValueChangedDelegate(value); }
+            remove { RemoveDiscreteValueChangedDelegate(value); }
         }
 #pragma warning disable 1591
-        private Action<IWriteableChangeNodeOperation> StateChangedHandler;
-        private protected virtual void AddStateChangedDelegate(Action<IWriteableChangeNodeOperation> handler) { StateChangedHandler += handler; }
-        private protected virtual void RemoveStateChangedDelegate(Action<IWriteableChangeNodeOperation> handler) { StateChangedHandler -= handler; }
+        private Action<IWriteableChangeDiscreteValueOperation> DiscreteValueChangedHandler;
+        private protected virtual void AddDiscreteValueChangedDelegate(Action<IWriteableChangeDiscreteValueOperation> handler) { DiscreteValueChangedHandler += handler; }
+        private protected virtual void RemoveDiscreteValueChangedDelegate(Action<IWriteableChangeDiscreteValueOperation> handler) { DiscreteValueChangedHandler -= handler; }
 #pragma warning restore 1591
 
         /// <summary>
-        /// Called when a state is changed.
+        /// Called when text is changed.
+        /// </summary>
+        public event Action<IWriteableChangeTextOperation> TextChanged
+        {
+            add { AddTextChangedDelegate(value); }
+            remove { RemoveTextChangedDelegate(value); }
+        }
+#pragma warning disable 1591
+        private Action<IWriteableChangeTextOperation> TextChangedHandler;
+        private protected virtual void AddTextChangedDelegate(Action<IWriteableChangeTextOperation> handler) { TextChangedHandler += handler; }
+        private protected virtual void RemoveTextChangedDelegate(Action<IWriteableChangeTextOperation> handler) { TextChangedHandler -= handler; }
+#pragma warning restore 1591
+
+        /// <summary>
+        /// Called when a block state is changed.
         /// </summary>
         public event Action<IWriteableChangeBlockOperation> BlockStateChanged
         {
@@ -1191,7 +1217,7 @@
             Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => RedoChangeDiscreteValue(operation);
             Action<IWriteableOperation> HandlerUndo = (IWriteableOperation operation) => UndoChangeDiscreteValue(operation);
             IWriteableNodeState State = StateTable[nodeIndex];
-            IWriteableChangeNodeOperation Operation = CreateChangeNodeOperation(State.Node, propertyName, value, HandlerRedo, HandlerUndo, isNested: false);
+            IWriteableChangeDiscreteValueOperation Operation = CreateChangeDiscreteValueOperation(State.Node, propertyName, value, HandlerRedo, HandlerUndo, isNested: false);
 
             Operation.Redo();
             SetLastOperation(Operation);
@@ -1201,21 +1227,21 @@
         /// <summary></summary>
         private protected virtual void RedoChangeDiscreteValue(IWriteableOperation operation)
         {
-            IWriteableChangeNodeOperation ChangeNodeOperation = (IWriteableChangeNodeOperation)operation;
-            ExecuteChangeDiscreteValue(ChangeNodeOperation);
+            IWriteableChangeDiscreteValueOperation ChangeDiscreteValueOperation = (IWriteableChangeDiscreteValueOperation)operation;
+            ExecuteChangeDiscreteValue(ChangeDiscreteValueOperation);
         }
 
         /// <summary></summary>
         private protected virtual void UndoChangeDiscreteValue(IWriteableOperation operation)
         {
-            IWriteableChangeNodeOperation ChangeNodeOperation = (IWriteableChangeNodeOperation)operation;
-            ChangeNodeOperation = ChangeNodeOperation.ToInverseChange();
+            IWriteableChangeDiscreteValueOperation ChangeDiscreteValueOperation = (IWriteableChangeDiscreteValueOperation)operation;
+            ChangeDiscreteValueOperation = ChangeDiscreteValueOperation.ToInverseChange();
 
-            ExecuteChangeDiscreteValue(ChangeNodeOperation);
+            ExecuteChangeDiscreteValue(ChangeDiscreteValueOperation);
         }
 
         /// <summary></summary>
-        private protected virtual void ExecuteChangeDiscreteValue(IWriteableChangeNodeOperation operation)
+        private protected virtual void ExecuteChangeDiscreteValue(IWriteableChangeDiscreteValueOperation operation)
         {
             INode ParentNode = operation.ParentNode;
             string PropertyName = operation.PropertyName;
@@ -1235,7 +1261,67 @@
 
             operation.Update(State, OldValue);
 
-            NotifyStateChanged(operation);
+            NotifyDiscreteValueChanged(operation);
+        }
+
+        /// <summary>
+        /// Changes the value of a text.
+        /// </summary>
+        /// <param name="nodeIndex">Index of the state with the string to change.</param>
+        /// <param name="propertyName">Name of the property to change.</param>
+        /// <param name="text">The new text.</param>
+        public virtual void ChangeText(IWriteableIndex nodeIndex, string propertyName, string text)
+        {
+            Debug.Assert(nodeIndex != null);
+            Debug.Assert(StateTable.ContainsKey(nodeIndex));
+            Debug.Assert(text != null);
+
+            Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => RedoChangeText(operation);
+            Action<IWriteableOperation> HandlerUndo = (IWriteableOperation operation) => UndoChangeText(operation);
+            IWriteableNodeState State = StateTable[nodeIndex];
+            IWriteableChangeTextOperation Operation = CreateChangeTextOperation(State.Node, propertyName, text, HandlerRedo, HandlerUndo, isNested: false);
+
+            Operation.Redo();
+            SetLastOperation(Operation);
+            CheckInvariant();
+        }
+
+        /// <summary></summary>
+        private protected virtual void RedoChangeText(IWriteableOperation operation)
+        {
+            IWriteableChangeTextOperation ChangeTextOperation = (IWriteableChangeTextOperation)operation;
+            ExecuteChangeText(ChangeTextOperation);
+        }
+
+        /// <summary></summary>
+        private protected virtual void UndoChangeText(IWriteableOperation operation)
+        {
+            IWriteableChangeTextOperation ChangeTextOperation = (IWriteableChangeTextOperation)operation;
+            ChangeTextOperation = ChangeTextOperation.ToInverseChange();
+
+            ExecuteChangeText(ChangeTextOperation);
+        }
+
+        /// <summary></summary>
+        private protected virtual void ExecuteChangeText(IWriteableChangeTextOperation operation)
+        {
+            INode ParentNode = operation.ParentNode;
+            string PropertyName = operation.PropertyName;
+            string NewText = operation.NewText;
+
+            IWriteableNodeState State = (IWriteableNodeState)GetState(ParentNode);
+            Debug.Assert(State != null);
+            Debug.Assert(State.ValuePropertyTypeTable.ContainsKey(PropertyName));
+            Debug.Assert(State.ValuePropertyTypeTable[PropertyName] == Constants.ValuePropertyType.String);
+
+            string OldText = NodeTreeHelper.GetString(State.Node, PropertyName);
+            Debug.Assert(OldText != null);
+
+            NodeTreeHelper.SetString(State.Node, PropertyName, NewText);
+
+            operation.Update(State, OldText);
+
+            NotifyTextChanged(operation);
         }
 
         /// <summary>
@@ -2127,9 +2213,15 @@
         }
 
         /// <summary></summary>
-        private protected virtual void NotifyStateChanged(IWriteableChangeNodeOperation operation)
+        private protected virtual void NotifyDiscreteValueChanged(IWriteableChangeDiscreteValueOperation operation)
         {
-            StateChangedHandler?.Invoke(operation);
+            DiscreteValueChangedHandler?.Invoke(operation);
+        }
+
+        /// <summary></summary>
+        private protected virtual void NotifyTextChanged(IWriteableChangeTextOperation operation)
+        {
+            TextChangedHandler?.Invoke(operation);
         }
 
         /// <summary></summary>
@@ -2520,12 +2612,21 @@
         }
 
         /// <summary>
-        /// Creates a IxxxChangeNodeOperation object.
+        /// Creates a IxxxChangeDiscreteValueOperation object.
         /// </summary>
-        private protected virtual IWriteableChangeNodeOperation CreateChangeNodeOperation(INode parentNode, string propertyName, int value, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        private protected virtual IWriteableChangeDiscreteValueOperation CreateChangeDiscreteValueOperation(INode parentNode, string propertyName, int value, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableController));
-            return new WriteableChangeNodeOperation(parentNode, propertyName, value, handlerRedo, handlerUndo, isNested);
+            return new WriteableChangeDiscreteValueOperation(parentNode, propertyName, value, handlerRedo, handlerUndo, isNested);
+        }
+
+        /// <summary>
+        /// Creates a IxxxChangeTextOperation object.
+        /// </summary>
+        private protected virtual IWriteableChangeTextOperation CreateChangeTextOperation(INode parentNode, string propertyName, string text, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        {
+            ControllerTools.AssertNoOverride(this, typeof(WriteableController));
+            return new WriteableChangeTextOperation(parentNode, propertyName, text, handlerRedo, handlerUndo, isNested);
         }
 
         /// <summary>

@@ -5,9 +5,9 @@
     using BaseNode;
 
     /// <summary>
-    /// Operation details for changing a discrete value.
+    /// Operation details for changing text.
     /// </summary>
-    public interface IWriteableChangeNodeOperation : IWriteableOperation
+    public interface IWriteableChangeTextOperation : IWriteableOperation
     {
         /// <summary>
         /// Node where the change is taking place.
@@ -20,14 +20,14 @@
         string PropertyName { get; }
 
         /// <summary>
-        /// The old value.
+        /// The old text.
         /// </summary>
-        int OldValue { get; }
+        string OldText { get; }
 
         /// <summary>
-        /// The new value.
+        /// The new text.
         /// </summary>
-        int NewValue { get; }
+        string NewText { get; }
 
         /// <summary>
         /// State changed.
@@ -38,36 +38,36 @@
         /// Update the operation with details.
         /// </summary>
         /// <param name="state">State changed.</param>
-        /// <param name="oldValue">The old value.</param>
-        void Update(IWriteableNodeState state, int oldValue);
+        /// <param name="oldText">The old text.</param>
+        void Update(IWriteableNodeState state, string oldText);
 
         /// <summary>
-        /// Creates an operation to undo the change value operation.
+        /// Creates an operation to undo the change text operation.
         /// </summary>
-        IWriteableChangeNodeOperation ToInverseChange();
+        IWriteableChangeTextOperation ToInverseChange();
     }
 
     /// <summary>
-    /// Operation details for changing a discrete value.
+    /// Operation details for changing text.
     /// </summary>
-    internal class WriteableChangeNodeOperation : WriteableOperation, IWriteableChangeNodeOperation
+    internal class WriteableChangeTextOperation : WriteableOperation, IWriteableChangeTextOperation
     {
         #region Init
         /// <summary>
-        /// Initializes a new instance of the <see cref="WriteableChangeNodeOperation"/> class.
+        /// Initializes a new instance of the <see cref="WriteableChangeTextOperation"/> class.
         /// </summary>
         /// <param name="parentNode">Node where the change is taking place.</param>
         /// <param name="propertyName">Name of the property to change.</param>
-        /// <param name="value">The new value.</param>
+        /// <param name="text">The new text.</param>
         /// <param name="handlerRedo">Handler to execute to redo the operation.</param>
         /// <param name="handlerUndo">Handler to execute to undo the operation.</param>
         /// <param name="isNested">True if the operation is nested within another more general one.</param>
-        public WriteableChangeNodeOperation(INode parentNode, string propertyName, int value, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        public WriteableChangeTextOperation(INode parentNode, string propertyName, string text, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
             : base(handlerRedo, handlerUndo, isNested)
         {
             ParentNode = parentNode;
             PropertyName = propertyName;
-            NewValue = value;
+            NewText = text;
         }
         #endregion
 
@@ -83,14 +83,14 @@
         public string PropertyName { get; }
 
         /// <summary>
-        /// The old value.
+        /// The old text.
         /// </summary>
-        public int OldValue { get; private set; }
+        public string OldText { get; private set; }
 
         /// <summary>
-        /// The new value.
+        /// The new text.
         /// </summary>
-        public int NewValue { get; }
+        public string NewText { get; }
 
         /// <summary>
         /// State changed.
@@ -103,32 +103,32 @@
         /// Update the operation with details.
         /// </summary>
         /// <param name="state">State changed.</param>
-        /// <param name="oldValue">The old value.</param>
-        public virtual void Update(IWriteableNodeState state, int oldValue)
+        /// <param name="oldText">The old text.</param>
+        public virtual void Update(IWriteableNodeState state, string oldText)
         {
             Debug.Assert(state != null);
 
             State = state;
-            OldValue = oldValue;
+            OldText = oldText;
         }
 
         /// <summary>
         /// Creates an operation to undo the change value operation.
         /// </summary>
-        public virtual IWriteableChangeNodeOperation ToInverseChange()
+        public virtual IWriteableChangeTextOperation ToInverseChange()
         {
-            return CreateChangeNodeOperation(OldValue, HandlerUndo, HandlerRedo, IsNested);
+            return CreateChangeTextOperation(OldText, HandlerUndo, HandlerRedo, IsNested);
         }
         #endregion
 
         #region Create Methods
         /// <summary>
-        /// Creates a IxxxChangeNodeOperation object.
+        /// Creates a IxxxChangeTextOperation object.
         /// </summary>
-        private protected virtual IWriteableChangeNodeOperation CreateChangeNodeOperation(int value, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        private protected virtual IWriteableChangeTextOperation CreateChangeTextOperation(string text, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
         {
-            ControllerTools.AssertNoOverride(this, typeof(WriteableChangeNodeOperation));
-            return new WriteableChangeNodeOperation(ParentNode, PropertyName, value, handlerRedo, handlerUndo, isNested);
+            ControllerTools.AssertNoOverride(this, typeof(WriteableChangeTextOperation));
+            return new WriteableChangeTextOperation(ParentNode, PropertyName, text, handlerRedo, handlerUndo, isNested);
         }
         #endregion
     }

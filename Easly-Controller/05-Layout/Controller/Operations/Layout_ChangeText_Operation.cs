@@ -6,9 +6,9 @@
     using EaslyController.Writeable;
 
     /// <summary>
-    /// Operation details for changing a node.
+    /// Operation details for changing text.
     /// </summary>
-    public interface ILayoutChangeNodeOperation : IFocusChangeNodeOperation, ILayoutOperation
+    public interface ILayoutChangeTextOperation : IFocusChangeTextOperation, ILayoutOperation
     {
         /// <summary>
         /// State changed.
@@ -17,22 +17,22 @@
     }
 
     /// <summary>
-    /// Operation details for moving a node in a list or block list.
+    /// Operation details for changing text.
     /// </summary>
-    internal class LayoutChangeNodeOperation : FocusChangeNodeOperation, ILayoutChangeNodeOperation
+    internal class LayoutChangeTextOperation : FocusChangeTextOperation, ILayoutChangeTextOperation
     {
         #region Init
         /// <summary>
-        /// Initializes a new instance of the <see cref="LayoutChangeNodeOperation"/> class.
+        /// Initializes a new instance of the <see cref="LayoutChangeTextOperation"/> class.
         /// </summary>
         /// <param name="parentNode">Node where the change is taking place.</param>
         /// <param name="propertyName">Name of the property to change.</param>
-        /// <param name="value">The new value.</param>
+        /// <param name="text">The new text.</param>
         /// <param name="handlerRedo">Handler to execute to redo the operation.</param>
         /// <param name="handlerUndo">Handler to execute to undo the operation.</param>
         /// <param name="isNested">True if the operation is nested within another more general one.</param>
-        public LayoutChangeNodeOperation(INode parentNode, string propertyName, int value, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
-            : base(parentNode, propertyName, value, handlerRedo, handlerUndo, isNested)
+        public LayoutChangeTextOperation(INode parentNode, string propertyName, string text, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+            : base(parentNode, propertyName, text, handlerRedo, handlerUndo, isNested)
         {
         }
         #endregion
@@ -46,12 +46,12 @@
 
         #region Create Methods
         /// <summary>
-        /// Creates a IxxxChangeNodeOperation object.
+        /// Creates a IxxxChangeTextOperation object.
         /// </summary>
-        private protected override IWriteableChangeNodeOperation CreateChangeNodeOperation(int value, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        private protected override IWriteableChangeTextOperation CreateChangeTextOperation(string text, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
         {
-            ControllerTools.AssertNoOverride(this, typeof(LayoutChangeNodeOperation));
-            return new LayoutChangeNodeOperation(ParentNode, PropertyName, value, handlerRedo, handlerUndo, isNested);
+            ControllerTools.AssertNoOverride(this, typeof(LayoutChangeTextOperation));
+            return new LayoutChangeTextOperation(ParentNode, PropertyName, text, handlerRedo, handlerUndo, isNested);
         }
         #endregion
     }
