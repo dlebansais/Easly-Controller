@@ -106,12 +106,26 @@
                     break;
 
                 case MoveDirections.PageUp:
+                    MoveFocusVertically(-1 * GetVerticalPageMove());
+                    IsHandled = true;
+                    break;
+
                 case MoveDirections.PageDown:
+                    MoveFocusVertically(+1 * GetVerticalPageMove());
+                    IsHandled = true;
                     break;
             }
 
             Debug.Assert(IsHandled);
             e.Handled = IsHandled;
+        }
+
+        private int GetVerticalPageMove()
+        {
+            if (ActualHeight >= DrawContext.LineHeight * 3)
+                return (int)((ActualHeight - DrawContext.LineHeight * 2) / DrawContext.LineHeight);
+            else
+                return 1;
         }
 
         private void ToggleCaretMode(object sender, RoutedEventArgs e)
@@ -181,8 +195,6 @@
 
         private void InsertNewItem(object sender, RoutedEventArgs e)
         {
-            if (ControllerView == null)
-                return;
             if (!ControllerView.IsNewItemInsertable(out IFocusCollectionInner inner, out IFocusInsertionCollectionNodeIndex index))
                 return;
 
@@ -230,9 +242,6 @@
 
         private void MoveFocusVertically(int direction)
         {
-            if (ControllerView == null)
-                return;
-
             ControllerView.MoveFocusVertically(ControllerView.DrawContext.LineHeight * direction, out bool IsMoved);
             if (IsMoved)
                 InvalidateVisual();
@@ -240,9 +249,6 @@
 
         private void MoveFocusHorizontally(int direction)
         {
-            if (ControllerView == null)
-                return;
-
             ControllerView.MoveFocusHorizontally(direction, out bool IsMoved);
             if (IsMoved)
                 InvalidateVisual();

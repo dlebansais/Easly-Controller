@@ -453,7 +453,11 @@
                 }
             }
 
-            if (NewFocusIndex >= 0 && NewFocusIndex != OldFocusIndex)
+            // Always choose an extremum cell view if all are on the wrong side of the target.
+            if (NewFocusIndex < 0)
+                NewFocusIndex = (distance < 0) ? 0 : FocusChain.Count - 1;
+
+            if (NewFocusIndex != OldFocusIndex)
             {
                 Debug.Assert(NewFocusIndex >= MinFocusMove + OldFocusIndex && NewFocusIndex <= MaxFocusMove + OldFocusIndex);
 
@@ -517,6 +521,8 @@
         /// <param name="isMoved">True if the focus has changed.</param>
         public virtual void MoveFocusHorizontally(int direction, out bool isMoved)
         {
+            Debug.Assert(direction != 0);
+
             ulong OldFocusHash = FocusHash;
 
             Point FocusCellOrigin = Focus.CellView.CellOrigin;
@@ -541,12 +547,12 @@
                     continue;
 
                 // Don't consider cells that are in the wrong direction;
-                if ((direction <= 0 && TestCellOrigin.X >= FocusCellOrigin.X + FocusCellSize.Width) || (direction >= 0 && TestCellOrigin.X + TestCellSize.Width <= FocusCellOrigin.X))
+                if ((direction < 0 && TestCellOrigin.X >= FocusCellOrigin.X + FocusCellSize.Width) || (direction >= 0 && TestCellOrigin.X + TestCellSize.Width <= FocusCellOrigin.X))
                     continue;
 
                 double SquaredDistance = Point.SquaredDistance(FocusCellCenter, TestCellCenter);
 
-                if (NewFocusIndex < 0 || BestSquaredDistance > SquaredDistance)
+                if (NewFocusIndex < 0 || BestSquaredDistance < SquaredDistance)
                 {
                     BestSquaredDistance = SquaredDistance;
                     NewFocusIndex = CellIndex;
@@ -562,6 +568,24 @@
             }
             else
                 isMoved = false;
+
+            // Also move the caret.
+            if (Focus is ILayoutTextFocus AsTextFocus)
+            {
+                string Text = GetFocusedText(AsTextFocus);
+
+                if (direction < 0)
+                    SetTextCaretPosition(Text, 0, out isMoved);
+                else
+                {
+                    if (CaretMode == CaretModes.Insertion)
+                        SetTextCaretPosition(Text, Text.Length, out isMoved);
+                    else if (Text.Length > 0)
+                        SetTextCaretPosition(Text, Text.Length - 1, out isMoved);
+                    else
+                        isMoved = false;
+                }
+            }
 
             Debug.Assert(isMoved || OldFocusHash == FocusHash);
         }
