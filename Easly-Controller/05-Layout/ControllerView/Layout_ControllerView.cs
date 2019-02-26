@@ -107,8 +107,17 @@
         void MoveFocusVertically(double distance, out bool isMoved);
 
         /// <summary>
+        /// Moves the focus to the beginning or end of a line.
+        /// The starting point is the center of the area covered by the current focus.
+        /// </summary>
+        /// <param name="direction">-1 for the beginning of the line, +1 for the end.</param>
+        /// <param name="isMoved">True if the focus has changed.</param>
+        void MoveFocusHorizontally(int direction, out bool isMoved);
+
+        /// <summary>
         /// Sets <see cref="ShowUnfocusedComments"/>.
         /// </summary>
+        /// <param name="show">True to show, false to hide.</param>
         void SetShowUnfocusedComments(bool show);
     }
 
@@ -501,8 +510,66 @@
         }
 
         /// <summary>
+        /// Moves the focus to the beginning or end of a line.
+        /// The starting point is the center of the area covered by the current focus.
+        /// </summary>
+        /// <param name="direction">-1 for the beginning of the line, +1 for the end.</param>
+        /// <param name="isMoved">True if the focus has changed.</param>
+        public virtual void MoveFocusHorizontally(int direction, out bool isMoved)
+        {
+            ulong OldFocusHash = FocusHash;
+
+            Point FocusCellOrigin = Focus.CellView.CellOrigin;
+            Size FocusCellSize = Focus.CellView.CellSize;
+            Point FocusCellCenter = Focus.CellView.CellRect.Center;
+            int OldFocusIndex = FocusChain.IndexOf(Focus);
+            int NewFocusIndex = -1;
+            double BestSquaredDistance = 0;
+
+            for (int i = 0; i < FocusChain.Count; i++)
+            {
+                int CellIndex = direction < 0 ? i : FocusChain.Count - i - 1;
+                ILayoutFocus TestFocus = (ILayoutFocus)FocusChain[CellIndex];
+
+                ILayoutFocusableCellView TestCellView = TestFocus.CellView;
+                Point TestCellOrigin = TestCellView.CellOrigin;
+                Size TestCellSize = TestCellView.CellSize;
+                Point TestCellCenter = TestCellView.CellRect.Center;
+
+                // Don't consider cells that are not on the same line;
+                if ((TestCellOrigin.Y + TestCellSize.Height <= FocusCellOrigin.Y) || (TestCellOrigin.Y >= FocusCellOrigin.Y + FocusCellSize.Height))
+                    continue;
+
+                // Don't consider cells that are in the wrong direction;
+                if ((direction < 0 && TestCellOrigin.X >= FocusCellOrigin.X + FocusCellSize.Width) || (direction > 0 && TestCellOrigin.X + TestCellSize.Width <= FocusCellOrigin.X))
+                    continue;
+
+                double SquaredDistance = Point.SquaredDistance(FocusCellCenter, TestCellCenter);
+
+                if (NewFocusIndex < 0 || BestSquaredDistance > SquaredDistance)
+                {
+                    BestSquaredDistance = SquaredDistance;
+                    NewFocusIndex = CellIndex;
+                }
+            }
+
+            if (NewFocusIndex >= 0 && NewFocusIndex != OldFocusIndex)
+            {
+                Debug.Assert(NewFocusIndex >= MinFocusMove + OldFocusIndex && NewFocusIndex <= MaxFocusMove + OldFocusIndex);
+
+                ChangeFocus(NewFocusIndex - OldFocusIndex, OldFocusIndex, NewFocusIndex, out bool IsRefreshed);
+                isMoved = true;
+            }
+            else
+                isMoved = false;
+
+            Debug.Assert(isMoved || OldFocusHash == FocusHash);
+        }
+
+        /// <summary>
         /// Sets <see cref="ShowUnfocusedComments"/>.
         /// </summary>
+        /// <param name="show">True to show, false to hide.</param>
         public virtual void SetShowUnfocusedComments(bool show)
         {
             if (ShowUnfocusedComments != show)

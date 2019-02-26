@@ -100,7 +100,15 @@
                     break;
 
                 case MoveDirections.Home:
+                    MoveFocusHorizontally(-1);
+                    IsHandled = true;
+                    break;
+
                 case MoveDirections.End:
+                    MoveFocusHorizontally(+1);
+                    IsHandled = true;
+                    break;
+
                 case MoveDirections.PageUp:
                 case MoveDirections.PageDown:
                     break;
@@ -228,6 +236,16 @@
                 return;
 
             ControllerView.MoveFocusVertically(ControllerView.DrawContext.LineHeight * direction, out bool IsMoved);
+            if (IsMoved)
+                InvalidateVisual();
+        }
+
+        private void MoveFocusHorizontally(int direction)
+        {
+            if (ControllerView == null)
+                return;
+
+            ControllerView.MoveFocusHorizontally(direction, out bool IsMoved);
             if (IsMoved)
                 InvalidateVisual();
         }

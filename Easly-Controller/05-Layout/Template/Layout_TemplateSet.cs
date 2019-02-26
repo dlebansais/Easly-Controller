@@ -177,6 +177,15 @@
         }
 
         /// <summary>
+        /// Creates a IxxxCommentFrame object.
+        /// </summary>
+        private protected override IFrameCommentFrame CreateCommentFrame()
+        {
+            ControllerTools.AssertNoOverride(this, typeof(LayoutTemplateSet));
+            return new LayoutCommentFrame();
+        }
+
+        /// <summary>
         /// Creates a IxxxTemplate object.
         /// </summary>
         private protected override IFrameNodeTemplate CreateNodeTemplate()

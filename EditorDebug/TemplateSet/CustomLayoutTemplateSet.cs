@@ -1028,7 +1028,7 @@ namespace TestDebug
                     </LayoutVerticalPanelFrame>
                     <LayoutVerticalPanelFrame>
                         <LayoutHorizontalPanelFrame>
-                            <LayoutKeywordFrame IsFocusable=""true"">deferred</LayoutKeywordFrame>
+                            <LayoutKeywordFrame IsFocusable=""true"" IsPreferred=""true"">deferred</LayoutKeywordFrame>
                         </LayoutHorizontalPanelFrame>
                     </LayoutVerticalPanelFrame>
                     <LayoutVerticalPanelFrame>
@@ -1073,7 +1073,7 @@ namespace TestDebug
                     <LayoutVerticalPanelFrame>
                         <LayoutHorizontalPanelFrame>
                             <LayoutKeywordFrame>getter</LayoutKeywordFrame>
-                            <LayoutKeywordFrame IsFocusable=""true"" LeftMargin=""Whitespace"">deferred</LayoutKeywordFrame>
+                            <LayoutKeywordFrame IsFocusable=""true"" IsPreferred=""true"" LeftMargin=""Whitespace"">deferred</LayoutKeywordFrame>
                         </LayoutHorizontalPanelFrame>
                     </LayoutVerticalPanelFrame>
                     <LayoutVerticalPanelFrame>
@@ -1118,7 +1118,7 @@ namespace TestDebug
                     <LayoutVerticalPanelFrame>
                         <LayoutHorizontalPanelFrame>
                             <LayoutKeywordFrame>setter</LayoutKeywordFrame>
-                            <LayoutKeywordFrame IsFocusable=""true"" LeftMargin=""Whitespace"">deferred</LayoutKeywordFrame>
+                            <LayoutKeywordFrame IsFocusable=""true"" IsPreferred=""true"" LeftMargin=""Whitespace"">deferred</LayoutKeywordFrame>
                         </LayoutHorizontalPanelFrame>
                     </LayoutVerticalPanelFrame>
                     <LayoutVerticalPanelFrame>

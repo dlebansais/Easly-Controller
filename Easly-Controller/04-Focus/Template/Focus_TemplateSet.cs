@@ -217,6 +217,15 @@
         }
 
         /// <summary>
+        /// Creates a IxxxCommentFrame object.
+        /// </summary>
+        private protected override IFrameCommentFrame CreateCommentFrame()
+        {
+            ControllerTools.AssertNoOverride(this, typeof(FocusTemplateSet));
+            return new FocusCommentFrame();
+        }
+
+        /// <summary>
         /// Creates a IxxxTemplate object.
         /// </summary>
         private protected override IFrameNodeTemplate CreateNodeTemplate()

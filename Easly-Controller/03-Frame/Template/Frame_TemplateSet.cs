@@ -132,6 +132,7 @@
                 IsValid &= IsValidNodeType(NodeType, Template.NodeType);
                 IsValid &= Template.Root.IsValid(NodeType, nodeTemplateTable, ref CommentFrameCount);
                 IsValid &= CommentFrameCount == 1;
+                Debug.Assert(IsValid);
             }
 
             Debug.Assert(IsValid);
@@ -282,6 +283,8 @@
 
             // Set the template, even if empty, in case the node recursively refers to itself (ex: expressions).
             dictionary[nodeType] = RootTemplate;
+
+            RootFrame.Items.Add(CreateCommentFrame());
 
             Type ChildNodeType;
             IList<string> Properties = NodeTreeHelper.EnumChildNodeProperties(nodeType);
@@ -529,6 +532,15 @@
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameTemplateSet));
             return new FrameTextValueFrame();
+        }
+
+        /// <summary>
+        /// Creates a IxxxCommentFrame object.
+        /// </summary>
+        private protected virtual IFrameCommentFrame CreateCommentFrame()
+        {
+            ControllerTools.AssertNoOverride(this, typeof(FrameTemplateSet));
+            return new FrameCommentFrame();
         }
 
         /// <summary>
