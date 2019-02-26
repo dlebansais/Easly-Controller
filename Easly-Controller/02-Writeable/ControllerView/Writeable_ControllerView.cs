@@ -67,6 +67,7 @@
             Controller.StateUnassigned += OnStateUnassigned;
             Controller.DiscreteValueChanged += OnDiscreteValueChanged;
             Controller.TextChanged += OnTextChanged;
+            Controller.CommentChanged += OnCommentChanged;
             Controller.BlockStateChanged += OnBlockStateChanged;
             Controller.StateMoved += OnStateMoved;
             Controller.BlockStateMoved += OnBlockStateMoved;
@@ -257,6 +258,19 @@
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
         private protected virtual void OnTextChanged(IWriteableChangeTextOperation operation)
+        {
+            Debug.Assert(operation != null);
+
+            IWriteableNodeState State = operation.State;
+            Debug.Assert(State != null);
+            Debug.Assert(StateViewTable.ContainsKey(State));
+        }
+
+        /// <summary>
+        /// Handler called every time a comment is changed in the controller.
+        /// </summary>
+        /// <param name="operation">Details of the operation performed.</param>
+        private protected virtual void OnCommentChanged(IWriteableChangeCommentOperation operation)
         {
             Debug.Assert(operation != null);
 
@@ -465,6 +479,7 @@
             Controller.StateUnassigned -= OnStateUnassigned;
             Controller.DiscreteValueChanged -= OnDiscreteValueChanged;
             Controller.TextChanged -= OnTextChanged;
+            Controller.CommentChanged -= OnCommentChanged;
             Controller.BlockStateChanged -= OnBlockStateChanged;
             Controller.StateMoved -= OnStateMoved;
             Controller.BlockStateMoved -= OnBlockStateMoved;

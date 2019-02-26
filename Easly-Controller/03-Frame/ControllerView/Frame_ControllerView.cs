@@ -780,6 +780,26 @@
         }
 
         /// <summary>
+        /// Handler called every time a comment is changed in the controller.
+        /// </summary>
+        /// <param name="operation">Details of the operation performed.</param>
+        private protected override void OnCommentChanged(IWriteableChangeCommentOperation operation)
+        {
+            base.OnCommentChanged(operation);
+
+            IFrameNodeState State = ((IFrameChangeCommentOperation)operation).State;
+            Debug.Assert(State != null);
+            Debug.Assert(StateViewTable.ContainsKey(State));
+
+            IFrameNodeStateView ChangedStateView = StateViewTable[State];
+            ClearCellView(ChangedStateView);
+            BuildCellView(ChangedStateView);
+
+            if (!operation.IsNested)
+                Refresh(State);
+        }
+
+        /// <summary>
         /// Handler called every time a block state is changed in the controller.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>

@@ -121,42 +121,15 @@ namespace EditorDebug
                     ChangeDiscreteValue(+1);
                     break;
 
-                case Key.Up:
-                    MoveFocusVertically(-1);
-                    break;
-
-                case Key.Down:
-                    MoveFocusVertically(+1);
-                    break;
-
-                case Key.Enter:
-                    InsertNewItem();
-                    break;
-
                 case Key.OemPeriod:
                     SplitIdentifier();
                     break;
 
-                case Key.Back:
-                case Key.Delete:
                 case Key.Home:
                 case Key.End:
                 case Key.PageUp: // Focus up
                 case Key.PageDown: // Focus down
                 case Key.Space: // Compact
-                    break;
-
-                case Key.Left:
-                    MoveCaretLeft();
-                    break;
-                case Key.Right:
-                    MoveCaretRight();
-                    break;
-                case Key.Insert:
-                    ToggleCaretMode();
-                   break;
-                case Key.Tab:
-                    ForceShowComment();
                     break;
             }
         }
@@ -363,16 +336,6 @@ namespace EditorDebug
                 layoutControl.InvalidateVisual();
         }
 
-        private void MoveFocusVertically(int direction)
-        {
-            if (ControllerView == null)
-                return;
-
-            ControllerView.MoveFocusVertically(ControllerView.DrawContext.LineHeight * direction, out bool IsMoved);
-            if (IsMoved)
-                layoutControl.InvalidateVisual();
-        }
-
         private void ChangeDiscreteValue(int change)
         {
             if (ControllerView == null)
@@ -400,66 +363,6 @@ namespace EditorDebug
             ControllerView.Controller.Replace(Inner, ReplaceIndex, out IWriteableBrowsingChildIndex FirstIndex);
             ControllerView.Controller.Insert(Inner, InsertIndex, out IWriteableBrowsingCollectionNodeIndex SecondIndex);
             UpdateView();
-        }
-
-        private void MoveCaretRight()
-        {
-            bool IsMoved;
-
-            if (ControllerView.CaretPosition < ControllerView.MaxCaretPosition)
-                ControllerView.SetCaretPosition(ControllerView.CaretPosition + 1, out IsMoved);
-            else
-                ControllerView.MoveFocus(+1, out IsMoved);
-
-            if (IsMoved)
-            {
-                if (ControllerView.IsInvalidated)
-                    layoutControl.InvalidateMeasure();
-
-                layoutControl.InvalidateVisual();
-            }
-        }
-
-        private void MoveCaretLeft()
-        {
-            bool IsMoved;
-
-            if (ControllerView.CaretPosition > 0)
-                ControllerView.SetCaretPosition(ControllerView.CaretPosition - 1, out IsMoved);
-            else
-                ControllerView.MoveFocus(-1, out IsMoved);
-
-            if (IsMoved)
-            {
-                if (ControllerView.IsInvalidated)
-                    layoutControl.InvalidateMeasure();
-
-                layoutControl.InvalidateVisual();
-            }
-        }
-
-        private void ToggleCaretMode()
-        {
-            bool IsChanged;
-
-            CaretModes OldMode = ControllerView.CaretMode;
-            CaretModes NewMode = OldMode == CaretModes.Insertion ? CaretModes.Override : CaretModes.Insertion;
-
-            ControllerView.SetCaretMode(NewMode, out IsChanged);
-            Debug.Assert(IsChanged || (NewMode == CaretModes.Override && ControllerView.CaretPosition >= ControllerView.MaxCaretPosition));
-
-            if (IsChanged)
-                layoutControl.InvalidateVisual();
-        }
-
-        private void ForceShowComment()
-        {
-            bool IsMoved;
-
-            ControllerView.ForceShowComment(out IsMoved);
-
-            if (IsMoved)
-                layoutControl.InvalidateVisual();
         }
         
         public void OnActivated()

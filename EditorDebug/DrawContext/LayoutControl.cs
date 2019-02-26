@@ -5,7 +5,9 @@
     using System.Windows;
     using System.Windows.Media;
     using EaslyController.Constants;
+    using EaslyController.Focus;
     using EaslyController.Layout;
+    using EaslyController.Writeable;
     using EaslyDraw;
     using KeyboardManager;
     using TestDebug;
@@ -22,6 +24,11 @@
             KeyboardManager = new Manager(this);
             KeyboardManager.KeyCharacterEvent += OnKeyCharacter;
             KeyboardManager.KeyMoveEvent += OnKeyMove;
+            KeyboardManager.KeyInsertEvent += ToggleCaretMode;
+            KeyboardManager.KeyDeleteEvent += DeleteCharacterInPlace;
+            KeyboardManager.KeyBackEvent += DeleteCharacterBackward;
+            KeyboardManager.KeyTabEvent += ForceShowComment;
+            KeyboardManager.KeyEnterEvent += InsertNewItem;
         }
 
         private void OnKeyCharacter(object sender, CharacterEventArgs e)
@@ -30,40 +37,40 @@
             {
                 if (ControllerView.Focus is ILayoutTextFocus AsTextFocus)
                 {
-                    string OldText = ControllerView.FocusedText;
+                    string FocusedText = ControllerView.FocusedText;
+                    int CaretPosition = ControllerView.CaretPosition;
 
-                    char InsertedCharacter = Convert.ToChar(e.Code);
-
-                    string NewText;
                     if (ControllerView.CaretMode == CaretModes.Insertion)
-                    {
-                        System.Text.UTF32Encoding UTF32 = System.Text.Encoding.UTF32 as System.Text.UTF32Encoding;
-                        byte[] FirstBytes = UTF32.GetBytes(OldText.Substring(0, ControllerView.CaretPosition));
-                        byte[] InsertedBytes = UTF32.GetBytes(InsertedCharacter.ToString());
-                        byte[] LastBytes = UTF32.GetBytes(OldText.Substring(ControllerView.CaretPosition));
-
-                        byte[] Bytes = new byte[FirstBytes.Length + InsertedBytes.Length + LastBytes.Length];
-                        Array.Copy(FirstBytes, 0, Bytes, 0, FirstBytes.Length);
-                        Array.Copy(InsertedBytes, 0, Bytes, FirstBytes.Length, InsertedBytes.Length);
-                        Array.Copy(LastBytes, 0, Bytes, FirstBytes.Length + InsertedBytes.Length, LastBytes.Length);
-
-                        NewText = UTF32.GetString(Bytes);
-                    }
+                        StringHelper.InsertCharacter(e.Code, ref FocusedText, ref CaretPosition);
                     else
-                    {
-                        //NewText = OldText.Substring(0, ControllerView.CaretPosition) + InsertedText + OldText.Substring(ControllerView.CaretPosition + 1);
-                        NewText = "";
-                    }
+                        StringHelper.ReplaceCharacter(e.Code, ref FocusedText, ref CaretPosition);
 
-                    Controller.ChangeText(AsTextFocus.CellView.StateView.State.ParentIndex, AsTextFocus.CellView.PropertyName, NewText);
-                    ControllerView.SetCaretPosition(ControllerView.CaretPosition + 1, out bool IsMoved);
+                    Controller.ChangeText(AsTextFocus.CellView.StateView.State.ParentIndex, AsTextFocus.CellView.PropertyName, FocusedText);
+                    ControllerView.SetCaretPosition(CaretPosition, out bool IsMoved);
 
-                    Debug.WriteLine($"Inserting: old text: '{OldText}', new text: '{NewText}'");
+                    InvalidateMeasure();
+                    InvalidateVisual();
+                }
+
+                else if (ControllerView.Focus is ILayoutCommentFocus AsCommentFocus)
+                {
+                    string CommentText = ControllerView.CommentText;
+                    int CaretPosition = ControllerView.CaretPosition;
+
+                    if (ControllerView.CaretMode == CaretModes.Insertion)
+                        StringHelper.InsertCharacter(e.Code, ref CommentText, ref CaretPosition);
+                    else
+                        StringHelper.ReplaceCharacter(e.Code, ref CommentText, ref CaretPosition);
+
+                    Controller.ChangeComment(AsCommentFocus.CellView.StateView.State.ParentIndex, CommentText);
+                    ControllerView.SetCaretPosition(CaretPosition, out bool IsMoved);
 
                     InvalidateMeasure();
                     InvalidateVisual();
                 }
             }
+
+            e.Handled = true;
         }
 
         private void OnKeyMove(object sender, MoveEventArgs e)
@@ -101,6 +108,82 @@
 
             Debug.Assert(IsHandled);
             e.Handled = IsHandled;
+        }
+
+        private void ToggleCaretMode(object sender, RoutedEventArgs e)
+        {
+            bool IsChanged;
+
+            CaretModes OldMode = ControllerView.CaretMode;
+            CaretModes NewMode = OldMode == CaretModes.Insertion ? CaretModes.Override : CaretModes.Insertion;
+
+            ControllerView.SetCaretMode(NewMode, out IsChanged);
+            Debug.Assert(IsChanged || (NewMode == CaretModes.Override && ControllerView.CaretPosition >= ControllerView.MaxCaretPosition));
+
+            if (IsChanged)
+                InvalidateVisual();
+
+            e.Handled = true;
+        }
+
+        private void DeleteCharacterInPlace(object sender, RoutedEventArgs e)
+        {
+            DeleteCharacter(backward: false);
+
+            e.Handled = true;
+        }
+
+        private void DeleteCharacterBackward(object sender, RoutedEventArgs e)
+        {
+            DeleteCharacter(backward: true);
+
+            e.Handled = true;
+        }
+
+        private void DeleteCharacter(bool backward)
+        {
+            if (ControllerView != null)
+            {
+                if (ControllerView.Focus is ILayoutTextFocus AsTextFocus)
+                {
+                    string FocusedText = ControllerView.FocusedText;
+                    int CaretPosition = ControllerView.CaretPosition;
+
+                    if (StringHelper.DeleteCharacter(backward, ref FocusedText, ref CaretPosition))
+                    {
+                        Controller.ChangeText(AsTextFocus.CellView.StateView.State.ParentIndex, AsTextFocus.CellView.PropertyName, FocusedText);
+                        ControllerView.SetCaretPosition(CaretPosition, out bool IsMoved);
+
+                        InvalidateMeasure();
+                        InvalidateVisual();
+                    }
+                }
+            }
+        }
+
+        private void ForceShowComment(object sender, RoutedEventArgs e)
+        {
+            bool IsMoved;
+
+            ControllerView.ForceShowComment(out IsMoved);
+
+            if (IsMoved)
+                InvalidateVisual();
+
+            e.Handled = true;
+        }
+
+        private void InsertNewItem(object sender, RoutedEventArgs e)
+        {
+            if (ControllerView == null)
+                return;
+            if (!ControllerView.IsNewItemInsertable(out IFocusCollectionInner inner, out IFocusInsertionCollectionNodeIndex index))
+                return;
+
+            ControllerView.Controller.Insert(inner, index, out IWriteableBrowsingCollectionNodeIndex nodeIndex);
+            InvalidateVisual();
+
+            e.Handled = true;
         }
 
         private void MoveCaretLeft()

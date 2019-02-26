@@ -146,6 +146,7 @@
     <Compile Include="02-Writeable\ControllerView\Writeable_ControllerView.cs" />
     <Compile Include="02-Writeable\Controller\Operations\Writeable_Assignment_Operation.cs" />
     <Compile Include="02-Writeable\Controller\Operations\Writeable_ChangeBlock_Operation.cs" />
+    <Compile Include="02-Writeable\Controller\Operations\Writeable_ChangeComment_Operation.cs" />
     <Compile Include="02-Writeable\Controller\Operations\Writeable_ChangeText_Operation.cs" />
     <Compile Include="02-Writeable\Controller\Operations\Writeable_ChangeDiscreteValue_Operation.cs" />
     <Compile Include="02-Writeable\Controller\Operations\Writeable_MoveNode_Operation.cs" />
@@ -258,6 +259,7 @@
     <Compile Include="03-Frame\ControllerView\Frame_CellViewTreeContext.cs" />
     <Compile Include="03-Frame\ControllerView\Frame_ControllerView.cs" />
     <Compile Include="03-Frame\Controller\Frame_Controller.cs" />
+    <Compile Include="03-Frame\Controller\Operations\Frame_ChangeComment_Operation.cs" />
     <Compile Include="03-Frame\Controller\Operations\Frame_ChangeText_Operation.cs" />
     <Compile Include="03-Frame\Controller\Operations\Frame_InsertNode_Operation.cs" />
     <Compile Include="03-Frame\Controller\Operations\Frame_InsertBlock_Operation.cs" />
@@ -411,6 +413,7 @@
     <Compile Include="04-Focus\ControllerView\Focus_ControllerView.cs" />
     <Compile Include="04-Focus\ControllerView\Focus_CellViewTreeContext.cs" />
     <Compile Include="04-Focus\Controller\Focus_Controller.cs" />
+    <Compile Include="04-Focus\Controller\Operations\Focus_ChangeComment_Operation.cs" />
     <Compile Include="04-Focus\Controller\Operations\Focus_ChangeText_Operation.cs" />
     <Compile Include="04-Focus\Controller\Operations\Focus_GenericRefresh_Operation.cs" />
     <Compile Include="04-Focus\Controller\Operations\Focus_Assignment_Operation.cs" />
@@ -594,6 +597,7 @@
     <Compile Include="05-Layout\Controller\Layout_Controller.cs" />
     <Compile Include="05-Layout\Controller\Operations\Layout_Assignment_Operation.cs" />
     <Compile Include="05-Layout\Controller\Operations\Layout_ChangeBlock_Operation.cs" />
+    <Compile Include="05-Layout\Controller\Operations\Layout_ChangeComment_Operation.cs" />
     <Compile Include="05-Layout\Controller\Operations\Layout_ChangeText_Operation.cs" />
     <Compile Include="05-Layout\Controller\Operations\Layout_ChangeDiscreteValue_Operation.cs" />
     <Compile Include="05-Layout\Controller\Operations\Layout_ExpandArgument_Operation.cs" />

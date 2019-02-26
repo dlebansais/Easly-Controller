@@ -320,7 +320,7 @@
         }
 
         /// <summary>
-        /// Current text if the focus is on a non-empty comment. Null otherwise.
+        /// Current text if the focus is on a comment. Null otherwise.
         /// </summary>
         public string CommentText
         {
@@ -329,7 +329,11 @@
                 string Result = null;
 
                 if (Focus is IFocusCommentFocus AsCommentFocus)
+                {
                     Result = GetFocusedCommentText(AsCommentFocus);
+                    if (Result == null)
+                        Result = string.Empty;
+                }
 
                 return Result;
             }
@@ -1232,6 +1236,19 @@
             base.OnTextChanged(operation);
 
             IFocusNodeState State = ((IFocusChangeTextOperation)operation).State;
+            Debug.Assert(State != null);
+            Debug.Assert(StateViewTable.ContainsKey(State));
+        }
+
+        /// <summary>
+        /// Handler called every time a comment is changed in the controller.
+        /// </summary>
+        /// <param name="operation">Details of the operation performed.</param>
+        private protected override void OnCommentChanged(IWriteableChangeCommentOperation operation)
+        {
+            base.OnCommentChanged(operation);
+
+            IFocusNodeState State = ((IFocusChangeCommentOperation)operation).State;
             Debug.Assert(State != null);
             Debug.Assert(StateViewTable.ContainsKey(State));
         }

@@ -5,9 +5,9 @@
     using BaseNode;
 
     /// <summary>
-    /// Operation details for changing text.
+    /// Operation details for changing a comment.
     /// </summary>
-    public interface IWriteableChangeTextOperation : IWriteableOperation
+    public interface IWriteableChangeCommentOperation : IWriteableOperation
     {
         /// <summary>
         /// Node where the change is taking place.
@@ -15,17 +15,12 @@
         INode ParentNode { get; }
 
         /// <summary>
-        /// Name of the property to change.
-        /// </summary>
-        string PropertyName { get; }
-
-        /// <summary>
-        /// The old text.
+        /// The old comment.
         /// </summary>
         string OldText { get; }
 
         /// <summary>
-        /// The new text.
+        /// The new comment.
         /// </summary>
         string NewText { get; }
 
@@ -42,31 +37,29 @@
         void Update(IWriteableNodeState state, string oldText);
 
         /// <summary>
-        /// Creates an operation to undo the change text operation.
+        /// Creates an operation to undo the change commment operation.
         /// </summary>
-        IWriteableChangeTextOperation ToInverseChange();
+        IWriteableChangeCommentOperation ToInverseChange();
     }
 
     /// <summary>
-    /// Operation details for changing text.
+    /// Operation details for changing a comment.
     /// </summary>
-    internal class WriteableChangeTextOperation : WriteableOperation, IWriteableChangeTextOperation
+    internal class WriteableChangeCommentOperation : WriteableOperation, IWriteableChangeCommentOperation
     {
         #region Init
         /// <summary>
-        /// Initializes a new instance of the <see cref="WriteableChangeTextOperation"/> class.
+        /// Initializes a new instance of the <see cref="WriteableChangeCommentOperation"/> class.
         /// </summary>
         /// <param name="parentNode">Node where the change is taking place.</param>
-        /// <param name="propertyName">Name of the property to change.</param>
-        /// <param name="text">The new text.</param>
+        /// <param name="text">The new comment.</param>
         /// <param name="handlerRedo">Handler to execute to redo the operation.</param>
         /// <param name="handlerUndo">Handler to execute to undo the operation.</param>
         /// <param name="isNested">True if the operation is nested within another more general one.</param>
-        public WriteableChangeTextOperation(INode parentNode, string propertyName, string text, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        public WriteableChangeCommentOperation(INode parentNode, string text, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
             : base(handlerRedo, handlerUndo, isNested)
         {
             ParentNode = parentNode;
-            PropertyName = propertyName;
             NewText = text;
         }
         #endregion
@@ -78,17 +71,12 @@
         public INode ParentNode { get; }
 
         /// <summary>
-        /// Name of the property to change.
-        /// </summary>
-        public string PropertyName { get; }
-
-        /// <summary>
-        /// The old text.
+        /// The old comment.
         /// </summary>
         public string OldText { get; private set; }
 
         /// <summary>
-        /// The new text.
+        /// The new comment.
         /// </summary>
         public string NewText { get; }
 
@@ -103,7 +91,7 @@
         /// Update the operation with details.
         /// </summary>
         /// <param name="state">State changed.</param>
-        /// <param name="oldText">The old text.</param>
+        /// <param name="oldText">The old comment.</param>
         public virtual void Update(IWriteableNodeState state, string oldText)
         {
             Debug.Assert(state != null);
@@ -113,22 +101,22 @@
         }
 
         /// <summary>
-        /// Creates an operation to undo the change text operation.
+        /// Creates an operation to undo the change commment operation.
         /// </summary>
-        public virtual IWriteableChangeTextOperation ToInverseChange()
+        public virtual IWriteableChangeCommentOperation ToInverseChange()
         {
-            return CreateChangeTextOperation(OldText, HandlerUndo, HandlerRedo, IsNested);
+            return CreateChangeCommentOperation(OldText, HandlerUndo, HandlerRedo, IsNested);
         }
         #endregion
 
         #region Create Methods
         /// <summary>
-        /// Creates a IxxxChangeTextOperation object.
+        /// Creates a IxxxChangeCommentOperation object.
         /// </summary>
-        private protected virtual IWriteableChangeTextOperation CreateChangeTextOperation(string text, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        private protected virtual IWriteableChangeCommentOperation CreateChangeCommentOperation(string text, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
         {
-            ControllerTools.AssertNoOverride(this, typeof(WriteableChangeTextOperation));
-            return new WriteableChangeTextOperation(ParentNode, PropertyName, text, handlerRedo, handlerUndo, isNested);
+            ControllerTools.AssertNoOverride(this, typeof(WriteableChangeCommentOperation));
+            return new WriteableChangeCommentOperation(ParentNode, text, handlerRedo, handlerUndo, isNested);
         }
         #endregion
     }

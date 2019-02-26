@@ -398,6 +398,15 @@
         }
 
         /// <summary>
+        /// Creates a IxxxChangeCommentOperation object.
+        /// </summary>
+        private protected override IWriteableChangeCommentOperation CreateChangeCommentOperation(INode parentNode, string text, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        {
+            ControllerTools.AssertNoOverride(this, typeof(FocusController));
+            return new FocusChangeCommentOperation(parentNode, text, handlerRedo, handlerUndo, isNested);
+        }
+
+        /// <summary>
         /// Creates a IxxxChangeBlockOperation object.
         /// </summary>
         private protected override IWriteableChangeBlockOperation CreateChangeBlockOperation(INode parentNode, string propertyName, int blockIndex, ReplicationStatus replication, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)

@@ -99,6 +99,11 @@
         event Action<IWriteableChangeTextOperation> TextChanged;
 
         /// <summary>
+        /// Called when comment is changed.
+        /// </summary>
+        event Action<IWriteableChangeCommentOperation> CommentChanged;
+
+        /// <summary>
         /// Called when a block state is changed.
         /// </summary>
         event Action<IWriteableChangeBlockOperation> BlockStateChanged;
@@ -188,6 +193,7 @@
         /// <param name="propertyName">Name of the property to change.</param>
         /// <param name="value">The new value.</param>
         void ChangeDiscreteValue(IWriteableIndex nodeIndex, string propertyName, int value);
+
         /// <summary>
         /// Changes the value of a text.
         /// </summary>
@@ -195,6 +201,13 @@
         /// <param name="propertyName">Name of the property to change.</param>
         /// <param name="text">The new text.</param>
         void ChangeText(IWriteableIndex nodeIndex, string propertyName, string text);
+
+        /// <summary>
+        /// Changes the value of a comment.
+        /// </summary>
+        /// <param name="nodeIndex">Index of the state with the comment to change.</param>
+        /// <param name="text">The new text.</param>
+        void ChangeComment(IWriteableIndex nodeIndex, string text);
 
         /// <summary>
         /// Checks whether a block can be split at the given index.
@@ -495,6 +508,20 @@
         private Action<IWriteableChangeTextOperation> TextChangedHandler;
         private protected virtual void AddTextChangedDelegate(Action<IWriteableChangeTextOperation> handler) { TextChangedHandler += handler; }
         private protected virtual void RemoveTextChangedDelegate(Action<IWriteableChangeTextOperation> handler) { TextChangedHandler -= handler; }
+#pragma warning restore 1591
+
+        /// <summary>
+        /// Called when a comment is changed.
+        /// </summary>
+        public event Action<IWriteableChangeCommentOperation> CommentChanged
+        {
+            add { AddCommentChangedDelegate(value); }
+            remove { RemoveCommentChangedDelegate(value); }
+        }
+#pragma warning disable 1591
+        private Action<IWriteableChangeCommentOperation> CommentChangedHandler;
+        private protected virtual void AddCommentChangedDelegate(Action<IWriteableChangeCommentOperation> handler) { CommentChangedHandler += handler; }
+        private protected virtual void RemoveCommentChangedDelegate(Action<IWriteableChangeCommentOperation> handler) { CommentChangedHandler -= handler; }
 #pragma warning restore 1591
 
         /// <summary>
@@ -1322,6 +1349,62 @@
             operation.Update(State, OldText);
 
             NotifyTextChanged(operation);
+        }
+
+        /// <summary>
+        /// Changes the value of a text.
+        /// </summary>
+        /// <param name="nodeIndex">Index of the state with the comment to change.</param>
+        /// <param name="text">The new comment.</param>
+        public virtual void ChangeComment(IWriteableIndex nodeIndex, string text)
+        {
+            Debug.Assert(nodeIndex != null);
+            Debug.Assert(StateTable.ContainsKey(nodeIndex));
+            Debug.Assert(text != null);
+
+            Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => RedoChangeComment(operation);
+            Action<IWriteableOperation> HandlerUndo = (IWriteableOperation operation) => UndoChangeComment(operation);
+            IWriteableNodeState State = StateTable[nodeIndex];
+            IWriteableChangeCommentOperation Operation = CreateChangeCommentOperation(State.Node, text, HandlerRedo, HandlerUndo, isNested: false);
+
+            Operation.Redo();
+            SetLastOperation(Operation);
+            CheckInvariant();
+        }
+
+        /// <summary></summary>
+        private protected virtual void RedoChangeComment(IWriteableOperation operation)
+        {
+            IWriteableChangeCommentOperation ChangeCommentOperation = (IWriteableChangeCommentOperation)operation;
+            ExecuteChangeComment(ChangeCommentOperation);
+        }
+
+        /// <summary></summary>
+        private protected virtual void UndoChangeComment(IWriteableOperation operation)
+        {
+            IWriteableChangeCommentOperation ChangeCommentOperation = (IWriteableChangeCommentOperation)operation;
+            ChangeCommentOperation = ChangeCommentOperation.ToInverseChange();
+
+            ExecuteChangeComment(ChangeCommentOperation);
+        }
+
+        /// <summary></summary>
+        private protected virtual void ExecuteChangeComment(IWriteableChangeCommentOperation operation)
+        {
+            INode ParentNode = operation.ParentNode;
+            string NewText = operation.NewText;
+
+            IWriteableNodeState State = (IWriteableNodeState)GetState(ParentNode);
+            Debug.Assert(State != null);
+
+            string OldText = NodeTreeHelper.GetCommentText(State.Node);
+            Debug.Assert(OldText != null);
+
+            NodeTreeHelper.SetCommentText(State.Node, NewText);
+
+            operation.Update(State, OldText);
+
+            NotifyCommentChanged(operation);
         }
 
         /// <summary>
@@ -2225,6 +2308,12 @@
         }
 
         /// <summary></summary>
+        private protected virtual void NotifyCommentChanged(IWriteableChangeCommentOperation operation)
+        {
+            CommentChangedHandler?.Invoke(operation);
+        }
+
+        /// <summary></summary>
         private protected virtual void NotifyBlockStateChanged(IWriteableChangeBlockOperation operation)
         {
             BlockStateChangedHandler?.Invoke(operation);
@@ -2627,6 +2716,15 @@
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableController));
             return new WriteableChangeTextOperation(parentNode, propertyName, text, handlerRedo, handlerUndo, isNested);
+        }
+
+        /// <summary>
+        /// Creates a IxxxChangeCommentOperation object.
+        /// </summary>
+        private protected virtual IWriteableChangeCommentOperation CreateChangeCommentOperation(INode parentNode, string text, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        {
+            ControllerTools.AssertNoOverride(this, typeof(WriteableController));
+            return new WriteableChangeCommentOperation(parentNode, text, handlerRedo, handlerUndo, isNested);
         }
 
         /// <summary>
