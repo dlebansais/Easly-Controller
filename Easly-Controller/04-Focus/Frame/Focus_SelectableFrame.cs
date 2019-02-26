@@ -61,14 +61,15 @@
         /// </summary>
         /// <param name="nodeType">Type of the node this frame can describe.</param>
         /// <param name="nodeTemplateTable">Table of templates with all frames.</param>
-        public virtual bool IsValid(Type nodeType, IFrameTemplateReadOnlyDictionary nodeTemplateTable)
+        /// <param name="commentFrameCount">Number of comment frames found so far.</param>
+        public virtual bool IsValid(Type nodeType, IFrameTemplateReadOnlyDictionary nodeTemplateTable, ref int commentFrameCount)
         {
             bool IsValid = true;
 
             IsValid &= Content != null;
             IsValid &= !string.IsNullOrEmpty(Name);
             IsValid &= ParentFrame is IFocusSelectionFrame;
-            IsValid &= Content.IsValid(nodeType, nodeTemplateTable);
+            IsValid &= Content.IsValid(nodeType, nodeTemplateTable, ref commentFrameCount);
 
             Debug.Assert(IsValid);
             return IsValid;

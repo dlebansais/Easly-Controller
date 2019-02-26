@@ -43,7 +43,10 @@
         /// <summary></summary>
         protected override bool IsDisplayed(IFrameCellViewTreeContext context, string text)
         {
-            if (text == null && ((IFocusCellViewTreeContext)context).ForcedCommentStateView != ((IFocusCellViewTreeContext)context).StateView)
+            bool IsCommentForced;
+            ((IFocusCellViewTreeContext)context).CheckCommentForced(out IsCommentForced);
+
+            if (text == null && !IsCommentForced)
                 return false;
 
             if (context.ControllerView.CommentDisplayMode != Constants.CommentDisplayModes.OnFocus && context.ControllerView.CommentDisplayMode != Constants.CommentDisplayModes.All)

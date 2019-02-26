@@ -43,15 +43,16 @@
         /// </summary>
         /// <param name="nodeType">Type of the node this frame can describe.</param>
         /// <param name="nodeTemplateTable">Table of templates with all frames.</param>
-        public override bool IsValid(Type nodeType, IFrameTemplateReadOnlyDictionary nodeTemplateTable)
+        /// <param name="commentFrameCount">Number of comment frames found so far.</param>
+        public override bool IsValid(Type nodeType, IFrameTemplateReadOnlyDictionary nodeTemplateTable, ref int commentFrameCount)
         {
             bool IsValid = true;
 
-            IsValid &= base.IsValid(nodeType, nodeTemplateTable);
+            IsValid &= base.IsValid(nodeType, nodeTemplateTable, ref commentFrameCount);
             IsValid &= Items != null && Items.Count > 0;
 
             foreach (IFrameFrame Item in Items)
-                IsValid &= Item.IsValid(nodeType, nodeTemplateTable);
+                IsValid &= Item.IsValid(nodeType, nodeTemplateTable, ref commentFrameCount);
 
             Debug.Assert(IsValid);
             return IsValid;

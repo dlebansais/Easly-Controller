@@ -1050,6 +1050,7 @@
             IFrameCellViewTreeContext Context = InitializedCellViewTreeContext(stateView);
             stateView.BuildRootCellView(Context);
             stateView.SetContainerCellView(null);
+            CloseCellViewTreeContext(Context);
 
             return stateView.RootCellView;
         }
@@ -1058,6 +1059,11 @@
         private protected virtual IFrameCellViewTreeContext InitializedCellViewTreeContext(IFrameNodeStateView stateView)
         {
             return CreateCellViewTreeContext(stateView);
+        }
+
+        /// <summary></summary>
+        private protected virtual void CloseCellViewTreeContext(IFrameCellViewTreeContext context)
+        {
         }
 
         /// <summary></summary>

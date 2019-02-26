@@ -111,6 +111,12 @@
         /// </summary>
         /// <param name="isUserVisible">The new value.</param>
         void RestoreIsUserVisible(bool isUserVisible);
+
+        /// <summary>
+        /// Checks if a comment is forced for the current state view. If true, <see cref="ForcedCommentStateView"/> is reset to null.
+        /// </summary>
+        /// <param name="isCommentForced">True upon return if forced.</param>
+        void CheckCommentForced(out bool isCommentForced);
     }
 
     /// <summary>
@@ -154,7 +160,7 @@
         /// <summary>
         /// The state view for which the comment must be visible, even if empty.
         /// </summary>
-        public IFocusNodeStateView ForcedCommentStateView { get; }
+        public IFocusNodeStateView ForcedCommentStateView { get; private set; }
 
         /// <summary>
         /// True if cells are shown ccording to the frame visibility.
@@ -333,6 +339,21 @@
         public virtual void RestoreIsUserVisible(bool isUserVisible)
         {
             IsUserVisible = isUserVisible;
+        }
+
+        /// <summary>
+        /// Checks if a comment is forced for the current state view. If true, <see cref="ForcedCommentStateView"/> is reset to null.
+        /// </summary>
+        /// <param name="isCommentForced">True upon return if forced.</param>
+        public virtual void CheckCommentForced(out bool isCommentForced)
+        {
+            if (ForcedCommentStateView == StateView)
+            {
+                ForcedCommentStateView = null;
+                isCommentForced = true;
+            }
+            else
+                isCommentForced = false;
         }
         #endregion
     }

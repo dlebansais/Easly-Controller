@@ -32,9 +32,10 @@
             public LayoutRootFrame()
             {
                 UpdateParent(null, null);
+                int CommentFrameCount = 0;
                 Debug.Assert(ParentTemplate == null);
                 Debug.Assert(ParentFrame == null);
-                Debug.Assert(!IsValid(null, null));
+                Debug.Assert(!IsValid(null, null, ref CommentFrameCount));
 
                 IFrameFrame AsFrameFrame = this;
                 Debug.Assert(AsFrameFrame.ParentTemplate == null);
@@ -51,7 +52,7 @@
             public ILayoutFrame ParentFrame { get; }
             IFocusFrame IFocusFrame.ParentFrame { get { return ParentFrame; } }
             IFrameFrame IFrameFrame.ParentFrame { get { return ParentFrame; } }
-            public bool IsValid(Type nodeType, IFrameTemplateReadOnlyDictionary nodeTemplateTable) { return false; }
+            public bool IsValid(Type nodeType, IFrameTemplateReadOnlyDictionary nodeTemplateTable, ref int commentFrameCount) { return false; }
             public void UpdateParent(IFrameTemplate parentTemplate, IFrameFrame parentFrame) { }
         }
 

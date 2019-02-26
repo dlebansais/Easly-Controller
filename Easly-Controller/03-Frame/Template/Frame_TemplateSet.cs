@@ -126,10 +126,12 @@
             {
                 Type NodeType = Entry.Key;
                 IFrameTemplate Template = Entry.Value;
+                int CommentFrameCount = 0;
 
                 IsValid &= Template.IsValid;
                 IsValid &= IsValidNodeType(NodeType, Template.NodeType);
-                IsValid &= Template.Root.IsValid(NodeType, nodeTemplateTable);
+                IsValid &= Template.Root.IsValid(NodeType, nodeTemplateTable, ref CommentFrameCount);
+                IsValid &= CommentFrameCount == 1;
             }
 
             Debug.Assert(IsValid);
@@ -175,10 +177,11 @@
             {
                 Type NodeType = Entry.Key;
                 IFrameTemplate Template = Entry.Value;
+                int CommentFrameCount = 0;
 
                 IsValid &= NodeTreeHelper.IsBlockType(NodeType);
                 IsValid &= Template.IsValid;
-                IsValid &= Template.Root.IsValid(NodeType, nodeTemplateTable);
+                IsValid &= Template.Root.IsValid(NodeType, nodeTemplateTable, ref CommentFrameCount);
             }
 
             Debug.Assert(IsValid);

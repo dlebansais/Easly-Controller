@@ -1345,6 +1345,12 @@
         }
 
         /// <summary></summary>
+        private protected override void CloseCellViewTreeContext(IFrameCellViewTreeContext context)
+        {
+            Debug.Assert(((IFocusCellViewTreeContext)context).ForcedCommentStateView == null);
+        }
+
+        /// <summary></summary>
         private protected virtual List<IFocusFrameSelectorList> GetSelectorStack(IFocusNodeStateView stateView)
         {
             List<IFocusFrameSelectorList> SelectorStack = new List<IFocusFrameSelectorList>();

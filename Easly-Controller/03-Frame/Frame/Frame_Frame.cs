@@ -23,7 +23,8 @@
         /// </summary>
         /// <param name="nodeType">Type of the node this frame can describe.</param>
         /// <param name="nodeTemplateTable">Table of templates with all frames.</param>
-        bool IsValid(Type nodeType, IFrameTemplateReadOnlyDictionary nodeTemplateTable);
+        /// <param name="commentFrameCount">Number of comment frames found so far.</param>
+        bool IsValid(Type nodeType, IFrameTemplateReadOnlyDictionary nodeTemplateTable, ref int commentFrameCount);
 
         /// <summary>
         /// Update the reference to the parent frame.
@@ -44,14 +45,15 @@
             public FrameRootFrame()
             {
                 UpdateParent(null, null);
+                int CommentFrameCount = 0;
                 Debug.Assert(ParentTemplate == null);
                 Debug.Assert(ParentFrame == null);
-                Debug.Assert(!IsValid(null, null));
+                Debug.Assert(!IsValid(null, null, ref CommentFrameCount));
             }
 
             public IFrameTemplate ParentTemplate { get; }
             public IFrameFrame ParentFrame { get; }
-            public bool IsValid(Type nodeType, IFrameTemplateReadOnlyDictionary nodeTemplateTable) { return false; }
+            public bool IsValid(Type nodeType, IFrameTemplateReadOnlyDictionary nodeTemplateTable, ref int commentFrameCount) { return false; }
             public void UpdateParent(IFrameTemplate parentTemplate, IFrameFrame parentFrame) { }
         }
 
@@ -79,7 +81,8 @@
         /// </summary>
         /// <param name="nodeType">Type of the node this frame can describe.</param>
         /// <param name="nodeTemplateTable">Table of templates with all frames.</param>
-        public virtual bool IsValid(Type nodeType, IFrameTemplateReadOnlyDictionary nodeTemplateTable)
+        /// <param name="commentFrameCount">Number of comment frames found so far.</param>
+        public virtual bool IsValid(Type nodeType, IFrameTemplateReadOnlyDictionary nodeTemplateTable, ref int commentFrameCount)
         {
             return true;
         }

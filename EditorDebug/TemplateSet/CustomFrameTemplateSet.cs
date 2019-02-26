@@ -58,6 +58,7 @@ namespace TestDebug
     xmlns:const=""clr-namespace:EaslyController.Constants;assembly=Easly-Controller"">
     <FrameNodeTemplate NodeType=""{xaml:Type easly:IAssertion}"">
         <FrameHorizontalPanelFrame>
+            <FrameCommentFrame/>
             <FrameHorizontalPanelFrame>
                 <FrameOptionalFrame PropertyName=""Tag"" />
                 <FrameKeywordFrame>:</FrameKeywordFrame>
@@ -67,6 +68,7 @@ namespace TestDebug
     </FrameNodeTemplate>
     <FrameNodeTemplate NodeType=""{xaml:Type easly:IAttachment}"">
         <FrameVerticalPanelFrame>
+            <FrameCommentFrame/>
             <FrameHorizontalPanelFrame>
                 <FrameKeywordFrame Text=""else"">
                 </FrameKeywordFrame>
@@ -181,6 +183,7 @@ namespace TestDebug
     </FrameNodeTemplate>
     <FrameNodeTemplate NodeType=""{xaml:Type easly:IClassReplicate}"">
         <FrameHorizontalPanelFrame>
+            <FrameCommentFrame/>
             <FramePlaceholderFrame PropertyName=""ReplicateName"" />
             <FrameKeywordFrame>to</FrameKeywordFrame>
             <FrameHorizontalBlockListFrame PropertyName=""PatternBlocks"" />
@@ -188,6 +191,7 @@ namespace TestDebug
     </FrameNodeTemplate>
     <FrameNodeTemplate NodeType=""{xaml:Type easly:ICommandOverload}"">
         <FrameVerticalPanelFrame>
+            <FrameCommentFrame/>
             <FrameVerticalPanelFrame>
                 <FrameHorizontalPanelFrame>
                     <FrameKeywordFrame>parameter</FrameKeywordFrame>
@@ -204,6 +208,7 @@ namespace TestDebug
     </FrameNodeTemplate>
     <FrameNodeTemplate NodeType=""{xaml:Type easly:ICommandOverloadType}"">
         <FrameHorizontalPanelFrame>
+            <FrameCommentFrame/>
             <FrameSymbolFrame Symbol=""{x:Static const:Symbols.LeftBracket}""/>
             <FrameVerticalPanelFrame>
                 <FrameVerticalPanelFrame>
@@ -245,6 +250,7 @@ namespace TestDebug
     </FrameNodeTemplate>
     <FrameNodeTemplate NodeType=""{xaml:Type easly:IConditional}"">
         <FrameVerticalPanelFrame>
+            <FrameCommentFrame/>
             <FrameHorizontalPanelFrame>
                 <FrameKeywordFrame Text=""else"">
                 </FrameKeywordFrame>
@@ -258,6 +264,7 @@ namespace TestDebug
     </FrameNodeTemplate>
     <FrameNodeTemplate NodeType=""{xaml:Type easly:IConstraint}"">
         <FrameVerticalPanelFrame>
+            <FrameCommentFrame/>
             <FramePlaceholderFrame PropertyName=""ParentType"" />
             <FrameVerticalPanelFrame>
                 <FrameHorizontalPanelFrame>
@@ -270,6 +277,7 @@ namespace TestDebug
     </FrameNodeTemplate>
     <FrameNodeTemplate NodeType=""{xaml:Type easly:IContinuation}"">
         <FrameVerticalPanelFrame>
+            <FrameCommentFrame/>
             <FrameHorizontalPanelFrame>
                 <FrameKeywordFrame>execute</FrameKeywordFrame>
                 <FrameInsertFrame CollectionName=""Instructions.InstructionBlocks"" />
@@ -288,6 +296,7 @@ namespace TestDebug
     </FrameNodeTemplate>
     <FrameNodeTemplate NodeType=""{xaml:Type easly:IDiscrete}"">
         <FrameHorizontalPanelFrame>
+            <FrameCommentFrame/>
             <FramePlaceholderFrame PropertyName=""EntityName"" />
             <FrameHorizontalPanelFrame>
                 <FrameKeywordFrame>=</FrameKeywordFrame>
@@ -297,6 +306,7 @@ namespace TestDebug
     </FrameNodeTemplate>
     <FrameNodeTemplate NodeType=""{xaml:Type easly:IEntityDeclaration}"">
         <FrameHorizontalPanelFrame>
+            <FrameCommentFrame/>
             <FramePlaceholderFrame PropertyName=""EntityName"" />
             <FrameKeywordFrame>:</FrameKeywordFrame>
             <FramePlaceholderFrame PropertyName=""EntityType"" />
@@ -308,6 +318,7 @@ namespace TestDebug
     </FrameNodeTemplate>
     <FrameNodeTemplate NodeType=""{xaml:Type easly:IExceptionHandler}"">
         <FrameVerticalPanelFrame>
+            <FrameCommentFrame/>
             <FrameHorizontalPanelFrame>
                 <FrameKeywordFrame>catch</FrameKeywordFrame>
                 <FramePlaceholderFrame PropertyName=""ExceptionIdentifier"" />
@@ -318,6 +329,7 @@ namespace TestDebug
     </FrameNodeTemplate>
     <FrameNodeTemplate NodeType=""{xaml:Type easly:IExport}"">
         <FrameHorizontalPanelFrame>
+            <FrameCommentFrame/>
             <FramePlaceholderFrame PropertyName=""EntityName"" />
             <FrameKeywordFrame>to</FrameKeywordFrame>
             <FrameHorizontalBlockListFrame PropertyName=""ClassIdentifierBlocks"" />
@@ -325,6 +337,7 @@ namespace TestDebug
     </FrameNodeTemplate>
     <FrameNodeTemplate NodeType=""{xaml:Type easly:IExportChange}"">
         <FrameHorizontalPanelFrame>
+            <FrameCommentFrame/>
             <FramePlaceholderFrame PropertyName=""ExportIdentifier"" />
             <FrameKeywordFrame>to</FrameKeywordFrame>
             <FrameHorizontalBlockListFrame PropertyName=""IdentifierBlocks"" />
@@ -332,6 +345,7 @@ namespace TestDebug
     </FrameNodeTemplate>
     <FrameNodeTemplate NodeType=""{xaml:Type easly:IGeneric}"">
         <FrameVerticalPanelFrame>
+            <FrameCommentFrame/>
             <FrameHorizontalPanelFrame>
                 <FramePlaceholderFrame PropertyName=""EntityName"" />
                 <FrameHorizontalPanelFrame>
@@ -352,6 +366,7 @@ namespace TestDebug
     </FrameNodeTemplate>
     <FrameNodeTemplate NodeType=""{xaml:Type easly:IGlobalReplicate}"">
         <FrameHorizontalPanelFrame>
+            <FrameCommentFrame/>
             <FramePlaceholderFrame PropertyName=""ReplicateName"" />
             <FrameKeywordFrame>to</FrameKeywordFrame>
             <FrameHorizontalListFrame PropertyName=""Patterns"" />
@@ -359,6 +374,7 @@ namespace TestDebug
     </FrameNodeTemplate>
     <FrameNodeTemplate NodeType=""{xaml:Type easly:IImport}"">
         <FrameVerticalPanelFrame>
+            <FrameCommentFrame/>
             <FrameHorizontalPanelFrame>
                 <FrameDiscreteFrame PropertyName=""Type"">
                     <FrameKeywordFrame>latest</FrameKeywordFrame>
@@ -385,6 +401,7 @@ namespace TestDebug
     </FrameNodeTemplate>
     <FrameNodeTemplate NodeType=""{xaml:Type easly:IInheritance}"">
         <FrameVerticalPanelFrame>
+            <FrameCommentFrame/>
             <FrameHorizontalPanelFrame>
                 <FrameDiscreteFrame PropertyName=""Conformance"">
                     <FrameKeywordFrame>conformant</FrameKeywordFrame>
@@ -447,6 +464,7 @@ namespace TestDebug
     </FrameNodeTemplate>
     <FrameNodeTemplate NodeType=""{xaml:Type easly:ILibrary}"">
         <FrameVerticalPanelFrame>
+            <FrameCommentFrame/>
             <FrameHorizontalPanelFrame>
                 <FrameKeywordFrame>library</FrameKeywordFrame>
                 <FramePlaceholderFrame PropertyName=""EntityName""/>
@@ -474,16 +492,26 @@ namespace TestDebug
         </FrameVerticalPanelFrame>
     </FrameNodeTemplate>
     <FrameNodeTemplate NodeType=""{xaml:Type easly:IName}"">
-        <FrameTextValueFrame PropertyName=""Text""/>
+        <FrameVerticalPanelFrame>
+            <FrameCommentFrame/>
+            <FrameTextValueFrame PropertyName=""Text""/>
+        </FrameVerticalPanelFrame>
     </FrameNodeTemplate>
     <FrameNodeTemplate NodeType=""{xaml:Type easly:IPattern}"">
-        <FrameTextValueFrame PropertyName=""Text""/>
+        <FrameVerticalPanelFrame>
+            <FrameCommentFrame/>
+            <FrameTextValueFrame PropertyName=""Text""/>
+        </FrameVerticalPanelFrame>
     </FrameNodeTemplate>
     <FrameNodeTemplate NodeType=""{xaml:Type easly:IQualifiedName}"">
-        <FrameHorizontalListFrame PropertyName=""Path"" />
+        <FrameVerticalPanelFrame>
+            <FrameCommentFrame/>
+            <FrameHorizontalListFrame PropertyName=""Path"" />
+        </FrameVerticalPanelFrame>
     </FrameNodeTemplate>
     <FrameNodeTemplate NodeType=""{xaml:Type easly:IQueryOverload}"">
         <FrameVerticalPanelFrame>
+            <FrameCommentFrame/>
             <FrameVerticalPanelFrame>
                 <FrameHorizontalPanelFrame>
                     <FrameKeywordFrame>parameter</FrameKeywordFrame>
@@ -518,6 +546,7 @@ namespace TestDebug
     </FrameNodeTemplate>
     <FrameNodeTemplate NodeType=""{xaml:Type easly:IQueryOverloadType}"">
         <FrameHorizontalPanelFrame>
+            <FrameCommentFrame/>
             <FrameSymbolFrame Symbol=""{x:Static const:Symbols.LeftBracket}""/>
             <FrameVerticalPanelFrame>
                 <FrameVerticalPanelFrame>
@@ -566,6 +595,7 @@ namespace TestDebug
     </FrameNodeTemplate>
     <FrameNodeTemplate NodeType=""{xaml:Type easly:IRange}"">
         <FrameHorizontalPanelFrame>
+            <FrameCommentFrame/>
             <FrameSymbolFrame Symbol=""{x:Static const:Symbols.LeftBracket}"">
             </FrameSymbolFrame>
             <FramePlaceholderFrame PropertyName=""LeftExpression"" />
@@ -578,6 +608,7 @@ namespace TestDebug
     </FrameNodeTemplate>
     <FrameNodeTemplate NodeType=""{xaml:Type easly:IRename}"">
         <FrameHorizontalPanelFrame>
+            <FrameCommentFrame/>
             <FramePlaceholderFrame PropertyName=""SourceIdentifier"" />
             <FrameKeywordFrame>to</FrameKeywordFrame>
             <FramePlaceholderFrame PropertyName=""DestinationIdentifier"" />
@@ -585,6 +616,7 @@ namespace TestDebug
     </FrameNodeTemplate>
     <FrameNodeTemplate NodeType=""{xaml:Type easly:IRoot}"">
         <FrameVerticalPanelFrame>
+            <FrameCommentFrame/>
             <FrameVerticalPanelFrame>
                 <FrameHorizontalPanelFrame>
                     <FrameKeywordFrame>libraries</FrameKeywordFrame>
@@ -611,6 +643,7 @@ namespace TestDebug
     </FrameNodeTemplate>
     <FrameNodeTemplate NodeType=""{xaml:Type easly:IScope}"">
         <FrameVerticalPanelFrame>
+            <FrameCommentFrame/>
             <FrameVerticalPanelFrame>
                 <FrameHorizontalPanelFrame>
                     <FrameKeywordFrame>local</FrameKeywordFrame>
@@ -629,6 +662,7 @@ namespace TestDebug
     </FrameNodeTemplate>
     <FrameNodeTemplate NodeType=""{xaml:Type easly:ITypedef}"">
         <FrameHorizontalPanelFrame>
+            <FrameCommentFrame/>
             <FramePlaceholderFrame PropertyName=""EntityName"" />
             <FrameKeywordFrame>is</FrameKeywordFrame>
             <FramePlaceholderFrame PropertyName=""DefinedType"" />
@@ -636,12 +670,14 @@ namespace TestDebug
     </FrameNodeTemplate>
     <FrameNodeTemplate NodeType=""{xaml:Type easly:IAssignmentArgument}"">
         <FrameHorizontalPanelFrame>
+            <FrameCommentFrame/>
             <FrameHorizontalBlockListFrame PropertyName=""ParameterBlocks""/>
             <FramePlaceholderFrame PropertyName=""Source""/>
         </FrameHorizontalPanelFrame>
     </FrameNodeTemplate>
     <FrameNodeTemplate NodeType=""{xaml:Type easly:IWith}"">
         <FrameVerticalPanelFrame>
+            <FrameCommentFrame/>
             <FrameHorizontalPanelFrame>
                 <FrameKeywordFrame>case</FrameKeywordFrame>
                 <FrameHorizontalBlockListFrame PropertyName=""RangeBlocks""/>
@@ -652,6 +688,7 @@ namespace TestDebug
     </FrameNodeTemplate>
     <FrameNodeTemplate NodeType=""{xaml:Type easly:IDeferredBody}"">
         <FrameVerticalPanelFrame>
+            <FrameCommentFrame/>
             <FrameVerticalPanelFrame>
                 <FrameHorizontalPanelFrame>
                     <FrameKeywordFrame>require</FrameKeywordFrame>
@@ -683,11 +720,13 @@ namespace TestDebug
     </FrameNodeTemplate>
     <FrameNodeTemplate NodeType=""{xaml:Type easly:IPositionalArgument}"">
         <FrameHorizontalPanelFrame>
+            <FrameCommentFrame/>
             <FramePlaceholderFrame PropertyName=""Source""/>
         </FrameHorizontalPanelFrame>
     </FrameNodeTemplate>
     <FrameNodeTemplate NodeType=""{xaml:Type easly:IEffectiveBody}"">
         <FrameVerticalPanelFrame>
+            <FrameCommentFrame/>
             <FrameVerticalPanelFrame>
                 <FrameHorizontalPanelFrame>
                     <FrameKeywordFrame>require</FrameKeywordFrame>
@@ -734,6 +773,7 @@ namespace TestDebug
     </FrameNodeTemplate>
     <FrameNodeTemplate NodeType=""{xaml:Type easly:IExternBody}"">
         <FrameVerticalPanelFrame>
+            <FrameCommentFrame/>
             <FrameVerticalPanelFrame>
                 <FrameHorizontalPanelFrame>
                     <FrameKeywordFrame>require</FrameKeywordFrame>
@@ -765,6 +805,7 @@ namespace TestDebug
     </FrameNodeTemplate>
     <FrameNodeTemplate NodeType=""{xaml:Type easly:IPrecursorBody}"">
         <FrameVerticalPanelFrame>
+            <FrameCommentFrame/>
             <FrameVerticalPanelFrame>
                 <FrameHorizontalPanelFrame>
                     <FrameKeywordFrame>require</FrameKeywordFrame>
@@ -796,6 +837,7 @@ namespace TestDebug
     </FrameNodeTemplate>
     <FrameNodeTemplate NodeType=""{xaml:Type easly:IAgentExpression}"">
         <FrameHorizontalPanelFrame>
+            <FrameCommentFrame/>
             <FrameKeywordFrame>agent</FrameKeywordFrame>
             <FrameHorizontalPanelFrame>
                 <FrameSymbolFrame Symbol=""{x:Static const:Symbols.LeftCurlyBracket}""/>
@@ -807,12 +849,14 @@ namespace TestDebug
     </FrameNodeTemplate>
     <FrameNodeTemplate NodeType=""{xaml:Type easly:IAssertionTagExpression}"">
         <FrameHorizontalPanelFrame>
+            <FrameCommentFrame/>
             <FrameKeywordFrame>tag</FrameKeywordFrame>
             <FramePlaceholderFrame PropertyName=""TagIdentifier"" />
         </FrameHorizontalPanelFrame>
     </FrameNodeTemplate>
     <FrameNodeTemplate NodeType=""{xaml:Type easly:IBinaryConditionalExpression}"">
         <FrameHorizontalPanelFrame>
+            <FrameCommentFrame/>
             <FrameHorizontalPanelFrame>
                 <FrameSymbolFrame Symbol=""{x:Static const:Symbols.LeftParenthesis}"">
                 </FrameSymbolFrame>
@@ -835,6 +879,7 @@ namespace TestDebug
     </FrameNodeTemplate>
     <FrameNodeTemplate NodeType=""{xaml:Type easly:IBinaryOperatorExpression}"">
         <FrameHorizontalPanelFrame>
+            <FrameCommentFrame/>
             <FrameHorizontalPanelFrame>
                 <FrameSymbolFrame Symbol=""{x:Static const:Symbols.LeftParenthesis}"">
                 </FrameSymbolFrame>
@@ -854,6 +899,7 @@ namespace TestDebug
     </FrameNodeTemplate>
     <FrameNodeTemplate NodeType=""{xaml:Type easly:IClassConstantExpression}"">
         <FrameHorizontalPanelFrame>
+            <FrameCommentFrame/>
             <FrameSymbolFrame Symbol=""{x:Static const:Symbols.LeftCurlyBracket}""/>
             <FramePlaceholderFrame PropertyName=""ClassIdentifier"" />
             <FrameSymbolFrame Symbol=""{x:Static const:Symbols.RightCurlyBracket}""/>
@@ -863,6 +909,7 @@ namespace TestDebug
     </FrameNodeTemplate>
     <FrameNodeTemplate NodeType=""{xaml:Type easly:ICloneOfExpression}"">
         <FrameHorizontalPanelFrame>
+            <FrameCommentFrame/>
             <FrameDiscreteFrame PropertyName=""Type"">
                 <FrameKeywordFrame>shallow</FrameKeywordFrame>
                 <FrameKeywordFrame>deep</FrameKeywordFrame>
@@ -879,12 +926,14 @@ namespace TestDebug
     </FrameNodeTemplate>
     <FrameNodeTemplate NodeType=""{xaml:Type easly:IEntityExpression}"">
         <FrameHorizontalPanelFrame>
+            <FrameCommentFrame/>
             <FrameKeywordFrame>entity</FrameKeywordFrame>
             <FramePlaceholderFrame PropertyName=""Query""/>
         </FrameHorizontalPanelFrame>
     </FrameNodeTemplate>
     <FrameNodeTemplate NodeType=""{xaml:Type easly:IEqualityExpression}"">
         <FrameHorizontalPanelFrame>
+            <FrameCommentFrame/>
             <FrameHorizontalPanelFrame>
                 <FrameSymbolFrame Symbol=""{x:Static const:Symbols.LeftParenthesis}"">
                 </FrameSymbolFrame>
@@ -912,6 +961,7 @@ namespace TestDebug
     </FrameNodeTemplate>
     <FrameNodeTemplate NodeType=""{xaml:Type easly:IIndexQueryExpression}"">
         <FrameHorizontalPanelFrame>
+            <FrameCommentFrame/>
             <FrameHorizontalPanelFrame>
                 <FrameSymbolFrame Symbol=""{x:Static const:Symbols.LeftParenthesis}"">
                 </FrameSymbolFrame>
@@ -926,6 +976,7 @@ namespace TestDebug
     </FrameNodeTemplate>
     <FrameNodeTemplate NodeType=""{xaml:Type easly:IInitializedObjectExpression}"">
         <FrameHorizontalPanelFrame>
+            <FrameCommentFrame/>
             <FramePlaceholderFrame PropertyName=""ClassIdentifier"" />
             <FrameSymbolFrame Symbol=""{x:Static const:Symbols.LeftBracket}""/>
             <FrameVerticalBlockListFrame PropertyName=""AssignmentBlocks"" />
@@ -934,18 +985,22 @@ namespace TestDebug
         </FrameHorizontalPanelFrame>
     </FrameNodeTemplate>
     <FrameNodeTemplate NodeType=""{xaml:Type easly:IKeywordExpression}"">
-        <FrameDiscreteFrame PropertyName=""Value"">
-            <FrameKeywordFrame>True</FrameKeywordFrame>
-            <FrameKeywordFrame>False</FrameKeywordFrame>
-            <FrameKeywordFrame>Current</FrameKeywordFrame>
-            <FrameKeywordFrame>Value</FrameKeywordFrame>
-            <FrameKeywordFrame>Result</FrameKeywordFrame>
-            <FrameKeywordFrame>Retry</FrameKeywordFrame>
-            <FrameKeywordFrame>Exception</FrameKeywordFrame>
-        </FrameDiscreteFrame>
+        <FrameHorizontalPanelFrame>
+            <FrameCommentFrame/>
+            <FrameDiscreteFrame PropertyName=""Value"">
+                <FrameKeywordFrame>True</FrameKeywordFrame>
+                <FrameKeywordFrame>False</FrameKeywordFrame>
+                <FrameKeywordFrame>Current</FrameKeywordFrame>
+                <FrameKeywordFrame>Value</FrameKeywordFrame>
+                <FrameKeywordFrame>Result</FrameKeywordFrame>
+                <FrameKeywordFrame>Retry</FrameKeywordFrame>
+                <FrameKeywordFrame>Exception</FrameKeywordFrame>
+            </FrameDiscreteFrame>
+        </FrameHorizontalPanelFrame>
     </FrameNodeTemplate>
     <FrameNodeTemplate NodeType=""{xaml:Type easly:IManifestCharacterExpression}"">
         <FrameHorizontalPanelFrame>
+            <FrameCommentFrame/>
             <FrameKeywordFrame>'</FrameKeywordFrame>
             <FrameCharacterFrame PropertyName=""Text""/>
             <FrameKeywordFrame>'</FrameKeywordFrame>
@@ -953,11 +1008,13 @@ namespace TestDebug
     </FrameNodeTemplate>
     <FrameNodeTemplate NodeType=""{xaml:Type easly:IManifestNumberExpression}"">
         <FrameHorizontalPanelFrame>
+            <FrameCommentFrame/>
             <FrameNumberFrame PropertyName=""Text""/>
         </FrameHorizontalPanelFrame>
     </FrameNodeTemplate>
     <FrameNodeTemplate NodeType=""{xaml:Type easly:IManifestStringExpression}"">
         <FrameHorizontalPanelFrame>
+            <FrameCommentFrame/>
             <FrameKeywordFrame>""</FrameKeywordFrame>
             <FrameTextValueFrame PropertyName=""Text""/>
             <FrameKeywordFrame>""</FrameKeywordFrame>
@@ -965,18 +1022,21 @@ namespace TestDebug
     </FrameNodeTemplate>
     <FrameNodeTemplate NodeType=""{xaml:Type easly:INewExpression}"">
         <FrameHorizontalPanelFrame>
+            <FrameCommentFrame/>
             <FrameKeywordFrame>new</FrameKeywordFrame>
             <FramePlaceholderFrame PropertyName=""Object"" />
         </FrameHorizontalPanelFrame>
     </FrameNodeTemplate>
     <FrameNodeTemplate NodeType=""{xaml:Type easly:IOldExpression}"">
         <FrameHorizontalPanelFrame>
+            <FrameCommentFrame/>
             <FrameKeywordFrame>old</FrameKeywordFrame>
             <FramePlaceholderFrame PropertyName=""Query"" />
         </FrameHorizontalPanelFrame>
     </FrameNodeTemplate>
     <FrameNodeTemplate NodeType=""{xaml:Type easly:IPrecursorExpression}"">
         <FrameHorizontalPanelFrame>
+            <FrameCommentFrame/>
             <FrameKeywordFrame>precursor</FrameKeywordFrame>
             <FrameHorizontalPanelFrame>
                 <FrameSymbolFrame Symbol=""{x:Static const:Symbols.LeftCurlyBracket}""/>
@@ -994,6 +1054,7 @@ namespace TestDebug
     </FrameNodeTemplate>
     <FrameNodeTemplate NodeType=""{xaml:Type easly:IPrecursorIndexExpression}"">
         <FrameHorizontalPanelFrame>
+            <FrameCommentFrame/>
             <FrameKeywordFrame>precursor</FrameKeywordFrame>
             <FrameHorizontalPanelFrame>
                 <FrameSymbolFrame Symbol=""{x:Static const:Symbols.LeftCurlyBracket}""/>
@@ -1008,20 +1069,24 @@ namespace TestDebug
         </FrameHorizontalPanelFrame>
     </FrameNodeTemplate>
     <FrameNodeTemplate NodeType=""{xaml:Type easly:IPreprocessorExpression}"">
-        <FrameDiscreteFrame PropertyName=""Value"">
-            <FrameKeywordFrame>DateAndTime</FrameKeywordFrame>
-            <FrameKeywordFrame>CompilationDiscreteIdentifier</FrameKeywordFrame>
-            <FrameKeywordFrame>ClassPath</FrameKeywordFrame>
-            <FrameKeywordFrame>CompilerVersion</FrameKeywordFrame>
-            <FrameKeywordFrame>ConformanceToStandard</FrameKeywordFrame>
-            <FrameKeywordFrame>DiscreteClassIdentifier</FrameKeywordFrame>
-            <FrameKeywordFrame>Counter</FrameKeywordFrame>
-            <FrameKeywordFrame>Debugging</FrameKeywordFrame>
-            <FrameKeywordFrame>RandomInteger</FrameKeywordFrame>
-        </FrameDiscreteFrame>
+        <FrameHorizontalPanelFrame>
+            <FrameCommentFrame/>
+            <FrameDiscreteFrame PropertyName=""Value"">
+                <FrameKeywordFrame>DateAndTime</FrameKeywordFrame>
+                <FrameKeywordFrame>CompilationDiscreteIdentifier</FrameKeywordFrame>
+                <FrameKeywordFrame>ClassPath</FrameKeywordFrame>
+                <FrameKeywordFrame>CompilerVersion</FrameKeywordFrame>
+                <FrameKeywordFrame>ConformanceToStandard</FrameKeywordFrame>
+                <FrameKeywordFrame>DiscreteClassIdentifier</FrameKeywordFrame>
+                <FrameKeywordFrame>Counter</FrameKeywordFrame>
+                <FrameKeywordFrame>Debugging</FrameKeywordFrame>
+                <FrameKeywordFrame>RandomInteger</FrameKeywordFrame>
+            </FrameDiscreteFrame>
+        </FrameHorizontalPanelFrame>
     </FrameNodeTemplate>
     <FrameNodeTemplate NodeType=""{xaml:Type easly:IQueryExpression}"">
         <FrameHorizontalPanelFrame>
+            <FrameCommentFrame/>
             <FramePlaceholderFrame PropertyName=""Query"" />
             <FrameHorizontalPanelFrame>
                 <FrameSymbolFrame Symbol=""{x:Static const:Symbols.LeftParenthesis}"">
@@ -1034,6 +1099,7 @@ namespace TestDebug
     </FrameNodeTemplate>
     <FrameNodeTemplate NodeType=""{xaml:Type easly:IResultOfExpression}"">
         <FrameHorizontalPanelFrame>
+            <FrameCommentFrame/>
             <FrameKeywordFrame>result of</FrameKeywordFrame>
             <FrameHorizontalPanelFrame>
                 <FrameSymbolFrame Symbol=""{x:Static const:Symbols.LeftParenthesis}"">
@@ -1046,6 +1112,7 @@ namespace TestDebug
     </FrameNodeTemplate>
     <FrameNodeTemplate NodeType=""{xaml:Type easly:IUnaryNotExpression}"">
         <FrameHorizontalPanelFrame>
+            <FrameCommentFrame/>
             <FrameKeywordFrame>not</FrameKeywordFrame>
             <FrameHorizontalPanelFrame>
                 <FrameSymbolFrame Symbol=""{x:Static const:Symbols.LeftParenthesis}"">
@@ -1058,6 +1125,7 @@ namespace TestDebug
     </FrameNodeTemplate>
     <FrameNodeTemplate NodeType=""{xaml:Type easly:IUnaryOperatorExpression}"">
         <FrameHorizontalPanelFrame>
+            <FrameCommentFrame/>
             <FramePlaceholderFrame PropertyName=""Operator"" />
             <FrameHorizontalPanelFrame>
                 <FrameSymbolFrame Symbol=""{x:Static const:Symbols.LeftParenthesis}"">
@@ -1070,6 +1138,7 @@ namespace TestDebug
     </FrameNodeTemplate>
     <FrameNodeTemplate NodeType=""{xaml:Type easly:IAttributeFeature}"">
         <FrameVerticalPanelFrame>
+            <FrameCommentFrame/>
             <FrameHorizontalPanelFrame>
                 <FrameDiscreteFrame PropertyName=""Export"">
                     <FrameKeywordFrame>exported</FrameKeywordFrame>
@@ -1098,6 +1167,7 @@ namespace TestDebug
     </FrameNodeTemplate>
     <FrameNodeTemplate NodeType=""{xaml:Type easly:IConstantFeature}"">
         <FrameVerticalPanelFrame>
+            <FrameCommentFrame/>
             <FrameHorizontalPanelFrame>
                 <FrameDiscreteFrame PropertyName=""Export"">
                     <FrameKeywordFrame>exported</FrameKeywordFrame>
@@ -1121,6 +1191,7 @@ namespace TestDebug
     </FrameNodeTemplate>
     <FrameNodeTemplate NodeType=""{xaml:Type easly:ICreationFeature}"">
         <FrameVerticalPanelFrame>
+            <FrameCommentFrame/>
             <FrameHorizontalPanelFrame>
                 <FrameDiscreteFrame PropertyName=""Export"">
                     <FrameKeywordFrame>exported</FrameKeywordFrame>
@@ -1142,6 +1213,7 @@ namespace TestDebug
     </FrameNodeTemplate>
     <FrameNodeTemplate NodeType=""{xaml:Type easly:IFunctionFeature}"">
         <FrameVerticalPanelFrame>
+            <FrameCommentFrame/>
             <FrameHorizontalPanelFrame>
                 <FrameDiscreteFrame PropertyName=""Export"">
                     <FrameKeywordFrame>exported</FrameKeywordFrame>
@@ -1172,6 +1244,7 @@ namespace TestDebug
     </FrameNodeTemplate>
     <FrameNodeTemplate NodeType=""{xaml:Type easly:IIndexerFeature}"">
         <FrameVerticalPanelFrame>
+            <FrameCommentFrame/>
             <FrameHorizontalPanelFrame>
                 <FrameDiscreteFrame PropertyName=""Export"">
                     <FrameKeywordFrame>exported</FrameKeywordFrame>
@@ -1217,6 +1290,7 @@ namespace TestDebug
     </FrameNodeTemplate>
     <FrameNodeTemplate NodeType=""{xaml:Type easly:IProcedureFeature}"">
         <FrameVerticalPanelFrame>
+            <FrameCommentFrame/>
             <FrameHorizontalPanelFrame>
                 <FrameDiscreteFrame PropertyName=""Export"">
                     <FrameKeywordFrame>exported</FrameKeywordFrame>
@@ -1238,6 +1312,7 @@ namespace TestDebug
     </FrameNodeTemplate>
     <FrameNodeTemplate NodeType=""{xaml:Type easly:IPropertyFeature}"">
         <FrameVerticalPanelFrame>
+            <FrameCommentFrame/>
             <FrameHorizontalPanelFrame>
                 <FrameDiscreteFrame PropertyName=""Export"">
                     <FrameKeywordFrame>exported</FrameKeywordFrame>
@@ -1269,10 +1344,14 @@ namespace TestDebug
         </FrameVerticalPanelFrame>
     </FrameNodeTemplate>
     <FrameNodeTemplate NodeType=""{xaml:Type easly:IIdentifier}"">
-        <FrameTextValueFrame PropertyName=""Text""/>
+        <FrameVerticalPanelFrame>
+            <FrameCommentFrame/>
+            <FrameTextValueFrame PropertyName=""Text""/>
+        </FrameVerticalPanelFrame>
     </FrameNodeTemplate>
     <FrameNodeTemplate NodeType=""{xaml:Type easly:IAsLongAsInstruction}"">
         <FrameVerticalPanelFrame>
+            <FrameCommentFrame/>
             <FrameHorizontalPanelFrame>
                 <FrameKeywordFrame>as long as</FrameKeywordFrame>
                 <FramePlaceholderFrame PropertyName=""ContinueCondition""/>
@@ -1293,6 +1372,7 @@ namespace TestDebug
     </FrameNodeTemplate>
     <FrameNodeTemplate NodeType=""{xaml:Type easly:IAssignmentInstruction}"">
         <FrameHorizontalPanelFrame>
+            <FrameCommentFrame/>
             <FrameHorizontalBlockListFrame PropertyName=""DestinationBlocks"" />
             <FrameSymbolFrame Symbol=""{x:Static const:Symbols.LeftArrow}""/>
             <FramePlaceholderFrame PropertyName=""Source"" />
@@ -1300,6 +1380,7 @@ namespace TestDebug
     </FrameNodeTemplate>
     <FrameNodeTemplate NodeType=""{xaml:Type easly:IAttachmentInstruction}"">
         <FrameVerticalPanelFrame>
+            <FrameCommentFrame/>
             <FrameHorizontalPanelFrame>
                 <FrameKeywordFrame>attach</FrameKeywordFrame>
                 <FramePlaceholderFrame PropertyName=""Source"" />
@@ -1322,12 +1403,14 @@ namespace TestDebug
     </FrameNodeTemplate>
     <FrameNodeTemplate NodeType=""{xaml:Type easly:ICheckInstruction}"">
         <FrameHorizontalPanelFrame>
+            <FrameCommentFrame/>
             <FrameKeywordFrame>check</FrameKeywordFrame>
             <FramePlaceholderFrame PropertyName=""BooleanExpression"" />
         </FrameHorizontalPanelFrame>
     </FrameNodeTemplate>
     <FrameNodeTemplate NodeType=""{xaml:Type easly:ICommandInstruction}"">
         <FrameHorizontalPanelFrame>
+            <FrameCommentFrame/>
             <FramePlaceholderFrame PropertyName=""Command"" />
             <FrameHorizontalPanelFrame>
                 <FrameSymbolFrame Symbol=""{x:Static const:Symbols.LeftParenthesis}"">
@@ -1340,6 +1423,7 @@ namespace TestDebug
     </FrameNodeTemplate>
     <FrameNodeTemplate NodeType=""{xaml:Type easly:ICreateInstruction}"">
         <FrameHorizontalPanelFrame>
+            <FrameCommentFrame/>
             <FrameKeywordFrame>create</FrameKeywordFrame>
             <FramePlaceholderFrame PropertyName=""EntityIdentifier"" />
             <FrameHorizontalPanelFrame>
@@ -1359,6 +1443,7 @@ namespace TestDebug
     </FrameNodeTemplate>
     <FrameNodeTemplate NodeType=""{xaml:Type easly:IDebugInstruction}"">
         <FrameVerticalPanelFrame>
+            <FrameCommentFrame/>
             <FrameHorizontalPanelFrame>
                 <FrameKeywordFrame>debug</FrameKeywordFrame>
                 <FrameInsertFrame CollectionName=""Instructions.InstructionBlocks"" />
@@ -1371,6 +1456,7 @@ namespace TestDebug
     </FrameNodeTemplate>
     <FrameNodeTemplate NodeType=""{xaml:Type easly:IForLoopInstruction}"">
         <FrameVerticalPanelFrame>
+            <FrameCommentFrame/>
             <FrameKeywordFrame>loop</FrameKeywordFrame>
             <FrameVerticalPanelFrame>
                 <FrameVerticalPanelFrame>
@@ -1417,6 +1503,7 @@ namespace TestDebug
     </FrameNodeTemplate>
     <FrameNodeTemplate NodeType=""{xaml:Type easly:IIfThenElseInstruction}"">
         <FrameVerticalPanelFrame>
+            <FrameCommentFrame/>
             <FrameVerticalBlockListFrame PropertyName=""ConditionalBlocks"" />
             <FrameVerticalPanelFrame>
                 <FrameHorizontalPanelFrame>
@@ -1430,6 +1517,7 @@ namespace TestDebug
     </FrameNodeTemplate>
     <FrameNodeTemplate NodeType=""{xaml:Type easly:IIndexAssignmentInstruction}"">
         <FrameHorizontalPanelFrame>
+            <FrameCommentFrame/>
             <FramePlaceholderFrame PropertyName=""Destination"" />
             <FrameHorizontalPanelFrame>
                 <FrameSymbolFrame Symbol=""{x:Static const:Symbols.LeftBracket}""/>
@@ -1442,6 +1530,7 @@ namespace TestDebug
     </FrameNodeTemplate>
     <FrameNodeTemplate NodeType=""{xaml:Type easly:IInspectInstruction}"">
         <FrameVerticalPanelFrame>
+            <FrameCommentFrame/>
             <FrameHorizontalPanelFrame>
                 <FrameKeywordFrame>inspect</FrameKeywordFrame>
                 <FramePlaceholderFrame PropertyName=""Source"" />
@@ -1462,6 +1551,7 @@ namespace TestDebug
     </FrameNodeTemplate>
     <FrameNodeTemplate NodeType=""{xaml:Type easly:IKeywordAssignmentInstruction}"">
         <FrameHorizontalPanelFrame>
+            <FrameCommentFrame/>
             <FrameDiscreteFrame PropertyName=""Destination"">
                 <FrameKeywordFrame>True</FrameKeywordFrame>
                 <FrameKeywordFrame>False</FrameKeywordFrame>
@@ -1477,6 +1567,7 @@ namespace TestDebug
     </FrameNodeTemplate>
     <FrameNodeTemplate NodeType=""{xaml:Type easly:IOverLoopInstruction}"">
         <FrameVerticalPanelFrame>
+            <FrameCommentFrame/>
             <FrameHorizontalPanelFrame>
                 <FrameKeywordFrame>over</FrameKeywordFrame>
                 <FramePlaceholderFrame PropertyName=""OverList"" />
@@ -1507,6 +1598,7 @@ namespace TestDebug
     </FrameNodeTemplate>
     <FrameNodeTemplate NodeType=""{xaml:Type easly:IPrecursorIndexAssignmentInstruction}"">
         <FrameHorizontalPanelFrame>
+            <FrameCommentFrame/>
             <FrameKeywordFrame>precursor</FrameKeywordFrame>
             <FrameHorizontalPanelFrame>
                 <FrameKeywordFrame>from</FrameKeywordFrame>
@@ -1523,6 +1615,7 @@ namespace TestDebug
     </FrameNodeTemplate>
     <FrameNodeTemplate NodeType=""{xaml:Type easly:IPrecursorInstruction}"">
         <FrameHorizontalPanelFrame>
+            <FrameCommentFrame/>
             <FrameKeywordFrame>precursor</FrameKeywordFrame>
             <FrameHorizontalPanelFrame>
                 <FrameKeywordFrame>from</FrameKeywordFrame>
@@ -1539,6 +1632,7 @@ namespace TestDebug
     </FrameNodeTemplate>
     <FrameNodeTemplate NodeType=""{xaml:Type easly:IRaiseEventInstruction}"">
         <FrameHorizontalPanelFrame>
+            <FrameCommentFrame/>
             <FrameKeywordFrame>raise</FrameKeywordFrame>
             <FramePlaceholderFrame PropertyName=""QueryIdentifier"" />
             <FrameDiscreteFrame PropertyName=""Event"">
@@ -1549,12 +1643,14 @@ namespace TestDebug
     </FrameNodeTemplate>
     <FrameNodeTemplate NodeType=""{xaml:Type easly:IReleaseInstruction}"">
         <FrameHorizontalPanelFrame>
+            <FrameCommentFrame/>
             <FrameKeywordFrame>release</FrameKeywordFrame>
             <FramePlaceholderFrame PropertyName=""EntityName""/>
         </FrameHorizontalPanelFrame>
     </FrameNodeTemplate>
     <FrameNodeTemplate NodeType=""{xaml:Type easly:IThrowInstruction}"">
         <FrameHorizontalPanelFrame>
+            <FrameCommentFrame/>
             <FrameKeywordFrame>throw</FrameKeywordFrame>
             <FramePlaceholderFrame PropertyName=""ExceptionType"" />
             <FrameKeywordFrame>with</FrameKeywordFrame>
@@ -1568,6 +1664,7 @@ namespace TestDebug
     </FrameNodeTemplate>
     <FrameNodeTemplate NodeType=""{xaml:Type easly:IAnchoredType}"">
         <FrameHorizontalPanelFrame>
+            <FrameCommentFrame/>
             <FrameKeywordFrame>like</FrameKeywordFrame>
             <FrameDiscreteFrame PropertyName=""AnchorKind"">
                 <FrameKeywordFrame>declaration</FrameKeywordFrame>
@@ -1578,6 +1675,7 @@ namespace TestDebug
     </FrameNodeTemplate>
     <FrameNodeTemplate NodeType=""{xaml:Type easly:IFunctionType}"">
         <FrameHorizontalPanelFrame>
+            <FrameCommentFrame/>
             <FrameKeywordFrame>function</FrameKeywordFrame>
             <FramePlaceholderFrame PropertyName=""BaseType"" />
             <FrameHorizontalBlockListFrame PropertyName=""OverloadBlocks"" />
@@ -1585,6 +1683,7 @@ namespace TestDebug
     </FrameNodeTemplate>
     <FrameNodeTemplate NodeType=""{xaml:Type easly:IGenericType}"">
         <FrameHorizontalPanelFrame>
+            <FrameCommentFrame/>
             <FramePlaceholderFrame PropertyName=""ClassIdentifier"" />
             <FrameSymbolFrame Symbol=""{x:Static const:Symbols.LeftBracket}""/>
             <FrameHorizontalBlockListFrame PropertyName=""TypeArgumentBlocks"" />
@@ -1599,6 +1698,7 @@ namespace TestDebug
     </FrameNodeTemplate>
     <FrameNodeTemplate NodeType=""{xaml:Type easly:IIndexerType}"">
         <FrameHorizontalPanelFrame>
+            <FrameCommentFrame/>
             <FramePlaceholderFrame PropertyName=""BaseType"" />
             <FrameSymbolFrame Symbol=""{x:Static const:Symbols.LeftBracket}""/>
             <FrameVerticalPanelFrame>
@@ -1671,6 +1771,7 @@ namespace TestDebug
     </FrameNodeTemplate>
     <FrameNodeTemplate NodeType=""{xaml:Type easly:IKeywordAnchoredType}"">
         <FrameHorizontalPanelFrame>
+            <FrameCommentFrame/>
             <FrameKeywordFrame>like</FrameKeywordFrame>
             <FrameDiscreteFrame PropertyName=""Anchor"">
                 <FrameKeywordFrame>True</FrameKeywordFrame>
@@ -1685,6 +1786,7 @@ namespace TestDebug
     </FrameNodeTemplate>
     <FrameNodeTemplate NodeType=""{xaml:Type easly:IProcedureType}"">
         <FrameHorizontalPanelFrame>
+            <FrameCommentFrame/>
             <FrameKeywordFrame>procedure</FrameKeywordFrame>
             <FramePlaceholderFrame PropertyName=""BaseType"" />
             <FrameHorizontalBlockListFrame PropertyName=""OverloadBlocks"" />
@@ -1692,6 +1794,7 @@ namespace TestDebug
     </FrameNodeTemplate>
     <FrameNodeTemplate NodeType=""{xaml:Type easly:IPropertyType}"">
         <FrameHorizontalPanelFrame>
+            <FrameCommentFrame/>
             <FramePlaceholderFrame PropertyName=""BaseType"" />
             <FrameSymbolFrame Symbol=""{x:Static const:Symbols.LeftBracket}""/>
             <FrameVerticalPanelFrame>
@@ -1739,6 +1842,7 @@ namespace TestDebug
     </FrameNodeTemplate>
     <FrameNodeTemplate NodeType=""{xaml:Type easly:ISimpleType}"">
         <FrameHorizontalPanelFrame>
+            <FrameCommentFrame/>
             <FramePlaceholderFrame PropertyName=""ClassIdentifier"" />
             <FrameDiscreteFrame PropertyName=""Sharing"">
                 <FrameKeywordFrame>not shared</FrameKeywordFrame>
@@ -1750,6 +1854,7 @@ namespace TestDebug
     </FrameNodeTemplate>
     <FrameNodeTemplate NodeType=""{xaml:Type easly:ITupleType}"">
         <FrameHorizontalPanelFrame>
+            <FrameCommentFrame/>
             <FrameKeywordFrame>tuple</FrameKeywordFrame>
             <FrameSymbolFrame Symbol=""{x:Static const:Symbols.LeftBracket}""/>
             <FrameVerticalBlockListFrame PropertyName=""EntityDeclarationBlocks"" />
@@ -1764,6 +1869,7 @@ namespace TestDebug
     </FrameNodeTemplate>
     <FrameNodeTemplate NodeType=""{xaml:Type easly:IAssignmentTypeArgument}"">
         <FrameHorizontalPanelFrame>
+            <FrameCommentFrame/>
             <FramePlaceholderFrame PropertyName=""ParameterIdentifier"" />
             <FrameSymbolFrame Symbol=""{x:Static const:Symbols.LeftArrow}""/>
             <FramePlaceholderFrame PropertyName=""Source"" />
@@ -1771,6 +1877,7 @@ namespace TestDebug
     </FrameNodeTemplate>
     <FrameNodeTemplate NodeType=""{xaml:Type easly:IPositionalTypeArgument}"">
         <FrameHorizontalPanelFrame>
+            <FrameCommentFrame/>
             <FramePlaceholderFrame PropertyName=""Source""/>
         </FrameHorizontalPanelFrame>
     </FrameNodeTemplate>

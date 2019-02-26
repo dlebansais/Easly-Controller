@@ -62,11 +62,12 @@
         /// </summary>
         /// <param name="nodeType">Type of the node this frame can describe.</param>
         /// <param name="nodeTemplateTable">Table of templates with all frames.</param>
-        public override bool IsValid(Type nodeType, IFrameTemplateReadOnlyDictionary nodeTemplateTable)
+        /// <param name="commentFrameCount">Number of comment frames found so far.</param>
+        public override bool IsValid(Type nodeType, IFrameTemplateReadOnlyDictionary nodeTemplateTable, ref int commentFrameCount)
         {
             bool IsValid = true;
 
-            IsValid &= base.IsValid(nodeType, nodeTemplateTable);
+            IsValid &= base.IsValid(nodeType, nodeTemplateTable, ref commentFrameCount);
             IsValid &= Visibility == null || Visibility.IsValid(nodeType);
 
             foreach (IFocusFrameSelector Selector in Selectors)

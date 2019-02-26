@@ -49,22 +49,35 @@
         /// </summary>
         /// <param name="nodeType">Type of the node this frame can describe.</param>
         /// <param name="nodeTemplateTable">Table of templates with all frames.</param>
-        public override bool IsValid(Type nodeType, IFrameTemplateReadOnlyDictionary nodeTemplateTable)
+        /// <param name="commentFrameCount">Number of comment frames found so far.</param>
+        public override bool IsValid(Type nodeType, IFrameTemplateReadOnlyDictionary nodeTemplateTable, ref int commentFrameCount)
         {
             bool IsValid = true;
 
-            IsValid &= base.IsValid(nodeType, nodeTemplateTable);
+            IsValid &= base.IsValid(nodeType, nodeTemplateTable, ref commentFrameCount);
             IsValid &= Items.Count > 0;
             IsValid &= IsParentRoot;
 
             List<string> NameList = new List<string>();
+            int SelectionCommentFrameCount = -1;
             foreach (IFocusSelectableFrame Item in Items)
             {
-                IsValid &= Item.IsValid(nodeType, nodeTemplateTable);
+                int SelectableCommentFrameCount = 0;
+                IsValid &= Item.IsValid(nodeType, nodeTemplateTable, ref SelectableCommentFrameCount);
                 IsValid &= !NameList.Contains(Item.Name);
+
+                // Use the count for the first frame as base count.
+                if (SelectionCommentFrameCount < 0)
+                    SelectionCommentFrameCount = SelectableCommentFrameCount;
+
+                // All selectable frames must have the same count.
+                IsValid &= SelectionCommentFrameCount == SelectableCommentFrameCount;
 
                 NameList.Add(Item.Name);
             }
+
+            // Use the common count of all selectable frames as the count of the selection frame.
+            commentFrameCount += SelectionCommentFrameCount;
 
             Debug.Assert(IsValid);
             return IsValid;

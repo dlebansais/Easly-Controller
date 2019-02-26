@@ -31,9 +31,10 @@
             public FocusRootFrame()
             {
                 UpdateParent(null, null);
+                int CommentFrameCount = 0;
                 Debug.Assert(ParentTemplate == null);
                 Debug.Assert(ParentFrame == null);
-                Debug.Assert(!IsValid(null, null));
+                Debug.Assert(!IsValid(null, null, ref CommentFrameCount));
 
                 IFrameFrame AsFrameFrame = this;
                 Debug.Assert(AsFrameFrame.ParentTemplate == null);
@@ -44,7 +45,7 @@
             IFrameTemplate IFrameFrame.ParentTemplate { get { return ParentTemplate; } }
             public IFocusFrame ParentFrame { get; }
             IFrameFrame IFrameFrame.ParentFrame { get { return ParentFrame; } }
-            public bool IsValid(Type nodeType, IFrameTemplateReadOnlyDictionary nodeTemplateTable) { return false; }
+            public bool IsValid(Type nodeType, IFrameTemplateReadOnlyDictionary nodeTemplateTable, ref int commentFrameCount) { return false; }
             public void UpdateParent(IFrameTemplate parentTemplate, IFrameFrame parentFrame) { }
         }
 
