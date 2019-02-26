@@ -14,13 +14,25 @@
 
     public class LayoutControl : FrameworkElement
     {
-        public LayoutControl()
+        public void SetController(ILayoutController controller)
         {
-            Loaded += OnLoaded;
-        }
+            Controller = controller;
 
-        private void OnLoaded(object sender, RoutedEventArgs e)
-        {
+            DrawingVisual = new DrawingVisual();
+            DrawingContext = DrawingVisual.RenderOpen();
+            DrawContext = new DrawContext();
+
+            ControllerView = LayoutControllerView.Create(Controller, CustomLayoutTemplateSet.LayoutTemplateSet, DrawContext);
+            ControllerView.SetCommentDisplayMode(CommentDisplayModes.OnFocus);
+            ControllerView.SetShowUnfocusedComments(show: true);
+            ControllerView.MeasureAndArrange();
+            ControllerView.ShowCaret(true, draw: false);
+
+            DrawingContext.Close();
+
+            InvalidateMeasure();
+            InvalidateVisual();
+
             KeyboardManager = new Manager(this);
             KeyboardManager.KeyCharacterEvent += OnKeyCharacter;
             KeyboardManager.KeyMoveEvent += OnKeyMove;
@@ -33,41 +45,25 @@
 
         private void OnKeyCharacter(object sender, CharacterEventArgs e)
         {
-            if (ControllerView != null)
+            if (ControllerView.Focus is ILayoutTextFocus AsTextFocus)
             {
-                if (ControllerView.Focus is ILayoutTextFocus AsTextFocus)
-                {
-                    string FocusedText = ControllerView.FocusedText;
-                    int CaretPosition = ControllerView.CaretPosition;
+                string FocusedText = ControllerView.FocusedText;
+                int CaretPosition = ControllerView.CaretPosition;
 
-                    if (ControllerView.CaretMode == CaretModes.Insertion)
-                        StringHelper.InsertCharacter(e.Code, ref FocusedText, ref CaretPosition);
-                    else
-                        StringHelper.ReplaceCharacter(e.Code, ref FocusedText, ref CaretPosition);
+                if (ControllerView.CaretMode == CaretModes.Insertion)
+                    StringHelper.InsertCharacter(e.Code, ref FocusedText, ref CaretPosition);
+                else
+                    StringHelper.ReplaceCharacter(e.Code, ref FocusedText, ref CaretPosition);
 
-                    Controller.ChangeText(AsTextFocus.CellView.StateView.State.ParentIndex, AsTextFocus.CellView.PropertyName, FocusedText);
-                    ControllerView.SetCaretPosition(CaretPosition, out bool IsMoved);
-
-                    InvalidateMeasure();
-                    InvalidateVisual();
-                }
-
+                if (ControllerView.Focus is ILayoutStringContentFocus AsStringContentFocus)
+                    Controller.ChangeText(AsTextFocus.CellView.StateView.State.ParentIndex, AsStringContentFocus.CellView.PropertyName, FocusedText);
                 else if (ControllerView.Focus is ILayoutCommentFocus AsCommentFocus)
-                {
-                    string CommentText = ControllerView.CommentText;
-                    int CaretPosition = ControllerView.CaretPosition;
+                    Controller.ChangeComment(AsCommentFocus.CellView.StateView.State.ParentIndex, FocusedText);
 
-                    if (ControllerView.CaretMode == CaretModes.Insertion)
-                        StringHelper.InsertCharacter(e.Code, ref CommentText, ref CaretPosition);
-                    else
-                        StringHelper.ReplaceCharacter(e.Code, ref CommentText, ref CaretPosition);
+                ControllerView.SetCaretPosition(CaretPosition, out bool IsMoved);
 
-                    Controller.ChangeComment(AsCommentFocus.CellView.StateView.State.ParentIndex, CommentText);
-                    ControllerView.SetCaretPosition(CaretPosition, out bool IsMoved);
-
-                    InvalidateMeasure();
-                    InvalidateVisual();
-                }
+                InvalidateMeasure();
+                InvalidateVisual();
             }
 
             e.Handled = true;
@@ -150,21 +146,23 @@
 
         private void DeleteCharacter(bool backward)
         {
-            if (ControllerView != null)
+            if (ControllerView.Focus is ILayoutTextFocus AsTextFocus)
             {
-                if (ControllerView.Focus is ILayoutTextFocus AsTextFocus)
+                string FocusedText = ControllerView.FocusedText;
+                int CaretPosition = ControllerView.CaretPosition;
+                int MaxCaretPosition = ControllerView.MaxCaretPosition;
+
+                if (StringHelper.DeleteCharacter(backward, ref FocusedText, ref CaretPosition))
                 {
-                    string FocusedText = ControllerView.FocusedText;
-                    int CaretPosition = ControllerView.CaretPosition;
+                    ControllerView.SetCaretPosition(CaretPosition, out bool IsMoved);
 
-                    if (StringHelper.DeleteCharacter(backward, ref FocusedText, ref CaretPosition))
-                    {
-                        Controller.ChangeText(AsTextFocus.CellView.StateView.State.ParentIndex, AsTextFocus.CellView.PropertyName, FocusedText);
-                        ControllerView.SetCaretPosition(CaretPosition, out bool IsMoved);
+                    if (ControllerView.Focus is ILayoutStringContentFocus AsStringContentFocus)
+                        Controller.ChangeText(AsTextFocus.CellView.StateView.State.ParentIndex, AsStringContentFocus.CellView.PropertyName, FocusedText);
+                    else if (ControllerView.Focus is ILayoutCommentFocus AsCommentFocus)
+                        Controller.ChangeComment(AsTextFocus.CellView.StateView.State.ParentIndex, FocusedText);
 
-                        InvalidateMeasure();
-                        InvalidateVisual();
-                    }
+                    InvalidateMeasure();
+                    InvalidateVisual();
                 }
             }
         }
@@ -248,26 +246,6 @@
             ControllerView.MoveFocusHorizontally(direction, out bool IsMoved);
             if (IsMoved)
                 InvalidateVisual();
-        }
-
-        public void SetController(ILayoutController controller)
-        {
-            Controller = controller;
-
-            DrawingVisual = new DrawingVisual();
-            DrawingContext = DrawingVisual.RenderOpen();
-            DrawContext = new DrawContext();
-
-            ControllerView = LayoutControllerView.Create(Controller, CustomLayoutTemplateSet.LayoutTemplateSet, DrawContext);
-            ControllerView.SetCommentDisplayMode(EaslyController.Constants.CommentDisplayModes.OnFocus);
-            ControllerView.SetShowUnfocusedComments(show: true);
-            ControllerView.MeasureAndArrange();
-            ControllerView.ShowCaret(true, draw: false);
-
-            DrawingContext.Close();
-
-            InvalidateMeasure();
-            InvalidateVisual();
         }
 
         private Manager KeyboardManager;

@@ -68,14 +68,9 @@
         CaretModes CaretMode { get; }
 
         /// <summary>
-        /// Current text if the focus is on a string property. Null otherwise.
+        /// Current text if the focus is on a string property or comment. Null otherwise.
         /// </summary>
         string FocusedText { get; }
-
-        /// <summary>
-        /// Current text if the focus is on a non-empty comment. Null otherwise.
-        /// </summary>
-        string CommentText { get; }
 
         /// <summary>
         /// Indicates if the node with the focus has all its frames forced to visible.
@@ -304,7 +299,7 @@
         public CaretModes CaretMode { get; private set; }
 
         /// <summary>
-        /// Current text if the focus is on a string property. Null otherwise.
+        /// Current text if the focus is on a string property or comment. Null otherwise.
         /// </summary>
         public string FocusedText
         {
@@ -313,27 +308,7 @@
                 string Result = null;
 
                 if (Focus is IFocusTextFocus AsTextFocus)
-                    Result = GetFocusedStringText(AsTextFocus);
-
-                return Result;
-            }
-        }
-
-        /// <summary>
-        /// Current text if the focus is on a comment. Null otherwise.
-        /// </summary>
-        public string CommentText
-        {
-            get
-            {
-                string Result = null;
-
-                if (Focus is IFocusCommentFocus AsCommentFocus)
-                {
-                    Result = GetFocusedCommentText(AsCommentFocus);
-                    if (Result == null)
-                        Result = string.Empty;
-                }
+                    Result = GetFocusedText(AsTextFocus);
 
                 return Result;
             }
@@ -418,17 +393,7 @@
 
             if (Focus is IFocusTextFocus AsTextFocus)
             {
-                string Text = GetFocusedStringText(AsTextFocus);
-
-                SetTextCaretPosition(Text, position, out isMoved);
-            }
-
-            else if (Focus is IFocusCommentFocus AsCommentFocus)
-            {
-                string Text = GetFocusedCommentText(AsCommentFocus);
-                if (Text == null)
-                    Text = string.Empty;
-
+                string Text = GetFocusedText(AsTextFocus);
                 SetTextCaretPosition(Text, position, out isMoved);
             }
 
@@ -468,7 +433,7 @@
 
             if (CaretMode != mode)
             {
-                if ((Focus is IFocusTextFocus) || (Focus is IFocusCommentFocus))
+                if (Focus is IFocusTextFocus)
                 {
                     bool IsHandled = false;
                     switch (mode)
@@ -1613,60 +1578,41 @@
         /// <summary></summary>
         private protected virtual void ResetCaretPosition(int direction)
         {
-            string Text = null;
-
             if (Focus is IFocusTextFocus AsTextFocus)
-                Text = GetFocusedStringText(AsTextFocus);
-            else if (Focus is IFocusCommentFocus AsCommentFocus)
             {
-                Text = GetFocusedCommentText(AsCommentFocus);
-                if (Text == null)
-                    Text = string.Empty;
+                string Text = GetFocusedText(AsTextFocus);
+
+                MaxCaretPosition = Text.Length;
+
+                if (direction >= 0)
+                    CaretPosition = 0;
+                else if (CaretMode == CaretModes.Insertion || MaxCaretPosition == 0)
+                    CaretPosition = MaxCaretPosition;
+                else
+                    CaretPosition = MaxCaretPosition - 1;
+
+                if (CaretMode == CaretModes.Override && CaretPosition == MaxCaretPosition)
+                    CaretMode = CaretModes.Insertion;
+
+                CheckCaretInvariant(Text);
             }
             else
             {
                 CaretPosition = -1;
                 MaxCaretPosition = -1;
-                return;
             }
-
-            Debug.Assert(Text != null);
-
-            MaxCaretPosition = Text.Length;
-
-            if (direction >= 0)
-                CaretPosition = 0;
-            else if (CaretMode == CaretModes.Insertion || MaxCaretPosition == 0)
-                CaretPosition = MaxCaretPosition;
-            else
-                CaretPosition = MaxCaretPosition - 1;
-
-            if (CaretMode == CaretModes.Override && CaretPosition == MaxCaretPosition)
-                CaretMode = CaretModes.Insertion;
-
-            CheckCaretInvariant(Text);
         }
 
         /// <summary></summary>
         private protected virtual void UpdateMaxCaretPosition()
         {
-            string Text = null;
-
             if (Focus is IFocusTextFocus AsTextFocus)
-                Text = GetFocusedStringText(AsTextFocus);
-            else if (Focus is IFocusCommentFocus AsCommentFocus)
             {
-                Text = GetFocusedCommentText(AsCommentFocus);
-                if (Text == null)
-                    Text = string.Empty;
+                string Text = GetFocusedText(AsTextFocus);
+
+                MaxCaretPosition = Text.Length;
+                CheckCaretInvariant(Text);
             }
-            else
-                return;
-
-            Debug.Assert(Text != null);
-
-            MaxCaretPosition = Text.Length;
-            CheckCaretInvariant(Text);
         }
 
         /// <summary></summary>
@@ -1674,14 +1620,7 @@
         {
             if (Focus is IFocusTextFocus AsTextFocus)
             {
-                string Text = GetFocusedStringText(AsTextFocus);
-                CheckCaretInvariant(Text);
-            }
-            else if (Focus is IFocusCommentFocus AsCommentFocus)
-            {
-                string Text = GetFocusedCommentText(AsCommentFocus);
-                if (Text == null)
-                    Text = string.Empty;
+                string Text = GetFocusedText(AsTextFocus);
                 CheckCaretInvariant(Text);
             }
             else
@@ -1729,9 +1668,28 @@
         }
 
         /// <summary></summary>
-        private protected virtual string GetFocusedStringText(IFocusTextFocus textCellFocus)
+        private protected virtual string GetFocusedText(IFocusTextFocus textCellFocus)
         {
-            IFocusTextFocusableCellView CellView = textCellFocus.CellView;
+            string Text = null;
+
+            if (Focus is IFocusStringContentFocus AsTextFocus)
+                Text = GetFocusedStringContent(AsTextFocus);
+
+            else if (Focus is IFocusCommentFocus AsCommentFocus)
+            {
+                Text = GetFocusedCommentText(AsCommentFocus);
+                if (Text == null)
+                    Text = string.Empty;
+            }
+
+            Debug.Assert(Text != null);
+            return Text;
+        }
+
+        /// <summary></summary>
+        private protected virtual string GetFocusedStringContent(IFocusStringContentFocus textCellFocus)
+        {
+            IFocusStringContentFocusableCellView CellView = textCellFocus.CellView;
             INode Node = CellView.StateView.State.Node;
             string PropertyName = CellView.PropertyName;
 

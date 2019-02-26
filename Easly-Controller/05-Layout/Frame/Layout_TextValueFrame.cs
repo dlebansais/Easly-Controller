@@ -119,7 +119,7 @@
         private protected override IFrameVisibleCellView CreateVisibleCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView)
         {
             ControllerTools.AssertNoOverride(this, typeof(LayoutTextValueFrame));
-            return new LayoutTextFocusableCellView((ILayoutNodeStateView)stateView, (ILayoutCellViewCollection)parentCellView, this, PropertyName);
+            return new LayoutStringContentFocusableCellView((ILayoutNodeStateView)stateView, (ILayoutCellViewCollection)parentCellView, this, PropertyName);
         }
 
         /// <summary>

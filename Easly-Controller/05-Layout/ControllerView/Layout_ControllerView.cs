@@ -211,7 +211,7 @@
                 TextStyles Result = TextStyles.Default;
                 bool IsHandled = false;
 
-                if (Focus is ILayoutTextFocus AsText)
+                if (Focus is ILayoutStringContentFocus AsText)
                 {
                     switch (AsText.CellView.Frame)
                     {
@@ -302,7 +302,7 @@
 
             if (IsCaretShown)
             {
-                if (IsCaretOnText(out ILayoutTextFocus TextFocus))
+                if (IsCaretOnText(out ILayoutStringContentFocus TextFocus))
                     DrawTextCaret(TextFocus);
                 else if (IsCaretOnComment(out ILayoutCommentFocus CommentFocus))
                     DrawCommentCaret(CommentFocus);
@@ -324,7 +324,7 @@
             if (draw)
                 if (IsCaretShown)
                 {
-                    if (IsCaretOnText(out ILayoutTextFocus TextFocus))
+                    if (IsCaretOnText(out ILayoutStringContentFocus TextFocus))
                         DrawTextCaret(TextFocus);
                     else if (IsCaretOnComment(out ILayoutCommentFocus CommentFocus))
                         DrawCommentCaret(CommentFocus);
@@ -336,11 +336,11 @@
         }
 
         /// <summary></summary>
-        private protected bool IsCaretOnText(out ILayoutTextFocus textCellFocus)
+        private protected bool IsCaretOnText(out ILayoutStringContentFocus textCellFocus)
         {
             textCellFocus = null;
 
-            if (Focus is ILayoutTextFocus AsTextFocus)
+            if (Focus is ILayoutStringContentFocus AsTextFocus)
             {
                 bool IsHandled = false;
 
@@ -364,9 +364,9 @@
         }
 
         /// <summary></summary>
-        private protected void DrawTextCaret(ILayoutTextFocus textCellFocus)
+        private protected void DrawTextCaret(ILayoutStringContentFocus textCellFocus)
         {
-            ILayoutTextFocusableCellView CellView = textCellFocus.CellView;
+            ILayoutStringContentFocusableCellView CellView = textCellFocus.CellView;
 
             INode Node = CellView.StateView.State.Node;
             string PropertyName = CellView.PropertyName;
@@ -541,7 +541,7 @@
                     continue;
 
                 // Don't consider cells that are in the wrong direction;
-                if ((direction < 0 && TestCellOrigin.X >= FocusCellOrigin.X + FocusCellSize.Width) || (direction > 0 && TestCellOrigin.X + TestCellSize.Width <= FocusCellOrigin.X))
+                if ((direction <= 0 && TestCellOrigin.X >= FocusCellOrigin.X + FocusCellSize.Width) || (direction >= 0 && TestCellOrigin.X + TestCellSize.Width <= FocusCellOrigin.X))
                     continue;
 
                 double SquaredDistance = Point.SquaredDistance(FocusCellCenter, TestCellCenter);
@@ -557,7 +557,7 @@
             {
                 Debug.Assert(NewFocusIndex >= MinFocusMove + OldFocusIndex && NewFocusIndex <= MaxFocusMove + OldFocusIndex);
 
-                ChangeFocus(NewFocusIndex - OldFocusIndex, OldFocusIndex, NewFocusIndex, out bool IsRefreshed);
+                ChangeFocus(direction, OldFocusIndex, NewFocusIndex, out bool IsRefreshed);
                 isMoved = true;
             }
             else

@@ -65,7 +65,7 @@
         private protected virtual IFrameVisibleCellView CreateVisibleCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView)
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameTextValueFrame));
-            return new FrameTextFocusableCellView(stateView, parentCellView, this, PropertyName);
+            return new FrameStringContentFocusableCellView(stateView, parentCellView, this, PropertyName);
         }
         #endregion
     }

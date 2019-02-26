@@ -223,6 +223,7 @@
     <Compile Include="03-Frame\CellView\Single\Frame_DiscreteContentFocusableCellView.cs" />
     <Compile Include="03-Frame\CellView\Single\Frame_CommentCellView.cs" />
     <Compile Include="03-Frame\CellView\Single\Frame_TextFocusableCellView.cs" />
+    <Compile Include="03-Frame\CellView\Single\Frame_StringContentFocusableCellView.cs" />
     <Compile Include="03-Frame\CellView\Single\Frame_EmptyCellView.cs" />
     <Compile Include="03-Frame\CellView\Single\Frame_VisibleCellView.cs" />
     <Compile Include="03-Frame\Collections\Frame_OperationGroup_List.cs" />
@@ -369,9 +370,10 @@
     <Compile Include="04-Focus\CellView\Single\Focus_DiscreteContentFocusableCellView.cs" />
     <Compile Include="04-Focus\CellView\Single\Focus_EmptyCellView.cs" />
     <Compile Include="04-Focus\CellView\Single\Focus_FocusableCellView.cs" />
-    <Compile Include="04-Focus\CellView\Single\Focus_TextFocusableCellView.cs" />
+    <Compile Include="04-Focus\CellView\Single\Focus_StringContentFocusableCellView.cs" />
     <Compile Include="04-Focus\CellView\Single\Focus_VisibleCellView.cs" />
     <Compile Include="04-Focus\CellView\Single\Focus_CommentCellView.cs" />
+    <Compile Include="04-Focus\CellView\Single\Focus_TextFocusableCellView.cs" />
     <Compile Include="04-Focus\Collections\Focus_BlockStateView_Dictionary.cs" />
     <Compile Include="04-Focus\Collections\Focus_BlockState_List.cs" />
     <Compile Include="04-Focus\Collections\Focus_BlockState_ReadOnlyList.cs" />
@@ -441,6 +443,7 @@
     <Compile Include="04-Focus\Focus\Focus_DiscreteContentFocus.cs" />
     <Compile Include="04-Focus\Focus\Focus_CommentFocus.cs" />
     <Compile Include="04-Focus\Focus\Focus_TextFocus.cs" />
+    <Compile Include="04-Focus\Focus\Focus_StringContentFocus.cs" />
     <Compile Include="04-Focus\Focus\Focus_Focus.cs" />
     <Compile Include="04-Focus\FrameVisibility\Focus_BlockFrameVisibility.cs" />
     <Compile Include="04-Focus\FrameVisibility\Focus_OptionalFrameVisibility.cs" />
@@ -544,6 +547,7 @@
     <Compile Include="05-Layout\CellView\Collection\Layout_Line.cs" />
     <Compile Include="05-Layout\CellView\Layout_AssignableCellView.cs" />
     <Compile Include="05-Layout\CellView\Layout_CellView.cs" />
+    <Compile Include="05-Layout\CellView\Single\Layout_TextFocusableCellView.cs" />
     <Compile Include="05-Layout\CellView\Single\Layout_CommentCellView.cs" />
     <Compile Include="05-Layout\CellView\Single\Layout_BlockCellView.cs" />
     <Compile Include="05-Layout\CellView\Single\Layout_ContainerCellView.cs" />
@@ -551,7 +555,7 @@
     <Compile Include="05-Layout\CellView\Single\Layout_DiscreteContentFocusableCellView.cs" />
     <Compile Include="05-Layout\CellView\Single\Layout_EmptyCellView.cs" />
     <Compile Include="05-Layout\CellView\Single\Layout_FocusableCellView.cs" />
-    <Compile Include="05-Layout\CellView\Single\Layout_TextFocusableCellView.cs" />
+    <Compile Include="05-Layout\CellView\Single\Layout_StringContentFocusableCellView.cs" />
     <Compile Include="05-Layout\CellView\Single\Layout_VisibleCellView.cs" />
     <Compile Include="05-Layout\Collections\Layout_VisibleCellView_List.cs" />
     <Compile Include="05-Layout\Collections\Layout_AssignableCellView_Dictionary.cs" />
@@ -620,10 +624,11 @@
     <Compile Include="05-Layout\Cycle\Layout_CycleManager.cs" />
     <Compile Include="05-Layout\Cycle\Layout_CycleManagerBody.cs" />
     <Compile Include="05-Layout\Cycle\Layout_CycleManagerFeature.cs" />
+    <Compile Include="05-Layout\Focus\Layout_TextFocus.cs" />
     <Compile Include="05-Layout\Focus\Layout_CommentFocus.cs" />
     <Compile Include="05-Layout\Focus\Layout_DiscreteContentFocus.cs" />
     <Compile Include="05-Layout\Focus\Layout_Focus.cs" />
-    <Compile Include="05-Layout\Focus\Layout_TextFocus.cs" />
+    <Compile Include="05-Layout\Focus\Layout_TextContentFocus.cs" />
     <Compile Include="05-Layout\FrameVisibility\Layout_BlockFrameVisibility.cs" />
     <Compile Include="05-Layout\FrameVisibility\Layout_ComplexFrameVisibility.cs" />
     <Compile Include="05-Layout\FrameVisibility\Layout_CountFrameVisibility.cs" />

@@ -3,26 +3,26 @@
     using EaslyController.Focus;
 
     /// <summary>
-    /// Focus on a comment cell view.
+    /// Focus on a cell view for a string property.
     /// </summary>
-    public interface ILayoutCommentFocus : IFocusCommentFocus, ILayoutFocus, ILayoutTextFocus
+    public interface ILayoutStringContentFocus : IFocusStringContentFocus, ILayoutFocus, ILayoutTextFocus
     {
         /// <summary>
         /// The cell view with the focus.
         /// </summary>
-        new ILayoutCommentCellView CellView { get; }
+        new ILayoutStringContentFocusableCellView CellView { get; }
     }
 
     /// <summary>
-    /// Focus on a comment cell view.
+    /// Focus on a cell view for a string property.
     /// </summary>
-    public class LayoutCommentFocus : FocusCommentFocus, ILayoutCommentFocus
+    public class LayoutStringContentFocus : FocusStringContentFocus, ILayoutStringContentFocus
     {
         #region Init
         /// <summary>
-        /// Initializes a new instance of the <see cref="LayoutCommentFocus"/> class.
+        /// Initializes a new instance of the <see cref="LayoutStringContentFocus"/> class.
         /// </summary>
-        public LayoutCommentFocus(ILayoutCommentCellView cellView)
+        public LayoutStringContentFocus(ILayoutStringContentFocusableCellView cellView)
             : base(cellView)
         {
         }
@@ -32,7 +32,7 @@
         /// <summary>
         /// The cell view with the focus.
         /// </summary>
-        public new ILayoutCommentCellView CellView { get { return (ILayoutCommentCellView)base.CellView; } }
+        public new ILayoutStringContentFocusableCellView CellView { get { return (ILayoutStringContentFocusableCellView)base.CellView; } }
         ILayoutFocusableCellView ILayoutFocus.CellView { get { return CellView; } }
         ILayoutTextFocusableCellView ILayoutTextFocus.CellView { get { return CellView; } }
         #endregion

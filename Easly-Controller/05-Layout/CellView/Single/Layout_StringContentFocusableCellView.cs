@@ -1,33 +1,38 @@
 ﻿namespace EaslyController.Layout
 {
     using System.Diagnostics;
-    using BaseNode;
     using EaslyController.Controller;
     using EaslyController.Focus;
 
     /// <summary>
     /// Cell view for text components that can receive the focus and be modified (identifiers).
     /// </summary>
-    public interface ILayoutCommentCellView : IFocusCommentCellView, ILayoutFocusableCellView, ILayoutTextFocusableCellView
+    public interface ILayoutStringContentFocusableCellView : IFocusStringContentFocusableCellView, ILayoutContentFocusableCellView, ILayoutTextFocusableCellView
     {
     }
 
     /// <summary>
     /// Cell view for text components that can receive the focus and be modified (identifiers).
     /// </summary>
-    internal class LayoutCommentCellView : FocusCommentCellView, ILayoutCommentCellView
+    internal class LayoutStringContentFocusableCellView : FocusStringContentFocusableCellView, ILayoutStringContentFocusableCellView
     {
         #region Init
         /// <summary>
-        /// Initializes a new instance of the <see cref="LayoutCommentCellView"/> class.
+        /// Initializes a new instance of the <see cref="LayoutStringContentFocusableCellView"/> class.
         /// </summary>
         /// <param name="stateView">The state view containing the tree with this cell.</param>
         /// <param name="parentCellView">The collection of cell views containing this view. Null for the root of the cell tree.</param>
         /// <param name="frame">The frame that created this cell view.</param>
-        /// <param name="documentation">The comment this cell is displaying.</param>
-        public LayoutCommentCellView(ILayoutNodeStateView stateView, ILayoutCellViewCollection parentCellView, ILayoutFrame frame, IDocument documentation)
-            : base(stateView, parentCellView, frame, documentation)
+        /// <param name="propertyName">Property corresponding to the component of the node.</param>
+        public LayoutStringContentFocusableCellView(ILayoutNodeStateView stateView, ILayoutCellViewCollection parentCellView, ILayoutFrame frame, string propertyName)
+            : base(stateView, parentCellView, frame, propertyName)
         {
+            Debug.Assert(frame is ILayoutMeasurableFrame);
+            Debug.Assert(frame is ILayoutDrawableFrame);
+
+            CellOrigin = RegionHelper.InvalidOrigin;
+            CellSize = RegionHelper.InvalidSize;
+            CellPadding = Padding.Empty;
         }
         #endregion
 
@@ -159,10 +164,10 @@
         {
             Debug.Assert(other != null);
 
-            if (!comparer.IsSameType(other, out LayoutCommentCellView AsCommentCellView))
+            if (!comparer.IsSameType(other, out LayoutStringContentFocusableCellView AsTextFocusableCellView))
                 return comparer.Failed();
 
-            if (!base.IsEqual(comparer, AsCommentCellView))
+            if (!base.IsEqual(comparer, AsTextFocusableCellView))
                 return comparer.Failed();
 
             return true;
@@ -171,12 +176,12 @@
 
         #region Create Methods
         /// <summary>
-        /// Creates a IxxxCommentFocus object.
+        /// Creates a IxxxTextFocus object.
         /// </summary>
-        protected override IFocusCommentFocus CreateFocus()
+        protected override IFocusStringContentFocus CreateFocus()
         {
-            ControllerTools.AssertNoOverride(this, typeof(LayoutCommentCellView));
-            return new LayoutCommentFocus(this);
+            ControllerTools.AssertNoOverride(this, typeof(LayoutStringContentFocusableCellView));
+            return new LayoutStringContentFocus(this);
         }
         #endregion
     }

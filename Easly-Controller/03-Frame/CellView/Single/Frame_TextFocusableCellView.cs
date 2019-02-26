@@ -1,51 +1,9 @@
 ﻿namespace EaslyController.Frame
 {
-    using System.Diagnostics;
-
     /// <summary>
-    /// Cell view for text components that can receive the focus and be modified (identifiers).
+    /// Cell view for any text (property or comment).
     /// </summary>
-    public interface IFrameTextFocusableCellView : IFrameContentFocusableCellView
+    public interface IFrameTextFocusableCellView : IFrameCellView
     {
-    }
-
-    /// <summary>
-    /// Cell view for text components that can receive the focus and be modified (identifiers).
-    /// </summary>
-    internal class FrameTextFocusableCellView : FrameContentFocusableCellView, IFrameTextFocusableCellView
-    {
-        #region Init
-        /// <summary>
-        /// Initializes a new instance of the <see cref="FrameTextFocusableCellView"/> class.
-        /// </summary>
-        /// <param name="stateView">The state view containing the tree with this cell.</param>
-        /// <param name="parentCellView">The collection of cell views containing this view. Null for the root of the cell tree.</param>
-        /// <param name="frame">The frame that created this cell view.</param>
-        /// <param name="propertyName">Property corresponding to the component of the node.</param>
-        public FrameTextFocusableCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, IFrameFrame frame, string propertyName)
-            : base(stateView, parentCellView, frame, propertyName)
-        {
-        }
-        #endregion
-
-        #region Debugging
-        /// <summary>
-        /// Compares two <see cref="IFrameCellView"/> objects.
-        /// </summary>
-        /// <param name="comparer">The comparison support object.</param>
-        /// <param name="other">The other object.</param>
-        public override bool IsEqual(CompareEqual comparer, IEqualComparable other)
-        {
-            Debug.Assert(other != null);
-
-            if (!comparer.IsSameType(other, out FrameTextFocusableCellView AsTextFocusableCellView))
-                return comparer.Failed();
-
-            if (!base.IsEqual(comparer, AsTextFocusableCellView))
-                return comparer.Failed();
-
-            return true;
-        }
-        #endregion
     }
 }

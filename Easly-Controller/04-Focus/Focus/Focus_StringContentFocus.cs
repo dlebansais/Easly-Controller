@@ -1,26 +1,26 @@
 ﻿namespace EaslyController.Focus
 {
     /// <summary>
-    /// Focus on a comment cell view.
+    /// Focus on a cell view for a string property.
     /// </summary>
-    public interface IFocusCommentFocus : IFocusFocus, IFocusTextFocus
+    public interface IFocusStringContentFocus : IFocusFocus, IFocusTextFocus
     {
         /// <summary>
         /// The cell view with the focus.
         /// </summary>
-        new IFocusCommentCellView CellView { get; }
+        new IFocusStringContentFocusableCellView CellView { get; }
     }
 
     /// <summary>
-    /// Focus on a comment cell view.
+    /// Focus on a cell view for a string property.
     /// </summary>
-    public class FocusCommentFocus : FocusFocus, IFocusCommentFocus
+    public class FocusStringContentFocus : FocusFocus, IFocusStringContentFocus
     {
         #region Init
         /// <summary>
-        /// Initializes a new instance of the <see cref="FocusCommentFocus"/> class.
+        /// Initializes a new instance of the <see cref="FocusStringContentFocus"/> class.
         /// </summary>
-        public FocusCommentFocus(IFocusCommentCellView cellView)
+        public FocusStringContentFocus(IFocusStringContentFocusableCellView cellView)
             : base(cellView)
         {
         }
@@ -30,7 +30,7 @@
         /// <summary>
         /// The cell view with the focus.
         /// </summary>
-        public new IFocusCommentCellView CellView { get { return (IFocusCommentCellView)base.CellView; } }
+        public new IFocusStringContentFocusableCellView CellView { get { return (IFocusStringContentFocusableCellView)base.CellView; } }
         IFocusFocusableCellView IFocusFocus.CellView { get { return CellView; } }
         IFocusTextFocusableCellView IFocusTextFocus.CellView { get { return CellView; } }
         #endregion
