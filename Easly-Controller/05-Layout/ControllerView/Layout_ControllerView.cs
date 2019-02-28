@@ -124,6 +124,21 @@
         /// </summary>
         /// <param name="show">True to show, false to hide.</param>
         void SetShowUnfocusedComments(bool show);
+
+        /// <summary>
+        /// Gets the visible cell view corresponding to a location.
+        /// </summary>
+        /// <param name="point">The location where to look.</param>
+        /// <param name="cellView">The cell view upon return. Null if not found.</param>
+        /// <returns>True if found; otherwise, false.</returns>
+        bool CellViewFromPoint(Point point, out ILayoutVisibleCellView cellView);
+
+        /// <summary>
+        /// Sets the focus to the visible cell view corresponding to a location.
+        /// </summary>
+        /// <param name="point">The location where to set the focus.</param>
+        /// <param name="isMoved">True if the focus was moved.</param>
+        void SetFocusToPoint(Point point, out bool isMoved);
     }
 
     /// <summary>
@@ -600,6 +615,80 @@
                 ShowUnfocusedComments = show;
                 Refresh(Controller.RootState);
             }
+        }
+
+        /// <summary>
+        /// Gets the visible cell view corresponding to a location.
+        /// </summary>
+        /// <param name="point">The location where to look.</param>
+        /// <param name="cellView">The cell view upon return. Null if not found.</param>
+        /// <returns>True if found; otherwise, false.</returns>
+        public virtual bool CellViewFromPoint(Point point, out ILayoutVisibleCellView cellView)
+        {
+            cellView = null;
+
+            ILayoutVisibleCellViewList CellList = new LayoutVisibleCellViewList();
+            EnumerateVisibleCellViews(CellList);
+
+            foreach (ILayoutVisibleCellView Item in CellList)
+                if (Item.CellRect.IsPointInRect(point))
+                {
+                    cellView = Item;
+                    break;
+                }
+
+            return cellView != null;
+        }
+
+        /// <summary>
+        /// Sets the focus to the visible cell view corresponding to a location.
+        /// </summary>
+        /// <param name="point">The location where to set the focus.</param>
+        /// <param name="isMoved">True if the focus was moved.</param>
+        public virtual void SetFocusToPoint(Point point, out bool isMoved)
+        {
+            isMoved = false;
+            ulong OldFocusHash = FocusHash;
+            int OldIndex = FocusChain.IndexOf(Focus);
+            int NewIndex = -1;
+
+            // Takes page margins and padding into account.
+            point = DrawContext.ToRelativeLocation(point);
+
+            for (int i = 0; i < FocusChain.Count; i++)
+            {
+                ILayoutFocus TestFocus = (ILayoutFocus)FocusChain[i];
+                if (TestFocus.CellView.CellRect.IsPointInRect(point))
+                {
+                    NewIndex = i;
+                    break;
+                }
+            }
+
+            if (NewIndex >= 0)
+            {
+                if (NewIndex != OldIndex)
+                    ChangeFocus(NewIndex - OldIndex, OldIndex, NewIndex, out bool IsRefreshed);
+
+                if (Focus is ILayoutTextFocus AsTextFocus)
+                {
+                    Point CellOrigin = Focus.CellView.CellOrigin;
+                    Size CellSize = Focus.CellView.CellSize;
+                    Point LocationRelativeToCell = point.Moved(-CellOrigin.X, -CellOrigin.Y);
+                    Debug.Assert(LocationRelativeToCell.X >= 0 && LocationRelativeToCell.X < CellSize.Width);
+                    Debug.Assert(LocationRelativeToCell.Y >= 0 && LocationRelativeToCell.Y < CellSize.Height);
+
+                    string Text = GetFocusedText(AsTextFocus);
+                    int NewCaretPosition = DrawContext.GetCaretPositionInText(LocationRelativeToCell, Text, FocusedTextStyle, CaretMode, double.NaN);
+                    Debug.Assert(NewCaretPosition >= 0 && NewCaretPosition <= MaxCaretPosition);
+
+                    SetTextCaretPosition(Text, NewCaretPosition, out isMoved);
+                }
+
+                isMoved = true;
+            }
+
+            Debug.Assert(isMoved || OldFocusHash == FocusHash);
         }
         #endregion
 

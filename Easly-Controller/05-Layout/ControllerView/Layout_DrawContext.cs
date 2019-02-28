@@ -110,5 +110,23 @@
         /// </summary>
         /// <param name="region">The region corresponding to the node that has a comment.</param>
         void DrawCommentIcon(Rect region);
+
+        /// <summary>
+        /// Get the location where draw occurs corresponding to the specified absolute location.
+        /// </summary>
+        /// <param name="origin">The absolute location.</param>
+        /// <returns>The relative location where things would be drawn.</returns>
+        Point ToRelativeLocation(Point origin);
+
+        /// <summary>
+        /// Get the caret position corresponding to <paramref name="origin"/> in <paramref name="text"/>.
+        /// </summary>
+        /// <param name="origin">The location.</param>
+        /// <param name="text">The text</param>
+        /// <param name="textStyle">The style used to measure <paramref name="text"/>.</param>
+        /// <param name="mode">The caret mode.</param>
+        /// <param name="maxTextWidth">The maximum width for a line of text. NaN means no limit.</param>
+        /// <returns>The position of the caret.</returns>
+        int GetCaretPositionInText(Point origin, string text, TextStyles textStyle, CaretModes mode, double maxTextWidth);
     }
 }

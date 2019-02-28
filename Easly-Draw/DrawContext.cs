@@ -607,6 +607,49 @@
                 WpfDrawingContext.Pop();
             }
         }
+
+        /// <summary>
+        /// Get the location where draw occurs corresponding to the specified absolute location.
+        /// </summary>
+        /// <param name="origin">The absolute location.</param>
+        /// <returns>The relative location where things would be drawn.</returns>
+        public virtual Point ToRelativeLocation(Point origin)
+        {
+            return origin.Moved(-PagePadding.Left, -PagePadding.Top);
+        }
+
+        /// <summary>
+        /// Get the caret position corresponding to <paramref name="origin"/> in <paramref name="text"/>.
+        /// </summary>
+        /// <param name="origin">The location.</param>
+        /// <param name="text">The text</param>
+        /// <param name="textStyle">The style used to measure <paramref name="text"/>.</param>
+        /// <param name="mode">The caret mode.</param>
+        /// <param name="maxTextWidth">The maximum width for a line of text. NaN means no limit.</param>
+        /// <returns>The position of the caret.</returns>
+        public virtual int GetCaretPositionInText(Point origin, string text, TextStyles textStyle, CaretModes mode, double maxTextWidth)
+        {
+            Brush Brush = StyleToForegroundBrush(textStyle);
+
+            if (textStyle == TextStyles.Comment)
+                origin = origin.Moved(CommentPadding.Left, CommentPadding.Top);
+
+            int Result = 0;
+
+            for (int i = 0; i < text.Length; i++)
+            {
+                FormattedText ft = new FormattedText(text.Substring(0, i + 1), Culture, FlowDirection, Typeface, FontSize, Brush);
+                if (!double.IsNaN(maxTextWidth))
+                    ft.MaxTextWidth = maxTextWidth;
+
+                if (ft.WidthIncludingTrailingWhitespace >= origin.X)
+                    break;
+
+                Result++;
+            }
+
+            return Result;
+        }
         #endregion
 
         #region Client Interface

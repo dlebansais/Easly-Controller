@@ -81,5 +81,15 @@ namespace TestDebug
         public void DrawCommentIcon(Rect region)
         {
         }
+
+        public virtual int GetCaretPositionInText(Point origin, string text, TextStyles textStyle, CaretModes mode, double maxTextWidth)
+        {
+            return 0;
+        }
+
+        public virtual Point ToRelativeLocation(Point origin)
+        {
+            return origin;
+        }
     }
 }

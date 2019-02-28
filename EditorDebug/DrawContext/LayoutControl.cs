@@ -542,6 +542,16 @@
         {
         }
 
+        public void OnMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            Point Point = e.GetPosition(this);
+            ControllerView.SetFocusToPoint(new EaslyController.Controller.Point(Point.X, Point.Y), out bool IsMoved);
+            if (IsMoved)
+                InvalidateVisual();
+
+            e.Handled = true;
+        }
+
         private ILayoutController Controller;
         private DrawingVisual DrawingVisual;
         private DrawingContext DrawingContext;

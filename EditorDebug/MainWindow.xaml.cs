@@ -175,6 +175,11 @@ namespace EditorDebug
         {
             layoutControl.OnCopy(sender, e);
         }
+
+        private void OnMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            layoutControl.OnMouseDown(sender, e);
+        }
         #endregion
 
         #region Layout
