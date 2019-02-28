@@ -156,12 +156,12 @@
 
             if (frame.PropertyName == nameof(IBlock.ReplicationPattern))
             {
-                ItemCellView = BuildPlaceholderCells(context, embeddingCellView, blockState.PatternState);
+                ItemCellView = BuildPlaceholderCells(context, embeddingCellView, blockState.PatternState, frame);
                 IsHandled = true;
             }
             else if (frame.PropertyName == nameof(IBlock.SourceIdentifier))
             {
-                ItemCellView = BuildPlaceholderCells(context, embeddingCellView, blockState.SourceState);
+                ItemCellView = BuildPlaceholderCells(context, embeddingCellView, blockState.SourceState, frame);
                 IsHandled = true;
             }
 
@@ -171,7 +171,7 @@
         }
 
         /// <summary></summary>
-        private protected virtual IFrameCellView BuildPlaceholderCells(IFrameCellViewTreeContext context, IFrameCellViewCollection parentCellView, IFrameNodeState childState)
+        private protected virtual IFrameCellView BuildPlaceholderCells(IFrameCellViewTreeContext context, IFrameCellViewCollection parentCellView, IFrameNodeState childState, IFramePlaceholderFrame frame)
         {
             IFrameStateViewDictionary StateViewTable = context.ControllerView.StateViewTable;
             Debug.Assert(StateViewTable.ContainsKey(childState));
@@ -185,7 +185,7 @@
             context.RestoreParentStateView(StateView);
             Debug.Assert(ChildStateView.RootCellView != null);
 
-            IFrameContainerCellView Result = CreateFrameCellView(context.StateView, parentCellView, ChildStateView);
+            IFrameContainerCellView Result = CreateFrameCellView(context.StateView, parentCellView, ChildStateView, frame);
 
             ChildStateView.SetContainerCellView(Result);
 
@@ -215,10 +215,10 @@
         /// <summary>
         /// Creates a IxxxContainerCellView object.
         /// </summary>
-        private protected virtual IFrameContainerCellView CreateFrameCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, IFrameNodeStateView childStateView)
+        private protected virtual IFrameContainerCellView CreateFrameCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, IFrameNodeStateView childStateView, IFramePlaceholderFrame frame)
         {
             ControllerTools.AssertNoOverride(this, typeof(FramePanelFrame));
-            return new FrameContainerCellView(stateView, parentCellView, childStateView, this);
+            return new FrameContainerCellView(stateView, parentCellView, childStateView, frame);
         }
 
         /// <summary>

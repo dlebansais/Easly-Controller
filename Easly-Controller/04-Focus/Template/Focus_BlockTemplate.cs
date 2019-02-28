@@ -8,6 +8,12 @@
     /// </summary>
     public interface IFocusBlockTemplate : IFrameBlockTemplate, IFocusTemplate
     {
+        /// <summary>
+        /// Returns the frame associated to a property if can have selectors.
+        /// </summary>
+        /// <param name="propertyName">Name of the property to look for.</param>
+        /// <param name="frame">Frame found upon return. Null if not matching <paramref name="propertyName"/>.</param>
+        bool FrameSelectorForProperty(string propertyName, out IFocusFrameWithSelector frame);
     }
 
     /// <summary>
@@ -25,6 +31,24 @@
 
         /// <summary></summary>
         private protected override bool IsRootValid { get { return Root.ParentFrame == FocusFrame.FocusRoot; } }
+        #endregion
+
+        #region Client Interface
+        /// <summary>
+        /// Returns the frame associated to a property if can have selectors.
+        /// </summary>
+        /// <param name="propertyName">Name of the property to look for.</param>
+        /// <param name="frame">Frame found upon return. Null if not matching <paramref name="propertyName"/>.</param>
+        public virtual bool FrameSelectorForProperty(string propertyName, out IFocusFrameWithSelector frame)
+        {
+            frame = null;
+            bool Found = false;
+
+            if (Root is IFocusSelectorPropertyFrame AsSelectorPropertyFrame)
+                Found = AsSelectorPropertyFrame.FrameSelectorForProperty(propertyName, out frame);
+
+            return Found;
+        }
         #endregion
     }
 }

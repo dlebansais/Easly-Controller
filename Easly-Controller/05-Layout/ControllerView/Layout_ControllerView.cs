@@ -576,11 +576,14 @@
             if (Focus is ILayoutTextFocus AsTextFocus)
             {
                 string Text = GetFocusedText(AsTextFocus);
+                bool IsCaretMoved;
 
                 if (direction < 0)
-                    SetTextCaretPosition(Text, 0, out isMoved);
+                    SetTextCaretPosition(Text, 0, out IsCaretMoved);
                 else
-                    SetTextCaretPosition(Text, Text.Length, out isMoved);
+                    SetTextCaretPosition(Text, Text.Length, out IsCaretMoved);
+
+                isMoved |= IsCaretMoved;
             }
 
             Debug.Assert(isMoved || OldFocusHash == FocusHash);
