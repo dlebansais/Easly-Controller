@@ -193,6 +193,14 @@
         /// <param name="replication">The current replication status upon return.</param>
         /// <returns>True if an existing block can have its replication status changed at the focus.</returns>
         bool IsReplicationModifiable(out IFocusBlockListInner inner, out int blockIndex, out ReplicationStatus replication);
+
+        /// <summary>
+        /// Changes the value of a text. The caret position is also moved for this view and other views where the caret is at the same focus and position.
+        /// </summary>
+        /// <param name="newText">The new text.</param>
+        /// <param name="newCaretPosition">The new caret position.</param>
+        /// <param name="changeCaretBeforeText">True if the caret should be changed before the text, to preserve the caret invariant.</param>
+        void ChangedFocusedText(string newText, int newCaretPosition, bool changeCaretBeforeText);
     }
 
     /// <summary>
@@ -1036,6 +1044,37 @@
 
             return IsModifiable;
         }
+
+        /// <summary>
+        /// Changes the value of a text. The caret position is also moved for this view and other views where the caret is at the same focus and position.
+        /// </summary>
+        /// <param name="newText">The new text.</param>
+        /// <param name="newCaretPosition">The new caret position.</param>
+        /// <param name="changeCaretBeforeText">True if the caret should be changed before the text, to preserve the caret invariant.</param>
+        public virtual void ChangedFocusedText(string newText, int newCaretPosition, bool changeCaretBeforeText)
+        {
+            Debug.Assert(Focus is IFocusTextFocus);
+
+            bool IsHandled = false;
+            IFocusIndex ParentIndex = Focus.CellView.StateView.State.ParentIndex;
+            int OldCaretPosition = CaretPosition;
+
+            if (Focus is IFocusStringContentFocus AsStringContentFocus)
+            {
+                Controller.ChangeTextAndCaretPosition(ParentIndex, AsStringContentFocus.CellView.PropertyName, newText, OldCaretPosition, newCaretPosition, changeCaretBeforeText);
+                IsHandled = true;
+            }
+
+            else if (Focus is IFocusCommentFocus AsCommentFocus)
+            {
+                Controller.ChangeCommentAndCaretPosition(ParentIndex, newText, OldCaretPosition, newCaretPosition, changeCaretBeforeText);
+                IsHandled = true;
+            }
+
+            Debug.Assert(IsHandled);
+
+            SetCaretPosition(CaretPosition, out bool IsMoved);
+        }
         #endregion
 
         #region Implementation
@@ -1200,11 +1239,36 @@
         /// <param name="operation">Details of the operation performed.</param>
         private protected override void OnTextChanged(IWriteableChangeTextOperation operation)
         {
+            bool IsSameFocus = IsSameChangeTextOperationFocus((IFocusChangeTextOperation)operation);
+            int NewCaretPosition = ((IFocusChangeCaretOperation)operation).NewCaretPosition;
+            bool ChangeCaretBeforeText = ((IFocusChangeCaretOperation)operation).ChangeCaretBeforeText;
+
+            if (IsSameFocus && NewCaretPosition >= 0 && ChangeCaretBeforeText)
+                CaretPosition = NewCaretPosition;
+
             base.OnTextChanged(operation);
+
+            if (IsSameFocus && NewCaretPosition >= 0 && !ChangeCaretBeforeText)
+                CaretPosition = NewCaretPosition;
 
             IFocusNodeState State = ((IFocusChangeTextOperation)operation).State;
             Debug.Assert(State != null);
             Debug.Assert(StateViewTable.ContainsKey(State));
+
+            CheckCaretInvariant();
+        }
+
+        private protected virtual bool IsSameChangeTextOperationFocus(IFocusChangeTextOperation operation)
+        {
+            IFocusNodeIndex ParentIndex = operation.State.ParentIndex as IFocusNodeIndex;
+            Debug.Assert(ParentIndex != null);
+            string PropertyName = operation.PropertyName;
+
+            INode FocusedNode = null;
+            IFocusFrame FocusedFrame = null;
+            Focus.GetLocationInSourceCode(out FocusedNode, out FocusedFrame);
+
+            return FocusedNode == ParentIndex.Node && FocusedFrame is IFocusTextValueFrame AsTextValueFrame && AsTextValueFrame.PropertyName == PropertyName;
         }
 
         /// <summary>
@@ -1213,11 +1277,33 @@
         /// <param name="operation">Details of the operation performed.</param>
         private protected override void OnCommentChanged(IWriteableChangeCommentOperation operation)
         {
+            bool IsSameFocus = IsSameChangeCommentOperationFocus((IFocusChangeCommentOperation)operation);
+            int NewCaretPosition = ((IFocusChangeCaretOperation)operation).NewCaretPosition;
+            bool ChangeCaretBeforeText = ((IFocusChangeCaretOperation)operation).ChangeCaretBeforeText;
+
+            if (IsSameFocus && NewCaretPosition >= 0 && ChangeCaretBeforeText)
+                CaretPosition = NewCaretPosition;
+
             base.OnCommentChanged(operation);
+
+            if (IsSameFocus && NewCaretPosition >= 0 && !ChangeCaretBeforeText)
+                CaretPosition = NewCaretPosition;
 
             IFocusNodeState State = ((IFocusChangeCommentOperation)operation).State;
             Debug.Assert(State != null);
             Debug.Assert(StateViewTable.ContainsKey(State));
+        }
+
+        private protected virtual bool IsSameChangeCommentOperationFocus(IFocusChangeCommentOperation operation)
+        {
+            IFocusNodeIndex ParentIndex = operation.State.ParentIndex as IFocusNodeIndex;
+            Debug.Assert(ParentIndex != null);
+
+            INode FocusedNode = null;
+            IFocusFrame FocusedFrame = null;
+            Focus.GetLocationInSourceCode(out FocusedNode, out FocusedFrame);
+
+            return FocusedNode == ParentIndex.Node && FocusedFrame is IFocusCommentFrame;
         }
 
         /// <summary>

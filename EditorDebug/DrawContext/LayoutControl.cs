@@ -5,6 +5,7 @@
     using System.Windows.Controls;
     using System.Windows.Input;
     using System.Windows.Media;
+    using BaseNode;
     using EaslyController.Constants;
     using EaslyController.Focus;
     using EaslyController.Layout;
@@ -39,15 +40,19 @@
             KeyboardManager.MoveKey += OnKeyMove;
         }
 
-        private void SplitIdentifier()
+        private void OnKeyCharacter(object sender, CharacterKeyEventArgs e)
         {
-            if (ControllerView.IsIdentifierSplittable(out IFocusListInner Inner, out IFocusInsertionListNodeIndex ReplaceIndex, out IFocusInsertionListNodeIndex InsertIndex))
+            if (ControllerView.Focus is ILayoutTextFocus AsTextFocus)
             {
-                ControllerView.Controller.Replace(Inner, ReplaceIndex, out IWriteableBrowsingChildIndex FirstIndex);
-                ControllerView.Controller.Insert(Inner, InsertIndex, out IWriteableBrowsingCollectionNodeIndex SecondIndex);
-
-                InvalidateVisual();
+                if (e.Code == '.' && (e.Key == Key.Decimal || e.Key == Key.OemPeriod))
+                    SplitIdentifier();
+                else
+                    ChangeText(AsTextFocus, e.Code);
             }
+            else if (ControllerView.Focus is ILayoutDiscreteContentFocus AsDiscreteContentFocus)
+                ChangeDiscreteValue(AsDiscreteContentFocus, e.Code, e.Key);
+
+            e.Handled = true;
         }
 
         private void ChangeText(ILayoutTextFocus focus, int code)
@@ -56,16 +61,11 @@
             int CaretPosition = ControllerView.CaretPosition;
 
             if (ControllerView.CaretMode == CaretModes.Insertion)
-                StringHelper.InsertCharacter(code, ref CaretPosition, ref FocusedText);
+                StringHelper.InsertCharacter(code, ref FocusedText, ref CaretPosition);
             else
-                StringHelper.ReplaceCharacter(code, ref CaretPosition, ref FocusedText);
+                StringHelper.ReplaceCharacter(code, ref FocusedText, ref CaretPosition);
 
-            if (ControllerView.Focus is ILayoutStringContentFocus AsStringContentFocus)
-                Controller.ChangeText(focus.CellView.StateView.State.ParentIndex, AsStringContentFocus.CellView.PropertyName, FocusedText);
-            else if (ControllerView.Focus is ILayoutCommentFocus AsCommentFocus)
-                Controller.ChangeComment(AsCommentFocus.CellView.StateView.State.ParentIndex, FocusedText);
-
-            ControllerView.SetCaretPosition(CaretPosition, out bool IsMoved);
+            ControllerView.ChangedFocusedText(FocusedText, CaretPosition, changeCaretBeforeText: false);
 
             InvalidateVisual();
         }
@@ -74,9 +74,9 @@
         {
             int Change = 0;
 
-            if (code == '+' && key == Key.OemPlus)
+            if (code == '+' && (key == Key.OemPlus || key == Key.Add))
                 Change = +1;
-            else if (code == '-' && key == Key.OemMinus)
+            else if (code == '-' && (key == Key.OemMinus || key == Key.Subtract))
                 Change = -1;
 
             if (Change != 0)
@@ -99,19 +99,14 @@
             }
         }
 
-        private void OnKeyCharacter(object sender, CharacterKeyEventArgs e)
+        private void SplitIdentifier()
         {
-            if (ControllerView.Focus is ILayoutTextFocus AsTextFocus)
+            if (ControllerView.IsIdentifierSplittable(out IFocusListInner Inner, out IFocusInsertionListNodeIndex ReplaceIndex, out IFocusInsertionListNodeIndex InsertIndex))
             {
-                if (e.Code == '.' && (e.Key == Key.Decimal || e.Key == Key.OemPeriod))
-                    SplitIdentifier();
-                else
-                    ChangeText(AsTextFocus, e.Code);
-            }
-            else if (ControllerView.Focus is ILayoutDiscreteContentFocus AsDiscreteContentFocus)
-                ChangeDiscreteValue(AsDiscreteContentFocus, e.Code, e.Key);
+                Controller.SplitIdentifier(Inner, ReplaceIndex, InsertIndex, out IWriteableBrowsingListNodeIndex FirstIndex, out IWriteableBrowsingListNodeIndex SecondIndex);
 
-            e.Handled = true;
+                InvalidateVisual();
+            }
         }
 
         private void OnKeyMove(object sender, MoveKeyEventArgs e)
@@ -257,29 +252,6 @@
             return Result;
         }
 
-        private void DeleteCharacter(bool backward)
-        {
-            if (ControllerView.Focus is ILayoutTextFocus AsTextFocus)
-            {
-                string FocusedText = ControllerView.FocusedText;
-                int CaretPosition = ControllerView.CaretPosition;
-                int MaxCaretPosition = ControllerView.MaxCaretPosition;
-
-                if (StringHelper.DeleteCharacter(backward, ref CaretPosition, ref FocusedText))
-                {
-                    ControllerView.SetCaretPosition(CaretPosition, out bool IsMoved);
-
-                    if (ControllerView.Focus is ILayoutStringContentFocus AsStringContentFocus)
-                        Controller.ChangeText(AsTextFocus.CellView.StateView.State.ParentIndex, AsStringContentFocus.CellView.PropertyName, FocusedText);
-                    else if (ControllerView.Focus is ILayoutCommentFocus AsCommentFocus)
-                        Controller.ChangeComment(AsTextFocus.CellView.StateView.State.ParentIndex, FocusedText);
-
-                    InvalidateMeasure();
-                    InvalidateVisual();
-                }
-            }
-        }
-
         private void MoveCaretLeft()
         {
             bool IsMoved;
@@ -355,7 +327,7 @@
             if (!ControllerView.IsBlockMoveable(direction, out IFocusBlockListInner inner, out int blockIndex))
                 return;
 
-            ControllerView.Controller.MoveBlock(inner, blockIndex, direction);
+            Controller.MoveBlock(inner, blockIndex, direction);
 
             InvalidateVisual();
         }
@@ -365,10 +337,215 @@
             if (!ControllerView.IsItemMoveable(direction, out IFocusCollectionInner inner, out IFocusBrowsingCollectionNodeIndex index))
                 return;
 
-            ControllerView.Controller.Move(inner, index, direction);
+            Controller.Move(inner, index, direction);
 
             InvalidateVisual();
         }
+
+        public void OnToggleInsert(object sender, ExecutedRoutedEventArgs e)
+        {
+            bool IsChanged;
+
+            CaretModes OldMode = ControllerView.CaretMode;
+            CaretModes NewMode = OldMode == CaretModes.Insertion ? CaretModes.Override : CaretModes.Insertion;
+
+            ControllerView.SetCaretMode(NewMode, out IsChanged);
+            Debug.Assert(IsChanged || (NewMode == CaretModes.Override && ControllerView.CaretPosition >= ControllerView.MaxCaretPosition));
+
+            if (IsChanged)
+                InvalidateVisual();
+
+            e.Handled = true;
+        }
+
+        public void OnDelete(object sender, ExecutedRoutedEventArgs e)
+        {
+            DeleteCharacter(backward: false);
+            e.Handled = true;
+        }
+
+        public void OnBackspace(object sender, ExecutedRoutedEventArgs e)
+        {
+            DeleteCharacter(backward: true);
+            e.Handled = true;
+        }
+
+        private void DeleteCharacter(bool backward)
+        {
+            if (ControllerView.Focus is ILayoutTextFocus AsTextFocus)
+            {
+                string FocusedText = ControllerView.FocusedText;
+                int CaretPosition = ControllerView.CaretPosition;
+                int MaxCaretPosition = ControllerView.MaxCaretPosition;
+
+                if (StringHelper.DeleteCharacter(backward, ref FocusedText, ref CaretPosition))
+                {
+                    ControllerView.ChangedFocusedText(FocusedText, CaretPosition, changeCaretBeforeText: true);
+
+                    InvalidateVisual();
+                }
+            }
+        }
+
+        public void OnTabForward(object sender, ExecutedRoutedEventArgs e)
+        {
+            ControllerView.ForceShowComment(out bool IsMoved);
+            if (IsMoved)
+                InvalidateVisual();
+
+            e.Handled = true;
+        }
+
+        public void InsertNewItem(object sender, ExecutedRoutedEventArgs e)
+        {
+            if (ControllerView.IsNewItemInsertable(out IFocusCollectionInner inner, out IFocusInsertionCollectionNodeIndex index))
+            {
+                Controller.Insert(inner, index, out IWriteableBrowsingCollectionNodeIndex nodeIndex);
+                InvalidateVisual();
+            }
+
+            e.Handled = true;
+        }
+
+        public void RemoveExistingItem(object sender, ExecutedRoutedEventArgs e)
+        {
+            if (ControllerView.IsItemRemoveable(out IFocusCollectionInner inner, out IFocusBrowsingCollectionNodeIndex index))
+            {
+                Controller.Remove(inner, index);
+                InvalidateVisual();
+            }
+
+            e.Handled = true;
+        }
+
+        public void SplitExistingItem(object sender, ExecutedRoutedEventArgs e)
+        {
+            if (ControllerView.IsItemSplittable(out IFocusBlockListInner inner, out IFocusBrowsingExistingBlockNodeIndex index))
+            {
+                Controller.SplitBlock(inner, index);
+                InvalidateVisual();
+            }
+
+            e.Handled = true;
+        }
+
+        public void MergeExistingItem(object sender, ExecutedRoutedEventArgs e)
+        {
+            if (ControllerView.IsItemMergeable(out IFocusBlockListInner inner, out IFocusBrowsingExistingBlockNodeIndex index))
+            {
+                Controller.MergeBlocks(inner, index);
+                InvalidateVisual();
+            }
+
+            e.Handled = true;
+        }
+
+        public void CycleThroughExistingItem(object sender, ExecutedRoutedEventArgs e)
+        {
+            if (ControllerView.IsItemCyclableThrough(out IFocusCyclableNodeState state, out int cyclePosition))
+            {
+                cyclePosition = (cyclePosition + 1) % state.CycleIndexList.Count;
+                Controller.Replace(state.ParentInner, state.CycleIndexList, cyclePosition, out IFocusBrowsingChildIndex nodeIndex);
+                InvalidateVisual();
+            }
+
+            e.Handled = true;
+        }
+
+        public void SimplifyExistingItem(object sender, ExecutedRoutedEventArgs e)
+        {
+            if (ControllerView.IsItemSimplifiable(out IFocusInner Inner, out IFocusInsertionChildIndex Index))
+            {
+                Controller.Replace(Inner, Index, out IWriteableBrowsingChildIndex nodeIndex);
+                InvalidateVisual();
+            }
+
+            e.Handled = true;
+        }
+
+        public void ToggleReplicate(object sender, ExecutedRoutedEventArgs e)
+        {
+            if (ControllerView.IsReplicationModifiable(out IFocusBlockListInner Inner, out int BlockIndex, out ReplicationStatus Replication))
+            {
+                switch (Replication)
+                {
+                    case ReplicationStatus.Normal:
+                        Replication = ReplicationStatus.Replicated;
+                        break;
+                    case ReplicationStatus.Replicated:
+                        Replication = ReplicationStatus.Normal;
+                        break;
+                }
+
+                Controller.ChangeReplication(Inner, BlockIndex, Replication);
+                InvalidateVisual();
+            }
+
+            e.Handled = true;
+        }
+
+        public void ToggleUserVisible(object sender, ExecutedRoutedEventArgs e)
+        {
+            ControllerView.SetUserVisible(!ControllerView.IsUserVisible);
+            InvalidateVisual();
+
+            e.Handled = true;
+        }
+
+        public void Expand(object sender, ExecutedRoutedEventArgs e)
+        {
+            if (ControllerView.Focus.CellView.StateView.State.ParentIndex is ILayoutNodeIndex Index)
+            {
+                Controller.Expand(Index, out bool IsChanged);
+                if (IsChanged)
+                    InvalidateVisual();
+            }
+
+            e.Handled = true;
+        }
+
+        public void Reduce(object sender, ExecutedRoutedEventArgs e)
+        {
+            if (ControllerView.Focus.CellView.StateView.State.ParentIndex is ILayoutNodeIndex Index)
+            {
+                Controller.Reduce(Index, out bool IsChanged);
+                if (IsChanged)
+                    InvalidateVisual();
+            }
+
+            e.Handled = true;
+        }
+
+        public void Undo(object sender, ExecutedRoutedEventArgs e)
+        {
+            if (Controller.CanUndo)
+            {
+                Controller.Undo();
+                InvalidateVisual();
+            }
+
+            e.Handled = true;
+        }
+
+        public void Redo(object sender, ExecutedRoutedEventArgs e)
+        {
+            if (Controller.CanRedo)
+            {
+                Controller.Redo();
+                InvalidateVisual();
+            }
+
+            e.Handled = true;
+        }
+
+        public void OnCopy(object sender, ExecutedRoutedEventArgs e)
+        {
+        }
+
+        private ILayoutController Controller;
+        private DrawingVisual DrawingVisual;
+        private DrawingContext DrawingContext;
+        private DrawContext DrawContext;
 
         private KeyboardManager KeyboardManager;
 
@@ -388,67 +565,6 @@
                 ControllerView.ShowCaret(false, draw: true);
             }
         }
-
-        public void OnToggleInsert(object sender, ExecutedRoutedEventArgs e)
-        {
-            ToggleCaretMode();
-            e.Handled = true;
-        }
-
-        public void OnDelete(object sender, ExecutedRoutedEventArgs e)
-        {
-            DeleteCharacter(backward: false);
-            e.Handled = true;
-        }
-
-        public void OnBackspace(object sender, ExecutedRoutedEventArgs e)
-        {
-            DeleteCharacter(backward: true);
-            e.Handled = true;
-        }
-
-        public void OnTabForward(object sender, ExecutedRoutedEventArgs e)
-        {
-            ControllerView.ForceShowComment(out bool IsMoved);
-            if (IsMoved)
-                InvalidateVisual();
-
-            e.Handled = true;
-        }
-
-        public void OnEnterParagraphBreak(object sender, ExecutedRoutedEventArgs e)
-        {
-            if (ControllerView.IsNewItemInsertable(out IFocusCollectionInner inner, out IFocusInsertionCollectionNodeIndex index))
-            {
-                ControllerView.Controller.Insert(inner, index, out IWriteableBrowsingCollectionNodeIndex nodeIndex);
-                InvalidateVisual();
-            }
-
-            e.Handled = true;
-        }
-
-        public void ToggleCaretMode()
-        {
-            bool IsChanged;
-
-            CaretModes OldMode = ControllerView.CaretMode;
-            CaretModes NewMode = OldMode == CaretModes.Insertion ? CaretModes.Override : CaretModes.Insertion;
-
-            ControllerView.SetCaretMode(NewMode, out IsChanged);
-            Debug.Assert(IsChanged || (NewMode == CaretModes.Override && ControllerView.CaretPosition >= ControllerView.MaxCaretPosition));
-
-            if (IsChanged)
-                InvalidateVisual();
-        }
-
-        public void OnCopy(object sender, ExecutedRoutedEventArgs e)
-        {
-        }
-
-        private ILayoutController Controller;
-        private DrawingVisual DrawingVisual;
-        private DrawingContext DrawingContext;
-        private DrawContext DrawContext;
 
         public ILayoutControllerView ControllerView { get; private set; }
 

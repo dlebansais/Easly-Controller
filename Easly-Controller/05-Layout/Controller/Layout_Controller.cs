@@ -276,19 +276,19 @@
         /// <summary>
         /// Creates a IxxxChangeTextOperation object.
         /// </summary>
-        private protected override IWriteableChangeTextOperation CreateChangeTextOperation(INode parentNode, string propertyName, string text, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        private protected override IFocusChangeTextOperation CreateChangeTextOperation(INode parentNode, string propertyName, string text, int oldCaretPosition, int newCaretPosition, bool changeCaretBeforeText, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(LayoutController));
-            return new LayoutChangeTextOperation(parentNode, propertyName, text, handlerRedo, handlerUndo, isNested);
+            return new LayoutChangeTextOperation(parentNode, propertyName, text, oldCaretPosition, newCaretPosition, changeCaretBeforeText, handlerRedo, handlerUndo, isNested);
         }
 
         /// <summary>
         /// Creates a IxxxChangeCommentOperation object.
         /// </summary>
-        private protected override IWriteableChangeCommentOperation CreateChangeCommentOperation(INode parentNode, string text, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        private protected override IFocusChangeCommentOperation CreateChangeCommentOperation(INode parentNode, string text, int oldCaretPosition, int newCaretPosition, bool changeCaretBeforeText, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(LayoutController));
-            return new LayoutChangeCommentOperation(parentNode, text, handlerRedo, handlerUndo, isNested);
+            return new LayoutChangeCommentOperation(parentNode, text, oldCaretPosition, newCaretPosition, changeCaretBeforeText, handlerRedo, handlerUndo, isNested);
         }
 
         /// <summary>

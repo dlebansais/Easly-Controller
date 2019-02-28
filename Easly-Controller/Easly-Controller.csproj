@@ -416,6 +416,7 @@
     <Compile Include="04-Focus\ControllerView\Focus_CellViewTreeContext.cs" />
     <Compile Include="04-Focus\Controller\Focus_Controller.cs" />
     <Compile Include="04-Focus\Controller\Operations\Focus_ChangeComment_Operation.cs" />
+    <Compile Include="04-Focus\Controller\Operations\Focus_ChangeCaret_Operation.cs" />
     <Compile Include="04-Focus\Controller\Operations\Focus_ChangeText_Operation.cs" />
     <Compile Include="04-Focus\Controller\Operations\Focus_GenericRefresh_Operation.cs" />
     <Compile Include="04-Focus\Controller\Operations\Focus_Assignment_Operation.cs" />
@@ -599,6 +600,7 @@
     <Compile Include="05-Layout\ControllerView\Layout_ControllerView.cs" />
     <Compile Include="05-Layout\ControllerView\Layout_DrawContext.cs" />
     <Compile Include="05-Layout\Controller\Layout_Controller.cs" />
+    <Compile Include="05-Layout\Controller\Operations\Layout_ChangeCaret_Operation.cs" />
     <Compile Include="05-Layout\Controller\Operations\Layout_Assignment_Operation.cs" />
     <Compile Include="05-Layout\Controller\Operations\Layout_ChangeBlock_Operation.cs" />
     <Compile Include="05-Layout\Controller\Operations\Layout_ChangeComment_Operation.cs" />

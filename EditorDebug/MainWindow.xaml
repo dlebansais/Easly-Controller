@@ -13,6 +13,15 @@
         Title="MainWindow">
     <Window.Resources>
         <RoutedCommand x:Key="BrowseCommand"/>
+        <RoutedCommand x:Key="ToggleUserVisibleCommand"/>
+        <RoutedCommand x:Key="RemoveExistingItemCommand"/>
+        <RoutedCommand x:Key="SplitExistingItemCommand"/>
+        <RoutedCommand x:Key="MergeExistingItemCommand"/>
+        <RoutedCommand x:Key="CycleThroughExistingItemCommand"/>
+        <RoutedCommand x:Key="SimplifyThroughExistingItemCommand"/>
+        <RoutedCommand x:Key="ToggleReplicateCommand"/>
+        <RoutedCommand x:Key="ExpandCommand"/>
+        <RoutedCommand x:Key="ReduceCommand"/>
     </Window.Resources>
     <Window.CommandBindings>
         <CommandBinding Command="{StaticResource BrowseCommand}" Executed="OnBrowse"/>
@@ -31,6 +40,17 @@
                         <KeyBinding Command="EditingCommands.EnterParagraphBreak" Gesture="Enter"/>
                         <KeyBinding Command="EditingCommands.TabForward" Gesture="Tab"/>
                         <KeyBinding Command="EditingCommands.ToggleInsert" Gesture="Insert"/>
+                        <KeyBinding Command="{StaticResource ToggleUserVisibleCommand}" Gesture="Ctrl+E"/>
+                        <KeyBinding Command="{StaticResource RemoveExistingItemCommand}" Gesture="Ctrl+Y"/>
+                        <KeyBinding Command="{StaticResource SplitExistingItemCommand}" Gesture="Ctrl+S"/>
+                        <KeyBinding Command="{StaticResource MergeExistingItemCommand}" Gesture="Ctrl+M"/>
+                        <KeyBinding Command="{StaticResource CycleThroughExistingItemCommand}" Gesture="Ctrl+T"/>
+                        <KeyBinding Command="{StaticResource SimplifyThroughExistingItemCommand}" Gesture="Ctrl+I"/>
+                        <KeyBinding Command="{StaticResource ToggleReplicateCommand}" Gesture="Ctrl+R"/>
+                        <KeyBinding Command="{StaticResource ExpandCommand}" Gesture="Ctrl+D"/>
+                        <KeyBinding Command="{StaticResource ReduceCommand}" Gesture="Ctrl+Shift+D"/>
+                        <KeyBinding Command="ApplicationCommands.Redo" Gesture="Ctrl+Shift+Z"/>
+                        <KeyBinding Command="ApplicationCommands.Undo" Gesture="Ctrl+Z"/>
                     </local:LayoutControl.InputBindings>
                     <local:LayoutControl.CommandBindings>
                         <CommandBinding Command="EditingCommands.Backspace" Executed="OnBackspace"/>
@@ -38,6 +58,17 @@
                         <CommandBinding Command="EditingCommands.EnterParagraphBreak" Executed="OnEnterParagraphBreak"/>
                         <CommandBinding Command="EditingCommands.TabForward" Executed="OnTabForward"/>
                         <CommandBinding Command="EditingCommands.ToggleInsert" Executed="OnToggleInsert"/>
+                        <CommandBinding Command="{StaticResource ToggleUserVisibleCommand}" Executed="OnToggleUserVisible"/>
+                        <CommandBinding Command="{StaticResource RemoveExistingItemCommand}" Executed="OnRemoveExistingItem"/>
+                        <CommandBinding Command="{StaticResource SplitExistingItemCommand}" Executed="OnSplitExistingItem"/>
+                        <CommandBinding Command="{StaticResource MergeExistingItemCommand}" Executed="OnMergeExistingItem"/>
+                        <CommandBinding Command="{StaticResource CycleThroughExistingItemCommand}" Executed="OnCycleThroughExistingItem"/>
+                        <CommandBinding Command="{StaticResource SimplifyThroughExistingItemCommand}" Executed="OnSimplifyThroughExistingItem"/>
+                        <CommandBinding Command="{StaticResource ToggleReplicateCommand}" Executed="OnToggleReplicate"/>
+                        <CommandBinding Command="{StaticResource ExpandCommand}" Executed="OnExpand"/>
+                        <CommandBinding Command="{StaticResource ReduceCommand}" Executed="OnReduce"/>
+                        <CommandBinding Command="ApplicationCommands.Redo" Executed="OnRedo"/>
+                        <CommandBinding Command="ApplicationCommands.Undo" Executed="OnUndo"/>
                     </local:LayoutControl.CommandBindings>
                 </local:LayoutControl>
             </Grid>

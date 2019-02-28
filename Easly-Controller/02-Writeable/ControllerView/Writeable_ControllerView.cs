@@ -168,7 +168,6 @@
         private protected virtual void OnStateInserted(IWriteableInsertNodeOperation operation)
         {
             Debug.Assert(operation != null);
-            Debug.Assert(!operation.IsNested);
 
             IWriteableNodeState ChildState = operation.ChildState;
             Debug.Assert(ChildState != null);
@@ -185,7 +184,6 @@
         private protected virtual void OnStateRemoved(IWriteableRemoveNodeOperation operation)
         {
             Debug.Assert(operation != null);
-            Debug.Assert(!operation.IsNested);
 
             IWriteablePlaceholderNodeState RemovedState = operation.RemovedState;
             Debug.Assert(RemovedState != null);
@@ -199,7 +197,6 @@
         private protected virtual void OnStateReplaced(IWriteableReplaceOperation operation)
         {
             Debug.Assert(operation != null);
-            Debug.Assert(!operation.IsNested);
 
             IWriteableNodeState NewChildState = operation.NewChildState;
             Debug.Assert(NewChildState != null);

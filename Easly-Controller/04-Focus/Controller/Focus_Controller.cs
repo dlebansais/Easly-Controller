@@ -57,6 +57,27 @@
         /// <param name="cyclePosition">New position in the cycle.</param>
         /// <param name="nodeIndex">Index of the replacing node upon return.</param>
         void Replace(IFocusInner inner, IFocusInsertionChildNodeIndexList cycleIndexList, int cyclePosition, out IFocusBrowsingChildIndex nodeIndex);
+
+        /// <summary>
+        /// Changes the value of a text.
+        /// </summary>
+        /// <param name="nodeIndex">Index of the state with the string to change.</param>
+        /// <param name="propertyName">Name of the property to change.</param>
+        /// <param name="text">The new text.</param>
+        /// <param name="oldCaretPosition">The old caret position.</param>
+        /// <param name="newCaretPosition">The new caret position.</param>
+        /// <param name="changeCaretBeforeText">True if the caret should be changed before the text, to preserve the caret invariant.</param>
+        void ChangeTextAndCaretPosition(IFocusIndex nodeIndex, string propertyName, string text, int oldCaretPosition, int newCaretPosition, bool changeCaretBeforeText);
+
+        /// <summary>
+        /// Changes the value of a comment.
+        /// </summary>
+        /// <param name="nodeIndex">Index of the state with the comment to change.</param>
+        /// <param name="text">The new text.</param>
+        /// <param name="oldCaretPosition">The old caret position.</param>
+        /// <param name="newCaretPosition">The new caret position.</param>
+        /// <param name="changeCaretBeforeText">True if the caret should be changed before the text, to preserve the caret invariant.</param>
+        void ChangeCommentAndCaretPosition(IFocusIndex nodeIndex, string text, int oldCaretPosition, int newCaretPosition, bool changeCaretBeforeText);
     }
 
     /// <summary>
@@ -204,6 +225,55 @@
             NewState.RestoreCycleIndexList(ReplaceWithCycleOperation.CycleIndexList);
 
             NotifyStateReplaced(ReplaceWithCycleOperation);
+        }
+
+        /// <summary>
+        /// Changes the value of a text.
+        /// </summary>
+        /// <param name="nodeIndex">Index of the state with the string to change.</param>
+        /// <param name="propertyName">Name of the property to change.</param>
+        /// <param name="text">The new text.</param>
+        /// <param name="oldCaretPosition">The old caret position.</param>
+        /// <param name="newCaretPosition">The new caret position.</param>
+        /// <param name="changeCaretBeforeText">True if the caret should be changed before the text, to preserve the caret invariant.</param>
+        public virtual void ChangeTextAndCaretPosition(IFocusIndex nodeIndex, string propertyName, string text, int oldCaretPosition, int newCaretPosition, bool changeCaretBeforeText)
+        {
+            Debug.Assert(nodeIndex != null);
+            Debug.Assert(StateTable.ContainsKey(nodeIndex));
+            Debug.Assert(text != null);
+
+            Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => RedoChangeText(operation);
+            Action<IWriteableOperation> HandlerUndo = (IWriteableOperation operation) => UndoChangeText(operation);
+            IFocusNodeState State = StateTable[nodeIndex];
+            IFocusChangeTextOperation Operation = CreateChangeTextOperation(State.Node, propertyName, text, oldCaretPosition, newCaretPosition, changeCaretBeforeText, HandlerRedo, HandlerUndo, isNested: false);
+
+            Operation.Redo();
+            SetLastOperation(Operation);
+            CheckInvariant();
+        }
+
+        /// <summary>
+        /// Changes the value of a comment.
+        /// </summary>
+        /// <param name="nodeIndex">Index of the state with the comment to change.</param>
+        /// <param name="text">The new text.</param>
+        /// <param name="oldCaretPosition">The old caret position.</param>
+        /// <param name="newCaretPosition">The new caret position.</param>
+        /// <param name="changeCaretBeforeText">True if the caret should be changed before the text, to preserve the caret invariant.</param>
+        public virtual void ChangeCommentAndCaretPosition(IFocusIndex nodeIndex, string text, int oldCaretPosition, int newCaretPosition, bool changeCaretBeforeText)
+        {
+            Debug.Assert(nodeIndex != null);
+            Debug.Assert(StateTable.ContainsKey(nodeIndex));
+            Debug.Assert(text != null);
+
+            Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => RedoChangeComment(operation);
+            Action<IWriteableOperation> HandlerUndo = (IWriteableOperation operation) => UndoChangeComment(operation);
+            IFocusNodeState State = StateTable[nodeIndex];
+            IFocusChangeCommentOperation Operation = CreateChangeCommentOperation(State.Node, text, oldCaretPosition, newCaretPosition, changeCaretBeforeText, HandlerRedo, HandlerUndo, isNested: false);
+
+            Operation.Redo();
+            SetLastOperation(Operation);
+            CheckInvariant();
         }
         #endregion
 
@@ -393,8 +463,16 @@
         /// </summary>
         private protected override IWriteableChangeTextOperation CreateChangeTextOperation(INode parentNode, string propertyName, string text, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
         {
+            return CreateChangeTextOperation(parentNode, propertyName, text, -1, -1, false, handlerRedo, handlerUndo, isNested);
+        }
+
+        /// <summary>
+        /// Creates a IxxxChangeTextOperation object.
+        /// </summary>
+        private protected virtual IFocusChangeTextOperation CreateChangeTextOperation(INode parentNode, string propertyName, string text, int oldCaretPosition, int newCaretPosition, bool changeCaretBeforeText, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        {
             ControllerTools.AssertNoOverride(this, typeof(FocusController));
-            return new FocusChangeTextOperation(parentNode, propertyName, text, handlerRedo, handlerUndo, isNested);
+            return new FocusChangeTextOperation(parentNode, propertyName, text, oldCaretPosition, newCaretPosition, changeCaretBeforeText, handlerRedo, handlerUndo, isNested);
         }
 
         /// <summary>
@@ -402,8 +480,16 @@
         /// </summary>
         private protected override IWriteableChangeCommentOperation CreateChangeCommentOperation(INode parentNode, string text, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
         {
+            return CreateChangeCommentOperation(parentNode, text, -1, -1, false, handlerRedo, handlerUndo, isNested);
+        }
+
+        /// <summary>
+        /// Creates a IxxxChangeCommentOperation object.
+        /// </summary>
+        private protected virtual IFocusChangeCommentOperation CreateChangeCommentOperation(INode parentNode, string text, int oldCaretPosition, int newCaretPosition, bool changeCaretBeforeText, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        {
             ControllerTools.AssertNoOverride(this, typeof(FocusController));
-            return new FocusChangeCommentOperation(parentNode, text, handlerRedo, handlerUndo, isNested);
+            return new FocusChangeCommentOperation(parentNode, text, oldCaretPosition, newCaretPosition, changeCaretBeforeText, handlerRedo, handlerUndo, isNested);
         }
 
         /// <summary>
