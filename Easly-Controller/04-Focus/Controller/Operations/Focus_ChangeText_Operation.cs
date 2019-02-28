@@ -79,14 +79,6 @@
         /// <summary>
         /// Creates a IxxxChangeTextOperation object.
         /// </summary>
-        private protected override IWriteableChangeTextOperation CreateChangeTextOperation(string text, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
-        {
-            return CreateChangeTextOperation(text, -1, -1, false, handlerRedo, handlerUndo, isNested);
-        }
-
-        /// <summary>
-        /// Creates a IxxxChangeTextOperation object.
-        /// </summary>
         private protected virtual IFocusChangeTextOperation CreateChangeTextOperation(string text, int oldCaretPosition, int newCaretPosition, bool changeCaretBeforeText, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusChangeTextOperation));

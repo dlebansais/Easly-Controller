@@ -1260,15 +1260,20 @@
 
         private protected virtual bool IsSameChangeTextOperationFocus(IFocusChangeTextOperation operation)
         {
-            IFocusNodeIndex ParentIndex = operation.State.ParentIndex as IFocusNodeIndex;
-            Debug.Assert(ParentIndex != null);
+            INode Node = null;
+            if (operation.State.ParentIndex is IFocusNodeIndex AsNodeIndex)
+                Node = AsNodeIndex.Node;
+            else if (operation.State is IFocusOptionalNodeState AsOptionalNodeState && AsOptionalNodeState.ParentInner.IsAssigned)
+                Node = AsOptionalNodeState.Node;
+
+            Debug.Assert(Node != null);
             string PropertyName = operation.PropertyName;
 
             INode FocusedNode = null;
             IFocusFrame FocusedFrame = null;
             Focus.GetLocationInSourceCode(out FocusedNode, out FocusedFrame);
 
-            return FocusedNode == ParentIndex.Node && FocusedFrame is IFocusTextValueFrame AsTextValueFrame && AsTextValueFrame.PropertyName == PropertyName;
+            return FocusedNode == Node && FocusedFrame is IFocusTextValueFrame AsTextValueFrame && AsTextValueFrame.PropertyName == PropertyName;
         }
 
         /// <summary>
@@ -1296,14 +1301,19 @@
 
         private protected virtual bool IsSameChangeCommentOperationFocus(IFocusChangeCommentOperation operation)
         {
-            IFocusNodeIndex ParentIndex = operation.State.ParentIndex as IFocusNodeIndex;
-            Debug.Assert(ParentIndex != null);
+            INode Node = null;
+            if (operation.State.ParentIndex is IFocusNodeIndex AsNodeIndex)
+                Node = AsNodeIndex.Node;
+            else if (operation.State is IFocusOptionalNodeState AsOptionalNodeState && AsOptionalNodeState.ParentInner.IsAssigned)
+                Node = AsOptionalNodeState.Node;
+
+            Debug.Assert(Node != null);
 
             INode FocusedNode = null;
             IFocusFrame FocusedFrame = null;
             Focus.GetLocationInSourceCode(out FocusedNode, out FocusedFrame);
 
-            return FocusedNode == ParentIndex.Node && FocusedFrame is IFocusCommentFrame;
+            return FocusedNode == Node && FocusedFrame is IFocusCommentFrame;
         }
 
         /// <summary>
