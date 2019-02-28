@@ -82,11 +82,6 @@ namespace EditorDebug
         #endregion
 
         #region Events
-        private void OnPreviewKeyDown(object sender, KeyEventArgs e)
-        {
-            Debug.WriteLine($"OnPreviewKeyDown: {e.Key}");
-        }
-
         private void OnKeyDown(object sender, KeyEventArgs e)
         {
             Debug.WriteLine($"OnKeyDown: {e.Key}");
@@ -95,43 +90,6 @@ namespace EditorDebug
 
             if (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl))
                 OnKeyDownCtrl(e.Key);
-            else
-                OnKeyDown(e.Key);
-        }
-
-        private void OnPreviewKeyUp(object sender, KeyEventArgs e)
-        {
-            Debug.WriteLine($"OnPreviewKeyUp: {e.Key}");
-        }
-
-        private void OnKeyUp(object sender, KeyEventArgs e)
-        {
-            Debug.WriteLine($"OnKeyUp: {e.Key}");
-        }
-
-        private void OnKeyDown(Key key)
-        {
-            switch (key)
-            {
-                case Key.Subtract:
-                    ChangeDiscreteValue(-1);
-                    break;
-
-                case Key.Add:
-                    ChangeDiscreteValue(+1);
-                    break;
-
-                case Key.OemPeriod:
-                    SplitIdentifier();
-                    break;
-
-                case Key.Home:
-                case Key.End:
-                case Key.PageUp: // Focus up
-                case Key.PageDown: // Focus down
-                case Key.Space: // Compact
-                    break;
-            }
         }
 
         private void OnKeyDownCtrl(Key key)
@@ -335,35 +293,6 @@ namespace EditorDebug
             if (IsMoved)
                 layoutControl.InvalidateVisual();
         }
-
-        private void ChangeDiscreteValue(int change)
-        {
-            if (ControllerView == null)
-                return;
-
-            if (ControllerView.Focus is ILayoutDiscreteContentFocus AsDiscreteContentFocus)
-            {
-                ILayoutDiscreteContentFocusableCellView CellView = AsDiscreteContentFocus.CellView;
-                IFocusIndex Index = CellView.StateView.State.ParentIndex;
-
-                int Value = ControllerView.Controller.GetDiscreteValue(Index, CellView.PropertyName);
-                ControllerView.Controller.ChangeDiscreteValue(Index, CellView.PropertyName, Value + change);
-
-                UpdateView();
-            }
-        }
-
-        private void SplitIdentifier()
-        {
-            if (ControllerView == null)
-                return;
-            if (!ControllerView.IsIdentifierSplittable(out IFocusListInner Inner, out IFocusInsertionListNodeIndex ReplaceIndex, out IFocusInsertionListNodeIndex InsertIndex))
-                return;
-
-            ControllerView.Controller.Replace(Inner, ReplaceIndex, out IWriteableBrowsingChildIndex FirstIndex);
-            ControllerView.Controller.Insert(Inner, InsertIndex, out IWriteableBrowsingCollectionNodeIndex SecondIndex);
-            UpdateView();
-        }
         
         public void OnActivated()
         {
@@ -373,6 +302,36 @@ namespace EditorDebug
         public void OnDeactivated()
         {
             layoutControl.OnDeactivated();
+        }
+
+        public void OnToggleInsert(object sender, ExecutedRoutedEventArgs e)
+        {
+            layoutControl.OnToggleInsert(sender, e);
+        }
+
+        private void OnDelete(object sender, ExecutedRoutedEventArgs e)
+        {
+            layoutControl.OnDelete(sender, e);
+        }
+
+        private void OnBackspace(object sender, ExecutedRoutedEventArgs e)
+        {
+            layoutControl.OnBackspace(sender, e);
+        }
+
+        private void OnTabForward(object sender, ExecutedRoutedEventArgs e)
+        {
+            layoutControl.OnTabForward(sender, e);
+        }
+
+        private void OnEnterParagraphBreak(object sender, ExecutedRoutedEventArgs e)
+        {
+            layoutControl.OnEnterParagraphBreak(sender, e);
+        }
+
+        public void OnCopy(object sender, ExecutedRoutedEventArgs e)
+        {
+            layoutControl.OnCopy(sender, e);
         }
         #endregion
 

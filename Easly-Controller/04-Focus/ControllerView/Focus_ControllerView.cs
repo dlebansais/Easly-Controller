@@ -967,6 +967,8 @@
                     insertIndex = CurrentIndex.ToInsertionIndex(ParentState.Node, SecondPart) as IFocusInsertionListNodeIndex;
                     Debug.Assert(insertIndex != null);
 
+                    insertIndex.MoveUp();
+
                     IsSplittable = true;
                 }
             }

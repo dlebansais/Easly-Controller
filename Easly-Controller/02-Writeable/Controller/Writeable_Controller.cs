@@ -1282,6 +1282,7 @@
             int OldValue = NodeTreeHelper.GetEnumValue(State.Node, PropertyName);
 
             NodeTreeHelper.GetEnumRange(State.Node.GetType(), PropertyName, out int Min, out int Max);
+
             Debug.Assert(NewValue >= Min && NewValue <= Max);
 
             NodeTreeHelper.SetEnumValue(State.Node, PropertyName, NewValue);

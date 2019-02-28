@@ -75,7 +75,9 @@
         /// </summary>
         /// <param name="index">Index of the node.</param>
         /// <param name="propertyName">Name of the property to read.</param>
-        int GetDiscreteValue(IReadOnlyIndex index, string propertyName);
+        /// <param name="minValue">Minimum valid value for this property upon return.</param>
+        /// <param name="maxValue">Maximum valid value for this property upon return.</param>
+        int GetDiscreteValue(IReadOnlyIndex index, string propertyName, out int minValue, out int maxValue);
 
         /// <summary>
         /// Returns the value of a string.
@@ -292,7 +294,9 @@
         /// </summary>
         /// <param name="index">Index of the node.</param>
         /// <param name="propertyName">Name of the property to read.</param>
-        public virtual int GetDiscreteValue(IReadOnlyIndex index, string propertyName)
+        /// <param name="minValue">Minimum valid value for this property upon return.</param>
+        /// <param name="maxValue">Maximum valid value for this property upon return.</param>
+        public virtual int GetDiscreteValue(IReadOnlyIndex index, string propertyName, out int minValue, out int maxValue)
         {
             Debug.Assert(index != null);
             Debug.Assert(Contains(index));
@@ -302,9 +306,7 @@
             Debug.Assert(State.ValuePropertyTypeTable.ContainsKey(propertyName));
             Debug.Assert(State.ValuePropertyTypeTable[propertyName] == Constants.ValuePropertyType.Boolean || State.ValuePropertyTypeTable[propertyName] == Constants.ValuePropertyType.Enum);
 
-            int Value = NodeTreeHelper.GetEnumValue(State.Node, propertyName);
-
-            return Value;
+            return NodeTreeHelper.GetEnumValueAndRange(State.Node, propertyName, out minValue, out maxValue);
         }
 
         /// <summary>

@@ -14,6 +14,11 @@
         /// Position where to insert in the list.
         /// </summary>
         int Index { get; }
+
+        /// <summary>
+        /// Modifies the index to address the next position in a list.
+        /// </summary>
+        void MoveUp();
     }
 
     /// <summary>
@@ -43,7 +48,7 @@
         /// <summary>
         /// Position where to insert in the list.
         /// </summary>
-        public int Index { get; }
+        public int Index { get; private set; }
         #endregion
 
         #region Client Interface
@@ -54,6 +59,16 @@
         public override IWriteableBrowsingChildIndex ToBrowsingIndex()
         {
             return CreateBrowsingIndex();
+        }
+
+        /// <summary>
+        /// Modifies the index to address the next position in a list.
+        /// </summary>
+        public virtual void MoveUp()
+        {
+            Debug.Assert(NodeTreeHelperList.GetLastListIndex(ParentNode, PropertyName, out int LastIndex) && Index < LastIndex);
+
+            Index++;
         }
         #endregion
 
