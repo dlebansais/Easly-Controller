@@ -57,6 +57,11 @@
         TextStyles FocusedTextStyle { get; }
 
         /// <summary>
+        /// Displayed caret mode.
+        /// </summary>
+        CaretModes ActualCaretMode { get; }
+
+        /// <summary>
         /// Indicates if the caret is shown or hidden.
         /// </summary>
         bool IsCaretShown { get; }
@@ -240,6 +245,11 @@
         }
 
         /// <summary>
+        /// Displayed caret mode.
+        /// </summary>
+        public CaretModes ActualCaretMode { get { return CaretPosition >= 0 && CaretPosition < MaxCaretPosition ? CaretMode : CaretModes.Insertion; } }
+
+        /// <summary>
         /// Indicates if the caret is shown or hidden.
         /// </summary>
         public bool IsCaretShown { get; private set; }
@@ -376,7 +386,7 @@
             Padding CellPadding = CellView.CellPadding;
 
             Point OriginWithPadding = CellOrigin.Moved(CellPadding.Left, 0);
-            DrawContext.ShowCaret(OriginWithPadding, Text, FocusedTextStyle, CaretMode, CaretPosition);
+            DrawContext.ShowCaret(OriginWithPadding, Text, FocusedTextStyle, ActualCaretMode, CaretPosition);
         }
 
         /// <summary></summary>
@@ -398,7 +408,7 @@
             Padding CellPadding = CellView.CellPadding;
 
             Point OriginWithPadding = CellOrigin.Moved(CellPadding.Left, 0);
-            DrawContext.ShowCaret(OriginWithPadding, Text, TextStyles.Comment, CaretMode, CaretPosition);
+            DrawContext.ShowCaret(OriginWithPadding, Text, TextStyles.Comment, ActualCaretMode, CaretPosition);
         }
 
         /// <summary>
@@ -473,32 +483,25 @@
         /// <summary></summary>
         private protected Point GetMoveFocusDestinationLocation(double distance)
         {
-            Point Origin = RegionHelper.InvalidOrigin;
+            Point Origin;
 
             if (Focus is ILayoutTextFocus AsTextFocus)
             {
-                bool IsHandled = false;
+                Debug.Assert(CaretPosition >= 0 && CaretPosition <= MaxCaretPosition);
+
                 ILayoutTextFocusableCellView CellView = AsTextFocus.CellView;
                 double Position;
 
-                switch (CaretMode)
+                if (CaretMode == CaretModes.Override && CaretPosition < MaxCaretPosition)
                 {
-                    case CaretModes.Insertion:
-                        Debug.Assert(CaretPosition >= 0 && CaretPosition <= MaxCaretPosition);
-                        Position = (CellView.CellSize.Width * CaretPosition) / MaxCaretPosition;
-                        Origin = CellView.CellOrigin.Moved(Position, CellView.CellSize.Height / 2);
-                        IsHandled = true;
-                        break;
-
-                    case CaretModes.Override:
-                        Debug.Assert(CaretPosition >= 0 && CaretPosition < MaxCaretPosition);
-                        Position = (CellView.CellSize.Width * ((CaretPosition * 2) + 1)) / (MaxCaretPosition * 2);
-                        Origin = CellView.CellOrigin.Moved(Position, CellView.CellSize.Height / 2);
-                        IsHandled = true;
-                        break;
+                    Position = (CellView.CellSize.Width * ((CaretPosition * 2) + 1)) / (MaxCaretPosition * 2);
+                    Origin = CellView.CellOrigin.Moved(Position, CellView.CellSize.Height / 2);
                 }
-
-                Debug.Assert(IsHandled);
+                else
+                {
+                    Position = (CellView.CellSize.Width * CaretPosition) / MaxCaretPosition;
+                    Origin = CellView.CellOrigin.Moved(Position, CellView.CellSize.Height / 2);
+                }
             }
             else
             {
@@ -577,14 +580,7 @@
                 if (direction < 0)
                     SetTextCaretPosition(Text, 0, out isMoved);
                 else
-                {
-                    if (CaretMode == CaretModes.Insertion)
-                        SetTextCaretPosition(Text, Text.Length, out isMoved);
-                    else if (Text.Length > 0)
-                        SetTextCaretPosition(Text, Text.Length - 1, out isMoved);
-                    else
-                        isMoved = false;
-                }
+                    SetTextCaretPosition(Text, Text.Length, out isMoved);
             }
 
             Debug.Assert(isMoved || OldFocusHash == FocusHash);

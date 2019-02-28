@@ -58,7 +58,6 @@
 
         /// <summary>
         /// Max position of the caret in a text with the focus, -1 otherwise.
-        /// If <see cref="CaretMode"/> is <see cref="CaretModes.Insertion"/>, <see cref="CaretPosition"/> can be equal to <see cref="MaxCaretPosition"/> otherwise it must be strictly less.
         /// </summary>
         int MaxCaretPosition { get; }
 
@@ -297,7 +296,6 @@
 
         /// <summary>
         /// Max position of the caret in a text with the focus, -1 otherwise.
-        /// If <see cref="CaretMode"/> is <see cref="CaretModes.Insertion"/>, <see cref="CaretPosition"/> can be equal to <see cref="MaxCaretPosition"/> otherwise it must be strictly less.
         /// </summary>
         public int MaxCaretPosition { get; private set; }
 
@@ -413,12 +411,10 @@
         {
             int OldPosition = CaretPosition;
 
-            if (position < 0)
+            if (position <= 0)
                 CaretPosition = 0;
-            else if ((CaretMode == CaretModes.Insertion && position > text.Length) || text.Length == 0)
+            else if (position >= text.Length)
                 CaretPosition = text.Length;
-            else if (CaretMode == CaretModes.Override && position >= text.Length)
-                CaretPosition = text.Length - 1;
             else
                 CaretPosition = position;
 
@@ -437,38 +433,12 @@
             isChanged = false;
             ulong OldFocusHash = FocusHash;
 
-            CheckCaretInvariant();
-
             if (CaretMode != mode)
             {
-                if (Focus is IFocusTextFocus)
-                {
-                    bool IsHandled = false;
-                    switch (mode)
-                    {
-                        case CaretModes.Insertion:
-                            CaretMode = mode;
-                            isChanged = true;
+                CaretMode = mode;
+                isChanged = true;
 
-                            IsHandled = true;
-                            break;
-
-                        case CaretModes.Override:
-                            if (CaretPosition < MaxCaretPosition)
-                            {
-                                CaretMode = mode;
-                                isChanged = true;
-                            }
-
-                            IsHandled = true;
-                            break;
-                    }
-
-                    Debug.Assert(IsHandled);
-
-                    if (isChanged)
-                        CheckCaretInvariant();
-                }
+                CheckCaretInvariant();
             }
 
             Debug.Assert(isChanged || OldFocusHash == FocusHash);
@@ -1684,13 +1654,8 @@
 
                 if (direction >= 0)
                     CaretPosition = 0;
-                else if (CaretMode == CaretModes.Insertion || MaxCaretPosition == 0)
-                    CaretPosition = MaxCaretPosition;
                 else
-                    CaretPosition = MaxCaretPosition - 1;
-
-                if (CaretMode == CaretModes.Override && CaretPosition == MaxCaretPosition)
-                    CaretMode = CaretModes.Insertion;
+                    CaretPosition = MaxCaretPosition;
 
                 CheckCaretInvariant(Text);
             }
@@ -1735,7 +1700,6 @@
             Debug.Assert(CaretPosition >= 0);
             Debug.Assert(MaxCaretPosition == text.Length);
             Debug.Assert(CaretPosition <= MaxCaretPosition);
-            Debug.Assert(CaretMode == CaretModes.Insertion || (CaretMode == CaretModes.Override && CaretPosition < MaxCaretPosition));
         }
 
         /// <summary></summary>

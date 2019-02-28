@@ -60,7 +60,7 @@
             string FocusedText = ControllerView.FocusedText;
             int CaretPosition = ControllerView.CaretPosition;
 
-            if (ControllerView.CaretMode == CaretModes.Insertion)
+            if (ControllerView.ActualCaretMode == CaretModes.Insertion)
                 StringHelper.InsertCharacter(code, ref FocusedText, ref CaretPosition);
             else
                 StringHelper.ReplaceCharacter(code, ref FocusedText, ref CaretPosition);
@@ -350,7 +350,7 @@
             CaretModes NewMode = OldMode == CaretModes.Insertion ? CaretModes.Override : CaretModes.Insertion;
 
             ControllerView.SetCaretMode(NewMode, out IsChanged);
-            Debug.Assert(IsChanged || (NewMode == CaretModes.Override && ControllerView.CaretPosition >= ControllerView.MaxCaretPosition));
+            Debug.Assert(IsChanged);
 
             if (IsChanged)
                 InvalidateVisual();
