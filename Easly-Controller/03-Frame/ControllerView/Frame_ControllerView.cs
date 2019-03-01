@@ -26,6 +26,11 @@
         new IFrameBlockStateViewDictionary BlockStateViewTable { get; }
 
         /// <summary>
+        /// State view of the root state.
+        /// </summary>
+        new IFrameNodeStateView RootStateView { get; }
+
+        /// <summary>
         /// Template set describing the node tree.
         /// </summary>
         IFrameTemplateSet TemplateSet { get; }
@@ -129,6 +134,11 @@
         /// Table of views of each block state in the controller.
         /// </summary>
         public new IFrameBlockStateViewDictionary BlockStateViewTable { get { return (IFrameBlockStateViewDictionary)base.BlockStateViewTable; } }
+
+        /// <summary>
+        /// State view of the root state.
+        /// </summary>
+        public new IFrameNodeStateView RootStateView { get { return (IFrameNodeStateView)base.RootStateView; } }
 
         /// <summary>
         /// Template set describing the node tree.

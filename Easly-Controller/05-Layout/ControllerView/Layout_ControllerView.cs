@@ -32,6 +32,11 @@
         new ILayoutBlockStateViewDictionary BlockStateViewTable { get; }
 
         /// <summary>
+        /// State view of the root state.
+        /// </summary>
+        new ILayoutNodeStateView RootStateView { get; }
+
+        /// <summary>
         /// Template set describing the node tree.
         /// </summary>
         new ILayoutTemplateSet TemplateSet { get; }
@@ -40,6 +45,11 @@
         /// Cell view with the focus.
         /// </summary>
         new ILayoutFocus Focus { get; }
+
+        /// <summary>
+        /// The current selection.
+        /// </summary>
+        new ILayoutSelection Selection { get; }
 
         /// <summary>
         /// The draw context.
@@ -116,8 +126,9 @@
         /// The starting point is the center of the area covered by the current focus.
         /// </summary>
         /// <param name="direction">-1 for the beginning of the line, +1 for the end.</param>
+        /// <param name="resetAnchor">If true, resets the selected text anchor.</param>
         /// <param name="isMoved">True if the focus has changed.</param>
-        void MoveFocusHorizontally(int direction, out bool isMoved);
+        void MoveFocusHorizontally(int direction, bool resetAnchor, out bool isMoved);
 
         /// <summary>
         /// Sets <see cref="ShowUnfocusedComments"/>.
@@ -137,8 +148,9 @@
         /// Sets the focus to the visible cell view corresponding to a location.
         /// </summary>
         /// <param name="point">The location where to set the focus.</param>
+        /// <param name="resetAnchor">If true, resets the selected text anchor.</param>
         /// <param name="isMoved">True if the focus was moved.</param>
-        void SetFocusToPoint(Point point, out bool isMoved);
+        void SetFocusToPoint(Point point, bool resetAnchor, out bool isMoved);
     }
 
     /// <summary>
@@ -192,6 +204,11 @@
         public new ILayoutBlockStateViewDictionary BlockStateViewTable { get { return (ILayoutBlockStateViewDictionary)base.BlockStateViewTable; } }
 
         /// <summary>
+        /// State view of the root state.
+        /// </summary>
+        public new ILayoutNodeStateView RootStateView { get { return (ILayoutNodeStateView)base.RootStateView; } }
+
+        /// <summary>
         /// Template set describing the node tree.
         /// </summary>
         public new ILayoutTemplateSet TemplateSet { get { return (ILayoutTemplateSet)base.TemplateSet; } }
@@ -200,6 +217,11 @@
         /// Cell view with the focus.
         /// </summary>
         public new ILayoutFocus Focus { get { return (ILayoutFocus)base.Focus; } }
+
+        /// <summary>
+        /// The current selection.
+        /// </summary>
+        public new ILayoutSelection Selection { get { return (ILayoutSelection)base.Selection; } }
 
         /// <summary>
         /// The draw context.
@@ -536,8 +558,9 @@
         /// The starting point is the center of the area covered by the current focus.
         /// </summary>
         /// <param name="direction">-1 for the beginning of the line, +1 for the end.</param>
+        /// <param name="resetAnchor">If true, resets the selected text anchor.</param>
         /// <param name="isMoved">True if the focus has changed.</param>
-        public virtual void MoveFocusHorizontally(int direction, out bool isMoved)
+        public virtual void MoveFocusHorizontally(int direction, bool resetAnchor, out bool isMoved)
         {
             Debug.Assert(direction != 0);
 
@@ -583,6 +606,8 @@
 
                 ChangeFocus(direction, OldFocusIndex, NewFocusIndex, out bool IsRefreshed);
                 isMoved = true;
+
+                resetAnchor = true;
             }
             else
                 isMoved = false;
@@ -594,9 +619,9 @@
                 bool IsCaretMoved;
 
                 if (direction < 0)
-                    SetTextCaretPosition(Text, 0, out IsCaretMoved);
+                    SetTextCaretPosition(Text, 0, resetAnchor, out IsCaretMoved);
                 else
-                    SetTextCaretPosition(Text, Text.Length, out IsCaretMoved);
+                    SetTextCaretPosition(Text, Text.Length, resetAnchor, out IsCaretMoved);
 
                 isMoved |= IsCaretMoved;
             }
@@ -644,8 +669,9 @@
         /// Sets the focus to the visible cell view corresponding to a location.
         /// </summary>
         /// <param name="point">The location where to set the focus.</param>
+        /// <param name="resetAnchor">If true, resets the selected text anchor.</param>
         /// <param name="isMoved">True if the focus was moved.</param>
-        public virtual void SetFocusToPoint(Point point, out bool isMoved)
+        public virtual void SetFocusToPoint(Point point, bool resetAnchor, out bool isMoved)
         {
             isMoved = false;
             ulong OldFocusHash = FocusHash;
@@ -682,7 +708,7 @@
                     int NewCaretPosition = DrawContext.GetCaretPositionInText(LocationRelativeToCell, Text, FocusedTextStyle, CaretMode, double.NaN);
                     Debug.Assert(NewCaretPosition >= 0 && NewCaretPosition <= MaxCaretPosition);
 
-                    SetTextCaretPosition(Text, NewCaretPosition, out isMoved);
+                    SetTextCaretPosition(Text, NewCaretPosition, resetAnchor, out isMoved);
                 }
 
                 isMoved = true;
@@ -1187,6 +1213,42 @@
         {
             ControllerTools.AssertNoOverride(this, typeof(LayoutControllerView));
             return new LayoutInsertionListNodeIndex(parentNode, propertyName, node, index);
+        }
+
+        /// <summary>
+        /// Creates a IxxxSelection object.
+        /// </summary>
+        private protected override IFocusSelection CreateEmptySelection()
+        {
+            ControllerTools.AssertNoOverride(this, typeof(LayoutControllerView));
+            return new LayoutSelection(RootStateView);
+        }
+
+        /// <summary>
+        /// Creates a IxxxDiscreteContentSelection object.
+        /// </summary>
+        private protected override IFocusDiscreteContentSelection CreateDiscreteContentSelection(IFocusNodeStateView stateView, string propertyName)
+        {
+            ControllerTools.AssertNoOverride(this, typeof(LayoutControllerView));
+            return new LayoutDiscreteContentSelection((ILayoutNodeStateView)stateView, propertyName);
+        }
+
+        /// <summary>
+        /// Creates a IxxxStringContentSelection object.
+        /// </summary>
+        private protected override IFocusStringContentSelection CreateStringContentSelection(IFocusNodeStateView stateView, string propertyName, int start, int end)
+        {
+            ControllerTools.AssertNoOverride(this, typeof(LayoutControllerView));
+            return new LayoutStringContentSelection((ILayoutNodeStateView)stateView, propertyName, start, end);
+        }
+
+        /// <summary>
+        /// Creates a IxxxCommentSelection object.
+        /// </summary>
+        private protected override IFocusCommentSelection CreateCommentSelection(IFocusNodeStateView stateView, int start, int end)
+        {
+            ControllerTools.AssertNoOverride(this, typeof(LayoutControllerView));
+            return new LayoutCommentSelection((ILayoutNodeStateView)stateView, start, end);
         }
         #endregion
     }

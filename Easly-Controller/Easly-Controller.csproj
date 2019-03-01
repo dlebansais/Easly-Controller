@@ -414,6 +414,13 @@
     <Compile Include="04-Focus\ControllerView\Focus_InternalControllerView.cs" />
     <Compile Include="04-Focus\ControllerView\Focus_ControllerView.cs" />
     <Compile Include="04-Focus\ControllerView\Focus_CellViewTreeContext.cs" />
+    <Compile Include="04-Focus\Selection\Focus_CommentSelection.cs" />
+    <Compile Include="04-Focus\Selection\Focus_NodeSelection.cs" />
+    <Compile Include="04-Focus\Selection\Focus_DiscreteContentSelection.cs" />
+    <Compile Include="04-Focus\Selection\Focus_StringContentSelection.cs" />
+    <Compile Include="04-Focus\Selection\Focus_ContentSelection.cs" />
+    <Compile Include="04-Focus\Selection\Focus_TextSelection.cs" />
+    <Compile Include="04-Focus\Selection\Focus_Selection.cs" />
     <Compile Include="04-Focus\Controller\Focus_Controller.cs" />
     <Compile Include="04-Focus\Controller\Operations\Focus_ChangeComment_Operation.cs" />
     <Compile Include="04-Focus\Controller\Operations\Focus_ChangeCaret_Operation.cs" />
@@ -716,6 +723,13 @@
     <Compile Include="05-Layout\Inner\Single\Layout_OptionalInner.cs" />
     <Compile Include="05-Layout\Inner\Single\Layout_PlaceholderInner.cs" />
     <Compile Include="05-Layout\Inner\Single\Layout_SingleInner.cs" />
+    <Compile Include="05-Layout\Selection\Layout_CommentSelection.cs" />
+    <Compile Include="05-Layout\Selection\Layout_ContentSelection.cs" />
+    <Compile Include="05-Layout\Selection\Layout_DiscreteContentSelection.cs" />
+    <Compile Include="05-Layout\Selection\Layout_NodeSelection.cs" />
+    <Compile Include="05-Layout\Selection\Layout_Selection.cs" />
+    <Compile Include="05-Layout\Selection\Layout_StringContentSelection.cs" />
+    <Compile Include="05-Layout\Selection\Layout_TextSelection.cs" />
     <Compile Include="05-Layout\StateView\Layout_BlockStateView.cs" />
     <Compile Include="05-Layout\StateView\Layout_NodeStateView.cs" />
     <Compile Include="05-Layout\StateView\Layout_OptionalNodeStateView.cs" />

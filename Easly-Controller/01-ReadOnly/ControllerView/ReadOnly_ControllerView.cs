@@ -22,6 +22,11 @@
         /// Table of views of each block state in the controller.
         /// </summary>
         IReadOnlyBlockStateViewDictionary BlockStateViewTable { get; }
+
+        /// <summary>
+        /// State view of the root state.
+        /// </summary>
+        IReadOnlyNodeStateView RootStateView { get; }
     }
 
     /// <summary>
@@ -94,6 +99,11 @@
         /// Table of views of each block state in the controller.
         /// </summary>
         public IReadOnlyBlockStateViewDictionary BlockStateViewTable { get; }
+
+        /// <summary>
+        /// State view of the root state.
+        /// </summary>
+        public IReadOnlyNodeStateView RootStateView { get { return StateViewTable[Controller.RootState]; } }
         #endregion
 
         #region Client Interface

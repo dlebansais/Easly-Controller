@@ -32,6 +32,11 @@
         new IFocusBlockStateViewDictionary BlockStateViewTable { get; }
 
         /// <summary>
+        /// State view of the root state.
+        /// </summary>
+        new IFocusNodeStateView RootStateView { get; }
+
+        /// <summary>
         /// Template set describing the node tree.
         /// </summary>
         new IFocusTemplateSet TemplateSet { get; }
@@ -57,6 +62,11 @@
         int CaretPosition { get; }
 
         /// <summary>
+        /// Position of the caret anchor in a text with the focus, -1 otherwise.
+        /// </summary>
+        int CaretAnchorPosition { get; }
+
+        /// <summary>
         /// Max position of the caret in a text with the focus, -1 otherwise.
         /// </summary>
         int MaxCaretPosition { get; }
@@ -77,6 +87,11 @@
         bool IsUserVisible { get; }
 
         /// <summary>
+        /// The current selection.
+        /// </summary>
+        IFocusSelection Selection { get; }
+
+        /// <summary>
         /// Moves the current focus in the focus chain.
         /// </summary>
         /// <param name="direction">The change in position, relative to the current position.</param>
@@ -87,8 +102,9 @@
         /// Changes the caret position. Does nothing if the focus isn't on a string property.
         /// </summary>
         /// <param name="position">The new position.</param>
+        /// <param name="resetAnchor">If true, resets the selected text anchor.</param>
         /// <param name="isMoved">True if the position was changed. False otherwise.</param>
-        void SetCaretPosition(int position, out bool isMoved);
+        void SetCaretPosition(int position, bool resetAnchor, out bool isMoved);
 
         /// <summary>
         /// Changes the caret mode.
@@ -228,7 +244,17 @@
         private protected FocusControllerView(IFocusController controller, IFocusTemplateSet templateSet)
             : base(controller, templateSet)
         {
+        }
+
+        /// <summary>
+        /// Initializes the view by attaching it to the controller.
+        /// </summary>
+        private protected override void Init()
+        {
+            base.Init();
+
             ForcedCommentStateView = null;
+            Selection = CreateEmptySelection();
         }
         #endregion
 
@@ -247,6 +273,11 @@
         /// Table of views of each block state in the controller.
         /// </summary>
         public new IFocusBlockStateViewDictionary BlockStateViewTable { get { return (IFocusBlockStateViewDictionary)base.BlockStateViewTable; } }
+
+        /// <summary>
+        /// State view of the root state.
+        /// </summary>
+        public new IFocusNodeStateView RootStateView { get { return (IFocusNodeStateView)base.RootStateView; } }
 
         /// <summary>
         /// Template set describing the node tree.
@@ -295,6 +326,11 @@
         public int CaretPosition { get; private set; }
 
         /// <summary>
+        /// Position of the caret anchor in a text with the focus, -1 otherwise.
+        /// </summary>
+        public int CaretAnchorPosition { get; private set; }
+
+        /// <summary>
         /// Max position of the caret in a text with the focus, -1 otherwise.
         /// </summary>
         public int MaxCaretPosition { get; private set; }
@@ -333,6 +369,11 @@
                 return StateView.IsUserVisible;
             }
         }
+
+        /// <summary>
+        /// The current selection.
+        /// </summary>
+        public IFocusSelection Selection { get; private set; }
         #endregion
 
         #region Client Interface
@@ -385,14 +426,21 @@
             }
 
             ResetCaretPosition(direction);
+
+            if (Focus is IFocusDiscreteContentFocus AsDiscreteContentFocus)
+            {
+                IFocusDiscreteContentFocusableCellView CellView = AsDiscreteContentFocus.CellView;
+                Selection = CreateDiscreteContentSelection(CellView.StateView, CellView.PropertyName);
+            }
         }
 
         /// <summary>
         /// Changes the caret position. Does nothing if the focus isn't on a string property.
         /// </summary>
         /// <param name="position">The new position.</param>
+        /// <param name="resetAnchor">If true, resets the selected text anchor.</param>
         /// <param name="isMoved">True if the position was changed. False otherwise.</param>
-        public virtual void SetCaretPosition(int position, out bool isMoved)
+        public virtual void SetCaretPosition(int position, bool resetAnchor, out bool isMoved)
         {
             isMoved = false;
             ulong OldFocusHash = FocusHash;
@@ -400,14 +448,14 @@
             if (Focus is IFocusTextFocus AsTextFocus)
             {
                 string Text = GetFocusedText(AsTextFocus);
-                SetTextCaretPosition(Text, position, out isMoved);
+                SetTextCaretPosition(Text, position, resetAnchor, out isMoved);
             }
 
             Debug.Assert(isMoved || OldFocusHash == FocusHash);
         }
 
         /// <summary></summary>
-        private protected virtual void SetTextCaretPosition(string text, int position, out bool isMoved)
+        private protected virtual void SetTextCaretPosition(string text, int position, bool resetAnchor, out bool isMoved)
         {
             int OldPosition = CaretPosition;
 
@@ -417,6 +465,14 @@
                 CaretPosition = text.Length;
             else
                 CaretPosition = position;
+
+            if (resetAnchor)
+            {
+                ResetSelection();
+                CaretAnchorPosition = CaretPosition;
+            }
+            else
+                SetTextSelection();
 
             CheckCaretInvariant(text);
 
@@ -525,6 +581,9 @@
                     Debug.Assert(isMoved);
                 }
             }
+
+            if (isMoved)
+                ResetSelection();
 
             Debug.Assert(isMoved || OldFocusHash == FocusHash);
         }
@@ -1042,8 +1101,6 @@
             }
 
             Debug.Assert(IsHandled);
-
-            SetCaretPosition(CaretPosition, out bool IsMoved);
         }
         #endregion
 
@@ -1225,6 +1282,7 @@
             Debug.Assert(State != null);
             Debug.Assert(StateViewTable.ContainsKey(State));
 
+            ResetSelection();
             CheckCaretInvariant();
         }
 
@@ -1705,13 +1763,17 @@
                 else
                     CaretPosition = MaxCaretPosition;
 
+                CaretAnchorPosition = CaretPosition;
                 CheckCaretInvariant(Text);
             }
             else
             {
                 CaretPosition = -1;
+                CaretAnchorPosition = -1;
                 MaxCaretPosition = -1;
             }
+
+            ResetSelection();
         }
 
         /// <summary></summary>
@@ -1737,6 +1799,7 @@
             else
             {
                 Debug.Assert(CaretPosition == -1);
+                Debug.Assert(CaretAnchorPosition == -1);
                 Debug.Assert(MaxCaretPosition == -1);
             }
         }
@@ -1746,8 +1809,37 @@
         {
             Debug.Assert(text != null);
             Debug.Assert(CaretPosition >= 0);
+            Debug.Assert(CaretAnchorPosition >= 0);
             Debug.Assert(MaxCaretPosition == text.Length);
             Debug.Assert(CaretPosition <= MaxCaretPosition);
+            Debug.Assert(CaretAnchorPosition <= MaxCaretPosition);
+        }
+
+        /// <summary></summary>
+        private protected virtual void ResetSelection()
+        {
+            Selection = CreateEmptySelection();
+        }
+
+        /// <summary></summary>
+        private protected virtual void SetTextSelection()
+        {
+            bool IsHandled = false;
+
+            if (Focus is IFocusStringContentFocus AsStringContentFocus)
+            {
+                IFocusStringContentFocusableCellView CellView = AsStringContentFocus.CellView;
+                Selection = CreateStringContentSelection(CellView.StateView, CellView.PropertyName, CaretAnchorPosition, CaretPosition);
+                IsHandled = true;
+            }
+            else if (Focus is IFocusCommentFocus AsCommentFocus)
+            {
+                IFocusCommentCellView CellView = AsCommentFocus.CellView;
+                Selection = CreateCommentSelection(CellView.StateView, CaretAnchorPosition, CaretPosition);
+                IsHandled = true;
+            }
+
+            Debug.Assert(IsHandled);
         }
 
         /// <summary></summary>
@@ -2053,8 +2145,10 @@
                 if (CaretPosition >= 0)
                 {
                     Debug.Assert(CaretPosition <= MaxCaretPosition);
+                    Debug.Assert(CaretAnchorPosition >= 0 && CaretAnchorPosition <= MaxCaretPosition);
 
                     MergeHash(ref Hash, (ulong)CaretPosition);
+                    MergeHash(ref Hash, (ulong)CaretAnchorPosition);
                     MergeHash(ref Hash, (ulong)MaxCaretPosition);
                 }
 
@@ -2214,6 +2308,42 @@
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusControllerView));
             return new FocusInsertionListNodeIndex(parentNode, propertyName, node, index);
+        }
+
+        /// <summary>
+        /// Creates a IxxxSelection object.
+        /// </summary>
+        private protected virtual IFocusSelection CreateEmptySelection()
+        {
+            ControllerTools.AssertNoOverride(this, typeof(FocusControllerView));
+            return new FocusSelection(RootStateView);
+        }
+
+        /// <summary>
+        /// Creates a IxxxDiscreteContentSelection object.
+        /// </summary>
+        private protected virtual IFocusDiscreteContentSelection CreateDiscreteContentSelection(IFocusNodeStateView stateView, string propertyName)
+        {
+            ControllerTools.AssertNoOverride(this, typeof(FocusControllerView));
+            return new FocusDiscreteContentSelection(stateView, propertyName);
+        }
+
+        /// <summary>
+        /// Creates a IxxxStringContentSelection object.
+        /// </summary>
+        private protected virtual IFocusStringContentSelection CreateStringContentSelection(IFocusNodeStateView stateView, string propertyName, int start, int end)
+        {
+            ControllerTools.AssertNoOverride(this, typeof(FocusControllerView));
+            return new FocusStringContentSelection(stateView, propertyName, start, end);
+        }
+
+        /// <summary>
+        /// Creates a IxxxCommentSelection object.
+        /// </summary>
+        private protected virtual IFocusCommentSelection CreateCommentSelection(IFocusNodeStateView stateView, int start, int end)
+        {
+            ControllerTools.AssertNoOverride(this, typeof(FocusControllerView));
+            return new FocusCommentSelection(stateView, start, end);
         }
         #endregion
     }

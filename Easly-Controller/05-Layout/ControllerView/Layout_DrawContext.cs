@@ -56,6 +56,16 @@
         void UpdatePadding(Margins leftMargin, Margins rightMargin, ref Size size, out Padding padding);
 
         /// <summary>
+        /// Draws the background of a selected text.
+        /// </summary>
+        /// <param name="text">The text</param>
+        /// <param name="origin">The location where to start drawing.</param>
+        /// <param name="textStyle">The style used to measure selected text.</param>
+        /// <param name="start">The starting point of the selection.</param>
+        /// <param name="end">The ending point of the selection.</param>
+        void DrawTextSelection(string text, Point origin, TextStyles textStyle, int start, int end);
+
+        /// <summary>
         /// Draws a string, at the location specified in <paramref name="origin"/>.
         /// </summary>
         /// <param name="text">The text to draw.</param>

@@ -53,6 +53,10 @@ namespace TestDebug
             padding = Padding.Empty;
         }
 
+        public virtual void DrawTextSelection(string text, Point origin, TextStyles textStyle, int start, int end)
+        {
+        }
+
         public void DrawText(string text, Point origin, TextStyles textStyle, bool isFocused)
         {
         }

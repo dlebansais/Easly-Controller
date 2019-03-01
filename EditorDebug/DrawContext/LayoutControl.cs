@@ -129,7 +129,7 @@
                     if (e.IsCtrl)
                         IsHandled = OnKeyMoveCtrl(e.Direction, e.IsShift);
                     else
-                        IsHandled = OnKeyMove(e.Direction);
+                        IsHandled = OnKeyMove(e.Direction, e.IsShift);
                     break;
             }
 
@@ -137,19 +137,19 @@
             e.Handled = IsHandled;
         }
 
-        private bool OnKeyMove(MoveDirections direction)
+        private bool OnKeyMove(MoveDirections direction, bool isShift)
         {
             bool IsHandled = false;
 
             switch (direction)
             {
                 case MoveDirections.Left:
-                    MoveCaretLeft();
+                    MoveCaretLeft(isShift);
                     IsHandled = true;
                     break;
 
                 case MoveDirections.Right:
-                    MoveCaretRight();
+                    MoveCaretRight(isShift);
                     IsHandled = true;
                     break;
 
@@ -164,12 +164,12 @@
                     break;
 
                 case MoveDirections.Home:
-                    MoveFocusHorizontally(-1);
+                    MoveFocusHorizontally(-1, isShift);
                     IsHandled = true;
                     break;
 
                 case MoveDirections.End:
-                    MoveFocusHorizontally(+1);
+                    MoveFocusHorizontally(+1, isShift);
                     IsHandled = true;
                     break;
             }
@@ -186,12 +186,25 @@
             switch (direction)
             {
                 case MoveDirections.Left:
-                    MoveFocus(-1);
+                    if (isShift && ControllerView.CaretPosition > 0)
+                    {
+                        ControllerView.SetCaretPosition(0, false, out IsMoved);
+                        InvalidateVisual();
+                    }
+                    else
+                        MoveFocus(-1, isShift, out IsMoved);
+
                     IsHandled = true;
                     break;
 
                 case MoveDirections.Right:
-                    MoveFocus(+1);
+                    if (isShift && ControllerView.CaretPosition < ControllerView.MaxCaretPosition)
+                    {
+                        ControllerView.SetCaretPosition(ControllerView.MaxCaretPosition, false, out IsMoved);
+                        InvalidateVisual();
+                    }
+                    else
+                        MoveFocus(+1, isShift, out IsMoved);
                     IsHandled = true;
                     break;
 
@@ -212,16 +225,30 @@
                     break;
 
                 case MoveDirections.Home:
-                    MoveFocus(ControllerView.MinFocusMove);
+                    MoveFocus(ControllerView.MinFocusMove, isShift, out IsMoved);
                     if (ControllerView.CaretPosition > 0)
-                        ControllerView.SetCaretPosition(0, out IsMoved);
+                    {
+                        if (IsMoved)
+                            isShift = false;
+
+                        ControllerView.SetCaretPosition(0, !isShift, out IsMoved);
+                        if (IsMoved)
+                            InvalidateVisual();
+                    }
                     IsHandled = true;
                     break;
 
                 case MoveDirections.End:
-                    MoveFocus(ControllerView.MaxFocusMove);
+                    MoveFocus(ControllerView.MaxFocusMove, isShift, out IsMoved);
                     if (ControllerView.CaretPosition < ControllerView.MaxCaretPosition)
-                        ControllerView.SetCaretPosition(ControllerView.MaxCaretPosition, out IsMoved);
+                    {
+                        if (IsMoved)
+                            isShift = false;
+
+                        ControllerView.SetCaretPosition(ControllerView.MaxCaretPosition, !isShift, out IsMoved);
+                        if (IsMoved)
+                            InvalidateVisual();
+                    }
                     IsHandled = true;
                     break;
             }
@@ -252,12 +279,12 @@
             return Result;
         }
 
-        private void MoveCaretLeft()
+        private void MoveCaretLeft(bool isShift)
         {
             bool IsMoved;
 
             if (ControllerView.CaretPosition > 0)
-                ControllerView.SetCaretPosition(ControllerView.CaretPosition - 1, out IsMoved);
+                ControllerView.SetCaretPosition(ControllerView.CaretPosition - 1, !isShift, out IsMoved);
             else
                 ControllerView.MoveFocus(-1, out IsMoved);
 
@@ -270,12 +297,12 @@
             }
         }
 
-        private void MoveCaretRight()
+        private void MoveCaretRight(bool isShift)
         {
             bool IsMoved;
 
             if (ControllerView.CaretPosition < ControllerView.MaxCaretPosition)
-                ControllerView.SetCaretPosition(ControllerView.CaretPosition + 1, out IsMoved);
+                ControllerView.SetCaretPosition(ControllerView.CaretPosition + 1, !isShift, out IsMoved);
             else
                 ControllerView.MoveFocus(+1, out IsMoved);
 
@@ -295,30 +322,31 @@
                 InvalidateVisual();
         }
 
-        private void MoveFocusHorizontally(int direction)
+        private void MoveFocusHorizontally(int direction, bool isShift)
         {
-            ControllerView.MoveFocusHorizontally(direction, out bool IsMoved);
+            ControllerView.MoveFocusHorizontally(direction, !isShift, out bool IsMoved);
             if (IsMoved)
                 InvalidateVisual();
         }
 
-        private void MoveFocus(int direction)
+        private void MoveFocus(int direction, bool isShift, out bool isMoved)
         {
-            bool IsMoved;
+            isMoved = false;
 
             if (ControllerView.MinFocusMove <= direction && direction <= ControllerView.MaxFocusMove)
-                ControllerView.MoveFocus(direction, out IsMoved);
-            else
+                ControllerView.MoveFocus(direction, out isMoved);
+
+            if (!isMoved)
             {
                 if (direction < 0 && ControllerView.CaretPosition > 0)
-                    ControllerView.SetCaretPosition(0, out IsMoved);
+                    ControllerView.SetCaretPosition(0, !isShift, out isMoved);
                 else if (direction > 0 && ControllerView.CaretPosition < ControllerView.MaxCaretPosition)
-                    ControllerView.SetCaretPosition(ControllerView.MaxCaretPosition, out IsMoved);
+                    ControllerView.SetCaretPosition(ControllerView.MaxCaretPosition, !isShift, out isMoved);
                 else
-                    IsMoved = false;
+                    isMoved = false;
             }
 
-            if (IsMoved)
+            if (isMoved)
                 InvalidateVisual();
         }
 
@@ -545,7 +573,9 @@
         public void OnMouseDown(object sender, MouseButtonEventArgs e)
         {
             Point Point = e.GetPosition(this);
-            ControllerView.SetFocusToPoint(new EaslyController.Controller.Point(Point.X, Point.Y), out bool IsMoved);
+            bool IsShift = Keyboard.IsKeyDown(Key.LeftShift) || Keyboard.IsKeyDown(Key.RightShift);
+
+            ControllerView.SetFocusToPoint(new EaslyController.Controller.Point(Point.X, Point.Y), !IsShift, out bool IsMoved);
             if (IsMoved)
                 InvalidateVisual();
 

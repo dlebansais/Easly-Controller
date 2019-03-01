@@ -59,5 +59,10 @@
         /// The caret brush when in override mode.
         /// </summary>
         CaretOverride,
+
+        /// <summary>
+        /// The selection background.
+        /// </summary>
+        Selection,
     }
 }

@@ -22,6 +22,11 @@
         /// Table of views of each block state in the controller.
         /// </summary>
         new IWriteableBlockStateViewDictionary BlockStateViewTable { get; }
+
+        /// <summary>
+        /// State view of the root state.
+        /// </summary>
+        new IWriteableNodeStateView RootStateView { get; }
     }
 
     /// <summary>
@@ -92,6 +97,11 @@
         /// Table of views of each block state in the controller.
         /// </summary>
         public new IWriteableBlockStateViewDictionary BlockStateViewTable { get { return (IWriteableBlockStateViewDictionary)base.BlockStateViewTable; } }
+
+        /// <summary>
+        /// State view of the root state.
+        /// </summary>
+        public new IWriteableNodeStateView RootStateView { get { return (IWriteableNodeStateView)base.RootStateView; } }
         #endregion
 
         #region Implementation

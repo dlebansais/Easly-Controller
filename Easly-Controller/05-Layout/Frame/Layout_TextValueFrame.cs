@@ -91,6 +91,15 @@
             string Text = BaseNodeHelper.NodeTreeHelper.GetString(Node, PropertyName);
 
             Point OriginWithPadding = origin.Moved(padding.Left, padding.Top);
+
+            ILayoutControllerView ControllerView = cellView.StateView.ControllerView;
+            if (ControllerView.Selection is ILayoutStringContentSelection AsStringContentSelection && AsStringContentSelection.StateView == cellView.StateView)
+            {
+                int Start = AsStringContentSelection.Start;
+                int End = AsStringContentSelection.End;
+                drawContext.DrawTextSelection(Text, OriginWithPadding, TextStyle, Start, End);
+            }
+
             drawContext.DrawText(Text, OriginWithPadding, TextStyle, isFocused: false); // The caret is drawn separately.
         }
         #endregion

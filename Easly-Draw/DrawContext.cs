@@ -45,7 +45,8 @@
                 { BrushSettings.CommentBackground, Brushes.LightGreen },
                 { BrushSettings.CommentForeground, Brushes.Black },
                 { BrushSettings.CaretInsertion, Brushes.Black },
-                { BrushSettings.CaretOverride, Brushes.DarkGray }
+                { BrushSettings.CaretOverride, Brushes.DarkGray },
+                { BrushSettings.Selection, new SolidColorBrush(Color.FromArgb(0xFF, 0x99, 0xC9, 0xEF)) },
             };
 
             FlashAnimation = new DoubleAnimation(0, new System.Windows.Duration(TimeSpan.FromSeconds(1)));
@@ -333,6 +334,47 @@
 
             size = new Size(size.Width + LeftPadding + RightPadding, size.Height);
             padding = new Padding(LeftPadding, 0, RightPadding, 0);
+        }
+
+        /// <summary>
+        /// Draws the background of a selected text.
+        /// </summary>
+        /// <param name="text">The text</param>
+        /// <param name="origin">The location where to start drawing.</param>
+        /// <param name="textStyle">The style used to measure selected text.</param>
+        /// <param name="start">The starting point of the selection.</param>
+        /// <param name="end">The ending point of the selection.</param>
+        public virtual void DrawTextSelection(string text, Point origin, TextStyles textStyle, int start, int end)
+        {
+            Debug.Assert(WpfDrawingContext != null);
+            Debug.Assert(start >= 0 && start <= text.Length);
+            Debug.Assert(end >= 0 && end <= text.Length);
+
+            if (start > end)
+            {
+                int n = end;
+                end = start;
+                start = n;
+            }
+
+            Brush Brush = StyleToForegroundBrush(textStyle);
+            FormattedText ft;
+            double X = PagePadding.Left + origin.X;
+            double Y = PagePadding.Top + origin.Y;
+
+            if (textStyle == TextStyles.Comment)
+            {
+                X += CommentPadding.Left;
+                Y += CommentPadding.Top;
+            }
+
+            ft = new FormattedText(text.Substring(0, start), Culture, FlowDirection, Typeface, EmSize, Brush);
+            X += ft.WidthIncludingTrailingWhitespace;
+
+            ft = new FormattedText(text.Substring(start, end - start), Culture, FlowDirection, Typeface, EmSize, Brush);
+            System.Windows.Rect SelectionRect = new System.Windows.Rect(X, Y, ft.WidthIncludingTrailingWhitespace, LineHeight);
+
+            WpfDrawingContext.DrawRectangle(BrushTable[BrushSettings.Selection], null, SelectionRect);
         }
 
         /// <summary>

@@ -1,0 +1,35 @@
+﻿namespace EaslyController.Layout
+{
+    using EaslyController.Focus;
+
+    /// <summary>
+    /// A selection of a node an all its content and children.
+    /// </summary>
+    public interface ILayoutNodeSelection : IFocusNodeSelection, ILayoutSelection
+    {
+    }
+
+    /// <summary>
+    /// A selection of a node an all its content and children.
+    /// </summary>
+    public class LayoutNodeSelection : FocusNodeSelection, ILayoutNodeSelection
+    {
+        #region Init
+        /// <summary>
+        /// Initializes a new instance of the <see cref="LayoutNodeSelection"/> class.
+        /// </summary>
+        /// <param name="stateView">The selected state view.</param>
+        public LayoutNodeSelection(ILayoutNodeStateView stateView)
+            : base(stateView)
+        {
+        }
+        #endregion
+
+        #region Properties
+        /// <summary>
+        /// The state view that encompasses the selection.
+        /// </summary>
+        public new ILayoutNodeStateView StateView { get { return (ILayoutNodeStateView)base.StateView; } }
+        #endregion
+    }
+}
