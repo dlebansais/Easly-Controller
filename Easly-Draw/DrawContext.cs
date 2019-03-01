@@ -27,7 +27,7 @@
         public DrawContext()
         {
             Typeface = new Typeface("Consolas");
-            FontSize = 14;
+            FontSize = 10;
             Culture = CultureInfo.CurrentCulture;
             FlowDirection = System.Windows.FlowDirection.LeftToRight;
             DotCharacter = '·';
@@ -102,6 +102,11 @@
         public double FontSize { get; set; }
 
         /// <summary>
+        /// The em size.
+        /// </summary>
+        public double EmSize { get { return FontSize * 128.0 / 96.0; } }
+
+        /// <summary>
         /// The specific culture of the text.
         /// </summary>
         public CultureInfo Culture { get; set; }
@@ -140,6 +145,11 @@
         /// The padding applied to the entire page.
         /// </summary>
         public Padding PagePadding { get; private set; }
+
+        /// <summary>
+        /// The insertion caret width.
+        /// </summary>
+        public double InsertionCaretWidth { get; private set; }
         #endregion
 
         #region Implementation of IxxxDrawContext
@@ -181,7 +191,7 @@
         public virtual Size MeasureText(string text, TextStyles textStyle, double maxTextWidth)
         {
             Brush Brush = StyleToForegroundBrush(textStyle);
-            FormattedText ft = new FormattedText(text, Culture, FlowDirection, Typeface, FontSize, Brush);
+            FormattedText ft = new FormattedText(text, Culture, FlowDirection, Typeface, EmSize, Brush);
             if (!double.IsNaN(maxTextWidth))
                 ft.MaxTextWidth = maxTextWidth;
 
@@ -225,7 +235,7 @@
         public virtual Size MeasureSymbol(Symbols symbol)
         {
             string Text = SymbolToText(symbol);
-            FormattedText ft = new FormattedText(Text, Culture, FlowDirection, Typeface, FontSize, BrushTable[BrushSettings.Symbol]);
+            FormattedText ft = new FormattedText(Text, Culture, FlowDirection, Typeface, EmSize, BrushTable[BrushSettings.Symbol]);
 
             switch (symbol)
             {
@@ -343,7 +353,7 @@
             }
 
             Brush Brush = StyleToForegroundBrush(textStyle);
-            FormattedText ft = new FormattedText(text, Culture, FlowDirection, Typeface, FontSize, Brush);
+            FormattedText ft = new FormattedText(text, Culture, FlowDirection, Typeface, EmSize, Brush);
 
             double X = PagePadding.Left + origin.X;
             double Y = PagePadding.Top + origin.Y;
@@ -431,7 +441,7 @@
         {
             Debug.Assert(WpfDrawingContext != null);
 
-            FormattedText ft = new FormattedText(text, Culture, FlowDirection, Typeface, FontSize, BrushTable[BrushSettings.Symbol]);
+            FormattedText ft = new FormattedText(text, Culture, FlowDirection, Typeface, EmSize, BrushTable[BrushSettings.Symbol]);
             WpfDrawingContext.DrawText(ft, new System.Windows.Point(PagePadding.Left + origin.X + padding.Left, PagePadding.Top + origin.Y + padding.Top));
         }
 
@@ -507,11 +517,11 @@
             switch (separator)
             {
                 case HorizontalSeparators.Dot:
-                    ft = new FormattedText(DotText, Culture, FlowDirection, Typeface, FontSize, BrushTable[BrushSettings.Symbol]);
+                    ft = new FormattedText(DotText, Culture, FlowDirection, Typeface, EmSize, BrushTable[BrushSettings.Symbol]);
                     WpfDrawingContext.DrawText(ft, new System.Windows.Point(PagePadding.Left + origin.X - ft.WidthIncludingTrailingWhitespace, PagePadding.Top + origin.Y));
                     break;
                 case HorizontalSeparators.Comma:
-                    ft = new FormattedText(", ", Culture, FlowDirection, Typeface, FontSize, BrushTable[BrushSettings.Symbol]);
+                    ft = new FormattedText(", ", Culture, FlowDirection, Typeface, EmSize, BrushTable[BrushSettings.Symbol]);
                     WpfDrawingContext.DrawText(ft, new System.Windows.Point(PagePadding.Left + origin.X - ft.WidthIncludingTrailingWhitespace, PagePadding.Top + origin.Y));
                     break;
             }
@@ -544,7 +554,7 @@
             string LeftText = text.Substring(0, position);
 
             Brush Brush = StyleToForegroundBrush(textStyle);
-            FormattedText ft = new FormattedText(LeftText, Culture, FlowDirection, Typeface, FontSize, Brush);
+            FormattedText ft = new FormattedText(LeftText, Culture, FlowDirection, Typeface, EmSize, Brush);
             double X = origin.X + ft.WidthIncludingTrailingWhitespace;
             double Y = origin.Y;
 
@@ -558,7 +568,7 @@
 
             if (mode == CaretModes.Insertion)
             {
-                System.Windows.Rect CaretRect = new System.Windows.Rect(PagePadding.Left + X, PagePadding.Top + Y, WhitespaceWidth / 4, LineHeight);
+                System.Windows.Rect CaretRect = new System.Windows.Rect(PagePadding.Left + X, PagePadding.Top + Y, InsertionCaretWidth, LineHeight);
 
                 WpfDrawingContext.PushOpacity(1, FlashClock);
                 WpfDrawingContext.DrawRectangle(BrushTable[BrushSettings.CaretInsertion], null, CaretRect);
@@ -567,7 +577,7 @@
             else
             {
                 string CharText = text.Substring(position, 1);
-                ft = new FormattedText(CharText, Culture, FlowDirection, Typeface, FontSize, BrushTable[BrushSettings.CaretOverride]);
+                ft = new FormattedText(CharText, Culture, FlowDirection, Typeface, EmSize, BrushTable[BrushSettings.CaretOverride]);
 
                 System.Windows.Rect CaretRect = new System.Windows.Rect(PagePadding.Left + X, PagePadding.Top + Y, ft.WidthIncludingTrailingWhitespace, LineHeight);
 
@@ -638,7 +648,7 @@
 
             for (int i = 0; i < text.Length; i++)
             {
-                FormattedText ft = new FormattedText(text.Substring(0, i + 1), Culture, FlowDirection, Typeface, FontSize, Brush);
+                FormattedText ft = new FormattedText(text.Substring(0, i + 1), Culture, FlowDirection, Typeface, EmSize, Brush);
                 if (!double.IsNaN(maxTextWidth))
                     ft.MaxTextWidth = maxTextWidth;
 
@@ -670,17 +680,18 @@
         {
             FormattedText ft;
 
-            ft = new FormattedText(" ", Culture, FlowDirection, Typeface, FontSize, BrushTable[BrushSettings.Default]);
+            ft = new FormattedText(" ", Culture, FlowDirection, Typeface, EmSize, BrushTable[BrushSettings.Default]);
             WhitespaceWidth = ft.WidthIncludingTrailingWhitespace;
             LineHeight = ft.Height;
             TabulationWidth = WhitespaceWidth * 3;
+            InsertionCaretWidth = WhitespaceWidth / 4;
             VerticalSeparatorWidthTable[VerticalSeparators.Line] = LineHeight;
 
-            ft = new FormattedText(", ", Culture, FlowDirection, Typeface, FontSize, BrushTable[BrushSettings.Symbol]);
+            ft = new FormattedText(", ", Culture, FlowDirection, Typeface, EmSize, BrushTable[BrushSettings.Symbol]);
             HorizontalSeparatorWidthTable[HorizontalSeparators.Comma] = ft.WidthIncludingTrailingWhitespace;
 
             DotText = DotCharacter.ToString();
-            ft = new FormattedText(DotText, Culture, FlowDirection, Typeface, FontSize, BrushTable[BrushSettings.Symbol]);
+            ft = new FormattedText(DotText, Culture, FlowDirection, Typeface, EmSize, BrushTable[BrushSettings.Symbol]);
             HorizontalSeparatorWidthTable[HorizontalSeparators.Dot] = ft.WidthIncludingTrailingWhitespace;
 
             LeftBracketGeometry = ScaleGlyphGeometryHeight("[", true, 0.3, 0.3);
@@ -692,10 +703,19 @@
             HorizontalLineGeometry = ScaleGlyphGeometryWidth("-", true, 0, 0);
             CommentPadding = new Padding(WhitespaceWidth / 2, LineHeight / 4, WhitespaceWidth / 2, LineHeight / 4);
 
+            double PagePaddingX, PagePaddingY;
             if (CommentIcon != null)
-                PagePadding = new Padding(CommentIcon.Width / 2, CommentIcon.Height / 2, 0, 0);
+            {
+                PagePaddingX = CommentIcon.Width / 2;
+                PagePaddingY = CommentIcon.Height / 2;
+            }
             else
-                PagePadding = Padding.Empty;
+            {
+                PagePaddingX = 0;
+                PagePaddingY = 0;
+            }
+
+            PagePadding = new Padding(PagePaddingX, PagePaddingY, InsertionCaretWidth, 0);
         }
         #endregion
 
@@ -703,7 +723,7 @@
         /// <summary></summary>
         protected virtual ScalableGeometry ScaleGlyphGeometryWidth(string text, bool isWidthScaled, double leftPercent, double rightPercent)
         {
-            FormattedText GlyphText = new FormattedText(text, Culture, FlowDirection, Typeface, FontSize, BrushTable[BrushSettings.Symbol]);
+            FormattedText GlyphText = new FormattedText(text, Culture, FlowDirection, Typeface, EmSize, BrushTable[BrushSettings.Symbol]);
             GlyphText.Trimming = System.Windows.TextTrimming.None;
 
             System.Windows.Rect Bounds = new System.Windows.Rect(new System.Windows.Point(0, 0), new System.Windows.Size(GlyphText.Width, GlyphText.Width));
@@ -715,7 +735,7 @@
         /// <summary></summary>
         protected virtual ScalableGeometry ScaleGlyphGeometryHeight(string text, bool isHeightScaled, double topPercent, double bottomPercent)
         {
-            FormattedText GlyphText = new FormattedText(text, Culture, FlowDirection, Typeface, FontSize, BrushTable[BrushSettings.Symbol]);
+            FormattedText GlyphText = new FormattedText(text, Culture, FlowDirection, Typeface, EmSize, BrushTable[BrushSettings.Symbol]);
             GlyphText.Trimming = System.Windows.TextTrimming.None;
 
             System.Windows.Rect Bounds = new System.Windows.Rect(new System.Windows.Point(0, 0), new System.Windows.Size(GlyphText.Width, GlyphText.Height));
