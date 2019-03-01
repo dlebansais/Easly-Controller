@@ -254,7 +254,7 @@
             base.Init();
 
             ForcedCommentStateView = null;
-            Selection = CreateEmptySelection();
+            Selection = null;
         }
         #endregion
 
@@ -374,6 +374,11 @@
         /// The current selection.
         /// </summary>
         public IFocusSelection Selection { get; private set; }
+
+        /// <summary>
+        /// The current selection.
+        /// </summary>
+        public bool IsSelectionEmpty { get { return Selection == null; } }
         #endregion
 
         #region Client Interface
@@ -1818,7 +1823,7 @@
         /// <summary></summary>
         private protected virtual void ResetSelection()
         {
-            Selection = CreateEmptySelection();
+            Selection = null;
         }
 
         /// <summary></summary>
@@ -2308,15 +2313,6 @@
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusControllerView));
             return new FocusInsertionListNodeIndex(parentNode, propertyName, node, index);
-        }
-
-        /// <summary>
-        /// Creates a IxxxSelection object.
-        /// </summary>
-        private protected virtual IFocusSelection CreateEmptySelection()
-        {
-            ControllerTools.AssertNoOverride(this, typeof(FocusControllerView));
-            return new FocusSelection(RootStateView);
         }
 
         /// <summary>

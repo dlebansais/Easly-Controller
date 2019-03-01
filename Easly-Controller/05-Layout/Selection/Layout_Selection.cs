@@ -4,7 +4,6 @@
 
     /// <summary>
     /// A selection of part of a node value, or a selection of nodes.
-    /// If not a subclass of <see cref="LayoutSelection"/>, the actual selection is empty.
     /// </summary>
     public interface ILayoutSelection : IFocusSelection
     {
@@ -16,9 +15,8 @@
 
     /// <summary>
     /// A selection of part of a node value, or a selection of nodes.
-    /// If not a subclass of <see cref="LayoutSelection"/>, the actual selection is empty.
     /// </summary>
-    public class LayoutSelection : FocusSelection, ILayoutSelection
+    public abstract class LayoutSelection : FocusSelection, ILayoutSelection
     {
         #region Init
         /// <summary>

@@ -2,7 +2,6 @@
 {
     /// <summary>
     /// A selection of part of a node value, or a selection of nodes.
-    /// If not a subclass of <see cref="FocusSelection"/>, the actual selection is empty.
     /// </summary>
     public interface IFocusSelection
     {
@@ -14,9 +13,8 @@
 
     /// <summary>
     /// A selection of part of a node value, or a selection of nodes.
-    /// If not a subclass of <see cref="FocusSelection"/>, the actual selection is empty.
     /// </summary>
-    public class FocusSelection : IFocusSelection
+    public abstract class FocusSelection : IFocusSelection
     {
         #region Init
         /// <summary>

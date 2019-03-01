@@ -1216,15 +1216,6 @@
         }
 
         /// <summary>
-        /// Creates a IxxxSelection object.
-        /// </summary>
-        private protected override IFocusSelection CreateEmptySelection()
-        {
-            ControllerTools.AssertNoOverride(this, typeof(LayoutControllerView));
-            return new LayoutSelection(RootStateView);
-        }
-
-        /// <summary>
         /// Creates a IxxxDiscreteContentSelection object.
         /// </summary>
         private protected override IFocusDiscreteContentSelection CreateDiscreteContentSelection(IFocusNodeStateView stateView, string propertyName)
