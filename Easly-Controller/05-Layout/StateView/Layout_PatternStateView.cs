@@ -123,7 +123,7 @@
         }
 
         /// <summary>
-        /// Draws the cell.
+        /// Updates the actual size of cells in this state view.
         /// </summary>
         public virtual void UpdateActualCellsSize()
         {

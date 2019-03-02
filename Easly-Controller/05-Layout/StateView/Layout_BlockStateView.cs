@@ -65,7 +65,7 @@
         void ArrangeCells(Point origin);
 
         /// <summary>
-        /// Draws the cell.
+        /// Updates the actual size of cells in this block state view.
         /// </summary>
         void UpdateActualCellsSize();
 
@@ -176,7 +176,7 @@
         }
 
         /// <summary>
-        /// Draws the cell.
+        /// Updates the actual size of cells in this block state view.
         /// </summary>
         public virtual void UpdateActualCellsSize()
         {

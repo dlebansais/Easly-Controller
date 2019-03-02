@@ -70,7 +70,7 @@
         void ArrangeCells(Point origin);
 
         /// <summary>
-        /// Draws the cell.
+        /// Updates the actual size of cells in this state view.
         /// </summary>
         void UpdateActualCellsSize();
 
@@ -169,7 +169,7 @@
         public abstract void ArrangeCells(Point origin);
 
         /// <summary>
-        /// Draws the cell.
+        /// Updates the actual size of cells in this state view.
         /// </summary>
         public abstract void UpdateActualCellsSize();
 

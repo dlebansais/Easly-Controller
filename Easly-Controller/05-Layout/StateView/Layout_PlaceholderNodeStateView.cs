@@ -123,7 +123,7 @@
         }
 
         /// <summary>
-        /// Draws the cell.
+        /// Updates the actual size of cells in this state view.
         /// </summary>
         public virtual void UpdateActualCellsSize()
         {
@@ -140,6 +140,12 @@
         public virtual void DrawCells()
         {
             Debug.Assert(RegionHelper.IsValid(ActualCellSize));
+
+            if (ControllerView.Selection is ILayoutNodeSelection AsNodeSelection && AsNodeSelection.StateView == this)
+            {
+                ILayoutDrawContext DrawContext = ControllerView.DrawContext;
+                Debug.Assert(DrawContext != null);
+            }
 
             Debug.Assert(RootCellView != null);
             RootCellView.Draw();
