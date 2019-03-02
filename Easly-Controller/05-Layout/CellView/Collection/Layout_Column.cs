@@ -31,6 +31,7 @@
 
             CellOrigin = RegionHelper.InvalidOrigin;
             CellSize = RegionHelper.InvalidSize;
+            ActualCellSize = RegionHelper.InvalidSize;
             CellPadding = Padding.Empty;
         }
         #endregion
@@ -62,9 +63,14 @@
         public Point CellOrigin { get; private set; }
 
         /// <summary>
-        /// Size of the cell.
+        /// Floating size of the cell.
         /// </summary>
         public Size CellSize { get; private set; }
+
+        /// <summary>
+        /// Actual size of the cell.
+        /// </summary>
+        public Size ActualCellSize { get; private set; }
 
         /// <summary>
         /// Rectangular region for the cell.
@@ -174,6 +180,7 @@
                 AccumulatedSize = new Size(Width + LeftPadding, Height);
 
             CellSize = AccumulatedSize;
+            ActualCellSize = RegionHelper.InvalidSize;
 
             Debug.Assert(RegionHelper.IsValid(CellSize));
         }
@@ -218,6 +225,33 @@
             bool IsEqual = Point.IsEqual(FinalOrigin, ExpectedOrigin);
             Debug.Assert(IsEqual);
             Debug.Assert(Size.IsEqual(CellRect.Size, CellSize));
+        }
+
+        /// <summary>
+        /// Updates the actual size of the cell.
+        /// </summary>
+        public virtual void UpdateActualSize()
+        {
+            ActualCellSize = CellSize;
+            if (ParentCellView != null)
+                ActualCellSize = ParentCellView.GetMeasuredSize(CellSize);
+
+            foreach (ILayoutCellView CellView in CellViewList)
+            {
+                CellView.UpdateActualSize();
+                Debug.Assert(RegionHelper.IsFixed(CellView.ActualCellSize));
+            }
+        }
+
+        /// <summary>
+        /// Draws the cell.
+        /// </summary>
+        public virtual void Draw()
+        {
+            Debug.Assert(RegionHelper.IsFixed(ActualCellSize));
+
+            foreach (ILayoutCellView CellView in CellViewList)
+                CellView.Draw();
         }
 
         /// <summary>

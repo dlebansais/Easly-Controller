@@ -43,6 +43,7 @@
         {
             CellOrigin = RegionHelper.InvalidOrigin;
             CellSize = RegionHelper.InvalidSize;
+            ActualCellSize = RegionHelper.InvalidSize;
             CellPadding = Padding.Empty;
         }
         #endregion
@@ -74,9 +75,14 @@
         public Point CellOrigin { get; private set; }
 
         /// <summary>
-        /// Size of the cell.
+        /// Floating size of the cell.
         /// </summary>
         public Size CellSize { get; private set; }
+
+        /// <summary>
+        /// Actual size of the cell.
+        /// </summary>
+        public Size ActualCellSize { get; private set; }
 
         /// <summary>
         /// Rectangular region for the cell.
@@ -140,6 +146,7 @@
             }
 
             CellSize = MeasuredSize;
+            ActualCellSize = RegionHelper.InvalidSize;
 
             Debug.Assert(RegionHelper.IsValid(CellSize));
         }
@@ -165,6 +172,29 @@
 
             Debug.Assert(RegionHelper.IsValid(CellOrigin));
             Debug.Assert(Size.IsEqual(CellRect.Size, CellSize));
+        }
+
+        /// <summary>
+        /// Updates the actual size of the cell.
+        /// </summary>
+        public virtual void UpdateActualSize()
+        {
+            Debug.Assert(ChildStateView != null);
+            ChildStateView.UpdateActualCellsSize();
+
+            Debug.Assert(RegionHelper.IsValid(ChildStateView.ActualCellSize));
+            ActualCellSize = ChildStateView.ActualCellSize;
+        }
+
+        /// <summary>
+        /// Draws the cell.
+        /// </summary>
+        public virtual void Draw()
+        {
+            Debug.Assert(RegionHelper.IsValid(ActualCellSize));
+
+            Debug.Assert(ChildStateView != null);
+            ChildStateView.DrawCells();
         }
         #endregion
 

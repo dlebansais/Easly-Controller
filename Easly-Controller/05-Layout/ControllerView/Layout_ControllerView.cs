@@ -342,22 +342,13 @@
             if (IsCaretShown)
                 DrawContext.HideCaret();
 
-            IFrameVisibleCellView IgnoredCellView;
+            ILayoutNodeState RootState = Controller.RootState;
+            ILayoutNodeStateView RootStateView = StateViewTable[RootState];
 
-            if (SelectionAnchor != Focus.CellView.StateView)
-            {
-                ILayoutVisibleCellViewList CellViewList = new LayoutVisibleCellViewList();
-                EnumerateVisibleCellViews((IFrameVisibleCellView cellView) => ListSelectedCellViews(cellView, CellViewList), out IgnoredCellView);
+            RootStateView.UpdateActualCellsSize();
+            Debug.Assert(RegionHelper.IsFixed(RootStateView.ActualCellSize));
 
-                Rect SelectedRect = Rect.Empty;
-                foreach (ILayoutVisibleCellView CellView in CellViewList)
-                    SelectedRect = Rect.VisibleUnion(SelectedRect, CellView.CellRect);
-
-                if (!SelectedRect.IsEmpty)
-                    DrawContext.DrawRectangleSelection(SelectedRect);
-            }
-
-            EnumerateVisibleCellViews((IFrameVisibleCellView cellView) => DrawVisibleCellViews(cellView), out IgnoredCellView);
+            RootStateView.DrawCells();
 
             if (IsCaretShown)
             {
@@ -366,20 +357,6 @@
                 else if (IsCaretOnComment(out ILayoutCommentFocus CommentFocus))
                     DrawCommentCaret(CommentFocus);
             }
-        }
-
-        private protected virtual bool ListSelectedCellViews(IFrameVisibleCellView cellView, ILayoutVisibleCellViewList cellViewList)
-        {
-            if (cellView.StateView == Selection.StateView)
-                cellViewList.Add(cellView);
-
-            return false;
-        }
-
-        private protected virtual bool DrawVisibleCellViews(IFrameVisibleCellView cellView)
-        {
-            ((ILayoutVisibleCellView)cellView).Draw(out Size MeasuredSize);
-            return false;
         }
 
         /// <summary>
@@ -402,7 +379,7 @@
                     else if (IsCaretOnComment(out ILayoutCommentFocus CommentFocus))
                         DrawCommentCaret(CommentFocus);
                     else
-                        Focus.CellView.Draw(out Size MeasuredSize);
+                        Focus.CellView.Draw();
                 }
                 else
                     DrawContext.HideCaret();

@@ -53,9 +53,14 @@
         public Point CellOrigin { get; private set; }
 
         /// <summary>
-        /// Size of the cell.
+        /// Floating size of the cell.
         /// </summary>
         public Size CellSize { get; private set; }
+
+        /// <summary>
+        /// Actual size of the cell.
+        /// </summary>
+        public Size ActualCellSize { get; private set; }
 
         /// <summary>
         /// Rectangular region for the cell.
@@ -107,6 +112,7 @@
 
             AsMeasurableFrame.Measure(DrawContext, this, collectionWithSeparator, referenceContainer, separatorLength, out Size Size, out Padding Padding);
             CellSize = Size;
+            ActualCellSize = RegionHelper.InvalidSize;
             CellPadding = Padding;
 
             Debug.Assert(RegionHelper.IsValid(CellSize));
@@ -123,10 +129,9 @@
         }
 
         /// <summary>
-        /// Draws the cell.
+        /// Updates the actual size of the cell.
         /// </summary>
-        /// <param name="measuredSize">Size that was used to draw the cell upon return.</param>
-        public virtual void Draw(out Size measuredSize)
+        public virtual void UpdateActualSize()
         {
             Debug.Assert(StateView != null);
             Debug.Assert(StateView.ControllerView != null);
@@ -137,15 +142,32 @@
             ILayoutDrawableFrame AsDrawableFrame = Frame as ILayoutDrawableFrame;
             Debug.Assert(AsDrawableFrame != null);
 
-            measuredSize = CellSize;
+            ActualCellSize = CellSize;
             if (ParentCellView != null)
-                measuredSize = ParentCellView.GetMeasuredSize(CellSize);
+                ActualCellSize = ParentCellView.GetMeasuredSize(CellSize);
 
-            Debug.Assert(RegionHelper.IsFixed(measuredSize));
+            Debug.Assert(RegionHelper.IsFixed(ActualCellSize));
+        }
 
-            CollectionWithSeparator.DrawBeforeItem(DrawContext, ReferenceContainer, CellOrigin, measuredSize, CellPadding);
-            AsDrawableFrame.Draw(DrawContext, this, CellOrigin, measuredSize, CellPadding);
-            CollectionWithSeparator.DrawAfterItem(DrawContext, ReferenceContainer, CellOrigin, measuredSize, CellPadding);
+        /// <summary>
+        /// Draws the cell.
+        /// </summary>
+        public virtual void Draw()
+        {
+            Debug.Assert(StateView != null);
+            Debug.Assert(StateView.ControllerView != null);
+
+            ILayoutDrawContext DrawContext = StateView.ControllerView.DrawContext;
+            Debug.Assert(DrawContext != null);
+
+            ILayoutDrawableFrame AsDrawableFrame = Frame as ILayoutDrawableFrame;
+            Debug.Assert(AsDrawableFrame != null);
+
+            Debug.Assert(RegionHelper.IsFixed(ActualCellSize));
+
+            CollectionWithSeparator.DrawBeforeItem(DrawContext, ReferenceContainer, CellOrigin, ActualCellSize, CellPadding);
+            AsDrawableFrame.Draw(DrawContext, this, CellOrigin, ActualCellSize, CellPadding);
+            CollectionWithSeparator.DrawAfterItem(DrawContext, ReferenceContainer, CellOrigin, ActualCellSize, CellPadding);
         }
         #endregion
 

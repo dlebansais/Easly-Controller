@@ -41,9 +41,14 @@
         Point CellOrigin { get; }
 
         /// <summary>
-        /// Size of cells in this block state view.
+        /// Floating size of cells in this block state view.
         /// </summary>
         Size CellSize { get; }
+
+        /// <summary>
+        /// Actual size of cells in this block state view.
+        /// </summary>
+        Size ActualCellSize { get; }
 
         /// <summary>
         /// Measure all cells in this block state view.
@@ -58,6 +63,16 @@
         /// </summary>
         /// <param name="origin">The cell location.</param>
         void ArrangeCells(Point origin);
+
+        /// <summary>
+        /// Draws the cell.
+        /// </summary>
+        void UpdateActualCellsSize();
+
+        /// <summary>
+        /// Draws the cell.
+        /// </summary>
+        void DrawCells();
     }
 
     /// <summary>
@@ -76,6 +91,7 @@
         {
             CellOrigin = RegionHelper.InvalidOrigin;
             CellSize = RegionHelper.InvalidSize;
+            ActualCellSize = RegionHelper.InvalidSize;
             CellPadding = Padding.Empty;
         }
         #endregion
@@ -112,9 +128,14 @@
         public Point CellOrigin { get; private set; }
 
         /// <summary>
-        /// Size of cells in this block state view.
+        /// Floating size of cells in this block state view.
         /// </summary>
         public Size CellSize { get; private set; }
+
+        /// <summary>
+        /// Actual size of cells in this block state view.
+        /// </summary>
+        public Size ActualCellSize { get; private set; }
 
         /// <summary>
         /// Padding inside the cell.
@@ -135,6 +156,7 @@
             RootCellView.Measure(collectionWithSeparator, referenceContainer, separatorLength);
 
             CellSize = RootCellView.CellSize;
+            ActualCellSize = RegionHelper.InvalidSize;
 
             Debug.Assert(RegionHelper.IsValid(CellSize));
         }
@@ -151,6 +173,29 @@
             CellOrigin = RootCellView.CellOrigin;
 
             Debug.Assert(RegionHelper.IsValid(CellOrigin));
+        }
+
+        /// <summary>
+        /// Draws the cell.
+        /// </summary>
+        public virtual void UpdateActualCellsSize()
+        {
+            Debug.Assert(RootCellView != null);
+            RootCellView.UpdateActualSize();
+
+            Debug.Assert(RegionHelper.IsValid(RootCellView.ActualCellSize));
+            ActualCellSize = RootCellView.ActualCellSize;
+        }
+
+        /// <summary>
+        /// Draws the cell.
+        /// </summary>
+        public virtual void DrawCells()
+        {
+            Debug.Assert(RegionHelper.IsValid(ActualCellSize));
+
+            Debug.Assert(RootCellView != null);
+            RootCellView.Draw();
         }
         #endregion
 

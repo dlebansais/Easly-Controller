@@ -25,9 +25,14 @@
         Point CellOrigin { get; }
 
         /// <summary>
-        /// Size of the cell.
+        /// Floating size of the cell.
         /// </summary>
         Size CellSize { get; }
+
+        /// <summary>
+        /// Actual size of the cell.
+        /// </summary>
+        Size ActualCellSize { get; }
 
         /// <summary>
         /// Rectangular region for the cell.
@@ -67,6 +72,16 @@
         /// </summary>
         /// <param name="origin">The cell location.</param>
         void Arrange(Point origin);
+
+        /// <summary>
+        /// Updates the actual size of the cell.
+        /// </summary>
+        void UpdateActualSize();
+
+        /// <summary>
+        /// Draws the cell.
+        /// </summary>
+        void Draw();
     }
 
     /// <summary>
@@ -85,6 +100,7 @@
         {
             CellOrigin = RegionHelper.InvalidOrigin;
             CellSize = RegionHelper.InvalidSize;
+            ActualCellSize = RegionHelper.InvalidSize;
             CellPadding = Padding.Empty;
         }
         #endregion
@@ -106,9 +122,14 @@
         public Point CellOrigin { get; }
 
         /// <summary>
-        /// Size of the cell.
+        /// Floating size of the cell.
         /// </summary>
         public Size CellSize { get; }
+
+        /// <summary>
+        /// Actual size of the cell.
+        /// </summary>
+        public Size ActualCellSize { get; private set; }
 
         /// <summary>
         /// Rectangular region for the cell.
@@ -150,6 +171,16 @@
         /// </summary>
         /// <param name="origin">The cell location.</param>
         public abstract void Arrange(Point origin);
+
+        /// <summary>
+        /// Updates the actual size of the cell.
+        /// </summary>
+        public abstract void UpdateActualSize();
+
+        /// <summary>
+        /// Draws the cell.
+        /// </summary>
+        public abstract void Draw();
         #endregion
 
         #region Debugging

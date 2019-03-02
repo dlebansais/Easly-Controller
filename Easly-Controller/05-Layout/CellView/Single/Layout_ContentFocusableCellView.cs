@@ -29,6 +29,7 @@
         {
             CellOrigin = RegionHelper.InvalidOrigin;
             CellSize = RegionHelper.InvalidSize;
+            ActualCellSize = RegionHelper.InvalidSize;
             CellPadding = Padding.Empty;
         }
         #endregion
@@ -55,9 +56,14 @@
         public Point CellOrigin { get; private set; }
 
         /// <summary>
-        /// Size of the cell.
+        /// Floating size of the cell.
         /// </summary>
         public Size CellSize { get; private set; }
+
+        /// <summary>
+        /// Actual size of the cell.
+        /// </summary>
+        public Size ActualCellSize { get; private set; }
 
         /// <summary>
         /// Rectangular region for the cell.
@@ -101,10 +107,14 @@
         public abstract void Arrange(Point origin);
 
         /// <summary>
+        /// Updates the actual size of the cell.
+        /// </summary>
+        public abstract void UpdateActualSize();
+
+        /// <summary>
         /// Draws the cell.
         /// </summary>
-        /// <param name="measuredSize">Size that was used to draw the cell upon return.</param>
-        public abstract void Draw(out Size measuredSize);
+        public abstract void Draw();
         #endregion
 
         #region Debugging

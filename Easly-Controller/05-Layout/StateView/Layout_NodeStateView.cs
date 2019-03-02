@@ -46,9 +46,14 @@
         Point CellOrigin { get; }
 
         /// <summary>
-        /// Size of cells in this state view.
+        /// Floating size of cells in this state view.
         /// </summary>
         Size CellSize { get; }
+
+        /// <summary>
+        /// Actual size of cells in this state view.
+        /// </summary>
+        Size ActualCellSize { get; }
 
         /// <summary>
         /// Measure all cells in this state view.
@@ -63,6 +68,16 @@
         /// </summary>
         /// <param name="origin">The cell location.</param>
         void ArrangeCells(Point origin);
+
+        /// <summary>
+        /// Draws the cell.
+        /// </summary>
+        void UpdateActualCellsSize();
+
+        /// <summary>
+        /// Draws the cell.
+        /// </summary>
+        void DrawCells();
     }
 
     /// <summary>
@@ -81,6 +96,7 @@
         {
             CellOrigin = RegionHelper.InvalidOrigin;
             CellSize = RegionHelper.InvalidSize;
+            ActualCellSize = RegionHelper.InvalidSize;
             CellPadding = Padding.Empty;
         }
         #endregion
@@ -122,9 +138,14 @@
         public Point CellOrigin { get; private set; }
 
         /// <summary>
-        /// Size of cells in this state view.
+        /// Floating size of cells in this state view.
         /// </summary>
         public Size CellSize { get; private set; }
+
+        /// <summary>
+        /// Actual size of cells in this state view.
+        /// </summary>
+        public Size ActualCellSize { get; private set; }
 
         /// <summary>
         /// Padding inside the cell.
@@ -139,29 +160,23 @@
         /// <param name="collectionWithSeparator">A collection that can draw separators around the cell.</param>
         /// <param name="referenceContainer">The cell view in <paramref name="collectionWithSeparator"/> that contains this cell.</param>
         /// <param name="separatorLength">The length of the separator in <paramref name="collectionWithSeparator"/>.</param>
-        public void MeasureCells(ILayoutCellViewCollection collectionWithSeparator, ILayoutCellView referenceContainer, double separatorLength)
-        {
-            Debug.Assert(RootCellView != null);
-            RootCellView.Measure(collectionWithSeparator, referenceContainer, separatorLength);
-
-            CellSize = RootCellView.CellSize;
-
-            Debug.Assert(RegionHelper.IsValid(CellSize));
-        }
+        public abstract void MeasureCells(ILayoutCellViewCollection collectionWithSeparator, ILayoutCellView referenceContainer, double separatorLength);
 
         /// <summary>
         /// Arranges cells in this state view.
         /// </summary>
         /// <param name="origin">The cell location.</param>
-        public virtual void ArrangeCells(Point origin)
-        {
-            Debug.Assert(RootCellView != null);
-            RootCellView.Arrange(origin);
+        public abstract void ArrangeCells(Point origin);
 
-            CellOrigin = RootCellView.CellOrigin;
+        /// <summary>
+        /// Draws the cell.
+        /// </summary>
+        public abstract void UpdateActualCellsSize();
 
-            Debug.Assert(RegionHelper.IsValid(CellOrigin));
-        }
+        /// <summary>
+        /// Draws the cell.
+        /// </summary>
+        public abstract void DrawCells();
         #endregion
 
         #region Debugging

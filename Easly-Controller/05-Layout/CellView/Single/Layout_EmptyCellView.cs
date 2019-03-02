@@ -27,6 +27,7 @@
         {
             CellOrigin = RegionHelper.InvalidOrigin;
             CellSize = RegionHelper.InvalidSize;
+            ActualCellSize = RegionHelper.InvalidSize;
             CellPadding = Padding.Empty;
         }
         #endregion
@@ -48,9 +49,14 @@
         public Point CellOrigin { get; private set; }
 
         /// <summary>
-        /// Size of the cell.
+        /// Floating size of the cell.
         /// </summary>
         public Size CellSize { get; private set; }
+
+        /// <summary>
+        /// Actual size of the cell.
+        /// </summary>
+        public Size ActualCellSize { get; private set; }
 
         /// <summary>
         /// Rectangular region for the cell.
@@ -92,6 +98,7 @@
             SeparatorLength = separatorLength;
 
             CellSize = Size.Empty;
+            ActualCellSize = RegionHelper.InvalidSize;
         }
 
         /// <summary>
@@ -102,6 +109,23 @@
         {
             CellOrigin = origin;
             Debug.Assert(CellRect.Size.IsEmpty);
+        }
+
+        /// <summary>
+        /// Updates the actual size of the cell.
+        /// </summary>
+        public virtual void UpdateActualSize()
+        {
+            ActualCellSize = CellSize;
+            Debug.Assert(RegionHelper.IsFixed(ActualCellSize));
+        }
+
+        /// <summary>
+        /// Draws the cell.
+        /// </summary>
+        public virtual void Draw()
+        {
+            Debug.Assert(RegionHelper.IsFixed(ActualCellSize));
         }
         #endregion
 
