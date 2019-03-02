@@ -74,7 +74,7 @@
         /// <summary>
         /// Rectangular region for the cell.
         /// </summary>
-        public Rect CellRect { get { return new Rect(CellOrigin, CellSize); } }
+        public Rect CellRect { get { return new Rect(CellOrigin, ActualCellSize); } }
 
         /// <summary>
         /// Padding inside the cell.
@@ -134,7 +134,6 @@
         public virtual void Arrange(Point origin)
         {
             CellOrigin = origin;
-            Debug.Assert(Size.IsEqual(CellRect.Size, CellSize));
         }
 
         /// <summary>
@@ -147,6 +146,7 @@
                 ActualCellSize = ParentCellView.GetMeasuredSize(CellSize);
 
             Debug.Assert(RegionHelper.IsFixed(ActualCellSize));
+            Debug.Assert(Size.IsEqual(CellRect.Size, ActualCellSize));
         }
 
         /// <summary>

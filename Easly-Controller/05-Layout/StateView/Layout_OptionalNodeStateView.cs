@@ -88,6 +88,11 @@
         /// Padding inside the cell.
         /// </summary>
         public Padding CellPadding { get; private set; }
+
+        /// <summary>
+        /// Rectangular region for cells in this state view.
+        /// </summary>
+        public Rect CellRect { get { return new Rect(CellOrigin, ActualCellSize); } }
         #endregion
 
         #region Client Interface
@@ -140,9 +145,22 @@
         public virtual void DrawCells()
         {
             Debug.Assert(RegionHelper.IsValid(ActualCellSize));
-
             Debug.Assert(RootCellView != null);
+
+            DrawSelection();
             RootCellView.Draw();
+        }
+
+        /// <summary></summary>
+        protected virtual void DrawSelection()
+        {
+            if (ControllerView.Selection is ILayoutNodeSelection AsNodeSelection && AsNodeSelection.StateView == this)
+            {
+                ILayoutDrawContext DrawContext = ControllerView.DrawContext;
+                Debug.Assert(DrawContext != null);
+
+                DrawContext.DrawRectangleSelection(CellRect);
+            }
         }
         #endregion
 

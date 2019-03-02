@@ -75,7 +75,7 @@
         /// <summary>
         /// Rectangular region for the cell.
         /// </summary>
-        public Rect CellRect { get { return new Rect(CellOrigin, CellSize); } }
+        public Rect CellRect { get { return new Rect(CellOrigin, ActualCellSize); } }
 
         /// <summary>
         /// Padding inside the cell.
@@ -221,7 +221,6 @@
             Point ExpectedOrigin = CellOrigin.Moved(CellSize.Width, 0);
             bool IsEqual = Point.IsEqual(FinalOrigin, ExpectedOrigin);
             Debug.Assert(IsEqual);
-            Debug.Assert(Size.IsEqual(CellRect.Size, CellSize));
         }
 
         /// <summary>
@@ -238,6 +237,8 @@
                 CellView.UpdateActualSize();
                 Debug.Assert(RegionHelper.IsFixed(CellView.ActualCellSize));
             }
+
+            Debug.Assert(Size.IsEqual(CellRect.Size, ActualCellSize));
         }
 
         /// <summary>

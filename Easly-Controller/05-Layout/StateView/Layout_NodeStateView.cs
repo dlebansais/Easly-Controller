@@ -56,6 +56,11 @@
         Size ActualCellSize { get; }
 
         /// <summary>
+        /// Rectangular region for cells in this state view.
+        /// </summary>
+        Rect CellRect { get; }
+
+        /// <summary>
         /// Measure all cells in this state view.
         /// </summary>
         /// <param name="collectionWithSeparator">A collection that can draw separators around the cell.</param>
@@ -151,6 +156,11 @@
         /// Padding inside the cell.
         /// </summary>
         public Padding CellPadding { get; private set; }
+
+        /// <summary>
+        /// Rectangular region for cells in this state view.
+        /// </summary>
+        public Rect CellRect { get { return new Rect(CellOrigin, ActualCellSize); } }
         #endregion
 
         #region Client Interface

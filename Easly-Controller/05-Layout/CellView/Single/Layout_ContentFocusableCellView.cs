@@ -68,7 +68,7 @@
         /// <summary>
         /// Rectangular region for the cell.
         /// </summary>
-        public Rect CellRect { get { return new Rect(CellOrigin, CellSize); } }
+        public Rect CellRect { get { return new Rect(CellOrigin, ActualCellSize); } }
 
         /// <summary>
         /// Padding inside the cell.

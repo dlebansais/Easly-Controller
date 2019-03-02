@@ -87,7 +87,7 @@
         /// <summary>
         /// Rectangular region for the cell.
         /// </summary>
-        public Rect CellRect { get { return new Rect(CellOrigin, CellSize); } }
+        public Rect CellRect { get { return new Rect(CellOrigin, ActualCellSize); } }
 
         /// <summary>
         /// Padding inside the cell.
@@ -171,7 +171,6 @@
             ChildStateView.ArrangeCells(OriginWithPadding);
 
             Debug.Assert(RegionHelper.IsValid(CellOrigin));
-            Debug.Assert(Size.IsEqual(CellRect.Size, CellSize));
         }
 
         /// <summary>
@@ -184,6 +183,8 @@
 
             Debug.Assert(RegionHelper.IsValid(ChildStateView.ActualCellSize));
             ActualCellSize = ChildStateView.ActualCellSize;
+
+            Debug.Assert(Size.IsEqual(CellRect.Size, ActualCellSize));
         }
 
         /// <summary>
