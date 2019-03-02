@@ -53,7 +53,7 @@ namespace TestDebug
             padding = Padding.Empty;
         }
 
-        public virtual void DrawTextSelection(string text, Point origin, TextStyles textStyle, int start, int end)
+        public virtual void DrawSelectionText(string text, Point origin, TextStyles textStyle, int start, int end)
         {
         }
 
@@ -96,7 +96,7 @@ namespace TestDebug
             return origin;
         }
 
-        public virtual void DrawRectangleSelection(Rect rect)
+        public virtual void DrawSelectionRectangle(Rect rect)
         {
         }
     }

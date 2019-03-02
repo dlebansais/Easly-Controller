@@ -456,10 +456,10 @@
         /// <summary></summary>
         private protected virtual void SetAnchoredSelection()
         {
-            IFocusNodeState State = SelectionAnchor.State;
+            IFocusNodeState AnchorState = SelectionAnchor.State;
             IFocusNodeState FocusedState = Focus.CellView.StateView.State;
 
-            if (State == FocusedState)
+            if (AnchorState == FocusedState)
             {
                 if (Focus is IFocusTextFocus AsTextFocus)
                 {
@@ -474,13 +474,22 @@
                 }
             }
 
-            while (State != Controller.RootState && !Controller.IsChildState(State, FocusedState))
+            IFocusNodeState State = AnchorState;
+            IReadOnlyIndex FirstFocusedIndex = null;
+            IReadOnlyIndex FirstAnchorIndex = null;
+
+            while (State != Controller.RootState && !Controller.IsChildState(State, FocusedState, out FirstFocusedIndex))
                 State = State.ParentState;
 
             Debug.Assert(State != null);
 
-            IFocusNodeStateView SelectionStateView = StateViewTable[State];
-            Selection = CreateNodeSelection(SelectionStateView);
+            bool IsAnchorChild = Controller.IsChildState(State, AnchorState, out FirstAnchorIndex);
+            Debug.Assert(IsAnchorChild);
+
+            if (FirstFocusedIndex is IFocusBrowsingListNodeIndex AsFocusListNodeIndex && FirstAnchorIndex is IFocusBrowsingListNodeIndex AsAnchorListNodeIndex && AsFocusListNodeIndex.PropertyName == AsAnchorListNodeIndex.PropertyName)
+                SetListNodeSelection(State, AsFocusListNodeIndex.PropertyName, AsFocusListNodeIndex.Index, AsAnchorListNodeIndex.Index);
+            else
+                SetNodeSelection(State);
 
             Debug.WriteLine($"Selection: {State}");
         }
@@ -1908,6 +1917,20 @@
         }
 
         /// <summary></summary>
+        private protected virtual void SetListNodeSelection(IFocusNodeState state, string propertyName, int startIndex, int endIndex)
+        {
+            IFocusNodeStateView SelectionStateView = StateViewTable[state];
+            Selection = CreateListNodeSelection(SelectionStateView, propertyName, startIndex, endIndex);
+        }
+
+        /// <summary></summary>
+        private protected virtual void SetNodeSelection(IFocusNodeState state)
+        {
+            IFocusNodeStateView SelectionStateView = StateViewTable[state];
+            Selection = CreateNodeSelection(SelectionStateView);
+        }
+
+        /// <summary></summary>
         private protected override IFrameFrame GetAssociatedFrame(IFrameInner<IFrameBrowsingChildIndex> inner)
         {
             IFocusNodeState Owner = ((IFocusInner<IFocusBrowsingChildIndex>)inner).Owner;
@@ -2413,6 +2436,15 @@
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusControllerView));
             return new FocusNodeSelection(stateView);
+        }
+
+        /// <summary>
+        /// Creates a IxxxListNodeSelection object.
+        /// </summary>
+        private protected virtual IFocusListNodeSelection CreateListNodeSelection(IFocusNodeStateView stateView, string propertyName, int startIndex, int endIndex)
+        {
+            ControllerTools.AssertNoOverride(this, typeof(FocusControllerView));
+            return new FocusListNodeSelection(stateView, propertyName, startIndex, endIndex);
         }
         #endregion
     }

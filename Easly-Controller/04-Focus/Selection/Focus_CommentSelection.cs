@@ -41,7 +41,7 @@
 
         #region Client Interface
         /// <summary>
-        /// Updates the text selection with new start and end value.
+        /// Updates the text selection with new start and end values.
         /// </summary>
         /// <param name="start">The new start value.</param>
         /// <param name="end">The new end value.</param>

@@ -344,7 +344,7 @@
         /// <param name="textStyle">The style used to measure selected text.</param>
         /// <param name="start">The starting point of the selection.</param>
         /// <param name="end">The ending point of the selection.</param>
-        public virtual void DrawTextSelection(string text, Point origin, TextStyles textStyle, int start, int end)
+        public virtual void DrawSelectionText(string text, Point origin, TextStyles textStyle, int start, int end)
         {
             Debug.Assert(WpfDrawingContext != null);
             Debug.Assert(start >= 0 && start <= text.Length);
@@ -707,7 +707,7 @@
         /// Draws the background of a selected rectangle.
         /// </summary>
         /// <param name="rect">The rectangle to draw.</param>
-        public virtual void DrawRectangleSelection(Rect rect)
+        public virtual void DrawSelectionRectangle(Rect rect)
         {
             Debug.Assert(WpfDrawingContext != null);
             Debug.Assert(RegionHelper.IsFixed(rect));

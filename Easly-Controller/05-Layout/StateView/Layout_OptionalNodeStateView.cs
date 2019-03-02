@@ -159,7 +159,7 @@
                 ILayoutDrawContext DrawContext = ControllerView.DrawContext;
                 Debug.Assert(DrawContext != null);
 
-                DrawContext.DrawRectangleSelection(CellRect);
+                DrawContext.DrawSelectionRectangle(CellRect);
             }
         }
         #endregion

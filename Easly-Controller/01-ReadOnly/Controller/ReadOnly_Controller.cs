@@ -98,8 +98,9 @@
         /// </summary>
         /// <param name="parentState">The parent state.</param>
         /// <param name="state">The state to check.</param>
+        /// <param name="firstIndex">The first index in the chain leading from the parent to the child. Null if they are the same.</param>
         /// <returns>True if <paramref name="parentState"/> is <paramref name="state"/> or a parent; Otherwise, false.</returns>
-        bool IsChildState(IReadOnlyNodeState parentState, IReadOnlyNodeState state);
+        bool IsChildState(IReadOnlyNodeState parentState, IReadOnlyNodeState state, out IReadOnlyIndex firstIndex);
     }
 
     /// <summary>
@@ -362,14 +363,18 @@
         /// </summary>
         /// <param name="parentState">The parent state.</param>
         /// <param name="state">The state to check.</param>
+        /// <param name="firstIndex">The first index in the chain leading from the parent to the child. Null if they are the same.</param>
         /// <returns>True if <paramref name="parentState"/> is <paramref name="state"/> or a parent; Otherwise, false.</returns>
-        public virtual bool IsChildState(IReadOnlyNodeState parentState, IReadOnlyNodeState state)
+        public virtual bool IsChildState(IReadOnlyNodeState parentState, IReadOnlyNodeState state, out IReadOnlyIndex firstIndex)
         {
+            firstIndex = null;
+
             while (state != null)
             {
                 if (state == parentState)
                     return true;
 
+                firstIndex = state.ParentIndex;
                 state = state.ParentState;
             }
 

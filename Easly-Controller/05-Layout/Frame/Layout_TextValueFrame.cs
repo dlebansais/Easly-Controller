@@ -97,7 +97,7 @@
             {
                 int Start = AsStringContentSelection.Start;
                 int End = AsStringContentSelection.End;
-                drawContext.DrawTextSelection(Text, OriginWithPadding, TextStyle, Start, End);
+                drawContext.DrawSelectionText(Text, OriginWithPadding, TextStyle, Start, End);
             }
 
             drawContext.DrawText(Text, OriginWithPadding, TextStyle, isFocused: false); // The caret is drawn separately.

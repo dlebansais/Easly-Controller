@@ -248,8 +248,47 @@
         {
             Debug.Assert(RegionHelper.IsFixed(ActualCellSize));
 
+            DrawSelection();
+
             foreach (ILayoutCellView CellView in CellViewList)
                 CellView.Draw();
+        }
+
+        /// <summary></summary>
+        protected virtual void DrawSelection()
+        {
+            if (Frame is ILayoutListFrame AsListFrame &&
+                StateView.ControllerView.Selection is ILayoutListNodeSelection AsListNodeSelection &&
+                AsListNodeSelection.StateView == StateView &&
+                AsListFrame.PropertyName == AsListNodeSelection.PropertyName)
+            {
+                int StartIndex = AsListNodeSelection.StartIndex;
+                int EndIndex = AsListNodeSelection.EndIndex;
+
+                if (StartIndex > EndIndex)
+                {
+                    int n = EndIndex;
+                    EndIndex = StartIndex;
+                    StartIndex = n;
+                }
+
+                Debug.Assert(StartIndex >= 0 && StartIndex < CellViewList.Count);
+                Debug.Assert(EndIndex >= 0 && EndIndex < CellViewList.Count);
+                Debug.Assert(StartIndex <= EndIndex);
+
+                double X = CellViewList[StartIndex].CellOrigin.X;
+                double Width = CellViewList[EndIndex].CellOrigin.X + CellViewList[EndIndex].ActualCellSize.Width - X;
+
+                Rect SelectionRect = new Rect(X, CellOrigin.Y, Width, ActualCellSize.Height);
+
+                Debug.Assert(StateView != null);
+                Debug.Assert(StateView.ControllerView != null);
+
+                ILayoutDrawContext DrawContext = StateView.ControllerView.DrawContext;
+                Debug.Assert(DrawContext != null);
+
+                DrawContext.DrawSelectionRectangle(SelectionRect);
+            }
         }
 
         /// <summary>

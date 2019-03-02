@@ -63,7 +63,7 @@
         /// <param name="textStyle">The style used to measure selected text.</param>
         /// <param name="start">The starting point of the selection.</param>
         /// <param name="end">The ending point of the selection.</param>
-        void DrawTextSelection(string text, Point origin, TextStyles textStyle, int start, int end);
+        void DrawSelectionText(string text, Point origin, TextStyles textStyle, int start, int end);
 
         /// <summary>
         /// Draws a string, at the location specified in <paramref name="origin"/>.
@@ -143,6 +143,6 @@
         /// Draws the background of a selected rectangle.
         /// </summary>
         /// <param name="rect">The rectangle to draw.</param>
-        void DrawRectangleSelection(Rect rect);
+        void DrawSelectionRectangle(Rect rect);
     }
 }

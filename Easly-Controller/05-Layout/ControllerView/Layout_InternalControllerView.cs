@@ -1,5 +1,7 @@
-﻿namespace EaslyController.Focus
+﻿namespace EaslyController.Layout
 {
+    using EaslyController.Focus;
+
     /// <summary>
     /// Internal interface for a view of a IxxxController.
     /// </summary>

@@ -1245,6 +1245,15 @@
             ControllerTools.AssertNoOverride(this, typeof(LayoutControllerView));
             return new LayoutNodeSelection((ILayoutNodeStateView)stateView);
         }
+
+        /// <summary>
+        /// Creates a IxxxListNodeSelection object.
+        /// </summary>
+        private protected override IFocusListNodeSelection CreateListNodeSelection(IFocusNodeStateView stateView, string propertyName, int startIndex, int endIndex)
+        {
+            ControllerTools.AssertNoOverride(this, typeof(LayoutControllerView));
+            return new LayoutListNodeSelection((ILayoutNodeStateView)stateView, propertyName, startIndex, endIndex);
+        }
         #endregion
     }
 }
