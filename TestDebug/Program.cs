@@ -679,10 +679,6 @@ namespace TestDebug
             IFocusControllerView ControllerView = FocusControllerView.Create(Controller, FocusTemplateSet.Default);
             //Debug.WriteLine(ControllerView.LastColumnNumber.ToString());
 
-            IFocusVisibleCellViewList CellList = new FocusVisibleCellViewList();
-            ControllerView.EnumerateVisibleCellViews(CellList);
-            Debug.Assert(CellList.Count > 0);
-
             IFocusNodeState RootState = Controller.RootState;
             IFocusInnerReadOnlyDictionary<string> InnerTable = RootState.InnerTable;
             IFocusBlockListInner ListInner = (IFocusBlockListInner)InnerTable[nameof(IClass.ImportBlocks)];
@@ -916,10 +912,6 @@ namespace TestDebug
 
             ILayoutControllerView ControllerView = LayoutControllerView.Create(Controller, LayoutTemplateSet.Default, LayoutDrawContext.Default);
             //Debug.WriteLine(ControllerView.LastColumnNumber.ToString());
-
-            ILayoutVisibleCellViewList CellList = new LayoutVisibleCellViewList();
-            ControllerView.EnumerateVisibleCellViews(CellList);
-            Debug.Assert(CellList.Count > 0);
 
             ILayoutNodeState RootState = Controller.RootState;
             ILayoutInnerReadOnlyDictionary<string> InnerTable = RootState.InnerTable;

@@ -343,10 +343,7 @@
                 DrawContext.HideCaret();
 
             ILayoutVisibleCellViewList CellList = new LayoutVisibleCellViewList();
-            EnumerateVisibleCellViews(CellList);
-
-            foreach (ILayoutVisibleCellView CellView in CellList)
-                CellView.Draw(out Size MeasuredSize);
+            EnumerateVisibleCellViews((IFrameVisibleCellView cellView) => DrawVisibleCellViews(cellView), out IFrameVisibleCellView CellView);
 
             if (IsCaretShown)
             {
@@ -355,6 +352,12 @@
                 else if (IsCaretOnComment(out ILayoutCommentFocus CommentFocus))
                     DrawCommentCaret(CommentFocus);
             }
+        }
+
+        private protected virtual bool DrawVisibleCellViews(IFrameVisibleCellView cellView)
+        {
+            ((ILayoutVisibleCellView)cellView).Draw(out Size MeasuredSize);
+            return false;
         }
 
         /// <summary>
@@ -652,17 +655,8 @@
         /// <returns>True if found; otherwise, false.</returns>
         public virtual bool CellViewFromPoint(Point point, out ILayoutVisibleCellView cellView)
         {
-            cellView = null;
-
-            ILayoutVisibleCellViewList CellList = new LayoutVisibleCellViewList();
-            EnumerateVisibleCellViews(CellList);
-
-            foreach (ILayoutVisibleCellView Item in CellList)
-                if (Item.CellRect.IsPointInRect(point))
-                {
-                    cellView = Item;
-                    break;
-                }
+            EnumerateVisibleCellViews((IFrameVisibleCellView item) => ((ILayoutVisibleCellView)item).CellRect.IsPointInRect(point), out IFrameVisibleCellView foundCellView);
+            cellView = (ILayoutVisibleCellView)foundCellView;
 
             return cellView != null;
         }

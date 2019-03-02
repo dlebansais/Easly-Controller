@@ -1,5 +1,6 @@
 ﻿namespace EaslyController.Frame
 {
+    using System;
     using System.Collections.Generic;
     using System.Diagnostics;
 
@@ -120,14 +121,16 @@
         }
 
         /// <summary>
-        /// Enumerate all visible cell views.
+        /// Enumerate all visible cell views. Enumeration is interrupted if <paramref name="handler"/> returns true.
         /// </summary>
-        /// <param name="list">The list of visible cell views upon return.</param>
-        public override void EnumerateVisibleCellViews(IFrameVisibleCellViewList list)
+        /// <param name="handler">A handler to execute for each cell view.</param>
+        /// <param name="cellView">The cell view for which <paramref name="handler"/> returned true. Null if none.</param>
+        /// <returns>The last value returned by <paramref name="handler"/>.</returns>
+        public override bool EnumerateVisibleCellViews(Func<IFrameVisibleCellView, bool> handler, out IFrameVisibleCellView cellView)
         {
-            Debug.Assert(list != null);
+            Debug.Assert(handler != null);
 
-            ChildStateView.EnumerateVisibleCellViews(list);
+            return ChildStateView.EnumerateVisibleCellViews(handler, out cellView);
         }
         #endregion
 
