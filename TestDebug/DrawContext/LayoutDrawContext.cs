@@ -95,5 +95,9 @@ namespace TestDebug
         {
             return origin;
         }
+
+        public virtual void DrawRectangleSelection(Rect rect)
+        {
+        }
     }
 }

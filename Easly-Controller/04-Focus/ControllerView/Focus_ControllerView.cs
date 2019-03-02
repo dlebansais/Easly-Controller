@@ -466,6 +466,8 @@
 
             IFocusNodeStateView SelectionStateView = StateViewTable[State];
             Selection = CreateNodeSelection(SelectionStateView);
+
+            Debug.WriteLine($"Selection: {State}");
         }
 
         /// <summary>
@@ -1845,10 +1847,8 @@
         {
             Debug.Assert(text != null);
             Debug.Assert(CaretPosition >= 0);
-            Debug.Assert(CaretAnchorPosition >= 0);
             Debug.Assert(MaxCaretPosition == text.Length);
             Debug.Assert(CaretPosition <= MaxCaretPosition);
-            Debug.Assert(CaretAnchorPosition <= MaxCaretPosition);
         }
 
         /// <summary></summary>
@@ -2187,11 +2187,15 @@
                 if (CaretPosition >= 0)
                 {
                     Debug.Assert(CaretPosition <= MaxCaretPosition);
-                    Debug.Assert(CaretAnchorPosition >= 0 && CaretAnchorPosition <= MaxCaretPosition);
 
                     MergeHash(ref Hash, (ulong)CaretPosition);
                     MergeHash(ref Hash, (ulong)CaretAnchorPosition);
                     MergeHash(ref Hash, (ulong)MaxCaretPosition);
+                }
+                else
+                {
+                    Debug.Assert(MaxCaretPosition == -1);
+                    Debug.Assert(CaretAnchorPosition == -1);
                 }
 
                 MergeHash(ref Hash, (ulong)CaretMode);

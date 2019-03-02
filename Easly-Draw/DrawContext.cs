@@ -702,6 +702,18 @@
 
             return Result;
         }
+
+        /// <summary>
+        /// Draws the background of a selected rectangle.
+        /// </summary>
+        /// <param name="rect">The rectangle to draw.</param>
+        public virtual void DrawRectangleSelection(Rect rect)
+        {
+            Debug.Assert(WpfDrawingContext != null);
+            Debug.Assert(RegionHelper.IsFixed(rect));
+
+            WpfDrawingContext.DrawRectangle(BrushTable[BrushSettings.Selection], null, new System.Windows.Rect(PagePadding.Left + rect.X, PagePadding.Top + rect.Y, rect.Width, rect.Height));
+        }
         #endregion
 
         #region Client Interface

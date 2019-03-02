@@ -67,6 +67,15 @@
         }
 
         /// <summary>
+        /// Checks that a rectangle is fixed.
+        /// </summary>
+        /// <param name="rect">The rectangle to check.</param>
+        public static bool IsFixed(Rect rect)
+        {
+            return !double.IsNaN(rect.X) && !double.IsNaN(rect.Y) && !double.IsNaN(rect.Width) && !double.IsNaN(rect.Height);
+        }
+
+        /// <summary>
         /// Checks that a cell size is floating horizontally.
         /// </summary>
         /// <param name="point">The location to check.</param>

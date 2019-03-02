@@ -342,8 +342,22 @@
             if (IsCaretShown)
                 DrawContext.HideCaret();
 
-            ILayoutVisibleCellViewList CellList = new LayoutVisibleCellViewList();
-            EnumerateVisibleCellViews((IFrameVisibleCellView cellView) => DrawVisibleCellViews(cellView), out IFrameVisibleCellView CellView);
+            IFrameVisibleCellView IgnoredCellView;
+
+            if (SelectionAnchor != Focus.CellView.StateView)
+            {
+                ILayoutVisibleCellViewList CellViewList = new LayoutVisibleCellViewList();
+                EnumerateVisibleCellViews((IFrameVisibleCellView cellView) => ListSelectedCellViews(cellView, CellViewList), out IgnoredCellView);
+
+                Rect SelectedRect = Rect.Empty;
+                foreach (ILayoutVisibleCellView CellView in CellViewList)
+                    SelectedRect = Rect.VisibleUnion(SelectedRect, CellView.CellRect);
+
+                if (!SelectedRect.IsEmpty)
+                    DrawContext.DrawRectangleSelection(SelectedRect);
+            }
+
+            EnumerateVisibleCellViews((IFrameVisibleCellView cellView) => DrawVisibleCellViews(cellView), out IgnoredCellView);
 
             if (IsCaretShown)
             {
@@ -352,6 +366,14 @@
                 else if (IsCaretOnComment(out ILayoutCommentFocus CommentFocus))
                     DrawCommentCaret(CommentFocus);
             }
+        }
+
+        private protected virtual bool ListSelectedCellViews(IFrameVisibleCellView cellView, ILayoutVisibleCellViewList cellViewList)
+        {
+            if (cellView.StateView == Selection.StateView)
+                cellViewList.Add(cellView);
+
+            return false;
         }
 
         private protected virtual bool DrawVisibleCellViews(IFrameVisibleCellView cellView)

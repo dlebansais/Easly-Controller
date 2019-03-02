@@ -110,6 +110,66 @@
         }
 
         /// <summary>
+        /// Returns the union of the visible surface of two rectangles.
+        /// </summary>
+        /// <param name="rect1">The first rectangle.</param>
+        /// <param name="rect2">The second rectangle.</param>
+        public static Rect VisibleUnion(Rect rect1, Rect rect2)
+        {
+            Debug.Assert(RegionHelper.IsFixed(rect1));
+            Debug.Assert(RegionHelper.IsFixed(rect2));
+
+            double UnionX;
+            double UnionY;
+            double UnionCX;
+            double UnionCY;
+
+            if (rect1.Width > 0 && rect2.Width > 0)
+            {
+                UnionX = rect1.X < rect2.X ? rect1.X : rect2.X;
+                UnionCX = rect1.X + rect1.Width > rect2.X + rect2.Width ? rect1.X + rect1.Width : rect2.X + rect2.Width;
+            }
+            else if (rect1.Width > 0)
+            {
+                UnionX = rect1.X;
+                UnionCX = rect1.X + rect1.Width;
+            }
+            else if (rect2.Width > 0)
+            {
+                UnionX = rect2.X;
+                UnionCX = rect2.X + rect2.Width;
+            }
+            else
+            {
+                UnionX = rect1.X < rect2.X ? rect1.X : rect2.X;
+                UnionCX = UnionX;
+            }
+
+            if (rect1.Height > 0 && rect2.Height > 0)
+            {
+                UnionY = rect1.Y < rect2.Y ? rect1.Y : rect2.Y;
+                UnionCY = rect1.Y + rect1.Height > rect2.Y + rect2.Height ? rect1.Y + rect1.Height : rect2.Y + rect2.Height;
+            }
+            else if (rect1.Height > 0)
+            {
+                UnionY = rect1.Y;
+                UnionCY = rect1.Y + rect1.Height;
+            }
+            else if (rect2.Height > 0)
+            {
+                UnionY = rect2.Y;
+                UnionCY = rect2.Y + rect2.Height;
+            }
+            else
+            {
+                UnionY = rect1.Y < rect2.Y ? rect1.Y : rect2.Y;
+                UnionCY = UnionY;
+            }
+
+            return new Rect(UnionX, UnionY, UnionCX - UnionX, UnionCY - UnionY);
+        }
+
+        /// <summary>
         /// Compares two regions.
         /// </summary>
         /// <param name="rect1">The first region.</param>

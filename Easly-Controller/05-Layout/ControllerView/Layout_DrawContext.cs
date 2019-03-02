@@ -138,5 +138,11 @@
         /// <param name="maxTextWidth">The maximum width for a line of text. NaN means no limit.</param>
         /// <returns>The position of the caret.</returns>
         int GetCaretPositionInText(Point origin, string text, TextStyles textStyle, CaretModes mode, double maxTextWidth);
+
+        /// <summary>
+        /// Draws the background of a selected rectangle.
+        /// </summary>
+        /// <param name="rect">The rectangle to draw.</param>
+        void DrawRectangleSelection(Rect rect);
     }
 }
