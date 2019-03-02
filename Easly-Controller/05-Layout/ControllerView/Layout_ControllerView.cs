@@ -118,8 +118,9 @@
         /// The starting point is the center of the area covered by the current focus.
         /// </summary>
         /// <param name="distance">The distance to cross.</param>
+        /// <param name="resetAnchor">If true, resets the selected text anchor.</param>
         /// <param name="isMoved">True if the focus has changed.</param>
-        void MoveFocusVertically(double distance, out bool isMoved);
+        void MoveFocusVertically(double distance, bool resetAnchor, out bool isMoved);
 
         /// <summary>
         /// Moves the focus to the beginning or end of a line.
@@ -453,8 +454,9 @@
         /// The starting point is the center of the area covered by the current focus.
         /// </summary>
         /// <param name="distance">The distance to cross.</param>
+        /// <param name="resetAnchor">If true, resets the selected text anchor.</param>
         /// <param name="isMoved">True if the focus has changed.</param>
-        public virtual void MoveFocusVertically(double distance, out bool isMoved)
+        public virtual void MoveFocusVertically(double distance, bool resetAnchor, out bool isMoved)
         {
             ulong OldFocusHash = FocusHash;
 
@@ -508,7 +510,7 @@
             {
                 Debug.Assert(NewFocusIndex >= MinFocusMove + OldFocusIndex && NewFocusIndex <= MaxFocusMove + OldFocusIndex);
 
-                ChangeFocus(NewFocusIndex - OldFocusIndex, OldFocusIndex, NewFocusIndex, out bool IsRefreshed);
+                ChangeFocus(NewFocusIndex - OldFocusIndex, OldFocusIndex, NewFocusIndex, resetAnchor, out bool IsRefreshed);
                 isMoved = true;
             }
             else
@@ -604,7 +606,7 @@
             {
                 Debug.Assert(NewFocusIndex >= MinFocusMove + OldFocusIndex && NewFocusIndex <= MaxFocusMove + OldFocusIndex);
 
-                ChangeFocus(direction, OldFocusIndex, NewFocusIndex, out bool IsRefreshed);
+                ChangeFocus(direction, OldFocusIndex, NewFocusIndex, resetAnchor, out bool IsRefreshed);
                 isMoved = true;
 
                 resetAnchor = true;
@@ -694,7 +696,7 @@
             if (NewIndex >= 0)
             {
                 if (NewIndex != OldIndex)
-                    ChangeFocus(NewIndex - OldIndex, OldIndex, NewIndex, out bool IsRefreshed);
+                    ChangeFocus(NewIndex - OldIndex, OldIndex, NewIndex, resetAnchor, out bool IsRefreshed);
 
                 if (Focus is ILayoutTextFocus AsTextFocus)
                 {
@@ -1036,12 +1038,12 @@
         }
 
         /// <summary></summary>
-        private protected override void ChangeFocus(int direction, int oldIndex, int newIndex, out bool isRefreshed)
+        private protected override void ChangeFocus(int direction, int oldIndex, int newIndex, bool resetAnchor, out bool isRefreshed)
         {
             ILayoutFocus OldFocus = (ILayoutFocus)FocusChain[oldIndex];
             Debug.Assert(OldFocus == Focus);
 
-            base.ChangeFocus(direction, oldIndex, newIndex, out isRefreshed);
+            base.ChangeFocus(direction, oldIndex, newIndex, resetAnchor, out isRefreshed);
 
             ILayoutFocus NewFocus = Focus;
             Debug.Assert(NewFocus != OldFocus);
@@ -1240,6 +1242,15 @@
         {
             ControllerTools.AssertNoOverride(this, typeof(LayoutControllerView));
             return new LayoutCommentSelection((ILayoutNodeStateView)stateView, start, end);
+        }
+
+        /// <summary>
+        /// Creates a IxxxNodeSelection object.
+        /// </summary>
+        private protected override IFocusNodeSelection CreateNodeSelection(IFocusNodeStateView stateView)
+        {
+            ControllerTools.AssertNoOverride(this, typeof(LayoutControllerView));
+            return new LayoutNodeSelection((ILayoutNodeStateView)stateView);
         }
         #endregion
     }

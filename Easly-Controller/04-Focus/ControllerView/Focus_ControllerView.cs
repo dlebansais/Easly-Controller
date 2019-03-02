@@ -92,11 +92,17 @@
         IFocusSelection Selection { get; }
 
         /// <summary>
+        /// The anchor to use to calculate the selection.
+        /// </summary>
+        IFocusNodeStateView SelectionAnchor { get; }
+
+        /// <summary>
         /// Moves the current focus in the focus chain.
         /// </summary>
         /// <param name="direction">The change in position, relative to the current position.</param>
+        /// <param name="resetAnchor">If true, resets the selected text anchor.</param>
         /// <param name="isMoved">True upon return if the focus was moved.</param>
-        void MoveFocus(int direction, out bool isMoved);
+        void MoveFocus(int direction, bool resetAnchor, out bool isMoved);
 
         /// <summary>
         /// Changes the caret position. Does nothing if the focus isn't on a string property.
@@ -376,6 +382,11 @@
         public IFocusSelection Selection { get; private set; }
 
         /// <summary>
+        /// The anchor to use to calculate the selection.
+        /// </summary>
+        public IFocusNodeStateView SelectionAnchor { get; private set; }
+
+        /// <summary>
         /// The current selection.
         /// </summary>
         public bool IsSelectionEmpty { get { return Selection == null; } }
@@ -386,8 +397,9 @@
         /// Moves the current focus in the focus chain.
         /// </summary>
         /// <param name="direction">The change in position, relative to the current position.</param>
+        /// <param name="resetAnchor">If true, resets the selected text anchor.</param>
         /// <param name="isMoved">True upon return if the focus was moved.</param>
-        public virtual void MoveFocus(int direction, out bool isMoved)
+        public virtual void MoveFocus(int direction, bool resetAnchor, out bool isMoved)
         {
             ulong OldFocusHash = FocusHash;
 
@@ -404,7 +416,7 @@
 
             if (OldFocusIndex != NewFocusIndex)
             {
-                ChangeFocus(direction, OldFocusIndex, NewFocusIndex, out bool IsRefreshed);
+                ChangeFocus(direction, OldFocusIndex, NewFocusIndex, resetAnchor, out bool IsRefreshed);
                 isMoved = true;
             }
             else
@@ -414,7 +426,7 @@
         }
 
         /// <summary></summary>
-        private protected virtual void ChangeFocus(int direction, int oldIndex, int newIndex, out bool isRefreshed)
+        private protected virtual void ChangeFocus(int direction, int oldIndex, int newIndex, bool resetAnchor, out bool isRefreshed)
         {
             isRefreshed = false;
 
@@ -430,13 +442,30 @@
                 }
             }
 
-            ResetCaretPosition(direction);
+            ResetCaretPosition(direction, resetAnchor);
 
-            if (Focus is IFocusDiscreteContentFocus AsDiscreteContentFocus)
+            if (resetAnchor)
             {
-                IFocusDiscreteContentFocusableCellView CellView = AsDiscreteContentFocus.CellView;
-                Selection = CreateDiscreteContentSelection(CellView.StateView, CellView.PropertyName);
+                ResetSelection();
+                SelectionAnchor = Focus.CellView.StateView;
             }
+            else
+                SetAnchoredSelection();
+        }
+
+        /// <summary></summary>
+        private protected virtual void SetAnchoredSelection()
+        {
+            IFocusNodeState State = SelectionAnchor.State;
+            IFocusNodeState FocusedState = Focus.CellView.StateView.State;
+
+            while (State != Controller.RootState && !Controller.IsChildState(State, FocusedState))
+                State = State.ParentState;
+
+            Debug.Assert(State != null);
+
+            IFocusNodeStateView SelectionStateView = StateViewTable[State];
+            Selection = CreateNodeSelection(SelectionStateView);
         }
 
         /// <summary>
@@ -576,7 +605,7 @@
 
                             int NewFocusIndex = i;
 
-                            ChangeFocus(NewFocusIndex - OldFocusIndex, OldFocusIndex, NewFocusIndex, out bool IsRefreshed);
+                            ChangeFocus(NewFocusIndex - OldFocusIndex, OldFocusIndex, NewFocusIndex, true, out bool IsRefreshed);
                             Debug.Assert(!IsRefreshed); // Refresh must not be done twice.
 
                             isMoved = true;
@@ -1559,7 +1588,7 @@
             {
                 Debug.Assert(FocusChain == null);
                 Focus = NewFocusChain[0];
-                ResetCaretPosition(0);
+                ResetCaretPosition(0, true);
             }
             else if (MatchingFocus != null)
             {
@@ -1574,6 +1603,8 @@
 
             Debug.Assert(Focus != null);
             Debug.Assert(FocusChain.Contains(Focus));
+
+            SelectionAnchor = Focus.CellView.StateView;
         }
 
         /// <summary></summary>
@@ -1606,7 +1637,7 @@
             if (IsFrameChanged)
                 FindPreferredFrame(MainStateView, SameStateFocusableList);
 
-            ResetCaretPosition(0);
+            ResetCaretPosition(0, true);
         }
 
         /// <summary></summary>
@@ -1755,7 +1786,7 @@
         }
 
         /// <summary></summary>
-        private protected virtual void ResetCaretPosition(int direction)
+        private protected virtual void ResetCaretPosition(int direction, bool resetCaretAnchor)
         {
             if (Focus is IFocusTextFocus AsTextFocus)
             {
@@ -1768,7 +1799,9 @@
                 else
                     CaretPosition = MaxCaretPosition;
 
-                CaretAnchorPosition = CaretPosition;
+                if (resetCaretAnchor)
+                    CaretAnchorPosition = CaretPosition;
+
                 CheckCaretInvariant(Text);
             }
             else
@@ -1777,8 +1810,6 @@
                 CaretAnchorPosition = -1;
                 MaxCaretPosition = -1;
             }
-
-            ResetSelection();
         }
 
         /// <summary></summary>
@@ -1823,7 +1854,13 @@
         /// <summary></summary>
         private protected virtual void ResetSelection()
         {
-            Selection = null;
+            if (Focus is IFocusDiscreteContentFocus AsDiscreteContentFocus)
+            {
+                IFocusDiscreteContentFocusableCellView CellView = AsDiscreteContentFocus.CellView;
+                Selection = CreateDiscreteContentSelection(CellView.StateView, CellView.PropertyName);
+            }
+            else
+                Selection = null;
         }
 
         /// <summary></summary>
@@ -2340,6 +2377,15 @@
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusControllerView));
             return new FocusCommentSelection(stateView, start, end);
+        }
+
+        /// <summary>
+        /// Creates a IxxxNodeSelection object.
+        /// </summary>
+        private protected virtual IFocusNodeSelection CreateNodeSelection(IFocusNodeStateView stateView)
+        {
+            ControllerTools.AssertNoOverride(this, typeof(FocusControllerView));
+            return new FocusNodeSelection(stateView);
         }
         #endregion
     }

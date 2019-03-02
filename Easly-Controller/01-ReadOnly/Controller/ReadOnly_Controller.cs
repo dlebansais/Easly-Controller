@@ -92,6 +92,14 @@
         /// <param name="index">Index of the node.</param>
         /// <param name="propertyName">Name of the property to read.</param>
         Guid GetGuidValue(IReadOnlyIndex index, string propertyName);
+
+        /// <summary>
+        /// Checks if a state is the child of another. This method returns true if <paramref name="parentState"/> and <paramref name="state"/> are the same.
+        /// </summary>
+        /// <param name="parentState">The parent state.</param>
+        /// <param name="state">The state to check.</param>
+        /// <returns>True if <paramref name="parentState"/> is <paramref name="state"/> or a parent; Otherwise, false.</returns>
+        bool IsChildState(IReadOnlyNodeState parentState, IReadOnlyNodeState state);
     }
 
     /// <summary>
@@ -347,6 +355,25 @@
             Guid Value = NodeTreeHelper.GetGuid(State.Node, propertyName);
 
             return Value;
+        }
+
+        /// <summary>
+        /// Checks if a state is the child of another. This method returns true if <paramref name="parentState"/> and <paramref name="state"/> are the same.
+        /// </summary>
+        /// <param name="parentState">The parent state.</param>
+        /// <param name="state">The state to check.</param>
+        /// <returns>True if <paramref name="parentState"/> is <paramref name="state"/> or a parent; Otherwise, false.</returns>
+        public virtual bool IsChildState(IReadOnlyNodeState parentState, IReadOnlyNodeState state)
+        {
+            while (state != null)
+            {
+                if (state == parentState)
+                    return true;
+
+                state = state.ParentState;
+            }
+
+            return false;
         }
         #endregion
 
