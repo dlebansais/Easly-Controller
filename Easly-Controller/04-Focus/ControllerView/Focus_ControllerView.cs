@@ -459,6 +459,21 @@
             IFocusNodeState State = SelectionAnchor.State;
             IFocusNodeState FocusedState = Focus.CellView.StateView.State;
 
+            if (State == FocusedState)
+            {
+                if (Focus is IFocusTextFocus AsTextFocus)
+                {
+                    SetTextSelection();
+                    return;
+                }
+
+                else if (Focus is IFocusDiscreteContentFocus AsDiscreteContentFocus)
+                {
+                    SetDiscreteValueSelection(AsDiscreteContentFocus);
+                    return;
+                }
+            }
+
             while (State != Controller.RootState && !Controller.IsChildState(State, FocusedState))
                 State = State.ParentState;
 
@@ -507,8 +522,11 @@
                 ResetSelection();
                 CaretAnchorPosition = CaretPosition;
             }
-            else
+            else if (Selection == null)
                 SetTextSelection();
+
+            else if (Selection is IFocusTextSelection AsTextSelection)
+                AsTextSelection.Update(CaretAnchorPosition, CaretPosition);
 
             CheckCaretInvariant(text);
 
@@ -1809,7 +1827,8 @@
             else
             {
                 CaretPosition = -1;
-                CaretAnchorPosition = -1;
+                if (resetCaretAnchor)
+                    CaretAnchorPosition = -1;
                 MaxCaretPosition = -1;
             }
         }
@@ -1855,12 +1874,16 @@
         private protected virtual void ResetSelection()
         {
             if (Focus is IFocusDiscreteContentFocus AsDiscreteContentFocus)
-            {
-                IFocusDiscreteContentFocusableCellView CellView = AsDiscreteContentFocus.CellView;
-                Selection = CreateDiscreteContentSelection(CellView.StateView, CellView.PropertyName);
-            }
+                SetDiscreteValueSelection(AsDiscreteContentFocus);
             else
                 Selection = null;
+        }
+
+        /// <summary></summary>
+        private protected virtual void SetDiscreteValueSelection(IFocusDiscreteContentFocus discreteContentFocus)
+        {
+            IFocusDiscreteContentFocusableCellView CellView = discreteContentFocus.CellView;
+            Selection = CreateDiscreteContentSelection(CellView.StateView, CellView.PropertyName);
         }
 
         /// <summary></summary>
@@ -2189,15 +2212,15 @@
                     Debug.Assert(CaretPosition <= MaxCaretPosition);
 
                     MergeHash(ref Hash, (ulong)CaretPosition);
-                    MergeHash(ref Hash, (ulong)CaretAnchorPosition);
                     MergeHash(ref Hash, (ulong)MaxCaretPosition);
                 }
                 else
                 {
+                    Debug.Assert(CaretPosition == -1);
                     Debug.Assert(MaxCaretPosition == -1);
-                    Debug.Assert(CaretAnchorPosition == -1);
                 }
 
+                MergeHash(ref Hash, (ulong)CaretAnchorPosition);
                 MergeHash(ref Hash, (ulong)CaretMode);
 #endif
 

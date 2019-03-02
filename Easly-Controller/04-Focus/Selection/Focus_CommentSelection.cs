@@ -31,12 +31,25 @@
         /// <summary>
         /// Index of the first character in the selected text.
         /// </summary>
-        public int Start { get; }
+        public int Start { get; private set; }
 
         /// <summary>
         /// Index following the last character in the selected text.
         /// </summary>
-        public int End { get; }
+        public int End { get; private set; }
+        #endregion
+
+        #region Client Interface
+        /// <summary>
+        /// Updates the text selection with new start and end value.
+        /// </summary>
+        /// <param name="start">The new start value.</param>
+        /// <param name="end">The new end value.</param>
+        public virtual void Update(int start, int end)
+        {
+            Start = start;
+            End = end;
+        }
         #endregion
     }
 }

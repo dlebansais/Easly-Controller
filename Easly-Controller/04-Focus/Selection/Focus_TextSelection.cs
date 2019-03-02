@@ -14,5 +14,12 @@
         /// Index following the last character in the selected text.
         /// </summary>
         int End { get; }
+
+        /// <summary>
+        /// Updates the text selection with new start and end value.
+        /// </summary>
+        /// <param name="start">The new start value.</param>
+        /// <param name="end">The new end value.</param>
+        void Update(int start, int end);
     }
 }
