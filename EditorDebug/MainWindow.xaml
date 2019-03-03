@@ -51,6 +51,12 @@
                         <KeyBinding Command="{StaticResource ReduceCommand}" Gesture="Ctrl+Shift+D"/>
                         <KeyBinding Command="ApplicationCommands.Redo" Gesture="Ctrl+Shift+Z"/>
                         <KeyBinding Command="ApplicationCommands.Undo" Gesture="Ctrl+Z"/>
+                        <KeyBinding Command="ApplicationCommands.Copy" Gesture="Ctrl+C"/>
+                        <KeyBinding Command="ApplicationCommands.Copy" Gesture="Ctrl+Insert"/>
+                        <KeyBinding Command="ApplicationCommands.Cut" Gesture="Ctrl+X"/>
+                        <KeyBinding Command="ApplicationCommands.Cut" Gesture="Shift+Delete"/>
+                        <KeyBinding Command="ApplicationCommands.Paste" Gesture="Ctrl+V"/>
+                        <KeyBinding Command="ApplicationCommands.Paste" Gesture="Shift+Insert"/>
                     </local:LayoutControl.InputBindings>
                     <local:LayoutControl.CommandBindings>
                         <CommandBinding Command="EditingCommands.Backspace" Executed="OnBackspace"/>
@@ -69,6 +75,9 @@
                         <CommandBinding Command="{StaticResource ReduceCommand}" Executed="OnReduce"/>
                         <CommandBinding Command="ApplicationCommands.Redo" Executed="OnRedo"/>
                         <CommandBinding Command="ApplicationCommands.Undo" Executed="OnUndo"/>
+                        <CommandBinding Command="ApplicationCommands.Copy" Executed="OnCopy"/>
+                        <CommandBinding Command="ApplicationCommands.Cut" Executed="OnCut"/>
+                        <CommandBinding Command="ApplicationCommands.Paste" Executed="OnPaste"/>
                     </local:LayoutControl.CommandBindings>
                 </local:LayoutControl>
             </Grid>

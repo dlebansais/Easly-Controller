@@ -3,27 +3,27 @@
     using System;
 
     /// <summary>
-    /// Implements a structure that is used to describe the location of an object.
+    /// Implements a structure that is used to describe the location of a character in a 2-dimensional plane.
     /// </summary>
-    public struct Point : IFormattable
+    public struct Corner : IFormattable
     {
         #region Init
-        static Point()
+        static Corner()
         {
-            Origin = new Point(0, 0);
+            Origin = new Corner(0, 0);
         }
 
         /// <summary>
         /// The origin (0,0) location.
         /// </summary>
-        public static Point Origin { get; }
+        public static Corner Origin { get; }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Point"/> struct.
+        /// Initializes a new instance of the <see cref="Corner"/> struct.
         /// </summary>
         /// <param name="x">The horizontal coordinate.</param>
         /// <param name="y">The vertical coordinate.</param>
-        public Point(double x, double y)
+        public Corner(int x, int y)
         {
             X = x;
             Y = y;
@@ -34,12 +34,12 @@
         /// <summary>
         /// Horizontal coordinate.
         /// </summary>
-        public double X { get; set; }
+        public int X { get; set; }
 
         /// <summary>
         /// Vertical coordinate.
         /// </summary>
-        public double Y { get; set; }
+        public int Y { get; set; }
 
         /// <summary>
         /// True if the object is the origin location.
@@ -53,42 +53,19 @@
         /// </summary>
         /// <param name="distanceX">The horizontal distance.</param>
         /// <param name="distanceY">The vertical distance.</param>
-        public Point Moved(double distanceX, double distanceY)
+        public Corner Moved(int distanceX, int distanceY)
         {
-            return new Point(X + distanceX, Y + distanceY);
+            return new Corner(X + distanceX, Y + distanceY);
         }
 
         /// <summary>
-        /// Euclidean distance between two points.
+        /// Compares two corners.
         /// </summary>
-        /// <param name="point1">The first point.</param>
-        /// <param name="point2">The second point.</param>
-        public static double Distance(Point point1, Point point2)
+        /// <param name="corner1">The first corner.</param>
+        /// <param name="corner2">The second corner.</param>
+        public static bool IsEqual(Corner corner1, Corner corner2)
         {
-            return Math.Sqrt(((point2.X - point1.X) * (point2.X - point1.X)) + ((point2.Y - point1.Y) * (point2.Y - point1.Y)));
-        }
-
-        /// <summary>
-        /// Euclidean distance between two points, squared.
-        /// </summary>
-        /// <param name="point1">The first point.</param>
-        /// <param name="point2">The second point.</param>
-        public static double SquaredDistance(Point point1, Point point2)
-        {
-            return ((point2.X - point1.X) * (point2.X - point1.X)) + ((point2.Y - point1.Y) * (point2.Y - point1.Y));
-        }
-
-        /// <summary>
-        /// Compares two points.
-        /// </summary>
-        /// <param name="point1">The first point.</param>
-        /// <param name="point2">The second point.</param>
-        public static bool IsEqual(Point point1, Point point2)
-        {
-            double DiffX = Math.Abs(point2.X - point1.X);
-            double DiffY = Math.Abs(point2.Y - point1.Y);
-
-            return RegionHelper.IsZero(DiffX) && RegionHelper.IsZero(DiffY);
+            return corner1.X == corner2.X && corner1.Y == corner2.Y;
         }
 
         /// <summary>

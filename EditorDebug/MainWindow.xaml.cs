@@ -176,6 +176,16 @@ namespace EditorDebug
             layoutControl.OnCopy(sender, e);
         }
 
+        public void OnCut(object sender, ExecutedRoutedEventArgs e)
+        {
+            layoutControl.OnCut(sender, e);
+        }
+
+        public void OnPaste(object sender, ExecutedRoutedEventArgs e)
+        {
+            layoutControl.OnPaste(sender, e);
+        }
+
         private void OnMouseDown(object sender, MouseButtonEventArgs e)
         {
             layoutControl.OnMouseDown(sender, e);

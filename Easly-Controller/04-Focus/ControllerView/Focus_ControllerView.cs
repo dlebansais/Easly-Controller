@@ -97,6 +97,11 @@
         IFocusNodeStateView SelectionAnchor { get; }
 
         /// <summary>
+        /// True if the selection is empty.
+        /// </summary>
+        bool IsSelectionEmpty { get; }
+
+        /// <summary>
         /// Moves the current focus in the focus chain.
         /// </summary>
         /// <param name="direction">The change in position, relative to the current position.</param>
@@ -387,7 +392,7 @@
         public IFocusNodeStateView SelectionAnchor { get; private set; }
 
         /// <summary>
-        /// The current selection.
+        /// True if the selection is empty.
         /// </summary>
         public bool IsSelectionEmpty { get { return Selection == null; } }
         #endregion

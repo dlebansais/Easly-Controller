@@ -609,6 +609,7 @@
     <Compile Include="05-Layout\ControllerView\Layout_CellViewTreeContext.cs" />
     <Compile Include="05-Layout\ControllerView\Layout_ControllerView.cs" />
     <Compile Include="05-Layout\ControllerView\Layout_DrawContext.cs" />
+    <Compile Include="05-Layout\ControllerView\Layout_PrintContext.cs" />
     <Compile Include="05-Layout\Controller\Layout_Controller.cs" />
     <Compile Include="05-Layout\Controller\Operations\Layout_ChangeCaret_Operation.cs" />
     <Compile Include="05-Layout\Controller\Operations\Layout_Assignment_Operation.cs" />
@@ -760,6 +761,7 @@
     <Compile Include="Controller\CommentHelper.cs" />
     <Compile Include="Controller\CRC32.cs" />
     <Compile Include="Controller\DebugObjects.cs" />
+    <Compile Include="Controller\Corner.cs" />
     <Compile Include="Controller\RegionHelper.cs" />
     <Compile Include="Controller\HorizontalContainers.cs" />
     <Compile Include="Controller\HorizontalSeparators.cs" />
@@ -767,6 +769,7 @@
     <Compile Include="Controller\Rect.cs" />
     <Compile Include="Controller\Point.cs" />
     <Compile Include="Controller\Padding.cs" />
+    <Compile Include="Controller\Plane.cs" />
     <Compile Include="Controller\Size.cs" />
     <Compile Include="Controller\TextStyles.cs" />
     <Compile Include="Controller\Symbols.cs" />

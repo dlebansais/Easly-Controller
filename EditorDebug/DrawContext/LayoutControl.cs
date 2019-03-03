@@ -571,6 +571,25 @@
         {
         }
 
+        public void OnCut(object sender, ExecutedRoutedEventArgs e)
+        {
+        }
+
+        public void OnPaste(object sender, ExecutedRoutedEventArgs e)
+        {
+            IDataObject DataObject = Clipboard.GetDataObject();
+            string[] Formats = DataObject.GetFormats();
+
+            foreach (string Format in Formats)
+            {
+                object Data = DataObject.GetData(Format);
+                Debug.WriteLine($"** Format: {Format}, Type: {Data?.GetType()}");
+
+                if (Data is string AsString)
+                    Debug.WriteLine(AsString);
+            }
+        }
+
         public void OnMouseDown(object sender, MouseButtonEventArgs e)
         {
             Point Point = e.GetPosition(this);
