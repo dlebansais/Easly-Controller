@@ -478,7 +478,7 @@
             IReadOnlyIndex FirstFocusedIndex = null;
             IReadOnlyIndex FirstAnchorIndex = null;
 
-            while (State != Controller.RootState && !Controller.IsChildState(State, FocusedState, out FirstFocusedIndex))
+            while (State != null && !Controller.IsChildState(State, FocusedState, out FirstFocusedIndex))
                 State = State.ParentState;
 
             Debug.Assert(State != null);
@@ -488,6 +488,13 @@
 
             if (FirstFocusedIndex is IFocusBrowsingListNodeIndex AsFocusListNodeIndex && FirstAnchorIndex is IFocusBrowsingListNodeIndex AsAnchorListNodeIndex && AsFocusListNodeIndex.PropertyName == AsAnchorListNodeIndex.PropertyName)
                 SetListNodeSelection(State, AsFocusListNodeIndex.PropertyName, AsFocusListNodeIndex.Index, AsAnchorListNodeIndex.Index);
+            else if (FirstFocusedIndex is IFocusBrowsingExistingBlockNodeIndex AsFocusBlockListNodeIndex && FirstAnchorIndex is IFocusBrowsingExistingBlockNodeIndex AsAnchorBlockListNodeIndex && AsFocusBlockListNodeIndex.PropertyName == AsAnchorBlockListNodeIndex.PropertyName)
+            {
+                if (AsFocusBlockListNodeIndex.BlockIndex == AsAnchorBlockListNodeIndex.BlockIndex)
+                    SetBlockListNodeSelection(State, AsFocusBlockListNodeIndex.PropertyName, AsFocusBlockListNodeIndex.BlockIndex, AsFocusBlockListNodeIndex.Index, AsAnchorBlockListNodeIndex.Index);
+                else
+                    SetBlockSelection(State, AsFocusBlockListNodeIndex.PropertyName, AsFocusBlockListNodeIndex.BlockIndex, AsAnchorBlockListNodeIndex.BlockIndex);
+            }
             else
                 SetNodeSelection(State);
 
@@ -1924,6 +1931,20 @@
         }
 
         /// <summary></summary>
+        private protected virtual void SetBlockListNodeSelection(IFocusNodeState state, string propertyName, int blockIndex, int startIndex, int endIndex)
+        {
+            IFocusNodeStateView SelectionStateView = StateViewTable[state];
+            Selection = CreateBlockListNodeSelection(SelectionStateView, propertyName, blockIndex, startIndex, endIndex);
+        }
+
+        /// <summary></summary>
+        private protected virtual void SetBlockSelection(IFocusNodeState state, string propertyName, int startIndex, int endIndex)
+        {
+            IFocusNodeStateView SelectionStateView = StateViewTable[state];
+            Selection = CreateBlockSelection(SelectionStateView, propertyName, startIndex, endIndex);
+        }
+
+        /// <summary></summary>
         private protected virtual void SetNodeSelection(IFocusNodeState state)
         {
             IFocusNodeStateView SelectionStateView = StateViewTable[state];
@@ -2445,6 +2466,24 @@
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusControllerView));
             return new FocusListNodeSelection(stateView, propertyName, startIndex, endIndex);
+        }
+
+        /// <summary>
+        /// Creates a IxxxBlockListNodeSelection object.
+        /// </summary>
+        private protected virtual IFocusBlockListNodeSelection CreateBlockListNodeSelection(IFocusNodeStateView stateView, string propertyName, int blockIndex, int startIndex, int endIndex)
+        {
+            ControllerTools.AssertNoOverride(this, typeof(FocusControllerView));
+            return new FocusBlockListNodeSelection(stateView, propertyName, blockIndex, startIndex, endIndex);
+        }
+
+        /// <summary>
+        /// Creates a IxxxBlockSelection object.
+        /// </summary>
+        private protected virtual IFocusBlockSelection CreateBlockSelection(IFocusNodeStateView stateView, string propertyName, int startIndex, int endIndex)
+        {
+            ControllerTools.AssertNoOverride(this, typeof(FocusControllerView));
+            return new FocusBlockSelection(stateView, propertyName, startIndex, endIndex);
         }
         #endregion
     }

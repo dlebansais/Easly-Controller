@@ -414,7 +414,9 @@
     <Compile Include="04-Focus\ControllerView\Focus_InternalControllerView.cs" />
     <Compile Include="04-Focus\ControllerView\Focus_ControllerView.cs" />
     <Compile Include="04-Focus\ControllerView\Focus_CellViewTreeContext.cs" />
+    <Compile Include="04-Focus\Selection\Focus_BlockSelection.cs" />
     <Compile Include="04-Focus\Selection\Focus_CommentSelection.cs" />
+    <Compile Include="04-Focus\Selection\Focus_BlockListNodeSelection.cs" />
     <Compile Include="04-Focus\Selection\Focus_ListNodeSelection.cs" />
     <Compile Include="04-Focus\Selection\Focus_NodeSelection.cs" />
     <Compile Include="04-Focus\Selection\Focus_DiscreteContentSelection.cs" />
@@ -724,6 +726,8 @@
     <Compile Include="05-Layout\Inner\Single\Layout_OptionalInner.cs" />
     <Compile Include="05-Layout\Inner\Single\Layout_PlaceholderInner.cs" />
     <Compile Include="05-Layout\Inner\Single\Layout_SingleInner.cs" />
+    <Compile Include="05-Layout\Selection\Layout_BlockSelection.cs" />
+    <Compile Include="05-Layout\Selection\Layout_BlockListNodeSelection.cs" />
     <Compile Include="05-Layout\Selection\Layout_ListNodeSelection.cs" />
     <Compile Include="05-Layout\Selection\Layout_CommentSelection.cs" />
     <Compile Include="05-Layout\Selection\Layout_ContentSelection.cs" />

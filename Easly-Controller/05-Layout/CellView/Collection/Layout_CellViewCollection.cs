@@ -20,6 +20,13 @@
         new ILayoutFrame Frame { get; }
 
         /// <summary>
+        /// Draws a selection rectangle around cells.
+        /// </summary>
+        /// <param name="startIndex">Index of the first cell in the selection.</param>
+        /// <param name="endIndex">Index of the last cell in the selection.</param>
+        void DrawSelection(int startIndex, int endIndex);
+
+        /// <summary>
         /// Draws container or separator before an element of a collection.
         /// </summary>
         /// <param name="drawContext">The context used to draw the cell.</param>
@@ -155,6 +162,13 @@
         /// Draws the cell.
         /// </summary>
         public abstract void Draw();
+
+        /// <summary>
+        /// Draws a selection rectangle around cells.
+        /// </summary>
+        /// <param name="startIndex">Index of the first cell in the selection.</param>
+        /// <param name="endIndex">Index of the last cell in the selection.</param>
+        public abstract void DrawSelection(int startIndex, int endIndex);
 
         /// <summary>
         /// Draws container or separator before an element of a collection.

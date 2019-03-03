@@ -18,6 +18,12 @@
         /// The block state view of the state associated to this cell.
         /// </summary>
         new ILayoutBlockStateView BlockStateView { get; }
+
+        /// <summary>
+        /// Draw the selection of nodes within a block.
+        /// </summary>
+        /// <param name="selection">The selection.</param>
+        void DrawBlockListNodeSelection(ILayoutBlockListNodeSelection selection);
     }
 
     /// <summary>
@@ -160,6 +166,41 @@
 
             Debug.Assert(BlockStateView != null);
             BlockStateView.DrawCells();
+        }
+
+        /// <summary>
+        /// Draw the selection of nodes within a block.
+        /// </summary>
+        /// <param name="selection">The selection.</param>
+        public virtual void DrawBlockListNodeSelection(ILayoutBlockListNodeSelection selection)
+        {
+            Debug.Assert(BlockStateView.RootCellView != null);
+            bool IsPlaceholderFound = GetPlaceholderCellViewCollection(BlockStateView.RootCellView, out ILayoutCellViewCollection PlaceholderCellViewCollection);
+            Debug.Assert(IsPlaceholderFound);
+            Debug.Assert(PlaceholderCellViewCollection != null);
+
+            PlaceholderCellViewCollection.DrawSelection(selection.StartIndex, selection.EndIndex);
+        }
+
+        /// <summary></summary>
+        private protected virtual bool GetPlaceholderCellViewCollection(ILayoutCellView rootCellView, out ILayoutCellViewCollection cellViewCollection)
+        {
+            cellViewCollection = null;
+
+            if (rootCellView is ILayoutCellViewCollection AsCellViewCollection)
+            {
+                if (AsCellViewCollection.Frame is ILayoutCollectionPlaceholderFrame)
+                {
+                    cellViewCollection = AsCellViewCollection;
+                    return true;
+                }
+
+                foreach (ILayoutCellView CellView in AsCellViewCollection.CellViewList)
+                    if (GetPlaceholderCellViewCollection(CellView, out cellViewCollection))
+                        return true;
+            }
+
+            return false;
         }
         #endregion
 

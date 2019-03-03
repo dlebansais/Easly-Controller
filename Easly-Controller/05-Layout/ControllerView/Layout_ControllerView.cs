@@ -1254,6 +1254,24 @@
             ControllerTools.AssertNoOverride(this, typeof(LayoutControllerView));
             return new LayoutListNodeSelection((ILayoutNodeStateView)stateView, propertyName, startIndex, endIndex);
         }
+
+        /// <summary>
+        /// Creates a IxxxBlockListNodeSelection object.
+        /// </summary>
+        private protected override IFocusBlockListNodeSelection CreateBlockListNodeSelection(IFocusNodeStateView stateView, string propertyName, int blockIndex, int startIndex, int endIndex)
+        {
+            ControllerTools.AssertNoOverride(this, typeof(LayoutControllerView));
+            return new LayoutBlockListNodeSelection((ILayoutNodeStateView)stateView, propertyName, blockIndex, startIndex, endIndex);
+        }
+
+        /// <summary>
+        /// Creates a IxxxBlockSelection object.
+        /// </summary>
+        private protected override IFocusBlockSelection CreateBlockSelection(IFocusNodeStateView stateView, string propertyName, int startIndex, int endIndex)
+        {
+            ControllerTools.AssertNoOverride(this, typeof(LayoutControllerView));
+            return new LayoutBlockSelection((ILayoutNodeStateView)stateView, propertyName, startIndex, endIndex);
+        }
         #endregion
     }
 }
