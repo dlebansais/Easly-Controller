@@ -23,6 +23,7 @@
         public FocusStringContentSelection(IFocusNodeStateView stateView, string propertyName, int start, int end)
             : base(stateView)
         {
+            PropertyName = propertyName;
             Start = start;
             End = end;
         }
