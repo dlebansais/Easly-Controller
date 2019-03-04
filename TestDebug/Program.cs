@@ -860,7 +860,7 @@ namespace TestDebug
             Stats Stats = Controller.Stats;
             ILayoutController ControllerCheck;
 
-            ILayoutControllerView ControllerView = LayoutControllerView.Create(Controller, LayoutTemplateSet.Default, LayoutDrawContext.Default);
+            ILayoutControllerView ControllerView = LayoutControllerView.Create(Controller, LayoutTemplateSet.Default, LayoutDrawPrintContext.Default);
 
             ILayoutNodeState RootState = Controller.RootState;
             ILayoutInnerReadOnlyDictionary<string> InnerTable = RootState.InnerTable;
@@ -894,7 +894,7 @@ namespace TestDebug
 
             ILayoutRootNodeIndex RootIndex = new LayoutRootNodeIndex(rootNode);
             ILayoutController Controller = LayoutController.Create(RootIndex);
-            ILayoutControllerView CustomView = LayoutControllerView.Create(Controller, CustomLayoutTemplateSet.LayoutTemplateSet, LayoutDrawContext.Default);
+            ILayoutControllerView CustomView = LayoutControllerView.Create(Controller, CustomLayoutTemplateSet.LayoutTemplateSet, LayoutDrawPrintContext.Default);
             Stats Stats = Controller.Stats;
             ILayoutController ControllerCheck;
             bool IsChanged;
@@ -910,7 +910,7 @@ namespace TestDebug
             Debug.Assert(IsEqual);
             Debug.Assert(h1 == h2);
 
-            ILayoutControllerView ControllerView = LayoutControllerView.Create(Controller, LayoutTemplateSet.Default, LayoutDrawContext.Default);
+            ILayoutControllerView ControllerView = LayoutControllerView.Create(Controller, LayoutTemplateSet.Default, LayoutDrawPrintContext.Default);
             //Debug.WriteLine(ControllerView.LastColumnNumber.ToString());
 
             ILayoutNodeState RootState = Controller.RootState;
@@ -924,7 +924,7 @@ namespace TestDebug
             LayoutInsertionNewBlockNodeIndex InsertIndex0 = new LayoutInsertionNewBlockNodeIndex(rootNode, ListInner.PropertyName, FirstNode, 0, PatternNode, SourceNode);
             Controller.Insert(ListInner, InsertIndex0, out IWriteableBrowsingCollectionNodeIndex InsertedIndex0);
 
-            ILayoutControllerView ControllerView2 = LayoutControllerView.Create(Controller, LayoutTemplateSet.Default, LayoutDrawContext.Default);
+            ILayoutControllerView ControllerView2 = LayoutControllerView.Create(Controller, LayoutTemplateSet.Default, LayoutDrawPrintContext.Default);
             Debug.Assert(ControllerView2.IsEqual(CompareEqual.New(), ControllerView));
 
             ControllerCheck = LayoutController.Create(new LayoutRootNodeIndex(rootNode));
@@ -940,7 +940,7 @@ namespace TestDebug
 
             Debug.Assert(ControllerView.StateViewTable.Count == Controller.Stats.NodeCount);
 
-            ControllerView2 = LayoutControllerView.Create(Controller, LayoutTemplateSet.Default, LayoutDrawContext.Default);
+            ControllerView2 = LayoutControllerView.Create(Controller, LayoutTemplateSet.Default, LayoutDrawPrintContext.Default);
             Debug.Assert(ControllerView2.IsEqual(CompareEqual.New(), ControllerView));
 
             Controller.ChangeReplication(ListInner, 0, ReplicationStatus.Replicated);
@@ -964,7 +964,7 @@ namespace TestDebug
             ControllerCheck = LayoutController.Create(new LayoutRootNodeIndex(rootNode));
             Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
 
-            ILayoutControllerView ControllerView3 = LayoutControllerView.Create(Controller, LayoutTemplateSet.Default, LayoutDrawContext.Default);
+            ILayoutControllerView ControllerView3 = LayoutControllerView.Create(Controller, LayoutTemplateSet.Default, LayoutDrawPrintContext.Default);
             Debug.Assert(ControllerView3.IsEqual(CompareEqual.New(), ControllerView));
 
             IName FifthNode = NodeHelper.CreateSimpleName("a");
@@ -976,7 +976,7 @@ namespace TestDebug
             ControllerCheck = LayoutController.Create(new LayoutRootNodeIndex(rootNode));
             Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
 
-            ILayoutControllerView ControllerView4 = LayoutControllerView.Create(Controller, LayoutTemplateSet.Default, LayoutDrawContext.Default);
+            ILayoutControllerView ControllerView4 = LayoutControllerView.Create(Controller, LayoutTemplateSet.Default, LayoutDrawPrintContext.Default);
             Debug.Assert(ControllerView4.IsEqual(CompareEqual.New(), ControllerView));
 
             IIdentifier SixthNode = NodeHelper.CreateSimpleIdentifier("b");
@@ -988,7 +988,7 @@ namespace TestDebug
             ControllerCheck = LayoutController.Create(new LayoutRootNodeIndex(rootNode));
             Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
 
-            ILayoutControllerView ControllerView5 = LayoutControllerView.Create(Controller, LayoutTemplateSet.Default, LayoutDrawContext.Default);
+            ILayoutControllerView ControllerView5 = LayoutControllerView.Create(Controller, LayoutTemplateSet.Default, LayoutDrawPrintContext.Default);
             Debug.Assert(ControllerView5.IsEqual(CompareEqual.New(), ControllerView));
 
             bool TestRemove = true;
@@ -1001,7 +1001,7 @@ namespace TestDebug
                 ControllerCheck = LayoutController.Create(new LayoutRootNodeIndex(rootNode));
                 Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
 
-                ILayoutControllerView ControllerView7 = LayoutControllerView.Create(Controller, LayoutTemplateSet.Default, LayoutDrawContext.Default);
+                ILayoutControllerView ControllerView7 = LayoutControllerView.Create(Controller, LayoutTemplateSet.Default, LayoutDrawPrintContext.Default);
                 Debug.Assert(ControllerView7.IsEqual(CompareEqual.New(), ControllerView));
 
                 ILayoutBrowsingBlockNodeIndex InsertIndex8 = (ILayoutBrowsingBlockNodeIndex)ListInner.IndexAt(0, 0);
@@ -1011,7 +1011,7 @@ namespace TestDebug
                 ControllerCheck = LayoutController.Create(new LayoutRootNodeIndex(rootNode));
                 Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
 
-                ILayoutControllerView ControllerView8 = LayoutControllerView.Create(Controller, LayoutTemplateSet.Default, LayoutDrawContext.Default);
+                ILayoutControllerView ControllerView8 = LayoutControllerView.Create(Controller, LayoutTemplateSet.Default, LayoutDrawPrintContext.Default);
                 Debug.Assert(ControllerView8.IsEqual(CompareEqual.New(), ControllerView));
             }
 
@@ -1020,7 +1020,7 @@ namespace TestDebug
             ControllerCheck = LayoutController.Create(new LayoutRootNodeIndex(rootNode));
             Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
 
-            ILayoutControllerView ControllerView9 = LayoutControllerView.Create(Controller, LayoutTemplateSet.Default, LayoutDrawContext.Default);
+            ILayoutControllerView ControllerView9 = LayoutControllerView.Create(Controller, LayoutTemplateSet.Default, LayoutDrawPrintContext.Default);
             Debug.Assert(ControllerView9.IsEqual(CompareEqual.New(), ControllerView));
 
             Controller.Assign(OptionalInner.ChildState.ParentIndex, out IsChanged);
@@ -1028,7 +1028,7 @@ namespace TestDebug
             ControllerCheck = LayoutController.Create(new LayoutRootNodeIndex(rootNode));
             Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
 
-            ILayoutControllerView ControllerView10 = LayoutControllerView.Create(Controller, LayoutTemplateSet.Default, LayoutDrawContext.Default);
+            ILayoutControllerView ControllerView10 = LayoutControllerView.Create(Controller, LayoutTemplateSet.Default, LayoutDrawPrintContext.Default);
             Debug.Assert(ControllerView10.IsEqual(CompareEqual.New(), ControllerView));
 
             if (ListInner.BlockStateList.Count >= 2)
@@ -1039,7 +1039,7 @@ namespace TestDebug
                 ControllerCheck = LayoutController.Create(new LayoutRootNodeIndex(rootNode));
                 Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
 
-                ILayoutControllerView ControllerView11 = LayoutControllerView.Create(Controller, LayoutTemplateSet.Default, LayoutDrawContext.Default);
+                ILayoutControllerView ControllerView11 = LayoutControllerView.Create(Controller, LayoutTemplateSet.Default, LayoutDrawPrintContext.Default);
                 Debug.Assert(ControllerView11.IsEqual(CompareEqual.New(), ControllerView));
 
                 ILayoutBrowsingExistingBlockNodeIndex SplitIndex2 = (ILayoutBrowsingExistingBlockNodeIndex)ListInner.IndexAt(1, 0);
@@ -1048,7 +1048,7 @@ namespace TestDebug
                 ControllerCheck = LayoutController.Create(new LayoutRootNodeIndex(rootNode));
                 Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
 
-                ILayoutControllerView ControllerView12 = LayoutControllerView.Create(Controller, LayoutTemplateSet.Default, LayoutDrawContext.Default);
+                ILayoutControllerView ControllerView12 = LayoutControllerView.Create(Controller, LayoutTemplateSet.Default, LayoutDrawPrintContext.Default);
                 Debug.Assert(ControllerView12.IsEqual(CompareEqual.New(), ControllerView));
             }
 

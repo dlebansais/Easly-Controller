@@ -466,18 +466,32 @@
 
             if (AnchorState == FocusedState)
             {
-                if (Focus is IFocusTextFocus AsTextFocus)
+                bool IsHandled = false;
+
+                switch (Focus)
                 {
-                    SetTextSelection();
-                    return;
+                    case IFocusTextFocus AsTextFocus:
+                        SetTextSelection();
+                        IsHandled = true;
+                        break;
+
+                    case IFocusDiscreteContentFocus AsDiscreteContentFocus:
+                        SetDiscreteValueSelection(AsDiscreteContentFocus);
+                        IsHandled = true;
+                        break;
                 }
 
-                else if (Focus is IFocusDiscreteContentFocus AsDiscreteContentFocus)
-                {
-                    SetDiscreteValueSelection(AsDiscreteContentFocus);
-                    return;
-                }
+                Debug.Assert(IsHandled);
             }
+            else
+                SetAnchoredNodeSelection();
+        }
+
+        /// <summary></summary>
+        private protected virtual void SetAnchoredNodeSelection()
+        {
+            IFocusNodeState AnchorState = SelectionAnchor.State;
+            IFocusNodeState FocusedState = Focus.CellView.StateView.State;
 
             IFocusNodeState State = AnchorState;
             IReadOnlyIndex FirstFocusedIndex = null;

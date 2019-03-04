@@ -69,7 +69,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DrawContext\LayoutDrawContext.cs" />
+    <Compile Include="FullContext\LayoutDrawPrintContext.cs" />
     <Compile Include="TemplateSet\CustomFocusTemplateSet.cs" />
     <Compile Include="TemplateSet\CustomFrameTemplateSet.cs" />
     <Compile Include="Program.cs" />

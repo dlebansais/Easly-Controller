@@ -5,9 +5,9 @@ using EaslyController.Layout;
 
 namespace TestDebug
 {
-    public class LayoutDrawContext : ILayoutDrawContext
+    public class LayoutDrawPrintContext : ILayoutDrawContext, ILayoutPrintContext
     {
-        public static LayoutDrawContext Default = new LayoutDrawContext();
+        public static LayoutDrawPrintContext Default = new LayoutDrawPrintContext();
 
         public Measure LineHeight { get { return new Measure() { Draw = 12, Print = 1 }; } }
         public Measure TabulationWidth { get { return new Measure() { Draw = 24, Print = 2 }; } }
@@ -53,7 +53,7 @@ namespace TestDebug
             padding = Padding.Empty;
         }
 
-        public virtual void DrawSelectionText(string text, Point origin, TextStyles textStyle, int start, int end)
+        public void DrawSelectionText(string text, Point origin, TextStyles textStyle, int start, int end)
         {
         }
 
@@ -86,16 +86,32 @@ namespace TestDebug
         {
         }
 
-        public virtual int GetCaretPositionInText(double x, string text, TextStyles textStyle, CaretModes mode, Measure maxTextWidth)
+        public int GetCaretPositionInText(double x, string text, TextStyles textStyle, CaretModes mode, Measure maxTextWidth)
         {
             return 0;
         }
 
-        public virtual void ToRelativeLocation(ref double x, ref double y)
+        public void ToRelativeLocation(ref double x, ref double y)
         {
         }
 
-        public virtual void DrawSelectionRectangle(Rect rect)
+        public void DrawSelectionRectangle(Rect rect)
+        {
+        }
+
+        public void PrintText(string text, Point origin, TextStyles textStyle)
+        {
+        }
+
+        public void PrintSymbol(Symbols symbol, Point origin, Size size, Padding padding)
+        {
+        }
+
+        public void PrintHorizontalSeparator(HorizontalSeparators separator, Point origin, Measure height)
+        {
+        }
+
+        public void PrintVerticalSeparator(VerticalSeparators separator, Point origin, Measure width)
         {
         }
     }
