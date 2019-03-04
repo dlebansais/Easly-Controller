@@ -1,7 +1,6 @@
 ﻿namespace EditorDebug
 {
     using System.Diagnostics;
-    using System.Globalization;
     using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Input;
@@ -574,14 +573,14 @@
             using (ILayoutControllerView PrintView = LayoutControllerView.Create(Controller, CustomLayoutTemplateSet.LayoutTemplateSet, PrintContext))
             {
                 PrintView.Print();
-                string Content = PrintContext.ToString();
-                string RtfContent = PrintContext.ToString("rtf", CultureInfo.CurrentCulture);
+                string Content = PrintContext.PrintableArea.ToString();
+                string RtfContent = PrintContext.PrintableArea.ToString(PrintContext.BrushTable);
 
                 DataObject DataObject = new DataObject();
-                DataObject.SetData("Text", Content);
-                DataObject.SetData("UnicodeText", Content);
-                DataObject.SetData(typeof(string), Content);
                 DataObject.SetData("Rich Text Format", RtfContent);
+                DataObject.SetData(typeof(string), Content);
+                DataObject.SetData("UnicodeText", Content);
+                DataObject.SetData("Text", Content);
 
                 Clipboard.Clear();
                 Clipboard.SetDataObject(DataObject, true);

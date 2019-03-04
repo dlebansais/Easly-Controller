@@ -1,6 +1,5 @@
 ﻿namespace EaslyDraw
 {
-    using System;
     using EaslyController.Constants;
     using EaslyController.Controller;
     using EaslyController.Layout;
@@ -8,7 +7,7 @@
     /// <summary>
     /// An implementation of IxxxPrintContext for WPF.
     /// </summary>
-    public class PrintContext : MeasureContext, ILayoutPrintContext, IFormattable
+    public class PrintContext : MeasureContext, ILayoutPrintContext
     {
         #region Init
         /// <summary>
@@ -27,14 +26,21 @@
         protected PrintContext()
         {
             PrintableArea = new PrintableArea();
-            LeftBracketGeometry = new PrintableGeometry('[', ' ', ' ', ' ', ' ', PrintOrientations.Vertical);
-            RightBracketGeometry = new PrintableGeometry(']', ' ', ' ', ' ', ' ', PrintOrientations.Vertical);
-            LeftCurlyBracketGeometry = new PrintableGeometry('{', ' ', ' ', ' ', ' ', PrintOrientations.Vertical);
-            RightCurlyBracketGeometry = new PrintableGeometry('}', ' ', ' ', ' ', ' ', PrintOrientations.Vertical);
-            LeftParenthesisGeometry = new PrintableGeometry('(', ' ', ' ', ' ', ' ', PrintOrientations.Vertical);
-            RightParenthesisGeometry = new PrintableGeometry(']', ' ', ' ', ' ', ' ', PrintOrientations.Vertical);
-            HorizontalLineGeometry = new PrintableGeometry('-', ' ', ' ', ' ', ' ', PrintOrientations.Horizontal);
+            LeftBracketGeometry = new PrintableGeometry('[', '┌', '└', '│', '│', PrintOrientations.Vertical);
+            RightBracketGeometry = new PrintableGeometry(']', '┐', '┘', '│', '│', PrintOrientations.Vertical);
+            LeftCurlyBracketGeometry = new PrintableGeometry('{', '╔', '╚', '║', '║', PrintOrientations.Vertical);
+            RightCurlyBracketGeometry = new PrintableGeometry('}', '╗', '╝', '║', '║', PrintOrientations.Vertical);
+            LeftParenthesisGeometry = new PrintableGeometry('(', '╭', '╰', '│', '│', PrintOrientations.Vertical);
+            RightParenthesisGeometry = new PrintableGeometry(')', '╮', '╯', '│', '│', PrintOrientations.Vertical);
+            HorizontalLineGeometry = new PrintableGeometry('─', '─', '─', '─', '─', PrintOrientations.Horizontal);
         }
+        #endregion
+
+        #region Properties
+        /// <summary>
+        /// The printable area with printable content.
+        /// </summary>
+        public PrintableArea PrintableArea { get; }
         #endregion
 
         #region Implementation of IxxxPrintContext
@@ -156,7 +162,6 @@
         #endregion
 
         #region Implementation
-        private PrintableArea PrintableArea;
         private PrintableGeometry LeftBracketGeometry;
         private PrintableGeometry RightBracketGeometry;
         private PrintableGeometry LeftCurlyBracketGeometry;
@@ -164,33 +169,6 @@
         private PrintableGeometry LeftParenthesisGeometry;
         private PrintableGeometry RightParenthesisGeometry;
         private PrintableGeometry HorizontalLineGeometry;
-
-        /// <summary>
-        /// Returns a string representation of this instance.
-        /// </summary>
-        public override string ToString()
-        {
-            return PrintableArea.ToString();
-        }
-
-        /// <summary>
-        /// Returns a formatted string representation of this instance.
-        /// </summary>
-        /// <param name="provider">A format provider.</param>
-        public string ToString(IFormatProvider provider)
-        {
-            return PrintableArea.ToString(provider);
-        }
-
-        /// <summary>
-        /// Returns a formatted string representation of this instance.
-        /// </summary>
-        /// <param name="format">A format.</param>
-        /// <param name="formatProvider">A format provider.</param>
-        public string ToString(string format, IFormatProvider formatProvider)
-        {
-            return PrintableArea.ToString(format, formatProvider);
-        }
         #endregion
     }
 }

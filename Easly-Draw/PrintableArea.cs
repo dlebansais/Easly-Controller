@@ -1,11 +1,13 @@
 ﻿namespace EaslyDraw
 {
     using System;
+    using System.Collections.Generic;
+    using System.Windows.Media;
 
     /// <summary>
     /// An area where to print characters with a brush.
     /// </summary>
-    public class PrintableArea : IFormattable
+    public class PrintableArea
     {
         #region Init
         /// <summary>
@@ -78,35 +80,8 @@
         /// </summary>
         public override string ToString()
         {
-            return ToString(null, null);
-        }
+            string Result = string.Empty;
 
-        /// <summary>
-        /// Returns a formatted string representation of this instance.
-        /// </summary>
-        /// <param name="provider">A format provider.</param>
-        public string ToString(IFormatProvider provider)
-        {
-            return ToString(null, provider);
-        }
-
-        /// <summary>
-        /// Returns a formatted string representation of this instance.
-        /// </summary>
-        /// <param name="format">A format.</param>
-        /// <param name="formatProvider">A format provider.</param>
-        public string ToString(string format, IFormatProvider formatProvider)
-        {
-            if (format == "rtf")
-                return ToRtfString(formatProvider);
-            else
-                return ToBasicString(formatProvider);
-        }
-        #endregion
-
-        #region Implementation
-        private string ToBasicString(IFormatProvider formatProvider)
-        {
             string[] Lines = new string[Height];
 
             for (int i = 0; i < Height; i++)
@@ -133,17 +108,80 @@
                 Lines[i] = Line;
             }
 
-            string Result = string.Empty;
-
             foreach (string Line in Lines)
                 Result += Line + "\r\n";
 
             return Result;
         }
 
-        private string ToRtfString(IFormatProvider formatProvider)
+        /// <summary>
+        /// Returns a string representation of this instance in RTF format.
+        /// </summary>
+        public virtual string ToString(IDictionary<BrushSettings, Brush> brushTable)
         {
-            return ToBasicString(formatProvider);
+            string Result = string.Empty;
+
+            Result += "{\\rtf\\ansi";
+            Result += "{\\fonttbl{\\f0 Consolas;}}";
+
+            Result += "{\\colortbl;";
+            for (BrushSettings Index = 0; (int)Index < typeof(BrushSettings).GetEnumValues().Length; Index++)
+            {
+                SolidColorBrush b = brushTable.ContainsKey(Index) ? brushTable[Index] as SolidColorBrush : Brushes.Black;
+
+                Result += $"\\red{b.Color.R}\\green{b.Color.G}\\blue{b.Color.B};";
+            }
+            Result += @"}";
+
+            Result += "\\f0 \\fs19 \\cf1 \\cb0 \\highlight0";
+
+            string[] Lines = new string[Height];
+
+            for (int i = 0; i < Height; i++)
+            {
+                int Length;
+                for (Length = Width; Length > 0; Length--)
+                {
+                    PrintableCharacter c = PrintArea[Length - 1, i];
+                    if (c != null)
+                        break;
+                }
+
+                BrushSettings CurrentBrush = BrushSettings.Default;
+                string Line = $"\\cf{((int)CurrentBrush) + 1} ";
+
+                for (int j = 0; j < Length; j++)
+                {
+                    PrintableCharacter Character = PrintArea[j, i];
+
+                    if (Character != null)
+                    {
+                        if (CurrentBrush != Character.Brush)
+                        {
+                            CurrentBrush = Character.Brush;
+                            Line += $"\\cf{((int)CurrentBrush) + 1} ";
+                        }
+
+                        char C = Character.C;
+
+                        if (C <= 0x7F)
+                            Line += Character.C;
+                        else
+                            Line += $"\\u{Convert.ToInt32(C)}?";
+                    }
+                    else
+                        Line += " ";
+                }
+
+                Lines[i] = Line;
+            }
+
+            foreach (string Line in Lines)
+                Result += Line + @"\par ";
+
+            Result += "}";
+
+            return Result;
         }
         #endregion
     }
