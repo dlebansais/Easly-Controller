@@ -58,17 +58,12 @@
         /// <summary>
         /// Width of a tabulation margin.
         /// </summary>
-        public double TabulationWidth { get; private set; }
-
-        /// <summary>
-        /// Width of a tabulation margin, in number of whitespace.
-        /// </summary>
-        public int TabulationLength { get; private set; }
+        public Measure TabulationWidth { get; private set; }
 
         /// <summary>
         /// Height of a line of text.
         /// </summary>
-        public double LineHeight { get; private set; }
+        public Measure LineHeight { get; private set; }
 
         /// <summary>
         /// The font family, weight, style and stretch the text should be formatted with.
@@ -116,55 +111,18 @@
         /// Gets the width corresponding to a separator between cells in a line.
         /// </summary>
         /// <param name="separator">The separator.</param>
-        public virtual double GetHorizontalSeparatorWidth(HorizontalSeparators separator)
+        public virtual Measure GetHorizontalSeparatorWidth(HorizontalSeparators separator)
         {
             return HorizontalSeparatorWidthTable[separator];
-        }
-
-        /// <summary>
-        /// Gets the width corresponding to a separator between cells in a line, in number of whitespace.
-        /// </summary>
-        /// <param name="separator">The separator.</param>
-        public virtual int GetHorizontalSeparatorLength(HorizontalSeparators separator)
-        {
-            switch (separator)
-            {
-                default:
-                case HorizontalSeparators.None:
-                    return 0;
-
-                case HorizontalSeparators.Comma:
-                    return CommaSeparatorString.Length;
-
-                case HorizontalSeparators.Dot:
-                    return DotSeparatorString.Length;
-            }
         }
 
         /// <summary>
         /// Gets the height corresponding to a separator between cells in a column.
         /// </summary>
         /// <param name="separator">The separator.</param>
-        public virtual SeparatorLength GetVerticalSeparatorHeight(VerticalSeparators separator)
+        public virtual Measure GetVerticalSeparatorHeight(VerticalSeparators separator)
         {
-            return VerticalSeparatorWidthTable[separator];
-        }
-
-        /// <summary>
-        /// Gets the height corresponding to a separator between cells in a column, in number of whitespace.
-        /// </summary>
-        /// <param name="separator">The separator.</param>
-        public virtual int GetVerticalSeparatorLineCount(VerticalSeparators separator)
-        {
-            switch (separator)
-            {
-                default:
-                case VerticalSeparators.None:
-                    return 0;
-
-                case VerticalSeparators.Line:
-                    return 1;
-            }
+            return VerticalSeparatorHeightTable[separator];
         }
 
         /// <summary>
@@ -174,15 +132,15 @@
         /// <param name="textStyle">Style to use for the text.</param>
         /// <param name="maxTextWidth">The maximum width for a line of text. NaN means no limit.</param>
         /// <returns>The size of the string.</returns>
-        public virtual Size MeasureTextSize(string text, TextStyles textStyle, double maxTextWidth)
+        public virtual Size MeasureTextSize(string text, TextStyles textStyle, Measure maxTextWidth)
         {
             Brush Brush = BrushTable[StyleToForegroundBrush(textStyle)];
             FormattedText ft = new FormattedText(text, Culture, FlowDirection, Typeface, EmSize, Brush);
-            if (!double.IsNaN(maxTextWidth))
-                ft.MaxTextWidth = maxTextWidth;
+            if (!maxTextWidth.IsFloating)
+                ft.MaxTextWidth = maxTextWidth.Draw;
 
-            double Width = ft.Width;
-            double Height = LineHeight;
+            Measure Width = new Measure() { Draw = ft.Width, Print = text.Length };
+            Measure Height = LineHeight;
             return new Size(Width, Height);
         }
 
@@ -210,32 +168,6 @@
         }
 
         /// <summary>
-        /// Measures a string.
-        /// </summary>
-        /// <param name="text">The string to measure.</param>
-        /// <param name="textStyle">Style to use for the text.</param>
-        /// <param name="maxTextLength">The maximum width for a line of text. 0 means no limit.</param>
-        /// <returns>The size of the string.</returns>
-        public virtual Plane MeasureTextPlane(string text, TextStyles textStyle, int maxTextLength)
-        {
-            int Length;
-            int Lines;
-
-            if (maxTextLength <= 0 || text.Length <= maxTextLength)
-            {
-                Length = text.Length;
-                Lines = 1;
-            }
-            else
-            {
-                Length = maxTextLength;
-                Lines = (text.Length + maxTextLength - 1) / maxTextLength;
-            }
-
-            return new Plane(Length, Lines);
-        }
-
-        /// <summary>
         /// Measures a symbol.
         /// </summary>
         /// <param name="symbol">The symbol to measure.</param>
@@ -251,44 +183,16 @@
                 case Symbols.LeftArrow:
                 case Symbols.Dot:
                 case Symbols.InsertSign:
-                    return new Size(ft.Width, LineHeight);
+                    return new Size(new Measure() { Draw = ft.Width, Print = Text.Length }, LineHeight);
                 case Symbols.LeftBracket:
                 case Symbols.RightBracket:
                 case Symbols.LeftCurlyBracket:
                 case Symbols.RightCurlyBracket:
                 case Symbols.LeftParenthesis:
                 case Symbols.RightParenthesis:
-                    return new Size(ft.Width, double.NaN);
+                    return new Size(new Measure() { Draw = ft.Width, Print = Text.Length }, Measure.Floating);
                 case Symbols.HorizontalLine:
-                    return new Size(double.NaN, ft.Height);
-            }
-        }
-
-        /// <summary>
-        /// Measures a symbol.
-        /// </summary>
-        /// <param name="symbol">The symbol to measure.</param>
-        /// <returns>The size of the symbol.</returns>
-        public virtual Plane MeasureSymbolPlane(Symbols symbol)
-        {
-            string Text = SymbolToText(symbol);
-
-            switch (symbol)
-            {
-                default:
-                case Symbols.LeftArrow:
-                case Symbols.Dot:
-                case Symbols.InsertSign:
-                    return new Plane(Text.Length, 1);
-                case Symbols.LeftBracket:
-                case Symbols.RightBracket:
-                case Symbols.LeftCurlyBracket:
-                case Symbols.RightCurlyBracket:
-                case Symbols.LeftParenthesis:
-                case Symbols.RightParenthesis:
-                    return new Plane(Text.Length, -1);
-                case Symbols.HorizontalLine:
-                    return new Plane(-1, 1);
+                    return new Size(Measure.Floating, VerticalSeparatorHeightTable[VerticalSeparators.Line]);
             }
         }
 
@@ -346,6 +250,8 @@
         {
             double LeftPadding = 0;
             double RightPadding = 0;
+            int LeftSpacing = 0;
+            int RightSpacing = 0;
 
             switch (leftMargin)
             {
@@ -354,6 +260,7 @@
                     break;
                 case Margins.Whitespace:
                     LeftPadding = WhitespaceWidth;
+                    LeftSpacing = 1;
                     break;
             }
 
@@ -364,45 +271,12 @@
                     break;
                 case Margins.Whitespace:
                     RightPadding = WhitespaceWidth;
+                    RightSpacing = 1;
                     break;
             }
 
-            size = new Size(size.Width + LeftPadding + RightPadding, size.Height);
-            padding = new Padding(LeftPadding, 0, RightPadding, 0);
-        }
-
-        /// <summary>
-        /// Extends a size according to the left and right margin settings.
-        /// </summary>
-        /// <param name="leftMargin">The left margin setting.</param>
-        /// <param name="rightMargin">The right margin setting.</param>
-        /// <param name="plane">The size to extend with the calculated padding.</param>
-        /// <param name="padding">The padding calculated from <paramref name="leftMargin"/> and <paramref name="rightMargin"/>.</param>
-        public virtual void UpdatePadding(Margins leftMargin, Margins rightMargin, ref Plane plane, out SpacePadding padding)
-        {
-            int LeftPadding = 0;
-            int RightPadding = 0;
-
-            switch (leftMargin)
-            {
-                case Margins.ThinSpace:
-                    break;
-                case Margins.Whitespace:
-                    LeftPadding = 1;
-                    break;
-            }
-
-            switch (rightMargin)
-            {
-                case Margins.ThinSpace:
-                    break;
-                case Margins.Whitespace:
-                    RightPadding = 1;
-                    break;
-            }
-
-            plane = new Plane(plane.Width + LeftPadding + RightPadding, plane.Height);
-            padding = new SpacePadding(LeftPadding, RightPadding);
+            size = new Size(new Measure() { Draw = size.Width.Draw + LeftPadding + RightPadding, Print = size.Width.Print + LeftSpacing + RightSpacing }, size.Height);
+            padding = new Padding(new Measure() { Draw = LeftPadding, Print = LeftSpacing }, Measure.Zero, new Measure() { Draw = RightPadding, Print = RightSpacing }, Measure.Zero);
         }
         #endregion
 
@@ -417,34 +291,34 @@
 
             ft = new FormattedText(" ", Culture, FlowDirection, Typeface, EmSize, BrushTable[BrushSettings.Default]);
             WhitespaceWidth = ft.WidthIncludingTrailingWhitespace;
-            LineHeight = ft.Height;
-            TabulationLength = 3;
-            TabulationWidth = WhitespaceWidth * TabulationLength;
-            VerticalSeparatorWidthTable[VerticalSeparators.Line] = LineHeight;
+            LineHeight = new Measure() { Draw = ft.Height, Print = 1 };
+            int TabulationLength = 3;
+            TabulationWidth = new Measure() { Draw = WhitespaceWidth * TabulationLength, Print = TabulationLength };
+            VerticalSeparatorHeightTable[VerticalSeparators.Line] = new Measure() { Draw = LineHeight.Draw * 3, Print = 3 };
 
             ft = new FormattedText(CommaSeparatorString, Culture, FlowDirection, Typeface, EmSize, BrushTable[BrushSettings.Symbol]);
-            HorizontalSeparatorWidthTable[HorizontalSeparators.Comma] = ft.WidthIncludingTrailingWhitespace;
+            HorizontalSeparatorWidthTable[HorizontalSeparators.Comma] = new Measure() { Draw = ft.WidthIncludingTrailingWhitespace, Print = CommaSeparatorString.Length };
 
             ft = new FormattedText(DotSeparatorString, Culture, FlowDirection, Typeface, EmSize, BrushTable[BrushSettings.Symbol]);
-            HorizontalSeparatorWidthTable[HorizontalSeparators.Dot] = ft.WidthIncludingTrailingWhitespace;
+            HorizontalSeparatorWidthTable[HorizontalSeparators.Dot] = new Measure() { Draw = ft.WidthIncludingTrailingWhitespace, Print = DotSeparatorString.Length };
         }
 
         /// <summary></summary>
         protected double WhitespaceWidth { get; private set; }
 
         /// <summary></summary>
-        protected Dictionary<HorizontalSeparators, double> HorizontalSeparatorWidthTable { get; } = new Dictionary<HorizontalSeparators, double>()
+        protected Dictionary<HorizontalSeparators, Measure> HorizontalSeparatorWidthTable { get; } = new Dictionary<HorizontalSeparators, Measure>()
         {
-            { HorizontalSeparators.None, 0 },
-            { HorizontalSeparators.Comma, 0 },
-            { HorizontalSeparators.Dot, 0 },
+            { HorizontalSeparators.None, Measure.Zero },
+            { HorizontalSeparators.Comma, Measure.Zero },
+            { HorizontalSeparators.Dot, Measure.Zero },
         };
 
         /// <summary></summary>
-        protected Dictionary<VerticalSeparators, SeparatorLength> VerticalSeparatorWidthTable { get; } = new Dictionary<VerticalSeparators, SeparatorLength>()
+        protected Dictionary<VerticalSeparators, Measure> VerticalSeparatorHeightTable { get; } = new Dictionary<VerticalSeparators, Measure>()
         {
-            { VerticalSeparators.None, SeparatorLength.Empty },
-            { VerticalSeparators.Line, new SeparatorLength() { Draw = 30, Print = 3 } },
+            { VerticalSeparators.None, Measure.Zero },
+            { VerticalSeparators.Line, Measure.Zero },
         };
         #endregion
     }

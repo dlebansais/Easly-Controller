@@ -113,7 +113,7 @@
         /// <param name="textStyle">Style to use for the text.</param>
         /// <param name="maxTextWidth">The maximum width for a line of text. NaN means no limit.</param>
         /// <returns>The size of the string.</returns>
-        public override Size MeasureTextSize(string text, TextStyles textStyle, double maxTextWidth)
+        public override Size MeasureTextSize(string text, TextStyles textStyle, Measure maxTextWidth)
         {
             Size Result = base.MeasureTextSize(text, textStyle, maxTextWidth);
 
@@ -146,20 +146,20 @@
 
             Brush Brush = BrushTable[StyleToForegroundBrush(textStyle)];
             FormattedText ft;
-            double X = PagePadding.Left + origin.X;
-            double Y = PagePadding.Top + origin.Y;
+            double X = PagePadding.Left.Draw + origin.X.Draw;
+            double Y = PagePadding.Top.Draw + origin.Y.Draw;
 
             if (textStyle == TextStyles.Comment)
             {
-                X += CommentPadding.Left;
-                Y += CommentPadding.Top;
+                X += CommentPadding.Left.Draw;
+                Y += CommentPadding.Top.Draw;
             }
 
             ft = new FormattedText(text.Substring(0, start), Culture, FlowDirection, Typeface, EmSize, Brush);
             X += ft.WidthIncludingTrailingWhitespace;
 
             ft = new FormattedText(text.Substring(start, end - start), Culture, FlowDirection, Typeface, EmSize, Brush);
-            System.Windows.Rect SelectionRect = new System.Windows.Rect(X, Y, ft.WidthIncludingTrailingWhitespace, LineHeight);
+            System.Windows.Rect SelectionRect = new System.Windows.Rect(X, Y, ft.WidthIncludingTrailingWhitespace, LineHeight.Draw);
 
             WpfDrawingContext.DrawRectangle(BrushTable[BrushSettings.Selection], null, SelectionRect);
         }
@@ -184,17 +184,17 @@
             Brush Brush = BrushTable[StyleToForegroundBrush(textStyle)];
             FormattedText ft = new FormattedText(text, Culture, FlowDirection, Typeface, EmSize, Brush);
 
-            double X = PagePadding.Left + origin.X;
-            double Y = PagePadding.Top + origin.Y;
+            double X = PagePadding.Left.Draw + origin.X.Draw;
+            double Y = PagePadding.Top.Draw + origin.Y.Draw;
             double Width = ft.Width;
-            double Height = LineHeight;
+            double Height = LineHeight.Draw;
 
             if (textStyle == TextStyles.Comment)
             {
-                WpfDrawingContext.DrawRectangle(BrushTable[BrushSettings.CommentBackground], null, new System.Windows.Rect(X, Y, CommentPadding.Left + Width + CommentPadding.Right, CommentPadding.Top + Height + CommentPadding.Bottom));
+                WpfDrawingContext.DrawRectangle(BrushTable[BrushSettings.CommentBackground], null, new System.Windows.Rect(X, Y, CommentPadding.Left.Draw + Width + CommentPadding.Right.Draw, CommentPadding.Top.Draw + Height + CommentPadding.Bottom.Draw));
 
-                X += CommentPadding.Left;
-                Y += CommentPadding.Top;
+                X += CommentPadding.Left.Draw;
+                Y += CommentPadding.Top.Draw;
             }
 
             WpfDrawingContext.DrawText(ft, new System.Windows.Point(X, Y));
@@ -272,7 +272,7 @@
 
             Brush ForegroundBrush = BrushTable[BrushSettings.Symbol];
             FormattedText ft = new FormattedText(text, Culture, FlowDirection, Typeface, EmSize, ForegroundBrush);
-            WpfDrawingContext.DrawText(ft, new System.Windows.Point(PagePadding.Left + origin.X + padding.Left, PagePadding.Top + origin.Y + padding.Top));
+            WpfDrawingContext.DrawText(ft, new System.Windows.Point(PagePadding.Left.Draw + origin.X.Draw + padding.Left.Draw, PagePadding.Top.Draw + origin.Y.Draw + padding.Top.Draw));
         }
 
         /// <summary></summary>
@@ -305,7 +305,7 @@
                     break;
 
                 case GeometryScalings.Stretch:
-                    Width = measuredSize.Width;
+                    Width = measuredSize.Width.Draw;
                     break;
             }
 
@@ -317,16 +317,16 @@
                     break;
 
                 case GeometryScalings.Font:
-                    Height = LineHeight;
+                    Height = LineHeight.Draw;
                     break;
 
                 case GeometryScalings.Stretch:
-                    Height = measuredSize.Height;
+                    Height = measuredSize.Height.Draw;
                     break;
             }
 
             Geometry Result = geometry.Scaled(Width, Height);
-            Result.Transform = new TranslateTransform(origin.X, origin.Y);
+            Result.Transform = new TranslateTransform(origin.X.Draw, origin.Y.Draw);
 
             Result.Freeze();
 
@@ -339,7 +339,7 @@
         /// <param name="separator">The separator to draw.</param>
         /// <param name="origin">The location where to draw.</param>
         /// <param name="height">The separator height.</param>
-        public virtual void DrawHorizontalSeparator(HorizontalSeparators separator, Point origin, double height)
+        public virtual void DrawHorizontalSeparator(HorizontalSeparators separator, Point origin, Measure height)
         {
             Debug.Assert(WpfDrawingContext != null);
 
@@ -350,11 +350,11 @@
             {
                 case HorizontalSeparators.Comma:
                     ft = new FormattedText(CommaSeparatorString, Culture, FlowDirection, Typeface, EmSize, ForegroundBrush);
-                    WpfDrawingContext.DrawText(ft, new System.Windows.Point(PagePadding.Left + origin.X - ft.WidthIncludingTrailingWhitespace, PagePadding.Top + origin.Y));
+                    WpfDrawingContext.DrawText(ft, new System.Windows.Point(PagePadding.Left.Draw + origin.X.Draw - ft.WidthIncludingTrailingWhitespace, PagePadding.Top.Draw + origin.Y.Draw));
                     break;
                 case HorizontalSeparators.Dot:
                     ft = new FormattedText(DotSeparatorString, Culture, FlowDirection, Typeface, EmSize, ForegroundBrush);
-                    WpfDrawingContext.DrawText(ft, new System.Windows.Point(PagePadding.Left + origin.X - ft.WidthIncludingTrailingWhitespace, PagePadding.Top + origin.Y));
+                    WpfDrawingContext.DrawText(ft, new System.Windows.Point(PagePadding.Left.Draw + origin.X.Draw - ft.WidthIncludingTrailingWhitespace, PagePadding.Top.Draw + origin.Y.Draw));
                     break;
             }
         }
@@ -365,7 +365,7 @@
         /// <param name="separator">The separator to draw.</param>
         /// <param name="origin">The location where to draw.</param>
         /// <param name="width">The separator width.</param>
-        public virtual void DrawVerticalSeparator(VerticalSeparators separator, Point origin, double width)
+        public virtual void DrawVerticalSeparator(VerticalSeparators separator, Point origin, Measure width)
         {
             // TODO
         }
@@ -387,20 +387,20 @@
 
             Brush Brush = BrushTable[StyleToForegroundBrush(textStyle)];
             FormattedText ft = new FormattedText(LeftText, Culture, FlowDirection, Typeface, EmSize, Brush);
-            double X = origin.X + ft.WidthIncludingTrailingWhitespace;
-            double Y = origin.Y;
+            double X = origin.X.Draw + ft.WidthIncludingTrailingWhitespace;
+            double Y = origin.Y.Draw;
 
             if (textStyle == TextStyles.Comment)
             {
-                X += CommentPadding.Left;
-                Y += CommentPadding.Top;
+                X += CommentPadding.Left.Draw;
+                Y += CommentPadding.Top.Draw;
             }
 
             ChangeFlashClockOpacity(isVisible: true);
 
             if (mode == CaretModes.Insertion)
             {
-                System.Windows.Rect CaretRect = new System.Windows.Rect(PagePadding.Left + X, PagePadding.Top + Y, InsertionCaretWidth, LineHeight);
+                System.Windows.Rect CaretRect = new System.Windows.Rect(PagePadding.Left.Draw + X, PagePadding.Top.Draw + Y, InsertionCaretWidth, LineHeight.Draw);
 
                 WpfDrawingContext.PushOpacity(1, FlashClock);
                 WpfDrawingContext.DrawRectangle(BrushTable[BrushSettings.CaretInsertion], null, CaretRect);
@@ -411,7 +411,7 @@
                 string CharText = text.Substring(position, 1);
                 ft = new FormattedText(CharText, Culture, FlowDirection, Typeface, EmSize, BrushTable[BrushSettings.CaretOverride]);
 
-                System.Windows.Rect CaretRect = new System.Windows.Rect(PagePadding.Left + X, PagePadding.Top + Y, ft.WidthIncludingTrailingWhitespace, LineHeight);
+                System.Windows.Rect CaretRect = new System.Windows.Rect(PagePadding.Left.Draw + X, PagePadding.Top.Draw + Y, ft.WidthIncludingTrailingWhitespace, LineHeight.Draw);
 
                 WpfDrawingContext.PushOpacity(1, FlashClock);
                 WpfDrawingContext.DrawRectangle(BrushTable[BrushSettings.CaretOverride], null, CaretRect);
@@ -445,7 +445,7 @@
             if (CommentIcon != null)
             {
                 WpfDrawingContext.PushOpacity(0.5);
-                WpfDrawingContext.DrawImage(CommentIcon, new System.Windows.Rect(PagePadding.Left + region.X - (CommentIcon.Width / 2), PagePadding.Top + region.Y - (CommentIcon.Height / 2), CommentIcon.Width, CommentIcon.Height));
+                WpfDrawingContext.DrawImage(CommentIcon, new System.Windows.Rect(PagePadding.Left.Draw + region.X - (CommentIcon.Width / 2), PagePadding.Top.Draw + region.Y - (CommentIcon.Height / 2), CommentIcon.Width, CommentIcon.Height));
                 WpfDrawingContext.Pop();
             }
         }
@@ -453,38 +453,39 @@
         /// <summary>
         /// Get the location where draw occurs corresponding to the specified absolute location.
         /// </summary>
-        /// <param name="origin">The absolute location.</param>
-        /// <returns>The relative location where things would be drawn.</returns>
-        public virtual Point ToRelativeLocation(Point origin)
+        /// <param name="x">X-coordinate of the location, absolute on entry, relative upon return.</param>
+        /// <param name="y">Y-coordinate of the location, absolute on entry, relative upon return.</param>
+        public virtual void ToRelativeLocation(ref double x, ref double y)
         {
-            return origin.Moved(-PagePadding.Left, -PagePadding.Top);
+            x -= PagePadding.Left.Draw;
+            y -= PagePadding.Top.Draw;
         }
 
         /// <summary>
-        /// Get the caret position corresponding to <paramref name="origin"/> in <paramref name="text"/>.
+        /// Get the caret position corresponding to <paramref name="x"/> in <paramref name="text"/>.
         /// </summary>
-        /// <param name="origin">The location.</param>
+        /// <param name="x">X-coordinate of the caret location.</param>
         /// <param name="text">The text</param>
         /// <param name="textStyle">The style used to measure <paramref name="text"/>.</param>
         /// <param name="mode">The caret mode.</param>
         /// <param name="maxTextWidth">The maximum width for a line of text. NaN means no limit.</param>
         /// <returns>The position of the caret.</returns>
-        public virtual int GetCaretPositionInText(Point origin, string text, TextStyles textStyle, CaretModes mode, double maxTextWidth)
+        public virtual int GetCaretPositionInText(double x, string text, TextStyles textStyle, CaretModes mode, Measure maxTextWidth)
         {
             Brush Brush = BrushTable[StyleToForegroundBrush(textStyle)];
 
             if (textStyle == TextStyles.Comment)
-                origin = origin.Moved(CommentPadding.Left, CommentPadding.Top);
+                x += CommentPadding.Left.Draw;
 
             int Result = 0;
 
             for (int i = 0; i < text.Length; i++)
             {
                 FormattedText ft = new FormattedText(text.Substring(0, i + 1), Culture, FlowDirection, Typeface, EmSize, Brush);
-                if (!double.IsNaN(maxTextWidth))
-                    ft.MaxTextWidth = maxTextWidth;
+                if (!maxTextWidth.IsFloating)
+                    ft.MaxTextWidth = maxTextWidth.Draw;
 
-                if (ft.WidthIncludingTrailingWhitespace >= origin.X)
+                if (ft.WidthIncludingTrailingWhitespace >= x)
                     break;
 
                 Result++;
@@ -502,7 +503,7 @@
             Debug.Assert(WpfDrawingContext != null);
             Debug.Assert(RegionHelper.IsFixed(rect));
 
-            WpfDrawingContext.DrawRectangle(BrushTable[BrushSettings.Selection], null, new System.Windows.Rect(PagePadding.Left + rect.X, PagePadding.Top + rect.Y, rect.Width, rect.Height));
+            WpfDrawingContext.DrawRectangle(BrushTable[BrushSettings.Selection], null, new System.Windows.Rect(PagePadding.Left.Draw + rect.X, PagePadding.Top.Draw + rect.Y, rect.Width, rect.Height));
         }
         #endregion
 
@@ -536,7 +537,7 @@
             LeftParenthesisGeometry = ScaleGlyphGeometryHeight("(", true, 0, 0);
             RightParenthesisGeometry = ScaleGlyphGeometryHeight(")", true, 0, 0);
             HorizontalLineGeometry = ScaleGlyphGeometryWidth("-", true, 0, 0);
-            CommentPadding = new Padding(WhitespaceWidth / 2, LineHeight / 4, WhitespaceWidth / 2, LineHeight / 4);
+            CommentPadding = new Padding(new Measure() { Draw = WhitespaceWidth / 2 }, new Measure() { Draw = LineHeight.Draw / 4 }, new Measure() { Draw = WhitespaceWidth / 2 }, new Measure() { Draw = LineHeight.Draw / 4 });
 
             double PagePaddingX, PagePaddingY;
             if (CommentIcon != null)
@@ -550,7 +551,7 @@
                 PagePaddingY = 0;
             }
 
-            PagePadding = new Padding(PagePaddingX, PagePaddingY, InsertionCaretWidth, 0);
+            PagePadding = new Padding(new Measure() { Draw = PagePaddingX }, new Measure() { Draw = PagePaddingY }, new Measure() { Draw = InsertionCaretWidth }, Measure.Zero);
         }
         #endregion
 

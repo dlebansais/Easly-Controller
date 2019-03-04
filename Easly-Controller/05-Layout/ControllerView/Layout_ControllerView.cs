@@ -155,18 +155,20 @@
         /// <summary>
         /// Gets the visible cell view corresponding to a location.
         /// </summary>
-        /// <param name="point">The location where to look.</param>
+        /// <param name="x">X-coordinate of the location where to look.</param>
+        /// <param name="y">Y-coordinate of the location where to look.</param>
         /// <param name="cellView">The cell view upon return. Null if not found.</param>
         /// <returns>True if found; otherwise, false.</returns>
-        bool CellViewFromPoint(Point point, out ILayoutVisibleCellView cellView);
+        bool CellViewFromPoint(double x, double y, out ILayoutVisibleCellView cellView);
 
         /// <summary>
         /// Sets the focus to the visible cell view corresponding to a location.
         /// </summary>
-        /// <param name="point">The location where to set the focus.</param>
+        /// <param name="x">X-coordinate of the location where to set the focus.</param>
+        /// <param name="y">Y-coordinate of the location where to set the focus.</param>
         /// <param name="resetAnchor">If true, resets the selected text anchor.</param>
         /// <param name="isMoved">True if the focus was moved.</param>
-        void SetFocusToPoint(Point point, bool resetAnchor, out bool isMoved);
+        void SetFocusToPoint(double x, double y, bool resetAnchor, out bool isMoved);
     }
 
     /// <summary>
@@ -397,8 +399,8 @@
             ILayoutNodeState RootState = Controller.RootState;
             ILayoutNodeStateView RootStateView = StateViewTable[RootState];
 
-            RootStateView.UpdateActualCellsPlane();
-            Debug.Assert(RegionHelper.IsValid(RootStateView.ActualCellPlane));
+            RootStateView.UpdateActualCellsSize();
+            Debug.Assert(RegionHelper.IsValid(RootStateView.ActualCellSize));
 
             RootStateView.PrintCells();
         }
@@ -469,7 +471,7 @@
             Point CellOrigin = CellView.CellOrigin;
             Padding CellPadding = CellView.CellPadding;
 
-            Point OriginWithPadding = CellOrigin.Moved(CellPadding.Left, 0);
+            Point OriginWithPadding = CellOrigin.Moved(CellPadding.Left, CellPadding.Top);
             DrawContext.ShowCaret(OriginWithPadding, Text, FocusedTextStyle, ActualCaretMode, CaretPosition);
         }
 
@@ -491,7 +493,7 @@
             Point CellOrigin = CellView.CellOrigin;
             Padding CellPadding = CellView.CellPadding;
 
-            Point OriginWithPadding = CellOrigin.Moved(CellPadding.Left, 0);
+            Point OriginWithPadding = CellOrigin.Moved(CellPadding.Left, CellPadding.Top);
             DrawContext.ShowCaret(OriginWithPadding, Text, TextStyles.Comment, ActualCaretMode, CaretPosition);
         }
 
@@ -524,10 +526,10 @@
                     continue;
 
                 // Don't consider cells that are in the wrong direction;
-                if ((distance < 0 && CellView.CellOrigin.Y >= Origin.Y) || (distance > 0 && CellView.CellOrigin.Y + CellView.CellSize.Height <= Origin.Y))
+                if ((distance < 0 && CellView.CellOrigin.Y.Draw >= Origin.Y.Draw) || (distance > 0 && CellView.CellOrigin.Y.Draw + CellView.CellSize.Height.Draw <= Origin.Y.Draw))
                     continue;
 
-                if (CellView.CellRect.IsPointInRect(Origin))
+                if (CellView.CellRect.IsPointInRect(Origin.X.Draw, Origin.Y.Draw))
                 {
                     NewFocusIndex = CellIndex;
                     break;
@@ -536,8 +538,8 @@
                 {
                     Point Center = CellView.CellRect.Center;
 
-                    double VerticalDistance = Math.Abs(Center.Y - Origin.Y);
-                    double HorizontalDistance = Math.Abs(Center.X - Origin.X);
+                    double VerticalDistance = Math.Abs((Center.Y - Origin.Y).Draw);
+                    double HorizontalDistance = Math.Abs((Center.X - Origin.X).Draw);
 
                     if (NewFocusIndex < 0 || BestVerticalDistance > VerticalDistance || (RegionHelper.IsZero(BestVerticalDistance - VerticalDistance) && BestHorizontalDistance > HorizontalDistance))
                     {
@@ -579,24 +581,24 @@
 
                 if (CaretMode == CaretModes.Override && CaretPosition < MaxCaretPosition)
                 {
-                    Position = (CellView.CellSize.Width * ((CaretPosition * 2) + 1)) / (MaxCaretPosition * 2);
-                    Origin = CellView.CellOrigin.Moved(Position, CellView.CellSize.Height / 2);
+                    Position = (CellView.CellSize.Width.Draw * ((CaretPosition * 2) + 1)) / (MaxCaretPosition * 2);
+                    Origin = CellView.CellOrigin.Moved(new Measure() { Draw = Position }, new Measure() { Draw = CellView.CellSize.Height.Draw / 2 });
                 }
                 else
                 {
-                    Position = (CellView.CellSize.Width * CaretPosition) / MaxCaretPosition;
-                    Origin = CellView.CellOrigin.Moved(Position, CellView.CellSize.Height / 2);
+                    Position = (CellView.CellSize.Width.Draw * CaretPosition) / MaxCaretPosition;
+                    Origin = CellView.CellOrigin.Moved(new Measure() { Draw = Position }, new Measure() { Draw = CellView.CellSize.Height.Draw / 2 });
                 }
             }
             else
             {
                 ILayoutFocusableCellView CellView = Focus.CellView;
-                Origin = CellView.CellOrigin.Moved(CellView.CellSize.Width / 2, CellView.CellSize.Height / 2);
+                Origin = CellView.CellOrigin.Moved(new Measure() { Draw = CellView.CellSize.Width.Draw / 2 }, new Measure() { Draw = CellView.CellSize.Height.Draw / 2 });
             }
 
             Debug.Assert(RegionHelper.IsValid(Origin));
 
-            Origin = Origin.Moved(0, distance);
+            Origin = Origin.Moved(Measure.Zero, new Measure() { Draw = distance });
 
             return Origin;
         }
@@ -632,11 +634,11 @@
                 Point TestCellCenter = TestCellView.CellRect.Center;
 
                 // Don't consider cells that are not on the same line;
-                if ((TestCellOrigin.Y + TestCellSize.Height <= FocusCellOrigin.Y) || (TestCellOrigin.Y >= FocusCellOrigin.Y + FocusCellSize.Height))
+                if ((TestCellOrigin.Y.Draw + TestCellSize.Height.Draw <= FocusCellOrigin.Y.Draw) || (TestCellOrigin.Y.Draw >= FocusCellOrigin.Y.Draw + FocusCellSize.Height.Draw))
                     continue;
 
                 // Don't consider cells that are in the wrong direction;
-                if ((direction < 0 && TestCellOrigin.X >= FocusCellOrigin.X + FocusCellSize.Width) || (direction >= 0 && TestCellOrigin.X + TestCellSize.Width <= FocusCellOrigin.X))
+                if ((direction < 0 && TestCellOrigin.X.Draw >= FocusCellOrigin.X.Draw + FocusCellSize.Width.Draw) || (direction >= 0 && TestCellOrigin.X.Draw + TestCellSize.Width.Draw <= FocusCellOrigin.X.Draw))
                     continue;
 
                 double SquaredDistance = Point.SquaredDistance(FocusCellCenter, TestCellCenter);
@@ -693,12 +695,13 @@
         /// <summary>
         /// Gets the visible cell view corresponding to a location.
         /// </summary>
-        /// <param name="point">The location where to look.</param>
+        /// <param name="x">X-coordinate of the location where to look.</param>
+        /// <param name="y">Y-coordinate of the location where to look.</param>
         /// <param name="cellView">The cell view upon return. Null if not found.</param>
         /// <returns>True if found; otherwise, false.</returns>
-        public virtual bool CellViewFromPoint(Point point, out ILayoutVisibleCellView cellView)
+        public virtual bool CellViewFromPoint(double x, double y, out ILayoutVisibleCellView cellView)
         {
-            EnumerateVisibleCellViews((IFrameVisibleCellView item) => ((ILayoutVisibleCellView)item).CellRect.IsPointInRect(point), out IFrameVisibleCellView foundCellView);
+            EnumerateVisibleCellViews((IFrameVisibleCellView item) => ((ILayoutVisibleCellView)item).CellRect.IsPointInRect(x, y), out IFrameVisibleCellView foundCellView);
             cellView = (ILayoutVisibleCellView)foundCellView;
 
             return cellView != null;
@@ -707,10 +710,11 @@
         /// <summary>
         /// Sets the focus to the visible cell view corresponding to a location.
         /// </summary>
-        /// <param name="point">The location where to set the focus.</param>
+        /// <param name="x">X-coordinate of the location where to set the focus.</param>
+        /// <param name="y">Y-coordinate of the location where to set the focus.</param>
         /// <param name="resetAnchor">If true, resets the selected text anchor.</param>
         /// <param name="isMoved">True if the focus was moved.</param>
-        public virtual void SetFocusToPoint(Point point, bool resetAnchor, out bool isMoved)
+        public virtual void SetFocusToPoint(double x, double y, bool resetAnchor, out bool isMoved)
         {
             isMoved = false;
             ulong OldFocusHash = FocusHash;
@@ -718,12 +722,12 @@
             int NewIndex = -1;
 
             // Takes page margins and padding into account.
-            point = DrawContext.ToRelativeLocation(point);
+            DrawContext.ToRelativeLocation(ref x, ref y);
 
             for (int i = 0; i < FocusChain.Count; i++)
             {
                 ILayoutFocus TestFocus = (ILayoutFocus)FocusChain[i];
-                if (TestFocus.CellView.CellRect.IsPointInRect(point))
+                if (TestFocus.CellView.CellRect.IsPointInRect(x, y))
                 {
                     NewIndex = i;
                     break;
@@ -739,12 +743,14 @@
                 {
                     Point CellOrigin = Focus.CellView.CellOrigin;
                     Size CellSize = Focus.CellView.CellSize;
-                    Point LocationRelativeToCell = point.Moved(-CellOrigin.X, -CellOrigin.Y);
-                    Debug.Assert(LocationRelativeToCell.X >= 0 && LocationRelativeToCell.X < CellSize.Width);
-                    Debug.Assert(LocationRelativeToCell.Y >= 0 && LocationRelativeToCell.Y < CellSize.Height);
+
+                    double XRelativeToCell = x - CellOrigin.X.Draw;
+                    double YRelativeToCell = y - CellOrigin.Y.Draw;
+                    Debug.Assert(XRelativeToCell >= 0 && XRelativeToCell < CellSize.Width.Draw);
+                    Debug.Assert(YRelativeToCell >= 0 && YRelativeToCell < CellSize.Height.Draw);
 
                     string Text = GetFocusedText(AsTextFocus);
-                    int NewCaretPosition = DrawContext.GetCaretPositionInText(LocationRelativeToCell, Text, FocusedTextStyle, CaretMode, double.NaN);
+                    int NewCaretPosition = DrawContext.GetCaretPositionInText(XRelativeToCell, Text, FocusedTextStyle, CaretMode, Measure.Floating);
                     Debug.Assert(NewCaretPosition >= 0 && NewCaretPosition <= MaxCaretPosition);
 
                     SetTextCaretPosition(Text, NewCaretPosition, resetAnchor, out isMoved);
@@ -1055,7 +1061,7 @@
         {
             ILayoutPlaceholderNodeState RootState = Controller.RootState;
             ILayoutNodeStateView RootStateView = StateViewTable[RootState];
-            RootStateView.MeasureCells(null, null, double.NaN, -1);
+            RootStateView.MeasureCells(null, null, Measure.Floating);
 
             InternalViewSize = RootStateView.CellSize;
 

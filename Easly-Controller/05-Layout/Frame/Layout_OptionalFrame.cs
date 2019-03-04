@@ -65,7 +65,7 @@
         /// <param name="separatorLength">The length of the separator in <paramref name="collectionWithSeparator"/>.</param>
         /// <param name="size">The cell size upon return, padding included.</param>
         /// <param name="padding">The cell padding.</param>
-        public virtual void Measure(ILayoutMeasureContext measureContext, ILayoutCellView cellView, ILayoutCellViewCollection collectionWithSeparator, ILayoutCellView referenceContainer, SeparatorLength separatorLength, out Size size, out Padding padding)
+        public virtual void Measure(ILayoutMeasureContext measureContext, ILayoutCellView cellView, ILayoutCellViewCollection collectionWithSeparator, ILayoutCellView referenceContainer, Measure separatorLength, out Size size, out Padding padding)
         {
             ILayoutContainerCellView ContainerCellView = cellView as ILayoutContainerCellView;
             Debug.Assert(ContainerCellView != null);

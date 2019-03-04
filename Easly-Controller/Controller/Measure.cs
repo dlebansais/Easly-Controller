@@ -31,17 +31,17 @@
         /// <summary>
         /// True if this measure is the zero value.
         /// </summary>
-        public bool IsZero { get { return Draw == 0 && Print == 0; } }
+        public bool IsZero { get { return Draw == 0; } }
 
         /// <summary>
         /// True if this measure is floating.
         /// </summary>
-        public bool IsFloating { get { return double.IsNaN(Draw) && Print == -1; } }
+        public bool IsFloating { get { return double.IsNaN(Draw); } }
 
         /// <summary>
         /// True if this measure is zero or above.
         /// </summary>
-        public bool IsPositive { get { return Draw >= 0 && Print >= 0; } }
+        public bool IsPositive { get { return Draw >= 0; } }
 
         /// <summary>
         /// True if this measure is above zero.

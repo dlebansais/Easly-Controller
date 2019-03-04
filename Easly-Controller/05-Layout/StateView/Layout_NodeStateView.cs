@@ -61,27 +61,12 @@
         Rect CellRect { get; }
 
         /// <summary>
-        /// Location of the cell.
-        /// </summary>
-        Corner CellCorner { get; }
-
-        /// <summary>
-        /// Floating size of the cell.
-        /// </summary>
-        Plane CellPlane { get; }
-
-        /// <summary>
-        /// Actual size of the cell.
-        /// </summary>
-        Plane ActualCellPlane { get; }
-
-        /// <summary>
         /// Measure all cells in this state view.
         /// </summary>
         /// <param name="collectionWithSeparator">A collection that can draw separators around the cell.</param>
         /// <param name="referenceContainer">The cell view in <paramref name="collectionWithSeparator"/> that contains this cell.</param>
         /// <param name="separatorLength">The length of the separator in <paramref name="collectionWithSeparator"/>.</param>
-        void MeasureCells(ILayoutCellViewCollection collectionWithSeparator, ILayoutCellView referenceContainer, SeparatorLength separatorLength);
+        void MeasureCells(ILayoutCellViewCollection collectionWithSeparator, ILayoutCellView referenceContainer, Measure separatorLength);
 
         /// <summary>
         /// Arranges cells in this state view.
@@ -98,11 +83,6 @@
         /// Draws cells in the state view.
         /// </summary>
         void DrawCells();
-
-        /// <summary>
-        /// Updates the actual size of cells in this state view.
-        /// </summary>
-        void UpdateActualCellsPlane();
 
         /// <summary>
         /// Prints cells in the state view.
@@ -127,9 +107,6 @@
             CellOrigin = RegionHelper.InvalidOrigin;
             CellSize = RegionHelper.InvalidSize;
             ActualCellSize = RegionHelper.InvalidSize;
-            CellCorner = RegionHelper.InvalidCorner;
-            CellPlane = RegionHelper.InvalidPlane;
-            ActualCellPlane = RegionHelper.InvalidPlane;
         }
         #endregion
 
@@ -183,21 +160,6 @@
         /// Rectangular region for cells in this state view.
         /// </summary>
         public Rect CellRect { get { return new Rect(CellOrigin, ActualCellSize); } }
-
-        /// <summary>
-        /// Location of the cell.
-        /// </summary>
-        public Corner CellCorner { get; private set; }
-
-        /// <summary>
-        /// Floating size of the cell.
-        /// </summary>
-        public Plane CellPlane { get; private set; }
-
-        /// <summary>
-        /// Actual size of the cell.
-        /// </summary>
-        public Plane ActualCellPlane { get; private set; }
         #endregion
 
         #region Client Interface
@@ -207,7 +169,7 @@
         /// <param name="collectionWithSeparator">A collection that can draw separators around the cell.</param>
         /// <param name="referenceContainer">The cell view in <paramref name="collectionWithSeparator"/> that contains this cell.</param>
         /// <param name="separatorLength">The length of the separator in <paramref name="collectionWithSeparator"/>.</param>
-        public abstract void MeasureCells(ILayoutCellViewCollection collectionWithSeparator, ILayoutCellView referenceContainer, SeparatorLength separatorLength);
+        public abstract void MeasureCells(ILayoutCellViewCollection collectionWithSeparator, ILayoutCellView referenceContainer, Measure separatorLength);
 
         /// <summary>
         /// Arranges cells in this state view.
@@ -224,11 +186,6 @@
         /// Draws cells in the state view.
         /// </summary>
         public abstract void DrawCells();
-
-        /// <summary>
-        /// Updates the actual size of cells in this state view.
-        /// </summary>
-        public abstract void UpdateActualCellsPlane();
 
         /// <summary>
         /// Prints cells in the state view.

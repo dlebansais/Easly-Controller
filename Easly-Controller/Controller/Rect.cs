@@ -43,12 +43,12 @@
         /// <param name="size">The region size.</param>
         public Rect(Point origin, Size size)
         {
-            Debug.Assert(origin.X >= 0 && origin.Y >= 0 && ((size.Width >= 0 && size.Height >= 0) || (double.IsNaN(size.Width) && size.Height >= 0) || (size.Width >= 0 && double.IsNaN(size.Height))));
+            Debug.Assert(origin.X.Draw >= 0 && origin.Y.Draw >= 0 && ((size.Width.Draw >= 0 && size.Height.Draw >= 0) || (double.IsNaN(size.Width.Draw) && size.Height.Draw >= 0) || (size.Width.Draw >= 0 && double.IsNaN(size.Height.Draw))));
 
-            X = origin.X;
-            Y = origin.Y;
-            Width = size.Width;
-            Height = size.Height;
+            X = origin.X.Draw;
+            Y = origin.Y.Draw;
+            Width = size.Width.Draw;
+            Height = size.Height.Draw;
         }
         #endregion
 
@@ -66,7 +66,7 @@
         /// <summary>
         /// Origin of the top left corner.
         /// </summary>
-        public Point Origin { get { return new Point(X, Y); } }
+        public Point Origin { get { return new Point(new Measure() { Draw = X }, new Measure() { Draw = Y }); } }
 
         /// <summary>
         /// The region Width.
@@ -81,7 +81,7 @@
         /// <summary>
         /// The region size
         /// </summary>
-        public Size Size { get { return new Size(Width, Height); } }
+        public Size Size { get { return new Size(new Measure() { Draw = Width }, new Measure() { Draw = Height }); } }
 
         /// <summary>
         /// True if the object is the empty region.
@@ -96,17 +96,18 @@
         /// <summary>
         /// Location of the rectangle center.
         /// </summary>
-        public Point Center { get { return new Point(X + (Width / 2), Y + (Height / 2)); } }
+        public Point Center { get { return new Point(new Measure() { Draw = X + (Width / 2) }, new Measure() { Draw = Y + (Height / 2) }); } }
         #endregion
 
         #region Client Interface
         /// <summary>
         /// Checks if a point is within the rectangular region.
         /// </summary>
-        /// <param name="point">The point to check.</param>
-        public bool IsPointInRect(Point point)
+        /// <param name="x">X-coordinate of the point to check.</param>
+        /// <param name="y">Y-coordinate of the point to check.</param>
+        public bool IsPointInRect(double x, double y)
         {
-            return point.X >= X && point.X < X + Width && point.Y >= Y && point.Y < Y + Height;
+            return x >= X && x < X + Width && y >= Y && y < Y + Height;
         }
 
         /// <summary>

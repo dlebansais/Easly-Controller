@@ -29,10 +29,6 @@
             CellSize = RegionHelper.InvalidSize;
             CellPadding = Padding.Empty;
             ActualCellSize = RegionHelper.InvalidSize;
-            CellCorner = RegionHelper.InvalidCorner;
-            CellPlane = RegionHelper.InvalidPlane;
-            CellSpacePadding = SpacePadding.Empty;
-            ActualCellPlane = RegionHelper.InvalidPlane;
         }
         #endregion
 
@@ -73,26 +69,6 @@
         public Rect CellRect { get { return new Rect(CellOrigin, ActualCellSize); } }
 
         /// <summary>
-        /// Location of the cell.
-        /// </summary>
-        public Corner CellCorner { get; private set; }
-
-        /// <summary>
-        /// Floating size of the cell.
-        /// </summary>
-        public Plane CellPlane { get; private set; }
-
-        /// <summary>
-        /// Padding inside the cell.
-        /// </summary>
-        public SpacePadding CellSpacePadding { get; private set; }
-
-        /// <summary>
-        /// Actual size of the cell.
-        /// </summary>
-        public Plane ActualCellPlane { get; private set; }
-
-        /// <summary>
         /// The collection that can add separators around this item.
         /// </summary>
         public ILayoutCellViewCollection CollectionWithSeparator { get; private set; }
@@ -105,7 +81,7 @@
         /// <summary>
         /// The separator measure.
         /// </summary>
-        public SeparatorLength SeparatorLength { get; private set; }
+        public Measure SeparatorLength { get; private set; }
         #endregion
 
         #region Client Interface
@@ -115,7 +91,7 @@
         /// <param name="collectionWithSeparator">A collection that can draw separators around the cell.</param>
         /// <param name="referenceContainer">The cell view in <paramref name="collectionWithSeparator"/> that contains this cell.</param>
         /// <param name="separatorLength">The length of the separator in <paramref name="collectionWithSeparator"/>.</param>
-        public virtual void Measure(ILayoutCellViewCollection collectionWithSeparator, ILayoutCellView referenceContainer, SeparatorLength separatorLength)
+        public virtual void Measure(ILayoutCellViewCollection collectionWithSeparator, ILayoutCellView referenceContainer, Measure separatorLength)
         {
             CollectionWithSeparator = collectionWithSeparator;
             ReferenceContainer = referenceContainer;
@@ -153,20 +129,11 @@
         }
 
         /// <summary>
-        /// Updates the actual size of the cell.
-        /// </summary>
-        public virtual void UpdateActualPlane()
-        {
-            ActualCellPlane = CellPlane;
-            Debug.Assert(RegionHelper.IsFixed(ActualCellPlane));
-        }
-
-        /// <summary>
         /// Prints the cell.
         /// </summary>
         public virtual void Print()
         {
-            Debug.Assert(RegionHelper.IsValid(ActualCellPlane));
+            Debug.Assert(RegionHelper.IsValid(ActualCellSize));
         }
         #endregion
 

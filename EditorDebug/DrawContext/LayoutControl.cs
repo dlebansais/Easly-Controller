@@ -273,8 +273,8 @@
             {
                 double Height = ParentViewer.ActualHeight;
 
-                if (Height >= DrawContext.LineHeight * 3)
-                    Result = (int)((Height - DrawContext.LineHeight * 2) / DrawContext.LineHeight);
+                if (Height >= DrawContext.LineHeight.Draw * 3)
+                    Result = (int)((Height - DrawContext.LineHeight.Draw * 2) / DrawContext.LineHeight.Draw);
             }
 
             return Result;
@@ -318,7 +318,7 @@
 
         private void MoveFocusVertically(int direction, bool resetAnchor)
         {
-            ControllerView.MoveFocusVertically(ControllerView.DrawContext.LineHeight * direction, resetAnchor, out bool IsMoved);
+            ControllerView.MoveFocusVertically(ControllerView.DrawContext.LineHeight.Draw * direction, resetAnchor, out bool IsMoved);
             if (IsMoved)
                 InvalidateVisual();
         }
@@ -600,7 +600,7 @@
             bool IsShift = Keyboard.IsKeyDown(Key.LeftShift) || Keyboard.IsKeyDown(Key.RightShift);
             bool ResetAnchor = !IsShift;
 
-            ControllerView.SetFocusToPoint(new EaslyController.Controller.Point(Point.X, Point.Y), ResetAnchor, out bool IsMoved);
+            ControllerView.SetFocusToPoint(Point.X, Point.Y, ResetAnchor, out bool IsMoved);
             if (IsMoved)
                 InvalidateVisual();
 
@@ -636,7 +636,7 @@
         protected override Size MeasureOverride(Size availableSize)
         {
             if (ControllerView != null)
-                return new Size(ControllerView.ViewSize.Width, ControllerView.ViewSize.Height);
+                return new Size(ControllerView.ViewSize.Width.Draw, ControllerView.ViewSize.Height.Draw);
             else
                 return base.MeasureOverride(availableSize);
         }

@@ -11,7 +11,7 @@
         #region Init
         static Padding()
         {
-            Empty = new Padding(0, 0, 0, 0);
+            Empty = new Padding(Measure.Zero, Measure.Zero, Measure.Zero, Measure.Zero);
         }
 
         /// <summary>
@@ -26,12 +26,12 @@
         /// <param name="top">The top padding.</param>
         /// <param name="right">The right padding.</param>
         /// <param name="bottom">The botton padding.</param>
-        public Padding(double left, double top, double right, double bottom)
+        public Padding(Measure left, Measure top, Measure right, Measure bottom)
         {
-            Debug.Assert(left >= 0);
-            Debug.Assert(top >= 0);
-            Debug.Assert(right >= 0);
-            Debug.Assert(bottom >= 0);
+            Debug.Assert(left.IsPositive);
+            Debug.Assert(top.IsPositive);
+            Debug.Assert(right.IsPositive);
+            Debug.Assert(bottom.IsPositive);
 
             Left = left;
             Top = top;
@@ -44,27 +44,27 @@
         /// <summary>
         /// The left padding.
         /// </summary>
-        public double Left { get; set; }
+        public Measure Left { get; set; }
 
         /// <summary>
         /// The top padding.
         /// </summary>
-        public double Top { get; set; }
+        public Measure Top { get; set; }
 
         /// <summary>
         /// The right padding.
         /// </summary>
-        public double Right { get; set; }
+        public Measure Right { get; set; }
 
         /// <summary>
         /// The bottom padding.
         /// </summary>
-        public double Bottom { get; set; }
+        public Measure Bottom { get; set; }
 
         /// <summary>
         /// True if the object is the empty padding.
         /// </summary>
-        public bool IsEmpty { get { return Left == 0 && Top == 0 && Right == 0 && Bottom == 0; } }
+        public bool IsEmpty { get { return Left.IsZero && Top.IsZero && Right.IsZero && Bottom.IsZero; } }
         #endregion
 
         #region Client Interface
@@ -75,7 +75,7 @@
         /// <param name="padding2">The second padding.</param>
         public static bool IsEqual(Padding padding1, Padding padding2)
         {
-            return padding1.Left == padding2.Left && padding1.Top == padding2.Top && padding1.Right == padding2.Right && padding1.Bottom == padding2.Bottom;
+            return padding1.Left.Equals(padding2.Left) && padding1.Top.Equals(padding2.Top) && padding1.Right.Equals(padding2.Right) && padding1.Bottom.Equals(padding2.Bottom);
         }
 
         /// <summary>

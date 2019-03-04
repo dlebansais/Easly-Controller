@@ -100,7 +100,7 @@
                 ViewSize = ControllerView.ViewSize;
 
                 // Draw a white background.
-                dc.DrawRectangle(Brushes.White, null, new System.Windows.Rect(0, 0, ViewSize.Width, ViewSize.Height));
+                dc.DrawRectangle(Brushes.White, null, new System.Windows.Rect(0, 0, ViewSize.Width.Draw, ViewSize.Height.Draw));
 
                 // Draw the source code.
                 DrawContext.SetWpfDrawingContext(dc);
@@ -110,7 +110,7 @@
             // At this stage, the visual is ready with drawing data.
 
             // Create a bitmap and renders the visual on it.
-            RenderTargetBitmap Bitmap = new RenderTargetBitmap((int)ViewSize.Width, (int)ViewSize.Height, Dpi, Dpi, PixelFormats.Default);
+            RenderTargetBitmap Bitmap = new RenderTargetBitmap((int)ViewSize.Width.Draw, (int)ViewSize.Height.Draw, Dpi, Dpi, PixelFormats.Default);
             Bitmap.Render(DrawingVisual);
 
             // Save the bitmap to the destination file with a BMP format encoder.

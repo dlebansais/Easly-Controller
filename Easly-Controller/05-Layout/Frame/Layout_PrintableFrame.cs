@@ -15,6 +15,6 @@
         /// <param name="origin">The location where to start printing.</param>
         /// <param name="size">The printing size, padding included.</param>
         /// <param name="padding">The padding to use when printing.</param>
-        void Print(ILayoutPrintContext printContext, ILayoutCellView cellView, Corner origin, Plane size, SpacePadding padding);
+        void Print(ILayoutPrintContext printContext, ILayoutCellView cellView, Point origin, Size size, Padding padding);
     }
 }

@@ -45,26 +45,6 @@
         Rect CellRect { get; }
 
         /// <summary>
-        /// Location of the cell.
-        /// </summary>
-        Corner CellCorner { get; }
-
-        /// <summary>
-        /// Floating size of the cell.
-        /// </summary>
-        Plane CellPlane { get; }
-
-        /// <summary>
-        /// Padding inside the cell.
-        /// </summary>
-        SpacePadding CellSpacePadding { get; }
-
-        /// <summary>
-        /// Actual size of the cell.
-        /// </summary>
-        Plane ActualCellPlane { get; }
-
-        /// <summary>
         /// The collection that can add separators around this item.
         /// </summary>
         ILayoutCellViewCollection CollectionWithSeparator { get; }
@@ -77,7 +57,7 @@
         /// <summary>
         /// The separator measure.
         /// </summary>
-        SeparatorLength SeparatorLength { get; }
+        Measure SeparatorLength { get; }
 
         /// <summary>
         /// Measures the cell.
@@ -85,7 +65,7 @@
         /// <param name="collectionWithSeparator">A collection that can draw separators around the cell.</param>
         /// <param name="referenceContainer">The cell view in <paramref name="collectionWithSeparator"/> that contains this cell.</param>
         /// <param name="separatorLength">The length of the separator in <paramref name="collectionWithSeparator"/>.</param>
-        void Measure(ILayoutCellViewCollection collectionWithSeparator, ILayoutCellView referenceContainer, SeparatorLength separatorLength);
+        void Measure(ILayoutCellViewCollection collectionWithSeparator, ILayoutCellView referenceContainer, Measure separatorLength);
 
         /// <summary>
         /// Arranges the cell.
@@ -102,11 +82,6 @@
         /// Draws the cell.
         /// </summary>
         void Draw();
-
-        /// <summary>
-        /// Updates the actual size of the cell.
-        /// </summary>
-        void UpdateActualPlane();
 
         /// <summary>
         /// Prints the cell.
@@ -172,26 +147,6 @@
         public Rect CellRect { get { return new Rect(CellOrigin, ActualCellSize); } }
 
         /// <summary>
-        /// Location of the cell.
-        /// </summary>
-        public Corner CellCorner { get; private set; }
-
-        /// <summary>
-        /// Floating size of the cell.
-        /// </summary>
-        public Plane CellPlane { get; private set; }
-
-        /// <summary>
-        /// Padding inside the cell.
-        /// </summary>
-        public SpacePadding CellSpacePadding { get; private set; }
-
-        /// <summary>
-        /// Actual size of the cell.
-        /// </summary>
-        public Plane ActualCellPlane { get; private set; }
-
-        /// <summary>
         /// The collection that can add separators around this item.
         /// </summary>
         public ILayoutCellViewCollection CollectionWithSeparator { get; private set; }
@@ -204,7 +159,7 @@
         /// <summary>
         /// The separator measure.
         /// </summary>
-        public SeparatorLength SeparatorLength { get; private set; }
+        public Measure SeparatorLength { get; private set; }
         #endregion
 
         #region Client Interface
@@ -214,7 +169,7 @@
         /// <param name="collectionWithSeparator">A collection that can draw separators around the cell.</param>
         /// <param name="referenceContainer">The cell view in <paramref name="collectionWithSeparator"/> that contains this cell.</param>
         /// <param name="separatorLength">The length of the separator in <paramref name="collectionWithSeparator"/>.</param>
-        public abstract void Measure(ILayoutCellViewCollection collectionWithSeparator, ILayoutCellView referenceContainer, SeparatorLength separatorLength);
+        public abstract void Measure(ILayoutCellViewCollection collectionWithSeparator, ILayoutCellView referenceContainer, Measure separatorLength);
 
         /// <summary>
         /// Arranges the cell.
@@ -231,11 +186,6 @@
         /// Draws the cell.
         /// </summary>
         public abstract void Draw();
-
-        /// <summary>
-        /// Updates the actual size of the cell.
-        /// </summary>
-        public abstract void UpdateActualPlane();
 
         /// <summary>
         /// Prints the cell.

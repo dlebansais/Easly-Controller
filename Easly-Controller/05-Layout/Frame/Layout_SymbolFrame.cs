@@ -59,7 +59,7 @@
         /// <param name="separatorLength">The length of the separator in <paramref name="collectionWithSeparator"/>.</param>
         /// <param name="size">The cell size upon return, padding included.</param>
         /// <param name="padding">The cell padding.</param>
-        public virtual void Measure(ILayoutMeasureContext measureContext, ILayoutCellView cellView, ILayoutCellViewCollection collectionWithSeparator, ILayoutCellView referenceContainer, SeparatorLength separatorLength, out Size size, out Padding padding)
+        public virtual void Measure(ILayoutMeasureContext measureContext, ILayoutCellView cellView, ILayoutCellViewCollection collectionWithSeparator, ILayoutCellView referenceContainer, Measure separatorLength, out Size size, out Padding padding)
         {
             size = measureContext.MeasureSymbolSize(Symbol);
             measureContext.UpdatePadding(LeftMargin, RightMargin, ref size, out padding);
@@ -90,7 +90,7 @@
         /// <param name="origin">The location where to start printing.</param>
         /// <param name="size">The printing size, padding included.</param>
         /// <param name="padding">The padding to use when printing.</param>
-        public virtual void Print(ILayoutPrintContext printContext, ILayoutCellView cellView, Corner origin, Plane size, SpacePadding padding)
+        public virtual void Print(ILayoutPrintContext printContext, ILayoutCellView cellView, Point origin, Size size, Padding padding)
         {
             printContext.PrintSymbol(Symbol, origin, size, padding);
         }

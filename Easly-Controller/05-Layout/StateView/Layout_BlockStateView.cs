@@ -56,27 +56,12 @@
         Rect CellRect { get; }
 
         /// <summary>
-        /// Location of the cell.
-        /// </summary>
-        Corner CellCorner { get; }
-
-        /// <summary>
-        /// Floating size of the cell.
-        /// </summary>
-        Plane CellPlane { get; }
-
-        /// <summary>
-        /// Actual size of the cell.
-        /// </summary>
-        Plane ActualCellPlane { get; }
-
-        /// <summary>
         /// Measure all cells in this block state view.
         /// </summary>
         /// <param name="collectionWithSeparator">A collection that can draw separators around the cell.</param>
         /// <param name="referenceContainer">The cell view in <paramref name="collectionWithSeparator"/> that contains this cell.</param>
         /// <param name="separatorLength">The length of the separator in <paramref name="collectionWithSeparator"/>.</param>
-        void MeasureCells(ILayoutCellViewCollection collectionWithSeparator, ILayoutCellView referenceContainer, SeparatorLength separatorLength);
+        void MeasureCells(ILayoutCellViewCollection collectionWithSeparator, ILayoutCellView referenceContainer, Measure separatorLength);
 
         /// <summary>
         /// Arranges cells in this block state view.
@@ -93,11 +78,6 @@
         /// Draws cells in this block state view.
         /// </summary>
         void DrawCells();
-
-        /// <summary>
-        /// Updates the actual size of cells in this block state view.
-        /// </summary>
-        void UpdateActualCellsPlane();
 
         /// <summary>
         /// Prints cells in this block state view.
@@ -122,9 +102,6 @@
             CellOrigin = RegionHelper.InvalidOrigin;
             CellSize = RegionHelper.InvalidSize;
             ActualCellSize = RegionHelper.InvalidSize;
-            CellCorner = RegionHelper.InvalidCorner;
-            CellPlane = RegionHelper.InvalidPlane;
-            ActualCellPlane = RegionHelper.InvalidPlane;
         }
         #endregion
 
@@ -173,21 +150,6 @@
         /// Rectangular region for cells in this block state view.
         /// </summary>
         public Rect CellRect { get { return new Rect(CellOrigin, ActualCellSize); } }
-
-        /// <summary>
-        /// Location of the cell.
-        /// </summary>
-        public Corner CellCorner { get; private set; }
-
-        /// <summary>
-        /// Floating size of the cell.
-        /// </summary>
-        public Plane CellPlane { get; private set; }
-
-        /// <summary>
-        /// Actual size of the cell.
-        /// </summary>
-        public Plane ActualCellPlane { get; private set; }
         #endregion
 
         #region Client Interface
@@ -197,7 +159,7 @@
         /// <param name="collectionWithSeparator">A collection that can draw separators around the cell.</param>
         /// <param name="referenceContainer">The cell view in <paramref name="collectionWithSeparator"/> that contains this cell.</param>
         /// <param name="separatorLength">The length of the separator in <paramref name="collectionWithSeparator"/>.</param>
-        public void MeasureCells(ILayoutCellViewCollection collectionWithSeparator, ILayoutCellView referenceContainer, SeparatorLength separatorLength)
+        public void MeasureCells(ILayoutCellViewCollection collectionWithSeparator, ILayoutCellView referenceContainer, Measure separatorLength)
         {
             Debug.Assert(RootCellView != null);
             RootCellView.Measure(collectionWithSeparator, referenceContainer, separatorLength);
@@ -256,18 +218,6 @@
 
                 DrawContext.DrawSelectionRectangle(CellRect);
             }
-        }
-
-        /// <summary>
-        /// Updates the actual size of the cell.
-        /// </summary>
-        public virtual void UpdateActualCellsPlane()
-        {
-            Debug.Assert(RootCellView != null);
-            RootCellView.UpdateActualPlane();
-
-            Debug.Assert(RegionHelper.IsValid(RootCellView.ActualCellPlane));
-            ActualCellPlane = RootCellView.ActualCellPlane;
         }
 
         /// <summary>

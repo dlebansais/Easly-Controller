@@ -44,15 +44,15 @@
 
         #region Implementation of IxxxPrintContext
         /// <summary>
-        /// Prints a string, at the location specified in <paramref name="corner"/>.
+        /// Prints a string, at the location specified in <paramref name="origin"/>.
         /// </summary>
         /// <param name="text">The text to print.</param>
-        /// <param name="corner">The location where to start printing.</param>
+        /// <param name="origin">The location where to start printing.</param>
         /// <param name="textStyle">Style to use for the text.</param>
-        public virtual void PrintText(string text, Corner corner, TextStyles textStyle)
+        public virtual void PrintText(string text, Point origin, TextStyles textStyle)
         {
             BrushSettings Brush = StyleToForegroundBrush(textStyle);
-            PrintTextOnArea(text, corner.X, corner.Y, Brush);
+            PrintTextOnArea(text, origin.X.Print, origin.Y.Print, Brush);
         }
 
         /// <summary></summary>
@@ -79,61 +79,61 @@
         }
 
         /// <summary>
-        /// Prints a symbol, at the location specified in <paramref name="corner"/>.
+        /// Prints a symbol, at the location specified in <paramref name="origin"/>.
         /// </summary>
         /// <param name="symbol">The symbol to print.</param>
-        /// <param name="corner">The location where to start printing.</param>
-        /// <param name="plane">The printing size, padding included.</param>
+        /// <param name="origin">The location where to start printing.</param>
+        /// <param name="size">The printing size, padding included.</param>
         /// <param name="padding">The padding to use when printing.</param>
-        public virtual void PrintSymbol(Symbols symbol, Corner corner, Plane plane, SpacePadding padding)
+        public virtual void PrintSymbol(Symbols symbol, Point origin, Size size, Padding padding)
         {
             switch (symbol)
             {
                 default:
                 case Symbols.LeftArrow:
                 case Symbols.Dot:
-                    PrintTextSymbol(SymbolToText(symbol), corner, plane, padding);
+                    PrintTextSymbol(SymbolToText(symbol), origin, size, padding);
                     break;
                 case Symbols.InsertSign:
                     break;
                 case Symbols.LeftBracket:
-                    PrintGeometrySymbol(LeftBracketGeometry, corner, plane, padding);
+                    PrintGeometrySymbol(LeftBracketGeometry, origin, size, padding);
                     break;
                 case Symbols.RightBracket:
-                    PrintGeometrySymbol(RightBracketGeometry, corner, plane, padding);
+                    PrintGeometrySymbol(RightBracketGeometry, origin, size, padding);
                     break;
                 case Symbols.LeftCurlyBracket:
-                    PrintGeometrySymbol(LeftCurlyBracketGeometry, corner, plane, padding);
+                    PrintGeometrySymbol(LeftCurlyBracketGeometry, origin, size, padding);
                     break;
                 case Symbols.RightCurlyBracket:
-                    PrintGeometrySymbol(RightCurlyBracketGeometry, corner, plane, padding);
+                    PrintGeometrySymbol(RightCurlyBracketGeometry, origin, size, padding);
                     break;
                 case Symbols.LeftParenthesis:
-                    PrintGeometrySymbol(LeftParenthesisGeometry, corner, plane, padding);
+                    PrintGeometrySymbol(LeftParenthesisGeometry, origin, size, padding);
                     break;
                 case Symbols.RightParenthesis:
-                    PrintGeometrySymbol(RightParenthesisGeometry, corner, plane, padding);
+                    PrintGeometrySymbol(RightParenthesisGeometry, origin, size, padding);
                     break;
                 case Symbols.HorizontalLine:
-                    PrintGeometrySymbol(HorizontalLineGeometry, corner, plane, padding);
+                    PrintGeometrySymbol(HorizontalLineGeometry, origin, size, padding);
                     break;
             }
         }
 
         /// <summary></summary>
-        protected virtual void PrintTextSymbol(string text, Corner corner, Plane plane, SpacePadding padding)
+        protected virtual void PrintTextSymbol(string text, Point origin, Size size, Padding padding)
         {
             BrushSettings Brush = BrushSettings.Symbol;
-            PrintTextOnArea(text, corner.X + padding.Left, corner.Y, Brush);
+            PrintTextOnArea(text, origin.X.Print + padding.Left.Print, origin.Y.Print, Brush);
         }
 
         /// <summary></summary>
-        protected virtual void PrintGeometrySymbol(PrintableGeometry geometry, Corner corner, Plane plane, SpacePadding padding)
+        protected virtual void PrintGeometrySymbol(PrintableGeometry geometry, Point origin, Size size, Padding padding)
         {
-            int X = corner.X + padding.Left;
-            int Y = corner.Y;
-            int Width = plane.Width - padding.Left - padding.Right;
-            int Height = plane.Height;
+            int X = origin.X.Print + padding.Left.Print;
+            int Y = origin.Y.Print;
+            int Width = size.Width.Print - padding.Left.Print - padding.Right.Print;
+            int Height = size.Height.Print;
 
             char[] GeometryAtOrigin = geometry.Scale(Width, Height);
             BrushSettings Brush = BrushSettings.Symbol;
@@ -154,19 +154,19 @@
         /// Prints the horizontal separator left of the specified origin and with the specified height.
         /// </summary>
         /// <param name="separator">The separator to print.</param>
-        /// <param name="corner">The location where to print.</param>
+        /// <param name="origin">The location where to print.</param>
         /// <param name="height">The separator height.</param>
-        public virtual void PrintHorizontalSeparator(HorizontalSeparators separator, Corner corner, int height)
+        public virtual void PrintHorizontalSeparator(HorizontalSeparators separator, Point origin, Measure height)
         {
             BrushSettings Brush = BrushSettings.Symbol;
 
             switch (separator)
             {
                 case HorizontalSeparators.Comma:
-                    PrintTextOnArea(CommaSeparatorString, corner.X - CommaSeparatorString.Length, corner.Y, Brush);
+                    PrintTextOnArea(CommaSeparatorString, origin.X.Print - CommaSeparatorString.Length, origin.Y.Print, Brush);
                     break;
                 case HorizontalSeparators.Dot:
-                    PrintTextOnArea(DotSeparatorString, corner.X - DotSeparatorString.Length, corner.Y, Brush);
+                    PrintTextOnArea(DotSeparatorString, origin.X.Print - DotSeparatorString.Length, origin.Y.Print, Brush);
                     break;
             }
         }
@@ -175,9 +175,9 @@
         /// Prints the vertical separator above the specified origin and with the specified width.
         /// </summary>
         /// <param name="separator">The separator to print.</param>
-        /// <param name="corner">The location where to print.</param>
+        /// <param name="origin">The location where to print.</param>
         /// <param name="width">The separator width.</param>
-        public virtual void PrintVerticalSeparator(VerticalSeparators separator, Corner corner, int width)
+        public virtual void PrintVerticalSeparator(VerticalSeparators separator, Point origin, Measure width)
         {
             // TODO
         }

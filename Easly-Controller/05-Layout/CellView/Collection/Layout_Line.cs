@@ -33,10 +33,6 @@
             CellSize = RegionHelper.InvalidSize;
             CellPadding = Padding.Empty;
             ActualCellSize = RegionHelper.InvalidSize;
-            CellCorner = RegionHelper.InvalidCorner;
-            CellPlane = RegionHelper.InvalidPlane;
-            CellSpacePadding = SpacePadding.Empty;
-            ActualCellPlane = RegionHelper.InvalidPlane;
         }
         #endregion
 
@@ -87,26 +83,6 @@
         public Rect CellRect { get { return new Rect(CellOrigin, ActualCellSize); } }
 
         /// <summary>
-        /// Location of the cell.
-        /// </summary>
-        public Corner CellCorner { get; private set; }
-
-        /// <summary>
-        /// Floating size of the cell.
-        /// </summary>
-        public Plane CellPlane { get; private set; }
-
-        /// <summary>
-        /// Padding inside the cell.
-        /// </summary>
-        public SpacePadding CellSpacePadding { get; private set; }
-
-        /// <summary>
-        /// Actual size of the cell.
-        /// </summary>
-        public Plane ActualCellPlane { get; private set; }
-
-        /// <summary>
         /// The collection that can add separators around this item.
         /// </summary>
         public ILayoutCellViewCollection CollectionWithSeparator { get; private set; }
@@ -119,7 +95,7 @@
         /// <summary>
         /// The separator measure.
         /// </summary>
-        public SeparatorLength SeparatorLength { get; private set; }
+        public Measure SeparatorLength { get; private set; }
         #endregion
 
         #region Client Interface
@@ -129,7 +105,7 @@
         /// <param name="collectionWithSeparator">A collection that can draw separators around the cell.</param>
         /// <param name="referenceContainer">The cell view in <paramref name="collectionWithSeparator"/> that contains this cell.</param>
         /// <param name="separatorLength">The length of the separator in <paramref name="collectionWithSeparator"/>.</param>
-        public virtual void Measure(ILayoutCellViewCollection collectionWithSeparator, ILayoutCellView referenceContainer, SeparatorLength separatorLength)
+        public virtual void Measure(ILayoutCellViewCollection collectionWithSeparator, ILayoutCellView referenceContainer, Measure separatorLength)
         {
             CollectionWithSeparator = collectionWithSeparator;
             ReferenceContainer = referenceContainer;
@@ -151,12 +127,11 @@
             {
                 collectionWithSeparator = this;
                 OverrideReferenceContainer = true;
-                separatorLength = 0;
+                separatorLength = Controller.Measure.Zero;
             }
 
-            double Width = 0;
-            double Height = double.NaN;
-            Size AccumulatedSize = Size.Empty;
+            Measure Width = Controller.Measure.Zero;
+            Measure Height = Controller.Measure.Floating;
 
             for (int i = 0; i < CellViewList.Count; i++)
             {
@@ -188,18 +163,20 @@
                 bool IsStretched = RegionHelper.IsStretchedVertically(NestedCellSize);
                 Debug.Assert(IsFixed || IsStretched);
 
-                Debug.Assert(!double.IsNaN(NestedCellSize.Width));
+                Debug.Assert(!NestedCellSize.Width.IsFloating);
                 Width += NestedCellSize.Width;
 
                 if (IsFixed)
                 {
-                    Debug.Assert(!double.IsNaN(NestedCellSize.Height));
-                    if (double.IsNaN(Height) || Height < NestedCellSize.Height)
+                    Debug.Assert(!NestedCellSize.Height.IsFloating);
+                    if (Height.IsFloating || Height.Draw < NestedCellSize.Height.Draw)
                         Height = NestedCellSize.Height;
                 }
             }
 
-            if (Width != 0)
+            Size AccumulatedSize = Size.Empty;
+
+            if (!Width.IsZero)
                 AccumulatedSize = new Size(Width, Height);
 
             CellSize = AccumulatedSize;
@@ -222,8 +199,8 @@
             ILayoutMeasureContext MeasureContext = StateView.ControllerView.MeasureContext;
             Debug.Assert(MeasureContext != null);
 
-            double OriginX = origin.X;
-            double OriginY = origin.Y;
+            Measure OriginX = origin.X;
+            Measure OriginY = origin.Y;
 
             for (int i = 0; i < CellViewList.Count; i++)
             {
@@ -237,12 +214,12 @@
                 CellView.Arrange(ColumnOrigin);
 
                 Size NestedCellSize = CellView.CellSize;
-                Debug.Assert(!double.IsNaN(NestedCellSize.Width));
+                Debug.Assert(!NestedCellSize.Width.IsFloating);
                 OriginX += NestedCellSize.Width;
             }
 
             Point FinalOrigin = new Point(OriginX, OriginY);
-            Point ExpectedOrigin = CellOrigin.Moved(CellSize.Width, 0);
+            Point ExpectedOrigin = CellOrigin.Moved(CellSize.Width, Controller.Measure.Zero);
             bool IsEqual = Point.IsEqual(FinalOrigin, ExpectedOrigin);
             Debug.Assert(IsEqual);
         }
@@ -271,13 +248,13 @@
         /// <param name="size">The cell size.</param>
         public virtual Size GetMeasuredSize(Size size)
         {
-            Debug.Assert(!double.IsNaN(size.Width));
+            Debug.Assert(!size.Width.IsFloating);
 
-            double Height = size.Height;
-            if (double.IsNaN(Height))
+            Measure Height = size.Height;
+            if (Height.IsFloating)
                 Height = CellSize.Height;
 
-            if (!double.IsNaN(Height))
+            if (!Height.IsFloating)
             {
                 Size MeasuredSize = new Size(size.Width, Height);
                 return MeasuredSize;
@@ -362,10 +339,10 @@
         /// <summary></summary>
         protected virtual Rect GetSelectedRect(int startIndex, int endIndex)
         {
-            double X = CellViewList[startIndex].CellOrigin.X;
-            double Width = CellViewList[endIndex].CellOrigin.X + CellViewList[endIndex].ActualCellSize.Width - X;
+            double X = CellViewList[startIndex].CellOrigin.X.Draw;
+            double Width = CellViewList[endIndex].CellOrigin.X.Draw + CellViewList[endIndex].ActualCellSize.Width.Draw - X;
 
-            return new Rect(X, CellOrigin.Y, Width, ActualCellSize.Height);
+            return new Rect(X, CellOrigin.Y.Draw, Width, ActualCellSize.Height.Draw);
         }
 
         /// <summary>
@@ -398,48 +375,11 @@
         }
 
         /// <summary>
-        /// Updates the actual size of the cell.
-        /// </summary>
-        public virtual void UpdateActualPlane()
-        {
-            ActualCellPlane = CellPlane;
-            if (ParentCellView != null)
-                ActualCellPlane = ParentCellView.GetMeasuredPlane(CellPlane);
-
-            foreach (ILayoutCellView CellView in CellViewList)
-            {
-                CellView.UpdateActualPlane();
-                Debug.Assert(RegionHelper.IsFixed(CellView.ActualCellPlane));
-            }
-        }
-
-        /// <summary>
-        /// Returns the measured size of streched cells in the collection.
-        /// </summary>
-        /// <param name="plane">The cell size.</param>
-        public virtual Plane GetMeasuredPlane(Plane plane)
-        {
-            Debug.Assert(plane.Width >= 0);
-
-            int Height = plane.Height;
-            if (Height < 0)
-                Height = CellPlane.Height;
-
-            if (Height >= 0)
-            {
-                Plane MeasuredPlane = new Plane(plane.Width, Height);
-                return MeasuredPlane;
-            }
-            else
-                return ParentCellView.GetMeasuredPlane(plane);
-        }
-
-        /// <summary>
         /// Prints the cell.
         /// </summary>
         public virtual void Print()
         {
-            Debug.Assert(RegionHelper.IsFixed(ActualCellPlane));
+            Debug.Assert(RegionHelper.IsFixed(ActualCellSize));
 
             foreach (ILayoutCellView CellView in CellViewList)
                 CellView.Print();
@@ -450,16 +390,16 @@
         /// </summary>
         /// <param name="printContext">The context used to print the cell.</param>
         /// <param name="cellView">The cell to print.</param>
-        /// <param name="corner">The location where to start printing.</param>
-        /// <param name="plane">The printing size, padding included.</param>
+        /// <param name="origin">The location where to start printing.</param>
+        /// <param name="size">The printing size, padding included.</param>
         /// <param name="padding">The padding to use when printing.</param>
-        public virtual void PrintBeforeItem(ILayoutPrintContext printContext, ILayoutCellView cellView, Corner corner, Plane plane, SpacePadding padding)
+        public virtual void PrintBeforeItem(ILayoutPrintContext printContext, ILayoutCellView cellView, Point origin, Size size, Padding padding)
         {
             int Index = CellViewList.IndexOf(cellView);
             Debug.Assert(Index >= 0 && Index < CellViewList.Count);
 
             if (Index > 0)
-                printContext.PrintHorizontalSeparator(((ILayoutFrameWithHorizontalSeparator)Frame).Separator, cellView.CellCorner, cellView.CellPlane.Height);
+                printContext.PrintHorizontalSeparator(((ILayoutFrameWithHorizontalSeparator)Frame).Separator, cellView.CellOrigin, cellView.CellSize.Height);
         }
 
         /// <summary>
@@ -467,10 +407,10 @@
         /// </summary>
         /// <param name="printContext">The context used to print the cell.</param>
         /// <param name="cellView">The cell to print.</param>
-        /// <param name="corner">The location where to start printing.</param>
-        /// <param name="plane">The printing size, padding included.</param>
+        /// <param name="origin">The location where to start printing.</param>
+        /// <param name="size">The printing size, padding included.</param>
         /// <param name="padding">The padding to use when printing.</param>
-        public virtual void PrintAfterItem(ILayoutPrintContext printContext, ILayoutCellView cellView, Corner corner, Plane plane, SpacePadding padding)
+        public virtual void PrintAfterItem(ILayoutPrintContext printContext, ILayoutCellView cellView, Point origin, Size size, Padding padding)
         {
         }
         #endregion

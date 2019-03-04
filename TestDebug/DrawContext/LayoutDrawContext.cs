@@ -9,28 +9,17 @@ namespace TestDebug
     {
         public static LayoutDrawContext Default = new LayoutDrawContext();
 
-        public double LineHeight { get { return 12; } }
-        public double TabulationWidth { get { return 12; } }
-        public int TabulationLength { get { return 1; } }
+        public Measure LineHeight { get { return new Measure() { Draw = 12, Print = 1 }; } }
+        public Measure TabulationWidth { get { return new Measure() { Draw = 24, Print = 2 }; } }
         
-        public double GetHorizontalSeparatorWidth(HorizontalSeparators separator)
+        public Measure GetHorizontalSeparatorWidth(HorizontalSeparators separator)
         {
-            return 0;
+            return Measure.Zero;
         }
 
-        public int GetHorizontalSeparatorLength(HorizontalSeparators separator)
+        public Measure GetVerticalSeparatorHeight(VerticalSeparators separator)
         {
-            return 0;
-        }
-
-        public SeparatorLength GetVerticalSeparatorHeight(VerticalSeparators separator)
-        {
-            return default(SeparatorLength);
-        }
-
-        public int GetVerticalSeparatorLineCount(VerticalSeparators separator)
-        {
-            return 0;
+            return Measure.Zero;
         }
 
         public Size MeasureSymbolSize(Symbols symbol)
@@ -41,58 +30,27 @@ namespace TestDebug
                 case Symbols.LeftArrow:
                 case Symbols.Dot:
                 case Symbols.InsertSign:
-                    return new Size(20, LineHeight);
+                    return new Size(new Measure() { Draw = 20 }, LineHeight);
                 case Symbols.LeftBracket:
                 case Symbols.RightBracket:
                 case Symbols.LeftCurlyBracket:
                 case Symbols.RightCurlyBracket:
                 case Symbols.LeftParenthesis:
                 case Symbols.RightParenthesis:
-                    return new Size(20, double.NaN);
+                    return new Size(new Measure() { Draw = 20 }, Measure.Floating);
                 case Symbols.HorizontalLine:
-                    return new Size(double.NaN, 20);
+                    return new Size(Measure.Floating, new Measure() { Draw = 20 });
             }
         }
 
-        public Plane MeasureSymbolPlane(Symbols symbol)
+        public Size MeasureTextSize(string text, TextStyles textStyle, Measure maxTextWidth)
         {
-            switch (symbol)
-            {
-                default:
-                case Symbols.LeftArrow:
-                case Symbols.Dot:
-                case Symbols.InsertSign:
-                    return new Plane(1, 1);
-                case Symbols.LeftBracket:
-                case Symbols.RightBracket:
-                case Symbols.LeftCurlyBracket:
-                case Symbols.RightCurlyBracket:
-                case Symbols.LeftParenthesis:
-                case Symbols.RightParenthesis:
-                    return new Plane(1, -1);
-                case Symbols.HorizontalLine:
-                    return new Plane(-1, 1);
-            }
-        }
-
-        public Size MeasureTextSize(string text, TextStyles textStyle, double maxTextWidth)
-        {
-            return new Size(text.Length * 20, LineHeight);
-        }
-
-        public Plane MeasureTextPlane(string text, TextStyles textStyle, int maxTextLength)
-        {
-            return new Plane(text.Length, 1);
+            return new Size(new Measure() { Draw = text.Length * 20, Print = text.Length }, LineHeight);
         }
 
         public void UpdatePadding(Margins leftMargin, Margins rightMargin, ref Size size, out Padding padding)
         {
             padding = Padding.Empty;
-        }
-
-        public virtual void UpdatePadding(Margins leftMargin, Margins rightMargin, ref Plane plane, out SpacePadding padding)
-        {
-            padding = SpacePadding.Empty;
         }
 
         public virtual void DrawSelectionText(string text, Point origin, TextStyles textStyle, int start, int end)
@@ -107,11 +65,11 @@ namespace TestDebug
         {
         }
 
-        public void DrawHorizontalSeparator(HorizontalSeparators separator, Point origin, double height)
+        public void DrawHorizontalSeparator(HorizontalSeparators separator, Point origin, Measure height)
         {
         }
 
-        public void DrawVerticalSeparator(VerticalSeparators separator, Point origin, double width)
+        public void DrawVerticalSeparator(VerticalSeparators separator, Point origin, Measure width)
         {
         }
 
@@ -128,14 +86,13 @@ namespace TestDebug
         {
         }
 
-        public virtual int GetCaretPositionInText(Point origin, string text, TextStyles textStyle, CaretModes mode, double maxTextWidth)
+        public virtual int GetCaretPositionInText(double x, string text, TextStyles textStyle, CaretModes mode, Measure maxTextWidth)
         {
             return 0;
         }
 
-        public virtual Point ToRelativeLocation(Point origin)
+        public virtual void ToRelativeLocation(ref double x, ref double y)
         {
-            return origin;
         }
 
         public virtual void DrawSelectionRectangle(Rect rect)

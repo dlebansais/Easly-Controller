@@ -763,10 +763,7 @@
     <Compile Include="Controller\CommentHelper.cs" />
     <Compile Include="Controller\CRC32.cs" />
     <Compile Include="Controller\DebugObjects.cs" />
-    <Compile Include="Controller\Corner.cs" />
     <Compile Include="Controller\Measure.cs" />
-    <Compile Include="Controller\SeparatorLength.cs" />
-    <Compile Include="Controller\SpacePadding.cs" />
     <Compile Include="Controller\RegionHelper.cs" />
     <Compile Include="Controller\HorizontalContainers.cs" />
     <Compile Include="Controller\HorizontalSeparators.cs" />
@@ -774,7 +771,6 @@
     <Compile Include="Controller\Rect.cs" />
     <Compile Include="Controller\Point.cs" />
     <Compile Include="Controller\Padding.cs" />
-    <Compile Include="Controller\Plane.cs" />
     <Compile Include="Controller\Size.cs" />
     <Compile Include="Controller\TextStyles.cs" />
     <Compile Include="Controller\Symbols.cs" />

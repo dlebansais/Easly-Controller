@@ -33,7 +33,7 @@
         /// <param name="separator">The separator to draw.</param>
         /// <param name="origin">The location where to draw.</param>
         /// <param name="height">The separator height.</param>
-        void DrawHorizontalSeparator(HorizontalSeparators separator, Point origin, double height);
+        void DrawHorizontalSeparator(HorizontalSeparators separator, Point origin, Measure height);
 
         /// <summary>
         /// Draws the vertical separator above the specified origin and with the specified width.
@@ -41,7 +41,7 @@
         /// <param name="separator">The separator to draw.</param>
         /// <param name="origin">The location where to draw.</param>
         /// <param name="width">The separator width.</param>
-        void DrawVerticalSeparator(VerticalSeparators separator, Point origin, double width);
+        void DrawVerticalSeparator(VerticalSeparators separator, Point origin, Measure width);
 
         /// <summary>
         /// Shows the caret.
@@ -83,19 +83,19 @@
         /// <summary>
         /// Get the location where draw occurs corresponding to the specified absolute location.
         /// </summary>
-        /// <param name="origin">The absolute location.</param>
-        /// <returns>The relative location where things would be drawn.</returns>
-        Point ToRelativeLocation(Point origin);
+        /// <param name="x">X-coordinate of the location, absolute on entry, relative upon return.</param>
+        /// <param name="y">Y-coordinate of the location, absolute on entry, relative upon return.</param>
+        void ToRelativeLocation(ref double x, ref double y);
 
         /// <summary>
-        /// Get the caret position corresponding to <paramref name="origin"/> in <paramref name="text"/>.
+        /// Get the caret position corresponding to <paramref name="x"/> in <paramref name="text"/>.
         /// </summary>
-        /// <param name="origin">The location.</param>
+        /// <param name="x">X-coordinate of the caret location.</param>
         /// <param name="text">The text</param>
         /// <param name="textStyle">The style used to measure <paramref name="text"/>.</param>
         /// <param name="mode">The caret mode.</param>
         /// <param name="maxTextWidth">The maximum width for a line of text. NaN means no limit.</param>
         /// <returns>The position of the caret.</returns>
-        int GetCaretPositionInText(Point origin, string text, TextStyles textStyle, CaretModes mode, double maxTextWidth);
+        int GetCaretPositionInText(double x, string text, TextStyles textStyle, CaretModes mode, Measure maxTextWidth);
     }
 }
