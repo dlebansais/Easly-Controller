@@ -47,6 +47,7 @@
   <ItemGroup>
     <Compile Include="BrushSettings.cs" />
     <Compile Include="MeasureContext.cs" />
+    <Compile Include="PrintableArea.cs" />
     <Compile Include="PrintableGeometry.cs" />
     <Compile Include="PrintableCharacter.cs" />
     <Compile Include="PrintContext.cs" />

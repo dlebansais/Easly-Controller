@@ -1,11 +1,6 @@
 ﻿namespace EaslyDraw
 {
     using System;
-    using System.Collections.Generic;
-    using System.Diagnostics;
-    using System.Globalization;
-    using System.Windows.Media;
-    using System.Windows.Media.Animation;
     using EaslyController.Constants;
     using EaslyController.Controller;
     using EaslyController.Layout;
@@ -13,7 +8,7 @@
     /// <summary>
     /// An implementation of IxxxPrintContext for WPF.
     /// </summary>
-    public class PrintContext : MeasureContext, ILayoutPrintContext
+    public class PrintContext : MeasureContext, ILayoutPrintContext, IFormattable
     {
         #region Init
         /// <summary>
@@ -31,7 +26,7 @@
         /// </summary>
         protected PrintContext()
         {
-            PrintArea = new PrintableCharacter[0, 0];
+            PrintableArea = new PrintableArea();
             LeftBracketGeometry = new PrintableGeometry('[', ' ', ' ', ' ', ' ', PrintOrientations.Vertical);
             RightBracketGeometry = new PrintableGeometry(']', ' ', ' ', ' ', ' ', PrintOrientations.Vertical);
             LeftCurlyBracketGeometry = new PrintableGeometry('{', ' ', ' ', ' ', ' ', PrintOrientations.Vertical);
@@ -52,30 +47,7 @@
         public virtual void PrintText(string text, Point origin, TextStyles textStyle)
         {
             BrushSettings Brush = StyleToForegroundBrush(textStyle);
-            PrintTextOnArea(text, origin.X.Print, origin.Y.Print, Brush);
-        }
-
-        /// <summary></summary>
-        protected virtual void PrintTextOnArea(string text, int x, int y, BrushSettings brush)
-        {
-            int CX = PrintArea.GetLength(0);
-            int CY = PrintArea.GetLength(1);
-
-            int MaxCX = x + text.Length > CX ? x + text.Length : CX;
-            int MaxCY = y + 1 > CY ? y + 1 : CY;
-
-            if (MaxCX > CX || MaxCY > CY)
-            {
-                PrintableCharacter[,] NewPrintArea = new PrintableCharacter[MaxCX, MaxCY];
-                for (int i = 0; i < CX; i++)
-                    for (int j = 0; j < CY; j++)
-                        NewPrintArea[i, j] = PrintArea[i, j];
-
-                PrintArea = NewPrintArea;
-            }
-
-            for (int n = 0; n < text.Length; n++)
-                PrintArea[x + n, y] = new PrintableCharacter(text[n], brush);
+            PrintableArea.Print(text, origin.X.Print, origin.Y.Print, Brush);
         }
 
         /// <summary>
@@ -124,7 +96,7 @@
         protected virtual void PrintTextSymbol(string text, Point origin, Size size, Padding padding)
         {
             BrushSettings Brush = BrushSettings.Symbol;
-            PrintTextOnArea(text, origin.X.Print + padding.Left.Print, origin.Y.Print, Brush);
+            PrintableArea.Print(text, origin.X.Print + padding.Left.Print, origin.Y.Print, Brush);
         }
 
         /// <summary></summary>
@@ -141,12 +113,12 @@
             if (geometry.Orientation == PrintOrientations.Horizontal)
             {
                 for (int n = 0; n < GeometryAtOrigin.Length; n++)
-                    PrintArea[X + n, Y] = new PrintableCharacter(GeometryAtOrigin[n], Brush);
+                    PrintableArea.Print(GeometryAtOrigin[n], X + n, Y, Brush);
             }
             else
             {
                 for (int n = 0; n < GeometryAtOrigin.Length; n++)
-                    PrintArea[X, Y + n] = new PrintableCharacter(GeometryAtOrigin[n], Brush);
+                    PrintableArea.Print(GeometryAtOrigin[n], X, Y + n, Brush);
             }
         }
 
@@ -163,10 +135,10 @@
             switch (separator)
             {
                 case HorizontalSeparators.Comma:
-                    PrintTextOnArea(CommaSeparatorString, origin.X.Print - CommaSeparatorString.Length, origin.Y.Print, Brush);
+                    PrintableArea.Print(CommaSeparatorString, origin.X.Print - CommaSeparatorString.Length, origin.Y.Print, Brush);
                     break;
                 case HorizontalSeparators.Dot:
-                    PrintTextOnArea(DotSeparatorString, origin.X.Print - DotSeparatorString.Length, origin.Y.Print, Brush);
+                    PrintableArea.Print(DotSeparatorString, origin.X.Print - DotSeparatorString.Length, origin.Y.Print, Brush);
                     break;
             }
         }
@@ -184,7 +156,7 @@
         #endregion
 
         #region Implementation
-        private PrintableCharacter[,] PrintArea;
+        private PrintableArea PrintableArea;
         private PrintableGeometry LeftBracketGeometry;
         private PrintableGeometry RightBracketGeometry;
         private PrintableGeometry LeftCurlyBracketGeometry;
@@ -192,6 +164,33 @@
         private PrintableGeometry LeftParenthesisGeometry;
         private PrintableGeometry RightParenthesisGeometry;
         private PrintableGeometry HorizontalLineGeometry;
+
+        /// <summary>
+        /// Returns a string representation of this instance.
+        /// </summary>
+        public override string ToString()
+        {
+            return PrintableArea.ToString();
+        }
+
+        /// <summary>
+        /// Returns a formatted string representation of this instance.
+        /// </summary>
+        /// <param name="provider">A format provider.</param>
+        public string ToString(IFormatProvider provider)
+        {
+            return PrintableArea.ToString(provider);
+        }
+
+        /// <summary>
+        /// Returns a formatted string representation of this instance.
+        /// </summary>
+        /// <param name="format">A format.</param>
+        /// <param name="formatProvider">A format provider.</param>
+        public string ToString(string format, IFormatProvider formatProvider)
+        {
+            return PrintableArea.ToString(format, formatProvider);
+        }
         #endregion
     }
 }

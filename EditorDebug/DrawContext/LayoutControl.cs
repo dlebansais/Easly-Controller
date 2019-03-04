@@ -1,6 +1,7 @@
 ﻿namespace EditorDebug
 {
     using System.Diagnostics;
+    using System.Globalization;
     using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Input;
@@ -569,9 +570,21 @@
 
         public void OnCopy(object sender, ExecutedRoutedEventArgs e)
         {
-            using (ILayoutControllerView PrintView = LayoutControllerView.Create(Controller, CustomLayoutTemplateSet.LayoutTemplateSet, PrintContext.CreatePrintContext()))
+            PrintContext PrintContext = PrintContext.CreatePrintContext();
+            using (ILayoutControllerView PrintView = LayoutControllerView.Create(Controller, CustomLayoutTemplateSet.LayoutTemplateSet, PrintContext))
             {
                 PrintView.Print();
+                string Content = PrintContext.ToString();
+                string RtfContent = PrintContext.ToString("rtf", CultureInfo.CurrentCulture);
+
+                DataObject DataObject = new DataObject();
+                DataObject.SetData("Text", Content);
+                DataObject.SetData("UnicodeText", Content);
+                DataObject.SetData(typeof(string), Content);
+                DataObject.SetData("Rich Text Format", RtfContent);
+
+                Clipboard.Clear();
+                Clipboard.SetDataObject(DataObject, true);
             }
         }
 
