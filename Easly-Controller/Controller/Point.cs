@@ -10,7 +10,7 @@
         #region Init
         static Point()
         {
-            Origin = new Point(0, 0);
+            Origin = new Point(Measure.Zero, Measure.Zero);
         }
 
         /// <summary>
@@ -23,7 +23,7 @@
         /// </summary>
         /// <param name="x">The horizontal coordinate.</param>
         /// <param name="y">The vertical coordinate.</param>
-        public Point(double x, double y)
+        public Point(Measure x, Measure y)
         {
             X = x;
             Y = y;
@@ -34,17 +34,17 @@
         /// <summary>
         /// Horizontal coordinate.
         /// </summary>
-        public double X { get; set; }
+        public Measure X { get; set; }
 
         /// <summary>
         /// Vertical coordinate.
         /// </summary>
-        public double Y { get; set; }
+        public Measure Y { get; set; }
 
         /// <summary>
         /// True if the object is the origin location.
         /// </summary>
-        public bool IsOrigin { get { return X == 0 && Y == 0; } }
+        public bool IsOrigin { get { return X.IsZero && Y.IsZero; } }
         #endregion
 
         #region Client Interface
@@ -53,7 +53,7 @@
         /// </summary>
         /// <param name="distanceX">The horizontal distance.</param>
         /// <param name="distanceY">The vertical distance.</param>
-        public Point Moved(double distanceX, double distanceY)
+        public Point Moved(Measure distanceX, Measure distanceY)
         {
             return new Point(X + distanceX, Y + distanceY);
         }
@@ -65,7 +65,7 @@
         /// <param name="point2">The second point.</param>
         public static double Distance(Point point1, Point point2)
         {
-            return Math.Sqrt(((point2.X - point1.X) * (point2.X - point1.X)) + ((point2.Y - point1.Y) * (point2.Y - point1.Y)));
+            return Math.Sqrt(SquaredDistance(point1, point2));
         }
 
         /// <summary>
@@ -75,7 +75,7 @@
         /// <param name="point2">The second point.</param>
         public static double SquaredDistance(Point point1, Point point2)
         {
-            return ((point2.X - point1.X) * (point2.X - point1.X)) + ((point2.Y - point1.Y) * (point2.Y - point1.Y));
+            return (((point2.X - point1.X) * (point2.X - point1.X)) + ((point2.Y - point1.Y) * (point2.Y - point1.Y))).Draw;
         }
 
         /// <summary>
@@ -85,8 +85,8 @@
         /// <param name="point2">The second point.</param>
         public static bool IsEqual(Point point1, Point point2)
         {
-            double DiffX = Math.Abs(point2.X - point1.X);
-            double DiffY = Math.Abs(point2.Y - point1.Y);
+            double DiffX = Math.Abs((point2.X - point1.X).Draw);
+            double DiffY = Math.Abs((point2.Y - point1.Y).Draw);
 
             return RegionHelper.IsZero(DiffX) && RegionHelper.IsZero(DiffY);
         }

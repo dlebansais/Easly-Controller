@@ -23,6 +23,16 @@
         public static Size InvalidSize { get { return new Size(double.NaN, double.NaN); } }
 
         /// <summary>
+        /// An invalid location that can be used for initialization purpose.
+        /// </summary>
+        public static Corner InvalidCorner { get { return new Corner(int.MinValue, int.MinValue); } }
+
+        /// <summary>
+        /// An invalid size that can be used for initialization purpose.
+        /// </summary>
+        public static Plane InvalidPlane { get { return new Plane(-1, -1); } }
+
+        /// <summary>
         /// Checks if a value is zero, within a tolerance.
         /// </summary>
         /// <param name="value">The value.</param>
@@ -39,6 +49,16 @@
         {
             return !double.IsNaN(point.X) || !double.IsNaN(point.Y);
         }
+
+        /// <summary>
+        /// Checks that a cell location is valid.
+        /// </summary>
+        /// <param name="corner">The location to check.</param>
+        public static bool IsValid(Corner corner)
+        {
+            return corner.X != int.MinValue || corner.Y != int.MinValue;
+        }
+
         /// <summary>
         /// Checks that a cell size is valid.
         /// </summary>
@@ -46,6 +66,15 @@
         public static bool IsValid(Size size)
         {
             return !double.IsNaN(size.Width) || !double.IsNaN(size.Height);
+        }
+
+        /// <summary>
+        /// Checks that a cell size is valid.
+        /// </summary>
+        /// <param name="plane">The size to check.</param>
+        public static bool IsValid(Plane plane)
+        {
+            return plane.Width >= 0 || plane.Height >= 0;
         }
 
         /// <summary>
@@ -58,12 +87,30 @@
         }
 
         /// <summary>
+        /// Checks that a cell location is fixed.
+        /// </summary>
+        /// <param name="corner">The location to check.</param>
+        public static bool IsFixed(Corner corner)
+        {
+            return corner.X != int.MinValue && corner.Y != int.MinValue;
+        }
+
+        /// <summary>
         /// Checks that a cell size is fixed.
         /// </summary>
         /// <param name="size">The size to check.</param>
         public static bool IsFixed(Size size)
         {
             return !double.IsNaN(size.Width) && !double.IsNaN(size.Height);
+        }
+
+        /// <summary>
+        /// Checks that a cell size is fixed.
+        /// </summary>
+        /// <param name="plane">The size to check.</param>
+        public static bool IsFixed(Plane plane)
+        {
+            return plane.Width >= 0 && plane.Height >= 0;
         }
 
         /// <summary>

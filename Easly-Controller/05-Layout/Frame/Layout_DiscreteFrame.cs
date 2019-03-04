@@ -11,7 +11,7 @@
     /// <summary>
     /// Frame describing an enum value that can be displayed with different frames depending on its value.
     /// </summary>
-    public interface ILayoutDiscreteFrame : IFocusDiscreteFrame, ILayoutValueFrame, ILayoutMeasurableFrame, ILayoutDrawableFrame, ILayoutFrameWithMargins
+    public interface ILayoutDiscreteFrame : IFocusDiscreteFrame, ILayoutValueFrame, ILayoutMeasurableFrame, ILayoutDrawableFrame, ILayoutPrintableFrame, ILayoutFrameWithMargins
     {
         /// <summary>
         /// List of frames that can be displayed.
@@ -85,14 +85,14 @@
         /// <summary>
         /// Measures a cell created with this frame.
         /// </summary>
-        /// <param name="drawContext">The context used to measure the cell.</param>
+        /// <param name="measureContext">The context used to measure the cell.</param>
         /// <param name="cellView">The cell to measure.</param>
         /// <param name="collectionWithSeparator">A collection that can draw separators around the cell.</param>
         /// <param name="referenceContainer">The cell view in <paramref name="collectionWithSeparator"/> that contains this cell.</param>
         /// <param name="separatorLength">The length of the separator in <paramref name="collectionWithSeparator"/>.</param>
         /// <param name="size">The cell size upon return, padding included.</param>
         /// <param name="padding">The cell padding.</param>
-        public virtual void Measure(ILayoutDrawContext drawContext, ILayoutCellView cellView, ILayoutCellViewCollection collectionWithSeparator, ILayoutCellView referenceContainer, double separatorLength, out Size size, out Padding padding)
+        public virtual void Measure(ILayoutMeasureContext measureContext, ILayoutCellView cellView, ILayoutCellViewCollection collectionWithSeparator, ILayoutCellView referenceContainer, SeparatorLength separatorLength, out Size size, out Padding padding)
         {
             ILayoutDiscreteContentFocusableCellView DiscreteContentFocusableCellView = cellView as ILayoutDiscreteContentFocusableCellView;
             Debug.Assert(DiscreteContentFocusableCellView != null);
@@ -100,10 +100,10 @@
             ILayoutKeywordFrame KeywordFrame = DiscreteContentFocusableCellView.KeywordFrame;
             Debug.Assert(KeywordFrame != null);
 
-            KeywordFrame.Measure(drawContext, DiscreteContentFocusableCellView, collectionWithSeparator, referenceContainer, separatorLength, out size, out padding);
+            KeywordFrame.Measure(measureContext, DiscreteContentFocusableCellView, collectionWithSeparator, referenceContainer, separatorLength, out size, out padding);
 
             Debug.Assert(padding.IsEmpty);
-            drawContext.UpdatePadding(LeftMargin, RightMargin, ref size, out padding);
+            measureContext.UpdatePadding(LeftMargin, RightMargin, ref size, out padding);
 
             Debug.Assert(RegionHelper.IsValid(size));
         }
@@ -125,6 +125,25 @@
             Debug.Assert(KeywordFrame != null);
 
             KeywordFrame.Draw(drawContext, DiscreteContentFocusableCellView, origin, size, padding);
+        }
+
+        /// <summary>
+        /// Prints a cell created with this frame.
+        /// </summary>
+        /// <param name="printContext">The context used to print the cell.</param>
+        /// <param name="cellView">The cell to print.</param>
+        /// <param name="origin">The location where to start printing.</param>
+        /// <param name="size">The printing size, padding included.</param>
+        /// <param name="padding">The padding to use when printing.</param>
+        public virtual void Print(ILayoutPrintContext printContext, ILayoutCellView cellView, Corner origin, Plane size, SpacePadding padding)
+        {
+            ILayoutDiscreteContentFocusableCellView DiscreteContentFocusableCellView = cellView as ILayoutDiscreteContentFocusableCellView;
+            Debug.Assert(DiscreteContentFocusableCellView != null);
+
+            ILayoutKeywordFrame KeywordFrame = DiscreteContentFocusableCellView.KeywordFrame;
+            Debug.Assert(KeywordFrame != null);
+
+            KeywordFrame.Print(printContext, DiscreteContentFocusableCellView, origin, size, padding);
         }
         #endregion
 

@@ -10,7 +10,7 @@
     /// <summary>
     /// Frame to display comments.
     /// </summary>
-    public interface ILayoutCommentFrame : IFocusCommentFrame, ILayoutNodeFrame, ILayoutBlockFrame, ILayoutMeasurableFrame, ILayoutDrawableFrame
+    public interface ILayoutCommentFrame : IFocusCommentFrame, ILayoutNodeFrame, ILayoutBlockFrame, ILayoutMeasurableFrame, ILayoutDrawableFrame, ILayoutPrintableFrame
     {
     }
 
@@ -35,14 +35,14 @@
         /// <summary>
         /// Measures a cell created with this frame.
         /// </summary>
-        /// <param name="drawContext">The context used to measure the cell.</param>
+        /// <param name="measureContext">The context used to measure the cell.</param>
         /// <param name="cellView">The cell to measure.</param>
         /// <param name="collectionWithSeparator">A collection that can draw separators around the cell.</param>
         /// <param name="referenceContainer">The cell view in <paramref name="collectionWithSeparator"/> that contains this cell.</param>
         /// <param name="separatorLength">The length of the separator in <paramref name="collectionWithSeparator"/>.</param>
         /// <param name="size">The cell size upon return, padding included.</param>
         /// <param name="padding">The cell padding.</param>
-        public virtual void Measure(ILayoutDrawContext drawContext, ILayoutCellView cellView, ILayoutCellViewCollection collectionWithSeparator, ILayoutCellView referenceContainer, double separatorLength, out Size size, out Padding padding)
+        public virtual void Measure(ILayoutMeasureContext measureContext, ILayoutCellView cellView, ILayoutCellViewCollection collectionWithSeparator, ILayoutCellView referenceContainer, SeparatorLength separatorLength, out Size size, out Padding padding)
         {
             padding = Padding.Empty;
 
@@ -60,7 +60,7 @@
             bool IsDisplayed = Text != null && ((DisplayMode == CommentDisplayModes.OnFocus && IsFocused) || DisplayMode == CommentDisplayModes.All);
 
             if (IsDisplayed)
-                size = drawContext.MeasureText(Text, TextStyles.Comment, double.NaN);
+                size = measureContext.MeasureTextSize(Text, TextStyles.Comment, double.NaN);
             else
                 size = Size.Empty;
 
@@ -97,6 +97,33 @@
                 }
                 else if (DisplayMode == CommentDisplayModes.OnFocus && cellView.StateView.ControllerView.ShowUnfocusedComments)
                     drawContext.DrawCommentIcon(new Rect(cellView.CellOrigin, Size.Empty));
+            }
+        }
+
+        /// <summary>
+        /// Prints a cell created with this frame.
+        /// </summary>
+        /// <param name="printContext">The context used to print the cell.</param>
+        /// <param name="cellView">The cell to print.</param>
+        /// <param name="origin">The location where to start printing.</param>
+        /// <param name="size">The printing size, padding included.</param>
+        /// <param name="padding">The padding to use when printing.</param>
+        public virtual void Print(ILayoutPrintContext printContext, ILayoutCellView cellView, Corner origin, Plane size, SpacePadding padding)
+        {
+            ILayoutCommentCellView CommentCellView = cellView as ILayoutCommentCellView;
+            Debug.Assert(CommentCellView != null);
+            string Text = CommentHelper.Get(CommentCellView.Documentation);
+
+            if (Text != null)
+            {
+                CommentDisplayModes DisplayMode = cellView.StateView.ControllerView.CommentDisplayMode;
+                Debug.Assert(DisplayMode == CommentDisplayModes.OnFocus || DisplayMode == CommentDisplayModes.All);
+
+                if (DisplayMode == CommentDisplayModes.All)
+                {
+                    Corner OriginWithPadding = origin.Moved(padding.Left, 0);
+                    printContext.PrintText(Text, OriginWithPadding, TextStyles.Comment);
+                }
             }
         }
         #endregion

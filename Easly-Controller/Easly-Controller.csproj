@@ -604,6 +604,7 @@
     <Compile Include="05-Layout\Collections\Layout_Template_List.cs" />
     <Compile Include="05-Layout\Collections\Layout_Template_ReadOnlyDictionary.cs" />
     <Compile Include="05-Layout\Context\Layout_BrowseContext.cs" />
+    <Compile Include="05-Layout\ControllerView\Layout_MeasureContext.cs" />
     <Compile Include="05-Layout\ControllerView\Layout_InternalControllerView.cs" />
     <Compile Include="05-Layout\ControllerView\Layout_AttachCallbackSet.cs" />
     <Compile Include="05-Layout\ControllerView\Layout_CellViewTreeContext.cs" />
@@ -659,6 +660,7 @@
     <Compile Include="05-Layout\Frame\Layout_CharacterFrame.cs" />
     <Compile Include="05-Layout\Frame\Layout_CollectionPlaceholderFrame.cs" />
     <Compile Include="05-Layout\Frame\Layout_DiscreteFrame.cs" />
+    <Compile Include="05-Layout\Frame\Layout_PrintableFrame.cs" />
     <Compile Include="05-Layout\Frame\Layout_DrawableFrame.cs" />
     <Compile Include="05-Layout\Frame\Layout_FrameWithMargins.cs" />
     <Compile Include="05-Layout\Frame\Layout_FrameWithVerticalSeparator.cs" />
@@ -762,6 +764,9 @@
     <Compile Include="Controller\CRC32.cs" />
     <Compile Include="Controller\DebugObjects.cs" />
     <Compile Include="Controller\Corner.cs" />
+    <Compile Include="Controller\Measure.cs" />
+    <Compile Include="Controller\SeparatorLength.cs" />
+    <Compile Include="Controller\SpacePadding.cs" />
     <Compile Include="Controller\RegionHelper.cs" />
     <Compile Include="Controller\HorizontalContainers.cs" />
     <Compile Include="Controller\HorizontalSeparators.cs" />

@@ -20,6 +20,12 @@
         new ILayoutFrame Frame { get; }
 
         /// <summary>
+        /// Returns the measured size of streched cells in the collection.
+        /// </summary>
+        /// <param name="size">The cell size.</param>
+        Size GetMeasuredSize(Size size);
+
+        /// <summary>
         /// Draws a selection rectangle around cells.
         /// </summary>
         /// <param name="startIndex">Index of the first cell in the selection.</param>
@@ -37,12 +43,6 @@
         void DrawBeforeItem(ILayoutDrawContext drawContext, ILayoutCellView cellView, Point origin, Size size, Padding padding);
 
         /// <summary>
-        /// Returns the measured size of streched cells in the collection.
-        /// </summary>
-        /// <param name="size">The cell size.</param>
-        Size GetMeasuredSize(Size size);
-
-        /// <summary>
         /// Draws container or separator after an element of a collection.
         /// </summary>
         /// <param name="drawContext">The context used to draw the cell.</param>
@@ -51,6 +51,32 @@
         /// <param name="size">The drawing size, padding included.</param>
         /// <param name="padding">The padding to use when drawing.</param>
         void DrawAfterItem(ILayoutDrawContext drawContext, ILayoutCellView cellView, Point origin, Size size, Padding padding);
+
+        /// <summary>
+        /// Returns the measured size of streched cells in the collection.
+        /// </summary>
+        /// <param name="plane">The cell size.</param>
+        Plane GetMeasuredPlane(Plane plane);
+
+        /// <summary>
+        /// Prints container or separator before an element of a collection.
+        /// </summary>
+        /// <param name="printContext">The context used to print the cell.</param>
+        /// <param name="cellView">The cell to print.</param>
+        /// <param name="corner">The location where to start printing.</param>
+        /// <param name="plane">The printing size, padding included.</param>
+        /// <param name="padding">The padding to use when printing.</param>
+        void PrintBeforeItem(ILayoutPrintContext printContext, ILayoutCellView cellView, Corner corner, Plane plane, SpacePadding padding);
+
+        /// <summary>
+        /// Prints container or separator after an element of a collection.
+        /// </summary>
+        /// <param name="printContext">The context used to print the cell.</param>
+        /// <param name="cellView">The cell to print.</param>
+        /// <param name="corner">The location where to start printing.</param>
+        /// <param name="plane">The printing size, padding included.</param>
+        /// <param name="padding">The padding to use when printing.</param>
+        void PrintAfterItem(ILayoutPrintContext printContext, ILayoutCellView cellView, Corner corner, Plane plane, SpacePadding padding);
     }
 
     /// <summary>
@@ -73,6 +99,10 @@
             CellSize = RegionHelper.InvalidSize;
             ActualCellSize = RegionHelper.InvalidSize;
             CellPadding = Padding.Empty;
+            CellCorner = RegionHelper.InvalidCorner;
+            CellPlane = RegionHelper.InvalidPlane;
+            CellSpacePadding = SpacePadding.Empty;
+            ActualCellPlane = RegionHelper.InvalidPlane;
         }
         #endregion
 
@@ -108,6 +138,11 @@
         public Size CellSize { get; private set; }
 
         /// <summary>
+        /// Padding inside the cell.
+        /// </summary>
+        public Padding CellPadding { get; private set; }
+
+        /// <summary>
         /// Actual size of the cell.
         /// </summary>
         public Size ActualCellSize { get; private set; }
@@ -118,9 +153,24 @@
         public Rect CellRect { get { return new Rect(CellOrigin, ActualCellSize); } }
 
         /// <summary>
+        /// Location of the cell.
+        /// </summary>
+        public Corner CellCorner { get; private set; }
+
+        /// <summary>
+        /// Floating size of the cell.
+        /// </summary>
+        public Plane CellPlane { get; private set; }
+
+        /// <summary>
         /// Padding inside the cell.
         /// </summary>
-        public Padding CellPadding { get; private set; }
+        public SpacePadding CellSpacePadding { get; private set; }
+
+        /// <summary>
+        /// Actual size of the cell.
+        /// </summary>
+        public Plane ActualCellPlane { get; private set; }
 
         /// <summary>
         /// The collection that can add separators around this item.
@@ -133,9 +183,9 @@
         public ILayoutCellView ReferenceContainer { get; private set; }
 
         /// <summary>
-        /// The length of the separator.
+        /// The separator measure.
         /// </summary>
-        public double SeparatorLength { get; private set; }
+        public SeparatorLength SeparatorLength { get; private set; }
         #endregion
 
         #region Client Interface
@@ -145,7 +195,7 @@
         /// <param name="collectionWithSeparator">A collection that can draw separators around the cell.</param>
         /// <param name="referenceContainer">The cell view in <paramref name="collectionWithSeparator"/> that contains this cell.</param>
         /// <param name="separatorLength">The length of the separator in <paramref name="collectionWithSeparator"/>.</param>
-        public abstract void Measure(ILayoutCellViewCollection collectionWithSeparator, ILayoutCellView referenceContainer, double separatorLength);
+        public abstract void Measure(ILayoutCellViewCollection collectionWithSeparator, ILayoutCellView referenceContainer, SeparatorLength separatorLength);
 
         /// <summary>
         /// Arranges the cell.
@@ -157,6 +207,12 @@
         /// Updates the actual size of the cell.
         /// </summary>
         public abstract void UpdateActualSize();
+
+        /// <summary>
+        /// Returns the measured size of streched cells in the collection.
+        /// </summary>
+        /// <param name="size">The cell size.</param>
+        public abstract Size GetMeasuredSize(Size size);
 
         /// <summary>
         /// Draws the cell.
@@ -181,12 +237,6 @@
         public abstract void DrawBeforeItem(ILayoutDrawContext drawContext, ILayoutCellView cellView, Point origin, Size size, Padding padding);
 
         /// <summary>
-        /// Returns the measured size of streched cells in the collection.
-        /// </summary>
-        /// <param name="size">The cell size.</param>
-        public abstract Size GetMeasuredSize(Size size);
-
-        /// <summary>
         /// Draws container or separator after an element of a collection.
         /// </summary>
         /// <param name="drawContext">The context used to draw the cell.</param>
@@ -195,6 +245,42 @@
         /// <param name="size">The drawing size, padding included.</param>
         /// <param name="padding">The padding to use when drawing.</param>
         public abstract void DrawAfterItem(ILayoutDrawContext drawContext, ILayoutCellView cellView, Point origin, Size size, Padding padding);
+
+        /// <summary>
+        /// Updates the actual size of the cell.
+        /// </summary>
+        public abstract void UpdateActualPlane();
+
+        /// <summary>
+        /// Returns the measured size of streched cells in the collection.
+        /// </summary>
+        /// <param name="plane">The cell size.</param>
+        public abstract Plane GetMeasuredPlane(Plane plane);
+
+        /// <summary>
+        /// Prints the cell.
+        /// </summary>
+        public abstract void Print();
+
+        /// <summary>
+        /// Prints container or separator before an element of a collection.
+        /// </summary>
+        /// <param name="printContext">The context used to print the cell.</param>
+        /// <param name="cellView">The cell to print.</param>
+        /// <param name="corner">The location where to start printing.</param>
+        /// <param name="plane">The printing size, padding included.</param>
+        /// <param name="padding">The padding to use when printing.</param>
+        public abstract void PrintBeforeItem(ILayoutPrintContext printContext, ILayoutCellView cellView, Corner corner, Plane plane, SpacePadding padding);
+
+        /// <summary>
+        /// Prints container or separator after an element of a collection.
+        /// </summary>
+        /// <param name="printContext">The context used to print the cell.</param>
+        /// <param name="cellView">The cell to print.</param>
+        /// <param name="corner">The location where to start printing.</param>
+        /// <param name="plane">The printing size, padding included.</param>
+        /// <param name="padding">The padding to use when printing.</param>
+        public abstract void PrintAfterItem(ILayoutPrintContext printContext, ILayoutCellView cellView, Corner corner, Plane plane, SpacePadding padding);
         #endregion
 
         #region Debugging

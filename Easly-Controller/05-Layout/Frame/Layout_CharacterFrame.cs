@@ -10,7 +10,7 @@
     /// <summary>
     /// Frame describing a single-character string value property in a node.
     /// </summary>
-    public interface ILayoutCharacterFrame : IFocusCharacterFrame, ILayoutValueFrame, ILayoutMeasurableFrame, ILayoutDrawableFrame, ILayoutFrameWithMargins
+    public interface ILayoutCharacterFrame : IFocusCharacterFrame, ILayoutValueFrame, ILayoutMeasurableFrame, ILayoutDrawableFrame, ILayoutPrintableFrame, ILayoutFrameWithMargins
     {
     }
 
@@ -53,21 +53,21 @@
         /// <summary>
         /// Measures a cell created with this frame.
         /// </summary>
-        /// <param name="drawContext">The context used to measure the cell.</param>
+        /// <param name="measureContext">The context used to measure the cell.</param>
         /// <param name="cellView">The cell to measure.</param>
         /// <param name="collectionWithSeparator">A collection that can draw separators around the cell.</param>
         /// <param name="referenceContainer">The cell view in <paramref name="collectionWithSeparator"/> that contains this cell.</param>
         /// <param name="separatorLength">The length of the separator in <paramref name="collectionWithSeparator"/>.</param>
         /// <param name="size">The cell size upon return, padding included.</param>
         /// <param name="padding">The cell padding.</param>
-        public virtual void Measure(ILayoutDrawContext drawContext, ILayoutCellView cellView, ILayoutCellViewCollection collectionWithSeparator, ILayoutCellView referenceContainer, double separatorLength, out Size size, out Padding padding)
+        public virtual void Measure(ILayoutMeasureContext measureContext, ILayoutCellView cellView, ILayoutCellViewCollection collectionWithSeparator, ILayoutCellView referenceContainer, SeparatorLength separatorLength, out Size size, out Padding padding)
         {
             INode Node = cellView.StateView.State.Node;
             string Text = BaseNodeHelper.NodeTreeHelper.GetString(Node, PropertyName);
             Debug.Assert(Text != null && Text.Length == 1);
 
-            size = drawContext.MeasureText(Text, TextStyles.Character, double.NaN);
-            drawContext.UpdatePadding(LeftMargin, RightMargin, ref size, out padding);
+            size = measureContext.MeasureTextSize(Text, TextStyles.Character, double.NaN);
+            measureContext.UpdatePadding(LeftMargin, RightMargin, ref size, out padding);
 
             Debug.Assert(RegionHelper.IsValid(size));
         }
@@ -90,6 +90,24 @@
 
             Point OriginWithPadding = origin.Moved(padding.Left, padding.Top);
             drawContext.DrawText(Text, OriginWithPadding, TextStyles.Character, IsFocused);
+        }
+
+        /// <summary>
+        /// Prints a cell created with this frame.
+        /// </summary>
+        /// <param name="printContext">The context used to print the cell.</param>
+        /// <param name="cellView">The cell to print.</param>
+        /// <param name="origin">The location where to start printing.</param>
+        /// <param name="size">The printing size, padding included.</param>
+        /// <param name="padding">The padding to use when printing.</param>
+        public virtual void Print(ILayoutPrintContext printContext, ILayoutCellView cellView, Corner origin, Plane size, SpacePadding padding)
+        {
+            INode Node = cellView.StateView.State.Node;
+            string Text = BaseNodeHelper.NodeTreeHelper.GetString(Node, PropertyName);
+            Debug.Assert(Text != null && Text.Length == 1);
+
+            Corner OriginWithPadding = origin.Moved(padding.Left, 0);
+            printContext.PrintText(Text, OriginWithPadding, TextStyles.Character);
         }
         #endregion
 

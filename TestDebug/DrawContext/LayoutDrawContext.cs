@@ -11,18 +11,29 @@ namespace TestDebug
 
         public double LineHeight { get { return 12; } }
         public double TabulationWidth { get { return 12; } }
-
+        public int TabulationLength { get { return 1; } }
+        
         public double GetHorizontalSeparatorWidth(HorizontalSeparators separator)
         {
             return 0;
         }
 
-        public double GetVerticalSeparatorHeight(VerticalSeparators separator)
+        public int GetHorizontalSeparatorLength(HorizontalSeparators separator)
         {
             return 0;
         }
 
-        public Size MeasureSymbol(Symbols symbol)
+        public SeparatorLength GetVerticalSeparatorHeight(VerticalSeparators separator)
+        {
+            return default(SeparatorLength);
+        }
+
+        public int GetVerticalSeparatorLineCount(VerticalSeparators separator)
+        {
+            return 0;
+        }
+
+        public Size MeasureSymbolSize(Symbols symbol)
         {
             switch (symbol)
             {
@@ -43,14 +54,45 @@ namespace TestDebug
             }
         }
 
-        public Size MeasureText(string text, TextStyles textStyle, double maxTextWidth)
+        public Plane MeasureSymbolPlane(Symbols symbol)
+        {
+            switch (symbol)
+            {
+                default:
+                case Symbols.LeftArrow:
+                case Symbols.Dot:
+                case Symbols.InsertSign:
+                    return new Plane(1, 1);
+                case Symbols.LeftBracket:
+                case Symbols.RightBracket:
+                case Symbols.LeftCurlyBracket:
+                case Symbols.RightCurlyBracket:
+                case Symbols.LeftParenthesis:
+                case Symbols.RightParenthesis:
+                    return new Plane(1, -1);
+                case Symbols.HorizontalLine:
+                    return new Plane(-1, 1);
+            }
+        }
+
+        public Size MeasureTextSize(string text, TextStyles textStyle, double maxTextWidth)
         {
             return new Size(text.Length * 20, LineHeight);
+        }
+
+        public Plane MeasureTextPlane(string text, TextStyles textStyle, int maxTextLength)
+        {
+            return new Plane(text.Length, 1);
         }
 
         public void UpdatePadding(Margins leftMargin, Margins rightMargin, ref Size size, out Padding padding)
         {
             padding = Padding.Empty;
+        }
+
+        public virtual void UpdatePadding(Margins leftMargin, Margins rightMargin, ref Plane plane, out SpacePadding padding)
+        {
+            padding = SpacePadding.Empty;
         }
 
         public virtual void DrawSelectionText(string text, Point origin, TextStyles textStyle, int start, int end)

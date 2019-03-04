@@ -18,44 +18,31 @@
     /// <summary>
     /// An implementation of IxxxDrawContext for WPF.
     /// </summary>
-    public class DrawContext : ILayoutDrawContext
+    public class DrawContext : MeasureContext, ILayoutDrawContext
     {
         #region Init
         /// <summary>
+        /// Creates and initializes a new context.
+        /// </summary>
+        public static DrawContext CreateDrawContext()
+        {
+            DrawContext Result = new DrawContext();
+            Result.Update();
+            return Result;
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="DrawContext"/> class.
         /// </summary>
-        public DrawContext()
+        protected DrawContext()
         {
-            Typeface = new Typeface("Consolas");
-            FontSize = 10;
-            Culture = CultureInfo.CurrentCulture;
-            FlowDirection = System.Windows.FlowDirection.LeftToRight;
-            DotCharacter = '·';
             IsLastFocusedFullCell = false;
-
-            BrushTable = new Dictionary<BrushSettings, Brush>
-            {
-                { BrushSettings.Default, Brushes.Black },
-                { BrushSettings.Keyword, Brushes.Blue },
-                { BrushSettings.Symbol, Brushes.Blue },
-                { BrushSettings.Character, Brushes.Orange },
-                { BrushSettings.Discrete, Brushes.DarkRed },
-                { BrushSettings.Number, Brushes.Green },
-                { BrushSettings.TypeIdentifier, new SolidColorBrush(Color.FromArgb(0xFF, 0x2B, 0x91, 0xAF)) },
-                { BrushSettings.CommentBackground, Brushes.LightGreen },
-                { BrushSettings.CommentForeground, Brushes.Black },
-                { BrushSettings.CaretInsertion, Brushes.Black },
-                { BrushSettings.CaretOverride, Brushes.DarkGray },
-                { BrushSettings.Selection, new SolidColorBrush(Color.FromArgb(0xFF, 0x99, 0xC9, 0xEF)) },
-            };
 
             FlashAnimation = new DoubleAnimation(0, new System.Windows.Duration(TimeSpan.FromSeconds(1)));
             FlashAnimation.RepeatBehavior = RepeatBehavior.Forever;
             FlashAnimation.EasingFunction = new FlashEasingFunction();
             FlashClock = FlashAnimation.CreateClock();
             CommentIcon = LoadPngResource("Comment");
-
-            Update();
         }
 
         private BitmapSource LoadPngResource(string resourceName)
@@ -93,41 +80,6 @@
 
         #region Properties
         /// <summary>
-        /// The font family, weight, style and stretch the text should be formatted with.
-        /// </summary>
-        public Typeface Typeface { get; set; }
-
-        /// <summary>
-        /// The font size.
-        /// </summary>
-        public double FontSize { get; set; }
-
-        /// <summary>
-        /// The em size.
-        /// </summary>
-        public double EmSize { get { return FontSize * 128.0 / 96.0; } }
-
-        /// <summary>
-        /// The specific culture of the text.
-        /// </summary>
-        public CultureInfo Culture { get; set; }
-
-        /// <summary>
-        /// The direction the text is read.
-        /// </summary>
-        public System.Windows.FlowDirection FlowDirection { get; set; }
-
-        /// <summary>
-        /// The character used as dot symbol.
-        /// </summary>
-        public char DotCharacter { get; set; }
-
-        /// <summary>
-        /// Table of brushes to use when drawing.
-        /// </summary>
-        public IDictionary<BrushSettings, Brush> BrushTable { get; }
-
-        /// <summary>
         /// The WPF context used to draw.
         /// </summary>
         public DrawingContext WpfDrawingContext { get; private set; }
@@ -155,185 +107,20 @@
 
         #region Implementation of IxxxDrawContext
         /// <summary>
-        /// Width of a tabulation margin.
-        /// </summary>
-        public double TabulationWidth { get; private set; }
-
-        /// <summary>
-        /// Height of a line of text.
-        /// </summary>
-        public double LineHeight { get; private set; }
-
-        /// <summary>
-        /// Gets the width corresponding to a separator between cells in a line.
-        /// </summary>
-        /// <param name="separator">The separator.</param>
-        public virtual double GetHorizontalSeparatorWidth(HorizontalSeparators separator)
-        {
-            return HorizontalSeparatorWidthTable[separator];
-        }
-
-        /// <summary>
-        /// Gets the height corresponding to a separator between cells in a column.
-        /// </summary>
-        /// <param name="separator">The separator.</param>
-        public virtual double GetVerticalSeparatorHeight(VerticalSeparators separator)
-        {
-            return VerticalSeparatorWidthTable[separator];
-        }
-
-        /// <summary>
         /// Measures a string.
         /// </summary>
         /// <param name="text">The string to measure.</param>
         /// <param name="textStyle">Style to use for the text.</param>
         /// <param name="maxTextWidth">The maximum width for a line of text. NaN means no limit.</param>
         /// <returns>The size of the string.</returns>
-        public virtual Size MeasureText(string text, TextStyles textStyle, double maxTextWidth)
+        public override Size MeasureTextSize(string text, TextStyles textStyle, double maxTextWidth)
         {
-            Brush Brush = StyleToForegroundBrush(textStyle);
-            FormattedText ft = new FormattedText(text, Culture, FlowDirection, Typeface, EmSize, Brush);
-            if (!double.IsNaN(maxTextWidth))
-                ft.MaxTextWidth = maxTextWidth;
-
-            double Width = ft.Width;
-            double Height = LineHeight;
+            Size Result = base.MeasureTextSize(text, textStyle, maxTextWidth);
 
             if (textStyle == TextStyles.Comment)
-                return new Size(CommentPadding.Left + Width + CommentPadding.Right, CommentPadding.Top + Height + CommentPadding.Bottom);
-            else
-                return new Size(Width, Height);
-        }
+                Result = new Size(CommentPadding.Left + Result.Width + CommentPadding.Right, CommentPadding.Top + Result.Height + CommentPadding.Bottom);
 
-        /// <summary></summary>
-        protected virtual Brush StyleToForegroundBrush(TextStyles textStyle)
-        {
-            switch (textStyle)
-            {
-                default:
-                case TextStyles.Default:
-                    return BrushTable[BrushSettings.Default];
-                case TextStyles.Character:
-                    return BrushTable[BrushSettings.Character];
-                case TextStyles.Discrete:
-                    return BrushTable[BrushSettings.Discrete];
-                case TextStyles.Keyword:
-                    return BrushTable[BrushSettings.Keyword];
-                case TextStyles.Number:
-                    return BrushTable[BrushSettings.Number];
-                case TextStyles.Type:
-                    return BrushTable[BrushSettings.TypeIdentifier];
-                case TextStyles.Comment:
-                    return BrushTable[BrushSettings.CommentForeground];
-            }
-        }
-
-        /// <summary>
-        /// Measures a symbol.
-        /// </summary>
-        /// <param name="symbol">The symbol to measure.</param>
-        /// <returns>The size of the symbol.</returns>
-        public virtual Size MeasureSymbol(Symbols symbol)
-        {
-            string Text = SymbolToText(symbol);
-            FormattedText ft = new FormattedText(Text, Culture, FlowDirection, Typeface, EmSize, BrushTable[BrushSettings.Symbol]);
-
-            switch (symbol)
-            {
-                default:
-                case Symbols.LeftArrow:
-                case Symbols.Dot:
-                case Symbols.InsertSign:
-                    return new Size(ft.Width, LineHeight);
-                case Symbols.LeftBracket:
-                case Symbols.RightBracket:
-                case Symbols.LeftCurlyBracket:
-                case Symbols.RightCurlyBracket:
-                case Symbols.LeftParenthesis:
-                case Symbols.RightParenthesis:
-                    return new Size(ft.Width, double.NaN);
-                case Symbols.HorizontalLine:
-                    return new Size(double.NaN, ft.Height);
-            }
-        }
-
-        /// <summary></summary>
-        protected virtual string SymbolToText(Symbols symbol)
-        {
-            string Text = null;
-
-            switch (symbol)
-            {
-                case Symbols.LeftArrow:
-                    Text = "←";
-                    break;
-                case Symbols.Dot:
-                    Text = DotText;
-                    break;
-                case Symbols.InsertSign:
-                    Text = "◄";
-                    break;
-                case Symbols.LeftBracket:
-                    Text = "[";
-                    break;
-                case Symbols.RightBracket:
-                    Text = "]";
-                    break;
-                case Symbols.LeftCurlyBracket:
-                    Text = "{";
-                    break;
-                case Symbols.RightCurlyBracket:
-                    Text = "}";
-                    break;
-                case Symbols.LeftParenthesis:
-                    Text = "(";
-                    break;
-                case Symbols.RightParenthesis:
-                    Text = ")";
-                    break;
-                case Symbols.HorizontalLine:
-                    Text = "-";
-                    break;
-            }
-
-            Debug.Assert(Text != null);
-            return Text;
-        }
-
-        /// <summary>
-        /// Extends a size according to the left and right margin settings.
-        /// </summary>
-        /// <param name="leftMargin">The left margin setting.</param>
-        /// <param name="rightMargin">The right margin setting.</param>
-        /// <param name="size">The size to extend with the calculated padding.</param>
-        /// <param name="padding">The padding calculated from <paramref name="leftMargin"/> and <paramref name="rightMargin"/>.</param>
-        public virtual void UpdatePadding(Margins leftMargin, Margins rightMargin, ref Size size, out Padding padding)
-        {
-            double LeftPadding = 0;
-            double RightPadding = 0;
-
-            switch (leftMargin)
-            {
-                case Margins.ThinSpace:
-                    LeftPadding = WhitespaceWidth / 2;
-                    break;
-                case Margins.Whitespace:
-                    LeftPadding = WhitespaceWidth;
-                    break;
-            }
-
-            switch (rightMargin)
-            {
-                case Margins.ThinSpace:
-                    RightPadding = WhitespaceWidth / 2;
-                    break;
-                case Margins.Whitespace:
-                    RightPadding = WhitespaceWidth;
-                    break;
-            }
-
-            size = new Size(size.Width + LeftPadding + RightPadding, size.Height);
-            padding = new Padding(LeftPadding, 0, RightPadding, 0);
+            return Result;
         }
 
         /// <summary>
@@ -357,7 +144,7 @@
                 start = n;
             }
 
-            Brush Brush = StyleToForegroundBrush(textStyle);
+            Brush Brush = BrushTable[StyleToForegroundBrush(textStyle)];
             FormattedText ft;
             double X = PagePadding.Left + origin.X;
             double Y = PagePadding.Top + origin.Y;
@@ -394,7 +181,7 @@
                 WpfDrawingContext.PushOpacity(1, FlashClock);
             }
 
-            Brush Brush = StyleToForegroundBrush(textStyle);
+            Brush Brush = BrushTable[StyleToForegroundBrush(textStyle)];
             FormattedText ft = new FormattedText(text, Culture, FlowDirection, Typeface, EmSize, Brush);
 
             double X = PagePadding.Left + origin.X;
@@ -483,7 +270,8 @@
         {
             Debug.Assert(WpfDrawingContext != null);
 
-            FormattedText ft = new FormattedText(text, Culture, FlowDirection, Typeface, EmSize, BrushTable[BrushSettings.Symbol]);
+            Brush ForegroundBrush = BrushTable[BrushSettings.Symbol];
+            FormattedText ft = new FormattedText(text, Culture, FlowDirection, Typeface, EmSize, ForegroundBrush);
             WpfDrawingContext.DrawText(ft, new System.Windows.Point(PagePadding.Left + origin.X + padding.Left, PagePadding.Top + origin.Y + padding.Top));
         }
 
@@ -496,7 +284,8 @@
             Size PaddedSize = new Size(size.Width - padding.Left - padding.Right, size.Height - padding.Top - padding.Bottom);
             Geometry GeometryAtOrigin = MoveAndScaleGeometry(geometry, PaddedOrigin, GeometryScalings.None, GeometryScalings.Stretch, PaddedSize);
 
-            WpfDrawingContext.DrawGeometry(Brushes.Blue, null, GeometryAtOrigin);
+            Brush ForegroundBrush = BrushTable[BrushSettings.Symbol];
+            WpfDrawingContext.DrawGeometry(ForegroundBrush, null, GeometryAtOrigin);
         }
 
         /// <summary></summary>
@@ -554,16 +343,17 @@
         {
             Debug.Assert(WpfDrawingContext != null);
 
+            Brush ForegroundBrush = BrushTable[BrushSettings.Symbol];
             FormattedText ft;
 
             switch (separator)
             {
-                case HorizontalSeparators.Dot:
-                    ft = new FormattedText(DotText, Culture, FlowDirection, Typeface, EmSize, BrushTable[BrushSettings.Symbol]);
+                case HorizontalSeparators.Comma:
+                    ft = new FormattedText(CommaSeparatorString, Culture, FlowDirection, Typeface, EmSize, ForegroundBrush);
                     WpfDrawingContext.DrawText(ft, new System.Windows.Point(PagePadding.Left + origin.X - ft.WidthIncludingTrailingWhitespace, PagePadding.Top + origin.Y));
                     break;
-                case HorizontalSeparators.Comma:
-                    ft = new FormattedText(", ", Culture, FlowDirection, Typeface, EmSize, BrushTable[BrushSettings.Symbol]);
+                case HorizontalSeparators.Dot:
+                    ft = new FormattedText(DotSeparatorString, Culture, FlowDirection, Typeface, EmSize, ForegroundBrush);
                     WpfDrawingContext.DrawText(ft, new System.Windows.Point(PagePadding.Left + origin.X - ft.WidthIncludingTrailingWhitespace, PagePadding.Top + origin.Y));
                     break;
             }
@@ -595,7 +385,7 @@
 
             string LeftText = text.Substring(0, position);
 
-            Brush Brush = StyleToForegroundBrush(textStyle);
+            Brush Brush = BrushTable[StyleToForegroundBrush(textStyle)];
             FormattedText ft = new FormattedText(LeftText, Culture, FlowDirection, Typeface, EmSize, Brush);
             double X = origin.X + ft.WidthIncludingTrailingWhitespace;
             double Y = origin.Y;
@@ -681,7 +471,7 @@
         /// <returns>The position of the caret.</returns>
         public virtual int GetCaretPositionInText(Point origin, string text, TextStyles textStyle, CaretModes mode, double maxTextWidth)
         {
-            Brush Brush = StyleToForegroundBrush(textStyle);
+            Brush Brush = BrushTable[StyleToForegroundBrush(textStyle)];
 
             if (textStyle == TextStyles.Comment)
                 origin = origin.Moved(CommentPadding.Left, CommentPadding.Top);
@@ -730,23 +520,14 @@
         /// Recalculate internal constants.
         /// To call after a property was changed.
         /// </summary>
-        public virtual void Update()
+        public override void Update()
         {
+            base.Update();
+
             FormattedText ft;
 
             ft = new FormattedText(" ", Culture, FlowDirection, Typeface, EmSize, BrushTable[BrushSettings.Default]);
-            WhitespaceWidth = ft.WidthIncludingTrailingWhitespace;
-            LineHeight = ft.Height;
-            TabulationWidth = WhitespaceWidth * 3;
             InsertionCaretWidth = WhitespaceWidth / 4;
-            VerticalSeparatorWidthTable[VerticalSeparators.Line] = LineHeight;
-
-            ft = new FormattedText(", ", Culture, FlowDirection, Typeface, EmSize, BrushTable[BrushSettings.Symbol]);
-            HorizontalSeparatorWidthTable[HorizontalSeparators.Comma] = ft.WidthIncludingTrailingWhitespace;
-
-            DotText = DotCharacter.ToString();
-            ft = new FormattedText(DotText, Culture, FlowDirection, Typeface, EmSize, BrushTable[BrushSettings.Symbol]);
-            HorizontalSeparatorWidthTable[HorizontalSeparators.Dot] = ft.WidthIncludingTrailingWhitespace;
 
             LeftBracketGeometry = ScaleGlyphGeometryHeight("[", true, 0.3, 0.3);
             RightBracketGeometry = ScaleGlyphGeometryHeight("]", true, 0.3, 0.3);
@@ -798,29 +579,26 @@
             return new ScalableGeometry(GlyphGeometry, Bounds, false, 0, 0, isHeightScaled, topPercent, bottomPercent);
         }
 
-        private double WhitespaceWidth;
-        private Dictionary<HorizontalSeparators, double> HorizontalSeparatorWidthTable = new Dictionary<HorizontalSeparators, double>()
-        {
-            { HorizontalSeparators.None, 0 },
-            { HorizontalSeparators.Comma, 0 },
-            { HorizontalSeparators.Dot, 0 },
-        };
-        private Dictionary<VerticalSeparators, double> VerticalSeparatorWidthTable = new Dictionary<VerticalSeparators, double>()
-        {
-            { VerticalSeparators.None, 0 },
-            { VerticalSeparators.Line, 30 },
-        };
-        private string DotText;
-        private ScalableGeometry LeftBracketGeometry;
-        private ScalableGeometry RightBracketGeometry;
-        private ScalableGeometry LeftCurlyBracketGeometry;
-        private ScalableGeometry RightCurlyBracketGeometry;
-        private ScalableGeometry LeftParenthesisGeometry;
-        private ScalableGeometry RightParenthesisGeometry;
-        private ScalableGeometry HorizontalLineGeometry;
-        private DoubleAnimation FlashAnimation;
-        private AnimationClock FlashClock;
-        private bool IsLastFocusedFullCell;
+        /// <summary></summary>
+        protected ScalableGeometry LeftBracketGeometry { get; private set; }
+        /// <summary></summary>
+        protected ScalableGeometry RightBracketGeometry { get; private set; }
+        /// <summary></summary>
+        protected ScalableGeometry LeftCurlyBracketGeometry { get; private set; }
+        /// <summary></summary>
+        protected ScalableGeometry RightCurlyBracketGeometry { get; private set; }
+        /// <summary></summary>
+        protected ScalableGeometry LeftParenthesisGeometry { get; private set; }
+        /// <summary></summary>
+        protected ScalableGeometry RightParenthesisGeometry { get; private set; }
+        /// <summary></summary>
+        protected ScalableGeometry HorizontalLineGeometry { get; private set; }
+        /// <summary></summary>
+        protected DoubleAnimation FlashAnimation { get; private set; }
+        /// <summary></summary>
+        protected AnimationClock FlashClock { get; private set; }
+        /// <summary></summary>
+        protected bool IsLastFocusedFullCell { get; private set; }
         #endregion
     }
 }

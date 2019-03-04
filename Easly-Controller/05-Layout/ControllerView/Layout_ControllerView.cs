@@ -52,9 +52,19 @@
         new ILayoutSelection Selection { get; }
 
         /// <summary>
+        /// The measure context.
+        /// </summary>
+        ILayoutMeasureContext MeasureContext { get; }
+
+        /// <summary>
         /// The draw context.
         /// </summary>
         ILayoutDrawContext DrawContext { get; }
+
+        /// <summary>
+        /// The print context.
+        /// </summary>
+        ILayoutPrintContext PrintContext { get; }
 
         /// <summary>
         /// Size of view.
@@ -105,6 +115,11 @@
         /// Draws all visible cells in the view using <see cref="DrawContext"/>.
         /// </summary>
         void Draw();
+
+        /// <summary>
+        /// Prints all visible cells in the view using <see cref="PrintContext"/>.
+        /// </summary>
+        void Print();
 
         /// <summary>
         /// Shows or hides the caret.
@@ -165,10 +180,10 @@
         /// </summary>
         /// <param name="controller">The controller on which the view is attached.</param>
         /// <param name="templateSet">The template set used to describe the view.</param>
-        /// <param name="drawContext">The draw context used to measure, arrange and draw the view.</param>
-        public static ILayoutControllerView Create(ILayoutController controller, ILayoutTemplateSet templateSet, ILayoutDrawContext drawContext)
+        /// <param name="context">The context used to measure, arrange, and draw or print the view.</param>
+        public static ILayoutControllerView Create(ILayoutController controller, ILayoutTemplateSet templateSet, ILayoutMeasureContext context)
         {
-            LayoutControllerView View = new LayoutControllerView(controller, templateSet, drawContext);
+            LayoutControllerView View = new LayoutControllerView(controller, templateSet, context);
             View.Init();
             return View;
         }
@@ -178,11 +193,13 @@
         /// </summary>
         /// <param name="controller">The controller on which the view is attached.</param>
         /// <param name="templateSet">The template set used to describe the view.</param>
-        /// <param name="drawContext">The draw context used to measure, arrange and draw the view.</param>
-        private protected LayoutControllerView(ILayoutController controller, ILayoutTemplateSet templateSet, ILayoutDrawContext drawContext)
+        /// <param name="context">The context used to measure, arrange, and draw or print the view.</param>
+        private protected LayoutControllerView(ILayoutController controller, ILayoutTemplateSet templateSet, ILayoutMeasureContext context)
             : base(controller, templateSet)
         {
-            DrawContext = drawContext;
+            MeasureContext = context;
+            DrawContext = context as ILayoutDrawContext;
+            PrintContext = context as ILayoutPrintContext;
             InternalViewSize = RegionHelper.InvalidSize;
             IsInvalidated = true;
         }
@@ -225,9 +242,19 @@
         public new ILayoutSelection Selection { get { return (ILayoutSelection)base.Selection; } }
 
         /// <summary>
+        /// The measure context.
+        /// </summary>
+        public ILayoutMeasureContext MeasureContext { get; private set; }
+
+        /// <summary>
         /// The draw context.
         /// </summary>
         public ILayoutDrawContext DrawContext { get; private set; }
+
+        /// <summary>
+        /// The print context.
+        /// </summary>
+        public ILayoutPrintContext PrintContext { get; private set; }
 
         /// <summary>
         /// Size of view.
@@ -357,6 +384,23 @@
                 else if (IsCaretOnComment(out ILayoutCommentFocus CommentFocus))
                     DrawCommentCaret(CommentFocus);
             }
+        }
+
+        /// <summary>
+        /// Prints all visible cells in the view using <see cref="PrintContext"/>.
+        /// </summary>
+        public virtual void Print()
+        {
+            if (IsInvalidated)
+                MeasureAndArrange();
+
+            ILayoutNodeState RootState = Controller.RootState;
+            ILayoutNodeStateView RootStateView = StateViewTable[RootState];
+
+            RootStateView.UpdateActualCellsPlane();
+            Debug.Assert(RegionHelper.IsValid(RootStateView.ActualCellPlane));
+
+            RootStateView.PrintCells();
         }
 
         /// <summary>
@@ -1011,7 +1055,7 @@
         {
             ILayoutPlaceholderNodeState RootState = Controller.RootState;
             ILayoutNodeStateView RootStateView = StateViewTable[RootState];
-            RootStateView.MeasureCells(null, null, double.NaN);
+            RootStateView.MeasureCells(null, null, double.NaN, -1);
 
             InternalViewSize = RootStateView.CellSize;
 

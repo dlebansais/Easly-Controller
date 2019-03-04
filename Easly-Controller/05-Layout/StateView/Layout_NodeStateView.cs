@@ -61,12 +61,27 @@
         Rect CellRect { get; }
 
         /// <summary>
+        /// Location of the cell.
+        /// </summary>
+        Corner CellCorner { get; }
+
+        /// <summary>
+        /// Floating size of the cell.
+        /// </summary>
+        Plane CellPlane { get; }
+
+        /// <summary>
+        /// Actual size of the cell.
+        /// </summary>
+        Plane ActualCellPlane { get; }
+
+        /// <summary>
         /// Measure all cells in this state view.
         /// </summary>
         /// <param name="collectionWithSeparator">A collection that can draw separators around the cell.</param>
         /// <param name="referenceContainer">The cell view in <paramref name="collectionWithSeparator"/> that contains this cell.</param>
         /// <param name="separatorLength">The length of the separator in <paramref name="collectionWithSeparator"/>.</param>
-        void MeasureCells(ILayoutCellViewCollection collectionWithSeparator, ILayoutCellView referenceContainer, double separatorLength);
+        void MeasureCells(ILayoutCellViewCollection collectionWithSeparator, ILayoutCellView referenceContainer, SeparatorLength separatorLength);
 
         /// <summary>
         /// Arranges cells in this state view.
@@ -80,9 +95,19 @@
         void UpdateActualCellsSize();
 
         /// <summary>
-        /// Draws the cell.
+        /// Draws cells in the state view.
         /// </summary>
         void DrawCells();
+
+        /// <summary>
+        /// Updates the actual size of cells in this state view.
+        /// </summary>
+        void UpdateActualCellsPlane();
+
+        /// <summary>
+        /// Prints cells in the state view.
+        /// </summary>
+        void PrintCells();
     }
 
     /// <summary>
@@ -102,7 +127,9 @@
             CellOrigin = RegionHelper.InvalidOrigin;
             CellSize = RegionHelper.InvalidSize;
             ActualCellSize = RegionHelper.InvalidSize;
-            CellPadding = Padding.Empty;
+            CellCorner = RegionHelper.InvalidCorner;
+            CellPlane = RegionHelper.InvalidPlane;
+            ActualCellPlane = RegionHelper.InvalidPlane;
         }
         #endregion
 
@@ -153,14 +180,24 @@
         public Size ActualCellSize { get; private set; }
 
         /// <summary>
-        /// Padding inside the cell.
-        /// </summary>
-        public Padding CellPadding { get; private set; }
-
-        /// <summary>
         /// Rectangular region for cells in this state view.
         /// </summary>
         public Rect CellRect { get { return new Rect(CellOrigin, ActualCellSize); } }
+
+        /// <summary>
+        /// Location of the cell.
+        /// </summary>
+        public Corner CellCorner { get; private set; }
+
+        /// <summary>
+        /// Floating size of the cell.
+        /// </summary>
+        public Plane CellPlane { get; private set; }
+
+        /// <summary>
+        /// Actual size of the cell.
+        /// </summary>
+        public Plane ActualCellPlane { get; private set; }
         #endregion
 
         #region Client Interface
@@ -170,7 +207,7 @@
         /// <param name="collectionWithSeparator">A collection that can draw separators around the cell.</param>
         /// <param name="referenceContainer">The cell view in <paramref name="collectionWithSeparator"/> that contains this cell.</param>
         /// <param name="separatorLength">The length of the separator in <paramref name="collectionWithSeparator"/>.</param>
-        public abstract void MeasureCells(ILayoutCellViewCollection collectionWithSeparator, ILayoutCellView referenceContainer, double separatorLength);
+        public abstract void MeasureCells(ILayoutCellViewCollection collectionWithSeparator, ILayoutCellView referenceContainer, SeparatorLength separatorLength);
 
         /// <summary>
         /// Arranges cells in this state view.
@@ -184,9 +221,19 @@
         public abstract void UpdateActualCellsSize();
 
         /// <summary>
-        /// Draws the cell.
+        /// Draws cells in the state view.
         /// </summary>
         public abstract void DrawCells();
+
+        /// <summary>
+        /// Updates the actual size of cells in this state view.
+        /// </summary>
+        public abstract void UpdateActualCellsPlane();
+
+        /// <summary>
+        /// Prints cells in the state view.
+        /// </summary>
+        public abstract void PrintCells();
         #endregion
 
         #region Debugging

@@ -11,7 +11,7 @@
         #region Init
         static Size()
         {
-            Empty = new Size(0, 0);
+            Empty = new Size(Measure.Zero, Measure.Zero);
         }
 
         /// <summary>
@@ -24,10 +24,10 @@
         /// </summary>
         /// <param name="width">The width.</param>
         /// <param name="height">The height.</param>
-        public Size(double width, double height)
+        public Size(Measure width, Measure height)
         {
-            Debug.Assert(double.IsNaN(width) || width >= 0);
-            Debug.Assert(double.IsNaN(height) || height >= 0);
+            Debug.Assert(width.IsFloating || width.IsPositive);
+            Debug.Assert(height.IsFloating || height.IsPositive);
 
             Width = width;
             Height = height;
@@ -38,22 +38,22 @@
         /// <summary>
         /// Width.
         /// </summary>
-        public double Width { get; }
+        public Measure Width { get; }
 
         /// <summary>
         /// Height.
         /// </summary>
-        public double Height { get; }
+        public Measure Height { get; }
 
         /// <summary>
         /// True if the object is the empty size.
         /// </summary>
-        public bool IsEmpty { get { return Width == 0 && Height == 0; } }
+        public bool IsEmpty { get { return Width.IsZero && Height.IsZero; } }
 
         /// <summary>
         /// True if the object represents a visible region.
         /// </summary>
-        public bool IsVisible { get { return Width > 0 && Height > 0; } }
+        public bool IsVisible { get { return Width.IsStrictlyPositive && Height.IsStrictlyPositive; } }
         #endregion
 
         #region Client Interface
@@ -64,8 +64,8 @@
         /// <param name="size2">The second size.</param>
         public static bool IsEqual(Size size1, Size size2)
         {
-            double DiffCX = double.IsNaN(size1.Width) && double.IsNaN(size2.Width) ? 0 : Math.Abs(size2.Width - size1.Width);
-            double DiffCY = double.IsNaN(size1.Height) && double.IsNaN(size2.Height) ? 0 : Math.Abs(size2.Height - size1.Height);
+            double DiffCX = size1.Width.IsFloating && size2.Width.IsFloating ? 0 : Math.Abs((size2.Width - size1.Width).Draw);
+            double DiffCY = size1.Height.IsFloating && size2.Height.IsFloating ? 0 : Math.Abs((size2.Height - size1.Height).Draw);
             Debug.Assert(!double.IsNaN(DiffCX) && !double.IsNaN(DiffCY));
 
             return RegionHelper.IsZero(DiffCX) && RegionHelper.IsZero(DiffCY);

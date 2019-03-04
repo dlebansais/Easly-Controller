@@ -22,7 +22,7 @@
 
             DrawingVisual = new DrawingVisual();
             DrawingContext = DrawingVisual.RenderOpen();
-            DrawContext = new DrawContext();
+            DrawContext = DrawContext.CreateDrawContext();
 
             ControllerView = LayoutControllerView.Create(Controller, CustomLayoutTemplateSet.LayoutTemplateSet, DrawContext);
             ControllerView.SetCommentDisplayMode(CommentDisplayModes.OnFocus);
@@ -569,6 +569,10 @@
 
         public void OnCopy(object sender, ExecutedRoutedEventArgs e)
         {
+            using (ILayoutControllerView PrintView = LayoutControllerView.Create(Controller, CustomLayoutTemplateSet.LayoutTemplateSet, PrintContext.CreatePrintContext()))
+            {
+                PrintView.Print();
+            }
         }
 
         public void OnCut(object sender, ExecutedRoutedEventArgs e)

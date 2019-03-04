@@ -502,8 +502,6 @@
             }
             else
                 SetNodeSelection(State);
-
-            Debug.WriteLine($"Selection: {State}");
         }
 
         /// <summary>
