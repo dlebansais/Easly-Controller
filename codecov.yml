@@ -88,6 +88,7 @@ ignore:
   - Easly-Controller/05-Layout/Inner/Collection/Layout_CollectionInner.cs
   - Easly-Controller/05-Layout/Inner/Single/Layout_SingleInner.cs
   - Easly-Controller/05-Layout/Inner/Layout_Inner.cs
+  - Easly-Controller/05-Layout/Selection/Layout_Selection.cs
   - Easly-Controller/05-Layout/State/Layout_NodeState.cs
   - Easly-Controller/05-Layout/StateView/Layout_NodeStateView.cs
   - Easly-Controller/05-Layout/Template/Layout_Template.cs

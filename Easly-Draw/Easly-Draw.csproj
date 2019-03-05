@@ -46,7 +46,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BrushSettings.cs" />
+    <Compile Include="FormattedNumber\ExplicitExponents.cs" />
+    <Compile Include="FormattedNumber\RealNumber.cs" />
     <Compile Include="MeasureContext.cs" />
+    <Compile Include="FormattedNumber\InvalidNumber.cs" />
+    <Compile Include="FormattedNumber\FormattedNumber.cs" />
     <Compile Include="PrintableArea.cs" />
     <Compile Include="PrintableGeometry.cs" />
     <Compile Include="PrintableCharacter.cs" />
