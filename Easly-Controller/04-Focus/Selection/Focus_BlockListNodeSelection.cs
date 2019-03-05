@@ -94,5 +94,15 @@
             EndIndex = endIndex;
         }
         #endregion
+
+        #region Debugging
+        /// <summary>
+        /// Returns a string that represents the current object.
+        /// </summary>
+        public override string ToString()
+        {
+            return $"Block Index {BlockIndex}, from {StartIndex} to {EndIndex}";
+        }
+        #endregion
     }
 }

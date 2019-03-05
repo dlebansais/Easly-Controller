@@ -51,11 +51,6 @@
         Size ActualCellSize { get; }
 
         /// <summary>
-        /// Rectangular region for cells in this block state view.
-        /// </summary>
-        Rect CellRect { get; }
-
-        /// <summary>
         /// Measure all cells in this block state view.
         /// </summary>
         /// <param name="collectionWithSeparator">A collection that can draw separators around the cell.</param>
@@ -145,11 +140,6 @@
         /// Actual size of cells in this block state view.
         /// </summary>
         public Size ActualCellSize { get; private set; }
-
-        /// <summary>
-        /// Rectangular region for cells in this block state view.
-        /// </summary>
-        public Rect CellRect { get { return new Rect(CellOrigin, ActualCellSize); } }
         #endregion
 
         #region Client Interface
@@ -204,20 +194,7 @@
             Debug.Assert(RegionHelper.IsValid(ActualCellSize));
             Debug.Assert(RootCellView != null);
 
-            DrawSelection();
             RootCellView.Draw();
-        }
-
-        /// <summary></summary>
-        protected virtual void DrawSelection()
-        {
-            if (ControllerView.Selection is ILayoutNodeSelection AsNodeSelection && AsNodeSelection.StateView == this)
-            {
-                ILayoutDrawContext DrawContext = ControllerView.DrawContext;
-                Debug.Assert(DrawContext != null);
-
-                DrawContext.DrawSelectionRectangle(CellRect);
-            }
         }
 
         /// <summary>

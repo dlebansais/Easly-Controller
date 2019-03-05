@@ -82,5 +82,15 @@
             EndIndex = endIndex;
         }
         #endregion
+
+        #region Debugging
+        /// <summary>
+        /// Returns a string that represents the current object.
+        /// </summary>
+        public override string ToString()
+        {
+            return $"From node {StartIndex} to {EndIndex}";
+        }
+        #endregion
     }
 }

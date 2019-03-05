@@ -97,6 +97,11 @@
         IFocusNodeStateView SelectionAnchor { get; }
 
         /// <summary>
+        /// Gets how extended is the selection.
+        /// </summary>
+        int SelectionExtension { get; }
+
+        /// <summary>
         /// True if the selection is empty.
         /// </summary>
         bool IsSelectionEmpty { get; }
@@ -227,6 +232,18 @@
         /// <param name="newCaretPosition">The new caret position.</param>
         /// <param name="changeCaretBeforeText">True if the caret should be changed before the text, to preserve the caret invariant.</param>
         void ChangedFocusedText(string newText, int newCaretPosition, bool changeCaretBeforeText);
+
+        /// <summary>
+        /// Extends the selection by one step, starting from the focus.
+        /// </summary>
+        /// <param name="isChanged">True upon return is the selection was changed.</param>
+        void ExtendSelection(out bool isChanged);
+
+        /// <summary>
+        /// Reduces the selection by one step, ending at the focus.
+        /// </summary>
+        /// <param name="isChanged">True upon return is the selection was changed.</param>
+        void ReduceSelection(out bool isChanged);
     }
 
     /// <summary>
@@ -392,6 +409,11 @@
         public IFocusNodeStateView SelectionAnchor { get; private set; }
 
         /// <summary>
+        /// Gets how extended is the selection.
+        /// </summary>
+        public int SelectionExtension { get; private set; }
+
+        /// <summary>
         /// True if the selection is empty.
         /// </summary>
         public bool IsSelectionEmpty { get { return Selection == null; } }
@@ -450,10 +472,7 @@
             ResetCaretPosition(direction, resetAnchor);
 
             if (resetAnchor)
-            {
                 ResetSelection();
-                SelectionAnchor = Focus.CellView.StateView;
-            }
             else
                 SetAnchoredSelection();
         }
@@ -466,22 +485,10 @@
 
             if (AnchorState == FocusedState)
             {
-                bool IsHandled = false;
-
-                switch (Focus)
-                {
-                    case IFocusTextFocus AsTextFocus:
-                        SetTextSelection();
-                        IsHandled = true;
-                        break;
-
-                    case IFocusDiscreteContentFocus AsDiscreteContentFocus:
-                        SetDiscreteValueSelection(AsDiscreteContentFocus);
-                        IsHandled = true;
-                        break;
-                }
-
-                Debug.Assert(IsHandled);
+                if (Focus is IFocusTextFocus AsTextFocus)
+                    SetTextSelection(AsTextFocus);
+                else
+                    ResetSelection();
             }
             else
                 SetAnchoredNodeSelection();
@@ -505,11 +512,13 @@
             bool IsAnchorChild = Controller.IsChildState(State, AnchorState, out FirstAnchorIndex);
             Debug.Assert(IsAnchorChild);
 
+            bool IsFromPatternOrSource = (AnchorState is IFocusPatternState) || (AnchorState is IFocusSourceState) || (FocusedState is IFocusPatternState) || (FocusedState is IFocusSourceState);
+
             if (FirstFocusedIndex is IFocusBrowsingListNodeIndex AsFocusListNodeIndex && FirstAnchorIndex is IFocusBrowsingListNodeIndex AsAnchorListNodeIndex && AsFocusListNodeIndex.PropertyName == AsAnchorListNodeIndex.PropertyName)
                 SetListNodeSelection(State, AsFocusListNodeIndex.PropertyName, AsFocusListNodeIndex.Index, AsAnchorListNodeIndex.Index);
             else if (FirstFocusedIndex is IFocusBrowsingExistingBlockNodeIndex AsFocusBlockListNodeIndex && FirstAnchorIndex is IFocusBrowsingExistingBlockNodeIndex AsAnchorBlockListNodeIndex && AsFocusBlockListNodeIndex.PropertyName == AsAnchorBlockListNodeIndex.PropertyName)
             {
-                if (AsFocusBlockListNodeIndex.BlockIndex == AsAnchorBlockListNodeIndex.BlockIndex)
+                if (AsFocusBlockListNodeIndex.BlockIndex == AsAnchorBlockListNodeIndex.BlockIndex && !IsFromPatternOrSource)
                     SetBlockListNodeSelection(State, AsFocusBlockListNodeIndex.PropertyName, AsFocusBlockListNodeIndex.BlockIndex, AsFocusBlockListNodeIndex.Index, AsAnchorBlockListNodeIndex.Index);
                 else
                     SetBlockSelection(State, AsFocusBlockListNodeIndex.PropertyName, AsFocusBlockListNodeIndex.BlockIndex, AsAnchorBlockListNodeIndex.BlockIndex);
@@ -556,7 +565,12 @@
                 CaretAnchorPosition = CaretPosition;
             }
             else if (Selection == null)
-                SetTextSelection();
+            {
+                IFocusTextFocus AsTextFocus = Focus as IFocusTextFocus;
+                Debug.Assert(AsTextFocus != null);
+
+                SetTextSelection(AsTextFocus);
+            }
 
             else if (Selection is IFocusTextSelection AsTextSelection)
                 AsTextSelection.Update(CaretAnchorPosition, CaretPosition);
@@ -1189,6 +1203,195 @@
 
             Debug.Assert(IsHandled);
         }
+
+        /// <summary>
+        /// Extends the selection by one step, starting from the focus.
+        /// </summary>
+        /// <param name="isChanged">True upon return is the selection was changed.</param>
+        public virtual void ExtendSelection(out bool isChanged)
+        {
+            isChanged = false;
+
+            if (Selection is IFocusNodeSelection AsNodeSelection && AsNodeSelection.StateView == RootStateView)
+                return;
+
+            int OldSelectionExtension = SelectionExtension;
+            ResetSelection();
+
+            SelectionExtension = OldSelectionExtension + 1;
+            Debug.Assert(SelectionExtension > 0);
+
+            isChanged = true;
+
+            for (int i = 0; i < SelectionExtension; i++)
+                ExtendSelectionOneStep();
+
+            // Debug.WriteLine($"<{SelectionExtension}> {Selection}");
+        }
+
+        /// <summary>
+        /// Reduces the selection by one step, ending at the focus.
+        /// </summary>
+        /// <param name="isChanged">True upon return is the selection was changed.</param>
+        public virtual void ReduceSelection(out bool isChanged)
+        {
+            isChanged = false;
+
+            if (SelectionExtension == 0)
+                return;
+
+            int OldSelectionExtension = SelectionExtension;
+            ResetSelection();
+
+            SelectionExtension = OldSelectionExtension - 1;
+            Debug.Assert(SelectionExtension >= 0);
+
+            isChanged = true;
+
+            for (int i = 0; i < SelectionExtension; i++)
+                ExtendSelectionOneStep();
+
+            // Debug.WriteLine($"<{SelectionExtension}> {Selection}");
+        }
+
+        /// <summary></summary>
+        private protected virtual void ExtendSelectionOneStep()
+        {
+            if (Selection == null)
+            {
+                switch (Focus)
+                {
+                    case IFocusDiscreteContentFocus AsDiscreteContentFocus:
+                        SetDiscreteValueSelection(AsDiscreteContentFocus);
+                        break;
+
+                    case IFocusTextFocus AsTextFocus:
+                        SetTextFullSelection(AsTextFocus);
+                        break;
+
+                    default:
+                        SetNodeSelection(Focus.CellView.StateView.State);
+                        break;
+                }
+            }
+
+            else if (Selection is IFocusStringContentSelection AsStringContentSelection)
+            {
+                IFocusStringContentFocus AsStringContentFocus = Focus as IFocusStringContentFocus;
+                Debug.Assert(AsStringContentFocus != null);
+                string Text = GetFocusedStringContent(AsStringContentFocus);
+
+                int SelectedCount = ((AsStringContentSelection.End > AsStringContentSelection.Start) ? (AsStringContentSelection.End - AsStringContentSelection.Start) : (AsStringContentSelection.End - AsStringContentSelection.Start)) + 1;
+                if (SelectedCount < Text.Length)
+                    AsStringContentSelection.Update(0, Text.Length - 1);
+                else
+                    SetNodeSelection(AsStringContentSelection.StateView.State);
+            }
+
+            else if (Selection is IFocusCommentSelection AsCommentSelection)
+            {
+                IFocusCommentFocus AsCommentFocus = Focus as IFocusCommentFocus;
+                Debug.Assert(AsCommentFocus != null);
+                string Text = GetFocusedCommentText(AsCommentFocus);
+
+                int SelectedCount = ((AsCommentSelection.End > AsCommentSelection.Start) ? (AsCommentSelection.End - AsCommentSelection.Start) : (AsCommentSelection.End - AsCommentSelection.Start)) + 1;
+                if (SelectedCount < Text.Length)
+                    AsCommentSelection.Update(0, Text.Length - 1);
+                else
+                    SetNodeSelection(AsCommentSelection.StateView.State);
+            }
+
+            else if (Selection is IFocusDiscreteContentSelection AsDiscreteContentSelection)
+                SetNodeSelection(AsDiscreteContentSelection.StateView.State);
+
+            else if (Selection is IFocusListNodeSelection AsListNodeSelection)
+            {
+                string PropertyName = AsListNodeSelection.PropertyName;
+                IFocusNodeState State = AsListNodeSelection.StateView.State;
+                IFocusListInner ListInner = State.PropertyToInner(PropertyName) as IFocusListInner;
+
+                Debug.Assert(ListInner != null);
+
+                int SelectedCount = ((AsListNodeSelection.EndIndex > AsListNodeSelection.StartIndex) ? (AsListNodeSelection.EndIndex - AsListNodeSelection.StartIndex) : (AsListNodeSelection.EndIndex - AsListNodeSelection.StartIndex)) + 1;
+                if (SelectedCount < ListInner.StateList.Count)
+                    AsListNodeSelection.Update(0, ListInner.StateList.Count - 1);
+                else
+                    SetNodeSelection(AsListNodeSelection.StateView.State);
+            }
+
+            else if (Selection is IFocusBlockListNodeSelection AsBlockListNodeSelection)
+            {
+                string PropertyName = AsBlockListNodeSelection.PropertyName;
+                IFocusNodeState State = AsBlockListNodeSelection.StateView.State;
+                IFocusBlockListInner BlockListInner = State.PropertyToInner(PropertyName) as IFocusBlockListInner;
+
+                Debug.Assert(BlockListInner != null);
+                Debug.Assert(AsBlockListNodeSelection.BlockIndex < BlockListInner.BlockStateList.Count);
+
+                IFocusBlockState BlockState = BlockListInner.BlockStateList[AsBlockListNodeSelection.BlockIndex];
+                int SelectedCount = ((AsBlockListNodeSelection.EndIndex > AsBlockListNodeSelection.StartIndex) ? (AsBlockListNodeSelection.EndIndex - AsBlockListNodeSelection.StartIndex) : (AsBlockListNodeSelection.EndIndex - AsBlockListNodeSelection.StartIndex)) + 1;
+                if (SelectedCount < BlockState.StateList.Count)
+                    AsBlockListNodeSelection.Update(0, BlockState.StateList.Count - 1);
+                else if (BlockListInner.BlockStateList.Count > 1)
+                    SetBlockSelection(AsBlockListNodeSelection.StateView.State, AsBlockListNodeSelection.PropertyName, 0, BlockListInner.BlockStateList.Count - 1);
+                else
+                    SetNodeSelection(AsBlockListNodeSelection.StateView.State);
+            }
+
+            else if (Selection is IFocusBlockSelection AsBlockSelection)
+            {
+                string PropertyName = AsBlockSelection.PropertyName;
+                IFocusNodeState State = AsBlockSelection.StateView.State;
+                IFocusBlockListInner BlockListInner = State.PropertyToInner(PropertyName) as IFocusBlockListInner;
+
+                Debug.Assert(BlockListInner != null);
+
+                int SelectedCount = ((AsBlockSelection.EndIndex > AsBlockSelection.StartIndex) ? (AsBlockSelection.EndIndex - AsBlockSelection.StartIndex) : (AsBlockSelection.EndIndex - AsBlockSelection.StartIndex)) + 1;
+                if (SelectedCount < BlockListInner.BlockStateList.Count)
+                    AsBlockSelection.Update(0, BlockListInner.BlockStateList.Count - 1);
+                else
+                    SetNodeSelection(AsBlockSelection.StateView.State);
+            }
+
+            else
+            {
+                IFocusNodeSelection AsNodeSelection = Selection as IFocusNodeSelection;
+                Debug.Assert(AsNodeSelection != null);
+
+                IFocusNodeState State = AsNodeSelection.StateView.State;
+                IFocusNodeState ParentState = AsNodeSelection.StateView.State.ParentState;
+                Debug.Assert(ParentState != null);
+
+                if (State.ParentInner is IFocusListInner AsListInner && State.ParentIndex is IFocusBrowsingListNodeIndex AsListNodeIndex)
+                    SetListNodeSelection(ParentState, AsListInner.PropertyName, AsListNodeIndex.Index, AsListNodeIndex.Index);
+
+                else if (State.ParentInner is IFocusBlockListInner AsBlockListInner && State.ParentIndex is IFocusBrowsingExistingBlockNodeIndex AsBlockNodeIndex)
+                    SetBlockListNodeSelection(ParentState, AsBlockListInner.PropertyName, AsBlockNodeIndex.BlockIndex, AsBlockNodeIndex.Index, AsBlockNodeIndex.Index);
+
+                else
+                {
+                    IFocusBlockState BlockState;
+                    if (State is IFocusPatternState AsPatternState)
+                        BlockState = AsPatternState.ParentBlockState;
+                    else if (State is IFocusSourceState AsSourceState)
+                        BlockState = AsSourceState.ParentBlockState;
+                    else
+                        BlockState = null;
+
+                    if (BlockState != null)
+                    {
+                        int BlockIndex = BlockState.ParentInner.BlockStateList.IndexOf(BlockState);
+                        Debug.Assert(BlockIndex >= 0);
+
+                        SetBlockSelection(ParentState, BlockState.ParentInner.PropertyName, BlockIndex, BlockIndex);
+                    }
+                    else
+                        SetNodeSelection(ParentState);
+                }
+            }
+
+            Debug.Assert(Selection != null);
+        }
         #endregion
 
         #region Implementation
@@ -1658,6 +1861,7 @@
             Debug.Assert(FocusChain.Contains(Focus));
 
             SelectionAnchor = Focus.CellView.StateView;
+            SelectionExtension = 0;
         }
 
         /// <summary></summary>
@@ -1910,6 +2114,9 @@
                 SetDiscreteValueSelection(AsDiscreteContentFocus);
             else
                 Selection = null;
+
+            SelectionAnchor = Focus.CellView.StateView;
+            SelectionExtension = 0;
         }
 
         /// <summary></summary>
@@ -1920,20 +2127,45 @@
         }
 
         /// <summary></summary>
-        private protected virtual void SetTextSelection()
+        private protected virtual void SetTextSelection(IFocusTextFocus textFocus)
         {
             bool IsHandled = false;
 
-            if (Focus is IFocusStringContentFocus AsStringContentFocus)
+            if (textFocus is IFocusStringContentFocus AsStringContentFocus)
             {
                 IFocusStringContentFocusableCellView CellView = AsStringContentFocus.CellView;
                 Selection = CreateStringContentSelection(CellView.StateView, CellView.PropertyName, CaretAnchorPosition, CaretPosition);
                 IsHandled = true;
             }
-            else if (Focus is IFocusCommentFocus AsCommentFocus)
+            else if (textFocus is IFocusCommentFocus AsCommentFocus)
             {
                 IFocusCommentCellView CellView = AsCommentFocus.CellView;
                 Selection = CreateCommentSelection(CellView.StateView, CaretAnchorPosition, CaretPosition);
+                IsHandled = true;
+            }
+
+            Debug.Assert(IsHandled);
+        }
+
+        /// <summary></summary>
+        private protected virtual void SetTextFullSelection(IFocusTextFocus textFocus)
+        {
+            bool IsHandled = false;
+
+            if (textFocus is IFocusStringContentFocus AsStringContentFocus)
+            {
+                string Text = GetFocusedStringContent(AsStringContentFocus);
+
+                IFocusStringContentFocusableCellView CellView = AsStringContentFocus.CellView;
+                Selection = CreateStringContentSelection(CellView.StateView, CellView.PropertyName, 0, Text.Length);
+                IsHandled = true;
+            }
+            else if (textFocus is IFocusCommentFocus AsCommentFocus)
+            {
+                string Text = GetFocusedCommentText(AsCommentFocus);
+
+                IFocusCommentCellView CellView = AsCommentFocus.CellView;
+                Selection = CreateCommentSelection(CellView.StateView, 0, Text.Length);
                 IsHandled = true;
             }
 

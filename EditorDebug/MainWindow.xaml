@@ -22,6 +22,8 @@
         <RoutedCommand x:Key="ToggleReplicateCommand"/>
         <RoutedCommand x:Key="ExpandCommand"/>
         <RoutedCommand x:Key="ReduceCommand"/>
+        <RoutedCommand x:Key="ExtendSelectionCommand"/>
+        <RoutedCommand x:Key="ReduceSelectionCommand"/>
     </Window.Resources>
     <Window.CommandBindings>
         <CommandBinding Command="{StaticResource BrowseCommand}" Executed="OnBrowse"/>
@@ -49,6 +51,8 @@
                         <KeyBinding Command="{StaticResource ToggleReplicateCommand}" Gesture="Ctrl+R"/>
                         <KeyBinding Command="{StaticResource ExpandCommand}" Gesture="Ctrl+D"/>
                         <KeyBinding Command="{StaticResource ReduceCommand}" Gesture="Ctrl+Shift+D"/>
+                        <KeyBinding Command="{StaticResource ExtendSelectionCommand}" Gesture="Ctrl+A"/>
+                        <KeyBinding Command="{StaticResource ReduceSelectionCommand}" Gesture="Ctrl+Shift+A"/>
                         <KeyBinding Command="ApplicationCommands.Redo" Gesture="Ctrl+Shift+Z"/>
                         <KeyBinding Command="ApplicationCommands.Undo" Gesture="Ctrl+Z"/>
                         <KeyBinding Command="ApplicationCommands.Copy" Gesture="Ctrl+C"/>
@@ -73,6 +77,8 @@
                         <CommandBinding Command="{StaticResource ToggleReplicateCommand}" Executed="OnToggleReplicate"/>
                         <CommandBinding Command="{StaticResource ExpandCommand}" Executed="OnExpand"/>
                         <CommandBinding Command="{StaticResource ReduceCommand}" Executed="OnReduce"/>
+                        <CommandBinding Command="{StaticResource ExtendSelectionCommand}" Executed="OnExtendSelection"/>
+                        <CommandBinding Command="{StaticResource ReduceSelectionCommand}" Executed="OnReduceSelection"/>
                         <CommandBinding Command="ApplicationCommands.Redo" Executed="OnRedo"/>
                         <CommandBinding Command="ApplicationCommands.Undo" Executed="OnUndo"/>
                         <CommandBinding Command="ApplicationCommands.Copy" Executed="OnCopy"/>

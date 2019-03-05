@@ -171,6 +171,16 @@ namespace EditorDebug
             layoutControl.Reduce(sender, e);
         }
 
+        private void OnExtendSelection(object sender, ExecutedRoutedEventArgs e)
+        {
+            layoutControl.ExtendSelection(sender, e);
+        }
+
+        private void OnReduceSelection(object sender, ExecutedRoutedEventArgs e)
+        {
+            layoutControl.ReduceSelection(sender, e);
+        }
+
         public void OnCopy(object sender, ExecutedRoutedEventArgs e)
         {
             layoutControl.OnCopy(sender, e);

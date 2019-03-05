@@ -545,6 +545,24 @@
             e.Handled = true;
         }
 
+        public void ExtendSelection(object sender, ExecutedRoutedEventArgs e)
+        {
+            ControllerView.ExtendSelection(out bool IsChanged);
+            if (IsChanged)
+                InvalidateVisual();
+
+            e.Handled = true;
+        }
+
+        public void ReduceSelection(object sender, ExecutedRoutedEventArgs e)
+        {
+            ControllerView.ReduceSelection(out bool IsChanged);
+            if (IsChanged)
+                InvalidateVisual();
+
+            e.Handled = true;
+        }
+
         public void Undo(object sender, ExecutedRoutedEventArgs e)
         {
             if (Controller.CanUndo)

@@ -58,5 +58,15 @@
             End = end;
         }
         #endregion
+
+        #region Debugging
+        /// <summary>
+        /// Returns a string that represents the current object.
+        /// </summary>
+        public override string ToString()
+        {
+            return $"Text '{PropertyName}', from {Start} to {End}";
+        }
+        #endregion
     }
 }

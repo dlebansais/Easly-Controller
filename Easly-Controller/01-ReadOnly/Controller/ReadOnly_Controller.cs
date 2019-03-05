@@ -374,7 +374,23 @@
                 if (state == parentState)
                     return true;
 
-                firstIndex = state.ParentIndex;
+                if (state is IReadOnlyPatternState AsPatternState)
+                {
+                    IReadOnlyBlockState BlockState = AsPatternState.ParentBlockState;
+                    Debug.Assert(BlockState.StateList.Count > 0);
+                    IReadOnlyPlaceholderNodeState FirstState = BlockState.StateList[0];
+                    firstIndex = FirstState.ParentIndex;
+                }
+                else if (state is IReadOnlySourceState AsSourceState)
+                {
+                    IReadOnlyBlockState BlockState = AsSourceState.ParentBlockState;
+                    Debug.Assert(BlockState.StateList.Count > 0);
+                    IReadOnlyPlaceholderNodeState FirstState = BlockState.StateList[0];
+                    firstIndex = FirstState.ParentIndex;
+                }
+                else
+                    firstIndex = state.ParentIndex;
+
                 state = state.ParentState;
             }
 

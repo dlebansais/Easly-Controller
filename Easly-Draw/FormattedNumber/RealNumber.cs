@@ -3,7 +3,7 @@
     /// <summary>
     /// The format for a number parsed as real.
     /// </summary>
-    public class RealNumber : IFormattedNumber
+    public class RealNumber : FormattedNumber
     {
         #region Init
         /// <summary>
@@ -14,13 +14,15 @@
         /// <param name="explicitExponent">The exponent, if any.</param>
         /// <param name="exponentText">The exponent text.</param>
         /// <param name="invalidText">The trailing invalid text, if any.</param>
-        public RealNumber(string integerText, string fractionalText, ExplicitExponents explicitExponent, string exponentText, string invalidText)
+        /// <param name="canonical">The canonical form of the number.</param>
+        public RealNumber(string integerText, string fractionalText, ExplicitExponents explicitExponent, string exponentText, string invalidText, ICanonicalNumber canonical)
         {
             IntegerText = integerText;
             FractionalText = fractionalText;
             ExplicitExponent = explicitExponent;
             ExponentText = exponentText;
             InvalidText = invalidText;
+            Canonical = canonical;
         }
         #endregion
 
@@ -49,6 +51,11 @@
         /// The trailing invalid text, if any.
         /// </summary>
         public string InvalidText { get; private set; }
+
+        /// <summary>
+        /// The canonical form of the parsed number.
+        /// </summary>
+        public override ICanonicalNumber Canonical { get; }
         #endregion
     }
 }
