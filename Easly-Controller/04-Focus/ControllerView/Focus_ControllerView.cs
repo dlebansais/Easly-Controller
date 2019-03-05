@@ -535,7 +535,7 @@
                 SetTextCaretPosition(Text, position, resetAnchor, out isMoved);
             }
 
-            Debug.Assert(isMoved || OldFocusHash == FocusHash);
+            Debug.Assert(isMoved || resetAnchor || OldFocusHash == FocusHash);
         }
 
         /// <summary></summary>

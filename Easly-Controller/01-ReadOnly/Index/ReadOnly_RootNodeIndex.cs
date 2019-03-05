@@ -26,6 +26,7 @@
         {
             if (!NodeTreeDiagnostic.IsValid(node))
             {
+                Debug.WriteLine($"Invalid node {node}");
                 Exception InnerException = null;
                 throw new ArgumentException(nameof(node), InnerException);
             }
