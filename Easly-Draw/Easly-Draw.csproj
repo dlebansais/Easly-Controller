@@ -46,15 +46,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BrushSettings.cs" />
-    <Compile Include="FormattedNumber\BinaryIntegerBase.cs" />
+    <Compile Include="FormattedNumber\IntegerBase\BinaryIntegerBase.cs" />
     <Compile Include="FormattedNumber\CanonicalNumber.cs" />
-    <Compile Include="FormattedNumber\DecimalIntegerBase.cs" />
+    <Compile Include="FormattedNumber\IntegerBase\DecimalIntegerBase.cs" />
     <Compile Include="FormattedNumber\ExplicitExponents.cs" />
-    <Compile Include="FormattedNumber\HexIntegerBase.cs" />
-    <Compile Include="FormattedNumber\IntegerBase.cs" />
+    <Compile Include="FormattedNumber\IntegerBase\HexIntegerBase.cs" />
+    <Compile Include="FormattedNumber\IntegerBase\IntegerBase.cs" />
     <Compile Include="FormattedNumber\IntegerNumberWithBase.cs" />
     <Compile Include="FormattedNumber\IntegerNumber.cs" />
-    <Compile Include="FormattedNumber\OctalIntegerBase.cs" />
+    <Compile Include="FormattedNumber\IntegerBase\OctalIntegerBase.cs" />
     <Compile Include="FormattedNumber\RealNumber.cs" />
     <Compile Include="MeasureContext.cs" />
     <Compile Include="FormattedNumber\InvalidNumber.cs" />

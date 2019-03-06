@@ -1,23 +1,14 @@
-﻿using BaseNode;
-using BaseNodeHelper;
-using PolySerializer;
-using Microsoft.Win32;
-using System;
+﻿using System;
+using System.ComponentModel;
 using System.IO;
+using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Input;
-using EaslyController.Frame;
-using System.Windows.Controls;
-using TestDebug;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using System.Diagnostics;
-using EaslyController.Constants;
-using System.Windows.Media;
-using EaslyController.Focus;
-using EaslyController.Writeable;
+using BaseNode;
 using EaslyController.Layout;
-using EaslyController.Controller;
+using EaslyDraw;
+using Microsoft.Win32;
+using PolySerializer;
 
 namespace EditorDebug
 {
@@ -28,6 +19,10 @@ namespace EditorDebug
         {
             InitializeComponent();
             DataContext = this;
+
+            IIntegerBase FromBase = new DecimalIntegerBase();
+            IIntegerBase ToBase = new HexIntegerBase();
+            string Result = IntegerBase.Convert("10", FromBase, ToBase);
 
             CurrentDirectory = Environment.CurrentDirectory;
             if (CurrentDirectory.Contains("Debug") || CurrentDirectory.Contains("Release"))

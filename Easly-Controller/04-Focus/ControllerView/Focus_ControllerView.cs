@@ -1259,20 +1259,10 @@
         {
             if (Selection == null)
             {
-                switch (Focus)
-                {
-                    case IFocusDiscreteContentFocus AsDiscreteContentFocus:
-                        SetDiscreteValueSelection(AsDiscreteContentFocus);
-                        break;
-
-                    case IFocusTextFocus AsTextFocus:
-                        SetTextFullSelection(AsTextFocus);
-                        break;
-
-                    default:
-                        SetNodeSelection(Focus.CellView.StateView.State);
-                        break;
-                }
+                if (Focus is IFocusTextFocus AsTextFocus)
+                    SetTextFullSelection(AsTextFocus);
+                else
+                    SetNodeSelection(Focus.CellView.StateView.State);
             }
 
             else if (Selection is IFocusStringContentSelection AsStringContentSelection)
