@@ -7,16 +7,30 @@
     /// </summary>
     public interface ICanonicalNumber
     {
-        void MultiplyAndAdd(int Multiply, int Digit);
-        bool IsFractionalNegative { get; }
-        string FractionalPart { get; }
+        /// <summary>
+        /// True if the number is negative.
+        /// </summary>
+        bool IsNegative { get; }
+
+        /// <summary>
+        /// The significand.
+        /// </summary>
+        string SignificandText { get; }
+
+        /// <summary>
+        /// True if the exponent is negative.
+        /// </summary>
         bool IsExponentNegative { get; }
-        string ExponentPart { get; }
-        bool IsEqual(ICanonicalNumber Other);
-        bool IsLesser(ICanonicalNumber Other);
-        bool IsGreater(ICanonicalNumber Other);
-        ICanonicalNumber OppositeOf();
-        bool TryParseInt(out int Value);
+
+        /// <summary>
+        /// The exponent.
+        /// </summary>
+        string ExponentText { get; }
+
+        /// <summary>
+        /// The canonic representation.
+        /// </summary>
+        string CanonicRepresentation { get; }
     }
 
     /// <summary>
@@ -24,252 +38,208 @@
     /// </summary>
     public class CanonicalNumber : ICanonicalNumber
     {
+        #region Init
         /// <summary>
         /// Initializes a new instance of the <see cref="CanonicalNumber"/> class.
         /// </summary>
-        /// <param name="FractionalPart"></param>
-        /// <param name="IsExponentNegative"></param>
-        /// <param name="ExponentPart"></param>
-        public CanonicalNumber(string FractionalPart, bool IsExponentNegative, string ExponentPart)
+        /// <param name="isNegative">True if the number is negative.</param>
+        /// <param name="significandText">The significand.</param>
+        /// <param name="isExponentNegative">True if the exponent is negative.</param>
+        /// <param name="exponentText">The exponent.</param>
+        public CanonicalNumber(bool isNegative, string significandText, bool isExponentNegative, string exponentText)
         {
-            this.IsFractionalNegative = false;
-            this.FractionalPart = FractionalPart;
-            this.IsExponentNegative = IsExponentNegative;
-            this.ExponentPart = ExponentPart;
+            Debug.Assert(IntegerBase.Decimal.IsValidSignificand(significandText));
+            Debug.Assert(IntegerBase.Decimal.IsValidNumber(exponentText));
+            Debug.Assert(significandText != IntegerBase.Zero || (!isNegative && !isExponentNegative && exponentText == IntegerBase.Zero));
 
-            Debug.Assert(IsNotationValid);
+            IsNegative = isNegative;
+            SignificandText = significandText;
+            IsExponentNegative = isExponentNegative;
+            ExponentText = exponentText;
+
             FormatCanonicString();
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CanonicalNumber"/> class.
+        /// </summary>
+        /// <param name="n">An integer.</param>
         public CanonicalNumber(int n)
         {
-            int InputExponent = 0;
-            int Intvalue = 10;
-            while (n >= Intvalue)
+            if (n < 0)
             {
-                InputExponent++;
-                Intvalue = Intvalue * 10;
+                n = -n;
+                IsNegative = true;
             }
+            else
+                IsNegative = false;
 
-            string FractionalPart = n.ToString();
-            while (FractionalPart.Length > 1 && FractionalPart[FractionalPart.Length - 1] == '0')
-                FractionalPart = FractionalPart.Substring(0, FractionalPart.Length - 1);
+            string s = n.ToString();
 
-            this.IsFractionalNegative = false;
-            this.FractionalPart = FractionalPart;
-            this.IsExponentNegative = false;
-            this.ExponentPart = InputExponent.ToString();
+            IsExponentNegative = false;
+            ExponentText = (s.Length - 1).ToString();
 
-            Debug.Assert(IsNotationValid);
+            while (s.Length > 1 && s[s.Length - 1] == '0')
+                s = s.Substring(0, s.Length - 1);
+
+            SignificandText = s;
+
             FormatCanonicString();
         }
+        #endregion
 
-        public override string ToString()
-        {
-            return CanonicRepresentation;
-        }
+        #region Properties
+        /// <summary>
+        /// True if the number is negative.
+        /// </summary>
+        public bool IsNegative { get; private set; }
 
-        public bool IsFractionalNegative { get; private set; }
-        public string FractionalPart { get; private set; }
+        /// <summary>
+        /// The significand.
+        /// </summary>
+        public string SignificandText { get; private set; }
+
+        /// <summary>
+        /// True if the exponent is negative.
+        /// </summary>
         public bool IsExponentNegative { get; private set; }
-        public string ExponentPart { get; private set; }
+
+        /// <summary>
+        /// The exponent.
+        /// </summary>
+        public string ExponentText { get; private set; }
+
+        /// <summary>
+        /// The canonic representation.
+        /// </summary>
         public string CanonicRepresentation { get; private set; }
+        #endregion
 
-        public bool IsNotationValid
+        #region Client Interface
+        /// <summary>
+        /// Checks if two numbers are equal.
+        /// </summary>
+        /// <param name="other">The other instance.</param>
+        public virtual bool IsEqual(ICanonicalNumber other)
         {
-            get
-            {
-                // If using more than one digit, the fractional part must not start or end with a zero
-                if (FractionalPart.Length > 1 && (FractionalPart[0] == '0' || FractionalPart[FractionalPart.Length - 1] == '0'))
-                    return false;
-
-                // If using more than one digit, the exponent part must not start with a zero
-                if (ExponentPart.Length > 1 && ExponentPart[0] == '0')
-                    return false;
-
-                // If zero, it must be 0e+0
-                if (FractionalPart == "0" && (IsExponentNegative || ExponentPart != "0"))
-                    return false;
-
-                return true;
-            }
+            return IsNegative == other.IsNegative && SignificandText == other.SignificandText && IsExponentNegative == other.IsExponentNegative && ExponentText == other.ExponentText;
         }
 
-        private void FormatCanonicString()
+        /// <summary>
+        /// Checks if <paramref name="number1"/> is lesser than <paramref name="number2"/>.
+        /// </summary>
+        /// <param name="number1">The first number.</param>
+        /// <param name="number2">The second number.</param>
+        public static bool operator <(CanonicalNumber number1, CanonicalNumber number2)
         {
-            if (FractionalPart == "0" && ExponentPart == "0")
-                CanonicRepresentation = "0";
+            // Compare positive and negative numbers.
+            if (number1.IsNegative != number2.IsNegative)
+                return number1.IsNegative;
 
+            // If both positive or negative, compare positive and negative exponents.
+            if (number1.IsExponentNegative && !number2.IsExponentNegative)
+                return !number1.IsNegative;
+
+            else if (!number1.IsExponentNegative && number2.IsExponentNegative)
+                return number1.IsNegative;
+
+            // If signs of significands and signs of exponents are identical.
             else
             {
-                if (FractionalPart.Length == 1)
-                    CanonicRepresentation = FractionalPart[0] + ".0e" + (IsExponentNegative ? "-" : "+") + ExponentPart;
-
-                else
-                    CanonicRepresentation = FractionalPart[0] + "." + FractionalPart.Substring(1) + "e" + (IsExponentNegative ? "-" : "+") + ExponentPart;
-
-                if (IsFractionalNegative)
-                    CanonicRepresentation = '-' + CanonicRepresentation;
-            }
-        }
-
-        public void MultiplyAndAdd(int Multiplicand, int Digit)
-        {
-            Debug.Assert(!IsFractionalNegative);
-            Debug.Assert(!IsExponentNegative);
-
-            int Carry = 0;
-            string FractionalResult = "";
-
-            for (int i = FractionalPart.Length; i > 0; i--)
-            {
-                int NumberDigit = FractionalPart[i - 1] - '0';
-                int OperationResult = (NumberDigit * Multiplicand) + Digit + Carry;
-                Carry = OperationResult / 10;
-
-                char NewDigit = (char)('0' + (OperationResult - Carry * 10));
-
-                FractionalResult = NewDigit + FractionalResult;
-            }
-
-            while (FractionalResult.Length > 1 && FractionalResult[FractionalResult.Length - 1] == '0')
-                FractionalResult = FractionalResult.Substring(0, FractionalResult.Length - 1);
-
-            int ExponentIncrement = 0;
-            while (Carry > 0)
-            {
-                int OperationResult = Carry;
-                Carry = OperationResult / 10;
-
-                char NewDigit = (char)('0' + (OperationResult - Carry));
-                FractionalResult = NewDigit + FractionalResult;
-
-                ExponentIncrement++;
-            }
-
-            string ExponentResult = "";
-
-            for (int i = ExponentPart.Length; i > 0; i--)
-            {
-                int NumberDigit = ExponentPart[i - 1] - '0';
-                int OperationResult = NumberDigit + ExponentIncrement + Carry;
-                Carry = OperationResult / 10;
-                ExponentIncrement /= 10;
-
-                char NewDigit = (char)('0' + (OperationResult - Carry * 10));
-                ExponentResult = NewDigit + ExponentResult;
-            }
-
-            while (Carry > 0)
-            {
-                int OperationResult = Carry;
-                Carry = OperationResult / 10;
-
-                char NewDigit = (char)('0' + (OperationResult - Carry));
-                ExponentResult = NewDigit + ExponentResult;
-            }
-
-            FractionalPart = FractionalResult;
-            ExponentPart = ExponentResult;
-
-            Debug.Assert(IsNotationValid);
-            FormatCanonicString();
-        }
-
-        public bool IsEqual(ICanonicalNumber Other)
-        {
-            return IsFractionalNegative == Other.IsFractionalNegative && FractionalPart == Other.FractionalPart && IsExponentNegative == Other.IsExponentNegative && ExponentPart == Other.ExponentPart;
-        }
-
-        public bool IsLesser(ICanonicalNumber Other)
-        {
-            if (IsFractionalNegative != Other.IsFractionalNegative)
-                return IsFractionalNegative;
-
-            return StringCompareParts(Other, IsFractionalNegative ? 1 : -1);
-        }
-
-        public bool IsGreater(ICanonicalNumber Other)
-        {
-            if (IsFractionalNegative != Other.IsFractionalNegative)
-                return !IsFractionalNegative;
-
-            return StringCompareParts(Other, IsFractionalNegative ? -1 : 1);
-        }
-
-        private bool StringCompareParts(ICanonicalNumber Other, int Direction)
-        {
-            if (!IsExponentNegative && !Other.IsExponentNegative)
-            {
-                int ComparedExponent = string.Compare(ExponentPart, Other.ExponentPart) * Direction;
-
-                if (ComparedExponent > 0)
-                    return true;
-                else if (ComparedExponent < 0)
-                    return false;
-                else
-                {
-                    int ComparedFractional = string.Compare(FractionalPart, Other.FractionalPart) * Direction;
-                    return ComparedFractional > 0;
-                }
-            }
-
-            else if (IsExponentNegative && !Other.IsExponentNegative)
-                return true;
-
-            else if (!IsExponentNegative && Other.IsExponentNegative)
-                return false;
-
-            else
-            {
-                int ComparedExponent = string.Compare(ExponentPart, Other.ExponentPart) * Direction;
+                int ComparedExponent = string.Compare(number1.ExponentText, number2.ExponentText);
 
                 if (ComparedExponent < 0)
-                    return true;
+                    return number1.IsNegative == number1.IsExponentNegative;
                 else if (ComparedExponent > 0)
-                    return false;
+                    return number1.IsNegative != number1.IsExponentNegative;
+
+                // If exponents are identical, compare significands.
                 else
                 {
-                    int ComparedFractional = string.Compare(FractionalPart, Other.FractionalPart) * Direction;
-                    return ComparedFractional < 0;
+                    int ComparedSignificand = string.Compare(number1.SignificandText, number2.SignificandText);
+                    return (ComparedSignificand < 0) == number1.IsNegative;
                 }
             }
         }
 
-        public ICanonicalNumber OppositeOf()
+        /// <summary>
+        /// Checks if <paramref name="number1"/> is greater than <paramref name="number2"/>.
+        /// </summary>
+        /// <param name="number1">The first number.</param>
+        /// <param name="number2">The second number.</param>
+        public static bool operator >(CanonicalNumber number1, CanonicalNumber number2)
         {
-            CanonicalNumber Result = new CanonicalNumber(FractionalPart, IsExponentNegative, ExponentPart);
-            Result.IsFractionalNegative = !IsFractionalNegative;
-            Result.FormatCanonicString();
-
-            return Result;
+            return number2 < number1;
         }
 
-        public bool TryParseInt(out int Value)
+        /// <summary>
+        /// Returns the opposite number.
+        /// </summary>
+        public virtual ICanonicalNumber OppositeOf()
         {
-            Value = 0;
+            return new CanonicalNumber(!IsNegative, SignificandText, IsExponentNegative, ExponentText);
+        }
+
+        /// <summary>
+        /// Gets the value if it can be represented with a <see cref="int"/>.
+        /// </summary>
+        /// <param name="value">The value upon return.</param>
+        public bool TryParseInt(out int value)
+        {
+            value = 0;
 
             if (IsExponentNegative)
                 return false;
 
-            if (FractionalPart.Length > 10 || ExponentPart.Length > 1)
+            if (SignificandText.Length > 10 || ExponentText.Length > 1)
                 return false;
 
-            int Fractional;
+            int Significand;
             int Exponent;
-            if (!int.TryParse(FractionalPart, out Fractional) || !int.TryParse(ExponentPart, out Exponent))
+            if (!int.TryParse(SignificandText, out Significand) || !int.TryParse(ExponentText, out Exponent))
                 return false;
 
-            if (Exponent + 1 < FractionalPart.Length)
+            if (Exponent + 1 < SignificandText.Length)
                 return false;
 
-            Value = Fractional;
-            int RemainingDigits = Exponent + 1 - FractionalPart.Length;
+            value = Significand;
+            int RemainingDigits = Exponent + 1 - SignificandText.Length;
 
             while (RemainingDigits-- > 0)
-                Value *= 10;
+                value *= 10;
 
             return true;
         }
+        #endregion
+
+        #region Implementation
+        private void FormatCanonicString()
+        {
+            if (SignificandText == IntegerBase.Zero)
+                CanonicRepresentation = IntegerBase.Zero;
+
+            else
+            {
+                if (SignificandText.Length == 1)
+                    CanonicRepresentation = SignificandText[0] + ".0e" + (IsExponentNegative ? "-" : "+") + ExponentText;
+
+                else
+                    CanonicRepresentation = SignificandText[0] + "." + SignificandText.Substring(1) + "e" + (IsExponentNegative ? "-" : "+") + ExponentText;
+
+                if (IsNegative)
+                    CanonicRepresentation = '-' + CanonicRepresentation;
+            }
+        }
+        #endregion
+
+        #region Debugging
+        /// <summary>
+        /// Returns a string representation of this instance.
+        /// </summary>
+        public override string ToString()
+        {
+            return CanonicRepresentation;
+        }
+        #endregion
     }
 }

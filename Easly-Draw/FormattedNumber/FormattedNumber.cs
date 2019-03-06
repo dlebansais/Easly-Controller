@@ -18,28 +18,6 @@
     /// </summary>
     public abstract class FormattedNumber : IFormattedNumber
     {
-        #region Constants
-        /// <summary>
-        /// The hexadecimal base.
-        /// </summary>
-        public static readonly IIntegerBase Hexadecimal = new HexIntegerBase();
-
-        /// <summary>
-        /// The decimal base.
-        /// </summary>
-        public static readonly IIntegerBase Decimal = new DecimalIntegerBase();
-
-        /// <summary>
-        /// The octal base.
-        /// </summary>
-        public static readonly IIntegerBase Octal = new OctalIntegerBase();
-
-        /// <summary>
-        /// The binary base.
-        /// </summary>
-        public static readonly IIntegerBase Binary = new BinaryIntegerBase();
-        #endregion
-
         #region Init
         /// <summary>
         /// Parses a string to a formatted number.
@@ -49,9 +27,9 @@
         {
             IFormattedNumber Result = null;
 
-            if (!TryParseAsIntegerWithBase(text, Hexadecimal, out Result) &&
-                !TryParseAsIntegerWithBase(text, Octal, out Result) &&
-                !TryParseAsIntegerWithBase(text, Binary, out Result))
+            if (!TryParseAsIntegerWithBase(text, IntegerBase.Hexadecimal, out Result) &&
+                !TryParseAsIntegerWithBase(text, IntegerBase.Octal, out Result) &&
+                !TryParseAsIntegerWithBase(text, IntegerBase.Binary, out Result))
                 Result = ParseAsReal(text);
 
             return Result;
@@ -84,8 +62,6 @@
         /// <summary></summary>
         protected static void ParseAsIntegerWithBase(string text, IIntegerBase integerBase, out IFormattedNumber number)
         {
-            ICanonicalNumber Canonical = new CanonicalNumber("0", false, "0");
-
             string Suffix = integerBase.Suffix;
 
             Debug.Assert(Suffix == null || Suffix.Length >= text.Length);
@@ -97,13 +73,15 @@
                 int DigitValue;
                 if (!integerBase.IsValidDigit(DigitText[i], out DigitValue))
                     break;
-
-                Canonical.MultiplyAndAdd(integerBase.Radix, DigitValue);
             }
 
             Debug.Assert(i <= text.Length);
 
-            number = new IntegerNumberWithBase(DigitText.Substring(0, i), DigitText.Substring(i), integerBase, Canonical);
+            string ValidText = DigitText.Substring(0, i);
+            string InvalidText = DigitText.Substring(i);
+            ICanonicalNumber Canonical = new CanonicalNumber(false, IntegerBase.Convert(ValidText, integerBase, new DecimalIntegerBase()), false, IntegerBase.Zero);
+
+            number = new IntegerNumberWithBase(ValidText, InvalidText, integerBase, Canonical);
         }
 
         /// <summary></summary>
@@ -132,7 +110,7 @@
                 if ((IntegerEnd > IntegerBegin + 1) && text[IntegerBegin] == '0')
                     return new InvalidNumber(text);
                 else
-                    return new IntegerNumber(text, string.Empty, new CanonicalNumber(text, false, "0"));
+                    return new IntegerNumber(text, string.Empty, new CanonicalNumber(false, text, false, IntegerBase.Zero));
             }
 
             // If the number contains an invalid character, return now.
@@ -140,7 +118,7 @@
             {
                 ValidText = text.Substring(0, IntegerEnd);
                 InvalidText = text.Substring(ValidText.Length);
-                return new IntegerNumber(ValidText, InvalidText, new CanonicalNumber(ValidText, false, "0"));
+                return new IntegerNumber(ValidText, InvalidText, new CanonicalNumber(false, ValidText, false, IntegerBase.Zero));
             }
 
             string IntegerText = text.Substring(IntegerBegin, IntegerEnd - IntegerBegin);
@@ -160,7 +138,7 @@
             {
                 ValidText = IntegerText;
                 InvalidText = text.Substring(ValidText.Length);
-                return new IntegerNumber(ValidText, InvalidText, new CanonicalNumber(ValidText, false, "0"));
+                return new IntegerNumber(ValidText, InvalidText, new CanonicalNumber(false, ValidText, false, IntegerBase.Zero));
             }
 
             int ZeroIndex = FractionalEnd;
@@ -172,14 +150,14 @@
             {
                 ValidText = text.Substring(0, ZeroIndex);
                 InvalidText = text.Substring(ValidText.Length);
-                return new RealNumber(IntegerText, FractionalText, ExplicitExponents.None, string.Empty, InvalidText, new CanonicalNumber(ValidText, false, "0"));
+                return new RealNumber(IntegerText, FractionalText, ExplicitExponents.None, string.Empty, InvalidText, new CanonicalNumber(false, ValidText, false, IntegerBase.Zero));
             }
 
             // If the number has no exponent, return now.
             if (FractionalEnd >= text.Length)
             {
                 ValidText = text;
-                return new RealNumber(IntegerText, FractionalText, ExplicitExponents.None, string.Empty, string.Empty, new CanonicalNumber(ValidText, false, "0"));
+                return new RealNumber(IntegerText, FractionalText, ExplicitExponents.None, string.Empty, string.Empty, new CanonicalNumber(false, ValidText, false, IntegerBase.Zero));
             }
 
             // The number must be followed by the exponent tag.
@@ -187,7 +165,7 @@
             {
                 ValidText = text.Substring(0, FractionalEnd);
                 InvalidText = text.Substring(ValidText.Length);
-                return new RealNumber(IntegerText, FractionalText, ExplicitExponents.None, string.Empty, InvalidText, new CanonicalNumber(ValidText, false, "0"));
+                return new RealNumber(IntegerText, FractionalText, ExplicitExponents.None, string.Empty, InvalidText, new CanonicalNumber(false, ValidText, false, IntegerBase.Zero));
             }
 
             // The mantissa part must have exactly one digit on the left side, and it cannot be zero.
@@ -195,7 +173,7 @@
             {
                 ValidText = text.Substring(0, IntegerEnd);
                 InvalidText = text.Substring(ValidText.Length);
-                return new RealNumber(IntegerText, string.Empty, ExplicitExponents.None, string.Empty, InvalidText, new CanonicalNumber(ValidText, false, "0"));
+                return new RealNumber(IntegerText, string.Empty, ExplicitExponents.None, string.Empty, InvalidText, new CanonicalNumber(false, ValidText, false, IntegerBase.Zero));
             }
 
             n++;
@@ -235,7 +213,7 @@
             {
                 ValidText = text.Substring(0, SuperscriptBegin - 1);
                 InvalidText = text.Substring(ValidText.Length);
-                return new RealNumber(IntegerText, FractionalText, ExplicitExponent, string.Empty, InvalidText, new CanonicalNumber(ValidText, false, "0"));
+                return new RealNumber(IntegerText, FractionalText, ExplicitExponent, string.Empty, InvalidText, new CanonicalNumber(false, ValidText, false, IntegerBase.Zero));
             }
 
             string ExponentText = text.Substring(ExponentBegin, ExponentEnd - ExponentBegin);
@@ -243,7 +221,7 @@
             ValidText = text.Substring(0, ExponentEnd);
             InvalidText = text.Substring(ValidText.Length);
 
-            return new RealNumber(IntegerText, FractionalText, ExplicitExponent, ExponentText, InvalidText, new CanonicalNumber(ValidText, ExplicitExponent == ExplicitExponents.Negative, ExponentText));
+            return new RealNumber(IntegerText, FractionalText, ExplicitExponent, ExponentText, InvalidText, new CanonicalNumber(false, ValidText, ExplicitExponent == ExplicitExponents.Negative, ExponentText));
         }
         #endregion
     }

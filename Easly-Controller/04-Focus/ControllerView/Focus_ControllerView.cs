@@ -1271,11 +1271,10 @@
                 Debug.Assert(AsStringContentFocus != null);
                 string Text = GetFocusedStringContent(AsStringContentFocus);
 
-                int SelectedCount = ((AsStringContentSelection.End > AsStringContentSelection.Start) ? (AsStringContentSelection.End - AsStringContentSelection.Start) : (AsStringContentSelection.End - AsStringContentSelection.Start)) + 1;
-                if (SelectedCount < Text.Length)
-                    AsStringContentSelection.Update(0, Text.Length - 1);
-                else
-                    SetNodeSelection(AsStringContentSelection.StateView.State);
+                int SelectedCount = (AsStringContentSelection.End > AsStringContentSelection.Start) ? (AsStringContentSelection.End - AsStringContentSelection.Start) : (AsStringContentSelection.End - AsStringContentSelection.Start);
+                Debug.Assert(SelectedCount == Text.Length);
+
+                SetNodeSelection(AsStringContentSelection.StateView.State);
             }
 
             else if (Selection is IFocusCommentSelection AsCommentSelection)
@@ -1284,11 +1283,10 @@
                 Debug.Assert(AsCommentFocus != null);
                 string Text = GetFocusedCommentText(AsCommentFocus);
 
-                int SelectedCount = ((AsCommentSelection.End > AsCommentSelection.Start) ? (AsCommentSelection.End - AsCommentSelection.Start) : (AsCommentSelection.End - AsCommentSelection.Start)) + 1;
-                if (SelectedCount < Text.Length)
-                    AsCommentSelection.Update(0, Text.Length - 1);
-                else
-                    SetNodeSelection(AsCommentSelection.StateView.State);
+                int SelectedCount = (AsCommentSelection.End > AsCommentSelection.Start) ? (AsCommentSelection.End - AsCommentSelection.Start) : (AsCommentSelection.End - AsCommentSelection.Start);
+                Debug.Assert(SelectedCount == Text.Length);
+
+                SetNodeSelection(AsCommentSelection.StateView.State);
             }
 
             else if (Selection is IFocusDiscreteContentSelection AsDiscreteContentSelection)
@@ -1322,10 +1320,11 @@
                 int SelectedCount = ((AsBlockListNodeSelection.EndIndex > AsBlockListNodeSelection.StartIndex) ? (AsBlockListNodeSelection.EndIndex - AsBlockListNodeSelection.StartIndex) : (AsBlockListNodeSelection.EndIndex - AsBlockListNodeSelection.StartIndex)) + 1;
                 if (SelectedCount < BlockState.StateList.Count)
                     AsBlockListNodeSelection.Update(0, BlockState.StateList.Count - 1);
-                else if (BlockListInner.BlockStateList.Count > 1)
-                    SetBlockSelection(AsBlockListNodeSelection.StateView.State, AsBlockListNodeSelection.PropertyName, 0, BlockListInner.BlockStateList.Count - 1);
                 else
-                    SetNodeSelection(AsBlockListNodeSelection.StateView.State);
+                {
+                    Debug.Assert(BlockListInner.BlockStateList.Count > 1);
+                    SetBlockSelection(AsBlockListNodeSelection.StateView.State, AsBlockListNodeSelection.PropertyName, 0, BlockListInner.BlockStateList.Count - 1);
+                }
             }
 
             else if (Selection is IFocusBlockSelection AsBlockSelection)

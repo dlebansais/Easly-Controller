@@ -12,7 +12,7 @@
         public InvalidNumber(string invalidText)
         {
             InvalidText = invalidText;
-            Canonical = new CanonicalNumber(string.Empty, false, string.Empty);
+            Canonical = new CanonicalNumber(false, IntegerBase.Zero, false, IntegerBase.Zero);
         }
 
         #region Properties

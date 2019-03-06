@@ -50,7 +50,7 @@
     <Compile Include="FormattedNumber\CanonicalNumber.cs" />
     <Compile Include="FormattedNumber\IntegerBase\DecimalIntegerBase.cs" />
     <Compile Include="FormattedNumber\ExplicitExponents.cs" />
-    <Compile Include="FormattedNumber\IntegerBase\HexIntegerBase.cs" />
+    <Compile Include="FormattedNumber\IntegerBase\HexadecimalIntegerBase.cs" />
     <Compile Include="FormattedNumber\IntegerBase\IntegerBase.cs" />
     <Compile Include="FormattedNumber\IntegerNumberWithBase.cs" />
     <Compile Include="FormattedNumber\IntegerNumber.cs" />

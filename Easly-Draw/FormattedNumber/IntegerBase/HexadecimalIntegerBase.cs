@@ -5,7 +5,7 @@
     /// <summary>
     /// Class describing an hexadecimal (base 16) integer.
     /// </summary>
-    public class HexIntegerBase : IntegerBase
+    public class HexadecimalIntegerBase : IntegerBase
     {
         /// <summary>
         /// The suffix for hexadecimal integers.
@@ -53,7 +53,7 @@
         /// Returns the digit corresponding to a value.
         /// </summary>
         /// <param name="value">The value.</param>
-        public override char ToChar(int value)
+        public override char ToDigit(int value)
         {
             Debug.Assert(value >= 0 && value < Radix);
 
