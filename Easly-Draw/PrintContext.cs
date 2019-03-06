@@ -45,7 +45,7 @@
 
         #region Implementation of IxxxPrintContext
         /// <summary>
-        /// Prints a string, at the location specified in <paramref name="origin"/>.
+        /// Prints a string that is not a number, at the location specified in <paramref name="origin"/>.
         /// </summary>
         /// <param name="text">The text to print.</param>
         /// <param name="origin">The location where to start printing.</param>
@@ -53,6 +53,17 @@
         public virtual void PrintText(string text, Point origin, TextStyles textStyle)
         {
             BrushSettings Brush = StyleToForegroundBrush(textStyle);
+            PrintableArea.Print(text, origin.X.Print, origin.Y.Print, Brush);
+        }
+
+        /// <summary>
+        /// Prints a string, at the location specified in <paramref name="origin"/>.
+        /// </summary>
+        /// <param name="text">The text to print.</param>
+        /// <param name="origin">The location where to start printing.</param>
+        public virtual void PrintNumber(string text, Point origin)
+        {
+            BrushSettings Brush = StyleToForegroundBrush(TextStyles.Number);
             PrintableArea.Print(text, origin.X.Print, origin.Y.Print, Brush);
         }
 

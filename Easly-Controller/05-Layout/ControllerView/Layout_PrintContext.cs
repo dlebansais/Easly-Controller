@@ -9,12 +9,19 @@
     public interface ILayoutPrintContext : ILayoutMeasureContext
     {
         /// <summary>
-        /// Prints a string, at the location specified in <paramref name="origin"/>.
+        /// Prints a string that is not a number, at the location specified in <paramref name="origin"/>.
         /// </summary>
         /// <param name="text">The text to print.</param>
         /// <param name="origin">The location where to start printing.</param>
         /// <param name="textStyle">Style to use for the text.</param>
         void PrintText(string text, Point origin, TextStyles textStyle);
+
+        /// <summary>
+        /// Prints a string, at the location specified in <paramref name="origin"/>.
+        /// </summary>
+        /// <param name="text">The text to print.</param>
+        /// <param name="origin">The location where to start printing.</param>
+        void PrintNumber(string text, Point origin);
 
         /// <summary>
         /// Prints a symbol, at the location specified in <paramref name="origin"/>.

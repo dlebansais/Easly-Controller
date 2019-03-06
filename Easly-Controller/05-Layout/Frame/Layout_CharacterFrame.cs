@@ -66,7 +66,7 @@
             string Text = BaseNodeHelper.NodeTreeHelper.GetString(Node, PropertyName);
             Debug.Assert(Text != null && Text.Length == 1);
 
-            size = measureContext.MeasureTextSize(Text, TextStyles.Character, Controller.Measure.Floating);
+            size = measureContext.MeasureText(Text, TextStyles.Character, Controller.Measure.Floating);
             measureContext.UpdatePadding(LeftMargin, RightMargin, ref size, out padding);
 
             Debug.Assert(RegionHelper.IsValid(size));

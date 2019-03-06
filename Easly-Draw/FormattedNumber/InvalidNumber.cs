@@ -11,22 +11,21 @@
         /// </summary>
         /// <param name="invalidText">The invalid text.</param>
         public InvalidNumber(string invalidText)
+            : base(invalidText, CanonicalNumber.Zero)
         {
-            InvalidText = invalidText;
-            Canonical = new CanonicalNumber(false, IntegerBase.Zero, false, IntegerBase.Zero);
         }
         #endregion
 
         #region Properties
         /// <summary>
-        /// The invalid text.
+        /// Gets the significand part of the formatted number.
         /// </summary>
-        public string InvalidText { get; private set; }
+        public override string SignificandString { get { return string.Empty; } }
 
         /// <summary>
-        /// The canonical form of the parsed number.
+        /// Gets the exponent part of the formatted number.
         /// </summary>
-        public override ICanonicalNumber Canonical { get; }
+        public override string ExponentString { get { return string.Empty; } }
         #endregion
     }
 }

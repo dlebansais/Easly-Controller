@@ -9,13 +9,20 @@
     public interface ILayoutDrawContext : ILayoutMeasureContext
     {
         /// <summary>
-        /// Draws a string, at the location specified in <paramref name="origin"/>.
+        /// Draws a string that is not a number, at the location specified in <paramref name="origin"/>.
         /// </summary>
         /// <param name="text">The text to draw.</param>
         /// <param name="origin">The location where to start drawing.</param>
         /// <param name="textStyle">Style to use for the text.</param>
         /// <param name="isFocused">true if the whole text has the focus.</param>
         void DrawText(string text, Point origin, TextStyles textStyle, bool isFocused);
+
+        /// <summary>
+        /// Draws a number string, at the location specified in <paramref name="origin"/>.
+        /// </summary>
+        /// <param name="text">The text to draw.</param>
+        /// <param name="origin">The location where to start drawing.</param>
+        void DrawNumber(string text, Point origin);
 
         /// <summary>
         /// Draws a symbol, at the location specified in <paramref name="origin"/>.

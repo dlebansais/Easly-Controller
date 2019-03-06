@@ -31,6 +31,7 @@
         {
             Typeface = new Typeface("Consolas");
             FontSize = 10;
+            SubscriptRatio = 0.7;
             Culture = CultureInfo.CurrentCulture;
             FlowDirection = System.Windows.FlowDirection.LeftToRight;
             CommaSeparatorString = ", ";
@@ -43,7 +44,9 @@
                 { BrushSettings.Symbol, Brushes.Blue },
                 { BrushSettings.Character, Brushes.Orange },
                 { BrushSettings.Discrete, Brushes.DarkRed },
-                { BrushSettings.Number, Brushes.Green },
+                { BrushSettings.NumberSignificand, Brushes.Green },
+                { BrushSettings.NumberExponent, Brushes.Green },
+                { BrushSettings.NumberInvalid, Brushes.Red },
                 { BrushSettings.TypeIdentifier, new SolidColorBrush(Color.FromArgb(0xFF, 0x2B, 0x91, 0xAF)) },
                 { BrushSettings.CommentBackground, Brushes.LightGreen },
                 { BrushSettings.CommentForeground, Brushes.Black },
@@ -79,6 +82,11 @@
         /// The em size.
         /// </summary>
         public double EmSize { get { return FontSize * 128.0 / 96.0; } }
+
+        /// <summary>
+        /// The ratio to normal size for subscript characters.
+        /// </summary>
+        public double SubscriptRatio { get; set; }
 
         /// <summary>
         /// The specific culture of the text.
@@ -126,13 +134,13 @@
         }
 
         /// <summary>
-        /// Measures a string.
+        /// Measures a string that is not a number.
         /// </summary>
         /// <param name="text">The string to measure.</param>
         /// <param name="textStyle">Style to use for the text.</param>
         /// <param name="maxTextWidth">The maximum width for a line of text. NaN means no limit.</param>
         /// <returns>The size of the string.</returns>
-        public virtual Size MeasureTextSize(string text, TextStyles textStyle, Measure maxTextWidth)
+        public virtual Size MeasureText(string text, TextStyles textStyle, Measure maxTextWidth)
         {
             Brush Brush = BrushTable[StyleToForegroundBrush(textStyle)];
             FormattedText ft = new FormattedText(text, Culture, FlowDirection, Typeface, EmSize, Brush);
@@ -144,27 +152,32 @@
             return new Size(Width, Height);
         }
 
-        /// <summary></summary>
-        protected virtual BrushSettings StyleToForegroundBrush(TextStyles textStyle)
+        /// <summary>
+        /// Measures a number string.
+        /// </summary>
+        /// <param name="text">The string to measure.</param>
+        /// <returns>The size of the string.</returns>
+        public virtual Size MeasureNumber(string text)
         {
-            switch (textStyle)
-            {
-                default:
-                case TextStyles.Default:
-                    return BrushSettings.Default;
-                case TextStyles.Character:
-                    return BrushSettings.Character;
-                case TextStyles.Discrete:
-                    return BrushSettings.Discrete;
-                case TextStyles.Keyword:
-                    return BrushSettings.Keyword;
-                case TextStyles.Number:
-                    return BrushSettings.Number;
-                case TextStyles.Type:
-                    return BrushSettings.TypeIdentifier;
-                case TextStyles.Comment:
-                    return BrushSettings.CommentForeground;
-            }
+            IFormattedNumber fn = FormattedNumber.Parse(text);
+            string SignificandString = fn.SignificandString;
+            string ExponentString = fn.ExponentString;
+            string InvalidText = fn.InvalidText;
+
+            Brush Brush;
+
+            Brush = BrushTable[BrushSettings.NumberSignificand];
+            FormattedText ftSignificand = new FormattedText(SignificandString, Culture, FlowDirection, Typeface, EmSize, Brush);
+
+            Brush = BrushTable[BrushSettings.NumberExponent];
+            FormattedText ftExponent = new FormattedText(ExponentString, Culture, FlowDirection, Typeface, EmSize * SubscriptRatio, Brush);
+
+            Brush = BrushTable[BrushSettings.NumberInvalid];
+            FormattedText ftInvalid = new FormattedText(InvalidText, Culture, FlowDirection, Typeface, EmSize, Brush);
+
+            Measure Width = new Measure() { Draw = ftSignificand.WidthIncludingTrailingWhitespace + ftExponent.WidthIncludingTrailingWhitespace + ftInvalid.WidthIncludingTrailingWhitespace, Print = text.Length };
+            Measure Height = LineHeight;
+            return new Size(Width, Height);
         }
 
         /// <summary>
@@ -193,6 +206,27 @@
                     return new Size(new Measure() { Draw = ft.Width, Print = Text.Length }, Measure.Floating);
                 case Symbols.HorizontalLine:
                     return new Size(Measure.Floating, VerticalSeparatorHeightTable[VerticalSeparators.Line]);
+            }
+        }
+
+        /// <summary></summary>
+        protected virtual BrushSettings StyleToForegroundBrush(TextStyles textStyle)
+        {
+            switch (textStyle)
+            {
+                default:
+                case TextStyles.Default:
+                    return BrushSettings.Default;
+                case TextStyles.Character:
+                    return BrushSettings.Character;
+                case TextStyles.Discrete:
+                    return BrushSettings.Discrete;
+                case TextStyles.Keyword:
+                    return BrushSettings.Keyword;
+                case TextStyles.Type:
+                    return BrushSettings.TypeIdentifier;
+                case TextStyles.Comment:
+                    return BrushSettings.CommentForeground;
             }
         }
 

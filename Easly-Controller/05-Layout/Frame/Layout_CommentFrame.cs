@@ -60,7 +60,7 @@
             bool IsDisplayed = Text != null && ((DisplayMode == CommentDisplayModes.OnFocus && IsFocused) || DisplayMode == CommentDisplayModes.All);
 
             if (IsDisplayed)
-                size = measureContext.MeasureTextSize(Text, TextStyles.Comment, Controller.Measure.Floating);
+                size = measureContext.MeasureText(Text, TextStyles.Comment, Controller.Measure.Floating);
             else
                 size = Size.Empty;
 

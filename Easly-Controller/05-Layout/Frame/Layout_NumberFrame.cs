@@ -65,7 +65,7 @@
             INode Node = cellView.StateView.State.Node;
             string Text = BaseNodeHelper.NodeTreeHelper.GetString(Node, PropertyName);
 
-            size = measureContext.MeasureTextSize(Text, TextStyles.Number, Controller.Measure.Floating);
+            size = measureContext.MeasureNumber(Text);
             measureContext.UpdatePadding(LeftMargin, RightMargin, ref size, out padding);
 
             Debug.Assert(RegionHelper.IsValid(size));
@@ -85,7 +85,7 @@
             string Text = BaseNodeHelper.NodeTreeHelper.GetString(Node, PropertyName);
 
             Point OriginWithPadding = origin.Moved(padding.Left, padding.Top);
-            drawContext.DrawText(Text, OriginWithPadding, TextStyles.Number, isFocused: false); // The caret is drawn separately.
+            drawContext.DrawNumber(Text, OriginWithPadding); // The caret is drawn separately.
         }
 
         /// <summary>
@@ -102,7 +102,7 @@
             string Text = BaseNodeHelper.NodeTreeHelper.GetString(Node, PropertyName);
 
             Point OriginWithPadding = origin.Moved(padding.Left, padding.Top);
-            printContext.PrintText(Text, OriginWithPadding, TextStyles.Number);
+            printContext.PrintNumber(Text, OriginWithPadding);
         }
         #endregion
 

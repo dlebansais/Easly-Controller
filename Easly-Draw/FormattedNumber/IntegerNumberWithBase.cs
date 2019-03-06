@@ -11,9 +11,9 @@
         /// </summary>
         /// <param name="integerText">The integer text.</param>
         /// <param name="invalidText">The trailing invalid text, if any.</param>
-        /// <param name="integerBase">The base.</param>
         /// <param name="canonical">The canonical form of the number.</param>
-        public IntegerNumberWithBase(string integerText, string invalidText, IIntegerBase integerBase, ICanonicalNumber canonical)
+        /// <param name="integerBase">The base.</param>
+        public IntegerNumberWithBase(string integerText, string invalidText, ICanonicalNumber canonical, IIntegerBase integerBase)
             : base(integerText, invalidText, canonical)
         {
             IntegerBase = integerBase;

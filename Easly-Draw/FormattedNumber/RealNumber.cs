@@ -1,5 +1,7 @@
 ﻿namespace EaslyDraw
 {
+    using System.Diagnostics;
+
     /// <summary>
     /// The format for a number parsed as real.
     /// </summary>
@@ -16,13 +18,12 @@
         /// <param name="invalidText">The trailing invalid text, if any.</param>
         /// <param name="canonical">The canonical form of the number.</param>
         public RealNumber(string integerText, string fractionalText, ExplicitExponents explicitExponent, string exponentText, string invalidText, ICanonicalNumber canonical)
+            : base(invalidText, canonical)
         {
             IntegerText = integerText;
             FractionalText = fractionalText;
             ExplicitExponent = explicitExponent;
             ExponentText = exponentText;
-            InvalidText = invalidText;
-            Canonical = canonical;
         }
         #endregion
 
@@ -48,14 +49,45 @@
         public string ExponentText { get; private set; }
 
         /// <summary>
-        /// The trailing invalid text, if any.
+        /// Gets the significand part of the formatted number.
         /// </summary>
-        public string InvalidText { get; private set; }
+        public override string SignificandString { get { return $"{IntegerText}.{FractionalText}"; } }
 
         /// <summary>
-        /// The canonical form of the parsed number.
+        /// Gets the exponent part of the formatted number.
         /// </summary>
-        public override ICanonicalNumber Canonical { get; }
+        public override string ExponentString
+        {
+            get
+            {
+                string Result = string.Empty;
+
+                if (ExponentText.Length > 0)
+                {
+                    bool IsHandled = false;
+                    switch (ExplicitExponent)
+                    {
+                        case ExplicitExponents.None:
+                            Result += "e";
+                            IsHandled = true;
+                            break;
+                        case ExplicitExponents.Negative:
+                            Result += "e-";
+                            IsHandled = true;
+                            break;
+                        case ExplicitExponents.Positive:
+                            Result += "e+";
+                            IsHandled = true;
+                            break;
+                    }
+                    Debug.Assert(IsHandled);
+
+                    Result += ExponentText;
+                }
+
+                return Result;
+            }
+        }
         #endregion
     }
 }

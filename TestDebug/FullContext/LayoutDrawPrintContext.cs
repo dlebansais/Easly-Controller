@@ -43,7 +43,12 @@ namespace TestDebug
             }
         }
 
-        public Size MeasureTextSize(string text, TextStyles textStyle, Measure maxTextWidth)
+        public Size MeasureText(string text, TextStyles textStyle, Measure maxTextWidth)
+        {
+            return new Size(new Measure() { Draw = text.Length * 20, Print = text.Length }, LineHeight);
+        }
+
+        public Size MeasureNumber(string text)
         {
             return new Size(new Measure() { Draw = text.Length * 20, Print = text.Length }, LineHeight);
         }
@@ -58,6 +63,10 @@ namespace TestDebug
         }
 
         public void DrawText(string text, Point origin, TextStyles textStyle, bool isFocused)
+        {
+        }
+
+        public void DrawNumber(string text, Point origin)
         {
         }
 
@@ -100,6 +109,10 @@ namespace TestDebug
         }
 
         public void PrintText(string text, Point origin, TextStyles textStyle)
+        {
+        }
+
+        public void PrintNumber(string text, Point origin)
         {
         }
 

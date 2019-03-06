@@ -31,9 +31,19 @@
         Discrete,
 
         /// <summary>
-        /// The brush for numbers.
+        /// The brush for the significand of a number.
         /// </summary>
-        Number,
+        NumberSignificand,
+
+        /// <summary>
+        /// The brush for the exponent of a number.
+        /// </summary>
+        NumberExponent,
+
+        /// <summary>
+        /// The brush for the invalid trailing part of a number.
+        /// </summary>
+        NumberInvalid,
 
         /// <summary>
         /// The brush for identifiers that represent a type.

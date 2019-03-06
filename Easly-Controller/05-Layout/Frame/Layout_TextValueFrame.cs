@@ -71,7 +71,7 @@
             INode Node = cellView.StateView.State.Node;
             string Text = BaseNodeHelper.NodeTreeHelper.GetString(Node, PropertyName);
 
-            size = measureContext.MeasureTextSize(Text, TextStyle, Controller.Measure.Floating);
+            size = measureContext.MeasureText(Text, TextStyle, Controller.Measure.Floating);
             measureContext.UpdatePadding(LeftMargin, RightMargin, ref size, out padding);
 
             Debug.Assert(RegionHelper.IsValid(size));

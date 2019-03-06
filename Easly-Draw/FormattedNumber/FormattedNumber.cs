@@ -1,6 +1,7 @@
 ﻿namespace EaslyDraw
 {
     using System.Diagnostics;
+    using System.Globalization;
 
     /// <summary>
     /// Base interface for a number format.
@@ -8,9 +9,24 @@
     public interface IFormattedNumber
     {
         /// <summary>
+        /// The trailing invalid text, if any.
+        /// </summary>
+        string InvalidText { get; }
+
+        /// <summary>
         /// The canonical form of the parsed number.
         /// </summary>
         ICanonicalNumber Canonical { get; }
+
+        /// <summary>
+        /// Gets the significand part of the formatted number.
+        /// </summary>
+        string SignificandString { get; }
+
+        /// <summary>
+        /// Gets the exponent part of the formatted number.
+        /// </summary>
+        string ExponentString { get; }
     }
 
     /// <summary>
@@ -35,13 +51,44 @@
 
             return Result;
         }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FormattedNumber"/> class.
+        /// </summary>
+        /// <param name="invalidText">The trailing invalid text, if any.</param>
+        /// <param name="canonical">The canonical form of the number.</param>
+        public FormattedNumber(string invalidText, ICanonicalNumber canonical)
+        {
+            InvalidText = invalidText;
+            Canonical = canonical;
+        }
         #endregion
 
         #region Properties
         /// <summary>
+        /// The trailing invalid text, if any.
+        /// </summary>
+        public string InvalidText { get; }
+
+        /// <summary>
         /// The canonical form of the parsed number.
         /// </summary>
-        public abstract ICanonicalNumber Canonical { get; }
+        public ICanonicalNumber Canonical { get; }
+
+        /// <summary>
+        /// Gets the exponent part of the formatted number.
+        /// </summary>
+        public static string DecimalSeparator { get { return CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator; } }
+
+        /// <summary>
+        /// Gets the significand part of the formatted number.
+        /// </summary>
+        public abstract string SignificandString { get; }
+
+        /// <summary>
+        /// Gets the exponent part of the formatted number.
+        /// </summary>
+        public abstract string ExponentString { get; }
         #endregion
 
         #region Implementation
@@ -85,7 +132,7 @@
 
             ICanonicalNumber Canonical = new CanonicalNumber(false, DecimalNumber, false, DecimalExponent);
 
-            number = new IntegerNumberWithBase(ValidText, InvalidText, integerBase, Canonical);
+            number = new IntegerNumberWithBase(ValidText, InvalidText, Canonical, integerBase);
         }
 
         /// <summary></summary>
@@ -99,6 +146,12 @@
             int DigitValue;
             string ValidText;
             string InvalidText;
+            string DecimalExponent;
+            string SignificandText;
+            ICanonicalNumber Canonical;
+
+            // Assume '.' as the decimal separator in what follows. This means '.' is ALWAYS a valid separator.
+            text = text.Replace(DecimalSeparator, ".");
 
             // Get the integer part.
             int IntegerBegin = n;
@@ -113,7 +166,11 @@
                 if ((IntegerEnd > IntegerBegin + 1) && text[IntegerBegin] == '0')
                     return new InvalidNumber(text);
                 else
-                    return new IntegerNumber(text, string.Empty, new CanonicalNumber(false, text, false, IntegerBase.Zero));
+                {
+                    DecimalExponent = (text.Length - 1).ToString();
+                    Canonical = new CanonicalNumber(false, TrailingZeroesRemoved(text), false, DecimalExponent);
+                    return new IntegerNumber(text, string.Empty, Canonical);
+                }
             }
 
             // If the number contains an invalid character, return now.
@@ -121,7 +178,15 @@
             {
                 ValidText = text.Substring(0, IntegerEnd);
                 InvalidText = text.Substring(ValidText.Length);
-                return new IntegerNumber(ValidText, InvalidText, new CanonicalNumber(false, ValidText, false, IntegerBase.Zero));
+                DecimalExponent = (ValidText.Length - 1).ToString();
+
+                if (ValidText.Length > 0)
+                {
+                    Canonical = new CanonicalNumber(false, TrailingZeroesRemoved(ValidText), false, DecimalExponent);
+                    return new IntegerNumber(ValidText, InvalidText, Canonical);
+                }
+                else
+                    return new InvalidNumber(InvalidText);
             }
 
             string IntegerText = text.Substring(IntegerBegin, IntegerEnd - IntegerBegin);
@@ -141,7 +206,15 @@
             {
                 ValidText = IntegerText;
                 InvalidText = text.Substring(ValidText.Length);
-                return new IntegerNumber(ValidText, InvalidText, new CanonicalNumber(false, ValidText, false, IntegerBase.Zero));
+                DecimalExponent = (ValidText.Length - 1).ToString();
+
+                if (ValidText.Length > 0)
+                {
+                    Canonical = new CanonicalNumber(false, TrailingZeroesRemoved(ValidText), false, DecimalExponent);
+                    return new IntegerNumber(ValidText, InvalidText, Canonical);
+                }
+                else
+                    return new InvalidNumber(InvalidText);
             }
 
             int ZeroIndex = FractionalEnd;
@@ -151,16 +224,21 @@
             // The fraction must not end with zero, unless it's zero itself.
             if (ZeroIndex > FractionalBegin && ZeroIndex < FractionalEnd)
             {
+                FractionalText = FractionalText.Substring(0, ZeroIndex - FractionalBegin);
                 ValidText = text.Substring(0, ZeroIndex);
                 InvalidText = text.Substring(ValidText.Length);
-                return new RealNumber(IntegerText, FractionalText, ExplicitExponents.None, string.Empty, InvalidText, new CanonicalNumber(false, ValidText, false, IntegerBase.Zero));
+                SignificandText = IntegerText + FractionalText;
+                DecimalExponent = (IntegerText.Length - 1).ToString();
+                return new RealNumber(IntegerText, FractionalText, ExplicitExponents.None, string.Empty, InvalidText, new CanonicalNumber(false, SignificandText, false, DecimalExponent));
             }
 
             // If the number has no exponent, return now.
             if (FractionalEnd >= text.Length)
             {
                 ValidText = text;
-                return new RealNumber(IntegerText, FractionalText, ExplicitExponents.None, string.Empty, string.Empty, new CanonicalNumber(false, ValidText, false, IntegerBase.Zero));
+                SignificandText = FractionalText == "0" ? IntegerText : IntegerText + FractionalText;
+                DecimalExponent = (IntegerText.Length - 1).ToString();
+                return new RealNumber(IntegerText, FractionalText, ExplicitExponents.None, string.Empty, string.Empty, new CanonicalNumber(false, SignificandText, false, DecimalExponent));
             }
 
             // The number must be followed by the exponent tag.
@@ -168,7 +246,9 @@
             {
                 ValidText = text.Substring(0, FractionalEnd);
                 InvalidText = text.Substring(ValidText.Length);
-                return new RealNumber(IntegerText, FractionalText, ExplicitExponents.None, string.Empty, InvalidText, new CanonicalNumber(false, ValidText, false, IntegerBase.Zero));
+                SignificandText = IntegerText + FractionalText;
+                DecimalExponent = (IntegerText.Length - 1).ToString();
+                return new RealNumber(IntegerText, FractionalText, ExplicitExponents.None, string.Empty, InvalidText, new CanonicalNumber(false, SignificandText, false, DecimalExponent));
             }
 
             // The mantissa part must have exactly one digit on the left side, and it cannot be zero.
@@ -225,6 +305,15 @@
             InvalidText = text.Substring(ValidText.Length);
 
             return new RealNumber(IntegerText, FractionalText, ExplicitExponent, ExponentText, InvalidText, new CanonicalNumber(false, ValidText, ExplicitExponent == ExplicitExponents.Negative, ExponentText));
+        }
+
+        /// <summary></summary>
+        protected static string TrailingZeroesRemoved(string text)
+        {
+            while (text.Length > 1 && text[text.Length - 1] == '0')
+                text = text.Substring(0, text.Length - 1);
+
+            return text;
         }
         #endregion
     }

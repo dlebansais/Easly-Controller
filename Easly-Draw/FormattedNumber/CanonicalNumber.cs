@@ -38,6 +38,13 @@
     /// </summary>
     public class CanonicalNumber : ICanonicalNumber
     {
+        #region Constants
+        /// <summary>
+        /// The canonical number for zero.
+        /// </summary>
+        public static readonly CanonicalNumber Zero = new CanonicalNumber(false, IntegerBase.Zero, false, IntegerBase.Zero);
+        #endregion
+
         #region Init
         /// <summary>
         /// Initializes a new instance of the <see cref="CanonicalNumber"/> class.

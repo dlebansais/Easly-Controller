@@ -31,13 +31,20 @@
         Measure GetVerticalSeparatorHeight(VerticalSeparators separator);
 
         /// <summary>
-        /// Measures a string.
+        /// Measures a string that is not a number.
         /// </summary>
         /// <param name="text">The string to measure.</param>
         /// <param name="textStyle">Style to use for the text.</param>
         /// <param name="maxTextWidth">The maximum width for a line of text. Floating means no limit.</param>
         /// <returns>The size of the string.</returns>
-        Size MeasureTextSize(string text, TextStyles textStyle, Measure maxTextWidth);
+        Size MeasureText(string text, TextStyles textStyle, Measure maxTextWidth);
+
+        /// <summary>
+        /// Measures a number string.
+        /// </summary>
+        /// <param name="text">The string to measure.</param>
+        /// <returns>The size of the string.</returns>
+        Size MeasureNumber(string text);
 
         /// <summary>
         /// Measures a symbol.

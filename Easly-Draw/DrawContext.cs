@@ -111,9 +111,9 @@
         /// <param name="textStyle">Style to use for the text.</param>
         /// <param name="maxTextWidth">The maximum width for a line of text. NaN means no limit.</param>
         /// <returns>The size of the string.</returns>
-        public override Size MeasureTextSize(string text, TextStyles textStyle, Measure maxTextWidth)
+        public override Size MeasureText(string text, TextStyles textStyle, Measure maxTextWidth)
         {
-            Size Result = base.MeasureTextSize(text, textStyle, maxTextWidth);
+            Size Result = base.MeasureText(text, textStyle, maxTextWidth);
 
             if (textStyle == TextStyles.Comment)
                 Result = new Size(CommentPadding.Left + Result.Width + CommentPadding.Right, CommentPadding.Top + Result.Height + CommentPadding.Bottom);
@@ -163,7 +163,7 @@
         }
 
         /// <summary>
-        /// Draws a string, at the location specified in <paramref name="origin"/>.
+        /// Draws a string that is not a number, at the location specified in <paramref name="origin"/>.
         /// </summary>
         /// <param name="text">The text to draw.</param>
         /// <param name="origin">The location where to start drawing.</param>
@@ -202,6 +202,39 @@
                 WpfDrawingContext.Pop();
                 IsLastFocusedFullCell = true;
             }
+        }
+
+        /// <summary>
+        /// Draws a number string, at the location specified in <paramref name="origin"/>.
+        /// </summary>
+        /// <param name="text">The text to draw.</param>
+        /// <param name="origin">The location where to start drawing.</param>
+        public virtual void DrawNumber(string text, Point origin)
+        {
+            Debug.Assert(WpfDrawingContext != null);
+
+            IFormattedNumber fn = FormattedNumber.Parse(text);
+            string SignificandString = fn.SignificandString;
+            string ExponentString = fn.ExponentString;
+            string InvalidText = fn.InvalidText;
+
+            Brush Brush;
+            double X = PagePadding.Left.Draw + origin.X.Draw;
+            double Y = PagePadding.Top.Draw + origin.Y.Draw;
+
+            Brush = BrushTable[BrushSettings.NumberSignificand];
+            FormattedText ftSignificand = new FormattedText(SignificandString, Culture, FlowDirection, Typeface, EmSize, Brush);
+            WpfDrawingContext.DrawText(ftSignificand, new System.Windows.Point(X, Y));
+            X += ftSignificand.WidthIncludingTrailingWhitespace;
+
+            Brush = BrushTable[BrushSettings.NumberExponent];
+            FormattedText ftExponent = new FormattedText(ExponentString, Culture, FlowDirection, Typeface, EmSize * SubscriptRatio, Brush);
+            WpfDrawingContext.DrawText(ftExponent, new System.Windows.Point(X, Y));
+            X += ftExponent.WidthIncludingTrailingWhitespace;
+
+            Brush = BrushTable[BrushSettings.NumberInvalid];
+            FormattedText ftInvalid = new FormattedText(InvalidText, Culture, FlowDirection, Typeface, EmSize, Brush);
+            WpfDrawingContext.DrawText(ftInvalid, new System.Windows.Point(X, Y));
         }
 
         /// <summary>

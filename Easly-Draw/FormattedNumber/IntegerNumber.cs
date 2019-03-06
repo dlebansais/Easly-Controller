@@ -14,10 +14,9 @@
         /// <param name="invalidText">The trailing invalid text, if any.</param>
         /// <param name="canonical">The canonical form of the number.</param>
         public IntegerNumber(string integerText, string invalidText, ICanonicalNumber canonical)
+            : base(invalidText, canonical)
         {
             IntegerText = integerText;
-            InvalidText = invalidText;
-            Canonical = canonical;
         }
         #endregion
 
@@ -28,14 +27,14 @@
         public string IntegerText { get; }
 
         /// <summary>
-        /// The trailing invalid text, if any.
+        /// Gets the significand part of the formatted number.
         /// </summary>
-        public string InvalidText { get; }
+        public override string SignificandString { get { return IntegerText; } }
 
         /// <summary>
-        /// The canonical form of the parsed number.
+        /// Gets the exponent part of the formatted number.
         /// </summary>
-        public override ICanonicalNumber Canonical { get; }
+        public override string ExponentString { get { return string.Empty; } }
         #endregion
     }
 }

@@ -45,7 +45,7 @@
             if (ControllerView.Focus is ILayoutTextFocus AsTextFocus)
             {
                 if (e.Code == '.' && (e.Key == Key.Decimal || e.Key == Key.OemPeriod))
-                    SplitIdentifier();
+                    SplitIdentifier(AsTextFocus);
                 else
                     ChangeText(AsTextFocus, e.Code);
             }
@@ -99,7 +99,7 @@
             }
         }
 
-        private void SplitIdentifier()
+        private void SplitIdentifier(ILayoutTextFocus focus)
         {
             if (ControllerView.IsIdentifierSplittable(out IFocusListInner Inner, out IFocusInsertionListNodeIndex ReplaceIndex, out IFocusInsertionListNodeIndex InsertIndex))
             {
@@ -107,6 +107,8 @@
 
                 InvalidateVisual();
             }
+            else
+                ChangeText(focus, '.');
         }
 
         private void OnKeyMove(object sender, MoveKeyEventArgs e)
