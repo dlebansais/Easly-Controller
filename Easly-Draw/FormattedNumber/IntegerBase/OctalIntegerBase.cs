@@ -7,6 +7,16 @@
     /// </summary>
     public class OctalIntegerBase : IntegerBase
     {
+        #region Init
+        /// <summary>
+        /// Initializes a new instance of the <see cref="OctalIntegerBase"/> class.
+        /// </summary>
+        internal OctalIntegerBase()
+        {
+        }
+        #endregion
+
+        #region Properties
         /// <summary>
         /// The suffix for octal integers.
         /// </summary>
@@ -16,7 +26,9 @@
         /// The number of digits for octal integers.
         /// </summary>
         public override int Radix { get { return 8; } }
+        #endregion
 
+        #region Client Interface
         /// <summary>
         /// Checks if a character is an octal digit, and return the corresponding value.
         /// </summary>
@@ -58,5 +70,6 @@
 
             return digit - '0';
         }
+        #endregion
     }
 }

@@ -7,6 +7,16 @@
     /// </summary>
     public class BinaryIntegerBase : IntegerBase
     {
+        #region Init
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BinaryIntegerBase"/> class.
+        /// </summary>
+        internal BinaryIntegerBase()
+        {
+        }
+        #endregion
+
+        #region Properties
         /// <summary>
         /// The suffix for binary integers.
         /// </summary>
@@ -16,7 +26,9 @@
         /// The number of digits for binary integers.
         /// </summary>
         public override int Radix { get { return 2; } }
+        #endregion
 
+        #region Client Interface
         /// <summary>
         /// Checks if a character is a binary digit, and return the corresponding value.
         /// </summary>
@@ -58,5 +70,6 @@
 
             return digit - '0';
         }
+        #endregion
     }
 }

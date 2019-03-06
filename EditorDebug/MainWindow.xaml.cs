@@ -317,10 +317,18 @@ namespace EditorDebug
             Debug.Assert(IntegerBase.Convert(IntegerBase.Convert(HexadecimalNumber, IntegerBase.Hexadecimal, IntegerBase.Decimal), IntegerBase.Decimal, IntegerBase.Hexadecimal) == HexadecimalNumber);
             Debug.Assert(IntegerBase.Convert(IntegerBase.Convert(HexadecimalNumber, IntegerBase.Hexadecimal, IntegerBase.Hexadecimal), IntegerBase.Hexadecimal, IntegerBase.Hexadecimal) == HexadecimalNumber);
 
-            IIntegerBase FromBase = new DecimalIntegerBase();
-            IIntegerBase ToBase = new HexadecimalIntegerBase();
-            string Result = IntegerBase.Convert("10", FromBase, ToBase);
-
+            IFormattedNumber Number;
+            Number = FormattedNumber.Parse("");
+            Number = FormattedNumber.Parse("0");
+            Number = FormattedNumber.Parse("0:B");
+            Number = FormattedNumber.Parse("0:O");
+            Number = FormattedNumber.Parse("0:H");
+            Number = FormattedNumber.Parse("5");
+            Number = FormattedNumber.Parse("1:B");
+            Number = FormattedNumber.Parse("5:O");
+            Number = FormattedNumber.Parse("F:H");
+            Number = FormattedNumber.Parse("468F3ECF:H");
+            Number = FormattedNumber.Parse("468F3xECF:H");
 
             CurrentDirectory = Environment.CurrentDirectory;
             if (CurrentDirectory.Contains("Debug") || CurrentDirectory.Contains("Release"))

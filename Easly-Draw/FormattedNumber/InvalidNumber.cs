@@ -5,6 +5,7 @@
     /// </summary>
     public class InvalidNumber : FormattedNumber
     {
+        #region Init
         /// <summary>
         /// Initializes a new instance of the <see cref="InvalidNumber"/> class.
         /// </summary>
@@ -14,6 +15,7 @@
             InvalidText = invalidText;
             Canonical = new CanonicalNumber(false, IntegerBase.Zero, false, IntegerBase.Zero);
         }
+        #endregion
 
         #region Properties
         /// <summary>

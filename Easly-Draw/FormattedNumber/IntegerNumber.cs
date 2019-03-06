@@ -1,7 +1,8 @@
 ﻿namespace EaslyDraw
 {
     /// <summary>
-    /// The format for a number parsed as real.
+    /// The format for a number parsed as an integer.
+    /// The default base is decimal, unless subclassed.
     /// </summary>
     public class IntegerNumber : FormattedNumber
     {

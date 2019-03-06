@@ -3,7 +3,7 @@
     using System.Diagnostics;
 
     /// <summary>
-    /// Interface describing an integer digits base.
+    /// Interface describing an integer with a specified digits base.
     /// </summary>
     public interface IIntegerBase
     {
@@ -20,10 +20,10 @@
         /// <summary>
         /// Checks if a character is a digit in this base, and return the corresponding value.
         /// </summary>
-        /// <param name="c">The character to check.</param>
+        /// <param name="digit">The character to check.</param>
         /// <param name="value">The digit's value.</param>
-        /// <returns>True if <paramref name="c"/> is a valid digit; Otherwise, false.</returns>
-        bool IsValidDigit(char c, out int value);
+        /// <returns>True if <paramref name="digit"/> is a valid digit; Otherwise, false.</returns>
+        bool IsValidDigit(char digit, out int value);
 
         /// <summary>
         /// Checks if a number is made of digits in this base.
@@ -50,8 +50,8 @@
         /// <summary>
         /// Returns the value corresponding to a digit.
         /// </summary>
-        /// <param name="c">The digit.</param>
-        int ToValue(char c);
+        /// <param name="digit">The digit.</param>
+        int ToValue(char digit);
 
         /// <summary>
         /// Returns the input number divided by two.
@@ -61,7 +61,7 @@
         string DividedByTwo(string text, out bool hasCarry);
 
         /// <summary>
-        /// Returns the input number muliplied by two.
+        /// Returns the input number multiplied by two, with an optional carry to add.
         /// </summary>
         /// <param name="text">The number to multiply.</param>
         /// <param name="addCarry">True if a carry should be added.</param>
@@ -69,7 +69,7 @@
     }
 
     /// <summary>
-    /// Class describing an integer digits base.
+    /// Class describing an integer with a specified digits base.
     /// </summary>
     public abstract class IntegerBase : IIntegerBase
     {
@@ -100,6 +100,15 @@
         public static readonly IIntegerBase Binary = new BinaryIntegerBase();
         #endregion
 
+        #region Init
+        /// <summary>
+        /// Initializes a new instance of the <see cref="IntegerBase"/> class.
+        /// </summary>
+        internal IntegerBase()
+        {
+        }
+        #endregion
+
         #region Properties
         /// <summary>
         /// The suffix used to specify the base, null if none.
@@ -116,10 +125,10 @@
         /// <summary>
         /// Checks if a character is a digit in this base, and return the corresponding value.
         /// </summary>
-        /// <param name="c">The character to check.</param>
+        /// <param name="digit">The character to check.</param>
         /// <param name="value">The digit's value.</param>
-        /// <returns>True if <paramref name="c"/> is a valid digit; Otherwise, false.</returns>
-        public abstract bool IsValidDigit(char c, out int value);
+        /// <returns>True if <paramref name="digit"/> is a valid digit; Otherwise, false.</returns>
+        public abstract bool IsValidDigit(char digit, out int value);
 
         /// <summary>
         /// Checks if a number is made of digits in this base.
@@ -134,8 +143,8 @@
 
             for (int i = 0; i < text.Length; i++)
             {
-                char c = text[i];
-                if (!IsValidDigit(c, out int Value))
+                char digit = text[i];
+                if (!IsValidDigit(digit, out int Value))
                     return false;
 
                 if (i == 0 && Value == 0 && text.Length != 1)
@@ -158,8 +167,8 @@
 
             for (int i = 0; i < text.Length; i++)
             {
-                char c = text[i];
-                if (!IsValidDigit(c, out int Value))
+                char digit = text[i];
+                if (!IsValidDigit(digit, out int Value))
                     return false;
 
                 if ((i == 0 || i + 1 == text.Length) && Value == 0 && text.Length != 1)
@@ -178,8 +187,8 @@
         /// <summary>
         /// Returns the value corresponding to a digit.
         /// </summary>
-        /// <param name="c">The digit.</param>
-        public abstract int ToValue(char c);
+        /// <param name="digit">The digit.</param>
+        public abstract int ToValue(char digit);
 
         /// <summary>
         /// Returns the input number divided by two.
@@ -214,7 +223,7 @@
         }
 
         /// <summary>
-        /// Returns the input number muliplied by two.
+        /// Returns the input number multiplied by two, with an optional carry to add.
         /// </summary>
         /// <param name="text">The number to multiply.</param>
         /// <param name="addCarry">True if a carry should be added.</param>

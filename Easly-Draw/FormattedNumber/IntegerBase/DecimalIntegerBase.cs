@@ -7,6 +7,16 @@
     /// </summary>
     public class DecimalIntegerBase : IntegerBase
     {
+        #region Init
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DecimalIntegerBase"/> class.
+        /// </summary>
+        internal DecimalIntegerBase()
+        {
+        }
+        #endregion
+
+        #region Properties
         /// <summary>
         /// The suffix for decimal integers.
         /// </summary>
@@ -16,7 +26,9 @@
         /// The number of digits for decimal integers.
         /// </summary>
         public override int Radix { get { return 10; } }
+        #endregion
 
+        #region Client Interface
         /// <summary>
         /// Checks if a character is a decimal digit, and return the corresponding value.
         /// </summary>
@@ -58,5 +70,6 @@
 
             return digit - '0';
         }
+        #endregion
     }
 }

@@ -1,7 +1,7 @@
 ﻿namespace EaslyDraw
 {
     /// <summary>
-    /// The format for a number parsed as integer, with a base.
+    /// The format for a number parsed as an integer, with a base.
     /// </summary>
     public class IntegerNumberWithBase : IntegerNumber
     {

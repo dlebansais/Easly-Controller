@@ -15,6 +15,7 @@
 
     /// <summary>
     /// Base class for a number format.
+    /// All strings can be parsed using this class, it includes trailing invalid characters.
     /// </summary>
     public abstract class FormattedNumber : IFormattedNumber
     {
@@ -64,7 +65,7 @@
         {
             string Suffix = integerBase.Suffix;
 
-            Debug.Assert(Suffix == null || Suffix.Length >= text.Length);
+            Debug.Assert(Suffix == null || Suffix.Length <= text.Length);
             string DigitText = Suffix != null ? text.Substring(0, text.Length - integerBase.Suffix.Length) : text;
 
             int i;
@@ -79,7 +80,10 @@
 
             string ValidText = DigitText.Substring(0, i);
             string InvalidText = DigitText.Substring(i);
-            ICanonicalNumber Canonical = new CanonicalNumber(false, IntegerBase.Convert(ValidText, integerBase, new DecimalIntegerBase()), false, IntegerBase.Zero);
+            string DecimalNumber = IntegerBase.Convert(ValidText, integerBase, IntegerBase.Decimal);
+            string DecimalExponent = (DecimalNumber.Length - 1).ToString();
+
+            ICanonicalNumber Canonical = new CanonicalNumber(false, DecimalNumber, false, DecimalExponent);
 
             number = new IntegerNumberWithBase(ValidText, InvalidText, integerBase, Canonical);
         }
@@ -93,13 +97,12 @@
 
             int n = 0;
             int DigitValue;
-            IIntegerBase DecimalBase = new DecimalIntegerBase();
             string ValidText;
             string InvalidText;
 
             // Get the integer part.
             int IntegerBegin = n;
-            while (n < text.Length && DecimalBase.IsValidDigit(text[n], out DigitValue))
+            while (n < text.Length && IntegerBase.Decimal.IsValidDigit(text[n], out DigitValue))
                 n++;
             int IntegerEnd = n;
 
@@ -127,7 +130,7 @@
 
             // Get the fractional part.
             int FractionalBegin = n;
-            while (n < text.Length && DecimalBase.IsValidDigit(text[n], out DigitValue))
+            while (n < text.Length && IntegerBase.Decimal.IsValidDigit(text[n], out DigitValue))
                 n++;
             int FractionalEnd = n;
 
@@ -204,7 +207,7 @@
 
             // Get the exponent.
             int ExponentBegin = n;
-            while (n < text.Length && DecimalBase.IsValidDigit(text[n], out DigitValue))
+            while (n < text.Length && IntegerBase.Decimal.IsValidDigit(text[n], out DigitValue))
                 n++;
             int ExponentEnd = n;
 

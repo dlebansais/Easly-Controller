@@ -10,7 +10,7 @@
         /// Initializes a new instance of the <see cref="RealNumber"/> class.
         /// </summary>
         /// <param name="integerText">The integer part of the the mantissa (before the dot).</param>
-        /// <param name="fractionalText">The factional part of the the mantissa (after the dot).</param>
+        /// <param name="fractionalText">The fractional part of the the mantissa (after the dot).</param>
         /// <param name="explicitExponent">The exponent, if any.</param>
         /// <param name="exponentText">The exponent text.</param>
         /// <param name="invalidText">The trailing invalid text, if any.</param>

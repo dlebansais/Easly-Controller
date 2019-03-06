@@ -7,6 +7,16 @@
     /// </summary>
     public class HexadecimalIntegerBase : IntegerBase
     {
+        #region Init
+        /// <summary>
+        /// Initializes a new instance of the <see cref="HexadecimalIntegerBase"/> class.
+        /// </summary>
+        internal HexadecimalIntegerBase()
+        {
+        }
+        #endregion
+
+        #region Properties
         /// <summary>
         /// The suffix for hexadecimal integers.
         /// </summary>
@@ -16,7 +26,9 @@
         /// The number of digits for hexadecimal integers.
         /// </summary>
         public override int Radix { get { return 16; } }
+        #endregion
 
+        #region Client Interface
         /// <summary>
         /// Checks if a character is an hex digit, and return the corresponding value.
         /// </summary>
@@ -77,5 +89,6 @@
             else
                 return digit - 'A' + 10;
         }
+        #endregion
     }
 }
