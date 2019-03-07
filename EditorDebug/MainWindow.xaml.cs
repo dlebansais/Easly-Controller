@@ -6,8 +6,8 @@ using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Input;
 using BaseNode;
+using BaseNodeHelper;
 using EaslyController.Layout;
-using EaslyDraw;
 using Microsoft.Win32;
 using PolySerializer;
 

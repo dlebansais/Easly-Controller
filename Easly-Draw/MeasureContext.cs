@@ -4,6 +4,7 @@
     using System.Diagnostics;
     using System.Globalization;
     using System.Windows.Media;
+    using BaseNodeHelper;
     using EaslyController.Constants;
     using EaslyController.Controller;
     using EaslyController.Layout;
