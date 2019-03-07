@@ -426,7 +426,7 @@
     <Compile Include="04-Focus\Selection\Focus_Selection.cs" />
     <Compile Include="04-Focus\Controller\Focus_Controller.cs" />
     <Compile Include="04-Focus\Controller\Operations\Focus_ChangeComment_Operation.cs" />
-    <Compile Include="04-Focus\Controller\Operations\Focus_ChangeCaret_Operation_.cs" />
+    <Compile Include="04-Focus\Controller\Operations\Focus_ChangeCaret_Operation.cs" />
     <Compile Include="04-Focus\Controller\Operations\Focus_ChangeText_Operation.cs" />
     <Compile Include="04-Focus\Controller\Operations\Focus_GenericRefresh_Operation.cs" />
     <Compile Include="04-Focus\Controller\Operations\Focus_Assignment_Operation.cs" />
