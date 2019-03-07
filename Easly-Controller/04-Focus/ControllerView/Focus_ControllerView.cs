@@ -282,7 +282,8 @@
             base.Init();
 
             ForcedCommentStateView = null;
-            Selection = null;
+            EmptySelection = CreateEmptySelection();
+            Selection = EmptySelection;
         }
         #endregion
 
@@ -402,6 +403,7 @@
         /// The current selection.
         /// </summary>
         public IFocusSelection Selection { get; private set; }
+        private IFocusEmptySelection EmptySelection;
 
         /// <summary>
         /// The anchor to use to calculate the selection.
@@ -416,7 +418,7 @@
         /// <summary>
         /// True if the selection is empty.
         /// </summary>
-        public bool IsSelectionEmpty { get { return Selection == null; } }
+        public bool IsSelectionEmpty { get { return Selection == EmptySelection; } }
         #endregion
 
         #region Client Interface
@@ -564,7 +566,7 @@
                 ResetSelection();
                 CaretAnchorPosition = CaretPosition;
             }
-            else if (Selection == null)
+            else if (Selection == EmptySelection)
             {
                 IFocusTextFocus AsTextFocus = Focus as IFocusTextFocus;
                 Debug.Assert(AsTextFocus != null);
@@ -1257,7 +1259,7 @@
         /// <summary></summary>
         private protected virtual void ExtendSelectionOneStep()
         {
-            if (Selection == null)
+            if (Selection == EmptySelection)
             {
                 if (Focus is IFocusTextFocus AsTextFocus)
                     SetTextFullSelection(AsTextFocus);
@@ -1379,7 +1381,7 @@
                 }
             }
 
-            Debug.Assert(Selection != null);
+            Debug.Assert(Selection != EmptySelection);
         }
         #endregion
 
@@ -2102,7 +2104,7 @@
             if (Focus is IFocusDiscreteContentFocus AsDiscreteContentFocus)
                 SetDiscreteValueSelection(AsDiscreteContentFocus);
             else
-                Selection = null;
+                Selection = EmptySelection;
 
             SelectionAnchor = Focus.CellView.StateView;
             SelectionExtension = 0;
@@ -2659,6 +2661,15 @@
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusControllerView));
             return new FocusInsertionListNodeIndex(parentNode, propertyName, node, index);
+        }
+
+        /// <summary>
+        /// Creates a IxxxEmptySelection object.
+        /// </summary>
+        private protected virtual IFocusEmptySelection CreateEmptySelection()
+        {
+            ControllerTools.AssertNoOverride(this, typeof(FocusControllerView));
+            return new FocusEmptySelection(RootStateView);
         }
 
         /// <summary>

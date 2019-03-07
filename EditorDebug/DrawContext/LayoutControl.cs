@@ -1,6 +1,7 @@
 ﻿namespace EditorDebug
 {
     using System.Diagnostics;
+    using System.IO;
     using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Input;
@@ -16,6 +17,8 @@
 
     public class LayoutControl : FrameworkElement
     {
+        public static readonly string NodeClipboardFormat = "185F4C03-D513-4F86-ADDB-C13C87417E81";
+
         public void SetController(ILayoutController controller)
         {
             Controller = controller;
@@ -601,6 +604,16 @@
                 DataObject.SetData(typeof(string), Content);
                 DataObject.SetData("UnicodeText", Content);
                 DataObject.SetData("Text", Content);
+
+                PolySerializer.Serializer s = new PolySerializer.Serializer();
+                using (MemoryStream ms = new MemoryStream())
+                {
+                    s.Serialize(ms, Controller.RootIndex.Node);
+                    byte[] Buffer = new byte[ms.Length];
+                    ms.Seek(0, SeekOrigin.Begin);
+                    ms.Read(Buffer, 0, Buffer.Length);
+                    DataObject.SetData(NodeClipboardFormat, Buffer);
+                }
 
                 Clipboard.Clear();
                 Clipboard.SetDataObject(DataObject, true);
