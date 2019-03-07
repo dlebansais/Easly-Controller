@@ -89,5 +89,16 @@
             }
         }
         #endregion
+
+        #region Debugging
+        /// <summary>
+        /// Returns the invalid number as a string.
+        /// </summary>
+        public override string ToString()
+        {
+            string Exp = ExplicitExponent == ExplicitExponents.None ? "E" : (ExplicitExponent == ExplicitExponents.Negative ? "E-" : "E+");
+            return $"{IntegerText}.{FractionalText}{Exp}{ExponentText}{base.ToString()}";
+        }
+        #endregion
     }
 }

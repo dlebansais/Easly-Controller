@@ -36,5 +36,15 @@
         /// </summary>
         public override string ExponentString { get { return string.Empty; } }
         #endregion
+
+        #region Debugging
+        /// <summary>
+        /// Returns the invalid number as a string.
+        /// </summary>
+        public override string ToString()
+        {
+            return $"{IntegerText}{base.ToString()}";
+        }
+        #endregion
     }
 }

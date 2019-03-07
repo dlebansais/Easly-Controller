@@ -330,6 +330,24 @@ namespace EditorDebug
             Number = FormattedNumber.Parse("468F3ECF:H");
             Number = FormattedNumber.Parse("468F3xECF:H");
 
+            string Charset = "01.e-+";
+            //string Pattern = "01.01e-00";
+            long N = Charset.Length;
+            long T = N * N * N * N * N * N * N * N * N;
+            Debug.WriteLine($"T = {T}");
+            double Percent = 1.0;
+            for (long n = 0; n < T; n++)
+            {
+                string s = GenerateNumber(Charset, n);
+                Number = FormattedNumber.Parse(s);
+                double d = (100.0 * ((double)n)) / ((double)T);
+                if (d >= Percent)
+                {
+                    Debug.WriteLine(((int)Percent).ToString() + "%");
+                    Percent += 1.0;
+                }
+            }
+
             CurrentDirectory = Environment.CurrentDirectory;
             if (CurrentDirectory.Contains("Debug") || CurrentDirectory.Contains("Release"))
                 CurrentDirectory = Path.GetDirectoryName(CurrentDirectory);
@@ -379,6 +397,17 @@ namespace EditorDebug
         public string CurrentDirectory { get; private set; }
         public string CurrentFileName { get; private set; }
         ILayoutController Controller;
+
+        private string GenerateNumber(string charset, long pattern)
+        {
+            if (pattern == 0)
+                return "";
+
+            string s = charset.Substring((int)(pattern % charset.Length), 1);
+            s += GenerateNumber(charset, pattern / charset.Length);
+
+            return s;
+        }
         #endregion
 
         #region Events

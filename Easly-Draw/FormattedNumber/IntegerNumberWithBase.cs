@@ -26,5 +26,15 @@
         /// </summary>
         public IIntegerBase IntegerBase { get; private set; }
         #endregion
+
+        #region Debugging
+        /// <summary>
+        /// Returns the invalid number as a string.
+        /// </summary>
+        public override string ToString()
+        {
+            return $"{IntegerText}[{IntegerBase.Radix}]{base.ToString()}";
+        }
+        #endregion
     }
 }
