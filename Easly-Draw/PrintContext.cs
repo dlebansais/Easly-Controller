@@ -1,5 +1,6 @@
 ﻿namespace EaslyDraw
 {
+    using BaseNodeHelper;
     using EaslyController.Constants;
     using EaslyController.Controller;
     using EaslyController.Layout;
@@ -63,8 +64,29 @@
         /// <param name="origin">The location where to start printing.</param>
         public virtual void PrintNumber(string text, Point origin)
         {
-            BrushSettings Brush = StyleToForegroundBrush(TextStyles.Number);
-            PrintableArea.Print(text, origin.X.Print, origin.Y.Print, Brush);
+            IFormattedNumber fn = FormattedNumber.Parse(text);
+            string SignificandString = fn.SignificandString;
+            string ExponentString = fn.ExponentString;
+            string InvalidText = fn.InvalidText;
+
+            // Try to use superscript digits in the exponent.
+            string SuperscriptExponentString = string.Empty;
+            for (int i = 0; i < ExponentString.Length; i++)
+            {
+                int Index = "0123456789+-".IndexOf(ExponentString[i]);
+                SuperscriptExponentString += (Index < 0) ? ExponentString[i] : "⁰¹²³⁴⁵⁶⁷⁸⁹⁺⁻"[Index];
+            }
+
+            int X = origin.X.Print;
+            int Y = origin.Y.Print;
+
+            PrintableArea.Print(SignificandString, X, Y, BrushSettings.NumberSignificand);
+            X += SignificandString.Length;
+
+            PrintableArea.Print(SuperscriptExponentString, X, Y, BrushSettings.NumberExponent);
+            X += ExponentString.Length;
+
+            PrintableArea.Print(InvalidText, X, Y, BrushSettings.NumberInvalid);
         }
 
         /// <summary>
