@@ -18,6 +18,15 @@
         /// (Set in Xaml)
         /// </summary>
         new ILayoutKeywordFrameList Items { get; }
+
+        /// <summary>
+        /// Prints a discrete value created with this frame.
+        /// The value is provided explicitely.
+        /// </summary>
+        /// <param name="printContext">The context used to print the cell.</param>
+        /// <param name="value">The value to print.</param>
+        /// <param name="origin">The location where to start printing.</param>
+        void Print(ILayoutPrintContext printContext, int value, Point origin);
     }
 
     /// <summary>
@@ -144,6 +153,23 @@
             Debug.Assert(KeywordFrame != null);
 
             KeywordFrame.Print(printContext, DiscreteContentFocusableCellView, origin, size, padding);
+        }
+
+        /// <summary>
+        /// Prints a discrete value created with this frame.
+        /// The value is provided explicitely.
+        /// </summary>
+        /// <param name="printContext">The context used to print the cell.</param>
+        /// <param name="value">The value to print.</param>
+        /// <param name="origin">The location where to start printing.</param>
+        public virtual void Print(ILayoutPrintContext printContext, int value, Point origin)
+        {
+            Debug.Assert(value >= 0 && value < Items.Count);
+
+            ILayoutKeywordFrame KeywordFrame = Items[value];
+            Debug.Assert(KeywordFrame != null);
+
+            KeywordFrame.Print(printContext, origin);
         }
         #endregion
 

@@ -32,13 +32,12 @@
         public new ILayoutNodeStateView StateView { get { return (ILayoutNodeStateView)base.StateView; } }
         #endregion
 
-        #region Debugging
+        #region Client Interface
         /// <summary>
-        /// Returns a string that represents the current object.
+        /// Prints the selection.
         /// </summary>
-        public override string ToString()
+        public virtual void Print()
         {
-            return "Empty";
         }
         #endregion
     }

@@ -86,7 +86,8 @@
         /// <summary>
         /// Prints the cell.
         /// </summary>
-        void Print();
+        /// <param name="origin">The origin from where to start printing.</param>
+        void Print(Point origin);
     }
 
     /// <summary>
@@ -190,7 +191,8 @@
         /// <summary>
         /// Prints the cell.
         /// </summary>
-        public abstract void Print();
+        /// <param name="origin">The origin from where to start printing.</param>
+        public abstract void Print(Point origin);
         #endregion
 
         #region Debugging

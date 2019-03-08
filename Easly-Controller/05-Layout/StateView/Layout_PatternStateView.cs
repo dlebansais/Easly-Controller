@@ -1,6 +1,7 @@
 ﻿namespace EaslyController.Layout
 {
     using System.Diagnostics;
+    using EaslyController.Constants;
     using EaslyController.Controller;
     using EaslyController.Focus;
     using EaslyController.Frame;
@@ -153,19 +154,20 @@
                 ILayoutDrawContext DrawContext = ControllerView.DrawContext;
                 Debug.Assert(DrawContext != null);
 
-                DrawContext.DrawSelectionRectangle(CellRect);
+                DrawContext.DrawSelectionRectangle(CellRect, SelectionStyles.Node);
             }
         }
 
         /// <summary>
         /// Prints cells in the state view.
         /// </summary>
-        public virtual void PrintCells()
+        /// <param name="origin">The origin from where to start printing.</param>
+        public virtual void PrintCells(Point origin)
         {
             Debug.Assert(RegionHelper.IsValid(ActualCellSize));
             Debug.Assert(RootCellView != null);
 
-            RootCellView.Print();
+            RootCellView.Print(origin);
         }
         #endregion
 

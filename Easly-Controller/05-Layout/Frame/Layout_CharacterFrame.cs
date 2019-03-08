@@ -89,6 +89,7 @@
             bool IsFocused = cellView.StateView.ControllerView.Focus.CellView == cellView;
 
             Point OriginWithPadding = origin.Moved(padding.Left, padding.Top);
+            drawContext.DrawTextBackground(Text, OriginWithPadding, TextStyles.Character);
             drawContext.DrawText(Text, OriginWithPadding, TextStyles.Character, IsFocused);
         }
 

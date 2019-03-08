@@ -1,5 +1,6 @@
 ﻿namespace EaslyController.Focus
 {
+    using System.Collections.Generic;
     using System.Diagnostics;
     using BaseNode;
     using EaslyController.Frame;
@@ -112,6 +113,89 @@
         public virtual void SetIsUserVisible(bool isUserVisible)
         {
             IsUserVisible = isUserVisible;
+        }
+
+        /// <summary>
+        /// Gets the selector stack corresponding to this view and all its parent.
+        /// </summary>
+        public virtual IList<IFocusFrameSelectorList> GetSelectorStack()
+        {
+            List<IFocusFrameSelectorList> SelectorStack = new List<IFocusFrameSelectorList>();
+            IFocusNodeStateView CurrentStateView = this;
+            bool Continue = true;
+
+            while (Continue)
+            {
+                bool IsHandled = false;
+
+                switch (CurrentStateView.State)
+                {
+                    case IFocusPlaceholderNodeState AsPlaceholderNodeState:
+                    case IFocusOptionalNodeState AsOptionalNodeState:
+                        Continue = UpdateSelectorStackNodeState(SelectorStack, ref CurrentStateView);
+                        IsHandled = true;
+                        break;
+
+                    case IFocusPatternState AsPatternState:
+                        Continue = UpdateSelectorStackBlockState(SelectorStack, AsPatternState.ParentBlockState, AsPatternState.ParentInner, ref CurrentStateView);
+                        IsHandled = true;
+                        break;
+
+                    case IFocusSourceState AsSourceState:
+                        Continue = UpdateSelectorStackBlockState(SelectorStack, AsSourceState.ParentBlockState, AsSourceState.ParentInner, ref CurrentStateView);
+                        IsHandled = true;
+                        break;
+                }
+
+                Debug.Assert(IsHandled);
+            }
+
+            return SelectorStack;
+        }
+
+        /// <summary></summary>
+        protected virtual bool UpdateSelectorStackNodeState(List<IFocusFrameSelectorList> selectorStack, ref IFocusNodeStateView currentStateView)
+        {
+            IFocusInner ParentInner = currentStateView.State.ParentInner;
+            IFocusNodeState ParentState = currentStateView.State.ParentState;
+            if (ParentInner == null)
+            {
+                Debug.Assert(ParentState == null);
+                return false;
+            }
+
+            Debug.Assert(ParentState != null);
+
+            currentStateView = ControllerView.StateViewTable[ParentState];
+            IFocusNodeTemplate Template = currentStateView.Template as IFocusNodeTemplate;
+            Debug.Assert(Template != null);
+
+            if (Template.FrameSelectorForProperty(ParentInner.PropertyName, out IFocusFrameWithSelector Frame))
+                if (Frame != null)
+                    if (Frame.Selectors.Count > 0)
+                        selectorStack.Insert(0, Frame.Selectors);
+
+            return true;
+        }
+
+        /// <summary></summary>
+        protected virtual bool UpdateSelectorStackBlockState(List<IFocusFrameSelectorList> selectorStack, IFocusBlockState blockState, IFocusInner inner, ref IFocusNodeStateView currentStateView)
+        {
+            Debug.Assert(ControllerView.TemplateSet.BlockTemplateTable.ContainsKey(blockState.ParentInner.BlockType));
+            IFocusBlockTemplate Template = ControllerView.TemplateSet.BlockTemplateTable[blockState.ParentInner.BlockType] as IFocusBlockTemplate;
+            Debug.Assert(Template != null);
+
+            IFocusNodeState ParentState = blockState.ParentInner.Owner;
+            Debug.Assert(ParentState != null);
+
+            currentStateView = ControllerView.StateViewTable[ParentState];
+
+            if (Template.FrameSelectorForProperty(inner.PropertyName, out IFocusFrameWithSelector Frame))
+                if (Frame != null)
+                    if (Frame.Selectors.Count > 0)
+                        selectorStack.Insert(0, Frame.Selectors);
+
+            return true;
         }
         #endregion
 

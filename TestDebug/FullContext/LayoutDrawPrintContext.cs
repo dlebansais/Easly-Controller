@@ -62,6 +62,10 @@ namespace TestDebug
         {
         }
 
+        public virtual void DrawTextBackground(string text, Point origin, TextStyles textStyle)
+        {
+        }
+
         public void DrawText(string text, Point origin, TextStyles textStyle, bool isFocused)
         {
         }
@@ -104,7 +108,7 @@ namespace TestDebug
         {
         }
 
-        public void DrawSelectionRectangle(Rect rect)
+        public void DrawSelectionRectangle(Rect rect, SelectionStyles selectionStyle)
         {
         }
 

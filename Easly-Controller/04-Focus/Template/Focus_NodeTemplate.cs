@@ -42,7 +42,13 @@
         /// </summary>
         /// <param name="propertyName">The property name.</param>
         /// <param name="selectorStack">A list of selectors to choose the correct frame.</param>
-        IFocusNamedFrame PropertyToFrame(string propertyName, List<IFocusFrameSelectorList> selectorStack);
+        IFocusNamedFrame PropertyToFrame(string propertyName, IList<IFocusFrameSelectorList> selectorStack);
+
+        /// <summary>
+        /// Gets the frame associated to the comment.
+        /// This overload uses selectors to choose the correct frame.
+        /// </summary>
+        IFocusCommentFrame GetCommentFrame(IList<IFocusFrameSelectorList> selectorStack);
     }
 
     /// <summary>
@@ -127,7 +133,7 @@
         /// </summary>
         /// <param name="propertyName">The property name.</param>
         /// <param name="selectorStack">A list of selectors to choose the correct frame.</param>
-        public virtual IFocusNamedFrame PropertyToFrame(string propertyName, List<IFocusFrameSelectorList> selectorStack)
+        public virtual IFocusNamedFrame PropertyToFrame(string propertyName, IList<IFocusFrameSelectorList> selectorStack)
         {
             bool Found = GetFirstNamedFrame(Root, propertyName, selectorStack, out IFocusNamedFrame Result);
             Debug.Assert(Found);
@@ -136,7 +142,7 @@
             return Result;
         }
 
-        private protected bool GetFirstNamedFrame(IFocusFrame root, string propertyName, List<IFocusFrameSelectorList> selectorStack, out IFocusNamedFrame frame)
+        private protected bool GetFirstNamedFrame(IFocusFrame root, string propertyName, IList<IFocusFrameSelectorList> selectorStack, out IFocusNamedFrame frame)
         {
             frame = null;
             bool Found = false;
@@ -186,6 +192,73 @@
 
                 if (SelectedFrame != null)
                     if (GetFirstNamedFrame(SelectedFrame.Content, propertyName, selectorStack, out frame))
+                        Found = true;
+            }
+
+            return Found;
+        }
+
+        /// <summary>
+        /// Gets the frame associated to the comment.
+        /// This overload uses selectors to choose the correct frame.
+        /// </summary>
+        public virtual IFocusCommentFrame GetCommentFrame(IList<IFocusFrameSelectorList> selectorStack)
+        {
+            bool Found = GetFirstCommentFrame(Root, selectorStack, out IFocusCommentFrame Result);
+            Debug.Assert(Found);
+            Debug.Assert(Result != null);
+
+            return Result;
+        }
+
+        /// <summary></summary>
+        private protected virtual bool GetFirstCommentFrame(IFocusFrame root, IList<IFocusFrameSelectorList> selectorStack, out IFocusCommentFrame frame)
+        {
+            bool Found = false;
+            frame = null;
+
+            if (root is IFocusCommentFrame AsCommentFrame)
+            {
+                frame = AsCommentFrame;
+                Found = true;
+            }
+
+            if (!Found && root is IFocusPanelFrame AsPanelFrame)
+            {
+                foreach (IFocusFrame Item in AsPanelFrame.Items)
+                    if (GetFirstCommentFrame(Item, selectorStack, out frame))
+                    {
+                        Found = true;
+                        break;
+                    }
+            }
+
+            else if (root is IFocusSelectionFrame AsSelectionFrame)
+            {
+                IFocusSelectableFrame SelectedFrame = null;
+
+                foreach (IFocusSelectableFrame Item in AsSelectionFrame.Items)
+                {
+                    foreach (IFocusFrameSelectorList SelectorList in selectorStack)
+                    {
+                        foreach (IFocusFrameSelector Selector in SelectorList)
+                        {
+                            if (Selector.SelectorType == NodeType)
+                                if (Selector.SelectorName == Item.Name)
+                                {
+                                    SelectedFrame = Item;
+                                    break;
+                                }
+                        }
+                        if (SelectedFrame != null)
+                            break;
+                    }
+                    if (SelectedFrame != null)
+                        break;
+                }
+
+                if (SelectedFrame != null)
+                    if (GetFirstCommentFrame(SelectedFrame.Content, selectorStack, out frame))
                         Found = true;
             }
 

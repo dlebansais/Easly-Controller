@@ -1,14 +1,17 @@
 ﻿namespace EaslyController.Focus
 {
     using System;
+    using System.Collections.Generic;
     using System.Diagnostics;
+    using System.Windows;
     using BaseNode;
     using BaseNodeHelper;
+    using EaslyController.Controller;
 
     /// <summary>
     /// A selection of nodes in a block of a list block.
     /// </summary>
-    public interface IFocusBlockListNodeSelection : IFocusContentSelection
+    public interface IFocusBlockNodeListSelection : IFocusContentSelection
     {
         /// <summary>
         /// Index of the block.
@@ -36,18 +39,18 @@
     /// <summary>
     /// A selection of nodes in a block of a list block.
     /// </summary>
-    public class FocusBlockListNodeSelection : FocusSelection, IFocusBlockListNodeSelection
+    public class FocusBlockNodeListSelection : FocusSelection, IFocusBlockNodeListSelection
     {
         #region Init
         /// <summary>
-        /// Initializes a new instance of the <see cref="FocusBlockListNodeSelection"/> class.
+        /// Initializes a new instance of the <see cref="FocusBlockNodeListSelection"/> class.
         /// </summary>
         /// <param name="stateView">The state view that encompasses the selection.</param>
         /// <param name="propertyName">The property name.</param>
         /// <param name="blockIndex">Index of the block.</param>
         /// <param name="startIndex">Index of the first selected node in the block.</param>
         /// <param name="endIndex">Index of the last selected node in the block.</param>
-        public FocusBlockListNodeSelection(IFocusNodeStateView stateView, string propertyName, int blockIndex, int startIndex, int endIndex)
+        public FocusBlockNodeListSelection(IFocusNodeStateView stateView, string propertyName, int blockIndex, int startIndex, int endIndex)
             : base(stateView)
         {
             INode Node = stateView.State.Node;
@@ -55,8 +58,17 @@
 
             PropertyName = propertyName;
             BlockIndex = blockIndex;
-            StartIndex = startIndex;
-            EndIndex = endIndex;
+
+            if (startIndex <= endIndex)
+            {
+                StartIndex = startIndex;
+                EndIndex = endIndex;
+            }
+            else
+            {
+                StartIndex = endIndex;
+                EndIndex = startIndex;
+            }
         }
         #endregion
 
@@ -90,8 +102,50 @@
         /// <param name="endIndex">The new end index value.</param>
         public virtual void Update(int startIndex, int endIndex)
         {
-            StartIndex = startIndex;
-            EndIndex = endIndex;
+            if (startIndex <= endIndex)
+            {
+                StartIndex = startIndex;
+                EndIndex = endIndex;
+            }
+            else
+            {
+                StartIndex = endIndex;
+                EndIndex = startIndex;
+            }
+        }
+
+        /// <summary>
+        /// Copy the selection in the clipboard.
+        /// </summary>
+        /// <param name="dataObject">The clipboard data object that can already contain other custom formats.</param>
+        public override void Copy(IDataObject dataObject)
+        {
+            IFocusNodeState State = StateView.State;
+            IFocusBlockListInner ParentInner = State.PropertyToInner(PropertyName) as IFocusBlockListInner;
+            Debug.Assert(ParentInner != null);
+            Debug.Assert(BlockIndex >= 0 && BlockIndex < ParentInner.BlockStateList.Count);
+
+            IFocusBlockState BlockState = ParentInner.BlockStateList[BlockIndex];
+
+            List<INode> NodeList = new List<INode>();
+            for (int i = StartIndex; i <= EndIndex; i++)
+                NodeList.Add(BlockState.StateList[i].Node);
+
+            ClipboardHelper.WriteNodeList(dataObject, NodeList);
+        }
+
+        /// <summary>
+        /// Copy the selection in the clipboard then removes it.
+        /// </summary>
+        public override void Cut()
+        {
+        }
+
+        /// <summary>
+        /// Replaces the selection with the content of the clipboard.
+        /// </summary>
+        public override void Paste()
+        {
         }
         #endregion
 

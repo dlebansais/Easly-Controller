@@ -135,13 +135,7 @@
             Debug.Assert(WpfDrawingContext != null);
             Debug.Assert(start >= 0 && start <= text.Length);
             Debug.Assert(end >= 0 && end <= text.Length);
-
-            if (start > end)
-            {
-                int n = end;
-                end = start;
-                start = n;
-            }
+            Debug.Assert(start <= end);
 
             Brush Brush = BrushTable[StyleToForegroundBrush(textStyle)];
             FormattedText ft;
@@ -160,7 +154,29 @@
             ft = new FormattedText(text.Substring(start, end - start), Culture, FlowDirection, Typeface, EmSize, Brush);
             System.Windows.Rect SelectionRect = new System.Windows.Rect(X, Y, ft.WidthIncludingTrailingWhitespace, LineHeight.Draw);
 
-            WpfDrawingContext.DrawRectangle(BrushTable[BrushSettings.Selection], null, SelectionRect);
+            WpfDrawingContext.DrawRectangle(BrushTable[BrushSettings.Selection], PenTable[PenSettings.SelectionText], SelectionRect);
+        }
+
+        /// <summary>
+        /// Draws the text background, at the location specified in <paramref name="origin"/>.
+        /// </summary>
+        /// <param name="text">The text to draw.</param>
+        /// <param name="origin">The location where to start drawing.</param>
+        /// <param name="textStyle">Style to use for the text.</param>
+        public virtual void DrawTextBackground(string text, Point origin, TextStyles textStyle)
+        {
+            Debug.Assert(WpfDrawingContext != null);
+
+            Brush Brush = BrushTable[StyleToForegroundBrush(textStyle)];
+            FormattedText ft = new FormattedText(text, Culture, FlowDirection, Typeface, EmSize, Brush);
+
+            double X = PagePadding.Left.Draw + origin.X.Draw;
+            double Y = PagePadding.Top.Draw + origin.Y.Draw;
+            double Width = ft.Width;
+            double Height = LineHeight.Draw;
+
+            if (textStyle == TextStyles.Comment)
+                WpfDrawingContext.DrawRectangle(BrushTable[BrushSettings.CommentBackground], PenTable[PenSettings.Comment], new System.Windows.Rect(X, Y, CommentPadding.Left.Draw + Width + CommentPadding.Right.Draw, CommentPadding.Top.Draw + Height + CommentPadding.Bottom.Draw));
         }
 
         /// <summary>
@@ -190,8 +206,6 @@
 
             if (textStyle == TextStyles.Comment)
             {
-                WpfDrawingContext.DrawRectangle(BrushTable[BrushSettings.CommentBackground], null, new System.Windows.Rect(X, Y, CommentPadding.Left.Draw + Width + CommentPadding.Right.Draw, CommentPadding.Top.Draw + Height + CommentPadding.Bottom.Draw));
-
                 X += CommentPadding.Left.Draw;
                 Y += CommentPadding.Top.Draw;
             }
@@ -450,7 +464,7 @@
                 System.Windows.Rect CaretRect = new System.Windows.Rect(PagePadding.Left.Draw + X, PagePadding.Top.Draw + Y, InsertionCaretWidth, LineHeight.Draw);
 
                 WpfDrawingContext.PushOpacity(1, FlashClock);
-                WpfDrawingContext.DrawRectangle(BrushTable[BrushSettings.CaretInsertion], null, CaretRect);
+                WpfDrawingContext.DrawRectangle(BrushTable[BrushSettings.CaretInsertion], PenTable[PenSettings.CaretInsertion], CaretRect);
                 WpfDrawingContext.Pop();
             }
             else
@@ -461,7 +475,7 @@
                 System.Windows.Rect CaretRect = new System.Windows.Rect(PagePadding.Left.Draw + X, PagePadding.Top.Draw + Y, ft.WidthIncludingTrailingWhitespace, LineHeight.Draw);
 
                 WpfDrawingContext.PushOpacity(1, FlashClock);
-                WpfDrawingContext.DrawRectangle(BrushTable[BrushSettings.CaretOverride], null, CaretRect);
+                WpfDrawingContext.DrawRectangle(BrushTable[BrushSettings.CaretOverride], PenTable[PenSettings.CaretOverride], CaretRect);
                 WpfDrawingContext.Pop();
             }
         }
@@ -553,7 +567,7 @@
                 System.Windows.Rect CaretRect = new System.Windows.Rect(PagePadding.Left.Draw + X, PagePadding.Top.Draw + Y, InsertionCaretWidth, CaretHeight);
 
                 WpfDrawingContext.PushOpacity(1, FlashClock);
-                WpfDrawingContext.DrawRectangle(BrushTable[BrushSettings.CaretInsertion], null, CaretRect);
+                WpfDrawingContext.DrawRectangle(BrushTable[BrushSettings.CaretInsertion], PenTable[PenSettings.CaretInsertion], CaretRect);
                 WpfDrawingContext.Pop();
             }
             else
@@ -572,7 +586,7 @@
                 System.Windows.Rect CaretRect = new System.Windows.Rect(PagePadding.Left.Draw + X, PagePadding.Top.Draw + Y, ftCaret.WidthIncludingTrailingWhitespace, CaretHeight);
 
                 WpfDrawingContext.PushOpacity(1, FlashClock);
-                WpfDrawingContext.DrawRectangle(BrushTable[BrushSettings.CaretOverride], null, CaretRect);
+                WpfDrawingContext.DrawRectangle(BrushTable[BrushSettings.CaretOverride], PenTable[PenSettings.CaretOverride], CaretRect);
                 WpfDrawingContext.Pop();
             }
         }
@@ -654,12 +668,33 @@
         /// Draws the background of a selected rectangle.
         /// </summary>
         /// <param name="rect">The rectangle to draw.</param>
-        public virtual void DrawSelectionRectangle(Rect rect)
+        /// <param name="selectionStyle">The style to use when drawing.</param>
+        public virtual void DrawSelectionRectangle(Rect rect, SelectionStyles selectionStyle)
         {
             Debug.Assert(WpfDrawingContext != null);
             Debug.Assert(RegionHelper.IsFixed(rect));
 
-            WpfDrawingContext.DrawRectangle(BrushTable[BrushSettings.Selection], null, new System.Windows.Rect(PagePadding.Left.Draw + rect.X, PagePadding.Top.Draw + rect.Y, rect.Width, rect.Height));
+            Pen RectanglePen;
+            switch (selectionStyle)
+            {
+                default:
+                    RectanglePen = PenTable[PenSettings.Default];
+                    break;
+
+                case SelectionStyles.Node:
+                    RectanglePen = PenTable[PenSettings.SelectionNode];
+                    break;
+
+                case SelectionStyles.NodeList:
+                    RectanglePen = PenTable[PenSettings.SelectionNodeList];
+                    break;
+
+                case SelectionStyles.BlockList:
+                    RectanglePen = PenTable[PenSettings.SelectionBlockList];
+                    break;
+            }
+
+            WpfDrawingContext.DrawRectangle(BrushTable[BrushSettings.Selection], RectanglePen, new System.Windows.Rect(PagePadding.Left.Draw + rect.X, PagePadding.Top.Draw + rect.Y, rect.Width, rect.Height));
         }
         #endregion
 

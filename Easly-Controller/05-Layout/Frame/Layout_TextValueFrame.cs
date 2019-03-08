@@ -12,6 +12,14 @@
     /// </summary>
     public interface ILayoutTextValueFrame : IFocusTextValueFrame, ILayoutValueFrame, ILayoutMeasurableFrame, ILayoutDrawableFrame, ILayoutPrintableFrame, ILayoutFrameWithTextStyle, ILayoutFrameWithMargins
     {
+        /// <summary>
+        /// Prints text created with this frame.
+        /// The text string is provided explicitely.
+        /// </summary>
+        /// <param name="printContext">The context used to print the cell.</param>
+        /// <param name="text">The text to print.</param>
+        /// <param name="origin">The location where to start printing.</param>
+        void Print(ILayoutPrintContext printContext, string text, Point origin);
     }
 
     /// <summary>
@@ -91,12 +99,15 @@
             string Text = BaseNodeHelper.NodeTreeHelper.GetString(Node, PropertyName);
 
             Point OriginWithPadding = origin.Moved(padding.Left, padding.Top);
+            drawContext.DrawTextBackground(Text, OriginWithPadding, TextStyle);
 
             ILayoutControllerView ControllerView = cellView.StateView.ControllerView;
             if (ControllerView.Selection is ILayoutStringContentSelection AsStringContentSelection && AsStringContentSelection.StateView == cellView.StateView)
             {
                 int Start = AsStringContentSelection.Start;
                 int End = AsStringContentSelection.End;
+                Debug.Assert(Start <= End);
+
                 drawContext.DrawSelectionText(Text, OriginWithPadding, TextStyle, Start, End);
             }
 
@@ -118,6 +129,18 @@
 
             Point OriginWithPadding = origin.Moved(padding.Left, padding.Top);
             printContext.PrintText(Text, OriginWithPadding, TextStyle);
+        }
+
+        /// <summary>
+        /// Prints text created with this frame.
+        /// The text string is provided explicitely.
+        /// </summary>
+        /// <param name="printContext">The context used to print the cell.</param>
+        /// <param name="text">The text to print.</param>
+        /// <param name="origin">The location where to start printing.</param>
+        public virtual void Print(ILayoutPrintContext printContext, string text, Point origin)
+        {
+            printContext.PrintText(text, origin, TextStyle);
         }
         #endregion
 

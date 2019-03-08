@@ -104,7 +104,7 @@
 
                 // Draw the source code.
                 DrawContext.SetWpfDrawingContext(dc);
-                ControllerView.Draw();
+                ControllerView.Draw(ControllerView.RootStateView);
             }
 
             // At this stage, the visual is ready with drawing data.

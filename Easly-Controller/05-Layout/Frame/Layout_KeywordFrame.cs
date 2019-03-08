@@ -12,6 +12,12 @@
     /// </summary>
     public interface ILayoutKeywordFrame : IFocusKeywordFrame, ILayoutFrame, ILayoutNodeFrameWithVisibility, ILayoutBlockFrameWithVisibility, ILayoutMeasurableFrame, ILayoutDrawableFrame, ILayoutPrintableFrame, ILayoutFrameWithMargins
     {
+        /// <summary>
+        /// Prints the keyword.
+        /// </summary>
+        /// <param name="printContext">The context used to print the cell.</param>
+        /// <param name="origin">The location where to start printing.</param>
+        void Print(ILayoutPrintContext printContext, Point origin);
     }
 
     /// <summary>
@@ -100,6 +106,7 @@
             bool IsFocused = cellView.StateView.ControllerView.Focus.CellView == cellView;
 
             Point OriginWithPadding = origin.Moved(padding.Left, padding.Top);
+            drawContext.DrawTextBackground(Text, OriginWithPadding, TextStyle);
             drawContext.DrawText(Text, OriginWithPadding, TextStyle, IsFocused);
         }
 
@@ -115,6 +122,16 @@
         {
             Point OriginWithPadding = origin.Moved(padding.Left, padding.Top);
             printContext.PrintText(Text, OriginWithPadding, TextStyle);
+        }
+
+        /// <summary>
+        /// Prints the keyword.
+        /// </summary>
+        /// <param name="printContext">The context used to print the cell.</param>
+        /// <param name="origin">The location where to start printing.</param>
+        public virtual void Print(ILayoutPrintContext printContext, Point origin)
+        {
+            printContext.PrintText(Text, origin, TextStyle);
         }
         #endregion
 

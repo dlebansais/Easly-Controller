@@ -9,6 +9,14 @@
     public interface ILayoutDrawContext : ILayoutMeasureContext
     {
         /// <summary>
+        /// Draws the text background, at the location specified in <paramref name="origin"/>.
+        /// </summary>
+        /// <param name="text">The text to draw.</param>
+        /// <param name="origin">The location where to start drawing.</param>
+        /// <param name="textStyle">Style to use for the text.</param>
+        void DrawTextBackground(string text, Point origin, TextStyles textStyle);
+
+        /// <summary>
         /// Draws a string that is not a number, at the location specified in <paramref name="origin"/>.
         /// </summary>
         /// <param name="text">The text to draw.</param>
@@ -85,7 +93,8 @@
         /// Draws the background of a selected rectangle.
         /// </summary>
         /// <param name="rect">The rectangle to draw.</param>
-        void DrawSelectionRectangle(Rect rect);
+        /// <param name="selectionStyle">The style to use when drawing.</param>
+        void DrawSelectionRectangle(Rect rect, SelectionStyles selectionStyle);
 
         /// <summary>
         /// Get the location where draw occurs corresponding to the specified absolute location.

@@ -131,7 +131,8 @@
         /// <summary>
         /// Prints the cell.
         /// </summary>
-        public virtual void Print()
+        /// <param name="origin">The origin from where to start printing.</param>
+        public virtual void Print(Point origin)
         {
             Debug.Assert(RegionHelper.IsValid(ActualCellSize));
         }

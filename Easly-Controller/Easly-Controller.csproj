@@ -56,6 +56,7 @@
     <Reference Include="PolySerializer">
       <HintPath>..\PolySerializer\$(Platform)\$(Configuration)\PolySerializer.dll</HintPath>
     </Reference>
+    <Reference Include="PresentationCore" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xaml" />
@@ -414,10 +415,10 @@
     <Compile Include="04-Focus\ControllerView\Focus_InternalControllerView.cs" />
     <Compile Include="04-Focus\ControllerView\Focus_ControllerView.cs" />
     <Compile Include="04-Focus\ControllerView\Focus_CellViewTreeContext.cs" />
-    <Compile Include="04-Focus\Selection\Focus_BlockSelection.cs" />
+    <Compile Include="04-Focus\Selection\Focus_BlockListSelection.cs" />
     <Compile Include="04-Focus\Selection\Focus_CommentSelection.cs" />
-    <Compile Include="04-Focus\Selection\Focus_BlockListNodeSelection.cs" />
-    <Compile Include="04-Focus\Selection\Focus_ListNodeSelection.cs" />
+    <Compile Include="04-Focus\Selection\Focus_BlockNodeListSelection.cs" />
+    <Compile Include="04-Focus\Selection\Focus_NodeListSelection.cs" />
     <Compile Include="04-Focus\Selection\Focus_EmptySelection.cs" />
     <Compile Include="04-Focus\Selection\Focus_NodeSelection.cs" />
     <Compile Include="04-Focus\Selection\Focus_DiscreteContentSelection.cs" />
@@ -731,9 +732,9 @@
     <Compile Include="05-Layout\Inner\Single\Layout_PlaceholderInner.cs" />
     <Compile Include="05-Layout\Inner\Single\Layout_SingleInner.cs" />
     <Compile Include="05-Layout\Selection\Layout_EmptySelection.cs" />
-    <Compile Include="05-Layout\Selection\Layout_BlockSelection.cs" />
-    <Compile Include="05-Layout\Selection\Layout_BlockListNodeSelection.cs" />
-    <Compile Include="05-Layout\Selection\Layout_ListNodeSelection.cs" />
+    <Compile Include="05-Layout\Selection\Layout_BlockListSelection.cs" />
+    <Compile Include="05-Layout\Selection\Layout_BlockNodeListSelection.cs" />
+    <Compile Include="05-Layout\Selection\Layout_NodeListSelection.cs" />
     <Compile Include="05-Layout\Selection\Layout_CommentSelection.cs" />
     <Compile Include="05-Layout\Selection\Layout_ContentSelection.cs" />
     <Compile Include="05-Layout\Selection\Layout_DiscreteContentSelection.cs" />
@@ -761,6 +762,7 @@
     <Compile Include="05-Layout\Template\Layout_Template.cs" />
     <Compile Include="05-Layout\Template\Layout_TemplateSet.cs" />
     <Compile Include="Controller\CaretModes.cs" />
+    <Compile Include="Controller\ClipboardHelper.cs" />
     <Compile Include="Controller\CommentDisplayModes.cs" />
     <Compile Include="Controller\CommentHelper.cs" />
     <Compile Include="Controller\CRC32.cs" />
@@ -774,6 +776,7 @@
     <Compile Include="Controller\Point.cs" />
     <Compile Include="Controller\Padding.cs" />
     <Compile Include="Controller\Size.cs" />
+    <Compile Include="Controller\SelectionStyles.cs" />
     <Compile Include="Controller\TextStyles.cs" />
     <Compile Include="Controller\Symbols.cs" />
     <Compile Include="Controller\TypeMarkupExtension.cs" />

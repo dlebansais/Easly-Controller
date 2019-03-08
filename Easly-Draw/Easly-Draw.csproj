@@ -48,6 +48,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="PenSettings.cs" />
     <Compile Include="BrushSettings.cs" />
     <Compile Include="MeasureContext.cs" />
     <Compile Include="PrintableArea.cs" />

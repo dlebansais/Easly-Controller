@@ -77,7 +77,8 @@
         /// <summary>
         /// Prints cells in this block state view.
         /// </summary>
-        void PrintCells();
+        /// <param name="origin">The origin from where to start printing.</param>
+        void PrintCells(Point origin);
     }
 
     /// <summary>
@@ -200,12 +201,13 @@
         /// <summary>
         /// Prints cells in this block state view.
         /// </summary>
-        public virtual void PrintCells()
+        /// <param name="origin">The origin from where to start printing.</param>
+        public virtual void PrintCells(Point origin)
         {
             Debug.Assert(RegionHelper.IsValid(ActualCellSize));
             Debug.Assert(RootCellView != null);
 
-            RootCellView.Print();
+            RootCellView.Print(origin);
         }
         #endregion
 

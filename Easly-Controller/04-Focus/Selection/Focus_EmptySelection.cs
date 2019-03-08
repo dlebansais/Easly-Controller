@@ -1,5 +1,7 @@
 ﻿namespace EaslyController.Focus
 {
+    using System.Windows;
+
     /// <summary>
     /// An empty selection.
     /// </summary>
@@ -19,6 +21,30 @@
         /// <param name="stateView">The selected state view.</param>
         public FocusEmptySelection(IFocusNodeStateView stateView)
             : base(stateView)
+        {
+        }
+        #endregion
+
+        #region Client Interface
+        /// <summary>
+        /// Copy the selection in the clipboard.
+        /// </summary>
+        /// <param name="dataObject">The clipboard data object that can already contain other custom formats.</param>
+        public override void Copy(IDataObject dataObject)
+        {
+        }
+
+        /// <summary>
+        /// Copy the selection in the clipboard then removes it.
+        /// </summary>
+        public override void Cut()
+        {
+        }
+
+        /// <summary>
+        /// Replaces the selection with the content of the clipboard.
+        /// </summary>
+        public override void Paste()
         {
         }
         #endregion

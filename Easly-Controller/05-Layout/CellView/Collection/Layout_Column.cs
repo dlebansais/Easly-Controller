@@ -1,6 +1,7 @@
 ﻿namespace EaslyController.Layout
 {
     using System.Diagnostics;
+    using EaslyController.Constants;
     using EaslyController.Controller;
     using EaslyController.Focus;
 
@@ -284,16 +285,16 @@
         {
             if (Frame is ILayoutNamedFrame AsContentFrame && StateView.ControllerView.Selection is IFocusContentSelection AsContentSelection && AsContentSelection.StateView == StateView && AsContentFrame.PropertyName == AsContentSelection.PropertyName)
             {
-                if (AsContentFrame is ILayoutListFrame AsListFrame && AsContentSelection is ILayoutListNodeSelection AsListNodeSelection)
-                    DrawSelection(AsListNodeSelection.StartIndex, AsListNodeSelection.EndIndex);
+                if (AsContentFrame is ILayoutListFrame AsListFrame && AsContentSelection is ILayoutNodeListSelection AsNodeListSelection)
+                    DrawSelection(AsNodeListSelection.StartIndex, AsNodeListSelection.EndIndex, SelectionStyles.NodeList);
 
                 else if (AsContentFrame is ILayoutBlockListFrame AsBlockListFrame)
                 {
-                    if (AsContentSelection is ILayoutBlockListNodeSelection AsBlockListNodeSelection)
-                        DrawBlockListNodeSelection(AsBlockListNodeSelection);
+                    if (AsContentSelection is ILayoutBlockNodeListSelection AsBlockNodeListSelection)
+                        DrawBlockListNodeSelection(AsBlockNodeListSelection);
 
-                    else if (AsContentSelection is ILayoutBlockSelection AsBlockSelection)
-                        DrawSelection(AsBlockSelection.StartIndex, AsBlockSelection.EndIndex);
+                    else if (AsContentSelection is ILayoutBlockListSelection AsBlockListSelection)
+                        DrawSelection(AsBlockListSelection.StartIndex, AsBlockListSelection.EndIndex, SelectionStyles.BlockList);
                 }
             }
         }
@@ -303,15 +304,9 @@
         /// </summary>
         /// <param name="startIndex">Index of the first cell in the selection.</param>
         /// <param name="endIndex">Index of the last cell in the selection.</param>
-        public virtual void DrawSelection(int startIndex, int endIndex)
+        /// <param name="selectionStyle">The style to use when drawing.</param>
+        public virtual void DrawSelection(int startIndex, int endIndex, SelectionStyles selectionStyle)
         {
-            if (startIndex > endIndex)
-            {
-                int n = endIndex;
-                endIndex = startIndex;
-                startIndex = n;
-            }
-
             Debug.Assert(startIndex >= 0 && startIndex < CellViewList.Count);
             Debug.Assert(endIndex >= 0 && endIndex < CellViewList.Count);
             Debug.Assert(startIndex <= endIndex);
@@ -324,11 +319,11 @@
             ILayoutDrawContext DrawContext = StateView.ControllerView.DrawContext;
             Debug.Assert(DrawContext != null);
 
-            DrawContext.DrawSelectionRectangle(SelectionRect);
+            DrawContext.DrawSelectionRectangle(SelectionRect, selectionStyle);
         }
 
         /// <summary></summary>
-        protected virtual void DrawBlockListNodeSelection(ILayoutBlockListNodeSelection selection)
+        protected virtual void DrawBlockListNodeSelection(ILayoutBlockNodeListSelection selection)
         {
             int BlockIndex = selection.BlockIndex;
             Debug.Assert(BlockIndex < CellViewList.Count);
@@ -380,12 +375,13 @@
         /// <summary>
         /// Prints the cell.
         /// </summary>
-        public virtual void Print()
+        /// <param name="origin">The origin from where to start printing.</param>
+        public virtual void Print(Point origin)
         {
             Debug.Assert(RegionHelper.IsFixed(ActualCellSize));
 
             foreach (ILayoutCellView CellView in CellViewList)
-                CellView.Print();
+                CellView.Print(origin);
         }
 
         /// <summary>

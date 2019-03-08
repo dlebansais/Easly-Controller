@@ -1,5 +1,8 @@
 ﻿namespace EaslyController.Focus
 {
+    using System.Windows;
+    using EaslyController.Controller;
+
     /// <summary>
     /// A selection of a node an all its content and children.
     /// </summary>
@@ -20,6 +23,32 @@
         public FocusNodeSelection(IFocusNodeStateView stateView)
             : base(stateView)
         {
+        }
+        #endregion
+
+        #region Client Interface
+        /// <summary>
+        /// Copy the selection in the clipboard.
+        /// </summary>
+        /// <param name="dataObject">The clipboard data object that can already contain other custom formats.</param>
+        public override void Copy(IDataObject dataObject)
+        {
+            ClipboardHelper.WriteNode(dataObject, StateView.State.Node);
+        }
+
+        /// <summary>
+        /// Copy the selection in the clipboard then removes it.
+        /// </summary>
+        public override void Cut()
+        {
+        }
+
+        /// <summary>
+        /// Replaces the selection with the content of the clipboard.
+        /// </summary>
+        public override void Paste()
+        {
+            ((IFocusInternalControllerView)StateView.ControllerView).ReplaceWithClipboardContent(StateView.State);
         }
         #endregion
 

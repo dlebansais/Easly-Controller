@@ -1,5 +1,10 @@
 ﻿namespace EaslyController.Focus
 {
+    using System.Diagnostics;
+    using System.Windows;
+    using BaseNodeHelper;
+    using EaslyController.Controller;
+
     /// <summary>
     /// A selection of part of a comment.
     /// </summary>
@@ -22,8 +27,16 @@
         public FocusCommentSelection(IFocusNodeStateView stateView, int start, int end)
             : base(stateView)
         {
-            Start = start;
-            End = end;
+            if (start <= end)
+            {
+                Start = start;
+                End = end;
+            }
+            else
+            {
+                Start = end;
+                End = start;
+            }
         }
         #endregion
 
@@ -47,8 +60,44 @@
         /// <param name="end">The new end value.</param>
         public virtual void Update(int start, int end)
         {
-            Start = start;
-            End = end;
+            if (start <= end)
+            {
+                Start = start;
+                End = end;
+            }
+            else
+            {
+                Start = end;
+                End = start;
+            }
+        }
+
+        /// <summary>
+        /// Copy the selection in the clipboard.
+        /// </summary>
+        /// <param name="dataObject">The clipboard data object that can already contain other custom formats.</param>
+        public override void Copy(IDataObject dataObject)
+        {
+            string Content = CommentHelper.Get(StateView.State.Node.Documentation);
+            Debug.Assert(Content != null);
+            Debug.Assert(Start <= End);
+            Debug.Assert(End <= Content.Length);
+
+            dataObject.SetData(typeof(string), Content.Substring(Start, End - Start));
+        }
+
+        /// <summary>
+        /// Copy the selection in the clipboard then removes it.
+        /// </summary>
+        public override void Cut()
+        {
+        }
+
+        /// <summary>
+        /// Replaces the selection with the content of the clipboard.
+        /// </summary>
+        public override void Paste()
+        {
         }
         #endregion
 

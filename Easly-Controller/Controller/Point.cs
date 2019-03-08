@@ -45,6 +45,11 @@
         /// True if the object is the origin location.
         /// </summary>
         public bool IsOrigin { get { return X.IsZero && Y.IsZero; } }
+
+        /// <summary>
+        /// The point at opposite coordinates.
+        /// </summary>
+        public Point Opposite { get { return new Point(X.Opposite, Y.Opposite); } }
         #endregion
 
         #region Client Interface

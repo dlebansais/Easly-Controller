@@ -19,6 +19,11 @@
         /// </summary>
         /// <param name="propertyName">The property name.</param>
         IFrameNamedFrame PropertyToFrame(string propertyName);
+
+        /// <summary>
+        /// Gets the frame associated to the comment.
+        /// </summary>
+        IFrameCommentFrame GetCommentFrame();
     }
 
     /// <summary>
@@ -46,6 +51,9 @@
         /// <param name="propertyName">The property name.</param>
         public virtual IFrameNamedFrame PropertyToFrame(string propertyName)
         {
+            // Call overloads of this method if they exist.
+            ControllerTools.AssertNoOverride(this, typeof(FrameNodeTemplate));
+
             bool Found = GetFirstNamedFrame(Root, propertyName, out IFrameNamedFrame Result);
             Debug.Assert(Found);
             Debug.Assert(Result != null);
@@ -53,6 +61,7 @@
             return Result;
         }
 
+        /// <summary></summary>
         private protected virtual bool GetFirstNamedFrame(IFrameFrame root, string propertyName, out IFrameNamedFrame frame)
         {
             bool Found = false;
@@ -71,6 +80,46 @@
             {
                 foreach (IFrameFrame Item in AsPanelFrame.Items)
                     if (GetFirstNamedFrame(Item, propertyName, out frame))
+                    {
+                        Found = true;
+                        break;
+                    }
+            }
+
+            return Found;
+        }
+
+        /// <summary>
+        /// Gets the frame associated to the comment.
+        /// </summary>
+        public virtual IFrameCommentFrame GetCommentFrame()
+        {
+            // Call overloads of this method if they exist.
+            ControllerTools.AssertNoOverride(this, typeof(FrameNodeTemplate));
+
+            bool Found = GetFirstCommentFrame(Root, out IFrameCommentFrame Result);
+            Debug.Assert(Found);
+            Debug.Assert(Result != null);
+
+            return Result;
+        }
+
+        /// <summary></summary>
+        private protected virtual bool GetFirstCommentFrame(IFrameFrame root, out IFrameCommentFrame frame)
+        {
+            bool Found = false;
+            frame = null;
+
+            if (root is IFrameCommentFrame AsCommentFrame)
+            {
+                frame = AsCommentFrame;
+                Found = true;
+            }
+
+            if (!Found && root is IFramePanelFrame AsPanelFrame)
+            {
+                foreach (IFrameFrame Item in AsPanelFrame.Items)
+                    if (GetFirstCommentFrame(Item, out frame))
                     {
                         Found = true;
                         break;

@@ -1,6 +1,7 @@
 ﻿namespace EaslyController.Layout
 {
     using System.Diagnostics;
+    using EaslyController.Constants;
     using EaslyController.Controller;
     using EaslyController.Focus;
 
@@ -30,7 +31,8 @@
         /// </summary>
         /// <param name="startIndex">Index of the first cell in the selection.</param>
         /// <param name="endIndex">Index of the last cell in the selection.</param>
-        void DrawSelection(int startIndex, int endIndex);
+        /// <param name="selectionStyle">The style to use when drawing.</param>
+        void DrawSelection(int startIndex, int endIndex, SelectionStyles selectionStyle);
 
         /// <summary>
         /// Draws container or separator before an element of a collection.
@@ -194,7 +196,8 @@
         /// </summary>
         /// <param name="startIndex">Index of the first cell in the selection.</param>
         /// <param name="endIndex">Index of the last cell in the selection.</param>
-        public abstract void DrawSelection(int startIndex, int endIndex);
+        /// <param name="selectionStyle">The style to use when drawing.</param>
+        public abstract void DrawSelection(int startIndex, int endIndex, SelectionStyles selectionStyle);
 
         /// <summary>
         /// Draws container or separator before an element of a collection.
@@ -219,7 +222,8 @@
         /// <summary>
         /// Prints the cell.
         /// </summary>
-        public abstract void Print();
+        /// <param name="origin">The origin from where to start printing.</param>
+        public abstract void Print(Point origin);
 
         /// <summary>
         /// Prints container or separator before an element of a collection.

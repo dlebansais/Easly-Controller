@@ -38,6 +38,8 @@
             CommaSeparatorString = ", ";
             DotSeparatorString = "·";
 
+            SolidColorBrush SelectionBrush = new SolidColorBrush(Color.FromArgb(0xFF, 0x99, 0xC9, 0xEF));
+
             BrushTable = new Dictionary<BrushSettings, Brush>
             {
                 { BrushSettings.Default, Brushes.Black },
@@ -53,7 +55,19 @@
                 { BrushSettings.CommentForeground, Brushes.Black },
                 { BrushSettings.CaretInsertion, Brushes.Black },
                 { BrushSettings.CaretOverride, Brushes.DarkGray },
-                { BrushSettings.Selection, new SolidColorBrush(Color.FromArgb(0xFF, 0x99, 0xC9, 0xEF)) },
+                { BrushSettings.Selection, SelectionBrush },
+            };
+
+            PenTable = new Dictionary<PenSettings, Pen>
+            {
+                { PenSettings.Default, null },
+                { PenSettings.Comment, new Pen(Brushes.DarkGreen, 1) },
+                { PenSettings.CaretInsertion, null },
+                { PenSettings.CaretOverride, null },
+                { PenSettings.SelectionText, null },
+                { PenSettings.SelectionNode, new Pen(Brushes.Black, 1) { DashStyle = new DashStyle(new double[] { 1 }, 1) } },
+                { PenSettings.SelectionNodeList, new Pen(Brushes.Black, 1) { DashStyle = new DashStyle(new double[] { 3 }, 3) } },
+                { PenSettings.SelectionBlockList, new Pen(Brushes.Black, 1) { DashStyle = new DashStyle(new double[] { 3 }, 1) } },
             };
         }
         #endregion
@@ -113,6 +127,11 @@
         /// Table of brushes to use when drawing.
         /// </summary>
         public IDictionary<BrushSettings, Brush> BrushTable { get; }
+
+        /// <summary>
+        /// Table of pens to use when drawing.
+        /// </summary>
+        public IDictionary<PenSettings, Pen> PenTable { get; }
         #endregion
 
         #region Implementation of IxxxMeasureContext

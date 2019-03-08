@@ -119,7 +119,8 @@
         /// <summary>
         /// Prints the cell.
         /// </summary>
-        public abstract void Print();
+        /// <param name="origin">The origin from where to start printing.</param>
+        public abstract void Print(Point origin);
         #endregion
 
         #region Debugging

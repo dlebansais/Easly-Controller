@@ -27,7 +27,24 @@
         /// </summary>
         /// <param name="inner">The inner.</param>
         /// <param name="selectorStack">A list of selectors to choose the correct frame.</param>
-        IFocusFrame InnerToFrame(IFocusInner<IFocusBrowsingChildIndex> inner, List<IFocusFrameSelectorList> selectorStack);
+        IFocusFrame InnerToFrame(IFocusInner<IFocusBrowsingChildIndex> inner, IList<IFocusFrameSelectorList> selectorStack);
+
+        /// <summary>
+        /// Gets the frame that creates cells associated to a property in a state.
+        /// This overload uses selectors to choose the correct frame.
+        /// </summary>
+        /// <param name="state">The state.</param>
+        /// <param name="propertyName">The property name.</param>
+        /// <param name="selectorStack">A list of selectors to choose the correct frame.</param>
+        IFocusFrame PropertyToFrame(IFocusNodeState state, string propertyName, IList<IFocusFrameSelectorList> selectorStack);
+
+        /// <summary>
+        /// Gets the frame that creates cells associated to a comment in a state.
+        /// This overload uses selectors to choose the correct frame.
+        /// </summary>
+        /// <param name="state">The state.</param>
+        /// <param name="selectorStack">A list of selectors to choose the correct frame.</param>
+        IFocusCommentFrame GetCommentFrame(IFocusNodeState state, IList<IFocusFrameSelectorList> selectorStack);
     }
 
     /// <summary>
@@ -85,7 +102,7 @@
         /// </summary>
         /// <param name="inner">The inner.</param>
         /// <param name="selectorStack">A list of selectors to choose the correct frame.</param>
-        public virtual IFocusFrame InnerToFrame(IFocusInner<IFocusBrowsingChildIndex> inner, List<IFocusFrameSelectorList> selectorStack)
+        public virtual IFocusFrame InnerToFrame(IFocusInner<IFocusBrowsingChildIndex> inner, IList<IFocusFrameSelectorList> selectorStack)
         {
             IFocusNodeState Owner = inner.Owner;
             Type OwnerType = Owner.Node.GetType();
@@ -103,6 +120,39 @@
 
                 Frame = (IFocusFrame)BlockTemplate.GetPlaceholderFrame();
             }
+
+            return Frame;
+        }
+
+        /// <summary>
+        /// Gets the frame that creates cells associated to a property in a state.
+        /// This overload uses selectors to choose the correct frame.
+        /// </summary>
+        /// <param name="state">The state.</param>
+        /// <param name="propertyName">The property name.</param>
+        /// <param name="selectorStack">A list of selectors to choose the correct frame.</param>
+        public virtual IFocusFrame PropertyToFrame(IFocusNodeState state, string propertyName, IList<IFocusFrameSelectorList> selectorStack)
+        {
+            Type OwnerType = state.Node.GetType();
+            Type InterfaceType = NodeTreeHelper.NodeTypeToInterfaceType(OwnerType);
+            IFocusNodeTemplate Template = (IFocusNodeTemplate)NodeTypeToTemplate(InterfaceType);
+            IFocusFrame Frame = Template.PropertyToFrame(propertyName, selectorStack);
+
+            return Frame;
+        }
+
+        /// <summary>
+        /// Gets the frame that creates cells associated to a comment in a state.
+        /// This overload uses selectors to choose the correct frame.
+        /// </summary>
+        /// <param name="state">The state.</param>
+        /// <param name="selectorStack">A list of selectors to choose the correct frame.</param>
+        public virtual IFocusCommentFrame GetCommentFrame(IFocusNodeState state, IList<IFocusFrameSelectorList> selectorStack)
+        {
+            Type OwnerType = state.Node.GetType();
+            Type InterfaceType = NodeTreeHelper.NodeTypeToInterfaceType(OwnerType);
+            IFocusNodeTemplate Template = (IFocusNodeTemplate)NodeTypeToTemplate(InterfaceType);
+            IFocusCommentFrame Frame = Template.GetCommentFrame(selectorStack);
 
             return Frame;
         }

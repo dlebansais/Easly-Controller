@@ -1,5 +1,9 @@
 ﻿namespace EaslyController.Layout
 {
+    using System.Collections.Generic;
+    using System.Diagnostics;
+    using BaseNodeHelper;
+    using EaslyController.Controller;
     using EaslyController.Focus;
 
     /// <summary>
@@ -31,6 +35,28 @@
         /// The state view that encompasses the selection.
         /// </summary>
         public new ILayoutNodeStateView StateView { get { return (ILayoutNodeStateView)base.StateView; } }
+        #endregion
+
+        #region Client Interface
+        /// <summary>
+        /// Prints the selection.
+        /// </summary>
+        public virtual void Print()
+        {
+            ILayoutControllerView ControllerView = StateView.ControllerView;
+            Debug.Assert(ControllerView.PrintContext != null);
+            ControllerView.UpdateLayout();
+
+            Debug.Assert(RegionHelper.IsValid(StateView.ActualCellSize));
+
+            ILayoutTemplateSet TemplateSet = ControllerView.TemplateSet;
+            IList<IFocusFrameSelectorList> SelectorStack = StateView.GetSelectorStack();
+            ILayoutDiscreteFrame Frame = (ILayoutDiscreteFrame)TemplateSet.PropertyToFrame(StateView.State, PropertyName, SelectorStack);
+            Debug.Assert(Frame != null);
+
+            int Value = NodeTreeHelper.GetEnumValue(StateView.State.Node, PropertyName);
+            Frame.Print(ControllerView.PrintContext, Value, Point.Origin);
+        }
         #endregion
     }
 }

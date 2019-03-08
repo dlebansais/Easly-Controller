@@ -12,6 +12,14 @@
     /// </summary>
     public interface ILayoutCommentFrame : IFocusCommentFrame, ILayoutNodeFrame, ILayoutBlockFrame, ILayoutMeasurableFrame, ILayoutDrawableFrame, ILayoutPrintableFrame
     {
+        /// <summary>
+        /// Prints a comment created with this frame.
+        /// The comment string is provided explicitely.
+        /// </summary>
+        /// <param name="printContext">The context used to print the cell.</param>
+        /// <param name="text">The text to print.</param>
+        /// <param name="origin">The location where to start printing.</param>
+        void Print(ILayoutPrintContext printContext, string text, Point origin);
     }
 
     /// <summary>
@@ -93,6 +101,18 @@
                 if ((DisplayMode == CommentDisplayModes.OnFocus && IsFocused) || DisplayMode == CommentDisplayModes.All)
                 {
                     Point OriginWithPadding = origin.Moved(padding.Left, padding.Top);
+                    drawContext.DrawTextBackground(Text, OriginWithPadding, TextStyles.Comment);
+
+                    ILayoutControllerView ControllerView = cellView.StateView.ControllerView;
+                    if (ControllerView.Selection is ILayoutCommentSelection AsCommentSelection && AsCommentSelection.StateView == cellView.StateView)
+                    {
+                        int Start = AsCommentSelection.Start;
+                        int End = AsCommentSelection.End;
+                        Debug.Assert(Start <= End);
+
+                        drawContext.DrawSelectionText(Text, OriginWithPadding, TextStyles.Comment, Start, End);
+                    }
+
                     drawContext.DrawText(Text, OriginWithPadding, TextStyles.Comment, isFocused: false); // The caret is drawn separately.
                 }
                 else if (DisplayMode == CommentDisplayModes.OnFocus && cellView.StateView.ControllerView.ShowUnfocusedComments)
@@ -125,6 +145,18 @@
                     printContext.PrintText(Text, OriginWithPadding, TextStyles.Comment);
                 }
             }
+        }
+
+        /// <summary>
+        /// Prints a comment created with this frame.
+        /// The comment string is provided explicitely.
+        /// </summary>
+        /// <param name="printContext">The context used to print the cell.</param>
+        /// <param name="text">The text to print.</param>
+        /// <param name="origin">The location where to start printing.</param>
+        public void Print(ILayoutPrintContext printContext, string text, Point origin)
+        {
+            printContext.PrintText(text, origin, TextStyles.Comment);
         }
         #endregion
 

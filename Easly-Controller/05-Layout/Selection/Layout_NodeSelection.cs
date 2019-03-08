@@ -1,5 +1,7 @@
 ﻿namespace EaslyController.Layout
 {
+    using System.Diagnostics;
+    using EaslyController.Controller;
     using EaslyController.Focus;
 
     /// <summary>
@@ -30,6 +32,23 @@
         /// The state view that encompasses the selection.
         /// </summary>
         public new ILayoutNodeStateView StateView { get { return (ILayoutNodeStateView)base.StateView; } }
+        #endregion
+
+        #region Client Interface
+        /// <summary>
+        /// Prints the selection.
+        /// </summary>
+        public virtual void Print()
+        {
+            ILayoutControllerView ControllerView = StateView.ControllerView;
+            Debug.Assert(ControllerView.PrintContext != null);
+            ControllerView.UpdateLayout();
+
+            Debug.Assert(RegionHelper.IsValid(StateView.ActualCellSize));
+
+            Point Origin = StateView.CellOrigin.Opposite;
+            StateView.PrintCells(Origin);
+        }
         #endregion
     }
 }

@@ -592,32 +592,59 @@
 
         public void OnCopy(object sender, ExecutedRoutedEventArgs e)
         {
+            string Content;
+            string RtfContent;
+
             PrintContext PrintContext = PrintContext.CreatePrintContext();
             using (ILayoutControllerView PrintView = LayoutControllerView.Create(Controller, CustomLayoutTemplateSet.LayoutTemplateSet, PrintContext))
             {
-                PrintView.Print();
-                string Content = PrintContext.PrintableArea.ToString();
-                string RtfContent = PrintContext.PrintableArea.ToString(PrintContext.BrushTable);
-
-                DataObject DataObject = new DataObject();
-                DataObject.SetData("Rich Text Format", RtfContent);
-                DataObject.SetData(typeof(string), Content);
-                DataObject.SetData("UnicodeText", Content);
-                DataObject.SetData("Text", Content);
-
-                PolySerializer.Serializer s = new PolySerializer.Serializer();
-                using (MemoryStream ms = new MemoryStream())
+                switch (ControllerView.Selection)
                 {
-                    s.Serialize(ms, Controller.RootIndex.Node);
-                    byte[] Buffer = new byte[ms.Length];
-                    ms.Seek(0, SeekOrigin.Begin);
-                    ms.Read(Buffer, 0, Buffer.Length);
-                    DataObject.SetData(NodeClipboardFormat, Buffer);
+                    default:
+                    case ILayoutEmptySelection AsEmptySelection:
+                        PrintView.ClearSelection();
+                        break;
+
+                    case ILayoutDiscreteContentSelection AsDiscreteContentSelection:
+                        PrintView.SelectDiscreteContent(AsDiscreteContentSelection.StateView.State, AsDiscreteContentSelection.PropertyName);
+                        break;
+
+                    case ILayoutStringContentSelection AsStringContentSelection:
+                        PrintView.SelectStringContent(AsStringContentSelection.StateView.State, AsStringContentSelection.PropertyName, AsStringContentSelection.Start, AsStringContentSelection.End);
+                        break;
+
+                    case ILayoutCommentSelection AsCommentSelection:
+                        PrintView.SelectComment(AsCommentSelection.StateView.State, AsCommentSelection.Start, AsCommentSelection.End);
+                        break;
+
+                    case ILayoutNodeSelection AsNodeSelection:
+                        PrintView.SelectNode(AsNodeSelection.StateView.State);
+                        break;
+
+                    case ILayoutNodeListSelection AsNodeListSelection:
+                        PrintView.SelectNodeList(AsNodeListSelection.StateView.State, AsNodeListSelection.PropertyName, AsNodeListSelection.StartIndex, AsNodeListSelection.EndIndex);
+                        break;
+
+                    case ILayoutBlockNodeListSelection AsBlockNodeListSelection:
+                        PrintView.SelectBlockNodeList(AsBlockNodeListSelection.StateView.State, AsBlockNodeListSelection.PropertyName, AsBlockNodeListSelection.BlockIndex, AsBlockNodeListSelection.StartIndex, AsBlockNodeListSelection.EndIndex);
+                        break;
+
+                    case ILayoutBlockListSelection AsBlockListSelection:
+                        PrintView.SelectBlockList(AsBlockListSelection.StateView.State, AsBlockListSelection.PropertyName, AsBlockListSelection.StartIndex, AsBlockListSelection.EndIndex);
+                        break;
                 }
 
-                Clipboard.Clear();
-                Clipboard.SetDataObject(DataObject, true);
+                PrintView.Selection.Print();
+                Content = PrintContext.PrintableArea.ToString();
+                RtfContent = PrintContext.PrintableArea.ToString(PrintContext.BrushTable);
             }
+
+            IDataObject DataObject = new DataObject();
+            DataObject.SetData("Rich Text Format", RtfContent);
+            DataObject.SetData("UnicodeText", Content);
+            DataObject.SetData("Text", Content);
+            ControllerView.Selection.Copy(DataObject);
+            Clipboard.SetDataObject(DataObject);
         }
 
         public void OnCut(object sender, ExecutedRoutedEventArgs e)
@@ -698,7 +725,7 @@
                 Rect Fullrect = new Rect(0, 0, ActualWidth, ActualHeight);
                 dc.DrawRectangle(WriteBrush, null, Fullrect);
 
-                ControllerView.Draw();
+                ControllerView.Draw(ControllerView.RootStateView);
             }
         }
     }

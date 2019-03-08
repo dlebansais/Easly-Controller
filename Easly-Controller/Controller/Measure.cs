@@ -47,6 +47,11 @@
         /// True if this measure is above zero.
         /// </summary>
         public bool IsStrictlyPositive { get { return Draw > 0; } }
+
+        /// <summary>
+        /// The measure with opposite values.
+        /// </summary>
+        public Measure Opposite { get { return new Measure() { Draw = -Draw, Print = -Print }; } }
         #endregion
 
         #region Operators

@@ -170,7 +170,8 @@
         /// <summary>
         /// Prints the cell.
         /// </summary>
-        public virtual void Print()
+        /// <param name="origin">The origin from where to start printing.</param>
+        public virtual void Print(Point origin)
         {
             Debug.Assert(StateView != null);
             Debug.Assert(StateView.ControllerView != null);
@@ -183,9 +184,11 @@
 
             Debug.Assert(RegionHelper.IsValid(ActualCellSize));
 
-            CollectionWithSeparator.PrintBeforeItem(PrintContext, ReferenceContainer, CellOrigin, ActualCellSize, CellPadding);
-            AsPrintableFrame.Print(PrintContext, this, CellOrigin, ActualCellSize, CellPadding);
-            CollectionWithSeparator.PrintAfterItem(PrintContext, ReferenceContainer, CellOrigin, ActualCellSize, CellPadding);
+            origin = origin.Moved(CellOrigin.X, CellOrigin.Y);
+
+            CollectionWithSeparator.PrintBeforeItem(PrintContext, ReferenceContainer, origin, ActualCellSize, CellPadding);
+            AsPrintableFrame.Print(PrintContext, this, origin, ActualCellSize, CellPadding);
+            CollectionWithSeparator.PrintAfterItem(PrintContext, ReferenceContainer, origin, ActualCellSize, CellPadding);
         }
         #endregion
 

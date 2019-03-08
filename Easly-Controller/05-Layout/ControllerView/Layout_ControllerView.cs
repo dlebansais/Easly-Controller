@@ -112,14 +112,22 @@
         void MeasureAndArrange();
 
         /// <summary>
-        /// Draws all visible cells in the view using <see cref="DrawContext"/>.
+        /// Updates all floating sizes and positions.
         /// </summary>
-        void Draw();
+        void UpdateLayout();
 
         /// <summary>
-        /// Prints all visible cells in the view using <see cref="PrintContext"/>.
+        /// Draws all visible cells in the view using <see cref="DrawContext"/>.
+        /// <param name="stateView">The view to draw.</param>
         /// </summary>
-        void Print();
+        void Draw(ILayoutNodeStateView stateView);
+
+        /// <summary>
+        /// Prints all visible cells in a view using <see cref="PrintContext"/>.
+        /// </summary>
+        /// <param name="stateView">The view to print.</param>
+        /// <param name="origin">The origin from where to start printing.</param>
+        void Print(ILayoutNodeStateView stateView, Point origin);
 
         /// <summary>
         /// Shows or hides the caret.
@@ -361,23 +369,33 @@
         }
 
         /// <summary>
-        /// Draws all visible cells in the view using <see cref="DrawContext"/>.
+        /// Updates all floating sizes and positions.
         /// </summary>
-        public virtual void Draw()
+        public void UpdateLayout()
         {
             if (IsInvalidated)
                 MeasureAndArrange();
-
-            if (IsCaretShown)
-                DrawContext.HideCaret();
 
             ILayoutNodeState RootState = Controller.RootState;
             ILayoutNodeStateView RootStateView = StateViewTable[RootState];
 
             RootStateView.UpdateActualCellsSize();
-            Debug.Assert(RegionHelper.IsFixed(RootStateView.ActualCellSize));
+            Debug.Assert(RegionHelper.IsValid(RootStateView.ActualCellSize));
+        }
 
-            RootStateView.DrawCells();
+        /// <summary>
+        /// Draws all visible cells in the view using <see cref="DrawContext"/>.
+        /// <param name="stateView">The view to draw.</param>
+        /// </summary>
+        public virtual void Draw(ILayoutNodeStateView stateView)
+        {
+            UpdateLayout();
+
+            if (IsCaretShown)
+                DrawContext.HideCaret();
+
+            Debug.Assert(RegionHelper.IsValid(stateView.ActualCellSize));
+            stateView.DrawCells();
 
             if (IsCaretShown)
             {
@@ -389,20 +407,16 @@
         }
 
         /// <summary>
-        /// Prints all visible cells in the view using <see cref="PrintContext"/>.
+        /// Prints all visible cells in a view using <see cref="PrintContext"/>.
         /// </summary>
-        public virtual void Print()
+        /// <param name="stateView">The view to print.</param>
+        /// <param name="origin">The origin from where to start printing.</param>
+        public virtual void Print(ILayoutNodeStateView stateView, Point origin)
         {
-            if (IsInvalidated)
-                MeasureAndArrange();
+            UpdateLayout();
 
-            ILayoutNodeState RootState = Controller.RootState;
-            ILayoutNodeStateView RootStateView = StateViewTable[RootState];
-
-            RootStateView.UpdateActualCellsSize();
-            Debug.Assert(RegionHelper.IsValid(RootStateView.ActualCellSize));
-
-            RootStateView.PrintCells();
+            Debug.Assert(RegionHelper.IsValid(stateView.ActualCellSize));
+            stateView.PrintCells(origin);
         }
 
         /// <summary>
@@ -1308,28 +1322,28 @@
         /// <summary>
         /// Creates a IxxxListNodeSelection object.
         /// </summary>
-        private protected override IFocusListNodeSelection CreateListNodeSelection(IFocusNodeStateView stateView, string propertyName, int startIndex, int endIndex)
+        private protected override IFocusNodeListSelection CreateNodeListSelection(IFocusNodeStateView stateView, string propertyName, int startIndex, int endIndex)
         {
             ControllerTools.AssertNoOverride(this, typeof(LayoutControllerView));
-            return new LayoutListNodeSelection((ILayoutNodeStateView)stateView, propertyName, startIndex, endIndex);
+            return new LayoutNodeListSelection((ILayoutNodeStateView)stateView, propertyName, startIndex, endIndex);
         }
 
         /// <summary>
         /// Creates a IxxxBlockListNodeSelection object.
         /// </summary>
-        private protected override IFocusBlockListNodeSelection CreateBlockListNodeSelection(IFocusNodeStateView stateView, string propertyName, int blockIndex, int startIndex, int endIndex)
+        private protected override IFocusBlockNodeListSelection CreateBlockNodeListSelection(IFocusNodeStateView stateView, string propertyName, int blockIndex, int startIndex, int endIndex)
         {
             ControllerTools.AssertNoOverride(this, typeof(LayoutControllerView));
-            return new LayoutBlockListNodeSelection((ILayoutNodeStateView)stateView, propertyName, blockIndex, startIndex, endIndex);
+            return new LayoutBlockNodeListSelection((ILayoutNodeStateView)stateView, propertyName, blockIndex, startIndex, endIndex);
         }
 
         /// <summary>
         /// Creates a IxxxBlockSelection object.
         /// </summary>
-        private protected override IFocusBlockSelection CreateBlockSelection(IFocusNodeStateView stateView, string propertyName, int startIndex, int endIndex)
+        private protected override IFocusBlockListSelection CreateBlockListSelection(IFocusNodeStateView stateView, string propertyName, int startIndex, int endIndex)
         {
             ControllerTools.AssertNoOverride(this, typeof(LayoutControllerView));
-            return new LayoutBlockSelection((ILayoutNodeStateView)stateView, propertyName, startIndex, endIndex);
+            return new LayoutBlockListSelection((ILayoutNodeStateView)stateView, propertyName, startIndex, endIndex);
         }
         #endregion
     }

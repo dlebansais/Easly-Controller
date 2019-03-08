@@ -87,7 +87,8 @@
         /// <summary>
         /// Prints cells in the state view.
         /// </summary>
-        void PrintCells();
+        /// <param name="origin">The origin from where to start printing.</param>
+        void PrintCells(Point origin);
     }
 
     /// <summary>
@@ -190,7 +191,8 @@
         /// <summary>
         /// Prints cells in the state view.
         /// </summary>
-        public abstract void PrintCells();
+        /// <param name="origin">The origin from where to start printing.</param>
+        public abstract void PrintCells(Point origin);
         #endregion
 
         #region Debugging

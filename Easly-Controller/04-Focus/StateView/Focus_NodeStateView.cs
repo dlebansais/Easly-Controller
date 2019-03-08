@@ -1,5 +1,6 @@
 ﻿namespace EaslyController.Focus
 {
+    using System.Collections.Generic;
     using System.Diagnostics;
     using BaseNode;
     using EaslyController.Frame;
@@ -58,6 +59,11 @@
         /// </summary>
         /// <param name="isUserVisible">The new value.</param>
         void SetIsUserVisible(bool isUserVisible);
+
+        /// <summary>
+        /// Gets the selector stack corresponding to this view and all its parent.
+        /// </summary>
+        IList<IFocusFrameSelectorList> GetSelectorStack();
     }
 
     /// <summary>
@@ -129,6 +135,11 @@
         /// </summary>
         /// <param name="isUserVisible">The new value.</param>
         public abstract void SetIsUserVisible(bool isUserVisible);
+
+        /// <summary>
+        /// Gets the selector stack corresponding to this view and all its parent.
+        /// </summary>
+        public abstract IList<IFocusFrameSelectorList> GetSelectorStack();
         #endregion
 
         #region Debugging

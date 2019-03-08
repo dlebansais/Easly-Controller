@@ -51,6 +51,19 @@
         /// </summary>
         /// <param name="inner">The inner.</param>
         IFrameFrame InnerToFrame(IFrameInner<IFrameBrowsingChildIndex> inner);
+
+        /// <summary>
+        /// Gets the frame that creates cells associated to a property in a state.
+        /// </summary>
+        /// <param name="state">The state.</param>
+        /// <param name="propertyName">The property name.</param>
+        IFrameFrame PropertyToFrame(IFrameNodeState state, string propertyName);
+
+        /// <summary>
+        /// Gets the frame that creates cells associated to a comment in a state.
+        /// </summary>
+        /// <param name="state">The state.</param>
+        IFrameCommentFrame GetCommentFrame(IFrameNodeState state);
     }
 
     /// <summary>
@@ -219,6 +232,9 @@
         /// <param name="inner">The inner.</param>
         public virtual IFrameFrame InnerToFrame(IFrameInner<IFrameBrowsingChildIndex> inner)
         {
+            // Call overloads of this method if they exist.
+            ControllerTools.AssertNoOverride(this, typeof(FrameTemplateSet));
+
             IFrameNodeState Owner = inner.Owner;
             Type OwnerType = Owner.Node.GetType();
             Type InterfaceType = NodeTreeHelper.NodeTypeToInterfaceType(OwnerType);
@@ -235,6 +251,41 @@
 
                 Frame = BlockTemplate.GetPlaceholderFrame();
             }
+
+            return Frame;
+        }
+
+        /// <summary>
+        /// Gets the frame that creates cells associated to a property in a state.
+        /// </summary>
+        /// <param name="state">The state.</param>
+        /// <param name="propertyName">The property name.</param>
+        public virtual IFrameFrame PropertyToFrame(IFrameNodeState state, string propertyName)
+        {
+            // Call overloads of this method if they exist.
+            ControllerTools.AssertNoOverride(this, typeof(FrameTemplateSet));
+
+            Type OwnerType = state.Node.GetType();
+            Type InterfaceType = NodeTreeHelper.NodeTypeToInterfaceType(OwnerType);
+            IFrameNodeTemplate Template = NodeTypeToTemplate(InterfaceType);
+            IFrameFrame Frame = Template.PropertyToFrame(propertyName);
+
+            return Frame;
+        }
+
+        /// <summary>
+        /// Gets the frame that creates cells associated to a comment in a state.
+        /// </summary>
+        /// <param name="state">The state.</param>
+        public virtual IFrameCommentFrame GetCommentFrame(IFrameNodeState state)
+        {
+            // Call overloads of this method if they exist.
+            ControllerTools.AssertNoOverride(this, typeof(FrameTemplateSet));
+
+            Type OwnerType = state.Node.GetType();
+            Type InterfaceType = NodeTreeHelper.NodeTypeToInterfaceType(OwnerType);
+            IFrameNodeTemplate Template = NodeTypeToTemplate(InterfaceType);
+            IFrameCommentFrame Frame = Template.GetCommentFrame();
 
             return Frame;
         }

@@ -1,6 +1,7 @@
 ﻿namespace EaslyController.Layout
 {
     using System.Diagnostics;
+    using EaslyController.Constants;
     using EaslyController.Controller;
     using EaslyController.Focus;
 
@@ -23,7 +24,7 @@
         /// Draw the selection of nodes within a block.
         /// </summary>
         /// <param name="selection">The selection.</param>
-        void DrawBlockListNodeSelection(ILayoutBlockListNodeSelection selection);
+        void DrawBlockListNodeSelection(ILayoutBlockNodeListSelection selection);
     }
 
     /// <summary>
@@ -172,14 +173,15 @@
         /// Draw the selection of nodes within a block.
         /// </summary>
         /// <param name="selection">The selection.</param>
-        public virtual void DrawBlockListNodeSelection(ILayoutBlockListNodeSelection selection)
+        public virtual void DrawBlockListNodeSelection(ILayoutBlockNodeListSelection selection)
         {
             Debug.Assert(BlockStateView.RootCellView != null);
             bool IsPlaceholderFound = GetPlaceholderCellViewCollection(BlockStateView.RootCellView, out ILayoutCellViewCollection PlaceholderCellViewCollection);
             Debug.Assert(IsPlaceholderFound);
             Debug.Assert(PlaceholderCellViewCollection != null);
+            Debug.Assert(selection.StartIndex <= selection.EndIndex);
 
-            PlaceholderCellViewCollection.DrawSelection(selection.StartIndex, selection.EndIndex);
+            PlaceholderCellViewCollection.DrawSelection(selection.StartIndex, selection.EndIndex, SelectionStyles.NodeList);
         }
 
         /// <summary></summary>
@@ -206,12 +208,13 @@
         /// <summary>
         /// Prints the cell.
         /// </summary>
-        public virtual void Print()
+        /// <param name="origin">The origin from where to start printing.</param>
+        public virtual void Print(Point origin)
         {
             Debug.Assert(RegionHelper.IsValid(ActualCellSize));
 
             Debug.Assert(BlockStateView != null);
-            BlockStateView.PrintCells();
+            BlockStateView.PrintCells(origin);
         }
         #endregion
 
