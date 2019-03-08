@@ -116,7 +116,10 @@
 
             List<IBlock> BlockList = new List<IBlock>();
             for (int i = StartIndex; i <= EndIndex; i++)
-                BlockList.Add(ParentInner.BlockStateList[i].ChildBlock);
+            {
+                IFocusBlockState BlockState = ParentInner.BlockStateList[i];
+                BlockList.Add(BlockState.ChildBlock);
+            }
 
             ClipboardHelper.WriteBlockList(dataObject, BlockList);
         }
@@ -124,8 +127,51 @@
         /// <summary>
         /// Copy the selection in the clipboard then removes it.
         /// </summary>
-        public override void Cut()
+        /// <param name="dataObject">The clipboard data object that can already contain other custom formats.</param>
+        /// <param name="isDeleted">True if something was deleted.</param>
+        public override void Cut(IDataObject dataObject, out bool isDeleted)
         {
+            IFocusNodeState State = StateView.State;
+            IFocusBlockListInner ParentInner = State.PropertyToInner(PropertyName) as IFocusBlockListInner;
+            Debug.Assert(ParentInner != null);
+
+            Debug.Assert(StartIndex <= EndIndex);
+
+            int SelectionCount = EndIndex - StartIndex + 1;
+            if (SelectionCount < ParentInner.BlockStateList.Count || !NodeHelper.IsCollectionNeverEmpty(State.Node, PropertyName))
+            {
+                List<IBlock> BlockList = new List<IBlock>();
+                for (int i = StartIndex; i <= EndIndex; i++)
+                {
+                    IFocusBlockState BlockState = ParentInner.BlockStateList[i];
+                    BlockList.Add(BlockState.ChildBlock);
+                }
+
+                ClipboardHelper.WriteBlockList(dataObject, BlockList);
+
+                IFocusController Controller = StateView.ControllerView.Controller;
+                int OldBlockCount = ParentInner.BlockStateList.Count;
+
+                for (int i = StartIndex; i <= EndIndex; i++)
+                {
+                    IFocusBlockState BlockState = ParentInner.BlockStateList[StartIndex];
+                    while (BlockState.StateList.Count > 0)
+                    {
+                        IFocusNodeState FirstNodeState = BlockState.StateList[0];
+                        IFocusBrowsingCollectionNodeIndex NodeIndex = FirstNodeState.ParentIndex as IFocusBrowsingCollectionNodeIndex;
+                        Debug.Assert(NodeIndex != null);
+
+                        Controller.Remove(ParentInner, NodeIndex);
+                    }
+                }
+
+                Debug.Assert(ParentInner.BlockStateList.Count == OldBlockCount - SelectionCount);
+
+                StateView.ControllerView.ClearSelection();
+                isDeleted = true;
+            }
+            else
+                isDeleted = false;
         }
 
         /// <summary>

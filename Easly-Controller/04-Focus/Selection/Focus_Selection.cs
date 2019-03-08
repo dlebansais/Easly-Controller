@@ -21,7 +21,9 @@
         /// <summary>
         /// Copy the selection in the clipboard then removes it.
         /// </summary>
-        void Cut();
+        /// <param name="dataObject">The clipboard data object that can already contain other custom formats.</param>
+        /// <param name="isDeleted">True if something was deleted.</param>
+        void Cut(IDataObject dataObject, out bool isDeleted);
 
         /// <summary>
         /// Replaces the selection with the content of the clipboard.
@@ -62,7 +64,9 @@
         /// <summary>
         /// Copy the selection in the clipboard then removes it.
         /// </summary>
-        public abstract void Cut();
+        /// <param name="dataObject">The clipboard data object that can already contain other custom formats.</param>
+        /// <param name="isDeleted">True if something was deleted.</param>
+        public abstract void Cut(IDataObject dataObject, out bool isDeleted);
 
         /// <summary>
         /// Replaces the selection with the content of the clipboard.

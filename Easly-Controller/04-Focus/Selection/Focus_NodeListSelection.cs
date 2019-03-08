@@ -122,8 +122,39 @@
         /// <summary>
         /// Copy the selection in the clipboard then removes it.
         /// </summary>
-        public override void Cut()
+        /// <param name="dataObject">The clipboard data object that can already contain other custom formats.</param>
+        /// <param name="isDeleted">True if something was deleted.</param>
+        public override void Cut(IDataObject dataObject, out bool isDeleted)
         {
+            IFocusNodeState State = StateView.State;
+            IFocusListInner ParentInner = State.PropertyToInner(PropertyName) as IFocusListInner;
+            Debug.Assert(ParentInner != null);
+
+            int SelectionCount = EndIndex - StartIndex + 1;
+            if (SelectionCount < ParentInner.StateList.Count || !NodeHelper.IsCollectionNeverEmpty(State.Node, PropertyName))
+            {
+                List<INode> NodeList = new List<INode>();
+                for (int i = StartIndex; i <= EndIndex; i++)
+                    NodeList.Add(ParentInner.StateList[i].Node);
+
+                ClipboardHelper.WriteNodeList(dataObject, NodeList);
+
+                IFocusController Controller = StateView.ControllerView.Controller;
+
+                for (int i = StartIndex; i <= EndIndex; i++)
+                {
+                    IFocusNodeState ChildState = ParentInner.StateList[StartIndex];
+                    IFocusBrowsingCollectionNodeIndex NodeIndex = ChildState.ParentIndex as IFocusBrowsingCollectionNodeIndex;
+                    Debug.Assert(NodeIndex != null);
+
+                    Controller.Remove(ParentInner, NodeIndex);
+                }
+
+                StateView.ControllerView.ClearSelection();
+                isDeleted = true;
+            }
+            else
+                isDeleted = false;
         }
 
         /// <summary>

@@ -89,8 +89,29 @@
         /// <summary>
         /// Copy the selection in the clipboard then removes it.
         /// </summary>
-        public override void Cut()
+        /// <param name="dataObject">The clipboard data object that can already contain other custom formats.</param>
+        /// <param name="isDeleted">True if something was deleted.</param>
+        public override void Cut(IDataObject dataObject, out bool isDeleted)
         {
+            string Content = CommentHelper.Get(StateView.State.Node.Documentation);
+            Debug.Assert(Content != null);
+            Debug.Assert(Start <= End);
+            Debug.Assert(End <= Content.Length);
+
+            if (Start < End)
+            {
+                dataObject.SetData(typeof(string), Content.Substring(Start, End - Start));
+
+                Content = Content.Substring(0, Start) + Content.Substring(End);
+
+                IFocusController Controller = StateView.ControllerView.Controller;
+                Controller.ChangeComment(StateView.State.ParentIndex, Content);
+
+                StateView.ControllerView.ClearSelection();
+                isDeleted = true;
+            }
+            else
+                isDeleted = false;
         }
 
         /// <summary>

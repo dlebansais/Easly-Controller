@@ -1,7 +1,6 @@
 ﻿namespace EditorDebug
 {
     using System.Diagnostics;
-    using System.IO;
     using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Input;
@@ -592,63 +591,22 @@
 
         public void OnCopy(object sender, ExecutedRoutedEventArgs e)
         {
-            string Content;
-            string RtfContent;
-
-            PrintContext PrintContext = PrintContext.CreatePrintContext();
-            using (ILayoutControllerView PrintView = LayoutControllerView.Create(Controller, CustomLayoutTemplateSet.LayoutTemplateSet, PrintContext))
-            {
-                switch (ControllerView.Selection)
-                {
-                    default:
-                    case ILayoutEmptySelection AsEmptySelection:
-                        PrintView.ClearSelection();
-                        break;
-
-                    case ILayoutDiscreteContentSelection AsDiscreteContentSelection:
-                        PrintView.SelectDiscreteContent(AsDiscreteContentSelection.StateView.State, AsDiscreteContentSelection.PropertyName);
-                        break;
-
-                    case ILayoutStringContentSelection AsStringContentSelection:
-                        PrintView.SelectStringContent(AsStringContentSelection.StateView.State, AsStringContentSelection.PropertyName, AsStringContentSelection.Start, AsStringContentSelection.End);
-                        break;
-
-                    case ILayoutCommentSelection AsCommentSelection:
-                        PrintView.SelectComment(AsCommentSelection.StateView.State, AsCommentSelection.Start, AsCommentSelection.End);
-                        break;
-
-                    case ILayoutNodeSelection AsNodeSelection:
-                        PrintView.SelectNode(AsNodeSelection.StateView.State);
-                        break;
-
-                    case ILayoutNodeListSelection AsNodeListSelection:
-                        PrintView.SelectNodeList(AsNodeListSelection.StateView.State, AsNodeListSelection.PropertyName, AsNodeListSelection.StartIndex, AsNodeListSelection.EndIndex);
-                        break;
-
-                    case ILayoutBlockNodeListSelection AsBlockNodeListSelection:
-                        PrintView.SelectBlockNodeList(AsBlockNodeListSelection.StateView.State, AsBlockNodeListSelection.PropertyName, AsBlockNodeListSelection.BlockIndex, AsBlockNodeListSelection.StartIndex, AsBlockNodeListSelection.EndIndex);
-                        break;
-
-                    case ILayoutBlockListSelection AsBlockListSelection:
-                        PrintView.SelectBlockList(AsBlockListSelection.StateView.State, AsBlockListSelection.PropertyName, AsBlockListSelection.StartIndex, AsBlockListSelection.EndIndex);
-                        break;
-                }
-
-                PrintView.Selection.Print();
-                Content = PrintContext.PrintableArea.ToString();
-                RtfContent = PrintContext.PrintableArea.ToString(PrintContext.BrushTable);
-            }
-
             IDataObject DataObject = new DataObject();
-            DataObject.SetData("Rich Text Format", RtfContent);
-            DataObject.SetData("UnicodeText", Content);
-            DataObject.SetData("Text", Content);
+            CopySelectionAsString(DataObject);
             ControllerView.Selection.Copy(DataObject);
             Clipboard.SetDataObject(DataObject);
         }
 
         public void OnCut(object sender, ExecutedRoutedEventArgs e)
         {
+            IDataObject DataObject = new DataObject();
+            CopySelectionAsString(DataObject);
+            ControllerView.Selection.Cut(DataObject, out bool IsDeleted);
+            if (IsDeleted)
+            {
+                Clipboard.SetDataObject(DataObject);
+                InvalidateVisual();
+            }
         }
 
         public void OnPaste(object sender, ExecutedRoutedEventArgs e)
@@ -726,6 +684,60 @@
                 dc.DrawRectangle(WriteBrush, null, Fullrect);
 
                 ControllerView.Draw(ControllerView.RootStateView);
+            }
+        }
+
+        private void CopySelectionAsString(IDataObject dataObject)
+        {
+            string Content;
+            string RtfContent;
+
+            PrintContext PrintContext = PrintContext.CreatePrintContext();
+            using (ILayoutControllerView PrintView = LayoutControllerView.Create(Controller, CustomLayoutTemplateSet.LayoutTemplateSet, PrintContext))
+            {
+                switch (ControllerView.Selection)
+                {
+                    default:
+                    case ILayoutEmptySelection AsEmptySelection:
+                        PrintView.ClearSelection();
+                        break;
+
+                    case ILayoutDiscreteContentSelection AsDiscreteContentSelection:
+                        PrintView.SelectDiscreteContent(AsDiscreteContentSelection.StateView.State, AsDiscreteContentSelection.PropertyName);
+                        break;
+
+                    case ILayoutStringContentSelection AsStringContentSelection:
+                        PrintView.SelectStringContent(AsStringContentSelection.StateView.State, AsStringContentSelection.PropertyName, AsStringContentSelection.Start, AsStringContentSelection.End);
+                        break;
+
+                    case ILayoutCommentSelection AsCommentSelection:
+                        PrintView.SelectComment(AsCommentSelection.StateView.State, AsCommentSelection.Start, AsCommentSelection.End);
+                        break;
+
+                    case ILayoutNodeSelection AsNodeSelection:
+                        PrintView.SelectNode(AsNodeSelection.StateView.State);
+                        break;
+
+                    case ILayoutNodeListSelection AsNodeListSelection:
+                        PrintView.SelectNodeList(AsNodeListSelection.StateView.State, AsNodeListSelection.PropertyName, AsNodeListSelection.StartIndex, AsNodeListSelection.EndIndex);
+                        break;
+
+                    case ILayoutBlockNodeListSelection AsBlockNodeListSelection:
+                        PrintView.SelectBlockNodeList(AsBlockNodeListSelection.StateView.State, AsBlockNodeListSelection.PropertyName, AsBlockNodeListSelection.BlockIndex, AsBlockNodeListSelection.StartIndex, AsBlockNodeListSelection.EndIndex);
+                        break;
+
+                    case ILayoutBlockListSelection AsBlockListSelection:
+                        PrintView.SelectBlockList(AsBlockListSelection.StateView.State, AsBlockListSelection.PropertyName, AsBlockListSelection.StartIndex, AsBlockListSelection.EndIndex);
+                        break;
+                }
+
+                PrintView.Selection.Print();
+                Content = PrintContext.PrintableArea.ToString();
+                RtfContent = PrintContext.PrintableArea.ToString(PrintContext.BrushTable);
+
+                dataObject.SetData("Rich Text Format", RtfContent);
+                dataObject.SetData("UnicodeText", Content);
+                dataObject.SetData("Text", Content);
             }
         }
     }

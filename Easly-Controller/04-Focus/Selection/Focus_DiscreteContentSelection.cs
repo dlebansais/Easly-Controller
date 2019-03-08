@@ -54,8 +54,11 @@
         /// <summary>
         /// Copy the selection in the clipboard then removes it.
         /// </summary>
-        public override void Cut()
+        /// <param name="dataObject">The clipboard data object that can already contain other custom formats.</param>
+        /// <param name="isDeleted">True if something was deleted.</param>
+        public override void Cut(IDataObject dataObject, out bool isDeleted)
         {
+            isDeleted = false;
         }
 
         /// <summary>
