@@ -49,8 +49,10 @@
         /// <summary>
         /// Replaces the selection with the content of the clipboard.
         /// </summary>
-        public override void Paste()
+        /// <param name="isChanged">True if something was replaced or added.</param>
+        public override void Paste(out bool isChanged)
         {
+            isChanged = false;
             ((IFocusInternalControllerView)StateView.ControllerView).ReplaceWithClipboardContent(StateView.State);
         }
         #endregion

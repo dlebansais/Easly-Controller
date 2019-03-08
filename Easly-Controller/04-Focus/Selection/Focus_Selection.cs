@@ -28,7 +28,8 @@
         /// <summary>
         /// Replaces the selection with the content of the clipboard.
         /// </summary>
-        void Paste();
+        /// <param name="isChanged">True if something was replaced or added.</param>
+        void Paste(out bool isChanged);
     }
 
     /// <summary>
@@ -71,7 +72,7 @@
         /// <summary>
         /// Replaces the selection with the content of the clipboard.
         /// </summary>
-        public abstract void Paste();
+        public abstract void Paste(out bool isChanged);
         #endregion
     }
 }

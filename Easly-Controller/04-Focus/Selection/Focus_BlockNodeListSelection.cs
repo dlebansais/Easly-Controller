@@ -7,6 +7,7 @@
     using BaseNode;
     using BaseNodeHelper;
     using EaslyController.Controller;
+    using EaslyController.Writeable;
 
     /// <summary>
     /// A selection of nodes in a block of a list block.
@@ -158,6 +159,7 @@
                 ClipboardHelper.WriteNodeList(dataObject, NodeList);
 
                 IFocusController Controller = StateView.ControllerView.Controller;
+                int OldNodeCount = BlockState.StateList.Count;
 
                 for (int i = StartIndex; i <= EndIndex; i++)
                 {
@@ -167,6 +169,8 @@
 
                     Controller.Remove(ParentInner, NodeIndex);
                 }
+
+                Debug.Assert(BlockState.StateList.Count == OldNodeCount + NodeList.Count - SelectionCount);
 
                 StateView.ControllerView.ClearSelection();
                 isDeleted = true;
@@ -178,8 +182,57 @@
         /// <summary>
         /// Replaces the selection with the content of the clipboard.
         /// </summary>
-        public override void Paste()
+        /// <param name="isChanged">True if something was replaced or added.</param>
+        public override void Paste(out bool isChanged)
         {
+            isChanged = false;
+
+            IFocusNodeState State = StateView.State;
+            IFocusBlockListInner ParentInner = State.PropertyToInner(PropertyName) as IFocusBlockListInner;
+            Debug.Assert(ParentInner != null);
+            Debug.Assert(BlockIndex >= 0 && BlockIndex < ParentInner.BlockStateList.Count);
+
+            IFocusBlockState BlockState = ParentInner.BlockStateList[BlockIndex];
+            Debug.Assert(StartIndex <= BlockState.StateList.Count);
+            Debug.Assert(EndIndex <= BlockState.StateList.Count);
+            Debug.Assert(StartIndex <= EndIndex);
+
+            if (ClipboardHelper.TryReadNodeList(out IList<INode> NodeList) && NodeList.Count > 0)
+            {
+                if (ParentInner.InterfaceType.IsAssignableFrom(NodeList[0].GetType()))
+                {
+                    // Insert first to prevent empty lists.
+                    IFocusController Controller = StateView.ControllerView.Controller;
+                    int OldNodeCount = BlockState.StateList.Count;
+                    int SelectionCount = EndIndex - StartIndex + 1;
+                    int InsertionNodeIndex = EndIndex + 1;
+
+                    for (int i = 0; i < NodeList.Count; i++)
+                    {
+                        INode NewNode = NodeList[i] as INode;
+                        IFocusInsertionCollectionNodeIndex InsertedIndex = new FocusInsertionExistingBlockNodeIndex(ParentInner.Owner.Node, PropertyName, NewNode, BlockIndex, InsertionNodeIndex);
+                        Debug.Assert(InsertedIndex != null);
+
+                        Controller.Insert(ParentInner, InsertedIndex, out IWriteableBrowsingCollectionNodeIndex NodeIndex);
+
+                        InsertionNodeIndex++;
+                    }
+
+                    for (int i = StartIndex; i <= EndIndex; i++)
+                    {
+                        IFocusNodeState ChildState = BlockState.StateList[StartIndex];
+                        IFocusBrowsingCollectionNodeIndex NodeIndex = ChildState.ParentIndex as IFocusBrowsingCollectionNodeIndex;
+                        Debug.Assert(NodeIndex != null);
+
+                        Controller.Remove(ParentInner, NodeIndex);
+                    }
+
+                    Debug.Assert(BlockState.StateList.Count == OldNodeCount + NodeList.Count - SelectionCount);
+
+                    StateView.ControllerView.ClearSelection();
+                    isChanged = true;
+                }
+            }
         }
         #endregion
 

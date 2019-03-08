@@ -3,6 +3,7 @@
     using System.Diagnostics;
     using System.Windows;
     using BaseNodeHelper;
+    using EaslyController.Controller;
 
     /// <summary>
     /// A selection of part of a string property.
@@ -124,8 +125,25 @@
         /// <summary>
         /// Replaces the selection with the content of the clipboard.
         /// </summary>
-        public override void Paste()
+        public override void Paste(out bool isChanged)
         {
+            isChanged = false;
+
+            if (ClipboardHelper.TryReadText(out string Text) && Text.Length > 0)
+            {
+                string Content = NodeTreeHelper.GetString(StateView.State.Node, PropertyName);
+                Debug.Assert(Content != null);
+                Debug.Assert(Start <= End);
+                Debug.Assert(End <= Content.Length);
+
+                Content = Content.Substring(0, Start) + Text + Content.Substring(End);
+
+                IFocusController Controller = StateView.ControllerView.Controller;
+                Controller.ChangeText(StateView.State.ParentIndex, PropertyName, Content);
+
+                StateView.ControllerView.ClearSelection();
+                isChanged = true;
+            }
         }
         #endregion
 

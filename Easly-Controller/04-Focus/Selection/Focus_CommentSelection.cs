@@ -117,8 +117,26 @@
         /// <summary>
         /// Replaces the selection with the content of the clipboard.
         /// </summary>
-        public override void Paste()
+        /// <param name="isChanged">True if something was replaced or added.</param>
+        public override void Paste(out bool isChanged)
         {
+            isChanged = false;
+
+            if (ClipboardHelper.TryReadText(out string Text) && Text.Length > 0)
+            {
+                string Content = CommentHelper.Get(StateView.State.Node.Documentation);
+                Debug.Assert(Content != null);
+                Debug.Assert(Start <= End);
+                Debug.Assert(End <= Content.Length);
+
+                Content = Content.Substring(0, Start) + Text + Content.Substring(End);
+
+                IFocusController Controller = StateView.ControllerView.Controller;
+                Controller.ChangeComment(StateView.State.ParentIndex, Content);
+
+                StateView.ControllerView.ClearSelection();
+                isChanged = true;
+            }
         }
         #endregion
 

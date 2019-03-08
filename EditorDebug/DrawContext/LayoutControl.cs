@@ -614,6 +614,7 @@
             IDataObject DataObject = Clipboard.GetDataObject();
             string[] Formats = DataObject.GetFormats();
 
+            /*
             foreach (string Format in Formats)
             {
                 object Data = DataObject.GetData(Format);
@@ -621,7 +622,11 @@
 
                 if (Data is string AsString)
                     Debug.WriteLine(AsString);
-            }
+            }*/
+
+            ControllerView.Selection.Paste(out bool IsChanged);
+            if (IsChanged)
+                InvalidateVisual();
         }
 
         public void OnMouseDown(object sender, MouseButtonEventArgs e)

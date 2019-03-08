@@ -26,6 +26,46 @@
 
         #region Client Interface
         /// <summary>
+        /// Try to read the clipboard to get a string.
+        /// </summary>
+        /// <param name="text">The string read, null if none or if the clipboard contains invalid data.</param>
+        /// <returns>True if a valid string was found; Otherwise, false.</returns>
+        public static bool TryReadText(out string text)
+        {
+            text = null;
+
+            IDataObject DataObject = Clipboard.GetDataObject();
+            if (DataObject != null)
+                text = DataObject.GetData(typeof(string)) as string;
+
+            return text != null;
+        }
+
+        /// <summary>
+        /// Try to read the clipboard to get a int.
+        /// </summary>
+        /// <param name="value">The int read, -1 if none or if the clipboard contains invalid data.</param>
+        /// <returns>True if a valid string was found; Otherwise, false.</returns>
+        public static bool TryReadInt(out int value)
+        {
+            value = -1;
+
+            IDataObject DataObject = Clipboard.GetDataObject();
+            if (DataObject != null)
+            {
+                try
+                {
+                    value = (int)DataObject.GetData(typeof(int));
+                }
+                catch
+                {
+                }
+            }
+
+            return value >= 0;
+        }
+
+        /// <summary>
         /// Try to read the clipboard to get a node.
         /// </summary>
         /// <param name="node">The node read, null if none or if the clipboard contains invalid data.</param>
@@ -68,21 +108,21 @@
         /// <summary>
         /// Try to read the clipboard to get a list of blocks.
         /// </summary>
-        /// <param name="nodeList">The block list read, null if none or if the clipboard contains invalid data.</param>
+        /// <param name="blockList">The block list read, null if none or if the clipboard contains invalid data.</param>
         /// <returns>True if a valid block list was found; Otherwise, false.</returns>
-        public static bool TryReadBlockList(out IList<IBlock> nodeList)
+        public static bool TryReadBlockList(out IList<IBlock> blockList)
         {
-            return TryReadContent(out nodeList);
+            return TryReadContent(out blockList);
         }
 
         /// <summary>
         /// Writes the content of a list of blocks to the clipboard.
         /// </summary>
         /// <param name="dataObject">The clipboard data object that can already contain other custom formats.</param>
-        /// <param name="nodeList">The block list to write.</param>
-        public static void WriteBlockList(IDataObject dataObject, IList<IBlock> nodeList)
+        /// <param name="blockList">The block list to write.</param>
+        public static void WriteBlockList(IDataObject dataObject, IList<IBlock> blockList)
         {
-            WriteContent(dataObject, nodeList);
+            WriteContent(dataObject, blockList);
         }
         #endregion
 

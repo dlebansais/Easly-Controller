@@ -7,6 +7,7 @@
     using BaseNode;
     using BaseNodeHelper;
     using EaslyController.Controller;
+    using EaslyController.Writeable;
 
     /// <summary>
     /// A selection of blocks in a block list.
@@ -177,8 +178,70 @@
         /// <summary>
         /// Replaces the selection with the content of the clipboard.
         /// </summary>
-        public override void Paste()
+        /// <param name="isChanged">True if something was replaced or added.</param>
+        public override void Paste(out bool isChanged)
         {
+            isChanged = false;
+
+            IFocusNodeState State = StateView.State;
+            IFocusBlockListInner ParentInner = State.PropertyToInner(PropertyName) as IFocusBlockListInner;
+            Debug.Assert(ParentInner != null);
+
+            Debug.Assert(StartIndex <= EndIndex);
+
+            if (ClipboardHelper.TryReadBlockList(out IList<IBlock> BlockList) && BlockList.Count > 0)
+            {
+                NodeTreeHelperBlockList.GetBlockType(BlockList[0], out Type ChildInterfaceType, out Type ChildItemType);
+
+                if (ParentInner.InterfaceType.IsAssignableFrom(ChildInterfaceType))
+                {
+                    // Insert first to prevent empty block lists.
+                    IFocusController Controller = StateView.ControllerView.Controller;
+                    int OldBlockCount = ParentInner.BlockStateList.Count;
+                    int SelectionCount = EndIndex - StartIndex + 1;
+                    int InsertionBlockIndex = EndIndex + 1;
+
+                    for (int i = 0; i < BlockList.Count; i++)
+                    {
+                        IBlock NewBlock = BlockList[i];
+
+                        for (int j = 0; j < NewBlock.NodeList.Count; j++)
+                        {
+                            INode NewNode = NewBlock.NodeList[j] as INode;
+                            IFocusInsertionCollectionNodeIndex InsertedIndex;
+
+                            if (j == 0)
+                                InsertedIndex = new FocusInsertionNewBlockNodeIndex(ParentInner.Owner.Node, PropertyName, NewNode, InsertionBlockIndex, NewBlock.ReplicationPattern, NewBlock.SourceIdentifier);
+                            else
+                                InsertedIndex = new FocusInsertionExistingBlockNodeIndex(ParentInner.Owner.Node, PropertyName, NewNode, InsertionBlockIndex, j);
+
+                            Debug.Assert(InsertedIndex != null);
+
+                            Controller.Insert(ParentInner, InsertedIndex, out IWriteableBrowsingCollectionNodeIndex NodeIndex);
+                        }
+
+                        InsertionBlockIndex++;
+                    }
+
+                    for (int i = StartIndex; i <= EndIndex; i++)
+                    {
+                        IFocusBlockState BlockState = ParentInner.BlockStateList[StartIndex];
+                        while (BlockState.StateList.Count > 0)
+                        {
+                            IFocusNodeState FirstNodeState = BlockState.StateList[0];
+                            IFocusBrowsingCollectionNodeIndex NodeIndex = FirstNodeState.ParentIndex as IFocusBrowsingCollectionNodeIndex;
+                            Debug.Assert(NodeIndex != null);
+
+                            Controller.Remove(ParentInner, NodeIndex);
+                        }
+                    }
+
+                    Debug.Assert(ParentInner.BlockStateList.Count == OldBlockCount + BlockList.Count - SelectionCount);
+
+                    StateView.ControllerView.ClearSelection();
+                    isChanged = true;
+                }
+            }
         }
         #endregion
 

@@ -4,6 +4,7 @@
     using System.Windows;
     using BaseNode;
     using BaseNodeHelper;
+    using EaslyController.Controller;
 
     /// <summary>
     /// A selection of discrete property (enum or boolean).
@@ -64,8 +65,22 @@
         /// <summary>
         /// Replaces the selection with the content of the clipboard.
         /// </summary>
-        public override void Paste()
+        /// <param name="isChanged">True if something was replaced or added.</param>
+        public override void Paste(out bool isChanged)
         {
+            isChanged = false;
+
+            if (ClipboardHelper.TryReadInt(out int NewValue) && NewValue >= 0)
+            {
+                int OldValue = NodeTreeHelper.GetEnumValueAndRange(StateView.State.Node, PropertyName, out int Min, out int Max);
+                if (OldValue != NewValue && NewValue >= Min && NewValue <= Max)
+                {
+                    IFocusController Controller = StateView.ControllerView.Controller;
+                    Controller.ChangeDiscreteValue(StateView.State.ParentIndex, PropertyName, NewValue);
+
+                    isChanged = true;
+                }
+            }
         }
         #endregion
 
