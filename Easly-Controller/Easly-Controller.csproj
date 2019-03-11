@@ -777,6 +777,7 @@
     <Compile Include="Controller\Padding.cs" />
     <Compile Include="Controller\Size.cs" />
     <Compile Include="Controller\SelectionStyles.cs" />
+    <Compile Include="Controller\StringHelper.cs" />
     <Compile Include="Controller\TextStyles.cs" />
     <Compile Include="Controller\Symbols.cs" />
     <Compile Include="Controller\TypeMarkupExtension.cs" />

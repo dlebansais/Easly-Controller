@@ -174,7 +174,17 @@
             Debug.Assert(EndIndex <= ParentInner.StateList.Count);
             Debug.Assert(StartIndex <= EndIndex);
 
-            if (ClipboardHelper.TryReadNodeList(out IList<INode> NodeList) && NodeList.Count > 0)
+            IList<INode> NodeList = null;
+
+            if (ClipboardHelper.TryReadNodeList(out NodeList))
+            { }
+
+            else if (ClipboardHelper.TryReadNode(out INode Node))
+            {
+                NodeList = new List<INode>() { Node };
+            }
+
+            if (NodeList != null && NodeList.Count > 0)
             {
                 if (ParentInner.InterfaceType.IsAssignableFrom(NodeList[0].GetType()))
                 {

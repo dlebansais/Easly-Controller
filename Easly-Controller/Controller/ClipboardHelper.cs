@@ -36,7 +36,11 @@
 
             IDataObject DataObject = Clipboard.GetDataObject();
             if (DataObject != null)
-                text = DataObject.GetData(typeof(string)) as string;
+            {
+                string StringData = DataObject.GetData(typeof(string)) as string;
+                if (StringData != null)
+                    text = StringHelper.VisibleSubset(StringData);
+            }
 
             return text != null;
         }

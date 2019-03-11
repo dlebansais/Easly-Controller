@@ -1,8 +1,11 @@
 ﻿namespace EaslyController.Focus
 {
+    using System.Collections.Generic;
     using System.Diagnostics;
     using System.Windows;
+    using BaseNode;
     using EaslyController.Controller;
+    using EaslyController.Writeable;
 
     /// <summary>
     /// An empty selection.
@@ -54,37 +57,141 @@
         {
             isChanged = false;
 
-            if (ClipboardHelper.TryReadText(out string Text) && Text.Length > 0)
+            if (ClipboardHelper.TryReadNode(out INode Node))
+                PasteNode(Node, out isChanged);
+
+            else if (ClipboardHelper.TryReadNodeList(out IList<INode> NodeList))
+                PasteNodeList(NodeList, out isChanged);
+
+            else if (ClipboardHelper.TryReadText(out string Text) && Text.Length > 0)
+                PasteText(Text, out isChanged);
+        }
+
+        /// <summary></summary>
+        protected virtual void PasteNode(INode node, out bool isChanged)
+        {
+            isChanged = false;
+
+            IFocusControllerView ControllerView = StateView.ControllerView;
+            if (ControllerView.Focus is IFocusTextFocus AsTextFocus)
             {
-                IFocusControllerView ControllerView = StateView.ControllerView;
-                if (ControllerView.Focus is IFocusCommentFocus AsCommentFocus)
+                IFocusNodeState State = AsTextFocus.CellView.StateView.State;
+                if (State.Node.GetType().IsAssignableFrom(node.GetType()))
                 {
-                    string FocusedText = ControllerView.FocusedText;
-                    int CaretPosition = ControllerView.CaretPosition;
-                    Debug.Assert(CaretPosition >= 0 && CaretPosition <= FocusedText.Length);
+                    if (State.ParentIndex is IFocusBrowsingInsertableIndex AsInsertableIndex)
+                    {
+                        IFocusController Controller = StateView.ControllerView.Controller;
+                        INode ParentNode = State.ParentInner.Owner.Node;
 
-                    string Content = FocusedText.Substring(0, CaretPosition) + Text + FocusedText.Substring(CaretPosition);
+                        IFocusInsertionChildIndex ReplaceIndex = (IFocusInsertionChildIndex)AsInsertableIndex.ToInsertionIndex(ParentNode, node);
+                        Controller.Replace(State.ParentInner, ReplaceIndex, out IWriteableBrowsingChildIndex NewIndex);
 
+                        isChanged = true;
+                    }
+                }
+            }
+        }
+
+        /// <summary></summary>
+        protected virtual void PasteNodeList(IList<INode> nodeList, out bool isChanged)
+        {
+            isChanged = false;
+
+            IFocusControllerView ControllerView = StateView.ControllerView;
+            if (ControllerView.Focus is IFocusTextFocus AsTextFocus)
+            {
+                IFocusNodeState State = AsTextFocus.CellView.StateView.State;
+                while (State != null && !(State.ParentInner is IFocusCollectionInner))
+                    State = State.ParentInner.Owner;
+
+                if (State.ParentInner is IFocusListInner AsListInner && State.ParentIndex is IFocusBrowsingListNodeIndex AsListNodeIndex)
+                    PasteNodeListToList(nodeList, AsListInner, AsListNodeIndex, out isChanged);
+                else if (State.ParentInner is IFocusBlockListInner AsBlockListInner && State.ParentIndex is IFocusBrowsingExistingBlockNodeIndex AsExistingBlockNodeIndex)
+                    PasteNodeListToBlockList(nodeList, AsBlockListInner, AsExistingBlockNodeIndex, out isChanged);
+            }
+        }
+
+        /// <summary></summary>
+        protected virtual void PasteNodeListToList(IList<INode> nodeList, IFocusListInner listInner, IFocusBrowsingListNodeIndex parentIndex, out bool isChanged)
+        {
+            isChanged = false;
+
+            if (nodeList.Count > 0)
+            {
+                if (listInner.InterfaceType.IsAssignableFrom(nodeList[0].GetType()))
+                {
                     IFocusController Controller = StateView.ControllerView.Controller;
-                    Controller.ChangeComment(AsCommentFocus.CellView.StateView.State.ParentIndex, Content);
+                    INode ParentNode = listInner.Owner.Node;
+
+                    for (int i = 0; i < nodeList.Count; i++)
+                    {
+                        INode Node = nodeList[nodeList.Count - i - 1];
+                        IFocusInsertionListNodeIndex ReplaceIndex = (IFocusInsertionListNodeIndex)parentIndex.ToInsertionIndex(ParentNode, Node);
+                        Controller.Insert(listInner, ReplaceIndex, out IWriteableBrowsingCollectionNodeIndex NewIndex);
+                    }
 
                     isChanged = true;
                 }
-                else if (ControllerView.Focus is IFocusStringContentFocus AsStringContentFocus)
+            }
+        }
+
+        /// <summary></summary>
+        protected virtual void PasteNodeListToBlockList(IList<INode> nodeList, IFocusBlockListInner blockListInner, IFocusBrowsingExistingBlockNodeIndex parentIndex, out bool isChanged)
+        {
+            isChanged = false;
+
+            if (nodeList.Count > 0)
+            {
+                if (blockListInner.InterfaceType.IsAssignableFrom(nodeList[0].GetType()))
                 {
-                    string FocusedText = ControllerView.FocusedText;
-                    int CaretPosition = ControllerView.CaretPosition;
-                    Debug.Assert(CaretPosition >= 0 && CaretPosition <= FocusedText.Length);
-
-                    string Content = FocusedText.Substring(0, CaretPosition) + Text + FocusedText.Substring(CaretPosition);
-
-                    IFocusStringContentFocusableCellView CellView = AsStringContentFocus.CellView;
-
                     IFocusController Controller = StateView.ControllerView.Controller;
-                    Controller.ChangeText(CellView.StateView.State.ParentIndex, CellView.PropertyName, Content);
+                    INode ParentNode = blockListInner.Owner.Node;
+
+                    for (int i = 0; i < nodeList.Count; i++)
+                    {
+                        INode Node = nodeList[nodeList.Count - i - 1];
+                        IFocusInsertionExistingBlockNodeIndex ReplaceIndex = (IFocusInsertionExistingBlockNodeIndex)parentIndex.ToInsertionIndex(ParentNode, Node);
+                        Controller.Insert(blockListInner, ReplaceIndex, out IWriteableBrowsingCollectionNodeIndex NewIndex);
+                    }
 
                     isChanged = true;
                 }
+            }
+        }
+
+        /// <summary></summary>
+        protected virtual void PasteText(string text, out bool isChanged)
+        {
+            isChanged = false;
+
+            IFocusControllerView ControllerView = StateView.ControllerView;
+            if (ControllerView.Focus is IFocusCommentFocus AsCommentFocus)
+            {
+                string FocusedText = ControllerView.FocusedText;
+                int CaretPosition = ControllerView.CaretPosition;
+                Debug.Assert(CaretPosition >= 0 && CaretPosition <= FocusedText.Length);
+
+                string Content = FocusedText.Substring(0, CaretPosition) + text + FocusedText.Substring(CaretPosition);
+
+                IFocusController Controller = StateView.ControllerView.Controller;
+                Controller.ChangeComment(AsCommentFocus.CellView.StateView.State.ParentIndex, Content);
+
+                isChanged = true;
+            }
+            else if (ControllerView.Focus is IFocusStringContentFocus AsStringContentFocus)
+            {
+                string FocusedText = ControllerView.FocusedText;
+                int CaretPosition = ControllerView.CaretPosition;
+                Debug.Assert(CaretPosition >= 0 && CaretPosition <= FocusedText.Length);
+
+                string Content = FocusedText.Substring(0, CaretPosition) + text + FocusedText.Substring(CaretPosition);
+
+                IFocusStringContentFocusableCellView CellView = AsStringContentFocus.CellView;
+
+                IFocusController Controller = StateView.ControllerView.Controller;
+                Controller.ChangeText(CellView.StateView.State.ParentIndex, CellView.PropertyName, Content);
+
+                isChanged = true;
             }
         }
         #endregion

@@ -1,7 +1,9 @@
 ﻿namespace EaslyController.Focus
 {
     using System.Windows;
+    using BaseNode;
     using EaslyController.Controller;
+    using EaslyController.Writeable;
 
     /// <summary>
     /// A selection of a node an all its content and children.
@@ -53,7 +55,22 @@
         public override void Paste(out bool isChanged)
         {
             isChanged = false;
-            ((IFocusInternalControllerView)StateView.ControllerView).ReplaceWithClipboardContent(StateView.State);
+
+            if (ClipboardHelper.TryReadNode(out INode Node))
+            {
+                IFocusNodeState State = StateView.State;
+                if (State.ParentInner.InterfaceType.IsAssignableFrom(Node.GetType()))
+                {
+                    if (State.ParentIndex is IFocusBrowsingInsertableIndex AsInsertableIndex)
+                    {
+                        IFocusController Controller = StateView.ControllerView.Controller;
+                        INode ParentNode = State.ParentInner.Owner.Node;
+
+                        IFocusInsertionChildIndex ReplaceIndex = (IFocusInsertionChildIndex)AsInsertableIndex.ToInsertionIndex(ParentNode, Node);
+                        Controller.Replace(State.ParentInner, ReplaceIndex, out IWriteableBrowsingChildIndex NewIndex);
+                    }
+                }
+            }
         }
         #endregion
 

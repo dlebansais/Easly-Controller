@@ -2626,29 +2626,6 @@
             Debug.Assert(IsHandled);
             return Result;
         }
-
-        /// <summary>
-        /// Replaces a node with the content of the clipboard.
-        /// </summary>
-        /// <param name="state">The node state.</param>
-        public virtual void ReplaceWithClipboardContent(IFocusNodeState state)
-        {
-            if (ClipboardHelper.TryReadNode(out INode Node))
-                ReplaceWithClipboardContent(state, Node);
-        }
-
-        /// <summary></summary>
-        protected virtual void ReplaceWithClipboardContent(IFocusNodeState state, INode node)
-        {
-            IFocusInsertionChildIndex ReplaceIndex;
-            INode ParentNode = state.ParentInner.Owner.Node;
-
-            if (state.ParentIndex is IFocusBrowsingInsertableIndex AsInsertableIndex)
-            {
-                ReplaceIndex = (IFocusInsertionChildIndex)AsInsertableIndex.ToInsertionIndex(ParentNode, node);
-                Controller.Replace(state.ParentInner, ReplaceIndex, out IWriteableBrowsingChildIndex NewIndex);
-            }
-        }
         #endregion
 
         #region Debugging

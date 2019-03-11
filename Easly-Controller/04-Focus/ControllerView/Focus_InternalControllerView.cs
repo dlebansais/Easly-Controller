@@ -54,11 +54,5 @@
         /// <param name="propertyName">Name of the property pointing to the template to check.</param>
         /// <param name="textPattern">Expected text.</param>
         bool StringMatchTextPattern(IFocusNodeStateView stateView, string propertyName, string textPattern);
-
-        /// <summary>
-        /// Replaces a node with the content of the clipboard.
-        /// </summary>
-        /// <param name="state">The node state.</param>
-        void ReplaceWithClipboardContent(IFocusNodeState state);
     }
 }
