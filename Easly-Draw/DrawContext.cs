@@ -97,11 +97,6 @@
         /// The padding applied to the entire page.
         /// </summary>
         public Padding PagePadding { get; private set; }
-
-        /// <summary>
-        /// The insertion caret width.
-        /// </summary>
-        public double InsertionCaretWidth { get; private set; }
         #endregion
 
         #region Implementation of IxxxDrawContext
@@ -719,7 +714,6 @@
             FormattedText ft;
 
             ft = new FormattedText(" ", Culture, FlowDirection, Typeface, EmSize, BrushTable[BrushSettings.Default]);
-            InsertionCaretWidth = WhitespaceWidth / 4;
 
             LeftBracketGeometry = ScaleGlyphGeometryHeight("[", true, 0.3, 0.3);
             RightBracketGeometry = ScaleGlyphGeometryHeight("]", true, 0.3, 0.3);

@@ -124,6 +124,11 @@
         public string DotSeparatorString { get; set; }
 
         /// <summary>
+        /// The insertion caret width.
+        /// </summary>
+        public double InsertionCaretWidth { get; private set; }
+
+        /// <summary>
         /// Table of brushes to use when drawing.
         /// </summary>
         public IDictionary<BrushSettings, Brush> BrushTable { get; }
@@ -167,7 +172,11 @@
             if (!maxTextWidth.IsFloating)
                 ft.MaxTextWidth = maxTextWidth.Draw;
 
-            Measure Width = new Measure() { Draw = ft.Width, Print = text.Length };
+            double TextWidth = ft.WidthIncludingTrailingWhitespace;
+            if (TextWidth < InsertionCaretWidth)
+                TextWidth = InsertionCaretWidth;
+
+            Measure Width = new Measure() { Draw = TextWidth, Print = text.Length };
             Measure Height = LineHeight;
             return new Size(Width, Height);
         }
@@ -345,6 +354,7 @@
 
             ft = new FormattedText(" ", Culture, FlowDirection, Typeface, EmSize, BrushTable[BrushSettings.Default]);
             WhitespaceWidth = ft.WidthIncludingTrailingWhitespace;
+            InsertionCaretWidth = WhitespaceWidth / 4;
             LineHeight = new Measure() { Draw = ft.Height, Print = 1 };
             int TabulationLength = 3;
             TabulationWidth = new Measure() { Draw = WhitespaceWidth * TabulationLength, Print = TabulationLength };
