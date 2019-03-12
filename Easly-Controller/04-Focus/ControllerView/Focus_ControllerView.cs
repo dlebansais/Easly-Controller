@@ -543,6 +543,25 @@
         }
 
         /// <summary></summary>
+        private protected virtual void MoveFocusToState(IFocusNodeState state)
+        {
+            List<IFocusNodeStateView> StateViewList = new List<IFocusNodeStateView>();
+            IFocusNodeStateView MainStateView = null;
+            List<IFocusFocus> SameStateFocusableList = new List<IFocusFocus>();
+
+            // Get the state that should have the focus and all its children.
+            if (GetFocusedStateAndChildren(FocusChain, state, out MainStateView, out StateViewList, out SameStateFocusableList))
+            {
+                Debug.Assert(SameStateFocusableList.Count > 0);
+
+                // Use a preferred frame.
+                FindPreferredFrame(MainStateView, SameStateFocusableList);
+
+                ResetCaretPosition(0, true);
+            }
+        }
+
+        /// <summary></summary>
         private protected virtual void SetAnchoredSelection()
         {
             IFocusNodeState AnchorState = SelectionAnchor.State;
@@ -1666,6 +1685,8 @@
 
             IFocusBrowsingCollectionNodeIndex BrowsingIndex = ((IFocusInsertNodeOperation)operation).BrowsingIndex;
             Debug.Assert(ChildState.ParentIndex == BrowsingIndex);
+
+            MoveFocusToState(ChildState);
         }
 
         /// <summary>
