@@ -186,6 +186,11 @@ namespace EditorDebug
             layoutControl.ReduceSelection(sender, e);
         }
 
+        private void OnShowBlockGeometry(object sender, ExecutedRoutedEventArgs e)
+        {
+            layoutControl.ShowBlockGeometry(sender, e);
+        }
+
         public void OnCopy(object sender, ExecutedRoutedEventArgs e)
         {
             layoutControl.OnCopy(sender, e);

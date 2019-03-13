@@ -59,6 +59,20 @@
         void DrawVerticalSeparator(VerticalSeparators separator, Point origin, Measure width);
 
         /// <summary>
+        /// Draws the horizontal line above a block.
+        /// </summary>
+        /// <param name="origin">The location where to draw.</param>
+        /// <param name="width">The separator width.</param>
+        void DrawHorizontalBlockGeometry(Point origin, Measure width);
+
+        /// <summary>
+        /// Draws the vertical line on the left of a block.
+        /// </summary>
+        /// <param name="origin">The location where to draw.</param>
+        /// <param name="height">The separator height.</param>
+        void DrawVerticalBlockGeometry(Point origin, Measure height);
+
+        /// <summary>
         /// Shows the caret.
         /// </summary>
         /// <param name="origin">Location of the cell with the caret.</param>

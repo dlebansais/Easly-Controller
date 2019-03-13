@@ -68,6 +68,7 @@
                 { PenSettings.SelectionNode, new Pen(Brushes.Black, 1) { DashStyle = new DashStyle(new double[] { 1 }, 1) } },
                 { PenSettings.SelectionNodeList, new Pen(Brushes.Black, 1) { DashStyle = new DashStyle(new double[] { 3 }, 3) } },
                 { PenSettings.SelectionBlockList, new Pen(Brushes.Black, 1) { DashStyle = new DashStyle(new double[] { 3 }, 1) } },
+                { PenSettings.BlockGeometry, new Pen(Brushes.Gray, 1) },
             };
         }
         #endregion
@@ -77,6 +78,16 @@
         /// Width of a tabulation margin.
         /// </summary>
         public Measure TabulationWidth { get; private set; }
+
+        /// <summary>
+        /// Width of a vertical block geometry.
+        /// </summary>
+        public Measure BlockGeometryWidth { get; private set; }
+
+        /// <summary>
+        /// Height of an horizontal block geometry.
+        /// </summary>
+        public Measure BlockGeometryHeight { get; private set; }
 
         /// <summary>
         /// Height of a line of text.
@@ -358,6 +369,8 @@
             LineHeight = new Measure() { Draw = ft.Height, Print = 1 };
             int TabulationLength = 3;
             TabulationWidth = new Measure() { Draw = WhitespaceWidth * TabulationLength, Print = TabulationLength };
+            BlockGeometryWidth = new Measure() { Draw = WhitespaceWidth, Print = 1 };
+            BlockGeometryHeight = new Measure() { Draw = LineHeight.Draw, Print = 1 };
             VerticalSeparatorHeightTable[VerticalSeparators.Line] = new Measure() { Draw = LineHeight.Draw * 3, Print = 3 };
 
             ft = new FormattedText(CommaSeparatorString, Culture, FlowDirection, Typeface, EmSize, BrushTable[BrushSettings.Symbol]);

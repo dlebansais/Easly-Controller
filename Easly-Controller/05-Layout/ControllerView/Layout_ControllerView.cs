@@ -97,6 +97,11 @@
         bool ShowUnfocusedComments { get; }
 
         /// <summary>
+        /// Shows block geometry around blocks.
+        /// </summary>
+        bool ShowBlockGeometry { get; }
+
+        /// <summary>
         /// Invalidates the entire view.
         /// </summary>
         void Invalidate();
@@ -159,6 +164,12 @@
         /// </summary>
         /// <param name="show">True to show, false to hide.</param>
         void SetShowUnfocusedComments(bool show);
+
+        /// <summary>
+        /// Sets <see cref="ShowBlockGeometry"/>.
+        /// </summary>
+        /// <param name="show">True to show, false to hide.</param>
+        void SetShowBlockGeometry(bool show);
 
         /// <summary>
         /// Gets the visible cell view corresponding to a location.
@@ -338,6 +349,11 @@
         /// Shows a comment sign over comments in <see cref="CommentDisplayModes.OnFocus"/> mode.
         /// </summary>
         public bool ShowUnfocusedComments { get; private set; }
+
+        /// <summary>
+        /// Shows block geometry around blocks.
+        /// </summary>
+        public bool ShowBlockGeometry { get; private set; }
         #endregion
 
         #region Client Interface
@@ -702,6 +718,19 @@
             if (ShowUnfocusedComments != show)
             {
                 ShowUnfocusedComments = show;
+                Refresh(Controller.RootState);
+            }
+        }
+
+        /// <summary>
+        /// Sets <see cref="ShowBlockGeometry"/>.
+        /// </summary>
+        /// <param name="show">True to show, false to hide.</param>
+        public void SetShowBlockGeometry(bool show)
+        {
+            if (ShowBlockGeometry != show)
+            {
+                ShowBlockGeometry = show;
                 Refresh(Controller.RootState);
             }
         }

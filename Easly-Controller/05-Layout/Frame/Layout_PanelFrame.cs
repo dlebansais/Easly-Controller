@@ -1,6 +1,7 @@
 ﻿namespace EaslyController.Layout
 {
     using System.Diagnostics;
+    using EaslyController.Constants;
     using EaslyController.Focus;
     using EaslyController.Frame;
 
@@ -13,6 +14,12 @@
         /// List of frames within this frame.
         /// </summary>
         new ILayoutFrameList Items { get; }
+
+        /// <summary>
+        /// Indicates that block geometry must be drawn around a block.
+        /// (Set in Xaml)
+        /// </summary>
+        bool HasBlockGeometry { get; }
     }
 
     /// <summary>
@@ -47,6 +54,12 @@
         /// (Set in Xaml)
         /// </summary>
         public new ILayoutBlockFrameVisibility BlockVisibility { get { return (ILayoutBlockFrameVisibility)base.BlockVisibility; } set { base.BlockVisibility = value; } }
+
+        /// <summary>
+        /// Indicates that block geometry must be drawn around a block.
+        /// (Set in Xaml)
+        /// </summary>
+        public bool HasBlockGeometry { get; set; }
         #endregion
 
         #region Implementation

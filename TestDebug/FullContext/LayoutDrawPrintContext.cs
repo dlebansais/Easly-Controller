@@ -11,7 +11,9 @@ namespace TestDebug
 
         public Measure LineHeight { get { return new Measure() { Draw = 12, Print = 1 }; } }
         public Measure TabulationWidth { get { return new Measure() { Draw = 24, Print = 2 }; } }
-        
+        public Measure BlockGeometryWidth { get { return new Measure() { Draw = 12, Print = 1 }; } }
+        public Measure BlockGeometryHeight { get { return new Measure() { Draw = 12, Print = 1 }; } }
+
         public Measure GetHorizontalSeparatorWidth(HorizontalSeparators separator)
         {
             return Measure.Zero;
@@ -20,6 +22,14 @@ namespace TestDebug
         public Measure GetVerticalSeparatorHeight(VerticalSeparators separator)
         {
             return Measure.Zero;
+        }
+
+        public virtual void DrawHorizontalBlockGeometry(Point origin, Measure width)
+        {
+        }
+
+        public virtual void DrawVerticalBlockGeometry(Point origin, Measure height)
+        {
         }
 
         public Size MeasureSymbolSize(Symbols symbol)

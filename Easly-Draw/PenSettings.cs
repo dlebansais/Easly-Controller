@@ -44,5 +44,10 @@
         /// The pen for drawing around a block list selection.
         /// </summary>
         SelectionBlockList,
+
+        /// <summary>
+        /// The pen for drawing a block geometry.
+        /// </summary>
+        BlockGeometry,
     }
 }

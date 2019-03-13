@@ -97,6 +97,11 @@
         /// The separator measure.
         /// </summary>
         public Measure SeparatorLength { get; private set; }
+
+        /// <summary>
+        /// Indicates that block geometry must be drawn around a block.
+        /// </summary>
+        public bool HasBlockGeometry { get { return (Frame is ILayoutPanelFrame AsPanelFrame && AsPanelFrame.HasBlockGeometry) && StateView.ControllerView.ShowBlockGeometry; } }
         #endregion
 
         #region Client Interface
@@ -178,7 +183,7 @@
             Size AccumulatedSize = Size.Empty;
 
             if (!Width.IsZero)
-                AccumulatedSize = new Size(Width, Height);
+                AccumulatedSize = new Size(Width, Height + (HasBlockGeometry ? MeasureContext.BlockGeometryHeight : Controller.Measure.Zero));
 
             CellSize = AccumulatedSize;
             ActualCellSize = RegionHelper.InvalidSize;
@@ -201,7 +206,7 @@
             Debug.Assert(MeasureContext != null);
 
             Measure OriginX = origin.X;
-            Measure OriginY = origin.Y;
+            Measure OriginY = origin.Y + (HasBlockGeometry ? MeasureContext.BlockGeometryHeight : Controller.Measure.Zero);
 
             for (int i = 0; i < CellViewList.Count; i++)
             {
@@ -220,7 +225,7 @@
             }
 
             Point FinalOrigin = new Point(OriginX, OriginY);
-            Point ExpectedOrigin = CellOrigin.Moved(CellSize.Width, Controller.Measure.Zero);
+            Point ExpectedOrigin = CellOrigin.Moved(CellSize.Width, HasBlockGeometry ? MeasureContext.BlockGeometryHeight : Controller.Measure.Zero);
             bool IsEqual = Point.IsEqual(FinalOrigin, ExpectedOrigin);
             Debug.Assert(IsEqual);
         }
@@ -272,6 +277,7 @@
             Debug.Assert(RegionHelper.IsFixed(ActualCellSize));
 
             DrawSelection();
+            DrawBlockGeometry();
 
             foreach (ILayoutCellView CellView in CellViewList)
                 CellView.Draw();
@@ -338,6 +344,18 @@
             double Width = CellViewList[endIndex].CellOrigin.X.Draw + CellViewList[endIndex].ActualCellSize.Width.Draw - X;
 
             return new Rect(X, CellOrigin.Y.Draw, Width, ActualCellSize.Height.Draw);
+        }
+
+        /// <summary></summary>
+        protected virtual void DrawBlockGeometry()
+        {
+            if (HasBlockGeometry)
+            {
+                ILayoutDrawContext DrawContext = StateView.ControllerView.DrawContext;
+                Debug.Assert(DrawContext != null);
+
+                DrawContext.DrawHorizontalBlockGeometry(CellOrigin, ActualCellSize.Width);
+            }
         }
 
         /// <summary>

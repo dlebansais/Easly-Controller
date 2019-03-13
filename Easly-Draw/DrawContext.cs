@@ -416,6 +416,56 @@
         }
 
         /// <summary>
+        /// Draws the horizontal line above a block.
+        /// </summary>
+        /// <param name="origin">The location where to draw.</param>
+        /// <param name="width">The separator width.</param>
+        public virtual void DrawHorizontalBlockGeometry(Point origin, Measure width)
+        {
+            Debug.Assert(WpfDrawingContext != null);
+
+            Pen LinePen = PenTable[PenSettings.BlockGeometry];
+            double X = PagePadding.Left.Draw + origin.X.Draw;
+            double Y = PagePadding.Top.Draw + origin.Y.Draw;
+            double d0 = BlockGeometryHeight.Draw;
+            double d1 = BlockGeometryHeight.Draw / 2;
+
+            System.Windows.Point point0 = new System.Windows.Point(X, Y + d0);
+            System.Windows.Point point1 = new System.Windows.Point(X, Y + d1);
+            System.Windows.Point point2 = new System.Windows.Point(X + width.Draw, Y + d1);
+            System.Windows.Point point3 = new System.Windows.Point(X + width.Draw, Y + d0);
+
+            WpfDrawingContext.DrawLine(LinePen, point0, point1);
+            WpfDrawingContext.DrawLine(LinePen, point1, point2);
+            WpfDrawingContext.DrawLine(LinePen, point2, point3);
+        }
+
+        /// <summary>
+        /// Draws the vertical line on the left of a block.
+        /// </summary>
+        /// <param name="origin">The location where to draw.</param>
+        /// <param name="height">The separator height.</param>
+        public virtual void DrawVerticalBlockGeometry(Point origin, Measure height)
+        {
+            Debug.Assert(WpfDrawingContext != null);
+
+            Pen LinePen = PenTable[PenSettings.BlockGeometry];
+            double X = PagePadding.Left.Draw + origin.X.Draw;
+            double Y = PagePadding.Top.Draw + origin.Y.Draw;
+            double d0 = BlockGeometryWidth.Draw;
+            double d1 = BlockGeometryWidth.Draw / 2;
+
+            System.Windows.Point point0 = new System.Windows.Point(X + d0, Y);
+            System.Windows.Point point1 = new System.Windows.Point(X + d1, Y);
+            System.Windows.Point point2 = new System.Windows.Point(X + d1, Y + height.Draw);
+            System.Windows.Point point3 = new System.Windows.Point(X + d0, Y + height.Draw);
+
+            WpfDrawingContext.DrawLine(LinePen, point0, point1);
+            WpfDrawingContext.DrawLine(LinePen, point1, point2);
+            WpfDrawingContext.DrawLine(LinePen, point2, point3);
+        }
+
+        /// <summary>
         /// Shows the caret.
         /// </summary>
         /// <param name="origin">Location of the cell with the caret.</param>

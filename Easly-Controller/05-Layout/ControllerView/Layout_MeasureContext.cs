@@ -14,6 +14,16 @@
         Measure TabulationWidth { get; }
 
         /// <summary>
+        /// Width of a vertical block geometry.
+        /// </summary>
+        Measure BlockGeometryWidth { get; }
+
+        /// <summary>
+        /// Height of an horizontal block geometry.
+        /// </summary>
+        Measure BlockGeometryHeight { get; }
+
+        /// <summary>
         /// Height of a line of text.
         /// </summary>
         Measure LineHeight { get; }

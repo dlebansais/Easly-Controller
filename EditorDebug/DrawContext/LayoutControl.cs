@@ -567,6 +567,12 @@
             e.Handled = true;
         }
 
+        public void ShowBlockGeometry(object sender, ExecutedRoutedEventArgs e)
+        {
+            ControllerView.SetShowBlockGeometry(!ControllerView.ShowBlockGeometry);
+            InvalidateVisual();
+        }
+
         public void Undo(object sender, ExecutedRoutedEventArgs e)
         {
             if (Controller.CanUndo)

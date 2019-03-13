@@ -1,5 +1,6 @@
 ﻿namespace EaslyController.Layout
 {
+    using System;
     using System.Diagnostics;
     using System.Windows.Markup;
     using EaslyController.Constants;
@@ -54,10 +55,36 @@
         public bool HasTabulationMargin { get; set; }
 
         /// <summary>
+        /// Indicates that block geometry must be drawn around a block.
+        /// (Set in Xaml)
+        /// </summary>
+        public bool HasBlockGeometry { get; set; }
+
+        /// <summary>
         /// Vertical separator.
         /// (Set in Xaml)
         /// </summary>
         public VerticalSeparators Separator { get; set; }
+        #endregion
+
+        #region Client Interface
+        /// <summary>
+        /// Checks that a frame is correctly constructed.
+        /// </summary>
+        /// <param name="nodeType">Type of the node this frame can describe.</param>
+        /// <param name="nodeTemplateTable">Table of templates with all frames.</param>
+        /// <param name="commentFrameCount">Number of comment frames found so far.</param>
+        public override bool IsValid(Type nodeType, IFrameTemplateReadOnlyDictionary nodeTemplateTable, ref int commentFrameCount)
+        {
+            bool IsValid = true;
+
+            IsValid &= base.IsValid(nodeType, nodeTemplateTable, ref commentFrameCount);
+            IsValid &= !HasBlockGeometry || (ParentTemplate is ILayoutBlockTemplate);
+            IsValid &= !HasBlockGeometry || (ParentFrame.ParentTemplate == null);
+
+            Debug.Assert(IsValid);
+            return IsValid;
+        }
         #endregion
 
         #region Implementation

@@ -24,6 +24,7 @@
         <RoutedCommand x:Key="ReduceCommand"/>
         <RoutedCommand x:Key="ExtendSelectionCommand"/>
         <RoutedCommand x:Key="ReduceSelectionCommand"/>
+        <RoutedCommand x:Key="ShowBlockGeometryCommand"/>
     </Window.Resources>
     <Window.CommandBindings>
         <CommandBinding Command="{StaticResource BrowseCommand}" Executed="OnBrowse"/>
@@ -53,6 +54,7 @@
                         <KeyBinding Command="{StaticResource ReduceCommand}" Gesture="Ctrl+Shift+D"/>
                         <KeyBinding Command="{StaticResource ExtendSelectionCommand}" Gesture="Ctrl+A"/>
                         <KeyBinding Command="{StaticResource ReduceSelectionCommand}" Gesture="Ctrl+Shift+A"/>
+                        <KeyBinding Command="{StaticResource ShowBlockGeometryCommand}" Gesture="Ctrl+U"/>
                         <KeyBinding Command="ApplicationCommands.Redo" Gesture="Ctrl+Shift+Z"/>
                         <KeyBinding Command="ApplicationCommands.Undo" Gesture="Ctrl+Z"/>
                         <KeyBinding Command="ApplicationCommands.Copy" Gesture="Ctrl+C"/>
@@ -79,6 +81,7 @@
                         <CommandBinding Command="{StaticResource ReduceCommand}" Executed="OnReduce"/>
                         <CommandBinding Command="{StaticResource ExtendSelectionCommand}" Executed="OnExtendSelection"/>
                         <CommandBinding Command="{StaticResource ReduceSelectionCommand}" Executed="OnReduceSelection"/>
+                        <CommandBinding Command="{StaticResource ShowBlockGeometryCommand}" Executed="OnShowBlockGeometry"/>
                         <CommandBinding Command="ApplicationCommands.Redo" Executed="OnRedo"/>
                         <CommandBinding Command="ApplicationCommands.Undo" Executed="OnUndo"/>
                         <CommandBinding Command="ApplicationCommands.Copy" Executed="OnCopy"/>
