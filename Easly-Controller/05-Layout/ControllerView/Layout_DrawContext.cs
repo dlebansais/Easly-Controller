@@ -111,6 +111,13 @@
         void DrawSelectionRectangle(Rect rect, SelectionStyles selectionStyle);
 
         /// <summary>
+        /// Get the absolute location where draw occurs corresponding to the specified relative location.
+        /// </summary>
+        /// <param name="x">X-coordinate of the location, relative on entry, absolute upon return.</param>
+        /// <param name="y">Y-coordinate of the location, relative on entry, absolute upon return.</param>
+        void FromRelativeLocation(ref double x, ref double y);
+
+        /// <summary>
         /// Get the location where draw occurs corresponding to the specified absolute location.
         /// </summary>
         /// <param name="x">X-coordinate of the location, absolute on entry, relative upon return.</param>

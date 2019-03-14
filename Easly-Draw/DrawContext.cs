@@ -666,6 +666,17 @@
         }
 
         /// <summary>
+        /// Get the absolute location where draw occurs corresponding to the specified relative location.
+        /// </summary>
+        /// <param name="x">X-coordinate of the location, relative on entry, absolute upon return.</param>
+        /// <param name="y">Y-coordinate of the location, relative on entry, absolute upon return.</param>
+        public virtual void FromRelativeLocation(ref double x, ref double y)
+        {
+            x += PagePadding.Left.Draw;
+            y += PagePadding.Top.Draw;
+        }
+
+        /// <summary>
         /// Get the location where draw occurs corresponding to the specified absolute location.
         /// </summary>
         /// <param name="x">X-coordinate of the location, absolute on entry, relative upon return.</param>

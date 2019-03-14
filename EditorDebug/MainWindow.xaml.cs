@@ -118,7 +118,7 @@ namespace EditorDebug
 
         private void OnEnterParagraphBreak(object sender, ExecutedRoutedEventArgs e)
         {
-            layoutControl.InsertNewItem(sender, e);
+            layoutControl.OnEnter(sender, e);
         }
 
         private void OnToggleUserVisible(object sender, ExecutedRoutedEventArgs e)
@@ -217,7 +217,7 @@ namespace EditorDebug
         {
             ILayoutRootNodeIndex RootIndex = new LayoutRootNodeIndex(rootNode);
             Controller = LayoutController.Create(RootIndex);
-            layoutControl.SetController(Controller);
+            layoutControl.SetController(Controller, layoutControl);
         }
 
         private void UpdateView()

@@ -1,8 +1,10 @@
 ﻿namespace EditorDebug
 {
+    using System;
     using System.Diagnostics;
     using System.Windows;
     using System.Windows.Controls;
+    using System.Windows.Controls.Primitives;
     using System.Windows.Input;
     using System.Windows.Media;
     using BaseNode;
@@ -18,7 +20,7 @@
     {
         public static readonly string NodeClipboardFormat = "185F4C03-D513-4F86-ADDB-C13C87417E81";
 
-        public void SetController(ILayoutController controller)
+        public void SetController(ILayoutController controller, UIElement parentUi)
         {
             Controller = controller;
 
@@ -40,6 +42,8 @@
             KeyboardManager = new KeyboardManager(this);
             KeyboardManager.CharacterKey += OnKeyCharacter;
             KeyboardManager.MoveKey += OnKeyMove;
+
+            InitTextReplacement(parentUi);
         }
 
         private void OnKeyCharacter(object sender, CharacterKeyEventArgs e)
@@ -70,6 +74,7 @@
             ControllerView.ChangedFocusedText(FocusedText, CaretPosition, changeCaretBeforeText: false);
 
             InvalidateVisual();
+            UpdateTextReplacement();
         }
 
         private void ChangeDiscreteValue(ILayoutDiscreteContentFocus focus, int code, Key key)
@@ -108,6 +113,7 @@
                 Controller.SplitIdentifier(Inner, ReplaceIndex, InsertIndex, out IWriteableBrowsingListNodeIndex FirstIndex, out IWriteableBrowsingListNodeIndex SecondIndex);
 
                 InvalidateVisual();
+                UpdateTextReplacement();
             }
             else
                 ChangeText(focus, '.');
@@ -159,12 +165,18 @@
                     break;
 
                 case MoveDirections.Up:
-                    MoveFocusVertically(-1, resetAnchor);
+                    if (ReplacementPopup.IsOpen)
+                        ReplacementPopup.SelectPreviousLine();
+                    else
+                        MoveFocusVertically(-1, resetAnchor);
                     IsHandled = true;
                     break;
 
                 case MoveDirections.Down:
-                    MoveFocusVertically(+1, resetAnchor);
+                    if (ReplacementPopup.IsOpen)
+                        ReplacementPopup.SelectNextLine();
+                    else
+                        MoveFocusVertically(+1, resetAnchor);
                     IsHandled = true;
                     break;
 
@@ -299,6 +311,7 @@
                     InvalidateMeasure();
 
                 InvalidateVisual();
+                UpdateTextReplacement();
             }
         }
 
@@ -317,6 +330,7 @@
                     InvalidateMeasure();
 
                 InvalidateVisual();
+                UpdateTextReplacement();
             }
         }
 
@@ -324,14 +338,20 @@
         {
             ControllerView.MoveFocusVertically(ControllerView.DrawContext.LineHeight.Draw * direction, resetAnchor, out bool IsMoved);
             if (IsMoved)
+            {
                 InvalidateVisual();
+                UpdateTextReplacement();
+            }
         }
 
         private void MoveFocusHorizontally(int direction, bool resetAnchor)
         {
             ControllerView.MoveFocusHorizontally(direction, resetAnchor, out bool IsMoved);
             if (IsMoved)
+            {
                 InvalidateVisual();
+                UpdateTextReplacement();
+            }
         }
 
         private void MoveFocus(int direction, bool resetAnchor, out bool isMoved)
@@ -352,7 +372,10 @@
             }
 
             if (isMoved)
+            {
                 InvalidateVisual();
+                UpdateTextReplacement();
+            }
         }
 
         private void MoveExistingBlock(int direction)
@@ -363,6 +386,7 @@
             Controller.MoveBlock(inner, blockIndex, direction);
 
             InvalidateVisual();
+            UpdateTextReplacement();
         }
 
         private void MoveExistingItem(int direction)
@@ -373,6 +397,7 @@
             Controller.Move(inner, index, direction);
 
             InvalidateVisual();
+            UpdateTextReplacement();
         }
 
         public void OnToggleInsert(object sender, ExecutedRoutedEventArgs e)
@@ -416,6 +441,7 @@
                     ControllerView.ChangedFocusedText(FocusedText, CaretPosition, changeCaretBeforeText: true);
 
                     InvalidateVisual();
+                    UpdateTextReplacement();
                 }
             }
         }
@@ -424,20 +450,42 @@
         {
             ControllerView.ForceShowComment(out bool IsMoved);
             if (IsMoved)
+            {
                 InvalidateVisual();
+                UpdateTextReplacement();
+            }
 
             e.Handled = true;
         }
 
-        public void InsertNewItem(object sender, ExecutedRoutedEventArgs e)
+        public void OnEnter(object sender, ExecutedRoutedEventArgs e)
+        {
+            if (ReplacementPopup.IsOpen && ReplacementPopup.SelectedNode != null)
+                ReplaceItem(ReplacementPopup.SelectedNode);
+            else
+                InsertNewItem();
+
+            e.Handled = true;
+        }
+
+        public void ReplaceItem(INode node)
+        {
+            ILayoutInner Inner = ControllerView.Focus.CellView.StateView.State.ParentInner;
+            ILayoutBrowsingInsertableIndex NodeIndex = ControllerView.Focus.CellView.StateView.State.ParentIndex as ILayoutBrowsingInsertableIndex;
+            ILayoutInsertionChildIndex ReplacementIndex = NodeIndex.ToInsertionIndex(Inner.Owner.Node, node) as ILayoutInsertionChildIndex;
+
+            Controller.Replace(Inner, ReplacementIndex, out IWriteableBrowsingChildIndex nodeIndex);
+            InvalidateVisual();
+        }
+
+        public void InsertNewItem()
         {
             if (ControllerView.IsNewItemInsertable(out IFocusCollectionInner inner, out IFocusInsertionCollectionNodeIndex index))
             {
                 Controller.Insert(inner, index, out IWriteableBrowsingCollectionNodeIndex nodeIndex);
                 InvalidateVisual();
+                UpdateTextReplacement();
             }
-
-            e.Handled = true;
         }
 
         public void RemoveExistingItem(object sender, ExecutedRoutedEventArgs e)
@@ -446,6 +494,7 @@
             {
                 Controller.Remove(inner, index);
                 InvalidateVisual();
+                UpdateTextReplacement();
             }
 
             e.Handled = true;
@@ -457,6 +506,7 @@
             {
                 Controller.SplitBlock(inner, index);
                 InvalidateVisual();
+                UpdateTextReplacement();
             }
 
             e.Handled = true;
@@ -751,5 +801,86 @@
                 dataObject.SetData("Text", Content);
             }
         }
+
+        #region Text Replacememt
+        private void InitTextReplacement(UIElement parentUi)
+        {
+            ReplacementPopup = new TextReplacement();
+            ReplacementPopup.Placement = PlacementMode.RelativePoint;
+            ReplacementPopup.PlacementTarget = parentUi;
+            ReplacementState = ReplacementStates.Hidden;
+        }
+
+        private void UpdateTextReplacement()
+        {
+            Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Render, new Action(UpdateTextReplacement2));
+        }
+
+        private void UpdateTextReplacement2()
+        {
+            if (ControllerView.Focus is ILayoutTextFocus AsTextFocus)
+            {
+                string FocusedText = ControllerView.FocusedText;
+                ReplacementPopup.SetText(FocusedText);
+
+                switch (ReplacementState)
+                {
+                    case ReplacementStates.Hidden:
+                        if (FocusedText.Length <= 1)
+                        {
+                            if (ReplacementPopup.HasReplacementOptions)
+                                ShowTextReplacement();
+                            else
+                                ReplacementState = ReplacementStates.Ready;
+                        }
+                        break;
+
+                    case ReplacementStates.Ready:
+                        if (ReplacementPopup.HasReplacementOptions)
+                            ShowTextReplacement();
+                        break;
+
+                    case ReplacementStates.Shown:
+                        if (ReplacementPopup.HasReplacementOptions)
+                            SetReplacementPopupPosition();
+                        else
+                            HideTextReplacement(false);
+                        break;
+
+                    case ReplacementStates.Closed:
+                        break;
+                }
+            }
+        }
+
+        private void SetReplacementPopupPosition()
+        {
+            EaslyController.Controller.Point Origin = ControllerView.Focus.CellView.CellOrigin;
+            EaslyController.Controller.Size Size = ControllerView.Focus.CellView.ActualCellSize;
+            double X = Origin.X.Draw;
+            double Y = Origin.Y.Draw + Size.Height.Draw;
+            ControllerView.DrawContext.FromRelativeLocation(ref X, ref Y);
+
+            ReplacementPopup.HorizontalOffset = X;
+            ReplacementPopup.VerticalOffset = Y;
+        }
+
+        private void ShowTextReplacement()
+        {
+            SetReplacementPopupPosition();
+            ReplacementPopup.IsOpen = true;
+
+            ReplacementState = ReplacementStates.Shown;
+        }
+
+        private void HideTextReplacement(bool untilFocusChanged)
+        {
+            ReplacementPopup.IsOpen = false;
+            ReplacementState = untilFocusChanged ? ReplacementStates.Closed : ReplacementStates.Ready;
+        }
+
+        TextReplacement ReplacementPopup;
+        ReplacementStates ReplacementState;
+        #endregion
     }
 }

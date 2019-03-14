@@ -70,9 +70,17 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="DrawContext\LayoutControl.cs" />
+    <Compile Include="DrawContext\Replacement States.cs" />
+    <Compile Include="DrawContext\TextReplacement.xaml.cs">
+      <DependentUpon>TextReplacement.xaml</DependentUpon>
+    </Compile>
     <Compile Include="TemplateSet\CustomLayoutTemplateSet.cs" />
     <Compile Include="TemplateSet\CustomFocusTemplateSet.cs" />
     <Compile Include="TemplateSet\CustomFrameTemplateSet.cs" />
+    <Page Include="DrawContext\TextReplacement.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

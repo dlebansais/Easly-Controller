@@ -114,6 +114,10 @@ namespace TestDebug
             return 0;
         }
 
+        public virtual void FromRelativeLocation(ref double x, ref double y)
+        {
+        }
+
         public void ToRelativeLocation(ref double x, ref double y)
         {
         }
