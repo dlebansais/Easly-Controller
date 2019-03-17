@@ -77,22 +77,27 @@
         /// <summary>
         /// Width of a tabulation margin.
         /// </summary>
-        public Measure TabulationWidth { get; private set; }
+        public Measure TabulationWidth { get; protected set; }
 
         /// <summary>
         /// Width of a vertical block geometry.
         /// </summary>
-        public Measure BlockGeometryWidth { get; private set; }
+        public Measure BlockGeometryWidth { get; protected set; }
 
         /// <summary>
         /// Height of an horizontal block geometry.
         /// </summary>
-        public Measure BlockGeometryHeight { get; private set; }
+        public Measure BlockGeometryHeight { get; protected set; }
 
         /// <summary>
         /// Height of a line of text.
         /// </summary>
-        public Measure LineHeight { get; private set; }
+        public Measure LineHeight { get; protected set; }
+
+        /// <summary>
+        /// The padding applied to the entire page.
+        /// </summary>
+        public Padding PagePadding { get; protected set; }
 
         /// <summary>
         /// The font family, weight, style and stretch the text should be formatted with.
@@ -137,7 +142,7 @@
         /// <summary>
         /// The insertion caret width.
         /// </summary>
-        public double InsertionCaretWidth { get; private set; }
+        public double InsertionCaretWidth { get; protected set; }
 
         /// <summary>
         /// Table of brushes to use when drawing.
@@ -381,7 +386,7 @@
         }
 
         /// <summary></summary>
-        protected double WhitespaceWidth { get; private set; }
+        protected double WhitespaceWidth { get; set; }
 
         /// <summary></summary>
         protected Dictionary<HorizontalSeparators, Measure> HorizontalSeparatorWidthTable { get; } = new Dictionary<HorizontalSeparators, Measure>()

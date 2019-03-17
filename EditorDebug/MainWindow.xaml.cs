@@ -146,7 +146,7 @@ namespace EditorDebug
             layoutControl.CycleThroughExistingItem(sender, e);
         }
 
-        private void OnSimplifyThroughExistingItem(object sender, ExecutedRoutedEventArgs e)
+        private void OnSimplifyExistingItem(object sender, ExecutedRoutedEventArgs e)
         {
             layoutControl.SimplifyExistingItem(sender, e);
         }

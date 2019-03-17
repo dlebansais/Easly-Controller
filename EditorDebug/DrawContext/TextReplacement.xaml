@@ -2,5 +2,10 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:EditorDebug">
-    <ListBox x:Name="listOptions" ItemsSource="{Binding OptionNodeList}" FontSize="13.3333" FontFamily="Consolas"/>
+    <Popup.Resources>
+        <DataTemplate x:Key="NodeTemplate">
+            <local:DisplayControl Node="{Binding Node}"/>
+        </DataTemplate>
+    </Popup.Resources>
+    <ListBox x:Name="listOptions" ItemsSource="{Binding IndexList}" ItemTemplate="{StaticResource NodeTemplate}"/>
 </Popup>

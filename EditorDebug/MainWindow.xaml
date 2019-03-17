@@ -9,7 +9,7 @@
         MinWidth="600"
         MinHeight="400"
         MaxWidth="2000"
-        MaxHeight="1000"
+        MaxHeight="700"
         Title="MainWindow">
     <Window.Resources>
         <RoutedCommand x:Key="BrowseCommand"/>
@@ -18,7 +18,7 @@
         <RoutedCommand x:Key="SplitExistingItemCommand"/>
         <RoutedCommand x:Key="MergeExistingItemCommand"/>
         <RoutedCommand x:Key="CycleThroughExistingItemCommand"/>
-        <RoutedCommand x:Key="SimplifyThroughExistingItemCommand"/>
+        <RoutedCommand x:Key="SimplifyExistingItemCommand"/>
         <RoutedCommand x:Key="ToggleReplicateCommand"/>
         <RoutedCommand x:Key="ExpandCommand"/>
         <RoutedCommand x:Key="ReduceCommand"/>
@@ -48,7 +48,7 @@
                         <KeyBinding Command="{StaticResource SplitExistingItemCommand}" Gesture="Ctrl+S"/>
                         <KeyBinding Command="{StaticResource MergeExistingItemCommand}" Gesture="Ctrl+M"/>
                         <KeyBinding Command="{StaticResource CycleThroughExistingItemCommand}" Gesture="Ctrl+T"/>
-                        <KeyBinding Command="{StaticResource SimplifyThroughExistingItemCommand}" Gesture="Ctrl+I"/>
+                        <KeyBinding Command="{StaticResource SimplifyExistingItemCommand}" Gesture="Ctrl+I"/>
                         <KeyBinding Command="{StaticResource ToggleReplicateCommand}" Gesture="Ctrl+R"/>
                         <KeyBinding Command="{StaticResource ExpandCommand}" Gesture="Ctrl+D"/>
                         <KeyBinding Command="{StaticResource ReduceCommand}" Gesture="Ctrl+Shift+D"/>
@@ -75,7 +75,7 @@
                         <CommandBinding Command="{StaticResource SplitExistingItemCommand}" Executed="OnSplitExistingItem"/>
                         <CommandBinding Command="{StaticResource MergeExistingItemCommand}" Executed="OnMergeExistingItem"/>
                         <CommandBinding Command="{StaticResource CycleThroughExistingItemCommand}" Executed="OnCycleThroughExistingItem"/>
-                        <CommandBinding Command="{StaticResource SimplifyThroughExistingItemCommand}" Executed="OnSimplifyThroughExistingItem"/>
+                        <CommandBinding Command="{StaticResource SimplifyExistingItemCommand}" Executed="OnSimplifyExistingItem"/>
                         <CommandBinding Command="{StaticResource ToggleReplicateCommand}" Executed="OnToggleReplicate"/>
                         <CommandBinding Command="{StaticResource ExpandCommand}" Executed="OnExpand"/>
                         <CommandBinding Command="{StaticResource ReduceCommand}" Executed="OnReduce"/>

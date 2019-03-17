@@ -1,8 +1,10 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Controls.Primitives;
 using BaseNode;
+using EaslyController.Focus;
 
 namespace EditorDebug
 {
@@ -15,24 +17,23 @@ namespace EditorDebug
         {
             InitializeComponent();
             DataContext = this;
-
-            OptionNodeList.Add("X");
-            OptionNodeList.Add("Y");
-            OptionNodeList.Add("Z");
-            listOptions.SelectedIndex = 0;
         }
 
-        public string Text { get; private set; }
-
-        public bool HasReplacementOptions { get { return Text != null && Text.Length > 1; } }
-
-        public ObservableCollection<string> OptionNodeList { get; } = new ObservableCollection<string>();
+        public IFocusInner Inner { get; private set; }
+        public ObservableCollection<IFocusInsertionChildIndex> IndexList { get; private set; } = new ObservableCollection<IFocusInsertionChildIndex>();
 
         public INode SelectedNode { get; private set; }
 
-        public void SetText(string text)
+        public void SetReplacement(IFocusInner inner, List<IFocusInsertionChildIndex> indexList)
         {
-            Text = text;
+            Inner = inner;
+
+            IndexList.Clear();
+            foreach (IFocusInsertionChildIndex Index in indexList)
+                IndexList.Add(Index);
+
+            if (listOptions.SelectedIndex < 0 && IndexList.Count > 0)
+                listOptions.SelectedIndex = 0;
         }
 
         public void SelectPreviousLine()
@@ -43,7 +44,7 @@ namespace EditorDebug
 
         public void SelectNextLine()
         {
-            if (listOptions.SelectedIndex + 1 < OptionNodeList.Count)
+            if (listOptions.SelectedIndex + 1 < IndexList.Count)
                 listOptions.SelectedIndex++;
         }
 

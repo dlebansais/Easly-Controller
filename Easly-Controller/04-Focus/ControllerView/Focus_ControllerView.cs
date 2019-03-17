@@ -208,6 +208,14 @@
         bool IsItemSimplifiable(out IFocusInner inner, out IFocusInsertionChildIndex index);
 
         /// <summary>
+        /// Checks if a node can be complexified.
+        /// </summary>
+        /// <param name="inner">Inner to use to replace the node upon return.</param>
+        /// <param name="indexList">List of indexes of more complex nodes upon return.</param>
+        /// <returns>True if a node can be complexified at the focus.</returns>
+        bool IsItemComplexifiable(out IFocusInner inner, out List<IFocusInsertionChildIndex> indexList);
+
+        /// <summary>
         /// Checks if an existing identifier at the focus can be split in two.
         /// </summary>
         /// <param name="inner">Inner to use to split the identifier upon return.</param>
@@ -1147,6 +1155,62 @@
             }
 
             return IsSimplifiable;
+        }
+
+        /// <summary>
+        /// Checks if a node can be complexified.
+        /// </summary>
+        /// <param name="inner">Inner to use to replace the node upon return.</param>
+        /// <param name="indexList">List of indexes of more complex nodes upon return.</param>
+        /// <returns>True if a node can be complexified at the focus.</returns>
+        public virtual bool IsItemComplexifiable(out IFocusInner inner, out List<IFocusInsertionChildIndex> indexList)
+        {
+            inner = null;
+            indexList = new List<IFocusInsertionChildIndex>();
+
+            bool IsComplexifiable = false;
+
+            IFocusNodeState CurrentState = Focus.CellView.StateView.State;
+
+            // Search recursively for a complexifiable node.
+            while (CurrentState != null)
+            {
+                if (NodeHelper.GetComplexifiedNodeList(CurrentState.Node, out List<INode> ComplexifiedNodeList))
+                {
+                    Debug.Assert(ComplexifiedNodeList != null && ComplexifiedNodeList.Count > 0);
+                    Type InterfaceType = CurrentState.ParentInner.InterfaceType;
+                    bool IsAssignable = true;
+
+                    foreach (INode ComplexifiedNode in ComplexifiedNodeList)
+                        if (!InterfaceType.IsAssignableFrom(ComplexifiedNode.GetType()))
+                        {
+                            IsAssignable = false;
+                            break;
+                        }
+
+                    if (IsAssignable)
+                    {
+                        IFocusBrowsingChildIndex ParentIndex = CurrentState.ParentIndex as IFocusBrowsingChildIndex;
+                        Debug.Assert(ParentIndex != null);
+
+                        inner = CurrentState.ParentInner;
+
+                        foreach (INode ComplexifiedNode in ComplexifiedNodeList)
+                        {
+                            IFocusInsertionChildIndex NodeIndex = ((IFocusBrowsingInsertableIndex)ParentIndex).ToInsertionIndex(inner.Owner.Node, ComplexifiedNode) as IFocusInsertionChildIndex;
+                            indexList.Add(NodeIndex);
+                        }
+
+                        IsComplexifiable = true;
+                    }
+
+                    break;
+                }
+
+                CurrentState = CurrentState.ParentState;
+            }
+
+            return IsComplexifiable;
         }
 
         /// <summary>

@@ -29,6 +29,11 @@
         Measure LineHeight { get; }
 
         /// <summary>
+        /// The padding applied to the entire page.
+        /// </summary>
+        Padding PagePadding { get; }
+
+        /// <summary>
         /// Gets the width corresponding to a separator between cells in a line.
         /// </summary>
         /// <param name="separator">The separator.</param>

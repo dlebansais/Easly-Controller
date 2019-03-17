@@ -23,9 +23,9 @@
         /// <summary>
         /// Creates and initializes a new context.
         /// </summary>
-        public static DrawContext CreateDrawContext()
+        public static DrawContext CreateDrawContext(bool hasCommentIcon)
         {
-            DrawContext Result = new DrawContext();
+            DrawContext Result = new DrawContext(hasCommentIcon);
             Result.Update();
             return Result;
         }
@@ -33,7 +33,7 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="DrawContext"/> class.
         /// </summary>
-        protected DrawContext()
+        protected DrawContext(bool hasCommentIcon)
         {
             IsLastFocusedFullCell = false;
 
@@ -41,7 +41,9 @@
             FlashAnimation.RepeatBehavior = RepeatBehavior.Forever;
             FlashAnimation.EasingFunction = new FlashEasingFunction();
             FlashClock = FlashAnimation.CreateClock();
-            CommentIcon = LoadPngResource("Comment");
+
+            if (hasCommentIcon)
+                CommentIcon = LoadPngResource("Comment");
         }
 
         private BitmapSource LoadPngResource(string resourceName)
@@ -92,11 +94,6 @@
         /// The padding margin applied to comment text.
         /// </summary>
         public Padding CommentPadding { get; private set; }
-
-        /// <summary>
-        /// The padding applied to the entire page.
-        /// </summary>
-        public Padding PagePadding { get; private set; }
         #endregion
 
         #region Implementation of IxxxDrawContext
@@ -785,19 +782,12 @@
             HorizontalLineGeometry = ScaleGlyphGeometryWidth("-", true, 0, 0);
             CommentPadding = new Padding(new Measure() { Draw = WhitespaceWidth / 2 }, new Measure() { Draw = LineHeight.Draw / 4 }, new Measure() { Draw = WhitespaceWidth / 2 }, new Measure() { Draw = LineHeight.Draw / 4 });
 
-            double PagePaddingX, PagePaddingY;
             if (CommentIcon != null)
             {
-                PagePaddingX = CommentIcon.Width / 2;
-                PagePaddingY = CommentIcon.Height / 2;
+                double PagePaddingX = CommentIcon.Width / 2;
+                double PagePaddingY = CommentIcon.Height / 2;
+                PagePadding = new Padding(new Measure() { Draw = PagePaddingX }, new Measure() { Draw = PagePaddingY }, new Measure() { Draw = InsertionCaretWidth }, Measure.Zero);
             }
-            else
-            {
-                PagePaddingX = 0;
-                PagePaddingY = 0;
-            }
-
-            PagePadding = new Padding(new Measure() { Draw = PagePaddingX }, new Measure() { Draw = PagePaddingY }, new Measure() { Draw = InsertionCaretWidth }, Measure.Zero);
         }
         #endregion
 

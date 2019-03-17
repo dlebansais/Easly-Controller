@@ -13,6 +13,7 @@ namespace TestDebug
         public Measure TabulationWidth { get { return new Measure() { Draw = 24, Print = 2 }; } }
         public Measure BlockGeometryWidth { get { return new Measure() { Draw = 12, Print = 1 }; } }
         public Measure BlockGeometryHeight { get { return new Measure() { Draw = 12, Print = 1 }; } }
+        public Padding PagePadding { get; private set; }
 
         public Measure GetHorizontalSeparatorWidth(HorizontalSeparators separator)
         {

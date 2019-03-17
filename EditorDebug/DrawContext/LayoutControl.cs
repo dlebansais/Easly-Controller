@@ -1,6 +1,7 @@
 ﻿namespace EditorDebug
 {
     using System;
+    using System.Collections.Generic;
     using System.Diagnostics;
     using System.Windows;
     using System.Windows.Controls;
@@ -26,7 +27,7 @@
 
             DrawingVisual = new DrawingVisual();
             DrawingContext = DrawingVisual.RenderOpen();
-            DrawContext = DrawContext.CreateDrawContext();
+            DrawContext = DrawContext.CreateDrawContext(hasCommentIcon: true);
 
             ControllerView = LayoutControllerView.Create(Controller, CustomLayoutTemplateSet.LayoutTemplateSet, DrawContext);
             ControllerView.SetCommentDisplayMode(CommentDisplayModes.OnFocus);
@@ -727,7 +728,10 @@
         protected override Size MeasureOverride(Size availableSize)
         {
             if (ControllerView != null)
-                return new Size(ControllerView.ViewSize.Width.Draw, ControllerView.ViewSize.Height.Draw);
+            {
+                EaslyController.Controller.Padding PagePadding = ControllerView.DrawContext.PagePadding;
+                return new Size(ControllerView.ViewSize.Width.Draw + PagePadding.Left.Draw + PagePadding.Right.Draw, ControllerView.ViewSize.Height.Draw + PagePadding.Top.Draw + PagePadding.Bottom.Draw);
+            }
             else
                 return base.MeasureOverride(availableSize);
         }
@@ -813,43 +817,34 @@
 
         private void UpdateTextReplacement()
         {
-            Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Render, new Action(UpdateTextReplacement2));
+            Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Render, new Action(UpdateTextReplacementAfterRender));
         }
 
-        private void UpdateTextReplacement2()
+        private void UpdateTextReplacementAfterRender()
         {
             if (ControllerView.Focus is ILayoutTextFocus AsTextFocus)
             {
-                string FocusedText = ControllerView.FocusedText;
-                ReplacementPopup.SetText(FocusedText);
-
-                switch (ReplacementState)
+                if (ControllerView.IsItemComplexifiable(out IFocusInner inner, out List<IFocusInsertionChildIndex> indexList))
                 {
-                    case ReplacementStates.Hidden:
-                        if (FocusedText.Length <= 1)
-                        {
-                            if (ReplacementPopup.HasReplacementOptions)
-                                ShowTextReplacement();
-                            else
-                                ReplacementState = ReplacementStates.Ready;
-                        }
-                        break;
+                    ReplacementPopup.SetReplacement(inner, indexList);
 
-                    case ReplacementStates.Ready:
-                        if (ReplacementPopup.HasReplacementOptions)
+                    switch (ReplacementState)
+                    {
+                        case ReplacementStates.Hidden:
+                        case ReplacementStates.Ready:
                             ShowTextReplacement();
-                        break;
+                            break;
 
-                    case ReplacementStates.Shown:
-                        if (ReplacementPopup.HasReplacementOptions)
+                        case ReplacementStates.Shown:
                             SetReplacementPopupPosition();
-                        else
-                            HideTextReplacement(false);
-                        break;
+                            break;
 
-                    case ReplacementStates.Closed:
-                        break;
+                        case ReplacementStates.Closed:
+                            break;
+                    }
                 }
+                else
+                    HideTextReplacement(false);
             }
         }
 

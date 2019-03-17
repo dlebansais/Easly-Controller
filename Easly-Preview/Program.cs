@@ -89,7 +89,7 @@
             using (DrawingContext dc = DrawingVisual.RenderOpen())
             {
                 // Create a draw context using default fonts and brushes.
-                DrawContext DrawContext = DrawContext.CreateDrawContext();
+                DrawContext DrawContext = DrawContext.CreateDrawContext(hasCommentIcon: true);
 
                 // Create a view using custom frames (for how code is organized).
                 ILayoutControllerView ControllerView = LayoutControllerView.Create(Controller, TestDebug.CustomLayoutTemplateSet.LayoutTemplateSet, DrawContext);
