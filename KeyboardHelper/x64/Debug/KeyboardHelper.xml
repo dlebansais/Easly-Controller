@@ -1,0 +1,369 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>KeyboardHelper</name>
+    </assembly>
+    <members>
+        <member name="T:KeyboardHelper.CharacterKeyEventArgs">
+            <summary>
+            Contains state information and event data associated with a character key event.
+            </summary>
+        </member>
+        <member name="M:KeyboardHelper.CharacterKeyEventArgs.#ctor(System.Int32,System.Windows.Input.Key)">
+            <summary>
+            Initializes a new instance of the <see cref="T:KeyboardHelper.CharacterKeyEventArgs"/> class.
+            </summary>
+            <param name="code">The character code.</param>
+            <param name="key">The key that generated the character, <see cref="F:System.Windows.Input.Key.None"/> if not available.</param>
+        </member>
+        <member name="M:KeyboardHelper.CharacterKeyEventArgs.#ctor(System.Int32,System.Windows.Input.Key,System.Windows.RoutedEvent)">
+            <summary>
+            Initializes a new instance of the <see cref="T:KeyboardHelper.CharacterKeyEventArgs"/> class.
+            </summary>
+            <param name="code">The character code.</param>
+            <param name="key">The key that generated the character, <see cref="F:System.Windows.Input.Key.None"/> if not available.</param>
+            <param name="routedEvent">The routed event identifier for this instance of the <see cref="T:KeyboardHelper.CharacterKeyEventArgs"/> class.</param>
+        </member>
+        <member name="M:KeyboardHelper.CharacterKeyEventArgs.#ctor(System.Int32,System.Windows.Input.Key,System.Windows.RoutedEvent,System.Object)">
+            <summary>
+            Initializes a new instance of the <see cref="T:KeyboardHelper.CharacterKeyEventArgs"/> class.
+            </summary>
+            <param name="code">The character code.</param>
+            <param name="key">The key that generated the character, <see cref="F:System.Windows.Input.Key.None"/> if not available.</param>
+            <param name="routedEvent">The routed event identifier for this instance of the <see cref="T:KeyboardHelper.CharacterKeyEventArgs"/> class.</param>
+            <param name="source">An alternate source that will be reported when the event is handled.</param>
+        </member>
+        <member name="P:KeyboardHelper.CharacterKeyEventArgs.Code">
+            <summary>
+            The character code.
+            </summary>
+        </member>
+        <member name="P:KeyboardHelper.CharacterKeyEventArgs.Key">
+            <summary>
+            The key that generated the character, <see cref="F:System.Windows.Input.Key.None"/> if not available.
+            </summary>
+        </member>
+        <member name="T:KeyboardHelper.CharacterKeyEventHandler">
+            <summary>
+            Represents the method that will handle a character key event.
+            </summary>
+            <param name="sender">The object where the event handler is attached.</param>
+            <param name="e">The event data.</param>
+        </member>
+        <member name="T:KeyboardHelper.KeyFlags">
+            <summary>
+            Flags for a key pressed.
+            </summary>
+        </member>
+        <member name="T:KeyboardHelper.KeyboardManager">
+            <summary>
+            Provide events to handle text edition.
+            </summary>
+        </member>
+        <member name="M:KeyboardHelper.KeyboardManager.#ctor(System.Windows.FrameworkElement)">
+            <summary>
+            Initializes a new instance of the <see cref="T:KeyboardHelper.KeyboardManager"/> class.
+            </summary>
+            <param name="control">The control that receive keyboard events.</param>
+        </member>
+        <member name="E:KeyboardHelper.KeyboardManager.CharacterKey">
+            <summary>
+            Occurs when a visible character is obtained from the keyboard.
+            </summary>
+        </member>
+        <member name="M:KeyboardHelper.KeyboardManager.NotifyCharacterKey(System.Int32,System.Windows.Input.Key,System.Windows.RoutedEvent)">
+            <summary>
+            Notify handlers of a character key event.
+            </summary>
+            <param name="code">The character code.</param>
+            <param name="key">The key that generated the character, <see cref="F:System.Windows.Input.Key.None"/> if not available.</param>
+            <param name="sourceEvent">The routed event identifier for this instance of the <see cref="T:KeyboardHelper.CharacterKeyEventArgs"/> class.</param>
+            <returns>True if the event was handled; otherwise, false.</returns>
+        </member>
+        <member name="E:KeyboardHelper.KeyboardManager.MoveKey">
+            <summary>
+            Occurs when a key pressed indicates the caret should be moved.
+            </summary>
+        </member>
+        <member name="M:KeyboardHelper.KeyboardManager.NotifyMoveKey(KeyboardHelper.MoveDirections,KeyboardHelper.KeyFlags,System.Windows.RoutedEvent)">
+            <summary>
+            Notify handlers of a move key event.
+            </summary>
+            <param name="direction">The move direction.</param>
+            <param name="flags">Shift and Ctrl key flags.</param>
+            <param name="sourceEvent">The routed event identifier for this instance of the <see cref="T:KeyboardHelper.CharacterKeyEventArgs"/> class.</param>
+            <returns>True if the event was handled; otherwise, false.</returns>
+        </member>
+        <member name="M:KeyboardHelper.KeyboardManager.OnPreviewKeyDown(System.Object,System.Windows.Input.KeyEventArgs)">
+            <summary>
+            Handles <see cref="F:System.Windows.Input.Keyboard.PreviewKeyDownEvent"/>.
+            </summary>
+            <param name="sender">The object where the event handler is attached.</param>
+            <param name="e">The event data.</param>
+        </member>
+        <member name="M:KeyboardHelper.KeyboardManager.OnKeyDown(System.Object,System.Windows.Input.KeyEventArgs)">
+            <summary>
+            Handles <see cref="F:System.Windows.Input.Keyboard.KeyDownEvent"/>.
+            </summary>
+            <param name="sender">The object where the event handler is attached.</param>
+            <param name="e">The event data.</param>
+        </member>
+        <member name="M:KeyboardHelper.KeyboardManager.OnPreviewKeyUp(System.Object,System.Windows.Input.KeyEventArgs)">
+            <summary>
+            Handles <see cref="F:System.Windows.Input.Keyboard.PreviewKeyUpEvent"/>.
+            </summary>
+            <param name="sender">The object where the event handler is attached.</param>
+            <param name="e">The event data.</param>
+        </member>
+        <member name="M:KeyboardHelper.KeyboardManager.OnKeyUp(System.Object,System.Windows.Input.KeyEventArgs)">
+            <summary>
+            Handles <see cref="F:System.Windows.Input.Keyboard.KeyUpEvent"/>.
+            </summary>
+            <param name="sender">The object where the event handler is attached.</param>
+            <param name="e">The event data.</param>
+        </member>
+        <member name="M:KeyboardHelper.KeyboardManager.HandleMoveKey(KeyboardHelper.KeyMap,System.Windows.RoutedEvent)">
+            <summary>
+            Handles <see cref="F:System.Windows.Input.Keyboard.KeyDownEvent"/> for one of the move keys.
+            </summary>
+            <param name="pressedKey">The key.</param>
+            <param name="sourceEvent">The routed event identifier for an instance of the <see cref="T:KeyboardHelper.MoveKeyEventArgs"/> class.</param>
+        </member>
+        <member name="M:KeyboardHelper.KeyboardManager.GetCurrentKey(System.Windows.Input.KeyEventArgs)">
+            <summary>
+            Gets the key pressed from a keyboard event.
+            </summary>
+            <param name="e">The event data.</param>
+        </member>
+        <member name="P:KeyboardHelper.KeyboardManager.ShowTraces">
+            <summary>
+            Show debug traces.
+            </summary>
+        </member>
+        <member name="M:KeyboardHelper.KeyboardManager.DebugPrint(System.String,System.Windows.Input.KeyEventArgs)">
+            <summary>
+            Prints <paramref name="s"/> and the key state in <paramref name="e"/>.
+            </summary>
+            <param name="s">The debug string to display.</param>
+            <param name="e">The key state.</param>
+        </member>
+        <member name="M:KeyboardHelper.KeyboardManager.DebugPrint(System.String)">
+            <summary>
+            Prints a debug string.
+            </summary>
+            <param name="s">The debug string to display.</param>
+        </member>
+        <member name="T:KeyboardHelper.MoveDirections">
+            <summary>
+            Directions where a caret is moved.
+            </summary>
+        </member>
+        <member name="T:KeyboardHelper.MoveKeyEventArgs">
+            <summary>
+            Contains state information and event data associated with a move key event.
+            </summary>
+        </member>
+        <member name="M:KeyboardHelper.MoveKeyEventArgs.#ctor(KeyboardHelper.MoveDirections,KeyboardHelper.KeyFlags)">
+            <summary>
+            Initializes a new instance of the <see cref="T:KeyboardHelper.MoveKeyEventArgs"/> class.
+            </summary>
+            <param name="direction">The move direction.</param>
+            <param name="flags">Alt, Shift and Ctrl key flags.</param>
+        </member>
+        <member name="M:KeyboardHelper.MoveKeyEventArgs.#ctor(KeyboardHelper.MoveDirections,KeyboardHelper.KeyFlags,System.Windows.RoutedEvent)">
+            <summary>
+            Initializes a new instance of the <see cref="T:KeyboardHelper.MoveKeyEventArgs"/> class.
+            </summary>
+            <param name="direction">The move direction.</param>
+            <param name="flags">Alt, Shift and Ctrl key flags.</param>
+            <param name="routedEvent">The routed event identifier for this instance of the <see cref="T:KeyboardHelper.MoveKeyEventArgs"/> class.</param>
+        </member>
+        <member name="M:KeyboardHelper.MoveKeyEventArgs.#ctor(KeyboardHelper.MoveDirections,KeyboardHelper.KeyFlags,System.Windows.RoutedEvent,System.Object)">
+            <summary>
+            Initializes a new instance of the <see cref="T:KeyboardHelper.MoveKeyEventArgs"/> class.
+            </summary>
+            <param name="direction">The move direction.</param>
+            <param name="flags">Alt, Shift and Ctrl key flags.</param>
+            <param name="routedEvent">The routed event identifier for this instance of the <see cref="T:KeyboardHelper.MoveKeyEventArgs"/> class.</param>
+            <param name="source">An alternate source that will be reported when the event is handled.</param>
+        </member>
+        <member name="P:KeyboardHelper.MoveKeyEventArgs.Direction">
+            <summary>
+            The move direction.
+            </summary>
+        </member>
+        <member name="P:KeyboardHelper.MoveKeyEventArgs.Flags">
+            <summary>
+            Alt, Shift and Ctrl key flags.
+            </summary>
+        </member>
+        <member name="P:KeyboardHelper.MoveKeyEventArgs.IsAlt">
+            <summary>
+            True if the alt key is pressed.
+            </summary>
+        </member>
+        <member name="P:KeyboardHelper.MoveKeyEventArgs.IsShift">
+            <summary>
+            True if the shift key is pressed.
+            </summary>
+        </member>
+        <member name="P:KeyboardHelper.MoveKeyEventArgs.IsCtrl">
+            <summary>
+            True if the ctrl key is pressed.
+            </summary>
+        </member>
+        <member name="T:KeyboardHelper.MoveKeyEventHandler">
+            <summary>
+            Represents the method that will handle a move key event.
+            </summary>
+            <param name="sender">The object where the event handler is attached.</param>
+            <param name="e">The event data.</param>
+        </member>
+        <member name="T:KeyboardHelper.MultiKeyGesture">
+            <summary>
+            Implements support for a gesture made of a sequence of multiple keys.
+            </summary>
+        </member>
+        <member name="M:KeyboardHelper.MultiKeyGesture.#ctor(System.Collections.Generic.List{System.String})">
+            <summary>
+            Initializes a new instance of the <see cref="T:KeyboardHelper.MultiKeyGesture"/> class.
+            </summary>
+            <param name="sequence">The list of keys.</param>
+        </member>
+        <member name="M:KeyboardHelper.MultiKeyGesture.Matches(System.Object,System.Windows.Input.InputEventArgs)">
+            <summary>
+            Checks if accumualted key events match the sequence.
+            </summary>
+            <param name="targetElement">The target.</param>
+            <param name="inputEventArgs">The input event data to compare this gesture to.</param>
+            <returns>True if the event data matches the sequence; otherwise, false.</returns>
+        </member>
+        <member name="M:KeyboardHelper.MultiKeyGesture.ToString">
+            <summary>
+            Returns a string that represents the current object.
+            </summary>
+        </member>
+        <member name="T:KeyboardHelper.Xaml.MultiKeyGesture">
+             <summary>
+             Markup extension to declare a <see cref="T:KeyboardHelper.Xaml.MultiKeyGesture"/> in Xaml.
+            
+             Xaml syntax:
+               xmlns:xaml="clr-namespace:KeyboardHelper.Xaml;assembly=KeyboardHelper"
+             For the 'Ctrl+E' gesture followed by the 'W' key sequence:
+               Gesture="{xaml:MultiKeyGesture Ctrl+E, W}"
+            
+             Restrictions:
+             1. The first key must be a valid gesture. For example, 'Ctrl+E' is valid but 'E' is not.
+             2. Subsequent gestures and keys are separated by commas. The first gesture is mandatory, the rest is optional.
+             3. After the first gesture, simple keys or gestures are accepted. For example, 'Ctrl+E, W' is valid, and so is 'Ctrl+E, Ctrl+W'.
+             4. The max number of keys depends on constructors of this class. Check below how many are available.
+             </summary>
+        </member>
+        <member name="M:KeyboardHelper.Xaml.MultiKeyGesture.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:KeyboardHelper.Xaml.MultiKeyGesture"/> class.
+            </summary>
+        </member>
+        <member name="M:KeyboardHelper.Xaml.MultiKeyGesture.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:KeyboardHelper.Xaml.MultiKeyGesture"/> class.
+            </summary>
+            <param name="key1">The first key.</param>
+        </member>
+        <member name="M:KeyboardHelper.Xaml.MultiKeyGesture.#ctor(System.String,System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:KeyboardHelper.Xaml.MultiKeyGesture"/> class.
+            </summary>
+            <param name="key1">The first key.</param>
+            <param name="key2">The second key.</param>
+        </member>
+        <member name="M:KeyboardHelper.Xaml.MultiKeyGesture.#ctor(System.String,System.String,System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:KeyboardHelper.Xaml.MultiKeyGesture"/> class.
+            </summary>
+            <param name="key1">The first key.</param>
+            <param name="key2">The second key.</param>
+            <param name="key3">The third key.</param>
+        </member>
+        <member name="M:KeyboardHelper.Xaml.MultiKeyGesture.#ctor(System.String,System.String,System.String,System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:KeyboardHelper.Xaml.MultiKeyGesture"/> class.
+            </summary>
+            <param name="key1">The first key.</param>
+            <param name="key2">The second key.</param>
+            <param name="key3">The third key.</param>
+            <param name="key4">The fourth key.</param>
+        </member>
+        <member name="M:KeyboardHelper.Xaml.MultiKeyGesture.#ctor(System.String,System.String,System.String,System.String,System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:KeyboardHelper.Xaml.MultiKeyGesture"/> class.
+            </summary>
+            <param name="key1">The first key.</param>
+            <param name="key2">The second key.</param>
+            <param name="key3">The third key.</param>
+            <param name="key4">The fourth key.</param>
+            <param name="key5">The fifth key.</param>
+        </member>
+        <member name="M:KeyboardHelper.Xaml.MultiKeyGesture.ProvideValue(System.IServiceProvider)">
+            <summary>
+            Returns an object that is provided as the value of the target property for this markup extension.
+            </summary>
+            <param name="serviceProvider">A service provider helper that can provide services for the markup extension.</param>
+        </member>
+        <member name="P:KeyboardHelper.Xaml.MultiKeyGesture.Sequence">
+            <summary>
+            Key sequence text.
+            </summary>
+        </member>
+        <member name="T:KeyboardHelper.StringHelper">
+            <summary>
+            Provides methods to handle strings modified by keyboard events.
+            </summary>
+        </member>
+        <member name="M:KeyboardHelper.StringHelper.CodeToString(System.Int32)">
+            <summary>
+            Gets the string corresponding to a Unicode character code.
+            </summary>
+            <param name="code">The character code.</param>
+        </member>
+        <member name="M:KeyboardHelper.StringHelper.StringToCode(System.String)">
+            <summary>
+            Gets the Unicode character code from the first character of a string.
+            </summary>
+            <param name="text">The string with the character.</param>
+        </member>
+        <member name="M:KeyboardHelper.StringHelper.IsVisible(System.Int32)">
+            <summary>
+            Checks if a character is considered visible.
+            </summary>
+            <param name="code">The character code.</param>
+            <returns>True if the character is visible; otherwise, false.</returns>
+        </member>
+        <member name="M:KeyboardHelper.StringHelper.ReplaceCharacter(System.Int32,System.String@,System.Int32@)">
+            <summary>
+            Replaces a character in a string at a provided position.
+            </summary>
+            <param name="code">The character code.</param>
+            <param name="text">The string.</param>
+            <param name="position">The position in <paramref name="text"/> where to replace.</param>
+        </member>
+        <member name="M:KeyboardHelper.StringHelper.InsertCharacter(System.Int32,System.String@,System.Int32@)">
+            <summary>
+            Inserts a character in a string at a provided position, updating the position to point after the inserted character.
+            </summary>
+            <param name="code">The character code.</param>
+            <param name="text">The string.</param>
+            <param name="position">The position in <paramref name="text"/> where to insert.</param>
+        </member>
+        <member name="M:KeyboardHelper.StringHelper.DeleteCharacter(System.Boolean,System.String@,System.Int32@)">
+            <summary>
+            Deletes a character in a string either at the provided position or on the left of the position.
+            This method will do nothing if there is no character to delete.
+            </summary>
+            <param name="backward">True to delete on the left of <paramref name="position"/>; false to delete at <paramref name="position"/>.</param>
+            <param name="text">The string.</param>
+            <param name="position">The position in <paramref name="text"/> where to delete.</param>
+            <returns>True if <paramref name="text"/> was changed; otherwise, false.</returns>
+        </member>
+    </members>
+</doc>
