@@ -23,7 +23,7 @@ namespace EditorDebug
             {
                 LayoutRootNodeIndex RootIndex = new LayoutRootNodeIndex(Node);
                 Controller = LayoutController.Create(RootIndex);
-                DrawContext = DrawContext.CreateDrawContext(hasCommentIcon: false);
+                DrawContext = DrawContext.CreateDrawContext(hasCommentIcon: false, displayFocus: false);
                 ControllerView = LayoutControllerView.Create(Controller, CustomLayoutTemplateSet.LayoutTemplateSet, DrawContext);
             }
 

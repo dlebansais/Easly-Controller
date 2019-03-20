@@ -1789,7 +1789,7 @@ namespace TestDebug
             </LayoutHorizontalPanelFrame>
             <LayoutDiscreteFrame PropertyName=""Comparison"" LeftMargin=""Whitespace"">
                 <LayoutKeywordFrame>=</LayoutKeywordFrame>
-                <LayoutKeywordFrame>!=</LayoutKeywordFrame>
+                <LayoutKeywordFrame>≠</LayoutKeywordFrame>
             </LayoutDiscreteFrame>
             <LayoutDiscreteFrame PropertyName=""Equality"">
                 <LayoutDiscreteFrame.Visibility>
@@ -2396,55 +2396,55 @@ namespace TestDebug
             <LayoutSelectableFrame Name=""Identifier"">
                 <LayoutVerticalPanelFrame>
                     <LayoutCommentFrame/>
-                    <LayoutTextValueFrame PropertyName=""Text""/>
+                    <LayoutTextValueFrame PropertyName=""Text"" TextStyle=""Default""/>
                 </LayoutVerticalPanelFrame>
             </LayoutSelectableFrame>
             <LayoutSelectableFrame Name=""Feature"">
                 <LayoutVerticalPanelFrame>
                     <LayoutCommentFrame/>
-                    <LayoutTextValueFrame PropertyName=""Text""/>
+                    <LayoutTextValueFrame PropertyName=""Text"" TextStyle=""Default""/>
                 </LayoutVerticalPanelFrame>
             </LayoutSelectableFrame>
             <LayoutSelectableFrame Name=""Class"">
                 <LayoutVerticalPanelFrame>
                     <LayoutCommentFrame/>
-                    <LayoutTextValueFrame PropertyName=""Text""/>
+                    <LayoutTextValueFrame PropertyName=""Text"" TextStyle=""Default""/>
                 </LayoutVerticalPanelFrame>
             </LayoutSelectableFrame>
             <LayoutSelectableFrame Name=""ClassOrExport"">
                 <LayoutVerticalPanelFrame>
                     <LayoutCommentFrame/>
-                    <LayoutTextValueFrame PropertyName=""Text""/>
+                    <LayoutTextValueFrame PropertyName=""Text"" TextStyle=""Default""/>
                 </LayoutVerticalPanelFrame>
             </LayoutSelectableFrame>
             <LayoutSelectableFrame Name=""Export"">
                 <LayoutVerticalPanelFrame>
                     <LayoutCommentFrame/>
-                    <LayoutTextValueFrame PropertyName=""Text""/>
+                    <LayoutTextValueFrame PropertyName=""Text"" TextStyle=""Default""/>
                 </LayoutVerticalPanelFrame>
             </LayoutSelectableFrame>
             <LayoutSelectableFrame Name=""Library"">
                 <LayoutVerticalPanelFrame>
                     <LayoutCommentFrame/>
-                    <LayoutTextValueFrame PropertyName=""Text""/>
+                    <LayoutTextValueFrame PropertyName=""Text"" TextStyle=""Default""/>
                 </LayoutVerticalPanelFrame>
             </LayoutSelectableFrame>
             <LayoutSelectableFrame Name=""Source"">
                 <LayoutVerticalPanelFrame>
                     <LayoutCommentFrame/>
-                    <LayoutTextValueFrame PropertyName=""Text""/>
+                    <LayoutTextValueFrame PropertyName=""Text"" TextStyle=""Default""/>
                 </LayoutVerticalPanelFrame>
             </LayoutSelectableFrame>
             <LayoutSelectableFrame Name=""Type"">
                 <LayoutVerticalPanelFrame>
                     <LayoutCommentFrame/>
-                    <LayoutTextValueFrame PropertyName=""Text""/>
+                    <LayoutTextValueFrame PropertyName=""Text"" TextStyle=""Type""/>
                 </LayoutVerticalPanelFrame>
             </LayoutSelectableFrame>
             <LayoutSelectableFrame Name=""Pattern"">
                 <LayoutVerticalPanelFrame>
                     <LayoutCommentFrame/>
-                    <LayoutTextValueFrame PropertyName=""Text""/>
+                    <LayoutTextValueFrame PropertyName=""Text"" TextStyle=""Default""/>
                 </LayoutVerticalPanelFrame>
             </LayoutSelectableFrame>
         </LayoutSelectionFrame>

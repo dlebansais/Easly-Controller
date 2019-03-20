@@ -1789,7 +1789,7 @@ namespace TestDebug
             </LayoutHorizontalPanelFrame>
             <LayoutDiscreteFrame PropertyName=""Comparison"" LeftMargin=""Whitespace"">
                 <LayoutKeywordFrame>=</LayoutKeywordFrame>
-                <LayoutKeywordFrame>!=</LayoutKeywordFrame>
+                <LayoutKeywordFrame>≠</LayoutKeywordFrame>
             </LayoutDiscreteFrame>
             <LayoutDiscreteFrame PropertyName=""Equality"">
                 <LayoutDiscreteFrame.Visibility>
@@ -3152,7 +3152,7 @@ namespace TestDebug
     xmlns:easly=""clr-namespace:BaseNode;assembly=Easly-Language""
     xmlns:const=""clr-namespace:EaslyController.Constants;assembly=Easly-Controller"">
     <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:IArgument,easly:Argument}"">
-        <LayoutHorizontalPanelFrame>
+        <LayoutHorizontalPanelFrame HasBlockGeometry=""True"">
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
@@ -3176,7 +3176,7 @@ namespace TestDebug
         </LayoutHorizontalPanelFrame>
     </LayoutBlockTemplate>
     <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:IAssertion,easly:Assertion}"">
-        <LayoutVerticalPanelFrame>
+        <LayoutVerticalPanelFrame HasBlockGeometry=""True"">
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
@@ -3200,7 +3200,7 @@ namespace TestDebug
         </LayoutVerticalPanelFrame>
     </LayoutBlockTemplate>
     <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:IAssignmentArgument,easly:AssignmentArgument}"">
-        <LayoutVerticalPanelFrame>
+        <LayoutVerticalPanelFrame HasBlockGeometry=""True"">
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
@@ -3224,7 +3224,7 @@ namespace TestDebug
         </LayoutVerticalPanelFrame>
     </LayoutBlockTemplate>
     <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:IAttachment,easly:Attachment}"">
-        <LayoutVerticalPanelFrame>
+        <LayoutVerticalPanelFrame HasBlockGeometry=""True"">
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
@@ -3248,7 +3248,7 @@ namespace TestDebug
         </LayoutVerticalPanelFrame>
     </LayoutBlockTemplate>
     <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:IClass,easly:Class}"">
-        <LayoutVerticalPanelFrame>
+        <LayoutVerticalPanelFrame HasBlockGeometry=""True"">
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
@@ -3272,7 +3272,7 @@ namespace TestDebug
         </LayoutVerticalPanelFrame>
     </LayoutBlockTemplate>
     <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:IClassReplicate,easly:ClassReplicate}"">
-        <LayoutHorizontalPanelFrame>
+        <LayoutHorizontalPanelFrame HasBlockGeometry=""True"">
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
@@ -3296,7 +3296,7 @@ namespace TestDebug
         </LayoutHorizontalPanelFrame>
     </LayoutBlockTemplate>
     <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:ICommandOverload,easly:CommandOverload}"">
-        <LayoutVerticalPanelFrame>
+        <LayoutVerticalPanelFrame HasBlockGeometry=""True"">
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
@@ -3320,7 +3320,7 @@ namespace TestDebug
         </LayoutVerticalPanelFrame>
     </LayoutBlockTemplate>
     <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:ICommandOverloadType,easly:CommandOverloadType}"">
-        <LayoutVerticalPanelFrame>
+        <LayoutVerticalPanelFrame HasBlockGeometry=""True"">
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
@@ -3344,7 +3344,7 @@ namespace TestDebug
         </LayoutVerticalPanelFrame>
     </LayoutBlockTemplate>
     <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:IConditional,easly:Conditional}"">
-        <LayoutVerticalPanelFrame>
+        <LayoutVerticalPanelFrame HasBlockGeometry=""True"">
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
@@ -3368,7 +3368,7 @@ namespace TestDebug
         </LayoutVerticalPanelFrame>
     </LayoutBlockTemplate>
     <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:IConstraint,easly:Constraint}"">
-        <LayoutHorizontalPanelFrame>
+        <LayoutHorizontalPanelFrame HasBlockGeometry=""True"">
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
@@ -3392,7 +3392,7 @@ namespace TestDebug
         </LayoutHorizontalPanelFrame>
     </LayoutBlockTemplate>
     <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:IContinuation,easly:Continuation}"">
-        <LayoutVerticalPanelFrame>
+        <LayoutVerticalPanelFrame HasBlockGeometry=""True"">
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
@@ -3416,7 +3416,7 @@ namespace TestDebug
         </LayoutVerticalPanelFrame>
     </LayoutBlockTemplate>
     <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:IDiscrete,easly:Discrete}"">
-        <LayoutVerticalPanelFrame>
+        <LayoutVerticalPanelFrame HasBlockGeometry=""True"">
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
@@ -3440,7 +3440,7 @@ namespace TestDebug
         </LayoutVerticalPanelFrame>
     </LayoutBlockTemplate>
     <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:IEntityDeclaration,easly:EntityDeclaration}"">
-        <LayoutVerticalPanelFrame>
+        <LayoutVerticalPanelFrame HasBlockGeometry=""True"">
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
@@ -3464,7 +3464,7 @@ namespace TestDebug
         </LayoutVerticalPanelFrame>
     </LayoutBlockTemplate>
     <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:IExceptionHandler,easly:ExceptionHandler}"">
-        <LayoutVerticalPanelFrame>
+        <LayoutVerticalPanelFrame HasBlockGeometry=""True"">
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
@@ -3488,7 +3488,7 @@ namespace TestDebug
         </LayoutVerticalPanelFrame>
     </LayoutBlockTemplate>
     <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:IExport,easly:Export}"">
-        <LayoutHorizontalPanelFrame>
+        <LayoutHorizontalPanelFrame HasBlockGeometry=""True"">
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
@@ -3512,7 +3512,7 @@ namespace TestDebug
         </LayoutHorizontalPanelFrame>
     </LayoutBlockTemplate>
     <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:IExportChange,easly:ExportChange}"">
-        <LayoutHorizontalPanelFrame>
+        <LayoutHorizontalPanelFrame HasBlockGeometry=""True"">
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
@@ -3536,7 +3536,7 @@ namespace TestDebug
         </LayoutHorizontalPanelFrame>
     </LayoutBlockTemplate>
     <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:IFeature,easly:Feature}"">
-        <LayoutVerticalPanelFrame>
+        <LayoutVerticalPanelFrame HasBlockGeometry=""True"">
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
@@ -3560,7 +3560,7 @@ namespace TestDebug
         </LayoutVerticalPanelFrame>
     </LayoutBlockTemplate>
     <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:IGeneric,easly:Generic}"">
-        <LayoutVerticalPanelFrame>
+        <LayoutVerticalPanelFrame HasBlockGeometry=""True"">
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
@@ -3584,7 +3584,7 @@ namespace TestDebug
         </LayoutVerticalPanelFrame>
     </LayoutBlockTemplate>
     <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:IIdentifier,easly:Identifier}"">
-        <LayoutHorizontalPanelFrame>
+        <LayoutHorizontalPanelFrame HasBlockGeometry=""True"">
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
@@ -3612,7 +3612,7 @@ namespace TestDebug
         </LayoutHorizontalPanelFrame>
     </LayoutBlockTemplate>
     <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:IImport,easly:Import}"">
-        <LayoutVerticalPanelFrame>
+        <LayoutVerticalPanelFrame HasBlockGeometry=""True"">
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
@@ -3636,7 +3636,7 @@ namespace TestDebug
         </LayoutVerticalPanelFrame>
     </LayoutBlockTemplate>
     <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:IInheritance,easly:Inheritance}"">
-        <LayoutVerticalPanelFrame>
+        <LayoutVerticalPanelFrame HasBlockGeometry=""True"">
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
@@ -3660,7 +3660,7 @@ namespace TestDebug
         </LayoutVerticalPanelFrame>
     </LayoutBlockTemplate>
     <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:IInstruction,easly:Instruction}"">
-        <LayoutVerticalPanelFrame>
+        <LayoutVerticalPanelFrame HasBlockGeometry=""True"">
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
@@ -3684,7 +3684,7 @@ namespace TestDebug
         </LayoutVerticalPanelFrame>
     </LayoutBlockTemplate>
     <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:ILibrary,easly:Library}"">
-        <LayoutVerticalPanelFrame>
+        <LayoutVerticalPanelFrame HasBlockGeometry=""True"">
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
@@ -3708,7 +3708,7 @@ namespace TestDebug
         </LayoutVerticalPanelFrame>
     </LayoutBlockTemplate>
     <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:IName,easly:Name}"">
-        <LayoutHorizontalPanelFrame>
+        <LayoutHorizontalPanelFrame HasBlockGeometry=""True"">
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
@@ -3732,7 +3732,7 @@ namespace TestDebug
         </LayoutHorizontalPanelFrame>
     </LayoutBlockTemplate>
     <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:IObjectType,easly:ObjectType}"">
-        <LayoutHorizontalPanelFrame>
+        <LayoutHorizontalPanelFrame HasBlockGeometry=""True"">
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
@@ -3756,7 +3756,7 @@ namespace TestDebug
         </LayoutHorizontalPanelFrame>
     </LayoutBlockTemplate>
     <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:IPattern,easly:Pattern}"">
-        <LayoutHorizontalPanelFrame>
+        <LayoutHorizontalPanelFrame HasBlockGeometry=""True"">
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
@@ -3780,7 +3780,7 @@ namespace TestDebug
         </LayoutHorizontalPanelFrame>
     </LayoutBlockTemplate>
     <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:IQualifiedName,easly:QualifiedName}"">
-        <LayoutHorizontalPanelFrame>
+        <LayoutHorizontalPanelFrame HasBlockGeometry=""True"">
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
@@ -3804,7 +3804,7 @@ namespace TestDebug
         </LayoutHorizontalPanelFrame>
     </LayoutBlockTemplate>
     <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:IQueryOverload,easly:QueryOverload}"">
-        <LayoutVerticalPanelFrame>
+        <LayoutVerticalPanelFrame HasBlockGeometry=""True"">
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
@@ -3828,7 +3828,7 @@ namespace TestDebug
         </LayoutVerticalPanelFrame>
     </LayoutBlockTemplate>
     <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:IQueryOverloadType,easly:QueryOverloadType}"">
-        <LayoutVerticalPanelFrame>
+        <LayoutVerticalPanelFrame HasBlockGeometry=""True"">
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
@@ -3852,7 +3852,7 @@ namespace TestDebug
         </LayoutVerticalPanelFrame>
     </LayoutBlockTemplate>
     <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:IRange,easly:Range}"">
-        <LayoutHorizontalPanelFrame>
+        <LayoutHorizontalPanelFrame HasBlockGeometry=""True"">
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
@@ -3876,7 +3876,7 @@ namespace TestDebug
         </LayoutHorizontalPanelFrame>
     </LayoutBlockTemplate>
     <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:IRename,easly:Rename}"">
-        <LayoutVerticalPanelFrame>
+        <LayoutVerticalPanelFrame HasBlockGeometry=""True"">
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
@@ -3900,7 +3900,7 @@ namespace TestDebug
         </LayoutVerticalPanelFrame>
     </LayoutBlockTemplate>
     <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:ITypeArgument,easly:TypeArgument}"">
-        <LayoutHorizontalPanelFrame>
+        <LayoutHorizontalPanelFrame HasBlockGeometry=""True"">
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
@@ -3924,7 +3924,7 @@ namespace TestDebug
         </LayoutHorizontalPanelFrame>
     </LayoutBlockTemplate>
     <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:ITypedef,easly:Typedef}"">
-        <LayoutVerticalPanelFrame>
+        <LayoutVerticalPanelFrame HasBlockGeometry=""True"">
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
@@ -3948,7 +3948,7 @@ namespace TestDebug
         </LayoutVerticalPanelFrame>
     </LayoutBlockTemplate>
     <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:IWith,easly:With}"">
-        <LayoutVerticalPanelFrame>
+        <LayoutVerticalPanelFrame HasBlockGeometry=""True"">
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>

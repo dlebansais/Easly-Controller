@@ -27,7 +27,7 @@
 
             DrawingVisual = new DrawingVisual();
             DrawingContext = DrawingVisual.RenderOpen();
-            DrawContext = DrawContext.CreateDrawContext(hasCommentIcon: true);
+            DrawContext = DrawContext.CreateDrawContext(hasCommentIcon: true, displayFocus: true);
 
             ControllerView = LayoutControllerView.Create(Controller, CustomLayoutTemplateSet.LayoutTemplateSet, DrawContext);
             ControllerView.SetCommentDisplayMode(CommentDisplayModes.OnFocus);
@@ -50,12 +50,7 @@
         private void OnKeyCharacter(object sender, CharacterKeyEventArgs e)
         {
             if (ControllerView.Focus is ILayoutTextFocus AsTextFocus)
-            {
-                if (e.Code == '.' && (e.Key == Key.Decimal || e.Key == Key.OemPeriod))
-                    SplitIdentifier(AsTextFocus);
-                else
-                    ChangeText(AsTextFocus, e.Code);
-            }
+                ChangeText(AsTextFocus, e.Code);
             else if (ControllerView.Focus is ILayoutDiscreteContentFocus AsDiscreteContentFocus)
                 ChangeDiscreteValue(AsDiscreteContentFocus, e.Code, e.Key);
 
@@ -461,21 +456,20 @@
 
         public void OnEnter(object sender, ExecutedRoutedEventArgs e)
         {
-            if (ReplacementPopup.IsOpen && ReplacementPopup.SelectedNode != null)
-                ReplaceItem(ReplacementPopup.SelectedNode);
+            if (ReplacementPopup.IsOpen && ReplacementPopup.SelectedIndex != null)
+            {
+                ReplaceItem(ReplacementPopup.Inner, ReplacementPopup.SelectedIndex);
+                HideTextReplacement(true);
+            }
             else
                 InsertNewItem();
 
             e.Handled = true;
         }
 
-        public void ReplaceItem(INode node)
+        public void ReplaceItem(IFocusInner inner, IFocusInsertionChildIndex replacementIndex)
         {
-            ILayoutInner Inner = ControllerView.Focus.CellView.StateView.State.ParentInner;
-            ILayoutBrowsingInsertableIndex NodeIndex = ControllerView.Focus.CellView.StateView.State.ParentIndex as ILayoutBrowsingInsertableIndex;
-            ILayoutInsertionChildIndex ReplacementIndex = NodeIndex.ToInsertionIndex(Inner.Owner.Node, node) as ILayoutInsertionChildIndex;
-
-            Controller.Replace(Inner, ReplacementIndex, out IWriteableBrowsingChildIndex nodeIndex);
+            Controller.Replace(inner, replacementIndex, out IWriteableBrowsingChildIndex nodeIndex);
             InvalidateVisual();
         }
 

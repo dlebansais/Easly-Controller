@@ -23,9 +23,9 @@
         /// <summary>
         /// Creates and initializes a new context.
         /// </summary>
-        public static DrawContext CreateDrawContext(bool hasCommentIcon)
+        public static DrawContext CreateDrawContext(bool hasCommentIcon, bool displayFocus)
         {
-            DrawContext Result = new DrawContext(hasCommentIcon);
+            DrawContext Result = new DrawContext(hasCommentIcon, displayFocus);
             Result.Update();
             return Result;
         }
@@ -33,9 +33,12 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="DrawContext"/> class.
         /// </summary>
-        protected DrawContext(bool hasCommentIcon)
+        /// <param name="hasCommentIcon">True if the comment icon must be displayed.</param>
+        /// <param name="displayFocus">True if focused elements should be displayed as such.</param>
+        protected DrawContext(bool hasCommentIcon, bool displayFocus)
         {
             IsLastFocusedFullCell = false;
+            DisplayFocus = displayFocus;
 
             FlashAnimation = new DoubleAnimation(0, new System.Windows.Duration(TimeSpan.FromSeconds(1)));
             FlashAnimation.RepeatBehavior = RepeatBehavior.Forever;
@@ -94,6 +97,11 @@
         /// The padding margin applied to comment text.
         /// </summary>
         public Padding CommentPadding { get; private set; }
+
+        /// <summary>
+        /// True if focused elements should be displayed as such.
+        /// </summary>
+        public bool DisplayFocus { get; }
         #endregion
 
         #region Implementation of IxxxDrawContext
@@ -182,7 +190,7 @@
         {
             Debug.Assert(WpfDrawingContext != null);
 
-            if (isFocused)
+            if (isFocused && DisplayFocus)
             {
                 ChangeFlashClockOpacity(isVisible: true);
                 WpfDrawingContext.PushOpacity(1, FlashClock);
@@ -204,7 +212,7 @@
 
             WpfDrawingContext.DrawText(ft, new System.Windows.Point(X, Y));
 
-            if (isFocused)
+            if (isFocused && DisplayFocus)
             {
                 WpfDrawingContext.Pop();
                 IsLastFocusedFullCell = true;
@@ -260,7 +268,7 @@
         {
             Debug.Assert(WpfDrawingContext != null);
 
-            if (isFocused)
+            if (isFocused && DisplayFocus)
             {
                 ChangeFlashClockOpacity(isVisible: true);
                 WpfDrawingContext.PushOpacity(1, FlashClock);
@@ -274,7 +282,7 @@
                     DrawTextSymbol(SymbolToText(symbol), origin, size, padding);
                     break;
                 case Symbols.InsertSign:
-                    if (isFocused)
+                    if (isFocused && DisplayFocus)
                         DrawTextSymbol(SymbolToText(symbol), origin, size, padding);
                     break;
                 case Symbols.LeftBracket:
@@ -300,7 +308,7 @@
                     break;
             }
 
-            if (isFocused)
+            if (isFocused && DisplayFocus)
             {
                 WpfDrawingContext.Pop();
                 IsLastFocusedFullCell = true;

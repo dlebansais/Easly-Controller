@@ -21,8 +21,16 @@ namespace EditorDebug
 
         public IFocusInner Inner { get; private set; }
         public ObservableCollection<IFocusInsertionChildIndex> IndexList { get; private set; } = new ObservableCollection<IFocusInsertionChildIndex>();
-
-        public INode SelectedNode { get; private set; }
+        public IFocusInsertionChildIndex SelectedIndex
+        {
+            get
+            {
+                if (listOptions.SelectedIndex < 0 || listOptions.SelectedIndex >= IndexList.Count)
+                    return null;
+                else
+                    return IndexList[listOptions.SelectedIndex];
+            }
+        }
 
         public void SetReplacement(IFocusInner inner, List<IFocusInsertionChildIndex> indexList)
         {
