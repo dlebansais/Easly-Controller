@@ -82,6 +82,7 @@
             ((IFocusCellViewTreeContext)context).UpdateNodeFrameVisibility(this, out bool OldFrameVisibility);
 
             IFocusCellViewCollection EmbeddingCellView;
+/*
             if (((IFocusCellViewTreeContext)context).IsVisible)
                 EmbeddingCellView = base.BuildNodeCells(context, parentCellView) as IFocusCellViewCollection;
             else
@@ -89,6 +90,10 @@
                 IFocusCellViewList EmptyList = CreateEmptyCellViewList();
                 EmbeddingCellView = (IFocusCellViewCollection)CreateEmbeddingCellView(((IFocusCellViewTreeContext)context).StateView, (IFocusCellViewCollection)parentCellView, EmptyList);
             }
+            */
+
+           EmbeddingCellView = base.BuildNodeCells(context, parentCellView) as IFocusCellViewCollection;
+            Debug.Assert(EmbeddingCellView != null);
 
             if (!((IFocusCellViewTreeContext)context).IsVisible)
             {
