@@ -105,7 +105,9 @@
                 Content = Content.Substring(0, Start) + Content.Substring(End);
 
                 IFocusController Controller = StateView.ControllerView.Controller;
-                Controller.ChangeComment(StateView.State.ParentIndex, Content);
+                int OldCaretPosition = StateView.ControllerView.CaretPosition;
+                int NewCaretPosition = Start;
+                Controller.ChangeCommentAndCaretPosition(StateView.State.ParentIndex, Content, OldCaretPosition, NewCaretPosition, true);
 
                 StateView.ControllerView.ClearSelection();
                 isDeleted = true;

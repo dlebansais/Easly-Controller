@@ -172,7 +172,7 @@
 
             double X = PagePadding.Left.Draw + origin.X.Draw;
             double Y = PagePadding.Top.Draw + origin.Y.Draw;
-            double Width = ft.Width;
+            double Width = ft.WidthIncludingTrailingWhitespace;
             double Height = LineHeight.Draw;
 
             if (textStyle == TextStyles.Comment)

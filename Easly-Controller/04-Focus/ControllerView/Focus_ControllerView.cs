@@ -1570,7 +1570,21 @@
             Debug.Assert(state.ValuePropertyTypeTable.ContainsKey(propertyName));
             Debug.Assert(state.ValuePropertyTypeTable[propertyName] == ValuePropertyType.String);
 
-            IFocusNodeStateView stateView = StateViewTable[state];
+            IFocusNodeStateView StateView = StateViewTable[state];
+            SelectStringContent(StateView, propertyName, start, end);
+
+            CaretAnchorPosition = start;
+            CaretPosition = end;
+
+            CheckCaretInvariant();
+        }
+
+        /// <summary></summary>
+        protected virtual void SelectStringContent(IFocusNodeStateView stateView, string propertyName, int start, int end)
+        {
+            Debug.Assert(start >= 0);
+            Debug.Assert(start <= end);
+
             Selection = CreateStringContentSelection(stateView, propertyName, start, end);
         }
 
@@ -1584,7 +1598,21 @@
         {
             Debug.Assert(StateViewTable.ContainsKey(state));
 
-            IFocusNodeStateView stateView = StateViewTable[state];
+            IFocusNodeStateView StateView = StateViewTable[state];
+            SelectComment(StateView, start, end);
+
+            CaretAnchorPosition = start;
+            CaretPosition = end;
+
+            CheckCaretInvariant();
+        }
+
+        /// <summary></summary>
+        protected virtual void SelectComment(IFocusNodeStateView stateView, int start, int end)
+        {
+            Debug.Assert(start >= 0);
+            Debug.Assert(start <= end);
+
             Selection = CreateCommentSelection(stateView, start, end);
         }
 
@@ -1891,6 +1919,9 @@
             IFocusNodeState State = ((IFocusChangeCommentOperation)operation).State;
             Debug.Assert(State != null);
             Debug.Assert(StateViewTable.ContainsKey(State));
+
+            ResetSelection();
+            CheckCaretInvariant();
         }
 
         private protected virtual bool IsSameChangeCommentOperationFocus(IFocusChangeCommentOperation operation)
@@ -2325,13 +2356,13 @@
             if (textFocus is IFocusStringContentFocus AsStringContentFocus)
             {
                 IFocusStringContentFocusableCellView CellView = AsStringContentFocus.CellView;
-                SelectStringContent(CellView.StateView.State, CellView.PropertyName, CaretAnchorPosition, CaretPosition);
+                SelectStringContent(CellView.StateView, CellView.PropertyName, CaretAnchorPosition, CaretPosition);
                 IsHandled = true;
             }
             else if (textFocus is IFocusCommentFocus AsCommentFocus)
             {
                 IFocusCommentCellView CellView = AsCommentFocus.CellView;
-                SelectComment(CellView.StateView.State, CaretAnchorPosition, CaretPosition);
+                SelectComment(CellView.StateView, CaretAnchorPosition, CaretPosition);
                 IsHandled = true;
             }
 
@@ -2347,14 +2378,14 @@
             {
                 string Text = GetFocusedStringContent(AsStringContentFocus);
                 IFocusStringContentFocusableCellView CellView = AsStringContentFocus.CellView;
-                SelectStringContent(CellView.StateView.State, CellView.PropertyName, 0, Text.Length);
+                SelectStringContent(CellView.StateView, CellView.PropertyName, 0, Text.Length);
                 IsHandled = true;
             }
             else if (textFocus is IFocusCommentFocus AsCommentFocus)
             {
                 string Text = GetFocusedCommentText(AsCommentFocus);
                 IFocusCommentCellView CellView = AsCommentFocus.CellView;
-                SelectComment(CellView.StateView.State, 0, Text.Length);
+                SelectComment(CellView.StateView, 0, Text.Length);
                 IsHandled = true;
             }
 

@@ -61,13 +61,21 @@
         {
             string FocusedText = ControllerView.FocusedText;
             int CaretPosition = ControllerView.CaretPosition;
+            bool ChangeCaretBeforeText = false;
+
+            if (ControllerView.Selection is ILayoutTextSelection AsTextSelection)
+            {
+                CaretPosition = AsTextSelection.Start;
+                FocusedText = FocusedText.Substring(0, AsTextSelection.Start) + FocusedText.Substring(AsTextSelection.End);
+                ChangeCaretBeforeText = true;
+            }
 
             if (ControllerView.ActualCaretMode == CaretModes.Insertion)
                 StringHelper.InsertCharacter(code, ref FocusedText, ref CaretPosition);
             else
                 StringHelper.ReplaceCharacter(code, ref FocusedText, ref CaretPosition);
 
-            ControllerView.ChangedFocusedText(FocusedText, CaretPosition, changeCaretBeforeText: false);
+            ControllerView.ChangedFocusedText(FocusedText, CaretPosition, ChangeCaretBeforeText);
 
             InvalidateVisual();
             UpdateTextReplacement();
@@ -683,14 +691,50 @@
         public void OnMouseDown(object sender, MouseButtonEventArgs e)
         {
             Point Point = e.GetPosition(this);
-            bool IsShift = Keyboard.IsKeyDown(Key.LeftShift) || Keyboard.IsKeyDown(Key.RightShift);
-            bool ResetAnchor = !IsShift;
 
-            ControllerView.SetFocusToPoint(Point.X, Point.Y, ResetAnchor, out bool IsMoved);
-            if (IsMoved)
-                InvalidateVisual();
+            if (e.ClickCount > 1)
+            {
+                int Start, End;
+
+                if (ControllerView.Focus is IFocusStringContentFocus AsStringContentFocus && WordSelected(ControllerView.FocusedText, ControllerView.CaretPosition, out Start, out End))
+                {
+                    IFocusStringContentFocusableCellView CellView = AsStringContentFocus.CellView;
+                    ControllerView.SelectStringContent(CellView.StateView.State, CellView.PropertyName, Start, End);
+                    InvalidateVisual();
+                }
+
+                else if (ControllerView.Focus is IFocusCommentFocus AsCommentFocus && WordSelected(ControllerView.FocusedText, ControllerView.CaretPosition, out Start, out End))
+                {
+                    IFocusCommentCellView CellView = AsCommentFocus.CellView;
+                    ControllerView.SelectComment(CellView.StateView.State, Start, End);
+                    InvalidateVisual();
+                }
+            }
+            else
+            {
+                bool IsShift = Keyboard.IsKeyDown(Key.LeftShift) || Keyboard.IsKeyDown(Key.RightShift);
+                bool ResetAnchor = !IsShift;
+
+                ControllerView.SetFocusToPoint(Point.X, Point.Y, ResetAnchor, out bool IsMoved);
+                if (IsMoved)
+                    InvalidateVisual();
+            }
 
             e.Handled = true;
+        }
+
+        private bool WordSelected(string text, int position, out int start, out int end)
+        {
+            start = position;
+            end = position;
+
+            while (start > 0 && !char.IsWhiteSpace(text[start - 1]))
+                start--;
+
+            while (end < text.Length && !char.IsWhiteSpace(text[end]))
+                end++;
+
+            return end > start;
         }
 
         private ILayoutController Controller;
