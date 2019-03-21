@@ -81,8 +81,14 @@
         {
             ((IFocusCellViewTreeContext)context).UpdateNodeFrameVisibility(this, out bool OldFrameVisibility);
 
-            IFocusCellViewCollection EmbeddingCellView = base.BuildNodeCells(context, parentCellView) as IFocusCellViewCollection;
-            Debug.Assert(EmbeddingCellView != null);
+            IFocusCellViewCollection EmbeddingCellView;
+            if (((IFocusCellViewTreeContext)context).IsVisible)
+                EmbeddingCellView = base.BuildNodeCells(context, parentCellView) as IFocusCellViewCollection;
+            else
+            {
+                IFocusCellViewList EmptyList = CreateEmptyCellViewList();
+                EmbeddingCellView = (IFocusCellViewCollection)CreateEmbeddingCellView(((IFocusCellViewTreeContext)context).StateView, (IFocusCellViewCollection)parentCellView, EmptyList);
+            }
 
             if (!((IFocusCellViewTreeContext)context).IsVisible)
             {
@@ -103,8 +109,14 @@
         {
             ((IFocusCellViewTreeContext)context).UpdateBlockFrameVisibility(this, out bool OldFrameVisibility);
 
-            IFocusCellViewCollection EmbeddingCellView = base.BuildBlockCells(context, parentCellView) as IFocusCellViewCollection;
-            Debug.Assert(EmbeddingCellView != null);
+            IFocusCellViewCollection EmbeddingCellView;
+            if (((IFocusCellViewTreeContext)context).IsVisible)
+                EmbeddingCellView = base.BuildBlockCells(context, parentCellView) as IFocusCellViewCollection;
+            else
+            {
+                IFocusCellViewList EmptyList = CreateEmptyCellViewList();
+                EmbeddingCellView = (IFocusCellViewCollection)CreateEmbeddingCellView(((IFocusCellViewTreeContext)context).StateView, (IFocusCellViewCollection)parentCellView, EmptyList);
+            }
 
             if (!((IFocusCellViewTreeContext)context).IsVisible)
             {
@@ -208,6 +220,15 @@
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusVerticalPanelFrame));
             return new FocusColumn((IFocusNodeStateView)stateView, (IFocusCellViewCollection)parentCellView, (IFocusCellViewList)list, this);
+        }
+
+        /// <summary>
+        /// Creates a IxxxCellViewList object.
+        /// </summary>
+        private protected virtual IFocusCellViewList CreateEmptyCellViewList()
+        {
+            ControllerTools.AssertNoOverride(this, typeof(FocusVerticalPanelFrame));
+            return new FocusCellViewList();
         }
         #endregion
     }

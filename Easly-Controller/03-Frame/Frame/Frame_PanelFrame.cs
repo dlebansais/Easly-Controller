@@ -133,13 +133,6 @@
                     IsHandled = true;
                 }
 
-                /*
-                else if (Item is IFrameNodeFrame AsNodeFrame)
-                {
-                    ItemCellView = AsNodeFrame.BuildNodeCells(context, EmbeddingCellView);
-                    IsHandled = true;
-                }*/
-
                 Debug.Assert(IsHandled);
 
                 CellViewList.Add(ItemCellView);

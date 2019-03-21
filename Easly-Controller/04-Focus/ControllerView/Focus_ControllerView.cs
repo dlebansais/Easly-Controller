@@ -2353,16 +2353,19 @@
         {
             bool IsHandled = false;
 
+            int Start = CaretAnchorPosition >= 0 ? CaretAnchorPosition : 0;
+            int End = CaretPosition;
+
             if (textFocus is IFocusStringContentFocus AsStringContentFocus)
             {
                 IFocusStringContentFocusableCellView CellView = AsStringContentFocus.CellView;
-                SelectStringContent(CellView.StateView, CellView.PropertyName, CaretAnchorPosition, CaretPosition);
+                SelectStringContent(CellView.StateView, CellView.PropertyName, Start, End);
                 IsHandled = true;
             }
             else if (textFocus is IFocusCommentFocus AsCommentFocus)
             {
                 IFocusCommentCellView CellView = AsCommentFocus.CellView;
-                SelectComment(CellView.StateView, CaretAnchorPosition, CaretPosition);
+                SelectComment(CellView.StateView, Start, End);
                 IsHandled = true;
             }
 
