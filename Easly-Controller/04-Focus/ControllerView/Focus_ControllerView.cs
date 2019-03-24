@@ -798,49 +798,73 @@
             IFocusFrame Frame = Focus.CellView.Frame;
 
             if (Frame is IFocusInsertFrame AsInsertFrame)
-            {
-                Type InsertType = AsInsertFrame.InsertType;
-                Debug.Assert(InsertType != null);
-                Debug.Assert(!InsertType.IsInterface);
-                Debug.Assert(!InsertType.IsAbstract);
-
-                INode NewItem = NodeHelper.CreateEmptyNode(InsertType);
-
-                IFocusCollectionInner CollectionInner = null;
-                AsInsertFrame.CollectionNameToInner(ref State, ref CollectionInner);
-                Debug.Assert(CollectionInner != null);
-
-                if (CollectionInner is IFocusBlockListInner AsBlockListInner)
-                {
-                    inner = AsBlockListInner;
-
-                    if (AsBlockListInner.Count == 0)
-                    {
-                        IPattern NewPattern = NodeHelper.CreateEmptyPattern();
-                        IIdentifier NewSource = NodeHelper.CreateEmptyIdentifier();
-                        index = CreateNewBlockNodeIndex(State.Node, CollectionInner.PropertyName, NewItem, 0, NewPattern, NewSource);
-                    }
-                    else
-                        index = CreateExistingBlockNodeIndex(State.Node, CollectionInner.PropertyName, NewItem, 0, 0);
-
-                    Result = true;
-                }
-                else if (CollectionInner is IFocusListInner AsListInner)
-                {
-                    inner = AsListInner;
-                    index = CreateListNodeIndex(State.Node, AsListInner.PropertyName, NewItem, 0);
-
-                    Result = true;
-                }
-            }
+                Result = IsNewItemInsertableAtInsertFrame(State, AsInsertFrame, out inner, out index);
 
             else if (Focus.CellView is IFocusStringContentFocusableCellView AsStringContentFocusableCellView)
+                Result = IsNewItemInsertableAtStringContentCellView(State, AsStringContentFocusableCellView, out inner, out index);
+
+            return Result;
+        }
+
+        /// <summary></summary>
+        private protected virtual bool IsNewItemInsertableAtInsertFrame(IFocusNodeState state, IFocusInsertFrame frame, out IFocusCollectionInner inner, out IFocusInsertionCollectionNodeIndex index)
+        {
+            inner = null;
+            index = null;
+
+            bool Result = false;
+
+            Type InsertType = frame.InsertType;
+            Debug.Assert(InsertType != null);
+            Debug.Assert(!InsertType.IsInterface);
+            Debug.Assert(!InsertType.IsAbstract);
+
+            INode NewItem = NodeHelper.CreateEmptyNode(InsertType);
+
+            IFocusCollectionInner CollectionInner = null;
+            frame.CollectionNameToInner(ref state, ref CollectionInner);
+            Debug.Assert(CollectionInner != null);
+
+            if (CollectionInner is IFocusBlockListInner AsBlockListInner)
             {
-                if (CaretPosition == 0 && IsListExtremumItem(State, AsStringContentFocusableCellView, IsFirstFocusableCellView, InsertAbove, out inner, out index))
-                    return true;
-                else if (CaretPosition == MaxCaretPosition && IsListExtremumItem(State, AsStringContentFocusableCellView, IsLastFocusableCellView, InsertBelow, out inner, out index))
-                    return true;
+                inner = AsBlockListInner;
+
+                if (AsBlockListInner.Count == 0)
+                {
+                    IPattern NewPattern = NodeHelper.CreateEmptyPattern();
+                    IIdentifier NewSource = NodeHelper.CreateEmptyIdentifier();
+                    index = CreateNewBlockNodeIndex(state.Node, CollectionInner.PropertyName, NewItem, 0, NewPattern, NewSource);
+                }
+                else
+                    index = CreateExistingBlockNodeIndex(state.Node, CollectionInner.PropertyName, NewItem, 0, 0);
+
+                Result = true;
             }
+
+            else if (CollectionInner is IFocusListInner AsListInner)
+            {
+                inner = AsListInner;
+                index = CreateListNodeIndex(state.Node, AsListInner.PropertyName, NewItem, 0);
+
+                Result = true;
+            }
+
+            return Result;
+        }
+
+        /// <summary></summary>
+        private protected virtual bool IsNewItemInsertableAtStringContentCellView(IFocusNodeState state, IFocusStringContentFocusableCellView cellView, out IFocusCollectionInner inner, out IFocusInsertionCollectionNodeIndex index)
+        {
+            inner = null;
+            index = null;
+
+            bool Result = false;
+
+            if (CaretPosition == 0)
+                Result = IsListExtremumItem(state, cellView, IsFirstFocusableCellView, InsertAbove, out inner, out index);
+
+            else if (CaretPosition == MaxCaretPosition)
+                Result = IsListExtremumItem(state, cellView, IsLastFocusableCellView, InsertBelow, out inner, out index);
 
             return Result;
         }

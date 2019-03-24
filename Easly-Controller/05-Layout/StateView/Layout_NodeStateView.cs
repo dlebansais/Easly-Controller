@@ -194,36 +194,5 @@
         /// <param name="origin">The origin from where to start printing.</param>
         public abstract void PrintCells(Point origin);
         #endregion
-
-        #region Debugging
-        /// <summary>
-        /// Compares two <see cref="ILayoutNodeStateView"/> objects.
-        /// </summary>
-        /// <param name="comparer">The comparison support object.</param>
-        /// <param name="other">The other object.</param>
-        public override bool IsEqual(CompareEqual comparer, IEqualComparable other)
-        {
-            Debug.Assert(other != null);
-
-            if (!comparer.IsSameType(other, out LayoutNodeStateView AsNodeStateView))
-                return comparer.Failed();
-
-            if (!base.IsEqual(comparer, AsNodeStateView))
-                return comparer.Failed();
-
-            return true;
-        }
-        #endregion
-
-        #region Create Methods
-        /// <summary>
-        /// Creates a IxxxAssignableCellViewDictionary{string} object.
-        /// </summary>
-        private protected override IFrameAssignableCellViewDictionary<string> CreateCellViewTable()
-        {
-            ControllerTools.AssertNoOverride(this, typeof(LayoutNodeStateView));
-            return new LayoutAssignableCellViewDictionary<string>();
-        }
-        #endregion
     }
 }

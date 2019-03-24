@@ -141,36 +141,5 @@
         /// </summary>
         public abstract IList<IFocusFrameSelectorList> GetSelectorStack();
         #endregion
-
-        #region Debugging
-        /// <summary>
-        /// Compares two <see cref="IFocusNodeStateView"/> objects.
-        /// </summary>
-        /// <param name="comparer">The comparison support object.</param>
-        /// <param name="other">The other object.</param>
-        public override bool IsEqual(CompareEqual comparer, IEqualComparable other)
-        {
-            Debug.Assert(other != null);
-
-            if (!comparer.IsSameType(other, out FocusNodeStateView AsNodeStateView))
-                return comparer.Failed();
-
-            if (!base.IsEqual(comparer, AsNodeStateView))
-                return comparer.Failed();
-
-            return true;
-        }
-        #endregion
-
-        #region Create Methods
-        /// <summary>
-        /// Creates a IxxxAssignableCellViewDictionary{string} object.
-        /// </summary>
-        private protected override IFrameAssignableCellViewDictionary<string> CreateCellViewTable()
-        {
-            ControllerTools.AssertNoOverride(this, typeof(FocusNodeStateView));
-            return new FocusAssignableCellViewDictionary<string>();
-        }
-        #endregion
     }
 }

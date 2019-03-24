@@ -133,6 +133,9 @@
 
             IFrameCellView ItemCellView = base.BuildBlockCellsForPlaceholderFrame(context, frame, embeddingCellView, blockState);
 
+            bool HasVisibleCellView = ItemCellView.HasVisibleCellView;
+            Debug.Assert(((IFocusCellViewTreeContext)context).IsVisible || !HasVisibleCellView);
+
             ((IFocusCellViewTreeContext)context).RemoveOrRestoreSelectors(((IFocusPlaceholderFrame)frame).Selectors, OldSelectorType, OldSelectorName);
 
             return ItemCellView;

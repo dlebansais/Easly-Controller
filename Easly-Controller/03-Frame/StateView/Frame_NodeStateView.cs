@@ -185,93 +185,9 @@
 
         #region Debugging
         /// <summary>
-        /// Compares two <see cref="IFrameNodeStateView"/> objects.
-        /// </summary>
-        /// <param name="comparer">The comparison support object.</param>
-        /// <param name="other">The other object.</param>
-        public override bool IsEqual(CompareEqual comparer, IEqualComparable other)
-        {
-            Debug.Assert(other != null);
-
-            if (!comparer.IsSameType(other, out FrameNodeStateView AsNodeStateView))
-                return comparer.Failed();
-
-            if (!base.IsEqual(comparer, AsNodeStateView))
-                return comparer.Failed();
-
-            if (!comparer.IsSameReference(Template, AsNodeStateView.Template))
-                return comparer.Failed();
-
-            if (!comparer.IsTrue((RootCellView == null || AsNodeStateView.RootCellView != null) && (RootCellView != null || AsNodeStateView.RootCellView == null)))
-                return comparer.Failed();
-
-            if (RootCellView != null)
-            {
-                Debug.Assert(CellViewTable != null);
-                Debug.Assert(AsNodeStateView.CellViewTable != null);
-
-                if (!comparer.VerifyEqual(RootCellView, AsNodeStateView.RootCellView))
-                    return comparer.Failed();
-
-                if (!comparer.VerifyEqual(CellViewTable, AsNodeStateView.CellViewTable))
-                    return comparer.Failed();
-            }
-            else
-            {
-                Debug.Assert(CellViewTable == null);
-                Debug.Assert(AsNodeStateView.CellViewTable == null);
-            }
-
-            return true;
-        }
-
-        /// <summary>
         /// Checks if the tree of cell views under this state is valid.
         /// </summary>
-        public virtual bool IsCellViewTreeValid()
-        {
-            bool IsValid = true;
-
-            IsValid &= RootCellView != null;
-
-            if (IsValid)
-            {
-                IFrameAssignableCellViewDictionary<string> ActualCellViewTable = CreateCellViewTable();
-                IsValid &= RootCellView.IsCellViewTreeValid(CellViewTable, ActualCellViewTable);
-                IsValid &= AllCellViewsProperlyAssigned(CellViewTable, ActualCellViewTable);
-            }
-
-            return IsValid;
-        }
-
-        /// <summary></summary>
-        private protected virtual bool AllCellViewsProperlyAssigned(IFrameAssignableCellViewReadOnlyDictionary<string> expectedCellViewTable, IFrameAssignableCellViewDictionary<string> actualCellViewTable)
-        {
-            bool IsAssigned = true;
-
-            int ActualCount = 0;
-            foreach (KeyValuePair<string, IFrameAssignableCellView> Entry in CellViewTable)
-                if (Entry.Value != null)
-                {
-                    ActualCount++;
-                    IsAssigned &= actualCellViewTable.ContainsKey(Entry.Key);
-                }
-
-            IsAssigned &= actualCellViewTable.Count == ActualCount;
-
-            return IsAssigned;
-        }
-        #endregion
-
-        #region Create Methods
-        /// <summary>
-        /// Creates a IxxxAssignableCellViewDictionary{string} object.
-        /// </summary>
-        private protected virtual IFrameAssignableCellViewDictionary<string> CreateCellViewTable()
-        {
-            ControllerTools.AssertNoOverride(this, typeof(FrameNodeStateView));
-            return new FrameAssignableCellViewDictionary<string>();
-        }
+        public abstract bool IsCellViewTreeValid();
         #endregion
     }
 }

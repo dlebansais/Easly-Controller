@@ -47,25 +47,5 @@
         /// </summary>
         public new IWriteableNodeState State { get { return (IWriteableNodeState)base.State; } }
         #endregion
-
-        #region Debugging
-        /// <summary>
-        /// Compares two <see cref="IWriteableNodeStateView"/> objects.
-        /// </summary>
-        /// <param name="comparer">The comparison support object.</param>
-        /// <param name="other">The other object.</param>
-        public override bool IsEqual(CompareEqual comparer, IEqualComparable other)
-        {
-            Debug.Assert(other != null);
-
-            if (!comparer.IsSameType(other, out WriteableNodeStateView AsNodeStateView))
-                return comparer.Failed();
-
-            if (!base.IsEqual(comparer, AsNodeStateView))
-                return comparer.Failed();
-
-            return true;
-        }
-        #endregion
     }
 }

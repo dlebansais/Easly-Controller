@@ -28,25 +28,5 @@
         {
         }
         #endregion
-
-        #region Debugging
-        /// <summary>
-        /// Compares two <see cref="IFrameIndex"/> objects.
-        /// </summary>
-        /// <param name="comparer">The comparison support object.</param>
-        /// <param name="other">The other object.</param>
-        public override bool IsEqual(CompareEqual comparer, IEqualComparable other)
-        {
-            Debug.Assert(other != null);
-
-            if (!comparer.IsSameType(other, out FrameInsertionCollectionNodeIndex AsInsertionCollectionNodeIndex))
-                return comparer.Failed();
-
-            if (!base.IsEqual(comparer, AsInsertionCollectionNodeIndex))
-                return comparer.Failed();
-
-            return true;
-        }
-        #endregion
     }
 }
