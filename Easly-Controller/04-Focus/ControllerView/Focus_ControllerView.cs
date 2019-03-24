@@ -801,8 +801,10 @@
             {
                 Type InsertType = AsInsertFrame.InsertType;
                 Debug.Assert(InsertType != null);
+                Debug.Assert(!InsertType.IsInterface);
+                Debug.Assert(!InsertType.IsAbstract);
 
-                INode NewItem = BuildNewInsertableItem(InsertType);
+                INode NewItem = NodeHelper.CreateEmptyNode(InsertType);
 
                 IFocusCollectionInner CollectionInner = null;
                 AsInsertFrame.CollectionNameToInner(ref State, ref CollectionInner);
@@ -853,7 +855,6 @@
             if (ParentInner == null)
                 return false;
 
-            Type InsertType;
             INode NewItem;
             int BlockPosition;
             int ItemPosition;
@@ -876,8 +877,7 @@
                     break;
 
                 case IFocusListInner AsListInner:
-                    InsertType = NodeTreeHelper.InterfaceTypeToNodeType(AsListInner.InterfaceType);
-                    NewItem = BuildNewInsertableItem(InsertType);
+                    NewItem = NodeHelper.CreateDefaultFromInterface(AsListInner.InterfaceType);
                     ItemPosition = (state.ParentIndex as IFocusBrowsingListNodeIndex).Index;
 
                     inner = AsListInner;
@@ -888,8 +888,7 @@
                     break;
 
                 case IFocusBlockListInner AsBlockListInner:
-                    InsertType = AsBlockListInner.ItemType;
-                    NewItem = BuildNewInsertableItem(InsertType);
+                    NewItem = NodeHelper.CreateDefaultFromInterface(AsBlockListInner.InterfaceType);
                     BlockPosition = (state.ParentIndex as IFocusBrowsingExistingBlockNodeIndex).BlockIndex;
                     ItemPosition = (state.ParentIndex as IFocusBrowsingExistingBlockNodeIndex).Index;
 
@@ -948,12 +947,6 @@
         private protected virtual int InsertBelow(int position)
         {
             return position + 1;
-        }
-
-        /// <summary></summary>
-        private protected virtual INode BuildNewInsertableItem(Type insertType)
-        {
-            return NodeHelper.CreateEmptyNode(insertType);
         }
 
         /// <summary>
