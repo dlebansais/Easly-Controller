@@ -831,22 +831,123 @@
                     Result = true;
                 }
             }
-            else if (Frame is IFocusTextValueFrame AsTextValueFrame)
+
+            else if (Focus.CellView is IFocusStringContentFocusableCellView AsStringContentFocusableCellView)
             {
-                if (CaretPosition == 0)
-                    if (State.ParentInner is IFocusListInner AsListInner)
-                    {
-                        Type InsertType = NodeTreeHelper.InterfaceTypeToNodeType(AsListInner.InterfaceType);
-                        INode NewItem = BuildNewInsertableItem(InsertType);
-
-                        inner = AsListInner;
-                        index = CreateListNodeIndex(inner.Owner.Node, inner.PropertyName, NewItem, 0);
-
-                        Result = true;
-                    }
+                if (CaretPosition == 0 && IsListExtremumItem(State, AsStringContentFocusableCellView, IsFirstFocusableCellView, InsertAbove, out inner, out index))
+                    return true;
+                else if (CaretPosition == MaxCaretPosition && IsListExtremumItem(State, AsStringContentFocusableCellView, IsLastFocusableCellView, InsertBelow, out inner, out index))
+                    return true;
             }
 
             return Result;
+        }
+
+        /// <summary></summary>
+        private protected virtual bool IsListExtremumItem(IFocusNodeState state, IFocusContentFocusableCellView cellView, Func<IFocusNodeState, IFocusContentFocusableCellView, bool> isGoodFocusableCellView, Func<int, int> getInsertPosition, out IFocusCollectionInner inner, out IFocusInsertionCollectionNodeIndex index)
+        {
+            inner = null;
+            index = null;
+
+            IFocusInner ParentInner = state.ParentInner;
+            if (ParentInner == null)
+                return false;
+
+            Type InsertType;
+            INode NewItem;
+            int BlockPosition;
+            int ItemPosition;
+            IFocusNodeState ParentState;
+            bool IsHandled = false;
+            bool Result = false;
+
+            switch (ParentInner)
+            {
+                case IFocusPlaceholderInner AsPlaceholderInner:
+                case IFocusOptionalInner AsOptionalInner:
+                    ParentState = state.ParentState;
+
+                    if (ParentState != null && isGoodFocusableCellView(state, cellView))
+                        Result = IsListExtremumItem(ParentState, cellView, isGoodFocusableCellView, getInsertPosition, out inner, out index);
+                    else
+                        Result = false;
+
+                    IsHandled = true;
+                    break;
+
+                case IFocusListInner AsListInner:
+                    InsertType = NodeTreeHelper.InterfaceTypeToNodeType(AsListInner.InterfaceType);
+                    NewItem = BuildNewInsertableItem(InsertType);
+                    ItemPosition = (state.ParentIndex as IFocusBrowsingListNodeIndex).Index;
+
+                    inner = AsListInner;
+                    index = CreateListNodeIndex(inner.Owner.Node, inner.PropertyName, NewItem, getInsertPosition(ItemPosition));
+
+                    Result = true;
+                    IsHandled = true;
+                    break;
+
+                case IFocusBlockListInner AsBlockListInner:
+                    InsertType = AsBlockListInner.ItemType;
+                    NewItem = BuildNewInsertableItem(InsertType);
+                    BlockPosition = (state.ParentIndex as IFocusBrowsingExistingBlockNodeIndex).BlockIndex;
+                    ItemPosition = (state.ParentIndex as IFocusBrowsingExistingBlockNodeIndex).Index;
+
+                    inner = AsBlockListInner;
+                    index = CreateExistingBlockNodeIndex(inner.Owner.Node, inner.PropertyName, NewItem, BlockPosition, getInsertPosition(ItemPosition));
+
+                    Result = true;
+                    IsHandled = true;
+                    break;
+            }
+
+            Debug.Assert(IsHandled);
+
+            return Result;
+        }
+
+        /// <summary></summary>
+        private protected virtual bool IsFirstFocusableCellView(IFocusNodeState state, IFocusContentFocusableCellView cellView)
+        {
+            Debug.Assert(StateViewTable.ContainsKey(state));
+
+            IFocusNodeStateView StateView = StateViewTable[state];
+            StateView.RootCellView.EnumerateVisibleCellViews(GetFirstFocusable, out IFrameVisibleCellView FirstCellView, reversed: false);
+            return FirstCellView == cellView;
+        }
+
+        /// <summary></summary>
+        private protected virtual bool GetFirstFocusable(IFrameVisibleCellView cellView)
+        {
+            return cellView is IFocusFocusableCellView;
+        }
+
+        /// <summary></summary>
+        private protected virtual int InsertAbove(int position)
+        {
+            return position;
+        }
+
+        /// <summary></summary>
+        private protected virtual bool IsLastFocusableCellView(IFocusNodeState state, IFocusContentFocusableCellView cellView)
+        {
+            Debug.Assert(StateViewTable.ContainsKey(state));
+
+            IFocusNodeStateView StateView = StateViewTable[state];
+            StateView.RootCellView.EnumerateVisibleCellViews(GetLastFocusable, out IFrameVisibleCellView FirstCellView, reversed: true);
+            return FirstCellView == cellView;
+        }
+
+        /// <summary></summary>
+        private protected virtual bool GetLastFocusable(IFrameVisibleCellView cellView)
+        {
+            return cellView is IFocusFocusableCellView;
+        }
+
+        /// <summary></summary>
+        private protected virtual int InsertBelow(int position)
+        {
+            return position + 1;
         }
 
         /// <summary></summary>

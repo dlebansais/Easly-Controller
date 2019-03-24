@@ -208,14 +208,17 @@
         /// </summary>
         /// <param name="handler">A handler to execute for each cell view.</param>
         /// <param name="cellView">The cell view for which <paramref name="handler"/> returned true. Null if none.</param>
+        /// <param name="reversed">If true, search in reverse order.</param>
         /// <returns>The last value returned by <paramref name="handler"/>.</returns>
-        public override bool EnumerateVisibleCellViews(Func<IFrameVisibleCellView, bool> handler, out IFrameVisibleCellView cellView)
+        public override bool EnumerateVisibleCellViews(Func<IFrameVisibleCellView, bool> handler, out IFrameVisibleCellView cellView, bool reversed)
         {
             Debug.Assert(handler != null);
 
-            foreach (IFrameCellView Item in CellViewList)
+            for (int i = 0; i < CellViewList.Count; i++)
             {
-                if (Item.EnumerateVisibleCellViews(handler, out cellView))
+                IFrameCellView Item = CellViewList[reversed ? CellViewList.Count - 1 - i : i];
+
+                if (Item.EnumerateVisibleCellViews(handler, out cellView, reversed))
                     return true;
             }
 

@@ -75,8 +75,9 @@
         /// </summary>
         /// <param name="handler">A handler to execute for each cell view.</param>
         /// <param name="cellView">The cell view for which <paramref name="handler"/> returned true. Null if none.</param>
+        /// <param name="reversed">If true, search in reverse order.</param>
         /// <returns>The last value returned by <paramref name="handler"/>.</returns>
-        bool EnumerateVisibleCellViews(Func<IFrameVisibleCellView, bool> handler, out IFrameVisibleCellView cellView);
+        bool EnumerateVisibleCellViews(Func<IFrameVisibleCellView, bool> handler, out IFrameVisibleCellView cellView, bool reversed);
 
         /// <summary>
         /// Checks if the tree of cell views under this state is valid.
@@ -177,8 +178,9 @@
         /// </summary>
         /// <param name="handler">A handler to execute for each cell view.</param>
         /// <param name="cellView">The cell view for which <paramref name="handler"/> returned true. Null if none.</param>
+        /// <param name="reversed">If true, search in reverse order.</param>
         /// <returns>The last value returned by <paramref name="handler"/>.</returns>
-        public abstract bool EnumerateVisibleCellViews(Func<IFrameVisibleCellView, bool> handler, out IFrameVisibleCellView cellView);
+        public abstract bool EnumerateVisibleCellViews(Func<IFrameVisibleCellView, bool> handler, out IFrameVisibleCellView cellView, bool reversed);
         #endregion
 
         #region Debugging

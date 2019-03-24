@@ -23,7 +23,7 @@
         bool IsSimple { get; }
 
         /// <summary>
-        /// Returns the frame associated to a property if can have selectors.
+        /// Returns the frame associated to a property if it can have selectors.
         /// </summary>
         /// <param name="propertyName">Name of the property to look for.</param>
         /// <param name="frame">Frame found upon return. Null if not matching <paramref name="propertyName"/>.</param>
@@ -49,6 +49,20 @@
         /// This overload uses selectors to choose the correct frame.
         /// </summary>
         IFocusCommentFrame GetCommentFrame(IList<IFocusFrameSelectorList> selectorStack);
+
+        /// <summary>
+        /// Checks if the frame associated to a given property is the first focusable in the template.
+        /// </summary>
+        /// <param name="propertyName">The property name.</param>
+        /// <param name="selectorStack">A list of selectors to choose the correct frame.</param>
+        bool IsFirstValueFrame(string propertyName, IList<IFocusFrameSelectorList> selectorStack);
+
+        /// <summary>
+        /// Checks if the frame associated to a given property is the last focusable in the template.
+        /// </summary>
+        /// <param name="propertyName">The property name.</param>
+        /// <param name="selectorStack">A list of selectors to choose the correct frame.</param>
+        bool IsLastValueFrame(string propertyName, IList<IFocusFrameSelectorList> selectorStack);
     }
 
     /// <summary>
@@ -100,7 +114,7 @@
 
         #region Client Interface
         /// <summary>
-        /// Returns the frame associated to a property if can have selectors.
+        /// Returns the frame associated to a property if it can have selectors.
         /// </summary>
         /// <param name="propertyName">Name of the property to look for.</param>
         /// <param name="frame">Frame found upon return. Null if not matching <paramref name="propertyName"/>.</param>
@@ -135,20 +149,24 @@
         /// <param name="selectorStack">A list of selectors to choose the correct frame.</param>
         public virtual IFocusNamedFrame PropertyToFrame(string propertyName, IList<IFocusFrameSelectorList> selectorStack)
         {
-            bool Found = GetFirstNamedFrame(Root, propertyName, selectorStack, out IFocusNamedFrame Result);
+            int ValueFrameIndex = 0;
+            bool Found = GetFirstNamedFrame(Root, propertyName, selectorStack, false, ref ValueFrameIndex, out IFocusNamedFrame Result);
             Debug.Assert(Found);
+            Debug.Assert(ValueFrameIndex > 0);
             Debug.Assert(Result != null);
 
             return Result;
         }
 
-        private protected bool GetFirstNamedFrame(IFocusFrame root, string propertyName, IList<IFocusFrameSelectorList> selectorStack, out IFocusNamedFrame frame)
+        private protected bool GetFirstNamedFrame(IFocusFrame root, string propertyName, IList<IFocusFrameSelectorList> selectorStack, bool reverseSearch, ref int valueFrameIndex, out IFocusNamedFrame frame)
         {
             frame = null;
             bool Found = false;
 
             if (root is IFocusNamedFrame AsNamedFrame)
             {
+                valueFrameIndex++;
+
                 if (AsNamedFrame.PropertyName == propertyName)
                 {
                     frame = AsNamedFrame;
@@ -158,12 +176,17 @@
 
             if (root is IFocusPanelFrame AsPanelFrame)
             {
-                foreach (IFocusFrame Item in AsPanelFrame.Items)
-                    if (GetFirstNamedFrame(Item, propertyName, selectorStack, out frame))
+                int Count = AsPanelFrame.Items.Count;
+                for (int i = 0; i < Count; i++)
+                {
+                    IFocusFrame Item = AsPanelFrame.Items[reverseSearch ? Count - 1 - i : i];
+
+                    if (GetFirstNamedFrame(Item, propertyName, selectorStack, reverseSearch, ref valueFrameIndex, out frame))
                     {
                         Found = true;
                         break;
                     }
+                }
             }
 
             else if (root is IFocusSelectionFrame AsSelectionFrame)
@@ -191,7 +214,7 @@
                 }
 
                 if (SelectedFrame != null)
-                    if (GetFirstNamedFrame(SelectedFrame.Content, propertyName, selectorStack, out frame))
+                    if (GetFirstNamedFrame(SelectedFrame.Content, propertyName, selectorStack, reverseSearch, ref valueFrameIndex, out frame))
                         Found = true;
             }
 
@@ -263,6 +286,38 @@
             }
 
             return Found;
+        }
+
+        /// <summary>
+        /// Checks if the frame associated to a given property is the first focusable in the template.
+        /// </summary>
+        /// <param name="propertyName">The property name.</param>
+        /// <param name="selectorStack">A list of selectors to choose the correct frame.</param>
+        public virtual bool IsFirstValueFrame(string propertyName, IList<IFocusFrameSelectorList> selectorStack)
+        {
+            int ValueFrameIndex = 0;
+            bool Found = GetFirstNamedFrame(Root, propertyName, selectorStack, false, ref ValueFrameIndex, out IFocusNamedFrame Result);
+            Debug.Assert(Found);
+            Debug.Assert(ValueFrameIndex > 0);
+            Debug.Assert(Result != null);
+
+            return ValueFrameIndex == 1;
+        }
+
+        /// <summary>
+        /// Checks if the frame associated to a given property is the last focusable in the template.
+        /// </summary>
+        /// <param name="propertyName">The property name.</param>
+        /// <param name="selectorStack">A list of selectors to choose the correct frame.</param>
+        public virtual bool IsLastValueFrame(string propertyName, IList<IFocusFrameSelectorList> selectorStack)
+        {
+            int ValueFrameIndex = 0;
+            bool Found = GetFirstNamedFrame(Root, propertyName, selectorStack, true, ref ValueFrameIndex, out IFocusNamedFrame Result);
+            Debug.Assert(Found);
+            Debug.Assert(ValueFrameIndex > 0);
+            Debug.Assert(Result != null);
+
+            return ValueFrameIndex == 1;
         }
         #endregion
     }

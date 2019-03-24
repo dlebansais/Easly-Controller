@@ -744,7 +744,7 @@
         /// <returns>True if found; otherwise, false.</returns>
         public virtual bool CellViewFromPoint(double x, double y, out ILayoutVisibleCellView cellView)
         {
-            EnumerateVisibleCellViews((IFrameVisibleCellView item) => ((ILayoutVisibleCellView)item).CellRect.IsPointInRect(x, y), out IFrameVisibleCellView foundCellView);
+            EnumerateVisibleCellViews((IFrameVisibleCellView item) => ((ILayoutVisibleCellView)item).CellRect.IsPointInRect(x, y), out IFrameVisibleCellView foundCellView, reversed: false);
             cellView = (ILayoutVisibleCellView)foundCellView;
 
             return cellView != null;

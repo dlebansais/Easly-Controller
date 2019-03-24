@@ -42,8 +42,9 @@
         /// </summary>
         /// <param name="handler">A handler to execute for each cell view.</param>
         /// <param name="cellView">The cell view for which <paramref name="handler"/> returned true. Null if none.</param>
+        /// <param name="reversed">If true, search in reverse order.</param>
         /// <returns>The last value returned by <paramref name="handler"/>.</returns>
-        bool EnumerateVisibleCellViews(Func<IFrameVisibleCellView, bool> handler, out IFrameVisibleCellView cellView);
+        bool EnumerateVisibleCellViews(Func<IFrameVisibleCellView, bool> handler, out IFrameVisibleCellView cellView, bool reversed);
 
         /// <summary>
         /// Returns a string representing this part of the cell view tree.
@@ -110,8 +111,9 @@
         /// </summary>
         /// <param name="handler">A handler to execute for each cell view.</param>
         /// <param name="cellView">The cell view for which <paramref name="handler"/> returned true. Null if none.</param>
+        /// <param name="reversed">If true, search in reverse order.</param>
         /// <returns>The last value returned by <paramref name="handler"/>.</returns>
-        public abstract bool EnumerateVisibleCellViews(Func<IFrameVisibleCellView, bool> handler, out IFrameVisibleCellView cellView);
+        public abstract bool EnumerateVisibleCellViews(Func<IFrameVisibleCellView, bool> handler, out IFrameVisibleCellView cellView, bool reversed);
 
         /// <summary>
         /// Clears all views (cells and states) within this cell view.
