@@ -31,6 +31,7 @@
         #endregion
 
         #region Client Interface
+#if !TRAVIS
         /// <summary>
         /// Copy the selection in the clipboard.
         /// </summary>
@@ -194,6 +195,7 @@
                 isChanged = true;
             }
         }
+#endif
         #endregion
 
         #region Debugging

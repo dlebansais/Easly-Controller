@@ -103,6 +103,7 @@
             }
         }
 
+#if !TRAVIS
         /// <summary>
         /// Adds the selection to the clipboard.
         /// </summary>
@@ -243,6 +244,7 @@
                 }
             }
         }
+#endif
         #endregion
 
         #region Debugging

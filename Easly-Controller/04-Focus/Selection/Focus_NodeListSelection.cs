@@ -103,6 +103,7 @@
             }
         }
 
+#if !TRAVIS
         /// <summary>
         /// Copy the selection in the clipboard.
         /// </summary>
@@ -221,6 +222,7 @@
                 }
             }
         }
+#endif
         #endregion
 
         #region Debugging

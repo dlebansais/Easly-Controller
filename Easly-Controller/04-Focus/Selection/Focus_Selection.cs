@@ -12,6 +12,7 @@
         /// </summary>
         IFocusNodeStateView StateView { get; }
 
+#if !TRAVIS
         /// <summary>
         /// Copy the selection in the clipboard.
         /// </summary>
@@ -30,6 +31,7 @@
         /// </summary>
         /// <param name="isChanged">True if something was replaced or added.</param>
         void Paste(out bool isChanged);
+#endif
     }
 
     /// <summary>
@@ -56,6 +58,7 @@
         #endregion
 
         #region Client Interface
+#if !TRAVIS
         /// <summary>
         /// Copy the selection in the clipboard.
         /// </summary>
@@ -73,6 +76,7 @@
         /// Replaces the selection with the content of the clipboard.
         /// </summary>
         public abstract void Paste(out bool isChanged);
+#endif
         #endregion
     }
 }
