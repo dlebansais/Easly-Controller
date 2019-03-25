@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
+    using System.Windows;
     using BaseNode;
     using BaseNodeHelper;
     using EaslyController.Constants;
@@ -315,6 +316,27 @@
         /// <param name="startIndex">Index of the first block of the selection.</param>
         /// <param name="endIndex">Index of the last block of the selection.</param>
         void SelectBlockList(IFocusNodeState state, string propertyName, int startIndex, int endIndex);
+
+#if !TRAVIS
+        /// <summary>
+        /// Copy the selection in the clipboard.
+        /// </summary>
+        /// <param name="dataObject">The clipboard data object that can already contain other custom formats.</param>
+        void Copy(IDataObject dataObject);
+
+        /// <summary>
+        /// Copy the selection in the clipboard then removes it.
+        /// </summary>
+        /// <param name="dataObject">The clipboard data object that can already contain other custom formats.</param>
+        /// <param name="isDeleted">True if something was deleted.</param>
+        void Cut(IDataObject dataObject, out bool isDeleted);
+
+        /// <summary>
+        /// Replaces the selection with the content of the clipboard.
+        /// </summary>
+        /// <param name="isChanged">True if something was replaced or added.</param>
+        void Paste(out bool isChanged);
+#endif
     }
 
     /// <summary>
@@ -1300,11 +1322,7 @@
                     bool IsAssignable = true;
 
                     foreach (INode ComplexifiedNode in ComplexifiedNodeList)
-                        if (!InterfaceType.IsAssignableFrom(ComplexifiedNode.GetType()))
-                        {
-                            IsAssignable = false;
-                            break;
-                        }
+                        IsAssignable &= InterfaceType.IsAssignableFrom(ComplexifiedNode.GetType());
 
                     if (IsAssignable)
                     {
@@ -1812,6 +1830,36 @@
             IFocusNodeStateView stateView = StateViewTable[state];
             Selection = CreateBlockListSelection(stateView, propertyName, startIndex, endIndex);
         }
+
+#if !TRAVIS
+        /// <summary>
+        /// Copy the selection in the clipboard.
+        /// </summary>
+        /// <param name="dataObject">The clipboard data object that can already contain other custom formats.</param>
+        public virtual void Copy(IDataObject dataObject)
+        {
+            Selection.Copy(dataObject);
+        }
+
+        /// <summary>
+        /// Copy the selection in the clipboard then removes it.
+        /// </summary>
+        /// <param name="dataObject">The clipboard data object that can already contain other custom formats.</param>
+        /// <param name="isDeleted">True if something was deleted.</param>
+        public virtual void Cut(IDataObject dataObject, out bool isDeleted)
+        {
+            Selection.Cut(dataObject, out isDeleted);
+        }
+
+        /// <summary>
+        /// Replaces the selection with the content of the clipboard.
+        /// </summary>
+        /// <param name="isChanged">True if something was replaced or added.</param>
+        public virtual void Paste(out bool isChanged)
+        {
+            Selection.Paste(out isChanged);
+        }
+#endif
         #endregion
 
         #region Implementation

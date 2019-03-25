@@ -139,7 +139,9 @@
 
             Debug.Assert(StartIndex <= EndIndex);
 
+            int OldBlockCount = ParentInner.BlockStateList.Count;
             int SelectionCount = EndIndex - StartIndex + 1;
+
             if (SelectionCount < ParentInner.BlockStateList.Count || !NodeHelper.IsCollectionNeverEmpty(State.Node, PropertyName))
             {
                 List<IBlock> BlockList = new List<IBlock>();
@@ -152,20 +154,7 @@
                 ClipboardHelper.WriteBlockList(dataObject, BlockList);
 
                 IFocusController Controller = StateView.ControllerView.Controller;
-                int OldBlockCount = ParentInner.BlockStateList.Count;
-
-                for (int i = StartIndex; i <= EndIndex; i++)
-                {
-                    IFocusBlockState BlockState = ParentInner.BlockStateList[StartIndex];
-                    while (BlockState.StateList.Count > 0)
-                    {
-                        IFocusNodeState FirstNodeState = BlockState.StateList[0];
-                        IFocusBrowsingCollectionNodeIndex NodeIndex = FirstNodeState.ParentIndex as IFocusBrowsingCollectionNodeIndex;
-                        Debug.Assert(NodeIndex != null);
-
-                        Controller.Remove(ParentInner, NodeIndex);
-                    }
-                }
+                Controller.RemoveBlockRange(ParentInner, StartIndex, EndIndex);
 
                 Debug.Assert(ParentInner.BlockStateList.Count == OldBlockCount - SelectionCount);
 
@@ -187,8 +176,10 @@
             IFocusNodeState State = StateView.State;
             IFocusBlockListInner ParentInner = State.PropertyToInner(PropertyName) as IFocusBlockListInner;
             Debug.Assert(ParentInner != null);
-
             Debug.Assert(StartIndex <= EndIndex);
+
+            int OldBlockCount = ParentInner.BlockStateList.Count;
+            int SelectionCount = EndIndex - StartIndex + 1;
 
             if (ClipboardHelper.TryReadBlockList(out IList<IBlock> BlockList) && BlockList.Count > 0)
             {
@@ -196,11 +187,9 @@
 
                 if (ParentInner.InterfaceType.IsAssignableFrom(ChildInterfaceType))
                 {
-                    // Insert first to prevent empty block lists.
+                    List<IWriteableInsertionBlockNodeIndex> IndexList = new List<IWriteableInsertionBlockNodeIndex>();
                     IFocusController Controller = StateView.ControllerView.Controller;
-                    int OldBlockCount = ParentInner.BlockStateList.Count;
-                    int SelectionCount = EndIndex - StartIndex + 1;
-                    int InsertionBlockIndex = EndIndex + 1;
+                    int InsertionBlockIndex = StartIndex;
 
                     for (int i = 0; i < BlockList.Count; i++)
                     {
@@ -209,7 +198,7 @@
                         for (int j = 0; j < NewBlock.NodeList.Count; j++)
                         {
                             INode NewNode = NewBlock.NodeList[j] as INode;
-                            IFocusInsertionCollectionNodeIndex InsertedIndex;
+                            IFocusInsertionBlockNodeIndex InsertedIndex;
 
                             if (j == 0)
                                 InsertedIndex = new FocusInsertionNewBlockNodeIndex(ParentInner.Owner.Node, PropertyName, NewNode, InsertionBlockIndex, NewBlock.ReplicationPattern, NewBlock.SourceIdentifier);
@@ -218,24 +207,13 @@
 
                             Debug.Assert(InsertedIndex != null);
 
-                            Controller.Insert(ParentInner, InsertedIndex, out IWriteableBrowsingCollectionNodeIndex NodeIndex);
+                            IndexList.Add(InsertedIndex);
                         }
 
                         InsertionBlockIndex++;
                     }
 
-                    for (int i = StartIndex; i <= EndIndex; i++)
-                    {
-                        IFocusBlockState BlockState = ParentInner.BlockStateList[StartIndex];
-                        while (BlockState.StateList.Count > 0)
-                        {
-                            IFocusNodeState FirstNodeState = BlockState.StateList[0];
-                            IFocusBrowsingCollectionNodeIndex NodeIndex = FirstNodeState.ParentIndex as IFocusBrowsingCollectionNodeIndex;
-                            Debug.Assert(NodeIndex != null);
-
-                            Controller.Remove(ParentInner, NodeIndex);
-                        }
-                    }
+                    Controller.ReplaceBlockRange(ParentInner, StartIndex, EndIndex, IndexList);
 
                     Debug.Assert(ParentInner.BlockStateList.Count == OldBlockCount + BlockList.Count - SelectionCount);
 
