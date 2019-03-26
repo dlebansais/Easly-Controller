@@ -133,6 +133,8 @@
         /// <param name="isDeleted">True if something was deleted.</param>
         public override void Cut(IDataObject dataObject, out bool isDeleted)
         {
+            isDeleted = false;
+
             IFocusNodeState State = StateView.State;
             IFocusBlockListInner ParentInner = State.PropertyToInner(PropertyName) as IFocusBlockListInner;
             Debug.Assert(ParentInner != null);
@@ -161,8 +163,6 @@
                 StateView.ControllerView.ClearSelection();
                 isDeleted = true;
             }
-            else
-                isDeleted = false;
         }
 
         /// <summary>
@@ -201,9 +201,9 @@
                             IFocusInsertionBlockNodeIndex InsertedIndex;
 
                             if (j == 0)
-                                InsertedIndex = new FocusInsertionNewBlockNodeIndex(ParentInner.Owner.Node, PropertyName, NewNode, InsertionBlockIndex, NewBlock.ReplicationPattern, NewBlock.SourceIdentifier);
+                                InsertedIndex = CreateNewBlockNodeIndex(ParentInner.Owner.Node, PropertyName, NewNode, InsertionBlockIndex, NewBlock.ReplicationPattern, NewBlock.SourceIdentifier);
                             else
-                                InsertedIndex = new FocusInsertionExistingBlockNodeIndex(ParentInner.Owner.Node, PropertyName, NewNode, InsertionBlockIndex, j);
+                                InsertedIndex = CreateExistingBlockNodeIndex(ParentInner.Owner.Node, PropertyName, NewNode, InsertionBlockIndex, j);
 
                             Debug.Assert(InsertedIndex != null);
 
@@ -232,6 +232,26 @@
         public override string ToString()
         {
             return $"From block {StartIndex} to {EndIndex}";
+        }
+        #endregion
+
+        #region Create Methods
+        /// <summary>
+        /// Creates a IxxxInsertionNewBlockNodeIndex object.
+        /// </summary>
+        private protected virtual IFocusInsertionNewBlockNodeIndex CreateNewBlockNodeIndex(INode parentNode, string propertyName, INode node, int blockIndex, IPattern patternNode, IIdentifier sourceNode)
+        {
+            ControllerTools.AssertNoOverride(this, typeof(FocusBlockListSelection));
+            return new FocusInsertionNewBlockNodeIndex(parentNode, propertyName, node, blockIndex, patternNode, sourceNode);
+        }
+
+        /// <summary>
+        /// Creates a IxxxInsertionExistingBlockNodeIndex object.
+        /// </summary>
+        private protected virtual IFocusInsertionExistingBlockNodeIndex CreateExistingBlockNodeIndex(INode parentNode, string propertyName, INode node, int blockIndex, int index)
+        {
+            ControllerTools.AssertNoOverride(this, typeof(FocusBlockListSelection));
+            return new FocusInsertionExistingBlockNodeIndex(parentNode, propertyName, node, blockIndex, index);
         }
         #endregion
     }

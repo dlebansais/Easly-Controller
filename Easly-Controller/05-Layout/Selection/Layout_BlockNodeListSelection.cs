@@ -1,6 +1,7 @@
 ﻿namespace EaslyController.Layout
 {
     using System.Diagnostics;
+    using BaseNode;
     using EaslyController.Controller;
     using EaslyController.Focus;
 
@@ -67,6 +68,17 @@
 
                 StateView.PrintCells(Origin);
             }
+        }
+        #endregion
+
+        #region Create Methods
+        /// <summary>
+        /// Creates a IxxxInsertionExistingBlockNodeIndex object.
+        /// </summary>
+        private protected override IFocusInsertionExistingBlockNodeIndex CreateExistingBlockNodeIndex(INode parentNode, string propertyName, INode node, int blockIndex, int index)
+        {
+            ControllerTools.AssertNoOverride(this, typeof(LayoutBlockNodeListSelection));
+            return new LayoutInsertionExistingBlockNodeIndex(parentNode, propertyName, node, blockIndex, index);
         }
         #endregion
     }

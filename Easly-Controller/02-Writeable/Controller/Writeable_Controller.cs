@@ -156,6 +156,14 @@
         void Remove(IWriteableCollectionInner inner, IWriteableBrowsingCollectionNodeIndex nodeIndex);
 
         /// <summary>
+        /// Replace an existing node with a new one.
+        /// </summary>
+        /// <param name="inner">The inner where the node is replaced.</param>
+        /// <param name="replaceIndex">Index for the replace operation.</param>
+        /// <param name="nodeIndex">Index of the replacing node upon return.</param>
+        void Replace(IWriteableInner inner, IWriteableInsertionChildIndex replaceIndex, out IWriteableBrowsingChildIndex nodeIndex);
+
+        /// <summary>
         /// Checks whether a range of blocks can be removed from a block list.
         /// </summary>
         /// <param name="inner">The inner with blocks to remove.</param>
@@ -181,12 +189,32 @@
         void ReplaceBlockRange(IWriteableBlockListInner inner, int firstBlockIndex, int lastBlockIndex, IList<IWriteableInsertionBlockNodeIndex> indexList);
 
         /// <summary>
-        /// Replace an existing node with a new one.
+        /// Checks whether a range of nodes can be removed from a list or block list.
         /// </summary>
-        /// <param name="inner">The inner where the node is replaced.</param>
-        /// <param name="replaceIndex">Index for the replace operation.</param>
-        /// <param name="nodeIndex">Index of the replacing node upon return.</param>
-        void Replace(IWriteableInner inner, IWriteableInsertionChildIndex replaceIndex, out IWriteableBrowsingChildIndex nodeIndex);
+        /// <param name="inner">The inner with nodes to remove.</param>
+        /// <param name="blockIndex">Index of the block where to remove nodes, for a block list. -1 for a list.</param>
+        /// <param name="firstNodeIndex">Index of the first node to remove.</param>
+        /// <param name="lastNodeIndex">Index of the last node to remove.</param>
+        bool IsNodeRangeRemoveable(IWriteableCollectionInner inner, int blockIndex, int firstNodeIndex, int lastNodeIndex);
+
+        /// <summary>
+        /// Removes a range of nodes from a list or block list.
+        /// </summary>
+        /// <param name="inner">The inner with nodes to remove.</param>
+        /// <param name="blockIndex">Index of the block where to remove nodes, for a block list. -1 for a list.</param>
+        /// <param name="firstNodeIndex">Index of the first node to remove.</param>
+        /// <param name="lastNodeIndex">Index of the last node to remove.</param>
+        void RemoveNodeRange(IWriteableCollectionInner inner, int blockIndex, int firstNodeIndex, int lastNodeIndex);
+
+        /// <summary>
+        /// Removes a range of nodes from a list or block list and replace them with other nodes.
+        /// </summary>
+        /// <param name="inner">The inner for the list or block list from which nodes are replaced.</param>
+        /// <param name="blockIndex">Index of the block where to remove nodes, for a block list. -1 for a list.</param>
+        /// <param name="firstNodeIndex">Index of the first node to remove.</param>
+        /// <param name="lastNodeIndex">Index of the last node to remove.</param>
+        /// <param name="indexList">List of nodes to insert.</param>
+        void ReplaceNodeRange(IWriteableCollectionInner inner, int blockIndex, int firstNodeIndex, int lastNodeIndex, IList<IWriteableInsertionCollectionNodeIndex> indexList);
 
         /// <summary>
         /// Assign the optional node.
@@ -985,192 +1013,6 @@
         }
 
         /// <summary>
-        /// Checks whether a range of blocks can be removed from a block list.
-        /// </summary>
-        /// <param name="inner">The inner with blocks to remove.</param>
-        /// <param name="firstBlockIndex">Index of the first block to remove.</param>
-        /// <param name="lastBlockIndex">Index of the last block to remove.</param>
-        public virtual bool IsBlockRangeRemoveable(IWriteableBlockListInner inner, int firstBlockIndex, int lastBlockIndex)
-        {
-            Debug.Assert(inner != null);
-            Debug.Assert(firstBlockIndex >= 0 && firstBlockIndex < inner.BlockStateList.Count);
-            Debug.Assert(lastBlockIndex >= 0 && lastBlockIndex < inner.BlockStateList.Count);
-            Debug.Assert(firstBlockIndex <= lastBlockIndex);
-
-            int DeletedCount = lastBlockIndex - firstBlockIndex + 1;
-            if (inner.BlockStateList.Count > DeletedCount)
-                return true;
-
-            Debug.Assert(inner.BlockStateList.Count == DeletedCount);
-            Debug.Assert(inner.Owner != null);
-
-            INode Node = inner.Owner.Node;
-            string PropertyName = inner.PropertyName;
-            Debug.Assert(Node != null);
-
-            bool Result = true;
-
-            Type InterfaceType = NodeTreeHelper.NodeTypeToInterfaceType(inner.Owner.Node.GetType());
-            IReadOnlyDictionary<Type, string[]> NeverEmptyCollectionTable = NodeHelper.NeverEmptyCollectionTable;
-            if (NeverEmptyCollectionTable.ContainsKey(InterfaceType))
-            {
-                foreach (string Item in NeverEmptyCollectionTable[InterfaceType])
-                    if (Item == PropertyName)
-                        Result = false;
-            }
-
-            return Result;
-        }
-
-        /// <summary>
-        /// Removes a range of blocks from a block list.
-        /// </summary>
-        /// <param name="inner">The inner for the block list from which blocks are removed.</param>
-        /// <param name="firstBlockIndex">Index of the first block to remove.</param>
-        /// <param name="lastBlockIndex">Index of the last block to remove.</param>
-        public virtual void RemoveBlockRange(IWriteableBlockListInner inner, int firstBlockIndex, int lastBlockIndex)
-        {
-            Debug.Assert(inner != null);
-            Debug.Assert(firstBlockIndex >= 0 && firstBlockIndex < inner.BlockStateList.Count);
-            Debug.Assert(lastBlockIndex >= 0 && lastBlockIndex < inner.BlockStateList.Count);
-            Debug.Assert(firstBlockIndex <= lastBlockIndex);
-
-            Action<IWriteableOperation> HandlerRedoNode = (IWriteableOperation operation) => RedoRemoveNode(operation);
-            Action<IWriteableOperation> HandlerUndoNode = (IWriteableOperation operation) => UndoRemoveNode(operation);
-            Action<IWriteableOperation> HandlerRedoBlock = (IWriteableOperation operation) => RedoRemoveBlock(operation);
-            Action<IWriteableOperation> HandlerUndoBlock = (IWriteableOperation operation) => UndoRemoveBlock(operation);
-
-            IWriteableOperationList OperationList = CreateOperationList();
-
-            for (int i = firstBlockIndex; i <= lastBlockIndex; i++)
-            {
-                IWriteableBlockState BlockState = inner.BlockStateList[i];
-                Debug.Assert(BlockState.StateList.Count >= 1);
-
-                // Remove at firstBlockIndex since subsequent blocks are moved as the block at firstBlockIndex is deleted.
-                // Same for nodes inside blokcks, delete them at 0.
-                for (int j = 1; j < BlockState.StateList.Count; j++)
-                {
-                    IWriteableRemoveNodeOperation OperationNode = CreateRemoveNodeOperation(inner.Owner.Node, inner.PropertyName, firstBlockIndex, 0, HandlerRedoNode, HandlerUndoNode, isNested: false);
-                    OperationList.Add(OperationNode);
-                }
-
-                IWriteableRemoveBlockOperation OperationBlock = CreateRemoveBlockOperation(inner.Owner.Node, inner.PropertyName, firstBlockIndex, HandlerRedoBlock, HandlerUndoBlock, isNested: true);
-                OperationList.Add(OperationBlock);
-            }
-
-            Debug.Assert(OperationList.Count > 0);
-
-            IWriteableOperationReadOnlyList OperationReadOnlyList = OperationList.ToReadOnly();
-            IWriteableOperationGroup OperationGroup = CreateOperationGroup(OperationReadOnlyList, null);
-
-            OperationGroup.Redo();
-            SetLastOperation(OperationGroup);
-            CheckInvariant();
-        }
-
-        /// <summary>
-        /// Removes a range of blocks from a block list and replace them with other blocks.
-        /// </summary>
-        /// <param name="inner">The inner for the block list from which blocks are replaced.</param>
-        /// <param name="firstBlockIndex">Index of the first block to remove.</param>
-        /// <param name="lastBlockIndex">Index of the last block to remove.</param>
-        /// <param name="indexList">List of nodes in blocks to insert.</param>
-        public virtual void ReplaceBlockRange(IWriteableBlockListInner inner, int firstBlockIndex, int lastBlockIndex, IList<IWriteableInsertionBlockNodeIndex> indexList)
-        {
-            Debug.Assert(inner != null);
-            Debug.Assert(firstBlockIndex >= 0 && firstBlockIndex < inner.BlockStateList.Count);
-            Debug.Assert(lastBlockIndex >= 0 && lastBlockIndex < inner.BlockStateList.Count);
-            Debug.Assert(firstBlockIndex <= lastBlockIndex);
-            Debug.Assert(indexList != null);
-
-            int BlockIndex = firstBlockIndex - 1;
-            int BlockNodeIndex = 0;
-
-            foreach (IWriteableInsertionBlockNodeIndex NodeIndex in indexList)
-            {
-                bool IsHandled = false;
-
-                if (NodeIndex is IWriteableInsertionNewBlockNodeIndex AsNewBlockNodeIndex)
-                {
-                    BlockIndex++;
-                    BlockNodeIndex = 0;
-
-                    Debug.Assert(AsNewBlockNodeIndex.BlockIndex == BlockIndex);
-
-                    IsHandled = true;
-                }
-                else if (NodeIndex is IWriteableInsertionExistingBlockNodeIndex AsExistingBlockNodeIndex)
-                {
-                    BlockNodeIndex++;
-
-                    Debug.Assert(AsExistingBlockNodeIndex.BlockIndex == BlockIndex);
-                    Debug.Assert(AsExistingBlockNodeIndex.Index == BlockNodeIndex);
-
-                    IsHandled = true;
-                }
-
-                Debug.Assert(IsHandled);
-            }
-
-            int FinalBlockIndex = BlockIndex + 1;
-
-            Action<IWriteableOperation> HandlerRedoInsertNode = (IWriteableOperation operation) => RedoInsertNewNode(operation);
-            Action<IWriteableOperation> HandlerUndoInsertNode = (IWriteableOperation operation) => UndoInsertNewNode(operation);
-            Action<IWriteableOperation> HandlerRedoInsertBlock = (IWriteableOperation operation) => RedoInsertNewBlock(operation);
-            Action<IWriteableOperation> HandlerUndoInsertBlock = (IWriteableOperation operation) => UndoInsertNewBlock(operation);
-            Action<IWriteableOperation> HandlerRedoRemoveNode = (IWriteableOperation operation) => RedoRemoveNode(operation);
-            Action<IWriteableOperation> HandlerUndoRemoveNode = (IWriteableOperation operation) => UndoRemoveNode(operation);
-            Action<IWriteableOperation> HandlerRedoRemoveBlock = (IWriteableOperation operation) => RedoRemoveBlock(operation);
-            Action<IWriteableOperation> HandlerUndoRemoveBlock = (IWriteableOperation operation) => UndoRemoveBlock(operation);
-
-            IWriteableOperationList OperationList = CreateOperationList();
-
-            // Insert first to prevent empty block lists.
-            foreach (IWriteableInsertionBlockNodeIndex NodeIndex in indexList)
-                if (NodeIndex is IWriteableInsertionNewBlockNodeIndex AsNewBlockNodeIndex)
-                {
-                    IBlock NewBlock = NodeTreeHelperBlockList.CreateBlock(inner.Owner.Node, inner.PropertyName, ReplicationStatus.Normal, AsNewBlockNodeIndex.PatternNode, AsNewBlockNodeIndex.SourceNode);
-                    IWriteableInsertBlockOperation OperationInsertBlock = CreateInsertBlockOperation(inner.Owner.Node, inner.PropertyName, AsNewBlockNodeIndex.BlockIndex, NewBlock, AsNewBlockNodeIndex.Node, HandlerRedoInsertBlock, HandlerUndoInsertBlock, isNested: true);
-                    OperationList.Add(OperationInsertBlock);
-                }
-                else if (NodeIndex is IWriteableInsertionExistingBlockNodeIndex AsExistingBlockNodeIndex)
-                {
-                    IndexToPositionAndNode(AsExistingBlockNodeIndex, out BlockIndex, out int Index, out INode Node);
-                    IWriteableInsertNodeOperation OperationInsertNode = CreateInsertNodeOperation(inner.Owner.Node, inner.PropertyName, BlockIndex, Index, Node, HandlerRedoInsertNode, HandlerUndoInsertNode, isNested: true);
-                    OperationList.Add(OperationInsertNode);
-                }
-
-            Debug.Assert(BlockIndex + 1 == FinalBlockIndex);
-
-            for (int i = FinalBlockIndex; i <= FinalBlockIndex + lastBlockIndex - firstBlockIndex; i++)
-            {
-                IWriteableBlockState BlockState = inner.BlockStateList[i + firstBlockIndex - FinalBlockIndex];
-                Debug.Assert(BlockState.StateList.Count >= 1);
-
-                // Remove at FinalBlockIndex since subsequent blocks are moved as the block at FinalBlockIndex is deleted.
-                // Same for nodes inside blokcks, delete them at 0.
-                for (int j = 1; j < BlockState.StateList.Count; j++)
-                {
-                    IWriteableRemoveNodeOperation OperationNode = CreateRemoveNodeOperation(inner.Owner.Node, inner.PropertyName, FinalBlockIndex, 0, HandlerRedoRemoveNode, HandlerUndoRemoveNode, isNested: false);
-                    OperationList.Add(OperationNode);
-                }
-
-                IWriteableRemoveBlockOperation OperationBlock = CreateRemoveBlockOperation(inner.Owner.Node, inner.PropertyName, FinalBlockIndex, HandlerRedoRemoveBlock, HandlerUndoRemoveBlock, isNested: true);
-                OperationList.Add(OperationBlock);
-            }
-
-            Debug.Assert(OperationList.Count > 0);
-
-            IWriteableOperationReadOnlyList OperationReadOnlyList = OperationList.ToReadOnly();
-            IWriteableOperationGroup OperationGroup = CreateOperationGroup(OperationReadOnlyList, null);
-
-            OperationGroup.Redo();
-            SetLastOperation(OperationGroup);
-            CheckInvariant();
-        }
-
-        /// <summary>
         /// Replace an existing node with a new one.
         /// </summary>
         /// <param name="inner">The inner where the node is replaced.</param>
@@ -1275,6 +1117,532 @@
             AddState(NewBrowsingIndex, ChildState);
 
             BuildStateTable(inner, null, NewBrowsingIndex, ChildState);
+        }
+
+        /// <summary>
+        /// Checks whether a range of blocks can be removed from a block list.
+        /// </summary>
+        /// <param name="inner">The inner with blocks to remove.</param>
+        /// <param name="firstBlockIndex">Index of the first block to remove.</param>
+        /// <param name="lastBlockIndex">Index of the last block to remove.</param>
+        public virtual bool IsBlockRangeRemoveable(IWriteableBlockListInner inner, int firstBlockIndex, int lastBlockIndex)
+        {
+            Debug.Assert(inner != null);
+            Debug.Assert(firstBlockIndex >= 0 && firstBlockIndex < inner.BlockStateList.Count);
+            Debug.Assert(lastBlockIndex >= 0 && lastBlockIndex < inner.BlockStateList.Count);
+            Debug.Assert(firstBlockIndex <= lastBlockIndex);
+
+            int DeletedCount = lastBlockIndex - firstBlockIndex + 1;
+            if (inner.BlockStateList.Count > DeletedCount)
+                return true;
+
+            Debug.Assert(inner.BlockStateList.Count == DeletedCount);
+            Debug.Assert(inner.Owner != null);
+
+            INode Node = inner.Owner.Node;
+            string PropertyName = inner.PropertyName;
+            Debug.Assert(Node != null);
+
+            bool Result = true;
+
+            Type InterfaceType = NodeTreeHelper.NodeTypeToInterfaceType(inner.Owner.Node.GetType());
+            IReadOnlyDictionary<Type, string[]> NeverEmptyCollectionTable = NodeHelper.NeverEmptyCollectionTable;
+            if (NeverEmptyCollectionTable.ContainsKey(InterfaceType))
+            {
+                foreach (string Item in NeverEmptyCollectionTable[InterfaceType])
+                    if (Item == PropertyName)
+                        Result = false;
+            }
+
+            return Result;
+        }
+
+        /// <summary>
+        /// Removes a range of blocks from a block list.
+        /// </summary>
+        /// <param name="inner">The inner for the block list from which blocks are removed.</param>
+        /// <param name="firstBlockIndex">Index of the first block to remove.</param>
+        /// <param name="lastBlockIndex">Index of the last block to remove.</param>
+        public virtual void RemoveBlockRange(IWriteableBlockListInner inner, int firstBlockIndex, int lastBlockIndex)
+        {
+            Debug.Assert(inner != null);
+            Debug.Assert(firstBlockIndex >= 0 && firstBlockIndex < inner.BlockStateList.Count);
+            Debug.Assert(lastBlockIndex >= 0 && lastBlockIndex < inner.BlockStateList.Count);
+            Debug.Assert(firstBlockIndex <= lastBlockIndex);
+
+            Action<IWriteableOperation> HandlerRedoNode = (IWriteableOperation operation) => RedoRemoveNode(operation);
+            Action<IWriteableOperation> HandlerUndoNode = (IWriteableOperation operation) => UndoRemoveNode(operation);
+            Action<IWriteableOperation> HandlerRedoBlock = (IWriteableOperation operation) => RedoRemoveBlock(operation);
+            Action<IWriteableOperation> HandlerUndoBlock = (IWriteableOperation operation) => UndoRemoveBlock(operation);
+
+            IWriteableOperationList OperationList = CreateOperationList();
+
+            for (int i = firstBlockIndex; i <= lastBlockIndex; i++)
+            {
+                IWriteableBlockState BlockState = inner.BlockStateList[i];
+                Debug.Assert(BlockState.StateList.Count >= 1);
+
+                // Remove at firstBlockIndex since subsequent blocks are moved as the block at firstBlockIndex is deleted.
+                // Same for nodes inside blokcks, delete them at 0.
+                for (int j = 1; j < BlockState.StateList.Count; j++)
+                {
+                    IWriteableRemoveNodeOperation OperationNode = CreateRemoveNodeOperation(inner.Owner.Node, inner.PropertyName, firstBlockIndex, 0, HandlerRedoNode, HandlerUndoNode, isNested: true);
+                    OperationList.Add(OperationNode);
+                }
+
+                IWriteableRemoveBlockOperation OperationBlock = CreateRemoveBlockOperation(inner.Owner.Node, inner.PropertyName, firstBlockIndex, HandlerRedoBlock, HandlerUndoBlock, isNested: true);
+                OperationList.Add(OperationBlock);
+            }
+
+            Debug.Assert(OperationList.Count > 0);
+
+            IWriteableOperationReadOnlyList OperationReadOnlyList = OperationList.ToReadOnly();
+            IWriteableOperationGroup OperationGroup = CreateOperationGroup(OperationReadOnlyList, null);
+
+            OperationGroup.Redo();
+            SetLastOperation(OperationGroup);
+            CheckInvariant();
+        }
+
+        /// <summary>
+        /// Removes a range of blocks from a block list and replace them with other blocks.
+        /// </summary>
+        /// <param name="inner">The inner for the block list from which blocks are replaced.</param>
+        /// <param name="firstBlockIndex">Index of the first block to remove.</param>
+        /// <param name="lastBlockIndex">Index of the last block to remove.</param>
+        /// <param name="indexList">List of nodes in blocks to insert.</param>
+        public virtual void ReplaceBlockRange(IWriteableBlockListInner inner, int firstBlockIndex, int lastBlockIndex, IList<IWriteableInsertionBlockNodeIndex> indexList)
+        {
+            Debug.Assert(inner != null);
+            Debug.Assert(firstBlockIndex >= 0 && firstBlockIndex < inner.BlockStateList.Count);
+            Debug.Assert(lastBlockIndex >= 0 && lastBlockIndex < inner.BlockStateList.Count);
+            Debug.Assert(firstBlockIndex <= lastBlockIndex);
+            Debug.Assert(indexList != null);
+
+            int BlockIndex = firstBlockIndex - 1;
+            int BlockNodeIndex = 0;
+
+            foreach (IWriteableInsertionBlockNodeIndex NodeIndex in indexList)
+            {
+                bool IsHandled = false;
+
+                if (NodeIndex is IWriteableInsertionNewBlockNodeIndex AsNewBlockNodeIndex)
+                {
+                    BlockIndex++;
+                    BlockNodeIndex = 0;
+
+                    Debug.Assert(AsNewBlockNodeIndex.BlockIndex == BlockIndex);
+
+                    IsHandled = true;
+                }
+                else if (NodeIndex is IWriteableInsertionExistingBlockNodeIndex AsExistingBlockNodeIndex)
+                {
+                    BlockNodeIndex++;
+
+                    Debug.Assert(AsExistingBlockNodeIndex.BlockIndex == BlockIndex);
+                    Debug.Assert(AsExistingBlockNodeIndex.Index == BlockNodeIndex);
+
+                    IsHandled = true;
+                }
+
+                Debug.Assert(IsHandled);
+            }
+
+            int FinalBlockIndex = BlockIndex + 1;
+
+            Action<IWriteableOperation> HandlerRedoInsertNode = (IWriteableOperation operation) => RedoInsertNewNode(operation);
+            Action<IWriteableOperation> HandlerUndoInsertNode = (IWriteableOperation operation) => UndoInsertNewNode(operation);
+            Action<IWriteableOperation> HandlerRedoInsertBlock = (IWriteableOperation operation) => RedoInsertNewBlock(operation);
+            Action<IWriteableOperation> HandlerUndoInsertBlock = (IWriteableOperation operation) => UndoInsertNewBlock(operation);
+            Action<IWriteableOperation> HandlerRedoRemoveNode = (IWriteableOperation operation) => RedoRemoveNode(operation);
+            Action<IWriteableOperation> HandlerUndoRemoveNode = (IWriteableOperation operation) => UndoRemoveNode(operation);
+            Action<IWriteableOperation> HandlerRedoRemoveBlock = (IWriteableOperation operation) => RedoRemoveBlock(operation);
+            Action<IWriteableOperation> HandlerUndoRemoveBlock = (IWriteableOperation operation) => UndoRemoveBlock(operation);
+
+            IWriteableOperationList OperationList = CreateOperationList();
+
+            // Insert first to prevent empty block lists.
+            foreach (IWriteableInsertionBlockNodeIndex NodeIndex in indexList)
+                if (NodeIndex is IWriteableInsertionNewBlockNodeIndex AsNewBlockNodeIndex)
+                {
+                    IBlock NewBlock = NodeTreeHelperBlockList.CreateBlock(inner.Owner.Node, inner.PropertyName, ReplicationStatus.Normal, AsNewBlockNodeIndex.PatternNode, AsNewBlockNodeIndex.SourceNode);
+                    IWriteableInsertBlockOperation OperationInsertBlock = CreateInsertBlockOperation(inner.Owner.Node, inner.PropertyName, AsNewBlockNodeIndex.BlockIndex, NewBlock, AsNewBlockNodeIndex.Node, HandlerRedoInsertBlock, HandlerUndoInsertBlock, isNested: true);
+                    OperationList.Add(OperationInsertBlock);
+                }
+                else if (NodeIndex is IWriteableInsertionExistingBlockNodeIndex AsExistingBlockNodeIndex)
+                {
+                    IndexToPositionAndNode(AsExistingBlockNodeIndex, out BlockIndex, out int Index, out INode Node);
+                    IWriteableInsertNodeOperation OperationInsertNode = CreateInsertNodeOperation(inner.Owner.Node, inner.PropertyName, BlockIndex, Index, Node, HandlerRedoInsertNode, HandlerUndoInsertNode, isNested: true);
+                    OperationList.Add(OperationInsertNode);
+                }
+
+            Debug.Assert(BlockIndex + 1 == FinalBlockIndex);
+
+            for (int i = FinalBlockIndex; i <= FinalBlockIndex + lastBlockIndex - firstBlockIndex; i++)
+            {
+                IWriteableBlockState BlockState = inner.BlockStateList[i + firstBlockIndex - FinalBlockIndex];
+                Debug.Assert(BlockState.StateList.Count >= 1);
+
+                // Remove at FinalBlockIndex since subsequent blocks are moved as the block at FinalBlockIndex is deleted.
+                // Same for nodes inside blokcks, delete them at 0.
+                for (int j = 1; j < BlockState.StateList.Count; j++)
+                {
+                    IWriteableRemoveNodeOperation OperationNode = CreateRemoveNodeOperation(inner.Owner.Node, inner.PropertyName, FinalBlockIndex, 0, HandlerRedoRemoveNode, HandlerUndoRemoveNode, isNested: true);
+                    OperationList.Add(OperationNode);
+                }
+
+                IWriteableRemoveBlockOperation OperationBlock = CreateRemoveBlockOperation(inner.Owner.Node, inner.PropertyName, FinalBlockIndex, HandlerRedoRemoveBlock, HandlerUndoRemoveBlock, isNested: true);
+                OperationList.Add(OperationBlock);
+            }
+
+            Debug.Assert(OperationList.Count > 0);
+
+            IWriteableOperationReadOnlyList OperationReadOnlyList = OperationList.ToReadOnly();
+            IWriteableOperationGroup OperationGroup = CreateOperationGroup(OperationReadOnlyList, null);
+
+            OperationGroup.Redo();
+            SetLastOperation(OperationGroup);
+            CheckInvariant();
+        }
+
+        /// <summary>
+        /// Checks whether a range of nodes can be removed from a list or block list.
+        /// </summary>
+        /// <param name="inner">The inner with nodes to remove.</param>
+        /// <param name="blockIndex">Index of the block where to remove nodes, for a block list. -1 for a list.</param>
+        /// <param name="firstNodeIndex">Index of the first node to remove.</param>
+        /// <param name="lastNodeIndex">Index of the last node to remove.</param>
+        public virtual bool IsNodeRangeRemoveable(IWriteableCollectionInner inner, int blockIndex, int firstNodeIndex, int lastNodeIndex)
+        {
+            Debug.Assert(inner != null);
+
+            bool IsHandled = false;
+            bool Result = false;
+
+            if (inner is IWriteableBlockListInner AsBlockListInner)
+            {
+                Result = IsNodeRangeRemoveable(AsBlockListInner, blockIndex, firstNodeIndex, lastNodeIndex);
+                IsHandled = true;
+            }
+
+            else if (inner is IWriteableListInner AsListInner)
+            {
+                Debug.Assert(blockIndex == -1);
+                Result = IsNodeRangeRemoveable(AsListInner, firstNodeIndex, lastNodeIndex);
+                IsHandled = true;
+            }
+
+            Debug.Assert(IsHandled);
+
+            if (!Result)
+            {
+                Debug.Assert(inner.Owner != null);
+
+                INode Node = inner.Owner.Node;
+                string PropertyName = inner.PropertyName;
+                Debug.Assert(Node != null);
+
+                Result = true;
+
+                Type InterfaceType = NodeTreeHelper.NodeTypeToInterfaceType(inner.Owner.Node.GetType());
+                IReadOnlyDictionary<Type, string[]> NeverEmptyCollectionTable = NodeHelper.NeverEmptyCollectionTable;
+                if (NeverEmptyCollectionTable.ContainsKey(InterfaceType))
+                {
+                    foreach (string Item in NeverEmptyCollectionTable[InterfaceType])
+                        if (Item == PropertyName)
+                            Result = false;
+                }
+            }
+
+            return Result;
+        }
+
+        /// <summary></summary>
+        private protected virtual bool IsNodeRangeRemoveable(IWriteableBlockListInner inner, int blockIndex, int firstNodeIndex, int lastNodeIndex)
+        {
+            Debug.Assert(inner != null);
+            Debug.Assert(blockIndex >= 0 && blockIndex < inner.BlockStateList.Count);
+
+            IWriteableBlockState BlockState = inner.BlockStateList[blockIndex];
+            Debug.Assert(firstNodeIndex >= 0 && firstNodeIndex < BlockState.StateList.Count);
+            Debug.Assert(lastNodeIndex >= 0 && lastNodeIndex < BlockState.StateList.Count);
+            Debug.Assert(firstNodeIndex <= lastNodeIndex);
+
+            int DeletedCount = lastNodeIndex - firstNodeIndex + 1;
+            return inner.BlockStateList.Count > 1 || BlockState.StateList.Count > DeletedCount;
+        }
+
+        /// <summary></summary>
+        private protected virtual bool IsNodeRangeRemoveable(IWriteableListInner inner, int firstNodeIndex, int lastNodeIndex)
+        {
+            Debug.Assert(inner != null);
+            Debug.Assert(firstNodeIndex >= 0 && firstNodeIndex < inner.StateList.Count);
+            Debug.Assert(lastNodeIndex >= 0 && lastNodeIndex < inner.StateList.Count);
+            Debug.Assert(firstNodeIndex <= lastNodeIndex);
+
+            int DeletedCount = lastNodeIndex - firstNodeIndex + 1;
+            return inner.StateList.Count > DeletedCount;
+        }
+
+        /// <summary>
+        /// Removes a range of nodes from a list or block list.
+        /// </summary>
+        /// <param name="inner">The inner with nodes to remove.</param>
+        /// <param name="blockIndex">Index of the block where to remove nodes, for a block list. -1 for a list.</param>
+        /// <param name="firstNodeIndex">Index of the first node to remove.</param>
+        /// <param name="lastNodeIndex">Index of the last node to remove.</param>
+        public virtual void RemoveNodeRange(IWriteableCollectionInner inner, int blockIndex, int firstNodeIndex, int lastNodeIndex)
+        {
+            Debug.Assert(inner != null);
+
+            bool IsHandled = false;
+
+            if (inner is IWriteableBlockListInner AsBlockListInner)
+            {
+                RemoveNodeRange(AsBlockListInner, blockIndex, firstNodeIndex, lastNodeIndex);
+                IsHandled = true;
+            }
+
+            else if (inner is IWriteableListInner AsListInner)
+            {
+                Debug.Assert(blockIndex == -1);
+                RemoveNodeRange(AsListInner, firstNodeIndex, lastNodeIndex);
+                IsHandled = true;
+            }
+
+            Debug.Assert(IsHandled);
+        }
+
+        /// <summary></summary>
+        public virtual void RemoveNodeRange(IWriteableBlockListInner inner, int blockIndex, int firstNodeIndex, int lastNodeIndex)
+        {
+            Debug.Assert(inner != null);
+            Debug.Assert(blockIndex >= 0 && blockIndex < inner.BlockStateList.Count);
+
+            IWriteableBlockState BlockState = inner.BlockStateList[blockIndex];
+            Debug.Assert(firstNodeIndex >= 0 && firstNodeIndex < BlockState.StateList.Count);
+            Debug.Assert(lastNodeIndex >= 0 && lastNodeIndex < BlockState.StateList.Count);
+            Debug.Assert(firstNodeIndex <= lastNodeIndex);
+
+            int DeletedCount = lastNodeIndex - firstNodeIndex + 1;
+
+            Action<IWriteableOperation> HandlerRedoRemoveNode = (IWriteableOperation operation) => RedoRemoveNode(operation);
+            Action<IWriteableOperation> HandlerUndoRemoveNode = (IWriteableOperation operation) => UndoRemoveNode(operation);
+            Action<IWriteableOperation> HandlerRedoRemoveBlock = (IWriteableOperation operation) => RedoRemoveBlock(operation);
+            Action<IWriteableOperation> HandlerUndoRemoveBlock = (IWriteableOperation operation) => UndoRemoveBlock(operation);
+
+            IWriteableOperationList OperationList = CreateOperationList();
+
+            for (int i = firstNodeIndex; i <= lastNodeIndex; i++)
+            {
+                IWriteableRemoveOperation Operation;
+
+                if (DeletedCount < BlockState.StateList.Count || i < lastNodeIndex)
+                    Operation = CreateRemoveNodeOperation(inner.Owner.Node, inner.PropertyName, blockIndex, firstNodeIndex, HandlerRedoRemoveNode, HandlerUndoRemoveNode, isNested: true);
+                else
+                    Operation = CreateRemoveBlockOperation(inner.Owner.Node, inner.PropertyName, blockIndex, HandlerRedoRemoveBlock, HandlerUndoRemoveBlock, isNested: true);
+
+                OperationList.Add(Operation);
+            }
+
+            Debug.Assert(OperationList.Count > 0);
+
+            IWriteableOperationReadOnlyList OperationReadOnlyList = OperationList.ToReadOnly();
+            IWriteableOperationGroup OperationGroup = CreateOperationGroup(OperationReadOnlyList, null);
+
+            OperationGroup.Redo();
+            SetLastOperation(OperationGroup);
+            CheckInvariant();
+        }
+
+        /// <summary></summary>
+        public virtual void RemoveNodeRange(IWriteableListInner inner, int firstNodeIndex, int lastNodeIndex)
+        {
+            Debug.Assert(inner != null);
+            Debug.Assert(firstNodeIndex >= 0 && firstNodeIndex < inner.StateList.Count);
+            Debug.Assert(lastNodeIndex >= 0 && lastNodeIndex < inner.StateList.Count);
+            Debug.Assert(firstNodeIndex <= lastNodeIndex);
+
+            Action<IWriteableOperation> HandlerRedoNode = (IWriteableOperation operation) => RedoRemoveNode(operation);
+            Action<IWriteableOperation> HandlerUndoNode = (IWriteableOperation operation) => UndoRemoveNode(operation);
+
+            IWriteableOperationList OperationList = CreateOperationList();
+
+            for (int i = firstNodeIndex; i <= lastNodeIndex; i++)
+            {
+                IWriteableRemoveNodeOperation OperationNode = CreateRemoveNodeOperation(inner.Owner.Node, inner.PropertyName, -1, firstNodeIndex, HandlerRedoNode, HandlerUndoNode, isNested: true);
+                OperationList.Add(OperationNode);
+            }
+
+            Debug.Assert(OperationList.Count > 0);
+
+            IWriteableOperationReadOnlyList OperationReadOnlyList = OperationList.ToReadOnly();
+            IWriteableOperationGroup OperationGroup = CreateOperationGroup(OperationReadOnlyList, null);
+
+            OperationGroup.Redo();
+            SetLastOperation(OperationGroup);
+            CheckInvariant();
+        }
+
+        /// <summary>
+        /// Removes a range of nodes from a list or block list and replace them with other nodes.
+        /// </summary>
+        /// <param name="inner">The inner for the list or block list from which nodes are replaced.</param>
+        /// <param name="blockIndex">Index of the block where to remove nodes, for a block list. -1 for a list.</param>
+        /// <param name="firstNodeIndex">Index of the first node to remove.</param>
+        /// <param name="lastNodeIndex">Index of the last node to remove.</param>
+        /// <param name="indexList">List of nodes to insert.</param>
+        public virtual void ReplaceNodeRange(IWriteableCollectionInner inner, int blockIndex, int firstNodeIndex, int lastNodeIndex, IList<IWriteableInsertionCollectionNodeIndex> indexList)
+        {
+            Debug.Assert(inner != null);
+
+            bool IsHandled = false;
+
+            if (inner is IWriteableBlockListInner AsBlockListInner)
+            {
+                ReplaceNodeRange(AsBlockListInner, blockIndex, firstNodeIndex, lastNodeIndex, indexList);
+                IsHandled = true;
+            }
+
+            else if (inner is IWriteableListInner AsListInner)
+            {
+                Debug.Assert(blockIndex == -1);
+                ReplaceNodeRange(AsListInner, firstNodeIndex, lastNodeIndex, indexList);
+                IsHandled = true;
+            }
+
+            Debug.Assert(IsHandled);
+        }
+
+        /// <summary></summary>
+        public virtual void ReplaceNodeRange(IWriteableBlockListInner inner, int blockIndex, int firstNodeIndex, int lastNodeIndex, IList<IWriteableInsertionCollectionNodeIndex> indexList)
+        {
+            Debug.Assert(inner != null);
+            Debug.Assert(blockIndex >= 0 && blockIndex < inner.BlockStateList.Count);
+
+            IWriteableBlockState BlockState = inner.BlockStateList[blockIndex];
+            Debug.Assert(firstNodeIndex >= 0 && firstNodeIndex < BlockState.StateList.Count);
+            Debug.Assert(lastNodeIndex >= 0 && lastNodeIndex < BlockState.StateList.Count);
+            Debug.Assert(firstNodeIndex <= lastNodeIndex);
+
+            int BlockNodeIndex = firstNodeIndex;
+
+            foreach (IWriteableInsertionCollectionNodeIndex NodeIndex in indexList)
+            {
+                bool IsHandled = false;
+
+                if (NodeIndex is IWriteableInsertionExistingBlockNodeIndex AsExistingBlockNodeIndex)
+                {
+                    Debug.Assert(AsExistingBlockNodeIndex.BlockIndex == blockIndex);
+                    Debug.Assert(AsExistingBlockNodeIndex.Index == BlockNodeIndex);
+
+                    BlockNodeIndex++;
+                    IsHandled = true;
+                }
+
+                Debug.Assert(IsHandled);
+            }
+
+            int FinalNodeIndex = BlockNodeIndex;
+            int DeletedCount = lastNodeIndex - firstNodeIndex + 1;
+
+            Action<IWriteableOperation> HandlerRedoInsertNode = (IWriteableOperation operation) => RedoInsertNewNode(operation);
+            Action<IWriteableOperation> HandlerUndoInsertNode = (IWriteableOperation operation) => UndoInsertNewNode(operation);
+            Action<IWriteableOperation> HandlerRedoRemoveNode = (IWriteableOperation operation) => RedoRemoveNode(operation);
+            Action<IWriteableOperation> HandlerUndoRemoveNode = (IWriteableOperation operation) => UndoRemoveNode(operation);
+            Action<IWriteableOperation> HandlerRedoRemoveBlock = (IWriteableOperation operation) => RedoRemoveBlock(operation);
+            Action<IWriteableOperation> HandlerUndoRemoveBlock = (IWriteableOperation operation) => UndoRemoveBlock(operation);
+
+            IWriteableOperationList OperationList = CreateOperationList();
+
+            // Insert first to prevent empty block lists.
+            foreach (IWriteableInsertionCollectionNodeIndex NodeIndex in indexList)
+                if (NodeIndex is IWriteableInsertionExistingBlockNodeIndex AsExistingBlockNodeIndex)
+                {
+                    IndexToPositionAndNode(AsExistingBlockNodeIndex, out blockIndex, out int Index, out INode Node);
+                    IWriteableInsertNodeOperation OperationInsertNode = CreateInsertNodeOperation(inner.Owner.Node, inner.PropertyName, blockIndex, Index, Node, HandlerRedoInsertNode, HandlerUndoInsertNode, isNested: true);
+                    OperationList.Add(OperationInsertNode);
+                }
+
+            for (int i = FinalNodeIndex; i <= FinalNodeIndex + lastNodeIndex - firstNodeIndex; i++)
+            {
+                IWriteableRemoveOperation Operation;
+
+                if (DeletedCount < BlockState.StateList.Count || indexList.Count > 0 || i < lastNodeIndex)
+                    Operation = CreateRemoveNodeOperation(inner.Owner.Node, inner.PropertyName, blockIndex, FinalNodeIndex, HandlerRedoRemoveNode, HandlerUndoRemoveNode, isNested: true);
+                else
+                    Operation = CreateRemoveBlockOperation(inner.Owner.Node, inner.PropertyName, blockIndex, HandlerRedoRemoveBlock, HandlerUndoRemoveBlock, isNested: true);
+
+                OperationList.Add(Operation);
+            }
+
+            Debug.Assert(OperationList.Count > 0);
+
+            IWriteableOperationReadOnlyList OperationReadOnlyList = OperationList.ToReadOnly();
+            IWriteableOperationGroup OperationGroup = CreateOperationGroup(OperationReadOnlyList, null);
+
+            OperationGroup.Redo();
+            SetLastOperation(OperationGroup);
+            CheckInvariant();
+        }
+
+        /// <summary></summary>
+        public virtual void ReplaceNodeRange(IWriteableListInner inner, int firstNodeIndex, int lastNodeIndex, IList<IWriteableInsertionCollectionNodeIndex> indexList)
+        {
+            Debug.Assert(inner != null);
+            Debug.Assert(firstNodeIndex >= 0 && firstNodeIndex < inner.StateList.Count);
+            Debug.Assert(lastNodeIndex >= 0 && lastNodeIndex < inner.StateList.Count);
+            Debug.Assert(firstNodeIndex <= lastNodeIndex);
+
+            int BlockNodeIndex = firstNodeIndex;
+
+            foreach (IWriteableInsertionCollectionNodeIndex NodeIndex in indexList)
+            {
+                bool IsHandled = false;
+
+                if (NodeIndex is IWriteableInsertionListNodeIndex AsListNodeIndex)
+                {
+                    Debug.Assert(AsListNodeIndex.Index == BlockNodeIndex);
+
+                    BlockNodeIndex++;
+                    IsHandled = true;
+                }
+
+                Debug.Assert(IsHandled);
+            }
+
+            int FinalNodeIndex = BlockNodeIndex;
+
+            Action<IWriteableOperation> HandlerRedoInsertNode = (IWriteableOperation operation) => RedoInsertNewNode(operation);
+            Action<IWriteableOperation> HandlerUndoInsertNode = (IWriteableOperation operation) => UndoInsertNewNode(operation);
+            Action<IWriteableOperation> HandlerRedoRemoveNode = (IWriteableOperation operation) => RedoRemoveNode(operation);
+            Action<IWriteableOperation> HandlerUndoRemoveNode = (IWriteableOperation operation) => UndoRemoveNode(operation);
+
+            IWriteableOperationList OperationList = CreateOperationList();
+
+            // Insert first to prevent empty block lists.
+            foreach (IWriteableInsertionCollectionNodeIndex NodeIndex in indexList)
+                if (NodeIndex is IWriteableInsertionListNodeIndex AsListNodeIndex)
+                {
+                    IndexToPositionAndNode(AsListNodeIndex, out int BlockIndex, out int Index, out INode Node);
+                    IWriteableInsertNodeOperation OperationInsertNode = CreateInsertNodeOperation(inner.Owner.Node, inner.PropertyName, BlockIndex, Index, Node, HandlerRedoInsertNode, HandlerUndoInsertNode, isNested: true);
+                    OperationList.Add(OperationInsertNode);
+                }
+
+            for (int i = FinalNodeIndex; i <= FinalNodeIndex + lastNodeIndex - firstNodeIndex; i++)
+            {
+                IWriteableRemoveNodeOperation OperationNode = CreateRemoveNodeOperation(inner.Owner.Node, inner.PropertyName, -1, FinalNodeIndex, HandlerRedoRemoveNode, HandlerUndoRemoveNode, isNested: true);
+                OperationList.Add(OperationNode);
+            }
+
+            Debug.Assert(OperationList.Count > 0);
+
+            IWriteableOperationReadOnlyList OperationReadOnlyList = OperationList.ToReadOnly();
+            IWriteableOperationGroup OperationGroup = CreateOperationGroup(OperationReadOnlyList, null);
+
+            OperationGroup.Redo();
+            SetLastOperation(OperationGroup);
+            CheckInvariant();
         }
 
         /// <summary>

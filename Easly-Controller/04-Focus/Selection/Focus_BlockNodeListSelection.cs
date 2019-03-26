@@ -150,8 +150,10 @@
 
             IFocusBlockState BlockState = ParentInner.BlockStateList[BlockIndex];
 
+            int OldNodeCount = ParentInner.Count;
             int SelectionCount = EndIndex - StartIndex + 1;
-            if (SelectionCount < BlockState.StateList.Count)
+
+            if (SelectionCount < BlockState.StateList.Count || ParentInner.BlockStateList.Count > 1 || !NodeHelper.IsCollectionNeverEmpty(State.Node, PropertyName))
             {
                 List<INode> NodeList = new List<INode>();
                 for (int i = StartIndex; i <= EndIndex; i++)
@@ -160,18 +162,9 @@
                 ClipboardHelper.WriteNodeList(dataObject, NodeList);
 
                 IFocusController Controller = StateView.ControllerView.Controller;
-                int OldNodeCount = BlockState.StateList.Count;
+                Controller.RemoveNodeRange(ParentInner, BlockIndex, StartIndex, EndIndex);
 
-                for (int i = StartIndex; i <= EndIndex; i++)
-                {
-                    IFocusNodeState ChildState = BlockState.StateList[StartIndex];
-                    IFocusBrowsingCollectionNodeIndex NodeIndex = ChildState.ParentIndex as IFocusBrowsingCollectionNodeIndex;
-                    Debug.Assert(NodeIndex != null);
-
-                    Controller.Remove(ParentInner, NodeIndex);
-                }
-
-                Debug.Assert(BlockState.StateList.Count == OldNodeCount + NodeList.Count - SelectionCount);
+                Debug.Assert(ParentInner.Count == OldNodeCount - SelectionCount);
 
                 StateView.ControllerView.ClearSelection();
                 isDeleted = true;
@@ -212,33 +205,22 @@
             {
                 if (ParentInner.InterfaceType.IsAssignableFrom(NodeList[0].GetType()))
                 {
-                    // Insert first to prevent empty lists.
+                    List<IWriteableInsertionCollectionNodeIndex> IndexList = new List<IWriteableInsertionCollectionNodeIndex>();
                     IFocusController Controller = StateView.ControllerView.Controller;
-                    int OldNodeCount = BlockState.StateList.Count;
+                    int OldNodeCount = ParentInner.Count;
                     int SelectionCount = EndIndex - StartIndex + 1;
                     int InsertionNodeIndex = EndIndex + 1;
 
                     for (int i = 0; i < NodeList.Count; i++)
                     {
                         INode NewNode = NodeList[i] as INode;
-                        IFocusInsertionCollectionNodeIndex InsertedIndex = new FocusInsertionExistingBlockNodeIndex(ParentInner.Owner.Node, PropertyName, NewNode, BlockIndex, InsertionNodeIndex);
-                        Debug.Assert(InsertedIndex != null);
-
-                        Controller.Insert(ParentInner, InsertedIndex, out IWriteableBrowsingCollectionNodeIndex NodeIndex);
-
-                        InsertionNodeIndex++;
+                        IFocusInsertionExistingBlockNodeIndex InsertedIndex = CreateExistingBlockNodeIndex(ParentInner.Owner.Node, PropertyName, NewNode, BlockIndex, StartIndex + i);
+                        IndexList.Add(InsertedIndex);
                     }
 
-                    for (int i = StartIndex; i <= EndIndex; i++)
-                    {
-                        IFocusNodeState ChildState = BlockState.StateList[StartIndex];
-                        IFocusBrowsingCollectionNodeIndex NodeIndex = ChildState.ParentIndex as IFocusBrowsingCollectionNodeIndex;
-                        Debug.Assert(NodeIndex != null);
+                    Controller.ReplaceNodeRange(ParentInner, BlockIndex, StartIndex, EndIndex, IndexList);
 
-                        Controller.Remove(ParentInner, NodeIndex);
-                    }
-
-                    Debug.Assert(BlockState.StateList.Count == OldNodeCount + NodeList.Count - SelectionCount);
+                    Debug.Assert(ParentInner.Count == OldNodeCount + NodeList.Count - SelectionCount);
 
                     StateView.ControllerView.ClearSelection();
                     isChanged = true;
@@ -255,6 +237,17 @@
         public override string ToString()
         {
             return $"Block Index {BlockIndex}, from {StartIndex} to {EndIndex}";
+        }
+        #endregion
+
+        #region Create Methods
+        /// <summary>
+        /// Creates a IxxxInsertionExistingBlockNodeIndex object.
+        /// </summary>
+        private protected virtual IFocusInsertionExistingBlockNodeIndex CreateExistingBlockNodeIndex(INode parentNode, string propertyName, INode node, int blockIndex, int index)
+        {
+            ControllerTools.AssertNoOverride(this, typeof(FocusBlockNodeListSelection));
+            return new FocusInsertionExistingBlockNodeIndex(parentNode, propertyName, node, blockIndex, index);
         }
         #endregion
     }
