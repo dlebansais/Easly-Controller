@@ -143,6 +143,8 @@
         /// <param name="isDeleted">True if something was deleted.</param>
         public override void Cut(IDataObject dataObject, out bool isDeleted)
         {
+            isDeleted = false;
+
             IFocusNodeState State = StateView.State;
             IFocusBlockListInner ParentInner = State.PropertyToInner(PropertyName) as IFocusBlockListInner;
             Debug.Assert(ParentInner != null);
@@ -169,8 +171,6 @@
                 StateView.ControllerView.ClearSelection();
                 isDeleted = true;
             }
-            else
-                isDeleted = false;
         }
 
         /// <summary>

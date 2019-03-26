@@ -128,6 +128,8 @@
         /// <param name="isDeleted">True if something was deleted.</param>
         public override void Cut(IDataObject dataObject, out bool isDeleted)
         {
+            isDeleted = false;
+
             IFocusNodeState State = StateView.State;
             IFocusListInner ParentInner = State.PropertyToInner(PropertyName) as IFocusListInner;
             Debug.Assert(ParentInner != null);
@@ -151,8 +153,6 @@
                 StateView.ControllerView.ClearSelection();
                 isDeleted = true;
             }
-            else
-                isDeleted = false;
         }
 
         /// <summary>
@@ -194,7 +194,7 @@
                     for (int i = 0; i < NodeList.Count; i++)
                     {
                         INode NewNode = NodeList[i] as INode;
-                        IFocusInsertionListNodeIndex InsertedIndex = new FocusInsertionListNodeIndex(ParentInner.Owner.Node, PropertyName, NewNode, StartIndex + i);
+                        IFocusInsertionListNodeIndex InsertedIndex = CreateListNodeIndex(ParentInner.Owner.Node, PropertyName, NewNode, StartIndex + i);
                         IndexList.Add(InsertedIndex);
                     }
 
@@ -224,7 +224,7 @@
         /// <summary>
         /// Creates a IxxxInsertionListNodeIndex object.
         /// </summary>
-        private protected virtual IFocusInsertionListNodeIndex CreateExistingBlockNodeIndex(INode parentNode, string propertyName, INode node, int index)
+        private protected virtual IFocusInsertionListNodeIndex CreateListNodeIndex(INode parentNode, string propertyName, INode node, int index)
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusNodeListSelection));
             return new FocusInsertionListNodeIndex(parentNode, propertyName, node, index);

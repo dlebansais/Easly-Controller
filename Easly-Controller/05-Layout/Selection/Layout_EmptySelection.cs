@@ -1,5 +1,6 @@
 ﻿namespace EaslyController.Layout
 {
+    using BaseNode;
     using EaslyController.Focus;
 
     /// <summary>
@@ -38,6 +39,35 @@
         /// </summary>
         public virtual void Print()
         {
+        }
+        #endregion
+
+        #region Create Methods
+        /// <summary>
+        /// Creates a IxxxInsertionListNodeIndex object.
+        /// </summary>
+        private protected override IFocusInsertionListNodeIndex CreateListNodeIndex(INode parentNode, string propertyName, INode node, int index)
+        {
+            ControllerTools.AssertNoOverride(this, typeof(LayoutEmptySelection));
+            return new LayoutInsertionListNodeIndex(parentNode, propertyName, node, index);
+        }
+
+        /// <summary>
+        /// Creates a IxxxInsertionNewBlockNodeIndex object.
+        /// </summary>
+        private protected override IFocusInsertionNewBlockNodeIndex CreateNewBlockNodeIndex(INode parentNode, string propertyName, INode node, int blockIndex, IPattern patternNode, IIdentifier sourceNode)
+        {
+            ControllerTools.AssertNoOverride(this, typeof(LayoutEmptySelection));
+            return new LayoutInsertionNewBlockNodeIndex(parentNode, propertyName, node, blockIndex, patternNode, sourceNode);
+        }
+
+        /// <summary>
+        /// Creates a IxxxInsertionExistingBlockNodeIndex object.
+        /// </summary>
+        private protected override IFocusInsertionExistingBlockNodeIndex CreateExistingBlockNodeIndex(INode parentNode, string propertyName, INode node, int blockIndex, int index)
+        {
+            ControllerTools.AssertNoOverride(this, typeof(LayoutEmptySelection));
+            return new LayoutInsertionExistingBlockNodeIndex(parentNode, propertyName, node, blockIndex, index);
         }
         #endregion
     }

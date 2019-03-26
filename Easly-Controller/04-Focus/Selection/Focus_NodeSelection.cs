@@ -69,6 +69,8 @@
 
                         IFocusInsertionChildIndex ReplaceIndex = (IFocusInsertionChildIndex)AsInsertableIndex.ToInsertionIndex(ParentNode, Node);
                         Controller.Replace(State.ParentInner, ReplaceIndex, out IWriteableBrowsingChildIndex NewIndex);
+
+                        isChanged = true;
                     }
                 }
             }

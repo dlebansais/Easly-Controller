@@ -64,6 +64,9 @@
             else if (ClipboardHelper.TryReadNodeList(out IList<INode> NodeList))
                 PasteNodeList(NodeList, out isChanged);
 
+            else if (ClipboardHelper.TryReadBlockList(out IList<IBlock> BlockList))
+                PasteBlockList(BlockList, out isChanged);
+
             else if (ClipboardHelper.TryReadText(out string Text) && Text.Length > 0)
                 PasteText(Text, out isChanged);
         }
@@ -121,15 +124,17 @@
             {
                 if (listInner.InterfaceType.IsAssignableFrom(nodeList[0].GetType()))
                 {
+                    List<IWriteableInsertionCollectionNodeIndex> IndexList = new List<IWriteableInsertionCollectionNodeIndex>();
                     IFocusController Controller = StateView.ControllerView.Controller;
-                    INode ParentNode = listInner.Owner.Node;
 
                     for (int i = 0; i < nodeList.Count; i++)
                     {
-                        INode Node = nodeList[nodeList.Count - i - 1];
-                        IFocusInsertionListNodeIndex ReplaceIndex = (IFocusInsertionListNodeIndex)parentIndex.ToInsertionIndex(ParentNode, Node);
-                        Controller.Insert(listInner, ReplaceIndex, out IWriteableBrowsingCollectionNodeIndex NewIndex);
+                        INode NewNode = nodeList[i] as INode;
+                        IFocusInsertionListNodeIndex InsertedIndex = CreateListNodeIndex(listInner.Owner.Node, listInner.PropertyName, NewNode, parentIndex.Index + i);
+                        IndexList.Add(InsertedIndex);
                     }
+
+                    Controller.InsertNodeRange(listInner, -1, parentIndex.Index, IndexList);
 
                     isChanged = true;
                 }
@@ -145,17 +150,73 @@
             {
                 if (blockListInner.InterfaceType.IsAssignableFrom(nodeList[0].GetType()))
                 {
+                    List<IWriteableInsertionCollectionNodeIndex> IndexList = new List<IWriteableInsertionCollectionNodeIndex>();
                     IFocusController Controller = StateView.ControllerView.Controller;
-                    INode ParentNode = blockListInner.Owner.Node;
 
                     for (int i = 0; i < nodeList.Count; i++)
                     {
-                        INode Node = nodeList[nodeList.Count - i - 1];
-                        IFocusInsertionExistingBlockNodeIndex ReplaceIndex = (IFocusInsertionExistingBlockNodeIndex)parentIndex.ToInsertionIndex(ParentNode, Node);
-                        Controller.Insert(blockListInner, ReplaceIndex, out IWriteableBrowsingCollectionNodeIndex NewIndex);
+                        INode NewNode = nodeList[i] as INode;
+                        IFocusInsertionExistingBlockNodeIndex InsertedIndex = CreateExistingBlockNodeIndex(blockListInner.Owner.Node, blockListInner.PropertyName, NewNode, parentIndex.BlockIndex, parentIndex.Index + i);
+                        IndexList.Add(InsertedIndex);
                     }
 
+                    Controller.InsertNodeRange(blockListInner, parentIndex.BlockIndex, parentIndex.Index, IndexList);
+
                     isChanged = true;
+                }
+            }
+        }
+
+        /// <summary></summary>
+        protected virtual void PasteBlockList(IList<IBlock> blockList, out bool isChanged)
+        {
+            isChanged = false;
+
+            IFocusControllerView ControllerView = StateView.ControllerView;
+            if (ControllerView.Focus is IFocusTextFocus AsTextFocus)
+            {
+                IFocusNodeState State = AsTextFocus.CellView.StateView.State;
+                while (State != null && !(State.ParentInner is IFocusCollectionInner))
+                    State = State.ParentInner.Owner;
+
+                if (State.ParentInner is IFocusBlockListInner AsBlockListInner && State.ParentIndex is IFocusBrowsingExistingBlockNodeIndex AsExistingBlockNodeIndex)
+                {
+                    if (blockList.Count > 0)
+                    {
+                        if (AsBlockListInner.InterfaceType.IsAssignableFrom(blockList[0].NodeList[0].GetType()))
+                        {
+                            List<IWriteableInsertionBlockNodeIndex> IndexList = new List<IWriteableInsertionBlockNodeIndex>();
+                            IFocusController Controller = StateView.ControllerView.Controller;
+
+                            int InsertionBlockIndex = AsExistingBlockNodeIndex.BlockIndex;
+
+                            for (int i = 0; i < blockList.Count; i++)
+                            {
+                                IBlock NewBlock = blockList[i] as IBlock;
+
+                                for (int j = 0; j < NewBlock.NodeList.Count; j++)
+                                {
+                                    INode NewNode = NewBlock.NodeList[j] as INode;
+                                    IFocusInsertionBlockNodeIndex InsertedIndex;
+
+                                    if (j == 0)
+                                        InsertedIndex = CreateNewBlockNodeIndex(AsBlockListInner.Owner.Node, AsBlockListInner.PropertyName, NewNode, InsertionBlockIndex, NewBlock.ReplicationPattern, NewBlock.SourceIdentifier);
+                                    else
+                                        InsertedIndex = CreateExistingBlockNodeIndex(AsBlockListInner.Owner.Node, AsBlockListInner.PropertyName, NewNode, InsertionBlockIndex, j);
+
+                                    Debug.Assert(InsertedIndex != null);
+
+                                    IndexList.Add(InsertedIndex);
+                                }
+
+                                InsertionBlockIndex++;
+                            }
+
+                            Controller.InsertBlockRange(AsBlockListInner, AsExistingBlockNodeIndex.BlockIndex, IndexList);
+
+                            isChanged = true;
+                        }
+                    }
                 }
             }
         }
@@ -179,6 +240,7 @@
 
                 isChanged = true;
             }
+
             else if (ControllerView.Focus is IFocusStringContentFocus AsStringContentFocus)
             {
                 string FocusedText = ControllerView.FocusedText;
@@ -205,6 +267,35 @@
         public override string ToString()
         {
             return "Empty";
+        }
+        #endregion
+
+        #region Create Methods
+        /// <summary>
+        /// Creates a IxxxInsertionListNodeIndex object.
+        /// </summary>
+        private protected virtual IFocusInsertionListNodeIndex CreateListNodeIndex(INode parentNode, string propertyName, INode node, int index)
+        {
+            ControllerTools.AssertNoOverride(this, typeof(FocusEmptySelection));
+            return new FocusInsertionListNodeIndex(parentNode, propertyName, node, index);
+        }
+
+        /// <summary>
+        /// Creates a IxxxInsertionNewBlockNodeIndex object.
+        /// </summary>
+        private protected virtual IFocusInsertionNewBlockNodeIndex CreateNewBlockNodeIndex(INode parentNode, string propertyName, INode node, int blockIndex, IPattern patternNode, IIdentifier sourceNode)
+        {
+            ControllerTools.AssertNoOverride(this, typeof(FocusEmptySelection));
+            return new FocusInsertionNewBlockNodeIndex(parentNode, propertyName, node, blockIndex, patternNode, sourceNode);
+        }
+
+        /// <summary>
+        /// Creates a IxxxInsertionExistingBlockNodeIndex object.
+        /// </summary>
+        private protected virtual IFocusInsertionExistingBlockNodeIndex CreateExistingBlockNodeIndex(INode parentNode, string propertyName, INode node, int blockIndex, int index)
+        {
+            ControllerTools.AssertNoOverride(this, typeof(FocusEmptySelection));
+            return new FocusInsertionExistingBlockNodeIndex(parentNode, propertyName, node, blockIndex, index);
         }
         #endregion
     }
