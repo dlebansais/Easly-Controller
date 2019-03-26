@@ -295,7 +295,7 @@
         /// <param name="state">The state with a node list property.</param>
         /// <param name="propertyName">The property name.</param>
         /// <param name="startIndex">Index of the first node of the selection.</param>
-        /// <param name="endIndex">Index of the last node of the selection.</param>
+        /// <param name="endIndex">Index following the last node of the selection.</param>
         void SelectNodeList(IFocusNodeState state, string propertyName, int startIndex, int endIndex);
 
         /// <summary>
@@ -1770,7 +1770,7 @@
         /// <param name="state">The state with a node list property.</param>
         /// <param name="propertyName">The property name.</param>
         /// <param name="startIndex">Index of the first node of the selection.</param>
-        /// <param name="endIndex">Index of the last node of the selection.</param>
+        /// <param name="endIndex">Index following the last node of the selection.</param>
         public virtual void SelectNodeList(IFocusNodeState state, string propertyName, int startIndex, int endIndex)
         {
             Debug.Assert(StateViewTable.ContainsKey(state));
@@ -1779,7 +1779,7 @@
             IFocusListInner ParentInner = state.InnerTable[propertyName] as IFocusListInner;
             Debug.Assert(ParentInner != null);
             Debug.Assert(startIndex >= 0 && startIndex < ParentInner.StateList.Count);
-            Debug.Assert(endIndex >= 0 && endIndex < ParentInner.StateList.Count);
+            Debug.Assert(endIndex >= 0 && endIndex <= ParentInner.StateList.Count);
 
             IFocusNodeStateView stateView = StateViewTable[state];
             Selection = CreateNodeListSelection(stateView, propertyName, startIndex, endIndex);

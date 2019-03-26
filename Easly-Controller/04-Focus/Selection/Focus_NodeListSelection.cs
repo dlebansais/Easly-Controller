@@ -20,7 +20,7 @@
         int StartIndex { get; }
 
         /// <summary>
-        /// Index of the last selected node in the list.
+        /// Index following the last selected node in the list.
         /// </summary>
         int EndIndex { get; }
 
@@ -44,7 +44,7 @@
         /// <param name="stateView">The state view that encompasses the selection.</param>
         /// <param name="propertyName">The property name.</param>
         /// <param name="startIndex">Index of the first selected node in the list.</param>
-        /// <param name="endIndex">Index of the last selected node in the list.</param>
+        /// <param name="endIndex">Index following the last selected node in the list.</param>
         public FocusNodeListSelection(IFocusNodeStateView stateView, string propertyName, int startIndex, int endIndex)
             : base(stateView)
         {
@@ -78,7 +78,7 @@
         public int StartIndex { get; private set; }
 
         /// <summary>
-        /// Index of the last selected node in the list.
+        /// Index following the last selected node in the list.
         /// </summary>
         public int EndIndex { get; private set; }
         #endregion
@@ -115,7 +115,7 @@
             Debug.Assert(ParentInner != null);
 
             List<INode> NodeList = new List<INode>();
-            for (int i = StartIndex; i <= EndIndex; i++)
+            for (int i = StartIndex; i < EndIndex; i++)
                 NodeList.Add(ParentInner.StateList[i].Node);
 
             ClipboardHelper.WriteNodeList(dataObject, NodeList);
@@ -135,12 +135,12 @@
             Debug.Assert(ParentInner != null);
 
             int OldNodeCount = ParentInner.Count;
-            int SelectionCount = EndIndex - StartIndex + 1;
+            int SelectionCount = EndIndex - StartIndex;
 
             if (SelectionCount < ParentInner.StateList.Count || !NodeHelper.IsCollectionNeverEmpty(State.Node, PropertyName))
             {
                 List<INode> NodeList = new List<INode>();
-                for (int i = StartIndex; i <= EndIndex; i++)
+                for (int i = StartIndex; i < EndIndex; i++)
                     NodeList.Add(ParentInner.StateList[i].Node);
 
                 ClipboardHelper.WriteNodeList(dataObject, NodeList);
@@ -167,7 +167,7 @@
             IFocusListInner ParentInner = State.PropertyToInner(PropertyName) as IFocusListInner;
             Debug.Assert(ParentInner != null);
 
-            Debug.Assert(StartIndex <= ParentInner.StateList.Count);
+            Debug.Assert(StartIndex < ParentInner.StateList.Count);
             Debug.Assert(EndIndex <= ParentInner.StateList.Count);
             Debug.Assert(StartIndex <= EndIndex);
 
@@ -181,15 +181,15 @@
                 NodeList = new List<INode>() { Node };
             }
 
-            if (NodeList != null && NodeList.Count > 0)
+            if (NodeList != null)
             {
-                if (ParentInner.InterfaceType.IsAssignableFrom(NodeList[0].GetType()))
+                if (NodeList.Count == 0 || ParentInner.InterfaceType.IsAssignableFrom(NodeList[0].GetType()))
                 {
                     List<IWriteableInsertionCollectionNodeIndex> IndexList = new List<IWriteableInsertionCollectionNodeIndex>();
                     IFocusController Controller = StateView.ControllerView.Controller;
                     int OldNodeCount = ParentInner.Count;
-                    int SelectionCount = EndIndex - StartIndex + 1;
-                    int InsertionNodeIndex = EndIndex + 1;
+                    int SelectionCount = EndIndex - StartIndex;
+                    int InsertionNodeIndex = EndIndex;
 
                     for (int i = 0; i < NodeList.Count; i++)
                     {
@@ -203,7 +203,7 @@
                     Debug.Assert(ParentInner.Count == OldNodeCount + NodeList.Count - SelectionCount);
 
                     StateView.ControllerView.ClearSelection();
-                    isChanged = true;
+                    isChanged = NodeList.Count > 0 || SelectionCount > 0;
                 }
             }
         }

@@ -20,7 +20,7 @@
         int StartIndex { get; }
 
         /// <summary>
-        /// Index of the last selected block.
+        /// Index following the last selected block.
         /// </summary>
         int EndIndex { get; }
 
@@ -44,7 +44,7 @@
         /// <param name="stateView">The state view that encompasses the selection.</param>
         /// <param name="propertyName">The property name.</param>
         /// <param name="startIndex">Index of the first selected block.</param>
-        /// <param name="endIndex">Index of the last selected block.</param>
+        /// <param name="endIndex">Index following the last selected block.</param>
         public FocusBlockListSelection(IFocusNodeStateView stateView, string propertyName, int startIndex, int endIndex)
             : base(stateView)
         {
@@ -78,7 +78,7 @@
         public int StartIndex { get; private set; }
 
         /// <summary>
-        /// Index of the last selected block.
+        /// Index following the last selected block.
         /// </summary>
         public int EndIndex { get; private set; }
         #endregion
@@ -117,7 +117,7 @@
             Debug.Assert(StartIndex <= EndIndex);
 
             List<IBlock> BlockList = new List<IBlock>();
-            for (int i = StartIndex; i <= EndIndex; i++)
+            for (int i = StartIndex; i < EndIndex; i++)
             {
                 IFocusBlockState BlockState = ParentInner.BlockStateList[i];
                 BlockList.Add(BlockState.ChildBlock);
@@ -142,12 +142,12 @@
             Debug.Assert(StartIndex <= EndIndex);
 
             int OldBlockCount = ParentInner.BlockStateList.Count;
-            int SelectionCount = EndIndex - StartIndex + 1;
+            int SelectionCount = EndIndex - StartIndex;
 
             if (SelectionCount < ParentInner.BlockStateList.Count || !NodeHelper.IsCollectionNeverEmpty(State.Node, PropertyName))
             {
                 List<IBlock> BlockList = new List<IBlock>();
-                for (int i = StartIndex; i <= EndIndex; i++)
+                for (int i = StartIndex; i < EndIndex; i++)
                 {
                     IFocusBlockState BlockState = ParentInner.BlockStateList[i];
                     BlockList.Add(BlockState.ChildBlock);
@@ -179,13 +179,19 @@
             Debug.Assert(StartIndex <= EndIndex);
 
             int OldBlockCount = ParentInner.BlockStateList.Count;
-            int SelectionCount = EndIndex - StartIndex + 1;
+            int SelectionCount = EndIndex - StartIndex;
 
-            if (ClipboardHelper.TryReadBlockList(out IList<IBlock> BlockList) && BlockList.Count > 0)
+            if (ClipboardHelper.TryReadBlockList(out IList<IBlock> BlockList))
             {
-                NodeTreeHelperBlockList.GetBlockType(BlockList[0], out Type ChildInterfaceType, out Type ChildItemType);
+                bool IsAssignable = true;
 
-                if (ParentInner.InterfaceType.IsAssignableFrom(ChildInterfaceType))
+                if (BlockList.Count > 0)
+                {
+                    NodeTreeHelperBlockList.GetBlockType(BlockList[0], out Type ChildInterfaceType, out Type ChildItemType);
+                    IsAssignable = ParentInner.InterfaceType.IsAssignableFrom(ChildInterfaceType);
+                }
+
+                if (IsAssignable)
                 {
                     List<IWriteableInsertionBlockNodeIndex> IndexList = new List<IWriteableInsertionBlockNodeIndex>();
                     IFocusController Controller = StateView.ControllerView.Controller;
@@ -218,7 +224,7 @@
                     Debug.Assert(ParentInner.BlockStateList.Count == OldBlockCount + BlockList.Count - SelectionCount);
 
                     StateView.ControllerView.ClearSelection();
-                    isChanged = true;
+                    isChanged = BlockList.Count > 0 || SelectionCount > 0;
                 }
             }
         }

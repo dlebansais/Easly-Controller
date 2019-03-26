@@ -102,6 +102,8 @@
         /// <param name="isDeleted">True if something was deleted.</param>
         public override void Cut(IDataObject dataObject, out bool isDeleted)
         {
+            isDeleted = false;
+
             string Content = NodeTreeHelper.GetString(StateView.State.Node, PropertyName);
             Debug.Assert(Content != null);
             Debug.Assert(Start <= End);
@@ -121,8 +123,6 @@
                 StateView.ControllerView.ClearSelection();
                 isDeleted = true;
             }
-            else
-                isDeleted = false;
         }
 
         /// <summary>
