@@ -1718,9 +1718,6 @@
         /// <summary></summary>
         protected virtual void SelectStringContent(IFocusNodeStateView stateView, string propertyName, int start, int end)
         {
-            Debug.Assert(start >= 0);
-            Debug.Assert(start <= end);
-
             Selection = CreateStringContentSelection(stateView, propertyName, start, end);
         }
 
@@ -1746,9 +1743,6 @@
         /// <summary></summary>
         protected virtual void SelectComment(IFocusNodeStateView stateView, int start, int end)
         {
-            Debug.Assert(start >= 0);
-            Debug.Assert(start <= end);
-
             Selection = CreateCommentSelection(stateView, start, end);
         }
 
