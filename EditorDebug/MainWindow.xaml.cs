@@ -71,7 +71,6 @@ namespace EditorDebug
 
         public string CurrentDirectory { get; private set; }
         public string CurrentFileName { get; private set; }
-        ILayoutController Controller;
 
         private string GenerateNumber(string charset, long pattern)
         {
@@ -215,9 +214,7 @@ namespace EditorDebug
         #region Layout
         private void LoadFileLayout(INode rootNode)
         {
-            ILayoutRootNodeIndex RootIndex = new LayoutRootNodeIndex(rootNode);
-            Controller = LayoutController.Create(RootIndex);
-            layoutControl.SetController(Controller, layoutControl);
+            layoutControl.Content = rootNode;
         }
 
         private void UpdateView()

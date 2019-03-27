@@ -23,7 +23,7 @@ namespace EditorDebug
             ((EaslyDisplayControl)d).OnContentPropertyChanged(e);
         }
 
-        private void OnContentPropertyChanged(DependencyPropertyChangedEventArgs e)
+        protected virtual void OnContentPropertyChanged(DependencyPropertyChangedEventArgs e)
         {
             if (Content != null)
             {
@@ -67,8 +67,8 @@ namespace EditorDebug
             }
         }
 
-        public ILayoutController Controller { get; private set; }
-        public DrawContext DrawContext { get; private set; }
-        public ILayoutControllerView ControllerView { get; private set; }
+        public ILayoutController Controller { get; protected set; }
+        public DrawContext DrawContext { get; protected set; }
+        public ILayoutControllerView ControllerView { get; protected set; }
     }
 }

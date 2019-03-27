@@ -17,34 +17,52 @@
     using KeyboardHelper;
     using TestDebug;
 
-    public class EaslyEditControl : Control
+    public class EaslyEditControl : EaslyDisplayControl
     {
         public static readonly string NodeClipboardFormat = "185F4C03-D513-4F86-ADDB-C13C87417E81";
 
-        public void SetController(ILayoutController controller, UIElement parentUi)
+        protected override void OnContentPropertyChanged(DependencyPropertyChangedEventArgs e)
         {
-            Controller = controller;
+            if (Content != null)
+            {
+                LayoutRootNodeIndex RootIndex = new LayoutRootNodeIndex(Content);
+                Controller = LayoutController.Create(RootIndex);
 
-            DrawingVisual = new DrawingVisual();
-            DrawingContext = DrawingVisual.RenderOpen();
-            DrawContext = DrawContext.CreateDrawContext(hasCommentIcon: true, displayFocus: true);
+                DrawingVisual = new DrawingVisual();
+                DrawingContext = DrawingVisual.RenderOpen();
 
-            ControllerView = LayoutControllerView.Create(Controller, CustomLayoutTemplateSet.LayoutTemplateSet, DrawContext);
-            ControllerView.SetCommentDisplayMode(CommentDisplayModes.OnFocus);
-            ControllerView.SetShowUnfocusedComments(show: true);
-            ControllerView.MeasureAndArrange();
-            ControllerView.ShowCaret(true, draw: false);
+                DrawContext = DrawContext.CreateDrawContext(hasCommentIcon: true, displayFocus: true);
+                ControllerView = LayoutControllerView.Create(Controller, CustomLayoutTemplateSet.LayoutTemplateSet, DrawContext);
+                ControllerView.SetCommentDisplayMode(CommentDisplayModes.OnFocus);
+                ControllerView.SetShowUnfocusedComments(show: true);
+                ControllerView.MeasureAndArrange();
+                ControllerView.ShowCaret(true, draw: false);
 
-            DrawingContext.Close();
+                DrawingContext.Close();
+
+                KeyboardManager = new KeyboardManager(this);
+                KeyboardManager.CharacterKey += OnKeyCharacter;
+                KeyboardManager.MoveKey += OnKeyMove;
+
+                InitTextReplacement(this);
+            }
+            else
+            {
+                Controller = null;
+                DrawContext = null;
+                ControllerView = null;
+                DrawingVisual = null;
+
+                if (KeyboardManager != null)
+                {
+                    KeyboardManager.CharacterKey -= OnKeyCharacter;
+                    KeyboardManager.MoveKey -= OnKeyMove;
+                    KeyboardManager = null;
+                }
+            }
 
             InvalidateMeasure();
             InvalidateVisual();
-
-            KeyboardManager = new KeyboardManager(this);
-            KeyboardManager.CharacterKey += OnKeyCharacter;
-            KeyboardManager.MoveKey += OnKeyMove;
-
-            InitTextReplacement(parentUi);
         }
 
         private void OnKeyCharacter(object sender, CharacterKeyEventArgs e)
@@ -737,12 +755,9 @@
             return end > start;
         }
 
-        private ILayoutController Controller;
-        private DrawingVisual DrawingVisual;
-        private DrawingContext DrawingContext;
-        private DrawContext DrawContext;
-
-        private KeyboardManager KeyboardManager;
+        protected DrawingVisual DrawingVisual;
+        protected DrawingContext DrawingContext;
+        protected KeyboardManager KeyboardManager;
 
         public void OnActivated()
         {
@@ -758,35 +773,6 @@
             if (ControllerView != null)
             {
                 ControllerView.ShowCaret(false, draw: true);
-            }
-        }
-
-        public ILayoutControllerView ControllerView { get; private set; }
-
-        protected override Size MeasureOverride(Size availableSize)
-        {
-            if (ControllerView != null)
-            {
-                EaslyController.Controller.Padding PagePadding = ControllerView.DrawContext.PagePadding;
-                return new Size(ControllerView.ViewSize.Width.Draw + PagePadding.Left.Draw + PagePadding.Right.Draw, ControllerView.ViewSize.Height.Draw + PagePadding.Top.Draw + PagePadding.Bottom.Draw);
-            }
-            else
-                return base.MeasureOverride(availableSize);
-        }
-
-        protected override void OnRender(DrawingContext dc)
-        {
-            base.OnRender(dc);
-
-            if (ControllerView != null)
-            {
-                DrawContext.SetWpfDrawingContext(dc);
-
-                Brush WriteBrush = Brushes.White;
-                Rect Fullrect = new Rect(0, 0, ActualWidth, ActualHeight);
-                dc.DrawRectangle(WriteBrush, null, Fullrect);
-
-                ControllerView.Draw(ControllerView.RootStateView);
             }
         }
 
