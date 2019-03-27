@@ -1798,7 +1798,7 @@
 
             IFocusBlockState BlockState = ParentInner.BlockStateList[blockIndex];
             Debug.Assert(startIndex >= 0 && startIndex < BlockState.StateList.Count);
-            Debug.Assert(endIndex >= 0 && endIndex < BlockState.StateList.Count);
+            Debug.Assert(endIndex >= 0 && endIndex <= BlockState.StateList.Count);
 
             IFocusNodeStateView stateView = StateViewTable[state];
             Selection = CreateBlockNodeListSelection(stateView, propertyName, blockIndex, startIndex, endIndex);
@@ -1819,7 +1819,7 @@
             IFocusBlockListInner ParentInner = state.InnerTable[propertyName] as IFocusBlockListInner;
             Debug.Assert(ParentInner != null);
             Debug.Assert(startIndex >= 0 && startIndex < ParentInner.BlockStateList.Count);
-            Debug.Assert(endIndex >= 0 && endIndex < ParentInner.BlockStateList.Count);
+            Debug.Assert(endIndex >= 0 && endIndex <= ParentInner.BlockStateList.Count);
 
             IFocusNodeStateView stateView = StateViewTable[state];
             Selection = CreateBlockListSelection(stateView, propertyName, startIndex, endIndex);

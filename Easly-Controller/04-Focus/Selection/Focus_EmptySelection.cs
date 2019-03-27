@@ -105,13 +105,29 @@
             if (ControllerView.Focus is IFocusTextFocus AsTextFocus)
             {
                 IFocusNodeState State = AsTextFocus.CellView.StateView.State;
-                while (State != null && !(State.ParentInner is IFocusCollectionInner))
-                    State = State.ParentInner.Owner;
+                bool IsAssignable = false;
 
-                if (State.ParentInner is IFocusListInner AsListInner && State.ParentIndex is IFocusBrowsingListNodeIndex AsListNodeIndex)
-                    PasteNodeListToList(nodeList, AsListInner, AsListNodeIndex, out isChanged);
-                else if (State.ParentInner is IFocusBlockListInner AsBlockListInner && State.ParentIndex is IFocusBrowsingExistingBlockNodeIndex AsExistingBlockNodeIndex)
-                    PasteNodeListToBlockList(nodeList, AsBlockListInner, AsExistingBlockNodeIndex, out isChanged);
+                while (State != null)
+                {
+                    if (State.ParentInner is IFocusCollectionInner AsCollectionInner)
+                    {
+                        if (nodeList.Count == 0 || AsCollectionInner.InterfaceType.IsAssignableFrom(nodeList[0].GetType()))
+                        {
+                            IsAssignable = true;
+                            break;
+                        }
+                    }
+
+                    State = State.ParentState;
+                }
+
+                if (IsAssignable)
+                {
+                    if (State.ParentInner is IFocusListInner AsListInner && State.ParentIndex is IFocusBrowsingListNodeIndex AsListNodeIndex)
+                        PasteNodeListToList(nodeList, AsListInner, AsListNodeIndex, out isChanged);
+                    else if (State.ParentInner is IFocusBlockListInner AsBlockListInner && State.ParentIndex is IFocusBrowsingExistingBlockNodeIndex AsExistingBlockNodeIndex)
+                        PasteNodeListToBlockList(nodeList, AsBlockListInner, AsExistingBlockNodeIndex, out isChanged);
+                }
             }
         }
 
@@ -120,22 +136,21 @@
         {
             isChanged = false;
 
-            if (nodeList.Count == 0 || listInner.InterfaceType.IsAssignableFrom(nodeList[0].GetType()))
+            Debug.Assert(nodeList.Count == 0 || listInner.InterfaceType.IsAssignableFrom(nodeList[0].GetType()));
+
+            List<IWriteableInsertionCollectionNodeIndex> IndexList = new List<IWriteableInsertionCollectionNodeIndex>();
+            IFocusController Controller = StateView.ControllerView.Controller;
+
+            for (int i = 0; i < nodeList.Count; i++)
             {
-                List<IWriteableInsertionCollectionNodeIndex> IndexList = new List<IWriteableInsertionCollectionNodeIndex>();
-                IFocusController Controller = StateView.ControllerView.Controller;
-
-                for (int i = 0; i < nodeList.Count; i++)
-                {
-                    INode NewNode = nodeList[i] as INode;
-                    IFocusInsertionListNodeIndex InsertedIndex = CreateListNodeIndex(listInner.Owner.Node, listInner.PropertyName, NewNode, parentIndex.Index + i);
-                    IndexList.Add(InsertedIndex);
-                }
-
-                Controller.InsertNodeRange(listInner, -1, parentIndex.Index, IndexList);
-
-                isChanged = nodeList.Count > 0;
+                INode NewNode = nodeList[i] as INode;
+                IFocusInsertionListNodeIndex InsertedIndex = CreateListNodeIndex(listInner.Owner.Node, listInner.PropertyName, NewNode, parentIndex.Index + i);
+                IndexList.Add(InsertedIndex);
             }
+
+            Controller.InsertNodeRange(listInner, -1, parentIndex.Index, IndexList);
+
+            isChanged = nodeList.Count > 0;
         }
 
         /// <summary></summary>
@@ -143,22 +158,21 @@
         {
             isChanged = false;
 
-            if (nodeList.Count == 0 || blockListInner.InterfaceType.IsAssignableFrom(nodeList[0].GetType()))
+            Debug.Assert(nodeList.Count == 0 || blockListInner.InterfaceType.IsAssignableFrom(nodeList[0].GetType()));
+
+            List<IWriteableInsertionCollectionNodeIndex> IndexList = new List<IWriteableInsertionCollectionNodeIndex>();
+            IFocusController Controller = StateView.ControllerView.Controller;
+
+            for (int i = 0; i < nodeList.Count; i++)
             {
-                List<IWriteableInsertionCollectionNodeIndex> IndexList = new List<IWriteableInsertionCollectionNodeIndex>();
-                IFocusController Controller = StateView.ControllerView.Controller;
-
-                for (int i = 0; i < nodeList.Count; i++)
-                {
-                    INode NewNode = nodeList[i] as INode;
-                    IFocusInsertionExistingBlockNodeIndex InsertedIndex = CreateExistingBlockNodeIndex(blockListInner.Owner.Node, blockListInner.PropertyName, NewNode, parentIndex.BlockIndex, parentIndex.Index + i);
-                    IndexList.Add(InsertedIndex);
-                }
-
-                Controller.InsertNodeRange(blockListInner, parentIndex.BlockIndex, parentIndex.Index, IndexList);
-
-                isChanged = nodeList.Count > 0;
+                INode NewNode = nodeList[i] as INode;
+                IFocusInsertionExistingBlockNodeIndex InsertedIndex = CreateExistingBlockNodeIndex(blockListInner.Owner.Node, blockListInner.PropertyName, NewNode, parentIndex.BlockIndex, parentIndex.Index + i);
+                IndexList.Add(InsertedIndex);
             }
+
+            Controller.InsertNodeRange(blockListInner, parentIndex.BlockIndex, parentIndex.Index, IndexList);
+
+            isChanged = nodeList.Count > 0;
         }
 
         /// <summary></summary>
@@ -170,44 +184,56 @@
             if (ControllerView.Focus is IFocusTextFocus AsTextFocus)
             {
                 IFocusNodeState State = AsTextFocus.CellView.StateView.State;
-                while (State != null && !(State.ParentInner is IFocusCollectionInner))
-                    State = State.ParentInner.Owner;
+                bool IsAssignable = false;
 
-                if (State.ParentInner is IFocusBlockListInner AsBlockListInner && State.ParentIndex is IFocusBrowsingExistingBlockNodeIndex AsExistingBlockNodeIndex)
+                while (State != null)
                 {
-                    if (blockList.Count == 0 || AsBlockListInner.InterfaceType.IsAssignableFrom(blockList[0].NodeList[0].GetType()))
+                    if (State.ParentInner is IFocusBlockListInner AsCollectionInner)
                     {
-                        List<IWriteableInsertionBlockNodeIndex> IndexList = new List<IWriteableInsertionBlockNodeIndex>();
-                        IFocusController Controller = StateView.ControllerView.Controller;
-
-                        int InsertionBlockIndex = AsExistingBlockNodeIndex.BlockIndex;
-
-                        for (int i = 0; i < blockList.Count; i++)
+                        if (blockList.Count == 0 || AsCollectionInner.InterfaceType.IsAssignableFrom(blockList[0].NodeList[0].GetType()))
                         {
-                            IBlock NewBlock = blockList[i] as IBlock;
+                            IsAssignable = true;
+                            break;
+                        }
+                    }
 
-                            for (int j = 0; j < NewBlock.NodeList.Count; j++)
-                            {
-                                INode NewNode = NewBlock.NodeList[j] as INode;
-                                IFocusInsertionBlockNodeIndex InsertedIndex;
+                    State = State.ParentState;
+                }
 
-                                if (j == 0)
-                                    InsertedIndex = CreateNewBlockNodeIndex(AsBlockListInner.Owner.Node, AsBlockListInner.PropertyName, NewNode, InsertionBlockIndex, NewBlock.ReplicationPattern, NewBlock.SourceIdentifier);
-                                else
-                                    InsertedIndex = CreateExistingBlockNodeIndex(AsBlockListInner.Owner.Node, AsBlockListInner.PropertyName, NewNode, InsertionBlockIndex, j);
+                if (IsAssignable && State.ParentInner is IFocusBlockListInner AsBlockListInner && State.ParentIndex is IFocusBrowsingExistingBlockNodeIndex AsExistingBlockNodeIndex)
+                {
+                    Debug.Assert(blockList.Count == 0 || AsBlockListInner.InterfaceType.IsAssignableFrom(blockList[0].NodeList[0].GetType()));
 
-                                Debug.Assert(InsertedIndex != null);
+                    List<IWriteableInsertionBlockNodeIndex> IndexList = new List<IWriteableInsertionBlockNodeIndex>();
+                    IFocusController Controller = StateView.ControllerView.Controller;
 
-                                IndexList.Add(InsertedIndex);
-                            }
+                    int InsertionBlockIndex = AsExistingBlockNodeIndex.BlockIndex;
 
-                            InsertionBlockIndex++;
+                    for (int i = 0; i < blockList.Count; i++)
+                    {
+                        IBlock NewBlock = blockList[i] as IBlock;
+
+                        for (int j = 0; j < NewBlock.NodeList.Count; j++)
+                        {
+                            INode NewNode = NewBlock.NodeList[j] as INode;
+                            IFocusInsertionBlockNodeIndex InsertedIndex;
+
+                            if (j == 0)
+                                InsertedIndex = CreateNewBlockNodeIndex(AsBlockListInner.Owner.Node, AsBlockListInner.PropertyName, NewNode, InsertionBlockIndex, NewBlock.ReplicationPattern, NewBlock.SourceIdentifier);
+                            else
+                                InsertedIndex = CreateExistingBlockNodeIndex(AsBlockListInner.Owner.Node, AsBlockListInner.PropertyName, NewNode, InsertionBlockIndex, j);
+
+                            Debug.Assert(InsertedIndex != null);
+
+                            IndexList.Add(InsertedIndex);
                         }
 
-                        Controller.InsertBlockRange(AsBlockListInner, AsExistingBlockNodeIndex.BlockIndex, IndexList);
-
-                        isChanged = blockList.Count > 0;
+                        InsertionBlockIndex++;
                     }
+
+                    Controller.InsertBlockRange(AsBlockListInner, AsExistingBlockNodeIndex.BlockIndex, IndexList);
+
+                    isChanged = blockList.Count > 0;
                 }
             }
         }
