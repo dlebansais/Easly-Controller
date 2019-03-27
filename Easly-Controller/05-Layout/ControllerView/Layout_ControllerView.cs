@@ -228,6 +228,7 @@
             PrintContext = context as ILayoutPrintContext;
             InternalViewSize = RegionHelper.InvalidSize;
             IsInvalidated = true;
+            ShowUnfocusedComments = true;
         }
         #endregion
 

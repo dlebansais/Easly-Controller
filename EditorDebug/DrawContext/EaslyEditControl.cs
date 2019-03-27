@@ -21,9 +21,48 @@
     {
         public static readonly string NodeClipboardFormat = "185F4C03-D513-4F86-ADDB-C13C87417E81";
 
-        protected override void OnContentPropertyChanged(DependencyPropertyChangedEventArgs e)
+        #region Custom properties and events
+        #region CommentDisplayMode
+        public static new readonly DependencyProperty CommentDisplayModeProperty = DependencyProperty.Register("CommentDisplayMode", typeof(CommentDisplayModes), typeof(EaslyEditControl), new PropertyMetadata(CommentDisplayModes.OnFocus, CommentDisplayModePropertyChangedCallback));
+
+        public new CommentDisplayModes CommentDisplayMode
         {
-            if (Content != null)
+            get { return (CommentDisplayModes)GetValue(CommentDisplayModeProperty); }
+            set { SetValue(CommentDisplayModeProperty, value); }
+        }
+        #endregion
+        #region CaretMode
+        public static readonly DependencyProperty CaretModeProperty = DependencyProperty.Register("CaretMode", typeof(CaretModes), typeof(EaslyEditControl), new PropertyMetadata(CaretModes.Insertion, CaretModePropertyChangedCallback));
+
+        public CaretModes CaretMode
+        {
+            get { return (CaretModes)GetValue(CaretModeProperty); }
+            set { SetValue(CaretModeProperty, value); }
+        }
+
+        protected static void CaretModePropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            EaslyEditControl ctrl = (EaslyEditControl)d;
+            if (ctrl.CaretMode != (CaretModes)e.OldValue)
+                ctrl.OnCaretModePropertyChanged(e);
+        }
+
+        protected virtual void OnCaretModePropertyChanged(DependencyPropertyChangedEventArgs e)
+        {
+            if (ControllerView != null)
+            {
+                ControllerView.SetCaretMode(CaretMode, out bool IsChanged);
+
+                if (IsChanged)
+                    InvalidateVisual();
+            }
+        }
+        #endregion
+        #endregion
+
+        protected override void Initialize()
+        {
+            if (IsReady)
             {
                 LayoutRootNodeIndex RootIndex = new LayoutRootNodeIndex(Content);
                 Controller = LayoutController.Create(RootIndex);
@@ -31,10 +70,10 @@
                 DrawingVisual = new DrawingVisual();
                 DrawingContext = DrawingVisual.RenderOpen();
 
-                DrawContext = DrawContext.CreateDrawContext(hasCommentIcon: true, displayFocus: true);
-                ControllerView = LayoutControllerView.Create(Controller, CustomLayoutTemplateSet.LayoutTemplateSet, DrawContext);
-                ControllerView.SetCommentDisplayMode(CommentDisplayModes.OnFocus);
-                ControllerView.SetShowUnfocusedComments(show: true);
+                DrawContext = DrawContext.CreateDrawContext(CreateTypeface(), FontSize, hasCommentIcon: true, displayFocus: true);
+                ControllerView = LayoutControllerView.Create(Controller, TemplateSet, DrawContext);
+
+                ControllerView.SetCommentDisplayMode(CommentDisplayMode);
                 ControllerView.MeasureAndArrange();
                 ControllerView.ShowCaret(true, draw: false);
 
@@ -46,23 +85,21 @@
 
                 InitTextReplacement(this);
             }
-            else
+        }
+
+        protected override void Cleanup()
+        {
+            Controller = null;
+            DrawContext = null;
+            ControllerView = null;
+            DrawingVisual = null;
+
+            if (KeyboardManager != null)
             {
-                Controller = null;
-                DrawContext = null;
-                ControllerView = null;
-                DrawingVisual = null;
-
-                if (KeyboardManager != null)
-                {
-                    KeyboardManager.CharacterKey -= OnKeyCharacter;
-                    KeyboardManager.MoveKey -= OnKeyMove;
-                    KeyboardManager = null;
-                }
+                KeyboardManager.CharacterKey -= OnKeyCharacter;
+                KeyboardManager.MoveKey -= OnKeyMove;
+                KeyboardManager = null;
             }
-
-            InvalidateMeasure();
-            InvalidateVisual();
         }
 
         private void OnKeyCharacter(object sender, CharacterKeyEventArgs e)
@@ -638,10 +675,9 @@
             e.Handled = true;
         }
 
-        public void ShowBlockGeometry(object sender, ExecutedRoutedEventArgs e)
+        public void ToggleShowBlockGeometry(object sender, ExecutedRoutedEventArgs e)
         {
-            ControllerView.SetShowBlockGeometry(!ControllerView.ShowBlockGeometry);
-            InvalidateVisual();
+            ShowBlockGeometry = !ShowBlockGeometry;
         }
 
         public void Undo(object sender, ExecutedRoutedEventArgs e)

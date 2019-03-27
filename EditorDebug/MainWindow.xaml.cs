@@ -187,7 +187,7 @@ namespace EditorDebug
 
         private void OnShowBlockGeometry(object sender, ExecutedRoutedEventArgs e)
         {
-            layoutControl.ShowBlockGeometry(sender, e);
+            layoutControl.ToggleShowBlockGeometry(sender, e);
         }
 
         public void OnCopy(object sender, ExecutedRoutedEventArgs e)

@@ -23,9 +23,9 @@
         /// <summary>
         /// Creates and initializes a new context.
         /// </summary>
-        public static DrawContext CreateDrawContext(bool hasCommentIcon, bool displayFocus)
+        public static DrawContext CreateDrawContext(Typeface typeface, double fontSize, bool hasCommentIcon, bool displayFocus)
         {
-            DrawContext Result = new DrawContext(hasCommentIcon, displayFocus);
+            DrawContext Result = new DrawContext(typeface, fontSize, hasCommentIcon, displayFocus);
             Result.Update();
             return Result;
         }
@@ -33,9 +33,12 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="DrawContext"/> class.
         /// </summary>
+        /// <param name="typeface">The font to use.</param>
+        /// <param name="fontSize">The font size.</param>
         /// <param name="hasCommentIcon">True if the comment icon must be displayed.</param>
         /// <param name="displayFocus">True if focused elements should be displayed as such.</param>
-        protected DrawContext(bool hasCommentIcon, bool displayFocus)
+        protected DrawContext(Typeface typeface, double fontSize, bool hasCommentIcon, bool displayFocus)
+            : base(typeface, fontSize)
         {
             IsLastFocusedFullCell = false;
             DisplayFocus = displayFocus;

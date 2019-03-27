@@ -18,9 +18,9 @@
         /// <summary>
         /// Creates and initializes a new context.
         /// </summary>
-        public static MeasureContext CreateMeasureContext()
+        public static MeasureContext CreateMeasureContext(Typeface typeface, double fontSize)
         {
-            MeasureContext Result = new MeasureContext();
+            MeasureContext Result = new MeasureContext(typeface, fontSize);
             Result.Update();
             return Result;
         }
@@ -28,10 +28,10 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="MeasureContext"/> class.
         /// </summary>
-        protected MeasureContext()
+        protected MeasureContext(Typeface typeface, double fontSize)
         {
-            Typeface = new Typeface("Consolas");
-            FontSize = 10;
+            Typeface = typeface;
+            FontSize = fontSize;
             SubscriptRatio = 0.7;
             Culture = CultureInfo.CurrentCulture;
             FlowDirection = System.Windows.FlowDirection.LeftToRight;
