@@ -36,8 +36,8 @@
         </DockPanel>
         <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" x:Name="viewer" Margin="0,10,0,0">
             <Grid x:Name="gridMain">
-                <local:LayoutControl x:Name="layoutControl" Focusable="True" MouseDown="OnMouseDown">
-                    <local:LayoutControl.InputBindings>
+                <local:EaslyEditControl x:Name="layoutControl" Focusable="True" MouseDown="OnMouseDown">
+                    <local:EaslyEditControl.InputBindings>
                         <KeyBinding Command="EditingCommands.Backspace" Gesture="Backspace"/>
                         <KeyBinding Command="EditingCommands.Delete" Gesture="Delete"/>
                         <KeyBinding Command="EditingCommands.EnterParagraphBreak" Gesture="Enter"/>
@@ -63,8 +63,8 @@
                         <KeyBinding Command="ApplicationCommands.Cut" Gesture="Shift+Delete"/>
                         <KeyBinding Command="ApplicationCommands.Paste" Gesture="Ctrl+V"/>
                         <KeyBinding Command="ApplicationCommands.Paste" Gesture="Shift+Insert"/>
-                    </local:LayoutControl.InputBindings>
-                    <local:LayoutControl.CommandBindings>
+                    </local:EaslyEditControl.InputBindings>
+                    <local:EaslyEditControl.CommandBindings>
                         <CommandBinding Command="EditingCommands.Backspace" Executed="OnBackspace"/>
                         <CommandBinding Command="EditingCommands.Delete" Executed="OnDelete"/>
                         <CommandBinding Command="EditingCommands.EnterParagraphBreak" Executed="OnEnterParagraphBreak"/>
@@ -87,8 +87,8 @@
                         <CommandBinding Command="ApplicationCommands.Copy" Executed="OnCopy"/>
                         <CommandBinding Command="ApplicationCommands.Cut" Executed="OnCut"/>
                         <CommandBinding Command="ApplicationCommands.Paste" Executed="OnPaste"/>
-                    </local:LayoutControl.CommandBindings>
-                </local:LayoutControl>
+                    </local:EaslyEditControl.CommandBindings>
+                </local:EaslyEditControl>
             </Grid>
         </ScrollViewer>
     </DockPanel>

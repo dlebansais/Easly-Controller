@@ -8,9 +8,9 @@ using TestDebug;
 
 namespace EditorDebug
 {
-    public class DisplayControl : Control
+    public class EaslyDisplayControl : Control
     {
-        public static readonly DependencyProperty ContentProperty = DependencyProperty.Register("Content", typeof(INode), typeof(DisplayControl), new PropertyMetadata(ContentPropertyChangedCallback));
+        public static readonly DependencyProperty ContentProperty = DependencyProperty.Register("Content", typeof(INode), typeof(EaslyDisplayControl), new PropertyMetadata(ContentPropertyChangedCallback));
 
         public INode Content
         {
@@ -20,7 +20,7 @@ namespace EditorDebug
 
         private static void ContentPropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            ((DisplayControl)d).OnContentPropertyChanged(e);
+            ((EaslyDisplayControl)d).OnContentPropertyChanged(e);
         }
 
         private void OnContentPropertyChanged(DependencyPropertyChangedEventArgs e)

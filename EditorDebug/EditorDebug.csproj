@@ -69,8 +69,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="DrawContext\DisplayControl.cs" />
-    <Compile Include="DrawContext\LayoutControl.cs" />
+    <Compile Include="DrawContext\EaslyDisplayControl.cs" />
+    <Compile Include="DrawContext\EaslyEditControl.cs" />
     <Compile Include="DrawContext\Replacement States.cs" />
     <Compile Include="DrawContext\TextReplacement.xaml.cs">
       <DependentUpon>TextReplacement.xaml</DependentUpon>

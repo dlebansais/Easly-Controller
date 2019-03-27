@@ -17,7 +17,7 @@
     using KeyboardHelper;
     using TestDebug;
 
-    public class LayoutControl : Control
+    public class EaslyEditControl : Control
     {
         public static readonly string NodeClipboardFormat = "185F4C03-D513-4F86-ADDB-C13C87417E81";
 
