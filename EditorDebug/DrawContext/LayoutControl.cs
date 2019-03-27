@@ -652,7 +652,7 @@
         {
             IDataObject DataObject = new DataObject();
             CopySelectionAsString(DataObject);
-            ControllerView.Copy(DataObject);
+            ControllerView.CopySelection(DataObject);
             Clipboard.SetDataObject(DataObject);
         }
 
@@ -660,7 +660,7 @@
         {
             IDataObject DataObject = new DataObject();
             CopySelectionAsString(DataObject);
-            ControllerView.Cut(DataObject, out bool IsDeleted);
+            ControllerView.CutSelection(DataObject, out bool IsDeleted);
             if (IsDeleted)
             {
                 Clipboard.SetDataObject(DataObject);
@@ -683,7 +683,7 @@
                     Debug.WriteLine(AsString);
             }*/
 
-            ControllerView.Paste(out bool IsChanged);
+            ControllerView.PasteSelection(out bool IsChanged);
             if (IsChanged)
                 InvalidateVisual();
         }

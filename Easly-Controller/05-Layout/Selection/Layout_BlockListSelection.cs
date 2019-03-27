@@ -57,7 +57,7 @@
             ILayoutBlockStateView FirstBlockStateView = ControllerView.BlockStateViewTable[ParentInner.BlockStateList[StartIndex]];
             Point Origin = FirstBlockStateView.CellOrigin.Opposite;
 
-            for (int i = StartIndex; i <= EndIndex; i++)
+            for (int i = StartIndex; i < EndIndex; i++)
             {
                 ILayoutBlockStateView BlockStateView = ControllerView.BlockStateViewTable[ParentInner.BlockStateList[i]];
                 Debug.Assert(RegionHelper.IsValid(BlockStateView.ActualCellSize));

@@ -322,20 +322,20 @@
         /// Copy the selection in the clipboard.
         /// </summary>
         /// <param name="dataObject">The clipboard data object that can already contain other custom formats.</param>
-        void Copy(IDataObject dataObject);
+        void CopySelection(IDataObject dataObject);
 
         /// <summary>
         /// Copy the selection in the clipboard then removes it.
         /// </summary>
         /// <param name="dataObject">The clipboard data object that can already contain other custom formats.</param>
         /// <param name="isDeleted">True if something was deleted.</param>
-        void Cut(IDataObject dataObject, out bool isDeleted);
+        void CutSelection(IDataObject dataObject, out bool isDeleted);
 
         /// <summary>
         /// Replaces the selection with the content of the clipboard.
         /// </summary>
         /// <param name="isChanged">True if something was replaced or added.</param>
-        void Paste(out bool isChanged);
+        void PasteSelection(out bool isChanged);
 #endif
     }
 
@@ -1830,7 +1830,7 @@
         /// Copy the selection in the clipboard.
         /// </summary>
         /// <param name="dataObject">The clipboard data object that can already contain other custom formats.</param>
-        public virtual void Copy(IDataObject dataObject)
+        public virtual void CopySelection(IDataObject dataObject)
         {
             Selection.Copy(dataObject);
         }
@@ -1840,7 +1840,7 @@
         /// </summary>
         /// <param name="dataObject">The clipboard data object that can already contain other custom formats.</param>
         /// <param name="isDeleted">True if something was deleted.</param>
-        public virtual void Cut(IDataObject dataObject, out bool isDeleted)
+        public virtual void CutSelection(IDataObject dataObject, out bool isDeleted)
         {
             Selection.Cut(dataObject, out isDeleted);
         }
@@ -1849,7 +1849,7 @@
         /// Replaces the selection with the content of the clipboard.
         /// </summary>
         /// <param name="isChanged">True if something was replaced or added.</param>
-        public virtual void Paste(out bool isChanged)
+        public virtual void PasteSelection(out bool isChanged)
         {
             Selection.Paste(out isChanged);
         }

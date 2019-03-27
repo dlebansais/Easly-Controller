@@ -49,20 +49,6 @@
         /// This overload uses selectors to choose the correct frame.
         /// </summary>
         IFocusCommentFrame GetCommentFrame(IList<IFocusFrameSelectorList> selectorStack);
-
-        /// <summary>
-        /// Checks if the frame associated to a given property is the first focusable in the template.
-        /// </summary>
-        /// <param name="propertyName">The property name.</param>
-        /// <param name="selectorStack">A list of selectors to choose the correct frame.</param>
-        bool IsFirstValueFrame(string propertyName, IList<IFocusFrameSelectorList> selectorStack);
-
-        /// <summary>
-        /// Checks if the frame associated to a given property is the last focusable in the template.
-        /// </summary>
-        /// <param name="propertyName">The property name.</param>
-        /// <param name="selectorStack">A list of selectors to choose the correct frame.</param>
-        bool IsLastValueFrame(string propertyName, IList<IFocusFrameSelectorList> selectorStack);
     }
 
     /// <summary>
@@ -286,38 +272,6 @@
             }
 
             return Found;
-        }
-
-        /// <summary>
-        /// Checks if the frame associated to a given property is the first focusable in the template.
-        /// </summary>
-        /// <param name="propertyName">The property name.</param>
-        /// <param name="selectorStack">A list of selectors to choose the correct frame.</param>
-        public virtual bool IsFirstValueFrame(string propertyName, IList<IFocusFrameSelectorList> selectorStack)
-        {
-            int ValueFrameIndex = 0;
-            bool Found = GetFirstNamedFrame(Root, propertyName, selectorStack, false, ref ValueFrameIndex, out IFocusNamedFrame Result);
-            Debug.Assert(Found);
-            Debug.Assert(ValueFrameIndex > 0);
-            Debug.Assert(Result != null);
-
-            return ValueFrameIndex == 1;
-        }
-
-        /// <summary>
-        /// Checks if the frame associated to a given property is the last focusable in the template.
-        /// </summary>
-        /// <param name="propertyName">The property name.</param>
-        /// <param name="selectorStack">A list of selectors to choose the correct frame.</param>
-        public virtual bool IsLastValueFrame(string propertyName, IList<IFocusFrameSelectorList> selectorStack)
-        {
-            int ValueFrameIndex = 0;
-            bool Found = GetFirstNamedFrame(Root, propertyName, selectorStack, true, ref ValueFrameIndex, out IFocusNamedFrame Result);
-            Debug.Assert(Found);
-            Debug.Assert(ValueFrameIndex > 0);
-            Debug.Assert(Result != null);
-
-            return ValueFrameIndex == 1;
         }
         #endregion
     }

@@ -57,7 +57,7 @@
             ILayoutNodeStateView FirstStateView = ControllerView.StateViewTable[ParentInner.StateList[StartIndex]];
             Point Origin = FirstStateView.CellOrigin.Opposite;
 
-            for (int i = StartIndex; i <= EndIndex; i++)
+            for (int i = StartIndex; i < EndIndex; i++)
             {
                 ILayoutNodeStateView StateView = ControllerView.StateViewTable[ParentInner.StateList[i]];
                 Debug.Assert(RegionHelper.IsValid(StateView.ActualCellSize));

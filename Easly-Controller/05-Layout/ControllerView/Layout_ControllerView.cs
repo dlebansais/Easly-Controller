@@ -135,6 +135,11 @@
         void Print(ILayoutNodeStateView stateView, Point origin);
 
         /// <summary>
+        /// Prints the selection.
+        /// </summary>
+        void PrintSelection();
+
+        /// <summary>
         /// Shows or hides the caret.
         /// </summary>
         /// <param name="show">Shows the caret if true. Otherwise, hides it.</param>
@@ -433,6 +438,14 @@
 
             Debug.Assert(RegionHelper.IsValid(stateView.ActualCellSize));
             stateView.PrintCells(origin);
+        }
+
+        /// <summary>
+        /// Prints the selection.
+        /// </summary>
+        public virtual void PrintSelection()
+        {
+            Selection.Print();
         }
 
         /// <summary>
