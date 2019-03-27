@@ -763,6 +763,7 @@
     <Compile Include="05-Layout\Template\Layout_NodeTemplate.cs" />
     <Compile Include="05-Layout\Template\Layout_Template.cs" />
     <Compile Include="05-Layout\Template\Layout_TemplateSet.cs" />
+    <Compile Include="Controller\AutoFormatModes.cs" />
     <Compile Include="Controller\CaretModes.cs" />
     <Compile Include="Controller\ClipboardHelper.cs" />
     <Compile Include="Controller\CommentDisplayModes.cs" />

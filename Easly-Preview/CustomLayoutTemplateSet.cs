@@ -58,6 +58,7 @@ namespace TestDebug
     xmlns:const=""clr-namespace:EaslyController.Constants;assembly=Easly-Controller"">
     <LayoutNodeTemplate NodeType=""{xaml:Type easly:IAssertion}"">
         <LayoutHorizontalPanelFrame>
+            <LayoutCommentFrame/>
             <LayoutHorizontalPanelFrame>
                 <LayoutOptionalFrame PropertyName=""Tag"" />
                 <LayoutKeywordFrame RightMargin=""Whitespace"">:</LayoutKeywordFrame>
@@ -67,6 +68,7 @@ namespace TestDebug
     </LayoutNodeTemplate>
     <LayoutNodeTemplate NodeType=""{xaml:Type easly:IAttachment}"">
         <LayoutVerticalPanelFrame>
+            <LayoutCommentFrame/>
             <LayoutHorizontalPanelFrame>
                 <LayoutKeywordFrame RightMargin=""Whitespace"" Text=""else"">
                     <LayoutKeywordFrame.Visibility>
@@ -251,6 +253,7 @@ namespace TestDebug
     </LayoutNodeTemplate>
     <LayoutNodeTemplate NodeType=""{xaml:Type easly:IClassReplicate}"">
         <LayoutHorizontalPanelFrame>
+            <LayoutCommentFrame/>
             <LayoutPlaceholderFrame PropertyName=""ReplicateName"" />
             <LayoutKeywordFrame LeftMargin=""Whitespace"" RightMargin=""Whitespace"">to</LayoutKeywordFrame>
             <LayoutHorizontalBlockListFrame PropertyName=""PatternBlocks"" Separator=""Comma""/>
@@ -258,6 +261,7 @@ namespace TestDebug
     </LayoutNodeTemplate>
     <LayoutNodeTemplate NodeType=""{xaml:Type easly:ICommandOverload}"">
         <LayoutVerticalPanelFrame>
+            <LayoutCommentFrame/>
             <LayoutVerticalPanelFrame>
                 <LayoutVerticalPanelFrame.Visibility>
                     <LayoutCountFrameVisibility PropertyName=""ParameterBlocks""/>
@@ -287,6 +291,7 @@ namespace TestDebug
     </LayoutNodeTemplate>
     <LayoutNodeTemplate NodeType=""{xaml:Type easly:ICommandOverloadType}"">
         <LayoutHorizontalPanelFrame>
+            <LayoutCommentFrame/>
             <LayoutSymbolFrame Symbol=""{x:Static const:Symbols.LeftBracket}"" RightMargin=""ThinSpace""/>
             <LayoutVerticalPanelFrame>
                 <LayoutVerticalPanelFrame>
@@ -344,6 +349,7 @@ namespace TestDebug
     </LayoutNodeTemplate>
     <LayoutNodeTemplate NodeType=""{xaml:Type easly:IConditional}"">
         <LayoutVerticalPanelFrame>
+            <LayoutCommentFrame/>
             <LayoutHorizontalPanelFrame>
                 <LayoutKeywordFrame Text=""else"" RightMargin=""Whitespace"">
                     <LayoutKeywordFrame.Visibility>
@@ -360,6 +366,7 @@ namespace TestDebug
     </LayoutNodeTemplate>
     <LayoutNodeTemplate NodeType=""{xaml:Type easly:IConstraint}"">
         <LayoutVerticalPanelFrame>
+            <LayoutCommentFrame/>
             <LayoutPlaceholderFrame PropertyName=""ParentType"" />
             <LayoutVerticalPanelFrame HasTabulationMargin=""True"">
                 <LayoutVerticalPanelFrame.Visibility>
@@ -375,6 +382,7 @@ namespace TestDebug
     </LayoutNodeTemplate>
     <LayoutNodeTemplate NodeType=""{xaml:Type easly:IContinuation}"">
         <LayoutVerticalPanelFrame>
+            <LayoutCommentFrame/>
             <LayoutHorizontalPanelFrame>
                 <LayoutKeywordFrame>execute</LayoutKeywordFrame>
                 <LayoutInsertFrame CollectionName=""Instructions.InstructionBlocks"" ItemType=""{xaml:Type easly:CommandInstruction}""/>
@@ -396,6 +404,7 @@ namespace TestDebug
     </LayoutNodeTemplate>
     <LayoutNodeTemplate NodeType=""{xaml:Type easly:IDiscrete}"">
         <LayoutHorizontalPanelFrame>
+            <LayoutCommentFrame/>
             <LayoutPlaceholderFrame PropertyName=""EntityName"" />
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.Visibility>
@@ -408,6 +417,7 @@ namespace TestDebug
     </LayoutNodeTemplate>
     <LayoutNodeTemplate NodeType=""{xaml:Type easly:IEntityDeclaration}"">
         <LayoutHorizontalPanelFrame>
+            <LayoutCommentFrame/>
             <LayoutPlaceholderFrame PropertyName=""EntityName"" />
             <LayoutKeywordFrame RightMargin=""Whitespace"">:</LayoutKeywordFrame>
             <LayoutPlaceholderFrame PropertyName=""EntityType"" />
@@ -422,6 +432,7 @@ namespace TestDebug
     </LayoutNodeTemplate>
     <LayoutNodeTemplate NodeType=""{xaml:Type easly:IExceptionHandler}"">
         <LayoutVerticalPanelFrame>
+            <LayoutCommentFrame/>
             <LayoutHorizontalPanelFrame>
                 <LayoutKeywordFrame>catch</LayoutKeywordFrame>
                 <LayoutPlaceholderFrame PropertyName=""ExceptionIdentifier"" LeftMargin=""Whitespace"">
@@ -436,6 +447,7 @@ namespace TestDebug
     </LayoutNodeTemplate>
     <LayoutNodeTemplate NodeType=""{xaml:Type easly:IExport}"">
         <LayoutHorizontalPanelFrame>
+            <LayoutCommentFrame/>
             <LayoutPlaceholderFrame PropertyName=""EntityName"" />
             <LayoutKeywordFrame LeftMargin=""Whitespace"" RightMargin=""Whitespace"">to</LayoutKeywordFrame>
             <LayoutHorizontalBlockListFrame PropertyName=""ClassIdentifierBlocks"" Separator=""Comma"">
@@ -447,6 +459,7 @@ namespace TestDebug
     </LayoutNodeTemplate>
     <LayoutNodeTemplate NodeType=""{xaml:Type easly:IExportChange}"">
         <LayoutHorizontalPanelFrame>
+            <LayoutCommentFrame/>
             <LayoutPlaceholderFrame PropertyName=""ExportIdentifier"">
                 <LayoutPlaceholderFrame.Selectors>
                     <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Export""/>
@@ -462,6 +475,7 @@ namespace TestDebug
     </LayoutNodeTemplate>
     <LayoutNodeTemplate NodeType=""{xaml:Type easly:IGeneric}"">
         <LayoutVerticalPanelFrame>
+            <LayoutCommentFrame/>
             <LayoutHorizontalPanelFrame>
                 <LayoutPlaceholderFrame PropertyName=""EntityName"" />
                 <LayoutHorizontalPanelFrame>
@@ -493,6 +507,7 @@ namespace TestDebug
     </LayoutNodeTemplate>
     <LayoutNodeTemplate NodeType=""{xaml:Type easly:IGlobalReplicate}"">
         <LayoutHorizontalPanelFrame>
+            <LayoutCommentFrame/>
             <LayoutPlaceholderFrame PropertyName=""ReplicateName""/>
             <LayoutKeywordFrame LeftMargin=""Whitespace"" RightMargin=""Whitespace"">to</LayoutKeywordFrame>
             <LayoutHorizontalListFrame PropertyName=""Patterns"" Separator=""Comma""/>
@@ -500,6 +515,7 @@ namespace TestDebug
     </LayoutNodeTemplate>
     <LayoutNodeTemplate NodeType=""{xaml:Type easly:IImport}"">
         <LayoutVerticalPanelFrame>
+            <LayoutCommentFrame/>
             <LayoutHorizontalPanelFrame>
                 <LayoutDiscreteFrame PropertyName=""Type"">
                     <LayoutKeywordFrame>latest</LayoutKeywordFrame>
@@ -545,6 +561,7 @@ namespace TestDebug
     </LayoutNodeTemplate>
     <LayoutNodeTemplate NodeType=""{xaml:Type easly:IInheritance}"">
         <LayoutVerticalPanelFrame>
+            <LayoutCommentFrame/>
             <LayoutHorizontalPanelFrame>
                 <LayoutDiscreteFrame PropertyName=""Conformance"" RightMargin=""Whitespace"">
                     <LayoutDiscreteFrame.Visibility>
@@ -657,6 +674,7 @@ namespace TestDebug
     </LayoutNodeTemplate>
     <LayoutNodeTemplate NodeType=""{xaml:Type easly:ILibrary}"">
         <LayoutVerticalPanelFrame>
+            <LayoutCommentFrame/>
             <LayoutHorizontalPanelFrame>
                 <LayoutKeywordFrame RightMargin=""Whitespace"">library</LayoutKeywordFrame>
                 <LayoutPlaceholderFrame PropertyName=""EntityName""/>
@@ -706,21 +724,28 @@ namespace TestDebug
     <LayoutNodeTemplate NodeType=""{xaml:Type easly:IName}"" IsSimple=""True"">
         <LayoutVerticalPanelFrame>
             <LayoutCommentFrame/>
-            <LayoutTextValueFrame PropertyName=""Text""/>
+            <LayoutTextValueFrame PropertyName=""Text"" AutoFormat=""True""/>
         </LayoutVerticalPanelFrame>
     </LayoutNodeTemplate>
     <LayoutNodeTemplate NodeType=""{xaml:Type easly:IPattern}"" IsSimple=""True"">
-        <LayoutTextValueFrame PropertyName=""Text""/>
+        <LayoutVerticalPanelFrame>
+            <LayoutCommentFrame/>
+            <LayoutTextValueFrame PropertyName=""Text""/>
+        </LayoutVerticalPanelFrame>
     </LayoutNodeTemplate>
     <LayoutNodeTemplate NodeType=""{xaml:Type easly:IQualifiedName}"">
-        <LayoutHorizontalListFrame PropertyName=""Path"" Separator=""Dot"">
-            <LayoutHorizontalListFrame.Selectors>
-                <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Feature""/>
-            </LayoutHorizontalListFrame.Selectors>
-        </LayoutHorizontalListFrame>
+        <LayoutVerticalPanelFrame>
+            <LayoutCommentFrame/>
+            <LayoutHorizontalListFrame PropertyName=""Path"" Separator=""Dot"">
+                <LayoutHorizontalListFrame.Selectors>
+                    <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Feature""/>
+                </LayoutHorizontalListFrame.Selectors>
+            </LayoutHorizontalListFrame>
+        </LayoutVerticalPanelFrame>
     </LayoutNodeTemplate>
     <LayoutNodeTemplate NodeType=""{xaml:Type easly:IQueryOverload}"">
         <LayoutVerticalPanelFrame>
+            <LayoutCommentFrame/>
             <LayoutVerticalPanelFrame>
                 <LayoutVerticalPanelFrame.Visibility>
                     <LayoutCountFrameVisibility PropertyName=""ParameterBlocks""/>
@@ -778,6 +803,7 @@ namespace TestDebug
     </LayoutNodeTemplate>
     <LayoutNodeTemplate NodeType=""{xaml:Type easly:IQueryOverloadType}"">
         <LayoutHorizontalPanelFrame>
+            <LayoutCommentFrame/>
             <LayoutSymbolFrame Symbol=""{x:Static const:Symbols.LeftBracket}"" RightMargin=""ThinSpace""/>
             <LayoutVerticalPanelFrame>
                 <LayoutVerticalPanelFrame>
@@ -842,6 +868,7 @@ namespace TestDebug
     </LayoutNodeTemplate>
     <LayoutNodeTemplate NodeType=""{xaml:Type easly:IRange}"">
         <LayoutHorizontalPanelFrame>
+            <LayoutCommentFrame/>
             <LayoutSymbolFrame Symbol=""{x:Static const:Symbols.LeftBracket}"" RightMargin=""ThinSpace"">
                 <LayoutSymbolFrame.Visibility>
                     <LayoutOptionalFrameVisibility PropertyName=""RightExpression""/>
@@ -860,6 +887,7 @@ namespace TestDebug
     </LayoutNodeTemplate>
     <LayoutNodeTemplate NodeType=""{xaml:Type easly:IRename}"">
         <LayoutHorizontalPanelFrame>
+            <LayoutCommentFrame/>
             <LayoutPlaceholderFrame PropertyName=""SourceIdentifier"">
                 <LayoutPlaceholderFrame.Selectors>
                     <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Identifier""/>
@@ -875,6 +903,7 @@ namespace TestDebug
     </LayoutNodeTemplate>
     <LayoutNodeTemplate NodeType=""{xaml:Type easly:IRoot}"">
         <LayoutVerticalPanelFrame>
+            <LayoutCommentFrame/>
             <LayoutVerticalPanelFrame>
                 <LayoutHorizontalPanelFrame>
                     <LayoutKeywordFrame>libraries</LayoutKeywordFrame>
@@ -901,6 +930,7 @@ namespace TestDebug
     </LayoutNodeTemplate>
     <LayoutNodeTemplate NodeType=""{xaml:Type easly:IScope}"">
         <LayoutVerticalPanelFrame>
+            <LayoutCommentFrame/>
             <LayoutVerticalPanelFrame>
                 <LayoutVerticalPanelFrame.Visibility>
                     <LayoutCountFrameVisibility PropertyName=""EntityDeclarationBlocks""/>
@@ -922,6 +952,7 @@ namespace TestDebug
     </LayoutNodeTemplate>
     <LayoutNodeTemplate NodeType=""{xaml:Type easly:ITypedef}"">
         <LayoutHorizontalPanelFrame>
+            <LayoutCommentFrame/>
             <LayoutPlaceholderFrame PropertyName=""EntityName"" />
             <LayoutKeywordFrame LeftMargin=""Whitespace"" RightMargin=""Whitespace"">is</LayoutKeywordFrame>
             <LayoutPlaceholderFrame PropertyName=""DefinedType"" />
@@ -929,6 +960,7 @@ namespace TestDebug
     </LayoutNodeTemplate>
     <LayoutNodeTemplate NodeType=""{xaml:Type easly:IWith}"">
         <LayoutVerticalPanelFrame>
+            <LayoutCommentFrame/>
             <LayoutHorizontalPanelFrame>
                 <LayoutKeywordFrame RightMargin=""Whitespace"">case</LayoutKeywordFrame>
                 <LayoutHorizontalBlockListFrame PropertyName=""RangeBlocks"" Separator=""Comma""/>
@@ -939,6 +971,7 @@ namespace TestDebug
     </LayoutNodeTemplate>
     <LayoutNodeTemplate NodeType=""{xaml:Type easly:IAssignmentArgument}"">
         <LayoutHorizontalPanelFrame>
+            <LayoutCommentFrame/>
             <LayoutSymbolFrame Symbol=""{x:Static const:Symbols.LeftParenthesis}"" RightMargin=""ThinSpace"">
                 <LayoutSymbolFrame.Visibility>
                     <LayoutCountFrameVisibility PropertyName=""ParameterBlocks"" MaxInvisibleCount=""1""/>
@@ -960,6 +993,7 @@ namespace TestDebug
     </LayoutNodeTemplate>
     <LayoutNodeTemplate NodeType=""{xaml:Type easly:IPositionalArgument}"">
         <LayoutHorizontalPanelFrame>
+            <LayoutCommentFrame/>
             <LayoutPlaceholderFrame PropertyName=""Source""/>
         </LayoutHorizontalPanelFrame>
     </LayoutNodeTemplate>
@@ -967,6 +1001,7 @@ namespace TestDebug
         <LayoutSelectionFrame>
             <LayoutSelectableFrame Name=""Overload"">
                 <LayoutVerticalPanelFrame>
+                    <LayoutCommentFrame/>
                     <LayoutVerticalPanelFrame>
                         <LayoutVerticalPanelFrame.Visibility>
                             <LayoutCountFrameVisibility PropertyName=""RequireBlocks""/>
@@ -993,7 +1028,7 @@ namespace TestDebug
                     </LayoutVerticalPanelFrame>
                     <LayoutVerticalPanelFrame>
                         <LayoutHorizontalPanelFrame>
-                            <LayoutKeywordFrame IsFocusable=""true"">deferred</LayoutKeywordFrame>
+                            <LayoutKeywordFrame IsFocusable=""true"" IsPreferred=""true"">deferred</LayoutKeywordFrame>
                         </LayoutHorizontalPanelFrame>
                     </LayoutVerticalPanelFrame>
                     <LayoutVerticalPanelFrame>
@@ -1010,6 +1045,7 @@ namespace TestDebug
             </LayoutSelectableFrame>
             <LayoutSelectableFrame Name=""Getter"">
                 <LayoutVerticalPanelFrame>
+                    <LayoutCommentFrame/>
                     <LayoutVerticalPanelFrame>
                         <LayoutVerticalPanelFrame.Visibility>
                             <LayoutCountFrameVisibility PropertyName=""RequireBlocks""/>
@@ -1037,7 +1073,7 @@ namespace TestDebug
                     <LayoutVerticalPanelFrame>
                         <LayoutHorizontalPanelFrame>
                             <LayoutKeywordFrame>getter</LayoutKeywordFrame>
-                            <LayoutKeywordFrame IsFocusable=""true"" LeftMargin=""Whitespace"">deferred</LayoutKeywordFrame>
+                            <LayoutKeywordFrame IsFocusable=""true"" IsPreferred=""true"" LeftMargin=""Whitespace"">deferred</LayoutKeywordFrame>
                         </LayoutHorizontalPanelFrame>
                     </LayoutVerticalPanelFrame>
                     <LayoutVerticalPanelFrame>
@@ -1054,6 +1090,7 @@ namespace TestDebug
             </LayoutSelectableFrame>
             <LayoutSelectableFrame Name=""Setter"">
                 <LayoutVerticalPanelFrame>
+                    <LayoutCommentFrame/>
                     <LayoutVerticalPanelFrame>
                         <LayoutVerticalPanelFrame.Visibility>
                             <LayoutCountFrameVisibility PropertyName=""RequireBlocks""/>
@@ -1081,7 +1118,7 @@ namespace TestDebug
                     <LayoutVerticalPanelFrame>
                         <LayoutHorizontalPanelFrame>
                             <LayoutKeywordFrame>setter</LayoutKeywordFrame>
-                            <LayoutKeywordFrame IsFocusable=""true"" LeftMargin=""Whitespace"">deferred</LayoutKeywordFrame>
+                            <LayoutKeywordFrame IsFocusable=""true"" IsPreferred=""true"" LeftMargin=""Whitespace"">deferred</LayoutKeywordFrame>
                         </LayoutHorizontalPanelFrame>
                     </LayoutVerticalPanelFrame>
                     <LayoutVerticalPanelFrame>
@@ -1102,6 +1139,7 @@ namespace TestDebug
         <LayoutSelectionFrame>
             <LayoutSelectableFrame Name=""Overload"">
                 <LayoutVerticalPanelFrame>
+                    <LayoutCommentFrame/>
                     <LayoutVerticalPanelFrame>
                         <LayoutVerticalPanelFrame.Visibility>
                             <LayoutCountFrameVisibility PropertyName=""RequireBlocks""/>
@@ -1167,6 +1205,7 @@ namespace TestDebug
             </LayoutSelectableFrame>
             <LayoutSelectableFrame Name=""Getter"">
                 <LayoutVerticalPanelFrame>
+                    <LayoutCommentFrame/>
                     <LayoutVerticalPanelFrame>
                         <LayoutVerticalPanelFrame.Visibility>
                             <LayoutCountFrameVisibility PropertyName=""RequireBlocks""/>
@@ -1235,6 +1274,7 @@ namespace TestDebug
             </LayoutSelectableFrame>
             <LayoutSelectableFrame Name=""Setter"">
                 <LayoutVerticalPanelFrame>
+                    <LayoutCommentFrame/>
                     <LayoutVerticalPanelFrame>
                         <LayoutVerticalPanelFrame.Visibility>
                             <LayoutCountFrameVisibility PropertyName=""RequireBlocks""/>
@@ -1307,6 +1347,7 @@ namespace TestDebug
         <LayoutSelectionFrame>
             <LayoutSelectableFrame Name=""Overload"">
                 <LayoutVerticalPanelFrame>
+                    <LayoutCommentFrame/>
                     <LayoutVerticalPanelFrame>
                         <LayoutVerticalPanelFrame.Visibility>
                             <LayoutCountFrameVisibility PropertyName=""RequireBlocks""/>
@@ -1350,6 +1391,7 @@ namespace TestDebug
             </LayoutSelectableFrame>
             <LayoutSelectableFrame Name=""Getter"">
                 <LayoutVerticalPanelFrame>
+                    <LayoutCommentFrame/>
                     <LayoutVerticalPanelFrame>
                         <LayoutVerticalPanelFrame.Visibility>
                             <LayoutCountFrameVisibility PropertyName=""RequireBlocks""/>
@@ -1394,6 +1436,7 @@ namespace TestDebug
             </LayoutSelectableFrame>
             <LayoutSelectableFrame Name=""Setter"">
                 <LayoutVerticalPanelFrame>
+                    <LayoutCommentFrame/>
                     <LayoutVerticalPanelFrame>
                         <LayoutVerticalPanelFrame.Visibility>
                             <LayoutCountFrameVisibility PropertyName=""RequireBlocks""/>
@@ -1442,6 +1485,7 @@ namespace TestDebug
         <LayoutSelectionFrame>
             <LayoutSelectableFrame Name=""Overload"">
                 <LayoutVerticalPanelFrame>
+                    <LayoutCommentFrame/>
                     <LayoutVerticalPanelFrame>
                         <LayoutVerticalPanelFrame.Visibility>
                             <LayoutCountFrameVisibility PropertyName=""RequireBlocks""/>
@@ -1485,6 +1529,7 @@ namespace TestDebug
             </LayoutSelectableFrame>
             <LayoutSelectableFrame Name=""Getter"">
                 <LayoutVerticalPanelFrame>
+                    <LayoutCommentFrame/>
                     <LayoutVerticalPanelFrame>
                         <LayoutVerticalPanelFrame.Visibility>
                             <LayoutCountFrameVisibility PropertyName=""RequireBlocks""/>
@@ -1529,6 +1574,7 @@ namespace TestDebug
             </LayoutSelectableFrame>
             <LayoutSelectableFrame Name=""Setter"">
                 <LayoutVerticalPanelFrame>
+                    <LayoutCommentFrame/>
                     <LayoutVerticalPanelFrame>
                         <LayoutVerticalPanelFrame.Visibility>
                             <LayoutCountFrameVisibility PropertyName=""RequireBlocks""/>
@@ -1575,6 +1621,7 @@ namespace TestDebug
     </LayoutNodeTemplate>
     <LayoutNodeTemplate NodeType=""{xaml:Type easly:IAgentExpression}"">
         <LayoutHorizontalPanelFrame>
+            <LayoutCommentFrame/>
             <LayoutKeywordFrame>agent</LayoutKeywordFrame>
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.Visibility>
@@ -1593,6 +1640,7 @@ namespace TestDebug
     </LayoutNodeTemplate>
     <LayoutNodeTemplate NodeType=""{xaml:Type easly:IAssertionTagExpression}"">
         <LayoutHorizontalPanelFrame>
+            <LayoutCommentFrame/>
             <LayoutKeywordFrame>tag</LayoutKeywordFrame>
             <LayoutPlaceholderFrame PropertyName=""TagIdentifier"" LeftMargin=""Whitespace"">
                 <LayoutPlaceholderFrame.Selectors>
@@ -1603,6 +1651,7 @@ namespace TestDebug
     </LayoutNodeTemplate>
     <LayoutNodeTemplate NodeType=""{xaml:Type easly:IBinaryConditionalExpression}"" IsComplex=""True"">
         <LayoutHorizontalPanelFrame>
+            <LayoutCommentFrame/>
             <LayoutHorizontalPanelFrame>
                 <LayoutSymbolFrame Symbol=""{x:Static const:Symbols.LeftParenthesis}"" RightMargin=""ThinSpace"">
                     <LayoutSymbolFrame.Visibility>
@@ -1637,6 +1686,7 @@ namespace TestDebug
     </LayoutNodeTemplate>
     <LayoutNodeTemplate NodeType=""{xaml:Type easly:IBinaryOperatorExpression}"" IsComplex=""True"">
         <LayoutHorizontalPanelFrame>
+            <LayoutCommentFrame/>
             <LayoutHorizontalPanelFrame>
                 <LayoutSymbolFrame Symbol=""{x:Static const:Symbols.LeftParenthesis}"" RightMargin=""ThinSpace"">
                     <LayoutSymbolFrame.Visibility>
@@ -1672,6 +1722,7 @@ namespace TestDebug
     </LayoutNodeTemplate>
     <LayoutNodeTemplate NodeType=""{xaml:Type easly:IClassConstantExpression}"">
         <LayoutHorizontalPanelFrame>
+            <LayoutCommentFrame/>
             <LayoutSymbolFrame Symbol=""{x:Static const:Symbols.LeftCurlyBracket}""/>
             <LayoutPlaceholderFrame PropertyName=""ClassIdentifier"" LeftMargin=""ThinSpace"" RightMargin=""ThinSpace"">
                 <LayoutPlaceholderFrame.Selectors>
@@ -1689,6 +1740,7 @@ namespace TestDebug
     </LayoutNodeTemplate>
     <LayoutNodeTemplate NodeType=""{xaml:Type easly:ICloneOfExpression}"" IsComplex=""True"">
         <LayoutHorizontalPanelFrame>
+            <LayoutCommentFrame/>
             <LayoutDiscreteFrame PropertyName=""Type"" RightMargin=""Whitespace"">
                 <LayoutDiscreteFrame.Visibility>
                     <LayoutDefaultDiscreteFrameVisibility PropertyName=""Type""/>
@@ -1714,12 +1766,14 @@ namespace TestDebug
     </LayoutNodeTemplate>
     <LayoutNodeTemplate NodeType=""{xaml:Type easly:IEntityExpression}"">
         <LayoutHorizontalPanelFrame>
+            <LayoutCommentFrame/>
             <LayoutKeywordFrame>entity</LayoutKeywordFrame>
             <LayoutPlaceholderFrame PropertyName=""Query"" LeftMargin=""Whitespace""/>
         </LayoutHorizontalPanelFrame>
     </LayoutNodeTemplate>
     <LayoutNodeTemplate NodeType=""{xaml:Type easly:IEqualityExpression}"" IsComplex=""True"">
         <LayoutHorizontalPanelFrame>
+            <LayoutCommentFrame/>
             <LayoutHorizontalPanelFrame>
                 <LayoutSymbolFrame Symbol=""{x:Static const:Symbols.LeftParenthesis}"" RightMargin=""ThinSpace"">
                     <LayoutSymbolFrame.Visibility>
@@ -1735,7 +1789,7 @@ namespace TestDebug
             </LayoutHorizontalPanelFrame>
             <LayoutDiscreteFrame PropertyName=""Comparison"" LeftMargin=""Whitespace"">
                 <LayoutKeywordFrame>=</LayoutKeywordFrame>
-                <LayoutKeywordFrame>!=</LayoutKeywordFrame>
+                <LayoutKeywordFrame>≠</LayoutKeywordFrame>
             </LayoutDiscreteFrame>
             <LayoutDiscreteFrame PropertyName=""Equality"">
                 <LayoutDiscreteFrame.Visibility>
@@ -1762,6 +1816,7 @@ namespace TestDebug
     </LayoutNodeTemplate>
     <LayoutNodeTemplate NodeType=""{xaml:Type easly:IIndexQueryExpression}"">
         <LayoutHorizontalPanelFrame>
+            <LayoutCommentFrame/>
             <LayoutHorizontalPanelFrame>
                 <LayoutSymbolFrame Symbol=""{x:Static const:Symbols.LeftParenthesis}"" RightMargin=""ThinSpace"">
                     <LayoutSymbolFrame.Visibility>
@@ -1782,6 +1837,7 @@ namespace TestDebug
     </LayoutNodeTemplate>
     <LayoutNodeTemplate NodeType=""{xaml:Type easly:IInitializedObjectExpression}"">
         <LayoutHorizontalPanelFrame>
+            <LayoutCommentFrame/>
             <LayoutPlaceholderFrame PropertyName=""ClassIdentifier"">
                 <LayoutPlaceholderFrame.Selectors>
                     <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Type""/>
@@ -1794,18 +1850,22 @@ namespace TestDebug
         </LayoutHorizontalPanelFrame>
     </LayoutNodeTemplate>
     <LayoutNodeTemplate NodeType=""{xaml:Type easly:IKeywordExpression}"">
-        <LayoutDiscreteFrame PropertyName=""Value"">
-            <LayoutKeywordFrame>True</LayoutKeywordFrame>
-            <LayoutKeywordFrame>False</LayoutKeywordFrame>
-            <LayoutKeywordFrame>Current</LayoutKeywordFrame>
-            <LayoutKeywordFrame>Value</LayoutKeywordFrame>
-            <LayoutKeywordFrame>Result</LayoutKeywordFrame>
-            <LayoutKeywordFrame>Retry</LayoutKeywordFrame>
-            <LayoutKeywordFrame>Exception</LayoutKeywordFrame>
-        </LayoutDiscreteFrame>
+        <LayoutHorizontalPanelFrame>
+            <LayoutCommentFrame/>
+            <LayoutDiscreteFrame PropertyName=""Value"">
+                <LayoutKeywordFrame>True</LayoutKeywordFrame>
+                <LayoutKeywordFrame>False</LayoutKeywordFrame>
+                <LayoutKeywordFrame>Current</LayoutKeywordFrame>
+                <LayoutKeywordFrame>Value</LayoutKeywordFrame>
+                <LayoutKeywordFrame>Result</LayoutKeywordFrame>
+                <LayoutKeywordFrame>Retry</LayoutKeywordFrame>
+                <LayoutKeywordFrame>Exception</LayoutKeywordFrame>
+            </LayoutDiscreteFrame>
+        </LayoutHorizontalPanelFrame>
     </LayoutNodeTemplate>
     <LayoutNodeTemplate NodeType=""{xaml:Type easly:IManifestCharacterExpression}"">
         <LayoutHorizontalPanelFrame>
+            <LayoutCommentFrame/>
             <LayoutKeywordFrame>'</LayoutKeywordFrame>
             <LayoutCharacterFrame PropertyName=""Text""/>
             <LayoutKeywordFrame>'</LayoutKeywordFrame>
@@ -1813,11 +1873,13 @@ namespace TestDebug
     </LayoutNodeTemplate>
     <LayoutNodeTemplate NodeType=""{xaml:Type easly:IManifestNumberExpression}"">
         <LayoutHorizontalPanelFrame>
+            <LayoutCommentFrame/>
             <LayoutNumberFrame PropertyName=""Text""/>
         </LayoutHorizontalPanelFrame>
     </LayoutNodeTemplate>
     <LayoutNodeTemplate NodeType=""{xaml:Type easly:IManifestStringExpression}"">
         <LayoutHorizontalPanelFrame>
+            <LayoutCommentFrame/>
             <LayoutKeywordFrame>""</LayoutKeywordFrame>
             <LayoutTextValueFrame PropertyName=""Text""/>
             <LayoutKeywordFrame>""</LayoutKeywordFrame>
@@ -1825,18 +1887,21 @@ namespace TestDebug
     </LayoutNodeTemplate>
     <LayoutNodeTemplate NodeType=""{xaml:Type easly:INewExpression}"">
         <LayoutHorizontalPanelFrame>
+            <LayoutCommentFrame/>
             <LayoutKeywordFrame RightMargin=""Whitespace"">new</LayoutKeywordFrame>
             <LayoutPlaceholderFrame PropertyName=""Object"" />
         </LayoutHorizontalPanelFrame>
     </LayoutNodeTemplate>
     <LayoutNodeTemplate NodeType=""{xaml:Type easly:IOldExpression}"">
         <LayoutHorizontalPanelFrame>
+            <LayoutCommentFrame/>
             <LayoutKeywordFrame RightMargin=""Whitespace"">old</LayoutKeywordFrame>
             <LayoutPlaceholderFrame PropertyName=""Query"" />
         </LayoutHorizontalPanelFrame>
     </LayoutNodeTemplate>
     <LayoutNodeTemplate NodeType=""{xaml:Type easly:IPrecursorExpression}"">
         <LayoutHorizontalPanelFrame>
+            <LayoutCommentFrame/>
             <LayoutKeywordFrame IsFocusable=""true"">precursor</LayoutKeywordFrame>
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.Visibility>
@@ -1863,6 +1928,7 @@ namespace TestDebug
     </LayoutNodeTemplate>
     <LayoutNodeTemplate NodeType=""{xaml:Type easly:IPrecursorIndexExpression}"">
         <LayoutHorizontalPanelFrame>
+            <LayoutCommentFrame/>
             <LayoutKeywordFrame IsFocusable=""true"">precursor</LayoutKeywordFrame>
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.Visibility>
@@ -1880,20 +1946,24 @@ namespace TestDebug
         </LayoutHorizontalPanelFrame>
     </LayoutNodeTemplate>
     <LayoutNodeTemplate NodeType=""{xaml:Type easly:IPreprocessorExpression}"">
-        <LayoutDiscreteFrame PropertyName=""Value"">
-            <LayoutKeywordFrame>DateAndTime</LayoutKeywordFrame>
-            <LayoutKeywordFrame>CompilationDiscreteIdentifier</LayoutKeywordFrame>
-            <LayoutKeywordFrame>ClassPath</LayoutKeywordFrame>
-            <LayoutKeywordFrame>CompilerVersion</LayoutKeywordFrame>
-            <LayoutKeywordFrame>ConformanceToStandard</LayoutKeywordFrame>
-            <LayoutKeywordFrame>DiscreteClassIdentifier</LayoutKeywordFrame>
-            <LayoutKeywordFrame>Counter</LayoutKeywordFrame>
-            <LayoutKeywordFrame>Debugging</LayoutKeywordFrame>
-            <LayoutKeywordFrame>RandomInteger</LayoutKeywordFrame>
-        </LayoutDiscreteFrame>
+        <LayoutHorizontalPanelFrame>
+            <LayoutCommentFrame/>
+            <LayoutDiscreteFrame PropertyName=""Value"">
+                <LayoutKeywordFrame>DateAndTime</LayoutKeywordFrame>
+                <LayoutKeywordFrame>CompilationDiscreteIdentifier</LayoutKeywordFrame>
+                <LayoutKeywordFrame>ClassPath</LayoutKeywordFrame>
+                <LayoutKeywordFrame>CompilerVersion</LayoutKeywordFrame>
+                <LayoutKeywordFrame>ConformanceToStandard</LayoutKeywordFrame>
+                <LayoutKeywordFrame>DiscreteClassIdentifier</LayoutKeywordFrame>
+                <LayoutKeywordFrame>Counter</LayoutKeywordFrame>
+                <LayoutKeywordFrame>Debugging</LayoutKeywordFrame>
+                <LayoutKeywordFrame>RandomInteger</LayoutKeywordFrame>
+            </LayoutDiscreteFrame>
+        </LayoutHorizontalPanelFrame>
     </LayoutNodeTemplate>
     <LayoutNodeTemplate NodeType=""{xaml:Type easly:IQueryExpression}"">
         <LayoutHorizontalPanelFrame>
+            <LayoutCommentFrame/>
             <LayoutPlaceholderFrame PropertyName=""Query"" />
             <LayoutHorizontalPanelFrame>
                 <LayoutSymbolFrame Symbol=""{x:Static const:Symbols.LeftParenthesis}"" LeftMargin=""ThinSpace"" RightMargin=""ThinSpace"">
@@ -1912,6 +1982,7 @@ namespace TestDebug
     </LayoutNodeTemplate>
     <LayoutNodeTemplate NodeType=""{xaml:Type easly:IResultOfExpression}"" IsComplex=""True"">
         <LayoutHorizontalPanelFrame>
+            <LayoutCommentFrame/>
             <LayoutKeywordFrame RightMargin=""Whitespace"">result of</LayoutKeywordFrame>
             <LayoutHorizontalPanelFrame>
                 <LayoutSymbolFrame Symbol=""{x:Static const:Symbols.LeftParenthesis}"" RightMargin=""ThinSpace"">
@@ -1930,6 +2001,7 @@ namespace TestDebug
     </LayoutNodeTemplate>
     <LayoutNodeTemplate NodeType=""{xaml:Type easly:IUnaryNotExpression}"" IsComplex=""True"">
         <LayoutHorizontalPanelFrame>
+            <LayoutCommentFrame/>
             <LayoutKeywordFrame RightMargin=""Whitespace"">not</LayoutKeywordFrame>
             <LayoutHorizontalPanelFrame>
                 <LayoutSymbolFrame Symbol=""{x:Static const:Symbols.LeftParenthesis}"" RightMargin=""ThinSpace"">
@@ -1948,6 +2020,7 @@ namespace TestDebug
     </LayoutNodeTemplate>
     <LayoutNodeTemplate NodeType=""{xaml:Type easly:IUnaryOperatorExpression}"" IsComplex=""True"">
         <LayoutHorizontalPanelFrame>
+            <LayoutCommentFrame/>
             <LayoutPlaceholderFrame PropertyName=""Operator"" RightMargin=""Whitespace"">
                 <LayoutPlaceholderFrame.Selectors>
                     <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Feature""/>
@@ -1970,6 +2043,7 @@ namespace TestDebug
     </LayoutNodeTemplate>
     <LayoutNodeTemplate NodeType=""{xaml:Type easly:IAttributeFeature}"">
         <LayoutVerticalPanelFrame>
+            <LayoutCommentFrame/>
             <LayoutHorizontalPanelFrame>
                 <LayoutDiscreteFrame PropertyName=""Export"" RightMargin=""Whitespace"">
                     <LayoutDiscreteFrame.Visibility>
@@ -2017,6 +2091,7 @@ namespace TestDebug
     </LayoutNodeTemplate>
     <LayoutNodeTemplate NodeType=""{xaml:Type easly:IConstantFeature}"">
         <LayoutVerticalPanelFrame>
+            <LayoutCommentFrame/>
             <LayoutHorizontalPanelFrame>
                 <LayoutDiscreteFrame PropertyName=""Export"" RightMargin=""Whitespace"">
                     <LayoutDiscreteFrame.Visibility>
@@ -2055,6 +2130,7 @@ namespace TestDebug
     </LayoutNodeTemplate>
     <LayoutNodeTemplate NodeType=""{xaml:Type easly:ICreationFeature}"">
         <LayoutVerticalPanelFrame>
+            <LayoutCommentFrame/>
             <LayoutHorizontalPanelFrame>
                 <LayoutDiscreteFrame PropertyName=""Export"" RightMargin=""Whitespace"">
                     <LayoutDiscreteFrame.Visibility>
@@ -2086,6 +2162,7 @@ namespace TestDebug
     </LayoutNodeTemplate>
     <LayoutNodeTemplate NodeType=""{xaml:Type easly:IFunctionFeature}"">
         <LayoutVerticalPanelFrame>
+            <LayoutCommentFrame/>
             <LayoutHorizontalPanelFrame>
                 <LayoutDiscreteFrame PropertyName=""Export"" RightMargin=""Whitespace"">
                     <LayoutDiscreteFrame.Visibility>
@@ -2129,6 +2206,7 @@ namespace TestDebug
     </LayoutNodeTemplate>
     <LayoutNodeTemplate NodeType=""{xaml:Type easly:IIndexerFeature}"">
         <LayoutVerticalPanelFrame>
+            <LayoutCommentFrame/>
             <LayoutHorizontalPanelFrame>
                 <LayoutDiscreteFrame PropertyName=""Export"" RightMargin=""Whitespace"">
                     <LayoutDiscreteFrame.Visibility>
@@ -2211,6 +2289,7 @@ namespace TestDebug
     </LayoutNodeTemplate>
     <LayoutNodeTemplate NodeType=""{xaml:Type easly:IProcedureFeature}"">
         <LayoutVerticalPanelFrame>
+            <LayoutCommentFrame/>
             <LayoutHorizontalPanelFrame>
                 <LayoutDiscreteFrame PropertyName=""Export"" RightMargin=""Whitespace"">
                     <LayoutDiscreteFrame.Visibility>
@@ -2242,6 +2321,7 @@ namespace TestDebug
     </LayoutNodeTemplate>
     <LayoutNodeTemplate NodeType=""{xaml:Type easly:IPropertyFeature}"">
         <LayoutVerticalPanelFrame>
+            <LayoutCommentFrame/>
             <LayoutHorizontalPanelFrame>
                 <LayoutDiscreteFrame PropertyName=""Export"" RightMargin=""Whitespace"">
                     <LayoutDiscreteFrame.Visibility>
@@ -2314,36 +2394,64 @@ namespace TestDebug
     <LayoutNodeTemplate NodeType=""{xaml:Type easly:IIdentifier}"" IsSimple=""True"">
         <LayoutSelectionFrame>
             <LayoutSelectableFrame Name=""Identifier"">
-                <LayoutTextValueFrame PropertyName=""Text""/>
+                <LayoutVerticalPanelFrame>
+                    <LayoutCommentFrame/>
+                    <LayoutTextValueFrame PropertyName=""Text"" TextStyle=""Default"" AutoFormat=""True""/>
+                </LayoutVerticalPanelFrame>
             </LayoutSelectableFrame>
             <LayoutSelectableFrame Name=""Feature"">
-                <LayoutTextValueFrame PropertyName=""Text""/>
+                <LayoutVerticalPanelFrame>
+                    <LayoutCommentFrame/>
+                    <LayoutTextValueFrame PropertyName=""Text"" TextStyle=""Default"" AutoFormat=""True""/>
+                </LayoutVerticalPanelFrame>
             </LayoutSelectableFrame>
             <LayoutSelectableFrame Name=""Class"">
-                <LayoutTextValueFrame PropertyName=""Text""/>
+                <LayoutVerticalPanelFrame>
+                    <LayoutCommentFrame/>
+                    <LayoutTextValueFrame PropertyName=""Text"" TextStyle=""Default"" AutoFormat=""True""/>
+                </LayoutVerticalPanelFrame>
             </LayoutSelectableFrame>
             <LayoutSelectableFrame Name=""ClassOrExport"">
-                <LayoutTextValueFrame PropertyName=""Text""/>
+                <LayoutVerticalPanelFrame>
+                    <LayoutCommentFrame/>
+                    <LayoutTextValueFrame PropertyName=""Text"" TextStyle=""Default"" AutoFormat=""True""/>
+                </LayoutVerticalPanelFrame>
             </LayoutSelectableFrame>
             <LayoutSelectableFrame Name=""Export"">
-                <LayoutTextValueFrame PropertyName=""Text""/>
+                <LayoutVerticalPanelFrame>
+                    <LayoutCommentFrame/>
+                    <LayoutTextValueFrame PropertyName=""Text"" TextStyle=""Default"" AutoFormat=""True""/>
+                </LayoutVerticalPanelFrame>
             </LayoutSelectableFrame>
             <LayoutSelectableFrame Name=""Library"">
-                <LayoutTextValueFrame PropertyName=""Text""/>
+                <LayoutVerticalPanelFrame>
+                    <LayoutCommentFrame/>
+                    <LayoutTextValueFrame PropertyName=""Text"" TextStyle=""Default"" AutoFormat=""True""/>
+                </LayoutVerticalPanelFrame>
             </LayoutSelectableFrame>
             <LayoutSelectableFrame Name=""Source"">
-                <LayoutTextValueFrame PropertyName=""Text""/>
+                <LayoutVerticalPanelFrame>
+                    <LayoutCommentFrame/>
+                    <LayoutTextValueFrame PropertyName=""Text"" TextStyle=""Default"" AutoFormat=""True""/>
+                </LayoutVerticalPanelFrame>
             </LayoutSelectableFrame>
             <LayoutSelectableFrame Name=""Type"">
-                <LayoutTextValueFrame PropertyName=""Text"" TextStyle=""Type""/>
+                <LayoutVerticalPanelFrame>
+                    <LayoutCommentFrame/>
+                    <LayoutTextValueFrame PropertyName=""Text"" TextStyle=""Type"" AutoFormat=""True""/>
+                </LayoutVerticalPanelFrame>
             </LayoutSelectableFrame>
             <LayoutSelectableFrame Name=""Pattern"">
-                <LayoutTextValueFrame PropertyName=""Text""/>
+                <LayoutVerticalPanelFrame>
+                    <LayoutCommentFrame/>
+                    <LayoutTextValueFrame PropertyName=""Text"" TextStyle=""Default"" AutoFormat=""True""/>
+                </LayoutVerticalPanelFrame>
             </LayoutSelectableFrame>
         </LayoutSelectionFrame>
     </LayoutNodeTemplate>
     <LayoutNodeTemplate NodeType=""{xaml:Type easly:IAsLongAsInstruction}"">
         <LayoutVerticalPanelFrame>
+            <LayoutCommentFrame/>
             <LayoutHorizontalPanelFrame>
                 <LayoutKeywordFrame>as long as</LayoutKeywordFrame>
                 <LayoutPlaceholderFrame PropertyName=""ContinueCondition"" LeftMargin=""Whitespace""/>
@@ -2367,6 +2475,7 @@ namespace TestDebug
     </LayoutNodeTemplate>
     <LayoutNodeTemplate NodeType=""{xaml:Type easly:IAssignmentInstruction}"">
         <LayoutHorizontalPanelFrame>
+            <LayoutCommentFrame/>
             <LayoutHorizontalBlockListFrame PropertyName=""DestinationBlocks"" Separator=""Comma""/>
             <LayoutSymbolFrame Symbol=""{x:Static const:Symbols.LeftArrow}"" LeftMargin=""Whitespace"" RightMargin=""Whitespace""/>
             <LayoutPlaceholderFrame PropertyName=""Source"" />
@@ -2374,6 +2483,7 @@ namespace TestDebug
     </LayoutNodeTemplate>
     <LayoutNodeTemplate NodeType=""{xaml:Type easly:IAttachmentInstruction}"">
         <LayoutVerticalPanelFrame>
+            <LayoutCommentFrame/>
             <LayoutHorizontalPanelFrame>
                 <LayoutKeywordFrame RightMargin=""Whitespace"">attach</LayoutKeywordFrame>
                 <LayoutPlaceholderFrame PropertyName=""Source"" RightMargin=""Whitespace""/>
@@ -2399,12 +2509,14 @@ namespace TestDebug
     </LayoutNodeTemplate>
     <LayoutNodeTemplate NodeType=""{xaml:Type easly:ICheckInstruction}"">
         <LayoutHorizontalPanelFrame>
+            <LayoutCommentFrame/>
             <LayoutKeywordFrame RightMargin=""Whitespace"">check</LayoutKeywordFrame>
             <LayoutPlaceholderFrame PropertyName=""BooleanExpression"" />
         </LayoutHorizontalPanelFrame>
     </LayoutNodeTemplate>
     <LayoutNodeTemplate NodeType=""{xaml:Type easly:ICommandInstruction}"">
         <LayoutHorizontalPanelFrame>
+            <LayoutCommentFrame/>
             <LayoutPlaceholderFrame PropertyName=""Command"" />
             <LayoutHorizontalPanelFrame>
                 <LayoutSymbolFrame Symbol=""{x:Static const:Symbols.LeftParenthesis}"" LeftMargin=""ThinSpace"" RightMargin=""ThinSpace"">
@@ -2423,6 +2535,7 @@ namespace TestDebug
     </LayoutNodeTemplate>
     <LayoutNodeTemplate NodeType=""{xaml:Type easly:ICreateInstruction}"">
         <LayoutHorizontalPanelFrame>
+            <LayoutCommentFrame/>
             <LayoutKeywordFrame>create</LayoutKeywordFrame>
             <LayoutPlaceholderFrame PropertyName=""EntityIdentifier"" LeftMargin=""Whitespace"">
                 <LayoutPlaceholderFrame.Selectors>
@@ -2453,6 +2566,7 @@ namespace TestDebug
     </LayoutNodeTemplate>
     <LayoutNodeTemplate NodeType=""{xaml:Type easly:IDebugInstruction}"">
         <LayoutVerticalPanelFrame>
+            <LayoutCommentFrame/>
             <LayoutHorizontalPanelFrame>
                 <LayoutKeywordFrame>debug</LayoutKeywordFrame>
                 <LayoutInsertFrame CollectionName=""Instructions.InstructionBlocks"" ItemType=""{xaml:Type easly:CommandInstruction}""/>
@@ -2465,6 +2579,7 @@ namespace TestDebug
     </LayoutNodeTemplate>
     <LayoutNodeTemplate NodeType=""{xaml:Type easly:IForLoopInstruction}"">
         <LayoutVerticalPanelFrame>
+            <LayoutCommentFrame/>
             <LayoutKeywordFrame>loop</LayoutKeywordFrame>
             <LayoutVerticalPanelFrame HasTabulationMargin=""True"">
                 <LayoutVerticalPanelFrame>
@@ -2526,6 +2641,7 @@ namespace TestDebug
     </LayoutNodeTemplate>
     <LayoutNodeTemplate NodeType=""{xaml:Type easly:IIfThenElseInstruction}"">
         <LayoutVerticalPanelFrame>
+            <LayoutCommentFrame/>
             <LayoutVerticalBlockListFrame PropertyName=""ConditionalBlocks""/>
             <LayoutVerticalPanelFrame>
                 <LayoutVerticalPanelFrame.Visibility>
@@ -2542,6 +2658,7 @@ namespace TestDebug
     </LayoutNodeTemplate>
     <LayoutNodeTemplate NodeType=""{xaml:Type easly:IIndexAssignmentInstruction}"">
         <LayoutHorizontalPanelFrame>
+            <LayoutCommentFrame/>
             <LayoutPlaceholderFrame PropertyName=""Destination"" RightMargin=""ThinSpace""/>
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.Visibility>
@@ -2557,6 +2674,7 @@ namespace TestDebug
     </LayoutNodeTemplate>
     <LayoutNodeTemplate NodeType=""{xaml:Type easly:IInspectInstruction}"">
         <LayoutVerticalPanelFrame>
+            <LayoutCommentFrame/>
             <LayoutHorizontalPanelFrame>
                 <LayoutKeywordFrame RightMargin=""Whitespace"">inspect</LayoutKeywordFrame>
                 <LayoutPlaceholderFrame PropertyName=""Source"" />
@@ -2580,6 +2698,7 @@ namespace TestDebug
     </LayoutNodeTemplate>
     <LayoutNodeTemplate NodeType=""{xaml:Type easly:IKeywordAssignmentInstruction}"">
         <LayoutHorizontalPanelFrame>
+            <LayoutCommentFrame/>
             <LayoutDiscreteFrame PropertyName=""Destination"">
                 <LayoutKeywordFrame>True</LayoutKeywordFrame>
                 <LayoutKeywordFrame>False</LayoutKeywordFrame>
@@ -2595,6 +2714,7 @@ namespace TestDebug
     </LayoutNodeTemplate>
     <LayoutNodeTemplate NodeType=""{xaml:Type easly:IOverLoopInstruction}"">
         <LayoutVerticalPanelFrame>
+            <LayoutCommentFrame/>
             <LayoutHorizontalPanelFrame>
                 <LayoutKeywordFrame RightMargin=""Whitespace"">over</LayoutKeywordFrame>
                 <LayoutPlaceholderFrame PropertyName=""OverList"" RightMargin=""Whitespace""/>
@@ -2638,6 +2758,7 @@ namespace TestDebug
     </LayoutNodeTemplate>
     <LayoutNodeTemplate NodeType=""{xaml:Type easly:IPrecursorIndexAssignmentInstruction}"">
         <LayoutHorizontalPanelFrame>
+            <LayoutCommentFrame/>
             <LayoutKeywordFrame>precursor</LayoutKeywordFrame>
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.Visibility>
@@ -2657,6 +2778,7 @@ namespace TestDebug
     </LayoutNodeTemplate>
     <LayoutNodeTemplate NodeType=""{xaml:Type easly:IPrecursorInstruction}"">
         <LayoutHorizontalPanelFrame>
+            <LayoutCommentFrame/>
             <LayoutKeywordFrame IsFocusable=""true"">precursor</LayoutKeywordFrame>
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.Visibility>
@@ -2679,6 +2801,7 @@ namespace TestDebug
     </LayoutNodeTemplate>
     <LayoutNodeTemplate NodeType=""{xaml:Type easly:IRaiseEventInstruction}"">
         <LayoutHorizontalPanelFrame>
+            <LayoutCommentFrame/>
             <LayoutKeywordFrame RightMargin=""Whitespace"">raise</LayoutKeywordFrame>
             <LayoutPlaceholderFrame PropertyName=""QueryIdentifier"">
                 <LayoutPlaceholderFrame.Selectors>
@@ -2696,12 +2819,14 @@ namespace TestDebug
     </LayoutNodeTemplate>
     <LayoutNodeTemplate NodeType=""{xaml:Type easly:IReleaseInstruction}"">
         <LayoutHorizontalPanelFrame>
+            <LayoutCommentFrame/>
             <LayoutKeywordFrame>release</LayoutKeywordFrame>
             <LayoutPlaceholderFrame PropertyName=""EntityName"" LeftMargin=""Whitespace""/>
         </LayoutHorizontalPanelFrame>
     </LayoutNodeTemplate>
     <LayoutNodeTemplate NodeType=""{xaml:Type easly:IThrowInstruction}"">
         <LayoutHorizontalPanelFrame>
+            <LayoutCommentFrame/>
             <LayoutKeywordFrame RightMargin=""Whitespace"">throw</LayoutKeywordFrame>
             <LayoutPlaceholderFrame PropertyName=""ExceptionType"" RightMargin=""Whitespace""/>
             <LayoutKeywordFrame RightMargin=""Whitespace"">with</LayoutKeywordFrame>
@@ -2722,6 +2847,7 @@ namespace TestDebug
     </LayoutNodeTemplate>
     <LayoutNodeTemplate NodeType=""{xaml:Type easly:IAnchoredType}"">
         <LayoutHorizontalPanelFrame>
+            <LayoutCommentFrame/>
             <LayoutKeywordFrame RightMargin=""Whitespace"">like</LayoutKeywordFrame>
             <LayoutDiscreteFrame PropertyName=""AnchorKind"" RightMargin=""Whitespace"">
                 <LayoutDiscreteFrame.Visibility>
@@ -2735,6 +2861,7 @@ namespace TestDebug
     </LayoutNodeTemplate>
     <LayoutNodeTemplate NodeType=""{xaml:Type easly:IFunctionType}"">
         <LayoutHorizontalPanelFrame>
+            <LayoutCommentFrame/>
             <LayoutKeywordFrame RightMargin=""Whitespace"">function</LayoutKeywordFrame>
             <LayoutPlaceholderFrame PropertyName=""BaseType"" RightMargin=""Whitespace""/>
             <LayoutHorizontalBlockListFrame PropertyName=""OverloadBlocks""/>
@@ -2742,6 +2869,7 @@ namespace TestDebug
     </LayoutNodeTemplate>
     <LayoutNodeTemplate NodeType=""{xaml:Type easly:IGenericType}"">
         <LayoutHorizontalPanelFrame>
+            <LayoutCommentFrame/>
             <LayoutPlaceholderFrame PropertyName=""ClassIdentifier"">
                 <LayoutPlaceholderFrame.Selectors>
                     <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Feature""/>
@@ -2763,6 +2891,7 @@ namespace TestDebug
     </LayoutNodeTemplate>
     <LayoutNodeTemplate NodeType=""{xaml:Type easly:IIndexerType}"">
         <LayoutHorizontalPanelFrame>
+            <LayoutCommentFrame/>
             <LayoutPlaceholderFrame PropertyName=""BaseType"" />
             <LayoutSymbolFrame Symbol=""{x:Static const:Symbols.LeftBracket}"" LeftMargin=""Whitespace"" RightMargin=""ThinSpace""/>
             <LayoutVerticalPanelFrame>
@@ -2867,6 +2996,7 @@ namespace TestDebug
     </LayoutNodeTemplate>
     <LayoutNodeTemplate NodeType=""{xaml:Type easly:IKeywordAnchoredType}"">
         <LayoutHorizontalPanelFrame>
+            <LayoutCommentFrame/>
             <LayoutKeywordFrame RightMargin=""Whitespace"">like</LayoutKeywordFrame>
             <LayoutDiscreteFrame PropertyName=""Anchor"">
                 <LayoutKeywordFrame>True</LayoutKeywordFrame>
@@ -2881,6 +3011,7 @@ namespace TestDebug
     </LayoutNodeTemplate>
     <LayoutNodeTemplate NodeType=""{xaml:Type easly:IProcedureType}"">
         <LayoutHorizontalPanelFrame>
+            <LayoutCommentFrame/>
             <LayoutKeywordFrame RightMargin=""Whitespace"">procedure</LayoutKeywordFrame>
             <LayoutPlaceholderFrame PropertyName=""BaseType"" RightMargin=""Whitespace""/>
             <LayoutHorizontalBlockListFrame PropertyName=""OverloadBlocks""/>
@@ -2888,6 +3019,7 @@ namespace TestDebug
     </LayoutNodeTemplate>
     <LayoutNodeTemplate NodeType=""{xaml:Type easly:IPropertyType}"">
         <LayoutHorizontalPanelFrame>
+            <LayoutCommentFrame/>
             <LayoutPlaceholderFrame PropertyName=""BaseType"" />
             <LayoutSymbolFrame Symbol=""{x:Static const:Symbols.LeftBracket}"" LeftMargin=""Whitespace"" RightMargin=""ThinSpace""/>
             <LayoutVerticalPanelFrame>
@@ -2955,6 +3087,7 @@ namespace TestDebug
     </LayoutNodeTemplate>
     <LayoutNodeTemplate NodeType=""{xaml:Type easly:ISimpleType}"">
         <LayoutHorizontalPanelFrame>
+            <LayoutCommentFrame/>
             <LayoutPlaceholderFrame PropertyName=""ClassIdentifier"">
                 <LayoutPlaceholderFrame.Selectors>
                     <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Type""/>
@@ -2973,6 +3106,7 @@ namespace TestDebug
     </LayoutNodeTemplate>
     <LayoutNodeTemplate NodeType=""{xaml:Type easly:ITupleType}"">
         <LayoutHorizontalPanelFrame>
+            <LayoutCommentFrame/>
             <LayoutKeywordFrame>tuple</LayoutKeywordFrame>
             <LayoutSymbolFrame Symbol=""{x:Static const:Symbols.LeftBracket}"" LeftMargin=""ThinSpace"" RightMargin=""ThinSpace""/>
             <LayoutVerticalBlockListFrame PropertyName=""EntityDeclarationBlocks""/>
@@ -2990,6 +3124,7 @@ namespace TestDebug
     </LayoutNodeTemplate>
     <LayoutNodeTemplate NodeType=""{xaml:Type easly:IAssignmentTypeArgument}"">
         <LayoutHorizontalPanelFrame>
+            <LayoutCommentFrame/>
             <LayoutPlaceholderFrame PropertyName=""ParameterIdentifier"">
                 <LayoutPlaceholderFrame.Selectors>
                     <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Feature""/>
@@ -3001,6 +3136,7 @@ namespace TestDebug
     </LayoutNodeTemplate>
     <LayoutNodeTemplate NodeType=""{xaml:Type easly:IPositionalTypeArgument}"">
         <LayoutHorizontalPanelFrame>
+            <LayoutCommentFrame/>
             <LayoutPlaceholderFrame PropertyName=""Source""/>
         </LayoutHorizontalPanelFrame>
     </LayoutNodeTemplate>
@@ -3016,7 +3152,7 @@ namespace TestDebug
     xmlns:easly=""clr-namespace:BaseNode;assembly=Easly-Language""
     xmlns:const=""clr-namespace:EaslyController.Constants;assembly=Easly-Controller"">
     <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:IArgument,easly:Argument}"">
-        <LayoutHorizontalPanelFrame>
+        <LayoutHorizontalPanelFrame HasBlockGeometry=""True"">
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
@@ -3040,7 +3176,7 @@ namespace TestDebug
         </LayoutHorizontalPanelFrame>
     </LayoutBlockTemplate>
     <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:IAssertion,easly:Assertion}"">
-        <LayoutVerticalPanelFrame>
+        <LayoutVerticalPanelFrame HasBlockGeometry=""True"">
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
@@ -3064,7 +3200,7 @@ namespace TestDebug
         </LayoutVerticalPanelFrame>
     </LayoutBlockTemplate>
     <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:IAssignmentArgument,easly:AssignmentArgument}"">
-        <LayoutVerticalPanelFrame>
+        <LayoutVerticalPanelFrame HasBlockGeometry=""True"">
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
@@ -3088,7 +3224,7 @@ namespace TestDebug
         </LayoutVerticalPanelFrame>
     </LayoutBlockTemplate>
     <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:IAttachment,easly:Attachment}"">
-        <LayoutVerticalPanelFrame>
+        <LayoutVerticalPanelFrame HasBlockGeometry=""True"">
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
@@ -3112,7 +3248,7 @@ namespace TestDebug
         </LayoutVerticalPanelFrame>
     </LayoutBlockTemplate>
     <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:IClass,easly:Class}"">
-        <LayoutVerticalPanelFrame>
+        <LayoutVerticalPanelFrame HasBlockGeometry=""True"">
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
@@ -3136,7 +3272,7 @@ namespace TestDebug
         </LayoutVerticalPanelFrame>
     </LayoutBlockTemplate>
     <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:IClassReplicate,easly:ClassReplicate}"">
-        <LayoutHorizontalPanelFrame>
+        <LayoutHorizontalPanelFrame HasBlockGeometry=""True"">
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
@@ -3160,7 +3296,7 @@ namespace TestDebug
         </LayoutHorizontalPanelFrame>
     </LayoutBlockTemplate>
     <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:ICommandOverload,easly:CommandOverload}"">
-        <LayoutVerticalPanelFrame>
+        <LayoutVerticalPanelFrame HasBlockGeometry=""True"">
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
@@ -3184,7 +3320,7 @@ namespace TestDebug
         </LayoutVerticalPanelFrame>
     </LayoutBlockTemplate>
     <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:ICommandOverloadType,easly:CommandOverloadType}"">
-        <LayoutVerticalPanelFrame>
+        <LayoutVerticalPanelFrame HasBlockGeometry=""True"">
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
@@ -3208,7 +3344,7 @@ namespace TestDebug
         </LayoutVerticalPanelFrame>
     </LayoutBlockTemplate>
     <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:IConditional,easly:Conditional}"">
-        <LayoutVerticalPanelFrame>
+        <LayoutVerticalPanelFrame HasBlockGeometry=""True"">
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
@@ -3232,7 +3368,7 @@ namespace TestDebug
         </LayoutVerticalPanelFrame>
     </LayoutBlockTemplate>
     <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:IConstraint,easly:Constraint}"">
-        <LayoutHorizontalPanelFrame>
+        <LayoutHorizontalPanelFrame HasBlockGeometry=""True"">
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
@@ -3256,7 +3392,7 @@ namespace TestDebug
         </LayoutHorizontalPanelFrame>
     </LayoutBlockTemplate>
     <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:IContinuation,easly:Continuation}"">
-        <LayoutVerticalPanelFrame>
+        <LayoutVerticalPanelFrame HasBlockGeometry=""True"">
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
@@ -3280,7 +3416,7 @@ namespace TestDebug
         </LayoutVerticalPanelFrame>
     </LayoutBlockTemplate>
     <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:IDiscrete,easly:Discrete}"">
-        <LayoutVerticalPanelFrame>
+        <LayoutVerticalPanelFrame HasBlockGeometry=""True"">
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
@@ -3304,7 +3440,7 @@ namespace TestDebug
         </LayoutVerticalPanelFrame>
     </LayoutBlockTemplate>
     <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:IEntityDeclaration,easly:EntityDeclaration}"">
-        <LayoutVerticalPanelFrame>
+        <LayoutVerticalPanelFrame HasBlockGeometry=""True"">
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
@@ -3328,7 +3464,7 @@ namespace TestDebug
         </LayoutVerticalPanelFrame>
     </LayoutBlockTemplate>
     <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:IExceptionHandler,easly:ExceptionHandler}"">
-        <LayoutVerticalPanelFrame>
+        <LayoutVerticalPanelFrame HasBlockGeometry=""True"">
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
@@ -3352,7 +3488,7 @@ namespace TestDebug
         </LayoutVerticalPanelFrame>
     </LayoutBlockTemplate>
     <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:IExport,easly:Export}"">
-        <LayoutHorizontalPanelFrame>
+        <LayoutHorizontalPanelFrame HasBlockGeometry=""True"">
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
@@ -3376,7 +3512,7 @@ namespace TestDebug
         </LayoutHorizontalPanelFrame>
     </LayoutBlockTemplate>
     <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:IExportChange,easly:ExportChange}"">
-        <LayoutHorizontalPanelFrame>
+        <LayoutHorizontalPanelFrame HasBlockGeometry=""True"">
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
@@ -3400,7 +3536,7 @@ namespace TestDebug
         </LayoutHorizontalPanelFrame>
     </LayoutBlockTemplate>
     <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:IFeature,easly:Feature}"">
-        <LayoutVerticalPanelFrame>
+        <LayoutVerticalPanelFrame HasBlockGeometry=""True"">
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
@@ -3424,7 +3560,7 @@ namespace TestDebug
         </LayoutVerticalPanelFrame>
     </LayoutBlockTemplate>
     <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:IGeneric,easly:Generic}"">
-        <LayoutVerticalPanelFrame>
+        <LayoutVerticalPanelFrame HasBlockGeometry=""True"">
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
@@ -3448,7 +3584,7 @@ namespace TestDebug
         </LayoutVerticalPanelFrame>
     </LayoutBlockTemplate>
     <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:IIdentifier,easly:Identifier}"">
-        <LayoutHorizontalPanelFrame>
+        <LayoutHorizontalPanelFrame HasBlockGeometry=""True"">
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
@@ -3476,7 +3612,7 @@ namespace TestDebug
         </LayoutHorizontalPanelFrame>
     </LayoutBlockTemplate>
     <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:IImport,easly:Import}"">
-        <LayoutVerticalPanelFrame>
+        <LayoutVerticalPanelFrame HasBlockGeometry=""True"">
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
@@ -3500,7 +3636,7 @@ namespace TestDebug
         </LayoutVerticalPanelFrame>
     </LayoutBlockTemplate>
     <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:IInheritance,easly:Inheritance}"">
-        <LayoutVerticalPanelFrame>
+        <LayoutVerticalPanelFrame HasBlockGeometry=""True"">
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
@@ -3524,7 +3660,7 @@ namespace TestDebug
         </LayoutVerticalPanelFrame>
     </LayoutBlockTemplate>
     <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:IInstruction,easly:Instruction}"">
-        <LayoutVerticalPanelFrame>
+        <LayoutVerticalPanelFrame HasBlockGeometry=""True"">
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
@@ -3548,7 +3684,7 @@ namespace TestDebug
         </LayoutVerticalPanelFrame>
     </LayoutBlockTemplate>
     <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:ILibrary,easly:Library}"">
-        <LayoutVerticalPanelFrame>
+        <LayoutVerticalPanelFrame HasBlockGeometry=""True"">
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
@@ -3572,7 +3708,7 @@ namespace TestDebug
         </LayoutVerticalPanelFrame>
     </LayoutBlockTemplate>
     <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:IName,easly:Name}"">
-        <LayoutHorizontalPanelFrame>
+        <LayoutHorizontalPanelFrame HasBlockGeometry=""True"">
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
@@ -3596,7 +3732,7 @@ namespace TestDebug
         </LayoutHorizontalPanelFrame>
     </LayoutBlockTemplate>
     <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:IObjectType,easly:ObjectType}"">
-        <LayoutHorizontalPanelFrame>
+        <LayoutHorizontalPanelFrame HasBlockGeometry=""True"">
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
@@ -3620,7 +3756,7 @@ namespace TestDebug
         </LayoutHorizontalPanelFrame>
     </LayoutBlockTemplate>
     <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:IPattern,easly:Pattern}"">
-        <LayoutHorizontalPanelFrame>
+        <LayoutHorizontalPanelFrame HasBlockGeometry=""True"">
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
@@ -3644,7 +3780,7 @@ namespace TestDebug
         </LayoutHorizontalPanelFrame>
     </LayoutBlockTemplate>
     <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:IQualifiedName,easly:QualifiedName}"">
-        <LayoutHorizontalPanelFrame>
+        <LayoutHorizontalPanelFrame HasBlockGeometry=""True"">
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
@@ -3668,7 +3804,7 @@ namespace TestDebug
         </LayoutHorizontalPanelFrame>
     </LayoutBlockTemplate>
     <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:IQueryOverload,easly:QueryOverload}"">
-        <LayoutVerticalPanelFrame>
+        <LayoutVerticalPanelFrame HasBlockGeometry=""True"">
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
@@ -3692,7 +3828,7 @@ namespace TestDebug
         </LayoutVerticalPanelFrame>
     </LayoutBlockTemplate>
     <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:IQueryOverloadType,easly:QueryOverloadType}"">
-        <LayoutVerticalPanelFrame>
+        <LayoutVerticalPanelFrame HasBlockGeometry=""True"">
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
@@ -3716,7 +3852,7 @@ namespace TestDebug
         </LayoutVerticalPanelFrame>
     </LayoutBlockTemplate>
     <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:IRange,easly:Range}"">
-        <LayoutHorizontalPanelFrame>
+        <LayoutHorizontalPanelFrame HasBlockGeometry=""True"">
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
@@ -3740,7 +3876,7 @@ namespace TestDebug
         </LayoutHorizontalPanelFrame>
     </LayoutBlockTemplate>
     <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:IRename,easly:Rename}"">
-        <LayoutVerticalPanelFrame>
+        <LayoutVerticalPanelFrame HasBlockGeometry=""True"">
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
@@ -3764,7 +3900,7 @@ namespace TestDebug
         </LayoutVerticalPanelFrame>
     </LayoutBlockTemplate>
     <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:ITypeArgument,easly:TypeArgument}"">
-        <LayoutHorizontalPanelFrame>
+        <LayoutHorizontalPanelFrame HasBlockGeometry=""True"">
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
@@ -3788,7 +3924,7 @@ namespace TestDebug
         </LayoutHorizontalPanelFrame>
     </LayoutBlockTemplate>
     <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:ITypedef,easly:Typedef}"">
-        <LayoutVerticalPanelFrame>
+        <LayoutVerticalPanelFrame HasBlockGeometry=""True"">
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
@@ -3812,7 +3948,7 @@ namespace TestDebug
         </LayoutVerticalPanelFrame>
     </LayoutBlockTemplate>
     <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:IWith,easly:With}"">
-        <LayoutVerticalPanelFrame>
+        <LayoutVerticalPanelFrame HasBlockGeometry=""True"">
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>

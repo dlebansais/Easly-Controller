@@ -108,6 +108,11 @@
         bool IsSelectionEmpty { get; }
 
         /// <summary>
+        /// Current auto formatting mode.
+        /// </summary>
+        AutoFormatModes AutoFormatMode { get; }
+
+        /// <summary>
         /// Moves the current focus in the focus chain.
         /// </summary>
         /// <param name="direction">The change in position, relative to the current position.</param>
@@ -240,7 +245,7 @@
         /// <param name="newText">The new text.</param>
         /// <param name="newCaretPosition">The new caret position.</param>
         /// <param name="changeCaretBeforeText">True if the caret should be changed before the text, to preserve the caret invariant.</param>
-        void ChangedFocusedText(string newText, int newCaretPosition, bool changeCaretBeforeText);
+        void ChangeFocusedText(string newText, int newCaretPosition, bool changeCaretBeforeText);
 
         /// <summary>
         /// Extends the selection by one step, starting from the focus.
@@ -337,6 +342,11 @@
         /// <param name="isChanged">True if something was replaced or added.</param>
         void PasteSelection(out bool isChanged);
 #endif
+
+        /// <summary>
+        /// Change auto formatting mode.
+        /// </summary>
+        void SetAutoFormatMode(AutoFormatModes mode);
     }
 
     /// <summary>
@@ -512,6 +522,11 @@
         /// True if the selection is empty.
         /// </summary>
         public bool IsSelectionEmpty { get { return Selection == EmptySelection; } }
+
+        /// <summary>
+        /// Current auto formatting mode.
+        /// </summary>
+        public AutoFormatModes AutoFormatMode { get; private set; }
         #endregion
 
         #region Client Interface
@@ -1465,18 +1480,47 @@
         /// <param name="newText">The new text.</param>
         /// <param name="newCaretPosition">The new caret position.</param>
         /// <param name="changeCaretBeforeText">True if the caret should be changed before the text, to preserve the caret invariant.</param>
-        public virtual void ChangedFocusedText(string newText, int newCaretPosition, bool changeCaretBeforeText)
+        public virtual void ChangeFocusedText(string newText, int newCaretPosition, bool changeCaretBeforeText)
         {
             Debug.Assert(Focus is IFocusTextFocus);
 
             bool IsHandled = false;
-            IFocusIndex ParentIndex = Focus.CellView.StateView.State.ParentIndex;
+            IFocusNodeState State = Focus.CellView.StateView.State;
+            IFocusIndex ParentIndex = State.ParentIndex;
             int OldCaretPosition = CaretPosition;
 
             if (Focus is IFocusStringContentFocus AsStringContentFocus)
             {
+                IFocusStringContentFocusableCellView CellView = AsStringContentFocus.CellView;
+                IFocusTextValueFrame Frame = CellView.Frame as IFocusTextValueFrame;
+                Debug.Assert(Frame != null);
+
+                if (Frame.AutoFormat)
+                    switch (AutoFormatMode)
+                    {
+                        case AutoFormatModes.None:
+                            IsHandled = true;
+                            break;
+
+                        case AutoFormatModes.FirstOnly:
+                            newText = StringHelper.FirstOnlyFormattedText(newText);
+                            IsHandled = true;
+                            break;
+
+                        case AutoFormatModes.FirstOrAll:
+                            newText = StringHelper.FirstOrAllFormattedText(newText);
+                            IsHandled = true;
+                            break;
+
+                        case AutoFormatModes.AllLowercase:
+                            newText = StringHelper.AllLowercaseFormattedText(newText);
+                            IsHandled = true;
+                            break;
+                    }
+                else
+                    IsHandled = true;
+
                 Controller.ChangeTextAndCaretPosition(ParentIndex, AsStringContentFocus.CellView.PropertyName, newText, OldCaretPosition, newCaretPosition, changeCaretBeforeText);
-                IsHandled = true;
             }
 
             else if (Focus is IFocusCommentFocus AsCommentFocus)
@@ -1854,6 +1898,15 @@
             Selection.Paste(out isChanged);
         }
 #endif
+
+        /// <summary>
+        /// Change auto formatting mode.
+        /// </summary>
+        public virtual void SetAutoFormatMode(AutoFormatModes mode)
+        {
+            if (AutoFormatMode != mode)
+                AutoFormatMode = mode;
+        }
         #endregion
 
         #region Implementation

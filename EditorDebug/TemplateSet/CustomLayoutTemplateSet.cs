@@ -724,7 +724,7 @@ namespace TestDebug
     <LayoutNodeTemplate NodeType=""{xaml:Type easly:IName}"" IsSimple=""True"">
         <LayoutVerticalPanelFrame>
             <LayoutCommentFrame/>
-            <LayoutTextValueFrame PropertyName=""Text""/>
+            <LayoutTextValueFrame PropertyName=""Text"" AutoFormat=""True""/>
         </LayoutVerticalPanelFrame>
     </LayoutNodeTemplate>
     <LayoutNodeTemplate NodeType=""{xaml:Type easly:IPattern}"" IsSimple=""True"">
@@ -2396,55 +2396,55 @@ namespace TestDebug
             <LayoutSelectableFrame Name=""Identifier"">
                 <LayoutVerticalPanelFrame>
                     <LayoutCommentFrame/>
-                    <LayoutTextValueFrame PropertyName=""Text"" TextStyle=""Default""/>
+                    <LayoutTextValueFrame PropertyName=""Text"" TextStyle=""Default"" AutoFormat=""True""/>
                 </LayoutVerticalPanelFrame>
             </LayoutSelectableFrame>
             <LayoutSelectableFrame Name=""Feature"">
                 <LayoutVerticalPanelFrame>
                     <LayoutCommentFrame/>
-                    <LayoutTextValueFrame PropertyName=""Text"" TextStyle=""Default""/>
+                    <LayoutTextValueFrame PropertyName=""Text"" TextStyle=""Default"" AutoFormat=""True""/>
                 </LayoutVerticalPanelFrame>
             </LayoutSelectableFrame>
             <LayoutSelectableFrame Name=""Class"">
                 <LayoutVerticalPanelFrame>
                     <LayoutCommentFrame/>
-                    <LayoutTextValueFrame PropertyName=""Text"" TextStyle=""Default""/>
+                    <LayoutTextValueFrame PropertyName=""Text"" TextStyle=""Default"" AutoFormat=""True""/>
                 </LayoutVerticalPanelFrame>
             </LayoutSelectableFrame>
             <LayoutSelectableFrame Name=""ClassOrExport"">
                 <LayoutVerticalPanelFrame>
                     <LayoutCommentFrame/>
-                    <LayoutTextValueFrame PropertyName=""Text"" TextStyle=""Default""/>
+                    <LayoutTextValueFrame PropertyName=""Text"" TextStyle=""Default"" AutoFormat=""True""/>
                 </LayoutVerticalPanelFrame>
             </LayoutSelectableFrame>
             <LayoutSelectableFrame Name=""Export"">
                 <LayoutVerticalPanelFrame>
                     <LayoutCommentFrame/>
-                    <LayoutTextValueFrame PropertyName=""Text"" TextStyle=""Default""/>
+                    <LayoutTextValueFrame PropertyName=""Text"" TextStyle=""Default"" AutoFormat=""True""/>
                 </LayoutVerticalPanelFrame>
             </LayoutSelectableFrame>
             <LayoutSelectableFrame Name=""Library"">
                 <LayoutVerticalPanelFrame>
                     <LayoutCommentFrame/>
-                    <LayoutTextValueFrame PropertyName=""Text"" TextStyle=""Default""/>
+                    <LayoutTextValueFrame PropertyName=""Text"" TextStyle=""Default"" AutoFormat=""True""/>
                 </LayoutVerticalPanelFrame>
             </LayoutSelectableFrame>
             <LayoutSelectableFrame Name=""Source"">
                 <LayoutVerticalPanelFrame>
                     <LayoutCommentFrame/>
-                    <LayoutTextValueFrame PropertyName=""Text"" TextStyle=""Default""/>
+                    <LayoutTextValueFrame PropertyName=""Text"" TextStyle=""Default"" AutoFormat=""True""/>
                 </LayoutVerticalPanelFrame>
             </LayoutSelectableFrame>
             <LayoutSelectableFrame Name=""Type"">
                 <LayoutVerticalPanelFrame>
                     <LayoutCommentFrame/>
-                    <LayoutTextValueFrame PropertyName=""Text"" TextStyle=""Type""/>
+                    <LayoutTextValueFrame PropertyName=""Text"" TextStyle=""Type"" AutoFormat=""True""/>
                 </LayoutVerticalPanelFrame>
             </LayoutSelectableFrame>
             <LayoutSelectableFrame Name=""Pattern"">
                 <LayoutVerticalPanelFrame>
                     <LayoutCommentFrame/>
-                    <LayoutTextValueFrame PropertyName=""Text"" TextStyle=""Default""/>
+                    <LayoutTextValueFrame PropertyName=""Text"" TextStyle=""Default"" AutoFormat=""True""/>
                 </LayoutVerticalPanelFrame>
             </LayoutSelectableFrame>
         </LayoutSelectionFrame>

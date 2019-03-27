@@ -724,7 +724,7 @@ namespace TestDebug
     <FocusNodeTemplate NodeType=""{xaml:Type easly:IName}"" IsSimple=""True"">
         <FocusVerticalPanelFrame>
             <FocusCommentFrame/>
-            <FocusTextValueFrame PropertyName=""Text""/>
+            <FocusTextValueFrame PropertyName=""Text"" AutoFormat=""True""//>
         </FocusVerticalPanelFrame>
     </FocusNodeTemplate>
     <FocusNodeTemplate NodeType=""{xaml:Type easly:IPattern}"" IsSimple=""True"">
@@ -2385,55 +2385,55 @@ namespace TestDebug
             <FocusSelectableFrame Name=""Identifier"">
                 <FocusVerticalPanelFrame>
                     <FocusCommentFrame/>
-                    <FocusTextValueFrame PropertyName=""Text""/>
+                    <FocusTextValueFrame PropertyName=""Text"" AutoFormat=""True""/>
                 </FocusVerticalPanelFrame>
             </FocusSelectableFrame>
             <FocusSelectableFrame Name=""Feature"">
                 <FocusVerticalPanelFrame>
                     <FocusCommentFrame/>
-                    <FocusTextValueFrame PropertyName=""Text""/>
+                    <FocusTextValueFrame PropertyName=""Text"" AutoFormat=""True""/>
                 </FocusVerticalPanelFrame>
             </FocusSelectableFrame>
             <FocusSelectableFrame Name=""Class"">
                 <FocusVerticalPanelFrame>
                     <FocusCommentFrame/>
-                    <FocusTextValueFrame PropertyName=""Text""/>
+                    <FocusTextValueFrame PropertyName=""Text"" AutoFormat=""True""/>
                 </FocusVerticalPanelFrame>
             </FocusSelectableFrame>
             <FocusSelectableFrame Name=""ClassOrExport"">
                 <FocusVerticalPanelFrame>
                     <FocusCommentFrame/>
-                    <FocusTextValueFrame PropertyName=""Text""/>
+                    <FocusTextValueFrame PropertyName=""Text"" AutoFormat=""True""/>
                 </FocusVerticalPanelFrame>
             </FocusSelectableFrame>
             <FocusSelectableFrame Name=""Export"">
                 <FocusVerticalPanelFrame>
                     <FocusCommentFrame/>
-                    <FocusTextValueFrame PropertyName=""Text""/>
+                    <FocusTextValueFrame PropertyName=""Text"" AutoFormat=""True""/>
                 </FocusVerticalPanelFrame>
             </FocusSelectableFrame>
             <FocusSelectableFrame Name=""Library"">
                 <FocusVerticalPanelFrame>
                     <FocusCommentFrame/>
-                    <FocusTextValueFrame PropertyName=""Text""/>
+                    <FocusTextValueFrame PropertyName=""Text"" AutoFormat=""True""/>
                 </FocusVerticalPanelFrame>
             </FocusSelectableFrame>
             <FocusSelectableFrame Name=""Source"">
                 <FocusVerticalPanelFrame>
                     <FocusCommentFrame/>
-                    <FocusTextValueFrame PropertyName=""Text""/>
+                    <FocusTextValueFrame PropertyName=""Text"" AutoFormat=""True""/>
                 </FocusVerticalPanelFrame>
             </FocusSelectableFrame>
             <FocusSelectableFrame Name=""Type"">
                 <FocusVerticalPanelFrame>
                     <FocusCommentFrame/>
-                    <FocusTextValueFrame PropertyName=""Text""/>
+                    <FocusTextValueFrame PropertyName=""Text"" AutoFormat=""True""/>
                 </FocusVerticalPanelFrame>
             </FocusSelectableFrame>
             <FocusSelectableFrame Name=""Pattern"">
                 <FocusVerticalPanelFrame>
                     <FocusCommentFrame/>
-                    <FocusTextValueFrame PropertyName=""Text""/>
+                    <FocusTextValueFrame PropertyName=""Text"" AutoFormat=""True""/>
                 </FocusVerticalPanelFrame>
             </FocusSelectableFrame>
         </FocusSelectionFrame>

@@ -58,6 +58,28 @@
             }
         }
         #endregion
+        #region AutoFormatMode
+        public static readonly DependencyProperty AutoFormatModeProperty = DependencyProperty.Register("AutoFormatMode", typeof(AutoFormatModes), typeof(EaslyEditControl), new PropertyMetadata(AutoFormatModes.None, AutoFormatModePropertyChangedCallback));
+
+        public AutoFormatModes AutoFormatMode
+        {
+            get { return (AutoFormatModes)GetValue(AutoFormatModeProperty); }
+            set { SetValue(AutoFormatModeProperty, value); }
+        }
+
+        protected static void AutoFormatModePropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            EaslyEditControl ctrl = (EaslyEditControl)d;
+            if (ctrl.AutoFormatMode != (AutoFormatModes)e.OldValue)
+                ctrl.OnAutoFormatModePropertyChanged(e);
+        }
+
+        protected virtual void OnAutoFormatModePropertyChanged(DependencyPropertyChangedEventArgs e)
+        {
+            if (ControllerView != null)
+                ControllerView.SetAutoFormatMode(AutoFormatMode);
+        }
+        #endregion
         #endregion
 
         protected override void Initialize()
@@ -130,7 +152,7 @@
             else
                 StringHelper.ReplaceCharacter(code, ref FocusedText, ref CaretPosition);
 
-            ControllerView.ChangedFocusedText(FocusedText, CaretPosition, ChangeCaretBeforeText);
+            ControllerView.ChangeFocusedText(FocusedText, CaretPosition, ChangeCaretBeforeText);
 
             InvalidateVisual();
             UpdateTextReplacement();
@@ -497,7 +519,7 @@
 
                 if (StringHelper.DeleteCharacter(backward, ref FocusedText, ref CaretPosition))
                 {
-                    ControllerView.ChangedFocusedText(FocusedText, CaretPosition, changeCaretBeforeText: true);
+                    ControllerView.ChangeFocusedText(FocusedText, CaretPosition, changeCaretBeforeText: true);
 
                     InvalidateVisual();
                     UpdateTextReplacement();

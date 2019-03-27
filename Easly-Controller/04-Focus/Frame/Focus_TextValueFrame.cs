@@ -9,6 +9,11 @@
     /// </summary>
     public interface IFocusTextValueFrame : IFrameTextValueFrame, IFocusValueFrame
     {
+        /// <summary>
+        /// If true, automatically format text.
+        /// (Set in Xaml)
+        /// </summary>
+        bool AutoFormat { get; }
     }
 
     /// <summary>
@@ -38,6 +43,12 @@
         /// (Set in Xaml)
         /// </summary>
         public bool IsPreferred { get; set; }
+
+        /// <summary>
+        /// If true, automatically format text.
+        /// (Set in Xaml)
+        /// </summary>
+        public bool AutoFormat { get; set; }
         #endregion
 
         #region Client Interface

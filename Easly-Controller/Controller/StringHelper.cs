@@ -3,6 +3,7 @@
     using System;
     using System.Diagnostics;
     using System.Text;
+    using EaslyController.Constants;
 
     /// <summary>
     /// Provides methods to handle strings modified by keyboard events.
@@ -183,6 +184,90 @@
             }
 
             return false;
+        }
+
+        /// <summary>
+        /// Returns the text modified with <see cref="AutoFormatModes.FirstOnly"/>.
+        /// </summary>
+        /// <param name="text">The text.</param>
+        public static string FirstOnlyFormattedText(string text)
+        {
+            string Result = string.Empty;
+
+            bool SetToUpper = true;
+            foreach (char c in text)
+            {
+                if (c == ' ')
+                {
+                    SetToUpper = true;
+                    Result += c;
+                }
+
+                else
+                {
+                    string Letter = c.ToString();
+
+                    if (SetToUpper)
+                    {
+                        SetToUpper = false;
+                        Result += Letter.ToUpper();
+                    }
+
+                    else
+                        Result += Letter.ToLower();
+                }
+            }
+
+            return Result;
+        }
+
+        /// <summary>
+        /// Returns the text modified with <see cref="AutoFormatModes.FirstOrAll"/>.
+        /// </summary>
+        /// <param name="text">The text.</param>
+        public static string FirstOrAllFormattedText(string text)
+        {
+            string Result = string.Empty;
+
+            bool SetToUpper = true;
+            foreach (char c in text)
+            {
+                if (c == ' ')
+                {
+                    SetToUpper = true;
+                    Result += c;
+                }
+
+                else
+                {
+                    string Letter = c.ToString();
+
+                    if (SetToUpper)
+                    {
+                        if (Letter == Letter.ToUpper())
+                            Result += Letter;
+                        else
+                        {
+                            Result += Letter.ToLower();
+                            SetToUpper = false;
+                        }
+                    }
+
+                    else
+                        Result += c.ToString().ToLower();
+                }
+            }
+
+            return Result;
+        }
+
+        /// <summary>
+        /// Returns the text modified with <see cref="AutoFormatModes.AllLowercase"/>.
+        /// </summary>
+        /// <param name="text">The text.</param>
+        public static string AllLowercaseFormattedText(string text)
+        {
+            return text.ToLower();
         }
     }
 }
