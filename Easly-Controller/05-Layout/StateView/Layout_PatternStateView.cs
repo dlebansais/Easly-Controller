@@ -200,15 +200,6 @@
             ControllerTools.AssertNoOverride(this, typeof(LayoutPatternStateView));
             return new LayoutAssignableCellViewDictionary<string>();
         }
-
-        /// <summary>
-        /// Creates a IxxxEmptyCellView object.
-        /// </summary>
-        private protected override IFocusEmptyCellView CreateEmptyCellView(IFocusNodeStateView stateView, IFocusCellViewCollection parentCellView)
-        {
-            ControllerTools.AssertNoOverride(this, typeof(LayoutPatternStateView));
-            return new LayoutEmptyCellView((ILayoutNodeStateView)stateView, (ILayoutCellViewCollection)parentCellView);
-        }
         #endregion
     }
 }

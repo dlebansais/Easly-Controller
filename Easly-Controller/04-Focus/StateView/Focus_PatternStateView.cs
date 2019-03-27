@@ -78,14 +78,8 @@
         /// <param name="context">Context used to build the cell view tree.</param>
         public override void BuildRootCellView(IFrameCellViewTreeContext context)
         {
-            if (((IFocusCellViewTreeContext)context).IsVisible)
-                base.BuildRootCellView(context);
-            else
-            {
-                InitCellViewTable();
-                SetRootCellView(CreateEmptyCellView(((IFocusCellViewTreeContext)context).StateView, null));
-                SealCellViewTable();
-            }
+            Debug.Assert(((IFocusCellViewTreeContext)context).IsVisible);
+            base.BuildRootCellView(context);
         }
 
         /// <summary>
@@ -134,11 +128,6 @@
 
                     case IFocusPatternState AsPatternState:
                         Continue = UpdateSelectorStackBlockState(SelectorStack, AsPatternState.ParentBlockState, AsPatternState.ParentInner, ref CurrentStateView);
-                        IsHandled = true;
-                        break;
-
-                    case IFocusSourceState AsSourceState:
-                        Continue = UpdateSelectorStackBlockState(SelectorStack, AsSourceState.ParentBlockState, AsSourceState.ParentInner, ref CurrentStateView);
                         IsHandled = true;
                         break;
                 }
@@ -223,15 +212,6 @@
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusPatternStateView));
             return new FocusAssignableCellViewDictionary<string>();
-        }
-
-        /// <summary>
-        /// Creates a IxxxEmptyCellView object.
-        /// </summary>
-        private protected virtual IFocusEmptyCellView CreateEmptyCellView(IFocusNodeStateView stateView, IFocusCellViewCollection parentCellView)
-        {
-            ControllerTools.AssertNoOverride(this, typeof(FocusPatternStateView));
-            return new FocusEmptyCellView(stateView, parentCellView);
         }
         #endregion
     }
