@@ -109,13 +109,10 @@
 
                 while (State != null)
                 {
-                    if (State.ParentInner is IFocusCollectionInner AsCollectionInner)
+                    if (State.ParentInner is IFocusCollectionInner AsCollectionInner && (nodeList.Count == 0 || AsCollectionInner.InterfaceType.IsAssignableFrom(nodeList[0].GetType())))
                     {
-                        if (nodeList.Count == 0 || AsCollectionInner.InterfaceType.IsAssignableFrom(nodeList[0].GetType()))
-                        {
-                            IsAssignable = true;
-                            break;
-                        }
+                        IsAssignable = true;
+                        break;
                     }
 
                     State = State.ParentState;
@@ -188,13 +185,10 @@
 
                 while (State != null)
                 {
-                    if (State.ParentInner is IFocusBlockListInner AsCollectionInner)
+                    if (State.ParentInner is IFocusBlockListInner AsCollectionInner && (blockList.Count == 0 || AsCollectionInner.InterfaceType.IsAssignableFrom(blockList[0].NodeList[0].GetType())))
                     {
-                        if (blockList.Count == 0 || AsCollectionInner.InterfaceType.IsAssignableFrom(blockList[0].NodeList[0].GetType()))
-                        {
-                            IsAssignable = true;
-                            break;
-                        }
+                        IsAssignable = true;
+                        break;
                     }
 
                     State = State.ParentState;

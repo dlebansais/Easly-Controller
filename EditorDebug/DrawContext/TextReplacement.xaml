@@ -4,7 +4,7 @@
              xmlns:local="clr-namespace:EditorDebug">
     <Popup.Resources>
         <DataTemplate x:Key="NodeTemplate">
-            <local:DisplayControl Node="{Binding Node}"/>
+            <local:DisplayControl Content="{Binding Node}"/>
         </DataTemplate>
     </Popup.Resources>
     <ListBox x:Name="listOptions" ItemsSource="{Binding IndexList}" ItemTemplate="{StaticResource NodeTemplate}"/>

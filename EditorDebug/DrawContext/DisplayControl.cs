@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media;
 using BaseNode;
 using EaslyController.Layout;
@@ -7,26 +8,40 @@ using TestDebug;
 
 namespace EditorDebug
 {
-    public class DisplayControl : FrameworkElement
+    public class DisplayControl : Control
     {
-        public static readonly DependencyProperty NodeProperty = DependencyProperty.Register("Node", typeof(INode), typeof(DisplayControl), new PropertyMetadata(null));
+        public static readonly DependencyProperty ContentProperty = DependencyProperty.Register("Content", typeof(INode), typeof(DisplayControl), new PropertyMetadata(ContentPropertyChangedCallback));
 
-        public INode Node
+        public INode Content
         {
-            get { return (INode)GetValue(NodeProperty); }
-            set { SetValue(NodeProperty, value); }
+            get { return (INode)GetValue(ContentProperty); }
+            set { SetValue(ContentProperty, value); }
         }
 
-        protected override Size MeasureOverride(Size availableSize)
+        private static void ContentPropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (Controller == null)
+            ((DisplayControl)d).OnContentPropertyChanged(e);
+        }
+
+        private void OnContentPropertyChanged(DependencyPropertyChangedEventArgs e)
+        {
+            if (Content != null)
             {
-                LayoutRootNodeIndex RootIndex = new LayoutRootNodeIndex(Node);
+                LayoutRootNodeIndex RootIndex = new LayoutRootNodeIndex(Content);
                 Controller = LayoutController.Create(RootIndex);
                 DrawContext = DrawContext.CreateDrawContext(hasCommentIcon: false, displayFocus: false);
                 ControllerView = LayoutControllerView.Create(Controller, CustomLayoutTemplateSet.LayoutTemplateSet, DrawContext);
             }
+            else
+            {
+                Controller = null;
+                DrawContext = null;
+                ControllerView = null;
+            }
+        }
 
+        protected override Size MeasureOverride(Size availableSize)
+        {
             if (ControllerView != null)
             {
                 EaslyController.Controller.Padding PagePadding = ControllerView.DrawContext.PagePadding;
