@@ -1,12 +1,13 @@
-﻿using System.Reflection;
-using System.Resources;
+﻿using System.Resources;
+using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Easly-Draw")]
-[assembly: AssemblyDescription("An implementation of IxxxDrawContext")]
+[assembly: AssemblyTitle("Easly-Edit")]
+[assembly: AssemblyDescription("Controls to display and edit Easly code.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("Easly")]
@@ -20,7 +21,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("182a2175-4c93-434a-a027-e101fbd55f48")]
+[assembly: Guid("ed89ef7c-7f5e-49ce-935f-1de9715e79bb")]
 
 // Version information for an assembly consists of the following four values:
 //
@@ -33,5 +34,6 @@ using System.Runtime.InteropServices;
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("1.0.0.4417")]
-[assembly: AssemblyFileVersion("1.0.0.214")]
+[assembly: AssemblyFileVersion("1.0.0.9")]
 [assembly: NeutralResourcesLanguage("en-US")]
+

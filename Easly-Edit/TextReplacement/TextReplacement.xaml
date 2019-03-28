@@ -1,0 +1,11 @@
+﻿<Popup x:ClassModifier="internal" x:Class="EaslyEdit.TextReplacement"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:EaslyEdit">
+    <Popup.Resources>
+        <DataTemplate x:Key="NodeTemplate">
+            <local:EaslyDisplayControl Controller="{Binding Controller}" CommentDisplayMode="PermanentTooltip"/>
+        </DataTemplate>
+    </Popup.Resources>
+    <ListBox x:Name="listOptions" ItemsSource="{Binding EntryList}" ItemTemplate="{StaticResource NodeTemplate}"/>
+</Popup>

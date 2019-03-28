@@ -1,4 +1,4 @@
-﻿namespace EditorDebug
+﻿namespace EaslyEdit
 {
     using System;
     using System.Collections.Generic;
@@ -16,16 +16,86 @@
     using EaslyController.Writeable;
     using EaslyDraw;
     using KeyboardHelper;
-    using TestDebug;
 
+    /// <summary>
+    /// A control to edit Easly source code.
+    /// </summary>
     public class EaslyEditControl : EaslyDisplayControl
     {
-        public static readonly string NodeClipboardFormat = "185F4C03-D513-4F86-ADDB-C13C87417E81";
+        #region Constants
+        /// <summary>
+        /// Represents the <see cref="ToggleUserVisibleCommand"/> command, which requests that unassigned optional nodes be displayed.
+        /// </summary>
+        public static readonly RoutedCommand ToggleUserVisibleCommand;
+
+        /// <summary>
+        /// Represents the <see cref="RemoveExistingItemCommand"/> command, which requests that a node in a list be removed.
+        /// </summary>
+        public static readonly RoutedCommand RemoveExistingItemCommand;
+
+        /// <summary>
+        /// Represents the <see cref="SplitExistingItemCommand"/> command, which requests that a block be split in two.
+        /// </summary>
+        public static readonly RoutedCommand SplitExistingItemCommand;
+
+        /// <summary>
+        /// Represents the <see cref="MergeExistingItemCommand"/> command, which requests that two blocks be merged.
+        /// </summary>
+        public static readonly RoutedCommand MergeExistingItemCommand;
+
+        /// <summary>
+        /// Represents the <see cref="CycleThroughExistingItemCommand"/> command, which requests that a node be replaced by another in a cycle.
+        /// </summary>
+        public static readonly RoutedCommand CycleThroughExistingItemCommand;
+
+        /// <summary>
+        /// Represents the <see cref="SimplifyExistingItemCommand"/> command, which requests that a node be replaced by a simpler node.
+        /// </summary>
+        public static readonly RoutedCommand SimplifyExistingItemCommand;
+
+        /// <summary>
+        /// Represents the <see cref="ToggleReplicateCommand"/> command, which requests that the block replication mode be toggled.
+        /// </summary>
+        public static readonly RoutedCommand ToggleReplicateCommand;
+
+        /// <summary>
+        /// Represents the <see cref="ExpandCommand"/> command, which requests that a node be expanded.
+        /// </summary>
+        public static readonly RoutedCommand ExpandCommand;
+
+        /// <summary>
+        /// Represents the <see cref="ReduceCommand"/> command, which requests that a node be reduced.
+        /// </summary>
+        public static readonly RoutedCommand ReduceCommand;
+
+        /// <summary>
+        /// Represents the <see cref="ExtendSelectionCommand"/> command, which requests that the selection be extended.
+        /// </summary>
+        public static readonly RoutedCommand ExtendSelectionCommand;
+
+        /// <summary>
+        /// Represents the <see cref="ReduceSelectionCommand"/> command, which requests that the selection be reduced.
+        /// </summary>
+        public static readonly RoutedCommand ReduceSelectionCommand;
+
+        /// <summary>
+        /// Represents the <see cref="ShowBlockGeometryCommand"/> command, which requests that a geometry be shown around blocks.
+        /// </summary>
+        public static readonly RoutedCommand ShowBlockGeometryCommand;
+        #endregion
 
         #region Custom properties and events
         #region CommentDisplayMode
+        /// <summary>
+        /// Identifies the <see cref="CommentDisplayMode"/> dependency property.
+        /// This property is reimplemented.
+        /// </summary>
         public static new readonly DependencyProperty CommentDisplayModeProperty = DependencyProperty.Register("CommentDisplayMode", typeof(CommentDisplayModes), typeof(EaslyEditControl), new PropertyMetadata(CommentDisplayModes.OnFocus, CommentDisplayModePropertyChangedCallback));
 
+        /// <summary>
+        /// Gets or sets the comment display mode.
+        /// This property is reimplemented.
+        /// </summary>
         public new CommentDisplayModes CommentDisplayMode
         {
             get { return (CommentDisplayModes)GetValue(CommentDisplayModeProperty); }
@@ -33,22 +103,28 @@
         }
         #endregion
         #region CaretMode
+        /// <summary>
+        /// Identifies the <see cref="CaretMode"/> dependency property.
+        /// </summary>
         public static readonly DependencyProperty CaretModeProperty = DependencyProperty.Register("CaretMode", typeof(CaretModes), typeof(EaslyEditControl), new PropertyMetadata(CaretModes.Insertion, CaretModePropertyChangedCallback));
 
+        /// <summary>
+        /// Gets or sets the caret mode.
+        /// </summary>
         public CaretModes CaretMode
         {
             get { return (CaretModes)GetValue(CaretModeProperty); }
             set { SetValue(CaretModeProperty, value); }
         }
 
-        protected static void CaretModePropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        protected private static void CaretModePropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             EaslyEditControl ctrl = (EaslyEditControl)d;
             if (ctrl.CaretMode != (CaretModes)e.OldValue)
                 ctrl.OnCaretModePropertyChanged(e);
         }
 
-        protected virtual void OnCaretModePropertyChanged(DependencyPropertyChangedEventArgs e)
+        protected private virtual void OnCaretModePropertyChanged(DependencyPropertyChangedEventArgs e)
         {
             if (ControllerView != null)
             {
@@ -60,22 +136,28 @@
         }
         #endregion
         #region AutoFormatMode
+        /// <summary>
+        /// Identifies the <see cref="AutoFormatMode"/> dependency property.
+        /// </summary>
         public static readonly DependencyProperty AutoFormatModeProperty = DependencyProperty.Register("AutoFormatMode", typeof(AutoFormatModes), typeof(EaslyEditControl), new PropertyMetadata(AutoFormatModes.None, AutoFormatModePropertyChangedCallback));
 
+        /// <summary>
+        /// Gets or sets the automatic formatting mode.
+        /// </summary>
         public AutoFormatModes AutoFormatMode
         {
             get { return (AutoFormatModes)GetValue(AutoFormatModeProperty); }
             set { SetValue(AutoFormatModeProperty, value); }
         }
 
-        protected static void AutoFormatModePropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        protected private static void AutoFormatModePropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             EaslyEditControl ctrl = (EaslyEditControl)d;
             if (ctrl.AutoFormatMode != (AutoFormatModes)e.OldValue)
                 ctrl.OnAutoFormatModePropertyChanged(e);
         }
 
-        protected virtual void OnAutoFormatModePropertyChanged(DependencyPropertyChangedEventArgs e)
+        protected private virtual void OnAutoFormatModePropertyChanged(DependencyPropertyChangedEventArgs e)
         {
             if (ControllerView != null)
                 ControllerView.SetAutoFormatMode(AutoFormatMode);
@@ -83,7 +165,8 @@
         #endregion
         #endregion
 
-        protected override void Initialize()
+        #region Implementation
+        protected private override void Initialize()
         {
             if (IsReady)
             {
@@ -106,7 +189,7 @@
             }
         }
 
-        protected override void InitializeProperties()
+        protected private override void InitializeProperties()
         {
             base.InitializeProperties();
 
@@ -115,7 +198,7 @@
             ControllerView.SetAutoFormatMode(AutoFormatMode);
         }
 
-        protected override void Cleanup()
+        protected private override void Cleanup()
         {
             DrawContext = null;
             ControllerView = null;
@@ -129,31 +212,13 @@
             }
         }
 
-        protected override void OnInitialized(EventArgs e)
-        {
-            List<KeyBinding> DefaultBinding = new List<KeyBinding>()
-            {
-                new KeyBinding(EditingCommands.Backspace, new KeyGesture(Key.Back)),
-            };
+        protected private DrawingVisual DrawingVisual;
+        protected private DrawingContext DrawingContext;
+        protected private KeyboardManager KeyboardManager;
+        #endregion
 
-            foreach (KeyBinding Binding in DefaultBinding)
-            {
-                bool Found = false;
-                foreach (InputBinding Item in InputBindings)
-                    if (Item.Command == Binding.Command)
-                    {
-                        Found = true;
-                        break;
-                    }
-
-                if (!Found)
-                    InputBindings.Add(Binding);
-            }
-
-            base.OnInitialized(e);
-        }
-
-        private void OnKeyCharacter(object sender, CharacterKeyEventArgs e)
+        #region Events
+        protected private virtual void OnKeyCharacter(object sender, CharacterKeyEventArgs e)
         {
             if (ControllerView.Focus is ILayoutTextFocus AsTextFocus)
                 ChangeText(AsTextFocus, e.Code);
@@ -163,7 +228,7 @@
             e.Handled = true;
         }
 
-        private void ChangeText(ILayoutTextFocus focus, int code)
+        protected private virtual void ChangeText(ILayoutTextFocus focus, int code)
         {
             string FocusedText = ControllerView.FocusedText;
             int CaretPosition = ControllerView.CaretPosition;
@@ -187,7 +252,7 @@
             UpdateTextReplacement();
         }
 
-        private void ChangeDiscreteValue(ILayoutDiscreteContentFocus focus, int code, Key key)
+        protected private virtual void ChangeDiscreteValue(ILayoutDiscreteContentFocus focus, int code, Key key)
         {
             int Change = 0;
 
@@ -216,7 +281,7 @@
             }
         }
 
-        private void SplitIdentifier(ILayoutTextFocus focus)
+        protected private virtual void SplitIdentifier(ILayoutTextFocus focus)
         {
             if (ControllerView.IsIdentifierSplittable(out IFocusListInner Inner, out IFocusInsertionListNodeIndex ReplaceIndex, out IFocusInsertionListNodeIndex InsertIndex))
             {
@@ -229,7 +294,7 @@
                 ChangeText(focus, '.');
         }
 
-        private void OnKeyMove(object sender, MoveKeyEventArgs e)
+        protected private virtual void OnKeyMove(object sender, MoveKeyEventArgs e)
         {
             bool IsHandled = false;
             bool ResetAnchor = !e.IsShift;
@@ -258,7 +323,7 @@
             e.Handled = IsHandled;
         }
 
-        private bool OnKeyMove(MoveDirections direction, bool resetAnchor)
+        protected private virtual bool OnKeyMove(MoveDirections direction, bool resetAnchor)
         {
             bool IsHandled = false;
 
@@ -305,7 +370,7 @@
             return IsHandled;
         }
 
-        private bool OnKeyMoveCtrl(MoveDirections direction, bool resetAnchor, bool isAlt)
+        protected private virtual bool OnKeyMoveCtrl(MoveDirections direction, bool resetAnchor, bool isAlt)
         {
             bool IsHandled = false;
             bool IsMoved;
@@ -384,7 +449,7 @@
             return IsHandled;
         }
 
-        private int GetVerticalPageMove()
+        protected private virtual int GetVerticalPageMove()
         {
             DependencyObject Control = this;
             int Result = 1;
@@ -406,7 +471,7 @@
             return Result;
         }
 
-        private void MoveCaretLeft(bool resetAnchor)
+        protected private virtual void MoveCaretLeft(bool resetAnchor)
         {
             bool IsMoved;
 
@@ -425,7 +490,7 @@
             }
         }
 
-        private void MoveCaretRight(bool resetAnchor)
+        protected private virtual void MoveCaretRight(bool resetAnchor)
         {
             bool IsMoved;
 
@@ -444,7 +509,7 @@
             }
         }
 
-        private void MoveFocusVertically(int direction, bool resetAnchor)
+        protected private virtual void MoveFocusVertically(int direction, bool resetAnchor)
         {
             ControllerView.MoveFocusVertically(ControllerView.DrawContext.LineHeight.Draw * direction, resetAnchor, out bool IsMoved);
             if (IsMoved)
@@ -454,7 +519,7 @@
             }
         }
 
-        private void MoveFocusHorizontally(int direction, bool resetAnchor)
+        protected private virtual void MoveFocusHorizontally(int direction, bool resetAnchor)
         {
             ControllerView.MoveFocusHorizontally(direction, resetAnchor, out bool IsMoved);
             if (IsMoved)
@@ -464,7 +529,7 @@
             }
         }
 
-        private void MoveFocus(int direction, bool resetAnchor, out bool isMoved)
+        protected private virtual void MoveFocus(int direction, bool resetAnchor, out bool isMoved)
         {
             isMoved = false;
 
@@ -488,7 +553,7 @@
             }
         }
 
-        private void MoveExistingBlock(int direction)
+        protected private virtual void MoveExistingBlock(int direction)
         {
             if (!ControllerView.IsBlockMoveable(direction, out IFocusBlockListInner inner, out int blockIndex))
                 return;
@@ -499,7 +564,7 @@
             UpdateTextReplacement();
         }
 
-        private void MoveExistingItem(int direction)
+        protected private virtual void MoveExistingItem(int direction)
         {
             if (!ControllerView.IsItemMoveable(direction, out IFocusCollectionInner inner, out IFocusBrowsingCollectionNodeIndex index))
                 return;
@@ -510,290 +575,7 @@
             UpdateTextReplacement();
         }
 
-        public void OnToggleInsert(object sender, ExecutedRoutedEventArgs e)
-        {
-            bool IsChanged;
-
-            CaretModes OldMode = ControllerView.CaretMode;
-            CaretModes NewMode = OldMode == CaretModes.Insertion ? CaretModes.Override : CaretModes.Insertion;
-
-            ControllerView.SetCaretMode(NewMode, out IsChanged);
-            Debug.Assert(IsChanged);
-
-            if (IsChanged)
-                InvalidateVisual();
-
-            e.Handled = true;
-        }
-
-        public void OnDelete(object sender, ExecutedRoutedEventArgs e)
-        {
-            DeleteCharacter(backward: false);
-            e.Handled = true;
-        }
-
-        public void OnBackspace(object sender, ExecutedRoutedEventArgs e)
-        {
-            DeleteCharacter(backward: true);
-            e.Handled = true;
-        }
-
-        private void DeleteCharacter(bool backward)
-        {
-            if (ControllerView.Focus is ILayoutTextFocus AsTextFocus)
-            {
-                string FocusedText = ControllerView.FocusedText;
-                int CaretPosition = ControllerView.CaretPosition;
-                int MaxCaretPosition = ControllerView.MaxCaretPosition;
-
-                if (StringHelper.DeleteCharacter(backward, ref FocusedText, ref CaretPosition))
-                {
-                    ControllerView.ChangeFocusedText(FocusedText, CaretPosition, changeCaretBeforeText: true);
-
-                    InvalidateVisual();
-                    UpdateTextReplacement();
-                }
-            }
-        }
-
-        public void OnTabForward(object sender, ExecutedRoutedEventArgs e)
-        {
-            ControllerView.ForceShowComment(out bool IsMoved);
-            if (IsMoved)
-            {
-                InvalidateVisual();
-                UpdateTextReplacement();
-            }
-
-            e.Handled = true;
-        }
-
-        public void OnEnter(object sender, ExecutedRoutedEventArgs e)
-        {
-            if (ReplacementPopup.IsOpen && ReplacementPopup.SelectedEntry != null)
-            {
-                ReplaceItem(ReplacementPopup.Inner, ReplacementPopup.SelectedEntry.Index);
-                HideTextReplacement(true);
-            }
-            else
-                InsertNewItem();
-
-            e.Handled = true;
-        }
-
-        public void ReplaceItem(IFocusInner inner, IFocusInsertionChildIndex replacementIndex)
-        {
-            Controller.Replace(inner, replacementIndex, out IWriteableBrowsingChildIndex nodeIndex);
-            InvalidateVisual();
-        }
-
-        public void InsertNewItem()
-        {
-            if (ControllerView.IsNewItemInsertable(out IFocusCollectionInner inner, out IFocusInsertionCollectionNodeIndex index))
-            {
-                Controller.Insert(inner, index, out IWriteableBrowsingCollectionNodeIndex nodeIndex);
-                InvalidateVisual();
-                UpdateTextReplacement();
-            }
-        }
-
-        public void RemoveExistingItem(object sender, ExecutedRoutedEventArgs e)
-        {
-            if (ControllerView.IsItemRemoveable(out IFocusCollectionInner inner, out IFocusBrowsingCollectionNodeIndex index))
-            {
-                Controller.Remove(inner, index);
-                InvalidateVisual();
-                UpdateTextReplacement();
-            }
-
-            e.Handled = true;
-        }
-
-        public void SplitExistingItem(object sender, ExecutedRoutedEventArgs e)
-        {
-            if (ControllerView.IsItemSplittable(out IFocusBlockListInner inner, out IFocusBrowsingExistingBlockNodeIndex index))
-            {
-                Controller.SplitBlock(inner, index);
-                InvalidateVisual();
-                UpdateTextReplacement();
-            }
-
-            e.Handled = true;
-        }
-
-        public void MergeExistingItem(object sender, ExecutedRoutedEventArgs e)
-        {
-            if (ControllerView.IsItemMergeable(out IFocusBlockListInner inner, out IFocusBrowsingExistingBlockNodeIndex index))
-            {
-                Controller.MergeBlocks(inner, index);
-                InvalidateVisual();
-            }
-
-            e.Handled = true;
-        }
-
-        public void CycleThroughExistingItem(object sender, ExecutedRoutedEventArgs e)
-        {
-            if (ControllerView.IsItemCyclableThrough(out IFocusCyclableNodeState state, out int cyclePosition))
-            {
-                cyclePosition = (cyclePosition + 1) % state.CycleIndexList.Count;
-                Controller.Replace(state.ParentInner, state.CycleIndexList, cyclePosition, out IFocusBrowsingChildIndex nodeIndex);
-                InvalidateVisual();
-            }
-
-            e.Handled = true;
-        }
-
-        public void SimplifyExistingItem(object sender, ExecutedRoutedEventArgs e)
-        {
-            if (ControllerView.IsItemSimplifiable(out IFocusInner Inner, out IFocusInsertionChildIndex Index))
-            {
-                Controller.Replace(Inner, Index, out IWriteableBrowsingChildIndex nodeIndex);
-                InvalidateVisual();
-            }
-
-            e.Handled = true;
-        }
-
-        public void ToggleReplicate(object sender, ExecutedRoutedEventArgs e)
-        {
-            if (ControllerView.IsReplicationModifiable(out IFocusBlockListInner Inner, out int BlockIndex, out ReplicationStatus Replication))
-            {
-                switch (Replication)
-                {
-                    case ReplicationStatus.Normal:
-                        Replication = ReplicationStatus.Replicated;
-                        break;
-                    case ReplicationStatus.Replicated:
-                        Replication = ReplicationStatus.Normal;
-                        break;
-                }
-
-                Controller.ChangeReplication(Inner, BlockIndex, Replication);
-                InvalidateVisual();
-            }
-
-            e.Handled = true;
-        }
-
-        public void ToggleUserVisible(object sender, ExecutedRoutedEventArgs e)
-        {
-            ControllerView.SetUserVisible(!ControllerView.IsUserVisible);
-            InvalidateVisual();
-
-            e.Handled = true;
-        }
-
-        public void Expand(object sender, ExecutedRoutedEventArgs e)
-        {
-            if (ControllerView.Focus.CellView.StateView.State.ParentIndex is ILayoutNodeIndex Index)
-            {
-                Controller.Expand(Index, out bool IsChanged);
-                if (IsChanged)
-                    InvalidateVisual();
-            }
-
-            e.Handled = true;
-        }
-
-        public void Reduce(object sender, ExecutedRoutedEventArgs e)
-        {
-            if (ControllerView.Focus.CellView.StateView.State.ParentIndex is ILayoutNodeIndex Index)
-            {
-                Controller.Reduce(Index, out bool IsChanged);
-                if (IsChanged)
-                    InvalidateVisual();
-            }
-
-            e.Handled = true;
-        }
-
-        public void ExtendSelection(object sender, ExecutedRoutedEventArgs e)
-        {
-            ControllerView.ExtendSelection(out bool IsChanged);
-            if (IsChanged)
-                InvalidateVisual();
-
-            e.Handled = true;
-        }
-
-        public void ReduceSelection(object sender, ExecutedRoutedEventArgs e)
-        {
-            ControllerView.ReduceSelection(out bool IsChanged);
-            if (IsChanged)
-                InvalidateVisual();
-
-            e.Handled = true;
-        }
-
-        public void ToggleShowBlockGeometry(object sender, ExecutedRoutedEventArgs e)
-        {
-            ShowBlockGeometry = !ShowBlockGeometry;
-        }
-
-        public void Undo(object sender, ExecutedRoutedEventArgs e)
-        {
-            if (Controller.CanUndo)
-            {
-                Controller.Undo();
-                InvalidateVisual();
-            }
-
-            e.Handled = true;
-        }
-
-        public void Redo(object sender, ExecutedRoutedEventArgs e)
-        {
-            if (Controller.CanRedo)
-            {
-                Controller.Redo();
-                InvalidateVisual();
-            }
-
-            e.Handled = true;
-        }
-
-        public void OnCopy(object sender, ExecutedRoutedEventArgs e)
-        {
-            IDataObject DataObject = new DataObject();
-            CopySelectionAsString(DataObject);
-            ControllerView.CopySelection(DataObject);
-            Clipboard.SetDataObject(DataObject);
-        }
-
-        public void OnCut(object sender, ExecutedRoutedEventArgs e)
-        {
-            IDataObject DataObject = new DataObject();
-            CopySelectionAsString(DataObject);
-            ControllerView.CutSelection(DataObject, out bool IsDeleted);
-            if (IsDeleted)
-            {
-                Clipboard.SetDataObject(DataObject);
-                InvalidateVisual();
-            }
-        }
-
-        public void OnPaste(object sender, ExecutedRoutedEventArgs e)
-        {
-            IDataObject DataObject = Clipboard.GetDataObject();
-            string[] Formats = DataObject.GetFormats();
-
-            /*
-            foreach (string Format in Formats)
-            {
-                object Data = DataObject.GetData(Format);
-                Debug.WriteLine($"** Format: {Format}, Type: {Data?.GetType()}");
-
-                if (Data is string AsString)
-                    Debug.WriteLine(AsString);
-            }*/
-
-            ControllerView.PasteSelection(out bool IsChanged);
-            if (IsChanged)
-                InvalidateVisual();
-        }
-
-        public void OnMouseDown(object sender, MouseButtonEventArgs e)
+        protected private virtual void OnMouseDown(object sender, MouseButtonEventArgs e)
         {
             Point Point = e.GetPosition(this);
 
@@ -828,7 +610,7 @@
             e.Handled = true;
         }
 
-        private bool WordSelected(string text, int position, out int start, out int end)
+        protected private virtual bool WordSelected(string text, int position, out int start, out int end)
         {
             start = position;
             end = position;
@@ -842,11 +624,7 @@
             return end > start;
         }
 
-        protected DrawingVisual DrawingVisual;
-        protected DrawingContext DrawingContext;
-        protected KeyboardManager KeyboardManager;
-
-        public void OnActivated()
+        protected private virtual void OnActivated()
         {
             if (ControllerView != null)
             {
@@ -855,21 +633,284 @@
             }
         }
 
-        public void OnDeactivated()
+        protected private virtual void OnDeactivated()
         {
             if (ControllerView != null)
-            {
                 ControllerView.ShowCaret(false, draw: true);
+        }
+        #endregion
+
+        #region Commands
+        protected private virtual void OnBackspace(object sender, ExecutedRoutedEventArgs e)
+        {
+            DeleteCharacter(backward: true);
+            e.Handled = true;
+        }
+
+        protected private virtual void OnDelete(object sender, ExecutedRoutedEventArgs e)
+        {
+            DeleteCharacter(backward: false);
+            e.Handled = true;
+        }
+
+        protected private virtual void DeleteCharacter(bool backward)
+        {
+            if (ControllerView.Focus is ILayoutTextFocus AsTextFocus)
+            {
+                string FocusedText = ControllerView.FocusedText;
+                int CaretPosition = ControllerView.CaretPosition;
+                int MaxCaretPosition = ControllerView.MaxCaretPosition;
+
+                if (StringHelper.DeleteCharacter(backward, ref FocusedText, ref CaretPosition))
+                {
+                    ControllerView.ChangeFocusedText(FocusedText, CaretPosition, changeCaretBeforeText: true);
+
+                    InvalidateVisual();
+                    UpdateTextReplacement();
+                }
             }
         }
 
-        private void CopySelectionAsString(IDataObject dataObject)
+        protected private virtual void OnEnter(object sender, ExecutedRoutedEventArgs e)
+        {
+            if (ReplacementPopup.IsOpen && ReplacementPopup.SelectedEntry != null)
+            {
+                ReplaceItem(ReplacementPopup.Inner, ReplacementPopup.SelectedEntry.Index);
+                HideTextReplacement(true);
+            }
+            else
+                InsertNewItem();
+
+            e.Handled = true;
+        }
+
+        protected private virtual void ReplaceItem(IFocusInner inner, IFocusInsertionChildIndex replacementIndex)
+        {
+            Controller.Replace(inner, replacementIndex, out IWriteableBrowsingChildIndex nodeIndex);
+            InvalidateVisual();
+        }
+
+        protected private virtual void InsertNewItem()
+        {
+            if (ControllerView.IsNewItemInsertable(out IFocusCollectionInner inner, out IFocusInsertionCollectionNodeIndex index))
+            {
+                Controller.Insert(inner, index, out IWriteableBrowsingCollectionNodeIndex nodeIndex);
+                InvalidateVisual();
+                UpdateTextReplacement();
+            }
+        }
+
+        protected private virtual void OnTabForward(object sender, ExecutedRoutedEventArgs e)
+        {
+            ControllerView.ForceShowComment(out bool IsMoved);
+            if (IsMoved)
+            {
+                InvalidateVisual();
+                UpdateTextReplacement();
+            }
+
+            e.Handled = true;
+        }
+
+        protected private virtual void OnToggleInsert(object sender, ExecutedRoutedEventArgs e)
+        {
+            bool IsChanged;
+
+            CaretModes OldMode = ControllerView.CaretMode;
+            CaretModes NewMode = OldMode == CaretModes.Insertion ? CaretModes.Override : CaretModes.Insertion;
+
+            ControllerView.SetCaretMode(NewMode, out IsChanged);
+            Debug.Assert(IsChanged);
+
+            if (IsChanged)
+                InvalidateVisual();
+
+            e.Handled = true;
+        }
+
+        protected private virtual void OnToggleUserVisible(object sender, ExecutedRoutedEventArgs e)
+        {
+            ControllerView.SetUserVisible(!ControllerView.IsUserVisible);
+            InvalidateVisual();
+
+            e.Handled = true;
+        }
+
+        protected private virtual void OnRemoveExistingItem(object sender, ExecutedRoutedEventArgs e)
+        {
+            if (ControllerView.IsItemRemoveable(out IFocusCollectionInner inner, out IFocusBrowsingCollectionNodeIndex index))
+            {
+                Controller.Remove(inner, index);
+                InvalidateVisual();
+                UpdateTextReplacement();
+            }
+
+            e.Handled = true;
+        }
+
+        protected private virtual void OnSplitExistingItem(object sender, ExecutedRoutedEventArgs e)
+        {
+            if (ControllerView.IsItemSplittable(out IFocusBlockListInner inner, out IFocusBrowsingExistingBlockNodeIndex index))
+            {
+                Controller.SplitBlock(inner, index);
+                InvalidateVisual();
+                UpdateTextReplacement();
+            }
+
+            e.Handled = true;
+        }
+
+        protected private virtual void OnMergeExistingItem(object sender, ExecutedRoutedEventArgs e)
+        {
+            if (ControllerView.IsItemMergeable(out IFocusBlockListInner inner, out IFocusBrowsingExistingBlockNodeIndex index))
+            {
+                Controller.MergeBlocks(inner, index);
+                InvalidateVisual();
+            }
+
+            e.Handled = true;
+        }
+
+        protected private virtual void OnCycleThroughExistingItem(object sender, ExecutedRoutedEventArgs e)
+        {
+            if (ControllerView.IsItemCyclableThrough(out IFocusCyclableNodeState state, out int cyclePosition))
+            {
+                cyclePosition = (cyclePosition + 1) % state.CycleIndexList.Count;
+                Controller.Replace(state.ParentInner, state.CycleIndexList, cyclePosition, out IFocusBrowsingChildIndex nodeIndex);
+                InvalidateVisual();
+            }
+
+            e.Handled = true;
+        }
+
+        protected private virtual void OnSimplifyExistingItem(object sender, ExecutedRoutedEventArgs e)
+        {
+            if (ControllerView.IsItemSimplifiable(out IFocusInner Inner, out IFocusInsertionChildIndex Index))
+            {
+                Controller.Replace(Inner, Index, out IWriteableBrowsingChildIndex nodeIndex);
+                InvalidateVisual();
+            }
+
+            e.Handled = true;
+        }
+
+        protected private virtual void OnToggleReplicate(object sender, ExecutedRoutedEventArgs e)
+        {
+            if (ControllerView.IsReplicationModifiable(out IFocusBlockListInner Inner, out int BlockIndex, out ReplicationStatus Replication))
+            {
+                switch (Replication)
+                {
+                    case ReplicationStatus.Normal:
+                        Replication = ReplicationStatus.Replicated;
+                        break;
+                    case ReplicationStatus.Replicated:
+                        Replication = ReplicationStatus.Normal;
+                        break;
+                }
+
+                Controller.ChangeReplication(Inner, BlockIndex, Replication);
+                InvalidateVisual();
+            }
+
+            e.Handled = true;
+        }
+
+        protected private virtual void OnExpand(object sender, ExecutedRoutedEventArgs e)
+        {
+            if (ControllerView.Focus.CellView.StateView.State.ParentIndex is ILayoutNodeIndex Index)
+            {
+                Controller.Expand(Index, out bool IsChanged);
+                if (IsChanged)
+                    InvalidateVisual();
+            }
+
+            e.Handled = true;
+        }
+
+        protected private virtual void OnReduce(object sender, ExecutedRoutedEventArgs e)
+        {
+            if (ControllerView.Focus.CellView.StateView.State.ParentIndex is ILayoutNodeIndex Index)
+            {
+                Controller.Reduce(Index, out bool IsChanged);
+                if (IsChanged)
+                    InvalidateVisual();
+            }
+
+            e.Handled = true;
+        }
+
+        protected private virtual void OnExtendSelection(object sender, ExecutedRoutedEventArgs e)
+        {
+            ControllerView.ExtendSelection(out bool IsChanged);
+            if (IsChanged)
+                InvalidateVisual();
+
+            e.Handled = true;
+        }
+
+        protected private virtual void OnReduceSelection(object sender, ExecutedRoutedEventArgs e)
+        {
+            ControllerView.ReduceSelection(out bool IsChanged);
+            if (IsChanged)
+                InvalidateVisual();
+
+            e.Handled = true;
+        }
+
+        protected private virtual void OnShowBlockGeometry(object sender, ExecutedRoutedEventArgs e)
+        {
+            ShowBlockGeometry = !ShowBlockGeometry;
+        }
+
+        protected private virtual void OnRedo(object sender, ExecutedRoutedEventArgs e)
+        {
+            if (Controller.CanRedo)
+            {
+                Controller.Redo();
+                InvalidateVisual();
+            }
+
+            e.Handled = true;
+        }
+
+        protected private virtual void OnUndo(object sender, ExecutedRoutedEventArgs e)
+        {
+            if (Controller.CanUndo)
+            {
+                Controller.Undo();
+                InvalidateVisual();
+            }
+
+            e.Handled = true;
+        }
+
+        protected private virtual void OnCopy(object sender, ExecutedRoutedEventArgs e)
+        {
+            IDataObject DataObject = new DataObject();
+            CopySelectionAsString(DataObject);
+            ControllerView.CopySelection(DataObject);
+            Clipboard.SetDataObject(DataObject);
+        }
+
+        protected private virtual void OnCut(object sender, ExecutedRoutedEventArgs e)
+        {
+            IDataObject DataObject = new DataObject();
+            CopySelectionAsString(DataObject);
+            ControllerView.CutSelection(DataObject, out bool IsDeleted);
+            if (IsDeleted)
+            {
+                Clipboard.SetDataObject(DataObject);
+                InvalidateVisual();
+            }
+        }
+
+        protected private virtual void CopySelectionAsString(IDataObject dataObject)
         {
             string Content;
             string RtfContent;
 
             PrintContext PrintContext = PrintContext.CreatePrintContext();
-            using (ILayoutControllerView PrintView = LayoutControllerView.Create(Controller, CustomLayoutTemplateSet.LayoutTemplateSet, PrintContext))
+            using (ILayoutControllerView PrintView = LayoutControllerView.Create(Controller, TemplateSet, PrintContext))
             {
                 switch (ControllerView.Selection)
                 {
@@ -917,8 +958,142 @@
             }
         }
 
+        protected private virtual void OnPaste(object sender, ExecutedRoutedEventArgs e)
+        {
+            IDataObject DataObject = Clipboard.GetDataObject();
+            string[] Formats = DataObject.GetFormats();
+
+            /*
+            foreach (string Format in Formats)
+            {
+                object Data = DataObject.GetData(Format);
+                Debug.WriteLine($"** Format: {Format}, Type: {Data?.GetType()}");
+
+                if (Data is string AsString)
+                    Debug.WriteLine(AsString);
+            }*/
+
+            ControllerView.PasteSelection(out bool IsChanged);
+            if (IsChanged)
+                InvalidateVisual();
+        }
+        #endregion
+
+        #region Overrides
+        /// <summary>
+        /// Raises the <see cref="FrameworkElement.Initialized"/> event. This method is invoked whenever <see cref="FrameworkElement.IsInitialized"/> is set to true internally.
+        /// </summary>
+        /// <param name="e">The <see cref="RoutedEventArgs"/> that contains the event data.</param>
+        protected override void OnInitialized(EventArgs e)
+        {
+            AddDefaultCommandHandlers();
+            AddDefaultBindings();
+
+            base.OnInitialized(e);
+        }
+
+        protected private virtual void AddDefaultCommandHandlers()
+        {
+            List<CommandBinding> DefaultBinding = new List<CommandBinding>()
+            {
+                new CommandBinding(EditingCommands.Backspace, OnBackspace),
+                new CommandBinding(EditingCommands.Delete, OnDelete),
+                new CommandBinding(EditingCommands.EnterParagraphBreak, OnEnter),
+                new CommandBinding(EditingCommands.TabForward, OnTabForward),
+                new CommandBinding(EditingCommands.ToggleInsert, OnToggleInsert),
+                new CommandBinding(ToggleUserVisibleCommand, OnToggleUserVisible),
+                new CommandBinding(RemoveExistingItemCommand, OnRemoveExistingItem),
+                new CommandBinding(SplitExistingItemCommand, OnSplitExistingItem),
+                new CommandBinding(MergeExistingItemCommand, OnMergeExistingItem),
+                new CommandBinding(CycleThroughExistingItemCommand, OnCycleThroughExistingItem),
+                new CommandBinding(SimplifyExistingItemCommand, OnSimplifyExistingItem),
+                new CommandBinding(ToggleReplicateCommand, OnToggleReplicate),
+                new CommandBinding(ExpandCommand, OnExpand),
+                new CommandBinding(ReduceCommand, OnReduce),
+                new CommandBinding(ExtendSelectionCommand, OnExtendSelection),
+                new CommandBinding(ReduceSelectionCommand, OnReduceSelection),
+                new CommandBinding(ShowBlockGeometryCommand, OnShowBlockGeometry),
+                new CommandBinding(ApplicationCommands.Redo, OnRedo),
+                new CommandBinding(ApplicationCommands.Undo, OnUndo),
+                new CommandBinding(ApplicationCommands.Copy, OnCopy),
+                new CommandBinding(ApplicationCommands.Cut, OnCut),
+                new CommandBinding(ApplicationCommands.Paste, OnPaste),
+            };
+
+            List<CommandBinding> BindingsToAdd = new List<CommandBinding>();
+
+            foreach (CommandBinding Binding in DefaultBinding)
+            {
+                bool Found = false;
+                foreach (CommandBinding Item in CommandBindings)
+                    if (Item.Command == Binding.Command)
+                    {
+                        Found = true;
+                        break;
+                    }
+
+                if (!Found)
+                    BindingsToAdd.Add(Binding);
+            }
+
+            foreach (CommandBinding Binding in BindingsToAdd)
+                CommandBindings.Add(Binding);
+        }
+
+        protected private virtual void AddDefaultBindings()
+        {
+            List<KeyBinding> DefaultBinding = new List<KeyBinding>()
+            {
+                new KeyBinding(EditingCommands.Backspace, new KeyGesture(Key.Back)),
+                new KeyBinding(EditingCommands.Delete, new KeyGesture(Key.Delete)),
+                new KeyBinding(EditingCommands.EnterParagraphBreak, new KeyGesture(Key.Enter)),
+                new KeyBinding(EditingCommands.TabForward, new KeyGesture(Key.Tab)),
+                new KeyBinding(EditingCommands.ToggleInsert, new KeyGesture(Key.Insert)),
+                new KeyBinding(ToggleUserVisibleCommand, new KeyGesture(Key.E, ModifierKeys.Control)),
+                new KeyBinding(RemoveExistingItemCommand, new KeyGesture(Key.Y, ModifierKeys.Control)),
+                new KeyBinding(SplitExistingItemCommand, new KeyGesture(Key.S, ModifierKeys.Control)),
+                new KeyBinding(MergeExistingItemCommand, new KeyGesture(Key.M, ModifierKeys.Control)),
+                new KeyBinding(CycleThroughExistingItemCommand, new KeyGesture(Key.T, ModifierKeys.Control)),
+                new KeyBinding(SimplifyExistingItemCommand, new KeyGesture(Key.I, ModifierKeys.Control)),
+                new KeyBinding(ToggleReplicateCommand, new KeyGesture(Key.R, ModifierKeys.Control)),
+                new KeyBinding(ExpandCommand, new KeyGesture(Key.D, ModifierKeys.Control)),
+                new KeyBinding(ReduceCommand, new KeyGesture(Key.D, ModifierKeys.Control | ModifierKeys.Shift)),
+                new KeyBinding(ExtendSelectionCommand, new KeyGesture(Key.A, ModifierKeys.Control)),
+                new KeyBinding(ReduceSelectionCommand, new KeyGesture(Key.A, ModifierKeys.Control | ModifierKeys.Shift)),
+                new KeyBinding(ShowBlockGeometryCommand, new KeyGesture(Key.U, ModifierKeys.Control)),
+                new KeyBinding(ApplicationCommands.Redo, new KeyGesture(Key.Z, ModifierKeys.Control | ModifierKeys.Shift)),
+                new KeyBinding(ApplicationCommands.Undo, new KeyGesture(Key.Z, ModifierKeys.Control)),
+                new KeyBinding(ApplicationCommands.Copy, new KeyGesture(Key.C, ModifierKeys.Control)),
+                new KeyBinding(ApplicationCommands.Copy, new KeyGesture(Key.Insert, ModifierKeys.Control)),
+                new KeyBinding(ApplicationCommands.Cut, new KeyGesture(Key.X, ModifierKeys.Control)),
+                new KeyBinding(ApplicationCommands.Cut, new KeyGesture(Key.Delete, ModifierKeys.Shift)),
+                new KeyBinding(ApplicationCommands.Paste, new KeyGesture(Key.V, ModifierKeys.Control)),
+                new KeyBinding(ApplicationCommands.Paste, new KeyGesture(Key.Insert, ModifierKeys.Shift)),
+            };
+
+            List<KeyBinding> BindingsToAdd = new List<KeyBinding>();
+
+            foreach (KeyBinding Binding in DefaultBinding)
+            {
+                bool Found = false;
+                foreach (InputBinding Item in InputBindings)
+                    if (Item.Command == Binding.Command)
+                    {
+                        Found = true;
+                        break;
+                    }
+
+                if (!Found)
+                    BindingsToAdd.Add(Binding);
+            }
+
+            foreach (KeyBinding Binding in BindingsToAdd)
+                InputBindings.Add(Binding);
+        }
+        #endregion
+
         #region Text Replacememt
-        private void InitTextReplacement(UIElement parentUi)
+        protected private virtual void InitTextReplacement(UIElement parentUi)
         {
             ReplacementPopup = new TextReplacement();
             ReplacementPopup.Placement = PlacementMode.RelativePoint;
@@ -926,12 +1101,12 @@
             ReplacementState = ReplacementStates.Hidden;
         }
 
-        private void UpdateTextReplacement()
+        protected private virtual void UpdateTextReplacement()
         {
             Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Render, new Action(UpdateTextReplacementAfterRender));
         }
 
-        private void UpdateTextReplacementAfterRender()
+        protected private virtual void UpdateTextReplacementAfterRender()
         {
             if (ControllerView.Focus is ILayoutTextFocus AsTextFocus)
             {
@@ -963,7 +1138,7 @@
             }
         }
 
-        private void SetReplacementPopupPosition()
+        protected private virtual void SetReplacementPopupPosition()
         {
             EaslyController.Controller.Point Origin = ControllerView.Focus.CellView.CellOrigin;
             EaslyController.Controller.Size Size = ControllerView.Focus.CellView.ActualCellSize;
@@ -975,7 +1150,7 @@
             ReplacementPopup.VerticalOffset = Y;
         }
 
-        private void ShowTextReplacement()
+        protected private virtual void ShowTextReplacement()
         {
             SetReplacementPopupPosition();
             ReplacementPopup.IsOpen = true;
@@ -983,14 +1158,14 @@
             ReplacementState = ReplacementStates.Shown;
         }
 
-        private void HideTextReplacement(bool untilFocusChanged)
+        protected private virtual void HideTextReplacement(bool untilFocusChanged)
         {
             ReplacementPopup.IsOpen = false;
             ReplacementState = untilFocusChanged ? ReplacementStates.Closed : ReplacementStates.Ready;
         }
 
-        TextReplacement ReplacementPopup;
-        ReplacementStates ReplacementState;
+        protected private TextReplacement ReplacementPopup;
+        protected private ReplacementStates ReplacementState;
         #endregion
     }
 }
