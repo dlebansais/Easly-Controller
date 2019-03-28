@@ -4,8 +4,8 @@
              xmlns:local="clr-namespace:EditorDebug">
     <Popup.Resources>
         <DataTemplate x:Key="NodeTemplate">
-            <local:EaslyDisplayControl Content="{Binding Node}" CommentDisplayMode="PermanentTooltip"/>
+            <local:EaslyDisplayControl Controller="{Binding Controller}" CommentDisplayMode="PermanentTooltip"/>
         </DataTemplate>
     </Popup.Resources>
-    <ListBox x:Name="listOptions" ItemsSource="{Binding IndexList}" ItemTemplate="{StaticResource NodeTemplate}"/>
+    <ListBox x:Name="listOptions" ItemsSource="{Binding EntryList}" ItemTemplate="{StaticResource NodeTemplate}"/>
 </Popup>

@@ -12,23 +12,23 @@ namespace EditorDebug
     public class EaslyDisplayControl : Control
     {
         #region Custom properties and events
-        #region Content
-        public static readonly DependencyProperty ContentProperty = DependencyProperty.Register("Content", typeof(INode), typeof(EaslyDisplayControl), new PropertyMetadata(ContentPropertyChangedCallback));
+        #region Controller
+        public static readonly DependencyProperty ControllerProperty = DependencyProperty.Register("Controller", typeof(ILayoutController), typeof(EaslyDisplayControl), new PropertyMetadata(ControllerPropertyChangedCallback));
 
-        public INode Content
+        public ILayoutController Controller
         {
-            get { return (INode)GetValue(ContentProperty); }
-            set { SetValue(ContentProperty, value); }
+            get { return (ILayoutController)GetValue(ControllerProperty); }
+            set { SetValue(ControllerProperty, value); }
         }
 
-        protected static void ContentPropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        protected static void ControllerPropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             EaslyDisplayControl ctrl = (EaslyDisplayControl)d;
-            if (ctrl.Content != e.OldValue)
-                ctrl.OnContentPropertyChanged(e);
+            if (ctrl.Controller != e.OldValue)
+                ctrl.OnControllerPropertyChanged(e);
         }
 
-        protected virtual void OnContentPropertyChanged(DependencyPropertyChangedEventArgs e)
+        protected virtual void OnControllerPropertyChanged(DependencyPropertyChangedEventArgs e)
         {
             Cleanup();
             Initialize();
@@ -144,7 +144,7 @@ namespace EditorDebug
         }
         #endregion
         #region ShowLineNumber
-        public static readonly DependencyProperty ShowLineNumberProperty = DependencyProperty.Register("ShowLineNumber", typeof(bool), typeof(EaslyDisplayControl), new PropertyMetadata(true, ShowLineNumberPropertyChangedCallback));
+        public static readonly DependencyProperty ShowLineNumberProperty = DependencyProperty.Register("ShowLineNumber", typeof(bool), typeof(EaslyDisplayControl), new PropertyMetadata(false, ShowLineNumberPropertyChangedCallback));
 
         public bool ShowLineNumber
         {
@@ -176,8 +176,6 @@ namespace EditorDebug
         {
             if (IsReady)
             {
-                LayoutRootNodeIndex RootIndex = new LayoutRootNodeIndex(Content);
-                Controller = LayoutController.Create(RootIndex);
                 DrawContext = DrawContext.CreateDrawContext(CreateTypeface(), FontSize, hasCommentIcon: false, displayFocus: false);
                 ControllerView = LayoutControllerView.Create(Controller, TemplateSet, DrawContext);
                 InitializeProperties();
@@ -186,7 +184,7 @@ namespace EditorDebug
 
         protected virtual bool IsReady
         {
-            get { return Content != null && TemplateSet != null && FontFamily != null && FontSize > 0; }
+            get { return Controller != null && TemplateSet != null && FontFamily != null && FontSize > 0; }
         }
 
         protected virtual Typeface CreateTypeface()
@@ -204,7 +202,6 @@ namespace EditorDebug
 
         protected virtual void Cleanup()
         {
-            Controller = null;
             DrawContext = null;
             ControllerView = null;
         }
@@ -236,7 +233,6 @@ namespace EditorDebug
             }
         }
 
-        public ILayoutController Controller { get; protected set; }
         public DrawContext DrawContext { get; protected set; }
         public ILayoutControllerView ControllerView { get; protected set; }
     }

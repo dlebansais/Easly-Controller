@@ -214,7 +214,9 @@ namespace EditorDebug
         #region Layout
         private void LoadFileLayout(INode rootNode)
         {
-            layoutControl.Content = rootNode;
+            LayoutRootNodeIndex RootIndex = new LayoutRootNodeIndex(rootNode);
+            ILayoutController Controller = LayoutController.Create(RootIndex);
+            layoutControl.Controller = Controller;
         }
 
         private void UpdateView()

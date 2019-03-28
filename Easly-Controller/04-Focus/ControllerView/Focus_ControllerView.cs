@@ -219,7 +219,7 @@
         /// <param name="inner">Inner to use to replace the node upon return.</param>
         /// <param name="indexList">List of indexes of more complex nodes upon return.</param>
         /// <returns>True if a node can be complexified at the focus.</returns>
-        bool IsItemComplexifiable(out IFocusInner inner, out List<IFocusInsertionChildIndex> indexList);
+        bool IsItemComplexifiable(out IFocusInner inner, out List<IFocusInsertionChildNodeIndex> indexList);
 
         /// <summary>
         /// Checks if an existing identifier at the focus can be split in two.
@@ -1318,10 +1318,10 @@
         /// <param name="inner">Inner to use to replace the node upon return.</param>
         /// <param name="indexList">List of indexes of more complex nodes upon return.</param>
         /// <returns>True if a node can be complexified at the focus.</returns>
-        public virtual bool IsItemComplexifiable(out IFocusInner inner, out List<IFocusInsertionChildIndex> indexList)
+        public virtual bool IsItemComplexifiable(out IFocusInner inner, out List<IFocusInsertionChildNodeIndex> indexList)
         {
             inner = null;
-            indexList = new List<IFocusInsertionChildIndex>();
+            indexList = new List<IFocusInsertionChildNodeIndex>();
 
             bool IsComplexifiable = false;
 
@@ -1348,7 +1348,7 @@
 
                         foreach (INode ComplexifiedNode in ComplexifiedNodeList)
                         {
-                            IFocusInsertionChildIndex NodeIndex = ((IFocusBrowsingInsertableIndex)ParentIndex).ToInsertionIndex(inner.Owner.Node, ComplexifiedNode) as IFocusInsertionChildIndex;
+                            IFocusInsertionChildNodeIndex NodeIndex = ((IFocusBrowsingInsertableIndex)ParentIndex).ToInsertionIndex(inner.Owner.Node, ComplexifiedNode) as IFocusInsertionChildNodeIndex;
                             indexList.Add(NodeIndex);
                         }
 

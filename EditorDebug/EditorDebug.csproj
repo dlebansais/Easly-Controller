@@ -72,6 +72,7 @@
     <Compile Include="DrawContext\EaslyDisplayControl.cs" />
     <Compile Include="DrawContext\EaslyEditControl.cs" />
     <Compile Include="DrawContext\Replacement States.cs" />
+    <Compile Include="DrawContext\ReplacementEntry.cs" />
     <Compile Include="DrawContext\TextReplacement.xaml.cs">
       <DependentUpon>TextReplacement.xaml</DependentUpon>
     </Compile>

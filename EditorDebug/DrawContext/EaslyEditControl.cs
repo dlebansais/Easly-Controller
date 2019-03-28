@@ -86,9 +86,6 @@
         {
             if (IsReady)
             {
-                LayoutRootNodeIndex RootIndex = new LayoutRootNodeIndex(Content);
-                Controller = LayoutController.Create(RootIndex);
-
                 DrawingVisual = new DrawingVisual();
                 DrawingContext = DrawingVisual.RenderOpen();
 
@@ -119,7 +116,6 @@
 
         protected override void Cleanup()
         {
-            Controller = null;
             DrawContext = null;
             ControllerView = null;
             DrawingVisual = null;
@@ -549,9 +545,9 @@
 
         public void OnEnter(object sender, ExecutedRoutedEventArgs e)
         {
-            if (ReplacementPopup.IsOpen && ReplacementPopup.SelectedIndex != null)
+            if (ReplacementPopup.IsOpen && ReplacementPopup.SelectedEntry != null)
             {
-                ReplaceItem(ReplacementPopup.Inner, ReplacementPopup.SelectedIndex);
+                ReplaceItem(ReplacementPopup.Inner, ReplacementPopup.SelectedEntry.Index);
                 HideTextReplacement(true);
             }
             else
@@ -914,9 +910,13 @@
         {
             if (ControllerView.Focus is ILayoutTextFocus AsTextFocus)
             {
-                if (ControllerView.IsItemComplexifiable(out IFocusInner inner, out List<IFocusInsertionChildIndex> indexList))
+                if (ControllerView.IsItemComplexifiable(out IFocusInner inner, out List<IFocusInsertionChildNodeIndex> IndexList))
                 {
-                    ReplacementPopup.SetReplacement(inner, indexList);
+                    List<ReplacementEntry> EntryList = new List<ReplacementEntry>();
+                    foreach (IFocusInsertionChildNodeIndex Index in IndexList)
+                        EntryList.Add(new ReplacementEntry((ILayoutInsertionChildNodeIndex)Index));
+
+                    ReplacementPopup.SetReplacement((ILayoutInner)inner, EntryList);
 
                     switch (ReplacementState)
                     {

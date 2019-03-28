@@ -3,8 +3,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Controls.Primitives;
-using BaseNode;
-using EaslyController.Focus;
+using EaslyController.Layout;
 
 namespace EditorDebug
 {
@@ -19,28 +18,28 @@ namespace EditorDebug
             DataContext = this;
         }
 
-        public IFocusInner Inner { get; private set; }
-        public ObservableCollection<IFocusInsertionChildIndex> IndexList { get; private set; } = new ObservableCollection<IFocusInsertionChildIndex>();
-        public IFocusInsertionChildIndex SelectedIndex
+        public ILayoutInner Inner { get; private set; }
+        public ObservableCollection<ReplacementEntry> EntryList { get; private set; } = new ObservableCollection<ReplacementEntry>();
+        public ReplacementEntry SelectedEntry
         {
             get
             {
-                if (listOptions.SelectedIndex < 0 || listOptions.SelectedIndex >= IndexList.Count)
+                if (listOptions.SelectedIndex < 0 || listOptions.SelectedIndex >= EntryList.Count)
                     return null;
                 else
-                    return IndexList[listOptions.SelectedIndex];
+                    return EntryList[listOptions.SelectedIndex];
             }
         }
 
-        public void SetReplacement(IFocusInner inner, List<IFocusInsertionChildIndex> indexList)
+        public void SetReplacement(ILayoutInner inner, List<ReplacementEntry> indexList)
         {
             Inner = inner;
 
-            IndexList.Clear();
-            foreach (IFocusInsertionChildIndex Index in indexList)
-                IndexList.Add(Index);
+            EntryList.Clear();
+            foreach (ReplacementEntry Index in indexList)
+                EntryList.Add(Index);
 
-            if (listOptions.SelectedIndex < 0 && IndexList.Count > 0)
+            if (listOptions.SelectedIndex < 0 && EntryList.Count > 0)
                 listOptions.SelectedIndex = 0;
         }
 
@@ -52,7 +51,7 @@ namespace EditorDebug
 
         public void SelectNextLine()
         {
-            if (listOptions.SelectedIndex + 1 < IndexList.Count)
+            if (listOptions.SelectedIndex + 1 < EntryList.Count)
                 listOptions.SelectedIndex++;
         }
 
