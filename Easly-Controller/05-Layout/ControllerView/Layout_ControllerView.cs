@@ -102,6 +102,11 @@
         bool ShowBlockGeometry { get; }
 
         /// <summary>
+        /// Shows line numbers.
+        /// </summary>
+        bool ShowLineNumber { get; }
+
+        /// <summary>
         /// Invalidates the entire view.
         /// </summary>
         void Invalidate();
@@ -175,6 +180,12 @@
         /// </summary>
         /// <param name="show">True to show, false to hide.</param>
         void SetShowBlockGeometry(bool show);
+
+        /// <summary>
+        /// Sets <see cref="ShowLineNumber"/>.
+        /// </summary>
+        /// <param name="show">True to show, false to hide.</param>
+        void SetShowLineNumber(bool show);
 
         /// <summary>
         /// Gets the visible cell view corresponding to a location.
@@ -360,6 +371,11 @@
         /// Shows block geometry around blocks.
         /// </summary>
         public bool ShowBlockGeometry { get; private set; }
+
+        /// <summary>
+        /// Shows line numbers.
+        /// </summary>
+        public bool ShowLineNumber { get; private set; }
         #endregion
 
         #region Client Interface
@@ -419,6 +435,9 @@
             Debug.Assert(RegionHelper.IsValid(stateView.ActualCellSize));
             stateView.DrawCells();
 
+            if (ShowLineNumber)
+                DisplayLineNumber(DrawCellViewLineNumber);
+
             if (IsCaretShown)
             {
                 if (IsCaretOnText(out ILayoutStringContentFocus TextFocus))
@@ -426,6 +445,12 @@
                 else if (IsCaretOnComment(out ILayoutCommentFocus CommentFocus))
                     DrawCommentCaret(CommentFocus);
             }
+        }
+
+        /// <summary></summary>
+        private protected virtual void DrawCellViewLineNumber(string lineText, Point lineOrigin)
+        {
+            DrawContext.DrawText(lineText, lineOrigin, TextStyles.LineNumber, isFocused: false);
         }
 
         /// <summary>
@@ -439,6 +464,15 @@
 
             Debug.Assert(RegionHelper.IsValid(stateView.ActualCellSize));
             stateView.PrintCells(origin);
+
+            if (ShowLineNumber)
+                DisplayLineNumber(PrintCellViewLineNumber);
+        }
+
+        /// <summary></summary>
+        private protected virtual void PrintCellViewLineNumber(string lineText, Point lineOrigin)
+        {
+            PrintContext.PrintText(lineText, lineOrigin, TextStyles.LineNumber);
         }
 
         /// <summary>
@@ -745,6 +779,19 @@
             if (ShowBlockGeometry != show)
             {
                 ShowBlockGeometry = show;
+                Refresh(Controller.RootState);
+            }
+        }
+
+        /// <summary>
+        /// Sets <see cref="ShowLineNumber"/>.
+        /// </summary>
+        /// <param name="show">True to show, false to hide.</param>
+        public virtual void SetShowLineNumber(bool show)
+        {
+            if (ShowLineNumber != show)
+            {
+                ShowLineNumber = show;
                 Refresh(Controller.RootState);
             }
         }
@@ -1131,10 +1178,58 @@
             ILayoutPlaceholderNodeState RootState = Controller.RootState;
             ILayoutNodeStateView RootStateView = StateViewTable[RootState];
 
-            RootStateView.ArrangeCells(Point.Origin);
+            Point ViewOrigin;
 
-            Point ViewOrigin = RootStateView.CellOrigin;
-            Debug.Assert(ViewOrigin.IsOrigin);
+            if (ShowLineNumber)
+            {
+                Measure Width = MeasureLineNumberWidth();
+                ViewOrigin = new Point(Width, Measure.Zero);
+            }
+            else
+                ViewOrigin = Point.Origin;
+
+            RootStateView.ArrangeCells(ViewOrigin);
+
+            Debug.Assert(Point.IsEqual(RootStateView.CellOrigin, ViewOrigin));
+        }
+
+        /// <summary></summary>
+        private protected virtual Measure MeasureLineNumberWidth()
+        {
+            string LongestLineText = $"{LastLineNumber} ";
+            Size LineSize = MeasureContext.MeasureText(LongestLineText, TextStyles.LineNumber, Measure.Floating);
+
+            return LineSize.Width;
+        }
+
+        /// <summary></summary>
+        private protected virtual void DisplayLineNumber(Action<string, Point> handler)
+        {
+            bool[] DrawnLines = new bool[LastLineNumber + 1];
+            int MaxLength = LastLineNumber.ToString().Length;
+
+            EnumerateVisibleCellViews((IFrameVisibleCellView cellView) => DisplayCellViewLineNumber(cellView, handler, DrawnLines, MaxLength), out IFrameVisibleCellView lastCellView, reversed: false);
+        }
+
+        /// <summary></summary>
+        private protected virtual bool DisplayCellViewLineNumber(IFrameVisibleCellView cellView, Action<string, Point> handler, bool[] drawnLines, int maxLength)
+        {
+            int LineNumber = cellView.LineNumber;
+            Debug.Assert(LineNumber < drawnLines.Length);
+
+            if (!drawnLines[LineNumber])
+            {
+                drawnLines[LineNumber] = true;
+
+                Point LineOrigin = new Point(Measure.Zero, ((ILayoutVisibleCellView)cellView).CellOrigin.Y);
+                string LineText = LineNumber.ToString();
+                while (LineText.Length < maxLength)
+                    LineText = " " + LineText;
+
+                handler(LineText, LineOrigin);
+            }
+
+            return false;
         }
 
         /// <summary></summary>

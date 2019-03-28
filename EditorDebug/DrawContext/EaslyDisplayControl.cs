@@ -143,6 +143,33 @@ namespace EditorDebug
             }
         }
         #endregion
+        #region ShowLineNumber
+        public static readonly DependencyProperty ShowLineNumberProperty = DependencyProperty.Register("ShowLineNumber", typeof(bool), typeof(EaslyDisplayControl), new PropertyMetadata(true, ShowLineNumberPropertyChangedCallback));
+
+        public bool ShowLineNumber
+        {
+            get { return (bool)GetValue(ShowLineNumberProperty); }
+            set { SetValue(ShowLineNumberProperty, value); }
+        }
+
+        protected static void ShowLineNumberPropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            EaslyDisplayControl ctrl = (EaslyDisplayControl)d;
+            if (ctrl.ShowLineNumber != (bool)e.OldValue)
+                ctrl.OnShowLineNumberPropertyChanged(e);
+        }
+
+        protected virtual void OnShowLineNumberPropertyChanged(DependencyPropertyChangedEventArgs e)
+        {
+            if (ControllerView != null)
+            {
+                ControllerView.SetShowLineNumber(ShowLineNumber);
+
+                InvalidateMeasure();
+                InvalidateVisual();
+            }
+        }
+        #endregion
         #endregion
 
         protected virtual void Initialize()
@@ -153,8 +180,7 @@ namespace EditorDebug
                 Controller = LayoutController.Create(RootIndex);
                 DrawContext = DrawContext.CreateDrawContext(CreateTypeface(), FontSize, hasCommentIcon: false, displayFocus: false);
                 ControllerView = LayoutControllerView.Create(Controller, TemplateSet, DrawContext);
-
-                ControllerView.SetCommentDisplayMode(CommentDisplayMode);
+                InitializeProperties();
             }
         }
 
@@ -166,6 +192,14 @@ namespace EditorDebug
         protected virtual Typeface CreateTypeface()
         {
             return new Typeface(FontFamily, FontStyle, FontWeight, FontStretch);
+        }
+
+        protected virtual void InitializeProperties()
+        {
+            ControllerView.SetCommentDisplayMode(CommentDisplayMode);
+            ControllerView.SetShowUnfocusedComments(ShowUnfocusedComments);
+            ControllerView.SetShowBlockGeometry(ShowBlockGeometry);
+            ControllerView.SetShowLineNumber(ShowLineNumber);
         }
 
         protected virtual void Cleanup()

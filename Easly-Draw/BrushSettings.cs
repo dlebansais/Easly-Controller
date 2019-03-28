@@ -74,5 +74,10 @@
         /// The selection background.
         /// </summary>
         Selection,
+
+        /// <summary>
+        /// The brush for line number foreground.
+        /// </summary>
+        LineNumberForeground,
     }
 }

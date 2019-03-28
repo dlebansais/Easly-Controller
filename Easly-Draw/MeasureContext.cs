@@ -38,7 +38,11 @@
             CommaSeparatorString = ", ";
             DotSeparatorString = "·";
 
-            SolidColorBrush SelectionBrush = new SolidColorBrush(Color.FromArgb(0xFF, 0x99, 0xC9, 0xEF));
+            Color SelectionColor = Color.FromArgb(0xFF, 0x99, 0xC9, 0xEF);
+            Color TypeIdentifierColor = Color.FromArgb(0xFF, 0x2B, 0x91, 0xAF);
+
+            SolidColorBrush SelectionBrush = new SolidColorBrush(SelectionColor);
+            SolidColorBrush TypeIdentifierBrush = new SolidColorBrush(TypeIdentifierColor);
 
             BrushTable = new Dictionary<BrushSettings, Brush>
             {
@@ -50,12 +54,13 @@
                 { BrushSettings.NumberSignificand, Brushes.Green },
                 { BrushSettings.NumberExponent, Brushes.Green },
                 { BrushSettings.NumberInvalid, Brushes.Red },
-                { BrushSettings.TypeIdentifier, new SolidColorBrush(Color.FromArgb(0xFF, 0x2B, 0x91, 0xAF)) },
+                { BrushSettings.TypeIdentifier, TypeIdentifierBrush },
                 { BrushSettings.CommentBackground, Brushes.LightGreen },
                 { BrushSettings.CommentForeground, Brushes.Black },
                 { BrushSettings.CaretInsertion, Brushes.Black },
                 { BrushSettings.CaretOverride, Brushes.DarkGray },
                 { BrushSettings.Selection, SelectionBrush },
+                { BrushSettings.LineNumberForeground, TypeIdentifierBrush },
             };
 
             PenTable = new Dictionary<PenSettings, Pen>
@@ -272,6 +277,8 @@
                     return BrushSettings.TypeIdentifier;
                 case TextStyles.Comment:
                     return BrushSettings.CommentForeground;
+                case TextStyles.LineNumber:
+                    return BrushSettings.LineNumberForeground;
             }
         }
 

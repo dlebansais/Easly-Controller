@@ -39,5 +39,10 @@
         /// A comment.
         /// </summary>
         Comment,
+
+        /// <summary>
+        /// A line number.
+        /// </summary>
+        LineNumber,
     }
 }

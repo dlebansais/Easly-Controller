@@ -94,8 +94,7 @@
 
                 DrawContext = DrawContext.CreateDrawContext(CreateTypeface(), FontSize, hasCommentIcon: true, displayFocus: true);
                 ControllerView = LayoutControllerView.Create(Controller, TemplateSet, DrawContext);
-
-                ControllerView.SetCommentDisplayMode(CommentDisplayMode);
+                InitializeProperties();
                 ControllerView.MeasureAndArrange();
                 ControllerView.ShowCaret(true, draw: false);
 
@@ -107,6 +106,15 @@
 
                 InitTextReplacement(this);
             }
+        }
+
+        protected override void InitializeProperties()
+        {
+            base.InitializeProperties();
+
+            ControllerView.SetCommentDisplayMode(CommentDisplayMode);
+            ControllerView.SetCaretMode(CaretMode, out bool IsChanged);
+            ControllerView.SetAutoFormatMode(AutoFormatMode);
         }
 
         protected override void Cleanup()
@@ -878,7 +886,7 @@
                         break;
                 }
 
-                PrintView.Selection.Print();
+                PrintView.PrintSelection();
                 Content = PrintContext.PrintableArea.ToString();
                 RtfContent = PrintContext.PrintableArea.ToString(PrintContext.BrushTable);
 
