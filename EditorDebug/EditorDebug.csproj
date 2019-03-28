@@ -69,20 +69,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="DrawContext\EaslyDisplayControl.cs" />
-    <Compile Include="DrawContext\EaslyEditControl.cs" />
-    <Compile Include="DrawContext\Replacement States.cs" />
-    <Compile Include="DrawContext\ReplacementEntry.cs" />
-    <Compile Include="DrawContext\TextReplacement.xaml.cs">
-      <DependentUpon>TextReplacement.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="TemplateSet\CustomLayoutTemplateSet.cs" />
-    <Compile Include="TemplateSet\CustomFocusTemplateSet.cs" />
-    <Compile Include="TemplateSet\CustomFrameTemplateSet.cs" />
-    <Page Include="DrawContext\TextReplacement.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -130,6 +116,10 @@
     <ProjectReference Include="..\Easly-Draw\Easly-Draw.csproj">
       <Project>{182a2175-4c93-434a-a027-e101fbd55f48}</Project>
       <Name>Easly-Draw</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Easly-Edit\Easly-Edit.csproj">
+      <Project>{ed89ef7c-7f5e-49ce-935f-1de9715e79bb}</Project>
+      <Name>Easly-Edit</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

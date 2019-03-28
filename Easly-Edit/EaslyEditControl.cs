@@ -26,62 +26,62 @@
         /// <summary>
         /// Represents the <see cref="ToggleUserVisibleCommand"/> command, which requests that unassigned optional nodes be displayed.
         /// </summary>
-        public static readonly RoutedCommand ToggleUserVisibleCommand;
+        public static readonly RoutedCommand ToggleUserVisibleCommand = new RoutedCommand();
 
         /// <summary>
         /// Represents the <see cref="RemoveExistingItemCommand"/> command, which requests that a node in a list be removed.
         /// </summary>
-        public static readonly RoutedCommand RemoveExistingItemCommand;
+        public static readonly RoutedCommand RemoveExistingItemCommand = new RoutedCommand();
 
         /// <summary>
         /// Represents the <see cref="SplitExistingItemCommand"/> command, which requests that a block be split in two.
         /// </summary>
-        public static readonly RoutedCommand SplitExistingItemCommand;
+        public static readonly RoutedCommand SplitExistingItemCommand = new RoutedCommand();
 
         /// <summary>
         /// Represents the <see cref="MergeExistingItemCommand"/> command, which requests that two blocks be merged.
         /// </summary>
-        public static readonly RoutedCommand MergeExistingItemCommand;
+        public static readonly RoutedCommand MergeExistingItemCommand = new RoutedCommand();
 
         /// <summary>
         /// Represents the <see cref="CycleThroughExistingItemCommand"/> command, which requests that a node be replaced by another in a cycle.
         /// </summary>
-        public static readonly RoutedCommand CycleThroughExistingItemCommand;
+        public static readonly RoutedCommand CycleThroughExistingItemCommand = new RoutedCommand();
 
         /// <summary>
         /// Represents the <see cref="SimplifyExistingItemCommand"/> command, which requests that a node be replaced by a simpler node.
         /// </summary>
-        public static readonly RoutedCommand SimplifyExistingItemCommand;
+        public static readonly RoutedCommand SimplifyExistingItemCommand = new RoutedCommand();
 
         /// <summary>
         /// Represents the <see cref="ToggleReplicateCommand"/> command, which requests that the block replication mode be toggled.
         /// </summary>
-        public static readonly RoutedCommand ToggleReplicateCommand;
+        public static readonly RoutedCommand ToggleReplicateCommand = new RoutedCommand();
 
         /// <summary>
         /// Represents the <see cref="ExpandCommand"/> command, which requests that a node be expanded.
         /// </summary>
-        public static readonly RoutedCommand ExpandCommand;
+        public static readonly RoutedCommand ExpandCommand = new RoutedCommand();
 
         /// <summary>
         /// Represents the <see cref="ReduceCommand"/> command, which requests that a node be reduced.
         /// </summary>
-        public static readonly RoutedCommand ReduceCommand;
+        public static readonly RoutedCommand ReduceCommand = new RoutedCommand();
 
         /// <summary>
         /// Represents the <see cref="ExtendSelectionCommand"/> command, which requests that the selection be extended.
         /// </summary>
-        public static readonly RoutedCommand ExtendSelectionCommand;
+        public static readonly RoutedCommand ExtendSelectionCommand = new RoutedCommand();
 
         /// <summary>
         /// Represents the <see cref="ReduceSelectionCommand"/> command, which requests that the selection be reduced.
         /// </summary>
-        public static readonly RoutedCommand ReduceSelectionCommand;
+        public static readonly RoutedCommand ReduceSelectionCommand = new RoutedCommand();
 
         /// <summary>
         /// Represents the <see cref="ShowBlockGeometryCommand"/> command, which requests that a geometry be shown around blocks.
         /// </summary>
-        public static readonly RoutedCommand ShowBlockGeometryCommand;
+        public static readonly RoutedCommand ShowBlockGeometryCommand = new RoutedCommand();
         #endregion
 
         #region Custom properties and events
@@ -574,70 +574,6 @@
             InvalidateVisual();
             UpdateTextReplacement();
         }
-
-        protected private virtual void OnMouseDown(object sender, MouseButtonEventArgs e)
-        {
-            Point Point = e.GetPosition(this);
-
-            if (e.ClickCount > 1)
-            {
-                int Start, End;
-
-                if (ControllerView.Focus is IFocusStringContentFocus AsStringContentFocus && WordSelected(ControllerView.FocusedText, ControllerView.CaretPosition, out Start, out End))
-                {
-                    IFocusStringContentFocusableCellView CellView = AsStringContentFocus.CellView;
-                    ControllerView.SelectStringContent(CellView.StateView.State, CellView.PropertyName, Start, End);
-                    InvalidateVisual();
-                }
-
-                else if (ControllerView.Focus is IFocusCommentFocus AsCommentFocus && WordSelected(ControllerView.FocusedText, ControllerView.CaretPosition, out Start, out End))
-                {
-                    IFocusCommentCellView CellView = AsCommentFocus.CellView;
-                    ControllerView.SelectComment(CellView.StateView.State, Start, End);
-                    InvalidateVisual();
-                }
-            }
-            else
-            {
-                bool IsShift = Keyboard.IsKeyDown(Key.LeftShift) || Keyboard.IsKeyDown(Key.RightShift);
-                bool ResetAnchor = !IsShift;
-
-                ControllerView.SetFocusToPoint(Point.X, Point.Y, ResetAnchor, out bool IsMoved);
-                if (IsMoved)
-                    InvalidateVisual();
-            }
-
-            e.Handled = true;
-        }
-
-        protected private virtual bool WordSelected(string text, int position, out int start, out int end)
-        {
-            start = position;
-            end = position;
-
-            while (start > 0 && !char.IsWhiteSpace(text[start - 1]))
-                start--;
-
-            while (end < text.Length && !char.IsWhiteSpace(text[end]))
-                end++;
-
-            return end > start;
-        }
-
-        protected private virtual void OnActivated()
-        {
-            if (ControllerView != null)
-            {
-                ControllerView.ShowCaret(true, draw: false);
-                InvalidateVisual();
-            }
-        }
-
-        protected private virtual void OnDeactivated()
-        {
-            if (ControllerView != null)
-                ControllerView.ShowCaret(false, draw: true);
-        }
         #endregion
 
         #region Commands
@@ -1089,6 +1025,88 @@
 
             foreach (KeyBinding Binding in BindingsToAdd)
                 InputBindings.Add(Binding);
+        }
+
+        /// <summary>
+        /// Invoked when an unhandled <see cref="Mouse.MouseDownEvent"/> attached event reaches an element in its route that is derived from this class. Implement this method to add class handling for this event.
+        /// </summary>
+        /// <param name="e">The <see cref="MouseButtonEventArgs"/> that contains the event data. This event data reports details about the mouse button that was pressed and the handled state</param>
+        protected override void OnMouseDown(MouseButtonEventArgs e)
+        {
+            base.OnMouseDown(e);
+
+            Point Point = e.GetPosition(this);
+
+            if (e.ClickCount > 1)
+            {
+                int Start, End;
+
+                if (ControllerView.Focus is IFocusStringContentFocus AsStringContentFocus && WordSelected(ControllerView.FocusedText, ControllerView.CaretPosition, out Start, out End))
+                {
+                    IFocusStringContentFocusableCellView CellView = AsStringContentFocus.CellView;
+                    ControllerView.SelectStringContent(CellView.StateView.State, CellView.PropertyName, Start, End);
+                    InvalidateVisual();
+                }
+
+                else if (ControllerView.Focus is IFocusCommentFocus AsCommentFocus && WordSelected(ControllerView.FocusedText, ControllerView.CaretPosition, out Start, out End))
+                {
+                    IFocusCommentCellView CellView = AsCommentFocus.CellView;
+                    ControllerView.SelectComment(CellView.StateView.State, Start, End);
+                    InvalidateVisual();
+                }
+            }
+            else
+            {
+                bool IsShift = Keyboard.IsKeyDown(Key.LeftShift) || Keyboard.IsKeyDown(Key.RightShift);
+                bool ResetAnchor = !IsShift;
+
+                ControllerView.SetFocusToPoint(Point.X, Point.Y, ResetAnchor, out bool IsMoved);
+                if (IsMoved)
+                    InvalidateVisual();
+            }
+
+            e.Handled = true;
+        }
+
+        protected private virtual bool WordSelected(string text, int position, out int start, out int end)
+        {
+            start = position;
+            end = position;
+
+            while (start > 0 && !char.IsWhiteSpace(text[start - 1]))
+                start--;
+
+            while (end < text.Length && !char.IsWhiteSpace(text[end]))
+                end++;
+
+            return end > start;
+        }
+
+        /// <summary>
+        /// Invoked whenever an unhandled <see cref="UIElement.GotFocus"/> event reaches this element in its route.
+        /// </summary>
+        /// <param name="e">The <see cref="RoutedEventArgs"/> that contains the event data.</param>
+        protected override void OnGotFocus(RoutedEventArgs e)
+        {
+            base.OnGotFocus(e);
+
+            if (ControllerView != null)
+            {
+                ControllerView.ShowCaret(true, draw: false);
+                InvalidateVisual();
+            }
+        }
+
+        /// <summary>
+        /// Raises the <see cref="UIElement.LostFocus"/> routed event by using the event data that is provided.
+        /// </summary>
+        /// <param name="e">A <see cref="RoutedEventArgs"/> that contains event data. This event data must contain the identifier for the <see cref="UIElement.LostFocus"/> event.</param>
+        protected override void OnLostFocus(RoutedEventArgs e)
+        {
+            if (ControllerView != null)
+                ControllerView.ShowCaret(false, draw: true);
+
+            base.OnLostFocus(e);
         }
         #endregion
 

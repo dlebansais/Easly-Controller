@@ -1,8 +1,7 @@
 ﻿<Window x:Class="EditorDebug.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:local="clr-namespace:EditorDebug"
-        xmlns:km="clr-namespace:KeyboardHelper.Xaml;assembly=KeyboardHelper"
+        xmlns:easlyedit="clr-namespace:EaslyEdit;assembly=Easly-Edit"
         WindowStartupLocation="CenterScreen"
         ResizeMode="CanResize"
         SizeToContent="WidthAndHeight"
@@ -13,18 +12,6 @@
         Title="MainWindow">
     <Window.Resources>
         <RoutedCommand x:Key="BrowseCommand"/>
-        <RoutedCommand x:Key="ToggleUserVisibleCommand"/>
-        <RoutedCommand x:Key="RemoveExistingItemCommand"/>
-        <RoutedCommand x:Key="SplitExistingItemCommand"/>
-        <RoutedCommand x:Key="MergeExistingItemCommand"/>
-        <RoutedCommand x:Key="CycleThroughExistingItemCommand"/>
-        <RoutedCommand x:Key="SimplifyExistingItemCommand"/>
-        <RoutedCommand x:Key="ToggleReplicateCommand"/>
-        <RoutedCommand x:Key="ExpandCommand"/>
-        <RoutedCommand x:Key="ReduceCommand"/>
-        <RoutedCommand x:Key="ExtendSelectionCommand"/>
-        <RoutedCommand x:Key="ReduceSelectionCommand"/>
-        <RoutedCommand x:Key="ShowBlockGeometryCommand"/>
     </Window.Resources>
     <Window.CommandBindings>
         <CommandBinding Command="{StaticResource BrowseCommand}" Executed="OnBrowse"/>
@@ -36,59 +23,11 @@
         </DockPanel>
         <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" x:Name="viewer" Margin="0,10,0,0">
             <Grid x:Name="gridMain">
-                <local:EaslyEditControl AutoFormatMode="AllLowercase" x:Name="layoutControl" Focusable="True" MouseDown="OnMouseDown">
-                    <local:EaslyEditControl.InputBindings>
+                <easlyedit:EaslyEditControl AutoFormatMode="AllLowercase" x:Name="layoutControl" Focusable="True">
+                    <easlyedit:EaslyEditControl.InputBindings>
                         <KeyBinding Command="EditingCommands.Backspace" Gesture="Backspace"/>
-                        <KeyBinding Command="EditingCommands.Delete" Gesture="Delete"/>
-                        <KeyBinding Command="EditingCommands.EnterParagraphBreak" Gesture="Enter"/>
-                        <KeyBinding Command="EditingCommands.TabForward" Gesture="Tab"/>
-                        <KeyBinding Command="EditingCommands.ToggleInsert" Gesture="Insert"/>
-                        <KeyBinding Command="{StaticResource ToggleUserVisibleCommand}" Gesture="Ctrl+E"/>
-                        <KeyBinding Command="{StaticResource RemoveExistingItemCommand}" Gesture="Ctrl+Y"/>
-                        <KeyBinding Command="{StaticResource SplitExistingItemCommand}" Gesture="Ctrl+S"/>
-                        <KeyBinding Command="{StaticResource MergeExistingItemCommand}" Gesture="Ctrl+M"/>
-                        <KeyBinding Command="{StaticResource CycleThroughExistingItemCommand}" Gesture="Ctrl+T"/>
-                        <KeyBinding Command="{StaticResource SimplifyExistingItemCommand}" Gesture="Ctrl+I"/>
-                        <KeyBinding Command="{StaticResource ToggleReplicateCommand}" Gesture="Ctrl+R"/>
-                        <KeyBinding Command="{StaticResource ExpandCommand}" Gesture="Ctrl+D"/>
-                        <KeyBinding Command="{StaticResource ReduceCommand}" Gesture="Ctrl+Shift+D"/>
-                        <KeyBinding Command="{StaticResource ExtendSelectionCommand}" Gesture="Ctrl+A"/>
-                        <KeyBinding Command="{StaticResource ReduceSelectionCommand}" Gesture="Ctrl+Shift+A"/>
-                        <KeyBinding Command="{StaticResource ShowBlockGeometryCommand}" Gesture="Ctrl+U"/>
-                        <KeyBinding Command="ApplicationCommands.Redo" Gesture="Ctrl+Shift+Z"/>
-                        <KeyBinding Command="ApplicationCommands.Undo" Gesture="Ctrl+Z"/>
-                        <KeyBinding Command="ApplicationCommands.Copy" Gesture="Ctrl+C"/>
-                        <KeyBinding Command="ApplicationCommands.Copy" Gesture="Ctrl+Insert"/>
-                        <KeyBinding Command="ApplicationCommands.Cut" Gesture="Ctrl+X"/>
-                        <KeyBinding Command="ApplicationCommands.Cut" Gesture="Shift+Delete"/>
-                        <KeyBinding Command="ApplicationCommands.Paste" Gesture="Ctrl+V"/>
-                        <KeyBinding Command="ApplicationCommands.Paste" Gesture="Shift+Insert"/>
-                    </local:EaslyEditControl.InputBindings>
-                    <local:EaslyEditControl.CommandBindings>
-                        <CommandBinding Command="EditingCommands.Backspace" Executed="OnBackspace"/>
-                        <CommandBinding Command="EditingCommands.Delete" Executed="OnDelete"/>
-                        <CommandBinding Command="EditingCommands.EnterParagraphBreak" Executed="OnEnterParagraphBreak"/>
-                        <CommandBinding Command="EditingCommands.TabForward" Executed="OnTabForward"/>
-                        <CommandBinding Command="EditingCommands.ToggleInsert" Executed="OnToggleInsert"/>
-                        <CommandBinding Command="{StaticResource ToggleUserVisibleCommand}" Executed="OnToggleUserVisible"/>
-                        <CommandBinding Command="{StaticResource RemoveExistingItemCommand}" Executed="OnRemoveExistingItem"/>
-                        <CommandBinding Command="{StaticResource SplitExistingItemCommand}" Executed="OnSplitExistingItem"/>
-                        <CommandBinding Command="{StaticResource MergeExistingItemCommand}" Executed="OnMergeExistingItem"/>
-                        <CommandBinding Command="{StaticResource CycleThroughExistingItemCommand}" Executed="OnCycleThroughExistingItem"/>
-                        <CommandBinding Command="{StaticResource SimplifyExistingItemCommand}" Executed="OnSimplifyExistingItem"/>
-                        <CommandBinding Command="{StaticResource ToggleReplicateCommand}" Executed="OnToggleReplicate"/>
-                        <CommandBinding Command="{StaticResource ExpandCommand}" Executed="OnExpand"/>
-                        <CommandBinding Command="{StaticResource ReduceCommand}" Executed="OnReduce"/>
-                        <CommandBinding Command="{StaticResource ExtendSelectionCommand}" Executed="OnExtendSelection"/>
-                        <CommandBinding Command="{StaticResource ReduceSelectionCommand}" Executed="OnReduceSelection"/>
-                        <CommandBinding Command="{StaticResource ShowBlockGeometryCommand}" Executed="OnShowBlockGeometry"/>
-                        <CommandBinding Command="ApplicationCommands.Redo" Executed="OnRedo"/>
-                        <CommandBinding Command="ApplicationCommands.Undo" Executed="OnUndo"/>
-                        <CommandBinding Command="ApplicationCommands.Copy" Executed="OnCopy"/>
-                        <CommandBinding Command="ApplicationCommands.Cut" Executed="OnCut"/>
-                        <CommandBinding Command="ApplicationCommands.Paste" Executed="OnPaste"/>
-                    </local:EaslyEditControl.CommandBindings>
-                </local:EaslyEditControl>
+                    </easlyedit:EaslyEditControl.InputBindings>
+                </easlyedit:EaslyEditControl>
             </Grid>
         </ScrollViewer>
     </DockPanel>
