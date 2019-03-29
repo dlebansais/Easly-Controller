@@ -165,6 +165,13 @@
         #endregion
         #endregion
 
+        #region Initialization
+        static EaslyEditControl()
+        {
+            FocusableProperty.OverrideMetadata(typeof(EaslyEditControl), new FrameworkPropertyMetadata(true));
+        }
+        #endregion
+
         #region Implementation
         protected private override void Initialize()
         {
@@ -1064,6 +1071,8 @@
                 if (IsMoved)
                     InvalidateVisual();
             }
+
+            Focus();
 
             e.Handled = true;
         }
