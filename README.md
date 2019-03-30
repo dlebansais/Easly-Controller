@@ -209,10 +209,13 @@ Once cells have been measured (stretched cells are supposed to fit later), they 
 
 When the client wants to display cells, it can just call the Draw() method, and it be called back with as many draw operations as necessary to complete the request, each with a location and size as well as an atomic draw operation to perform. For example, draw text, or a geometry associated to a symbol.
 
+4. Print
+
+The Print method can be used to create a snapshot of the source, in simple text or RTF formats. Geometric symbols like parenthesis or brackets are reproduced with special unicode characters.
+
 ### Separators
 
 They are not registered as cells but instead handled during the draw phase. The measure phase simply adds empty space between cells as necessary.
 
 Each line and column has an associated frame with an associated separator. As long as the separator isn't specified in a child frame, it is used for all cell children, so eventually all cells end up with the reference to a parent cell that was the last one with a specified separator. When the draw phase is executed, it is this parent cell that must take care of drawing the separator.
-
 

@@ -1,5 +1,6 @@
 ﻿namespace EaslyDraw
 {
+    using System.Globalization;
     using System.Windows.Media;
     using BaseNodeHelper;
     using EaslyController.Constants;
@@ -26,7 +27,7 @@
         /// Initializes a new instance of the <see cref="PrintContext"/> class.
         /// </summary>
         protected PrintContext()
-            : base(new Typeface("Consolas"), 10)
+            : base(new Typeface("Consolas"), 10, CultureInfo.CurrentCulture, System.Windows.FlowDirection.LeftToRight, null, null)
         {
             PrintableArea = new PrintableArea();
             LeftBracketGeometry = new PrintableGeometry('[', '┌', '└', '│', '│', PrintOrientations.Vertical);

@@ -1,7 +1,9 @@
 ﻿namespace EaslyDraw
 {
     using System;
+    using System.Collections.Generic;
     using System.Diagnostics;
+    using System.Globalization;
     using System.IO;
     using System.Reflection;
     using System.Runtime.InteropServices;
@@ -23,9 +25,17 @@
         /// <summary>
         /// Creates and initializes a new context.
         /// </summary>
-        public static DrawContext CreateDrawContext(Typeface typeface, double fontSize, bool hasCommentIcon, bool displayFocus)
+        /// <param name="typeface">The font to use for text.</param>
+        /// <param name="fontSize">The font size to use for text.</param>
+        /// <param name="culture">The culture to use for text.</param>
+        /// <param name="flowDirection">The flow direction to use for text.</param>
+        /// <param name="brushTable">Brushes for each element to display.</param>
+        /// <param name="penTable">Pens for each element to display.</param>
+        /// <param name="hasCommentIcon">True if the comment icon must be displayed.</param>
+        /// <param name="displayFocus">True if focused elements should be displayed as such.</param>
+        public static DrawContext CreateDrawContext(Typeface typeface, double fontSize, CultureInfo culture, System.Windows.FlowDirection flowDirection, IReadOnlyDictionary<BrushSettings, Brush> brushTable, IReadOnlyDictionary<PenSettings, Pen> penTable, bool hasCommentIcon, bool displayFocus)
         {
-            DrawContext Result = new DrawContext(typeface, fontSize, hasCommentIcon, displayFocus);
+            DrawContext Result = new DrawContext(typeface, fontSize, culture, flowDirection, brushTable, penTable, hasCommentIcon, displayFocus);
             Result.Update();
             return Result;
         }
@@ -33,12 +43,16 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="DrawContext"/> class.
         /// </summary>
-        /// <param name="typeface">The font to use.</param>
-        /// <param name="fontSize">The font size.</param>
+        /// <param name="typeface">The font to use for text.</param>
+        /// <param name="fontSize">The font size to use for text.</param>
+        /// <param name="culture">The culture to use for text.</param>
+        /// <param name="flowDirection">The flow direction to use for text.</param>
+        /// <param name="brushTable">Brushes for each element to display.</param>
+        /// <param name="penTable">Pens for each element to display.</param>
         /// <param name="hasCommentIcon">True if the comment icon must be displayed.</param>
         /// <param name="displayFocus">True if focused elements should be displayed as such.</param>
-        protected DrawContext(Typeface typeface, double fontSize, bool hasCommentIcon, bool displayFocus)
-            : base(typeface, fontSize)
+        protected DrawContext(Typeface typeface, double fontSize, CultureInfo culture, System.Windows.FlowDirection flowDirection, IReadOnlyDictionary<BrushSettings, Brush> brushTable, IReadOnlyDictionary<PenSettings, Pen> penTable, bool hasCommentIcon, bool displayFocus)
+            : base(typeface, fontSize, culture, flowDirection, brushTable, penTable)
         {
             IsLastFocusedFullCell = false;
             DisplayFocus = displayFocus;
@@ -140,7 +154,7 @@
             Debug.Assert(end >= 0 && end <= text.Length);
             Debug.Assert(start <= end);
 
-            Brush Brush = BrushTable[StyleToForegroundBrush(textStyle)];
+            Brush Brush = GetBrush(StyleToForegroundBrush(textStyle));
             FormattedText ft;
             double X = PagePadding.Left.Draw + origin.X.Draw;
             double Y = PagePadding.Top.Draw + origin.Y.Draw;
@@ -157,7 +171,7 @@
             ft = new FormattedText(text.Substring(start, end - start), Culture, FlowDirection, Typeface, EmSize, Brush);
             System.Windows.Rect SelectionRect = new System.Windows.Rect(X, Y, ft.WidthIncludingTrailingWhitespace, LineHeight.Draw);
 
-            WpfDrawingContext.DrawRectangle(BrushTable[BrushSettings.Selection], PenTable[PenSettings.SelectionText], SelectionRect);
+            WpfDrawingContext.DrawRectangle(GetBrush(BrushSettings.Selection), GetPen(PenSettings.SelectionText), SelectionRect);
         }
 
         /// <summary>
@@ -170,7 +184,7 @@
         {
             Debug.Assert(WpfDrawingContext != null);
 
-            Brush Brush = BrushTable[StyleToForegroundBrush(textStyle)];
+            Brush Brush = GetBrush(StyleToForegroundBrush(textStyle));
             FormattedText ft = new FormattedText(text, Culture, FlowDirection, Typeface, EmSize, Brush);
 
             double X = PagePadding.Left.Draw + origin.X.Draw;
@@ -179,7 +193,7 @@
             double Height = LineHeight.Draw;
 
             if (textStyle == TextStyles.Comment)
-                WpfDrawingContext.DrawRectangle(BrushTable[BrushSettings.CommentBackground], PenTable[PenSettings.Comment], new System.Windows.Rect(X, Y, CommentPadding.Left.Draw + Width + CommentPadding.Right.Draw, CommentPadding.Top.Draw + Height + CommentPadding.Bottom.Draw));
+                WpfDrawingContext.DrawRectangle(GetBrush(BrushSettings.CommentBackground), GetPen(PenSettings.Comment), new System.Windows.Rect(X, Y, CommentPadding.Left.Draw + Width + CommentPadding.Right.Draw, CommentPadding.Top.Draw + Height + CommentPadding.Bottom.Draw));
         }
 
         /// <summary>
@@ -199,7 +213,7 @@
                 WpfDrawingContext.PushOpacity(1, FlashClock);
             }
 
-            Brush Brush = BrushTable[StyleToForegroundBrush(textStyle)];
+            Brush Brush = GetBrush(StyleToForegroundBrush(textStyle));
             FormattedText ft = new FormattedText(text, Culture, FlowDirection, Typeface, EmSize, Brush);
 
             double X = PagePadding.Left.Draw + origin.X.Draw;
@@ -241,12 +255,12 @@
             double X = PagePadding.Left.Draw + origin.X.Draw;
             double Y = PagePadding.Top.Draw + origin.Y.Draw;
 
-            Brush = BrushTable[BrushSettings.NumberSignificand];
+            Brush = GetBrush(BrushSettings.NumberSignificand);
             FormattedText ftSignificand = new FormattedText(SignificandString, Culture, FlowDirection, Typeface, EmSize, Brush);
             WpfDrawingContext.DrawText(ftSignificand, new System.Windows.Point(X, Y));
             X += ftSignificand.WidthIncludingTrailingWhitespace;
 
-            Brush = BrushTable[BrushSettings.NumberExponent];
+            Brush = GetBrush(BrushSettings.NumberExponent);
             FormattedText ftExponent0 = new FormattedText(ExponentString0, Culture, FlowDirection, Typeface, EmSize, Brush);
             WpfDrawingContext.DrawText(ftExponent0, new System.Windows.Point(X, Y));
             X += ftExponent0.WidthIncludingTrailingWhitespace;
@@ -254,7 +268,7 @@
             WpfDrawingContext.DrawText(ftExponent1, new System.Windows.Point(X, Y));
             X += ftExponent1.WidthIncludingTrailingWhitespace;
 
-            Brush = BrushTable[BrushSettings.NumberInvalid];
+            Brush = GetBrush(BrushSettings.NumberInvalid);
             FormattedText ftInvalid = new FormattedText(InvalidText, Culture, FlowDirection, Typeface, EmSize, Brush);
             WpfDrawingContext.DrawText(ftInvalid, new System.Windows.Point(X, Y));
         }
@@ -323,7 +337,7 @@
         {
             Debug.Assert(WpfDrawingContext != null);
 
-            Brush ForegroundBrush = BrushTable[BrushSettings.Symbol];
+            Brush ForegroundBrush = GetBrush(BrushSettings.Symbol);
             FormattedText ft = new FormattedText(text, Culture, FlowDirection, Typeface, EmSize, ForegroundBrush);
             WpfDrawingContext.DrawText(ft, new System.Windows.Point(PagePadding.Left.Draw + origin.X.Draw + padding.Left.Draw, PagePadding.Top.Draw + origin.Y.Draw + padding.Top.Draw));
         }
@@ -337,7 +351,7 @@
             Size PaddedSize = new Size(size.Width - padding.Left - padding.Right, size.Height - padding.Top - padding.Bottom);
             Geometry GeometryAtOrigin = MoveAndScaleGeometry(geometry, PaddedOrigin, GeometryScalings.None, GeometryScalings.Stretch, PaddedSize);
 
-            Brush ForegroundBrush = BrushTable[BrushSettings.Symbol];
+            Brush ForegroundBrush = GetBrush(BrushSettings.Symbol);
             WpfDrawingContext.DrawGeometry(ForegroundBrush, null, GeometryAtOrigin);
         }
 
@@ -396,7 +410,7 @@
         {
             Debug.Assert(WpfDrawingContext != null);
 
-            Brush ForegroundBrush = BrushTable[BrushSettings.Symbol];
+            Brush ForegroundBrush = GetBrush(BrushSettings.Symbol);
             FormattedText ft;
 
             switch (separator)
@@ -432,7 +446,7 @@
         {
             Debug.Assert(WpfDrawingContext != null);
 
-            Pen LinePen = PenTable[PenSettings.BlockGeometry];
+            Pen LinePen = GetPen(PenSettings.BlockGeometry);
             double X = PagePadding.Left.Draw + origin.X.Draw;
             double Y = PagePadding.Top.Draw + origin.Y.Draw;
             double d0 = BlockGeometryHeight.Draw;
@@ -457,7 +471,7 @@
         {
             Debug.Assert(WpfDrawingContext != null);
 
-            Pen LinePen = PenTable[PenSettings.BlockGeometry];
+            Pen LinePen = GetPen(PenSettings.BlockGeometry);
             double X = PagePadding.Left.Draw + origin.X.Draw;
             double Y = PagePadding.Top.Draw + origin.Y.Draw;
             double d0 = BlockGeometryWidth.Draw;
@@ -499,7 +513,7 @@
         {
             string LeftText = text.Substring(0, position);
 
-            Brush Brush = BrushTable[StyleToForegroundBrush(textStyle)];
+            Brush Brush = GetBrush(StyleToForegroundBrush(textStyle));
             FormattedText ft = new FormattedText(LeftText, Culture, FlowDirection, Typeface, EmSize, Brush);
             double X = origin.X.Draw + ft.WidthIncludingTrailingWhitespace;
             double Y = origin.Y.Draw;
@@ -517,18 +531,18 @@
                 System.Windows.Rect CaretRect = new System.Windows.Rect(PagePadding.Left.Draw + X, PagePadding.Top.Draw + Y, InsertionCaretWidth, LineHeight.Draw);
 
                 WpfDrawingContext.PushOpacity(1, FlashClock);
-                WpfDrawingContext.DrawRectangle(BrushTable[BrushSettings.CaretInsertion], PenTable[PenSettings.CaretInsertion], CaretRect);
+                WpfDrawingContext.DrawRectangle(GetBrush(BrushSettings.CaretInsertion), GetPen(PenSettings.CaretInsertion), CaretRect);
                 WpfDrawingContext.Pop();
             }
             else
             {
                 string CaretText = text.Substring(position, 1);
-                ft = new FormattedText(CaretText, Culture, FlowDirection, Typeface, EmSize, BrushTable[BrushSettings.CaretOverride]);
+                ft = new FormattedText(CaretText, Culture, FlowDirection, Typeface, EmSize, GetBrush(BrushSettings.CaretOverride));
 
                 System.Windows.Rect CaretRect = new System.Windows.Rect(PagePadding.Left.Draw + X, PagePadding.Top.Draw + Y, ft.WidthIncludingTrailingWhitespace, LineHeight.Draw);
 
                 WpfDrawingContext.PushOpacity(1, FlashClock);
-                WpfDrawingContext.DrawRectangle(BrushTable[BrushSettings.CaretOverride], PenTable[PenSettings.CaretOverride], CaretRect);
+                WpfDrawingContext.DrawRectangle(GetBrush(BrushSettings.CaretOverride), GetPen(PenSettings.CaretOverride), CaretRect);
                 WpfDrawingContext.Pop();
             }
         }
@@ -585,17 +599,17 @@
             double Y = origin.Y.Draw;
             Brush Brush;
 
-            Brush = BrushTable[BrushSettings.NumberSignificand];
+            Brush = GetBrush(BrushSettings.NumberSignificand);
             FormattedText ftSignificand = new FormattedText(SignificandString, Culture, FlowDirection, Typeface, EmSize, Brush);
             X += ftSignificand.WidthIncludingTrailingWhitespace;
 
-            Brush = BrushTable[BrushSettings.NumberExponent];
+            Brush = GetBrush(BrushSettings.NumberExponent);
             FormattedText ftExponent0 = new FormattedText(ExponentString0, Culture, FlowDirection, Typeface, EmSize, Brush);
             X += ftExponent0.WidthIncludingTrailingWhitespace;
             FormattedText ftExponent1 = new FormattedText(ExponentString1, Culture, FlowDirection, Typeface, EmSize * SubscriptRatio, Brush);
             X += ftExponent1.WidthIncludingTrailingWhitespace;
 
-            Brush = BrushTable[BrushSettings.NumberInvalid];
+            Brush = GetBrush(BrushSettings.NumberInvalid);
             FormattedText ftInvalid = new FormattedText(InvalidText, Culture, FlowDirection, Typeface, EmSize, Brush);
             X += ftInvalid.WidthIncludingTrailingWhitespace;
 
@@ -620,7 +634,7 @@
                 System.Windows.Rect CaretRect = new System.Windows.Rect(PagePadding.Left.Draw + X, PagePadding.Top.Draw + Y, InsertionCaretWidth, CaretHeight);
 
                 WpfDrawingContext.PushOpacity(1, FlashClock);
-                WpfDrawingContext.DrawRectangle(BrushTable[BrushSettings.CaretInsertion], PenTable[PenSettings.CaretInsertion], CaretRect);
+                WpfDrawingContext.DrawRectangle(GetBrush(BrushSettings.CaretInsertion), GetPen(PenSettings.CaretInsertion), CaretRect);
                 WpfDrawingContext.Pop();
             }
             else
@@ -634,12 +648,12 @@
                 else
                     CaretText = fn.InvalidText.Substring(position - fn.SignificandString.Length - fn.ExponentString.Length, 1);
 
-                FormattedText ftCaret = new FormattedText(CaretText, Culture, FlowDirection, Typeface, CaretEmSize, BrushTable[BrushSettings.CaretOverride]);
+                FormattedText ftCaret = new FormattedText(CaretText, Culture, FlowDirection, Typeface, CaretEmSize, GetBrush(BrushSettings.CaretOverride));
 
                 System.Windows.Rect CaretRect = new System.Windows.Rect(PagePadding.Left.Draw + X, PagePadding.Top.Draw + Y, ftCaret.WidthIncludingTrailingWhitespace, CaretHeight);
 
                 WpfDrawingContext.PushOpacity(1, FlashClock);
-                WpfDrawingContext.DrawRectangle(BrushTable[BrushSettings.CaretOverride], PenTable[PenSettings.CaretOverride], CaretRect);
+                WpfDrawingContext.DrawRectangle(GetBrush(BrushSettings.CaretOverride), GetPen(PenSettings.CaretOverride), CaretRect);
                 WpfDrawingContext.Pop();
             }
         }
@@ -706,7 +720,7 @@
         /// <returns>The position of the caret.</returns>
         public virtual int GetCaretPositionInText(double x, string text, TextStyles textStyle, CaretModes mode, Measure maxTextWidth)
         {
-            Brush Brush = BrushTable[StyleToForegroundBrush(textStyle)];
+            Brush Brush = GetBrush(StyleToForegroundBrush(textStyle));
 
             if (textStyle == TextStyles.Comment)
                 x += CommentPadding.Left.Draw;
@@ -742,23 +756,23 @@
             switch (selectionStyle)
             {
                 default:
-                    RectanglePen = PenTable[PenSettings.Default];
+                    RectanglePen = GetPen(PenSettings.Default);
                     break;
 
                 case SelectionStyles.Node:
-                    RectanglePen = PenTable[PenSettings.SelectionNode];
+                    RectanglePen = GetPen(PenSettings.SelectionNode);
                     break;
 
                 case SelectionStyles.NodeList:
-                    RectanglePen = PenTable[PenSettings.SelectionNodeList];
+                    RectanglePen = GetPen(PenSettings.SelectionNodeList);
                     break;
 
                 case SelectionStyles.BlockList:
-                    RectanglePen = PenTable[PenSettings.SelectionBlockList];
+                    RectanglePen = GetPen(PenSettings.SelectionBlockList);
                     break;
             }
 
-            WpfDrawingContext.DrawRectangle(BrushTable[BrushSettings.Selection], RectanglePen, new System.Windows.Rect(PagePadding.Left.Draw + rect.X, PagePadding.Top.Draw + rect.Y, rect.Width, rect.Height));
+            WpfDrawingContext.DrawRectangle(GetBrush(BrushSettings.Selection), RectanglePen, new System.Windows.Rect(PagePadding.Left.Draw + rect.X, PagePadding.Top.Draw + rect.Y, rect.Width, rect.Height));
         }
         #endregion
 
@@ -782,7 +796,7 @@
 
             FormattedText ft;
 
-            ft = new FormattedText(" ", Culture, FlowDirection, Typeface, EmSize, BrushTable[BrushSettings.Default]);
+            ft = new FormattedText(" ", Culture, FlowDirection, Typeface, EmSize, GetBrush(BrushSettings.Default));
 
             LeftBracketGeometry = ScaleGlyphGeometryHeight("[", true, 0.3, 0.3);
             RightBracketGeometry = ScaleGlyphGeometryHeight("]", true, 0.3, 0.3);
@@ -806,7 +820,7 @@
         /// <summary></summary>
         protected virtual ScalableGeometry ScaleGlyphGeometryWidth(string text, bool isWidthScaled, double leftPercent, double rightPercent)
         {
-            FormattedText GlyphText = new FormattedText(text, Culture, FlowDirection, Typeface, EmSize, BrushTable[BrushSettings.Symbol]);
+            FormattedText GlyphText = new FormattedText(text, Culture, FlowDirection, Typeface, EmSize, GetBrush(BrushSettings.Symbol));
             GlyphText.Trimming = System.Windows.TextTrimming.None;
 
             System.Windows.Rect Bounds = new System.Windows.Rect(new System.Windows.Point(0, 0), new System.Windows.Size(GlyphText.Width, GlyphText.Width));
@@ -818,7 +832,7 @@
         /// <summary></summary>
         protected virtual ScalableGeometry ScaleGlyphGeometryHeight(string text, bool isHeightScaled, double topPercent, double bottomPercent)
         {
-            FormattedText GlyphText = new FormattedText(text, Culture, FlowDirection, Typeface, EmSize, BrushTable[BrushSettings.Symbol]);
+            FormattedText GlyphText = new FormattedText(text, Culture, FlowDirection, Typeface, EmSize, GetBrush(BrushSettings.Symbol));
             GlyphText.Trimming = System.Windows.TextTrimming.None;
 
             System.Windows.Rect Bounds = new System.Windows.Rect(new System.Windows.Point(0, 0), new System.Windows.Size(GlyphText.Width, GlyphText.Height));

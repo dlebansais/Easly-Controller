@@ -14,37 +14,28 @@
     /// </summary>
     public class MeasureContext : ILayoutMeasureContext
     {
+        #region Constants
+        /// <summary>
+        /// The default brush table.
+        /// </summary>
+        public static IReadOnlyDictionary<BrushSettings, Brush> DefaultBrushTable { get; }
+
+        /// <summary>
+        /// The default pen table.
+        /// </summary>
+        public static IReadOnlyDictionary<PenSettings, Pen> DefaultPenTable { get; }
+        #endregion
+
         #region Init
-        /// <summary>
-        /// Creates and initializes a new context.
-        /// </summary>
-        public static MeasureContext CreateMeasureContext(Typeface typeface, double fontSize)
+        static MeasureContext()
         {
-            MeasureContext Result = new MeasureContext(typeface, fontSize);
-            Result.Update();
-            return Result;
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="MeasureContext"/> class.
-        /// </summary>
-        protected MeasureContext(Typeface typeface, double fontSize)
-        {
-            Typeface = typeface;
-            FontSize = fontSize;
-            SubscriptRatio = 0.7;
-            Culture = CultureInfo.CurrentCulture;
-            FlowDirection = System.Windows.FlowDirection.LeftToRight;
-            CommaSeparatorString = ", ";
-            DotSeparatorString = "·";
-
             Color SelectionColor = Color.FromArgb(0xFF, 0x99, 0xC9, 0xEF);
             Color TypeIdentifierColor = Color.FromArgb(0xFF, 0x2B, 0x91, 0xAF);
 
             SolidColorBrush SelectionBrush = new SolidColorBrush(SelectionColor);
             SolidColorBrush TypeIdentifierBrush = new SolidColorBrush(TypeIdentifierColor);
 
-            BrushTable = new Dictionary<BrushSettings, Brush>
+            Dictionary<BrushSettings, Brush> BrushTable = new Dictionary<BrushSettings, Brush>
             {
                 { BrushSettings.Default, Brushes.Black },
                 { BrushSettings.Keyword, Brushes.Blue },
@@ -63,7 +54,7 @@
                 { BrushSettings.LineNumberForeground, TypeIdentifierBrush },
             };
 
-            PenTable = new Dictionary<PenSettings, Pen>
+            Dictionary<PenSettings, Pen> PenTable = new Dictionary<PenSettings, Pen>
             {
                 { PenSettings.Default, null },
                 { PenSettings.Comment, new Pen(Brushes.DarkGreen, 1) },
@@ -75,6 +66,35 @@
                 { PenSettings.SelectionBlockList, new Pen(Brushes.Black, 1) { DashStyle = new DashStyle(new double[] { 3 }, 1) } },
                 { PenSettings.BlockGeometry, new Pen(Brushes.Gray, 1) },
             };
+
+            DefaultBrushTable = BrushTable;
+            DefaultPenTable = PenTable;
+        }
+
+        /// <summary>
+        /// Creates and initializes a new context.
+        /// </summary>
+        public static MeasureContext CreateMeasureContext(Typeface typeface, double fontSize, CultureInfo culture, System.Windows.FlowDirection flowDirection, IReadOnlyDictionary<BrushSettings, Brush> brushTable, IReadOnlyDictionary<PenSettings, Pen> penTable)
+        {
+            MeasureContext Result = new MeasureContext(typeface, fontSize, culture, flowDirection, brushTable, penTable);
+            Result.Update();
+            return Result;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MeasureContext"/> class.
+        /// </summary>
+        protected MeasureContext(Typeface typeface, double fontSize, CultureInfo culture, System.Windows.FlowDirection flowDirection, IReadOnlyDictionary<BrushSettings, Brush> brushTable, IReadOnlyDictionary<PenSettings, Pen> penTable)
+        {
+            Typeface = typeface;
+            FontSize = fontSize;
+            Culture = culture;
+            FlowDirection = flowDirection;
+            SubscriptRatio = 0.7;
+            CommaSeparatorString = ", ";
+            DotSeparatorString = "·";
+            BrushTable = brushTable ?? DefaultBrushTable;
+            PenTable = penTable ?? DefaultPenTable;
         }
         #endregion
 
@@ -152,12 +172,12 @@
         /// <summary>
         /// Table of brushes to use when drawing.
         /// </summary>
-        public IDictionary<BrushSettings, Brush> BrushTable { get; }
+        public IReadOnlyDictionary<BrushSettings, Brush> BrushTable { get; }
 
         /// <summary>
         /// Table of pens to use when drawing.
         /// </summary>
-        public IDictionary<PenSettings, Pen> PenTable { get; }
+        public IReadOnlyDictionary<PenSettings, Pen> PenTable { get; }
         #endregion
 
         #region Implementation of IxxxMeasureContext
@@ -188,7 +208,7 @@
         /// <returns>The size of the string.</returns>
         public virtual Size MeasureText(string text, TextStyles textStyle, Measure maxTextWidth)
         {
-            Brush Brush = BrushTable[StyleToForegroundBrush(textStyle)];
+            Brush Brush = GetBrush(StyleToForegroundBrush(textStyle));
             FormattedText ft = new FormattedText(text, Culture, FlowDirection, Typeface, EmSize, Brush);
             if (!maxTextWidth.IsFloating)
                 ft.MaxTextWidth = maxTextWidth.Draw;
@@ -216,13 +236,13 @@
 
             Brush Brush;
 
-            Brush = BrushTable[BrushSettings.NumberSignificand];
+            Brush = GetBrush(BrushSettings.NumberSignificand);
             FormattedText ftSignificand = new FormattedText(SignificandString, Culture, FlowDirection, Typeface, EmSize, Brush);
 
-            Brush = BrushTable[BrushSettings.NumberExponent];
+            Brush = GetBrush(BrushSettings.NumberExponent);
             FormattedText ftExponent = new FormattedText(ExponentString, Culture, FlowDirection, Typeface, EmSize * SubscriptRatio, Brush);
 
-            Brush = BrushTable[BrushSettings.NumberInvalid];
+            Brush = GetBrush(BrushSettings.NumberInvalid);
             FormattedText ftInvalid = new FormattedText(InvalidText, Culture, FlowDirection, Typeface, EmSize, Brush);
 
             Measure Width = new Measure() { Draw = ftSignificand.WidthIncludingTrailingWhitespace + ftExponent.WidthIncludingTrailingWhitespace + ftInvalid.WidthIncludingTrailingWhitespace, Print = text.Length };
@@ -238,7 +258,7 @@
         public virtual Size MeasureSymbolSize(Symbols symbol)
         {
             string Text = SymbolToText(symbol);
-            FormattedText ft = new FormattedText(Text, Culture, FlowDirection, Typeface, EmSize, BrushTable[BrushSettings.Symbol]);
+            FormattedText ft = new FormattedText(Text, Culture, FlowDirection, Typeface, EmSize, GetBrush(BrushSettings.Symbol));
 
             switch (symbol)
             {
@@ -364,6 +384,22 @@
             size = new Size(new Measure() { Draw = size.Width.Draw + LeftPadding + RightPadding, Print = size.Width.Print + LeftSpacing + RightSpacing }, size.Height);
             padding = new Padding(new Measure() { Draw = LeftPadding, Print = LeftSpacing }, Measure.Zero, new Measure() { Draw = RightPadding, Print = RightSpacing }, Measure.Zero);
         }
+
+        protected private virtual Brush GetBrush(BrushSettings key)
+        {
+            if (BrushTable.ContainsKey(key))
+                return BrushTable[key];
+            else
+                return DefaultBrushTable[key];
+        }
+
+        protected private virtual Pen GetPen(PenSettings key)
+        {
+            if (PenTable.ContainsKey(key))
+                return PenTable[key];
+            else
+                return DefaultPenTable[key];
+        }
         #endregion
 
         #region Client Interface
@@ -375,7 +411,7 @@
         {
             FormattedText ft;
 
-            ft = new FormattedText(" ", Culture, FlowDirection, Typeface, EmSize, BrushTable[BrushSettings.Default]);
+            ft = new FormattedText(" ", Culture, FlowDirection, Typeface, EmSize, GetBrush(BrushSettings.Default));
             WhitespaceWidth = ft.WidthIncludingTrailingWhitespace;
             InsertionCaretWidth = WhitespaceWidth / 4;
             LineHeight = new Measure() { Draw = ft.Height, Print = 1 };
@@ -385,10 +421,10 @@
             BlockGeometryHeight = new Measure() { Draw = LineHeight.Draw, Print = 1 };
             VerticalSeparatorHeightTable[VerticalSeparators.Line] = new Measure() { Draw = LineHeight.Draw * 3, Print = 3 };
 
-            ft = new FormattedText(CommaSeparatorString, Culture, FlowDirection, Typeface, EmSize, BrushTable[BrushSettings.Symbol]);
+            ft = new FormattedText(CommaSeparatorString, Culture, FlowDirection, Typeface, EmSize, GetBrush(BrushSettings.Symbol));
             HorizontalSeparatorWidthTable[HorizontalSeparators.Comma] = new Measure() { Draw = ft.WidthIncludingTrailingWhitespace, Print = CommaSeparatorString.Length };
 
-            ft = new FormattedText(DotSeparatorString, Culture, FlowDirection, Typeface, EmSize, BrushTable[BrushSettings.Symbol]);
+            ft = new FormattedText(DotSeparatorString, Culture, FlowDirection, Typeface, EmSize, GetBrush(BrushSettings.Symbol));
             HorizontalSeparatorWidthTable[HorizontalSeparators.Dot] = new Measure() { Draw = ft.WidthIncludingTrailingWhitespace, Print = DotSeparatorString.Length };
         }
 

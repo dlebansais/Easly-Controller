@@ -117,7 +117,7 @@
         /// <summary>
         /// Returns a string representation of this instance in RTF format.
         /// </summary>
-        public virtual string ToString(IDictionary<BrushSettings, Brush> brushTable)
+        public virtual string ToString(IReadOnlyDictionary<BrushSettings, Brush> brushTable)
         {
             string Result = string.Empty;
 

@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
+    using System.Globalization;
     using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Controls.Primitives;
@@ -180,7 +181,7 @@
                 DrawingVisual = new DrawingVisual();
                 DrawingContext = DrawingVisual.RenderOpen();
 
-                DrawContext = DrawContext.CreateDrawContext(CreateTypeface(), FontSize, hasCommentIcon: true, displayFocus: true);
+                DrawContext = DrawContext.CreateDrawContext(CreateTypeface(), FontSize, CultureInfo.CurrentCulture, FlowDirection, BrushTable, PenTable, hasCommentIcon: true, displayFocus: true);
                 ControllerView = LayoutControllerView.Create(Controller, TemplateSet, DrawContext);
                 InitializeProperties();
                 ControllerView.MeasureAndArrange();

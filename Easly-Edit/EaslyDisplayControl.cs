@@ -1,5 +1,7 @@
 ﻿namespace EaslyEdit
 {
+    using System.Collections.Generic;
+    using System.Globalization;
     using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Media;
@@ -209,6 +211,68 @@
             }
         }
         #endregion
+        #region BrushTable
+        /// <summary>
+        /// Identifies the <see cref="BrushTable"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty BrushTableProperty = DependencyProperty.Register("BrushTable", typeof(IReadOnlyDictionary<BrushSettings, Brush>), typeof(EaslyDisplayControl), new PropertyMetadata(MeasureContext.DefaultBrushTable, BrushTablePropertyChangedCallback));
+
+        /// <summary>
+        /// Gets or sets display templates.
+        /// </summary>
+        public IReadOnlyDictionary<BrushSettings, Brush> BrushTable
+        {
+            get { return (IReadOnlyDictionary<BrushSettings, Brush>)GetValue(BrushTableProperty); }
+            set { SetValue(BrushTableProperty, value); }
+        }
+
+        protected private static void BrushTablePropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            EaslyDisplayControl ctrl = (EaslyDisplayControl)d;
+            if (ctrl.BrushTable != e.OldValue)
+                ctrl.OnBrushTablePropertyChanged(e);
+        }
+
+        protected private virtual void OnBrushTablePropertyChanged(DependencyPropertyChangedEventArgs e)
+        {
+            Cleanup();
+            Initialize();
+
+            InvalidateMeasure();
+            InvalidateVisual();
+        }
+        #endregion
+        #region PenTable
+        /// <summary>
+        /// Identifies the <see cref="PenTable"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty PenTableProperty = DependencyProperty.Register("PenTable", typeof(IReadOnlyDictionary<PenSettings, Pen>), typeof(EaslyDisplayControl), new PropertyMetadata(MeasureContext.DefaultPenTable, PenTablePropertyChangedCallback));
+
+        /// <summary>
+        /// Gets or sets display templates.
+        /// </summary>
+        public IReadOnlyDictionary<PenSettings, Pen> PenTable
+        {
+            get { return (IReadOnlyDictionary<PenSettings, Pen>)GetValue(PenTableProperty); }
+            set { SetValue(PenTableProperty, value); }
+        }
+
+        protected private static void PenTablePropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            EaslyDisplayControl ctrl = (EaslyDisplayControl)d;
+            if (ctrl.PenTable != e.OldValue)
+                ctrl.OnPenTablePropertyChanged(e);
+        }
+
+        protected private virtual void OnPenTablePropertyChanged(DependencyPropertyChangedEventArgs e)
+        {
+            Cleanup();
+            Initialize();
+
+            InvalidateMeasure();
+            InvalidateVisual();
+        }
+        #endregion
         #endregion
 
         #region Implementation
@@ -216,7 +280,7 @@
         {
             if (IsReady)
             {
-                DrawContext = DrawContext.CreateDrawContext(CreateTypeface(), FontSize, hasCommentIcon: false, displayFocus: false);
+                DrawContext = DrawContext.CreateDrawContext(CreateTypeface(), FontSize, CultureInfo.CurrentCulture, FlowDirection, BrushTable, PenTable, hasCommentIcon: false, displayFocus: false);
                 ControllerView = LayoutControllerView.Create(Controller, TemplateSet, DrawContext);
                 InitializeProperties();
             }

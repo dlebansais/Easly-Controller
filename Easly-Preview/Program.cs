@@ -2,6 +2,7 @@
 {
     using System;
     using System.Diagnostics;
+    using System.Globalization;
     using System.IO;
     using System.Windows.Media;
     using System.Windows.Media.Imaging;
@@ -89,7 +90,7 @@
             using (DrawingContext dc = DrawingVisual.RenderOpen())
             {
                 // Create a draw context using default fonts and brushes.
-                DrawContext DrawContext = DrawContext.CreateDrawContext(new Typeface("Consolas"), 10, hasCommentIcon: true, displayFocus: true);
+                DrawContext DrawContext = DrawContext.CreateDrawContext(new Typeface("Consolas"), 10, CultureInfo.CurrentCulture, System.Windows.FlowDirection.LeftToRight, null, null, hasCommentIcon: true, displayFocus: true);
 
                 // Create a view using custom frames (for how code is organized).
                 ILayoutControllerView ControllerView = LayoutControllerView.Create(Controller, TestDebug.CustomLayoutTemplateSet.LayoutTemplateSet, DrawContext);
