@@ -25,7 +25,7 @@
             <param name="itemType">The type of items in the collection.</param>
             </parameters>
             <returns>
-                True if the inserter can handle the collection, false otherwise. 
+                True if the inserter can handle the collection, false otherwise.
             </returns>
         </member>
         <member name="M:PolySerializer.IInserter.TryMatchType(System.Type,System.Type@)">
@@ -38,7 +38,7 @@
             <param name="itemType">The type of items in the collection.</param>
             </parameters>
             <returns>
-                True if the inserter can handle the collection type, false otherwise. 
+                True if the inserter can handle the collection type, false otherwise.
             </returns>
         </member>
         <member name="M:PolySerializer.IInserter.AddItem(System.Object)">
@@ -80,7 +80,7 @@
             <param name="itemType">The type of items in the collection.</param>
             </parameters>
             <returns>
-                True if the inserter can handle the collection, false otherwise. 
+                True if the inserter can handle the collection, false otherwise.
             </returns>
         </member>
         <member name="M:PolySerializer.ArrayInserter.TryMatchType(System.Type,System.Type@)">
@@ -93,7 +93,7 @@
             <param name="itemType">The type of items in the collection.</param>
             </parameters>
             <returns>
-                True if the inserter can handle the collection type, false otherwise. 
+                True if the inserter can handle the collection type, false otherwise.
             </returns>
         </member>
         <member name="M:PolySerializer.ArrayInserter.AddItem(System.Object)">
@@ -130,7 +130,7 @@
             <param name="itemType">The type of items in the collection.</param>
             </parameters>
             <returns>
-                True if the inserter can handle the collection, false otherwise. 
+                True if the inserter can handle the collection, false otherwise.
             </returns>
         </member>
         <member name="M:PolySerializer.ListInserter.TryMatchType(System.Type,System.Type@)">
@@ -143,7 +143,7 @@
             <param name="itemType">The type of items in the collection.</param>
             </parameters>
             <returns>
-                True if the inserter can handle the collection type, false otherwise. 
+                True if the inserter can handle the collection type, false otherwise.
             </returns>
         </member>
         <member name="M:PolySerializer.ListInserter.AddItem(System.Object)">
@@ -185,7 +185,7 @@
             <param name="itemType">The type of items in the collection.</param>
             </parameters>
             <returns>
-                True if the inserter can handle the collection, false otherwise. 
+                True if the inserter can handle the collection, false otherwise.
             </returns>
         </member>
         <member name="M:PolySerializer.GenericAddInserter.TryMatchType(System.Type,System.Type@)">
@@ -198,7 +198,7 @@
             <param name="itemType">The type of items in the collection.</param>
             </parameters>
             <returns>
-                True if the inserter can handle the collection type, false otherwise. 
+                True if the inserter can handle the collection type, false otherwise.
             </returns>
         </member>
         <member name="M:PolySerializer.GenericAddInserter.AddItem(System.Object)">
@@ -208,6 +208,128 @@
             <parameters>
             <param name="item">The item to add.</param>
             </parameters>
+        </member>
+        <member name="T:PolySerializer.NamespaceDescriptor">
+            <summary>
+            Perform partial search/replace in assembly qualified type names.
+            </summary>
+        </member>
+        <member name="F:PolySerializer.NamespaceDescriptor.MatchAny">
+            <summary>
+            The text to search to always replace.
+            </summary>
+        </member>
+        <member name="F:PolySerializer.NamespaceDescriptor.MatchAll">
+            <summary>
+            A descriptor that will match all names.
+            </summary>
+        </member>
+        <member name="M:PolySerializer.NamespaceDescriptor.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:PolySerializer.NamespaceDescriptor"/> struct.
+            </summary>
+            <param name="path">The namespace path.</param>
+        </member>
+        <member name="M:PolySerializer.NamespaceDescriptor.#ctor(System.String,System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:PolySerializer.NamespaceDescriptor"/> struct.
+            </summary>
+            <param name="path">The namespace path.</param>
+            <param name="assembly">The assembly name.</param>
+        </member>
+        <member name="M:PolySerializer.NamespaceDescriptor.#ctor(System.String,System.String,System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:PolySerializer.NamespaceDescriptor"/> struct.
+            </summary>
+            <param name="path">The namespace path.</param>
+            <param name="assembly">The assembly name.</param>
+            <param name="version">The assembly version.</param>
+        </member>
+        <member name="M:PolySerializer.NamespaceDescriptor.#ctor(System.String,System.String,System.String,System.String,System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:PolySerializer.NamespaceDescriptor"/> struct.
+            </summary>
+            <param name="path">The namespace path.</param>
+            <param name="assembly">The assembly name.</param>
+            <param name="version">The assembly version.</param>
+            <param name="culture">The culture name.</param>
+            <param name="publicKeyToken">The public key token.</param>
+        </member>
+        <member name="P:PolySerializer.NamespaceDescriptor.Path">
+            <summary>
+            Gets or sets the namespace path.
+            </summary>
+        </member>
+        <member name="P:PolySerializer.NamespaceDescriptor.Assembly">
+            <summary>
+            Gets or sets the assembly name.
+            </summary>
+        </member>
+        <member name="P:PolySerializer.NamespaceDescriptor.Version">
+            <summary>
+            Gets or sets the assembly version.
+            </summary>
+        </member>
+        <member name="P:PolySerializer.NamespaceDescriptor.Culture">
+            <summary>
+            Gets or sets the culture name.
+            </summary>
+        </member>
+        <member name="P:PolySerializer.NamespaceDescriptor.PublicKeyToken">
+            <summary>
+            Gets or sets the public key token.
+            </summary>
+        </member>
+        <member name="M:PolySerializer.NamespaceDescriptor.Match(System.String,PolySerializer.NamespaceDescriptor,PolySerializer.NamespaceDescriptor,System.String@)">
+            <summary>
+            Performs a search replace on <paramref name="name"/>.
+            </summary>
+            <param name="name">The assembly qualified type name to search in.</param>
+            <param name="descriptorSearch">The descriptor with search parts.</param>
+            <param name="descriptorReplace">The descriptor with replace prts.</param>
+            <param name="nameOverride">The value of <paramref name="name"/> after replacements.</param>
+            <returns>True if at least one searched part in <paramref name="name"/> was replaced.</returns>
+        </member>
+        <member name="M:PolySerializer.NamespaceDescriptor.DescriptorFromType(System.Type)">
+            <summary>
+            Fills a descriptor with information from a type.
+            </summary>
+            <param name="type">The type to read.</param>
+        </member>
+        <member name="M:PolySerializer.NamespaceDescriptor.PathFromType(System.Type)">
+            <summary>
+            Gets the path subset of a descriptor from information from a type.
+            </summary>
+            <param name="type">The type to read.</param>
+        </member>
+        <member name="M:PolySerializer.NamespaceDescriptor.AssemblyFromType(System.Type)">
+            <summary>
+            Gets the assembly subset of a descriptor from information from a type.
+            </summary>
+            <param name="type">The type to read.</param>
+        </member>
+        <member name="M:PolySerializer.NamespaceDescriptor.VersionFromType(System.Type)">
+            <summary>
+            Gets the version subset of a descriptor from information from a type.
+            </summary>
+            <param name="type">The type to read.</param>
+        </member>
+        <member name="M:PolySerializer.NamespaceDescriptor.CultureFromType(System.Type)">
+            <summary>
+            Gets the culture subset of a descriptor from information from a type.
+            </summary>
+            <param name="type">The type to read.</param>
+        </member>
+        <member name="M:PolySerializer.NamespaceDescriptor.PublicKeyTokenFromType(System.Type)">
+            <summary>
+            Gets the public key token subset of a descriptor from information from a type.
+            </summary>
+            <param name="type">The type to read.</param>
+        </member>
+        <member name="M:PolySerializer.NamespaceDescriptor.ToString">
+            <summary>
+            Returns a string representing the instance, for debug purpose.
+            </summary>
         </member>
         <member name="T:PolySerializer.SerializableAttribute">
             <summary>
@@ -627,6 +749,53 @@
             <returns>
                 True if <paramref name="referenceType"/> is a writeable collection.
             </returns>
+        </member>
+        <member name="T:PolySerializer.TypeIdentifier">
+            <summary>
+            Represents a .NET type name.
+            </summary>
+        </member>
+        <member name="M:PolySerializer.TypeIdentifier.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:PolySerializer.TypeIdentifier"/> class.
+            </summary>
+            <param name="name">The assembly qualified type name.</param>
+        </member>
+        <member name="M:PolySerializer.TypeIdentifier.#ctor(System.String,System.String,System.Collections.Generic.List{PolySerializer.TypeIdentifier})">
+            <summary>
+            Initializes a new instance of the <see cref="T:PolySerializer.TypeIdentifier"/> class.
+            </summary>
+            <param name="name">The assembly qualified type name.</param>
+            <param name="genericDefinition">The generic definition, for a generic type; The type name for a non-generic type.</param>
+            <param name="genericParameters">The generic parameters, for a generic type; The empty list a non-generic type.</param>
+        </member>
+        <member name="P:PolySerializer.TypeIdentifier.Name">
+            <summary>
+            The assembly qualified type name.
+            </summary>
+        </member>
+        <member name="P:PolySerializer.TypeIdentifier.GenericDefinition">
+            <summary>
+            The generic definition, for a generic type; The type name for a non-generic type.
+            </summary>
+        </member>
+        <member name="P:PolySerializer.TypeIdentifier.GenericParameters">
+            <summary>
+            The generic parameters, for a generic type; The empty list a non-generic type.
+            </summary>
+        </member>
+        <member name="P:PolySerializer.TypeIdentifier.IsGeneric">
+            <summary>
+            Indicates if the type is generic.
+            </summary>
+        </member>
+        <member name="M:PolySerializer.TypeIdentifier.Override(System.Collections.Generic.IReadOnlyDictionary{PolySerializer.NamespaceDescriptor,PolySerializer.NamespaceDescriptor},System.Boolean)">
+            <summary>
+            Override the type name and nested generic parameters using a search/replace.
+            </summary>
+            <param name="table">The search/replace table.</param>
+            <param name="overrideGenericArguments">True to override generic parameters, otherwise the generic definition only.</param>
+            <returns>True if a replacement was made; Otherwise, false.</returns>
         </member>
     </members>
 </doc>
