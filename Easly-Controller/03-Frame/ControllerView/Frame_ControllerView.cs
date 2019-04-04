@@ -244,15 +244,18 @@
             Debug.Assert(CellViewTable != null);
             Debug.Assert(CellViewTable.ContainsKey(PropertyName));
             IFrameCellViewCollection EmbeddingCellView = CellViewTable[PropertyName] as IFrameCellViewCollection;
-            Debug.Assert(EmbeddingCellView != null);
 
-            // Build all cell views for the inserted block.
-            IFrameBlockStateView BlockStateView = BlockStateViewTable[((IFrameInsertBlockOperation)operation).BlockState];
-            IFrameBlockCellView RootCellView = BuildBlockCellView(OwnerStateView, EmbeddingCellView, BlockStateView);
+            // If the embedding cell view is available (it may not be the case for the first inserted element).
+            if (EmbeddingCellView != null)
+            {
+                // Build all cell views for the inserted block.
+                IFrameBlockStateView BlockStateView = BlockStateViewTable[((IFrameInsertBlockOperation)operation).BlockState];
+                IFrameBlockCellView RootCellView = BuildBlockCellView(OwnerStateView, EmbeddingCellView, BlockStateView);
 
-            // Insert the root cell view in the collection embedding other blocks.
-            int BlockIndex = operation.BrowsingIndex.BlockIndex;
-            EmbeddingCellView.Insert(BlockIndex, RootCellView);
+                // Insert the root cell view in the collection embedding other blocks.
+                int BlockIndex = operation.BrowsingIndex.BlockIndex;
+                EmbeddingCellView.Insert(BlockIndex, RootCellView);
+            }
 
             Refresh(OwnerState);
         }
