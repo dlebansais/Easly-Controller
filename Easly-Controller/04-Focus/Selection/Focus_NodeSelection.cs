@@ -60,7 +60,7 @@
             if (ClipboardHelper.TryReadNode(out INode Node))
             {
                 IFocusNodeState State = StateView.State;
-                if (State.ParentInner.InterfaceType.IsAssignableFrom(Node.GetType()))
+                if ((State.ParentInner != null && State.ParentInner.InterfaceType.IsAssignableFrom(Node.GetType())) || (State.ParentInner == null && Node.GetType() == State.Node.GetType()))
                 {
                     if (State.ParentIndex is IFocusBrowsingInsertableIndex AsInsertableIndex)
                     {
