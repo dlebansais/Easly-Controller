@@ -78,7 +78,7 @@
         /// <param name="context">Context used to build the cell view tree.</param>
         public override void BuildRootCellView(IFrameCellViewTreeContext context)
         {
-            Debug.Assert(((IFocusCellViewTreeContext)context).IsVisible);
+            //Debug.Assert(((IFocusCellViewTreeContext)context).IsVisible);
             base.BuildRootCellView(context);
         }
 

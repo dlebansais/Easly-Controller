@@ -95,10 +95,10 @@
         /// <param name="context">Context used to build the cell view tree.</param>
         public override void BuildRootCellView(IFrameCellViewTreeContext context)
         {
-            if (((IFocusCellViewTreeContext)context).IsVisible)
+            //if (((IFocusCellViewTreeContext)context).IsVisible)
                 base.BuildRootCellView(context);
-            else
-                SetRootCellView(CreateEmptyCellView(((IFocusCellViewTreeContext)context).StateView, null));
+            /*else
+                SetRootCellView(CreateEmptyCellView(((IFocusCellViewTreeContext)context).StateView, null));*/
         }
 
         /// <summary>

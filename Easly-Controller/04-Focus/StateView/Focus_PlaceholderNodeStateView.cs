@@ -80,14 +80,14 @@
         {
             ((IFocusCellViewTreeContext)context).ChangeIsUserVisible(IsUserVisible, out bool OldIsUserVisible);
 
-            if (((IFocusCellViewTreeContext)context).IsVisible)
+            //if (((IFocusCellViewTreeContext)context).IsVisible)
                 base.BuildRootCellView(context);
-            else
+            /*else
             {
                 InitCellViewTable();
                 SetRootCellView(CreateEmptyCellView(((IFocusCellViewTreeContext)context).StateView, null));
                 SealCellViewTable();
-            }
+            }*/
 
             ((IFocusCellViewTreeContext)context).RestoreIsUserVisible(OldIsUserVisible);
         }

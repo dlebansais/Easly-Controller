@@ -24,7 +24,7 @@
         /// <param name="node">The indexed root node.</param>
         public ReadOnlyRootNodeIndex(INode node)
         {
-            if (!NodeTreeDiagnostic.IsValid(node))
+            if (!NodeTreeDiagnostic.IsValid(node, assertValid: false))
             {
                 Debug.WriteLine($"Invalid node {node}");
                 Exception InnerException = null;

@@ -75,7 +75,7 @@
             string OldSelectorName = null;
             ((IFocusCellViewTreeContext)context).AddOrReplaceSelectors(Selectors, out OldSelectorType, out OldSelectorName);
 
-            Debug.Assert(((IFocusCellViewTreeContext)context).IsVisible);
+            //Debug.Assert(((IFocusCellViewTreeContext)context).IsVisible);
 
             IFocusCellViewCollection EmbeddingCellView = base.BuildBlockCells(context, parentCellView) as IFocusCellViewCollection;
             Debug.Assert(EmbeddingCellView != null);

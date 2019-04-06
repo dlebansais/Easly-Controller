@@ -82,16 +82,16 @@
             ((IFocusCellViewTreeContext)context).UpdateNodeFrameVisibility(this, out bool OldFrameVisibility);
 
             IFocusCellViewCollection EmbeddingCellView;
-            if (((IFocusCellViewTreeContext)context).IsVisible)
+            //if (((IFocusCellViewTreeContext)context).IsVisible)
                 EmbeddingCellView = base.BuildNodeCells(context, parentCellView) as IFocusCellViewCollection;
-            else
+            /*else
             {
                 IFocusCellViewList EmptyList = CreateEmptyCellViewList();
                 EmbeddingCellView = (IFocusCellViewCollection)CreateEmbeddingCellView(((IFocusCellViewTreeContext)context).StateView, (IFocusCellViewCollection)parentCellView, EmptyList);
-            }
+            }*/
 
             bool HasVisibleCellView = EmbeddingCellView.HasVisibleCellView;
-            Debug.Assert(((IFocusCellViewTreeContext)context).IsVisible || !HasVisibleCellView);
+            //Debug.Assert(((IFocusCellViewTreeContext)context).IsVisible || !HasVisibleCellView);
 
             ((IFocusCellViewTreeContext)context).RestoreFrameVisibility(OldFrameVisibility);
 
@@ -108,13 +108,13 @@
             ((IFocusCellViewTreeContext)context).UpdateBlockFrameVisibility(this, out bool OldFrameVisibility);
 
             IFocusCellViewCollection EmbeddingCellView;
-            if (((IFocusCellViewTreeContext)context).IsVisible)
+            //if (((IFocusCellViewTreeContext)context).IsVisible)
                 EmbeddingCellView = base.BuildBlockCells(context, parentCellView) as IFocusCellViewCollection;
-            else
+            /*else
             {
                 IFocusCellViewList EmptyList = CreateEmptyCellViewList();
                 EmbeddingCellView = (IFocusCellViewCollection)CreateEmbeddingCellView(((IFocusCellViewTreeContext)context).StateView, (IFocusCellViewCollection)parentCellView, EmptyList);
-            }
+            }*/
 
             bool HasVisibleCellView = EmbeddingCellView.HasVisibleCellView;
             Debug.Assert(((IFocusCellViewTreeContext)context).IsVisible || !HasVisibleCellView);

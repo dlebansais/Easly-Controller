@@ -92,13 +92,14 @@
 
             if (!((IFocusCellViewTreeContext)context).IsVisible)
             {
+                /*
                 foreach (IFocusCellView CellView in EmbeddingCellView.CellViewList)
                 {
                     IFocusBlockCellView AsBlockCellView = CellView as IFocusBlockCellView;
                     Debug.Assert(AsBlockCellView != null);
                     Debug.Assert(AsBlockCellView.BlockStateView != null);
                     Debug.Assert(AsBlockCellView.BlockStateView.RootCellView is IFocusEmptyCellView);
-                }
+                }*/
             }
 
             ((IFocusCellViewTreeContext)context).RemoveSelectors(Selectors);
