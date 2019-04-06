@@ -85,6 +85,7 @@
         public override IFrameCellView BuildNodeCells(IFrameCellViewTreeContext context, IFrameCellViewCollection parentCellView)
         {
             ((IFocusCellViewTreeContext)context).UpdateNodeFrameVisibility(this, out bool OldFrameVisibility);
+            ((IFocusCellViewTreeContext)context).ChangeIsUserVisible(false, out bool OldIsUserVisible);
             ((IFocusCellViewTreeContext)context).AddSelectors(Selectors);
 
             IFocusCellViewCollection EmbeddingCellView = base.BuildNodeCells(context, parentCellView) as IFocusCellViewCollection;
@@ -102,6 +103,7 @@
             }
 
             ((IFocusCellViewTreeContext)context).RemoveSelectors(Selectors);
+            ((IFocusCellViewTreeContext)context).RestoreIsUserVisible(OldIsUserVisible);
             ((IFocusCellViewTreeContext)context).RestoreFrameVisibility(OldFrameVisibility);
 
             return EmbeddingCellView;

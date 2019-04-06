@@ -2580,19 +2580,9 @@
             Debug.Assert(StateTable.ContainsKey(expandedIndex));
             Debug.Assert(StateTable[expandedIndex] is IWriteablePlaceholderNodeState);
 
-            IWriteablePlaceholderNodeState State = StateTable[expandedIndex] as IWriteablePlaceholderNodeState;
-            Debug.Assert(State != null);
-
-            IWriteableInnerReadOnlyDictionary<string> InnerTable = State.InnerTable;
             IWriteableOperationList OperationList = CreateOperationList();
 
-            foreach (KeyValuePair<string, IWriteableInner> Entry in InnerTable)
-            {
-                if (Entry.Value is IWriteableOptionalInner<IWriteableBrowsingOptionalNodeIndex> AsOptionalInner)
-                    ExpandOptional(AsOptionalInner, OperationList);
-                else if (Entry.Value is IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> AsBlockListInner)
-                    ExpandBlockList(AsBlockListInner, OperationList);
-            }
+            Expand(expandedIndex, OperationList);
 
             if (OperationList.Count > 0)
             {
@@ -2606,6 +2596,33 @@
             }
             else
                 isChanged = false;
+        }
+
+        protected private virtual void Expand(IWriteableNodeIndex expandedIndex, IWriteableOperationList operationList)
+        {
+            IWriteablePlaceholderNodeState State = StateTable[expandedIndex] as IWriteablePlaceholderNodeState;
+            State = FindBestExpandReduceState(State);
+            Debug.Assert(State != null);
+
+            IWriteableInnerReadOnlyDictionary<string> InnerTable = State.InnerTable;
+
+            foreach (KeyValuePair<string, IWriteableInner> Entry in InnerTable)
+            {
+                if (Entry.Value is IWriteableOptionalInner<IWriteableBrowsingOptionalNodeIndex> AsOptionalInner)
+                    ExpandOptional(AsOptionalInner, operationList);
+                else if (Entry.Value is IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> AsBlockListInner)
+                    ExpandBlockList(AsBlockListInner, operationList);
+            }
+        }
+
+        protected private virtual IWriteablePlaceholderNodeState FindBestExpandReduceState(IWriteablePlaceholderNodeState state)
+        {
+            Debug.Assert(state != null);
+
+            while (state.InnerTable.Count == 0 && state.ParentState is IWriteablePlaceholderNodeState AsPlaceholderNodeState)
+                state = AsPlaceholderNodeState;
+
+            return state;
         }
 
         /// <summary>
@@ -2723,6 +2740,7 @@
         private protected virtual void Reduce(IWriteableNodeIndex reducedIndex, IWriteableOperationList operationList, bool isNested)
         {
             IWriteablePlaceholderNodeState State = StateTable[reducedIndex] as IWriteablePlaceholderNodeState;
+            State = FindBestExpandReduceState(State);
             Debug.Assert(State != null);
 
             IWriteableInnerReadOnlyDictionary<string> InnerTable = State.InnerTable;
@@ -2741,7 +2759,7 @@
         /// </summary>
         private protected virtual void ReduceOptional(IWriteableOptionalInner<IWriteableBrowsingOptionalNodeIndex> optionalInner, IWriteableOperationList operationList, bool isNested)
         {
-            if (optionalInner.IsAssigned)
+            if (optionalInner.IsAssigned && NodeHelper.IsOptionalAssignedToDefault(optionalInner.ChildState.Optional))
             {
                 IWriteableBrowsingOptionalNodeIndex ParentIndex = optionalInner.ChildState.ParentIndex;
 

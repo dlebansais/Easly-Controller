@@ -7,7 +7,7 @@
     /// <summary>
     /// Selects specific frames in the remaining of the cell view tree.
     /// </summary>
-    public interface IFocusFrameSelector
+    public interface IFocusFrameSelector : IEqualComparable
     {
         /// <summary>
         /// Base type this selector can specify.
@@ -93,6 +93,29 @@
 
             Debug.Assert(IsValid);
             return IsValid;
+        }
+        #endregion
+
+        #region Debugging
+        /// <summary>
+        /// Compares two <see cref="IFocusFrameSelector"/> objects.
+        /// </summary>
+        /// <param name="comparer">The comparison support object.</param>
+        /// <param name="other">The other object.</param>
+        public virtual bool IsEqual(CompareEqual comparer, IEqualComparable other)
+        {
+            Debug.Assert(other != null);
+
+            if (!comparer.IsSameType(other, out IFocusFrameSelector AsFrameSelector))
+                return comparer.Failed();
+
+            if (!comparer.IsSameString(SelectorName, AsFrameSelector.SelectorName))
+                return comparer.Failed();
+
+            if (!comparer.IsSameReference(SelectorType, AsFrameSelector.SelectorType))
+                return comparer.Failed();
+
+            return true;
         }
         #endregion
     }

@@ -894,7 +894,7 @@ namespace TestDebug
 
             ILayoutRootNodeIndex RootIndex = new LayoutRootNodeIndex(rootNode);
             ILayoutController Controller = LayoutController.Create(RootIndex);
-            ILayoutControllerView CustomView = LayoutControllerView.Create(Controller, CustomLayoutTemplateSet.LayoutTemplateSet, LayoutDrawPrintContext.Default);
+            ILayoutControllerView CustomView = LayoutControllerView.Create(Controller, EaslyEdit.CustomLayoutTemplateSet.LayoutTemplateSet, LayoutDrawPrintContext.Default);
             Stats Stats = Controller.Stats;
             ILayoutController ControllerCheck;
             bool IsChanged;

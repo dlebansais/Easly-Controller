@@ -3,9 +3,9 @@ using System.IO;
 using System.Text;
 using System.Windows.Markup;
 
-namespace TestDebug
+namespace EaslyEdit
 {
-    public class CustomLayoutTemplateSet
+    internal class CustomLayoutTemplateSet
     {
         #region Init
 #if !TRAVIS
@@ -2827,7 +2827,7 @@ namespace TestDebug
     <LayoutNodeTemplate NodeType=""{xaml:Type easly:IThrowInstruction}"">
         <LayoutHorizontalPanelFrame>
             <LayoutCommentFrame/>
-            <LayoutKeywordFrame RightMargin=""Whitespace"">throw</LayoutKeywordFrame>
+            <LayoutKeywordFrame IsFocusable=""True"" RightMargin=""Whitespace"">throw</LayoutKeywordFrame>
             <LayoutPlaceholderFrame PropertyName=""ExceptionType"" RightMargin=""Whitespace""/>
             <LayoutKeywordFrame RightMargin=""Whitespace"">with</LayoutKeywordFrame>
             <LayoutPlaceholderFrame PropertyName=""CreationRoutine"">

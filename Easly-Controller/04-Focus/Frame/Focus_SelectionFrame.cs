@@ -79,6 +79,7 @@
             // Use the common count of all selectable frames as the count of the selection frame.
             commentFrameCount += SelectionCommentFrameCount;
 
+            // TODO: check that all selectable have the same nested selectors. See FrameSelectorForProperty().
             Debug.Assert(IsValid);
             return IsValid;
         }

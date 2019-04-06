@@ -4,6 +4,7 @@ namespace EaslyController.Layout
 {
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
+    using System.Diagnostics;
     using EaslyController.Focus;
 
     /// <summary>
@@ -32,6 +33,30 @@ namespace EaslyController.Layout
         bool ICollection<IFocusFrameSelector>.Remove(IFocusFrameSelector item) { return Remove((ILayoutFrameSelector)item); }
         IEnumerator<IFocusFrameSelector> IEnumerable<IFocusFrameSelector>.GetEnumerator() { return GetEnumerator(); }
         IFocusFrameSelector IReadOnlyList<IFocusFrameSelector>.this[int index] { get { return this[index]; } }
+        #endregion
+
+        #region Debugging
+        /// <summary>
+        /// Compares two <see cref="ILayoutFrameSelectorList"/> objects.
+        /// </summary>
+        /// <param name="comparer">The comparison support object.</param>
+        /// <param name="other">The other object.</param>
+        public virtual bool IsEqual(CompareEqual comparer, IEqualComparable other)
+        {
+            Debug.Assert(other != null);
+
+            if (!comparer.IsSameType(other, out ILayoutFrameSelectorList AsFrameSelectorList))
+                return comparer.Failed();
+
+            if (!comparer.IsSameCount(Count, AsFrameSelectorList.Count))
+                return comparer.Failed();
+
+            for (int i = 0; i < Count; i++)
+                if (!comparer.VerifyEqual(this[i], AsFrameSelectorList[i]))
+                    return comparer.Failed();
+
+            return true;
+        }
         #endregion
     }
 }

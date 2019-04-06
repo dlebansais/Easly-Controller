@@ -2827,7 +2827,7 @@ namespace EaslyEdit
     <LayoutNodeTemplate NodeType=""{xaml:Type easly:IThrowInstruction}"">
         <LayoutHorizontalPanelFrame>
             <LayoutCommentFrame/>
-            <LayoutKeywordFrame RightMargin=""Whitespace"">throw</LayoutKeywordFrame>
+            <LayoutKeywordFrame IsFocusable=""True"" RightMargin=""Whitespace"">throw</LayoutKeywordFrame>
             <LayoutPlaceholderFrame PropertyName=""ExceptionType"" RightMargin=""Whitespace""/>
             <LayoutKeywordFrame RightMargin=""Whitespace"">with</LayoutKeywordFrame>
             <LayoutPlaceholderFrame PropertyName=""CreationRoutine"">

@@ -93,7 +93,7 @@
                 DrawContext DrawContext = DrawContext.CreateDrawContext(new Typeface("Consolas"), 10, CultureInfo.CurrentCulture, System.Windows.FlowDirection.LeftToRight, null, null, hasCommentIcon: true, displayFocus: true);
 
                 // Create a view using custom frames (for how code is organized).
-                ILayoutControllerView ControllerView = LayoutControllerView.Create(Controller, TestDebug.CustomLayoutTemplateSet.LayoutTemplateSet, DrawContext);
+                ILayoutControllerView ControllerView = LayoutControllerView.Create(Controller, EaslyEdit.CustomLayoutTemplateSet.LayoutTemplateSet, DrawContext);
                 ControllerView.SetCommentDisplayMode(EaslyController.Constants.CommentDisplayModes.All);
 
                 // Run the measure step to obtain the bitmap size.

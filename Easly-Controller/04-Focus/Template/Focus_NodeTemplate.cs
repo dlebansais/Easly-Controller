@@ -109,6 +109,49 @@
             frame = null;
             bool Found = false;
 
+            if (Root is IFocusSelectionFrame AsSelectionFrame)
+            {
+                List<IFocusFrameWithSelector> FrameSelectorList = new List<IFocusFrameWithSelector>();
+                foreach (IFocusSelectableFrame Item in AsSelectionFrame.Items)
+                    if (FrameSelectorForPropertySingle(Item.Content, propertyName, out frame))
+                        FrameSelectorList.Add(frame);
+
+                if (FrameSelectorList.Count > 0)
+                {
+                    IFocusFrameWithSelector FirstFrame = FrameSelectorList[0];
+
+                    CompareEqual Comparer = CompareEqual.New();
+                    for (int i = 1; i < FrameSelectorList.Count; i++)
+                        Debug.Assert(FrameSelectorList[i].Selectors.IsEqual(Comparer, FirstFrame.Selectors));
+
+                    frame = FirstFrame;
+                    Found = true;
+                }
+            }
+            else
+                Found = FrameSelectorForPropertySingle(Root, propertyName, out frame);
+
+            return Found;
+        }
+
+        /// <summary></summary>
+        protected virtual bool FrameSelectorForPropertySingle(IFocusFrame root, string propertyName, out IFocusFrameWithSelector frame)
+        {
+            frame = null;
+            bool Found = false;
+
+            if (root is IFocusSelectorPropertyFrame AsSelectorPropertyFrame)
+                Found = AsSelectorPropertyFrame.FrameSelectorForProperty(propertyName, out frame);
+
+            return Found;
+        }
+
+        /// <summary></summary>
+        protected virtual bool FrameSelectorForPropertySelectable(string propertyName, out IFocusFrameWithSelector frame)
+        {
+            frame = null;
+            bool Found = false;
+
             if (Root is IFocusSelectorPropertyFrame AsSelectorPropertyFrame)
                 Found = AsSelectorPropertyFrame.FrameSelectorForProperty(propertyName, out frame);
 
