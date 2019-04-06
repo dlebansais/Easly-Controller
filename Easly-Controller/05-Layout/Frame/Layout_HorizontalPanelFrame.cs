@@ -130,11 +130,11 @@
         /// <summary>
         /// Creates a IxxxCellViewList object.
         /// </summary>
-        private protected override IFocusCellViewList CreateEmptyCellViewList()
+        /*private protected override IFocusCellViewList CreateEmptyCellViewList()
         {
             ControllerTools.AssertNoOverride(this, typeof(LayoutHorizontalPanelFrame));
             return new LayoutCellViewList();
-        }
+        }*/
         #endregion
     }
 }

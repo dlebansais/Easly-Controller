@@ -224,11 +224,11 @@
         /// <summary>
         /// Creates a IxxxCellViewList object.
         /// </summary>
-        private protected virtual IFocusCellViewList CreateEmptyCellViewList()
+        /*private protected virtual IFocusCellViewList CreateEmptyCellViewList()
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusVerticalPanelFrame));
             return new FocusCellViewList();
-        }
+        }*/
         #endregion
     }
 }
