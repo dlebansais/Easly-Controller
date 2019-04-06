@@ -58,17 +58,25 @@
                 IOptionalReference Optional = State.Optional;
                 Debug.Assert(Optional != null);
 
+                Type InterfaceType;
                 NodeTreeHelperOptional.GetChildNode(Optional, out bool IsAssigned, out INode ChildNode);
                 if (ChildNode != null)
                 {
                     Type NodeType = ChildNode.GetType();
                     Debug.Assert(!NodeType.IsInterface && !NodeType.IsAbstract);
 
-                    Type InterfaceType = NodeTreeHelper.NodeTypeToInterfaceType(NodeType);
-                    return ControllerView.TemplateSet.NodeTypeToTemplate(InterfaceType);
+                    InterfaceType = NodeTreeHelper.NodeTypeToInterfaceType(NodeType);
                 }
                 else
-                    return null;
+                {
+                    InterfaceType = NodeHelper.GetDefaultItemType(State.ParentInner.InterfaceType);
+                    Debug.Assert(InterfaceType.IsInterface);
+                }
+
+                IFrameTemplate Result = ControllerView.TemplateSet.NodeTypeToTemplate(InterfaceType);
+                Debug.Assert(Result != null);
+
+                return Result;
             }
         }
 
