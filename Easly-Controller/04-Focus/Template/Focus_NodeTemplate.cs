@@ -145,18 +145,6 @@
             return Found;
         }
 
-        /// <summary></summary>
-        protected virtual bool FrameSelectorForPropertySelectable(string propertyName, out IFocusFrameWithSelector frame)
-        {
-            frame = null;
-            bool Found = false;
-
-            if (Root is IFocusSelectorPropertyFrame AsSelectorPropertyFrame)
-                Found = AsSelectorPropertyFrame.FrameSelectorForProperty(propertyName, out frame);
-
-            return Found;
-        }
-
         /// <summary>
         /// Gets preferred frames to receive the focus when the source code is changed.
         /// </summary>

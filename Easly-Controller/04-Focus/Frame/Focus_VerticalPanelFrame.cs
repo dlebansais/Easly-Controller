@@ -69,6 +69,11 @@
             IsValid &= Visibility == null || Visibility.IsValid(nodeType);
             IsValid &= BlockVisibility == null || BlockVisibility.IsValid(nodeType);
 
+#if DEBUG
+            // For code coverage purpose.
+            CollectSelectors(new Dictionary<string, IFocusFrameSelectorList>());
+#endif
+
             Debug.Assert(IsValid);
             return IsValid;
         }
