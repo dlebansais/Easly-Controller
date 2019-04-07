@@ -386,7 +386,7 @@
             padding = new Padding(new Measure() { Draw = LeftPadding, Print = LeftSpacing }, Measure.Zero, new Measure() { Draw = RightPadding, Print = RightSpacing }, Measure.Zero);
         }
 
-        protected private virtual Brush GetBrush(BrushSettings key)
+        private protected virtual Brush GetBrush(BrushSettings key)
         {
             if (BrushTable.ContainsKey(key))
                 return BrushTable[key];
@@ -394,7 +394,7 @@
                 return DefaultBrushTable[key];
         }
 
-        protected private virtual Pen GetPen(PenSettings key)
+        private protected virtual Pen GetPen(PenSettings key)
         {
             if (PenTable.ContainsKey(key))
                 return PenTable[key];

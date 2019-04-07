@@ -2548,7 +2548,7 @@
                 isChanged = false;
         }
 
-        protected private virtual void Expand(IWriteableNodeIndex expandedIndex, IWriteableOperationList operationList)
+        private protected virtual void Expand(IWriteableNodeIndex expandedIndex, IWriteableOperationList operationList)
         {
             IWriteablePlaceholderNodeState State = StateTable[expandedIndex] as IWriteablePlaceholderNodeState;
             State = FindBestExpandReduceState(State);
@@ -2565,7 +2565,7 @@
             }
         }
 
-        protected private virtual IWriteablePlaceholderNodeState FindBestExpandReduceState(IWriteablePlaceholderNodeState state)
+        private protected virtual IWriteablePlaceholderNodeState FindBestExpandReduceState(IWriteablePlaceholderNodeState state)
         {
             Debug.Assert(state != null);
 

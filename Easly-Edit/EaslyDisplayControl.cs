@@ -30,7 +30,7 @@
             set { SetValue(ControllerProperty, value); }
         }
 
-        protected private static void ControllerPropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private protected static void ControllerPropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             EaslyDisplayControl ctrl = (EaslyDisplayControl)d;
             if (ctrl.Controller != e.OldValue)
@@ -62,14 +62,14 @@
             set { SetValue(TemplateSetProperty, value); }
         }
 
-        protected private static void TemplateSetPropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private protected static void TemplateSetPropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             EaslyDisplayControl ctrl = (EaslyDisplayControl)d;
             if (ctrl.TemplateSet != e.OldValue)
                 ctrl.OnTemplateSetPropertyChanged(e);
         }
 
-        protected private virtual void OnTemplateSetPropertyChanged(DependencyPropertyChangedEventArgs e)
+        private protected virtual void OnTemplateSetPropertyChanged(DependencyPropertyChangedEventArgs e)
         {
             Cleanup();
             Initialize();
@@ -93,14 +93,14 @@
             set { SetValue(CommentDisplayModeProperty, value); }
         }
 
-        protected private static void CommentDisplayModePropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private protected static void CommentDisplayModePropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             EaslyDisplayControl ctrl = (EaslyDisplayControl)d;
             if (ctrl.CommentDisplayMode != (CommentDisplayModes)e.OldValue)
                 ctrl.OnCommentDisplayModePropertyChanged(e);
         }
 
-        protected private virtual void OnCommentDisplayModePropertyChanged(DependencyPropertyChangedEventArgs e)
+        private protected virtual void OnCommentDisplayModePropertyChanged(DependencyPropertyChangedEventArgs e)
         {
             if (ControllerView != null)
             {
@@ -126,14 +126,14 @@
             set { SetValue(ShowUnfocusedCommentsProperty, value); }
         }
 
-        protected private static void ShowUnfocusedCommentsPropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private protected static void ShowUnfocusedCommentsPropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             EaslyDisplayControl ctrl = (EaslyDisplayControl)d;
             if (ctrl.ShowUnfocusedComments != (bool)e.OldValue)
                 ctrl.OnShowUnfocusedCommentsPropertyChanged(e);
         }
 
-        protected private virtual void OnShowUnfocusedCommentsPropertyChanged(DependencyPropertyChangedEventArgs e)
+        private protected virtual void OnShowUnfocusedCommentsPropertyChanged(DependencyPropertyChangedEventArgs e)
         {
             if (ControllerView != null)
             {
@@ -159,14 +159,14 @@
             set { SetValue(ShowBlockGeometryProperty, value); }
         }
 
-        protected private static void ShowBlockGeometryPropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private protected static void ShowBlockGeometryPropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             EaslyDisplayControl ctrl = (EaslyDisplayControl)d;
             if (ctrl.ShowBlockGeometry != (bool)e.OldValue)
                 ctrl.OnShowBlockGeometryPropertyChanged(e);
         }
 
-        protected private virtual void OnShowBlockGeometryPropertyChanged(DependencyPropertyChangedEventArgs e)
+        private protected virtual void OnShowBlockGeometryPropertyChanged(DependencyPropertyChangedEventArgs e)
         {
             if (ControllerView != null)
             {
@@ -192,14 +192,14 @@
             set { SetValue(ShowLineNumberProperty, value); }
         }
 
-        protected private static void ShowLineNumberPropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private protected static void ShowLineNumberPropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             EaslyDisplayControl ctrl = (EaslyDisplayControl)d;
             if (ctrl.ShowLineNumber != (bool)e.OldValue)
                 ctrl.OnShowLineNumberPropertyChanged(e);
         }
 
-        protected private virtual void OnShowLineNumberPropertyChanged(DependencyPropertyChangedEventArgs e)
+        private protected virtual void OnShowLineNumberPropertyChanged(DependencyPropertyChangedEventArgs e)
         {
             if (ControllerView != null)
             {
@@ -225,14 +225,14 @@
             set { SetValue(BrushTableProperty, value); }
         }
 
-        protected private static void BrushTablePropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private protected static void BrushTablePropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             EaslyDisplayControl ctrl = (EaslyDisplayControl)d;
             if (ctrl.BrushTable != e.OldValue)
                 ctrl.OnBrushTablePropertyChanged(e);
         }
 
-        protected private virtual void OnBrushTablePropertyChanged(DependencyPropertyChangedEventArgs e)
+        private protected virtual void OnBrushTablePropertyChanged(DependencyPropertyChangedEventArgs e)
         {
             Cleanup();
             Initialize();
@@ -256,14 +256,14 @@
             set { SetValue(PenTableProperty, value); }
         }
 
-        protected private static void PenTablePropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private protected static void PenTablePropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             EaslyDisplayControl ctrl = (EaslyDisplayControl)d;
             if (ctrl.PenTable != e.OldValue)
                 ctrl.OnPenTablePropertyChanged(e);
         }
 
-        protected private virtual void OnPenTablePropertyChanged(DependencyPropertyChangedEventArgs e)
+        private protected virtual void OnPenTablePropertyChanged(DependencyPropertyChangedEventArgs e)
         {
             Cleanup();
             Initialize();
@@ -275,7 +275,7 @@
         #endregion
 
         #region Implementation
-        protected private virtual void Initialize()
+        private protected virtual void Initialize()
         {
             if (IsReady)
             {
@@ -285,17 +285,17 @@
             }
         }
 
-        protected private virtual bool IsReady
+        private protected virtual bool IsReady
         {
             get { return Controller != null && TemplateSet != null && FontFamily != null && FontSize > 0; }
         }
 
-        protected private virtual Typeface CreateTypeface()
+        private protected virtual Typeface CreateTypeface()
         {
             return new Typeface(FontFamily, FontStyle, FontWeight, FontStretch);
         }
 
-        protected private virtual void InitializeProperties()
+        private protected virtual void InitializeProperties()
         {
             ControllerView.SetCommentDisplayMode(CommentDisplayMode);
             ControllerView.SetShowUnfocusedComments(ShowUnfocusedComments);
@@ -303,15 +303,15 @@
             ControllerView.SetShowLineNumber(ShowLineNumber);
         }
 
-        protected private virtual void Cleanup()
+        private protected virtual void Cleanup()
         {
             DrawContext = null;
             ControllerView = null;
         }
 
 
-        protected private DrawContext DrawContext;
-        protected private ILayoutControllerView ControllerView;
+        private protected DrawContext DrawContext;
+        private protected ILayoutControllerView ControllerView;
         #endregion
 
         #region Overrides
