@@ -99,7 +99,6 @@
             return CellView;
         }
 
-        /// <summary></summary>
         private protected virtual void ValidateDiscreteContentFocusableCellView(IFrameCellViewTreeContext context, IFrameKeywordFrame keywordFrame, IFrameDiscreteContentFocusableCellView cellView)
         {
             Debug.Assert(cellView.StateView == context.StateView);

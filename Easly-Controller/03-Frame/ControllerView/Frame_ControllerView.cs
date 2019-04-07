@@ -385,7 +385,6 @@
             Refresh(InsertedState);
         }
 
-        /// <summary></summary>
         private protected virtual void OnBlockListStateInserted(IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> inner, IFrameBrowsingExistingBlockNodeIndex nodeIndex, IFrameNodeState insertedState)
         {
             Debug.Assert(inner != null);
@@ -419,7 +418,6 @@
             }
         }
 
-        /// <summary></summary>
         private protected virtual void OnListStateInserted(IFrameListInner<IFrameBrowsingListNodeIndex> inner, IFrameBrowsingListNodeIndex nodeIndex, IFrameNodeState insertedState)
         {
             Debug.Assert(inner != null);
@@ -489,7 +487,6 @@
             Refresh(OwnerState);
         }
 
-        /// <summary></summary>
         private protected virtual void OnBlockListStateRemoved(IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> inner, int blockIndex, int index, IFrameNodeState removedState)
         {
             Debug.Assert(inner != null);
@@ -505,7 +502,6 @@
             EmbeddingCellView.Remove(index);
         }
 
-        /// <summary></summary>
         private protected virtual void OnListStateRemoved(IFrameListInner<IFrameBrowsingListNodeIndex> inner, int index, IFrameNodeState removedState)
         {
             Debug.Assert(inner != null);
@@ -585,7 +581,6 @@
             Refresh(ReplacedState);
         }
 
-        /// <summary></summary>
         private protected virtual void OnPlaceholderStateReplaced(IFramePlaceholderInner<IFrameBrowsingPlaceholderNodeIndex> inner, IFrameBrowsingPlaceholderNodeIndex nodeIndex, IFrameNodeState replacedState)
         {
             Debug.Assert(inner != null);
@@ -619,7 +614,6 @@
             ((IFrameReplaceableStateView)OwnerStateView).ReplaceCellView(PropertyName, ReplacedCellView);
         }
 
-        /// <summary></summary>
         private protected virtual void OnOptionalStateReplaced(IFrameOptionalInner<IFrameBrowsingOptionalNodeIndex> inner, IFrameBrowsingOptionalNodeIndex nodeIndex, IFrameNodeState replacedState)
         {
             Debug.Assert(inner != null);
@@ -653,7 +647,6 @@
             ((IFrameReplaceableStateView)OwnerStateView).ReplaceCellView(PropertyName, ReplacedCellView);
         }
 
-        /// <summary></summary>
         private protected virtual void OnBlockListStateReplaced(IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> inner, IFrameBrowsingExistingBlockNodeIndex nodeIndex, IFrameNodeState replacedState)
         {
             Debug.Assert(inner != null);
@@ -685,7 +678,6 @@
             EmbeddingCellView.Replace(Index, ReplacedCellView);
         }
 
-        /// <summary></summary>
         private protected virtual void OnListStateReplaced(IFrameListInner<IFrameBrowsingListNodeIndex> inner, IFrameBrowsingListNodeIndex nodeIndex, IFrameNodeState replacedState)
         {
             Debug.Assert(inner != null);
@@ -871,7 +863,6 @@
             Refresh(OwnerState);
         }
 
-        /// <summary></summary>
         private protected virtual void OnBlockListStateMoved(IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> inner, int blockIndex, int index, int direction)
         {
             Debug.Assert(inner != null);
@@ -887,7 +878,6 @@
             EmbeddingCellView.Move(index, direction);
         }
 
-        /// <summary></summary>
         private protected virtual void OnListStateMoved(IFrameListInner<IFrameBrowsingListNodeIndex> inner, int index, int direction)
         {
             Debug.Assert(inner != null);
@@ -1063,7 +1053,6 @@
             Refresh((IFrameNodeState)operation.RefreshState);
         }
 
-        /// <summary></summary>
         private protected virtual IFrameCellView BuildCellView(IFrameNodeStateView stateView)
         {
             IFrameCellViewTreeContext Context = InitializedCellViewTreeContext(stateView);
@@ -1074,24 +1063,20 @@
             return stateView.RootCellView;
         }
 
-        /// <summary></summary>
         private protected virtual IFrameCellViewTreeContext InitializedCellViewTreeContext(IFrameNodeStateView stateView)
         {
             return CreateCellViewTreeContext(stateView);
         }
 
-        /// <summary></summary>
         private protected virtual void CloseCellViewTreeContext(IFrameCellViewTreeContext context)
         {
         }
 
-        /// <summary></summary>
         private protected virtual void ClearCellView(IFrameNodeStateView stateView)
         {
             stateView.ClearRootCellView();
         }
 
-        /// <summary></summary>
         private protected virtual IFrameBlockCellView BuildBlockCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, IFrameBlockStateView blockStateView)
         {
             IFrameCellViewTreeContext Context = InitializedCellViewTreeContext(stateView);
@@ -1104,20 +1089,17 @@
             return BlockCellView;
         }
 
-        /// <summary></summary>
         private protected virtual void ValidateBlockCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, IFrameBlockCellView blockCellView)
         {
             Debug.Assert(blockCellView.StateView == stateView);
             Debug.Assert(blockCellView.ParentCellView == parentCellView);
         }
 
-        /// <summary></summary>
         private protected virtual void ClearBlockCellView(IFrameNodeStateView stateView, IFrameBlockStateView blockStateView)
         {
             blockStateView.ClearRootCellView(stateView);
         }
 
-        /// <summary></summary>
         private protected virtual void Refresh(IFrameNodeState state)
         {
             Debug.Assert(StateViewTable.ContainsKey(state));
@@ -1141,7 +1123,6 @@
             UpdateLineNumbers();
         }
 
-        /// <summary></summary>
         private protected virtual void UpdateLineNumbers()
         {
             IFrameNodeState RootState = Controller.RootState;
@@ -1161,7 +1142,6 @@
             LastColumnNumber = MaxColumnNumber;
         }
 
-        /// <summary></summary>
         private protected virtual IFrameFrame GetAssociatedFrame(IFrameInner<IFrameBrowsingChildIndex> inner)
         {
             IFrameFrame AssociatedFrame = TemplateSet.InnerToFrame(inner);
@@ -1169,7 +1149,6 @@
             return AssociatedFrame;
         }
 
-        /// <summary></summary>
         private protected virtual void ValidateContainerCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, IFrameNodeStateView childStateView, IFrameContainerCellView containerCellView)
         {
             Debug.Assert(containerCellView.StateView == stateView);
@@ -1206,7 +1185,6 @@
             return true;
         }
 
-        /// <summary></summary>
         private protected virtual void PrintCellViewTree(IFrameCellView cellView, bool isVerbose)
         {
             string Tree = cellView.PrintTree(0, isVerbose);

@@ -112,7 +112,6 @@
             return EmbeddingCellView;
         }
 
-        /// <summary></summary>
         private protected override IFrameCellView BuildBlockCellsForPlaceholderFrame(IFrameCellViewTreeContext context, IFramePlaceholderFrame frame, IFrameCellViewCollection embeddingCellView, IFrameBlockState blockState)
         {
             Type OldSelectorType = null;
@@ -175,7 +174,6 @@
         #endregion
 
         #region Implementation
-        /// <summary></summary>
         private protected override void ValidateEmbeddingCellView(IFrameCellViewTreeContext context, IFrameCellViewCollection embeddingCellView)
         {
             Debug.Assert(((IFocusCellViewCollection)embeddingCellView).StateView == ((IFocusCellViewTreeContext)context).StateView);

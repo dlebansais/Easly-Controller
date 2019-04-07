@@ -39,7 +39,6 @@
         /// </summary>
         public IFocusSelectableFrameList Items { get; }
 
-        /// <summary></summary>
         private protected virtual bool IsParentRoot { get { return ParentFrame == FocusFrame.FocusRoot; } }
         #endregion
 

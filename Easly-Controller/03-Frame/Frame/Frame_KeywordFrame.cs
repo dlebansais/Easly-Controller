@@ -41,7 +41,6 @@
         /// </summary>
         public bool IsFocusable { get; set; }
 
-        /// <summary></summary>
         private protected override bool IsFrameFocusable { get { return IsFocusable; } }
         #endregion
 

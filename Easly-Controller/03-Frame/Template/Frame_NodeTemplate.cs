@@ -61,7 +61,6 @@
             return Result;
         }
 
-        /// <summary></summary>
         private protected virtual bool GetFirstNamedFrame(IFrameFrame root, string propertyName, out IFrameNamedFrame frame)
         {
             bool Found = false;
@@ -104,7 +103,6 @@
             return Result;
         }
 
-        /// <summary></summary>
         private protected virtual bool GetFirstCommentFrame(IFrameFrame root, out IFrameCommentFrame frame)
         {
             bool Found = false;

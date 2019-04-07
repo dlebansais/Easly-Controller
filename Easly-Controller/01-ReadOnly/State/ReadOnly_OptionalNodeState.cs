@@ -218,7 +218,6 @@
         #endregion
 
         #region Invariant
-        /// <summary></summary>
         private protected override void CheckInvariant()
         {
             InvariantAssert(IsInitialized);

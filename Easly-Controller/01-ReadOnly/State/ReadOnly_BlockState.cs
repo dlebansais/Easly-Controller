@@ -253,19 +253,16 @@
             CloneChildren(parentNode, NewBlock);
         }
 
-        /// <summary></summary>
         private protected virtual IPattern ClonePattern()
         {
             return PatternState.CloneNode();
         }
 
-        /// <summary></summary>
         private protected virtual IIdentifier CloneSource()
         {
             return SourceState.CloneNode();
         }
 
-        /// <summary></summary>
         private protected virtual void CloneChildren(INode parentNode, IBlock parentBlock)
         {
             for (int i = 0; i < StateList.Count; i++)
@@ -316,7 +313,6 @@
         #endregion
 
         #region Implementation
-        /// <summary></summary>
         private protected virtual void InsertState(int index, IReadOnlyPlaceholderNodeState state)
         {
             Debug.Assert(index >= 0 && index <= _StateList.Count);
@@ -326,7 +322,6 @@
             _StateList.Insert(index, state);
         }
 
-        /// <summary></summary>
         private protected virtual void RemoveState(int index)
         {
             Debug.Assert(index >= 0 && index < _StateList.Count);
@@ -334,7 +329,6 @@
             _StateList.RemoveAt(index);
         }
 
-        /// <summary></summary>
         private protected virtual void MoveState(int index, int direction)
         {
             Debug.Assert(index >= 0 && index < _StateList.Count);

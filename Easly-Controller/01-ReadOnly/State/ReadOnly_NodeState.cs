@@ -163,7 +163,6 @@
             CheckInvariant();
         }
 
-        /// <summary></summary>
         private protected virtual void InitParentState(IReadOnlyNodeState parentState)
         {
             Debug.Assert(parentState != null);
@@ -172,7 +171,6 @@
             ParentState = parentState;
         }
 
-        /// <summary></summary>
         private protected virtual void InitParentInner(IReadOnlyInner<IReadOnlyBrowsingChildIndex> parentInner)
         {
             Debug.Assert(ParentInner == null);
@@ -180,7 +178,6 @@
             ParentInner = (IReadOnlyInner)parentInner;
         }
 
-        /// <summary></summary>
         private protected virtual void InitInnerTable(IReadOnlyInnerReadOnlyDictionary<string> innerTable)
         {
             Debug.Assert(innerTable != null);
@@ -199,7 +196,6 @@
             BrowseChildrenOfNode(browseContext, Node);
         }
 
-        /// <summary></summary>
         private protected virtual void BrowseChildrenOfNode(IReadOnlyBrowseContext browseNodeContext, INode node)
         {
             IList<string> PropertyNames = NodeTreeHelper.EnumChildNodeProperties(node);
@@ -285,7 +281,6 @@
             }
         }
 
-        /// <summary></summary>
         private protected virtual IReadOnlyIndexCollection BrowseNodeList(IReadOnlyBrowseContext browseNodeContext, INode node, string propertyName, IReadOnlyList<INode> childNodeList)
         {
             Debug.Assert(!string.IsNullOrEmpty(propertyName));
@@ -304,7 +299,6 @@
             return CreateListIndexCollection(browseNodeContext, propertyName, NodeIndexList);
         }
 
-        /// <summary></summary>
         private protected virtual IReadOnlyIndexCollection BrowseNodeBlockList(IReadOnlyBrowseContext browseNodeContext, INode node, string propertyName, IReadOnlyList<INodeTreeBlock> childBlockList)
         {
             Debug.Assert(!string.IsNullOrEmpty(propertyName));
@@ -320,7 +314,6 @@
             return CreateBlockIndexCollection(browseNodeContext, propertyName, NodeIndexList);
         }
 
-        /// <summary></summary>
         private protected virtual void BrowseBlock(IReadOnlyBrowseContext browseNodeContext, INode node, string propertyName, int blockIndex, INodeTreeBlock childBlock, IReadOnlyBrowsingBlockNodeIndexList nodeIndexList)
         {
             Debug.Assert(!string.IsNullOrEmpty(propertyName));
@@ -339,7 +332,6 @@
             }
         }
 
-        /// <summary></summary>
         private protected bool IsInitialized { get; private set; }
         #endregion
 
@@ -552,7 +544,6 @@
             return true;
         }
 
-        /// <summary></summary>
         private protected virtual bool IsChildrenEqual(CompareEqual comparer, IReadOnlyNodeState nodeState)
         {
             if (!comparer.VerifyEqual(InnerTable, nodeState.InnerTable))
@@ -631,7 +622,6 @@
         #endregion
 
         #region Invariant
-        /// <summary></summary>
         private protected virtual void CheckInvariant()
         {
             InvariantAssert(IsInitialized);
@@ -647,7 +637,6 @@
             }
         }
 
-        /// <summary></summary>
         private protected void InvariantAssert(bool condition)
         {
             Debug.Assert(condition);

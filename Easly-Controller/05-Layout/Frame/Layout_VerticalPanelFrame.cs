@@ -88,7 +88,6 @@
         #endregion
 
         #region Implementation
-        /// <summary></summary>
         private protected override void ValidateEmbeddingCellView(IFrameCellViewTreeContext context, IFrameCellViewCollection embeddingCellView)
         {
             Debug.Assert(((ILayoutCellViewCollection)embeddingCellView).StateView == ((ILayoutCellViewTreeContext)context).StateView);

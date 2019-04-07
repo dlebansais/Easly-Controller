@@ -421,7 +421,6 @@
         /// </summary>
         public IFocusFocus Focus { get; private set; }
 
-        /// <summary></summary>
         private protected IFocusFocusList FocusChain { get; private set; }
 
         /// <summary>
@@ -553,7 +552,6 @@
             Debug.Assert(isMoved || OldFocusHash == FocusHash);
         }
 
-        /// <summary></summary>
         private protected virtual void ChangeFocus(int direction, int oldIndex, int newIndex, bool resetAnchor, out bool isRefreshed)
         {
             isRefreshed = false;
@@ -578,7 +576,6 @@
                 SetAnchoredSelection();
         }
 
-        /// <summary></summary>
         private protected virtual void MoveFocusToState(IFocusNodeState state)
         {
             List<IFocusNodeStateView> StateViewList = new List<IFocusNodeStateView>();
@@ -597,7 +594,6 @@
             }
         }
 
-        /// <summary></summary>
         private protected virtual void SetAnchoredSelection()
         {
             IFocusNodeState AnchorState = SelectionAnchor.State;
@@ -614,7 +610,6 @@
                 SetAnchoredNodeSelection();
         }
 
-        /// <summary></summary>
         private protected virtual void SetAnchoredNodeSelection()
         {
             IFocusNodeState AnchorState = SelectionAnchor.State;
@@ -667,7 +662,6 @@
             Debug.Assert(isMoved || resetAnchor || OldFocusHash == FocusHash);
         }
 
-        /// <summary></summary>
         private protected virtual void SetTextCaretPosition(string text, int position, bool resetAnchor, out bool isMoved)
         {
             int OldPosition = CaretPosition;
@@ -826,7 +820,6 @@
             return Result;
         }
 
-        /// <summary></summary>
         private protected virtual bool IsNewItemInsertableAtInsertFrame(IFocusNodeState state, IFocusInsertFrame frame, out IFocusCollectionInner inner, out IFocusInsertionCollectionNodeIndex index)
         {
             inner = null;
@@ -872,7 +865,6 @@
             return Result;
         }
 
-        /// <summary></summary>
         private protected virtual bool IsNewItemInsertableAtStringContentCellView(IFocusNodeState state, IFocusStringContentFocusableCellView cellView, out IFocusCollectionInner inner, out IFocusInsertionCollectionNodeIndex index)
         {
             inner = null;
@@ -889,7 +881,6 @@
             return Result;
         }
 
-        /// <summary></summary>
         private protected virtual bool IsListExtremumItem(IFocusNodeState state, IFocusContentFocusableCellView cellView, Func<IFocusNodeState, IFocusContentFocusableCellView, bool> isGoodFocusableCellView, Func<int, int> getInsertPosition, out IFocusCollectionInner inner, out IFocusInsertionCollectionNodeIndex index)
         {
             inner = null;
@@ -949,7 +940,6 @@
             return Result;
         }
 
-        /// <summary></summary>
         private protected virtual bool IsFirstFocusableCellView(IFocusNodeState state, IFocusContentFocusableCellView cellView)
         {
             Debug.Assert(StateViewTable.ContainsKey(state));
@@ -959,19 +949,16 @@
             return FirstCellView == cellView;
         }
 
-        /// <summary></summary>
         private protected virtual bool GetFirstFocusable(IFrameVisibleCellView cellView)
         {
             return cellView is IFocusFocusableCellView;
         }
 
-        /// <summary></summary>
         private protected virtual int InsertAbove(int position)
         {
             return position;
         }
 
-        /// <summary></summary>
         private protected virtual bool IsLastFocusableCellView(IFocusNodeState state, IFocusContentFocusableCellView cellView)
         {
             Debug.Assert(StateViewTable.ContainsKey(state));
@@ -981,13 +968,11 @@
             return FirstCellView == cellView;
         }
 
-        /// <summary></summary>
         private protected virtual bool GetLastFocusable(IFrameVisibleCellView cellView)
         {
             return cellView is IFocusFocusableCellView;
         }
 
-        /// <summary></summary>
         private protected virtual int InsertBelow(int position)
         {
             return position + 1;
@@ -1565,7 +1550,6 @@
             // Debug.WriteLine($"<{SelectionExtension}> {Selection}");
         }
 
-        /// <summary></summary>
         private protected virtual void ExtendSelectionOneStep()
         {
             if (Selection == EmptySelection)
@@ -2215,7 +2199,6 @@
             Debug.Assert(StateViewTable.ContainsKey(RefreshState));
         }
 
-        /// <summary></summary>
         private protected override IFrameCellViewTreeContext InitializedCellViewTreeContext(IFrameNodeStateView stateView)
         {
             IFocusCellViewTreeContext Context = (IFocusCellViewTreeContext)CreateCellViewTreeContext(stateView);
@@ -2228,13 +2211,11 @@
             return Context;
         }
 
-        /// <summary></summary>
         private protected override void CloseCellViewTreeContext(IFrameCellViewTreeContext context)
         {
             Debug.Assert(((IFocusCellViewTreeContext)context).ForcedCommentStateView == null);
         }
 
-        /// <summary></summary>
         private protected override void Refresh(IFrameNodeState state)
         {
             INode FocusedNode = null;
@@ -2248,7 +2229,6 @@
             UpdateFocusChain((IFocusNodeState)state, FocusedNode, FocusedFrame);
         }
 
-        /// <summary></summary>
         private protected virtual void UpdateFocusChain(IFocusNodeState state, INode focusedNode, IFocusFrame focusedFrame)
         {
             IFocusFocusList NewFocusChain = CreateFocusChain();
@@ -2286,7 +2266,6 @@
             SelectionExtension = 0;
         }
 
-        /// <summary></summary>
         private protected virtual void RecoverFocus(IFocusNodeState state, IFocusFocusList newFocusChain)
         {
             IFocusNodeState CurrentState = state;
@@ -2319,7 +2298,6 @@
             ResetCaretPosition(0, true);
         }
 
-        /// <summary></summary>
         private protected virtual void FindPreferredFrame(IFocusNodeStateView mainStateView, List<IFocusFocus> sameStateFocusableList)
         {
             bool IsFrameSet = false;
@@ -2346,7 +2324,6 @@
                 Focus = sameStateFocusableList[0];
         }
 
-        /// <summary></summary>
         private protected virtual bool GetFocusedStateAndChildren(IFocusFocusList newFocusChain, IFocusNodeState state, out IFocusNodeStateView mainStateView, out List<IFocusNodeStateView> stateViewList, out List<IFocusFocus> sameStateFocusableList)
         {
             mainStateView = StateViewTable[state];
@@ -2375,7 +2352,6 @@
             return false;
         }
 
-        /// <summary></summary>
         private protected virtual void GetChildrenStateView(IFocusNodeStateView stateView, List<IFocusNodeStateView> stateViewList)
         {
             stateViewList.Add(stateView);
@@ -2464,7 +2440,6 @@
             }
         }
 
-        /// <summary></summary>
         private protected virtual void ResetCaretPosition(int direction, bool resetCaretAnchor)
         {
             if (Focus is IFocusTextFocus AsTextFocus)
@@ -2492,7 +2467,6 @@
             }
         }
 
-        /// <summary></summary>
         private protected virtual void UpdateMaxCaretPosition()
         {
             if (Focus is IFocusTextFocus AsTextFocus)
@@ -2504,7 +2478,6 @@
             }
         }
 
-        /// <summary></summary>
         private protected virtual void CheckCaretInvariant()
         {
             if (Focus is IFocusTextFocus AsTextFocus)
@@ -2520,7 +2493,6 @@
             }
         }
 
-        /// <summary></summary>
         private protected virtual void CheckCaretInvariant(string text)
         {
             Debug.Assert(text != null);
@@ -2529,7 +2501,6 @@
             Debug.Assert(CaretPosition <= MaxCaretPosition);
         }
 
-        /// <summary></summary>
         private protected virtual void ResetSelection()
         {
             if (Focus is IFocusDiscreteContentFocus AsDiscreteContentFocus)
@@ -2544,7 +2515,6 @@
             SelectionExtension = 0;
         }
 
-        /// <summary></summary>
         private protected virtual void SetTextSelection(IFocusTextFocus textFocus)
         {
             bool IsHandled = false;
@@ -2568,7 +2538,6 @@
             Debug.Assert(IsHandled);
         }
 
-        /// <summary></summary>
         private protected virtual void SetTextFullSelection(IFocusTextFocus textFocus)
         {
             bool IsHandled = false;
@@ -2591,7 +2560,6 @@
             Debug.Assert(IsHandled);
         }
 
-        /// <summary></summary>
         private protected override IFrameFrame GetAssociatedFrame(IFrameInner<IFrameBrowsingChildIndex> inner)
         {
             IFocusNodeState Owner = ((IFocusInner<IFocusBrowsingChildIndex>)inner).Owner;
@@ -2603,14 +2571,12 @@
             return AssociatedFrame;
         }
 
-        /// <summary></summary>
         private protected override void ValidateBlockCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, IFrameBlockCellView blockCellView)
         {
             Debug.Assert(((IFocusBlockCellView)blockCellView).StateView == (IFocusNodeStateView)stateView);
             Debug.Assert(((IFocusBlockCellView)blockCellView).ParentCellView == (IFocusCellViewCollection)parentCellView);
         }
 
-        /// <summary></summary>
         private protected override void ValidateContainerCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, IFrameNodeStateView childStateView, IFrameContainerCellView containerCellView)
         {
             Debug.Assert(((IFocusContainerCellView)containerCellView).StateView == (IFocusNodeStateView)stateView);
@@ -2618,7 +2584,6 @@
             Debug.Assert(((IFocusContainerCellView)containerCellView).ChildStateView == (IFocusNodeStateView)childStateView);
         }
 
-        /// <summary></summary>
         private protected virtual string GetFocusedText(IFocusTextFocus textCellFocus)
         {
             string Text = null;
@@ -2637,7 +2602,6 @@
             return Text;
         }
 
-        /// <summary></summary>
         private protected virtual string GetFocusedStringContent(IFocusStringContentFocus textCellFocus)
         {
             IFocusStringContentFocusableCellView CellView = textCellFocus.CellView;
@@ -2647,7 +2611,6 @@
             return NodeTreeHelper.GetString(Node, PropertyName);
         }
 
-        /// <summary></summary>
         private protected virtual string GetFocusedCommentText(IFocusCommentFocus commentFocus)
         {
             IFocusCommentCellView CellView = commentFocus.CellView;

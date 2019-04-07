@@ -27,7 +27,6 @@
         /// </summary>
         public Symbols Symbol { get; set; }
 
-        /// <summary></summary>
         private protected override bool IsFrameFocusable { get { return false; } }
         #endregion
     }

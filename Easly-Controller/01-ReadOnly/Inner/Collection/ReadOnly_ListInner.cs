@@ -237,7 +237,6 @@
         #endregion
 
         #region Implementation
-        /// <summary></summary>
         private protected virtual void InsertInStateList(int index, IReadOnlyPlaceholderNodeState nodeState)
         {
             Debug.Assert(index >= 0 && index <= _StateList.Count);
@@ -247,7 +246,6 @@
             _StateList.Insert(index, nodeState);
         }
 
-        /// <summary></summary>
         private protected virtual void RemoveFromStateList(int index)
         {
             Debug.Assert(index >= 0 && index < _StateList.Count);
@@ -255,7 +253,6 @@
             _StateList.RemoveAt(index);
         }
 
-        /// <summary></summary>
         private protected virtual void MoveInStateList(int index, int direction)
         {
             Debug.Assert(index >= 0 && index < _StateList.Count);

@@ -159,7 +159,6 @@
         #endregion
 
         #region Helper
-        /// <summary></summary>
         private protected override IFrameFrame GetRoot()
         {
             return FocusFrame.FocusRoot;

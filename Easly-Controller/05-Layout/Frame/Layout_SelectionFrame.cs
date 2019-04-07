@@ -38,7 +38,6 @@
         /// </summary>
         public new ILayoutSelectableFrameList Items { get { return (ILayoutSelectableFrameList)base.Items; } }
 
-        /// <summary></summary>
         private protected override bool IsParentRoot { get { return ParentFrame == LayoutFrame.LayoutRoot; } }
         #endregion
 

@@ -76,7 +76,6 @@
         /// </summary>
         public bool IsSimple { get; set; }
 
-        /// <summary></summary>
         private protected override bool IsRootValid { get { return Root.ParentFrame == FocusFrame.FocusRoot; } }
 
         /// <summary>
@@ -263,7 +262,6 @@
             return Result;
         }
 
-        /// <summary></summary>
         private protected virtual bool GetFirstCommentFrame(IFocusFrame root, IList<IFocusFrameSelectorList> selectorStack, out IFocusCommentFrame frame)
         {
             bool Found = false;

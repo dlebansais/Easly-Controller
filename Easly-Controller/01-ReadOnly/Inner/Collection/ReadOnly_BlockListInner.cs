@@ -414,7 +414,6 @@
         #endregion
 
         #region Descendant Interface
-        /// <summary></summary>
         private protected virtual void InsertInBlockStateList(int blockIndex, IReadOnlyBlockState blockState)
         {
             Debug.Assert(blockIndex >= 0 && blockIndex <= BlockStateList.Count);
@@ -425,7 +424,6 @@
             NotifyBlockStateCreated(BlockStateList[blockIndex]);
         }
 
-        /// <summary></summary>
         private protected virtual void RemoveFromBlockStateList(int blockIndex)
         {
             Debug.Assert(blockIndex >= 0 && blockIndex < BlockStateList.Count);
@@ -435,7 +433,6 @@
             _BlockStateList.RemoveAt(blockIndex);
         }
 
-        /// <summary></summary>
         private protected virtual void MoveInBlockStateList(int blockIndex, int direction)
         {
             Debug.Assert(blockIndex >= 0 && blockIndex < BlockStateList.Count);
@@ -446,7 +443,6 @@
             _BlockStateList.Insert(blockIndex + direction, BlockState);
         }
 
-        /// <summary></summary>
         private protected virtual void NotifyBlockStateCreated(IReadOnlyBlockState blockState)
         {
             BlockStateCreatedHandler?.Invoke(blockState);

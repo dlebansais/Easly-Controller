@@ -172,7 +172,6 @@
         #endregion
 
         #region Implementation
-        /// <summary></summary>
         private protected override void ValidateEmptyCellView(IFrameCellViewTreeContext context, IFrameEmptyCellView emptyCellView)
         {
             Debug.Assert(((ILayoutEmptyCellView)emptyCellView).StateView == ((ILayoutCellViewTreeContext)context).StateView);

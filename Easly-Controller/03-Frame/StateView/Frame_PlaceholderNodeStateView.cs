@@ -110,7 +110,6 @@
             SealCellViewTable();
         }
 
-        /// <summary></summary>
         private protected virtual void InitCellViewTable()
         {
             _CellViewTable = CreateCellViewTable();
@@ -118,7 +117,6 @@
                 _CellViewTable.Add(Entry.Value.PropertyName, null);
         }
 
-        /// <summary></summary>
         private protected virtual void SetRootCellView(IFrameCellView cellView)
         {
             Debug.Assert(cellView != null);
@@ -127,7 +125,6 @@
             RootCellView = cellView;
         }
 
-        /// <summary></summary>
         private protected virtual void SealCellViewTable()
         {
             CellViewTable = _CellViewTable.ToReadOnly();
@@ -271,7 +268,6 @@
             return IsValid;
         }
 
-        /// <summary></summary>
         private protected virtual bool AllCellViewsProperlyAssigned(IFrameAssignableCellViewReadOnlyDictionary<string> expectedCellViewTable, IFrameAssignableCellViewDictionary<string> actualCellViewTable)
         {
             bool IsAssigned = true;

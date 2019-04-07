@@ -80,14 +80,12 @@
             return EmbeddingCellView;
         }
 
-        /// <summary></summary>
         private protected virtual void ValidateEmbeddingCellView(IFrameCellViewTreeContext context, IFrameCellViewCollection embeddingCellView)
         {
             Debug.Assert(embeddingCellView.StateView == context.StateView);
             IFrameCellViewCollection ParentCellView = embeddingCellView.ParentCellView;
         }
 
-        /// <summary></summary>
         private protected virtual void ValidateContainerCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, IFrameNodeStateView childStateView, IFrameContainerCellView containerCellView)
         {
             Debug.Assert(containerCellView.StateView == stateView);
@@ -95,7 +93,6 @@
             Debug.Assert(containerCellView.ChildStateView == childStateView);
         }
 
-        /// <summary></summary>
         private protected virtual void AssignEmbeddingCellView(IFrameNodeStateView stateView, IFrameAssignableCellView embeddingCellView)
         {
             embeddingCellView.AssignToCellViewTable();

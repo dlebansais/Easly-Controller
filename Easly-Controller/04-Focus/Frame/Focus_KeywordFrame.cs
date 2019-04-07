@@ -147,7 +147,6 @@
         #endregion
 
         #region Implementation
-        /// <summary></summary>
         private protected override void ValidateVisibleCellView(IFrameCellViewTreeContext context, IFrameVisibleCellView cellView)
         {
             Debug.Assert(((IFocusVisibleCellView)cellView).StateView == ((IFocusCellViewTreeContext)context).StateView);
@@ -155,7 +154,6 @@
             IFocusCellViewCollection ParentCellView = ((IFocusVisibleCellView)cellView).ParentCellView;
         }
 
-        /// <summary></summary>
         private protected virtual void ValidateEmptyCellView(IFocusCellViewTreeContext context, IFocusEmptyCellView emptyCellView)
         {
             Debug.Assert(emptyCellView.StateView == context.StateView);

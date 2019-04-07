@@ -184,7 +184,6 @@
             PlaceholderCellViewCollection.DrawSelection(selection.StartIndex, selection.EndIndex, SelectionStyles.NodeList);
         }
 
-        /// <summary></summary>
         private protected virtual bool GetPlaceholderCellViewCollection(ILayoutCellView rootCellView, out ILayoutCellViewCollection cellViewCollection)
         {
             cellViewCollection = null;

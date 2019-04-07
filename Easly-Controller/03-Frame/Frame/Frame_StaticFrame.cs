@@ -15,7 +15,6 @@
     public abstract class FrameStaticFrame : FrameFrame, IFrameStaticFrame
     {
         #region Properties
-        /// <summary></summary>
         private protected abstract bool IsFrameFocusable { get; }
         #endregion
 
@@ -41,7 +40,6 @@
         #endregion
 
         #region Implementation
-        /// <summary></summary>
         private protected virtual void ValidateVisibleCellView(IFrameCellViewTreeContext context, IFrameVisibleCellView cellView)
         {
             Debug.Assert(cellView.StateView == context.StateView);

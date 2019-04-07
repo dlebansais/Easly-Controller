@@ -64,7 +64,6 @@
             return true;
         }
 
-        /// <summary></summary>
         private protected override void ValidateVisibleCellView(IFrameCellViewTreeContext context, IFrameVisibleCellView cellView)
         {
             Debug.Assert(((IFocusVisibleCellView)cellView).StateView == ((IFocusCellViewTreeContext)context).StateView);
@@ -72,7 +71,6 @@
             IFocusCellViewCollection ParentCellView = ((IFocusVisibleCellView)cellView).ParentCellView;
         }
 
-        /// <summary></summary>
         private protected override void ValidateEmptyCellView(IFrameCellViewTreeContext context, IFrameEmptyCellView emptyCellView)
         {
             Debug.Assert(((IFocusEmptyCellView)emptyCellView).StateView == ((IFocusCellViewTreeContext)context).StateView);

@@ -49,7 +49,6 @@
         #endregion
 
         #region Implementation
-        /// <summary></summary>
         private protected virtual void ValidateVisibleCellView(IFrameCellViewTreeContext context, IFrameVisibleCellView cellView)
         {
             Debug.Assert(cellView.StateView == context.StateView);

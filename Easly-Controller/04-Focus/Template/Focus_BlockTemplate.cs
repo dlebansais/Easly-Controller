@@ -29,7 +29,6 @@
         /// </summary>
         public new IFocusFrame Root { get { return (IFocusFrame)base.Root; } set { base.Root = value; } }
 
-        /// <summary></summary>
         private protected override bool IsRootValid { get { return Root.ParentFrame == FocusFrame.FocusRoot; } }
         #endregion
 

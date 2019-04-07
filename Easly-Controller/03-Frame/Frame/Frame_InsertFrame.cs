@@ -40,7 +40,6 @@
         /// </summary>
         public Type InterfaceType { get; private set; }
 
-        /// <summary></summary>
         private protected override bool IsFrameFocusable { get { return true; } }
         #endregion
 
@@ -75,7 +74,6 @@
             UpdateInterfaceType(parentTemplate.NodeType);
         }
 
-        /// <summary></summary>
         private protected virtual void UpdateInterfaceType(Type nodeType)
         {
             if (InterfaceType == null)

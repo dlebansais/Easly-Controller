@@ -188,7 +188,6 @@
             CheckInvariant();
         }
 
-        /// <summary></summary>
         private protected virtual void ExecuteReplaceWithCycle(IWriteableOperation operation)
         {
             IFocusReplaceWithCycleOperation ReplaceWithCycleOperation = (IFocusReplaceWithCycleOperation)operation;
@@ -207,7 +206,6 @@
             NotifyStateReplaced(ReplaceWithCycleOperation);
         }
 
-        /// <summary></summary>
         private protected virtual void UndoReplaceWithCycle(IWriteableOperation operation)
         {
             IFocusReplaceWithCycleOperation ReplaceWithCycleOperation = (IFocusReplaceWithCycleOperation)operation;
@@ -278,7 +276,6 @@
         #endregion
 
         #region Implementation
-        /// <summary></summary>
         private protected virtual void SetCycleManagerList()
         {
             Debug.Assert(!IsInitialized); // Must be called during initialization
@@ -288,7 +285,6 @@
             CycleManagerList.Add(CreateCycleManagerFeature());
         }
 
-        /// <summary></summary>
         private protected override void CheckContextConsistency(IReadOnlyBrowseContext browseContext)
         {
             ((FocusBrowseContext)browseContext).CheckConsistency();

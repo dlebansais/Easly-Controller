@@ -161,7 +161,6 @@
             Debug.Assert(EmbeddingCellView != null);
         }
 
-        /// <summary></summary>
         private protected virtual void SetRootCellView(IFrameCellView cellView)
         {
             Debug.Assert(cellView != null);
@@ -253,7 +252,6 @@
             return true;
         }
 
-        /// <summary></summary>
         private protected virtual bool IsRootCellViewEqual(CompareEqual comparer, IFrameBlockStateView other)
         {
             if (!comparer.IsTrue((RootCellView == null && other.RootCellView == null) || (RootCellView != null && other.RootCellView != null)))
@@ -268,7 +266,6 @@
             return true;
         }
 
-        /// <summary></summary>
         private protected virtual bool IsEmbeddingCellViewEqual(CompareEqual comparer, IFrameBlockStateView other)
         {
             if (!comparer.IsTrue((EmbeddingCellView == null && other.EmbeddingCellView == null) || (EmbeddingCellView != null && other.EmbeddingCellView != null)))

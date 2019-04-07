@@ -292,7 +292,6 @@
         #endregion
 
         #region Helper
-        /// <summary></summary>
         private protected virtual IFrameTemplateSet BuildDefault()
         {
             if (_Default != null && _Default.GetType() == GetType()) // Recreate the default if the layer has changed.
@@ -309,7 +308,6 @@
             return _Default;
         }
 
-        /// <summary></summary>
         private protected virtual IFrameTemplateReadOnlyDictionary BuildDefaultNodeTemplateTable()
         {
             IFrameTemplateDictionary DefaultDictionary = CreateDefaultTemplateDictionary();
@@ -321,7 +319,6 @@
             return DefaultDictionary.ToReadOnly();
         }
 
-        /// <summary></summary>
         private protected virtual void SetNodeTypeToDefault(IFrameTemplateDictionary dictionary, Type nodeType)
         {
             Debug.Assert(dictionary.ContainsKey(nodeType));
@@ -428,13 +425,11 @@
             Debug.Assert(RootTemplate.ToString() != null); // For code coverage.
         }
 
-        /// <summary></summary>
         private protected virtual IFrameFrame GetRoot()
         {
             return FrameFrame.FrameRoot;
         }
 
-        /// <summary></summary>
         private protected virtual IFrameTemplateReadOnlyDictionary BuildDefaultBlockListTemplate()
         {
             List<Type> Keys = new List<Type>(NodeHelper.CreateNodeDictionary<object>().Keys);
@@ -470,7 +465,6 @@
             return DefaultDictionary.ToReadOnly();
         }
 
-        /// <summary></summary>
         private protected virtual void AddBlockNodeTypes(IFrameTemplateDictionary dictionary, Type nodeType)
         {
             IList<string> Properties = NodeTreeHelper.EnumChildNodeProperties(nodeType);

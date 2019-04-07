@@ -447,7 +447,6 @@
             }
         }
 
-        /// <summary></summary>
         private protected virtual void DrawCellViewLineNumber(string lineText, Point lineOrigin)
         {
             DrawContext.DrawText(lineText, lineOrigin, TextStyles.LineNumber, isFocused: false);
@@ -469,7 +468,6 @@
                 DisplayLineNumber(PrintCellViewLineNumber);
         }
 
-        /// <summary></summary>
         private protected virtual void PrintCellViewLineNumber(string lineText, Point lineOrigin)
         {
             PrintContext.PrintText(lineText, lineOrigin, TextStyles.LineNumber);
@@ -509,7 +507,6 @@
                     DrawContext.HideCaret();
         }
 
-        /// <summary></summary>
         private protected bool IsCaretOnText(out ILayoutStringContentFocus textCellFocus)
         {
             textCellFocus = null;
@@ -537,7 +534,6 @@
             return textCellFocus != null;
         }
 
-        /// <summary></summary>
         private protected void DrawTextCaret(ILayoutStringContentFocus textCellFocus)
         {
             ILayoutStringContentFocusableCellView CellView = textCellFocus.CellView;
@@ -553,14 +549,12 @@
             DrawContext.ShowCaret(OriginWithPadding, Text, FocusedTextStyle, ActualCaretMode, CaretPosition);
         }
 
-        /// <summary></summary>
         private protected bool IsCaretOnComment(out ILayoutCommentFocus commentFocus)
         {
             commentFocus = Focus as ILayoutCommentFocus;
             return commentFocus != null;
         }
 
-        /// <summary></summary>
         private protected void DrawCommentCaret(ILayoutCommentFocus commentFocus)
         {
             ILayoutCommentCellView CellView = commentFocus.CellView;
@@ -645,7 +639,6 @@
             Debug.Assert(isMoved || OldFocusHash == FocusHash);
         }
 
-        /// <summary></summary>
         private protected Point GetMoveFocusDestinationLocation(double distance)
         {
             Point Origin;
@@ -1127,7 +1120,6 @@
             Debug.Assert(StateViewTable.ContainsKey(RefreshState));
         }
 
-        /// <summary></summary>
         private protected override IFrameCellViewTreeContext InitializedCellViewTreeContext(IFrameNodeStateView stateView)
         {
             ILayoutCellViewTreeContext Context = base.InitializedCellViewTreeContext(stateView) as ILayoutCellViewTreeContext;
@@ -1137,14 +1129,12 @@
             return Context;
         }
 
-        /// <summary></summary>
         private protected override void ValidateBlockCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, IFrameBlockCellView blockCellView)
         {
             Debug.Assert(((ILayoutBlockCellView)blockCellView).StateView == (ILayoutNodeStateView)stateView);
             Debug.Assert(((ILayoutBlockCellView)blockCellView).ParentCellView == (ILayoutCellViewCollection)parentCellView);
         }
 
-        /// <summary></summary>
         private protected override void ValidateContainerCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, IFrameNodeStateView childStateView, IFrameContainerCellView containerCellView)
         {
             Debug.Assert(((ILayoutContainerCellView)containerCellView).StateView == (ILayoutNodeStateView)stateView);
@@ -1152,7 +1142,6 @@
             Debug.Assert(((ILayoutContainerCellView)containerCellView).ChildStateView == (ILayoutNodeStateView)childStateView);
         }
 
-        /// <summary></summary>
         private protected override void Refresh(IFrameNodeState state)
         {
             base.Refresh(state);
@@ -1160,7 +1149,6 @@
             IsInvalidated = true;
         }
 
-        /// <summary></summary>
         private protected virtual void MeasureCells()
         {
             ILayoutPlaceholderNodeState RootState = Controller.RootState;
@@ -1172,7 +1160,6 @@
             Debug.Assert(RegionHelper.IsFixed(InternalViewSize));
         }
 
-        /// <summary></summary>
         private protected virtual void ArrangeCells()
         {
             ILayoutPlaceholderNodeState RootState = Controller.RootState;
@@ -1193,7 +1180,6 @@
             Debug.Assert(Point.IsEqual(RootStateView.CellOrigin, ViewOrigin));
         }
 
-        /// <summary></summary>
         private protected virtual Measure MeasureLineNumberWidth()
         {
             string LongestLineText = $"{LastLineNumber} ";
@@ -1202,7 +1188,6 @@
             return LineSize.Width;
         }
 
-        /// <summary></summary>
         private protected virtual void DisplayLineNumber(Action<string, Point> handler)
         {
             bool[] DrawnLines = new bool[LastLineNumber + 1];
@@ -1211,7 +1196,6 @@
             EnumerateVisibleCellViews((IFrameVisibleCellView cellView) => DisplayCellViewLineNumber(cellView, handler, DrawnLines, MaxLength), out IFrameVisibleCellView lastCellView, reversed: false);
         }
 
-        /// <summary></summary>
         private protected virtual bool DisplayCellViewLineNumber(IFrameVisibleCellView cellView, Action<string, Point> handler, bool[] drawnLines, int maxLength)
         {
             int LineNumber = cellView.LineNumber;
@@ -1232,7 +1216,6 @@
             return false;
         }
 
-        /// <summary></summary>
         private protected override void ChangeFocus(int direction, int oldIndex, int newIndex, bool resetAnchor, out bool isRefreshed)
         {
             ILayoutFocus OldFocus = (ILayoutFocus)FocusChain[oldIndex];

@@ -97,7 +97,6 @@
             return EmbeddingCellView;
         }
 
-        /// <summary></summary>
         private protected virtual void ValidateEmbeddingCellView(IFrameCellViewTreeContext context, IFrameCellViewCollection embeddingCellView)
         {
             Debug.Assert(embeddingCellView.StateView == context.StateView);
@@ -141,7 +140,6 @@
             return EmbeddingCellView;
         }
 
-        /// <summary></summary>
         private protected virtual IFrameCellView BuildBlockCellsForPlaceholderFrame(IFrameCellViewTreeContext context, IFramePlaceholderFrame frame, IFrameCellViewCollection embeddingCellView, IFrameBlockState blockState)
         {
             IFrameCellView ItemCellView = null;
@@ -163,7 +161,6 @@
             return ItemCellView;
         }
 
-        /// <summary></summary>
         private protected virtual IFrameCellView BuildPlaceholderCells(IFrameCellViewTreeContext context, IFrameCellViewCollection parentCellView, IFrameNodeState childState, IFramePlaceholderFrame frame)
         {
             IFrameStateViewDictionary StateViewTable = context.ControllerView.StateViewTable;

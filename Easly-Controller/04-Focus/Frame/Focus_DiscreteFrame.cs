@@ -124,7 +124,6 @@
         #endregion
 
         #region Implementation
-        /// <summary></summary>
         private protected override void ValidateDiscreteContentFocusableCellView(IFrameCellViewTreeContext context, IFrameKeywordFrame keywordFrame, IFrameDiscreteContentFocusableCellView cellView)
         {
             Debug.Assert(((IFocusDiscreteContentFocusableCellView)cellView).StateView == ((IFocusCellViewTreeContext)context).StateView);
@@ -133,7 +132,6 @@
             IFocusCellViewCollection ParentCellView = ((IFocusDiscreteContentFocusableCellView)cellView).ParentCellView;
         }
 
-        /// <summary></summary>
         private protected virtual void ValidateEmptyCellView(IFocusCellViewTreeContext context, IFocusEmptyCellView emptyCellView)
         {
             Debug.Assert(emptyCellView.StateView == context.StateView);

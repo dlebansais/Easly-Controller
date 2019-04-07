@@ -108,13 +108,11 @@
             SealCellViewTable();
         }
 
-        /// <summary></summary>
         private protected virtual void InitCellViewTable()
         {
             _CellViewTable = CreateCellViewTable();
         }
 
-        /// <summary></summary>
         private protected virtual void SetRootCellView(IFrameCellView cellView)
         {
             Debug.Assert(cellView != null);
@@ -123,7 +121,6 @@
             RootCellView = cellView;
         }
 
-        /// <summary></summary>
         private protected virtual void SealCellViewTable()
         {
             CellViewTable = _CellViewTable.ToReadOnly();

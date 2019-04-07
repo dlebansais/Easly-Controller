@@ -725,7 +725,6 @@
             Debug.Assert(IsHandled);
         }
 
-        /// <summary></summary>
         private protected virtual void InsertNewBlock(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> blockListInner, IWriteableInsertionNewBlockNodeIndex newBlockIndex, out IWriteableBrowsingCollectionNodeIndex nodeIndex)
         {
             IBlock NewBlock = NodeTreeHelperBlockList.CreateBlock(blockListInner.Owner.Node, blockListInner.PropertyName, ReplicationStatus.Normal, newBlockIndex.PatternNode, newBlockIndex.SourceNode);
@@ -741,14 +740,12 @@
             nodeIndex = Operation.BrowsingIndex;
         }
 
-        /// <summary></summary>
         private protected virtual void RedoInsertNewBlock(IWriteableOperation operation)
         {
             IWriteableInsertBlockOperation InsertBlockOperation = (IWriteableInsertBlockOperation)operation;
             ExecuteInsertNewBlock(InsertBlockOperation);
         }
 
-        /// <summary></summary>
         private protected virtual void ExecuteInsertNewBlock(IWriteableInsertBlockOperation operation)
         {
             INode ParentNode = operation.ParentNode;
@@ -785,7 +782,6 @@
             NotifyBlockStateInserted(operation);
         }
 
-        /// <summary></summary>
         private protected virtual void UndoInsertNewBlock(IWriteableOperation operation)
         {
             IWriteableInsertBlockOperation InsertBlockOperation = (IWriteableInsertBlockOperation)operation;
@@ -794,7 +790,6 @@
             ExecuteRemoveBlock(RemoveBlockOperation);
         }
 
-        /// <summary></summary>
         private protected virtual void InsertNewNode(IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> inner, IWriteableInsertionCollectionNodeIndex insertedIndex, out IWriteableBrowsingCollectionNodeIndex nodeIndex)
         {
             IndexToPositionAndNode(insertedIndex, out int BlockIndex, out int Index, out INode Node);
@@ -810,14 +805,12 @@
             nodeIndex = Operation.BrowsingIndex;
         }
 
-        /// <summary></summary>
         private protected virtual void RedoInsertNewNode(IWriteableOperation operation)
         {
             IWriteableInsertNodeOperation InsertNodeOperation = (IWriteableInsertNodeOperation)operation;
             ExecuteInsertNewNode(InsertNodeOperation);
         }
 
-        /// <summary></summary>
         private protected virtual void ExecuteInsertNewNode(IWriteableInsertNodeOperation operation)
         {
             INode ParentNode = operation.ParentNode;
@@ -838,7 +831,6 @@
             NotifyStateInserted(operation);
         }
 
-        /// <summary></summary>
         private protected virtual void UndoInsertNewNode(IWriteableOperation operation)
         {
             IWriteableInsertNodeOperation InsertNodeOperation = (IWriteableInsertNodeOperation)operation;
@@ -1137,7 +1129,6 @@
             Debug.Assert(IsHandled);
         }
 
-        /// <summary></summary>
         private protected virtual void RemoveBlock(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> blockListInner, int blockIndex)
         {
             Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => RedoRemoveBlock(operation);
@@ -1149,14 +1140,12 @@
             CheckInvariant();
         }
 
-        /// <summary></summary>
         private protected virtual void RedoRemoveBlock(IWriteableOperation operation)
         {
             IWriteableRemoveBlockOperation RemoveBlockOperation = (IWriteableRemoveBlockOperation)operation;
             ExecuteRemoveBlock(RemoveBlockOperation);
         }
 
-        /// <summary></summary>
         private protected virtual void ExecuteRemoveBlock(IWriteableRemoveBlockOperation operation)
         {
             INode ParentNode = operation.ParentNode;
@@ -1193,7 +1182,6 @@
             NotifyBlockStateRemoved(operation);
         }
 
-        /// <summary></summary>
         private protected virtual void UndoRemoveBlock(IWriteableOperation operation)
         {
             IWriteableRemoveBlockOperation RemoveBlockOperation = (IWriteableRemoveBlockOperation)operation;
@@ -1202,7 +1190,6 @@
             ExecuteInsertNewBlock(InsertBlockOperation);
         }
 
-        /// <summary></summary>
         private protected virtual void RemoveNode(IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> inner, int blockIndex, int index)
         {
             Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => RedoRemoveNode(operation);
@@ -1214,14 +1201,12 @@
             CheckInvariant();
         }
 
-        /// <summary></summary>
         private protected virtual void RedoRemoveNode(IWriteableOperation operation)
         {
             IWriteableRemoveNodeOperation RemoveNodeOperation = (IWriteableRemoveNodeOperation)operation;
             ExecuteRemoveNode(RemoveNodeOperation);
         }
 
-        /// <summary></summary>
         private protected virtual void ExecuteRemoveNode(IWriteableRemoveNodeOperation operation)
         {
             INode ParentNode = operation.ParentNode;
@@ -1237,7 +1222,6 @@
             NotifyStateRemoved(operation);
         }
 
-        /// <summary></summary>
         private protected virtual void UndoRemoveNode(IWriteableOperation operation)
         {
             IWriteableRemoveNodeOperation RemoveNodeOperation = (IWriteableRemoveNodeOperation)operation;
@@ -1277,14 +1261,12 @@
             nodeIndex = Operation.NewBrowsingIndex;
         }
 
-        /// <summary></summary>
         private protected virtual void RedoReplace(IWriteableOperation operation)
         {
             IWriteableReplaceOperation ReplaceOperation = (IWriteableReplaceOperation)operation;
             ExecuteReplace(ReplaceOperation);
         }
 
-        /// <summary></summary>
         private protected virtual void UndoReplace(IWriteableOperation operation)
         {
             IWriteableReplaceOperation ReplaceOperation = (IWriteableReplaceOperation)operation;
@@ -1293,7 +1275,6 @@
             ExecuteReplace(ReplaceOperation);
         }
 
-        /// <summary></summary>
         private protected virtual void ExecuteReplace(IWriteableReplaceOperation operation)
         {
             INode ParentNode = operation.ParentNode;
@@ -1306,7 +1287,6 @@
             NotifyStateReplaced(operation);
         }
 
-        /// <summary></summary>
         private protected virtual void ReplaceState(IWriteableReplaceOperation operation, IWriteableInner<IWriteableBrowsingChildIndex> inner)
         {
             Debug.Assert(inner != null);
@@ -1599,7 +1579,6 @@
             return Result;
         }
 
-        /// <summary></summary>
         private protected virtual bool IsNodeRangeRemoveable(IWriteableBlockListInner inner, int blockIndex, int firstNodeIndex, int lastNodeIndex)
         {
             Debug.Assert(inner != null);
@@ -1614,7 +1593,6 @@
             return inner.BlockStateList.Count > 1 || BlockState.StateList.Count > DeletedCount;
         }
 
-        /// <summary></summary>
         private protected virtual bool IsNodeRangeRemoveable(IWriteableListInner inner, int firstNodeIndex, int lastNodeIndex)
         {
             Debug.Assert(inner != null);
@@ -1935,14 +1913,12 @@
                 isChanged = false;
         }
 
-        /// <summary></summary>
         private protected virtual void RedoAssign(IWriteableOperation operation)
         {
             IWriteableAssignmentOperation AssignmentOperation = (IWriteableAssignmentOperation)operation;
             ExecuteAssign(AssignmentOperation);
         }
 
-        /// <summary></summary>
         private protected virtual void ExecuteAssign(IWriteableAssignmentOperation operation)
         {
             INode ParentNode = operation.ParentNode;
@@ -1956,7 +1932,6 @@
             NotifyStateAssigned(operation);
         }
 
-        /// <summary></summary>
         private protected virtual void UndoAssign(IWriteableOperation operation)
         {
             IWriteableAssignmentOperation AssignmentOperation = (IWriteableAssignmentOperation)operation;
@@ -1997,14 +1972,12 @@
                 isChanged = false;
         }
 
-        /// <summary></summary>
         private protected virtual void RedoUnassign(IWriteableOperation operation)
         {
             IWriteableAssignmentOperation AssignmentOperation = (IWriteableAssignmentOperation)operation;
             ExecuteUnassign(AssignmentOperation);
         }
 
-        /// <summary></summary>
         private protected virtual void ExecuteUnassign(IWriteableAssignmentOperation operation)
         {
             INode ParentNode = operation.ParentNode;
@@ -2018,7 +1991,6 @@
             NotifyStateUnassigned(operation);
         }
 
-        /// <summary></summary>
         private protected virtual void UndoUnassign(IWriteableOperation operation)
         {
             IWriteableAssignmentOperation AssignmentOperation = (IWriteableAssignmentOperation)operation;
@@ -2047,14 +2019,12 @@
             CheckInvariant();
         }
 
-        /// <summary></summary>
         private protected virtual void RedoChangeReplication(IWriteableOperation operation)
         {
             IWriteableChangeBlockOperation ChangeBlockOperation = (IWriteableChangeBlockOperation)operation;
             ExecuteChangeReplication(ChangeBlockOperation);
         }
 
-        /// <summary></summary>
         private protected virtual void UndoChangeReplication(IWriteableOperation operation)
         {
             IWriteableChangeBlockOperation ChangeBlockOperation = (IWriteableChangeBlockOperation)operation;
@@ -2063,7 +2033,6 @@
             ExecuteChangeReplication(ChangeBlockOperation);
         }
 
-        /// <summary></summary>
         private protected virtual void ExecuteChangeReplication(IWriteableChangeBlockOperation operation)
         {
             INode ParentNode = operation.ParentNode;
@@ -2098,14 +2067,12 @@
             CheckInvariant();
         }
 
-        /// <summary></summary>
         private protected virtual void RedoChangeDiscreteValue(IWriteableOperation operation)
         {
             IWriteableChangeDiscreteValueOperation ChangeDiscreteValueOperation = (IWriteableChangeDiscreteValueOperation)operation;
             ExecuteChangeDiscreteValue(ChangeDiscreteValueOperation);
         }
 
-        /// <summary></summary>
         private protected virtual void UndoChangeDiscreteValue(IWriteableOperation operation)
         {
             IWriteableChangeDiscreteValueOperation ChangeDiscreteValueOperation = (IWriteableChangeDiscreteValueOperation)operation;
@@ -2114,7 +2081,6 @@
             ExecuteChangeDiscreteValue(ChangeDiscreteValueOperation);
         }
 
-        /// <summary></summary>
         private protected virtual void ExecuteChangeDiscreteValue(IWriteableChangeDiscreteValueOperation operation)
         {
             INode ParentNode = operation.ParentNode;
@@ -2161,14 +2127,12 @@
             CheckInvariant();
         }
 
-        /// <summary></summary>
         private protected virtual void RedoChangeText(IWriteableOperation operation)
         {
             IWriteableChangeTextOperation ChangeTextOperation = (IWriteableChangeTextOperation)operation;
             ExecuteChangeText(ChangeTextOperation);
         }
 
-        /// <summary></summary>
         private protected virtual void UndoChangeText(IWriteableOperation operation)
         {
             IWriteableChangeTextOperation ChangeTextOperation = (IWriteableChangeTextOperation)operation;
@@ -2177,7 +2141,6 @@
             ExecuteChangeText(ChangeTextOperation);
         }
 
-        /// <summary></summary>
         private protected virtual void ExecuteChangeText(IWriteableChangeTextOperation operation)
         {
             INode ParentNode = operation.ParentNode;
@@ -2220,14 +2183,12 @@
             CheckInvariant();
         }
 
-        /// <summary></summary>
         private protected virtual void RedoChangeComment(IWriteableOperation operation)
         {
             IWriteableChangeCommentOperation ChangeCommentOperation = (IWriteableChangeCommentOperation)operation;
             ExecuteChangeComment(ChangeCommentOperation);
         }
 
-        /// <summary></summary>
         private protected virtual void UndoChangeComment(IWriteableOperation operation)
         {
             IWriteableChangeCommentOperation ChangeCommentOperation = (IWriteableChangeCommentOperation)operation;
@@ -2236,7 +2197,6 @@
             ExecuteChangeComment(ChangeCommentOperation);
         }
 
-        /// <summary></summary>
         private protected virtual void ExecuteChangeComment(IWriteableChangeCommentOperation operation)
         {
             INode ParentNode = operation.ParentNode;
@@ -2294,14 +2254,12 @@
             CheckInvariant();
         }
 
-        /// <summary></summary>
         private protected virtual void RedoSplitBlock(IWriteableOperation operation)
         {
             IWriteableSplitBlockOperation SplitBlockOperation = (IWriteableSplitBlockOperation)operation;
             ExecuteSplitBlock(SplitBlockOperation);
         }
 
-        /// <summary></summary>
         private protected virtual void ExecuteSplitBlock(IWriteableSplitBlockOperation operation)
         {
             INode ParentNode = operation.ParentNode;
@@ -2334,7 +2292,6 @@
             NotifyBlockSplit(operation);
         }
 
-        /// <summary></summary>
         private protected virtual void UndoSplitBlock(IWriteableOperation operation)
         {
             IWriteableSplitBlockOperation SplitBlockOperation = (IWriteableSplitBlockOperation)operation;
@@ -2376,14 +2333,12 @@
             CheckInvariant();
         }
 
-        /// <summary></summary>
         private protected virtual void RedoMergeBlocks(IWriteableOperation operation)
         {
             IWriteableMergeBlocksOperation MergeBlocksOperation = (IWriteableMergeBlocksOperation)operation;
             ExecuteMergeBlocks(MergeBlocksOperation);
         }
 
-        /// <summary></summary>
         private protected virtual void ExecuteMergeBlocks(IWriteableMergeBlocksOperation operation)
         {
             INode ParentNode = operation.ParentNode;
@@ -2416,7 +2371,6 @@
             NotifyBlocksMerged(operation);
         }
 
-        /// <summary></summary>
         private protected virtual void UndoMergeBlocks(IWriteableOperation operation)
         {
             IWriteableMergeBlocksOperation MergeBlocksOperation = (IWriteableMergeBlocksOperation)operation;
@@ -2469,14 +2423,12 @@
             CheckInvariant();
         }
 
-        /// <summary></summary>
         private protected virtual void RedoMove(IWriteableOperation operation)
         {
             IWriteableMoveNodeOperation MoveNodeOperation = (IWriteableMoveNodeOperation)operation;
             ExecuteMove(MoveNodeOperation);
         }
 
-        /// <summary></summary>
         private protected virtual void UndoMove(IWriteableOperation operation)
         {
             IWriteableMoveNodeOperation MoveNodeOperation = (IWriteableMoveNodeOperation)operation;
@@ -2485,7 +2437,6 @@
             ExecuteMove(MoveNodeOperation);
         }
 
-        /// <summary></summary>
         private protected virtual void ExecuteMove(IWriteableMoveNodeOperation operation)
         {
             INode ParentNode = operation.ParentNode;
@@ -2529,14 +2480,12 @@
             CheckInvariant();
         }
 
-        /// <summary></summary>
         private protected virtual void RedoMoveBlock(IWriteableOperation operation)
         {
             IWriteableMoveBlockOperation MoveBlockOperation = (IWriteableMoveBlockOperation)operation;
             ExecuteMoveBlock(MoveBlockOperation);
         }
 
-        /// <summary></summary>
         private protected virtual void UndoMoveBlock(IWriteableOperation operation)
         {
             IWriteableMoveBlockOperation MoveBlockOperation = (IWriteableMoveBlockOperation)operation;
@@ -2545,7 +2494,6 @@
             ExecuteMoveBlock(MoveBlockOperation);
         }
 
-        /// <summary></summary>
         private protected virtual void ExecuteMoveBlock(IWriteableMoveBlockOperation operation)
         {
             INode ParentNode = operation.ParentNode;
@@ -2693,14 +2641,12 @@
             operationList.Add(Operation);
         }
 
-        /// <summary></summary>
         private protected virtual void RedoExpandBlockList(IWriteableOperation operation)
         {
             IWriteableExpandArgumentOperation ExpandArgumentOperation = (IWriteableExpandArgumentOperation)operation;
             ExecuteInsertNewBlock(ExpandArgumentOperation);
         }
 
-        /// <summary></summary>
         private protected virtual void UndoExpandBlockList(IWriteableOperation operation)
         {
             IWriteableExpandArgumentOperation ExpandArgumentOperation = (IWriteableExpandArgumentOperation)operation;
@@ -2738,7 +2684,6 @@
                 isChanged = false;
         }
 
-        /// <summary></summary>
         private protected virtual void Reduce(IWriteableNodeIndex reducedIndex, IWriteableOperationList operationList, bool isNested)
         {
             IWriteablePlaceholderNodeState State = StateTable[reducedIndex] as IWriteablePlaceholderNodeState;
@@ -2834,7 +2779,6 @@
                 isChanged = false;
         }
 
-        /// <summary></summary>
         private protected virtual void Canonicalize(IWriteableNodeState state, IWriteableOperationList operationList)
         {
             IWriteableNodeIndex NodeIndex = state.ParentIndex as IWriteableNodeIndex;
@@ -2845,7 +2789,6 @@
             Reduce(NodeIndex, operationList, isNested: state != RootState);
         }
 
-        /// <summary></summary>
         private protected virtual void CanonicalizeChildren(IWriteableNodeState state, IWriteableOperationList operationList)
         {
             List<IWriteableNodeState> ChildStateList = new List<IWriteableNodeState>();
@@ -2879,14 +2822,12 @@
                 Canonicalize(ChildState, operationList);
         }
 
-        /// <summary></summary>
         private protected virtual void RedoRefresh(IWriteableOperation operation)
         {
             IWriteableGenericRefreshOperation GenericRefreshOperation = (IWriteableGenericRefreshOperation)operation;
             ExecuteRefresh(GenericRefreshOperation);
         }
 
-        /// <summary></summary>
         private protected virtual void ExecuteRefresh(IWriteableGenericRefreshOperation operation)
         {
             NotifyGenericRefresh(operation);
@@ -2979,7 +2920,6 @@
             Debug.Assert(secondIndex != null);
         }
 
-        /// <summary></summary>
         private protected virtual void IndexToPositionAndNode(IWriteableIndex nodeIndex, out int blockIndex, out int index, out INode node)
         {
             blockIndex = -1;
@@ -3035,20 +2975,17 @@
         #endregion
 
         #region Descendant Interface
-        /// <summary></summary>
         private protected override void CheckContextConsistency(IReadOnlyBrowseContext browseContext)
         {
             ((WriteableBrowseContext)browseContext).CheckConsistency();
         }
 
-        /// <summary></summary>
         private protected virtual void PruneState(IWriteableNodeState state)
         {
             PruneStateChildren(state);
             RemoveState(state.ParentIndex);
         }
 
-        /// <summary></summary>
         private protected virtual void PruneStateChildren(IWriteableNodeState state)
         {
             foreach (KeyValuePair<string, IWriteableInner> Entry in state.InnerTable)
@@ -3080,7 +3017,6 @@
             }
         }
 
-        /// <summary></summary>
         private protected virtual void PrunePlaceholderInner(IWriteablePlaceholderInner<IWriteableBrowsingPlaceholderNodeIndex> inner)
         {
             PruneState(inner.ChildState);
@@ -3088,7 +3024,6 @@
             Stats.PlaceholderNodeCount--;
         }
 
-        /// <summary></summary>
         private protected virtual void PruneOptionalInner(IWriteableOptionalInner<IWriteableBrowsingOptionalNodeIndex> inner)
         {
             PruneState(inner.ChildState);
@@ -3098,7 +3033,6 @@
                 Stats.AssignedOptionalNodeCount--;
         }
 
-        /// <summary></summary>
         private protected virtual void PruneListInner(IWriteableListInner<IWriteableBrowsingListNodeIndex> inner)
         {
             foreach (IWriteableNodeState State in inner.StateList)
@@ -3111,7 +3045,6 @@
             Stats.ListCount--;
         }
 
-        /// <summary></summary>
         private protected virtual void PruneBlockListInner(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner)
         {
             for (int BlockIndex = inner.BlockStateList.Count; BlockIndex > 0; BlockIndex--)
@@ -3126,14 +3059,12 @@
             Stats.BlockListCount--;
         }
 
-        /// <summary></summary>
         private protected virtual void RedoRemoveBlockView(IWriteableOperation operation)
         {
             IWriteableRemoveBlockViewOperation RemoveBlockViewOperation = (IWriteableRemoveBlockViewOperation)operation;
             ExecuteRemoveBlockView(RemoveBlockViewOperation);
         }
 
-        /// <summary></summary>
         private protected virtual void ExecuteRemoveBlockView(IWriteableRemoveBlockViewOperation operation)
         {
             INode ParentNode = operation.ParentNode;
@@ -3172,109 +3103,91 @@
             NotifyBlockViewRemoved(operation);
         }
 
-        /// <summary></summary>
         private protected virtual void NotifyBlockStateInserted(IWriteableInsertBlockOperation operation)
         {
             BlockStateInsertedHandler?.Invoke(operation);
         }
 
-        /// <summary></summary>
         private protected virtual void NotifyBlockStateRemoved(IWriteableRemoveBlockOperation operation)
         {
             BlockStateRemovedHandler?.Invoke(operation);
         }
 
-        /// <summary></summary>
         private protected virtual void NotifyBlockViewRemoved(IWriteableRemoveBlockViewOperation operation)
         {
             BlockViewRemovedHandler?.Invoke(operation);
         }
 
-        /// <summary></summary>
         private protected virtual void NotifyStateInserted(IWriteableInsertNodeOperation operation)
         {
             StateInsertedHandler?.Invoke(operation);
         }
 
-        /// <summary></summary>
         private protected virtual void NotifyStateRemoved(IWriteableRemoveNodeOperation operation)
         {
             StateRemovedHandler?.Invoke(operation);
         }
 
-        /// <summary></summary>
         private protected virtual void NotifyStateReplaced(IWriteableReplaceOperation operation)
         {
             StateReplacedHandler?.Invoke(operation);
         }
 
-        /// <summary></summary>
         private protected virtual void NotifyStateAssigned(IWriteableAssignmentOperation operation)
         {
             StateAssignedHandler?.Invoke(operation);
         }
 
-        /// <summary></summary>
         private protected virtual void NotifyStateUnassigned(IWriteableAssignmentOperation operation)
         {
             StateUnassignedHandler?.Invoke(operation);
         }
 
-        /// <summary></summary>
         private protected virtual void NotifyDiscreteValueChanged(IWriteableChangeDiscreteValueOperation operation)
         {
             DiscreteValueChangedHandler?.Invoke(operation);
         }
 
-        /// <summary></summary>
         private protected virtual void NotifyTextChanged(IWriteableChangeTextOperation operation)
         {
             TextChangedHandler?.Invoke(operation);
         }
 
-        /// <summary></summary>
         private protected virtual void NotifyCommentChanged(IWriteableChangeCommentOperation operation)
         {
             CommentChangedHandler?.Invoke(operation);
         }
 
-        /// <summary></summary>
         private protected virtual void NotifyBlockStateChanged(IWriteableChangeBlockOperation operation)
         {
             BlockStateChangedHandler?.Invoke(operation);
         }
 
-        /// <summary></summary>
         private protected virtual void NotifyStateMoved(IWriteableMoveNodeOperation operation)
         {
             StateMovedHandler?.Invoke(operation);
         }
 
-        /// <summary></summary>
         private protected virtual void NotifyBlockStateMoved(IWriteableMoveBlockOperation operation)
         {
             BlockStateMovedHandler?.Invoke(operation);
         }
 
-        /// <summary></summary>
         private protected virtual void NotifyBlockSplit(IWriteableSplitBlockOperation operation)
         {
             BlockSplitHandler?.Invoke(operation);
         }
 
-        /// <summary></summary>
         private protected virtual void NotifyBlocksMerged(IWriteableMergeBlocksOperation operation)
         {
             BlocksMergedHandler?.Invoke(operation);
         }
 
-        /// <summary></summary>
         private protected virtual void NotifyGenericRefresh(IWriteableGenericRefreshOperation operation)
         {
             GenericRefreshHandler?.Invoke(operation);
         }
 
-        /// <summary></summary>
         private protected virtual void SetLastOperation(IWriteableOperation operation)
         {
             IWriteableOperationList OperationList = CreateOperationList();
@@ -3285,7 +3198,6 @@
             SetLastOperation(OperationGroup);
         }
 
-        /// <summary></summary>
         private protected virtual void SetLastOperation(IWriteableOperationGroup operationGroup)
         {
             Debug.Assert(RedoIndex >= 0 && RedoIndex <= _OperationStack.Count);
@@ -3303,7 +3215,6 @@
         #endregion
 
         #region Invariant
-        /// <summary></summary>
         private protected override void CheckInvariant()
         {
             base.CheckInvariant();
@@ -3312,7 +3223,6 @@
             Debug.Assert(IsValid);
         }
 
-        /// <summary></summary>
         private protected virtual bool IsNodeTreeValid(INode node)
         {
             Type ChildNodeType;
@@ -3342,7 +3252,6 @@
             return IsValid;
         }
 
-        /// <summary></summary>
         private protected virtual bool IsNodeTreeChildNodeValid(INode node, string propertyName)
         {
             NodeTreeHelperChild.GetChildNode(node, propertyName, out INode ChildNode);
@@ -3353,7 +3262,6 @@
             return IsValid;
         }
 
-        /// <summary></summary>
         private protected virtual bool IsNodeTreeOptionalNodeValid(INode node, string propertyName)
         {
             bool IsValid = true;
@@ -3367,7 +3275,6 @@
             return IsValid;
         }
 
-        /// <summary></summary>
         private protected virtual bool IsNodeTreeListValid(INode node, string propertyName)
         {
             NodeTreeHelperList.GetChildNodeList(node, propertyName, out IReadOnlyList<INode> ChildNodeList);
@@ -3391,7 +3298,6 @@
             return IsValid;
         }
 
-        /// <summary></summary>
         private protected virtual bool IsNodeTreeBlockListValid(INode node, string propertyName)
         {
             NodeTreeHelperBlockList.GetChildBlockList(node, propertyName, out IReadOnlyList<INodeTreeBlock> ChildBlockList);
@@ -3421,7 +3327,6 @@
             return IsValid;
         }
 
-        /// <summary></summary>
         private protected virtual bool IsEmptyListValid(INode node, string propertyName)
         {
             Type NodeType = node.GetType();
@@ -3442,7 +3347,6 @@
             return IsValid;
         }
 
-        /// <summary></summary>
         private protected virtual bool IsEmptyBlockListValid(INode node, string propertyName)
         {
             Type NodeType = node.GetType();
@@ -3463,7 +3367,6 @@
             return IsValid;
         }
 
-        /// <summary></summary>
         private protected bool InvariantFailed(bool condition)
         {
             Debug.Assert(condition, "Invariant");

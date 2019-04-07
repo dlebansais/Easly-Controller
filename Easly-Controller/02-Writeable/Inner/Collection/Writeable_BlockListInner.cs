@@ -285,7 +285,6 @@
             Remove(blockOperation, null, blockOperation.BlockIndex, 0);
         }
 
-        /// <summary></summary>
         private protected virtual void Remove(IWriteableRemoveBlockOperation blockOperation, IWriteableRemoveNodeOperation nodeOperation, int blockIndex, int index)
         {
             Debug.Assert(blockIndex >= 0 && blockIndex < BlockStateList.Count);

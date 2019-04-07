@@ -149,7 +149,6 @@
         #endregion
 
         #region Implementation
-        /// <summary></summary>
         private protected virtual void SetChildState(IReadOnlyOptionalNodeState childState)
         {
             Debug.Assert(childState != null);

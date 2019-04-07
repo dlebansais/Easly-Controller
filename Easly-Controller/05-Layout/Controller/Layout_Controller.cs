@@ -103,7 +103,6 @@
         #endregion
 
         #region Implementation
-        /// <summary></summary>
         private protected override void CheckContextConsistency(IReadOnlyBrowseContext browseContext)
         {
             ((LayoutBrowseContext)browseContext).CheckConsistency();

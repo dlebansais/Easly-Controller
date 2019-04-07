@@ -101,7 +101,6 @@
                 ClearOptional(operation);
         }
 
-        /// <summary></summary>
         private protected virtual void ReplaceOptional(IWriteableReplaceOperation operation)
         {
             INode ParentNode = Owner.Node;
@@ -118,7 +117,6 @@
             operation.Update(OldBrowsingIndex, NewBrowsingIndex, OldNode, NewChildState);
         }
 
-        /// <summary></summary>
         private protected virtual void ClearOptional(IWriteableReplaceOperation operation)
         {
             INode ParentNode = Owner.Node;

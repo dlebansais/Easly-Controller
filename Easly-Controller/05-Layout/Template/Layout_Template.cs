@@ -26,7 +26,6 @@
         /// </summary>
         public new ILayoutFrame Root { get { return (ILayoutFrame)base.Root; } set { base.Root = value; } }
 
-        /// <summary></summary>
         private protected override bool IsRootValid { get { return Root.ParentFrame == LayoutFrame.LayoutRoot; } }
         #endregion
     }

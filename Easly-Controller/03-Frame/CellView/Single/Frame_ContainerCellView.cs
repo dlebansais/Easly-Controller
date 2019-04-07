@@ -198,7 +198,6 @@
             return IsValid;
         }
 
-        /// <summary></summary>
         private protected virtual bool IsCellViewProperlyAssigned(IFrameAssignableCellViewReadOnlyDictionary<string> expectedCellViewTable, IFrameAssignableCellViewDictionary<string> actualCellViewTable)
         {
             bool IsAssigned = true;
