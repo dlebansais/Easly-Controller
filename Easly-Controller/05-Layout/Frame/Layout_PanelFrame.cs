@@ -61,43 +61,5 @@
         /// </summary>
         public bool HasBlockGeometry { get; set; }
         #endregion
-
-        #region Implementation
-        /// <summary></summary>
-        private protected override void ValidateEmbeddingCellView(IFrameCellViewTreeContext context, IFrameCellViewCollection embeddingCellView)
-        {
-            Debug.Assert(((ILayoutCellViewCollection)embeddingCellView).StateView == ((ILayoutCellViewTreeContext)context).StateView);
-            ILayoutCellViewCollection ParentCellView = ((ILayoutCellViewCollection)embeddingCellView).ParentCellView;
-        }
-        #endregion
-
-        #region Create Methods
-        /// <summary>
-        /// Creates a IxxxFrameList object.
-        /// </summary>
-        private protected override IFrameFrameList CreateItems()
-        {
-            ControllerTools.AssertNoOverride(this, typeof(LayoutPanelFrame));
-            return new LayoutFrameList();
-        }
-
-        /// <summary>
-        /// Creates a IxxxCellViewList object.
-        /// </summary>
-        private protected override IFrameCellViewList CreateCellViewList()
-        {
-            ControllerTools.AssertNoOverride(this, typeof(LayoutPanelFrame));
-            return new LayoutCellViewList();
-        }
-
-        /// <summary>
-        /// Creates a IxxxContainerCellView object.
-        /// </summary>
-        private protected override IFrameContainerCellView CreateFrameCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, IFrameNodeStateView childStateView, IFramePlaceholderFrame frame)
-        {
-            ControllerTools.AssertNoOverride(this, typeof(LayoutPanelFrame));
-            return new LayoutContainerCellView((ILayoutNodeStateView)stateView, (ILayoutCellViewCollection)parentCellView, (ILayoutNodeStateView)childStateView, (ILayoutPlaceholderFrame)frame);
-        }
-        #endregion
     }
 }

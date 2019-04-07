@@ -69,51 +69,5 @@
         /// <param name="padding">The padding to use when printing.</param>
         public abstract void Print(ILayoutPrintContext printContext, ILayoutCellView cellView, Point origin, Size size, Padding padding);
         #endregion
-
-        #region Implementation
-        /// <summary></summary>
-        private protected override void ValidateVisibleCellView(IFrameCellViewTreeContext context, IFrameVisibleCellView cellView)
-        {
-            Debug.Assert(((ILayoutVisibleCellView)cellView).StateView == ((ILayoutCellViewTreeContext)context).StateView);
-            Debug.Assert(((ILayoutVisibleCellView)cellView).Frame == this);
-            ILayoutCellViewCollection ParentCellView = ((ILayoutVisibleCellView)cellView).ParentCellView;
-        }
-
-        /// <summary></summary>
-        private protected override void ValidateEmptyCellView(IFocusCellViewTreeContext context, IFocusEmptyCellView emptyCellView)
-        {
-            Debug.Assert(((ILayoutEmptyCellView)emptyCellView).StateView == ((ILayoutCellViewTreeContext)context).StateView);
-            ILayoutCellViewCollection ParentCellView = ((ILayoutEmptyCellView)emptyCellView).ParentCellView;
-        }
-        #endregion
-
-        #region Create Methods
-        /// <summary>
-        /// Creates a IxxxFocusableCellView object.
-        /// </summary>
-        private protected override IFrameFocusableCellView CreateFocusableCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView)
-        {
-            ControllerTools.AssertNoOverride(this, typeof(LayoutStaticFrame));
-            return new LayoutFocusableCellView((ILayoutNodeStateView)stateView, (ILayoutCellViewCollection)parentCellView, this);
-        }
-
-        /// <summary>
-        /// Creates a IxxxVisibleCellView object.
-        /// </summary>
-        private protected override IFrameVisibleCellView CreateVisibleCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView)
-        {
-            ControllerTools.AssertNoOverride(this, typeof(LayoutStaticFrame));
-            return new LayoutVisibleCellView((ILayoutNodeStateView)stateView, (ILayoutCellViewCollection)parentCellView, this);
-        }
-
-        /// <summary>
-        /// Creates a IxxxEmptyCellView object.
-        /// </summary>
-        private protected override IFocusEmptyCellView CreateEmptyCellView(IFocusNodeStateView stateView, IFocusCellViewCollection parentCellView)
-        {
-            ControllerTools.AssertNoOverride(this, typeof(LayoutStaticFrame));
-            return new LayoutEmptyCellView((ILayoutNodeStateView)stateView, (ILayoutCellViewCollection)parentCellView);
-        }
-        #endregion
     }
 }

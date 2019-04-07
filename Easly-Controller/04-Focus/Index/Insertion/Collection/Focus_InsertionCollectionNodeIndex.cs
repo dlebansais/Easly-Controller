@@ -35,18 +35,7 @@
         /// </summary>
         /// <param name="comparer">The comparison support object.</param>
         /// <param name="other">The other object.</param>
-        public override bool IsEqual(CompareEqual comparer, IEqualComparable other)
-        {
-            Debug.Assert(other != null);
-
-            if (!comparer.IsSameType(other, out FocusInsertionCollectionNodeIndex AsInsertionCollectionNodeIndex))
-                return comparer.Failed();
-
-            if (!base.IsEqual(comparer, AsInsertionCollectionNodeIndex))
-                return comparer.Failed();
-
-            return true;
-        }
+        public abstract override bool IsEqual(CompareEqual comparer, IEqualComparable other);
         #endregion
     }
 }

@@ -39,51 +39,5 @@
         /// </summary>
         public new ILayoutFrameSelectorList Selectors { get { return (ILayoutFrameSelectorList)base.Selectors; } }
         #endregion
-
-        #region Implementation
-        /// <summary></summary>
-        private protected override void ValidateEmbeddingCellView(IFrameCellViewTreeContext context, IFrameCellViewCollection embeddingCellView)
-        {
-            Debug.Assert(((ILayoutCellViewCollection)embeddingCellView).StateView == ((ILayoutCellViewTreeContext)context).StateView);
-            ILayoutCellViewCollection ParentCellView = ((ILayoutCellViewCollection)embeddingCellView).ParentCellView;
-        }
-
-        /// <summary></summary>
-        private protected override void ValidateBlockCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, IFrameBlockStateView blockStateView, IFrameBlockCellView blockCellView)
-        {
-            Debug.Assert(((ILayoutBlockCellView)blockCellView).StateView == (ILayoutNodeStateView)stateView);
-            Debug.Assert(((ILayoutBlockCellView)blockCellView).ParentCellView == (ILayoutCellViewCollection)parentCellView);
-            Debug.Assert(((ILayoutBlockCellView)blockCellView).BlockStateView == (ILayoutBlockStateView)blockStateView);
-        }
-        #endregion
-
-        #region Create Methods
-        /// <summary>
-        /// Creates a IxxxCellViewList object.
-        /// </summary>
-        private protected override IFrameCellViewList CreateCellViewList()
-        {
-            ControllerTools.AssertNoOverride(this, typeof(LayoutBlockListFrame));
-            return new LayoutCellViewList();
-        }
-
-        /// <summary>
-        /// Creates a IxxxBlockCellView object.
-        /// </summary>
-        private protected override IFrameBlockCellView CreateBlockCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, IFrameBlockStateView blockStateView)
-        {
-            ControllerTools.AssertNoOverride(this, typeof(LayoutBlockListFrame));
-            return new LayoutBlockCellView((ILayoutNodeStateView)stateView, (ILayoutCellViewCollection)parentCellView, (ILayoutBlockStateView)blockStateView);
-        }
-
-        /// <summary>
-        /// Creates a IxxxFrameSelectorList object.
-        /// </summary>
-        private protected override IFocusFrameSelectorList CreateEmptySelectorList()
-        {
-            ControllerTools.AssertNoOverride(this, typeof(LayoutBlockListFrame));
-            return new LayoutFrameSelectorList();
-        }
-        #endregion
     }
 }

@@ -33,8 +33,8 @@ ignore:
   - Easly-Controller/02-Writeable/Inner/Writeable_Inner.cs
   - Easly-Controller/02-Writeable/State/Writeable_NodeState.cs
   - Easly-Controller/02-Writeable/StateView/Writeable_NodeStateView.cs
-  - Easly-Controller/03-Frame/Controller/Operations/Frame_Operation.cs
   - Easly-Controller/03-Frame/Controller/Operations/Frame_Insert_Operation.cs
+  - Easly-Controller/03-Frame/Controller/Operations/Frame_Operation.cs
   - Easly-Controller/03-Frame/Controller/Operations/Frame_Remove_Operation.cs
   - Easly-Controller/03-Frame/Index/Browsing/Collection/Frame_BrowsingBlockNodeIndex.cs
   - Easly-Controller/03-Frame/Index/Browsing/Collection/Frame_BrowsingCollectionNodeIndex.cs

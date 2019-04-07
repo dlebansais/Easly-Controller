@@ -48,104 +48,27 @@
         /// <param name="nodeType">Type of the node this frame can describe.</param>
         /// <param name="nodeTemplateTable">Table of templates with all frames.</param>
         /// <param name="commentFrameCount">Number of comment frames found so far.</param>
-        public override bool IsValid(Type nodeType, IFrameTemplateReadOnlyDictionary nodeTemplateTable, ref int commentFrameCount)
-        {
-            bool IsValid = true;
-
-            IsValid &= base.IsValid(nodeType, nodeTemplateTable, ref commentFrameCount);
-            IsValid &= Visibility == null || Visibility.IsValid(nodeType);
-
-            Debug.Assert(IsValid);
-            return IsValid;
-        }
+        public abstract override bool IsValid(Type nodeType, IFrameTemplateReadOnlyDictionary nodeTemplateTable, ref int commentFrameCount);
 
         /// <summary>
         /// Create cells for the provided state view.
         /// </summary>
         /// <param name="context">Context used to build the cell view tree.</param>
         /// <param name="parentCellView">The parent cell view.</param>
-        public override IFrameCellView BuildNodeCells(IFrameCellViewTreeContext context, IFrameCellViewCollection parentCellView)
-        {
-            ((IFocusCellViewTreeContext)context).UpdateNodeFrameVisibility(this, out bool OldFrameVisibility);
-
-            IFocusCellView Result;
-            if (((IFocusCellViewTreeContext)context).IsVisible)
-                Result = base.BuildNodeCells(context, parentCellView) as IFocusCellView;
-            else
-            {
-                IFocusEmptyCellView EmptyCellView = CreateEmptyCellView(((IFocusCellViewTreeContext)context).StateView, (IFocusCellViewCollection)parentCellView);
-                ValidateEmptyCellView((IFocusCellViewTreeContext)context, EmptyCellView);
-
-                Result = EmptyCellView;
-            }
-
-            ((IFocusCellViewTreeContext)context).RestoreFrameVisibility(OldFrameVisibility);
-
-            return Result;
-        }
+        public abstract override IFrameCellView BuildNodeCells(IFrameCellViewTreeContext context, IFrameCellViewCollection parentCellView);
 
         /// <summary>
         /// Gets preferred frames to receive the focus when the source code is changed.
         /// </summary>
         /// <param name="firstPreferredFrame">The first preferred frame found.</param>
         /// <param name="lastPreferredFrame">The last preferred frame found.</param>
-        public virtual void GetPreferredFrame(ref IFocusNodeFrame firstPreferredFrame, ref IFocusNodeFrame lastPreferredFrame)
-        {
-        }
+        public abstract void GetPreferredFrame(ref IFocusNodeFrame firstPreferredFrame, ref IFocusNodeFrame lastPreferredFrame);
 
         /// <summary>
         /// Gets selectors in the frame and nested frames.
         /// </summary>
         /// <param name="selectorTable">The table of selectors to update.</param>
-        public virtual void CollectSelectors(Dictionary<string, IFocusFrameSelectorList> selectorTable)
-        {
-        }
-        #endregion
-
-        #region Implementation
-        /// <summary></summary>
-        private protected override void ValidateVisibleCellView(IFrameCellViewTreeContext context, IFrameVisibleCellView cellView)
-        {
-            Debug.Assert(((IFocusVisibleCellView)cellView).StateView == ((IFocusCellViewTreeContext)context).StateView);
-            Debug.Assert(((IFocusVisibleCellView)cellView).Frame == this);
-            IFocusCellViewCollection ParentCellView = ((IFocusVisibleCellView)cellView).ParentCellView;
-        }
-
-        /// <summary></summary>
-        private protected virtual void ValidateEmptyCellView(IFocusCellViewTreeContext context, IFocusEmptyCellView emptyCellView)
-        {
-            Debug.Assert(emptyCellView.StateView == context.StateView);
-            IFocusCellViewCollection ParentCellView = emptyCellView.ParentCellView;
-        }
-        #endregion
-
-        #region Create Methods
-        /// <summary>
-        /// Creates a IxxxFocusableCellView object.
-        /// </summary>
-        private protected override IFrameFocusableCellView CreateFocusableCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView)
-        {
-            ControllerTools.AssertNoOverride(this, typeof(FocusStaticFrame));
-            return new FocusFocusableCellView((IFocusNodeStateView)stateView, (IFocusCellViewCollection)parentCellView, this);
-        }
-
-        /// <summary>
-        /// Creates a IxxxVisibleCellView object.
-        /// </summary>
-        private protected override IFrameVisibleCellView CreateVisibleCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView)
-        {
-            ControllerTools.AssertNoOverride(this, typeof(FocusStaticFrame));
-            return new FocusVisibleCellView((IFocusNodeStateView)stateView, (IFocusCellViewCollection)parentCellView, this);
-        }
-
-        /// <summary>
-        /// Creates a IxxxEmptyCellView object.
-        /// </summary>
-        private protected virtual IFocusEmptyCellView CreateEmptyCellView(IFocusNodeStateView stateView, IFocusCellViewCollection parentCellView)
-        {
-            ControllerTools.AssertNoOverride(this, typeof(FocusStaticFrame));
-            return new FocusEmptyCellView(stateView, parentCellView);
-        }
+        public abstract void CollectSelectors(Dictionary<string, IFocusFrameSelectorList> selectorTable);
         #endregion
     }
 }

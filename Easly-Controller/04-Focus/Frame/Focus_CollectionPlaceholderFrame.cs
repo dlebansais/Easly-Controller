@@ -51,57 +51,10 @@
         /// </summary>
         /// <param name="context">Context used to build the cell view tree.</param>
         /// <param name="parentCellView">The collection of cell views containing this view. Null for the root of the cell tree.</param>
-        public override IFrameCellView BuildBlockCells(IFrameCellViewTreeContext context, IFrameCellViewCollection parentCellView)
-        {
-            Type OldSelectorType = null;
-            string OldSelectorName = null;
-            ((IFocusCellViewTreeContext)context).AddOrReplaceSelectors(Selectors, out OldSelectorType, out OldSelectorName);
-
-            IFocusCellViewCollection EmbeddingCellView = base.BuildBlockCells(context, parentCellView) as IFocusCellViewCollection;
-            Debug.Assert(EmbeddingCellView != null);
-
-            ((IFocusCellViewTreeContext)context).RemoveOrRestoreSelectors(Selectors, OldSelectorType, OldSelectorName);
-
-            return EmbeddingCellView;
-        }
-        #endregion
-
-        #region Implementation
-        /// <summary></summary>
-        private protected override void ValidateEmbeddingCellView(IFrameCellViewTreeContext context, IFrameCellViewCollection embeddingCellView)
-        {
-            Debug.Assert(((IFocusCellViewCollection)embeddingCellView).StateView == ((IFocusCellViewTreeContext)context).StateView);
-            IFocusCellViewCollection ParentCellView = ((IFocusCellViewCollection)embeddingCellView).ParentCellView;
-        }
-
-        /// <summary></summary>
-        private protected override void ValidateContainerCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, IFrameNodeStateView childStateView, IFrameContainerCellView containerCellView)
-        {
-            Debug.Assert(((IFocusContainerCellView)containerCellView).StateView == (IFocusNodeStateView)stateView);
-            Debug.Assert(((IFocusContainerCellView)containerCellView).ParentCellView == (IFocusCellViewCollection)parentCellView);
-            Debug.Assert(((IFocusContainerCellView)containerCellView).ChildStateView == (IFocusNodeStateView)childStateView);
-        }
+        public abstract override IFrameCellView BuildBlockCells(IFrameCellViewTreeContext context, IFrameCellViewCollection parentCellView);
         #endregion
 
         #region Create Methods
-        /// <summary>
-        /// Creates a IxxxCellViewList object.
-        /// </summary>
-        private protected override IFrameCellViewList CreateCellViewList()
-        {
-            ControllerTools.AssertNoOverride(this, typeof(FocusCollectionPlaceholderFrame));
-            return new FocusCellViewList();
-        }
-
-        /// <summary>
-        /// Creates a IxxxContainerCellView object.
-        /// </summary>
-        private protected override IFrameContainerCellView CreateFrameCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, IFrameNodeStateView childStateView)
-        {
-            ControllerTools.AssertNoOverride(this, typeof(FocusCollectionPlaceholderFrame));
-            return new FocusContainerCellView((IFocusNodeStateView)stateView, (IFocusCellViewCollection)parentCellView, (IFocusNodeStateView)childStateView, this);
-        }
-
         /// <summary>
         /// Creates a IxxxFrameSelectorList object.
         /// </summary>

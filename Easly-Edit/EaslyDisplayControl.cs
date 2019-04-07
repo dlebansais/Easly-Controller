@@ -30,7 +30,6 @@
             set { SetValue(ControllerProperty, value); }
         }
 
-        /// <summary></summary>
         protected private static void ControllerPropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             EaslyDisplayControl ctrl = (EaslyDisplayControl)d;
