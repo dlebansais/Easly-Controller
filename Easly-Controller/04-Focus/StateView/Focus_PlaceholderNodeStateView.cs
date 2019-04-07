@@ -80,14 +80,7 @@
         {
             ((IFocusCellViewTreeContext)context).ChangeIsUserVisible(IsUserVisible, out bool OldIsUserVisible);
 
-            //if (((IFocusCellViewTreeContext)context).IsVisible)
-                base.BuildRootCellView(context);
-            /*else
-            {
-                InitCellViewTable();
-                SetRootCellView(CreateEmptyCellView(((IFocusCellViewTreeContext)context).StateView, null));
-                SealCellViewTable();
-            }*/
+            base.BuildRootCellView(context);
 
             ((IFocusCellViewTreeContext)context).RestoreIsUserVisible(OldIsUserVisible);
         }
@@ -198,15 +191,6 @@
             ControllerTools.AssertNoOverride(this, typeof(FocusPlaceholderNodeStateView));
             return new FocusAssignableCellViewDictionary<string>();
         }
-
-        /// <summary>
-        /// Creates a IxxxEmptyCellView object.
-        /// </summary>
-        /*private protected virtual IFocusEmptyCellView CreateEmptyCellView(IFocusNodeStateView stateView, IFocusCellViewCollection parentCellView)
-        {
-            ControllerTools.AssertNoOverride(this, typeof(FocusPlaceholderNodeStateView));
-            return new FocusEmptyCellView(stateView, parentCellView);
-        }*/
         #endregion
     }
 }

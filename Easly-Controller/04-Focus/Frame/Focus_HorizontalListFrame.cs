@@ -90,18 +90,6 @@
             IFocusCellViewCollection EmbeddingCellView = base.BuildNodeCells(context, parentCellView) as IFocusCellViewCollection;
             Debug.Assert(EmbeddingCellView != null);
 
-            if (!((IFocusCellViewTreeContext)context).IsVisible)
-            {
-                /*
-                foreach (IFocusCellView CellView in EmbeddingCellView.CellViewList)
-                {
-                    IFocusContainerCellView AsContainerCellView = CellView as IFocusContainerCellView;
-                    Debug.Assert(AsContainerCellView != null);
-                    Debug.Assert(AsContainerCellView.ChildStateView != null);
-                    Debug.Assert(AsContainerCellView.ChildStateView.RootCellView is IFocusEmptyCellView);
-                }*/
-            }
-
             ((IFocusCellViewTreeContext)context).RemoveSelectors(Selectors);
             ((IFocusCellViewTreeContext)context).RestoreFrameVisibility(OldFrameVisibility);
 

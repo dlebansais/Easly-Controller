@@ -95,10 +95,7 @@
         /// <param name="context">Context used to build the cell view tree.</param>
         public override void BuildRootCellView(IFrameCellViewTreeContext context)
         {
-            //if (((IFocusCellViewTreeContext)context).IsVisible)
-                base.BuildRootCellView(context);
-            /*else
-                SetRootCellView(CreateEmptyCellView(((IFocusCellViewTreeContext)context).StateView, null));*/
+            base.BuildRootCellView(context);
         }
 
         /// <summary>
@@ -145,15 +142,6 @@
             ControllerTools.AssertNoOverride(this, typeof(FocusBlockStateView));
             return new FocusAssignableCellViewDictionary<string>();
         }
-
-        /// <summary>
-        /// Creates a IxxxEmptyCellView object.
-        /// </summary>
-        /*private protected virtual IFocusEmptyCellView CreateEmptyCellView(IFocusNodeStateView stateView, IFocusCellViewCollection parentCellView)
-        {
-            ControllerTools.AssertNoOverride(this, typeof(FocusBlockStateView));
-            return new FocusEmptyCellView(stateView, parentCellView);
-        }*/
         #endregion
     }
 }

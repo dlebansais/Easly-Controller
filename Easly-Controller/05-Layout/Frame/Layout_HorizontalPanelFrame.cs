@@ -126,15 +126,6 @@
             ControllerTools.AssertNoOverride(this, typeof(LayoutHorizontalPanelFrame));
             return new LayoutLine((ILayoutNodeStateView)stateView, (ILayoutCellViewCollection)parentCellView, (ILayoutCellViewList)list, this);
         }
-
-        /// <summary>
-        /// Creates a IxxxCellViewList object.
-        /// </summary>
-        /*private protected override IFocusCellViewList CreateEmptyCellViewList()
-        {
-            ControllerTools.AssertNoOverride(this, typeof(LayoutHorizontalPanelFrame));
-            return new LayoutCellViewList();
-        }*/
         #endregion
     }
 }

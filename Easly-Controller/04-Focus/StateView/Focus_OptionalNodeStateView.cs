@@ -80,20 +80,7 @@
         {
             ((IFocusCellViewTreeContext)context).ChangeIsUserVisible(IsUserVisible, out bool OldIsUserVisible);
 
-            //if (((IFocusCellViewTreeContext)context).IsVisible)
-                base.BuildRootCellView(context);
-            /*else
-            {
-                InitCellViewTable(true);
-
-                IFocusNodeTemplate NodeTemplate = Template as IFocusNodeTemplate;
-                if (NodeTemplate != null)
-                    SetRootCellView(NodeTemplate.BuildNodeCells(context));
-                else
-                    SetRootCellView(CreateEmptyCellView(((IFocusCellViewTreeContext)context).StateView, null));
-
-                SealCellViewTable();
-            }*/
+            base.BuildRootCellView(context);
 
             ((IFocusCellViewTreeContext)context).RestoreIsUserVisible(OldIsUserVisible);
         }
