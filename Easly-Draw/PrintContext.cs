@@ -1,5 +1,6 @@
 ﻿namespace EaslyDraw
 {
+    using System.Diagnostics;
     using System.Globalization;
     using System.Windows.Media;
     using BaseNodeHelper;
@@ -193,7 +194,24 @@
         /// <param name="width">The separator width.</param>
         public virtual void PrintVerticalSeparator(VerticalSeparators separator, Point origin, Measure width)
         {
-            // TODO
+            BrushSettings Brush = BrushSettings.Symbol;
+
+            switch (separator)
+            {
+                case VerticalSeparators.None:
+                    break;
+                case VerticalSeparators.Line:
+                    string Line = string.Empty;
+                    for (int i = 0; i < width.Print; i++)
+                        Line += "━";
+
+                    int X = origin.X.Print;
+                    int Y = origin.Y.Print - 2;
+
+                    Debug.Assert(Y >= 0);
+                    PrintableArea.Print(Line, X, Y, Brush);
+                    break;
+            }
         }
         #endregion
 

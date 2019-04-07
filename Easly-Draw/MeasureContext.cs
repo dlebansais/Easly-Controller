@@ -65,6 +65,7 @@
                 { PenSettings.SelectionNodeList, new Pen(Brushes.Black, 1) { DashStyle = new DashStyle(new double[] { 3 }, 3) } },
                 { PenSettings.SelectionBlockList, new Pen(Brushes.Black, 1) { DashStyle = new DashStyle(new double[] { 3 }, 1) } },
                 { PenSettings.BlockGeometry, new Pen(Brushes.Gray, 1) },
+                { PenSettings.VerticalSeparator, new Pen(Brushes.Blue, 3) },
             };
 
             DefaultBrushTable = BrushTable;

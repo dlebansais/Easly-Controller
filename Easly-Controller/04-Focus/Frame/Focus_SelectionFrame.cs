@@ -60,6 +60,9 @@
 
             List<string> NameList = new List<string>();
             int SelectionCommentFrameCount = -1;
+            List<Dictionary<string, IFocusFrameSelectorList>> SelectorTableList = new List<Dictionary<string, IFocusFrameSelectorList>>();
+            Dictionary<string, IFocusFrameSelectorList> SelectorTable;
+
             foreach (IFocusSelectableFrame Item in Items)
             {
                 int SelectableCommentFrameCount = 0;
@@ -74,12 +77,41 @@
                 IsValid &= SelectionCommentFrameCount == SelectableCommentFrameCount;
 
                 NameList.Add(Item.Name);
+
+                SelectorTable = new Dictionary<string, IFocusFrameSelectorList>();
+                Item.CollectSelectors(SelectorTable);
+                SelectorTableList.Add(SelectorTable);
             }
 
             // Use the common count of all selectable frames as the count of the selection frame.
             commentFrameCount += SelectionCommentFrameCount;
 
-            // TODO: check that all selectable have the same nested selectors. See FrameSelectorForProperty().
+            // Check that all selectable have the same nested selectors. See FrameSelectorForProperty().
+            SelectorTable = new Dictionary<string, IFocusFrameSelectorList>();
+            CollectSelectors(SelectorTable);
+            Debug.Assert(SelectorTable.Count == 0);
+
+            List<string> PropertyNameList = new List<string>();
+            foreach (Dictionary<string, IFocusFrameSelectorList> Table in SelectorTableList)
+                foreach (KeyValuePair<string, IFocusFrameSelectorList> Entry in Table)
+                    if (!PropertyNameList.Contains(Entry.Key))
+                        PropertyNameList.Add(Entry.Key);
+
+            foreach (string PropertyName in PropertyNameList)
+            {
+                List<IFocusFrameSelectorList> TableWithPropertyList = new List<IFocusFrameSelectorList>();
+                foreach (Dictionary<string, IFocusFrameSelectorList> Table in SelectorTableList)
+                    if (Table.ContainsKey(PropertyName))
+                        TableWithPropertyList.Add(Table[PropertyName]);
+
+                Debug.Assert(TableWithPropertyList.Count > 0);
+                IFocusFrameSelectorList FirstItem = TableWithPropertyList[0];
+
+                CompareEqual Comparer = CompareEqual.New(canReturnFalse: true);
+                for (int i = 1; i < TableWithPropertyList.Count; i++)
+                    IsValid &= FirstItem.IsEqual(Comparer, TableWithPropertyList[i]);
+            }
+
             Debug.Assert(IsValid);
             return IsValid;
         }
@@ -133,6 +165,14 @@
             Debug.Assert(Items.Count > 0);
 
             Items[0].GetPreferredFrame(ref firstPreferredFrame, ref lastPreferredFrame);
+        }
+
+        /// <summary>
+        /// Gets selectors in the frame and nested frames.
+        /// </summary>
+        /// <param name="selectorTable">The table of selectors to update.</param>
+        public virtual void CollectSelectors(Dictionary<string, IFocusFrameSelectorList> selectorTable)
+        {
         }
         #endregion
 

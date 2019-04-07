@@ -57,7 +57,7 @@
             IFrameNodeStateView StateView = context.StateView;
             IFrameNodeStateView ChildStateView = StateViewTable[ChildState];
 
-            Debug.Assert(ChildStateView.RootCellView == null); // TODO: figure out why an unassigned optional can give raise to RootCellView != null
+            Debug.Assert(ChildStateView.RootCellView == null);
             context.SetChildStateView(ChildStateView);
             ChildStateView.BuildRootCellView(context);
             context.RestoreParentStateView(StateView);

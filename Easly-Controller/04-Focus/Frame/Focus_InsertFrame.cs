@@ -1,6 +1,7 @@
 ﻿namespace EaslyController.Focus
 {
     using System;
+    using System.Collections.Generic;
     using System.Diagnostics;
     using System.Windows.Markup;
     using BaseNodeHelper;
@@ -197,6 +198,14 @@
             Debug.Assert(inner != null);
             Debug.Assert(state.InnerTable.ContainsKey(inner.PropertyName));
             Debug.Assert(state.InnerTable[inner.PropertyName] == inner);
+        }
+
+        /// <summary>
+        /// Gets selectors in the frame and nested frames.
+        /// </summary>
+        /// <param name="selectorTable">The table of selectors to update.</param>
+        public virtual void CollectSelectors(Dictionary<string, IFocusFrameSelectorList> selectorTable)
+        {
         }
         #endregion
 

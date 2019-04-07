@@ -49,5 +49,10 @@
         /// The pen for drawing a block geometry.
         /// </summary>
         BlockGeometry,
+
+        /// <summary>
+        /// The pen for drawing a vertical separator.
+        /// </summary>
+        VerticalSeparator,
     }
 }

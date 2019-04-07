@@ -1,6 +1,7 @@
 ﻿namespace EaslyController.Focus
 {
     using System;
+    using System.Collections.Generic;
     using System.Diagnostics;
     using System.Windows.Markup;
     using EaslyController.Frame;
@@ -112,6 +113,15 @@
         public virtual void GetPreferredFrame(ref IFocusNodeFrame firstPreferredFrame, ref IFocusNodeFrame lastPreferredFrame)
         {
             Content.GetPreferredFrame(ref firstPreferredFrame, ref lastPreferredFrame);
+        }
+
+        /// <summary>
+        /// Gets selectors in the frame and nested frames.
+        /// </summary>
+        /// <param name="selectorTable">The table of selectors to update.</param>
+        public virtual void CollectSelectors(Dictionary<string, IFocusFrameSelectorList> selectorTable)
+        {
+            Content.CollectSelectors(selectorTable);
         }
         #endregion
     }

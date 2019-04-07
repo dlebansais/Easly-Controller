@@ -1,6 +1,7 @@
 ﻿namespace EaslyController.Focus
 {
     using System;
+    using System.Collections.Generic;
     using System.Diagnostics;
     using EaslyController.Frame;
 
@@ -131,6 +132,17 @@
 
                 lastPreferredFrame = this;
             }
+        }
+
+        /// <summary>
+        /// Gets selectors in the frame and nested frames.
+        /// </summary>
+        /// <param name="selectorTable">The table of selectors to update.</param>
+        public virtual void CollectSelectors(Dictionary<string, IFocusFrameSelectorList> selectorTable)
+        {
+            Debug.Assert(!selectorTable.ContainsKey(PropertyName));
+
+            selectorTable.Add(PropertyName, Selectors);
         }
         #endregion
 

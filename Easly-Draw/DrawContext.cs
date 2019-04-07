@@ -434,7 +434,23 @@
         /// <param name="width">The separator width.</param>
         public virtual void DrawVerticalSeparator(VerticalSeparators separator, Point origin, Measure width)
         {
-            // TODO
+            Debug.Assert(WpfDrawingContext != null);
+
+            switch (separator)
+            {
+                case VerticalSeparators.None:
+                    break;
+                case VerticalSeparators.Line:
+                    Pen LinePen = GetPen(PenSettings.VerticalSeparator);
+                    Measure Height = VerticalSeparatorHeightTable[VerticalSeparators.Line];
+                    double X = PagePadding.Left.Draw + origin.X.Draw;
+                    double Y = PagePadding.Left.Draw + origin.Y.Draw - (Height.Draw / 2);
+
+                    System.Windows.Point Point0 = new System.Windows.Point(X, Y);
+                    System.Windows.Point Point1 = new System.Windows.Point(X + width.Draw, Y);
+                    WpfDrawingContext.DrawLine(LinePen, Point0, Point1);
+                    break;
+            }
         }
 
         /// <summary>
