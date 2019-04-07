@@ -98,7 +98,7 @@
         public virtual void BuildRootCellView(IFrameCellViewTreeContext context)
         {
             Debug.Assert(context.StateView == this);
-            // Debug.Assert(RootCellView == null); // TODO: figure out why an unassigned optional can give raise to RootCellView != null
+            Debug.Assert(RootCellView == null); // TODO: figure out why an unassigned optional can give raise to RootCellView != null
 
             InitCellViewTable();
 
@@ -122,7 +122,7 @@
         private protected virtual void SetRootCellView(IFrameCellView cellView)
         {
             Debug.Assert(cellView != null);
-            // Debug.Assert(RootCellView == null); // TODO: figure out why an unassigned optional can give raise to RootCellView != null
+            Debug.Assert(RootCellView == null); // TODO: figure out why an unassigned optional can give raise to RootCellView != null
 
             RootCellView = cellView;
         }

@@ -61,7 +61,7 @@
                 IFrameNodeStateView StateView = context.StateView;
                 IFrameNodeStateView ChildStateView = StateViewTable[ChildState];
 
-                // Debug.Assert(ChildStateView.RootCellView == null); // TODO
+                Debug.Assert(ChildStateView.RootCellView == null);
                 context.SetChildStateView(ChildStateView);
                 ChildStateView.BuildRootCellView(context);
                 context.RestoreParentStateView(StateView);

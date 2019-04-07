@@ -2710,7 +2710,7 @@
         }
 
         /// <summary>
-        /// Reduces an existing node. Opposite of <see cref="Expand"/>.
+        /// Reduces an existing node. Opposite of Expand.
         /// </summary>
         /// <param name="reducedIndex">Index of the reduced node.</param>
         /// <param name="isChanged">True upon return if the node was changed. False if the node was already reduced.</param>

@@ -491,16 +491,7 @@
         /// <summary>
         /// Indicates if the node with the focus has all its frames forced to visible.
         /// </summary>
-        public bool IsUserVisible
-        {
-            get
-            {
-                IFocusNodeStateView StateView = GetFirstNonSimpleStateView(Focus.CellView.StateView);
-                Debug.Assert(StateView != null);
-
-                return StateView.IsUserVisible;
-            }
-        }
+        public bool IsUserVisible { get { return Focus.CellView.StateView.IsUserVisible; } }
 
         /// <summary>
         /// The current selection.
@@ -736,32 +727,24 @@
         /// </summary>
         public virtual void SetUserVisible(bool isUserVisible)
         {
-            IFocusNodeStateView StateView = GetFirstNonSimpleStateView(Focus.CellView.StateView);
-            Debug.Assert(StateView != null);
-
             if (isUserVisible)
-            {
                 foreach (KeyValuePair<IFocusNodeState, IFocusNodeStateView> Entry in StateViewTable)
                     Entry.Value.SetIsUserVisible(false);
 
-                StateView.SetIsUserVisible(isUserVisible: true);
+            IFocusNodeStateView StateView = Focus.CellView.StateView;
+            Debug.Assert(StateView != null);
+
+            for (;;)
+            {
+                StateView.SetIsUserVisible(isUserVisible);
+
+                if (!((IFocusNodeTemplate)StateView.Template).IsSimple || StateView.State.ParentState == null)
+                    break;
+
+                StateView = StateViewTable[StateView.State.ParentState];
             }
-            else
-                StateView.SetIsUserVisible(isUserVisible: false);
 
             Refresh(StateView.State);
-        }
-
-        /// <summary></summary>
-        private protected virtual IFocusNodeStateView GetFirstNonSimpleStateView(IFocusNodeStateView stateView)
-        {
-            Debug.Assert(stateView != null);
-            IFocusNodeStateView CurrentStateView = stateView;
-
-            while (((IFocusNodeTemplate)CurrentStateView.Template).IsSimple && CurrentStateView.State.ParentState != null)
-                CurrentStateView = StateViewTable[CurrentStateView.State.ParentState];
-
-            return CurrentStateView;
         }
 
         /// <summary>

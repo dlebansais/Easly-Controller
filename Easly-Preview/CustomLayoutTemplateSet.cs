@@ -466,6 +466,7 @@ namespace EaslyEdit
                 </LayoutPlaceholderFrame.Selectors>
             </LayoutPlaceholderFrame>
             <LayoutKeywordFrame LeftMargin=""Whitespace"" RightMargin=""Whitespace"">to</LayoutKeywordFrame>
+            <LayoutInsertFrame CollectionName=""IdentifierBlocks"" />
             <LayoutHorizontalBlockListFrame PropertyName=""IdentifierBlocks"" Separator=""Comma"">
                 <LayoutHorizontalBlockListFrame.Selectors>
                     <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Feature""/>
@@ -2845,7 +2846,7 @@ namespace EaslyEdit
             </LayoutHorizontalPanelFrame>
         </LayoutHorizontalPanelFrame>
     </LayoutNodeTemplate>
-    <LayoutNodeTemplate NodeType=""{xaml:Type easly:IAnchoredType}"">
+    <LayoutNodeTemplate NodeType=""{xaml:Type easly:IAnchoredType}"" IsSimple=""True"">
         <LayoutHorizontalPanelFrame>
             <LayoutCommentFrame/>
             <LayoutKeywordFrame RightMargin=""Whitespace"">like</LayoutKeywordFrame>
@@ -2994,7 +2995,7 @@ namespace EaslyEdit
             <LayoutSymbolFrame Symbol=""{x:Static const:Symbols.RightBracket}"" LeftMargin=""ThinSpace""/>
         </LayoutHorizontalPanelFrame>
     </LayoutNodeTemplate>
-    <LayoutNodeTemplate NodeType=""{xaml:Type easly:IKeywordAnchoredType}"">
+    <LayoutNodeTemplate NodeType=""{xaml:Type easly:IKeywordAnchoredType}"" IsSimple=""True"">
         <LayoutHorizontalPanelFrame>
             <LayoutCommentFrame/>
             <LayoutKeywordFrame RightMargin=""Whitespace"">like</LayoutKeywordFrame>
@@ -3085,7 +3086,7 @@ namespace EaslyEdit
             <LayoutSymbolFrame Symbol=""{x:Static const:Symbols.RightBracket}"" LeftMargin=""ThinSpace""/>
         </LayoutHorizontalPanelFrame>
     </LayoutNodeTemplate>
-    <LayoutNodeTemplate NodeType=""{xaml:Type easly:ISimpleType}"">
+    <LayoutNodeTemplate NodeType=""{xaml:Type easly:ISimpleType}"" IsSimple=""True"">
         <LayoutHorizontalPanelFrame>
             <LayoutCommentFrame/>
             <LayoutPlaceholderFrame PropertyName=""ClassIdentifier"">

@@ -2834,7 +2834,7 @@ namespace TestDebug
             </FocusHorizontalPanelFrame>
         </FocusHorizontalPanelFrame>
     </FocusNodeTemplate>
-    <FocusNodeTemplate NodeType=""{xaml:Type easly:IAnchoredType}"">
+    <FocusNodeTemplate NodeType=""{xaml:Type easly:IAnchoredType}"" IsSimple=""True"">
         <FocusHorizontalPanelFrame>
             <FocusCommentFrame/>
             <FocusKeywordFrame>like</FocusKeywordFrame>
@@ -2983,7 +2983,7 @@ namespace TestDebug
             <FocusSymbolFrame Symbol=""{x:Static const:Symbols.RightBracket}""/>
         </FocusHorizontalPanelFrame>
     </FocusNodeTemplate>
-    <FocusNodeTemplate NodeType=""{xaml:Type easly:IKeywordAnchoredType}"">
+    <FocusNodeTemplate NodeType=""{xaml:Type easly:IKeywordAnchoredType}"" IsSimple=""True"">
         <FocusHorizontalPanelFrame>
             <FocusCommentFrame/>
             <FocusKeywordFrame>like</FocusKeywordFrame>
@@ -3074,7 +3074,7 @@ namespace TestDebug
             <FocusSymbolFrame Symbol=""{x:Static const:Symbols.RightBracket}""/>
         </FocusHorizontalPanelFrame>
     </FocusNodeTemplate>
-    <FocusNodeTemplate NodeType=""{xaml:Type easly:ISimpleType}"">
+    <FocusNodeTemplate NodeType=""{xaml:Type easly:ISimpleType}"" IsSimple=""True"">
         <FocusHorizontalPanelFrame>
             <FocusCommentFrame/>
             <FocusPlaceholderFrame PropertyName=""ClassIdentifier"">
