@@ -105,17 +105,17 @@
             if (ControllerView.Focus is IFocusTextFocus AsTextFocus)
             {
                 IFocusNodeState State = AsTextFocus.CellView.StateView.State;
+                IFocusNodeState ParentState = State;
                 bool IsAssignable = false;
 
-                while (State != null)
+                while (!IsAssignable && ParentState != null)
                 {
-                    if (State.ParentInner is IFocusCollectionInner AsCollectionInner && (nodeList.Count == 0 || AsCollectionInner.InterfaceType.IsAssignableFrom(nodeList[0].GetType())))
-                    {
-                        IsAssignable = true;
-                        break;
-                    }
+                    State = ParentState;
 
-                    State = State.ParentState;
+                    if (State.ParentInner is IFocusCollectionInner AsCollectionInner && (nodeList.Count == 0 || AsCollectionInner.InterfaceType.IsAssignableFrom(nodeList[0].GetType())))
+                        IsAssignable = true;
+
+                    ParentState = State.ParentState;
                 }
 
                 if (IsAssignable)
@@ -181,17 +181,17 @@
             if (ControllerView.Focus is IFocusTextFocus AsTextFocus)
             {
                 IFocusNodeState State = AsTextFocus.CellView.StateView.State;
+                IFocusNodeState ParentState = State;
                 bool IsAssignable = false;
 
-                while (State != null)
+                while (!IsAssignable && ParentState != null)
                 {
-                    if (State.ParentInner is IFocusBlockListInner AsCollectionInner && (blockList.Count == 0 || AsCollectionInner.InterfaceType.IsAssignableFrom(blockList[0].NodeList[0].GetType())))
-                    {
-                        IsAssignable = true;
-                        break;
-                    }
+                    State = ParentState;
 
-                    State = State.ParentState;
+                    if (State.ParentInner is IFocusBlockListInner AsCollectionInner && (blockList.Count == 0 || AsCollectionInner.InterfaceType.IsAssignableFrom(blockList[0].NodeList[0].GetType())))
+                        IsAssignable = true;
+
+                    ParentState = State.ParentState;
                 }
 
                 if (IsAssignable && State.ParentInner is IFocusBlockListInner AsBlockListInner && State.ParentIndex is IFocusBrowsingExistingBlockNodeIndex AsExistingBlockNodeIndex)
