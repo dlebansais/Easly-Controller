@@ -244,9 +244,10 @@
         /// </summary>
         /// <param name="object1">The first object to compare.</param>
         /// <param name="object2">The Second object to compare.</param>
-        public static bool CoverIsEqual(IEqualComparable object1, IEqualComparable object2)
+        /// <param name="canReturnFalse">True if this comparer might return false during normal operations.</param>
+        public static bool CoverIsEqual(IEqualComparable object1, IEqualComparable object2, bool canReturnFalse = false)
         {
-            CompareEqual Comparer = New();
+            CompareEqual Comparer = New(canReturnFalse);
 
             bool IsValid = object1.IsEqual(Comparer, object2);
             if (!IsValid)

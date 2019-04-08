@@ -50,22 +50,14 @@
         /// Try to read the clipboard to get a int.
         /// </summary>
         /// <param name="value">The int read, -1 if none or if the clipboard contains invalid data.</param>
-        /// <returns>True if a valid string was found; Otherwise, false.</returns>
+        /// <returns>True if a valid int was found; Otherwise, false.</returns>
         public static bool TryReadInt(out int value)
         {
             value = -1;
 
             IDataObject DataObject = Clipboard.GetDataObject();
             if (DataObject != null)
-            {
-                try
-                {
-                    value = (int)DataObject.GetData(typeof(int));
-                }
-                catch
-                {
-                }
-            }
+                value = (int)DataObject.GetData(typeof(int));
 
             return value >= 0;
         }

@@ -5,6 +5,7 @@
     using System.Diagnostics;
     using BaseNode;
     using BaseNodeHelper;
+    using EaslyController.Controller;
     using EaslyController.ReadOnly;
 
     /// <summary>
@@ -2208,7 +2209,7 @@
             string OldText = NodeTreeHelper.GetCommentText(State.Node);
             Debug.Assert(OldText != null);
 
-            NodeTreeHelper.SetCommentText(State.Node, NewText);
+            CommentHelper.Set(State.Node.Documentation, NewText);
 
             operation.Update(State, OldText);
 
