@@ -711,20 +711,20 @@ namespace TestDebug
                     </FocusVerticalBlockListFrame.Selectors>
                 </FocusVerticalBlockListFrame>
             </FocusVerticalPanelFrame>
-                <FocusKeywordFrame Text=""end"">
-                    <FocusKeywordFrame.Visibility>
-                        <FocusMixedFrameVisibility>
-                            <FocusCountFrameVisibility PropertyName=""ImportBlocks""/>
-                            <FocusCountFrameVisibility PropertyName=""ClassIdentifierBlocks""/>
-                        </FocusMixedFrameVisibility>
-                    </FocusKeywordFrame.Visibility>
-                </FocusKeywordFrame>
+            <FocusKeywordFrame Text=""end"">
+                <FocusKeywordFrame.Visibility>
+                    <FocusMixedFrameVisibility>
+                        <FocusCountFrameVisibility PropertyName=""ImportBlocks""/>
+                        <FocusCountFrameVisibility PropertyName=""ClassIdentifierBlocks""/>
+                    </FocusMixedFrameVisibility>
+                </FocusKeywordFrame.Visibility>
+            </FocusKeywordFrame>
         </FocusVerticalPanelFrame>
     </FocusNodeTemplate>
     <FocusNodeTemplate NodeType=""{xaml:Type easly:IName}"" IsSimple=""True"">
         <FocusVerticalPanelFrame>
             <FocusCommentFrame/>
-            <FocusTextValueFrame PropertyName=""Text"" AutoFormat=""True""//>
+            <FocusTextValueFrame PropertyName=""Text"" AutoFormat=""True""/>
         </FocusVerticalPanelFrame>
     </FocusNodeTemplate>
     <FocusNodeTemplate NodeType=""{xaml:Type easly:IPattern}"" IsSimple=""True"">
