@@ -680,6 +680,9 @@ namespace EaslyEdit
                 <LayoutKeywordFrame RightMargin=""Whitespace"">library</LayoutKeywordFrame>
                 <LayoutPlaceholderFrame PropertyName=""EntityName""/>
                 <LayoutHorizontalPanelFrame>
+                    <LayoutHorizontalPanelFrame.Visibility>
+                        <LayoutOptionalFrameVisibility PropertyName=""FromIdentifier""/>
+                    </LayoutHorizontalPanelFrame.Visibility>
                     <LayoutKeywordFrame LeftMargin=""Whitespace"" RightMargin=""Whitespace"">from</LayoutKeywordFrame>
                     <LayoutOptionalFrame PropertyName=""FromIdentifier"">
                         <LayoutOptionalFrame.Selectors>

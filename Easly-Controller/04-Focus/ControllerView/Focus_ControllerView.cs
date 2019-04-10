@@ -732,6 +732,16 @@
             {
                 StateView.SetIsUserVisible(isUserVisible);
 
+                foreach (KeyValuePair<string, IFocusInner> Entry in StateView.State.InnerTable)
+                {
+                    if (Entry.Value is IFocusPlaceholderInner AsPlaceholderInner)
+                    {
+                        IFocusNodeStateView ChildStateView = StateViewTable[AsPlaceholderInner.ChildState];
+                        if (((IFocusNodeTemplate)ChildStateView.Template).IsSimple)
+                            ChildStateView.SetIsUserVisible(isUserVisible);
+                    }
+                }
+
                 if (!((IFocusNodeTemplate)StateView.Template).IsSimple || StateView.State.ParentState == null)
                     break;
 
@@ -832,7 +842,8 @@
             Debug.Assert(!InsertType.IsInterface);
             Debug.Assert(!InsertType.IsAbstract);
 
-            INode NewItem = NodeHelper.CreateEmptyNode(InsertType);
+            Type InterfaceType = NodeTreeHelper.NodeTypeToInterfaceType(InsertType);
+            INode NewItem = NodeHelper.CreateDefaultFromInterface(InterfaceType);
 
             IFocusCollectionInner CollectionInner = null;
             frame.CollectionNameToInner(ref state, ref CollectionInner);
