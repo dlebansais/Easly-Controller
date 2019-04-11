@@ -64,7 +64,7 @@
         {
             INode Node = cellView.StateView.State.Node;
             string Text = BaseNodeHelper.NodeTreeHelper.GetString(Node, PropertyName);
-            Debug.Assert(Text != null && Text.Length == 1);
+            Debug.Assert(!string.IsNullOrEmpty(Text));
 
             size = measureContext.MeasureText(Text, TextStyles.Character, Controller.Measure.Floating);
             measureContext.UpdatePadding(LeftMargin, RightMargin, ref size, out padding);
@@ -84,7 +84,7 @@
         {
             INode Node = cellView.StateView.State.Node;
             string Text = BaseNodeHelper.NodeTreeHelper.GetString(Node, PropertyName);
-            Debug.Assert(Text != null && Text.Length == 1);
+            Debug.Assert(!string.IsNullOrEmpty(Text));
 
             bool IsFocused = cellView.StateView.ControllerView.Focus.CellView == cellView;
 
@@ -105,7 +105,7 @@
         {
             INode Node = cellView.StateView.State.Node;
             string Text = BaseNodeHelper.NodeTreeHelper.GetString(Node, PropertyName);
-            Debug.Assert(Text != null && Text.Length == 1);
+            Debug.Assert(!string.IsNullOrEmpty(Text));
 
             Point OriginWithPadding = origin.Moved(padding.Left, padding.Top);
             printContext.PrintText(Text, OriginWithPadding, TextStyles.Character);
