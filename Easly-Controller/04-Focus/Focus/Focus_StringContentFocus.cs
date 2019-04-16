@@ -34,5 +34,15 @@
         IFocusFocusableCellView IFocusFocus.CellView { get { return CellView; } }
         IFocusTextFocusableCellView IFocusTextFocus.CellView { get { return CellView; } }
         #endregion
+
+        #region Debugging
+        /// <summary>
+        /// Returns a string representation of this focus.
+        /// </summary>
+        public override string ToString()
+        {
+            return $"String: {CellView.StateView.State}";
+        }
+        #endregion
     }
 }

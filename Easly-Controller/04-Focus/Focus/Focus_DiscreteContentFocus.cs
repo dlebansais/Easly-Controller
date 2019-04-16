@@ -33,5 +33,15 @@
         public new IFocusDiscreteContentFocusableCellView CellView { get { return (IFocusDiscreteContentFocusableCellView)base.CellView; } }
         IFocusFocusableCellView IFocusFocus.CellView { get { return CellView; } }
         #endregion
+
+        #region Debugging
+        /// <summary>
+        /// Returns a string representation of this focus.
+        /// </summary>
+        public override string ToString()
+        {
+            return $"Discrete: {CellView.StateView.State}";
+        }
+        #endregion
     }
 }

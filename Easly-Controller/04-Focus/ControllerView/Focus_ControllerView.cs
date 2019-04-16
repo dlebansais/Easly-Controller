@@ -1729,6 +1729,27 @@
             Debug.Assert(state.ValuePropertyTypeTable[propertyName] == ValuePropertyType.String);
 
             IFocusNodeStateView StateView = StateViewTable[state];
+
+            int OldFocusIndex = FocusChain.IndexOf(Focus);
+            int NewFocusIndex = -1;
+            for (int i = 0; i < FocusChain.Count; i++)
+            {
+                IFocusFocus Item = FocusChain[i];
+                if (Item.CellView is IFocusStringContentFocusableCellView AsStringContentFocusableCellView)
+                {
+                    if (AsStringContentFocusableCellView.StateView == StateView && AsStringContentFocusableCellView.PropertyName == propertyName)
+                    {
+                        NewFocusIndex = i;
+                        break;
+                    }
+                }
+            }
+
+            Debug.Assert(NewFocusIndex >= 0);
+
+            if (OldFocusIndex != NewFocusIndex)
+                ChangeFocus(NewFocusIndex - OldFocusIndex, OldFocusIndex, NewFocusIndex, true, out bool IsRefreshed);
+
             SelectStringContent(StateView, propertyName, start, end);
 
             CaretAnchorPosition = start;
