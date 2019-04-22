@@ -33,7 +33,7 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.0.0.4581")]
-[assembly: AssemblyFileVersion("1.0.0.51")]
+[assembly: AssemblyVersion("1.0.0.4596")]
+[assembly: AssemblyFileVersion("1.0.0.52")]
 [assembly: NeutralResourcesLanguage("en-US")]
 
