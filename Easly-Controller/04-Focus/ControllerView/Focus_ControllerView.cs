@@ -1020,9 +1020,10 @@
                         Debug.Assert(index != null);
 
                         if (Controller.IsRemoveable(inner, index))
+                        {
                             IsRemoveable = true;
-
-                        break;
+                            break;
+                        }
                     }
 
                     State = State.ParentState;
