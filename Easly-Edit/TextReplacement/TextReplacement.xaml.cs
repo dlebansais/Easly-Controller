@@ -43,16 +43,26 @@ namespace EaslyEdit
                 listOptions.SelectedIndex = 0;
         }
 
-        public void SelectPreviousLine()
+        public void SelectPreviousLine(out bool isHandled)
         {
+            isHandled = false;
+
             if (listOptions.SelectedIndex > 0)
+            {
                 listOptions.SelectedIndex--;
+                isHandled = true;
+            }
         }
 
-        public void SelectNextLine()
+        public void SelectNextLine(out bool isHandled)
         {
+            isHandled = false;
+
             if (listOptions.SelectedIndex + 1 < EntryList.Count)
+            {
                 listOptions.SelectedIndex++;
+                isHandled = true;
+            }
         }
 
         #region Implementation of INotifyPropertyChanged

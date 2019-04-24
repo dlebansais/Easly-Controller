@@ -1010,8 +1010,8 @@
             {
                 IsRemoveable = false;
 
-                // Search recursively for a collection parent, up to 3 levels up.
-                for (int i = 0; i < 3 && State != null; i++)
+                // Search recursively for a collection parent, up to 4 levels up.
+                for (int i = 0; i < 4 && State != null; i++)
                 {
                     if (State.ParentInner is IFocusCollectionInner AsCollectionInner)
                     {

@@ -334,6 +334,7 @@
         private protected virtual bool OnKeyMove(MoveDirections direction, bool resetAnchor)
         {
             bool IsHandled = false;
+            bool IsSelectHandled = false;
 
             switch (direction)
             {
@@ -349,16 +350,18 @@
 
                 case MoveDirections.Up:
                     if (ReplacementPopup.IsOpen)
-                        ReplacementPopup.SelectPreviousLine();
-                    else
+                        ReplacementPopup.SelectPreviousLine(out IsSelectHandled);
+                    
+                    if (!IsSelectHandled)
                         MoveFocusVertically(-1, resetAnchor);
                     IsHandled = true;
                     break;
 
                 case MoveDirections.Down:
                     if (ReplacementPopup.IsOpen)
-                        ReplacementPopup.SelectNextLine();
-                    else
+                        ReplacementPopup.SelectNextLine(out IsSelectHandled);
+
+                    if (!IsSelectHandled)
                         MoveFocusVertically(+1, resetAnchor);
                     IsHandled = true;
                     break;
@@ -1164,6 +1167,11 @@
                 else
                     HideTextReplacement(false);
             }
+            else if (ControllerView.Focus is ILayoutDiscreteContentFocus AsDiscreteContentFocus)
+            {
+            }
+            else
+                HideTextReplacement(false);
         }
 
         private protected virtual void SetReplacementPopupPosition()
