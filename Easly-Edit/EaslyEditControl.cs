@@ -764,7 +764,12 @@
 
         private protected virtual void OnExpand(object sender, ExecutedRoutedEventArgs e)
         {
-            if (ControllerView.Focus.CellView.StateView.State.ParentIndex is ILayoutNodeIndex Index)
+            ILayoutNodeState State = ControllerView.Focus.CellView.StateView.State;
+
+            while (IsWithinExpandable(ref State))
+                State = State.ParentState;
+
+            if (State.ParentIndex is ILayoutNodeIndex Index)
             {
                 Controller.Expand(Index, out bool IsChanged);
                 if (IsChanged)
@@ -774,9 +779,36 @@
             e.Handled = true;
         }
 
+        private protected virtual bool IsWithinExpandable(ref ILayoutNodeState State)
+        {
+            bool Result = false;
+
+            if (State.ParentIndex is ILayoutNodeIndex ParentIndex && State.ParentState != null && State.ParentState.ParentIndex is ILayoutNodeIndex ParentStateIndex)
+            {
+                switch (State.Node)
+                {
+                    case IIdentifier AsIdentifier:
+                    case IQualifiedName AsQualifiedName:
+                    case IQueryExpression AsQueryExpression:
+                    case IBody AsBody:
+                        Result = true;
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            return Result;
+        }
+
         private protected virtual void OnReduce(object sender, ExecutedRoutedEventArgs e)
         {
-            if (ControllerView.Focus.CellView.StateView.State.ParentIndex is ILayoutNodeIndex Index)
+            ILayoutNodeState State = ControllerView.Focus.CellView.StateView.State;
+
+            while (IsWithinExpandable(ref State))
+                State = State.ParentState;
+
+            if (State.ParentIndex is ILayoutNodeIndex Index)
             {
                 Controller.Reduce(Index, out bool IsChanged);
                 if (IsChanged)

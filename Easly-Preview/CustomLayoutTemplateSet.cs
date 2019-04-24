@@ -60,6 +60,9 @@ namespace EaslyEdit
         <LayoutHorizontalPanelFrame>
             <LayoutCommentFrame/>
             <LayoutHorizontalPanelFrame>
+                <LayoutHorizontalPanelFrame.Visibility>
+                    <LayoutOptionalFrameVisibility PropertyName=""Tag""/>
+                </LayoutHorizontalPanelFrame.Visibility>
                 <LayoutOptionalFrame PropertyName=""Tag"" />
                 <LayoutKeywordFrame RightMargin=""Whitespace"">:</LayoutKeywordFrame>
             </LayoutHorizontalPanelFrame>
