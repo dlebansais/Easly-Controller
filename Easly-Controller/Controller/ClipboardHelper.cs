@@ -69,7 +69,17 @@
         /// <returns>True if a valid node was found; Otherwise, false.</returns>
         public static bool TryReadNode(out INode node)
         {
-            return TryReadContent(out node);
+            bool Success = TryReadContent(out node);
+
+            if (Success)
+            {
+                Debug.Assert(node != null);
+
+                // Create a copy of all guids.
+                node = BaseNodeHelper.NodeHelper.DeepCloneNode(node, cloneCommentGuid: false);
+            }
+
+            return Success;
         }
 
         /// <summary>
@@ -89,7 +99,17 @@
         /// <returns>True if a valid node list was found; Otherwise, false.</returns>
         public static bool TryReadNodeList(out IList<INode> nodeList)
         {
-            return TryReadContent(out nodeList);
+            bool Success = TryReadContent(out nodeList);
+
+            if (Success)
+            {
+                Debug.Assert(nodeList != null);
+
+                // Create a copy of all guids.
+                nodeList = BaseNodeHelper.NodeHelper.DeepCloneNodeList(nodeList, cloneCommentGuid: false);
+            }
+
+            return Success;
         }
 
         /// <summary>
@@ -109,7 +129,17 @@
         /// <returns>True if a valid block list was found; Otherwise, false.</returns>
         public static bool TryReadBlockList(out IList<IBlock> blockList)
         {
-            return TryReadContent(out blockList);
+            bool Success = TryReadContent(out blockList);
+
+            if (Success)
+            {
+                Debug.Assert(blockList != null);
+
+                // Create a copy of all guids.
+                blockList = BaseNodeHelper.NodeHelper.DeepCloneBlockList(blockList, cloneCommentGuid: false);
+            }
+
+            return Success;
         }
 
         /// <summary>
