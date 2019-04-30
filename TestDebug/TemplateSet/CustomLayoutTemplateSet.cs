@@ -2336,7 +2336,15 @@ namespace EaslyEdit
                 </LayoutDiscreteFrame>
                 <LayoutPlaceholderFrame PropertyName=""EntityName"" RightMargin=""Whitespace""/>
                 <LayoutKeywordFrame>is</LayoutKeywordFrame>
-                <LayoutPlaceholderFrame PropertyName=""EntityType"" LeftMargin=""Whitespace""/>
+                <LayoutPlaceholderFrame PropertyName=""EntityType"" LeftMargin=""Whitespace"" RightMargin=""Whitespace""/>
+                <LayoutDiscreteFrame PropertyName=""PropertyKind"">
+                    <LayoutDiscreteFrame.Visibility>
+                        <LayoutDefaultDiscreteFrameVisibility PropertyName=""PropertyKind"" DefaultValue=""2""/>
+                    </LayoutDiscreteFrame.Visibility>
+                    <LayoutKeywordFrame>read-only</LayoutKeywordFrame>
+                    <LayoutKeywordFrame>write-only</LayoutKeywordFrame>
+                    <LayoutKeywordFrame>readwrite</LayoutKeywordFrame>
+                </LayoutDiscreteFrame>
             </LayoutHorizontalPanelFrame>
             <LayoutVerticalPanelFrame HasTabulationMargin=""True"">
                 <LayoutVerticalPanelFrame>
