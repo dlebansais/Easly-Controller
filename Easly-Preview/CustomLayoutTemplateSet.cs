@@ -345,7 +345,7 @@ namespace EaslyEdit
                         </LayoutVerticalBlockListFrame.Selectors>
                     </LayoutVerticalBlockListFrame>
                 </LayoutVerticalPanelFrame>
-                <LayoutKeywordFrame>end</LayoutKeywordFrame>
+                <LayoutKeywordFrame IsFocusable=""True"">end</LayoutKeywordFrame>
             </LayoutVerticalPanelFrame>
             <LayoutSymbolFrame Symbol=""{x:Static const:Symbols.RightBracket}"" LeftMargin=""ThinSpace""/>
         </LayoutHorizontalPanelFrame>
@@ -818,6 +818,9 @@ namespace EaslyEdit
             <LayoutVerticalPanelFrame>
                 <LayoutVerticalPanelFrame>
                     <LayoutHorizontalPanelFrame>
+                        <LayoutHorizontalPanelFrame.Visibility>
+                            <LayoutCountFrameVisibility PropertyName=""ParameterBlocks""/>
+                        </LayoutHorizontalPanelFrame.Visibility>
                         <LayoutKeywordFrame>parameter</LayoutKeywordFrame>
                         <LayoutDiscreteFrame PropertyName=""ParameterEnd"" LeftMargin=""Whitespace"">
                             <LayoutDiscreteFrame.Visibility>
@@ -826,7 +829,7 @@ namespace EaslyEdit
                             <LayoutKeywordFrame>closed</LayoutKeywordFrame>
                             <LayoutKeywordFrame>open</LayoutKeywordFrame>
                         </LayoutDiscreteFrame>
-                        <LayoutInsertFrame CollectionName=""ParameterBlocks"" />
+                        <LayoutInsertFrame CollectionName=""ParameterBlocks""/>
                     </LayoutHorizontalPanelFrame>
                     <LayoutVerticalBlockListFrame PropertyName=""ParameterBlocks"" HasTabulationMargin=""True""/>
                 </LayoutVerticalPanelFrame>
@@ -871,7 +874,7 @@ namespace EaslyEdit
                         </LayoutVerticalBlockListFrame.Selectors>
                     </LayoutVerticalBlockListFrame>
                 </LayoutVerticalPanelFrame>
-                <LayoutKeywordFrame>end</LayoutKeywordFrame>
+                <LayoutKeywordFrame IsFocusable=""True"">end</LayoutKeywordFrame>
             </LayoutVerticalPanelFrame>
             <LayoutSymbolFrame Symbol=""{x:Static const:Symbols.RightBracket}"" LeftMargin=""ThinSpace""/>
         </LayoutHorizontalPanelFrame>
@@ -2877,6 +2880,7 @@ namespace EaslyEdit
             <LayoutKeywordFrame RightMargin=""Whitespace"">function</LayoutKeywordFrame>
             <LayoutPlaceholderFrame PropertyName=""BaseType"" RightMargin=""Whitespace""/>
             <LayoutHorizontalBlockListFrame PropertyName=""OverloadBlocks""/>
+            <LayoutInsertFrame CollectionName=""OverloadBlocks"" />
         </LayoutHorizontalPanelFrame>
     </LayoutNodeTemplate>
     <LayoutNodeTemplate NodeType=""{xaml:Type easly:IGenericType}"">
@@ -3030,6 +3034,7 @@ namespace EaslyEdit
             <LayoutKeywordFrame RightMargin=""Whitespace"">procedure</LayoutKeywordFrame>
             <LayoutPlaceholderFrame PropertyName=""BaseType"" RightMargin=""Whitespace""/>
             <LayoutHorizontalBlockListFrame PropertyName=""OverloadBlocks""/>
+            <LayoutInsertFrame CollectionName=""OverloadBlocks""/>
         </LayoutHorizontalPanelFrame>
     </LayoutNodeTemplate>
     <LayoutNodeTemplate NodeType=""{xaml:Type easly:IPropertyType}"">
