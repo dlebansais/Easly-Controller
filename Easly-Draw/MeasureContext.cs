@@ -230,7 +230,7 @@
         /// <returns>The size of the string.</returns>
         public virtual Size MeasureNumber(string text)
         {
-            IFormattedNumber fn = FormattedNumber.Parse(text);
+            IFormattedNumber fn = FormattedNumber.Parse(text, false);
             string SignificandString = fn.SignificandString;
             string ExponentString = fn.ExponentString;
             string InvalidText = fn.InvalidText;

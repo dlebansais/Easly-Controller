@@ -398,17 +398,17 @@ namespace EditorDebug
             Debug.Assert(IntegerBase.Convert(IntegerBase.Convert(HexadecimalNumber, IntegerBase.Hexadecimal, IntegerBase.Hexadecimal), IntegerBase.Hexadecimal, IntegerBase.Hexadecimal) == HexadecimalNumber);
 
             IFormattedNumber Number;
-            Number = FormattedNumber.Parse("");
-            Number = FormattedNumber.Parse("0");
-            Number = FormattedNumber.Parse("0:B");
-            Number = FormattedNumber.Parse("0:O");
-            Number = FormattedNumber.Parse("0:H");
-            Number = FormattedNumber.Parse("5");
-            Number = FormattedNumber.Parse("1:B");
-            Number = FormattedNumber.Parse("5:O");
-            Number = FormattedNumber.Parse("F:H");
-            Number = FormattedNumber.Parse("468F3ECF:H");
-            Number = FormattedNumber.Parse("468F3xECF:H");
+            Number = FormattedNumber.Parse("", false);
+            Number = FormattedNumber.Parse("0", false);
+            Number = FormattedNumber.Parse("0:B", false);
+            Number = FormattedNumber.Parse("0:O", false);
+            Number = FormattedNumber.Parse("0:H", false);
+            Number = FormattedNumber.Parse("5", false);
+            Number = FormattedNumber.Parse("1:B", false);
+            Number = FormattedNumber.Parse("5:O", false);
+            Number = FormattedNumber.Parse("F:H", false);
+            Number = FormattedNumber.Parse("468F3ECF:H", false);
+            Number = FormattedNumber.Parse("468F3xECF:H", false);
 
             string Charset = "01.e-+";
             long N = Charset.Length;
@@ -418,7 +418,7 @@ namespace EditorDebug
             for (long n = 0; n < T; n++)
             {
                 string s = GenerateNumber(Charset, n);
-                Number = FormattedNumber.Parse(s);
+                Number = FormattedNumber.Parse(s, false);
                 double d = (100.0 * ((double)n)) / ((double)T);
                 if (d >= Percent)
                 {

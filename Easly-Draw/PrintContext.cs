@@ -68,7 +68,7 @@
         /// <param name="origin">The location where to start printing.</param>
         public virtual void PrintNumber(string text, Point origin)
         {
-            IFormattedNumber fn = FormattedNumber.Parse(text);
+            IFormattedNumber fn = FormattedNumber.Parse(text, false);
             string SignificandString = fn.SignificandString;
             string ExponentString = fn.ExponentString;
             string InvalidText = fn.InvalidText;

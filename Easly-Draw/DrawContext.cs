@@ -245,7 +245,7 @@
         {
             Debug.Assert(WpfDrawingContext != null);
 
-            IFormattedNumber fn = FormattedNumber.Parse(text);
+            IFormattedNumber fn = FormattedNumber.Parse(text, false);
             string SignificandString = fn.SignificandString;
             string ExponentString0 = fn.ExponentString.Length > 0 ? fn.ExponentString.Substring(0, 1) : string.Empty;
             string ExponentString1 = fn.ExponentString.Length > 1 ? fn.ExponentString.Substring(1) : string.Empty;
@@ -566,7 +566,7 @@
         /// <summary></summary>
         protected virtual void ShowNumberCaret(Point origin, string text, CaretModes mode, int position)
         {
-            IFormattedNumber fn = FormattedNumber.Parse(text);
+            IFormattedNumber fn = FormattedNumber.Parse(text, false);
             string SignificandString;
             string ExponentString0;
             string ExponentString1;
