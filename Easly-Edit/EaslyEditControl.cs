@@ -634,6 +634,7 @@
         private protected virtual void ReplaceItem(IFocusInner inner, IFocusInsertionChildIndex replacementIndex)
         {
             Controller.Replace(inner, replacementIndex, out IWriteableBrowsingChildIndex nodeIndex);
+            InvalidateMeasure();
             InvalidateVisual();
         }
 
@@ -642,6 +643,7 @@
             if (ControllerView.IsNewItemInsertable(out IFocusCollectionInner inner, out IFocusInsertionCollectionNodeIndex index))
             {
                 Controller.Insert(inner, index, out IWriteableBrowsingCollectionNodeIndex nodeIndex);
+                InvalidateMeasure();
                 InvalidateVisual();
                 UpdateTextReplacement();
             }
@@ -652,6 +654,7 @@
             ControllerView.ForceShowComment(out bool IsMoved);
             if (IsMoved)
             {
+                InvalidateMeasure();
                 InvalidateVisual();
                 UpdateTextReplacement();
             }
@@ -678,6 +681,7 @@
         private protected virtual void OnToggleUserVisible(object sender, ExecutedRoutedEventArgs e)
         {
             ControllerView.SetUserVisible(!ControllerView.IsUserVisible);
+            InvalidateMeasure();
             InvalidateVisual();
 
             e.Handled = true;
@@ -688,6 +692,7 @@
             if (ControllerView.IsItemRemoveable(out IFocusCollectionInner inner, out IFocusBrowsingCollectionNodeIndex index))
             {
                 Controller.Remove(inner, index);
+                InvalidateMeasure();
                 InvalidateVisual();
                 UpdateTextReplacement();
             }
@@ -700,6 +705,7 @@
             if (ControllerView.IsItemSplittable(out IFocusBlockListInner inner, out IFocusBrowsingExistingBlockNodeIndex index))
             {
                 Controller.SplitBlock(inner, index);
+                InvalidateMeasure();
                 InvalidateVisual();
                 UpdateTextReplacement();
             }
@@ -712,6 +718,7 @@
             if (ControllerView.IsItemMergeable(out IFocusBlockListInner inner, out IFocusBrowsingExistingBlockNodeIndex index))
             {
                 Controller.MergeBlocks(inner, index);
+                InvalidateMeasure();
                 InvalidateVisual();
             }
 
@@ -724,6 +731,7 @@
             {
                 cyclePosition = (cyclePosition + 1) % state.CycleIndexList.Count;
                 Controller.Replace(state.ParentInner, state.CycleIndexList, cyclePosition, out IFocusBrowsingChildIndex nodeIndex);
+                InvalidateMeasure();
                 InvalidateVisual();
             }
 
@@ -735,6 +743,7 @@
             if (ControllerView.IsItemSimplifiable(out IFocusInner Inner, out IFocusInsertionChildIndex Index))
             {
                 Controller.Replace(Inner, Index, out IWriteableBrowsingChildIndex nodeIndex);
+                InvalidateMeasure();
                 InvalidateVisual();
             }
 
@@ -756,6 +765,7 @@
                 }
 
                 Controller.ChangeReplication(Inner, BlockIndex, Replication);
+                InvalidateMeasure();
                 InvalidateVisual();
             }
 
@@ -773,7 +783,10 @@
             {
                 Controller.Expand(Index, out bool IsChanged);
                 if (IsChanged)
+                {
+                    InvalidateMeasure();
                     InvalidateVisual();
+                }
             }
 
             e.Handled = true;
@@ -812,7 +825,10 @@
             {
                 Controller.Reduce(Index, out bool IsChanged);
                 if (IsChanged)
+                {
+                    InvalidateMeasure();
                     InvalidateVisual();
+                }
             }
 
             e.Handled = true;
@@ -857,6 +873,7 @@
             if (Controller.CanUndo)
             {
                 Controller.Undo();
+                InvalidateMeasure();
                 InvalidateVisual();
             }
 
@@ -879,6 +896,7 @@
             if (IsDeleted)
             {
                 Clipboard.SetDataObject(DataObject);
+                InvalidateMeasure();
                 InvalidateVisual();
             }
         }
@@ -954,7 +972,10 @@
 
             ControllerView.PasteSelection(out bool IsChanged);
             if (IsChanged)
+            {
+                InvalidateMeasure();
                 InvalidateVisual();
+            }
         }
         #endregion
 
