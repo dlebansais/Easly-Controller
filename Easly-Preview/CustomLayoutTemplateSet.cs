@@ -1517,11 +1517,17 @@ namespace EaslyEdit
                             </LayoutHorizontalBlockListFrame.Selectors>
                         </LayoutHorizontalBlockListFrame>
                     </LayoutVerticalPanelFrame>
-                    <LayoutVerticalPanelFrame>
+                    <LayoutHorizontalPanelFrame>
+                        <LayoutKeywordFrame IsFocusable=""true"">precursor</LayoutKeywordFrame>
                         <LayoutHorizontalPanelFrame>
-                            <LayoutKeywordFrame IsFocusable=""true"">precursor</LayoutKeywordFrame>
+                            <LayoutHorizontalPanelFrame.Visibility>
+                                <LayoutOptionalFrameVisibility PropertyName=""AncestorType""/>
+                            </LayoutHorizontalPanelFrame.Visibility>
+                            <LayoutSymbolFrame Symbol=""{x:Static const:Symbols.LeftCurlyBracket}"" LeftMargin=""ThinSpace""/>
+                            <LayoutOptionalFrame PropertyName=""AncestorType"" LeftMargin=""ThinSpace"" RightMargin=""ThinSpace""/>
+                            <LayoutSymbolFrame Symbol=""{x:Static const:Symbols.RightCurlyBracket}""/>
                         </LayoutHorizontalPanelFrame>
-                    </LayoutVerticalPanelFrame>
+                    </LayoutHorizontalPanelFrame>
                     <LayoutVerticalPanelFrame>
                         <LayoutVerticalPanelFrame.Visibility>
                             <LayoutCountFrameVisibility PropertyName=""EnsureBlocks""/>
@@ -1561,12 +1567,18 @@ namespace EaslyEdit
                             </LayoutHorizontalBlockListFrame.Selectors>
                         </LayoutHorizontalBlockListFrame>
                     </LayoutVerticalPanelFrame>
-                    <LayoutVerticalPanelFrame>
+                    <LayoutHorizontalPanelFrame>
+                        <LayoutKeywordFrame>getter</LayoutKeywordFrame>
+                        <LayoutKeywordFrame IsFocusable=""true"" LeftMargin=""Whitespace"">precursor</LayoutKeywordFrame>
                         <LayoutHorizontalPanelFrame>
-                            <LayoutKeywordFrame>getter</LayoutKeywordFrame>
-                            <LayoutKeywordFrame IsFocusable=""true"" LeftMargin=""Whitespace"">precursor</LayoutKeywordFrame>
+                            <LayoutHorizontalPanelFrame.Visibility>
+                                <LayoutOptionalFrameVisibility PropertyName=""AncestorType""/>
+                            </LayoutHorizontalPanelFrame.Visibility>
+                            <LayoutSymbolFrame Symbol=""{x:Static const:Symbols.LeftCurlyBracket}"" LeftMargin=""ThinSpace""/>
+                            <LayoutOptionalFrame PropertyName=""AncestorType"" LeftMargin=""ThinSpace"" RightMargin=""ThinSpace""/>
+                            <LayoutSymbolFrame Symbol=""{x:Static const:Symbols.RightCurlyBracket}""/>
                         </LayoutHorizontalPanelFrame>
-                    </LayoutVerticalPanelFrame>
+                    </LayoutHorizontalPanelFrame>
                     <LayoutVerticalPanelFrame>
                         <LayoutVerticalPanelFrame.Visibility>
                             <LayoutCountFrameVisibility PropertyName=""EnsureBlocks""/>
@@ -1606,12 +1618,18 @@ namespace EaslyEdit
                             </LayoutHorizontalBlockListFrame.Selectors>
                         </LayoutHorizontalBlockListFrame>
                     </LayoutVerticalPanelFrame>
-                    <LayoutVerticalPanelFrame>
+                    <LayoutHorizontalPanelFrame>
+                        <LayoutKeywordFrame>setter</LayoutKeywordFrame>
+                        <LayoutKeywordFrame IsFocusable=""true"" LeftMargin=""Whitespace"">precursor</LayoutKeywordFrame>
                         <LayoutHorizontalPanelFrame>
-                            <LayoutKeywordFrame>setter</LayoutKeywordFrame>
-                            <LayoutKeywordFrame IsFocusable=""true"" LeftMargin=""Whitespace"">precursor</LayoutKeywordFrame>
+                            <LayoutHorizontalPanelFrame.Visibility>
+                                <LayoutOptionalFrameVisibility PropertyName=""AncestorType""/>
+                            </LayoutHorizontalPanelFrame.Visibility>
+                            <LayoutSymbolFrame Symbol=""{x:Static const:Symbols.LeftCurlyBracket}"" LeftMargin=""ThinSpace""/>
+                            <LayoutOptionalFrame PropertyName=""AncestorType"" LeftMargin=""ThinSpace"" RightMargin=""ThinSpace""/>
+                            <LayoutSymbolFrame Symbol=""{x:Static const:Symbols.RightCurlyBracket}""/>
                         </LayoutHorizontalPanelFrame>
-                    </LayoutVerticalPanelFrame>
+                    </LayoutHorizontalPanelFrame>
                     <LayoutVerticalPanelFrame>
                         <LayoutVerticalPanelFrame.Visibility>
                             <LayoutCountFrameVisibility PropertyName=""EnsureBlocks""/>

@@ -803,6 +803,11 @@
                     case IIdentifier AsIdentifier:
                     case IQualifiedName AsQualifiedName:
                     case IQueryExpression AsQueryExpression:
+                        Result = true;
+                        break;
+                    case IPrecursorBody AsPrecursorBody:
+                        Result = false;
+                        break;
                     case IBody AsBody:
                         Result = true;
                         break;
