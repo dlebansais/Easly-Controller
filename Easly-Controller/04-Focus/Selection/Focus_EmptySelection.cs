@@ -247,7 +247,9 @@
                 string Content = FocusedText.Substring(0, CaretPosition) + text + FocusedText.Substring(CaretPosition);
 
                 IFocusController Controller = StateView.ControllerView.Controller;
-                Controller.ChangeComment(AsCommentFocus.CellView.StateView.State.ParentIndex, Content);
+                int OldCaretPosition = StateView.ControllerView.CaretPosition;
+                int NewCaretPosition = CaretPosition + text.Length;
+                Controller.ChangeCommentAndCaretPosition(AsCommentFocus.CellView.StateView.State.ParentIndex, Content, OldCaretPosition, NewCaretPosition, true);
 
                 isChanged = true;
             }
@@ -263,7 +265,9 @@
                 IFocusStringContentFocusableCellView CellView = AsStringContentFocus.CellView;
 
                 IFocusController Controller = StateView.ControllerView.Controller;
-                Controller.ChangeText(CellView.StateView.State.ParentIndex, CellView.PropertyName, Content);
+                int OldCaretPosition = StateView.ControllerView.CaretPosition;
+                int NewCaretPosition = CaretPosition + text.Length;
+                Controller.ChangeTextAndCaretPosition(CellView.StateView.State.ParentIndex, CellView.PropertyName, Content, OldCaretPosition, NewCaretPosition, true);
 
                 isChanged = true;
             }

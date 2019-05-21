@@ -910,6 +910,7 @@
         {
             string Content;
             string RtfContent;
+            bool IsSingleLine = false;
 
             PrintContext PrintContext = PrintContext.CreatePrintContext();
             using (ILayoutControllerView PrintView = LayoutControllerView.Create(Controller, TemplateSet, PrintContext))
@@ -922,14 +923,17 @@
                         break;
 
                     case ILayoutDiscreteContentSelection AsDiscreteContentSelection:
+                        IsSingleLine = true;
                         PrintView.SelectDiscreteContent(AsDiscreteContentSelection.StateView.State, AsDiscreteContentSelection.PropertyName);
                         break;
 
                     case ILayoutStringContentSelection AsStringContentSelection:
+                        IsSingleLine = true;
                         PrintView.SelectStringContent(AsStringContentSelection.StateView.State, AsStringContentSelection.PropertyName, AsStringContentSelection.Start, AsStringContentSelection.End);
                         break;
 
                     case ILayoutCommentSelection AsCommentSelection:
+                        IsSingleLine = true;
                         PrintView.SelectComment(AsCommentSelection.StateView.State, AsCommentSelection.Start, AsCommentSelection.End);
                         break;
 
@@ -951,8 +955,8 @@
                 }
 
                 PrintView.PrintSelection();
-                Content = PrintContext.PrintableArea.ToString();
-                RtfContent = PrintContext.PrintableArea.ToString(PrintContext.BrushTable);
+                Content = PrintContext.PrintableArea.ToStringContent(IsSingleLine);
+                RtfContent = PrintContext.PrintableArea.ToRtfContent(PrintContext.BrushTable);
 
                 dataObject.SetData("Rich Text Format", RtfContent);
                 dataObject.SetData("UnicodeText", Content);
@@ -965,8 +969,7 @@
             IDataObject DataObject = Clipboard.GetDataObject();
             string[] Formats = DataObject.GetFormats();
 
-            /*
-            foreach (string Format in Formats)
+            /*foreach (string Format in Formats)
             {
                 object Data = DataObject.GetData(Format);
                 Debug.WriteLine($"** Format: {Format}, Type: {Data?.GetType()}");

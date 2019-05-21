@@ -78,10 +78,8 @@
         /// <summary>
         /// Returns a string representation of this instance.
         /// </summary>
-        public override string ToString()
+        public virtual string ToStringContent(bool isSingleLine)
         {
-            string Result = string.Empty;
-
             string[] Lines = new string[Height];
 
             for (int i = 0; i < Height; i++)
@@ -108,8 +106,17 @@
                 Lines[i] = Line;
             }
 
-            foreach (string Line in Lines)
-                Result += Line + "\r\n";
+            string Result;
+
+            if (isSingleLine && Lines.Length == 1)
+                Result = Lines[0];
+            else
+            {
+                Result = string.Empty;
+
+                foreach (string Line in Lines)
+                    Result += Line + "\r\n";
+            }
 
             return Result;
         }
@@ -117,7 +124,7 @@
         /// <summary>
         /// Returns a string representation of this instance in RTF format.
         /// </summary>
-        public virtual string ToString(IReadOnlyDictionary<BrushSettings, Brush> brushTable)
+        public virtual string ToRtfContent(IReadOnlyDictionary<BrushSettings, Brush> brushTable)
         {
             string Result = string.Empty;
 
