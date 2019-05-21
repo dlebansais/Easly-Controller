@@ -2686,7 +2686,7 @@ namespace EaslyEdit
                 </LayoutHorizontalPanelFrame>
                 <LayoutOptionalFrame PropertyName=""ElseInstructions"" />
             </LayoutVerticalPanelFrame>
-            <LayoutKeywordFrame>end</LayoutKeywordFrame>
+            <LayoutKeywordFrame IsFocusable=""True"">end</LayoutKeywordFrame>
         </LayoutVerticalPanelFrame>
     </LayoutNodeTemplate>
     <LayoutNodeTemplate NodeType=""{xaml:Type easly:IIndexAssignmentInstruction}"">
