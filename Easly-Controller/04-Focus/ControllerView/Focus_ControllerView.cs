@@ -2090,6 +2090,7 @@
             Debug.Assert(StateViewTable.ContainsKey(State));
 
             ResetSelection();
+            CaretAnchorPosition = CaretPosition;
             CheckCaretInvariant();
         }
 
