@@ -2792,15 +2792,15 @@ namespace EaslyEdit
     <LayoutNodeTemplate NodeType=""{xaml:Type easly:IPrecursorIndexAssignmentInstruction}"">
         <LayoutHorizontalPanelFrame>
             <LayoutCommentFrame/>
-            <LayoutKeywordFrame>precursor</LayoutKeywordFrame>
+            <LayoutKeywordFrame IsFocusable=""True"">precursor</LayoutKeywordFrame>
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.Visibility>
                     <LayoutOptionalFrameVisibility PropertyName=""AncestorType""/>
                 </LayoutHorizontalPanelFrame.Visibility>
                 <LayoutKeywordFrame LeftMargin=""Whitespace"" RightMargin=""ThinSpace"">from</LayoutKeywordFrame>
                 <LayoutSymbolFrame Symbol=""{x:Static const:Symbols.LeftCurlyBracket}"" RightMargin=""ThinSpace""/>
-                <LayoutSymbolFrame Symbol=""{x:Static const:Symbols.RightBracket}"" RightMargin=""Whitespace""/>
                 <LayoutOptionalFrame PropertyName=""AncestorType"" />
+                <LayoutSymbolFrame Symbol=""{x:Static const:Symbols.RightCurlyBracket}"" LeftMargin=""ThinSpace""/>
             </LayoutHorizontalPanelFrame>
             <LayoutSymbolFrame Symbol=""{x:Static const:Symbols.LeftBracket}"" LeftMargin=""ThinSpace"" RightMargin=""ThinSpace""/>
             <LayoutHorizontalBlockListFrame PropertyName=""ArgumentBlocks"" Separator=""Comma""/>
