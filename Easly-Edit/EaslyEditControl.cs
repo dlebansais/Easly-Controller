@@ -990,11 +990,16 @@
                         FormatName = DataFormats.Text;
                         FormattedContent = PrintContext.PrintableArea.ToRawHtmlContent(PrintContext.BrushTable);
                         break;
+
+                    case CopyFormats.MarkdownHtml:
+                        FormatName = DataFormats.Text;
+                        FormattedContent = PrintContext.PrintableArea.ToMarkdownHtmlContent(PrintContext.BrushTable);
+                        break;
                 }
 
                 dataObject.SetData(FormatName, FormattedContent);
 
-                if (CopyFormat != CopyFormats.RawHtml)
+                if (CopyFormat != CopyFormats.RawHtml && CopyFormat != CopyFormats.MarkdownHtml)
                 {
                     dataObject.SetData(DataFormats.UnicodeText, Content);
                     dataObject.SetData(DataFormats.Text, Content);

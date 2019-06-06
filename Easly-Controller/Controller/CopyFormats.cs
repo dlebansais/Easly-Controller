@@ -19,5 +19,10 @@
         /// Use the raw HTML format.
         /// </summary>
         RawHtml,
+
+        /// <summary>
+        /// Use the markdown-compatible format.
+        /// </summary>
+        MarkdownHtml,
     }
 }

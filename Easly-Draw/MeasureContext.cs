@@ -382,8 +382,13 @@
                     break;
             }
 
-            size = new Size(new Measure() { Draw = size.Width.Draw + LeftPadding + RightPadding, Print = size.Width.Print + LeftSpacing + RightSpacing }, size.Height);
-            padding = new Padding(new Measure() { Draw = LeftPadding, Print = LeftSpacing }, Measure.Zero, new Measure() { Draw = RightPadding, Print = RightSpacing }, Measure.Zero);
+            if (size.IsEmpty)
+                padding = Padding.Empty;
+            else
+            {
+                size = new Size(new Measure() { Draw = size.Width.Draw + LeftPadding + RightPadding, Print = size.Width.Print + LeftSpacing + RightSpacing }, size.Height);
+                padding = new Padding(new Measure() { Draw = LeftPadding, Print = LeftSpacing }, Measure.Zero, new Measure() { Draw = RightPadding, Print = RightSpacing }, Measure.Zero);
+            }
         }
 
         private protected virtual Brush GetBrush(BrushSettings key)

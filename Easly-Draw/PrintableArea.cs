@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Windows.Media;
 
     /// <summary>
@@ -232,7 +233,7 @@ SourceURL:https://www.easly.org
         {
             string Result = string.Empty;
 
-            Result += "<div style=\"line-height:0; background-color:whitesmoke; border-style:solid; border-color: lightgray; border-width: thin; font-family: Courier\">\n";
+            Result += "<div style=\"margin-top: 10px; line-height: 0; background-color: whitesmoke; border-style: solid; border-color: lightgray; border-width: thin; font-family: Courier\">\n";
             Result += "<div style=\"margin-left: 10px\">\n";
             Result += "<br/>\n";
 
@@ -249,7 +250,7 @@ SourceURL:https://www.easly.org
                 }
 
                 BrushSettings CurrentBrush = BrushSettings.Default;
-                string Line = $"<p><font color=\"{BrushToColorText(brushTable[CurrentBrush])}\">";
+                string Line = $"<p><span style=\"color: {BrushToColorText(brushTable[CurrentBrush])};\">";
 
                 for (int j = 0; j < Length; j++)
                 {
@@ -260,7 +261,7 @@ SourceURL:https://www.easly.org
                         if (CurrentBrush != Character.Brush)
                         {
                             CurrentBrush = Character.Brush;
-                            Line += $"</font><font color=\"{BrushToColorText(brushTable[CurrentBrush])}\">";
+                            Line += $"</span><span style=\"color: {BrushToColorText(brushTable[CurrentBrush])};\">";
                         }
 
                         char C = Character.C;
@@ -276,7 +277,7 @@ SourceURL:https://www.easly.org
                         Line += "&nbsp;";
                 }
 
-                Line += $"</font></p>";
+                Line += "</span></p>";
 
                 Lines[i] = Line;
             }
@@ -301,6 +302,109 @@ SourceURL:https://www.easly.org
             else
                 return "black";
         }
+
+        /// <summary>
+        /// Returns a string representation of this instance in markdown-compatible HTML format.
+        /// </summary>
+        public virtual string ToMarkdownHtmlContent(IReadOnlyDictionary<BrushSettings, Brush> brushTable)
+        {
+            string Result = string.Empty;
+
+            Result += "<pre>\n";
+
+            string[] Lines = new string[Height];
+
+            for (int i = 0; i < Height; i++)
+            {
+                int Length;
+                for (Length = Width; Length > 0; Length--)
+                {
+                    PrintableCharacter c = PrintArea[Length - 1, i];
+                    if (c != null)
+                        break;
+                }
+
+                BrushSettings CurrentBrush = BrushSettings.Default;
+                string Line = string.Empty;
+
+                // Line += $"<p>";
+                Line += StartBrushTag(CurrentBrush);
+
+                for (int j = 0; j < Length; j++)
+                {
+                    PrintableCharacter Character = PrintArea[j, i];
+
+                    if (Character != null)
+                    {
+                        if (CurrentBrush != Character.Brush)
+                        {
+                            Line += EndBrushTag(CurrentBrush);
+                            CurrentBrush = Character.Brush;
+                            Line += StartBrushTag(CurrentBrush);
+                        }
+
+                        char C = Character.C;
+
+                        if (C == ' ')
+                            Line += "&nbsp;";
+                        else if (C <= 0x7F)
+                            Line += Character.C;
+                        else
+                            Line += $"&#{Convert.ToInt32(C)};";
+                    }
+                    else
+                        Line += "&nbsp;";
+                }
+
+                Line += EndBrushTag(CurrentBrush);
+
+                // Line += "</p>";
+                Lines[i] = Line;
+            }
+
+            foreach (string Line in Lines)
+                Result += Line + "\n";
+
+            Result += "</pre>\n";
+
+            return Result;
+        }
+
+        private static string StartBrushTag(BrushSettings brush)
+        {
+            switch (brush)
+            {
+                default:
+                case BrushSettings.Default:
+                    return string.Empty;
+
+                case BrushSettings.Keyword:
+                case BrushSettings.TypeIdentifier:
+                    Debug.Assert(BrushTagTable.ContainsKey(brush));
+                    return $"<{BrushTagTable[brush]}>";
+            }
+        }
+
+        private static string EndBrushTag(BrushSettings brush)
+        {
+            switch (brush)
+            {
+                default:
+                case BrushSettings.Default:
+                    return string.Empty;
+
+                case BrushSettings.Keyword:
+                case BrushSettings.TypeIdentifier:
+                    Debug.Assert(BrushTagTable.ContainsKey(brush));
+                    return $"</{BrushTagTable[brush]}>";
+            }
+        }
+
+        private static Dictionary<BrushSettings, string> BrushTagTable = new Dictionary<BrushSettings, string>()
+        {
+            { BrushSettings.Keyword, "b" },
+            { BrushSettings.TypeIdentifier, "i" },
+        };
         #endregion
     }
 }

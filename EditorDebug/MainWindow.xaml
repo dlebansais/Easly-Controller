@@ -23,7 +23,7 @@
         </DockPanel>
         <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" x:Name="viewer" Margin="0,10,0,0">
             <Grid x:Name="gridMain">
-                <easlyedit:EaslyEditControl AutoFormatMode="None" CopyFormat="RawHtml" x:Name="layoutControl" Focusable="True">
+                <easlyedit:EaslyEditControl AutoFormatMode="None" CopyFormat="MarkdownHtml" x:Name="layoutControl" Focusable="True">
                     <easlyedit:EaslyEditControl.InputBindings>
                         <KeyBinding Command="EditingCommands.Backspace" Gesture="Backspace"/>
                     </easlyedit:EaslyEditControl.InputBindings>
