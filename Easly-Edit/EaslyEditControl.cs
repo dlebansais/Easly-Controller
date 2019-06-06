@@ -45,9 +45,14 @@
         public static readonly RoutedCommand MergeExistingItemCommand = new RoutedCommand();
 
         /// <summary>
-        /// Represents the <see cref="CycleThroughExistingItemCommand"/> command, which requests that a node be replaced by another in a cycle.
+        /// Represents the <see cref="CycleToNextItemCommand"/> command, which requests that a node be replaced by another in a cycle.
         /// </summary>
-        public static readonly RoutedCommand CycleThroughExistingItemCommand = new RoutedCommand();
+        public static readonly RoutedCommand CycleToNextItemCommand = new RoutedCommand();
+
+        /// <summary>
+        /// Represents the <see cref="CycleToPreviousItemCommand"/> command, which requests that a node be replaced by another in a cycle.
+        /// </summary>
+        public static readonly RoutedCommand CycleToPreviousItemCommand = new RoutedCommand();
 
         /// <summary>
         /// Represents the <see cref="SimplifyExistingItemCommand"/> command, which requests that a node be replaced by a simpler node.
@@ -740,11 +745,24 @@
             e.Handled = true;
         }
 
-        private protected virtual void OnCycleThroughExistingItem(object sender, ExecutedRoutedEventArgs e)
+        private protected virtual void OnCycleToNextItem(object sender, ExecutedRoutedEventArgs e)
         {
             if (ControllerView.IsItemCyclableThrough(out IFocusCyclableNodeState state, out int cyclePosition))
             {
                 cyclePosition = (cyclePosition + 1) % state.CycleIndexList.Count;
+                Controller.Replace(state.ParentInner, state.CycleIndexList, cyclePosition, out IFocusBrowsingChildIndex nodeIndex);
+                InvalidateMeasure();
+                InvalidateVisual();
+            }
+
+            e.Handled = true;
+        }
+
+        private protected virtual void OnCycleToPreviousItem(object sender, ExecutedRoutedEventArgs e)
+        {
+            if (ControllerView.IsItemCyclableThrough(out IFocusCyclableNodeState state, out int cyclePosition))
+            {
+                cyclePosition = (cyclePosition + state.CycleIndexList.Count - 1) % state.CycleIndexList.Count;
                 Controller.Replace(state.ParentInner, state.CycleIndexList, cyclePosition, out IFocusBrowsingChildIndex nodeIndex);
                 InvalidateMeasure();
                 InvalidateVisual();
@@ -1056,7 +1074,8 @@
                 new CommandBinding(RemoveExistingItemCommand, OnRemoveExistingItem),
                 new CommandBinding(SplitExistingItemCommand, OnSplitExistingItem),
                 new CommandBinding(MergeExistingItemCommand, OnMergeExistingItem),
-                new CommandBinding(CycleThroughExistingItemCommand, OnCycleThroughExistingItem),
+                new CommandBinding(CycleToNextItemCommand, OnCycleToNextItem),
+                new CommandBinding(CycleToPreviousItemCommand, OnCycleToPreviousItem),
                 new CommandBinding(SimplifyExistingItemCommand, OnSimplifyExistingItem),
                 new CommandBinding(ToggleReplicateCommand, OnToggleReplicate),
                 new CommandBinding(ExpandCommand, OnExpand),
@@ -1104,7 +1123,8 @@
                 new KeyBinding(RemoveExistingItemCommand, new KeyGesture(Key.Y, ModifierKeys.Control)),
                 new KeyBinding(SplitExistingItemCommand, new KeyGesture(Key.S, ModifierKeys.Control)),
                 new KeyBinding(MergeExistingItemCommand, new KeyGesture(Key.M, ModifierKeys.Control)),
-                new KeyBinding(CycleThroughExistingItemCommand, new KeyGesture(Key.T, ModifierKeys.Control)),
+                new KeyBinding(CycleToNextItemCommand, new KeyGesture(Key.T, ModifierKeys.Control)),
+                new KeyBinding(CycleToPreviousItemCommand, new KeyGesture(Key.T, ModifierKeys.Control | ModifierKeys.Shift)),
                 new KeyBinding(SimplifyExistingItemCommand, new KeyGesture(Key.I, ModifierKeys.Control)),
                 new KeyBinding(ToggleReplicateCommand, new KeyGesture(Key.R, ModifierKeys.Control)),
                 new KeyBinding(ExpandCommand, new KeyGesture(Key.D, ModifierKeys.Control)),
