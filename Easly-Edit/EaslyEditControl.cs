@@ -642,7 +642,7 @@
         {
             if (ReplacementPopup.IsOpen && ReplacementPopup.SelectedEntry != null)
             {
-                ReplaceItem(ReplacementPopup.Inner, ReplacementPopup.SelectedEntry.Index);
+                ReplaceItem(ReplacementPopup.SelectedEntry.Inner, ReplacementPopup.SelectedEntry.InsertionIndex);
                 HideTextReplacement(true);
             }
             else
@@ -1265,13 +1265,14 @@
         {
             if (ControllerView.Focus is ILayoutTextFocus AsTextFocus)
             {
-                if (ControllerView.IsItemComplexifiable(out IFocusInner inner, out List<IFocusInsertionChildNodeIndex> IndexList))
+                if (ControllerView.IsItemComplexifiable(out IDictionary<IFocusInner, IList<IFocusInsertionChildNodeIndex>> IndexTable))
                 {
                     List<ReplacementEntry> EntryList = new List<ReplacementEntry>();
-                    foreach (IFocusInsertionChildNodeIndex Index in IndexList)
-                        EntryList.Add(new ReplacementEntry((ILayoutInsertionChildNodeIndex)Index));
+                    foreach (KeyValuePair<IFocusInner, IList<IFocusInsertionChildNodeIndex>> Entry in IndexTable)
+                        foreach (IFocusInsertionChildNodeIndex Index in Entry.Value)
+                            EntryList.Add(new ReplacementEntry((ILayoutInner)Entry.Key, (ILayoutInsertionChildNodeIndex)Index));
 
-                    ReplacementPopup.SetReplacement((ILayoutInner)inner, EntryList);
+                    ReplacementPopup.SetReplacement(EntryList);
 
                     switch (ReplacementState)
                     {

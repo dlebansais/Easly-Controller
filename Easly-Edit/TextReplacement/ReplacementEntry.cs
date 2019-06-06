@@ -4,15 +4,17 @@ namespace EaslyEdit
 {
     internal class ReplacementEntry
     {
-        public ReplacementEntry(ILayoutInsertionChildNodeIndex index)
+        public ReplacementEntry(ILayoutInner inner, ILayoutInsertionChildNodeIndex insertionIndex)
         {
-            Index = index;
+            Inner = inner;
+            InsertionIndex = insertionIndex;
 
-            LayoutRootNodeIndex RootIndex = new LayoutRootNodeIndex(index.Node);
+            LayoutRootNodeIndex RootIndex = new LayoutRootNodeIndex(insertionIndex.Node);
             Controller = LayoutController.Create(RootIndex);
         }
 
-        public ILayoutInsertionChildNodeIndex Index { get; set; }
-        public ILayoutController Controller { get; set; }
+        public ILayoutInner Inner { get; }
+        public ILayoutInsertionChildNodeIndex InsertionIndex { get; }
+        public ILayoutController Controller { get; }
     }
 }

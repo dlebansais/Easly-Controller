@@ -216,10 +216,9 @@
         /// <summary>
         /// Checks if a node can be complexified.
         /// </summary>
-        /// <param name="inner">Inner to use to replace the node upon return.</param>
-        /// <param name="indexList">List of indexes of more complex nodes upon return.</param>
+        /// <param name="indexTable">List of indexes of more complex nodes upon return.</param>
         /// <returns>True if a node can be complexified at the focus.</returns>
-        bool IsItemComplexifiable(out IFocusInner inner, out List<IFocusInsertionChildNodeIndex> indexList);
+        bool IsItemComplexifiable(out IDictionary<IFocusInner, IList<IFocusInsertionChildNodeIndex>> indexTable);
 
         /// <summary>
         /// Checks if an existing identifier at the focus can be split in two.
@@ -1295,13 +1294,11 @@
         /// <summary>
         /// Checks if a node can be complexified.
         /// </summary>
-        /// <param name="inner">Inner to use to replace the node upon return.</param>
-        /// <param name="indexList">List of indexes of more complex nodes upon return.</param>
+        /// <param name="indexTable">List of indexes of more complex nodes upon return.</param>
         /// <returns>True if a node can be complexified at the focus.</returns>
-        public virtual bool IsItemComplexifiable(out IFocusInner inner, out List<IFocusInsertionChildNodeIndex> indexList)
+        public virtual bool IsItemComplexifiable(out IDictionary<IFocusInner, IList<IFocusInsertionChildNodeIndex>> indexTable)
         {
-            inner = null;
-            indexList = new List<IFocusInsertionChildNodeIndex>();
+            indexTable = new Dictionary<IFocusInner, IList<IFocusInsertionChildNodeIndex>>();
 
             bool IsComplexifiable = false;
 
@@ -1312,6 +1309,11 @@
             {
                 if (NodeHelper.GetComplexifiedNodeList(CurrentState.Node, out List<INode> ComplexifiedNodeList))
                 {
+                    Debug.WriteLine($"Complexified: {CurrentState.Node}");
+                    foreach (INode Item in ComplexifiedNodeList)
+                        Debug.WriteLine($"To: {Item}");
+
+
                     Debug.Assert(ComplexifiedNodeList != null && ComplexifiedNodeList.Count > 0);
                     Type InterfaceType = CurrentState.ParentInner.InterfaceType;
                     bool IsAssignable = true;
@@ -1324,18 +1326,18 @@
                         IFocusBrowsingChildIndex ParentIndex = CurrentState.ParentIndex as IFocusBrowsingChildIndex;
                         Debug.Assert(ParentIndex != null);
 
-                        inner = CurrentState.ParentInner;
+                        IFocusInner Inner = CurrentState.ParentInner;
+                        IList<IFocusInsertionChildNodeIndex> IndexList = new List<IFocusInsertionChildNodeIndex>();
 
                         foreach (INode ComplexifiedNode in ComplexifiedNodeList)
                         {
-                            IFocusInsertionChildNodeIndex NodeIndex = ((IFocusBrowsingInsertableIndex)ParentIndex).ToInsertionIndex(inner.Owner.Node, ComplexifiedNode) as IFocusInsertionChildNodeIndex;
-                            indexList.Add(NodeIndex);
+                            IFocusInsertionChildNodeIndex NodeIndex = ((IFocusBrowsingInsertableIndex)ParentIndex).ToInsertionIndex(Inner.Owner.Node, ComplexifiedNode) as IFocusInsertionChildNodeIndex;
+                            IndexList.Add(NodeIndex);
                         }
 
+                        indexTable.Add(Inner, IndexList);
                         IsComplexifiable = true;
                     }
-
-                    break;
                 }
 
                 CurrentState = CurrentState.ParentState;

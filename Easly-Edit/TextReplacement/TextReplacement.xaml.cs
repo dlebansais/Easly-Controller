@@ -3,7 +3,6 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Controls.Primitives;
-using EaslyController.Layout;
 
 namespace EaslyEdit
 {
@@ -18,7 +17,6 @@ namespace EaslyEdit
             DataContext = this;
         }
 
-        public ILayoutInner Inner { get; private set; }
         public ObservableCollection<ReplacementEntry> EntryList { get; private set; } = new ObservableCollection<ReplacementEntry>();
         public ReplacementEntry SelectedEntry
         {
@@ -31,10 +29,8 @@ namespace EaslyEdit
             }
         }
 
-        public void SetReplacement(ILayoutInner inner, List<ReplacementEntry> indexList)
+        public void SetReplacement(IList<ReplacementEntry> indexList)
         {
-            Inner = inner;
-
             EntryList.Clear();
             foreach (ReplacementEntry Index in indexList)
                 EntryList.Add(Index);
