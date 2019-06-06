@@ -137,7 +137,7 @@
                 IFocusController Controller = StateView.ControllerView.Controller;
                 int OldCaretPosition = StateView.ControllerView.CaretPosition;
                 int NewCaretPosition = Start + Text.Length;
-                Controller.ChangeCommentAndCaretPosition(StateView.State.ParentIndex, Content, OldCaretPosition, NewCaretPosition, true);
+                Controller.ChangeCommentAndCaretPosition(StateView.State.ParentIndex, Content, OldCaretPosition, NewCaretPosition, false);
 
                 StateView.ControllerView.ClearSelection();
                 isChanged = true;

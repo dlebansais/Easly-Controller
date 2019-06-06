@@ -249,7 +249,7 @@
                 IFocusController Controller = StateView.ControllerView.Controller;
                 int OldCaretPosition = StateView.ControllerView.CaretPosition;
                 int NewCaretPosition = CaretPosition + text.Length;
-                Controller.ChangeCommentAndCaretPosition(AsCommentFocus.CellView.StateView.State.ParentIndex, Content, OldCaretPosition, NewCaretPosition, true);
+                Controller.ChangeCommentAndCaretPosition(AsCommentFocus.CellView.StateView.State.ParentIndex, Content, OldCaretPosition, NewCaretPosition, false);
 
                 isChanged = true;
             }
@@ -267,7 +267,7 @@
                 IFocusController Controller = StateView.ControllerView.Controller;
                 int OldCaretPosition = StateView.ControllerView.CaretPosition;
                 int NewCaretPosition = CaretPosition + text.Length;
-                Controller.ChangeTextAndCaretPosition(CellView.StateView.State.ParentIndex, CellView.PropertyName, Content, OldCaretPosition, NewCaretPosition, true);
+                Controller.ChangeTextAndCaretPosition(CellView.StateView.State.ParentIndex, CellView.PropertyName, Content, OldCaretPosition, NewCaretPosition, false);
 
                 isChanged = true;
             }
