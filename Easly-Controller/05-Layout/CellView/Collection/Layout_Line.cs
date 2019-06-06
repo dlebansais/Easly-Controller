@@ -413,7 +413,7 @@
             Debug.Assert(Index >= 0 && Index < CellViewList.Count);
 
             if (Index > 0)
-                printContext.PrintHorizontalSeparator(((ILayoutFrameWithHorizontalSeparator)Frame).Separator, cellView.CellOrigin, cellView.CellSize.Height);
+                printContext.PrintHorizontalSeparator(((ILayoutFrameWithHorizontalSeparator)Frame).Separator, origin, cellView.CellSize.Height);
         }
 
         /// <summary>

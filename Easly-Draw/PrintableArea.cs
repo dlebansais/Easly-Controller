@@ -190,6 +190,117 @@
 
             return Result;
         }
+
+        /// <summary>
+        /// Returns a string representation of this instance in HTML format.
+        /// </summary>
+        public virtual string ToHtmlContent(IReadOnlyDictionary<BrushSettings, Brush> brushTable)
+        {
+            string Fragment = ToRawHtmlContent(brushTable);
+
+            int StartHTML = 163;
+            int StartFragment = 199;
+            int EndFragment = StartFragment + Fragment.Length + 6;
+            int EndHTML = EndFragment + 36;
+
+            string StartHTMLText = StartHTML.ToString("D10");
+            string StartFragmentText = StartFragment.ToString("D10");
+            string EndFragmentText = EndFragment.ToString("D10");
+            string EndHTMLText = EndHTML.ToString("D10");
+
+            string Result = $@"
+Version:0.9
+StartHTML:{StartHTMLText}
+EndHTML:{EndHTMLText}
+StartFragment:{StartFragmentText}
+EndFragment:{EndFragmentText}
+SourceURL:https://www.easly.org
+<html>
+<body>
+<!--StartFragment-->{Fragment}<!--EndFragment-->
+</body>
+</html>
+";
+
+            return Result;
+        }
+
+        /// <summary>
+        /// Returns a string representation of this instance in raw HTML format.
+        /// </summary>
+        public virtual string ToRawHtmlContent(IReadOnlyDictionary<BrushSettings, Brush> brushTable)
+        {
+            string Result = string.Empty;
+
+            Result += "<div style=\"line-height:0; background-color:whitesmoke; border-style:solid; border-color: lightgray; border-width: thin; font-family: Courier\">\n";
+            Result += "<div style=\"margin-left: 10px\">\n";
+            Result += "<br/>\n";
+
+            string[] Lines = new string[Height];
+
+            for (int i = 0; i < Height; i++)
+            {
+                int Length;
+                for (Length = Width; Length > 0; Length--)
+                {
+                    PrintableCharacter c = PrintArea[Length - 1, i];
+                    if (c != null)
+                        break;
+                }
+
+                BrushSettings CurrentBrush = BrushSettings.Default;
+                string Line = $"<p><font color=\"{BrushToColorText(brushTable[CurrentBrush])}\">";
+
+                for (int j = 0; j < Length; j++)
+                {
+                    PrintableCharacter Character = PrintArea[j, i];
+
+                    if (Character != null)
+                    {
+                        if (CurrentBrush != Character.Brush)
+                        {
+                            CurrentBrush = Character.Brush;
+                            Line += $"</font><font color=\"{BrushToColorText(brushTable[CurrentBrush])}\">";
+                        }
+
+                        char C = Character.C;
+
+                        if (C == ' ')
+                            Line += "&nbsp;";
+                        else if (C <= 0x7F)
+                            Line += Character.C;
+                        else
+                            Line += $"&#{Convert.ToInt32(C)};";
+                    }
+                    else
+                        Line += "&nbsp;";
+                }
+
+                Line += $"</font></p>";
+
+                Lines[i] = Line;
+            }
+
+            foreach (string Line in Lines)
+                Result += Line + "\n";
+
+            Result += "<br/>\n";
+            Result += "</div>\n";
+            Result += "</div>\n";
+
+            return Result;
+        }
+
+        private static string BrushToColorText(Brush b)
+        {
+            if (b is SolidColorBrush AsSolidColorBrush)
+            {
+                Color Color = AsSolidColorBrush.Color;
+                return $"#{Color.R.ToString("X02")}{Color.G.ToString("X02")}{Color.B.ToString("X02")}";
+            }
+            else
+                return "black";
+        }
         #endregion
     }
 }

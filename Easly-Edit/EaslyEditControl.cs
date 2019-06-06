@@ -164,6 +164,21 @@
                 ControllerView.SetAutoFormatMode(AutoFormatMode);
         }
         #endregion
+        #region CopyFormat
+        /// <summary>
+        /// Identifies the <see cref="CopyFormat"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty CopyFormatProperty = DependencyProperty.Register("CopyFormat", typeof(CopyFormats), typeof(EaslyEditControl), new PropertyMetadata(CopyFormats.Rtf));
+
+        /// <summary>
+        /// Gets or sets the copy format.
+        /// </summary>
+        public CopyFormats CopyFormat
+        {
+            get { return (CopyFormats)GetValue(CopyFormatProperty); }
+            set { SetValue(CopyFormatProperty, value); }
+        }
+        #endregion
         #endregion
 
         #region Initialization
@@ -908,8 +923,6 @@
 
         private protected virtual void CopySelectionAsString(IDataObject dataObject)
         {
-            string Content;
-            string RtfContent;
             bool IsSingleLine = false;
 
             PrintContext PrintContext = PrintContext.CreatePrintContext();
@@ -955,12 +968,37 @@
                 }
 
                 PrintView.PrintSelection();
-                Content = PrintContext.PrintableArea.ToStringContent(IsSingleLine);
-                RtfContent = PrintContext.PrintableArea.ToRtfContent(PrintContext.BrushTable);
+                string Content = PrintContext.PrintableArea.ToStringContent(IsSingleLine);
 
-                dataObject.SetData("Rich Text Format", RtfContent);
-                dataObject.SetData("UnicodeText", Content);
-                dataObject.SetData("Text", Content);
+                string FormatName;
+                string FormattedContent;
+
+                switch (CopyFormat)
+                {
+                    default:
+                    case CopyFormats.Rtf:
+                        FormatName = DataFormats.Rtf;
+                        FormattedContent = PrintContext.PrintableArea.ToRtfContent(PrintContext.BrushTable);
+                        break;
+
+                    case CopyFormats.Html:
+                        FormatName = DataFormats.Html;
+                        FormattedContent = PrintContext.PrintableArea.ToHtmlContent(PrintContext.BrushTable);
+                        break;
+
+                    case CopyFormats.RawHtml:
+                        FormatName = DataFormats.Text;
+                        FormattedContent = PrintContext.PrintableArea.ToRawHtmlContent(PrintContext.BrushTable);
+                        break;
+                }
+
+                dataObject.SetData(FormatName, FormattedContent);
+
+                if (CopyFormat != CopyFormats.RawHtml)
+                {
+                    dataObject.SetData(DataFormats.UnicodeText, Content);
+                    dataObject.SetData(DataFormats.Text, Content);
+                }
             }
         }
 
@@ -969,14 +1007,14 @@
             IDataObject DataObject = Clipboard.GetDataObject();
             string[] Formats = DataObject.GetFormats();
 
-            /*foreach (string Format in Formats)
+            foreach (string Format in Formats)
             {
                 object Data = DataObject.GetData(Format);
                 Debug.WriteLine($"** Format: {Format}, Type: {Data?.GetType()}");
 
                 if (Data is string AsString)
                     Debug.WriteLine(AsString);
-            }*/
+            }
 
             ControllerView.PasteSelection(out bool IsChanged);
             if (IsChanged)
