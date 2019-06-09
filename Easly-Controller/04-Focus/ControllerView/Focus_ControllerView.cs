@@ -1307,13 +1307,8 @@
             // Search recursively for a complexifiable node.
             while (CurrentState != null)
             {
-                if (NodeHelper.GetComplexifiedNodeList(CurrentState.Node, out List<INode> ComplexifiedNodeList))
+                if (NodeHelper.GetComplexifiedNode(CurrentState.Node, out List<INode> ComplexifiedNodeList))
                 {
-                    Debug.WriteLine($"Complexified: {CurrentState.Node}");
-                    foreach (INode Item in ComplexifiedNodeList)
-                        Debug.WriteLine($"To: {Item}");
-
-
                     Debug.Assert(ComplexifiedNodeList != null && ComplexifiedNodeList.Count > 0);
                     Type InterfaceType = CurrentState.ParentInner.InterfaceType;
                     bool IsAssignable = true;
