@@ -4,51 +4,6 @@
         <name>PolySerializer</name>
     </assembly>
     <members>
-        <member name="T:PolySerializer.IInserter">
-            <summary>
-                Public interface of an inserter.
-            </summary>
-        </member>
-        <member name="P:PolySerializer.IInserter.Description">
-            <summary>
-                Description of the set of collections supported.
-            </summary>
-        </member>
-        <member name="M:PolySerializer.IInserter.TrySetReference(System.Object,System.Type,System.Type@)">
-            <summary>
-                Checks if <paramref name="reference"/> with base type <paramref name="referenceType"/> can be handled by this inserter.
-                If so, the saves the reference for future calls to <see cref="M:PolySerializer.IInserter.AddItem(System.Object)"/> and returns the type of items for this collection.
-            </summary>
-            <parameters>
-            <param name="reference">The collection to check.</param>
-            <param name="referenceType">The collection base type.</param>
-            <param name="itemType">The type of items in the collection.</param>
-            </parameters>
-            <returns>
-                True if the inserter can handle the collection, false otherwise.
-            </returns>
-        </member>
-        <member name="M:PolySerializer.IInserter.TryMatchType(System.Type,System.Type@)">
-            <summary>
-                Checks if base type <paramref name="referenceType"/> can be handled by this inserter.
-                If so, returns the type of items for this collection.
-            </summary>
-            <parameters>
-            <param name="referenceType">The collection base type.</param>
-            <param name="itemType">The type of items in the collection.</param>
-            </parameters>
-            <returns>
-                True if the inserter can handle the collection type, false otherwise.
-            </returns>
-        </member>
-        <member name="M:PolySerializer.IInserter.AddItem(System.Object)">
-            <summary>
-                Adds an item to the collection passed to <see cref="M:PolySerializer.IInserter.TrySetReference(System.Object,System.Type,System.Type@)"/>.
-            </summary>
-            <parameters>
-            <param name="item">The item to add.</param>
-            </parameters>
-        </member>
         <member name="T:PolySerializer.ArrayInserter">
             <summary>
                 Inserter for arrays.
@@ -104,56 +59,6 @@
             <param name="item">The item to add.</param>
             </parameters>
         </member>
-        <member name="T:PolySerializer.ListInserter">
-            <summary>
-                Inserter for lists.
-            </summary>
-        </member>
-        <member name="P:PolySerializer.ListInserter.Description">
-            <summary>
-                Description of the set of collections supported.
-            </summary>
-        </member>
-        <member name="P:PolySerializer.ListInserter.Reference">
-            <summary>
-                List to which items will be added.
-            </summary>
-        </member>
-        <member name="M:PolySerializer.ListInserter.TrySetReference(System.Object,System.Type,System.Type@)">
-            <summary>
-                Checks if <paramref name="reference"/> with base type <paramref name="referenceType"/> can be handled by this inserter.
-                If so, the saves the reference for future calls to <see cref="M:PolySerializer.ListInserter.AddItem(System.Object)"/> and returns the type of items for this collection.
-            </summary>
-            <parameters>
-            <param name="reference">The collection to check.</param>
-            <param name="referenceType">The collection base type.</param>
-            <param name="itemType">The type of items in the collection.</param>
-            </parameters>
-            <returns>
-                True if the inserter can handle the collection, false otherwise.
-            </returns>
-        </member>
-        <member name="M:PolySerializer.ListInserter.TryMatchType(System.Type,System.Type@)">
-            <summary>
-                Checks if base type <paramref name="referenceType"/> can be handled by this inserter.
-                If so, returns the type of items for this collection.
-            </summary>
-            <parameters>
-            <param name="referenceType">The collection base type.</param>
-            <param name="itemType">The type of items in the collection.</param>
-            </parameters>
-            <returns>
-                True if the inserter can handle the collection type, false otherwise.
-            </returns>
-        </member>
-        <member name="M:PolySerializer.ListInserter.AddItem(System.Object)">
-            <summary>
-                Adds an item to the collection passed to <see cref="M:PolySerializer.ListInserter.TrySetReference(System.Object,System.Type,System.Type@)"/>.
-            </summary>
-            <parameters>
-            <param name="item">The item to add.</param>
-            </parameters>
-        </member>
         <member name="T:PolySerializer.GenericAddInserter">
             <summary>
                 Inserter for any class that supports the Add() method.
@@ -204,6 +109,101 @@
         <member name="M:PolySerializer.GenericAddInserter.AddItem(System.Object)">
             <summary>
                 Adds an item to the collection passed to <see cref="M:PolySerializer.GenericAddInserter.TrySetReference(System.Object,System.Type,System.Type@)"/>.
+            </summary>
+            <parameters>
+            <param name="item">The item to add.</param>
+            </parameters>
+        </member>
+        <member name="T:PolySerializer.ListInserter">
+            <summary>
+                Inserter for lists.
+            </summary>
+        </member>
+        <member name="P:PolySerializer.ListInserter.Description">
+            <summary>
+                Description of the set of collections supported.
+            </summary>
+        </member>
+        <member name="P:PolySerializer.ListInserter.Reference">
+            <summary>
+                List to which items will be added.
+            </summary>
+        </member>
+        <member name="M:PolySerializer.ListInserter.TrySetReference(System.Object,System.Type,System.Type@)">
+            <summary>
+                Checks if <paramref name="reference"/> with base type <paramref name="referenceType"/> can be handled by this inserter.
+                If so, the saves the reference for future calls to <see cref="M:PolySerializer.ListInserter.AddItem(System.Object)"/> and returns the type of items for this collection.
+            </summary>
+            <parameters>
+            <param name="reference">The collection to check.</param>
+            <param name="referenceType">The collection base type.</param>
+            <param name="itemType">The type of items in the collection.</param>
+            </parameters>
+            <returns>
+                True if the inserter can handle the collection, false otherwise.
+            </returns>
+        </member>
+        <member name="M:PolySerializer.ListInserter.TryMatchType(System.Type,System.Type@)">
+            <summary>
+                Checks if base type <paramref name="referenceType"/> can be handled by this inserter.
+                If so, returns the type of items for this collection.
+            </summary>
+            <parameters>
+            <param name="referenceType">The collection base type.</param>
+            <param name="itemType">The type of items in the collection.</param>
+            </parameters>
+            <returns>
+                True if the inserter can handle the collection type, false otherwise.
+            </returns>
+        </member>
+        <member name="M:PolySerializer.ListInserter.AddItem(System.Object)">
+            <summary>
+                Adds an item to the collection passed to <see cref="M:PolySerializer.ListInserter.TrySetReference(System.Object,System.Type,System.Type@)"/>.
+            </summary>
+            <parameters>
+            <param name="item">The item to add.</param>
+            </parameters>
+        </member>
+        <member name="T:PolySerializer.IInserter">
+            <summary>
+                Public interface of an inserter.
+            </summary>
+        </member>
+        <member name="P:PolySerializer.IInserter.Description">
+            <summary>
+                Description of the set of collections supported.
+            </summary>
+        </member>
+        <member name="M:PolySerializer.IInserter.TrySetReference(System.Object,System.Type,System.Type@)">
+            <summary>
+                Checks if <paramref name="reference"/> with base type <paramref name="referenceType"/> can be handled by this inserter.
+                If so, the saves the reference for future calls to <see cref="M:PolySerializer.IInserter.AddItem(System.Object)"/> and returns the type of items for this collection.
+            </summary>
+            <parameters>
+            <param name="reference">The collection to check.</param>
+            <param name="referenceType">The collection base type.</param>
+            <param name="itemType">The type of items in the collection.</param>
+            </parameters>
+            <returns>
+                True if the inserter can handle the collection, false otherwise.
+            </returns>
+        </member>
+        <member name="M:PolySerializer.IInserter.TryMatchType(System.Type,System.Type@)">
+            <summary>
+                Checks if base type <paramref name="referenceType"/> can be handled by this inserter.
+                If so, returns the type of items for this collection.
+            </summary>
+            <parameters>
+            <param name="referenceType">The collection base type.</param>
+            <param name="itemType">The type of items in the collection.</param>
+            </parameters>
+            <returns>
+                True if the inserter can handle the collection type, false otherwise.
+            </returns>
+        </member>
+        <member name="M:PolySerializer.IInserter.AddItem(System.Object)">
+            <summary>
+                Adds an item to the collection passed to <see cref="M:PolySerializer.IInserter.TrySetReference(System.Object,System.Type,System.Type@)"/>.
             </summary>
             <parameters>
             <param name="item">The item to add.</param>
@@ -385,6 +385,236 @@
                 This also supports a destination type with more members then the original, if they appear at the end.
             </summary>
         </member>
+        <member name="T:PolySerializer.Serializer">
+            <summary>
+                Serialize objects to a stream, or deserialize objects from a stream.
+            </summary>
+            <summary>
+                Serialize objects to a stream, or deserialize objects from a stream.
+            </summary>
+            <summary>
+                Serialize objects to a stream, or deserialize objects from a stream.
+            </summary>
+            <summary>
+                Serialize objects to a stream, or deserialize objects from a stream.
+            </summary>
+            <summary>
+                Serialize objects to a stream, or deserialize objects from a stream.
+            </summary>
+            <summary>
+                Serialize objects to a stream, or deserialize objects from a stream.
+            </summary>
+            <summary>
+                Serialize objects to a stream, or deserialize objects from a stream.
+            </summary>
+            <summary>
+                Serialize objects to a stream, or deserialize objects from a stream.
+            </summary>
+            <summary>
+                Serialize objects to a stream, or deserialize objects from a stream.
+            </summary>
+            <summary>
+                Serialize objects to a stream, or deserialize objects from a stream.
+            </summary>
+            <summary>
+                Serialize objects to a stream, or deserialize objects from a stream.
+            </summary>
+            <summary>
+                Serialize objects to a stream, or deserialize objects from a stream.
+            </summary>
+        </member>
+        <member name="M:PolySerializer.Serializer.Deserialize(System.IO.Stream)">
+            <summary>
+                Creates a new object from serialized content in <paramref name="input"/>.
+            </summary>
+            <parameters>
+            <param name="input">Stream from which serialized data is read to create the new object.</param>
+            </parameters>
+            <returns>
+                The deserialized object.
+            </returns>
+        </member>
+        <member name="M:PolySerializer.Serializer.DeserializeAsync(System.IO.Stream)">
+            <summary>
+                Creates a new object from serialized content in <paramref name="input"/>.
+            </summary>
+            <parameters>
+            <param name="input">Stream from which serialized data is read to create the new object.</param>
+            </parameters>
+            <returns>
+                A task representing the asynchronous operation.
+            </returns>
+        </member>
+        <member name="M:PolySerializer.Serializer.Serialize(System.IO.Stream,System.Object)">
+            <summary>
+                Serializes <paramref name="root"/> and write the serialized data to <paramref name="output"/>.
+            </summary>
+            <parameters>
+            <param name="output">Stream receiving the serialized data.</param>
+            <param name="root">Serialized object.</param>
+            </parameters>
+        </member>
+        <member name="M:PolySerializer.Serializer.SerializeAsync(System.IO.Stream,System.Object)">
+            <summary>
+                Serializes <paramref name="root"/> and write the serialized data to <paramref name="output"/>.
+            </summary>
+            <parameters>
+            <param name="output">Stream receiving the serialized data.</param>
+            <param name="root">Serialized object.</param>
+            </parameters>
+            <returns>
+                A task representing the asynchronous operation.
+            </returns>
+        </member>
+        <member name="M:PolySerializer.Serializer.Check(System.IO.Stream)">
+            <summary>
+                Checks if serialized data in <paramref name="input"/> is compatible with <see cref="P:PolySerializer.Serializer.RootType"/>.
+            </summary>
+            <parameters>
+            <param name="input">Stream from which serialized data is read to check for compatibility.</param>
+            </parameters>
+            <returns>
+                True of the stream can be deserialized, False otherwise.
+            </returns>
+        </member>
+        <member name="M:PolySerializer.Serializer.CheckAsync(System.IO.Stream)">
+            <summary>
+                Checks if serialized data in <paramref name="input"/> is compatible with <see cref="P:PolySerializer.Serializer.RootType"/>.
+            </summary>
+            <parameters>
+            <param name="input">Stream from which serialized data is read to check for compatibility.</param>
+            </parameters>
+            <returns>
+                A task representing the asynchronous operation.
+            </returns>
+        </member>
+        <member name="P:PolySerializer.Serializer.Mode">
+            <summary>
+                Defines how objects are serialized and deserialized.
+            </summary>
+        </member>
+        <member name="P:PolySerializer.Serializer.Format">
+            <summary>
+                Defines how objects are serialized and deserialized.
+            </summary>
+        </member>
+        <member name="P:PolySerializer.Serializer.Output">
+            <summary>
+                The output stream on which serialized data has been written to in <see cref="M:PolySerializer.Serializer.Serialize(System.IO.Stream,System.Object)"/>.
+            </summary>
+        </member>
+        <member name="P:PolySerializer.Serializer.Root">
+            <summary>
+                The object serialized (after a call to <see cref="M:PolySerializer.Serializer.Serialize(System.IO.Stream,System.Object)"/>) or created (after a call to <see cref="M:PolySerializer.Serializer.Deserialize(System.IO.Stream)"/>).
+            </summary>
+        </member>
+        <member name="P:PolySerializer.Serializer.Input">
+            <summary>
+                The input stream from which deserialized data has been read from in <see cref="M:PolySerializer.Serializer.Deserialize(System.IO.Stream)"/>.
+            </summary>
+        </member>
+        <member name="P:PolySerializer.Serializer.RootType">
+            <summary>
+                Type of the <see cref="P:PolySerializer.Serializer.Root"/> object after a call to <see cref="M:PolySerializer.Serializer.Serialize(System.IO.Stream,System.Object)"/>, or type of the object to create in <see cref="M:PolySerializer.Serializer.Deserialize(System.IO.Stream)"/>.
+                If null, <see cref="M:PolySerializer.Serializer.Deserialize(System.IO.Stream)"/> finds the type to use from the serialized data. If not null, the serialized data must be compatible with this type or <see cref="M:PolySerializer.Serializer.Deserialize(System.IO.Stream)"/> will throw an exception.
+            </summary>
+        </member>
+        <member name="P:PolySerializer.Serializer.AssemblyOverrideTable">
+            <summary>
+            Sets or gets a list of assemblies that can override the original assembly of a type during deserialization.
+            </summary>
+        </member>
+        <member name="P:PolySerializer.Serializer.NamespaceOverrideTable">
+            <summary>
+            Sets or gets a list of namespaces that can override the original namespace of a type during deserialization.
+            </summary>
+        </member>
+        <member name="P:PolySerializer.Serializer.TypeOverrideTable">
+            <summary>
+            Gets or sets a list of types that can override the original type during deserialization.
+            </summary>
+        </member>
+        <member name="P:PolySerializer.Serializer.OverrideGenericArguments">
+            <summary>
+            Gets or sets a flag to indicate if argument of generic types should be overriden.
+            </summary>
+        </member>
+        <member name="P:PolySerializer.Serializer.CustomInserters">
+            <summary>
+            Gets or sets a list of inserter objects that allow filling collection of items implemented using a custom type, or a type not natively supported (<seealso cref="P:PolySerializer.Serializer.BuiltInInserters"/>.
+            </summary>
+        </member>
+        <member name="P:PolySerializer.Serializer.BuiltInInserters">
+            <summary>
+            Gets a list of inserters that can add items to various types of collections.
+            </summary>
+        </member>
+        <member name="P:PolySerializer.Serializer.Progress">
+            <summary>
+                The serialization or deserialization progress as a number between 0 and 1.
+            </summary>
+        </member>
+        <member name="P:PolySerializer.Serializer.MinAllocatedSize">
+            <summary>
+                Size of the first allocated block of data. Change this value to optimize memory or speed.
+            </summary>
+        </member>
+        <member name="P:PolySerializer.Serializer.LastAllocatedSize">
+            <summary>
+                Last value used to allocate or reallocate data. Use this information to optimize memory management.
+            </summary>
+        </member>
+        <member name="M:PolySerializer.Serializer.SerializableAncestor(System.Type)">
+            <summary>
+                Finds the first serializable ancestor of <paramref name="referenceType"/>.
+            </summary>
+            <parameters>
+            <param name="referenceType">The type to search for serializable ancestors.</param>
+            </parameters>
+            <returns>
+                The first ancestor type that can be serialized, null if none. If null is returned, <paramref name="referenceType"/> cannot be serialized.
+            </returns>
+        </member>
+        <member name="M:PolySerializer.Serializer.IsReadableCollection(System.Type,System.Object,System.Collections.IEnumerator@)">
+            <summary>
+                Checks if <paramref name="referenceType"/>, a base type of <paramref name="reference"/>, is a collection type and if so returns an enumerator for <paramref name="reference"/>.
+            </summary>
+            <parameters>
+            <param name="referenceType">The type to check.</param>
+            <param name="reference">The object for which to return an enumerator if successful.</param>
+            <param name="enumerator">The enumerator returned if successful.</param>
+            </parameters>
+            <returns>
+                True if <paramref name="referenceType"/> is a readable collection.
+            </returns>
+        </member>
+        <member name="M:PolySerializer.Serializer.IsWriteableCollection(System.Object,System.Type,PolySerializer.IInserter@,System.Type@)">
+            <summary>
+                Checks if <paramref name="referenceType"/>, a base type of <paramref name="reference"/>, is a supported collection type and if so returns an inserter for <paramref name="reference"/>.
+            </summary>
+            <parameters>
+            <param name="referenceType">The type to check.</param>
+            <param name="reference">The object for which to return an enumerator if successful.</param>
+            <param name="inserter">The inserter returned if successful.</param>
+            <param name="itemType">The type of items the inserter can take.</param>
+            </parameters>
+            <returns>
+                True if <paramref name="referenceType"/> is a writeable collection.
+            </returns>
+        </member>
+        <member name="M:PolySerializer.Serializer.IsWriteableCollection(System.Type,PolySerializer.IInserter@,System.Type@)">
+            <summary>
+                Checks if <paramref name="referenceType"/> is a supported collection type and if so returns the corresponding inserter.
+            </summary>
+            <parameters>
+            <param name="referenceType">The type to check.</param>
+            <param name="inserter">The inserter returned if successful.</param>
+            <param name="itemType">The type of items the inserter can take.</param>
+            </parameters>
+            <returns>
+                True if <paramref name="referenceType"/> is a writeable collection.
+            </returns>
+        </member>
         <member name="T:PolySerializer.ISerializer">
             <summary>
                 Public interface of the serializer.
@@ -520,203 +750,6 @@
             <summary>
             Gets a list of inserters that can add items to various types of collections.
             </summary>
-        </member>
-        <member name="T:PolySerializer.Serializer">
-            <summary>
-                Serialize objects to a stream, or deserialize objects from a stream.
-            </summary>
-        </member>
-        <member name="P:PolySerializer.Serializer.Mode">
-            <summary>
-                Defines how objects are serialized and deserialized.
-            </summary>
-        </member>
-        <member name="P:PolySerializer.Serializer.Format">
-            <summary>
-                Defines how objects are serialized and deserialized.
-            </summary>
-        </member>
-        <member name="P:PolySerializer.Serializer.Output">
-            <summary>
-                The output stream on which serialized data has been written to in <see cref="M:PolySerializer.Serializer.Serialize(System.IO.Stream,System.Object)"/>.
-            </summary>
-        </member>
-        <member name="P:PolySerializer.Serializer.Root">
-            <summary>
-                The object serialized (after a call to <see cref="M:PolySerializer.Serializer.Serialize(System.IO.Stream,System.Object)"/>) or created (after a call to <see cref="M:PolySerializer.Serializer.Deserialize(System.IO.Stream)"/>).
-            </summary>
-        </member>
-        <member name="P:PolySerializer.Serializer.Input">
-            <summary>
-                The input stream from which deserialized data has been read from in <see cref="M:PolySerializer.Serializer.Deserialize(System.IO.Stream)"/>.
-            </summary>
-        </member>
-        <member name="P:PolySerializer.Serializer.RootType">
-            <summary>
-                Type of the <see cref="P:PolySerializer.Serializer.Root"/> object after a call to <see cref="M:PolySerializer.Serializer.Serialize(System.IO.Stream,System.Object)"/>, or type of the object to create in <see cref="M:PolySerializer.Serializer.Deserialize(System.IO.Stream)"/>.
-                If null, <see cref="M:PolySerializer.Serializer.Deserialize(System.IO.Stream)"/> finds the type to use from the serialized data. If not null, the serialized data must be compatible with this type or <see cref="M:PolySerializer.Serializer.Deserialize(System.IO.Stream)"/> will throw an exception.
-            </summary>
-        </member>
-        <member name="P:PolySerializer.Serializer.AssemblyOverrideTable">
-            <summary>
-            Sets or gets a list of assemblies that can override the original assembly of a type during deserialization.
-            </summary>
-        </member>
-        <member name="P:PolySerializer.Serializer.NamespaceOverrideTable">
-            <summary>
-            Sets or gets a list of namespaces that can override the original namespace of a type during deserialization.
-            </summary>
-        </member>
-        <member name="P:PolySerializer.Serializer.TypeOverrideTable">
-            <summary>
-            Gets or sets a list of types that can override the original type during deserialization.
-            </summary>
-        </member>
-        <member name="P:PolySerializer.Serializer.OverrideGenericArguments">
-            <summary>
-            Gets or sets a flag to indicate if argument of generic types should be overriden.
-            </summary>
-        </member>
-        <member name="P:PolySerializer.Serializer.CustomInserters">
-            <summary>
-            Gets or sets a list of inserter objects that allow filling collection of items implemented using a custom type, or a type not natively supported (<seealso cref="P:PolySerializer.Serializer.BuiltInInserters"/>.
-            </summary>
-        </member>
-        <member name="P:PolySerializer.Serializer.BuiltInInserters">
-            <summary>
-            Gets a list of inserters that can add items to various types of collections.
-            </summary>
-        </member>
-        <member name="P:PolySerializer.Serializer.Progress">
-            <summary>
-                The serialization or deserialization progress as a number between 0 and 1.
-            </summary>
-        </member>
-        <member name="P:PolySerializer.Serializer.MinAllocatedSize">
-            <summary>
-                Size of the first allocated block of data. Change this value to optimize memory or speed.
-            </summary>
-        </member>
-        <member name="P:PolySerializer.Serializer.LastAllocatedSize">
-            <summary>
-                Last value used to allocate or reallocate data. Use this information to optimize memory management.
-            </summary>
-        </member>
-        <member name="M:PolySerializer.Serializer.Serialize(System.IO.Stream,System.Object)">
-            <summary>
-                Serializes <paramref name="root"/> and write the serialized data to <paramref name="output"/>.
-            </summary>
-            <parameters>
-            <param name="output">Stream receiving the serialized data.</param>
-            <param name="root">Serialized object.</param>
-            </parameters>
-        </member>
-        <member name="M:PolySerializer.Serializer.SerializeAsync(System.IO.Stream,System.Object)">
-            <summary>
-                Serializes <paramref name="root"/> and write the serialized data to <paramref name="output"/>.
-            </summary>
-            <parameters>
-            <param name="output">Stream receiving the serialized data.</param>
-            <param name="root">Serialized object.</param>
-            </parameters>
-            <returns>
-                A task representing the asynchronous operation.
-            </returns>
-        </member>
-        <member name="M:PolySerializer.Serializer.Deserialize(System.IO.Stream)">
-            <summary>
-                Creates a new object from serialized content in <paramref name="input"/>.
-            </summary>
-            <parameters>
-            <param name="input">Stream from which serialized data is read to create the new object.</param>
-            </parameters>
-            <returns>
-                The deserialized object.
-            </returns>
-        </member>
-        <member name="M:PolySerializer.Serializer.DeserializeAsync(System.IO.Stream)">
-            <summary>
-                Creates a new object from serialized content in <paramref name="input"/>.
-            </summary>
-            <parameters>
-            <param name="input">Stream from which serialized data is read to create the new object.</param>
-            </parameters>
-            <returns>
-                A task representing the asynchronous operation.
-            </returns>
-        </member>
-        <member name="M:PolySerializer.Serializer.Check(System.IO.Stream)">
-            <summary>
-                Checks if serialized data in <paramref name="input"/> is compatible with <see cref="P:PolySerializer.Serializer.RootType"/>.
-            </summary>
-            <parameters>
-            <param name="input">Stream from which serialized data is read to check for compatibility.</param>
-            </parameters>
-            <returns>
-                True of the stream can be deserialized, False otherwise.
-            </returns>
-        </member>
-        <member name="M:PolySerializer.Serializer.CheckAsync(System.IO.Stream)">
-            <summary>
-                Checks if serialized data in <paramref name="input"/> is compatible with <see cref="P:PolySerializer.Serializer.RootType"/>.
-            </summary>
-            <parameters>
-            <param name="input">Stream from which serialized data is read to check for compatibility.</param>
-            </parameters>
-            <returns>
-                A task representing the asynchronous operation.
-            </returns>
-        </member>
-        <member name="M:PolySerializer.Serializer.SerializableAncestor(System.Type)">
-            <summary>
-                Finds the first serializable ancestor of <paramref name="referenceType"/>.
-            </summary>
-            <parameters>
-            <param name="referenceType">The type to search for serializable ancestors.</param>
-            </parameters>
-            <returns>
-                The first ancestor type that can be serialized, null if none. If null is returned, <paramref name="referenceType"/> cannot be serialized.
-            </returns>
-        </member>
-        <member name="M:PolySerializer.Serializer.IsReadableCollection(System.Type,System.Object,System.Collections.IEnumerator@)">
-            <summary>
-                Checks if <paramref name="referenceType"/>, a base type of <paramref name="reference"/>, is a collection type and if so returns an enumerator for <paramref name="reference"/>.
-            </summary>
-            <parameters>
-            <param name="referenceType">The type to check.</param>
-            <param name="reference">The object for which to return an enumerator if successful.</param>
-            <param name="enumerator">The enumerator returned if successful.</param>
-            </parameters>
-            <returns>
-                True if <paramref name="referenceType"/> is a readable collection.
-            </returns>
-        </member>
-        <member name="M:PolySerializer.Serializer.IsWriteableCollection(System.Object,System.Type,PolySerializer.IInserter@,System.Type@)">
-            <summary>
-                Checks if <paramref name="referenceType"/>, a base type of <paramref name="reference"/>, is a supported collection type and if so returns an inserter for <paramref name="reference"/>.
-            </summary>
-            <parameters>
-            <param name="referenceType">The type to check.</param>
-            <param name="reference">The object for which to return an enumerator if successful.</param>
-            <param name="inserter">The inserter returned if successful.</param>
-            <param name="itemType">The type of items the inserter can take.</param>
-            </parameters>
-            <returns>
-                True if <paramref name="referenceType"/> is a writeable collection.
-            </returns>
-        </member>
-        <member name="M:PolySerializer.Serializer.IsWriteableCollection(System.Type,PolySerializer.IInserter@,System.Type@)">
-            <summary>
-                Checks if <paramref name="referenceType"/> is a supported collection type and if so returns the corresponding inserter.
-            </summary>
-            <parameters>
-            <param name="referenceType">The type to check.</param>
-            <param name="inserter">The inserter returned if successful.</param>
-            <param name="itemType">The type of items the inserter can take.</param>
-            </parameters>
-            <returns>
-                True if <paramref name="referenceType"/> is a writeable collection.
-            </returns>
         </member>
         <member name="T:PolySerializer.TypeIdentifier">
             <summary>

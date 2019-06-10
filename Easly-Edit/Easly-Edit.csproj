@@ -41,6 +41,9 @@
     <Reference Include="KeyboardHelper">
       <HintPath>..\KeyboardHelper\$(Platform)\$(Configuration)\KeyboardHelper.dll</HintPath>
     </Reference>
+    <Reference Include="PolySerializer">
+      <HintPath>..\PolySerializer\$(Platform)\$(Configuration)\PolySerializer.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />

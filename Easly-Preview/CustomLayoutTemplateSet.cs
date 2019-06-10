@@ -1652,7 +1652,7 @@ namespace EaslyEdit
                 <LayoutHorizontalPanelFrame.Visibility>
                     <LayoutOptionalFrameVisibility PropertyName=""BaseType""/>
                 </LayoutHorizontalPanelFrame.Visibility>
-                <LayoutSymbolFrame Symbol=""{x:Static const:Symbols.LeftCurlyBracket}"" LeftMargin=""ThinSpace""/>
+                <LayoutSymbolFrame Symbol=""{x:Static const:Symbols.LeftCurlyBracket}"" LeftMargin=""Whitespace""/>
                 <LayoutOptionalFrame PropertyName=""BaseType"" LeftMargin=""ThinSpace"" RightMargin=""ThinSpace""/>
                 <LayoutSymbolFrame Symbol=""{x:Static const:Symbols.RightCurlyBracket}""/>
             </LayoutHorizontalPanelFrame>

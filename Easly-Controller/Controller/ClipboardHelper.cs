@@ -38,7 +38,7 @@
             IDataObject DataObject = Clipboard.GetDataObject();
             if (DataObject != null)
             {
-                string StringData = DataObject.GetData(typeof(string)) as string;
+                string StringData = DataObject.GetData(DataFormats.UnicodeText) as string;
                 if (StringData != null)
                     text = StringHelper.VisibleSubset(StringData);
             }

@@ -326,9 +326,9 @@ SourceURL:https://www.easly.org
 
                 BrushSettings CurrentBrush = BrushSettings.Default;
                 string Line = string.Empty;
+                string CurrentTag = StartBrushTag(CurrentBrush);
 
-                // Line += $"<p>";
-                Line += StartBrushTag(CurrentBrush);
+                Line += CurrentTag;
 
                 for (int j = 0; j < Length; j++)
                 {
@@ -338,9 +338,17 @@ SourceURL:https://www.easly.org
                     {
                         if (CurrentBrush != Character.Brush)
                         {
-                            Line += EndBrushTag(CurrentBrush);
-                            CurrentBrush = Character.Brush;
-                            Line += StartBrushTag(CurrentBrush);
+                            BrushSettings NewBrush = Character.Brush;
+                            string NewTag = StartBrushTag(NewBrush);
+
+                            if (NewTag != CurrentTag)
+                            {
+                                Line += EndBrushTag(CurrentBrush);
+                                Line += NewTag;
+                            }
+
+                            CurrentBrush = NewBrush;
+                            CurrentTag = NewTag;
                         }
 
                         char C = Character.C;
@@ -358,7 +366,6 @@ SourceURL:https://www.easly.org
 
                 Line += EndBrushTag(CurrentBrush);
 
-                // Line += "</p>";
                 Lines[i] = Line;
             }
 
@@ -372,37 +379,24 @@ SourceURL:https://www.easly.org
 
         private static string StartBrushTag(BrushSettings brush)
         {
-            switch (brush)
-            {
-                default:
-                case BrushSettings.Default:
-                    return string.Empty;
-
-                case BrushSettings.Keyword:
-                case BrushSettings.TypeIdentifier:
-                    Debug.Assert(BrushTagTable.ContainsKey(brush));
-                    return $"<{BrushTagTable[brush]}>";
-            }
+            if (BrushTagTable.ContainsKey(brush))
+                return $"<{BrushTagTable[brush]}>";
+            else
+                return string.Empty;
         }
 
         private static string EndBrushTag(BrushSettings brush)
         {
-            switch (brush)
-            {
-                default:
-                case BrushSettings.Default:
-                    return string.Empty;
-
-                case BrushSettings.Keyword:
-                case BrushSettings.TypeIdentifier:
-                    Debug.Assert(BrushTagTable.ContainsKey(brush));
-                    return $"</{BrushTagTable[brush]}>";
-            }
+            if (BrushTagTable.ContainsKey(brush))
+                return $"</{BrushTagTable[brush]}>";
+            else
+                return string.Empty;
         }
 
         private static Dictionary<BrushSettings, string> BrushTagTable = new Dictionary<BrushSettings, string>()
         {
             { BrushSettings.Keyword, "b" },
+            { BrushSettings.Symbol, "b" },
             { BrushSettings.TypeIdentifier, "i" },
         };
         #endregion

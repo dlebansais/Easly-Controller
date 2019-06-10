@@ -4,6 +4,8 @@
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Globalization;
+    using System.IO;
+    using System.Text;
     using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Controls.Primitives;
@@ -17,6 +19,7 @@
     using EaslyController.Writeable;
     using EaslyDraw;
     using KeyboardHelper;
+    using PolySerializer;
 
     /// <summary>
     /// A control to edit Easly source code.
@@ -1012,6 +1015,7 @@
                     case CopyFormats.MarkdownHtml:
                         FormatName = DataFormats.Text;
                         FormattedContent = PrintContext.PrintableArea.ToMarkdownHtmlContent(PrintContext.BrushTable);
+                        AddSerializedText(ref FormattedContent);
                         break;
                 }
 
@@ -1025,6 +1029,28 @@
             }
         }
 
+        private protected virtual void AddSerializedText(ref string formattedContent)
+        {
+            if (ControllerView.Selection is ILayoutNodeSelection AsNodeSelection)
+            {
+                INode Node = AsNodeSelection.StateView.State.Node;
+
+                Serializer s = new Serializer();
+                s.Format = SerializationFormat.TextOnly;
+                using (MemoryStream ms = new MemoryStream())
+                {
+                    s.Serialize(ms, Node);
+                    byte[] Buffer = new byte[ms.Length];
+                    ms.Seek(0, SeekOrigin.Begin);
+                    ms.Read(Buffer, 0, Buffer.Length);
+
+                    string SerializedText = Encoding.UTF8.GetString(Buffer);
+
+                    formattedContent = $"\n<!---\n{SerializedText}\n-->\n\n{formattedContent}";
+                }
+            }
+        }
+
         private protected virtual void OnPaste(object sender, ExecutedRoutedEventArgs e)
         {
             IDataObject DataObject = Clipboard.GetDataObject();
@@ -1032,11 +1058,17 @@
 
             foreach (string Format in Formats)
             {
-                object Data = DataObject.GetData(Format);
-                Debug.WriteLine($"** Format: {Format}, Type: {Data?.GetType()}");
+                try
+                {
+                    object Data = DataObject.GetData(Format);
+                    Debug.WriteLine($"** Format: {Format}, Type: {Data?.GetType()}");
 
-                if (Data is string AsString)
-                    Debug.WriteLine(AsString);
+                    if (Data is string AsString)
+                        Debug.WriteLine(AsString);
+                }
+                catch
+                {
+                }
             }
 
             ControllerView.PasteSelection(out bool IsChanged);
