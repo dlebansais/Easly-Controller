@@ -412,75 +412,104 @@
             switch (direction)
             {
                 case MoveDirections.Left:
-                    if (!resetAnchor && ControllerView.CaretPosition > 0)
-                    {
-                        ControllerView.SetCaretPosition(0, resetAnchor, out IsMoved);
-                        InvalidateVisual();
-                    }
-                    else
-                        MoveFocus(-1, resetAnchor, out IsMoved);
-
+                    OnKeyMoveLeft(resetAnchor, out IsMoved);
                     IsHandled = true;
                     break;
 
                 case MoveDirections.Right:
-                    if (!resetAnchor && ControllerView.CaretPosition < ControllerView.MaxCaretPosition)
-                    {
-                        ControllerView.SetCaretPosition(ControllerView.MaxCaretPosition, resetAnchor, out IsMoved);
-                        InvalidateVisual();
-                    }
-                    else
-                        MoveFocus(+1, resetAnchor, out IsMoved);
+                    OnKeyMoveRight(resetAnchor, out IsMoved);
                     IsHandled = true;
                     break;
 
                 case MoveDirections.Up:
-                    if (isAlt)
-                        MoveExistingBlock(-1);
-                    else
-                        MoveExistingItem(-1);
+                    OnKeyMoveUp(isAlt);
                     IsHandled = true;
                     break;
 
                 case MoveDirections.Down:
-                    if (isAlt)
-                        MoveExistingBlock(+1);
-                    else
-                        MoveExistingItem(+1);
+                    OnKeyMoveDown(isAlt);
                     IsHandled = true;
                     break;
 
                 case MoveDirections.Home:
-                    MoveFocus(ControllerView.MinFocusMove, resetAnchor, out IsMoved);
-                    if (ControllerView.CaretPosition > 0)
-                    {
-                        if (IsMoved)
-                            resetAnchor = true;
-
-                        ControllerView.SetCaretPosition(0, resetAnchor, out IsMoved);
-                        if (IsMoved)
-                            InvalidateVisual();
-                    }
+                    OnKeyMoveHome(resetAnchor, out IsMoved);
                     IsHandled = true;
                     break;
 
                 case MoveDirections.End:
-                    MoveFocus(ControllerView.MaxFocusMove, resetAnchor, out IsMoved);
-                    if (ControllerView.CaretPosition < ControllerView.MaxCaretPosition)
-                    {
-                        if (IsMoved)
-                            resetAnchor = true;
-
-                        ControllerView.SetCaretPosition(ControllerView.MaxCaretPosition, resetAnchor, out IsMoved);
-                        if (IsMoved)
-                            InvalidateVisual();
-                    }
+                    OnKeyMoveEnd(resetAnchor, out IsMoved);
                     IsHandled = true;
                     break;
             }
 
             Debug.Assert(IsHandled);
             return IsHandled;
+        }
+
+        private protected virtual void OnKeyMoveLeft(bool resetAnchor, out bool isMoved)
+        {
+            if (!resetAnchor && ControllerView.CaretPosition > 0)
+            {
+                ControllerView.SetCaretPosition(0, resetAnchor, out isMoved);
+                InvalidateVisual();
+            }
+            else
+                MoveFocus(-1, resetAnchor, out isMoved);
+        }
+
+        private protected virtual void OnKeyMoveRight(bool resetAnchor, out bool isMoved)
+        {
+            if (!resetAnchor && ControllerView.CaretPosition < ControllerView.MaxCaretPosition)
+            {
+                ControllerView.SetCaretPosition(ControllerView.MaxCaretPosition, resetAnchor, out isMoved);
+                InvalidateVisual();
+            }
+            else
+                MoveFocus(+1, resetAnchor, out isMoved);
+        }
+
+        private protected virtual void OnKeyMoveUp(bool isAlt)
+        {
+            if (isAlt)
+                MoveExistingBlock(-1);
+            else
+                MoveExistingItem(-1);
+        }
+
+        private protected virtual void OnKeyMoveDown(bool isAlt)
+        {
+            if (isAlt)
+                MoveExistingBlock(+1);
+            else
+                MoveExistingItem(+1);
+        }
+
+        private protected virtual void OnKeyMoveHome(bool resetAnchor, out bool isMoved)
+        {
+            MoveFocus(ControllerView.MinFocusMove, resetAnchor, out isMoved);
+            if (ControllerView.CaretPosition > 0)
+            {
+                if (isMoved)
+                    resetAnchor = true;
+
+                ControllerView.SetCaretPosition(0, resetAnchor, out isMoved);
+                if (isMoved)
+                    InvalidateVisual();
+            }
+        }
+
+        private protected virtual void OnKeyMoveEnd(bool resetAnchor, out bool isMoved)
+        {
+            MoveFocus(ControllerView.MaxFocusMove, resetAnchor, out isMoved);
+            if (ControllerView.CaretPosition < ControllerView.MaxCaretPosition)
+            {
+                if (isMoved)
+                    resetAnchor = true;
+
+                ControllerView.SetCaretPosition(ControllerView.MaxCaretPosition, resetAnchor, out isMoved);
+                if (isMoved)
+                    InvalidateVisual();
+            }
         }
 
         private protected virtual int GetVerticalPageMove()
@@ -991,33 +1020,7 @@
                 PrintView.PrintSelection();
                 string Content = PrintContext.PrintableArea.ToStringContent(IsSingleLine);
 
-                string FormatName;
-                string FormattedContent;
-
-                switch (CopyFormat)
-                {
-                    default:
-                    case CopyFormats.Rtf:
-                        FormatName = DataFormats.Rtf;
-                        FormattedContent = PrintContext.PrintableArea.ToRtfContent(PrintContext.BrushTable);
-                        break;
-
-                    case CopyFormats.Html:
-                        FormatName = DataFormats.Html;
-                        FormattedContent = PrintContext.PrintableArea.ToHtmlContent(PrintContext.BrushTable);
-                        break;
-
-                    case CopyFormats.RawHtml:
-                        FormatName = DataFormats.Text;
-                        FormattedContent = PrintContext.PrintableArea.ToRawHtmlContent(PrintContext.BrushTable);
-                        break;
-
-                    case CopyFormats.MarkdownHtml:
-                        FormatName = DataFormats.Text;
-                        FormattedContent = PrintContext.PrintableArea.ToMarkdownHtmlContent(PrintContext.BrushTable);
-                        AddSerializedText(ref FormattedContent);
-                        break;
-                }
+                GetFormattedContext(PrintContext, out string FormatName, out string FormattedContent);
 
                 dataObject.SetData(FormatName, FormattedContent);
 
@@ -1026,6 +1029,34 @@
                     dataObject.SetData(DataFormats.UnicodeText, Content);
                     dataObject.SetData(DataFormats.Text, Content);
                 }
+            }
+        }
+
+        private protected virtual void GetFormattedContext(PrintContext printContext, out string formatName, out string formattedContent)
+        {
+            switch (CopyFormat)
+            {
+                default:
+                case CopyFormats.Rtf:
+                    formatName = DataFormats.Rtf;
+                    formattedContent = printContext.PrintableArea.ToRtfContent(printContext.BrushTable);
+                    break;
+
+                case CopyFormats.Html:
+                    formatName = DataFormats.Html;
+                    formattedContent = printContext.PrintableArea.ToHtmlContent(printContext.BrushTable);
+                    break;
+
+                case CopyFormats.RawHtml:
+                    formatName = DataFormats.Text;
+                    formattedContent = printContext.PrintableArea.ToRawHtmlContent(printContext.BrushTable);
+                    break;
+
+                case CopyFormats.MarkdownHtml:
+                    formatName = DataFormats.Text;
+                    formattedContent = printContext.PrintableArea.ToMarkdownHtmlContent(printContext.BrushTable);
+                    AddSerializedText(ref formattedContent);
+                    break;
             }
         }
 

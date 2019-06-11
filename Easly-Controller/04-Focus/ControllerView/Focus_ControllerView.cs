@@ -1569,125 +1569,154 @@
                     SelectNode(Focus.CellView.StateView.State);
             }
 
-            else if (Selection is IFocusStringContentSelection AsStringContentSelection)
-            {
-                IFocusStringContentFocus AsStringContentFocus = Focus as IFocusStringContentFocus;
-                Debug.Assert(AsStringContentFocus != null);
-                string Text = GetFocusedStringContent(AsStringContentFocus);
+            else
+                switch (Selection)
+                {
+                    case IFocusStringContentSelection AsStringContentSelection:
+                        ExtendSelectionStringContent(AsStringContentSelection);
+                        break;
 
-                Debug.Assert(AsStringContentSelection.Start <= AsStringContentSelection.End);
+                    case IFocusCommentSelection AsCommentSelection:
+                        ExtendSelectionComment(AsCommentSelection);
+                        break;
 
-                int SelectedCount = AsStringContentSelection.End - AsStringContentSelection.Start;
-                Debug.Assert(SelectedCount == Text.Length);
+                    case IFocusDiscreteContentSelection AsDiscreteContentSelection:
+                        SelectNode(AsDiscreteContentSelection.StateView.State);
+                        break;
 
-                SelectNode(AsStringContentSelection.StateView.State);
-            }
+                    case IFocusNodeListSelection AsNodeListSelection:
+                        ExtendSelectionNodeList(AsNodeListSelection);
+                        break;
 
-            else if (Selection is IFocusCommentSelection AsCommentSelection)
-            {
-                IFocusCommentFocus AsCommentFocus = Focus as IFocusCommentFocus;
-                Debug.Assert(AsCommentFocus != null);
-                string Text = GetFocusedCommentText(AsCommentFocus);
+                    case IFocusBlockNodeListSelection AsBlockNodeListSelection:
+                        ExtendSelectionBlockNodeList(AsBlockNodeListSelection);
+                        break;
 
-                Debug.Assert(AsCommentSelection.Start <= AsCommentSelection.End);
+                    case IFocusBlockListSelection AsBlockListSelection:
+                        ExtendSelectionBlockList(AsBlockListSelection);
+                        break;
 
-                int SelectedCount = AsCommentSelection.End - AsCommentSelection.Start;
-                Debug.Assert(SelectedCount == Text.Length);
+                    default:
+                        ExtendSelectionOther();
+                        break;
+                }
 
-                SelectNode(AsCommentSelection.StateView.State);
-            }
+            Debug.Assert(Selection != EmptySelection);
+        }
 
-            else if (Selection is IFocusDiscreteContentSelection AsDiscreteContentSelection)
-                SelectNode(AsDiscreteContentSelection.StateView.State);
+        private protected virtual void ExtendSelectionStringContent(IFocusStringContentSelection selection)
+        {
+            IFocusStringContentFocus AsStringContentFocus = Focus as IFocusStringContentFocus;
+            Debug.Assert(AsStringContentFocus != null);
+            string Text = GetFocusedStringContent(AsStringContentFocus);
 
-            else if (Selection is IFocusNodeListSelection AsNodeListSelection)
-            {
-                string PropertyName = AsNodeListSelection.PropertyName;
-                IFocusNodeState State = AsNodeListSelection.StateView.State;
-                IFocusListInner ListInner = State.PropertyToInner(PropertyName) as IFocusListInner;
+            Debug.Assert(selection.Start <= selection.End);
 
-                Debug.Assert(ListInner != null);
-                Debug.Assert(AsNodeListSelection.StartIndex <= AsNodeListSelection.EndIndex);
+            int SelectedCount = selection.End - selection.Start;
+            Debug.Assert(SelectedCount == Text.Length);
 
-                int SelectedCount = AsNodeListSelection.EndIndex - AsNodeListSelection.StartIndex + 1;
-                if (SelectedCount < ListInner.StateList.Count)
-                    AsNodeListSelection.Update(0, ListInner.StateList.Count - 1);
-                else
-                    SelectNode(AsNodeListSelection.StateView.State);
-            }
+            SelectNode(selection.StateView.State);
+        }
 
-            else if (Selection is IFocusBlockNodeListSelection AsBlockNodeListSelection)
-            {
-                string PropertyName = AsBlockNodeListSelection.PropertyName;
-                IFocusNodeState State = AsBlockNodeListSelection.StateView.State;
-                IFocusBlockListInner BlockListInner = State.PropertyToInner(PropertyName) as IFocusBlockListInner;
+        private protected virtual void ExtendSelectionComment(IFocusCommentSelection selection)
+        {
+            IFocusCommentFocus AsCommentFocus = Focus as IFocusCommentFocus;
+            Debug.Assert(AsCommentFocus != null);
+            string Text = GetFocusedCommentText(AsCommentFocus);
 
-                Debug.Assert(BlockListInner != null);
-                Debug.Assert(AsBlockNodeListSelection.BlockIndex < BlockListInner.BlockStateList.Count);
-                Debug.Assert(AsBlockNodeListSelection.StartIndex <= AsBlockNodeListSelection.EndIndex);
+            Debug.Assert(selection.Start <= selection.End);
 
-                IFocusBlockState BlockState = BlockListInner.BlockStateList[AsBlockNodeListSelection.BlockIndex];
-                int SelectedCount = AsBlockNodeListSelection.EndIndex - AsBlockNodeListSelection.StartIndex + 1;
-                if (SelectedCount < BlockState.StateList.Count)
-                    AsBlockNodeListSelection.Update(0, BlockState.StateList.Count - 1);
-                else
-                    SelectBlockList(AsBlockNodeListSelection.StateView.State, AsBlockNodeListSelection.PropertyName, AsBlockNodeListSelection.BlockIndex, AsBlockNodeListSelection.BlockIndex);
-            }
+            int SelectedCount = selection.End - selection.Start;
+            Debug.Assert(SelectedCount == Text.Length);
 
-            else if (Selection is IFocusBlockListSelection AsBlockListSelection)
-            {
-                string PropertyName = AsBlockListSelection.PropertyName;
-                IFocusNodeState State = AsBlockListSelection.StateView.State;
-                IFocusBlockListInner BlockListInner = State.PropertyToInner(PropertyName) as IFocusBlockListInner;
+            SelectNode(selection.StateView.State);
+        }
 
-                Debug.Assert(BlockListInner != null);
-                Debug.Assert(AsBlockListSelection.StartIndex <= AsBlockListSelection.EndIndex);
+        private protected virtual void ExtendSelectionNodeList(IFocusNodeListSelection selection)
+        {
+            string PropertyName = selection.PropertyName;
+            IFocusNodeState State = selection.StateView.State;
+            IFocusListInner ListInner = State.PropertyToInner(PropertyName) as IFocusListInner;
 
-                int SelectedCount = AsBlockListSelection.EndIndex - AsBlockListSelection.StartIndex + 1;
-                if (SelectedCount < BlockListInner.BlockStateList.Count)
-                    AsBlockListSelection.Update(0, BlockListInner.BlockStateList.Count - 1);
-                else
-                    SelectNode(AsBlockListSelection.StateView.State);
-            }
+            Debug.Assert(ListInner != null);
+            Debug.Assert(selection.StartIndex <= selection.EndIndex);
+
+            int SelectedCount = selection.EndIndex - selection.StartIndex + 1;
+            if (SelectedCount < ListInner.StateList.Count)
+                selection.Update(0, ListInner.StateList.Count - 1);
+            else
+                SelectNode(selection.StateView.State);
+        }
+
+        private protected virtual void ExtendSelectionBlockNodeList(IFocusBlockNodeListSelection selection)
+        {
+            string PropertyName = selection.PropertyName;
+            IFocusNodeState State = selection.StateView.State;
+            IFocusBlockListInner BlockListInner = State.PropertyToInner(PropertyName) as IFocusBlockListInner;
+
+            Debug.Assert(BlockListInner != null);
+            Debug.Assert(selection.BlockIndex < BlockListInner.BlockStateList.Count);
+            Debug.Assert(selection.StartIndex <= selection.EndIndex);
+
+            IFocusBlockState BlockState = BlockListInner.BlockStateList[selection.BlockIndex];
+            int SelectedCount = selection.EndIndex - selection.StartIndex + 1;
+            if (SelectedCount < BlockState.StateList.Count)
+                selection.Update(0, BlockState.StateList.Count - 1);
+            else
+                SelectBlockList(selection.StateView.State, selection.PropertyName, selection.BlockIndex, selection.BlockIndex);
+        }
+
+        private protected virtual void ExtendSelectionBlockList(IFocusBlockListSelection selection)
+        {
+            string PropertyName = selection.PropertyName;
+            IFocusNodeState State = selection.StateView.State;
+            IFocusBlockListInner BlockListInner = State.PropertyToInner(PropertyName) as IFocusBlockListInner;
+
+            Debug.Assert(BlockListInner != null);
+            Debug.Assert(selection.StartIndex <= selection.EndIndex);
+
+            int SelectedCount = selection.EndIndex - selection.StartIndex + 1;
+            if (SelectedCount < BlockListInner.BlockStateList.Count)
+                selection.Update(0, BlockListInner.BlockStateList.Count - 1);
+            else
+                SelectNode(selection.StateView.State);
+        }
+
+        private protected virtual void ExtendSelectionOther()
+        {
+            IFocusNodeSelection AsNodeSelection = Selection as IFocusNodeSelection;
+            Debug.Assert(AsNodeSelection != null);
+
+            IFocusNodeState State = AsNodeSelection.StateView.State;
+            IFocusNodeState ParentState = AsNodeSelection.StateView.State.ParentState;
+            Debug.Assert(ParentState != null);
+
+            if (State.ParentInner is IFocusListInner AsListInner && State.ParentIndex is IFocusBrowsingListNodeIndex AsListNodeIndex)
+                SelectNodeList(ParentState, AsListInner.PropertyName, AsListNodeIndex.Index, AsListNodeIndex.Index);
+
+            else if (State.ParentInner is IFocusBlockListInner AsBlockListInner && State.ParentIndex is IFocusBrowsingExistingBlockNodeIndex AsBlockNodeIndex)
+                SelectBlockNodeList(ParentState, AsBlockListInner.PropertyName, AsBlockNodeIndex.BlockIndex, AsBlockNodeIndex.Index, AsBlockNodeIndex.Index);
 
             else
             {
-                IFocusNodeSelection AsNodeSelection = Selection as IFocusNodeSelection;
-                Debug.Assert(AsNodeSelection != null);
-
-                IFocusNodeState State = AsNodeSelection.StateView.State;
-                IFocusNodeState ParentState = AsNodeSelection.StateView.State.ParentState;
-                Debug.Assert(ParentState != null);
-
-                if (State.ParentInner is IFocusListInner AsListInner && State.ParentIndex is IFocusBrowsingListNodeIndex AsListNodeIndex)
-                    SelectNodeList(ParentState, AsListInner.PropertyName, AsListNodeIndex.Index, AsListNodeIndex.Index);
-
-                else if (State.ParentInner is IFocusBlockListInner AsBlockListInner && State.ParentIndex is IFocusBrowsingExistingBlockNodeIndex AsBlockNodeIndex)
-                    SelectBlockNodeList(ParentState, AsBlockListInner.PropertyName, AsBlockNodeIndex.BlockIndex, AsBlockNodeIndex.Index, AsBlockNodeIndex.Index);
-
+                IFocusBlockState BlockState;
+                if (State is IFocusPatternState AsPatternState)
+                    BlockState = AsPatternState.ParentBlockState;
+                else if (State is IFocusSourceState AsSourceState)
+                    BlockState = AsSourceState.ParentBlockState;
                 else
+                    BlockState = null;
+
+                if (BlockState != null)
                 {
-                    IFocusBlockState BlockState;
-                    if (State is IFocusPatternState AsPatternState)
-                        BlockState = AsPatternState.ParentBlockState;
-                    else if (State is IFocusSourceState AsSourceState)
-                        BlockState = AsSourceState.ParentBlockState;
-                    else
-                        BlockState = null;
+                    int BlockIndex = BlockState.ParentInner.BlockStateList.IndexOf(BlockState);
+                    Debug.Assert(BlockIndex >= 0);
 
-                    if (BlockState != null)
-                    {
-                        int BlockIndex = BlockState.ParentInner.BlockStateList.IndexOf(BlockState);
-                        Debug.Assert(BlockIndex >= 0);
-
-                        SelectBlockList(ParentState, BlockState.ParentInner.PropertyName, BlockIndex, BlockIndex);
-                    }
-                    else
-                        SelectNode(ParentState);
+                    SelectBlockList(ParentState, BlockState.ParentInner.PropertyName, BlockIndex, BlockIndex);
                 }
+                else
+                    SelectNode(ParentState);
             }
-
-            Debug.Assert(Selection != EmptySelection);
         }
 
         /// <summary>

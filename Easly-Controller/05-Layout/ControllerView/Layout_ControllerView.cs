@@ -580,47 +580,12 @@
         {
             ulong OldFocusHash = FocusHash;
 
-            Point Origin = GetMoveFocusDestinationLocation(distance);
             int OldFocusIndex = FocusChain.IndexOf(Focus);
             int NewFocusIndex = -1;
             double BestVerticalDistance = 0;
             double BestHorizontalDistance = 0;
 
-            for (int i = 0; i < FocusChain.Count; i++)
-            {
-                int CellIndex = distance < 0 ? i : FocusChain.Count - i - 1;
-                ILayoutFocus TestFocus = (ILayoutFocus)FocusChain[CellIndex];
-
-                ILayoutFocusableCellView CellView = TestFocus.CellView;
-
-                // If we check against the current focus, it might be the closest cell and then we don't move!
-                if (CellIndex == OldFocusIndex)
-                    continue;
-
-                // Don't consider cells that are in the wrong direction;
-                if ((distance < 0 && CellView.CellOrigin.Y.Draw >= Origin.Y.Draw) || (distance > 0 && CellView.CellOrigin.Y.Draw + CellView.CellSize.Height.Draw <= Origin.Y.Draw))
-                    continue;
-
-                if (CellView.CellRect.IsPointInRect(Origin.X.Draw, Origin.Y.Draw))
-                {
-                    NewFocusIndex = CellIndex;
-                    break;
-                }
-                else
-                {
-                    Point Center = CellView.CellRect.Center;
-
-                    double VerticalDistance = Math.Abs((Center.Y - Origin.Y).Draw);
-                    double HorizontalDistance = Math.Abs((Center.X - Origin.X).Draw);
-
-                    if (NewFocusIndex < 0 || BestVerticalDistance > VerticalDistance || (RegionHelper.IsZero(BestVerticalDistance - VerticalDistance) && BestHorizontalDistance > HorizontalDistance))
-                    {
-                        BestVerticalDistance = VerticalDistance;
-                        BestHorizontalDistance = HorizontalDistance;
-                        NewFocusIndex = CellIndex;
-                    }
-                }
-            }
+            FindClosestFocusVertical(distance, OldFocusIndex, ref NewFocusIndex, ref BestVerticalDistance, ref BestHorizontalDistance);
 
             // Always choose an extremum cell view if all are on the wrong side of the target.
             if (NewFocusIndex < 0)
@@ -637,6 +602,47 @@
                 isMoved = false;
 
             Debug.Assert(isMoved || OldFocusHash == FocusHash);
+        }
+
+        private void FindClosestFocusVertical(double distance, int oldFocusIndex, ref int newFocusIndex, ref double bestVerticalDistance, ref double bestHorizontalDistance)
+        {
+            Point Origin = GetMoveFocusDestinationLocation(distance);
+
+            for (int i = 0; i < FocusChain.Count; i++)
+            {
+                int CellIndex = distance < 0 ? i : FocusChain.Count - i - 1;
+                ILayoutFocus TestFocus = (ILayoutFocus)FocusChain[CellIndex];
+
+                ILayoutFocusableCellView CellView = TestFocus.CellView;
+
+                // If we check against the current focus, it might be the closest cell and then we don't move!
+                if (CellIndex == oldFocusIndex)
+                    continue;
+
+                // Don't consider cells that are in the wrong direction;
+                if ((distance < 0 && CellView.CellOrigin.Y.Draw >= Origin.Y.Draw) || (distance > 0 && CellView.CellOrigin.Y.Draw + CellView.CellSize.Height.Draw <= Origin.Y.Draw))
+                    continue;
+
+                if (CellView.CellRect.IsPointInRect(Origin.X.Draw, Origin.Y.Draw))
+                {
+                    newFocusIndex = CellIndex;
+                    break;
+                }
+                else
+                {
+                    Point Center = CellView.CellRect.Center;
+
+                    double VerticalDistance = Math.Abs((Center.Y - Origin.Y).Draw);
+                    double HorizontalDistance = Math.Abs((Center.X - Origin.X).Draw);
+
+                    if (newFocusIndex < 0 || bestVerticalDistance > VerticalDistance || (RegionHelper.IsZero(bestVerticalDistance - VerticalDistance) && bestHorizontalDistance > HorizontalDistance))
+                    {
+                        bestVerticalDistance = VerticalDistance;
+                        bestHorizontalDistance = HorizontalDistance;
+                        newFocusIndex = CellIndex;
+                    }
+                }
+            }
         }
 
         private protected Point GetMoveFocusDestinationLocation(double distance)
@@ -687,39 +693,11 @@
 
             ulong OldFocusHash = FocusHash;
 
-            Point FocusCellOrigin = Focus.CellView.CellOrigin;
-            Size FocusCellSize = Focus.CellView.CellSize;
-            Point FocusCellCenter = Focus.CellView.CellRect.Center;
             int OldFocusIndex = FocusChain.IndexOf(Focus);
             int NewFocusIndex = -1;
             double BestSquaredDistance = 0;
 
-            for (int i = 0; i < FocusChain.Count; i++)
-            {
-                int CellIndex = direction < 0 ? i : FocusChain.Count - i - 1;
-                ILayoutFocus TestFocus = (ILayoutFocus)FocusChain[CellIndex];
-
-                ILayoutFocusableCellView TestCellView = TestFocus.CellView;
-                Point TestCellOrigin = TestCellView.CellOrigin;
-                Size TestCellSize = TestCellView.CellSize;
-                Point TestCellCenter = TestCellView.CellRect.Center;
-
-                // Don't consider cells that are not on the same line;
-                if ((TestCellOrigin.Y.Draw + TestCellSize.Height.Draw <= FocusCellOrigin.Y.Draw) || (TestCellOrigin.Y.Draw >= FocusCellOrigin.Y.Draw + FocusCellSize.Height.Draw))
-                    continue;
-
-                // Don't consider cells that are in the wrong direction;
-                if ((direction < 0 && TestCellOrigin.X.Draw >= FocusCellOrigin.X.Draw + FocusCellSize.Width.Draw) || (direction >= 0 && TestCellOrigin.X.Draw + TestCellSize.Width.Draw <= FocusCellOrigin.X.Draw))
-                    continue;
-
-                double SquaredDistance = Point.SquaredDistance(FocusCellCenter, TestCellCenter);
-
-                if (NewFocusIndex < 0 || BestSquaredDistance < SquaredDistance)
-                {
-                    BestSquaredDistance = SquaredDistance;
-                    NewFocusIndex = CellIndex;
-                }
-            }
+            FindClosestFocusHorizontal(direction, ref NewFocusIndex, ref BestSquaredDistance);
 
             if (NewFocusIndex >= 0 && NewFocusIndex != OldFocusIndex)
             {
@@ -748,6 +726,40 @@
             }
 
             Debug.Assert(isMoved || OldFocusHash == FocusHash);
+        }
+
+        private void FindClosestFocusHorizontal(int direction, ref int newFocusIndex, ref double bestSquaredDistance)
+        {
+            Point FocusCellOrigin = Focus.CellView.CellOrigin;
+            Size FocusCellSize = Focus.CellView.CellSize;
+            Point FocusCellCenter = Focus.CellView.CellRect.Center;
+
+            for (int i = 0; i < FocusChain.Count; i++)
+            {
+                int CellIndex = direction < 0 ? i : FocusChain.Count - i - 1;
+                ILayoutFocus TestFocus = (ILayoutFocus)FocusChain[CellIndex];
+
+                ILayoutFocusableCellView TestCellView = TestFocus.CellView;
+                Point TestCellOrigin = TestCellView.CellOrigin;
+                Size TestCellSize = TestCellView.CellSize;
+                Point TestCellCenter = TestCellView.CellRect.Center;
+
+                // Don't consider cells that are not on the same line;
+                if ((TestCellOrigin.Y.Draw + TestCellSize.Height.Draw <= FocusCellOrigin.Y.Draw) || (TestCellOrigin.Y.Draw >= FocusCellOrigin.Y.Draw + FocusCellSize.Height.Draw))
+                    continue;
+
+                // Don't consider cells that are in the wrong direction;
+                if ((direction < 0 && TestCellOrigin.X.Draw >= FocusCellOrigin.X.Draw + FocusCellSize.Width.Draw) || (direction >= 0 && TestCellOrigin.X.Draw + TestCellSize.Width.Draw <= FocusCellOrigin.X.Draw))
+                    continue;
+
+                double SquaredDistance = Point.SquaredDistance(FocusCellCenter, TestCellCenter);
+
+                if (newFocusIndex < 0 || bestSquaredDistance < SquaredDistance)
+                {
+                    bestSquaredDistance = SquaredDistance;
+                    newFocusIndex = CellIndex;
+                }
+            }
         }
 
         /// <summary>

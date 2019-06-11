@@ -567,49 +567,8 @@
         protected virtual void ShowNumberCaret(Point origin, string text, CaretModes mode, int position)
         {
             IFormattedNumber fn = FormattedNumber.Parse(text, false);
-            string SignificandString;
-            string ExponentString0;
-            string ExponentString1;
-            string InvalidText;
 
-            if (position <= fn.SignificandString.Length)
-            {
-                SignificandString = fn.SignificandString.Substring(0, position);
-                ExponentString0 = string.Empty;
-                ExponentString1 = string.Empty;
-                InvalidText = string.Empty;
-            }
-            else
-            {
-                SignificandString = fn.SignificandString;
-
-                if (position <= fn.SignificandString.Length + fn.ExponentString.Length && position <= fn.SignificandString.Length + 1)
-                {
-                    ExponentString0 = fn.ExponentString.Substring(0, 1);
-                    ExponentString1 = string.Empty;
-                    InvalidText = string.Empty;
-                }
-                else if (position <= fn.SignificandString.Length + fn.ExponentString.Length && position > fn.SignificandString.Length)
-                {
-                    ExponentString0 = fn.ExponentString.Substring(0, 1);
-                    ExponentString1 = fn.ExponentString.Substring(1, position - fn.SignificandString.Length - 1);
-                    InvalidText = string.Empty;
-                }
-                else
-                {
-                    if (fn.ExponentString.Length > 0)
-                    {
-                        ExponentString0 = fn.ExponentString.Substring(0, 1);
-                        ExponentString1 = fn.ExponentString.Substring(1);
-                    }
-                    else
-                    {
-                        ExponentString0 = string.Empty;
-                        ExponentString1 = string.Empty;
-                    }
-                    InvalidText = fn.InvalidText.Substring(0, position - fn.SignificandString.Length - fn.ExponentString.Length);
-                }
-            }
+            GetNumberCaretParts(fn, position, out string SignificandString, out string ExponentString0, out string ExponentString1, out string InvalidText);
 
             double X = origin.X.Draw;
             double Y = origin.Y.Draw;
@@ -644,10 +603,59 @@
             }
 
             ChangeFlashClockOpacity(isVisible: true);
+            ShowNumberCaretParts(fn, mode, position, X, Y, CaretEmSize, CaretHeight);
+        }
 
+        /// <summary></summary>
+        protected virtual void GetNumberCaretParts(IFormattedNumber fn, int position, out string significandString, out string exponentString0, out string exponentString1, out string invalidText)
+        {
+            if (position <= fn.SignificandString.Length)
+            {
+                significandString = fn.SignificandString.Substring(0, position);
+                exponentString0 = string.Empty;
+                exponentString1 = string.Empty;
+                invalidText = string.Empty;
+            }
+            else
+            {
+                significandString = fn.SignificandString;
+
+                if (position <= fn.SignificandString.Length + fn.ExponentString.Length && position <= fn.SignificandString.Length + 1)
+                {
+                    exponentString0 = fn.ExponentString.Substring(0, 1);
+                    exponentString1 = string.Empty;
+                    invalidText = string.Empty;
+                }
+                else if (position <= fn.SignificandString.Length + fn.ExponentString.Length && position > fn.SignificandString.Length)
+                {
+                    exponentString0 = fn.ExponentString.Substring(0, 1);
+                    exponentString1 = fn.ExponentString.Substring(1, position - fn.SignificandString.Length - 1);
+                    invalidText = string.Empty;
+                }
+                else
+                {
+                    if (fn.ExponentString.Length > 0)
+                    {
+                        exponentString0 = fn.ExponentString.Substring(0, 1);
+                        exponentString1 = fn.ExponentString.Substring(1);
+                    }
+                    else
+                    {
+                        exponentString0 = string.Empty;
+                        exponentString1 = string.Empty;
+                    }
+
+                    invalidText = fn.InvalidText.Substring(0, position - fn.SignificandString.Length - fn.ExponentString.Length);
+                }
+            }
+        }
+
+        /// <summary></summary>
+        protected virtual void ShowNumberCaretParts(IFormattedNumber fn, CaretModes mode, int position, double x, double y, double caretEmSize, double caretHeight)
+        {
             if (mode == CaretModes.Insertion)
             {
-                System.Windows.Rect CaretRect = new System.Windows.Rect(PagePadding.Left.Draw + X, PagePadding.Top.Draw + Y, InsertionCaretWidth, CaretHeight);
+                System.Windows.Rect CaretRect = new System.Windows.Rect(PagePadding.Left.Draw + x, PagePadding.Top.Draw + y, InsertionCaretWidth, caretHeight);
 
                 WpfDrawingContext.PushOpacity(1, FlashClock);
                 WpfDrawingContext.DrawRectangle(GetBrush(BrushSettings.CaretInsertion), GetPen(PenSettings.CaretInsertion), CaretRect);
@@ -664,9 +672,9 @@
                 else
                     CaretText = fn.InvalidText.Substring(position - fn.SignificandString.Length - fn.ExponentString.Length, 1);
 
-                FormattedText ftCaret = new FormattedText(CaretText, Culture, FlowDirection, Typeface, CaretEmSize, GetBrush(BrushSettings.CaretOverride));
+                FormattedText ftCaret = new FormattedText(CaretText, Culture, FlowDirection, Typeface, caretEmSize, GetBrush(BrushSettings.CaretOverride));
 
-                System.Windows.Rect CaretRect = new System.Windows.Rect(PagePadding.Left.Draw + X, PagePadding.Top.Draw + Y, ftCaret.WidthIncludingTrailingWhitespace, CaretHeight);
+                System.Windows.Rect CaretRect = new System.Windows.Rect(PagePadding.Left.Draw + x, PagePadding.Top.Draw + y, ftCaret.WidthIncludingTrailingWhitespace, caretHeight);
 
                 WpfDrawingContext.PushOpacity(1, FlashClock);
                 WpfDrawingContext.DrawRectangle(GetBrush(BrushSettings.CaretOverride), GetPen(PenSettings.CaretOverride), CaretRect);
