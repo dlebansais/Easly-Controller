@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Runtime.CompilerServices;
+using System.Text;
 using System.Windows;
 using System.Windows.Input;
 using BaseNode;
@@ -66,6 +67,33 @@ namespace EditorDebug
                 Serializer Serializer = new Serializer();
                 INode RootNode = Serializer.Deserialize(fs) as INode;
                 LoadFileLayout(RootNode);
+            }
+        }
+
+        private void OnPaste(object sender, ExecutedRoutedEventArgs e)
+        {
+            try
+            {
+                string Content = Clipboard.GetData(DataFormats.UnicodeText) as string;
+
+                if (Content != null)
+                {
+                    Serializer Serializer = new Serializer();
+                    Serializer.Format = SerializationFormat.TextOnly;
+
+                    using (MemoryStream ms = new MemoryStream())
+                    {
+                        byte[] Bytes = Encoding.UTF8.GetBytes(Content);
+                        ms.Write(Bytes, 0, Bytes.Length);
+                        ms.Seek(0, SeekOrigin.Begin);
+
+                        INode RootNode = Serializer.Deserialize(ms) as INode;
+                        LoadFileLayout(RootNode);
+                    }
+                }
+            }
+            catch
+            {
             }
         }
 
