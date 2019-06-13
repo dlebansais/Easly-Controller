@@ -903,7 +903,6 @@
             INode NewItem;
             int BlockPosition;
             int ItemPosition;
-            IFocusNodeState ParentState;
             bool IsHandled = false;
             bool Result = false;
 
@@ -911,24 +910,24 @@
             {
                 case IFocusPlaceholderInner AsPlaceholderInner:
                 case IFocusOptionalInner AsOptionalInner:
-                    ParentState = state.ParentState;
-
-                    if (ParentState != null && isGoodFocusableCellView(state, cellView))
-                        Result = IsListExtremumItem(ParentState, cellView, isGoodFocusableCellView, getInsertPosition, out inner, out index);
-                    else
-                        Result = false;
-
+                    Result = IsExtremumCheckParent(state, cellView, isGoodFocusableCellView, getInsertPosition, out inner, out index);
                     IsHandled = true;
                     break;
 
+                // Check the parent state if there is a deeper list (typically, for a qualified name, there would be one).
                 case IFocusListInner AsListInner:
-                    NewItem = NodeHelper.CreateDefaultFromInterface(AsListInner.InterfaceType);
-                    ItemPosition = (state.ParentIndex as IFocusBrowsingListNodeIndex).Index;
+                    if (IsDeepestList(state))
+                    {
+                        NewItem = NodeHelper.CreateDefaultFromInterface(AsListInner.InterfaceType);
+                        ItemPosition = (state.ParentIndex as IFocusBrowsingListNodeIndex).Index;
 
-                    inner = AsListInner;
-                    index = CreateListNodeIndex(inner.Owner.Node, inner.PropertyName, NewItem, getInsertPosition(ItemPosition));
+                        inner = AsListInner;
+                        index = CreateListNodeIndex(inner.Owner.Node, inner.PropertyName, NewItem, getInsertPosition(ItemPosition));
 
-                    Result = true;
+                        Result = true;
+                    }
+                    else
+                        Result = IsExtremumCheckParent(state, cellView, isGoodFocusableCellView, getInsertPosition, out inner, out index);
                     IsHandled = true;
                     break;
 
@@ -946,6 +945,20 @@
             }
 
             Debug.Assert(IsHandled);
+
+            return Result;
+        }
+
+        private protected virtual bool IsExtremumCheckParent(IFocusNodeState state, IFocusContentFocusableCellView cellView, Func<IFocusNodeState, IFocusContentFocusableCellView, bool> isGoodFocusableCellView, Func<int, int> getInsertPosition, out IFocusCollectionInner inner, out IFocusInsertionCollectionNodeIndex index)
+        {
+            inner = null;
+            index = null;
+            bool Result = false;
+
+            IFocusNodeState ParentState = state.ParentState;
+
+            if (ParentState != null && isGoodFocusableCellView(state, cellView))
+                Result = IsListExtremumItem(ParentState, cellView, isGoodFocusableCellView, getInsertPosition, out inner, out index);
 
             return Result;
         }
@@ -986,6 +999,20 @@
         private protected virtual int InsertBelow(int position)
         {
             return position + 1;
+        }
+
+        private protected virtual bool IsDeepestList(IFocusNodeState state)
+        {
+            bool Result = true;
+
+            while (state.ParentState != null)
+            {
+                state = state.ParentState;
+                if (state.ParentInner is IFocusCollectionInner)
+                    Result = false;
+            }
+
+            return Result;
         }
 
         /// <summary>
@@ -1143,9 +1170,16 @@
                 // Search recursively for a collection parent, up to 3 levels up.
                 for (int i = 0; i < 3 && State != null; i++)
                 {
-                    if (State.ParentInner is IFocusCollectionInner AsCollectionInner)
+                    IFocusCollectionInner ListInner = null;
+
+                    if (State.ParentInner is IFocusBlockListInner AsBlockListInner)
+                        ListInner = AsBlockListInner;
+                    else if (State.ParentInner is IFocusListInner AsListInner && IsDeepestList(State))
+                        ListInner = AsListInner;
+
+                    if (ListInner != null)
                     {
-                        inner = AsCollectionInner;
+                        inner = ListInner;
                         index = State.ParentIndex as IFocusBrowsingCollectionNodeIndex;
                         Debug.Assert(index != null);
 
@@ -1933,9 +1967,9 @@
             if (AutoFormatMode != mode)
                 AutoFormatMode = mode;
         }
-        #endregion
+#endregion
 
-        #region Implementation
+#region Implementation
         /// <summary>
         /// Handler called every time a block state is inserted in the controller.
         /// </summary>
@@ -2680,9 +2714,9 @@
         }
 
         private protected IFocusNodeStateView ForcedCommentStateView { get; private set; }
-        #endregion
+#endregion
 
-        #region Implementation of IFocusInternalControllerView
+#region Implementation of IFocusInternalControllerView
         /// <summary>
         /// Checks if the template associated to the <paramref name="propertyName"/> property of the <paramref name="stateView"/> state is complex.
         /// </summary>
@@ -2881,9 +2915,9 @@
             Debug.Assert(IsHandled);
             return Result;
         }
-        #endregion
+#endregion
 
-        #region Debugging
+#region Debugging
         /// <summary>
         /// Compares two <see cref="IFocusControllerView"/> objects.
         /// </summary>
@@ -2940,9 +2974,9 @@
         {
             hash ^= CRC32.Get(value);
         }
-        #endregion
+#endregion
 
-        #region Create Methods
+#region Create Methods
         /// <summary>
         /// Creates a IxxxStateViewDictionary object.
         /// </summary>
@@ -3157,6 +3191,6 @@
             ControllerTools.AssertNoOverride(this, typeof(FocusControllerView));
             return new FocusBlockListSelection(stateView, propertyName, startIndex, endIndex);
         }
-        #endregion
+#endregion
     }
 }
