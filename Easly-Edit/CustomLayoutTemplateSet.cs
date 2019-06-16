@@ -1874,6 +1874,22 @@ namespace EaslyEdit
             <LayoutInsertFrame CollectionName=""AssignmentBlocks"" />
         </LayoutHorizontalPanelFrame>
     </LayoutNodeTemplate>
+    <LayoutNodeTemplate NodeType=""{xaml:Type easly:IKeywordEntityExpression}"">
+        <LayoutHorizontalPanelFrame>
+            <LayoutCommentFrame/>
+            <LayoutKeywordFrame>entity</LayoutKeywordFrame>
+            <LayoutDiscreteFrame PropertyName=""Value"" LeftMargin=""Whitespace"">
+                <LayoutKeywordFrame>True</LayoutKeywordFrame>
+                <LayoutKeywordFrame>False</LayoutKeywordFrame>
+                <LayoutKeywordFrame>Current</LayoutKeywordFrame>
+                <LayoutKeywordFrame>Value</LayoutKeywordFrame>
+                <LayoutKeywordFrame>Result</LayoutKeywordFrame>
+                <LayoutKeywordFrame>Retry</LayoutKeywordFrame>
+                <LayoutKeywordFrame>Exception</LayoutKeywordFrame>
+                <LayoutKeywordFrame>Indexer</LayoutKeywordFrame>
+            </LayoutDiscreteFrame>
+        </LayoutHorizontalPanelFrame>
+    </LayoutNodeTemplate>
     <LayoutNodeTemplate NodeType=""{xaml:Type easly:IKeywordExpression}"">
         <LayoutHorizontalPanelFrame>
             <LayoutCommentFrame/>
