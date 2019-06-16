@@ -995,6 +995,7 @@ namespace TestDebug
                 <FrameKeywordFrame>Result</FrameKeywordFrame>
                 <FrameKeywordFrame>Retry</FrameKeywordFrame>
                 <FrameKeywordFrame>Exception</FrameKeywordFrame>
+                <FrameKeywordFrame>Indexer</FrameKeywordFrame>
             </FrameDiscreteFrame>
         </FrameHorizontalPanelFrame>
     </FrameNodeTemplate>
@@ -1560,6 +1561,7 @@ namespace TestDebug
                 <FrameKeywordFrame>Result</FrameKeywordFrame>
                 <FrameKeywordFrame>Retry</FrameKeywordFrame>
                 <FrameKeywordFrame>Exception</FrameKeywordFrame>
+                <FrameKeywordFrame>Indexer</FrameKeywordFrame>
             </FrameDiscreteFrame>
             <FrameSymbolFrame Symbol=""{x:Static const:Symbols.LeftArrow}""/>
             <FramePlaceholderFrame PropertyName=""Source"" />
@@ -1781,6 +1783,7 @@ namespace TestDebug
                 <FrameKeywordFrame>Result</FrameKeywordFrame>
                 <FrameKeywordFrame>Retry</FrameKeywordFrame>
                 <FrameKeywordFrame>Exception</FrameKeywordFrame>
+                <FrameKeywordFrame>Indexer</FrameKeywordFrame>
             </FrameDiscreteFrame>
         </FrameHorizontalPanelFrame>
     </FrameNodeTemplate>

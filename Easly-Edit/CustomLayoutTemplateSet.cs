@@ -1885,6 +1885,7 @@ namespace EaslyEdit
                 <LayoutKeywordFrame>Result</LayoutKeywordFrame>
                 <LayoutKeywordFrame>Retry</LayoutKeywordFrame>
                 <LayoutKeywordFrame>Exception</LayoutKeywordFrame>
+                <LayoutKeywordFrame>Indexer</LayoutKeywordFrame>
             </LayoutDiscreteFrame>
         </LayoutHorizontalPanelFrame>
     </LayoutNodeTemplate>
@@ -2740,6 +2741,7 @@ namespace EaslyEdit
                 <LayoutKeywordFrame>Result</LayoutKeywordFrame>
                 <LayoutKeywordFrame>Retry</LayoutKeywordFrame>
                 <LayoutKeywordFrame>Exception</LayoutKeywordFrame>
+                <LayoutKeywordFrame>Indexer</LayoutKeywordFrame>
             </LayoutDiscreteFrame>
             <LayoutSymbolFrame Symbol=""{x:Static const:Symbols.LeftArrow}"" LeftMargin=""Whitespace"" RightMargin=""Whitespace""/>
             <LayoutPlaceholderFrame PropertyName=""Source"" />
@@ -3043,6 +3045,7 @@ namespace EaslyEdit
                 <LayoutKeywordFrame>Result</LayoutKeywordFrame>
                 <LayoutKeywordFrame>Retry</LayoutKeywordFrame>
                 <LayoutKeywordFrame>Exception</LayoutKeywordFrame>
+                <LayoutKeywordFrame>Indexer</LayoutKeywordFrame>
             </LayoutDiscreteFrame>
         </LayoutHorizontalPanelFrame>
     </LayoutNodeTemplate>
