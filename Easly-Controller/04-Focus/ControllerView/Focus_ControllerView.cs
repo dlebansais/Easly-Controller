@@ -340,6 +340,12 @@
         /// </summary>
         /// <param name="isChanged">True if something was replaced or added.</param>
         void PasteSelection(out bool isChanged);
+
+        /// <summary>
+        /// Deletes the selection.
+        /// </summary>
+        /// <param name="isDeleted">True if something was deleted.</param>
+        void DeleteSelection(out bool isDeleted);
 #endif
 
         /// <summary>
@@ -1947,6 +1953,9 @@
         public virtual void CutSelection(IDataObject dataObject, out bool isDeleted)
         {
             Selection.Cut(dataObject, out isDeleted);
+
+            if (isDeleted)
+                ResetSelection();
         }
 
         /// <summary>
@@ -1956,6 +1965,18 @@
         public virtual void PasteSelection(out bool isChanged)
         {
             Selection.Paste(out isChanged);
+        }
+
+        /// <summary>
+        /// Deletes the selection.
+        /// </summary>
+        /// <param name="isDeleted">True if something was deleted.</param>
+        public virtual void DeleteSelection(out bool isDeleted)
+        {
+            Selection.Delete(out isDeleted);
+
+            if (isDeleted)
+                ResetSelection();
         }
 #endif
 

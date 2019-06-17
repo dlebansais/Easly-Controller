@@ -102,27 +102,9 @@
         /// <param name="isDeleted">True if something was deleted.</param>
         public override void Cut(IDataObject dataObject, out bool isDeleted)
         {
-            isDeleted = false;
+            Debug.Assert(dataObject != null);
 
-            string Content = NodeTreeHelper.GetString(StateView.State.Node, PropertyName);
-            Debug.Assert(Content != null);
-            Debug.Assert(Start <= End);
-            Debug.Assert(End <= Content.Length);
-
-            if (Start < End)
-            {
-                dataObject.SetData(typeof(string), Content.Substring(Start, End - Start));
-
-                Content = Content.Substring(0, Start) + Content.Substring(End);
-
-                IFocusController Controller = StateView.ControllerView.Controller;
-                int OldCaretPosition = StateView.ControllerView.CaretPosition;
-                int NewCaretPosition = Start;
-                Controller.ChangeTextAndCaretPosition(StateView.State.ParentIndex, PropertyName, Content, OldCaretPosition, NewCaretPosition, true);
-
-                StateView.ControllerView.ClearSelection();
-                isDeleted = true;
-            }
+            CutOrDelete(dataObject, out isDeleted);
         }
 
         /// <summary>
@@ -148,6 +130,41 @@
 
                 StateView.ControllerView.ClearSelection();
                 isChanged = true;
+            }
+        }
+
+        /// <summary>
+        /// Deletes the selection.
+        /// </summary>
+        /// <param name="isDeleted">True if something was deleted.</param>
+        public override void Delete(out bool isDeleted)
+        {
+            CutOrDelete(null, out isDeleted);
+        }
+
+        private void CutOrDelete(IDataObject dataObject, out bool isDeleted)
+        {
+            isDeleted = false;
+
+            string Content = NodeTreeHelper.GetString(StateView.State.Node, PropertyName);
+            Debug.Assert(Content != null);
+            Debug.Assert(Start <= End);
+            Debug.Assert(End <= Content.Length);
+
+            if (Start < End)
+            {
+                if (dataObject != null)
+                    dataObject.SetData(typeof(string), Content.Substring(Start, End - Start));
+
+                Content = Content.Substring(0, Start) + Content.Substring(End);
+
+                IFocusController Controller = StateView.ControllerView.Controller;
+                int OldCaretPosition = StateView.ControllerView.CaretPosition;
+                int NewCaretPosition = Start;
+                Controller.ChangeTextAndCaretPosition(StateView.State.ParentIndex, PropertyName, Content, OldCaretPosition, NewCaretPosition, true);
+
+                StateView.ControllerView.ClearSelection();
+                isDeleted = true;
             }
         }
 #endif

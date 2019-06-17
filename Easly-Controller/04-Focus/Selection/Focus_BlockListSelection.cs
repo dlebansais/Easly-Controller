@@ -133,36 +133,9 @@
         /// <param name="isDeleted">True if something was deleted.</param>
         public override void Cut(IDataObject dataObject, out bool isDeleted)
         {
-            isDeleted = false;
+            Debug.Assert(dataObject != null);
 
-            IFocusNodeState State = StateView.State;
-            IFocusBlockListInner ParentInner = State.PropertyToInner(PropertyName) as IFocusBlockListInner;
-            Debug.Assert(ParentInner != null);
-
-            Debug.Assert(StartIndex <= EndIndex);
-
-            int OldBlockCount = ParentInner.BlockStateList.Count;
-            int SelectionCount = EndIndex - StartIndex;
-
-            if (SelectionCount < ParentInner.BlockStateList.Count || !NodeHelper.IsCollectionNeverEmpty(State.Node, PropertyName))
-            {
-                List<IBlock> BlockList = new List<IBlock>();
-                for (int i = StartIndex; i < EndIndex; i++)
-                {
-                    IFocusBlockState BlockState = ParentInner.BlockStateList[i];
-                    BlockList.Add(BlockState.ChildBlock);
-                }
-
-                ClipboardHelper.WriteBlockList(dataObject, BlockList);
-
-                IFocusController Controller = StateView.ControllerView.Controller;
-                Controller.RemoveBlockRange(ParentInner, StartIndex, EndIndex);
-
-                Debug.Assert(ParentInner.BlockStateList.Count == OldBlockCount - SelectionCount);
-
-                StateView.ControllerView.ClearSelection();
-                isDeleted = true;
-            }
+            CutOrDelete(dataObject, out isDeleted);
         }
 
         /// <summary>
@@ -226,6 +199,52 @@
                     StateView.ControllerView.ClearSelection();
                     isChanged = BlockList.Count > 0 || SelectionCount > 0;
                 }
+            }
+        }
+
+        /// <summary>
+        /// Deletes the selection.
+        /// </summary>
+        /// <param name="isDeleted">True if something was deleted.</param>
+        public override void Delete(out bool isDeleted)
+        {
+            CutOrDelete(null, out isDeleted);
+        }
+
+        private void CutOrDelete(IDataObject dataObject, out bool isDeleted)
+        {
+            isDeleted = false;
+
+            IFocusNodeState State = StateView.State;
+            IFocusBlockListInner ParentInner = State.PropertyToInner(PropertyName) as IFocusBlockListInner;
+            Debug.Assert(ParentInner != null);
+
+            Debug.Assert(StartIndex <= EndIndex);
+
+            int OldBlockCount = ParentInner.BlockStateList.Count;
+            int SelectionCount = EndIndex - StartIndex;
+
+            if (SelectionCount < ParentInner.BlockStateList.Count || !NodeHelper.IsCollectionNeverEmpty(State.Node, PropertyName))
+            {
+                if (dataObject != null)
+                {
+                    List<IBlock> BlockList = new List<IBlock>();
+                    for (int i = StartIndex; i < EndIndex; i++)
+                    {
+                        IFocusBlockState BlockState = ParentInner.BlockStateList[i];
+                        BlockList.Add(BlockState.ChildBlock);
+                    }
+
+                    ClipboardHelper.WriteBlockList(dataObject, BlockList);
+                }
+
+                IFocusController Controller = StateView.ControllerView.Controller;
+                Controller.RemoveBlockRange(ParentInner, StartIndex, EndIndex);
+
+                Debug.Assert(ParentInner.BlockStateList.Count == OldBlockCount - SelectionCount);
+
+                StateView.ControllerView.ClearSelection();
+                isDeleted = true;
             }
         }
 #endif

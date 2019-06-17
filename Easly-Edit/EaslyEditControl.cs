@@ -642,13 +642,41 @@
         #region Commands
         private protected virtual void OnBackspace(object sender, ExecutedRoutedEventArgs e)
         {
-            DeleteCharacter(backward: true);
+            if (ControllerView.Selection is ILayoutEmptySelection)
+                DeleteCharacter(backward: true);
+
             e.Handled = true;
         }
 
         private protected virtual void OnDelete(object sender, ExecutedRoutedEventArgs e)
         {
-            DeleteCharacter(backward: false);
+            switch (ControllerView.Selection)
+            {
+                default:
+                case ILayoutEmptySelection AsEmptySelection:
+                    DeleteCharacter(backward: false);
+                    break;
+
+                case ILayoutDiscreteContentSelection AsDiscreteContentSelection:
+                    ControllerView.ClearSelection();
+                    InvalidateVisual();
+                    break;
+
+                case ILayoutStringContentSelection AsStringContentSelection:
+                case ILayoutCommentSelection AsCommentSelection:
+                case ILayoutNodeSelection AsNodeSelection:
+                case ILayoutNodeListSelection AsNodeListSelection:
+                case ILayoutBlockNodeListSelection AsBlockNodeListSelection:
+                case ILayoutBlockListSelection AsBlockListSelection:
+                    ControllerView.DeleteSelection(out bool IsDeleted);
+                    if (IsDeleted)
+                    {
+                        InvalidateVisual();
+                        UpdateTextReplacement();
+                    }
+                    break;
+            }
+
             e.Handled = true;
         }
 

@@ -143,34 +143,9 @@
         /// <param name="isDeleted">True if something was deleted.</param>
         public override void Cut(IDataObject dataObject, out bool isDeleted)
         {
-            isDeleted = false;
+            Debug.Assert(dataObject != null);
 
-            IFocusNodeState State = StateView.State;
-            IFocusBlockListInner ParentInner = State.PropertyToInner(PropertyName) as IFocusBlockListInner;
-            Debug.Assert(ParentInner != null);
-            Debug.Assert(BlockIndex >= 0 && BlockIndex < ParentInner.BlockStateList.Count);
-
-            IFocusBlockState BlockState = ParentInner.BlockStateList[BlockIndex];
-
-            int OldNodeCount = ParentInner.Count;
-            int SelectionCount = EndIndex - StartIndex;
-
-            if (SelectionCount < BlockState.StateList.Count || ParentInner.BlockStateList.Count > 1 || !NodeHelper.IsCollectionNeverEmpty(State.Node, PropertyName))
-            {
-                List<INode> NodeList = new List<INode>();
-                for (int i = StartIndex; i < EndIndex; i++)
-                    NodeList.Add(BlockState.StateList[i].Node);
-
-                ClipboardHelper.WriteNodeList(dataObject, NodeList);
-
-                IFocusController Controller = StateView.ControllerView.Controller;
-                Controller.RemoveNodeRange(ParentInner, BlockIndex, StartIndex, EndIndex);
-
-                Debug.Assert(ParentInner.Count == OldNodeCount - SelectionCount);
-
-                StateView.ControllerView.ClearSelection();
-                isDeleted = true;
-            }
+            CutOrDelete(dataObject, out isDeleted);
         }
 
         /// <summary>
@@ -225,6 +200,50 @@
                     StateView.ControllerView.ClearSelection();
                     isChanged = NodeList.Count > 0 || SelectionCount > 0;
                 }
+            }
+        }
+
+        /// <summary>
+        /// Deletes the selection.
+        /// </summary>
+        /// <param name="isDeleted">True if something was deleted.</param>
+        public override void Delete(out bool isDeleted)
+        {
+            CutOrDelete(null, out isDeleted);
+        }
+
+        private void CutOrDelete(IDataObject dataObject, out bool isDeleted)
+        {
+            isDeleted = false;
+
+            IFocusNodeState State = StateView.State;
+            IFocusBlockListInner ParentInner = State.PropertyToInner(PropertyName) as IFocusBlockListInner;
+            Debug.Assert(ParentInner != null);
+            Debug.Assert(BlockIndex >= 0 && BlockIndex < ParentInner.BlockStateList.Count);
+
+            IFocusBlockState BlockState = ParentInner.BlockStateList[BlockIndex];
+
+            int OldNodeCount = ParentInner.Count;
+            int SelectionCount = EndIndex - StartIndex;
+
+            if (SelectionCount < BlockState.StateList.Count || ParentInner.BlockStateList.Count > 1 || !NodeHelper.IsCollectionNeverEmpty(State.Node, PropertyName))
+            {
+                if (dataObject != null)
+                {
+                    List<INode> NodeList = new List<INode>();
+                    for (int i = StartIndex; i < EndIndex; i++)
+                        NodeList.Add(BlockState.StateList[i].Node);
+
+                    ClipboardHelper.WriteNodeList(dataObject, NodeList);
+                }
+
+                IFocusController Controller = StateView.ControllerView.Controller;
+                Controller.RemoveNodeRange(ParentInner, BlockIndex, StartIndex, EndIndex);
+
+                Debug.Assert(ParentInner.Count == OldNodeCount - SelectionCount);
+
+                StateView.ControllerView.ClearSelection();
+                isDeleted = true;
             }
         }
 #endif

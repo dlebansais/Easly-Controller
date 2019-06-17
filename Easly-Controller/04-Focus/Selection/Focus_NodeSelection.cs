@@ -1,5 +1,6 @@
 ﻿namespace EaslyController.Focus
 {
+    using System.Diagnostics;
     using System.Windows;
     using BaseNode;
     using EaslyController.Controller;
@@ -46,7 +47,9 @@
         /// <param name="isDeleted">True if something was deleted.</param>
         public override void Cut(IDataObject dataObject, out bool isDeleted)
         {
-            isDeleted = false;
+            Debug.Assert(dataObject != null);
+
+            CutOrDelete(dataObject, out isDeleted);
         }
 
         /// <summary>
@@ -73,6 +76,31 @@
                         isChanged = true;
                     }
                 }
+            }
+        }
+
+        /// <summary>
+        /// Deletes the selection.
+        /// </summary>
+        /// <param name="isDeleted">True if something was deleted.</param>
+        public override void Delete(out bool isDeleted)
+        {
+            CutOrDelete(null, out isDeleted);
+        }
+
+        private void CutOrDelete(IDataObject dataObject, out bool isDeleted)
+        {
+            isDeleted = false;
+
+            IFocusNodeState State = StateView.State;
+            if (State.ParentInner is IFocusCollectionInner AsCollectionInner && State.ParentIndex is IFocusBrowsingCollectionNodeIndex AsCollectionNodeIndex)
+            {
+                IFocusController Controller = StateView.ControllerView.Controller;
+                INode ParentNode = State.ParentInner.Owner.Node;
+
+                Controller.Remove(AsCollectionInner, AsCollectionNodeIndex);
+
+                isDeleted = true;
             }
         }
 #endif

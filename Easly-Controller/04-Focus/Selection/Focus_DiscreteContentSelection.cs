@@ -83,6 +83,15 @@
                 }
             }
         }
+
+        /// <summary>
+        /// Deletes the selection.
+        /// </summary>
+        /// <param name="isDeleted">True if something was deleted.</param>
+        public override void Delete(out bool isDeleted)
+        {
+            isDeleted = false;
+        }
 #endif
         #endregion
 

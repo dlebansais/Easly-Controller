@@ -31,6 +31,12 @@
         /// </summary>
         /// <param name="isChanged">True if something was replaced or added.</param>
         void Paste(out bool isChanged);
+
+        /// <summary>
+        /// Deletes the selection.
+        /// </summary>
+        /// <param name="isDeleted">True if something was deleted.</param>
+        void Delete(out bool isDeleted);
 #endif
     }
 
@@ -76,6 +82,12 @@
         /// Replaces the selection with the content of the clipboard.
         /// </summary>
         public abstract void Paste(out bool isChanged);
+
+        /// <summary>
+        /// Deletes the selection.
+        /// </summary>
+        /// <param name="isDeleted">True if something was deleted.</param>
+        public abstract void Delete(out bool isDeleted);
 #endif
         #endregion
     }
