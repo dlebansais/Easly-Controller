@@ -386,11 +386,8 @@ namespace EaslyEdit
     <LayoutNodeTemplate NodeType=""{xaml:Type easly:IContinuation}"">
         <LayoutVerticalPanelFrame>
             <LayoutCommentFrame/>
-            <LayoutHorizontalPanelFrame>
-                <LayoutKeywordFrame>execute</LayoutKeywordFrame>
-                <LayoutInsertFrame CollectionName=""Instructions.InstructionBlocks"" ItemType=""{xaml:Type easly:CommandInstruction}""/>
-            </LayoutHorizontalPanelFrame>
-            <LayoutVerticalPanelFrame>
+            <LayoutKeywordFrame IsFocusable=""True"">step</LayoutKeywordFrame>
+            <LayoutVerticalPanelFrame HasTabulationMargin=""True"">
                 <LayoutPlaceholderFrame PropertyName=""Instructions"" />
                 <LayoutVerticalPanelFrame>
                     <LayoutVerticalPanelFrame.Visibility>
@@ -2504,20 +2501,20 @@ namespace EaslyEdit
             <LayoutCommentFrame/>
             <LayoutHorizontalPanelFrame>
                 <LayoutKeywordFrame>as long as</LayoutKeywordFrame>
-                <LayoutPlaceholderFrame PropertyName=""ContinueCondition"" LeftMargin=""Whitespace""/>
+                <LayoutPlaceholderFrame PropertyName=""ContinueCondition"" LeftMargin=""Whitespace"" RightMargin=""Whitespace""/>
+                <LayoutKeywordFrame>execute</LayoutKeywordFrame>
                 <LayoutInsertFrame CollectionName=""ContinuationBlocks""/>
             </LayoutHorizontalPanelFrame>
-            <LayoutVerticalPanelFrame HasTabulationMargin=""True"">
+            <LayoutVerticalPanelFrame>
                 <LayoutVerticalBlockListFrame PropertyName=""ContinuationBlocks""/>
                 <LayoutVerticalPanelFrame>
                     <LayoutVerticalPanelFrame.Visibility>
                         <LayoutOptionalFrameVisibility PropertyName=""ElseInstructions""/>
                     </LayoutVerticalPanelFrame.Visibility>
-                    <LayoutHorizontalPanelFrame>
-                        <LayoutKeywordFrame>else</LayoutKeywordFrame>
-                        <LayoutInsertFrame CollectionName=""ElseInstructions.InstructionBlocks"" ItemType=""{xaml:Type easly:CommandInstruction}""/>
-                    </LayoutHorizontalPanelFrame>
-                    <LayoutOptionalFrame PropertyName=""ElseInstructions"" />
+                    <LayoutKeywordFrame>else</LayoutKeywordFrame>
+                    <LayoutVerticalPanelFrame HasTabulationMargin=""True"">
+                        <LayoutOptionalFrame PropertyName=""ElseInstructions"" />
+                    </LayoutVerticalPanelFrame>
                 </LayoutVerticalPanelFrame>
             </LayoutVerticalPanelFrame>
             <LayoutKeywordFrame>end</LayoutKeywordFrame>
