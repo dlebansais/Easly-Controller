@@ -1690,6 +1690,8 @@ namespace EaslyEdit
             <LayoutDiscreteFrame PropertyName=""Conditional"" LeftMargin=""Whitespace"" RightMargin=""Whitespace"">
                 <LayoutKeywordFrame>and</LayoutKeywordFrame>
                 <LayoutKeywordFrame>or</LayoutKeywordFrame>
+                <LayoutKeywordFrame>xor</LayoutKeywordFrame>
+                <LayoutKeywordFrame>→</LayoutKeywordFrame>
             </LayoutDiscreteFrame>
             <LayoutHorizontalPanelFrame>
                 <LayoutSymbolFrame Symbol=""{x:Static const:Symbols.LeftParenthesis}"" RightMargin=""ThinSpace"">

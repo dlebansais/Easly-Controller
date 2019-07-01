@@ -867,6 +867,8 @@ namespace TestDebug
             <FrameDiscreteFrame PropertyName=""Conditional"">
                 <FrameKeywordFrame>and</FrameKeywordFrame>
                 <FrameKeywordFrame>or</FrameKeywordFrame>
+                <FrameKeywordFrame>xor</FrameKeywordFrame>
+                <FrameKeywordFrame>→</FrameKeywordFrame>
             </FrameDiscreteFrame>
             <FrameHorizontalPanelFrame>
                 <FrameSymbolFrame Symbol=""{x:Static const:Symbols.LeftParenthesis}"">

@@ -2852,7 +2852,6 @@
             Debug.Assert(State != null);
 
             IFocusInner ParentInner = State.ParentInner;
-            Debug.Assert(ParentInner != null);
 
             IFocusPlaceholderNodeState PlaceholderNodeState;
             IFocusPlaceholderNodeStateReadOnlyList StateList;

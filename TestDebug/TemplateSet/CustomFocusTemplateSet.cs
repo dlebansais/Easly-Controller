@@ -1657,6 +1657,8 @@ namespace TestDebug
             <FocusDiscreteFrame PropertyName=""Conditional"">
                 <FocusKeywordFrame>and</FocusKeywordFrame>
                 <FocusKeywordFrame>or</FocusKeywordFrame>
+                <FocusKeywordFrame>xor</FocusKeywordFrame>
+                <FocusKeywordFrame>→</FocusKeywordFrame>
             </FocusDiscreteFrame>
             <FocusHorizontalPanelFrame>
                 <FocusSymbolFrame Symbol=""{x:Static const:Symbols.LeftParenthesis}"">
