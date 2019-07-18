@@ -1658,7 +1658,7 @@ namespace TestDebug
                 <FocusKeywordFrame>and</FocusKeywordFrame>
                 <FocusKeywordFrame>or</FocusKeywordFrame>
                 <FocusKeywordFrame>xor</FocusKeywordFrame>
-                <FocusKeywordFrame>→</FocusKeywordFrame>
+                <FocusKeywordFrame>⇒</FocusKeywordFrame>
             </FocusDiscreteFrame>
             <FocusHorizontalPanelFrame>
                 <FocusSymbolFrame Symbol=""{x:Static const:Symbols.LeftParenthesis}"">

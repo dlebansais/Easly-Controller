@@ -868,7 +868,7 @@ namespace TestDebug
                 <FrameKeywordFrame>and</FrameKeywordFrame>
                 <FrameKeywordFrame>or</FrameKeywordFrame>
                 <FrameKeywordFrame>xor</FrameKeywordFrame>
-                <FrameKeywordFrame>→</FrameKeywordFrame>
+                <FrameKeywordFrame>⇒</FrameKeywordFrame>
             </FrameDiscreteFrame>
             <FrameHorizontalPanelFrame>
                 <FrameSymbolFrame Symbol=""{x:Static const:Symbols.LeftParenthesis}"">
