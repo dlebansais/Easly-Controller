@@ -161,12 +161,50 @@
             <param name="x">The first number.</param>
             <param name="y">The second number.</param>
         </member>
+        <member name="M:FormattedNumber.CanonicalNumber.Add(FormattedNumber.CanonicalNumber)">
+            <summary>
+            Returns the sum of this number and another.
+            </summary>
+            <param name="other">The other number.</param>
+        </member>
+        <member name="M:FormattedNumber.CanonicalNumber.op_Subtraction(FormattedNumber.CanonicalNumber,FormattedNumber.CanonicalNumber)">
+            <summary>
+            Returns the difference between two numbers: x - y.
+            </summary>
+            <param name="x">The first number.</param>
+            <param name="y">The second number.</param>
+        </member>
+        <member name="M:FormattedNumber.CanonicalNumber.Subtract(FormattedNumber.CanonicalNumber)">
+            <summary>
+            Returns the difference between this number and another.
+            </summary>
+            <param name="other">The other number.</param>
+        </member>
+        <member name="M:FormattedNumber.CanonicalNumber.op_Multiply(FormattedNumber.CanonicalNumber,FormattedNumber.CanonicalNumber)">
+            <summary>
+            Returns the product of two numbers: x * y.
+            </summary>
+            <param name="x">The first number.</param>
+            <param name="y">The second number.</param>
+        </member>
+        <member name="M:FormattedNumber.CanonicalNumber.Multiply(FormattedNumber.CanonicalNumber)">
+            <summary>
+            Returns the product of this number and another.
+            </summary>
+            <param name="other">The other number.</param>
+        </member>
         <member name="M:FormattedNumber.CanonicalNumber.op_Division(FormattedNumber.CanonicalNumber,FormattedNumber.CanonicalNumber)">
             <summary>
             Returns the ratio of two numbers: x / y.
             </summary>
             <param name="x">The first number.</param>
             <param name="y">The second number.</param>
+        </member>
+        <member name="M:FormattedNumber.CanonicalNumber.Divide(FormattedNumber.CanonicalNumber)">
+            <summary>
+            Returns the ratio of this number and another.
+            </summary>
+            <param name="other">The other number.</param>
         </member>
         <member name="M:FormattedNumber.CanonicalNumber.ToString">
             <summary>
@@ -246,6 +284,12 @@
             The trailing invalid text, if any.
             </summary>
         </member>
+        <member name="P:FormattedNumber.FormattedNumber.IsValid">
+            <summary>
+            True if the number is valid.
+            A valid number is finite in the sense of arithmetic (not NaN, not infinite), and has no trailing invalid text.
+            </summary>
+        </member>
         <member name="P:FormattedNumber.FormattedNumber.Canonical">
             <summary>
             The canonical form of the parsed number.
@@ -318,6 +362,12 @@
             <summary>
             The exponent part. Can be empty.
             This includes all characters after the exponent character and before the invalid text.
+            </summary>
+        </member>
+        <member name="P:FormattedNumber.FormattedInteger.IsValid">
+            <summary>
+            True if the number is valid.
+            A valid number is finite in the sense of arithmetic (not NaN, not infinite), and has no trailing invalid text.
             </summary>
         </member>
         <member name="M:FormattedNumber.FormattedInteger.ToString">
@@ -396,6 +446,12 @@
             <summary>
             The exponent part. Can be empty.
             This includes all characters after the exponent character and before the invalid text.
+            </summary>
+        </member>
+        <member name="P:FormattedNumber.FormattedReal.IsValid">
+            <summary>
+            True if the number is valid.
+            A valid number is finite in the sense of arithmetic (not NaN, not infinite), and has no trailing invalid text.
             </summary>
         </member>
         <member name="M:FormattedNumber.FormattedReal.ToString">
@@ -828,6 +884,12 @@
             <summary>
             The exponent part. Can be empty.
             This includes all characters after the exponent character and before the invalid text.
+            </summary>
+        </member>
+        <member name="P:FormattedNumber.FormattedInvalid.IsValid">
+            <summary>
+            True if the number is valid.
+            A valid number is finite in the sense of arithmetic (not NaN, not infinite), and has no trailing invalid text.
             </summary>
         </member>
         <member name="M:FormattedNumber.FormattedInvalid.ToString">
