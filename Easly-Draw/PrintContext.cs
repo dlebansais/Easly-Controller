@@ -3,10 +3,10 @@
     using System.Diagnostics;
     using System.Globalization;
     using System.Windows.Media;
-    using BaseNodeHelper;
     using EaslyController.Constants;
     using EaslyController.Controller;
     using EaslyController.Layout;
+    using FormattedNumber;
 
     /// <summary>
     /// An implementation of IxxxPrintContext for WPF.
@@ -68,27 +68,27 @@
         /// <param name="origin">The location where to start printing.</param>
         public virtual void PrintNumber(string text, Point origin)
         {
-            IFormattedNumber fn = FormattedNumber.Parse(text, false);
-            string SignificandString = fn.SignificandString;
-            string ExponentString = fn.ExponentString;
+            FormattedNumber fn = Parser.Parse(text);
+            string SignificandPart = fn.SignificandPart;
+            string ExponentPart = fn.ExponentPart;
             string InvalidText = fn.InvalidText;
 
             // Try to use superscript digits in the exponent.
             string SuperscriptExponentString = string.Empty;
-            for (int i = 0; i < ExponentString.Length; i++)
+            for (int i = 0; i < ExponentPart.Length; i++)
             {
-                int Index = "0123456789+-".IndexOf(ExponentString[i]);
-                SuperscriptExponentString += (Index < 0) ? ExponentString[i] : "⁰¹²³⁴⁵⁶⁷⁸⁹⁺⁻"[Index];
+                int Index = "0123456789+-".IndexOf(ExponentPart[i]);
+                SuperscriptExponentString += (Index < 0) ? ExponentPart[i] : "⁰¹²³⁴⁵⁶⁷⁸⁹⁺⁻"[Index];
             }
 
             int X = origin.X.Print;
             int Y = origin.Y.Print;
 
-            PrintableArea.Print(SignificandString, X, Y, BrushSettings.NumberSignificand);
-            X += SignificandString.Length;
+            PrintableArea.Print(SignificandPart, X, Y, BrushSettings.NumberSignificand);
+            X += SignificandPart.Length;
 
             PrintableArea.Print(SuperscriptExponentString, X, Y, BrushSettings.NumberExponent);
-            X += ExponentString.Length;
+            X += ExponentPart.Length;
 
             PrintableArea.Print(InvalidText, X, Y, BrushSettings.NumberInvalid);
         }

@@ -35,6 +35,10 @@
     <Reference Include="Easly-Language">
       <HintPath>..\Easly-Language\$(Platform)\$(Configuration)\Easly-Language-Helper.dll</HintPath>
     </Reference>
+    <Reference Include="FormattedNumber">
+      <HintPath>..\FormattedNumber\$(Platform)\$(Configuration)\FormattedNumber.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="System" />
     <Reference Include="System.Core" />

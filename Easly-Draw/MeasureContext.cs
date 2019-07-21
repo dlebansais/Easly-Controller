@@ -4,10 +4,10 @@
     using System.Diagnostics;
     using System.Globalization;
     using System.Windows.Media;
-    using BaseNodeHelper;
     using EaslyController.Constants;
     using EaslyController.Controller;
     using EaslyController.Layout;
+    using FormattedNumber;
 
     /// <summary>
     /// An implementation of IxxxMeasureContext for WPF.
@@ -230,18 +230,18 @@
         /// <returns>The size of the string.</returns>
         public virtual Size MeasureNumber(string text)
         {
-            IFormattedNumber fn = FormattedNumber.Parse(text, false);
-            string SignificandString = fn.SignificandString;
-            string ExponentString = fn.ExponentString;
+            FormattedNumber fn = Parser.Parse(text);
+            string SignificandPart = fn.SignificandPart;
+            string ExponentPart = fn.ExponentPart;
             string InvalidText = fn.InvalidText;
 
             Brush Brush;
 
             Brush = GetBrush(BrushSettings.NumberSignificand);
-            FormattedText ftSignificand = new FormattedText(SignificandString, Culture, FlowDirection, Typeface, EmSize, Brush);
+            FormattedText ftSignificand = new FormattedText(SignificandPart, Culture, FlowDirection, Typeface, EmSize, Brush);
 
             Brush = GetBrush(BrushSettings.NumberExponent);
-            FormattedText ftExponent = new FormattedText(ExponentString, Culture, FlowDirection, Typeface, EmSize * SubscriptRatio, Brush);
+            FormattedText ftExponent = new FormattedText(ExponentPart, Culture, FlowDirection, Typeface, EmSize * SubscriptRatio, Brush);
 
             Brush = GetBrush(BrushSettings.NumberInvalid);
             FormattedText ftInvalid = new FormattedText(InvalidText, Culture, FlowDirection, Typeface, EmSize, Brush);
