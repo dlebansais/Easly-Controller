@@ -124,35 +124,11 @@
             </summary>
             <param name="other">The other instance.</param>
         </member>
-        <member name="M:FormattedNumber.CanonicalNumber.OppositeOf">
-            <summary>
-            Returns the opposite number.
-            </summary>
-        </member>
-        <member name="M:FormattedNumber.CanonicalNumber.IsGreater(FormattedNumber.CanonicalNumber)">
-            <summary>
-            Checks if this instance is greater than another constant.
-            </summary>
-        </member>
         <member name="M:FormattedNumber.CanonicalNumber.TryParseInt(System.Int32@)">
             <summary>
             Gets the value if it can be represented with a <see cref="T:System.Int32"/>.
             </summary>
             <param name="value">The value upon return.</param>
-        </member>
-        <member name="M:FormattedNumber.CanonicalNumber.op_LessThan(FormattedNumber.CanonicalNumber,FormattedNumber.CanonicalNumber)">
-            <summary>
-            Checks if <paramref name="number1"/> is lesser than <paramref name="number2"/>.
-            </summary>
-            <param name="number1">The first number.</param>
-            <param name="number2">The second number.</param>
-        </member>
-        <member name="M:FormattedNumber.CanonicalNumber.op_GreaterThan(FormattedNumber.CanonicalNumber,FormattedNumber.CanonicalNumber)">
-            <summary>
-            Checks if <paramref name="number1"/> is greater than <paramref name="number2"/>.
-            </summary>
-            <param name="number1">The first number.</param>
-            <param name="number2">The second number.</param>
         </member>
         <member name="M:FormattedNumber.CanonicalNumber.op_Addition(FormattedNumber.CanonicalNumber,FormattedNumber.CanonicalNumber)">
             <summary>
@@ -206,6 +182,62 @@
             </summary>
             <param name="other">The other number.</param>
         </member>
+        <member name="M:FormattedNumber.CanonicalNumber.op_UnaryNegation(FormattedNumber.CanonicalNumber)">
+            <summary>
+            Returns the negation of a number: -x.
+            </summary>
+            <param name="x">The number.</param>
+        </member>
+        <member name="M:FormattedNumber.CanonicalNumber.Negate">
+            <summary>
+            Returns the negation of the number.
+            </summary>
+        </member>
+        <member name="M:FormattedNumber.CanonicalNumber.Abs">
+            <summary>
+            Returns the absolute value.
+            </summary>
+        </member>
+        <member name="M:FormattedNumber.CanonicalNumber.Exp">
+            <summary>
+            Returns e (the base of natural logarithms) raised to the power of this object's value.
+            </summary>
+        </member>
+        <member name="M:FormattedNumber.CanonicalNumber.Log">
+            <summary>
+            Returns the natural logarithms of this object's value.
+            </summary>
+        </member>
+        <member name="M:FormattedNumber.CanonicalNumber.Log10">
+            <summary>
+            Returns the base-10 logarithms of this object's value.
+            </summary>
+        </member>
+        <member name="M:FormattedNumber.CanonicalNumber.Pow(FormattedNumber.CanonicalNumber)">
+            <summary>
+            Returns this object's value raised to the power x.
+            </summary>
+            <param name="x">The number.</param>
+        </member>
+        <member name="M:FormattedNumber.CanonicalNumber.Sqrt">
+            <summary>
+            Returns the square root of this object's value.
+            </summary>
+        </member>
+        <member name="M:FormattedNumber.CanonicalNumber.op_LessThan(FormattedNumber.CanonicalNumber,FormattedNumber.CanonicalNumber)">
+            <summary>
+            Checks if <paramref name="x"/> is lesser than <paramref name="y"/>.
+            </summary>
+            <param name="x">The first number.</param>
+            <param name="y">The second number.</param>
+        </member>
+        <member name="M:FormattedNumber.CanonicalNumber.op_GreaterThan(FormattedNumber.CanonicalNumber,FormattedNumber.CanonicalNumber)">
+            <summary>
+            Checks if <paramref name="x"/> is greater than <paramref name="y"/>.
+            </summary>
+            <param name="x">The first number.</param>
+            <param name="y">The second number.</param>
+        </member>
         <member name="M:FormattedNumber.CanonicalNumber.ToString">
             <summary>
             Returns a string representation of this instance.
@@ -219,6 +251,11 @@
         <member name="P:FormattedNumber.Flags.DivideByZero">
             <summary>
             Signals a division of a nonzero number by zero.
+            </summary>
+        </member>
+        <member name="P:FormattedNumber.Flags.Inexact">
+            <summary>
+            Signals that the result was rounded to a different mathematical value, but as close as possible to the original.
             </summary>
         </member>
         <member name="M:FormattedNumber.Flags.Clear">
@@ -295,6 +332,11 @@
             The canonical form of the parsed number.
             </summary>
         </member>
+        <member name="P:FormattedNumber.FormattedNumber.Diagnostic">
+            <summary>
+            A diagnostic string for debug purpose.
+            </summary>
+        </member>
         <member name="M:FormattedNumber.FormattedNumber.GetSignText(FormattedNumber.OptionalSign)">
             <summary></summary>
         </member>
@@ -308,12 +350,63 @@
             <param name="x">The first number.</param>
             <param name="y">The second number.</param>
         </member>
+        <member name="M:FormattedNumber.FormattedNumber.op_Subtraction(FormattedNumber.FormattedNumber,FormattedNumber.FormattedNumber)">
+            <summary>
+            Returns the difference of two numbers: x - y.
+            </summary>
+            <param name="x">The first number.</param>
+            <param name="y">The second number.</param>
+        </member>
+        <member name="M:FormattedNumber.FormattedNumber.op_Multiply(FormattedNumber.FormattedNumber,FormattedNumber.FormattedNumber)">
+            <summary>
+            Returns the product of two numbers: x * y.
+            </summary>
+            <param name="x">The first number.</param>
+            <param name="y">The second number.</param>
+        </member>
         <member name="M:FormattedNumber.FormattedNumber.op_Division(FormattedNumber.FormattedNumber,FormattedNumber.FormattedNumber)">
             <summary>
             Returns the ratio of two numbers: x / y.
             </summary>
             <param name="x">The first number.</param>
             <param name="y">The second number.</param>
+        </member>
+        <member name="M:FormattedNumber.FormattedNumber.op_UnaryNegation(FormattedNumber.FormattedNumber)">
+            <summary>
+            Returns the negation of a number: -x.
+            </summary>
+            <param name="x">The number.</param>
+        </member>
+        <member name="M:FormattedNumber.FormattedNumber.Abs">
+            <summary>
+            Returns the absolute value.
+            </summary>
+        </member>
+        <member name="M:FormattedNumber.FormattedNumber.Exp">
+            <summary>
+            Returns e (the base of natural logarithms) raised to the power of this object's value.
+            </summary>
+        </member>
+        <member name="M:FormattedNumber.FormattedNumber.Log">
+            <summary>
+            Returns the natural logarithms of this object's value.
+            </summary>
+        </member>
+        <member name="M:FormattedNumber.FormattedNumber.Log10">
+            <summary>
+            Returns the base-10 logarithms of this object's value.
+            </summary>
+        </member>
+        <member name="M:FormattedNumber.FormattedNumber.Pow(FormattedNumber.FormattedNumber)">
+            <summary>
+            Returns this object's value raised to the power x.
+            </summary>
+            <param name="x">The number.</param>
+        </member>
+        <member name="M:FormattedNumber.FormattedNumber.Sqrt">
+            <summary>
+            Returns the square root of this object's value.
+            </summary>
         </member>
         <member name="T:FormattedNumber.FormattedInteger">
             <summary>
@@ -326,11 +419,12 @@
             </summary>
             <param name="integerBase">The base.</param>
             <param name="sign">The optional sign.</param>
-            <param name="leadingZeroesCount">The number of leading zeroes.</param>
+            <param name="leadingZeroCount">The number of leading zeroes.</param>
             <param name="integerText">The integer text..</param>
             <param name="invalidText">The trailing invalid text, if any.</param>
             <param name="canonical">The canonical form of the number.</param>
             <exception cref="T:System.NullReferenceException"><paramref name="invalidText"/> or <paramref name="canonical"/> is null.</exception>
+            <exception cref="T:System.ArgumentOutOfRangeException"><paramref name="leadingZeroCount"/> is lesser than zero.</exception>
         </member>
         <member name="P:FormattedNumber.FormattedInteger.IntegerBase">
             <summary>
@@ -342,7 +436,7 @@
             Gets the optional sign.
             </summary>
         </member>
-        <member name="P:FormattedNumber.FormattedInteger.LeadingZeroesCount">
+        <member name="P:FormattedNumber.FormattedInteger.LeadingZeroCount">
             <summary>
             Gets the number of leading zeroes. Can be 0.
             </summary>
@@ -370,6 +464,11 @@
             A valid number is finite in the sense of arithmetic (not NaN, not infinite), and has no trailing invalid text.
             </summary>
         </member>
+        <member name="P:FormattedNumber.FormattedInteger.Diagnostic">
+            <summary>
+            A diagnostic string for debug purpose.
+            </summary>
+        </member>
         <member name="M:FormattedNumber.FormattedInteger.ToString">
             <summary>
             Returns the formatted number as a string.
@@ -385,7 +484,7 @@
             Initializes a new instance of the <see cref="T:FormattedNumber.FormattedReal"/> class.
             </summary>
             <param name="sign">The optional sign.</param>
-            <param name="leadingZeroesCount">The number of leading zeroes.</param>
+            <param name="leadingZeroCount">The number of leading zeroes.</param>
             <param name="integerText">The text before the decimal separator character. Can be empty.</param>
             <param name="separatorCharacter">The decimal separator character. Can be <see cref="F:FormattedNumber.Parser.NoSeparator"/>.</param>
             <param name="fractionalText">The text after the decimal separator character and before the exponent. Can be empty.</param>
@@ -401,7 +500,7 @@
             Gets the optional sign.
             </summary>
         </member>
-        <member name="P:FormattedNumber.FormattedReal.LeadingZeroesCount">
+        <member name="P:FormattedNumber.FormattedReal.LeadingZeroCount">
             <summary>
             Gets the number of leading zeroes. Can be 0.
             </summary>
@@ -454,6 +553,11 @@
             A valid number is finite in the sense of arithmetic (not NaN, not infinite), and has no trailing invalid text.
             </summary>
         </member>
+        <member name="P:FormattedNumber.FormattedReal.Diagnostic">
+            <summary>
+            A diagnostic string for debug purpose.
+            </summary>
+        </member>
         <member name="M:FormattedNumber.FormattedReal.ToString">
             <summary>
             Returns the formatted number as a string.
@@ -490,6 +594,11 @@
             An instance of <see cref="T:FormattedNumber.FormattedReal"/> if <paramref name="text"/> can be parsed, but not as an integer.
             </returns>
             <exception cref="T:System.NullReferenceException"><paramref name="text"/> is null.</exception>
+        </member>
+        <member name="T:FormattedNumber.IBinaryIntegerBase">
+            <summary>
+            Interface describing a binary (base 2) integer.
+            </summary>
         </member>
         <member name="T:FormattedNumber.BinaryIntegerBase">
             <summary>
@@ -531,6 +640,11 @@
             </summary>
             <param name="digit">The digit.</param>
         </member>
+        <member name="T:FormattedNumber.IDecimalIntegerBase">
+            <summary>
+            Interface describing a decimal (base 10) integer.
+            </summary>
+        </member>
         <member name="T:FormattedNumber.DecimalIntegerBase">
             <summary>
             Class describing a decimal (base 10) integer.
@@ -570,6 +684,11 @@
             Returns the value corresponding to a digit.
             </summary>
             <param name="digit">The digit.</param>
+        </member>
+        <member name="T:FormattedNumber.IHexadecimalIntegerBase">
+            <summary>
+            Interface describing an hexadecimal (base 16) integer.
+            </summary>
         </member>
         <member name="T:FormattedNumber.HexadecimalIntegerBase">
             <summary>
@@ -816,6 +935,11 @@
             <param name="fromBase">The base in which <paramref name="text"/> is encoded.</param>
             <param name="toBase">The base in which the returned number is encoded.</param>
         </member>
+        <member name="T:FormattedNumber.IOctalIntegerBase">
+            <summary>
+            Interface describing an octal (base 8) integer.
+            </summary>
+        </member>
         <member name="T:FormattedNumber.OctalIntegerBase">
             <summary>
             Class describing an octal (base 8) integer.
@@ -892,6 +1016,11 @@
             A valid number is finite in the sense of arithmetic (not NaN, not infinite), and has no trailing invalid text.
             </summary>
         </member>
+        <member name="P:FormattedNumber.FormattedInvalid.Diagnostic">
+            <summary>
+            A diagnostic string for debug purpose.
+            </summary>
+        </member>
         <member name="M:FormattedNumber.FormattedInvalid.ToString">
             <summary>
             Returns the formatted number as a string.
@@ -916,6 +1045,227 @@
             <summary>
             - sign.
             </summary>
+        </member>
+        <member name="T:FormattedNumber.IBinaryIntegerParsingInfo">
+            <summary>
+            Hold information during parsing of an integer in binary base.
+            </summary>
+        </member>
+        <member name="T:FormattedNumber.BinaryIntegerParsingInfo">
+            <summary>
+            Hold information during parsing of an integer in binary base.
+            </summary>
+        </member>
+        <member name="P:FormattedNumber.BinaryIntegerParsingInfo.Base">
+            <summary>
+            The base to use when parsing.
+            </summary>
+        </member>
+        <member name="T:FormattedNumber.IRealParsingInfo">
+            <summary>
+            Hold information during parsing of a real number.
+            </summary>
+        </member>
+        <member name="T:FormattedNumber.RealParsingInfo">
+            <summary>
+            Hold information during parsing of a real number.
+            </summary>
+        </member>
+        <member name="M:FormattedNumber.RealParsingInfo.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:FormattedNumber.RealParsingInfo"/> class.
+            </summary>
+        </member>
+        <member name="M:FormattedNumber.RealParsingInfo.UpdateBestParsing(FormattedNumber.IParsingInfo@,System.Int32@)">
+            <summary>
+            Checks if the current parser went further than others.
+            </summary>
+            <param name="parsing">The previous best parser.</param>
+            <param name="length">The length reached by <paramref name="parsing"/>.</param>
+        </member>
+        <member name="M:FormattedNumber.RealParsingInfo.GetResult(System.String)">
+            <summary>
+            Gets the formatted number that this parser is able to extract.
+            </summary>
+            <param name="text">The source string.</param>
+        </member>
+        <member name="T:FormattedNumber.IOctalIntegerParsingInfo">
+            <summary>
+            Hold information during parsing of an integer in octal base.
+            </summary>
+        </member>
+        <member name="T:FormattedNumber.OctalIntegerParsingInfo">
+            <summary>
+            Hold information during parsing of an integer in octal base.
+            </summary>
+        </member>
+        <member name="P:FormattedNumber.OctalIntegerParsingInfo.Base">
+            <summary>
+            The base to use when parsing.
+            </summary>
+        </member>
+        <member name="T:FormattedNumber.IHexadecimalIntegerParsingInfo">
+            <summary>
+            Hold information during parsing of an integer in hexadecimal base.
+            </summary>
+        </member>
+        <member name="T:FormattedNumber.HexadecimalIntegerParsingInfo">
+            <summary>
+            Hold information during parsing of an integer in hexadecimal base.
+            </summary>
+        </member>
+        <member name="P:FormattedNumber.HexadecimalIntegerParsingInfo.Base">
+            <summary>
+            The base to use when parsing.
+            </summary>
+        </member>
+        <member name="T:FormattedNumber.IIntegerWithBaseParsingInfo">
+            <summary>
+            Hold information during parsing of an integer in base other than decimal.
+            </summary>
+        </member>
+        <member name="T:FormattedNumber.IntegerWithBaseParsingInfo">
+            <summary>
+            Hold information during parsing of an integer in base other than decimal.
+            </summary>
+        </member>
+        <member name="M:FormattedNumber.IntegerWithBaseParsingInfo.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:FormattedNumber.IntegerWithBaseParsingInfo"/> class.
+            </summary>
+        </member>
+        <member name="P:FormattedNumber.IntegerWithBaseParsingInfo.Base">
+            <summary>
+            The base to use when parsing.
+            </summary>
+        </member>
+        <member name="M:FormattedNumber.IntegerWithBaseParsingInfo.UpdateBestParsing(FormattedNumber.IParsingInfo@,System.Int32@)">
+            <summary>
+            Checks if the current parser went further than others.
+            </summary>
+            <param name="parsing">The previous best parser.</param>
+            <param name="length">The length reached by <paramref name="parsing"/>.</param>
+        </member>
+        <member name="M:FormattedNumber.IntegerWithBaseParsingInfo.GetResult(System.String)">
+            <summary>
+            Gets the formatted number that this parser is able to extract.
+            </summary>
+            <param name="text">The source string.</param>
+        </member>
+        <member name="T:FormattedNumber.IInvalidParsingInfo">
+            <summary>
+            Never parses anything.
+            </summary>
+        </member>
+        <member name="T:FormattedNumber.InvalidParsingInfo">
+            <summary>
+            Never parses anything.
+            </summary>
+        </member>
+        <member name="M:FormattedNumber.InvalidParsingInfo.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:FormattedNumber.InvalidParsingInfo"/> class.
+            </summary>
+        </member>
+        <member name="M:FormattedNumber.InvalidParsingInfo.GetResult(System.String)">
+            <summary>
+            Gets the formatted number that this parser is able to extract.
+            </summary>
+            <param name="text">The source string.</param>
+        </member>
+        <member name="T:FormattedNumber.IParsingInfo">
+            <summary>
+            Hold information during parsing of a number.
+            </summary>
+        </member>
+        <member name="P:FormattedNumber.IParsingInfo.StillParsing">
+            <summary>
+            True if parsing is still going on.
+            </summary>
+        </member>
+        <member name="P:FormattedNumber.IParsingInfo.Handler">
+            <summary>
+            Current handler for parsing.
+            </summary>
+        </member>
+        <member name="M:FormattedNumber.IParsingInfo.UpdateBestParsing(FormattedNumber.IParsingInfo@,System.Int32@)">
+            <summary>
+            Checks if the current parser went further than others.
+            </summary>
+            <param name="parsing">The previous best parser.</param>
+            <param name="length">The length reached by <paramref name="parsing"/>.</param>
+        </member>
+        <member name="M:FormattedNumber.IParsingInfo.GetResult(System.String)">
+            <summary>
+            Gets the formatted number that this parser is able to extract.
+            </summary>
+            <param name="text">The source string.</param>
+        </member>
+        <member name="T:FormattedNumber.ParsingInfo">
+            <summary>
+            Hold information during parsing of a number.
+            </summary>
+        </member>
+        <member name="M:FormattedNumber.ParsingInfo.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:FormattedNumber.ParsingInfo"/> class.
+            </summary>
+        </member>
+        <member name="P:FormattedNumber.ParsingInfo.StillParsing">
+            <summary>
+            True if parsing is still going on.
+            </summary>
+        </member>
+        <member name="P:FormattedNumber.ParsingInfo.Handler">
+            <summary>
+            Current handler for parsing.
+            </summary>
+        </member>
+        <member name="P:FormattedNumber.ParsingInfo.LengthSuccessful">
+            <summary>
+            Number of characters successfully parsed.
+            </summary>
+        </member>
+        <member name="M:FormattedNumber.ParsingInfo.UpdateBestParsing(FormattedNumber.IParsingInfo@,System.Int32@)">
+            <summary>
+            Checks if the current parser went further than others.
+            </summary>
+            <param name="parsing">The previous best parser.</param>
+            <param name="length">The length reached by <paramref name="parsing"/>.</param>
+        </member>
+        <member name="M:FormattedNumber.ParsingInfo.GetResult(System.String)">
+            <summary>
+            Gets the formatted number that this parser is able to extract.
+            </summary>
+            <param name="text">The source string.</param>
+        </member>
+        <member name="T:FormattedNumber.IDecimalIntegerParsingInfo">
+            <summary>
+            Hold information during parsing of an integer in decimal base.
+            </summary>
+        </member>
+        <member name="T:FormattedNumber.DecimalIntegerParsingInfo">
+            <summary>
+            Hold information during parsing of an integer in decimal base.
+            </summary>
+        </member>
+        <member name="M:FormattedNumber.DecimalIntegerParsingInfo.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:FormattedNumber.DecimalIntegerParsingInfo"/> class.
+            </summary>
+        </member>
+        <member name="M:FormattedNumber.DecimalIntegerParsingInfo.UpdateBestParsing(FormattedNumber.IParsingInfo@,System.Int32@)">
+            <summary>
+            Checks if the current parser went further than others.
+            </summary>
+            <param name="parsing">The previous best parser.</param>
+            <param name="length">The length reached by <paramref name="parsing"/>.</param>
+        </member>
+        <member name="M:FormattedNumber.DecimalIntegerParsingInfo.GetResult(System.String)">
+            <summary>
+            Gets the formatted number that this parser is able to extract.
+            </summary>
+            <param name="text">The source string.</param>
         </member>
         <member name="M:PeterO.Numbers.DigitShiftAccumulator.ShiftRightInt(System.Int32)">
             <summary>
