@@ -224,6 +224,42 @@
             Returns the square root of this object's value.
             </summary>
         </member>
+        <member name="M:FormattedNumber.CanonicalNumber.ShiftLeft(FormattedNumber.CanonicalNumber)">
+            <summary>
+            Returns this object's value multiplied by a specified power of two.
+            </summary>
+            <param name="other">The other number.</param>
+        </member>
+        <member name="M:FormattedNumber.CanonicalNumber.ShiftRight(FormattedNumber.CanonicalNumber)">
+            <summary>
+            Returns this object's value divided by a specified power of two.
+            </summary>
+            <param name="other">The other number.</param>
+        </member>
+        <member name="M:FormattedNumber.CanonicalNumber.Remainder(FormattedNumber.CanonicalNumber)">
+            <summary>
+            Returns the remainder when this object's value is divided by another.
+            </summary>
+            <param name="other">The other number.</param>
+        </member>
+        <member name="M:FormattedNumber.CanonicalNumber.BitwiseAnd(FormattedNumber.CanonicalNumber)">
+            <summary>
+            Returns the bitwise AND of this object's value and another.
+            </summary>
+            <param name="other">The other number.</param>
+        </member>
+        <member name="M:FormattedNumber.CanonicalNumber.BitwiseOr(FormattedNumber.CanonicalNumber)">
+            <summary>
+            Returns the bitwise OR of this object's value and another.
+            </summary>
+            <param name="other">The other number.</param>
+        </member>
+        <member name="M:FormattedNumber.CanonicalNumber.BitwiseXor(FormattedNumber.CanonicalNumber)">
+            <summary>
+            Returns the bitwise OR of this object's value and another.
+            </summary>
+            <param name="other">The other number.</param>
+        </member>
         <member name="M:FormattedNumber.CanonicalNumber.op_LessThan(FormattedNumber.CanonicalNumber,FormattedNumber.CanonicalNumber)">
             <summary>
             Checks if <paramref name="x"/> is lesser than <paramref name="y"/>.
@@ -268,6 +304,11 @@
             Update flags after an operation.
             </summary>
             <param name="context">The context used to perform the operation.</param>
+        </member>
+        <member name="M:FormattedNumber.Flags.SetInexact">
+            <summary>
+            Forces the inexact flag to true.
+            </summary>
         </member>
         <member name="T:FormattedNumber.FormattedNumber">
             <summary>
@@ -407,6 +448,42 @@
             <summary>
             Returns the square root of this object's value.
             </summary>
+        </member>
+        <member name="M:FormattedNumber.FormattedNumber.ShiftLeft(FormattedNumber.FormattedNumber)">
+            <summary>
+            Returns this object's value multiplied by a specified power of two.
+            </summary>
+            <param name="x">The number.</param>
+        </member>
+        <member name="M:FormattedNumber.FormattedNumber.ShiftRight(FormattedNumber.FormattedNumber)">
+            <summary>
+            Returns this object's value divided by a specified power of two.
+            </summary>
+            <param name="x">The number.</param>
+        </member>
+        <member name="M:FormattedNumber.FormattedNumber.Remainder(FormattedNumber.FormattedNumber)">
+            <summary>
+            Returns the remainder when this object's value is divided by x.
+            </summary>
+            <param name="x">The divisor.</param>
+        </member>
+        <member name="M:FormattedNumber.FormattedNumber.BitwiseAnd(FormattedNumber.FormattedNumber)">
+            <summary>
+            Returns the bitwise AND of this object's value and x.
+            </summary>
+            <param name="x">The number.</param>
+        </member>
+        <member name="M:FormattedNumber.FormattedNumber.BitwiseOr(FormattedNumber.FormattedNumber)">
+            <summary>
+            Returns the bitwise OR of this object's value and x.
+            </summary>
+            <param name="x">The number.</param>
+        </member>
+        <member name="M:FormattedNumber.FormattedNumber.BitwiseXor(FormattedNumber.FormattedNumber)">
+            <summary>
+            Returns the bitwise XOR of this object's value and x.
+            </summary>
+            <param name="x">The number.</param>
         </member>
         <member name="T:FormattedNumber.FormattedInteger">
             <summary>
@@ -6979,6 +7056,14 @@
             <summary>
             Converts this value to an arbitrary-precision integer. Any fractional part of this value will be discarded when converting to an arbitrary-precision integer.
             </summary>
+            <returns>An arbitrary-precision integer.</returns>
+            <exception cref='T:System.OverflowException'>This object's value is infinity or not-a-number (NaN).</exception>
+        </member>
+        <member name="M:PeterO.Numbers.EFloat.ToEIntegerWithStatus(System.Boolean@)">
+            <summary>
+            Converts this value to an arbitrary-precision integer. Any fractional part of this value will be discarded when converting to an arbitrary-precision integer.
+            </summary>
+            <param name="isFractionalPartDiscarded">True upon return if discarded.</param>
             <returns>An arbitrary-precision integer.</returns>
             <exception cref='T:System.OverflowException'>This object's value is infinity or not-a-number (NaN).</exception>
         </member>
