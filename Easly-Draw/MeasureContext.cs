@@ -7,7 +7,7 @@
     using EaslyController.Constants;
     using EaslyController.Controller;
     using EaslyController.Layout;
-    using FormattedNumber;
+    using EaslyNumber;
 
     /// <summary>
     /// An implementation of IxxxMeasureContext for WPF.
@@ -230,10 +230,10 @@
         /// <returns>The size of the string.</returns>
         public virtual Size MeasureNumber(string text)
         {
-            FormattedNumber fn = Parser.Parse(text);
-            string SignificandPart = fn.SignificandPart;
-            string ExponentPart = fn.ExponentPart;
-            string InvalidText = fn.InvalidText;
+            FormattedNumber fn = new FormattedNumber(text);
+            string SignificandPart = fn.BeforeExponent;
+            string ExponentPart = fn.Exponent;
+            string InvalidText = fn.InvalidPart;
 
             Brush Brush;
 

@@ -14,7 +14,7 @@
     using EaslyController.Constants;
     using EaslyController.Controller;
     using EaslyController.Layout;
-    using FormattedNumber;
+    using EaslyNumber;
 
     /// <summary>
     /// An implementation of IxxxDrawContext for WPF.
@@ -245,18 +245,18 @@
         {
             Debug.Assert(WpfDrawingContext != null);
 
-            FormattedNumber fn = Parser.Parse(text);
-            string SignificandPart = fn.SignificandPart;
-            string ExponentString0 = fn.ExponentPart.Length > 0 ? fn.ExponentPart.Substring(0, 1) : string.Empty;
-            string ExponentString1 = fn.ExponentPart.Length > 1 ? fn.ExponentPart.Substring(1) : string.Empty;
-            string InvalidText = fn.InvalidText;
+            FormattedNumber fn = new FormattedNumber(text);
+            string BeforeExponent = fn.BeforeExponent;
+            string ExponentString0 = fn.Exponent.Length > 0 ? fn.Exponent.Substring(0, 1) : string.Empty;
+            string ExponentString1 = fn.Exponent.Length > 1 ? fn.Exponent.Substring(1) : string.Empty;
+            string InvalidText = fn.InvalidPart;
 
             Brush Brush;
             double X = PagePadding.Left.Draw + origin.X.Draw;
             double Y = PagePadding.Top.Draw + origin.Y.Draw;
 
             Brush = GetBrush(BrushSettings.NumberSignificand);
-            FormattedText ftSignificand = new FormattedText(SignificandPart, Culture, FlowDirection, Typeface, EmSize, Brush);
+            FormattedText ftSignificand = new FormattedText(BeforeExponent, Culture, FlowDirection, Typeface, EmSize, Brush);
             WpfDrawingContext.DrawText(ftSignificand, new System.Windows.Point(X, Y));
             X += ftSignificand.WidthIncludingTrailingWhitespace;
 
@@ -566,16 +566,16 @@
         /// <summary></summary>
         protected virtual void ShowNumberCaret(Point origin, string text, CaretModes mode, int position)
         {
-            FormattedNumber fn = Parser.Parse(text);
+            FormattedNumber fn = new FormattedNumber(text);
 
-            GetNumberCaretParts(fn, position, out string SignificandPart, out string ExponentString0, out string ExponentString1, out string InvalidText);
+            GetNumberCaretParts(fn, position, out string BeforeExponent, out string ExponentString0, out string ExponentString1, out string InvalidText);
 
             double X = origin.X.Draw;
             double Y = origin.Y.Draw;
             Brush Brush;
 
             Brush = GetBrush(BrushSettings.NumberSignificand);
-            FormattedText ftSignificand = new FormattedText(SignificandPart, Culture, FlowDirection, Typeface, EmSize, Brush);
+            FormattedText ftSignificand = new FormattedText(BeforeExponent, Culture, FlowDirection, Typeface, EmSize, Brush);
             X += ftSignificand.WidthIncludingTrailingWhitespace;
 
             Brush = GetBrush(BrushSettings.NumberExponent);
@@ -591,7 +591,7 @@
             double CaretEmSize;
             double CaretHeight;
 
-            if (position <= fn.SignificandPart.Length || fn.ExponentPart.Length == 0 || position > fn.SignificandPart.Length + 1)
+            if (position <= fn.BeforeExponent.Length || fn.Exponent.Length == 0 || position > fn.BeforeExponent.Length + 1)
             {
                 CaretEmSize = EmSize;
                 CaretHeight = LineHeight.Draw;
@@ -609,35 +609,35 @@
         /// <summary></summary>
         protected virtual void GetNumberCaretParts(FormattedNumber fn, int position, out string significandString, out string exponentString0, out string exponentString1, out string invalidText)
         {
-            if (position <= fn.SignificandPart.Length)
+            if (position <= fn.BeforeExponent.Length)
             {
-                significandString = fn.SignificandPart.Substring(0, position);
+                significandString = fn.BeforeExponent.Substring(0, position);
                 exponentString0 = string.Empty;
                 exponentString1 = string.Empty;
                 invalidText = string.Empty;
             }
             else
             {
-                significandString = fn.SignificandPart;
+                significandString = fn.BeforeExponent;
 
-                if (position <= fn.SignificandPart.Length + fn.ExponentPart.Length && position <= fn.SignificandPart.Length + 1)
+                if (position <= fn.BeforeExponent.Length + fn.Exponent.Length && position <= fn.BeforeExponent.Length + 1)
                 {
-                    exponentString0 = fn.ExponentPart.Substring(0, 1);
+                    exponentString0 = fn.Exponent.Substring(0, 1);
                     exponentString1 = string.Empty;
                     invalidText = string.Empty;
                 }
-                else if (position <= fn.SignificandPart.Length + fn.ExponentPart.Length && position > fn.SignificandPart.Length)
+                else if (position <= fn.BeforeExponent.Length + fn.Exponent.Length && position > fn.BeforeExponent.Length)
                 {
-                    exponentString0 = fn.ExponentPart.Substring(0, 1);
-                    exponentString1 = fn.ExponentPart.Substring(1, position - fn.SignificandPart.Length - 1);
+                    exponentString0 = fn.Exponent.Substring(0, 1);
+                    exponentString1 = fn.Exponent.Substring(1, position - fn.BeforeExponent.Length - 1);
                     invalidText = string.Empty;
                 }
                 else
                 {
-                    if (fn.ExponentPart.Length > 0)
+                    if (fn.Exponent.Length > 0)
                     {
-                        exponentString0 = fn.ExponentPart.Substring(0, 1);
-                        exponentString1 = fn.ExponentPart.Substring(1);
+                        exponentString0 = fn.Exponent.Substring(0, 1);
+                        exponentString1 = fn.Exponent.Substring(1);
                     }
                     else
                     {
@@ -645,7 +645,7 @@
                         exponentString1 = string.Empty;
                     }
 
-                    invalidText = fn.InvalidText.Substring(0, position - fn.SignificandPart.Length - fn.ExponentPart.Length);
+                    invalidText = fn.InvalidPart.Substring(0, position - fn.BeforeExponent.Length - fn.Exponent.Length);
                 }
             }
         }
@@ -665,12 +665,12 @@
             {
                 string CaretText;
 
-                if (position < fn.SignificandPart.Length)
-                    CaretText = fn.SignificandPart.Substring(position, 1);
-                else if (position < fn.SignificandPart.Length + fn.ExponentPart.Length)
-                    CaretText = fn.ExponentPart.Substring(position - fn.SignificandPart.Length, 1);
+                if (position < fn.BeforeExponent.Length)
+                    CaretText = fn.BeforeExponent.Substring(position, 1);
+                else if (position < fn.BeforeExponent.Length + fn.Exponent.Length)
+                    CaretText = fn.Exponent.Substring(position - fn.BeforeExponent.Length, 1);
                 else
-                    CaretText = fn.InvalidText.Substring(position - fn.SignificandPart.Length - fn.ExponentPart.Length, 1);
+                    CaretText = fn.InvalidPart.Substring(position - fn.BeforeExponent.Length - fn.Exponent.Length, 1);
 
                 FormattedText ftCaret = new FormattedText(CaretText, Culture, FlowDirection, Typeface, caretEmSize, GetBrush(BrushSettings.CaretOverride));
 
