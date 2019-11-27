@@ -53,7 +53,7 @@
       <HintPath>..\packages\NUnit.3.12.0\lib\net45\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="PolySerializer">
-      <HintPath>..\Easly-PolySerializer\$(Platform)\$(Configuration)\PolySerializer.dll</HintPath>
+      <HintPath>..\PolySerializer\$(Platform)\$(Configuration)\PolySerializer.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
