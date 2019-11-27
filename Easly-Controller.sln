@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Easly-Preview", "Easly-Prev
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Easly-Edit", "Easly-Edit\Easly-Edit.csproj", "{ED89EF7C-7F5E-49CE-935F-1DE9715E79BB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test-Easly-Controller", "Test-Easly-Controller\Test-Easly-Controller.csproj", "{C3D406EF-0D02-4A09-93BE-8D73D11F619D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -51,6 +53,12 @@ Global
 		{ED89EF7C-7F5E-49CE-935F-1DE9715E79BB}.Release|x64.ActiveCfg = Release|x64
 		{ED89EF7C-7F5E-49CE-935F-1DE9715E79BB}.Release|x64.Build.0 = Release|x64
 		{ED89EF7C-7F5E-49CE-935F-1DE9715E79BB}.Travis|x64.ActiveCfg = Release|x64
+		{C3D406EF-0D02-4A09-93BE-8D73D11F619D}.Debug|x64.ActiveCfg = Debug|x64
+		{C3D406EF-0D02-4A09-93BE-8D73D11F619D}.Debug|x64.Build.0 = Debug|x64
+		{C3D406EF-0D02-4A09-93BE-8D73D11F619D}.Release|x64.ActiveCfg = Release|x64
+		{C3D406EF-0D02-4A09-93BE-8D73D11F619D}.Release|x64.Build.0 = Release|x64
+		{C3D406EF-0D02-4A09-93BE-8D73D11F619D}.Travis|x64.ActiveCfg = Travis|x64
+		{C3D406EF-0D02-4A09-93BE-8D73D11F619D}.Travis|x64.Build.0 = Travis|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

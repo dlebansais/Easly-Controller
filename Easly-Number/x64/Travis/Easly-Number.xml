@@ -68,6 +68,11 @@
             <param name="precision">The precision value.</param>
             <returns>True if valid; Otherwise, false.</returns>
         </member>
+        <member name="M:EaslyNumber.BitField.Create">
+            <summary>
+            Creates a new BitField object.
+            </summary>
+        </member>
         <member name="M:EaslyNumber.BitField_byte.#ctor">
             <summary>
             Initializes a new instance of the <see cref="T:EaslyNumber.BitField_byte"/> class.
@@ -83,27 +88,32 @@
             Number of unstored bits to the right of significant bits.
             </summary>
         </member>
+        <member name="P:EaslyNumber.BitField_byte.IsZero">
+            <summary>
+            True if the bit field represents value zero.
+            </summary>
+        </member>
         <member name="M:EaslyNumber.BitField_byte.SetZero">
             <summary>
             Sets the object to represent zero.
             </summary>
         </member>
-        <member name="M:EaslyNumber.BitField_byte.ShiftRight">
+        <member name="M:EaslyNumber.BitField_byte.DecreasePrecision">
             <summary>
-            Shift bits to the right.
+            Decreases the precision of the bit field by shifting bits to the right.
             </summary>
         </member>
         <member name="M:EaslyNumber.BitField_byte.GetBit(System.Int64)">
             <summary>
-            Gets the value of the bit at position <paramref name="index"/>.
+            Gets the value of the bit at position <paramref name="position"/>.
             </summary>
-            <param name="index">Position of the bit to get.</param>
+            <param name="position">Position of the bit to get.</param>
         </member>
         <member name="M:EaslyNumber.BitField_byte.SetBit(System.Int64,System.Boolean)">
             <summary>
-            Sets the bit at position <paramref name="index"/>.
+            Sets the bit at position <paramref name="position"/>.
             </summary>
-            <param name="index">Position of the bit to get.</param>
+            <param name="position">Position of the bit to get.</param>
             <param name="value">The new value.</param>
         </member>
         <member name="M:EaslyNumber.BitField_byte.IsEqual(EaslyNumber.BitField_byte)">
@@ -119,6 +129,14 @@
             <param name="x">The first bit field.</param>
             <param name="y">The second bit field.</param>
         </member>
+        <member name="M:EaslyNumber.BitField_byte.IsContentLesser(EaslyNumber.BitField_byte,EaslyNumber.BitField_byte,System.Int64)">
+            <summary>
+            Checks if the content of <paramref name="x"/> is lesser than the content of <paramref name="y"/>.
+            </summary>
+            <param name="x">The first bit field.</param>
+            <param name="y">The second bit field.</param>
+            <param name="position">The bit position where to start comparing.</param>
+        </member>
         <member name="M:EaslyNumber.BitField_byte.op_GreaterThan(EaslyNumber.BitField_byte,EaslyNumber.BitField_byte)">
             <summary>
             Checks if <paramref name="x"/> is greater than <paramref name="y"/>.
@@ -129,6 +147,36 @@
         <member name="P:EaslyNumber.BitField_byte.HighestBitSet">
             <summary>
             Return the position of the highest bit set, -1 if none.
+            </summary>
+        </member>
+        <member name="M:EaslyNumber.BitField_byte.Create">
+            <summary>
+            Creates a new BitField_byte object.
+            </summary>
+        </member>
+        <member name="P:EaslyNumber.BitField_byte.LastItemIndex">
+            <summary>
+            Index of the last item in <see cref="F:EaslyNumber.BitField_byte.Content"/>.
+            Returns -1 if no items.
+            </summary>
+        </member>
+        <member name="M:EaslyNumber.BitField_byte.ItemIndex(System.Int64)">
+            <summary>
+            Index of an item specified by its bit position.
+            </summary>
+            <param name="position">The bit position.</param>
+            <returns>The corresponding item index in <see cref="F:EaslyNumber.BitField_byte.Content"/>.</returns>
+        </member>
+        <member name="M:EaslyNumber.BitField_byte.ItemOffset(System.Int64)">
+            <summary>
+            Offset of a bit in the item specified by its position.
+            </summary>
+            <param name="position">The bit position.</param>
+            <returns>The corresponding offset in the <see cref="F:EaslyNumber.BitField_byte.Content"/> item.</returns>
+        </member>
+        <member name="F:EaslyNumber.BitField_byte.Content">
+            <summary>
+            The bit field data.
             </summary>
         </member>
         <member name="M:EaslyNumber.BitField_uint.#ctor">
@@ -146,27 +194,32 @@
             Number of unstored bits to the right of significant bits.
             </summary>
         </member>
+        <member name="P:EaslyNumber.BitField_uint.IsZero">
+            <summary>
+            True if the bit field represents value zero.
+            </summary>
+        </member>
         <member name="M:EaslyNumber.BitField_uint.SetZero">
             <summary>
             Sets the object to represent zero.
             </summary>
         </member>
-        <member name="M:EaslyNumber.BitField_uint.ShiftRight">
+        <member name="M:EaslyNumber.BitField_uint.DecreasePrecision">
             <summary>
-            Shift bits to the right.
+            Decreases the precision of the bit field by shifting bits to the right.
             </summary>
         </member>
         <member name="M:EaslyNumber.BitField_uint.GetBit(System.Int64)">
             <summary>
-            Gets the value of the bit at position <paramref name="index"/>.
+            Gets the value of the bit at position <paramref name="position"/>.
             </summary>
-            <param name="index">Position of the bit to get.</param>
+            <param name="position">Position of the bit to get.</param>
         </member>
         <member name="M:EaslyNumber.BitField_uint.SetBit(System.Int64,System.Boolean)">
             <summary>
-            Sets the bit at position <paramref name="index"/>.
+            Sets the bit at position <paramref name="position"/>.
             </summary>
-            <param name="index">Position of the bit to get.</param>
+            <param name="position">Position of the bit to get.</param>
             <param name="value">The new value.</param>
         </member>
         <member name="M:EaslyNumber.BitField_uint.IsEqual(EaslyNumber.BitField_uint)">
@@ -182,6 +235,14 @@
             <param name="x">The first bit field.</param>
             <param name="y">The second bit field.</param>
         </member>
+        <member name="M:EaslyNumber.BitField_uint.IsContentLesser(EaslyNumber.BitField_uint,EaslyNumber.BitField_uint,System.Int64)">
+            <summary>
+            Checks if the content of <paramref name="x"/> is lesser than the content of <paramref name="y"/>.
+            </summary>
+            <param name="x">The first bit field.</param>
+            <param name="y">The second bit field.</param>
+            <param name="position">The bit position where to start comparing.</param>
+        </member>
         <member name="M:EaslyNumber.BitField_uint.op_GreaterThan(EaslyNumber.BitField_uint,EaslyNumber.BitField_uint)">
             <summary>
             Checks if <paramref name="x"/> is greater than <paramref name="y"/>.
@@ -192,6 +253,36 @@
         <member name="P:EaslyNumber.BitField_uint.HighestBitSet">
             <summary>
             Return the position of the highest bit set, -1 if none.
+            </summary>
+        </member>
+        <member name="M:EaslyNumber.BitField_uint.Create">
+            <summary>
+            Creates a new BitField_uint object.
+            </summary>
+        </member>
+        <member name="P:EaslyNumber.BitField_uint.LastItemIndex">
+            <summary>
+            Index of the last item in <see cref="F:EaslyNumber.BitField_uint.Content"/>.
+            Returns -1 if no items.
+            </summary>
+        </member>
+        <member name="M:EaslyNumber.BitField_uint.ItemIndex(System.Int64)">
+            <summary>
+            Index of an item specified by its bit position.
+            </summary>
+            <param name="position">The bit position.</param>
+            <returns>The corresponding item index in <see cref="F:EaslyNumber.BitField_uint.Content"/>.</returns>
+        </member>
+        <member name="M:EaslyNumber.BitField_uint.ItemOffset(System.Int64)">
+            <summary>
+            Offset of a bit in the item specified by its position.
+            </summary>
+            <param name="position">The bit position.</param>
+            <returns>The corresponding offset in the <see cref="F:EaslyNumber.BitField_uint.Content"/> item.</returns>
+        </member>
+        <member name="F:EaslyNumber.BitField_uint.Content">
+            <summary>
+            The bit field data.
             </summary>
         </member>
         <member name="T:EaslyNumber.Flags">
