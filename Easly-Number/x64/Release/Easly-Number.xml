@@ -68,6 +68,11 @@
             <param name="precision">The precision value.</param>
             <returns>True if valid; Otherwise, false.</returns>
         </member>
+        <member name="M:EaslyNumber.BitField.Create">
+            <summary>
+            Creates a new BitField object.
+            </summary>
+        </member>
         <member name="M:EaslyNumber.BitField_byte.#ctor">
             <summary>
             Initializes a new instance of the <see cref="T:EaslyNumber.BitField_byte"/> class.
@@ -83,34 +88,70 @@
             Number of unstored bits to the right of significant bits.
             </summary>
         </member>
+        <member name="P:EaslyNumber.BitField_byte.IsZero">
+            <summary>
+            True if the bit field represents value zero.
+            </summary>
+        </member>
         <member name="M:EaslyNumber.BitField_byte.SetZero">
             <summary>
             Sets the object to represent zero.
             </summary>
         </member>
-        <member name="M:EaslyNumber.BitField_byte.ShiftRight">
+        <member name="M:EaslyNumber.BitField_byte.DecreasePrecision">
             <summary>
-            Shift bits to the right.
+            Decreases the precision of the bit field by shifting bits to the right.
             </summary>
         </member>
         <member name="M:EaslyNumber.BitField_byte.GetBit(System.Int64)">
             <summary>
-            Gets the value of the bit at position <paramref name="index"/>.
+            Gets the value of the bit at position <paramref name="position"/>.
             </summary>
-            <param name="index">Position of the bit to get.</param>
+            <param name="position">Position of the bit to get.</param>
         </member>
         <member name="M:EaslyNumber.BitField_byte.SetBit(System.Int64,System.Boolean)">
             <summary>
-            Sets the bit at position <paramref name="index"/>.
+            Sets the bit at position <paramref name="position"/>.
             </summary>
-            <param name="index">Position of the bit to get.</param>
+            <param name="position">Position of the bit to get.</param>
             <param name="value">The new value.</param>
         </member>
-        <member name="M:EaslyNumber.BitField_byte.IsEqual(EaslyNumber.BitField_byte)">
+        <member name="M:EaslyNumber.BitField_byte.GetHashCode(EaslyNumber.BitField_byte)">
+            <summary>
+            Gets a hash code for the object.
+            </summary>
+        </member>
+        <member name="M:EaslyNumber.BitField_byte.GetHashCode">
+            <summary>
+            Gets a hash code for the current object.
+            </summary>
+        </member>
+        <member name="M:EaslyNumber.BitField_byte.Equals(EaslyNumber.BitField_byte,EaslyNumber.BitField_byte)">
+            <summary>
+            Checks if two bit fields are equal.
+            </summary>
+            <param name="x">The first bit field.</param>
+            <param name="y">The second bit field.</param>
+        </member>
+        <member name="M:EaslyNumber.BitField_byte.Equals(System.Object)">
             <summary>
             Checks if two bit fields are equal.
             </summary>
             <param name="other">The other instance.</param>
+        </member>
+        <member name="M:EaslyNumber.BitField_byte.op_Equality(EaslyNumber.BitField_byte,EaslyNumber.BitField_byte)">
+            <summary>
+            Checks if <paramref name="x"/> is equal to <paramref name="y"/>.
+            </summary>
+            <param name="x">The first bit field.</param>
+            <param name="y">The second bit field.</param>
+        </member>
+        <member name="M:EaslyNumber.BitField_byte.op_Inequality(EaslyNumber.BitField_byte,EaslyNumber.BitField_byte)">
+            <summary>
+            Checks if <paramref name="x"/> is different than <paramref name="y"/>.
+            </summary>
+            <param name="x">The first bit field.</param>
+            <param name="y">The second bit field.</param>
         </member>
         <member name="M:EaslyNumber.BitField_byte.op_LessThan(EaslyNumber.BitField_byte,EaslyNumber.BitField_byte)">
             <summary>
@@ -118,6 +159,14 @@
             </summary>
             <param name="x">The first bit field.</param>
             <param name="y">The second bit field.</param>
+        </member>
+        <member name="M:EaslyNumber.BitField_byte.IsContentLesser(EaslyNumber.BitField_byte,EaslyNumber.BitField_byte,System.Int64)">
+            <summary>
+            Checks if the content of <paramref name="x"/> is lesser than the content of <paramref name="y"/>.
+            </summary>
+            <param name="x">The first bit field.</param>
+            <param name="y">The second bit field.</param>
+            <param name="position">The bit position where to start comparing.</param>
         </member>
         <member name="M:EaslyNumber.BitField_byte.op_GreaterThan(EaslyNumber.BitField_byte,EaslyNumber.BitField_byte)">
             <summary>
@@ -129,6 +178,36 @@
         <member name="P:EaslyNumber.BitField_byte.HighestBitSet">
             <summary>
             Return the position of the highest bit set, -1 if none.
+            </summary>
+        </member>
+        <member name="M:EaslyNumber.BitField_byte.Create">
+            <summary>
+            Creates a new BitField_byte object.
+            </summary>
+        </member>
+        <member name="P:EaslyNumber.BitField_byte.LastItemIndex">
+            <summary>
+            Index of the last item in <see cref="F:EaslyNumber.BitField_byte.Content"/>.
+            Returns -1 if no items.
+            </summary>
+        </member>
+        <member name="M:EaslyNumber.BitField_byte.ItemIndex(System.Int64)">
+            <summary>
+            Index of an item specified by its bit position.
+            </summary>
+            <param name="position">The bit position.</param>
+            <returns>The corresponding item index in <see cref="F:EaslyNumber.BitField_byte.Content"/>.</returns>
+        </member>
+        <member name="M:EaslyNumber.BitField_byte.ItemOffset(System.Int64)">
+            <summary>
+            Offset of a bit in the item specified by its position.
+            </summary>
+            <param name="position">The bit position.</param>
+            <returns>The corresponding offset in the <see cref="F:EaslyNumber.BitField_byte.Content"/> item.</returns>
+        </member>
+        <member name="F:EaslyNumber.BitField_byte.Content">
+            <summary>
+            The bit field data.
             </summary>
         </member>
         <member name="M:EaslyNumber.BitField_uint.#ctor">
@@ -146,34 +225,70 @@
             Number of unstored bits to the right of significant bits.
             </summary>
         </member>
+        <member name="P:EaslyNumber.BitField_uint.IsZero">
+            <summary>
+            True if the bit field represents value zero.
+            </summary>
+        </member>
         <member name="M:EaslyNumber.BitField_uint.SetZero">
             <summary>
             Sets the object to represent zero.
             </summary>
         </member>
-        <member name="M:EaslyNumber.BitField_uint.ShiftRight">
+        <member name="M:EaslyNumber.BitField_uint.DecreasePrecision">
             <summary>
-            Shift bits to the right.
+            Decreases the precision of the bit field by shifting bits to the right.
             </summary>
         </member>
         <member name="M:EaslyNumber.BitField_uint.GetBit(System.Int64)">
             <summary>
-            Gets the value of the bit at position <paramref name="index"/>.
+            Gets the value of the bit at position <paramref name="position"/>.
             </summary>
-            <param name="index">Position of the bit to get.</param>
+            <param name="position">Position of the bit to get.</param>
         </member>
         <member name="M:EaslyNumber.BitField_uint.SetBit(System.Int64,System.Boolean)">
             <summary>
-            Sets the bit at position <paramref name="index"/>.
+            Sets the bit at position <paramref name="position"/>.
             </summary>
-            <param name="index">Position of the bit to get.</param>
+            <param name="position">Position of the bit to get.</param>
             <param name="value">The new value.</param>
         </member>
-        <member name="M:EaslyNumber.BitField_uint.IsEqual(EaslyNumber.BitField_uint)">
+        <member name="M:EaslyNumber.BitField_uint.GetHashCode(EaslyNumber.BitField_uint)">
+            <summary>
+            Gets a hash code for the object.
+            </summary>
+        </member>
+        <member name="M:EaslyNumber.BitField_uint.GetHashCode">
+            <summary>
+            Gets a hash code for the current object.
+            </summary>
+        </member>
+        <member name="M:EaslyNumber.BitField_uint.Equals(EaslyNumber.BitField_uint,EaslyNumber.BitField_uint)">
+            <summary>
+            Checks if two bit fields are equal.
+            </summary>
+            <param name="x">The first bit field.</param>
+            <param name="y">The second bit field.</param>
+        </member>
+        <member name="M:EaslyNumber.BitField_uint.Equals(System.Object)">
             <summary>
             Checks if two bit fields are equal.
             </summary>
             <param name="other">The other instance.</param>
+        </member>
+        <member name="M:EaslyNumber.BitField_uint.op_Equality(EaslyNumber.BitField_uint,EaslyNumber.BitField_uint)">
+            <summary>
+            Checks if <paramref name="x"/> is equal to <paramref name="y"/>.
+            </summary>
+            <param name="x">The first bit field.</param>
+            <param name="y">The second bit field.</param>
+        </member>
+        <member name="M:EaslyNumber.BitField_uint.op_Inequality(EaslyNumber.BitField_uint,EaslyNumber.BitField_uint)">
+            <summary>
+            Checks if <paramref name="x"/> is different than <paramref name="y"/>.
+            </summary>
+            <param name="x">The first bit field.</param>
+            <param name="y">The second bit field.</param>
         </member>
         <member name="M:EaslyNumber.BitField_uint.op_LessThan(EaslyNumber.BitField_uint,EaslyNumber.BitField_uint)">
             <summary>
@@ -181,6 +296,14 @@
             </summary>
             <param name="x">The first bit field.</param>
             <param name="y">The second bit field.</param>
+        </member>
+        <member name="M:EaslyNumber.BitField_uint.IsContentLesser(EaslyNumber.BitField_uint,EaslyNumber.BitField_uint,System.Int64)">
+            <summary>
+            Checks if the content of <paramref name="x"/> is lesser than the content of <paramref name="y"/>.
+            </summary>
+            <param name="x">The first bit field.</param>
+            <param name="y">The second bit field.</param>
+            <param name="position">The bit position where to start comparing.</param>
         </member>
         <member name="M:EaslyNumber.BitField_uint.op_GreaterThan(EaslyNumber.BitField_uint,EaslyNumber.BitField_uint)">
             <summary>
@@ -192,6 +315,36 @@
         <member name="P:EaslyNumber.BitField_uint.HighestBitSet">
             <summary>
             Return the position of the highest bit set, -1 if none.
+            </summary>
+        </member>
+        <member name="M:EaslyNumber.BitField_uint.Create">
+            <summary>
+            Creates a new BitField_uint object.
+            </summary>
+        </member>
+        <member name="P:EaslyNumber.BitField_uint.LastItemIndex">
+            <summary>
+            Index of the last item in <see cref="F:EaslyNumber.BitField_uint.Content"/>.
+            Returns -1 if no items.
+            </summary>
+        </member>
+        <member name="M:EaslyNumber.BitField_uint.ItemIndex(System.Int64)">
+            <summary>
+            Index of an item specified by its bit position.
+            </summary>
+            <param name="position">The bit position.</param>
+            <returns>The corresponding item index in <see cref="F:EaslyNumber.BitField_uint.Content"/>.</returns>
+        </member>
+        <member name="M:EaslyNumber.BitField_uint.ItemOffset(System.Int64)">
+            <summary>
+            Offset of a bit in the item specified by its position.
+            </summary>
+            <param name="position">The bit position.</param>
+            <returns>The corresponding offset in the <see cref="F:EaslyNumber.BitField_uint.Content"/> item.</returns>
+        </member>
+        <member name="F:EaslyNumber.BitField_uint.Content">
+            <summary>
+            The bit field data.
             </summary>
         </member>
         <member name="T:EaslyNumber.Flags">
@@ -293,6 +446,171 @@
             <summary>
             Describes and manipulates real numbers with arbitrary precision.
             </summary>
+            <summary>
+            Describes and manipulates real numbers with arbitrary precision.
+            </summary>
+        </member>
+        <member name="M:EaslyNumber.Number.op_Addition(EaslyNumber.Number,EaslyNumber.Number)">
+            <summary>
+            Returns the sum of two numbers: x + y.
+            </summary>
+            <param name="x">The first number.</param>
+            <param name="y">The second number.</param>
+            <returns>The arithmetic sum of <paramref name="x"/> and <paramref name="y"/>.</returns>
+        </member>
+        <member name="M:EaslyNumber.Number.Add(EaslyNumber.Number,EaslyNumber.Number,System.Int64,System.Int64,EaslyNumber.Rounding)">
+            <summary>
+            Returns the sum of two numbers: x + y.
+            </summary>
+            <param name="x">The first number.</param>
+            <param name="y">The second number.</param>
+            <param name="significandPrecision">The precision to use for the significand when creating the result.</param>
+            <param name="exponentPrecision">The precision to use for the exponent when creating the result.</param>
+            <param name="rounding">The rounding mode to use when creating the result.</param>
+            <returns>The arithmetic sum of <paramref name="x"/> and <paramref name="y"/>.</returns>
+        </member>
+        <member name="M:EaslyNumber.Number.op_Subtraction(EaslyNumber.Number,EaslyNumber.Number)">
+            <summary>
+            Returns the difference between two numbers: x - y.
+            </summary>
+            <param name="x">The first number.</param>
+            <param name="y">The second number.</param>
+        </member>
+        <member name="M:EaslyNumber.Number.Subtract(EaslyNumber.Number,EaslyNumber.Number,System.Int64,System.Int64,EaslyNumber.Rounding)">
+            <summary>
+            Returns the difference between two numbers: x - y.
+            </summary>
+            <param name="x">The first number.</param>
+            <param name="y">The second number.</param>
+            <param name="significandPrecision">The precision to use for the significand when creating the result.</param>
+            <param name="exponentPrecision">The precision to use for the exponent when creating the result.</param>
+            <param name="rounding">The rounding mode to use when creating the result.</param>
+            <returns>The arithmetic difference of <paramref name="x"/> and <paramref name="y"/>.</returns>
+        </member>
+        <member name="M:EaslyNumber.Number.op_Multiply(EaslyNumber.Number,EaslyNumber.Number)">
+            <summary>
+            Returns the product of two numbers: x * y.
+            </summary>
+            <param name="x">The first number.</param>
+            <param name="y">The second number.</param>
+        </member>
+        <member name="M:EaslyNumber.Number.Multiply(EaslyNumber.Number,EaslyNumber.Number,System.Int64,System.Int64,EaslyNumber.Rounding)">
+            <summary>
+            Returns the product of two numbers: x * y.
+            </summary>
+            <param name="x">The first number.</param>
+            <param name="y">The second number.</param>
+            <param name="significandPrecision">The precision to use for the significand when creating the result.</param>
+            <param name="exponentPrecision">The precision to use for the exponent when creating the result.</param>
+            <param name="rounding">The rounding mode to use when creating the result.</param>
+            <returns>The arithmetic product of <paramref name="x"/> and <paramref name="y"/>.</returns>
+        </member>
+        <member name="M:EaslyNumber.Number.op_Division(EaslyNumber.Number,EaslyNumber.Number)">
+            <summary>
+            Returns the ratio of two numbers: x / y.
+            </summary>
+            <param name="x">The first number.</param>
+            <param name="y">The second number.</param>
+        </member>
+        <member name="M:EaslyNumber.Number.Divide(EaslyNumber.Number,EaslyNumber.Number,System.Int64,System.Int64,EaslyNumber.Rounding)">
+            <summary>
+            Returns the ratio of two numbers: x / y.
+            </summary>
+            <param name="x">The first number.</param>
+            <param name="y">The second number.</param>
+            <param name="significandPrecision">The precision to use for the significand when creating the result.</param>
+            <param name="exponentPrecision">The precision to use for the exponent when creating the result.</param>
+            <param name="rounding">The rounding mode to use when creating the result.</param>
+            <returns>The arithmetic ratio of <paramref name="x"/> and <paramref name="y"/>.</returns>
+        </member>
+        <member name="M:EaslyNumber.Number.op_UnaryNegation(EaslyNumber.Number)">
+            <summary>
+            Returns the negation of a number: -x.
+            </summary>
+            <param name="x">The number.</param>
+        </member>
+        <member name="M:EaslyNumber.Number.Negate(EaslyNumber.Number,System.Int64,System.Int64,EaslyNumber.Rounding)">
+            <summary>
+            Returns the negation of a number: -x.
+            </summary>
+            <param name="x">The number.</param>
+            <param name="significandPrecision">The precision to use for the significand when creating the result.</param>
+            <param name="exponentPrecision">The precision to use for the exponent when creating the result.</param>
+            <param name="rounding">The rounding mode to use when creating the result.</param>
+            <returns>The arithmetic negation of <paramref name="x"/>.</returns>
+        </member>
+        <member name="M:EaslyNumber.Number.Abs">
+            <summary>
+            Returns the absolute value.
+            </summary>
+        </member>
+        <member name="M:EaslyNumber.Number.Exp">
+            <summary>
+            Returns e (the base of natural logarithms) raised to the power of this object's value.
+            </summary>
+        </member>
+        <member name="M:EaslyNumber.Number.Log">
+            <summary>
+            Returns the natural logarithms of this object's value.
+            </summary>
+        </member>
+        <member name="M:EaslyNumber.Number.Log10">
+            <summary>
+            Returns the base-10 logarithms of this object's value.
+            </summary>
+        </member>
+        <member name="M:EaslyNumber.Number.Pow(EaslyNumber.Number)">
+            <summary>
+            Returns this object's value raised to the power x.
+            </summary>
+            <param name="x">The number.</param>
+        </member>
+        <member name="M:EaslyNumber.Number.Sqrt">
+            <summary>
+            Returns the square root of this object's value.
+            </summary>
+        </member>
+        <member name="M:EaslyNumber.Number.ShiftLeft(EaslyNumber.Number)">
+            <summary>
+            Returns this object's value multiplied by a specified power of two.
+            </summary>
+            <param name="other">The other number.</param>
+        </member>
+        <member name="M:EaslyNumber.Number.ShiftRight(EaslyNumber.Number)">
+            <summary>
+            Returns this object's value divided by a specified power of two.
+            </summary>
+            <param name="other">The other number.</param>
+        </member>
+        <member name="M:EaslyNumber.Number.Remainder(EaslyNumber.Number)">
+            <summary>
+            Returns the remainder when this object's value is divided by another.
+            </summary>
+            <param name="other">The other number.</param>
+        </member>
+        <member name="M:EaslyNumber.Number.BitwiseAnd(EaslyNumber.Number)">
+            <summary>
+            Returns the bitwise AND of this object's value and another.
+            </summary>
+            <param name="other">The other number.</param>
+        </member>
+        <member name="M:EaslyNumber.Number.BitwiseOr(EaslyNumber.Number)">
+            <summary>
+            Returns the bitwise OR of this object's value and another.
+            </summary>
+            <param name="other">The other number.</param>
+        </member>
+        <member name="M:EaslyNumber.Number.BitwiseXor(EaslyNumber.Number)">
+            <summary>
+            Returns the bitwise OR of this object's value and another.
+            </summary>
+            <param name="other">The other number.</param>
+        </member>
+        <member name="M:EaslyNumber.Number.TryParseInt(System.Int32@)">
+            <summary>
+            Gets the value if it can be represented with a <see cref="T:System.Int32"/>.
+            </summary>
+            <param name="value">The value upon return.</param>
         </member>
         <member name="F:EaslyNumber.Number.BinaryRadix">
             <summary>
@@ -709,11 +1027,30 @@
             The binary data corresponding to the exponent part.
             </summary>
         </member>
-        <member name="M:EaslyNumber.Number.IsEqual(EaslyNumber.Number)">
+        <member name="M:EaslyNumber.Number.GetHashCode">
+            <summary>
+            Gets a hash code for the current object.
+            </summary>
+        </member>
+        <member name="M:EaslyNumber.Number.Equals(System.Object)">
             <summary>
             Checks if two numbers are equal.
             </summary>
             <param name="other">The other instance.</param>
+        </member>
+        <member name="M:EaslyNumber.Number.op_Equality(EaslyNumber.Number,EaslyNumber.Number)">
+            <summary>
+            Checks if <paramref name="x"/> is lesser than <paramref name="y"/>.
+            </summary>
+            <param name="x">The first number.</param>
+            <param name="y">The second number.</param>
+        </member>
+        <member name="M:EaslyNumber.Number.op_Inequality(EaslyNumber.Number,EaslyNumber.Number)">
+            <summary>
+            Checks if <paramref name="x"/> is lesser than <paramref name="y"/>.
+            </summary>
+            <param name="x">The first number.</param>
+            <param name="y">The second number.</param>
         </member>
         <member name="M:EaslyNumber.Number.op_LessThan(EaslyNumber.Number,EaslyNumber.Number)">
             <summary>
@@ -729,167 +1066,46 @@
             <param name="x">The first number.</param>
             <param name="y">The second number.</param>
         </member>
-        <member name="M:EaslyNumber.Number.op_Addition(EaslyNumber.Number,EaslyNumber.Number)">
+        <member name="M:EaslyNumber.Number.ComparedAsSpecialNumber(EaslyNumber.Number,EaslyNumber.Number,System.Boolean@)">
             <summary>
-            Returns the sum of two numbers: x + y.
+            Checks if <paramref name="x"/> is lesser than <paramref name="y"/> when x or y is a special number.
             </summary>
             <param name="x">The first number.</param>
             <param name="y">The second number.</param>
-            <returns>The arithmetic sum of <paramref name="x"/> and <paramref name="y"/>.</returns>
+            <param name="result">The comparison result.</param>
+            <returns>True if <paramref name="result"/> contains the result upon return; False if <paramref name="x"/> and <paramref name="y"/> are not special numbers.</returns>
         </member>
-        <member name="M:EaslyNumber.Number.Add(EaslyNumber.Number,EaslyNumber.Number,System.Int64,System.Int64,EaslyNumber.Rounding)">
+        <member name="M:EaslyNumber.Number.ComparedSameSign(EaslyNumber.Number,EaslyNumber.Number)">
             <summary>
-            Returns the sum of two numbers: x + y.
+            Checks if <paramref name="x"/> is lesser than <paramref name="y"/> when x and y have the same sign.
             </summary>
             <param name="x">The first number.</param>
             <param name="y">The second number.</param>
-            <param name="significandPrecision">The precision to use for the significand when creating the result.</param>
-            <param name="exponentPrecision">The precision to use for the exponent when creating the result.</param>
-            <param name="rounding">The rounding mode to use when creating the result.</param>
-            <returns>The arithmetic sum of <paramref name="x"/> and <paramref name="y"/>.</returns>
+            <returns>The comparison result.</returns>
         </member>
-        <member name="M:EaslyNumber.Number.op_Subtraction(EaslyNumber.Number,EaslyNumber.Number)">
+        <member name="M:EaslyNumber.Number.ComparedDifferentIntegerPart(EaslyNumber.Number,EaslyNumber.Number)">
             <summary>
-            Returns the difference between two numbers: x - y.
+            Checks if <paramref name="x"/> is lesser than <paramref name="y"/> when x and y have a different integer part.
             </summary>
             <param name="x">The first number.</param>
             <param name="y">The second number.</param>
+            <returns>The comparison result.</returns>
         </member>
-        <member name="M:EaslyNumber.Number.Subtract(EaslyNumber.Number,EaslyNumber.Number,System.Int64,System.Int64,EaslyNumber.Rounding)">
+        <member name="M:EaslyNumber.Number.ComparedDifferentFractionalPart(EaslyNumber.Number,EaslyNumber.Number)">
             <summary>
-            Returns the difference between two numbers: x - y.
+            Checks if <paramref name="x"/> is lesser than <paramref name="y"/> when x and y have the same integer part and a different fractional part.
             </summary>
             <param name="x">The first number.</param>
             <param name="y">The second number.</param>
-            <param name="significandPrecision">The precision to use for the significand when creating the result.</param>
-            <param name="exponentPrecision">The precision to use for the exponent when creating the result.</param>
-            <param name="rounding">The rounding mode to use when creating the result.</param>
-            <returns>The arithmetic difference of <paramref name="x"/> and <paramref name="y"/>.</returns>
+            <returns>The comparison result.</returns>
         </member>
-        <member name="M:EaslyNumber.Number.op_Multiply(EaslyNumber.Number,EaslyNumber.Number)">
+        <member name="M:EaslyNumber.Number.ComparedDifferentExponentPart(EaslyNumber.Number,EaslyNumber.Number)">
             <summary>
-            Returns the product of two numbers: x * y.
+            Checks if <paramref name="x"/> is lesser than <paramref name="y"/> when x and y have the same integer and fractional parts, but a different exponent part.
             </summary>
             <param name="x">The first number.</param>
             <param name="y">The second number.</param>
-        </member>
-        <member name="M:EaslyNumber.Number.Multiply(EaslyNumber.Number,EaslyNumber.Number,System.Int64,System.Int64,EaslyNumber.Rounding)">
-            <summary>
-            Returns the product of two numbers: x * y.
-            </summary>
-            <param name="x">The first number.</param>
-            <param name="y">The second number.</param>
-            <param name="significandPrecision">The precision to use for the significand when creating the result.</param>
-            <param name="exponentPrecision">The precision to use for the exponent when creating the result.</param>
-            <param name="rounding">The rounding mode to use when creating the result.</param>
-            <returns>The arithmetic product of <paramref name="x"/> and <paramref name="y"/>.</returns>
-        </member>
-        <member name="M:EaslyNumber.Number.op_Division(EaslyNumber.Number,EaslyNumber.Number)">
-            <summary>
-            Returns the ratio of two numbers: x / y.
-            </summary>
-            <param name="x">The first number.</param>
-            <param name="y">The second number.</param>
-        </member>
-        <member name="M:EaslyNumber.Number.Divide(EaslyNumber.Number,EaslyNumber.Number,System.Int64,System.Int64,EaslyNumber.Rounding)">
-            <summary>
-            Returns the ratio of two numbers: x / y.
-            </summary>
-            <param name="x">The first number.</param>
-            <param name="y">The second number.</param>
-            <param name="significandPrecision">The precision to use for the significand when creating the result.</param>
-            <param name="exponentPrecision">The precision to use for the exponent when creating the result.</param>
-            <param name="rounding">The rounding mode to use when creating the result.</param>
-            <returns>The arithmetic ratio of <paramref name="x"/> and <paramref name="y"/>.</returns>
-        </member>
-        <member name="M:EaslyNumber.Number.op_UnaryNegation(EaslyNumber.Number)">
-            <summary>
-            Returns the negation of a number: -x.
-            </summary>
-            <param name="x">The number.</param>
-        </member>
-        <member name="M:EaslyNumber.Number.Negate(EaslyNumber.Number,System.Int64,System.Int64,EaslyNumber.Rounding)">
-            <summary>
-            Returns the negation of a number: -x.
-            </summary>
-            <param name="x">The number.</param>
-            <param name="significandPrecision">The precision to use for the significand when creating the result.</param>
-            <param name="exponentPrecision">The precision to use for the exponent when creating the result.</param>
-            <param name="rounding">The rounding mode to use when creating the result.</param>
-            <returns>The arithmetic negation of <paramref name="x"/>.</returns>
-        </member>
-        <member name="M:EaslyNumber.Number.Abs">
-            <summary>
-            Returns the absolute value.
-            </summary>
-        </member>
-        <member name="M:EaslyNumber.Number.Exp">
-            <summary>
-            Returns e (the base of natural logarithms) raised to the power of this object's value.
-            </summary>
-        </member>
-        <member name="M:EaslyNumber.Number.Log">
-            <summary>
-            Returns the natural logarithms of this object's value.
-            </summary>
-        </member>
-        <member name="M:EaslyNumber.Number.Log10">
-            <summary>
-            Returns the base-10 logarithms of this object's value.
-            </summary>
-        </member>
-        <member name="M:EaslyNumber.Number.Pow(EaslyNumber.Number)">
-            <summary>
-            Returns this object's value raised to the power x.
-            </summary>
-            <param name="x">The number.</param>
-        </member>
-        <member name="M:EaslyNumber.Number.Sqrt">
-            <summary>
-            Returns the square root of this object's value.
-            </summary>
-        </member>
-        <member name="M:EaslyNumber.Number.ShiftLeft(EaslyNumber.Number)">
-            <summary>
-            Returns this object's value multiplied by a specified power of two.
-            </summary>
-            <param name="other">The other number.</param>
-        </member>
-        <member name="M:EaslyNumber.Number.ShiftRight(EaslyNumber.Number)">
-            <summary>
-            Returns this object's value divided by a specified power of two.
-            </summary>
-            <param name="other">The other number.</param>
-        </member>
-        <member name="M:EaslyNumber.Number.Remainder(EaslyNumber.Number)">
-            <summary>
-            Returns the remainder when this object's value is divided by another.
-            </summary>
-            <param name="other">The other number.</param>
-        </member>
-        <member name="M:EaslyNumber.Number.BitwiseAnd(EaslyNumber.Number)">
-            <summary>
-            Returns the bitwise AND of this object's value and another.
-            </summary>
-            <param name="other">The other number.</param>
-        </member>
-        <member name="M:EaslyNumber.Number.BitwiseOr(EaslyNumber.Number)">
-            <summary>
-            Returns the bitwise OR of this object's value and another.
-            </summary>
-            <param name="other">The other number.</param>
-        </member>
-        <member name="M:EaslyNumber.Number.BitwiseXor(EaslyNumber.Number)">
-            <summary>
-            Returns the bitwise OR of this object's value and another.
-            </summary>
-            <param name="other">The other number.</param>
-        </member>
-        <member name="M:EaslyNumber.Number.TryParseInt(System.Int32@)">
-            <summary>
-            Gets the value if it can be represented with a <see cref="T:System.Int32"/>.
-            </summary>
-            <param name="value">The value upon return.</param>
+            <returns>The comparison result.</returns>
         </member>
         <member name="M:EaslyNumber.Number.ToString">
             <summary>
@@ -999,11 +1215,6 @@
         <member name="P:EaslyNumber.RadixPrefixTextPartition.RadixPrefixCharacter">
             <summary>
             The radix character used to prefix the string.
-            </summary>
-        </member>
-        <member name="P:EaslyNumber.RadixPrefixTextPartition.HasRadixPrefix">
-            <summary>
-            True if the partition includes a suffix part.
             </summary>
         </member>
         <member name="P:EaslyNumber.RadixPrefixTextPartition.RadixPrefix">
@@ -1184,6 +1395,189 @@
             Parsing the invalid part at the end.
             </summary>
         </member>
+        <member name="T:EaslyNumber.RealTextPartition">
+            <summary>
+            The partition of a string into different components of a real number.
+            </summary>
+            <summary>
+            The partition of a string into different components of a real number.
+            </summary>
+        </member>
+        <member name="M:EaslyNumber.RealTextPartition.Parse(System.Int32)">
+            <summary>
+            Parses a new character.
+            </summary>
+            <param name="index">The position of the character to parse in <see cref="P:EaslyNumber.TextPartition.Text"/>.</param>
+        </member>
+        <member name="M:EaslyNumber.RealTextPartition.ParseLeadingWhitespaces(System.Int32,System.Char)">
+            <summary>
+            Runs the parser in the <see cref="F:EaslyNumber.ParsingState.LeadingWhitespaces"/> state.
+            </summary>
+            <param name="index">Index of the parsed character.</param>
+            <param name="c">The parsed character.</param>
+        </member>
+        <member name="M:EaslyNumber.RealTextPartition.ParseLeadingZeroes(System.Int32,System.Char)">
+            <summary>
+            Runs the parser in the <see cref="F:EaslyNumber.ParsingState.LeadingZeroes"/> state.
+            </summary>
+            <param name="index">Index of the parsed character.</param>
+            <param name="c">The parsed character.</param>
+        </member>
+        <member name="M:EaslyNumber.RealTextPartition.ParseIntegerPart(System.Int32,System.Char)">
+            <summary>
+            Runs the parser in the <see cref="F:EaslyNumber.ParsingState.IntegerPart"/> state.
+            </summary>
+            <param name="index">Index of the parsed character.</param>
+            <param name="c">The parsed character.</param>
+        </member>
+        <member name="M:EaslyNumber.RealTextPartition.ParseFractionalPart(System.Int32,System.Char)">
+            <summary>
+            Runs the parser in the <see cref="F:EaslyNumber.ParsingState.FractionalPart"/> state.
+            </summary>
+            <param name="index">Index of the parsed character.</param>
+            <param name="c">The parsed character.</param>
+        </member>
+        <member name="M:EaslyNumber.RealTextPartition.ParseExponentPart(System.Int32,System.Char)">
+            <summary>
+            Runs the parser in the <see cref="F:EaslyNumber.ParsingState.ExponentPart"/> state.
+            </summary>
+            <param name="index">Index of the parsed character.</param>
+            <param name="c">The parsed character.</param>
+        </member>
+        <member name="M:EaslyNumber.RealTextPartition.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:EaslyNumber.RealTextPartition"/> class.
+            <param name="text">The string to parse.</param>
+            </summary>
+        </member>
+        <member name="M:EaslyNumber.RealTextPartition.InitCultureSeparator">
+            <summary>
+            Gets the decimal separator character for the current culture.
+            </summary>
+        </member>
+        <member name="P:EaslyNumber.RealTextPartition.Separator">
+            <summary>
+            The optional separator.
+            </summary>
+        </member>
+        <member name="P:EaslyNumber.RealTextPartition.DecimalSeparatorIndex">
+            <summary>
+            Index of the decimal separator, -1 if not parsed.
+            </summary>
+        </member>
+        <member name="P:EaslyNumber.RealTextPartition.FirstFractionalPartIndex">
+            <summary>
+            Index of the fractional part, -1 if not parsed.
+            </summary>
+        </member>
+        <member name="P:EaslyNumber.RealTextPartition.LastFractionalPartIndex">
+            <summary>
+            Index of the first character after the fractional part, -1 if not parsed.
+            </summary>
+        </member>
+        <member name="P:EaslyNumber.RealTextPartition.HasFractionalPart">
+            <summary>
+            True if the partition includes a fractional part.
+            </summary>
+        </member>
+        <member name="P:EaslyNumber.RealTextPartition.FractionalPart">
+            <summary>
+            The fractional part after the decimal separator (if any).
+            </summary>
+        </member>
+        <member name="P:EaslyNumber.RealTextPartition.ExponentIndex">
+            <summary>
+            Index of the exponent character, -1 if not parsed.
+            </summary>
+        </member>
+        <member name="P:EaslyNumber.RealTextPartition.ExponentCharacter">
+            <summary>
+            Type of the optional exponent character.
+            </summary>
+        </member>
+        <member name="P:EaslyNumber.RealTextPartition.ExponentSign">
+            <summary>
+            Sign of the exponent, None if not parsed.
+            </summary>
+        </member>
+        <member name="P:EaslyNumber.RealTextPartition.FirstExponentPartIndex">
+            <summary>
+            Index of the exponent part, -1 if not parsed.
+            </summary>
+        </member>
+        <member name="P:EaslyNumber.RealTextPartition.LastExponentPartIndex">
+            <summary>
+            Index of the first character after the exponent part, -1 if not parsed.
+            </summary>
+        </member>
+        <member name="P:EaslyNumber.RealTextPartition.HasExponentPart">
+            <summary>
+            True if the partition includes a fractional part.
+            </summary>
+        </member>
+        <member name="P:EaslyNumber.RealTextPartition.ExponentPart">
+            <summary>
+            The exponent part (if any) after the exponent character and optional sign.
+            </summary>
+        </member>
+        <member name="P:EaslyNumber.RealTextPartition.IsZero">
+            <summary>
+            True if the parsed number is zero.
+            </summary>
+        </member>
+        <member name="P:EaslyNumber.RealTextPartition.CultureDecimalSeparator">
+            <summary>
+            The decimal separator character for the current culture.
+            </summary>
+        </member>
+        <member name="P:EaslyNumber.RealTextPartition.ComparisonIndex">
+            <summary>
+            Index to use for partition comparison.
+            </summary>
+        </member>
+        <member name="M:EaslyNumber.RealTextPartition.ConvertToBitField(System.Int64,System.Int64,EaslyNumber.BitField@,EaslyNumber.BitField@,EaslyNumber.BitField@)">
+            <summary>
+            Converts the parsed partition to bit fields.
+            </summary>
+            <param name="significandPrecision">The number of bits in the significand.</param>
+            <param name="exponentPrecision">The number of bits in the exponent.</param>
+            <param name="integerField">The bit field of the integer part upon return.</param>
+            <param name="fractionalField">The bit field of the fractional part upon return.</param>
+            <param name="exponentField">The bit field of the exponent part upon return.</param>
+        </member>
+        <member name="M:EaslyNumber.RealTextPartition.ConvertIntegerToBitField(System.Int64,EaslyNumber.BitField@)">
+            <summary>
+            Converts the parsed partition to bit fields.
+            </summary>
+            <param name="significandPrecision">The number of bits in the significand.</param>
+            <param name="integerField">The bit field of the integer part upon return.</param>
+        </member>
+        <member name="M:EaslyNumber.RealTextPartition.ConvertFractionalToBitField(System.Int64,System.Int64,EaslyNumber.BitField@)">
+            <summary>
+            Converts the parsed partition to bit fields.
+            </summary>
+            <param name="significandPrecision">The number of bits in the significand.</param>
+            <param name="integerBitIndex">The number of significant bits in the integer field part.</param>
+            <param name="fractionalField">The bit field of the fractional part upon return.</param>
+        </member>
+        <member name="M:EaslyNumber.RealTextPartition.ConvertExponentToBitField(System.Int64,EaslyNumber.BitField@)">
+            <summary>
+            Converts the parsed partition to bit fields.
+            </summary>
+            <param name="exponentPrecision">The number of bits in the exponent.</param>
+            <param name="exponentField">The bit field of the exponent part upon return.</param>
+        </member>
+        <member name="M:EaslyNumber.RealTextPartition.RoundedToNearest(System.String,System.Int32,EaslyNumber.NumberTextPartition.IsValidDigitHandler,EaslyNumber.NumberTextPartition.ToDigitHandler,System.Boolean)">
+            <summary>
+            Returns the input number rounded to the nearest number ending with digit 0.
+            If exactly in the middle, round to lower.
+            </summary>
+            <param name="text">The number to multiply.</param>
+            <param name="radix">The radix to use.</param>
+            <param name="validityHandler">The handler to use to validate digits.</param>
+            <param name="digitHandler">The handler to use to convert to digits.</param>
+            <param name="includeEndingZeroes">True to add ending zeroes.</param>
+        </member>
         <member name="T:EaslyNumber.SpecialNumberTextPartition">
             <summary>
             The partition of a string into different components of a special number.
@@ -1271,164 +1665,6 @@
             <summary>
             Index to use for partition comparison.
             </summary>
-        </member>
-        <member name="T:EaslyNumber.RealTextPartition">
-            <summary>
-            The partition of a string into different components of a real number.
-            </summary>
-        </member>
-        <member name="M:EaslyNumber.RealTextPartition.#ctor(System.String)">
-            <summary>
-            Initializes a new instance of the <see cref="T:EaslyNumber.RealTextPartition"/> class.
-            <param name="text">The string to parse.</param>
-            </summary>
-        </member>
-        <member name="M:EaslyNumber.RealTextPartition.Parse(System.Int32)">
-            <summary>
-            Parses a new character.
-            </summary>
-            <param name="index">The position of the character to parse in <see cref="P:EaslyNumber.TextPartition.Text"/>.</param>
-        </member>
-        <member name="M:EaslyNumber.RealTextPartition.ParseLeadingWhitespaces(System.Int32,System.Char)">
-            <summary>
-            Runs the parser in the <see cref="F:EaslyNumber.ParsingState.LeadingWhitespaces"/> state.
-            </summary>
-            <param name="index">Index of the parsed character.</param>
-            <param name="c">The parsed character.</param>
-        </member>
-        <member name="M:EaslyNumber.RealTextPartition.ParseLeadingZeroes(System.Int32,System.Char)">
-            <summary>
-            Runs the parser in the <see cref="F:EaslyNumber.ParsingState.LeadingZeroes"/> state.
-            </summary>
-            <param name="index">Index of the parsed character.</param>
-            <param name="c">The parsed character.</param>
-        </member>
-        <member name="M:EaslyNumber.RealTextPartition.ParseIntegerPart(System.Int32,System.Char)">
-            <summary>
-            Runs the parser in the <see cref="F:EaslyNumber.ParsingState.IntegerPart"/> state.
-            </summary>
-            <param name="index">Index of the parsed character.</param>
-            <param name="c">The parsed character.</param>
-        </member>
-        <member name="M:EaslyNumber.RealTextPartition.ParseFractionalPart(System.Int32,System.Char)">
-            <summary>
-            Runs the parser in the <see cref="F:EaslyNumber.ParsingState.FractionalPart"/> state.
-            </summary>
-            <param name="index">Index of the parsed character.</param>
-            <param name="c">The parsed character.</param>
-        </member>
-        <member name="M:EaslyNumber.RealTextPartition.ParseExponentPart(System.Int32,System.Char)">
-            <summary>
-            Runs the parser in the <see cref="F:EaslyNumber.ParsingState.ExponentPart"/> state.
-            </summary>
-            <param name="index">Index of the parsed character.</param>
-            <param name="c">The parsed character.</param>
-        </member>
-        <member name="P:EaslyNumber.RealTextPartition.Separator">
-            <summary>
-            The optional separator.
-            </summary>
-        </member>
-        <member name="P:EaslyNumber.RealTextPartition.DecimalSeparatorIndex">
-            <summary>
-            Index of the decimal separator, -1 if not parsed.
-            </summary>
-        </member>
-        <member name="P:EaslyNumber.RealTextPartition.FirstFractionalPartIndex">
-            <summary>
-            Index of the fractional part, -1 if not parsed.
-            </summary>
-        </member>
-        <member name="P:EaslyNumber.RealTextPartition.LastFractionalPartIndex">
-            <summary>
-            Index of the first character after the fractional part, -1 if not parsed.
-            </summary>
-        </member>
-        <member name="P:EaslyNumber.RealTextPartition.HasFractionalPart">
-            <summary>
-            True if the partition includes a fractional part.
-            </summary>
-        </member>
-        <member name="P:EaslyNumber.RealTextPartition.FractionalPart">
-            <summary>
-            The fractional part after the decimal separator (if any).
-            </summary>
-        </member>
-        <member name="P:EaslyNumber.RealTextPartition.ExponentIndex">
-            <summary>
-            Index of the exponent character, -1 if not parsed.
-            </summary>
-        </member>
-        <member name="P:EaslyNumber.RealTextPartition.ExponentCharacter">
-            <summary>
-            Type of the optional exponent character.
-            </summary>
-        </member>
-        <member name="P:EaslyNumber.RealTextPartition.ExponentSign">
-            <summary>
-            Sign of the exponent, None if not parsed.
-            </summary>
-        </member>
-        <member name="P:EaslyNumber.RealTextPartition.FirstExponentPartIndex">
-            <summary>
-            Index of the exponent part, -1 if not parsed.
-            </summary>
-        </member>
-        <member name="P:EaslyNumber.RealTextPartition.LastExponentPartIndex">
-            <summary>
-            Index of the first character after the exponent part, -1 if not parsed.
-            </summary>
-        </member>
-        <member name="P:EaslyNumber.RealTextPartition.HasExponentPart">
-            <summary>
-            True if the partition includes a fractional part.
-            </summary>
-        </member>
-        <member name="P:EaslyNumber.RealTextPartition.ExponentPart">
-            <summary>
-            The exponent part (if any) after the exponent character and optional sign.
-            </summary>
-        </member>
-        <member name="P:EaslyNumber.RealTextPartition.IsZero">
-            <summary>
-            True if the parsed number is zero.
-            </summary>
-        </member>
-        <member name="P:EaslyNumber.RealTextPartition.CultureDecimalSeparator">
-            <summary>
-            The decimal separator character for the current culture.
-            </summary>
-        </member>
-        <member name="P:EaslyNumber.RealTextPartition.ComparisonIndex">
-            <summary>
-            Index to use for partition comparison.
-            </summary>
-        </member>
-        <member name="M:EaslyNumber.RealTextPartition.InitCultureSeparator">
-            <summary>
-            Gets the decimal separator character for the current culture.
-            </summary>
-        </member>
-        <member name="M:EaslyNumber.RealTextPartition.ConvertToBitField(System.Int64,System.Int64,EaslyNumber.BitField@,EaslyNumber.BitField@,EaslyNumber.BitField@)">
-            <summary>
-            Converts the parsed partition to bit fields.
-            </summary>
-            <param name="significandPrecision">The number of bits in the significand.</param>
-            <param name="exponentPrecision">The number of bits in the exponent.</param>
-            <param name="integerField">The bit field of the integer part upon return.</param>
-            <param name="fractionalField">The bit field of the fractional part upon return.</param>
-            <param name="exponentField">The bit field of the exponent part upon return.</param>
-        </member>
-        <member name="M:EaslyNumber.RealTextPartition.RoundedToNearest(System.String,System.Int32,EaslyNumber.NumberTextPartition.IsValidDigitHandler,EaslyNumber.NumberTextPartition.ToDigitHandler,System.Boolean)">
-            <summary>
-            Returns the input number rounded to the nearest number ending with digit 0.
-            If exactly in the middle, round to lower.
-            </summary>
-            <param name="text">The number to multiply.</param>
-            <param name="radix">The radix to use.</param>
-            <param name="validityHandler">The handler to use to validate digits.</param>
-            <param name="digitHandler">The handler to use to convert to digits.</param>
-            <param name="includeEndingZeroes">True to add ending zeroes.</param>
         </member>
         <member name="T:EaslyNumber.NumberTextPartition">
             <summary>

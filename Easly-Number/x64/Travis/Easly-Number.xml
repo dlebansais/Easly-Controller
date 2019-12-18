@@ -126,6 +126,13 @@
             Gets a hash code for the current object.
             </summary>
         </member>
+        <member name="M:EaslyNumber.BitField_byte.Equals(EaslyNumber.BitField_byte,EaslyNumber.BitField_byte)">
+            <summary>
+            Checks if two bit fields are equal.
+            </summary>
+            <param name="x">The first bit field.</param>
+            <param name="y">The second bit field.</param>
+        </member>
         <member name="M:EaslyNumber.BitField_byte.Equals(System.Object)">
             <summary>
             Checks if two bit fields are equal.
@@ -255,6 +262,13 @@
             <summary>
             Gets a hash code for the current object.
             </summary>
+        </member>
+        <member name="M:EaslyNumber.BitField_uint.Equals(EaslyNumber.BitField_uint,EaslyNumber.BitField_uint)">
+            <summary>
+            Checks if two bit fields are equal.
+            </summary>
+            <param name="x">The first bit field.</param>
+            <param name="y">The second bit field.</param>
         </member>
         <member name="M:EaslyNumber.BitField_uint.Equals(System.Object)">
             <summary>
