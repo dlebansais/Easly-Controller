@@ -321,7 +321,6 @@
         /// <param name="endIndex">Index of the last block of the selection.</param>
         void SelectBlockList(IFocusNodeState state, string propertyName, int startIndex, int endIndex);
 
-#if !TRAVIS
         /// <summary>
         /// Copy the selection in the clipboard.
         /// </summary>
@@ -346,7 +345,6 @@
         /// </summary>
         /// <param name="isDeleted">True if something was deleted.</param>
         void DeleteSelection(out bool isDeleted);
-#endif
 
         /// <summary>
         /// Change auto formatting mode.
@@ -1935,7 +1933,6 @@
             Selection = CreateBlockListSelection(stateView, propertyName, startIndex, endIndex);
         }
 
-#if !TRAVIS
         /// <summary>
         /// Copy the selection in the clipboard.
         /// </summary>
@@ -1978,7 +1975,6 @@
             if (isDeleted)
                 ResetSelection();
         }
-#endif
 
         /// <summary>
         /// Change auto formatting mode.
@@ -1988,9 +1984,9 @@
             if (AutoFormatMode != mode)
                 AutoFormatMode = mode;
         }
-#endregion
+        #endregion
 
-#region Implementation
+        #region Implementation
         /// <summary>
         /// Handler called every time a block state is inserted in the controller.
         /// </summary>
@@ -2735,9 +2731,9 @@
         }
 
         private protected IFocusNodeStateView ForcedCommentStateView { get; private set; }
-#endregion
+        #endregion
 
-#region Implementation of IFocusInternalControllerView
+        #region Implementation of IFocusInternalControllerView
         /// <summary>
         /// Checks if the template associated to the <paramref name="propertyName"/> property of the <paramref name="stateView"/> state is complex.
         /// </summary>
@@ -2937,7 +2933,7 @@
         }
 #endregion
 
-#region Debugging
+        #region Debugging
         /// <summary>
         /// Compares two <see cref="IFocusControllerView"/> objects.
         /// </summary>
@@ -2994,9 +2990,9 @@
         {
             hash ^= CRC32.Get(value);
         }
-#endregion
+        #endregion
 
-#region Create Methods
+        #region Create Methods
         /// <summary>
         /// Creates a IxxxStateViewDictionary object.
         /// </summary>
@@ -3211,6 +3207,6 @@
             ControllerTools.AssertNoOverride(this, typeof(FocusControllerView));
             return new FocusBlockListSelection(stateView, propertyName, startIndex, endIndex);
         }
-#endregion
+        #endregion
     }
 }

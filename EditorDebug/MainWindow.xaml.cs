@@ -65,8 +65,9 @@ namespace EditorDebug
                 NotifyPropertyChanged(nameof(CurrentFileName));
 
                 Serializer Serializer = new Serializer();
-                INode RootNode = Serializer.Deserialize(fs) as INode;
-                LoadFileLayout(RootNode);
+                INode? RootNode = Serializer.Deserialize(fs) as INode;
+                if (RootNode != null)
+                    LoadFileLayout(RootNode);
             }
         }
 
@@ -74,7 +75,7 @@ namespace EditorDebug
         {
             try
             {
-                string Content = Clipboard.GetData(DataFormats.UnicodeText) as string;
+                string? Content = Clipboard.GetData(DataFormats.UnicodeText) as string;
 
                 if (Content != null)
                 {
@@ -87,8 +88,9 @@ namespace EditorDebug
                         ms.Write(Bytes, 0, Bytes.Length);
                         ms.Seek(0, SeekOrigin.Begin);
 
-                        INode RootNode = Serializer.Deserialize(ms) as INode;
-                        LoadFileLayout(RootNode);
+                        INode? RootNode = Serializer.Deserialize(ms) as INode;
+                        if (RootNode != null)
+                            LoadFileLayout(RootNode);
                     }
                 }
             }
@@ -98,7 +100,7 @@ namespace EditorDebug
         }
 
         public string CurrentDirectory { get; private set; }
-        public string CurrentFileName { get; private set; }
+        public string CurrentFileName { get; private set; } = string.Empty;
 
         private string GenerateNumber(string charset, long pattern)
         {
@@ -127,7 +129,7 @@ namespace EditorDebug
         #endregion
 
         #region Implementation of INotifyPropertyChanged
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         public void NotifyPropertyChanged(string PropertyName)
         {

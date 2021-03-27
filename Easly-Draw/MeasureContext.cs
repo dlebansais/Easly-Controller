@@ -210,7 +210,7 @@
         public virtual Size MeasureText(string text, TextStyles textStyle, Measure maxTextWidth)
         {
             Brush Brush = GetBrush(StyleToForegroundBrush(textStyle));
-            FormattedText ft = new FormattedText(text, Culture, FlowDirection, Typeface, EmSize, Brush);
+            FormattedText ft = CreateFormattedText(text, EmSize, Brush);
             if (!maxTextWidth.IsFloating)
                 ft.MaxTextWidth = maxTextWidth.Draw;
 
@@ -230,21 +230,21 @@
         /// <returns>The size of the string.</returns>
         public virtual Size MeasureNumber(string text)
         {
-            FormattedNumber fn = new FormattedNumber(text);
-            string SignificandPart = fn.BeforeExponent;
-            string ExponentPart = fn.Exponent;
-            string InvalidText = fn.InvalidPart;
+            FormattedNumber fn = FormattedNumber.Parse(text);
+            string SignificandPart = fn.SignificandPart;
+            string ExponentPart = fn.ExponentPart;
+            string InvalidText = fn.InvalidText;
 
             Brush Brush;
 
             Brush = GetBrush(BrushSettings.NumberSignificand);
-            FormattedText ftSignificand = new FormattedText(SignificandPart, Culture, FlowDirection, Typeface, EmSize, Brush);
+            FormattedText ftSignificand = CreateFormattedText(SignificandPart, EmSize, Brush);
 
             Brush = GetBrush(BrushSettings.NumberExponent);
-            FormattedText ftExponent = new FormattedText(ExponentPart, Culture, FlowDirection, Typeface, EmSize * SubscriptRatio, Brush);
+            FormattedText ftExponent = CreateFormattedText(ExponentPart, EmSize * SubscriptRatio, Brush);
 
             Brush = GetBrush(BrushSettings.NumberInvalid);
-            FormattedText ftInvalid = new FormattedText(InvalidText, Culture, FlowDirection, Typeface, EmSize, Brush);
+            FormattedText ftInvalid = CreateFormattedText(InvalidText, EmSize, Brush);
 
             Measure Width = new Measure() { Draw = ftSignificand.WidthIncludingTrailingWhitespace + ftExponent.WidthIncludingTrailingWhitespace + ftInvalid.WidthIncludingTrailingWhitespace, Print = text.Length };
             Measure Height = LineHeight;
@@ -259,7 +259,7 @@
         public virtual Size MeasureSymbolSize(Symbols symbol)
         {
             string Text = SymbolToText(symbol);
-            FormattedText ft = new FormattedText(Text, Culture, FlowDirection, Typeface, EmSize, GetBrush(BrushSettings.Symbol));
+            FormattedText ft = CreateFormattedText(Text, EmSize, GetBrush(BrushSettings.Symbol));
 
             switch (symbol)
             {
@@ -417,7 +417,7 @@
         {
             FormattedText ft;
 
-            ft = new FormattedText(" ", Culture, FlowDirection, Typeface, EmSize, GetBrush(BrushSettings.Default));
+            ft = CreateFormattedText(" ", EmSize, GetBrush(BrushSettings.Default));
             WhitespaceWidth = ft.WidthIncludingTrailingWhitespace;
             InsertionCaretWidth = WhitespaceWidth / 4;
             LineHeight = new Measure() { Draw = ft.Height, Print = 1 };
@@ -427,10 +427,10 @@
             BlockGeometryHeight = new Measure() { Draw = LineHeight.Draw, Print = 1 };
             VerticalSeparatorHeightTable[VerticalSeparators.Line] = new Measure() { Draw = LineHeight.Draw * 3, Print = 3 };
 
-            ft = new FormattedText(CommaSeparatorString, Culture, FlowDirection, Typeface, EmSize, GetBrush(BrushSettings.Symbol));
+            ft = CreateFormattedText(CommaSeparatorString, EmSize, GetBrush(BrushSettings.Symbol));
             HorizontalSeparatorWidthTable[HorizontalSeparators.Comma] = new Measure() { Draw = ft.WidthIncludingTrailingWhitespace, Print = CommaSeparatorString.Length };
 
-            ft = new FormattedText(DotSeparatorString, Culture, FlowDirection, Typeface, EmSize, GetBrush(BrushSettings.Symbol));
+            ft = CreateFormattedText(DotSeparatorString, EmSize, GetBrush(BrushSettings.Symbol));
             HorizontalSeparatorWidthTable[HorizontalSeparators.Dot] = new Measure() { Draw = ft.WidthIncludingTrailingWhitespace, Print = DotSeparatorString.Length };
         }
 
@@ -451,6 +451,23 @@
             { VerticalSeparators.None, Measure.Zero },
             { VerticalSeparators.Line, Measure.Zero },
         };
+        #endregion
+
+        #region Tools
+        /// <summary>
+        /// Creates a <see cref="FormattedText"/> with the specified text, font size and brush.
+        /// </summary>
+        /// <param name="textToFormat">The text to be displayed.</param>
+        /// <param name="emSize">The font size the text should be formatted at.</param>
+        /// <param name="foreground">The brush used to paint the each glyph.</param>
+        protected FormattedText CreateFormattedText(string textToFormat, double emSize, Brush foreground)
+        {
+#pragma warning disable CS0618 // Type or member is obsolete
+            FormattedText Result = new FormattedText(textToFormat, Culture, FlowDirection, Typeface, emSize, foreground);
+#pragma warning restore CS0618 // Type or member is obsolete
+
+            return Result;
+        }
         #endregion
     }
 }

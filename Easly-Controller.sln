@@ -1,64 +1,58 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28010.2041
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31025.194
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Easly-Controller", "Easly-Controller\Easly-Controller.csproj", "{E746CFCE-8C74-4025-93DD-2C380F810161}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Easly-Controller", "Easly-Controller\Easly-Controller.csproj", "{E746CFCE-8C74-4025-93DD-2C380F810161}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestDebug", "TestDebug\TestDebug.csproj", "{041BF2A9-A363-4C05-B2AB-86FA3F5D4F63}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestDebug", "Test\TestDebug\TestDebug.csproj", "{041BF2A9-A363-4C05-B2AB-86FA3F5D4F63}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EditorDebug", "EditorDebug\EditorDebug.csproj", "{AB83BA56-657E-4093-8659-AF6C9B5D68BA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Easly-Draw", "Easly-Draw\Easly-Draw.csproj", "{182A2175-4C93-434A-A027-E101FBD55F48}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Easly-Draw", "Easly-Draw\Easly-Draw.csproj", "{182A2175-4C93-434A-A027-E101FBD55F48}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Easly-Preview", "Easly-Preview\Easly-Preview.csproj", "{6346EEB6-3C0B-49FA-A674-815E8AAD5336}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Easly-Preview", "Easly-Preview\Easly-Preview.csproj", "{6346EEB6-3C0B-49FA-A674-815E8AAD5336}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Easly-Edit", "Easly-Edit\Easly-Edit.csproj", "{ED89EF7C-7F5E-49CE-935F-1DE9715E79BB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Easly-Edit", "Easly-Edit\Easly-Edit.csproj", "{ED89EF7C-7F5E-49CE-935F-1DE9715E79BB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test-Easly-Controller", "Test-Easly-Controller\Test-Easly-Controller.csproj", "{C3D406EF-0D02-4A09-93BE-8D73D11F619D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test-Easly-Controller", "Test\Test-Easly-Controller\Test-Easly-Controller.csproj", "{C3D406EF-0D02-4A09-93BE-8D73D11F619D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{1AEA530B-0581-4F73-B46B-A8C03907C0B5}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
 		Release|x64 = Release|x64
-		Travis|x64 = Travis|x64
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{E746CFCE-8C74-4025-93DD-2C380F810161}.Debug|x64.ActiveCfg = Debug|x64
 		{E746CFCE-8C74-4025-93DD-2C380F810161}.Debug|x64.Build.0 = Debug|x64
 		{E746CFCE-8C74-4025-93DD-2C380F810161}.Release|x64.ActiveCfg = Release|x64
 		{E746CFCE-8C74-4025-93DD-2C380F810161}.Release|x64.Build.0 = Release|x64
-		{E746CFCE-8C74-4025-93DD-2C380F810161}.Travis|x64.ActiveCfg = Travis|x64
-		{E746CFCE-8C74-4025-93DD-2C380F810161}.Travis|x64.Build.0 = Travis|x64
 		{041BF2A9-A363-4C05-B2AB-86FA3F5D4F63}.Debug|x64.ActiveCfg = Debug|x64
 		{041BF2A9-A363-4C05-B2AB-86FA3F5D4F63}.Debug|x64.Build.0 = Debug|x64
 		{041BF2A9-A363-4C05-B2AB-86FA3F5D4F63}.Release|x64.ActiveCfg = Release|x64
-		{041BF2A9-A363-4C05-B2AB-86FA3F5D4F63}.Travis|x64.ActiveCfg = Travis|x64
 		{AB83BA56-657E-4093-8659-AF6C9B5D68BA}.Debug|x64.ActiveCfg = Debug|x64
 		{AB83BA56-657E-4093-8659-AF6C9B5D68BA}.Debug|x64.Build.0 = Debug|x64
 		{AB83BA56-657E-4093-8659-AF6C9B5D68BA}.Release|x64.ActiveCfg = Release|x64
-		{AB83BA56-657E-4093-8659-AF6C9B5D68BA}.Travis|x64.ActiveCfg = Release|x64
 		{182A2175-4C93-434A-A027-E101FBD55F48}.Debug|x64.ActiveCfg = Debug|x64
 		{182A2175-4C93-434A-A027-E101FBD55F48}.Debug|x64.Build.0 = Debug|x64
 		{182A2175-4C93-434A-A027-E101FBD55F48}.Release|x64.ActiveCfg = Release|x64
 		{182A2175-4C93-434A-A027-E101FBD55F48}.Release|x64.Build.0 = Release|x64
-		{182A2175-4C93-434A-A027-E101FBD55F48}.Travis|x64.ActiveCfg = Release|x64
 		{6346EEB6-3C0B-49FA-A674-815E8AAD5336}.Debug|x64.ActiveCfg = Debug|x64
 		{6346EEB6-3C0B-49FA-A674-815E8AAD5336}.Debug|x64.Build.0 = Debug|x64
 		{6346EEB6-3C0B-49FA-A674-815E8AAD5336}.Release|x64.ActiveCfg = Release|x64
 		{6346EEB6-3C0B-49FA-A674-815E8AAD5336}.Release|x64.Build.0 = Release|x64
-		{6346EEB6-3C0B-49FA-A674-815E8AAD5336}.Travis|x64.ActiveCfg = Release|x64
 		{ED89EF7C-7F5E-49CE-935F-1DE9715E79BB}.Debug|x64.ActiveCfg = Debug|x64
 		{ED89EF7C-7F5E-49CE-935F-1DE9715E79BB}.Debug|x64.Build.0 = Debug|x64
 		{ED89EF7C-7F5E-49CE-935F-1DE9715E79BB}.Release|x64.ActiveCfg = Release|x64
 		{ED89EF7C-7F5E-49CE-935F-1DE9715E79BB}.Release|x64.Build.0 = Release|x64
-		{ED89EF7C-7F5E-49CE-935F-1DE9715E79BB}.Travis|x64.ActiveCfg = Release|x64
 		{C3D406EF-0D02-4A09-93BE-8D73D11F619D}.Debug|x64.ActiveCfg = Debug|x64
 		{C3D406EF-0D02-4A09-93BE-8D73D11F619D}.Debug|x64.Build.0 = Debug|x64
 		{C3D406EF-0D02-4A09-93BE-8D73D11F619D}.Release|x64.ActiveCfg = Release|x64
-		{C3D406EF-0D02-4A09-93BE-8D73D11F619D}.Release|x64.Build.0 = Release|x64
-		{C3D406EF-0D02-4A09-93BE-8D73D11F619D}.Travis|x64.ActiveCfg = Travis|x64
-		{C3D406EF-0D02-4A09-93BE-8D73D11F619D}.Travis|x64.Build.0 = Travis|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

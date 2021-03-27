@@ -68,10 +68,10 @@
         /// <param name="origin">The location where to start printing.</param>
         public virtual void PrintNumber(string text, Point origin)
         {
-            FormattedNumber fn = new FormattedNumber(text);
-            string SignificandPart = fn.BeforeExponent;
-            string ExponentPart = fn.Exponent;
-            string InvalidText = fn.InvalidPart;
+            FormattedNumber fn = FormattedNumber.Parse(text);
+            string SignificandPart = fn.SignificandPart;
+            string ExponentPart = fn.ExponentPart;
+            string InvalidText = fn.InvalidText;
 
             // Try to use superscript digits in the exponent.
             string SuperscriptExponentString = string.Empty;

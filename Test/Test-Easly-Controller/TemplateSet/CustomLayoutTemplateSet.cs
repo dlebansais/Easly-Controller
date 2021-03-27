@@ -11,9 +11,9 @@ namespace EaslyEdit
         static CustomLayoutTemplateSet()
         {
             NodeTemplateDictionary = LoadTemplate(LayoutTemplateListString);
-            ILayoutTemplateReadOnlyDictionary LayoutCustomNodeTemplates = NodeTemplateDictionary.ToReadOnly() as ILayoutTemplateReadOnlyDictionary;
+            ILayoutTemplateReadOnlyDictionary LayoutCustomNodeTemplates = (ILayoutTemplateReadOnlyDictionary)NodeTemplateDictionary.ToReadOnly();
             BlockTemplateDictionary = LoadTemplate(LayoutBlockTemplateString);
-            ILayoutTemplateReadOnlyDictionary LayoutCustomBlockTemplates = BlockTemplateDictionary.ToReadOnly() as ILayoutTemplateReadOnlyDictionary;
+            ILayoutTemplateReadOnlyDictionary LayoutCustomBlockTemplates = (ILayoutTemplateReadOnlyDictionary)BlockTemplateDictionary.ToReadOnly();
             LayoutTemplateSet = new LayoutTemplateSet(LayoutCustomNodeTemplates, LayoutCustomBlockTemplates);
         }
 
@@ -22,7 +22,7 @@ namespace EaslyEdit
             byte[] ByteArray = Encoding.UTF8.GetBytes(s);
             using (MemoryStream ms = new MemoryStream(ByteArray))
             {
-                ILayoutTemplateList Templates = XamlReader.Parse(s) as ILayoutTemplateList;
+                ILayoutTemplateList Templates = (ILayoutTemplateList)XamlReader.Parse(s);
 
                 LayoutTemplateDictionary TemplateDictionary = new LayoutTemplateDictionary();
                 foreach (ILayoutTemplate Item in Templates)

@@ -12,7 +12,6 @@
         /// </summary>
         IFocusNodeStateView StateView { get; }
 
-#if !TRAVIS
         /// <summary>
         /// Copy the selection in the clipboard.
         /// </summary>
@@ -37,7 +36,6 @@
         /// </summary>
         /// <param name="isDeleted">True if something was deleted.</param>
         void Delete(out bool isDeleted);
-#endif
     }
 
     /// <summary>
@@ -64,7 +62,6 @@
         #endregion
 
         #region Client Interface
-#if !TRAVIS
         /// <summary>
         /// Copy the selection in the clipboard.
         /// </summary>
@@ -88,7 +85,6 @@
         /// </summary>
         /// <param name="isDeleted">True if something was deleted.</param>
         public abstract void Delete(out bool isDeleted);
-#endif
         #endregion
     }
 }

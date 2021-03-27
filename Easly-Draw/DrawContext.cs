@@ -88,9 +88,9 @@
             {
                 return Imaging.CreateBitmapSourceFromHBitmap(ip, IntPtr.Zero, System.Windows.Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
             }
-            catch (Exception e)
+            catch
             {
-                throw e;
+                throw;
             }
             finally
             {
@@ -165,10 +165,10 @@
                 Y += CommentPadding.Top.Draw;
             }
 
-            ft = new FormattedText(text.Substring(0, start), Culture, FlowDirection, Typeface, EmSize, Brush);
+            ft = CreateFormattedText(text.Substring(0, start), EmSize, Brush);
             X += ft.WidthIncludingTrailingWhitespace;
 
-            ft = new FormattedText(text.Substring(start, end - start), Culture, FlowDirection, Typeface, EmSize, Brush);
+            ft = CreateFormattedText(text.Substring(start, end - start), EmSize, Brush);
             System.Windows.Rect SelectionRect = new System.Windows.Rect(X, Y, ft.WidthIncludingTrailingWhitespace, LineHeight.Draw);
 
             WpfDrawingContext.DrawRectangle(GetBrush(BrushSettings.Selection), GetPen(PenSettings.SelectionText), SelectionRect);
@@ -185,7 +185,7 @@
             Debug.Assert(WpfDrawingContext != null);
 
             Brush Brush = GetBrush(StyleToForegroundBrush(textStyle));
-            FormattedText ft = new FormattedText(text, Culture, FlowDirection, Typeface, EmSize, Brush);
+            FormattedText ft = CreateFormattedText(text, EmSize, Brush);
 
             double X = PagePadding.Left.Draw + origin.X.Draw;
             double Y = PagePadding.Top.Draw + origin.Y.Draw;
@@ -214,7 +214,7 @@
             }
 
             Brush Brush = GetBrush(StyleToForegroundBrush(textStyle));
-            FormattedText ft = new FormattedText(text, Culture, FlowDirection, Typeface, EmSize, Brush);
+            FormattedText ft = CreateFormattedText(text, EmSize, Brush);
 
             double X = PagePadding.Left.Draw + origin.X.Draw;
             double Y = PagePadding.Top.Draw + origin.Y.Draw;
@@ -245,31 +245,31 @@
         {
             Debug.Assert(WpfDrawingContext != null);
 
-            FormattedNumber fn = new FormattedNumber(text);
-            string BeforeExponent = fn.BeforeExponent;
-            string ExponentString0 = fn.Exponent.Length > 0 ? fn.Exponent.Substring(0, 1) : string.Empty;
-            string ExponentString1 = fn.Exponent.Length > 1 ? fn.Exponent.Substring(1) : string.Empty;
-            string InvalidText = fn.InvalidPart;
+            FormattedNumber fn = FormattedNumber.Parse(text);
+            string SignificandPart = fn.SignificandPart;
+            string ExponentString0 = fn.ExponentPart.Length > 0 ? fn.ExponentPart.Substring(0, 1) : string.Empty;
+            string ExponentString1 = fn.ExponentPart.Length > 1 ? fn.ExponentPart.Substring(1) : string.Empty;
+            string InvalidText = fn.InvalidText;
 
             Brush Brush;
             double X = PagePadding.Left.Draw + origin.X.Draw;
             double Y = PagePadding.Top.Draw + origin.Y.Draw;
 
             Brush = GetBrush(BrushSettings.NumberSignificand);
-            FormattedText ftSignificand = new FormattedText(BeforeExponent, Culture, FlowDirection, Typeface, EmSize, Brush);
+            FormattedText ftSignificand = CreateFormattedText(SignificandPart, EmSize, Brush);
             WpfDrawingContext.DrawText(ftSignificand, new System.Windows.Point(X, Y));
             X += ftSignificand.WidthIncludingTrailingWhitespace;
 
             Brush = GetBrush(BrushSettings.NumberExponent);
-            FormattedText ftExponent0 = new FormattedText(ExponentString0, Culture, FlowDirection, Typeface, EmSize, Brush);
+            FormattedText ftExponent0 = CreateFormattedText(ExponentString0, EmSize, Brush);
             WpfDrawingContext.DrawText(ftExponent0, new System.Windows.Point(X, Y));
             X += ftExponent0.WidthIncludingTrailingWhitespace;
-            FormattedText ftExponent1 = new FormattedText(ExponentString1, Culture, FlowDirection, Typeface, EmSize * SubscriptRatio, Brush);
+            FormattedText ftExponent1 = CreateFormattedText(ExponentString1, EmSize * SubscriptRatio, Brush);
             WpfDrawingContext.DrawText(ftExponent1, new System.Windows.Point(X, Y));
             X += ftExponent1.WidthIncludingTrailingWhitespace;
 
             Brush = GetBrush(BrushSettings.NumberInvalid);
-            FormattedText ftInvalid = new FormattedText(InvalidText, Culture, FlowDirection, Typeface, EmSize, Brush);
+            FormattedText ftInvalid = CreateFormattedText(InvalidText, EmSize, Brush);
             WpfDrawingContext.DrawText(ftInvalid, new System.Windows.Point(X, Y));
         }
 
@@ -338,7 +338,7 @@
             Debug.Assert(WpfDrawingContext != null);
 
             Brush ForegroundBrush = GetBrush(BrushSettings.Symbol);
-            FormattedText ft = new FormattedText(text, Culture, FlowDirection, Typeface, EmSize, ForegroundBrush);
+            FormattedText ft = CreateFormattedText(text, EmSize, ForegroundBrush);
             WpfDrawingContext.DrawText(ft, new System.Windows.Point(PagePadding.Left.Draw + origin.X.Draw + padding.Left.Draw, PagePadding.Top.Draw + origin.Y.Draw + padding.Top.Draw));
         }
 
@@ -416,11 +416,11 @@
             switch (separator)
             {
                 case HorizontalSeparators.Comma:
-                    ft = new FormattedText(CommaSeparatorString, Culture, FlowDirection, Typeface, EmSize, ForegroundBrush);
+                    ft = CreateFormattedText(CommaSeparatorString, EmSize, ForegroundBrush);
                     WpfDrawingContext.DrawText(ft, new System.Windows.Point(PagePadding.Left.Draw + origin.X.Draw - ft.WidthIncludingTrailingWhitespace, PagePadding.Top.Draw + origin.Y.Draw));
                     break;
                 case HorizontalSeparators.Dot:
-                    ft = new FormattedText(DotSeparatorString, Culture, FlowDirection, Typeface, EmSize, ForegroundBrush);
+                    ft = CreateFormattedText(DotSeparatorString, EmSize, ForegroundBrush);
                     WpfDrawingContext.DrawText(ft, new System.Windows.Point(PagePadding.Left.Draw + origin.X.Draw - ft.WidthIncludingTrailingWhitespace, PagePadding.Top.Draw + origin.Y.Draw));
                     break;
             }
@@ -530,7 +530,7 @@
             string LeftText = text.Substring(0, position);
 
             Brush Brush = GetBrush(StyleToForegroundBrush(textStyle));
-            FormattedText ft = new FormattedText(LeftText, Culture, FlowDirection, Typeface, EmSize, Brush);
+            FormattedText ft = CreateFormattedText(LeftText, EmSize, Brush);
             double X = origin.X.Draw + ft.WidthIncludingTrailingWhitespace;
             double Y = origin.Y.Draw;
 
@@ -553,7 +553,7 @@
             else
             {
                 string CaretText = text.Substring(position, 1);
-                ft = new FormattedText(CaretText, Culture, FlowDirection, Typeface, EmSize, GetBrush(BrushSettings.CaretOverride));
+                ft = CreateFormattedText(CaretText, EmSize, GetBrush(BrushSettings.CaretOverride));
 
                 System.Windows.Rect CaretRect = new System.Windows.Rect(PagePadding.Left.Draw + X, PagePadding.Top.Draw + Y, ft.WidthIncludingTrailingWhitespace, LineHeight.Draw);
 
@@ -566,7 +566,7 @@
         /// <summary></summary>
         protected virtual void ShowNumberCaret(Point origin, string text, CaretModes mode, int position)
         {
-            FormattedNumber fn = new FormattedNumber(text);
+            FormattedNumber fn = FormattedNumber.Parse(text);
 
             GetNumberCaretParts(fn, position, out string BeforeExponent, out string ExponentString0, out string ExponentString1, out string InvalidText);
 
@@ -575,23 +575,23 @@
             Brush Brush;
 
             Brush = GetBrush(BrushSettings.NumberSignificand);
-            FormattedText ftSignificand = new FormattedText(BeforeExponent, Culture, FlowDirection, Typeface, EmSize, Brush);
+            FormattedText ftSignificand = CreateFormattedText(BeforeExponent, EmSize, Brush);
             X += ftSignificand.WidthIncludingTrailingWhitespace;
 
             Brush = GetBrush(BrushSettings.NumberExponent);
-            FormattedText ftExponent0 = new FormattedText(ExponentString0, Culture, FlowDirection, Typeface, EmSize, Brush);
+            FormattedText ftExponent0 = CreateFormattedText(ExponentString0, EmSize, Brush);
             X += ftExponent0.WidthIncludingTrailingWhitespace;
-            FormattedText ftExponent1 = new FormattedText(ExponentString1, Culture, FlowDirection, Typeface, EmSize * SubscriptRatio, Brush);
+            FormattedText ftExponent1 = CreateFormattedText(ExponentString1, EmSize * SubscriptRatio, Brush);
             X += ftExponent1.WidthIncludingTrailingWhitespace;
 
             Brush = GetBrush(BrushSettings.NumberInvalid);
-            FormattedText ftInvalid = new FormattedText(InvalidText, Culture, FlowDirection, Typeface, EmSize, Brush);
+            FormattedText ftInvalid = CreateFormattedText(InvalidText, EmSize, Brush);
             X += ftInvalid.WidthIncludingTrailingWhitespace;
 
             double CaretEmSize;
             double CaretHeight;
 
-            if (position <= fn.BeforeExponent.Length || fn.Exponent.Length == 0 || position > fn.BeforeExponent.Length + 1)
+            if (position <= fn.SignificandPart.Length || fn.ExponentPart.Length == 0 || position > fn.SignificandPart.Length + 1)
             {
                 CaretEmSize = EmSize;
                 CaretHeight = LineHeight.Draw;
@@ -609,35 +609,35 @@
         /// <summary></summary>
         protected virtual void GetNumberCaretParts(FormattedNumber fn, int position, out string significandString, out string exponentString0, out string exponentString1, out string invalidText)
         {
-            if (position <= fn.BeforeExponent.Length)
+            if (position <= fn.SignificandPart.Length)
             {
-                significandString = fn.BeforeExponent.Substring(0, position);
+                significandString = fn.SignificandPart.Substring(0, position);
                 exponentString0 = string.Empty;
                 exponentString1 = string.Empty;
                 invalidText = string.Empty;
             }
             else
             {
-                significandString = fn.BeforeExponent;
+                significandString = fn.SignificandPart;
 
-                if (position <= fn.BeforeExponent.Length + fn.Exponent.Length && position <= fn.BeforeExponent.Length + 1)
+                if (position <= fn.SignificandPart.Length + fn.ExponentPart.Length && position <= fn.SignificandPart.Length + 1)
                 {
-                    exponentString0 = fn.Exponent.Substring(0, 1);
+                    exponentString0 = fn.ExponentPart.Substring(0, 1);
                     exponentString1 = string.Empty;
                     invalidText = string.Empty;
                 }
-                else if (position <= fn.BeforeExponent.Length + fn.Exponent.Length && position > fn.BeforeExponent.Length)
+                else if (position <= fn.SignificandPart.Length + fn.ExponentPart.Length && position > fn.SignificandPart.Length)
                 {
-                    exponentString0 = fn.Exponent.Substring(0, 1);
-                    exponentString1 = fn.Exponent.Substring(1, position - fn.BeforeExponent.Length - 1);
+                    exponentString0 = fn.ExponentPart.Substring(0, 1);
+                    exponentString1 = fn.ExponentPart.Substring(1, position - fn.SignificandPart.Length - 1);
                     invalidText = string.Empty;
                 }
                 else
                 {
-                    if (fn.Exponent.Length > 0)
+                    if (fn.ExponentPart.Length > 0)
                     {
-                        exponentString0 = fn.Exponent.Substring(0, 1);
-                        exponentString1 = fn.Exponent.Substring(1);
+                        exponentString0 = fn.ExponentPart.Substring(0, 1);
+                        exponentString1 = fn.ExponentPart.Substring(1);
                     }
                     else
                     {
@@ -645,7 +645,7 @@
                         exponentString1 = string.Empty;
                     }
 
-                    invalidText = fn.InvalidPart.Substring(0, position - fn.BeforeExponent.Length - fn.Exponent.Length);
+                    invalidText = fn.InvalidText.Substring(0, position - fn.SignificandPart.Length - fn.ExponentPart.Length);
                 }
             }
         }
@@ -665,14 +665,14 @@
             {
                 string CaretText;
 
-                if (position < fn.BeforeExponent.Length)
-                    CaretText = fn.BeforeExponent.Substring(position, 1);
-                else if (position < fn.BeforeExponent.Length + fn.Exponent.Length)
-                    CaretText = fn.Exponent.Substring(position - fn.BeforeExponent.Length, 1);
+                if (position < fn.SignificandPart.Length)
+                    CaretText = fn.SignificandPart.Substring(position, 1);
+                else if (position < fn.SignificandPart.Length + fn.ExponentPart.Length)
+                    CaretText = fn.ExponentPart.Substring(position - fn.SignificandPart.Length, 1);
                 else
-                    CaretText = fn.InvalidPart.Substring(position - fn.BeforeExponent.Length - fn.Exponent.Length, 1);
+                    CaretText = fn.InvalidText.Substring(position - fn.SignificandPart.Length - fn.ExponentPart.Length, 1);
 
-                FormattedText ftCaret = new FormattedText(CaretText, Culture, FlowDirection, Typeface, caretEmSize, GetBrush(BrushSettings.CaretOverride));
+                FormattedText ftCaret = CreateFormattedText(CaretText, caretEmSize, GetBrush(BrushSettings.CaretOverride));
 
                 System.Windows.Rect CaretRect = new System.Windows.Rect(PagePadding.Left.Draw + x, PagePadding.Top.Draw + y, ftCaret.WidthIncludingTrailingWhitespace, caretHeight);
 
@@ -753,7 +753,7 @@
 
             for (int i = 0; i < text.Length; i++)
             {
-                FormattedText ft = new FormattedText(text.Substring(0, i + 1), Culture, FlowDirection, Typeface, EmSize, Brush);
+                FormattedText ft = CreateFormattedText(text.Substring(0, i + 1), EmSize, Brush);
                 if (!maxTextWidth.IsFloating)
                     ft.MaxTextWidth = maxTextWidth.Draw;
 
@@ -820,7 +820,7 @@
 
             FormattedText ft;
 
-            ft = new FormattedText(" ", Culture, FlowDirection, Typeface, EmSize, GetBrush(BrushSettings.Default));
+            ft = CreateFormattedText(" ", EmSize, GetBrush(BrushSettings.Default));
 
             LeftBracketGeometry = ScaleGlyphGeometryHeight("[", true, 0.3, 0.3);
             RightBracketGeometry = ScaleGlyphGeometryHeight("]", true, 0.3, 0.3);
@@ -844,7 +844,7 @@
         /// <summary></summary>
         protected virtual ScalableGeometry ScaleGlyphGeometryWidth(string text, bool isWidthScaled, double leftPercent, double rightPercent)
         {
-            FormattedText GlyphText = new FormattedText(text, Culture, FlowDirection, Typeface, EmSize, GetBrush(BrushSettings.Symbol));
+            FormattedText GlyphText = CreateFormattedText(text, EmSize, GetBrush(BrushSettings.Symbol));
             GlyphText.Trimming = System.Windows.TextTrimming.None;
 
             System.Windows.Rect Bounds = new System.Windows.Rect(new System.Windows.Point(0, 0), new System.Windows.Size(GlyphText.Width, GlyphText.Width));
@@ -856,7 +856,7 @@
         /// <summary></summary>
         protected virtual ScalableGeometry ScaleGlyphGeometryHeight(string text, bool isHeightScaled, double topPercent, double bottomPercent)
         {
-            FormattedText GlyphText = new FormattedText(text, Culture, FlowDirection, Typeface, EmSize, GetBrush(BrushSettings.Symbol));
+            FormattedText GlyphText = CreateFormattedText(text, EmSize, GetBrush(BrushSettings.Symbol));
             GlyphText.Trimming = System.Windows.TextTrimming.None;
 
             System.Windows.Rect Bounds = new System.Windows.Rect(new System.Windows.Point(0, 0), new System.Windows.Size(GlyphText.Width, GlyphText.Height));

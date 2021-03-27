@@ -103,7 +103,6 @@
             }
         }
 
-#if !TRAVIS
         /// <summary>
         /// Adds the selection to the clipboard.
         /// </summary>
@@ -247,7 +246,6 @@
                 isDeleted = true;
             }
         }
-#endif
         #endregion
 
         #region Debugging

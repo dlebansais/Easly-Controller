@@ -8,7 +8,6 @@ namespace EaslyEdit
     internal class CustomLayoutTemplateSet
     {
         #region Init
-#if !TRAVIS
         static CustomLayoutTemplateSet()
         {
             NodeTemplateDictionary = LoadTemplate(LayoutTemplateListString);
@@ -39,7 +38,6 @@ namespace EaslyEdit
         private CustomLayoutTemplateSet()
         {
         }
-#endif
         #endregion
 
         #region Properties

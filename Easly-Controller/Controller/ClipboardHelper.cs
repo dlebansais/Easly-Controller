@@ -1,6 +1,5 @@
 ﻿namespace EaslyController.Controller
 {
-#if !TRAVIS
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.IO;
@@ -206,5 +205,4 @@
         }
         #endregion
     }
-#endif
 }

@@ -3,17 +3,17 @@ using System.IO;
 using System.Text;
 using System.Windows.Markup;
 
-namespace EaslyEdit
+namespace TestDebug
 {
-    internal class CustomLayoutTemplateSet
+    public class CoverageLayoutTemplateSet
     {
         #region Init
-        static CustomLayoutTemplateSet()
+        static CoverageLayoutTemplateSet()
         {
             NodeTemplateDictionary = LoadTemplate(LayoutTemplateListString);
-            ILayoutTemplateReadOnlyDictionary LayoutCustomNodeTemplates = NodeTemplateDictionary.ToReadOnly() as ILayoutTemplateReadOnlyDictionary;
+            ILayoutTemplateReadOnlyDictionary LayoutCustomNodeTemplates = (ILayoutTemplateReadOnlyDictionary)NodeTemplateDictionary.ToReadOnly();
             BlockTemplateDictionary = LoadTemplate(LayoutBlockTemplateString);
-            ILayoutTemplateReadOnlyDictionary LayoutCustomBlockTemplates = BlockTemplateDictionary.ToReadOnly() as ILayoutTemplateReadOnlyDictionary;
+            ILayoutTemplateReadOnlyDictionary LayoutCustomBlockTemplates = (ILayoutTemplateReadOnlyDictionary)BlockTemplateDictionary.ToReadOnly();
             LayoutTemplateSet = new LayoutTemplateSet(LayoutCustomNodeTemplates, LayoutCustomBlockTemplates);
         }
 
@@ -22,12 +22,13 @@ namespace EaslyEdit
             byte[] ByteArray = Encoding.UTF8.GetBytes(s);
             using (MemoryStream ms = new MemoryStream(ByteArray))
             {
-                ILayoutTemplateList Templates = XamlReader.Parse(s) as ILayoutTemplateList;
+                Templates = (ILayoutTemplateList)XamlReader.Parse(s);
 
                 LayoutTemplateDictionary TemplateDictionary = new LayoutTemplateDictionary();
                 foreach (ILayoutTemplate Item in Templates)
                 {
                     Item.Root.UpdateParent(Item, LayoutFrame.LayoutRoot);
+                    RecursivelyCheckParent(Item.Root, Item.Root);
                     TemplateDictionary.Add(Item.NodeType, Item);
                 }
 
@@ -35,8 +36,72 @@ namespace EaslyEdit
             }
         }
 
-        private CustomLayoutTemplateSet()
+        private CoverageLayoutTemplateSet()
         {
+        }
+
+        private static void RecursivelyCheckParent(ILayoutFrame rootFrame, ILayoutFrame frame)
+        {
+            EaslyController.Frame.IFrameFrame AsFrameRootFrame = rootFrame;
+            EaslyController.Frame.IFrameFrame AsFrameFrame = frame;
+            EaslyController.Focus.IFocusFrame AsFocusRootFrame = rootFrame;
+            EaslyController.Focus.IFocusFrame AsFocusFrame = frame;
+
+            //System.Diagnostics.Debug.Assert(false);
+            System.Diagnostics.Debug.Assert(rootFrame.ParentTemplate == frame.ParentTemplate);
+            System.Diagnostics.Debug.Assert(AsFrameRootFrame.ParentTemplate == AsFrameFrame.ParentTemplate);
+            System.Diagnostics.Debug.Assert(AsFocusRootFrame.ParentTemplate == AsFocusFrame.ParentTemplate);
+
+            System.Diagnostics.Debug.Assert(frame.ParentFrame != null || frame == rootFrame);
+
+            if (frame is ILayoutBlockFrameWithVisibility AsBlockFrame)
+            {
+                ILayoutBlockFrameVisibility BlockVisibility = AsBlockFrame.BlockVisibility;
+            }
+
+            if (frame is ILayoutNodeFrameWithVisibility AsNodeFrameWithVisibility)
+            {
+                ILayoutNodeFrameVisibility Visibility = AsNodeFrameWithVisibility.Visibility;
+            }
+
+            if (frame is ILayoutPanelFrame AsPanelFrame)
+            {
+                foreach (ILayoutFrame Item in AsPanelFrame.Items)
+                {
+                    EaslyController.Frame.IFrameFrame AsFrameItem = Item;
+
+                    System.Diagnostics.Debug.Assert(Item.ParentFrame == AsPanelFrame);
+                    System.Diagnostics.Debug.Assert(AsFrameItem.ParentFrame == AsPanelFrame);
+
+                    RecursivelyCheckParent(rootFrame, Item);
+                }
+            }
+
+            else if (frame is ILayoutSelectionFrame AsSelectionFrame)
+            {
+                foreach (ILayoutFrame Item in AsSelectionFrame.Items)
+                {
+                    EaslyController.Frame.IFrameFrame AsFrameItem = Item;
+
+                    System.Diagnostics.Debug.Assert(Item.ParentFrame == AsSelectionFrame);
+                    System.Diagnostics.Debug.Assert(AsFrameItem.ParentFrame == AsSelectionFrame);
+
+                    RecursivelyCheckParent(rootFrame, Item);
+                }
+            }
+
+            else if (frame is ILayoutDiscreteFrame AsDiscreteFrame)
+            {
+                foreach (ILayoutKeywordFrame Item in AsDiscreteFrame.Items)
+                {
+                    EaslyController.Frame.IFrameFrame AsFrameItem = Item;
+
+                    System.Diagnostics.Debug.Assert(Item.ParentFrame == AsDiscreteFrame);
+                    System.Diagnostics.Debug.Assert(AsFrameItem.ParentFrame == AsDiscreteFrame);
+
+                    RecursivelyCheckParent(rootFrame, Item);
+                }
+            }
         }
         #endregion
 
@@ -44,6 +109,7 @@ namespace EaslyEdit
         public static ILayoutTemplateDictionary NodeTemplateDictionary { get; private set; }
         public static ILayoutTemplateDictionary BlockTemplateDictionary { get; private set; }
         public static ILayoutTemplateSet LayoutTemplateSet { get; private set; }
+        public static ILayoutTemplateList Templates { get; private set; } = null!;
         #endregion
 
         #region Node Templates
@@ -53,14 +119,179 @@ namespace EaslyEdit
     xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""
     xmlns:xaml=""clr-namespace:EaslyController.Xaml;assembly=Easly-Controller""
     xmlns:easly=""clr-namespace:BaseNode;assembly=Easly-Language""
+    xmlns:cov=""clr-namespace:Coverage;assembly=Test-Easly-Controller""
     xmlns:const=""clr-namespace:EaslyController.Constants;assembly=Easly-Controller"">
+    <LayoutNodeTemplate NodeType=""{xaml:Type cov:ILeaf}"" IsComplex=""True"" IsSimple=""True"">
+        <LayoutVerticalPanelFrame>
+            <LayoutCommentFrame/>
+            <LayoutTextValueFrame PropertyName=""Text""/>
+            <LayoutKeywordFrame Text=""first"">
+                <LayoutKeywordFrame.Visibility>
+                    <LayoutNotFirstItemFrameVisibility/>
+                </LayoutKeywordFrame.Visibility>
+            </LayoutKeywordFrame>
+            <LayoutKeywordFrame Text=""not first"">
+                <LayoutKeywordFrame.Visibility>
+                    <LayoutNotFirstItemFrameVisibility/>
+                </LayoutKeywordFrame.Visibility>
+            </LayoutKeywordFrame>
+        </LayoutVerticalPanelFrame>
+    </LayoutNodeTemplate>
+    <LayoutNodeTemplate NodeType=""{xaml:Type cov:ITree}"">
+        <LayoutVerticalPanelFrame>
+            <LayoutCommentFrame/>
+            <LayoutPlaceholderFrame PropertyName=""Placeholder""/>
+            <LayoutSymbolFrame Symbol=""{x:Static const:Symbols.Dot}"">
+                <LayoutSymbolFrame.Visibility>
+                    <LayoutComplexFrameVisibility PropertyName=""Placeholder""/>
+                </LayoutSymbolFrame.Visibility>
+            </LayoutSymbolFrame>
+            <LayoutDiscreteFrame PropertyName=""ValueBoolean"">
+                <LayoutKeywordFrame>True</LayoutKeywordFrame>
+                <LayoutKeywordFrame>False</LayoutKeywordFrame>
+            </LayoutDiscreteFrame>
+            <LayoutSymbolFrame Symbol=""{x:Static const:Symbols.Dot}""/>
+            <LayoutDiscreteFrame PropertyName=""ValueEnum"">
+                <LayoutKeywordFrame>Any</LayoutKeywordFrame>
+                <LayoutKeywordFrame>Reference</LayoutKeywordFrame>
+                <LayoutKeywordFrame>Value</LayoutKeywordFrame>
+            </LayoutDiscreteFrame>
+        </LayoutVerticalPanelFrame>
+    </LayoutNodeTemplate>
+    <LayoutNodeTemplate NodeType=""{xaml:Type cov:IMain}"">
+        <LayoutVerticalPanelFrame>
+            <LayoutCommentFrame/>
+            <LayoutSymbolFrame Symbol=""{x:Static const:Symbols.HorizontalLine}""/>
+            <LayoutVerticalPanelFrame>
+                <LayoutSymbolFrame Symbol=""{x:Static const:Symbols.HorizontalLine}""/>
+            </LayoutVerticalPanelFrame>
+            <LayoutHorizontalPanelFrame>
+                <LayoutSymbolFrame Symbol=""{x:Static const:Symbols.LeftBracket}""/>
+                <LayoutHorizontalPanelFrame>
+                    <LayoutSymbolFrame Symbol=""{x:Static const:Symbols.LeftBracket}""/>
+                </LayoutHorizontalPanelFrame>
+                <LayoutPlaceholderFrame PropertyName=""PlaceholderTree""/>
+                <LayoutPlaceholderFrame PropertyName=""PlaceholderLeaf""/>
+                <LayoutOptionalFrame PropertyName=""UnassignedOptionalLeaf"" />
+                <LayoutOptionalFrame PropertyName=""EmptyOptionalLeaf"" />
+                <LayoutOptionalFrame PropertyName=""AssignedOptionalTree"" />
+                <LayoutOptionalFrame PropertyName=""AssignedOptionalLeaf"" />
+                <LayoutInsertFrame CollectionName=""LeafBlocks"">
+                    <LayoutInsertFrame.Visibility>
+                        <LayoutCountFrameVisibility PropertyName=""LeafBlocks""/>
+                    </LayoutInsertFrame.Visibility>
+                </LayoutInsertFrame>
+                <LayoutHorizontalBlockListFrame PropertyName=""LeafBlocks"" Separator=""Comma"">
+                    <LayoutHorizontalBlockListFrame.Visibility>
+                        <LayoutCountFrameVisibility PropertyName=""LeafPath""/>
+                    </LayoutHorizontalBlockListFrame.Visibility>
+                    <LayoutHorizontalBlockListFrame.Selectors>
+                        <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Identifier""/>
+                    </LayoutHorizontalBlockListFrame.Selectors>
+                </LayoutHorizontalBlockListFrame>
+                <LayoutVerticalListFrame PropertyName=""LeafPath"" IsPreferred=""True"">
+                    <LayoutVerticalListFrame.Visibility>
+                        <LayoutCountFrameVisibility PropertyName=""LeafBlocks""/>
+                    </LayoutVerticalListFrame.Visibility>
+                </LayoutVerticalListFrame>
+                <LayoutVerticalPanelFrame>
+                    <LayoutVerticalPanelFrame.Visibility>
+                        <LayoutCountFrameVisibility PropertyName=""LeafBlocks""/>
+                    </LayoutVerticalPanelFrame.Visibility>
+                    <LayoutDiscreteFrame PropertyName=""ValueBoolean"">
+                        <LayoutKeywordFrame>True</LayoutKeywordFrame>
+                        <LayoutKeywordFrame>False</LayoutKeywordFrame>
+                    </LayoutDiscreteFrame>
+                </LayoutVerticalPanelFrame>
+                <LayoutDiscreteFrame PropertyName=""ValueEnum"">
+                    <LayoutKeywordFrame>Any</LayoutKeywordFrame>
+                    <LayoutKeywordFrame>Reference</LayoutKeywordFrame>
+                    <LayoutKeywordFrame>Value</LayoutKeywordFrame>
+                </LayoutDiscreteFrame>
+                <LayoutTextValueFrame PropertyName=""ValueString"">
+                    <LayoutTextValueFrame.Visibility>
+                        <LayoutComplexFrameVisibility PropertyName=""PlaceholderTree""/>
+                    </LayoutTextValueFrame.Visibility>
+                </LayoutTextValueFrame>
+                <LayoutCharacterFrame PropertyName=""ValueString"">
+                    <LayoutCharacterFrame.Visibility>
+                        <LayoutComplexFrameVisibility PropertyName=""PlaceholderTree""/>
+                    </LayoutCharacterFrame.Visibility>
+                </LayoutCharacterFrame>
+                <LayoutCharacterFrame PropertyName=""ValueString""/>
+                <LayoutNumberFrame PropertyName=""ValueString"">
+                    <LayoutNumberFrame.Visibility>
+                        <LayoutComplexFrameVisibility PropertyName=""PlaceholderTree""/>
+                    </LayoutNumberFrame.Visibility>
+                </LayoutNumberFrame>
+                <LayoutNumberFrame PropertyName=""ValueString""/>
+                <LayoutKeywordFrame Text=""end"">
+                    <LayoutKeywordFrame.Visibility>
+                        <LayoutMixedFrameVisibility>
+                            <LayoutCountFrameVisibility PropertyName=""LeafBlocks""/>
+                            <LayoutCountFrameVisibility PropertyName=""LeafPath""/>
+                            <LayoutOptionalFrameVisibility PropertyName=""AssignedOptionalTree""/>
+                            <LayoutOptionalFrameVisibility PropertyName=""UnassignedOptionalLeaf""/>
+                        </LayoutMixedFrameVisibility>
+                    </LayoutKeywordFrame.Visibility>
+                </LayoutKeywordFrame>
+            </LayoutHorizontalPanelFrame>
+        </LayoutVerticalPanelFrame>
+    </LayoutNodeTemplate>
+    <LayoutNodeTemplate NodeType=""{xaml:Type cov:IRoot}"">
+        <LayoutHorizontalPanelFrame>
+            <LayoutCommentFrame/>
+            <LayoutHorizontalBlockListFrame PropertyName=""MainBlocksH"">
+                <LayoutHorizontalBlockListFrame.Visibility>
+                    <LayoutCountFrameVisibility PropertyName=""LeafPathH""/>
+                </LayoutHorizontalBlockListFrame.Visibility>
+                <LayoutHorizontalBlockListFrame.Selectors>
+                    <LayoutFrameSelector SelectorType=""{xaml:Type easly:IDeferredBody}"" SelectorName=""Overload""/>
+                </LayoutHorizontalBlockListFrame.Selectors>
+            </LayoutHorizontalBlockListFrame>
+            <LayoutVerticalBlockListFrame PropertyName=""MainBlocksV"" HasTabulationMargin=""True"" Separator=""Line"">
+                <LayoutVerticalBlockListFrame.Visibility>
+                    <LayoutCountFrameVisibility PropertyName=""LeafPathV""/>
+                </LayoutVerticalBlockListFrame.Visibility>
+                <LayoutVerticalBlockListFrame.Selectors>
+                    <LayoutFrameSelector SelectorType=""{xaml:Type easly:IDeferredBody}"" SelectorName=""Overload""/>
+                </LayoutVerticalBlockListFrame.Selectors>
+            </LayoutVerticalBlockListFrame>
+            <LayoutInsertFrame CollectionName=""UnassignedOptionalMain.LeafBlocks""/>
+            <LayoutOptionalFrame PropertyName=""UnassignedOptionalMain"" />
+            <LayoutVerticalPanelFrame>
+                <LayoutVerticalPanelFrame.Visibility>
+                    <LayoutCountFrameVisibility PropertyName=""LeafPathH""/>
+                </LayoutVerticalPanelFrame.Visibility>
+                <LayoutTextValueFrame PropertyName=""ValueString""/>
+            </LayoutVerticalPanelFrame>
+            <LayoutHorizontalListFrame PropertyName=""LeafPathH"" Separator=""Comma"">
+                <LayoutHorizontalListFrame.Visibility>
+                    <LayoutCountFrameVisibility PropertyName=""MainBlocksH""/>
+                </LayoutHorizontalListFrame.Visibility>
+                <LayoutHorizontalListFrame.Selectors>
+                    <LayoutFrameSelector SelectorType=""{xaml:Type easly:IDeferredBody}"" SelectorName=""Overload""/>
+                </LayoutHorizontalListFrame.Selectors>
+            </LayoutHorizontalListFrame>
+            <LayoutVerticalListFrame PropertyName=""LeafPathV"" Separator=""Line"">
+                <LayoutVerticalListFrame.Visibility>
+                    <LayoutCountFrameVisibility PropertyName=""MainBlocksV""/>
+                </LayoutVerticalListFrame.Visibility>
+                <LayoutVerticalListFrame.Selectors>
+                    <LayoutFrameSelector SelectorType=""{xaml:Type easly:IDeferredBody}"" SelectorName=""Overload""/>
+                </LayoutVerticalListFrame.Selectors>
+            </LayoutVerticalListFrame >
+            <LayoutOptionalFrame PropertyName=""UnassignedOptionalLeaf"">
+                <LayoutOptionalFrame.Visibility>
+                    <LayoutCountFrameVisibility PropertyName=""MainBlocksV""/>
+                </LayoutOptionalFrame.Visibility>
+            </LayoutOptionalFrame>
+        </LayoutHorizontalPanelFrame>
+    </LayoutNodeTemplate>
     <LayoutNodeTemplate NodeType=""{xaml:Type easly:IAssertion}"">
         <LayoutHorizontalPanelFrame>
             <LayoutCommentFrame/>
             <LayoutHorizontalPanelFrame>
-                <LayoutHorizontalPanelFrame.Visibility>
-                    <LayoutOptionalFrameVisibility PropertyName=""Tag""/>
-                </LayoutHorizontalPanelFrame.Visibility>
                 <LayoutOptionalFrame PropertyName=""Tag"" />
                 <LayoutKeywordFrame RightMargin=""Whitespace"">:</LayoutKeywordFrame>
             </LayoutHorizontalPanelFrame>
@@ -343,7 +574,7 @@ namespace EaslyEdit
                         </LayoutVerticalBlockListFrame.Selectors>
                     </LayoutVerticalBlockListFrame>
                 </LayoutVerticalPanelFrame>
-                <LayoutKeywordFrame IsFocusable=""True"">end</LayoutKeywordFrame>
+                <LayoutKeywordFrame>end</LayoutKeywordFrame>
             </LayoutVerticalPanelFrame>
             <LayoutSymbolFrame Symbol=""{x:Static const:Symbols.RightBracket}"" LeftMargin=""ThinSpace""/>
         </LayoutHorizontalPanelFrame>
@@ -384,8 +615,11 @@ namespace EaslyEdit
     <LayoutNodeTemplate NodeType=""{xaml:Type easly:IContinuation}"">
         <LayoutVerticalPanelFrame>
             <LayoutCommentFrame/>
-            <LayoutKeywordFrame IsFocusable=""True"">step</LayoutKeywordFrame>
-            <LayoutVerticalPanelFrame HasTabulationMargin=""True"">
+            <LayoutHorizontalPanelFrame>
+                <LayoutKeywordFrame>execute</LayoutKeywordFrame>
+                <LayoutInsertFrame CollectionName=""Instructions.InstructionBlocks"" ItemType=""{xaml:Type easly:CommandInstruction}""/>
+            </LayoutHorizontalPanelFrame>
+            <LayoutVerticalPanelFrame>
                 <LayoutPlaceholderFrame PropertyName=""Instructions"" />
                 <LayoutVerticalPanelFrame>
                     <LayoutVerticalPanelFrame.Visibility>
@@ -464,7 +698,6 @@ namespace EaslyEdit
                 </LayoutPlaceholderFrame.Selectors>
             </LayoutPlaceholderFrame>
             <LayoutKeywordFrame LeftMargin=""Whitespace"" RightMargin=""Whitespace"">to</LayoutKeywordFrame>
-            <LayoutInsertFrame CollectionName=""IdentifierBlocks"" />
             <LayoutHorizontalBlockListFrame PropertyName=""IdentifierBlocks"" Separator=""Comma"">
                 <LayoutHorizontalBlockListFrame.Selectors>
                     <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Feature""/>
@@ -678,9 +911,6 @@ namespace EaslyEdit
                 <LayoutKeywordFrame RightMargin=""Whitespace"">library</LayoutKeywordFrame>
                 <LayoutPlaceholderFrame PropertyName=""EntityName""/>
                 <LayoutHorizontalPanelFrame>
-                    <LayoutHorizontalPanelFrame.Visibility>
-                        <LayoutOptionalFrameVisibility PropertyName=""FromIdentifier""/>
-                    </LayoutHorizontalPanelFrame.Visibility>
                     <LayoutKeywordFrame LeftMargin=""Whitespace"" RightMargin=""Whitespace"">from</LayoutKeywordFrame>
                     <LayoutOptionalFrame PropertyName=""FromIdentifier"">
                         <LayoutOptionalFrame.Selectors>
@@ -726,7 +956,7 @@ namespace EaslyEdit
     <LayoutNodeTemplate NodeType=""{xaml:Type easly:IName}"" IsSimple=""True"">
         <LayoutVerticalPanelFrame>
             <LayoutCommentFrame/>
-            <LayoutTextValueFrame PropertyName=""Text"" AutoFormat=""True""/>
+            <LayoutTextValueFrame PropertyName=""Text""/>
         </LayoutVerticalPanelFrame>
     </LayoutNodeTemplate>
     <LayoutNodeTemplate NodeType=""{xaml:Type easly:IPattern}"" IsSimple=""True"">
@@ -798,9 +1028,6 @@ namespace EaslyEdit
                 </LayoutPlaceholderFrame.Selectors>
             </LayoutPlaceholderFrame>
             <LayoutHorizontalPanelFrame>
-                <LayoutHorizontalPanelFrame.Visibility>
-                    <LayoutOptionalFrameVisibility PropertyName=""Variant""/>
-                </LayoutHorizontalPanelFrame.Visibility>
                 <LayoutKeywordFrame RightMargin=""Whitespace"">variant</LayoutKeywordFrame>
                 <LayoutOptionalFrame PropertyName=""Variant"" />
             </LayoutHorizontalPanelFrame>
@@ -813,9 +1040,6 @@ namespace EaslyEdit
             <LayoutVerticalPanelFrame>
                 <LayoutVerticalPanelFrame>
                     <LayoutHorizontalPanelFrame>
-                        <LayoutHorizontalPanelFrame.Visibility>
-                            <LayoutCountFrameVisibility PropertyName=""ParameterBlocks""/>
-                        </LayoutHorizontalPanelFrame.Visibility>
                         <LayoutKeywordFrame>parameter</LayoutKeywordFrame>
                         <LayoutDiscreteFrame PropertyName=""ParameterEnd"" LeftMargin=""Whitespace"">
                             <LayoutDiscreteFrame.Visibility>
@@ -824,7 +1048,7 @@ namespace EaslyEdit
                             <LayoutKeywordFrame>closed</LayoutKeywordFrame>
                             <LayoutKeywordFrame>open</LayoutKeywordFrame>
                         </LayoutDiscreteFrame>
-                        <LayoutInsertFrame CollectionName=""ParameterBlocks""/>
+                        <LayoutInsertFrame CollectionName=""ParameterBlocks"" />
                     </LayoutHorizontalPanelFrame>
                     <LayoutVerticalBlockListFrame PropertyName=""ParameterBlocks"" HasTabulationMargin=""True""/>
                 </LayoutVerticalPanelFrame>
@@ -869,7 +1093,7 @@ namespace EaslyEdit
                         </LayoutVerticalBlockListFrame.Selectors>
                     </LayoutVerticalBlockListFrame>
                 </LayoutVerticalPanelFrame>
-                <LayoutKeywordFrame IsFocusable=""True"">end</LayoutKeywordFrame>
+                <LayoutKeywordFrame>end</LayoutKeywordFrame>
             </LayoutVerticalPanelFrame>
             <LayoutSymbolFrame Symbol=""{x:Static const:Symbols.RightBracket}"" LeftMargin=""ThinSpace""/>
         </LayoutHorizontalPanelFrame>
@@ -1249,6 +1473,9 @@ namespace EaslyEdit
                         <LayoutVerticalBlockListFrame PropertyName=""EntityDeclarationBlocks"" HasTabulationMargin=""True""/>
                     </LayoutVerticalPanelFrame>
                     <LayoutVerticalPanelFrame>
+                        <LayoutVerticalPanelFrame.Visibility>
+                            <LayoutCountFrameVisibility PropertyName=""BodyInstructionBlocks""/>
+                        </LayoutVerticalPanelFrame.Visibility>
                         <LayoutHorizontalPanelFrame>
                             <LayoutKeywordFrame IsFocusable=""true"">getter</LayoutKeywordFrame>
                             <LayoutInsertFrame CollectionName=""BodyInstructionBlocks"" ItemType=""{xaml:Type easly:CommandInstruction}""/>
@@ -1315,6 +1542,9 @@ namespace EaslyEdit
                         <LayoutVerticalBlockListFrame PropertyName=""EntityDeclarationBlocks"" HasTabulationMargin=""True""/>
                     </LayoutVerticalPanelFrame>
                     <LayoutVerticalPanelFrame>
+                        <LayoutVerticalPanelFrame.Visibility>
+                            <LayoutCountFrameVisibility PropertyName=""BodyInstructionBlocks""/>
+                        </LayoutVerticalPanelFrame.Visibility>
                         <LayoutHorizontalPanelFrame>
                             <LayoutKeywordFrame IsFocusable=""true"">setter</LayoutKeywordFrame>
                             <LayoutInsertFrame CollectionName=""BodyInstructionBlocks"" ItemType=""{xaml:Type easly:CommandInstruction}""/>
@@ -1512,17 +1742,11 @@ namespace EaslyEdit
                             </LayoutHorizontalBlockListFrame.Selectors>
                         </LayoutHorizontalBlockListFrame>
                     </LayoutVerticalPanelFrame>
-                    <LayoutHorizontalPanelFrame>
-                        <LayoutKeywordFrame IsFocusable=""true"">precursor</LayoutKeywordFrame>
+                    <LayoutVerticalPanelFrame>
                         <LayoutHorizontalPanelFrame>
-                            <LayoutHorizontalPanelFrame.Visibility>
-                                <LayoutOptionalFrameVisibility PropertyName=""AncestorType""/>
-                            </LayoutHorizontalPanelFrame.Visibility>
-                            <LayoutSymbolFrame Symbol=""{x:Static const:Symbols.LeftCurlyBracket}"" LeftMargin=""ThinSpace""/>
-                            <LayoutOptionalFrame PropertyName=""AncestorType"" LeftMargin=""ThinSpace"" RightMargin=""ThinSpace""/>
-                            <LayoutSymbolFrame Symbol=""{x:Static const:Symbols.RightCurlyBracket}""/>
+                            <LayoutKeywordFrame IsFocusable=""true"">precursor</LayoutKeywordFrame>
                         </LayoutHorizontalPanelFrame>
-                    </LayoutHorizontalPanelFrame>
+                    </LayoutVerticalPanelFrame>
                     <LayoutVerticalPanelFrame>
                         <LayoutVerticalPanelFrame.Visibility>
                             <LayoutCountFrameVisibility PropertyName=""EnsureBlocks""/>
@@ -1562,18 +1786,12 @@ namespace EaslyEdit
                             </LayoutHorizontalBlockListFrame.Selectors>
                         </LayoutHorizontalBlockListFrame>
                     </LayoutVerticalPanelFrame>
-                    <LayoutHorizontalPanelFrame>
-                        <LayoutKeywordFrame>getter</LayoutKeywordFrame>
-                        <LayoutKeywordFrame IsFocusable=""true"" LeftMargin=""Whitespace"">precursor</LayoutKeywordFrame>
+                    <LayoutVerticalPanelFrame>
                         <LayoutHorizontalPanelFrame>
-                            <LayoutHorizontalPanelFrame.Visibility>
-                                <LayoutOptionalFrameVisibility PropertyName=""AncestorType""/>
-                            </LayoutHorizontalPanelFrame.Visibility>
-                            <LayoutSymbolFrame Symbol=""{x:Static const:Symbols.LeftCurlyBracket}"" LeftMargin=""ThinSpace""/>
-                            <LayoutOptionalFrame PropertyName=""AncestorType"" LeftMargin=""ThinSpace"" RightMargin=""ThinSpace""/>
-                            <LayoutSymbolFrame Symbol=""{x:Static const:Symbols.RightCurlyBracket}""/>
+                            <LayoutKeywordFrame>getter</LayoutKeywordFrame>
+                            <LayoutKeywordFrame IsFocusable=""true"" LeftMargin=""Whitespace"">precursor</LayoutKeywordFrame>
                         </LayoutHorizontalPanelFrame>
-                    </LayoutHorizontalPanelFrame>
+                    </LayoutVerticalPanelFrame>
                     <LayoutVerticalPanelFrame>
                         <LayoutVerticalPanelFrame.Visibility>
                             <LayoutCountFrameVisibility PropertyName=""EnsureBlocks""/>
@@ -1613,18 +1831,12 @@ namespace EaslyEdit
                             </LayoutHorizontalBlockListFrame.Selectors>
                         </LayoutHorizontalBlockListFrame>
                     </LayoutVerticalPanelFrame>
-                    <LayoutHorizontalPanelFrame>
-                        <LayoutKeywordFrame>setter</LayoutKeywordFrame>
-                        <LayoutKeywordFrame IsFocusable=""true"" LeftMargin=""Whitespace"">precursor</LayoutKeywordFrame>
+                    <LayoutVerticalPanelFrame>
                         <LayoutHorizontalPanelFrame>
-                            <LayoutHorizontalPanelFrame.Visibility>
-                                <LayoutOptionalFrameVisibility PropertyName=""AncestorType""/>
-                            </LayoutHorizontalPanelFrame.Visibility>
-                            <LayoutSymbolFrame Symbol=""{x:Static const:Symbols.LeftCurlyBracket}"" LeftMargin=""ThinSpace""/>
-                            <LayoutOptionalFrame PropertyName=""AncestorType"" LeftMargin=""ThinSpace"" RightMargin=""ThinSpace""/>
-                            <LayoutSymbolFrame Symbol=""{x:Static const:Symbols.RightCurlyBracket}""/>
+                            <LayoutKeywordFrame>setter</LayoutKeywordFrame>
+                            <LayoutKeywordFrame IsFocusable=""true"" LeftMargin=""Whitespace"">precursor</LayoutKeywordFrame>
                         </LayoutHorizontalPanelFrame>
-                    </LayoutHorizontalPanelFrame>
+                    </LayoutVerticalPanelFrame>
                     <LayoutVerticalPanelFrame>
                         <LayoutVerticalPanelFrame.Visibility>
                             <LayoutCountFrameVisibility PropertyName=""EnsureBlocks""/>
@@ -1647,8 +1859,8 @@ namespace EaslyEdit
                 <LayoutHorizontalPanelFrame.Visibility>
                     <LayoutOptionalFrameVisibility PropertyName=""BaseType""/>
                 </LayoutHorizontalPanelFrame.Visibility>
-                <LayoutSymbolFrame Symbol=""{x:Static const:Symbols.LeftCurlyBracket}"" LeftMargin=""Whitespace""/>
-                <LayoutOptionalFrame PropertyName=""BaseType"" LeftMargin=""ThinSpace"" RightMargin=""ThinSpace""/>
+                <LayoutSymbolFrame Symbol=""{x:Static const:Symbols.LeftCurlyBracket}"" LeftMargin=""ThinSpace""/>
+                <LayoutOptionalFrame PropertyName=""BaseType"" LeftMargin=""ThinSpace"" RightMargin=""Whitespace""/>
                 <LayoutSymbolFrame Symbol=""{x:Static const:Symbols.RightCurlyBracket}""/>
             </LayoutHorizontalPanelFrame>
             <LayoutPlaceholderFrame PropertyName=""Delegated"" LeftMargin=""Whitespace"">
@@ -1811,7 +2023,7 @@ namespace EaslyEdit
             </LayoutHorizontalPanelFrame>
             <LayoutDiscreteFrame PropertyName=""Comparison"" LeftMargin=""Whitespace"">
                 <LayoutKeywordFrame>=</LayoutKeywordFrame>
-                <LayoutKeywordFrame>≠</LayoutKeywordFrame>
+                <LayoutKeywordFrame>!=</LayoutKeywordFrame>
             </LayoutDiscreteFrame>
             <LayoutDiscreteFrame PropertyName=""Equality"">
                 <LayoutDiscreteFrame.Visibility>
@@ -2212,11 +2424,11 @@ namespace EaslyEdit
                 </LayoutDiscreteFrame>
                 <LayoutPlaceholderFrame PropertyName=""EntityName"" />
                 <LayoutHorizontalPanelFrame>
-                    <LayoutHorizontalPanelFrame.Visibility>
-                        <LayoutDefaultDiscreteFrameVisibility PropertyName=""Once""/>
-                    </LayoutHorizontalPanelFrame.Visibility>
                     <LayoutKeywordFrame LeftMargin=""Whitespace"">once per</LayoutKeywordFrame>
                     <LayoutDiscreteFrame PropertyName=""Once"" LeftMargin=""Whitespace"">
+                        <LayoutDiscreteFrame.Visibility>
+                            <LayoutDefaultDiscreteFrameVisibility PropertyName=""Once""/>
+                        </LayoutDiscreteFrame.Visibility>
                         <LayoutKeywordFrame>normal</LayoutKeywordFrame>
                         <LayoutKeywordFrame>object</LayoutKeywordFrame>
                         <LayoutKeywordFrame>processor</LayoutKeywordFrame>
@@ -2371,15 +2583,7 @@ namespace EaslyEdit
                 </LayoutDiscreteFrame>
                 <LayoutPlaceholderFrame PropertyName=""EntityName"" RightMargin=""Whitespace""/>
                 <LayoutKeywordFrame>is</LayoutKeywordFrame>
-                <LayoutPlaceholderFrame PropertyName=""EntityType"" LeftMargin=""Whitespace"" RightMargin=""Whitespace""/>
-                <LayoutDiscreteFrame PropertyName=""PropertyKind"">
-                    <LayoutDiscreteFrame.Visibility>
-                        <LayoutDefaultDiscreteFrameVisibility PropertyName=""PropertyKind"" DefaultValue=""2""/>
-                    </LayoutDiscreteFrame.Visibility>
-                    <LayoutKeywordFrame>read-only</LayoutKeywordFrame>
-                    <LayoutKeywordFrame>write-only</LayoutKeywordFrame>
-                    <LayoutKeywordFrame>readwrite</LayoutKeywordFrame>
-                </LayoutDiscreteFrame>
+                <LayoutPlaceholderFrame PropertyName=""EntityType"" LeftMargin=""Whitespace""/>
             </LayoutHorizontalPanelFrame>
             <LayoutVerticalPanelFrame HasTabulationMargin=""True"">
                 <LayoutVerticalPanelFrame>
@@ -2443,55 +2647,55 @@ namespace EaslyEdit
             <LayoutSelectableFrame Name=""Identifier"">
                 <LayoutVerticalPanelFrame>
                     <LayoutCommentFrame/>
-                    <LayoutTextValueFrame PropertyName=""Text"" TextStyle=""Default"" AutoFormat=""True""/>
+                    <LayoutTextValueFrame PropertyName=""Text""/>
                 </LayoutVerticalPanelFrame>
             </LayoutSelectableFrame>
             <LayoutSelectableFrame Name=""Feature"">
                 <LayoutVerticalPanelFrame>
                     <LayoutCommentFrame/>
-                    <LayoutTextValueFrame PropertyName=""Text"" TextStyle=""Default"" AutoFormat=""True""/>
+                    <LayoutTextValueFrame PropertyName=""Text""/>
                 </LayoutVerticalPanelFrame>
             </LayoutSelectableFrame>
             <LayoutSelectableFrame Name=""Class"">
                 <LayoutVerticalPanelFrame>
                     <LayoutCommentFrame/>
-                    <LayoutTextValueFrame PropertyName=""Text"" TextStyle=""Default"" AutoFormat=""True""/>
+                    <LayoutTextValueFrame PropertyName=""Text""/>
                 </LayoutVerticalPanelFrame>
             </LayoutSelectableFrame>
             <LayoutSelectableFrame Name=""ClassOrExport"">
                 <LayoutVerticalPanelFrame>
                     <LayoutCommentFrame/>
-                    <LayoutTextValueFrame PropertyName=""Text"" TextStyle=""Default"" AutoFormat=""True""/>
+                    <LayoutTextValueFrame PropertyName=""Text""/>
                 </LayoutVerticalPanelFrame>
             </LayoutSelectableFrame>
             <LayoutSelectableFrame Name=""Export"">
                 <LayoutVerticalPanelFrame>
                     <LayoutCommentFrame/>
-                    <LayoutTextValueFrame PropertyName=""Text"" TextStyle=""Default"" AutoFormat=""True""/>
+                    <LayoutTextValueFrame PropertyName=""Text""/>
                 </LayoutVerticalPanelFrame>
             </LayoutSelectableFrame>
             <LayoutSelectableFrame Name=""Library"">
                 <LayoutVerticalPanelFrame>
                     <LayoutCommentFrame/>
-                    <LayoutTextValueFrame PropertyName=""Text"" TextStyle=""Default"" AutoFormat=""True""/>
+                    <LayoutTextValueFrame PropertyName=""Text""/>
                 </LayoutVerticalPanelFrame>
             </LayoutSelectableFrame>
             <LayoutSelectableFrame Name=""Source"">
                 <LayoutVerticalPanelFrame>
                     <LayoutCommentFrame/>
-                    <LayoutTextValueFrame PropertyName=""Text"" TextStyle=""Default"" AutoFormat=""True""/>
+                    <LayoutTextValueFrame PropertyName=""Text""/>
                 </LayoutVerticalPanelFrame>
             </LayoutSelectableFrame>
             <LayoutSelectableFrame Name=""Type"">
                 <LayoutVerticalPanelFrame>
                     <LayoutCommentFrame/>
-                    <LayoutTextValueFrame PropertyName=""Text"" TextStyle=""Type"" AutoFormat=""True""/>
+                    <LayoutTextValueFrame PropertyName=""Text""/>
                 </LayoutVerticalPanelFrame>
             </LayoutSelectableFrame>
             <LayoutSelectableFrame Name=""Pattern"">
                 <LayoutVerticalPanelFrame>
                     <LayoutCommentFrame/>
-                    <LayoutTextValueFrame PropertyName=""Text"" TextStyle=""Default"" AutoFormat=""True""/>
+                    <LayoutTextValueFrame PropertyName=""Text""/>
                 </LayoutVerticalPanelFrame>
             </LayoutSelectableFrame>
         </LayoutSelectionFrame>
@@ -2501,20 +2705,20 @@ namespace EaslyEdit
             <LayoutCommentFrame/>
             <LayoutHorizontalPanelFrame>
                 <LayoutKeywordFrame>as long as</LayoutKeywordFrame>
-                <LayoutPlaceholderFrame PropertyName=""ContinueCondition"" LeftMargin=""Whitespace"" RightMargin=""Whitespace""/>
-                <LayoutKeywordFrame>execute</LayoutKeywordFrame>
+                <LayoutPlaceholderFrame PropertyName=""ContinueCondition"" LeftMargin=""Whitespace""/>
                 <LayoutInsertFrame CollectionName=""ContinuationBlocks""/>
             </LayoutHorizontalPanelFrame>
-            <LayoutVerticalPanelFrame>
+            <LayoutVerticalPanelFrame HasTabulationMargin=""True"">
                 <LayoutVerticalBlockListFrame PropertyName=""ContinuationBlocks""/>
                 <LayoutVerticalPanelFrame>
                     <LayoutVerticalPanelFrame.Visibility>
                         <LayoutOptionalFrameVisibility PropertyName=""ElseInstructions""/>
                     </LayoutVerticalPanelFrame.Visibility>
-                    <LayoutKeywordFrame>else</LayoutKeywordFrame>
-                    <LayoutVerticalPanelFrame HasTabulationMargin=""True"">
-                        <LayoutOptionalFrame PropertyName=""ElseInstructions"" />
-                    </LayoutVerticalPanelFrame>
+                    <LayoutHorizontalPanelFrame>
+                        <LayoutKeywordFrame>else</LayoutKeywordFrame>
+                        <LayoutInsertFrame CollectionName=""ElseInstructions.InstructionBlocks"" ItemType=""{xaml:Type easly:CommandInstruction}""/>
+                    </LayoutHorizontalPanelFrame>
+                    <LayoutOptionalFrame PropertyName=""ElseInstructions"" />
                 </LayoutVerticalPanelFrame>
             </LayoutVerticalPanelFrame>
             <LayoutKeywordFrame>end</LayoutKeywordFrame>
@@ -2564,6 +2768,7 @@ namespace EaslyEdit
     <LayoutNodeTemplate NodeType=""{xaml:Type easly:ICommandInstruction}"">
         <LayoutHorizontalPanelFrame>
             <LayoutCommentFrame/>
+            <LayoutInsertFrame CollectionName=""Command.Path""/>
             <LayoutPlaceholderFrame PropertyName=""Command"" />
             <LayoutHorizontalPanelFrame>
                 <LayoutSymbolFrame Symbol=""{x:Static const:Symbols.LeftParenthesis}"" LeftMargin=""ThinSpace"" RightMargin=""ThinSpace"">
@@ -2700,7 +2905,7 @@ namespace EaslyEdit
                 </LayoutHorizontalPanelFrame>
                 <LayoutOptionalFrame PropertyName=""ElseInstructions"" />
             </LayoutVerticalPanelFrame>
-            <LayoutKeywordFrame IsFocusable=""True"">end</LayoutKeywordFrame>
+            <LayoutKeywordFrame>end</LayoutKeywordFrame>
         </LayoutVerticalPanelFrame>
     </LayoutNodeTemplate>
     <LayoutNodeTemplate NodeType=""{xaml:Type easly:IIndexAssignmentInstruction}"">
@@ -2807,15 +3012,15 @@ namespace EaslyEdit
     <LayoutNodeTemplate NodeType=""{xaml:Type easly:IPrecursorIndexAssignmentInstruction}"">
         <LayoutHorizontalPanelFrame>
             <LayoutCommentFrame/>
-            <LayoutKeywordFrame IsFocusable=""True"">precursor</LayoutKeywordFrame>
+            <LayoutKeywordFrame>precursor</LayoutKeywordFrame>
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.Visibility>
                     <LayoutOptionalFrameVisibility PropertyName=""AncestorType""/>
                 </LayoutHorizontalPanelFrame.Visibility>
                 <LayoutKeywordFrame LeftMargin=""Whitespace"" RightMargin=""ThinSpace"">from</LayoutKeywordFrame>
                 <LayoutSymbolFrame Symbol=""{x:Static const:Symbols.LeftCurlyBracket}"" RightMargin=""ThinSpace""/>
+                <LayoutSymbolFrame Symbol=""{x:Static const:Symbols.RightBracket}"" RightMargin=""Whitespace""/>
                 <LayoutOptionalFrame PropertyName=""AncestorType"" />
-                <LayoutSymbolFrame Symbol=""{x:Static const:Symbols.RightCurlyBracket}"" LeftMargin=""ThinSpace""/>
             </LayoutHorizontalPanelFrame>
             <LayoutSymbolFrame Symbol=""{x:Static const:Symbols.LeftBracket}"" LeftMargin=""ThinSpace"" RightMargin=""ThinSpace""/>
             <LayoutHorizontalBlockListFrame PropertyName=""ArgumentBlocks"" Separator=""Comma""/>
@@ -2875,7 +3080,7 @@ namespace EaslyEdit
     <LayoutNodeTemplate NodeType=""{xaml:Type easly:IThrowInstruction}"">
         <LayoutHorizontalPanelFrame>
             <LayoutCommentFrame/>
-            <LayoutKeywordFrame IsFocusable=""True"" RightMargin=""Whitespace"">throw</LayoutKeywordFrame>
+            <LayoutKeywordFrame RightMargin=""Whitespace"">throw</LayoutKeywordFrame>
             <LayoutPlaceholderFrame PropertyName=""ExceptionType"" RightMargin=""Whitespace""/>
             <LayoutKeywordFrame RightMargin=""Whitespace"">with</LayoutKeywordFrame>
             <LayoutPlaceholderFrame PropertyName=""CreationRoutine"">
@@ -2893,7 +3098,7 @@ namespace EaslyEdit
             </LayoutHorizontalPanelFrame>
         </LayoutHorizontalPanelFrame>
     </LayoutNodeTemplate>
-    <LayoutNodeTemplate NodeType=""{xaml:Type easly:IAnchoredType}"" IsSimple=""True"">
+    <LayoutNodeTemplate NodeType=""{xaml:Type easly:IAnchoredType}"">
         <LayoutHorizontalPanelFrame>
             <LayoutCommentFrame/>
             <LayoutKeywordFrame RightMargin=""Whitespace"">like</LayoutKeywordFrame>
@@ -2913,7 +3118,6 @@ namespace EaslyEdit
             <LayoutKeywordFrame RightMargin=""Whitespace"">function</LayoutKeywordFrame>
             <LayoutPlaceholderFrame PropertyName=""BaseType"" RightMargin=""Whitespace""/>
             <LayoutHorizontalBlockListFrame PropertyName=""OverloadBlocks""/>
-            <LayoutInsertFrame CollectionName=""OverloadBlocks"" />
         </LayoutHorizontalPanelFrame>
     </LayoutNodeTemplate>
     <LayoutNodeTemplate NodeType=""{xaml:Type easly:IGenericType}"">
@@ -2966,9 +3170,6 @@ namespace EaslyEdit
                     <LayoutVerticalBlockListFrame PropertyName=""IndexParameterBlocks"" HasTabulationMargin=""True""/>
                 </LayoutVerticalPanelFrame>
                 <LayoutDiscreteFrame PropertyName=""IndexerKind"">
-                    <LayoutDiscreteFrame.Visibility>
-                        <LayoutDefaultDiscreteFrameVisibility PropertyName=""IndexerKind"" DefaultValue=""2""/>
-                    </LayoutDiscreteFrame.Visibility>
                     <LayoutKeywordFrame>read-only</LayoutKeywordFrame>
                     <LayoutKeywordFrame>write-only</LayoutKeywordFrame>
                     <LayoutKeywordFrame>readwrite</LayoutKeywordFrame>
@@ -3046,7 +3247,7 @@ namespace EaslyEdit
             <LayoutSymbolFrame Symbol=""{x:Static const:Symbols.RightBracket}"" LeftMargin=""ThinSpace""/>
         </LayoutHorizontalPanelFrame>
     </LayoutNodeTemplate>
-    <LayoutNodeTemplate NodeType=""{xaml:Type easly:IKeywordAnchoredType}"" IsSimple=""True"">
+    <LayoutNodeTemplate NodeType=""{xaml:Type easly:IKeywordAnchoredType}"">
         <LayoutHorizontalPanelFrame>
             <LayoutCommentFrame/>
             <LayoutKeywordFrame RightMargin=""Whitespace"">like</LayoutKeywordFrame>
@@ -3068,7 +3269,6 @@ namespace EaslyEdit
             <LayoutKeywordFrame RightMargin=""Whitespace"">procedure</LayoutKeywordFrame>
             <LayoutPlaceholderFrame PropertyName=""BaseType"" RightMargin=""Whitespace""/>
             <LayoutHorizontalBlockListFrame PropertyName=""OverloadBlocks""/>
-            <LayoutInsertFrame CollectionName=""OverloadBlocks""/>
         </LayoutHorizontalPanelFrame>
     </LayoutNodeTemplate>
     <LayoutNodeTemplate NodeType=""{xaml:Type easly:IPropertyType}"">
@@ -3082,9 +3282,6 @@ namespace EaslyEdit
                     <LayoutPlaceholderFrame PropertyName=""EntityType"" LeftMargin=""Whitespace""/>
                 </LayoutHorizontalPanelFrame>
                 <LayoutDiscreteFrame PropertyName=""PropertyKind"">
-                    <LayoutDiscreteFrame.Visibility>
-                        <LayoutDefaultDiscreteFrameVisibility PropertyName=""PropertyKind"" DefaultValue=""2""/>
-                    </LayoutDiscreteFrame.Visibility>
                     <LayoutKeywordFrame>read-only</LayoutKeywordFrame>
                     <LayoutKeywordFrame>write-only</LayoutKeywordFrame>
                     <LayoutKeywordFrame>readwrite</LayoutKeywordFrame>
@@ -3142,7 +3339,7 @@ namespace EaslyEdit
             <LayoutSymbolFrame Symbol=""{x:Static const:Symbols.RightBracket}"" LeftMargin=""ThinSpace""/>
         </LayoutHorizontalPanelFrame>
     </LayoutNodeTemplate>
-    <LayoutNodeTemplate NodeType=""{xaml:Type easly:ISimpleType}"" IsSimple=""True"">
+    <LayoutNodeTemplate NodeType=""{xaml:Type easly:ISimpleType}"">
         <LayoutHorizontalPanelFrame>
             <LayoutCommentFrame/>
             <LayoutPlaceholderFrame PropertyName=""ClassIdentifier"">
@@ -3207,25 +3404,105 @@ namespace EaslyEdit
     xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""
     xmlns:xaml=""clr-namespace:EaslyController.Xaml;assembly=Easly-Controller""
     xmlns:easly=""clr-namespace:BaseNode;assembly=Easly-Language""
+    xmlns:cov=""clr-namespace:Coverage;assembly=Test-Easly-Controller""
     xmlns:const=""clr-namespace:EaslyController.Constants;assembly=Easly-Controller"">
-    <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:IArgument,easly:Argument}"">
+    <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,cov:ILeaf,cov:Leaf}"">
         <LayoutHorizontalPanelFrame HasBlockGeometry=""True"">
+            <LayoutCommentFrame/>
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
                 </LayoutHorizontalPanelFrame.BlockVisibility>
-                <LayoutKeywordFrame RightMargin=""Whitespace"">Replicate</LayoutKeywordFrame>
-                <LayoutPlaceholderFrame PropertyName=""ReplicationPattern"" RightMargin=""Whitespace""/>
-                <LayoutKeywordFrame RightMargin=""Whitespace"">From</LayoutKeywordFrame>
-                <LayoutPlaceholderFrame PropertyName=""SourceIdentifier"" RightMargin=""Whitespace"">
+                <LayoutKeywordFrame>Replicate</LayoutKeywordFrame>
+                <LayoutPlaceholderFrame PropertyName=""ReplicationPattern""/>
+                <LayoutKeywordFrame>From</LayoutKeywordFrame>
+                <LayoutPlaceholderFrame PropertyName=""SourceIdentifier"">
                     <LayoutPlaceholderFrame.Selectors>
                         <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Identifier""/>
                     </LayoutPlaceholderFrame.Selectors>
                 </LayoutPlaceholderFrame>
-                <LayoutKeywordFrame RightMargin=""Whitespace"">All</LayoutKeywordFrame>
+                <LayoutKeywordFrame>All</LayoutKeywordFrame>
             </LayoutHorizontalPanelFrame>
-            <LayoutHorizontalCollectionPlaceholderFrame Separator=""Comma""/>
-            <LayoutKeywordFrame Text=""end"" LeftMargin=""Whitespace"">
+            <LayoutHorizontalCollectionPlaceholderFrame/>
+            <LayoutKeywordFrame Text=""end"">
+                <LayoutKeywordFrame.BlockVisibility>
+                    <LayoutReplicationFrameVisibility/>
+                </LayoutKeywordFrame.BlockVisibility>
+            </LayoutKeywordFrame>
+        </LayoutHorizontalPanelFrame>
+    </LayoutBlockTemplate>
+    <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,cov:ITree,cov:Tree}"">
+        <LayoutVerticalPanelFrame HasBlockGeometry=""True"">
+            <LayoutCommentFrame/>
+            <LayoutHorizontalPanelFrame>
+                <LayoutHorizontalPanelFrame.BlockVisibility>
+                    <LayoutReplicationFrameVisibility/>
+                </LayoutHorizontalPanelFrame.BlockVisibility>
+                <LayoutKeywordFrame>Replicate</LayoutKeywordFrame>
+                <LayoutPlaceholderFrame PropertyName=""ReplicationPattern""/>
+                <LayoutKeywordFrame>From</LayoutKeywordFrame>
+                <LayoutPlaceholderFrame PropertyName=""SourceIdentifier"">
+                    <LayoutPlaceholderFrame.Selectors>
+                        <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Identifier""/>
+                    </LayoutPlaceholderFrame.Selectors>
+                </LayoutPlaceholderFrame>
+                <LayoutKeywordFrame>All</LayoutKeywordFrame>
+            </LayoutHorizontalPanelFrame>
+            <LayoutVerticalCollectionPlaceholderFrame Separator=""Line"">
+                <LayoutVerticalCollectionPlaceholderFrame.Selectors>
+                    <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Identifier""/>
+                </LayoutVerticalCollectionPlaceholderFrame.Selectors>
+            </LayoutVerticalCollectionPlaceholderFrame>
+            <LayoutKeywordFrame Text=""end"">
+                <LayoutKeywordFrame.BlockVisibility>
+                    <LayoutReplicationFrameVisibility/>
+                </LayoutKeywordFrame.BlockVisibility>
+            </LayoutKeywordFrame>
+        </LayoutVerticalPanelFrame>
+    </LayoutBlockTemplate>
+    <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,cov:IMain,cov:Main}"">
+        <LayoutVerticalPanelFrame HasBlockGeometry=""True"">
+            <LayoutCommentFrame/>
+            <LayoutVerticalPanelFrame>
+                <LayoutVerticalPanelFrame.BlockVisibility>
+                    <LayoutReplicationFrameVisibility/>
+                </LayoutVerticalPanelFrame.BlockVisibility>
+                <LayoutKeywordFrame>Replicate</LayoutKeywordFrame>
+                <LayoutPlaceholderFrame PropertyName=""ReplicationPattern""/>
+                <LayoutKeywordFrame>From</LayoutKeywordFrame>
+                <LayoutPlaceholderFrame PropertyName=""SourceIdentifier"">
+                    <LayoutPlaceholderFrame.Selectors>
+                        <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Identifier""/>
+                    </LayoutPlaceholderFrame.Selectors>
+                </LayoutPlaceholderFrame>
+                <LayoutKeywordFrame>All</LayoutKeywordFrame>
+            </LayoutVerticalPanelFrame>
+            <LayoutVerticalCollectionPlaceholderFrame/>
+            <LayoutKeywordFrame Text=""end"">
+                <LayoutKeywordFrame.BlockVisibility>
+                    <LayoutReplicationFrameVisibility/>
+                </LayoutKeywordFrame.BlockVisibility>
+            </LayoutKeywordFrame>
+        </LayoutVerticalPanelFrame>
+    </LayoutBlockTemplate>
+    <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:IArgument,easly:Argument}"">
+        <LayoutHorizontalPanelFrame>
+            <LayoutHorizontalPanelFrame>
+                <LayoutHorizontalPanelFrame.BlockVisibility>
+                    <LayoutReplicationFrameVisibility/>
+                </LayoutHorizontalPanelFrame.BlockVisibility>
+                <LayoutKeywordFrame>Replicate</LayoutKeywordFrame>
+                <LayoutPlaceholderFrame PropertyName=""ReplicationPattern""/>
+                <LayoutKeywordFrame>From</LayoutKeywordFrame>
+                <LayoutPlaceholderFrame PropertyName=""SourceIdentifier"">
+                    <LayoutPlaceholderFrame.Selectors>
+                        <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Identifier""/>
+                    </LayoutPlaceholderFrame.Selectors>
+                </LayoutPlaceholderFrame>
+                <LayoutKeywordFrame>All</LayoutKeywordFrame>
+            </LayoutHorizontalPanelFrame>
+            <LayoutHorizontalCollectionPlaceholderFrame/>
+            <LayoutKeywordFrame Text=""end"">
                 <LayoutKeywordFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
                 </LayoutKeywordFrame.BlockVisibility>
@@ -3233,23 +3510,23 @@ namespace EaslyEdit
         </LayoutHorizontalPanelFrame>
     </LayoutBlockTemplate>
     <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:IAssertion,easly:Assertion}"">
-        <LayoutVerticalPanelFrame HasBlockGeometry=""True"">
+        <LayoutVerticalPanelFrame>
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
                 </LayoutHorizontalPanelFrame.BlockVisibility>
-                <LayoutKeywordFrame RightMargin=""Whitespace"">Replicate</LayoutKeywordFrame>
-                <LayoutPlaceholderFrame PropertyName=""ReplicationPattern"" RightMargin=""Whitespace""/>
-                <LayoutKeywordFrame RightMargin=""Whitespace"">From</LayoutKeywordFrame>
-                <LayoutPlaceholderFrame PropertyName=""SourceIdentifier"" RightMargin=""Whitespace"">
+                <LayoutKeywordFrame>Replicate</LayoutKeywordFrame>
+                <LayoutPlaceholderFrame PropertyName=""ReplicationPattern""/>
+                <LayoutKeywordFrame>From</LayoutKeywordFrame>
+                <LayoutPlaceholderFrame PropertyName=""SourceIdentifier"">
                     <LayoutPlaceholderFrame.Selectors>
                         <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Identifier""/>
                     </LayoutPlaceholderFrame.Selectors>
                 </LayoutPlaceholderFrame>
-                <LayoutKeywordFrame RightMargin=""Whitespace"">All</LayoutKeywordFrame>
+                <LayoutKeywordFrame>All</LayoutKeywordFrame>
             </LayoutHorizontalPanelFrame>
             <LayoutVerticalCollectionPlaceholderFrame/>
-            <LayoutKeywordFrame Text=""end"" LeftMargin=""Whitespace"">
+            <LayoutKeywordFrame Text=""end"">
                 <LayoutKeywordFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
                 </LayoutKeywordFrame.BlockVisibility>
@@ -3257,47 +3534,47 @@ namespace EaslyEdit
         </LayoutVerticalPanelFrame>
     </LayoutBlockTemplate>
     <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:IAssignmentArgument,easly:AssignmentArgument}"">
-        <LayoutVerticalPanelFrame HasBlockGeometry=""True"">
+        <LayoutHorizontalPanelFrame>
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
                 </LayoutHorizontalPanelFrame.BlockVisibility>
-                <LayoutKeywordFrame RightMargin=""Whitespace"">Replicate</LayoutKeywordFrame>
-                <LayoutPlaceholderFrame PropertyName=""ReplicationPattern"" RightMargin=""Whitespace""/>
-                <LayoutKeywordFrame RightMargin=""Whitespace"">From</LayoutKeywordFrame>
-                <LayoutPlaceholderFrame PropertyName=""SourceIdentifier"" RightMargin=""Whitespace"">
+                <LayoutKeywordFrame>Replicate</LayoutKeywordFrame>
+                <LayoutPlaceholderFrame PropertyName=""ReplicationPattern""/>
+                <LayoutKeywordFrame>From</LayoutKeywordFrame>
+                <LayoutPlaceholderFrame PropertyName=""SourceIdentifier"">
                     <LayoutPlaceholderFrame.Selectors>
                         <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Identifier""/>
                     </LayoutPlaceholderFrame.Selectors>
                 </LayoutPlaceholderFrame>
-                <LayoutKeywordFrame RightMargin=""Whitespace"">All</LayoutKeywordFrame>
+                <LayoutKeywordFrame>All</LayoutKeywordFrame>
             </LayoutHorizontalPanelFrame>
-            <LayoutVerticalCollectionPlaceholderFrame/>
-            <LayoutKeywordFrame Text=""end"" LeftMargin=""Whitespace"">
+            <LayoutHorizontalCollectionPlaceholderFrame/>
+            <LayoutKeywordFrame Text=""end"">
                 <LayoutKeywordFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
                 </LayoutKeywordFrame.BlockVisibility>
             </LayoutKeywordFrame>
-        </LayoutVerticalPanelFrame>
+        </LayoutHorizontalPanelFrame>
     </LayoutBlockTemplate>
     <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:IAttachment,easly:Attachment}"">
-        <LayoutVerticalPanelFrame HasBlockGeometry=""True"">
+        <LayoutVerticalPanelFrame>
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
                 </LayoutHorizontalPanelFrame.BlockVisibility>
-                <LayoutKeywordFrame RightMargin=""Whitespace"">Replicate</LayoutKeywordFrame>
-                <LayoutPlaceholderFrame PropertyName=""ReplicationPattern"" RightMargin=""Whitespace""/>
-                <LayoutKeywordFrame RightMargin=""Whitespace"">From</LayoutKeywordFrame>
-                <LayoutPlaceholderFrame PropertyName=""SourceIdentifier"" RightMargin=""Whitespace"">
+                <LayoutKeywordFrame>Replicate</LayoutKeywordFrame>
+                <LayoutPlaceholderFrame PropertyName=""ReplicationPattern""/>
+                <LayoutKeywordFrame>From</LayoutKeywordFrame>
+                <LayoutPlaceholderFrame PropertyName=""SourceIdentifier"">
                     <LayoutPlaceholderFrame.Selectors>
                         <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Identifier""/>
                     </LayoutPlaceholderFrame.Selectors>
                 </LayoutPlaceholderFrame>
-                <LayoutKeywordFrame RightMargin=""Whitespace"">All</LayoutKeywordFrame>
+                <LayoutKeywordFrame>All</LayoutKeywordFrame>
             </LayoutHorizontalPanelFrame>
             <LayoutVerticalCollectionPlaceholderFrame/>
-            <LayoutKeywordFrame Text=""end"" LeftMargin=""Whitespace"">
+            <LayoutKeywordFrame Text=""end"">
                 <LayoutKeywordFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
                 </LayoutKeywordFrame.BlockVisibility>
@@ -3310,18 +3587,18 @@ namespace EaslyEdit
                 <LayoutHorizontalPanelFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
                 </LayoutHorizontalPanelFrame.BlockVisibility>
-                <LayoutKeywordFrame RightMargin=""Whitespace"">Replicate</LayoutKeywordFrame>
-                <LayoutPlaceholderFrame PropertyName=""ReplicationPattern"" RightMargin=""Whitespace""/>
-                <LayoutKeywordFrame RightMargin=""Whitespace"">From</LayoutKeywordFrame>
-                <LayoutPlaceholderFrame PropertyName=""SourceIdentifier"" RightMargin=""Whitespace"">
+                <LayoutKeywordFrame>Replicate</LayoutKeywordFrame>
+                <LayoutPlaceholderFrame PropertyName=""ReplicationPattern""/>
+                <LayoutKeywordFrame>From</LayoutKeywordFrame>
+                <LayoutPlaceholderFrame PropertyName=""SourceIdentifier"">
                     <LayoutPlaceholderFrame.Selectors>
                         <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Identifier""/>
                     </LayoutPlaceholderFrame.Selectors>
                 </LayoutPlaceholderFrame>
-                <LayoutKeywordFrame RightMargin=""Whitespace"">All</LayoutKeywordFrame>
+                <LayoutKeywordFrame>All</LayoutKeywordFrame>
             </LayoutHorizontalPanelFrame>
             <LayoutVerticalCollectionPlaceholderFrame/>
-            <LayoutKeywordFrame Text=""end"" LeftMargin=""Whitespace"">
+            <LayoutKeywordFrame Text=""end"">
                 <LayoutKeywordFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
                 </LayoutKeywordFrame.BlockVisibility>
@@ -3329,23 +3606,23 @@ namespace EaslyEdit
         </LayoutVerticalPanelFrame>
     </LayoutBlockTemplate>
     <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:IClassReplicate,easly:ClassReplicate}"">
-        <LayoutHorizontalPanelFrame HasBlockGeometry=""True"">
+        <LayoutHorizontalPanelFrame>
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
                 </LayoutHorizontalPanelFrame.BlockVisibility>
-                <LayoutKeywordFrame RightMargin=""Whitespace"">Replicate</LayoutKeywordFrame>
-                <LayoutPlaceholderFrame PropertyName=""ReplicationPattern"" RightMargin=""Whitespace""/>
-                <LayoutKeywordFrame RightMargin=""Whitespace"">From</LayoutKeywordFrame>
-                <LayoutPlaceholderFrame PropertyName=""SourceIdentifier"" RightMargin=""Whitespace"">
+                <LayoutKeywordFrame>Replicate</LayoutKeywordFrame>
+                <LayoutPlaceholderFrame PropertyName=""ReplicationPattern""/>
+                <LayoutKeywordFrame>From</LayoutKeywordFrame>
+                <LayoutPlaceholderFrame PropertyName=""SourceIdentifier"">
                     <LayoutPlaceholderFrame.Selectors>
                         <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Identifier""/>
                     </LayoutPlaceholderFrame.Selectors>
                 </LayoutPlaceholderFrame>
-                <LayoutKeywordFrame RightMargin=""Whitespace"">All</LayoutKeywordFrame>
+                <LayoutKeywordFrame>All</LayoutKeywordFrame>
             </LayoutHorizontalPanelFrame>
-            <LayoutHorizontalCollectionPlaceholderFrame Separator=""Comma""/>
-            <LayoutKeywordFrame Text=""end"" LeftMargin=""Whitespace"">
+            <LayoutHorizontalCollectionPlaceholderFrame/>
+            <LayoutKeywordFrame Text=""end"">
                 <LayoutKeywordFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
                 </LayoutKeywordFrame.BlockVisibility>
@@ -3353,23 +3630,23 @@ namespace EaslyEdit
         </LayoutHorizontalPanelFrame>
     </LayoutBlockTemplate>
     <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:ICommandOverload,easly:CommandOverload}"">
-        <LayoutVerticalPanelFrame HasBlockGeometry=""True"">
+        <LayoutVerticalPanelFrame>
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
                 </LayoutHorizontalPanelFrame.BlockVisibility>
-                <LayoutKeywordFrame RightMargin=""Whitespace"">Replicate</LayoutKeywordFrame>
-                <LayoutPlaceholderFrame PropertyName=""ReplicationPattern"" RightMargin=""Whitespace""/>
-                <LayoutKeywordFrame RightMargin=""Whitespace"">From</LayoutKeywordFrame>
-                <LayoutPlaceholderFrame PropertyName=""SourceIdentifier"" RightMargin=""Whitespace"">
+                <LayoutKeywordFrame>Replicate</LayoutKeywordFrame>
+                <LayoutPlaceholderFrame PropertyName=""ReplicationPattern""/>
+                <LayoutKeywordFrame>From</LayoutKeywordFrame>
+                <LayoutPlaceholderFrame PropertyName=""SourceIdentifier"">
                     <LayoutPlaceholderFrame.Selectors>
                         <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Identifier""/>
                     </LayoutPlaceholderFrame.Selectors>
                 </LayoutPlaceholderFrame>
-                <LayoutKeywordFrame RightMargin=""Whitespace"">All</LayoutKeywordFrame>
+                <LayoutKeywordFrame>All</LayoutKeywordFrame>
             </LayoutHorizontalPanelFrame>
             <LayoutVerticalCollectionPlaceholderFrame/>
-            <LayoutKeywordFrame Text=""end"" LeftMargin=""Whitespace"">
+            <LayoutKeywordFrame Text=""end"">
                 <LayoutKeywordFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
                 </LayoutKeywordFrame.BlockVisibility>
@@ -3377,23 +3654,23 @@ namespace EaslyEdit
         </LayoutVerticalPanelFrame>
     </LayoutBlockTemplate>
     <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:ICommandOverloadType,easly:CommandOverloadType}"">
-        <LayoutVerticalPanelFrame HasBlockGeometry=""True"">
+        <LayoutVerticalPanelFrame>
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
                 </LayoutHorizontalPanelFrame.BlockVisibility>
-                <LayoutKeywordFrame RightMargin=""Whitespace"">Replicate</LayoutKeywordFrame>
-                <LayoutPlaceholderFrame PropertyName=""ReplicationPattern"" RightMargin=""Whitespace""/>
-                <LayoutKeywordFrame RightMargin=""Whitespace"">From</LayoutKeywordFrame>
-                <LayoutPlaceholderFrame PropertyName=""SourceIdentifier"" RightMargin=""Whitespace"">
+                <LayoutKeywordFrame>Replicate</LayoutKeywordFrame>
+                <LayoutPlaceholderFrame PropertyName=""ReplicationPattern""/>
+                <LayoutKeywordFrame>From</LayoutKeywordFrame>
+                <LayoutPlaceholderFrame PropertyName=""SourceIdentifier"">
                     <LayoutPlaceholderFrame.Selectors>
                         <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Identifier""/>
                     </LayoutPlaceholderFrame.Selectors>
                 </LayoutPlaceholderFrame>
-                <LayoutKeywordFrame RightMargin=""Whitespace"">All</LayoutKeywordFrame>
+                <LayoutKeywordFrame>All</LayoutKeywordFrame>
             </LayoutHorizontalPanelFrame>
             <LayoutVerticalCollectionPlaceholderFrame/>
-            <LayoutKeywordFrame Text=""end"" LeftMargin=""Whitespace"">
+            <LayoutKeywordFrame Text=""end"">
                 <LayoutKeywordFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
                 </LayoutKeywordFrame.BlockVisibility>
@@ -3401,23 +3678,23 @@ namespace EaslyEdit
         </LayoutVerticalPanelFrame>
     </LayoutBlockTemplate>
     <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:IConditional,easly:Conditional}"">
-        <LayoutVerticalPanelFrame HasBlockGeometry=""True"">
+        <LayoutVerticalPanelFrame>
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
                 </LayoutHorizontalPanelFrame.BlockVisibility>
-                <LayoutKeywordFrame RightMargin=""Whitespace"">Replicate</LayoutKeywordFrame>
-                <LayoutPlaceholderFrame PropertyName=""ReplicationPattern"" RightMargin=""Whitespace""/>
-                <LayoutKeywordFrame RightMargin=""Whitespace"">From</LayoutKeywordFrame>
-                <LayoutPlaceholderFrame PropertyName=""SourceIdentifier"" RightMargin=""Whitespace"">
+                <LayoutKeywordFrame>Replicate</LayoutKeywordFrame>
+                <LayoutPlaceholderFrame PropertyName=""ReplicationPattern""/>
+                <LayoutKeywordFrame>From</LayoutKeywordFrame>
+                <LayoutPlaceholderFrame PropertyName=""SourceIdentifier"">
                     <LayoutPlaceholderFrame.Selectors>
                         <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Identifier""/>
                     </LayoutPlaceholderFrame.Selectors>
                 </LayoutPlaceholderFrame>
-                <LayoutKeywordFrame RightMargin=""Whitespace"">All</LayoutKeywordFrame>
+                <LayoutKeywordFrame>All</LayoutKeywordFrame>
             </LayoutHorizontalPanelFrame>
             <LayoutVerticalCollectionPlaceholderFrame/>
-            <LayoutKeywordFrame Text=""end"" LeftMargin=""Whitespace"">
+            <LayoutKeywordFrame Text=""end"">
                 <LayoutKeywordFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
                 </LayoutKeywordFrame.BlockVisibility>
@@ -3425,23 +3702,23 @@ namespace EaslyEdit
         </LayoutVerticalPanelFrame>
     </LayoutBlockTemplate>
     <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:IConstraint,easly:Constraint}"">
-        <LayoutHorizontalPanelFrame HasBlockGeometry=""True"">
+        <LayoutHorizontalPanelFrame>
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
                 </LayoutHorizontalPanelFrame.BlockVisibility>
-                <LayoutKeywordFrame RightMargin=""Whitespace"">Replicate</LayoutKeywordFrame>
-                <LayoutPlaceholderFrame PropertyName=""ReplicationPattern"" RightMargin=""Whitespace""/>
-                <LayoutKeywordFrame RightMargin=""Whitespace"">From</LayoutKeywordFrame>
-                <LayoutPlaceholderFrame PropertyName=""SourceIdentifier"" RightMargin=""Whitespace"">
+                <LayoutKeywordFrame>Replicate</LayoutKeywordFrame>
+                <LayoutPlaceholderFrame PropertyName=""ReplicationPattern""/>
+                <LayoutKeywordFrame>From</LayoutKeywordFrame>
+                <LayoutPlaceholderFrame PropertyName=""SourceIdentifier"">
                     <LayoutPlaceholderFrame.Selectors>
                         <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Identifier""/>
                     </LayoutPlaceholderFrame.Selectors>
                 </LayoutPlaceholderFrame>
-                <LayoutKeywordFrame RightMargin=""Whitespace"">All</LayoutKeywordFrame>
+                <LayoutKeywordFrame>All</LayoutKeywordFrame>
             </LayoutHorizontalPanelFrame>
-            <LayoutHorizontalCollectionPlaceholderFrame Separator=""Comma""/>
-            <LayoutKeywordFrame Text=""end"" LeftMargin=""Whitespace"">
+            <LayoutHorizontalCollectionPlaceholderFrame/>
+            <LayoutKeywordFrame Text=""end"">
                 <LayoutKeywordFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
                 </LayoutKeywordFrame.BlockVisibility>
@@ -3449,23 +3726,23 @@ namespace EaslyEdit
         </LayoutHorizontalPanelFrame>
     </LayoutBlockTemplate>
     <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:IContinuation,easly:Continuation}"">
-        <LayoutVerticalPanelFrame HasBlockGeometry=""True"">
+        <LayoutVerticalPanelFrame>
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
                 </LayoutHorizontalPanelFrame.BlockVisibility>
-                <LayoutKeywordFrame RightMargin=""Whitespace"">Replicate</LayoutKeywordFrame>
-                <LayoutPlaceholderFrame PropertyName=""ReplicationPattern"" RightMargin=""Whitespace""/>
-                <LayoutKeywordFrame RightMargin=""Whitespace"">From</LayoutKeywordFrame>
-                <LayoutPlaceholderFrame PropertyName=""SourceIdentifier"" RightMargin=""Whitespace"">
+                <LayoutKeywordFrame>Replicate</LayoutKeywordFrame>
+                <LayoutPlaceholderFrame PropertyName=""ReplicationPattern""/>
+                <LayoutKeywordFrame>From</LayoutKeywordFrame>
+                <LayoutPlaceholderFrame PropertyName=""SourceIdentifier"">
                     <LayoutPlaceholderFrame.Selectors>
                         <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Identifier""/>
                     </LayoutPlaceholderFrame.Selectors>
                 </LayoutPlaceholderFrame>
-                <LayoutKeywordFrame RightMargin=""Whitespace"">All</LayoutKeywordFrame>
+                <LayoutKeywordFrame>All</LayoutKeywordFrame>
             </LayoutHorizontalPanelFrame>
             <LayoutVerticalCollectionPlaceholderFrame/>
-            <LayoutKeywordFrame Text=""end"" LeftMargin=""Whitespace"">
+            <LayoutKeywordFrame Text=""end"">
                 <LayoutKeywordFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
                 </LayoutKeywordFrame.BlockVisibility>
@@ -3473,23 +3750,23 @@ namespace EaslyEdit
         </LayoutVerticalPanelFrame>
     </LayoutBlockTemplate>
     <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:IDiscrete,easly:Discrete}"">
-        <LayoutVerticalPanelFrame HasBlockGeometry=""True"">
+        <LayoutVerticalPanelFrame>
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
                 </LayoutHorizontalPanelFrame.BlockVisibility>
-                <LayoutKeywordFrame RightMargin=""Whitespace"">Replicate</LayoutKeywordFrame>
-                <LayoutPlaceholderFrame PropertyName=""ReplicationPattern"" RightMargin=""Whitespace""/>
-                <LayoutKeywordFrame RightMargin=""Whitespace"">From</LayoutKeywordFrame>
-                <LayoutPlaceholderFrame PropertyName=""SourceIdentifier"" RightMargin=""Whitespace"">
+                <LayoutKeywordFrame>Replicate</LayoutKeywordFrame>
+                <LayoutPlaceholderFrame PropertyName=""ReplicationPattern""/>
+                <LayoutKeywordFrame>From</LayoutKeywordFrame>
+                <LayoutPlaceholderFrame PropertyName=""SourceIdentifier"">
                     <LayoutPlaceholderFrame.Selectors>
                         <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Identifier""/>
                     </LayoutPlaceholderFrame.Selectors>
                 </LayoutPlaceholderFrame>
-                <LayoutKeywordFrame RightMargin=""Whitespace"">All</LayoutKeywordFrame>
+                <LayoutKeywordFrame>All</LayoutKeywordFrame>
             </LayoutHorizontalPanelFrame>
             <LayoutVerticalCollectionPlaceholderFrame/>
-            <LayoutKeywordFrame Text=""end"" LeftMargin=""Whitespace"">
+            <LayoutKeywordFrame Text=""end"">
                 <LayoutKeywordFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
                 </LayoutKeywordFrame.BlockVisibility>
@@ -3497,23 +3774,23 @@ namespace EaslyEdit
         </LayoutVerticalPanelFrame>
     </LayoutBlockTemplate>
     <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:IEntityDeclaration,easly:EntityDeclaration}"">
-        <LayoutVerticalPanelFrame HasBlockGeometry=""True"">
+        <LayoutVerticalPanelFrame>
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
                 </LayoutHorizontalPanelFrame.BlockVisibility>
-                <LayoutKeywordFrame RightMargin=""Whitespace"">Replicate</LayoutKeywordFrame>
-                <LayoutPlaceholderFrame PropertyName=""ReplicationPattern"" RightMargin=""Whitespace""/>
-                <LayoutKeywordFrame RightMargin=""Whitespace"">From</LayoutKeywordFrame>
-                <LayoutPlaceholderFrame PropertyName=""SourceIdentifier"" RightMargin=""Whitespace"">
+                <LayoutKeywordFrame>Replicate</LayoutKeywordFrame>
+                <LayoutPlaceholderFrame PropertyName=""ReplicationPattern""/>
+                <LayoutKeywordFrame>From</LayoutKeywordFrame>
+                <LayoutPlaceholderFrame PropertyName=""SourceIdentifier"">
                     <LayoutPlaceholderFrame.Selectors>
                         <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Identifier""/>
                     </LayoutPlaceholderFrame.Selectors>
                 </LayoutPlaceholderFrame>
-                <LayoutKeywordFrame RightMargin=""Whitespace"">All</LayoutKeywordFrame>
+                <LayoutKeywordFrame>All</LayoutKeywordFrame>
             </LayoutHorizontalPanelFrame>
             <LayoutVerticalCollectionPlaceholderFrame/>
-            <LayoutKeywordFrame Text=""end"" LeftMargin=""Whitespace"">
+            <LayoutKeywordFrame Text=""end"">
                 <LayoutKeywordFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
                 </LayoutKeywordFrame.BlockVisibility>
@@ -3521,23 +3798,23 @@ namespace EaslyEdit
         </LayoutVerticalPanelFrame>
     </LayoutBlockTemplate>
     <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:IExceptionHandler,easly:ExceptionHandler}"">
-        <LayoutVerticalPanelFrame HasBlockGeometry=""True"">
+        <LayoutVerticalPanelFrame>
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
                 </LayoutHorizontalPanelFrame.BlockVisibility>
-                <LayoutKeywordFrame RightMargin=""Whitespace"">Replicate</LayoutKeywordFrame>
-                <LayoutPlaceholderFrame PropertyName=""ReplicationPattern"" RightMargin=""Whitespace""/>
-                <LayoutKeywordFrame RightMargin=""Whitespace"">From</LayoutKeywordFrame>
-                <LayoutPlaceholderFrame PropertyName=""SourceIdentifier"" RightMargin=""Whitespace"">
+                <LayoutKeywordFrame>Replicate</LayoutKeywordFrame>
+                <LayoutPlaceholderFrame PropertyName=""ReplicationPattern""/>
+                <LayoutKeywordFrame>From</LayoutKeywordFrame>
+                <LayoutPlaceholderFrame PropertyName=""SourceIdentifier"">
                     <LayoutPlaceholderFrame.Selectors>
                         <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Identifier""/>
                     </LayoutPlaceholderFrame.Selectors>
                 </LayoutPlaceholderFrame>
-                <LayoutKeywordFrame RightMargin=""Whitespace"">All</LayoutKeywordFrame>
+                <LayoutKeywordFrame>All</LayoutKeywordFrame>
             </LayoutHorizontalPanelFrame>
             <LayoutVerticalCollectionPlaceholderFrame/>
-            <LayoutKeywordFrame Text=""end"" LeftMargin=""Whitespace"">
+            <LayoutKeywordFrame Text=""end"">
                 <LayoutKeywordFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
                 </LayoutKeywordFrame.BlockVisibility>
@@ -3545,23 +3822,23 @@ namespace EaslyEdit
         </LayoutVerticalPanelFrame>
     </LayoutBlockTemplate>
     <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:IExport,easly:Export}"">
-        <LayoutHorizontalPanelFrame HasBlockGeometry=""True"">
+        <LayoutHorizontalPanelFrame>
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
                 </LayoutHorizontalPanelFrame.BlockVisibility>
-                <LayoutKeywordFrame RightMargin=""Whitespace"">Replicate</LayoutKeywordFrame>
-                <LayoutPlaceholderFrame PropertyName=""ReplicationPattern"" RightMargin=""Whitespace""/>
-                <LayoutKeywordFrame RightMargin=""Whitespace"">From</LayoutKeywordFrame>
-                <LayoutPlaceholderFrame PropertyName=""SourceIdentifier"" RightMargin=""Whitespace"">
+                <LayoutKeywordFrame>Replicate</LayoutKeywordFrame>
+                <LayoutPlaceholderFrame PropertyName=""ReplicationPattern""/>
+                <LayoutKeywordFrame>From</LayoutKeywordFrame>
+                <LayoutPlaceholderFrame PropertyName=""SourceIdentifier"">
                     <LayoutPlaceholderFrame.Selectors>
                         <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Identifier""/>
                     </LayoutPlaceholderFrame.Selectors>
                 </LayoutPlaceholderFrame>
-                <LayoutKeywordFrame RightMargin=""Whitespace"">All</LayoutKeywordFrame>
+                <LayoutKeywordFrame>All</LayoutKeywordFrame>
             </LayoutHorizontalPanelFrame>
-            <LayoutHorizontalCollectionPlaceholderFrame Separator=""Comma""/>
-            <LayoutKeywordFrame Text=""end"" LeftMargin=""Whitespace"">
+            <LayoutHorizontalCollectionPlaceholderFrame/>
+            <LayoutKeywordFrame Text=""end"">
                 <LayoutKeywordFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
                 </LayoutKeywordFrame.BlockVisibility>
@@ -3569,23 +3846,23 @@ namespace EaslyEdit
         </LayoutHorizontalPanelFrame>
     </LayoutBlockTemplate>
     <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:IExportChange,easly:ExportChange}"">
-        <LayoutHorizontalPanelFrame HasBlockGeometry=""True"">
+        <LayoutHorizontalPanelFrame>
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
                 </LayoutHorizontalPanelFrame.BlockVisibility>
-                <LayoutKeywordFrame RightMargin=""Whitespace"">Replicate</LayoutKeywordFrame>
-                <LayoutPlaceholderFrame PropertyName=""ReplicationPattern"" RightMargin=""Whitespace""/>
-                <LayoutKeywordFrame RightMargin=""Whitespace"">From</LayoutKeywordFrame>
-                <LayoutPlaceholderFrame PropertyName=""SourceIdentifier"" RightMargin=""Whitespace"">
+                <LayoutKeywordFrame>Replicate</LayoutKeywordFrame>
+                <LayoutPlaceholderFrame PropertyName=""ReplicationPattern""/>
+                <LayoutKeywordFrame>From</LayoutKeywordFrame>
+                <LayoutPlaceholderFrame PropertyName=""SourceIdentifier"">
                     <LayoutPlaceholderFrame.Selectors>
                         <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Identifier""/>
                     </LayoutPlaceholderFrame.Selectors>
                 </LayoutPlaceholderFrame>
-                <LayoutKeywordFrame RightMargin=""Whitespace"">All</LayoutKeywordFrame>
+                <LayoutKeywordFrame>All</LayoutKeywordFrame>
             </LayoutHorizontalPanelFrame>
-            <LayoutHorizontalCollectionPlaceholderFrame Separator=""Comma""/>
-            <LayoutKeywordFrame Text=""end"" LeftMargin=""Whitespace"">
+            <LayoutHorizontalCollectionPlaceholderFrame/>
+            <LayoutKeywordFrame Text=""end"">
                 <LayoutKeywordFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
                 </LayoutKeywordFrame.BlockVisibility>
@@ -3593,23 +3870,23 @@ namespace EaslyEdit
         </LayoutHorizontalPanelFrame>
     </LayoutBlockTemplate>
     <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:IFeature,easly:Feature}"">
-        <LayoutVerticalPanelFrame HasBlockGeometry=""True"">
+        <LayoutVerticalPanelFrame>
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
                 </LayoutHorizontalPanelFrame.BlockVisibility>
-                <LayoutKeywordFrame RightMargin=""Whitespace"">Replicate</LayoutKeywordFrame>
-                <LayoutPlaceholderFrame PropertyName=""ReplicationPattern"" RightMargin=""Whitespace""/>
-                <LayoutKeywordFrame RightMargin=""Whitespace"">From</LayoutKeywordFrame>
-                <LayoutPlaceholderFrame PropertyName=""SourceIdentifier"" RightMargin=""Whitespace"">
+                <LayoutKeywordFrame>Replicate</LayoutKeywordFrame>
+                <LayoutPlaceholderFrame PropertyName=""ReplicationPattern""/>
+                <LayoutKeywordFrame>From</LayoutKeywordFrame>
+                <LayoutPlaceholderFrame PropertyName=""SourceIdentifier"">
                     <LayoutPlaceholderFrame.Selectors>
                         <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Identifier""/>
                     </LayoutPlaceholderFrame.Selectors>
                 </LayoutPlaceholderFrame>
-                <LayoutKeywordFrame RightMargin=""Whitespace"">All</LayoutKeywordFrame>
+                <LayoutKeywordFrame>All</LayoutKeywordFrame>
             </LayoutHorizontalPanelFrame>
-            <LayoutVerticalCollectionPlaceholderFrame Separator=""Line""/>
-            <LayoutKeywordFrame Text=""end"" LeftMargin=""Whitespace"">
+            <LayoutVerticalCollectionPlaceholderFrame/>
+            <LayoutKeywordFrame Text=""end"">
                 <LayoutKeywordFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
                 </LayoutKeywordFrame.BlockVisibility>
@@ -3617,23 +3894,23 @@ namespace EaslyEdit
         </LayoutVerticalPanelFrame>
     </LayoutBlockTemplate>
     <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:IGeneric,easly:Generic}"">
-        <LayoutVerticalPanelFrame HasBlockGeometry=""True"">
+        <LayoutVerticalPanelFrame>
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
                 </LayoutHorizontalPanelFrame.BlockVisibility>
-                <LayoutKeywordFrame RightMargin=""Whitespace"">Replicate</LayoutKeywordFrame>
-                <LayoutPlaceholderFrame PropertyName=""ReplicationPattern"" RightMargin=""Whitespace""/>
-                <LayoutKeywordFrame RightMargin=""Whitespace"">From</LayoutKeywordFrame>
-                <LayoutPlaceholderFrame PropertyName=""SourceIdentifier"" RightMargin=""Whitespace"">
+                <LayoutKeywordFrame>Replicate</LayoutKeywordFrame>
+                <LayoutPlaceholderFrame PropertyName=""ReplicationPattern""/>
+                <LayoutKeywordFrame>From</LayoutKeywordFrame>
+                <LayoutPlaceholderFrame PropertyName=""SourceIdentifier"">
                     <LayoutPlaceholderFrame.Selectors>
                         <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Identifier""/>
                     </LayoutPlaceholderFrame.Selectors>
                 </LayoutPlaceholderFrame>
-                <LayoutKeywordFrame RightMargin=""Whitespace"">All</LayoutKeywordFrame>
+                <LayoutKeywordFrame>All</LayoutKeywordFrame>
             </LayoutHorizontalPanelFrame>
             <LayoutVerticalCollectionPlaceholderFrame/>
-            <LayoutKeywordFrame Text=""end"" LeftMargin=""Whitespace"">
+            <LayoutKeywordFrame Text=""end"">
                 <LayoutKeywordFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
                 </LayoutKeywordFrame.BlockVisibility>
@@ -3641,27 +3918,27 @@ namespace EaslyEdit
         </LayoutVerticalPanelFrame>
     </LayoutBlockTemplate>
     <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:IIdentifier,easly:Identifier}"">
-        <LayoutHorizontalPanelFrame HasBlockGeometry=""True"">
+        <LayoutHorizontalPanelFrame>
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
                 </LayoutHorizontalPanelFrame.BlockVisibility>
-                <LayoutKeywordFrame RightMargin=""Whitespace"">Replicate</LayoutKeywordFrame>
-                <LayoutPlaceholderFrame PropertyName=""ReplicationPattern"" RightMargin=""Whitespace""/>
-                <LayoutKeywordFrame RightMargin=""Whitespace"">From</LayoutKeywordFrame>
-                <LayoutPlaceholderFrame PropertyName=""SourceIdentifier"" RightMargin=""Whitespace"">
+                <LayoutKeywordFrame>Replicate</LayoutKeywordFrame>
+                <LayoutPlaceholderFrame PropertyName=""ReplicationPattern""/>
+                <LayoutKeywordFrame>From</LayoutKeywordFrame>
+                <LayoutPlaceholderFrame PropertyName=""SourceIdentifier"">
                     <LayoutPlaceholderFrame.Selectors>
                         <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Identifier""/>
                     </LayoutPlaceholderFrame.Selectors>
                 </LayoutPlaceholderFrame>
-                <LayoutKeywordFrame RightMargin=""Whitespace"">All</LayoutKeywordFrame>
+                <LayoutKeywordFrame>All</LayoutKeywordFrame>
             </LayoutHorizontalPanelFrame>
-            <LayoutHorizontalCollectionPlaceholderFrame Separator=""Comma"">
+            <LayoutHorizontalCollectionPlaceholderFrame>
                 <LayoutHorizontalCollectionPlaceholderFrame.Selectors>
                     <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Identifier""/>
                 </LayoutHorizontalCollectionPlaceholderFrame.Selectors>
             </LayoutHorizontalCollectionPlaceholderFrame>
-            <LayoutKeywordFrame Text=""end"" LeftMargin=""Whitespace"">
+            <LayoutKeywordFrame Text=""end"">
                 <LayoutKeywordFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
                 </LayoutKeywordFrame.BlockVisibility>
@@ -3669,23 +3946,23 @@ namespace EaslyEdit
         </LayoutHorizontalPanelFrame>
     </LayoutBlockTemplate>
     <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:IImport,easly:Import}"">
-        <LayoutVerticalPanelFrame HasBlockGeometry=""True"">
+        <LayoutVerticalPanelFrame>
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
                 </LayoutHorizontalPanelFrame.BlockVisibility>
-                <LayoutKeywordFrame RightMargin=""Whitespace"">Replicate</LayoutKeywordFrame>
-                <LayoutPlaceholderFrame PropertyName=""ReplicationPattern"" RightMargin=""Whitespace""/>
-                <LayoutKeywordFrame RightMargin=""Whitespace"">From</LayoutKeywordFrame>
-                <LayoutPlaceholderFrame PropertyName=""SourceIdentifier"" RightMargin=""Whitespace"">
+                <LayoutKeywordFrame>Replicate</LayoutKeywordFrame>
+                <LayoutPlaceholderFrame PropertyName=""ReplicationPattern""/>
+                <LayoutKeywordFrame>From</LayoutKeywordFrame>
+                <LayoutPlaceholderFrame PropertyName=""SourceIdentifier"">
                     <LayoutPlaceholderFrame.Selectors>
                         <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Identifier""/>
                     </LayoutPlaceholderFrame.Selectors>
                 </LayoutPlaceholderFrame>
-                <LayoutKeywordFrame RightMargin=""Whitespace"">All</LayoutKeywordFrame>
+                <LayoutKeywordFrame>All</LayoutKeywordFrame>
             </LayoutHorizontalPanelFrame>
             <LayoutVerticalCollectionPlaceholderFrame/>
-            <LayoutKeywordFrame Text=""end"" LeftMargin=""Whitespace"">
+            <LayoutKeywordFrame Text=""end"">
                 <LayoutKeywordFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
                 </LayoutKeywordFrame.BlockVisibility>
@@ -3693,23 +3970,23 @@ namespace EaslyEdit
         </LayoutVerticalPanelFrame>
     </LayoutBlockTemplate>
     <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:IInheritance,easly:Inheritance}"">
-        <LayoutVerticalPanelFrame HasBlockGeometry=""True"">
+        <LayoutVerticalPanelFrame>
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
                 </LayoutHorizontalPanelFrame.BlockVisibility>
-                <LayoutKeywordFrame RightMargin=""Whitespace"">Replicate</LayoutKeywordFrame>
-                <LayoutPlaceholderFrame PropertyName=""ReplicationPattern"" RightMargin=""Whitespace""/>
-                <LayoutKeywordFrame RightMargin=""Whitespace"">From</LayoutKeywordFrame>
-                <LayoutPlaceholderFrame PropertyName=""SourceIdentifier"" RightMargin=""Whitespace"">
+                <LayoutKeywordFrame>Replicate</LayoutKeywordFrame>
+                <LayoutPlaceholderFrame PropertyName=""ReplicationPattern""/>
+                <LayoutKeywordFrame>From</LayoutKeywordFrame>
+                <LayoutPlaceholderFrame PropertyName=""SourceIdentifier"">
                     <LayoutPlaceholderFrame.Selectors>
                         <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Identifier""/>
                     </LayoutPlaceholderFrame.Selectors>
                 </LayoutPlaceholderFrame>
-                <LayoutKeywordFrame RightMargin=""Whitespace"">All</LayoutKeywordFrame>
+                <LayoutKeywordFrame>All</LayoutKeywordFrame>
             </LayoutHorizontalPanelFrame>
             <LayoutVerticalCollectionPlaceholderFrame/>
-            <LayoutKeywordFrame Text=""end"" LeftMargin=""Whitespace"">
+            <LayoutKeywordFrame Text=""end"">
                 <LayoutKeywordFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
                 </LayoutKeywordFrame.BlockVisibility>
@@ -3717,23 +3994,23 @@ namespace EaslyEdit
         </LayoutVerticalPanelFrame>
     </LayoutBlockTemplate>
     <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:IInstruction,easly:Instruction}"">
-        <LayoutVerticalPanelFrame HasBlockGeometry=""True"">
+        <LayoutVerticalPanelFrame>
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
                 </LayoutHorizontalPanelFrame.BlockVisibility>
-                <LayoutKeywordFrame RightMargin=""Whitespace"">Replicate</LayoutKeywordFrame>
-                <LayoutPlaceholderFrame PropertyName=""ReplicationPattern"" RightMargin=""Whitespace""/>
-                <LayoutKeywordFrame RightMargin=""Whitespace"">From</LayoutKeywordFrame>
-                <LayoutPlaceholderFrame PropertyName=""SourceIdentifier"" RightMargin=""Whitespace"">
+                <LayoutKeywordFrame>Replicate</LayoutKeywordFrame>
+                <LayoutPlaceholderFrame PropertyName=""ReplicationPattern""/>
+                <LayoutKeywordFrame>From</LayoutKeywordFrame>
+                <LayoutPlaceholderFrame PropertyName=""SourceIdentifier"">
                     <LayoutPlaceholderFrame.Selectors>
                         <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Identifier""/>
                     </LayoutPlaceholderFrame.Selectors>
                 </LayoutPlaceholderFrame>
-                <LayoutKeywordFrame RightMargin=""Whitespace"">All</LayoutKeywordFrame>
+                <LayoutKeywordFrame>All</LayoutKeywordFrame>
             </LayoutHorizontalPanelFrame>
             <LayoutVerticalCollectionPlaceholderFrame/>
-            <LayoutKeywordFrame Text=""end"" LeftMargin=""Whitespace"">
+            <LayoutKeywordFrame Text=""end"">
                 <LayoutKeywordFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
                 </LayoutKeywordFrame.BlockVisibility>
@@ -3741,23 +4018,23 @@ namespace EaslyEdit
         </LayoutVerticalPanelFrame>
     </LayoutBlockTemplate>
     <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:ILibrary,easly:Library}"">
-        <LayoutVerticalPanelFrame HasBlockGeometry=""True"">
+        <LayoutVerticalPanelFrame>
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
                 </LayoutHorizontalPanelFrame.BlockVisibility>
-                <LayoutKeywordFrame RightMargin=""Whitespace"">Replicate</LayoutKeywordFrame>
-                <LayoutPlaceholderFrame PropertyName=""ReplicationPattern"" RightMargin=""Whitespace""/>
-                <LayoutKeywordFrame RightMargin=""Whitespace"">From</LayoutKeywordFrame>
-                <LayoutPlaceholderFrame PropertyName=""SourceIdentifier"" RightMargin=""Whitespace"">
+                <LayoutKeywordFrame>Replicate</LayoutKeywordFrame>
+                <LayoutPlaceholderFrame PropertyName=""ReplicationPattern""/>
+                <LayoutKeywordFrame>From</LayoutKeywordFrame>
+                <LayoutPlaceholderFrame PropertyName=""SourceIdentifier"">
                     <LayoutPlaceholderFrame.Selectors>
                         <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Identifier""/>
                     </LayoutPlaceholderFrame.Selectors>
                 </LayoutPlaceholderFrame>
-                <LayoutKeywordFrame RightMargin=""Whitespace"">All</LayoutKeywordFrame>
+                <LayoutKeywordFrame>All</LayoutKeywordFrame>
             </LayoutHorizontalPanelFrame>
             <LayoutVerticalCollectionPlaceholderFrame/>
-            <LayoutKeywordFrame Text=""end"" LeftMargin=""Whitespace"">
+            <LayoutKeywordFrame Text=""end"">
                 <LayoutKeywordFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
                 </LayoutKeywordFrame.BlockVisibility>
@@ -3765,23 +4042,23 @@ namespace EaslyEdit
         </LayoutVerticalPanelFrame>
     </LayoutBlockTemplate>
     <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:IName,easly:Name}"">
-        <LayoutHorizontalPanelFrame HasBlockGeometry=""True"">
+        <LayoutHorizontalPanelFrame>
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
                 </LayoutHorizontalPanelFrame.BlockVisibility>
-                <LayoutKeywordFrame RightMargin=""Whitespace"">Replicate</LayoutKeywordFrame>
-                <LayoutPlaceholderFrame PropertyName=""ReplicationPattern"" RightMargin=""Whitespace""/>
-                <LayoutKeywordFrame RightMargin=""Whitespace"">From</LayoutKeywordFrame>
-                <LayoutPlaceholderFrame PropertyName=""SourceIdentifier"" RightMargin=""Whitespace"">
+                <LayoutKeywordFrame>Replicate</LayoutKeywordFrame>
+                <LayoutPlaceholderFrame PropertyName=""ReplicationPattern""/>
+                <LayoutKeywordFrame>From</LayoutKeywordFrame>
+                <LayoutPlaceholderFrame PropertyName=""SourceIdentifier"">
                     <LayoutPlaceholderFrame.Selectors>
                         <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Identifier""/>
                     </LayoutPlaceholderFrame.Selectors>
                 </LayoutPlaceholderFrame>
-                <LayoutKeywordFrame RightMargin=""Whitespace"">All</LayoutKeywordFrame>
+                <LayoutKeywordFrame>All</LayoutKeywordFrame>
             </LayoutHorizontalPanelFrame>
-            <LayoutHorizontalCollectionPlaceholderFrame Separator=""Comma""/>
-            <LayoutKeywordFrame Text=""end"" LeftMargin=""Whitespace"">
+            <LayoutHorizontalCollectionPlaceholderFrame/>
+            <LayoutKeywordFrame Text=""end"">
                 <LayoutKeywordFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
                 </LayoutKeywordFrame.BlockVisibility>
@@ -3789,23 +4066,23 @@ namespace EaslyEdit
         </LayoutHorizontalPanelFrame>
     </LayoutBlockTemplate>
     <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:IObjectType,easly:ObjectType}"">
-        <LayoutHorizontalPanelFrame HasBlockGeometry=""True"">
+        <LayoutHorizontalPanelFrame>
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
                 </LayoutHorizontalPanelFrame.BlockVisibility>
-                <LayoutKeywordFrame RightMargin=""Whitespace"">Replicate</LayoutKeywordFrame>
-                <LayoutPlaceholderFrame PropertyName=""ReplicationPattern"" RightMargin=""Whitespace""/>
-                <LayoutKeywordFrame RightMargin=""Whitespace"">From</LayoutKeywordFrame>
-                <LayoutPlaceholderFrame PropertyName=""SourceIdentifier"" RightMargin=""Whitespace"">
+                <LayoutKeywordFrame>Replicate</LayoutKeywordFrame>
+                <LayoutPlaceholderFrame PropertyName=""ReplicationPattern""/>
+                <LayoutKeywordFrame>From</LayoutKeywordFrame>
+                <LayoutPlaceholderFrame PropertyName=""SourceIdentifier"">
                     <LayoutPlaceholderFrame.Selectors>
                         <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Identifier""/>
                     </LayoutPlaceholderFrame.Selectors>
                 </LayoutPlaceholderFrame>
-                <LayoutKeywordFrame RightMargin=""Whitespace"">All</LayoutKeywordFrame>
+                <LayoutKeywordFrame>All</LayoutKeywordFrame>
             </LayoutHorizontalPanelFrame>
-            <LayoutHorizontalCollectionPlaceholderFrame Separator=""Comma""/>
-            <LayoutKeywordFrame Text=""end"" LeftMargin=""Whitespace"">
+            <LayoutHorizontalCollectionPlaceholderFrame/>
+            <LayoutKeywordFrame Text=""end"">
                 <LayoutKeywordFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
                 </LayoutKeywordFrame.BlockVisibility>
@@ -3813,23 +4090,23 @@ namespace EaslyEdit
         </LayoutHorizontalPanelFrame>
     </LayoutBlockTemplate>
     <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:IPattern,easly:Pattern}"">
-        <LayoutHorizontalPanelFrame HasBlockGeometry=""True"">
+        <LayoutHorizontalPanelFrame>
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
                 </LayoutHorizontalPanelFrame.BlockVisibility>
-                <LayoutKeywordFrame RightMargin=""Whitespace"">Replicate</LayoutKeywordFrame>
-                <LayoutPlaceholderFrame PropertyName=""ReplicationPattern"" RightMargin=""Whitespace""/>
-                <LayoutKeywordFrame RightMargin=""Whitespace"">From</LayoutKeywordFrame>
-                <LayoutPlaceholderFrame PropertyName=""SourceIdentifier"" RightMargin=""Whitespace"">
+                <LayoutKeywordFrame>Replicate</LayoutKeywordFrame>
+                <LayoutPlaceholderFrame PropertyName=""ReplicationPattern""/>
+                <LayoutKeywordFrame>From</LayoutKeywordFrame>
+                <LayoutPlaceholderFrame PropertyName=""SourceIdentifier"">
                     <LayoutPlaceholderFrame.Selectors>
                         <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Identifier""/>
                     </LayoutPlaceholderFrame.Selectors>
                 </LayoutPlaceholderFrame>
-                <LayoutKeywordFrame RightMargin=""Whitespace"">All</LayoutKeywordFrame>
+                <LayoutKeywordFrame>All</LayoutKeywordFrame>
             </LayoutHorizontalPanelFrame>
-            <LayoutHorizontalCollectionPlaceholderFrame Separator=""Comma""/>
-            <LayoutKeywordFrame Text=""end"" LeftMargin=""Whitespace"">
+            <LayoutHorizontalCollectionPlaceholderFrame/>
+            <LayoutKeywordFrame Text=""end"">
                 <LayoutKeywordFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
                 </LayoutKeywordFrame.BlockVisibility>
@@ -3837,23 +4114,23 @@ namespace EaslyEdit
         </LayoutHorizontalPanelFrame>
     </LayoutBlockTemplate>
     <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:IQualifiedName,easly:QualifiedName}"">
-        <LayoutHorizontalPanelFrame HasBlockGeometry=""True"">
+        <LayoutHorizontalPanelFrame>
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
                 </LayoutHorizontalPanelFrame.BlockVisibility>
-                <LayoutKeywordFrame RightMargin=""Whitespace"">Replicate</LayoutKeywordFrame>
-                <LayoutPlaceholderFrame PropertyName=""ReplicationPattern"" RightMargin=""Whitespace""/>
-                <LayoutKeywordFrame RightMargin=""Whitespace"">From</LayoutKeywordFrame>
-                <LayoutPlaceholderFrame PropertyName=""SourceIdentifier"" RightMargin=""Whitespace"">
+                <LayoutKeywordFrame>Replicate</LayoutKeywordFrame>
+                <LayoutPlaceholderFrame PropertyName=""ReplicationPattern""/>
+                <LayoutKeywordFrame>From</LayoutKeywordFrame>
+                <LayoutPlaceholderFrame PropertyName=""SourceIdentifier"">
                     <LayoutPlaceholderFrame.Selectors>
                         <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Identifier""/>
                     </LayoutPlaceholderFrame.Selectors>
                 </LayoutPlaceholderFrame>
-                <LayoutKeywordFrame RightMargin=""Whitespace"">All</LayoutKeywordFrame>
+                <LayoutKeywordFrame>All</LayoutKeywordFrame>
             </LayoutHorizontalPanelFrame>
-            <LayoutHorizontalCollectionPlaceholderFrame Separator=""Comma""/>
-            <LayoutKeywordFrame Text=""end"" LeftMargin=""Whitespace"">
+            <LayoutHorizontalCollectionPlaceholderFrame/>
+            <LayoutKeywordFrame Text=""end"">
                 <LayoutKeywordFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
                 </LayoutKeywordFrame.BlockVisibility>
@@ -3861,23 +4138,23 @@ namespace EaslyEdit
         </LayoutHorizontalPanelFrame>
     </LayoutBlockTemplate>
     <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:IQueryOverload,easly:QueryOverload}"">
-        <LayoutVerticalPanelFrame HasBlockGeometry=""True"">
+        <LayoutVerticalPanelFrame>
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
                 </LayoutHorizontalPanelFrame.BlockVisibility>
-                <LayoutKeywordFrame RightMargin=""Whitespace"">Replicate</LayoutKeywordFrame>
-                <LayoutPlaceholderFrame PropertyName=""ReplicationPattern"" RightMargin=""Whitespace""/>
-                <LayoutKeywordFrame RightMargin=""Whitespace"">From</LayoutKeywordFrame>
-                <LayoutPlaceholderFrame PropertyName=""SourceIdentifier"" RightMargin=""Whitespace"">
+                <LayoutKeywordFrame>Replicate</LayoutKeywordFrame>
+                <LayoutPlaceholderFrame PropertyName=""ReplicationPattern""/>
+                <LayoutKeywordFrame>From</LayoutKeywordFrame>
+                <LayoutPlaceholderFrame PropertyName=""SourceIdentifier"">
                     <LayoutPlaceholderFrame.Selectors>
                         <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Identifier""/>
                     </LayoutPlaceholderFrame.Selectors>
                 </LayoutPlaceholderFrame>
-                <LayoutKeywordFrame RightMargin=""Whitespace"">All</LayoutKeywordFrame>
+                <LayoutKeywordFrame>All</LayoutKeywordFrame>
             </LayoutHorizontalPanelFrame>
             <LayoutVerticalCollectionPlaceholderFrame/>
-            <LayoutKeywordFrame Text=""end"" LeftMargin=""Whitespace"">
+            <LayoutKeywordFrame Text=""end"">
                 <LayoutKeywordFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
                 </LayoutKeywordFrame.BlockVisibility>
@@ -3885,23 +4162,23 @@ namespace EaslyEdit
         </LayoutVerticalPanelFrame>
     </LayoutBlockTemplate>
     <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:IQueryOverloadType,easly:QueryOverloadType}"">
-        <LayoutVerticalPanelFrame HasBlockGeometry=""True"">
+        <LayoutVerticalPanelFrame>
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
                 </LayoutHorizontalPanelFrame.BlockVisibility>
-                <LayoutKeywordFrame RightMargin=""Whitespace"">Replicate</LayoutKeywordFrame>
-                <LayoutPlaceholderFrame PropertyName=""ReplicationPattern"" RightMargin=""Whitespace""/>
-                <LayoutKeywordFrame RightMargin=""Whitespace"">From</LayoutKeywordFrame>
-                <LayoutPlaceholderFrame PropertyName=""SourceIdentifier"" RightMargin=""Whitespace"">
+                <LayoutKeywordFrame>Replicate</LayoutKeywordFrame>
+                <LayoutPlaceholderFrame PropertyName=""ReplicationPattern""/>
+                <LayoutKeywordFrame>From</LayoutKeywordFrame>
+                <LayoutPlaceholderFrame PropertyName=""SourceIdentifier"">
                     <LayoutPlaceholderFrame.Selectors>
                         <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Identifier""/>
                     </LayoutPlaceholderFrame.Selectors>
                 </LayoutPlaceholderFrame>
-                <LayoutKeywordFrame RightMargin=""Whitespace"">All</LayoutKeywordFrame>
+                <LayoutKeywordFrame>All</LayoutKeywordFrame>
             </LayoutHorizontalPanelFrame>
             <LayoutVerticalCollectionPlaceholderFrame/>
-            <LayoutKeywordFrame Text=""end"" LeftMargin=""Whitespace"">
+            <LayoutKeywordFrame Text=""end"">
                 <LayoutKeywordFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
                 </LayoutKeywordFrame.BlockVisibility>
@@ -3909,23 +4186,23 @@ namespace EaslyEdit
         </LayoutVerticalPanelFrame>
     </LayoutBlockTemplate>
     <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:IRange,easly:Range}"">
-        <LayoutHorizontalPanelFrame HasBlockGeometry=""True"">
+        <LayoutHorizontalPanelFrame>
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
                 </LayoutHorizontalPanelFrame.BlockVisibility>
-                <LayoutKeywordFrame RightMargin=""Whitespace"">Replicate</LayoutKeywordFrame>
-                <LayoutPlaceholderFrame PropertyName=""ReplicationPattern"" RightMargin=""Whitespace""/>
-                <LayoutKeywordFrame RightMargin=""Whitespace"">From</LayoutKeywordFrame>
-                <LayoutPlaceholderFrame PropertyName=""SourceIdentifier"" RightMargin=""Whitespace"">
+                <LayoutKeywordFrame>Replicate</LayoutKeywordFrame>
+                <LayoutPlaceholderFrame PropertyName=""ReplicationPattern""/>
+                <LayoutKeywordFrame>From</LayoutKeywordFrame>
+                <LayoutPlaceholderFrame PropertyName=""SourceIdentifier"">
                     <LayoutPlaceholderFrame.Selectors>
                         <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Identifier""/>
                     </LayoutPlaceholderFrame.Selectors>
                 </LayoutPlaceholderFrame>
-                <LayoutKeywordFrame RightMargin=""Whitespace"">All</LayoutKeywordFrame>
+                <LayoutKeywordFrame>All</LayoutKeywordFrame>
             </LayoutHorizontalPanelFrame>
-            <LayoutHorizontalCollectionPlaceholderFrame Separator=""Comma""/>
-            <LayoutKeywordFrame Text=""end"" LeftMargin=""Whitespace"">
+            <LayoutHorizontalCollectionPlaceholderFrame/>
+            <LayoutKeywordFrame Text=""end"">
                 <LayoutKeywordFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
                 </LayoutKeywordFrame.BlockVisibility>
@@ -3933,23 +4210,23 @@ namespace EaslyEdit
         </LayoutHorizontalPanelFrame>
     </LayoutBlockTemplate>
     <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:IRename,easly:Rename}"">
-        <LayoutVerticalPanelFrame HasBlockGeometry=""True"">
+        <LayoutVerticalPanelFrame>
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
                 </LayoutHorizontalPanelFrame.BlockVisibility>
-                <LayoutKeywordFrame RightMargin=""Whitespace"">Replicate</LayoutKeywordFrame>
-                <LayoutPlaceholderFrame PropertyName=""ReplicationPattern"" RightMargin=""Whitespace""/>
-                <LayoutKeywordFrame RightMargin=""Whitespace"">From</LayoutKeywordFrame>
-                <LayoutPlaceholderFrame PropertyName=""SourceIdentifier"" RightMargin=""Whitespace"">
+                <LayoutKeywordFrame>Replicate</LayoutKeywordFrame>
+                <LayoutPlaceholderFrame PropertyName=""ReplicationPattern""/>
+                <LayoutKeywordFrame>From</LayoutKeywordFrame>
+                <LayoutPlaceholderFrame PropertyName=""SourceIdentifier"">
                     <LayoutPlaceholderFrame.Selectors>
                         <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Identifier""/>
                     </LayoutPlaceholderFrame.Selectors>
                 </LayoutPlaceholderFrame>
-                <LayoutKeywordFrame RightMargin=""Whitespace"">All</LayoutKeywordFrame>
+                <LayoutKeywordFrame>All</LayoutKeywordFrame>
             </LayoutHorizontalPanelFrame>
             <LayoutVerticalCollectionPlaceholderFrame/>
-            <LayoutKeywordFrame Text=""end"" LeftMargin=""Whitespace"">
+            <LayoutKeywordFrame Text=""end"">
                 <LayoutKeywordFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
                 </LayoutKeywordFrame.BlockVisibility>
@@ -3957,23 +4234,23 @@ namespace EaslyEdit
         </LayoutVerticalPanelFrame>
     </LayoutBlockTemplate>
     <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:ITypeArgument,easly:TypeArgument}"">
-        <LayoutHorizontalPanelFrame HasBlockGeometry=""True"">
+        <LayoutHorizontalPanelFrame>
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
                 </LayoutHorizontalPanelFrame.BlockVisibility>
-                <LayoutKeywordFrame RightMargin=""Whitespace"">Replicate</LayoutKeywordFrame>
-                <LayoutPlaceholderFrame PropertyName=""ReplicationPattern"" RightMargin=""Whitespace""/>
-                <LayoutKeywordFrame RightMargin=""Whitespace"">From</LayoutKeywordFrame>
-                <LayoutPlaceholderFrame PropertyName=""SourceIdentifier"" RightMargin=""Whitespace"">
+                <LayoutKeywordFrame>Replicate</LayoutKeywordFrame>
+                <LayoutPlaceholderFrame PropertyName=""ReplicationPattern""/>
+                <LayoutKeywordFrame>From</LayoutKeywordFrame>
+                <LayoutPlaceholderFrame PropertyName=""SourceIdentifier"">
                     <LayoutPlaceholderFrame.Selectors>
                         <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Identifier""/>
                     </LayoutPlaceholderFrame.Selectors>
                 </LayoutPlaceholderFrame>
-                <LayoutKeywordFrame RightMargin=""Whitespace"">All</LayoutKeywordFrame>
+                <LayoutKeywordFrame>All</LayoutKeywordFrame>
             </LayoutHorizontalPanelFrame>
-            <LayoutHorizontalCollectionPlaceholderFrame Separator=""Comma""/>
-            <LayoutKeywordFrame Text=""end"" LeftMargin=""Whitespace"">
+            <LayoutHorizontalCollectionPlaceholderFrame/>
+            <LayoutKeywordFrame Text=""end"">
                 <LayoutKeywordFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
                 </LayoutKeywordFrame.BlockVisibility>
@@ -3981,23 +4258,23 @@ namespace EaslyEdit
         </LayoutHorizontalPanelFrame>
     </LayoutBlockTemplate>
     <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:ITypedef,easly:Typedef}"">
-        <LayoutVerticalPanelFrame HasBlockGeometry=""True"">
+        <LayoutVerticalPanelFrame>
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
                 </LayoutHorizontalPanelFrame.BlockVisibility>
-                <LayoutKeywordFrame RightMargin=""Whitespace"">Replicate</LayoutKeywordFrame>
-                <LayoutPlaceholderFrame PropertyName=""ReplicationPattern"" RightMargin=""Whitespace""/>
-                <LayoutKeywordFrame RightMargin=""Whitespace"">From</LayoutKeywordFrame>
-                <LayoutPlaceholderFrame PropertyName=""SourceIdentifier"" RightMargin=""Whitespace"">
+                <LayoutKeywordFrame>Replicate</LayoutKeywordFrame>
+                <LayoutPlaceholderFrame PropertyName=""ReplicationPattern""/>
+                <LayoutKeywordFrame>From</LayoutKeywordFrame>
+                <LayoutPlaceholderFrame PropertyName=""SourceIdentifier"">
                     <LayoutPlaceholderFrame.Selectors>
                         <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Identifier""/>
                     </LayoutPlaceholderFrame.Selectors>
                 </LayoutPlaceholderFrame>
-                <LayoutKeywordFrame RightMargin=""Whitespace"">All</LayoutKeywordFrame>
+                <LayoutKeywordFrame>All</LayoutKeywordFrame>
             </LayoutHorizontalPanelFrame>
             <LayoutVerticalCollectionPlaceholderFrame/>
-            <LayoutKeywordFrame Text=""end"" LeftMargin=""Whitespace"">
+            <LayoutKeywordFrame Text=""end"">
                 <LayoutKeywordFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
                 </LayoutKeywordFrame.BlockVisibility>
@@ -4005,23 +4282,23 @@ namespace EaslyEdit
         </LayoutVerticalPanelFrame>
     </LayoutBlockTemplate>
     <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:IWith,easly:With}"">
-        <LayoutVerticalPanelFrame HasBlockGeometry=""True"">
+        <LayoutVerticalPanelFrame>
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
                 </LayoutHorizontalPanelFrame.BlockVisibility>
-                <LayoutKeywordFrame RightMargin=""Whitespace"">Replicate</LayoutKeywordFrame>
-                <LayoutPlaceholderFrame PropertyName=""ReplicationPattern"" RightMargin=""Whitespace""/>
-                <LayoutKeywordFrame RightMargin=""Whitespace"">From</LayoutKeywordFrame>
-                <LayoutPlaceholderFrame PropertyName=""SourceIdentifier"" RightMargin=""Whitespace"">
+                <LayoutKeywordFrame>Replicate</LayoutKeywordFrame>
+                <LayoutPlaceholderFrame PropertyName=""ReplicationPattern""/>
+                <LayoutKeywordFrame>From</LayoutKeywordFrame>
+                <LayoutPlaceholderFrame PropertyName=""SourceIdentifier"">
                     <LayoutPlaceholderFrame.Selectors>
                         <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Identifier""/>
                     </LayoutPlaceholderFrame.Selectors>
                 </LayoutPlaceholderFrame>
-                <LayoutKeywordFrame RightMargin=""Whitespace"">All</LayoutKeywordFrame>
+                <LayoutKeywordFrame>All</LayoutKeywordFrame>
             </LayoutHorizontalPanelFrame>
             <LayoutVerticalCollectionPlaceholderFrame/>
-            <LayoutKeywordFrame Text=""end"" LeftMargin=""Whitespace"">
+            <LayoutKeywordFrame Text=""end"">
                 <LayoutKeywordFrame.BlockVisibility>
                     <LayoutReplicationFrameVisibility/>
                 </LayoutKeywordFrame.BlockVisibility>
