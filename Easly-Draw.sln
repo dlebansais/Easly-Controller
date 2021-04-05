@@ -4,6 +4,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 16.0.31025.194
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Easly-Controller", "Easly-Controller\Easly-Controller.csproj", "{E746CFCE-8C74-4025-93DD-2C380F810161}"
+	ProjectSection(ProjectDependencies) = postProject
+		{0D28E474-A0F4-4C3C-9B50-9BE344306900} = {0D28E474-A0F4-4C3C-9B50-9BE344306900}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestDebug", "Test\TestDebug\TestDebug.csproj", "{041BF2A9-A363-4C05-B2AB-86FA3F5D4F63}"
 EndProject
@@ -15,6 +18,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
 	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PreBuild", "PreBuild\PreBuild.csproj", "{0D28E474-A0F4-4C3C-9B50-9BE344306900}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -36,6 +41,10 @@ Global
 		{C3D406EF-0D02-4A09-93BE-8D73D11F619D}.Debug|x64.ActiveCfg = Debug|x64
 		{C3D406EF-0D02-4A09-93BE-8D73D11F619D}.Debug|x64.Build.0 = Debug|x64
 		{C3D406EF-0D02-4A09-93BE-8D73D11F619D}.Release|x64.ActiveCfg = Release|x64
+		{0D28E474-A0F4-4C3C-9B50-9BE344306900}.Debug|x64.ActiveCfg = Debug|x64
+		{0D28E474-A0F4-4C3C-9B50-9BE344306900}.Debug|x64.Build.0 = Debug|x64
+		{0D28E474-A0F4-4C3C-9B50-9BE344306900}.Release|x64.ActiveCfg = Release|x64
+		{0D28E474-A0F4-4C3C-9B50-9BE344306900}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
