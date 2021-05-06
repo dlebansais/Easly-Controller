@@ -29,7 +29,7 @@ namespace Coverage
             Thread.CurrentThread.CurrentCulture = enUS;
             Thread.CurrentThread.CurrentUICulture = enUS;
 
-            Assembly? EaslyControllerAssembly;
+            Assembly EaslyControllerAssembly;
 
             try
             {

@@ -33,7 +33,7 @@ namespace Test
             Thread.CurrentThread.CurrentCulture = enUS;
             Thread.CurrentThread.CurrentUICulture = enUS;
 
-            Assembly? EaslyControllerAssembly;
+            Assembly EaslyControllerAssembly;
 
             try
             {
@@ -101,7 +101,7 @@ namespace Test
         }
 
         static List<string> FileNameTable;
-        static INode? FirstRootNode;
+        static INode FirstRootNode;
         #endregion
 
         static bool TestOff = false;
