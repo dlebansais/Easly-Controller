@@ -37,8 +37,8 @@
     </PackageReference>
     <PackageReference Include="Easly-Language-Debug" Version="1.0.3" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" />
     <PackageReference Include="Easly-Language" Version="1.0.3" Condition="'$(Configuration)|$(Platform)'!='Debug|x64'" />
-    <PackageReference Include="PolySerializer-Debug" Version="1.2.6" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" />
-    <PackageReference Include="PolySerializer" Version="1.2.6" Condition="'$(Configuration)|$(Platform)'!='Debug|x64'" />
+    <PackageReference Include="PolySerializer-Debug" Version="1.2.7" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" />
+    <PackageReference Include="PolySerializer" Version="1.2.7" Condition="'$(Configuration)|$(Platform)'!='Debug|x64'" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)'=='net48'">
