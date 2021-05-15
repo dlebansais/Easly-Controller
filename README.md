@@ -2,7 +2,7 @@
 
 Manage and edit Easly source code.
 
-[![Easly](https://www.easly.org/images/16.png)](https://www.easly.org) [![Build Status](https://travis-ci.com/dlebansais/Easly-Controller.svg?branch=master)](https://travis-ci.com/dlebansais/Easly-Controller) [![CodeFactor](https://www.codefactor.io/repository/github/dlebansais/easly-controller/badge)](https://www.codefactor.io/repository/github/dlebansais/easly-controller) [![codecov](https://codecov.io/gh/dlebansais/Easly-Controller/branch/master/graph/badge.svg)](https://codecov.io/gh/dlebansais/Easly-Controller)
+<img src="https://github.com/dlebansais/Easly-Draw/blob/master/Easly-Draw/Resources/icon.png?raw=true" width="16" height="16"/> [![Build status](https://ci.appveyor.com/api/projects/status/fecqx7uucvcpbe5e?svg=true)](https://ci.appveyor.com/project/dlebansais/easly-controller) [![CodeFactor](https://www.codefactor.io/repository/github/dlebansais/easly-controller/badge)](https://www.codefactor.io/repository/github/dlebansais/easly-controller) [![codecov](https://codecov.io/gh/dlebansais/Easly-Controller/branch/master/graph/badge.svg)](https://codecov.io/gh/dlebansais/Easly-Controller)
 
 Easly source code is defined in the [Easly-Language](https://github.com/dlebansais/Easly-Language/) assembly. A controller, created and initialized with any of the Easly objects, can display the source code content in a .NET WPF application, allowing modification of the source code.
 
