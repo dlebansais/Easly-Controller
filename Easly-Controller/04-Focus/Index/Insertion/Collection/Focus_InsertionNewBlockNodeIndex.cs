@@ -35,7 +35,7 @@
 
         #region Debugging
         /// <summary>
-        /// Compares two <see cref="IFocusIndex"/> objects.
+        /// Compares two <see cref="FocusInsertionNewBlockNodeIndex"/> objects.
         /// </summary>
         /// <param name="comparer">The comparison support object.</param>
         /// <param name="other">The other object.</param>

@@ -228,7 +228,7 @@ namespace EaslyController.Layout
 
         #region Debugging
         /// <summary>
-        /// Compares two <see cref="ILayoutBlockStateViewDictionary"/> objects.
+        /// Compares two <see cref="LayoutBlockStateViewDictionary"/> objects.
         /// </summary>
         /// <param name="comparer">The comparison support object.</param>
         /// <param name="other">The other object.</param>

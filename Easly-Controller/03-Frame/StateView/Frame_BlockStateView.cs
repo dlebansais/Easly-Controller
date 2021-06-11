@@ -226,7 +226,7 @@
 
         #region Debugging
         /// <summary>
-        /// Compares two <see cref="IFrameBlockStateView"/> objects.
+        /// Compares two <see cref="FrameBlockStateView"/> objects.
         /// </summary>
         /// <param name="comparer">The comparison support object.</param>
         /// <param name="other">The other object.</param>

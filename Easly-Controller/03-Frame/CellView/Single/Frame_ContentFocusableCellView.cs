@@ -42,7 +42,7 @@
 
         #region Debugging
         /// <summary>
-        /// Compares two <see cref="IFrameCellView"/> objects.
+        /// Compares two <see cref="FrameContentFocusableCellView"/> objects.
         /// </summary>
         /// <param name="comparer">The comparison support object.</param>
         /// <param name="other">The other object.</param>

@@ -27,7 +27,7 @@ namespace EaslyController.ReadOnly
 
         #region Debugging
         /// <summary>
-        /// Compares two <see cref="IReadOnlyInnerReadOnlyDictionary{TKey}"/> objects.
+        /// Compares two <see cref="ReadOnlyInnerReadOnlyDictionary{TKey}"/> objects.
         /// </summary>
         /// <param name="comparer">The comparison support object.</param>
         /// <param name="other">The other object.</param>

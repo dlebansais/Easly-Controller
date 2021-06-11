@@ -90,7 +90,7 @@ namespace EaslyController.Frame
 
         #region Debugging
         /// <summary>
-        /// Compares two <see cref="IFrameInnerReadOnlyDictionary{TKey}"/> objects.
+        /// Compares two <see cref="FrameInnerReadOnlyDictionary{TKey}"/> objects.
         /// </summary>
         /// <param name="comparer">The comparison support object.</param>
         /// <param name="other">The other object.</param>

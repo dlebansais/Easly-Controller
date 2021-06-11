@@ -31,7 +31,7 @@
 
         #region Debugging
         /// <summary>
-        /// Compares two <see cref="ILayoutIndex"/> objects.
+        /// Compares two <see cref="LayoutBrowsingOptionalNodeIndex"/> objects.
         /// </summary>
         /// <param name="comparer">The comparison support object.</param>
         /// <param name="other">The other object.</param>

@@ -27,7 +27,7 @@ namespace EaslyController.Frame
 
         #region Debugging
         /// <summary>
-        /// Compares two <see cref="IFrameAssignableCellViewReadOnlyDictionary{TKey}"/> objects.
+        /// Compares two <see cref="FrameAssignableCellViewReadOnlyDictionary{TKey}"/> objects.
         /// </summary>
         /// <param name="comparer">The comparison support object.</param>
         /// <param name="other">The other object.</param>

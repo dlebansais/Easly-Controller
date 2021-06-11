@@ -90,7 +90,7 @@ namespace EaslyController.Layout
 
         #region Debugging
         /// <summary>
-        /// Compares two <see cref="ILayoutAssignableCellViewReadOnlyDictionary{TKey}"/> objects.
+        /// Compares two <see cref="LayoutAssignableCellViewReadOnlyDictionary{TKey}"/> objects.
         /// </summary>
         /// <param name="comparer">The comparison support object.</param>
         /// <param name="other">The other object.</param>

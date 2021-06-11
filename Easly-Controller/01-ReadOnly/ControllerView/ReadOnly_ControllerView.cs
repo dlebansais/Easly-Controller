@@ -216,7 +216,7 @@
 
         #region Debugging
         /// <summary>
-        /// Compares two <see cref="IReadOnlyControllerView"/> objects.
+        /// Compares two <see cref="ReadOnlyControllerView"/> objects.
         /// </summary>
         /// <param name="comparer">The comparison support object.</param>
         /// <param name="other">The other object.</param>

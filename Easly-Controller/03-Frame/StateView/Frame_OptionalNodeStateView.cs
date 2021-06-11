@@ -256,7 +256,7 @@
 
         #region Debugging
         /// <summary>
-        /// Compares two <see cref="IFrameOptionalNodeStateView"/> objects.
+        /// Compares two <see cref="FrameOptionalNodeStateView"/> objects.
         /// </summary>
         /// <param name="comparer">The comparison support object.</param>
         /// <param name="other">The other object.</param>

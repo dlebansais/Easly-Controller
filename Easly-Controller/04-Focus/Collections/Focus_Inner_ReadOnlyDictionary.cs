@@ -125,7 +125,7 @@ namespace EaslyController.Focus
 
         #region Debugging
         /// <summary>
-        /// Compares two <see cref="IFocusInnerReadOnlyDictionary{TKey}"/> objects.
+        /// Compares two <see cref="FocusInnerReadOnlyDictionary{TKey}"/> objects.
         /// </summary>
         /// <param name="comparer">The comparison support object.</param>
         /// <param name="other">The other object.</param>

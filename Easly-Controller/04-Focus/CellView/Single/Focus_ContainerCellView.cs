@@ -82,7 +82,7 @@
 
         #region Debugging
         /// <summary>
-        /// Compares two <see cref="IFocusCellView"/> objects.
+        /// Compares two <see cref="FocusContainerCellView"/> objects.
         /// </summary>
         /// <param name="comparer">The comparison support object.</param>
         /// <param name="other">The other object.</param>

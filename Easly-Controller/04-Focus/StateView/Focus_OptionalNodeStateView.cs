@@ -172,7 +172,7 @@
 
         #region Debugging
         /// <summary>
-        /// Compares two <see cref="IFocusOptionalNodeStateView"/> objects.
+        /// Compares two <see cref="FocusOptionalNodeStateView"/> objects.
         /// </summary>
         /// <param name="comparer">The comparison support object.</param>
         /// <param name="other">The other object.</param>

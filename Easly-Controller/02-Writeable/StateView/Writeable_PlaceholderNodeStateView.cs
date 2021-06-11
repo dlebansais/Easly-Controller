@@ -46,7 +46,7 @@
 
         #region Debugging
         /// <summary>
-        /// Compares two <see cref="IWriteablePlaceholderNodeStateView"/> objects.
+        /// Compares two <see cref="WriteablePlaceholderNodeStateView"/> objects.
         /// </summary>
         /// <param name="comparer">The comparison support object.</param>
         /// <param name="other">The other object.</param>

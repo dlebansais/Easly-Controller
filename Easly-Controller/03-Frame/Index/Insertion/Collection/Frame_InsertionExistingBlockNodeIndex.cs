@@ -33,7 +33,7 @@
 
         #region Debugging
         /// <summary>
-        /// Compares two <see cref="IFrameIndex"/> objects.
+        /// Compares two <see cref="FrameInsertionExistingBlockNodeIndex"/> objects.
         /// </summary>
         /// <param name="comparer">The comparison support object.</param>
         /// <param name="other">The other object.</param>

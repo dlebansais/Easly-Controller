@@ -39,7 +39,7 @@
 
         #region Debugging
         /// <summary>
-        /// Compares two <see cref="IReadOnlyPatternStateView"/> objects.
+        /// Compares two <see cref="ReadOnlyPatternStateView"/> objects.
         /// </summary>
         /// <param name="comparer">The comparison support object.</param>
         /// <param name="other">The other object.</param>

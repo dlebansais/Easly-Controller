@@ -88,7 +88,7 @@
 
         #region Debugging
         /// <summary>
-        /// Compares two <see cref="IReadOnlyNodeState"/> objects.
+        /// Compares two <see cref="ReadOnlySourceState{IInner}"/> objects.
         /// </summary>
         /// <param name="comparer">The comparison support object.</param>
         /// <param name="other">The other object.</param>

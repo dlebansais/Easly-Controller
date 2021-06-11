@@ -173,7 +173,7 @@ namespace EaslyController.Focus
 
         #region Debugging
         /// <summary>
-        /// Compares two <see cref="IFocusStateViewDictionary"/> objects.
+        /// Compares two <see cref="FocusStateViewDictionary"/> objects.
         /// </summary>
         /// <param name="comparer">The comparison support object.</param>
         /// <param name="other">The other object.</param>

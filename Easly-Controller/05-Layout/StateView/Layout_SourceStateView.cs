@@ -173,7 +173,7 @@
 
         #region Debugging
         /// <summary>
-        /// Compares two <see cref="ILayoutSourceStateView"/> objects.
+        /// Compares two <see cref="LayoutSourceStateView"/> objects.
         /// </summary>
         /// <param name="comparer">The comparison support object.</param>
         /// <param name="other">The other object.</param>

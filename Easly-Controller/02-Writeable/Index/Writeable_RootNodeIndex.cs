@@ -29,7 +29,7 @@
 
         #region Debugging
         /// <summary>
-        /// Compares two <see cref="IReadOnlyIndex"/> objects.
+        /// Compares two <see cref="WriteableRootNodeIndex"/> objects.
         /// </summary>
         /// <param name="comparer">The comparison support object.</param>
         /// <param name="other">The other object.</param>

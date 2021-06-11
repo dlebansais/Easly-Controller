@@ -58,7 +58,7 @@ namespace EaslyController.Focus
 
         #region Debugging
         /// <summary>
-        /// Compares two <see cref="IFocusPlaceholderNodeStateReadOnlyList"/> objects.
+        /// Compares two <see cref="FocusPlaceholderNodeStateReadOnlyList"/> objects.
         /// </summary>
         /// <param name="comparer">The comparison support object.</param>
         /// <param name="other">The other object.</param>

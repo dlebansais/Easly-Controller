@@ -55,7 +55,7 @@ namespace EaslyController.Focus
 
         #region Debugging
         /// <summary>
-        /// Compares two <see cref="IFocusAssignableCellViewReadOnlyDictionary{TKey}"/> objects.
+        /// Compares two <see cref="FocusAssignableCellViewReadOnlyDictionary{TKey}"/> objects.
         /// </summary>
         /// <param name="comparer">The comparison support object.</param>
         /// <param name="other">The other object.</param>

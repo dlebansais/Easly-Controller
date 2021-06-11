@@ -179,7 +179,7 @@
 
         #region Debugging
         /// <summary>
-        /// Compares two <see cref="IFramePatternStateView"/> objects.
+        /// Compares two <see cref="FramePatternStateView"/> objects.
         /// </summary>
         /// <param name="comparer">The comparison support object.</param>
         /// <param name="other">The other object.</param>

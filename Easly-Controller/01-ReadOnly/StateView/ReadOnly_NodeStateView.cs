@@ -53,7 +53,7 @@
 
         #region Debugging
         /// <summary>
-        /// Compares two <see cref="IReadOnlyNodeStateView"/> objects.
+        /// Compares two <see cref="ReadOnlyNodeStateView"/> objects.
         /// </summary>
         /// <param name="comparer">The comparison support object.</param>
         /// <param name="other">The other object.</param>

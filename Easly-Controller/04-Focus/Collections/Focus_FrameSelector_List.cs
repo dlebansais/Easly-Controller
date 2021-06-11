@@ -22,7 +22,7 @@ namespace EaslyController.Focus
     {
         #region Debugging
         /// <summary>
-        /// Compares two <see cref="IFocusFrameSelectorList"/> objects.
+        /// Compares two <see cref="FocusFrameSelectorList"/> objects.
         /// </summary>
         /// <param name="comparer">The comparison support object.</param>
         /// <param name="other">The other object.</param>

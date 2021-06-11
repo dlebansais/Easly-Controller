@@ -17,7 +17,7 @@
     {
         #region Debugging
         /// <summary>
-        /// Compares two <see cref="IReadOnlyStateViewDictionary"/> objects.
+        /// Compares two <see cref="ReadOnlyStateViewDictionary"/> objects.
         /// </summary>
         /// <param name="comparer">The comparison support object.</param>
         /// <param name="other">The other object.</param>

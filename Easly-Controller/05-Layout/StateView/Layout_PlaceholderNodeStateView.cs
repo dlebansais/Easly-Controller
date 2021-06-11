@@ -173,7 +173,7 @@
 
         #region Debugging
         /// <summary>
-        /// Compares two <see cref="ILayoutPlaceholderNodeStateView"/> objects.
+        /// Compares two <see cref="LayoutPlaceholderNodeStateView"/> objects.
         /// </summary>
         /// <param name="comparer">The comparison support object.</param>
         /// <param name="other">The other object.</param>

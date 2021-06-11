@@ -98,7 +98,7 @@
 
         #region Debugging
         /// <summary>
-        /// Compares two <see cref="IFocusFrameSelector"/> objects.
+        /// Compares two <see cref="FocusFrameSelector"/> objects.
         /// </summary>
         /// <param name="comparer">The comparison support object.</param>
         /// <param name="other">The other object.</param>

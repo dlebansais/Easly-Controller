@@ -451,7 +451,7 @@
 
         #region Debugging
         /// <summary>
-        /// Compares two <see cref="IReadOnlyInner"/> objects.
+        /// Compares two <see cref="ReadOnlyBlockListInner{IIndex,TIndex}"/> objects.
         /// </summary>
         /// <param name="comparer">The comparison support object.</param>
         /// <param name="other">The other object.</param>

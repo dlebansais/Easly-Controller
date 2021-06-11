@@ -48,7 +48,7 @@ namespace EaslyController.Frame
 
         #region Debugging
         /// <summary>
-        /// Compares two <see cref="IFramePlaceholderNodeStateReadOnlyList"/> objects.
+        /// Compares two <see cref="FramePlaceholderNodeStateReadOnlyList"/> objects.
         /// </summary>
         /// <param name="comparer">The comparison support object.</param>
         /// <param name="other">The other object.</param>

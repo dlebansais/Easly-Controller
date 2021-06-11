@@ -50,7 +50,7 @@
 
         #region Debugging
         /// <summary>
-        /// Compares two <see cref="IWriteableBlockStateView"/> objects.
+        /// Compares two <see cref="WriteableBlockStateView"/> objects.
         /// </summary>
         /// <param name="comparer">The comparison support object.</param>
         /// <param name="other">The other object.</param>

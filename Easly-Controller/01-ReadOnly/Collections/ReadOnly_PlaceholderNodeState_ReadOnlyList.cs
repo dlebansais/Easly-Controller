@@ -27,7 +27,7 @@ namespace EaslyController.ReadOnly
 
         #region Debugging
         /// <summary>
-        /// Compares two <see cref="IReadOnlyPlaceholderNodeStateReadOnlyList"/> objects.
+        /// Compares two <see cref="ReadOnlyPlaceholderNodeStateReadOnlyList"/> objects.
         /// </summary>
         /// <param name="comparer">The comparison support object.</param>
         /// <param name="other">The other object.</param>

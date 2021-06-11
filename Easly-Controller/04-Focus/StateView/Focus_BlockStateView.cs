@@ -115,7 +115,7 @@
 
         #region Debugging
         /// <summary>
-        /// Compares two <see cref="IFocusBlockStateView"/> objects.
+        /// Compares two <see cref="FocusBlockStateView"/> objects.
         /// </summary>
         /// <param name="comparer">The comparison support object.</param>
         /// <param name="other">The other object.</param>

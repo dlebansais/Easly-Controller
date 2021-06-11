@@ -118,7 +118,7 @@ namespace EaslyController.Frame
 
         #region Debugging
         /// <summary>
-        /// Compares two <see cref="IFrameBlockStateViewDictionary"/> objects.
+        /// Compares two <see cref="FrameBlockStateViewDictionary"/> objects.
         /// </summary>
         /// <param name="comparer">The comparison support object.</param>
         /// <param name="other">The other object.</param>

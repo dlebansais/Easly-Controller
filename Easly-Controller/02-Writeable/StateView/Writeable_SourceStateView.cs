@@ -46,7 +46,7 @@
 
         #region Debugging
         /// <summary>
-        /// Compares two <see cref="IWriteableSourceStateView"/> objects.
+        /// Compares two <see cref="WriteableSourceStateView"/> objects.
         /// </summary>
         /// <param name="comparer">The comparison support object.</param>
         /// <param name="other">The other object.</param>

@@ -55,7 +55,7 @@ namespace EaslyController.Writeable
 
         #region Debugging
         /// <summary>
-        /// Compares two <see cref="IWriteableInnerReadOnlyDictionary{TKey}"/> objects.
+        /// Compares two <see cref="WriteableInnerReadOnlyDictionary{TKey}"/> objects.
         /// </summary>
         /// <param name="comparer">The comparison support object.</param>
         /// <param name="other">The other object.</param>

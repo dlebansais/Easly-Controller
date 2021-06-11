@@ -55,7 +55,7 @@ namespace EaslyController.Layout
 
         #region Debugging
         /// <summary>
-        /// Compares two <see cref="ILayoutCellViewList"/> objects.
+        /// Compares two <see cref="LayoutCellViewList"/> objects.
         /// </summary>
         /// <param name="comparer">The comparison support object.</param>
         /// <param name="other">The other object.</param>
