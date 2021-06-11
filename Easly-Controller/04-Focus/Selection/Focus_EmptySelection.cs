@@ -59,13 +59,10 @@
 
             if (ClipboardHelper.TryReadNode(out INode Node))
                 PasteNode(Node, out isChanged);
-
             else if (ClipboardHelper.TryReadNodeList(out IList<INode> NodeList))
                 PasteNodeList(NodeList, out isChanged);
-
             else if (ClipboardHelper.TryReadBlockList(out IList<IBlock> BlockList))
                 PasteBlockList(BlockList, out isChanged);
-
             else if (ClipboardHelper.TryReadText(out string Text) && Text.Length > 0)
                 PasteText(Text, out isChanged);
         }
@@ -252,7 +249,6 @@
 
                 isChanged = true;
             }
-
             else if (ControllerView.Focus is IFocusStringContentFocus AsStringContentFocus)
             {
                 string FocusedText = ControllerView.FocusedText;

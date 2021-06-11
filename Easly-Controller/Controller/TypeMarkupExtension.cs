@@ -80,7 +80,6 @@
 
             if (Arg1 == null && Arg2 == null)
                 Type = XamlTypeResolver.Resolve(TypeName);
-
             else if (Arg1 != null && Arg2 == null)
             {
                 System.Type Arg1Type;

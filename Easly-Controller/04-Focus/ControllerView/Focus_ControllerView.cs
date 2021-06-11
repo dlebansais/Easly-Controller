@@ -2693,7 +2693,6 @@
 
             if (Focus is IFocusStringContentFocus AsTextFocus)
                 Text = GetFocusedStringContent(AsTextFocus);
-
             else if (Focus is IFocusCommentFocus AsCommentFocus)
             {
                 Text = GetFocusedCommentText(AsCommentFocus);

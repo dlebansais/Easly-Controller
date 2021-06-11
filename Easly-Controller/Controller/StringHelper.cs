@@ -52,7 +52,6 @@
                     SetToUpper = true;
                     Result += c;
                 }
-
                 else
                 {
                     string Letter = c.ToString();
@@ -62,7 +61,6 @@
                         SetToUpper = false;
                         Result += Letter.ToUpper();
                     }
-
                     else
                         Result += Letter.ToLower();
                 }
@@ -87,7 +85,6 @@
                     SetToUpper = true;
                     Result += c;
                 }
-
                 else
                 {
                     string Letter = c.ToString();
@@ -102,7 +99,6 @@
                             SetToUpper = false;
                         }
                     }
-
                     else
                         Result += c.ToString().ToLower();
                 }

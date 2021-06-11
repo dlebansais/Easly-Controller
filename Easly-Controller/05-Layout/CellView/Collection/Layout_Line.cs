@@ -290,12 +290,10 @@
             {
                 if (AsContentFrame is ILayoutListFrame AsListFrame && AsContentSelection is ILayoutNodeListSelection AsNodeListSelection)
                     DrawSelection(AsNodeListSelection.StartIndex, AsNodeListSelection.EndIndex, SelectionStyles.NodeList);
-
                 else if (AsContentFrame is ILayoutBlockListFrame AsBlockListFrame)
                 {
                     if (AsContentSelection is ILayoutBlockNodeListSelection AsBlockNodeListSelection)
                         DrawBlockListNodeSelection(AsBlockNodeListSelection);
-
                     else if (AsContentSelection is ILayoutBlockListSelection AsBlockListSelection)
                         DrawSelection(AsBlockListSelection.StartIndex, AsBlockListSelection.EndIndex, SelectionStyles.BlockList);
                 }

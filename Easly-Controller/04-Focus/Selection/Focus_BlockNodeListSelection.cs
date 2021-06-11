@@ -169,7 +169,6 @@
 
             if (ClipboardHelper.TryReadNodeList(out NodeList))
             { }
-
             else if (ClipboardHelper.TryReadNode(out INode Node))
             {
                 NodeList = new List<INode>() { Node };
