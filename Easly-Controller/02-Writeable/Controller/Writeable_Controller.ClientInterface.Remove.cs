@@ -295,7 +295,6 @@
                 Result = IsNodeRangeRemoveable(AsBlockListInner, blockIndex, firstNodeIndex, lastNodeIndex);
                 IsHandled = true;
             }
-
             else if (inner is IWriteableListInner AsListInner)
             {
                 Debug.Assert(blockIndex == -1);
@@ -371,7 +370,6 @@
                 RemoveNodeRange(AsBlockListInner, blockIndex, firstNodeIndex, lastNodeIndex);
                 IsHandled = true;
             }
-
             else if (inner is IWriteableListInner AsListInner)
             {
                 Debug.Assert(blockIndex == -1);

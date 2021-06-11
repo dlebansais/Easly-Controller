@@ -260,7 +260,6 @@
                 InsertNodeRange(AsBlockListInner, blockIndex, insertedIndex, indexList);
                 IsHandled = true;
             }
-
             else if (inner is IWriteableListInner AsListInner)
             {
                 Debug.Assert(blockIndex == -1);

@@ -228,7 +228,7 @@
             IFocusNodeStateView StateView = Focus.CellView.StateView;
             Debug.Assert(StateView != null);
 
-            for (; ; )
+            while (true)
             {
                 StateView.SetIsUserVisible(isUserVisible);
 
