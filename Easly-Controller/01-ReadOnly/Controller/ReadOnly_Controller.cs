@@ -755,34 +755,54 @@
             if (!comparer.IsSameType(other, out ReadOnlyController AsController))
                 return comparer.Failed();
 
-            if (!comparer.VerifyEqual(RootIndex, AsController.RootIndex))
-                return comparer.Failed();
-
-            if (!comparer.VerifyEqual(RootState, AsController.RootState))
-                return comparer.Failed();
-
-            if (!comparer.VerifyEqual(Stats, AsController.Stats))
-                return comparer.Failed();
-
-            if (!comparer.IsSameCount(StateTable.Count, AsController.StateTable.Count))
-                return comparer.Failed();
+            if (!IsEqualFields(comparer, AsController))
+                return false;
 
             List<IReadOnlyIndex> OtherTable = new List<IReadOnlyIndex>();
             foreach (KeyValuePair<IReadOnlyIndex, IReadOnlyNodeState> Entry in AsController.StateTable)
                 OtherTable.Add(Entry.Key);
 
+            if (!IsEqualTable(comparer, OtherTable, out IDictionary<IReadOnlyIndex, IReadOnlyIndex> MatchTable))
+                return false;
+
+            if (!IsEqualMatchTable(comparer, AsController, MatchTable))
+                return false;
+
+            return true;
+        }
+
+        private bool IsEqualFields(CompareEqual comparer, ReadOnlyController other)
+        {
+            if (!comparer.VerifyEqual(RootIndex, other.RootIndex))
+                return comparer.Failed();
+
+            if (!comparer.VerifyEqual(RootState, other.RootState))
+                return comparer.Failed();
+
+            if (!comparer.VerifyEqual(Stats, other.Stats))
+                return comparer.Failed();
+
+            if (!comparer.IsSameCount(StateTable.Count, other.StateTable.Count))
+                return comparer.Failed();
+
+            return true;
+        }
+
+        private bool IsEqualTable(CompareEqual comparer, List<IReadOnlyIndex> otherTable, out IDictionary<IReadOnlyIndex, IReadOnlyIndex> matchTable)
+        {
+            matchTable = new Dictionary<IReadOnlyIndex, IReadOnlyIndex>();
+
             CompareEqual MatchComparer = CompareEqual.New(true);
-            IDictionary<IReadOnlyIndex, IReadOnlyIndex> MatchTable = new Dictionary<IReadOnlyIndex, IReadOnlyIndex>();
             foreach (KeyValuePair<IReadOnlyIndex, IReadOnlyNodeState> Entry in StateTable)
             {
                 MatchComparer.Reset();
 
                 bool Found = false;
-                for (int i = 0; i < OtherTable.Count; i++)
-                    if (MatchComparer.VerifyEqual((IEqualComparable)Entry.Key, (IEqualComparable)OtherTable[i]))
+                for (int i = 0; i < otherTable.Count; i++)
+                    if (MatchComparer.VerifyEqual((IEqualComparable)Entry.Key, (IEqualComparable)otherTable[i]))
                     {
-                        MatchTable.Add(Entry.Key, OtherTable[i]);
-                        OtherTable.RemoveAt(i);
+                        matchTable.Add(Entry.Key, otherTable[i]);
+                        otherTable.RemoveAt(i);
                         Found = true;
                         break;
                     }
@@ -791,10 +811,15 @@
                     return comparer.Failed();
             }
 
-            foreach (KeyValuePair<IReadOnlyIndex, IReadOnlyIndex> Entry in MatchTable)
+            return true;
+        }
+
+        private bool IsEqualMatchTable(CompareEqual comparer, ReadOnlyController other, IDictionary<IReadOnlyIndex, IReadOnlyIndex> matchTable)
+        {
+            foreach (KeyValuePair<IReadOnlyIndex, IReadOnlyIndex> Entry in matchTable)
             {
                 IReadOnlyNodeState State = StateTable[Entry.Key];
-                IReadOnlyNodeState OtherState = AsController.StateTable[Entry.Value];
+                IReadOnlyNodeState OtherState = other.StateTable[Entry.Value];
 
                 if (!comparer.VerifyEqual(State, OtherState))
                     return comparer.Failed();

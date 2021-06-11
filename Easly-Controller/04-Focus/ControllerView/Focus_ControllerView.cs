@@ -618,16 +618,10 @@
             IFocusNodeState AnchorState = SelectionAnchor.State;
             IFocusNodeState FocusedState = Focus.CellView.StateView.State;
 
-            IFocusNodeState State = AnchorState;
-            IReadOnlyIndex FirstFocusedIndex = null;
-            IReadOnlyIndex FirstAnchorIndex = null;
-
-            while (State != null && !Controller.IsChildState(State, FocusedState, out FirstFocusedIndex))
-                State = State.ParentState;
-
+            GetFirstFocusedChildState(out IFocusNodeState State, out IReadOnlyIndex FirstFocusedIndex);
             Debug.Assert(State != null);
 
-            bool IsAnchorChild = Controller.IsChildState(State, AnchorState, out FirstAnchorIndex);
+            bool IsAnchorChild = Controller.IsChildState(State, AnchorState, out IReadOnlyIndex FirstAnchorIndex);
             Debug.Assert(IsAnchorChild);
 
             bool IsFromPatternOrSource = (AnchorState is IFocusPatternState) || (AnchorState is IFocusSourceState) || (FocusedState is IFocusPatternState) || (FocusedState is IFocusSourceState);
@@ -643,6 +637,17 @@
             }
             else
                 SelectNode(State);
+        }
+
+        private void GetFirstFocusedChildState(out IFocusNodeState state, out IReadOnlyIndex firstFocusedIndex)
+        {
+            state = SelectionAnchor.State;
+            firstFocusedIndex = null;
+
+            IFocusNodeState FocusedState = Focus.CellView.StateView.State;
+
+            while (state != null && !Controller.IsChildState(state, FocusedState, out firstFocusedIndex))
+                state = state.ParentState;
         }
 
         /// <summary>
