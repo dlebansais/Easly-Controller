@@ -688,7 +688,6 @@
 
                 SetTextSelection(AsTextFocus);
             }
-
             else if (Selection is IFocusTextSelection AsTextSelection)
                 AsTextSelection.Update(CaretAnchorPosition, CaretPosition);
 
@@ -826,7 +825,6 @@
 
             if (Frame is IFocusInsertFrame AsInsertFrame)
                 Result = IsNewItemInsertableAtInsertFrame(State, AsInsertFrame, out inner, out index);
-
             else if (Focus.CellView is IFocusStringContentFocusableCellView AsStringContentFocusableCellView)
                 Result = IsNewItemInsertableAtStringContentCellView(State, AsStringContentFocusableCellView, out inner, out index);
 
@@ -867,7 +865,6 @@
 
                 Result = true;
             }
-
             else if (CollectionInner is IFocusListInner AsListInner)
             {
                 inner = AsListInner;
@@ -888,7 +885,6 @@
 
             if (CaretPosition == 0)
                 Result = IsListExtremumItem(state, cellView, IsFirstFocusableCellView, InsertAbove, out inner, out index);
-
             else if (CaretPosition == MaxCaretPosition)
                 Result = IsListExtremumItem(state, cellView, IsLastFocusableCellView, InsertBelow, out inner, out index);
 
@@ -1537,7 +1533,6 @@
 
                 Controller.ChangeTextAndCaretPosition(ParentIndex, AsStringContentFocus.CellView.PropertyName, newText, OldCaretPosition, newCaretPosition, changeCaretBeforeText);
             }
-
             else if (Focus is IFocusCommentFocus AsCommentFocus)
             {
                 Controller.ChangeCommentAndCaretPosition(ParentIndex, newText, OldCaretPosition, newCaretPosition, changeCaretBeforeText);
@@ -1606,7 +1601,6 @@
                 else
                     SelectNode(Focus.CellView.StateView.State);
             }
-
             else
                 switch (Selection)
                 {
@@ -1731,10 +1725,8 @@
 
             if (State.ParentInner is IFocusListInner AsListInner && State.ParentIndex is IFocusBrowsingListNodeIndex AsListNodeIndex)
                 SelectNodeList(ParentState, AsListInner.PropertyName, AsListNodeIndex.Index, AsListNodeIndex.Index);
-
             else if (State.ParentInner is IFocusBlockListInner AsBlockListInner && State.ParentIndex is IFocusBrowsingExistingBlockNodeIndex AsBlockNodeIndex)
                 SelectBlockNodeList(ParentState, AsBlockListInner.PropertyName, AsBlockNodeIndex.BlockIndex, AsBlockNodeIndex.Index, AsBlockNodeIndex.Index);
-
             else
             {
                 IFocusBlockState BlockState;
