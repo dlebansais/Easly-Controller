@@ -120,54 +120,58 @@
             Debug.Assert(RegionHelper.IsFixed(rect1));
             Debug.Assert(RegionHelper.IsFixed(rect2));
 
-            double UnionX;
-            double UnionY;
-            double UnionCX;
-            double UnionCY;
+            GetUnionX(rect1, rect2, out double UnionX, out double UnionCX);
+            GetUnionY(rect1, rect2, out double UnionY, out double UnionCY);
 
+            return new Rect(UnionX, UnionY, UnionCX - UnionX, UnionCY - UnionY);
+        }
+
+        private static void GetUnionX(Rect rect1, Rect rect2, out double unionX, out double unionCX)
+        {
             if (rect1.Width > 0 && rect2.Width > 0)
             {
-                UnionX = rect1.X < rect2.X ? rect1.X : rect2.X;
-                UnionCX = rect1.X + rect1.Width > rect2.X + rect2.Width ? rect1.X + rect1.Width : rect2.X + rect2.Width;
+                unionX = rect1.X < rect2.X ? rect1.X : rect2.X;
+                unionCX = rect1.X + rect1.Width > rect2.X + rect2.Width ? rect1.X + rect1.Width : rect2.X + rect2.Width;
             }
             else if (rect1.Width > 0)
             {
-                UnionX = rect1.X;
-                UnionCX = rect1.X + rect1.Width;
+                unionX = rect1.X;
+                unionCX = rect1.X + rect1.Width;
             }
             else if (rect2.Width > 0)
             {
-                UnionX = rect2.X;
-                UnionCX = rect2.X + rect2.Width;
+                unionX = rect2.X;
+                unionCX = rect2.X + rect2.Width;
             }
             else
             {
-                UnionX = rect1.X < rect2.X ? rect1.X : rect2.X;
-                UnionCX = UnionX;
+                unionX = rect1.X < rect2.X ? rect1.X : rect2.X;
+                unionCX = unionX;
             }
+        }
 
+        private static void GetUnionY(Rect rect1, Rect rect2, out double unionY, out double unionCY)
+        {
             if (rect1.Height > 0 && rect2.Height > 0)
             {
-                UnionY = rect1.Y < rect2.Y ? rect1.Y : rect2.Y;
-                UnionCY = rect1.Y + rect1.Height > rect2.Y + rect2.Height ? rect1.Y + rect1.Height : rect2.Y + rect2.Height;
+                unionY = rect1.Y < rect2.Y ? rect1.Y : rect2.Y;
+                unionCY = rect1.Y + rect1.Height > rect2.Y + rect2.Height ? rect1.Y + rect1.Height : rect2.Y + rect2.Height;
             }
             else if (rect1.Height > 0)
             {
-                UnionY = rect1.Y;
-                UnionCY = rect1.Y + rect1.Height;
+                unionY = rect1.Y;
+                unionCY = rect1.Y + rect1.Height;
             }
             else if (rect2.Height > 0)
             {
-                UnionY = rect2.Y;
-                UnionCY = rect2.Y + rect2.Height;
+                unionY = rect2.Y;
+                unionCY = rect2.Y + rect2.Height;
             }
             else
             {
-                UnionY = rect1.Y < rect2.Y ? rect1.Y : rect2.Y;
-                UnionCY = UnionY;
+                unionY = rect1.Y < rect2.Y ? rect1.Y : rect2.Y;
+                unionCY = unionY;
             }
-
-            return new Rect(UnionX, UnionY, UnionCX - UnionX, UnionCY - UnionY);
         }
 
         /// <summary>

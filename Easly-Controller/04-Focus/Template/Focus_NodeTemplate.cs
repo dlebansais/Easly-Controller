@@ -179,62 +179,84 @@
             frame = null;
             bool Found = false;
 
-            if (root is IFocusNamedFrame AsNamedFrame)
+            switch (root)
             {
-                valueFrameIndex++;
-
-                if (AsNamedFrame.PropertyName == propertyName)
-                {
-                    frame = AsNamedFrame;
-                    Found = true;
-                }
+                case IFocusNamedFrame AsNamedFrame:
+                    Found = GetFirstNamedFrameNamed(AsNamedFrame, propertyName, ref valueFrameIndex, out frame);
+                    break;
+                case IFocusPanelFrame AsPanelFrame:
+                    Found = GetFirstNamedFramePanel(AsPanelFrame, propertyName, selectorStack, reverseSearch, ref valueFrameIndex, out frame);
+                    break;
+                case IFocusSelectionFrame AsSelectionFrame:
+                    Found = GetFirstNamedFrameSelection(AsSelectionFrame, propertyName, selectorStack, reverseSearch, ref valueFrameIndex, out frame);
+                    break;
             }
 
-            if (root is IFocusPanelFrame AsPanelFrame)
-            {
-                int Count = AsPanelFrame.Items.Count;
-                for (int i = 0; i < Count; i++)
-                {
-                    IFocusFrame Item = AsPanelFrame.Items[reverseSearch ? Count - 1 - i : i];
+            return Found;
+        }
 
-                    if (GetFirstNamedFrame(Item, propertyName, selectorStack, reverseSearch, ref valueFrameIndex, out frame))
-                    {
-                        Found = true;
-                        break;
-                    }
-                }
+        private bool GetFirstNamedFrameNamed(IFocusNamedFrame root, string propertyName, ref int valueFrameIndex, out IFocusNamedFrame frame)
+        {
+            frame = null;
+
+            valueFrameIndex++;
+
+            if (root.PropertyName == propertyName)
+            {
+                frame = root;
+                return true;
+            }
+            else
+                return false;
+        }
+
+        private bool GetFirstNamedFramePanel(IFocusPanelFrame root, string propertyName, IList<IFocusFrameSelectorList> selectorStack, bool reverseSearch, ref int valueFrameIndex, out IFocusNamedFrame frame)
+        {
+            frame = null;
+
+            int Count = root.Items.Count;
+            for (int i = 0; i < Count; i++)
+            {
+                IFocusFrame Item = root.Items[reverseSearch ? Count - 1 - i : i];
+
+                if (GetFirstNamedFrame(Item, propertyName, selectorStack, reverseSearch, ref valueFrameIndex, out frame))
+                    return true;
             }
 
-            else if (root is IFocusSelectionFrame AsSelectionFrame)
-            {
-                IFocusSelectableFrame SelectedFrame = null;
+            return false;
+        }
 
-                foreach (IFocusSelectableFrame Item in AsSelectionFrame.Items)
+        private bool GetFirstNamedFrameSelection(IFocusSelectionFrame root, string propertyName, IList<IFocusFrameSelectorList> selectorStack, bool reverseSearch, ref int valueFrameIndex, out IFocusNamedFrame frame)
+        {
+            frame = null;
+
+            IFocusSelectableFrame SelectedFrame = null;
+
+            foreach (IFocusSelectableFrame Item in root.Items)
+            {
+                foreach (IFocusFrameSelectorList SelectorList in selectorStack)
                 {
-                    foreach (IFocusFrameSelectorList SelectorList in selectorStack)
+                    foreach (IFocusFrameSelector Selector in SelectorList)
                     {
-                        foreach (IFocusFrameSelector Selector in SelectorList)
-                        {
-                            if (Selector.SelectorType == NodeType)
-                                if (Selector.SelectorName == Item.Name)
-                                {
-                                    SelectedFrame = Item;
-                                    break;
-                                }
-                        }
-                        if (SelectedFrame != null)
-                            break;
+                        if (Selector.SelectorType == NodeType)
+                            if (Selector.SelectorName == Item.Name)
+                            {
+                                SelectedFrame = Item;
+                                break;
+                            }
                     }
                     if (SelectedFrame != null)
                         break;
                 }
-
                 if (SelectedFrame != null)
-                    if (GetFirstNamedFrame(SelectedFrame.Content, propertyName, selectorStack, reverseSearch, ref valueFrameIndex, out frame))
-                        Found = true;
+                    break;
             }
 
-            return Found;
+            if (SelectedFrame != null)
+                if (GetFirstNamedFrame(SelectedFrame.Content, propertyName, selectorStack, reverseSearch, ref valueFrameIndex, out frame))
+                    return true;
+
+            return false;
         }
 
         /// <summary>
@@ -255,52 +277,70 @@
             bool Found = false;
             frame = null;
 
-            if (root is IFocusCommentFrame AsCommentFrame)
+            switch (root)
             {
-                frame = AsCommentFrame;
-                Found = true;
+                case IFocusCommentFrame AsCommentFrame:
+                    Found = GetFirstCommentFrameComment(AsCommentFrame, out frame);
+                    break;
+                case IFocusPanelFrame AsPanelFrame:
+                    Found = GetFirstCommentFramePanel(AsPanelFrame, selectorStack, out frame);
+                    break;
+                case IFocusSelectionFrame AsSelectionFrame:
+                    Found = GetFirstCommentFrameSelection(AsSelectionFrame, selectorStack, out frame);
+                    break;
             }
 
-            if (!Found && root is IFocusPanelFrame AsPanelFrame)
-            {
-                foreach (IFocusFrame Item in AsPanelFrame.Items)
-                    if (GetFirstCommentFrame(Item, selectorStack, out frame))
-                    {
-                        Found = true;
-                        break;
-                    }
-            }
+            return Found;
+        }
 
-            else if (root is IFocusSelectionFrame AsSelectionFrame)
-            {
-                IFocusSelectableFrame SelectedFrame = null;
+        private bool GetFirstCommentFrameComment(IFocusCommentFrame root, out IFocusCommentFrame frame)
+        {
+            frame = root;
+            return true;
+        }
 
-                foreach (IFocusSelectableFrame Item in AsSelectionFrame.Items)
+        private bool GetFirstCommentFramePanel(IFocusPanelFrame root, IList<IFocusFrameSelectorList> selectorStack, out IFocusCommentFrame frame)
+        {
+            frame = null;
+
+            foreach (IFocusFrame Item in root.Items)
+                if (GetFirstCommentFrame(Item, selectorStack, out frame))
+                    return true;
+
+            return false;
+        }
+
+        private bool GetFirstCommentFrameSelection(IFocusSelectionFrame root, IList<IFocusFrameSelectorList> selectorStack, out IFocusCommentFrame frame)
+        {
+            frame = null;
+
+            IFocusSelectableFrame SelectedFrame = null;
+
+            foreach (IFocusSelectableFrame Item in root.Items)
+            {
+                foreach (IFocusFrameSelectorList SelectorList in selectorStack)
                 {
-                    foreach (IFocusFrameSelectorList SelectorList in selectorStack)
+                    foreach (IFocusFrameSelector Selector in SelectorList)
                     {
-                        foreach (IFocusFrameSelector Selector in SelectorList)
-                        {
-                            if (Selector.SelectorType == NodeType)
-                                if (Selector.SelectorName == Item.Name)
-                                {
-                                    SelectedFrame = Item;
-                                    break;
-                                }
-                        }
-                        if (SelectedFrame != null)
-                            break;
+                        if (Selector.SelectorType == NodeType)
+                            if (Selector.SelectorName == Item.Name)
+                            {
+                                SelectedFrame = Item;
+                                break;
+                            }
                     }
                     if (SelectedFrame != null)
                         break;
                 }
-
                 if (SelectedFrame != null)
-                    if (GetFirstCommentFrame(SelectedFrame.Content, selectorStack, out frame))
-                        Found = true;
+                    break;
             }
 
-            return Found;
+            if (SelectedFrame != null)
+                if (GetFirstCommentFrame(SelectedFrame.Content, selectorStack, out frame))
+                    return true;
+
+            return false;
         }
         #endregion
     }
