@@ -16,7 +16,7 @@
     /// <summary>
     /// View of an optional node state.
     /// </summary>
-    internal class ReadOnlyOptionalNodeStateView : ReadOnlyNodeStateView, IReadOnlyOptionalNodeStateView
+    internal class ReadOnlyOptionalNodeStateView : ReadOnlyNodeStateView, IReadOnlyOptionalNodeStateView, IReadOnlyNodeStateView
     {
         #region Init
         /// <summary>

@@ -116,7 +116,7 @@
     /// Base class for the state of a node.
     /// </summary>
     /// <typeparam name="IInner">Parent inner of the state.</typeparam>
-    internal abstract class ReadOnlyNodeState<IInner> : IReadOnlyNodeState<IInner>, IReadOnlyNodeState
+    internal abstract class ReadOnlyNodeState<IInner> : IReadOnlyNodeState<IInner>, IReadOnlyNodeState, IEqualComparable
         where IInner : IReadOnlyInner<IReadOnlyBrowsingChildIndex>
     {
         #region Init

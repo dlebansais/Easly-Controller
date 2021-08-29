@@ -23,7 +23,7 @@
     /// <summary>
     /// Index for a node in a list of nodes.
     /// </summary>
-    internal class ReadOnlyBrowsingListNodeIndex : ReadOnlyBrowsingCollectionNodeIndex, IReadOnlyBrowsingListNodeIndex
+    internal class ReadOnlyBrowsingListNodeIndex : ReadOnlyBrowsingCollectionNodeIndex, IReadOnlyBrowsingListNodeIndex, IReadOnlyBrowsingCollectionNodeIndex, IEqualComparable
     {
         #region Init
         /// <summary>

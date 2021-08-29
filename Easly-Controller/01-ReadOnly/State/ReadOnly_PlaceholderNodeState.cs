@@ -27,7 +27,7 @@
     /// State of a child node.
     /// </summary>
     /// <typeparam name="IInner">Parent inner of the state.</typeparam>
-    internal class ReadOnlyPlaceholderNodeState<IInner> : ReadOnlyNodeState<IInner>, IReadOnlyPlaceholderNodeState<IInner>, IReadOnlyPlaceholderNodeState
+    internal class ReadOnlyPlaceholderNodeState<IInner> : ReadOnlyNodeState<IInner>, IReadOnlyPlaceholderNodeState<IInner>, IReadOnlyPlaceholderNodeState, IReadOnlyNodeState
         where IInner : IReadOnlyInner<IReadOnlyBrowsingChildIndex>
     {
         #region Init

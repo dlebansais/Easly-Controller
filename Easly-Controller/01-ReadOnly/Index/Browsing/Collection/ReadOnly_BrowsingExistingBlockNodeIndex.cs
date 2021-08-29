@@ -23,7 +23,7 @@
     /// <summary>
     /// Index for a node in a block.
     /// </summary>
-    internal class ReadOnlyBrowsingExistingBlockNodeIndex : ReadOnlyBrowsingBlockNodeIndex, IReadOnlyBrowsingExistingBlockNodeIndex
+    internal class ReadOnlyBrowsingExistingBlockNodeIndex : ReadOnlyBrowsingBlockNodeIndex, IReadOnlyBrowsingExistingBlockNodeIndex, IReadOnlyBrowsingBlockNodeIndex, IEqualComparable
     {
         #region Init
         /// <summary>

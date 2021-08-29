@@ -102,7 +102,7 @@
     /// State of a block in a block list.
     /// </summary>
     /// <typeparam name="IInner">Parent inner of the block state.</typeparam>
-    internal class ReadOnlyBlockState<IInner> : IReadOnlyBlockState<IInner>, IReadOnlyBlockState
+    internal class ReadOnlyBlockState<IInner> : IReadOnlyBlockState<IInner>, IReadOnlyBlockState, IEqualComparable
         where IInner : IReadOnlyInner<IReadOnlyBrowsingChildIndex>
     {
         #region Init

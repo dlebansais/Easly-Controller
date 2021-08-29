@@ -18,7 +18,7 @@ namespace EaslyController.ReadOnly
     /// <summary>
     /// List of IxxxBlockState
     /// </summary>
-    internal class ReadOnlyBlockStateList : Collection<IReadOnlyBlockState>, IReadOnlyBlockStateList
+    internal class ReadOnlyBlockStateList : Collection<IReadOnlyBlockState>, IReadOnlyBlockStateList, IReadOnlyList<IReadOnlyBlockState>
     {
         public virtual IReadOnlyBlockStateReadOnlyList ToReadOnly()
         {

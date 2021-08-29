@@ -24,7 +24,7 @@
     /// <summary>
     /// Index for the first node in a block.
     /// </summary>
-    internal class ReadOnlyBrowsingNewBlockNodeIndex : ReadOnlyBrowsingBlockNodeIndex, IReadOnlyBrowsingNewBlockNodeIndex
+    internal class ReadOnlyBrowsingNewBlockNodeIndex : ReadOnlyBrowsingBlockNodeIndex, IReadOnlyBrowsingNewBlockNodeIndex, IReadOnlyBrowsingBlockNodeIndex
     {
         #region Init
         /// <summary>

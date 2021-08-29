@@ -17,7 +17,7 @@
     /// <summary>
     /// Index for the source identifier node of a block.
     /// </summary>
-    internal class ReadOnlyBrowsingSourceIndex : IReadOnlyBrowsingSourceIndex
+    internal class ReadOnlyBrowsingSourceIndex : IReadOnlyBrowsingSourceIndex, IReadOnlyBrowsingChildIndex, IReadOnlyNodeIndex, IEqualComparable
     {
         #region Init
         /// <summary>

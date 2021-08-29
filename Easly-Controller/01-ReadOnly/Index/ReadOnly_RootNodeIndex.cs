@@ -15,7 +15,7 @@
     /// <summary>
     /// Index for the root node of the node tree.
     /// </summary>
-    public class ReadOnlyRootNodeIndex : IReadOnlyRootNodeIndex
+    public class ReadOnlyRootNodeIndex : IReadOnlyRootNodeIndex, IReadOnlyNodeIndex, IEqualComparable
     {
         #region Init
         /// <summary>

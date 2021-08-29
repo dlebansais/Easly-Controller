@@ -16,7 +16,7 @@
     /// <summary>
     /// View of a pattern state.
     /// </summary>
-    internal class ReadOnlyPatternStateView : ReadOnlyNodeStateView, IReadOnlyPatternStateView
+    internal class ReadOnlyPatternStateView : ReadOnlyNodeStateView, IReadOnlyPatternStateView, IReadOnlyNodeStateView
     {
         #region Init
         /// <summary>

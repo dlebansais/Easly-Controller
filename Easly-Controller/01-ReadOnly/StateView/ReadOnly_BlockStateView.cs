@@ -21,7 +21,7 @@
     /// <summary>
     /// View of a block state.
     /// </summary>
-    internal class ReadOnlyBlockStateView : IReadOnlyBlockStateView
+    internal class ReadOnlyBlockStateView : IReadOnlyBlockStateView, IEqualComparable
     {
         #region Init
         /// <summary>

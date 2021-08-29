@@ -14,7 +14,7 @@
     /// <summary>
     /// Index for a node.
     /// </summary>
-    internal class ReadOnlyBrowsingPlaceholderNodeIndex : IReadOnlyBrowsingPlaceholderNodeIndex
+    internal class ReadOnlyBrowsingPlaceholderNodeIndex : IReadOnlyBrowsingPlaceholderNodeIndex, IReadOnlyBrowsingChildIndex, IReadOnlyNodeIndex, IEqualComparable
     {
         #region Init
         /// <summary>

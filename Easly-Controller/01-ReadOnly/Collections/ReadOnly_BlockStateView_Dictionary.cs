@@ -13,7 +13,7 @@
     /// <summary>
     /// Dictionary of IxxxBlockState, IxxxBlockStateView
     /// </summary>
-    internal class ReadOnlyBlockStateViewDictionary : Dictionary<IReadOnlyBlockState, IReadOnlyBlockStateView>, IReadOnlyBlockStateViewDictionary
+    internal class ReadOnlyBlockStateViewDictionary : Dictionary<IReadOnlyBlockState, IReadOnlyBlockStateView>, IReadOnlyBlockStateViewDictionary, IEqualComparable
     {
         #region Debugging
         /// <summary>

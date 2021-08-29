@@ -16,7 +16,7 @@
     /// <summary>
     /// View of a source state.
     /// </summary>
-    internal class ReadOnlySourceStateView : ReadOnlyNodeStateView, IReadOnlySourceStateView
+    internal class ReadOnlySourceStateView : ReadOnlyNodeStateView, IReadOnlySourceStateView, IReadOnlyNodeStateView
     {
         #region Init
         /// <summary>

@@ -18,7 +18,7 @@ namespace EaslyController.ReadOnly
     /// <summary>
     /// List of IxxxIndexCollection
     /// </summary>
-    internal class ReadOnlyIndexCollectionList : Collection<IReadOnlyIndexCollection>, IReadOnlyIndexCollectionList
+    internal class ReadOnlyIndexCollectionList : Collection<IReadOnlyIndexCollection>, IReadOnlyIndexCollectionList, IReadOnlyList<IReadOnlyIndexCollection>
     {
         public virtual IReadOnlyIndexCollectionReadOnlyList ToReadOnly()
         {

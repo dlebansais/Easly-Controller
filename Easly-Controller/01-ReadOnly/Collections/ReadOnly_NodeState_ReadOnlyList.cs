@@ -17,7 +17,7 @@ namespace EaslyController.ReadOnly
     /// <summary>
     /// Read-only list of IxxxNodeState
     /// </summary>
-    internal class ReadOnlyNodeStateReadOnlyList : ReadOnlyCollection<IReadOnlyNodeState>, IReadOnlyNodeStateReadOnlyList
+    internal class ReadOnlyNodeStateReadOnlyList : ReadOnlyCollection<IReadOnlyNodeState>, IReadOnlyNodeStateReadOnlyList, IReadOnlyList<IReadOnlyNodeState>
     {
         public ReadOnlyNodeStateReadOnlyList(IReadOnlyNodeStateList list)
             : base(list)

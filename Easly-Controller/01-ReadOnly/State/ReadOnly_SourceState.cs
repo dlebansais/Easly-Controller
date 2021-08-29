@@ -43,7 +43,7 @@
     /// State of a source identifier node.
     /// </summary>
     /// <typeparam name="IInner">Parent inner of the state.</typeparam>
-    internal class ReadOnlySourceState<IInner> : ReadOnlyPlaceholderNodeState<IInner>, IReadOnlySourceState<IInner>, IReadOnlySourceState
+    internal class ReadOnlySourceState<IInner> : ReadOnlyPlaceholderNodeState<IInner>, IReadOnlySourceState<IInner>, IReadOnlySourceState, IReadOnlyNodeState
         where IInner : IReadOnlyInner<IReadOnlyBrowsingChildIndex>
     {
         #region Init

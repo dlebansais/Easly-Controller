@@ -32,7 +32,7 @@
     /// <summary>
     /// View of a IxxxController.
     /// </summary>
-    public class ReadOnlyControllerView : IReadOnlyControllerView
+    public class ReadOnlyControllerView : IReadOnlyControllerView, IEqualComparable, IDisposable
     {
         #region Init
         /// <summary>

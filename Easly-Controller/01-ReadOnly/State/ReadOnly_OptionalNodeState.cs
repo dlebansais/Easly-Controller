@@ -42,7 +42,7 @@
     /// State of an optional node.
     /// </summary>
     /// <typeparam name="IInner">Parent inner of the state.</typeparam>
-    internal class ReadOnlyOptionalNodeState<IInner> : ReadOnlyNodeState<IInner>, IReadOnlyOptionalNodeState<IInner>, IReadOnlyOptionalNodeState
+    internal class ReadOnlyOptionalNodeState<IInner> : ReadOnlyNodeState<IInner>, IReadOnlyOptionalNodeState<IInner>, IReadOnlyOptionalNodeState, IReadOnlyNodeState
         where IInner : IReadOnlyInner<IReadOnlyBrowsingChildIndex>
     {
         #region Init

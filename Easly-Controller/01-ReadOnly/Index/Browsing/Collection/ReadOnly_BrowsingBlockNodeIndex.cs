@@ -17,7 +17,7 @@
     /// <summary>
     /// Base for block list index classes.
     /// </summary>
-    internal abstract class ReadOnlyBrowsingBlockNodeIndex : ReadOnlyBrowsingCollectionNodeIndex, IReadOnlyBrowsingBlockNodeIndex
+    internal abstract class ReadOnlyBrowsingBlockNodeIndex : ReadOnlyBrowsingCollectionNodeIndex, IReadOnlyBrowsingBlockNodeIndex, IReadOnlyBrowsingCollectionNodeIndex
     {
         #region Init
         /// <summary>

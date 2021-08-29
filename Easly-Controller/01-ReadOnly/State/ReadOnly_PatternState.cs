@@ -43,7 +43,7 @@
     /// State of an replication pattern node.
     /// </summary>
     /// <typeparam name="IInner">Parent inner of the state.</typeparam>
-    internal class ReadOnlyPatternState<IInner> : ReadOnlyPlaceholderNodeState<IInner>, IReadOnlyPatternState<IInner>, IReadOnlyPatternState
+    internal class ReadOnlyPatternState<IInner> : ReadOnlyPlaceholderNodeState<IInner>, IReadOnlyPatternState<IInner>, IReadOnlyPatternState, IReadOnlyNodeState
         where IInner : IReadOnlyInner<IReadOnlyBrowsingChildIndex>
     {
         #region Init

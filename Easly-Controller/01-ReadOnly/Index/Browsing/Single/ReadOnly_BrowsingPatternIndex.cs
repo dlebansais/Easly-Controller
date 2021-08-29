@@ -17,7 +17,7 @@
     /// <summary>
     /// Index for the replication pattern node of a block.
     /// </summary>
-    internal class ReadOnlyBrowsingPatternIndex : IReadOnlyBrowsingPatternIndex
+    internal class ReadOnlyBrowsingPatternIndex : IReadOnlyBrowsingPatternIndex, IReadOnlyBrowsingChildIndex, IReadOnlyNodeIndex, IEqualComparable
     {
         #region Init
         /// <summary>

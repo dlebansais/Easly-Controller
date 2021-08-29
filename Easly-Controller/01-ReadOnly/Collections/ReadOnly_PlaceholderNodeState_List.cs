@@ -18,7 +18,7 @@ namespace EaslyController.ReadOnly
     /// <summary>
     /// List of IxxxPlaceholderNodeState
     /// </summary>
-    internal class ReadOnlyPlaceholderNodeStateList : Collection<IReadOnlyPlaceholderNodeState>, IReadOnlyPlaceholderNodeStateList
+    internal class ReadOnlyPlaceholderNodeStateList : Collection<IReadOnlyPlaceholderNodeState>, IReadOnlyPlaceholderNodeStateList, IReadOnlyList<IReadOnlyPlaceholderNodeState>
     {
         public virtual IReadOnlyPlaceholderNodeStateReadOnlyList ToReadOnly()
         {

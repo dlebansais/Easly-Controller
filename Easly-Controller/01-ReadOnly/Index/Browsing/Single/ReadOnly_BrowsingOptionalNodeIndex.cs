@@ -20,7 +20,7 @@
     /// <summary>
     /// Index for an optional node.
     /// </summary>
-    internal class ReadOnlyBrowsingOptionalNodeIndex : IReadOnlyBrowsingOptionalNodeIndex
+    internal class ReadOnlyBrowsingOptionalNodeIndex : IReadOnlyBrowsingOptionalNodeIndex, IReadOnlyBrowsingChildIndex, IEqualComparable
     {
         #region Init
         /// <summary>

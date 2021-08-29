@@ -128,7 +128,7 @@
     /// Controller for a node tree.
     /// This controller supports read-only access only.
     /// </summary>
-    public class ReadOnlyController : IReadOnlyControllerInternal, IReadOnlyController
+    public class ReadOnlyController : IReadOnlyControllerInternal, IReadOnlyController, IEqualComparable
     {
         #region Init
         /// <summary>
