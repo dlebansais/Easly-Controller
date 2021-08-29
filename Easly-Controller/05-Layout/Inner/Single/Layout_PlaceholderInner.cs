@@ -75,7 +75,7 @@
         /// <summary>
         /// Creates a IxxxBrowsingPlaceholderNodeIndex object.
         /// </summary>
-        private protected override IWriteableBrowsingPlaceholderNodeIndex CreateBrowsingNodeIndex(INode node)
+        private protected override IWriteableBrowsingPlaceholderNodeIndex CreateBrowsingNodeIndex(Node node)
         {
             ControllerTools.AssertNoOverride(this, typeof(LayoutPlaceholderInner<IIndex, TIndex>));
             return new LayoutBrowsingPlaceholderNodeIndex(Owner.Node, node, PropertyName);

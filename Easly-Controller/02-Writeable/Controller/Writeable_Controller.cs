@@ -396,7 +396,7 @@
             Debug.Assert(IsValid);
         }
 
-        private protected virtual bool IsNodeTreeValid(INode node)
+        private protected virtual bool IsNodeTreeValid(Node node)
         {
             Type ChildNodeType;
             IList<string> PropertyNames = NodeTreeHelper.EnumChildNodeProperties(node);
@@ -425,9 +425,9 @@
             return IsValid;
         }
 
-        private protected virtual bool IsNodeTreeChildNodeValid(INode node, string propertyName)
+        private protected virtual bool IsNodeTreeChildNodeValid(Node node, string propertyName)
         {
-            NodeTreeHelperChild.GetChildNode(node, propertyName, out INode ChildNode);
+            NodeTreeHelperChild.GetChildNode(node, propertyName, out Node ChildNode);
             Debug.Assert(ChildNode != null);
 
             bool IsValid = InvariantFailed(IsNodeTreeValid(ChildNode));
@@ -435,11 +435,11 @@
             return IsValid;
         }
 
-        private protected virtual bool IsNodeTreeOptionalNodeValid(INode node, string propertyName)
+        private protected virtual bool IsNodeTreeOptionalNodeValid(Node node, string propertyName)
         {
             bool IsValid = true;
 
-            NodeTreeHelperOptional.GetChildNode(node, propertyName, out bool IsAssigned, out INode ChildNode);
+            NodeTreeHelperOptional.GetChildNode(node, propertyName, out bool IsAssigned, out Node ChildNode);
             if (IsAssigned)
             {
                 IsValid &= InvariantFailed(IsNodeTreeValid(ChildNode));
@@ -448,9 +448,9 @@
             return IsValid;
         }
 
-        private protected virtual bool IsNodeTreeListValid(INode node, string propertyName)
+        private protected virtual bool IsNodeTreeListValid(Node node, string propertyName)
         {
-            NodeTreeHelperList.GetChildNodeList(node, propertyName, out IReadOnlyList<INode> ChildNodeList);
+            NodeTreeHelperList.GetChildNodeList(node, propertyName, out IReadOnlyList<Node> ChildNodeList);
             Debug.Assert(ChildNodeList != null);
 
             bool IsValid = true;
@@ -462,7 +462,7 @@
 
             for (int Index = 0; Index < ChildNodeList.Count; Index++)
             {
-                INode ChildNode = ChildNodeList[Index];
+                Node ChildNode = ChildNodeList[Index];
                 Debug.Assert(ChildNode != null);
 
                 IsValid &= InvariantFailed(IsNodeTreeValid(ChildNode));
@@ -471,9 +471,9 @@
             return IsValid;
         }
 
-        private protected virtual bool IsNodeTreeBlockListValid(INode node, string propertyName)
+        private protected virtual bool IsNodeTreeBlockListValid(Node node, string propertyName)
         {
-            NodeTreeHelperBlockList.GetChildBlockList(node, propertyName, out IReadOnlyList<INodeTreeBlock> ChildBlockList);
+            NodeTreeHelperBlockList.GetChildBlockList(node, propertyName, out IReadOnlyList<NodeTreeBlock> ChildBlockList);
             Debug.Assert(ChildBlockList != null);
 
             bool IsValid = true;
@@ -485,12 +485,12 @@
 
             for (int BlockIndex = 0; BlockIndex < ChildBlockList.Count; BlockIndex++)
             {
-                INodeTreeBlock Block = ChildBlockList[BlockIndex];
+                NodeTreeBlock Block = ChildBlockList[BlockIndex];
                 Debug.Assert(Block.NodeList.Count > 0);
 
                 for (int Index = 0; Index < Block.NodeList.Count; Index++)
                 {
-                    INode ChildNode = Block.NodeList[Index];
+                    Node ChildNode = Block.NodeList[Index];
                     Debug.Assert(ChildNode != null);
 
                     IsValid &= InvariantFailed(IsNodeTreeValid(ChildNode));
@@ -500,7 +500,7 @@
             return IsValid;
         }
 
-        private protected virtual bool IsEmptyListValid(INode node, string propertyName)
+        private protected virtual bool IsEmptyListValid(Node node, string propertyName)
         {
             Type NodeType = node.GetType();
             Debug.Assert(NodeTreeHelperList.IsNodeListProperty(NodeType, propertyName, out Type ChildNodeType));
@@ -520,7 +520,7 @@
             return IsValid;
         }
 
-        private protected virtual bool IsEmptyBlockListValid(INode node, string propertyName)
+        private protected virtual bool IsEmptyBlockListValid(Node node, string propertyName)
         {
             Type NodeType = node.GetType();
             Debug.Assert(NodeTreeHelperBlockList.IsBlockListProperty(NodeType, propertyName, out Type ChildInterfaceType, out Type ChildNodeType));

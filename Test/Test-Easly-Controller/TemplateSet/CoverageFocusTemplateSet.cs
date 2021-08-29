@@ -92,7 +92,7 @@ namespace TestDebug
     xmlns:easly=""clr-namespace:BaseNode;assembly=Easly-Language""
     xmlns:cov=""clr-namespace:Coverage;assembly=Test-Easly-Controller""
     xmlns:const=""clr-namespace:EaslyController.Constants;assembly=Easly-Controller"">
-    <FocusNodeTemplate NodeType=""{xaml:Type cov:ILeaf}"" IsComplex=""True"" IsSimple=""True"">
+    <FocusNodeTemplate NodeType=""{xaml:Type cov:Leaf}"" IsComplex=""True"" IsSimple=""True"">
         <FocusSelectionFrame>
             <FocusSelectableFrame Name=""Leaf0"">
                 <FocusVerticalPanelFrame>
@@ -272,14 +272,14 @@ namespace TestDebug
             </FocusSelectableFrame>
         </FocusSelectionFrame>
     </FocusNodeTemplate>
-    <FocusNodeTemplate NodeType=""{xaml:Type cov:ITree}"">
+    <FocusNodeTemplate NodeType=""{xaml:Type cov:Tree}"">
         <FocusSelectionFrame>
             <FocusSelectableFrame Name=""Tree0"">
                 <FocusVerticalPanelFrame>
                     <FocusCommentFrame/>
                     <FocusPlaceholderFrame PropertyName=""Placeholder"">
                         <FocusPlaceholderFrame.Selectors>
-                            <FocusFrameSelector SelectorType=""{xaml:Type cov:ILeaf}"" SelectorName=""Leaf2""/>
+                            <FocusFrameSelector SelectorType=""{xaml:Type cov:Leaf}"" SelectorName=""Leaf2""/>
                         </FocusPlaceholderFrame.Selectors>
                     </FocusPlaceholderFrame>
                     <FocusSymbolFrame Symbol=""{x:Static const:Symbols.LeftBracket}"">
@@ -304,7 +304,7 @@ namespace TestDebug
                     <FocusCommentFrame/>
                     <FocusPlaceholderFrame PropertyName=""Placeholder"">
                         <FocusPlaceholderFrame.Selectors>
-                            <FocusFrameSelector SelectorType=""{xaml:Type cov:ILeaf}"" SelectorName=""Leaf2""/>
+                            <FocusFrameSelector SelectorType=""{xaml:Type cov:Leaf}"" SelectorName=""Leaf2""/>
                         </FocusPlaceholderFrame.Selectors>
                     </FocusPlaceholderFrame>
                     <FocusSymbolFrame Symbol=""{x:Static const:Symbols.LeftBracket}"">
@@ -326,7 +326,7 @@ namespace TestDebug
             </FocusSelectableFrame>
         </FocusSelectionFrame>
     </FocusNodeTemplate>
-    <FocusNodeTemplate NodeType=""{xaml:Type cov:IMain}"">
+    <FocusNodeTemplate NodeType=""{xaml:Type cov:Main}"">
         <FocusHorizontalPanelFrame>
             <FocusCommentFrame/>
             <FocusPlaceholderFrame PropertyName=""PlaceholderTree"">
@@ -334,32 +334,32 @@ namespace TestDebug
                     <FocusCountFrameVisibility PropertyName=""LeafBlocks""/>
                 </FocusPlaceholderFrame.Visibility>
                 <FocusPlaceholderFrame.Selectors>
-                    <FocusFrameSelector SelectorType=""{xaml:Type cov:ITree}"" SelectorName=""Tree0""/>
+                    <FocusFrameSelector SelectorType=""{xaml:Type cov:Tree}"" SelectorName=""Tree0""/>
                 </FocusPlaceholderFrame.Selectors>
             </FocusPlaceholderFrame>
             <FocusPlaceholderFrame PropertyName=""PlaceholderLeaf"">
                 <FocusPlaceholderFrame.Selectors>
-                    <FocusFrameSelector SelectorType=""{xaml:Type cov:ILeaf}"" SelectorName=""Leaf1""/>
+                    <FocusFrameSelector SelectorType=""{xaml:Type cov:Leaf}"" SelectorName=""Leaf1""/>
                 </FocusPlaceholderFrame.Selectors>
             </FocusPlaceholderFrame>
             <FocusOptionalFrame PropertyName=""UnassignedOptionalLeaf"">
                 <FocusOptionalFrame.Selectors>
-                    <FocusFrameSelector SelectorType=""{xaml:Type cov:ILeaf}"" SelectorName=""Leaf0""/>
+                    <FocusFrameSelector SelectorType=""{xaml:Type cov:Leaf}"" SelectorName=""Leaf0""/>
                 </FocusOptionalFrame.Selectors>
             </FocusOptionalFrame>
             <FocusOptionalFrame PropertyName=""EmptyOptionalLeaf"">
                 <FocusOptionalFrame.Selectors>
-                    <FocusFrameSelector SelectorType=""{xaml:Type cov:ILeaf}"" SelectorName=""Leaf0""/>
+                    <FocusFrameSelector SelectorType=""{xaml:Type cov:Leaf}"" SelectorName=""Leaf0""/>
                 </FocusOptionalFrame.Selectors>
             </FocusOptionalFrame>
             <FocusOptionalFrame PropertyName=""AssignedOptionalTree"">
                 <FocusOptionalFrame.Selectors>
-                    <FocusFrameSelector SelectorType=""{xaml:Type cov:ITree}"" SelectorName=""Tree0""/>
+                    <FocusFrameSelector SelectorType=""{xaml:Type cov:Tree}"" SelectorName=""Tree0""/>
                 </FocusOptionalFrame.Selectors>
             </FocusOptionalFrame>
             <FocusOptionalFrame PropertyName=""AssignedOptionalLeaf"">
                 <FocusOptionalFrame.Selectors>
-                    <FocusFrameSelector SelectorType=""{xaml:Type cov:ILeaf}"" SelectorName=""Leaf3""/>
+                    <FocusFrameSelector SelectorType=""{xaml:Type cov:Leaf}"" SelectorName=""Leaf3""/>
                 </FocusOptionalFrame.Selectors>
             </FocusOptionalFrame>
             <FocusInsertFrame CollectionName=""LeafBlocks"">
@@ -372,8 +372,8 @@ namespace TestDebug
                     <FocusCountFrameVisibility PropertyName=""LeafPath""/>
                 </FocusHorizontalBlockListFrame.Visibility>
                 <FocusHorizontalBlockListFrame.Selectors>
-                    <FocusFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Identifier""/>
-                    <FocusFrameSelector SelectorType=""{xaml:Type cov:ILeaf}"" SelectorName=""Leaf4""/>
+                    <FocusFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Identifier""/>
+                    <FocusFrameSelector SelectorType=""{xaml:Type cov:Leaf}"" SelectorName=""Leaf4""/>
                 </FocusHorizontalBlockListFrame.Selectors>
             </FocusHorizontalBlockListFrame>
             <FocusVerticalListFrame PropertyName=""LeafPath"" IsPreferred=""True"">
@@ -381,7 +381,7 @@ namespace TestDebug
                     <FocusCountFrameVisibility PropertyName=""LeafBlocks""/>
                 </FocusVerticalListFrame.Visibility>
                 <FocusVerticalListFrame.Selectors>
-                    <FocusFrameSelector SelectorType=""{xaml:Type cov:ILeaf}"" SelectorName=""Leaf5""/>
+                    <FocusFrameSelector SelectorType=""{xaml:Type cov:Leaf}"" SelectorName=""Leaf5""/>
                 </FocusVerticalListFrame.Selectors>
             </FocusVerticalListFrame>
             <FocusVerticalPanelFrame>
@@ -427,7 +427,7 @@ namespace TestDebug
             </FocusKeywordFrame>
         </FocusHorizontalPanelFrame>
     </FocusNodeTemplate>
-    <FocusNodeTemplate NodeType=""{xaml:Type cov:IRoot}"">
+    <FocusNodeTemplate NodeType=""{xaml:Type cov:Root}"">
         <FocusHorizontalPanelFrame>
             <FocusCommentFrame/>
             <FocusHorizontalBlockListFrame PropertyName=""MainBlocksH"">
@@ -456,7 +456,7 @@ namespace TestDebug
                     <FocusCountFrameVisibility PropertyName=""MainBlocksH""/>
                 </FocusHorizontalListFrame.Visibility>
                 <FocusHorizontalListFrame.Selectors>
-                    <FocusFrameSelector SelectorType=""{xaml:Type cov:ILeaf}"" SelectorName=""Leaf8""/>
+                    <FocusFrameSelector SelectorType=""{xaml:Type cov:Leaf}"" SelectorName=""Leaf8""/>
                 </FocusHorizontalListFrame.Selectors>
             </FocusHorizontalListFrame>
             <FocusVerticalListFrame PropertyName=""LeafPathV"">
@@ -464,7 +464,7 @@ namespace TestDebug
                     <FocusCountFrameVisibility PropertyName=""MainBlocksV""/>
                 </FocusVerticalListFrame.Visibility>
                 <FocusVerticalListFrame.Selectors>
-                    <FocusFrameSelector SelectorType=""{xaml:Type cov:ILeaf}"" SelectorName=""Leaf9""/>
+                    <FocusFrameSelector SelectorType=""{xaml:Type cov:Leaf}"" SelectorName=""Leaf9""/>
                 </FocusVerticalListFrame.Selectors>
             </FocusVerticalListFrame >
             <FocusOptionalFrame PropertyName=""UnassignedOptionalLeaf"">
@@ -542,7 +542,7 @@ namespace TestDebug
                     <FocusKeywordFrame>from</FocusKeywordFrame>
                     <FocusOptionalFrame PropertyName=""FromIdentifier"">
                         <FocusOptionalFrame.Selectors>
-                            <FocusFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Identifier""/>
+                            <FocusFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Identifier""/>
                         </FocusOptionalFrame.Selectors>
                     </FocusOptionalFrame>
                 </FocusHorizontalPanelFrame>
@@ -637,7 +637,7 @@ namespace TestDebug
                 </FocusHorizontalPanelFrame>
                 <FocusVerticalBlockListFrame PropertyName=""ConversionBlocks"">
                     <FocusVerticalBlockListFrame.Selectors>
-                        <FocusFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Feature""/>
+                        <FocusFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Feature""/>
                     </FocusVerticalBlockListFrame.Selectors>
                 </FocusVerticalBlockListFrame>
             </FocusVerticalPanelFrame>
@@ -756,7 +756,7 @@ namespace TestDebug
                     </FocusHorizontalPanelFrame>
                     <FocusVerticalBlockListFrame PropertyName=""ExceptionIdentifierBlocks"">
                         <FocusVerticalBlockListFrame.Selectors>
-                            <FocusFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Class""/>
+                            <FocusFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Class""/>
                         </FocusVerticalBlockListFrame.Selectors>
                     </FocusVerticalBlockListFrame>
                 </FocusVerticalPanelFrame>
@@ -855,7 +855,7 @@ namespace TestDebug
                 <FocusKeywordFrame>catch</FocusKeywordFrame>
                 <FocusPlaceholderFrame PropertyName=""ExceptionIdentifier"">
                     <FocusPlaceholderFrame.Selectors>
-                        <FocusFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Identifier""/>
+                        <FocusFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Identifier""/>
                     </FocusPlaceholderFrame.Selectors>
                 </FocusPlaceholderFrame>
                 <FocusInsertFrame CollectionName=""Instructions.InstructionBlocks"" ItemType=""{xaml:Type easly:CommandInstruction}""/>
@@ -870,7 +870,7 @@ namespace TestDebug
             <FocusKeywordFrame>to</FocusKeywordFrame>
             <FocusHorizontalBlockListFrame PropertyName=""ClassIdentifierBlocks"">
                 <FocusHorizontalBlockListFrame.Selectors>
-                    <FocusFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""ClassOrExport""/>
+                    <FocusFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""ClassOrExport""/>
                 </FocusHorizontalBlockListFrame.Selectors>
             </FocusHorizontalBlockListFrame>
         </FocusHorizontalPanelFrame>
@@ -880,13 +880,13 @@ namespace TestDebug
             <FocusCommentFrame/>
             <FocusPlaceholderFrame PropertyName=""ExportIdentifier"">
                 <FocusPlaceholderFrame.Selectors>
-                    <FocusFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Export""/>
+                    <FocusFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Export""/>
                 </FocusPlaceholderFrame.Selectors>
             </FocusPlaceholderFrame>
             <FocusKeywordFrame>to</FocusKeywordFrame>
             <FocusHorizontalBlockListFrame PropertyName=""IdentifierBlocks"">
                 <FocusHorizontalBlockListFrame.Selectors>
-                    <FocusFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Feature""/>
+                    <FocusFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Feature""/>
                 </FocusHorizontalBlockListFrame.Selectors>
             </FocusHorizontalBlockListFrame>
         </FocusHorizontalPanelFrame>
@@ -923,7 +923,7 @@ namespace TestDebug
             </FocusKeywordFrame>
         </FocusVerticalPanelFrame>
     </FocusNodeTemplate>
-    <FocusNodeTemplate NodeType=""{xaml:Type easly:IGlobalReplicate}"">
+    <FocusNodeTemplate NodeType=""{xaml:Type easly:GlobalReplicate}"">
         <FocusHorizontalPanelFrame>
             <FocusCommentFrame/>
             <FocusPlaceholderFrame PropertyName=""ReplicateName""/>
@@ -942,7 +942,7 @@ namespace TestDebug
                 </FocusDiscreteFrame>
                 <FocusPlaceholderFrame PropertyName=""LibraryIdentifier"">
                     <FocusPlaceholderFrame.Selectors>
-                        <FocusFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Library""/>
+                        <FocusFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Library""/>
                     </FocusPlaceholderFrame.Selectors>
                 </FocusPlaceholderFrame>
                 <FocusHorizontalPanelFrame>
@@ -952,7 +952,7 @@ namespace TestDebug
                     <FocusKeywordFrame>from</FocusKeywordFrame>
                     <FocusOptionalFrame PropertyName=""FromIdentifier"">
                         <FocusOptionalFrame.Selectors>
-                            <FocusFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Source""/>
+                            <FocusFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Source""/>
                         </FocusOptionalFrame.Selectors>
                     </FocusOptionalFrame>
                 </FocusHorizontalPanelFrame>
@@ -1011,7 +1011,7 @@ namespace TestDebug
                     </FocusHorizontalPanelFrame>
                     <FocusVerticalBlockListFrame PropertyName=""ForgetBlocks"">
                         <FocusVerticalBlockListFrame.Selectors>
-                            <FocusFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Feature""/>
+                            <FocusFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Feature""/>
                         </FocusVerticalBlockListFrame.Selectors>
                     </FocusVerticalBlockListFrame>
                 </FocusVerticalPanelFrame>
@@ -1025,7 +1025,7 @@ namespace TestDebug
                     </FocusHorizontalPanelFrame>
                     <FocusVerticalBlockListFrame PropertyName=""KeepBlocks"">
                         <FocusVerticalBlockListFrame.Selectors>
-                            <FocusFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Feature""/>
+                            <FocusFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Feature""/>
                         </FocusVerticalBlockListFrame.Selectors>
                     </FocusVerticalBlockListFrame>
                 </FocusVerticalPanelFrame>
@@ -1039,7 +1039,7 @@ namespace TestDebug
                     </FocusHorizontalPanelFrame>
                     <FocusVerticalBlockListFrame PropertyName=""DiscontinueBlocks"">
                         <FocusVerticalBlockListFrame.Selectors>
-                            <FocusFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Feature""/>
+                            <FocusFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Feature""/>
                         </FocusVerticalBlockListFrame.Selectors>
                     </FocusVerticalBlockListFrame>
                 </FocusVerticalPanelFrame>
@@ -1100,7 +1100,7 @@ namespace TestDebug
                     <FocusKeywordFrame>from</FocusKeywordFrame>
                     <FocusOptionalFrame PropertyName=""FromIdentifier"">
                         <FocusOptionalFrame.Selectors>
-                            <FocusFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Feature""/>
+                            <FocusFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Feature""/>
                         </FocusOptionalFrame.Selectors>
                     </FocusOptionalFrame>
                 </FocusHorizontalPanelFrame>
@@ -1125,7 +1125,7 @@ namespace TestDebug
                 </FocusHorizontalPanelFrame>
                 <FocusVerticalBlockListFrame PropertyName=""ClassIdentifierBlocks"">
                     <FocusVerticalBlockListFrame.Selectors>
-                        <FocusFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Feature""/>
+                        <FocusFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Feature""/>
                     </FocusVerticalBlockListFrame.Selectors>
                 </FocusVerticalBlockListFrame>
             </FocusVerticalPanelFrame>
@@ -1145,7 +1145,7 @@ namespace TestDebug
             <FocusTextValueFrame PropertyName=""Text""/>
         </FocusVerticalPanelFrame>
     </FocusNodeTemplate>
-    <FocusNodeTemplate NodeType=""{xaml:Type easly:IPattern}"" IsSimple=""True"">
+    <FocusNodeTemplate NodeType=""{xaml:Type easly:Pattern}"" IsSimple=""True"">
         <FocusVerticalPanelFrame>
             <FocusCommentFrame/>
             <FocusTextValueFrame PropertyName=""Text""/>
@@ -1156,7 +1156,7 @@ namespace TestDebug
             <FocusCommentFrame/>
             <FocusHorizontalListFrame PropertyName=""Path"">
                 <FocusHorizontalListFrame.Selectors>
-                    <FocusFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Feature""/>
+                    <FocusFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Feature""/>
                 </FocusHorizontalListFrame.Selectors>
             </FocusHorizontalListFrame>
         </FocusVerticalPanelFrame>
@@ -1198,7 +1198,7 @@ namespace TestDebug
                 </FocusHorizontalPanelFrame>
                 <FocusVerticalBlockListFrame PropertyName=""ModifiedQueryBlocks"">
                     <FocusVerticalBlockListFrame.Selectors>
-                        <FocusFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Feature""/>
+                        <FocusFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Feature""/>
                     </FocusVerticalBlockListFrame.Selectors>
                 </FocusVerticalBlockListFrame>
             </FocusVerticalPanelFrame>
@@ -1272,7 +1272,7 @@ namespace TestDebug
                     </FocusHorizontalPanelFrame>
                     <FocusVerticalBlockListFrame PropertyName=""ExceptionIdentifierBlocks"">
                         <FocusVerticalBlockListFrame.Selectors>
-                            <FocusFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Class""/>
+                            <FocusFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Class""/>
                         </FocusVerticalBlockListFrame.Selectors>
                     </FocusVerticalBlockListFrame>
                 </FocusVerticalPanelFrame>
@@ -1305,18 +1305,18 @@ namespace TestDebug
             <FocusCommentFrame/>
             <FocusPlaceholderFrame PropertyName=""SourceIdentifier"">
                 <FocusPlaceholderFrame.Selectors>
-                    <FocusFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Identifier""/>
+                    <FocusFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Identifier""/>
                 </FocusPlaceholderFrame.Selectors>
             </FocusPlaceholderFrame>
             <FocusKeywordFrame>to</FocusKeywordFrame>
             <FocusPlaceholderFrame PropertyName=""DestinationIdentifier"">
                 <FocusPlaceholderFrame.Selectors>
-                    <FocusFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Feature""/>
+                    <FocusFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Feature""/>
                 </FocusPlaceholderFrame.Selectors>
             </FocusPlaceholderFrame>
         </FocusHorizontalPanelFrame>
     </FocusNodeTemplate>
-    <FocusNodeTemplate NodeType=""{xaml:Type easly:IRoot}"">
+    <FocusNodeTemplate NodeType=""{xaml:Type easly:Root}"">
         <FocusVerticalPanelFrame>
             <FocusCommentFrame/>
             <FocusVerticalPanelFrame>
@@ -1389,7 +1389,7 @@ namespace TestDebug
             <FocusCommentFrame/>
             <FocusHorizontalBlockListFrame PropertyName=""ParameterBlocks"">
                 <FocusHorizontalBlockListFrame.Selectors>
-                    <FocusFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Feature""/>
+                    <FocusFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Feature""/>
                 </FocusHorizontalBlockListFrame.Selectors>
             </FocusHorizontalBlockListFrame>
             <FocusPlaceholderFrame PropertyName=""Source""/>
@@ -1426,7 +1426,7 @@ namespace TestDebug
                         </FocusHorizontalPanelFrame>
                         <FocusHorizontalBlockListFrame PropertyName=""ExceptionIdentifierBlocks"">
                             <FocusHorizontalBlockListFrame.Selectors>
-                                <FocusFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Class""/>
+                                <FocusFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Class""/>
                             </FocusHorizontalBlockListFrame.Selectors>
                         </FocusHorizontalBlockListFrame>
                     </FocusVerticalPanelFrame>
@@ -1470,7 +1470,7 @@ namespace TestDebug
                         </FocusHorizontalPanelFrame>
                         <FocusHorizontalBlockListFrame PropertyName=""ExceptionIdentifierBlocks"">
                             <FocusHorizontalBlockListFrame.Selectors>
-                                <FocusFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Class""/>
+                                <FocusFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Class""/>
                             </FocusHorizontalBlockListFrame.Selectors>
                         </FocusHorizontalBlockListFrame>
                     </FocusVerticalPanelFrame>
@@ -1515,7 +1515,7 @@ namespace TestDebug
                         </FocusHorizontalPanelFrame>
                         <FocusHorizontalBlockListFrame PropertyName=""ExceptionIdentifierBlocks"">
                             <FocusHorizontalBlockListFrame.Selectors>
-                                <FocusFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Class""/>
+                                <FocusFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Class""/>
                             </FocusHorizontalBlockListFrame.Selectors>
                         </FocusHorizontalBlockListFrame>
                     </FocusVerticalPanelFrame>
@@ -1564,7 +1564,7 @@ namespace TestDebug
                         </FocusHorizontalPanelFrame>
                         <FocusHorizontalBlockListFrame PropertyName=""ExceptionIdentifierBlocks"">
                             <FocusHorizontalBlockListFrame.Selectors>
-                                <FocusFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Class""/>
+                                <FocusFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Class""/>
                             </FocusHorizontalBlockListFrame.Selectors>
                         </FocusHorizontalBlockListFrame>
                     </FocusVerticalPanelFrame>
@@ -1633,7 +1633,7 @@ namespace TestDebug
                         </FocusHorizontalPanelFrame>
                         <FocusHorizontalBlockListFrame PropertyName=""ExceptionIdentifierBlocks"">
                             <FocusHorizontalBlockListFrame.Selectors>
-                                <FocusFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Class""/>
+                                <FocusFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Class""/>
                             </FocusHorizontalBlockListFrame.Selectors>
                         </FocusHorizontalBlockListFrame>
                     </FocusVerticalPanelFrame>
@@ -1702,7 +1702,7 @@ namespace TestDebug
                         </FocusHorizontalPanelFrame>
                         <FocusHorizontalBlockListFrame PropertyName=""ExceptionIdentifierBlocks"">
                             <FocusHorizontalBlockListFrame.Selectors>
-                                <FocusFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Class""/>
+                                <FocusFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Class""/>
                             </FocusHorizontalBlockListFrame.Selectors>
                         </FocusHorizontalBlockListFrame>
                     </FocusVerticalPanelFrame>
@@ -1775,7 +1775,7 @@ namespace TestDebug
                         </FocusHorizontalPanelFrame>
                         <FocusHorizontalBlockListFrame PropertyName=""ExceptionIdentifierBlocks"">
                             <FocusHorizontalBlockListFrame.Selectors>
-                                <FocusFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Class""/>
+                                <FocusFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Class""/>
                             </FocusHorizontalBlockListFrame.Selectors>
                         </FocusHorizontalBlockListFrame>
                     </FocusVerticalPanelFrame>
@@ -1819,7 +1819,7 @@ namespace TestDebug
                         </FocusHorizontalPanelFrame>
                         <FocusHorizontalBlockListFrame PropertyName=""ExceptionIdentifierBlocks"">
                             <FocusHorizontalBlockListFrame.Selectors>
-                                <FocusFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Class""/>
+                                <FocusFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Class""/>
                             </FocusHorizontalBlockListFrame.Selectors>
                         </FocusHorizontalBlockListFrame>
                     </FocusVerticalPanelFrame>
@@ -1864,7 +1864,7 @@ namespace TestDebug
                         </FocusHorizontalPanelFrame>
                         <FocusHorizontalBlockListFrame PropertyName=""ExceptionIdentifierBlocks"">
                             <FocusHorizontalBlockListFrame.Selectors>
-                                <FocusFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Class""/>
+                                <FocusFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Class""/>
                             </FocusHorizontalBlockListFrame.Selectors>
                         </FocusHorizontalBlockListFrame>
                     </FocusVerticalPanelFrame>
@@ -1913,7 +1913,7 @@ namespace TestDebug
                         </FocusHorizontalPanelFrame>
                         <FocusHorizontalBlockListFrame PropertyName=""ExceptionIdentifierBlocks"">
                             <FocusHorizontalBlockListFrame.Selectors>
-                                <FocusFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Class""/>
+                                <FocusFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Class""/>
                             </FocusHorizontalBlockListFrame.Selectors>
                         </FocusHorizontalBlockListFrame>
                     </FocusVerticalPanelFrame>
@@ -1957,7 +1957,7 @@ namespace TestDebug
                         </FocusHorizontalPanelFrame>
                         <FocusHorizontalBlockListFrame PropertyName=""ExceptionIdentifierBlocks"">
                             <FocusHorizontalBlockListFrame.Selectors>
-                                <FocusFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Class""/>
+                                <FocusFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Class""/>
                             </FocusHorizontalBlockListFrame.Selectors>
                         </FocusHorizontalBlockListFrame>
                     </FocusVerticalPanelFrame>
@@ -2002,7 +2002,7 @@ namespace TestDebug
                         </FocusHorizontalPanelFrame>
                         <FocusHorizontalBlockListFrame PropertyName=""ExceptionIdentifierBlocks"">
                             <FocusHorizontalBlockListFrame.Selectors>
-                                <FocusFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Class""/>
+                                <FocusFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Class""/>
                             </FocusHorizontalBlockListFrame.Selectors>
                         </FocusHorizontalBlockListFrame>
                     </FocusVerticalPanelFrame>
@@ -2040,7 +2040,7 @@ namespace TestDebug
             </FocusHorizontalPanelFrame>
             <FocusPlaceholderFrame PropertyName=""Delegated"">
                 <FocusPlaceholderFrame.Selectors>
-                    <FocusFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Feature""/>
+                    <FocusFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Feature""/>
                 </FocusPlaceholderFrame.Selectors>
             </FocusPlaceholderFrame>
         </FocusHorizontalPanelFrame>
@@ -2051,7 +2051,7 @@ namespace TestDebug
             <FocusKeywordFrame>tag</FocusKeywordFrame>
             <FocusPlaceholderFrame PropertyName=""TagIdentifier"">
                 <FocusPlaceholderFrame.Selectors>
-                    <FocusFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Feature""/>
+                    <FocusFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Feature""/>
                 </FocusPlaceholderFrame.Selectors>
             </FocusPlaceholderFrame>
         </FocusHorizontalPanelFrame>
@@ -2111,7 +2111,7 @@ namespace TestDebug
             </FocusHorizontalPanelFrame>
             <FocusPlaceholderFrame PropertyName=""Operator"">
                 <FocusPlaceholderFrame.Selectors>
-                    <FocusFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Feature""/>
+                    <FocusFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Feature""/>
                 </FocusPlaceholderFrame.Selectors>
             </FocusPlaceholderFrame>
             <FocusHorizontalPanelFrame>
@@ -2135,14 +2135,14 @@ namespace TestDebug
             <FocusSymbolFrame Symbol=""{x:Static const:Symbols.LeftCurlyBracket}""/>
             <FocusPlaceholderFrame PropertyName=""ClassIdentifier"">
                 <FocusPlaceholderFrame.Selectors>
-                    <FocusFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Class""/>
+                    <FocusFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Class""/>
                 </FocusPlaceholderFrame.Selectors>
             </FocusPlaceholderFrame>
             <FocusSymbolFrame Symbol=""{x:Static const:Symbols.RightCurlyBracket}""/>
             <FocusSymbolFrame Symbol=""{x:Static const:Symbols.Dot}""/>
             <FocusPlaceholderFrame PropertyName=""ConstantIdentifier"">
                 <FocusPlaceholderFrame.Selectors>
-                    <FocusFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Feature""/>
+                    <FocusFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Feature""/>
                 </FocusPlaceholderFrame.Selectors>
             </FocusPlaceholderFrame>
         </FocusHorizontalPanelFrame>
@@ -2249,7 +2249,7 @@ namespace TestDebug
             <FocusCommentFrame/>
             <FocusPlaceholderFrame PropertyName=""ClassIdentifier"">
                 <FocusPlaceholderFrame.Selectors>
-                    <FocusFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Type""/>
+                    <FocusFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Type""/>
                 </FocusPlaceholderFrame.Selectors>
             </FocusPlaceholderFrame>
             <FocusSymbolFrame Symbol=""{x:Static const:Symbols.LeftBracket}""/>
@@ -2449,7 +2449,7 @@ namespace TestDebug
             <FocusCommentFrame/>
             <FocusPlaceholderFrame PropertyName=""Operator"">
                 <FocusPlaceholderFrame.Selectors>
-                    <FocusFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Feature""/>
+                    <FocusFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Feature""/>
                 </FocusPlaceholderFrame.Selectors>
             </FocusPlaceholderFrame>
             <FocusHorizontalPanelFrame>
@@ -2500,7 +2500,7 @@ namespace TestDebug
                     <FocusKeywordFrame>export to</FocusKeywordFrame>
                     <FocusPlaceholderFrame PropertyName=""ExportIdentifier"">
                         <FocusPlaceholderFrame.Selectors>
-                            <FocusFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Export""/>
+                            <FocusFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Export""/>
                         </FocusPlaceholderFrame.Selectors>
                     </FocusPlaceholderFrame>
                 </FocusHorizontalPanelFrame>
@@ -2540,7 +2540,7 @@ namespace TestDebug
                     <FocusKeywordFrame>export to</FocusKeywordFrame>
                     <FocusPlaceholderFrame PropertyName=""ExportIdentifier"">
                         <FocusPlaceholderFrame.Selectors>
-                            <FocusFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Export""/>
+                            <FocusFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Export""/>
                         </FocusPlaceholderFrame.Selectors>
                     </FocusPlaceholderFrame>
                 </FocusHorizontalPanelFrame>
@@ -2578,7 +2578,7 @@ namespace TestDebug
                     <FocusKeywordFrame>export to</FocusKeywordFrame>
                     <FocusPlaceholderFrame PropertyName=""ExportIdentifier"">
                         <FocusPlaceholderFrame.Selectors>
-                            <FocusFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Export""/>
+                            <FocusFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Export""/>
                         </FocusPlaceholderFrame.Selectors>
                     </FocusPlaceholderFrame>
                 </FocusHorizontalPanelFrame>
@@ -2622,7 +2622,7 @@ namespace TestDebug
                     <FocusKeywordFrame>export to</FocusKeywordFrame>
                     <FocusPlaceholderFrame PropertyName=""ExportIdentifier"">
                         <FocusPlaceholderFrame.Selectors>
-                            <FocusFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Export""/>
+                            <FocusFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Export""/>
                         </FocusPlaceholderFrame.Selectors>
                     </FocusPlaceholderFrame>
                 </FocusHorizontalPanelFrame>
@@ -2673,7 +2673,7 @@ namespace TestDebug
                     <FocusVerticalPanelFrame>
                         <FocusHorizontalBlockListFrame PropertyName=""ModifiedQueryBlocks"">
                             <FocusHorizontalBlockListFrame.Selectors>
-                                <FocusFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Identifier""/>
+                                <FocusFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Identifier""/>
                             </FocusHorizontalBlockListFrame.Selectors>
                         </FocusHorizontalBlockListFrame>
                     </FocusVerticalPanelFrame>
@@ -2705,7 +2705,7 @@ namespace TestDebug
                     <FocusKeywordFrame>export to</FocusKeywordFrame>
                     <FocusPlaceholderFrame PropertyName=""ExportIdentifier"">
                         <FocusPlaceholderFrame.Selectors>
-                            <FocusFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Export""/>
+                            <FocusFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Export""/>
                         </FocusPlaceholderFrame.Selectors>
                     </FocusPlaceholderFrame>
                 </FocusHorizontalPanelFrame>
@@ -2737,7 +2737,7 @@ namespace TestDebug
                     <FocusKeywordFrame>export to</FocusKeywordFrame>
                     <FocusPlaceholderFrame PropertyName=""ExportIdentifier"">
                         <FocusPlaceholderFrame.Selectors>
-                            <FocusFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Export""/>
+                            <FocusFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Export""/>
                         </FocusPlaceholderFrame.Selectors>
                     </FocusPlaceholderFrame>
                 </FocusHorizontalPanelFrame>
@@ -2772,7 +2772,7 @@ namespace TestDebug
                     <FocusVerticalPanelFrame>
                         <FocusHorizontalBlockListFrame PropertyName=""ModifiedQueryBlocks"">
                             <FocusHorizontalBlockListFrame.Selectors>
-                                <FocusFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Identifier""/>
+                                <FocusFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Identifier""/>
                             </FocusHorizontalBlockListFrame.Selectors>
                         </FocusHorizontalBlockListFrame>
                     </FocusVerticalPanelFrame>
@@ -2800,7 +2800,7 @@ namespace TestDebug
                     <FocusKeywordFrame>export to</FocusKeywordFrame>
                     <FocusPlaceholderFrame PropertyName=""ExportIdentifier"">
                         <FocusPlaceholderFrame.Selectors>
-                            <FocusFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Export""/>
+                            <FocusFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Export""/>
                         </FocusPlaceholderFrame.Selectors>
                     </FocusPlaceholderFrame>
                 </FocusHorizontalPanelFrame>
@@ -2817,7 +2817,7 @@ namespace TestDebug
             </FocusKeywordFrame>
         </FocusVerticalPanelFrame>
     </FocusNodeTemplate>
-    <FocusNodeTemplate NodeType=""{xaml:Type easly:IIdentifier}"" IsSimple=""True"">
+    <FocusNodeTemplate NodeType=""{xaml:Type easly:Identifier}"" IsSimple=""True"">
         <FocusSelectionFrame>
             <FocusSelectableFrame Name=""Identifier"">
                 <FocusVerticalPanelFrame>
@@ -2966,14 +2966,14 @@ namespace TestDebug
             <FocusKeywordFrame>create</FocusKeywordFrame>
             <FocusPlaceholderFrame PropertyName=""EntityIdentifier"">
                 <FocusPlaceholderFrame.Selectors>
-                    <FocusFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Feature""/>
+                    <FocusFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Feature""/>
                 </FocusPlaceholderFrame.Selectors>
             </FocusPlaceholderFrame>
             <FocusHorizontalPanelFrame>
                 <FocusKeywordFrame>with</FocusKeywordFrame>
                 <FocusPlaceholderFrame PropertyName=""CreationRoutineIdentifier"">
                     <FocusPlaceholderFrame.Selectors>
-                        <FocusFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Feature""/>
+                        <FocusFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Feature""/>
                     </FocusPlaceholderFrame.Selectors>
                 </FocusPlaceholderFrame>
                 <FocusHorizontalPanelFrame>
@@ -3166,7 +3166,7 @@ namespace TestDebug
                     <FocusKeywordFrame>exit if</FocusKeywordFrame>
                     <FocusOptionalFrame PropertyName=""ExitEntityName"">
                         <FocusOptionalFrame.Selectors>
-                            <FocusFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Feature""/>
+                            <FocusFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Feature""/>
                         </FocusOptionalFrame.Selectors>
                     </FocusOptionalFrame>
                 </FocusHorizontalPanelFrame>
@@ -3233,7 +3233,7 @@ namespace TestDebug
             <FocusKeywordFrame>raise</FocusKeywordFrame>
             <FocusPlaceholderFrame PropertyName=""QueryIdentifier"">
                 <FocusPlaceholderFrame.Selectors>
-                    <FocusFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Feature""/>
+                    <FocusFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Feature""/>
                 </FocusPlaceholderFrame.Selectors>
             </FocusPlaceholderFrame>
             <FocusDiscreteFrame PropertyName=""Event"">
@@ -3260,7 +3260,7 @@ namespace TestDebug
             <FocusKeywordFrame>with</FocusKeywordFrame>
             <FocusPlaceholderFrame PropertyName=""CreationRoutine"">
                 <FocusPlaceholderFrame.Selectors>
-                    <FocusFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Feature""/>
+                    <FocusFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Feature""/>
                 </FocusPlaceholderFrame.Selectors>
             </FocusPlaceholderFrame>
             <FocusHorizontalPanelFrame>
@@ -3300,7 +3300,7 @@ namespace TestDebug
             <FocusCommentFrame/>
             <FocusPlaceholderFrame PropertyName=""ClassIdentifier"">
                 <FocusPlaceholderFrame.Selectors>
-                    <FocusFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Feature""/>
+                    <FocusFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Feature""/>
                 </FocusPlaceholderFrame.Selectors>
             </FocusPlaceholderFrame>
             <FocusSymbolFrame Symbol=""{x:Static const:Symbols.LeftBracket}""/>
@@ -3379,7 +3379,7 @@ namespace TestDebug
                     </FocusHorizontalPanelFrame>
                     <FocusVerticalBlockListFrame PropertyName=""GetExceptionIdentifierBlocks"">
                         <FocusVerticalBlockListFrame.Selectors>
-                            <FocusFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Identifier""/>
+                            <FocusFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Identifier""/>
                         </FocusVerticalBlockListFrame.Selectors>
                     </FocusVerticalBlockListFrame>
                 </FocusVerticalPanelFrame>
@@ -3413,7 +3413,7 @@ namespace TestDebug
                     </FocusHorizontalPanelFrame>
                     <FocusVerticalBlockListFrame PropertyName=""SetExceptionIdentifierBlocks"">
                         <FocusVerticalBlockListFrame.Selectors>
-                            <FocusFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Feature""/>
+                            <FocusFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Feature""/>
                         </FocusVerticalBlockListFrame.Selectors>
                     </FocusVerticalBlockListFrame>
                 </FocusVerticalPanelFrame>
@@ -3481,7 +3481,7 @@ namespace TestDebug
                     </FocusHorizontalPanelFrame>
                     <FocusVerticalBlockListFrame PropertyName=""GetExceptionIdentifierBlocks"">
                         <FocusVerticalBlockListFrame.Selectors>
-                            <FocusFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Feature""/>
+                            <FocusFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Feature""/>
                         </FocusVerticalBlockListFrame.Selectors>
                     </FocusVerticalBlockListFrame>
                 </FocusVerticalPanelFrame>
@@ -3505,7 +3505,7 @@ namespace TestDebug
                     </FocusHorizontalPanelFrame>
                     <FocusVerticalBlockListFrame PropertyName=""SetExceptionIdentifierBlocks"">
                         <FocusVerticalBlockListFrame.Selectors>
-                            <FocusFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Feature""/>
+                            <FocusFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Feature""/>
                         </FocusVerticalBlockListFrame.Selectors>
                     </FocusVerticalBlockListFrame>
                 </FocusVerticalPanelFrame>
@@ -3519,7 +3519,7 @@ namespace TestDebug
             <FocusCommentFrame/>
             <FocusPlaceholderFrame PropertyName=""ClassIdentifier"">
                 <FocusPlaceholderFrame.Selectors>
-                    <FocusFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Type""/>
+                    <FocusFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Type""/>
                 </FocusPlaceholderFrame.Selectors>
             </FocusPlaceholderFrame>
             <FocusDiscreteFrame PropertyName=""Sharing"">
@@ -3556,7 +3556,7 @@ namespace TestDebug
             <FocusCommentFrame/>
             <FocusPlaceholderFrame PropertyName=""ParameterIdentifier"">
                 <FocusPlaceholderFrame.Selectors>
-                    <FocusFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Feature""/>
+                    <FocusFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Feature""/>
                 </FocusPlaceholderFrame.Selectors>
             </FocusPlaceholderFrame>
             <FocusSymbolFrame Symbol=""{x:Static const:Symbols.LeftArrow}""/>
@@ -3581,7 +3581,7 @@ namespace TestDebug
     xmlns:easly=""clr-namespace:BaseNode;assembly=Easly-Language""
     xmlns:cov=""clr-namespace:Coverage;assembly=Test-Easly-Controller""
     xmlns:const=""clr-namespace:EaslyController.Constants;assembly=Easly-Controller"">
-    <FocusBlockTemplate NodeType=""{xaml:Type easly:IBlock,cov:ILeaf,cov:Leaf}"">
+    <FocusBlockTemplate NodeType=""{xaml:Type easly:IBlock,cov:Leaf,cov:Leaf}"">
         <FocusVerticalPanelFrame>
             <FocusCommentFrame/>
             <FocusHorizontalPanelFrame>
@@ -3593,14 +3593,14 @@ namespace TestDebug
                 <FocusKeywordFrame>From</FocusKeywordFrame>
                 <FocusPlaceholderFrame PropertyName=""SourceIdentifier"">
                     <FocusPlaceholderFrame.Selectors>
-                        <FocusFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Identifier""/>
+                        <FocusFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Identifier""/>
                     </FocusPlaceholderFrame.Selectors>
                 </FocusPlaceholderFrame>
                 <FocusKeywordFrame>All</FocusKeywordFrame>
             </FocusHorizontalPanelFrame>
             <FocusHorizontalCollectionPlaceholderFrame>
                 <FocusHorizontalCollectionPlaceholderFrame.Selectors>
-                    <FocusFrameSelector SelectorType=""{xaml:Type cov:ILeaf}"" SelectorName=""Leaf10""/>
+                    <FocusFrameSelector SelectorType=""{xaml:Type cov:Leaf}"" SelectorName=""Leaf10""/>
                 </FocusHorizontalCollectionPlaceholderFrame.Selectors>
             </FocusHorizontalCollectionPlaceholderFrame>
             <FocusKeywordFrame Text=""end"">
@@ -3610,7 +3610,7 @@ namespace TestDebug
             </FocusKeywordFrame>
         </FocusVerticalPanelFrame>
     </FocusBlockTemplate>
-    <FocusBlockTemplate NodeType=""{xaml:Type easly:IBlock,cov:ITree,cov:Tree}"">
+    <FocusBlockTemplate NodeType=""{xaml:Type easly:IBlock,cov:Tree,cov:Tree}"">
         <FocusVerticalPanelFrame>
             <FocusCommentFrame/>
             <FocusHorizontalPanelFrame>
@@ -3622,14 +3622,14 @@ namespace TestDebug
                 <FocusKeywordFrame>From</FocusKeywordFrame>
                 <FocusPlaceholderFrame PropertyName=""SourceIdentifier"">
                     <FocusPlaceholderFrame.Selectors>
-                        <FocusFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Identifier""/>
+                        <FocusFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Identifier""/>
                     </FocusPlaceholderFrame.Selectors>
                 </FocusPlaceholderFrame>
                 <FocusKeywordFrame>All</FocusKeywordFrame>
             </FocusHorizontalPanelFrame>
             <FocusVerticalCollectionPlaceholderFrame>
                 <FocusVerticalCollectionPlaceholderFrame.Selectors>
-                    <FocusFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Identifier""/>
+                    <FocusFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Identifier""/>
                 </FocusVerticalCollectionPlaceholderFrame.Selectors>
             </FocusVerticalCollectionPlaceholderFrame>
             <FocusKeywordFrame Text=""end"">
@@ -3639,7 +3639,7 @@ namespace TestDebug
             </FocusKeywordFrame>
         </FocusVerticalPanelFrame>
     </FocusBlockTemplate>
-    <FocusBlockTemplate NodeType=""{xaml:Type easly:IBlock,cov:IMain,cov:Main}"">
+    <FocusBlockTemplate NodeType=""{xaml:Type easly:IBlock,cov:Main,cov:Main}"">
         <FocusVerticalPanelFrame>
             <FocusCommentFrame/>
             <FocusVerticalPanelFrame>
@@ -3649,13 +3649,13 @@ namespace TestDebug
                 <FocusKeywordFrame>Replicate</FocusKeywordFrame>
                 <FocusPlaceholderFrame PropertyName=""ReplicationPattern"">
                     <FocusPlaceholderFrame.Selectors>
-                        <FocusFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Identifier""/>
+                        <FocusFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Identifier""/>
                     </FocusPlaceholderFrame.Selectors>
                 </FocusPlaceholderFrame>
                 <FocusKeywordFrame>From</FocusKeywordFrame>
                 <FocusPlaceholderFrame PropertyName=""SourceIdentifier"">
                     <FocusPlaceholderFrame.Selectors>
-                        <FocusFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Identifier""/>
+                        <FocusFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Identifier""/>
                     </FocusPlaceholderFrame.Selectors>
                 </FocusPlaceholderFrame>
                 <FocusKeywordFrame>All</FocusKeywordFrame>
@@ -3679,7 +3679,7 @@ namespace TestDebug
                 <FocusKeywordFrame>From</FocusKeywordFrame>
                 <FocusPlaceholderFrame PropertyName=""SourceIdentifier"">
                     <FocusPlaceholderFrame.Selectors>
-                        <FocusFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Identifier""/>
+                        <FocusFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Identifier""/>
                     </FocusPlaceholderFrame.Selectors>
                 </FocusPlaceholderFrame>
                 <FocusKeywordFrame>All</FocusKeywordFrame>
@@ -3703,7 +3703,7 @@ namespace TestDebug
                 <FocusKeywordFrame>From</FocusKeywordFrame>
                 <FocusPlaceholderFrame PropertyName=""SourceIdentifier"">
                     <FocusPlaceholderFrame.Selectors>
-                        <FocusFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Identifier""/>
+                        <FocusFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Identifier""/>
                     </FocusPlaceholderFrame.Selectors>
                 </FocusPlaceholderFrame>
                 <FocusKeywordFrame>All</FocusKeywordFrame>
@@ -3727,7 +3727,7 @@ namespace TestDebug
                 <FocusKeywordFrame>From</FocusKeywordFrame>
                 <FocusPlaceholderFrame PropertyName=""SourceIdentifier"">
                     <FocusPlaceholderFrame.Selectors>
-                        <FocusFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Identifier""/>
+                        <FocusFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Identifier""/>
                     </FocusPlaceholderFrame.Selectors>
                 </FocusPlaceholderFrame>
                 <FocusKeywordFrame>All</FocusKeywordFrame>
@@ -3751,7 +3751,7 @@ namespace TestDebug
                 <FocusKeywordFrame>From</FocusKeywordFrame>
                 <FocusPlaceholderFrame PropertyName=""SourceIdentifier"">
                     <FocusPlaceholderFrame.Selectors>
-                        <FocusFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Identifier""/>
+                        <FocusFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Identifier""/>
                     </FocusPlaceholderFrame.Selectors>
                 </FocusPlaceholderFrame>
                 <FocusKeywordFrame>All</FocusKeywordFrame>
@@ -3775,7 +3775,7 @@ namespace TestDebug
                 <FocusKeywordFrame>From</FocusKeywordFrame>
                 <FocusPlaceholderFrame PropertyName=""SourceIdentifier"">
                     <FocusPlaceholderFrame.Selectors>
-                        <FocusFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Identifier""/>
+                        <FocusFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Identifier""/>
                     </FocusPlaceholderFrame.Selectors>
                 </FocusPlaceholderFrame>
                 <FocusKeywordFrame>All</FocusKeywordFrame>
@@ -3799,7 +3799,7 @@ namespace TestDebug
                 <FocusKeywordFrame>From</FocusKeywordFrame>
                 <FocusPlaceholderFrame PropertyName=""SourceIdentifier"">
                     <FocusPlaceholderFrame.Selectors>
-                        <FocusFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Identifier""/>
+                        <FocusFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Identifier""/>
                     </FocusPlaceholderFrame.Selectors>
                 </FocusPlaceholderFrame>
                 <FocusKeywordFrame>All</FocusKeywordFrame>
@@ -3823,7 +3823,7 @@ namespace TestDebug
                 <FocusKeywordFrame>From</FocusKeywordFrame>
                 <FocusPlaceholderFrame PropertyName=""SourceIdentifier"">
                     <FocusPlaceholderFrame.Selectors>
-                        <FocusFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Identifier""/>
+                        <FocusFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Identifier""/>
                     </FocusPlaceholderFrame.Selectors>
                 </FocusPlaceholderFrame>
                 <FocusKeywordFrame>All</FocusKeywordFrame>
@@ -3847,7 +3847,7 @@ namespace TestDebug
                 <FocusKeywordFrame>From</FocusKeywordFrame>
                 <FocusPlaceholderFrame PropertyName=""SourceIdentifier"">
                     <FocusPlaceholderFrame.Selectors>
-                        <FocusFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Identifier""/>
+                        <FocusFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Identifier""/>
                     </FocusPlaceholderFrame.Selectors>
                 </FocusPlaceholderFrame>
                 <FocusKeywordFrame>All</FocusKeywordFrame>
@@ -3871,7 +3871,7 @@ namespace TestDebug
                 <FocusKeywordFrame>From</FocusKeywordFrame>
                 <FocusPlaceholderFrame PropertyName=""SourceIdentifier"">
                     <FocusPlaceholderFrame.Selectors>
-                        <FocusFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Identifier""/>
+                        <FocusFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Identifier""/>
                     </FocusPlaceholderFrame.Selectors>
                 </FocusPlaceholderFrame>
                 <FocusKeywordFrame>All</FocusKeywordFrame>
@@ -3895,7 +3895,7 @@ namespace TestDebug
                 <FocusKeywordFrame>From</FocusKeywordFrame>
                 <FocusPlaceholderFrame PropertyName=""SourceIdentifier"">
                     <FocusPlaceholderFrame.Selectors>
-                        <FocusFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Identifier""/>
+                        <FocusFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Identifier""/>
                     </FocusPlaceholderFrame.Selectors>
                 </FocusPlaceholderFrame>
                 <FocusKeywordFrame>All</FocusKeywordFrame>
@@ -3919,7 +3919,7 @@ namespace TestDebug
                 <FocusKeywordFrame>From</FocusKeywordFrame>
                 <FocusPlaceholderFrame PropertyName=""SourceIdentifier"">
                     <FocusPlaceholderFrame.Selectors>
-                        <FocusFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Identifier""/>
+                        <FocusFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Identifier""/>
                     </FocusPlaceholderFrame.Selectors>
                 </FocusPlaceholderFrame>
                 <FocusKeywordFrame>All</FocusKeywordFrame>
@@ -3943,7 +3943,7 @@ namespace TestDebug
                 <FocusKeywordFrame>From</FocusKeywordFrame>
                 <FocusPlaceholderFrame PropertyName=""SourceIdentifier"">
                     <FocusPlaceholderFrame.Selectors>
-                        <FocusFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Identifier""/>
+                        <FocusFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Identifier""/>
                     </FocusPlaceholderFrame.Selectors>
                 </FocusPlaceholderFrame>
                 <FocusKeywordFrame>All</FocusKeywordFrame>
@@ -3967,7 +3967,7 @@ namespace TestDebug
                 <FocusKeywordFrame>From</FocusKeywordFrame>
                 <FocusPlaceholderFrame PropertyName=""SourceIdentifier"">
                     <FocusPlaceholderFrame.Selectors>
-                        <FocusFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Identifier""/>
+                        <FocusFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Identifier""/>
                     </FocusPlaceholderFrame.Selectors>
                 </FocusPlaceholderFrame>
                 <FocusKeywordFrame>All</FocusKeywordFrame>
@@ -3991,7 +3991,7 @@ namespace TestDebug
                 <FocusKeywordFrame>From</FocusKeywordFrame>
                 <FocusPlaceholderFrame PropertyName=""SourceIdentifier"">
                     <FocusPlaceholderFrame.Selectors>
-                        <FocusFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Identifier""/>
+                        <FocusFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Identifier""/>
                     </FocusPlaceholderFrame.Selectors>
                 </FocusPlaceholderFrame>
                 <FocusKeywordFrame>All</FocusKeywordFrame>
@@ -4015,7 +4015,7 @@ namespace TestDebug
                 <FocusKeywordFrame>From</FocusKeywordFrame>
                 <FocusPlaceholderFrame PropertyName=""SourceIdentifier"">
                     <FocusPlaceholderFrame.Selectors>
-                        <FocusFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Identifier""/>
+                        <FocusFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Identifier""/>
                     </FocusPlaceholderFrame.Selectors>
                 </FocusPlaceholderFrame>
                 <FocusKeywordFrame>All</FocusKeywordFrame>
@@ -4039,7 +4039,7 @@ namespace TestDebug
                 <FocusKeywordFrame>From</FocusKeywordFrame>
                 <FocusPlaceholderFrame PropertyName=""SourceIdentifier"">
                     <FocusPlaceholderFrame.Selectors>
-                        <FocusFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Identifier""/>
+                        <FocusFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Identifier""/>
                     </FocusPlaceholderFrame.Selectors>
                 </FocusPlaceholderFrame>
                 <FocusKeywordFrame>All</FocusKeywordFrame>
@@ -4052,7 +4052,7 @@ namespace TestDebug
             </FocusKeywordFrame>
         </FocusHorizontalPanelFrame>
     </FocusBlockTemplate>
-    <FocusBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:IFeature,easly:Feature}"">
+    <FocusBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:Feature,easly:Feature}"">
         <FocusVerticalPanelFrame>
             <FocusHorizontalPanelFrame>
                 <FocusHorizontalPanelFrame.BlockVisibility>
@@ -4063,7 +4063,7 @@ namespace TestDebug
                 <FocusKeywordFrame>From</FocusKeywordFrame>
                 <FocusPlaceholderFrame PropertyName=""SourceIdentifier"">
                     <FocusPlaceholderFrame.Selectors>
-                        <FocusFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Identifier""/>
+                        <FocusFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Identifier""/>
                     </FocusPlaceholderFrame.Selectors>
                 </FocusPlaceholderFrame>
                 <FocusKeywordFrame>All</FocusKeywordFrame>
@@ -4087,7 +4087,7 @@ namespace TestDebug
                 <FocusKeywordFrame>From</FocusKeywordFrame>
                 <FocusPlaceholderFrame PropertyName=""SourceIdentifier"">
                     <FocusPlaceholderFrame.Selectors>
-                        <FocusFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Identifier""/>
+                        <FocusFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Identifier""/>
                     </FocusPlaceholderFrame.Selectors>
                 </FocusPlaceholderFrame>
                 <FocusKeywordFrame>All</FocusKeywordFrame>
@@ -4100,7 +4100,7 @@ namespace TestDebug
             </FocusKeywordFrame>
         </FocusVerticalPanelFrame>
     </FocusBlockTemplate>
-    <FocusBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:IIdentifier,easly:Identifier}"">
+    <FocusBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:Identifier,easly:Identifier}"">
         <FocusHorizontalPanelFrame>
             <FocusHorizontalPanelFrame>
                 <FocusHorizontalPanelFrame.BlockVisibility>
@@ -4111,14 +4111,14 @@ namespace TestDebug
                 <FocusKeywordFrame>From</FocusKeywordFrame>
                 <FocusPlaceholderFrame PropertyName=""SourceIdentifier"">
                     <FocusPlaceholderFrame.Selectors>
-                        <FocusFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Identifier""/>
+                        <FocusFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Identifier""/>
                     </FocusPlaceholderFrame.Selectors>
                 </FocusPlaceholderFrame>
                 <FocusKeywordFrame>All</FocusKeywordFrame>
             </FocusHorizontalPanelFrame>
             <FocusHorizontalCollectionPlaceholderFrame>
                 <FocusHorizontalCollectionPlaceholderFrame.Selectors>
-                    <FocusFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Identifier""/>
+                    <FocusFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Identifier""/>
                 </FocusHorizontalCollectionPlaceholderFrame.Selectors>
             </FocusHorizontalCollectionPlaceholderFrame>
             <FocusKeywordFrame Text=""end"">
@@ -4139,7 +4139,7 @@ namespace TestDebug
                 <FocusKeywordFrame>From</FocusKeywordFrame>
                 <FocusPlaceholderFrame PropertyName=""SourceIdentifier"">
                     <FocusPlaceholderFrame.Selectors>
-                        <FocusFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Identifier""/>
+                        <FocusFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Identifier""/>
                     </FocusPlaceholderFrame.Selectors>
                 </FocusPlaceholderFrame>
                 <FocusKeywordFrame>All</FocusKeywordFrame>
@@ -4163,7 +4163,7 @@ namespace TestDebug
                 <FocusKeywordFrame>From</FocusKeywordFrame>
                 <FocusPlaceholderFrame PropertyName=""SourceIdentifier"">
                     <FocusPlaceholderFrame.Selectors>
-                        <FocusFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Identifier""/>
+                        <FocusFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Identifier""/>
                     </FocusPlaceholderFrame.Selectors>
                 </FocusPlaceholderFrame>
                 <FocusKeywordFrame>All</FocusKeywordFrame>
@@ -4187,7 +4187,7 @@ namespace TestDebug
                 <FocusKeywordFrame>From</FocusKeywordFrame>
                 <FocusPlaceholderFrame PropertyName=""SourceIdentifier"">
                     <FocusPlaceholderFrame.Selectors>
-                        <FocusFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Identifier""/>
+                        <FocusFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Identifier""/>
                     </FocusPlaceholderFrame.Selectors>
                 </FocusPlaceholderFrame>
                 <FocusKeywordFrame>All</FocusKeywordFrame>
@@ -4211,7 +4211,7 @@ namespace TestDebug
                 <FocusKeywordFrame>From</FocusKeywordFrame>
                 <FocusPlaceholderFrame PropertyName=""SourceIdentifier"">
                     <FocusPlaceholderFrame.Selectors>
-                        <FocusFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Identifier""/>
+                        <FocusFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Identifier""/>
                     </FocusPlaceholderFrame.Selectors>
                 </FocusPlaceholderFrame>
                 <FocusKeywordFrame>All</FocusKeywordFrame>
@@ -4235,7 +4235,7 @@ namespace TestDebug
                 <FocusKeywordFrame>From</FocusKeywordFrame>
                 <FocusPlaceholderFrame PropertyName=""SourceIdentifier"">
                     <FocusPlaceholderFrame.Selectors>
-                        <FocusFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Identifier""/>
+                        <FocusFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Identifier""/>
                     </FocusPlaceholderFrame.Selectors>
                 </FocusPlaceholderFrame>
                 <FocusKeywordFrame>All</FocusKeywordFrame>
@@ -4259,7 +4259,7 @@ namespace TestDebug
                 <FocusKeywordFrame>From</FocusKeywordFrame>
                 <FocusPlaceholderFrame PropertyName=""SourceIdentifier"">
                     <FocusPlaceholderFrame.Selectors>
-                        <FocusFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Identifier""/>
+                        <FocusFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Identifier""/>
                     </FocusPlaceholderFrame.Selectors>
                 </FocusPlaceholderFrame>
                 <FocusKeywordFrame>All</FocusKeywordFrame>
@@ -4272,7 +4272,7 @@ namespace TestDebug
             </FocusKeywordFrame>
         </FocusHorizontalPanelFrame>
     </FocusBlockTemplate>
-    <FocusBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:IPattern,easly:Pattern}"">
+    <FocusBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:Pattern,easly:Pattern}"">
         <FocusHorizontalPanelFrame>
             <FocusHorizontalPanelFrame>
                 <FocusHorizontalPanelFrame.BlockVisibility>
@@ -4283,7 +4283,7 @@ namespace TestDebug
                 <FocusKeywordFrame>From</FocusKeywordFrame>
                 <FocusPlaceholderFrame PropertyName=""SourceIdentifier"">
                     <FocusPlaceholderFrame.Selectors>
-                        <FocusFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Identifier""/>
+                        <FocusFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Identifier""/>
                     </FocusPlaceholderFrame.Selectors>
                 </FocusPlaceholderFrame>
                 <FocusKeywordFrame>All</FocusKeywordFrame>
@@ -4307,7 +4307,7 @@ namespace TestDebug
                 <FocusKeywordFrame>From</FocusKeywordFrame>
                 <FocusPlaceholderFrame PropertyName=""SourceIdentifier"">
                     <FocusPlaceholderFrame.Selectors>
-                        <FocusFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Identifier""/>
+                        <FocusFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Identifier""/>
                     </FocusPlaceholderFrame.Selectors>
                 </FocusPlaceholderFrame>
                 <FocusKeywordFrame>All</FocusKeywordFrame>
@@ -4331,7 +4331,7 @@ namespace TestDebug
                 <FocusKeywordFrame>From</FocusKeywordFrame>
                 <FocusPlaceholderFrame PropertyName=""SourceIdentifier"">
                     <FocusPlaceholderFrame.Selectors>
-                        <FocusFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Identifier""/>
+                        <FocusFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Identifier""/>
                     </FocusPlaceholderFrame.Selectors>
                 </FocusPlaceholderFrame>
                 <FocusKeywordFrame>All</FocusKeywordFrame>
@@ -4355,7 +4355,7 @@ namespace TestDebug
                 <FocusKeywordFrame>From</FocusKeywordFrame>
                 <FocusPlaceholderFrame PropertyName=""SourceIdentifier"">
                     <FocusPlaceholderFrame.Selectors>
-                        <FocusFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Identifier""/>
+                        <FocusFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Identifier""/>
                     </FocusPlaceholderFrame.Selectors>
                 </FocusPlaceholderFrame>
                 <FocusKeywordFrame>All</FocusKeywordFrame>
@@ -4379,7 +4379,7 @@ namespace TestDebug
                 <FocusKeywordFrame>From</FocusKeywordFrame>
                 <FocusPlaceholderFrame PropertyName=""SourceIdentifier"">
                     <FocusPlaceholderFrame.Selectors>
-                        <FocusFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Identifier""/>
+                        <FocusFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Identifier""/>
                     </FocusPlaceholderFrame.Selectors>
                 </FocusPlaceholderFrame>
                 <FocusKeywordFrame>All</FocusKeywordFrame>
@@ -4403,7 +4403,7 @@ namespace TestDebug
                 <FocusKeywordFrame>From</FocusKeywordFrame>
                 <FocusPlaceholderFrame PropertyName=""SourceIdentifier"">
                     <FocusPlaceholderFrame.Selectors>
-                        <FocusFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Identifier""/>
+                        <FocusFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Identifier""/>
                     </FocusPlaceholderFrame.Selectors>
                 </FocusPlaceholderFrame>
                 <FocusKeywordFrame>All</FocusKeywordFrame>
@@ -4427,7 +4427,7 @@ namespace TestDebug
                 <FocusKeywordFrame>From</FocusKeywordFrame>
                 <FocusPlaceholderFrame PropertyName=""SourceIdentifier"">
                     <FocusPlaceholderFrame.Selectors>
-                        <FocusFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Identifier""/>
+                        <FocusFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Identifier""/>
                     </FocusPlaceholderFrame.Selectors>
                 </FocusPlaceholderFrame>
                 <FocusKeywordFrame>All</FocusKeywordFrame>
@@ -4451,7 +4451,7 @@ namespace TestDebug
                 <FocusKeywordFrame>From</FocusKeywordFrame>
                 <FocusPlaceholderFrame PropertyName=""SourceIdentifier"">
                     <FocusPlaceholderFrame.Selectors>
-                        <FocusFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Identifier""/>
+                        <FocusFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Identifier""/>
                     </FocusPlaceholderFrame.Selectors>
                 </FocusPlaceholderFrame>
                 <FocusKeywordFrame>All</FocusKeywordFrame>
@@ -4475,7 +4475,7 @@ namespace TestDebug
                 <FocusKeywordFrame>From</FocusKeywordFrame>
                 <FocusPlaceholderFrame PropertyName=""SourceIdentifier"">
                     <FocusPlaceholderFrame.Selectors>
-                        <FocusFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Identifier""/>
+                        <FocusFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Identifier""/>
                     </FocusPlaceholderFrame.Selectors>
                 </FocusPlaceholderFrame>
                 <FocusKeywordFrame>All</FocusKeywordFrame>

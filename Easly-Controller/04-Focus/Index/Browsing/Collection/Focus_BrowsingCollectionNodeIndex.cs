@@ -21,7 +21,7 @@
         /// </summary>
         /// <param name="node">The indexed node.</param>
         /// <param name="propertyName">The property for the index.</param>
-        public FocusBrowsingCollectionNodeIndex(INode node, string propertyName)
+        public FocusBrowsingCollectionNodeIndex(Node node, string propertyName)
             : base(node, propertyName)
         {
         }

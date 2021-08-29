@@ -11,7 +11,7 @@
         /// <summary>
         /// The indexed replication pattern node.
         /// </summary>
-        new IPattern Node { get; }
+        new Pattern Node { get; }
     }
 
     /// <summary>
@@ -38,8 +38,8 @@
         /// <summary>
         /// The indexed replication pattern node.
         /// </summary>
-        public IPattern Node { get { return Block.ReplicationPattern; } }
-        INode IReadOnlyNodeIndex.Node { get { return Node; } }
+        public Pattern Node { get { return Block.ReplicationPattern; } }
+        Node IReadOnlyNodeIndex.Node { get { return Node; } }
 
         /// <summary>
         /// Property indexed for <see cref="Node"/>.

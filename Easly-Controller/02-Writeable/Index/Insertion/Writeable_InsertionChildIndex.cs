@@ -10,7 +10,7 @@
         /// <summary>
         /// Node in which the insertion operation is taking place.
         /// </summary>
-        INode ParentNode { get; }
+        Node ParentNode { get; }
 
         /// <summary>
         /// Creates a browsing index from an insertion index.

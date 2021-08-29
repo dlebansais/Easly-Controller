@@ -58,7 +58,7 @@
         /// Creates a clone of all children of the inner, using <paramref name="parentNode"/> as their parent.
         /// </summary>
         /// <param name="parentNode">The node that will contains references to cloned children upon return.</param>
-        void CloneChildren(INode parentNode);
+        void CloneChildren(Node parentNode);
 
         /// <summary>
         /// Attach a view to the inner.
@@ -127,7 +127,7 @@
         /// Creates a clone of all children of the inner, using <paramref name="parentNode"/> as their parent.
         /// </summary>
         /// <param name="parentNode">The node that will contains references to cloned children upon return.</param>
-        public abstract void CloneChildren(INode parentNode);
+        public abstract void CloneChildren(Node parentNode);
 
         /// <summary>
         /// Attach a view to the inner.

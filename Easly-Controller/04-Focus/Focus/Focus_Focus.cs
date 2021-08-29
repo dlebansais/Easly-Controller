@@ -19,7 +19,7 @@
         /// </summary>
         /// <param name="node">The node in the source code upon return.</param>
         /// <param name="frame">The frame in the template associated to <paramref name="node"/> that indicates where in the node is the focus upon return.</param>
-        void GetLocationInSourceCode(out INode node, out IFocusFrame frame);
+        void GetLocationInSourceCode(out Node node, out IFocusFrame frame);
     }
 
     /// <summary>
@@ -50,7 +50,7 @@
         /// </summary>
         /// <param name="node">The node in the source code upon return.</param>
         /// <param name="frame">The frame in the template associated to <paramref name="node"/> that indicates where in the node is the focus upon return.</param>
-        public virtual void GetLocationInSourceCode(out INode node, out IFocusFrame frame)
+        public virtual void GetLocationInSourceCode(out Node node, out IFocusFrame frame)
         {
             node = null;
             frame = null;

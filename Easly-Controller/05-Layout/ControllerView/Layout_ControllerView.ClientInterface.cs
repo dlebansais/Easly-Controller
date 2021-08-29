@@ -173,7 +173,7 @@
         {
             ILayoutStringContentFocusableCellView CellView = textCellFocus.CellView;
 
-            INode Node = CellView.StateView.State.Node;
+            Node Node = CellView.StateView.State.Node;
             string PropertyName = CellView.PropertyName;
             string Text = NodeTreeHelper.GetString(Node, PropertyName);
 

@@ -24,7 +24,7 @@
         /// <param name="parentNode">Node containing the replaced node.</param>
         /// <param name="propertyName">Property in <paramref name="parentNode"/> corresponding to the indexed node.</param>
         /// <param name="node">The assigned node.</param>
-        public WriteableInsertionPlaceholderNodeIndex(INode parentNode, string propertyName, INode node)
+        public WriteableInsertionPlaceholderNodeIndex(Node parentNode, string propertyName, Node node)
         {
             Debug.Assert(parentNode != null);
             Debug.Assert(!string.IsNullOrEmpty(propertyName));
@@ -41,7 +41,7 @@
         /// <summary>
         /// Node in which the insertion operation is taking place.
         /// </summary>
-        public INode ParentNode { get; }
+        public Node ParentNode { get; }
 
         /// <summary>
         /// Property indexed for <see cref="Node"/>.
@@ -51,7 +51,7 @@
         /// <summary>
         /// The assigned node.
         /// </summary>
-        public INode Node { get; }
+        public Node Node { get; }
         #endregion
 
         #region Client Interface

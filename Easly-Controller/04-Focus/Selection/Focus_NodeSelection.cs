@@ -59,7 +59,7 @@
         {
             isChanged = false;
 
-            if (ClipboardHelper.TryReadNode(out INode Node))
+            if (ClipboardHelper.TryReadNode(out Node Node))
             {
                 IFocusNodeState State = StateView.State;
                 if ((State.ParentInner != null && State.ParentInner.InterfaceType.IsAssignableFrom(Node.GetType())) || (State.ParentInner == null && Node.GetType() == State.Node.GetType()))
@@ -67,7 +67,7 @@
                     if (State.ParentIndex is IFocusBrowsingInsertableIndex AsInsertableIndex)
                     {
                         IFocusController Controller = StateView.ControllerView.Controller;
-                        INode ParentNode = State.ParentInner.Owner.Node;
+                        Node ParentNode = State.ParentInner.Owner.Node;
 
                         IFocusInsertionChildIndex ReplaceIndex = (IFocusInsertionChildIndex)AsInsertableIndex.ToInsertionIndex(ParentNode, Node);
                         Controller.Replace(State.ParentInner, ReplaceIndex, out IWriteableBrowsingChildIndex NewIndex);
@@ -95,7 +95,7 @@
             if (State.ParentInner is IFocusCollectionInner AsCollectionInner && State.ParentIndex is IFocusBrowsingCollectionNodeIndex AsCollectionNodeIndex)
             {
                 IFocusController Controller = StateView.ControllerView.Controller;
-                INode ParentNode = State.ParentInner.Owner.Node;
+                Node ParentNode = State.ParentInner.Owner.Node;
 
                 Controller.Remove(AsCollectionInner, AsCollectionNodeIndex);
 

@@ -12,7 +12,7 @@
         /// <summary>
         /// The parent node.
         /// </summary>
-        INode ParentNode { get; }
+        Node ParentNode { get; }
 
         /// <summary>
         /// Position of the node in the list.
@@ -33,7 +33,7 @@
         /// <param name="node">Indexed node in the list</param>
         /// <param name="propertyName">Property in <paramref name="parentNode"/> corresponding to the list.</param>
         /// <param name="index">Position of the node in the list.</param>
-        public ReadOnlyBrowsingListNodeIndex(INode parentNode, INode node, string propertyName, int index)
+        public ReadOnlyBrowsingListNodeIndex(Node parentNode, Node node, string propertyName, int index)
             : base(node, propertyName)
         {
             Debug.Assert(parentNode != null);
@@ -49,7 +49,7 @@
         /// <summary>
         /// The parent node.
         /// </summary>
-        public INode ParentNode { get; }
+        public Node ParentNode { get; }
 
         /// <summary>
         /// Position of the node in the list.

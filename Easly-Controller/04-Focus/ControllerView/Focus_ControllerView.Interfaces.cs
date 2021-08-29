@@ -25,7 +25,7 @@
             IFocusPlaceholderInner ParentInner = State.InnerTable[propertyName] as IFocusPlaceholderInner;
             Debug.Assert(ParentInner != null);
 
-            NodeTreeHelperChild.GetChildNode(stateView.State.Node, propertyName, out INode ChildNode);
+            NodeTreeHelperChild.GetChildNode(stateView.State.Node, propertyName, out Node ChildNode);
             Debug.Assert(ChildNode != null);
 
             Type NodeType = ChildNode.GetType();
@@ -198,10 +198,10 @@
             switch (State.InnerTable[propertyName])
             {
                 case IFocusPlaceholderInner AsPlaceholderInner:
-                    Debug.Assert(AsPlaceholderInner.InterfaceType == typeof(IIdentifier));
+                    Debug.Assert(AsPlaceholderInner.InterfaceType == typeof(Identifier));
                     IFocusPlaceholderNodeState ChildState = AsPlaceholderInner.ChildState as IFocusPlaceholderNodeState;
                     Debug.Assert(ChildState != null);
-                    Result = NodeTreeHelper.GetString(ChildState.Node, nameof(IIdentifier.Text)) == textPattern;
+                    Result = NodeTreeHelper.GetString(ChildState.Node, nameof(Identifier.Text)) == textPattern;
                     IsHandled = true;
                     break;
             }

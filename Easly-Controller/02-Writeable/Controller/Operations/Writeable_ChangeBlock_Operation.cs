@@ -12,7 +12,7 @@
         /// <summary>
         /// Node where the block change is taking place.
         /// </summary>
-        INode ParentNode { get; }
+        Node ParentNode { get; }
 
         /// <summary>
         /// Block list property of <see cref="ParentNode"/> for which a block is changed.
@@ -62,7 +62,7 @@
         /// <param name="handlerRedo">Handler to execute to redo the operation.</param>
         /// <param name="handlerUndo">Handler to execute to undo the operation.</param>
         /// <param name="isNested">True if the operation is nested within another more general one.</param>
-        public WriteableChangeBlockOperation(INode parentNode, string propertyName, int blockIndex, ReplicationStatus replication, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        public WriteableChangeBlockOperation(Node parentNode, string propertyName, int blockIndex, ReplicationStatus replication, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
             : base(handlerRedo, handlerUndo, isNested)
         {
             ParentNode = parentNode;
@@ -76,7 +76,7 @@
         /// <summary>
         /// Node where the block change is taking place.
         /// </summary>
-        public INode ParentNode { get; }
+        public Node ParentNode { get; }
 
         /// <summary>
         /// Block list property of <see cref="ParentNode"/> for which a block is changed.

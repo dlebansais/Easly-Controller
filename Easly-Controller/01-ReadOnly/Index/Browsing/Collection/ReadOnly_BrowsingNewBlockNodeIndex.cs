@@ -13,7 +13,7 @@
         /// <summary>
         /// The parent node.
         /// </summary>
-        INode ParentNode { get; }
+        Node ParentNode { get; }
 
         /// <summary>
         /// Gets the index for this node in an existing block.
@@ -34,7 +34,7 @@
         /// <param name="node">First node in the block.</param>
         /// <param name="propertyName">Property in <paramref name="parentNode"/> corresponding to the block list.</param>
         /// <param name="blockIndex">Position of the block in the block list.</param>
-        public ReadOnlyBrowsingNewBlockNodeIndex(INode parentNode, INode node, string propertyName, int blockIndex)
+        public ReadOnlyBrowsingNewBlockNodeIndex(Node parentNode, Node node, string propertyName, int blockIndex)
             : base(node, propertyName, blockIndex)
         {
             Debug.Assert(parentNode != null);
@@ -51,7 +51,7 @@
         /// <summary>
         /// The parent node.
         /// </summary>
-        public INode ParentNode { get; }
+        public Node ParentNode { get; }
         #endregion
 
         #region Client Interface

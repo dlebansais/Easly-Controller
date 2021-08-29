@@ -111,12 +111,12 @@
         /// Creates a clone of the optional node of the inner, using <paramref name="parentNode"/> as the parent.
         /// </summary>
         /// <param name="parentNode">The node that will contains a reference to the cloned child upon return.</param>
-        public override void CloneChildren(INode parentNode)
+        public override void CloneChildren(Node parentNode)
         {
             Debug.Assert(parentNode != null);
 
             // Clone the child recursively.
-            INode ChildNodeClone = ChildState.CloneNode();
+            Node ChildNodeClone = ChildState.CloneNode();
 
             // If the original is set, set the clone too.
             if (ChildNodeClone != null)

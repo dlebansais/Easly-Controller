@@ -26,7 +26,7 @@
         /// <param name="blockIndex">Position of the block in the block list.</param>
         /// <param name="patternNode">Replication pattern in the block.</param>
         /// <param name="sourceNode">Source identifier in the block.</param>
-        public FrameInsertionNewBlockNodeIndex(INode parentNode, string propertyName, INode node, int blockIndex, IPattern patternNode, IIdentifier sourceNode)
+        public FrameInsertionNewBlockNodeIndex(Node parentNode, string propertyName, Node node, int blockIndex, Pattern patternNode, Identifier sourceNode)
             : base(parentNode, propertyName, node, blockIndex, patternNode, sourceNode)
         {
         }

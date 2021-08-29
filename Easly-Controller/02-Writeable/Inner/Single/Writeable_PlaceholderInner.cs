@@ -71,11 +71,11 @@
         {
             Debug.Assert(operation != null);
 
-            INode ParentNode = Owner.Node;
+            Node ParentNode = Owner.Node;
 
             WriteableBrowsingPlaceholderNodeIndex OldBrowsingIndex = (WriteableBrowsingPlaceholderNodeIndex)ChildState.ParentIndex;
             IWriteablePlaceholderNodeState OldChildState = (IWriteablePlaceholderNodeState)ChildState;
-            INode OldNode = OldChildState.Node;
+            Node OldNode = OldChildState.Node;
 
             NodeTreeHelperChild.SetChildNode(ParentNode, PropertyName, operation.NewNode);
 
@@ -100,7 +100,7 @@
         /// <summary>
         /// Creates a IxxxBrowsingPlaceholderNodeIndex object.
         /// </summary>
-        private protected virtual IWriteableBrowsingPlaceholderNodeIndex CreateBrowsingNodeIndex(INode node)
+        private protected virtual IWriteableBrowsingPlaceholderNodeIndex CreateBrowsingNodeIndex(Node node)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteablePlaceholderInner<IIndex, TIndex>));
             return new WriteableBrowsingPlaceholderNodeIndex(Owner.Node, node, PropertyName);

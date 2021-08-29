@@ -25,7 +25,7 @@
         /// <param name="propertyName">Property in <paramref name="parentNode"/> corresponding to the block list.</param>
         /// <param name="blockIndex">Position of the block in the block list.</param>
         /// <param name="index">Position of the node in the block.</param>
-        public FrameBrowsingExistingBlockNodeIndex(INode parentNode, INode node, string propertyName, int blockIndex, int index)
+        public FrameBrowsingExistingBlockNodeIndex(Node parentNode, Node node, string propertyName, int blockIndex, int index)
             : base(parentNode, node, propertyName, blockIndex, index)
         {
         }
@@ -55,7 +55,7 @@
         /// <summary>
         /// Creates a IxxxInsertionExistingBlockNodeIndex object.
         /// </summary>
-        private protected override IWriteableInsertionExistingBlockNodeIndex CreateInsertionIndex(INode parentNode, INode node)
+        private protected override IWriteableInsertionExistingBlockNodeIndex CreateInsertionIndex(Node parentNode, Node node)
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameBrowsingExistingBlockNodeIndex));
             return new FrameInsertionExistingBlockNodeIndex(parentNode, PropertyName, node, BlockIndex, Index);

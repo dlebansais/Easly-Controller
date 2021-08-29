@@ -21,7 +21,7 @@
         /// Initializes a new instance of the <see cref="WriteableRootNodeIndex"/> class.
         /// </summary>
         /// <param name="node">The indexed root node.</param>
-        public WriteableRootNodeIndex(INode node)
+        public WriteableRootNodeIndex(Node node)
             : base(node)
         {
         }

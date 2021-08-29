@@ -59,7 +59,7 @@
                 Debug.Assert(Optional != null);
 
                 Type InterfaceType;
-                NodeTreeHelperOptional.GetChildNode(Optional, out bool IsAssigned, out INode ChildNode);
+                NodeTreeHelperOptional.GetChildNode(Optional, out bool IsAssigned, out Node ChildNode);
                 if (ChildNode != null)
                 {
                     Type NodeType = ChildNode.GetType();

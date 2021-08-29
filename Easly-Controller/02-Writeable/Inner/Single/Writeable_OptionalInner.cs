@@ -103,10 +103,10 @@
 
         private protected virtual void ReplaceOptional(IWriteableReplaceOperation operation)
         {
-            INode ParentNode = Owner.Node;
+            Node ParentNode = Owner.Node;
 
             WriteableBrowsingOptionalNodeIndex OldBrowsingIndex = (WriteableBrowsingOptionalNodeIndex)ChildState.ParentIndex;
-            INode OldNode = ChildState.Optional.HasItem ? ChildState.Node : null;
+            Node OldNode = ChildState.Optional.HasItem ? ChildState.Node : null;
 
             NodeTreeHelperOptional.SetOptionalChildNode(ParentNode, PropertyName, operation.NewNode);
 
@@ -119,10 +119,10 @@
 
         private protected virtual void ClearOptional(IWriteableReplaceOperation operation)
         {
-            INode ParentNode = Owner.Node;
+            Node ParentNode = Owner.Node;
 
             WriteableBrowsingOptionalNodeIndex OldBrowsingIndex = (WriteableBrowsingOptionalNodeIndex)ChildState.ParentIndex;
-            INode OldNode = ChildState.Optional.HasItem ? ChildState.Node : null;
+            Node OldNode = ChildState.Optional.HasItem ? ChildState.Node : null;
 
             NodeTreeHelperOptional.ClearOptionalChildNode(ParentNode, PropertyName);
 

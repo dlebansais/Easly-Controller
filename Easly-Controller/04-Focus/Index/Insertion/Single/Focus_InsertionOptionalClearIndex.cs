@@ -23,7 +23,7 @@
         /// </summary>
         /// <param name="parentNode">Node containing the indexed optional node.</param>
         /// <param name="propertyName">Property in <paramref name="parentNode"/> corresponding to the indexed optional node.</param>
-        public FocusInsertionOptionalClearIndex(INode parentNode, string propertyName)
+        public FocusInsertionOptionalClearIndex(Node parentNode, string propertyName)
             : base(parentNode, propertyName)
         {
         }

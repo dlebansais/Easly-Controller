@@ -195,7 +195,7 @@
         /// Creates a clone of all children of the inner, using <paramref name="parentNode"/> as their parent.
         /// </summary>
         /// <param name="parentNode">The node that will contains references to cloned children upon return.</param>
-        public override void CloneChildren(INode parentNode)
+        public override void CloneChildren(Node parentNode)
         {
             Debug.Assert(parentNode != null);
 
@@ -206,7 +206,7 @@
                 IReadOnlyPlaceholderNodeState ChildState = StateList[i];
 
                 // Clone all children recursively.
-                INode ChildNodeClone = ChildState.CloneNode();
+                Node ChildNodeClone = ChildState.CloneNode();
                 Debug.Assert(ChildNodeClone != null);
 
                 NodeTreeHelperList.InsertIntoList(parentNode, PropertyName, i, ChildNodeClone);

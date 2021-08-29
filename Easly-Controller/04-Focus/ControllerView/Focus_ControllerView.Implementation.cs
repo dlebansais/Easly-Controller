@@ -199,7 +199,7 @@
 
         private protected virtual bool IsSameChangeTextOperationFocus(IFocusChangeTextOperation operation)
         {
-            INode Node = null;
+            Node Node = null;
             if (operation.State.ParentIndex is IFocusNodeIndex AsNodeIndex)
                 Node = AsNodeIndex.Node;
             else if (operation.State is IFocusOptionalNodeState AsOptionalNodeState && AsOptionalNodeState.ParentInner.IsAssigned)
@@ -208,7 +208,7 @@
             Debug.Assert(Node != null);
             string PropertyName = operation.PropertyName;
 
-            INode FocusedNode = null;
+            Node FocusedNode = null;
             IFocusFrame FocusedFrame = null;
             Focus.GetLocationInSourceCode(out FocusedNode, out FocusedFrame);
 
@@ -243,7 +243,7 @@
 
         private protected virtual bool IsSameChangeCommentOperationFocus(IFocusChangeCommentOperation operation)
         {
-            INode Node = null;
+            Node Node = null;
             if (operation.State.ParentIndex is IFocusNodeIndex AsNodeIndex)
                 Node = AsNodeIndex.Node;
             else if (operation.State is IFocusOptionalNodeState AsOptionalNodeState && AsOptionalNodeState.ParentInner.IsAssigned)
@@ -251,7 +251,7 @@
 
             Debug.Assert(Node != null);
 
-            INode FocusedNode = null;
+            Node FocusedNode = null;
             IFocusFrame FocusedFrame = null;
             Focus.GetLocationInSourceCode(out FocusedNode, out FocusedFrame);
 
@@ -355,7 +355,7 @@
 
         private protected override void Refresh(IFrameNodeState state)
         {
-            INode FocusedNode = null;
+            Node FocusedNode = null;
             IFocusFrame FocusedFrame = null;
 
             if (Focus != null)
@@ -366,7 +366,7 @@
             UpdateFocusChain((IFocusNodeState)state, FocusedNode, FocusedFrame);
         }
 
-        private protected virtual void UpdateFocusChain(IFocusNodeState state, INode focusedNode, IFocusFrame focusedFrame)
+        private protected virtual void UpdateFocusChain(IFocusNodeState state, Node focusedNode, IFocusFrame focusedFrame)
         {
             IFocusFocusList NewFocusChain = CreateFocusChain();
             IFocusNodeState RootState = Controller.RootState;
@@ -741,7 +741,7 @@
         private protected virtual string GetFocusedStringContent(IFocusStringContentFocus textCellFocus)
         {
             IFocusStringContentFocusableCellView CellView = textCellFocus.CellView;
-            INode Node = CellView.StateView.State.Node;
+            Node Node = CellView.StateView.State.Node;
             string PropertyName = CellView.PropertyName;
 
             return NodeTreeHelper.GetString(Node, PropertyName);
@@ -750,7 +750,7 @@
         private protected virtual string GetFocusedCommentText(IFocusCommentFocus commentFocus)
         {
             IFocusCommentCellView CellView = commentFocus.CellView;
-            IDocument Documentation = CellView.StateView.State.Node.Documentation;
+            Document Documentation = CellView.StateView.State.Node.Documentation;
 
             return CommentHelper.Get(Documentation);
         }

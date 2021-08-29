@@ -25,7 +25,7 @@
         /// <param name="propertyName">Property in <paramref name="parentNode"/> corresponding to the list.</param>
         /// <param name="node">Inserted node.</param>
         /// <param name="index">Position where to insert <paramref name="node"/> in the list.</param>
-        public LayoutInsertionListNodeIndex(INode parentNode, string propertyName, INode node, int index)
+        public LayoutInsertionListNodeIndex(Node parentNode, string propertyName, Node node, int index)
             : base(parentNode, propertyName, node, index)
         {
         }

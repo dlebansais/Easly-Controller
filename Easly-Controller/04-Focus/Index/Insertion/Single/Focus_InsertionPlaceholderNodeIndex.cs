@@ -24,7 +24,7 @@
         /// <param name="parentNode">Node containing the replaced node.</param>
         /// <param name="propertyName">Property in <paramref name="parentNode"/> corresponding to the indexed node.</param>
         /// <param name="node">The assigned node.</param>
-        public FocusInsertionPlaceholderNodeIndex(INode parentNode, string propertyName, INode node)
+        public FocusInsertionPlaceholderNodeIndex(Node parentNode, string propertyName, Node node)
             : base(parentNode, propertyName, node)
         {
         }

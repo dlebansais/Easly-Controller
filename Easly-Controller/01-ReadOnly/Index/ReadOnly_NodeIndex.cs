@@ -10,6 +10,6 @@
         /// <summary>
         /// The indexed node.
         /// </summary>
-        INode Node { get; }
+        Node Node { get; }
     }
 }

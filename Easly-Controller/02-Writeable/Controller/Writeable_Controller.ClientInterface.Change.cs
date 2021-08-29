@@ -49,7 +49,7 @@
 
         private protected virtual void ExecuteChangeReplication(IWriteableChangeBlockOperation operation)
         {
-            INode ParentNode = operation.ParentNode;
+            Node ParentNode = operation.ParentNode;
             string PropertyName = operation.PropertyName;
             IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> Inner = GetInner(ParentNode, PropertyName) as IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex>;
 
@@ -97,7 +97,7 @@
 
         private protected virtual void ExecuteChangeDiscreteValue(IWriteableChangeDiscreteValueOperation operation)
         {
-            INode ParentNode = operation.ParentNode;
+            Node ParentNode = operation.ParentNode;
             string PropertyName = operation.PropertyName;
             int NewValue = operation.NewValue;
 
@@ -157,7 +157,7 @@
 
         private protected virtual void ExecuteChangeText(IWriteableChangeTextOperation operation)
         {
-            INode ParentNode = operation.ParentNode;
+            Node ParentNode = operation.ParentNode;
             string PropertyName = operation.PropertyName;
             string NewText = operation.NewText;
 
@@ -213,7 +213,7 @@
 
         private protected virtual void ExecuteChangeComment(IWriteableChangeCommentOperation operation)
         {
-            INode ParentNode = operation.ParentNode;
+            Node ParentNode = operation.ParentNode;
             string NewText = operation.NewText;
 
             IWriteableNodeState State = (IWriteableNodeState)GetState(ParentNode);

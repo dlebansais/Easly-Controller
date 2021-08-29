@@ -12,7 +12,7 @@
         /// <summary>
         /// The parent node.
         /// </summary>
-        INode ParentNode { get; }
+        Node ParentNode { get; }
 
         /// <summary>
         /// Position of the node in the block.
@@ -34,7 +34,7 @@
         /// <param name="propertyName">Property in <paramref name="parentNode"/> corresponding to the block list.</param>
         /// <param name="blockIndex">Position of the block in the block list.</param>
         /// <param name="index">Position of the node in the block.</param>
-        public ReadOnlyBrowsingExistingBlockNodeIndex(INode parentNode, INode node, string propertyName, int blockIndex, int index)
+        public ReadOnlyBrowsingExistingBlockNodeIndex(Node parentNode, Node node, string propertyName, int blockIndex, int index)
             : base(node, propertyName, blockIndex)
         {
             Debug.Assert(parentNode != null);
@@ -53,7 +53,7 @@
         /// <summary>
         /// The parent node.
         /// </summary>
-        public INode ParentNode { get; }
+        public Node ParentNode { get; }
 
         /// <summary>
         /// Position of the node in the block.

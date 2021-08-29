@@ -22,7 +22,7 @@
         /// </summary>
         /// <param name="parentNode">Node containing the indexed optional node.</param>
         /// <param name="propertyName">Property in <paramref name="parentNode"/> corresponding to the indexed optional node.</param>
-        public FrameBrowsingOptionalNodeIndex(INode parentNode, string propertyName)
+        public FrameBrowsingOptionalNodeIndex(Node parentNode, string propertyName)
             : base(parentNode, propertyName)
         {
         }
@@ -52,7 +52,7 @@
         /// <summary>
         /// Creates a IxxxInsertionPlaceholderNodeIndex object.
         /// </summary>
-        private protected override IWriteableInsertionOptionalNodeIndex CreateInsertionOptionalNodeIndex(INode parentNode, INode node)
+        private protected override IWriteableInsertionOptionalNodeIndex CreateInsertionOptionalNodeIndex(Node parentNode, Node node)
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameBrowsingOptionalNodeIndex));
             return new FrameInsertionOptionalNodeIndex(parentNode, PropertyName, node);
@@ -61,7 +61,7 @@
         /// <summary>
         /// Creates a IxxxInsertionOptionalClearIndex object.
         /// </summary>
-        private protected override IWriteableInsertionOptionalClearIndex CreateInsertionOptionalClearIndex(INode parentNode)
+        private protected override IWriteableInsertionOptionalClearIndex CreateInsertionOptionalClearIndex(Node parentNode)
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameBrowsingOptionalNodeIndex));
             return new FrameInsertionOptionalClearIndex(parentNode, PropertyName);

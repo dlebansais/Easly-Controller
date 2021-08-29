@@ -11,7 +11,7 @@
         /// <summary>
         /// The comment this cell is displaying.
         /// </summary>
-        IDocument Documentation { get; }
+        Document Documentation { get; }
     }
 
     /// <summary>
@@ -27,7 +27,7 @@
         /// <param name="parentCellView">The collection of cell views containing this view. Null for the root of the cell tree.</param>
         /// <param name="frame">The frame that created this cell view.</param>
         /// <param name="documentation">The comment this cell is displaying.</param>
-        public FrameCommentCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, IFrameFrame frame, IDocument documentation)
+        public FrameCommentCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, IFrameFrame frame, Document documentation)
             : base(stateView, parentCellView, frame)
         {
             Documentation = documentation;
@@ -38,7 +38,7 @@
         /// <summary>
         /// The comment this cell is displaying.
         /// </summary>
-        public IDocument Documentation { get; }
+        public Document Documentation { get; }
         #endregion
 
         #region Debugging

@@ -24,7 +24,7 @@
         /// <param name="node">First node in the block.</param>
         /// <param name="propertyName">Property in <paramref name="parentNode"/> corresponding to the block list.</param>
         /// <param name="blockIndex">Position of the block in the block list.</param>
-        public LayoutBrowsingNewBlockNodeIndex(INode parentNode, INode node, string propertyName, int blockIndex)
+        public LayoutBrowsingNewBlockNodeIndex(Node parentNode, Node node, string propertyName, int blockIndex)
             : base(parentNode, node, propertyName, blockIndex)
         {
         }

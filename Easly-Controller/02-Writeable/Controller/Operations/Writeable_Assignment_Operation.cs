@@ -12,7 +12,7 @@
         /// <summary>
         /// Node where the assignment is taking place.
         /// </summary>
-        INode ParentNode { get; }
+        Node ParentNode { get; }
 
         /// <summary>
         /// Optional property of <see cref="ParentNode"/> for which assignment is changed.
@@ -50,7 +50,7 @@
         /// <param name="handlerRedo">Handler to execute to redo the operation.</param>
         /// <param name="handlerUndo">Handler to execute to undo the operation.</param>
         /// <param name="isNested">True if the operation is nested within another more general one.</param>
-        public WriteableAssignmentOperation(INode parentNode, string propertyName, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        public WriteableAssignmentOperation(Node parentNode, string propertyName, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
             : base(handlerRedo, handlerUndo, isNested)
         {
             ParentNode = parentNode;
@@ -62,7 +62,7 @@
         /// <summary>
         /// Node where the assignment is taking place.
         /// </summary>
-        public INode ParentNode { get; }
+        public Node ParentNode { get; }
 
         /// <summary>
         /// Optional property of <see cref="ParentNode"/> for which assignment is changed.

@@ -71,7 +71,7 @@
         /// <summary>
         /// Creates a IxxxInsertionNewBlockNodeIndex object.
         /// </summary>
-        private protected override IFocusInsertionNewBlockNodeIndex CreateNewBlockNodeIndex(INode parentNode, string propertyName, INode node, int blockIndex, IPattern patternNode, IIdentifier sourceNode)
+        private protected override IFocusInsertionNewBlockNodeIndex CreateNewBlockNodeIndex(Node parentNode, string propertyName, Node node, int blockIndex, Pattern patternNode, Identifier sourceNode)
         {
             ControllerTools.AssertNoOverride(this, typeof(LayoutBlockListSelection));
             return new LayoutInsertionNewBlockNodeIndex(parentNode, propertyName, node, blockIndex, patternNode, sourceNode);
@@ -80,7 +80,7 @@
         /// <summary>
         /// Creates a IxxxInsertionExistingBlockNodeIndex object.
         /// </summary>
-        private protected override IFocusInsertionExistingBlockNodeIndex CreateExistingBlockNodeIndex(INode parentNode, string propertyName, INode node, int blockIndex, int index)
+        private protected override IFocusInsertionExistingBlockNodeIndex CreateExistingBlockNodeIndex(Node parentNode, string propertyName, Node node, int blockIndex, int index)
         {
             ControllerTools.AssertNoOverride(this, typeof(LayoutBlockListSelection));
             return new LayoutInsertionExistingBlockNodeIndex(parentNode, propertyName, node, blockIndex, index);

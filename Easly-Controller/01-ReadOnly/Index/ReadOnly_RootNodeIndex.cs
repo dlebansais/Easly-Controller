@@ -22,7 +22,7 @@
         /// Initializes a new instance of the <see cref="ReadOnlyRootNodeIndex"/> class.
         /// </summary>
         /// <param name="node">The indexed root node.</param>
-        public ReadOnlyRootNodeIndex(INode node)
+        public ReadOnlyRootNodeIndex(Node node)
         {
             if (!NodeTreeDiagnostic.IsValid(node, assertValid: false))
             {
@@ -41,7 +41,7 @@
         /// <summary>
         /// The indexed root node.
         /// </summary>
-        public INode Node { get; }
+        public Node Node { get; }
         #endregion
 
         #region Debugging

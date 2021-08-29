@@ -91,8 +91,8 @@
             int InsertionIndex = operation.Index;
             Debug.Assert(InsertionIndex >= 0 && InsertionIndex <= StateList.Count);
 
-            INode ParentNode = Owner.Node;
-            INode Node = operation.Node;
+            Node ParentNode = Owner.Node;
+            Node Node = operation.Node;
             NodeTreeHelperList.InsertIntoList(ParentNode, PropertyName, InsertionIndex, Node);
 
             IWriteableBrowsingListNodeIndex BrowsingIndex = CreateBrowsingNodeIndex(Node, InsertionIndex);
@@ -128,7 +128,7 @@
             IWriteablePlaceholderNodeState OldChildState = StateList[RemoveIndex];
             RemoveFromStateList(RemoveIndex);
 
-            INode ParentNode = Owner.Node;
+            Node ParentNode = Owner.Node;
             NodeTreeHelperList.RemoveFromList(ParentNode, PropertyName, RemoveIndex);
 
             while (RemoveIndex < StateList.Count)
@@ -158,10 +158,10 @@
             int Index = operation.Index;
             Debug.Assert(Index >= 0 && Index < StateList.Count);
 
-            INode ParentNode = Owner.Node;
+            Node ParentNode = Owner.Node;
 
             IWriteableNodeState OldChildState = StateList[Index];
-            INode OldNode = OldChildState.Node;
+            Node OldNode = OldChildState.Node;
             IWriteableBrowsingListNodeIndex OldBrowsingIndex = (IWriteableBrowsingListNodeIndex)OldChildState.ParentIndex;
             RemoveFromStateList(Index);
 
@@ -212,7 +212,7 @@
             IWriteableBrowsingListNodeIndex MovedNodeIndex = StateList[MoveIndex].ParentIndex as IWriteableBrowsingListNodeIndex;
             Debug.Assert(MovedNodeIndex != null);
 
-            INode ParentNode = Owner.Node;
+            Node ParentNode = Owner.Node;
 
             MoveInStateList(MoveIndex, Direction);
             NodeTreeHelperList.MoveNode(ParentNode, PropertyName, MoveIndex, Direction);
@@ -275,7 +275,7 @@
         /// <summary>
         /// Creates a IxxxBrowsingListNodeIndex object.
         /// </summary>
-        private protected virtual IWriteableBrowsingListNodeIndex CreateBrowsingNodeIndex(INode node, int index)
+        private protected virtual IWriteableBrowsingListNodeIndex CreateBrowsingNodeIndex(Node node, int index)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableListInner<IIndex, TIndex>));
             return new WriteableBrowsingListNodeIndex(Owner.Node, node, PropertyName, index);

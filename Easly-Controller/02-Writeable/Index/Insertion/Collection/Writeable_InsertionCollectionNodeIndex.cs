@@ -24,7 +24,7 @@
         /// <param name="parentNode">The node in which the insertion operation is taking place.</param>
         /// <param name="propertyName">The property for the index.</param>
         /// <param name="node">The inserted node.</param>
-        public WriteableInsertionCollectionNodeIndex(INode parentNode, string propertyName, INode node)
+        public WriteableInsertionCollectionNodeIndex(Node parentNode, string propertyName, Node node)
         {
             Debug.Assert(parentNode != null);
             Debug.Assert(!string.IsNullOrEmpty(propertyName));
@@ -41,7 +41,7 @@
         /// <summary>
         /// Node in which the insertion operation is taking place.
         /// </summary>
-        public INode ParentNode { get; }
+        public Node ParentNode { get; }
 
         /// <summary>
         /// Property indexed for <see cref="Node"/>.
@@ -51,7 +51,7 @@
         /// <summary>
         /// Node inserted.
         /// </summary>
-        public INode Node { get; }
+        public Node Node { get; }
         #endregion
 
         #region Client Interface

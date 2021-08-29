@@ -57,9 +57,9 @@
         {
             isChanged = false;
 
-            if (ClipboardHelper.TryReadNode(out INode Node))
+            if (ClipboardHelper.TryReadNode(out Node Node))
                 PasteNode(Node, out isChanged);
-            else if (ClipboardHelper.TryReadNodeList(out IList<INode> NodeList))
+            else if (ClipboardHelper.TryReadNodeList(out IList<Node> NodeList))
                 PasteNodeList(NodeList, out isChanged);
             else if (ClipboardHelper.TryReadBlockList(out IList<IBlock> BlockList))
                 PasteBlockList(BlockList, out isChanged);
@@ -68,7 +68,7 @@
         }
 
         /// <summary></summary>
-        protected virtual void PasteNode(INode node, out bool isChanged)
+        protected virtual void PasteNode(Node node, out bool isChanged)
         {
             isChanged = false;
 
@@ -81,7 +81,7 @@
                     if (State.ParentIndex is IFocusBrowsingInsertableIndex AsInsertableIndex)
                     {
                         IFocusController Controller = StateView.ControllerView.Controller;
-                        INode ParentNode = State.ParentInner.Owner.Node;
+                        Node ParentNode = State.ParentInner.Owner.Node;
 
                         IFocusInsertionChildIndex ReplaceIndex = (IFocusInsertionChildIndex)AsInsertableIndex.ToInsertionIndex(ParentNode, node);
                         Controller.Replace(State.ParentInner, ReplaceIndex, out IWriteableBrowsingChildIndex NewIndex);
@@ -93,7 +93,7 @@
         }
 
         /// <summary></summary>
-        protected virtual void PasteNodeList(IList<INode> nodeList, out bool isChanged)
+        protected virtual void PasteNodeList(IList<Node> nodeList, out bool isChanged)
         {
             isChanged = false;
 
@@ -125,7 +125,7 @@
         }
 
         /// <summary></summary>
-        protected virtual void PasteNodeListToList(IList<INode> nodeList, IFocusListInner listInner, IFocusBrowsingListNodeIndex parentIndex, out bool isChanged)
+        protected virtual void PasteNodeListToList(IList<Node> nodeList, IFocusListInner listInner, IFocusBrowsingListNodeIndex parentIndex, out bool isChanged)
         {
             isChanged = false;
 
@@ -136,7 +136,7 @@
 
             for (int i = 0; i < nodeList.Count; i++)
             {
-                INode NewNode = nodeList[i] as INode;
+                Node NewNode = nodeList[i] as Node;
                 IFocusInsertionListNodeIndex InsertedIndex = CreateListNodeIndex(listInner.Owner.Node, listInner.PropertyName, NewNode, parentIndex.Index + i);
                 IndexList.Add(InsertedIndex);
             }
@@ -147,7 +147,7 @@
         }
 
         /// <summary></summary>
-        protected virtual void PasteNodeListToBlockList(IList<INode> nodeList, IFocusBlockListInner blockListInner, IFocusBrowsingExistingBlockNodeIndex parentIndex, out bool isChanged)
+        protected virtual void PasteNodeListToBlockList(IList<Node> nodeList, IFocusBlockListInner blockListInner, IFocusBrowsingExistingBlockNodeIndex parentIndex, out bool isChanged)
         {
             isChanged = false;
 
@@ -158,7 +158,7 @@
 
             for (int i = 0; i < nodeList.Count; i++)
             {
-                INode NewNode = nodeList[i] as INode;
+                Node NewNode = nodeList[i] as Node;
                 IFocusInsertionExistingBlockNodeIndex InsertedIndex = CreateExistingBlockNodeIndex(blockListInner.Owner.Node, blockListInner.PropertyName, NewNode, parentIndex.BlockIndex, parentIndex.Index + i);
                 IndexList.Add(InsertedIndex);
             }
@@ -205,7 +205,7 @@
 
                         for (int j = 0; j < NewBlock.NodeList.Count; j++)
                         {
-                            INode NewNode = NewBlock.NodeList[j] as INode;
+                            Node NewNode = NewBlock.NodeList[j] as Node;
                             IFocusInsertionBlockNodeIndex InsertedIndex;
 
                             if (j == 0)
@@ -292,7 +292,7 @@
         /// <summary>
         /// Creates a IxxxInsertionListNodeIndex object.
         /// </summary>
-        private protected virtual IFocusInsertionListNodeIndex CreateListNodeIndex(INode parentNode, string propertyName, INode node, int index)
+        private protected virtual IFocusInsertionListNodeIndex CreateListNodeIndex(Node parentNode, string propertyName, Node node, int index)
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusEmptySelection));
             return new FocusInsertionListNodeIndex(parentNode, propertyName, node, index);
@@ -301,7 +301,7 @@
         /// <summary>
         /// Creates a IxxxInsertionNewBlockNodeIndex object.
         /// </summary>
-        private protected virtual IFocusInsertionNewBlockNodeIndex CreateNewBlockNodeIndex(INode parentNode, string propertyName, INode node, int blockIndex, IPattern patternNode, IIdentifier sourceNode)
+        private protected virtual IFocusInsertionNewBlockNodeIndex CreateNewBlockNodeIndex(Node parentNode, string propertyName, Node node, int blockIndex, Pattern patternNode, Identifier sourceNode)
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusEmptySelection));
             return new FocusInsertionNewBlockNodeIndex(parentNode, propertyName, node, blockIndex, patternNode, sourceNode);
@@ -310,7 +310,7 @@
         /// <summary>
         /// Creates a IxxxInsertionExistingBlockNodeIndex object.
         /// </summary>
-        private protected virtual IFocusInsertionExistingBlockNodeIndex CreateExistingBlockNodeIndex(INode parentNode, string propertyName, INode node, int blockIndex, int index)
+        private protected virtual IFocusInsertionExistingBlockNodeIndex CreateExistingBlockNodeIndex(Node parentNode, string propertyName, Node node, int blockIndex, int index)
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusEmptySelection));
             return new FocusInsertionExistingBlockNodeIndex(parentNode, propertyName, node, blockIndex, index);

@@ -54,7 +54,7 @@ namespace TestDebug
         #region Tools
         static bool DebugLine = false;
 
-        static byte[] GetData(INode node)
+        static byte[] GetData(Node node)
         {
             byte[] Data;
             using (MemoryStream ms = new MemoryStream())
@@ -103,15 +103,15 @@ namespace TestDebug
         {
             using (FileStream fs = new FileStream(fileName, FileMode.Open, FileAccess.Read))
             {
-                INode RootNode = (INode)serializer.Deserialize(fs);
-                INode ClonedNode = NodeHelper.DeepCloneNode(RootNode, cloneCommentGuid: true);
+                Node RootNode = (Node)serializer.Deserialize(fs);
+                Node ClonedNode = NodeHelper.DeepCloneNode(RootNode, cloneCommentGuid: true);
                 Debug.Assert(NodeHelper.NodeHash(RootNode) == NodeHelper.NodeHash(ClonedNode));
 
                 TestReadOnly(RootNode);
             }
         }
 
-        static void TestReadOnly(INode rootNode)
+        static void TestReadOnly(Node rootNode)
         {
             ControllerTools.ResetExpectedName();
 
@@ -122,7 +122,7 @@ namespace TestDebug
             ulong h0 = NodeHelper.NodeHash(rootNode);
             byte[] RootData = GetData(rootNode);
 
-            INode RootNodeClone1 = Controller.RootState.CloneNode();
+            Node RootNodeClone1 = Controller.RootState.CloneNode();
             ulong h1 = NodeHelper.NodeHash(RootNodeClone1);
             byte[] RootCloneData1 = GetData(RootNodeClone1);
 
@@ -133,7 +133,7 @@ namespace TestDebug
             {
                 using (IReadOnlyControllerView ControllerView2 = ReadOnlyControllerView.Create(Controller))
                 {
-                    INode RootNodeClone2 = Controller.RootState.CloneNode();
+                    Node RootNodeClone2 = Controller.RootState.CloneNode();
                     ulong h2 = NodeHelper.NodeHash(RootNodeClone2);
                     byte[] RootCloneData2 = GetData(RootNodeClone2);
 
@@ -155,8 +155,8 @@ namespace TestDebug
         {
             using (FileStream fs = new FileStream(fileName, FileMode.Open, FileAccess.Read))
             {
-                INode RootNode = (INode)serializer.Deserialize(fs);
-                INode ClonedNode = NodeHelper.DeepCloneNode(RootNode, cloneCommentGuid: true);
+                Node RootNode = (Node)serializer.Deserialize(fs);
+                Node ClonedNode = NodeHelper.DeepCloneNode(RootNode, cloneCommentGuid: true);
                 ulong Hash1 = NodeHelper.NodeHash(RootNode);
                 ulong Hash2 = NodeHelper.NodeHash(ClonedNode);
                 Debug.Assert(Hash1 == Hash2);
@@ -165,7 +165,7 @@ namespace TestDebug
             }
         }
 
-        static void TestWriteableGR(IGlobalReplicate rootNode)
+        static void TestWriteableGR(GlobalReplicate rootNode)
         {
             ControllerTools.ResetExpectedName();
 
@@ -179,10 +179,10 @@ namespace TestDebug
             IWriteableNodeState RootState = Controller.RootState;
             IWriteableInnerReadOnlyDictionary<string> InnerTable = RootState.InnerTable;
 
-            IWriteableListInner ListInner2 = (IWriteableListInner)InnerTable[nameof(IGlobalReplicate.Patterns)];
+            IWriteableListInner ListInner2 = (IWriteableListInner)InnerTable[nameof(GlobalReplicate.Patterns)];
             if (ListInner2.StateList.Count > 30)
             {
-                IPattern TestNode = (IPattern)ListInner2.StateList[31].Node;
+                Pattern TestNode = (Pattern)ListInner2.StateList[31].Node;
 
                 IWriteableBrowsingListNodeIndex InsertIndex0 = (IWriteableBrowsingListNodeIndex)ListInner2.IndexAt(31);
                 Controller.Move(ListInner2, InsertIndex0, -5);
@@ -193,16 +193,16 @@ namespace TestDebug
 
         }
 
-        static void TestWriteable(INode rootNode)
+        static void TestWriteable(Node rootNode)
         {
             bool IsValid = NodeTreeDiagnostic.IsValid(rootNode);
 
-            if (!(rootNode is IClass))
+            if (!(rootNode is Class))
             {
-                if (!(rootNode is IGlobalReplicate))
+                if (!(rootNode is GlobalReplicate))
                     return;
 
-                TestWriteableGR((IGlobalReplicate)rootNode);
+                TestWriteableGR((GlobalReplicate)rootNode);
                 return;
             }
 
@@ -214,7 +214,7 @@ namespace TestDebug
             IWriteableController ControllerCheck;
             bool IsChanged;
 
-            INode RootNodeClone = Controller.RootState.CloneNode();
+            Node RootNodeClone = Controller.RootState.CloneNode();
             ulong h1 = NodeHelper.NodeHash(rootNode);
             ulong h2 = NodeHelper.NodeHash(RootNodeClone);
 
@@ -229,11 +229,11 @@ namespace TestDebug
 
             IWriteableNodeState RootState = Controller.RootState;
             IWriteableInnerReadOnlyDictionary<string> InnerTable = RootState.InnerTable;
-            IWriteableBlockListInner ListInner = (IWriteableBlockListInner)InnerTable[nameof(IClass.ImportBlocks)];
+            IWriteableBlockListInner ListInner = (IWriteableBlockListInner)InnerTable[nameof(Class.ImportBlocks)];
 
-            IPattern PatternNode = NodeHelper.CreateEmptyPattern();
-            IIdentifier SourceNode = NodeHelper.CreateEmptyIdentifier();
-            IImport FirstNode = NodeHelper.CreateSimpleImport("x", "x", ImportType.Latest);
+            Pattern PatternNode = NodeHelper.CreateEmptyPattern();
+            Identifier SourceNode = NodeHelper.CreateEmptyIdentifier();
+            Import FirstNode = NodeHelper.CreateSimpleImport("x", "x", ImportType.Latest);
 
             WriteableInsertionNewBlockNodeIndex InsertIndex0 = new WriteableInsertionNewBlockNodeIndex(rootNode, ListInner.PropertyName, FirstNode, 0, PatternNode, SourceNode);
             Controller.Insert(ListInner, InsertIndex0, out IWriteableBrowsingCollectionNodeIndex InsertedIndex0);
@@ -241,7 +241,7 @@ namespace TestDebug
             ControllerCheck = WriteableController.Create(new WriteableRootNodeIndex(rootNode));
             Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
 
-            IImport SecondNode = NodeHelper.CreateSimpleImport("y", "y", ImportType.Latest);
+            Import SecondNode = NodeHelper.CreateSimpleImport("y", "y", ImportType.Latest);
 
             WriteableInsertionExistingBlockNodeIndex InsertIndex1 = new WriteableInsertionExistingBlockNodeIndex(rootNode, ListInner.PropertyName, SecondNode, 0, 1);
             Controller.Insert(ListInner, InsertIndex1, out IWriteableBrowsingCollectionNodeIndex InsertedIndex1);
@@ -259,7 +259,7 @@ namespace TestDebug
             ControllerCheck = WriteableController.Create(new WriteableRootNodeIndex(rootNode));
             Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
 
-            IImport ThirdNode = NodeHelper.CreateSimpleImport("z", "z", ImportType.Latest);
+            Import ThirdNode = NodeHelper.CreateSimpleImport("z", "z", ImportType.Latest);
 
             WriteableInsertionExistingBlockNodeIndex InsertIndex3 = new WriteableInsertionExistingBlockNodeIndex(rootNode, ListInner.PropertyName, ThirdNode, 0, 1);
             Controller.Replace(ListInner, InsertIndex3, out IWriteableBrowsingChildIndex InsertedIndex3);
@@ -267,7 +267,7 @@ namespace TestDebug
             ControllerCheck = WriteableController.Create(new WriteableRootNodeIndex(rootNode));
             Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
 
-            IImport FourthNode = NodeHelper.CreateSimpleImport("a", "a", ImportType.Latest);
+            Import FourthNode = NodeHelper.CreateSimpleImport("a", "a", ImportType.Latest);
 
             WriteableInsertionExistingBlockNodeIndex InsertIndex4 = new WriteableInsertionExistingBlockNodeIndex(rootNode, ListInner.PropertyName, FourthNode, 0, 0);
             Controller.Replace(ListInner, InsertIndex4, out IWriteableBrowsingChildIndex InsertedIndex4);
@@ -278,9 +278,9 @@ namespace TestDebug
             IWriteableControllerView ControllerView3 = WriteableControllerView.Create(Controller);
             Debug.Assert(ControllerView3.IsEqual(CompareEqual.New(), ControllerView));
 
-            IName FifthNode = NodeHelper.CreateSimpleName("a");
+            Name FifthNode = NodeHelper.CreateSimpleName("a");
 
-            IWriteableSingleInner ChildInner = (IWriteableSingleInner)InnerTable[nameof(IClass.EntityName)];
+            IWriteableSingleInner ChildInner = (IWriteableSingleInner)InnerTable[nameof(Class.EntityName)];
             WriteableInsertionPlaceholderNodeIndex InsertIndex5 = new WriteableInsertionPlaceholderNodeIndex(rootNode, ChildInner.PropertyName, FifthNode);
             Controller.Replace(ChildInner, InsertIndex5, out IWriteableBrowsingChildIndex InsertedIndex5);
 
@@ -290,9 +290,9 @@ namespace TestDebug
             IWriteableControllerView ControllerView4 = WriteableControllerView.Create(Controller);
             Debug.Assert(ControllerView4.IsEqual(CompareEqual.New(), ControllerView));
 
-            IIdentifier SixthNode = NodeHelper.CreateSimpleIdentifier("b");
+            Identifier SixthNode = NodeHelper.CreateSimpleIdentifier("b");
 
-            IWriteableOptionalInner OptionalInner = (IWriteableOptionalInner)InnerTable[nameof(IClass.FromIdentifier)];
+            IWriteableOptionalInner OptionalInner = (IWriteableOptionalInner)InnerTable[nameof(Class.FromIdentifier)];
             WriteableInsertionOptionalNodeIndex InsertIndex6 = new WriteableInsertionOptionalNodeIndex(rootNode, OptionalInner.PropertyName, SixthNode);
             Controller.Replace(OptionalInner, InsertIndex6, out IWriteableBrowsingChildIndex InsertedIndex6);
 
@@ -357,7 +357,7 @@ namespace TestDebug
                 Debug.Assert(ControllerView12.IsEqual(CompareEqual.New(), ControllerView));
             }
 
-            IWriteableBlockListInner ListInner2 = (IWriteableBlockListInner)InnerTable[nameof(IClass.FeatureBlocks)];
+            IWriteableBlockListInner ListInner2 = (IWriteableBlockListInner)InnerTable[nameof(Class.FeatureBlocks)];
             if (ListInner2.BlockStateList.Count > 1)
             {
                 Controller.MoveBlock(ListInner2, 0, 1);
@@ -378,15 +378,15 @@ namespace TestDebug
         {
             using (FileStream fs = new FileStream(fileName, FileMode.Open, FileAccess.Read))
             {
-                INode RootNode = (INode)serializer.Deserialize(fs);
-                INode ClonedNode = NodeHelper.DeepCloneNode(RootNode, cloneCommentGuid: true);
+                Node RootNode = (Node)serializer.Deserialize(fs);
+                Node ClonedNode = NodeHelper.DeepCloneNode(RootNode, cloneCommentGuid: true);
                 Debug.Assert(NodeHelper.NodeHash(RootNode) == NodeHelper.NodeHash(ClonedNode));
 
                 TestFrame(RootNode);
             }
         }
 
-        static void TestFrameGR(IGlobalReplicate rootNode)
+        static void TestFrameGR(GlobalReplicate rootNode)
         {
             ControllerTools.ResetExpectedName();
 
@@ -400,10 +400,10 @@ namespace TestDebug
             IFrameNodeState RootState = Controller.RootState;
             IFrameInnerReadOnlyDictionary<string> InnerTable = RootState.InnerTable;
 
-            IFrameListInner ListInner2 = (IFrameListInner)InnerTable[nameof(IGlobalReplicate.Patterns)];
+            IFrameListInner ListInner2 = (IFrameListInner)InnerTable[nameof(GlobalReplicate.Patterns)];
             if (ListInner2.StateList.Count > 30)
             {
-                IPattern TestNode = (IPattern)ListInner2.StateList[31].Node;
+                Pattern TestNode = (Pattern)ListInner2.StateList[31].Node;
 
                 IFrameBrowsingListNodeIndex InsertIndex0 = (IFrameBrowsingListNodeIndex)ListInner2.IndexAt(31);
                 Controller.Move(ListInner2, InsertIndex0, -5);
@@ -414,11 +414,11 @@ namespace TestDebug
 
         }
 
-        static void TestFrame(INode rootNode)
+        static void TestFrame(Node rootNode)
         {
-            if (!(rootNode is IClass))
+            if (!(rootNode is Class))
             {
-                if (rootNode is IGlobalReplicate AsGlobalReplicate)
+                if (rootNode is GlobalReplicate AsGlobalReplicate)
                     TestFrameGR(AsGlobalReplicate);
                 return;
             }
@@ -432,7 +432,7 @@ namespace TestDebug
             IFrameController ControllerCheck;
             bool IsChanged;
 
-            INode RootNodeClone = Controller.RootState.CloneNode();
+            Node RootNodeClone = Controller.RootState.CloneNode();
             ulong h1 = NodeHelper.NodeHash(rootNode);
             ulong h2 = NodeHelper.NodeHash(RootNodeClone);
 
@@ -447,11 +447,11 @@ namespace TestDebug
 
             IFrameNodeState RootState = Controller.RootState;
             IFrameInnerReadOnlyDictionary<string> InnerTable = RootState.InnerTable;
-            IFrameBlockListInner ListInner = (IFrameBlockListInner)InnerTable[nameof(IClass.ImportBlocks)];
+            IFrameBlockListInner ListInner = (IFrameBlockListInner)InnerTable[nameof(Class.ImportBlocks)];
 
-            IPattern PatternNode = NodeHelper.CreateEmptyPattern();
-            IIdentifier SourceNode = NodeHelper.CreateEmptyIdentifier();
-            IImport FirstNode = NodeHelper.CreateSimpleImport("x", "x", ImportType.Latest);
+            Pattern PatternNode = NodeHelper.CreateEmptyPattern();
+            Identifier SourceNode = NodeHelper.CreateEmptyIdentifier();
+            Import FirstNode = NodeHelper.CreateSimpleImport("x", "x", ImportType.Latest);
 
             FrameInsertionNewBlockNodeIndex InsertIndex0 = new FrameInsertionNewBlockNodeIndex(rootNode, ListInner.PropertyName, FirstNode, 0, PatternNode, SourceNode);
             Controller.Insert(ListInner, InsertIndex0, out IWriteableBrowsingCollectionNodeIndex InsertedIndex0);
@@ -462,7 +462,7 @@ namespace TestDebug
             ControllerCheck = FrameController.Create(new FrameRootNodeIndex(rootNode));
             Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
 
-            IImport SecondNode = NodeHelper.CreateSimpleImport("y", "y", ImportType.Latest);
+            Import SecondNode = NodeHelper.CreateSimpleImport("y", "y", ImportType.Latest);
 
             FrameInsertionExistingBlockNodeIndex InsertIndex1 = new FrameInsertionExistingBlockNodeIndex(rootNode, ListInner.PropertyName, SecondNode, 0, 1);
             Controller.Insert(ListInner, InsertIndex1, out IWriteableBrowsingCollectionNodeIndex InsertedIndex1);
@@ -480,7 +480,7 @@ namespace TestDebug
             ControllerCheck = FrameController.Create(new FrameRootNodeIndex(rootNode));
             Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
 
-            IImport ThirdNode = NodeHelper.CreateSimpleImport("z", "z", ImportType.Latest);
+            Import ThirdNode = NodeHelper.CreateSimpleImport("z", "z", ImportType.Latest);
 
             FrameInsertionExistingBlockNodeIndex InsertIndex3 = new FrameInsertionExistingBlockNodeIndex(rootNode, ListInner.PropertyName, ThirdNode, 0, 1);
             Controller.Replace(ListInner, InsertIndex3, out IWriteableBrowsingChildIndex InsertedIndex3);
@@ -488,7 +488,7 @@ namespace TestDebug
             ControllerCheck = FrameController.Create(new FrameRootNodeIndex(rootNode));
             Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
 
-            IImport FourthNode = NodeHelper.CreateSimpleImport("a", "a", ImportType.Latest);
+            Import FourthNode = NodeHelper.CreateSimpleImport("a", "a", ImportType.Latest);
 
             FrameInsertionExistingBlockNodeIndex InsertIndex4 = new FrameInsertionExistingBlockNodeIndex(rootNode, ListInner.PropertyName, FourthNode, 0, 0);
             Controller.Replace(ListInner, InsertIndex4, out IWriteableBrowsingChildIndex InsertedIndex4);
@@ -499,9 +499,9 @@ namespace TestDebug
             IFrameControllerView ControllerView3 = FrameControllerView.Create(Controller, FrameTemplateSet.Default);
             Debug.Assert(ControllerView3.IsEqual(CompareEqual.New(), ControllerView));
 
-            IName FifthNode = NodeHelper.CreateSimpleName("a");
+            Name FifthNode = NodeHelper.CreateSimpleName("a");
 
-            IFrameSingleInner ChildInner = (IFrameSingleInner)InnerTable[nameof(IClass.EntityName)];
+            IFrameSingleInner ChildInner = (IFrameSingleInner)InnerTable[nameof(Class.EntityName)];
             FrameInsertionPlaceholderNodeIndex InsertIndex5 = new FrameInsertionPlaceholderNodeIndex(rootNode, ChildInner.PropertyName, FifthNode);
             Controller.Replace(ChildInner, InsertIndex5, out IWriteableBrowsingChildIndex InsertedIndex5);
 
@@ -511,9 +511,9 @@ namespace TestDebug
             IFrameControllerView ControllerView4 = FrameControllerView.Create(Controller, FrameTemplateSet.Default);
             Debug.Assert(ControllerView4.IsEqual(CompareEqual.New(), ControllerView));
 
-            IIdentifier SixthNode = NodeHelper.CreateSimpleIdentifier("b");
+            Identifier SixthNode = NodeHelper.CreateSimpleIdentifier("b");
 
-            IFrameOptionalInner OptionalInner = (IFrameOptionalInner)InnerTable[nameof(IClass.FromIdentifier)];
+            IFrameOptionalInner OptionalInner = (IFrameOptionalInner)InnerTable[nameof(Class.FromIdentifier)];
             FrameInsertionOptionalNodeIndex InsertIndex6 = new FrameInsertionOptionalNodeIndex(rootNode, OptionalInner.PropertyName, SixthNode);
             Controller.Replace(OptionalInner, InsertIndex6, out IWriteableBrowsingChildIndex InsertedIndex6);
 
@@ -582,7 +582,7 @@ namespace TestDebug
                 Debug.Assert(ControllerView12.IsEqual(CompareEqual.New(), ControllerView));
             }
 
-            IFrameBlockListInner ListInner2 = (IFrameBlockListInner)InnerTable[nameof(IClass.FeatureBlocks)];
+            IFrameBlockListInner ListInner2 = (IFrameBlockListInner)InnerTable[nameof(Class.FeatureBlocks)];
             if (ListInner.BlockStateList.Count > 1)
             {
                 Controller.MoveBlock(ListInner, 0, 1);
@@ -607,15 +607,15 @@ namespace TestDebug
         {
             using (FileStream fs = new FileStream(fileName, FileMode.Open, FileAccess.Read))
             {
-                INode RootNode = (INode)serializer.Deserialize(fs);
-                INode ClonedNode = NodeHelper.DeepCloneNode(RootNode, cloneCommentGuid: true);
+                Node RootNode = (Node)serializer.Deserialize(fs);
+                Node ClonedNode = NodeHelper.DeepCloneNode(RootNode, cloneCommentGuid: true);
                 Debug.Assert(NodeHelper.NodeHash(RootNode) == NodeHelper.NodeHash(ClonedNode));
 
                 TestFocus(RootNode);
             }
         }
 
-        static void TestFocusGR(IGlobalReplicate rootNode)
+        static void TestFocusGR(GlobalReplicate rootNode)
         {
             ControllerTools.ResetExpectedName();
 
@@ -629,10 +629,10 @@ namespace TestDebug
             IFocusNodeState RootState = Controller.RootState;
             IFocusInnerReadOnlyDictionary<string> InnerTable = RootState.InnerTable;
 
-            IFocusListInner ListInner2 = (IFocusListInner)InnerTable[nameof(IGlobalReplicate.Patterns)];
+            IFocusListInner ListInner2 = (IFocusListInner)InnerTable[nameof(GlobalReplicate.Patterns)];
             if (ListInner2.StateList.Count > 30)
             {
-                IPattern TestNode = (IPattern)ListInner2.StateList[31].Node;
+                Pattern TestNode = (Pattern)ListInner2.StateList[31].Node;
 
                 IFocusBrowsingListNodeIndex InsertIndex0 = (IFocusBrowsingListNodeIndex)ListInner2.IndexAt(31);
                 Controller.Move(ListInner2, InsertIndex0, -5);
@@ -643,11 +643,11 @@ namespace TestDebug
 
         }
 
-        static void TestFocus(INode rootNode)
+        static void TestFocus(Node rootNode)
         {
-            if (!(rootNode is IClass))
+            if (!(rootNode is Class))
             {
-                if (rootNode is IGlobalReplicate AsGlobalReplicate)
+                if (rootNode is GlobalReplicate AsGlobalReplicate)
                     TestFocusGR(AsGlobalReplicate);
 
                 return;
@@ -662,7 +662,7 @@ namespace TestDebug
             IFocusController ControllerCheck;
             bool IsChanged;
 
-            INode RootNodeClone = Controller.RootState.CloneNode();
+            Node RootNodeClone = Controller.RootState.CloneNode();
             ulong h1 = NodeHelper.NodeHash(rootNode);
             ulong h2 = NodeHelper.NodeHash(RootNodeClone);
 
@@ -678,11 +678,11 @@ namespace TestDebug
 
             IFocusNodeState RootState = Controller.RootState;
             IFocusInnerReadOnlyDictionary<string> InnerTable = RootState.InnerTable;
-            IFocusBlockListInner ListInner = (IFocusBlockListInner)InnerTable[nameof(IClass.ImportBlocks)];
+            IFocusBlockListInner ListInner = (IFocusBlockListInner)InnerTable[nameof(Class.ImportBlocks)];
 
-            IPattern PatternNode = NodeHelper.CreateEmptyPattern();
-            IIdentifier SourceNode = NodeHelper.CreateEmptyIdentifier();
-            IImport FirstNode = NodeHelper.CreateSimpleImport("x", "x", ImportType.Latest);
+            Pattern PatternNode = NodeHelper.CreateEmptyPattern();
+            Identifier SourceNode = NodeHelper.CreateEmptyIdentifier();
+            Import FirstNode = NodeHelper.CreateSimpleImport("x", "x", ImportType.Latest);
 
             FocusInsertionNewBlockNodeIndex InsertIndex0 = new FocusInsertionNewBlockNodeIndex(rootNode, ListInner.PropertyName, FirstNode, 0, PatternNode, SourceNode);
             Controller.Insert(ListInner, InsertIndex0, out IWriteableBrowsingCollectionNodeIndex InsertedIndex0);
@@ -693,7 +693,7 @@ namespace TestDebug
             ControllerCheck = FocusController.Create(new FocusRootNodeIndex(rootNode));
             Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
 
-            IImport SecondNode = NodeHelper.CreateSimpleImport("y", "y", ImportType.Latest);
+            Import SecondNode = NodeHelper.CreateSimpleImport("y", "y", ImportType.Latest);
 
             FocusInsertionExistingBlockNodeIndex InsertIndex1 = new FocusInsertionExistingBlockNodeIndex(rootNode, ListInner.PropertyName, SecondNode, 0, 1);
             Controller.Insert(ListInner, InsertIndex1, out IWriteableBrowsingCollectionNodeIndex InsertedIndex1);
@@ -711,7 +711,7 @@ namespace TestDebug
             ControllerCheck = FocusController.Create(new FocusRootNodeIndex(rootNode));
             Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
 
-            IImport ThirdNode = NodeHelper.CreateSimpleImport("z", "z", ImportType.Latest);
+            Import ThirdNode = NodeHelper.CreateSimpleImport("z", "z", ImportType.Latest);
 
             FocusInsertionExistingBlockNodeIndex InsertIndex3 = new FocusInsertionExistingBlockNodeIndex(rootNode, ListInner.PropertyName, ThirdNode, 0, 1);
             Controller.Replace(ListInner, InsertIndex3, out IWriteableBrowsingChildIndex InsertedIndex3);
@@ -719,7 +719,7 @@ namespace TestDebug
             ControllerCheck = FocusController.Create(new FocusRootNodeIndex(rootNode));
             Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
 
-            IImport FourthNode = NodeHelper.CreateSimpleImport("a", "a", ImportType.Latest);
+            Import FourthNode = NodeHelper.CreateSimpleImport("a", "a", ImportType.Latest);
 
             FocusInsertionExistingBlockNodeIndex InsertIndex4 = new FocusInsertionExistingBlockNodeIndex(rootNode, ListInner.PropertyName, FourthNode, 0, 0);
             Controller.Replace(ListInner, InsertIndex4, out IWriteableBrowsingChildIndex InsertedIndex4);
@@ -730,9 +730,9 @@ namespace TestDebug
             IFocusControllerView ControllerView3 = FocusControllerView.Create(Controller, FocusTemplateSet.Default);
             Debug.Assert(ControllerView3.IsEqual(CompareEqual.New(), ControllerView));
 
-            IName FifthNode = NodeHelper.CreateSimpleName("a");
+            Name FifthNode = NodeHelper.CreateSimpleName("a");
 
-            IFocusSingleInner ChildInner = (IFocusSingleInner)InnerTable[nameof(IClass.EntityName)];
+            IFocusSingleInner ChildInner = (IFocusSingleInner)InnerTable[nameof(Class.EntityName)];
             FocusInsertionPlaceholderNodeIndex InsertIndex5 = new FocusInsertionPlaceholderNodeIndex(rootNode, ChildInner.PropertyName, FifthNode);
             Controller.Replace(ChildInner, InsertIndex5, out IWriteableBrowsingChildIndex InsertedIndex5);
 
@@ -742,9 +742,9 @@ namespace TestDebug
             IFocusControllerView ControllerView4 = FocusControllerView.Create(Controller, FocusTemplateSet.Default);
             Debug.Assert(ControllerView4.IsEqual(CompareEqual.New(), ControllerView));
 
-            IIdentifier SixthNode = NodeHelper.CreateSimpleIdentifier("b");
+            Identifier SixthNode = NodeHelper.CreateSimpleIdentifier("b");
 
-            IFocusOptionalInner OptionalInner = (IFocusOptionalInner)InnerTable[nameof(IClass.FromIdentifier)];
+            IFocusOptionalInner OptionalInner = (IFocusOptionalInner)InnerTable[nameof(Class.FromIdentifier)];
             FocusInsertionOptionalNodeIndex InsertIndex6 = new FocusInsertionOptionalNodeIndex(rootNode, OptionalInner.PropertyName, SixthNode);
             Controller.Replace(OptionalInner, InsertIndex6, out IWriteableBrowsingChildIndex InsertedIndex6);
 
@@ -815,7 +815,7 @@ namespace TestDebug
                 Debug.Assert(ControllerView12.IsEqual(CompareEqual.New(), ControllerView));
             }
 
-            IFocusBlockListInner ListInner2 = (IFocusBlockListInner)InnerTable[nameof(IClass.FeatureBlocks)];
+            IFocusBlockListInner ListInner2 = (IFocusBlockListInner)InnerTable[nameof(Class.FeatureBlocks)];
             if (ListInner.BlockStateList.Count > 1)
             {
                 Controller.MoveBlock(ListInner, 0, 1);
@@ -840,15 +840,15 @@ namespace TestDebug
         {
             using (FileStream fs = new FileStream(fileName, FileMode.Open, FileAccess.Read))
             {
-                INode RootNode = (INode)serializer.Deserialize(fs);
-                INode ClonedNode = NodeHelper.DeepCloneNode(RootNode, cloneCommentGuid: true);
+                Node RootNode = (Node)serializer.Deserialize(fs);
+                Node ClonedNode = NodeHelper.DeepCloneNode(RootNode, cloneCommentGuid: true);
                 Debug.Assert(NodeHelper.NodeHash(RootNode) == NodeHelper.NodeHash(ClonedNode));
 
                 TestLayout(RootNode);
             }
         }
 
-        static void TestLayoutGR(IGlobalReplicate rootNode)
+        static void TestLayoutGR(GlobalReplicate rootNode)
         {
             ControllerTools.ResetExpectedName();
 
@@ -862,10 +862,10 @@ namespace TestDebug
             ILayoutNodeState RootState = Controller.RootState;
             ILayoutInnerReadOnlyDictionary<string> InnerTable = RootState.InnerTable;
 
-            ILayoutListInner ListInner2 = (ILayoutListInner)InnerTable[nameof(IGlobalReplicate.Patterns)];
+            ILayoutListInner ListInner2 = (ILayoutListInner)InnerTable[nameof(GlobalReplicate.Patterns)];
             if (ListInner2.StateList.Count > 30)
             {
-                IPattern TestNode = (IPattern)ListInner2.StateList[31].Node;
+                Pattern TestNode = (Pattern)ListInner2.StateList[31].Node;
 
                 ILayoutBrowsingListNodeIndex InsertIndex0 = (ILayoutBrowsingListNodeIndex)ListInner2.IndexAt(31);
                 Controller.Move(ListInner2, InsertIndex0, -5);
@@ -876,11 +876,11 @@ namespace TestDebug
 
         }
 
-        static void TestLayout(INode rootNode)
+        static void TestLayout(Node rootNode)
         {
-            if (!(rootNode is IClass))
+            if (!(rootNode is Class))
             {
-                if (rootNode is IGlobalReplicate AsGlobalReplicate)
+                if (rootNode is GlobalReplicate AsGlobalReplicate)
                     TestLayoutGR(AsGlobalReplicate);
                 return;
             }
@@ -894,7 +894,7 @@ namespace TestDebug
             ILayoutController ControllerCheck;
             bool IsChanged;
 
-            INode RootNodeClone = Controller.RootState.CloneNode();
+            Node RootNodeClone = Controller.RootState.CloneNode();
             ulong h1 = NodeHelper.NodeHash(rootNode);
             ulong h2 = NodeHelper.NodeHash(RootNodeClone);
 
@@ -910,11 +910,11 @@ namespace TestDebug
 
             ILayoutNodeState RootState = Controller.RootState;
             ILayoutInnerReadOnlyDictionary<string> InnerTable = RootState.InnerTable;
-            ILayoutBlockListInner ListInner = (ILayoutBlockListInner)InnerTable[nameof(IClass.ImportBlocks)];
+            ILayoutBlockListInner ListInner = (ILayoutBlockListInner)InnerTable[nameof(Class.ImportBlocks)];
 
-            IPattern PatternNode = NodeHelper.CreateEmptyPattern();
-            IIdentifier SourceNode = NodeHelper.CreateEmptyIdentifier();
-            IImport FirstNode = NodeHelper.CreateSimpleImport("x", "x", ImportType.Latest);
+            Pattern PatternNode = NodeHelper.CreateEmptyPattern();
+            Identifier SourceNode = NodeHelper.CreateEmptyIdentifier();
+            Import FirstNode = NodeHelper.CreateSimpleImport("x", "x", ImportType.Latest);
 
             LayoutInsertionNewBlockNodeIndex InsertIndex0 = new LayoutInsertionNewBlockNodeIndex(rootNode, ListInner.PropertyName, FirstNode, 0, PatternNode, SourceNode);
             Controller.Insert(ListInner, InsertIndex0, out IWriteableBrowsingCollectionNodeIndex InsertedIndex0);
@@ -925,7 +925,7 @@ namespace TestDebug
             ControllerCheck = LayoutController.Create(new LayoutRootNodeIndex(rootNode));
             Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
 
-            IImport SecondNode = NodeHelper.CreateSimpleImport("y", "y", ImportType.Latest);
+            Import SecondNode = NodeHelper.CreateSimpleImport("y", "y", ImportType.Latest);
 
             LayoutInsertionExistingBlockNodeIndex InsertIndex1 = new LayoutInsertionExistingBlockNodeIndex(rootNode, ListInner.PropertyName, SecondNode, 0, 1);
             Controller.Insert(ListInner, InsertIndex1, out IWriteableBrowsingCollectionNodeIndex InsertedIndex1);
@@ -943,7 +943,7 @@ namespace TestDebug
             ControllerCheck = LayoutController.Create(new LayoutRootNodeIndex(rootNode));
             Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
 
-            IImport ThirdNode = NodeHelper.CreateSimpleImport("z", "z", ImportType.Latest);
+            Import ThirdNode = NodeHelper.CreateSimpleImport("z", "z", ImportType.Latest);
 
             LayoutInsertionExistingBlockNodeIndex InsertIndex3 = new LayoutInsertionExistingBlockNodeIndex(rootNode, ListInner.PropertyName, ThirdNode, 0, 1);
             Controller.Replace(ListInner, InsertIndex3, out IWriteableBrowsingChildIndex InsertedIndex3);
@@ -951,7 +951,7 @@ namespace TestDebug
             ControllerCheck = LayoutController.Create(new LayoutRootNodeIndex(rootNode));
             Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
 
-            IImport FourthNode = NodeHelper.CreateSimpleImport("a", "a", ImportType.Latest);
+            Import FourthNode = NodeHelper.CreateSimpleImport("a", "a", ImportType.Latest);
 
             LayoutInsertionExistingBlockNodeIndex InsertIndex4 = new LayoutInsertionExistingBlockNodeIndex(rootNode, ListInner.PropertyName, FourthNode, 0, 0);
             Controller.Replace(ListInner, InsertIndex4, out IWriteableBrowsingChildIndex InsertedIndex4);
@@ -962,9 +962,9 @@ namespace TestDebug
             ILayoutControllerView ControllerView3 = LayoutControllerView.Create(Controller, LayoutTemplateSet.Default, LayoutDrawPrintContext.Default);
             Debug.Assert(ControllerView3.IsEqual(CompareEqual.New(), ControllerView));
 
-            IName FifthNode = NodeHelper.CreateSimpleName("a");
+            Name FifthNode = NodeHelper.CreateSimpleName("a");
 
-            ILayoutSingleInner ChildInner = (ILayoutSingleInner)InnerTable[nameof(IClass.EntityName)];
+            ILayoutSingleInner ChildInner = (ILayoutSingleInner)InnerTable[nameof(Class.EntityName)];
             LayoutInsertionPlaceholderNodeIndex InsertIndex5 = new LayoutInsertionPlaceholderNodeIndex(rootNode, ChildInner.PropertyName, FifthNode);
             Controller.Replace(ChildInner, InsertIndex5, out IWriteableBrowsingChildIndex InsertedIndex5);
 
@@ -974,9 +974,9 @@ namespace TestDebug
             ILayoutControllerView ControllerView4 = LayoutControllerView.Create(Controller, LayoutTemplateSet.Default, LayoutDrawPrintContext.Default);
             Debug.Assert(ControllerView4.IsEqual(CompareEqual.New(), ControllerView));
 
-            IIdentifier SixthNode = NodeHelper.CreateSimpleIdentifier("b");
+            Identifier SixthNode = NodeHelper.CreateSimpleIdentifier("b");
 
-            ILayoutOptionalInner OptionalInner = (ILayoutOptionalInner)InnerTable[nameof(IClass.FromIdentifier)];
+            ILayoutOptionalInner OptionalInner = (ILayoutOptionalInner)InnerTable[nameof(Class.FromIdentifier)];
             LayoutInsertionOptionalNodeIndex InsertIndex6 = new LayoutInsertionOptionalNodeIndex(rootNode, OptionalInner.PropertyName, SixthNode);
             Controller.Replace(OptionalInner, InsertIndex6, out IWriteableBrowsingChildIndex InsertedIndex6);
 
@@ -1047,7 +1047,7 @@ namespace TestDebug
                 Debug.Assert(ControllerView12.IsEqual(CompareEqual.New(), ControllerView));
             }
 
-            ILayoutBlockListInner ListInner2 = (ILayoutBlockListInner)InnerTable[nameof(IClass.FeatureBlocks)];
+            ILayoutBlockListInner ListInner2 = (ILayoutBlockListInner)InnerTable[nameof(Class.FeatureBlocks)];
             if (ListInner.BlockStateList.Count > 1)
             {
                 Controller.MoveBlock(ListInner, 0, 1);

@@ -44,7 +44,7 @@
         /// <param name="handlerRedo">Handler to execute to redo the operation.</param>
         /// <param name="handlerUndo">Handler to execute to undo the operation.</param>
         /// <param name="isNested">True if the operation is nested within another more general one.</param>
-        public FocusReplaceWithCycleOperation(INode parentNode, string propertyName, int blockIndex, int index, IFocusInsertionChildNodeIndexList cycleIndexList, int cyclePosition, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        public FocusReplaceWithCycleOperation(Node parentNode, string propertyName, int blockIndex, int index, IFocusInsertionChildNodeIndexList cycleIndexList, int cyclePosition, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
             : base(parentNode, propertyName, blockIndex, index, cycleIndexList[cyclePosition].Node, handlerRedo, handlerUndo, isNested)
         {
             CycleIndexList = cycleIndexList;
@@ -77,7 +77,7 @@
         /// <param name="newBrowsingIndex">Index of the state after it's replaced.</param>
         /// <param name="oldNode">The old node. Can be null if optional and replaced.</param>
         /// <param name="newChildState">The new state.</param>
-        public override void Update(IWriteableBrowsingChildIndex oldBrowsingIndex, IWriteableBrowsingChildIndex newBrowsingIndex, INode oldNode, IWriteableNodeState newChildState)
+        public override void Update(IWriteableBrowsingChildIndex oldBrowsingIndex, IWriteableBrowsingChildIndex newBrowsingIndex, Node oldNode, IWriteableNodeState newChildState)
         {
             base.Update(oldBrowsingIndex, newBrowsingIndex, oldNode, newChildState);
 

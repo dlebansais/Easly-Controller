@@ -12,6 +12,6 @@
         /// </summary>
         /// <param name="parentNode">The parent node where the index would be used to replace a node.</param>
         /// <param name="node">The node inserted.</param>
-        IWriteableInsertionChildIndex ToInsertionIndex(INode parentNode, INode node);
+        IWriteableInsertionChildIndex ToInsertionIndex(Node parentNode, Node node);
     }
 }

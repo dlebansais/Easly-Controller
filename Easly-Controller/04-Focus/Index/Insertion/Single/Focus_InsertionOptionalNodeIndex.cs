@@ -24,7 +24,7 @@
         /// <param name="parentNode">Node containing the indexed optional node.</param>
         /// <param name="propertyName">Property in <paramref name="parentNode"/> corresponding to the indexed optional node.</param>
         /// <param name="node">The assigned node.</param>
-        public FocusInsertionOptionalNodeIndex(INode parentNode, string propertyName, INode node)
+        public FocusInsertionOptionalNodeIndex(Node parentNode, string propertyName, Node node)
             : base(parentNode, propertyName, node)
         {
         }

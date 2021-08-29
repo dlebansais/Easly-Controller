@@ -29,7 +29,7 @@
             Debug.Assert(inner.Count == 1);
             Debug.Assert(inner.Owner != null);
 
-            INode Node = inner.Owner.Node;
+            Node Node = inner.Owner.Node;
             string PropertyName = inner.PropertyName;
             Debug.Assert(Node != null);
 
@@ -64,7 +64,7 @@
             Debug.Assert(InnerTable.ContainsKey(inner.PropertyName));
             Debug.Assert(InnerTable[inner.PropertyName] == inner);
 
-            IndexToPositionAndNode(nodeIndex, out int BlockIndex, out int Index, out INode Node);
+            IndexToPositionAndNode(nodeIndex, out int BlockIndex, out int Index, out Node Node);
 
             bool IsHandled = false;
 
@@ -105,7 +105,7 @@
 
         private protected virtual void ExecuteRemoveBlock(IWriteableRemoveBlockOperation operation)
         {
-            INode ParentNode = operation.ParentNode;
+            Node ParentNode = operation.ParentNode;
             string PropertyName = operation.PropertyName;
             IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> Inner = GetInner(ParentNode, PropertyName) as IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex>;
 
@@ -166,7 +166,7 @@
 
         private protected virtual void ExecuteRemoveNode(IWriteableRemoveNodeOperation operation)
         {
-            INode ParentNode = operation.ParentNode;
+            Node ParentNode = operation.ParentNode;
             string PropertyName = operation.PropertyName;
             IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> Inner = GetInner(ParentNode, PropertyName) as IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex>;
 
@@ -207,7 +207,7 @@
             Debug.Assert(inner.BlockStateList.Count == DeletedCount);
             Debug.Assert(inner.Owner != null);
 
-            INode Node = inner.Owner.Node;
+            Node Node = inner.Owner.Node;
             string PropertyName = inner.PropertyName;
             Debug.Assert(Node != null);
 
@@ -308,7 +308,7 @@
             {
                 Debug.Assert(inner.Owner != null);
 
-                INode Node = inner.Owner.Node;
+                Node Node = inner.Owner.Node;
                 string PropertyName = inner.PropertyName;
                 Debug.Assert(Node != null);
 

@@ -71,7 +71,7 @@
         /// <summary>
         /// Creates a IxxxInsertionListNodeIndex object.
         /// </summary>
-        private protected override IFocusInsertionListNodeIndex CreateListNodeIndex(INode parentNode, string propertyName, INode node, int index)
+        private protected override IFocusInsertionListNodeIndex CreateListNodeIndex(Node parentNode, string propertyName, Node node, int index)
         {
             ControllerTools.AssertNoOverride(this, typeof(LayoutNodeListSelection));
             return new LayoutInsertionListNodeIndex(parentNode, propertyName, node, index);

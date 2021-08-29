@@ -38,8 +38,8 @@
 
             IWriteableBlockState BlockState = inner.BlockStateList[nodeIndex.BlockIndex];
             ReplicationStatus Replication = BlockState.ChildBlock.Replication;
-            IPattern NewPatternNode = NodeHelper.CreateSimplePattern(BlockState.ChildBlock.ReplicationPattern.Text);
-            IIdentifier NewSourceNode = NodeHelper.CreateSimpleIdentifier(BlockState.ChildBlock.SourceIdentifier.Text);
+            Pattern NewPatternNode = NodeHelper.CreateSimplePattern(BlockState.ChildBlock.ReplicationPattern.Text);
+            Identifier NewSourceNode = NodeHelper.CreateSimpleIdentifier(BlockState.ChildBlock.SourceIdentifier.Text);
             IBlock NewBlock = NodeTreeHelperBlockList.CreateBlock(inner.Owner.Node, inner.PropertyName, Replication, NewPatternNode, NewSourceNode);
 
             Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => RedoSplitBlock(operation);
@@ -59,7 +59,7 @@
 
         private protected virtual void ExecuteSplitBlock(IWriteableSplitBlockOperation operation)
         {
-            INode ParentNode = operation.ParentNode;
+            Node ParentNode = operation.ParentNode;
             string PropertyName = operation.PropertyName;
             IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> Inner = GetInner(ParentNode, PropertyName) as IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex>;
 
@@ -138,7 +138,7 @@
 
         private protected virtual void ExecuteMergeBlocks(IWriteableMergeBlocksOperation operation)
         {
-            INode ParentNode = operation.ParentNode;
+            Node ParentNode = operation.ParentNode;
             string PropertyName = operation.PropertyName;
             IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> Inner = GetInner(ParentNode, PropertyName) as IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex>;
 

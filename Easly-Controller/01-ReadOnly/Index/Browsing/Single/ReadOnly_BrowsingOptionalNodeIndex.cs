@@ -28,7 +28,7 @@
         /// </summary>
         /// <param name="parentNode">Node containing the indexed optional node.</param>
         /// <param name="propertyName">Property in <paramref name="parentNode"/> corresponding to the indexed optional node.</param>
-        public ReadOnlyBrowsingOptionalNodeIndex(INode parentNode, string propertyName)
+        public ReadOnlyBrowsingOptionalNodeIndex(Node parentNode, string propertyName)
         {
             Debug.Assert(parentNode != null);
             Debug.Assert(!string.IsNullOrEmpty(propertyName));

@@ -22,7 +22,7 @@
         /// <param name="parentNode">The node in which the insertion operation is taking place.</param>
         /// <param name="propertyName">The property for the index.</param>
         /// <param name="node">The inserted node.</param>
-        public FrameInsertionBlockNodeIndex(INode parentNode, string propertyName, INode node)
+        public FrameInsertionBlockNodeIndex(Node parentNode, string propertyName, Node node)
             : base(parentNode, propertyName, node)
         {
         }

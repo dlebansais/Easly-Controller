@@ -25,7 +25,7 @@
         /// <param name="parentCellView">The collection of cell views containing this view. Null for the root of the cell tree.</param>
         /// <param name="frame">The frame that created this cell view.</param>
         /// <param name="documentation">The comment this cell is displaying.</param>
-        public LayoutCommentCellView(ILayoutNodeStateView stateView, ILayoutCellViewCollection parentCellView, ILayoutFrame frame, IDocument documentation)
+        public LayoutCommentCellView(ILayoutNodeStateView stateView, ILayoutCellViewCollection parentCellView, ILayoutFrame frame, Document documentation)
             : base(stateView, parentCellView, frame, documentation)
         {
             CellOrigin = RegionHelper.InvalidOrigin;

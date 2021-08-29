@@ -23,7 +23,7 @@
         /// <param name="parentNode">Node containing the indexed node.</param>
         /// <param name="node">The indexed node.</param>
         /// <param name="propertyName">Property in <paramref name="parentNode"/> corresponding to the indexed node.</param>
-        public ReadOnlyBrowsingPlaceholderNodeIndex(INode parentNode, INode node, string propertyName)
+        public ReadOnlyBrowsingPlaceholderNodeIndex(Node parentNode, Node node, string propertyName)
         {
             Debug.Assert(parentNode != null);
             Debug.Assert(node != null);
@@ -39,7 +39,7 @@
         /// <summary>
         /// The indexed node.
         /// </summary>
-        public INode Node { get; }
+        public Node Node { get; }
 
         /// <summary>
         /// Property indexed for <see cref="Node"/>.

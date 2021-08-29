@@ -45,7 +45,7 @@
         /// <summary>
         /// The child node.
         /// </summary>
-        public override INode Node { get { return ParentIndex.Node; } }
+        public override Node Node { get { return ParentIndex.Node; } }
 
         /// <summary>
         /// The index that was used to create the state.

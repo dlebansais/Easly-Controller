@@ -35,7 +35,7 @@
         /// <param name="node">Inserted node.</param>
         /// <param name="blockIndex">Position of the block in the block list.</param>
         /// <param name="index">Position where to insert <paramref name="node"/> in the block.</param>
-        public WriteableInsertionExistingBlockNodeIndex(INode parentNode, string propertyName, INode node, int blockIndex, int index)
+        public WriteableInsertionExistingBlockNodeIndex(Node parentNode, string propertyName, Node node, int blockIndex, int index)
             : base(parentNode, propertyName, node)
         {
             Debug.Assert(blockIndex >= 0);

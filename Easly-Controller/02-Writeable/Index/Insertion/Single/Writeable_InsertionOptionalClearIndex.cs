@@ -28,7 +28,7 @@
         /// </summary>
         /// <param name="parentNode">Node containing the indexed optional node.</param>
         /// <param name="propertyName">Property in <paramref name="parentNode"/> corresponding to the indexed optional node.</param>
-        public WriteableInsertionOptionalClearIndex(INode parentNode, string propertyName)
+        public WriteableInsertionOptionalClearIndex(Node parentNode, string propertyName)
         {
             Debug.Assert(parentNode != null);
             Debug.Assert(!string.IsNullOrEmpty(propertyName));
@@ -45,7 +45,7 @@
         /// <summary>
         /// Node in which the insertion operation is taking place.
         /// </summary>
-        public INode ParentNode { get; }
+        public Node ParentNode { get; }
 
         /// <summary>
         /// Property indexed for <see cref="Optional"/>.

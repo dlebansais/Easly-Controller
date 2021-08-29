@@ -191,9 +191,9 @@
             int Index = operation.Index;
             Debug.Assert(Index >= 0 && Index <= BlockState.StateList.Count);
 
-            INode ParentNode = Owner.Node;
+            Node ParentNode = Owner.Node;
             IBlock ChildBlock = BlockState.ChildBlock;
-            INode Node = operation.Node;
+            Node Node = operation.Node;
 
             NodeTreeHelperBlockList.InsertIntoBlock(ChildBlock, Index, Node);
 
@@ -231,10 +231,10 @@
             IBlock NewBlock = operation.Block;
             Debug.Assert(NewBlock != null);
 
-            INode NewNode = operation.Node;
+            Node NewNode = operation.Node;
             Debug.Assert(NewBlock != null);
 
-            INode ParentNode = Owner.Node;
+            Node ParentNode = Owner.Node;
             NodeTreeHelperBlockList.InsertIntoBlockList(ParentNode, PropertyName, BlockIndex, NewBlock);
             NodeTreeHelperBlockList.InsertIntoBlock(NewBlock, 0, NewNode);
 
@@ -294,11 +294,11 @@
             Debug.Assert(index >= 0 && index < BlockState.StateList.Count);
 
             IBlock ChildBlock = BlockState.ChildBlock;
-            INode ParentNode = Owner.Node;
+            Node ParentNode = Owner.Node;
             int i;
 
             IWriteablePlaceholderNodeState OldChildState = BlockState.StateList[index];
-            INode RemovedNode = OldChildState.Node;
+            Node RemovedNode = OldChildState.Node;
 
             BlockState.Remove((IWriteableBrowsingBlockNodeIndex)OldChildState.ParentIndex, index);
 
@@ -366,10 +366,10 @@
             Debug.Assert(Index >= 0 && Index < BlockState.StateList.Count);
 
             IBlock ChildBlock = BlockState.ChildBlock;
-            INode ParentNode = Owner.Node;
+            Node ParentNode = Owner.Node;
 
             IWriteableNodeState OldChildState = BlockState.StateList[Index];
-            INode OldNode = OldChildState.Node;
+            Node OldNode = OldChildState.Node;
             IWriteableBrowsingBlockNodeIndex OldBrowsingIndex = (IWriteableBrowsingBlockNodeIndex)OldChildState.ParentIndex;
             BlockState.Remove(OldBrowsingIndex, Index);
 
@@ -439,7 +439,7 @@
 
             NodeTreeHelperBlockList.SplitBlock(Owner.Node, PropertyName, SplitBlockIndex, SplitIndex, NewBlock);
 
-            NodeTreeHelperBlockList.GetChildNode(NewBlock, 0, out INode NewBlockFirstNode);
+            NodeTreeHelperBlockList.GetChildNode(NewBlock, 0, out Node NewBlockFirstNode);
             IWriteableBrowsingNewBlockNodeIndex NewBlockIndex = CreateNewBlockNodeIndex(NewBlockFirstNode, SplitBlockIndex);
 
             IWriteableBlockState NewBlockState = (IWriteableBlockState)CreateBlockState(NewBlockIndex, NewBlock);
@@ -737,7 +737,7 @@
         /// <summary>
         /// Creates a IxxxBrowsingExistingBlockNodeIndex object.
         /// </summary>
-        private protected virtual IWriteableBrowsingExistingBlockNodeIndex CreateBrowsingNodeIndex(INode node, int blockIndex, int index)
+        private protected virtual IWriteableBrowsingExistingBlockNodeIndex CreateBrowsingNodeIndex(Node node, int blockIndex, int index)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableBlockListInner<IIndex, TIndex>));
             return new WriteableBrowsingExistingBlockNodeIndex(Owner.Node, node, PropertyName, blockIndex, index);
@@ -746,7 +746,7 @@
         /// <summary>
         /// Creates a IxxxBrowsingNewBlockNodeIndex object.
         /// </summary>
-        private protected virtual IWriteableBrowsingNewBlockNodeIndex CreateNewBlockNodeIndex(INode node, int blockIndex)
+        private protected virtual IWriteableBrowsingNewBlockNodeIndex CreateNewBlockNodeIndex(Node node, int blockIndex)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableBlockListInner<IIndex, TIndex>));
             return new WriteableBrowsingNewBlockNodeIndex(Owner.Node, node, PropertyName, blockIndex);

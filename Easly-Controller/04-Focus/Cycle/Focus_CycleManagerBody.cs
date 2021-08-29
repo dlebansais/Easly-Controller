@@ -8,14 +8,14 @@
     using Easly;
 
     /// <summary>
-    /// Cycle manager for IBody nodes.
+    /// Cycle manager for Body nodes.
     /// </summary>
     public interface IFocusCycleManagerBody : IFocusCycleManager
     {
     }
 
     /// <summary>
-    /// Cycle manager for IBody nodes.
+    /// Cycle manager for Body nodes.
     /// </summary>
     public class FocusCycleManagerBody : FocusCycleManager, IFocusCycleManagerBody
     {
@@ -23,7 +23,7 @@
         /// <summary>
         /// Type of the base interface for all nodes participating to the cycle.
         /// </summary>
-        public override Type InterfaceType { get { return typeof(IBody); } }
+        public override Type InterfaceType { get { return typeof(Body); } }
         #endregion
 
         #region Implementation
@@ -31,22 +31,22 @@
         protected override void AddNextNodeToCycle(IFocusCyclableNodeState state)
         {
             IFocusInsertionChildNodeIndexList CycleIndexList = state.CycleIndexList;
-            INode ParentNode = state.ParentState.Node;
+            Node ParentNode = state.ParentState.Node;
             IFocusIndex NodeIndex = state.ParentIndex;
 
-            IDocument Documentation = null;
-            IBlockList<IAssertion, Assertion> RequireBlocks = null;
-            IBlockList<IAssertion, Assertion> EnsureBlocks = null;
-            IBlockList<IIdentifier, Identifier> ExceptionIdentifierBlocks = null;
-            IBlockList<IEntityDeclaration, EntityDeclaration> EntityDeclarationBlocks = null;
-            IBlockList<IInstruction, Instruction> BodyInstructionBlocks = null;
-            IBlockList<IExceptionHandler, ExceptionHandler> ExceptionHandlerBlocks = null;
-            IOptionalReference<IObjectType> AncestorType = null;
+            Document Documentation = null;
+            BlockList<Assertion> RequireBlocks = null;
+            BlockList<Assertion> EnsureBlocks = null;
+            BlockList<Identifier> ExceptionIdentifierBlocks = null;
+            BlockList<EntityDeclaration> EntityDeclarationBlocks = null;
+            BlockList<Instruction> BodyInstructionBlocks = null;
+            BlockList<ExceptionHandler> ExceptionHandlerBlocks = null;
+            OptionalReference<ObjectType> AncestorType = null;
 
             List<Type> BodyTypeList = new List<Type>() { typeof(EffectiveBody), typeof(DeferredBody), typeof(ExternBody), typeof(PrecursorBody) };
             foreach (IFocusInsertionChildNodeIndex Index in CycleIndexList)
             {
-                IBody Body = Index.Node as IBody;
+                Body Body = Index.Node as Body;
                 Debug.Assert(Body != null);
 
                 if (BodyTypeList.Contains(Body.GetType()))
@@ -54,7 +54,7 @@
 
                 switch (Body)
                 {
-                    case IEffectiveBody AsEffective:
+                    case EffectiveBody AsEffective:
                         Documentation = AsEffective.Documentation;
                         RequireBlocks = AsEffective.RequireBlocks;
                         EnsureBlocks = AsEffective.EnsureBlocks;
@@ -64,21 +64,21 @@
                         ExceptionHandlerBlocks = AsEffective.ExceptionHandlerBlocks;
                         break;
 
-                    case IDeferredBody AsDeferred:
+                    case DeferredBody AsDeferred:
                         Documentation = AsDeferred.Documentation;
                         RequireBlocks = AsDeferred.RequireBlocks;
                         EnsureBlocks = AsDeferred.EnsureBlocks;
                         ExceptionIdentifierBlocks = AsDeferred.ExceptionIdentifierBlocks;
                         break;
 
-                    case IExternBody AsExtern:
+                    case ExternBody AsExtern:
                         Documentation = AsExtern.Documentation;
                         RequireBlocks = AsExtern.RequireBlocks;
                         EnsureBlocks = AsExtern.EnsureBlocks;
                         ExceptionIdentifierBlocks = AsExtern.ExceptionIdentifierBlocks;
                         break;
 
-                    case IPrecursorBody AsPrecursor:
+                    case PrecursorBody AsPrecursor:
                         Documentation = AsPrecursor.Documentation;
                         RequireBlocks = AsPrecursor.RequireBlocks;
                         EnsureBlocks = AsPrecursor.EnsureBlocks;
@@ -93,7 +93,7 @@
             {
                 Type NodeType = BodyTypeList[0];
 
-                INode NewBody = NodeHelper.CreateInitializedBody(NodeType, Documentation, RequireBlocks, EnsureBlocks, ExceptionIdentifierBlocks, EntityDeclarationBlocks, BodyInstructionBlocks, ExceptionHandlerBlocks, AncestorType);
+                Node NewBody = NodeHelper.CreateInitializedBody(NodeType, Documentation, RequireBlocks, EnsureBlocks, ExceptionIdentifierBlocks, EntityDeclarationBlocks, BodyInstructionBlocks, ExceptionHandlerBlocks, AncestorType);
 
                 IFocusBrowsingInsertableIndex InsertableNodeIndex = NodeIndex as IFocusBrowsingInsertableIndex;
                 Debug.Assert(InsertableNodeIndex != null);

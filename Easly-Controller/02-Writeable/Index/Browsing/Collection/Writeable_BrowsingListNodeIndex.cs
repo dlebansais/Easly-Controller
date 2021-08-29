@@ -34,7 +34,7 @@
         /// <param name="node">Indexed node in the list</param>
         /// <param name="propertyName">Property in <paramref name="parentNode"/> corresponding to the list.</param>
         /// <param name="index">Position of the node in the list.</param>
-        public WriteableBrowsingListNodeIndex(INode parentNode, INode node, string propertyName, int index)
+        public WriteableBrowsingListNodeIndex(Node parentNode, Node node, string propertyName, int index)
             : base(parentNode, node, propertyName, index)
         {
         }
@@ -66,7 +66,7 @@
         /// </summary>
         /// <param name="parentNode">The parent node where the index would be used to replace a node.</param>
         /// <param name="node">The node inserted.</param>
-        public virtual IWriteableInsertionChildIndex ToInsertionIndex(INode parentNode, INode node)
+        public virtual IWriteableInsertionChildIndex ToInsertionIndex(Node parentNode, Node node)
         {
             return CreateInsertionIndex(parentNode, node);
         }
@@ -96,7 +96,7 @@
         /// <summary>
         /// Creates a IxxxInsertionListNodeIndex object.
         /// </summary>
-        private protected virtual IWriteableInsertionListNodeIndex CreateInsertionIndex(INode parentNode, INode node)
+        private protected virtual IWriteableInsertionListNodeIndex CreateInsertionIndex(Node parentNode, Node node)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableBrowsingListNodeIndex));
             return new WriteableInsertionListNodeIndex(parentNode, PropertyName, node, Index);

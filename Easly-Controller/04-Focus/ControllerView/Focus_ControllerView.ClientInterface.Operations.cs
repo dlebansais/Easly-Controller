@@ -53,7 +53,7 @@
             Debug.Assert(!InsertType.IsAbstract);
 
             Type InterfaceType = NodeTreeHelper.NodeTypeToInterfaceType(InsertType);
-            INode NewItem = NodeHelper.CreateDefaultFromInterface(InterfaceType);
+            Node NewItem = NodeHelper.CreateDefaultFromInterface(InterfaceType);
 
             IFocusCollectionInner CollectionInner = null;
             frame.CollectionNameToInner(ref state, ref CollectionInner);
@@ -65,8 +65,8 @@
 
                 if (AsBlockListInner.Count == 0)
                 {
-                    IPattern NewPattern = NodeHelper.CreateEmptyPattern();
-                    IIdentifier NewSource = NodeHelper.CreateEmptyIdentifier();
+                    Pattern NewPattern = NodeHelper.CreateEmptyPattern();
+                    Identifier NewSource = NodeHelper.CreateEmptyIdentifier();
                     index = CreateNewBlockNodeIndex(state.Node, CollectionInner.PropertyName, NewItem, 0, NewPattern, NewSource);
                 }
                 else
@@ -109,7 +109,7 @@
             if (ParentInner == null)
                 return false;
 
-            INode NewItem;
+            Node NewItem;
             int BlockPosition;
             int ItemPosition;
             bool IsHandled = false;
@@ -509,7 +509,7 @@
             // Search recursively for a simplifiable node.
             while (CurrentState != null)
             {
-                if (NodeHelper.GetSimplifiedNode(CurrentState.Node, out INode SimplifiedNode))
+                if (NodeHelper.GetSimplifiedNode(CurrentState.Node, out Node SimplifiedNode))
                 {
                     if (SimplifiedNode != null)
                     {
@@ -550,13 +550,13 @@
             // Search recursively for a complexifiable node.
             while (CurrentState != null)
             {
-                if (NodeHelper.GetComplexifiedNode(CurrentState.Node, out IList<INode> ComplexifiedNodeList))
+                if (NodeHelper.GetComplexifiedNode(CurrentState.Node, out IList<Node> ComplexifiedNodeList))
                 {
                     Debug.Assert(ComplexifiedNodeList != null && ComplexifiedNodeList.Count > 0);
                     Type InterfaceType = CurrentState.ParentInner.InterfaceType;
                     bool IsAssignable = true;
 
-                    foreach (INode ComplexifiedNode in ComplexifiedNodeList)
+                    foreach (Node ComplexifiedNode in ComplexifiedNodeList)
                         IsAssignable &= InterfaceType.IsAssignableFrom(ComplexifiedNode.GetType());
 
                     if (IsAssignable)
@@ -567,7 +567,7 @@
                         IFocusInner Inner = CurrentState.ParentInner;
                         IList<IFocusInsertionChildNodeIndex> IndexList = new List<IFocusInsertionChildNodeIndex>();
 
-                        foreach (INode ComplexifiedNode in ComplexifiedNodeList)
+                        foreach (Node ComplexifiedNode in ComplexifiedNodeList)
                         {
                             IFocusInsertionChildNodeIndex NodeIndex = ((IFocusBrowsingInsertableIndex)ParentIndex).ToInsertionIndex(Inner.Owner.Node, ComplexifiedNode) as IFocusInsertionChildNodeIndex;
                             IndexList.Add(NodeIndex);
@@ -601,10 +601,10 @@
 
             IFocusNodeState IdentifierState = Focus.CellView.StateView.State;
 
-            if (IdentifierState.Node is IIdentifier AsIdentifier)
+            if (IdentifierState.Node is Identifier AsIdentifier)
             {
                 IFocusNodeState ParentState = IdentifierState.ParentState;
-                if (ParentState.Node is IQualifiedName)
+                if (ParentState.Node is QualifiedName)
                 {
                     string Text = AsIdentifier.Text;
                     Debug.Assert(CaretPosition >= 0 && CaretPosition <= Text.Length);
@@ -615,8 +615,8 @@
                     IFocusBrowsingListNodeIndex CurrentIndex = IdentifierState.ParentIndex as IFocusBrowsingListNodeIndex;
                     Debug.Assert(CurrentIndex != null);
 
-                    IIdentifier FirstPart = NodeHelper.CreateSimpleIdentifier(Text.Substring(0, CaretPosition));
-                    IIdentifier SecondPart = NodeHelper.CreateSimpleIdentifier(Text.Substring(CaretPosition));
+                    Identifier FirstPart = NodeHelper.CreateSimpleIdentifier(Text.Substring(0, CaretPosition));
+                    Identifier SecondPart = NodeHelper.CreateSimpleIdentifier(Text.Substring(CaretPosition));
 
                     replaceIndex = CurrentIndex.ToInsertionIndex(ParentState.Node, FirstPart) as IFocusInsertionListNodeIndex;
                     Debug.Assert(replaceIndex != null);

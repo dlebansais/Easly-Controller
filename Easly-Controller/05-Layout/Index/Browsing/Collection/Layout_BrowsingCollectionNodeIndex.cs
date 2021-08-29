@@ -21,7 +21,7 @@
         /// </summary>
         /// <param name="node">The indexed node.</param>
         /// <param name="propertyName">The property for the index.</param>
-        public LayoutBrowsingCollectionNodeIndex(INode node, string propertyName)
+        public LayoutBrowsingCollectionNodeIndex(Node node, string propertyName)
             : base(node, propertyName)
         {
         }

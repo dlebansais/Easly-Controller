@@ -8,14 +8,14 @@
     using Easly;
 
     /// <summary>
-    /// Cycle manager for IFeature nodes.
+    /// Cycle manager for Feature nodes.
     /// </summary>
     public interface IFocusCycleManagerFeature : IFocusCycleManager
     {
     }
 
     /// <summary>
-    /// Cycle manager for IFeature nodes.
+    /// Cycle manager for Feature nodes.
     /// </summary>
     public class FocusCycleManagerFeature : FocusCycleManager, IFocusCycleManagerFeature
     {
@@ -23,7 +23,7 @@
         /// <summary>
         /// Type of the base interface for all nodes participating to the cycle.
         /// </summary>
-        public override Type InterfaceType { get { return typeof(IFeature); } }
+        public override Type InterfaceType { get { return typeof(Feature); } }
         #endregion
 
         #region Implementation
@@ -31,30 +31,30 @@
         protected override void AddNextNodeToCycle(IFocusCyclableNodeState state)
         {
             IFocusInsertionChildNodeIndexList CycleIndexList = state.CycleIndexList;
-            INode ParentNode = state.ParentState.Node;
+            Node ParentNode = state.ParentState.Node;
             IFocusNodeIndex NodeIndex = state.ParentIndex as IFocusNodeIndex;
 
-            IDocument Documentation = null;
-            IIdentifier ExportIdentifier = null;
+            Document Documentation = null;
+            Identifier ExportIdentifier = null;
             ExportStatus Export = ExportStatus.Exported;
-            IName EntityName = null;
-            IObjectType EntityType = null;
-            IBlockList<IAssertion, Assertion> EnsureBlocks = null;
-            IExpression ConstantValue = null;
-            IBlockList<ICommandOverload, CommandOverload> CommandOverloadBlocks = null;
+            Name EntityName = null;
+            ObjectType EntityType = null;
+            BlockList<Assertion> EnsureBlocks = null;
+            Expression ConstantValue = null;
+            BlockList<CommandOverload> CommandOverloadBlocks = null;
             OnceChoice Once = OnceChoice.Normal;
-            IBlockList<IQueryOverload, QueryOverload> QueryOverloadBlocks = null;
+            BlockList<QueryOverload> QueryOverloadBlocks = null;
             UtilityType PropertyKind = UtilityType.ReadWrite;
-            IBlockList<IIdentifier, Identifier> ModifiedQueryBlocks = null;
-            IOptionalReference<IBody> GetterBody = null;
-            IOptionalReference<IBody> SetterBody = null;
-            IBlockList<IEntityDeclaration, EntityDeclaration> IndexParameterBlocks = null;
+            BlockList<Identifier> ModifiedQueryBlocks = null;
+            OptionalReference<Body> GetterBody = null;
+            OptionalReference<Body> SetterBody = null;
+            BlockList<EntityDeclaration> IndexParameterBlocks = null;
             ParameterEndStatus ParameterEnd = ParameterEndStatus.Closed;
 
             List<Type> FeatureTypeList = new List<Type>() { typeof(AttributeFeature), typeof(ConstantFeature), typeof(CreationFeature), typeof(FunctionFeature), typeof(ProcedureFeature), typeof(PropertyFeature), typeof(IndexerFeature) };
             foreach (IFocusInsertionChildNodeIndex Index in CycleIndexList)
             {
-                IFeature Feature = Index.Node as IFeature;
+                Feature Feature = Index.Node as Feature;
                 Debug.Assert(Feature != null);
 
                 if (FeatureTypeList.Contains(Feature.GetType()))
@@ -62,7 +62,7 @@
 
                 switch (Feature)
                 {
-                    case IAttributeFeature AsAttribute:
+                    case AttributeFeature AsAttribute:
                         Documentation = AsAttribute.Documentation;
                         ExportIdentifier = AsAttribute.ExportIdentifier;
                         Export = AsAttribute.Export;
@@ -71,7 +71,7 @@
                         EnsureBlocks = AsAttribute.EnsureBlocks;
                         break;
 
-                    case IConstantFeature AsConstant:
+                    case ConstantFeature AsConstant:
                         Documentation = AsConstant.Documentation;
                         ExportIdentifier = AsConstant.ExportIdentifier;
                         Export = AsConstant.Export;
@@ -80,7 +80,7 @@
                         ConstantValue = AsConstant.ConstantValue;
                         break;
 
-                    case ICreationFeature AsCreation:
+                    case CreationFeature AsCreation:
                         Documentation = AsCreation.Documentation;
                         ExportIdentifier = AsCreation.ExportIdentifier;
                         Export = AsCreation.Export;
@@ -88,7 +88,7 @@
                         CommandOverloadBlocks = AsCreation.OverloadBlocks;
                         break;
 
-                    case IFunctionFeature AsFunction:
+                    case FunctionFeature AsFunction:
                         Documentation = AsFunction.Documentation;
                         ExportIdentifier = AsFunction.ExportIdentifier;
                         Export = AsFunction.Export;
@@ -97,7 +97,7 @@
                         QueryOverloadBlocks = AsFunction.OverloadBlocks;
                         break;
 
-                    case IProcedureFeature AsProcedure:
+                    case ProcedureFeature AsProcedure:
                         Documentation = AsProcedure.Documentation;
                         ExportIdentifier = AsProcedure.ExportIdentifier;
                         Export = AsProcedure.Export;
@@ -105,7 +105,7 @@
                         CommandOverloadBlocks = AsProcedure.OverloadBlocks;
                         break;
 
-                    case IPropertyFeature AsProperty:
+                    case PropertyFeature AsProperty:
                         Documentation = AsProperty.Documentation;
                         ExportIdentifier = AsProperty.ExportIdentifier;
                         Export = AsProperty.Export;
@@ -117,7 +117,7 @@
                         SetterBody = AsProperty.SetterBody;
                         break;
 
-                    case IIndexerFeature AsIndexer:
+                    case IndexerFeature AsIndexer:
                         Documentation = AsIndexer.Documentation;
                         ExportIdentifier = AsIndexer.ExportIdentifier;
                         Export = AsIndexer.Export;
@@ -140,7 +140,7 @@
             {
                 Type NodeType = FeatureTypeList[0];
 
-                INode NewFeature = NodeHelper.CreateInitializedFeature(NodeType, Documentation, ExportIdentifier, Export, EntityName, EntityType, EnsureBlocks, ConstantValue, CommandOverloadBlocks, Once, QueryOverloadBlocks, PropertyKind, ModifiedQueryBlocks, GetterBody, SetterBody, IndexParameterBlocks, ParameterEnd);
+                Node NewFeature = NodeHelper.CreateInitializedFeature(NodeType, Documentation, ExportIdentifier, Export, EntityName, EntityType, EnsureBlocks, ConstantValue, CommandOverloadBlocks, Once, QueryOverloadBlocks, PropertyKind, ModifiedQueryBlocks, GetterBody, SetterBody, IndexParameterBlocks, ParameterEnd);
 
                 IFocusInsertionChildNodeIndex InsertionIndex = (IFocusInsertionChildNodeIndex)((IFocusBrowsingInsertableIndex)NodeIndex).ToInsertionIndex(ParentNode, NewFeature);
                 CycleIndexList.Add(InsertionIndex);

@@ -66,7 +66,7 @@
         /// </summary>
         /// <param name="node">The node read, null if none or if the clipboard contains invalid data.</param>
         /// <returns>True if a valid node was found; Otherwise, false.</returns>
-        public static bool TryReadNode(out INode node)
+        public static bool TryReadNode(out Node node)
         {
             bool Success = TryReadContent(out node);
 
@@ -86,7 +86,7 @@
         /// </summary>
         /// <param name="dataObject">The clipboard data object that can already contain other custom formats.</param>
         /// <param name="node">The node to write.</param>
-        public static void WriteNode(IDataObject dataObject, INode node)
+        public static void WriteNode(IDataObject dataObject, Node node)
         {
             WriteContent(dataObject, node);
         }
@@ -96,7 +96,7 @@
         /// </summary>
         /// <param name="nodeList">The node  list read, null if none or if the clipboard contains invalid data.</param>
         /// <returns>True if a valid node list was found; Otherwise, false.</returns>
-        public static bool TryReadNodeList(out IList<INode> nodeList)
+        public static bool TryReadNodeList(out IList<Node> nodeList)
         {
             bool Success = TryReadContent(out nodeList);
 
@@ -116,7 +116,7 @@
         /// </summary>
         /// <param name="dataObject">The clipboard data object that can already contain other custom formats.</param>
         /// <param name="nodeList">The node list to write.</param>
-        public static void WriteNodeList(IDataObject dataObject, IList<INode> nodeList)
+        public static void WriteNodeList(IDataObject dataObject, IList<Node> nodeList)
         {
             WriteContent(dataObject, nodeList);
         }

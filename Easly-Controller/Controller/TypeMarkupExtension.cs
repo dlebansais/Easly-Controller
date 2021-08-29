@@ -11,10 +11,10 @@
     ///
     /// Xaml syntax:
     ///   xmlns:xaml="clr-namespace:EaslyController.Xaml;assembly=Easly-Controller"
-    /// For INode:
-    ///   MyProperty="{xaml:Type INode}"
-    /// For IBlock{IIdentifier,Identifier}:
-    ///   MyProperty="{xaml:Type IBlock,IIdentifier,Identifier}"
+    /// For Node:
+    ///   MyProperty="{xaml:Type Node}"
+    /// For IBlock{Identifier,Identifier}:
+    ///   MyProperty="{xaml:Type IBlock,Identifier,Identifier}"
     /// </summary>
     [ContentProperty("TypeName")]
     public class Type : MarkupExtension

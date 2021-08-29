@@ -56,13 +56,13 @@ namespace TestDebug
     xmlns:easly=""clr-namespace:BaseNode;assembly=Easly-Language""
     xmlns:cov=""clr-namespace:Coverage;assembly=Test-Easly-Controller""
     xmlns:const=""clr-namespace:EaslyController.Constants;assembly=Easly-Controller"">
-    <FrameNodeTemplate NodeType=""{xaml:Type cov:ILeaf}"">
+    <FrameNodeTemplate NodeType=""{xaml:Type cov:Leaf}"">
         <FrameVerticalPanelFrame>
             <FrameCommentFrame/>
             <FrameTextValueFrame PropertyName=""Text""/>
         </FrameVerticalPanelFrame>
     </FrameNodeTemplate>
-    <FrameNodeTemplate NodeType=""{xaml:Type cov:ITree}"">
+    <FrameNodeTemplate NodeType=""{xaml:Type cov:Tree}"">
         <FrameVerticalPanelFrame>
             <FrameCommentFrame/>
             <FramePlaceholderFrame PropertyName=""Placeholder""/>
@@ -79,7 +79,7 @@ namespace TestDebug
             </FrameDiscreteFrame>
         </FrameVerticalPanelFrame>
     </FrameNodeTemplate>
-    <FrameNodeTemplate NodeType=""{xaml:Type cov:IMain}"">
+    <FrameNodeTemplate NodeType=""{xaml:Type cov:Main}"">
         <FrameHorizontalPanelFrame>
             <FrameCommentFrame/>
             <FramePlaceholderFrame PropertyName=""PlaceholderTree""/>
@@ -103,7 +103,7 @@ namespace TestDebug
             <FrameTextValueFrame PropertyName=""ValueString""/>
         </FrameHorizontalPanelFrame>
     </FrameNodeTemplate>
-    <FrameNodeTemplate NodeType=""{xaml:Type cov:IRoot}"">
+    <FrameNodeTemplate NodeType=""{xaml:Type cov:Root}"">
         <FrameHorizontalPanelFrame>
             <FrameCommentFrame/>
             <FrameHorizontalBlockListFrame PropertyName=""MainBlocksH"" />
@@ -423,7 +423,7 @@ namespace TestDebug
             </FrameKeywordFrame>
         </FrameVerticalPanelFrame>
     </FrameNodeTemplate>
-    <FrameNodeTemplate NodeType=""{xaml:Type easly:IGlobalReplicate}"">
+    <FrameNodeTemplate NodeType=""{xaml:Type easly:GlobalReplicate}"">
         <FrameHorizontalPanelFrame>
             <FrameCommentFrame/>
             <FramePlaceholderFrame PropertyName=""ReplicateName"" />
@@ -556,7 +556,7 @@ namespace TestDebug
             <FrameTextValueFrame PropertyName=""Text""/>
         </FrameVerticalPanelFrame>
     </FrameNodeTemplate>
-    <FrameNodeTemplate NodeType=""{xaml:Type easly:IPattern}"">
+    <FrameNodeTemplate NodeType=""{xaml:Type easly:Pattern}"">
         <FrameVerticalPanelFrame>
             <FrameCommentFrame/>
             <FrameTextValueFrame PropertyName=""Text""/>
@@ -673,7 +673,7 @@ namespace TestDebug
             <FramePlaceholderFrame PropertyName=""DestinationIdentifier"" />
         </FrameHorizontalPanelFrame>
     </FrameNodeTemplate>
-    <FrameNodeTemplate NodeType=""{xaml:Type easly:IRoot}"">
+    <FrameNodeTemplate NodeType=""{xaml:Type easly:Root}"">
         <FrameVerticalPanelFrame>
             <FrameCommentFrame/>
             <FrameVerticalPanelFrame>
@@ -1421,7 +1421,7 @@ namespace TestDebug
             </FrameKeywordFrame>
         </FrameVerticalPanelFrame>
     </FrameNodeTemplate>
-    <FrameNodeTemplate NodeType=""{xaml:Type easly:IIdentifier}"">
+    <FrameNodeTemplate NodeType=""{xaml:Type easly:Identifier}"">
         <FrameVerticalPanelFrame>
             <FrameCommentFrame/>
             <FrameTextValueFrame PropertyName=""Text""/>
@@ -1973,7 +1973,7 @@ namespace TestDebug
     xmlns:easly=""clr-namespace:BaseNode;assembly=Easly-Language""
     xmlns:cov=""clr-namespace:Coverage;assembly=Test-Easly-Controller""
     xmlns:const=""clr-namespace:EaslyController.Constants;assembly=Easly-Controller"">
-    <FrameBlockTemplate NodeType=""{xaml:Type easly:IBlock,cov:ILeaf,cov:Leaf}"">
+    <FrameBlockTemplate NodeType=""{xaml:Type easly:IBlock,cov:Leaf,cov:Leaf}"">
         <FrameHorizontalPanelFrame>
             <FrameCommentFrame/>
             <FrameHorizontalPanelFrame>
@@ -1987,7 +1987,7 @@ namespace TestDebug
             <FrameKeywordFrame Text=""end""/>
         </FrameHorizontalPanelFrame>
     </FrameBlockTemplate>
-    <FrameBlockTemplate NodeType=""{xaml:Type easly:IBlock,cov:ITree,cov:Tree}"">
+    <FrameBlockTemplate NodeType=""{xaml:Type easly:IBlock,cov:Tree,cov:Tree}"">
         <FrameHorizontalPanelFrame>
             <FrameCommentFrame/>
             <FrameHorizontalPanelFrame>
@@ -2001,7 +2001,7 @@ namespace TestDebug
             <FrameKeywordFrame Text=""end""/>
         </FrameHorizontalPanelFrame>
     </FrameBlockTemplate>
-    <FrameBlockTemplate NodeType=""{xaml:Type easly:IBlock,cov:IMain,cov:Main}"">
+    <FrameBlockTemplate NodeType=""{xaml:Type easly:IBlock,cov:Main,cov:Main}"">
         <FrameHorizontalPanelFrame>
             <FrameCommentFrame/>
             <FrameHorizontalPanelFrame>
@@ -2223,7 +2223,7 @@ namespace TestDebug
             <FrameKeywordFrame Text=""end""/>
         </FrameHorizontalPanelFrame>
     </FrameBlockTemplate>
-    <FrameBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:IFeature,easly:Feature}"">
+    <FrameBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:Feature,easly:Feature}"">
         <FrameVerticalPanelFrame>
             <FrameHorizontalPanelFrame>
                 <FrameKeywordFrame>Replicate</FrameKeywordFrame>
@@ -2249,7 +2249,7 @@ namespace TestDebug
             <FrameKeywordFrame Text=""end""/>
         </FrameVerticalPanelFrame>
     </FrameBlockTemplate>
-    <FrameBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:IIdentifier,easly:Identifier}"">
+    <FrameBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:Identifier,easly:Identifier}"">
         <FrameHorizontalPanelFrame>
             <FrameHorizontalPanelFrame>
                 <FrameKeywordFrame>Replicate</FrameKeywordFrame>
@@ -2340,7 +2340,7 @@ namespace TestDebug
             <FrameKeywordFrame Text=""end""/>
         </FrameHorizontalPanelFrame>
     </FrameBlockTemplate>
-    <FrameBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:IPattern,easly:Pattern}"">
+    <FrameBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:Pattern,easly:Pattern}"">
         <FrameHorizontalPanelFrame>
             <FrameHorizontalPanelFrame>
                 <FrameKeywordFrame>Replicate</FrameKeywordFrame>

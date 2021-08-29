@@ -18,12 +18,12 @@
         /// <summary>
         /// Replication pattern in the block.
         /// </summary>
-        IPattern PatternNode { get; }
+        Pattern PatternNode { get; }
 
         /// <summary>
         /// Source identifier in the block.
         /// </summary>
-        IIdentifier SourceNode { get; }
+        Identifier SourceNode { get; }
     }
 
     /// <summary>
@@ -41,7 +41,7 @@
         /// <param name="blockIndex">Position of the block in the block list.</param>
         /// <param name="patternNode">Replication pattern in the block.</param>
         /// <param name="sourceNode">Source identifier in the block.</param>
-        public WriteableInsertionNewBlockNodeIndex(INode parentNode, string propertyName, INode node, int blockIndex, IPattern patternNode, IIdentifier sourceNode)
+        public WriteableInsertionNewBlockNodeIndex(Node parentNode, string propertyName, Node node, int blockIndex, Pattern patternNode, Identifier sourceNode)
             : base(parentNode, propertyName, node)
         {
             Debug.Assert(blockIndex >= 0);
@@ -64,12 +64,12 @@
         /// <summary>
         /// Replication pattern in the block.
         /// </summary>
-        public IPattern PatternNode { get; }
+        public Pattern PatternNode { get; }
 
         /// <summary>
         /// Source identifier in the block.
         /// </summary>
-        public IIdentifier SourceNode { get; }
+        public Identifier SourceNode { get; }
         #endregion
 
         #region Client Interface

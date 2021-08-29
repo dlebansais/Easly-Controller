@@ -67,7 +67,7 @@ namespace Test
                     using (FileStream fs = new FileStream(FileName, FileMode.Open, FileAccess.Read))
                     {
                         Serializer Serializer = new Serializer();
-                        INode RootNode = (INode)Serializer.Deserialize(fs);
+                        Node RootNode = (Node)Serializer.Deserialize(fs);
 
                         FirstRootNode = RootNode;
                     }
@@ -101,7 +101,7 @@ namespace Test
         }
 
         static List<string> FileNameTable;
-        static INode FirstRootNode;
+        static Node FirstRootNode;
         #endregion
 
         static bool TestOff = false;
@@ -142,7 +142,7 @@ namespace Test
                 return;
 
             string Name = null;
-            INode RootNode = null;
+            Node RootNode = null;
             int n = index;
             foreach (string FileName in FileNameTable)
             {
@@ -152,7 +152,7 @@ namespace Test
                     {
                         Name = FileName;
                         Serializer Serializer = new Serializer();
-                        RootNode = Serializer.Deserialize(fs) as INode;
+                        RootNode = Serializer.Deserialize(fs) as Node;
                     }
                     break;
                 }
@@ -166,14 +166,14 @@ namespace Test
         }
         #endif
 
-        public static void TestReadOnly(int index, string name, INode rootNode)
+        public static void TestReadOnly(int index, string name, Node rootNode)
         {
             ControllerTools.ResetExpectedName();
 
             TestReadOnlyStats(index, name, rootNode);
         }
 
-        public static void TestReadOnlyStats(int index, string name, INode rootNode)
+        public static void TestReadOnlyStats(int index, string name, Node rootNode)
         {
             IReadOnlyRootNodeIndex RootIndex = new ReadOnlyRootNodeIndex(rootNode);
             IReadOnlyController Controller = ReadOnlyController.Create(RootIndex);
@@ -214,7 +214,7 @@ namespace Test
             Assert.That(State != null, "ReadOnly #2");
             Assert.That(State.ParentIndex == index, "ReadOnly #4");
 
-            INode Node;
+            Node Node;
 
             if (State is IReadOnlyPlaceholderNodeState AsPlaceholderState)
                 Node = AsPlaceholderState.Node;
@@ -254,7 +254,7 @@ namespace Test
                 {
                     stats.OptionalNodeCount++;
 
-                    NodeTreeHelperOptional.GetChildNode(Node, PropertyName, out bool IsAssigned, out INode ChildNode);
+                    NodeTreeHelperOptional.GetChildNode(Node, PropertyName, out bool IsAssigned, out Node ChildNode);
                     if (IsAssigned)
                     {
                         stats.AssignedOptionalNodeCount++;
@@ -316,7 +316,7 @@ namespace Test
                     Type NodeType = Node.GetType();
                     PropertyInfo Info = NodeType.GetProperty(PropertyName);
 
-                    if (Info.PropertyType == typeof(IDocument))
+                    if (Info.PropertyType == typeof(Document))
                     {
                     }
                     else if (Info.PropertyType == typeof(bool))
@@ -350,7 +350,7 @@ namespace Test
                 return;
 
             string Name = null;
-            INode RootNode = null;
+            Node RootNode = null;
             int n = index;
             foreach (string FileName in FileNameTable)
             {
@@ -360,7 +360,7 @@ namespace Test
                     {
                         Name = FileName;
                         Serializer Serializer = new Serializer();
-                        RootNode = Serializer.Deserialize(fs) as INode;
+                        RootNode = Serializer.Deserialize(fs) as Node;
                     }
                     break;
                 }
@@ -374,7 +374,7 @@ namespace Test
         }
         #endif
 
-        public static void TestStateView(int index, INode rootNode)
+        public static void TestStateView(int index, Node rootNode)
         {
             ControllerTools.ResetExpectedName();
 
@@ -409,7 +409,7 @@ namespace Test
                 return;
 
             string Name = null;
-            INode RootNode = null;
+            Node RootNode = null;
             int n = index;
             foreach (string FileName in FileNameTable)
             {
@@ -419,7 +419,7 @@ namespace Test
                     {
                         Name = FileName;
                         Serializer Serializer = new Serializer();
-                        RootNode = Serializer.Deserialize(fs) as INode;
+                        RootNode = Serializer.Deserialize(fs) as Node;
                     }
                     break;
                 }
@@ -432,7 +432,7 @@ namespace Test
             TestWriteable(index, Name, RootNode);
         }
         #endif
-        public static void TestWriteable(int index, string name, INode rootNode)
+        public static void TestWriteable(int index, string name, Node rootNode)
         {
             ControllerTools.ResetExpectedName();
 
@@ -483,7 +483,7 @@ namespace Test
             return true;
         }
 
-        public static void TestWriteableStats(int index, string name, INode rootNode, out Stats stats)
+        public static void TestWriteableStats(int index, string name, Node rootNode, out Stats stats)
         {
             IWriteableRootNodeIndex RootIndex = new WriteableRootNodeIndex(rootNode);
             IWriteableController Controller = WriteableController.Create(RootIndex);
@@ -516,7 +516,7 @@ namespace Test
             Assert.That(Controller.Stats.BlockListCount == stats.BlockListCount, $"Invalid controller state. Expected: {stats.BlockListCount} block list(s), Found: {Controller.Stats.BlockListCount}");
         }
 
-        public static void TestWriteableInsert(int index, INode rootNode)
+        public static void TestWriteableInsert(int index, Node rootNode)
         {
             IWriteableRootNodeIndex RootIndex = new WriteableRootNodeIndex(rootNode);
             IWriteableController Controller = WriteableController.Create(RootIndex);
@@ -541,7 +541,7 @@ namespace Test
             {
                 if (AsListInner.StateList.Count > 0)
                 {
-                    INode NewNode = NodeHelper.DeepCloneNode(AsListInner.StateList[0].Node, cloneCommentGuid: false);
+                    Node NewNode = NodeHelper.DeepCloneNode(AsListInner.StateList[0].Node, cloneCommentGuid: false);
                     Assert.That(NewNode != null, $"Type: {AsListInner.InterfaceType}");
 
                     int Index = RandNext(AsListInner.StateList.Count + 1);
@@ -562,7 +562,7 @@ namespace Test
                 {
                     Assert.That(AsBlockListInner.BlockStateList[0].StateList.Count > 0);
 
-                    INode NewNode = NodeHelper.DeepCloneNode(AsBlockListInner.BlockStateList[0].StateList[0].Node, cloneCommentGuid: false);
+                    Node NewNode = NodeHelper.DeepCloneNode(AsBlockListInner.BlockStateList[0].StateList[0].Node, cloneCommentGuid: false);
                     Assert.That(NewNode != null, $"Type: {AsBlockListInner.InterfaceType}");
 
                     if (RandNext(2) == 0)
@@ -585,8 +585,8 @@ namespace Test
                     {
                         int BlockIndex = RandNext(AsBlockListInner.BlockStateList.Count + 1);
 
-                        IPattern ReplicationPattern = NodeHelper.CreateSimplePattern("x");
-                        IIdentifier SourceIdentifier = NodeHelper.CreateSimpleIdentifier("y");
+                        Pattern ReplicationPattern = NodeHelper.CreateSimplePattern("x");
+                        Identifier SourceIdentifier = NodeHelper.CreateSimpleIdentifier("y");
                         IWriteableInsertionNewBlockNodeIndex NodeIndex = new WriteableInsertionNewBlockNodeIndex(AsBlockListInner.Owner.Node, AsBlockListInner.PropertyName, NewNode, BlockIndex, ReplicationPattern, SourceIdentifier);
                         Controller.Insert(AsBlockListInner, NodeIndex, out IWriteableBrowsingCollectionNodeIndex InsertedIndex);
                         Assert.That(Controller.Contains(InsertedIndex));
@@ -619,7 +619,7 @@ namespace Test
             return false;
         }
 
-        public static void TestWriteableRemove(int index, INode rootNode)
+        public static void TestWriteableRemove(int index, Node rootNode)
         {
             IWriteableRootNodeIndex RootIndex = new WriteableRootNodeIndex(rootNode);
             IWriteableController Controller = WriteableController.Create(RootIndex);
@@ -696,7 +696,7 @@ namespace Test
             return false;
         }
 
-        public static void TestWriteableRemoveBlockRange(int index, INode rootNode)
+        public static void TestWriteableRemoveBlockRange(int index, Node rootNode)
         {
             IWriteableRootNodeIndex RootIndex = new WriteableRootNodeIndex(rootNode);
             IWriteableController Controller = WriteableController.Create(RootIndex);
@@ -754,7 +754,7 @@ namespace Test
             return false;
         }
 
-        public static void TestWriteableReplaceBlockRange(int index, INode rootNode)
+        public static void TestWriteableReplaceBlockRange(int index, Node rootNode)
         {
             IWriteableRootNodeIndex RootIndex = new WriteableRootNodeIndex(rootNode);
             IWriteableController Controller = WriteableController.Create(RootIndex);
@@ -785,11 +785,11 @@ namespace Test
                     if (FirstBlockIndex > LastBlockIndex)
                         FirstBlockIndex = LastBlockIndex;
 
-                    INode NewNode = NodeHelper.DeepCloneNode(AsBlockListInner.BlockStateList[0].StateList[0].Node, cloneCommentGuid: false);
+                    Node NewNode = NodeHelper.DeepCloneNode(AsBlockListInner.BlockStateList[0].StateList[0].Node, cloneCommentGuid: false);
                     Assert.That(NewNode != null, $"Type: {AsBlockListInner.InterfaceType}");
 
-                    IPattern ReplicationPattern = NodeHelper.CreateSimplePattern("x");
-                    IIdentifier SourceIdentifier = NodeHelper.CreateSimpleIdentifier("y");
+                    Pattern ReplicationPattern = NodeHelper.CreateSimplePattern("x");
+                    Identifier SourceIdentifier = NodeHelper.CreateSimpleIdentifier("y");
                     IWriteableInsertionNewBlockNodeIndex NewNodeIndex = new WriteableInsertionNewBlockNodeIndex(AsBlockListInner.Owner.Node, AsBlockListInner.PropertyName, NewNode, FirstBlockIndex, ReplicationPattern, SourceIdentifier);
 
                     NewNode = NodeHelper.DeepCloneNode(AsBlockListInner.BlockStateList[0].StateList[0].Node, cloneCommentGuid: false);
@@ -822,7 +822,7 @@ namespace Test
             return false;
         }
 
-        public static void TestWriteableInsertBlockRange(int index, INode rootNode)
+        public static void TestWriteableInsertBlockRange(int index, Node rootNode)
         {
             IWriteableRootNodeIndex RootIndex = new WriteableRootNodeIndex(rootNode);
             IWriteableController Controller = WriteableController.Create(RootIndex);
@@ -849,11 +849,11 @@ namespace Test
                 {
                     int InsertedIndex = RandNext(AsBlockListInner.BlockStateList.Count);
 
-                    INode NewNode = NodeHelper.DeepCloneNode(AsBlockListInner.BlockStateList[0].StateList[0].Node, cloneCommentGuid: false);
+                    Node NewNode = NodeHelper.DeepCloneNode(AsBlockListInner.BlockStateList[0].StateList[0].Node, cloneCommentGuid: false);
                     Assert.That(NewNode != null, $"Type: {AsBlockListInner.InterfaceType}");
 
-                    IPattern ReplicationPattern = NodeHelper.CreateSimplePattern("x");
-                    IIdentifier SourceIdentifier = NodeHelper.CreateSimpleIdentifier("y");
+                    Pattern ReplicationPattern = NodeHelper.CreateSimplePattern("x");
+                    Identifier SourceIdentifier = NodeHelper.CreateSimpleIdentifier("y");
                     IWriteableInsertionNewBlockNodeIndex NewNodeIndex = new WriteableInsertionNewBlockNodeIndex(AsBlockListInner.Owner.Node, AsBlockListInner.PropertyName, NewNode, InsertedIndex, ReplicationPattern, SourceIdentifier);
 
                     NewNode = NodeHelper.DeepCloneNode(AsBlockListInner.BlockStateList[0].StateList[0].Node, cloneCommentGuid: false);
@@ -886,7 +886,7 @@ namespace Test
             return false;
         }
 
-        public static void TestWriteableRemoveNodeRange(int index, INode rootNode)
+        public static void TestWriteableRemoveNodeRange(int index, Node rootNode)
         {
             IWriteableRootNodeIndex RootIndex = new WriteableRootNodeIndex(rootNode);
             IWriteableController Controller = WriteableController.Create(RootIndex);
@@ -964,7 +964,7 @@ namespace Test
             return false;
         }
 
-        public static void TestWriteableReplaceNodeRange(int index, INode rootNode)
+        public static void TestWriteableReplaceNodeRange(int index, Node rootNode)
         {
             IWriteableRootNodeIndex RootIndex = new WriteableRootNodeIndex(rootNode);
             IWriteableController Controller = WriteableController.Create(RootIndex);
@@ -996,7 +996,7 @@ namespace Test
                     if (FirstNodeIndex > LastNodeIndex)
                         FirstNodeIndex = LastNodeIndex;
 
-                    INode NewNode = NodeHelper.DeepCloneNode(AsBlockListInner.BlockStateList[0].StateList[0].Node, cloneCommentGuid: false);
+                    Node NewNode = NodeHelper.DeepCloneNode(AsBlockListInner.BlockStateList[0].StateList[0].Node, cloneCommentGuid: false);
                     Assert.That(NewNode != null, $"Type: {AsBlockListInner.InterfaceType}");
 
                     IWriteableInsertionExistingBlockNodeIndex ExistingNodeIndex = new WriteableInsertionExistingBlockNodeIndex(AsBlockListInner.Owner.Node, AsBlockListInner.PropertyName, NewNode, BlockIndex, FirstNodeIndex);
@@ -1021,7 +1021,7 @@ namespace Test
                     if (FirstNodeIndex > LastNodeIndex)
                         FirstNodeIndex = LastNodeIndex;
 
-                    INode NewNode = NodeHelper.DeepCloneNode(AsListInner.StateList[0].Node, cloneCommentGuid: false);
+                    Node NewNode = NodeHelper.DeepCloneNode(AsListInner.StateList[0].Node, cloneCommentGuid: false);
                     Assert.That(NewNode != null, $"Type: {AsListInner.InterfaceType}");
 
                     IWriteableInsertionListNodeIndex ExistingNodeIndex = new WriteableInsertionListNodeIndex(AsListInner.Owner.Node, AsListInner.PropertyName, NewNode, FirstNodeIndex);
@@ -1054,7 +1054,7 @@ namespace Test
             return false;
         }
 
-        public static void TestWriteableInsertNodeRange(int index, INode rootNode)
+        public static void TestWriteableInsertNodeRange(int index, Node rootNode)
         {
             IWriteableRootNodeIndex RootIndex = new WriteableRootNodeIndex(rootNode);
             IWriteableController Controller = WriteableController.Create(RootIndex);
@@ -1082,7 +1082,7 @@ namespace Test
                     int BlockIndex = RandNext(AsBlockListInner.BlockStateList.Count);
                     int InsertedNodeIndex = RandNext(AsBlockListInner.BlockStateList[BlockIndex].StateList.Count);
 
-                    INode NewNode = NodeHelper.DeepCloneNode(AsBlockListInner.BlockStateList[0].StateList[0].Node, cloneCommentGuid: false);
+                    Node NewNode = NodeHelper.DeepCloneNode(AsBlockListInner.BlockStateList[0].StateList[0].Node, cloneCommentGuid: false);
                     Assert.That(NewNode != null, $"Type: {AsBlockListInner.InterfaceType}");
 
                     IWriteableInsertionExistingBlockNodeIndex ExistingNodeIndex = new WriteableInsertionExistingBlockNodeIndex(AsBlockListInner.Owner.Node, AsBlockListInner.PropertyName, NewNode, BlockIndex, InsertedNodeIndex);
@@ -1100,7 +1100,7 @@ namespace Test
                     int BlockIndex = -1;
                     int InsertedNodeIndex = RandNext(AsListInner.StateList.Count);
 
-                    INode NewNode = NodeHelper.DeepCloneNode(AsListInner.StateList[0].Node, cloneCommentGuid: false);
+                    Node NewNode = NodeHelper.DeepCloneNode(AsListInner.StateList[0].Node, cloneCommentGuid: false);
                     Assert.That(NewNode != null, $"Type: {AsListInner.InterfaceType}");
 
                     IWriteableInsertionListNodeIndex ExistingNodeIndex = new WriteableInsertionListNodeIndex(AsListInner.Owner.Node, AsListInner.PropertyName, NewNode, InsertedNodeIndex);
@@ -1130,7 +1130,7 @@ namespace Test
             return false;
         }
 
-        public static void TestWriteableReplace(int index, INode rootNode)
+        public static void TestWriteableReplace(int index, Node rootNode)
         {
             IWriteableRootNodeIndex RootIndex = new WriteableRootNodeIndex(rootNode);
             IWriteableController Controller = WriteableController.Create(RootIndex);
@@ -1153,7 +1153,7 @@ namespace Test
 
             if (inner is IWriteablePlaceholderInner AsPlaceholderInner)
             {
-                INode NewNode = NodeHelper.DeepCloneNode(AsPlaceholderInner.ChildState.Node, cloneCommentGuid: false);
+                Node NewNode = NodeHelper.DeepCloneNode(AsPlaceholderInner.ChildState.Node, cloneCommentGuid: false);
                 Assert.That(NewNode != null, $"Type: {AsPlaceholderInner.InterfaceType}");
 
                 IWriteableInsertionPlaceholderNodeIndex NodeIndex = new WriteableInsertionPlaceholderNodeIndex(AsPlaceholderInner.Owner.Node, AsPlaceholderInner.PropertyName, NewNode);
@@ -1171,7 +1171,7 @@ namespace Test
                 IWriteableOptionalNodeState State = AsOptionalInner.ChildState;
                 IOptionalReference Optional = State.ParentIndex.Optional;
                 Type NodeInterfaceType = Optional.GetType().GetGenericArguments()[0];
-                INode NewNode = NodeHelper.CreateDefaultFromInterface(NodeInterfaceType);
+                Node NewNode = NodeHelper.CreateDefaultFromInterface(NodeInterfaceType);
                 Assert.That(NewNode != null, $"Type: {AsOptionalInner.InterfaceType}");
 
                 IWriteableInsertionOptionalNodeIndex NodeIndex = new WriteableInsertionOptionalNodeIndex(AsOptionalInner.Owner.Node, AsOptionalInner.PropertyName, NewNode);
@@ -1188,7 +1188,7 @@ namespace Test
             {
                 if (AsListInner.StateList.Count > 0)
                 {
-                    INode NewNode = NodeHelper.DeepCloneNode(AsListInner.StateList[0].Node, cloneCommentGuid: false);
+                    Node NewNode = NodeHelper.DeepCloneNode(AsListInner.StateList[0].Node, cloneCommentGuid: false);
                     Assert.That(NewNode != null, $"Type: {AsListInner.InterfaceType}");
 
                     int Index = RandNext(AsListInner.StateList.Count);
@@ -1209,7 +1209,7 @@ namespace Test
                 {
                     Assert.That(AsBlockListInner.BlockStateList[0].StateList.Count > 0);
 
-                    INode NewNode = NodeHelper.DeepCloneNode(AsBlockListInner.BlockStateList[0].StateList[0].Node, cloneCommentGuid: false);
+                    Node NewNode = NodeHelper.DeepCloneNode(AsBlockListInner.BlockStateList[0].StateList[0].Node, cloneCommentGuid: false);
                     Assert.That(NewNode != null, $"Type: {AsBlockListInner.InterfaceType}");
 
                     int BlockIndex = RandNext(AsBlockListInner.BlockStateList.Count);
@@ -1247,7 +1247,7 @@ namespace Test
             return false;
         }
 
-        public static void TestWriteableAssign(int index, INode rootNode)
+        public static void TestWriteableAssign(int index, Node rootNode)
         {
             IWriteableRootNodeIndex RootIndex = new WriteableRootNodeIndex(rootNode);
             IWriteableController Controller = WriteableController.Create(RootIndex);
@@ -1305,7 +1305,7 @@ namespace Test
             return false;
         }
 
-        public static void TestWriteableUnassign(int index, INode rootNode)
+        public static void TestWriteableUnassign(int index, Node rootNode)
         {
             IWriteableRootNodeIndex RootIndex = new WriteableRootNodeIndex(rootNode);
             IWriteableController Controller = WriteableController.Create(RootIndex);
@@ -1359,7 +1359,7 @@ namespace Test
             return false;
         }
 
-        public static void TestWriteableChangeReplication(int index, INode rootNode)
+        public static void TestWriteableChangeReplication(int index, Node rootNode)
         {
             IWriteableRootNodeIndex RootIndex = new WriteableRootNodeIndex(rootNode);
             IWriteableController Controller = WriteableController.Create(RootIndex);
@@ -1408,7 +1408,7 @@ namespace Test
             return false;
         }
 
-        public static void TestWriteableChangeDiscreteValue(int index, INode rootNode)
+        public static void TestWriteableChangeDiscreteValue(int index, Node rootNode)
         {
             IWriteableRootNodeIndex RootIndex = new WriteableRootNodeIndex(rootNode);
             IWriteableController Controller = WriteableController.Create(RootIndex);
@@ -1453,7 +1453,7 @@ namespace Test
             return false;
         }
 
-        public static void TestWriteableSplit(int index, INode rootNode)
+        public static void TestWriteableSplit(int index, Node rootNode)
         {
             IWriteableRootNodeIndex RootIndex = new WriteableRootNodeIndex(rootNode);
             IWriteableController Controller = WriteableController.Create(RootIndex);
@@ -1523,7 +1523,7 @@ namespace Test
             return false;
         }
 
-        public static void TestWriteableMerge(int index, INode rootNode)
+        public static void TestWriteableMerge(int index, Node rootNode)
         {
             IWriteableRootNodeIndex RootIndex = new WriteableRootNodeIndex(rootNode);
             IWriteableController Controller = WriteableController.Create(RootIndex);
@@ -1570,7 +1570,7 @@ namespace Test
             return false;
         }
 
-        public static void TestWriteableMove(int index, INode rootNode)
+        public static void TestWriteableMove(int index, Node rootNode)
         {
             IWriteableRootNodeIndex RootIndex = new WriteableRootNodeIndex(rootNode);
             IWriteableController Controller = WriteableController.Create(RootIndex);
@@ -1653,7 +1653,7 @@ namespace Test
             return false;
         }
 
-        public static void TestWriteableMoveBlock(int index, INode rootNode)
+        public static void TestWriteableMoveBlock(int index, Node rootNode)
         {
             IWriteableRootNodeIndex RootIndex = new WriteableRootNodeIndex(rootNode);
             IWriteableController Controller = WriteableController.Create(RootIndex);
@@ -1702,7 +1702,7 @@ namespace Test
             return false;
         }
 
-        public static void TestWriteableExpand(int index, INode rootNode)
+        public static void TestWriteableExpand(int index, Node rootNode)
         {
             IWriteableRootNodeIndex RootIndex = new WriteableRootNodeIndex(rootNode);
             IWriteableController Controller = WriteableController.Create(RootIndex);
@@ -1729,7 +1729,7 @@ namespace Test
                 State = Controller.IndexToState(NodeIndex) as IWriteablePlaceholderNodeState;
                 Assert.That(State != null);
 
-                NodeTreeHelper.GetArgumentBlocks(State.Node, out IDictionary<string, IBlockList<IArgument, Argument>> ArgumentBlocksTable);
+                NodeTreeHelper.GetArgumentBlocks(State.Node, out IDictionary<string, BlockList<Argument>> ArgumentBlocksTable);
                 if (ArgumentBlocksTable.Count == 0)
                     return true;
             }
@@ -1772,7 +1772,7 @@ namespace Test
             return false;
         }
 
-        public static void TestWriteableReduce(int index, INode rootNode)
+        public static void TestWriteableReduce(int index, Node rootNode)
         {
             IWriteableRootNodeIndex RootIndex = new WriteableRootNodeIndex(rootNode);
             IWriteableController Controller = WriteableController.Create(RootIndex);
@@ -1799,7 +1799,7 @@ namespace Test
                 State = Controller.IndexToState(NodeIndex) as IWriteablePlaceholderNodeState;
                 Assert.That(State != null);
 
-                NodeTreeHelper.GetArgumentBlocks(State.Node, out IDictionary<string, IBlockList<IArgument, Argument>> ArgumentBlocksTable);
+                NodeTreeHelper.GetArgumentBlocks(State.Node, out IDictionary<string, BlockList<Argument>> ArgumentBlocksTable);
                 if (ArgumentBlocksTable.Count == 0)
                     return true;
             }
@@ -1842,7 +1842,7 @@ namespace Test
             return false;
         }
 
-        public static void TestWriteableCanonicalize(INode rootNode)
+        public static void TestWriteableCanonicalize(Node rootNode)
         {
             IWriteableRootNodeIndex RootIndex = new WriteableRootNodeIndex(rootNode);
             IWriteableController Controller = WriteableController.Create(RootIndex);
@@ -1878,7 +1878,7 @@ namespace Test
             Assert.That(State != null, "Writeable #2");
             Assert.That(State.ParentIndex == index, "Writeable #4");
 
-            INode Node;
+            Node Node;
 
             if (State is IWriteablePlaceholderNodeState AsPlaceholderState)
                 Node = AsPlaceholderState.Node;
@@ -1916,7 +1916,7 @@ namespace Test
 
                 else if (NodeTreeHelperOptional.IsOptionalChildNodeProperty(Node, PropertyName, out ChildNodeType))
                 {
-                    NodeTreeHelperOptional.GetChildNode(Node, PropertyName, out bool IsAssigned, out INode ChildNode);
+                    NodeTreeHelperOptional.GetChildNode(Node, PropertyName, out bool IsAssigned, out Node ChildNode);
                     if (IsAssigned)
                     {
                         IWriteableOptionalInner Inner = (IWriteableOptionalInner)State.PropertyToInner(PropertyName);
@@ -1981,7 +1981,7 @@ namespace Test
             Assert.That(State != null, "Writeable #9");
             Assert.That(State.ParentIndex == index, "Writeable #10");
 
-            INode Node;
+            Node Node;
 
             if (State is IWriteablePlaceholderNodeState AsPlaceholderState)
                 Node = AsPlaceholderState.Node;
@@ -2023,7 +2023,7 @@ namespace Test
 
                 else if (NodeTreeHelperOptional.IsOptionalChildNodeProperty(Node, PropertyName, out ChildNodeType))
                 {
-                    NodeTreeHelperOptional.GetChildNode(Node, PropertyName, out bool IsAssigned, out INode ChildNode);
+                    NodeTreeHelperOptional.GetChildNode(Node, PropertyName, out bool IsAssigned, out Node ChildNode);
                     if (IsAssigned)
                     {
                         IWriteableOptionalInner Inner = (IWriteableOptionalInner)State.PropertyToInner(PropertyName);
@@ -2085,7 +2085,7 @@ namespace Test
                 return;
 
             string Name = null;
-            INode RootNode = null;
+            Node RootNode = null;
             int n = index;
             foreach (string FileName in FileNameTable)
             {
@@ -2095,7 +2095,7 @@ namespace Test
                     {
                         Name = FileName;
                         Serializer Serializer = new Serializer();
-                        RootNode = Serializer.Deserialize(fs) as INode;
+                        RootNode = Serializer.Deserialize(fs) as Node;
                     }
                     break;
                 }
@@ -2109,7 +2109,7 @@ namespace Test
         }
 #endif
 
-        public static void TestFrame(int index, string name, INode rootNode)
+        public static void TestFrame(int index, string name, Node rootNode)
         {
             ControllerTools.ResetExpectedName();
 
@@ -2197,7 +2197,7 @@ namespace Test
                 CellViewGrid[LineNumber, ColumnNumber] = CellView;
 
                 IFrameFrame Frame = CellView.Frame;
-                INode ChildNode = CellView.StateView.State.Node;
+                Node ChildNode = CellView.StateView.State.Node;
                 string PropertyName;
 
                 switch (CellView)
@@ -2432,7 +2432,7 @@ namespace Test
             { "./EaslyExamples/Verification/Verification Example.easly", 80 },
         };
 
-        public static void TestFrameCanonicalize(INode rootNode)
+        public static void TestFrameCanonicalize(Node rootNode)
         {
             IFrameRootNodeIndex RootIndex = new FrameRootNodeIndex(rootNode);
             IFrameController Controller = FrameController.Create(RootIndex);
@@ -2457,7 +2457,7 @@ namespace Test
             return true;
         }
 
-        public static void TestFrameStats(int index, string name, INode rootNode, out Stats stats)
+        public static void TestFrameStats(int index, string name, Node rootNode, out Stats stats)
         {
             IFrameRootNodeIndex RootIndex = new FrameRootNodeIndex(rootNode);
             IFrameController Controller = FrameController.Create(RootIndex);
@@ -2490,7 +2490,7 @@ namespace Test
             Assert.That(Controller.Stats.BlockListCount == stats.BlockListCount, $"Invalid controller state. Expected: {stats.BlockListCount} block list(s), Found: {Controller.Stats.BlockListCount}");
         }
 
-        public static void TestFrameInsert(int index, INode rootNode)
+        public static void TestFrameInsert(int index, Node rootNode)
         {
             IFrameRootNodeIndex RootIndex = new FrameRootNodeIndex(rootNode);
             IFrameController Controller = FrameController.Create(RootIndex);
@@ -2515,7 +2515,7 @@ namespace Test
             {
                 if (AsListInner.StateList.Count > 0)
                 {
-                    INode NewNode = NodeHelper.DeepCloneNode(AsListInner.StateList[0].Node, cloneCommentGuid: false);
+                    Node NewNode = NodeHelper.DeepCloneNode(AsListInner.StateList[0].Node, cloneCommentGuid: false);
                     Assert.That(NewNode != null, $"Type: {AsListInner.InterfaceType}");
 
                     int Index = RandNext(AsListInner.StateList.Count + 1);
@@ -2536,7 +2536,7 @@ namespace Test
                 {
                     Assert.That(AsBlockListInner.BlockStateList[0].StateList.Count > 0);
 
-                    INode NewNode = NodeHelper.DeepCloneNode(AsBlockListInner.BlockStateList[0].StateList[0].Node, cloneCommentGuid: false);
+                    Node NewNode = NodeHelper.DeepCloneNode(AsBlockListInner.BlockStateList[0].StateList[0].Node, cloneCommentGuid: false);
                     Assert.That(NewNode != null, $"Type: {AsBlockListInner.InterfaceType}");
 
                     if (RandNext(2) == 0)
@@ -2559,8 +2559,8 @@ namespace Test
                     {
                         int BlockIndex = RandNext(AsBlockListInner.BlockStateList.Count + 1);
 
-                        IPattern ReplicationPattern = NodeHelper.CreateSimplePattern("x");
-                        IIdentifier SourceIdentifier = NodeHelper.CreateSimpleIdentifier("y");
+                        Pattern ReplicationPattern = NodeHelper.CreateSimplePattern("x");
+                        Identifier SourceIdentifier = NodeHelper.CreateSimpleIdentifier("y");
                         IFrameInsertionNewBlockNodeIndex NodeIndex = new FrameInsertionNewBlockNodeIndex(AsBlockListInner.Owner.Node, AsBlockListInner.PropertyName, NewNode, BlockIndex, ReplicationPattern, SourceIdentifier);
                         Controller.Insert(AsBlockListInner, NodeIndex, out IWriteableBrowsingCollectionNodeIndex InsertedIndex);
                         Assert.That(Controller.Contains(InsertedIndex));
@@ -2593,7 +2593,7 @@ namespace Test
             return false;
         }
 
-        public static void TestFrameReplace(int index, INode rootNode)
+        public static void TestFrameReplace(int index, Node rootNode)
         {
             IFrameRootNodeIndex RootIndex = new FrameRootNodeIndex(rootNode);
             IFrameController Controller = FrameController.Create(RootIndex);
@@ -2616,7 +2616,7 @@ namespace Test
 
             if (inner is IFramePlaceholderInner AsPlaceholderInner)
             {
-                INode NewNode = NodeHelper.DeepCloneNode(AsPlaceholderInner.ChildState.Node, cloneCommentGuid: false);
+                Node NewNode = NodeHelper.DeepCloneNode(AsPlaceholderInner.ChildState.Node, cloneCommentGuid: false);
                 Assert.That(NewNode != null, $"Type: {AsPlaceholderInner.InterfaceType}");
 
                 IFrameInsertionPlaceholderNodeIndex NodeIndex = new FrameInsertionPlaceholderNodeIndex(AsPlaceholderInner.Owner.Node, AsPlaceholderInner.PropertyName, NewNode);
@@ -2634,7 +2634,7 @@ namespace Test
                 IFrameOptionalNodeState State = AsOptionalInner.ChildState;
                 IOptionalReference Optional = State.ParentIndex.Optional;
                 Type NodeInterfaceType = Optional.GetType().GetGenericArguments()[0];
-                INode NewNode = NodeHelper.CreateDefaultFromInterface(NodeInterfaceType);
+                Node NewNode = NodeHelper.CreateDefaultFromInterface(NodeInterfaceType);
                 Assert.That(NewNode != null, $"Type: {AsOptionalInner.InterfaceType}");
 
                 IFrameInsertionOptionalNodeIndex NodeIndex = new FrameInsertionOptionalNodeIndex(AsOptionalInner.Owner.Node, AsOptionalInner.PropertyName, NewNode);
@@ -2651,7 +2651,7 @@ namespace Test
             {
                 if (AsListInner.StateList.Count > 0)
                 {
-                    INode NewNode = NodeHelper.DeepCloneNode(AsListInner.StateList[0].Node, cloneCommentGuid: false);
+                    Node NewNode = NodeHelper.DeepCloneNode(AsListInner.StateList[0].Node, cloneCommentGuid: false);
                     Assert.That(NewNode != null, $"Type: {AsListInner.InterfaceType}");
 
                     int Index = RandNext(AsListInner.StateList.Count);
@@ -2672,7 +2672,7 @@ namespace Test
                 {
                     Assert.That(AsBlockListInner.BlockStateList[0].StateList.Count > 0);
 
-                    INode NewNode = NodeHelper.DeepCloneNode(AsBlockListInner.BlockStateList[0].StateList[0].Node, cloneCommentGuid: false);
+                    Node NewNode = NodeHelper.DeepCloneNode(AsBlockListInner.BlockStateList[0].StateList[0].Node, cloneCommentGuid: false);
                     Assert.That(NewNode != null, $"Type: {AsBlockListInner.InterfaceType}");
 
                     int BlockIndex = RandNext(AsBlockListInner.BlockStateList.Count);
@@ -2710,7 +2710,7 @@ namespace Test
             return false;
         }
 
-        public static void TestFrameRemove(int index, INode rootNode)
+        public static void TestFrameRemove(int index, Node rootNode)
         {
             IFrameRootNodeIndex RootIndex = new FrameRootNodeIndex(rootNode);
             IFrameController Controller = FrameController.Create(RootIndex);
@@ -2787,7 +2787,7 @@ namespace Test
             return false;
         }
 
-        public static void TestFrameRemoveBlockRange(int index, INode rootNode)
+        public static void TestFrameRemoveBlockRange(int index, Node rootNode)
         {
             IFrameRootNodeIndex RootIndex = new FrameRootNodeIndex(rootNode);
             IFrameController Controller = FrameController.Create(RootIndex);
@@ -2846,7 +2846,7 @@ namespace Test
             return false;
         }
 
-        public static void TestFrameReplaceBlockRange(int index, INode rootNode)
+        public static void TestFrameReplaceBlockRange(int index, Node rootNode)
         {
             IFrameRootNodeIndex RootIndex = new FrameRootNodeIndex(rootNode);
             IFrameController Controller = FrameController.Create(RootIndex);
@@ -2877,11 +2877,11 @@ namespace Test
                     if (FirstBlockIndex > LastBlockIndex)
                         FirstBlockIndex = LastBlockIndex;
 
-                    INode NewNode = NodeHelper.DeepCloneNode(AsBlockListInner.BlockStateList[0].StateList[0].Node, cloneCommentGuid: false);
+                    Node NewNode = NodeHelper.DeepCloneNode(AsBlockListInner.BlockStateList[0].StateList[0].Node, cloneCommentGuid: false);
                     Assert.That(NewNode != null, $"Type: {AsBlockListInner.InterfaceType}");
 
-                    IPattern ReplicationPattern = NodeHelper.CreateSimplePattern("x");
-                    IIdentifier SourceIdentifier = NodeHelper.CreateSimpleIdentifier("y");
+                    Pattern ReplicationPattern = NodeHelper.CreateSimplePattern("x");
+                    Identifier SourceIdentifier = NodeHelper.CreateSimpleIdentifier("y");
                     IFrameInsertionNewBlockNodeIndex NewNodeIndex = new FrameInsertionNewBlockNodeIndex(AsBlockListInner.Owner.Node, AsBlockListInner.PropertyName, NewNode, FirstBlockIndex, ReplicationPattern, SourceIdentifier);
 
                     NewNode = NodeHelper.DeepCloneNode(AsBlockListInner.BlockStateList[0].StateList[0].Node, cloneCommentGuid: false);
@@ -2914,7 +2914,7 @@ namespace Test
             return false;
         }
 
-        public static void TestFrameInsertBlockRange(int index, INode rootNode)
+        public static void TestFrameInsertBlockRange(int index, Node rootNode)
         {
             IFrameRootNodeIndex RootIndex = new FrameRootNodeIndex(rootNode);
             IFrameController Controller = FrameController.Create(RootIndex);
@@ -2941,11 +2941,11 @@ namespace Test
                 {
                     int InsertedIndex = RandNext(AsBlockListInner.BlockStateList.Count);
 
-                    INode NewNode = NodeHelper.DeepCloneNode(AsBlockListInner.BlockStateList[0].StateList[0].Node, cloneCommentGuid: false);
+                    Node NewNode = NodeHelper.DeepCloneNode(AsBlockListInner.BlockStateList[0].StateList[0].Node, cloneCommentGuid: false);
                     Assert.That(NewNode != null, $"Type: {AsBlockListInner.InterfaceType}");
 
-                    IPattern ReplicationPattern = NodeHelper.CreateSimplePattern("x");
-                    IIdentifier SourceIdentifier = NodeHelper.CreateSimpleIdentifier("y");
+                    Pattern ReplicationPattern = NodeHelper.CreateSimplePattern("x");
+                    Identifier SourceIdentifier = NodeHelper.CreateSimpleIdentifier("y");
                     IFrameInsertionNewBlockNodeIndex NewNodeIndex = new FrameInsertionNewBlockNodeIndex(AsBlockListInner.Owner.Node, AsBlockListInner.PropertyName, NewNode, InsertedIndex, ReplicationPattern, SourceIdentifier);
 
                     NewNode = NodeHelper.DeepCloneNode(AsBlockListInner.BlockStateList[0].StateList[0].Node, cloneCommentGuid: false);
@@ -2978,7 +2978,7 @@ namespace Test
             return false;
         }
 
-        public static void TestFrameRemoveNodeRange(int index, INode rootNode)
+        public static void TestFrameRemoveNodeRange(int index, Node rootNode)
         {
             IFrameRootNodeIndex RootIndex = new FrameRootNodeIndex(rootNode);
             IFrameController Controller = FrameController.Create(RootIndex);
@@ -3056,7 +3056,7 @@ namespace Test
             return false;
         }
 
-        public static void TestFrameReplaceNodeRange(int index, INode rootNode)
+        public static void TestFrameReplaceNodeRange(int index, Node rootNode)
         {
             IFrameRootNodeIndex RootIndex = new FrameRootNodeIndex(rootNode);
             IFrameController Controller = FrameController.Create(RootIndex);
@@ -3088,7 +3088,7 @@ namespace Test
                     if (FirstNodeIndex > LastNodeIndex)
                         FirstNodeIndex = LastNodeIndex;
 
-                    INode NewNode = NodeHelper.DeepCloneNode(AsBlockListInner.BlockStateList[0].StateList[0].Node, cloneCommentGuid: false);
+                    Node NewNode = NodeHelper.DeepCloneNode(AsBlockListInner.BlockStateList[0].StateList[0].Node, cloneCommentGuid: false);
                     Assert.That(NewNode != null, $"Type: {AsBlockListInner.InterfaceType}");
 
                     IFrameInsertionExistingBlockNodeIndex ExistingNodeIndex = new FrameInsertionExistingBlockNodeIndex(AsBlockListInner.Owner.Node, AsBlockListInner.PropertyName, NewNode, BlockIndex, FirstNodeIndex);
@@ -3113,7 +3113,7 @@ namespace Test
                     if (FirstNodeIndex > LastNodeIndex)
                         FirstNodeIndex = LastNodeIndex;
 
-                    INode NewNode = NodeHelper.DeepCloneNode(AsListInner.StateList[0].Node, cloneCommentGuid: false);
+                    Node NewNode = NodeHelper.DeepCloneNode(AsListInner.StateList[0].Node, cloneCommentGuid: false);
                     Assert.That(NewNode != null, $"Type: {AsListInner.InterfaceType}");
 
                     IFrameInsertionListNodeIndex ExistingNodeIndex = new FrameInsertionListNodeIndex(AsListInner.Owner.Node, AsListInner.PropertyName, NewNode, FirstNodeIndex);
@@ -3146,7 +3146,7 @@ namespace Test
             return false;
         }
 
-        public static void TestFrameInsertNodeRange(int index, INode rootNode)
+        public static void TestFrameInsertNodeRange(int index, Node rootNode)
         {
             IFrameRootNodeIndex RootIndex = new FrameRootNodeIndex(rootNode);
             IFrameController Controller = FrameController.Create(RootIndex);
@@ -3174,7 +3174,7 @@ namespace Test
                     int BlockIndex = RandNext(AsBlockListInner.BlockStateList.Count);
                     int InsertedNodeIndex = RandNext(AsBlockListInner.BlockStateList[BlockIndex].StateList.Count);
 
-                    INode NewNode = NodeHelper.DeepCloneNode(AsBlockListInner.BlockStateList[0].StateList[0].Node, cloneCommentGuid: false);
+                    Node NewNode = NodeHelper.DeepCloneNode(AsBlockListInner.BlockStateList[0].StateList[0].Node, cloneCommentGuid: false);
                     Assert.That(NewNode != null, $"Type: {AsBlockListInner.InterfaceType}");
 
                     IFrameInsertionExistingBlockNodeIndex ExistingNodeIndex = new FrameInsertionExistingBlockNodeIndex(AsBlockListInner.Owner.Node, AsBlockListInner.PropertyName, NewNode, BlockIndex, InsertedNodeIndex);
@@ -3192,7 +3192,7 @@ namespace Test
                     int BlockIndex = -1;
                     int InsertedNodeIndex = RandNext(AsListInner.StateList.Count);
 
-                    INode NewNode = NodeHelper.DeepCloneNode(AsListInner.StateList[0].Node, cloneCommentGuid: false);
+                    Node NewNode = NodeHelper.DeepCloneNode(AsListInner.StateList[0].Node, cloneCommentGuid: false);
                     Assert.That(NewNode != null, $"Type: {AsListInner.InterfaceType}");
 
                     IFrameInsertionListNodeIndex ExistingNodeIndex = new FrameInsertionListNodeIndex(AsListInner.Owner.Node, AsListInner.PropertyName, NewNode, InsertedNodeIndex);
@@ -3222,7 +3222,7 @@ namespace Test
             return false;
         }
 
-        public static void TestFrameAssign(int index, INode rootNode)
+        public static void TestFrameAssign(int index, Node rootNode)
         {
             IFrameRootNodeIndex RootIndex = new FrameRootNodeIndex(rootNode);
             IFrameController Controller = FrameController.Create(RootIndex);
@@ -3281,7 +3281,7 @@ namespace Test
             return false;
         }
 
-        public static void TestFrameUnassign(int index, INode rootNode)
+        public static void TestFrameUnassign(int index, Node rootNode)
         {
             IFrameRootNodeIndex RootIndex = new FrameRootNodeIndex(rootNode);
             IFrameController Controller = FrameController.Create(RootIndex);
@@ -3336,7 +3336,7 @@ namespace Test
             return false;
         }
 
-        public static void TestFrameChangeReplication(int index, INode rootNode)
+        public static void TestFrameChangeReplication(int index, Node rootNode)
         {
             IFrameRootNodeIndex RootIndex = new FrameRootNodeIndex(rootNode);
             IFrameController Controller = FrameController.Create(RootIndex);
@@ -3386,7 +3386,7 @@ namespace Test
             return false;
         }
 
-        public static void TestFrameSplit(int index, INode rootNode)
+        public static void TestFrameSplit(int index, Node rootNode)
         {
             IFrameRootNodeIndex RootIndex = new FrameRootNodeIndex(rootNode);
             IFrameController Controller = FrameController.Create(RootIndex);
@@ -3457,7 +3457,7 @@ namespace Test
             return false;
         }
 
-        public static void TestFrameMerge(int index, INode rootNode)
+        public static void TestFrameMerge(int index, Node rootNode)
         {
             IFrameRootNodeIndex RootIndex = new FrameRootNodeIndex(rootNode);
             IFrameController Controller = FrameController.Create(RootIndex);
@@ -3505,7 +3505,7 @@ namespace Test
             return false;
         }
 
-        public static void TestFrameMove(int index, INode rootNode)
+        public static void TestFrameMove(int index, Node rootNode)
         {
             IFrameRootNodeIndex RootIndex = new FrameRootNodeIndex(rootNode);
             IFrameController Controller = FrameController.Create(RootIndex);
@@ -3589,7 +3589,7 @@ namespace Test
             return false;
         }
 
-        public static void TestFrameExpand(int index, INode rootNode)
+        public static void TestFrameExpand(int index, Node rootNode)
         {
             IFrameRootNodeIndex RootIndex = new FrameRootNodeIndex(rootNode);
             IFrameController Controller = FrameController.Create(RootIndex);
@@ -3619,7 +3619,7 @@ namespace Test
                 State = Controller.IndexToState(NodeIndex) as IFramePlaceholderNodeState;
                 Assert.That(State != null);
 
-                NodeTreeHelper.GetArgumentBlocks(State.Node, out IDictionary<string, IBlockList<IArgument, Argument>> ArgumentBlocksTable);
+                NodeTreeHelper.GetArgumentBlocks(State.Node, out IDictionary<string, BlockList<Argument>> ArgumentBlocksTable);
                 if (ArgumentBlocksTable.Count == 0)
                     return true;
             }
@@ -3659,7 +3659,7 @@ namespace Test
             return false;
         }
 
-        public static void TestFrameReduce(int index, INode rootNode)
+        public static void TestFrameReduce(int index, Node rootNode)
         {
             IFrameRootNodeIndex RootIndex = new FrameRootNodeIndex(rootNode);
             IFrameController Controller = FrameController.Create(RootIndex);
@@ -3689,7 +3689,7 @@ namespace Test
                 State = Controller.IndexToState(NodeIndex) as IFramePlaceholderNodeState;
                 Assert.That(State != null);
 
-                NodeTreeHelper.GetArgumentBlocks(State.Node, out IDictionary<string, IBlockList<IArgument, Argument>> ArgumentBlocksTable);
+                NodeTreeHelper.GetArgumentBlocks(State.Node, out IDictionary<string, BlockList<Argument>> ArgumentBlocksTable);
                 if (ArgumentBlocksTable.Count == 0)
                     return true;
             }
@@ -3735,7 +3735,7 @@ namespace Test
             Assert.That(State != null, "Frame #2");
             Assert.That(State.ParentIndex == index, "Frame #4");
 
-            INode Node;
+            Node Node;
 
             if (State is IFramePlaceholderNodeState AsPlaceholderState)
                 Node = AsPlaceholderState.Node;
@@ -3773,7 +3773,7 @@ namespace Test
 
                 else if (NodeTreeHelperOptional.IsOptionalChildNodeProperty(Node, PropertyName, out ChildNodeType))
                 {
-                    NodeTreeHelperOptional.GetChildNode(Node, PropertyName, out bool IsAssigned, out INode ChildNode);
+                    NodeTreeHelperOptional.GetChildNode(Node, PropertyName, out bool IsAssigned, out Node ChildNode);
                     if (IsAssigned)
                     {
                         IFrameOptionalInner Inner = (IFrameOptionalInner)State.PropertyToInner(PropertyName);
@@ -3847,7 +3847,7 @@ namespace Test
                 return;
 
             string Name = null;
-            INode RootNode = null;
+            Node RootNode = null;
             int n = index;
             foreach (string FileName in FileNameTable)
             {
@@ -3857,7 +3857,7 @@ namespace Test
                     {
                         Name = FileName;
                         Serializer Serializer = new Serializer();
-                        RootNode = Serializer.Deserialize(fs) as INode;
+                        RootNode = Serializer.Deserialize(fs) as Node;
                     }
                     break;
                 }
@@ -3871,7 +3871,7 @@ namespace Test
         }
 #endif
 
-        public static void TestFocus(int index, string name, INode rootNode)
+        public static void TestFocus(int index, string name, Node rootNode)
         {
             ControllerTools.ResetExpectedName();
 
@@ -3971,7 +3971,7 @@ namespace Test
                 CellViewGrid[LineNumber, ColumnNumber] = CellView;
 
                 IFocusFrame Frame = CellView.Frame;
-                INode ChildNode = CellView.StateView.State.Node;
+                Node ChildNode = CellView.StateView.State.Node;
                 string PropertyName;
 
                 switch (CellView)
@@ -4215,7 +4215,7 @@ namespace Test
             return true;
         }
 
-        public static void TestFocusStats(int index, string name, INode rootNode, out Stats stats)
+        public static void TestFocusStats(int index, string name, Node rootNode, out Stats stats)
         {
             IFocusRootNodeIndex RootIndex = new FocusRootNodeIndex(rootNode);
             IFocusController Controller = FocusController.Create(RootIndex);
@@ -4248,7 +4248,7 @@ namespace Test
             Assert.That(Controller.Stats.BlockListCount == stats.BlockListCount, $"Invalid controller state. Expected: {stats.BlockListCount} block list(s), Found: {Controller.Stats.BlockListCount}");
         }
 
-        public static void TestFocusInsert(int index, INode rootNode)
+        public static void TestFocusInsert(int index, Node rootNode)
         {
             IFocusRootNodeIndex RootIndex = new FocusRootNodeIndex(rootNode);
             IFocusController Controller = FocusController.Create(RootIndex);
@@ -4275,7 +4275,7 @@ namespace Test
             {
                 if (AsListInner.StateList.Count > 0)
                 {
-                    INode NewNode = NodeHelper.DeepCloneNode(AsListInner.StateList[0].Node, cloneCommentGuid: false);
+                    Node NewNode = NodeHelper.DeepCloneNode(AsListInner.StateList[0].Node, cloneCommentGuid: false);
                     Assert.That(NewNode != null, $"Type: {AsListInner.InterfaceType}");
 
                     int Index = RandNext(AsListInner.StateList.Count + 1);
@@ -4296,7 +4296,7 @@ namespace Test
                 {
                     Assert.That(AsBlockListInner.BlockStateList[0].StateList.Count > 0);
 
-                    INode NewNode = NodeHelper.DeepCloneNode(AsBlockListInner.BlockStateList[0].StateList[0].Node, cloneCommentGuid: false);
+                    Node NewNode = NodeHelper.DeepCloneNode(AsBlockListInner.BlockStateList[0].StateList[0].Node, cloneCommentGuid: false);
                     Assert.That(NewNode != null, $"Type: {AsBlockListInner.InterfaceType}");
 
                     if (RandNext(2) == 0)
@@ -4319,8 +4319,8 @@ namespace Test
                     {
                         int BlockIndex = RandNext(AsBlockListInner.BlockStateList.Count + 1);
 
-                        IPattern ReplicationPattern = NodeHelper.CreateSimplePattern("x");
-                        IIdentifier SourceIdentifier = NodeHelper.CreateSimpleIdentifier("y");
+                        Pattern ReplicationPattern = NodeHelper.CreateSimplePattern("x");
+                        Identifier SourceIdentifier = NodeHelper.CreateSimpleIdentifier("y");
                         IFocusInsertionNewBlockNodeIndex NodeIndex = new FocusInsertionNewBlockNodeIndex(AsBlockListInner.Owner.Node, AsBlockListInner.PropertyName, NewNode, BlockIndex, ReplicationPattern, SourceIdentifier);
                         Controller.Insert(AsBlockListInner, NodeIndex, out IWriteableBrowsingCollectionNodeIndex InsertedIndex);
                         Assert.That(Controller.Contains(InsertedIndex));
@@ -4353,7 +4353,7 @@ namespace Test
             return false;
         }
 
-        public static void TestFocusReplace(int index, INode rootNode)
+        public static void TestFocusReplace(int index, Node rootNode)
         {
             IFocusRootNodeIndex RootIndex = new FocusRootNodeIndex(rootNode);
             IFocusController Controller = FocusController.Create(RootIndex);
@@ -4378,7 +4378,7 @@ namespace Test
 
             if (inner is IFocusPlaceholderInner AsPlaceholderInner)
             {
-                INode NewNode = NodeHelper.DeepCloneNode(AsPlaceholderInner.ChildState.Node, cloneCommentGuid: false);
+                Node NewNode = NodeHelper.DeepCloneNode(AsPlaceholderInner.ChildState.Node, cloneCommentGuid: false);
                 Assert.That(NewNode != null, $"Type: {AsPlaceholderInner.InterfaceType}");
 
                 IFocusInsertionPlaceholderNodeIndex NodeIndex = new FocusInsertionPlaceholderNodeIndex(AsPlaceholderInner.Owner.Node, AsPlaceholderInner.PropertyName, NewNode);
@@ -4396,7 +4396,7 @@ namespace Test
                 IFocusOptionalNodeState State = AsOptionalInner.ChildState;
                 IOptionalReference Optional = State.ParentIndex.Optional;
                 Type NodeInterfaceType = Optional.GetType().GetGenericArguments()[0];
-                INode NewNode = NodeHelper.CreateDefaultFromInterface(NodeInterfaceType);
+                Node NewNode = NodeHelper.CreateDefaultFromInterface(NodeInterfaceType);
                 Assert.That(NewNode != null, $"Type: {AsOptionalInner.InterfaceType}");
 
                 IFocusInsertionOptionalNodeIndex NodeIndex = new FocusInsertionOptionalNodeIndex(AsOptionalInner.Owner.Node, AsOptionalInner.PropertyName, NewNode);
@@ -4413,7 +4413,7 @@ namespace Test
             {
                 if (AsListInner.StateList.Count > 0)
                 {
-                    INode NewNode = NodeHelper.DeepCloneNode(AsListInner.StateList[0].Node, cloneCommentGuid: false);
+                    Node NewNode = NodeHelper.DeepCloneNode(AsListInner.StateList[0].Node, cloneCommentGuid: false);
                     Assert.That(NewNode != null, $"Type: {AsListInner.InterfaceType}");
 
                     int Index = RandNext(AsListInner.StateList.Count);
@@ -4434,7 +4434,7 @@ namespace Test
                 {
                     Assert.That(AsBlockListInner.BlockStateList[0].StateList.Count > 0);
 
-                    INode NewNode = NodeHelper.DeepCloneNode(AsBlockListInner.BlockStateList[0].StateList[0].Node, cloneCommentGuid: false);
+                    Node NewNode = NodeHelper.DeepCloneNode(AsBlockListInner.BlockStateList[0].StateList[0].Node, cloneCommentGuid: false);
                     Assert.That(NewNode != null, $"Type: {AsBlockListInner.InterfaceType}");
 
                     int BlockIndex = RandNext(AsBlockListInner.BlockStateList.Count);
@@ -4472,7 +4472,7 @@ namespace Test
             return false;
         }
 
-        public static void TestFocusRemove(int index, INode rootNode)
+        public static void TestFocusRemove(int index, Node rootNode)
         {
             IFocusRootNodeIndex RootIndex = new FocusRootNodeIndex(rootNode);
             IFocusController Controller = FocusController.Create(RootIndex);
@@ -4551,7 +4551,7 @@ namespace Test
             return false;
         }
 
-        public static void TestFocusRemoveBlockRange(int index, INode rootNode)
+        public static void TestFocusRemoveBlockRange(int index, Node rootNode)
         {
             IFocusRootNodeIndex RootIndex = new FocusRootNodeIndex(rootNode);
             IFocusController Controller = FocusController.Create(RootIndex);
@@ -4609,7 +4609,7 @@ namespace Test
             return false;
         }
 
-        public static void TestFocusReplaceBlockRange(int index, INode rootNode)
+        public static void TestFocusReplaceBlockRange(int index, Node rootNode)
         {
             IFocusRootNodeIndex RootIndex = new FocusRootNodeIndex(rootNode);
             IFocusController Controller = FocusController.Create(RootIndex);
@@ -4640,11 +4640,11 @@ namespace Test
                     if (FirstBlockIndex > LastBlockIndex)
                         FirstBlockIndex = LastBlockIndex;
 
-                    INode NewNode = NodeHelper.DeepCloneNode(AsBlockListInner.BlockStateList[0].StateList[0].Node, cloneCommentGuid: false);
+                    Node NewNode = NodeHelper.DeepCloneNode(AsBlockListInner.BlockStateList[0].StateList[0].Node, cloneCommentGuid: false);
                     Assert.That(NewNode != null, $"Type: {AsBlockListInner.InterfaceType}");
 
-                    IPattern ReplicationPattern = NodeHelper.CreateSimplePattern("x");
-                    IIdentifier SourceIdentifier = NodeHelper.CreateSimpleIdentifier("y");
+                    Pattern ReplicationPattern = NodeHelper.CreateSimplePattern("x");
+                    Identifier SourceIdentifier = NodeHelper.CreateSimpleIdentifier("y");
                     IFocusInsertionNewBlockNodeIndex NewNodeIndex = new FocusInsertionNewBlockNodeIndex(AsBlockListInner.Owner.Node, AsBlockListInner.PropertyName, NewNode, FirstBlockIndex, ReplicationPattern, SourceIdentifier);
 
                     NewNode = NodeHelper.DeepCloneNode(AsBlockListInner.BlockStateList[0].StateList[0].Node, cloneCommentGuid: false);
@@ -4677,7 +4677,7 @@ namespace Test
             return false;
         }
 
-        public static void TestFocusInsertBlockRange(int index, INode rootNode)
+        public static void TestFocusInsertBlockRange(int index, Node rootNode)
         {
             IFocusRootNodeIndex RootIndex = new FocusRootNodeIndex(rootNode);
             IFocusController Controller = FocusController.Create(RootIndex);
@@ -4704,11 +4704,11 @@ namespace Test
                 {
                     int InsertedIndex = RandNext(AsBlockListInner.BlockStateList.Count);
 
-                    INode NewNode = NodeHelper.DeepCloneNode(AsBlockListInner.BlockStateList[0].StateList[0].Node, cloneCommentGuid: false);
+                    Node NewNode = NodeHelper.DeepCloneNode(AsBlockListInner.BlockStateList[0].StateList[0].Node, cloneCommentGuid: false);
                     Assert.That(NewNode != null, $"Type: {AsBlockListInner.InterfaceType}");
 
-                    IPattern ReplicationPattern = NodeHelper.CreateSimplePattern("x");
-                    IIdentifier SourceIdentifier = NodeHelper.CreateSimpleIdentifier("y");
+                    Pattern ReplicationPattern = NodeHelper.CreateSimplePattern("x");
+                    Identifier SourceIdentifier = NodeHelper.CreateSimpleIdentifier("y");
                     IFocusInsertionNewBlockNodeIndex NewNodeIndex = new FocusInsertionNewBlockNodeIndex(AsBlockListInner.Owner.Node, AsBlockListInner.PropertyName, NewNode, InsertedIndex, ReplicationPattern, SourceIdentifier);
 
                     NewNode = NodeHelper.DeepCloneNode(AsBlockListInner.BlockStateList[0].StateList[0].Node, cloneCommentGuid: false);
@@ -4741,7 +4741,7 @@ namespace Test
             return false;
         }
 
-        public static void TestFocusRemoveNodeRange(int index, INode rootNode)
+        public static void TestFocusRemoveNodeRange(int index, Node rootNode)
         {
             IFocusRootNodeIndex RootIndex = new FocusRootNodeIndex(rootNode);
             IFocusController Controller = FocusController.Create(RootIndex);
@@ -4819,7 +4819,7 @@ namespace Test
             return false;
         }
 
-        public static void TestFocusReplaceNodeRange(int index, INode rootNode)
+        public static void TestFocusReplaceNodeRange(int index, Node rootNode)
         {
             IFocusRootNodeIndex RootIndex = new FocusRootNodeIndex(rootNode);
             IFocusController Controller = FocusController.Create(RootIndex);
@@ -4851,7 +4851,7 @@ namespace Test
                     if (FirstNodeIndex > LastNodeIndex)
                         FirstNodeIndex = LastNodeIndex;
 
-                    INode NewNode = NodeHelper.DeepCloneNode(AsBlockListInner.BlockStateList[0].StateList[0].Node, cloneCommentGuid: false);
+                    Node NewNode = NodeHelper.DeepCloneNode(AsBlockListInner.BlockStateList[0].StateList[0].Node, cloneCommentGuid: false);
                     Assert.That(NewNode != null, $"Type: {AsBlockListInner.InterfaceType}");
 
                     IFocusInsertionExistingBlockNodeIndex ExistingNodeIndex = new FocusInsertionExistingBlockNodeIndex(AsBlockListInner.Owner.Node, AsBlockListInner.PropertyName, NewNode, BlockIndex, FirstNodeIndex);
@@ -4876,7 +4876,7 @@ namespace Test
                     if (FirstNodeIndex > LastNodeIndex)
                         FirstNodeIndex = LastNodeIndex;
 
-                    INode NewNode = NodeHelper.DeepCloneNode(AsListInner.StateList[0].Node, cloneCommentGuid: false);
+                    Node NewNode = NodeHelper.DeepCloneNode(AsListInner.StateList[0].Node, cloneCommentGuid: false);
                     Assert.That(NewNode != null, $"Type: {AsListInner.InterfaceType}");
 
                     IFocusInsertionListNodeIndex ExistingNodeIndex = new FocusInsertionListNodeIndex(AsListInner.Owner.Node, AsListInner.PropertyName, NewNode, FirstNodeIndex);
@@ -4909,7 +4909,7 @@ namespace Test
             return false;
         }
 
-        public static void TestFocusInsertNodeRange(int index, INode rootNode)
+        public static void TestFocusInsertNodeRange(int index, Node rootNode)
         {
             IFocusRootNodeIndex RootIndex = new FocusRootNodeIndex(rootNode);
             IFocusController Controller = FocusController.Create(RootIndex);
@@ -4937,7 +4937,7 @@ namespace Test
                     int BlockIndex = RandNext(AsBlockListInner.BlockStateList.Count);
                     int InsertedNodeIndex = RandNext(AsBlockListInner.BlockStateList[BlockIndex].StateList.Count);
 
-                    INode NewNode = NodeHelper.DeepCloneNode(AsBlockListInner.BlockStateList[0].StateList[0].Node, cloneCommentGuid: false);
+                    Node NewNode = NodeHelper.DeepCloneNode(AsBlockListInner.BlockStateList[0].StateList[0].Node, cloneCommentGuid: false);
                     Assert.That(NewNode != null, $"Type: {AsBlockListInner.InterfaceType}");
 
                     IFocusInsertionExistingBlockNodeIndex ExistingNodeIndex = new FocusInsertionExistingBlockNodeIndex(AsBlockListInner.Owner.Node, AsBlockListInner.PropertyName, NewNode, BlockIndex, InsertedNodeIndex);
@@ -4955,7 +4955,7 @@ namespace Test
                     int BlockIndex = -1;
                     int InsertedNodeIndex = RandNext(AsListInner.StateList.Count);
 
-                    INode NewNode = NodeHelper.DeepCloneNode(AsListInner.StateList[0].Node, cloneCommentGuid: false);
+                    Node NewNode = NodeHelper.DeepCloneNode(AsListInner.StateList[0].Node, cloneCommentGuid: false);
                     Assert.That(NewNode != null, $"Type: {AsListInner.InterfaceType}");
 
                     IFocusInsertionListNodeIndex ExistingNodeIndex = new FocusInsertionListNodeIndex(AsListInner.Owner.Node, AsListInner.PropertyName, NewNode, InsertedNodeIndex);
@@ -4985,7 +4985,7 @@ namespace Test
             return false;
         }
 
-        public static void TestFocusAssign(int index, INode rootNode)
+        public static void TestFocusAssign(int index, Node rootNode)
         {
             IFocusRootNodeIndex RootIndex = new FocusRootNodeIndex(rootNode);
             IFocusController Controller = FocusController.Create(RootIndex);
@@ -5046,7 +5046,7 @@ namespace Test
             return false;
         }
 
-        public static void TestFocusUnassign(int index, INode rootNode)
+        public static void TestFocusUnassign(int index, Node rootNode)
         {
             IFocusRootNodeIndex RootIndex = new FocusRootNodeIndex(rootNode);
             IFocusController Controller = FocusController.Create(RootIndex);
@@ -5103,7 +5103,7 @@ namespace Test
             return false;
         }
 
-        public static void TestFocusChangeReplication(int index, INode rootNode)
+        public static void TestFocusChangeReplication(int index, Node rootNode)
         {
             IFocusRootNodeIndex RootIndex = new FocusRootNodeIndex(rootNode);
             IFocusController Controller = FocusController.Create(RootIndex);
@@ -5155,7 +5155,7 @@ namespace Test
             return false;
         }
 
-        public static void TestFocusSplit(int index, INode rootNode)
+        public static void TestFocusSplit(int index, Node rootNode)
         {
             IFocusRootNodeIndex RootIndex = new FocusRootNodeIndex(rootNode);
             IFocusController Controller = FocusController.Create(RootIndex);
@@ -5226,7 +5226,7 @@ namespace Test
             return false;
         }
 
-        public static void TestFocusMerge(int index, INode rootNode)
+        public static void TestFocusMerge(int index, Node rootNode)
         {
             IFocusRootNodeIndex RootIndex = new FocusRootNodeIndex(rootNode);
             IFocusController Controller = FocusController.Create(RootIndex);
@@ -5276,7 +5276,7 @@ namespace Test
             return false;
         }
 
-        public static void TestFocusMove(int index, INode rootNode)
+        public static void TestFocusMove(int index, Node rootNode)
         {
             IFocusRootNodeIndex RootIndex = new FocusRootNodeIndex(rootNode);
             IFocusController Controller = FocusController.Create(RootIndex);
@@ -5362,7 +5362,7 @@ namespace Test
             return false;
         }
 
-        public static void TestFocusExpand(int index, INode rootNode)
+        public static void TestFocusExpand(int index, Node rootNode)
         {
             IFocusRootNodeIndex RootIndex = new FocusRootNodeIndex(rootNode);
             IFocusController Controller = FocusController.Create(RootIndex);
@@ -5394,7 +5394,7 @@ namespace Test
                 State = Controller.IndexToState(NodeIndex) as IFocusPlaceholderNodeState;
                 Assert.That(State != null);
 
-                NodeTreeHelper.GetArgumentBlocks(State.Node, out IDictionary<string, IBlockList<IArgument, Argument>> ArgumentBlocksTable);
+                NodeTreeHelper.GetArgumentBlocks(State.Node, out IDictionary<string, BlockList<Argument>> ArgumentBlocksTable);
                 if (ArgumentBlocksTable.Count == 0)
                     return true;
             }
@@ -5434,7 +5434,7 @@ namespace Test
             return false;
         }
 
-        public static void TestFocusReduce(int index, INode rootNode)
+        public static void TestFocusReduce(int index, Node rootNode)
         {
             IFocusRootNodeIndex RootIndex = new FocusRootNodeIndex(rootNode);
             IFocusController Controller = FocusController.Create(RootIndex);
@@ -5466,7 +5466,7 @@ namespace Test
                 State = Controller.IndexToState(NodeIndex) as IFocusPlaceholderNodeState;
                 Assert.That(State != null);
 
-                NodeTreeHelper.GetArgumentBlocks(State.Node, out IDictionary<string, IBlockList<IArgument, Argument>> ArgumentBlocksTable);
+                NodeTreeHelper.GetArgumentBlocks(State.Node, out IDictionary<string, BlockList<Argument>> ArgumentBlocksTable);
                 if (ArgumentBlocksTable.Count == 0)
                     return true;
             }
@@ -5506,7 +5506,7 @@ namespace Test
             return false;
         }
 
-        public static void TestFocusCanonicalize(INode rootNode)
+        public static void TestFocusCanonicalize(Node rootNode)
         {
             IFocusRootNodeIndex RootIndex = new FocusRootNodeIndex(rootNode);
             IFocusController Controller = FocusController.Create(RootIndex);
@@ -5534,7 +5534,7 @@ namespace Test
             }
         }
 
-        public static void FocusTestNewItemInsertable(INode rootNode)
+        public static void FocusTestNewItemInsertable(Node rootNode)
         {
             IFocusRootNodeIndex RootIndex = new FocusRootNodeIndex(rootNode);
             IFocusController Controller = FocusController.Create(RootIndex);
@@ -5572,7 +5572,7 @@ namespace Test
             Assert.That(NewController.IsEqual(CompareEqual.New(), Controller));
         }
 
-        public static void FocusTestItemRemoveable(INode rootNode)
+        public static void FocusTestItemRemoveable(Node rootNode)
         {
             IFocusRootNodeIndex RootIndex = new FocusRootNodeIndex(rootNode);
             IFocusController Controller = FocusController.Create(RootIndex);
@@ -5598,7 +5598,7 @@ namespace Test
             Assert.That(NewController.IsEqual(CompareEqual.New(), Controller));
         }
 
-        public static void FocusTestItemMoveable(INode rootNode)
+        public static void FocusTestItemMoveable(Node rootNode)
         {
             IFocusRootNodeIndex RootIndex = new FocusRootNodeIndex(rootNode);
             IFocusController Controller = FocusController.Create(RootIndex);
@@ -5626,7 +5626,7 @@ namespace Test
             Assert.That(NewController.IsEqual(CompareEqual.New(), Controller));
         }
 
-        public static void FocusTestBlockMoveable(INode rootNode)
+        public static void FocusTestBlockMoveable(Node rootNode)
         {
             IFocusRootNodeIndex RootIndex = new FocusRootNodeIndex(rootNode);
             IFocusController Controller = FocusController.Create(RootIndex);
@@ -5654,7 +5654,7 @@ namespace Test
             Assert.That(NewController.IsEqual(CompareEqual.New(), Controller));
         }
 
-        public static void FocusTestItemSplittable(INode rootNode)
+        public static void FocusTestItemSplittable(Node rootNode)
         {
             IFocusRootNodeIndex RootIndex = new FocusRootNodeIndex(rootNode);
             IFocusController Controller = FocusController.Create(RootIndex);
@@ -5680,7 +5680,7 @@ namespace Test
             Assert.That(NewController.IsEqual(CompareEqual.New(), Controller));
         }
 
-        public static void FocusTestItemMergeable(INode rootNode)
+        public static void FocusTestItemMergeable(Node rootNode)
         {
             IFocusRootNodeIndex RootIndex = new FocusRootNodeIndex(rootNode);
             IFocusController Controller = FocusController.Create(RootIndex);
@@ -5706,7 +5706,7 @@ namespace Test
             Assert.That(NewController.IsEqual(CompareEqual.New(), Controller));
         }
 
-        public static void FocusTestItemCyclable(INode rootNode)
+        public static void FocusTestItemCyclable(Node rootNode)
         {
             IFocusRootNodeIndex RootIndex = new FocusRootNodeIndex(rootNode);
             IFocusController Controller = FocusController.Create(RootIndex);
@@ -5732,7 +5732,7 @@ namespace Test
             Assert.That(NewController.IsEqual(CompareEqual.New(), Controller));
         }
 
-        public static void FocusTestItemSimplifiable(INode rootNode)
+        public static void FocusTestItemSimplifiable(Node rootNode)
         {
             IFocusRootNodeIndex RootIndex = new FocusRootNodeIndex(rootNode);
             IFocusController Controller = FocusController.Create(RootIndex);
@@ -5776,7 +5776,7 @@ namespace Test
             Assert.That(NewController.IsEqual(CompareEqual.New(), Controller));*/
         }
 
-        public static void FocusTestItemComplexifiable(INode rootNode)
+        public static void FocusTestItemComplexifiable(Node rootNode)
         {
             IFocusRootNodeIndex RootIndex = new FocusRootNodeIndex(rootNode);
             IFocusController Controller = FocusController.Create(RootIndex);
@@ -5810,7 +5810,7 @@ namespace Test
             }
         }
 
-        public static void FocusTestIdentifierSplittable(INode rootNode)
+        public static void FocusTestIdentifierSplittable(Node rootNode)
         {
             IFocusRootNodeIndex RootIndex = new FocusRootNodeIndex(rootNode);
             IFocusController Controller = FocusController.Create(RootIndex);
@@ -5839,7 +5839,7 @@ namespace Test
             Assert.That(NewController.IsEqual(CompareEqual.New(), Controller));
         }
 
-        public static void FocusTestReplicationModifiable(INode rootNode)
+        public static void FocusTestReplicationModifiable(Node rootNode)
         {
             IFocusRootNodeIndex RootIndex = new FocusRootNodeIndex(rootNode);
             IFocusController Controller = FocusController.Create(RootIndex);
@@ -5892,7 +5892,7 @@ namespace Test
             Assert.That(State != null, "Focus #2");
             Assert.That(State.ParentIndex == index, "Focus #4");
 
-            INode Node;
+            Node Node;
 
             if (State is IFocusPlaceholderNodeState AsPlaceholderState)
                 Node = AsPlaceholderState.Node;
@@ -5930,7 +5930,7 @@ namespace Test
 
                 else if (NodeTreeHelperOptional.IsOptionalChildNodeProperty(Node, PropertyName, out ChildNodeType))
                 {
-                    NodeTreeHelperOptional.GetChildNode(Node, PropertyName, out bool IsAssigned, out INode ChildNode);
+                    NodeTreeHelperOptional.GetChildNode(Node, PropertyName, out bool IsAssigned, out Node ChildNode);
                     if (IsAssigned)
                     {
                         IFocusOptionalInner Inner = (IFocusOptionalInner)State.PropertyToInner(PropertyName);
@@ -6007,7 +6007,7 @@ namespace Test
                 return;
 
             string Name = null;
-            INode RootNode = null;
+            Node RootNode = null;
             int n = index;
             foreach (string FileName in FileNameTable)
             {
@@ -6017,7 +6017,7 @@ namespace Test
                     {
                         Name = FileName;
                         Serializer Serializer = new Serializer();
-                        RootNode = Serializer.Deserialize(fs) as INode;
+                        RootNode = Serializer.Deserialize(fs) as Node;
                     }
                     break;
                 }
@@ -6031,7 +6031,7 @@ namespace Test
         }
 #endif
 
-        public static void TestLayout(int index, string name, INode rootNode)
+        public static void TestLayout(int index, string name, Node rootNode)
         {
             ControllerTools.ResetExpectedName();
 
@@ -6132,7 +6132,7 @@ namespace Test
                 CellViewGrid[LineNumber, ColumnNumber] = CellView;
 
                 ILayoutFrame Frame = CellView.Frame;
-                INode ChildNode = CellView.StateView.State.Node;
+                Node ChildNode = CellView.StateView.State.Node;
                 string PropertyName;
 
                 switch (CellView)
@@ -6376,7 +6376,7 @@ namespace Test
             return true;
         }
 
-        public static void TestLayoutStats(int index, string name, INode rootNode, out Stats stats)
+        public static void TestLayoutStats(int index, string name, Node rootNode, out Stats stats)
         {
             ILayoutRootNodeIndex RootIndex = new LayoutRootNodeIndex(rootNode);
             ILayoutController Controller = LayoutController.Create(RootIndex);
@@ -6409,7 +6409,7 @@ namespace Test
             Assert.That(Controller.Stats.BlockListCount == stats.BlockListCount, $"Invalid controller state. Expected: {stats.BlockListCount} block list(s), Found: {Controller.Stats.BlockListCount}");
         }
 
-        public static void TestLayoutInsert(int index, INode rootNode)
+        public static void TestLayoutInsert(int index, Node rootNode)
         {
             ILayoutRootNodeIndex RootIndex = new LayoutRootNodeIndex(rootNode);
             ILayoutController Controller = LayoutController.Create(RootIndex);
@@ -6436,7 +6436,7 @@ namespace Test
             {
                 if (AsListInner.StateList.Count > 0)
                 {
-                    INode NewNode = NodeHelper.DeepCloneNode(AsListInner.StateList[0].Node, cloneCommentGuid: false);
+                    Node NewNode = NodeHelper.DeepCloneNode(AsListInner.StateList[0].Node, cloneCommentGuid: false);
                     Assert.That(NewNode != null, $"Type: {AsListInner.InterfaceType}");
 
                     int Index = RandNext(AsListInner.StateList.Count + 1);
@@ -6457,7 +6457,7 @@ namespace Test
                 {
                     Assert.That(AsBlockListInner.BlockStateList[0].StateList.Count > 0);
 
-                    INode NewNode = NodeHelper.DeepCloneNode(AsBlockListInner.BlockStateList[0].StateList[0].Node, cloneCommentGuid: false);
+                    Node NewNode = NodeHelper.DeepCloneNode(AsBlockListInner.BlockStateList[0].StateList[0].Node, cloneCommentGuid: false);
                     Assert.That(NewNode != null, $"Type: {AsBlockListInner.InterfaceType}");
 
                     if (RandNext(2) == 0)
@@ -6480,8 +6480,8 @@ namespace Test
                     {
                         int BlockIndex = RandNext(AsBlockListInner.BlockStateList.Count + 1);
 
-                        IPattern ReplicationPattern = NodeHelper.CreateSimplePattern("x");
-                        IIdentifier SourceIdentifier = NodeHelper.CreateSimpleIdentifier("y");
+                        Pattern ReplicationPattern = NodeHelper.CreateSimplePattern("x");
+                        Identifier SourceIdentifier = NodeHelper.CreateSimpleIdentifier("y");
                         ILayoutInsertionNewBlockNodeIndex NodeIndex = new LayoutInsertionNewBlockNodeIndex(AsBlockListInner.Owner.Node, AsBlockListInner.PropertyName, NewNode, BlockIndex, ReplicationPattern, SourceIdentifier);
                         Controller.Insert(AsBlockListInner, NodeIndex, out IWriteableBrowsingCollectionNodeIndex InsertedIndex);
                         Assert.That(Controller.Contains(InsertedIndex));
@@ -6514,7 +6514,7 @@ namespace Test
             return false;
         }
 
-        public static void TestLayoutReplace(int index, INode rootNode)
+        public static void TestLayoutReplace(int index, Node rootNode)
         {
             ILayoutRootNodeIndex RootIndex = new LayoutRootNodeIndex(rootNode);
             ILayoutController Controller = LayoutController.Create(RootIndex);
@@ -6539,7 +6539,7 @@ namespace Test
 
             if (inner is ILayoutPlaceholderInner AsPlaceholderInner)
             {
-                INode NewNode = NodeHelper.DeepCloneNode(AsPlaceholderInner.ChildState.Node, cloneCommentGuid: false);
+                Node NewNode = NodeHelper.DeepCloneNode(AsPlaceholderInner.ChildState.Node, cloneCommentGuid: false);
                 Assert.That(NewNode != null, $"Type: {AsPlaceholderInner.InterfaceType}");
 
                 ILayoutInsertionPlaceholderNodeIndex NodeIndex = new LayoutInsertionPlaceholderNodeIndex(AsPlaceholderInner.Owner.Node, AsPlaceholderInner.PropertyName, NewNode);
@@ -6557,7 +6557,7 @@ namespace Test
                 ILayoutOptionalNodeState State = AsOptionalInner.ChildState;
                 IOptionalReference Optional = State.ParentIndex.Optional;
                 Type NodeInterfaceType = Optional.GetType().GetGenericArguments()[0];
-                INode NewNode = NodeHelper.CreateDefaultFromInterface(NodeInterfaceType);
+                Node NewNode = NodeHelper.CreateDefaultFromInterface(NodeInterfaceType);
                 Assert.That(NewNode != null, $"Type: {AsOptionalInner.InterfaceType}");
 
                 ILayoutInsertionOptionalNodeIndex NodeIndex = new LayoutInsertionOptionalNodeIndex(AsOptionalInner.Owner.Node, AsOptionalInner.PropertyName, NewNode);
@@ -6574,7 +6574,7 @@ namespace Test
             {
                 if (AsListInner.StateList.Count > 0)
                 {
-                    INode NewNode = NodeHelper.DeepCloneNode(AsListInner.StateList[0].Node, cloneCommentGuid: false);
+                    Node NewNode = NodeHelper.DeepCloneNode(AsListInner.StateList[0].Node, cloneCommentGuid: false);
                     Assert.That(NewNode != null, $"Type: {AsListInner.InterfaceType}");
 
                     int Index = RandNext(AsListInner.StateList.Count);
@@ -6595,7 +6595,7 @@ namespace Test
                 {
                     Assert.That(AsBlockListInner.BlockStateList[0].StateList.Count > 0);
 
-                    INode NewNode = NodeHelper.DeepCloneNode(AsBlockListInner.BlockStateList[0].StateList[0].Node, cloneCommentGuid: false);
+                    Node NewNode = NodeHelper.DeepCloneNode(AsBlockListInner.BlockStateList[0].StateList[0].Node, cloneCommentGuid: false);
                     Assert.That(NewNode != null, $"Type: {AsBlockListInner.InterfaceType}");
 
                     int BlockIndex = RandNext(AsBlockListInner.BlockStateList.Count);
@@ -6633,7 +6633,7 @@ namespace Test
             return false;
         }
 
-        public static void TestLayoutRemove(int index, INode rootNode)
+        public static void TestLayoutRemove(int index, Node rootNode)
         {
             ILayoutRootNodeIndex RootIndex = new LayoutRootNodeIndex(rootNode);
             ILayoutController Controller = LayoutController.Create(RootIndex);
@@ -6712,7 +6712,7 @@ namespace Test
             return false;
         }
 
-        public static void TestLayoutRemoveBlockRange(int index, INode rootNode)
+        public static void TestLayoutRemoveBlockRange(int index, Node rootNode)
         {
             ILayoutRootNodeIndex RootIndex = new LayoutRootNodeIndex(rootNode);
             ILayoutController Controller = LayoutController.Create(RootIndex);
@@ -6770,7 +6770,7 @@ namespace Test
             return false;
         }
 
-        public static void TestLayoutReplaceBlockRange(int index, INode rootNode)
+        public static void TestLayoutReplaceBlockRange(int index, Node rootNode)
         {
             ILayoutRootNodeIndex RootIndex = new LayoutRootNodeIndex(rootNode);
             ILayoutController Controller = LayoutController.Create(RootIndex);
@@ -6801,11 +6801,11 @@ namespace Test
                     if (FirstBlockIndex > LastBlockIndex)
                         FirstBlockIndex = LastBlockIndex;
 
-                    INode NewNode = NodeHelper.DeepCloneNode(AsBlockListInner.BlockStateList[0].StateList[0].Node, cloneCommentGuid: false);
+                    Node NewNode = NodeHelper.DeepCloneNode(AsBlockListInner.BlockStateList[0].StateList[0].Node, cloneCommentGuid: false);
                     Assert.That(NewNode != null, $"Type: {AsBlockListInner.InterfaceType}");
 
-                    IPattern ReplicationPattern = NodeHelper.CreateSimplePattern("x");
-                    IIdentifier SourceIdentifier = NodeHelper.CreateSimpleIdentifier("y");
+                    Pattern ReplicationPattern = NodeHelper.CreateSimplePattern("x");
+                    Identifier SourceIdentifier = NodeHelper.CreateSimpleIdentifier("y");
                     ILayoutInsertionNewBlockNodeIndex NewNodeIndex = new LayoutInsertionNewBlockNodeIndex(AsBlockListInner.Owner.Node, AsBlockListInner.PropertyName, NewNode, FirstBlockIndex, ReplicationPattern, SourceIdentifier);
 
                     NewNode = NodeHelper.DeepCloneNode(AsBlockListInner.BlockStateList[0].StateList[0].Node, cloneCommentGuid: false);
@@ -6838,7 +6838,7 @@ namespace Test
             return false;
         }
 
-        public static void TestLayoutInsertBlockRange(int index, INode rootNode)
+        public static void TestLayoutInsertBlockRange(int index, Node rootNode)
         {
             ILayoutRootNodeIndex RootIndex = new LayoutRootNodeIndex(rootNode);
             ILayoutController Controller = LayoutController.Create(RootIndex);
@@ -6865,11 +6865,11 @@ namespace Test
                 {
                     int InsertedIndex = RandNext(AsBlockListInner.BlockStateList.Count);
 
-                    INode NewNode = NodeHelper.DeepCloneNode(AsBlockListInner.BlockStateList[0].StateList[0].Node, cloneCommentGuid: false);
+                    Node NewNode = NodeHelper.DeepCloneNode(AsBlockListInner.BlockStateList[0].StateList[0].Node, cloneCommentGuid: false);
                     Assert.That(NewNode != null, $"Type: {AsBlockListInner.InterfaceType}");
 
-                    IPattern ReplicationPattern = NodeHelper.CreateSimplePattern("x");
-                    IIdentifier SourceIdentifier = NodeHelper.CreateSimpleIdentifier("y");
+                    Pattern ReplicationPattern = NodeHelper.CreateSimplePattern("x");
+                    Identifier SourceIdentifier = NodeHelper.CreateSimpleIdentifier("y");
                     ILayoutInsertionNewBlockNodeIndex NewNodeIndex = new LayoutInsertionNewBlockNodeIndex(AsBlockListInner.Owner.Node, AsBlockListInner.PropertyName, NewNode, InsertedIndex, ReplicationPattern, SourceIdentifier);
 
                     NewNode = NodeHelper.DeepCloneNode(AsBlockListInner.BlockStateList[0].StateList[0].Node, cloneCommentGuid: false);
@@ -6902,7 +6902,7 @@ namespace Test
             return false;
         }
 
-        public static void TestLayoutRemoveNodeRange(int index, INode rootNode)
+        public static void TestLayoutRemoveNodeRange(int index, Node rootNode)
         {
             ILayoutRootNodeIndex RootIndex = new LayoutRootNodeIndex(rootNode);
             ILayoutController Controller = LayoutController.Create(RootIndex);
@@ -6980,7 +6980,7 @@ namespace Test
             return false;
         }
 
-        public static void TestLayoutReplaceNodeRange(int index, INode rootNode)
+        public static void TestLayoutReplaceNodeRange(int index, Node rootNode)
         {
             ILayoutRootNodeIndex RootIndex = new LayoutRootNodeIndex(rootNode);
             ILayoutController Controller = LayoutController.Create(RootIndex);
@@ -7012,7 +7012,7 @@ namespace Test
                     if (FirstNodeIndex > LastNodeIndex)
                         FirstNodeIndex = LastNodeIndex;
 
-                    INode NewNode = NodeHelper.DeepCloneNode(AsBlockListInner.BlockStateList[0].StateList[0].Node, cloneCommentGuid: false);
+                    Node NewNode = NodeHelper.DeepCloneNode(AsBlockListInner.BlockStateList[0].StateList[0].Node, cloneCommentGuid: false);
                     Assert.That(NewNode != null, $"Type: {AsBlockListInner.InterfaceType}");
 
                     ILayoutInsertionExistingBlockNodeIndex ExistingNodeIndex = new LayoutInsertionExistingBlockNodeIndex(AsBlockListInner.Owner.Node, AsBlockListInner.PropertyName, NewNode, BlockIndex, FirstNodeIndex);
@@ -7037,7 +7037,7 @@ namespace Test
                     if (FirstNodeIndex > LastNodeIndex)
                         FirstNodeIndex = LastNodeIndex;
 
-                    INode NewNode = NodeHelper.DeepCloneNode(AsListInner.StateList[0].Node, cloneCommentGuid: false);
+                    Node NewNode = NodeHelper.DeepCloneNode(AsListInner.StateList[0].Node, cloneCommentGuid: false);
                     Assert.That(NewNode != null, $"Type: {AsListInner.InterfaceType}");
 
                     ILayoutInsertionListNodeIndex ExistingNodeIndex = new LayoutInsertionListNodeIndex(AsListInner.Owner.Node, AsListInner.PropertyName, NewNode, FirstNodeIndex);
@@ -7070,7 +7070,7 @@ namespace Test
             return false;
         }
 
-        public static void TestLayoutInsertNodeRange(int index, INode rootNode)
+        public static void TestLayoutInsertNodeRange(int index, Node rootNode)
         {
             ILayoutRootNodeIndex RootIndex = new LayoutRootNodeIndex(rootNode);
             ILayoutController Controller = LayoutController.Create(RootIndex);
@@ -7098,7 +7098,7 @@ namespace Test
                     int BlockIndex = RandNext(AsBlockListInner.BlockStateList.Count);
                     int InsertedNodeIndex = RandNext(AsBlockListInner.BlockStateList[BlockIndex].StateList.Count);
 
-                    INode NewNode = NodeHelper.DeepCloneNode(AsBlockListInner.BlockStateList[0].StateList[0].Node, cloneCommentGuid: false);
+                    Node NewNode = NodeHelper.DeepCloneNode(AsBlockListInner.BlockStateList[0].StateList[0].Node, cloneCommentGuid: false);
                     Assert.That(NewNode != null, $"Type: {AsBlockListInner.InterfaceType}");
 
                     ILayoutInsertionExistingBlockNodeIndex ExistingNodeIndex = new LayoutInsertionExistingBlockNodeIndex(AsBlockListInner.Owner.Node, AsBlockListInner.PropertyName, NewNode, BlockIndex, InsertedNodeIndex);
@@ -7116,7 +7116,7 @@ namespace Test
                     int BlockIndex = -1;
                     int InsertedNodeIndex = RandNext(AsListInner.StateList.Count);
 
-                    INode NewNode = NodeHelper.DeepCloneNode(AsListInner.StateList[0].Node, cloneCommentGuid: false);
+                    Node NewNode = NodeHelper.DeepCloneNode(AsListInner.StateList[0].Node, cloneCommentGuid: false);
                     Assert.That(NewNode != null, $"Type: {AsListInner.InterfaceType}");
 
                     ILayoutInsertionListNodeIndex ExistingNodeIndex = new LayoutInsertionListNodeIndex(AsListInner.Owner.Node, AsListInner.PropertyName, NewNode, InsertedNodeIndex);
@@ -7146,7 +7146,7 @@ namespace Test
             return false;
         }
 
-        public static void TestLayoutAssign(int index, INode rootNode)
+        public static void TestLayoutAssign(int index, Node rootNode)
         {
             ILayoutRootNodeIndex RootIndex = new LayoutRootNodeIndex(rootNode);
             ILayoutController Controller = LayoutController.Create(RootIndex);
@@ -7207,7 +7207,7 @@ namespace Test
             return false;
         }
 
-        public static void TestLayoutUnassign(int index, INode rootNode)
+        public static void TestLayoutUnassign(int index, Node rootNode)
         {
             ILayoutRootNodeIndex RootIndex = new LayoutRootNodeIndex(rootNode);
             ILayoutController Controller = LayoutController.Create(RootIndex);
@@ -7264,7 +7264,7 @@ namespace Test
             return false;
         }
 
-        public static void TestLayoutChangeReplication(int index, INode rootNode)
+        public static void TestLayoutChangeReplication(int index, Node rootNode)
         {
             ILayoutRootNodeIndex RootIndex = new LayoutRootNodeIndex(rootNode);
             ILayoutController Controller = LayoutController.Create(RootIndex);
@@ -7316,7 +7316,7 @@ namespace Test
             return false;
         }
 
-        public static void TestLayoutSplit(int index, INode rootNode)
+        public static void TestLayoutSplit(int index, Node rootNode)
         {
             ILayoutRootNodeIndex RootIndex = new LayoutRootNodeIndex(rootNode);
             ILayoutController Controller = LayoutController.Create(RootIndex);
@@ -7387,7 +7387,7 @@ namespace Test
             return false;
         }
 
-        public static void TestLayoutMerge(int index, INode rootNode)
+        public static void TestLayoutMerge(int index, Node rootNode)
         {
             ILayoutRootNodeIndex RootIndex = new LayoutRootNodeIndex(rootNode);
             ILayoutController Controller = LayoutController.Create(RootIndex);
@@ -7437,7 +7437,7 @@ namespace Test
             return false;
         }
 
-        public static void TestLayoutMove(int index, INode rootNode)
+        public static void TestLayoutMove(int index, Node rootNode)
         {
             ILayoutRootNodeIndex RootIndex = new LayoutRootNodeIndex(rootNode);
             ILayoutController Controller = LayoutController.Create(RootIndex);
@@ -7523,7 +7523,7 @@ namespace Test
             return false;
         }
 
-        public static void TestLayoutExpand(int index, INode rootNode)
+        public static void TestLayoutExpand(int index, Node rootNode)
         {
             ILayoutRootNodeIndex RootIndex = new LayoutRootNodeIndex(rootNode);
             ILayoutController Controller = LayoutController.Create(RootIndex);
@@ -7555,7 +7555,7 @@ namespace Test
                 State = Controller.IndexToState(NodeIndex) as ILayoutPlaceholderNodeState;
                 Assert.That(State != null);
 
-                NodeTreeHelper.GetArgumentBlocks(State.Node, out IDictionary<string, IBlockList<IArgument, Argument>> ArgumentBlocksTable);
+                NodeTreeHelper.GetArgumentBlocks(State.Node, out IDictionary<string, BlockList<Argument>> ArgumentBlocksTable);
                 if (ArgumentBlocksTable.Count == 0)
                     return true;
             }
@@ -7595,7 +7595,7 @@ namespace Test
             return false;
         }
 
-        public static void TestLayoutReduce(int index, INode rootNode)
+        public static void TestLayoutReduce(int index, Node rootNode)
         {
             ILayoutRootNodeIndex RootIndex = new LayoutRootNodeIndex(rootNode);
             ILayoutController Controller = LayoutController.Create(RootIndex);
@@ -7627,7 +7627,7 @@ namespace Test
                 State = Controller.IndexToState(NodeIndex) as ILayoutPlaceholderNodeState;
                 Assert.That(State != null);
 
-                NodeTreeHelper.GetArgumentBlocks(State.Node, out IDictionary<string, IBlockList<IArgument, Argument>> ArgumentBlocksTable);
+                NodeTreeHelper.GetArgumentBlocks(State.Node, out IDictionary<string, BlockList<Argument>> ArgumentBlocksTable);
                 if (ArgumentBlocksTable.Count == 0)
                     return true;
             }
@@ -7667,7 +7667,7 @@ namespace Test
             return false;
         }
 
-        public static void TestLayoutCanonicalize(INode rootNode)
+        public static void TestLayoutCanonicalize(Node rootNode)
         {
             ILayoutRootNodeIndex RootIndex = new LayoutRootNodeIndex(rootNode);
             ILayoutController Controller = LayoutController.Create(RootIndex);
@@ -7695,7 +7695,7 @@ namespace Test
             }
         }
 
-        public static void LayoutTestNewItemInsertable(INode rootNode)
+        public static void LayoutTestNewItemInsertable(Node rootNode)
         {
             ILayoutRootNodeIndex RootIndex = new LayoutRootNodeIndex(rootNode);
             ILayoutController Controller = LayoutController.Create(RootIndex);
@@ -7733,7 +7733,7 @@ namespace Test
             Assert.That(NewController.IsEqual(CompareEqual.New(), Controller));
         }
 
-        public static void LayoutTestItemRemoveable(INode rootNode)
+        public static void LayoutTestItemRemoveable(Node rootNode)
         {
             ILayoutRootNodeIndex RootIndex = new LayoutRootNodeIndex(rootNode);
             ILayoutController Controller = LayoutController.Create(RootIndex);
@@ -7759,7 +7759,7 @@ namespace Test
             Assert.That(NewController.IsEqual(CompareEqual.New(), Controller));
         }
 
-        public static void LayoutTestItemMoveable(INode rootNode)
+        public static void LayoutTestItemMoveable(Node rootNode)
         {
             ILayoutRootNodeIndex RootIndex = new LayoutRootNodeIndex(rootNode);
             ILayoutController Controller = LayoutController.Create(RootIndex);
@@ -7787,7 +7787,7 @@ namespace Test
             Assert.That(NewController.IsEqual(CompareEqual.New(), Controller));
         }
 
-        public static void LayoutTestBlockMoveable(INode rootNode)
+        public static void LayoutTestBlockMoveable(Node rootNode)
         {
             ILayoutRootNodeIndex RootIndex = new LayoutRootNodeIndex(rootNode);
             ILayoutController Controller = LayoutController.Create(RootIndex);
@@ -7815,7 +7815,7 @@ namespace Test
             Assert.That(NewController.IsEqual(CompareEqual.New(), Controller));
         }
 
-        public static void LayoutTestItemSplittable(INode rootNode)
+        public static void LayoutTestItemSplittable(Node rootNode)
         {
             ILayoutRootNodeIndex RootIndex = new LayoutRootNodeIndex(rootNode);
             ILayoutController Controller = LayoutController.Create(RootIndex);
@@ -7841,7 +7841,7 @@ namespace Test
             Assert.That(NewController.IsEqual(CompareEqual.New(), Controller));
         }
 
-        public static void LayoutTestItemMergeable(INode rootNode)
+        public static void LayoutTestItemMergeable(Node rootNode)
         {
             ILayoutRootNodeIndex RootIndex = new LayoutRootNodeIndex(rootNode);
             ILayoutController Controller = LayoutController.Create(RootIndex);
@@ -7867,7 +7867,7 @@ namespace Test
             Assert.That(NewController.IsEqual(CompareEqual.New(), Controller));
         }
 
-        public static void LayoutTestItemCyclable(INode rootNode)
+        public static void LayoutTestItemCyclable(Node rootNode)
         {
             ILayoutRootNodeIndex RootIndex = new LayoutRootNodeIndex(rootNode);
             ILayoutController Controller = LayoutController.Create(RootIndex);
@@ -7893,7 +7893,7 @@ namespace Test
             Assert.That(NewController.IsEqual(CompareEqual.New(), Controller));
         }
 
-        public static void LayoutTestItemSimplifiable(INode rootNode)
+        public static void LayoutTestItemSimplifiable(Node rootNode)
         {
             ILayoutRootNodeIndex RootIndex = new LayoutRootNodeIndex(rootNode);
             ILayoutController Controller = LayoutController.Create(RootIndex);
@@ -7945,7 +7945,7 @@ namespace Test
         }
         static int total = 0;
 
-        public static void LayoutTestItemComplexifiable(INode rootNode)
+        public static void LayoutTestItemComplexifiable(Node rootNode)
         {
             ILayoutRootNodeIndex RootIndex = new LayoutRootNodeIndex(rootNode);
             ILayoutController Controller = LayoutController.Create(RootIndex);
@@ -7979,7 +7979,7 @@ namespace Test
             }
         }
 
-        public static void LayoutTestIdentifierSplittable(INode rootNode)
+        public static void LayoutTestIdentifierSplittable(Node rootNode)
         {
             ILayoutRootNodeIndex RootIndex = new LayoutRootNodeIndex(rootNode);
             ILayoutController Controller = LayoutController.Create(RootIndex);
@@ -8005,7 +8005,7 @@ namespace Test
             Assert.That(NewController.IsEqual(CompareEqual.New(), Controller));
         }
 
-        public static void LayoutTestReplicationModifiable(INode rootNode)
+        public static void LayoutTestReplicationModifiable(Node rootNode)
         {
             ILayoutRootNodeIndex RootIndex = new LayoutRootNodeIndex(rootNode);
             ILayoutController Controller = LayoutController.Create(RootIndex);
@@ -8058,7 +8058,7 @@ namespace Test
             Assert.That(State != null, "Layout #2");
             Assert.That(State.ParentIndex == index, "Layout #4");
 
-            INode Node;
+            Node Node;
 
             if (State is ILayoutPlaceholderNodeState AsPlaceholderState)
                 Node = AsPlaceholderState.Node;
@@ -8096,7 +8096,7 @@ namespace Test
 
                 else if (NodeTreeHelperOptional.IsOptionalChildNodeProperty(Node, PropertyName, out ChildNodeType))
                 {
-                    NodeTreeHelperOptional.GetChildNode(Node, PropertyName, out bool IsAssigned, out INode ChildNode);
+                    NodeTreeHelperOptional.GetChildNode(Node, PropertyName, out bool IsAssigned, out Node ChildNode);
                     if (IsAssigned)
                     {
                         ILayoutOptionalInner Inner = (ILayoutOptionalInner)State.PropertyToInner(PropertyName);

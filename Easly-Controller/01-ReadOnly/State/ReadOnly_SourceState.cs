@@ -11,7 +11,7 @@
         /// <summary>
         /// The source identifier  node.
         /// </summary>
-        new IIdentifier Node { get; }
+        new Identifier Node { get; }
 
         /// <summary>
         /// The index that was used to create the state.
@@ -22,7 +22,7 @@
         /// Returns a clone of the node of this state.
         /// </summary>
         /// <returns>The cloned node.</returns>
-        new IIdentifier CloneNode();
+        new Identifier CloneNode();
 
         /// <summary>
         /// The parent block state.
@@ -65,7 +65,7 @@
         /// <summary>
         /// The source identifier  node.
         /// </summary>
-        public new IIdentifier Node { get { return (IIdentifier)base.Node; } }
+        public new Identifier Node { get { return (Identifier)base.Node; } }
 
         /// <summary>
         /// The parent block state.
@@ -83,7 +83,7 @@
         /// Returns a clone of the node of this state.
         /// </summary>
         /// <returns>The cloned node.</returns>
-        public new IIdentifier CloneNode() { return (IIdentifier)base.CloneNode(); }
+        public new Identifier CloneNode() { return (Identifier)base.CloneNode(); }
         #endregion
 
         #region Debugging

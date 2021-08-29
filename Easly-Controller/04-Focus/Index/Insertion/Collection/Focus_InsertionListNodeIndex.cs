@@ -25,7 +25,7 @@
         /// <param name="propertyName">Property in <paramref name="parentNode"/> corresponding to the list.</param>
         /// <param name="node">Inserted node.</param>
         /// <param name="index">Position where to insert <paramref name="node"/> in the list.</param>
-        public FocusInsertionListNodeIndex(INode parentNode, string propertyName, INode node, int index)
+        public FocusInsertionListNodeIndex(Node parentNode, string propertyName, Node node, int index)
             : base(parentNode, propertyName, node, index)
         {
         }

@@ -82,7 +82,7 @@
         /// <summary>
         /// Creates a IxxxCommentCellView object.
         /// </summary>
-        private protected override IFrameCommentCellView CreateCommentCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, IDocument documentation)
+        private protected override IFrameCommentCellView CreateCommentCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, Document documentation)
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusCommentFrame));
             return new FocusCommentCellView((IFocusNodeStateView)stateView, (IFocusCellViewCollection)parentCellView, this, documentation);

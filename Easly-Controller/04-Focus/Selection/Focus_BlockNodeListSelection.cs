@@ -54,7 +54,7 @@
         public FocusBlockNodeListSelection(IFocusNodeStateView stateView, string propertyName, int blockIndex, int startIndex, int endIndex)
             : base(stateView)
         {
-            INode Node = stateView.State.Node;
+            Node Node = stateView.State.Node;
             Debug.Assert(NodeTreeHelperBlockList.IsBlockListProperty(Node, propertyName, out Type childInterfaceType, out Type childNodeType));
 
             PropertyName = propertyName;
@@ -128,7 +128,7 @@
 
             IFocusBlockState BlockState = ParentInner.BlockStateList[BlockIndex];
 
-            List<INode> NodeList = new List<INode>();
+            List<Node> NodeList = new List<Node>();
             for (int i = StartIndex; i < EndIndex; i++)
                 NodeList.Add(BlockState.StateList[i].Node);
 
@@ -165,13 +165,13 @@
             Debug.Assert(EndIndex <= BlockState.StateList.Count);
             Debug.Assert(StartIndex <= EndIndex);
 
-            IList<INode> NodeList = null;
+            IList<Node> NodeList = null;
 
             if (ClipboardHelper.TryReadNodeList(out NodeList))
             { }
-            else if (ClipboardHelper.TryReadNode(out INode Node))
+            else if (ClipboardHelper.TryReadNode(out Node Node))
             {
-                NodeList = new List<INode>() { Node };
+                NodeList = new List<Node>() { Node };
             }
 
             if (NodeList != null)
@@ -186,7 +186,7 @@
 
                     for (int i = 0; i < NodeList.Count; i++)
                     {
-                        INode NewNode = NodeList[i] as INode;
+                        Node NewNode = NodeList[i] as Node;
                         IFocusInsertionExistingBlockNodeIndex InsertedIndex = CreateExistingBlockNodeIndex(ParentInner.Owner.Node, PropertyName, NewNode, BlockIndex, StartIndex + i);
                         IndexList.Add(InsertedIndex);
                     }
@@ -228,7 +228,7 @@
             {
                 if (dataObject != null)
                 {
-                    List<INode> NodeList = new List<INode>();
+                    List<Node> NodeList = new List<Node>();
                     for (int i = StartIndex; i < EndIndex; i++)
                         NodeList.Add(BlockState.StateList[i].Node);
 
@@ -260,7 +260,7 @@
         /// <summary>
         /// Creates a IxxxInsertionExistingBlockNodeIndex object.
         /// </summary>
-        private protected virtual IFocusInsertionExistingBlockNodeIndex CreateExistingBlockNodeIndex(INode parentNode, string propertyName, INode node, int blockIndex, int index)
+        private protected virtual IFocusInsertionExistingBlockNodeIndex CreateExistingBlockNodeIndex(Node parentNode, string propertyName, Node node, int blockIndex, int index)
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusBlockNodeListSelection));
             return new FocusInsertionExistingBlockNodeIndex(parentNode, propertyName, node, blockIndex, index);

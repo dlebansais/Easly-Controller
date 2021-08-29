@@ -22,7 +22,7 @@
         /// </summary>
         /// <param name="parentNode">Node containing the indexed optional node.</param>
         /// <param name="propertyName">Property in <paramref name="parentNode"/> corresponding to the indexed optional node.</param>
-        public WriteableBrowsingOptionalNodeIndex(INode parentNode, string propertyName)
+        public WriteableBrowsingOptionalNodeIndex(Node parentNode, string propertyName)
             : base(parentNode, propertyName)
         {
         }
@@ -34,7 +34,7 @@
         /// </summary>
         /// <param name="parentNode">The parent node where the index would be used to replace a node.</param>
         /// <param name="node">The node inserted.</param>
-        public virtual IWriteableInsertionChildIndex ToInsertionIndex(INode parentNode, INode node)
+        public virtual IWriteableInsertionChildIndex ToInsertionIndex(Node parentNode, Node node)
         {
             if (node != null)
                 return CreateInsertionOptionalNodeIndex(parentNode, node);
@@ -67,7 +67,7 @@
         /// <summary>
         /// Creates a IxxxInsertionOptionalNodeIndex object.
         /// </summary>
-        private protected virtual IWriteableInsertionOptionalNodeIndex CreateInsertionOptionalNodeIndex(INode parentNode, INode node)
+        private protected virtual IWriteableInsertionOptionalNodeIndex CreateInsertionOptionalNodeIndex(Node parentNode, Node node)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableBrowsingOptionalNodeIndex));
             return new WriteableInsertionOptionalNodeIndex(parentNode, PropertyName, node);
@@ -76,7 +76,7 @@
         /// <summary>
         /// Creates a IxxxInsertionOptionalClearIndex object.
         /// </summary>
-        private protected virtual IWriteableInsertionOptionalClearIndex CreateInsertionOptionalClearIndex(INode parentNode)
+        private protected virtual IWriteableInsertionOptionalClearIndex CreateInsertionOptionalClearIndex(Node parentNode)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableBrowsingOptionalNodeIndex));
             return new WriteableInsertionOptionalClearIndex(parentNode, PropertyName);

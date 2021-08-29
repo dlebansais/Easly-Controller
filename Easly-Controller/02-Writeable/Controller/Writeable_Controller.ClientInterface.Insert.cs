@@ -71,7 +71,7 @@
 
         private protected virtual void ExecuteInsertNewBlock(IWriteableInsertBlockOperation operation)
         {
-            INode ParentNode = operation.ParentNode;
+            Node ParentNode = operation.ParentNode;
             string PropertyName = operation.PropertyName;
             IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> Inner = GetInner(ParentNode, PropertyName) as IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex>;
 
@@ -115,7 +115,7 @@
 
         private protected virtual void InsertNewNode(IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> inner, IWriteableInsertionCollectionNodeIndex insertedIndex, out IWriteableBrowsingCollectionNodeIndex nodeIndex)
         {
-            IndexToPositionAndNode(insertedIndex, out int BlockIndex, out int Index, out INode Node);
+            IndexToPositionAndNode(insertedIndex, out int BlockIndex, out int Index, out Node Node);
 
             Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => RedoInsertNewNode(operation);
             Action<IWriteableOperation> HandlerUndo = (IWriteableOperation operation) => UndoInsertNewNode(operation);
@@ -136,7 +136,7 @@
 
         private protected virtual void ExecuteInsertNewNode(IWriteableInsertNodeOperation operation)
         {
-            INode ParentNode = operation.ParentNode;
+            Node ParentNode = operation.ParentNode;
             string PropertyName = operation.PropertyName;
             IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> Inner = GetInner(ParentNode, PropertyName) as IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex>;
 
@@ -221,7 +221,7 @@
                 }
                 else if (NodeIndex is IWriteableInsertionExistingBlockNodeIndex AsExistingBlockNodeIndex)
                 {
-                    IndexToPositionAndNode(AsExistingBlockNodeIndex, out BlockIndex, out int Index, out INode Node);
+                    IndexToPositionAndNode(AsExistingBlockNodeIndex, out BlockIndex, out int Index, out Node Node);
                     IWriteableInsertNodeOperation OperationInsertNode = CreateInsertNodeOperation(inner.Owner.Node, inner.PropertyName, BlockIndex, Index, Node, HandlerRedoInsertNode, HandlerUndoInsertNode, isNested: true);
                     OperationList.Add(OperationInsertNode);
                 }
@@ -307,7 +307,7 @@
             foreach (IWriteableInsertionCollectionNodeIndex NodeIndex in indexList)
                 if (NodeIndex is IWriteableInsertionExistingBlockNodeIndex AsExistingBlockNodeIndex)
                 {
-                    IndexToPositionAndNode(AsExistingBlockNodeIndex, out blockIndex, out int Index, out INode Node);
+                    IndexToPositionAndNode(AsExistingBlockNodeIndex, out blockIndex, out int Index, out Node Node);
                     IWriteableInsertNodeOperation OperationInsertNode = CreateInsertNodeOperation(inner.Owner.Node, inner.PropertyName, blockIndex, Index, Node, HandlerRedoInsertNode, HandlerUndoInsertNode, isNested: true);
                     OperationList.Add(OperationInsertNode);
                 }
@@ -359,7 +359,7 @@
             foreach (IWriteableInsertionCollectionNodeIndex NodeIndex in indexList)
                 if (NodeIndex is IWriteableInsertionListNodeIndex AsListNodeIndex)
                 {
-                    IndexToPositionAndNode(AsListNodeIndex, out int BlockIndex, out int Index, out INode Node);
+                    IndexToPositionAndNode(AsListNodeIndex, out int BlockIndex, out int Index, out Node Node);
                     IWriteableInsertNodeOperation OperationInsertNode = CreateInsertNodeOperation(inner.Owner.Node, inner.PropertyName, BlockIndex, Index, Node, HandlerRedoInsertNode, HandlerUndoInsertNode, isNested: true);
                     OperationList.Add(OperationInsertNode);
                 }

@@ -21,7 +21,7 @@
         /// </summary>
         /// <param name="node">The indexed node.</param>
         /// <param name="propertyName">The property for the index.</param>
-        public ReadOnlyBrowsingCollectionNodeIndex(INode node, string propertyName)
+        public ReadOnlyBrowsingCollectionNodeIndex(Node node, string propertyName)
         {
             Debug.Assert(node != null);
             Debug.Assert(!string.IsNullOrEmpty(propertyName));
@@ -35,7 +35,7 @@
         /// <summary>
         /// Node indexed.
         /// </summary>
-        public INode Node { get; }
+        public Node Node { get; }
 
         /// <summary>
         /// Property indexed for <see cref="Node"/>.

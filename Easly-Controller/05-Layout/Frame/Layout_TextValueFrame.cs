@@ -76,7 +76,7 @@
         /// <param name="padding">The cell padding.</param>
         public virtual void Measure(ILayoutMeasureContext measureContext, ILayoutCellView cellView, ILayoutCellViewCollection collectionWithSeparator, ILayoutCellView referenceContainer, Measure separatorLength, out Size size, out Padding padding)
         {
-            INode Node = cellView.StateView.State.Node;
+            Node Node = cellView.StateView.State.Node;
             string Text = BaseNodeHelper.NodeTreeHelper.GetString(Node, PropertyName);
 
             size = measureContext.MeasureText(Text, TextStyle, Controller.Measure.Floating);
@@ -95,7 +95,7 @@
         /// <param name="padding">The padding to use when drawing.</param>
         public virtual void Draw(ILayoutDrawContext drawContext, ILayoutCellView cellView, Point origin, Size size, Padding padding)
         {
-            INode Node = cellView.StateView.State.Node;
+            Node Node = cellView.StateView.State.Node;
             string Text = BaseNodeHelper.NodeTreeHelper.GetString(Node, PropertyName);
 
             Point OriginWithPadding = origin.Moved(padding.Left, padding.Top);
@@ -124,7 +124,7 @@
         /// <param name="padding">The padding to use when printing.</param>
         public virtual void Print(ILayoutPrintContext printContext, ILayoutCellView cellView, Point origin, Size size, Padding padding)
         {
-            INode Node = cellView.StateView.State.Node;
+            Node Node = cellView.StateView.State.Node;
             string Text = BaseNodeHelper.NodeTreeHelper.GetString(Node, PropertyName);
 
             Point OriginWithPadding = origin.Moved(padding.Left, padding.Top);

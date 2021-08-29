@@ -21,7 +21,7 @@
         /// Initializes a new instance of the <see cref="FrameRootNodeIndex"/> class.
         /// </summary>
         /// <param name="node">The indexed root node.</param>
-        public FrameRootNodeIndex(INode node)
+        public FrameRootNodeIndex(Node node)
             : base(node)
         {
         }

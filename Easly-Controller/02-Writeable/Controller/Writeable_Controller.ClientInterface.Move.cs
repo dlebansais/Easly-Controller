@@ -44,7 +44,7 @@
             IWriteableNodeState State = StateTable[nodeIndex];
             Debug.Assert(State != null);
 
-            IndexToPositionAndNode(nodeIndex, out int BlockIndex, out int Index, out INode Node);
+            IndexToPositionAndNode(nodeIndex, out int BlockIndex, out int Index, out Node Node);
 
             Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => RedoMove(operation);
             Action<IWriteableOperation> HandlerUndo = (IWriteableOperation operation) => UndoMove(operation);
@@ -71,7 +71,7 @@
 
         private protected virtual void ExecuteMove(IWriteableMoveNodeOperation operation)
         {
-            INode ParentNode = operation.ParentNode;
+            Node ParentNode = operation.ParentNode;
             string PropertyName = operation.PropertyName;
             IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> Inner = GetInner(ParentNode, PropertyName) as IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex>;
 
@@ -128,7 +128,7 @@
 
         private protected virtual void ExecuteMoveBlock(IWriteableMoveBlockOperation operation)
         {
-            INode ParentNode = operation.ParentNode;
+            Node ParentNode = operation.ParentNode;
             string PropertyName = operation.PropertyName;
             IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> Inner = GetInner(ParentNode, PropertyName) as IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex>;
 

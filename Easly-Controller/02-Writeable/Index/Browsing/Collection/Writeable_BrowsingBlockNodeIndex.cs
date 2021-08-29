@@ -22,7 +22,7 @@
         /// <param name="node">The indexed node.</param>
         /// <param name="propertyName">The property for the index.</param>
         /// <param name="blockIndex">Position of the block in the block list.</param>
-        public WriteableBrowsingBlockNodeIndex(INode node, string propertyName, int blockIndex)
+        public WriteableBrowsingBlockNodeIndex(Node node, string propertyName, int blockIndex)
             : base(node, propertyName, blockIndex)
         {
         }

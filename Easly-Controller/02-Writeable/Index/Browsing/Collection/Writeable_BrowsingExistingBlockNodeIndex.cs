@@ -45,7 +45,7 @@
         /// <param name="propertyName">Property in <paramref name="parentNode"/> corresponding to the block list.</param>
         /// <param name="blockIndex">Position of the block in the block list.</param>
         /// <param name="index">Position of the node in the block.</param>
-        public WriteableBrowsingExistingBlockNodeIndex(INode parentNode, INode node, string propertyName, int blockIndex, int index)
+        public WriteableBrowsingExistingBlockNodeIndex(Node parentNode, Node node, string propertyName, int blockIndex, int index)
             : base(parentNode, node, propertyName, blockIndex, index)
         {
         }
@@ -97,7 +97,7 @@
         /// </summary>
         /// <param name="parentNode">The parent node where the index would be used to replace a node.</param>
         /// <param name="node">The node inserted.</param>
-        public virtual IWriteableInsertionChildIndex ToInsertionIndex(INode parentNode, INode node)
+        public virtual IWriteableInsertionChildIndex ToInsertionIndex(Node parentNode, Node node)
         {
             return CreateInsertionIndex(parentNode, node);
         }
@@ -127,7 +127,7 @@
         /// <summary>
         /// Creates a IxxxInsertionExistingBlockNodeIndex object.
         /// </summary>
-        private protected virtual IWriteableInsertionExistingBlockNodeIndex CreateInsertionIndex(INode parentNode, INode node)
+        private protected virtual IWriteableInsertionExistingBlockNodeIndex CreateInsertionIndex(Node parentNode, Node node)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableBrowsingExistingBlockNodeIndex));
             return new WriteableInsertionExistingBlockNodeIndex(parentNode, PropertyName, node, BlockIndex, Index);

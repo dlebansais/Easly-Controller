@@ -58,7 +58,7 @@
         public virtual void ForceShowComment(out bool isMoved)
         {
             IFocusNodeState State = Focus.CellView.StateView.State;
-            IDocument Documentation;
+            Document Documentation;
             if (State is IFocusOptionalNodeState AsOptionalNodeState)
             {
                 Debug.Assert(AsOptionalNodeState.ParentInner.IsAssigned);

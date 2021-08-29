@@ -21,7 +21,7 @@
         /// Initializes a new instance of the <see cref="LayoutRootNodeIndex"/> class.
         /// </summary>
         /// <param name="node">The indexed root node.</param>
-        public LayoutRootNodeIndex(INode node)
+        public LayoutRootNodeIndex(Node node)
             : base(node)
         {
         }

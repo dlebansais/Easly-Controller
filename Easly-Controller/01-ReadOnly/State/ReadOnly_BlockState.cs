@@ -95,7 +95,7 @@
         /// </summary>
         /// <param name="parentNode">The node that will contains a reference to the cloned block upon return.</param>
         /// <param name="blockIndex">Position where to insert the block in <paramref name="parentNode"/>.</param>
-        void CloneBlock(INode parentNode, int blockIndex);
+        void CloneBlock(Node parentNode, int blockIndex);
     }
 
     /// <summary>
@@ -136,7 +136,7 @@
             PatternState = CreatePatternState(PatternIndex);
             IReadOnlyInnerReadOnlyDictionary<string> PatternEmptyInnerTable = CreateInnerTable().ToReadOnly();
             Dictionary<string, ValuePropertyType> PatternValuePropertyTypeTable = new Dictionary<string, ValuePropertyType>();
-            PatternValuePropertyTypeTable.Add(nameof(IPattern.Text), ValuePropertyType.String);
+            PatternValuePropertyTypeTable.Add(nameof(Pattern.Text), ValuePropertyType.String);
             ((IReadOnlyPatternState<IInner>)PatternState).Init(PatternInner, PatternEmptyInnerTable, PatternValuePropertyTypeTable);
             Debug.Assert(PatternState.ToString() != null); // For code coverage.
 
@@ -144,7 +144,7 @@
             SourceState = CreateSourceState(SourceIndex);
             IReadOnlyInnerReadOnlyDictionary<string> SourceEmptyInnerTable = CreateInnerTable().ToReadOnly();
             Dictionary<string, ValuePropertyType> SourceValuePropertyTypeTable = new Dictionary<string, ValuePropertyType>();
-            SourceValuePropertyTypeTable.Add(nameof(IIdentifier.Text), ValuePropertyType.String);
+            SourceValuePropertyTypeTable.Add(nameof(Identifier.Text), ValuePropertyType.String);
             ((IReadOnlySourceState<IInner>)SourceState).Init(SourceInner, SourceEmptyInnerTable, SourceValuePropertyTypeTable);
             Debug.Assert(SourceState.ToString() != null); // For code coverage.
         }
@@ -235,14 +235,14 @@
         /// </summary>
         /// <param name="parentNode">The node that will contains a reference to the cloned block upon return.</param>
         /// <param name="blockIndex">Position where to insert the block in <paramref name="parentNode"/>.</param>
-        public virtual void CloneBlock(INode parentNode, int blockIndex)
+        public virtual void CloneBlock(Node parentNode, int blockIndex)
         {
             Debug.Assert(parentNode != null);
 
-            IPattern PatternClone = ClonePattern();
+            Pattern PatternClone = ClonePattern();
             Debug.Assert(PatternClone != null);
 
-            IIdentifier SourceClone = CloneSource();
+            Identifier SourceClone = CloneSource();
             Debug.Assert(SourceClone != null);
 
             IBlock NewBlock = NodeTreeHelperBlockList.CreateBlock(parentNode, ParentInner.PropertyName, ChildBlock.Replication, PatternClone, SourceClone);
@@ -253,23 +253,23 @@
             CloneChildren(parentNode, NewBlock);
         }
 
-        private protected virtual IPattern ClonePattern()
+        private protected virtual Pattern ClonePattern()
         {
             return PatternState.CloneNode();
         }
 
-        private protected virtual IIdentifier CloneSource()
+        private protected virtual Identifier CloneSource()
         {
             return SourceState.CloneNode();
         }
 
-        private protected virtual void CloneChildren(INode parentNode, IBlock parentBlock)
+        private protected virtual void CloneChildren(Node parentNode, IBlock parentBlock)
         {
             for (int i = 0; i < StateList.Count; i++)
             {
                 IReadOnlyPlaceholderNodeState ChildState = StateList[i];
 
-                INode ChildNodeClone = ChildState.CloneNode();
+                Node ChildNodeClone = ChildState.CloneNode();
                 Debug.Assert(ChildNodeClone != null);
 
                 NodeTreeHelperBlockList.InsertIntoBlock(parentBlock, i, ChildNodeClone);

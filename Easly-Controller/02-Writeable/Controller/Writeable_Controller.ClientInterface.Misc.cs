@@ -73,8 +73,8 @@
 
             int Index = replaceIndex.Index;
             Debug.Assert(insertIndex.Index == Index + 1);
-            INode ReplacingNode = replaceIndex.Node;
-            INode InsertedNode = insertIndex.Node;
+            Node ReplacingNode = replaceIndex.Node;
+            Node InsertedNode = insertIndex.Node;
 
             Action<IWriteableOperation> HandlerRedoReplace = (IWriteableOperation operation) => RedoReplace(operation);
             Action<IWriteableOperation> HandlerUndoReplace = (IWriteableOperation operation) => UndoReplace(operation);
@@ -109,7 +109,7 @@
             Debug.Assert(secondIndex != null);
         }
 
-        private protected virtual void IndexToPositionAndNode(IWriteableIndex nodeIndex, out int blockIndex, out int index, out INode node)
+        private protected virtual void IndexToPositionAndNode(IWriteableIndex nodeIndex, out int blockIndex, out int index, out Node node)
         {
             blockIndex = -1;
             index = -1;

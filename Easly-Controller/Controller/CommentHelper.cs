@@ -8,10 +8,10 @@
     public static class CommentHelper
     {
         /// <summary>
-        /// Gets a comment from a <see cref="IDocument"/>.
+        /// Gets a comment from a <see cref="Document"/>.
         /// </summary>
         /// <param name="documentation">The document with the comment.</param>
-        public static string Get(IDocument documentation)
+        public static string Get(Document documentation)
         {
 #if !DEBUG_COMMENT
             if (!string.IsNullOrEmpty(documentation.Comment))
@@ -24,11 +24,11 @@
         }
 
         /// <summary>
-        /// Sets the comment of a <see cref="IDocument"/>.
+        /// Sets the comment of a <see cref="Document"/>.
         /// </summary>
         /// <param name="documentation">The document with the comment.</param>
         /// <param name="text">The comment text.</param>
-        public static void Set(IDocument documentation, string text)
+        public static void Set(Document documentation, string text)
         {
             if (!string.IsNullOrEmpty(text))
                 BaseNodeHelper.NodeTreeHelper.SetCommentText(documentation, text);

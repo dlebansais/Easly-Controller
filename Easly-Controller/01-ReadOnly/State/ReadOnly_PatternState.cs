@@ -11,7 +11,7 @@
         /// <summary>
         /// The replication pattern node.
         /// </summary>
-        new IPattern Node { get; }
+        new Pattern Node { get; }
 
         /// <summary>
         /// The index that was used to create the state.
@@ -22,7 +22,7 @@
         /// Returns a clone of the node of this state.
         /// </summary>
         /// <returns>The cloned node.</returns>
-        new IPattern CloneNode();
+        new Pattern CloneNode();
 
         /// <summary>
         /// The parent block state.
@@ -65,7 +65,7 @@
         /// <summary>
         /// The replication pattern node.
         /// </summary>
-        public new IPattern Node { get { return (IPattern)base.Node; } }
+        public new Pattern Node { get { return (Pattern)base.Node; } }
 
         /// <summary>
         /// The parent block state.
@@ -83,7 +83,7 @@
         /// Returns a clone of the node of this state.
         /// </summary>
         /// <returns>The cloned node.</returns>
-        public new IPattern CloneNode() { return (IPattern)base.CloneNode(); }
+        public new Pattern CloneNode() { return (Pattern)base.CloneNode(); }
         #endregion
 
         #region Debugging

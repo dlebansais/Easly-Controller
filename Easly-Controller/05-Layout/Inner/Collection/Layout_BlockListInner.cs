@@ -118,7 +118,7 @@
         /// <summary>
         /// Creates a IxxxBrowsingExistingBlockNodeIndex object.
         /// </summary>
-        private protected override IWriteableBrowsingExistingBlockNodeIndex CreateBrowsingNodeIndex(INode node, int blockIndex, int index)
+        private protected override IWriteableBrowsingExistingBlockNodeIndex CreateBrowsingNodeIndex(Node node, int blockIndex, int index)
         {
             ControllerTools.AssertNoOverride(this, typeof(LayoutBlockListInner<IIndex, TIndex>));
             return new LayoutBrowsingExistingBlockNodeIndex(Owner.Node, node, PropertyName, blockIndex, index);
@@ -127,7 +127,7 @@
         /// <summary>
         /// Creates a IxxxBrowsingNewBlockNodeIndex object.
         /// </summary>
-        private protected override IWriteableBrowsingNewBlockNodeIndex CreateNewBlockNodeIndex(INode node, int blockIndex)
+        private protected override IWriteableBrowsingNewBlockNodeIndex CreateNewBlockNodeIndex(Node node, int blockIndex)
         {
             ControllerTools.AssertNoOverride(this, typeof(LayoutBlockListInner<IIndex, TIndex>));
             return new LayoutBrowsingNewBlockNodeIndex(Owner.Node, node, PropertyName, blockIndex);

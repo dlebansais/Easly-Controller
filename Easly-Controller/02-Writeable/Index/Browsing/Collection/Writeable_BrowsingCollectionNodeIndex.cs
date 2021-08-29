@@ -21,7 +21,7 @@
         /// </summary>
         /// <param name="node">The indexed node.</param>
         /// <param name="propertyName">The property for the index.</param>
-        public WriteableBrowsingCollectionNodeIndex(INode node, string propertyName)
+        public WriteableBrowsingCollectionNodeIndex(Node node, string propertyName)
             : base(node, propertyName)
         {
         }

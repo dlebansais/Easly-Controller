@@ -43,7 +43,7 @@
         /// <param name="parentCellView">The parent cell view.</param>
         public virtual IFrameCellView BuildNodeCells(IFrameCellViewTreeContext context, IFrameCellViewCollection parentCellView)
         {
-            IDocument Documentation = context.StateView.State.Node.Documentation;
+            Document Documentation = context.StateView.State.Node.Documentation;
             string Text = CommentHelper.Get(Documentation);
 
             if (IsDisplayed(context, Text))
@@ -78,7 +78,7 @@
         /// <param name="parentCellView">The collection of cell views containing this view. Null for the root of the cell tree.</param>
         public virtual IFrameCellView BuildBlockCells(IFrameCellViewTreeContext context, IFrameCellViewCollection parentCellView)
         {
-            IDocument Documentation = context.BlockStateView.BlockState.ChildBlock.Documentation;
+            Document Documentation = context.BlockStateView.BlockState.ChildBlock.Documentation;
             string Text = CommentHelper.Get(Documentation);
 
             if (IsDisplayed(context, Text))
@@ -117,7 +117,7 @@
         /// <summary>
         /// Creates a IxxxCommentCellView object.
         /// </summary>
-        private protected virtual IFrameCommentCellView CreateCommentCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, IDocument documentation)
+        private protected virtual IFrameCommentCellView CreateCommentCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, Document documentation)
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameCommentFrame));
             return new FrameCommentCellView(stateView, parentCellView, this, documentation);

@@ -21,7 +21,7 @@
         /// Initializes a new instance of the <see cref="FocusRootNodeIndex"/> class.
         /// </summary>
         /// <param name="node">The indexed root node.</param>
-        public FocusRootNodeIndex(INode node)
+        public FocusRootNodeIndex(Node node)
             : base(node)
         {
         }

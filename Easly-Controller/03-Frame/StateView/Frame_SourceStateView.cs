@@ -53,7 +53,7 @@
         {
             get
             {
-                Type InterfaceType = typeof(IIdentifier);
+                Type InterfaceType = typeof(Identifier);
                 return ControllerView.TemplateSet.NodeTypeToTemplate(InterfaceType);
             }
         }

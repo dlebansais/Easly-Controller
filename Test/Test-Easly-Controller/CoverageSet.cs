@@ -63,9 +63,9 @@ namespace Coverage
         {
             Leaf NewLeaf = new Leaf();
 
-            BaseNode.IDocument NewLeafDocument = BaseNodeHelper.NodeHelper.CreateSimpleDocumentation("", guid0);
+            BaseNode.Document NewLeafDocument = BaseNodeHelper.NodeHelper.CreateSimpleDocumentation("", guid0);
             BaseNodeHelper.NodeTreeHelper.SetDocumentation(NewLeaf, NewLeafDocument);
-            BaseNodeHelper.NodeTreeHelper.SetString(NewLeaf, nameof(ILeaf.Text), "leaf");
+            BaseNodeHelper.NodeTreeHelper.SetString(NewLeaf, nameof(Leaf.Text), "leaf");
 
             return NewLeaf;
         }
@@ -76,17 +76,17 @@ namespace Coverage
 
             Tree TreeInstance = new Tree();
 
-            BaseNode.IDocument TreeDocument = BaseNodeHelper.NodeHelper.CreateSimpleDocumentation("tree doc", Guid.NewGuid());
+            BaseNode.Document TreeDocument = BaseNodeHelper.NodeHelper.CreateSimpleDocumentation("tree doc", Guid.NewGuid());
             BaseNodeHelper.NodeTreeHelper.SetDocumentation(TreeInstance, TreeDocument);
-            BaseNodeHelper.NodeTreeHelperChild.SetChildNode(TreeInstance, nameof(ITree.Placeholder), Placeholder);
-            BaseNodeHelper.NodeTreeHelper.SetBooleanProperty(TreeInstance, nameof(IMain.ValueBoolean), true);
-            BaseNodeHelper.NodeTreeHelper.SetEnumProperty(TreeInstance, nameof(IMain.ValueEnum), (int)BaseNode.CopySemantic.Value);
-            BaseNodeHelper.NodeTreeHelper.SetGuidProperty(TreeInstance, nameof(IMain.ValueGuid), Guid.NewGuid());
+            BaseNodeHelper.NodeTreeHelperChild.SetChildNode(TreeInstance, nameof(Tree.Placeholder), Placeholder);
+            BaseNodeHelper.NodeTreeHelper.SetBooleanProperty(TreeInstance, nameof(Main.ValueBoolean), true);
+            BaseNodeHelper.NodeTreeHelper.SetEnumProperty(TreeInstance, nameof(Main.ValueEnum), (int)BaseNode.CopySemantic.Value);
+            BaseNodeHelper.NodeTreeHelper.SetGuidProperty(TreeInstance, nameof(Main.ValueGuid), Guid.NewGuid());
 
             return TreeInstance;
         }
 
-        private static IMain CreateRoot(Guid valueGuid, Imperfections imperfection)
+        private static Main CreateRoot(Guid valueGuid, Imperfections imperfection)
         {
             Guid MainGuid = Guid.NewGuid();
             Guid LeafGuid0 = Guid.NewGuid();
@@ -97,20 +97,20 @@ namespace Coverage
 
             Leaf UnassignedOptionalLeaf = new Leaf();
 
-            BaseNode.IDocument UnassignedOptionalLeafDocument = BaseNodeHelper.NodeHelper.CreateSimpleDocumentation("leaf doc", Guid.NewGuid());
+            BaseNode.Document UnassignedOptionalLeafDocument = BaseNodeHelper.NodeHelper.CreateSimpleDocumentation("leaf doc", Guid.NewGuid());
             BaseNodeHelper.NodeTreeHelper.SetDocumentation(UnassignedOptionalLeaf, UnassignedOptionalLeafDocument);
-            BaseNodeHelper.NodeTreeHelper.SetString(UnassignedOptionalLeaf, nameof(ILeaf.Text), "optional unassigned");
+            BaseNodeHelper.NodeTreeHelper.SetString(UnassignedOptionalLeaf, nameof(Leaf.Text), "optional unassigned");
 
-            Easly.IOptionalReference<ILeaf> UnassignedOptional = BaseNodeHelper.OptionalReferenceHelper.CreateReference<ILeaf>(UnassignedOptionalLeaf);
-            Easly.IOptionalReference<ILeaf> EmptyOptional = BaseNodeHelper.OptionalReferenceHelper.CreateEmptyReference<ILeaf>();
+            Easly.OptionalReference<Leaf> UnassignedOptional = BaseNodeHelper.OptionalReferenceHelper.CreateReference<Leaf>(UnassignedOptionalLeaf);
+            Easly.OptionalReference<Leaf> EmptyOptional = BaseNodeHelper.OptionalReferenceHelper.CreateEmptyReference<Leaf>();
 
             Leaf AssignedOptionalLeaf = CreateLeaf(Guid.NewGuid());
 
-            Easly.IOptionalReference<ILeaf> AssignedOptionalForLeaf = BaseNodeHelper.OptionalReferenceHelper.CreateReference<ILeaf>(AssignedOptionalLeaf);
+            Easly.OptionalReference<Leaf> AssignedOptionalForLeaf = BaseNodeHelper.OptionalReferenceHelper.CreateReference<Leaf>(AssignedOptionalLeaf);
             AssignedOptionalForLeaf.Assign();
 
             Tree AssignedOptionalTree = CreateTree();
-            Easly.IOptionalReference<ITree> AssignedOptionalForTree = BaseNodeHelper.OptionalReferenceHelper.CreateReference<ITree>(AssignedOptionalTree);
+            Easly.OptionalReference<Tree> AssignedOptionalForTree = BaseNodeHelper.OptionalReferenceHelper.CreateReference<Tree>(AssignedOptionalTree);
             AssignedOptionalForTree.Assign();
 
             Leaf FirstChild = CreateLeaf(Guid.NewGuid());
@@ -118,10 +118,10 @@ namespace Coverage
             Leaf ThirdChild = CreateLeaf(Guid.NewGuid());
             Leaf FourthChild = CreateLeaf(Guid.NewGuid());
 
-            BaseNode.IBlock<ILeaf, Leaf> SecondBlock = BaseNodeHelper.BlockListHelper.CreateBlock<ILeaf, Leaf>(new List<ILeaf>() { SecondChild, ThirdChild });
-            BaseNode.IBlock<ILeaf, Leaf> ThirdBlock = BaseNodeHelper.BlockListHelper.CreateBlock<ILeaf, Leaf>(new List<ILeaf>() { FourthChild });
+            BaseNode.Block<Leaf> SecondBlock = BaseNodeHelper.BlockListHelper.CreateBlock<Leaf>(new List<Leaf>() { SecondChild, ThirdChild });
+            BaseNode.Block<Leaf> ThirdBlock = BaseNodeHelper.BlockListHelper.CreateBlock<Leaf>(new List<Leaf>() { FourthChild });
 
-            BaseNode.IBlockList<ILeaf, Leaf> LeafBlocks = BaseNodeHelper.BlockListHelper.CreateSimpleBlockList<ILeaf, Leaf>(FirstChild);
+            BaseNode.BlockList<Leaf> LeafBlocks = BaseNodeHelper.BlockListHelper.CreateSimpleBlockList<Leaf>(FirstChild);
             LeafBlocks.NodeBlockList.Add(SecondBlock);
             LeafBlocks.NodeBlockList.Add(ThirdBlock);
             BaseNodeHelper.NodeTreeHelper.SetCommentText(SecondBlock.Documentation, "test");
@@ -129,26 +129,26 @@ namespace Coverage
             Leaf FirstPath = CreateLeaf(Guid.NewGuid());
             Leaf SecondPath = CreateLeaf(Guid.NewGuid());
 
-            IList<ILeaf> LeafPath = new List<ILeaf>();
+            IList<Leaf> LeafPath = new List<Leaf>();
             LeafPath.Add(FirstPath);
             LeafPath.Add(SecondPath);
 
             Main Root = new Main();
 
-            BaseNode.IDocument RootDocument = BaseNodeHelper.NodeHelper.CreateSimpleDocumentation("main doc", MainGuid);
+            BaseNode.Document RootDocument = BaseNodeHelper.NodeHelper.CreateSimpleDocumentation("main doc", MainGuid);
             BaseNodeHelper.NodeTreeHelper.SetDocumentation(Root, RootDocument);
-            BaseNodeHelper.NodeTreeHelperChild.SetChildNode(Root, nameof(IMain.PlaceholderTree), PlaceholderTree);
-            BaseNodeHelper.NodeTreeHelperChild.SetChildNode(Root, nameof(IMain.PlaceholderLeaf), PlaceholderLeaf);
-            BaseNodeHelper.NodeTreeHelperOptional.SetOptionalReference(Root, nameof(IMain.UnassignedOptionalLeaf), (Easly.IOptionalReference)UnassignedOptional);
-            BaseNodeHelper.NodeTreeHelperOptional.SetOptionalReference(Root, nameof(IMain.EmptyOptionalLeaf), (Easly.IOptionalReference)EmptyOptional);
-            BaseNodeHelper.NodeTreeHelperOptional.SetOptionalReference(Root, nameof(IMain.AssignedOptionalTree), (Easly.IOptionalReference)AssignedOptionalForTree);
-            BaseNodeHelper.NodeTreeHelperOptional.SetOptionalReference(Root, nameof(IMain.AssignedOptionalLeaf), (Easly.IOptionalReference)AssignedOptionalForLeaf);
-            BaseNodeHelper.NodeTreeHelperBlockList.SetBlockList(Root, nameof(IMain.LeafBlocks), (BaseNode.IBlockList)LeafBlocks);
-            BaseNodeHelper.NodeTreeHelperList.SetChildNodeList(Root, nameof(IMain.LeafPath), (IList)LeafPath);
-            BaseNodeHelper.NodeTreeHelper.SetBooleanProperty(Root, nameof(IMain.ValueBoolean), true);
-            BaseNodeHelper.NodeTreeHelper.SetEnumProperty(Root, nameof(IMain.ValueEnum), (int)BaseNode.CopySemantic.Value);
-            BaseNodeHelper.NodeTreeHelper.SetStringProperty(Root, nameof(IMain.ValueString), "s");
-            BaseNodeHelper.NodeTreeHelper.SetGuidProperty(Root, nameof(IMain.ValueGuid), valueGuid);
+            BaseNodeHelper.NodeTreeHelperChild.SetChildNode(Root, nameof(Main.PlaceholderTree), PlaceholderTree);
+            BaseNodeHelper.NodeTreeHelperChild.SetChildNode(Root, nameof(Main.PlaceholderLeaf), PlaceholderLeaf);
+            BaseNodeHelper.NodeTreeHelperOptional.SetOptionalReference(Root, nameof(Main.UnassignedOptionalLeaf), (Easly.IOptionalReference)UnassignedOptional);
+            BaseNodeHelper.NodeTreeHelperOptional.SetOptionalReference(Root, nameof(Main.EmptyOptionalLeaf), (Easly.IOptionalReference)EmptyOptional);
+            BaseNodeHelper.NodeTreeHelperOptional.SetOptionalReference(Root, nameof(Main.AssignedOptionalTree), (Easly.IOptionalReference)AssignedOptionalForTree);
+            BaseNodeHelper.NodeTreeHelperOptional.SetOptionalReference(Root, nameof(Main.AssignedOptionalLeaf), (Easly.IOptionalReference)AssignedOptionalForLeaf);
+            BaseNodeHelper.NodeTreeHelperBlockList.SetBlockList(Root, nameof(Main.LeafBlocks), (BaseNode.IBlockList)LeafBlocks);
+            BaseNodeHelper.NodeTreeHelperList.SetChildNodeList(Root, nameof(Main.LeafPath), (IList)LeafPath);
+            BaseNodeHelper.NodeTreeHelper.SetBooleanProperty(Root, nameof(Main.ValueBoolean), true);
+            BaseNodeHelper.NodeTreeHelper.SetEnumProperty(Root, nameof(Main.ValueEnum), (int)BaseNode.CopySemantic.Value);
+            BaseNodeHelper.NodeTreeHelper.SetStringProperty(Root, nameof(Main.ValueString), "s");
+            BaseNodeHelper.NodeTreeHelper.SetGuidProperty(Root, nameof(Main.ValueGuid), valueGuid);
 
             return Root;
         }
@@ -161,7 +161,7 @@ namespace Coverage
         {
             ControllerTools.ResetExpectedName();
 
-            IMain RootNode;
+            Main RootNode;
             IReadOnlyRootNodeIndex RootIndex;
             IReadOnlyController Controller;
 
@@ -202,7 +202,7 @@ namespace Coverage
         {
             ControllerTools.ResetExpectedName();
 
-            IMain RootNode;
+            Main RootNode;
             IReadOnlyRootNodeIndex RootIndex0;
             IReadOnlyRootNodeIndex RootIndex1;
 
@@ -236,48 +236,48 @@ namespace Coverage
             Assert.That(Controller0.IndexToState(RootIndex0) == RootState);
 
             Assert.That(RootState.InnerTable.Count == 8);
-            Assert.That(RootState.InnerTable.ContainsKey(nameof(IMain.PlaceholderTree)));
-            Assert.That(RootState.InnerTable.ContainsKey(nameof(IMain.PlaceholderLeaf)));
-            Assert.That(RootState.InnerTable.ContainsKey(nameof(IMain.UnassignedOptionalLeaf)));
-            Assert.That(RootState.InnerTable.ContainsKey(nameof(IMain.EmptyOptionalLeaf)));
-            Assert.That(RootState.InnerTable.ContainsKey(nameof(IMain.AssignedOptionalTree)));
-            Assert.That(RootState.InnerTable.ContainsKey(nameof(IMain.AssignedOptionalLeaf)));
-            Assert.That(RootState.InnerTable.ContainsKey(nameof(IMain.LeafBlocks)));
-            Assert.That(RootState.InnerTable.ContainsKey(nameof(IMain.LeafPath)));
+            Assert.That(RootState.InnerTable.ContainsKey(nameof(Main.PlaceholderTree)));
+            Assert.That(RootState.InnerTable.ContainsKey(nameof(Main.PlaceholderLeaf)));
+            Assert.That(RootState.InnerTable.ContainsKey(nameof(Main.UnassignedOptionalLeaf)));
+            Assert.That(RootState.InnerTable.ContainsKey(nameof(Main.EmptyOptionalLeaf)));
+            Assert.That(RootState.InnerTable.ContainsKey(nameof(Main.AssignedOptionalTree)));
+            Assert.That(RootState.InnerTable.ContainsKey(nameof(Main.AssignedOptionalLeaf)));
+            Assert.That(RootState.InnerTable.ContainsKey(nameof(Main.LeafBlocks)));
+            Assert.That(RootState.InnerTable.ContainsKey(nameof(Main.LeafPath)));
 
-            IReadOnlyPlaceholderInner MainPlaceholderTreeInner = (IReadOnlyPlaceholderInner)RootState.PropertyToInner(nameof(IMain.PlaceholderTree));
+            IReadOnlyPlaceholderInner MainPlaceholderTreeInner = (IReadOnlyPlaceholderInner)RootState.PropertyToInner(nameof(Main.PlaceholderTree));
             Assert.That(MainPlaceholderTreeInner != null);
             if (MainPlaceholderTreeInner != null)
             {
-                Assert.That(MainPlaceholderTreeInner.InterfaceType == typeof(ITree));
+                Assert.That(MainPlaceholderTreeInner.InterfaceType == typeof(Tree));
                 Assert.That(MainPlaceholderTreeInner.ChildState != null);
                 Assert.That(MainPlaceholderTreeInner.ChildState?.ParentInner == MainPlaceholderTreeInner);
             }
 
-            IReadOnlyPlaceholderInner MainPlaceholderLeafInner = (IReadOnlyPlaceholderInner)RootState.PropertyToInner(nameof(IMain.PlaceholderLeaf));
+            IReadOnlyPlaceholderInner MainPlaceholderLeafInner = (IReadOnlyPlaceholderInner)RootState.PropertyToInner(nameof(Main.PlaceholderLeaf));
             Assert.That(MainPlaceholderLeafInner != null);
             if (MainPlaceholderLeafInner != null)
             {
-                Assert.That(MainPlaceholderLeafInner.InterfaceType == typeof(ILeaf));
+                Assert.That(MainPlaceholderLeafInner.InterfaceType == typeof(Leaf));
                 Assert.That(MainPlaceholderLeafInner.ChildState != null);
                 Assert.That(MainPlaceholderLeafInner.ChildState?.ParentInner == MainPlaceholderLeafInner);
             }
 
-            IReadOnlyOptionalInner MainUnassignedOptionalInner = (IReadOnlyOptionalInner)RootState.PropertyToInner(nameof(IMain.UnassignedOptionalLeaf));
+            IReadOnlyOptionalInner MainUnassignedOptionalInner = (IReadOnlyOptionalInner)RootState.PropertyToInner(nameof(Main.UnassignedOptionalLeaf));
             Assert.That(MainUnassignedOptionalInner != null);
             if (MainUnassignedOptionalInner != null)
             {
-                Assert.That(MainUnassignedOptionalInner.InterfaceType == typeof(ILeaf));
+                Assert.That(MainUnassignedOptionalInner.InterfaceType == typeof(Leaf));
                 Assert.That(!MainUnassignedOptionalInner.IsAssigned);
                 Assert.That(MainUnassignedOptionalInner.ChildState != null);
                 Assert.That(MainUnassignedOptionalInner.ChildState?.ParentInner == MainUnassignedOptionalInner);
             }
 
-            IReadOnlyOptionalInner MainAssignedOptionalTreeInner = (IReadOnlyOptionalInner)RootState.PropertyToInner(nameof(IMain.AssignedOptionalTree));
+            IReadOnlyOptionalInner MainAssignedOptionalTreeInner = (IReadOnlyOptionalInner)RootState.PropertyToInner(nameof(Main.AssignedOptionalTree));
             Assert.That(MainAssignedOptionalTreeInner != null);
             if (MainAssignedOptionalTreeInner != null)
             {
-                Assert.That(MainAssignedOptionalTreeInner.InterfaceType == typeof(ITree));
+                Assert.That(MainAssignedOptionalTreeInner.InterfaceType == typeof(Tree));
                 Assert.That(MainAssignedOptionalTreeInner.IsAssigned);
             }
 
@@ -292,25 +292,25 @@ namespace Coverage
             IReadOnlyNodeStateReadOnlyList AssignedOptionalTreeAllChildren = AssignedOptionalTreeState.GetAllChildren();
             Assert.That(AssignedOptionalTreeAllChildren.Count == 2, $"New count: {AssignedOptionalTreeAllChildren.Count}");
 
-            IReadOnlyOptionalInner MainAssignedOptionalLeafInner = (IReadOnlyOptionalInner)RootState.PropertyToInner(nameof(IMain.AssignedOptionalLeaf));
+            IReadOnlyOptionalInner MainAssignedOptionalLeafInner = (IReadOnlyOptionalInner)RootState.PropertyToInner(nameof(Main.AssignedOptionalLeaf));
             Assert.That(MainAssignedOptionalLeafInner != null);
             if (MainAssignedOptionalLeafInner != null)
             {
-                Assert.That(MainAssignedOptionalLeafInner.InterfaceType == typeof(ILeaf));
+                Assert.That(MainAssignedOptionalLeafInner.InterfaceType == typeof(Leaf));
                 Assert.That(MainAssignedOptionalLeafInner.IsAssigned);
                 Assert.That(MainAssignedOptionalLeafInner.ChildState != null);
                 Assert.That(MainAssignedOptionalLeafInner.ChildState.ParentInner == MainAssignedOptionalLeafInner);
             }
 
-            IReadOnlyBlockListInner MainLeafBlocksInner = (IReadOnlyBlockListInner)RootState.PropertyToInner(nameof(IMain.LeafBlocks));
+            IReadOnlyBlockListInner MainLeafBlocksInner = (IReadOnlyBlockListInner)RootState.PropertyToInner(nameof(Main.LeafBlocks));
             Assert.That(MainLeafBlocksInner != null);
             if (MainLeafBlocksInner != null)
             {
                 Assert.That(!MainLeafBlocksInner.IsNeverEmpty);
                 Assert.That(!MainLeafBlocksInner.IsEmpty);
                 Assert.That(!MainLeafBlocksInner.IsSingle);
-                Assert.That(MainLeafBlocksInner.InterfaceType == typeof(ILeaf));
-                Assert.That(MainLeafBlocksInner.BlockType == typeof(BaseNode.IBlock<ILeaf, Leaf>));
+                Assert.That(MainLeafBlocksInner.InterfaceType == typeof(Leaf));
+                Assert.That(MainLeafBlocksInner.BlockType == typeof(BaseNode.Block<Leaf>));
                 Assert.That(MainLeafBlocksInner.ItemType == typeof(Leaf));
                 Assert.That(MainLeafBlocksInner.Count == 4);
                 Assert.That(MainLeafBlocksInner.BlockStateList != null);
@@ -353,12 +353,12 @@ namespace Coverage
 
             Assert.That(MainLeafBlocksInner.FirstNodeState == LeafBlock.StateList[0]);
 
-            IReadOnlyListInner MainLeafPathInner = (IReadOnlyListInner)RootState.PropertyToInner(nameof(IMain.LeafPath));
+            IReadOnlyListInner MainLeafPathInner = (IReadOnlyListInner)RootState.PropertyToInner(nameof(Main.LeafPath));
             Assert.That(MainLeafPathInner != null);
             if (MainLeafPathInner != null)
             {
                 Assert.That(!MainLeafPathInner.IsNeverEmpty);
-                Assert.That(MainLeafPathInner.InterfaceType == typeof(ILeaf));
+                Assert.That(MainLeafPathInner.InterfaceType == typeof(Leaf));
                 Assert.That(MainLeafPathInner.Count == 2);
                 Assert.That(MainLeafPathInner.StateList != null);
                 Assert.That(MainLeafPathInner.StateList?.Count == 2);
@@ -370,14 +370,14 @@ namespace Coverage
             IReadOnlyNodeStateReadOnlyList AllChildren = RootState.GetAllChildren();
             Assert.That(AllChildren.Count == 19, $"New count: {AllChildren.Count}");
 
-            IReadOnlyPlaceholderInner PlaceholderInner = (IReadOnlyPlaceholderInner)RootState.InnerTable[nameof(IMain.PlaceholderLeaf)];
+            IReadOnlyPlaceholderInner PlaceholderInner = (IReadOnlyPlaceholderInner)RootState.InnerTable[nameof(Main.PlaceholderLeaf)];
             Assert.That(PlaceholderInner != null);
 
             IReadOnlyBrowsingPlaceholderNodeIndex PlaceholderNodeIndex = (IReadOnlyBrowsingPlaceholderNodeIndex)PlaceholderInner.ChildState.ParentIndex;
             Assert.That(PlaceholderNodeIndex != null);
             Assert.That(Controller0.Contains(PlaceholderNodeIndex));
 
-            IReadOnlyOptionalInner UnassignedOptionalInner = (IReadOnlyOptionalInner)RootState.InnerTable[nameof(IMain.UnassignedOptionalLeaf)];
+            IReadOnlyOptionalInner UnassignedOptionalInner = (IReadOnlyOptionalInner)RootState.InnerTable[nameof(Main.UnassignedOptionalLeaf)];
             Assert.That(UnassignedOptionalInner != null);
 
             IReadOnlyBrowsingOptionalNodeIndex UnassignedOptionalNodeIndex = UnassignedOptionalInner.ChildState.ParentIndex;
@@ -385,7 +385,7 @@ namespace Coverage
             Assert.That(Controller0.Contains(UnassignedOptionalNodeIndex));
             Assert.That(Controller0.IsAssigned(UnassignedOptionalNodeIndex) == false);
 
-            IReadOnlyOptionalInner AssignedOptionalInner = (IReadOnlyOptionalInner)RootState.InnerTable[nameof(IMain.AssignedOptionalLeaf)];
+            IReadOnlyOptionalInner AssignedOptionalInner = (IReadOnlyOptionalInner)RootState.InnerTable[nameof(Main.AssignedOptionalLeaf)];
             Assert.That(AssignedOptionalInner != null);
 
             IReadOnlyBrowsingOptionalNodeIndex AssignedOptionalNodeIndex = AssignedOptionalInner.ChildState.ParentIndex;
@@ -396,29 +396,29 @@ namespace Coverage
             int Min, Max;
             object ReadValue;
 
-            RootState.PropertyToValue(nameof(IMain.ValueBoolean), out ReadValue, out Min, out Max);
+            RootState.PropertyToValue(nameof(Main.ValueBoolean), out ReadValue, out Min, out Max);
             bool ReadAsBoolean = ((int)ReadValue) != 0;
             Assert.That(ReadAsBoolean == true);
-            Assert.That(Controller0.GetDiscreteValue(RootIndex0, nameof(IMain.ValueBoolean), out Min, out Max) == (ReadAsBoolean ? 1 : 0));
+            Assert.That(Controller0.GetDiscreteValue(RootIndex0, nameof(Main.ValueBoolean), out Min, out Max) == (ReadAsBoolean ? 1 : 0));
             Assert.That(Min == 0);
             Assert.That(Max == 1);
 
-            RootState.PropertyToValue(nameof(IMain.ValueEnum), out ReadValue, out Min, out Max);
+            RootState.PropertyToValue(nameof(Main.ValueEnum), out ReadValue, out Min, out Max);
             BaseNode.CopySemantic ReadAsEnum = (BaseNode.CopySemantic)(int)ReadValue;
             Assert.That(ReadAsEnum == BaseNode.CopySemantic.Value);
-            Assert.That(Controller0.GetDiscreteValue(RootIndex0, nameof(IMain.ValueEnum), out Min, out Max) == (int)ReadAsEnum);
+            Assert.That(Controller0.GetDiscreteValue(RootIndex0, nameof(Main.ValueEnum), out Min, out Max) == (int)ReadAsEnum);
             Assert.That(Min == 0);
             Assert.That(Max == 2);
 
-            RootState.PropertyToValue(nameof(IMain.ValueString), out ReadValue, out Min, out Max);
+            RootState.PropertyToValue(nameof(Main.ValueString), out ReadValue, out Min, out Max);
             string ReadAsString = ReadValue as string;
             Assert.That(ReadAsString == "s");
-            Assert.That(Controller0.GetStringValue(RootIndex0, nameof(IMain.ValueString)) == ReadAsString);
+            Assert.That(Controller0.GetStringValue(RootIndex0, nameof(Main.ValueString)) == ReadAsString);
 
-            RootState.PropertyToValue(nameof(IMain.ValueGuid), out ReadValue, out Min, out Max);
+            RootState.PropertyToValue(nameof(Main.ValueGuid), out ReadValue, out Min, out Max);
             Guid ReadAsGuid = (Guid)ReadValue;
             Assert.That(ReadAsGuid == ValueGuid0);
-            Assert.That(Controller0.GetGuidValue(RootIndex0, nameof(IMain.ValueGuid)) == ReadAsGuid);
+            Assert.That(Controller0.GetGuidValue(RootIndex0, nameof(Main.ValueGuid)) == ReadAsGuid);
             
             IReadOnlyController Controller1 = ReadOnlyController.Create(RootIndex0);
             Assert.That(Controller0.IsEqual(CompareEqual.New(), Controller0));
@@ -432,7 +432,7 @@ namespace Coverage
         {
             ControllerTools.ResetExpectedName();
 
-            IMain RootNode = CreateRoot(ValueGuid0, Imperfections.None);
+            Main RootNode = CreateRoot(ValueGuid0, Imperfections.None);
 
             IReadOnlyRootNodeIndex RootIndex = new ReadOnlyRootNodeIndex(RootNode);
             Assert.That(RootIndex != null);
@@ -443,7 +443,7 @@ namespace Coverage
             IReadOnlyPlaceholderNodeState RootState = Controller.RootState;
             Assert.That(RootState != null);
 
-            BaseNode.INode ClonedNode = RootState.CloneNode();
+            BaseNode.Node ClonedNode = RootState.CloneNode();
             Assert.That(BaseNodeHelper.NodeTreeDiagnostic.IsValid(ClonedNode));
 
             IReadOnlyRootNodeIndex CloneRootIndex = new ReadOnlyRootNodeIndex(ClonedNode);
@@ -466,7 +466,7 @@ namespace Coverage
         {
             ControllerTools.ResetExpectedName();
 
-            IMain RootNode;
+            Main RootNode;
             IReadOnlyRootNodeIndex RootIndex;
 
             RootNode = CreateRoot(ValueGuid0, Imperfections.None);
@@ -542,7 +542,7 @@ namespace Coverage
         {
             ControllerTools.ResetExpectedName();
 
-            IMain RootNode;
+            Main RootNode;
             IWriteableRootNodeIndex RootIndex;
             IWriteableController Controller;
 
@@ -583,7 +583,7 @@ namespace Coverage
         {
             ControllerTools.ResetExpectedName();
 
-            IMain RootNode;
+            Main RootNode;
             IWriteableRootNodeIndex RootIndex0;
             IWriteableRootNodeIndex RootIndex1;
 
@@ -617,37 +617,37 @@ namespace Coverage
             Assert.That(Controller0.IndexToState(RootIndex0) == RootState);
 
             Assert.That(RootState.InnerTable.Count == 8);
-            Assert.That(RootState.InnerTable.ContainsKey(nameof(IMain.PlaceholderTree)));
-            Assert.That(RootState.InnerTable.ContainsKey(nameof(IMain.PlaceholderLeaf)));
-            Assert.That(RootState.InnerTable.ContainsKey(nameof(IMain.UnassignedOptionalLeaf)));
-            Assert.That(RootState.InnerTable.ContainsKey(nameof(IMain.EmptyOptionalLeaf)));
-            Assert.That(RootState.InnerTable.ContainsKey(nameof(IMain.AssignedOptionalTree)));
-            Assert.That(RootState.InnerTable.ContainsKey(nameof(IMain.AssignedOptionalLeaf)));
-            Assert.That(RootState.InnerTable.ContainsKey(nameof(IMain.LeafBlocks)));
-            Assert.That(RootState.InnerTable.ContainsKey(nameof(IMain.LeafPath)));
+            Assert.That(RootState.InnerTable.ContainsKey(nameof(Main.PlaceholderTree)));
+            Assert.That(RootState.InnerTable.ContainsKey(nameof(Main.PlaceholderLeaf)));
+            Assert.That(RootState.InnerTable.ContainsKey(nameof(Main.UnassignedOptionalLeaf)));
+            Assert.That(RootState.InnerTable.ContainsKey(nameof(Main.EmptyOptionalLeaf)));
+            Assert.That(RootState.InnerTable.ContainsKey(nameof(Main.AssignedOptionalTree)));
+            Assert.That(RootState.InnerTable.ContainsKey(nameof(Main.AssignedOptionalLeaf)));
+            Assert.That(RootState.InnerTable.ContainsKey(nameof(Main.LeafBlocks)));
+            Assert.That(RootState.InnerTable.ContainsKey(nameof(Main.LeafPath)));
 
-            IWriteablePlaceholderInner MainPlaceholderTreeInner = (IWriteablePlaceholderInner)RootState.PropertyToInner(nameof(IMain.PlaceholderTree));
+            IWriteablePlaceholderInner MainPlaceholderTreeInner = (IWriteablePlaceholderInner)RootState.PropertyToInner(nameof(Main.PlaceholderTree));
             Assert.That(MainPlaceholderTreeInner != null);
-            Assert.That(MainPlaceholderTreeInner.InterfaceType == typeof(ITree));
+            Assert.That(MainPlaceholderTreeInner.InterfaceType == typeof(Tree));
             Assert.That(MainPlaceholderTreeInner.ChildState != null);
             Assert.That(MainPlaceholderTreeInner.ChildState.ParentInner == MainPlaceholderTreeInner);
 
-            IWriteablePlaceholderInner MainPlaceholderLeafInner = (IWriteablePlaceholderInner)RootState.PropertyToInner(nameof(IMain.PlaceholderLeaf));
+            IWriteablePlaceholderInner MainPlaceholderLeafInner = (IWriteablePlaceholderInner)RootState.PropertyToInner(nameof(Main.PlaceholderLeaf));
             Assert.That(MainPlaceholderLeafInner != null);
-            Assert.That(MainPlaceholderLeafInner.InterfaceType == typeof(ILeaf));
+            Assert.That(MainPlaceholderLeafInner.InterfaceType == typeof(Leaf));
             Assert.That(MainPlaceholderLeafInner.ChildState != null);
             Assert.That(MainPlaceholderLeafInner.ChildState.ParentInner == MainPlaceholderLeafInner);
 
-            IWriteableOptionalInner MainUnassignedOptionalInner = (IWriteableOptionalInner)RootState.PropertyToInner(nameof(IMain.UnassignedOptionalLeaf));
+            IWriteableOptionalInner MainUnassignedOptionalInner = (IWriteableOptionalInner)RootState.PropertyToInner(nameof(Main.UnassignedOptionalLeaf));
             Assert.That(MainUnassignedOptionalInner != null);
-            Assert.That(MainUnassignedOptionalInner.InterfaceType == typeof(ILeaf));
+            Assert.That(MainUnassignedOptionalInner.InterfaceType == typeof(Leaf));
             Assert.That(!MainUnassignedOptionalInner.IsAssigned);
             Assert.That(MainUnassignedOptionalInner.ChildState != null);
             Assert.That(MainUnassignedOptionalInner.ChildState.ParentInner == MainUnassignedOptionalInner);
 
-            IWriteableOptionalInner MainAssignedOptionalTreeInner = (IWriteableOptionalInner)RootState.PropertyToInner(nameof(IMain.AssignedOptionalTree));
+            IWriteableOptionalInner MainAssignedOptionalTreeInner = (IWriteableOptionalInner)RootState.PropertyToInner(nameof(Main.AssignedOptionalTree));
             Assert.That(MainAssignedOptionalTreeInner != null);
-            Assert.That(MainAssignedOptionalTreeInner.InterfaceType == typeof(ITree));
+            Assert.That(MainAssignedOptionalTreeInner.InterfaceType == typeof(Tree));
             Assert.That(MainAssignedOptionalTreeInner.IsAssigned);
 
             IWriteableNodeState AssignedOptionalTreeState = MainAssignedOptionalTreeInner.ChildState;
@@ -659,20 +659,20 @@ namespace Coverage
             Assert.That(AssignedOptionalTreeAllChildren != null);
             Assert.That(AssignedOptionalTreeAllChildren.Count == 2, $"New count: {AssignedOptionalTreeAllChildren.Count}");
 
-            IWriteableOptionalInner MainAssignedOptionalLeafInner = (IWriteableOptionalInner)RootState.PropertyToInner(nameof(IMain.AssignedOptionalLeaf));
+            IWriteableOptionalInner MainAssignedOptionalLeafInner = (IWriteableOptionalInner)RootState.PropertyToInner(nameof(Main.AssignedOptionalLeaf));
             Assert.That(MainAssignedOptionalLeafInner != null);
-            Assert.That(MainAssignedOptionalLeafInner.InterfaceType == typeof(ILeaf));
+            Assert.That(MainAssignedOptionalLeafInner.InterfaceType == typeof(Leaf));
             Assert.That(MainAssignedOptionalLeafInner.IsAssigned);
             Assert.That(MainAssignedOptionalLeafInner.ChildState != null);
             Assert.That(MainAssignedOptionalLeafInner.ChildState.ParentInner == MainAssignedOptionalLeafInner);
 
-            IWriteableBlockListInner MainLeafBlocksInner = (IWriteableBlockListInner)RootState.PropertyToInner(nameof(IMain.LeafBlocks));
+            IWriteableBlockListInner MainLeafBlocksInner = (IWriteableBlockListInner)RootState.PropertyToInner(nameof(Main.LeafBlocks));
             Assert.That(MainLeafBlocksInner != null);
             Assert.That(!MainLeafBlocksInner.IsNeverEmpty);
             Assert.That(!MainLeafBlocksInner.IsEmpty);
             Assert.That(!MainLeafBlocksInner.IsSingle);
-            Assert.That(MainLeafBlocksInner.InterfaceType == typeof(ILeaf));
-            Assert.That(MainLeafBlocksInner.BlockType == typeof(BaseNode.IBlock<ILeaf, Leaf>));
+            Assert.That(MainLeafBlocksInner.InterfaceType == typeof(Leaf));
+            Assert.That(MainLeafBlocksInner.BlockType == typeof(BaseNode.Block<Leaf>));
             Assert.That(MainLeafBlocksInner.ItemType == typeof(Leaf));
             Assert.That(MainLeafBlocksInner.Count == 4);
             Assert.That(MainLeafBlocksInner.BlockStateList != null);
@@ -714,10 +714,10 @@ namespace Coverage
 
             Assert.That(MainLeafBlocksInner.FirstNodeState == LeafBlock.StateList[0]);
 
-            IWriteableListInner MainLeafPathInner = (IWriteableListInner)RootState.PropertyToInner(nameof(IMain.LeafPath));
+            IWriteableListInner MainLeafPathInner = (IWriteableListInner)RootState.PropertyToInner(nameof(Main.LeafPath));
             Assert.That(MainLeafPathInner != null);
             Assert.That(!MainLeafPathInner.IsNeverEmpty);
-            Assert.That(MainLeafPathInner.InterfaceType == typeof(ILeaf));
+            Assert.That(MainLeafPathInner.InterfaceType == typeof(Leaf));
             Assert.That(MainLeafPathInner.Count == 2);
             Assert.That(MainLeafPathInner.StateList != null);
             Assert.That(MainLeafPathInner.StateList.Count == 2);
@@ -728,14 +728,14 @@ namespace Coverage
             IWriteableNodeStateReadOnlyList AllChildren = (IWriteableNodeStateReadOnlyList)RootState.GetAllChildren();
             Assert.That(AllChildren.Count == 19, $"New count: {AllChildren.Count}");
 
-            IWriteablePlaceholderInner PlaceholderInner = (IWriteablePlaceholderInner)RootState.InnerTable[nameof(IMain.PlaceholderLeaf)];
+            IWriteablePlaceholderInner PlaceholderInner = (IWriteablePlaceholderInner)RootState.InnerTable[nameof(Main.PlaceholderLeaf)];
             Assert.That(PlaceholderInner != null);
 
             IWriteableBrowsingPlaceholderNodeIndex PlaceholderNodeIndex = (IWriteableBrowsingPlaceholderNodeIndex)PlaceholderInner.ChildState.ParentIndex;
             Assert.That(PlaceholderNodeIndex != null);
             Assert.That(Controller0.Contains(PlaceholderNodeIndex));
 
-            IWriteableOptionalInner UnassignedOptionalInner = (IWriteableOptionalInner)RootState.InnerTable[nameof(IMain.UnassignedOptionalLeaf)];
+            IWriteableOptionalInner UnassignedOptionalInner = (IWriteableOptionalInner)RootState.InnerTable[nameof(Main.UnassignedOptionalLeaf)];
             Assert.That(UnassignedOptionalInner != null);
 
             IWriteableBrowsingOptionalNodeIndex UnassignedOptionalNodeIndex = UnassignedOptionalInner.ChildState.ParentIndex;
@@ -743,7 +743,7 @@ namespace Coverage
             Assert.That(Controller0.Contains(UnassignedOptionalNodeIndex));
             Assert.That(Controller0.IsAssigned(UnassignedOptionalNodeIndex) == false);
 
-            IWriteableOptionalInner AssignedOptionalInner = (IWriteableOptionalInner)RootState.InnerTable[nameof(IMain.AssignedOptionalLeaf)];
+            IWriteableOptionalInner AssignedOptionalInner = (IWriteableOptionalInner)RootState.InnerTable[nameof(Main.AssignedOptionalLeaf)];
             Assert.That(AssignedOptionalInner != null);
 
             IWriteableBrowsingOptionalNodeIndex AssignedOptionalNodeIndex = AssignedOptionalInner.ChildState.ParentIndex;
@@ -754,29 +754,29 @@ namespace Coverage
             int Min, Max;
             object ReadValue;
 
-            RootState.PropertyToValue(nameof(IMain.ValueBoolean), out ReadValue, out Min, out Max);
+            RootState.PropertyToValue(nameof(Main.ValueBoolean), out ReadValue, out Min, out Max);
             bool ReadAsBoolean = ((int)ReadValue) != 0;
             Assert.That(ReadAsBoolean == true);
-            Assert.That(Controller0.GetDiscreteValue(RootIndex0, nameof(IMain.ValueBoolean), out Min, out Max) == (ReadAsBoolean ? 1 : 0));
+            Assert.That(Controller0.GetDiscreteValue(RootIndex0, nameof(Main.ValueBoolean), out Min, out Max) == (ReadAsBoolean ? 1 : 0));
             Assert.That(Min == 0);
             Assert.That(Max == 1);
 
-            RootState.PropertyToValue(nameof(IMain.ValueEnum), out ReadValue, out Min, out Max);
+            RootState.PropertyToValue(nameof(Main.ValueEnum), out ReadValue, out Min, out Max);
             BaseNode.CopySemantic ReadAsEnum = (BaseNode.CopySemantic)(int)ReadValue;
             Assert.That(ReadAsEnum == BaseNode.CopySemantic.Value);
-            Assert.That(Controller0.GetDiscreteValue(RootIndex0, nameof(IMain.ValueEnum), out Min, out Max) == (int)ReadAsEnum);
+            Assert.That(Controller0.GetDiscreteValue(RootIndex0, nameof(Main.ValueEnum), out Min, out Max) == (int)ReadAsEnum);
             Assert.That(Min == 0);
             Assert.That(Max == 2);
 
-            RootState.PropertyToValue(nameof(IMain.ValueString), out ReadValue, out Min, out Max);
+            RootState.PropertyToValue(nameof(Main.ValueString), out ReadValue, out Min, out Max);
             string ReadAsString = ReadValue as string;
             Assert.That(ReadAsString == "s");
-            Assert.That(Controller0.GetStringValue(RootIndex0, nameof(IMain.ValueString)) == ReadAsString);
+            Assert.That(Controller0.GetStringValue(RootIndex0, nameof(Main.ValueString)) == ReadAsString);
 
-            RootState.PropertyToValue(nameof(IMain.ValueGuid), out ReadValue, out Min, out Max);
+            RootState.PropertyToValue(nameof(Main.ValueGuid), out ReadValue, out Min, out Max);
             Guid ReadAsGuid = (Guid)ReadValue;
             Assert.That(ReadAsGuid == ValueGuid0);
-            Assert.That(Controller0.GetGuidValue(RootIndex0, nameof(IMain.ValueGuid)) == ReadAsGuid);
+            Assert.That(Controller0.GetGuidValue(RootIndex0, nameof(Main.ValueGuid)) == ReadAsGuid);
 
             IWriteableController Controller1 = WriteableController.Create(RootIndex0);
             Assert.That(Controller0.IsEqual(CompareEqual.New(), Controller0));
@@ -798,7 +798,7 @@ namespace Coverage
         {
             ControllerTools.ResetExpectedName();
 
-            IMain RootNode = CreateRoot(ValueGuid0, Imperfections.None);
+            Main RootNode = CreateRoot(ValueGuid0, Imperfections.None);
 
             IWriteableRootNodeIndex RootIndex = new WriteableRootNodeIndex(RootNode);
             Assert.That(RootIndex != null);
@@ -809,7 +809,7 @@ namespace Coverage
             IWriteablePlaceholderNodeState RootState = Controller.RootState;
             Assert.That(RootState != null);
 
-            BaseNode.INode ClonedNode = RootState.CloneNode();
+            BaseNode.Node ClonedNode = RootState.CloneNode();
             Assert.That(BaseNodeHelper.NodeTreeDiagnostic.IsValid(ClonedNode));
 
             IWriteableRootNodeIndex CloneRootIndex = new WriteableRootNodeIndex(ClonedNode);
@@ -832,7 +832,7 @@ namespace Coverage
         {
             ControllerTools.ResetExpectedName();
 
-            IMain RootNode;
+            Main RootNode;
             IWriteableRootNodeIndex RootIndex;
 
             RootNode = CreateRoot(ValueGuid0, Imperfections.None);
@@ -908,7 +908,7 @@ namespace Coverage
         {
             ControllerTools.ResetExpectedName();
 
-            IMain RootNode;
+            Main RootNode;
             IWriteableRootNodeIndex RootIndex;
 
             RootNode = CreateRoot(ValueGuid0, Imperfections.None);
@@ -924,7 +924,7 @@ namespace Coverage
                 IWriteableNodeState RootState = Controller.RootState;
                 Assert.That(RootState != null);
 
-                IWriteableListInner LeafPathInner = RootState.PropertyToInner(nameof(IMain.LeafPath)) as IWriteableListInner;
+                IWriteableListInner LeafPathInner = RootState.PropertyToInner(nameof(Main.LeafPath)) as IWriteableListInner;
                 Assert.That(LeafPathInner != null);
 
                 int PathCount = LeafPathInner.Count;
@@ -964,7 +964,7 @@ namespace Coverage
 
 
 
-                IWriteableBlockListInner LeafBlocksInner = RootState.PropertyToInner(nameof(IMain.LeafBlocks)) as IWriteableBlockListInner;
+                IWriteableBlockListInner LeafBlocksInner = RootState.PropertyToInner(nameof(Main.LeafBlocks)) as IWriteableBlockListInner;
                 Assert.That(LeafBlocksInner != null);
 
                 int BlockNodeCount = LeafBlocksInner.Count;
@@ -1004,10 +1004,10 @@ namespace Coverage
 
 
                 Leaf NewItem2 = CreateLeaf(Guid.NewGuid());
-                BaseNode.IPattern NewPattern = BaseNodeHelper.NodeHelper.CreateSimplePattern("");
-                BaseNode.IIdentifier NewSource = BaseNodeHelper.NodeHelper.CreateSimpleIdentifier("");
+                BaseNode.Pattern NewPattern = BaseNodeHelper.NodeHelper.CreateSimplePattern("");
+                BaseNode.Identifier NewSource = BaseNodeHelper.NodeHelper.CreateSimpleIdentifier("");
 
-                IWriteableInsertionNewBlockNodeIndex InsertionIndex2 = new WriteableInsertionNewBlockNodeIndex(RootNode, nameof(IMain.LeafBlocks), NewItem2, 0, NewPattern, NewSource);
+                IWriteableInsertionNewBlockNodeIndex InsertionIndex2 = new WriteableInsertionNewBlockNodeIndex(RootNode, nameof(Main.LeafBlocks), NewItem2, 0, NewPattern, NewSource);
                 Assert.That(CompareEqual.CoverIsEqual(InsertionIndex2, InsertionIndex2));
 
                 int BlockCount = LeafBlocksInner.BlockStateList.Count;
@@ -1058,7 +1058,7 @@ namespace Coverage
         {
             ControllerTools.ResetExpectedName();
 
-            IMain RootNode;
+            Main RootNode;
             IWriteableRootNodeIndex RootIndex;
 
             RootNode = CreateRoot(ValueGuid0, Imperfections.None);
@@ -1074,7 +1074,7 @@ namespace Coverage
                 IWriteableNodeState RootState = Controller.RootState;
                 Assert.That(RootState != null);
 
-                IWriteableListInner LeafPathInner = RootState.PropertyToInner(nameof(IMain.LeafPath)) as IWriteableListInner;
+                IWriteableListInner LeafPathInner = RootState.PropertyToInner(nameof(Main.LeafPath)) as IWriteableListInner;
                 Assert.That(LeafPathInner != null);
 
                 IWriteableBrowsingListNodeIndex RemovedLeafIndex0 = LeafPathInner.StateList[0].ParentIndex as IWriteableBrowsingListNodeIndex;
@@ -1107,12 +1107,12 @@ namespace Coverage
                 Assert.That(Controller.IsRemoveable(LeafPathInner, RemovedLeafIndex0));
 
                 IDictionary<Type, string[]> NeverEmptyCollectionTable = BaseNodeHelper.NodeHelper.NeverEmptyCollectionTable as IDictionary<Type, string[]>;
-                NeverEmptyCollectionTable.Add(typeof(IMain), new string[] { nameof(IMain.LeafPath) });
+                NeverEmptyCollectionTable.Add(typeof(Main), new string[] { nameof(Main.LeafPath) });
                 Assert.That(!Controller.IsRemoveable(LeafPathInner, RemovedLeafIndex0));
 
 
 
-                IWriteableBlockListInner LeafBlocksInner = RootState.PropertyToInner(nameof(IMain.LeafBlocks)) as IWriteableBlockListInner;
+                IWriteableBlockListInner LeafBlocksInner = RootState.PropertyToInner(nameof(Main.LeafBlocks)) as IWriteableBlockListInner;
                 Assert.That(LeafBlocksInner != null);
 
                 IWriteableBrowsingExistingBlockNodeIndex RemovedLeafIndex1 = LeafBlocksInner.BlockStateList[1].StateList[0].ParentIndex as IWriteableBrowsingExistingBlockNodeIndex;
@@ -1165,7 +1165,7 @@ namespace Coverage
                 Controller.Undo();
 
 
-                NeverEmptyCollectionTable.Remove(typeof(IMain));
+                NeverEmptyCollectionTable.Remove(typeof(Main));
                 Assert.That(Controller.IsRemoveable(LeafPathInner, RemovedLeafIndex0));
 
                 Assert.That(Controller.CanUndo);
@@ -1187,7 +1187,7 @@ namespace Coverage
         {
             ControllerTools.ResetExpectedName();
 
-            IMain RootNode;
+            Main RootNode;
             IWriteableRootNodeIndex RootIndex;
 
             RootNode = CreateRoot(ValueGuid0, Imperfections.None);
@@ -1206,7 +1206,7 @@ namespace Coverage
                 IWriteableNodeStateReadOnlyList AllChildren0 = (IWriteableNodeStateReadOnlyList)RootState.GetAllChildren();
                 Assert.That(AllChildren0.Count == 19, $"New count: {AllChildren0.Count}");
 
-                IWriteableBlockListInner LeafBlocksInner = RootState.PropertyToInner(nameof(IMain.LeafBlocks)) as IWriteableBlockListInner;
+                IWriteableBlockListInner LeafBlocksInner = RootState.PropertyToInner(nameof(Main.LeafBlocks)) as IWriteableBlockListInner;
                 Assert.That(LeafBlocksInner != null);
                 Assert.That(LeafBlocksInner.BlockStateList.Count == 3, $"New count: {LeafBlocksInner.BlockStateList.Count}");
                 Assert.That(Controller.IsBlockRangeRemoveable(LeafBlocksInner, 0, 2));
@@ -1223,11 +1223,11 @@ namespace Coverage
                 Controller.Undo();
 
                 IDictionary<Type, string[]> NeverEmptyCollectionTable = BaseNodeHelper.NodeHelper.NeverEmptyCollectionTable as IDictionary<Type, string[]>;
-                NeverEmptyCollectionTable.Add(typeof(IMain), new string[] { nameof(IMain.LeafBlocks) });
+                NeverEmptyCollectionTable.Add(typeof(Main), new string[] { nameof(Main.LeafBlocks) });
 
                 Assert.That(!Controller.IsBlockRangeRemoveable(LeafBlocksInner, 0, 3));
 
-                NeverEmptyCollectionTable.Remove(typeof(IMain));
+                NeverEmptyCollectionTable.Remove(typeof(Main));
                 Assert.That(Controller.IsBlockRangeRemoveable(LeafBlocksInner, 0, 3));
 
                 Assert.That(!Controller.CanUndo);
@@ -1246,7 +1246,7 @@ namespace Coverage
         {
             ControllerTools.ResetExpectedName();
 
-            IMain RootNode;
+            Main RootNode;
             IWriteableRootNodeIndex RootIndex;
 
             RootNode = CreateRoot(ValueGuid0, Imperfections.None);
@@ -1267,7 +1267,7 @@ namespace Coverage
 
 
                 //System.Diagnostics.Debug.Assert(false);
-                IWriteableListInner LeafPathInner = RootState.PropertyToInner(nameof(IMain.LeafPath)) as IWriteableListInner;
+                IWriteableListInner LeafPathInner = RootState.PropertyToInner(nameof(Main.LeafPath)) as IWriteableListInner;
                 Assert.That(LeafPathInner != null);
                 Assert.That(LeafPathInner.StateList.Count == 2, $"New count: {LeafPathInner.StateList.Count}");
                 Assert.That(Controller.IsNodeRangeRemoveable(LeafPathInner, -1, 0, 2));
@@ -1289,7 +1289,7 @@ namespace Coverage
                 Controller.Undo();
 
 
-                IWriteableBlockListInner LeafBlocksInner = RootState.PropertyToInner(nameof(IMain.LeafBlocks)) as IWriteableBlockListInner;
+                IWriteableBlockListInner LeafBlocksInner = RootState.PropertyToInner(nameof(Main.LeafBlocks)) as IWriteableBlockListInner;
                 Assert.That(LeafBlocksInner != null);
                 Assert.That(LeafBlocksInner.BlockStateList.Count == 3, $"New count: {LeafBlocksInner.BlockStateList.Count}");
                 Assert.That(Controller.IsNodeRangeRemoveable(LeafBlocksInner, 1, 0, 2));
@@ -1311,13 +1311,13 @@ namespace Coverage
                 Controller.Undo();
 
                 IDictionary<Type, string[]> NeverEmptyCollectionTable = BaseNodeHelper.NodeHelper.NeverEmptyCollectionTable as IDictionary<Type, string[]>;
-                NeverEmptyCollectionTable.Add(typeof(IMain), new string[] { nameof(IMain.LeafBlocks) });
+                NeverEmptyCollectionTable.Add(typeof(Main), new string[] { nameof(Main.LeafBlocks) });
 
                 Controller.RemoveBlockRange(LeafBlocksInner, 2, 3);
                 Controller.RemoveBlockRange(LeafBlocksInner, 0, 1);
                 Assert.That(!Controller.IsNodeRangeRemoveable(LeafBlocksInner, 0, 0, 2));
 
-                NeverEmptyCollectionTable.Remove(typeof(IMain));
+                NeverEmptyCollectionTable.Remove(typeof(Main));
                 Assert.That(Controller.IsNodeRangeRemoveable(LeafBlocksInner, 0, 0, 2));
 
                 Controller.Undo();
@@ -1333,7 +1333,7 @@ namespace Coverage
         {
             ControllerTools.ResetExpectedName();
 
-            IMain RootNode;
+            Main RootNode;
             IWriteableRootNodeIndex RootIndex;
 
             RootNode = CreateRoot(ValueGuid0, Imperfections.None);
@@ -1349,7 +1349,7 @@ namespace Coverage
                 IWriteableNodeState RootState = Controller.RootState;
                 Assert.That(RootState != null);
 
-                IWriteableListInner LeafPathInner = RootState.PropertyToInner(nameof(IMain.LeafPath)) as IWriteableListInner;
+                IWriteableListInner LeafPathInner = RootState.PropertyToInner(nameof(Main.LeafPath)) as IWriteableListInner;
                 Assert.That(LeafPathInner != null);
 
                 IWriteableBrowsingListNodeIndex MovedLeafIndex0 = LeafPathInner.IndexAt(0) as IWriteableBrowsingListNodeIndex;
@@ -1381,7 +1381,7 @@ namespace Coverage
 
 
 
-                IWriteableBlockListInner LeafBlocksInner = RootState.PropertyToInner(nameof(IMain.LeafBlocks)) as IWriteableBlockListInner;
+                IWriteableBlockListInner LeafBlocksInner = RootState.PropertyToInner(nameof(Main.LeafBlocks)) as IWriteableBlockListInner;
                 Assert.That(LeafBlocksInner != null);
 
                 IWriteableBrowsingExistingBlockNodeIndex MovedLeafIndex1 = LeafBlocksInner.IndexAt(1, 1) as IWriteableBrowsingExistingBlockNodeIndex;
@@ -1427,7 +1427,7 @@ namespace Coverage
         {
             ControllerTools.ResetExpectedName();
 
-            IMain RootNode;
+            Main RootNode;
             IWriteableRootNodeIndex RootIndex;
 
             RootNode = CreateRoot(ValueGuid0, Imperfections.None);
@@ -1446,7 +1446,7 @@ namespace Coverage
                 IWriteableNodeStateReadOnlyList AllChildren1 = (IWriteableNodeStateReadOnlyList)RootState.GetAllChildren();
                 Assert.That(AllChildren1.Count == 19, $"New count: {AllChildren1.Count}");
 
-                IWriteableBlockListInner LeafBlocksInner = RootState.PropertyToInner(nameof(IMain.LeafBlocks)) as IWriteableBlockListInner;
+                IWriteableBlockListInner LeafBlocksInner = RootState.PropertyToInner(nameof(Main.LeafBlocks)) as IWriteableBlockListInner;
                 Assert.That(LeafBlocksInner != null);
 
                 IWriteableBrowsingExistingBlockNodeIndex MovedLeafIndex1 = LeafBlocksInner.IndexAt(1, 0) as IWriteableBrowsingExistingBlockNodeIndex;
@@ -1490,7 +1490,7 @@ namespace Coverage
         {
             ControllerTools.ResetExpectedName();
 
-            IMain RootNode;
+            Main RootNode;
             IWriteableRootNodeIndex RootIndex;
 
             RootNode = CreateRoot(ValueGuid0, Imperfections.None);
@@ -1506,22 +1506,22 @@ namespace Coverage
                 IWriteableNodeState RootState = Controller.RootState;
                 Assert.That(RootState != null);
 
-                Assert.That(BaseNodeHelper.NodeTreeHelper.GetEnumValue(RootState.Node, nameof(IMain.ValueEnum)) == (int)BaseNode.CopySemantic.Value);
+                Assert.That(BaseNodeHelper.NodeTreeHelper.GetEnumValue(RootState.Node, nameof(Main.ValueEnum)) == (int)BaseNode.CopySemantic.Value);
 
-                Controller.ChangeDiscreteValue(RootIndex, nameof(IMain.ValueEnum), (int)BaseNode.CopySemantic.Reference);
+                Controller.ChangeDiscreteValue(RootIndex, nameof(Main.ValueEnum), (int)BaseNode.CopySemantic.Reference);
 
                 Assert.That(BaseNodeHelper.NodeTreeDiagnostic.IsValid(RootNode));
-                Assert.That(BaseNodeHelper.NodeTreeHelper.GetEnumValue(RootNode, nameof(IMain.ValueEnum)) == (int)BaseNode.CopySemantic.Reference);
+                Assert.That(BaseNodeHelper.NodeTreeHelper.GetEnumValue(RootNode, nameof(Main.ValueEnum)) == (int)BaseNode.CopySemantic.Reference);
 
-                IWriteablePlaceholderInner PlaceholderTreeInner = RootState.PropertyToInner(nameof(IMain.PlaceholderTree)) as IWriteablePlaceholderInner;
+                IWriteablePlaceholderInner PlaceholderTreeInner = RootState.PropertyToInner(nameof(Main.PlaceholderTree)) as IWriteablePlaceholderInner;
                 IWriteablePlaceholderNodeState PlaceholderTreeState = PlaceholderTreeInner.ChildState as IWriteablePlaceholderNodeState;
 
-                Assert.That(BaseNodeHelper.NodeTreeHelper.GetEnumValue(PlaceholderTreeState.Node, nameof(ITree.ValueEnum)) == (int)BaseNode.CopySemantic.Value);
+                Assert.That(BaseNodeHelper.NodeTreeHelper.GetEnumValue(PlaceholderTreeState.Node, nameof(Tree.ValueEnum)) == (int)BaseNode.CopySemantic.Value);
 
-                Controller.ChangeDiscreteValue(PlaceholderTreeState.ParentIndex, nameof(ITree.ValueEnum), (int)BaseNode.CopySemantic.Any);
+                Controller.ChangeDiscreteValue(PlaceholderTreeState.ParentIndex, nameof(Tree.ValueEnum), (int)BaseNode.CopySemantic.Any);
 
                 Assert.That(BaseNodeHelper.NodeTreeDiagnostic.IsValid(RootNode));
-                Assert.That(BaseNodeHelper.NodeTreeHelper.GetEnumValue(PlaceholderTreeState.Node, nameof(ITree.ValueEnum)) == (int)BaseNode.CopySemantic.Any);
+                Assert.That(BaseNodeHelper.NodeTreeHelper.GetEnumValue(PlaceholderTreeState.Node, nameof(Tree.ValueEnum)) == (int)BaseNode.CopySemantic.Any);
 
                 Assert.That(Controller.CanUndo);
                 Controller.Undo();
@@ -1544,7 +1544,7 @@ namespace Coverage
         {
             ControllerTools.ResetExpectedName();
 
-            IMain RootNode;
+            Main RootNode;
             IWriteableRootNodeIndex RootIndex;
 
             RootNode = CreateRoot(ValueGuid0, Imperfections.None);
@@ -1560,14 +1560,14 @@ namespace Coverage
                 IWriteableNodeState RootState = Controller.RootState;
                 Assert.That(RootState != null);
 
-                Assert.That(BaseNodeHelper.NodeTreeHelper.GetString(RootState.Node, nameof(IMain.ValueString)) == "s");
+                Assert.That(BaseNodeHelper.NodeTreeHelper.GetString(RootState.Node, nameof(Main.ValueString)) == "s");
 
-                Controller.ChangeText(RootIndex, nameof(IMain.ValueString), "test");
+                Controller.ChangeText(RootIndex, nameof(Main.ValueString), "test");
 
                 Assert.That(BaseNodeHelper.NodeTreeDiagnostic.IsValid(RootNode));
-                Assert.That(BaseNodeHelper.NodeTreeHelper.GetString(RootNode, nameof(IMain.ValueString)) == "test");
+                Assert.That(BaseNodeHelper.NodeTreeHelper.GetString(RootNode, nameof(Main.ValueString)) == "test");
 
-                IWriteablePlaceholderInner PlaceholderTreeInner = RootState.PropertyToInner(nameof(IMain.PlaceholderTree)) as IWriteablePlaceholderInner;
+                IWriteablePlaceholderInner PlaceholderTreeInner = RootState.PropertyToInner(nameof(Main.PlaceholderTree)) as IWriteablePlaceholderInner;
                 IWriteablePlaceholderNodeState PlaceholderTreeState = PlaceholderTreeInner.ChildState as IWriteablePlaceholderNodeState;
 
                 Assert.That(Controller.CanUndo);
@@ -1589,7 +1589,7 @@ namespace Coverage
         {
             ControllerTools.ResetExpectedName();
 
-            IMain RootNode;
+            Main RootNode;
             IWriteableRootNodeIndex RootIndex;
 
             RootNode = CreateRoot(ValueGuid0, Imperfections.None);
@@ -1612,7 +1612,7 @@ namespace Coverage
                 Assert.That(BaseNodeHelper.NodeTreeDiagnostic.IsValid(RootNode));
                 Assert.That(BaseNodeHelper.NodeTreeHelper.GetCommentText(RootNode) == "test");
 
-                IWriteablePlaceholderInner PlaceholderTreeInner = RootState.PropertyToInner(nameof(IMain.PlaceholderTree)) as IWriteablePlaceholderInner;
+                IWriteablePlaceholderInner PlaceholderTreeInner = RootState.PropertyToInner(nameof(Main.PlaceholderTree)) as IWriteablePlaceholderInner;
                 IWriteablePlaceholderNodeState PlaceholderTreeState = PlaceholderTreeInner.ChildState as IWriteablePlaceholderNodeState;
 
                 Assert.That(Controller.CanUndo);
@@ -1634,7 +1634,7 @@ namespace Coverage
         {
             ControllerTools.ResetExpectedName();
 
-            IMain RootNode;
+            Main RootNode;
             IWriteableRootNodeIndex RootIndex;
 
             RootNode = CreateRoot(ValueGuid0, Imperfections.None);
@@ -1651,9 +1651,9 @@ namespace Coverage
                 Assert.That(RootState != null);
 
                 Leaf NewItem0 = CreateLeaf(Guid.NewGuid());
-                IWriteableInsertionListNodeIndex ReplacementIndex0 = new WriteableInsertionListNodeIndex(RootNode, nameof(IMain.LeafPath), NewItem0, 0);
+                IWriteableInsertionListNodeIndex ReplacementIndex0 = new WriteableInsertionListNodeIndex(RootNode, nameof(Main.LeafPath), NewItem0, 0);
 
-                IWriteableListInner LeafPathInner = RootState.PropertyToInner(nameof(IMain.LeafPath)) as IWriteableListInner;
+                IWriteableListInner LeafPathInner = RootState.PropertyToInner(nameof(Main.LeafPath)) as IWriteableListInner;
                 Assert.That(LeafPathInner != null);
 
                 int PathCount = LeafPathInner.Count;
@@ -1680,9 +1680,9 @@ namespace Coverage
 
 
                 Leaf NewItem1 = CreateLeaf(Guid.NewGuid());
-                IWriteableInsertionExistingBlockNodeIndex ReplacementIndex1 = new WriteableInsertionExistingBlockNodeIndex(RootNode, nameof(IMain.LeafBlocks), NewItem1, 0, 0);
+                IWriteableInsertionExistingBlockNodeIndex ReplacementIndex1 = new WriteableInsertionExistingBlockNodeIndex(RootNode, nameof(Main.LeafBlocks), NewItem1, 0, 0);
 
-                IWriteableBlockListInner LeafBlocksInner = RootState.PropertyToInner(nameof(IMain.LeafBlocks)) as IWriteableBlockListInner;
+                IWriteableBlockListInner LeafBlocksInner = RootState.PropertyToInner(nameof(Main.LeafBlocks)) as IWriteableBlockListInner;
                 Assert.That(LeafBlocksInner != null);
 
                 IWriteableBlockState BlockState = LeafBlocksInner.BlockStateList[0];
@@ -1708,7 +1708,7 @@ namespace Coverage
 
 
 
-                IWriteablePlaceholderInner PlaceholderTreeInner = RootState.PropertyToInner(nameof(IMain.PlaceholderTree)) as IWriteablePlaceholderInner;
+                IWriteablePlaceholderInner PlaceholderTreeInner = RootState.PropertyToInner(nameof(Main.PlaceholderTree)) as IWriteablePlaceholderInner;
                 Assert.That(PlaceholderTreeInner != null);
 
                 IWriteableBrowsingPlaceholderNodeIndex ExistingIndex2 = PlaceholderTreeInner.ChildState.ParentIndex as IWriteableBrowsingPlaceholderNodeIndex;
@@ -1735,7 +1735,7 @@ namespace Coverage
 
 
 
-                IWriteablePlaceholderInner PlaceholderLeafInner = NewItemState2.PropertyToInner(nameof(ITree.Placeholder)) as IWriteablePlaceholderInner;
+                IWriteablePlaceholderInner PlaceholderLeafInner = NewItemState2.PropertyToInner(nameof(Tree.Placeholder)) as IWriteablePlaceholderInner;
                 Assert.That(PlaceholderLeafInner != null);
 
                 IWriteableBrowsingPlaceholderNodeIndex ExistingIndex3 = PlaceholderLeafInner.ChildState.ParentIndex as IWriteableBrowsingPlaceholderNodeIndex;
@@ -1760,7 +1760,7 @@ namespace Coverage
 
 
 
-                IWriteableOptionalInner OptionalLeafInner = RootState.PropertyToInner(nameof(IMain.AssignedOptionalLeaf)) as IWriteableOptionalInner;
+                IWriteableOptionalInner OptionalLeafInner = RootState.PropertyToInner(nameof(Main.AssignedOptionalLeaf)) as IWriteableOptionalInner;
                 Assert.That(OptionalLeafInner != null);
 
                 IWriteableBrowsingOptionalNodeIndex ExistingIndex4 = OptionalLeafInner.ChildState.ParentIndex as IWriteableBrowsingOptionalNodeIndex;
@@ -1845,7 +1845,7 @@ namespace Coverage
         {
             ControllerTools.ResetExpectedName();
 
-            IMain RootNode;
+            Main RootNode;
             IWriteableRootNodeIndex RootIndex;
 
             RootNode = CreateRoot(ValueGuid0, Imperfections.None);
@@ -1861,7 +1861,7 @@ namespace Coverage
                 IWriteableNodeState RootState = Controller.RootState;
                 Assert.That(RootState != null);
 
-                IWriteableOptionalInner UnassignedOptionalLeafInner = RootState.PropertyToInner(nameof(IMain.UnassignedOptionalLeaf)) as IWriteableOptionalInner;
+                IWriteableOptionalInner UnassignedOptionalLeafInner = RootState.PropertyToInner(nameof(Main.UnassignedOptionalLeaf)) as IWriteableOptionalInner;
                 Assert.That(UnassignedOptionalLeafInner != null);
                 Assert.That(!UnassignedOptionalLeafInner.IsAssigned);
 
@@ -1915,7 +1915,7 @@ namespace Coverage
         {
             ControllerTools.ResetExpectedName();
 
-            IMain RootNode;
+            Main RootNode;
             IWriteableRootNodeIndex RootIndex;
 
             RootNode = CreateRoot(ValueGuid0, Imperfections.None);
@@ -1931,7 +1931,7 @@ namespace Coverage
                 IWriteableNodeState RootState = Controller.RootState;
                 Assert.That(RootState != null);
 
-                IWriteableOptionalInner AssignedOptionalLeafInner = RootState.PropertyToInner(nameof(IMain.AssignedOptionalLeaf)) as IWriteableOptionalInner;
+                IWriteableOptionalInner AssignedOptionalLeafInner = RootState.PropertyToInner(nameof(Main.AssignedOptionalLeaf)) as IWriteableOptionalInner;
                 Assert.That(AssignedOptionalLeafInner != null);
                 Assert.That(AssignedOptionalLeafInner.IsAssigned);
 
@@ -1985,7 +1985,7 @@ namespace Coverage
         {
             ControllerTools.ResetExpectedName();
 
-            IMain RootNode;
+            Main RootNode;
             IWriteableRootNodeIndex RootIndex;
 
             RootNode = CreateRoot(ValueGuid0, Imperfections.None);
@@ -2001,7 +2001,7 @@ namespace Coverage
                 IWriteableNodeState RootState = Controller.RootState;
                 Assert.That(RootState != null);
 
-                IWriteableBlockListInner LeafBlocksInner = RootState.PropertyToInner(nameof(IMain.LeafBlocks)) as IWriteableBlockListInner;
+                IWriteableBlockListInner LeafBlocksInner = RootState.PropertyToInner(nameof(Main.LeafBlocks)) as IWriteableBlockListInner;
                 Assert.That(LeafBlocksInner != null);
 
                 IWriteableNodeStateReadOnlyList AllChildren0 = (IWriteableNodeStateReadOnlyList)RootState.GetAllChildren();
@@ -2041,7 +2041,7 @@ namespace Coverage
         {
             ControllerTools.ResetExpectedName();
 
-            IMain RootNode;
+            Main RootNode;
             IWriteableRootNodeIndex RootIndex;
 
             RootNode = CreateRoot(ValueGuid0, Imperfections.None);
@@ -2057,7 +2057,7 @@ namespace Coverage
                 IWriteableNodeState RootState = Controller.RootState;
                 Assert.That(RootState != null);
 
-                IWriteableBlockListInner LeafBlocksInner = RootState.PropertyToInner(nameof(IMain.LeafBlocks)) as IWriteableBlockListInner;
+                IWriteableBlockListInner LeafBlocksInner = RootState.PropertyToInner(nameof(Main.LeafBlocks)) as IWriteableBlockListInner;
                 Assert.That(LeafBlocksInner != null);
 
                 IWriteableNodeStateReadOnlyList AllChildren0 = (IWriteableNodeStateReadOnlyList)RootState.GetAllChildren();
@@ -2113,7 +2113,7 @@ namespace Coverage
         {
             ControllerTools.ResetExpectedName();
 
-            IMain RootNode;
+            Main RootNode;
             IWriteableRootNodeIndex RootIndex;
 
             RootNode = CreateRoot(ValueGuid0, Imperfections.None);
@@ -2129,7 +2129,7 @@ namespace Coverage
                 IWriteableNodeState RootState = Controller.RootState;
                 Assert.That(RootState != null);
 
-                IWriteableBlockListInner LeafBlocksInner = RootState.PropertyToInner(nameof(IMain.LeafBlocks)) as IWriteableBlockListInner;
+                IWriteableBlockListInner LeafBlocksInner = RootState.PropertyToInner(nameof(Main.LeafBlocks)) as IWriteableBlockListInner;
                 Assert.That(LeafBlocksInner != null);
 
                 IWriteableNodeStateReadOnlyList AllChildren0 = (IWriteableNodeStateReadOnlyList)RootState.GetAllChildren();
@@ -2184,7 +2184,7 @@ namespace Coverage
         {
             ControllerTools.ResetExpectedName();
 
-            IMain RootNode;
+            Main RootNode;
             IWriteableRootNodeIndex RootIndex;
 
             RootNode = CreateRoot(ValueGuid0, Imperfections.None);
@@ -2219,10 +2219,10 @@ namespace Coverage
 
                 Assert.That(BaseNodeHelper.NodeTreeDiagnostic.IsValid(RootNode));
 
-                IWriteableOptionalInner OptionalLeafInner = RootState.PropertyToInner(nameof(IMain.AssignedOptionalLeaf)) as IWriteableOptionalInner;
+                IWriteableOptionalInner OptionalLeafInner = RootState.PropertyToInner(nameof(Main.AssignedOptionalLeaf)) as IWriteableOptionalInner;
                 Assert.That(OptionalLeafInner != null);
 
-                IWriteableInsertionOptionalClearIndex ReplacementIndex5 = new WriteableInsertionOptionalClearIndex(RootNode, nameof(IMain.AssignedOptionalLeaf));
+                IWriteableInsertionOptionalClearIndex ReplacementIndex5 = new WriteableInsertionOptionalClearIndex(RootNode, nameof(Main.AssignedOptionalLeaf));
 
                 Controller.Replace(OptionalLeafInner, ReplacementIndex5, out IWriteableBrowsingChildIndex NewItemIndex5);
                 Assert.That(Controller.Contains(NewItemIndex5));
@@ -2240,7 +2240,7 @@ namespace Coverage
 
 
 
-                IWriteableBlockListInner LeafBlocksInner = RootState.PropertyToInner(nameof(IMain.LeafBlocks)) as IWriteableBlockListInner;
+                IWriteableBlockListInner LeafBlocksInner = RootState.PropertyToInner(nameof(Main.LeafBlocks)) as IWriteableBlockListInner;
                 Assert.That(LeafBlocksInner != null);
 
                 IWriteableBrowsingExistingBlockNodeIndex RemovedLeafIndex = LeafBlocksInner.BlockStateList[0].StateList[0].ParentIndex as IWriteableBrowsingExistingBlockNodeIndex;
@@ -2284,7 +2284,7 @@ namespace Coverage
                 Assert.That(AllChildren6.Count == AllChildren5.Count, $"New count: {AllChildren6.Count - AllChildren5.Count}");
 
                 IDictionary<Type, string[]> WithExpandCollectionTable = BaseNodeHelper.NodeHelper.WithExpandCollectionTable as IDictionary<Type, string[]>;
-                WithExpandCollectionTable.Add(typeof(IMain), new string[] { nameof(IMain.LeafBlocks) });
+                WithExpandCollectionTable.Add(typeof(Main), new string[] { nameof(Main.LeafBlocks) });
 
                 Controller.Expand(RootIndex, out IsChanged);
                 Assert.That(IsChanged);
@@ -2299,7 +2299,7 @@ namespace Coverage
                 Assert.That(Controller.CanUndo);
                 Controller.Undo();
 
-                WithExpandCollectionTable.Remove(typeof(IMain));
+                WithExpandCollectionTable.Remove(typeof(Main));
 
                 Assert.That(Controller.CanUndo);
                 Controller.Undo();
@@ -2332,7 +2332,7 @@ namespace Coverage
         {
             ControllerTools.ResetExpectedName();
 
-            IMain RootNode;
+            Main RootNode;
             IWriteableRootNodeIndex RootIndex;
             bool IsChanged;
 
@@ -2349,7 +2349,7 @@ namespace Coverage
                 IWriteableNodeState RootState = Controller.RootState;
                 Assert.That(RootState != null);
 
-                IWriteableBlockListInner LeafBlocksInner = RootState.PropertyToInner(nameof(IMain.LeafBlocks)) as IWriteableBlockListInner;
+                IWriteableBlockListInner LeafBlocksInner = RootState.PropertyToInner(nameof(Main.LeafBlocks)) as IWriteableBlockListInner;
                 Assert.That(LeafBlocksInner != null);
 
                 IWriteableBrowsingExistingBlockNodeIndex RemovedLeafIndex = LeafBlocksInner.BlockStateList[0].StateList[0].ParentIndex as IWriteableBrowsingExistingBlockNodeIndex;
@@ -2387,7 +2387,7 @@ namespace Coverage
                 Assert.That(AllChildren0.Count == 9, $"New count: {AllChildren0.Count}");
 
                 IDictionary<Type, string[]> WithExpandCollectionTable = BaseNodeHelper.NodeHelper.WithExpandCollectionTable as IDictionary<Type, string[]>;
-                WithExpandCollectionTable.Add(typeof(IMain), new string[] { nameof(IMain.LeafBlocks) });
+                WithExpandCollectionTable.Add(typeof(Main), new string[] { nameof(Main.LeafBlocks) });
 
                 Controller.Expand(RootIndex, out IsChanged);
                 Assert.That(IsChanged);
@@ -2417,15 +2417,15 @@ namespace Coverage
                 Assert.That(AllChildren4.Count == AllChildren3.Count + 4, $"New count: {AllChildren4.Count - AllChildren3.Count}");
 
                 BaseNode.IBlock ChildBlock = LeafBlocksInner.BlockStateList[0].ChildBlock;
-                ILeaf FirstNode = ChildBlock.NodeList[0] as ILeaf;
+                Leaf FirstNode = ChildBlock.NodeList[0] as Leaf;
                 Assert.That(FirstNode != null);
-                BaseNodeHelper.NodeTreeHelper.SetString(FirstNode, nameof(ILeaf.Text), "!");
+                BaseNodeHelper.NodeTreeHelper.SetString(FirstNode, nameof(Coverage.Leaf.Text), "!");
 
                 //System.Diagnostics.Debug.Assert(false);
-                IWriteableOptionalInner LeafOptionalInner = RootState.PropertyToInner(nameof(IMain.AssignedOptionalLeaf)) as IWriteableOptionalInner;
+                IWriteableOptionalInner LeafOptionalInner = RootState.PropertyToInner(nameof(Main.AssignedOptionalLeaf)) as IWriteableOptionalInner;
                 Assert.That(LeafOptionalInner != null);
 
-                ILeaf Leaf = LeafOptionalInner.ChildState.Node as ILeaf;
+                Leaf Leaf = LeafOptionalInner.ChildState.Node as Leaf;
                 BaseNodeHelper.NodeTreeHelper.SetStringProperty(Leaf, "Text", "");
 
                 //System.Diagnostics.Debug.Assert(false);
@@ -2435,7 +2435,7 @@ namespace Coverage
                 IWriteableNodeStateReadOnlyList AllChildren5 = (IWriteableNodeStateReadOnlyList)RootState.GetAllChildren();
                 Assert.That(AllChildren5.Count == AllChildren4.Count - 2, $"New count: {AllChildren5.Count - AllChildren4.Count}");
 
-                BaseNodeHelper.NodeTreeHelper.SetString(FirstNode, nameof(ILeaf.Text), "");
+                BaseNodeHelper.NodeTreeHelper.SetString(FirstNode, nameof(Leaf.Text), "");
 
                 //System.Diagnostics.Debug.Assert(false);
                 Controller.Reduce(RootIndex, out IsChanged);
@@ -2447,7 +2447,7 @@ namespace Coverage
                 Controller.Expand(RootIndex, out IsChanged);
                 Assert.That(IsChanged);
 
-                WithExpandCollectionTable.Remove(typeof(IMain));
+                WithExpandCollectionTable.Remove(typeof(Main));
 
                 //System.Diagnostics.Debug.Assert(false);
                 Controller.Reduce(RootIndex, out IsChanged);
@@ -2459,7 +2459,7 @@ namespace Coverage
                 Assert.That(Controller.CanUndo);
                 Controller.Undo();
 
-                WithExpandCollectionTable.Add(typeof(IMain), new string[] { nameof(IMain.LeafBlocks) });
+                WithExpandCollectionTable.Add(typeof(Main), new string[] { nameof(Main.LeafBlocks) });
 
                 Assert.That(Controller.CanUndo);
                 Controller.Undo();
@@ -2472,7 +2472,7 @@ namespace Coverage
                 Assert.That(Controller.CanUndo);
                 Controller.Undo();
 
-                WithExpandCollectionTable.Remove(typeof(IMain));
+                WithExpandCollectionTable.Remove(typeof(Main));
 
                 Assert.That(Controller.CanUndo);
                 Controller.Undo();
@@ -2501,7 +2501,7 @@ namespace Coverage
         {
             ControllerTools.ResetExpectedName();
 
-            IMain RootNode;
+            Main RootNode;
             IWriteableRootNodeIndex RootIndex;
             bool IsChanged;
 
@@ -2518,7 +2518,7 @@ namespace Coverage
                 IWriteableNodeState RootState = Controller.RootState;
                 Assert.That(RootState != null);
 
-                IWriteableBlockListInner LeafBlocksInner = RootState.PropertyToInner(nameof(IMain.LeafBlocks)) as IWriteableBlockListInner;
+                IWriteableBlockListInner LeafBlocksInner = RootState.PropertyToInner(nameof(Main.LeafBlocks)) as IWriteableBlockListInner;
                 Assert.That(LeafBlocksInner != null);
 
                 IWriteableBrowsingExistingBlockNodeIndex RemovedLeafIndex = LeafBlocksInner.BlockStateList[0].StateList[0].ParentIndex as IWriteableBrowsingExistingBlockNodeIndex;
@@ -2558,7 +2558,7 @@ namespace Coverage
                 Assert.That(BaseNodeHelper.NodeTreeDiagnostic.IsValid(RootNode));
                 Assert.That(LeafBlocksInner.IsEmpty);
 
-                IWriteableListInner LeafPathInner = RootState.PropertyToInner(nameof(IMain.LeafPath)) as IWriteableListInner;
+                IWriteableListInner LeafPathInner = RootState.PropertyToInner(nameof(Main.LeafPath)) as IWriteableListInner;
                 Assert.That(LeafPathInner != null);
                 Assert.That(LeafPathInner.Count == 2);
 
@@ -2570,7 +2570,7 @@ namespace Coverage
                 Assert.That(!Controller.Contains(RemovedListLeafIndex));
 
                 IDictionary<Type, string[]> NeverEmptyCollectionTable = BaseNodeHelper.NodeHelper.NeverEmptyCollectionTable as IDictionary<Type, string[]>;
-                NeverEmptyCollectionTable.Add(typeof(IMain), new string[] { nameof(IMain.PlaceholderTree) });
+                NeverEmptyCollectionTable.Add(typeof(Main), new string[] { nameof(Main.PlaceholderTree) });
 
                 RemovedListLeafIndex = LeafPathInner.StateList[0].ParentIndex as IWriteableBrowsingListNodeIndex;
                 Assert.That(Controller.Contains(RemovedListLeafIndex));
@@ -2580,7 +2580,7 @@ namespace Coverage
                 Assert.That(!Controller.Contains(RemovedListLeafIndex));
                 Assert.That(LeafPathInner.Count == 0);
 
-                NeverEmptyCollectionTable.Remove(typeof(IMain));
+                NeverEmptyCollectionTable.Remove(typeof(Main));
 
                 Assert.That(Controller.CanUndo);
                 Controller.Undo();
@@ -2593,7 +2593,7 @@ namespace Coverage
                 Assert.That(AllChildren0.Count == 12, $"New count: {AllChildren0.Count}");
 
                 IDictionary<Type, string[]> WithExpandCollectionTable = BaseNodeHelper.NodeHelper.WithExpandCollectionTable as IDictionary<Type, string[]>;
-                WithExpandCollectionTable.Add(typeof(IMain), new string[] { nameof(IMain.LeafBlocks) });
+                WithExpandCollectionTable.Add(typeof(Main), new string[] { nameof(Main.LeafBlocks) });
 
                 Controller.Expand(RootIndex, out IsChanged);
                 Assert.That(IsChanged);
@@ -2604,10 +2604,10 @@ namespace Coverage
                 Assert.That(BaseNodeHelper.NodeTreeDiagnostic.IsValid(RootNode));
 
                 //System.Diagnostics.Debug.Assert(false);
-                IWriteableOptionalInner LeafOptionalInner = RootState.PropertyToInner(nameof(IMain.AssignedOptionalLeaf)) as IWriteableOptionalInner;
+                IWriteableOptionalInner LeafOptionalInner = RootState.PropertyToInner(nameof(Main.AssignedOptionalLeaf)) as IWriteableOptionalInner;
                 Assert.That(LeafOptionalInner != null);
 
-                ILeaf Leaf = LeafOptionalInner.ChildState.Node as ILeaf;
+                Leaf Leaf = LeafOptionalInner.ChildState.Node as Leaf;
                 BaseNodeHelper.NodeTreeHelper.SetStringProperty(Leaf, "Text", "");
 
 
@@ -2632,7 +2632,7 @@ namespace Coverage
                 Assert.That(Controller.CanUndo);
                 Controller.Undo();
 
-                NeverEmptyCollectionTable.Add(typeof(IMain), new string[] { nameof(IMain.LeafBlocks) });
+                NeverEmptyCollectionTable.Add(typeof(Main), new string[] { nameof(Main.LeafBlocks) });
                 Assert.That(LeafBlocksInner.BlockStateList.Count == 1);
                 Assert.That(LeafBlocksInner.BlockStateList[0].StateList.Count == 1, LeafBlocksInner.BlockStateList[0].StateList.Count.ToString());
 
@@ -2642,9 +2642,9 @@ namespace Coverage
                 Assert.That(Controller.CanUndo);
                 Controller.Undo();
 
-                NeverEmptyCollectionTable.Remove(typeof(IMain));
+                NeverEmptyCollectionTable.Remove(typeof(Main));
 
-                WithExpandCollectionTable.Remove(typeof(IMain));
+                WithExpandCollectionTable.Remove(typeof(Main));
 
                 Assert.That(Controller.CanUndo);
                 Controller.Undo();
@@ -2669,27 +2669,27 @@ namespace Coverage
         {
             ControllerTools.ResetExpectedName();
 
-            IMain MainItemH = CreateRoot(ValueGuid0, Imperfections.None);
-            IMain MainItemV = CreateRoot(ValueGuid1, Imperfections.None);
-            IRoot RootNode = new Root();
-            BaseNode.IDocument RootDocument = BaseNodeHelper.NodeHelper.CreateSimpleDocumentation("root doc", Guid.NewGuid());
+            Main MainItemH = CreateRoot(ValueGuid0, Imperfections.None);
+            Main MainItemV = CreateRoot(ValueGuid1, Imperfections.None);
+            Root RootNode = new Root();
+            BaseNode.Document RootDocument = BaseNodeHelper.NodeHelper.CreateSimpleDocumentation("root doc", Guid.NewGuid());
             BaseNodeHelper.NodeTreeHelper.SetDocumentation(RootNode, RootDocument);
-            BaseNode.IBlockList<IMain, Main> MainBlocksH = BaseNodeHelper.BlockListHelper.CreateSimpleBlockList<IMain, Main>(MainItemH);
-            BaseNode.IBlockList<IMain, Main> MainBlocksV = BaseNodeHelper.BlockListHelper.CreateSimpleBlockList<IMain, Main>(MainItemV);
+            BaseNode.BlockList<Main> MainBlocksH = BaseNodeHelper.BlockListHelper.CreateSimpleBlockList<Main>(MainItemH);
+            BaseNode.BlockList<Main> MainBlocksV = BaseNodeHelper.BlockListHelper.CreateSimpleBlockList<Main>(MainItemV);
 
-            IMain UnassignedOptionalMain = CreateRoot(ValueGuid2, Imperfections.None);
-            Easly.IOptionalReference<IMain> UnassignedOptional = BaseNodeHelper.OptionalReferenceHelper.CreateReference<IMain>(UnassignedOptionalMain);
+            Main UnassignedOptionalMain = CreateRoot(ValueGuid2, Imperfections.None);
+            Easly.OptionalReference<Main> UnassignedOptional = BaseNodeHelper.OptionalReferenceHelper.CreateReference<Main>(UnassignedOptionalMain);
 
-            IList<ILeaf> LeafPathH = new List<ILeaf>();
-            IList<ILeaf> LeafPathV = new List<ILeaf>();
+            IList<Leaf> LeafPathH = new List<Leaf>();
+            IList<Leaf> LeafPathV = new List<Leaf>();
 
-            BaseNodeHelper.NodeTreeHelperBlockList.SetBlockList(RootNode, nameof(IRoot.MainBlocksH), (BaseNode.IBlockList)MainBlocksH);
-            BaseNodeHelper.NodeTreeHelperBlockList.SetBlockList(RootNode, nameof(IRoot.MainBlocksV), (BaseNode.IBlockList)MainBlocksV);
-            BaseNodeHelper.NodeTreeHelperOptional.SetOptionalReference(RootNode, nameof(IRoot.UnassignedOptionalMain), (Easly.IOptionalReference)UnassignedOptional);
-            BaseNodeHelper.NodeTreeHelper.SetString(RootNode, nameof(IRoot.ValueString), "root string");
-            BaseNodeHelper.NodeTreeHelperList.SetChildNodeList(RootNode, nameof(IRoot.LeafPathH), (IList)LeafPathH);
-            BaseNodeHelper.NodeTreeHelperList.SetChildNodeList(RootNode, nameof(IRoot.LeafPathV), (IList)LeafPathV);
-            BaseNodeHelper.NodeTreeHelperOptional.SetOptionalReference(RootNode, nameof(IRoot.UnassignedOptionalLeaf), (Easly.IOptionalReference)BaseNodeHelper.OptionalReferenceHelper.CreateEmptyReference<ILeaf>());
+            BaseNodeHelper.NodeTreeHelperBlockList.SetBlockList(RootNode, nameof(Root.MainBlocksH), (BaseNode.IBlockList)MainBlocksH);
+            BaseNodeHelper.NodeTreeHelperBlockList.SetBlockList(RootNode, nameof(Root.MainBlocksV), (BaseNode.IBlockList)MainBlocksV);
+            BaseNodeHelper.NodeTreeHelperOptional.SetOptionalReference(RootNode, nameof(Root.UnassignedOptionalMain), (Easly.IOptionalReference)UnassignedOptional);
+            BaseNodeHelper.NodeTreeHelper.SetString(RootNode, nameof(Root.ValueString), "root string");
+            BaseNodeHelper.NodeTreeHelperList.SetChildNodeList(RootNode, nameof(Root.LeafPathH), (IList)LeafPathH);
+            BaseNodeHelper.NodeTreeHelperList.SetChildNodeList(RootNode, nameof(Root.LeafPathV), (IList)LeafPathV);
+            BaseNodeHelper.NodeTreeHelperOptional.SetOptionalReference(RootNode, nameof(Root.UnassignedOptionalLeaf), (Easly.IOptionalReference)BaseNodeHelper.OptionalReferenceHelper.CreateEmptyReference<Leaf>());
 
             //System.Diagnostics.Debug.Assert(false);
             IWriteableRootNodeIndex RootIndex = new WriteableRootNodeIndex(RootNode);
@@ -2704,7 +2704,7 @@ namespace Coverage
                 IWriteableNodeState RootState = Controller.RootState;
                 Assert.That(RootState != null);
 
-                IWriteableBlockListInner MainInnerH = RootState.PropertyToInner(nameof(IRoot.MainBlocksH)) as IWriteableBlockListInner;
+                IWriteableBlockListInner MainInnerH = RootState.PropertyToInner(nameof(Root.MainBlocksH)) as IWriteableBlockListInner;
                 Assert.That(MainInnerH != null);
 
                 IWriteableBrowsingExistingBlockNodeIndex MainIndex = MainInnerH.IndexAt(0, 0) as IWriteableBrowsingExistingBlockNodeIndex;
@@ -2736,7 +2736,7 @@ namespace Coverage
         {
             ControllerTools.ResetExpectedName();
 
-            IMain RootNode;
+            Main RootNode;
             IWriteableRootNodeIndex RootIndex;
             bool IsReadOnly;
             IReadOnlyBlockState FirstBlockState;
@@ -2799,10 +2799,10 @@ namespace Coverage
                 IWriteableNodeState RootState = Controller.RootState;
                 Assert.That(RootState != null);
 
-                IWriteableBlockListInner LeafBlocksInner = RootState.PropertyToInner(nameof(IMain.LeafBlocks)) as IWriteableBlockListInner;
+                IWriteableBlockListInner LeafBlocksInner = RootState.PropertyToInner(nameof(Main.LeafBlocks)) as IWriteableBlockListInner;
                 Assert.That(LeafBlocksInner != null);
 
-                IWriteableListInner LeafPathInner = RootState.PropertyToInner(nameof(IMain.LeafPath)) as IWriteableListInner;
+                IWriteableListInner LeafPathInner = RootState.PropertyToInner(nameof(Main.LeafPath)) as IWriteableListInner;
                 Assert.That(LeafPathInner != null);
 
                 //System.Diagnostics.Debug.Assert(false);
@@ -3143,7 +3143,7 @@ namespace Coverage
         {
             ControllerTools.ResetExpectedName();
 
-            IMain RootNode;
+            Main RootNode;
             IFrameRootNodeIndex RootIndex;
             IFrameController Controller;
 
@@ -3184,7 +3184,7 @@ namespace Coverage
         {
             ControllerTools.ResetExpectedName();
 
-            IMain RootNode;
+            Main RootNode;
             IFrameRootNodeIndex RootIndex0;
             IFrameRootNodeIndex RootIndex1;
 
@@ -3218,37 +3218,37 @@ namespace Coverage
             Assert.That(Controller0.IndexToState(RootIndex0) == RootState);
 
             Assert.That(RootState.InnerTable.Count == 8);
-            Assert.That(RootState.InnerTable.ContainsKey(nameof(IMain.PlaceholderTree)));
-            Assert.That(RootState.InnerTable.ContainsKey(nameof(IMain.PlaceholderLeaf)));
-            Assert.That(RootState.InnerTable.ContainsKey(nameof(IMain.UnassignedOptionalLeaf)));
-            Assert.That(RootState.InnerTable.ContainsKey(nameof(IMain.EmptyOptionalLeaf)));
-            Assert.That(RootState.InnerTable.ContainsKey(nameof(IMain.AssignedOptionalTree)));
-            Assert.That(RootState.InnerTable.ContainsKey(nameof(IMain.AssignedOptionalLeaf)));
-            Assert.That(RootState.InnerTable.ContainsKey(nameof(IMain.LeafBlocks)));
-            Assert.That(RootState.InnerTable.ContainsKey(nameof(IMain.LeafPath)));
+            Assert.That(RootState.InnerTable.ContainsKey(nameof(Main.PlaceholderTree)));
+            Assert.That(RootState.InnerTable.ContainsKey(nameof(Main.PlaceholderLeaf)));
+            Assert.That(RootState.InnerTable.ContainsKey(nameof(Main.UnassignedOptionalLeaf)));
+            Assert.That(RootState.InnerTable.ContainsKey(nameof(Main.EmptyOptionalLeaf)));
+            Assert.That(RootState.InnerTable.ContainsKey(nameof(Main.AssignedOptionalTree)));
+            Assert.That(RootState.InnerTable.ContainsKey(nameof(Main.AssignedOptionalLeaf)));
+            Assert.That(RootState.InnerTable.ContainsKey(nameof(Main.LeafBlocks)));
+            Assert.That(RootState.InnerTable.ContainsKey(nameof(Main.LeafPath)));
 
-            IFramePlaceholderInner MainPlaceholderTreeInner = RootState.PropertyToInner(nameof(IMain.PlaceholderTree)) as IFramePlaceholderInner;
+            IFramePlaceholderInner MainPlaceholderTreeInner = RootState.PropertyToInner(nameof(Main.PlaceholderTree)) as IFramePlaceholderInner;
             Assert.That(MainPlaceholderTreeInner != null);
-            Assert.That(MainPlaceholderTreeInner.InterfaceType == typeof(ITree));
+            Assert.That(MainPlaceholderTreeInner.InterfaceType == typeof(Tree));
             Assert.That(MainPlaceholderTreeInner.ChildState != null);
             Assert.That(MainPlaceholderTreeInner.ChildState.ParentInner == MainPlaceholderTreeInner);
 
-            IFramePlaceholderInner MainPlaceholderLeafInner = RootState.PropertyToInner(nameof(IMain.PlaceholderLeaf)) as IFramePlaceholderInner;
+            IFramePlaceholderInner MainPlaceholderLeafInner = RootState.PropertyToInner(nameof(Main.PlaceholderLeaf)) as IFramePlaceholderInner;
             Assert.That(MainPlaceholderLeafInner != null);
-            Assert.That(MainPlaceholderLeafInner.InterfaceType == typeof(ILeaf));
+            Assert.That(MainPlaceholderLeafInner.InterfaceType == typeof(Leaf));
             Assert.That(MainPlaceholderLeafInner.ChildState != null);
             Assert.That(MainPlaceholderLeafInner.ChildState.ParentInner == MainPlaceholderLeafInner);
 
-            IFrameOptionalInner MainUnassignedOptionalInner = RootState.PropertyToInner(nameof(IMain.UnassignedOptionalLeaf)) as IFrameOptionalInner;
+            IFrameOptionalInner MainUnassignedOptionalInner = RootState.PropertyToInner(nameof(Main.UnassignedOptionalLeaf)) as IFrameOptionalInner;
             Assert.That(MainUnassignedOptionalInner != null);
-            Assert.That(MainUnassignedOptionalInner.InterfaceType == typeof(ILeaf));
+            Assert.That(MainUnassignedOptionalInner.InterfaceType == typeof(Leaf));
             Assert.That(!MainUnassignedOptionalInner.IsAssigned);
             Assert.That(MainUnassignedOptionalInner.ChildState != null);
             Assert.That(MainUnassignedOptionalInner.ChildState.ParentInner == MainUnassignedOptionalInner);
 
-            IFrameOptionalInner MainAssignedOptionalTreeInner = RootState.PropertyToInner(nameof(IMain.AssignedOptionalTree)) as IFrameOptionalInner;
+            IFrameOptionalInner MainAssignedOptionalTreeInner = RootState.PropertyToInner(nameof(Main.AssignedOptionalTree)) as IFrameOptionalInner;
             Assert.That(MainAssignedOptionalTreeInner != null);
-            Assert.That(MainAssignedOptionalTreeInner.InterfaceType == typeof(ITree));
+            Assert.That(MainAssignedOptionalTreeInner.InterfaceType == typeof(Tree));
             Assert.That(MainAssignedOptionalTreeInner.IsAssigned);
 
             IFrameNodeState AssignedOptionalTreeState = MainAssignedOptionalTreeInner.ChildState;
@@ -3260,20 +3260,20 @@ namespace Coverage
             Assert.That(AssignedOptionalTreeAllChildren != null);
             Assert.That(AssignedOptionalTreeAllChildren.Count == 2, $"New count: {AssignedOptionalTreeAllChildren.Count}");
 
-            IFrameOptionalInner MainAssignedOptionalLeafInner = RootState.PropertyToInner(nameof(IMain.AssignedOptionalLeaf)) as IFrameOptionalInner;
+            IFrameOptionalInner MainAssignedOptionalLeafInner = RootState.PropertyToInner(nameof(Main.AssignedOptionalLeaf)) as IFrameOptionalInner;
             Assert.That(MainAssignedOptionalLeafInner != null);
-            Assert.That(MainAssignedOptionalLeafInner.InterfaceType == typeof(ILeaf));
+            Assert.That(MainAssignedOptionalLeafInner.InterfaceType == typeof(Leaf));
             Assert.That(MainAssignedOptionalLeafInner.IsAssigned);
             Assert.That(MainAssignedOptionalLeafInner.ChildState != null);
             Assert.That(MainAssignedOptionalLeafInner.ChildState.ParentInner == MainAssignedOptionalLeafInner);
 
-            IFrameBlockListInner MainLeafBlocksInner = RootState.PropertyToInner(nameof(IMain.LeafBlocks)) as IFrameBlockListInner;
+            IFrameBlockListInner MainLeafBlocksInner = RootState.PropertyToInner(nameof(Main.LeafBlocks)) as IFrameBlockListInner;
             Assert.That(MainLeafBlocksInner != null);
             Assert.That(!MainLeafBlocksInner.IsNeverEmpty);
             Assert.That(!MainLeafBlocksInner.IsEmpty);
             Assert.That(!MainLeafBlocksInner.IsSingle);
-            Assert.That(MainLeafBlocksInner.InterfaceType == typeof(ILeaf));
-            Assert.That(MainLeafBlocksInner.BlockType == typeof(BaseNode.IBlock<ILeaf, Leaf>));
+            Assert.That(MainLeafBlocksInner.InterfaceType == typeof(Leaf));
+            Assert.That(MainLeafBlocksInner.BlockType == typeof(BaseNode.Block<Leaf>));
             Assert.That(MainLeafBlocksInner.ItemType == typeof(Leaf));
             Assert.That(MainLeafBlocksInner.Count == 4);
             Assert.That(MainLeafBlocksInner.BlockStateList != null);
@@ -3315,10 +3315,10 @@ namespace Coverage
 
             Assert.That(MainLeafBlocksInner.FirstNodeState == LeafBlock.StateList[0]);
 
-            IFrameListInner MainLeafPathInner = RootState.PropertyToInner(nameof(IMain.LeafPath)) as IFrameListInner;
+            IFrameListInner MainLeafPathInner = RootState.PropertyToInner(nameof(Main.LeafPath)) as IFrameListInner;
             Assert.That(MainLeafPathInner != null);
             Assert.That(!MainLeafPathInner.IsNeverEmpty);
-            Assert.That(MainLeafPathInner.InterfaceType == typeof(ILeaf));
+            Assert.That(MainLeafPathInner.InterfaceType == typeof(Leaf));
             Assert.That(MainLeafPathInner.Count == 2);
             Assert.That(MainLeafPathInner.StateList != null);
             Assert.That(MainLeafPathInner.StateList.Count == 2);
@@ -3329,14 +3329,14 @@ namespace Coverage
             IFrameNodeStateReadOnlyList AllChildren = (IFrameNodeStateReadOnlyList)RootState.GetAllChildren();
             Assert.That(AllChildren.Count == 19, $"New count: {AllChildren.Count}");
 
-            IFramePlaceholderInner PlaceholderInner = RootState.InnerTable[nameof(IMain.PlaceholderLeaf)] as IFramePlaceholderInner;
+            IFramePlaceholderInner PlaceholderInner = RootState.InnerTable[nameof(Main.PlaceholderLeaf)] as IFramePlaceholderInner;
             Assert.That(PlaceholderInner != null);
 
             IFrameBrowsingPlaceholderNodeIndex PlaceholderNodeIndex = PlaceholderInner.ChildState.ParentIndex as IFrameBrowsingPlaceholderNodeIndex;
             Assert.That(PlaceholderNodeIndex != null);
             Assert.That(Controller0.Contains(PlaceholderNodeIndex));
 
-            IFrameOptionalInner UnassignedOptionalInner = RootState.InnerTable[nameof(IMain.UnassignedOptionalLeaf)] as IFrameOptionalInner;
+            IFrameOptionalInner UnassignedOptionalInner = RootState.InnerTable[nameof(Main.UnassignedOptionalLeaf)] as IFrameOptionalInner;
             Assert.That(UnassignedOptionalInner != null);
 
             IFrameBrowsingOptionalNodeIndex UnassignedOptionalNodeIndex = UnassignedOptionalInner.ChildState.ParentIndex;
@@ -3344,7 +3344,7 @@ namespace Coverage
             Assert.That(Controller0.Contains(UnassignedOptionalNodeIndex));
             Assert.That(Controller0.IsAssigned(UnassignedOptionalNodeIndex) == false);
 
-            IFrameOptionalInner AssignedOptionalInner = RootState.InnerTable[nameof(IMain.AssignedOptionalLeaf)] as IFrameOptionalInner;
+            IFrameOptionalInner AssignedOptionalInner = RootState.InnerTable[nameof(Main.AssignedOptionalLeaf)] as IFrameOptionalInner;
             Assert.That(AssignedOptionalInner != null);
 
             IFrameBrowsingOptionalNodeIndex AssignedOptionalNodeIndex = AssignedOptionalInner.ChildState.ParentIndex;
@@ -3355,29 +3355,29 @@ namespace Coverage
             int Min, Max;
             object ReadValue;
 
-            RootState.PropertyToValue(nameof(IMain.ValueBoolean), out ReadValue, out Min, out Max);
+            RootState.PropertyToValue(nameof(Main.ValueBoolean), out ReadValue, out Min, out Max);
             bool ReadAsBoolean = ((int)ReadValue) != 0;
             Assert.That(ReadAsBoolean == true);
-            Assert.That(Controller0.GetDiscreteValue(RootIndex0, nameof(IMain.ValueBoolean), out Min, out Max) == (ReadAsBoolean ? 1 : 0));
+            Assert.That(Controller0.GetDiscreteValue(RootIndex0, nameof(Main.ValueBoolean), out Min, out Max) == (ReadAsBoolean ? 1 : 0));
             Assert.That(Min == 0);
             Assert.That(Max == 1);
 
-            RootState.PropertyToValue(nameof(IMain.ValueEnum), out ReadValue, out Min, out Max);
+            RootState.PropertyToValue(nameof(Main.ValueEnum), out ReadValue, out Min, out Max);
             BaseNode.CopySemantic ReadAsEnum = (BaseNode.CopySemantic)(int)ReadValue;
             Assert.That(ReadAsEnum == BaseNode.CopySemantic.Value);
-            Assert.That(Controller0.GetDiscreteValue(RootIndex0, nameof(IMain.ValueEnum), out Min, out Max) == (int)ReadAsEnum);
+            Assert.That(Controller0.GetDiscreteValue(RootIndex0, nameof(Main.ValueEnum), out Min, out Max) == (int)ReadAsEnum);
             Assert.That(Min == 0);
             Assert.That(Max == 2);
 
-            RootState.PropertyToValue(nameof(IMain.ValueString), out ReadValue, out Min, out Max);
+            RootState.PropertyToValue(nameof(Main.ValueString), out ReadValue, out Min, out Max);
             string ReadAsString = ReadValue as string;
             Assert.That(ReadAsString == "s");
-            Assert.That(Controller0.GetStringValue(RootIndex0, nameof(IMain.ValueString)) == ReadAsString);
+            Assert.That(Controller0.GetStringValue(RootIndex0, nameof(Main.ValueString)) == ReadAsString);
 
-            RootState.PropertyToValue(nameof(IMain.ValueGuid), out ReadValue, out Min, out Max);
+            RootState.PropertyToValue(nameof(Main.ValueGuid), out ReadValue, out Min, out Max);
             Guid ReadAsGuid = (Guid)ReadValue;
             Assert.That(ReadAsGuid == ValueGuid0);
-            Assert.That(Controller0.GetGuidValue(RootIndex0, nameof(IMain.ValueGuid)) == ReadAsGuid);
+            Assert.That(Controller0.GetGuidValue(RootIndex0, nameof(Main.ValueGuid)) == ReadAsGuid);
 
             IFrameController Controller1 = FrameController.Create(RootIndex0);
             Assert.That(Controller0.IsEqual(CompareEqual.New(), Controller0));
@@ -3395,7 +3395,7 @@ namespace Coverage
         {
             ControllerTools.ResetExpectedName();
 
-            IMain RootNode = CreateRoot(ValueGuid0, Imperfections.None);
+            Main RootNode = CreateRoot(ValueGuid0, Imperfections.None);
 
             IFrameRootNodeIndex RootIndex = new FrameRootNodeIndex(RootNode);
             Assert.That(RootIndex != null);
@@ -3406,7 +3406,7 @@ namespace Coverage
             IFramePlaceholderNodeState RootState = Controller.RootState;
             Assert.That(RootState != null);
 
-            BaseNode.INode ClonedNode = RootState.CloneNode();
+            BaseNode.Node ClonedNode = RootState.CloneNode();
             Assert.That(BaseNodeHelper.NodeTreeDiagnostic.IsValid(ClonedNode));
 
             IFrameRootNodeIndex CloneRootIndex = new FrameRootNodeIndex(ClonedNode);
@@ -3429,7 +3429,7 @@ namespace Coverage
         {
             ControllerTools.ResetExpectedName();
 
-            IMain RootNode;
+            Main RootNode;
             IFrameRootNodeIndex RootIndex;
 
             RootNode = CreateRoot(ValueGuid0, Imperfections.None);
@@ -3443,7 +3443,7 @@ namespace Coverage
 
             //System.Diagnostics.Debug.Assert(false);
             foreach (KeyValuePair<Type, IFrameTemplate> TemplateEntry in FrameCustomTemplateSet.NodeTemplateTable)
-                if (TemplateEntry.Key == typeof(ILeaf))
+                if (TemplateEntry.Key == typeof(Leaf))
                 {
                     IFrameNodeTemplate Template = TemplateEntry.Value as IFrameNodeTemplate;
                     Assert.That(Template != null);
@@ -3537,7 +3537,7 @@ namespace Coverage
         {
             ControllerTools.ResetExpectedName();
 
-            IMain RootNode;
+            Main RootNode;
             IFrameRootNodeIndex RootIndex;
 
             RootNode = CreateRoot(ValueGuid0, Imperfections.None);
@@ -3553,7 +3553,7 @@ namespace Coverage
                 IFrameNodeState RootState = Controller.RootState;
                 Assert.That(RootState != null);
 
-                IFrameListInner LeafPathInner = RootState.PropertyToInner(nameof(IMain.LeafPath)) as IFrameListInner;
+                IFrameListInner LeafPathInner = RootState.PropertyToInner(nameof(Main.LeafPath)) as IFrameListInner;
                 Assert.That(LeafPathInner != null);
 
                 int PathCount = LeafPathInner.Count;
@@ -3593,7 +3593,7 @@ namespace Coverage
 
 
 
-                IFrameBlockListInner LeafBlocksInner = RootState.PropertyToInner(nameof(IMain.LeafBlocks)) as IFrameBlockListInner;
+                IFrameBlockListInner LeafBlocksInner = RootState.PropertyToInner(nameof(Main.LeafBlocks)) as IFrameBlockListInner;
                 Assert.That(LeafBlocksInner != null);
 
                 int BlockNodeCount = LeafBlocksInner.Count;
@@ -3633,10 +3633,10 @@ namespace Coverage
 
 
                 Leaf NewItem2 = CreateLeaf(Guid.NewGuid());
-                BaseNode.IPattern NewPattern = BaseNodeHelper.NodeHelper.CreateSimplePattern("");
-                BaseNode.IIdentifier NewSource = BaseNodeHelper.NodeHelper.CreateSimpleIdentifier("");
+                BaseNode.Pattern NewPattern = BaseNodeHelper.NodeHelper.CreateSimplePattern("");
+                BaseNode.Identifier NewSource = BaseNodeHelper.NodeHelper.CreateSimpleIdentifier("");
 
-                IFrameInsertionNewBlockNodeIndex InsertionIndex2 = new FrameInsertionNewBlockNodeIndex(RootNode, nameof(IMain.LeafBlocks), NewItem2, 0, NewPattern, NewSource);
+                IFrameInsertionNewBlockNodeIndex InsertionIndex2 = new FrameInsertionNewBlockNodeIndex(RootNode, nameof(Main.LeafBlocks), NewItem2, 0, NewPattern, NewSource);
                 Assert.That(CompareEqual.CoverIsEqual(InsertionIndex2, InsertionIndex2));
 
                 int BlockCount = LeafBlocksInner.BlockStateList.Count;
@@ -3687,7 +3687,7 @@ namespace Coverage
         {
             ControllerTools.ResetExpectedName();
 
-            IMain RootNode;
+            Main RootNode;
             IFrameRootNodeIndex RootIndex;
 
             RootNode = CreateRoot(ValueGuid0, Imperfections.None);
@@ -3703,7 +3703,7 @@ namespace Coverage
                 IFrameNodeState RootState = Controller.RootState;
                 Assert.That(RootState != null);
 
-                IFrameListInner LeafPathInner = RootState.PropertyToInner(nameof(IMain.LeafPath)) as IFrameListInner;
+                IFrameListInner LeafPathInner = RootState.PropertyToInner(nameof(Main.LeafPath)) as IFrameListInner;
                 Assert.That(LeafPathInner != null);
 
                 IFrameBrowsingListNodeIndex RemovedLeafIndex0 = LeafPathInner.StateList[0].ParentIndex as IFrameBrowsingListNodeIndex;
@@ -3736,12 +3736,12 @@ namespace Coverage
                 Assert.That(Controller.IsRemoveable(LeafPathInner, RemovedLeafIndex0));
 
                 IDictionary<Type, string[]> NeverEmptyCollectionTable = BaseNodeHelper.NodeHelper.NeverEmptyCollectionTable as IDictionary<Type, string[]>;
-                NeverEmptyCollectionTable.Add(typeof(IMain), new string[] { nameof(IMain.LeafPath) });
+                NeverEmptyCollectionTable.Add(typeof(Main), new string[] { nameof(Main.LeafPath) });
                 Assert.That(!Controller.IsRemoveable(LeafPathInner, RemovedLeafIndex0));
 
 
 
-                IFrameBlockListInner LeafBlocksInner = RootState.PropertyToInner(nameof(IMain.LeafBlocks)) as IFrameBlockListInner;
+                IFrameBlockListInner LeafBlocksInner = RootState.PropertyToInner(nameof(Main.LeafBlocks)) as IFrameBlockListInner;
                 Assert.That(LeafBlocksInner != null);
 
                 IFrameBrowsingExistingBlockNodeIndex RemovedLeafIndex1 = LeafBlocksInner.BlockStateList[1].StateList[0].ParentIndex as IFrameBrowsingExistingBlockNodeIndex;
@@ -3794,7 +3794,7 @@ namespace Coverage
                 Controller.Undo();
 
 
-                NeverEmptyCollectionTable.Remove(typeof(IMain));
+                NeverEmptyCollectionTable.Remove(typeof(Main));
                 Assert.That(Controller.IsRemoveable(LeafPathInner, RemovedLeafIndex0));
 
                 Assert.That(Controller.CanUndo);
@@ -3816,7 +3816,7 @@ namespace Coverage
         {
             ControllerTools.ResetExpectedName();
 
-            IMain RootNode;
+            Main RootNode;
             IFrameRootNodeIndex RootIndex;
 
             RootNode = CreateRoot(ValueGuid0, Imperfections.None);
@@ -3835,7 +3835,7 @@ namespace Coverage
                 IFrameNodeStateReadOnlyList AllChildren0 = (IFrameNodeStateReadOnlyList)RootState.GetAllChildren();
                 Assert.That(AllChildren0.Count == 19, $"New count: {AllChildren0.Count}");
 
-                IFrameBlockListInner LeafBlocksInner = RootState.PropertyToInner(nameof(IMain.LeafBlocks)) as IFrameBlockListInner;
+                IFrameBlockListInner LeafBlocksInner = RootState.PropertyToInner(nameof(Main.LeafBlocks)) as IFrameBlockListInner;
                 Assert.That(LeafBlocksInner != null);
                 Assert.That(LeafBlocksInner.BlockStateList.Count == 3, $"New count: {LeafBlocksInner.BlockStateList.Count}");
                 Assert.That(Controller.IsBlockRangeRemoveable(LeafBlocksInner, 0, 2));
@@ -3852,11 +3852,11 @@ namespace Coverage
                 Controller.Undo();
 
                 IDictionary<Type, string[]> NeverEmptyCollectionTable = BaseNodeHelper.NodeHelper.NeverEmptyCollectionTable as IDictionary<Type, string[]>;
-                NeverEmptyCollectionTable.Add(typeof(IMain), new string[] { nameof(IMain.LeafBlocks) });
+                NeverEmptyCollectionTable.Add(typeof(Main), new string[] { nameof(Main.LeafBlocks) });
 
                 Assert.That(!Controller.IsBlockRangeRemoveable(LeafBlocksInner, 0, 3));
 
-                NeverEmptyCollectionTable.Remove(typeof(IMain));
+                NeverEmptyCollectionTable.Remove(typeof(Main));
                 Assert.That(Controller.IsBlockRangeRemoveable(LeafBlocksInner, 0, 3));
 
                 Assert.That(!Controller.CanUndo);
@@ -3875,7 +3875,7 @@ namespace Coverage
         {
             ControllerTools.ResetExpectedName();
 
-            IMain RootNode;
+            Main RootNode;
             IFrameRootNodeIndex RootIndex;
 
             RootNode = CreateRoot(ValueGuid0, Imperfections.None);
@@ -3896,7 +3896,7 @@ namespace Coverage
 
 
                 //System.Diagnostics.Debug.Assert(false);
-                IFrameListInner LeafPathInner = RootState.PropertyToInner(nameof(IMain.LeafPath)) as IFrameListInner;
+                IFrameListInner LeafPathInner = RootState.PropertyToInner(nameof(Main.LeafPath)) as IFrameListInner;
                 Assert.That(LeafPathInner != null);
                 Assert.That(LeafPathInner.StateList.Count == 2, $"New count: {LeafPathInner.StateList.Count}");
                 Assert.That(Controller.IsNodeRangeRemoveable(LeafPathInner, -1, 0, 2));
@@ -3919,7 +3919,7 @@ namespace Coverage
 
 
                 //System.Diagnostics.Debug.Assert(false);
-                IFrameBlockListInner LeafBlocksInner = RootState.PropertyToInner(nameof(IMain.LeafBlocks)) as IFrameBlockListInner;
+                IFrameBlockListInner LeafBlocksInner = RootState.PropertyToInner(nameof(Main.LeafBlocks)) as IFrameBlockListInner;
                 Assert.That(LeafBlocksInner != null);
                 Assert.That(LeafBlocksInner.BlockStateList.Count == 3, $"New count: {LeafBlocksInner.BlockStateList.Count}");
                 Assert.That(Controller.IsNodeRangeRemoveable(LeafBlocksInner, 1, 0, 2));
@@ -3941,13 +3941,13 @@ namespace Coverage
                 Controller.Undo();
 
                 IDictionary<Type, string[]> NeverEmptyCollectionTable = BaseNodeHelper.NodeHelper.NeverEmptyCollectionTable as IDictionary<Type, string[]>;
-                NeverEmptyCollectionTable.Add(typeof(IMain), new string[] { nameof(IMain.LeafBlocks) });
+                NeverEmptyCollectionTable.Add(typeof(Main), new string[] { nameof(Main.LeafBlocks) });
 
                 Controller.RemoveBlockRange(LeafBlocksInner, 2, 3);
                 Controller.RemoveBlockRange(LeafBlocksInner, 0, 1);
                 Assert.That(!Controller.IsNodeRangeRemoveable(LeafBlocksInner, 0, 0, 2));
 
-                NeverEmptyCollectionTable.Remove(typeof(IMain));
+                NeverEmptyCollectionTable.Remove(typeof(Main));
                 Assert.That(Controller.IsNodeRangeRemoveable(LeafBlocksInner, 0, 0, 2));
 
                 Controller.Undo();
@@ -3963,7 +3963,7 @@ namespace Coverage
         {
             ControllerTools.ResetExpectedName();
 
-            IMain RootNode;
+            Main RootNode;
             IFrameRootNodeIndex RootIndex;
 
             RootNode = CreateRoot(ValueGuid0, Imperfections.None);
@@ -3979,7 +3979,7 @@ namespace Coverage
                 IFrameNodeState RootState = Controller.RootState;
                 Assert.That(RootState != null);
 
-                IFrameListInner LeafPathInner = RootState.PropertyToInner(nameof(IMain.LeafPath)) as IFrameListInner;
+                IFrameListInner LeafPathInner = RootState.PropertyToInner(nameof(Main.LeafPath)) as IFrameListInner;
                 Assert.That(LeafPathInner != null);
 
                 IFrameBrowsingListNodeIndex MovedLeafIndex0 = LeafPathInner.IndexAt(0) as IFrameBrowsingListNodeIndex;
@@ -4011,7 +4011,7 @@ namespace Coverage
 
 
 
-                IFrameBlockListInner LeafBlocksInner = RootState.PropertyToInner(nameof(IMain.LeafBlocks)) as IFrameBlockListInner;
+                IFrameBlockListInner LeafBlocksInner = RootState.PropertyToInner(nameof(Main.LeafBlocks)) as IFrameBlockListInner;
                 Assert.That(LeafBlocksInner != null);
 
                 IFrameBrowsingExistingBlockNodeIndex MovedLeafIndex1 = LeafBlocksInner.IndexAt(1, 1) as IFrameBrowsingExistingBlockNodeIndex;
@@ -4057,7 +4057,7 @@ namespace Coverage
         {
             ControllerTools.ResetExpectedName();
 
-            IMain RootNode;
+            Main RootNode;
             IFrameRootNodeIndex RootIndex;
 
             RootNode = CreateRoot(ValueGuid0, Imperfections.None);
@@ -4076,7 +4076,7 @@ namespace Coverage
                 IFrameNodeStateReadOnlyList AllChildren1 = (IFrameNodeStateReadOnlyList)RootState.GetAllChildren();
                 Assert.That(AllChildren1.Count == 19, $"New count: {AllChildren1.Count}");
 
-                IFrameBlockListInner LeafBlocksInner = RootState.PropertyToInner(nameof(IMain.LeafBlocks)) as IFrameBlockListInner;
+                IFrameBlockListInner LeafBlocksInner = RootState.PropertyToInner(nameof(Main.LeafBlocks)) as IFrameBlockListInner;
                 Assert.That(LeafBlocksInner != null);
 
                 IFrameBrowsingExistingBlockNodeIndex MovedLeafIndex1 = LeafBlocksInner.IndexAt(1, 0) as IFrameBrowsingExistingBlockNodeIndex;
@@ -4120,7 +4120,7 @@ namespace Coverage
         {
             ControllerTools.ResetExpectedName();
 
-            IMain RootNode;
+            Main RootNode;
             IFrameRootNodeIndex RootIndex;
 
             RootNode = CreateRoot(ValueGuid0, Imperfections.None);
@@ -4136,22 +4136,22 @@ namespace Coverage
                 IFrameNodeState RootState = Controller.RootState;
                 Assert.That(RootState != null);
 
-                Assert.That(BaseNodeHelper.NodeTreeHelper.GetEnumValue(RootState.Node, nameof(IMain.ValueEnum)) == (int)BaseNode.CopySemantic.Value);
+                Assert.That(BaseNodeHelper.NodeTreeHelper.GetEnumValue(RootState.Node, nameof(Main.ValueEnum)) == (int)BaseNode.CopySemantic.Value);
 
-                Controller.ChangeDiscreteValue(RootIndex, nameof(IMain.ValueEnum), (int)BaseNode.CopySemantic.Reference);
+                Controller.ChangeDiscreteValue(RootIndex, nameof(Main.ValueEnum), (int)BaseNode.CopySemantic.Reference);
 
                 Assert.That(BaseNodeHelper.NodeTreeDiagnostic.IsValid(RootNode));
-                Assert.That(BaseNodeHelper.NodeTreeHelper.GetEnumValue(RootNode, nameof(IMain.ValueEnum)) == (int)BaseNode.CopySemantic.Reference);
+                Assert.That(BaseNodeHelper.NodeTreeHelper.GetEnumValue(RootNode, nameof(Main.ValueEnum)) == (int)BaseNode.CopySemantic.Reference);
 
-                IFramePlaceholderInner PlaceholderTreeInner = RootState.PropertyToInner(nameof(IMain.PlaceholderTree)) as IFramePlaceholderInner;
+                IFramePlaceholderInner PlaceholderTreeInner = RootState.PropertyToInner(nameof(Main.PlaceholderTree)) as IFramePlaceholderInner;
                 IFramePlaceholderNodeState PlaceholderTreeState = PlaceholderTreeInner.ChildState as IFramePlaceholderNodeState;
 
-                Assert.That(BaseNodeHelper.NodeTreeHelper.GetEnumValue(PlaceholderTreeState.Node, nameof(ITree.ValueEnum)) == (int)BaseNode.CopySemantic.Value);
+                Assert.That(BaseNodeHelper.NodeTreeHelper.GetEnumValue(PlaceholderTreeState.Node, nameof(Tree.ValueEnum)) == (int)BaseNode.CopySemantic.Value);
 
-                Controller.ChangeDiscreteValue(PlaceholderTreeState.ParentIndex, nameof(ITree.ValueEnum), (int)BaseNode.CopySemantic.Any);
+                Controller.ChangeDiscreteValue(PlaceholderTreeState.ParentIndex, nameof(Tree.ValueEnum), (int)BaseNode.CopySemantic.Any);
 
                 Assert.That(BaseNodeHelper.NodeTreeDiagnostic.IsValid(RootNode));
-                Assert.That(BaseNodeHelper.NodeTreeHelper.GetEnumValue(PlaceholderTreeState.Node, nameof(ITree.ValueEnum)) == (int)BaseNode.CopySemantic.Any);
+                Assert.That(BaseNodeHelper.NodeTreeHelper.GetEnumValue(PlaceholderTreeState.Node, nameof(Tree.ValueEnum)) == (int)BaseNode.CopySemantic.Any);
 
                 Assert.That(Controller.CanUndo);
                 Controller.Undo();
@@ -4174,7 +4174,7 @@ namespace Coverage
         {
             ControllerTools.ResetExpectedName();
 
-            IMain RootNode;
+            Main RootNode;
             IFrameRootNodeIndex RootIndex;
 
             RootNode = CreateRoot(ValueGuid0, Imperfections.None);
@@ -4190,14 +4190,14 @@ namespace Coverage
                 IFrameNodeState RootState = Controller.RootState;
                 Assert.That(RootState != null);
 
-                Assert.That(BaseNodeHelper.NodeTreeHelper.GetString(RootState.Node, nameof(IMain.ValueString)) == "s");
+                Assert.That(BaseNodeHelper.NodeTreeHelper.GetString(RootState.Node, nameof(Main.ValueString)) == "s");
 
-                Controller.ChangeText(RootIndex, nameof(IMain.ValueString), "test");
+                Controller.ChangeText(RootIndex, nameof(Main.ValueString), "test");
 
                 Assert.That(BaseNodeHelper.NodeTreeDiagnostic.IsValid(RootNode));
-                Assert.That(BaseNodeHelper.NodeTreeHelper.GetString(RootNode, nameof(IMain.ValueString)) == "test");
+                Assert.That(BaseNodeHelper.NodeTreeHelper.GetString(RootNode, nameof(Main.ValueString)) == "test");
 
-                IFramePlaceholderInner PlaceholderTreeInner = RootState.PropertyToInner(nameof(IMain.PlaceholderTree)) as IFramePlaceholderInner;
+                IFramePlaceholderInner PlaceholderTreeInner = RootState.PropertyToInner(nameof(Main.PlaceholderTree)) as IFramePlaceholderInner;
                 IFramePlaceholderNodeState PlaceholderTreeState = PlaceholderTreeInner.ChildState as IFramePlaceholderNodeState;
 
                 Assert.That(Controller.CanUndo);
@@ -4219,7 +4219,7 @@ namespace Coverage
         {
             ControllerTools.ResetExpectedName();
 
-            IMain RootNode;
+            Main RootNode;
             IFrameRootNodeIndex RootIndex;
 
             RootNode = CreateRoot(ValueGuid0, Imperfections.None);
@@ -4242,7 +4242,7 @@ namespace Coverage
                 Assert.That(BaseNodeHelper.NodeTreeDiagnostic.IsValid(RootNode));
                 Assert.That(BaseNodeHelper.NodeTreeHelper.GetCommentText(RootNode) == "test");
 
-                IFramePlaceholderInner PlaceholderTreeInner = RootState.PropertyToInner(nameof(IMain.PlaceholderTree)) as IFramePlaceholderInner;
+                IFramePlaceholderInner PlaceholderTreeInner = RootState.PropertyToInner(nameof(Main.PlaceholderTree)) as IFramePlaceholderInner;
                 IFramePlaceholderNodeState PlaceholderTreeState = PlaceholderTreeInner.ChildState as IFramePlaceholderNodeState;
 
                 Assert.That(Controller.CanUndo);
@@ -4264,7 +4264,7 @@ namespace Coverage
         {
             ControllerTools.ResetExpectedName();
 
-            IMain RootNode;
+            Main RootNode;
             IFrameRootNodeIndex RootIndex;
 
             RootNode = CreateRoot(ValueGuid0, Imperfections.None);
@@ -4281,9 +4281,9 @@ namespace Coverage
                 Assert.That(RootState != null);
 
                 Leaf NewItem0 = CreateLeaf(Guid.NewGuid());
-                IFrameInsertionListNodeIndex ReplacementIndex0 = new FrameInsertionListNodeIndex(RootNode, nameof(IMain.LeafPath), NewItem0, 0);
+                IFrameInsertionListNodeIndex ReplacementIndex0 = new FrameInsertionListNodeIndex(RootNode, nameof(Main.LeafPath), NewItem0, 0);
 
-                IFrameListInner LeafPathInner = RootState.PropertyToInner(nameof(IMain.LeafPath)) as IFrameListInner;
+                IFrameListInner LeafPathInner = RootState.PropertyToInner(nameof(Main.LeafPath)) as IFrameListInner;
                 Assert.That(LeafPathInner != null);
 
                 int PathCount = LeafPathInner.Count;
@@ -4310,9 +4310,9 @@ namespace Coverage
 
 
                 Leaf NewItem1 = CreateLeaf(Guid.NewGuid());
-                IFrameInsertionExistingBlockNodeIndex ReplacementIndex1 = new FrameInsertionExistingBlockNodeIndex(RootNode, nameof(IMain.LeafBlocks), NewItem1, 0, 0);
+                IFrameInsertionExistingBlockNodeIndex ReplacementIndex1 = new FrameInsertionExistingBlockNodeIndex(RootNode, nameof(Main.LeafBlocks), NewItem1, 0, 0);
 
-                IFrameBlockListInner LeafBlocksInner = RootState.PropertyToInner(nameof(IMain.LeafBlocks)) as IFrameBlockListInner;
+                IFrameBlockListInner LeafBlocksInner = RootState.PropertyToInner(nameof(Main.LeafBlocks)) as IFrameBlockListInner;
                 Assert.That(LeafBlocksInner != null);
 
                 IFrameBlockState BlockState = LeafBlocksInner.BlockStateList[0];
@@ -4338,7 +4338,7 @@ namespace Coverage
 
 
 
-                IFramePlaceholderInner PlaceholderTreeInner = RootState.PropertyToInner(nameof(IMain.PlaceholderTree)) as IFramePlaceholderInner;
+                IFramePlaceholderInner PlaceholderTreeInner = RootState.PropertyToInner(nameof(Main.PlaceholderTree)) as IFramePlaceholderInner;
                 Assert.That(PlaceholderTreeInner != null);
 
                 IFrameBrowsingPlaceholderNodeIndex ExistingIndex2 = PlaceholderTreeInner.ChildState.ParentIndex as IFrameBrowsingPlaceholderNodeIndex;
@@ -4365,7 +4365,7 @@ namespace Coverage
 
 
 
-                IFramePlaceholderInner PlaceholderLeafInner = NewItemState2.PropertyToInner(nameof(ITree.Placeholder)) as IFramePlaceholderInner;
+                IFramePlaceholderInner PlaceholderLeafInner = NewItemState2.PropertyToInner(nameof(Tree.Placeholder)) as IFramePlaceholderInner;
                 Assert.That(PlaceholderLeafInner != null);
 
                 IFrameBrowsingPlaceholderNodeIndex ExistingIndex3 = PlaceholderLeafInner.ChildState.ParentIndex as IFrameBrowsingPlaceholderNodeIndex;
@@ -4390,7 +4390,7 @@ namespace Coverage
 
 
 
-                IFrameOptionalInner OptionalLeafInner = RootState.PropertyToInner(nameof(IMain.AssignedOptionalLeaf)) as IFrameOptionalInner;
+                IFrameOptionalInner OptionalLeafInner = RootState.PropertyToInner(nameof(Main.AssignedOptionalLeaf)) as IFrameOptionalInner;
                 Assert.That(OptionalLeafInner != null);
 
                 IFrameBrowsingOptionalNodeIndex ExistingIndex4 = OptionalLeafInner.ChildState.ParentIndex as IFrameBrowsingOptionalNodeIndex;
@@ -4475,7 +4475,7 @@ namespace Coverage
         {
             ControllerTools.ResetExpectedName();
 
-            IMain RootNode;
+            Main RootNode;
             IFrameRootNodeIndex RootIndex;
 
             RootNode = CreateRoot(ValueGuid0, Imperfections.None);
@@ -4492,7 +4492,7 @@ namespace Coverage
                 IFrameNodeState RootState = Controller.RootState;
                 Assert.That(RootState != null);
 
-                IFrameOptionalInner UnassignedOptionalLeafInner = RootState.PropertyToInner(nameof(IMain.UnassignedOptionalLeaf)) as IFrameOptionalInner;
+                IFrameOptionalInner UnassignedOptionalLeafInner = RootState.PropertyToInner(nameof(Main.UnassignedOptionalLeaf)) as IFrameOptionalInner;
                 Assert.That(UnassignedOptionalLeafInner != null);
                 Assert.That(!UnassignedOptionalLeafInner.IsAssigned);
 
@@ -4546,7 +4546,7 @@ namespace Coverage
         {
             ControllerTools.ResetExpectedName();
 
-            IMain RootNode;
+            Main RootNode;
             IFrameRootNodeIndex RootIndex;
 
             RootNode = CreateRoot(ValueGuid0, Imperfections.None);
@@ -4562,7 +4562,7 @@ namespace Coverage
                 IFrameNodeState RootState = Controller.RootState;
                 Assert.That(RootState != null);
 
-                IFrameOptionalInner AssignedOptionalLeafInner = RootState.PropertyToInner(nameof(IMain.AssignedOptionalLeaf)) as IFrameOptionalInner;
+                IFrameOptionalInner AssignedOptionalLeafInner = RootState.PropertyToInner(nameof(Main.AssignedOptionalLeaf)) as IFrameOptionalInner;
                 Assert.That(AssignedOptionalLeafInner != null);
                 Assert.That(AssignedOptionalLeafInner.IsAssigned);
 
@@ -4616,7 +4616,7 @@ namespace Coverage
         {
             ControllerTools.ResetExpectedName();
 
-            IMain RootNode;
+            Main RootNode;
             IFrameRootNodeIndex RootIndex;
 
             RootNode = CreateRoot(ValueGuid0, Imperfections.None);
@@ -4632,7 +4632,7 @@ namespace Coverage
                 IFrameNodeState RootState = Controller.RootState;
                 Assert.That(RootState != null);
 
-                IFrameBlockListInner LeafBlocksInner = RootState.PropertyToInner(nameof(IMain.LeafBlocks)) as IFrameBlockListInner;
+                IFrameBlockListInner LeafBlocksInner = RootState.PropertyToInner(nameof(Main.LeafBlocks)) as IFrameBlockListInner;
                 Assert.That(LeafBlocksInner != null);
 
                 IFrameNodeStateReadOnlyList AllChildren0 = (IFrameNodeStateReadOnlyList)RootState.GetAllChildren();
@@ -4672,7 +4672,7 @@ namespace Coverage
         {
             ControllerTools.ResetExpectedName();
 
-            IMain RootNode;
+            Main RootNode;
             IFrameRootNodeIndex RootIndex;
 
             RootNode = CreateRoot(ValueGuid0, Imperfections.None);
@@ -4688,7 +4688,7 @@ namespace Coverage
                 IFrameNodeState RootState = Controller.RootState;
                 Assert.That(RootState != null);
 
-                IFrameBlockListInner LeafBlocksInner = RootState.PropertyToInner(nameof(IMain.LeafBlocks)) as IFrameBlockListInner;
+                IFrameBlockListInner LeafBlocksInner = RootState.PropertyToInner(nameof(Main.LeafBlocks)) as IFrameBlockListInner;
                 Assert.That(LeafBlocksInner != null);
 
                 IFrameNodeStateReadOnlyList AllChildren0 = (IFrameNodeStateReadOnlyList)RootState.GetAllChildren();
@@ -4744,7 +4744,7 @@ namespace Coverage
         {
             ControllerTools.ResetExpectedName();
 
-            IMain RootNode;
+            Main RootNode;
             IFrameRootNodeIndex RootIndex;
 
             RootNode = CreateRoot(ValueGuid0, Imperfections.None);
@@ -4760,7 +4760,7 @@ namespace Coverage
                 IFrameNodeState RootState = Controller.RootState;
                 Assert.That(RootState != null);
 
-                IFrameBlockListInner LeafBlocksInner = RootState.PropertyToInner(nameof(IMain.LeafBlocks)) as IFrameBlockListInner;
+                IFrameBlockListInner LeafBlocksInner = RootState.PropertyToInner(nameof(Main.LeafBlocks)) as IFrameBlockListInner;
                 Assert.That(LeafBlocksInner != null);
 
                 IFrameNodeStateReadOnlyList AllChildren0 = (IFrameNodeStateReadOnlyList)RootState.GetAllChildren();
@@ -4815,7 +4815,7 @@ namespace Coverage
         {
             ControllerTools.ResetExpectedName();
 
-            IMain RootNode;
+            Main RootNode;
             IFrameRootNodeIndex RootIndex;
 
             RootNode = CreateRoot(ValueGuid0, Imperfections.None);
@@ -4850,10 +4850,10 @@ namespace Coverage
 
                 Assert.That(BaseNodeHelper.NodeTreeDiagnostic.IsValid(RootNode));
 
-                IFrameOptionalInner OptionalLeafInner = RootState.PropertyToInner(nameof(IMain.AssignedOptionalLeaf)) as IFrameOptionalInner;
+                IFrameOptionalInner OptionalLeafInner = RootState.PropertyToInner(nameof(Main.AssignedOptionalLeaf)) as IFrameOptionalInner;
                 Assert.That(OptionalLeafInner != null);
 
-                IFrameInsertionOptionalClearIndex ReplacementIndex5 = new FrameInsertionOptionalClearIndex(RootNode, nameof(IMain.AssignedOptionalLeaf));
+                IFrameInsertionOptionalClearIndex ReplacementIndex5 = new FrameInsertionOptionalClearIndex(RootNode, nameof(Main.AssignedOptionalLeaf));
 
                 Controller.Replace(OptionalLeafInner, ReplacementIndex5, out IWriteableBrowsingChildIndex NewItemIndex5);
                 Assert.That(Controller.Contains(NewItemIndex5));
@@ -4871,7 +4871,7 @@ namespace Coverage
 
 
 
-                IFrameBlockListInner LeafBlocksInner = RootState.PropertyToInner(nameof(IMain.LeafBlocks)) as IFrameBlockListInner;
+                IFrameBlockListInner LeafBlocksInner = RootState.PropertyToInner(nameof(Main.LeafBlocks)) as IFrameBlockListInner;
                 Assert.That(LeafBlocksInner != null);
 
                 IFrameBrowsingExistingBlockNodeIndex RemovedLeafIndex = LeafBlocksInner.BlockStateList[0].StateList[0].ParentIndex as IFrameBrowsingExistingBlockNodeIndex;
@@ -4915,7 +4915,7 @@ namespace Coverage
                 Assert.That(AllChildren6.Count == AllChildren5.Count, $"New count: {AllChildren6.Count - AllChildren5.Count}");
 
                 IDictionary<Type, string[]> WithExpandCollectionTable = BaseNodeHelper.NodeHelper.WithExpandCollectionTable as IDictionary<Type, string[]>;
-                WithExpandCollectionTable.Add(typeof(IMain), new string[] { nameof(IMain.LeafBlocks) });
+                WithExpandCollectionTable.Add(typeof(Main), new string[] { nameof(Main.LeafBlocks) });
 
                 Controller.Expand(RootIndex, out IsChanged);
                 Assert.That(IsChanged);
@@ -4930,7 +4930,7 @@ namespace Coverage
                 Assert.That(Controller.CanUndo);
                 Controller.Undo();
 
-                WithExpandCollectionTable.Remove(typeof(IMain));
+                WithExpandCollectionTable.Remove(typeof(Main));
 
                 Assert.That(Controller.CanUndo);
                 Controller.Undo();
@@ -4963,7 +4963,7 @@ namespace Coverage
         {
             ControllerTools.ResetExpectedName();
 
-            IMain RootNode;
+            Main RootNode;
             IFrameRootNodeIndex RootIndex;
             bool IsChanged;
 
@@ -4980,7 +4980,7 @@ namespace Coverage
                 IFrameNodeState RootState = Controller.RootState;
                 Assert.That(RootState != null);
 
-                IFrameBlockListInner LeafBlocksInner = RootState.PropertyToInner(nameof(IMain.LeafBlocks)) as IFrameBlockListInner;
+                IFrameBlockListInner LeafBlocksInner = RootState.PropertyToInner(nameof(Main.LeafBlocks)) as IFrameBlockListInner;
                 Assert.That(LeafBlocksInner != null);
 
                 IFrameBrowsingExistingBlockNodeIndex RemovedLeafIndex = LeafBlocksInner.BlockStateList[0].StateList[0].ParentIndex as IFrameBrowsingExistingBlockNodeIndex;
@@ -5018,7 +5018,7 @@ namespace Coverage
                 Assert.That(AllChildren0.Count == 9, $"New count: {AllChildren0.Count}");
 
                 IDictionary<Type, string[]> WithExpandCollectionTable = BaseNodeHelper.NodeHelper.WithExpandCollectionTable as IDictionary<Type, string[]>;
-                WithExpandCollectionTable.Add(typeof(IMain), new string[] { nameof(IMain.LeafBlocks) });
+                WithExpandCollectionTable.Add(typeof(Main), new string[] { nameof(Main.LeafBlocks) });
 
                 Controller.Expand(RootIndex, out IsChanged);
                 Assert.That(IsChanged);
@@ -5047,16 +5047,16 @@ namespace Coverage
                 Assert.That(AllChildren4.Count == AllChildren3.Count + 4, $"New count: {AllChildren4.Count - AllChildren3.Count}");
 
                 BaseNode.IBlock ChildBlock = LeafBlocksInner.BlockStateList[0].ChildBlock;
-                ILeaf FirstNode = ChildBlock.NodeList[0] as ILeaf;
+                Leaf FirstNode = ChildBlock.NodeList[0] as Leaf;
                 Assert.That(FirstNode != null);
-                BaseNodeHelper.NodeTreeHelper.SetString(FirstNode, nameof(ILeaf.Text), "!");
+                BaseNodeHelper.NodeTreeHelper.SetString(FirstNode, nameof(Coverage.Leaf.Text), "!");
 
 
                 //System.Diagnostics.Debug.Assert(false);
-                IFrameOptionalInner LeafOptionalInner = RootState.PropertyToInner(nameof(IMain.AssignedOptionalLeaf)) as IFrameOptionalInner;
+                IFrameOptionalInner LeafOptionalInner = RootState.PropertyToInner(nameof(Main.AssignedOptionalLeaf)) as IFrameOptionalInner;
                 Assert.That(LeafOptionalInner != null);
 
-                ILeaf Leaf = LeafOptionalInner.ChildState.Node as ILeaf;
+                Leaf Leaf = LeafOptionalInner.ChildState.Node as Leaf;
                 BaseNodeHelper.NodeTreeHelper.SetStringProperty(Leaf, "Text", "");
 
 
@@ -5067,7 +5067,7 @@ namespace Coverage
                 IFrameNodeStateReadOnlyList AllChildren5 = (IFrameNodeStateReadOnlyList)RootState.GetAllChildren();
                 Assert.That(AllChildren5.Count == AllChildren4.Count - 2, $"New count: {AllChildren5.Count - AllChildren4.Count}");
 
-                BaseNodeHelper.NodeTreeHelper.SetString(FirstNode, nameof(ILeaf.Text), "");
+                BaseNodeHelper.NodeTreeHelper.SetString(FirstNode, nameof(Leaf.Text), "");
 
                 //System.Diagnostics.Debug.Assert(false);
                 Controller.Reduce(RootIndex, out IsChanged);
@@ -5079,7 +5079,7 @@ namespace Coverage
                 Controller.Expand(RootIndex, out IsChanged);
                 Assert.That(IsChanged);
 
-                WithExpandCollectionTable.Remove(typeof(IMain));
+                WithExpandCollectionTable.Remove(typeof(Main));
 
                 //System.Diagnostics.Debug.Assert(false);
                 Controller.Reduce(RootIndex, out IsChanged);
@@ -5091,7 +5091,7 @@ namespace Coverage
                 Assert.That(Controller.CanUndo);
                 Controller.Undo();
 
-                WithExpandCollectionTable.Add(typeof(IMain), new string[] { nameof(IMain.LeafBlocks) });
+                WithExpandCollectionTable.Add(typeof(Main), new string[] { nameof(Main.LeafBlocks) });
 
                 Assert.That(Controller.CanUndo);
                 Controller.Undo();
@@ -5104,7 +5104,7 @@ namespace Coverage
                 Assert.That(Controller.CanUndo);
                 Controller.Undo();
 
-                WithExpandCollectionTable.Remove(typeof(IMain));
+                WithExpandCollectionTable.Remove(typeof(Main));
 
                 Assert.That(Controller.CanUndo);
                 Controller.Undo();
@@ -5133,7 +5133,7 @@ namespace Coverage
         {
             ControllerTools.ResetExpectedName();
 
-            IMain RootNode;
+            Main RootNode;
             IFrameRootNodeIndex RootIndex;
             bool IsChanged;
 
@@ -5150,7 +5150,7 @@ namespace Coverage
                 IFrameNodeState RootState = Controller.RootState;
                 Assert.That(RootState != null);
 
-                IFrameBlockListInner LeafBlocksInner = RootState.PropertyToInner(nameof(IMain.LeafBlocks)) as IFrameBlockListInner;
+                IFrameBlockListInner LeafBlocksInner = RootState.PropertyToInner(nameof(Main.LeafBlocks)) as IFrameBlockListInner;
                 Assert.That(LeafBlocksInner != null);
 
                 IFrameBrowsingExistingBlockNodeIndex RemovedLeafIndex = LeafBlocksInner.BlockStateList[0].StateList[0].ParentIndex as IFrameBrowsingExistingBlockNodeIndex;
@@ -5190,7 +5190,7 @@ namespace Coverage
                 Assert.That(BaseNodeHelper.NodeTreeDiagnostic.IsValid(RootNode));
                 Assert.That(LeafBlocksInner.IsEmpty);
 
-                IFrameListInner LeafPathInner = RootState.PropertyToInner(nameof(IMain.LeafPath)) as IFrameListInner;
+                IFrameListInner LeafPathInner = RootState.PropertyToInner(nameof(Main.LeafPath)) as IFrameListInner;
                 Assert.That(LeafPathInner != null);
                 Assert.That(LeafPathInner.Count == 2);
 
@@ -5202,7 +5202,7 @@ namespace Coverage
                 Assert.That(!Controller.Contains(RemovedListLeafIndex));
 
                 IDictionary<Type, string[]> NeverEmptyCollectionTable = BaseNodeHelper.NodeHelper.NeverEmptyCollectionTable as IDictionary<Type, string[]>;
-                NeverEmptyCollectionTable.Add(typeof(IMain), new string[] { nameof(IMain.PlaceholderTree) });
+                NeverEmptyCollectionTable.Add(typeof(Main), new string[] { nameof(Main.PlaceholderTree) });
 
                 RemovedListLeafIndex = LeafPathInner.StateList[0].ParentIndex as IFrameBrowsingListNodeIndex;
                 Assert.That(Controller.Contains(RemovedListLeafIndex));
@@ -5212,7 +5212,7 @@ namespace Coverage
                 Assert.That(!Controller.Contains(RemovedListLeafIndex));
                 Assert.That(LeafPathInner.Count == 0);
 
-                NeverEmptyCollectionTable.Remove(typeof(IMain));
+                NeverEmptyCollectionTable.Remove(typeof(Main));
 
                 Assert.That(Controller.CanUndo);
                 Controller.Undo();
@@ -5225,7 +5225,7 @@ namespace Coverage
                 Assert.That(AllChildren0.Count == 12, $"New count: {AllChildren0.Count}");
 
                 IDictionary<Type, string[]> WithExpandCollectionTable = BaseNodeHelper.NodeHelper.WithExpandCollectionTable as IDictionary<Type, string[]>;
-                WithExpandCollectionTable.Add(typeof(IMain), new string[] { nameof(IMain.LeafBlocks) });
+                WithExpandCollectionTable.Add(typeof(Main), new string[] { nameof(Main.LeafBlocks) });
 
                 Controller.Expand(RootIndex, out IsChanged);
                 Assert.That(IsChanged);
@@ -5237,10 +5237,10 @@ namespace Coverage
 
 
                 //System.Diagnostics.Debug.Assert(false);
-                IFrameOptionalInner LeafOptionalInner = RootState.PropertyToInner(nameof(IMain.AssignedOptionalLeaf)) as IFrameOptionalInner;
+                IFrameOptionalInner LeafOptionalInner = RootState.PropertyToInner(nameof(Main.AssignedOptionalLeaf)) as IFrameOptionalInner;
                 Assert.That(LeafOptionalInner != null);
 
-                ILeaf Leaf = LeafOptionalInner.ChildState.Node as ILeaf;
+                Leaf Leaf = LeafOptionalInner.ChildState.Node as Leaf;
                 BaseNodeHelper.NodeTreeHelper.SetStringProperty(Leaf, "Text", "");
 
 
@@ -5264,7 +5264,7 @@ namespace Coverage
                 Assert.That(Controller.CanUndo);
                 Controller.Undo();
 
-                NeverEmptyCollectionTable.Add(typeof(IMain), new string[] { nameof(IMain.LeafBlocks) });
+                NeverEmptyCollectionTable.Add(typeof(Main), new string[] { nameof(Main.LeafBlocks) });
                 Assert.That(LeafBlocksInner.BlockStateList.Count == 1);
                 Assert.That(LeafBlocksInner.BlockStateList[0].StateList.Count == 1, LeafBlocksInner.BlockStateList[0].StateList.Count.ToString());
 
@@ -5274,9 +5274,9 @@ namespace Coverage
                 Assert.That(Controller.CanUndo);
                 Controller.Undo();
 
-                NeverEmptyCollectionTable.Remove(typeof(IMain));
+                NeverEmptyCollectionTable.Remove(typeof(Main));
 
-                WithExpandCollectionTable.Remove(typeof(IMain));
+                WithExpandCollectionTable.Remove(typeof(Main));
 
                 Assert.That(Controller.CanUndo);
                 Controller.Undo();
@@ -5301,27 +5301,27 @@ namespace Coverage
         {
             ControllerTools.ResetExpectedName();
 
-            IMain MainItemH = CreateRoot(ValueGuid0, Imperfections.None);
-            IMain MainItemV = CreateRoot(ValueGuid1, Imperfections.None);
-            IRoot RootNode = new Root();
-            BaseNode.IDocument RootDocument = BaseNodeHelper.NodeHelper.CreateSimpleDocumentation("root doc", Guid.NewGuid());
+            Main MainItemH = CreateRoot(ValueGuid0, Imperfections.None);
+            Main MainItemV = CreateRoot(ValueGuid1, Imperfections.None);
+            Root RootNode = new Root();
+            BaseNode.Document RootDocument = BaseNodeHelper.NodeHelper.CreateSimpleDocumentation("root doc", Guid.NewGuid());
             BaseNodeHelper.NodeTreeHelper.SetDocumentation(RootNode, RootDocument);
-            BaseNode.IBlockList<IMain, Main> MainBlocksH = BaseNodeHelper.BlockListHelper.CreateSimpleBlockList<IMain, Main>(MainItemH);
-            BaseNode.IBlockList<IMain, Main> MainBlocksV = BaseNodeHelper.BlockListHelper.CreateSimpleBlockList<IMain, Main>(MainItemV);
+            BaseNode.BlockList<Main> MainBlocksH = BaseNodeHelper.BlockListHelper.CreateSimpleBlockList<Main>(MainItemH);
+            BaseNode.BlockList<Main> MainBlocksV = BaseNodeHelper.BlockListHelper.CreateSimpleBlockList<Main>(MainItemV);
 
-            IMain UnassignedOptionalMain = CreateRoot(ValueGuid2, Imperfections.None);
-            Easly.IOptionalReference<IMain> UnassignedOptional = BaseNodeHelper.OptionalReferenceHelper.CreateReference<IMain>(UnassignedOptionalMain);
+            Main UnassignedOptionalMain = CreateRoot(ValueGuid2, Imperfections.None);
+            Easly.OptionalReference<Main> UnassignedOptional = BaseNodeHelper.OptionalReferenceHelper.CreateReference<Main>(UnassignedOptionalMain);
 
-            IList<ILeaf> LeafPathH = new List<ILeaf>();
-            IList<ILeaf> LeafPathV = new List<ILeaf>();
+            IList<Leaf> LeafPathH = new List<Leaf>();
+            IList<Leaf> LeafPathV = new List<Leaf>();
 
-            BaseNodeHelper.NodeTreeHelperBlockList.SetBlockList(RootNode, nameof(IRoot.MainBlocksH), (BaseNode.IBlockList)MainBlocksH);
-            BaseNodeHelper.NodeTreeHelperBlockList.SetBlockList(RootNode, nameof(IRoot.MainBlocksV), (BaseNode.IBlockList)MainBlocksV);
-            BaseNodeHelper.NodeTreeHelperOptional.SetOptionalReference(RootNode, nameof(IRoot.UnassignedOptionalMain), (Easly.IOptionalReference)UnassignedOptional);
-            BaseNodeHelper.NodeTreeHelper.SetString(RootNode, nameof(IRoot.ValueString), "root string");
-            BaseNodeHelper.NodeTreeHelperList.SetChildNodeList(RootNode, nameof(IRoot.LeafPathH), (IList)LeafPathH);
-            BaseNodeHelper.NodeTreeHelperList.SetChildNodeList(RootNode, nameof(IRoot.LeafPathV), (IList)LeafPathV);
-            BaseNodeHelper.NodeTreeHelperOptional.SetOptionalReference(RootNode, nameof(IRoot.UnassignedOptionalLeaf), (Easly.IOptionalReference)BaseNodeHelper.OptionalReferenceHelper.CreateEmptyReference<ILeaf>());
+            BaseNodeHelper.NodeTreeHelperBlockList.SetBlockList(RootNode, nameof(Root.MainBlocksH), (BaseNode.IBlockList)MainBlocksH);
+            BaseNodeHelper.NodeTreeHelperBlockList.SetBlockList(RootNode, nameof(Root.MainBlocksV), (BaseNode.IBlockList)MainBlocksV);
+            BaseNodeHelper.NodeTreeHelperOptional.SetOptionalReference(RootNode, nameof(Root.UnassignedOptionalMain), (Easly.IOptionalReference)UnassignedOptional);
+            BaseNodeHelper.NodeTreeHelper.SetString(RootNode, nameof(Root.ValueString), "root string");
+            BaseNodeHelper.NodeTreeHelperList.SetChildNodeList(RootNode, nameof(Root.LeafPathH), (IList)LeafPathH);
+            BaseNodeHelper.NodeTreeHelperList.SetChildNodeList(RootNode, nameof(Root.LeafPathV), (IList)LeafPathV);
+            BaseNodeHelper.NodeTreeHelperOptional.SetOptionalReference(RootNode, nameof(Root.UnassignedOptionalLeaf), (Easly.IOptionalReference)BaseNodeHelper.OptionalReferenceHelper.CreateEmptyReference<Leaf>());
 
             //System.Diagnostics.Debug.Assert(false);
             IFrameRootNodeIndex RootIndex = new FrameRootNodeIndex(RootNode);
@@ -5336,7 +5336,7 @@ namespace Coverage
                 IFrameNodeState RootState = Controller.RootState;
                 Assert.That(RootState != null);
 
-                IFrameBlockListInner MainInnerH = RootState.PropertyToInner(nameof(IRoot.MainBlocksH)) as IFrameBlockListInner;
+                IFrameBlockListInner MainInnerH = RootState.PropertyToInner(nameof(Root.MainBlocksH)) as IFrameBlockListInner;
                 Assert.That(MainInnerH != null);
 
                 IFrameBrowsingExistingBlockNodeIndex MainIndex = MainInnerH.IndexAt(0, 0) as IFrameBrowsingExistingBlockNodeIndex;
@@ -5368,7 +5368,7 @@ namespace Coverage
         {
             ControllerTools.ResetExpectedName();
 
-            IMain RootNode;
+            Main RootNode;
             IFrameRootNodeIndex RootIndex;
             bool IsReadOnly;
             IReadOnlyBlockState FirstBlockState;
@@ -5474,10 +5474,10 @@ namespace Coverage
                 IFrameNodeState RootState = Controller.RootState;
                 Assert.That(RootState != null);
 
-                IFrameBlockListInner LeafBlocksInner = RootState.PropertyToInner(nameof(IMain.LeafBlocks)) as IFrameBlockListInner;
+                IFrameBlockListInner LeafBlocksInner = RootState.PropertyToInner(nameof(Main.LeafBlocks)) as IFrameBlockListInner;
                 Assert.That(LeafBlocksInner != null);
 
-                IFrameListInner LeafPathInner = RootState.PropertyToInner(nameof(IMain.LeafPath)) as IFrameListInner;
+                IFrameListInner LeafPathInner = RootState.PropertyToInner(nameof(Main.LeafPath)) as IFrameListInner;
                 Assert.That(LeafPathInner != null);
 
                 IFramePlaceholderNodeState FirstNodeState = LeafBlocksInner.FirstNodeState;
@@ -6227,7 +6227,7 @@ namespace Coverage
         {
             ControllerTools.ResetExpectedName();
 
-            IMain RootNode;
+            Main RootNode;
             IFocusRootNodeIndex RootIndex;
             IFocusController Controller;
 
@@ -6268,7 +6268,7 @@ namespace Coverage
         {
             ControllerTools.ResetExpectedName();
 
-            IMain RootNode;
+            Main RootNode;
             IFocusRootNodeIndex RootIndex0;
             IFocusRootNodeIndex RootIndex1;
 
@@ -6302,37 +6302,37 @@ namespace Coverage
             Assert.That(Controller0.IndexToState(RootIndex0) == RootState);
 
             Assert.That(RootState.InnerTable.Count == 8, $"New count: {RootState.InnerTable.Count}");
-            Assert.That(RootState.InnerTable.ContainsKey(nameof(IMain.PlaceholderTree)));
-            Assert.That(RootState.InnerTable.ContainsKey(nameof(IMain.PlaceholderLeaf)));
-            Assert.That(RootState.InnerTable.ContainsKey(nameof(IMain.UnassignedOptionalLeaf)));
-            Assert.That(RootState.InnerTable.ContainsKey(nameof(IMain.EmptyOptionalLeaf)));
-            Assert.That(RootState.InnerTable.ContainsKey(nameof(IMain.AssignedOptionalTree)));
-            Assert.That(RootState.InnerTable.ContainsKey(nameof(IMain.AssignedOptionalLeaf)));
-            Assert.That(RootState.InnerTable.ContainsKey(nameof(IMain.LeafBlocks)));
-            Assert.That(RootState.InnerTable.ContainsKey(nameof(IMain.LeafPath)));
+            Assert.That(RootState.InnerTable.ContainsKey(nameof(Main.PlaceholderTree)));
+            Assert.That(RootState.InnerTable.ContainsKey(nameof(Main.PlaceholderLeaf)));
+            Assert.That(RootState.InnerTable.ContainsKey(nameof(Main.UnassignedOptionalLeaf)));
+            Assert.That(RootState.InnerTable.ContainsKey(nameof(Main.EmptyOptionalLeaf)));
+            Assert.That(RootState.InnerTable.ContainsKey(nameof(Main.AssignedOptionalTree)));
+            Assert.That(RootState.InnerTable.ContainsKey(nameof(Main.AssignedOptionalLeaf)));
+            Assert.That(RootState.InnerTable.ContainsKey(nameof(Main.LeafBlocks)));
+            Assert.That(RootState.InnerTable.ContainsKey(nameof(Main.LeafPath)));
 
-            IFocusPlaceholderInner MainPlaceholderTreeInner = RootState.PropertyToInner(nameof(IMain.PlaceholderTree)) as IFocusPlaceholderInner;
+            IFocusPlaceholderInner MainPlaceholderTreeInner = RootState.PropertyToInner(nameof(Main.PlaceholderTree)) as IFocusPlaceholderInner;
             Assert.That(MainPlaceholderTreeInner != null);
-            Assert.That(MainPlaceholderTreeInner.InterfaceType == typeof(ITree));
+            Assert.That(MainPlaceholderTreeInner.InterfaceType == typeof(Tree));
             Assert.That(MainPlaceholderTreeInner.ChildState != null);
             Assert.That(MainPlaceholderTreeInner.ChildState.ParentInner == MainPlaceholderTreeInner);
 
-            IFocusPlaceholderInner MainPlaceholderLeafInner = RootState.PropertyToInner(nameof(IMain.PlaceholderLeaf)) as IFocusPlaceholderInner;
+            IFocusPlaceholderInner MainPlaceholderLeafInner = RootState.PropertyToInner(nameof(Main.PlaceholderLeaf)) as IFocusPlaceholderInner;
             Assert.That(MainPlaceholderLeafInner != null);
-            Assert.That(MainPlaceholderLeafInner.InterfaceType == typeof(ILeaf));
+            Assert.That(MainPlaceholderLeafInner.InterfaceType == typeof(Leaf));
             Assert.That(MainPlaceholderLeafInner.ChildState != null);
             Assert.That(MainPlaceholderLeafInner.ChildState.ParentInner == MainPlaceholderLeafInner);
 
-            IFocusOptionalInner MainUnassignedOptionalInner = RootState.PropertyToInner(nameof(IMain.UnassignedOptionalLeaf)) as IFocusOptionalInner;
+            IFocusOptionalInner MainUnassignedOptionalInner = RootState.PropertyToInner(nameof(Main.UnassignedOptionalLeaf)) as IFocusOptionalInner;
             Assert.That(MainUnassignedOptionalInner != null);
-            Assert.That(MainUnassignedOptionalInner.InterfaceType == typeof(ILeaf));
+            Assert.That(MainUnassignedOptionalInner.InterfaceType == typeof(Leaf));
             Assert.That(!MainUnassignedOptionalInner.IsAssigned);
             Assert.That(MainUnassignedOptionalInner.ChildState != null);
             Assert.That(MainUnassignedOptionalInner.ChildState.ParentInner == MainUnassignedOptionalInner);
 
-            IFocusOptionalInner MainAssignedOptionalTreeInner = RootState.PropertyToInner(nameof(IMain.AssignedOptionalTree)) as IFocusOptionalInner;
+            IFocusOptionalInner MainAssignedOptionalTreeInner = RootState.PropertyToInner(nameof(Main.AssignedOptionalTree)) as IFocusOptionalInner;
             Assert.That(MainAssignedOptionalTreeInner != null);
-            Assert.That(MainAssignedOptionalTreeInner.InterfaceType == typeof(ITree));
+            Assert.That(MainAssignedOptionalTreeInner.InterfaceType == typeof(Tree));
             Assert.That(MainAssignedOptionalTreeInner.IsAssigned);
 
             IFocusNodeState AssignedOptionalTreeState = MainAssignedOptionalTreeInner.ChildState;
@@ -6344,20 +6344,20 @@ namespace Coverage
             Assert.That(AssignedOptionalTreeAllChildren != null);
             Assert.That(AssignedOptionalTreeAllChildren.Count == 2, $"New count: {AssignedOptionalTreeAllChildren.Count}");
 
-            IFocusOptionalInner MainAssignedOptionalLeafInner = RootState.PropertyToInner(nameof(IMain.AssignedOptionalLeaf)) as IFocusOptionalInner;
+            IFocusOptionalInner MainAssignedOptionalLeafInner = RootState.PropertyToInner(nameof(Main.AssignedOptionalLeaf)) as IFocusOptionalInner;
             Assert.That(MainAssignedOptionalLeafInner != null);
-            Assert.That(MainAssignedOptionalLeafInner.InterfaceType == typeof(ILeaf));
+            Assert.That(MainAssignedOptionalLeafInner.InterfaceType == typeof(Leaf));
             Assert.That(MainAssignedOptionalLeafInner.IsAssigned);
             Assert.That(MainAssignedOptionalLeafInner.ChildState != null);
             Assert.That(MainAssignedOptionalLeafInner.ChildState.ParentInner == MainAssignedOptionalLeafInner);
 
-            IFocusBlockListInner MainLeafBlocksInner = RootState.PropertyToInner(nameof(IMain.LeafBlocks)) as IFocusBlockListInner;
+            IFocusBlockListInner MainLeafBlocksInner = RootState.PropertyToInner(nameof(Main.LeafBlocks)) as IFocusBlockListInner;
             Assert.That(MainLeafBlocksInner != null);
             Assert.That(!MainLeafBlocksInner.IsNeverEmpty);
             Assert.That(!MainLeafBlocksInner.IsEmpty);
             Assert.That(!MainLeafBlocksInner.IsSingle);
-            Assert.That(MainLeafBlocksInner.InterfaceType == typeof(ILeaf));
-            Assert.That(MainLeafBlocksInner.BlockType == typeof(BaseNode.IBlock<ILeaf, Leaf>));
+            Assert.That(MainLeafBlocksInner.InterfaceType == typeof(Leaf));
+            Assert.That(MainLeafBlocksInner.BlockType == typeof(BaseNode.Block<Leaf>));
             Assert.That(MainLeafBlocksInner.ItemType == typeof(Leaf));
             Assert.That(MainLeafBlocksInner.Count == 4);
             Assert.That(MainLeafBlocksInner.BlockStateList != null);
@@ -6399,10 +6399,10 @@ namespace Coverage
 
             Assert.That(MainLeafBlocksInner.FirstNodeState == LeafBlock.StateList[0]);
 
-            IFocusListInner MainLeafPathInner = RootState.PropertyToInner(nameof(IMain.LeafPath)) as IFocusListInner;
+            IFocusListInner MainLeafPathInner = RootState.PropertyToInner(nameof(Main.LeafPath)) as IFocusListInner;
             Assert.That(MainLeafPathInner != null);
             Assert.That(!MainLeafPathInner.IsNeverEmpty);
-            Assert.That(MainLeafPathInner.InterfaceType == typeof(ILeaf));
+            Assert.That(MainLeafPathInner.InterfaceType == typeof(Leaf));
             Assert.That(MainLeafPathInner.Count == 2);
             Assert.That(MainLeafPathInner.StateList != null);
             Assert.That(MainLeafPathInner.StateList.Count == 2);
@@ -6413,14 +6413,14 @@ namespace Coverage
             IFocusNodeStateReadOnlyList AllChildren = (IFocusNodeStateReadOnlyList)RootState.GetAllChildren();
             Assert.That(AllChildren.Count == 19, $"New count: {AllChildren.Count}");
 
-            IFocusPlaceholderInner PlaceholderInner = RootState.InnerTable[nameof(IMain.PlaceholderLeaf)] as IFocusPlaceholderInner;
+            IFocusPlaceholderInner PlaceholderInner = RootState.InnerTable[nameof(Main.PlaceholderLeaf)] as IFocusPlaceholderInner;
             Assert.That(PlaceholderInner != null);
 
             IFocusBrowsingPlaceholderNodeIndex PlaceholderNodeIndex = PlaceholderInner.ChildState.ParentIndex as IFocusBrowsingPlaceholderNodeIndex;
             Assert.That(PlaceholderNodeIndex != null);
             Assert.That(Controller0.Contains(PlaceholderNodeIndex));
 
-            IFocusOptionalInner UnassignedOptionalInner = RootState.InnerTable[nameof(IMain.UnassignedOptionalLeaf)] as IFocusOptionalInner;
+            IFocusOptionalInner UnassignedOptionalInner = RootState.InnerTable[nameof(Main.UnassignedOptionalLeaf)] as IFocusOptionalInner;
             Assert.That(UnassignedOptionalInner != null);
 
             IFocusBrowsingOptionalNodeIndex UnassignedOptionalNodeIndex = UnassignedOptionalInner.ChildState.ParentIndex;
@@ -6428,7 +6428,7 @@ namespace Coverage
             Assert.That(Controller0.Contains(UnassignedOptionalNodeIndex));
             Assert.That(Controller0.IsAssigned(UnassignedOptionalNodeIndex) == false);
 
-            IFocusOptionalInner AssignedOptionalInner = RootState.InnerTable[nameof(IMain.AssignedOptionalLeaf)] as IFocusOptionalInner;
+            IFocusOptionalInner AssignedOptionalInner = RootState.InnerTable[nameof(Main.AssignedOptionalLeaf)] as IFocusOptionalInner;
             Assert.That(AssignedOptionalInner != null);
 
             IFocusBrowsingOptionalNodeIndex AssignedOptionalNodeIndex = AssignedOptionalInner.ChildState.ParentIndex;
@@ -6439,29 +6439,29 @@ namespace Coverage
             int Min, Max;
             object ReadValue;
 
-            RootState.PropertyToValue(nameof(IMain.ValueBoolean), out ReadValue, out Min, out Max);
+            RootState.PropertyToValue(nameof(Main.ValueBoolean), out ReadValue, out Min, out Max);
             bool ReadAsBoolean = ((int)ReadValue) != 0;
             Assert.That(ReadAsBoolean == true);
-            Assert.That(Controller0.GetDiscreteValue(RootIndex0, nameof(IMain.ValueBoolean), out Min, out Max) == (ReadAsBoolean ? 1 : 0));
+            Assert.That(Controller0.GetDiscreteValue(RootIndex0, nameof(Main.ValueBoolean), out Min, out Max) == (ReadAsBoolean ? 1 : 0));
             Assert.That(Min == 0);
             Assert.That(Max == 1);
 
-            RootState.PropertyToValue(nameof(IMain.ValueEnum), out ReadValue, out Min, out Max);
+            RootState.PropertyToValue(nameof(Main.ValueEnum), out ReadValue, out Min, out Max);
             BaseNode.CopySemantic ReadAsEnum = (BaseNode.CopySemantic)(int)ReadValue;
             Assert.That(ReadAsEnum == BaseNode.CopySemantic.Value);
-            Assert.That(Controller0.GetDiscreteValue(RootIndex0, nameof(IMain.ValueEnum), out Min, out Max) == (int)ReadAsEnum);
+            Assert.That(Controller0.GetDiscreteValue(RootIndex0, nameof(Main.ValueEnum), out Min, out Max) == (int)ReadAsEnum);
             Assert.That(Min == 0);
             Assert.That(Max == 2);
 
-            RootState.PropertyToValue(nameof(IMain.ValueString), out ReadValue, out Min, out Max);
+            RootState.PropertyToValue(nameof(Main.ValueString), out ReadValue, out Min, out Max);
             string ReadAsString = ReadValue as string;
             Assert.That(ReadAsString == "s");
-            Assert.That(Controller0.GetStringValue(RootIndex0, nameof(IMain.ValueString)) == ReadAsString);
+            Assert.That(Controller0.GetStringValue(RootIndex0, nameof(Main.ValueString)) == ReadAsString);
 
-            RootState.PropertyToValue(nameof(IMain.ValueGuid), out ReadValue, out Min, out Max);
+            RootState.PropertyToValue(nameof(Main.ValueGuid), out ReadValue, out Min, out Max);
             Guid ReadAsGuid = (Guid)ReadValue;
             Assert.That(ReadAsGuid == ValueGuid0);
-            Assert.That(Controller0.GetGuidValue(RootIndex0, nameof(IMain.ValueGuid)) == ReadAsGuid);
+            Assert.That(Controller0.GetGuidValue(RootIndex0, nameof(Main.ValueGuid)) == ReadAsGuid);
 
             IFocusController Controller1 = FocusController.Create(RootIndex0);
             Assert.That(Controller0.IsEqual(CompareEqual.New(), Controller0));
@@ -6479,7 +6479,7 @@ namespace Coverage
         {
             ControllerTools.ResetExpectedName();
 
-            IMain RootNode = CreateRoot(ValueGuid0, Imperfections.None);
+            Main RootNode = CreateRoot(ValueGuid0, Imperfections.None);
 
             IFocusRootNodeIndex RootIndex = new FocusRootNodeIndex(RootNode);
             Assert.That(RootIndex != null);
@@ -6490,7 +6490,7 @@ namespace Coverage
             IFocusPlaceholderNodeState RootState = Controller.RootState;
             Assert.That(RootState != null);
 
-            BaseNode.INode ClonedNode = RootState.CloneNode();
+            BaseNode.Node ClonedNode = RootState.CloneNode();
             Assert.That(BaseNodeHelper.NodeTreeDiagnostic.IsValid(ClonedNode));
 
             IFocusRootNodeIndex CloneRootIndex = new FocusRootNodeIndex(ClonedNode);
@@ -6513,7 +6513,7 @@ namespace Coverage
         {
             ControllerTools.ResetExpectedName();
 
-            IMain RootNode;
+            Main RootNode;
             IFocusRootNodeIndex RootIndex;
 
             RootNode = CreateRoot(ValueGuid0, Imperfections.None);
@@ -6529,7 +6529,7 @@ namespace Coverage
                 IFocusNodeState RootState = Controller.RootState;
                 Assert.That(RootState != null);
 
-                IFocusListInner LeafPathInner = RootState.PropertyToInner(nameof(IMain.LeafPath)) as IFocusListInner;
+                IFocusListInner LeafPathInner = RootState.PropertyToInner(nameof(Main.LeafPath)) as IFocusListInner;
                 Assert.That(LeafPathInner != null);
 
                 int PathCount = LeafPathInner.Count;
@@ -6569,7 +6569,7 @@ namespace Coverage
 
 
 
-                IFocusBlockListInner LeafBlocksInner = RootState.PropertyToInner(nameof(IMain.LeafBlocks)) as IFocusBlockListInner;
+                IFocusBlockListInner LeafBlocksInner = RootState.PropertyToInner(nameof(Main.LeafBlocks)) as IFocusBlockListInner;
                 Assert.That(LeafBlocksInner != null);
 
                 int BlockNodeCount = LeafBlocksInner.Count;
@@ -6609,10 +6609,10 @@ namespace Coverage
 
 
                 Leaf NewItem2 = CreateLeaf(Guid.NewGuid());
-                BaseNode.IPattern NewPattern = BaseNodeHelper.NodeHelper.CreateSimplePattern("");
-                BaseNode.IIdentifier NewSource = BaseNodeHelper.NodeHelper.CreateSimpleIdentifier("");
+                BaseNode.Pattern NewPattern = BaseNodeHelper.NodeHelper.CreateSimplePattern("");
+                BaseNode.Identifier NewSource = BaseNodeHelper.NodeHelper.CreateSimpleIdentifier("");
 
-                IFocusInsertionNewBlockNodeIndex InsertionIndex2 = new FocusInsertionNewBlockNodeIndex(RootNode, nameof(IMain.LeafBlocks), NewItem2, 0, NewPattern, NewSource);
+                IFocusInsertionNewBlockNodeIndex InsertionIndex2 = new FocusInsertionNewBlockNodeIndex(RootNode, nameof(Main.LeafBlocks), NewItem2, 0, NewPattern, NewSource);
                 Assert.That(CompareEqual.CoverIsEqual(InsertionIndex2, InsertionIndex2));
 
                 int BlockCount = LeafBlocksInner.BlockStateList.Count;
@@ -6663,7 +6663,7 @@ namespace Coverage
         {
             ControllerTools.ResetExpectedName();
 
-            IMain RootNode;
+            Main RootNode;
             IFocusRootNodeIndex RootIndex;
 
             RootNode = CreateRoot(ValueGuid0, Imperfections.None);
@@ -6679,7 +6679,7 @@ namespace Coverage
                 IFocusNodeState RootState = Controller.RootState;
                 Assert.That(RootState != null);
 
-                IFocusListInner LeafPathInner = RootState.PropertyToInner(nameof(IMain.LeafPath)) as IFocusListInner;
+                IFocusListInner LeafPathInner = RootState.PropertyToInner(nameof(Main.LeafPath)) as IFocusListInner;
                 Assert.That(LeafPathInner != null);
 
                 IFocusBrowsingListNodeIndex RemovedLeafIndex0 = LeafPathInner.StateList[0].ParentIndex as IFocusBrowsingListNodeIndex;
@@ -6712,12 +6712,12 @@ namespace Coverage
                 Assert.That(Controller.IsRemoveable(LeafPathInner, RemovedLeafIndex0));
 
                 IDictionary<Type, string[]> NeverEmptyCollectionTable = BaseNodeHelper.NodeHelper.NeverEmptyCollectionTable as IDictionary<Type, string[]>;
-                NeverEmptyCollectionTable.Add(typeof(IMain), new string[] { nameof(IMain.LeafPath) });
+                NeverEmptyCollectionTable.Add(typeof(Main), new string[] { nameof(Main.LeafPath) });
                 Assert.That(!Controller.IsRemoveable(LeafPathInner, RemovedLeafIndex0));
 
 
 
-                IFocusBlockListInner LeafBlocksInner = RootState.PropertyToInner(nameof(IMain.LeafBlocks)) as IFocusBlockListInner;
+                IFocusBlockListInner LeafBlocksInner = RootState.PropertyToInner(nameof(Main.LeafBlocks)) as IFocusBlockListInner;
                 Assert.That(LeafBlocksInner != null);
 
                 IFocusBrowsingExistingBlockNodeIndex RemovedLeafIndex1 = LeafBlocksInner.BlockStateList[1].StateList[0].ParentIndex as IFocusBrowsingExistingBlockNodeIndex;
@@ -6770,7 +6770,7 @@ namespace Coverage
                 Controller.Undo();
 
 
-                NeverEmptyCollectionTable.Remove(typeof(IMain));
+                NeverEmptyCollectionTable.Remove(typeof(Main));
                 Assert.That(Controller.IsRemoveable(LeafPathInner, RemovedLeafIndex0));
 
                 Assert.That(Controller.CanUndo);
@@ -6796,7 +6796,7 @@ namespace Coverage
             {
                 ControllerTools.ResetExpectedName();
 
-                IMain RootNode;
+                Main RootNode;
                 IFocusRootNodeIndex RootIndex;
                 bool IsMoved;
                 bool IsCaretMoved;
@@ -6811,7 +6811,7 @@ namespace Coverage
                 IFocusTemplateSet FocusCustomTemplateSet = TestDebug.CoverageFocusTemplateSet.FocusTemplateSet;
                 IFocusFrameSelectorList FrameSelectorList = null;
                 foreach (KeyValuePair<Type, IFocusTemplate> TemplateEntry in FocusCustomTemplateSet.NodeTemplateTable)
-                    if (TemplateEntry.Key == typeof(IRoot))
+                    if (TemplateEntry.Key == typeof(Root))
                     {
                         IFocusNodeTemplate Template = TemplateEntry.Value as IFocusNodeTemplate;
                         Assert.That(Template != null);
@@ -6820,7 +6820,7 @@ namespace Coverage
                         foreach (IFocusFrame Frame in RootFrame.Items)
                             if (Frame is IFocusFrameWithSelector AsFrameWithSelector && AsFrameWithSelector.Selectors.Count > 0)
                             {
-                                if (AsFrameWithSelector.Selectors[0].SelectorType == typeof(ILeaf))
+                                if (AsFrameWithSelector.Selectors[0].SelectorType == typeof(Leaf))
                                 {
                                     FrameSelectorList = AsFrameWithSelector.Selectors;
                                     break;
@@ -6833,7 +6833,7 @@ namespace Coverage
                 Assert.That(FrameSelectorList != null);
                 Assert.That(FrameSelectorList.Count > 0);
                 foreach (KeyValuePair<Type, IFocusTemplate> TemplateEntry in FocusCustomTemplateSet.NodeTemplateTable)
-                    if (TemplateEntry.Key == typeof(ILeaf))
+                    if (TemplateEntry.Key == typeof(Leaf))
                     {
                         IFocusNodeTemplate Template = TemplateEntry.Value as IFocusNodeTemplate;
                         Assert.That(Template != null);
@@ -7081,7 +7081,7 @@ namespace Coverage
                         ControllerView0.MoveFocus(+1, true, out IsMoved);
                     }
 
-                    IFocusBlockListInner MainLeafBlocksInner = Controller.RootState.PropertyToInner(nameof(IMain.LeafBlocks)) as IFocusBlockListInner;
+                    IFocusBlockListInner MainLeafBlocksInner = Controller.RootState.PropertyToInner(nameof(Main.LeafBlocks)) as IFocusBlockListInner;
                     while (!MainLeafBlocksInner.IsEmpty)
                     {
                         IWriteableBrowsingExistingBlockNodeIndex NodeIndex = MainLeafBlocksInner.IndexAt(0, 0) as IWriteableBrowsingExistingBlockNodeIndex;
@@ -7249,7 +7249,7 @@ namespace Coverage
             {
                 ControllerTools.ResetExpectedName();
 
-                IMain RootNode;
+                Main RootNode;
                 IFocusRootNodeIndex RootIndex;
 
                 RootNode = CreateRoot(ValueGuid0, Imperfections.None);
@@ -7268,7 +7268,7 @@ namespace Coverage
                     IFocusNodeStateReadOnlyList AllChildren0 = (IFocusNodeStateReadOnlyList)RootState.GetAllChildren();
                     Assert.That(AllChildren0.Count == 19, $"New count: {AllChildren0.Count}");
 
-                    IFocusBlockListInner LeafBlocksInner = RootState.PropertyToInner(nameof(IMain.LeafBlocks)) as IFocusBlockListInner;
+                    IFocusBlockListInner LeafBlocksInner = RootState.PropertyToInner(nameof(Main.LeafBlocks)) as IFocusBlockListInner;
                     Assert.That(LeafBlocksInner != null);
                     Assert.That(LeafBlocksInner.BlockStateList.Count == 3, $"New count: {LeafBlocksInner.BlockStateList.Count}");
                     Assert.That(Controller.IsBlockRangeRemoveable(LeafBlocksInner, 0, 2));
@@ -7285,11 +7285,11 @@ namespace Coverage
                     Controller.Undo();
 
                     IDictionary<Type, string[]> NeverEmptyCollectionTable = BaseNodeHelper.NodeHelper.NeverEmptyCollectionTable as IDictionary<Type, string[]>;
-                    NeverEmptyCollectionTable.Add(typeof(IMain), new string[] { nameof(IMain.LeafBlocks) });
+                    NeverEmptyCollectionTable.Add(typeof(Main), new string[] { nameof(Main.LeafBlocks) });
 
                     Assert.That(!Controller.IsBlockRangeRemoveable(LeafBlocksInner, 0, 3));
 
-                    NeverEmptyCollectionTable.Remove(typeof(IMain));
+                    NeverEmptyCollectionTable.Remove(typeof(Main));
                     Assert.That(Controller.IsBlockRangeRemoveable(LeafBlocksInner, 0, 3));
 
                     Assert.That(!Controller.CanUndo);
@@ -7301,7 +7301,7 @@ namespace Coverage
                     System.Windows.IDataObject DataObject = new System.Windows.DataObject();
 
                     //System.Diagnostics.Debug.Assert(false);
-                    ControllerView0.SelectBlockList(RootState, nameof(IMain.LeafBlocks), 1, 2);
+                    ControllerView0.SelectBlockList(RootState, nameof(Main.LeafBlocks), 1, 2);
 
                     ControllerView0.CopySelection(DataObject);
                     ControllerView0.CutSelection(DataObject, out bool IsDeleted);
@@ -7312,7 +7312,7 @@ namespace Coverage
                     Assert.That(Controller.CanUndo);
                     Controller.Undo();
 
-                    ControllerView0.SelectBlockList(RootState, nameof(IMain.LeafBlocks), 1, 2);
+                    ControllerView0.SelectBlockList(RootState, nameof(Main.LeafBlocks), 1, 2);
                     ControllerView0.PasteSelection(out bool IsChanged);
                     Assert.That(IsChanged);
 
@@ -7335,7 +7335,7 @@ namespace Coverage
             {
                 ControllerTools.ResetExpectedName();
 
-                IMain RootNode;
+                Main RootNode;
                 IFocusRootNodeIndex RootIndex;
 
                 RootNode = CreateRoot(ValueGuid0, Imperfections.None);
@@ -7356,7 +7356,7 @@ namespace Coverage
 
 
                     //System.Diagnostics.Debug.Assert(false);
-                    IFocusListInner LeafPathInner = RootState.PropertyToInner(nameof(IMain.LeafPath)) as IFocusListInner;
+                    IFocusListInner LeafPathInner = RootState.PropertyToInner(nameof(Main.LeafPath)) as IFocusListInner;
                     Assert.That(LeafPathInner != null);
                     Assert.That(LeafPathInner.StateList.Count == 2, $"New count: {LeafPathInner.StateList.Count}");
                     Assert.That(Controller.IsNodeRangeRemoveable(LeafPathInner, -1, 0, 2));
@@ -7378,7 +7378,7 @@ namespace Coverage
                     Controller.Undo();
 
 
-                    IFocusBlockListInner LeafBlocksInner = RootState.PropertyToInner(nameof(IMain.LeafBlocks)) as IFocusBlockListInner;
+                    IFocusBlockListInner LeafBlocksInner = RootState.PropertyToInner(nameof(Main.LeafBlocks)) as IFocusBlockListInner;
                     Assert.That(LeafBlocksInner != null);
                     Assert.That(LeafBlocksInner.BlockStateList.Count == 3, $"New count: {LeafBlocksInner.BlockStateList.Count}");
                     Assert.That(Controller.IsNodeRangeRemoveable(LeafBlocksInner, 1, 0, 2));
@@ -7400,13 +7400,13 @@ namespace Coverage
                     Controller.Undo();
 
                     IDictionary<Type, string[]> NeverEmptyCollectionTable = BaseNodeHelper.NodeHelper.NeverEmptyCollectionTable as IDictionary<Type, string[]>;
-                    NeverEmptyCollectionTable.Add(typeof(IMain), new string[] { nameof(IMain.LeafBlocks) });
+                    NeverEmptyCollectionTable.Add(typeof(Main), new string[] { nameof(Main.LeafBlocks) });
 
                     Controller.RemoveBlockRange(LeafBlocksInner, 2, 3);
                     Controller.RemoveBlockRange(LeafBlocksInner, 0, 1);
                     Assert.That(!Controller.IsNodeRangeRemoveable(LeafBlocksInner, 0, 0, 2));
 
-                    NeverEmptyCollectionTable.Remove(typeof(IMain));
+                    NeverEmptyCollectionTable.Remove(typeof(Main));
                     Assert.That(Controller.IsNodeRangeRemoveable(LeafBlocksInner, 0, 0, 2));
 
                     Controller.Undo();
@@ -7414,7 +7414,7 @@ namespace Coverage
 
                     System.Windows.IDataObject DataObject = new System.Windows.DataObject();
 
-                    ControllerView0.SelectNode((RootState.InnerTable[nameof(IMain.PlaceholderLeaf)] as IFocusPlaceholderInner).ChildState);
+                    ControllerView0.SelectNode((RootState.InnerTable[nameof(Main.PlaceholderLeaf)] as IFocusPlaceholderInner).ChildState);
 
                     ControllerView0.CopySelection(DataObject);
                     ControllerView0.CutSelection(DataObject, out bool IsDeleted);
@@ -7423,7 +7423,7 @@ namespace Coverage
                     System.Windows.Clipboard.SetDataObject(DataObject);
 
                     //System.Diagnostics.Debug.Assert(false);
-                    ControllerView0.SelectNode((RootState.InnerTable[nameof(IMain.PlaceholderLeaf)] as IFocusPlaceholderInner).ChildState);
+                    ControllerView0.SelectNode((RootState.InnerTable[nameof(Main.PlaceholderLeaf)] as IFocusPlaceholderInner).ChildState);
                     ControllerView0.PasteSelection(out bool IsChanged);
                     Assert.That(IsChanged);
 
@@ -7437,17 +7437,17 @@ namespace Coverage
                     Assert.That(Controller.CanUndo);
                     Controller.Undo();
 
-                    ControllerView0.SelectNodeList(RootState, nameof(IMain.LeafPath), 0, 2);
+                    ControllerView0.SelectNodeList(RootState, nameof(Main.LeafPath), 0, 2);
                     ControllerView0.PasteSelection(out IsChanged);
                     Assert.That(IsChanged);
 
                     Assert.That(Controller.CanUndo);
                     Controller.Undo();
 
-                    ControllerView0.SelectBlockNodeList(RootState, nameof(IMain.LeafBlocks), 1, 0, 0);
+                    ControllerView0.SelectBlockNodeList(RootState, nameof(Main.LeafBlocks), 1, 0, 0);
                     ControllerView0.CopySelection(DataObject);
 
-                    ControllerView0.SelectBlockNodeList(RootState, nameof(IMain.LeafBlocks), 1, 0, 2);
+                    ControllerView0.SelectBlockNodeList(RootState, nameof(Main.LeafBlocks), 1, 0, 2);
                     ControllerView0.PasteSelection(out IsChanged);
                     Assert.That(IsChanged);
 
@@ -7455,7 +7455,7 @@ namespace Coverage
                     Controller.Undo();
 
 
-                    ControllerView0.SelectNodeList(RootState, nameof(IMain.LeafPath), 0, 2);
+                    ControllerView0.SelectNodeList(RootState, nameof(Main.LeafPath), 0, 2);
 
                     ControllerView0.CopySelection(DataObject);
                     ControllerView0.CutSelection(DataObject, out IsDeleted);
@@ -7466,7 +7466,7 @@ namespace Coverage
                     Assert.That(Controller.CanUndo);
                     Controller.Undo();
 
-                    ControllerView0.SelectNodeList(RootState, nameof(IMain.LeafPath), 0, 2);
+                    ControllerView0.SelectNodeList(RootState, nameof(Main.LeafPath), 0, 2);
                     ControllerView0.PasteSelection(out IsChanged);
                     Assert.That(IsChanged);
 
@@ -7480,12 +7480,12 @@ namespace Coverage
                     Assert.That(Controller.CanUndo);
                     Controller.Undo();
 
-                    ControllerView0.SelectNodeList(RootState, nameof(IMain.LeafPath), 0, 0);
+                    ControllerView0.SelectNodeList(RootState, nameof(Main.LeafPath), 0, 0);
                     ControllerView0.CopySelection(DataObject);
                     System.Windows.Clipboard.SetDataObject(DataObject);
 
                     //System.Diagnostics.Debug.Assert(false);
-                    ControllerView0.SelectNodeList(RootState, nameof(IMain.LeafPath), 0, 2);
+                    ControllerView0.SelectNodeList(RootState, nameof(Main.LeafPath), 0, 2);
                     ControllerView0.PasteSelection(out IsChanged);
                     Assert.That(IsChanged);
 
@@ -7493,7 +7493,7 @@ namespace Coverage
                     Controller.Undo();
 
 
-                    ControllerView0.SelectBlockNodeList(RootState, nameof(IMain.LeafBlocks), 1, 0, 1);
+                    ControllerView0.SelectBlockNodeList(RootState, nameof(Main.LeafBlocks), 1, 0, 1);
 
                     ControllerView0.CopySelection(DataObject);
                     ControllerView0.CutSelection(DataObject, out IsDeleted);
@@ -7504,7 +7504,7 @@ namespace Coverage
                     Assert.That(Controller.CanUndo);
                     Controller.Undo();
 
-                    ControllerView0.SelectBlockNodeList(RootState, nameof(IMain.LeafBlocks), 1, 0, 1);
+                    ControllerView0.SelectBlockNodeList(RootState, nameof(Main.LeafBlocks), 1, 0, 1);
                     ControllerView0.PasteSelection(out IsChanged);
                     Assert.That(IsChanged);
 
@@ -7522,7 +7522,7 @@ namespace Coverage
                     DataObject.SetData(ClipboardHelper.ClipboardFormatNode, new byte[0]);
                     System.Windows.Clipboard.SetDataObject(DataObject);
 
-                    ControllerView0.SelectBlockNodeList(RootState, nameof(IMain.LeafBlocks), 1, 0, 1);
+                    ControllerView0.SelectBlockNodeList(RootState, nameof(Main.LeafBlocks), 1, 0, 1);
                     ControllerView0.PasteSelection(out IsChanged);
                     Assert.That(!IsChanged);
 
@@ -7538,41 +7538,41 @@ namespace Coverage
             {
                 ControllerTools.ResetExpectedName();
 
-                BaseNode.IClass RootNode;
+                BaseNode.Class RootNode;
                 IFocusRootNodeIndex RootIndex;
                 bool IsMoved;
                 RootNode = BaseNodeHelper.NodeHelper.CreateSimpleClass("Class!");
 
-                BaseNode.IFunctionFeature FunctionFeature = BaseNodeHelper.NodeHelper.CreateEmptyFunctionFeature();
-                BaseNode.IPropertyFeature PropertyFeature = BaseNodeHelper.NodeHelper.CreateEmptyPropertyFeature();
+                BaseNode.FunctionFeature FunctionFeature = BaseNodeHelper.NodeHelper.CreateEmptyFunctionFeature();
+                BaseNode.PropertyFeature PropertyFeature = BaseNodeHelper.NodeHelper.CreateEmptyPropertyFeature();
                 ((BaseNode.PropertyFeature)PropertyFeature).PropertyKind = BaseNode.UtilityType.WriteOnly;
                 ((BaseNode.PropertyFeature)PropertyFeature).GetterBody.Assign();
                 ((BaseNode.PropertyFeature)PropertyFeature).SetterBody.Assign();
 
-                ((BaseNode.Class)RootNode).FeatureBlocks = BaseNodeHelper.BlockListHelper.CreateSimpleBlockList<BaseNode.IFeature, BaseNode.Feature>(FunctionFeature);
+                ((BaseNode.Class)RootNode).FeatureBlocks = BaseNodeHelper.BlockListHelper.CreateSimpleBlockList<BaseNode.Feature>(FunctionFeature);
                 RootNode.FeatureBlocks.NodeBlockList[0].NodeList.Add(PropertyFeature);
 
-                List<BaseNode.IIdentifier> IdentifierList = new List<BaseNode.IIdentifier>();
+                List<BaseNode.Identifier> IdentifierList = new List<BaseNode.Identifier>();
                 IdentifierList.Add(BaseNodeHelper.NodeHelper.CreateSimpleIdentifier("test1"));
                 IdentifierList.Add(BaseNodeHelper.NodeHelper.CreateSimpleIdentifier("test2"));
-                BaseNode.IQualifiedName QualifiedName = BaseNodeHelper.NodeHelper.CreateQualifiedName(IdentifierList);
-                BaseNode.ICommandInstruction FunctionFirstInstruction = BaseNodeHelper.NodeHelper.CreateSimpleCommandInstruction("") as BaseNode.ICommandInstruction;
+                BaseNode.QualifiedName QualifiedName = BaseNodeHelper.NodeHelper.CreateQualifiedName(IdentifierList);
+                BaseNode.CommandInstruction FunctionFirstInstruction = BaseNodeHelper.NodeHelper.CreateSimpleCommandInstruction("") as BaseNode.CommandInstruction;
                 ((BaseNode.CommandInstruction)FunctionFirstInstruction).Command = QualifiedName;
-                BaseNode.IFunctionFeature FirstFeature = (BaseNode.IFunctionFeature)RootNode.FeatureBlocks.NodeBlockList[0].NodeList[0];
-                BaseNode.IQueryOverload FirstOverload = FirstFeature.OverloadBlocks.NodeBlockList[0].NodeList[0];
+                BaseNode.FunctionFeature FirstFeature = (BaseNode.FunctionFeature)RootNode.FeatureBlocks.NodeBlockList[0].NodeList[0];
+                BaseNode.QueryOverload FirstOverload = FirstFeature.OverloadBlocks.NodeBlockList[0].NodeList[0];
                 BaseNode.EffectiveBody FirstOverloadBody = (BaseNode.EffectiveBody)FirstOverload.QueryBody;
-                FirstOverloadBody.BodyInstructionBlocks = BaseNodeHelper.BlockListHelper.CreateSimpleBlockList<BaseNode.IInstruction, BaseNode.Instruction>(FunctionFirstInstruction);
+                FirstOverloadBody.BodyInstructionBlocks = BaseNodeHelper.BlockListHelper.CreateSimpleBlockList<BaseNode.Instruction>(FunctionFirstInstruction);
 
-                BaseNode.ICommandInstruction PropertyFirstInstruction = BaseNodeHelper.NodeHelper.CreateSimpleCommandInstruction("test?") as BaseNode.ICommandInstruction;
-                BaseNode.ICommandInstruction PropertySecondInstruction = BaseNodeHelper.NodeHelper.CreateSimpleCommandInstruction("test?") as BaseNode.ICommandInstruction;
+                BaseNode.CommandInstruction PropertyFirstInstruction = BaseNodeHelper.NodeHelper.CreateSimpleCommandInstruction("test?") as BaseNode.CommandInstruction;
+                BaseNode.CommandInstruction PropertySecondInstruction = BaseNodeHelper.NodeHelper.CreateSimpleCommandInstruction("test?") as BaseNode.CommandInstruction;
                 BaseNode.EffectiveBody PropertyBody = ((BaseNode.PropertyFeature)PropertyFeature).GetterBody.Item as BaseNode.EffectiveBody;
-                PropertyBody.BodyInstructionBlocks = BaseNodeHelper.BlockListHelper.CreateSimpleBlockList<BaseNode.IInstruction, BaseNode.Instruction>(PropertyFirstInstruction);
+                PropertyBody.BodyInstructionBlocks = BaseNodeHelper.BlockListHelper.CreateSimpleBlockList<BaseNode.Instruction>(PropertyFirstInstruction);
                 PropertyBody.BodyInstructionBlocks.NodeBlockList[0].NodeList.Add(PropertySecondInstruction);
 
-                BaseNode.ICommandInstruction PropertyThirdInstruction = BaseNodeHelper.NodeHelper.CreateSimpleCommandInstruction("test?") as BaseNode.ICommandInstruction;
-                List<BaseNode.IInstruction> NodeList = new List<BaseNode.IInstruction>();
+                BaseNode.CommandInstruction PropertyThirdInstruction = BaseNodeHelper.NodeHelper.CreateSimpleCommandInstruction("test?") as BaseNode.CommandInstruction;
+                List<BaseNode.Instruction> NodeList = new List<BaseNode.Instruction>();
                 NodeList.Add(PropertyThirdInstruction);
-                BaseNode.IBlock<BaseNode.IInstruction, BaseNode.Instruction> NewBlock = BaseNodeHelper.BlockListHelper.CreateBlock<BaseNode.IInstruction, BaseNode.Instruction>(NodeList);
+                BaseNode.Block<BaseNode.Instruction> NewBlock = BaseNodeHelper.BlockListHelper.CreateBlock<BaseNode.Instruction>(NodeList);
                 PropertyBody.BodyInstructionBlocks.NodeBlockList.Add(NewBlock);
 
                 RootIndex = new FocusRootNodeIndex(RootNode);
@@ -7722,7 +7722,7 @@ namespace Coverage
         {
             ControllerTools.ResetExpectedName();
 
-            IMain RootNode;
+            Main RootNode;
             IFocusRootNodeIndex RootIndex;
 
             RootNode = CreateRoot(ValueGuid0, Imperfections.None);
@@ -7738,7 +7738,7 @@ namespace Coverage
                 IFocusNodeState RootState = Controller.RootState;
                 Assert.That(RootState != null);
 
-                IFocusListInner LeafPathInner = RootState.PropertyToInner(nameof(IMain.LeafPath)) as IFocusListInner;
+                IFocusListInner LeafPathInner = RootState.PropertyToInner(nameof(Main.LeafPath)) as IFocusListInner;
                 Assert.That(LeafPathInner != null);
 
                 IFocusBrowsingListNodeIndex MovedLeafIndex0 = LeafPathInner.IndexAt(0) as IFocusBrowsingListNodeIndex;
@@ -7770,7 +7770,7 @@ namespace Coverage
 
 
 
-                IFocusBlockListInner LeafBlocksInner = RootState.PropertyToInner(nameof(IMain.LeafBlocks)) as IFocusBlockListInner;
+                IFocusBlockListInner LeafBlocksInner = RootState.PropertyToInner(nameof(Main.LeafBlocks)) as IFocusBlockListInner;
                 Assert.That(LeafBlocksInner != null);
 
                 IFocusBrowsingExistingBlockNodeIndex MovedLeafIndex1 = LeafBlocksInner.IndexAt(1, 1) as IFocusBrowsingExistingBlockNodeIndex;
@@ -7816,7 +7816,7 @@ namespace Coverage
         {
             ControllerTools.ResetExpectedName();
 
-            IMain RootNode;
+            Main RootNode;
             IFocusRootNodeIndex RootIndex;
 
             RootNode = CreateRoot(ValueGuid0, Imperfections.None);
@@ -7835,7 +7835,7 @@ namespace Coverage
                 IFocusNodeStateReadOnlyList AllChildren1 = (IFocusNodeStateReadOnlyList)RootState.GetAllChildren();
                 Assert.That(AllChildren1.Count == 19, $"New count: {AllChildren1.Count}");
 
-                IFocusBlockListInner LeafBlocksInner = RootState.PropertyToInner(nameof(IMain.LeafBlocks)) as IFocusBlockListInner;
+                IFocusBlockListInner LeafBlocksInner = RootState.PropertyToInner(nameof(Main.LeafBlocks)) as IFocusBlockListInner;
                 Assert.That(LeafBlocksInner != null);
 
                 IFocusBrowsingExistingBlockNodeIndex MovedLeafIndex1 = LeafBlocksInner.IndexAt(1, 0) as IFocusBrowsingExistingBlockNodeIndex;
@@ -7879,7 +7879,7 @@ namespace Coverage
         {
             ControllerTools.ResetExpectedName();
 
-            IMain RootNode;
+            Main RootNode;
             IFocusRootNodeIndex RootIndex;
 
             RootNode = CreateRoot(ValueGuid0, Imperfections.None);
@@ -7895,22 +7895,22 @@ namespace Coverage
                 IFocusNodeState RootState = Controller.RootState;
                 Assert.That(RootState != null);
 
-                Assert.That(BaseNodeHelper.NodeTreeHelper.GetEnumValue(RootState.Node, nameof(IMain.ValueEnum)) == (int)BaseNode.CopySemantic.Value);
+                Assert.That(BaseNodeHelper.NodeTreeHelper.GetEnumValue(RootState.Node, nameof(Main.ValueEnum)) == (int)BaseNode.CopySemantic.Value);
 
-                Controller.ChangeDiscreteValue(RootIndex, nameof(IMain.ValueEnum), (int)BaseNode.CopySemantic.Reference);
+                Controller.ChangeDiscreteValue(RootIndex, nameof(Main.ValueEnum), (int)BaseNode.CopySemantic.Reference);
 
                 Assert.That(BaseNodeHelper.NodeTreeDiagnostic.IsValid(RootNode));
-                Assert.That(BaseNodeHelper.NodeTreeHelper.GetEnumValue(RootNode, nameof(IMain.ValueEnum)) == (int)BaseNode.CopySemantic.Reference);
+                Assert.That(BaseNodeHelper.NodeTreeHelper.GetEnumValue(RootNode, nameof(Main.ValueEnum)) == (int)BaseNode.CopySemantic.Reference);
 
-                IFocusPlaceholderInner PlaceholderTreeInner = RootState.PropertyToInner(nameof(IMain.PlaceholderTree)) as IFocusPlaceholderInner;
+                IFocusPlaceholderInner PlaceholderTreeInner = RootState.PropertyToInner(nameof(Main.PlaceholderTree)) as IFocusPlaceholderInner;
                 IFocusPlaceholderNodeState PlaceholderTreeState = PlaceholderTreeInner.ChildState as IFocusPlaceholderNodeState;
 
-                Assert.That(BaseNodeHelper.NodeTreeHelper.GetEnumValue(PlaceholderTreeState.Node, nameof(ITree.ValueEnum)) == (int)BaseNode.CopySemantic.Value);
+                Assert.That(BaseNodeHelper.NodeTreeHelper.GetEnumValue(PlaceholderTreeState.Node, nameof(Tree.ValueEnum)) == (int)BaseNode.CopySemantic.Value);
 
-                Controller.ChangeDiscreteValue(PlaceholderTreeState.ParentIndex, nameof(ITree.ValueEnum), (int)BaseNode.CopySemantic.Any);
+                Controller.ChangeDiscreteValue(PlaceholderTreeState.ParentIndex, nameof(Tree.ValueEnum), (int)BaseNode.CopySemantic.Any);
 
                 Assert.That(BaseNodeHelper.NodeTreeDiagnostic.IsValid(RootNode));
-                Assert.That(BaseNodeHelper.NodeTreeHelper.GetEnumValue(PlaceholderTreeState.Node, nameof(ITree.ValueEnum)) == (int)BaseNode.CopySemantic.Any);
+                Assert.That(BaseNodeHelper.NodeTreeHelper.GetEnumValue(PlaceholderTreeState.Node, nameof(Tree.ValueEnum)) == (int)BaseNode.CopySemantic.Any);
 
                 Assert.That(Controller.CanUndo);
                 Controller.Undo();
@@ -7933,7 +7933,7 @@ namespace Coverage
         {
             ControllerTools.ResetExpectedName();
 
-            IMain RootNode;
+            Main RootNode;
             IFocusRootNodeIndex RootIndex;
 
             RootNode = CreateRoot(ValueGuid0, Imperfections.None);
@@ -7949,14 +7949,14 @@ namespace Coverage
                 IFocusNodeState RootState = Controller.RootState;
                 Assert.That(RootState != null);
 
-                Assert.That(BaseNodeHelper.NodeTreeHelper.GetString(RootState.Node, nameof(IMain.ValueString)) == "s");
+                Assert.That(BaseNodeHelper.NodeTreeHelper.GetString(RootState.Node, nameof(Main.ValueString)) == "s");
 
-                Controller.ChangeText(RootIndex, nameof(IMain.ValueString), "test");
+                Controller.ChangeText(RootIndex, nameof(Main.ValueString), "test");
 
                 Assert.That(BaseNodeHelper.NodeTreeDiagnostic.IsValid(RootNode));
-                Assert.That(BaseNodeHelper.NodeTreeHelper.GetString(RootNode, nameof(IMain.ValueString)) == "test");
+                Assert.That(BaseNodeHelper.NodeTreeHelper.GetString(RootNode, nameof(Main.ValueString)) == "test");
 
-                IFocusPlaceholderInner PlaceholderTreeInner = RootState.PropertyToInner(nameof(IMain.PlaceholderTree)) as IFocusPlaceholderInner;
+                IFocusPlaceholderInner PlaceholderTreeInner = RootState.PropertyToInner(nameof(Main.PlaceholderTree)) as IFocusPlaceholderInner;
                 IFocusPlaceholderNodeState PlaceholderTreeState = PlaceholderTreeInner.ChildState as IFocusPlaceholderNodeState;
 
                 Assert.That(Controller.CanUndo);
@@ -7978,7 +7978,7 @@ namespace Coverage
         {
             ControllerTools.ResetExpectedName();
 
-            IMain RootNode;
+            Main RootNode;
             IFocusRootNodeIndex RootIndex;
 
             RootNode = CreateRoot(ValueGuid0, Imperfections.None);
@@ -7994,10 +7994,10 @@ namespace Coverage
                 IFocusNodeState RootState = Controller.RootState;
                 Assert.That(RootState != null);
 
-                Assert.That(BaseNodeHelper.NodeTreeHelper.GetString(RootState.Node, nameof(IMain.ValueString)) == "s");
+                Assert.That(BaseNodeHelper.NodeTreeHelper.GetString(RootState.Node, nameof(Main.ValueString)) == "s");
 
-                Controller.ChangeTextAndCaretPosition(RootIndex, nameof(IMain.ValueString), "test", 1, 2, false);
-                Controller.ChangeTextAndCaretPosition(RootIndex, nameof(IMain.ValueString), "test", 2, 1, true);
+                Controller.ChangeTextAndCaretPosition(RootIndex, nameof(Main.ValueString), "test", 1, 2, false);
+                Controller.ChangeTextAndCaretPosition(RootIndex, nameof(Main.ValueString), "test", 2, 1, true);
 
                 while (!(ControllerView0.Focus is IFocusStringContentFocus))
                     ControllerView0.MoveFocus(+1, true, out bool IsMoved);
@@ -8018,7 +8018,7 @@ namespace Coverage
                 Assert.That(BaseNodeHelper.NodeTreeDiagnostic.IsValid(RootNode));
                 Assert.That(ControllerView0.FocusedText == "test TEST");
 
-                IFocusPlaceholderInner PlaceholderTreeInner = RootState.PropertyToInner(nameof(IMain.PlaceholderTree)) as IFocusPlaceholderInner;
+                IFocusPlaceholderInner PlaceholderTreeInner = RootState.PropertyToInner(nameof(Main.PlaceholderTree)) as IFocusPlaceholderInner;
                 IFocusPlaceholderNodeState PlaceholderTreeState = PlaceholderTreeInner.ChildState as IFocusPlaceholderNodeState;
 
                 Assert.That(Controller.CanUndo);
@@ -8045,10 +8045,10 @@ namespace Coverage
                 Controller.Undo();
 
                 //System.Diagnostics.Debug.Assert(false);
-                IFocusOptionalInner AssignedOptionalLeafInner = Controller.RootState.PropertyToInner(nameof(IMain.AssignedOptionalLeaf)) as IFocusOptionalInner;
+                IFocusOptionalInner AssignedOptionalLeafInner = Controller.RootState.PropertyToInner(nameof(Main.AssignedOptionalLeaf)) as IFocusOptionalInner;
                 Assert.That(AssignedOptionalLeafInner.IsAssigned);
                 IFocusBrowsingOptionalNodeIndex AssignedOptionalLeafIndex = AssignedOptionalLeafInner.ChildState.ParentIndex;
-                Controller.ChangeTextAndCaretPosition(AssignedOptionalLeafIndex, nameof(ILeaf.Text), "test", 1, 2, false);
+                Controller.ChangeTextAndCaretPosition(AssignedOptionalLeafIndex, nameof(Leaf.Text), "test", 1, 2, false);
 
                 Assert.That(ControllerBase.IsEqual(CompareEqual.New(), Controller));
             }
@@ -8060,7 +8060,7 @@ namespace Coverage
         {
             ControllerTools.ResetExpectedName();
 
-            IMain RootNode;
+            Main RootNode;
             IFocusRootNodeIndex RootIndex;
 
             RootNode = CreateRoot(ValueGuid0, Imperfections.None);
@@ -8092,7 +8092,7 @@ namespace Coverage
                 Assert.That(BaseNodeHelper.NodeTreeDiagnostic.IsValid(RootNode));
                 Assert.That(BaseNodeHelper.NodeTreeHelper.GetCommentText(RootNode) == "test");
 
-                IFocusPlaceholderInner PlaceholderTreeInner = RootState.PropertyToInner(nameof(IMain.PlaceholderTree)) as IFocusPlaceholderInner;
+                IFocusPlaceholderInner PlaceholderTreeInner = RootState.PropertyToInner(nameof(Main.PlaceholderTree)) as IFocusPlaceholderInner;
                 IFocusPlaceholderNodeState PlaceholderTreeState = PlaceholderTreeInner.ChildState as IFocusPlaceholderNodeState;
 
                 Assert.That(Controller.CanUndo);
@@ -8114,7 +8114,7 @@ namespace Coverage
         {
             ControllerTools.ResetExpectedName();
 
-            IMain RootNode;
+            Main RootNode;
             IFocusRootNodeIndex RootIndex;
 
             RootNode = CreateRoot(ValueGuid0, Imperfections.None);
@@ -8145,7 +8145,7 @@ namespace Coverage
 
                 ControllerView0.ChangeFocusedText("test", 3, false);
 
-                IFocusPlaceholderInner PlaceholderTreeInner = RootState.PropertyToInner(nameof(IMain.PlaceholderTree)) as IFocusPlaceholderInner;
+                IFocusPlaceholderInner PlaceholderTreeInner = RootState.PropertyToInner(nameof(Main.PlaceholderTree)) as IFocusPlaceholderInner;
                 IFocusPlaceholderNodeState PlaceholderTreeState = PlaceholderTreeInner.ChildState as IFocusPlaceholderNodeState;
 
                 Assert.That(Controller.CanUndo);
@@ -8175,7 +8175,7 @@ namespace Coverage
         {
             ControllerTools.ResetExpectedName();
 
-            IMain RootNode;
+            Main RootNode;
             IFocusRootNodeIndex RootIndex;
 
             RootNode = CreateRoot(ValueGuid0, Imperfections.None);
@@ -8192,9 +8192,9 @@ namespace Coverage
                 Assert.That(RootState != null);
 
                 Leaf NewItem0 = CreateLeaf(Guid.NewGuid());
-                IFocusInsertionListNodeIndex ReplacementIndex0 = new FocusInsertionListNodeIndex(RootNode, nameof(IMain.LeafPath), NewItem0, 0);
+                IFocusInsertionListNodeIndex ReplacementIndex0 = new FocusInsertionListNodeIndex(RootNode, nameof(Main.LeafPath), NewItem0, 0);
 
-                IFocusListInner LeafPathInner = RootState.PropertyToInner(nameof(IMain.LeafPath)) as IFocusListInner;
+                IFocusListInner LeafPathInner = RootState.PropertyToInner(nameof(Main.LeafPath)) as IFocusListInner;
                 Assert.That(LeafPathInner != null);
 
                 int PathCount = LeafPathInner.Count;
@@ -8221,9 +8221,9 @@ namespace Coverage
 
 
                 Leaf NewItem1 = CreateLeaf(Guid.NewGuid());
-                IFocusInsertionExistingBlockNodeIndex ReplacementIndex1 = new FocusInsertionExistingBlockNodeIndex(RootNode, nameof(IMain.LeafBlocks), NewItem1, 0, 0);
+                IFocusInsertionExistingBlockNodeIndex ReplacementIndex1 = new FocusInsertionExistingBlockNodeIndex(RootNode, nameof(Main.LeafBlocks), NewItem1, 0, 0);
 
-                IFocusBlockListInner LeafBlocksInner = RootState.PropertyToInner(nameof(IMain.LeafBlocks)) as IFocusBlockListInner;
+                IFocusBlockListInner LeafBlocksInner = RootState.PropertyToInner(nameof(Main.LeafBlocks)) as IFocusBlockListInner;
                 Assert.That(LeafBlocksInner != null);
 
                 IFocusBlockState BlockState = LeafBlocksInner.BlockStateList[0];
@@ -8249,7 +8249,7 @@ namespace Coverage
 
 
 
-                IFocusPlaceholderInner PlaceholderTreeInner = RootState.PropertyToInner(nameof(IMain.PlaceholderTree)) as IFocusPlaceholderInner;
+                IFocusPlaceholderInner PlaceholderTreeInner = RootState.PropertyToInner(nameof(Main.PlaceholderTree)) as IFocusPlaceholderInner;
                 Assert.That(PlaceholderTreeInner != null);
 
                 IFocusBrowsingPlaceholderNodeIndex ExistingIndex2 = PlaceholderTreeInner.ChildState.ParentIndex as IFocusBrowsingPlaceholderNodeIndex;
@@ -8276,7 +8276,7 @@ namespace Coverage
 
 
 
-                IFocusPlaceholderInner PlaceholderLeafInner = NewItemState2.PropertyToInner(nameof(ITree.Placeholder)) as IFocusPlaceholderInner;
+                IFocusPlaceholderInner PlaceholderLeafInner = NewItemState2.PropertyToInner(nameof(Tree.Placeholder)) as IFocusPlaceholderInner;
                 Assert.That(PlaceholderLeafInner != null);
 
                 IFocusBrowsingPlaceholderNodeIndex ExistingIndex3 = PlaceholderLeafInner.ChildState.ParentIndex as IFocusBrowsingPlaceholderNodeIndex;
@@ -8301,7 +8301,7 @@ namespace Coverage
 
 
 
-                IFocusOptionalInner OptionalLeafInner = RootState.PropertyToInner(nameof(IMain.AssignedOptionalLeaf)) as IFocusOptionalInner;
+                IFocusOptionalInner OptionalLeafInner = RootState.PropertyToInner(nameof(Main.AssignedOptionalLeaf)) as IFocusOptionalInner;
                 Assert.That(OptionalLeafInner != null);
 
                 IFocusBrowsingOptionalNodeIndex ExistingIndex4 = OptionalLeafInner.ChildState.ParentIndex as IFocusBrowsingOptionalNodeIndex;
@@ -8387,7 +8387,7 @@ namespace Coverage
         {
             ControllerTools.ResetExpectedName();
 
-            IMain RootNode;
+            Main RootNode;
             IFocusRootNodeIndex RootIndex;
 
             RootNode = CreateRoot(ValueGuid0, Imperfections.None);
@@ -8404,7 +8404,7 @@ namespace Coverage
                 IFocusNodeState RootState = Controller.RootState;
                 Assert.That(RootState != null);
 
-                IFocusOptionalInner UnassignedOptionalLeafInner = RootState.PropertyToInner(nameof(IMain.UnassignedOptionalLeaf)) as IFocusOptionalInner;
+                IFocusOptionalInner UnassignedOptionalLeafInner = RootState.PropertyToInner(nameof(Main.UnassignedOptionalLeaf)) as IFocusOptionalInner;
                 Assert.That(UnassignedOptionalLeafInner != null);
                 Assert.That(!UnassignedOptionalLeafInner.IsAssigned);
 
@@ -8458,7 +8458,7 @@ namespace Coverage
         {
             ControllerTools.ResetExpectedName();
 
-            IMain RootNode;
+            Main RootNode;
             IFocusRootNodeIndex RootIndex;
 
             RootNode = CreateRoot(ValueGuid0, Imperfections.None);
@@ -8474,7 +8474,7 @@ namespace Coverage
                 IFocusNodeState RootState = Controller.RootState;
                 Assert.That(RootState != null);
 
-                IFocusOptionalInner AssignedOptionalLeafInner = RootState.PropertyToInner(nameof(IMain.AssignedOptionalLeaf)) as IFocusOptionalInner;
+                IFocusOptionalInner AssignedOptionalLeafInner = RootState.PropertyToInner(nameof(Main.AssignedOptionalLeaf)) as IFocusOptionalInner;
                 Assert.That(AssignedOptionalLeafInner != null);
                 Assert.That(AssignedOptionalLeafInner.IsAssigned);
 
@@ -8528,7 +8528,7 @@ namespace Coverage
         {
             ControllerTools.ResetExpectedName();
 
-            IMain RootNode;
+            Main RootNode;
             IFocusRootNodeIndex RootIndex;
             bool IsMoved;
 
@@ -8545,7 +8545,7 @@ namespace Coverage
                 IFocusNodeState RootState = Controller.RootState;
                 Assert.That(RootState != null);
 
-                IFocusBlockListInner LeafBlocksInner = RootState.PropertyToInner(nameof(IMain.LeafBlocks)) as IFocusBlockListInner;
+                IFocusBlockListInner LeafBlocksInner = RootState.PropertyToInner(nameof(Main.LeafBlocks)) as IFocusBlockListInner;
                 Assert.That(LeafBlocksInner != null);
 
                 IFocusNodeStateReadOnlyList AllChildren0 = (IFocusNodeStateReadOnlyList)RootState.GetAllChildren();
@@ -8577,14 +8577,14 @@ namespace Coverage
 
                     if (ControllerView0.Focus.CellView.StateView.State is IFocusPatternState AsPatternState)
                     {
-                        Controller.ChangeTextAndCaretPosition(AsPatternState.ParentIndex, nameof(BaseNode.IPattern.Text), "test", 0, 1, false);
+                        Controller.ChangeTextAndCaretPosition(AsPatternState.ParentIndex, nameof(BaseNode.Pattern.Text), "test", 0, 1, false);
                         Assert.That(Controller.CanUndo);
                         Controller.Undo();
                     }
 
                     else if (ControllerView0.Focus.CellView.StateView.State is IFocusSourceState AsSourceState)
                     {
-                        Controller.ChangeTextAndCaretPosition(AsSourceState.ParentIndex, nameof(BaseNode.IIdentifier.Text), "test", 0, 1, false);
+                        Controller.ChangeTextAndCaretPosition(AsSourceState.ParentIndex, nameof(BaseNode.Identifier.Text), "test", 0, 1, false);
                         Assert.That(Controller.CanUndo);
                         Controller.Undo();
                     }
@@ -8613,7 +8613,7 @@ namespace Coverage
         {
             ControllerTools.ResetExpectedName();
 
-            IMain RootNode;
+            Main RootNode;
             IFocusRootNodeIndex RootIndex;
 
             RootNode = CreateRoot(ValueGuid0, Imperfections.None);
@@ -8629,7 +8629,7 @@ namespace Coverage
                 IFocusNodeState RootState = Controller.RootState;
                 Assert.That(RootState != null);
 
-                IFocusBlockListInner LeafBlocksInner = RootState.PropertyToInner(nameof(IMain.LeafBlocks)) as IFocusBlockListInner;
+                IFocusBlockListInner LeafBlocksInner = RootState.PropertyToInner(nameof(Main.LeafBlocks)) as IFocusBlockListInner;
                 Assert.That(LeafBlocksInner != null);
 
                 IFocusNodeStateReadOnlyList AllChildren0 = (IFocusNodeStateReadOnlyList)RootState.GetAllChildren();
@@ -8685,7 +8685,7 @@ namespace Coverage
         {
             ControllerTools.ResetExpectedName();
 
-            IMain RootNode;
+            Main RootNode;
             IFocusRootNodeIndex RootIndex;
 
             RootNode = CreateRoot(ValueGuid0, Imperfections.None);
@@ -8701,7 +8701,7 @@ namespace Coverage
                 IFocusNodeState RootState = Controller.RootState;
                 Assert.That(RootState != null);
 
-                IFocusBlockListInner LeafBlocksInner = RootState.PropertyToInner(nameof(IMain.LeafBlocks)) as IFocusBlockListInner;
+                IFocusBlockListInner LeafBlocksInner = RootState.PropertyToInner(nameof(Main.LeafBlocks)) as IFocusBlockListInner;
                 Assert.That(LeafBlocksInner != null);
 
                 IFocusNodeStateReadOnlyList AllChildren0 = (IFocusNodeStateReadOnlyList)RootState.GetAllChildren();
@@ -8756,7 +8756,7 @@ namespace Coverage
         {
             ControllerTools.ResetExpectedName();
 
-            IMain RootNode;
+            Main RootNode;
             IFocusRootNodeIndex RootIndex;
 
             RootNode = CreateRoot(ValueGuid0, Imperfections.None);
@@ -8791,10 +8791,10 @@ namespace Coverage
 
                 Assert.That(BaseNodeHelper.NodeTreeDiagnostic.IsValid(RootNode));
 
-                IFocusOptionalInner OptionalLeafInner = RootState.PropertyToInner(nameof(IMain.AssignedOptionalLeaf)) as IFocusOptionalInner;
+                IFocusOptionalInner OptionalLeafInner = RootState.PropertyToInner(nameof(Main.AssignedOptionalLeaf)) as IFocusOptionalInner;
                 Assert.That(OptionalLeafInner != null);
 
-                IFocusInsertionOptionalClearIndex ReplacementIndex5 = new FocusInsertionOptionalClearIndex(RootNode, nameof(IMain.AssignedOptionalLeaf));
+                IFocusInsertionOptionalClearIndex ReplacementIndex5 = new FocusInsertionOptionalClearIndex(RootNode, nameof(Main.AssignedOptionalLeaf));
 
                 Controller.Replace(OptionalLeafInner, ReplacementIndex5, out IWriteableBrowsingChildIndex NewItemIndex5);
                 Assert.That(Controller.Contains(NewItemIndex5));
@@ -8812,7 +8812,7 @@ namespace Coverage
 
 
 
-                IFocusBlockListInner LeafBlocksInner = RootState.PropertyToInner(nameof(IMain.LeafBlocks)) as IFocusBlockListInner;
+                IFocusBlockListInner LeafBlocksInner = RootState.PropertyToInner(nameof(Main.LeafBlocks)) as IFocusBlockListInner;
                 Assert.That(LeafBlocksInner != null);
 
                 IFocusBrowsingExistingBlockNodeIndex RemovedLeafIndex = LeafBlocksInner.BlockStateList[0].StateList[0].ParentIndex as IFocusBrowsingExistingBlockNodeIndex;
@@ -8856,7 +8856,7 @@ namespace Coverage
                 Assert.That(AllChildren6.Count == AllChildren5.Count, $"New count: {AllChildren6.Count}");
 
                 IDictionary<Type, string[]> WithExpandCollectionTable = BaseNodeHelper.NodeHelper.WithExpandCollectionTable as IDictionary<Type, string[]>;
-                WithExpandCollectionTable.Add(typeof(IMain), new string[] { nameof(IMain.LeafBlocks) });
+                WithExpandCollectionTable.Add(typeof(Main), new string[] { nameof(Main.LeafBlocks) });
 
                 Controller.Expand(RootIndex, out IsChanged);
                 Assert.That(IsChanged);
@@ -8871,7 +8871,7 @@ namespace Coverage
                 Assert.That(Controller.CanUndo);
                 Controller.Undo();
 
-                WithExpandCollectionTable.Remove(typeof(IMain));
+                WithExpandCollectionTable.Remove(typeof(Main));
 
                 Assert.That(Controller.CanUndo);
                 Controller.Undo();
@@ -8904,7 +8904,7 @@ namespace Coverage
         {
             ControllerTools.ResetExpectedName();
 
-            IMain RootNode;
+            Main RootNode;
             IFocusRootNodeIndex RootIndex;
             bool IsChanged;
 
@@ -8921,7 +8921,7 @@ namespace Coverage
                 IFocusNodeState RootState = Controller.RootState;
                 Assert.That(RootState != null);
 
-                IFocusBlockListInner LeafBlocksInner = RootState.PropertyToInner(nameof(IMain.LeafBlocks)) as IFocusBlockListInner;
+                IFocusBlockListInner LeafBlocksInner = RootState.PropertyToInner(nameof(Main.LeafBlocks)) as IFocusBlockListInner;
                 Assert.That(LeafBlocksInner != null);
 
                 IFocusBrowsingExistingBlockNodeIndex RemovedLeafIndex = LeafBlocksInner.BlockStateList[0].StateList[0].ParentIndex as IFocusBrowsingExistingBlockNodeIndex;
@@ -8959,7 +8959,7 @@ namespace Coverage
                 Assert.That(AllChildren0.Count == 9, $"New count: {AllChildren0.Count}");
 
                 IDictionary<Type, string[]> WithExpandCollectionTable = BaseNodeHelper.NodeHelper.WithExpandCollectionTable as IDictionary<Type, string[]>;
-                WithExpandCollectionTable.Add(typeof(IMain), new string[] { nameof(IMain.LeafBlocks) });
+                WithExpandCollectionTable.Add(typeof(Main), new string[] { nameof(Main.LeafBlocks) });
 
                 Controller.Expand(RootIndex, out IsChanged);
                 Assert.That(IsChanged);
@@ -8990,14 +8990,14 @@ namespace Coverage
 
                 //System.Diagnostics.Debug.Assert(false);
                 BaseNode.IBlock ChildBlock = LeafBlocksInner.BlockStateList[0].ChildBlock;
-                ILeaf FirstNode = ChildBlock.NodeList[0] as ILeaf;
+                Leaf FirstNode = ChildBlock.NodeList[0] as Leaf;
                 Assert.That(FirstNode != null);
-                BaseNodeHelper.NodeTreeHelper.SetString(FirstNode, nameof(ILeaf.Text), "!");
+                BaseNodeHelper.NodeTreeHelper.SetString(FirstNode, nameof(Leaf.Text), "!");
 
-                IFocusOptionalInner LeafOptionalInner = RootState.PropertyToInner(nameof(IMain.EmptyOptionalLeaf)) as IFocusOptionalInner;
+                IFocusOptionalInner LeafOptionalInner = RootState.PropertyToInner(nameof(Main.EmptyOptionalLeaf)) as IFocusOptionalInner;
                 Assert.That(LeafOptionalInner != null);
                 Assert.That(LeafOptionalInner.IsAssigned);
-                BaseNodeHelper.NodeTreeHelper.SetString(LeafOptionalInner.ChildState.Node, nameof(ILeaf.Text), "!");
+                BaseNodeHelper.NodeTreeHelper.SetString(LeafOptionalInner.ChildState.Node, nameof(Leaf.Text), "!");
 
                 Controller.Reduce(RootIndex, out IsChanged);
                 Assert.That(!IsChanged);
@@ -9005,7 +9005,7 @@ namespace Coverage
                 IFocusNodeStateReadOnlyList AllChildren5 = (IFocusNodeStateReadOnlyList)RootState.GetAllChildren();
                 Assert.That(AllChildren5.Count == AllChildren4.Count, $"New count: {AllChildren5.Count}");
 
-                BaseNodeHelper.NodeTreeHelper.SetString(FirstNode, nameof(ILeaf.Text), "");
+                BaseNodeHelper.NodeTreeHelper.SetString(FirstNode, nameof(Leaf.Text), "");
 
                 //System.Diagnostics.Debug.Assert(false);
                 Controller.Reduce(RootIndex, out IsChanged);
@@ -9017,7 +9017,7 @@ namespace Coverage
                 Controller.Expand(RootIndex, out IsChanged);
                 Assert.That(IsChanged);
 
-                WithExpandCollectionTable.Remove(typeof(IMain));
+                WithExpandCollectionTable.Remove(typeof(Main));
 
                 //System.Diagnostics.Debug.Assert(false);
                 Controller.Reduce(RootIndex, out IsChanged);
@@ -9029,7 +9029,7 @@ namespace Coverage
                 Assert.That(Controller.CanUndo);
                 Controller.Undo();
 
-                WithExpandCollectionTable.Add(typeof(IMain), new string[] { nameof(IMain.LeafBlocks) });
+                WithExpandCollectionTable.Add(typeof(Main), new string[] { nameof(Main.LeafBlocks) });
 
                 Assert.That(Controller.CanUndo);
                 Controller.Undo();
@@ -9042,7 +9042,7 @@ namespace Coverage
                 Assert.That(Controller.CanUndo);
                 Controller.Undo();
 
-                WithExpandCollectionTable.Remove(typeof(IMain));
+                WithExpandCollectionTable.Remove(typeof(Main));
 
                 Assert.That(Controller.CanUndo);
                 Controller.Undo();
@@ -9067,7 +9067,7 @@ namespace Coverage
         {
             ControllerTools.ResetExpectedName();
 
-            IMain RootNode;
+            Main RootNode;
             IFocusRootNodeIndex RootIndex;
             bool IsChanged;
 
@@ -9084,7 +9084,7 @@ namespace Coverage
                 IFocusNodeState RootState = Controller.RootState;
                 Assert.That(RootState != null);
 
-                IFocusBlockListInner LeafBlocksInner = RootState.PropertyToInner(nameof(IMain.LeafBlocks)) as IFocusBlockListInner;
+                IFocusBlockListInner LeafBlocksInner = RootState.PropertyToInner(nameof(Main.LeafBlocks)) as IFocusBlockListInner;
                 Assert.That(LeafBlocksInner != null);
 
                 IFocusBrowsingExistingBlockNodeIndex RemovedLeafIndex = LeafBlocksInner.BlockStateList[0].StateList[0].ParentIndex as IFocusBrowsingExistingBlockNodeIndex;
@@ -9124,7 +9124,7 @@ namespace Coverage
                 Assert.That(BaseNodeHelper.NodeTreeDiagnostic.IsValid(RootNode));
                 Assert.That(LeafBlocksInner.IsEmpty);
 
-                IFocusListInner LeafPathInner = RootState.PropertyToInner(nameof(IMain.LeafPath)) as IFocusListInner;
+                IFocusListInner LeafPathInner = RootState.PropertyToInner(nameof(Main.LeafPath)) as IFocusListInner;
                 Assert.That(LeafPathInner != null);
                 Assert.That(LeafPathInner.Count == 2);
 
@@ -9136,7 +9136,7 @@ namespace Coverage
                 Assert.That(!Controller.Contains(RemovedListLeafIndex));
 
                 IDictionary<Type, string[]> NeverEmptyCollectionTable = BaseNodeHelper.NodeHelper.NeverEmptyCollectionTable as IDictionary<Type, string[]>;
-                NeverEmptyCollectionTable.Add(typeof(IMain), new string[] { nameof(IMain.PlaceholderTree) });
+                NeverEmptyCollectionTable.Add(typeof(Main), new string[] { nameof(Main.PlaceholderTree) });
 
                 RemovedListLeafIndex = LeafPathInner.StateList[0].ParentIndex as IFocusBrowsingListNodeIndex;
                 Assert.That(Controller.Contains(RemovedListLeafIndex));
@@ -9146,7 +9146,7 @@ namespace Coverage
                 Assert.That(!Controller.Contains(RemovedListLeafIndex));
                 Assert.That(LeafPathInner.Count == 0);
 
-                NeverEmptyCollectionTable.Remove(typeof(IMain));
+                NeverEmptyCollectionTable.Remove(typeof(Main));
 
                 Assert.That(Controller.CanUndo);
                 Controller.Undo();
@@ -9159,9 +9159,9 @@ namespace Coverage
                 Assert.That(AllChildren0.Count == 12, $"New count: {AllChildren0.Count}");
 
                 IDictionary<Type, string[]> WithExpandCollectionTable = BaseNodeHelper.NodeHelper.WithExpandCollectionTable as IDictionary<Type, string[]>;
-                WithExpandCollectionTable.Add(typeof(IMain), new string[] { nameof(IMain.LeafBlocks) });
+                WithExpandCollectionTable.Add(typeof(Main), new string[] { nameof(Main.LeafBlocks) });
 
-                IFocusOptionalInner LeafOptionalInner = RootState.PropertyToInner(nameof(IMain.AssignedOptionalLeaf)) as IFocusOptionalInner;
+                IFocusOptionalInner LeafOptionalInner = RootState.PropertyToInner(nameof(Main.AssignedOptionalLeaf)) as IFocusOptionalInner;
                 Assert.That(LeafOptionalInner != null);
 
 
@@ -9173,7 +9173,7 @@ namespace Coverage
 
                 Assert.That(BaseNodeHelper.NodeTreeDiagnostic.IsValid(RootNode));
 
-                ILeaf Leaf = LeafOptionalInner.ChildState.Node as ILeaf;
+                Leaf Leaf = LeafOptionalInner.ChildState.Node as Leaf;
                 BaseNodeHelper.NodeTreeHelper.SetStringProperty(Leaf, "Text", "");
 
                 Controller.Canonicalize(out IsChanged);
@@ -9198,7 +9198,7 @@ namespace Coverage
                 Assert.That(Controller.CanUndo);
                 Controller.Undo();
 
-                NeverEmptyCollectionTable.Add(typeof(IMain), new string[] { nameof(IMain.LeafBlocks) });
+                NeverEmptyCollectionTable.Add(typeof(Main), new string[] { nameof(Main.LeafBlocks) });
                 Assert.That(LeafBlocksInner.BlockStateList.Count == 1);
                 Assert.That(LeafBlocksInner.BlockStateList[0].StateList.Count == 1, LeafBlocksInner.BlockStateList[0].StateList.Count.ToString());
 
@@ -9208,9 +9208,9 @@ namespace Coverage
                 Assert.That(Controller.CanUndo);
                 Controller.Undo();
 
-                NeverEmptyCollectionTable.Remove(typeof(IMain));
+                NeverEmptyCollectionTable.Remove(typeof(Main));
 
-                WithExpandCollectionTable.Remove(typeof(IMain));
+                WithExpandCollectionTable.Remove(typeof(Main));
 
                 Assert.That(Controller.CanUndo);
                 Controller.Undo();
@@ -9235,29 +9235,29 @@ namespace Coverage
         {
             ControllerTools.ResetExpectedName();
 
-            BaseNode.IClass RootNode;
+            BaseNode.Class RootNode;
             IFocusRootNodeIndex RootIndex;
             bool IsMoved;
             RootNode = BaseNodeHelper.NodeHelper.CreateSimpleClass("Class!");
 
-            BaseNode.IFunctionFeature FunctionFeature = BaseNodeHelper.NodeHelper.CreateEmptyFunctionFeature();
-            BaseNode.IPropertyFeature PropertyFeature = BaseNodeHelper.NodeHelper.CreateEmptyPropertyFeature();
+            BaseNode.FunctionFeature FunctionFeature = BaseNodeHelper.NodeHelper.CreateEmptyFunctionFeature();
+            BaseNode.PropertyFeature PropertyFeature = BaseNodeHelper.NodeHelper.CreateEmptyPropertyFeature();
             ((BaseNode.PropertyFeature)PropertyFeature).PropertyKind = BaseNode.UtilityType.WriteOnly;
             ((BaseNode.PropertyFeature)PropertyFeature).GetterBody.Assign();
             ((BaseNode.PropertyFeature)PropertyFeature).SetterBody.Assign();
 
-            ((BaseNode.Class)RootNode).FeatureBlocks = BaseNodeHelper.BlockListHelper.CreateSimpleBlockList<BaseNode.IFeature, BaseNode.Feature>(FunctionFeature);
+            ((BaseNode.Class)RootNode).FeatureBlocks = BaseNodeHelper.BlockListHelper.CreateSimpleBlockList<BaseNode.Feature>(FunctionFeature);
             RootNode.FeatureBlocks.NodeBlockList[0].NodeList.Add(PropertyFeature);
 
-            BaseNode.ICommandInstruction FunctionFirstInstruction = BaseNodeHelper.NodeHelper.CreateSimpleCommandInstruction("test!") as BaseNode.ICommandInstruction;
-            BaseNode.IFunctionFeature FirstFeature = (BaseNode.IFunctionFeature)RootNode.FeatureBlocks.NodeBlockList[0].NodeList[0];
-            BaseNode.IQueryOverload FirstOverload = FirstFeature.OverloadBlocks.NodeBlockList[0].NodeList[0];
+            BaseNode.CommandInstruction FunctionFirstInstruction = BaseNodeHelper.NodeHelper.CreateSimpleCommandInstruction("test!") as BaseNode.CommandInstruction;
+            BaseNode.FunctionFeature FirstFeature = (BaseNode.FunctionFeature)RootNode.FeatureBlocks.NodeBlockList[0].NodeList[0];
+            BaseNode.QueryOverload FirstOverload = FirstFeature.OverloadBlocks.NodeBlockList[0].NodeList[0];
             BaseNode.EffectiveBody FirstOverloadBody = (BaseNode.EffectiveBody)FirstOverload.QueryBody;
-            FirstOverloadBody.BodyInstructionBlocks = BaseNodeHelper.BlockListHelper.CreateSimpleBlockList<BaseNode.IInstruction, BaseNode.Instruction>(FunctionFirstInstruction);
+            FirstOverloadBody.BodyInstructionBlocks = BaseNodeHelper.BlockListHelper.CreateSimpleBlockList<BaseNode.Instruction>(FunctionFirstInstruction);
 
-            BaseNode.ICommandInstruction PropertyFirstInstruction = BaseNodeHelper.NodeHelper.CreateSimpleCommandInstruction("test?") as BaseNode.ICommandInstruction;
+            BaseNode.CommandInstruction PropertyFirstInstruction = BaseNodeHelper.NodeHelper.CreateSimpleCommandInstruction("test?") as BaseNode.CommandInstruction;
             BaseNode.EffectiveBody PropertyBody = ((BaseNode.PropertyFeature)PropertyFeature).GetterBody.Item as BaseNode.EffectiveBody;
-            PropertyBody.BodyInstructionBlocks = BaseNodeHelper.BlockListHelper.CreateSimpleBlockList<BaseNode.IInstruction, BaseNode.Instruction>(PropertyFirstInstruction);
+            PropertyBody.BodyInstructionBlocks = BaseNodeHelper.BlockListHelper.CreateSimpleBlockList<BaseNode.Instruction>(PropertyFirstInstruction);
 
             RootIndex = new FocusRootNodeIndex(RootNode);
 
@@ -9285,7 +9285,7 @@ namespace Coverage
                 IsItemCyclableThrough = ControllerView0.IsItemCyclableThrough(out State, out CyclePosition);
                 Assert.That(!IsItemCyclableThrough);
 
-                while (ControllerView0.MaxFocusMove > 0 && !(ControllerView0.Focus.CellView.StateView.State.Node is BaseNode.IFunctionFeature))
+                while (ControllerView0.MaxFocusMove > 0 && !(ControllerView0.Focus.CellView.StateView.State.Node is BaseNode.FunctionFeature))
                     ControllerView0.MoveFocus(+1, true, out IsMoved);
 
                 IFocusNodeStateView StateView = ControllerView0.Focus.CellView.StateView;
@@ -9293,7 +9293,7 @@ namespace Coverage
                 //Assert.That(ControllerView0.IsFirstItem(StateView));
 
                 IFocusNodeState CurrentState = StateView.State;
-                Assert.That(CurrentState != null && CurrentState.Node is BaseNode.IFeature);
+                Assert.That(CurrentState != null && CurrentState.Node is BaseNode.Feature);
 
                 IFocusInsertionChildNodeIndexList CycleIndexList;
                 int FeatureCycleCount = 14;
@@ -9335,7 +9335,7 @@ namespace Coverage
 
                     while (ControllerView0.MaxFocusMove > 0)
                     {
-                        if (ControllerView0.Focus.CellView.StateView.State.Node is BaseNode.IIdentifier AsIdentifier && AsIdentifier.Text == FunctionFirstInstruction.Command.Path[0].Text)
+                        if (ControllerView0.Focus.CellView.StateView.State.Node is BaseNode.Identifier AsIdentifier && AsIdentifier.Text == FunctionFirstInstruction.Command.Path[0].Text)
                             break;
 
                         if (ControllerView0.Focus.CellView.Frame is IFocusKeywordFrame AsFocusableKeywordFrame && (AsFocusableKeywordFrame.Text == "deferred" || AsFocusableKeywordFrame.Text == "extern" || AsFocusableKeywordFrame.Text == "precursor"))
@@ -9346,7 +9346,7 @@ namespace Coverage
 
                     StateView = ControllerView0.Focus.CellView.StateView;
                     CurrentState = StateView.State;
-                    if (CurrentState.Node is BaseNode.IIdentifier AsStateIdentifier && AsStateIdentifier.Text == FunctionFirstInstruction.Command.Path[0].Text)
+                    if (CurrentState.Node is BaseNode.Identifier AsStateIdentifier && AsStateIdentifier.Text == FunctionFirstInstruction.Command.Path[0].Text)
                     {
                         /*
                         Assert.That(ControllerView0.IsFirstItem(StateView));
@@ -9387,7 +9387,7 @@ namespace Coverage
 
                     while (ControllerView0.MaxFocusMove > 0)
                     {
-                        if (ControllerView0.Focus.CellView.StateView.State.Node is BaseNode.IIdentifier AsIdentifier && AsIdentifier.Text == PropertyFirstInstruction.Command.Path[0].Text)
+                        if (ControllerView0.Focus.CellView.StateView.State.Node is BaseNode.Identifier AsIdentifier && AsIdentifier.Text == PropertyFirstInstruction.Command.Path[0].Text)
                             break;
 
                         if (ControllerView0.Focus.CellView.Frame is IFocusKeywordFrame AsFocusableKeywordFrame && (AsFocusableKeywordFrame.Text == "deferred" || AsFocusableKeywordFrame.Text == "extern" || AsFocusableKeywordFrame.Text == "precursor"))
@@ -9398,7 +9398,7 @@ namespace Coverage
 
                     StateView = ControllerView0.Focus.CellView.StateView;
                     CurrentState = StateView.State;
-                    if (CurrentState.Node is BaseNode.IIdentifier AsStateIdentifier && AsStateIdentifier.Text == PropertyFirstInstruction.Command.Path[0].Text)
+                    if (CurrentState.Node is BaseNode.Identifier AsStateIdentifier && AsStateIdentifier.Text == PropertyFirstInstruction.Command.Path[0].Text)
                     {
                         /*
                         Assert.That(ControllerView0.IsFirstItem(StateView));
@@ -9481,34 +9481,34 @@ namespace Coverage
         {
             ControllerTools.ResetExpectedName();
 
-            BaseNode.IClass RootNode;
+            BaseNode.Class RootNode;
             IFocusRootNodeIndex RootIndex;
             bool IsMoved;
             RootNode = BaseNodeHelper.NodeHelper.CreateSimpleClass("Class!");
 
-            BaseNode.IFunctionFeature FunctionFeature = BaseNodeHelper.NodeHelper.CreateEmptyFunctionFeature();
-            BaseNode.IPropertyFeature PropertyFeature = BaseNodeHelper.NodeHelper.CreateEmptyPropertyFeature();
+            BaseNode.FunctionFeature FunctionFeature = BaseNodeHelper.NodeHelper.CreateEmptyFunctionFeature();
+            BaseNode.PropertyFeature PropertyFeature = BaseNodeHelper.NodeHelper.CreateEmptyPropertyFeature();
             ((BaseNode.PropertyFeature)PropertyFeature).PropertyKind = BaseNode.UtilityType.WriteOnly;
             ((BaseNode.PropertyFeature)PropertyFeature).GetterBody.Assign();
             ((BaseNode.PropertyFeature)PropertyFeature).SetterBody.Assign();
 
-            ((BaseNode.Class)RootNode).FeatureBlocks = BaseNodeHelper.BlockListHelper.CreateSimpleBlockList<BaseNode.IFeature, BaseNode.Feature>(FunctionFeature);
+            ((BaseNode.Class)RootNode).FeatureBlocks = BaseNodeHelper.BlockListHelper.CreateSimpleBlockList<BaseNode.Feature>(FunctionFeature);
             RootNode.FeatureBlocks.NodeBlockList[0].NodeList.Add(PropertyFeature);
 
-            List<BaseNode.IIdentifier> IdentifierList = new List<BaseNode.IIdentifier>();
+            List<BaseNode.Identifier> IdentifierList = new List<BaseNode.Identifier>();
             IdentifierList.Add(BaseNodeHelper.NodeHelper.CreateSimpleIdentifier("test1"));
             IdentifierList.Add(BaseNodeHelper.NodeHelper.CreateSimpleIdentifier("test2"));
-            BaseNode.IQualifiedName QualifiedName = BaseNodeHelper.NodeHelper.CreateQualifiedName(IdentifierList);
-            BaseNode.ICommandInstruction FunctionFirstInstruction = BaseNodeHelper.NodeHelper.CreateSimpleCommandInstruction("") as BaseNode.ICommandInstruction;
+            BaseNode.QualifiedName QualifiedName = BaseNodeHelper.NodeHelper.CreateQualifiedName(IdentifierList);
+            BaseNode.CommandInstruction FunctionFirstInstruction = BaseNodeHelper.NodeHelper.CreateSimpleCommandInstruction("") as BaseNode.CommandInstruction;
             ((BaseNode.CommandInstruction)FunctionFirstInstruction).Command = QualifiedName;
-            BaseNode.IFunctionFeature FirstFeature = (BaseNode.IFunctionFeature)RootNode.FeatureBlocks.NodeBlockList[0].NodeList[0];
-            BaseNode.IQueryOverload FirstOverload = FirstFeature.OverloadBlocks.NodeBlockList[0].NodeList[0];
+            BaseNode.FunctionFeature FirstFeature = (BaseNode.FunctionFeature)RootNode.FeatureBlocks.NodeBlockList[0].NodeList[0];
+            BaseNode.QueryOverload FirstOverload = FirstFeature.OverloadBlocks.NodeBlockList[0].NodeList[0];
             BaseNode.EffectiveBody FirstOverloadBody = (BaseNode.EffectiveBody)FirstOverload.QueryBody;
-            FirstOverloadBody.BodyInstructionBlocks = BaseNodeHelper.BlockListHelper.CreateSimpleBlockList<BaseNode.IInstruction, BaseNode.Instruction>(FunctionFirstInstruction);
+            FirstOverloadBody.BodyInstructionBlocks = BaseNodeHelper.BlockListHelper.CreateSimpleBlockList<BaseNode.Instruction>(FunctionFirstInstruction);
 
-            BaseNode.ICommandInstruction PropertyFirstInstruction = BaseNodeHelper.NodeHelper.CreateSimpleCommandInstruction("test?") as BaseNode.ICommandInstruction;
+            BaseNode.CommandInstruction PropertyFirstInstruction = BaseNodeHelper.NodeHelper.CreateSimpleCommandInstruction("test?") as BaseNode.CommandInstruction;
             BaseNode.EffectiveBody PropertyBody = ((BaseNode.PropertyFeature)PropertyFeature).GetterBody.Item as BaseNode.EffectiveBody;
-            PropertyBody.BodyInstructionBlocks = BaseNodeHelper.BlockListHelper.CreateSimpleBlockList<BaseNode.IInstruction, BaseNode.Instruction>(PropertyFirstInstruction);
+            PropertyBody.BodyInstructionBlocks = BaseNodeHelper.BlockListHelper.CreateSimpleBlockList<BaseNode.Instruction>(PropertyFirstInstruction);
 
             RootIndex = new FocusRootNodeIndex(RootNode);
 
@@ -9556,33 +9556,33 @@ namespace Coverage
             ControllerTools.ResetExpectedName();
             bool IsMoved;
 
-            IMain MainItemH = CreateRoot(ValueGuid0, Imperfections.None);
-            IMain MainItemV = CreateRoot(ValueGuid1, Imperfections.None);
-            IRoot RootNode = new Root();
-            BaseNode.IDocument RootDocument = BaseNodeHelper.NodeHelper.CreateSimpleDocumentation("root doc", Guid.NewGuid());
+            Main MainItemH = CreateRoot(ValueGuid0, Imperfections.None);
+            Main MainItemV = CreateRoot(ValueGuid1, Imperfections.None);
+            Root RootNode = new Root();
+            BaseNode.Document RootDocument = BaseNodeHelper.NodeHelper.CreateSimpleDocumentation("root doc", Guid.NewGuid());
             BaseNodeHelper.NodeTreeHelper.SetDocumentation(RootNode, RootDocument);
-            BaseNode.IBlockList<IMain, Main> MainBlocksH = BaseNodeHelper.BlockListHelper.CreateSimpleBlockList<IMain, Main>(MainItemH);
-            BaseNode.IBlockList<IMain, Main> MainBlocksV = BaseNodeHelper.BlockListHelper.CreateSimpleBlockList<IMain, Main>(MainItemV);
+            BaseNode.BlockList<Main> MainBlocksH = BaseNodeHelper.BlockListHelper.CreateSimpleBlockList<Main>(MainItemH);
+            BaseNode.BlockList<Main> MainBlocksV = BaseNodeHelper.BlockListHelper.CreateSimpleBlockList<Main>(MainItemV);
             BaseNodeHelper.NodeTreeHelperBlockList.SetReplication((BaseNode.IBlock)MainBlocksV.NodeBlockList[0], BaseNode.ReplicationStatus.Replicated);
 
-            IMain UnassignedOptionalMain = CreateRoot(ValueGuid2, Imperfections.None);
-            Easly.IOptionalReference<IMain> UnassignedOptional = BaseNodeHelper.OptionalReferenceHelper.CreateReference<IMain>(UnassignedOptionalMain);
+            Main UnassignedOptionalMain = CreateRoot(ValueGuid2, Imperfections.None);
+            Easly.OptionalReference<Main> UnassignedOptional = BaseNodeHelper.OptionalReferenceHelper.CreateReference<Main>(UnassignedOptionalMain);
 
-            IList<ILeaf> LeafPathH = new List<ILeaf>();
-            ILeaf FirstLeafH = CreateLeaf(Guid.NewGuid());
+            IList<Leaf> LeafPathH = new List<Leaf>();
+            Leaf FirstLeafH = CreateLeaf(Guid.NewGuid());
             LeafPathH.Add(FirstLeafH);
 
-            IList<ILeaf> LeafPathV = new List<ILeaf>();
-            ILeaf FirstLeafV = CreateLeaf(Guid.NewGuid());
+            IList<Leaf> LeafPathV = new List<Leaf>();
+            Leaf FirstLeafV = CreateLeaf(Guid.NewGuid());
             LeafPathV.Add(FirstLeafV);
 
-            BaseNodeHelper.NodeTreeHelperBlockList.SetBlockList(RootNode, nameof(IRoot.MainBlocksH), (BaseNode.IBlockList)MainBlocksH);
-            BaseNodeHelper.NodeTreeHelperBlockList.SetBlockList(RootNode, nameof(IRoot.MainBlocksV), (BaseNode.IBlockList)MainBlocksV);
-            BaseNodeHelper.NodeTreeHelperOptional.SetOptionalReference(RootNode, nameof(IRoot.UnassignedOptionalMain), (Easly.IOptionalReference)UnassignedOptional);
-            BaseNodeHelper.NodeTreeHelper.SetString(RootNode, nameof(IRoot.ValueString), "root string");
-            BaseNodeHelper.NodeTreeHelperList.SetChildNodeList(RootNode, nameof(IRoot.LeafPathH), (IList)LeafPathH);
-            BaseNodeHelper.NodeTreeHelperList.SetChildNodeList(RootNode, nameof(IRoot.LeafPathV), (IList)LeafPathV);
-            BaseNodeHelper.NodeTreeHelperOptional.SetOptionalReference(RootNode, nameof(IRoot.UnassignedOptionalLeaf), (Easly.IOptionalReference)BaseNodeHelper.OptionalReferenceHelper.CreateEmptyReference<ILeaf>());
+            BaseNodeHelper.NodeTreeHelperBlockList.SetBlockList(RootNode, nameof(Root.MainBlocksH), (BaseNode.IBlockList)MainBlocksH);
+            BaseNodeHelper.NodeTreeHelperBlockList.SetBlockList(RootNode, nameof(Root.MainBlocksV), (BaseNode.IBlockList)MainBlocksV);
+            BaseNodeHelper.NodeTreeHelperOptional.SetOptionalReference(RootNode, nameof(Root.UnassignedOptionalMain), (Easly.IOptionalReference)UnassignedOptional);
+            BaseNodeHelper.NodeTreeHelper.SetString(RootNode, nameof(Root.ValueString), "root string");
+            BaseNodeHelper.NodeTreeHelperList.SetChildNodeList(RootNode, nameof(Root.LeafPathH), (IList)LeafPathH);
+            BaseNodeHelper.NodeTreeHelperList.SetChildNodeList(RootNode, nameof(Root.LeafPathV), (IList)LeafPathV);
+            BaseNodeHelper.NodeTreeHelperOptional.SetOptionalReference(RootNode, nameof(Root.UnassignedOptionalLeaf), (Easly.IOptionalReference)BaseNodeHelper.OptionalReferenceHelper.CreateEmptyReference<Leaf>());
 
             //System.Diagnostics.Debug.Assert(false);
             IFocusRootNodeIndex RootIndex = new FocusRootNodeIndex(RootNode);
@@ -9597,10 +9597,10 @@ namespace Coverage
                 IFocusNodeState RootState = Controller.RootState;
                 Assert.That(RootState != null);
 
-                IFocusBlockListInner MainInnerH = RootState.PropertyToInner(nameof(IRoot.MainBlocksH)) as IFocusBlockListInner;
+                IFocusBlockListInner MainInnerH = RootState.PropertyToInner(nameof(Root.MainBlocksH)) as IFocusBlockListInner;
                 Assert.That(MainInnerH != null);
 
-                IFocusBlockListInner MainInnerV = RootState.PropertyToInner(nameof(IRoot.MainBlocksV)) as IFocusBlockListInner;
+                IFocusBlockListInner MainInnerV = RootState.PropertyToInner(nameof(Root.MainBlocksV)) as IFocusBlockListInner;
                 Assert.That(MainInnerV != null);
 
                 IFocusBrowsingExistingBlockNodeIndex MainIndex = MainInnerH.IndexAt(0, 0) as IFocusBrowsingExistingBlockNodeIndex;
@@ -9632,14 +9632,14 @@ namespace Coverage
                 Controller.Remove(MainInnerV, MainIndex);
                 Controller.Undo();
 
-                IFocusListInner LeafInnerH = RootState.PropertyToInner(nameof(IRoot.LeafPathH)) as IFocusListInner;
+                IFocusListInner LeafInnerH = RootState.PropertyToInner(nameof(Root.LeafPathH)) as IFocusListInner;
                 Assert.That(LeafInnerH != null);
 
                 IFocusBrowsingListNodeIndex LeafIndexH = LeafInnerH.IndexAt(0) as IFocusBrowsingListNodeIndex;
                 Controller.Remove(LeafInnerH, LeafIndexH);
                 Controller.Undo();
 
-                IFocusListInner LeafInnerV = RootState.PropertyToInner(nameof(IRoot.LeafPathV)) as IFocusListInner;
+                IFocusListInner LeafInnerV = RootState.PropertyToInner(nameof(Root.LeafPathV)) as IFocusListInner;
                 Assert.That(LeafInnerV != null);
 
                 IFocusBrowsingListNodeIndex LeafIndexV = LeafInnerV.IndexAt(0) as IFocusBrowsingListNodeIndex;
@@ -9650,7 +9650,7 @@ namespace Coverage
                 ControllerView0.MoveFocus(ControllerView0.MinFocusMove, true, out IsMoved);
                 Assert.That(ControllerView0.MinFocusMove == 0);
 
-                IFocusOptionalInner OptionalMainInner = RootState.PropertyToInner(nameof(IRoot.UnassignedOptionalMain)) as IFocusOptionalInner;
+                IFocusOptionalInner OptionalMainInner = RootState.PropertyToInner(nameof(Root.UnassignedOptionalMain)) as IFocusOptionalInner;
                 Controller.Assign(OptionalMainInner.ChildState.ParentIndex, out bool IsChanged);
                 Assert.That(IsChanged);
 
@@ -9686,7 +9686,7 @@ namespace Coverage
                 //System.Diagnostics.Debug.Assert(false);
 
                 IFocusNodeState FirstMainState = MainInnerV.BlockStateList[0].StateList[0];
-                IFocusBlockListInner LeafBlockInner = FirstMainState.PropertyToInner(nameof(IMain.LeafBlocks)) as IFocusBlockListInner;
+                IFocusBlockListInner LeafBlockInner = FirstMainState.PropertyToInner(nameof(Main.LeafBlocks)) as IFocusBlockListInner;
 
                 Controller.ChangeReplication(LeafBlockInner, 0, BaseNode.ReplicationStatus.Replicated);
 
@@ -9697,14 +9697,14 @@ namespace Coverage
                 {
                     if (ControllerView0.Focus.CellView.StateView.State is IFocusPatternState AsPatternState)
                     {
-                        Controller.ChangeTextAndCaretPosition(AsPatternState.ParentIndex, nameof(BaseNode.IPattern.Text), "test", 0, 1, false);
+                        Controller.ChangeTextAndCaretPosition(AsPatternState.ParentIndex, nameof(BaseNode.Pattern.Text), "test", 0, 1, false);
                         Assert.That(Controller.CanUndo);
                         Controller.Undo();
                     }
 
                     else if (ControllerView0.Focus.CellView.StateView.State is IFocusSourceState AsSourceState)
                     {
-                        Controller.ChangeTextAndCaretPosition(AsSourceState.ParentIndex, nameof(BaseNode.IIdentifier.Text), "test", 0, 1, false);
+                        Controller.ChangeTextAndCaretPosition(AsSourceState.ParentIndex, nameof(BaseNode.Identifier.Text), "test", 0, 1, false);
                         Assert.That(Controller.CanUndo);
                         Controller.Undo();
                     }
@@ -9720,7 +9720,7 @@ namespace Coverage
         {
             ControllerTools.ResetExpectedName();
 
-            IMain RootNode;
+            Main RootNode;
             IFocusRootNodeIndex RootIndex;
             bool IsReadOnly;
             IReadOnlyBlockState FirstBlockState;
@@ -9866,10 +9866,10 @@ namespace Coverage
                 IFocusNodeState RootState = Controller.RootState;
                 Assert.That(RootState != null);
 
-                IFocusBlockListInner LeafBlocksInner = RootState.PropertyToInner(nameof(IMain.LeafBlocks)) as IFocusBlockListInner;
+                IFocusBlockListInner LeafBlocksInner = RootState.PropertyToInner(nameof(Main.LeafBlocks)) as IFocusBlockListInner;
                 Assert.That(LeafBlocksInner != null);
 
-                IFocusListInner LeafPathInner = RootState.PropertyToInner(nameof(IMain.LeafPath)) as IFocusListInner;
+                IFocusListInner LeafPathInner = RootState.PropertyToInner(nameof(Main.LeafPath)) as IFocusListInner;
                 Assert.That(LeafPathInner != null);
 
                 IFocusPlaceholderNodeState FirstNodeState = LeafBlocksInner.FirstNodeState;
@@ -11037,17 +11037,17 @@ namespace Coverage
             // IFocusTemplateDictionary
 
             IFocusTemplateDictionary NodeTemplateDictionary = TestDebug.CoverageFocusTemplateSet.NodeTemplateDictionary;
-            Assert.That(NodeTemplateDictionary.ContainsKey(typeof(ILeaf)));
-            IFocusTemplate LeafTemplate = NodeTemplateDictionary[typeof(ILeaf)];
+            Assert.That(NodeTemplateDictionary.ContainsKey(typeof(Leaf)));
+            IFocusTemplate LeafTemplate = NodeTemplateDictionary[typeof(Leaf)];
 
             IFrameTemplateDictionary FrameNodeTemplateDictionary = NodeTemplateDictionary;
             IDictionary<Type, IFrameTemplate> FrameNodeTemplateDictionaryAsDictionary = FrameNodeTemplateDictionary;
             Assert.That(FrameNodeTemplateDictionaryAsDictionary.Keys != null);
             Assert.That(FrameNodeTemplateDictionaryAsDictionary.Values != null);
-            Assert.That(FrameNodeTemplateDictionaryAsDictionary.ContainsKey(typeof(ILeaf)));
-            FrameNodeTemplateDictionaryAsDictionary.Remove(typeof(ILeaf));
-            FrameNodeTemplateDictionaryAsDictionary.Add(typeof(ILeaf), LeafTemplate);
-            Assert.That(FrameNodeTemplateDictionaryAsDictionary.TryGetValue(typeof(ILeaf), out IFrameTemplate AsFrameTemplate) == NodeTemplateDictionary.TryGetValue(typeof(ILeaf), out IFocusTemplate AsFocusTemplate));
+            Assert.That(FrameNodeTemplateDictionaryAsDictionary.ContainsKey(typeof(Leaf)));
+            FrameNodeTemplateDictionaryAsDictionary.Remove(typeof(Leaf));
+            FrameNodeTemplateDictionaryAsDictionary.Add(typeof(Leaf), LeafTemplate);
+            Assert.That(FrameNodeTemplateDictionaryAsDictionary.TryGetValue(typeof(Leaf), out IFrameTemplate AsFrameTemplate) == NodeTemplateDictionary.TryGetValue(typeof(Leaf), out IFocusTemplate AsFocusTemplate));
             ICollection<KeyValuePair<Type, IFrameTemplate>> FrameNodeTemplateDictionaryAsCollection = FrameNodeTemplateDictionary;
             Assert.That(!FrameNodeTemplateDictionaryAsCollection.IsReadOnly);
             foreach (KeyValuePair<Type, IFrameTemplate> Entry in FrameNodeTemplateDictionary)
@@ -11066,10 +11066,10 @@ namespace Coverage
 
             IFrameTemplateReadOnlyDictionary FrameNodeTemplateDictionaryReadOnly = NodeTemplateDictionaryReadOnly;
             IReadOnlyDictionary<Type, IFrameTemplate> FrameNodeTemplateDictionaryReadOnlyAsDictionary = FrameNodeTemplateDictionaryReadOnly;
-            Assert.That(FrameNodeTemplateDictionaryReadOnlyAsDictionary.ContainsKey(typeof(ILeaf)));
+            Assert.That(FrameNodeTemplateDictionaryReadOnlyAsDictionary.ContainsKey(typeof(Leaf)));
             Assert.That(FrameNodeTemplateDictionaryReadOnlyAsDictionary.Keys != null);
             Assert.That(FrameNodeTemplateDictionaryReadOnlyAsDictionary.Values != null);
-            Assert.That(FrameNodeTemplateDictionaryReadOnlyAsDictionary.TryGetValue(typeof(ILeaf), out AsFrameTemplate) == NodeTemplateDictionary.TryGetValue(typeof(ILeaf), out AsFocusTemplate));
+            Assert.That(FrameNodeTemplateDictionaryReadOnlyAsDictionary.TryGetValue(typeof(Leaf), out AsFrameTemplate) == NodeTemplateDictionary.TryGetValue(typeof(Leaf), out AsFocusTemplate));
 
             // IFocusTemplateList 
 
@@ -11104,7 +11104,7 @@ namespace Coverage
         {
             ControllerTools.ResetExpectedName();
 
-            IMain RootNode;
+            Main RootNode;
             ILayoutRootNodeIndex RootIndex;
             ILayoutController Controller;
 
@@ -11145,7 +11145,7 @@ namespace Coverage
         {
             ControllerTools.ResetExpectedName();
 
-            IMain RootNode;
+            Main RootNode;
             ILayoutRootNodeIndex RootIndex0;
             ILayoutRootNodeIndex RootIndex1;
 
@@ -11179,37 +11179,37 @@ namespace Coverage
             Assert.That(Controller0.IndexToState(RootIndex0) == RootState);
 
             Assert.That(RootState.InnerTable.Count == 8);
-            Assert.That(RootState.InnerTable.ContainsKey(nameof(IMain.PlaceholderTree)));
-            Assert.That(RootState.InnerTable.ContainsKey(nameof(IMain.PlaceholderLeaf)));
-            Assert.That(RootState.InnerTable.ContainsKey(nameof(IMain.UnassignedOptionalLeaf)));
-            Assert.That(RootState.InnerTable.ContainsKey(nameof(IMain.EmptyOptionalLeaf)));
-            Assert.That(RootState.InnerTable.ContainsKey(nameof(IMain.AssignedOptionalTree)));
-            Assert.That(RootState.InnerTable.ContainsKey(nameof(IMain.AssignedOptionalLeaf)));
-            Assert.That(RootState.InnerTable.ContainsKey(nameof(IMain.LeafBlocks)));
-            Assert.That(RootState.InnerTable.ContainsKey(nameof(IMain.LeafPath)));
+            Assert.That(RootState.InnerTable.ContainsKey(nameof(Main.PlaceholderTree)));
+            Assert.That(RootState.InnerTable.ContainsKey(nameof(Main.PlaceholderLeaf)));
+            Assert.That(RootState.InnerTable.ContainsKey(nameof(Main.UnassignedOptionalLeaf)));
+            Assert.That(RootState.InnerTable.ContainsKey(nameof(Main.EmptyOptionalLeaf)));
+            Assert.That(RootState.InnerTable.ContainsKey(nameof(Main.AssignedOptionalTree)));
+            Assert.That(RootState.InnerTable.ContainsKey(nameof(Main.AssignedOptionalLeaf)));
+            Assert.That(RootState.InnerTable.ContainsKey(nameof(Main.LeafBlocks)));
+            Assert.That(RootState.InnerTable.ContainsKey(nameof(Main.LeafPath)));
 
-            ILayoutPlaceholderInner MainPlaceholderTreeInner = RootState.PropertyToInner(nameof(IMain.PlaceholderTree)) as ILayoutPlaceholderInner;
+            ILayoutPlaceholderInner MainPlaceholderTreeInner = RootState.PropertyToInner(nameof(Main.PlaceholderTree)) as ILayoutPlaceholderInner;
             Assert.That(MainPlaceholderTreeInner != null);
-            Assert.That(MainPlaceholderTreeInner.InterfaceType == typeof(ITree));
+            Assert.That(MainPlaceholderTreeInner.InterfaceType == typeof(Tree));
             Assert.That(MainPlaceholderTreeInner.ChildState != null);
             Assert.That(MainPlaceholderTreeInner.ChildState.ParentInner == MainPlaceholderTreeInner);
 
-            ILayoutPlaceholderInner MainPlaceholderLeafInner = RootState.PropertyToInner(nameof(IMain.PlaceholderLeaf)) as ILayoutPlaceholderInner;
+            ILayoutPlaceholderInner MainPlaceholderLeafInner = RootState.PropertyToInner(nameof(Main.PlaceholderLeaf)) as ILayoutPlaceholderInner;
             Assert.That(MainPlaceholderLeafInner != null);
-            Assert.That(MainPlaceholderLeafInner.InterfaceType == typeof(ILeaf));
+            Assert.That(MainPlaceholderLeafInner.InterfaceType == typeof(Leaf));
             Assert.That(MainPlaceholderLeafInner.ChildState != null);
             Assert.That(MainPlaceholderLeafInner.ChildState.ParentInner == MainPlaceholderLeafInner);
 
-            ILayoutOptionalInner MainUnassignedOptionalInner = RootState.PropertyToInner(nameof(IMain.UnassignedOptionalLeaf)) as ILayoutOptionalInner;
+            ILayoutOptionalInner MainUnassignedOptionalInner = RootState.PropertyToInner(nameof(Main.UnassignedOptionalLeaf)) as ILayoutOptionalInner;
             Assert.That(MainUnassignedOptionalInner != null);
-            Assert.That(MainUnassignedOptionalInner.InterfaceType == typeof(ILeaf));
+            Assert.That(MainUnassignedOptionalInner.InterfaceType == typeof(Leaf));
             Assert.That(!MainUnassignedOptionalInner.IsAssigned);
             Assert.That(MainUnassignedOptionalInner.ChildState != null);
             Assert.That(MainUnassignedOptionalInner.ChildState.ParentInner == MainUnassignedOptionalInner);
 
-            ILayoutOptionalInner MainAssignedOptionalTreeInner = RootState.PropertyToInner(nameof(IMain.AssignedOptionalTree)) as ILayoutOptionalInner;
+            ILayoutOptionalInner MainAssignedOptionalTreeInner = RootState.PropertyToInner(nameof(Main.AssignedOptionalTree)) as ILayoutOptionalInner;
             Assert.That(MainAssignedOptionalTreeInner != null);
-            Assert.That(MainAssignedOptionalTreeInner.InterfaceType == typeof(ITree));
+            Assert.That(MainAssignedOptionalTreeInner.InterfaceType == typeof(Tree));
             Assert.That(MainAssignedOptionalTreeInner.IsAssigned);
 
             ILayoutNodeState AssignedOptionalTreeState = MainAssignedOptionalTreeInner.ChildState;
@@ -11221,20 +11221,20 @@ namespace Coverage
             Assert.That(AssignedOptionalTreeAllChildren != null);
             Assert.That(AssignedOptionalTreeAllChildren.Count == 2, $"New count: {AssignedOptionalTreeAllChildren.Count}");
 
-            ILayoutOptionalInner MainAssignedOptionalLeafInner = RootState.PropertyToInner(nameof(IMain.AssignedOptionalLeaf)) as ILayoutOptionalInner;
+            ILayoutOptionalInner MainAssignedOptionalLeafInner = RootState.PropertyToInner(nameof(Main.AssignedOptionalLeaf)) as ILayoutOptionalInner;
             Assert.That(MainAssignedOptionalLeafInner != null);
-            Assert.That(MainAssignedOptionalLeafInner.InterfaceType == typeof(ILeaf));
+            Assert.That(MainAssignedOptionalLeafInner.InterfaceType == typeof(Leaf));
             Assert.That(MainAssignedOptionalLeafInner.IsAssigned);
             Assert.That(MainAssignedOptionalLeafInner.ChildState != null);
             Assert.That(MainAssignedOptionalLeafInner.ChildState.ParentInner == MainAssignedOptionalLeafInner);
 
-            ILayoutBlockListInner MainLeafBlocksInner = RootState.PropertyToInner(nameof(IMain.LeafBlocks)) as ILayoutBlockListInner;
+            ILayoutBlockListInner MainLeafBlocksInner = RootState.PropertyToInner(nameof(Main.LeafBlocks)) as ILayoutBlockListInner;
             Assert.That(MainLeafBlocksInner != null);
             Assert.That(!MainLeafBlocksInner.IsNeverEmpty);
             Assert.That(!MainLeafBlocksInner.IsEmpty);
             Assert.That(!MainLeafBlocksInner.IsSingle);
-            Assert.That(MainLeafBlocksInner.InterfaceType == typeof(ILeaf));
-            Assert.That(MainLeafBlocksInner.BlockType == typeof(BaseNode.IBlock<ILeaf, Leaf>));
+            Assert.That(MainLeafBlocksInner.InterfaceType == typeof(Leaf));
+            Assert.That(MainLeafBlocksInner.BlockType == typeof(BaseNode.Block<Leaf>));
             Assert.That(MainLeafBlocksInner.ItemType == typeof(Leaf));
             Assert.That(MainLeafBlocksInner.Count == 4);
             Assert.That(MainLeafBlocksInner.BlockStateList != null);
@@ -11276,10 +11276,10 @@ namespace Coverage
 
             Assert.That(MainLeafBlocksInner.FirstNodeState == LeafBlock.StateList[0]);
 
-            ILayoutListInner MainLeafPathInner = RootState.PropertyToInner(nameof(IMain.LeafPath)) as ILayoutListInner;
+            ILayoutListInner MainLeafPathInner = RootState.PropertyToInner(nameof(Main.LeafPath)) as ILayoutListInner;
             Assert.That(MainLeafPathInner != null);
             Assert.That(!MainLeafPathInner.IsNeverEmpty);
-            Assert.That(MainLeafPathInner.InterfaceType == typeof(ILeaf));
+            Assert.That(MainLeafPathInner.InterfaceType == typeof(Leaf));
             Assert.That(MainLeafPathInner.Count == 2);
             Assert.That(MainLeafPathInner.StateList != null);
             Assert.That(MainLeafPathInner.StateList.Count == 2);
@@ -11290,14 +11290,14 @@ namespace Coverage
             ILayoutNodeStateReadOnlyList AllChildren = (ILayoutNodeStateReadOnlyList)RootState.GetAllChildren();
             Assert.That(AllChildren.Count == 19, $"New count: {AllChildren.Count}");
 
-            ILayoutPlaceholderInner PlaceholderInner = RootState.InnerTable[nameof(IMain.PlaceholderLeaf)] as ILayoutPlaceholderInner;
+            ILayoutPlaceholderInner PlaceholderInner = RootState.InnerTable[nameof(Main.PlaceholderLeaf)] as ILayoutPlaceholderInner;
             Assert.That(PlaceholderInner != null);
 
             ILayoutBrowsingPlaceholderNodeIndex PlaceholderNodeIndex = PlaceholderInner.ChildState.ParentIndex as ILayoutBrowsingPlaceholderNodeIndex;
             Assert.That(PlaceholderNodeIndex != null);
             Assert.That(Controller0.Contains(PlaceholderNodeIndex));
 
-            ILayoutOptionalInner UnassignedOptionalInner = RootState.InnerTable[nameof(IMain.UnassignedOptionalLeaf)] as ILayoutOptionalInner;
+            ILayoutOptionalInner UnassignedOptionalInner = RootState.InnerTable[nameof(Main.UnassignedOptionalLeaf)] as ILayoutOptionalInner;
             Assert.That(UnassignedOptionalInner != null);
 
             ILayoutBrowsingOptionalNodeIndex UnassignedOptionalNodeIndex = UnassignedOptionalInner.ChildState.ParentIndex;
@@ -11305,7 +11305,7 @@ namespace Coverage
             Assert.That(Controller0.Contains(UnassignedOptionalNodeIndex));
             Assert.That(Controller0.IsAssigned(UnassignedOptionalNodeIndex) == false);
 
-            ILayoutOptionalInner AssignedOptionalInner = RootState.InnerTable[nameof(IMain.AssignedOptionalLeaf)] as ILayoutOptionalInner;
+            ILayoutOptionalInner AssignedOptionalInner = RootState.InnerTable[nameof(Main.AssignedOptionalLeaf)] as ILayoutOptionalInner;
             Assert.That(AssignedOptionalInner != null);
 
             ILayoutBrowsingOptionalNodeIndex AssignedOptionalNodeIndex = AssignedOptionalInner.ChildState.ParentIndex;
@@ -11316,29 +11316,29 @@ namespace Coverage
             int Min, Max;
             object ReadValue;
 
-            RootState.PropertyToValue(nameof(IMain.ValueBoolean), out ReadValue, out Min, out Max);
+            RootState.PropertyToValue(nameof(Main.ValueBoolean), out ReadValue, out Min, out Max);
             bool ReadAsBoolean = ((int)ReadValue) != 0;
             Assert.That(ReadAsBoolean == true);
-            Assert.That(Controller0.GetDiscreteValue(RootIndex0, nameof(IMain.ValueBoolean), out Min, out Max) == (ReadAsBoolean ? 1 : 0));
+            Assert.That(Controller0.GetDiscreteValue(RootIndex0, nameof(Main.ValueBoolean), out Min, out Max) == (ReadAsBoolean ? 1 : 0));
             Assert.That(Min == 0);
             Assert.That(Max == 1);
 
-            RootState.PropertyToValue(nameof(IMain.ValueEnum), out ReadValue, out Min, out Max);
+            RootState.PropertyToValue(nameof(Main.ValueEnum), out ReadValue, out Min, out Max);
             BaseNode.CopySemantic ReadAsEnum = (BaseNode.CopySemantic)(int)ReadValue;
             Assert.That(ReadAsEnum == BaseNode.CopySemantic.Value);
-            Assert.That(Controller0.GetDiscreteValue(RootIndex0, nameof(IMain.ValueEnum), out Min, out Max) == (int)ReadAsEnum);
+            Assert.That(Controller0.GetDiscreteValue(RootIndex0, nameof(Main.ValueEnum), out Min, out Max) == (int)ReadAsEnum);
             Assert.That(Min == 0);
             Assert.That(Max == 2);
 
-            RootState.PropertyToValue(nameof(IMain.ValueString), out ReadValue, out Min, out Max);
+            RootState.PropertyToValue(nameof(Main.ValueString), out ReadValue, out Min, out Max);
             string ReadAsString = ReadValue as string;
             Assert.That(ReadAsString == "s");
-            Assert.That(Controller0.GetStringValue(RootIndex0, nameof(IMain.ValueString)) == ReadAsString);
+            Assert.That(Controller0.GetStringValue(RootIndex0, nameof(Main.ValueString)) == ReadAsString);
 
-            RootState.PropertyToValue(nameof(IMain.ValueGuid), out ReadValue, out Min, out Max);
+            RootState.PropertyToValue(nameof(Main.ValueGuid), out ReadValue, out Min, out Max);
             Guid ReadAsGuid = (Guid)ReadValue;
             Assert.That(ReadAsGuid == ValueGuid0);
-            Assert.That(Controller0.GetGuidValue(RootIndex0, nameof(IMain.ValueGuid)) == ReadAsGuid);
+            Assert.That(Controller0.GetGuidValue(RootIndex0, nameof(Main.ValueGuid)) == ReadAsGuid);
 
             ILayoutController Controller1 = LayoutController.Create(RootIndex0);
             Assert.That(Controller0.IsEqual(CompareEqual.New(), Controller0));
@@ -11356,7 +11356,7 @@ namespace Coverage
         {
             ControllerTools.ResetExpectedName();
 
-            IMain RootNode = CreateRoot(ValueGuid0, Imperfections.None);
+            Main RootNode = CreateRoot(ValueGuid0, Imperfections.None);
 
             ILayoutRootNodeIndex RootIndex = new LayoutRootNodeIndex(RootNode);
             Assert.That(RootIndex != null);
@@ -11367,7 +11367,7 @@ namespace Coverage
             ILayoutPlaceholderNodeState RootState = Controller.RootState;
             Assert.That(RootState != null);
 
-            BaseNode.INode ClonedNode = RootState.CloneNode();
+            BaseNode.Node ClonedNode = RootState.CloneNode();
             Assert.That(BaseNodeHelper.NodeTreeDiagnostic.IsValid(ClonedNode));
 
             ILayoutRootNodeIndex CloneRootIndex = new LayoutRootNodeIndex(ClonedNode);
@@ -11390,7 +11390,7 @@ namespace Coverage
         {
             ControllerTools.ResetExpectedName();
 
-            IMain RootNode;
+            Main RootNode;
             ILayoutRootNodeIndex RootIndex;
 
             RootNode = CreateRoot(ValueGuid0, Imperfections.None);
@@ -11406,7 +11406,7 @@ namespace Coverage
                 ILayoutNodeState RootState = Controller.RootState;
                 Assert.That(RootState != null);
 
-                ILayoutListInner LeafPathInner = RootState.PropertyToInner(nameof(IMain.LeafPath)) as ILayoutListInner;
+                ILayoutListInner LeafPathInner = RootState.PropertyToInner(nameof(Main.LeafPath)) as ILayoutListInner;
                 Assert.That(LeafPathInner != null);
 
                 int PathCount = LeafPathInner.Count;
@@ -11446,7 +11446,7 @@ namespace Coverage
 
 
 
-                ILayoutBlockListInner LeafBlocksInner = RootState.PropertyToInner(nameof(IMain.LeafBlocks)) as ILayoutBlockListInner;
+                ILayoutBlockListInner LeafBlocksInner = RootState.PropertyToInner(nameof(Main.LeafBlocks)) as ILayoutBlockListInner;
                 Assert.That(LeafBlocksInner != null);
 
                 int BlockNodeCount = LeafBlocksInner.Count;
@@ -11486,10 +11486,10 @@ namespace Coverage
 
 
                 Leaf NewItem2 = CreateLeaf(Guid.NewGuid());
-                BaseNode.IPattern NewPattern = BaseNodeHelper.NodeHelper.CreateSimplePattern("");
-                BaseNode.IIdentifier NewSource = BaseNodeHelper.NodeHelper.CreateSimpleIdentifier("");
+                BaseNode.Pattern NewPattern = BaseNodeHelper.NodeHelper.CreateSimplePattern("");
+                BaseNode.Identifier NewSource = BaseNodeHelper.NodeHelper.CreateSimpleIdentifier("");
 
-                ILayoutInsertionNewBlockNodeIndex InsertionIndex2 = new LayoutInsertionNewBlockNodeIndex(RootNode, nameof(IMain.LeafBlocks), NewItem2, 0, NewPattern, NewSource);
+                ILayoutInsertionNewBlockNodeIndex InsertionIndex2 = new LayoutInsertionNewBlockNodeIndex(RootNode, nameof(Main.LeafBlocks), NewItem2, 0, NewPattern, NewSource);
                 Assert.That(CompareEqual.CoverIsEqual(InsertionIndex2, InsertionIndex2));
 
                 int BlockCount = LeafBlocksInner.BlockStateList.Count;
@@ -11540,7 +11540,7 @@ namespace Coverage
         {
             ControllerTools.ResetExpectedName();
 
-            IMain RootNode;
+            Main RootNode;
             ILayoutRootNodeIndex RootIndex;
 
             RootNode = CreateRoot(ValueGuid0, Imperfections.None);
@@ -11556,7 +11556,7 @@ namespace Coverage
                 ILayoutNodeState RootState = Controller.RootState;
                 Assert.That(RootState != null);
 
-                ILayoutListInner LeafPathInner = RootState.PropertyToInner(nameof(IMain.LeafPath)) as ILayoutListInner;
+                ILayoutListInner LeafPathInner = RootState.PropertyToInner(nameof(Main.LeafPath)) as ILayoutListInner;
                 Assert.That(LeafPathInner != null);
 
                 ILayoutBrowsingListNodeIndex RemovedLeafIndex0 = LeafPathInner.StateList[0].ParentIndex as ILayoutBrowsingListNodeIndex;
@@ -11589,12 +11589,12 @@ namespace Coverage
                 Assert.That(Controller.IsRemoveable(LeafPathInner, RemovedLeafIndex0));
 
                 IDictionary<Type, string[]> NeverEmptyCollectionTable = BaseNodeHelper.NodeHelper.NeverEmptyCollectionTable as IDictionary<Type, string[]>;
-                NeverEmptyCollectionTable.Add(typeof(IMain), new string[] { nameof(IMain.LeafPath) });
+                NeverEmptyCollectionTable.Add(typeof(Main), new string[] { nameof(Main.LeafPath) });
                 Assert.That(!Controller.IsRemoveable(LeafPathInner, RemovedLeafIndex0));
 
 
 
-                ILayoutBlockListInner LeafBlocksInner = RootState.PropertyToInner(nameof(IMain.LeafBlocks)) as ILayoutBlockListInner;
+                ILayoutBlockListInner LeafBlocksInner = RootState.PropertyToInner(nameof(Main.LeafBlocks)) as ILayoutBlockListInner;
                 Assert.That(LeafBlocksInner != null);
 
                 ILayoutBrowsingExistingBlockNodeIndex RemovedLeafIndex1 = LeafBlocksInner.BlockStateList[1].StateList[0].ParentIndex as ILayoutBrowsingExistingBlockNodeIndex;
@@ -11647,7 +11647,7 @@ namespace Coverage
                 Controller.Undo();
 
 
-                NeverEmptyCollectionTable.Remove(typeof(IMain));
+                NeverEmptyCollectionTable.Remove(typeof(Main));
                 Assert.That(Controller.IsRemoveable(LeafPathInner, RemovedLeafIndex0));
 
                 Assert.That(Controller.CanUndo);
@@ -11673,7 +11673,7 @@ namespace Coverage
             {
                 ControllerTools.ResetExpectedName();
 
-                IMain RootNode;
+                Main RootNode;
                 ILayoutRootNodeIndex RootIndex;
                 bool IsMoved;
                 bool IsCaretMoved;
@@ -11688,7 +11688,7 @@ namespace Coverage
                 //System.Diagnostics.Debug.Assert(false);
                 ILayoutFrameSelectorList FrameSelectorList = null;
                 foreach (KeyValuePair<Type, ILayoutTemplate> TemplateEntry in TestDebug.CoverageLayoutTemplateSet.NodeTemplateDictionary)
-                    if (TemplateEntry.Key == typeof(IRoot))
+                    if (TemplateEntry.Key == typeof(Root))
                     {
                         ILayoutNodeTemplate Template = TemplateEntry.Value as ILayoutNodeTemplate;
                         Assert.That(Template != null);
@@ -12106,7 +12106,7 @@ namespace Coverage
                         ControllerView0.MoveFocus(+1, true, out IsMoved);
                     }
 
-                    ILayoutBlockListInner MainLeafBlocksInner = Controller.RootState.PropertyToInner(nameof(IMain.LeafBlocks)) as ILayoutBlockListInner;
+                    ILayoutBlockListInner MainLeafBlocksInner = Controller.RootState.PropertyToInner(nameof(Main.LeafBlocks)) as ILayoutBlockListInner;
                     while (!MainLeafBlocksInner.IsEmpty)
                     {
                         IWriteableBrowsingExistingBlockNodeIndex NodeIndex = MainLeafBlocksInner.IndexAt(0, 0) as IWriteableBrowsingExistingBlockNodeIndex;
@@ -12255,7 +12255,7 @@ namespace Coverage
                     BaseNodeHelper.NodeTreeHelper.SetCommentText(RootNode.PlaceholderTree.Documentation, "");
 
                     //System.Diagnostics.Debug.Assert(false);
-                    ILayoutOptionalInner OptionalTreeInner = Controller.RootState.PropertyToInner(nameof(IMain.AssignedOptionalTree)) as ILayoutOptionalInner;
+                    ILayoutOptionalInner OptionalTreeInner = Controller.RootState.PropertyToInner(nameof(Main.AssignedOptionalTree)) as ILayoutOptionalInner;
                     Controller.Unassign(OptionalTreeInner.ChildState.ParentIndex, out IsChanged);
                     Assert.That(IsChanged);
 
@@ -12393,7 +12393,7 @@ namespace Coverage
             {
                 ControllerTools.ResetExpectedName();
 
-                IMain RootNode;
+                Main RootNode;
                 ILayoutRootNodeIndex RootIndex;
 
                 RootNode = CreateRoot(ValueGuid0, Imperfections.None);
@@ -12412,7 +12412,7 @@ namespace Coverage
                     ILayoutNodeStateReadOnlyList AllChildren0 = (ILayoutNodeStateReadOnlyList)RootState.GetAllChildren();
                     Assert.That(AllChildren0.Count == 19, $"New count: {AllChildren0.Count}");
 
-                    ILayoutBlockListInner LeafBlocksInner = RootState.PropertyToInner(nameof(IMain.LeafBlocks)) as ILayoutBlockListInner;
+                    ILayoutBlockListInner LeafBlocksInner = RootState.PropertyToInner(nameof(Main.LeafBlocks)) as ILayoutBlockListInner;
                     Assert.That(LeafBlocksInner != null);
                     Assert.That(LeafBlocksInner.BlockStateList.Count == 3, $"New count: {LeafBlocksInner.BlockStateList.Count}");
                     Assert.That(Controller.IsBlockRangeRemoveable(LeafBlocksInner, 0, 2));
@@ -12429,11 +12429,11 @@ namespace Coverage
                     Controller.Undo();
 
                     IDictionary<Type, string[]> NeverEmptyCollectionTable = BaseNodeHelper.NodeHelper.NeverEmptyCollectionTable as IDictionary<Type, string[]>;
-                    NeverEmptyCollectionTable.Add(typeof(IMain), new string[] { nameof(IMain.LeafBlocks) });
+                    NeverEmptyCollectionTable.Add(typeof(Main), new string[] { nameof(Main.LeafBlocks) });
 
                     Assert.That(!Controller.IsBlockRangeRemoveable(LeafBlocksInner, 0, 3));
 
-                    NeverEmptyCollectionTable.Remove(typeof(IMain));
+                    NeverEmptyCollectionTable.Remove(typeof(Main));
                     Assert.That(Controller.IsBlockRangeRemoveable(LeafBlocksInner, 0, 3));
 
                     Assert.That(!Controller.CanUndo);
@@ -12443,7 +12443,7 @@ namespace Coverage
                     Controller.Undo();
 
                     System.Windows.IDataObject DataObject = new System.Windows.DataObject();
-                    ControllerView0.SelectBlockList(RootState, nameof(IMain.LeafBlocks), 1, 2);
+                    ControllerView0.SelectBlockList(RootState, nameof(Main.LeafBlocks), 1, 2);
 
                     ControllerView0.CopySelection(DataObject);
                     ControllerView0.PrintSelection();
@@ -12455,7 +12455,7 @@ namespace Coverage
                     Assert.That(Controller.CanUndo);
                     Controller.Undo();
 
-                    ControllerView0.SelectBlockList(RootState, nameof(IMain.LeafBlocks), 1, 2);
+                    ControllerView0.SelectBlockList(RootState, nameof(Main.LeafBlocks), 1, 2);
                     ControllerView0.PasteSelection(out bool IsChanged);
                     Assert.That(IsChanged);
 
@@ -12478,7 +12478,7 @@ namespace Coverage
             {
                 ControllerTools.ResetExpectedName();
 
-                IMain RootNode;
+                Main RootNode;
                 ILayoutRootNodeIndex RootIndex;
 
                 RootNode = CreateRoot(ValueGuid0, Imperfections.None);
@@ -12499,7 +12499,7 @@ namespace Coverage
 
 
                     //System.Diagnostics.Debug.Assert(false);
-                    ILayoutListInner LeafPathInner = RootState.PropertyToInner(nameof(IMain.LeafPath)) as ILayoutListInner;
+                    ILayoutListInner LeafPathInner = RootState.PropertyToInner(nameof(Main.LeafPath)) as ILayoutListInner;
                     Assert.That(LeafPathInner != null);
                     Assert.That(LeafPathInner.StateList.Count == 2, $"New count: {LeafPathInner.StateList.Count}");
                     Assert.That(Controller.IsNodeRangeRemoveable(LeafPathInner, -1, 0, 2));
@@ -12522,7 +12522,7 @@ namespace Coverage
 
 
 
-                    ILayoutBlockListInner LeafBlocksInner = RootState.PropertyToInner(nameof(IMain.LeafBlocks)) as ILayoutBlockListInner;
+                    ILayoutBlockListInner LeafBlocksInner = RootState.PropertyToInner(nameof(Main.LeafBlocks)) as ILayoutBlockListInner;
                     Assert.That(LeafBlocksInner != null);
                     Assert.That(LeafBlocksInner.BlockStateList.Count == 3, $"New count: {LeafBlocksInner.BlockStateList.Count}");
                     Assert.That(Controller.IsNodeRangeRemoveable(LeafBlocksInner, 1, 0, 2));
@@ -12544,13 +12544,13 @@ namespace Coverage
                     Controller.Undo();
 
                     IDictionary<Type, string[]> NeverEmptyCollectionTable = BaseNodeHelper.NodeHelper.NeverEmptyCollectionTable as IDictionary<Type, string[]>;
-                    NeverEmptyCollectionTable.Add(typeof(IMain), new string[] { nameof(IMain.LeafBlocks) });
+                    NeverEmptyCollectionTable.Add(typeof(Main), new string[] { nameof(Main.LeafBlocks) });
 
                     Controller.RemoveBlockRange(LeafBlocksInner, 2, 3);
                     Controller.RemoveBlockRange(LeafBlocksInner, 0, 1);
                     Assert.That(!Controller.IsNodeRangeRemoveable(LeafBlocksInner, 0, 0, 2));
 
-                    NeverEmptyCollectionTable.Remove(typeof(IMain));
+                    NeverEmptyCollectionTable.Remove(typeof(Main));
                     Assert.That(Controller.IsNodeRangeRemoveable(LeafBlocksInner, 0, 0, 2));
 
                     Controller.Undo();
@@ -12558,7 +12558,7 @@ namespace Coverage
 
                     System.Windows.IDataObject DataObject = new System.Windows.DataObject();
 
-                    ControllerView0.SelectNode((RootState.InnerTable[nameof(IMain.PlaceholderLeaf)] as ILayoutPlaceholderInner).ChildState);
+                    ControllerView0.SelectNode((RootState.InnerTable[nameof(Main.PlaceholderLeaf)] as ILayoutPlaceholderInner).ChildState);
 
                     ControllerView0.CopySelection(DataObject);
                     ControllerView0.PrintSelection();
@@ -12567,7 +12567,7 @@ namespace Coverage
 
                     System.Windows.Clipboard.SetDataObject(DataObject);
 
-                    ControllerView0.SelectNode((RootState.InnerTable[nameof(IMain.PlaceholderLeaf)] as ILayoutPlaceholderInner).ChildState);
+                    ControllerView0.SelectNode((RootState.InnerTable[nameof(Main.PlaceholderLeaf)] as ILayoutPlaceholderInner).ChildState);
                     ControllerView0.PasteSelection(out bool IsChanged);
                     Assert.That(IsChanged);
 
@@ -12588,7 +12588,7 @@ namespace Coverage
 
 
 
-                    ControllerView0.SelectNodeList(RootState, nameof(IMain.LeafPath), 0, 2);
+                    ControllerView0.SelectNodeList(RootState, nameof(Main.LeafPath), 0, 2);
 
                     ControllerView0.CopySelection(DataObject);
                     //System.Diagnostics.Debug.Assert(false);
@@ -12601,7 +12601,7 @@ namespace Coverage
                     Assert.That(Controller.CanUndo);
                     Controller.Undo();
 
-                    ControllerView0.SelectNodeList(RootState, nameof(IMain.LeafPath), 0, 2);
+                    ControllerView0.SelectNodeList(RootState, nameof(Main.LeafPath), 0, 2);
                     ControllerView0.PasteSelection(out IsChanged);
                     Assert.That(IsChanged);
 
@@ -12615,12 +12615,12 @@ namespace Coverage
                     Assert.That(Controller.CanUndo);
                     Controller.Undo();
 
-                    ControllerView0.SelectNodeList(RootState, nameof(IMain.LeafPath), 0, 0);
+                    ControllerView0.SelectNodeList(RootState, nameof(Main.LeafPath), 0, 0);
                     ControllerView0.CopySelection(DataObject);
                     ControllerView0.PrintSelection();
                     System.Windows.Clipboard.SetDataObject(DataObject);
 
-                    ControllerView0.SelectNodeList(RootState, nameof(IMain.LeafPath), 0, 2);
+                    ControllerView0.SelectNodeList(RootState, nameof(Main.LeafPath), 0, 2);
                     ControllerView0.PasteSelection(out IsChanged);
                     Assert.That(IsChanged);
 
@@ -12628,7 +12628,7 @@ namespace Coverage
                     Controller.Undo();
 
 
-                    ControllerView0.SelectBlockNodeList(RootState, nameof(IMain.LeafBlocks), 1, 0, 1);
+                    ControllerView0.SelectBlockNodeList(RootState, nameof(Main.LeafBlocks), 1, 0, 1);
 
                     ControllerView0.CopySelection(DataObject);
                     ControllerView0.PrintSelection();
@@ -12640,7 +12640,7 @@ namespace Coverage
                     Assert.That(Controller.CanUndo);
                     Controller.Undo();
 
-                    ControllerView0.SelectBlockNodeList(RootState, nameof(IMain.LeafBlocks), 1, 0, 1);
+                    ControllerView0.SelectBlockNodeList(RootState, nameof(Main.LeafBlocks), 1, 0, 1);
                     ControllerView0.PasteSelection(out IsChanged);
                     Assert.That(IsChanged);
 
@@ -12655,12 +12655,12 @@ namespace Coverage
 
                     //System.Diagnostics.Debug.Assert(false);
                     DataObject = new System.Windows.DataObject();
-                    ControllerView0.SelectNode((RootState.InnerTable[nameof(IMain.PlaceholderLeaf)] as IFocusPlaceholderInner).ChildState);
+                    ControllerView0.SelectNode((RootState.InnerTable[nameof(Main.PlaceholderLeaf)] as IFocusPlaceholderInner).ChildState);
                     ControllerView0.CopySelection(DataObject);
                     ControllerView0.PrintSelection();
                     System.Windows.Clipboard.SetDataObject(DataObject);
 
-                    ControllerView0.SelectBlockNodeList(RootState, nameof(IMain.LeafBlocks), 1, 0, 1);
+                    ControllerView0.SelectBlockNodeList(RootState, nameof(Main.LeafBlocks), 1, 0, 1);
                     ControllerView0.PasteSelection(out IsChanged);
                     Assert.That(IsChanged);
 
@@ -12678,7 +12678,7 @@ namespace Coverage
         {
             ControllerTools.ResetExpectedName();
 
-            IMain RootNode;
+            Main RootNode;
             ILayoutRootNodeIndex RootIndex;
 
             RootNode = CreateRoot(ValueGuid0, Imperfections.None);
@@ -12694,7 +12694,7 @@ namespace Coverage
                 ILayoutNodeState RootState = Controller.RootState;
                 Assert.That(RootState != null);
 
-                ILayoutListInner LeafPathInner = RootState.PropertyToInner(nameof(IMain.LeafPath)) as ILayoutListInner;
+                ILayoutListInner LeafPathInner = RootState.PropertyToInner(nameof(Main.LeafPath)) as ILayoutListInner;
                 Assert.That(LeafPathInner != null);
 
                 ILayoutBrowsingListNodeIndex MovedLeafIndex0 = LeafPathInner.IndexAt(0) as ILayoutBrowsingListNodeIndex;
@@ -12726,7 +12726,7 @@ namespace Coverage
 
 
 
-                ILayoutBlockListInner LeafBlocksInner = RootState.PropertyToInner(nameof(IMain.LeafBlocks)) as ILayoutBlockListInner;
+                ILayoutBlockListInner LeafBlocksInner = RootState.PropertyToInner(nameof(Main.LeafBlocks)) as ILayoutBlockListInner;
                 Assert.That(LeafBlocksInner != null);
 
                 ILayoutBrowsingExistingBlockNodeIndex MovedLeafIndex1 = LeafBlocksInner.IndexAt(1, 1) as ILayoutBrowsingExistingBlockNodeIndex;
@@ -12772,7 +12772,7 @@ namespace Coverage
         {
             ControllerTools.ResetExpectedName();
 
-            IMain RootNode;
+            Main RootNode;
             ILayoutRootNodeIndex RootIndex;
 
             RootNode = CreateRoot(ValueGuid0, Imperfections.None);
@@ -12791,7 +12791,7 @@ namespace Coverage
                 ILayoutNodeStateReadOnlyList AllChildren1 = (ILayoutNodeStateReadOnlyList)RootState.GetAllChildren();
                 Assert.That(AllChildren1.Count == 19, $"New count: {AllChildren1.Count}");
 
-                ILayoutBlockListInner LeafBlocksInner = RootState.PropertyToInner(nameof(IMain.LeafBlocks)) as ILayoutBlockListInner;
+                ILayoutBlockListInner LeafBlocksInner = RootState.PropertyToInner(nameof(Main.LeafBlocks)) as ILayoutBlockListInner;
                 Assert.That(LeafBlocksInner != null);
 
                 ILayoutBrowsingExistingBlockNodeIndex MovedLeafIndex1 = LeafBlocksInner.IndexAt(1, 0) as ILayoutBrowsingExistingBlockNodeIndex;
@@ -12835,7 +12835,7 @@ namespace Coverage
         {
             ControllerTools.ResetExpectedName();
 
-            IMain RootNode;
+            Main RootNode;
             ILayoutRootNodeIndex RootIndex;
 
             RootNode = CreateRoot(ValueGuid0, Imperfections.None);
@@ -12851,22 +12851,22 @@ namespace Coverage
                 ILayoutNodeState RootState = Controller.RootState;
                 Assert.That(RootState != null);
 
-                Assert.That(BaseNodeHelper.NodeTreeHelper.GetEnumValue(RootState.Node, nameof(IMain.ValueEnum)) == (int)BaseNode.CopySemantic.Value);
+                Assert.That(BaseNodeHelper.NodeTreeHelper.GetEnumValue(RootState.Node, nameof(Main.ValueEnum)) == (int)BaseNode.CopySemantic.Value);
 
-                Controller.ChangeDiscreteValue(RootIndex, nameof(IMain.ValueEnum), (int)BaseNode.CopySemantic.Reference);
+                Controller.ChangeDiscreteValue(RootIndex, nameof(Main.ValueEnum), (int)BaseNode.CopySemantic.Reference);
 
                 Assert.That(BaseNodeHelper.NodeTreeDiagnostic.IsValid(RootNode));
-                Assert.That(BaseNodeHelper.NodeTreeHelper.GetEnumValue(RootNode, nameof(IMain.ValueEnum)) == (int)BaseNode.CopySemantic.Reference);
+                Assert.That(BaseNodeHelper.NodeTreeHelper.GetEnumValue(RootNode, nameof(Main.ValueEnum)) == (int)BaseNode.CopySemantic.Reference);
 
-                ILayoutPlaceholderInner PlaceholderTreeInner = RootState.PropertyToInner(nameof(IMain.PlaceholderTree)) as ILayoutPlaceholderInner;
+                ILayoutPlaceholderInner PlaceholderTreeInner = RootState.PropertyToInner(nameof(Main.PlaceholderTree)) as ILayoutPlaceholderInner;
                 ILayoutPlaceholderNodeState PlaceholderTreeState = PlaceholderTreeInner.ChildState as ILayoutPlaceholderNodeState;
 
-                Assert.That(BaseNodeHelper.NodeTreeHelper.GetEnumValue(PlaceholderTreeState.Node, nameof(ITree.ValueEnum)) == (int)BaseNode.CopySemantic.Value);
+                Assert.That(BaseNodeHelper.NodeTreeHelper.GetEnumValue(PlaceholderTreeState.Node, nameof(Tree.ValueEnum)) == (int)BaseNode.CopySemantic.Value);
 
-                Controller.ChangeDiscreteValue(PlaceholderTreeState.ParentIndex, nameof(ITree.ValueEnum), (int)BaseNode.CopySemantic.Any);
+                Controller.ChangeDiscreteValue(PlaceholderTreeState.ParentIndex, nameof(Tree.ValueEnum), (int)BaseNode.CopySemantic.Any);
 
                 Assert.That(BaseNodeHelper.NodeTreeDiagnostic.IsValid(RootNode));
-                Assert.That(BaseNodeHelper.NodeTreeHelper.GetEnumValue(PlaceholderTreeState.Node, nameof(ITree.ValueEnum)) == (int)BaseNode.CopySemantic.Any);
+                Assert.That(BaseNodeHelper.NodeTreeHelper.GetEnumValue(PlaceholderTreeState.Node, nameof(Tree.ValueEnum)) == (int)BaseNode.CopySemantic.Any);
 
                 Assert.That(Controller.CanUndo);
                 Controller.Undo();
@@ -12889,7 +12889,7 @@ namespace Coverage
         {
             ControllerTools.ResetExpectedName();
 
-            IMain RootNode;
+            Main RootNode;
             ILayoutRootNodeIndex RootIndex;
 
             RootNode = CreateRoot(ValueGuid0, Imperfections.None);
@@ -12905,14 +12905,14 @@ namespace Coverage
                 ILayoutNodeState RootState = Controller.RootState;
                 Assert.That(RootState != null);
 
-                Assert.That(BaseNodeHelper.NodeTreeHelper.GetString(RootState.Node, nameof(IMain.ValueString)) == "s");
+                Assert.That(BaseNodeHelper.NodeTreeHelper.GetString(RootState.Node, nameof(Main.ValueString)) == "s");
 
-                Controller.ChangeText(RootIndex, nameof(IMain.ValueString), "test");
+                Controller.ChangeText(RootIndex, nameof(Main.ValueString), "test");
 
                 Assert.That(BaseNodeHelper.NodeTreeDiagnostic.IsValid(RootNode));
-                Assert.That(BaseNodeHelper.NodeTreeHelper.GetString(RootNode, nameof(IMain.ValueString)) == "test");
+                Assert.That(BaseNodeHelper.NodeTreeHelper.GetString(RootNode, nameof(Main.ValueString)) == "test");
 
-                ILayoutPlaceholderInner PlaceholderTreeInner = RootState.PropertyToInner(nameof(IMain.PlaceholderTree)) as ILayoutPlaceholderInner;
+                ILayoutPlaceholderInner PlaceholderTreeInner = RootState.PropertyToInner(nameof(Main.PlaceholderTree)) as ILayoutPlaceholderInner;
                 ILayoutPlaceholderNodeState PlaceholderTreeState = PlaceholderTreeInner.ChildState as ILayoutPlaceholderNodeState;
 
                 Assert.That(Controller.CanUndo);
@@ -12934,7 +12934,7 @@ namespace Coverage
         {
             ControllerTools.ResetExpectedName();
 
-            IMain RootNode;
+            Main RootNode;
             ILayoutRootNodeIndex RootIndex;
 
             RootNode = CreateRoot(ValueGuid0, Imperfections.None);
@@ -12950,13 +12950,13 @@ namespace Coverage
                 ILayoutNodeState RootState = Controller.RootState;
                 Assert.That(RootState != null);
 
-                Assert.That(BaseNodeHelper.NodeTreeHelper.GetString(RootState.Node, nameof(IMain.ValueString)) == "s");
+                Assert.That(BaseNodeHelper.NodeTreeHelper.GetString(RootState.Node, nameof(Main.ValueString)) == "s");
 
-                Controller.ChangeTextAndCaretPosition(RootIndex, nameof(IMain.ValueString), "test", 1, 2, false);
-                Controller.ChangeTextAndCaretPosition(RootIndex, nameof(IMain.ValueString), "test", 1, 2, true);
+                Controller.ChangeTextAndCaretPosition(RootIndex, nameof(Main.ValueString), "test", 1, 2, false);
+                Controller.ChangeTextAndCaretPosition(RootIndex, nameof(Main.ValueString), "test", 1, 2, true);
 
                 Assert.That(BaseNodeHelper.NodeTreeDiagnostic.IsValid(RootNode));
-                Assert.That(BaseNodeHelper.NodeTreeHelper.GetString(RootNode, nameof(IMain.ValueString)) == "test");
+                Assert.That(BaseNodeHelper.NodeTreeHelper.GetString(RootNode, nameof(Main.ValueString)) == "test");
 
                 while (!(ControllerView0.Focus is ILayoutStringContentFocus))
                     ControllerView0.MoveFocus(+1, true, out bool IsMoved);
@@ -12970,7 +12970,7 @@ namespace Coverage
                 ControllerView0.SetAutoFormatMode(AutoFormatModes.None);
                 ControllerView0.ChangeFocusedText("test", 3, false);
 
-                ILayoutPlaceholderInner PlaceholderTreeInner = RootState.PropertyToInner(nameof(IMain.PlaceholderTree)) as ILayoutPlaceholderInner;
+                ILayoutPlaceholderInner PlaceholderTreeInner = RootState.PropertyToInner(nameof(Main.PlaceholderTree)) as ILayoutPlaceholderInner;
                 ILayoutPlaceholderNodeState PlaceholderTreeState = PlaceholderTreeInner.ChildState as ILayoutPlaceholderNodeState;
 
                 Assert.That(Controller.CanUndo);
@@ -13006,7 +13006,7 @@ namespace Coverage
         {
             ControllerTools.ResetExpectedName();
 
-            IMain RootNode;
+            Main RootNode;
             ILayoutRootNodeIndex RootIndex;
 
             RootNode = CreateRoot(ValueGuid0, Imperfections.None);
@@ -13029,7 +13029,7 @@ namespace Coverage
                 Assert.That(BaseNodeHelper.NodeTreeDiagnostic.IsValid(RootNode));
                 Assert.That(BaseNodeHelper.NodeTreeHelper.GetCommentText(RootNode) == "test");
 
-                ILayoutPlaceholderInner PlaceholderTreeInner = RootState.PropertyToInner(nameof(IMain.PlaceholderTree)) as ILayoutPlaceholderInner;
+                ILayoutPlaceholderInner PlaceholderTreeInner = RootState.PropertyToInner(nameof(Main.PlaceholderTree)) as ILayoutPlaceholderInner;
                 ILayoutPlaceholderNodeState PlaceholderTreeState = PlaceholderTreeInner.ChildState as ILayoutPlaceholderNodeState;
 
                 Assert.That(Controller.CanUndo);
@@ -13051,7 +13051,7 @@ namespace Coverage
         {
             ControllerTools.ResetExpectedName();
 
-            IMain RootNode;
+            Main RootNode;
             ILayoutRootNodeIndex RootIndex;
 
             RootNode = CreateRoot(ValueGuid0, Imperfections.None);
@@ -13075,7 +13075,7 @@ namespace Coverage
                 Assert.That(BaseNodeHelper.NodeTreeDiagnostic.IsValid(RootNode));
                 Assert.That(BaseNodeHelper.NodeTreeHelper.GetCommentText(RootNode) == "test");
 
-                ILayoutPlaceholderInner PlaceholderTreeInner = RootState.PropertyToInner(nameof(IMain.PlaceholderTree)) as ILayoutPlaceholderInner;
+                ILayoutPlaceholderInner PlaceholderTreeInner = RootState.PropertyToInner(nameof(Main.PlaceholderTree)) as ILayoutPlaceholderInner;
                 ILayoutPlaceholderNodeState PlaceholderTreeState = PlaceholderTreeInner.ChildState as ILayoutPlaceholderNodeState;
 
                 ControllerView0.SetCommentDisplayMode(CommentDisplayModes.All);
@@ -13112,7 +13112,7 @@ namespace Coverage
         {
             ControllerTools.ResetExpectedName();
 
-            IMain RootNode;
+            Main RootNode;
             ILayoutRootNodeIndex RootIndex;
 
             RootNode = CreateRoot(ValueGuid0, Imperfections.None);
@@ -13129,9 +13129,9 @@ namespace Coverage
                 Assert.That(RootState != null);
 
                 Leaf NewItem0 = CreateLeaf(Guid.NewGuid());
-                ILayoutInsertionListNodeIndex ReplacementIndex0 = new LayoutInsertionListNodeIndex(RootNode, nameof(IMain.LeafPath), NewItem0, 0);
+                ILayoutInsertionListNodeIndex ReplacementIndex0 = new LayoutInsertionListNodeIndex(RootNode, nameof(Main.LeafPath), NewItem0, 0);
 
-                ILayoutListInner LeafPathInner = RootState.PropertyToInner(nameof(IMain.LeafPath)) as ILayoutListInner;
+                ILayoutListInner LeafPathInner = RootState.PropertyToInner(nameof(Main.LeafPath)) as ILayoutListInner;
                 Assert.That(LeafPathInner != null);
 
                 int PathCount = LeafPathInner.Count;
@@ -13158,9 +13158,9 @@ namespace Coverage
 
 
                 Leaf NewItem1 = CreateLeaf(Guid.NewGuid());
-                ILayoutInsertionExistingBlockNodeIndex ReplacementIndex1 = new LayoutInsertionExistingBlockNodeIndex(RootNode, nameof(IMain.LeafBlocks), NewItem1, 0, 0);
+                ILayoutInsertionExistingBlockNodeIndex ReplacementIndex1 = new LayoutInsertionExistingBlockNodeIndex(RootNode, nameof(Main.LeafBlocks), NewItem1, 0, 0);
 
-                ILayoutBlockListInner LeafBlocksInner = RootState.PropertyToInner(nameof(IMain.LeafBlocks)) as ILayoutBlockListInner;
+                ILayoutBlockListInner LeafBlocksInner = RootState.PropertyToInner(nameof(Main.LeafBlocks)) as ILayoutBlockListInner;
                 Assert.That(LeafBlocksInner != null);
 
                 ILayoutBlockState BlockState = LeafBlocksInner.BlockStateList[0];
@@ -13186,7 +13186,7 @@ namespace Coverage
 
 
 
-                ILayoutPlaceholderInner PlaceholderTreeInner = RootState.PropertyToInner(nameof(IMain.PlaceholderTree)) as ILayoutPlaceholderInner;
+                ILayoutPlaceholderInner PlaceholderTreeInner = RootState.PropertyToInner(nameof(Main.PlaceholderTree)) as ILayoutPlaceholderInner;
                 Assert.That(PlaceholderTreeInner != null);
 
                 ILayoutBrowsingPlaceholderNodeIndex ExistingIndex2 = PlaceholderTreeInner.ChildState.ParentIndex as ILayoutBrowsingPlaceholderNodeIndex;
@@ -13213,7 +13213,7 @@ namespace Coverage
 
 
 
-                ILayoutPlaceholderInner PlaceholderLeafInner = NewItemState2.PropertyToInner(nameof(ITree.Placeholder)) as ILayoutPlaceholderInner;
+                ILayoutPlaceholderInner PlaceholderLeafInner = NewItemState2.PropertyToInner(nameof(Tree.Placeholder)) as ILayoutPlaceholderInner;
                 Assert.That(PlaceholderLeafInner != null);
 
                 ILayoutBrowsingPlaceholderNodeIndex ExistingIndex3 = PlaceholderLeafInner.ChildState.ParentIndex as ILayoutBrowsingPlaceholderNodeIndex;
@@ -13240,7 +13240,7 @@ namespace Coverage
 
 
 
-                ILayoutOptionalInner OptionalLeafInner = RootState.PropertyToInner(nameof(IMain.AssignedOptionalLeaf)) as ILayoutOptionalInner;
+                ILayoutOptionalInner OptionalLeafInner = RootState.PropertyToInner(nameof(Main.AssignedOptionalLeaf)) as ILayoutOptionalInner;
                 Assert.That(OptionalLeafInner != null);
 
                 ILayoutBrowsingOptionalNodeIndex ExistingIndex4 = OptionalLeafInner.ChildState.ParentIndex as ILayoutBrowsingOptionalNodeIndex;
@@ -13302,13 +13302,13 @@ namespace Coverage
 
 
                 //System.Diagnostics.Debug.Assert(false);
-                ILayoutOptionalInner OptionalTreeInner = RootState.PropertyToInner(nameof(IMain.AssignedOptionalTree)) as ILayoutOptionalInner;
+                ILayoutOptionalInner OptionalTreeInner = RootState.PropertyToInner(nameof(Main.AssignedOptionalTree)) as ILayoutOptionalInner;
                 Assert.That(OptionalTreeInner != null);
                 Assert.That(OptionalTreeInner.IsAssigned);
 
                 ILayoutOptionalNodeState OptionalTreeState = OptionalTreeInner.ChildState;
 
-                ILayoutPlaceholderInner OptionalTreePlaceholderInner = OptionalTreeState.PropertyToInner(nameof(ITree.Placeholder)) as ILayoutPlaceholderInner;
+                ILayoutPlaceholderInner OptionalTreePlaceholderInner = OptionalTreeState.PropertyToInner(nameof(Tree.Placeholder)) as ILayoutPlaceholderInner;
                 Assert.That(OptionalTreePlaceholderInner != null);
 
                 ILayoutBrowsingPlaceholderNodeIndex ExistingIndex6 = OptionalTreePlaceholderInner.ChildState.ParentIndex as ILayoutBrowsingPlaceholderNodeIndex;
@@ -13364,7 +13364,7 @@ namespace Coverage
         {
             ControllerTools.ResetExpectedName();
 
-            IMain RootNode;
+            Main RootNode;
             ILayoutRootNodeIndex RootIndex;
 
             RootNode = CreateRoot(ValueGuid0, Imperfections.None);
@@ -13381,7 +13381,7 @@ namespace Coverage
                 ILayoutNodeState RootState = Controller.RootState;
                 Assert.That(RootState != null);
 
-                ILayoutOptionalInner UnassignedOptionalLeafInner = RootState.PropertyToInner(nameof(IMain.UnassignedOptionalLeaf)) as ILayoutOptionalInner;
+                ILayoutOptionalInner UnassignedOptionalLeafInner = RootState.PropertyToInner(nameof(Main.UnassignedOptionalLeaf)) as ILayoutOptionalInner;
                 Assert.That(UnassignedOptionalLeafInner != null);
                 Assert.That(!UnassignedOptionalLeafInner.IsAssigned);
 
@@ -13435,7 +13435,7 @@ namespace Coverage
         {
             ControllerTools.ResetExpectedName();
 
-            IMain RootNode;
+            Main RootNode;
             ILayoutRootNodeIndex RootIndex;
 
             RootNode = CreateRoot(ValueGuid0, Imperfections.None);
@@ -13451,7 +13451,7 @@ namespace Coverage
                 ILayoutNodeState RootState = Controller.RootState;
                 Assert.That(RootState != null);
 
-                ILayoutOptionalInner AssignedOptionalLeafInner = RootState.PropertyToInner(nameof(IMain.AssignedOptionalLeaf)) as ILayoutOptionalInner;
+                ILayoutOptionalInner AssignedOptionalLeafInner = RootState.PropertyToInner(nameof(Main.AssignedOptionalLeaf)) as ILayoutOptionalInner;
                 Assert.That(AssignedOptionalLeafInner != null);
                 Assert.That(AssignedOptionalLeafInner.IsAssigned);
 
@@ -13505,7 +13505,7 @@ namespace Coverage
         {
             ControllerTools.ResetExpectedName();
 
-            IMain RootNode;
+            Main RootNode;
             ILayoutRootNodeIndex RootIndex;
 
             RootNode = CreateRoot(ValueGuid0, Imperfections.None);
@@ -13523,7 +13523,7 @@ namespace Coverage
                 ILayoutNodeState RootState = Controller.RootState;
                 Assert.That(RootState != null);
 
-                ILayoutBlockListInner LeafBlocksInner = RootState.PropertyToInner(nameof(IMain.LeafBlocks)) as ILayoutBlockListInner;
+                ILayoutBlockListInner LeafBlocksInner = RootState.PropertyToInner(nameof(Main.LeafBlocks)) as ILayoutBlockListInner;
                 Assert.That(LeafBlocksInner != null);
 
                 ILayoutNodeStateReadOnlyList AllChildren0 = (ILayoutNodeStateReadOnlyList)RootState.GetAllChildren();
@@ -13563,7 +13563,7 @@ namespace Coverage
         {
             ControllerTools.ResetExpectedName();
 
-            IMain RootNode;
+            Main RootNode;
             ILayoutRootNodeIndex RootIndex;
 
             RootNode = CreateRoot(ValueGuid0, Imperfections.None);
@@ -13579,7 +13579,7 @@ namespace Coverage
                 ILayoutNodeState RootState = Controller.RootState;
                 Assert.That(RootState != null);
 
-                ILayoutBlockListInner LeafBlocksInner = RootState.PropertyToInner(nameof(IMain.LeafBlocks)) as ILayoutBlockListInner;
+                ILayoutBlockListInner LeafBlocksInner = RootState.PropertyToInner(nameof(Main.LeafBlocks)) as ILayoutBlockListInner;
                 Assert.That(LeafBlocksInner != null);
 
                 ILayoutNodeStateReadOnlyList AllChildren0 = (ILayoutNodeStateReadOnlyList)RootState.GetAllChildren();
@@ -13635,7 +13635,7 @@ namespace Coverage
         {
             ControllerTools.ResetExpectedName();
 
-            IMain RootNode;
+            Main RootNode;
             ILayoutRootNodeIndex RootIndex;
 
             RootNode = CreateRoot(ValueGuid0, Imperfections.None);
@@ -13651,7 +13651,7 @@ namespace Coverage
                 ILayoutNodeState RootState = Controller.RootState;
                 Assert.That(RootState != null);
 
-                ILayoutBlockListInner LeafBlocksInner = RootState.PropertyToInner(nameof(IMain.LeafBlocks)) as ILayoutBlockListInner;
+                ILayoutBlockListInner LeafBlocksInner = RootState.PropertyToInner(nameof(Main.LeafBlocks)) as ILayoutBlockListInner;
                 Assert.That(LeafBlocksInner != null);
 
                 ILayoutNodeStateReadOnlyList AllChildren0 = (ILayoutNodeStateReadOnlyList)RootState.GetAllChildren();
@@ -13706,7 +13706,7 @@ namespace Coverage
         {
             ControllerTools.ResetExpectedName();
 
-            IMain RootNode;
+            Main RootNode;
             ILayoutRootNodeIndex RootIndex;
 
             RootNode = CreateRoot(ValueGuid0, Imperfections.None);
@@ -13741,10 +13741,10 @@ namespace Coverage
 
                 Assert.That(BaseNodeHelper.NodeTreeDiagnostic.IsValid(RootNode));
 
-                ILayoutOptionalInner OptionalLeafInner = RootState.PropertyToInner(nameof(IMain.AssignedOptionalLeaf)) as ILayoutOptionalInner;
+                ILayoutOptionalInner OptionalLeafInner = RootState.PropertyToInner(nameof(Main.AssignedOptionalLeaf)) as ILayoutOptionalInner;
                 Assert.That(OptionalLeafInner != null);
 
-                ILayoutInsertionOptionalClearIndex ReplacementIndex5 = new LayoutInsertionOptionalClearIndex(RootNode, nameof(IMain.AssignedOptionalLeaf));
+                ILayoutInsertionOptionalClearIndex ReplacementIndex5 = new LayoutInsertionOptionalClearIndex(RootNode, nameof(Main.AssignedOptionalLeaf));
 
                 Controller.Replace(OptionalLeafInner, ReplacementIndex5, out IWriteableBrowsingChildIndex NewItemIndex5);
                 Assert.That(Controller.Contains(NewItemIndex5));
@@ -13762,7 +13762,7 @@ namespace Coverage
 
 
 
-                ILayoutBlockListInner LeafBlocksInner = RootState.PropertyToInner(nameof(IMain.LeafBlocks)) as ILayoutBlockListInner;
+                ILayoutBlockListInner LeafBlocksInner = RootState.PropertyToInner(nameof(Main.LeafBlocks)) as ILayoutBlockListInner;
                 Assert.That(LeafBlocksInner != null);
 
                 ILayoutBrowsingExistingBlockNodeIndex RemovedLeafIndex = LeafBlocksInner.BlockStateList[0].StateList[0].ParentIndex as ILayoutBrowsingExistingBlockNodeIndex;
@@ -13806,7 +13806,7 @@ namespace Coverage
                 Assert.That(AllChildren6.Count == AllChildren5.Count, $"New count: {AllChildren6.Count - AllChildren5.Count}");
 
                 IDictionary<Type, string[]> WithExpandCollectionTable = BaseNodeHelper.NodeHelper.WithExpandCollectionTable as IDictionary<Type, string[]>;
-                WithExpandCollectionTable.Add(typeof(IMain), new string[] { nameof(IMain.LeafBlocks) });
+                WithExpandCollectionTable.Add(typeof(Main), new string[] { nameof(Main.LeafBlocks) });
 
                 Controller.Expand(RootIndex, out IsChanged);
                 Assert.That(IsChanged);
@@ -13821,7 +13821,7 @@ namespace Coverage
                 Assert.That(Controller.CanUndo);
                 Controller.Undo();
 
-                WithExpandCollectionTable.Remove(typeof(IMain));
+                WithExpandCollectionTable.Remove(typeof(Main));
 
                 Assert.That(Controller.CanUndo);
                 Controller.Undo();
@@ -13856,7 +13856,7 @@ namespace Coverage
 
             CoverageLayoutFrame ForCoverage = new CoverageLayoutFrame();
 
-            IMain RootNode;
+            Main RootNode;
             ILayoutRootNodeIndex RootIndex;
             bool IsChanged;
 
@@ -13873,7 +13873,7 @@ namespace Coverage
                 ILayoutNodeState RootState = Controller.RootState;
                 Assert.That(RootState != null);
 
-                ILayoutBlockListInner LeafBlocksInner = RootState.PropertyToInner(nameof(IMain.LeafBlocks)) as ILayoutBlockListInner;
+                ILayoutBlockListInner LeafBlocksInner = RootState.PropertyToInner(nameof(Main.LeafBlocks)) as ILayoutBlockListInner;
                 Assert.That(LeafBlocksInner != null);
 
                 ILayoutBrowsingExistingBlockNodeIndex RemovedLeafIndex = LeafBlocksInner.BlockStateList[0].StateList[0].ParentIndex as ILayoutBrowsingExistingBlockNodeIndex;
@@ -13911,7 +13911,7 @@ namespace Coverage
                 Assert.That(AllChildren0.Count == 9, $"New count: {AllChildren0.Count}");
 
                 IDictionary<Type, string[]> WithExpandCollectionTable = BaseNodeHelper.NodeHelper.WithExpandCollectionTable as IDictionary<Type, string[]>;
-                WithExpandCollectionTable.Add(typeof(IMain), new string[] { nameof(IMain.LeafBlocks) });
+                WithExpandCollectionTable.Add(typeof(Main), new string[] { nameof(Main.LeafBlocks) });
 
                 Controller.Expand(RootIndex, out IsChanged);
                 Assert.That(IsChanged);
@@ -13922,10 +13922,10 @@ namespace Coverage
                 Assert.That(BaseNodeHelper.NodeTreeDiagnostic.IsValid(RootNode));
 
                 //System.Diagnostics.Debug.Assert(false);
-                IFrameOptionalInner LeafOptionalInner = RootState.PropertyToInner(nameof(IMain.AssignedOptionalLeaf)) as IFrameOptionalInner;
+                IFrameOptionalInner LeafOptionalInner = RootState.PropertyToInner(nameof(Main.AssignedOptionalLeaf)) as IFrameOptionalInner;
                 Assert.That(LeafOptionalInner != null);
 
-                ILeaf Leaf = LeafOptionalInner.ChildState.Node as ILeaf;
+                Leaf Leaf = LeafOptionalInner.ChildState.Node as Leaf;
                 BaseNodeHelper.NodeTreeHelper.SetStringProperty(Leaf, "Text", "");
 
 
@@ -13949,9 +13949,9 @@ namespace Coverage
                 Assert.That(AllChildren4.Count == AllChildren3.Count + 5, $"New count: {AllChildren4.Count - AllChildren3.Count}");
 
                 BaseNode.IBlock ChildBlock = LeafBlocksInner.BlockStateList[0].ChildBlock;
-                ILeaf FirstNode = ChildBlock.NodeList[0] as ILeaf;
+                Leaf FirstNode = ChildBlock.NodeList[0] as Leaf;
                 Assert.That(FirstNode != null);
-                BaseNodeHelper.NodeTreeHelper.SetString(FirstNode, nameof(ILeaf.Text), "!");
+                BaseNodeHelper.NodeTreeHelper.SetString(FirstNode, nameof(Leaf.Text), "!");
 
                 //System.Diagnostics.Debug.Assert(false);
                 Controller.Reduce(RootIndex, out IsChanged);
@@ -13960,7 +13960,7 @@ namespace Coverage
                 ILayoutNodeStateReadOnlyList AllChildren5 = (ILayoutNodeStateReadOnlyList)RootState.GetAllChildren();
                 Assert.That(AllChildren5.Count == AllChildren4.Count - 2, $"New count: {AllChildren5.Count - AllChildren4.Count}");
 
-                BaseNodeHelper.NodeTreeHelper.SetString(FirstNode, nameof(ILeaf.Text), "");
+                BaseNodeHelper.NodeTreeHelper.SetString(FirstNode, nameof(Leaf.Text), "");
 
                 //System.Diagnostics.Debug.Assert(false);
                 Controller.Reduce(RootIndex, out IsChanged);
@@ -13972,7 +13972,7 @@ namespace Coverage
                 Controller.Expand(RootIndex, out IsChanged);
                 Assert.That(IsChanged);
 
-                WithExpandCollectionTable.Remove(typeof(IMain));
+                WithExpandCollectionTable.Remove(typeof(Main));
 
                 //System.Diagnostics.Debug.Assert(false);
                 Controller.Reduce(RootIndex, out IsChanged);
@@ -13984,7 +13984,7 @@ namespace Coverage
                 Assert.That(Controller.CanUndo);
                 Controller.Undo();
 
-                WithExpandCollectionTable.Add(typeof(IMain), new string[] { nameof(IMain.LeafBlocks) });
+                WithExpandCollectionTable.Add(typeof(Main), new string[] { nameof(Main.LeafBlocks) });
 
                 Assert.That(Controller.CanUndo);
                 Controller.Undo();
@@ -13997,7 +13997,7 @@ namespace Coverage
                 Assert.That(Controller.CanUndo);
                 Controller.Undo();
 
-                WithExpandCollectionTable.Remove(typeof(IMain));
+                WithExpandCollectionTable.Remove(typeof(Main));
 
                 Assert.That(Controller.CanUndo);
                 Controller.Undo();
@@ -14026,7 +14026,7 @@ namespace Coverage
         {
             ControllerTools.ResetExpectedName();
 
-            IMain RootNode;
+            Main RootNode;
             ILayoutRootNodeIndex RootIndex;
             bool IsChanged;
 
@@ -14044,7 +14044,7 @@ namespace Coverage
                 ILayoutNodeState RootState = Controller.RootState;
                 Assert.That(RootState != null);
 
-                ILayoutBlockListInner LeafBlocksInner = RootState.PropertyToInner(nameof(IMain.LeafBlocks)) as ILayoutBlockListInner;
+                ILayoutBlockListInner LeafBlocksInner = RootState.PropertyToInner(nameof(Main.LeafBlocks)) as ILayoutBlockListInner;
                 Assert.That(LeafBlocksInner != null);
 
                 ILayoutBrowsingExistingBlockNodeIndex RemovedLeafIndex = LeafBlocksInner.BlockStateList[0].StateList[0].ParentIndex as ILayoutBrowsingExistingBlockNodeIndex;
@@ -14084,7 +14084,7 @@ namespace Coverage
                 Assert.That(BaseNodeHelper.NodeTreeDiagnostic.IsValid(RootNode));
                 Assert.That(LeafBlocksInner.IsEmpty);
 
-                ILayoutListInner LeafPathInner = RootState.PropertyToInner(nameof(IMain.LeafPath)) as ILayoutListInner;
+                ILayoutListInner LeafPathInner = RootState.PropertyToInner(nameof(Main.LeafPath)) as ILayoutListInner;
                 Assert.That(LeafPathInner != null);
                 Assert.That(LeafPathInner.Count == 2);
 
@@ -14096,7 +14096,7 @@ namespace Coverage
                 Assert.That(!Controller.Contains(RemovedListLeafIndex));
 
                 IDictionary<Type, string[]> NeverEmptyCollectionTable = BaseNodeHelper.NodeHelper.NeverEmptyCollectionTable as IDictionary<Type, string[]>;
-                NeverEmptyCollectionTable.Add(typeof(IMain), new string[] { nameof(IMain.PlaceholderTree) });
+                NeverEmptyCollectionTable.Add(typeof(Main), new string[] { nameof(Main.PlaceholderTree) });
 
                 RemovedListLeafIndex = LeafPathInner.StateList[0].ParentIndex as ILayoutBrowsingListNodeIndex;
                 Assert.That(Controller.Contains(RemovedListLeafIndex));
@@ -14106,7 +14106,7 @@ namespace Coverage
                 Assert.That(!Controller.Contains(RemovedListLeafIndex));
                 Assert.That(LeafPathInner.Count == 0);
 
-                NeverEmptyCollectionTable.Remove(typeof(IMain));
+                NeverEmptyCollectionTable.Remove(typeof(Main));
 
                 Assert.That(Controller.CanUndo);
                 Controller.Undo();
@@ -14119,7 +14119,7 @@ namespace Coverage
                 Assert.That(AllChildren0.Count == 12, $"New count: {AllChildren0.Count}");
 
                 IDictionary<Type, string[]> WithExpandCollectionTable = BaseNodeHelper.NodeHelper.WithExpandCollectionTable as IDictionary<Type, string[]>;
-                WithExpandCollectionTable.Add(typeof(IMain), new string[] { nameof(IMain.LeafBlocks) });
+                WithExpandCollectionTable.Add(typeof(Main), new string[] { nameof(Main.LeafBlocks) });
 
                 Controller.Expand(RootIndex, out IsChanged);
                 Assert.That(IsChanged);
@@ -14130,10 +14130,10 @@ namespace Coverage
                 Assert.That(BaseNodeHelper.NodeTreeDiagnostic.IsValid(RootNode));
 
                 //System.Diagnostics.Debug.Assert(false);
-                IFrameOptionalInner LeafOptionalInner = RootState.PropertyToInner(nameof(IMain.AssignedOptionalLeaf)) as IFrameOptionalInner;
+                IFrameOptionalInner LeafOptionalInner = RootState.PropertyToInner(nameof(Main.AssignedOptionalLeaf)) as IFrameOptionalInner;
                 Assert.That(LeafOptionalInner != null);
 
-                ILeaf Leaf = LeafOptionalInner.ChildState.Node as ILeaf;
+                Leaf Leaf = LeafOptionalInner.ChildState.Node as Leaf;
                 BaseNodeHelper.NodeTreeHelper.SetStringProperty(Leaf, "Text", "");
 
                 Controller.Canonicalize(out IsChanged);
@@ -14156,7 +14156,7 @@ namespace Coverage
                 Assert.That(Controller.CanUndo);
                 Controller.Undo();
 
-                NeverEmptyCollectionTable.Add(typeof(IMain), new string[] { nameof(IMain.LeafBlocks) });
+                NeverEmptyCollectionTable.Add(typeof(Main), new string[] { nameof(Main.LeafBlocks) });
                 Assert.That(LeafBlocksInner.BlockStateList.Count == 1);
                 Assert.That(LeafBlocksInner.BlockStateList[0].StateList.Count == 1, LeafBlocksInner.BlockStateList[0].StateList.Count.ToString());
 
@@ -14166,9 +14166,9 @@ namespace Coverage
                 Assert.That(Controller.CanUndo);
                 Controller.Undo();
 
-                NeverEmptyCollectionTable.Remove(typeof(IMain));
+                NeverEmptyCollectionTable.Remove(typeof(Main));
 
-                WithExpandCollectionTable.Remove(typeof(IMain));
+                WithExpandCollectionTable.Remove(typeof(Main));
 
                 Assert.That(Controller.CanUndo);
                 Controller.Undo();
@@ -14193,29 +14193,29 @@ namespace Coverage
         {
             ControllerTools.ResetExpectedName();
 
-            BaseNode.IClass RootNode;
+            BaseNode.Class RootNode;
             ILayoutRootNodeIndex RootIndex;
 
             RootNode = BaseNodeHelper.NodeHelper.CreateSimpleClass("Class!");
 
-            BaseNode.IFunctionFeature FunctionFeature = BaseNodeHelper.NodeHelper.CreateEmptyFunctionFeature();
-            BaseNode.IPropertyFeature PropertyFeature = BaseNodeHelper.NodeHelper.CreateEmptyPropertyFeature();
+            BaseNode.FunctionFeature FunctionFeature = BaseNodeHelper.NodeHelper.CreateEmptyFunctionFeature();
+            BaseNode.PropertyFeature PropertyFeature = BaseNodeHelper.NodeHelper.CreateEmptyPropertyFeature();
             ((BaseNode.PropertyFeature)PropertyFeature).PropertyKind = BaseNode.UtilityType.WriteOnly;
             ((BaseNode.PropertyFeature)PropertyFeature).GetterBody.Assign();
             ((BaseNode.PropertyFeature)PropertyFeature).SetterBody.Assign();
 
-            ((BaseNode.Class)RootNode).FeatureBlocks = BaseNodeHelper.BlockListHelper.CreateSimpleBlockList<BaseNode.IFeature, BaseNode.Feature>(FunctionFeature);
+            ((BaseNode.Class)RootNode).FeatureBlocks = BaseNodeHelper.BlockListHelper.CreateSimpleBlockList<BaseNode.Feature>(FunctionFeature);
             RootNode.FeatureBlocks.NodeBlockList[0].NodeList.Add(PropertyFeature);
 
-            BaseNode.ICommandInstruction FunctionFirstInstruction = BaseNodeHelper.NodeHelper.CreateSimpleCommandInstruction("test!") as BaseNode.ICommandInstruction;
-            BaseNode.IFunctionFeature FirstFeature = (BaseNode.IFunctionFeature)RootNode.FeatureBlocks.NodeBlockList[0].NodeList[0];
-            BaseNode.IQueryOverload FirstOverload = FirstFeature.OverloadBlocks.NodeBlockList[0].NodeList[0];
+            BaseNode.CommandInstruction FunctionFirstInstruction = BaseNodeHelper.NodeHelper.CreateSimpleCommandInstruction("test!") as BaseNode.CommandInstruction;
+            BaseNode.FunctionFeature FirstFeature = (BaseNode.FunctionFeature)RootNode.FeatureBlocks.NodeBlockList[0].NodeList[0];
+            BaseNode.QueryOverload FirstOverload = FirstFeature.OverloadBlocks.NodeBlockList[0].NodeList[0];
             BaseNode.EffectiveBody FirstOverloadBody = (BaseNode.EffectiveBody)FirstOverload.QueryBody;
-            FirstOverloadBody.BodyInstructionBlocks = BaseNodeHelper.BlockListHelper.CreateSimpleBlockList<BaseNode.IInstruction, BaseNode.Instruction>(FunctionFirstInstruction);
+            FirstOverloadBody.BodyInstructionBlocks = BaseNodeHelper.BlockListHelper.CreateSimpleBlockList<BaseNode.Instruction>(FunctionFirstInstruction);
 
-            BaseNode.ICommandInstruction PropertyFirstInstruction = BaseNodeHelper.NodeHelper.CreateSimpleCommandInstruction("test?") as BaseNode.ICommandInstruction;
+            BaseNode.CommandInstruction PropertyFirstInstruction = BaseNodeHelper.NodeHelper.CreateSimpleCommandInstruction("test?") as BaseNode.CommandInstruction;
             BaseNode.EffectiveBody PropertyBody = ((BaseNode.PropertyFeature)PropertyFeature).GetterBody.Item as BaseNode.EffectiveBody;
-            PropertyBody.BodyInstructionBlocks = BaseNodeHelper.BlockListHelper.CreateSimpleBlockList<BaseNode.IInstruction, BaseNode.Instruction>(PropertyFirstInstruction);
+            PropertyBody.BodyInstructionBlocks = BaseNodeHelper.BlockListHelper.CreateSimpleBlockList<BaseNode.Instruction>(PropertyFirstInstruction);
 
             RootIndex = new LayoutRootNodeIndex(RootNode);
 
@@ -14244,7 +14244,7 @@ namespace Coverage
                 IsItemCyclableThrough = ControllerView0.IsItemCyclableThrough(out State, out CyclePosition);
                 Assert.That(!IsItemCyclableThrough);
 
-                while (ControllerView0.MaxFocusMove > 0 && !(ControllerView0.Focus.CellView.StateView.State.Node is BaseNode.IFunctionFeature))
+                while (ControllerView0.MaxFocusMove > 0 && !(ControllerView0.Focus.CellView.StateView.State.Node is BaseNode.FunctionFeature))
                     ControllerView0.MoveFocus(+1, true, out IsMoved);
 
                 ILayoutNodeStateView StateView = ControllerView0.Focus.CellView.StateView;
@@ -14252,7 +14252,7 @@ namespace Coverage
                 //Assert.That(ControllerView0.IsFirstItem(StateView));
 
                 ILayoutNodeState CurrentState = StateView.State;
-                Assert.That(CurrentState != null && CurrentState.Node is BaseNode.IFeature);
+                Assert.That(CurrentState != null && CurrentState.Node is BaseNode.Feature);
 
                 ILayoutInsertionChildNodeIndexList CycleIndexList;
                 int FeatureCycleCount = 14;
@@ -14328,7 +14328,7 @@ namespace Coverage
 
                     while (ControllerView0.MaxFocusMove > 0)
                     {
-                        if (ControllerView0.Focus.CellView.StateView.State.Node is BaseNode.IIdentifier AsIdentifier && AsIdentifier.Text == FunctionFirstInstruction.Command.Path[0].Text)
+                        if (ControllerView0.Focus.CellView.StateView.State.Node is BaseNode.Identifier AsIdentifier && AsIdentifier.Text == FunctionFirstInstruction.Command.Path[0].Text)
                             break;
 
                         if (ControllerView0.Focus.CellView.Frame is ILayoutKeywordFrame AsLayoutableKeywordFrame && (AsLayoutableKeywordFrame.Text == "deferred" || AsLayoutableKeywordFrame.Text == "extern" || AsLayoutableKeywordFrame.Text == "precursor"))
@@ -14339,7 +14339,7 @@ namespace Coverage
 
                     StateView = ControllerView0.Focus.CellView.StateView;
                     CurrentState = StateView.State;
-                    if (CurrentState.Node is BaseNode.IIdentifier AsStateIdentifier && AsStateIdentifier.Text == FunctionFirstInstruction.Command.Path[0].Text)
+                    if (CurrentState.Node is BaseNode.Identifier AsStateIdentifier && AsStateIdentifier.Text == FunctionFirstInstruction.Command.Path[0].Text)
                     {
                         /*
                         Assert.That(ControllerView0.IsFirstItem(StateView));
@@ -14380,7 +14380,7 @@ namespace Coverage
 
                     while (ControllerView0.MaxFocusMove > 0)
                     {
-                        if (ControllerView0.Focus.CellView.StateView.State.Node is BaseNode.IIdentifier AsIdentifier && AsIdentifier.Text == PropertyFirstInstruction.Command.Path[0].Text)
+                        if (ControllerView0.Focus.CellView.StateView.State.Node is BaseNode.Identifier AsIdentifier && AsIdentifier.Text == PropertyFirstInstruction.Command.Path[0].Text)
                             break;
 
                         if (ControllerView0.Focus.CellView.Frame is ILayoutKeywordFrame AsLayoutableKeywordFrame && (AsLayoutableKeywordFrame.Text == "deferred" || AsLayoutableKeywordFrame.Text == "extern" || AsLayoutableKeywordFrame.Text == "precursor"))
@@ -14391,7 +14391,7 @@ namespace Coverage
 
                     StateView = ControllerView0.Focus.CellView.StateView;
                     CurrentState = StateView.State;
-                    if (CurrentState.Node is BaseNode.IIdentifier AsStateIdentifier && AsStateIdentifier.Text == PropertyFirstInstruction.Command.Path[0].Text)
+                    if (CurrentState.Node is BaseNode.Identifier AsStateIdentifier && AsStateIdentifier.Text == PropertyFirstInstruction.Command.Path[0].Text)
                     {
                         /*
                         Assert.That(ControllerView0.IsFirstItem(StateView));
@@ -14477,34 +14477,34 @@ namespace Coverage
         {
             ControllerTools.ResetExpectedName();
 
-            BaseNode.IClass RootNode;
+            BaseNode.Class RootNode;
             ILayoutRootNodeIndex RootIndex;
             bool IsMoved;
             RootNode = BaseNodeHelper.NodeHelper.CreateSimpleClass("Class!");
 
-            BaseNode.IFunctionFeature FunctionFeature = BaseNodeHelper.NodeHelper.CreateEmptyFunctionFeature();
-            BaseNode.IPropertyFeature PropertyFeature = BaseNodeHelper.NodeHelper.CreateEmptyPropertyFeature();
+            BaseNode.FunctionFeature FunctionFeature = BaseNodeHelper.NodeHelper.CreateEmptyFunctionFeature();
+            BaseNode.PropertyFeature PropertyFeature = BaseNodeHelper.NodeHelper.CreateEmptyPropertyFeature();
             ((BaseNode.PropertyFeature)PropertyFeature).PropertyKind = BaseNode.UtilityType.WriteOnly;
             ((BaseNode.PropertyFeature)PropertyFeature).GetterBody.Assign();
             ((BaseNode.PropertyFeature)PropertyFeature).SetterBody.Assign();
 
-            ((BaseNode.Class)RootNode).FeatureBlocks = BaseNodeHelper.BlockListHelper.CreateSimpleBlockList<BaseNode.IFeature, BaseNode.Feature>(FunctionFeature);
+            ((BaseNode.Class)RootNode).FeatureBlocks = BaseNodeHelper.BlockListHelper.CreateSimpleBlockList<BaseNode.Feature>(FunctionFeature);
             RootNode.FeatureBlocks.NodeBlockList[0].NodeList.Add(PropertyFeature);
 
-            List<BaseNode.IIdentifier> IdentifierList = new List<BaseNode.IIdentifier>();
+            List<BaseNode.Identifier> IdentifierList = new List<BaseNode.Identifier>();
             IdentifierList.Add(BaseNodeHelper.NodeHelper.CreateSimpleIdentifier("test1"));
             IdentifierList.Add(BaseNodeHelper.NodeHelper.CreateSimpleIdentifier("test2"));
-            BaseNode.IQualifiedName QualifiedName = BaseNodeHelper.NodeHelper.CreateQualifiedName(IdentifierList);
-            BaseNode.ICommandInstruction FunctionFirstInstruction = BaseNodeHelper.NodeHelper.CreateSimpleCommandInstruction("") as BaseNode.ICommandInstruction;
+            BaseNode.QualifiedName QualifiedName = BaseNodeHelper.NodeHelper.CreateQualifiedName(IdentifierList);
+            BaseNode.CommandInstruction FunctionFirstInstruction = BaseNodeHelper.NodeHelper.CreateSimpleCommandInstruction("") as BaseNode.CommandInstruction;
             ((BaseNode.CommandInstruction)FunctionFirstInstruction).Command = QualifiedName;
-            BaseNode.IFunctionFeature FirstFeature = (BaseNode.IFunctionFeature)RootNode.FeatureBlocks.NodeBlockList[0].NodeList[0];
-            BaseNode.IQueryOverload FirstOverload = FirstFeature.OverloadBlocks.NodeBlockList[0].NodeList[0];
+            BaseNode.FunctionFeature FirstFeature = (BaseNode.FunctionFeature)RootNode.FeatureBlocks.NodeBlockList[0].NodeList[0];
+            BaseNode.QueryOverload FirstOverload = FirstFeature.OverloadBlocks.NodeBlockList[0].NodeList[0];
             BaseNode.EffectiveBody FirstOverloadBody = (BaseNode.EffectiveBody)FirstOverload.QueryBody;
-            FirstOverloadBody.BodyInstructionBlocks = BaseNodeHelper.BlockListHelper.CreateSimpleBlockList<BaseNode.IInstruction, BaseNode.Instruction>(FunctionFirstInstruction);
+            FirstOverloadBody.BodyInstructionBlocks = BaseNodeHelper.BlockListHelper.CreateSimpleBlockList<BaseNode.Instruction>(FunctionFirstInstruction);
 
-            BaseNode.ICommandInstruction PropertyFirstInstruction = BaseNodeHelper.NodeHelper.CreateSimpleCommandInstruction("test?") as BaseNode.ICommandInstruction;
+            BaseNode.CommandInstruction PropertyFirstInstruction = BaseNodeHelper.NodeHelper.CreateSimpleCommandInstruction("test?") as BaseNode.CommandInstruction;
             BaseNode.EffectiveBody PropertyBody = ((BaseNode.PropertyFeature)PropertyFeature).GetterBody.Item as BaseNode.EffectiveBody;
-            PropertyBody.BodyInstructionBlocks = BaseNodeHelper.BlockListHelper.CreateSimpleBlockList<BaseNode.IInstruction, BaseNode.Instruction>(PropertyFirstInstruction);
+            PropertyBody.BodyInstructionBlocks = BaseNodeHelper.BlockListHelper.CreateSimpleBlockList<BaseNode.Instruction>(PropertyFirstInstruction);
 
             RootIndex = new LayoutRootNodeIndex(RootNode);
 
@@ -14542,33 +14542,33 @@ namespace Coverage
             ControllerTools.ResetExpectedName();
             bool IsMoved;
 
-            IMain MainItemH = CreateRoot(ValueGuid0, Imperfections.None);
-            IMain MainItemV = CreateRoot(ValueGuid1, Imperfections.None);
-            IRoot RootNode = new Root();
-            BaseNode.IDocument RootDocument = BaseNodeHelper.NodeHelper.CreateSimpleDocumentation("root doc", Guid.NewGuid());
+            Main MainItemH = CreateRoot(ValueGuid0, Imperfections.None);
+            Main MainItemV = CreateRoot(ValueGuid1, Imperfections.None);
+            Root RootNode = new Root();
+            BaseNode.Document RootDocument = BaseNodeHelper.NodeHelper.CreateSimpleDocumentation("root doc", Guid.NewGuid());
             BaseNodeHelper.NodeTreeHelper.SetDocumentation(RootNode, RootDocument);
-            BaseNode.IBlockList<IMain, Main> MainBlocksH = BaseNodeHelper.BlockListHelper.CreateSimpleBlockList<IMain, Main>(MainItemH);
-            BaseNode.IBlockList<IMain, Main> MainBlocksV = BaseNodeHelper.BlockListHelper.CreateSimpleBlockList<IMain, Main>(MainItemV);
+            BaseNode.BlockList<Main> MainBlocksH = BaseNodeHelper.BlockListHelper.CreateSimpleBlockList<Main>(MainItemH);
+            BaseNode.BlockList<Main> MainBlocksV = BaseNodeHelper.BlockListHelper.CreateSimpleBlockList<Main>(MainItemV);
             BaseNodeHelper.NodeTreeHelperBlockList.SetReplication((BaseNode.IBlock)MainBlocksV.NodeBlockList[0], BaseNode.ReplicationStatus.Replicated);
 
-            IMain UnassignedOptionalMain = CreateRoot(ValueGuid2, Imperfections.None);
-            Easly.IOptionalReference<IMain> UnassignedOptional = BaseNodeHelper.OptionalReferenceHelper.CreateReference<IMain>(UnassignedOptionalMain);
+            Main UnassignedOptionalMain = CreateRoot(ValueGuid2, Imperfections.None);
+            Easly.OptionalReference<Main> UnassignedOptional = BaseNodeHelper.OptionalReferenceHelper.CreateReference<Main>(UnassignedOptionalMain);
 
-            IList<ILeaf> LeafPathH = new List<ILeaf>();
-            ILeaf FirstLeafH = CreateLeaf(Guid.NewGuid());
+            IList<Leaf> LeafPathH = new List<Leaf>();
+            Leaf FirstLeafH = CreateLeaf(Guid.NewGuid());
             LeafPathH.Add(FirstLeafH);
 
-            IList<ILeaf> LeafPathV = new List<ILeaf>();
-            ILeaf FirstLeafV = CreateLeaf(Guid.NewGuid());
+            IList<Leaf> LeafPathV = new List<Leaf>();
+            Leaf FirstLeafV = CreateLeaf(Guid.NewGuid());
             LeafPathV.Add(FirstLeafV);
 
-            BaseNodeHelper.NodeTreeHelperBlockList.SetBlockList(RootNode, nameof(IRoot.MainBlocksH), (BaseNode.IBlockList)MainBlocksH);
-            BaseNodeHelper.NodeTreeHelperBlockList.SetBlockList(RootNode, nameof(IRoot.MainBlocksV), (BaseNode.IBlockList)MainBlocksV);
-            BaseNodeHelper.NodeTreeHelperOptional.SetOptionalReference(RootNode, nameof(IRoot.UnassignedOptionalMain), (Easly.IOptionalReference)UnassignedOptional);
-            BaseNodeHelper.NodeTreeHelper.SetString(RootNode, nameof(IRoot.ValueString), "root string");
-            BaseNodeHelper.NodeTreeHelperList.SetChildNodeList(RootNode, nameof(IRoot.LeafPathH), (IList)LeafPathH);
-            BaseNodeHelper.NodeTreeHelperList.SetChildNodeList(RootNode, nameof(IRoot.LeafPathV), (IList)LeafPathV);
-            BaseNodeHelper.NodeTreeHelperOptional.SetOptionalReference(RootNode, nameof(IRoot.UnassignedOptionalLeaf), (Easly.IOptionalReference)BaseNodeHelper.OptionalReferenceHelper.CreateEmptyReference<ILeaf>());
+            BaseNodeHelper.NodeTreeHelperBlockList.SetBlockList(RootNode, nameof(Root.MainBlocksH), (BaseNode.IBlockList)MainBlocksH);
+            BaseNodeHelper.NodeTreeHelperBlockList.SetBlockList(RootNode, nameof(Root.MainBlocksV), (BaseNode.IBlockList)MainBlocksV);
+            BaseNodeHelper.NodeTreeHelperOptional.SetOptionalReference(RootNode, nameof(Root.UnassignedOptionalMain), (Easly.IOptionalReference)UnassignedOptional);
+            BaseNodeHelper.NodeTreeHelper.SetString(RootNode, nameof(Root.ValueString), "root string");
+            BaseNodeHelper.NodeTreeHelperList.SetChildNodeList(RootNode, nameof(Root.LeafPathH), (IList)LeafPathH);
+            BaseNodeHelper.NodeTreeHelperList.SetChildNodeList(RootNode, nameof(Root.LeafPathV), (IList)LeafPathV);
+            BaseNodeHelper.NodeTreeHelperOptional.SetOptionalReference(RootNode, nameof(Root.UnassignedOptionalLeaf), (Easly.IOptionalReference)BaseNodeHelper.OptionalReferenceHelper.CreateEmptyReference<Leaf>());
 
             //System.Diagnostics.Debug.Assert(false);
             ILayoutRootNodeIndex RootIndex = new LayoutRootNodeIndex(RootNode);
@@ -14598,10 +14598,10 @@ namespace Coverage
                 ILayoutNodeState RootState = Controller.RootState;
                 Assert.That(RootState != null);
 
-                ILayoutBlockListInner MainInnerH = RootState.PropertyToInner(nameof(IRoot.MainBlocksH)) as ILayoutBlockListInner;
+                ILayoutBlockListInner MainInnerH = RootState.PropertyToInner(nameof(Root.MainBlocksH)) as ILayoutBlockListInner;
                 Assert.That(MainInnerH != null);
 
-                ILayoutBlockListInner MainInnerV = RootState.PropertyToInner(nameof(IRoot.MainBlocksV)) as ILayoutBlockListInner;
+                ILayoutBlockListInner MainInnerV = RootState.PropertyToInner(nameof(Root.MainBlocksV)) as ILayoutBlockListInner;
                 Assert.That(MainInnerV != null);
 
                 ILayoutBrowsingExistingBlockNodeIndex MainIndex = MainInnerH.IndexAt(0, 0) as ILayoutBrowsingExistingBlockNodeIndex;
@@ -14633,14 +14633,14 @@ namespace Coverage
                 Controller.Remove(MainInnerV, MainIndex);
                 Controller.Undo();
 
-                ILayoutListInner LeafInnerH = RootState.PropertyToInner(nameof(IRoot.LeafPathH)) as ILayoutListInner;
+                ILayoutListInner LeafInnerH = RootState.PropertyToInner(nameof(Root.LeafPathH)) as ILayoutListInner;
                 Assert.That(LeafInnerH != null);
 
                 ILayoutBrowsingListNodeIndex LeafIndexH = LeafInnerH.IndexAt(0) as ILayoutBrowsingListNodeIndex;
                 Controller.Remove(LeafInnerH, LeafIndexH);
                 Controller.Undo();
 
-                ILayoutListInner LeafInnerV = RootState.PropertyToInner(nameof(IRoot.LeafPathV)) as ILayoutListInner;
+                ILayoutListInner LeafInnerV = RootState.PropertyToInner(nameof(Root.LeafPathV)) as ILayoutListInner;
                 Assert.That(LeafInnerV != null);
 
                 ILayoutBrowsingListNodeIndex LeafIndexV = LeafInnerV.IndexAt(0) as ILayoutBrowsingListNodeIndex;
@@ -14650,7 +14650,7 @@ namespace Coverage
                 ControllerView0.MoveFocus(ControllerView0.MinFocusMove, true, out IsMoved);
                 Assert.That(ControllerView0.MinFocusMove == 0);
 
-                ILayoutOptionalInner OptionalMainInner = RootState.PropertyToInner(nameof(IRoot.UnassignedOptionalMain)) as ILayoutOptionalInner;
+                ILayoutOptionalInner OptionalMainInner = RootState.PropertyToInner(nameof(Root.UnassignedOptionalMain)) as ILayoutOptionalInner;
                 Controller.Assign(OptionalMainInner.ChildState.ParentIndex, out bool IsChanged);
                 Assert.That(IsChanged);
 
@@ -14683,11 +14683,11 @@ namespace Coverage
 
                 Controller.Unassign(OptionalMainInner.ChildState.ParentIndex, out IsChanged);
 
-                ILeaf SecondLeafH = CreateLeaf(Guid.NewGuid());
+                Leaf SecondLeafH = CreateLeaf(Guid.NewGuid());
                 ILayoutInsertionListNodeIndex InsertionLeafIndexH = new LayoutInsertionListNodeIndex(RootNode, LeafInnerH.PropertyName, SecondLeafH, 0);
                 Controller.Insert(LeafInnerH, InsertionLeafIndexH, out IWriteableBrowsingCollectionNodeIndex AsInsertedIndexH);
 
-                ILeaf SecondLeafV = CreateLeaf(Guid.NewGuid());
+                Leaf SecondLeafV = CreateLeaf(Guid.NewGuid());
                 ILayoutInsertionListNodeIndex InsertionLeafIndexV = new LayoutInsertionListNodeIndex(RootNode, LeafInnerV.PropertyName, SecondLeafV, 0);
                 Controller.Insert(LeafInnerV, InsertionLeafIndexV, out IWriteableBrowsingCollectionNodeIndex AsInsertedIndexV);
 
@@ -14729,40 +14729,40 @@ namespace Coverage
             ControllerTools.ResetExpectedName();
             bool IsMoved;
 
-            IRoot RootNode = new Root();
-            BaseNode.IDocument RootDocument = BaseNodeHelper.NodeHelper.CreateSimpleDocumentation("root doc", Guid.NewGuid());
+            Root RootNode = new Root();
+            BaseNode.Document RootDocument = BaseNodeHelper.NodeHelper.CreateSimpleDocumentation("root doc", Guid.NewGuid());
             BaseNodeHelper.NodeTreeHelper.SetDocumentation(RootNode, RootDocument);
 
-            BaseNode.IBlockList<IMain, Main> MainBlocksH = BaseNodeHelper.BlockListHelper.CreateEmptyBlockList<IMain, Main>();
-            BaseNode.IBlock<IMain, Main> BlockH1 = BaseNodeHelper.BlockListHelper.CreateBlock<IMain, Main>(new List<IMain>() { CreateRoot(ValueGuid0, Imperfections.None) });
-            BaseNode.IBlock<IMain, Main> BlockH2 = BaseNodeHelper.BlockListHelper.CreateBlock<IMain, Main>(new List<IMain>() { CreateRoot(ValueGuid1, Imperfections.None), CreateRoot(ValueGuid2, Imperfections.None) });
+            BaseNode.BlockList<Main> MainBlocksH = BaseNodeHelper.BlockListHelper.CreateEmptyBlockList<Main>();
+            BaseNode.Block<Main> BlockH1 = BaseNodeHelper.BlockListHelper.CreateBlock<Main>(new List<Main>() { CreateRoot(ValueGuid0, Imperfections.None) });
+            BaseNode.Block<Main> BlockH2 = BaseNodeHelper.BlockListHelper.CreateBlock<Main>(new List<Main>() { CreateRoot(ValueGuid1, Imperfections.None), CreateRoot(ValueGuid2, Imperfections.None) });
             MainBlocksH.NodeBlockList.Add(BlockH1);
             MainBlocksH.NodeBlockList.Add(BlockH2);
 
-            BaseNode.IBlockList<IMain, Main> MainBlocksV = BaseNodeHelper.BlockListHelper.CreateEmptyBlockList<IMain, Main>();
-            BaseNode.IBlock<IMain, Main> BlockV1 = BaseNodeHelper.BlockListHelper.CreateBlock<IMain, Main>(new List<IMain>() { CreateRoot(ValueGuid3, Imperfections.None) });
-            BaseNode.IBlock<IMain, Main> BlockV2 = BaseNodeHelper.BlockListHelper.CreateBlock<IMain, Main>(new List<IMain>() { CreateRoot(ValueGuid4, Imperfections.None), CreateRoot(ValueGuid5, Imperfections.None) });
+            BaseNode.BlockList<Main> MainBlocksV = BaseNodeHelper.BlockListHelper.CreateEmptyBlockList<Main>();
+            BaseNode.Block<Main> BlockV1 = BaseNodeHelper.BlockListHelper.CreateBlock<Main>(new List<Main>() { CreateRoot(ValueGuid3, Imperfections.None) });
+            BaseNode.Block<Main> BlockV2 = BaseNodeHelper.BlockListHelper.CreateBlock<Main>(new List<Main>() { CreateRoot(ValueGuid4, Imperfections.None), CreateRoot(ValueGuid5, Imperfections.None) });
             MainBlocksV.NodeBlockList.Add(BlockV1);
             MainBlocksV.NodeBlockList.Add(BlockV2);
 
-            IMain UnassignedOptionalMain = CreateRoot(ValueGuid6, Imperfections.None);
-            Easly.IOptionalReference<IMain> UnassignedOptional = BaseNodeHelper.OptionalReferenceHelper.CreateReference<IMain>(UnassignedOptionalMain);
+            Main UnassignedOptionalMain = CreateRoot(ValueGuid6, Imperfections.None);
+            Easly.OptionalReference<Main> UnassignedOptional = BaseNodeHelper.OptionalReferenceHelper.CreateReference<Main>(UnassignedOptionalMain);
 
-            IList<ILeaf> LeafPathH = new List<ILeaf>();
+            IList<Leaf> LeafPathH = new List<Leaf>();
             LeafPathH.Add(CreateLeaf(Guid.NewGuid()));
             LeafPathH.Add(CreateLeaf(Guid.NewGuid()));
 
-            IList<ILeaf> LeafPathV = new List<ILeaf>();
+            IList<Leaf> LeafPathV = new List<Leaf>();
             LeafPathV.Add(CreateLeaf(Guid.NewGuid()));
             LeafPathV.Add(CreateLeaf(Guid.NewGuid()));
 
-            BaseNodeHelper.NodeTreeHelperBlockList.SetBlockList(RootNode, nameof(IRoot.MainBlocksH), (BaseNode.IBlockList)MainBlocksH);
-            BaseNodeHelper.NodeTreeHelperBlockList.SetBlockList(RootNode, nameof(IRoot.MainBlocksV), (BaseNode.IBlockList)MainBlocksV);
-            BaseNodeHelper.NodeTreeHelperOptional.SetOptionalReference(RootNode, nameof(IRoot.UnassignedOptionalMain), (Easly.IOptionalReference)UnassignedOptional);
-            BaseNodeHelper.NodeTreeHelper.SetString(RootNode, nameof(IRoot.ValueString), "root string");
-            BaseNodeHelper.NodeTreeHelperList.SetChildNodeList(RootNode, nameof(IRoot.LeafPathH), (IList)LeafPathH);
-            BaseNodeHelper.NodeTreeHelperList.SetChildNodeList(RootNode, nameof(IRoot.LeafPathV), (IList)LeafPathV);
-            BaseNodeHelper.NodeTreeHelperOptional.SetOptionalReference(RootNode, nameof(IRoot.UnassignedOptionalLeaf), (Easly.IOptionalReference)BaseNodeHelper.OptionalReferenceHelper.CreateEmptyReference<ILeaf>());
+            BaseNodeHelper.NodeTreeHelperBlockList.SetBlockList(RootNode, nameof(Root.MainBlocksH), (BaseNode.IBlockList)MainBlocksH);
+            BaseNodeHelper.NodeTreeHelperBlockList.SetBlockList(RootNode, nameof(Root.MainBlocksV), (BaseNode.IBlockList)MainBlocksV);
+            BaseNodeHelper.NodeTreeHelperOptional.SetOptionalReference(RootNode, nameof(Root.UnassignedOptionalMain), (Easly.IOptionalReference)UnassignedOptional);
+            BaseNodeHelper.NodeTreeHelper.SetString(RootNode, nameof(Root.ValueString), "root string");
+            BaseNodeHelper.NodeTreeHelperList.SetChildNodeList(RootNode, nameof(Root.LeafPathH), (IList)LeafPathH);
+            BaseNodeHelper.NodeTreeHelperList.SetChildNodeList(RootNode, nameof(Root.LeafPathV), (IList)LeafPathV);
+            BaseNodeHelper.NodeTreeHelperOptional.SetOptionalReference(RootNode, nameof(Root.UnassignedOptionalLeaf), (Easly.IOptionalReference)BaseNodeHelper.OptionalReferenceHelper.CreateEmptyReference<Leaf>());
 
             ILayoutRootNodeIndex RootIndex = new LayoutRootNodeIndex(RootNode);
 
@@ -14780,10 +14780,10 @@ namespace Coverage
 
                 //System.Diagnostics.Debug.Assert(false);
 
-                ILayoutBlockListInner BlockListInnerH = Controller.RootState.PropertyToInner(nameof(IRoot.MainBlocksH)) as ILayoutBlockListInner;
+                ILayoutBlockListInner BlockListInnerH = Controller.RootState.PropertyToInner(nameof(Root.MainBlocksH)) as ILayoutBlockListInner;
                 Controller.ChangeReplication(BlockListInnerH, 1, BaseNode.ReplicationStatus.Replicated);
 
-                ILayoutBlockListInner BlockListInnerV = Controller.RootState.PropertyToInner(nameof(IRoot.MainBlocksV)) as ILayoutBlockListInner;
+                ILayoutBlockListInner BlockListInnerV = Controller.RootState.PropertyToInner(nameof(Root.MainBlocksV)) as ILayoutBlockListInner;
                 Controller.ChangeReplication(BlockListInnerV, 1, BaseNode.ReplicationStatus.Replicated);
 
                 ControllerView0.MoveFocus(ControllerView0.MinFocusMove, true, out IsMoved);
@@ -14880,40 +14880,40 @@ namespace Coverage
             ControllerTools.ResetExpectedName();
             bool IsMoved;
 
-            IRoot RootNode = new Root();
-            BaseNode.IDocument RootDocument = BaseNodeHelper.NodeHelper.CreateSimpleDocumentation("root doc", Guid.NewGuid());
+            Root RootNode = new Root();
+            BaseNode.Document RootDocument = BaseNodeHelper.NodeHelper.CreateSimpleDocumentation("root doc", Guid.NewGuid());
             BaseNodeHelper.NodeTreeHelper.SetDocumentation(RootNode, RootDocument);
 
-            BaseNode.IBlockList<IMain, Main> MainBlocksH = BaseNodeHelper.BlockListHelper.CreateEmptyBlockList<IMain, Main>();
-            BaseNode.IBlock<IMain, Main> BlockH1 = BaseNodeHelper.BlockListHelper.CreateBlock<IMain, Main>(new List<IMain>() { CreateRoot(ValueGuid0, Imperfections.None) });
-            BaseNode.IBlock<IMain, Main> BlockH2 = BaseNodeHelper.BlockListHelper.CreateBlock<IMain, Main>(new List<IMain>() { CreateRoot(ValueGuid1, Imperfections.None), CreateRoot(ValueGuid2, Imperfections.None) });
+            BaseNode.BlockList<Main> MainBlocksH = BaseNodeHelper.BlockListHelper.CreateEmptyBlockList<Main>();
+            BaseNode.Block<Main> BlockH1 = BaseNodeHelper.BlockListHelper.CreateBlock<Main>(new List<Main>() { CreateRoot(ValueGuid0, Imperfections.None) });
+            BaseNode.Block<Main> BlockH2 = BaseNodeHelper.BlockListHelper.CreateBlock<Main>(new List<Main>() { CreateRoot(ValueGuid1, Imperfections.None), CreateRoot(ValueGuid2, Imperfections.None) });
             MainBlocksH.NodeBlockList.Add(BlockH1);
             MainBlocksH.NodeBlockList.Add(BlockH2);
 
-            BaseNode.IBlockList<IMain, Main> MainBlocksV = BaseNodeHelper.BlockListHelper.CreateEmptyBlockList<IMain, Main>();
-            BaseNode.IBlock<IMain, Main> BlockV1 = BaseNodeHelper.BlockListHelper.CreateBlock<IMain, Main>(new List<IMain>() { CreateRoot(ValueGuid3, Imperfections.None) });
-            BaseNode.IBlock<IMain, Main> BlockV2 = BaseNodeHelper.BlockListHelper.CreateBlock<IMain, Main>(new List<IMain>() { CreateRoot(ValueGuid4, Imperfections.None), CreateRoot(ValueGuid5, Imperfections.None) });
+            BaseNode.BlockList<Main> MainBlocksV = BaseNodeHelper.BlockListHelper.CreateEmptyBlockList<Main>();
+            BaseNode.Block<Main> BlockV1 = BaseNodeHelper.BlockListHelper.CreateBlock<Main>(new List<Main>() { CreateRoot(ValueGuid3, Imperfections.None) });
+            BaseNode.Block<Main> BlockV2 = BaseNodeHelper.BlockListHelper.CreateBlock<Main>(new List<Main>() { CreateRoot(ValueGuid4, Imperfections.None), CreateRoot(ValueGuid5, Imperfections.None) });
             MainBlocksV.NodeBlockList.Add(BlockV1);
             MainBlocksV.NodeBlockList.Add(BlockV2);
 
-            IMain UnassignedOptionalMain = CreateRoot(ValueGuid6, Imperfections.None);
-            Easly.IOptionalReference<IMain> UnassignedOptional = BaseNodeHelper.OptionalReferenceHelper.CreateReference<IMain>(UnassignedOptionalMain);
+            Main UnassignedOptionalMain = CreateRoot(ValueGuid6, Imperfections.None);
+            Easly.OptionalReference<Main> UnassignedOptional = BaseNodeHelper.OptionalReferenceHelper.CreateReference<Main>(UnassignedOptionalMain);
 
-            IList<ILeaf> LeafPathH = new List<ILeaf>();
+            IList<Leaf> LeafPathH = new List<Leaf>();
             LeafPathH.Add(CreateLeaf(Guid.NewGuid()));
             LeafPathH.Add(CreateLeaf(Guid.NewGuid()));
 
-            IList<ILeaf> LeafPathV = new List<ILeaf>();
+            IList<Leaf> LeafPathV = new List<Leaf>();
             LeafPathV.Add(CreateLeaf(Guid.NewGuid()));
             LeafPathV.Add(CreateLeaf(Guid.NewGuid()));
 
-            BaseNodeHelper.NodeTreeHelperBlockList.SetBlockList(RootNode, nameof(IRoot.MainBlocksH), (BaseNode.IBlockList)MainBlocksH);
-            BaseNodeHelper.NodeTreeHelperBlockList.SetBlockList(RootNode, nameof(IRoot.MainBlocksV), (BaseNode.IBlockList)MainBlocksV);
-            BaseNodeHelper.NodeTreeHelperOptional.SetOptionalReference(RootNode, nameof(IRoot.UnassignedOptionalMain), (Easly.IOptionalReference)UnassignedOptional);
-            BaseNodeHelper.NodeTreeHelper.SetString(RootNode, nameof(IRoot.ValueString), "root string");
-            BaseNodeHelper.NodeTreeHelperList.SetChildNodeList(RootNode, nameof(IRoot.LeafPathH), (IList)LeafPathH);
-            BaseNodeHelper.NodeTreeHelperList.SetChildNodeList(RootNode, nameof(IRoot.LeafPathV), (IList)LeafPathV);
-            BaseNodeHelper.NodeTreeHelperOptional.SetOptionalReference(RootNode, nameof(IRoot.UnassignedOptionalLeaf), (Easly.IOptionalReference)BaseNodeHelper.OptionalReferenceHelper.CreateEmptyReference<ILeaf>());
+            BaseNodeHelper.NodeTreeHelperBlockList.SetBlockList(RootNode, nameof(Root.MainBlocksH), (BaseNode.IBlockList)MainBlocksH);
+            BaseNodeHelper.NodeTreeHelperBlockList.SetBlockList(RootNode, nameof(Root.MainBlocksV), (BaseNode.IBlockList)MainBlocksV);
+            BaseNodeHelper.NodeTreeHelperOptional.SetOptionalReference(RootNode, nameof(Root.UnassignedOptionalMain), (Easly.IOptionalReference)UnassignedOptional);
+            BaseNodeHelper.NodeTreeHelper.SetString(RootNode, nameof(Root.ValueString), "root string");
+            BaseNodeHelper.NodeTreeHelperList.SetChildNodeList(RootNode, nameof(Root.LeafPathH), (IList)LeafPathH);
+            BaseNodeHelper.NodeTreeHelperList.SetChildNodeList(RootNode, nameof(Root.LeafPathV), (IList)LeafPathV);
+            BaseNodeHelper.NodeTreeHelperOptional.SetOptionalReference(RootNode, nameof(Root.UnassignedOptionalLeaf), (Easly.IOptionalReference)BaseNodeHelper.OptionalReferenceHelper.CreateEmptyReference<Leaf>());
 
             ILayoutRootNodeIndex RootIndex = new LayoutRootNodeIndex(RootNode);
 
@@ -14932,10 +14932,10 @@ namespace Coverage
                 Assert.That(ControllerView0.ShowBlockGeometry);
                 ControllerView0.MeasureAndArrange();
 
-                ILayoutBlockListInner BlockListInnerH = Controller.RootState.PropertyToInner(nameof(IRoot.MainBlocksH)) as ILayoutBlockListInner;
+                ILayoutBlockListInner BlockListInnerH = Controller.RootState.PropertyToInner(nameof(Root.MainBlocksH)) as ILayoutBlockListInner;
                 Controller.ChangeReplication(BlockListInnerH, 1, BaseNode.ReplicationStatus.Replicated);
 
-                ILayoutBlockListInner BlockListInnerV = Controller.RootState.PropertyToInner(nameof(IRoot.MainBlocksV)) as ILayoutBlockListInner;
+                ILayoutBlockListInner BlockListInnerV = Controller.RootState.PropertyToInner(nameof(Root.MainBlocksV)) as ILayoutBlockListInner;
                 Controller.ChangeReplication(BlockListInnerV, 1, BaseNode.ReplicationStatus.Replicated);
 
                 ControllerView0.MoveFocus(ControllerView0.MinFocusMove, true, out IsMoved);
@@ -15009,7 +15009,7 @@ namespace Coverage
         {
             ControllerTools.ResetExpectedName();
 
-            IMain RootNode;
+            Main RootNode;
             ILayoutRootNodeIndex RootIndex;
             bool IsReadOnly;
             IReadOnlyBlockState FirstBlockState;
@@ -15175,10 +15175,10 @@ namespace Coverage
                 ILayoutNodeState RootState = Controller.RootState;
                 Assert.That(RootState != null);
 
-                ILayoutBlockListInner LeafBlocksInner = RootState.PropertyToInner(nameof(IMain.LeafBlocks)) as ILayoutBlockListInner;
+                ILayoutBlockListInner LeafBlocksInner = RootState.PropertyToInner(nameof(Main.LeafBlocks)) as ILayoutBlockListInner;
                 Assert.That(LeafBlocksInner != null);
 
-                ILayoutListInner LeafPathInner = RootState.PropertyToInner(nameof(IMain.LeafPath)) as ILayoutListInner;
+                ILayoutListInner LeafPathInner = RootState.PropertyToInner(nameof(Main.LeafPath)) as ILayoutListInner;
                 Assert.That(LeafPathInner != null);
 
                 ILayoutPlaceholderNodeState FirstNodeState = LeafBlocksInner.FirstNodeState;
@@ -16847,17 +16847,17 @@ namespace Coverage
             // ILayoutTemplateDictionary
 
             ILayoutTemplateDictionary NodeTemplateDictionary = TestDebug.CoverageLayoutTemplateSet.NodeTemplateDictionary;
-            Assert.That(NodeTemplateDictionary.ContainsKey(typeof(ILeaf)));
-            ILayoutTemplate LeafTemplate = NodeTemplateDictionary[typeof(ILeaf)];
+            Assert.That(NodeTemplateDictionary.ContainsKey(typeof(Leaf)));
+            ILayoutTemplate LeafTemplate = NodeTemplateDictionary[typeof(Leaf)];
 
             IFrameTemplateDictionary FrameNodeTemplateDictionary = NodeTemplateDictionary;
             IDictionary<Type, IFrameTemplate> FrameNodeTemplateDictionaryAsDictionary = FrameNodeTemplateDictionary;
             Assert.That(FrameNodeTemplateDictionaryAsDictionary.Keys != null);
             Assert.That(FrameNodeTemplateDictionaryAsDictionary.Values != null);
-            Assert.That(FrameNodeTemplateDictionaryAsDictionary.ContainsKey(typeof(ILeaf)));
-            FrameNodeTemplateDictionaryAsDictionary.Remove(typeof(ILeaf));
-            FrameNodeTemplateDictionaryAsDictionary.Add(typeof(ILeaf), LeafTemplate);
-            Assert.That(FrameNodeTemplateDictionaryAsDictionary.TryGetValue(typeof(ILeaf), out IFrameTemplate AsFrameTemplate) == NodeTemplateDictionary.TryGetValue(typeof(ILeaf), out ILayoutTemplate AsFrameLayoutTemplate));
+            Assert.That(FrameNodeTemplateDictionaryAsDictionary.ContainsKey(typeof(Leaf)));
+            FrameNodeTemplateDictionaryAsDictionary.Remove(typeof(Leaf));
+            FrameNodeTemplateDictionaryAsDictionary.Add(typeof(Leaf), LeafTemplate);
+            Assert.That(FrameNodeTemplateDictionaryAsDictionary.TryGetValue(typeof(Leaf), out IFrameTemplate AsFrameTemplate) == NodeTemplateDictionary.TryGetValue(typeof(Leaf), out ILayoutTemplate AsFrameLayoutTemplate));
             ICollection<KeyValuePair<Type, IFrameTemplate>> FrameNodeTemplateDictionaryAsCollection = FrameNodeTemplateDictionary;
             Assert.That(!FrameNodeTemplateDictionaryAsCollection.IsReadOnly);
             foreach (KeyValuePair<Type, IFrameTemplate> Entry in FrameNodeTemplateDictionary)
@@ -16870,15 +16870,15 @@ namespace Coverage
             FrameNodeTemplateDictionaryAsCollection.CopyTo(new KeyValuePair<Type, IFrameTemplate>[FrameNodeTemplateDictionaryAsCollection.Count], 0);
 
             IFocusTemplateDictionary FocusNodeTemplateDictionary = NodeTemplateDictionary;
-            Assert.That(FocusNodeTemplateDictionary[typeof(ILeaf)] != null);
+            Assert.That(FocusNodeTemplateDictionary[typeof(Leaf)] != null);
             IDictionary<Type, IFocusTemplate> FocusNodeTemplateDictionaryAsDictionary = FocusNodeTemplateDictionary;
             Assert.That(FocusNodeTemplateDictionaryAsDictionary.Keys != null);
             Assert.That(FocusNodeTemplateDictionaryAsDictionary.Values != null);
-            Assert.That(FocusNodeTemplateDictionaryAsDictionary.ContainsKey(typeof(ILeaf)));
-            Assert.That(FocusNodeTemplateDictionaryAsDictionary[typeof(ILeaf)] != null);
-            FocusNodeTemplateDictionaryAsDictionary.Remove(typeof(ILeaf));
-            FocusNodeTemplateDictionaryAsDictionary.Add(typeof(ILeaf), LeafTemplate);
-            Assert.That(FocusNodeTemplateDictionaryAsDictionary.TryGetValue(typeof(ILeaf), out IFocusTemplate AsFocusTemplate) == NodeTemplateDictionary.TryGetValue(typeof(ILeaf), out ILayoutTemplate AsFocusLayoutTemplate));
+            Assert.That(FocusNodeTemplateDictionaryAsDictionary.ContainsKey(typeof(Leaf)));
+            Assert.That(FocusNodeTemplateDictionaryAsDictionary[typeof(Leaf)] != null);
+            FocusNodeTemplateDictionaryAsDictionary.Remove(typeof(Leaf));
+            FocusNodeTemplateDictionaryAsDictionary.Add(typeof(Leaf), LeafTemplate);
+            Assert.That(FocusNodeTemplateDictionaryAsDictionary.TryGetValue(typeof(Leaf), out IFocusTemplate AsFocusTemplate) == NodeTemplateDictionary.TryGetValue(typeof(Leaf), out ILayoutTemplate AsFocusLayoutTemplate));
             ICollection<KeyValuePair<Type, IFocusTemplate>> FocusNodeTemplateDictionaryAsCollection = FocusNodeTemplateDictionary;
             Assert.That(!FocusNodeTemplateDictionaryAsCollection.IsReadOnly);
             foreach (KeyValuePair<Type, IFocusTemplate> Entry in FocusNodeTemplateDictionary)
@@ -16900,22 +16900,22 @@ namespace Coverage
             IFrameTemplateReadOnlyDictionary FrameNodeTemplateDictionaryReadOnly = NodeTemplateDictionaryReadOnly;
             FrameNodeTemplateDictionaryReadOnly.GetEnumerator();
             IReadOnlyDictionary<Type, IFrameTemplate> FrameNodeTemplateDictionaryReadOnlyAsDictionary = FrameNodeTemplateDictionaryReadOnly;
-            Assert.That(FrameNodeTemplateDictionaryReadOnlyAsDictionary.ContainsKey(typeof(ILeaf)));
-            Assert.That(FrameNodeTemplateDictionaryReadOnlyAsDictionary[typeof(ILeaf)] != null);
+            Assert.That(FrameNodeTemplateDictionaryReadOnlyAsDictionary.ContainsKey(typeof(Leaf)));
+            Assert.That(FrameNodeTemplateDictionaryReadOnlyAsDictionary[typeof(Leaf)] != null);
             Assert.That(FrameNodeTemplateDictionaryReadOnlyAsDictionary.Keys != null);
             Assert.That(FrameNodeTemplateDictionaryReadOnlyAsDictionary.Values != null);
-            Assert.That(FrameNodeTemplateDictionaryReadOnlyAsDictionary.TryGetValue(typeof(ILeaf), out AsFrameTemplate) == NodeTemplateDictionary.TryGetValue(typeof(ILeaf), out AsFrameLayoutTemplate));
+            Assert.That(FrameNodeTemplateDictionaryReadOnlyAsDictionary.TryGetValue(typeof(Leaf), out AsFrameTemplate) == NodeTemplateDictionary.TryGetValue(typeof(Leaf), out AsFrameLayoutTemplate));
             IEnumerable<KeyValuePair<Type, IFrameTemplate>> FrameNodeTemplateDictionaryReadOnlyAsEnumerable = FrameNodeTemplateDictionaryReadOnly;
             FrameNodeTemplateDictionaryReadOnlyAsEnumerable.GetEnumerator();
 
             IFocusTemplateReadOnlyDictionary FocusNodeTemplateDictionaryReadOnly = NodeTemplateDictionaryReadOnly;
             FocusNodeTemplateDictionaryReadOnly.GetEnumerator();
             IReadOnlyDictionary<Type, IFocusTemplate> FocusNodeTemplateDictionaryReadOnlyAsDictionary = FocusNodeTemplateDictionaryReadOnly;
-            Assert.That(FocusNodeTemplateDictionaryReadOnlyAsDictionary.ContainsKey(typeof(ILeaf)));
-            Assert.That(FocusNodeTemplateDictionaryReadOnlyAsDictionary[typeof(ILeaf)] != null);
+            Assert.That(FocusNodeTemplateDictionaryReadOnlyAsDictionary.ContainsKey(typeof(Leaf)));
+            Assert.That(FocusNodeTemplateDictionaryReadOnlyAsDictionary[typeof(Leaf)] != null);
             Assert.That(FocusNodeTemplateDictionaryReadOnlyAsDictionary.Keys != null);
             Assert.That(FocusNodeTemplateDictionaryReadOnlyAsDictionary.Values != null);
-            Assert.That(FocusNodeTemplateDictionaryReadOnlyAsDictionary.TryGetValue(typeof(ILeaf), out AsFocusTemplate) == NodeTemplateDictionary.TryGetValue(typeof(ILeaf), out AsFocusLayoutTemplate));
+            Assert.That(FocusNodeTemplateDictionaryReadOnlyAsDictionary.TryGetValue(typeof(Leaf), out AsFocusTemplate) == NodeTemplateDictionary.TryGetValue(typeof(Leaf), out AsFocusLayoutTemplate));
             IEnumerable<KeyValuePair<Type, IFocusTemplate>> FocusNodeTemplateDictionaryReadOnlyAsEnumerable = FocusNodeTemplateDictionaryReadOnly;
             FocusNodeTemplateDictionaryReadOnlyAsEnumerable.GetEnumerator();
 
@@ -16991,7 +16991,7 @@ namespace Coverage
             Assert.That(FocusCycleManagerListAsReadOnlyList[0] == FirstCycleManager);
 
             foreach (KeyValuePair<Type, ILayoutTemplate> TemplateEntry in NodeTemplateDictionary)
-                if (TemplateEntry.Key == typeof(IRoot))
+                if (TemplateEntry.Key == typeof(Root))
                 {
                     // ILayoutFrameSelectorList 
 
@@ -17030,7 +17030,7 @@ namespace Coverage
                 }
 
             foreach (KeyValuePair<Type, ILayoutTemplate> TemplateEntry in NodeTemplateDictionary)
-                if (TemplateEntry.Key == typeof(IMain))
+                if (TemplateEntry.Key == typeof(Main))
                 {
                     // ILayoutNodeFrameVisibilityList
 
@@ -17069,7 +17069,7 @@ namespace Coverage
                 }
 
             foreach (KeyValuePair<Type, ILayoutTemplate> TemplateEntry in NodeTemplateDictionary)
-                if (TemplateEntry.Key == typeof(BaseNode.IDeferredBody))
+                if (TemplateEntry.Key == typeof(BaseNode.DeferredBody))
                 {
                     // ILayoutFrameSelectorList 
 
@@ -17150,7 +17150,7 @@ namespace Coverage
         [Category("Coverage")]
         public static void LayoutSelectorTable()
         {
-            BaseNode.IClass Root = BaseNodeHelper.NodeHelper.CreateEmptyNode(typeof(BaseNode.Class)) as BaseNode.IClass;
+            BaseNode.Class Root = BaseNodeHelper.NodeHelper.CreateEmptyNode(typeof(BaseNode.Class)) as BaseNode.Class;
             ILayoutRootNodeIndex RootIndex = new LayoutRootNodeIndex(Root);
             ILayoutController Controller = LayoutController.Create(RootIndex);
             ILayoutControllerView ControllerView = LayoutControllerView.Create(Controller, EaslyEdit.CustomLayoutTemplateSet.LayoutTemplateSet, TestDebug.LayoutDrawPrintContext.Default);

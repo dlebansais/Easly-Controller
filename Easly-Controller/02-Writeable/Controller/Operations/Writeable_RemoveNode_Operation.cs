@@ -12,7 +12,7 @@
         /// <summary>
         /// Node where the removal is taking place.
         /// </summary>
-        INode ParentNode { get; }
+        Node ParentNode { get; }
 
         /// <summary>
         /// Property of <see cref="ParentNode"/> where a node is removed.
@@ -37,7 +37,7 @@
         /// <summary>
         /// The removed node.
         /// </summary>
-        INode RemovedNode { get; }
+        Node RemovedNode { get; }
 
         /// <summary>
         /// Update the operation with details.
@@ -67,7 +67,7 @@
         /// <param name="handlerRedo">Handler to execute to redo the operation.</param>
         /// <param name="handlerUndo">Handler to execute to undo the operation.</param>
         /// <param name="isNested">True if the operation is nested within another more general one.</param>
-        public WriteableRemoveNodeOperation(INode parentNode, string propertyName, int blockIndex, int index, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        public WriteableRemoveNodeOperation(Node parentNode, string propertyName, int blockIndex, int index, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
             : base(handlerRedo, handlerUndo, isNested)
         {
             ParentNode = parentNode;
@@ -81,7 +81,7 @@
         /// <summary>
         /// Node where the removal is taking place.
         /// </summary>
-        public INode ParentNode { get; }
+        public Node ParentNode { get; }
 
         /// <summary>
         /// Property of <see cref="ParentNode"/> where a node is removed.
@@ -106,7 +106,7 @@
         /// <summary>
         /// The removed node.
         /// </summary>
-        public INode RemovedNode { get; private set; }
+        public Node RemovedNode { get; private set; }
         #endregion
 
         #region Client Interface
@@ -135,7 +135,7 @@
         /// <summary>
         /// Creates a IxxxInsertNodeOperation object.
         /// </summary>
-        private protected virtual IWriteableInsertNodeOperation CreateInsertNodeOperation(int blockIndex, int index, INode node, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        private protected virtual IWriteableInsertNodeOperation CreateInsertNodeOperation(int blockIndex, int index, Node node, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableRemoveNodeOperation));
             return new WriteableInsertNodeOperation(ParentNode, PropertyName, blockIndex, index, node, handlerRedo, handlerUndo, isNested);

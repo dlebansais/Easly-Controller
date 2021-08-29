@@ -48,7 +48,7 @@
         public FocusNodeListSelection(IFocusNodeStateView stateView, string propertyName, int startIndex, int endIndex)
             : base(stateView)
         {
-            INode Node = stateView.State.Node;
+            Node Node = stateView.State.Node;
             Debug.Assert(NodeTreeHelperList.IsNodeListProperty(Node, propertyName, out Type childNodeType));
 
             PropertyName = propertyName;
@@ -113,7 +113,7 @@
             IFocusListInner ParentInner = State.PropertyToInner(PropertyName) as IFocusListInner;
             Debug.Assert(ParentInner != null);
 
-            List<INode> NodeList = new List<INode>();
+            List<Node> NodeList = new List<Node>();
             for (int i = StartIndex; i < EndIndex; i++)
                 NodeList.Add(ParentInner.StateList[i].Node);
 
@@ -148,13 +148,13 @@
             Debug.Assert(EndIndex <= ParentInner.StateList.Count);
             Debug.Assert(StartIndex <= EndIndex);
 
-            IList<INode> NodeList = null;
+            IList<Node> NodeList = null;
 
             if (ClipboardHelper.TryReadNodeList(out NodeList))
             { }
-            else if (ClipboardHelper.TryReadNode(out INode Node))
+            else if (ClipboardHelper.TryReadNode(out Node Node))
             {
-                NodeList = new List<INode>() { Node };
+                NodeList = new List<Node>() { Node };
             }
 
             if (NodeList != null)
@@ -169,7 +169,7 @@
 
                     for (int i = 0; i < NodeList.Count; i++)
                     {
-                        INode NewNode = NodeList[i] as INode;
+                        Node NewNode = NodeList[i] as Node;
                         IFocusInsertionListNodeIndex InsertedIndex = CreateListNodeIndex(ParentInner.Owner.Node, PropertyName, NewNode, StartIndex + i);
                         IndexList.Add(InsertedIndex);
                     }
@@ -208,7 +208,7 @@
             {
                 if (dataObject != null)
                 {
-                    List<INode> NodeList = new List<INode>();
+                    List<Node> NodeList = new List<Node>();
                     for (int i = StartIndex; i < EndIndex; i++)
                         NodeList.Add(ParentInner.StateList[i].Node);
 
@@ -240,7 +240,7 @@
         /// <summary>
         /// Creates a IxxxInsertionListNodeIndex object.
         /// </summary>
-        private protected virtual IFocusInsertionListNodeIndex CreateListNodeIndex(INode parentNode, string propertyName, INode node, int index)
+        private protected virtual IFocusInsertionListNodeIndex CreateListNodeIndex(Node parentNode, string propertyName, Node node, int index)
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusNodeListSelection));
             return new FocusInsertionListNodeIndex(parentNode, propertyName, node, index);

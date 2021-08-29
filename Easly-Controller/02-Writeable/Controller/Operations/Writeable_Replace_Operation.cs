@@ -12,7 +12,7 @@
         /// <summary>
         /// Node where the replacement is taking place.
         /// </summary>
-        INode ParentNode { get; }
+        Node ParentNode { get; }
 
         /// <summary>
         /// Property of <see cref="ParentNode"/> where the node is replaced.
@@ -32,7 +32,7 @@
         /// <summary>
         /// The new node. Null to clear an optional node.
         /// </summary>
-        INode NewNode { get; }
+        Node NewNode { get; }
 
         /// <summary>
         /// Index of the state before it's replaced.
@@ -47,7 +47,7 @@
         /// <summary>
         /// The old node.
         /// </summary>
-        INode OldNode { get; }
+        Node OldNode { get; }
 
         /// <summary>
         /// The new state.
@@ -61,7 +61,7 @@
         /// <param name="newBrowsingIndex">Index of the state after it's replaced.</param>
         /// <param name="oldNode">The old node. Can be null if optional and replaced.</param>
         /// <param name="newChildState">The new state.</param>
-        void Update(IWriteableBrowsingChildIndex oldBrowsingIndex, IWriteableBrowsingChildIndex newBrowsingIndex, INode oldNode, IWriteableNodeState newChildState);
+        void Update(IWriteableBrowsingChildIndex oldBrowsingIndex, IWriteableBrowsingChildIndex newBrowsingIndex, Node oldNode, IWriteableNodeState newChildState);
 
         /// <summary>
         /// Creates an operation to undo the replace operation.
@@ -86,7 +86,7 @@
         /// <param name="handlerRedo">Handler to execute to redo the operation.</param>
         /// <param name="handlerUndo">Handler to execute to undo the operation.</param>
         /// <param name="isNested">True if the operation is nested within another more general one.</param>
-        public WriteableReplaceOperation(INode parentNode, string propertyName, int blockIndex, int index, INode newNode, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        public WriteableReplaceOperation(Node parentNode, string propertyName, int blockIndex, int index, Node newNode, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
             : base(handlerRedo, handlerUndo, isNested)
         {
             ParentNode = parentNode;
@@ -101,7 +101,7 @@
         /// <summary>
         /// Node where the replacement is taking place.
         /// </summary>
-        public INode ParentNode { get; }
+        public Node ParentNode { get; }
 
         /// <summary>
         /// Property of <see cref="ParentNode"/> where the node is replaced.
@@ -121,7 +121,7 @@
         /// <summary>
         /// The new node. Null to clear an optional node.
         /// </summary>
-        public INode NewNode { get; }
+        public Node NewNode { get; }
 
         /// <summary>
         /// Index of the state before it's replaced.
@@ -136,7 +136,7 @@
         /// <summary>
         /// The old node.
         /// </summary>
-        public INode OldNode { get; private set; }
+        public Node OldNode { get; private set; }
 
         /// <summary>
         /// The new state.
@@ -152,7 +152,7 @@
         /// <param name="newBrowsingIndex">Index of the state after it's replaced.</param>
         /// <param name="oldNode">The old node. Can be null if optional and replaced.</param>
         /// <param name="newChildState">The new state.</param>
-        public virtual void Update(IWriteableBrowsingChildIndex oldBrowsingIndex, IWriteableBrowsingChildIndex newBrowsingIndex, INode oldNode, IWriteableNodeState newChildState)
+        public virtual void Update(IWriteableBrowsingChildIndex oldBrowsingIndex, IWriteableBrowsingChildIndex newBrowsingIndex, Node oldNode, IWriteableNodeState newChildState)
         {
             Debug.Assert(oldBrowsingIndex != null);
             Debug.Assert(newBrowsingIndex != null);
@@ -177,7 +177,7 @@
         /// <summary>
         /// Creates a IxxxReplaceOperation object.
         /// </summary>
-        private protected virtual IWriteableReplaceOperation CreateReplaceOperation(int blockIndex, int index, INode node, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        private protected virtual IWriteableReplaceOperation CreateReplaceOperation(int blockIndex, int index, Node node, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableReplaceOperation));
             return new WriteableReplaceOperation(ParentNode, PropertyName, blockIndex, index, node, handlerRedo, handlerUndo, isNested);

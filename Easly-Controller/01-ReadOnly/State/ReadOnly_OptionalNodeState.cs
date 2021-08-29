@@ -70,11 +70,11 @@
         /// <summary>
         /// The node, or null if not assigned.
         /// </summary>
-        public override INode Node
+        public override Node Node
         {
             get
             {
-                NodeTreeHelperOptional.GetChildNode(Optional, out bool IsAssigned, out INode ChildNode);
+                NodeTreeHelperOptional.GetChildNode(Optional, out bool IsAssigned, out Node ChildNode);
                 return ChildNode;
             }
         }
@@ -86,7 +86,7 @@
         {
             get
             {
-                NodeTreeHelperOptional.GetChildNode(Optional, out bool IsAssigned, out INode ChildNode);
+                NodeTreeHelperOptional.GetChildNode(Optional, out bool IsAssigned, out Node ChildNode);
                 return IsAssigned ? ChildNode.Documentation.Comment : string.Empty;
             }
         }
@@ -108,7 +108,7 @@
             Debug.Assert(browseContext != null);
             Debug.Assert(parentInner != null);
 
-            NodeTreeHelperOptional.GetChildNode(Optional, out bool IsAssigned, out INode ChildNode);
+            NodeTreeHelperOptional.GetChildNode(Optional, out bool IsAssigned, out Node ChildNode);
 
             if (ChildNode != null)
                 BrowseChildrenOfNode(browseContext, ChildNode);
@@ -150,11 +150,11 @@
         /// Returns a clone of the node of this state.
         /// </summary>
         /// <returns>The cloned node.</returns>
-        public override INode CloneNode()
+        public override Node CloneNode()
         {
-            INode NewNode = null;
+            Node NewNode = null;
 
-            NodeTreeHelperOptional.GetChildNode(Optional, out bool IsAssigned, out INode ChildNode);
+            NodeTreeHelperOptional.GetChildNode(Optional, out bool IsAssigned, out Node ChildNode);
             if (ChildNode != null)
             {
                 // Create a clone, initially empty and full of null references.

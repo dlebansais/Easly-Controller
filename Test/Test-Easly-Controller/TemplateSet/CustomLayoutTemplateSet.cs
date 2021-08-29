@@ -125,7 +125,7 @@ namespace EaslyEdit
                     <LayoutKeywordFrame LeftMargin=""Whitespace"" RightMargin=""Whitespace"">from</LayoutKeywordFrame>
                     <LayoutOptionalFrame PropertyName=""FromIdentifier"">
                         <LayoutOptionalFrame.Selectors>
-                            <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Identifier""/>
+                            <LayoutFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Identifier""/>
                         </LayoutOptionalFrame.Selectors>
                     </LayoutOptionalFrame>
                 </LayoutHorizontalPanelFrame>
@@ -220,7 +220,7 @@ namespace EaslyEdit
                 </LayoutHorizontalPanelFrame>
                 <LayoutVerticalBlockListFrame PropertyName=""ConversionBlocks"" HasTabulationMargin=""True"">
                     <LayoutVerticalBlockListFrame.Selectors>
-                        <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Feature""/>
+                        <LayoutFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Feature""/>
                     </LayoutVerticalBlockListFrame.Selectors>
                 </LayoutVerticalBlockListFrame>
             </LayoutVerticalPanelFrame>
@@ -339,7 +339,7 @@ namespace EaslyEdit
                     </LayoutHorizontalPanelFrame>
                     <LayoutVerticalBlockListFrame PropertyName=""ExceptionIdentifierBlocks"" HasTabulationMargin=""True"">
                         <LayoutVerticalBlockListFrame.Selectors>
-                            <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Class""/>
+                            <LayoutFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Class""/>
                         </LayoutVerticalBlockListFrame.Selectors>
                     </LayoutVerticalBlockListFrame>
                 </LayoutVerticalPanelFrame>
@@ -435,7 +435,7 @@ namespace EaslyEdit
                 <LayoutKeywordFrame>catch</LayoutKeywordFrame>
                 <LayoutPlaceholderFrame PropertyName=""ExceptionIdentifier"" LeftMargin=""Whitespace"">
                     <LayoutPlaceholderFrame.Selectors>
-                        <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Identifier""/>
+                        <LayoutFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Identifier""/>
                     </LayoutPlaceholderFrame.Selectors>
                 </LayoutPlaceholderFrame>
                 <LayoutInsertFrame CollectionName=""Instructions.InstructionBlocks"" ItemType=""{xaml:Type easly:CommandInstruction}""/>
@@ -450,7 +450,7 @@ namespace EaslyEdit
             <LayoutKeywordFrame LeftMargin=""Whitespace"" RightMargin=""Whitespace"">to</LayoutKeywordFrame>
             <LayoutHorizontalBlockListFrame PropertyName=""ClassIdentifierBlocks"" Separator=""Comma"">
                 <LayoutHorizontalBlockListFrame.Selectors>
-                    <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""ClassOrExport""/>
+                    <LayoutFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""ClassOrExport""/>
                 </LayoutHorizontalBlockListFrame.Selectors>
             </LayoutHorizontalBlockListFrame>
         </LayoutHorizontalPanelFrame>
@@ -460,14 +460,14 @@ namespace EaslyEdit
             <LayoutCommentFrame/>
             <LayoutPlaceholderFrame PropertyName=""ExportIdentifier"">
                 <LayoutPlaceholderFrame.Selectors>
-                    <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Export""/>
+                    <LayoutFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Export""/>
                 </LayoutPlaceholderFrame.Selectors>
             </LayoutPlaceholderFrame>
             <LayoutKeywordFrame LeftMargin=""Whitespace"" RightMargin=""Whitespace"">to</LayoutKeywordFrame>
             <LayoutInsertFrame CollectionName=""IdentifierBlocks"" />
             <LayoutHorizontalBlockListFrame PropertyName=""IdentifierBlocks"" Separator=""Comma"">
                 <LayoutHorizontalBlockListFrame.Selectors>
-                    <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Feature""/>
+                    <LayoutFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Feature""/>
                 </LayoutHorizontalBlockListFrame.Selectors>
             </LayoutHorizontalBlockListFrame>
         </LayoutHorizontalPanelFrame>
@@ -504,7 +504,7 @@ namespace EaslyEdit
             </LayoutKeywordFrame>
         </LayoutVerticalPanelFrame>
     </LayoutNodeTemplate>
-    <LayoutNodeTemplate NodeType=""{xaml:Type easly:IGlobalReplicate}"">
+    <LayoutNodeTemplate NodeType=""{xaml:Type easly:GlobalReplicate}"">
         <LayoutHorizontalPanelFrame>
             <LayoutCommentFrame/>
             <LayoutPlaceholderFrame PropertyName=""ReplicateName""/>
@@ -523,7 +523,7 @@ namespace EaslyEdit
                 </LayoutDiscreteFrame>
                 <LayoutPlaceholderFrame PropertyName=""LibraryIdentifier"" LeftMargin=""Whitespace"">
                     <LayoutPlaceholderFrame.Selectors>
-                        <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Library""/>
+                        <LayoutFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Library""/>
                     </LayoutPlaceholderFrame.Selectors>
                 </LayoutPlaceholderFrame>
                 <LayoutHorizontalPanelFrame>
@@ -533,7 +533,7 @@ namespace EaslyEdit
                     <LayoutKeywordFrame LeftMargin=""Whitespace"" RightMargin=""Whitespace"">from</LayoutKeywordFrame>
                     <LayoutOptionalFrame PropertyName=""FromIdentifier"">
                         <LayoutOptionalFrame.Selectors>
-                            <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Source""/>
+                            <LayoutFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Source""/>
                         </LayoutOptionalFrame.Selectors>
                     </LayoutOptionalFrame>
                 </LayoutHorizontalPanelFrame>
@@ -592,7 +592,7 @@ namespace EaslyEdit
                     </LayoutHorizontalPanelFrame>
                     <LayoutVerticalBlockListFrame PropertyName=""ForgetBlocks"" HasTabulationMargin=""True"">
                         <LayoutVerticalBlockListFrame.Selectors>
-                            <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Feature""/>
+                            <LayoutFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Feature""/>
                         </LayoutVerticalBlockListFrame.Selectors>
                     </LayoutVerticalBlockListFrame>
                 </LayoutVerticalPanelFrame>
@@ -606,7 +606,7 @@ namespace EaslyEdit
                     </LayoutHorizontalPanelFrame>
                     <LayoutVerticalBlockListFrame PropertyName=""KeepBlocks"" HasTabulationMargin=""True"">
                         <LayoutVerticalBlockListFrame.Selectors>
-                            <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Feature""/>
+                            <LayoutFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Feature""/>
                         </LayoutVerticalBlockListFrame.Selectors>
                     </LayoutVerticalBlockListFrame>
                 </LayoutVerticalPanelFrame>
@@ -620,7 +620,7 @@ namespace EaslyEdit
                     </LayoutHorizontalPanelFrame>
                     <LayoutVerticalBlockListFrame PropertyName=""DiscontinueBlocks"" HasTabulationMargin=""True"">
                         <LayoutVerticalBlockListFrame.Selectors>
-                            <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Feature""/>
+                            <LayoutFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Feature""/>
                         </LayoutVerticalBlockListFrame.Selectors>
                     </LayoutVerticalBlockListFrame>
                 </LayoutVerticalPanelFrame>
@@ -684,7 +684,7 @@ namespace EaslyEdit
                     <LayoutKeywordFrame LeftMargin=""Whitespace"" RightMargin=""Whitespace"">from</LayoutKeywordFrame>
                     <LayoutOptionalFrame PropertyName=""FromIdentifier"">
                         <LayoutOptionalFrame.Selectors>
-                            <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Feature""/>
+                            <LayoutFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Feature""/>
                         </LayoutOptionalFrame.Selectors>
                     </LayoutOptionalFrame>
                 </LayoutHorizontalPanelFrame>
@@ -709,7 +709,7 @@ namespace EaslyEdit
                 </LayoutHorizontalPanelFrame>
                 <LayoutVerticalBlockListFrame PropertyName=""ClassIdentifierBlocks"" HasTabulationMargin=""True"">
                     <LayoutVerticalBlockListFrame.Selectors>
-                        <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Feature""/>
+                        <LayoutFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Feature""/>
                     </LayoutVerticalBlockListFrame.Selectors>
                 </LayoutVerticalBlockListFrame>
             </LayoutVerticalPanelFrame>
@@ -729,7 +729,7 @@ namespace EaslyEdit
             <LayoutTextValueFrame PropertyName=""Text"" AutoFormat=""True""/>
         </LayoutVerticalPanelFrame>
     </LayoutNodeTemplate>
-    <LayoutNodeTemplate NodeType=""{xaml:Type easly:IPattern}"" IsSimple=""True"">
+    <LayoutNodeTemplate NodeType=""{xaml:Type easly:Pattern}"" IsSimple=""True"">
         <LayoutVerticalPanelFrame>
             <LayoutCommentFrame/>
             <LayoutTextValueFrame PropertyName=""Text""/>
@@ -740,7 +740,7 @@ namespace EaslyEdit
             <LayoutCommentFrame/>
             <LayoutHorizontalListFrame PropertyName=""Path"" Separator=""Dot"">
                 <LayoutHorizontalListFrame.Selectors>
-                    <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Feature""/>
+                    <LayoutFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Feature""/>
                 </LayoutHorizontalListFrame.Selectors>
             </LayoutHorizontalListFrame>
         </LayoutVerticalPanelFrame>
@@ -785,7 +785,7 @@ namespace EaslyEdit
                 </LayoutHorizontalPanelFrame>
                 <LayoutVerticalBlockListFrame PropertyName=""ModifiedQueryBlocks"" HasTabulationMargin=""True"">
                     <LayoutVerticalBlockListFrame.Selectors>
-                        <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Feature""/>
+                        <LayoutFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Feature""/>
                     </LayoutVerticalBlockListFrame.Selectors>
                 </LayoutVerticalBlockListFrame>
             </LayoutVerticalPanelFrame>
@@ -865,7 +865,7 @@ namespace EaslyEdit
                     </LayoutHorizontalPanelFrame>
                     <LayoutVerticalBlockListFrame PropertyName=""ExceptionIdentifierBlocks"" HasTabulationMargin=""True"">
                         <LayoutVerticalBlockListFrame.Selectors>
-                            <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Class""/>
+                            <LayoutFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Class""/>
                         </LayoutVerticalBlockListFrame.Selectors>
                     </LayoutVerticalBlockListFrame>
                 </LayoutVerticalPanelFrame>
@@ -898,18 +898,18 @@ namespace EaslyEdit
             <LayoutCommentFrame/>
             <LayoutPlaceholderFrame PropertyName=""SourceIdentifier"">
                 <LayoutPlaceholderFrame.Selectors>
-                    <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Identifier""/>
+                    <LayoutFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Identifier""/>
                 </LayoutPlaceholderFrame.Selectors>
             </LayoutPlaceholderFrame>
             <LayoutKeywordFrame LeftMargin=""Whitespace"" RightMargin=""Whitespace"">to</LayoutKeywordFrame>
             <LayoutPlaceholderFrame PropertyName=""DestinationIdentifier"">
                 <LayoutPlaceholderFrame.Selectors>
-                    <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Feature""/>
+                    <LayoutFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Feature""/>
                 </LayoutPlaceholderFrame.Selectors>
             </LayoutPlaceholderFrame>
         </LayoutHorizontalPanelFrame>
     </LayoutNodeTemplate>
-    <LayoutNodeTemplate NodeType=""{xaml:Type easly:IRoot}"">
+    <LayoutNodeTemplate NodeType=""{xaml:Type easly:Root}"">
         <LayoutVerticalPanelFrame>
             <LayoutCommentFrame/>
             <LayoutVerticalPanelFrame>
@@ -987,7 +987,7 @@ namespace EaslyEdit
             </LayoutSymbolFrame>
             <LayoutHorizontalBlockListFrame PropertyName=""ParameterBlocks"" Separator=""Comma"">
                 <LayoutHorizontalBlockListFrame.Selectors>
-                    <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Feature""/>
+                    <LayoutFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Feature""/>
                 </LayoutHorizontalBlockListFrame.Selectors>
             </LayoutHorizontalBlockListFrame>
             <LayoutSymbolFrame Symbol=""{x:Static const:Symbols.RightParenthesis}"" LeftMargin=""ThinSpace"">
@@ -1030,7 +1030,7 @@ namespace EaslyEdit
                         </LayoutHorizontalPanelFrame>
                         <LayoutHorizontalBlockListFrame PropertyName=""ExceptionIdentifierBlocks"" Separator=""Comma"">
                             <LayoutHorizontalBlockListFrame.Selectors>
-                                <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Class""/>
+                                <LayoutFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Class""/>
                             </LayoutHorizontalBlockListFrame.Selectors>
                         </LayoutHorizontalBlockListFrame>
                     </LayoutVerticalPanelFrame>
@@ -1074,7 +1074,7 @@ namespace EaslyEdit
                         </LayoutHorizontalPanelFrame>
                         <LayoutHorizontalBlockListFrame PropertyName=""ExceptionIdentifierBlocks"" Separator=""Comma"">
                             <LayoutHorizontalBlockListFrame.Selectors>
-                                <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Class""/>
+                                <LayoutFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Class""/>
                             </LayoutHorizontalBlockListFrame.Selectors>
                         </LayoutHorizontalBlockListFrame>
                     </LayoutVerticalPanelFrame>
@@ -1119,7 +1119,7 @@ namespace EaslyEdit
                         </LayoutHorizontalPanelFrame>
                         <LayoutHorizontalBlockListFrame PropertyName=""ExceptionIdentifierBlocks"" Separator=""Comma"">
                             <LayoutHorizontalBlockListFrame.Selectors>
-                                <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Class""/>
+                                <LayoutFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Class""/>
                             </LayoutHorizontalBlockListFrame.Selectors>
                         </LayoutHorizontalBlockListFrame>
                     </LayoutVerticalPanelFrame>
@@ -1168,7 +1168,7 @@ namespace EaslyEdit
                         </LayoutHorizontalPanelFrame>
                         <LayoutHorizontalBlockListFrame PropertyName=""ExceptionIdentifierBlocks"" Separator=""Comma"">
                             <LayoutHorizontalBlockListFrame.Selectors>
-                                <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Class""/>
+                                <LayoutFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Class""/>
                             </LayoutHorizontalBlockListFrame.Selectors>
                         </LayoutHorizontalBlockListFrame>
                     </LayoutVerticalPanelFrame>
@@ -1234,7 +1234,7 @@ namespace EaslyEdit
                         </LayoutHorizontalPanelFrame>
                         <LayoutHorizontalBlockListFrame PropertyName=""ExceptionIdentifierBlocks"" Separator=""Comma"">
                             <LayoutHorizontalBlockListFrame.Selectors>
-                                <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Class""/>
+                                <LayoutFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Class""/>
                             </LayoutHorizontalBlockListFrame.Selectors>
                         </LayoutHorizontalBlockListFrame>
                     </LayoutVerticalPanelFrame>
@@ -1300,7 +1300,7 @@ namespace EaslyEdit
                         </LayoutHorizontalPanelFrame>
                         <LayoutHorizontalBlockListFrame PropertyName=""ExceptionIdentifierBlocks"" Separator=""Comma"">
                             <LayoutHorizontalBlockListFrame.Selectors>
-                                <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Class""/>
+                                <LayoutFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Class""/>
                             </LayoutHorizontalBlockListFrame.Selectors>
                         </LayoutHorizontalBlockListFrame>
                     </LayoutVerticalPanelFrame>
@@ -1370,7 +1370,7 @@ namespace EaslyEdit
                         </LayoutHorizontalPanelFrame>
                         <LayoutHorizontalBlockListFrame PropertyName=""ExceptionIdentifierBlocks"" Separator=""Comma"">
                             <LayoutHorizontalBlockListFrame.Selectors>
-                                <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Class""/>
+                                <LayoutFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Class""/>
                             </LayoutHorizontalBlockListFrame.Selectors>
                         </LayoutHorizontalBlockListFrame>
                     </LayoutVerticalPanelFrame>
@@ -1414,7 +1414,7 @@ namespace EaslyEdit
                         </LayoutHorizontalPanelFrame>
                         <LayoutHorizontalBlockListFrame PropertyName=""ExceptionIdentifierBlocks"" Separator=""Comma"">
                             <LayoutHorizontalBlockListFrame.Selectors>
-                                <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Class""/>
+                                <LayoutFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Class""/>
                             </LayoutHorizontalBlockListFrame.Selectors>
                         </LayoutHorizontalBlockListFrame>
                     </LayoutVerticalPanelFrame>
@@ -1459,7 +1459,7 @@ namespace EaslyEdit
                         </LayoutHorizontalPanelFrame>
                         <LayoutHorizontalBlockListFrame PropertyName=""ExceptionIdentifierBlocks"" Separator=""Comma"">
                             <LayoutHorizontalBlockListFrame.Selectors>
-                                <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Class""/>
+                                <LayoutFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Class""/>
                             </LayoutHorizontalBlockListFrame.Selectors>
                         </LayoutHorizontalBlockListFrame>
                     </LayoutVerticalPanelFrame>
@@ -1508,7 +1508,7 @@ namespace EaslyEdit
                         </LayoutHorizontalPanelFrame>
                         <LayoutHorizontalBlockListFrame PropertyName=""ExceptionIdentifierBlocks"" Separator=""Comma"">
                             <LayoutHorizontalBlockListFrame.Selectors>
-                                <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Class""/>
+                                <LayoutFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Class""/>
                             </LayoutHorizontalBlockListFrame.Selectors>
                         </LayoutHorizontalBlockListFrame>
                     </LayoutVerticalPanelFrame>
@@ -1558,7 +1558,7 @@ namespace EaslyEdit
                         </LayoutHorizontalPanelFrame>
                         <LayoutHorizontalBlockListFrame PropertyName=""ExceptionIdentifierBlocks"" Separator=""Comma"">
                             <LayoutHorizontalBlockListFrame.Selectors>
-                                <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Class""/>
+                                <LayoutFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Class""/>
                             </LayoutHorizontalBlockListFrame.Selectors>
                         </LayoutHorizontalBlockListFrame>
                     </LayoutVerticalPanelFrame>
@@ -1609,7 +1609,7 @@ namespace EaslyEdit
                         </LayoutHorizontalPanelFrame>
                         <LayoutHorizontalBlockListFrame PropertyName=""ExceptionIdentifierBlocks"" Separator=""Comma"">
                             <LayoutHorizontalBlockListFrame.Selectors>
-                                <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Class""/>
+                                <LayoutFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Class""/>
                             </LayoutHorizontalBlockListFrame.Selectors>
                         </LayoutHorizontalBlockListFrame>
                     </LayoutVerticalPanelFrame>
@@ -1653,7 +1653,7 @@ namespace EaslyEdit
             </LayoutHorizontalPanelFrame>
             <LayoutPlaceholderFrame PropertyName=""Delegated"" LeftMargin=""Whitespace"">
                 <LayoutPlaceholderFrame.Selectors>
-                    <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Feature""/>
+                    <LayoutFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Feature""/>
                 </LayoutPlaceholderFrame.Selectors>
             </LayoutPlaceholderFrame>
         </LayoutHorizontalPanelFrame>
@@ -1664,7 +1664,7 @@ namespace EaslyEdit
             <LayoutKeywordFrame>tag</LayoutKeywordFrame>
             <LayoutPlaceholderFrame PropertyName=""TagIdentifier"" LeftMargin=""Whitespace"">
                 <LayoutPlaceholderFrame.Selectors>
-                    <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Feature""/>
+                    <LayoutFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Feature""/>
                 </LayoutPlaceholderFrame.Selectors>
             </LayoutPlaceholderFrame>
         </LayoutHorizontalPanelFrame>
@@ -1724,7 +1724,7 @@ namespace EaslyEdit
             </LayoutHorizontalPanelFrame>
             <LayoutPlaceholderFrame PropertyName=""Operator"" LeftMargin=""Whitespace"" RightMargin=""Whitespace"">
                 <LayoutPlaceholderFrame.Selectors>
-                    <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Feature""/>
+                    <LayoutFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Feature""/>
                 </LayoutPlaceholderFrame.Selectors>
             </LayoutPlaceholderFrame>
             <LayoutHorizontalPanelFrame>
@@ -1748,14 +1748,14 @@ namespace EaslyEdit
             <LayoutSymbolFrame Symbol=""{x:Static const:Symbols.LeftCurlyBracket}""/>
             <LayoutPlaceholderFrame PropertyName=""ClassIdentifier"" LeftMargin=""ThinSpace"" RightMargin=""ThinSpace"">
                 <LayoutPlaceholderFrame.Selectors>
-                    <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Class""/>
+                    <LayoutFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Class""/>
                 </LayoutPlaceholderFrame.Selectors>
             </LayoutPlaceholderFrame>
             <LayoutSymbolFrame Symbol=""{x:Static const:Symbols.RightCurlyBracket}""/>
             <LayoutSymbolFrame Symbol=""{x:Static const:Symbols.Dot}""/>
             <LayoutPlaceholderFrame PropertyName=""ConstantIdentifier"" LeftMargin=""ThinSpace"">
                 <LayoutPlaceholderFrame.Selectors>
-                    <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Feature""/>
+                    <LayoutFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Feature""/>
                 </LayoutPlaceholderFrame.Selectors>
             </LayoutPlaceholderFrame>
         </LayoutHorizontalPanelFrame>
@@ -1862,7 +1862,7 @@ namespace EaslyEdit
             <LayoutCommentFrame/>
             <LayoutPlaceholderFrame PropertyName=""ClassIdentifier"">
                 <LayoutPlaceholderFrame.Selectors>
-                    <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Type""/>
+                    <LayoutFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Type""/>
                 </LayoutPlaceholderFrame.Selectors>
             </LayoutPlaceholderFrame>
             <LayoutSymbolFrame Symbol=""{x:Static const:Symbols.LeftBracket}"" LeftMargin=""ThinSpace"" RightMargin=""ThinSpace""/>
@@ -2062,7 +2062,7 @@ namespace EaslyEdit
             <LayoutCommentFrame/>
             <LayoutPlaceholderFrame PropertyName=""Operator"" RightMargin=""Whitespace"">
                 <LayoutPlaceholderFrame.Selectors>
-                    <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Feature""/>
+                    <LayoutFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Feature""/>
                 </LayoutPlaceholderFrame.Selectors>
             </LayoutPlaceholderFrame>
             <LayoutHorizontalPanelFrame>
@@ -2113,7 +2113,7 @@ namespace EaslyEdit
                     <LayoutKeywordFrame>export to</LayoutKeywordFrame>
                     <LayoutPlaceholderFrame PropertyName=""ExportIdentifier"" LeftMargin=""Whitespace"">
                         <LayoutPlaceholderFrame.Selectors>
-                            <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Export""/>
+                            <LayoutFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Export""/>
                         </LayoutPlaceholderFrame.Selectors>
                     </LayoutPlaceholderFrame>
                 </LayoutHorizontalPanelFrame>
@@ -2153,7 +2153,7 @@ namespace EaslyEdit
                     <LayoutKeywordFrame>export to</LayoutKeywordFrame>
                     <LayoutPlaceholderFrame PropertyName=""ExportIdentifier"" LeftMargin=""Whitespace"">
                         <LayoutPlaceholderFrame.Selectors>
-                            <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Export""/>
+                            <LayoutFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Export""/>
                         </LayoutPlaceholderFrame.Selectors>
                     </LayoutPlaceholderFrame>
                 </LayoutHorizontalPanelFrame>
@@ -2191,7 +2191,7 @@ namespace EaslyEdit
                     <LayoutKeywordFrame>export to</LayoutKeywordFrame>
                     <LayoutPlaceholderFrame PropertyName=""ExportIdentifier"" LeftMargin=""Whitespace"">
                         <LayoutPlaceholderFrame.Selectors>
-                            <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Export""/>
+                            <LayoutFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Export""/>
                         </LayoutPlaceholderFrame.Selectors>
                     </LayoutPlaceholderFrame>
                 </LayoutHorizontalPanelFrame>
@@ -2235,7 +2235,7 @@ namespace EaslyEdit
                     <LayoutKeywordFrame>export to</LayoutKeywordFrame>
                     <LayoutPlaceholderFrame PropertyName=""ExportIdentifier"" LeftMargin=""Whitespace"">
                         <LayoutPlaceholderFrame.Selectors>
-                            <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Export""/>
+                            <LayoutFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Export""/>
                         </LayoutPlaceholderFrame.Selectors>
                     </LayoutPlaceholderFrame>
                 </LayoutHorizontalPanelFrame>
@@ -2286,7 +2286,7 @@ namespace EaslyEdit
                     <LayoutVerticalPanelFrame HasTabulationMargin=""True"">
                         <LayoutHorizontalBlockListFrame PropertyName=""ModifiedQueryBlocks"" Separator=""Comma"">
                             <LayoutHorizontalBlockListFrame.Selectors>
-                                <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Identifier""/>
+                                <LayoutFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Identifier""/>
                             </LayoutHorizontalBlockListFrame.Selectors>
                         </LayoutHorizontalBlockListFrame>
                     </LayoutVerticalPanelFrame>
@@ -2318,7 +2318,7 @@ namespace EaslyEdit
                     <LayoutKeywordFrame>export to</LayoutKeywordFrame>
                     <LayoutPlaceholderFrame PropertyName=""ExportIdentifier"" LeftMargin=""Whitespace"">
                         <LayoutPlaceholderFrame.Selectors>
-                            <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Export""/>
+                            <LayoutFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Export""/>
                         </LayoutPlaceholderFrame.Selectors>
                     </LayoutPlaceholderFrame>
                 </LayoutHorizontalPanelFrame>
@@ -2350,7 +2350,7 @@ namespace EaslyEdit
                     <LayoutKeywordFrame>export to</LayoutKeywordFrame>
                     <LayoutPlaceholderFrame PropertyName=""ExportIdentifier"" LeftMargin=""Whitespace"">
                         <LayoutPlaceholderFrame.Selectors>
-                            <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Export""/>
+                            <LayoutFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Export""/>
                         </LayoutPlaceholderFrame.Selectors>
                     </LayoutPlaceholderFrame>
                 </LayoutHorizontalPanelFrame>
@@ -2393,7 +2393,7 @@ namespace EaslyEdit
                     <LayoutVerticalPanelFrame HasTabulationMargin=""True"">
                         <LayoutHorizontalBlockListFrame PropertyName=""ModifiedQueryBlocks"" Separator=""Comma"">
                             <LayoutHorizontalBlockListFrame.Selectors>
-                                <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Identifier""/>
+                                <LayoutFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Identifier""/>
                             </LayoutHorizontalBlockListFrame.Selectors>
                         </LayoutHorizontalBlockListFrame>
                     </LayoutVerticalPanelFrame>
@@ -2421,7 +2421,7 @@ namespace EaslyEdit
                     <LayoutKeywordFrame>export to</LayoutKeywordFrame>
                     <LayoutPlaceholderFrame PropertyName=""ExportIdentifier"" LeftMargin=""Whitespace"">
                         <LayoutPlaceholderFrame.Selectors>
-                            <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Export""/>
+                            <LayoutFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Export""/>
                         </LayoutPlaceholderFrame.Selectors>
                     </LayoutPlaceholderFrame>
                 </LayoutHorizontalPanelFrame>
@@ -2438,7 +2438,7 @@ namespace EaslyEdit
             </LayoutKeywordFrame>
         </LayoutVerticalPanelFrame>
     </LayoutNodeTemplate>
-    <LayoutNodeTemplate NodeType=""{xaml:Type easly:IIdentifier}"" IsSimple=""True"">
+    <LayoutNodeTemplate NodeType=""{xaml:Type easly:Identifier}"" IsSimple=""True"">
         <LayoutSelectionFrame>
             <LayoutSelectableFrame Name=""Identifier"">
                 <LayoutVerticalPanelFrame>
@@ -2586,14 +2586,14 @@ namespace EaslyEdit
             <LayoutKeywordFrame>create</LayoutKeywordFrame>
             <LayoutPlaceholderFrame PropertyName=""EntityIdentifier"" LeftMargin=""Whitespace"">
                 <LayoutPlaceholderFrame.Selectors>
-                    <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Feature""/>
+                    <LayoutFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Feature""/>
                 </LayoutPlaceholderFrame.Selectors>
             </LayoutPlaceholderFrame>
             <LayoutHorizontalPanelFrame>
                 <LayoutKeywordFrame LeftMargin=""Whitespace"">with</LayoutKeywordFrame>
                 <LayoutPlaceholderFrame PropertyName=""CreationRoutineIdentifier"" LeftMargin=""Whitespace"">
                     <LayoutPlaceholderFrame.Selectors>
-                        <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Feature""/>
+                        <LayoutFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Feature""/>
                     </LayoutPlaceholderFrame.Selectors>
                 </LayoutPlaceholderFrame>
                 <LayoutHorizontalPanelFrame>
@@ -2786,7 +2786,7 @@ namespace EaslyEdit
                     <LayoutKeywordFrame>exit if</LayoutKeywordFrame>
                     <LayoutOptionalFrame PropertyName=""ExitEntityName"" LeftMargin=""Whitespace"">
                         <LayoutOptionalFrame.Selectors>
-                            <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Feature""/>
+                            <LayoutFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Feature""/>
                         </LayoutOptionalFrame.Selectors>
                     </LayoutOptionalFrame>
                 </LayoutHorizontalPanelFrame>
@@ -2853,7 +2853,7 @@ namespace EaslyEdit
             <LayoutKeywordFrame RightMargin=""Whitespace"">raise</LayoutKeywordFrame>
             <LayoutPlaceholderFrame PropertyName=""QueryIdentifier"">
                 <LayoutPlaceholderFrame.Selectors>
-                    <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Feature""/>
+                    <LayoutFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Feature""/>
                 </LayoutPlaceholderFrame.Selectors>
             </LayoutPlaceholderFrame>
             <LayoutDiscreteFrame PropertyName=""Event"" LeftMargin=""Whitespace"">
@@ -2880,7 +2880,7 @@ namespace EaslyEdit
             <LayoutKeywordFrame RightMargin=""Whitespace"">with</LayoutKeywordFrame>
             <LayoutPlaceholderFrame PropertyName=""CreationRoutine"">
                 <LayoutPlaceholderFrame.Selectors>
-                    <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Feature""/>
+                    <LayoutFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Feature""/>
                 </LayoutPlaceholderFrame.Selectors>
             </LayoutPlaceholderFrame>
             <LayoutHorizontalPanelFrame>
@@ -2921,7 +2921,7 @@ namespace EaslyEdit
             <LayoutCommentFrame/>
             <LayoutPlaceholderFrame PropertyName=""ClassIdentifier"">
                 <LayoutPlaceholderFrame.Selectors>
-                    <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Feature""/>
+                    <LayoutFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Feature""/>
                 </LayoutPlaceholderFrame.Selectors>
             </LayoutPlaceholderFrame>
             <LayoutSymbolFrame Symbol=""{x:Static const:Symbols.LeftBracket}"" LeftMargin=""ThinSpace"" RightMargin=""ThinSpace""/>
@@ -3003,7 +3003,7 @@ namespace EaslyEdit
                     </LayoutHorizontalPanelFrame>
                     <LayoutVerticalBlockListFrame PropertyName=""GetExceptionIdentifierBlocks"" HasTabulationMargin=""True"">
                         <LayoutVerticalBlockListFrame.Selectors>
-                            <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Identifier""/>
+                            <LayoutFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Identifier""/>
                         </LayoutVerticalBlockListFrame.Selectors>
                     </LayoutVerticalBlockListFrame>
                 </LayoutVerticalPanelFrame>
@@ -3037,7 +3037,7 @@ namespace EaslyEdit
                     </LayoutHorizontalPanelFrame>
                     <LayoutVerticalBlockListFrame PropertyName=""SetExceptionIdentifierBlocks"" HasTabulationMargin=""True"">
                         <LayoutVerticalBlockListFrame.Selectors>
-                            <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Feature""/>
+                            <LayoutFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Feature""/>
                         </LayoutVerticalBlockListFrame.Selectors>
                     </LayoutVerticalBlockListFrame>
                 </LayoutVerticalPanelFrame>
@@ -3109,7 +3109,7 @@ namespace EaslyEdit
                     </LayoutHorizontalPanelFrame>
                     <LayoutVerticalBlockListFrame PropertyName=""GetExceptionIdentifierBlocks"" HasTabulationMargin=""True"">
                         <LayoutVerticalBlockListFrame.Selectors>
-                            <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Feature""/>
+                            <LayoutFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Feature""/>
                         </LayoutVerticalBlockListFrame.Selectors>
                     </LayoutVerticalBlockListFrame>
                 </LayoutVerticalPanelFrame>
@@ -3133,7 +3133,7 @@ namespace EaslyEdit
                     </LayoutHorizontalPanelFrame>
                     <LayoutVerticalBlockListFrame PropertyName=""SetExceptionIdentifierBlocks"" HasTabulationMargin=""True"">
                         <LayoutVerticalBlockListFrame.Selectors>
-                            <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Feature""/>
+                            <LayoutFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Feature""/>
                         </LayoutVerticalBlockListFrame.Selectors>
                     </LayoutVerticalBlockListFrame>
                 </LayoutVerticalPanelFrame>
@@ -3147,7 +3147,7 @@ namespace EaslyEdit
             <LayoutCommentFrame/>
             <LayoutPlaceholderFrame PropertyName=""ClassIdentifier"">
                 <LayoutPlaceholderFrame.Selectors>
-                    <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Type""/>
+                    <LayoutFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Type""/>
                 </LayoutPlaceholderFrame.Selectors>
             </LayoutPlaceholderFrame>
             <LayoutDiscreteFrame PropertyName=""Sharing"" LeftMargin=""Whitespace"">
@@ -3184,7 +3184,7 @@ namespace EaslyEdit
             <LayoutCommentFrame/>
             <LayoutPlaceholderFrame PropertyName=""ParameterIdentifier"">
                 <LayoutPlaceholderFrame.Selectors>
-                    <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Feature""/>
+                    <LayoutFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Feature""/>
                 </LayoutPlaceholderFrame.Selectors>
             </LayoutPlaceholderFrame>
             <LayoutSymbolFrame Symbol=""{x:Static const:Symbols.LeftArrow}"" LeftMargin=""Whitespace"" RightMargin=""Whitespace""/>
@@ -3219,7 +3219,7 @@ namespace EaslyEdit
                 <LayoutKeywordFrame RightMargin=""Whitespace"">From</LayoutKeywordFrame>
                 <LayoutPlaceholderFrame PropertyName=""SourceIdentifier"" RightMargin=""Whitespace"">
                     <LayoutPlaceholderFrame.Selectors>
-                        <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Identifier""/>
+                        <LayoutFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Identifier""/>
                     </LayoutPlaceholderFrame.Selectors>
                 </LayoutPlaceholderFrame>
                 <LayoutKeywordFrame RightMargin=""Whitespace"">All</LayoutKeywordFrame>
@@ -3243,7 +3243,7 @@ namespace EaslyEdit
                 <LayoutKeywordFrame RightMargin=""Whitespace"">From</LayoutKeywordFrame>
                 <LayoutPlaceholderFrame PropertyName=""SourceIdentifier"" RightMargin=""Whitespace"">
                     <LayoutPlaceholderFrame.Selectors>
-                        <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Identifier""/>
+                        <LayoutFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Identifier""/>
                     </LayoutPlaceholderFrame.Selectors>
                 </LayoutPlaceholderFrame>
                 <LayoutKeywordFrame RightMargin=""Whitespace"">All</LayoutKeywordFrame>
@@ -3267,7 +3267,7 @@ namespace EaslyEdit
                 <LayoutKeywordFrame RightMargin=""Whitespace"">From</LayoutKeywordFrame>
                 <LayoutPlaceholderFrame PropertyName=""SourceIdentifier"" RightMargin=""Whitespace"">
                     <LayoutPlaceholderFrame.Selectors>
-                        <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Identifier""/>
+                        <LayoutFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Identifier""/>
                     </LayoutPlaceholderFrame.Selectors>
                 </LayoutPlaceholderFrame>
                 <LayoutKeywordFrame RightMargin=""Whitespace"">All</LayoutKeywordFrame>
@@ -3291,7 +3291,7 @@ namespace EaslyEdit
                 <LayoutKeywordFrame RightMargin=""Whitespace"">From</LayoutKeywordFrame>
                 <LayoutPlaceholderFrame PropertyName=""SourceIdentifier"" RightMargin=""Whitespace"">
                     <LayoutPlaceholderFrame.Selectors>
-                        <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Identifier""/>
+                        <LayoutFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Identifier""/>
                     </LayoutPlaceholderFrame.Selectors>
                 </LayoutPlaceholderFrame>
                 <LayoutKeywordFrame RightMargin=""Whitespace"">All</LayoutKeywordFrame>
@@ -3315,7 +3315,7 @@ namespace EaslyEdit
                 <LayoutKeywordFrame RightMargin=""Whitespace"">From</LayoutKeywordFrame>
                 <LayoutPlaceholderFrame PropertyName=""SourceIdentifier"" RightMargin=""Whitespace"">
                     <LayoutPlaceholderFrame.Selectors>
-                        <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Identifier""/>
+                        <LayoutFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Identifier""/>
                     </LayoutPlaceholderFrame.Selectors>
                 </LayoutPlaceholderFrame>
                 <LayoutKeywordFrame RightMargin=""Whitespace"">All</LayoutKeywordFrame>
@@ -3339,7 +3339,7 @@ namespace EaslyEdit
                 <LayoutKeywordFrame RightMargin=""Whitespace"">From</LayoutKeywordFrame>
                 <LayoutPlaceholderFrame PropertyName=""SourceIdentifier"" RightMargin=""Whitespace"">
                     <LayoutPlaceholderFrame.Selectors>
-                        <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Identifier""/>
+                        <LayoutFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Identifier""/>
                     </LayoutPlaceholderFrame.Selectors>
                 </LayoutPlaceholderFrame>
                 <LayoutKeywordFrame RightMargin=""Whitespace"">All</LayoutKeywordFrame>
@@ -3363,7 +3363,7 @@ namespace EaslyEdit
                 <LayoutKeywordFrame RightMargin=""Whitespace"">From</LayoutKeywordFrame>
                 <LayoutPlaceholderFrame PropertyName=""SourceIdentifier"" RightMargin=""Whitespace"">
                     <LayoutPlaceholderFrame.Selectors>
-                        <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Identifier""/>
+                        <LayoutFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Identifier""/>
                     </LayoutPlaceholderFrame.Selectors>
                 </LayoutPlaceholderFrame>
                 <LayoutKeywordFrame RightMargin=""Whitespace"">All</LayoutKeywordFrame>
@@ -3387,7 +3387,7 @@ namespace EaslyEdit
                 <LayoutKeywordFrame RightMargin=""Whitespace"">From</LayoutKeywordFrame>
                 <LayoutPlaceholderFrame PropertyName=""SourceIdentifier"" RightMargin=""Whitespace"">
                     <LayoutPlaceholderFrame.Selectors>
-                        <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Identifier""/>
+                        <LayoutFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Identifier""/>
                     </LayoutPlaceholderFrame.Selectors>
                 </LayoutPlaceholderFrame>
                 <LayoutKeywordFrame RightMargin=""Whitespace"">All</LayoutKeywordFrame>
@@ -3411,7 +3411,7 @@ namespace EaslyEdit
                 <LayoutKeywordFrame RightMargin=""Whitespace"">From</LayoutKeywordFrame>
                 <LayoutPlaceholderFrame PropertyName=""SourceIdentifier"" RightMargin=""Whitespace"">
                     <LayoutPlaceholderFrame.Selectors>
-                        <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Identifier""/>
+                        <LayoutFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Identifier""/>
                     </LayoutPlaceholderFrame.Selectors>
                 </LayoutPlaceholderFrame>
                 <LayoutKeywordFrame RightMargin=""Whitespace"">All</LayoutKeywordFrame>
@@ -3435,7 +3435,7 @@ namespace EaslyEdit
                 <LayoutKeywordFrame RightMargin=""Whitespace"">From</LayoutKeywordFrame>
                 <LayoutPlaceholderFrame PropertyName=""SourceIdentifier"" RightMargin=""Whitespace"">
                     <LayoutPlaceholderFrame.Selectors>
-                        <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Identifier""/>
+                        <LayoutFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Identifier""/>
                     </LayoutPlaceholderFrame.Selectors>
                 </LayoutPlaceholderFrame>
                 <LayoutKeywordFrame RightMargin=""Whitespace"">All</LayoutKeywordFrame>
@@ -3459,7 +3459,7 @@ namespace EaslyEdit
                 <LayoutKeywordFrame RightMargin=""Whitespace"">From</LayoutKeywordFrame>
                 <LayoutPlaceholderFrame PropertyName=""SourceIdentifier"" RightMargin=""Whitespace"">
                     <LayoutPlaceholderFrame.Selectors>
-                        <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Identifier""/>
+                        <LayoutFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Identifier""/>
                     </LayoutPlaceholderFrame.Selectors>
                 </LayoutPlaceholderFrame>
                 <LayoutKeywordFrame RightMargin=""Whitespace"">All</LayoutKeywordFrame>
@@ -3483,7 +3483,7 @@ namespace EaslyEdit
                 <LayoutKeywordFrame RightMargin=""Whitespace"">From</LayoutKeywordFrame>
                 <LayoutPlaceholderFrame PropertyName=""SourceIdentifier"" RightMargin=""Whitespace"">
                     <LayoutPlaceholderFrame.Selectors>
-                        <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Identifier""/>
+                        <LayoutFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Identifier""/>
                     </LayoutPlaceholderFrame.Selectors>
                 </LayoutPlaceholderFrame>
                 <LayoutKeywordFrame RightMargin=""Whitespace"">All</LayoutKeywordFrame>
@@ -3507,7 +3507,7 @@ namespace EaslyEdit
                 <LayoutKeywordFrame RightMargin=""Whitespace"">From</LayoutKeywordFrame>
                 <LayoutPlaceholderFrame PropertyName=""SourceIdentifier"" RightMargin=""Whitespace"">
                     <LayoutPlaceholderFrame.Selectors>
-                        <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Identifier""/>
+                        <LayoutFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Identifier""/>
                     </LayoutPlaceholderFrame.Selectors>
                 </LayoutPlaceholderFrame>
                 <LayoutKeywordFrame RightMargin=""Whitespace"">All</LayoutKeywordFrame>
@@ -3531,7 +3531,7 @@ namespace EaslyEdit
                 <LayoutKeywordFrame RightMargin=""Whitespace"">From</LayoutKeywordFrame>
                 <LayoutPlaceholderFrame PropertyName=""SourceIdentifier"" RightMargin=""Whitespace"">
                     <LayoutPlaceholderFrame.Selectors>
-                        <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Identifier""/>
+                        <LayoutFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Identifier""/>
                     </LayoutPlaceholderFrame.Selectors>
                 </LayoutPlaceholderFrame>
                 <LayoutKeywordFrame RightMargin=""Whitespace"">All</LayoutKeywordFrame>
@@ -3555,7 +3555,7 @@ namespace EaslyEdit
                 <LayoutKeywordFrame RightMargin=""Whitespace"">From</LayoutKeywordFrame>
                 <LayoutPlaceholderFrame PropertyName=""SourceIdentifier"" RightMargin=""Whitespace"">
                     <LayoutPlaceholderFrame.Selectors>
-                        <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Identifier""/>
+                        <LayoutFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Identifier""/>
                     </LayoutPlaceholderFrame.Selectors>
                 </LayoutPlaceholderFrame>
                 <LayoutKeywordFrame RightMargin=""Whitespace"">All</LayoutKeywordFrame>
@@ -3579,7 +3579,7 @@ namespace EaslyEdit
                 <LayoutKeywordFrame RightMargin=""Whitespace"">From</LayoutKeywordFrame>
                 <LayoutPlaceholderFrame PropertyName=""SourceIdentifier"" RightMargin=""Whitespace"">
                     <LayoutPlaceholderFrame.Selectors>
-                        <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Identifier""/>
+                        <LayoutFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Identifier""/>
                     </LayoutPlaceholderFrame.Selectors>
                 </LayoutPlaceholderFrame>
                 <LayoutKeywordFrame RightMargin=""Whitespace"">All</LayoutKeywordFrame>
@@ -3592,7 +3592,7 @@ namespace EaslyEdit
             </LayoutKeywordFrame>
         </LayoutHorizontalPanelFrame>
     </LayoutBlockTemplate>
-    <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:IFeature,easly:Feature}"">
+    <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:Feature,easly:Feature}"">
         <LayoutVerticalPanelFrame HasBlockGeometry=""True"">
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.BlockVisibility>
@@ -3603,7 +3603,7 @@ namespace EaslyEdit
                 <LayoutKeywordFrame RightMargin=""Whitespace"">From</LayoutKeywordFrame>
                 <LayoutPlaceholderFrame PropertyName=""SourceIdentifier"" RightMargin=""Whitespace"">
                     <LayoutPlaceholderFrame.Selectors>
-                        <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Identifier""/>
+                        <LayoutFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Identifier""/>
                     </LayoutPlaceholderFrame.Selectors>
                 </LayoutPlaceholderFrame>
                 <LayoutKeywordFrame RightMargin=""Whitespace"">All</LayoutKeywordFrame>
@@ -3627,7 +3627,7 @@ namespace EaslyEdit
                 <LayoutKeywordFrame RightMargin=""Whitespace"">From</LayoutKeywordFrame>
                 <LayoutPlaceholderFrame PropertyName=""SourceIdentifier"" RightMargin=""Whitespace"">
                     <LayoutPlaceholderFrame.Selectors>
-                        <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Identifier""/>
+                        <LayoutFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Identifier""/>
                     </LayoutPlaceholderFrame.Selectors>
                 </LayoutPlaceholderFrame>
                 <LayoutKeywordFrame RightMargin=""Whitespace"">All</LayoutKeywordFrame>
@@ -3640,7 +3640,7 @@ namespace EaslyEdit
             </LayoutKeywordFrame>
         </LayoutVerticalPanelFrame>
     </LayoutBlockTemplate>
-    <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:IIdentifier,easly:Identifier}"">
+    <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:Identifier,easly:Identifier}"">
         <LayoutHorizontalPanelFrame HasBlockGeometry=""True"">
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.BlockVisibility>
@@ -3651,14 +3651,14 @@ namespace EaslyEdit
                 <LayoutKeywordFrame RightMargin=""Whitespace"">From</LayoutKeywordFrame>
                 <LayoutPlaceholderFrame PropertyName=""SourceIdentifier"" RightMargin=""Whitespace"">
                     <LayoutPlaceholderFrame.Selectors>
-                        <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Identifier""/>
+                        <LayoutFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Identifier""/>
                     </LayoutPlaceholderFrame.Selectors>
                 </LayoutPlaceholderFrame>
                 <LayoutKeywordFrame RightMargin=""Whitespace"">All</LayoutKeywordFrame>
             </LayoutHorizontalPanelFrame>
             <LayoutHorizontalCollectionPlaceholderFrame Separator=""Comma"">
                 <LayoutHorizontalCollectionPlaceholderFrame.Selectors>
-                    <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Identifier""/>
+                    <LayoutFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Identifier""/>
                 </LayoutHorizontalCollectionPlaceholderFrame.Selectors>
             </LayoutHorizontalCollectionPlaceholderFrame>
             <LayoutKeywordFrame Text=""end"" LeftMargin=""Whitespace"">
@@ -3679,7 +3679,7 @@ namespace EaslyEdit
                 <LayoutKeywordFrame RightMargin=""Whitespace"">From</LayoutKeywordFrame>
                 <LayoutPlaceholderFrame PropertyName=""SourceIdentifier"" RightMargin=""Whitespace"">
                     <LayoutPlaceholderFrame.Selectors>
-                        <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Identifier""/>
+                        <LayoutFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Identifier""/>
                     </LayoutPlaceholderFrame.Selectors>
                 </LayoutPlaceholderFrame>
                 <LayoutKeywordFrame RightMargin=""Whitespace"">All</LayoutKeywordFrame>
@@ -3703,7 +3703,7 @@ namespace EaslyEdit
                 <LayoutKeywordFrame RightMargin=""Whitespace"">From</LayoutKeywordFrame>
                 <LayoutPlaceholderFrame PropertyName=""SourceIdentifier"" RightMargin=""Whitespace"">
                     <LayoutPlaceholderFrame.Selectors>
-                        <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Identifier""/>
+                        <LayoutFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Identifier""/>
                     </LayoutPlaceholderFrame.Selectors>
                 </LayoutPlaceholderFrame>
                 <LayoutKeywordFrame RightMargin=""Whitespace"">All</LayoutKeywordFrame>
@@ -3727,7 +3727,7 @@ namespace EaslyEdit
                 <LayoutKeywordFrame RightMargin=""Whitespace"">From</LayoutKeywordFrame>
                 <LayoutPlaceholderFrame PropertyName=""SourceIdentifier"" RightMargin=""Whitespace"">
                     <LayoutPlaceholderFrame.Selectors>
-                        <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Identifier""/>
+                        <LayoutFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Identifier""/>
                     </LayoutPlaceholderFrame.Selectors>
                 </LayoutPlaceholderFrame>
                 <LayoutKeywordFrame RightMargin=""Whitespace"">All</LayoutKeywordFrame>
@@ -3751,7 +3751,7 @@ namespace EaslyEdit
                 <LayoutKeywordFrame RightMargin=""Whitespace"">From</LayoutKeywordFrame>
                 <LayoutPlaceholderFrame PropertyName=""SourceIdentifier"" RightMargin=""Whitespace"">
                     <LayoutPlaceholderFrame.Selectors>
-                        <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Identifier""/>
+                        <LayoutFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Identifier""/>
                     </LayoutPlaceholderFrame.Selectors>
                 </LayoutPlaceholderFrame>
                 <LayoutKeywordFrame RightMargin=""Whitespace"">All</LayoutKeywordFrame>
@@ -3775,7 +3775,7 @@ namespace EaslyEdit
                 <LayoutKeywordFrame RightMargin=""Whitespace"">From</LayoutKeywordFrame>
                 <LayoutPlaceholderFrame PropertyName=""SourceIdentifier"" RightMargin=""Whitespace"">
                     <LayoutPlaceholderFrame.Selectors>
-                        <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Identifier""/>
+                        <LayoutFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Identifier""/>
                     </LayoutPlaceholderFrame.Selectors>
                 </LayoutPlaceholderFrame>
                 <LayoutKeywordFrame RightMargin=""Whitespace"">All</LayoutKeywordFrame>
@@ -3799,7 +3799,7 @@ namespace EaslyEdit
                 <LayoutKeywordFrame RightMargin=""Whitespace"">From</LayoutKeywordFrame>
                 <LayoutPlaceholderFrame PropertyName=""SourceIdentifier"" RightMargin=""Whitespace"">
                     <LayoutPlaceholderFrame.Selectors>
-                        <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Identifier""/>
+                        <LayoutFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Identifier""/>
                     </LayoutPlaceholderFrame.Selectors>
                 </LayoutPlaceholderFrame>
                 <LayoutKeywordFrame RightMargin=""Whitespace"">All</LayoutKeywordFrame>
@@ -3812,7 +3812,7 @@ namespace EaslyEdit
             </LayoutKeywordFrame>
         </LayoutHorizontalPanelFrame>
     </LayoutBlockTemplate>
-    <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:IPattern,easly:Pattern}"">
+    <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:Pattern,easly:Pattern}"">
         <LayoutHorizontalPanelFrame HasBlockGeometry=""True"">
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.BlockVisibility>
@@ -3823,7 +3823,7 @@ namespace EaslyEdit
                 <LayoutKeywordFrame RightMargin=""Whitespace"">From</LayoutKeywordFrame>
                 <LayoutPlaceholderFrame PropertyName=""SourceIdentifier"" RightMargin=""Whitespace"">
                     <LayoutPlaceholderFrame.Selectors>
-                        <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Identifier""/>
+                        <LayoutFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Identifier""/>
                     </LayoutPlaceholderFrame.Selectors>
                 </LayoutPlaceholderFrame>
                 <LayoutKeywordFrame RightMargin=""Whitespace"">All</LayoutKeywordFrame>
@@ -3847,7 +3847,7 @@ namespace EaslyEdit
                 <LayoutKeywordFrame RightMargin=""Whitespace"">From</LayoutKeywordFrame>
                 <LayoutPlaceholderFrame PropertyName=""SourceIdentifier"" RightMargin=""Whitespace"">
                     <LayoutPlaceholderFrame.Selectors>
-                        <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Identifier""/>
+                        <LayoutFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Identifier""/>
                     </LayoutPlaceholderFrame.Selectors>
                 </LayoutPlaceholderFrame>
                 <LayoutKeywordFrame RightMargin=""Whitespace"">All</LayoutKeywordFrame>
@@ -3871,7 +3871,7 @@ namespace EaslyEdit
                 <LayoutKeywordFrame RightMargin=""Whitespace"">From</LayoutKeywordFrame>
                 <LayoutPlaceholderFrame PropertyName=""SourceIdentifier"" RightMargin=""Whitespace"">
                     <LayoutPlaceholderFrame.Selectors>
-                        <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Identifier""/>
+                        <LayoutFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Identifier""/>
                     </LayoutPlaceholderFrame.Selectors>
                 </LayoutPlaceholderFrame>
                 <LayoutKeywordFrame RightMargin=""Whitespace"">All</LayoutKeywordFrame>
@@ -3895,7 +3895,7 @@ namespace EaslyEdit
                 <LayoutKeywordFrame RightMargin=""Whitespace"">From</LayoutKeywordFrame>
                 <LayoutPlaceholderFrame PropertyName=""SourceIdentifier"" RightMargin=""Whitespace"">
                     <LayoutPlaceholderFrame.Selectors>
-                        <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Identifier""/>
+                        <LayoutFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Identifier""/>
                     </LayoutPlaceholderFrame.Selectors>
                 </LayoutPlaceholderFrame>
                 <LayoutKeywordFrame RightMargin=""Whitespace"">All</LayoutKeywordFrame>
@@ -3919,7 +3919,7 @@ namespace EaslyEdit
                 <LayoutKeywordFrame RightMargin=""Whitespace"">From</LayoutKeywordFrame>
                 <LayoutPlaceholderFrame PropertyName=""SourceIdentifier"" RightMargin=""Whitespace"">
                     <LayoutPlaceholderFrame.Selectors>
-                        <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Identifier""/>
+                        <LayoutFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Identifier""/>
                     </LayoutPlaceholderFrame.Selectors>
                 </LayoutPlaceholderFrame>
                 <LayoutKeywordFrame RightMargin=""Whitespace"">All</LayoutKeywordFrame>
@@ -3943,7 +3943,7 @@ namespace EaslyEdit
                 <LayoutKeywordFrame RightMargin=""Whitespace"">From</LayoutKeywordFrame>
                 <LayoutPlaceholderFrame PropertyName=""SourceIdentifier"" RightMargin=""Whitespace"">
                     <LayoutPlaceholderFrame.Selectors>
-                        <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Identifier""/>
+                        <LayoutFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Identifier""/>
                     </LayoutPlaceholderFrame.Selectors>
                 </LayoutPlaceholderFrame>
                 <LayoutKeywordFrame RightMargin=""Whitespace"">All</LayoutKeywordFrame>
@@ -3967,7 +3967,7 @@ namespace EaslyEdit
                 <LayoutKeywordFrame RightMargin=""Whitespace"">From</LayoutKeywordFrame>
                 <LayoutPlaceholderFrame PropertyName=""SourceIdentifier"" RightMargin=""Whitespace"">
                     <LayoutPlaceholderFrame.Selectors>
-                        <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Identifier""/>
+                        <LayoutFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Identifier""/>
                     </LayoutPlaceholderFrame.Selectors>
                 </LayoutPlaceholderFrame>
                 <LayoutKeywordFrame RightMargin=""Whitespace"">All</LayoutKeywordFrame>
@@ -3991,7 +3991,7 @@ namespace EaslyEdit
                 <LayoutKeywordFrame RightMargin=""Whitespace"">From</LayoutKeywordFrame>
                 <LayoutPlaceholderFrame PropertyName=""SourceIdentifier"" RightMargin=""Whitespace"">
                     <LayoutPlaceholderFrame.Selectors>
-                        <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Identifier""/>
+                        <LayoutFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Identifier""/>
                     </LayoutPlaceholderFrame.Selectors>
                 </LayoutPlaceholderFrame>
                 <LayoutKeywordFrame RightMargin=""Whitespace"">All</LayoutKeywordFrame>
@@ -4015,7 +4015,7 @@ namespace EaslyEdit
                 <LayoutKeywordFrame RightMargin=""Whitespace"">From</LayoutKeywordFrame>
                 <LayoutPlaceholderFrame PropertyName=""SourceIdentifier"" RightMargin=""Whitespace"">
                     <LayoutPlaceholderFrame.Selectors>
-                        <LayoutFrameSelector SelectorType=""{xaml:Type easly:IIdentifier}"" SelectorName=""Identifier""/>
+                        <LayoutFrameSelector SelectorType=""{xaml:Type easly:Identifier}"" SelectorName=""Identifier""/>
                     </LayoutPlaceholderFrame.Selectors>
                 </LayoutPlaceholderFrame>
                 <LayoutKeywordFrame RightMargin=""Whitespace"">All</LayoutKeywordFrame>

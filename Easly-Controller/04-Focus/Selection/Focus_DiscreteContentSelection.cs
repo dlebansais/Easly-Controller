@@ -27,7 +27,7 @@
         public FocusDiscreteContentSelection(IFocusNodeStateView stateView, string propertyName)
             : base(stateView)
         {
-            INode Node = stateView.State.Node;
+            Node Node = stateView.State.Node;
             Debug.Assert(NodeTreeHelper.IsEnumProperty(Node, propertyName) || NodeTreeHelper.IsBooleanProperty(Node, propertyName));
 
             PropertyName = propertyName;

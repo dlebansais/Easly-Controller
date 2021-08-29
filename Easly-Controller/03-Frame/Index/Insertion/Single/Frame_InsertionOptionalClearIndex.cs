@@ -22,7 +22,7 @@
         /// </summary>
         /// <param name="parentNode">Node containing the indexed optional node.</param>
         /// <param name="propertyName">Property in <paramref name="parentNode"/> corresponding to the indexed optional node.</param>
-        public FrameInsertionOptionalClearIndex(INode parentNode, string propertyName)
+        public FrameInsertionOptionalClearIndex(Node parentNode, string propertyName)
             : base(parentNode, propertyName)
         {
         }

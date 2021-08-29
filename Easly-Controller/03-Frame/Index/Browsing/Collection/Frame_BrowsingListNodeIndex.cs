@@ -24,7 +24,7 @@
         /// <param name="node">Indexed node in the list</param>
         /// <param name="propertyName">Property in <paramref name="parentNode"/> corresponding to the list.</param>
         /// <param name="index">Position of the node in the list.</param>
-        public FrameBrowsingListNodeIndex(INode parentNode, INode node, string propertyName, int index)
+        public FrameBrowsingListNodeIndex(Node parentNode, Node node, string propertyName, int index)
             : base(parentNode, node, propertyName, index)
         {
         }
@@ -54,7 +54,7 @@
         /// <summary>
         /// Creates a IxxxInsertionListNodeIndex object.
         /// </summary>
-        private protected override IWriteableInsertionListNodeIndex CreateInsertionIndex(INode parentNode, INode node)
+        private protected override IWriteableInsertionListNodeIndex CreateInsertionIndex(Node parentNode, Node node)
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameBrowsingListNodeIndex));
             return new FrameInsertionListNodeIndex(parentNode, PropertyName, node, Index);

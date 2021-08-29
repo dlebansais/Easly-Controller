@@ -11,7 +11,7 @@
         /// <summary>
         /// The indexed source identifier node.
         /// </summary>
-        new IIdentifier Node { get; }
+        new Identifier Node { get; }
     }
 
     /// <summary>
@@ -38,8 +38,8 @@
         /// <summary>
         /// The indexed source identifier node.
         /// </summary>
-        public IIdentifier Node { get { return Block.SourceIdentifier; } }
-        INode IReadOnlyNodeIndex.Node { get { return Node; } }
+        public Identifier Node { get { return Block.SourceIdentifier; } }
+        Node IReadOnlyNodeIndex.Node { get { return Node; } }
 
         /// <summary>
         /// Property indexed for <see cref="Node"/>.

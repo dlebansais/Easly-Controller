@@ -179,7 +179,7 @@
         /// <summary>
         /// Creates a IxxxCommentCellView object.
         /// </summary>
-        private protected override IFrameCommentCellView CreateCommentCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, IDocument documentation)
+        private protected override IFrameCommentCellView CreateCommentCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, Document documentation)
         {
             ControllerTools.AssertNoOverride(this, typeof(LayoutCommentFrame));
             return new LayoutCommentCellView((ILayoutNodeStateView)stateView, (ILayoutCellViewCollection)parentCellView, this, documentation);

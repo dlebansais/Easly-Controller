@@ -23,7 +23,7 @@
         /// <param name="parentNode">Node containing the indexed node.</param>
         /// <param name="node">The indexed node.</param>
         /// <param name="propertyName">Property in <paramref name="parentNode"/> corresponding to the indexed node.</param>
-        public FrameBrowsingPlaceholderNodeIndex(INode parentNode, INode node, string propertyName)
+        public FrameBrowsingPlaceholderNodeIndex(Node parentNode, Node node, string propertyName)
             : base(parentNode, node, propertyName)
         {
         }
@@ -53,7 +53,7 @@
         /// <summary>
         /// Creates a IxxxInsertionPlaceholderNodeIndex object.
         /// </summary>
-        private protected override IWriteableInsertionPlaceholderNodeIndex CreateInsertionIndex(INode parentNode, INode node)
+        private protected override IWriteableInsertionPlaceholderNodeIndex CreateInsertionIndex(Node parentNode, Node node)
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameBrowsingPlaceholderNodeIndex));
             return new FrameInsertionPlaceholderNodeIndex(parentNode, PropertyName, node);

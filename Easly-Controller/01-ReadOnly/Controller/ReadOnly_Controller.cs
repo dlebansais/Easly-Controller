@@ -691,7 +691,7 @@
             }
         }
 
-        private protected virtual IReadOnlyNodeState GetState(INode node)
+        private protected virtual IReadOnlyNodeState GetState(Node node)
         {
             IReadOnlyNodeState Result = null;
 
@@ -710,7 +710,7 @@
             return Result;
         }
 
-        private protected virtual IReadOnlyInner<IReadOnlyBrowsingChildIndex> GetInner(INode parentNode, string propertyName)
+        private protected virtual IReadOnlyInner<IReadOnlyBrowsingChildIndex> GetInner(Node parentNode, string propertyName)
         {
             IReadOnlyInner<IReadOnlyBrowsingChildIndex> Result = null;
 

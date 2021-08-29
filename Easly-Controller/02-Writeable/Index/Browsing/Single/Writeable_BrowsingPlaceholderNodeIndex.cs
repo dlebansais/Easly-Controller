@@ -23,7 +23,7 @@
         /// <param name="parentNode">Node containing the indexed node.</param>
         /// <param name="node">The indexed node.</param>
         /// <param name="propertyName">Property in <paramref name="parentNode"/> corresponding to the indexed node.</param>
-        public WriteableBrowsingPlaceholderNodeIndex(INode parentNode, INode node, string propertyName)
+        public WriteableBrowsingPlaceholderNodeIndex(Node parentNode, Node node, string propertyName)
             : base(parentNode, node, propertyName)
         {
         }
@@ -35,7 +35,7 @@
         /// </summary>
         /// <param name="parentNode">The parent node where the index would be used to replace a node.</param>
         /// <param name="node">The node inserted.</param>
-        public virtual IWriteableInsertionChildIndex ToInsertionIndex(INode parentNode, INode node)
+        public virtual IWriteableInsertionChildIndex ToInsertionIndex(Node parentNode, Node node)
         {
             return CreateInsertionIndex(parentNode, node);
         }
@@ -65,7 +65,7 @@
         /// <summary>
         /// Creates a IxxxInsertionPlaceholderNodeIndex object.
         /// </summary>
-        private protected virtual IWriteableInsertionPlaceholderNodeIndex CreateInsertionIndex(INode parentNode, INode node)
+        private protected virtual IWriteableInsertionPlaceholderNodeIndex CreateInsertionIndex(Node parentNode, Node node)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableBrowsingPlaceholderNodeIndex));
             return new WriteableInsertionPlaceholderNodeIndex(parentNode, PropertyName, node);

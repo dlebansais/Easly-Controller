@@ -48,7 +48,7 @@
         public FocusBlockListSelection(IFocusNodeStateView stateView, string propertyName, int startIndex, int endIndex)
             : base(stateView)
         {
-            INode Node = stateView.State.Node;
+            Node Node = stateView.State.Node;
             Debug.Assert(NodeTreeHelperBlockList.IsBlockListProperty(Node, propertyName, out Type childInterfaceType, out Type childNodeType));
 
             PropertyName = propertyName;
@@ -175,7 +175,7 @@
 
                         for (int j = 0; j < NewBlock.NodeList.Count; j++)
                         {
-                            INode NewNode = NewBlock.NodeList[j] as INode;
+                            Node NewNode = NewBlock.NodeList[j] as Node;
                             IFocusInsertionBlockNodeIndex InsertedIndex;
 
                             if (j == 0)
@@ -262,7 +262,7 @@
         /// <summary>
         /// Creates a IxxxInsertionNewBlockNodeIndex object.
         /// </summary>
-        private protected virtual IFocusInsertionNewBlockNodeIndex CreateNewBlockNodeIndex(INode parentNode, string propertyName, INode node, int blockIndex, IPattern patternNode, IIdentifier sourceNode)
+        private protected virtual IFocusInsertionNewBlockNodeIndex CreateNewBlockNodeIndex(Node parentNode, string propertyName, Node node, int blockIndex, Pattern patternNode, Identifier sourceNode)
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusBlockListSelection));
             return new FocusInsertionNewBlockNodeIndex(parentNode, propertyName, node, blockIndex, patternNode, sourceNode);
@@ -271,7 +271,7 @@
         /// <summary>
         /// Creates a IxxxInsertionExistingBlockNodeIndex object.
         /// </summary>
-        private protected virtual IFocusInsertionExistingBlockNodeIndex CreateExistingBlockNodeIndex(INode parentNode, string propertyName, INode node, int blockIndex, int index)
+        private protected virtual IFocusInsertionExistingBlockNodeIndex CreateExistingBlockNodeIndex(Node parentNode, string propertyName, Node node, int blockIndex, int index)
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusBlockListSelection));
             return new FocusInsertionExistingBlockNodeIndex(parentNode, propertyName, node, blockIndex, index);
