@@ -5,18 +5,7 @@
     /// <summary>
     /// View of a child node.
     /// </summary>
-    public interface IReadOnlyPlaceholderNodeStateView : IReadOnlyNodeStateView
-    {
-        /// <summary>
-        /// The child node.
-        /// </summary>
-        new IReadOnlyPlaceholderNodeState State { get; }
-    }
-
-    /// <summary>
-    /// View of a child node.
-    /// </summary>
-    internal class ReadOnlyPlaceholderNodeStateView : ReadOnlyNodeStateView, IReadOnlyPlaceholderNodeStateView, IReadOnlyNodeStateView
+    internal class ReadOnlyPlaceholderNodeStateView : ReadOnlyNodeStateView
     {
         #region Init
         /// <summary>
@@ -24,7 +13,7 @@
         /// </summary>
         /// <param name="controllerView">The controller view to which this object belongs.</param>
         /// <param name="state">The child node state.</param>
-        public ReadOnlyPlaceholderNodeStateView(IReadOnlyControllerView controllerView, IReadOnlyPlaceholderNodeState state)
+        public ReadOnlyPlaceholderNodeStateView(ReadOnlyControllerView controllerView, IReadOnlyPlaceholderNodeState state)
             : base(controllerView, state)
         {
         }

@@ -10,17 +10,9 @@ namespace EaslyController.ReadOnly
     /// Read-only dictionary of ..., IxxxInner
     /// </summary>
     /// <typeparam name="TKey">Type of the key.</typeparam>
-    public interface IReadOnlyInnerReadOnlyDictionary<TKey> : IReadOnlyDictionary<TKey, IReadOnlyInner>, IEqualComparable
+    public class ReadOnlyInnerReadOnlyDictionary<TKey> : ReadOnlyDictionary<TKey, IReadOnlyInner>, IEqualComparable
     {
-    }
-
-    /// <summary>
-    /// Read-only dictionary of ..., IxxxInner
-    /// </summary>
-    /// <typeparam name="TKey">Type of the key.</typeparam>
-    internal class ReadOnlyInnerReadOnlyDictionary<TKey> : ReadOnlyDictionary<TKey, IReadOnlyInner>, IReadOnlyInnerReadOnlyDictionary<TKey>, IEqualComparable
-    {
-        public ReadOnlyInnerReadOnlyDictionary(IReadOnlyInnerDictionary<TKey> dictionary)
+        public ReadOnlyInnerReadOnlyDictionary(ReadOnlyInnerDictionary<TKey> dictionary)
             : base(dictionary)
         {
         }

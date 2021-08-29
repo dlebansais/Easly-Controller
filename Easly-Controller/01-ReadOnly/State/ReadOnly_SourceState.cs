@@ -16,7 +16,7 @@
         /// <summary>
         /// The index that was used to create the state.
         /// </summary>
-        new IReadOnlyBrowsingSourceIndex ParentIndex { get; }
+        new ReadOnlyBrowsingSourceIndex ParentIndex { get; }
 
         /// <summary>
         /// Returns a clone of the node of this state.
@@ -33,26 +33,17 @@
     /// <summary>
     /// State of a source identifier node.
     /// </summary>
-    /// <typeparam name="IInner">Parent inner of the state.</typeparam>
-    internal interface IReadOnlySourceState<out IInner> : IReadOnlyPlaceholderNodeState<IInner>
-        where IInner : IReadOnlyInner<IReadOnlyBrowsingChildIndex>
-    {
-    }
-
-    /// <summary>
-    /// State of a source identifier node.
-    /// </summary>
-    /// <typeparam name="IInner">Parent inner of the state.</typeparam>
-    internal class ReadOnlySourceState<IInner> : ReadOnlyPlaceholderNodeState<IInner>, IReadOnlySourceState<IInner>, IReadOnlySourceState, IReadOnlyNodeState
-        where IInner : IReadOnlyInner<IReadOnlyBrowsingChildIndex>
+    /// <typeparam name="TIndex">Parent inner of the state.</typeparam>
+    internal class ReadOnlySourceState<TIndex> : ReadOnlyPlaceholderNodeState<TIndex>, IReadOnlySourceState, IReadOnlyNodeState
+        where TIndex : ReadOnlyInner<IReadOnlyBrowsingChildIndex>
     {
         #region Init
         /// <summary>
-        /// Initializes a new instance of the <see cref="ReadOnlySourceState{IInner}"/> class.
+        /// Initializes a new instance of the <see cref="ReadOnlySourceState{TIndex}"/> class.
         /// </summary>
         /// <param name="parentBlockState">The parent block state.</param>
         /// <param name="index">The index used to create the state.</param>
-        public ReadOnlySourceState(IReadOnlyBlockState parentBlockState, IReadOnlyBrowsingSourceIndex index)
+        public ReadOnlySourceState(IReadOnlyBlockState parentBlockState, ReadOnlyBrowsingSourceIndex index)
             : base(index)
         {
             Debug.Assert(parentBlockState != null);
@@ -75,7 +66,7 @@
         /// <summary>
         /// The index that was used to create the state.
         /// </summary>
-        public new IReadOnlyBrowsingSourceIndex ParentIndex { get { return (IReadOnlyBrowsingSourceIndex)base.ParentIndex; } }
+        public new ReadOnlyBrowsingSourceIndex ParentIndex { get { return (ReadOnlyBrowsingSourceIndex)base.ParentIndex; } }
         #endregion
 
         #region Client Interface
@@ -88,7 +79,7 @@
 
         #region Debugging
         /// <summary>
-        /// Compares two <see cref="ReadOnlySourceState{IInner}"/> objects.
+        /// Compares two <see cref="ReadOnlySourceState{TIndex}"/> objects.
         /// </summary>
         /// <param name="comparer">The comparison support object.</param>
         /// <param name="other">The other object.</param>
@@ -96,7 +87,7 @@
         {
             Debug.Assert(other != null);
 
-            if (!comparer.IsSameType(other, out ReadOnlySourceState<IInner> AsSourceState))
+            if (!comparer.IsSameType(other, out ReadOnlySourceState<TIndex> AsSourceState))
                 return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsSourceState))

@@ -13,7 +13,7 @@
         /// <summary>
         /// States of nodes in the list.
         /// </summary>
-        IReadOnlyPlaceholderNodeStateReadOnlyList StateList { get; }
+        ReadOnlyPlaceholderNodeStateReadOnlyList StateList { get; }
 
         /// <summary>
         /// First node state that can be enumerated in the inner.
@@ -25,52 +25,20 @@
         /// </summary>
         /// <param name="index">Position of the node in the list.</param>
         /// <returns>The index of the node at position <paramref name="index"/>.</returns>
-        IReadOnlyBrowsingListNodeIndex IndexAt(int index);
+        ReadOnlyBrowsingListNodeIndex IndexAt(int index);
 
         /// <summary>
         /// Gets indexes for all nodes in the inner.
         /// </summary>
-        IReadOnlyBrowsingListNodeIndexList AllIndexes();
+        ReadOnlyBrowsingListNodeIndexList AllIndexes();
     }
 
     /// <summary>
     /// Inner for a list of nodes.
     /// </summary>
-    /// <typeparam name="IIndex">Type of the index.</typeparam>
-    internal interface IReadOnlyListInner<out IIndex> : IReadOnlyCollectionInner<IIndex>
-        where IIndex : IReadOnlyBrowsingListNodeIndex
-    {
-        /// <summary>
-        /// States of nodes in the list.
-        /// </summary>
-        IReadOnlyPlaceholderNodeStateReadOnlyList StateList { get; }
-
-        /// <summary>
-        /// First node state that can be enumerated in the inner.
-        /// </summary>
-        IReadOnlyPlaceholderNodeState FirstNodeState { get; }
-
-        /// <summary>
-        /// Gets the index of the node at the given position.
-        /// </summary>
-        /// <param name="index">Position of the node in the list.</param>
-        /// <returns>The index of the node at position <paramref name="index"/>.</returns>
-        IReadOnlyBrowsingListNodeIndex IndexAt(int index);
-
-        /// <summary>
-        /// Gets indexes for all nodes in the inner.
-        /// </summary>
-        IReadOnlyBrowsingListNodeIndexList AllIndexes();
-    }
-
-    /// <summary>
-    /// Inner for a list of nodes.
-    /// </summary>
-    /// <typeparam name="IIndex">Type of the index as interface.</typeparam>
     /// <typeparam name="TIndex">Type of the index as class.</typeparam>
-    internal class ReadOnlyListInner<IIndex, TIndex> : ReadOnlyCollectionInner<IIndex, TIndex>, IReadOnlyListInner<IIndex>, IReadOnlyListInner, IReadOnlyCollectionInner
-        where IIndex : IReadOnlyBrowsingListNodeIndex
-        where TIndex : ReadOnlyBrowsingListNodeIndex, IIndex
+    internal class ReadOnlyListInner<TIndex> : ReadOnlyCollectionInner<TIndex>, IReadOnlyListInner, IReadOnlyCollectionInner
+        where TIndex : ReadOnlyBrowsingListNodeIndex
     {
         #region Init
         /// <summary>
@@ -101,7 +69,7 @@
         /// </summary>
         /// <param name="nodeIndex">Index of the node.</param>
         /// <returns>The created node state.</returns>
-        private protected virtual IReadOnlyNodeState InitChildState(IReadOnlyBrowsingListNodeIndex nodeIndex)
+        private protected virtual IReadOnlyNodeState InitChildState(ReadOnlyBrowsingListNodeIndex nodeIndex)
         {
             Debug.Assert(nodeIndex != null);
             Debug.Assert(nodeIndex.PropertyName == PropertyName);
@@ -130,8 +98,8 @@
         /// <summary>
         /// States of nodes in the list.
         /// </summary>
-        public IReadOnlyPlaceholderNodeStateReadOnlyList StateList { get; }
-        private IReadOnlyPlaceholderNodeStateList _StateList;
+        public ReadOnlyPlaceholderNodeStateReadOnlyList StateList { get; }
+        private ReadOnlyPlaceholderNodeStateList _StateList;
 #pragma warning disable 1591
         [Conditional("DEBUG")]
         public void DebugGetStateList() { DebugObjects.AddReference(_StateList); }
@@ -166,23 +134,23 @@
         /// </summary>
         /// <param name="index">Position of the node in the list.</param>
         /// <returns>The index of the node at position <paramref name="index"/>.</returns>
-        public virtual IReadOnlyBrowsingListNodeIndex IndexAt(int index)
+        public virtual ReadOnlyBrowsingListNodeIndex IndexAt(int index)
         {
             Debug.Assert(index >= 0 && index < StateList.Count);
 
-            return (IReadOnlyBrowsingListNodeIndex)StateList[index].ParentIndex;
+            return (ReadOnlyBrowsingListNodeIndex)StateList[index].ParentIndex;
         }
 
         /// <summary>
         /// Gets indexes for all nodes in the inner.
         /// </summary>
-        public virtual IReadOnlyBrowsingListNodeIndexList AllIndexes()
+        public virtual ReadOnlyBrowsingListNodeIndexList AllIndexes()
         {
-            IReadOnlyBrowsingListNodeIndexList Result = CreateListNodeIndexList();
+            ReadOnlyBrowsingListNodeIndexList Result = CreateListNodeIndexList();
 
             foreach (IReadOnlyPlaceholderNodeState NodeState in StateList)
             {
-                IReadOnlyBrowsingListNodeIndex ParentIndex = NodeState.ParentIndex as IReadOnlyBrowsingListNodeIndex;
+                ReadOnlyBrowsingListNodeIndex ParentIndex = NodeState.ParentIndex as ReadOnlyBrowsingListNodeIndex;
                 Debug.Assert(ParentIndex != null);
 
                 Result.Add(ParentIndex);
@@ -218,10 +186,10 @@
         /// </summary>
         /// <param name="view">The attaching view.</param>
         /// <param name="callbackSet">The set of callbacks to call when enumerating existing states.</param>
-        public override void Attach(IReadOnlyControllerView view, IReadOnlyAttachCallbackSet callbackSet)
+        public override void Attach(ReadOnlyControllerView view, ReadOnlyAttachCallbackSet callbackSet)
         {
             foreach (IReadOnlyNodeState ChildState in StateList)
-                ((IReadOnlyNodeState<IReadOnlyInner<IReadOnlyBrowsingChildIndex>>)ChildState).Attach(view, callbackSet);
+                ((ReadOnlyNodeState<ReadOnlyInner<IReadOnlyBrowsingChildIndex>>)ChildState).Attach(view, callbackSet);
         }
 
         /// <summary>
@@ -229,10 +197,10 @@
         /// </summary>
         /// <param name="view">The attaching view.</param>
         /// <param name="callbackSet">The set of callbacks to no longer call when enumerating existing states.</param>
-        public override void Detach(IReadOnlyControllerView view, IReadOnlyAttachCallbackSet callbackSet)
+        public override void Detach(ReadOnlyControllerView view, ReadOnlyAttachCallbackSet callbackSet)
         {
             foreach (IReadOnlyNodeState ChildState in StateList)
-                ((IReadOnlyNodeState<IReadOnlyInner<IReadOnlyBrowsingChildIndex>>)ChildState).Detach(view, callbackSet);
+                ((ReadOnlyNodeState<ReadOnlyInner<IReadOnlyBrowsingChildIndex>>)ChildState).Detach(view, callbackSet);
         }
         #endregion
 
@@ -295,9 +263,9 @@
         /// <summary>
         /// Creates a IxxxPlaceholderNodeStateList object.
         /// </summary>
-        private protected virtual IReadOnlyPlaceholderNodeStateList CreateStateList()
+        private protected virtual ReadOnlyPlaceholderNodeStateList CreateStateList()
         {
-            ControllerTools.AssertNoOverride(this, typeof(ReadOnlyListInner<IIndex, TIndex>));
+            ControllerTools.AssertNoOverride(this, typeof(ReadOnlyListInner<TIndex>));
             return new ReadOnlyPlaceholderNodeStateList();
         }
 
@@ -306,16 +274,16 @@
         /// </summary>
         private protected virtual IReadOnlyPlaceholderNodeState CreateNodeState(IReadOnlyNodeIndex nodeIndex)
         {
-            ControllerTools.AssertNoOverride(this, typeof(ReadOnlyListInner<IIndex, TIndex>));
-            return new ReadOnlyPlaceholderNodeState<IReadOnlyInner<IReadOnlyBrowsingChildIndex>>(nodeIndex);
+            ControllerTools.AssertNoOverride(this, typeof(ReadOnlyListInner<TIndex>));
+            return new ReadOnlyPlaceholderNodeState<ReadOnlyInner<IReadOnlyBrowsingChildIndex>>(nodeIndex);
         }
 
         /// <summary>
         /// Creates a IxxxBrowsingListNodeIndexList.
         /// </summary>
-        private protected virtual IReadOnlyBrowsingListNodeIndexList CreateListNodeIndexList()
+        private protected virtual ReadOnlyBrowsingListNodeIndexList CreateListNodeIndexList()
         {
-            ControllerTools.AssertNoOverride(this, typeof(ReadOnlyListInner<IIndex, TIndex>));
+            ControllerTools.AssertNoOverride(this, typeof(ReadOnlyListInner<TIndex>));
             return new ReadOnlyBrowsingListNodeIndexList();
         }
         #endregion

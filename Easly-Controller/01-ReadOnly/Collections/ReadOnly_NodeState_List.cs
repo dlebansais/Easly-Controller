@@ -8,19 +8,9 @@ namespace EaslyController.ReadOnly
     /// <summary>
     /// List of IxxxNodeState
     /// </summary>
-    public interface IReadOnlyNodeStateList : IList<IReadOnlyNodeState>, IReadOnlyList<IReadOnlyNodeState>
+    public class ReadOnlyNodeStateList : Collection<IReadOnlyNodeState>
     {
-        new IReadOnlyNodeState this[int index] { get; set; }
-        new int Count { get; }
-        IReadOnlyNodeStateReadOnlyList ToReadOnly();
-    }
-
-    /// <summary>
-    /// List of IxxxNodeState
-    /// </summary>
-    internal class ReadOnlyNodeStateList : Collection<IReadOnlyNodeState>, IReadOnlyNodeStateList, IReadOnlyList<IReadOnlyNodeState>
-    {
-        public virtual IReadOnlyNodeStateReadOnlyList ToReadOnly()
+        public virtual ReadOnlyNodeStateReadOnlyList ToReadOnly()
         {
             return new ReadOnlyNodeStateReadOnlyList(this);
         }

@@ -5,18 +5,7 @@
     /// <summary>
     /// View of a source state.
     /// </summary>
-    public interface IReadOnlySourceStateView : IReadOnlyNodeStateView
-    {
-        /// <summary>
-        /// The source state.
-        /// </summary>
-        new IReadOnlySourceState State { get; }
-    }
-
-    /// <summary>
-    /// View of a source state.
-    /// </summary>
-    internal class ReadOnlySourceStateView : ReadOnlyNodeStateView, IReadOnlySourceStateView, IReadOnlyNodeStateView
+    internal class ReadOnlySourceStateView : ReadOnlyNodeStateView
     {
         #region Init
         /// <summary>
@@ -24,7 +13,7 @@
         /// </summary>
         /// <param name="controllerView">The controller view to which this object belongs.</param>
         /// <param name="state">The source state.</param>
-        public ReadOnlySourceStateView(IReadOnlyControllerView controllerView, IReadOnlySourceState state)
+        public ReadOnlySourceStateView(ReadOnlyControllerView controllerView, IReadOnlySourceState state)
             : base(controllerView, state)
         {
         }

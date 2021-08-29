@@ -6,18 +6,7 @@
     /// <summary>
     /// Index for the replication pattern node of a block.
     /// </summary>
-    public interface IReadOnlyBrowsingPatternIndex : IReadOnlyBrowsingChildIndex, IReadOnlyNodeIndex, IEqualComparable
-    {
-        /// <summary>
-        /// The indexed replication pattern node.
-        /// </summary>
-        new Pattern Node { get; }
-    }
-
-    /// <summary>
-    /// Index for the replication pattern node of a block.
-    /// </summary>
-    internal class ReadOnlyBrowsingPatternIndex : IReadOnlyBrowsingPatternIndex, IReadOnlyBrowsingChildIndex, IReadOnlyNodeIndex, IEqualComparable
+    public class ReadOnlyBrowsingPatternIndex : IReadOnlyBrowsingChildIndex, IReadOnlyNodeIndex, IEqualComparable
     {
         #region Init
         /// <summary>

@@ -5,49 +5,7 @@
     /// <summary>
     /// Handlers to call during enumeration of states, when attaching a view.
     /// </summary>
-    public interface IReadOnlyAttachCallbackSet
-    {
-        /// <summary>
-        /// Handler to call when attaching a state.
-        /// </summary>
-        /// <param name="state">The attached state.</param>
-        void OnNodeStateAttached(IReadOnlyNodeState state);
-
-        /// <summary>
-        /// Handler to call when detaching a state.
-        /// </summary>
-        /// <param name="state">The detached state.</param>
-        void OnNodeStateDetached(IReadOnlyNodeState state);
-
-        /// <summary>
-        /// Handler to call when attaching a block list inner.
-        /// </summary>
-        /// <param name="inner">The inner attached.</param>
-        void OnBlockListInnerAttached(IReadOnlyBlockListInner inner);
-
-        /// <summary>
-        /// Handler to call when detaching a block list inner.
-        /// </summary>
-        /// <param name="inner">The inner detached.</param>
-        void OnBlockListInnerDetached(IReadOnlyBlockListInner inner);
-
-        /// <summary>
-        /// Handler to call when attaching a block state.
-        /// </summary>
-        /// <param name="blockState">The attached block state.</param>
-        void OnBlockStateAttached(IReadOnlyBlockState blockState);
-
-        /// <summary>
-        /// Handler to call when detaching a block state.
-        /// </summary>
-        /// <param name="blockState">The detached block state.</param>
-        void OnBlockStateDetached(IReadOnlyBlockState blockState);
-    }
-
-    /// <summary>
-    /// Handlers to call during enumeration of states, when attaching a view.
-    /// </summary>
-    internal class ReadOnlyAttachCallbackSet : IReadOnlyAttachCallbackSet
+    public class ReadOnlyAttachCallbackSet
     {
         #region Properties
         /// <summary>

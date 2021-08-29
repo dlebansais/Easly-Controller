@@ -6,14 +6,7 @@
     /// <summary>
     /// Base for list and block list index classes.
     /// </summary>
-    public interface IReadOnlyBrowsingCollectionNodeIndex : IReadOnlyBrowsingChildIndex, IReadOnlyNodeIndex
-    {
-    }
-
-    /// <summary>
-    /// Base for list and block list index classes.
-    /// </summary>
-    internal abstract class ReadOnlyBrowsingCollectionNodeIndex : IReadOnlyBrowsingCollectionNodeIndex, IReadOnlyBrowsingChildIndex, IReadOnlyNodeIndex
+    public abstract class ReadOnlyBrowsingCollectionNodeIndex : IReadOnlyBrowsingChildIndex, IReadOnlyNodeIndex
     {
         #region Init
         /// <summary>

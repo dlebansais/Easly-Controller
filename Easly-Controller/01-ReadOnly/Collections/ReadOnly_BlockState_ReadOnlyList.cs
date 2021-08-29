@@ -8,18 +8,9 @@ namespace EaslyController.ReadOnly
     /// <summary>
     /// Read-only list of IxxxBlockState
     /// </summary>
-    public interface IReadOnlyBlockStateReadOnlyList : IReadOnlyList<IReadOnlyBlockState>
+    public class ReadOnlyBlockStateReadOnlyList : ReadOnlyCollection<IReadOnlyBlockState>
     {
-        bool Contains(IReadOnlyBlockState value);
-        int IndexOf(IReadOnlyBlockState value);
-    }
-
-    /// <summary>
-    /// Read-only list of IxxxBlockState
-    /// </summary>
-    internal class ReadOnlyBlockStateReadOnlyList : ReadOnlyCollection<IReadOnlyBlockState>, IReadOnlyBlockStateReadOnlyList, IReadOnlyList<IReadOnlyBlockState>
-    {
-        public ReadOnlyBlockStateReadOnlyList(IReadOnlyBlockStateList list)
+        public ReadOnlyBlockStateReadOnlyList(ReadOnlyBlockStateList list)
             : base(list)
         {
         }

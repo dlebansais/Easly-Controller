@@ -5,18 +5,7 @@
     /// <summary>
     /// View of a pattern state.
     /// </summary>
-    public interface IReadOnlyPatternStateView : IReadOnlyNodeStateView
-    {
-        /// <summary>
-        /// The pattern state.
-        /// </summary>
-        new IReadOnlyPatternState State { get; }
-    }
-
-    /// <summary>
-    /// View of a pattern state.
-    /// </summary>
-    internal class ReadOnlyPatternStateView : ReadOnlyNodeStateView, IReadOnlyPatternStateView, IReadOnlyNodeStateView
+    internal class ReadOnlyPatternStateView : ReadOnlyNodeStateView
     {
         #region Init
         /// <summary>
@@ -24,7 +13,7 @@
         /// </summary>
         /// <param name="controllerView">The controller view to which this object belongs.</param>
         /// <param name="state">The pattern state.</param>
-        public ReadOnlyPatternStateView(IReadOnlyControllerView controllerView, IReadOnlyPatternState state)
+        public ReadOnlyPatternStateView(ReadOnlyControllerView controllerView, IReadOnlyPatternState state)
             : base(controllerView, state)
         {
         }

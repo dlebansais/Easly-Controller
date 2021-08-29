@@ -24,33 +24,13 @@
     /// <summary>
     /// Inner for an optional node.
     /// </summary>
-    /// <typeparam name="IIndex">Type of the index.</typeparam>
-    internal interface IReadOnlyOptionalInner<out IIndex> : IReadOnlySingleInner<IIndex>
-        where IIndex : IReadOnlyBrowsingOptionalNodeIndex
-    {
-        /// <summary>
-        /// The state of the node.
-        /// </summary>
-        IReadOnlyOptionalNodeState ChildState { get; }
-
-        /// <summary>
-        /// True if the optional node is provided.
-        /// </summary>
-        bool IsAssigned { get; }
-    }
-
-    /// <summary>
-    /// Inner for an optional node.
-    /// </summary>
-    /// <typeparam name="IIndex">Type of the index as interface.</typeparam>
     /// <typeparam name="TIndex">Type of the index as class.</typeparam>
-    internal class ReadOnlyOptionalInner<IIndex, TIndex> : ReadOnlySingleInner<IIndex>, IReadOnlyOptionalInner<IIndex>, IReadOnlyOptionalInner, IReadOnlySingleInner
-        where IIndex : IReadOnlyBrowsingOptionalNodeIndex
-        where TIndex : ReadOnlyBrowsingOptionalNodeIndex, IIndex
+    internal class ReadOnlyOptionalInner<TIndex> : ReadOnlySingleInner<TIndex>, IReadOnlyOptionalInner, IReadOnlySingleInner
+        where TIndex : ReadOnlyBrowsingOptionalNodeIndex
     {
         #region Init
         /// <summary>
-        /// Initializes a new instance of the <see cref="ReadOnlyOptionalInner{IIndex, TIndex}"/> class.
+        /// Initializes a new instance of the <see cref="ReadOnlyOptionalInner{TIndex}"/> class.
         /// </summary>
         /// <param name="owner">Parent containing the inner.</param>
         /// <param name="propertyName">Property name of the inner in <paramref name="owner"/>.</param>
@@ -67,8 +47,8 @@
         /// <returns>The created node state.</returns>
         public override IReadOnlyNodeState InitChildState(IReadOnlyBrowsingChildIndex nodeIndex)
         {
-            Debug.Assert(nodeIndex is IReadOnlyBrowsingOptionalNodeIndex);
-            return InitChildState((IReadOnlyBrowsingOptionalNodeIndex)nodeIndex);
+            Debug.Assert(nodeIndex is ReadOnlyBrowsingOptionalNodeIndex);
+            return InitChildState((ReadOnlyBrowsingOptionalNodeIndex)nodeIndex);
         }
 
         /// <summary>
@@ -76,7 +56,7 @@
         /// </summary>
         /// <param name="nodeIndex">Index of the node.</param>
         /// <returns>The created node state.</returns>
-        private protected virtual IReadOnlyOptionalNodeState InitChildState(IReadOnlyBrowsingOptionalNodeIndex nodeIndex)
+        private protected virtual IReadOnlyOptionalNodeState InitChildState(ReadOnlyBrowsingOptionalNodeIndex nodeIndex)
         {
             Debug.Assert(nodeIndex != null);
             Debug.Assert(nodeIndex.PropertyName == PropertyName);
@@ -132,9 +112,9 @@
         /// </summary>
         /// <param name="view">The attaching view.</param>
         /// <param name="callbackSet">The set of callbacks to call when enumerating existing states.</param>
-        public override void Attach(IReadOnlyControllerView view, IReadOnlyAttachCallbackSet callbackSet)
+        public override void Attach(ReadOnlyControllerView view, ReadOnlyAttachCallbackSet callbackSet)
         {
-            ((IReadOnlyOptionalNodeState<IReadOnlyInner<IReadOnlyBrowsingChildIndex>>)ChildState).Attach(view, callbackSet);
+            ((ReadOnlyOptionalNodeState<ReadOnlyInner<IReadOnlyBrowsingChildIndex>>)ChildState).Attach(view, callbackSet);
         }
 
         /// <summary>
@@ -142,9 +122,9 @@
         /// </summary>
         /// <param name="view">The attaching view.</param>
         /// <param name="callbackSet">The set of callbacks to no longer call when enumerating existing states.</param>
-        public override void Detach(IReadOnlyControllerView view, IReadOnlyAttachCallbackSet callbackSet)
+        public override void Detach(ReadOnlyControllerView view, ReadOnlyAttachCallbackSet callbackSet)
         {
-            ((IReadOnlyOptionalNodeState<IReadOnlyInner<IReadOnlyBrowsingChildIndex>>)ChildState).Detach(view, callbackSet);
+            ((ReadOnlyOptionalNodeState<ReadOnlyInner<IReadOnlyBrowsingChildIndex>>)ChildState).Detach(view, callbackSet);
         }
         #endregion
 
@@ -161,10 +141,10 @@
         /// <summary>
         /// Creates a IxxxOptionalNodeState object.
         /// </summary>
-        private protected virtual IReadOnlyOptionalNodeState CreateNodeState(IReadOnlyBrowsingOptionalNodeIndex nodeIndex)
+        private protected virtual IReadOnlyOptionalNodeState CreateNodeState(ReadOnlyBrowsingOptionalNodeIndex nodeIndex)
         {
-            ControllerTools.AssertNoOverride(this, typeof(ReadOnlyOptionalInner<IIndex, TIndex>));
-            return new ReadOnlyOptionalNodeState<IReadOnlyInner<IReadOnlyBrowsingChildIndex>>(nodeIndex);
+            ControllerTools.AssertNoOverride(this, typeof(ReadOnlyOptionalInner<TIndex>));
+            return new ReadOnlyOptionalNodeState<ReadOnlyInner<IReadOnlyBrowsingChildIndex>>(nodeIndex);
         }
         #endregion
     }

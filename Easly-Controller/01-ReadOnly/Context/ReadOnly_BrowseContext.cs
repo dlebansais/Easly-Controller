@@ -7,44 +7,7 @@
     /// <summary>
     /// Context for browsing child nodes of a parent node.
     /// </summary>
-    internal interface IReadOnlyBrowseContext
-    {
-        /// <summary>
-        /// State this context is browsing.
-        /// </summary>
-        IReadOnlyNodeState State { get; }
-
-        /// <summary>
-        /// List of index collections that have been added during browsing.
-        /// </summary>
-        IReadOnlyIndexCollectionReadOnlyList IndexCollectionList { get; }
-
-        /// <summary>
-        /// Adds a collection of indexes to <see cref="IndexCollectionList"/>:
-        /// . For placeholder node and optional nodes, the collection is just one index.
-        /// . For list of nodes, the collection contains as many indexes as nodes.
-        /// . For block lists, the collection contains as many indexes as nodes. The first index of each block is a new block index, and others existing block indexes.
-        /// </summary>
-        /// <param name="collection">The collection to add.</param>
-        void AddIndexCollection(IReadOnlyIndexCollection collection);
-
-        /// <summary>
-        /// List of properties that are not nodes, list of nodes or block lists, that have been added during browsing.
-        /// </summary>
-        IReadOnlyDictionary<string, ValuePropertyType> ValuePropertyTypeTable { get; }
-
-        /// <summary>
-        /// Adds a property to <see cref="ValuePropertyTypeTable"/>.
-        /// </summary>
-        /// <param name="propertyName">Property name.</param>
-        /// <param name="type">Property type.</param>
-        void AddValueProperty(string propertyName, ValuePropertyType type);
-    }
-
-    /// <summary>
-    /// Context for browsing child nodes of a parent node.
-    /// </summary>
-    internal class ReadOnlyBrowseContext : IReadOnlyBrowseContext
+    internal class ReadOnlyBrowseContext
     {
         #region Init
         /// <summary>
@@ -71,8 +34,8 @@
         /// <summary>
         /// List of index collections that have been added during browsing.
         /// </summary>
-        public IReadOnlyIndexCollectionReadOnlyList IndexCollectionList { get; }
-        protected IReadOnlyIndexCollectionList InternalIndexCollectionList { get; }
+        public ReadOnlyIndexCollectionReadOnlyList IndexCollectionList { get; }
+        protected ReadOnlyIndexCollectionList InternalIndexCollectionList { get; }
 
         /// <summary>
         /// List of properties that are not nodes, list of nodes or block lists, that have been added during browsing.
@@ -157,7 +120,7 @@
         /// </summary>
         /// <param name="collection">The collection to check.</param>
         /// <param name="collectionList">The list of collections already accumulated.</param>
-        public static bool IsCollectionSeparate(IReadOnlyIndexCollection collection, IReadOnlyIndexCollectionReadOnlyList collectionList)
+        public static bool IsCollectionSeparate(IReadOnlyIndexCollection collection, ReadOnlyIndexCollectionReadOnlyList collectionList)
         {
             bool Result = true;
 
@@ -190,7 +153,7 @@
         /// <summary>
         /// Creates a IxxxCollectionList object.
         /// </summary>
-        private protected virtual IReadOnlyIndexCollectionList CreateIndexCollectionList()
+        private protected virtual ReadOnlyIndexCollectionList CreateIndexCollectionList()
         {
             ControllerTools.AssertNoOverride(this, typeof(ReadOnlyBrowseContext));
             return new ReadOnlyIndexCollectionList();

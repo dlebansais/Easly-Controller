@@ -8,14 +8,7 @@
     /// <summary>
     /// Index for the root node of the node tree.
     /// </summary>
-    public interface IReadOnlyRootNodeIndex : IReadOnlyNodeIndex, IEqualComparable
-    {
-    }
-
-    /// <summary>
-    /// Index for the root node of the node tree.
-    /// </summary>
-    public class ReadOnlyRootNodeIndex : IReadOnlyRootNodeIndex, IReadOnlyNodeIndex, IEqualComparable
+    public class ReadOnlyRootNodeIndex : IReadOnlyNodeIndex, IEqualComparable
     {
         #region Init
         /// <summary>

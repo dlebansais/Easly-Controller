@@ -5,18 +5,7 @@
     /// <summary>
     /// View of an optional node state.
     /// </summary>
-    public interface IReadOnlyOptionalNodeStateView : IReadOnlyNodeStateView
-    {
-        /// <summary>
-        /// The optional node state.
-        /// </summary>
-        new IReadOnlyOptionalNodeState State { get; }
-    }
-
-    /// <summary>
-    /// View of an optional node state.
-    /// </summary>
-    internal class ReadOnlyOptionalNodeStateView : ReadOnlyNodeStateView, IReadOnlyOptionalNodeStateView, IReadOnlyNodeStateView
+    internal class ReadOnlyOptionalNodeStateView : ReadOnlyNodeStateView
     {
         #region Init
         /// <summary>
@@ -24,7 +13,7 @@
         /// </summary>
         /// <param name="controllerView">The controller view to which this object belongs.</param>
         /// <param name="state">The optional node state.</param>
-        public ReadOnlyOptionalNodeStateView(IReadOnlyControllerView controllerView, IReadOnlyOptionalNodeState state)
+        public ReadOnlyOptionalNodeStateView(ReadOnlyControllerView controllerView, IReadOnlyOptionalNodeState state)
             : base(controllerView, state)
         {
         }

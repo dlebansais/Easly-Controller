@@ -8,16 +8,7 @@ namespace EaslyController.ReadOnly
     /// <summary>
     /// List of IxxxBrowsingListNodeIndex
     /// </summary>
-    public interface IReadOnlyBrowsingListNodeIndexList : IList<IReadOnlyBrowsingListNodeIndex>, IReadOnlyList<IReadOnlyBrowsingListNodeIndex>
-    {
-        new IReadOnlyBrowsingListNodeIndex this[int index] { get; set; }
-        new int Count { get; }
-    }
-
-    /// <summary>
-    /// List of IxxxBrowsingListNodeIndex
-    /// </summary>
-    internal class ReadOnlyBrowsingListNodeIndexList : Collection<IReadOnlyBrowsingListNodeIndex>, IReadOnlyBrowsingListNodeIndexList, IReadOnlyList<IReadOnlyBrowsingListNodeIndex>
+    public class ReadOnlyBrowsingListNodeIndexList : Collection<ReadOnlyBrowsingListNodeIndex>
     {
     }
 }

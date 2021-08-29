@@ -5,23 +5,7 @@
     /// <summary>
     /// View of a node state.
     /// </summary>
-    public interface IReadOnlyNodeStateView : IEqualComparable
-    {
-        /// <summary>
-        /// The controller view to which this object belongs.
-        /// </summary>
-        IReadOnlyControllerView ControllerView { get; }
-
-        /// <summary>
-        /// The node state.
-        /// </summary>
-        IReadOnlyNodeState State { get; }
-    }
-
-    /// <summary>
-    /// View of a node state.
-    /// </summary>
-    internal abstract class ReadOnlyNodeStateView : IReadOnlyNodeStateView, IEqualComparable
+    public abstract class ReadOnlyNodeStateView : IEqualComparable
     {
         #region Init
         /// <summary>
@@ -29,7 +13,7 @@
         /// </summary>
         /// <param name="controllerView">The controller view to which this object belongs.</param>
         /// <param name="state">The node state.</param>
-        public ReadOnlyNodeStateView(IReadOnlyControllerView controllerView, IReadOnlyNodeState state)
+        public ReadOnlyNodeStateView(ReadOnlyControllerView controllerView, IReadOnlyNodeState state)
         {
             Debug.Assert(controllerView != null);
             Debug.Assert(state != null);
@@ -43,7 +27,7 @@
         /// <summary>
         /// The controller view to which this object belongs.
         /// </summary>
-        public IReadOnlyControllerView ControllerView { get; }
+        public ReadOnlyControllerView ControllerView { get; }
 
         /// <summary>
         /// The node state.

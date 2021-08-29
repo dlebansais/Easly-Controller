@@ -6,18 +6,7 @@
     /// <summary>
     /// Index for the source identifier node of a block.
     /// </summary>
-    public interface IReadOnlyBrowsingSourceIndex : IReadOnlyBrowsingChildIndex, IReadOnlyNodeIndex, IEqualComparable
-    {
-        /// <summary>
-        /// The indexed source identifier node.
-        /// </summary>
-        new Identifier Node { get; }
-    }
-
-    /// <summary>
-    /// Index for the source identifier node of a block.
-    /// </summary>
-    internal class ReadOnlyBrowsingSourceIndex : IReadOnlyBrowsingSourceIndex, IReadOnlyBrowsingChildIndex, IReadOnlyNodeIndex, IEqualComparable
+    public class ReadOnlyBrowsingSourceIndex : IReadOnlyBrowsingChildIndex, IReadOnlyNodeIndex, IEqualComparable
     {
         #region Init
         /// <summary>

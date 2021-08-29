@@ -16,7 +16,7 @@
         /// <summary>
         /// The index that was used to create the state.
         /// </summary>
-        new IReadOnlyBrowsingOptionalNodeIndex ParentIndex { get; }
+        new ReadOnlyBrowsingOptionalNodeIndex ParentIndex { get; }
 
         /// <summary>
         /// Inner containing this state.
@@ -32,25 +32,16 @@
     /// <summary>
     /// State of an optional node.
     /// </summary>
-    /// <typeparam name="IInner">Parent inner of the state.</typeparam>
-    internal interface IReadOnlyOptionalNodeState<out IInner> : IReadOnlyNodeState<IInner>
-        where IInner : IReadOnlyInner<IReadOnlyBrowsingChildIndex>
-    {
-    }
-
-    /// <summary>
-    /// State of an optional node.
-    /// </summary>
-    /// <typeparam name="IInner">Parent inner of the state.</typeparam>
-    internal class ReadOnlyOptionalNodeState<IInner> : ReadOnlyNodeState<IInner>, IReadOnlyOptionalNodeState<IInner>, IReadOnlyOptionalNodeState, IReadOnlyNodeState
-        where IInner : IReadOnlyInner<IReadOnlyBrowsingChildIndex>
+    /// <typeparam name="TIndex">Parent inner of the state.</typeparam>
+    internal class ReadOnlyOptionalNodeState<TIndex> : ReadOnlyNodeState<TIndex>, IReadOnlyOptionalNodeState, IReadOnlyNodeState
+        where TIndex : ReadOnlyInner<IReadOnlyBrowsingChildIndex>
     {
         #region Init
         /// <summary>
-        /// Initializes a new instance of the <see cref="ReadOnlyOptionalNodeState{IInner}"/> class.
+        /// Initializes a new instance of the <see cref="ReadOnlyOptionalNodeState{TIndex}"/> class.
         /// </summary>
         /// <param name="parentIndex">The index used to create the state.</param>
-        public ReadOnlyOptionalNodeState(IReadOnlyBrowsingOptionalNodeIndex parentIndex)
+        public ReadOnlyOptionalNodeState(ReadOnlyBrowsingOptionalNodeIndex parentIndex)
             : base(parentIndex)
         {
         }
@@ -60,7 +51,7 @@
         /// <summary>
         /// The index that was used to create the state.
         /// </summary>
-        public new IReadOnlyBrowsingOptionalNodeIndex ParentIndex { get { return (IReadOnlyBrowsingOptionalNodeIndex)base.ParentIndex; } }
+        public new ReadOnlyBrowsingOptionalNodeIndex ParentIndex { get { return (ReadOnlyBrowsingOptionalNodeIndex)base.ParentIndex; } }
 
         /// <summary>
         /// Inner containing this state.
@@ -103,7 +94,7 @@
         /// </summary>
         /// <param name="browseContext">The context used to browse the node tree.</param>
         /// <param name="parentInner">The inner containing this state as a child.</param>
-        public override void BrowseChildren(IReadOnlyBrowseContext browseContext, IReadOnlyInner<IReadOnlyBrowsingChildIndex> parentInner)
+        public override void BrowseChildren(ReadOnlyBrowseContext browseContext, ReadOnlyInner<IReadOnlyBrowsingChildIndex> parentInner)
         {
             Debug.Assert(browseContext != null);
             Debug.Assert(parentInner != null);
@@ -117,7 +108,7 @@
 
         #region Debugging
         /// <summary>
-        /// Compares two <see cref="ReadOnlyOptionalNodeState{IInner}"/> objects.
+        /// Compares two <see cref="ReadOnlyOptionalNodeState{TIndex}"/> objects.
         /// </summary>
         /// <param name="comparer">The comparison support object.</param>
         /// <param name="other">The other object.</param>
@@ -125,7 +116,7 @@
         {
             Debug.Assert(other != null);
 
-            if (!comparer.IsSameType(other, out ReadOnlyOptionalNodeState<IInner> AsOptionalNodeState))
+            if (!comparer.IsSameType(other, out ReadOnlyOptionalNodeState<TIndex> AsOptionalNodeState))
                 return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsOptionalNodeState))
@@ -165,7 +156,7 @@
                 {
                     string PropertyName = Entry.Key;
                     IReadOnlyInner Inner = Entry.Value;
-                    ((IReadOnlyInner<IReadOnlyBrowsingChildIndex>)Inner).CloneChildren(NewNode);
+                    ((ReadOnlyInner<IReadOnlyBrowsingChildIndex>)Inner).CloneChildren(NewNode);
                 }
 
                 // Copy other properties.

@@ -5,23 +5,7 @@
     /// <summary>
     /// View of a block state.
     /// </summary>
-    public interface IReadOnlyBlockStateView : IEqualComparable
-    {
-        /// <summary>
-        /// The controller view to which this object belongs.
-        /// </summary>
-        IReadOnlyControllerView ControllerView { get; }
-
-        /// <summary>
-        /// The block state.
-        /// </summary>
-        IReadOnlyBlockState BlockState { get; }
-    }
-
-    /// <summary>
-    /// View of a block state.
-    /// </summary>
-    internal class ReadOnlyBlockStateView : IReadOnlyBlockStateView, IEqualComparable
+    public class ReadOnlyBlockStateView : IEqualComparable
     {
         #region Init
         /// <summary>
@@ -29,7 +13,7 @@
         /// </summary>
         /// <param name="controllerView">The controller view to which this object belongs.</param>
         /// <param name="blockState">The block state.</param>
-        public ReadOnlyBlockStateView(IReadOnlyControllerView controllerView, IReadOnlyBlockState blockState)
+        public ReadOnlyBlockStateView(ReadOnlyControllerView controllerView, IReadOnlyBlockState blockState)
         {
             Debug.Assert(controllerView != null);
             Debug.Assert(blockState != null);
@@ -43,7 +27,7 @@
         /// <summary>
         /// The controller view to which this object belongs.
         /// </summary>
-        public IReadOnlyControllerView ControllerView { get; }
+        public ReadOnlyControllerView ControllerView { get; }
 
         /// <summary>
         /// The block state.

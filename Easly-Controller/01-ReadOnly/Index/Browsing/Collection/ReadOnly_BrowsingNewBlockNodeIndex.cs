@@ -8,23 +8,7 @@
     /// <summary>
     /// Index for the first node in a block.
     /// </summary>
-    public interface IReadOnlyBrowsingNewBlockNodeIndex : IReadOnlyBrowsingBlockNodeIndex
-    {
-        /// <summary>
-        /// The parent node.
-        /// </summary>
-        Node ParentNode { get; }
-
-        /// <summary>
-        /// Gets the index for this node in an existing block.
-        /// </summary>
-        IReadOnlyBrowsingExistingBlockNodeIndex ToExistingBlockIndex();
-    }
-
-    /// <summary>
-    /// Index for the first node in a block.
-    /// </summary>
-    internal class ReadOnlyBrowsingNewBlockNodeIndex : ReadOnlyBrowsingBlockNodeIndex, IReadOnlyBrowsingNewBlockNodeIndex, IReadOnlyBrowsingBlockNodeIndex
+    internal class ReadOnlyBrowsingNewBlockNodeIndex : ReadOnlyBrowsingBlockNodeIndex
     {
         #region Init
         /// <summary>
@@ -58,7 +42,7 @@
         /// <summary>
         /// Gets the index for this node in an existing block.
         /// </summary>
-        public virtual IReadOnlyBrowsingExistingBlockNodeIndex ToExistingBlockIndex()
+        public virtual ReadOnlyBrowsingExistingBlockNodeIndex ToExistingBlockIndex()
         {
             return CreateExistingBlockIndex();
         }
@@ -68,7 +52,7 @@
         /// <summary>
         /// Creates a IxxxBrowsingExistingBlockNodeIndex object.
         /// </summary>
-        private protected virtual IReadOnlyBrowsingExistingBlockNodeIndex CreateExistingBlockIndex()
+        private protected virtual ReadOnlyBrowsingExistingBlockNodeIndex CreateExistingBlockIndex()
         {
             ControllerTools.AssertNoOverride(this, typeof(ReadOnlyBrowsingNewBlockNodeIndex));
             return new ReadOnlyBrowsingExistingBlockNodeIndex(ParentNode, Node, PropertyName, BlockIndex, 0);

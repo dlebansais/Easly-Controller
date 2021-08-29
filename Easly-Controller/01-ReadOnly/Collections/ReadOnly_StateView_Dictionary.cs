@@ -6,14 +6,7 @@
     /// <summary>
     /// Dictionary of IxxxNodeState, IxxxNodeStateView
     /// </summary>
-    public interface IReadOnlyStateViewDictionary : IDictionary<IReadOnlyNodeState, IReadOnlyNodeStateView>, IEqualComparable
-    {
-    }
-
-    /// <summary>
-    /// Dictionary of IxxxNodeState, IxxxNodeStateView
-    /// </summary>
-    internal class ReadOnlyStateViewDictionary : Dictionary<IReadOnlyNodeState, IReadOnlyNodeStateView>, IReadOnlyStateViewDictionary, IEqualComparable
+    public class ReadOnlyStateViewDictionary : Dictionary<IReadOnlyNodeState, ReadOnlyNodeStateView>, IEqualComparable
     {
         #region Debugging
         /// <summary>
@@ -31,7 +24,7 @@
             if (!comparer.IsSameCount(Count, AsStateViewDictionary.Count))
                 return comparer.Failed();
 
-            foreach (KeyValuePair<IReadOnlyNodeState, IReadOnlyNodeStateView> Entry in this)
+            foreach (KeyValuePair<IReadOnlyNodeState, ReadOnlyNodeStateView> Entry in this)
             {
                 if (!comparer.IsTrue(AsStateViewDictionary.ContainsKey(Entry.Key)))
                     return comparer.Failed();

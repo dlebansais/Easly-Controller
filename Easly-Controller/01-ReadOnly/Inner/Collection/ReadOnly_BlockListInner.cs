@@ -23,7 +23,7 @@
         /// <summary>
         /// States of blocks in the block list.
         /// </summary>
-        IReadOnlyBlockStateReadOnlyList BlockStateList { get; }
+        ReadOnlyBlockStateReadOnlyList BlockStateList { get; }
 
         /// <summary>
         /// Checks if the inner has no blocks.
@@ -56,100 +56,24 @@
         /// <param name="blockIndex">Position of the block in the block list.</param>
         /// <param name="index">Position of the node in the block.</param>
         /// <returns>The index of the node at position <paramref name="blockIndex"/> and <paramref name="index"/>.</returns>
-        IReadOnlyBrowsingExistingBlockNodeIndex IndexAt(int blockIndex, int index);
+        ReadOnlyBrowsingExistingBlockNodeIndex IndexAt(int blockIndex, int index);
 
         /// <summary>
         /// Gets indexes for all nodes in the inner.
         /// </summary>
-        IReadOnlyBrowsingBlockNodeIndexList AllIndexes();
+        ReadOnlyBrowsingBlockNodeIndexList AllIndexes();
     }
 
     /// <summary>
     /// Inner for a block list.
     /// </summary>
-    /// <typeparam name="IIndex">Type of the index.</typeparam>
-    internal interface IReadOnlyBlockListInner<out IIndex> : IReadOnlyCollectionInner<IIndex>
-        where IIndex : IReadOnlyBrowsingBlockNodeIndex
-    {
-        /// <summary>
-        /// Block type for all blocks in the inner.
-        /// </summary>
-        Type BlockType { get; }
-
-        /// <summary>
-        /// Class type for all nodes in the inner.
-        /// </summary>
-        Type ItemType { get; }
-
-        /// <summary>
-        /// States of blocks in the block list.
-        /// </summary>
-        IReadOnlyBlockStateReadOnlyList BlockStateList { get; }
-
-        /// <summary>
-        /// Checks if the inner has no blocks.
-        /// </summary>
-        bool IsEmpty { get; }
-
-        /// <summary>
-        /// Checks if the inner has only ont child node.
-        /// </summary>
-        bool IsSingle { get; }
-
-        /// <summary>
-        /// First node state that can be enumerated in the inner.
-        /// </summary>
-        IReadOnlyPlaceholderNodeState FirstNodeState { get; }
-
-        /// <summary>
-        /// Called when a block state is created.
-        /// </summary>
-        event Action<IReadOnlyBlockState> BlockStateCreated;
-
-        /// <summary>
-        /// Called when a block state is removed.
-        /// </summary>
-        event Action<IReadOnlyBlockState> BlockStateRemoved;
-
-        /// <summary>
-        /// Gets the index of the node at the given position.
-        /// </summary>
-        /// <param name="blockIndex">Position of the block in the block list.</param>
-        /// <param name="index">Position of the node in the block.</param>
-        /// <returns>The index of the node at position <paramref name="blockIndex"/> and <paramref name="index"/>.</returns>
-        IReadOnlyBrowsingExistingBlockNodeIndex IndexAt(int blockIndex, int index);
-
-        /// <summary>
-        /// Gets indexes for all nodes in the inner.
-        /// </summary>
-        IReadOnlyBrowsingBlockNodeIndexList AllIndexes();
-
-        /// <summary>
-        /// Creates and initializes a new block state in the inner.
-        /// </summary>
-        /// <param name="newBlockIndex">Index of the new block state to create.</param>
-        /// <returns>The created block state.</returns>
-        IReadOnlyBlockState InitNewBlock(IReadOnlyBrowsingNewBlockNodeIndex newBlockIndex);
-
-        /// <summary>
-        /// Requests that the notification that a block has been removed be sent.
-        /// </summary>
-        /// <param name="blockState">The removed block.</param>
-        void NotifyBlockStateRemoved(IReadOnlyBlockState blockState);
-    }
-
-    /// <summary>
-    /// Inner for a block list.
-    /// </summary>
-    /// <typeparam name="IIndex">Type of the index as interface.</typeparam>
     /// <typeparam name="TIndex">Type of the index as class.</typeparam>
-    internal class ReadOnlyBlockListInner<IIndex, TIndex> : ReadOnlyCollectionInner<IIndex, TIndex>, IReadOnlyBlockListInner<IIndex>, IReadOnlyBlockListInner, IReadOnlyCollectionInner
-        where IIndex : IReadOnlyBrowsingBlockNodeIndex
-        where TIndex : ReadOnlyBrowsingBlockNodeIndex, IIndex
+    internal class ReadOnlyBlockListInner<TIndex> : ReadOnlyCollectionInner<TIndex>, IReadOnlyBlockListInner, IReadOnlyCollectionInner
+        where TIndex : ReadOnlyBrowsingBlockNodeIndex
     {
         #region Init
         /// <summary>
-        /// Initializes a new instance of the <see cref="ReadOnlyBlockListInner{IIndex, TIndex}"/> class.
+        /// Initializes a new instance of the <see cref="ReadOnlyBlockListInner{TIndex}"/> class.
         /// </summary>
         /// <param name="owner">Parent containing the inner.</param>
         /// <param name="propertyName">Property name of the inner in <paramref name="owner"/>.</param>
@@ -165,7 +89,7 @@
         /// </summary>
         /// <param name="newBlockIndex">Index of the new block state to create.</param>
         /// <returns>The created block state.</returns>
-        public virtual IReadOnlyBlockState InitNewBlock(IReadOnlyBrowsingNewBlockNodeIndex newBlockIndex)
+        public virtual IReadOnlyBlockState InitNewBlock(ReadOnlyBrowsingNewBlockNodeIndex newBlockIndex)
         {
             Debug.Assert(newBlockIndex != null);
             Debug.Assert(newBlockIndex.PropertyName == PropertyName);
@@ -198,7 +122,7 @@
         /// </summary>
         /// <param name="existingNodeIndex">Index of the node.</param>
         /// <returns>The created node state.</returns>
-        private protected virtual IReadOnlyPlaceholderNodeState InitChildState(IReadOnlyBrowsingExistingBlockNodeIndex existingNodeIndex)
+        private protected virtual IReadOnlyPlaceholderNodeState InitChildState(ReadOnlyBrowsingExistingBlockNodeIndex existingNodeIndex)
         {
             Debug.Assert(existingNodeIndex != null);
             Debug.Assert(existingNodeIndex.PropertyName == PropertyName);
@@ -250,8 +174,8 @@
         /// <summary>
         /// States of blocks in the block list.
         /// </summary>
-        public IReadOnlyBlockStateReadOnlyList BlockStateList { get; }
-        private IReadOnlyBlockStateList _BlockStateList;
+        public ReadOnlyBlockStateReadOnlyList BlockStateList { get; }
+        private ReadOnlyBlockStateList _BlockStateList;
 #pragma warning disable 1591
         [Conditional("DEBUG")]
         public void DebugGetBlockStateList() { DebugObjects.AddReference(_BlockStateList); }
@@ -324,7 +248,7 @@
         /// <param name="blockIndex">Position of the block in the block list.</param>
         /// <param name="index">Position of the node in the block.</param>
         /// <returns>The index of the node at position <paramref name="blockIndex"/> and <paramref name="index"/>.</returns>
-        public virtual IReadOnlyBrowsingExistingBlockNodeIndex IndexAt(int blockIndex, int index)
+        public virtual ReadOnlyBrowsingExistingBlockNodeIndex IndexAt(int blockIndex, int index)
         {
             Debug.Assert(blockIndex >= 0 && blockIndex < BlockStateList.Count);
 
@@ -332,15 +256,15 @@
 
             Debug.Assert(index >= 0 && index < BlockState.StateList.Count);
 
-            return (IReadOnlyBrowsingExistingBlockNodeIndex)BlockState.StateList[index].ParentIndex;
+            return (ReadOnlyBrowsingExistingBlockNodeIndex)BlockState.StateList[index].ParentIndex;
         }
 
         /// <summary>
         /// Gets indexes for all nodes in the inner.
         /// </summary>
-        public virtual IReadOnlyBrowsingBlockNodeIndexList AllIndexes()
+        public virtual ReadOnlyBrowsingBlockNodeIndexList AllIndexes()
         {
-            IReadOnlyBrowsingBlockNodeIndexList Result = CreateBlockNodeIndexList();
+            ReadOnlyBrowsingBlockNodeIndexList Result = CreateBlockNodeIndexList();
 
             foreach (IReadOnlyBlockState BlockState in BlockStateList)
                 foreach (IReadOnlyPlaceholderNodeState NodeState in BlockState.StateList)
@@ -368,7 +292,7 @@
             for (int BlockIndex = 0; BlockIndex < BlockStateList.Count; BlockIndex++)
             {
                 IReadOnlyBlockState BlockState = BlockStateList[BlockIndex];
-                ((IReadOnlyBlockState<IReadOnlyInner<IReadOnlyBrowsingChildIndex>>)BlockState).CloneBlock(parentNode, BlockIndex);
+                ((ReadOnlyBlockState<ReadOnlyInner<IReadOnlyBrowsingChildIndex>>)BlockState).CloneBlock(parentNode, BlockIndex);
             }
 
             // Copy comments.
@@ -382,12 +306,12 @@
         /// </summary>
         /// <param name="view">The attaching view.</param>
         /// <param name="callbackSet">The set of callbacks to call when enumerating existing states.</param>
-        public override void Attach(IReadOnlyControllerView view, IReadOnlyAttachCallbackSet callbackSet)
+        public override void Attach(ReadOnlyControllerView view, ReadOnlyAttachCallbackSet callbackSet)
         {
             callbackSet.OnBlockListInnerAttached(this);
 
             foreach (IReadOnlyBlockState BlockState in BlockStateList)
-                ((IReadOnlyBlockState<IReadOnlyInner<IReadOnlyBrowsingChildIndex>>)BlockState).Attach(view, callbackSet);
+                ((ReadOnlyBlockState<ReadOnlyInner<IReadOnlyBrowsingChildIndex>>)BlockState).Attach(view, callbackSet);
         }
 
         /// <summary>
@@ -395,10 +319,10 @@
         /// </summary>
         /// <param name="view">The attaching view.</param>
         /// <param name="callbackSet">The set of callbacks to no longer call when enumerating existing states.</param>
-        public override void Detach(IReadOnlyControllerView view, IReadOnlyAttachCallbackSet callbackSet)
+        public override void Detach(ReadOnlyControllerView view, ReadOnlyAttachCallbackSet callbackSet)
         {
             foreach (IReadOnlyBlockState BlockState in BlockStateList)
-                ((IReadOnlyBlockState<IReadOnlyInner<IReadOnlyBrowsingChildIndex>>)BlockState).Detach(view, callbackSet);
+                ((ReadOnlyBlockState<ReadOnlyInner<IReadOnlyBrowsingChildIndex>>)BlockState).Detach(view, callbackSet);
 
             callbackSet.OnBlockListInnerDetached(this);
         }
@@ -451,7 +375,7 @@
 
         #region Debugging
         /// <summary>
-        /// Compares two <see cref="ReadOnlyBlockListInner{IIndex,TIndex}"/> objects.
+        /// Compares two <see cref="ReadOnlyBlockListInner{TIndex}"/> objects.
         /// </summary>
         /// <param name="comparer">The comparison support object.</param>
         /// <param name="other">The other object.</param>
@@ -459,7 +383,7 @@
         {
             Debug.Assert(other != null);
 
-            if (!comparer.IsSameType(other, out ReadOnlyBlockListInner<IIndex, TIndex> AsBlockListInner))
+            if (!comparer.IsSameType(other, out ReadOnlyBlockListInner<TIndex> AsBlockListInner))
                 return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsBlockListInner))
@@ -480,19 +404,19 @@
         /// <summary>
         /// Creates a IxxxBlockStateList object.
         /// </summary>
-        private protected virtual IReadOnlyBlockStateList CreateBlockStateList()
+        private protected virtual ReadOnlyBlockStateList CreateBlockStateList()
         {
-            ControllerTools.AssertNoOverride(this, typeof(ReadOnlyBlockListInner<IIndex, TIndex>));
+            ControllerTools.AssertNoOverride(this, typeof(ReadOnlyBlockListInner<TIndex>));
             return new ReadOnlyBlockStateList();
         }
 
         /// <summary>
         /// Creates a IxxxBlockState object.
         /// </summary>
-        private protected virtual IReadOnlyBlockState CreateBlockState(IReadOnlyBrowsingNewBlockNodeIndex nodeIndex, IBlock childBlock)
+        private protected virtual IReadOnlyBlockState CreateBlockState(ReadOnlyBrowsingNewBlockNodeIndex nodeIndex, IBlock childBlock)
         {
-            ControllerTools.AssertNoOverride(this, typeof(ReadOnlyBlockListInner<IIndex, TIndex>));
-            return new ReadOnlyBlockState<IReadOnlyInner<IReadOnlyBrowsingChildIndex>>(this, nodeIndex, childBlock);
+            ControllerTools.AssertNoOverride(this, typeof(ReadOnlyBlockListInner<TIndex>));
+            return new ReadOnlyBlockState<ReadOnlyInner<IReadOnlyBrowsingChildIndex>>(this, nodeIndex, childBlock);
         }
 
         /// <summary>
@@ -500,16 +424,16 @@
         /// </summary>
         private protected virtual IReadOnlyPlaceholderNodeState CreateNodeState(IReadOnlyNodeIndex nodeIndex)
         {
-            ControllerTools.AssertNoOverride(this, typeof(ReadOnlyBlockListInner<IIndex, TIndex>));
-            return new ReadOnlyPlaceholderNodeState<IReadOnlyInner<IReadOnlyBrowsingChildIndex>>(nodeIndex);
+            ControllerTools.AssertNoOverride(this, typeof(ReadOnlyBlockListInner<TIndex>));
+            return new ReadOnlyPlaceholderNodeState<ReadOnlyInner<IReadOnlyBrowsingChildIndex>>(nodeIndex);
         }
 
         /// <summary>
         /// Creates a IxxxBrowsingBlockNodeIndexList.
         /// </summary>
-        private protected virtual IReadOnlyBrowsingBlockNodeIndexList CreateBlockNodeIndexList()
+        private protected virtual ReadOnlyBrowsingBlockNodeIndexList CreateBlockNodeIndexList()
         {
-            ControllerTools.AssertNoOverride(this, typeof(ReadOnlyBlockListInner<IIndex, TIndex>));
+            ControllerTools.AssertNoOverride(this, typeof(ReadOnlyBlockListInner<TIndex>));
             return new ReadOnlyBrowsingBlockNodeIndexList();
         }
         #endregion

@@ -8,19 +8,9 @@ namespace EaslyController.ReadOnly
     /// <summary>
     /// List of IxxxIndexCollection
     /// </summary>
-    internal interface IReadOnlyIndexCollectionList : IList<IReadOnlyIndexCollection>, IReadOnlyList<IReadOnlyIndexCollection>
+    internal class ReadOnlyIndexCollectionList : Collection<IReadOnlyIndexCollection>, IReadOnlyList<IReadOnlyIndexCollection>
     {
-        new IReadOnlyIndexCollection this[int index] { get; set; }
-        new int Count { get; }
-        IReadOnlyIndexCollectionReadOnlyList ToReadOnly();
-    }
-
-    /// <summary>
-    /// List of IxxxIndexCollection
-    /// </summary>
-    internal class ReadOnlyIndexCollectionList : Collection<IReadOnlyIndexCollection>, IReadOnlyIndexCollectionList, IReadOnlyList<IReadOnlyIndexCollection>
-    {
-        public virtual IReadOnlyIndexCollectionReadOnlyList ToReadOnly()
+        public virtual ReadOnlyIndexCollectionReadOnlyList ToReadOnly()
         {
             return new ReadOnlyIndexCollectionReadOnlyList(this);
         }

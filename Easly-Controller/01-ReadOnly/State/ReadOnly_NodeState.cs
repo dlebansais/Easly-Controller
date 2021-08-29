@@ -35,7 +35,7 @@
         /// <summary>
         /// Table for all inners in this state.
         /// </summary>
-        IReadOnlyInnerReadOnlyDictionary<string> InnerTable { get; }
+        ReadOnlyInnerReadOnlyDictionary<string> InnerTable { get; }
 
         /// <summary>
         /// Table of children that are not nodes.
@@ -66,7 +66,7 @@
         /// <summary>
         /// Returns a list of states for all child nodes.
         /// </summary>
-        IReadOnlyNodeStateReadOnlyList GetAllChildren();
+        ReadOnlyNodeStateReadOnlyList GetAllChildren();
 
         /// <summary>
         /// Returns a clone of the node of this state.
@@ -76,52 +76,15 @@
     }
 
     /// <summary>
-    /// Base interface for the state of a node.
-    /// </summary>
-    /// <typeparam name="IInner">Parent inner of the state.</typeparam>
-    internal interface IReadOnlyNodeState<out IInner> : IEqualComparable
-        where IInner : IReadOnlyInner<IReadOnlyBrowsingChildIndex>
-    {
-        /// <summary>
-        /// Find children in the node tree.
-        /// </summary>
-        /// <param name="browseContext">The context used to browse the node tree.</param>
-        /// <param name="parentInner">The inner containing this state as a child.</param>
-        void BrowseChildren(IReadOnlyBrowseContext browseContext, IReadOnlyInner<IReadOnlyBrowsingChildIndex> parentInner);
-
-        /// <summary>
-        /// Initializes a newly created state.
-        /// </summary>
-        /// <param name="parentInner">Inner containing this state.</param>
-        /// <param name="innerTable">Table for all inners in this state.</param>
-        /// <param name="valuePropertyTable">Table of children that are not nodes.</param>
-        void Init(IReadOnlyInner<IReadOnlyBrowsingChildIndex> parentInner, IReadOnlyInnerReadOnlyDictionary<string> innerTable, IReadOnlyDictionary<string, ValuePropertyType> valuePropertyTable);
-
-        /// <summary>
-        /// Attach a view to the state.
-        /// </summary>
-        /// <param name="view">The attaching view.</param>
-        /// <param name="callbackSet">The set of callbacks to call when enumerating existing states.</param>
-        void Attach(IReadOnlyControllerView view, IReadOnlyAttachCallbackSet callbackSet);
-
-        /// <summary>
-        /// Detach a view from the state.
-        /// </summary>
-        /// <param name="view">The attaching view.</param>
-        /// <param name="callbackSet">The set of callbacks to no longer call when enumerating existing states.</param>
-        void Detach(IReadOnlyControllerView view, IReadOnlyAttachCallbackSet callbackSet);
-    }
-
-    /// <summary>
     /// Base class for the state of a node.
     /// </summary>
-    /// <typeparam name="IInner">Parent inner of the state.</typeparam>
-    internal abstract class ReadOnlyNodeState<IInner> : IReadOnlyNodeState<IInner>, IReadOnlyNodeState, IEqualComparable
-        where IInner : IReadOnlyInner<IReadOnlyBrowsingChildIndex>
+    /// <typeparam name="TIndex">Parent inner of the state.</typeparam>
+    internal abstract class ReadOnlyNodeState<TIndex> : IReadOnlyNodeState, IEqualComparable
+        where TIndex : ReadOnlyInner<IReadOnlyBrowsingChildIndex>
     {
         #region Init
         /// <summary>
-        /// Initializes a new instance of the <see cref="ReadOnlyNodeState{IInner}"/> class.
+        /// Initializes a new instance of the <see cref="ReadOnlyNodeState{TIndex}"/> class.
         /// </summary>
         /// <param name="parentIndex">The index used to create the state.</param>
         public ReadOnlyNodeState(IReadOnlyIndex parentIndex)
@@ -139,7 +102,7 @@
         /// <param name="parentInner">Inner containing this state.</param>
         /// <param name="innerTable">Table for all inners in this state.</param>
         /// <param name="valuePropertyTable">Table of children that are not nodes.</param>
-        public virtual void Init(IReadOnlyInner<IReadOnlyBrowsingChildIndex> parentInner, IReadOnlyInnerReadOnlyDictionary<string> innerTable, IReadOnlyDictionary<string, ValuePropertyType> valuePropertyTable)
+        public virtual void Init(ReadOnlyInner<IReadOnlyBrowsingChildIndex> parentInner, ReadOnlyInnerReadOnlyDictionary<string> innerTable, IReadOnlyDictionary<string, ValuePropertyType> valuePropertyTable)
         {
             Debug.Assert(innerTable != null);
             Debug.Assert(valuePropertyTable != null);
@@ -171,14 +134,14 @@
             ParentState = parentState;
         }
 
-        private protected virtual void InitParentInner(IReadOnlyInner<IReadOnlyBrowsingChildIndex> parentInner)
+        private protected virtual void InitParentInner(ReadOnlyInner<IReadOnlyBrowsingChildIndex> parentInner)
         {
             Debug.Assert(ParentInner == null);
 
             ParentInner = (IReadOnlyInner)parentInner;
         }
 
-        private protected virtual void InitInnerTable(IReadOnlyInnerReadOnlyDictionary<string> innerTable)
+        private protected virtual void InitInnerTable(ReadOnlyInnerReadOnlyDictionary<string> innerTable)
         {
             Debug.Assert(innerTable != null);
             Debug.Assert(InnerTable == null);
@@ -191,12 +154,12 @@
         /// </summary>
         /// <param name="browseContext">The context used to browse the node tree.</param>
         /// <param name="parentInner">The inner containing this state as a child.</param>
-        public virtual void BrowseChildren(IReadOnlyBrowseContext browseContext, IReadOnlyInner<IReadOnlyBrowsingChildIndex> parentInner)
+        public virtual void BrowseChildren(ReadOnlyBrowseContext browseContext, ReadOnlyInner<IReadOnlyBrowsingChildIndex> parentInner)
         {
             BrowseChildrenOfNode(browseContext, Node);
         }
 
-        private protected virtual void BrowseChildrenOfNode(IReadOnlyBrowseContext browseNodeContext, Node node)
+        private protected virtual void BrowseChildrenOfNode(ReadOnlyBrowseContext browseNodeContext, Node node)
         {
             IList<string> PropertyNames = NodeTreeHelper.EnumChildNodeProperties(node);
 
@@ -281,29 +244,29 @@
             }
         }
 
-        private protected virtual IReadOnlyIndexCollection BrowseNodeList(IReadOnlyBrowseContext browseNodeContext, Node node, string propertyName, IReadOnlyList<Node> childNodeList)
+        private protected virtual IReadOnlyIndexCollection BrowseNodeList(ReadOnlyBrowseContext browseNodeContext, Node node, string propertyName, IReadOnlyList<Node> childNodeList)
         {
             Debug.Assert(!string.IsNullOrEmpty(propertyName));
 
-            IReadOnlyBrowsingListNodeIndexList NodeIndexList = CreateBrowsingListNodeIndexList();
+            ReadOnlyBrowsingListNodeIndexList NodeIndexList = CreateBrowsingListNodeIndexList();
 
             for (int Index = 0; Index < childNodeList.Count; Index++)
             {
                 Node ChildNode = childNodeList[Index];
                 Debug.Assert(ChildNode != null);
 
-                IReadOnlyBrowsingListNodeIndex NewNodeIndex = CreateListNodeIndex(browseNodeContext, node, propertyName, ChildNode, Index);
+                ReadOnlyBrowsingListNodeIndex NewNodeIndex = CreateListNodeIndex(browseNodeContext, node, propertyName, ChildNode, Index);
                 NodeIndexList.Add(NewNodeIndex);
             }
 
             return CreateListIndexCollection(browseNodeContext, propertyName, NodeIndexList);
         }
 
-        private protected virtual IReadOnlyIndexCollection BrowseNodeBlockList(IReadOnlyBrowseContext browseNodeContext, Node node, string propertyName, IReadOnlyList<NodeTreeBlock> childBlockList)
+        private protected virtual IReadOnlyIndexCollection BrowseNodeBlockList(ReadOnlyBrowseContext browseNodeContext, Node node, string propertyName, IReadOnlyList<NodeTreeBlock> childBlockList)
         {
             Debug.Assert(!string.IsNullOrEmpty(propertyName));
 
-            IReadOnlyBrowsingBlockNodeIndexList NodeIndexList = CreateBrowsingBlockNodeIndexList();
+            ReadOnlyBrowsingBlockNodeIndexList NodeIndexList = CreateBrowsingBlockNodeIndexList();
 
             for (int BlockIndex = 0; BlockIndex < childBlockList.Count; BlockIndex++)
             {
@@ -314,7 +277,7 @@
             return CreateBlockIndexCollection(browseNodeContext, propertyName, NodeIndexList);
         }
 
-        private protected virtual void BrowseBlock(IReadOnlyBrowseContext browseNodeContext, Node node, string propertyName, int blockIndex, NodeTreeBlock childBlock, IReadOnlyBrowsingBlockNodeIndexList nodeIndexList)
+        private protected virtual void BrowseBlock(ReadOnlyBrowseContext browseNodeContext, Node node, string propertyName, int blockIndex, NodeTreeBlock childBlock, ReadOnlyBrowsingBlockNodeIndexList nodeIndexList)
         {
             Debug.Assert(!string.IsNullOrEmpty(propertyName));
 
@@ -322,7 +285,7 @@
             {
                 Node ChildNode = childBlock.NodeList[Index];
 
-                IReadOnlyBrowsingBlockNodeIndex NewNodeIndex;
+                ReadOnlyBrowsingBlockNodeIndex NewNodeIndex;
                 if (Index == 0) // For the first node, we use a IxxxBrowsingNewBlockNodeIndex, otherwise a IxxxBrowsingExistingBlockNodeIndex.
                     NewNodeIndex = CreateNewBlockNodeIndex(browseNodeContext, node, propertyName, blockIndex, ChildNode);
                 else
@@ -359,7 +322,7 @@
         /// <summary>
         /// Table for all inners in this state.
         /// </summary>
-        public IReadOnlyInnerReadOnlyDictionary<string> InnerTable { get; private set; }
+        public ReadOnlyInnerReadOnlyDictionary<string> InnerTable { get; private set; }
 
         /// <summary>
         /// Table of children that are not nodes.
@@ -429,9 +392,9 @@
         /// <summary>
         /// Returns a list of states for all child nodes.
         /// </summary>
-        public IReadOnlyNodeStateReadOnlyList GetAllChildren()
+        public ReadOnlyNodeStateReadOnlyList GetAllChildren()
         {
-            IReadOnlyNodeStateList StateList = CreateNodeStateList();
+            ReadOnlyNodeStateList StateList = CreateNodeStateList();
             AddChildStates(StateList, this);
 
             DebugObjects.AddReference(StateList);
@@ -439,7 +402,7 @@
             return StateList.ToReadOnly();
         }
 
-        private void AddChildStates(IReadOnlyNodeStateList stateList, IReadOnlyNodeState state)
+        private void AddChildStates(ReadOnlyNodeStateList stateList, IReadOnlyNodeState state)
         {
             stateList.Add(state);
 
@@ -447,7 +410,7 @@
                 AddChildInner(stateList, Entry.Value);
         }
 
-        private void AddChildInner(IReadOnlyNodeStateList stateList, IReadOnlyInner inner)
+        private void AddChildInner(ReadOnlyNodeStateList stateList, IReadOnlyInner inner)
         {
             bool IsHandled = false;
 
@@ -491,14 +454,14 @@
         /// </summary>
         /// <param name="view">The attaching view.</param>
         /// <param name="callbackSet">The set of callbacks to call when enumerating existing states.</param>
-        public virtual void Attach(IReadOnlyControllerView view, IReadOnlyAttachCallbackSet callbackSet)
+        public virtual void Attach(ReadOnlyControllerView view, ReadOnlyAttachCallbackSet callbackSet)
         {
             callbackSet.OnNodeStateAttached(this);
 
             foreach (KeyValuePair<string, IReadOnlyInner> Entry in InnerTable)
             {
                 IReadOnlyInner Inner = Entry.Value;
-                ((IReadOnlyInner<IReadOnlyBrowsingChildIndex>)Inner).Attach(view, callbackSet);
+                ((ReadOnlyInner<IReadOnlyBrowsingChildIndex>)Inner).Attach(view, callbackSet);
             }
         }
 
@@ -507,12 +470,12 @@
         /// </summary>
         /// <param name="view">The attaching view.</param>
         /// <param name="callbackSet">The set of callbacks to no longer call when enumerating existing states.</param>
-        public virtual void Detach(IReadOnlyControllerView view, IReadOnlyAttachCallbackSet callbackSet)
+        public virtual void Detach(ReadOnlyControllerView view, ReadOnlyAttachCallbackSet callbackSet)
         {
             foreach (KeyValuePair<string, IReadOnlyInner> Entry in InnerTable)
             {
                 IReadOnlyInner Inner = Entry.Value;
-                ((IReadOnlyInner<IReadOnlyBrowsingChildIndex>)Inner).Detach(view, callbackSet);
+                ((ReadOnlyInner<IReadOnlyBrowsingChildIndex>)Inner).Detach(view, callbackSet);
             }
 
             callbackSet.OnNodeStateDetached(this);
@@ -521,7 +484,7 @@
 
         #region Debugging
         /// <summary>
-        /// Compares two <see cref="ReadOnlyNodeState{IInner}"/> objects.
+        /// Compares two <see cref="ReadOnlyNodeState{TIndex}"/> objects.
         /// </summary>
         /// <param name="comparer">The comparison support object.</param>
         /// <param name="other">The other object.</param>
@@ -529,7 +492,7 @@
         {
             Debug.Assert(other != null);
 
-            if (!comparer.IsSameType(other, out ReadOnlyNodeState<IInner> AsNodeState))
+            if (!comparer.IsSameType(other, out ReadOnlyNodeState<TIndex> AsNodeState))
                 return comparer.Failed();
 
             if (!comparer.VerifyEqual((IEqualComparable)ParentIndex, (IEqualComparable)AsNodeState.ParentIndex))
@@ -578,7 +541,7 @@
             {
                 string PropertyName = Entry.Key;
                 IReadOnlyInner Inner = Entry.Value;
-                ((IReadOnlyInner<IReadOnlyBrowsingChildIndex>)Inner).CloneChildren(NewNode);
+                ((ReadOnlyInner<IReadOnlyBrowsingChildIndex>)Inner).CloneChildren(NewNode);
             }
 
             // Copy other properties.
@@ -647,109 +610,109 @@
         /// <summary>
         /// Creates a IxxxNodeStateList object.
         /// </summary>
-        private protected virtual IReadOnlyNodeStateList CreateNodeStateList()
+        private protected virtual ReadOnlyNodeStateList CreateNodeStateList()
         {
-            ControllerTools.AssertNoOverride(this, typeof(ReadOnlyNodeState<IInner>));
+            ControllerTools.AssertNoOverride(this, typeof(ReadOnlyNodeState<TIndex>));
             return new ReadOnlyNodeStateList();
         }
 
         /// <summary>
         /// Creates a IxxxBrowsingPlaceholderNodeIndex object.
         /// </summary>
-        private protected virtual IReadOnlyBrowsingPlaceholderNodeIndex CreateChildNodeIndex(IReadOnlyBrowseContext browseNodeContext, Node node, string propertyName, Node childNode)
+        private protected virtual ReadOnlyBrowsingPlaceholderNodeIndex CreateChildNodeIndex(ReadOnlyBrowseContext browseNodeContext, Node node, string propertyName, Node childNode)
         {
-            ControllerTools.AssertNoOverride(this, typeof(ReadOnlyNodeState<IInner>));
+            ControllerTools.AssertNoOverride(this, typeof(ReadOnlyNodeState<TIndex>));
             return new ReadOnlyBrowsingPlaceholderNodeIndex(node, childNode, propertyName);
         }
 
         /// <summary>
         /// Creates a IxxxBrowsingOptionalNodeIndex object.
         /// </summary>
-        private protected virtual IReadOnlyBrowsingOptionalNodeIndex CreateOptionalNodeIndex(IReadOnlyBrowseContext browseNodeContext, Node node, string propertyName)
+        private protected virtual ReadOnlyBrowsingOptionalNodeIndex CreateOptionalNodeIndex(ReadOnlyBrowseContext browseNodeContext, Node node, string propertyName)
         {
-            ControllerTools.AssertNoOverride(this, typeof(ReadOnlyNodeState<IInner>));
+            ControllerTools.AssertNoOverride(this, typeof(ReadOnlyNodeState<TIndex>));
             return new ReadOnlyBrowsingOptionalNodeIndex(node, propertyName);
         }
 
         /// <summary>
         /// Creates a IxxxBrowsingListNodeIndex object.
         /// </summary>
-        private protected virtual IReadOnlyBrowsingListNodeIndex CreateListNodeIndex(IReadOnlyBrowseContext browseNodeContext, Node node, string propertyName, Node childNode, int index)
+        private protected virtual ReadOnlyBrowsingListNodeIndex CreateListNodeIndex(ReadOnlyBrowseContext browseNodeContext, Node node, string propertyName, Node childNode, int index)
         {
-            ControllerTools.AssertNoOverride(this, typeof(ReadOnlyNodeState<IInner>));
+            ControllerTools.AssertNoOverride(this, typeof(ReadOnlyNodeState<TIndex>));
             return new ReadOnlyBrowsingListNodeIndex(node, childNode, propertyName, index);
         }
 
         /// <summary>
         /// Creates a IxxxBrowsingNewBlockNodeIndex object.
         /// </summary>
-        private protected virtual IReadOnlyBrowsingNewBlockNodeIndex CreateNewBlockNodeIndex(IReadOnlyBrowseContext browseNodeContext, Node node, string propertyName, int blockIndex, Node childNode)
+        private protected virtual ReadOnlyBrowsingNewBlockNodeIndex CreateNewBlockNodeIndex(ReadOnlyBrowseContext browseNodeContext, Node node, string propertyName, int blockIndex, Node childNode)
         {
-            ControllerTools.AssertNoOverride(this, typeof(ReadOnlyNodeState<IInner>));
+            ControllerTools.AssertNoOverride(this, typeof(ReadOnlyNodeState<TIndex>));
             return new ReadOnlyBrowsingNewBlockNodeIndex(node, childNode, propertyName, blockIndex);
         }
 
         /// <summary>
         /// Creates a IxxxBrowsingExistingBlockNodeIndex object.
         /// </summary>
-        private protected virtual IReadOnlyBrowsingExistingBlockNodeIndex CreateExistingBlockNodeIndex(IReadOnlyBrowseContext browseNodeContext, Node node, string propertyName, int blockIndex, int index, Node childNode)
+        private protected virtual ReadOnlyBrowsingExistingBlockNodeIndex CreateExistingBlockNodeIndex(ReadOnlyBrowseContext browseNodeContext, Node node, string propertyName, int blockIndex, int index, Node childNode)
         {
-            ControllerTools.AssertNoOverride(this, typeof(ReadOnlyNodeState<IInner>));
+            ControllerTools.AssertNoOverride(this, typeof(ReadOnlyNodeState<TIndex>));
             return new ReadOnlyBrowsingExistingBlockNodeIndex(node, childNode, propertyName, blockIndex, index);
         }
 
         /// <summary>
         /// Creates a IxxxIndexCollection with one IxxxBrowsingPlaceholderNodeIndex.
         /// </summary>
-        private protected virtual IReadOnlyIndexCollection CreatePlaceholderIndexCollection(IReadOnlyBrowseContext browseNodeContext, string propertyName, IReadOnlyBrowsingPlaceholderNodeIndex childNodeIndex)
+        private protected virtual IReadOnlyIndexCollection CreatePlaceholderIndexCollection(ReadOnlyBrowseContext browseNodeContext, string propertyName, ReadOnlyBrowsingPlaceholderNodeIndex childNodeIndex)
         {
-            ControllerTools.AssertNoOverride(this, typeof(ReadOnlyNodeState<IInner>));
-            return new ReadOnlyIndexCollection<IReadOnlyBrowsingPlaceholderNodeIndex>(propertyName, new List<IReadOnlyBrowsingPlaceholderNodeIndex>() { childNodeIndex });
+            ControllerTools.AssertNoOverride(this, typeof(ReadOnlyNodeState<TIndex>));
+            return new ReadOnlyIndexCollection<ReadOnlyBrowsingPlaceholderNodeIndex>(propertyName, new List<ReadOnlyBrowsingPlaceholderNodeIndex>() { childNodeIndex });
         }
 
         /// <summary>
         /// Creates a IxxxIndexCollection with one IxxxBrowsingOptionalNodeIndex.
         /// </summary>
-        private protected virtual IReadOnlyIndexCollection CreateOptionalIndexCollection(IReadOnlyBrowseContext browseNodeContext, string propertyName, IReadOnlyBrowsingOptionalNodeIndex optionalNodeIndex)
+        private protected virtual IReadOnlyIndexCollection CreateOptionalIndexCollection(ReadOnlyBrowseContext browseNodeContext, string propertyName, ReadOnlyBrowsingOptionalNodeIndex optionalNodeIndex)
         {
-            ControllerTools.AssertNoOverride(this, typeof(ReadOnlyNodeState<IInner>));
-            return new ReadOnlyIndexCollection<IReadOnlyBrowsingOptionalNodeIndex>(propertyName, new List<IReadOnlyBrowsingOptionalNodeIndex>() { optionalNodeIndex });
+            ControllerTools.AssertNoOverride(this, typeof(ReadOnlyNodeState<TIndex>));
+            return new ReadOnlyIndexCollection<ReadOnlyBrowsingOptionalNodeIndex>(propertyName, new List<ReadOnlyBrowsingOptionalNodeIndex>() { optionalNodeIndex });
         }
 
         /// <summary>
         /// Creates a IxxxBrowsingListNodeIndexList object.
         /// </summary>
-        private protected virtual IReadOnlyBrowsingListNodeIndexList CreateBrowsingListNodeIndexList()
+        private protected virtual ReadOnlyBrowsingListNodeIndexList CreateBrowsingListNodeIndexList()
         {
-            ControllerTools.AssertNoOverride(this, typeof(ReadOnlyNodeState<IInner>));
+            ControllerTools.AssertNoOverride(this, typeof(ReadOnlyNodeState<TIndex>));
             return new ReadOnlyBrowsingListNodeIndexList();
         }
 
         /// <summary>
         /// Creates a IxxxIndexCollection with IxxxBrowsingListNodeIndex objects.
         /// </summary>
-        private protected virtual IReadOnlyIndexCollection CreateListIndexCollection(IReadOnlyBrowseContext browseNodeContext, string propertyName, IReadOnlyBrowsingListNodeIndexList nodeIndexList)
+        private protected virtual IReadOnlyIndexCollection CreateListIndexCollection(ReadOnlyBrowseContext browseNodeContext, string propertyName, ReadOnlyBrowsingListNodeIndexList nodeIndexList)
         {
-            ControllerTools.AssertNoOverride(this, typeof(ReadOnlyNodeState<IInner>));
-            return new ReadOnlyIndexCollection<IReadOnlyBrowsingListNodeIndex>(propertyName, nodeIndexList);
+            ControllerTools.AssertNoOverride(this, typeof(ReadOnlyNodeState<TIndex>));
+            return new ReadOnlyIndexCollection<ReadOnlyBrowsingListNodeIndex>(propertyName, nodeIndexList);
         }
 
         /// <summary>
         /// Creates a IxxxBrowsingBlockNodeIndexList object.
         /// </summary>
-        private protected virtual IReadOnlyBrowsingBlockNodeIndexList CreateBrowsingBlockNodeIndexList()
+        private protected virtual ReadOnlyBrowsingBlockNodeIndexList CreateBrowsingBlockNodeIndexList()
         {
-            ControllerTools.AssertNoOverride(this, typeof(ReadOnlyNodeState<IInner>));
+            ControllerTools.AssertNoOverride(this, typeof(ReadOnlyNodeState<TIndex>));
             return new ReadOnlyBrowsingBlockNodeIndexList();
         }
 
         /// <summary>
         /// Creates a IxxxIndexCollection with IxxxBrowsingBlockNodeIndex objects.
         /// </summary>
-        private protected virtual IReadOnlyIndexCollection CreateBlockIndexCollection(IReadOnlyBrowseContext browseNodeContext, string propertyName, IReadOnlyBrowsingBlockNodeIndexList nodeIndexList)
+        private protected virtual IReadOnlyIndexCollection CreateBlockIndexCollection(ReadOnlyBrowseContext browseNodeContext, string propertyName, ReadOnlyBrowsingBlockNodeIndexList nodeIndexList)
         {
-            ControllerTools.AssertNoOverride(this, typeof(ReadOnlyNodeState<IInner>));
-            return new ReadOnlyIndexCollection<IReadOnlyBrowsingBlockNodeIndex>(propertyName, nodeIndexList);
+            ControllerTools.AssertNoOverride(this, typeof(ReadOnlyNodeState<TIndex>));
+            return new ReadOnlyIndexCollection<ReadOnlyBrowsingBlockNodeIndex>(propertyName, nodeIndexList);
         }
         #endregion
     }

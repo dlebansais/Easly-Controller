@@ -6,14 +6,7 @@
     /// <summary>
     /// Dictionary of IxxxBlockState, IxxxBlockStateView
     /// </summary>
-    public interface IReadOnlyBlockStateViewDictionary : IDictionary<IReadOnlyBlockState, IReadOnlyBlockStateView>, IEqualComparable
-    {
-    }
-
-    /// <summary>
-    /// Dictionary of IxxxBlockState, IxxxBlockStateView
-    /// </summary>
-    internal class ReadOnlyBlockStateViewDictionary : Dictionary<IReadOnlyBlockState, IReadOnlyBlockStateView>, IReadOnlyBlockStateViewDictionary, IEqualComparable
+    public class ReadOnlyBlockStateViewDictionary : Dictionary<IReadOnlyBlockState, ReadOnlyBlockStateView>, IEqualComparable
     {
         #region Debugging
         /// <summary>
@@ -31,7 +24,7 @@
             if (!comparer.IsSameCount(Count, AsBlockStateViewDictionary.Count))
                 return comparer.Failed();
 
-            foreach (KeyValuePair<IReadOnlyBlockState, IReadOnlyBlockStateView> Entry in this)
+            foreach (KeyValuePair<IReadOnlyBlockState, ReadOnlyBlockStateView> Entry in this)
             {
                 if (!comparer.IsTrue(AsBlockStateViewDictionary.ContainsKey(Entry.Key)))
                     return comparer.Failed();

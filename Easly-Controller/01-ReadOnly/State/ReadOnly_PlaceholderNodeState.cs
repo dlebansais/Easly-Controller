@@ -17,22 +17,13 @@
     /// <summary>
     /// State of a child node.
     /// </summary>
-    /// <typeparam name="IInner">Parent inner of the state.</typeparam>
-    internal interface IReadOnlyPlaceholderNodeState<out IInner> : IReadOnlyNodeState<IInner>
-        where IInner : IReadOnlyInner<IReadOnlyBrowsingChildIndex>
-    {
-    }
-
-    /// <summary>
-    /// State of a child node.
-    /// </summary>
-    /// <typeparam name="IInner">Parent inner of the state.</typeparam>
-    internal class ReadOnlyPlaceholderNodeState<IInner> : ReadOnlyNodeState<IInner>, IReadOnlyPlaceholderNodeState<IInner>, IReadOnlyPlaceholderNodeState, IReadOnlyNodeState
-        where IInner : IReadOnlyInner<IReadOnlyBrowsingChildIndex>
+    /// <typeparam name="TIndex">Parent inner of the state.</typeparam>
+    internal class ReadOnlyPlaceholderNodeState<TIndex> : ReadOnlyNodeState<TIndex>, IReadOnlyPlaceholderNodeState, IReadOnlyNodeState
+        where TIndex : ReadOnlyInner<IReadOnlyBrowsingChildIndex>
     {
         #region Init
         /// <summary>
-        /// Initializes a new instance of the <see cref="ReadOnlyPlaceholderNodeState{IInner}"/> class.
+        /// Initializes a new instance of the <see cref="ReadOnlyPlaceholderNodeState{TIndex}"/> class.
         /// </summary>
         /// <param name="parentIndex">The index used to create the state.</param>
         public ReadOnlyPlaceholderNodeState(IReadOnlyNodeIndex parentIndex)
@@ -60,7 +51,7 @@
 
         #region Debugging
         /// <summary>
-        /// Compares two <see cref="ReadOnlyPlaceholderNodeState{IInner}"/> objects.
+        /// Compares two <see cref="ReadOnlyPlaceholderNodeState{TIndex}"/> objects.
         /// </summary>
         /// <param name="comparer">The comparison support object.</param>
         /// <param name="other">The other object.</param>
@@ -68,7 +59,7 @@
         {
             Debug.Assert(other != null);
 
-            if (!comparer.IsSameType(other, out ReadOnlyPlaceholderNodeState<IInner> AsPlaceholderNodeState))
+            if (!comparer.IsSameType(other, out ReadOnlyPlaceholderNodeState<TIndex> AsPlaceholderNodeState))
                 return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsPlaceholderNodeState))

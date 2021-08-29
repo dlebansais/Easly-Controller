@@ -8,18 +8,9 @@ namespace EaslyController.ReadOnly
     /// <summary>
     /// Read-only list of IxxxIndexCollection
     /// </summary>
-    internal interface IReadOnlyIndexCollectionReadOnlyList : IReadOnlyList<IReadOnlyIndexCollection>
+    internal class ReadOnlyIndexCollectionReadOnlyList : ReadOnlyCollection<IReadOnlyIndexCollection>
     {
-        bool Contains(IReadOnlyIndexCollection value);
-        int IndexOf(IReadOnlyIndexCollection value);
-    }
-
-    /// <summary>
-    /// Read-only list of IxxxIndexCollection
-    /// </summary>
-    internal class ReadOnlyIndexCollectionReadOnlyList : ReadOnlyCollection<IReadOnlyIndexCollection>, IReadOnlyIndexCollectionReadOnlyList, IReadOnlyList<IReadOnlyIndexCollection>
-    {
-        public ReadOnlyIndexCollectionReadOnlyList(IReadOnlyIndexCollectionList list)
+        public ReadOnlyIndexCollectionReadOnlyList(ReadOnlyIndexCollectionList list)
             : base(list)
         {
         }
