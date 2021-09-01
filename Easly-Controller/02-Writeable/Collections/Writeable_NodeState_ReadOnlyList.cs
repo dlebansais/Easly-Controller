@@ -9,30 +9,16 @@ namespace EaslyController.Writeable
     /// <summary>
     /// Read-only list of IxxxNodeState
     /// </summary>
-    public interface IWriteableNodeStateReadOnlyList : IReadOnlyNodeStateReadOnlyList, IReadOnlyList<IWriteableNodeState>
+    internal class WriteableNodeStateReadOnlyList : ReadOnlyNodeStateReadOnlyList, IReadOnlyCollection<IWriteableNodeState>, IReadOnlyList<IWriteableNodeState>
     {
-        new IWriteableNodeState this[int index] { get; }
-        new int Count { get; }
-        bool Contains(IWriteableNodeState value);
-        new IEnumerator<IWriteableNodeState> GetEnumerator();
-        int IndexOf(IWriteableNodeState value);
-    }
-
-    /// <summary>
-    /// Read-only list of IxxxNodeState
-    /// </summary>
-    internal class WriteableNodeStateReadOnlyList : ReadOnlyCollection<IWriteableNodeState>, IWriteableNodeStateReadOnlyList
-    {
-        public WriteableNodeStateReadOnlyList(IWriteableNodeStateList list)
+        public WriteableNodeStateReadOnlyList(WriteableNodeStateList list)
             : base(list)
         {
         }
 
-        #region ReadOnly
-        bool IReadOnlyNodeStateReadOnlyList.Contains(IReadOnlyNodeState value) { return Contains((IWriteableNodeState)value); }
-        int IReadOnlyNodeStateReadOnlyList.IndexOf(IReadOnlyNodeState value) { return IndexOf((IWriteableNodeState)value); }
-        IEnumerator<IReadOnlyNodeState> IEnumerable<IReadOnlyNodeState>.GetEnumerator() { return GetEnumerator(); }
-        IReadOnlyNodeState IReadOnlyList<IReadOnlyNodeState>.this[int index] { get { return this[index]; } }
+        #region IWriteableNodeState
+        IEnumerator<IWriteableNodeState> IEnumerable<IWriteableNodeState>.GetEnumerator() { return new List<IWriteableNodeState>().GetEnumerator(); }
+        IWriteableNodeState IReadOnlyList<IWriteableNodeState>.this[int index] { get { return (IWriteableNodeState)this[index]; } }
         #endregion
     }
 }

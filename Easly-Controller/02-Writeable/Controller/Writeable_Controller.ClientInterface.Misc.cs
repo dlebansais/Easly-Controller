@@ -9,15 +9,15 @@
     /// Controller for a node tree.
     /// This controller supports operations to modify the tree.
     /// </summary>
-    public partial class WriteableController : ReadOnlyController, IWriteableController
+    public partial class WriteableController : ReadOnlyController
     {
-        private protected virtual void RedoRefresh(IWriteableOperation operation)
+        private protected virtual void RedoRefresh(WriteableOperation operation)
         {
-            IWriteableGenericRefreshOperation GenericRefreshOperation = (IWriteableGenericRefreshOperation)operation;
+            WriteableGenericRefreshOperation GenericRefreshOperation = (WriteableGenericRefreshOperation)operation;
             ExecuteRefresh(GenericRefreshOperation);
         }
 
-        private protected virtual void ExecuteRefresh(IWriteableGenericRefreshOperation operation)
+        private protected virtual void ExecuteRefresh(WriteableGenericRefreshOperation operation)
         {
             NotifyGenericRefresh(operation);
         }
@@ -30,7 +30,7 @@
             Debug.Assert(CanUndo);
 
             RedoIndex--;
-            IWriteableOperationGroup OperationGroup = OperationStack[RedoIndex];
+            WriteableOperationGroup OperationGroup = OperationStack[RedoIndex];
             OperationGroup.Undo();
 
             CheckInvariant();
@@ -43,7 +43,7 @@
         {
             Debug.Assert(CanRedo);
 
-            IWriteableOperationGroup OperationGroup = OperationStack[RedoIndex];
+            WriteableOperationGroup OperationGroup = OperationStack[RedoIndex];
             OperationGroup.Redo();
             RedoIndex++;
 
@@ -58,7 +58,7 @@
         /// <param name="insertIndex">Index for the insert operation.</param>
         /// <param name="firstIndex">Index of the replacing node upon return.</param>
         /// <param name="secondIndex">Index of the inserted node upon return.</param>
-        public virtual void SplitIdentifier(IWriteableListInner inner, IWriteableInsertionListNodeIndex replaceIndex, IWriteableInsertionListNodeIndex insertIndex, out IWriteableBrowsingListNodeIndex firstIndex, out IWriteableBrowsingListNodeIndex secondIndex)
+        public virtual void SplitIdentifier(IWriteableListInner inner, WriteableInsertionListNodeIndex replaceIndex, WriteableInsertionListNodeIndex insertIndex, out IWriteableBrowsingListNodeIndex firstIndex, out IWriteableBrowsingListNodeIndex secondIndex)
         {
             Debug.Assert(inner != null);
             Debug.Assert(replaceIndex != null);
@@ -67,7 +67,7 @@
             IWriteableIndex ParentIndex = Owner.ParentIndex;
             Debug.Assert(Contains(ParentIndex));
             Debug.Assert(IndexToState(ParentIndex) == Owner);
-            IWriteableInnerReadOnlyDictionary<string> InnerTable = Owner.InnerTable;
+            WriteableInnerReadOnlyDictionary<string> InnerTable = Owner.InnerTable;
             Debug.Assert(InnerTable.ContainsKey(inner.PropertyName));
             Debug.Assert(InnerTable[inner.PropertyName] == inner);
 
@@ -76,28 +76,28 @@
             Node ReplacingNode = replaceIndex.Node;
             Node InsertedNode = insertIndex.Node;
 
-            Action<IWriteableOperation> HandlerRedoReplace = (IWriteableOperation operation) => RedoReplace(operation);
-            Action<IWriteableOperation> HandlerUndoReplace = (IWriteableOperation operation) => UndoReplace(operation);
-            IWriteableReplaceOperation ReplaceOperation = CreateReplaceOperation(inner.Owner.Node, inner.PropertyName, -1, Index, ReplacingNode, HandlerRedoReplace, HandlerUndoReplace, isNested: true);
+            Action<WriteableOperation> HandlerRedoReplace = (WriteableOperation operation) => RedoReplace(operation);
+            Action<WriteableOperation> HandlerUndoReplace = (WriteableOperation operation) => UndoReplace(operation);
+            WriteableReplaceOperation ReplaceOperation = CreateReplaceOperation(inner.Owner.Node, inner.PropertyName, -1, Index, ReplacingNode, HandlerRedoReplace, HandlerUndoReplace, isNested: true);
 
-            Action<IWriteableOperation> HandlerRedoInsert = (IWriteableOperation operation) => RedoInsertNewNode(operation);
-            Action<IWriteableOperation> HandlerUndoInsert = (IWriteableOperation operation) => UndoInsertNewNode(operation);
-            IWriteableInsertNodeOperation InsertOperation = CreateInsertNodeOperation(inner.Owner.Node, inner.PropertyName, -1, Index + 1, InsertedNode, HandlerRedoInsert, HandlerUndoInsert, isNested: true);
+            Action<WriteableOperation> HandlerRedoInsert = (WriteableOperation operation) => RedoInsertNewNode(operation);
+            Action<WriteableOperation> HandlerUndoInsert = (WriteableOperation operation) => UndoInsertNewNode(operation);
+            WriteableInsertNodeOperation InsertOperation = CreateInsertNodeOperation(inner.Owner.Node, inner.PropertyName, -1, Index + 1, InsertedNode, HandlerRedoInsert, HandlerUndoInsert, isNested: true);
 
             ReplaceOperation.Redo();
             InsertOperation.Redo();
 
-            Action<IWriteableOperation> HandlerRedoRefresh = (IWriteableOperation operation) => RedoRefresh(operation);
-            Action<IWriteableOperation> HandlerUndoRefresh = (IWriteableOperation operation) => throw new NotImplementedException(); // Undo is not possible.
-            IWriteableGenericRefreshOperation RefreshOperation = CreateGenericRefreshOperation(RootState, HandlerRedoRefresh, HandlerUndoRefresh, isNested: false);
+            Action<WriteableOperation> HandlerRedoRefresh = (WriteableOperation operation) => RedoRefresh(operation);
+            Action<WriteableOperation> HandlerUndoRefresh = (WriteableOperation operation) => throw new NotImplementedException(); // Undo is not possible.
+            WriteableGenericRefreshOperation RefreshOperation = CreateGenericRefreshOperation(RootState, HandlerRedoRefresh, HandlerUndoRefresh, isNested: false);
 
             RefreshOperation.Redo();
 
-            IWriteableOperationList OperationList = CreateOperationList();
+            WriteableOperationList OperationList = CreateOperationList();
             OperationList.Add(ReplaceOperation);
             OperationList.Add(InsertOperation);
-            IWriteableOperationReadOnlyList OperationReadOnlyList = OperationList.ToReadOnly();
-            IWriteableOperationGroup OperationGroup = CreateOperationGroup(OperationReadOnlyList, RefreshOperation);
+            WriteableOperationReadOnlyList OperationReadOnlyList = OperationList.ToReadOnly();
+            WriteableOperationGroup OperationGroup = CreateOperationGroup(OperationReadOnlyList, RefreshOperation);
             SetLastOperation(OperationGroup);
 
             CheckInvariant();
@@ -118,27 +118,27 @@
 
             switch (nodeIndex)
             {
-                case IWriteableInsertionPlaceholderNodeIndex AsPlaceholderNodeIndex:
+                case WriteableInsertionPlaceholderNodeIndex AsPlaceholderNodeIndex:
                     node = AsPlaceholderNodeIndex.Node;
                     IsHandled = true;
                     break;
 
-                case IWriteableInsertionOptionalNodeIndex AsOptionalNodeIndex:
+                case WriteableInsertionOptionalNodeIndex AsOptionalNodeIndex:
                     node = AsOptionalNodeIndex.Node;
                     IsHandled = true;
                     break;
 
-                case IWriteableInsertionOptionalClearIndex AsOptionalClearIndex:
+                case WriteableInsertionOptionalClearIndex AsOptionalClearIndex:
                     IsHandled = true;
                     break;
 
-                case IWriteableInsertionListNodeIndex AsListNodeIndex:
+                case WriteableInsertionListNodeIndex AsListNodeIndex:
                     index = AsListNodeIndex.Index;
                     node = AsListNodeIndex.Node;
                     IsHandled = true;
                     break;
 
-                case IWriteableInsertionExistingBlockNodeIndex AsExistingBlockNodeIndex:
+                case WriteableInsertionExistingBlockNodeIndex AsExistingBlockNodeIndex:
                     blockIndex = AsExistingBlockNodeIndex.BlockIndex;
                     index = AsExistingBlockNodeIndex.Index;
                     node = AsExistingBlockNodeIndex.Node;
@@ -151,7 +151,7 @@
                     IsHandled = true;
                     break;
 
-                case IWriteableBrowsingExistingBlockNodeIndex AsExistingBlockNodeIndex:
+                case WriteableBrowsingExistingBlockNodeIndex AsExistingBlockNodeIndex:
                     blockIndex = AsExistingBlockNodeIndex.BlockIndex;
                     index = AsExistingBlockNodeIndex.Index;
                     node = AsExistingBlockNodeIndex.Node;

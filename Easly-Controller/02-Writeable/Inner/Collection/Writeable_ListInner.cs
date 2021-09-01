@@ -14,7 +14,7 @@
         /// <summary>
         /// States of nodes in the list.
         /// </summary>
-        new IWriteablePlaceholderNodeStateReadOnlyList StateList { get; }
+        new WriteablePlaceholderNodeStateReadOnlyList StateList { get; }
 
         /// <summary>
         /// First node state that can be enumerated in the inner.
@@ -25,14 +25,14 @@
     /// <summary>
     /// Inner for a list of nodes.
     /// </summary>
-    /// <typeparam name="IIndex">Type of the index.</typeparam>
-    internal interface IWriteableListInner<out IIndex> : IReadOnlyListInner<IIndex>, IWriteableCollectionInner<IIndex>
-        where IIndex : IWriteableBrowsingListNodeIndex
+    /// <typeparam name="TIndex">Type of the index.</typeparam>
+    internal interface IWriteableListInner<out TIndex> : IReadOnlyListInner<TIndex>, IWriteableCollectionInner<TIndex>
+        where TIndex : WriteableBrowsingListNodeIndex
     {
         /// <summary>
         /// States of nodes in the list.
         /// </summary>
-        new IWriteablePlaceholderNodeStateReadOnlyList StateList { get; }
+        new WriteablePlaceholderNodeStateReadOnlyList StateList { get; }
 
         /// <summary>
         /// First node state that can be enumerated in the inner.
@@ -43,15 +43,13 @@
     /// <summary>
     /// Inner for a list of nodes.
     /// </summary>
-    /// <typeparam name="IIndex">Type of the index as interface.</typeparam>
     /// <typeparam name="TIndex">Type of the index as class.</typeparam>
-    internal class WriteableListInner<IIndex, TIndex> : ReadOnlyListInner<IIndex, TIndex>, IWriteableListInner<IIndex>, IWriteableListInner
-        where IIndex : IWriteableBrowsingListNodeIndex
-        where TIndex : WriteableBrowsingListNodeIndex, IIndex
+    internal class WriteableListInner<TIndex> : ReadOnlyListInner<TIndex>, IWriteableListInner<TIndex>, IWriteableListInner
+        where TIndex : WriteableBrowsingListNodeIndex
     {
         #region Init
         /// <summary>
-        /// Initializes a new instance of the <see cref="WriteableListInner{IIndex, TIndex}"/> class.
+        /// Initializes a new instance of the <see cref="WriteableListInner{TIndex}"/> class.
         /// </summary>
         /// <param name="owner">Parent containing the inner.</param>
         /// <param name="propertyName">Property name of the inner in <paramref name="owner"/>.</param>
@@ -70,7 +68,7 @@
         /// <summary>
         /// States of nodes in the list.
         /// </summary>
-        public new IWriteablePlaceholderNodeStateReadOnlyList StateList { get { return (IWriteablePlaceholderNodeStateReadOnlyList)base.StateList; } }
+        public new WriteablePlaceholderNodeStateReadOnlyList StateList { get { return (WriteablePlaceholderNodeStateReadOnlyList)base.StateList; } }
 
         /// <summary>
         /// First node state that can be enumerated in the inner.
@@ -84,7 +82,7 @@
         /// Inserts a new node in a list.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        public virtual void Insert(IWriteableInsertNodeOperation operation)
+        public virtual void Insert(WriteableInsertNodeOperation operation)
         {
             Debug.Assert(operation != null);
 
@@ -95,7 +93,7 @@
             Node Node = operation.Node;
             NodeTreeHelperList.InsertIntoList(ParentNode, PropertyName, InsertionIndex, Node);
 
-            IWriteableBrowsingListNodeIndex BrowsingIndex = CreateBrowsingNodeIndex(Node, InsertionIndex);
+            WriteableBrowsingListNodeIndex BrowsingIndex = CreateBrowsingNodeIndex(Node, InsertionIndex);
             IWriteablePlaceholderNodeState ChildState = (IWriteablePlaceholderNodeState)CreateNodeState(BrowsingIndex);
 
             InsertInStateList(InsertionIndex, ChildState);
@@ -104,9 +102,9 @@
 
             while (++InsertionIndex < StateList.Count)
             {
-                IWriteablePlaceholderNodeState State = StateList[InsertionIndex];
+                IWriteablePlaceholderNodeState State = (IWriteablePlaceholderNodeState)StateList[InsertionIndex];
 
-                IWriteableBrowsingListNodeIndex NodeIndex = State.ParentIndex as IWriteableBrowsingListNodeIndex;
+                WriteableBrowsingListNodeIndex NodeIndex = State.ParentIndex as WriteableBrowsingListNodeIndex;
                 Debug.Assert(NodeIndex != null);
                 Debug.Assert(NodeIndex.Index == InsertionIndex - 1);
 
@@ -118,14 +116,14 @@
         /// Removes a node from a list or block list.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        public virtual void Remove(IWriteableRemoveNodeOperation operation)
+        public virtual void Remove(WriteableRemoveNodeOperation operation)
         {
             Debug.Assert(operation != null);
 
             int RemoveIndex = operation.Index;
             Debug.Assert(RemoveIndex >= 0 && RemoveIndex < StateList.Count);
 
-            IWriteablePlaceholderNodeState OldChildState = StateList[RemoveIndex];
+            IWriteablePlaceholderNodeState OldChildState = (IWriteablePlaceholderNodeState)StateList[RemoveIndex];
             RemoveFromStateList(RemoveIndex);
 
             Node ParentNode = Owner.Node;
@@ -133,9 +131,9 @@
 
             while (RemoveIndex < StateList.Count)
             {
-                IWriteablePlaceholderNodeState State = StateList[RemoveIndex];
+                IWriteablePlaceholderNodeState State = (IWriteablePlaceholderNodeState)StateList[RemoveIndex];
 
-                IWriteableBrowsingListNodeIndex NodeIndex = State.ParentIndex as IWriteableBrowsingListNodeIndex;
+                WriteableBrowsingListNodeIndex NodeIndex = State.ParentIndex as WriteableBrowsingListNodeIndex;
                 Debug.Assert(NodeIndex != null);
                 Debug.Assert(NodeIndex.Index == RemoveIndex + 1);
 
@@ -151,7 +149,7 @@
         /// Replaces a node.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        public virtual void Replace(IWriteableReplaceOperation operation)
+        public virtual void Replace(WriteableReplaceOperation operation)
         {
             Debug.Assert(operation != null);
 
@@ -160,14 +158,14 @@
 
             Node ParentNode = Owner.Node;
 
-            IWriteableNodeState OldChildState = StateList[Index];
+            IWriteableNodeState OldChildState = (IWriteableNodeState)StateList[Index];
             Node OldNode = OldChildState.Node;
-            IWriteableBrowsingListNodeIndex OldBrowsingIndex = (IWriteableBrowsingListNodeIndex)OldChildState.ParentIndex;
+            WriteableBrowsingListNodeIndex OldBrowsingIndex = (WriteableBrowsingListNodeIndex)OldChildState.ParentIndex;
             RemoveFromStateList(Index);
 
             NodeTreeHelperList.ReplaceNode(ParentNode, PropertyName, Index, operation.NewNode);
 
-            IWriteableBrowsingListNodeIndex NewBrowsingIndex = CreateBrowsingNodeIndex(operation.NewNode, Index);
+            WriteableBrowsingListNodeIndex NewBrowsingIndex = CreateBrowsingNodeIndex(operation.NewNode, Index);
             IWriteablePlaceholderNodeState NewChildState = (IWriteablePlaceholderNodeState)CreateNodeState(NewBrowsingIndex);
             InsertInStateList(Index, NewChildState);
 
@@ -184,7 +182,7 @@
             bool IsHandled = false;
             bool Result = false;
 
-            if (nodeIndex is IWriteableBrowsingListNodeIndex AsListIndex)
+            if (nodeIndex is WriteableBrowsingListNodeIndex AsListIndex)
             {
                 int NewPosition = AsListIndex.Index + direction;
                 Result = NewPosition >= 0 && NewPosition < StateList.Count;
@@ -200,7 +198,7 @@
         /// Moves a node around in a list or block list. In a block list, the node stays in same block.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        public virtual void Move(IWriteableMoveNodeOperation operation)
+        public virtual void Move(WriteableMoveNodeOperation operation)
         {
             Debug.Assert(operation != null);
 
@@ -209,7 +207,7 @@
             Debug.Assert(MoveIndex >= 0 && MoveIndex < StateList.Count);
             Debug.Assert(MoveIndex + operation.Direction >= 0 && MoveIndex + operation.Direction < StateList.Count);
 
-            IWriteableBrowsingListNodeIndex MovedNodeIndex = StateList[MoveIndex].ParentIndex as IWriteableBrowsingListNodeIndex;
+            WriteableBrowsingListNodeIndex MovedNodeIndex = StateList[MoveIndex].ParentIndex as WriteableBrowsingListNodeIndex;
             Debug.Assert(MovedNodeIndex != null);
 
             Node ParentNode = Owner.Node;
@@ -217,13 +215,13 @@
             MoveInStateList(MoveIndex, Direction);
             NodeTreeHelperList.MoveNode(ParentNode, PropertyName, MoveIndex, Direction);
 
-            operation.Update(StateList[MoveIndex + Direction]);
+            operation.Update((IWriteablePlaceholderNodeState)StateList[MoveIndex + Direction]);
 
             if (Direction > 0)
             {
                 for (int i = MoveIndex; i < MoveIndex + Direction; i++)
                 {
-                    IWriteableBrowsingListNodeIndex ChildNodeIndex = StateList[i].ParentIndex as IWriteableBrowsingListNodeIndex;
+                    WriteableBrowsingListNodeIndex ChildNodeIndex = StateList[i].ParentIndex as WriteableBrowsingListNodeIndex;
                     Debug.Assert(ChildNodeIndex != null);
 
                     ChildNodeIndex.MoveDown();
@@ -234,7 +232,7 @@
             {
                 for (int i = MoveIndex; i > MoveIndex + Direction; i--)
                 {
-                    IWriteableBrowsingListNodeIndex ChildNodeIndex = StateList[i].ParentIndex as IWriteableBrowsingListNodeIndex;
+                    WriteableBrowsingListNodeIndex ChildNodeIndex = StateList[i].ParentIndex as WriteableBrowsingListNodeIndex;
                     Debug.Assert(ChildNodeIndex != null);
 
                     ChildNodeIndex.MoveUp();
@@ -248,9 +246,9 @@
         /// <summary>
         /// Creates a IxxxPlaceholderNodeStateList object.
         /// </summary>
-        private protected override IReadOnlyPlaceholderNodeStateList CreateStateList()
+        private protected override ReadOnlyPlaceholderNodeStateList CreateStateList()
         {
-            ControllerTools.AssertNoOverride(this, typeof(WriteableListInner<IIndex, TIndex>));
+            ControllerTools.AssertNoOverride(this, typeof(WriteableListInner<TIndex>));
             return new WriteablePlaceholderNodeStateList();
         }
 
@@ -259,25 +257,25 @@
         /// </summary>
         private protected override IReadOnlyPlaceholderNodeState CreateNodeState(IReadOnlyNodeIndex nodeIndex)
         {
-            ControllerTools.AssertNoOverride(this, typeof(WriteableListInner<IIndex, TIndex>));
+            ControllerTools.AssertNoOverride(this, typeof(WriteableListInner<TIndex>));
             return new WriteablePlaceholderNodeState<IWriteableInner<IWriteableBrowsingChildIndex>>((IWriteableNodeIndex)nodeIndex);
         }
 
         /// <summary>
         /// Creates a IxxxBrowsingListNodeIndexList.
         /// </summary>
-        private protected override IReadOnlyBrowsingListNodeIndexList CreateListNodeIndexList()
+        private protected override ReadOnlyBrowsingListNodeIndexList CreateListNodeIndexList()
         {
-            ControllerTools.AssertNoOverride(this, typeof(WriteableListInner<IIndex, TIndex>));
+            ControllerTools.AssertNoOverride(this, typeof(WriteableListInner<TIndex>));
             return new WriteableBrowsingListNodeIndexList();
         }
 
         /// <summary>
         /// Creates a IxxxBrowsingListNodeIndex object.
         /// </summary>
-        private protected virtual IWriteableBrowsingListNodeIndex CreateBrowsingNodeIndex(Node node, int index)
+        private protected virtual WriteableBrowsingListNodeIndex CreateBrowsingNodeIndex(Node node, int index)
         {
-            ControllerTools.AssertNoOverride(this, typeof(WriteableListInner<IIndex, TIndex>));
+            ControllerTools.AssertNoOverride(this, typeof(WriteableListInner<TIndex>));
             return new WriteableBrowsingListNodeIndex(Owner.Node, node, PropertyName, index);
         }
         #endregion

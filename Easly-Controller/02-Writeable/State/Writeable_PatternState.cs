@@ -17,7 +17,7 @@
         /// <summary>
         /// The index that was used to create the state.
         /// </summary>
-        new IWriteableBrowsingPatternIndex ParentIndex { get; }
+        new WriteableBrowsingPatternIndex ParentIndex { get; }
     }
 
     /// <summary>
@@ -42,7 +42,7 @@
         /// </summary>
         /// <param name="parentBlockState">The parent block state.</param>
         /// <param name="index">The index used to create the state.</param>
-        public WriteablePatternState(IWriteableBlockState parentBlockState, IWriteableBrowsingPatternIndex index)
+        public WriteablePatternState(IWriteableBlockState parentBlockState, WriteableBrowsingPatternIndex index)
             : base(parentBlockState, index)
         {
         }
@@ -57,7 +57,7 @@
         /// <summary>
         /// The index that was used to create the state.
         /// </summary>
-        public new IWriteableBrowsingPatternIndex ParentIndex { get { return (IWriteableBrowsingPatternIndex)base.ParentIndex; } }
+        public new WriteableBrowsingPatternIndex ParentIndex { get { return (WriteableBrowsingPatternIndex)base.ParentIndex; } }
         IWriteableIndex IWriteableNodeState.ParentIndex { get { return ParentIndex; } }
 
         /// <summary>
@@ -73,14 +73,14 @@
         /// <summary>
         /// Table for all inners in this state.
         /// </summary>
-        public new IWriteableInnerReadOnlyDictionary<string> InnerTable { get { return (IWriteableInnerReadOnlyDictionary<string>)base.InnerTable; } }
+        public new WriteableInnerReadOnlyDictionary<string> InnerTable { get { return (WriteableInnerReadOnlyDictionary<string>)base.InnerTable; } }
         #endregion
 
         #region Create Methods
         /// <summary>
         /// Creates a IxxxNodeStateList object.
         /// </summary>
-        private protected override IReadOnlyNodeStateList CreateNodeStateList()
+        private protected override ReadOnlyNodeStateList CreateNodeStateList()
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteablePatternState<IInner>));
             return new WriteableNodeStateList();

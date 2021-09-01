@@ -7,39 +7,7 @@
     /// <summary>
     /// Operation details for updating a view after block has been removed from a block list.
     /// </summary>
-    public interface IWriteableRemoveBlockViewOperation : IWriteableRemoveOperation
-    {
-        /// <summary>
-        /// Node where the block removal is taking place.
-        /// </summary>
-        Node ParentNode { get; }
-
-        /// <summary>
-        /// Block list property of <see cref="ParentNode"/> where a block is removed.
-        /// </summary>
-        string PropertyName { get; }
-
-        /// <summary>
-        /// Index of the removed block.
-        /// </summary>
-        int BlockIndex { get; }
-
-        /// <summary>
-        /// Block state removed.
-        /// </summary>
-        IWriteableBlockState BlockState { get; }
-
-        /// <summary>
-        /// Update the operation with details.
-        /// </summary>
-        /// <param name="blockState">Block state removed.</param>
-        void Update(IWriteableBlockState blockState);
-    }
-
-    /// <summary>
-    /// Operation details for updating a view after block has been removed from a block list.
-    /// </summary>
-    internal class WriteableRemoveBlockViewOperation : WriteableRemoveOperation, IWriteableRemoveBlockViewOperation
+    public class WriteableRemoveBlockViewOperation : WriteableRemoveOperation
     {
         #region Init
         /// <summary>
@@ -51,7 +19,7 @@
         /// <param name="handlerRedo">Handler to execute to redo the operation.</param>
         /// <param name="handlerUndo">Handler to execute to undo the operation.</param>
         /// <param name="isNested">True if the operation is nested within another more general one.</param>
-        public WriteableRemoveBlockViewOperation(Node parentNode, string propertyName, int blockIndex, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        public WriteableRemoveBlockViewOperation(Node parentNode, string propertyName, int blockIndex, Action<WriteableOperation> handlerRedo, Action<WriteableOperation> handlerUndo, bool isNested)
             : base(handlerRedo, handlerUndo, isNested)
         {
             ParentNode = parentNode;

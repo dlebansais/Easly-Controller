@@ -11,7 +11,7 @@
         /// <summary>
         /// The controller view to which this object belongs.
         /// </summary>
-        new IWriteableControllerView ControllerView { get; }
+        new WriteableControllerView ControllerView { get; }
 
         /// <summary>
         /// The node state.
@@ -22,7 +22,7 @@
     /// <summary>
     /// View of a node state.
     /// </summary>
-    internal abstract class WriteableNodeStateView : ReadOnlyNodeStateView, IWriteableNodeStateView
+    public abstract class WriteableNodeStateView : ReadOnlyNodeStateView, IWriteableNodeStateView
     {
         #region Init
         /// <summary>
@@ -30,7 +30,7 @@
         /// </summary>
         /// <param name="controllerView">The controller view to which this object belongs.</param>
         /// <param name="state">The node state.</param>
-        public WriteableNodeStateView(IWriteableControllerView controllerView, IWriteableNodeState state)
+        public WriteableNodeStateView(WriteableControllerView controllerView, IWriteableNodeState state)
             : base(controllerView, state)
         {
         }
@@ -40,7 +40,7 @@
         /// <summary>
         /// The controller view to which this object belongs.
         /// </summary>
-        public new IWriteableControllerView ControllerView { get { return (IWriteableControllerView)base.ControllerView; } }
+        public new WriteableControllerView ControllerView { get { return (WriteableControllerView)base.ControllerView; } }
 
         /// <summary>
         /// The node state.

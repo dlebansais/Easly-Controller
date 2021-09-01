@@ -7,14 +7,7 @@
     /// <summary>
     /// Index for the root node of the node tree.
     /// </summary>
-    public interface IWriteableRootNodeIndex : IReadOnlyRootNodeIndex, IWriteableNodeIndex
-    {
-    }
-
-    /// <summary>
-    /// Index for the root node of the node tree.
-    /// </summary>
-    public class WriteableRootNodeIndex : ReadOnlyRootNodeIndex, IWriteableRootNodeIndex
+    public class WriteableRootNodeIndex : ReadOnlyRootNodeIndex, IWriteableNodeIndex
     {
         #region Init
         /// <summary>

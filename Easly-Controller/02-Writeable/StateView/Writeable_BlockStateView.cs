@@ -6,23 +6,7 @@
     /// <summary>
     /// View of a block state.
     /// </summary>
-    public interface IWriteableBlockStateView : IReadOnlyBlockStateView
-    {
-        /// <summary>
-        /// The controller view to which this object belongs.
-        /// </summary>
-        new IWriteableControllerView ControllerView { get; }
-
-        /// <summary>
-        /// The block state.
-        /// </summary>
-        new IWriteableBlockState BlockState { get; }
-    }
-
-    /// <summary>
-    /// View of a block state.
-    /// </summary>
-    internal class WriteableBlockStateView : ReadOnlyBlockStateView, IWriteableBlockStateView
+    internal class WriteableBlockStateView : ReadOnlyBlockStateView
     {
         #region Init
         /// <summary>
@@ -30,7 +14,7 @@
         /// </summary>
         /// <param name="controllerView">The controller view to which this object belongs.</param>
         /// <param name="blockState">The block state.</param>
-        public WriteableBlockStateView(IWriteableControllerView controllerView, IWriteableBlockState blockState)
+        public WriteableBlockStateView(WriteableControllerView controllerView, IWriteableBlockState blockState)
             : base(controllerView, blockState)
         {
         }
@@ -40,7 +24,7 @@
         /// <summary>
         /// The controller view to which this object belongs.
         /// </summary>
-        public new IWriteableControllerView ControllerView { get { return (IWriteableControllerView)base.ControllerView; } }
+        public new WriteableControllerView ControllerView { get { return (WriteableControllerView)base.ControllerView; } }
 
         /// <summary>
         /// The block state.

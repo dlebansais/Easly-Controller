@@ -16,7 +16,7 @@
         /// Replaces a node.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        void Replace(IWriteableReplaceOperation operation);
+        void Replace(WriteableReplaceOperation operation);
     }
 
     /// <summary>
@@ -35,7 +35,7 @@
         /// Replaces a node.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        void Replace(IWriteableReplaceOperation operation);
+        void Replace(WriteableReplaceOperation operation);
     }
 
     /// <summary>
@@ -69,7 +69,7 @@
         /// Replaces a node.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        public abstract void Replace(IWriteableReplaceOperation operation);
+        public abstract void Replace(WriteableReplaceOperation operation);
         #endregion
     }
 }

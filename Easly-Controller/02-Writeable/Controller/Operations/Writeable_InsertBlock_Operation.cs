@@ -7,66 +7,7 @@
     /// <summary>
     /// Operation details for inserting a block with a single node in a block list.
     /// </summary>
-    public interface IWriteableInsertBlockOperation : IWriteableInsertOperation
-    {
-        /// <summary>
-        /// Node where the block insertion is taking place.
-        /// </summary>
-        Node ParentNode { get; }
-
-        /// <summary>
-        /// Block list property of <see cref="ParentNode"/> where a block is inserted.
-        /// </summary>
-        string PropertyName { get; }
-
-        /// <summary>
-        /// Index of the inserted block.
-        /// </summary>
-        int BlockIndex { get; }
-
-        /// <summary>
-        /// The inserted block.
-        /// </summary>
-        IBlock Block { get; }
-
-        /// <summary>
-        /// The inserted node.
-        /// </summary>
-        Node Node { get; }
-
-        /// <summary>
-        /// Index of the state after it's inserted.
-        /// </summary>
-        IWriteableBrowsingExistingBlockNodeIndex BrowsingIndex { get; }
-
-        /// <summary>
-        /// Block state inserted.
-        /// </summary>
-        IWriteableBlockState BlockState { get; }
-
-        /// <summary>
-        /// State inserted.
-        /// </summary>
-        IWriteablePlaceholderNodeState ChildState { get; }
-
-        /// <summary>
-        /// Update the operation with details.
-        /// </summary>
-        /// <param name="browsingIndex">Index of the state after it's inserted.</param>
-        /// <param name="blockState">Block state inserted.</param>
-        /// <param name="childState">State inserted.</param>
-        void Update(IWriteableBrowsingExistingBlockNodeIndex browsingIndex, IWriteableBlockState blockState, IWriteablePlaceholderNodeState childState);
-
-        /// <summary>
-        /// Creates an operation to undo the insert block operation.
-        /// </summary>
-        IWriteableRemoveBlockOperation ToRemoveBlockOperation();
-    }
-
-    /// <summary>
-    /// Operation details for inserting a block with a single node in a block list.
-    /// </summary>
-    internal class WriteableInsertBlockOperation : WriteableInsertOperation, IWriteableInsertBlockOperation
+    public class WriteableInsertBlockOperation : WriteableInsertOperation
     {
         #region Init
         /// <summary>
@@ -80,7 +21,7 @@
         /// <param name="handlerRedo">Handler to execute to redo the operation.</param>
         /// <param name="handlerUndo">Handler to execute to undo the operation.</param>
         /// <param name="isNested">True if the operation is nested within another more general one.</param>
-        public WriteableInsertBlockOperation(Node parentNode, string propertyName, int blockIndex, IBlock block, Node node, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        public WriteableInsertBlockOperation(Node parentNode, string propertyName, int blockIndex, IBlock block, Node node, Action<WriteableOperation> handlerRedo, Action<WriteableOperation> handlerUndo, bool isNested)
             : base(handlerRedo, handlerUndo, isNested)
         {
             ParentNode = parentNode;
@@ -120,7 +61,7 @@
         /// <summary>
         /// Index of the state after it's inserted.
         /// </summary>
-        public IWriteableBrowsingExistingBlockNodeIndex BrowsingIndex { get; private set; }
+        public WriteableBrowsingExistingBlockNodeIndex BrowsingIndex { get; private set; }
 
         /// <summary>
         /// Block state inserted.
@@ -140,7 +81,7 @@
         /// <param name="browsingIndex">Index of the state after it's inserted.</param>
         /// <param name="blockState">Block state inserted.</param>
         /// <param name="childState">State inserted.</param>
-        public virtual void Update(IWriteableBrowsingExistingBlockNodeIndex browsingIndex, IWriteableBlockState blockState, IWriteablePlaceholderNodeState childState)
+        public virtual void Update(WriteableBrowsingExistingBlockNodeIndex browsingIndex, IWriteableBlockState blockState, IWriteablePlaceholderNodeState childState)
         {
             Debug.Assert(browsingIndex != null);
             Debug.Assert(blockState != null);
@@ -154,7 +95,7 @@
         /// <summary>
         /// Creates an operation to undo the insert block operation.
         /// </summary>
-        public virtual IWriteableRemoveBlockOperation ToRemoveBlockOperation()
+        public virtual WriteableRemoveBlockOperation ToRemoveBlockOperation()
         {
             return CreateRemoveBlockOperation(BlockIndex, HandlerUndo, HandlerRedo, IsNested);
         }
@@ -164,7 +105,7 @@
         /// <summary>
         /// Creates a IxxxRemoveBlockOperation object.
         /// </summary>
-        private protected virtual IWriteableRemoveBlockOperation CreateRemoveBlockOperation(int blockIndex, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        private protected virtual WriteableRemoveBlockOperation CreateRemoveBlockOperation(int blockIndex, Action<WriteableOperation> handlerRedo, Action<WriteableOperation> handlerUndo, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableInsertBlockOperation));
             return new WriteableRemoveBlockOperation(ParentNode, PropertyName, blockIndex, handlerRedo, handlerUndo, isNested);

@@ -17,7 +17,7 @@
         /// <summary>
         /// Index that was used to create the pattern state for this block.
         /// </summary>
-        new IWriteableBrowsingPatternIndex PatternIndex { get; }
+        new WriteableBrowsingPatternIndex PatternIndex { get; }
 
         /// <summary>
         /// The pattern state for this block.
@@ -27,7 +27,7 @@
         /// <summary>
         /// Index that was used to create the source state for this block.
         /// </summary>
-        new IWriteableBrowsingSourceIndex SourceIndex { get; }
+        new WriteableBrowsingSourceIndex SourceIndex { get; }
 
         /// <summary>
         /// The source state for this block.
@@ -37,7 +37,7 @@
         /// <summary>
         /// States for nodes in the block.
         /// </summary>
-        new IWriteablePlaceholderNodeStateReadOnlyList StateList { get; }
+        new WriteablePlaceholderNodeStateReadOnlyList StateList { get; }
 
         /// <summary>
         /// Inserts a new node in a block.
@@ -86,7 +86,7 @@
         /// <param name="parentInner">Inner containing the block state.</param>
         /// <param name="newBlockIndex">Index that was used to create the block state.</param>
         /// <param name="childBlock">The block.</param>
-        public WriteableBlockState(IWriteableBlockListInner parentInner, IWriteableBrowsingNewBlockNodeIndex newBlockIndex, IBlock childBlock)
+        public WriteableBlockState(IWriteableBlockListInner parentInner, WriteableBrowsingNewBlockNodeIndex newBlockIndex, IBlock childBlock)
             : base(parentInner, newBlockIndex, childBlock)
         {
         }
@@ -101,7 +101,7 @@
         /// <summary>
         /// Index that was used to create the pattern state for this block.
         /// </summary>
-        public new IWriteableBrowsingPatternIndex PatternIndex { get { return (IWriteableBrowsingPatternIndex)base.PatternIndex; } }
+        public new WriteableBrowsingPatternIndex PatternIndex { get { return (WriteableBrowsingPatternIndex)base.PatternIndex; } }
 
         /// <summary>
         /// The pattern state for this block.
@@ -111,7 +111,7 @@
         /// <summary>
         /// Index that was used to create the source state for this block.
         /// </summary>
-        public new IWriteableBrowsingSourceIndex SourceIndex { get { return (IWriteableBrowsingSourceIndex)base.SourceIndex; } }
+        public new WriteableBrowsingSourceIndex SourceIndex { get { return (WriteableBrowsingSourceIndex)base.SourceIndex; } }
 
         /// <summary>
         /// The source state for this block.
@@ -121,7 +121,7 @@
         /// <summary>
         /// States for nodes in the block.
         /// </summary>
-        public new IWriteablePlaceholderNodeStateReadOnlyList StateList { get { return (IWriteablePlaceholderNodeStateReadOnlyList)base.StateList; } }
+        public new WriteablePlaceholderNodeStateReadOnlyList StateList { get { return (WriteablePlaceholderNodeStateReadOnlyList)base.StateList; } }
         #endregion
 
         #region Client Interface
@@ -172,7 +172,7 @@
         /// <summary>
         /// Creates a IxxxPlaceholderNodeStateList object.
         /// </summary>
-        private protected override IReadOnlyPlaceholderNodeStateList CreateStateList()
+        private protected override ReadOnlyPlaceholderNodeStateList CreateStateList()
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableBlockState<IInner>));
             return new WriteablePlaceholderNodeStateList();
@@ -181,7 +181,7 @@
         /// <summary>
         /// Creates a IxxxInnerDictionary{string} object.
         /// </summary>
-        private protected override IReadOnlyInnerDictionary<string> CreateInnerTable()
+        private protected override ReadOnlyInnerDictionary<string> CreateInnerTable()
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableBlockState<IInner>));
             return new WriteableInnerDictionary<string>();
@@ -190,25 +190,25 @@
         /// <summary>
         /// Creates a IxxxPlaceholderInner{IxxxBrowsingPlaceholderNodeIndex} object.
         /// </summary>
-        private protected override IReadOnlyPlaceholderInner<IReadOnlyBrowsingPlaceholderNodeIndex> CreatePatternInner(IReadOnlyNodeState owner)
+        private protected override IReadOnlyPlaceholderInner<ReadOnlyBrowsingPlaceholderNodeIndex> CreatePatternInner(IReadOnlyNodeState owner)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableBlockState<IInner>));
-            return new WriteablePlaceholderInner<IWriteableBrowsingPlaceholderNodeIndex, WriteableBrowsingPlaceholderNodeIndex>((IWriteableNodeState)owner, nameof(IBlock.ReplicationPattern));
+            return new WriteablePlaceholderInner<WriteableBrowsingPlaceholderNodeIndex>((IWriteableNodeState)owner, nameof(IBlock.ReplicationPattern));
         }
 
         /// <summary>
         /// Creates a IxxxPlaceholderInner{IxxxBrowsingPlaceholderNodeIndex} object.
         /// </summary>
-        private protected override IReadOnlyPlaceholderInner<IReadOnlyBrowsingPlaceholderNodeIndex> CreateSourceInner(IReadOnlyNodeState owner)
+        private protected override IReadOnlyPlaceholderInner<ReadOnlyBrowsingPlaceholderNodeIndex> CreateSourceInner(IReadOnlyNodeState owner)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableBlockState<IInner>));
-            return new WriteablePlaceholderInner<IWriteableBrowsingPlaceholderNodeIndex, WriteableBrowsingPlaceholderNodeIndex>((IWriteableNodeState)owner, nameof(IBlock.SourceIdentifier));
+            return new WriteablePlaceholderInner<WriteableBrowsingPlaceholderNodeIndex>((IWriteableNodeState)owner, nameof(IBlock.SourceIdentifier));
         }
 
         /// <summary>
         /// Creates a IxxxBrowsingPatternIndex object.
         /// </summary>
-        private protected override IReadOnlyBrowsingPatternIndex CreateExistingPatternIndex()
+        private protected override ReadOnlyBrowsingPatternIndex CreateExistingPatternIndex()
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableBlockState<IInner>));
             return new WriteableBrowsingPatternIndex(ChildBlock);
@@ -217,7 +217,7 @@
         /// <summary>
         /// Creates a IxxxBrowsingSourceIndex object.
         /// </summary>
-        private protected override IReadOnlyBrowsingSourceIndex CreateExistingSourceIndex()
+        private protected override ReadOnlyBrowsingSourceIndex CreateExistingSourceIndex()
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableBlockState<IInner>));
             return new WriteableBrowsingSourceIndex(ChildBlock);
@@ -226,19 +226,19 @@
         /// <summary>
         /// Creates a IxxxPatternState object.
         /// </summary>
-        private protected override IReadOnlyPatternState CreatePatternState(IReadOnlyBrowsingPatternIndex patternIndex)
+        private protected override IReadOnlyPatternState CreatePatternState(ReadOnlyBrowsingPatternIndex patternIndex)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableBlockState<IInner>));
-            return new WriteablePatternState<IInner>(this, (IWriteableBrowsingPatternIndex)patternIndex);
+            return new WriteablePatternState<IInner>(this, (WriteableBrowsingPatternIndex)patternIndex);
         }
 
         /// <summary>
         /// Creates a IxxxSourceState object.
         /// </summary>
-        private protected override IReadOnlySourceState CreateSourceState(IReadOnlyBrowsingSourceIndex sourceIndex)
+        private protected override IReadOnlySourceState CreateSourceState(ReadOnlyBrowsingSourceIndex sourceIndex)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableBlockState<IInner>));
-            return new WriteableSourceState<IInner>(this, (IWriteableBrowsingSourceIndex)sourceIndex);
+            return new WriteableSourceState<IInner>(this, (WriteableBrowsingSourceIndex)sourceIndex);
         }
         #endregion
     }

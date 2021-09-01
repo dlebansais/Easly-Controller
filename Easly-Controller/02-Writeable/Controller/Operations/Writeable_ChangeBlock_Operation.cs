@@ -7,49 +7,7 @@
     /// <summary>
     /// Operation details for changing a block.
     /// </summary>
-    public interface IWriteableChangeBlockOperation : IWriteableOperation
-    {
-        /// <summary>
-        /// Node where the block change is taking place.
-        /// </summary>
-        Node ParentNode { get; }
-
-        /// <summary>
-        /// Block list property of <see cref="ParentNode"/> for which a block is changed.
-        /// </summary>
-        string PropertyName { get; }
-
-        /// <summary>
-        /// Index of the changed block.
-        /// </summary>
-        int BlockIndex { get; }
-
-        /// <summary>
-        /// New replication value.
-        /// </summary>
-        ReplicationStatus Replication { get; }
-
-        /// <summary>
-        /// Block state changed.
-        /// </summary>
-        IWriteableBlockState BlockState { get; }
-
-        /// <summary>
-        /// Update the operation with details.
-        /// </summary>
-        /// <param name="blockState">Block state changed.</param>
-        void Update(IWriteableBlockState blockState);
-
-        /// <summary>
-        /// Creates an operation to undo the change replication operation.
-        /// </summary>
-        IWriteableChangeBlockOperation ToInverseChange();
-    }
-
-    /// <summary>
-    /// Operation details for changing a block.
-    /// </summary>
-    internal class WriteableChangeBlockOperation : WriteableOperation, IWriteableChangeBlockOperation
+    public class WriteableChangeBlockOperation : WriteableOperation
     {
         #region Init
         /// <summary>
@@ -62,7 +20,7 @@
         /// <param name="handlerRedo">Handler to execute to redo the operation.</param>
         /// <param name="handlerUndo">Handler to execute to undo the operation.</param>
         /// <param name="isNested">True if the operation is nested within another more general one.</param>
-        public WriteableChangeBlockOperation(Node parentNode, string propertyName, int blockIndex, ReplicationStatus replication, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        public WriteableChangeBlockOperation(Node parentNode, string propertyName, int blockIndex, ReplicationStatus replication, Action<WriteableOperation> handlerRedo, Action<WriteableOperation> handlerUndo, bool isNested)
             : base(handlerRedo, handlerUndo, isNested)
         {
             ParentNode = parentNode;
@@ -114,7 +72,7 @@
         /// <summary>
         /// Creates an operation to undo the change replication operation.
         /// </summary>
-        public virtual IWriteableChangeBlockOperation ToInverseChange()
+        public virtual WriteableChangeBlockOperation ToInverseChange()
         {
             return CreateChangeBlockOperation(Replication == ReplicationStatus.Normal ? ReplicationStatus.Replicated : ReplicationStatus.Normal, HandlerUndo, HandlerRedo, IsNested);
         }
@@ -124,7 +82,7 @@
         /// <summary>
         /// Creates a IxxxChangeBlockOperation object.
         /// </summary>
-        private protected virtual IWriteableChangeBlockOperation CreateChangeBlockOperation(ReplicationStatus replication, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        private protected virtual WriteableChangeBlockOperation CreateChangeBlockOperation(ReplicationStatus replication, Action<WriteableOperation> handlerRedo, Action<WriteableOperation> handlerUndo, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableChangeBlockOperation));
             return new WriteableChangeBlockOperation(ParentNode, PropertyName, BlockIndex, replication, handlerRedo, handlerUndo, isNested);

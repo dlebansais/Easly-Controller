@@ -6,18 +6,7 @@
     /// <summary>
     /// View of a child node.
     /// </summary>
-    public interface IWriteablePlaceholderNodeStateView : IReadOnlyPlaceholderNodeStateView, IWriteableNodeStateView
-    {
-        /// <summary>
-        /// The child node.
-        /// </summary>
-        new IWriteablePlaceholderNodeState State { get; }
-    }
-
-    /// <summary>
-    /// View of a child node.
-    /// </summary>
-    internal class WriteablePlaceholderNodeStateView : ReadOnlyPlaceholderNodeStateView, IWriteablePlaceholderNodeStateView
+    internal class WriteablePlaceholderNodeStateView : ReadOnlyPlaceholderNodeStateView, IWriteableNodeStateView
     {
         #region Init
         /// <summary>
@@ -25,7 +14,7 @@
         /// </summary>
         /// <param name="controllerView">The controller view to which this object belongs.</param>
         /// <param name="state">The child node state.</param>
-        public WriteablePlaceholderNodeStateView(IWriteableControllerView controllerView, IWriteablePlaceholderNodeState state)
+        public WriteablePlaceholderNodeStateView(WriteableControllerView controllerView, IWriteablePlaceholderNodeState state)
             : base(controllerView, state)
         {
         }
@@ -35,7 +24,7 @@
         /// <summary>
         /// The controller view to which this object belongs.
         /// </summary>
-        public new IWriteableControllerView ControllerView { get { return (IWriteableControllerView)base.ControllerView; } }
+        public new WriteableControllerView ControllerView { get { return (WriteableControllerView)base.ControllerView; } }
 
         /// <summary>
         /// The child node.

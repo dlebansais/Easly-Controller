@@ -19,21 +19,21 @@
         /// Assign the optional node.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        void Assign(IWriteableAssignmentOperation operation);
+        void Assign(WriteableAssignmentOperation operation);
 
         /// <summary>
         /// Unassign the optional node.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        void Unassign(IWriteableAssignmentOperation operation);
+        void Unassign(WriteableAssignmentOperation operation);
     }
 
     /// <summary>
     /// Inner for an optional node.
     /// </summary>
-    /// <typeparam name="IIndex">Type of the index.</typeparam>
-    internal interface IWriteableOptionalInner<out IIndex> : IReadOnlyOptionalInner<IIndex>, IWriteableSingleInner<IIndex>
-        where IIndex : IWriteableBrowsingOptionalNodeIndex
+    /// <typeparam name="TIndex">Type of the index.</typeparam>
+    internal interface IWriteableOptionalInner<out TIndex> : IReadOnlyOptionalInner<TIndex>, IWriteableSingleInner<TIndex>
+        where TIndex : WriteableBrowsingOptionalNodeIndex
     {
         /// <summary>
         /// The state of the optional node.
@@ -44,27 +44,25 @@
         /// Assign the optional node.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        void Assign(IWriteableAssignmentOperation operation);
+        void Assign(WriteableAssignmentOperation operation);
 
         /// <summary>
         /// Unassign the optional node.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        void Unassign(IWriteableAssignmentOperation operation);
+        void Unassign(WriteableAssignmentOperation operation);
     }
 
     /// <summary>
     /// Inner for an optional node.
     /// </summary>
-    /// <typeparam name="IIndex">Type of the index as interface.</typeparam>
     /// <typeparam name="TIndex">Type of the index as class.</typeparam>
-    internal class WriteableOptionalInner<IIndex, TIndex> : ReadOnlyOptionalInner<IIndex, TIndex>, IWriteableOptionalInner<IIndex>, IWriteableOptionalInner
-        where IIndex : IWriteableBrowsingOptionalNodeIndex
-        where TIndex : WriteableBrowsingOptionalNodeIndex, IIndex
+    internal class WriteableOptionalInner<TIndex> : ReadOnlyOptionalInner<TIndex>, IWriteableOptionalInner<TIndex>, IWriteableOptionalInner
+        where TIndex : WriteableBrowsingOptionalNodeIndex
     {
         #region Init
         /// <summary>
-        /// Initializes a new instance of the <see cref="WriteableOptionalInner{IIndex, TIndex}"/> class.
+        /// Initializes a new instance of the <see cref="WriteableOptionalInner{TIndex}"/> class.
         /// </summary>
         /// <param name="owner">Parent containing the inner.</param>
         /// <param name="propertyName">Property name of the inner in <paramref name="owner"/>.</param>
@@ -91,7 +89,7 @@
         /// Replaces a node.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        public virtual void Replace(IWriteableReplaceOperation operation)
+        public virtual void Replace(WriteableReplaceOperation operation)
         {
             Debug.Assert(operation != null);
 
@@ -101,7 +99,7 @@
                 ClearOptional(operation);
         }
 
-        private protected virtual void ReplaceOptional(IWriteableReplaceOperation operation)
+        private protected virtual void ReplaceOptional(WriteableReplaceOperation operation)
         {
             Node ParentNode = Owner.Node;
 
@@ -110,14 +108,14 @@
 
             NodeTreeHelperOptional.SetOptionalChildNode(ParentNode, PropertyName, operation.NewNode);
 
-            IWriteableBrowsingOptionalNodeIndex NewBrowsingIndex = CreateBrowsingNodeIndex();
+            WriteableBrowsingOptionalNodeIndex NewBrowsingIndex = CreateBrowsingNodeIndex();
             IWriteableOptionalNodeState NewChildState = (IWriteableOptionalNodeState)CreateNodeState(NewBrowsingIndex);
             SetChildState(NewChildState);
 
             operation.Update(OldBrowsingIndex, NewBrowsingIndex, OldNode, NewChildState);
         }
 
-        private protected virtual void ClearOptional(IWriteableReplaceOperation operation)
+        private protected virtual void ClearOptional(WriteableReplaceOperation operation)
         {
             Node ParentNode = Owner.Node;
 
@@ -126,7 +124,7 @@
 
             NodeTreeHelperOptional.ClearOptionalChildNode(ParentNode, PropertyName);
 
-            IWriteableBrowsingOptionalNodeIndex NewBrowsingIndex = CreateBrowsingNodeIndex();
+            WriteableBrowsingOptionalNodeIndex NewBrowsingIndex = CreateBrowsingNodeIndex();
             IWriteableOptionalNodeState NewChildState = (IWriteableOptionalNodeState)CreateNodeState(NewBrowsingIndex);
             SetChildState(NewChildState);
 
@@ -137,7 +135,7 @@
         /// Assign the optional node.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        public void Assign(IWriteableAssignmentOperation operation)
+        public void Assign(WriteableAssignmentOperation operation)
         {
             NodeTreeHelperOptional.AssignChildNode(Owner.Node, PropertyName);
 
@@ -148,7 +146,7 @@
         /// Unassign the optional node.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        public void Unassign(IWriteableAssignmentOperation operation)
+        public void Unassign(WriteableAssignmentOperation operation)
         {
             NodeTreeHelperOptional.UnassignChildNode(Owner.Node, PropertyName);
 
@@ -160,18 +158,18 @@
         /// <summary>
         /// Creates a IxxxOptionalNodeState object.
         /// </summary>
-        private protected override IReadOnlyOptionalNodeState CreateNodeState(IReadOnlyBrowsingOptionalNodeIndex nodeIndex)
+        private protected override IReadOnlyOptionalNodeState CreateNodeState(ReadOnlyBrowsingOptionalNodeIndex nodeIndex)
         {
-            ControllerTools.AssertNoOverride(this, typeof(WriteableOptionalInner<IIndex, TIndex>));
-            return new WriteableOptionalNodeState<IWriteableInner<IWriteableBrowsingChildIndex>>((IWriteableBrowsingOptionalNodeIndex)nodeIndex);
+            ControllerTools.AssertNoOverride(this, typeof(WriteableOptionalInner<TIndex>));
+            return new WriteableOptionalNodeState<IWriteableInner<IWriteableBrowsingChildIndex>>((WriteableBrowsingOptionalNodeIndex)nodeIndex);
         }
 
         /// <summary>
         /// Creates a IxxxBrowsingOptionalNodeIndex object.
         /// </summary>
-        private protected virtual IWriteableBrowsingOptionalNodeIndex CreateBrowsingNodeIndex()
+        private protected virtual WriteableBrowsingOptionalNodeIndex CreateBrowsingNodeIndex()
         {
-            ControllerTools.AssertNoOverride(this, typeof(WriteableOptionalInner<IIndex, TIndex>));
+            ControllerTools.AssertNoOverride(this, typeof(WriteableOptionalInner<TIndex>));
             return new WriteableBrowsingOptionalNodeIndex(Owner.Node, PropertyName);
         }
         #endregion

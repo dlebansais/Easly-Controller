@@ -8,14 +8,7 @@
     /// <summary>
     /// Base for list and block list insertion index classes.
     /// </summary>
-    public interface IWriteableInsertionCollectionNodeIndex : IWriteableInsertionChildNodeIndex, IWriteableNodeIndex
-    {
-    }
-
-    /// <summary>
-    /// Base for list and block list insertion index classes.
-    /// </summary>
-    public abstract class WriteableInsertionCollectionNodeIndex : IWriteableInsertionCollectionNodeIndex
+    public abstract class WriteableInsertionCollectionNodeIndex : IWriteableInsertionChildNodeIndex, IWriteableNodeIndex
     {
         #region Init
         /// <summary>

@@ -19,8 +19,21 @@
     /// <summary>
     /// Inner for a child node.
     /// </summary>
+    /// <typeparam name="TIndex">Type of the index.</typeparam>
+    internal interface IReadOnlyPlaceholderInner<out TIndex> : IReadOnlySingleInner<TIndex>
+        where TIndex : ReadOnlyBrowsingPlaceholderNodeIndex
+    {
+        /// <summary>
+        /// The state of the node.
+        /// </summary>
+        IReadOnlyPlaceholderNodeState ChildState { get; }
+    }
+
+    /// <summary>
+    /// Inner for a child node.
+    /// </summary>
     /// <typeparam name="TIndex">Type of the index as class.</typeparam>
-    internal class ReadOnlyPlaceholderInner<TIndex> : ReadOnlySingleInner<TIndex>, IReadOnlyPlaceholderInner, IReadOnlySingleInner
+    internal class ReadOnlyPlaceholderInner<TIndex> : ReadOnlySingleInner<TIndex>, IReadOnlyPlaceholderInner<TIndex>, IReadOnlyPlaceholderInner, IReadOnlySingleInner
         where TIndex : ReadOnlyBrowsingPlaceholderNodeIndex
     {
         #region Init
@@ -100,7 +113,7 @@
         /// <param name="callbackSet">The set of callbacks to call when enumerating existing states.</param>
         public override void Attach(ReadOnlyControllerView view, ReadOnlyAttachCallbackSet callbackSet)
         {
-            ((ReadOnlyNodeState<ReadOnlyInner<IReadOnlyBrowsingChildIndex>>)ChildState).Attach(view, callbackSet);
+            ((ReadOnlyNodeState<IReadOnlyInner<IReadOnlyBrowsingChildIndex>>)ChildState).Attach(view, callbackSet);
         }
 
         /// <summary>
@@ -110,7 +123,7 @@
         /// <param name="callbackSet">The set of callbacks to no longer call when enumerating existing states.</param>
         public override void Detach(ReadOnlyControllerView view, ReadOnlyAttachCallbackSet callbackSet)
         {
-            ((ReadOnlyNodeState<ReadOnlyInner<IReadOnlyBrowsingChildIndex>>)ChildState).Detach(view, callbackSet);
+            ((ReadOnlyNodeState<IReadOnlyInner<IReadOnlyBrowsingChildIndex>>)ChildState).Detach(view, callbackSet);
         }
         #endregion
 
@@ -130,7 +143,7 @@
         private protected virtual IReadOnlyPlaceholderNodeState CreateNodeState(ReadOnlyBrowsingPlaceholderNodeIndex nodeIndex)
         {
             ControllerTools.AssertNoOverride(this, typeof(ReadOnlyPlaceholderInner<TIndex>));
-            return new ReadOnlyPlaceholderNodeState<ReadOnlyInner<IReadOnlyBrowsingChildIndex>>(nodeIndex);
+            return new ReadOnlyPlaceholderNodeState<IReadOnlyInner<IReadOnlyBrowsingChildIndex>>(nodeIndex);
         }
         #endregion
     }

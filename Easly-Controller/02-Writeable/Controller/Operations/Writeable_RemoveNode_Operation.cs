@@ -7,54 +7,7 @@
     /// <summary>
     /// Operation details for removing a node in a list or block list.
     /// </summary>
-    public interface IWriteableRemoveNodeOperation : IWriteableRemoveOperation
-    {
-        /// <summary>
-        /// Node where the removal is taking place.
-        /// </summary>
-        Node ParentNode { get; }
-
-        /// <summary>
-        /// Property of <see cref="ParentNode"/> where a node is removed.
-        /// </summary>
-        string PropertyName { get; }
-
-        /// <summary>
-        /// Block position where the node is removed, if applicable.
-        /// </summary>
-        int BlockIndex { get; }
-
-        /// <summary>
-        /// Position of the removed node.
-        /// </summary>
-        int Index { get; }
-
-        /// <summary>
-        /// The removed state.
-        /// </summary>
-        IWriteablePlaceholderNodeState RemovedState { get; }
-
-        /// <summary>
-        /// The removed node.
-        /// </summary>
-        Node RemovedNode { get; }
-
-        /// <summary>
-        /// Update the operation with details.
-        /// </summary>
-        /// <param name="childState">State removed.</param>
-        void Update(IWriteablePlaceholderNodeState childState);
-
-        /// <summary>
-        /// Creates an operation to undo the remove operation.
-        /// </summary>
-        IWriteableInsertNodeOperation ToInsertNodeOperation();
-    }
-
-    /// <summary>
-    /// Operation details for removing a node in a list or block list.
-    /// </summary>
-    internal class WriteableRemoveNodeOperation : WriteableRemoveOperation, IWriteableRemoveNodeOperation
+    public class WriteableRemoveNodeOperation : WriteableRemoveOperation
     {
         #region Init
         /// <summary>
@@ -67,7 +20,7 @@
         /// <param name="handlerRedo">Handler to execute to redo the operation.</param>
         /// <param name="handlerUndo">Handler to execute to undo the operation.</param>
         /// <param name="isNested">True if the operation is nested within another more general one.</param>
-        public WriteableRemoveNodeOperation(Node parentNode, string propertyName, int blockIndex, int index, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        public WriteableRemoveNodeOperation(Node parentNode, string propertyName, int blockIndex, int index, Action<WriteableOperation> handlerRedo, Action<WriteableOperation> handlerUndo, bool isNested)
             : base(handlerRedo, handlerUndo, isNested)
         {
             ParentNode = parentNode;
@@ -125,7 +78,7 @@
         /// <summary>
         /// Creates an operation to undo the remove operation.
         /// </summary>
-        public virtual IWriteableInsertNodeOperation ToInsertNodeOperation()
+        public virtual WriteableInsertNodeOperation ToInsertNodeOperation()
         {
             return CreateInsertNodeOperation(BlockIndex, Index, RemovedNode, HandlerUndo, HandlerRedo, IsNested);
         }
@@ -135,7 +88,7 @@
         /// <summary>
         /// Creates a IxxxInsertNodeOperation object.
         /// </summary>
-        private protected virtual IWriteableInsertNodeOperation CreateInsertNodeOperation(int blockIndex, int index, Node node, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        private protected virtual WriteableInsertNodeOperation CreateInsertNodeOperation(int blockIndex, int index, Node node, Action<WriteableOperation> handlerRedo, Action<WriteableOperation> handlerUndo, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableRemoveNodeOperation));
             return new WriteableInsertNodeOperation(ParentNode, PropertyName, blockIndex, index, node, handlerRedo, handlerUndo, isNested);

@@ -8,14 +8,7 @@
     /// <summary>
     /// Index for replacing a child a node.
     /// </summary>
-    public interface IWriteableInsertionPlaceholderNodeIndex : IWriteableInsertionChildNodeIndex, IWriteableNodeIndex, IEqualComparable
-    {
-    }
-
-    /// <summary>
-    /// Index for replacing a child a node.
-    /// </summary>
-    public class WriteableInsertionPlaceholderNodeIndex : IWriteableInsertionPlaceholderNodeIndex
+    public class WriteableInsertionPlaceholderNodeIndex : IWriteableInsertionChildNodeIndex, IWriteableNodeIndex, IEqualComparable
     {
         #region Init
         /// <summary>
@@ -95,7 +88,7 @@
         /// <summary>
         /// Creates a IxxxBrowsingPlaceholderNodeIndex object.
         /// </summary>
-        private protected virtual IWriteableBrowsingPlaceholderNodeIndex CreateBrowsingIndex()
+        private protected virtual WriteableBrowsingPlaceholderNodeIndex CreateBrowsingIndex()
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableInsertionPlaceholderNodeIndex));
             return new WriteableBrowsingPlaceholderNodeIndex(ParentNode, Node, PropertyName);

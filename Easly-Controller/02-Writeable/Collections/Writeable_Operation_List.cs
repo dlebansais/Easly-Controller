@@ -8,19 +8,9 @@ namespace EaslyController.Writeable
     /// <summary>
     /// List of IxxxOperation
     /// </summary>
-    public interface IWriteableOperationList : IList<IWriteableOperation>, IReadOnlyList<IWriteableOperation>
+    public class WriteableOperationList : List<WriteableOperation>
     {
-        new IWriteableOperation this[int index] { get; set; }
-        new int Count { get; }
-        IWriteableOperationReadOnlyList ToReadOnly();
-    }
-
-    /// <summary>
-    /// List of IxxxOperation
-    /// </summary>
-    internal class WriteableOperationList : Collection<IWriteableOperation>, IWriteableOperationList
-    {
-        public virtual IWriteableOperationReadOnlyList ToReadOnly()
+        public virtual WriteableOperationReadOnlyList ToReadOnly()
         {
             return new WriteableOperationReadOnlyList(this);
         }

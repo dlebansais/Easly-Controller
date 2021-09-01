@@ -14,7 +14,7 @@
         /// <summary>
         /// States of blocks in the block list.
         /// </summary>
-        new IWriteableBlockStateReadOnlyList BlockStateList { get; }
+        new WriteableBlockStateReadOnlyList BlockStateList { get; }
 
         /// <summary>
         /// First node state that can be enumerated in the inner.
@@ -25,49 +25,49 @@
         /// Inserts a new block with one node in a block list.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        void InsertNewBlock(IWriteableInsertBlockOperation operation);
+        void InsertNewBlock(WriteableInsertBlockOperation operation);
 
         /// <summary>
         /// Removes a node from a block list. This method is allowed to remove the last node of a block.
         /// </summary>
         /// <param name="blockOperation">Details of the operation performed.</param>
-        void RemoveWithBlock(IWriteableRemoveBlockOperation blockOperation);
+        void RemoveWithBlock(WriteableRemoveBlockOperation blockOperation);
 
         /// <summary>
         /// Changes the replication state of a block.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        void ChangeReplication(IWriteableChangeBlockOperation operation);
+        void ChangeReplication(WriteableChangeBlockOperation operation);
 
         /// <summary>
         /// Checks whether a block can be split at the given index.
         /// </summary>
         /// <param name="nodeIndex">Index of the last node to stay in the old block.</param>
-        bool IsSplittable(IWriteableBrowsingExistingBlockNodeIndex nodeIndex);
+        bool IsSplittable(WriteableBrowsingExistingBlockNodeIndex nodeIndex);
 
         /// <summary>
         /// Splits a block in two at the given index.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        void SplitBlock(IWriteableSplitBlockOperation operation);
+        void SplitBlock(WriteableSplitBlockOperation operation);
 
         /// <summary>
         /// Checks whether a block can be merged at the given index.
         /// </summary>
         /// <param name="nodeIndex">Index of the first node in the block to merge.</param>
-        bool IsMergeable(IWriteableBrowsingExistingBlockNodeIndex nodeIndex);
+        bool IsMergeable(WriteableBrowsingExistingBlockNodeIndex nodeIndex);
 
         /// <summary>
         /// Merges two blocks at the given index.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        void MergeBlocks(IWriteableMergeBlocksOperation operation);
+        void MergeBlocks(WriteableMergeBlocksOperation operation);
 
         /// <summary>
         /// Moves a block around in a block list.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        void MoveBlock(IWriteableMoveBlockOperation operation);
+        void MoveBlock(WriteableMoveBlockOperation operation);
     }
 
     /// <summary>
@@ -80,7 +80,7 @@
         /// <summary>
         /// States of blocks in the block list.
         /// </summary>
-        new IWriteableBlockStateReadOnlyList BlockStateList { get; }
+        new WriteableBlockStateReadOnlyList BlockStateList { get; }
 
         /// <summary>
         /// First node state that can be enumerated in the inner.
@@ -91,63 +91,61 @@
         /// Inserts a new block with one node in a block list.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        void InsertNewBlock(IWriteableInsertBlockOperation operation);
+        void InsertNewBlock(WriteableInsertBlockOperation operation);
 
         /// <summary>
         /// Removes a node from a block list. This method is allowed to remove the last node of a block.
         /// </summary>
         /// <param name="blockOperation">Details of the operation performed.</param>
-        void RemoveWithBlock(IWriteableRemoveBlockOperation blockOperation);
+        void RemoveWithBlock(WriteableRemoveBlockOperation blockOperation);
 
         /// <summary>
         /// Changes the replication state of a block.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        void ChangeReplication(IWriteableChangeBlockOperation operation);
+        void ChangeReplication(WriteableChangeBlockOperation operation);
 
         /// <summary>
         /// Checks whether a block can be split at the given index.
         /// </summary>
         /// <param name="nodeIndex">Index of the last node to stay in the old block.</param>
-        bool IsSplittable(IWriteableBrowsingExistingBlockNodeIndex nodeIndex);
+        bool IsSplittable(WriteableBrowsingExistingBlockNodeIndex nodeIndex);
 
         /// <summary>
         /// Splits a block in two at the given index.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        void SplitBlock(IWriteableSplitBlockOperation operation);
+        void SplitBlock(WriteableSplitBlockOperation operation);
 
         /// <summary>
         /// Checks whether a block can be merged at the given index.
         /// </summary>
         /// <param name="nodeIndex">Index of the first node in the block to merge.</param>
-        bool IsMergeable(IWriteableBrowsingExistingBlockNodeIndex nodeIndex);
+        bool IsMergeable(WriteableBrowsingExistingBlockNodeIndex nodeIndex);
 
         /// <summary>
         /// Merges two blocks at the given index.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        void MergeBlocks(IWriteableMergeBlocksOperation operation);
+        void MergeBlocks(WriteableMergeBlocksOperation operation);
 
         /// <summary>
         /// Moves a block around in a block list.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        void MoveBlock(IWriteableMoveBlockOperation operation);
+        void MoveBlock(WriteableMoveBlockOperation operation);
     }
 
     /// <summary>
     /// Inner for a block list.
     /// </summary>
-    /// <typeparam name="IIndex">Type of the index as interface.</typeparam>
-    /// <typeparam name="TIndex">Type of the index as class.</typeparam>
-    internal class WriteableBlockListInner<IIndex, TIndex> : ReadOnlyBlockListInner<IIndex, TIndex>, IWriteableBlockListInner<IIndex>, IWriteableBlockListInner
+    /// <typeparam name="IIndex">Type of the index as class.</typeparam>
+    internal class WriteableBlockListInner<IIndex> : ReadOnlyBlockListInner<IIndex>, IWriteableBlockListInner<IIndex>, IWriteableBlockListInner
         where IIndex : IWriteableBrowsingBlockNodeIndex
-        where TIndex : WriteableBrowsingBlockNodeIndex, IIndex
     {
         #region Init
         /// <summary>
-        /// Initializes a new instance of the <see cref="WriteableBlockListInner{IIndex, TIndex}"/> class.
+        /// Initializes a new instance of the <see cref="WriteableBlockListInner{IIndex}"/> class.
         /// </summary>
         /// <param name="owner">Parent containing the inner.</param>
         /// <param name="propertyName">Property name of the inner in <paramref name="owner"/>.</param>
@@ -166,7 +164,7 @@
         /// <summary>
         /// States of blocks in the block list.
         /// </summary>
-        public new IWriteableBlockStateReadOnlyList BlockStateList { get { return (IWriteableBlockStateReadOnlyList)base.BlockStateList; } }
+        public new WriteableBlockStateReadOnlyList BlockStateList { get { return (WriteableBlockStateReadOnlyList)base.BlockStateList; } }
 
         /// <summary>
         /// First node state that can be enumerated in the inner.
@@ -179,14 +177,14 @@
         /// Inserts a new node in a block list.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        public virtual void Insert(IWriteableInsertNodeOperation operation)
+        public virtual void Insert(WriteableInsertNodeOperation operation)
         {
             Debug.Assert(operation != null);
 
             int BlockIndex = operation.BlockIndex;
             Debug.Assert(BlockIndex >= 0 && BlockIndex < BlockStateList.Count);
 
-            IWriteableBlockState BlockState = BlockStateList[BlockIndex];
+            IWriteableBlockState BlockState = (IWriteableBlockState)BlockStateList[BlockIndex];
 
             int Index = operation.Index;
             Debug.Assert(Index >= 0 && Index <= BlockState.StateList.Count);
@@ -206,9 +204,9 @@
 
             while (++Index < BlockState.StateList.Count)
             {
-                IWriteablePlaceholderNodeState State = BlockState.StateList[Index];
+                IWriteablePlaceholderNodeState State = (IWriteablePlaceholderNodeState)BlockState.StateList[Index];
 
-                IWriteableBrowsingExistingBlockNodeIndex NodeIndex = State.ParentIndex as IWriteableBrowsingExistingBlockNodeIndex;
+                WriteableBrowsingExistingBlockNodeIndex NodeIndex = State.ParentIndex as WriteableBrowsingExistingBlockNodeIndex;
                 Debug.Assert(NodeIndex != null);
                 Debug.Assert(NodeIndex.BlockIndex == BrowsingBlockIndex.BlockIndex);
                 Debug.Assert(NodeIndex.Index == Index - 1);
@@ -221,7 +219,7 @@
         /// Inserts a new block with one node in a block list.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        public virtual void InsertNewBlock(IWriteableInsertBlockOperation operation)
+        public virtual void InsertNewBlock(WriteableInsertBlockOperation operation)
         {
             Debug.Assert(operation != null);
 
@@ -238,8 +236,8 @@
             NodeTreeHelperBlockList.InsertIntoBlockList(ParentNode, PropertyName, BlockIndex, NewBlock);
             NodeTreeHelperBlockList.InsertIntoBlock(NewBlock, 0, NewNode);
 
-            IWriteableBrowsingNewBlockNodeIndex BrowsingNewBlockIndex = CreateNewBlockNodeIndex(NewNode, BlockIndex);
-            IWriteableBrowsingExistingBlockNodeIndex BrowsingExistingBlockIndex = (IWriteableBrowsingExistingBlockNodeIndex)BrowsingNewBlockIndex.ToExistingBlockIndex();
+            WriteableBrowsingNewBlockNodeIndex BrowsingNewBlockIndex = CreateNewBlockNodeIndex(NewNode, BlockIndex);
+            WriteableBrowsingExistingBlockNodeIndex BrowsingExistingBlockIndex = (WriteableBrowsingExistingBlockNodeIndex)BrowsingNewBlockIndex.ToExistingBlockIndex();
 
             IWriteableBlockState BlockState = (IWriteableBlockState)CreateBlockState(BrowsingNewBlockIndex, NewBlock);
             InsertInBlockStateList(BlockIndex, BlockState);
@@ -251,11 +249,11 @@
 
             while (++BlockIndex < BlockStateList.Count)
             {
-                IWriteableBlockState NextBlockState = BlockStateList[BlockIndex];
+                IWriteableBlockState NextBlockState = (IWriteableBlockState)BlockStateList[BlockIndex];
 
                 foreach (IWriteablePlaceholderNodeState State in NextBlockState.StateList)
                 {
-                    IWriteableBrowsingExistingBlockNodeIndex NodeIndex = State.ParentIndex as IWriteableBrowsingExistingBlockNodeIndex;
+                    WriteableBrowsingExistingBlockNodeIndex NodeIndex = State.ParentIndex as WriteableBrowsingExistingBlockNodeIndex;
                     Debug.Assert(NodeIndex != null);
                     Debug.Assert(NodeIndex.BlockIndex == BlockIndex - 1);
 
@@ -268,7 +266,7 @@
         /// Removes a node from a block list. This method is not allowed to remove the last node of a block.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        public virtual void Remove(IWriteableRemoveNodeOperation operation)
+        public virtual void Remove(WriteableRemoveNodeOperation operation)
         {
             Debug.Assert(operation != null);
 
@@ -280,16 +278,16 @@
         /// Removes a node from a block list. This method is allowed to remove the last node of a block.
         /// </summary>
         /// <param name="blockOperation">Details of the operation performed.</param>
-        public virtual void RemoveWithBlock(IWriteableRemoveBlockOperation blockOperation)
+        public virtual void RemoveWithBlock(WriteableRemoveBlockOperation blockOperation)
         {
             Remove(blockOperation, null, blockOperation.BlockIndex, 0);
         }
 
-        private protected virtual void Remove(IWriteableRemoveBlockOperation blockOperation, IWriteableRemoveNodeOperation nodeOperation, int blockIndex, int index)
+        private protected virtual void Remove(WriteableRemoveBlockOperation blockOperation, WriteableRemoveNodeOperation nodeOperation, int blockIndex, int index)
         {
             Debug.Assert(blockIndex >= 0 && blockIndex < BlockStateList.Count);
 
-            IWriteableBlockState BlockState = BlockStateList[blockIndex];
+            IWriteableBlockState BlockState = (IWriteableBlockState)BlockStateList[blockIndex];
 
             Debug.Assert(index >= 0 && index < BlockState.StateList.Count);
 
@@ -297,10 +295,10 @@
             Node ParentNode = Owner.Node;
             int i;
 
-            IWriteablePlaceholderNodeState OldChildState = BlockState.StateList[index];
+            IWriteablePlaceholderNodeState OldChildState = (IWriteablePlaceholderNodeState)BlockState.StateList[index];
             Node RemovedNode = OldChildState.Node;
 
-            BlockState.Remove((IWriteableBrowsingBlockNodeIndex)OldChildState.ParentIndex, index);
+            BlockState.Remove((WriteableBrowsingBlockNodeIndex)OldChildState.ParentIndex, index);
 
             NodeTreeHelperBlockList.RemoveFromBlock(ParentNode, PropertyName, blockIndex, index, out bool IsBlockRemoved);
 
@@ -314,11 +312,11 @@
 
                 for (i = blockIndex; i < BlockStateList.Count; i++)
                 {
-                    IWriteableBlockState NextBlockState = BlockStateList[i];
+                    IWriteableBlockState NextBlockState = (IWriteableBlockState)BlockStateList[i];
 
                     foreach (IWriteablePlaceholderNodeState State in NextBlockState.StateList)
                     {
-                        IWriteableBrowsingExistingBlockNodeIndex NodeIndex = State.ParentIndex as IWriteableBrowsingExistingBlockNodeIndex;
+                        WriteableBrowsingExistingBlockNodeIndex NodeIndex = State.ParentIndex as WriteableBrowsingExistingBlockNodeIndex;
                         Debug.Assert(NodeIndex != null);
                         Debug.Assert(NodeIndex.BlockIndex == i + 1);
 
@@ -336,9 +334,9 @@
             i = index;
             while (i < BlockState.StateList.Count)
             {
-                IWriteablePlaceholderNodeState State = BlockState.StateList[i];
+                IWriteablePlaceholderNodeState State = (IWriteablePlaceholderNodeState)BlockState.StateList[i];
 
-                IWriteableBrowsingExistingBlockNodeIndex NodeIndex = State.ParentIndex as IWriteableBrowsingExistingBlockNodeIndex;
+                WriteableBrowsingExistingBlockNodeIndex NodeIndex = State.ParentIndex as WriteableBrowsingExistingBlockNodeIndex;
                 Debug.Assert(NodeIndex != null);
                 Debug.Assert(NodeIndex.BlockIndex == blockIndex);
                 Debug.Assert(NodeIndex.Index == i + 1);
@@ -353,14 +351,14 @@
         /// Replaces a node.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        public virtual void Replace(IWriteableReplaceOperation operation)
+        public virtual void Replace(WriteableReplaceOperation operation)
         {
             Debug.Assert(operation != null);
 
             int BlockIndex = operation.BlockIndex;
             Debug.Assert(BlockIndex >= 0 && BlockIndex < BlockStateList.Count);
 
-            IWriteableBlockState BlockState = BlockStateList[BlockIndex];
+            IWriteableBlockState BlockState = (IWriteableBlockState)BlockStateList[BlockIndex];
 
             int Index = operation.Index;
             Debug.Assert(Index >= 0 && Index < BlockState.StateList.Count);
@@ -368,14 +366,14 @@
             IBlock ChildBlock = BlockState.ChildBlock;
             Node ParentNode = Owner.Node;
 
-            IWriteableNodeState OldChildState = BlockState.StateList[Index];
+            IWriteableNodeState OldChildState = (IWriteableNodeState)BlockState.StateList[Index];
             Node OldNode = OldChildState.Node;
-            IWriteableBrowsingBlockNodeIndex OldBrowsingIndex = (IWriteableBrowsingBlockNodeIndex)OldChildState.ParentIndex;
+            WriteableBrowsingBlockNodeIndex OldBrowsingIndex = (WriteableBrowsingBlockNodeIndex)OldChildState.ParentIndex;
             BlockState.Remove(OldBrowsingIndex, Index);
 
             NodeTreeHelperBlockList.ReplaceInBlock(ChildBlock, Index, operation.NewNode);
 
-            IWriteableBrowsingExistingBlockNodeIndex NewBrowsingIndex = CreateBrowsingNodeIndex(operation.NewNode, BlockIndex, Index);
+            WriteableBrowsingExistingBlockNodeIndex NewBrowsingIndex = CreateBrowsingNodeIndex(operation.NewNode, BlockIndex, Index);
             IWriteablePlaceholderNodeState NewChildState = (IWriteablePlaceholderNodeState)CreateNodeState(NewBrowsingIndex);
             BlockState.Insert(NewBrowsingIndex, Index, NewChildState);
 
@@ -386,14 +384,14 @@
         /// Changes the replication state of a block.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        public virtual void ChangeReplication(IWriteableChangeBlockOperation operation)
+        public virtual void ChangeReplication(WriteableChangeBlockOperation operation)
         {
             ReplicationStatus Replication = operation.Replication;
             int BlockIndex = operation.BlockIndex;
 
             Debug.Assert(BlockIndex >= 0 && BlockIndex < BlockStateList.Count);
 
-            IWriteableBlockState BlockState = BlockStateList[BlockIndex];
+            IWriteableBlockState BlockState = (IWriteableBlockState)BlockStateList[BlockIndex];
             NodeTreeHelperBlockList.SetReplication(BlockState.ChildBlock, Replication);
 
             operation.Update(BlockState);
@@ -403,14 +401,14 @@
         /// Checks whether a block can be split at the given index.
         /// </summary>
         /// <param name="nodeIndex">Index of the last node to stay in the old block.</param>
-        public virtual bool IsSplittable(IWriteableBrowsingExistingBlockNodeIndex nodeIndex)
+        public virtual bool IsSplittable(WriteableBrowsingExistingBlockNodeIndex nodeIndex)
         {
             Debug.Assert(nodeIndex != null);
             Debug.Assert(nodeIndex.BlockIndex >= 0 && nodeIndex.BlockIndex < BlockStateList.Count);
 
             int SplitBlockIndex = nodeIndex.BlockIndex;
             int SplitIndex = nodeIndex.Index;
-            IWriteableBlockState BlockState = BlockStateList[SplitBlockIndex];
+            IWriteableBlockState BlockState = (IWriteableBlockState)BlockStateList[SplitBlockIndex];
 
             Debug.Assert(SplitIndex < BlockState.StateList.Count);
 
@@ -421,7 +419,7 @@
         /// Splits a block in two at the given index.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        public virtual void SplitBlock(IWriteableSplitBlockOperation operation)
+        public virtual void SplitBlock(WriteableSplitBlockOperation operation)
         {
             Debug.Assert(operation != null);
 
@@ -431,7 +429,7 @@
             int SplitIndex = operation.Index;
             Debug.Assert(SplitIndex > 0);
 
-            IWriteableBlockState BlockState = BlockStateList[SplitBlockIndex];
+            IWriteableBlockState BlockState = (IWriteableBlockState)BlockStateList[SplitBlockIndex];
             Debug.Assert(SplitIndex < BlockState.StateList.Count);
 
             IBlock NewBlock = operation.NewBlock;
@@ -440,7 +438,7 @@
             NodeTreeHelperBlockList.SplitBlock(Owner.Node, PropertyName, SplitBlockIndex, SplitIndex, NewBlock);
 
             NodeTreeHelperBlockList.GetChildNode(NewBlock, 0, out Node NewBlockFirstNode);
-            IWriteableBrowsingNewBlockNodeIndex NewBlockIndex = CreateNewBlockNodeIndex(NewBlockFirstNode, SplitBlockIndex);
+            WriteableBrowsingNewBlockNodeIndex NewBlockIndex = CreateNewBlockNodeIndex(NewBlockFirstNode, SplitBlockIndex);
 
             IWriteableBlockState NewBlockState = (IWriteableBlockState)CreateBlockState(NewBlockIndex, NewBlock);
             ((IWriteableBlockState<IWriteableInner<IWriteableBrowsingChildIndex>>)NewBlockState).InitBlockState();
@@ -448,8 +446,8 @@
 
             for (int i = 0; i < SplitIndex; i++)
             {
-                IWriteablePlaceholderNodeState State = BlockState.StateList[0];
-                IWriteableBrowsingExistingBlockNodeIndex ChildNodeIndex = State.ParentIndex as IWriteableBrowsingExistingBlockNodeIndex;
+                IWriteablePlaceholderNodeState State = (IWriteablePlaceholderNodeState)BlockState.StateList[0];
+                WriteableBrowsingExistingBlockNodeIndex ChildNodeIndex = State.ParentIndex as WriteableBrowsingExistingBlockNodeIndex;
                 Debug.Assert(ChildNodeIndex != null);
 
                 BlockState.Remove(ChildNodeIndex, 0);
@@ -460,8 +458,8 @@
 
             for (int i = 0; i < BlockState.StateList.Count; i++)
             {
-                IWriteablePlaceholderNodeState State = BlockState.StateList[i];
-                IWriteableBrowsingExistingBlockNodeIndex ChildNodeIndex = State.ParentIndex as IWriteableBrowsingExistingBlockNodeIndex;
+                IWriteablePlaceholderNodeState State = (IWriteablePlaceholderNodeState)BlockState.StateList[i];
+                WriteableBrowsingExistingBlockNodeIndex ChildNodeIndex = State.ParentIndex as WriteableBrowsingExistingBlockNodeIndex;
                 Debug.Assert(ChildNodeIndex != null);
 
                 ChildNodeIndex.MoveBlockUp();
@@ -473,7 +471,7 @@
             for (int i = SplitBlockIndex + 2; i < BlockStateList.Count; i++)
                 foreach (IWriteablePlaceholderNodeState State in BlockStateList[i].StateList)
                 {
-                    IWriteableBrowsingExistingBlockNodeIndex ChildNodeIndex = State.ParentIndex as IWriteableBrowsingExistingBlockNodeIndex;
+                    WriteableBrowsingExistingBlockNodeIndex ChildNodeIndex = State.ParentIndex as WriteableBrowsingExistingBlockNodeIndex;
                     Debug.Assert(ChildNodeIndex != null);
 
                     ChildNodeIndex.MoveBlockUp();
@@ -484,7 +482,7 @@
         /// Checks whether a block can be merged at the given index.
         /// </summary>
         /// <param name="nodeIndex">Index of the first node in the block to merge.</param>
-        public virtual bool IsMergeable(IWriteableBrowsingExistingBlockNodeIndex nodeIndex)
+        public virtual bool IsMergeable(WriteableBrowsingExistingBlockNodeIndex nodeIndex)
         {
             Debug.Assert(nodeIndex != null);
             Debug.Assert(nodeIndex.BlockIndex >= 0 && nodeIndex.BlockIndex < BlockStateList.Count);
@@ -497,15 +495,15 @@
         /// Merges two blocks at the given index.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        public virtual void MergeBlocks(IWriteableMergeBlocksOperation operation)
+        public virtual void MergeBlocks(WriteableMergeBlocksOperation operation)
         {
             Debug.Assert(operation != null);
 
             int MergeBlockIndex = operation.BlockIndex;
             Debug.Assert(MergeBlockIndex > 0 && MergeBlockIndex < BlockStateList.Count);
 
-            IWriteableBlockState FirstBlockState = BlockStateList[MergeBlockIndex - 1];
-            IWriteableBlockState SecondBlockState = BlockStateList[MergeBlockIndex];
+            IWriteableBlockState FirstBlockState = (IWriteableBlockState)BlockStateList[MergeBlockIndex - 1];
+            IWriteableBlockState SecondBlockState = (IWriteableBlockState)BlockStateList[MergeBlockIndex];
             int MergeIndex = FirstBlockState.StateList.Count;
             Debug.Assert(MergeIndex > 0);
 
@@ -519,8 +517,8 @@
             int i;
             for (i = 0; i < MergeIndex; i++)
             {
-                IWriteablePlaceholderNodeState State = FirstBlockState.StateList[0];
-                IWriteableBrowsingExistingBlockNodeIndex ChildNodeIndex = State.ParentIndex as IWriteableBrowsingExistingBlockNodeIndex;
+                IWriteablePlaceholderNodeState State = (IWriteablePlaceholderNodeState)FirstBlockState.StateList[0];
+                WriteableBrowsingExistingBlockNodeIndex ChildNodeIndex = State.ParentIndex as WriteableBrowsingExistingBlockNodeIndex;
                 Debug.Assert(ChildNodeIndex != null);
 
                 FirstBlockState.Remove(ChildNodeIndex, 0);
@@ -529,8 +527,8 @@
 
             for (; i < SecondBlockState.StateList.Count; i++)
             {
-                IWriteablePlaceholderNodeState State = SecondBlockState.StateList[i];
-                IWriteableBrowsingExistingBlockNodeIndex ChildNodeIndex = State.ParentIndex as IWriteableBrowsingExistingBlockNodeIndex;
+                IWriteablePlaceholderNodeState State = (IWriteablePlaceholderNodeState)SecondBlockState.StateList[i];
+                WriteableBrowsingExistingBlockNodeIndex ChildNodeIndex = State.ParentIndex as WriteableBrowsingExistingBlockNodeIndex;
                 Debug.Assert(ChildNodeIndex != null);
 
                 ChildNodeIndex.MoveBlockDown();
@@ -542,7 +540,7 @@
             for (i = MergeBlockIndex; i < BlockStateList.Count; i++)
                 foreach (IWriteablePlaceholderNodeState State in BlockStateList[i].StateList)
                 {
-                    IWriteableBrowsingExistingBlockNodeIndex ChildNodeIndex = State.ParentIndex as IWriteableBrowsingExistingBlockNodeIndex;
+                    WriteableBrowsingExistingBlockNodeIndex ChildNodeIndex = State.ParentIndex as WriteableBrowsingExistingBlockNodeIndex;
                     Debug.Assert(ChildNodeIndex != null);
 
                     ChildNodeIndex.MoveBlockDown();
@@ -559,15 +557,15 @@
             bool IsHandled = false;
             bool Result = false;
 
-            if (nodeIndex is IWriteableBrowsingExistingBlockNodeIndex AsExistingBlockNodeIndex)
+            if (nodeIndex is WriteableBrowsingExistingBlockNodeIndex AsExistingBlockNodeIndex)
             {
                 Debug.Assert(AsExistingBlockNodeIndex != null);
 
                 int BlockIndex = AsExistingBlockNodeIndex.BlockIndex;
                 Debug.Assert(BlockIndex >= 0 && BlockIndex < BlockStateList.Count);
 
-                IWriteableBlockState BlockState = BlockStateList[BlockIndex];
-                IWriteablePlaceholderNodeStateReadOnlyList StateList = BlockState.StateList;
+                IWriteableBlockState BlockState = (IWriteableBlockState)BlockStateList[BlockIndex];
+                WriteablePlaceholderNodeStateReadOnlyList StateList = BlockState.StateList;
 
                 int NewPosition = AsExistingBlockNodeIndex.Index + direction;
                 Result = NewPosition >= 0 && NewPosition < StateList.Count;
@@ -583,15 +581,15 @@
         /// Moves a node around in a list or block list. In a block list, the node stays in same block.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        public virtual void Move(IWriteableMoveNodeOperation operation)
+        public virtual void Move(WriteableMoveNodeOperation operation)
         {
             Debug.Assert(operation != null);
 
             int BlockIndex = operation.BlockIndex;
             Debug.Assert(BlockIndex >= 0 && BlockIndex < BlockStateList.Count);
 
-            IWriteableBlockState BlockState = BlockStateList[BlockIndex];
-            IWriteablePlaceholderNodeStateReadOnlyList StateList = BlockState.StateList;
+            IWriteableBlockState BlockState = (IWriteableBlockState)BlockStateList[BlockIndex];
+            WriteablePlaceholderNodeStateReadOnlyList StateList = BlockState.StateList;
 
             int MoveIndex = operation.Index;
             int Direction = operation.Direction;
@@ -606,13 +604,13 @@
             IBlock ChildBlock = BlockState.ChildBlock;
             NodeTreeHelperBlockList.MoveNode(ChildBlock, MoveIndex, Direction);
 
-            operation.Update(StateList[MoveIndex + Direction]);
+            operation.Update((IWriteablePlaceholderNodeState)StateList[MoveIndex + Direction]);
 
             if (Direction > 0)
             {
                 for (int i = MoveIndex; i < MoveIndex + Direction; i++)
                 {
-                    IWriteableBrowsingExistingBlockNodeIndex ChildNodeIndex = StateList[i].ParentIndex as IWriteableBrowsingExistingBlockNodeIndex;
+                    WriteableBrowsingExistingBlockNodeIndex ChildNodeIndex = StateList[i].ParentIndex as WriteableBrowsingExistingBlockNodeIndex;
                     Debug.Assert(ChildNodeIndex != null);
 
                     ChildNodeIndex.MoveDown();
@@ -623,7 +621,7 @@
             {
                 for (int i = MoveIndex; i > MoveIndex + Direction; i--)
                 {
-                    IWriteableBrowsingExistingBlockNodeIndex ChildNodeIndex = StateList[i].ParentIndex as IWriteableBrowsingExistingBlockNodeIndex;
+                    WriteableBrowsingExistingBlockNodeIndex ChildNodeIndex = StateList[i].ParentIndex as WriteableBrowsingExistingBlockNodeIndex;
                     Debug.Assert(ChildNodeIndex != null);
 
                     ChildNodeIndex.MoveUp();
@@ -636,7 +634,7 @@
         /// Moves a block around in a block list.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        public virtual void MoveBlock(IWriteableMoveBlockOperation operation)
+        public virtual void MoveBlock(WriteableMoveBlockOperation operation)
         {
             int BlockIndex = operation.BlockIndex;
             int Direction = operation.Direction;
@@ -645,7 +643,7 @@
             Debug.Assert(BlockIndex + Direction >= 0 && BlockIndex + Direction < BlockStateList.Count);
 
             int MoveIndex = BlockIndex;
-            IWriteableBlockState BlockState = BlockStateList[MoveIndex];
+            IWriteableBlockState BlockState = (IWriteableBlockState)BlockStateList[MoveIndex];
 
             MoveInBlockStateList(MoveIndex, Direction);
             NodeTreeHelperBlockList.MoveBlock(Owner.Node, PropertyName, MoveIndex, Direction);
@@ -656,7 +654,7 @@
                 {
                     for (int j = 0; j < BlockStateList[i].StateList.Count; j++)
                     {
-                        IWriteableBrowsingExistingBlockNodeIndex ChildNodeIndex = BlockStateList[i].StateList[j].ParentIndex as IWriteableBrowsingExistingBlockNodeIndex;
+                        WriteableBrowsingExistingBlockNodeIndex ChildNodeIndex = BlockStateList[i].StateList[j].ParentIndex as WriteableBrowsingExistingBlockNodeIndex;
                         Debug.Assert(ChildNodeIndex != null);
 
                         ChildNodeIndex.MoveBlockDown();
@@ -664,7 +662,7 @@
 
                     for (int j = 0; j < BlockState.StateList.Count; j++)
                     {
-                        IWriteableBrowsingExistingBlockNodeIndex ChildNodeIndex = BlockState.StateList[j].ParentIndex as IWriteableBrowsingExistingBlockNodeIndex;
+                        WriteableBrowsingExistingBlockNodeIndex ChildNodeIndex = BlockState.StateList[j].ParentIndex as WriteableBrowsingExistingBlockNodeIndex;
                         Debug.Assert(ChildNodeIndex != null);
 
                         ChildNodeIndex.MoveBlockUp();
@@ -677,7 +675,7 @@
                 {
                     for (int j = 0; j < BlockStateList[i].StateList.Count; j++)
                     {
-                        IWriteableBrowsingExistingBlockNodeIndex ChildNodeIndex = BlockStateList[i].StateList[j].ParentIndex as IWriteableBrowsingExistingBlockNodeIndex;
+                        WriteableBrowsingExistingBlockNodeIndex ChildNodeIndex = BlockStateList[i].StateList[j].ParentIndex as WriteableBrowsingExistingBlockNodeIndex;
                         Debug.Assert(ChildNodeIndex != null);
 
                         ChildNodeIndex.MoveBlockUp();
@@ -685,7 +683,7 @@
 
                     for (int j = 0; j < BlockState.StateList.Count; j++)
                     {
-                        IWriteableBrowsingExistingBlockNodeIndex ChildNodeIndex = BlockState.StateList[j].ParentIndex as IWriteableBrowsingExistingBlockNodeIndex;
+                        WriteableBrowsingExistingBlockNodeIndex ChildNodeIndex = BlockState.StateList[j].ParentIndex as WriteableBrowsingExistingBlockNodeIndex;
                         Debug.Assert(ChildNodeIndex != null);
 
                         ChildNodeIndex.MoveBlockDown();
@@ -701,19 +699,19 @@
         /// <summary>
         /// Creates a IxxxBlockStateList object.
         /// </summary>
-        private protected override IReadOnlyBlockStateList CreateBlockStateList()
+        private protected override ReadOnlyBlockStateList CreateBlockStateList()
         {
-            ControllerTools.AssertNoOverride(this, typeof(WriteableBlockListInner<IIndex, TIndex>));
+            ControllerTools.AssertNoOverride(this, typeof(WriteableBlockListInner<IIndex>));
             return new WriteableBlockStateList();
         }
 
         /// <summary>
         /// Creates a IxxxBlockState object.
         /// </summary>
-        private protected override IReadOnlyBlockState CreateBlockState(IReadOnlyBrowsingNewBlockNodeIndex nodeIndex, IBlock childBlock)
+        private protected override IReadOnlyBlockState CreateBlockState(ReadOnlyBrowsingNewBlockNodeIndex nodeIndex, IBlock childBlock)
         {
-            ControllerTools.AssertNoOverride(this, typeof(WriteableBlockListInner<IIndex, TIndex>));
-            return new WriteableBlockState<IWriteableInner<IWriteableBrowsingChildIndex>>(this, (IWriteableBrowsingNewBlockNodeIndex)nodeIndex, childBlock);
+            ControllerTools.AssertNoOverride(this, typeof(WriteableBlockListInner<IIndex>));
+            return new WriteableBlockState<IWriteableInner<IWriteableBrowsingChildIndex>>(this, (WriteableBrowsingNewBlockNodeIndex)nodeIndex, childBlock);
         }
 
         /// <summary>
@@ -721,34 +719,34 @@
         /// </summary>
         private protected override IReadOnlyPlaceholderNodeState CreateNodeState(IReadOnlyNodeIndex nodeIndex)
         {
-            ControllerTools.AssertNoOverride(this, typeof(WriteableBlockListInner<IIndex, TIndex>));
+            ControllerTools.AssertNoOverride(this, typeof(WriteableBlockListInner<IIndex>));
             return new WriteablePlaceholderNodeState<IWriteableInner<IWriteableBrowsingChildIndex>>((IWriteableNodeIndex)nodeIndex);
         }
 
         /// <summary>
         /// Creates a IxxxBrowsingBlockNodeIndexList.
         /// </summary>
-        private protected override IReadOnlyBrowsingBlockNodeIndexList CreateBlockNodeIndexList()
+        private protected override ReadOnlyBrowsingBlockNodeIndexList CreateBlockNodeIndexList()
         {
-            ControllerTools.AssertNoOverride(this, typeof(WriteableBlockListInner<IIndex, TIndex>));
+            ControllerTools.AssertNoOverride(this, typeof(WriteableBlockListInner<IIndex>));
             return new WriteableBrowsingBlockNodeIndexList();
         }
 
         /// <summary>
         /// Creates a IxxxBrowsingExistingBlockNodeIndex object.
         /// </summary>
-        private protected virtual IWriteableBrowsingExistingBlockNodeIndex CreateBrowsingNodeIndex(Node node, int blockIndex, int index)
+        private protected virtual WriteableBrowsingExistingBlockNodeIndex CreateBrowsingNodeIndex(Node node, int blockIndex, int index)
         {
-            ControllerTools.AssertNoOverride(this, typeof(WriteableBlockListInner<IIndex, TIndex>));
+            ControllerTools.AssertNoOverride(this, typeof(WriteableBlockListInner<IIndex>));
             return new WriteableBrowsingExistingBlockNodeIndex(Owner.Node, node, PropertyName, blockIndex, index);
         }
 
         /// <summary>
         /// Creates a IxxxBrowsingNewBlockNodeIndex object.
         /// </summary>
-        private protected virtual IWriteableBrowsingNewBlockNodeIndex CreateNewBlockNodeIndex(Node node, int blockIndex)
+        private protected virtual WriteableBrowsingNewBlockNodeIndex CreateNewBlockNodeIndex(Node node, int blockIndex)
         {
-            ControllerTools.AssertNoOverride(this, typeof(WriteableBlockListInner<IIndex, TIndex>));
+            ControllerTools.AssertNoOverride(this, typeof(WriteableBlockListInner<IIndex>));
             return new WriteableBrowsingNewBlockNodeIndex(Owner.Node, node, PropertyName, blockIndex);
         }
         #endregion

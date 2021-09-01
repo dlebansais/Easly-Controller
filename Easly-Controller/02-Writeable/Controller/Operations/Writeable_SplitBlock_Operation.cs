@@ -7,54 +7,7 @@
     /// <summary>
     /// Operation details for splitting a block in a block list.
     /// </summary>
-    public interface IWriteableSplitBlockOperation : IWriteableOperation
-    {
-        /// <summary>
-        /// Node where the block is split.
-        /// </summary>
-        Node ParentNode { get; }
-
-        /// <summary>
-        /// Property of <see cref="ParentNode"/> where the block is split.
-        /// </summary>
-        string PropertyName { get; }
-
-        /// <summary>
-        /// Position of the split block.
-        /// </summary>
-        int BlockIndex { get; }
-
-        /// <summary>
-        /// Position of the last node to stay in the old block.
-        /// </summary>
-        int Index { get; }
-
-        /// <summary>
-        /// The inserted block.
-        /// </summary>
-        IBlock NewBlock { get; }
-
-        /// <summary>
-        /// The inserted block state.
-        /// </summary>
-        IWriteableBlockState BlockState { get; }
-
-        /// <summary>
-        /// Update the operation with details.
-        /// </summary>
-        /// <param name="blockState">Block state inserted.</param>
-        void Update(IWriteableBlockState blockState);
-
-        /// <summary>
-        /// Creates an operation to undo the split block operation.
-        /// </summary>
-        IWriteableMergeBlocksOperation ToMergeBlocksOperation();
-    }
-
-    /// <summary>
-    /// Operation details for splitting a block in a block list.
-    /// </summary>
-    internal class WriteableSplitBlockOperation : WriteableOperation, IWriteableSplitBlockOperation
+    public class WriteableSplitBlockOperation : WriteableOperation
     {
         #region Init
         /// <summary>
@@ -68,7 +21,7 @@
         /// <param name="handlerRedo">Handler to execute to redo the operation.</param>
         /// <param name="handlerUndo">Handler to execute to undo the operation.</param>
         /// <param name="isNested">True if the operation is nested within another more general one.</param>
-        public WriteableSplitBlockOperation(Node parentNode, string propertyName, int blockIndex, int index, IBlock newBlock, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        public WriteableSplitBlockOperation(Node parentNode, string propertyName, int blockIndex, int index, IBlock newBlock, Action<WriteableOperation> handlerRedo, Action<WriteableOperation> handlerUndo, bool isNested)
             : base(handlerRedo, handlerUndo, isNested)
         {
             ParentNode = parentNode;
@@ -127,7 +80,7 @@
         /// <summary>
         /// Creates an operation to undo the split block operation.
         /// </summary>
-        public virtual IWriteableMergeBlocksOperation ToMergeBlocksOperation()
+        public virtual WriteableMergeBlocksOperation ToMergeBlocksOperation()
         {
             return CreateMergeBlocksOperation(BlockIndex + 1, HandlerUndo, HandlerRedo, IsNested);
         }
@@ -137,7 +90,7 @@
         /// <summary>
         /// Creates a IxxxxMergeBlocksOperation object.
         /// </summary>
-        private protected virtual IWriteableMergeBlocksOperation CreateMergeBlocksOperation(int blockIndex, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        private protected virtual WriteableMergeBlocksOperation CreateMergeBlocksOperation(int blockIndex, Action<WriteableOperation> handlerRedo, Action<WriteableOperation> handlerUndo, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableSplitBlockOperation));
             return new WriteableMergeBlocksOperation(ParentNode, PropertyName, blockIndex, handlerRedo, handlerUndo, isNested);

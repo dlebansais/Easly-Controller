@@ -8,28 +8,7 @@
     /// <summary>
     /// Index for inserting the first node of a new block.
     /// </summary>
-    public interface IWriteableInsertionNewBlockNodeIndex : IWriteableInsertionBlockNodeIndex, IEqualComparable
-    {
-        /// <summary>
-        /// Position of the inserted block in the block list.
-        /// </summary>
-        int BlockIndex { get; }
-
-        /// <summary>
-        /// Replication pattern in the block.
-        /// </summary>
-        Pattern PatternNode { get; }
-
-        /// <summary>
-        /// Source identifier in the block.
-        /// </summary>
-        Identifier SourceNode { get; }
-    }
-
-    /// <summary>
-    /// Index for inserting the first node of a new block.
-    /// </summary>
-    public class WriteableInsertionNewBlockNodeIndex : WriteableInsertionBlockNodeIndex, IWriteableInsertionNewBlockNodeIndex
+    public class WriteableInsertionNewBlockNodeIndex : WriteableInsertionBlockNodeIndex, IEqualComparable
     {
         #region Init
         /// <summary>
@@ -116,7 +95,7 @@
         /// <summary>
         /// Creates a IxxxBrowsingExistingBlockNodeIndex.
         /// </summary>
-        private protected virtual IWriteableBrowsingExistingBlockNodeIndex CreateBrowsingIndex()
+        private protected virtual WriteableBrowsingExistingBlockNodeIndex CreateBrowsingIndex()
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableInsertionNewBlockNodeIndex));
             return new WriteableBrowsingExistingBlockNodeIndex(ParentNode, Node, PropertyName, BlockIndex, 0);

@@ -8,7 +8,7 @@ namespace EaslyController.ReadOnly
     /// <summary>
     /// List of IxxxBlockState
     /// </summary>
-    public class ReadOnlyBlockStateList : Collection<IReadOnlyBlockState>, IReadOnlyList<IReadOnlyBlockState>
+    public class ReadOnlyBlockStateList : List<IReadOnlyBlockState>
     {
         public virtual ReadOnlyBlockStateReadOnlyList ToReadOnly()
         {

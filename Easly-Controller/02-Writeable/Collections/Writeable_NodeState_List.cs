@@ -9,34 +9,22 @@ namespace EaslyController.Writeable
     /// <summary>
     /// List of IxxxNodeState
     /// </summary>
-    public interface IWriteableNodeStateList : IReadOnlyNodeStateList, IList<IWriteableNodeState>, IReadOnlyList<IWriteableNodeState>
+    internal class WriteableNodeStateList : ReadOnlyNodeStateList, ICollection<IWriteableNodeState>, IEnumerable<IWriteableNodeState>, IList<IWriteableNodeState>, IReadOnlyCollection<IWriteableNodeState>, IReadOnlyList<IWriteableNodeState>
     {
-        new IWriteableNodeState this[int index] { get; set; }
-        new int Count { get; }
-        new IEnumerator<IWriteableNodeState> GetEnumerator();
-        new void Clear();
-    }
-
-    /// <summary>
-    /// List of IxxxNodeState
-    /// </summary>
-    internal class WriteableNodeStateList : Collection<IWriteableNodeState>, IWriteableNodeStateList
-    {
-        #region ReadOnly
-        IReadOnlyNodeState IReadOnlyNodeStateList.this[int index] { get { return this[index]; } set { this[index] = (IWriteableNodeState)value; } }
-        IReadOnlyNodeState IList<IReadOnlyNodeState>.this[int index] { get { return this[index]; } set { this[index] = (IWriteableNodeState)value; } }
-        int IList<IReadOnlyNodeState>.IndexOf(IReadOnlyNodeState value) { return IndexOf((IWriteableNodeState)value); }
-        void IList<IReadOnlyNodeState>.Insert(int index, IReadOnlyNodeState item) { Insert(index, (IWriteableNodeState)item); }
-        void ICollection<IReadOnlyNodeState>.Add(IReadOnlyNodeState item) { Add((IWriteableNodeState)item); }
-        bool ICollection<IReadOnlyNodeState>.Contains(IReadOnlyNodeState value) { return Contains((IWriteableNodeState)value); }
-        void ICollection<IReadOnlyNodeState>.CopyTo(IReadOnlyNodeState[] array, int index) { CopyTo((IWriteableNodeState[])array, index); }
-        bool ICollection<IReadOnlyNodeState>.IsReadOnly { get { return ((ICollection<IWriteableNodeState>)this).IsReadOnly; } }
-        bool ICollection<IReadOnlyNodeState>.Remove(IReadOnlyNodeState item) { return Remove((IWriteableNodeState)item); }
-        IEnumerator<IReadOnlyNodeState> IEnumerable<IReadOnlyNodeState>.GetEnumerator() { return GetEnumerator(); }
-        IReadOnlyNodeState IReadOnlyList<IReadOnlyNodeState>.this[int index] { get { return this[index]; } }
+        #region IWriteableNodeState
+        void ICollection<IWriteableNodeState>.Add(IWriteableNodeState item) { Add(item); }
+        bool ICollection<IWriteableNodeState>.Contains(IWriteableNodeState item) { return Contains(item); }
+        void ICollection<IWriteableNodeState>.CopyTo(IWriteableNodeState[] array, int arrayIndex) { for (int i = 0; i < Count; i++) array[arrayIndex + i] = (IWriteableNodeState)this[i]; }
+        bool ICollection<IWriteableNodeState>.Remove(IWriteableNodeState item) { return Remove(item); }
+        bool ICollection<IWriteableNodeState>.IsReadOnly { get { return false; } }
+        IEnumerator<IWriteableNodeState> IEnumerable<IWriteableNodeState>.GetEnumerator() { return new List<IWriteableNodeState>(this).GetEnumerator(); }
+        IWriteableNodeState IList<IWriteableNodeState>.this[int index] { get { return (IWriteableNodeState)this[index]; } set { this[index] = value; } }
+        int IList<IWriteableNodeState>.IndexOf(IWriteableNodeState item) { return IndexOf(item); }
+        void IList<IWriteableNodeState>.Insert(int index, IWriteableNodeState item) { Insert(index, item); }
+        IWriteableNodeState IReadOnlyList<IWriteableNodeState>.this[int index] { get { return (IWriteableNodeState)this[index]; } }
         #endregion
 
-        public virtual IReadOnlyNodeStateReadOnlyList ToReadOnly()
+        public override ReadOnlyNodeStateReadOnlyList ToReadOnly()
         {
             return new WriteableNodeStateReadOnlyList(this);
         }

@@ -14,7 +14,7 @@
     <Product />
     <Description>Manage Easly source code</Description>
     <Copyright>Copyright © 2019 David Le Bansais</Copyright>
-    <AssemblyVersion>1.0.1.4781</AssemblyVersion>
+    <AssemblyVersion>1.0.1.4785</AssemblyVersion>
     <FileVersion>1.0.1.4270</FileVersion>
     <RepositoryUrl>https://github.com/dlebansais/Easly-Controller</RepositoryUrl>
     <NeutralLanguage>en-US</NeutralLanguage>

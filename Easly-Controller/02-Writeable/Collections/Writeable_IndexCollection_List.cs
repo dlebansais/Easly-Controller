@@ -9,34 +9,22 @@ namespace EaslyController.Writeable
     /// <summary>
     /// List of IxxxIndexCollection
     /// </summary>
-    internal interface IWriteableIndexCollectionList : IReadOnlyIndexCollectionList, IList<IWriteableIndexCollection>, IReadOnlyList<IWriteableIndexCollection>
+    internal class WriteableIndexCollectionList : ReadOnlyIndexCollectionList, ICollection<IWriteableIndexCollection>, IEnumerable<IWriteableIndexCollection>, IList<IWriteableIndexCollection>, IReadOnlyCollection<IWriteableIndexCollection>, IReadOnlyList<IWriteableIndexCollection>
     {
-        new IWriteableIndexCollection this[int index] { get; set; }
-        new int Count { get; }
-        new IEnumerator<IWriteableIndexCollection> GetEnumerator();
-        new void Clear();
-    }
-
-    /// <summary>
-    /// List of IxxxIndexCollection
-    /// </summary>
-    internal class WriteableIndexCollectionList : Collection<IWriteableIndexCollection>, IWriteableIndexCollectionList
-    {
-        #region ReadOnly
-        IReadOnlyIndexCollection IReadOnlyIndexCollectionList.this[int index] { get { return this[index]; } set { this[index] = (IWriteableIndexCollection)value; } }
-        IReadOnlyIndexCollection IList<IReadOnlyIndexCollection>.this[int index] { get { return this[index]; } set { this[index] = (IWriteableIndexCollection)value; } }
-        int IList<IReadOnlyIndexCollection>.IndexOf(IReadOnlyIndexCollection value) { return IndexOf((IWriteableIndexCollection)value); }
-        void IList<IReadOnlyIndexCollection>.Insert(int index, IReadOnlyIndexCollection item) { Insert(index, (IWriteableIndexCollection)item); }
-        void ICollection<IReadOnlyIndexCollection>.Add(IReadOnlyIndexCollection item) { Add((IWriteableIndexCollection)item); }
-        bool ICollection<IReadOnlyIndexCollection>.Contains(IReadOnlyIndexCollection value) { return Contains((IWriteableIndexCollection)value); }
-        void ICollection<IReadOnlyIndexCollection>.CopyTo(IReadOnlyIndexCollection[] array, int index) { CopyTo((IWriteableIndexCollection[])array, index); }
-        bool ICollection<IReadOnlyIndexCollection>.IsReadOnly { get { return ((ICollection<IWriteableIndexCollection>)this).IsReadOnly; } }
-        bool ICollection<IReadOnlyIndexCollection>.Remove(IReadOnlyIndexCollection item) { return Remove((IWriteableIndexCollection)item); }
-        IEnumerator<IReadOnlyIndexCollection> IEnumerable<IReadOnlyIndexCollection>.GetEnumerator() { return GetEnumerator(); }
-        IReadOnlyIndexCollection IReadOnlyList<IReadOnlyIndexCollection>.this[int index] { get { return this[index]; } }
+        #region IWriteableIndexCollection
+        void ICollection<IWriteableIndexCollection>.Add(IWriteableIndexCollection item) { Add(item); }
+        bool ICollection<IWriteableIndexCollection>.Contains(IWriteableIndexCollection item) { return Contains(item); }
+        void ICollection<IWriteableIndexCollection>.CopyTo(IWriteableIndexCollection[] array, int arrayIndex) { for (int i = 0; i < Count; i++) array[arrayIndex + i] = (IWriteableIndexCollection)this[i]; }
+        bool ICollection<IWriteableIndexCollection>.Remove(IWriteableIndexCollection item) { return Remove(item); }
+        bool ICollection<IWriteableIndexCollection>.IsReadOnly { get { return false; } }
+        IEnumerator<IWriteableIndexCollection> IEnumerable<IWriteableIndexCollection>.GetEnumerator() { return new List<IWriteableIndexCollection>(this).GetEnumerator(); }
+        IWriteableIndexCollection IList<IWriteableIndexCollection>.this[int index] { get { return (IWriteableIndexCollection)this[index]; } set { this[index] = value; } }
+        int IList<IWriteableIndexCollection>.IndexOf(IWriteableIndexCollection item) { return IndexOf(item); }
+        void IList<IWriteableIndexCollection>.Insert(int index, IWriteableIndexCollection item) { Insert(index, item); }
+        IWriteableIndexCollection IReadOnlyList<IWriteableIndexCollection>.this[int index] { get { return (IWriteableIndexCollection)this[index]; } }
         #endregion
 
-        public virtual IReadOnlyIndexCollectionReadOnlyList ToReadOnly()
+        public override ReadOnlyIndexCollectionReadOnlyList ToReadOnly()
         {
             return new WriteableIndexCollectionReadOnlyList(this);
         }

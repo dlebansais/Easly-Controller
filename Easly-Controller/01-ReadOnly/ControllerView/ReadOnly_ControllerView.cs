@@ -90,7 +90,7 @@
             Debug.Assert(state != null);
             Debug.Assert(!StateViewTable.ContainsKey(state));
 
-            IReadOnlyNodeStateView StateView = null;
+            ReadOnlyNodeStateView StateView = null;
 
             switch (state)
             {

@@ -19,9 +19,9 @@
     /// <summary>
     /// Inner for a child node.
     /// </summary>
-    /// <typeparam name="IIndex">Type of the index.</typeparam>
-    internal interface IWriteablePlaceholderInner<out IIndex> : IReadOnlyPlaceholderInner<IIndex>, IWriteableSingleInner<IIndex>
-        where IIndex : IWriteableBrowsingPlaceholderNodeIndex
+    /// <typeparam name="TIndex">Type of the index.</typeparam>
+    internal interface IWriteablePlaceholderInner<out TIndex> : IReadOnlyPlaceholderInner<TIndex>, IWriteableSingleInner<TIndex>
+        where TIndex : WriteableBrowsingPlaceholderNodeIndex
     {
         /// <summary>
         /// The state of the node.
@@ -32,15 +32,13 @@
     /// <summary>
     /// Inner for a child node.
     /// </summary>
-    /// <typeparam name="IIndex">Type of the index as interface.</typeparam>
     /// <typeparam name="TIndex">Type of the index as class.</typeparam>
-    internal class WriteablePlaceholderInner<IIndex, TIndex> : ReadOnlyPlaceholderInner<IIndex, TIndex>, IWriteablePlaceholderInner<IIndex>, IWriteablePlaceholderInner
-        where IIndex : IWriteableBrowsingPlaceholderNodeIndex
-        where TIndex : WriteableBrowsingPlaceholderNodeIndex, IIndex
+    internal class WriteablePlaceholderInner<TIndex> : ReadOnlyPlaceholderInner<TIndex>, IWriteablePlaceholderInner<TIndex>, IWriteablePlaceholderInner
+        where TIndex : WriteableBrowsingPlaceholderNodeIndex
     {
         #region Init
         /// <summary>
-        /// Initializes a new instance of the <see cref="WriteablePlaceholderInner{IIndex, TIndex}"/> class.
+        /// Initializes a new instance of the <see cref="WriteablePlaceholderInner{TIndex}"/> class.
         /// </summary>
         /// <param name="owner">Parent containing the inner.</param>
         /// <param name="propertyName">Property name of the inner in <paramref name="owner"/>.</param>
@@ -67,7 +65,7 @@
         /// Replaces a node.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        public virtual void Replace(IWriteableReplaceOperation operation)
+        public virtual void Replace(WriteableReplaceOperation operation)
         {
             Debug.Assert(operation != null);
 
@@ -79,7 +77,7 @@
 
             NodeTreeHelperChild.SetChildNode(ParentNode, PropertyName, operation.NewNode);
 
-            IWriteableBrowsingPlaceholderNodeIndex NewBrowsingIndex = CreateBrowsingNodeIndex(operation.NewNode);
+            WriteableBrowsingPlaceholderNodeIndex NewBrowsingIndex = CreateBrowsingNodeIndex(operation.NewNode);
             IWriteablePlaceholderNodeState NewChildState = (IWriteablePlaceholderNodeState)CreateNodeState(NewBrowsingIndex);
             SetChildState(NewChildState);
 
@@ -91,18 +89,18 @@
         /// <summary>
         /// Creates a IxxxPlaceholderNodeState object.
         /// </summary>
-        private protected override IReadOnlyPlaceholderNodeState CreateNodeState(IReadOnlyBrowsingPlaceholderNodeIndex nodeIndex)
+        private protected override IReadOnlyPlaceholderNodeState CreateNodeState(ReadOnlyBrowsingPlaceholderNodeIndex nodeIndex)
         {
-            ControllerTools.AssertNoOverride(this, typeof(WriteablePlaceholderInner<IIndex, TIndex>));
-            return new WriteablePlaceholderNodeState<IWriteableInner<IWriteableBrowsingChildIndex>>((IWriteableBrowsingPlaceholderNodeIndex)nodeIndex);
+            ControllerTools.AssertNoOverride(this, typeof(WriteablePlaceholderInner<TIndex>));
+            return new WriteablePlaceholderNodeState<IWriteableInner<IWriteableBrowsingChildIndex>>((WriteableBrowsingPlaceholderNodeIndex)nodeIndex);
         }
 
         /// <summary>
         /// Creates a IxxxBrowsingPlaceholderNodeIndex object.
         /// </summary>
-        private protected virtual IWriteableBrowsingPlaceholderNodeIndex CreateBrowsingNodeIndex(Node node)
+        private protected virtual WriteableBrowsingPlaceholderNodeIndex CreateBrowsingNodeIndex(Node node)
         {
-            ControllerTools.AssertNoOverride(this, typeof(WriteablePlaceholderInner<IIndex, TIndex>));
+            ControllerTools.AssertNoOverride(this, typeof(WriteablePlaceholderInner<TIndex>));
             return new WriteableBrowsingPlaceholderNodeIndex(Owner.Node, node, PropertyName);
         }
         #endregion

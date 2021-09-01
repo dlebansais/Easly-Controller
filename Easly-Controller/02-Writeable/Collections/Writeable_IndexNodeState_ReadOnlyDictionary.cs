@@ -9,50 +9,35 @@ namespace EaslyController.Writeable
     /// <summary>
     /// Read-only dictionary of IxxxIndex, IxxxNodeState
     /// </summary>
-    public interface IWriteableIndexNodeStateReadOnlyDictionary : IReadOnlyIndexNodeStateReadOnlyDictionary, IReadOnlyDictionary<IWriteableIndex, IWriteableNodeState>
+    public class WriteableIndexNodeStateReadOnlyDictionary : ReadOnlyIndexNodeStateReadOnlyDictionary, ICollection<KeyValuePair<IWriteableIndex, IWriteableNodeState>>, IEnumerable<KeyValuePair<IWriteableIndex, IWriteableNodeState>>, IDictionary<IWriteableIndex, IWriteableNodeState>, IReadOnlyCollection<KeyValuePair<IWriteableIndex, IWriteableNodeState>>, IReadOnlyDictionary<IWriteableIndex, IWriteableNodeState>
     {
-        new IWriteableNodeState this[IWriteableIndex key] { get; }
-        new int Count { get; }
-        new bool ContainsKey(IWriteableIndex key);
-        new IEnumerator<KeyValuePair<IWriteableIndex, IWriteableNodeState>> GetEnumerator();
-    }
-
-    /// <summary>
-    /// Read-only dictionary of IxxxIndex, IxxxNodeState
-    /// </summary>
-    internal class WriteableIndexNodeStateReadOnlyDictionary : ReadOnlyDictionary<IWriteableIndex, IWriteableNodeState>, IWriteableIndexNodeStateReadOnlyDictionary
-    {
-        public WriteableIndexNodeStateReadOnlyDictionary(IWriteableIndexNodeStateDictionary dictionary)
+        public WriteableIndexNodeStateReadOnlyDictionary(WriteableIndexNodeStateDictionary dictionary)
             : base(dictionary)
         {
         }
 
-        #region ReadOnly
-        IReadOnlyNodeState IReadOnlyDictionary<IReadOnlyIndex, IReadOnlyNodeState>.this[IReadOnlyIndex key] { get { return this[(IWriteableIndex)key]; } }
-        bool IReadOnlyDictionary<IReadOnlyIndex, IReadOnlyNodeState>.ContainsKey(IReadOnlyIndex key) { return ContainsKey((IWriteableIndex)key); }
-        IEnumerable<IReadOnlyIndex> IReadOnlyDictionary<IReadOnlyIndex, IReadOnlyNodeState>.Keys { get { return new List<IReadOnlyIndex>(Keys); } }
+        #region IWriteableIndex, IWriteableNodeState
+        void ICollection<KeyValuePair<IWriteableIndex, IWriteableNodeState>>.Add(KeyValuePair<IWriteableIndex, IWriteableNodeState> item) { throw new System.InvalidOperationException(); }
+        void ICollection<KeyValuePair<IWriteableIndex, IWriteableNodeState>>.Clear() { throw new System.InvalidOperationException(); }
+        bool ICollection<KeyValuePair<IWriteableIndex, IWriteableNodeState>>.Contains(KeyValuePair<IWriteableIndex, IWriteableNodeState> item) { return ContainsKey(item.Key) && this[item.Key] == item.Value; }
+        void ICollection<KeyValuePair<IWriteableIndex, IWriteableNodeState>>.CopyTo(KeyValuePair<IWriteableIndex, IWriteableNodeState>[] array, int arrayIndex) { int i = 0; foreach (KeyValuePair<IWriteableIndex, IWriteableNodeState> Entry in ((ICollection<KeyValuePair<IWriteableIndex, IWriteableNodeState>>)this)) array[i++] = Entry; }
+        bool ICollection<KeyValuePair<IWriteableIndex, IWriteableNodeState>>.Remove(KeyValuePair<IWriteableIndex, IWriteableNodeState> item) { throw new System.InvalidOperationException(); }
+        bool ICollection<KeyValuePair<IWriteableIndex, IWriteableNodeState>>.IsReadOnly { get { return false; } }
+        IEnumerator<KeyValuePair<IWriteableIndex, IWriteableNodeState>> IEnumerable<KeyValuePair<IWriteableIndex, IWriteableNodeState>>.GetEnumerator() { return new List<KeyValuePair<IWriteableIndex, IWriteableNodeState>>(this).GetEnumerator(); }
 
-        bool IReadOnlyDictionary<IReadOnlyIndex, IReadOnlyNodeState>.TryGetValue(IReadOnlyIndex key, out IReadOnlyNodeState value)
-        {
-            bool Result = TryGetValue((IWriteableIndex)key, out IWriteableNodeState Value);
-            value = Value;
-            return Result;
-        }
+        IWriteableNodeState IDictionary<IWriteableIndex, IWriteableNodeState>.this[IWriteableIndex key] { get { return (IWriteableNodeState)this[key]; } set { throw new System.InvalidOperationException(); } }
+        ICollection<IWriteableIndex> IDictionary<IWriteableIndex, IWriteableNodeState>.Keys { get { List<IWriteableIndex> Result = new(); foreach (KeyValuePair<IWriteableIndex, IWriteableNodeState> Entry in (ICollection<KeyValuePair<IWriteableIndex, IWriteableNodeState>>)this) Result.Add(Entry.Key); return Result; } }
+        ICollection<IWriteableNodeState> IDictionary<IWriteableIndex, IWriteableNodeState>.Values { get { List<IWriteableNodeState> Result = new(); foreach (KeyValuePair<IWriteableIndex, IWriteableNodeState> Entry in (ICollection<KeyValuePair<IWriteableIndex, IWriteableNodeState>>)this) Result.Add(Entry.Value); return Result; } }
+        void IDictionary<IWriteableIndex, IWriteableNodeState>.Add(IWriteableIndex key, IWriteableNodeState value) { throw new System.InvalidOperationException(); }
+        bool IDictionary<IWriteableIndex, IWriteableNodeState>.ContainsKey(IWriteableIndex key) { return ContainsKey(key); }
+        bool IDictionary<IWriteableIndex, IWriteableNodeState>.Remove(IWriteableIndex key) { throw new System.InvalidOperationException(); }
+        bool IDictionary<IWriteableIndex, IWriteableNodeState>.TryGetValue(IWriteableIndex key, out IWriteableNodeState value) { bool Result = TryGetValue(key, out IReadOnlyNodeState Value); value = (IWriteableNodeState)Value; return Result; }
 
-        IEnumerable<IReadOnlyNodeState> IReadOnlyDictionary<IReadOnlyIndex, IReadOnlyNodeState>.Values { get { return new List<IReadOnlyNodeState>(Values); } }
-
-        IEnumerator<KeyValuePair<IReadOnlyIndex, IReadOnlyNodeState>> IEnumerable<KeyValuePair<IReadOnlyIndex, IReadOnlyNodeState>>.GetEnumerator()
-        {
-            List<KeyValuePair<IReadOnlyIndex, IReadOnlyNodeState>> NewList = new List<KeyValuePair<IReadOnlyIndex, IReadOnlyNodeState>>();
-            IEnumerator<KeyValuePair<IWriteableIndex, IWriteableNodeState>> Enumerator = GetEnumerator();
-            while (Enumerator.MoveNext())
-            {
-                KeyValuePair<IWriteableIndex, IWriteableNodeState> Entry = Enumerator.Current;
-                NewList.Add(new KeyValuePair<IReadOnlyIndex, IReadOnlyNodeState>(Entry.Key, Entry.Value));
-            }
-
-            return NewList.GetEnumerator();
-        }
+        IWriteableNodeState IReadOnlyDictionary<IWriteableIndex, IWriteableNodeState>.this[IWriteableIndex key] { get { return (IWriteableNodeState)this[key]; } }
+        IEnumerable<IWriteableIndex> IReadOnlyDictionary<IWriteableIndex, IWriteableNodeState>.Keys { get { List<IWriteableIndex> Result = new(); foreach (KeyValuePair<IWriteableIndex, IWriteableNodeState> Entry in (ICollection<KeyValuePair<IWriteableIndex, IWriteableNodeState>>)this) Result.Add(Entry.Key); return Result; } }
+        IEnumerable<IWriteableNodeState> IReadOnlyDictionary<IWriteableIndex, IWriteableNodeState>.Values { get { List<IWriteableNodeState> Result = new(); foreach (KeyValuePair<IWriteableIndex, IWriteableNodeState> Entry in (ICollection<KeyValuePair<IWriteableIndex, IWriteableNodeState>>)this) Result.Add(Entry.Value); return Result; } }
+        bool IReadOnlyDictionary<IWriteableIndex, IWriteableNodeState>.ContainsKey(IWriteableIndex key) { return ContainsKey(key); }
+        bool IReadOnlyDictionary<IWriteableIndex, IWriteableNodeState>.TryGetValue(IWriteableIndex key, out IWriteableNodeState value) { bool Result = TryGetValue(key, out IReadOnlyNodeState Value); value = (IWriteableNodeState)Value; return Result; }
         #endregion
     }
 }

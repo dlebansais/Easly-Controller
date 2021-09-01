@@ -9,6 +9,7 @@
     {
     }
 
+
     /// <summary>
     /// Base inner for a single node inner.
     /// </summary>
@@ -49,7 +50,7 @@
         /// Replaces a node.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        public abstract void Replace(IWriteableReplaceOperation operation);
+        public abstract void Replace(WriteableReplaceOperation operation);
         #endregion
     }
 }

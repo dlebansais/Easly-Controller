@@ -25,16 +25,67 @@
         Type InterfaceType { get; }
     }
 
+
     /// <summary>
     /// Interface for all inners.
     /// </summary>
-    /// <typeparam name="TIndex">Type of the index.</typeparam>
-    public abstract class ReadOnlyInner<TIndex> :  IReadOnlyInner, IEqualComparable
-        where TIndex : IReadOnlyBrowsingChildIndex
+    /// <typeparam name="IIndex">Type of the index.</typeparam>
+    public interface IReadOnlyInner<out IIndex> : IEqualComparable
+        where IIndex : IReadOnlyBrowsingChildIndex
+    {
+        /// <summary>
+        /// Parent containing the inner.
+        /// </summary>
+        IReadOnlyNodeState Owner { get; }
+
+        /// <summary>
+        /// Property name of the inner in the parent.
+        /// </summary>
+        string PropertyName { get; }
+
+        /// <summary>
+        /// Interface type for all nodes in the inner.
+        /// </summary>
+        Type InterfaceType { get; }
+
+        /// <summary>
+        /// Initializes a newly created state for a node in the inner.
+        /// </summary>
+        /// <param name="nodeIndex">Index of the node.</param>
+        /// <returns>The created node state.</returns>
+        IReadOnlyNodeState InitChildState(IReadOnlyBrowsingChildIndex nodeIndex);
+
+        /// <summary>
+        /// Creates a clone of all children of the inner, using <paramref name="parentNode"/> as their parent.
+        /// </summary>
+        /// <param name="parentNode">The node that will contains references to cloned children upon return.</param>
+        void CloneChildren(Node parentNode);
+
+        /// <summary>
+        /// Attach a view to the inner.
+        /// </summary>
+        /// <param name="view">The attaching view.</param>
+        /// <param name="callbackSet">The set of callbacks to call when enumerating existing states.</param>
+        void Attach(ReadOnlyControllerView view, ReadOnlyAttachCallbackSet callbackSet);
+
+        /// <summary>
+        /// Detach a view from the inner.
+        /// </summary>
+        /// <param name="view">The attaching view.</param>
+        /// <param name="callbackSet">The set of callbacks to no longer call when enumerating existing states.</param>
+        void Detach(ReadOnlyControllerView view, ReadOnlyAttachCallbackSet callbackSet);
+    }
+
+    /// <summary>
+    /// Interface for all inners.
+    /// </summary>
+    /// <typeparam name="IIndex">Type of the index.</typeparam>
+    public abstract class ReadOnlyInner<IIndex> : IReadOnlyInner<IIndex>, IReadOnlyInner, IEqualComparable
+        where IIndex : IReadOnlyBrowsingChildIndex
     {
         #region Init
         /// <summary>
-        /// Initializes a new instance of the <see cref="ReadOnlyInner{TIndex}"/> class.
+        /// Initializes a new instance of the <see cref="ReadOnlyInner{IIndex}"/> class.
         /// </summary>
         /// <param name="owner">Parent containing the inner.</param>
         /// <param name="propertyName">Property name of the inner in <paramref name="owner"/>.</param>
@@ -96,7 +147,7 @@
 
         #region Debugging
         /// <summary>
-        /// Compares two <see cref="ReadOnlyInner{TIndex}"/> objects.
+        /// Compares two <see cref="ReadOnlyInner{IIndex}"/> objects.
         /// </summary>
         /// <param name="comparer">The comparison support object.</param>
         /// <param name="other">The other object.</param>
@@ -104,7 +155,7 @@
         {
             Debug.Assert(other != null);
 
-            if (!comparer.IsSameType(other, out ReadOnlyInner<TIndex> AsInner))
+            if (!comparer.IsSameType(other, out ReadOnlyInner<IIndex> AsInner))
                 return comparer.Failed();
 
             if (!comparer.VerifyEqual(Owner, AsInner.Owner))

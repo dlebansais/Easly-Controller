@@ -8,7 +8,7 @@ namespace EaslyController.ReadOnly
     /// <summary>
     /// List of IxxxNodeState
     /// </summary>
-    public class ReadOnlyNodeStateList : Collection<IReadOnlyNodeState>
+    public class ReadOnlyNodeStateList : List<IReadOnlyNodeState>
     {
         public virtual ReadOnlyNodeStateReadOnlyList ToReadOnly()
         {

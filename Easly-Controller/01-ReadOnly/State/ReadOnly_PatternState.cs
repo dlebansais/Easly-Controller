@@ -33,13 +33,22 @@
     /// <summary>
     /// State of an replication pattern node.
     /// </summary>
-    /// <typeparam name="TIndex">Parent inner of the state.</typeparam>
-    internal class ReadOnlyPatternState<TIndex> : ReadOnlyPlaceholderNodeState<TIndex>, IReadOnlyPatternState, IReadOnlyNodeState
-        where TIndex : ReadOnlyInner<IReadOnlyBrowsingChildIndex>
+    /// <typeparam name="IInner">Parent inner of the state.</typeparam>
+    internal interface IReadOnlyPatternState<out IInner> : IReadOnlyPlaceholderNodeState<IInner>
+        where IInner : IReadOnlyInner<IReadOnlyBrowsingChildIndex>
+    {
+    }
+
+    /// <summary>
+    /// State of an replication pattern node.
+    /// </summary>
+    /// <typeparam name="IInner">Parent inner of the state.</typeparam>
+    internal class ReadOnlyPatternState<IInner> : ReadOnlyPlaceholderNodeState<IInner>, IReadOnlyPatternState<IInner>, IReadOnlyPatternState, IReadOnlyNodeState
+        where IInner : IReadOnlyInner<IReadOnlyBrowsingChildIndex>
     {
         #region Init
         /// <summary>
-        /// Initializes a new instance of the <see cref="ReadOnlyPatternState{TIndex}"/> class.
+        /// Initializes a new instance of the <see cref="ReadOnlyPatternState{IInner}"/> class.
         /// </summary>
         /// <param name="parentBlockState">The parent block state.</param>
         /// <param name="index">The index used to create the state.</param>
@@ -79,7 +88,7 @@
 
         #region Debugging
         /// <summary>
-        /// Compares two <see cref="ReadOnlyPatternState{TIndex}"/> objects.
+        /// Compares two <see cref="ReadOnlyPatternState{IInner}"/> objects.
         /// </summary>
         /// <param name="comparer">The comparison support object.</param>
         /// <param name="other">The other object.</param>
@@ -87,7 +96,7 @@
         {
             Debug.Assert(other != null);
 
-            if (!comparer.IsSameType(other, out ReadOnlyPatternState<TIndex> AsPatternState))
+            if (!comparer.IsSameType(other, out ReadOnlyPatternState<IInner> AsPatternState))
                 return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsPatternState))

@@ -10,10 +10,10 @@
     /// Controller for a node tree.
     /// This controller supports operations to modify the tree.
     /// </summary>
-    public partial class WriteableController : ReadOnlyController, IWriteableController
+    public partial class WriteableController : ReadOnlyController
     {
         #region Descendant Interface
-        private protected override void CheckContextConsistency(IReadOnlyBrowseContext browseContext)
+        private protected override void CheckContextConsistency(ReadOnlyBrowseContext browseContext)
         {
             ((WriteableBrowseContext)browseContext).CheckConsistency();
         }
@@ -26,26 +26,27 @@
 
         private protected virtual void PruneStateChildren(IWriteableNodeState state)
         {
-            foreach (KeyValuePair<string, IWriteableInner> Entry in state.InnerTable)
+            foreach (string Key in state.InnerTable.Keys)
             {
+                IWriteableInner Value = (IWriteableInner)state.InnerTable[Key];
                 bool IsHandled = false;
 
-                if (Entry.Value is IWriteablePlaceholderInner<IWriteableBrowsingPlaceholderNodeIndex> AsPlaceholderInner)
+                if (Value is WriteablePlaceholderInner<WriteableBrowsingPlaceholderNodeIndex> AsPlaceholderInner)
                 {
                     PrunePlaceholderInner(AsPlaceholderInner);
                     IsHandled = true;
                 }
-                else if (Entry.Value is IWriteableOptionalInner<IWriteableBrowsingOptionalNodeIndex> AsOptionalInner)
+                else if (Value is WriteableOptionalInner<WriteableBrowsingOptionalNodeIndex> AsOptionalInner)
                 {
                     PruneOptionalInner(AsOptionalInner);
                     IsHandled = true;
                 }
-                else if (Entry.Value is IWriteableListInner<IWriteableBrowsingListNodeIndex> AsListInner)
+                else if (Value is WriteableListInner<WriteableBrowsingListNodeIndex> AsListInner)
                 {
                     PruneListInner(AsListInner);
                     IsHandled = true;
                 }
-                else if (Entry.Value is IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> AsBlockListInner)
+                else if (Value is WriteableBlockListInner<WriteableBrowsingBlockNodeIndex> AsBlockListInner)
                 {
                     PruneBlockListInner(AsBlockListInner);
                     IsHandled = true;
@@ -55,14 +56,14 @@
             }
         }
 
-        private protected virtual void PrunePlaceholderInner(IWriteablePlaceholderInner<IWriteableBrowsingPlaceholderNodeIndex> inner)
+        private protected virtual void PrunePlaceholderInner(WriteablePlaceholderInner<WriteableBrowsingPlaceholderNodeIndex> inner)
         {
             PruneState(inner.ChildState);
 
             Stats.PlaceholderNodeCount--;
         }
 
-        private protected virtual void PruneOptionalInner(IWriteableOptionalInner<IWriteableBrowsingOptionalNodeIndex> inner)
+        private protected virtual void PruneOptionalInner(WriteableOptionalInner<WriteableBrowsingOptionalNodeIndex> inner)
         {
             PruneState(inner.ChildState);
 
@@ -71,7 +72,7 @@
                 Stats.AssignedOptionalNodeCount--;
         }
 
-        private protected virtual void PruneListInner(IWriteableListInner<IWriteableBrowsingListNodeIndex> inner)
+        private protected virtual void PruneListInner(WriteableListInner<WriteableBrowsingListNodeIndex> inner)
         {
             foreach (IWriteableNodeState State in inner.StateList)
             {
@@ -83,13 +84,13 @@
             Stats.ListCount--;
         }
 
-        private protected virtual void PruneBlockListInner(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner)
+        private protected virtual void PruneBlockListInner(WriteableBlockListInner<WriteableBrowsingBlockNodeIndex> inner)
         {
             for (int BlockIndex = inner.BlockStateList.Count; BlockIndex > 0; BlockIndex--)
             {
-                Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => RedoRemoveBlockView(operation);
-                Action<IWriteableOperation> HandlerUndo = (IWriteableOperation operation) => throw new NotImplementedException(); // Undo is not possible.
-                IWriteableRemoveBlockViewOperation Operation = CreateRemoveBlockViewOperation(inner.Owner.Node, inner.PropertyName, BlockIndex - 1, HandlerRedo, HandlerUndo, isNested: true);
+                Action<WriteableOperation> HandlerRedo = (WriteableOperation operation) => RedoRemoveBlockView(operation);
+                Action<WriteableOperation> HandlerUndo = (WriteableOperation operation) => throw new NotImplementedException(); // Undo is not possible.
+                WriteableRemoveBlockViewOperation Operation = CreateRemoveBlockViewOperation(inner.Owner.Node, inner.PropertyName, BlockIndex - 1, HandlerRedo, HandlerUndo, isNested: true);
 
                 Operation.Redo();
             }
@@ -97,29 +98,29 @@
             Stats.BlockListCount--;
         }
 
-        private protected virtual void RedoRemoveBlockView(IWriteableOperation operation)
+        private protected virtual void RedoRemoveBlockView(WriteableOperation operation)
         {
-            IWriteableRemoveBlockViewOperation RemoveBlockViewOperation = (IWriteableRemoveBlockViewOperation)operation;
+            WriteableRemoveBlockViewOperation RemoveBlockViewOperation = (WriteableRemoveBlockViewOperation)operation;
             ExecuteRemoveBlockView(RemoveBlockViewOperation);
         }
 
-        private protected virtual void ExecuteRemoveBlockView(IWriteableRemoveBlockViewOperation operation)
+        private protected virtual void ExecuteRemoveBlockView(WriteableRemoveBlockViewOperation operation)
         {
             Node ParentNode = operation.ParentNode;
             string PropertyName = operation.PropertyName;
-            IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> Inner = GetInner(ParentNode, PropertyName) as IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex>;
-            IWriteableBlockState RemovedBlockState = Inner.BlockStateList[operation.BlockIndex];
+            IWriteableBlockListInner<WriteableBrowsingBlockNodeIndex> Inner = GetInner(ParentNode, PropertyName) as IWriteableBlockListInner<WriteableBrowsingBlockNodeIndex>;
+            IWriteableBlockState RemovedBlockState = (IWriteableBlockState)Inner.BlockStateList[operation.BlockIndex];
 
             for (int Index = 0; Index < RemovedBlockState.StateList.Count; Index++)
             {
-                IWriteableNodeState State = RemovedBlockState.StateList[Index];
+                IWriteableNodeState State = (IWriteableNodeState)RemovedBlockState.StateList[Index];
 
                 PruneState(State);
                 Stats.PlaceholderNodeCount--;
             }
 
-            IWriteableBrowsingPatternIndex PatternIndex = RemovedBlockState.PatternIndex;
-            IWriteableBrowsingSourceIndex SourceIndex = RemovedBlockState.SourceIndex;
+            WriteableBrowsingPatternIndex PatternIndex = RemovedBlockState.PatternIndex;
+            WriteableBrowsingSourceIndex SourceIndex = RemovedBlockState.SourceIndex;
 
             Debug.Assert(PatternIndex != null);
             Debug.Assert(StateTable.ContainsKey(PatternIndex));
@@ -141,102 +142,102 @@
             NotifyBlockViewRemoved(operation);
         }
 
-        private protected virtual void NotifyBlockStateInserted(IWriteableInsertBlockOperation operation)
+        private protected virtual void NotifyBlockStateInserted(WriteableInsertBlockOperation operation)
         {
             BlockStateInsertedHandler?.Invoke(operation);
         }
 
-        private protected virtual void NotifyBlockStateRemoved(IWriteableRemoveBlockOperation operation)
+        private protected virtual void NotifyBlockStateRemoved(WriteableRemoveBlockOperation operation)
         {
             BlockStateRemovedHandler?.Invoke(operation);
         }
 
-        private protected virtual void NotifyBlockViewRemoved(IWriteableRemoveBlockViewOperation operation)
+        private protected virtual void NotifyBlockViewRemoved(WriteableRemoveBlockViewOperation operation)
         {
             BlockViewRemovedHandler?.Invoke(operation);
         }
 
-        private protected virtual void NotifyStateInserted(IWriteableInsertNodeOperation operation)
+        private protected virtual void NotifyStateInserted(WriteableInsertNodeOperation operation)
         {
             StateInsertedHandler?.Invoke(operation);
         }
 
-        private protected virtual void NotifyStateRemoved(IWriteableRemoveNodeOperation operation)
+        private protected virtual void NotifyStateRemoved(WriteableRemoveNodeOperation operation)
         {
             StateRemovedHandler?.Invoke(operation);
         }
 
-        private protected virtual void NotifyStateReplaced(IWriteableReplaceOperation operation)
+        private protected virtual void NotifyStateReplaced(WriteableReplaceOperation operation)
         {
             StateReplacedHandler?.Invoke(operation);
         }
 
-        private protected virtual void NotifyStateAssigned(IWriteableAssignmentOperation operation)
+        private protected virtual void NotifyStateAssigned(WriteableAssignmentOperation operation)
         {
             StateAssignedHandler?.Invoke(operation);
         }
 
-        private protected virtual void NotifyStateUnassigned(IWriteableAssignmentOperation operation)
+        private protected virtual void NotifyStateUnassigned(WriteableAssignmentOperation operation)
         {
             StateUnassignedHandler?.Invoke(operation);
         }
 
-        private protected virtual void NotifyDiscreteValueChanged(IWriteableChangeDiscreteValueOperation operation)
+        private protected virtual void NotifyDiscreteValueChanged(WriteableChangeDiscreteValueOperation operation)
         {
             DiscreteValueChangedHandler?.Invoke(operation);
         }
 
-        private protected virtual void NotifyTextChanged(IWriteableChangeTextOperation operation)
+        private protected virtual void NotifyTextChanged(WriteableChangeTextOperation operation)
         {
             TextChangedHandler?.Invoke(operation);
         }
 
-        private protected virtual void NotifyCommentChanged(IWriteableChangeCommentOperation operation)
+        private protected virtual void NotifyCommentChanged(WriteableChangeCommentOperation operation)
         {
             CommentChangedHandler?.Invoke(operation);
         }
 
-        private protected virtual void NotifyBlockStateChanged(IWriteableChangeBlockOperation operation)
+        private protected virtual void NotifyBlockStateChanged(WriteableChangeBlockOperation operation)
         {
             BlockStateChangedHandler?.Invoke(operation);
         }
 
-        private protected virtual void NotifyStateMoved(IWriteableMoveNodeOperation operation)
+        private protected virtual void NotifyStateMoved(WriteableMoveNodeOperation operation)
         {
             StateMovedHandler?.Invoke(operation);
         }
 
-        private protected virtual void NotifyBlockStateMoved(IWriteableMoveBlockOperation operation)
+        private protected virtual void NotifyBlockStateMoved(WriteableMoveBlockOperation operation)
         {
             BlockStateMovedHandler?.Invoke(operation);
         }
 
-        private protected virtual void NotifyBlockSplit(IWriteableSplitBlockOperation operation)
+        private protected virtual void NotifyBlockSplit(WriteableSplitBlockOperation operation)
         {
             BlockSplitHandler?.Invoke(operation);
         }
 
-        private protected virtual void NotifyBlocksMerged(IWriteableMergeBlocksOperation operation)
+        private protected virtual void NotifyBlocksMerged(WriteableMergeBlocksOperation operation)
         {
             BlocksMergedHandler?.Invoke(operation);
         }
 
-        private protected virtual void NotifyGenericRefresh(IWriteableGenericRefreshOperation operation)
+        private protected virtual void NotifyGenericRefresh(WriteableGenericRefreshOperation operation)
         {
             GenericRefreshHandler?.Invoke(operation);
         }
 
-        private protected virtual void SetLastOperation(IWriteableOperation operation)
+        private protected virtual void SetLastOperation(WriteableOperation operation)
         {
-            IWriteableOperationList OperationList = CreateOperationList();
+            WriteableOperationList OperationList = CreateOperationList();
             OperationList.Add(operation);
-            IWriteableOperationReadOnlyList OperationReadOnlyList = OperationList.ToReadOnly();
-            IWriteableOperationGroup OperationGroup = CreateOperationGroup(OperationReadOnlyList, null);
+            WriteableOperationReadOnlyList OperationReadOnlyList = OperationList.ToReadOnly();
+            WriteableOperationGroup OperationGroup = CreateOperationGroup(OperationReadOnlyList, null);
 
             SetLastOperation(OperationGroup);
         }
 
-        private protected virtual void SetLastOperation(IWriteableOperationGroup operationGroup)
+        private protected virtual void SetLastOperation(WriteableOperationGroup operationGroup)
         {
             Debug.Assert(RedoIndex >= 0 && RedoIndex <= _OperationStack.Count);
 

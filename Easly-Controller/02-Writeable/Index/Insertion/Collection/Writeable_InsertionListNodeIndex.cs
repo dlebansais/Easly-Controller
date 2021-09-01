@@ -8,23 +8,7 @@
     /// <summary>
     /// Index for inserting a node in a list of nodes.
     /// </summary>
-    public interface IWriteableInsertionListNodeIndex : IWriteableInsertionCollectionNodeIndex, IEqualComparable
-    {
-        /// <summary>
-        /// Position where to insert in the list.
-        /// </summary>
-        int Index { get; }
-
-        /// <summary>
-        /// Modifies the index to address the next position in a list.
-        /// </summary>
-        void MoveUp();
-    }
-
-    /// <summary>
-    /// Index for inserting a node in a list of nodes.
-    /// </summary>
-    public class WriteableInsertionListNodeIndex : WriteableInsertionCollectionNodeIndex, IWriteableInsertionListNodeIndex
+    public class WriteableInsertionListNodeIndex : WriteableInsertionCollectionNodeIndex, IEqualComparable
     {
         #region Init
         /// <summary>
@@ -99,7 +83,7 @@
         /// <summary>
         /// Creates a IxxxBrowsingListNodeIndex object.
         /// </summary>
-        private protected virtual IWriteableBrowsingListNodeIndex CreateBrowsingIndex()
+        private protected virtual WriteableBrowsingListNodeIndex CreateBrowsingIndex()
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableInsertionListNodeIndex));
             return new WriteableBrowsingListNodeIndex(ParentNode, Node, PropertyName, Index);

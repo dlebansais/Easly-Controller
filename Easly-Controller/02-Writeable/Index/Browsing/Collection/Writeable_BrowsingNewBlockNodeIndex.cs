@@ -7,14 +7,7 @@
     /// <summary>
     /// Index for the first node in a block.
     /// </summary>
-    public interface IWriteableBrowsingNewBlockNodeIndex : IReadOnlyBrowsingNewBlockNodeIndex, IWriteableBrowsingBlockNodeIndex
-    {
-    }
-
-    /// <summary>
-    /// Index for the first node in a block.
-    /// </summary>
-    internal class WriteableBrowsingNewBlockNodeIndex : ReadOnlyBrowsingNewBlockNodeIndex, IWriteableBrowsingNewBlockNodeIndex
+    internal class WriteableBrowsingNewBlockNodeIndex : ReadOnlyBrowsingNewBlockNodeIndex
     {
         #region Init
         /// <summary>
@@ -34,7 +27,7 @@
         /// <summary>
         /// Creates a IxxxBrowsingExistingBlockNodeIndex object.
         /// </summary>
-        private protected override IReadOnlyBrowsingExistingBlockNodeIndex CreateExistingBlockIndex()
+        private protected override ReadOnlyBrowsingExistingBlockNodeIndex CreateExistingBlockIndex()
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableBrowsingNewBlockNodeIndex));
             return new WriteableBrowsingExistingBlockNodeIndex(ParentNode, Node, PropertyName, BlockIndex, 0);

@@ -7,14 +7,7 @@
     /// <summary>
     /// Index for the source identifier node of a block.
     /// </summary>
-    public interface IWriteableBrowsingSourceIndex : IReadOnlyBrowsingSourceIndex, IWriteableBrowsingChildIndex, IWriteableNodeIndex
-    {
-    }
-
-    /// <summary>
-    /// Index for the source identifier node of a block.
-    /// </summary>
-    internal class WriteableBrowsingSourceIndex : ReadOnlyBrowsingSourceIndex, IWriteableBrowsingSourceIndex
+    public class WriteableBrowsingSourceIndex : ReadOnlyBrowsingSourceIndex, IWriteableBrowsingChildIndex, IWriteableNodeIndex
     {
         #region Init
         /// <summary>

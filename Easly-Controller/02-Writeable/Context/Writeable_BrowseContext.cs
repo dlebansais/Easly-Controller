@@ -7,23 +7,7 @@
     /// <summary>
     /// Context for browsing child nodes of a parent node.
     /// </summary>
-    internal interface IWriteableBrowseContext : IReadOnlyBrowseContext
-    {
-        /// <summary>
-        /// State this context is browsing.
-        /// </summary>
-        new IWriteableNodeState State { get; }
-
-        /// <summary>
-        /// List of index collections that have been added during browsing.
-        /// </summary>
-        new IWriteableIndexCollectionReadOnlyList IndexCollectionList { get; }
-    }
-
-    /// <summary>
-    /// Context for browsing child nodes of a parent node.
-    /// </summary>
-    internal class WriteableBrowseContext : ReadOnlyBrowseContext, IWriteableBrowseContext
+    internal class WriteableBrowseContext : ReadOnlyBrowseContext
     {
         #region Init
         /// <summary>
@@ -48,7 +32,7 @@
         /// <summary>
         /// List of index collections that have been added during browsing.
         /// </summary>
-        public new IWriteableIndexCollectionReadOnlyList IndexCollectionList { get { return (IWriteableIndexCollectionReadOnlyList)base.IndexCollectionList; } }
+        public new WriteableIndexCollectionReadOnlyList IndexCollectionList { get { return (WriteableIndexCollectionReadOnlyList)base.IndexCollectionList; } }
         #endregion
 
         #region Client Interface
@@ -61,16 +45,16 @@
 
             Debug.Assert(State != null);
 
-            IWriteableIndexCollectionList InternalList = InternalIndexCollectionList as IWriteableIndexCollectionList;
-            IWriteableIndexCollectionReadOnlyList PublicList = IndexCollectionList;
+            WriteableIndexCollectionList InternalList = InternalIndexCollectionList as WriteableIndexCollectionList;
+            WriteableIndexCollectionReadOnlyList PublicList = IndexCollectionList;
 
             for (int i = 0; i < InternalList.Count; i++)
             {
-                IWriteableIndexCollection InternalItem = InternalList[i];
+                IWriteableIndexCollection InternalItem = (IWriteableIndexCollection)InternalList[i];
                 Debug.Assert(PublicList.Contains(InternalItem));
                 Debug.Assert(PublicList.IndexOf(InternalItem) >= 0);
 
-                IWriteableIndexCollection PublicItem = PublicList[i];
+                IWriteableIndexCollection PublicItem = (IWriteableIndexCollection)PublicList[i];
                 Debug.Assert(InternalList.Contains(PublicItem));
                 Debug.Assert(InternalList.IndexOf(PublicItem) >= 0);
 
@@ -105,7 +89,7 @@
         /// <summary>
         /// Creates a IxxxCollectionList object.
         /// </summary>
-        private protected override IReadOnlyIndexCollectionList CreateIndexCollectionList()
+        private protected override ReadOnlyIndexCollectionList CreateIndexCollectionList()
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableBrowseContext));
             return new WriteableIndexCollectionList();

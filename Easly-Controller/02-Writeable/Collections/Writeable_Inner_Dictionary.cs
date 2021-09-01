@@ -9,65 +9,38 @@ namespace EaslyController.Writeable
     /// Dictionary of ..., IxxxInner
     /// </summary>
     /// <typeparam name="TKey">Type of the key.</typeparam>
-    public interface IWriteableInnerDictionary<TKey> : IReadOnlyInnerDictionary<TKey>, IDictionary<TKey, IWriteableInner>
+    public class WriteableInnerDictionary<TKey> : ReadOnlyInnerDictionary<TKey>, ICollection<KeyValuePair<TKey, IWriteableInner>>, IEnumerable<KeyValuePair<TKey, IWriteableInner>>, IDictionary<TKey, IWriteableInner>, IReadOnlyCollection<KeyValuePair<TKey, IWriteableInner>>, IReadOnlyDictionary<TKey, IWriteableInner>
     {
-        new IWriteableInner this[TKey key] { get; set; }
-        new int Count { get; }
-        new Dictionary<TKey, IWriteableInner>.Enumerator GetEnumerator();
-        new bool ContainsKey(TKey key);
-    }
+        #region TKey, IWriteableInner
+        void ICollection<KeyValuePair<TKey, IWriteableInner>>.Add(KeyValuePair<TKey, IWriteableInner> item) { Add(item.Key, item.Value); }
+        bool ICollection<KeyValuePair<TKey, IWriteableInner>>.Contains(KeyValuePair<TKey, IWriteableInner> item) { return ContainsKey(item.Key) && this[item.Key] == item.Value; }
+        void ICollection<KeyValuePair<TKey, IWriteableInner>>.CopyTo(KeyValuePair<TKey, IWriteableInner>[] array, int arrayIndex) { int i = 0; foreach (KeyValuePair<TKey, IWriteableInner> Entry in ((ICollection<KeyValuePair<TKey, IWriteableInner>>)this)) array[i++] = Entry; }
+        bool ICollection<KeyValuePair<TKey, IWriteableInner>>.Remove(KeyValuePair<TKey, IWriteableInner> item) { return Remove(item.Key); }
+        bool ICollection<KeyValuePair<TKey, IWriteableInner>>.IsReadOnly { get { return false; } }
+        IEnumerator<KeyValuePair<TKey, IWriteableInner>> IEnumerable<KeyValuePair<TKey, IWriteableInner>>.GetEnumerator() { return new List<KeyValuePair<TKey, IWriteableInner>>(this).GetEnumerator(); }
 
-    /// <summary>
-    /// Dictionary of ..., IxxxInner
-    /// </summary>
-    /// <typeparam name="TKey">Type of the key.</typeparam>
-    internal class WriteableInnerDictionary<TKey> : Dictionary<TKey, IWriteableInner>, IWriteableInnerDictionary<TKey>
-    {
+        IWriteableInner IDictionary<TKey, IWriteableInner>.this[TKey key] { get { return (IWriteableInner)this[key]; } set { this[key] = value; } }
+        ICollection<TKey> IDictionary<TKey, IWriteableInner>.Keys { get { List<TKey> Result = new(); foreach (KeyValuePair<TKey, IWriteableInner> Entry in (ICollection<KeyValuePair<TKey, IWriteableInner>>)this) Result.Add(Entry.Key); return Result; } }
+        ICollection<IWriteableInner> IDictionary<TKey, IWriteableInner>.Values { get { List<IWriteableInner> Result = new(); foreach (KeyValuePair<TKey, IWriteableInner> Entry in (ICollection<KeyValuePair<TKey, IWriteableInner>>)this) Result.Add(Entry.Value); return Result; } }
+        void IDictionary<TKey, IWriteableInner>.Add(TKey key, IWriteableInner value) { Add(key, value); }
+        bool IDictionary<TKey, IWriteableInner>.ContainsKey(TKey key) { return ContainsKey(key); }
+        bool IDictionary<TKey, IWriteableInner>.Remove(TKey key) { return Remove(key); }
+        bool IDictionary<TKey, IWriteableInner>.TryGetValue(TKey key, out IWriteableInner value) { bool Result = TryGetValue(key, out IReadOnlyInner Value); value = (IWriteableInner)Value; return Result; }
+
+        IWriteableInner IReadOnlyDictionary<TKey, IWriteableInner>.this[TKey key] { get { return (IWriteableInner)this[key]; } }
+        IEnumerable<TKey> IReadOnlyDictionary<TKey, IWriteableInner>.Keys { get { List<TKey> Result = new(); foreach (KeyValuePair<TKey, IWriteableInner> Entry in (ICollection<KeyValuePair<TKey, IWriteableInner>>)this) Result.Add(Entry.Key); return Result; } }
+        IEnumerable<IWriteableInner> IReadOnlyDictionary<TKey, IWriteableInner>.Values { get { List<IWriteableInner> Result = new(); foreach (KeyValuePair<TKey, IWriteableInner> Entry in (ICollection<KeyValuePair<TKey, IWriteableInner>>)this) Result.Add(Entry.Value); return Result; } }
+        bool IReadOnlyDictionary<TKey, IWriteableInner>.ContainsKey(TKey key) { return ContainsKey(key); }
+        bool IReadOnlyDictionary<TKey, IWriteableInner>.TryGetValue(TKey key, out IWriteableInner value) { bool Result = TryGetValue(key, out IReadOnlyInner Value); value = (IWriteableInner)Value; return Result; }
+        #endregion
+
+
         /// <summary>
         /// Gets a read-only view of the dictionary.
         /// </summary>
-        public virtual IReadOnlyInnerReadOnlyDictionary<TKey> ToReadOnly()
+        public override ReadOnlyInnerReadOnlyDictionary<TKey> ToReadOnly()
         {
             return new WriteableInnerReadOnlyDictionary<TKey>(this);
         }
-
-        #region ReadOnly
-        IReadOnlyInner IDictionary<TKey, IReadOnlyInner>.this[TKey key] { get { return this[key]; } set { this[key] = (IWriteableInner)value; } }
-        void IDictionary<TKey, IReadOnlyInner>.Add(TKey key, IReadOnlyInner value) { Add(key, (IWriteableInner)value); }
-        ICollection<TKey> IDictionary<TKey, IReadOnlyInner>.Keys { get { return Keys; } }
-
-        bool IDictionary<TKey, IReadOnlyInner>.TryGetValue(TKey key, out IReadOnlyInner value)
-        {
-            bool Result = TryGetValue(key, out IWriteableInner Value);
-            value = Value;
-            return Result;
-        }
-
-        ICollection<IReadOnlyInner> IDictionary<TKey, IReadOnlyInner>.Values { get { return new List<IReadOnlyInner>(Values); } }
-
-        void ICollection<KeyValuePair<TKey, IReadOnlyInner>>.CopyTo(KeyValuePair<TKey, IReadOnlyInner>[] array, int arrayIndex)
-        {
-            foreach (KeyValuePair<TKey, IWriteableInner> Entry in this)
-                array[arrayIndex++] = new KeyValuePair<TKey, IReadOnlyInner>(Entry.Key, Entry.Value);
-        }
-
-        void ICollection<KeyValuePair<TKey, IReadOnlyInner>>.Add(KeyValuePair<TKey, IReadOnlyInner> item) { Add(item.Key, (IWriteableInner)item.Value); }
-        bool ICollection<KeyValuePair<TKey, IReadOnlyInner>>.Contains(KeyValuePair<TKey, IReadOnlyInner> item) { return ContainsKey(item.Key) && this[item.Key] == item.Value; }
-        bool ICollection<KeyValuePair<TKey, IReadOnlyInner>>.Remove(KeyValuePair<TKey, IReadOnlyInner> item) { return Remove(item.Key); }
-        bool ICollection<KeyValuePair<TKey, IReadOnlyInner>>.IsReadOnly { get { return ((ICollection<KeyValuePair<TKey, IWriteableInner>>)this).IsReadOnly; } }
-
-        IEnumerator<KeyValuePair<TKey, IReadOnlyInner>> IEnumerable<KeyValuePair<TKey, IReadOnlyInner>>.GetEnumerator()
-        {
-            List<KeyValuePair<TKey, IReadOnlyInner>> NewList = new List<KeyValuePair<TKey, IReadOnlyInner>>();
-            IEnumerator<KeyValuePair<TKey, IWriteableInner>> Enumerator = GetEnumerator();
-            while (Enumerator.MoveNext())
-            {
-                KeyValuePair<TKey, IWriteableInner> Entry = Enumerator.Current;
-                NewList.Add(new KeyValuePair<TKey, IReadOnlyInner>(Entry.Key, Entry.Value));
-            }
-
-            return NewList.GetEnumerator();
-        }
-        #endregion
     }
 }

@@ -7,60 +7,7 @@
     /// <summary>
     /// Operation details for inserting a node in a list or block list.
     /// </summary>
-    public interface IWriteableInsertNodeOperation : IWriteableInsertOperation
-    {
-        /// <summary>
-        /// Node where the insertion is taking place.
-        /// </summary>
-        Node ParentNode { get; }
-
-        /// <summary>
-        /// Property of <see cref="ParentNode"/> where a node is inserted.
-        /// </summary>
-        string PropertyName { get; }
-
-        /// <summary>
-        /// Block position where the node is inserted, if applicable.
-        /// </summary>
-        int BlockIndex { get; }
-
-        /// <summary>
-        /// Position where the node is inserted.
-        /// </summary>
-        int Index { get; }
-
-        /// <summary>
-        /// The inserted node.
-        /// </summary>
-        Node Node { get; }
-
-        /// <summary>
-        /// Index of the state after it's inserted.
-        /// </summary>
-        IWriteableBrowsingCollectionNodeIndex BrowsingIndex { get; }
-
-        /// <summary>
-        /// State inserted.
-        /// </summary>
-        IWriteablePlaceholderNodeState ChildState { get; }
-
-        /// <summary>
-        /// Update the operation with details.
-        /// </summary>
-        /// <param name="browsingIndex">Index of the state after it's inserted.</param>
-        /// <param name="childState">State inserted.</param>
-        void Update(IWriteableBrowsingCollectionNodeIndex browsingIndex, IWriteablePlaceholderNodeState childState);
-
-        /// <summary>
-        /// Creates an operation to undo the insert operation.
-        /// </summary>
-        IWriteableRemoveNodeOperation ToRemoveNodeOperation();
-    }
-
-    /// <summary>
-    /// Operation details for inserting a node in a list or block list.
-    /// </summary>
-    internal class WriteableInsertNodeOperation : WriteableInsertOperation, IWriteableInsertNodeOperation
+    public class WriteableInsertNodeOperation : WriteableInsertOperation
     {
         #region Init
         /// <summary>
@@ -74,7 +21,7 @@
         /// <param name="handlerRedo">Handler to execute to redo the operation.</param>
         /// <param name="handlerUndo">Handler to execute to undo the operation.</param>
         /// <param name="isNested">True if the operation is nested within another more general one.</param>
-        public WriteableInsertNodeOperation(Node parentNode, string propertyName, int blockIndex, int index, Node node, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        public WriteableInsertNodeOperation(Node parentNode, string propertyName, int blockIndex, int index, Node node, Action<WriteableOperation> handlerRedo, Action<WriteableOperation> handlerUndo, bool isNested)
             : base(handlerRedo, handlerUndo, isNested)
         {
             ParentNode = parentNode;
@@ -140,7 +87,7 @@
         /// <summary>
         /// Creates an operation to undo the insert operation.
         /// </summary>
-        public virtual IWriteableRemoveNodeOperation ToRemoveNodeOperation()
+        public virtual WriteableRemoveNodeOperation ToRemoveNodeOperation()
         {
             return CreateRemoveNodeOperation(BlockIndex, Index, HandlerUndo, HandlerRedo, IsNested);
         }
@@ -150,7 +97,7 @@
         /// <summary>
         /// Creates a IxxxRemoveNodeOperation object.
         /// </summary>
-        private protected virtual IWriteableRemoveNodeOperation CreateRemoveNodeOperation(int blockIndex, int index, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        private protected virtual WriteableRemoveNodeOperation CreateRemoveNodeOperation(int blockIndex, int index, Action<WriteableOperation> handlerRedo, Action<WriteableOperation> handlerUndo, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableInsertNodeOperation));
             return new WriteableRemoveNodeOperation(ParentNode, PropertyName, blockIndex, index, handlerRedo, handlerUndo, isNested);

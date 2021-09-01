@@ -8,18 +8,9 @@ namespace EaslyController.Writeable
     /// <summary>
     /// Read-only list of IxxxOperationGroup
     /// </summary>
-    public interface IWriteableOperationGroupReadOnlyList : IReadOnlyList<IWriteableOperationGroup>
+    public class WriteableOperationGroupReadOnlyList : ReadOnlyCollection<WriteableOperationGroup>
     {
-        bool Contains(IWriteableOperationGroup value);
-        int IndexOf(IWriteableOperationGroup value);
-    }
-
-    /// <summary>
-    /// Read-only list of IxxxOperationGroup
-    /// </summary>
-    internal class WriteableOperationGroupReadOnlyList : ReadOnlyCollection<IWriteableOperationGroup>, IWriteableOperationGroupReadOnlyList
-    {
-        public WriteableOperationGroupReadOnlyList(IWriteableOperationGroupList list)
+        public WriteableOperationGroupReadOnlyList(WriteableOperationGroupList list)
             : base(list)
         {
         }

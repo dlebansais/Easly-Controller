@@ -27,7 +27,7 @@
         /// <summary>
         /// Table for all inners in this state.
         /// </summary>
-        new IWriteableInnerReadOnlyDictionary<string> InnerTable { get; }
+        new WriteableInnerReadOnlyDictionary<string> InnerTable { get; }
     }
 
     /// <summary>
@@ -76,7 +76,7 @@
         /// <summary>
         /// Table for all inners in this state.
         /// </summary>
-        public new IWriteableInnerReadOnlyDictionary<string> InnerTable { get { return (IWriteableInnerReadOnlyDictionary<string>)base.InnerTable; } }
+        public new WriteableInnerReadOnlyDictionary<string> InnerTable { get { return (WriteableInnerReadOnlyDictionary<string>)base.InnerTable; } }
         #endregion
     }
 }

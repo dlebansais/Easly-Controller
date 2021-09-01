@@ -8,7 +8,7 @@ namespace EaslyController.ReadOnly
     /// <summary>
     /// List of IxxxBrowsingBlockNodeIndex
     /// </summary>
-    public class ReadOnlyBrowsingBlockNodeIndexList : Collection<ReadOnlyBrowsingBlockNodeIndex>
+    public class ReadOnlyBrowsingBlockNodeIndexList : List<ReadOnlyBrowsingBlockNodeIndex>
     {
     }
 }

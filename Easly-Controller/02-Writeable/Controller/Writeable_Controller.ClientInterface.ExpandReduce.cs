@@ -11,7 +11,7 @@
     /// Controller for a node tree.
     /// This controller supports operations to modify the tree.
     /// </summary>
-    public partial class WriteableController : ReadOnlyController, IWriteableController
+    public partial class WriteableController : ReadOnlyController
     {
         /// <summary>
         /// Expands an existing node. In the node:
@@ -26,7 +26,7 @@
             Debug.Assert(StateTable.ContainsKey(expandedIndex));
             Debug.Assert(StateTable[expandedIndex] is IWriteablePlaceholderNodeState);
 
-            IWriteableOperationList OperationList = CreateOperationList();
+            WriteableOperationList OperationList = CreateOperationList();
 
             DebugObjects.AddReference(OperationList);
 
@@ -34,8 +34,8 @@
 
             if (OperationList.Count > 0)
             {
-                IWriteableOperationReadOnlyList OperationReadOnlyList = OperationList.ToReadOnly();
-                IWriteableOperationGroup OperationGroup = CreateOperationGroup(OperationReadOnlyList, null);
+                WriteableOperationReadOnlyList OperationReadOnlyList = OperationList.ToReadOnly();
+                WriteableOperationGroup OperationGroup = CreateOperationGroup(OperationReadOnlyList, null);
 
                 SetLastOperation(OperationGroup);
                 CheckInvariant();
@@ -46,19 +46,21 @@
                 isChanged = false;
         }
 
-        private protected virtual void Expand(IWriteableNodeIndex expandedIndex, IWriteableOperationList operationList)
+        private protected virtual void Expand(IWriteableNodeIndex expandedIndex, WriteableOperationList operationList)
         {
             IWriteablePlaceholderNodeState State = StateTable[expandedIndex] as IWriteablePlaceholderNodeState;
             State = FindBestExpandReduceState(State);
             Debug.Assert(State != null);
 
-            IWriteableInnerReadOnlyDictionary<string> InnerTable = State.InnerTable;
+            WriteableInnerReadOnlyDictionary<string> InnerTable = State.InnerTable;
 
-            foreach (KeyValuePair<string, IWriteableInner> Entry in InnerTable)
+            foreach (string Key in InnerTable.Keys)
             {
-                if (Entry.Value is IWriteableOptionalInner<IWriteableBrowsingOptionalNodeIndex> AsOptionalInner)
+                IWriteableInner Value = (IWriteableInner)InnerTable[Key];
+
+                if (Value is WriteableOptionalInner<WriteableBrowsingOptionalNodeIndex> AsOptionalInner)
                     ExpandOptional(AsOptionalInner, operationList);
-                else if (Entry.Value is IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> AsBlockListInner)
+                else if (Value is WriteableBlockListInner<WriteableBrowsingBlockNodeIndex> AsBlockListInner)
                     ExpandBlockList(AsBlockListInner, operationList);
             }
         }
@@ -79,17 +81,17 @@
         /// * If it has an item, assign it.
         /// * Otherwise, assign the item to a default node.
         /// </summary>
-        private protected virtual void ExpandOptional(IWriteableOptionalInner<IWriteableBrowsingOptionalNodeIndex> optionalInner, IWriteableOperationList operationList)
+        private protected virtual void ExpandOptional(WriteableOptionalInner<WriteableBrowsingOptionalNodeIndex> optionalInner, WriteableOperationList operationList)
         {
             if (optionalInner.IsAssigned)
                 return;
 
-            IWriteableBrowsingOptionalNodeIndex ParentIndex = optionalInner.ChildState.ParentIndex;
+            WriteableBrowsingOptionalNodeIndex ParentIndex = optionalInner.ChildState.ParentIndex;
             if (ParentIndex.Optional.HasItem)
             {
-                Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => RedoAssign(operation);
-                Action<IWriteableOperation> HandlerUndo = (IWriteableOperation operation) => UndoAssign(operation);
-                IWriteableAssignmentOperation Operation = CreateAssignmentOperation(optionalInner.Owner.Node, optionalInner.PropertyName, HandlerRedo, HandlerUndo, isNested: false);
+                Action<WriteableOperation> HandlerRedo = (WriteableOperation operation) => RedoAssign(operation);
+                Action<WriteableOperation> HandlerUndo = (WriteableOperation operation) => UndoAssign(operation);
+                WriteableAssignmentOperation Operation = CreateAssignmentOperation(optionalInner.Owner.Node, optionalInner.PropertyName, HandlerRedo, HandlerUndo, isNested: false);
 
                 Operation.Redo();
 
@@ -100,11 +102,11 @@
                 Node NewNode = NodeHelper.CreateDefaultFromInterface(optionalInner.InterfaceType);
                 Debug.Assert(NewNode != null);
 
-                IWriteableInsertionOptionalNodeIndex NewOptionalNodeIndex = CreateNewOptionalNodeIndex(optionalInner.Owner.Node, optionalInner.PropertyName, NewNode);
+                WriteableInsertionOptionalNodeIndex NewOptionalNodeIndex = CreateNewOptionalNodeIndex(optionalInner.Owner.Node, optionalInner.PropertyName, NewNode);
 
-                Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => RedoReplace(operation);
-                Action<IWriteableOperation> HandlerUndo = (IWriteableOperation operation) => UndoReplace(operation);
-                IWriteableReplaceOperation Operation = CreateReplaceOperation(optionalInner.Owner.Node, optionalInner.PropertyName, -1, -1, NewNode, HandlerRedo, HandlerUndo, isNested: false);
+                Action<WriteableOperation> HandlerRedo = (WriteableOperation operation) => RedoReplace(operation);
+                Action<WriteableOperation> HandlerUndo = (WriteableOperation operation) => UndoReplace(operation);
+                WriteableReplaceOperation Operation = CreateReplaceOperation(optionalInner.Owner.Node, optionalInner.PropertyName, -1, -1, NewNode, HandlerRedo, HandlerUndo, isNested: false);
 
                 Operation.Redo();
 
@@ -117,7 +119,7 @@
         /// * Only expand block list of arguments
         /// * Only expand if the list is empty. In that case, add a single default argument.
         /// </summary>
-        private protected virtual void ExpandBlockList(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> blockListInner, IWriteableOperationList operationList)
+        private protected virtual void ExpandBlockList(WriteableBlockListInner<WriteableBrowsingBlockNodeIndex> blockListInner, WriteableOperationList operationList)
         {
             if (!blockListInner.IsEmpty)
                 return;
@@ -130,25 +132,25 @@
             Identifier NewSource = NodeHelper.CreateEmptyIdentifier();
             IBlock NewBlock = NodeTreeHelperBlockList.CreateBlock(blockListInner.Owner.Node, blockListInner.PropertyName, ReplicationStatus.Normal, NewPattern, NewSource);
 
-            Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => RedoExpandBlockList(operation);
-            Action<IWriteableOperation> HandlerUndo = (IWriteableOperation operation) => UndoExpandBlockList(operation);
-            IWriteableExpandArgumentOperation Operation = CreateExpandArgumentOperation(blockListInner.Owner.Node, blockListInner.PropertyName, NewBlock, NewItem, HandlerRedo, HandlerUndo, isNested: false);
+            Action<WriteableOperation> HandlerRedo = (WriteableOperation operation) => RedoExpandBlockList(operation);
+            Action<WriteableOperation> HandlerUndo = (WriteableOperation operation) => UndoExpandBlockList(operation);
+            WriteableExpandArgumentOperation Operation = CreateExpandArgumentOperation(blockListInner.Owner.Node, blockListInner.PropertyName, NewBlock, NewItem, HandlerRedo, HandlerUndo, isNested: false);
 
             Operation.Redo();
 
             operationList.Add(Operation);
         }
 
-        private protected virtual void RedoExpandBlockList(IWriteableOperation operation)
+        private protected virtual void RedoExpandBlockList(WriteableOperation operation)
         {
-            IWriteableExpandArgumentOperation ExpandArgumentOperation = (IWriteableExpandArgumentOperation)operation;
+            WriteableExpandArgumentOperation ExpandArgumentOperation = (WriteableExpandArgumentOperation)operation;
             ExecuteInsertNewBlock(ExpandArgumentOperation);
         }
 
-        private protected virtual void UndoExpandBlockList(IWriteableOperation operation)
+        private protected virtual void UndoExpandBlockList(WriteableOperation operation)
         {
-            IWriteableExpandArgumentOperation ExpandArgumentOperation = (IWriteableExpandArgumentOperation)operation;
-            IWriteableRemoveBlockOperation RemoveBlockOperation = ExpandArgumentOperation.ToRemoveBlockOperation();
+            WriteableExpandArgumentOperation ExpandArgumentOperation = (WriteableExpandArgumentOperation)operation;
+            WriteableRemoveBlockOperation RemoveBlockOperation = ExpandArgumentOperation.ToRemoveBlockOperation();
 
             ExecuteRemoveBlock(RemoveBlockOperation);
         }
@@ -164,14 +166,14 @@
             Debug.Assert(StateTable.ContainsKey(reducedIndex));
             Debug.Assert(StateTable[reducedIndex] is IWriteablePlaceholderNodeState);
 
-            IWriteableOperationList OperationList = CreateOperationList();
+            WriteableOperationList OperationList = CreateOperationList();
 
             Reduce(reducedIndex, OperationList, isNested: false);
 
             if (OperationList.Count > 0)
             {
-                IWriteableOperationReadOnlyList OperationReadOnlyList = OperationList.ToReadOnly();
-                IWriteableOperationGroup OperationGroup = CreateOperationGroup(OperationReadOnlyList, null);
+                WriteableOperationReadOnlyList OperationReadOnlyList = OperationList.ToReadOnly();
+                WriteableOperationGroup OperationGroup = CreateOperationGroup(OperationReadOnlyList, null);
 
                 SetLastOperation(OperationGroup);
                 CheckInvariant();
@@ -182,19 +184,21 @@
                 isChanged = false;
         }
 
-        private protected virtual void Reduce(IWriteableNodeIndex reducedIndex, IWriteableOperationList operationList, bool isNested)
+        private protected virtual void Reduce(IWriteableNodeIndex reducedIndex, WriteableOperationList operationList, bool isNested)
         {
             IWriteablePlaceholderNodeState State = StateTable[reducedIndex] as IWriteablePlaceholderNodeState;
             State = FindBestExpandReduceState(State);
             Debug.Assert(State != null);
 
-            IWriteableInnerReadOnlyDictionary<string> InnerTable = State.InnerTable;
+            WriteableInnerReadOnlyDictionary<string> InnerTable = State.InnerTable;
 
-            foreach (KeyValuePair<string, IWriteableInner> Entry in InnerTable)
+            foreach (string Key in InnerTable.Keys)
             {
-                if (Entry.Value is IWriteableOptionalInner<IWriteableBrowsingOptionalNodeIndex> AsOptionalInner)
+                IWriteableInner Value = (IWriteableInner)InnerTable[Key];
+
+                if (Value is WriteableOptionalInner<WriteableBrowsingOptionalNodeIndex> AsOptionalInner)
                     ReduceOptional(AsOptionalInner, operationList, isNested);
-                else if (Entry.Value is IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> AsBlockListInner)
+                else if (Value is WriteableBlockListInner<WriteableBrowsingBlockNodeIndex> AsBlockListInner)
                     ReduceBlockList(AsBlockListInner, operationList, isNested);
             }
         }
@@ -202,15 +206,15 @@
         /// <summary>
         /// Reduces the optional node.
         /// </summary>
-        private protected virtual void ReduceOptional(IWriteableOptionalInner<IWriteableBrowsingOptionalNodeIndex> optionalInner, IWriteableOperationList operationList, bool isNested)
+        private protected virtual void ReduceOptional(WriteableOptionalInner<WriteableBrowsingOptionalNodeIndex> optionalInner, WriteableOperationList operationList, bool isNested)
         {
             if (optionalInner.IsAssigned && NodeHelper.IsOptionalAssignedToDefault(optionalInner.ChildState.Optional))
             {
-                IWriteableBrowsingOptionalNodeIndex ParentIndex = optionalInner.ChildState.ParentIndex;
+                WriteableBrowsingOptionalNodeIndex ParentIndex = optionalInner.ChildState.ParentIndex;
 
-                Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => RedoUnassign(operation);
-                Action<IWriteableOperation> HandlerUndo = (IWriteableOperation operation) => UndoUnassign(operation);
-                IWriteableAssignmentOperation Operation = CreateAssignmentOperation(optionalInner.Owner.Node, optionalInner.PropertyName, HandlerRedo, HandlerUndo, isNested);
+                Action<WriteableOperation> HandlerRedo = (WriteableOperation operation) => RedoUnassign(operation);
+                Action<WriteableOperation> HandlerUndo = (WriteableOperation operation) => UndoUnassign(operation);
+                WriteableAssignmentOperation Operation = CreateAssignmentOperation(optionalInner.Owner.Node, optionalInner.PropertyName, HandlerRedo, HandlerUndo, isNested);
 
                 Operation.Redo();
 
@@ -221,7 +225,7 @@
         /// <summary>
         /// Reduces the block list.
         /// </summary>
-        private protected virtual void ReduceBlockList(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> blockListInner, IWriteableOperationList operationList, bool isNested)
+        private protected virtual void ReduceBlockList(WriteableBlockListInner<WriteableBrowsingBlockNodeIndex> blockListInner, WriteableOperationList operationList, bool isNested)
         {
             if (!blockListInner.IsSingle)
                 return;
@@ -234,38 +238,39 @@
 
             Debug.Assert(blockListInner.BlockStateList.Count == 1);
             Debug.Assert(blockListInner.BlockStateList[0].StateList.Count == 1);
-            IWriteableNodeState FirstState = blockListInner.BlockStateList[0].StateList[0];
+            IWriteableNodeState FirstState = (IWriteableNodeState)blockListInner.BlockStateList[0].StateList[0];
 
             if (!NodeHelper.IsDefaultNode(FirstState.Node))
                 return;
 
-            Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => RedoRemoveBlock(operation);
-            Action<IWriteableOperation> HandlerUndo = (IWriteableOperation operation) => UndoRemoveBlock(operation);
-            IWriteableRemoveBlockOperation Operation = CreateRemoveBlockOperation(blockListInner.Owner.Node, blockListInner.PropertyName, 0, HandlerRedo, HandlerUndo, isNested);
+            Action<WriteableOperation> HandlerRedo = (WriteableOperation operation) => RedoRemoveBlock(operation);
+            Action<WriteableOperation> HandlerUndo = (WriteableOperation operation) => UndoRemoveBlock(operation);
+            WriteableRemoveBlockOperation Operation = CreateRemoveBlockOperation(blockListInner.Owner.Node, blockListInner.PropertyName, 0, HandlerRedo, HandlerUndo, isNested);
 
             Operation.Redo();
 
             operationList.Add(Operation);
         }
+
         /// <summary>
         /// Reduces all expanded nodes, and clear all unassigned optional nodes.
         /// </summary>
         /// <param name="isChanged">True upon return if the node was changed. False if the node was already canonic.</param>
         public virtual void Canonicalize(out bool isChanged)
         {
-            IWriteableOperationList OperationList = CreateOperationList();
+            WriteableOperationList OperationList = CreateOperationList();
             Canonicalize(RootState, OperationList);
 
             if (OperationList.Count > 0)
             {
-                Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => RedoRefresh(operation);
-                Action<IWriteableOperation> HandlerUndo = (IWriteableOperation operation) => throw new NotImplementedException(); // Undo is not possible.
-                IWriteableGenericRefreshOperation RefreshOperation = CreateGenericRefreshOperation(RootState, HandlerRedo, HandlerUndo, isNested: false);
+                Action<WriteableOperation> HandlerRedo = (WriteableOperation operation) => RedoRefresh(operation);
+                Action<WriteableOperation> HandlerUndo = (WriteableOperation operation) => throw new NotImplementedException(); // Undo is not possible.
+                WriteableGenericRefreshOperation RefreshOperation = CreateGenericRefreshOperation(RootState, HandlerRedo, HandlerUndo, isNested: false);
 
                 RefreshOperation.Redo();
 
-                IWriteableOperationReadOnlyList OperationReadOnlyList = OperationList.ToReadOnly();
-                IWriteableOperationGroup OperationGroup = CreateOperationGroup(OperationReadOnlyList, RefreshOperation);
+                WriteableOperationReadOnlyList OperationReadOnlyList = OperationList.ToReadOnly();
+                WriteableOperationGroup OperationGroup = CreateOperationGroup(OperationReadOnlyList, RefreshOperation);
 
                 SetLastOperation(OperationGroup);
                 CheckInvariant();
@@ -276,7 +281,7 @@
                 isChanged = false;
         }
 
-        private protected virtual void Canonicalize(IWriteableNodeState state, IWriteableOperationList operationList)
+        private protected virtual void Canonicalize(IWriteableNodeState state, WriteableOperationList operationList)
         {
             IWriteableNodeIndex NodeIndex = state.ParentIndex as IWriteableNodeIndex;
             Debug.Assert(NodeIndex != null);
@@ -286,28 +291,30 @@
             Reduce(NodeIndex, operationList, isNested: state != RootState);
         }
 
-        private protected virtual void CanonicalizeChildren(IWriteableNodeState state, IWriteableOperationList operationList)
+        private protected virtual void CanonicalizeChildren(IWriteableNodeState state, WriteableOperationList operationList)
         {
             List<IWriteableNodeState> ChildStateList = new List<IWriteableNodeState>();
-            foreach (KeyValuePair<string, IWriteableInner> Entry in state.InnerTable)
+            foreach (string Key in state.InnerTable.Keys)
             {
-                switch (Entry.Value)
+                IWriteableInner Value = (IWriteableInner)state.InnerTable[Key];
+
+                switch (Value)
                 {
-                    case IWriteablePlaceholderInner<IWriteableBrowsingPlaceholderNodeIndex> AsPlaceholderInner:
+                    case IWriteablePlaceholderInner<WriteableBrowsingPlaceholderNodeIndex> AsPlaceholderInner:
                         ChildStateList.Add(AsPlaceholderInner.ChildState);
                         break;
 
-                    case IWriteableOptionalInner<IWriteableBrowsingOptionalNodeIndex> AsOptionalInner:
+                    case IWriteableOptionalInner<WriteableBrowsingOptionalNodeIndex> AsOptionalInner:
                         if (AsOptionalInner.IsAssigned)
                             CanonicalizeChildren(AsOptionalInner.ChildState, operationList);
                         break;
 
-                    case IWriteableListInner<IWriteableBrowsingListNodeIndex> AsListlInner:
+                    case IWriteableListInner<WriteableBrowsingListNodeIndex> AsListlInner:
                         foreach (IWriteablePlaceholderNodeState ChildState in AsListlInner.StateList)
                             ChildStateList.Add(ChildState);
                         break;
 
-                    case IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> AsBlockListlInner:
+                    case IWriteableBlockListInner<WriteableBrowsingBlockNodeIndex> AsBlockListlInner:
                         foreach (IWriteableBlockState BlockState in AsBlockListlInner.BlockStateList)
                             foreach (IWriteablePlaceholderNodeState ChildState in BlockState.StateList)
                                 ChildStateList.Add(ChildState);

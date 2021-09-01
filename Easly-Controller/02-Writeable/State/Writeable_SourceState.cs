@@ -17,7 +17,7 @@
         /// <summary>
         /// The index that was used to create the state.
         /// </summary>
-        new IWriteableBrowsingSourceIndex ParentIndex { get; }
+        new WriteableBrowsingSourceIndex ParentIndex { get; }
     }
 
     /// <summary>
@@ -42,7 +42,7 @@
         /// </summary>
         /// <param name="parentBlockState">The parent block state.</param>
         /// <param name="index">The index used to create the state.</param>
-        public WriteableSourceState(IWriteableBlockState parentBlockState, IWriteableBrowsingSourceIndex index)
+        public WriteableSourceState(IWriteableBlockState parentBlockState, WriteableBrowsingSourceIndex index)
             : base(parentBlockState, index)
         {
         }
@@ -57,7 +57,7 @@
         /// <summary>
         /// The index that was used to create the state.
         /// </summary>
-        public new IWriteableBrowsingSourceIndex ParentIndex { get { return (IWriteableBrowsingSourceIndex)base.ParentIndex; } }
+        public new WriteableBrowsingSourceIndex ParentIndex { get { return (WriteableBrowsingSourceIndex)base.ParentIndex; } }
         IWriteableIndex IWriteableNodeState.ParentIndex { get { return ParentIndex; } }
 
         /// <summary>
@@ -73,14 +73,14 @@
         /// <summary>
         /// Table for all inners in this state.
         /// </summary>
-        public new IWriteableInnerReadOnlyDictionary<string> InnerTable { get { return (IWriteableInnerReadOnlyDictionary<string>)base.InnerTable; } }
+        public new WriteableInnerReadOnlyDictionary<string> InnerTable { get { return (WriteableInnerReadOnlyDictionary<string>)base.InnerTable; } }
         #endregion
 
         #region Create Methods
         /// <summary>
         /// Creates a IxxxNodeStateList object.
         /// </summary>
-        private protected override IReadOnlyNodeStateList CreateNodeStateList()
+        private protected override ReadOnlyNodeStateList CreateNodeStateList()
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableSourceState<IInner>));
             return new WriteableNodeStateList();

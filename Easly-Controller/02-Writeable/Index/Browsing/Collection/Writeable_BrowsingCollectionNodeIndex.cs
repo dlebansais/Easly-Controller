@@ -13,7 +13,7 @@
     /// <summary>
     /// Base for list and block list index classes.
     /// </summary>
-    internal abstract class WriteableBrowsingCollectionNodeIndex : ReadOnlyBrowsingCollectionNodeIndex, IWriteableBrowsingCollectionNodeIndex
+    public abstract class WriteableBrowsingCollectionNodeIndex : ReadOnlyBrowsingCollectionNodeIndex, IWriteableBrowsingCollectionNodeIndex
     {
         #region Init
         /// <summary>

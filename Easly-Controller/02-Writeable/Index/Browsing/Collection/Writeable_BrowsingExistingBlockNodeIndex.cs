@@ -8,7 +8,7 @@
     /// <summary>
     /// Index for a node in a block that is not the first.
     /// </summary>
-    public interface IWriteableBrowsingExistingBlockNodeIndex : IReadOnlyBrowsingExistingBlockNodeIndex, IWriteableBrowsingBlockNodeIndex, IWriteableBrowsingInsertableIndex
+    public interface IWriteableBrowsingExistingBlockNodeIndex : IWriteableBrowsingBlockNodeIndex, IWriteableBrowsingInsertableIndex
     {
         /// <summary>
         /// Modifies the index to address the next position in a list.
@@ -34,7 +34,7 @@
     /// <summary>
     /// Index for a node in a block that is not the first.
     /// </summary>
-    internal class WriteableBrowsingExistingBlockNodeIndex : ReadOnlyBrowsingExistingBlockNodeIndex, IWriteableBrowsingExistingBlockNodeIndex
+    public class WriteableBrowsingExistingBlockNodeIndex : ReadOnlyBrowsingExistingBlockNodeIndex, IWriteableBrowsingExistingBlockNodeIndex, IWriteableBrowsingBlockNodeIndex, IWriteableBrowsingInsertableIndex
     {
         #region Init
         /// <summary>
@@ -127,7 +127,7 @@
         /// <summary>
         /// Creates a IxxxInsertionExistingBlockNodeIndex object.
         /// </summary>
-        private protected virtual IWriteableInsertionExistingBlockNodeIndex CreateInsertionIndex(Node parentNode, Node node)
+        private protected virtual WriteableInsertionExistingBlockNodeIndex CreateInsertionIndex(Node parentNode, Node node)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableBrowsingExistingBlockNodeIndex));
             return new WriteableInsertionExistingBlockNodeIndex(parentNode, PropertyName, node, BlockIndex, Index);

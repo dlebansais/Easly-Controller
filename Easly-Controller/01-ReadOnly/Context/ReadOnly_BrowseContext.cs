@@ -81,8 +81,8 @@
         [Conditional("DEBUG")]
         public virtual void CheckConsistency()
         {
-            IReadOnlyIndexCollectionList InternalList = InternalIndexCollectionList;
-            IReadOnlyIndexCollectionReadOnlyList PublicList = IndexCollectionList;
+            ReadOnlyIndexCollectionList InternalList = InternalIndexCollectionList;
+            ReadOnlyIndexCollectionReadOnlyList PublicList = IndexCollectionList;
 
             for (int i = 0; i < InternalList.Count; i++)
             {

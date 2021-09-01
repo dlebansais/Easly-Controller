@@ -32,13 +32,22 @@
     /// <summary>
     /// State of an optional node.
     /// </summary>
-    /// <typeparam name="TIndex">Parent inner of the state.</typeparam>
-    internal class ReadOnlyOptionalNodeState<TIndex> : ReadOnlyNodeState<TIndex>, IReadOnlyOptionalNodeState, IReadOnlyNodeState
-        where TIndex : ReadOnlyInner<IReadOnlyBrowsingChildIndex>
+    /// <typeparam name="IInner">Parent inner of the state.</typeparam>
+    internal interface IReadOnlyOptionalNodeState<out IInner> : IReadOnlyNodeState<IInner>
+        where IInner : IReadOnlyInner<IReadOnlyBrowsingChildIndex>
+    {
+    }
+
+    /// <summary>
+    /// State of an optional node.
+    /// </summary>
+    /// <typeparam name="IInner">Parent inner of the state.</typeparam>
+    internal class ReadOnlyOptionalNodeState<IInner> : ReadOnlyNodeState<IInner>, IReadOnlyOptionalNodeState<IInner>, IReadOnlyOptionalNodeState, IReadOnlyNodeState
+        where IInner : IReadOnlyInner<IReadOnlyBrowsingChildIndex>
     {
         #region Init
         /// <summary>
-        /// Initializes a new instance of the <see cref="ReadOnlyOptionalNodeState{TIndex}"/> class.
+        /// Initializes a new instance of the <see cref="ReadOnlyOptionalNodeState{IInner}"/> class.
         /// </summary>
         /// <param name="parentIndex">The index used to create the state.</param>
         public ReadOnlyOptionalNodeState(ReadOnlyBrowsingOptionalNodeIndex parentIndex)
@@ -94,7 +103,7 @@
         /// </summary>
         /// <param name="browseContext">The context used to browse the node tree.</param>
         /// <param name="parentInner">The inner containing this state as a child.</param>
-        public override void BrowseChildren(ReadOnlyBrowseContext browseContext, ReadOnlyInner<IReadOnlyBrowsingChildIndex> parentInner)
+        public override void BrowseChildren(ReadOnlyBrowseContext browseContext, IReadOnlyInner<IReadOnlyBrowsingChildIndex> parentInner)
         {
             Debug.Assert(browseContext != null);
             Debug.Assert(parentInner != null);
@@ -108,7 +117,7 @@
 
         #region Debugging
         /// <summary>
-        /// Compares two <see cref="ReadOnlyOptionalNodeState{TIndex}"/> objects.
+        /// Compares two <see cref="ReadOnlyOptionalNodeState{IInner}"/> objects.
         /// </summary>
         /// <param name="comparer">The comparison support object.</param>
         /// <param name="other">The other object.</param>
@@ -116,7 +125,7 @@
         {
             Debug.Assert(other != null);
 
-            if (!comparer.IsSameType(other, out ReadOnlyOptionalNodeState<TIndex> AsOptionalNodeState))
+            if (!comparer.IsSameType(other, out ReadOnlyOptionalNodeState<IInner> AsOptionalNodeState))
                 return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsOptionalNodeState))
@@ -156,7 +165,7 @@
                 {
                     string PropertyName = Entry.Key;
                     IReadOnlyInner Inner = Entry.Value;
-                    ((ReadOnlyInner<IReadOnlyBrowsingChildIndex>)Inner).CloneChildren(NewNode);
+                    ((IReadOnlyInner<IReadOnlyBrowsingChildIndex>)Inner).CloneChildren(NewNode);
                 }
 
                 // Copy other properties.

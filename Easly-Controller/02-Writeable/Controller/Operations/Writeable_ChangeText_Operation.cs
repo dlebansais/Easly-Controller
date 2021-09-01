@@ -7,50 +7,7 @@
     /// <summary>
     /// Operation details for changing text.
     /// </summary>
-    public interface IWriteableChangeTextOperation : IWriteableOperation
-    {
-        /// <summary>
-        /// Node where the change is taking place.
-        /// </summary>
-        Node ParentNode { get; }
-
-        /// <summary>
-        /// Name of the property to change.
-        /// </summary>
-        string PropertyName { get; }
-
-        /// <summary>
-        /// The old text.
-        /// </summary>
-        string OldText { get; }
-
-        /// <summary>
-        /// The new text.
-        /// </summary>
-        string NewText { get; }
-
-        /// <summary>
-        /// State changed.
-        /// </summary>
-        IWriteableNodeState State { get; }
-
-        /// <summary>
-        /// Update the operation with details.
-        /// </summary>
-        /// <param name="state">State changed.</param>
-        /// <param name="oldText">The old text.</param>
-        void Update(IWriteableNodeState state, string oldText);
-
-        /// <summary>
-        /// Creates an operation to undo the change text operation.
-        /// </summary>
-        IWriteableChangeTextOperation ToInverseChange();
-    }
-
-    /// <summary>
-    /// Operation details for changing text.
-    /// </summary>
-    internal class WriteableChangeTextOperation : WriteableOperation, IWriteableChangeTextOperation
+    public class WriteableChangeTextOperation : WriteableOperation
     {
         #region Init
         /// <summary>
@@ -62,7 +19,7 @@
         /// <param name="handlerRedo">Handler to execute to redo the operation.</param>
         /// <param name="handlerUndo">Handler to execute to undo the operation.</param>
         /// <param name="isNested">True if the operation is nested within another more general one.</param>
-        public WriteableChangeTextOperation(Node parentNode, string propertyName, string text, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        public WriteableChangeTextOperation(Node parentNode, string propertyName, string text, Action<WriteableOperation> handlerRedo, Action<WriteableOperation> handlerUndo, bool isNested)
             : base(handlerRedo, handlerUndo, isNested)
         {
             ParentNode = parentNode;
@@ -115,7 +72,7 @@
         /// <summary>
         /// Creates an operation to undo the change text operation.
         /// </summary>
-        public virtual IWriteableChangeTextOperation ToInverseChange()
+        public virtual WriteableChangeTextOperation ToInverseChange()
         {
             return CreateChangeTextOperation(OldText, HandlerUndo, HandlerRedo, IsNested);
         }
@@ -125,7 +82,7 @@
         /// <summary>
         /// Creates a IxxxChangeTextOperation object.
         /// </summary>
-        private protected virtual IWriteableChangeTextOperation CreateChangeTextOperation(string text, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        private protected virtual WriteableChangeTextOperation CreateChangeTextOperation(string text, Action<WriteableOperation> handlerRedo, Action<WriteableOperation> handlerUndo, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableChangeTextOperation));
             return new WriteableChangeTextOperation(ParentNode, PropertyName, text, handlerRedo, handlerUndo, isNested);

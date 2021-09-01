@@ -11,7 +11,7 @@
     /// Controller for a node tree.
     /// This controller supports operations to modify the tree.
     /// </summary>
-    public partial class WriteableController : ReadOnlyController, IWriteableController
+    public partial class WriteableController : ReadOnlyController
     {
         /// <summary>
         /// Inserts a new node in a list or block list.
@@ -19,7 +19,7 @@
         /// <param name="inner">The inner for the list or block list where the node is inserted.</param>
         /// <param name="insertedIndex">Index for the insertion operation.</param>
         /// <param name="nodeIndex">Index of the inserted node upon return.</param>
-        public virtual void Insert(IWriteableCollectionInner inner, IWriteableInsertionCollectionNodeIndex insertedIndex, out IWriteableBrowsingCollectionNodeIndex nodeIndex)
+        public virtual void Insert(IWriteableCollectionInner inner, WriteableInsertionCollectionNodeIndex insertedIndex, out IWriteableBrowsingCollectionNodeIndex nodeIndex)
         {
             Debug.Assert(inner != null);
             Debug.Assert(insertedIndex != null);
@@ -27,19 +27,19 @@
             IWriteableIndex ParentIndex = Owner.ParentIndex;
             Debug.Assert(Contains(ParentIndex));
             Debug.Assert(IndexToState(ParentIndex) == Owner);
-            IWriteableInnerReadOnlyDictionary<string> InnerTable = Owner.InnerTable;
+            WriteableInnerReadOnlyDictionary<string> InnerTable = Owner.InnerTable;
             Debug.Assert(InnerTable.ContainsKey(inner.PropertyName));
             Debug.Assert(InnerTable[inner.PropertyName] == inner);
 
             bool IsHandled = false;
             nodeIndex = null;
 
-            if (inner is IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> AsBlockListInner && insertedIndex is IWriteableInsertionNewBlockNodeIndex AsNewBlockIndex)
+            if (inner is WriteableBlockListInner<WriteableBrowsingBlockNodeIndex> AsBlockListInner && insertedIndex is WriteableInsertionNewBlockNodeIndex AsNewBlockIndex)
             {
                 InsertNewBlock(AsBlockListInner, AsNewBlockIndex, out nodeIndex);
                 IsHandled = true;
             }
-            else if (inner is IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> AsCollectionInner && insertedIndex is IWriteableInsertionCollectionNodeIndex AsCollectionIndex)
+            else if (inner is WriteableCollectionInner<WriteableBrowsingCollectionNodeIndex> AsCollectionInner && insertedIndex is WriteableInsertionCollectionNodeIndex AsCollectionIndex)
             {
                 InsertNewNode(AsCollectionInner, AsCollectionIndex, out nodeIndex);
                 IsHandled = true;
@@ -48,13 +48,13 @@
             Debug.Assert(IsHandled);
         }
 
-        private protected virtual void InsertNewBlock(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> blockListInner, IWriteableInsertionNewBlockNodeIndex newBlockIndex, out IWriteableBrowsingCollectionNodeIndex nodeIndex)
+        private protected virtual void InsertNewBlock(WriteableBlockListInner<WriteableBrowsingBlockNodeIndex> blockListInner, WriteableInsertionNewBlockNodeIndex newBlockIndex, out IWriteableBrowsingCollectionNodeIndex nodeIndex)
         {
             IBlock NewBlock = NodeTreeHelperBlockList.CreateBlock(blockListInner.Owner.Node, blockListInner.PropertyName, ReplicationStatus.Normal, newBlockIndex.PatternNode, newBlockIndex.SourceNode);
 
-            Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => RedoInsertNewBlock(operation);
-            Action<IWriteableOperation> HandlerUndo = (IWriteableOperation operation) => UndoInsertNewBlock(operation);
-            IWriteableInsertBlockOperation Operation = CreateInsertBlockOperation(blockListInner.Owner.Node, blockListInner.PropertyName, newBlockIndex.BlockIndex, NewBlock, newBlockIndex.Node, HandlerRedo, HandlerUndo, isNested: false);
+            Action<WriteableOperation> HandlerRedo = (WriteableOperation operation) => RedoInsertNewBlock(operation);
+            Action<WriteableOperation> HandlerUndo = (WriteableOperation operation) => UndoInsertNewBlock(operation);
+            WriteableInsertBlockOperation Operation = CreateInsertBlockOperation(blockListInner.Owner.Node, blockListInner.PropertyName, newBlockIndex.BlockIndex, NewBlock, newBlockIndex.Node, HandlerRedo, HandlerUndo, isNested: false);
 
             Operation.Redo();
             SetLastOperation(Operation);
@@ -63,21 +63,21 @@
             nodeIndex = Operation.BrowsingIndex;
         }
 
-        private protected virtual void RedoInsertNewBlock(IWriteableOperation operation)
+        private protected virtual void RedoInsertNewBlock(WriteableOperation operation)
         {
-            IWriteableInsertBlockOperation InsertBlockOperation = (IWriteableInsertBlockOperation)operation;
+            WriteableInsertBlockOperation InsertBlockOperation = (WriteableInsertBlockOperation)operation;
             ExecuteInsertNewBlock(InsertBlockOperation);
         }
 
-        private protected virtual void ExecuteInsertNewBlock(IWriteableInsertBlockOperation operation)
+        private protected virtual void ExecuteInsertNewBlock(WriteableInsertBlockOperation operation)
         {
             Node ParentNode = operation.ParentNode;
             string PropertyName = operation.PropertyName;
-            IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> Inner = GetInner(ParentNode, PropertyName) as IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex>;
+            IWriteableBlockListInner<WriteableBrowsingBlockNodeIndex> Inner = GetInner(ParentNode, PropertyName) as IWriteableBlockListInner<WriteableBrowsingBlockNodeIndex>;
 
             Inner.InsertNewBlock(operation);
 
-            IWriteableBrowsingExistingBlockNodeIndex BrowsingIndex = operation.BrowsingIndex;
+            WriteableBrowsingExistingBlockNodeIndex BrowsingIndex = operation.BrowsingIndex;
             IWriteableBlockState BlockState = operation.BlockState;
             IWriteablePlaceholderNodeState ChildState = operation.ChildState;
 
@@ -86,12 +86,12 @@
             ((IWriteableBlockState<IWriteableInner<IWriteableBrowsingChildIndex>>)BlockState).InitBlockState();
             Stats.BlockCount++;
 
-            IWriteableBrowsingPatternIndex PatternIndex = BlockState.PatternIndex;
+            WriteableBrowsingPatternIndex PatternIndex = BlockState.PatternIndex;
             IWriteablePatternState PatternState = BlockState.PatternState;
             AddState(PatternIndex, PatternState);
             Stats.PlaceholderNodeCount++;
 
-            IWriteableBrowsingSourceIndex SourceIndex = BlockState.SourceIndex;
+            WriteableBrowsingSourceIndex SourceIndex = BlockState.SourceIndex;
             IWriteableSourceState SourceState = BlockState.SourceState;
             AddState(SourceIndex, SourceState);
             Stats.PlaceholderNodeCount++;
@@ -105,21 +105,21 @@
             NotifyBlockStateInserted(operation);
         }
 
-        private protected virtual void UndoInsertNewBlock(IWriteableOperation operation)
+        private protected virtual void UndoInsertNewBlock(WriteableOperation operation)
         {
-            IWriteableInsertBlockOperation InsertBlockOperation = (IWriteableInsertBlockOperation)operation;
-            IWriteableRemoveBlockOperation RemoveBlockOperation = InsertBlockOperation.ToRemoveBlockOperation();
+            WriteableInsertBlockOperation InsertBlockOperation = (WriteableInsertBlockOperation)operation;
+            WriteableRemoveBlockOperation RemoveBlockOperation = InsertBlockOperation.ToRemoveBlockOperation();
 
             ExecuteRemoveBlock(RemoveBlockOperation);
         }
 
-        private protected virtual void InsertNewNode(IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> inner, IWriteableInsertionCollectionNodeIndex insertedIndex, out IWriteableBrowsingCollectionNodeIndex nodeIndex)
+        private protected virtual void InsertNewNode(WriteableCollectionInner<WriteableBrowsingCollectionNodeIndex> inner, WriteableInsertionCollectionNodeIndex insertedIndex, out IWriteableBrowsingCollectionNodeIndex nodeIndex)
         {
             IndexToPositionAndNode(insertedIndex, out int BlockIndex, out int Index, out Node Node);
 
-            Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => RedoInsertNewNode(operation);
-            Action<IWriteableOperation> HandlerUndo = (IWriteableOperation operation) => UndoInsertNewNode(operation);
-            IWriteableInsertNodeOperation Operation = CreateInsertNodeOperation(inner.Owner.Node, inner.PropertyName, BlockIndex, Index, Node, HandlerRedo, HandlerUndo, isNested: false);
+            Action<WriteableOperation> HandlerRedo = (WriteableOperation operation) => RedoInsertNewNode(operation);
+            Action<WriteableOperation> HandlerUndo = (WriteableOperation operation) => UndoInsertNewNode(operation);
+            WriteableInsertNodeOperation Operation = CreateInsertNodeOperation(inner.Owner.Node, inner.PropertyName, BlockIndex, Index, Node, HandlerRedo, HandlerUndo, isNested: false);
 
             Operation.Redo();
             SetLastOperation(Operation);
@@ -128,13 +128,13 @@
             nodeIndex = Operation.BrowsingIndex;
         }
 
-        private protected virtual void RedoInsertNewNode(IWriteableOperation operation)
+        private protected virtual void RedoInsertNewNode(WriteableOperation operation)
         {
-            IWriteableInsertNodeOperation InsertNodeOperation = (IWriteableInsertNodeOperation)operation;
+            WriteableInsertNodeOperation InsertNodeOperation = (WriteableInsertNodeOperation)operation;
             ExecuteInsertNewNode(InsertNodeOperation);
         }
 
-        private protected virtual void ExecuteInsertNewNode(IWriteableInsertNodeOperation operation)
+        private protected virtual void ExecuteInsertNewNode(WriteableInsertNodeOperation operation)
         {
             Node ParentNode = operation.ParentNode;
             string PropertyName = operation.PropertyName;
@@ -154,10 +154,10 @@
             NotifyStateInserted(operation);
         }
 
-        private protected virtual void UndoInsertNewNode(IWriteableOperation operation)
+        private protected virtual void UndoInsertNewNode(WriteableOperation operation)
         {
-            IWriteableInsertNodeOperation InsertNodeOperation = (IWriteableInsertNodeOperation)operation;
-            IWriteableRemoveNodeOperation RemoveNodeOperation = InsertNodeOperation.ToRemoveNodeOperation();
+            WriteableInsertNodeOperation InsertNodeOperation = (WriteableInsertNodeOperation)operation;
+            WriteableRemoveNodeOperation RemoveNodeOperation = InsertNodeOperation.ToRemoveNodeOperation();
 
             ExecuteRemoveNode(RemoveNodeOperation);
         }
@@ -168,7 +168,7 @@
         /// <param name="inner">The inner for the block list in which blocks are inserted.</param>
         /// <param name="insertedIndex">Index where to insert the first block.</param>
         /// <param name="indexList">List of nodes in blocks to insert.</param>
-        public virtual void InsertBlockRange(IWriteableBlockListInner inner, int insertedIndex, IList<IWriteableInsertionBlockNodeIndex> indexList)
+        public virtual void InsertBlockRange(IWriteableBlockListInner inner, int insertedIndex, IList<WriteableInsertionBlockNodeIndex> indexList)
         {
             Debug.Assert(inner != null);
             Debug.Assert(insertedIndex >= 0 && insertedIndex <= inner.BlockStateList.Count);
@@ -177,11 +177,11 @@
             int BlockIndex = insertedIndex - 1;
             int BlockNodeIndex = 0;
 
-            foreach (IWriteableInsertionBlockNodeIndex NodeIndex in indexList)
+            foreach (WriteableInsertionBlockNodeIndex NodeIndex in indexList)
             {
                 bool IsHandled = false;
 
-                if (NodeIndex is IWriteableInsertionNewBlockNodeIndex AsNewBlockNodeIndex)
+                if (NodeIndex is WriteableInsertionNewBlockNodeIndex AsNewBlockNodeIndex)
                 {
                     BlockIndex++;
                     BlockNodeIndex = 0;
@@ -190,7 +190,7 @@
 
                     IsHandled = true;
                 }
-                else if (NodeIndex is IWriteableInsertionExistingBlockNodeIndex AsExistingBlockNodeIndex)
+                else if (NodeIndex is WriteableInsertionExistingBlockNodeIndex AsExistingBlockNodeIndex)
                 {
                     BlockNodeIndex++;
 
@@ -205,24 +205,24 @@
 
             int FinalBlockIndex = BlockIndex + 1;
 
-            Action<IWriteableOperation> HandlerRedoInsertNode = (IWriteableOperation operation) => RedoInsertNewNode(operation);
-            Action<IWriteableOperation> HandlerUndoInsertNode = (IWriteableOperation operation) => UndoInsertNewNode(operation);
-            Action<IWriteableOperation> HandlerRedoInsertBlock = (IWriteableOperation operation) => RedoInsertNewBlock(operation);
-            Action<IWriteableOperation> HandlerUndoInsertBlock = (IWriteableOperation operation) => UndoInsertNewBlock(operation);
+            Action<WriteableOperation> HandlerRedoInsertNode = (WriteableOperation operation) => RedoInsertNewNode(operation);
+            Action<WriteableOperation> HandlerUndoInsertNode = (WriteableOperation operation) => UndoInsertNewNode(operation);
+            Action<WriteableOperation> HandlerRedoInsertBlock = (WriteableOperation operation) => RedoInsertNewBlock(operation);
+            Action<WriteableOperation> HandlerUndoInsertBlock = (WriteableOperation operation) => UndoInsertNewBlock(operation);
 
-            IWriteableOperationList OperationList = CreateOperationList();
+            WriteableOperationList OperationList = CreateOperationList();
 
-            foreach (IWriteableInsertionBlockNodeIndex NodeIndex in indexList)
-                if (NodeIndex is IWriteableInsertionNewBlockNodeIndex AsNewBlockNodeIndex)
+            foreach (WriteableInsertionBlockNodeIndex NodeIndex in indexList)
+                if (NodeIndex is WriteableInsertionNewBlockNodeIndex AsNewBlockNodeIndex)
                 {
                     IBlock NewBlock = NodeTreeHelperBlockList.CreateBlock(inner.Owner.Node, inner.PropertyName, ReplicationStatus.Normal, AsNewBlockNodeIndex.PatternNode, AsNewBlockNodeIndex.SourceNode);
-                    IWriteableInsertBlockOperation OperationInsertBlock = CreateInsertBlockOperation(inner.Owner.Node, inner.PropertyName, AsNewBlockNodeIndex.BlockIndex, NewBlock, AsNewBlockNodeIndex.Node, HandlerRedoInsertBlock, HandlerUndoInsertBlock, isNested: true);
+                    WriteableInsertBlockOperation OperationInsertBlock = CreateInsertBlockOperation(inner.Owner.Node, inner.PropertyName, AsNewBlockNodeIndex.BlockIndex, NewBlock, AsNewBlockNodeIndex.Node, HandlerRedoInsertBlock, HandlerUndoInsertBlock, isNested: true);
                     OperationList.Add(OperationInsertBlock);
                 }
-                else if (NodeIndex is IWriteableInsertionExistingBlockNodeIndex AsExistingBlockNodeIndex)
+                else if (NodeIndex is WriteableInsertionExistingBlockNodeIndex AsExistingBlockNodeIndex)
                 {
                     IndexToPositionAndNode(AsExistingBlockNodeIndex, out BlockIndex, out int Index, out Node Node);
-                    IWriteableInsertNodeOperation OperationInsertNode = CreateInsertNodeOperation(inner.Owner.Node, inner.PropertyName, BlockIndex, Index, Node, HandlerRedoInsertNode, HandlerUndoInsertNode, isNested: true);
+                    WriteableInsertNodeOperation OperationInsertNode = CreateInsertNodeOperation(inner.Owner.Node, inner.PropertyName, BlockIndex, Index, Node, HandlerRedoInsertNode, HandlerUndoInsertNode, isNested: true);
                     OperationList.Add(OperationInsertNode);
                 }
 
@@ -230,11 +230,11 @@
 
             if (OperationList.Count > 0)
             {
-                IWriteableOperationReadOnlyList OperationReadOnlyList = OperationList.ToReadOnly();
-                Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => RedoRefresh(operation);
-                Action<IWriteableOperation> HandlerUndo = (IWriteableOperation operation) => throw new NotImplementedException(); // Undo is not possible.
-                IWriteableGenericRefreshOperation RefreshOperation = CreateGenericRefreshOperation(RootState, HandlerRedo, HandlerUndo, isNested: false);
-                IWriteableOperationGroup OperationGroup = CreateOperationGroup(OperationReadOnlyList, RefreshOperation);
+                WriteableOperationReadOnlyList OperationReadOnlyList = OperationList.ToReadOnly();
+                Action<WriteableOperation> HandlerRedo = (WriteableOperation operation) => RedoRefresh(operation);
+                Action<WriteableOperation> HandlerUndo = (WriteableOperation operation) => throw new NotImplementedException(); // Undo is not possible.
+                WriteableGenericRefreshOperation RefreshOperation = CreateGenericRefreshOperation(RootState, HandlerRedo, HandlerUndo, isNested: false);
+                WriteableOperationGroup OperationGroup = CreateOperationGroup(OperationReadOnlyList, RefreshOperation);
 
                 OperationGroup.Redo();
                 SetLastOperation(OperationGroup);
@@ -249,7 +249,7 @@
         /// <param name="blockIndex">Index of the block where to insert nodes, for a block list. -1 for a list.</param>
         /// <param name="insertedIndex">Index of the first node to insert.</param>
         /// <param name="indexList">List of nodes to insert.</param>
-        public virtual void InsertNodeRange(IWriteableCollectionInner inner, int blockIndex, int insertedIndex, IList<IWriteableInsertionCollectionNodeIndex> indexList)
+        public virtual void InsertNodeRange(IWriteableCollectionInner inner, int blockIndex, int insertedIndex, IList<WriteableInsertionCollectionNodeIndex> indexList)
         {
             Debug.Assert(inner != null);
 
@@ -271,21 +271,21 @@
         }
 
         /// <summary></summary>
-        public virtual void InsertNodeRange(IWriteableBlockListInner inner, int blockIndex, int insertedIndex, IList<IWriteableInsertionCollectionNodeIndex> indexList)
+        public virtual void InsertNodeRange(IWriteableBlockListInner inner, int blockIndex, int insertedIndex, IList<WriteableInsertionCollectionNodeIndex> indexList)
         {
             Debug.Assert(inner != null);
             Debug.Assert(blockIndex >= 0 && blockIndex < inner.BlockStateList.Count);
 
-            IWriteableBlockState BlockState = inner.BlockStateList[blockIndex];
+            IWriteableBlockState BlockState = (IWriteableBlockState)inner.BlockStateList[blockIndex];
             Debug.Assert(insertedIndex >= 0 && insertedIndex <= BlockState.StateList.Count);
 
             int BlockNodeIndex = insertedIndex;
 
-            foreach (IWriteableInsertionCollectionNodeIndex NodeIndex in indexList)
+            foreach (WriteableInsertionCollectionNodeIndex NodeIndex in indexList)
             {
                 bool IsHandled = false;
 
-                if (NodeIndex is IWriteableInsertionExistingBlockNodeIndex AsExistingBlockNodeIndex)
+                if (NodeIndex is WriteableInsertionExistingBlockNodeIndex AsExistingBlockNodeIndex)
                 {
                     Debug.Assert(AsExistingBlockNodeIndex.BlockIndex == blockIndex);
                     Debug.Assert(AsExistingBlockNodeIndex.Index == BlockNodeIndex);
@@ -299,26 +299,26 @@
 
             int FinalNodeIndex = BlockNodeIndex;
 
-            Action<IWriteableOperation> HandlerRedoInsertNode = (IWriteableOperation operation) => RedoInsertNewNode(operation);
-            Action<IWriteableOperation> HandlerUndoInsertNode = (IWriteableOperation operation) => UndoInsertNewNode(operation);
+            Action<WriteableOperation> HandlerRedoInsertNode = (WriteableOperation operation) => RedoInsertNewNode(operation);
+            Action<WriteableOperation> HandlerUndoInsertNode = (WriteableOperation operation) => UndoInsertNewNode(operation);
 
-            IWriteableOperationList OperationList = CreateOperationList();
+            WriteableOperationList OperationList = CreateOperationList();
 
-            foreach (IWriteableInsertionCollectionNodeIndex NodeIndex in indexList)
-                if (NodeIndex is IWriteableInsertionExistingBlockNodeIndex AsExistingBlockNodeIndex)
+            foreach (WriteableInsertionCollectionNodeIndex NodeIndex in indexList)
+                if (NodeIndex is WriteableInsertionExistingBlockNodeIndex AsExistingBlockNodeIndex)
                 {
                     IndexToPositionAndNode(AsExistingBlockNodeIndex, out blockIndex, out int Index, out Node Node);
-                    IWriteableInsertNodeOperation OperationInsertNode = CreateInsertNodeOperation(inner.Owner.Node, inner.PropertyName, blockIndex, Index, Node, HandlerRedoInsertNode, HandlerUndoInsertNode, isNested: true);
+                    WriteableInsertNodeOperation OperationInsertNode = CreateInsertNodeOperation(inner.Owner.Node, inner.PropertyName, blockIndex, Index, Node, HandlerRedoInsertNode, HandlerUndoInsertNode, isNested: true);
                     OperationList.Add(OperationInsertNode);
                 }
 
             if (OperationList.Count > 0)
             {
-                IWriteableOperationReadOnlyList OperationReadOnlyList = OperationList.ToReadOnly();
-                Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => RedoRefresh(operation);
-                Action<IWriteableOperation> HandlerUndo = (IWriteableOperation operation) => throw new NotImplementedException(); // Undo is not possible.
-                IWriteableGenericRefreshOperation RefreshOperation = CreateGenericRefreshOperation(RootState, HandlerRedo, HandlerUndo, isNested: false);
-                IWriteableOperationGroup OperationGroup = CreateOperationGroup(OperationReadOnlyList, RefreshOperation);
+                WriteableOperationReadOnlyList OperationReadOnlyList = OperationList.ToReadOnly();
+                Action<WriteableOperation> HandlerRedo = (WriteableOperation operation) => RedoRefresh(operation);
+                Action<WriteableOperation> HandlerUndo = (WriteableOperation operation) => throw new NotImplementedException(); // Undo is not possible.
+                WriteableGenericRefreshOperation RefreshOperation = CreateGenericRefreshOperation(RootState, HandlerRedo, HandlerUndo, isNested: false);
+                WriteableOperationGroup OperationGroup = CreateOperationGroup(OperationReadOnlyList, RefreshOperation);
 
                 OperationGroup.Redo();
                 SetLastOperation(OperationGroup);
@@ -327,18 +327,18 @@
         }
 
         /// <summary></summary>
-        public virtual void InsertNodeRange(IWriteableListInner inner, int insertedIndex, IList<IWriteableInsertionCollectionNodeIndex> indexList)
+        public virtual void InsertNodeRange(IWriteableListInner inner, int insertedIndex, IList<WriteableInsertionCollectionNodeIndex> indexList)
         {
             Debug.Assert(inner != null);
             Debug.Assert(insertedIndex >= 0 && insertedIndex <= inner.StateList.Count);
 
             int BlockNodeIndex = insertedIndex;
 
-            foreach (IWriteableInsertionCollectionNodeIndex NodeIndex in indexList)
+            foreach (WriteableInsertionCollectionNodeIndex NodeIndex in indexList)
             {
                 bool IsHandled = false;
 
-                if (NodeIndex is IWriteableInsertionListNodeIndex AsListNodeIndex)
+                if (NodeIndex is WriteableInsertionListNodeIndex AsListNodeIndex)
                 {
                     Debug.Assert(AsListNodeIndex.Index == BlockNodeIndex);
 
@@ -351,26 +351,26 @@
 
             int FinalNodeIndex = BlockNodeIndex;
 
-            Action<IWriteableOperation> HandlerRedoInsertNode = (IWriteableOperation operation) => RedoInsertNewNode(operation);
-            Action<IWriteableOperation> HandlerUndoInsertNode = (IWriteableOperation operation) => UndoInsertNewNode(operation);
+            Action<WriteableOperation> HandlerRedoInsertNode = (WriteableOperation operation) => RedoInsertNewNode(operation);
+            Action<WriteableOperation> HandlerUndoInsertNode = (WriteableOperation operation) => UndoInsertNewNode(operation);
 
-            IWriteableOperationList OperationList = CreateOperationList();
+            WriteableOperationList OperationList = CreateOperationList();
 
-            foreach (IWriteableInsertionCollectionNodeIndex NodeIndex in indexList)
-                if (NodeIndex is IWriteableInsertionListNodeIndex AsListNodeIndex)
+            foreach (WriteableInsertionCollectionNodeIndex NodeIndex in indexList)
+                if (NodeIndex is WriteableInsertionListNodeIndex AsListNodeIndex)
                 {
                     IndexToPositionAndNode(AsListNodeIndex, out int BlockIndex, out int Index, out Node Node);
-                    IWriteableInsertNodeOperation OperationInsertNode = CreateInsertNodeOperation(inner.Owner.Node, inner.PropertyName, BlockIndex, Index, Node, HandlerRedoInsertNode, HandlerUndoInsertNode, isNested: true);
+                    WriteableInsertNodeOperation OperationInsertNode = CreateInsertNodeOperation(inner.Owner.Node, inner.PropertyName, BlockIndex, Index, Node, HandlerRedoInsertNode, HandlerUndoInsertNode, isNested: true);
                     OperationList.Add(OperationInsertNode);
                 }
 
             if (OperationList.Count > 0)
             {
-                IWriteableOperationReadOnlyList OperationReadOnlyList = OperationList.ToReadOnly();
-                Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => RedoRefresh(operation);
-                Action<IWriteableOperation> HandlerUndo = (IWriteableOperation operation) => throw new NotImplementedException(); // Undo is not possible.
-                IWriteableGenericRefreshOperation RefreshOperation = CreateGenericRefreshOperation(RootState, HandlerRedo, HandlerUndo, isNested: false);
-                IWriteableOperationGroup OperationGroup = CreateOperationGroup(OperationReadOnlyList, RefreshOperation);
+                WriteableOperationReadOnlyList OperationReadOnlyList = OperationList.ToReadOnly();
+                Action<WriteableOperation> HandlerRedo = (WriteableOperation operation) => RedoRefresh(operation);
+                Action<WriteableOperation> HandlerUndo = (WriteableOperation operation) => throw new NotImplementedException(); // Undo is not possible.
+                WriteableGenericRefreshOperation RefreshOperation = CreateGenericRefreshOperation(RootState, HandlerRedo, HandlerUndo, isNested: false);
+                WriteableOperationGroup OperationGroup = CreateOperationGroup(OperationReadOnlyList, RefreshOperation);
 
                 OperationGroup.Redo();
                 SetLastOperation(OperationGroup);

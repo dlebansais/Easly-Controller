@@ -9,18 +9,7 @@
     /// <summary>
     /// Index for replacing an optional node.
     /// </summary>
-    public interface IWriteableInsertionOptionalNodeIndex : IWriteableInsertionChildNodeIndex, IWriteableNodeIndex, IEqualComparable
-    {
-        /// <summary>
-        /// Interface to the optional object for the node.
-        /// </summary>
-        IOptionalReference Optional { get; }
-    }
-
-    /// <summary>
-    /// Index for replacing an optional node.
-    /// </summary>
-    public class WriteableInsertionOptionalNodeIndex : IWriteableInsertionOptionalNodeIndex
+    public class WriteableInsertionOptionalNodeIndex : IWriteableInsertionChildNodeIndex, IWriteableNodeIndex, IEqualComparable
     {
         #region Init
         /// <summary>
@@ -108,7 +97,7 @@
         /// <summary>
         /// Creates a IxxxBrowsingOptionalNodeIndex object.
         /// </summary>
-        private protected virtual IWriteableBrowsingOptionalNodeIndex CreateBrowsingIndex()
+        private protected virtual WriteableBrowsingOptionalNodeIndex CreateBrowsingIndex()
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableInsertionOptionalNodeIndex));
             return new WriteableBrowsingOptionalNodeIndex(ParentNode, PropertyName);

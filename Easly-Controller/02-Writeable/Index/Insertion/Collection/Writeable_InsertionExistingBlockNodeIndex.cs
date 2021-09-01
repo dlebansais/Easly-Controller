@@ -8,23 +8,7 @@
     /// <summary>
     /// Index for inserting a node in an existing block of a block list.
     /// </summary>
-    public interface IWriteableInsertionExistingBlockNodeIndex : IWriteableInsertionBlockNodeIndex
-    {
-        /// <summary>
-        /// Position of the block in the block list.
-        /// </summary>
-        int BlockIndex { get; }
-
-        /// <summary>
-        /// Position where the node is inserted in the block.
-        /// </summary>
-        int Index { get; }
-    }
-
-    /// <summary>
-    /// Index for inserting a node in an existing block of a block list.
-    /// </summary>
-    public class WriteableInsertionExistingBlockNodeIndex : WriteableInsertionBlockNodeIndex, IWriteableInsertionExistingBlockNodeIndex
+    public class WriteableInsertionExistingBlockNodeIndex : WriteableInsertionBlockNodeIndex
     {
         #region Init
         /// <summary>
@@ -100,7 +84,7 @@
         /// <summary>
         /// Creates a IxxxBrowsingExistingBlockNodeIndex object.
         /// </summary>
-        private protected virtual IWriteableBrowsingExistingBlockNodeIndex CreateBrowsingIndex()
+        private protected virtual WriteableBrowsingExistingBlockNodeIndex CreateBrowsingIndex()
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableInsertionExistingBlockNodeIndex));
             return new WriteableBrowsingExistingBlockNodeIndex(ParentNode, Node, PropertyName, BlockIndex, Index);

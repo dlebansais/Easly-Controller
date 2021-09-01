@@ -7,54 +7,7 @@
     /// <summary>
     /// Operation details for moving a node in a list or block list.
     /// </summary>
-    public interface IWriteableMoveNodeOperation : IWriteableOperation
-    {
-        /// <summary>
-        /// Node where the node is moved.
-        /// </summary>
-        Node ParentNode { get; }
-
-        /// <summary>
-        /// Property of <see cref="ParentNode"/> where the node is moved.
-        /// </summary>
-        string PropertyName { get; }
-
-        /// <summary>
-        /// Block position where the node is moved, if applicable.
-        /// </summary>
-        int BlockIndex { get; }
-
-        /// <summary>
-        /// The current position before move.
-        /// </summary>
-        int Index { get; }
-
-        /// <summary>
-        /// The change in position, relative to the current position.
-        /// </summary>
-        int Direction { get; }
-
-        /// <summary>
-        /// State moved.
-        /// </summary>
-        IWriteablePlaceholderNodeState State { get; }
-
-        /// <summary>
-        /// Update the operation with details.
-        /// </summary>
-        /// <param name="childState">State moved.</param>
-        void Update(IWriteablePlaceholderNodeState childState);
-
-        /// <summary>
-        /// Creates an operation to undo the move operation.
-        /// </summary>
-        IWriteableMoveNodeOperation ToInverseMove();
-    }
-
-    /// <summary>
-    /// Operation details for moving a node in a list or block list.
-    /// </summary>
-    internal class WriteableMoveNodeOperation : WriteableOperation, IWriteableMoveNodeOperation
+    public class WriteableMoveNodeOperation : WriteableOperation
     {
         #region Init
         /// <summary>
@@ -68,7 +21,7 @@
         /// <param name="handlerRedo">Handler to execute to redo the operation.</param>
         /// <param name="handlerUndo">Handler to execute to undo the operation.</param>
         /// <param name="isNested">True if the operation is nested within another more general one.</param>
-        public WriteableMoveNodeOperation(Node parentNode, string propertyName, int blockIndex, int index, int direction, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        public WriteableMoveNodeOperation(Node parentNode, string propertyName, int blockIndex, int index, int direction, Action<WriteableOperation> handlerRedo, Action<WriteableOperation> handlerUndo, bool isNested)
             : base(handlerRedo, handlerUndo, isNested)
         {
             ParentNode = parentNode;
@@ -126,7 +79,7 @@
         /// <summary>
         /// Creates an operation to undo the move operation.
         /// </summary>
-        public virtual IWriteableMoveNodeOperation ToInverseMove()
+        public virtual WriteableMoveNodeOperation ToInverseMove()
         {
             return CreateMoveNodeOperation(BlockIndex, Index + Direction, -Direction, HandlerUndo, HandlerRedo, IsNested);
         }
@@ -136,7 +89,7 @@
         /// <summary>
         /// Creates a IxxxxMoveNodeOperation object.
         /// </summary>
-        private protected virtual IWriteableMoveNodeOperation CreateMoveNodeOperation(int blockIndex, int index, int direction, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        private protected virtual WriteableMoveNodeOperation CreateMoveNodeOperation(int blockIndex, int index, int direction, Action<WriteableOperation> handlerRedo, Action<WriteableOperation> handlerUndo, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableMoveNodeOperation));
             return new WriteableMoveNodeOperation(ParentNode, PropertyName, blockIndex, index, direction, handlerRedo, handlerUndo, isNested);

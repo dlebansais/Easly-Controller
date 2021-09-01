@@ -9,18 +9,7 @@
     /// <summary>
     /// Index for clearing an optional node.
     /// </summary>
-    public interface IWriteableInsertionOptionalClearIndex : IWriteableInsertionChildIndex, IEqualComparable
-    {
-        /// <summary>
-        /// Interface to the optional object for the node.
-        /// </summary>
-        IOptionalReference Optional { get; }
-    }
-
-    /// <summary>
-    /// Index for clearing an optional node.
-    /// </summary>
-    public class WriteableInsertionOptionalClearIndex : IWriteableInsertionOptionalClearIndex
+    public class WriteableInsertionOptionalClearIndex : IWriteableInsertionChildIndex, IEqualComparable
     {
         #region Init
         /// <summary>
@@ -96,7 +85,7 @@
         /// <summary>
         /// Creates a IxxxBrowsingOptionalNodeIndex object.
         /// </summary>
-        private protected virtual IWriteableBrowsingOptionalNodeIndex CreateBrowsingIndex()
+        private protected virtual WriteableBrowsingOptionalNodeIndex CreateBrowsingIndex()
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableInsertionOptionalClearIndex));
             return new WriteableBrowsingOptionalNodeIndex(ParentNode, PropertyName);

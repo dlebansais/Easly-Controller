@@ -11,13 +11,13 @@
         /// Inserts a new node in a list or block list.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        void Insert(IWriteableInsertNodeOperation operation);
+        void Insert(WriteableInsertNodeOperation operation);
 
         /// <summary>
         /// Removes a node from a list or block list.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        void Remove(IWriteableRemoveNodeOperation operation);
+        void Remove(WriteableRemoveNodeOperation operation);
 
         /// <summary>
         /// Checks whether a node can be moved in a list or block list.
@@ -30,7 +30,7 @@
         /// Moves a node around in a list or block list. In a block list, the node stays in same block.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        void Move(IWriteableMoveNodeOperation operation);
+        void Move(WriteableMoveNodeOperation operation);
     }
 
     /// <summary>
@@ -44,13 +44,13 @@
         /// Inserts a new node in a list or block list.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        void Insert(IWriteableInsertNodeOperation operation);
+        void Insert(WriteableInsertNodeOperation operation);
 
         /// <summary>
         /// Removes a node from a list or block list.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        void Remove(IWriteableRemoveNodeOperation operation);
+        void Remove(WriteableRemoveNodeOperation operation);
 
         /// <summary>
         /// Checks whether a node can be moved in a list or block list.
@@ -63,21 +63,19 @@
         /// Moves a node around in a list or block list. In a block list, the node stays in same block.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        void Move(IWriteableMoveNodeOperation operation);
+        void Move(WriteableMoveNodeOperation operation);
     }
 
     /// <summary>
     /// Base inner for a list or a block list.
     /// </summary>
-    /// <typeparam name="IIndex">Type of the index as interface.</typeparam>
-    /// <typeparam name="TIndex">Type of the index as class.</typeparam>
-    internal abstract class WriteableCollectionInner<IIndex, TIndex> : ReadOnlyCollectionInner<IIndex, TIndex>, IWriteableCollectionInner<IIndex>, IWriteableCollectionInner
+    /// <typeparam name="IIndex">Type of the index as class.</typeparam>
+    internal abstract class WriteableCollectionInner<IIndex> : ReadOnlyCollectionInner<IIndex>, IWriteableCollectionInner<IIndex> , IWriteableCollectionInner
         where IIndex : IWriteableBrowsingCollectionNodeIndex
-        where TIndex : WriteableBrowsingCollectionNodeIndex, IIndex
     {
         #region Init
         /// <summary>
-        /// Initializes a new instance of the <see cref="WriteableCollectionInner{IIndex, TIndex}"/> class.
+        /// Initializes a new instance of the <see cref="WriteableCollectionInner{IIndex}"/> class.
         /// </summary>
         /// <param name="owner">Parent containing the inner.</param>
         /// <param name="propertyName">Property name of the inner in <paramref name="owner"/>.</param>
@@ -99,19 +97,19 @@
         /// Inserts a new node in a list or block list.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        public abstract void Insert(IWriteableInsertNodeOperation operation);
+        public abstract void Insert(WriteableInsertNodeOperation operation);
 
         /// <summary>
         /// Removes a node from a list or block list.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        public abstract void Remove(IWriteableRemoveNodeOperation operation);
+        public abstract void Remove(WriteableRemoveNodeOperation operation);
 
         /// <summary>
         /// Replaces a node.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        public abstract void Replace(IWriteableReplaceOperation operation);
+        public abstract void Replace(WriteableReplaceOperation operation);
 
         /// <summary>
         /// Checks whether a node can be moved in a list or block list.
@@ -124,7 +122,7 @@
         /// Moves a node around in a list or block list. In a block list, the node stays in same block.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        public abstract void Move(IWriteableMoveNodeOperation operation);
+        public abstract void Move(WriteableMoveNodeOperation operation);
         #endregion
     }
 }

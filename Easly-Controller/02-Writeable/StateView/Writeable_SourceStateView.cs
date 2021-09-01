@@ -6,18 +6,7 @@
     /// <summary>
     /// View of a source state.
     /// </summary>
-    public interface IWriteableSourceStateView : IReadOnlySourceStateView, IWriteableNodeStateView
-    {
-        /// <summary>
-        /// The pattern state.
-        /// </summary>
-        new IWriteableSourceState State { get; }
-    }
-
-    /// <summary>
-    /// View of a source state.
-    /// </summary>
-    internal class WriteableSourceStateView : ReadOnlySourceStateView, IWriteableSourceStateView
+    internal class WriteableSourceStateView : ReadOnlySourceStateView, IWriteableNodeStateView
     {
         #region Init
         /// <summary>
@@ -25,7 +14,7 @@
         /// </summary>
         /// <param name="controllerView">The controller view to which this object belongs.</param>
         /// <param name="state">The source state.</param>
-        public WriteableSourceStateView(IWriteableControllerView controllerView, IWriteableSourceState state)
+        public WriteableSourceStateView(WriteableControllerView controllerView, IWriteableSourceState state)
             : base(controllerView, state)
         {
         }
@@ -35,7 +24,7 @@
         /// <summary>
         /// The controller view to which this object belongs.
         /// </summary>
-        public new IWriteableControllerView ControllerView { get { return (IWriteableControllerView)base.ControllerView; } }
+        public new WriteableControllerView ControllerView { get { return (WriteableControllerView)base.ControllerView; } }
 
         /// <summary>
         /// The pattern state.

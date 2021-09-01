@@ -9,7 +9,7 @@
     /// Controller for a node tree.
     /// This controller supports operations to modify the tree.
     /// </summary>
-    public partial class WriteableController : ReadOnlyController, IWriteableController
+    public partial class WriteableController : ReadOnlyController
     {
         /// <summary>
         /// Checks whether a node can be moved in a list.
@@ -17,12 +17,12 @@
         /// <param name="inner">The inner where the node is.</param>
         /// <param name="nodeIndex">Index of the node that would be moved.</param>
         /// <param name="direction">Direction of the move, relative to the current position of the item.</param>
-        public virtual bool IsMoveable(IWriteableCollectionInner inner, IWriteableBrowsingCollectionNodeIndex nodeIndex, int direction)
+        public virtual bool IsMoveable(IWriteableCollectionInner inner, WriteableBrowsingCollectionNodeIndex nodeIndex, int direction)
         {
             Debug.Assert(inner != null);
             Debug.Assert(nodeIndex != null);
 
-            IWriteableNodeState State = StateTable[nodeIndex];
+            IWriteableNodeState State = (IWriteableNodeState)StateTable[nodeIndex];
             Debug.Assert(State != null);
 
             bool Result = inner.IsMoveable(nodeIndex, direction);
@@ -36,40 +36,40 @@
         /// <param name="inner">The inner for the list or block list in which the node is moved.</param>
         /// <param name="nodeIndex">Index for the moved node.</param>
         /// <param name="direction">The change in position, relative to the current position.</param>
-        public virtual void Move(IWriteableCollectionInner inner, IWriteableBrowsingCollectionNodeIndex nodeIndex, int direction)
+        public virtual void Move(IWriteableCollectionInner inner, WriteableBrowsingCollectionNodeIndex nodeIndex, int direction)
         {
             Debug.Assert(inner != null);
             Debug.Assert(nodeIndex != null);
 
-            IWriteableNodeState State = StateTable[nodeIndex];
+            IWriteableNodeState State = (IWriteableNodeState)StateTable[nodeIndex];
             Debug.Assert(State != null);
 
             IndexToPositionAndNode(nodeIndex, out int BlockIndex, out int Index, out Node Node);
 
-            Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => RedoMove(operation);
-            Action<IWriteableOperation> HandlerUndo = (IWriteableOperation operation) => UndoMove(operation);
-            IWriteableMoveNodeOperation Operation = CreateMoveNodeOperation(inner.Owner.Node, inner.PropertyName, BlockIndex, Index, direction, HandlerRedo, HandlerUndo, isNested: false);
+            Action<WriteableOperation> HandlerRedo = (WriteableOperation operation) => RedoMove(operation);
+            Action<WriteableOperation> HandlerUndo = (WriteableOperation operation) => UndoMove(operation);
+            WriteableMoveNodeOperation Operation = CreateMoveNodeOperation(inner.Owner.Node, inner.PropertyName, BlockIndex, Index, direction, HandlerRedo, HandlerUndo, isNested: false);
 
             Operation.Redo();
             SetLastOperation(Operation);
             CheckInvariant();
         }
 
-        private protected virtual void RedoMove(IWriteableOperation operation)
+        private protected virtual void RedoMove(WriteableOperation operation)
         {
-            IWriteableMoveNodeOperation MoveNodeOperation = (IWriteableMoveNodeOperation)operation;
+            WriteableMoveNodeOperation MoveNodeOperation = (WriteableMoveNodeOperation)operation;
             ExecuteMove(MoveNodeOperation);
         }
 
-        private protected virtual void UndoMove(IWriteableOperation operation)
+        private protected virtual void UndoMove(WriteableOperation operation)
         {
-            IWriteableMoveNodeOperation MoveNodeOperation = (IWriteableMoveNodeOperation)operation;
+            WriteableMoveNodeOperation MoveNodeOperation = (WriteableMoveNodeOperation)operation;
             MoveNodeOperation = MoveNodeOperation.ToInverseMove();
 
             ExecuteMove(MoveNodeOperation);
         }
 
-        private protected virtual void ExecuteMove(IWriteableMoveNodeOperation operation)
+        private protected virtual void ExecuteMove(WriteableMoveNodeOperation operation)
         {
             Node ParentNode = operation.ParentNode;
             string PropertyName = operation.PropertyName;
@@ -103,43 +103,43 @@
         {
             Debug.Assert(inner != null);
 
-            Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => RedoMoveBlock(operation);
-            Action<IWriteableOperation> HandlerUndo = (IWriteableOperation operation) => UndoMoveBlock(operation);
-            IWriteableMoveBlockOperation Operation = CreateMoveBlockOperation(inner.Owner.Node, inner.PropertyName, blockIndex, direction, HandlerRedo, HandlerUndo, isNested: false);
+            Action<WriteableOperation> HandlerRedo = (WriteableOperation operation) => RedoMoveBlock(operation);
+            Action<WriteableOperation> HandlerUndo = (WriteableOperation operation) => UndoMoveBlock(operation);
+            WriteableMoveBlockOperation Operation = CreateMoveBlockOperation(inner.Owner.Node, inner.PropertyName, blockIndex, direction, HandlerRedo, HandlerUndo, isNested: false);
 
             Operation.Redo();
             SetLastOperation(Operation);
             CheckInvariant();
         }
 
-        private protected virtual void RedoMoveBlock(IWriteableOperation operation)
+        private protected virtual void RedoMoveBlock(WriteableOperation operation)
         {
-            IWriteableMoveBlockOperation MoveBlockOperation = (IWriteableMoveBlockOperation)operation;
+            WriteableMoveBlockOperation MoveBlockOperation = (WriteableMoveBlockOperation)operation;
             ExecuteMoveBlock(MoveBlockOperation);
         }
 
-        private protected virtual void UndoMoveBlock(IWriteableOperation operation)
+        private protected virtual void UndoMoveBlock(WriteableOperation operation)
         {
-            IWriteableMoveBlockOperation MoveBlockOperation = (IWriteableMoveBlockOperation)operation;
+            WriteableMoveBlockOperation MoveBlockOperation = (WriteableMoveBlockOperation)operation;
             MoveBlockOperation = MoveBlockOperation.ToInverseMoveBlock();
 
             ExecuteMoveBlock(MoveBlockOperation);
         }
 
-        private protected virtual void ExecuteMoveBlock(IWriteableMoveBlockOperation operation)
+        private protected virtual void ExecuteMoveBlock(WriteableMoveBlockOperation operation)
         {
             Node ParentNode = operation.ParentNode;
             string PropertyName = operation.PropertyName;
-            IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> Inner = GetInner(ParentNode, PropertyName) as IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex>;
+            IWriteableBlockListInner<WriteableBrowsingBlockNodeIndex> Inner = GetInner(ParentNode, PropertyName) as IWriteableBlockListInner<WriteableBrowsingBlockNodeIndex>;
 
-            IWriteableBlockState BlockState = Inner.BlockStateList[operation.BlockIndex];
+            IWriteableBlockState BlockState = (IWriteableBlockState)Inner.BlockStateList[operation.BlockIndex];
             Debug.Assert(BlockState != null);
             Debug.Assert(BlockState.StateList.Count > 0);
 
-            IWriteableNodeState State = BlockState.StateList[0];
+            IWriteableNodeState State = (IWriteableNodeState)BlockState.StateList[0];
             Debug.Assert(State != null);
 
-            IWriteableBrowsingExistingBlockNodeIndex NodeIndex = State.ParentIndex as IWriteableBrowsingExistingBlockNodeIndex;
+            WriteableBrowsingExistingBlockNodeIndex NodeIndex = State.ParentIndex as WriteableBrowsingExistingBlockNodeIndex;
             Debug.Assert(NodeIndex != null);
 
             Inner.MoveBlock(operation);

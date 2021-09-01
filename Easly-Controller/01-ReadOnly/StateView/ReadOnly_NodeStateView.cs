@@ -5,7 +5,23 @@
     /// <summary>
     /// View of a node state.
     /// </summary>
-    public abstract class ReadOnlyNodeStateView : IEqualComparable
+    public interface IReadOnlyNodeStateView : IEqualComparable
+    {
+        /// <summary>
+        /// The controller view to which this object belongs.
+        /// </summary>
+        ReadOnlyControllerView ControllerView { get; }
+
+        /// <summary>
+        /// The node state.
+        /// </summary>
+        IReadOnlyNodeState State { get; }
+    }
+
+    /// <summary>
+    /// View of a node state.
+    /// </summary>
+    public abstract class ReadOnlyNodeStateView : IReadOnlyNodeStateView, IEqualComparable
     {
         #region Init
         /// <summary>

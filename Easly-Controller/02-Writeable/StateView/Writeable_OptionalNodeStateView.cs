@@ -6,18 +6,7 @@
     /// <summary>
     /// View of an optional node state.
     /// </summary>
-    public interface IWriteableOptionalNodeStateView : IReadOnlyOptionalNodeStateView, IWriteableNodeStateView
-    {
-        /// <summary>
-        /// The optional node state.
-        /// </summary>
-        new IWriteableOptionalNodeState State { get; }
-    }
-
-    /// <summary>
-    /// View of an optional node state.
-    /// </summary>
-    internal class WriteableOptionalNodeStateView : ReadOnlyOptionalNodeStateView, IWriteableOptionalNodeStateView
+    internal class WriteableOptionalNodeStateView : ReadOnlyOptionalNodeStateView, IWriteableNodeStateView
     {
         #region Init
         /// <summary>
@@ -25,7 +14,7 @@
         /// </summary>
         /// <param name="controllerView">The controller view to which this object belongs.</param>
         /// <param name="state">The optional node state.</param>
-        public WriteableOptionalNodeStateView(IWriteableControllerView controllerView, IWriteableOptionalNodeState state)
+        public WriteableOptionalNodeStateView(WriteableControllerView controllerView, IWriteableOptionalNodeState state)
             : base(controllerView, state)
         {
         }
@@ -35,7 +24,7 @@
         /// <summary>
         /// The controller view to which this object belongs.
         /// </summary>
-        public new IWriteableControllerView ControllerView { get { return (IWriteableControllerView)base.ControllerView; } }
+        public new WriteableControllerView ControllerView { get { return (WriteableControllerView)base.ControllerView; } }
 
         /// <summary>
         /// The optional node state.

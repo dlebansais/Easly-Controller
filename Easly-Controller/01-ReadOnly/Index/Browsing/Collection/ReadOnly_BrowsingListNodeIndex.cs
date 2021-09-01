@@ -7,7 +7,23 @@
     /// <summary>
     /// Index for a node in a list of nodes.
     /// </summary>
-    public class ReadOnlyBrowsingListNodeIndex : ReadOnlyBrowsingCollectionNodeIndex, IEqualComparable
+    public interface IReadOnlyBrowsingListNodeIndex : IReadOnlyBrowsingCollectionNodeIndex, IEqualComparable
+    {
+        /// <summary>
+        /// The parent node.
+        /// </summary>
+        Node ParentNode { get; }
+
+        /// <summary>
+        /// Position of the node in the list.
+        /// </summary>
+        int Index { get; }
+    }
+
+    /// <summary>
+    /// Index for a node in a list of nodes.
+    /// </summary>
+    public class ReadOnlyBrowsingListNodeIndex : ReadOnlyBrowsingCollectionNodeIndex, IReadOnlyBrowsingListNodeIndex, IReadOnlyBrowsingCollectionNodeIndex, IEqualComparable
     {
         #region Init
         /// <summary>

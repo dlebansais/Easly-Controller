@@ -6,7 +6,18 @@
     /// <summary>
     /// Base for block list index classes.
     /// </summary>
-    public abstract class ReadOnlyBrowsingBlockNodeIndex : ReadOnlyBrowsingCollectionNodeIndex
+    public interface IReadOnlyBrowsingBlockNodeIndex : IReadOnlyBrowsingCollectionNodeIndex
+    {
+        /// <summary>
+        /// Position of the block in the block list.
+        /// </summary>
+        int BlockIndex { get; }
+    }
+
+    /// <summary>
+    /// Base for block list index classes.
+    /// </summary>
+    public abstract class ReadOnlyBrowsingBlockNodeIndex : ReadOnlyBrowsingCollectionNodeIndex, IReadOnlyBrowsingBlockNodeIndex, IReadOnlyBrowsingCollectionNodeIndex
     {
         #region Init
         /// <summary>

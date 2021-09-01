@@ -6,40 +6,14 @@
     /// <summary>
     /// View of a IxxxController.
     /// </summary>
-    public interface IWriteableControllerView : IReadOnlyControllerView
-    {
-        /// <summary>
-        /// The controller.
-        /// </summary>
-        new IWriteableController Controller { get; }
-
-        /// <summary>
-        /// Table of views of each state in the controller.
-        /// </summary>
-        new IWriteableStateViewDictionary StateViewTable { get; }
-
-        /// <summary>
-        /// Table of views of each block state in the controller.
-        /// </summary>
-        new IWriteableBlockStateViewDictionary BlockStateViewTable { get; }
-
-        /// <summary>
-        /// State view of the root state.
-        /// </summary>
-        new IWriteableNodeStateView RootStateView { get; }
-    }
-
-    /// <summary>
-    /// View of a IxxxController.
-    /// </summary>
-    public class WriteableControllerView : ReadOnlyControllerView, IWriteableControllerView
+    public class WriteableControllerView : ReadOnlyControllerView
     {
         #region Init
         /// <summary>
         /// Creates and initializes a new instance of a <see cref="WriteableControllerView"/> object.
         /// </summary>
         /// <param name="controller">The controller on which the view is attached.</param>
-        public static IWriteableControllerView Create(IWriteableController controller)
+        public static WriteableControllerView Create(WriteableController controller)
         {
             WriteableControllerView View = new WriteableControllerView(controller);
             View.Init();
@@ -50,7 +24,7 @@
         /// Initializes a new instance of the <see cref="WriteableControllerView"/> class.
         /// </summary>
         /// <param name="controller">The controller on which the view is attached.</param>
-        private protected WriteableControllerView(IWriteableController controller)
+        private protected WriteableControllerView(WriteableController controller)
             : base(controller)
         {
         }
@@ -86,22 +60,22 @@
         /// <summary>
         /// The controller.
         /// </summary>
-        public new IWriteableController Controller { get { return (IWriteableController)base.Controller; } }
+        public new WriteableController Controller { get { return (WriteableController)base.Controller; } }
 
         /// <summary>
         /// Table of views of each state in the controller.
         /// </summary>
-        public new IWriteableStateViewDictionary StateViewTable { get { return (IWriteableStateViewDictionary)base.StateViewTable; } }
+        public new WriteableStateViewDictionary StateViewTable { get { return (WriteableStateViewDictionary)base.StateViewTable; } }
 
         /// <summary>
         /// Table of views of each block state in the controller.
         /// </summary>
-        public new IWriteableBlockStateViewDictionary BlockStateViewTable { get { return (IWriteableBlockStateViewDictionary)base.BlockStateViewTable; } }
+        public new WriteableBlockStateViewDictionary BlockStateViewTable { get { return (WriteableBlockStateViewDictionary)base.BlockStateViewTable; } }
 
         /// <summary>
         /// State view of the root state.
         /// </summary>
-        public new IWriteableNodeStateView RootStateView { get { return (IWriteableNodeStateView)base.RootStateView; } }
+        public new WriteableNodeStateView RootStateView { get { return (WriteableNodeStateView)base.RootStateView; } }
         #endregion
 
         #region Implementation
@@ -109,7 +83,7 @@
         /// Handler called every time a block state is inserted in the controller.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        private protected virtual void OnBlockStateInserted(IWriteableInsertBlockOperation operation)
+        private protected virtual void OnBlockStateInserted(WriteableInsertBlockOperation operation)
         {
             Debug.Assert(operation != null);
 
@@ -133,7 +107,7 @@
         /// Handler called every time a block state is removed from the controller.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        private protected virtual void OnBlockStateRemoved(IWriteableRemoveBlockOperation operation)
+        private protected virtual void OnBlockStateRemoved(WriteableRemoveBlockOperation operation)
         {
             Debug.Assert(operation != null);
 
@@ -155,7 +129,7 @@
         /// Handler called every time a block view must be removed from the controller view.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        private protected virtual void OnBlockViewRemoved(IWriteableRemoveBlockViewOperation operation)
+        private protected virtual void OnBlockViewRemoved(WriteableRemoveBlockViewOperation operation)
         {
             Debug.Assert(operation != null);
 
@@ -175,7 +149,7 @@
         /// Handler called every time a state is inserted in the controller.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        private protected virtual void OnStateInserted(IWriteableInsertNodeOperation operation)
+        private protected virtual void OnStateInserted(WriteableInsertNodeOperation operation)
         {
             Debug.Assert(operation != null);
 
@@ -191,7 +165,7 @@
         /// Handler called every time a state is removed from the controller.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        private protected virtual void OnStateRemoved(IWriteableRemoveNodeOperation operation)
+        private protected virtual void OnStateRemoved(WriteableRemoveNodeOperation operation)
         {
             Debug.Assert(operation != null);
 
@@ -204,7 +178,7 @@
         /// Handler called every time a state is replaced in the controller.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        private protected virtual void OnStateReplaced(IWriteableReplaceOperation operation)
+        private protected virtual void OnStateReplaced(WriteableReplaceOperation operation)
         {
             Debug.Assert(operation != null);
 
@@ -225,7 +199,7 @@
         /// Handler called every time a state is assigned in the controller.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        private protected virtual void OnStateAssigned(IWriteableAssignmentOperation operation)
+        private protected virtual void OnStateAssigned(WriteableAssignmentOperation operation)
         {
             Debug.Assert(operation != null);
 
@@ -238,7 +212,7 @@
         /// Handler called every time a state is unassigned in the controller.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        private protected virtual void OnStateUnassigned(IWriteableAssignmentOperation operation)
+        private protected virtual void OnStateUnassigned(WriteableAssignmentOperation operation)
         {
             Debug.Assert(operation != null);
 
@@ -251,7 +225,7 @@
         /// Handler called every time a discrete value is changed in the controller.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        private protected virtual void OnDiscreteValueChanged(IWriteableChangeDiscreteValueOperation operation)
+        private protected virtual void OnDiscreteValueChanged(WriteableChangeDiscreteValueOperation operation)
         {
             Debug.Assert(operation != null);
 
@@ -264,7 +238,7 @@
         /// Handler called every time a string is changed in the controller.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        private protected virtual void OnTextChanged(IWriteableChangeTextOperation operation)
+        private protected virtual void OnTextChanged(WriteableChangeTextOperation operation)
         {
             Debug.Assert(operation != null);
 
@@ -277,7 +251,7 @@
         /// Handler called every time a comment is changed in the controller.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        private protected virtual void OnCommentChanged(IWriteableChangeCommentOperation operation)
+        private protected virtual void OnCommentChanged(WriteableChangeCommentOperation operation)
         {
             Debug.Assert(operation != null);
 
@@ -290,7 +264,7 @@
         /// Handler called every time a block state is changed in the controller.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        private protected virtual void OnBlockStateChanged(IWriteableChangeBlockOperation operation)
+        private protected virtual void OnBlockStateChanged(WriteableChangeBlockOperation operation)
         {
             Debug.Assert(operation != null);
 
@@ -303,7 +277,7 @@
         /// Handler called every time a state is moved in the controller.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        private protected virtual void OnStateMoved(IWriteableMoveNodeOperation operation)
+        private protected virtual void OnStateMoved(WriteableMoveNodeOperation operation)
         {
             Debug.Assert(operation != null);
             Debug.Assert(!operation.IsNested);
@@ -317,7 +291,7 @@
         /// Handler called every time a block state is moved in the controller.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        private protected virtual void OnBlockStateMoved(IWriteableMoveBlockOperation operation)
+        private protected virtual void OnBlockStateMoved(WriteableMoveBlockOperation operation)
         {
             Debug.Assert(operation != null);
             Debug.Assert(!operation.IsNested);
@@ -331,7 +305,7 @@
         /// Handler called every time a block split in the controller.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        private protected virtual void OnBlockSplit(IWriteableSplitBlockOperation operation)
+        private protected virtual void OnBlockSplit(WriteableSplitBlockOperation operation)
         {
             Debug.Assert(operation != null);
             Debug.Assert(!operation.IsNested);
@@ -345,7 +319,7 @@
         /// Handler called every time two blocks are merged.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        private protected virtual void OnBlocksMerged(IWriteableMergeBlocksOperation operation)
+        private protected virtual void OnBlocksMerged(WriteableMergeBlocksOperation operation)
         {
             Debug.Assert(operation != null);
             Debug.Assert(!operation.IsNested);
@@ -359,7 +333,7 @@
         /// Handler called to refresh views.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        private protected virtual void OnGenericRefresh(IWriteableGenericRefreshOperation operation)
+        private protected virtual void OnGenericRefresh(WriteableGenericRefreshOperation operation)
         {
             Debug.Assert(operation != null);
             Debug.Assert(!operation.IsNested);
@@ -395,7 +369,7 @@
         /// <summary>
         /// Creates a IxxxStateViewDictionary object.
         /// </summary>
-        private protected override IReadOnlyStateViewDictionary CreateStateViewTable()
+        private protected override ReadOnlyStateViewDictionary CreateStateViewTable()
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableControllerView));
             return new WriteableStateViewDictionary();
@@ -404,7 +378,7 @@
         /// <summary>
         /// Creates a IxxxBlockStateViewDictionary object.
         /// </summary>
-        private protected override IReadOnlyBlockStateViewDictionary CreateBlockStateViewTable()
+        private protected override ReadOnlyBlockStateViewDictionary CreateBlockStateViewTable()
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableControllerView));
             return new WriteableBlockStateViewDictionary();
@@ -413,7 +387,7 @@
         /// <summary>
         /// Creates a IxxxAttachCallbackSet object.
         /// </summary>
-        private protected override IReadOnlyAttachCallbackSet CreateCallbackSet()
+        private protected override ReadOnlyAttachCallbackSet CreateCallbackSet()
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableControllerView));
             return new WriteableAttachCallbackSet()
@@ -430,7 +404,7 @@
         /// <summary>
         /// Creates a IxxxPlaceholderNodeStateView object.
         /// </summary>
-        private protected override IReadOnlyPlaceholderNodeStateView CreatePlaceholderNodeStateView(IReadOnlyPlaceholderNodeState state)
+        private protected override ReadOnlyPlaceholderNodeStateView CreatePlaceholderNodeStateView(IReadOnlyPlaceholderNodeState state)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableControllerView));
             return new WriteablePlaceholderNodeStateView(this, (IWriteablePlaceholderNodeState)state);
@@ -439,7 +413,7 @@
         /// <summary>
         /// Creates a IxxxOptionalNodeStateView object.
         /// </summary>
-        private protected override IReadOnlyOptionalNodeStateView CreateOptionalNodeStateView(IReadOnlyOptionalNodeState state)
+        private protected override ReadOnlyOptionalNodeStateView CreateOptionalNodeStateView(IReadOnlyOptionalNodeState state)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableControllerView));
             return new WriteableOptionalNodeStateView(this, (IWriteableOptionalNodeState)state);
@@ -448,7 +422,7 @@
         /// <summary>
         /// Creates a IxxxPatternStateView object.
         /// </summary>
-        private protected override IReadOnlyPatternStateView CreatePatternStateView(IReadOnlyPatternState state)
+        private protected override ReadOnlyPatternStateView CreatePatternStateView(IReadOnlyPatternState state)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableControllerView));
             return new WriteablePatternStateView(this, (IWriteablePatternState)state);
@@ -457,7 +431,7 @@
         /// <summary>
         /// Creates a IxxxSourceStateView object.
         /// </summary>
-        private protected override IReadOnlySourceStateView CreateSourceStateView(IReadOnlySourceState state)
+        private protected override ReadOnlySourceStateView CreateSourceStateView(IReadOnlySourceState state)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableControllerView));
             return new WriteableSourceStateView(this, (IWriteableSourceState)state);
@@ -466,7 +440,7 @@
         /// <summary>
         /// Creates a IxxxBlockStateView object.
         /// </summary>
-        private protected override IReadOnlyBlockStateView CreateBlockStateView(IReadOnlyBlockState blockState)
+        private protected override ReadOnlyBlockStateView CreateBlockStateView(IReadOnlyBlockState blockState)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableControllerView));
             return new WriteableBlockStateView(this, (IWriteableBlockState)blockState);
