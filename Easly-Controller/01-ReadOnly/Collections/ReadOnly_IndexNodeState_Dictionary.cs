@@ -2,14 +2,10 @@
 {
     using System.Collections.Generic;
 
-    /// <summary>
-    /// Dictionary of IxxxIndex, IxxxNodeState
-    /// </summary>
+    /// <inheritdoc/>
     public class ReadOnlyIndexNodeStateDictionary : Dictionary<IReadOnlyIndex, IReadOnlyNodeState>
     {
-        /// <summary>
-        /// Gets a read-only view of the dictionary.
-        /// </summary>
+        /// <inheritdoc/>
         public virtual ReadOnlyIndexNodeStateReadOnlyDictionary ToReadOnly()
         {
             return new ReadOnlyIndexNodeStateReadOnlyDictionary(this);

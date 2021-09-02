@@ -1,24 +1,20 @@
-﻿#pragma warning disable 1591
-
-namespace EaslyController.Writeable
+﻿namespace EaslyController.Writeable
 {
     using System.Collections.Generic;
-    using System.Collections.ObjectModel;
     using System.Diagnostics;
     using EaslyController.ReadOnly;
 
-    /// <summary>
-    /// Read-only list of IxxxPlaceholderNodeState
-    /// </summary>
+    /// <inheritdoc/>
     public class WriteablePlaceholderNodeStateReadOnlyList : ReadOnlyPlaceholderNodeStateReadOnlyList, IReadOnlyCollection<IWriteablePlaceholderNodeState>, IReadOnlyList<IWriteablePlaceholderNodeState>, IEqualComparable
     {
+        /// <inheritdoc/>
         public WriteablePlaceholderNodeStateReadOnlyList(WriteablePlaceholderNodeStateList list)
             : base(list)
         {
         }
 
         #region IWriteablePlaceholderNodeState
-        IEnumerator<IWriteablePlaceholderNodeState> IEnumerable<IWriteablePlaceholderNodeState>.GetEnumerator() { return new List<IWriteablePlaceholderNodeState>().GetEnumerator(); }
+        IEnumerator<IWriteablePlaceholderNodeState> IEnumerable<IWriteablePlaceholderNodeState>.GetEnumerator() { return ((IList<IWriteablePlaceholderNodeState>)this).GetEnumerator(); }
         IWriteablePlaceholderNodeState IReadOnlyList<IWriteablePlaceholderNodeState>.this[int index] { get { return (IWriteablePlaceholderNodeState)this[index]; } }
         #endregion
 

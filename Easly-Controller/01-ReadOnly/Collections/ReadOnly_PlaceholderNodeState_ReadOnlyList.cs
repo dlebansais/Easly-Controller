@@ -1,16 +1,12 @@
-﻿#pragma warning disable 1591
-
-namespace EaslyController.ReadOnly
+﻿namespace EaslyController.ReadOnly
 {
-    using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Diagnostics;
 
-    /// <summary>
-    /// Read-only list of IxxxPlaceholderNodeState
-    /// </summary>
+    /// <inheritdoc/>
     public class ReadOnlyPlaceholderNodeStateReadOnlyList : ReadOnlyCollection<IReadOnlyPlaceholderNodeState>, IEqualComparable
     {
+        /// <inheritdoc/>
         public ReadOnlyPlaceholderNodeStateReadOnlyList(ReadOnlyPlaceholderNodeStateList list)
             : base(list)
         {

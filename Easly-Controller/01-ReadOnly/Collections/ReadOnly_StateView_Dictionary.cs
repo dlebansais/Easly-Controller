@@ -3,11 +3,15 @@
     using System.Collections.Generic;
     using System.Diagnostics;
 
-    /// <summary>
-    /// Dictionary of IxxxNodeState, IxxxNodeStateView
-    /// </summary>
+    /// <inheritdoc/>
     public class ReadOnlyStateViewDictionary : Dictionary<IReadOnlyNodeState, ReadOnlyNodeStateView>, IEqualComparable
     {
+        /// <inheritdoc/>
+        public virtual ReadOnlyStateViewReadOnlyDictionary ToReadOnly()
+        {
+            return new ReadOnlyStateViewReadOnlyDictionary(this);
+        }
+
         #region Debugging
         /// <summary>
         /// Compares two <see cref="ReadOnlyStateViewDictionary"/> objects.

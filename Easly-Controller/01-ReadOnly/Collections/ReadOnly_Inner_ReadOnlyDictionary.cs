@@ -1,17 +1,13 @@
-﻿#pragma warning disable 1591
-
-namespace EaslyController.ReadOnly
+﻿namespace EaslyController.ReadOnly
 {
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Diagnostics;
 
-    /// <summary>
-    /// Read-only dictionary of ..., IxxxInner
-    /// </summary>
-    /// <typeparam name="TKey">Type of the key.</typeparam>
+    /// <inheritdoc/>
     public class ReadOnlyInnerReadOnlyDictionary<TKey> : ReadOnlyDictionary<TKey, IReadOnlyInner>, IEqualComparable
     {
+        /// <inheritdoc/>
         public ReadOnlyInnerReadOnlyDictionary(ReadOnlyInnerDictionary<TKey> dictionary)
             : base(dictionary)
         {

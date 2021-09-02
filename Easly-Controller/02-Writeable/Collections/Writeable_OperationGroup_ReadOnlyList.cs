@@ -1,15 +1,11 @@
-﻿#pragma warning disable 1591
-
-namespace EaslyController.Writeable
+﻿namespace EaslyController.Writeable
 {
-    using System.Collections.Generic;
     using System.Collections.ObjectModel;
 
-    /// <summary>
-    /// Read-only list of IxxxOperationGroup
-    /// </summary>
+    /// <inheritdoc/>
     public class WriteableOperationGroupReadOnlyList : ReadOnlyCollection<WriteableOperationGroup>
     {
+        /// <inheritdoc/>
         public WriteableOperationGroupReadOnlyList(WriteableOperationGroupList list)
             : base(list)
         {

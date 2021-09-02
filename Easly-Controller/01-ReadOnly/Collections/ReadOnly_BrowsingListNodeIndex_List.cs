@@ -1,14 +1,14 @@
-﻿#pragma warning disable 1591
-
-namespace EaslyController.ReadOnly
+﻿namespace EaslyController.ReadOnly
 {
     using System.Collections.Generic;
-    using System.Collections.ObjectModel;
 
-    /// <summary>
-    /// List of IxxxBrowsingListNodeIndex
-    /// </summary>
-    public class ReadOnlyBrowsingListNodeIndexList : List<ReadOnlyBrowsingListNodeIndex>
+    /// <inheritdoc/>
+    public class ReadOnlyBrowsingListNodeIndexList : List<IReadOnlyBrowsingListNodeIndex>
     {
+        /// <inheritdoc/>
+        public virtual ReadOnlyBrowsingListNodeIndexReadOnlyList ToReadOnly()
+        {
+            return new ReadOnlyBrowsingListNodeIndexReadOnlyList(this);
+        }
     }
 }

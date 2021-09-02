@@ -1,27 +1,28 @@
-﻿#pragma warning disable 1591
-
-namespace EaslyController.Writeable
+﻿namespace EaslyController.Writeable
 {
     using System.Collections.Generic;
-    using System.Collections.ObjectModel;
     using EaslyController.ReadOnly;
 
-    /// <summary>
-    /// List of IxxxBrowsingBlockNodeIndex
-    /// </summary>
-    internal class WriteableBrowsingBlockNodeIndexList : ReadOnlyBrowsingBlockNodeIndexList, ICollection<WriteableBrowsingBlockNodeIndex>, IEnumerable<WriteableBrowsingBlockNodeIndex>, IList<WriteableBrowsingBlockNodeIndex>, IReadOnlyCollection<WriteableBrowsingBlockNodeIndex>, IReadOnlyList<WriteableBrowsingBlockNodeIndex>
+    /// <inheritdoc/>
+    public class WriteableBrowsingBlockNodeIndexList : ReadOnlyBrowsingBlockNodeIndexList, ICollection<IWriteableBrowsingBlockNodeIndex>, IEnumerable<IWriteableBrowsingBlockNodeIndex>, IList<IWriteableBrowsingBlockNodeIndex>, IReadOnlyCollection<IWriteableBrowsingBlockNodeIndex>, IReadOnlyList<IWriteableBrowsingBlockNodeIndex>
     {
-        #region WriteableBrowsingBlockNodeIndex
-        void ICollection<WriteableBrowsingBlockNodeIndex>.Add(WriteableBrowsingBlockNodeIndex item) { Add(item); }
-        bool ICollection<WriteableBrowsingBlockNodeIndex>.Contains(WriteableBrowsingBlockNodeIndex item) { return Contains(item); }
-        void ICollection<WriteableBrowsingBlockNodeIndex>.CopyTo(WriteableBrowsingBlockNodeIndex[] array, int arrayIndex) { for (int i = 0; i < Count; i++) array[arrayIndex + i] = (WriteableBrowsingBlockNodeIndex)this[i]; }
-        bool ICollection<WriteableBrowsingBlockNodeIndex>.Remove(WriteableBrowsingBlockNodeIndex item) { return Remove(item); }
-        bool ICollection<WriteableBrowsingBlockNodeIndex>.IsReadOnly { get { return false; } }
-        IEnumerator<WriteableBrowsingBlockNodeIndex> IEnumerable<WriteableBrowsingBlockNodeIndex>.GetEnumerator() { return new List<WriteableBrowsingBlockNodeIndex>(this).GetEnumerator(); }
-        WriteableBrowsingBlockNodeIndex IList<WriteableBrowsingBlockNodeIndex>.this[int index] { get { return (WriteableBrowsingBlockNodeIndex)this[index]; } set { this[index] = value; } }
-        int IList<WriteableBrowsingBlockNodeIndex>.IndexOf(WriteableBrowsingBlockNodeIndex item) { return IndexOf(item); }
-        void IList<WriteableBrowsingBlockNodeIndex>.Insert(int index, WriteableBrowsingBlockNodeIndex item) { Insert(index, item); }
-        WriteableBrowsingBlockNodeIndex IReadOnlyList<WriteableBrowsingBlockNodeIndex>.this[int index] { get { return (WriteableBrowsingBlockNodeIndex)this[index]; } }
+        #region IWriteableBrowsingBlockNodeIndex
+        void ICollection<IWriteableBrowsingBlockNodeIndex>.Add(IWriteableBrowsingBlockNodeIndex item) { Add(item); }
+        bool ICollection<IWriteableBrowsingBlockNodeIndex>.Contains(IWriteableBrowsingBlockNodeIndex item) { return Contains(item); }
+        void ICollection<IWriteableBrowsingBlockNodeIndex>.CopyTo(IWriteableBrowsingBlockNodeIndex[] array, int arrayIndex) { ((System.Collections.ICollection)this).CopyTo(array, arrayIndex); }
+        bool ICollection<IWriteableBrowsingBlockNodeIndex>.Remove(IWriteableBrowsingBlockNodeIndex item) { return Remove(item); }
+        bool ICollection<IWriteableBrowsingBlockNodeIndex>.IsReadOnly { get { return ((ICollection < IReadOnlyBrowsingBlockNodeIndex>)this).IsReadOnly; } }
+        IEnumerator<IWriteableBrowsingBlockNodeIndex> IEnumerable<IWriteableBrowsingBlockNodeIndex>.GetEnumerator() { return ((IList < IWriteableBrowsingBlockNodeIndex>)this).GetEnumerator(); }
+        IWriteableBrowsingBlockNodeIndex IList<IWriteableBrowsingBlockNodeIndex>.this[int index] { get { return (IWriteableBrowsingBlockNodeIndex)this[index]; } set { this[index] = value; } }
+        int IList<IWriteableBrowsingBlockNodeIndex>.IndexOf(IWriteableBrowsingBlockNodeIndex item) { return IndexOf(item); }
+        void IList<IWriteableBrowsingBlockNodeIndex>.Insert(int index, IWriteableBrowsingBlockNodeIndex item) { Insert(index, item); }
+        IWriteableBrowsingBlockNodeIndex IReadOnlyList<IWriteableBrowsingBlockNodeIndex>.this[int index] { get { return (IWriteableBrowsingBlockNodeIndex)this[index]; } }
         #endregion
+
+        /// <inheritdoc/>
+        public override ReadOnlyBrowsingBlockNodeIndexReadOnlyList ToReadOnly()
+        {
+            return new WriteableBrowsingBlockNodeIndexReadOnlyList(this);
+        }
     }
 }

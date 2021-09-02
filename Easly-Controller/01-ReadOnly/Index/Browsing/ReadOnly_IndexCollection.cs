@@ -7,7 +7,7 @@
     /// <summary>
     /// Collection of node indexes.
     /// </summary>
-    internal interface IReadOnlyIndexCollection
+    public interface IReadOnlyIndexCollection
     {
         /// <summary>
         /// Property indexed for all nodes in the collection.
