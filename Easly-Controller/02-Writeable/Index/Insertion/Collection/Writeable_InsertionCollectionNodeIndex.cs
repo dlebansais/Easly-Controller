@@ -3,12 +3,18 @@
     using System.Diagnostics;
     using BaseNode;
     using BaseNodeHelper;
-    using EaslyController.ReadOnly;
 
     /// <summary>
     /// Base for list and block list insertion index classes.
     /// </summary>
-    public abstract class WriteableInsertionCollectionNodeIndex : IWriteableInsertionChildNodeIndex, IWriteableNodeIndex
+    public interface IWriteableInsertionCollectionNodeIndex : IWriteableInsertionChildNodeIndex, IWriteableNodeIndex
+    {
+    }
+
+    /// <summary>
+    /// Base for list and block list insertion index classes.
+    /// </summary>
+    public abstract class WriteableInsertionCollectionNodeIndex : IWriteableInsertionCollectionNodeIndex
     {
         #region Init
         /// <summary>

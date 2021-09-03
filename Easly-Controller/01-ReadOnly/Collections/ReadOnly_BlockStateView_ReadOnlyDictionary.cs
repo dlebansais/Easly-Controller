@@ -3,7 +3,7 @@
     using System.Collections.ObjectModel;
 
     /// <inheritdoc/>
-    public class ReadOnlyBlockStateViewReadOnlyDictionary : ReadOnlyDictionary<IReadOnlyBlockState, IReadOnlyBlockStateView>
+    public class ReadOnlyBlockStateViewReadOnlyDictionary : ReadOnlyDictionary<IReadOnlyBlockState, ReadOnlyBlockStateView>
     {
         /// <inheritdoc/>
         public ReadOnlyBlockStateViewReadOnlyDictionary(ReadOnlyBlockStateViewDictionary dictionary)

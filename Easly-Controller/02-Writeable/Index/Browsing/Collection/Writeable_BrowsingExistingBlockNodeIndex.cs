@@ -8,7 +8,7 @@
     /// <summary>
     /// Index for a node in a block that is not the first.
     /// </summary>
-    public interface IWriteableBrowsingExistingBlockNodeIndex : IWriteableBrowsingBlockNodeIndex, IWriteableBrowsingInsertableIndex
+    public interface IWriteableBrowsingExistingBlockNodeIndex : IReadOnlyBrowsingExistingBlockNodeIndex, IWriteableBrowsingBlockNodeIndex, IWriteableBrowsingInsertableIndex
     {
         /// <summary>
         /// Modifies the index to address the next position in a list.

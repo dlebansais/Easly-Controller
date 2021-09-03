@@ -7,7 +7,14 @@
     /// <summary>
     /// Index for an optional node.
     /// </summary>
-    public class WriteableBrowsingOptionalNodeIndex : ReadOnlyBrowsingOptionalNodeIndex, IWriteableBrowsingChildIndex, IWriteableBrowsingInsertableIndex
+    public interface IWriteableBrowsingOptionalNodeIndex : IReadOnlyBrowsingOptionalNodeIndex, IWriteableBrowsingChildIndex, IWriteableBrowsingInsertableIndex
+    {
+    }
+
+    /// <summary>
+    /// Index for an optional node.
+    /// </summary>
+    public class WriteableBrowsingOptionalNodeIndex : ReadOnlyBrowsingOptionalNodeIndex, IWriteableBrowsingOptionalNodeIndex
     {
         #region Init
         /// <summary>

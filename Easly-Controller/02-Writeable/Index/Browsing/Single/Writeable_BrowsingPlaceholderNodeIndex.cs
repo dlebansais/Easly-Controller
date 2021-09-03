@@ -7,7 +7,14 @@
     /// <summary>
     /// Index for a node.
     /// </summary>
-    internal class WriteableBrowsingPlaceholderNodeIndex : ReadOnlyBrowsingPlaceholderNodeIndex, IWriteableBrowsingChildIndex, IWriteableBrowsingInsertableIndex, IWriteableNodeIndex
+    public interface IWriteableBrowsingPlaceholderNodeIndex : IReadOnlyBrowsingPlaceholderNodeIndex, IWriteableBrowsingChildIndex, IWriteableBrowsingInsertableIndex, IWriteableNodeIndex
+    {
+    }
+
+    /// <summary>
+    /// Index for a node.
+    /// </summary>
+    internal class WriteableBrowsingPlaceholderNodeIndex : ReadOnlyBrowsingPlaceholderNodeIndex, IWriteableBrowsingPlaceholderNodeIndex
     {
         #region Init
         /// <summary>

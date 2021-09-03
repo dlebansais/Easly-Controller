@@ -4,12 +4,22 @@
     using BaseNode;
     using BaseNodeHelper;
     using Easly;
-    using EaslyController.ReadOnly;
 
     /// <summary>
     /// Index for replacing an optional node.
     /// </summary>
-    public class WriteableInsertionOptionalNodeIndex : IWriteableInsertionChildNodeIndex, IWriteableNodeIndex, IEqualComparable
+    public interface IWriteableInsertionOptionalNodeIndex : IWriteableInsertionChildNodeIndex, IWriteableNodeIndex, IEqualComparable
+    {
+        /// <summary>
+        /// Interface to the optional object for the node.
+        /// </summary>
+        IOptionalReference Optional { get; }
+    }
+
+    /// <summary>
+    /// Index for replacing an optional node.
+    /// </summary>
+    public class WriteableInsertionOptionalNodeIndex : IWriteableInsertionOptionalNodeIndex, IEqualComparable
     {
         #region Init
         /// <summary>

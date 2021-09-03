@@ -7,7 +7,23 @@
     /// <summary>
     /// Index for a node in a block.
     /// </summary>
-    public class ReadOnlyBrowsingExistingBlockNodeIndex : ReadOnlyBrowsingBlockNodeIndex, IEqualComparable
+    public interface IReadOnlyBrowsingExistingBlockNodeIndex : IReadOnlyBrowsingBlockNodeIndex, IEqualComparable
+    {
+        /// <summary>
+        /// The parent node.
+        /// </summary>
+        Node ParentNode { get; }
+
+        /// <summary>
+        /// Position of the node in the block.
+        /// </summary>
+        int Index { get; }
+    }
+
+    /// <summary>
+    /// Index for a node in a block.
+    /// </summary>
+    public class ReadOnlyBrowsingExistingBlockNodeIndex : ReadOnlyBrowsingBlockNodeIndex, IReadOnlyBrowsingExistingBlockNodeIndex, IEqualComparable
     {
         #region Init
         /// <summary>

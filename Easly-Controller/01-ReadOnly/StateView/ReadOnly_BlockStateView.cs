@@ -5,23 +5,7 @@
     /// <summary>
     /// View of a block state.
     /// </summary>
-    public interface IReadOnlyBlockStateView : IEqualComparable
-    {
-        /// <summary>
-        /// The controller view to which this object belongs.
-        /// </summary>
-        ReadOnlyControllerView ControllerView { get; }
-
-        /// <summary>
-        /// The block state.
-        /// </summary>
-        IReadOnlyBlockState BlockState { get; }
-    }
-
-    /// <summary>
-    /// View of a block state.
-    /// </summary>
-    public class ReadOnlyBlockStateView : IReadOnlyBlockStateView, IEqualComparable
+    public class ReadOnlyBlockStateView : IEqualComparable
     {
         #region Init
         /// <summary>

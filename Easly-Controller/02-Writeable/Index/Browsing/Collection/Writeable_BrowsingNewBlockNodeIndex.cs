@@ -7,7 +7,14 @@
     /// <summary>
     /// Index for the first node in a block.
     /// </summary>
-    internal class WriteableBrowsingNewBlockNodeIndex : ReadOnlyBrowsingNewBlockNodeIndex
+    public interface IWriteableBrowsingNewBlockNodeIndex : IReadOnlyBrowsingNewBlockNodeIndex, IWriteableBrowsingBlockNodeIndex
+    {
+    }
+
+    /// <summary>
+    /// Index for the first node in a block.
+    /// </summary>
+    internal class WriteableBrowsingNewBlockNodeIndex : ReadOnlyBrowsingNewBlockNodeIndex, IWriteableBrowsingNewBlockNodeIndex
     {
         #region Init
         /// <summary>

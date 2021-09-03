@@ -3,12 +3,27 @@
     using System.Diagnostics;
     using BaseNode;
     using BaseNodeHelper;
-    using EaslyController.ReadOnly;
 
     /// <summary>
     /// Index for inserting a node in an existing block of a block list.
     /// </summary>
-    public class WriteableInsertionExistingBlockNodeIndex : WriteableInsertionBlockNodeIndex
+    public interface IWriteableInsertionExistingBlockNodeIndex : IWriteableInsertionBlockNodeIndex
+    {
+        /// <summary>
+        /// Position of the block in the block list.
+        /// </summary>
+        int BlockIndex { get; }
+
+        /// <summary>
+        /// Position where the node is inserted in the block.
+        /// </summary>
+        int Index { get; }
+    }
+
+    /// <summary>
+    /// Index for inserting a node in an existing block of a block list.
+    /// </summary>
+    public class WriteableInsertionExistingBlockNodeIndex : WriteableInsertionBlockNodeIndex, IWriteableInsertionExistingBlockNodeIndex
     {
         #region Init
         /// <summary>

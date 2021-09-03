@@ -731,7 +731,7 @@
         private protected virtual IReadOnlyIndexCollection CreateListIndexCollection(ReadOnlyBrowseContext browseNodeContext, string propertyName, ReadOnlyBrowsingListNodeIndexList nodeIndexList)
         {
             ControllerTools.AssertNoOverride(this, typeof(ReadOnlyNodeState<IInner>));
-            return new ReadOnlyIndexCollection<ReadOnlyBrowsingListNodeIndex>(propertyName, nodeIndexList);
+            return new ReadOnlyIndexCollection<IReadOnlyBrowsingListNodeIndex>(propertyName, nodeIndexList);
         }
 
         /// <summary>
@@ -749,7 +749,7 @@
         private protected virtual IReadOnlyIndexCollection CreateBlockIndexCollection(ReadOnlyBrowseContext browseNodeContext, string propertyName, ReadOnlyBrowsingBlockNodeIndexList nodeIndexList)
         {
             ControllerTools.AssertNoOverride(this, typeof(ReadOnlyNodeState<IInner>));
-            return new ReadOnlyIndexCollection<ReadOnlyBrowsingBlockNodeIndex>(propertyName, nodeIndexList);
+            return new ReadOnlyIndexCollection<IReadOnlyBrowsingBlockNodeIndex>(propertyName, nodeIndexList);
         }
         #endregion
     }

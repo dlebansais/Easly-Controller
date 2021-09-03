@@ -49,7 +49,7 @@
         {
             for (int i = 0; i < OperationList.Count; i++)
             {
-                IWriteableOperation Operation = OperationList[i];
+                WriteableOperation Operation = OperationList[i];
                 Operation.Redo();
             }
 
@@ -64,7 +64,7 @@
         {
             for (int i = OperationList.Count; i > 0; i--)
             {
-                IWriteableOperation Operation = OperationList[i - 1];
+                WriteableOperation Operation = OperationList[i - 1];
                 Operation.Undo();
             }
 

@@ -6,23 +6,7 @@
     /// <summary>
     /// View of a block state.
     /// </summary>
-    public interface IWriteableBlockStateView : IReadOnlyBlockStateView
-    {
-        /// <summary>
-        /// The controller view to which this object belongs.
-        /// </summary>
-        new WriteableControllerView ControllerView { get; }
-
-        /// <summary>
-        /// The block state.
-        /// </summary>
-        new IWriteableBlockState BlockState { get; }
-    }
-
-    /// <summary>
-    /// View of a block state.
-    /// </summary>
-    internal class WriteableBlockStateView : ReadOnlyBlockStateView, IWriteableBlockStateView
+    internal class WriteableBlockStateView : ReadOnlyBlockStateView
     {
         #region Init
         /// <summary>

@@ -8,7 +8,23 @@
     /// <summary>
     /// Index for the first node in a block.
     /// </summary>
-    internal class ReadOnlyBrowsingNewBlockNodeIndex : ReadOnlyBrowsingBlockNodeIndex
+    public interface IReadOnlyBrowsingNewBlockNodeIndex : IReadOnlyBrowsingBlockNodeIndex
+    {
+        /// <summary>
+        /// The parent node.
+        /// </summary>
+        Node ParentNode { get; }
+
+        /// <summary>
+        /// Gets the index for this node in an existing block.
+        /// </summary>
+        IReadOnlyBrowsingExistingBlockNodeIndex ToExistingBlockIndex();
+    }
+
+    /// <summary>
+    /// Index for the first node in a block.
+    /// </summary>
+    internal class ReadOnlyBrowsingNewBlockNodeIndex : ReadOnlyBrowsingBlockNodeIndex, IReadOnlyBrowsingNewBlockNodeIndex
     {
         #region Init
         /// <summary>
@@ -42,7 +58,7 @@
         /// <summary>
         /// Gets the index for this node in an existing block.
         /// </summary>
-        public virtual ReadOnlyBrowsingExistingBlockNodeIndex ToExistingBlockIndex()
+        public virtual IReadOnlyBrowsingExistingBlockNodeIndex ToExistingBlockIndex()
         {
             return CreateExistingBlockIndex();
         }

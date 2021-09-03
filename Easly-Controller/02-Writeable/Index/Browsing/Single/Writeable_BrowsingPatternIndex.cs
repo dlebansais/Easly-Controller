@@ -7,7 +7,14 @@
     /// <summary>
     /// Index for the replication pattern node of a block.
     /// </summary>
-    public class WriteableBrowsingPatternIndex : ReadOnlyBrowsingPatternIndex, IWriteableBrowsingChildIndex, IWriteableNodeIndex
+    public interface IWriteableBrowsingPatternIndex : IReadOnlyBrowsingPatternIndex, IWriteableBrowsingChildIndex, IWriteableNodeIndex
+    {
+    }
+
+    /// <summary>
+    /// Index for the replication pattern node of a block.
+    /// </summary>
+    public class WriteableBrowsingPatternIndex : ReadOnlyBrowsingPatternIndex, IWriteableBrowsingPatternIndex
     {
         #region Init
         /// <summary>

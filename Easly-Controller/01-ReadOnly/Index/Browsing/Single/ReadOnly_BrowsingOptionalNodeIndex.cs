@@ -9,7 +9,18 @@
     /// <summary>
     /// Index for an optional node.
     /// </summary>
-    public class ReadOnlyBrowsingOptionalNodeIndex : IReadOnlyBrowsingChildIndex, IEqualComparable
+    public interface IReadOnlyBrowsingOptionalNodeIndex : IReadOnlyBrowsingChildIndex, IEqualComparable
+    {
+        /// <summary>
+        /// Interface to the optional object for the node.
+        /// </summary>
+        IOptionalReference Optional { get; }
+    }
+
+    /// <summary>
+    /// Index for an optional node.
+    /// </summary>
+    public class ReadOnlyBrowsingOptionalNodeIndex : IReadOnlyBrowsingChildIndex, IReadOnlyBrowsingOptionalNodeIndex, IEqualComparable
     {
         #region Init
         /// <summary>

@@ -4,12 +4,22 @@
     using BaseNode;
     using BaseNodeHelper;
     using Easly;
-    using EaslyController.ReadOnly;
 
     /// <summary>
     /// Index for clearing an optional node.
     /// </summary>
-    public class WriteableInsertionOptionalClearIndex : IWriteableInsertionChildIndex, IEqualComparable
+    public interface IWriteableInsertionOptionalClearIndex : IWriteableInsertionChildIndex, IEqualComparable
+    {
+        /// <summary>
+        /// Interface to the optional object for the node.
+        /// </summary>
+        IOptionalReference Optional { get; }
+    }
+
+    /// <summary>
+    /// Index for clearing an optional node.
+    /// </summary>
+    public class WriteableInsertionOptionalClearIndex : IWriteableInsertionOptionalClearIndex, IEqualComparable
     {
         #region Init
         /// <summary>

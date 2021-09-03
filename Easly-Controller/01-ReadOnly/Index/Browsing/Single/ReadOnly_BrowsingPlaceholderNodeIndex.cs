@@ -7,7 +7,14 @@
     /// <summary>
     /// Index for a node.
     /// </summary>
-    internal class ReadOnlyBrowsingPlaceholderNodeIndex : IReadOnlyBrowsingChildIndex, IReadOnlyNodeIndex, IEqualComparable
+    public interface IReadOnlyBrowsingPlaceholderNodeIndex : IReadOnlyBrowsingChildIndex, IReadOnlyNodeIndex, IEqualComparable
+    {
+    }
+
+    /// <summary>
+    /// Index for a node.
+    /// </summary>
+    internal class ReadOnlyBrowsingPlaceholderNodeIndex : IReadOnlyBrowsingPlaceholderNodeIndex, IEqualComparable
     {
         #region Init
         /// <summary>

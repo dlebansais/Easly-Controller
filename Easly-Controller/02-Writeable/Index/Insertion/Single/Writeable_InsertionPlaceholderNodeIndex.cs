@@ -3,12 +3,18 @@
     using System.Diagnostics;
     using BaseNode;
     using BaseNodeHelper;
-    using EaslyController.ReadOnly;
 
     /// <summary>
     /// Index for replacing a child a node.
     /// </summary>
-    public class WriteableInsertionPlaceholderNodeIndex : IWriteableInsertionChildNodeIndex, IWriteableNodeIndex, IEqualComparable
+    public interface IWriteableInsertionPlaceholderNodeIndex : IWriteableInsertionChildNodeIndex, IWriteableNodeIndex, IEqualComparable
+    {
+    }
+
+    /// <summary>
+    /// Index for replacing a child a node.
+    /// </summary>
+    public class WriteableInsertionPlaceholderNodeIndex : IWriteableInsertionPlaceholderNodeIndex, IEqualComparable
     {
         #region Init
         /// <summary>

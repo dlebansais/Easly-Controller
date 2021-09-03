@@ -3,12 +3,27 @@
     using System.Diagnostics;
     using BaseNode;
     using BaseNodeHelper;
-    using EaslyController.ReadOnly;
 
     /// <summary>
     /// Index for inserting a node in a list of nodes.
     /// </summary>
-    public class WriteableInsertionListNodeIndex : WriteableInsertionCollectionNodeIndex, IEqualComparable
+    public interface IWriteableInsertionListNodeIndex : IWriteableInsertionCollectionNodeIndex, IEqualComparable
+    {
+        /// <summary>
+        /// Position where to insert in the list.
+        /// </summary>
+        int Index { get; }
+
+        /// <summary>
+        /// Modifies the index to address the next position in a list.
+        /// </summary>
+        void MoveUp();
+    }
+
+    /// <summary>
+    /// Index for inserting a node in a list of nodes.
+    /// </summary>
+    public class WriteableInsertionListNodeIndex : WriteableInsertionCollectionNodeIndex, IWriteableInsertionListNodeIndex, IEqualComparable
     {
         #region Init
         /// <summary>

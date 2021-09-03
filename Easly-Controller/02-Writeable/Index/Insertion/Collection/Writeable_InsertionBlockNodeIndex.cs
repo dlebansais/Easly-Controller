@@ -5,7 +5,14 @@
     /// <summary>
     /// Base for block list insertion index classes.
     /// </summary>
-    public abstract class WriteableInsertionBlockNodeIndex : WriteableInsertionCollectionNodeIndex
+    public interface IWriteableInsertionBlockNodeIndex : IWriteableInsertionCollectionNodeIndex
+    {
+    }
+
+    /// <summary>
+    /// Base for block list insertion index classes.
+    /// </summary>
+    public abstract class WriteableInsertionBlockNodeIndex : WriteableInsertionCollectionNodeIndex, IWriteableInsertionBlockNodeIndex
     {
         #region Init
         /// <summary>

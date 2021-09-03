@@ -170,7 +170,7 @@
             Debug.Assert(blockState != null);
             Debug.Assert(!BlockStateViewTable.ContainsKey(blockState));
 
-            IReadOnlyBlockStateView BlockStateView = CreateBlockStateView(blockState);
+            ReadOnlyBlockStateView BlockStateView = CreateBlockStateView(blockState);
             Debug.Assert(BlockStateView.ToString() != null); // For code coverage.
             BlockStateViewTable.Add(blockState, BlockStateView);
         }
@@ -289,7 +289,7 @@
         /// <summary>
         /// Creates a IxxxBlockStateView object.
         /// </summary>
-        private protected virtual IReadOnlyBlockStateView CreateBlockStateView(IReadOnlyBlockState blockState)
+        private protected virtual ReadOnlyBlockStateView CreateBlockStateView(IReadOnlyBlockState blockState)
         {
             ControllerTools.AssertNoOverride(this, typeof(ReadOnlyControllerView));
             return new ReadOnlyBlockStateView(this, blockState);
@@ -311,7 +311,7 @@
             Controller.NodeStateRemoved -= OnNodeStateRemoved;
             Controller.BlockListInnerCreated -= OnBlockListInnerCreated;
 
-            IReadOnlyAttachCallbackSet CallbackSet = CreateCallbackSet();
+            ReadOnlyAttachCallbackSet CallbackSet = CreateCallbackSet();
             ((IReadOnlyControllerInternal)Controller).Detach(this, CallbackSet);
 
             Debug.Assert(StateViewTable.Count == 0);

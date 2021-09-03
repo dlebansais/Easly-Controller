@@ -4,7 +4,7 @@
     using System.Diagnostics;
 
     /// <inheritdoc/>
-    public class ReadOnlyBlockStateViewDictionary : Dictionary<IReadOnlyBlockState, IReadOnlyBlockStateView>, IEqualComparable
+    public class ReadOnlyBlockStateViewDictionary : Dictionary<IReadOnlyBlockState, ReadOnlyBlockStateView>, IEqualComparable
     {
         /// <inheritdoc/>
         public virtual ReadOnlyBlockStateViewReadOnlyDictionary ToReadOnly()
@@ -28,7 +28,7 @@
             if (!comparer.IsSameCount(Count, AsBlockStateViewDictionary.Count))
                 return comparer.Failed();
 
-            foreach (KeyValuePair<IReadOnlyBlockState, IReadOnlyBlockStateView> Entry in this)
+            foreach (KeyValuePair<IReadOnlyBlockState, ReadOnlyBlockStateView> Entry in this)
             {
                 if (!comparer.IsTrue(AsBlockStateViewDictionary.ContainsKey(Entry.Key)))
                     return comparer.Failed();
