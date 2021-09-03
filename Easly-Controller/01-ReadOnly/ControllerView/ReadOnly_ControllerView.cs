@@ -289,7 +289,7 @@
         /// <summary>
         /// Creates a IxxxBlockStateView object.
         /// </summary>
-        private protected virtual ReadOnlyBlockStateView CreateBlockStateView(IReadOnlyBlockState blockState)
+        private protected virtual IReadOnlyBlockStateView CreateBlockStateView(IReadOnlyBlockState blockState)
         {
             ControllerTools.AssertNoOverride(this, typeof(ReadOnlyControllerView));
             return new ReadOnlyBlockStateView(this, blockState);
