@@ -11,9 +11,7 @@
     {
     }
 
-    /// <summary>
-    /// Index for a node.
-    /// </summary>
+    /// <inheritdoc/>
     internal class ReadOnlyBrowsingPlaceholderNodeIndex : IReadOnlyBrowsingPlaceholderNodeIndex, IEqualComparable
     {
         #region Init
@@ -36,23 +34,15 @@
         #endregion
 
         #region Properties
-        /// <summary>
-        /// The indexed node.
-        /// </summary>
+        /// <inheritdoc/>
         public Node Node { get; }
 
-        /// <summary>
-        /// Property indexed for <see cref="Node"/>.
-        /// </summary>
+        /// <inheritdoc/>
         public string PropertyName { get; }
         #endregion
 
         #region Debugging
-        /// <summary>
-        /// Compares two <see cref="ReadOnlyBrowsingPlaceholderNodeIndex"/> objects.
-        /// </summary>
-        /// <param name="comparer">The comparison support object.</param>
-        /// <param name="other">The other object.</param>
+        /// <inheritdoc/>
         public virtual bool IsEqual(CompareEqual comparer, IEqualComparable other)
         {
             Debug.Assert(other != null);

@@ -98,10 +98,7 @@
         void CloneBlock(Node parentNode, int blockIndex);
     }
 
-    /// <summary>
-    /// State of a block in a block list.
-    /// </summary>
-    /// <typeparam name="IInner">Parent inner of the block state.</typeparam>
+    /// <inheritdoc/>
     internal class ReadOnlyBlockState<IInner> : IReadOnlyBlockState<IInner>, IReadOnlyBlockState, IEqualComparable
         where IInner : IReadOnlyInner<IReadOnlyBrowsingChildIndex>
     {
@@ -341,11 +338,7 @@
         #endregion
 
         #region Debugging
-        /// <summary>
-        /// Compares two <see cref="ReadOnlyBlockState{IInner}"/> objects.
-        /// </summary>
-        /// <param name="comparer">The comparison support object.</param>
-        /// <param name="other">The other object.</param>
+        /// <inheritdoc/>
         public virtual bool IsEqual(CompareEqual comparer, IEqualComparable other)
         {
             Debug.Assert(other != null);

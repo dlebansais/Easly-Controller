@@ -5,7 +5,7 @@
     /// <summary>
     /// View of a source state.
     /// </summary>
-    internal class ReadOnlySourceStateView : ReadOnlyNodeStateView
+    internal class ReadOnlySourceStateView : ReadOnlyNodeStateView, IEqualComparable
     {
         #region Init
         /// <summary>
@@ -27,11 +27,7 @@
         #endregion
 
         #region Debugging
-        /// <summary>
-        /// Compares two <see cref="ReadOnlySourceStateView"/> objects.
-        /// </summary>
-        /// <param name="comparer">The comparison support object.</param>
-        /// <param name="other">The other object.</param>
+        /// <inheritdoc/>
         public override bool IsEqual(CompareEqual comparer, IEqualComparable other)
         {
             Debug.Assert(other != null);

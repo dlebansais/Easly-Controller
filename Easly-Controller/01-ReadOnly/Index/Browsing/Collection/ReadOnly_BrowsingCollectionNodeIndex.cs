@@ -10,9 +10,7 @@
     {
     }
 
-    /// <summary>
-    /// Base for list and block list index classes.
-    /// </summary>
+    /// <inheritdoc/>
     public abstract class ReadOnlyBrowsingCollectionNodeIndex : IReadOnlyBrowsingCollectionNodeIndex, IReadOnlyBrowsingChildIndex, IReadOnlyNodeIndex
     {
         #region Init
@@ -32,14 +30,10 @@
         #endregion
 
         #region Properties
-        /// <summary>
-        /// Node indexed.
-        /// </summary>
+        /// <inheritdoc/>
         public Node Node { get; }
 
-        /// <summary>
-        /// Property indexed for <see cref="Node"/>.
-        /// </summary>
+        /// <inheritdoc/>
         public string PropertyName { get; }
         #endregion
     }

@@ -112,10 +112,7 @@
         void Detach(ReadOnlyControllerView view, ReadOnlyAttachCallbackSet callbackSet);
     }
 
-    /// <summary>
-    /// Base class for the state of a node.
-    /// </summary>
-    /// <typeparam name="IInner">Parent inner of the state.</typeparam>
+    /// <inheritdoc/>
     internal abstract class ReadOnlyNodeState<IInner> : IReadOnlyNodeState<IInner>, IReadOnlyNodeState, IEqualComparable
         where IInner : IReadOnlyInner<IReadOnlyBrowsingChildIndex>
     {
@@ -222,7 +219,7 @@
                 }
                 else if (NodeTreeHelperOptional.IsOptionalChildNodeProperty(node, PropertyName, out ChildNodeType))
                 {
-                    ReadOnlyBrowsingOptionalNodeIndex OptionalNodeIndex = CreateOptionalNodeIndex(browseNodeContext, node, PropertyName);
+                    IReadOnlyBrowsingOptionalNodeIndex OptionalNodeIndex = CreateOptionalNodeIndex(browseNodeContext, node, PropertyName);
 
                     // Create a collection containing one index for this optional node.
                     IReadOnlyIndexCollection IndexCollection = CreateOptionalIndexCollection(browseNodeContext, PropertyName, OptionalNodeIndex);
@@ -520,11 +517,7 @@
         #endregion
 
         #region Debugging
-        /// <summary>
-        /// Compares two <see cref="ReadOnlyNodeState{IInner}"/> objects.
-        /// </summary>
-        /// <param name="comparer">The comparison support object.</param>
-        /// <param name="other">The other object.</param>
+        /// <inheritdoc/>
         public virtual bool IsEqual(CompareEqual comparer, IEqualComparable other)
         {
             Debug.Assert(other != null);
@@ -645,7 +638,7 @@
 
         #region Create Methods
         /// <summary>
-        /// Creates a IxxxNodeStateList object.
+        /// Creates a xxxNodeStateList object.
         /// </summary>
         private protected virtual ReadOnlyNodeStateList CreateNodeStateList()
         {
@@ -656,7 +649,7 @@
         /// <summary>
         /// Creates a IxxxBrowsingPlaceholderNodeIndex object.
         /// </summary>
-        private protected virtual ReadOnlyBrowsingPlaceholderNodeIndex CreateChildNodeIndex(ReadOnlyBrowseContext browseNodeContext, Node node, string propertyName, Node childNode)
+        private protected virtual IReadOnlyBrowsingPlaceholderNodeIndex CreateChildNodeIndex(ReadOnlyBrowseContext browseNodeContext, Node node, string propertyName, Node childNode)
         {
             ControllerTools.AssertNoOverride(this, typeof(ReadOnlyNodeState<IInner>));
             return new ReadOnlyBrowsingPlaceholderNodeIndex(node, childNode, propertyName);
@@ -665,7 +658,7 @@
         /// <summary>
         /// Creates a IxxxBrowsingOptionalNodeIndex object.
         /// </summary>
-        private protected virtual ReadOnlyBrowsingOptionalNodeIndex CreateOptionalNodeIndex(ReadOnlyBrowseContext browseNodeContext, Node node, string propertyName)
+        private protected virtual IReadOnlyBrowsingOptionalNodeIndex CreateOptionalNodeIndex(ReadOnlyBrowseContext browseNodeContext, Node node, string propertyName)
         {
             ControllerTools.AssertNoOverride(this, typeof(ReadOnlyNodeState<IInner>));
             return new ReadOnlyBrowsingOptionalNodeIndex(node, propertyName);
@@ -674,7 +667,7 @@
         /// <summary>
         /// Creates a IxxxBrowsingListNodeIndex object.
         /// </summary>
-        private protected virtual ReadOnlyBrowsingListNodeIndex CreateListNodeIndex(ReadOnlyBrowseContext browseNodeContext, Node node, string propertyName, Node childNode, int index)
+        private protected virtual IReadOnlyBrowsingListNodeIndex CreateListNodeIndex(ReadOnlyBrowseContext browseNodeContext, Node node, string propertyName, Node childNode, int index)
         {
             ControllerTools.AssertNoOverride(this, typeof(ReadOnlyNodeState<IInner>));
             return new ReadOnlyBrowsingListNodeIndex(node, childNode, propertyName, index);
@@ -683,7 +676,7 @@
         /// <summary>
         /// Creates a IxxxBrowsingNewBlockNodeIndex object.
         /// </summary>
-        private protected virtual ReadOnlyBrowsingNewBlockNodeIndex CreateNewBlockNodeIndex(ReadOnlyBrowseContext browseNodeContext, Node node, string propertyName, int blockIndex, Node childNode)
+        private protected virtual IReadOnlyBrowsingNewBlockNodeIndex CreateNewBlockNodeIndex(ReadOnlyBrowseContext browseNodeContext, Node node, string propertyName, int blockIndex, Node childNode)
         {
             ControllerTools.AssertNoOverride(this, typeof(ReadOnlyNodeState<IInner>));
             return new ReadOnlyBrowsingNewBlockNodeIndex(node, childNode, propertyName, blockIndex);
@@ -692,7 +685,7 @@
         /// <summary>
         /// Creates a IxxxBrowsingExistingBlockNodeIndex object.
         /// </summary>
-        private protected virtual ReadOnlyBrowsingExistingBlockNodeIndex CreateExistingBlockNodeIndex(ReadOnlyBrowseContext browseNodeContext, Node node, string propertyName, int blockIndex, int index, Node childNode)
+        private protected virtual IReadOnlyBrowsingExistingBlockNodeIndex CreateExistingBlockNodeIndex(ReadOnlyBrowseContext browseNodeContext, Node node, string propertyName, int blockIndex, int index, Node childNode)
         {
             ControllerTools.AssertNoOverride(this, typeof(ReadOnlyNodeState<IInner>));
             return new ReadOnlyBrowsingExistingBlockNodeIndex(node, childNode, propertyName, blockIndex, index);
@@ -701,23 +694,23 @@
         /// <summary>
         /// Creates a IxxxIndexCollection with one IxxxBrowsingPlaceholderNodeIndex.
         /// </summary>
-        private protected virtual IReadOnlyIndexCollection CreatePlaceholderIndexCollection(ReadOnlyBrowseContext browseNodeContext, string propertyName, ReadOnlyBrowsingPlaceholderNodeIndex childNodeIndex)
+        private protected virtual IReadOnlyIndexCollection CreatePlaceholderIndexCollection(ReadOnlyBrowseContext browseNodeContext, string propertyName, IReadOnlyBrowsingPlaceholderNodeIndex childNodeIndex)
         {
             ControllerTools.AssertNoOverride(this, typeof(ReadOnlyNodeState<IInner>));
-            return new ReadOnlyIndexCollection<ReadOnlyBrowsingPlaceholderNodeIndex>(propertyName, new List<ReadOnlyBrowsingPlaceholderNodeIndex>() { childNodeIndex });
+            return new ReadOnlyIndexCollection<IReadOnlyBrowsingPlaceholderNodeIndex>(propertyName, new List<IReadOnlyBrowsingPlaceholderNodeIndex>() { childNodeIndex });
         }
 
         /// <summary>
         /// Creates a IxxxIndexCollection with one IxxxBrowsingOptionalNodeIndex.
         /// </summary>
-        private protected virtual IReadOnlyIndexCollection CreateOptionalIndexCollection(ReadOnlyBrowseContext browseNodeContext, string propertyName, ReadOnlyBrowsingOptionalNodeIndex optionalNodeIndex)
+        private protected virtual IReadOnlyIndexCollection CreateOptionalIndexCollection(ReadOnlyBrowseContext browseNodeContext, string propertyName, IReadOnlyBrowsingOptionalNodeIndex optionalNodeIndex)
         {
             ControllerTools.AssertNoOverride(this, typeof(ReadOnlyNodeState<IInner>));
-            return new ReadOnlyIndexCollection<ReadOnlyBrowsingOptionalNodeIndex>(propertyName, new List<ReadOnlyBrowsingOptionalNodeIndex>() { optionalNodeIndex });
+            return new ReadOnlyIndexCollection<IReadOnlyBrowsingOptionalNodeIndex>(propertyName, new List<IReadOnlyBrowsingOptionalNodeIndex>() { optionalNodeIndex });
         }
 
         /// <summary>
-        /// Creates a IxxxBrowsingListNodeIndexList object.
+        /// Creates a xxxBrowsingListNodeIndexList object.
         /// </summary>
         private protected virtual ReadOnlyBrowsingListNodeIndexList CreateBrowsingListNodeIndexList()
         {
@@ -735,7 +728,7 @@
         }
 
         /// <summary>
-        /// Creates a IxxxBrowsingBlockNodeIndexList object.
+        /// Creates a xxxBrowsingBlockNodeIndexList object.
         /// </summary>
         private protected virtual ReadOnlyBrowsingBlockNodeIndexList CreateBrowsingBlockNodeIndexList()
         {

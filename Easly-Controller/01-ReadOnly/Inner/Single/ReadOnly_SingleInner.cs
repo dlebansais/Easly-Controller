@@ -16,10 +16,7 @@
     {
     }
 
-    /// <summary>
-    /// Base inner for a single node inner.
-    /// </summary>
-    /// <typeparam name="IIndex">Type of the index.</typeparam>
+    /// <inheritdoc/>
     internal abstract class ReadOnlySingleInner<IIndex> : ReadOnlyInner<IIndex>, IReadOnlySingleInner<IIndex>, IReadOnlySingleInner, IReadOnlyInner
         where IIndex : IReadOnlyBrowsingChildIndex
     {

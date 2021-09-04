@@ -67,7 +67,6 @@
     /// <summary>
     /// Inner for a block list.
     /// </summary>
-    /// <typeparam name="IIndex">Type of the index.</typeparam>
     internal interface IReadOnlyBlockListInner<out IIndex> : IReadOnlyCollectionInner<IIndex>
         where IIndex : IReadOnlyBrowsingBlockNodeIndex
     {
@@ -138,10 +137,7 @@
         void NotifyBlockStateRemoved(IReadOnlyBlockState blockState);
     }
 
-    /// <summary>
-    /// Inner for a block list.
-    /// </summary>
-    /// <typeparam name="IIndex">Type of the index as class.</typeparam>
+    /// <inheritdoc/>
     internal class ReadOnlyBlockListInner<IIndex> : ReadOnlyCollectionInner<IIndex>, IReadOnlyBlockListInner<IIndex>, IReadOnlyBlockListInner, IReadOnlyCollectionInner
         where IIndex : IReadOnlyBrowsingBlockNodeIndex
     {
@@ -180,11 +176,7 @@
             return BlockState;
         }
 
-        /// <summary>
-        /// Initializes a newly created state for a node in the inner.
-        /// </summary>
-        /// <param name="nodeIndex">Index of the node.</param>
-        /// <returns>The created node state.</returns>
+        /// <inheritdoc/>
         public override IReadOnlyNodeState InitChildState(IReadOnlyBrowsingChildIndex nodeIndex)
         {
             Debug.Assert(nodeIndex is ReadOnlyBrowsingExistingBlockNodeIndex);
@@ -215,9 +207,7 @@
         #endregion
 
         #region Properties
-        /// <summary>
-        /// Checks if the inner must have at list one item.
-        /// </summary>
+        /// <inheritdoc/>
         public override bool IsNeverEmpty { get { return NodeHelper.IsCollectionNeverEmpty(Owner.Node, PropertyName); } }
 
         /// <summary>
@@ -230,9 +220,7 @@
         /// </summary>
         public bool IsSingle { get { return BlockStateList.Count == 1 && BlockStateList[0].StateList.Count == 1; } }
 
-        /// <summary>
-        /// Interface type for all nodes in the inner.
-        /// </summary>
+        /// <inheritdoc/>
         public override Type InterfaceType { get { return NodeTreeHelperBlockList.BlockListInterfaceType(Owner.Node, PropertyName); } }
 
         /// <summary>
@@ -352,10 +340,7 @@
             return Result;
         }
 
-        /// <summary>
-        /// Creates a clone of all children of the inner, using <paramref name="parentNode"/> as their parent.
-        /// </summary>
-        /// <param name="parentNode">The node that will contains references to cloned children upon return.</param>
+        /// <inheritdoc/>
         public override void CloneChildren(Node parentNode)
         {
             Debug.Assert(parentNode != null);
@@ -375,11 +360,7 @@
             NodeTreeHelper.CopyDocumentation(BlockList, NewBlockList, cloneCommentGuid: true);
         }
 
-        /// <summary>
-        /// Attach a view to the inner.
-        /// </summary>
-        /// <param name="view">The attaching view.</param>
-        /// <param name="callbackSet">The set of callbacks to call when enumerating existing states.</param>
+        /// <inheritdoc/>
         public override void Attach(ReadOnlyControllerView view, ReadOnlyAttachCallbackSet callbackSet)
         {
             callbackSet.OnBlockListInnerAttached(this);
@@ -388,11 +369,7 @@
                 ((ReadOnlyBlockState<IReadOnlyInner<IReadOnlyBrowsingChildIndex>>)BlockState).Attach(view, callbackSet);
         }
 
-        /// <summary>
-        /// Detach a view from the inner.
-        /// </summary>
-        /// <param name="view">The attaching view.</param>
-        /// <param name="callbackSet">The set of callbacks to no longer call when enumerating existing states.</param>
+        /// <inheritdoc/>
         public override void Detach(ReadOnlyControllerView view, ReadOnlyAttachCallbackSet callbackSet)
         {
             foreach (IReadOnlyBlockState BlockState in BlockStateList)
@@ -448,11 +425,7 @@
         #endregion
 
         #region Debugging
-        /// <summary>
-        /// Compares two <see cref="ReadOnlyBlockListInner{IIndex}"/> objects.
-        /// </summary>
-        /// <param name="comparer">The comparison support object.</param>
-        /// <param name="other">The other object.</param>
+        /// <inheritdoc/>
         public override bool IsEqual(CompareEqual comparer, IEqualComparable other)
         {
             Debug.Assert(other != null);

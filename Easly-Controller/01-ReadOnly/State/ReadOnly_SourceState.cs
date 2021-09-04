@@ -39,10 +39,7 @@
     {
     }
 
-    /// <summary>
-    /// State of a source identifier node.
-    /// </summary>
-    /// <typeparam name="IInner">Parent inner of the state.</typeparam>
+    /// <inheritdoc/>
     internal class ReadOnlySourceState<IInner> : ReadOnlyPlaceholderNodeState<IInner>, IReadOnlySourceState<IInner>, IReadOnlySourceState, IReadOnlyNodeState
         where IInner : IReadOnlyInner<IReadOnlyBrowsingChildIndex>
     {
@@ -87,11 +84,7 @@
         #endregion
 
         #region Debugging
-        /// <summary>
-        /// Compares two <see cref="ReadOnlySourceState{IInner}"/> objects.
-        /// </summary>
-        /// <param name="comparer">The comparison support object.</param>
-        /// <param name="other">The other object.</param>
+        /// <inheritdoc/>
         public override bool IsEqual(CompareEqual comparer, IEqualComparable other)
         {
             Debug.Assert(other != null);

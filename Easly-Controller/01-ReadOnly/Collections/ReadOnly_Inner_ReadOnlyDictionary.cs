@@ -14,11 +14,7 @@
         }
 
         #region Debugging
-        /// <summary>
-        /// Compares two <see cref="ReadOnlyInnerReadOnlyDictionary{TKey}"/> objects.
-        /// </summary>
-        /// <param name="comparer">The comparison support object.</param>
-        /// <param name="other">The other object.</param>
+        /// <inheritdoc/>
         public virtual bool IsEqual(CompareEqual comparer, IEqualComparable other)
         {
             Debug.Assert(other != null);

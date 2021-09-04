@@ -158,10 +158,10 @@
         /// <summary>
         /// Creates a IxxxOptionalNodeState object.
         /// </summary>
-        private protected override IReadOnlyOptionalNodeState CreateNodeState(ReadOnlyBrowsingOptionalNodeIndex nodeIndex)
+        private protected override IReadOnlyOptionalNodeState CreateNodeState(IReadOnlyBrowsingOptionalNodeIndex nodeIndex)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableOptionalInner<TIndex>));
-            return new WriteableOptionalNodeState<IWriteableInner<IWriteableBrowsingChildIndex>>((WriteableBrowsingOptionalNodeIndex)nodeIndex);
+            return new WriteableOptionalNodeState<IWriteableInner<IWriteableBrowsingChildIndex>>((IWriteableBrowsingOptionalNodeIndex)nodeIndex);
         }
 
         /// <summary>

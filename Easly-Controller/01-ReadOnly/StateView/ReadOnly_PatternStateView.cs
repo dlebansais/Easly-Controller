@@ -5,7 +5,7 @@
     /// <summary>
     /// View of a pattern state.
     /// </summary>
-    internal class ReadOnlyPatternStateView : ReadOnlyNodeStateView
+    internal class ReadOnlyPatternStateView : ReadOnlyNodeStateView, IEqualComparable
     {
         #region Init
         /// <summary>
@@ -27,11 +27,7 @@
         #endregion
 
         #region Debugging
-        /// <summary>
-        /// Compares two <see cref="ReadOnlyPatternStateView"/> objects.
-        /// </summary>
-        /// <param name="comparer">The comparison support object.</param>
-        /// <param name="other">The other object.</param>
+        /// <inheritdoc/>
         public override bool IsEqual(CompareEqual comparer, IEqualComparable other)
         {
             Debug.Assert(other != null);

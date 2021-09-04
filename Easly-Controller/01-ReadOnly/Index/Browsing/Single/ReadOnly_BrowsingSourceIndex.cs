@@ -14,9 +14,7 @@
         new Identifier Node { get; }
     }
 
-    /// <summary>
-    /// Index for the source identifier node of a block.
-    /// </summary>
+    /// <inheritdoc/>
     public class ReadOnlyBrowsingSourceIndex : IReadOnlyBrowsingSourceIndex, IEqualComparable
     {
         #region Init
@@ -35,24 +33,16 @@
         #endregion
 
         #region Properties
-        /// <summary>
-        /// The indexed source identifier node.
-        /// </summary>
+        /// <inheritdoc/>
         public Identifier Node { get { return Block.SourceIdentifier; } }
         Node IReadOnlyNodeIndex.Node { get { return Node; } }
 
-        /// <summary>
-        /// Property indexed for <see cref="Node"/>.
-        /// </summary>
+        /// <inheritdoc/>
         public string PropertyName { get { return nameof(IBlock.SourceIdentifier); } }
         #endregion
 
         #region Debugging
-        /// <summary>
-        /// Compares two <see cref="ReadOnlyBrowsingSourceIndex"/> objects.
-        /// </summary>
-        /// <param name="comparer">The comparison support object.</param>
-        /// <param name="other">The other object.</param>
+        /// <inheritdoc/>
         public virtual bool IsEqual(CompareEqual comparer, IEqualComparable other)
         {
             Debug.Assert(other != null);

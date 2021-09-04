@@ -89,10 +89,10 @@
         /// <summary>
         /// Creates a IxxxPlaceholderNodeState object.
         /// </summary>
-        private protected override IReadOnlyPlaceholderNodeState CreateNodeState(ReadOnlyBrowsingPlaceholderNodeIndex nodeIndex)
+        private protected override IReadOnlyPlaceholderNodeState CreateNodeState(IReadOnlyBrowsingPlaceholderNodeIndex nodeIndex)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteablePlaceholderInner<TIndex>));
-            return new WriteablePlaceholderNodeState<IWriteableInner<IWriteableBrowsingChildIndex>>((WriteableBrowsingPlaceholderNodeIndex)nodeIndex);
+            return new WriteablePlaceholderNodeState<IWriteableInner<IWriteableBrowsingChildIndex>>((IWriteableBrowsingPlaceholderNodeIndex)nodeIndex);
         }
 
         /// <summary>

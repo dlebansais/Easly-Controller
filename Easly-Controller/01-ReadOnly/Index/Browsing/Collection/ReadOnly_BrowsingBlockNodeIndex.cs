@@ -14,9 +14,7 @@
         int BlockIndex { get; }
     }
 
-    /// <summary>
-    /// Base for block list index classes.
-    /// </summary>
+    /// <inheritdoc/>
     public abstract class ReadOnlyBrowsingBlockNodeIndex : ReadOnlyBrowsingCollectionNodeIndex, IReadOnlyBrowsingBlockNodeIndex, IReadOnlyBrowsingCollectionNodeIndex
     {
         #region Init
@@ -36,9 +34,7 @@
         #endregion
 
         #region Properties
-        /// <summary>
-        /// Position of the block in the block list.
-        /// </summary>
+        /// <inheritdoc/>
         public virtual int BlockIndex { get; private protected set; }
         #endregion
     }

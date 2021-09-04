@@ -21,9 +21,7 @@
         IReadOnlyBrowsingExistingBlockNodeIndex ToExistingBlockIndex();
     }
 
-    /// <summary>
-    /// Index for the first node in a block.
-    /// </summary>
+    /// <inheritdoc/>
     internal class ReadOnlyBrowsingNewBlockNodeIndex : ReadOnlyBrowsingBlockNodeIndex, IReadOnlyBrowsingNewBlockNodeIndex
     {
         #region Init
@@ -48,16 +46,12 @@
         #endregion
 
         #region Properties
-        /// <summary>
-        /// The parent node.
-        /// </summary>
+        /// <inheritdoc/>
         public Node ParentNode { get; }
         #endregion
 
         #region Client Interface
-        /// <summary>
-        /// Gets the index for this node in an existing block.
-        /// </summary>
+        /// <inheritdoc/>
         public virtual IReadOnlyBrowsingExistingBlockNodeIndex ToExistingBlockIndex()
         {
             return CreateExistingBlockIndex();

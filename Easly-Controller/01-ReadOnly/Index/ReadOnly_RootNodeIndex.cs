@@ -12,9 +12,7 @@
     {
     }
 
-    /// <summary>
-    /// Index for the root node of the node tree.
-    /// </summary>
+    /// <inheritdoc/>
     public class ReadOnlyRootNodeIndex : IReadOnlyRootNodeIndex, IEqualComparable
     {
         #region Init
@@ -38,18 +36,12 @@
         #endregion
 
         #region Properties
-        /// <summary>
-        /// The indexed root node.
-        /// </summary>
+        /// <inheritdoc/>
         public Node Node { get; }
         #endregion
 
         #region Debugging
-        /// <summary>
-        /// Compares two <see cref="ReadOnlyRootNodeIndex"/> objects.
-        /// </summary>
-        /// <param name="comparer">The comparison support object.</param>
-        /// <param name="other">The other object.</param>
+        /// <inheritdoc/>
         public virtual bool IsEqual(CompareEqual comparer, IEqualComparable other)
         {
             Debug.Assert(other != null);

@@ -16,7 +16,7 @@
         /// <summary>
         /// The index that was used to create the state.
         /// </summary>
-        new ReadOnlyBrowsingOptionalNodeIndex ParentIndex { get; }
+        new IReadOnlyBrowsingOptionalNodeIndex ParentIndex { get; }
 
         /// <summary>
         /// Inner containing this state.
@@ -38,10 +38,7 @@
     {
     }
 
-    /// <summary>
-    /// State of an optional node.
-    /// </summary>
-    /// <typeparam name="IInner">Parent inner of the state.</typeparam>
+    /// <inheritdoc/>
     internal class ReadOnlyOptionalNodeState<IInner> : ReadOnlyNodeState<IInner>, IReadOnlyOptionalNodeState<IInner>, IReadOnlyOptionalNodeState, IReadOnlyNodeState
         where IInner : IReadOnlyInner<IReadOnlyBrowsingChildIndex>
     {
@@ -50,7 +47,7 @@
         /// Initializes a new instance of the <see cref="ReadOnlyOptionalNodeState{IInner}"/> class.
         /// </summary>
         /// <param name="parentIndex">The index used to create the state.</param>
-        public ReadOnlyOptionalNodeState(ReadOnlyBrowsingOptionalNodeIndex parentIndex)
+        public ReadOnlyOptionalNodeState(IReadOnlyBrowsingOptionalNodeIndex parentIndex)
             : base(parentIndex)
         {
         }
@@ -60,7 +57,7 @@
         /// <summary>
         /// The index that was used to create the state.
         /// </summary>
-        public new ReadOnlyBrowsingOptionalNodeIndex ParentIndex { get { return (ReadOnlyBrowsingOptionalNodeIndex)base.ParentIndex; } }
+        public new IReadOnlyBrowsingOptionalNodeIndex ParentIndex { get { return (IReadOnlyBrowsingOptionalNodeIndex)base.ParentIndex; } }
 
         /// <summary>
         /// Inner containing this state.

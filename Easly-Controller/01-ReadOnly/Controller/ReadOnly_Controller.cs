@@ -27,10 +27,7 @@
         void Detach(ReadOnlyControllerView view, ReadOnlyAttachCallbackSet callbackSet);
     }
 
-    /// <summary>
-    /// Controller for a node tree.
-    /// This controller supports read-only access only.
-    /// </summary>
+    /// <inheritdoc/>
     public class ReadOnlyController : IReadOnlyControllerInternal, IEqualComparable
     {
         #region Init
@@ -168,21 +165,13 @@
             return StateTable[index];
         }
 
-        /// <summary>
-        /// Attach a controller view.
-        /// </summary>
-        /// <param name="view">The attaching view.</param>
-        /// <param name="callbackSet">The set of callbacks to call when enumerating existing states.</param>
+        /// <inheritdoc/>
         public virtual void Attach(ReadOnlyControllerView view, ReadOnlyAttachCallbackSet callbackSet)
         {
             ((ReadOnlyPlaceholderNodeState<IReadOnlyInner<IReadOnlyBrowsingChildIndex>>)RootState).Attach(view, callbackSet);
         }
 
-        /// <summary>
-        /// Detach a controller view.
-        /// </summary>
-        /// <param name="view">The attaching view.</param>
-        /// <param name="callbackSet">The set of callbacks to no longer call when enumerating existing states.</param>
+        /// <inheritdoc/>
         public virtual void Detach(ReadOnlyControllerView view, ReadOnlyAttachCallbackSet callbackSet)
         {
             ((ReadOnlyPlaceholderNodeState<IReadOnlyInner<IReadOnlyBrowsingChildIndex>>)RootState).Detach(view, callbackSet);
@@ -192,7 +181,7 @@
         /// Returns the assigned state of an optional node.
         /// </summary>
         /// <param name="index">Index of the node.</param>
-        public virtual bool IsAssigned(ReadOnlyBrowsingOptionalNodeIndex index)
+        public virtual bool IsAssigned(IReadOnlyBrowsingOptionalNodeIndex index)
         {
             Debug.Assert(index != null);
             Debug.Assert(Contains(index));
@@ -453,11 +442,11 @@
                     Result = (IReadOnlyPlaceholderInner)CreatePlaceholderInner(parentState, AsPlaceholderNodeIndexCollection);
                     break;
 
-                case ReadOnlyIndexCollection<ReadOnlyBrowsingOptionalNodeIndex> AsOptionalNodeIndexCollection:
+                case ReadOnlyIndexCollection<IReadOnlyBrowsingOptionalNodeIndex> AsOptionalNodeIndexCollection:
                     Result = (IReadOnlyOptionalInner)CreateOptionalInner(parentState, AsOptionalNodeIndexCollection);
                     break;
 
-                case ReadOnlyIndexCollection<ReadOnlyBrowsingListNodeIndex> AsListNodeIndexCollection:
+                case ReadOnlyIndexCollection<IReadOnlyBrowsingListNodeIndex> AsListNodeIndexCollection:
                     Stats.ListCount++;
                     Result = (IReadOnlyListInner)CreateListInner(parentState, AsListNodeIndexCollection);
                     break;
@@ -556,7 +545,7 @@
             AddState(nodeIndex, ChildState);
 
             // For debugging: count nodes according to their type
-            if (inner is IReadOnlyOptionalInner<ReadOnlyBrowsingOptionalNodeIndex> AsOptionalInner)
+            if (inner is IReadOnlyOptionalInner<IReadOnlyBrowsingOptionalNodeIndex> AsOptionalInner)
             {
                 Stats.OptionalNodeCount++;
                 if (AsOptionalInner.IsAssigned)
@@ -646,11 +635,7 @@
         #endregion
 
         #region Debugging
-        /// <summary>
-        /// Compares two <see cref="ReadOnlyController"/> objects.
-        /// </summary>
-        /// <param name="comparer">The comparison support object.</param>
-        /// <param name="other">The other object.</param>
+        /// <inheritdoc/>
         public virtual bool IsEqual(CompareEqual comparer, IEqualComparable other)
         {
             Debug.Assert(other != null);
@@ -781,10 +766,10 @@
         /// <summary>
         /// Creates a IxxxOptionalInner{IxxxBrowsingOptionalNodeIndex} object.
         /// </summary>
-        private protected virtual IReadOnlyOptionalInner<ReadOnlyBrowsingOptionalNodeIndex> CreateOptionalInner(IReadOnlyNodeState owner, ReadOnlyIndexCollection<ReadOnlyBrowsingOptionalNodeIndex> nodeIndexCollection)
+        private protected virtual IReadOnlyOptionalInner<IReadOnlyBrowsingOptionalNodeIndex> CreateOptionalInner(IReadOnlyNodeState owner, ReadOnlyIndexCollection<IReadOnlyBrowsingOptionalNodeIndex> nodeIndexCollection)
         {
             ControllerTools.AssertNoOverride(this, typeof(ReadOnlyController));
-            return new ReadOnlyOptionalInner<ReadOnlyBrowsingOptionalNodeIndex>(owner, nodeIndexCollection.PropertyName);
+            return new ReadOnlyOptionalInner<IReadOnlyBrowsingOptionalNodeIndex>(owner, nodeIndexCollection.PropertyName);
         }
 
         /// <summary>

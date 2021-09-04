@@ -76,10 +76,7 @@
         void Detach(ReadOnlyControllerView view, ReadOnlyAttachCallbackSet callbackSet);
     }
 
-    /// <summary>
-    /// Interface for all inners.
-    /// </summary>
-    /// <typeparam name="IIndex">Type of the index.</typeparam>
+    /// <inheritdoc/>
     public abstract class ReadOnlyInner<IIndex> : IReadOnlyInner<IIndex>, IReadOnlyInner, IEqualComparable
         where IIndex : IReadOnlyBrowsingChildIndex
     {
@@ -100,19 +97,13 @@
         #endregion
 
         #region Properties
-        /// <summary>
-        /// Parent containing the inner.
-        /// </summary>
+        /// <inheritdoc/>
         public IReadOnlyNodeState Owner { get; }
 
-        /// <summary>
-        /// Property name of the inner in the parent.
-        /// </summary>
+        /// <inheritdoc/>
         public string PropertyName { get; }
 
-        /// <summary>
-        /// Interface type for all nodes in the inner.
-        /// </summary>
+        /// <inheritdoc/>
         public abstract Type InterfaceType { get; }
         #endregion
 
@@ -146,11 +137,7 @@
         #endregion
 
         #region Debugging
-        /// <summary>
-        /// Compares two <see cref="ReadOnlyInner{IIndex}"/> objects.
-        /// </summary>
-        /// <param name="comparer">The comparison support object.</param>
-        /// <param name="other">The other object.</param>
+        /// <inheritdoc/>
         public virtual bool IsEqual(CompareEqual comparer, IEqualComparable other)
         {
             Debug.Assert(other != null);

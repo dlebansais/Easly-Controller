@@ -36,10 +36,7 @@
         bool IsNeverEmpty { get; }
     }
 
-    /// <summary>
-    /// Base inner for a list or a block list.
-    /// </summary>
-    /// <typeparam name="IIndex">Type of the index as class.</typeparam>
+    /// <inheritdoc/>
     internal abstract class ReadOnlyCollectionInner<IIndex> : ReadOnlyInner<IIndex>, IReadOnlyCollectionInner<IIndex>, IReadOnlyCollectionInner, IReadOnlyInner
         where IIndex : IReadOnlyBrowsingCollectionNodeIndex
     {
@@ -68,11 +65,7 @@
         #endregion
 
         #region Debugging
-        /// <summary>
-        /// Compares two <see cref="ReadOnlyCollectionInner{IIndex}"/> objects.
-        /// </summary>
-        /// <param name="comparer">The comparison support object.</param>
-        /// <param name="other">The other object.</param>
+        /// <inheritdoc/>
         public override bool IsEqual(CompareEqual comparer, IEqualComparable other)
         {
             Debug.Assert(other != null);

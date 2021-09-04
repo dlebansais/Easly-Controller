@@ -189,11 +189,7 @@
         #endregion
 
         #region Debugging
-        /// <summary>
-        /// Compares two <see cref="ReadOnlyControllerView"/> objects.
-        /// </summary>
-        /// <param name="comparer">The comparison support object.</param>
-        /// <param name="other">The other object.</param>
+        /// <inheritdoc/>
         public virtual bool IsEqual(CompareEqual comparer, IEqualComparable other)
         {
             Debug.Assert(other != null);
@@ -297,7 +293,6 @@
         #endregion
 
         #region Implementation of IDisposable
-#pragma warning disable 1591
         private protected virtual void Dispose(bool isDisposing)
         {
             if (isDisposing)
@@ -318,12 +313,12 @@
             Debug.Assert(BlockStateViewTable.Count == 0);
         }
 
+        /// <inheritdoc/>
         public void Dispose()
         {
             Dispose(true);
             GC.SuppressFinalize(this);
         }
-#pragma warning restore 1591
         #endregion
     }
 }

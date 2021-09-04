@@ -17,9 +17,7 @@
         IOptionalReference Optional { get; }
     }
 
-    /// <summary>
-    /// Index for an optional node.
-    /// </summary>
+    /// <inheritdoc/>
     public class ReadOnlyBrowsingOptionalNodeIndex : IReadOnlyBrowsingChildIndex, IReadOnlyBrowsingOptionalNodeIndex, IEqualComparable
     {
         #region Init
@@ -42,23 +40,15 @@
         #endregion
 
         #region Properties
-        /// <summary>
-        /// Interface to the optional object for the node.
-        /// </summary>
+        /// <inheritdoc/>
         public IOptionalReference Optional { get; }
 
-        /// <summary>
-        /// Property indexed for <see cref="Optional"/>.
-        /// </summary>
+        /// <inheritdoc/>
         public string PropertyName { get; }
         #endregion
 
         #region Debugging
-        /// <summary>
-        /// Compares two <see cref="ReadOnlyBrowsingOptionalNodeIndex"/> objects.
-        /// </summary>
-        /// <param name="comparer">The comparison support object.</param>
-        /// <param name="other">The other object.</param>
+        /// <inheritdoc/>
         public virtual bool IsEqual(CompareEqual comparer, IEqualComparable other)
         {
             Debug.Assert(other != null);

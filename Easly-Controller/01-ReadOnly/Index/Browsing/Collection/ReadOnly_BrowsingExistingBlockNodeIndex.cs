@@ -20,9 +20,7 @@
         int Index { get; }
     }
 
-    /// <summary>
-    /// Index for a node in a block.
-    /// </summary>
+    /// <inheritdoc/>
     public class ReadOnlyBrowsingExistingBlockNodeIndex : ReadOnlyBrowsingBlockNodeIndex, IReadOnlyBrowsingExistingBlockNodeIndex, IEqualComparable
     {
         #region Init
@@ -50,23 +48,15 @@
         #endregion
 
         #region Properties
-        /// <summary>
-        /// The parent node.
-        /// </summary>
+        /// <inheritdoc/>
         public Node ParentNode { get; }
 
-        /// <summary>
-        /// Position of the node in the block.
-        /// </summary>
+        /// <inheritdoc/>
         public int Index { get; private protected set; }
         #endregion
 
         #region Debugging
-        /// <summary>
-        /// Compares two <see cref="ReadOnlyBrowsingExistingBlockNodeIndex"/> objects.
-        /// </summary>
-        /// <param name="comparer">The comparison support object.</param>
-        /// <param name="other">The other object.</param>
+        /// <inheritdoc/>
         public virtual bool IsEqual(CompareEqual comparer, IEqualComparable other)
         {
             Debug.Assert(other != null);

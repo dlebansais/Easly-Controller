@@ -28,17 +28,37 @@
     /// <summary>
     /// Collection of node indexes.
     /// </summary>
-    /// <typeparam name="TIndex">Type of the index.</typeparam>
-    internal class ReadOnlyIndexCollection<TIndex> : IReadOnlyIndexCollection
-        where TIndex : IReadOnlyBrowsingChildIndex
+    /// <typeparam name="IIndex">Type of the index.</typeparam>
+    internal interface IReadOnlyIndexCollection<out IIndex>
+        where IIndex : IReadOnlyBrowsingChildIndex
+    {
+        /// <summary>
+        /// Property indexed for all nodes in the collection.
+        /// </summary>
+        string PropertyName { get; }
+
+        /// <summary>
+        /// Collection of node indexes.
+        /// </summary>
+        IReadOnlyList<IIndex> NodeIndexList { get; }
+
+        /// <summary>
+        /// True is the collection is empty.
+        /// </summary>
+        bool IsEmpty { get; }
+    }
+
+    /// <inheritdoc/>
+    internal class ReadOnlyIndexCollection<IIndex> : IReadOnlyIndexCollection<IIndex>, IReadOnlyIndexCollection
+        where IIndex : IReadOnlyBrowsingChildIndex
     {
         #region Init
         /// <summary>
-        /// Initializes a new instance of the <see cref="ReadOnlyIndexCollection{TIndex}"/> class.
+        /// Initializes a new instance of the <see cref="ReadOnlyIndexCollection{IIndex}"/> class.
         /// </summary>
         /// <param name="propertyName">Property indexed for all nodes in the collection.</param>
         /// <param name="nodeIndexList">Collection of node indexes.</param>
-        public ReadOnlyIndexCollection(string propertyName, IReadOnlyList<TIndex> nodeIndexList)
+        public ReadOnlyIndexCollection(string propertyName, IReadOnlyList<IIndex> nodeIndexList)
         {
             Debug.Assert(!string.IsNullOrEmpty(propertyName));
             Debug.Assert(IsSamePropertyName(propertyName, nodeIndexList));
@@ -58,7 +78,7 @@
         /// <summary>
         /// Collection of node indexes.
         /// </summary>
-        public IReadOnlyList<TIndex> NodeIndexList { get; }
+        public IReadOnlyList<IIndex> NodeIndexList { get; }
         IEnumerable IReadOnlyIndexCollection.NodeIndexList { get { return NodeIndexList; } }
 
         /// <summary>
@@ -73,12 +93,12 @@
         /// </summary>
         /// <param name="propertyName">Property indexed for all nodes in <paramref name="nodeIndexList"/>.</param>
         /// <param name="nodeIndexList">Collection of node indexes.</param>
-        public static bool IsSamePropertyName(string propertyName, IReadOnlyList<TIndex> nodeIndexList)
+        public static bool IsSamePropertyName(string propertyName, IReadOnlyList<IIndex> nodeIndexList)
         {
             Debug.Assert(propertyName != null); // The empty string is acceptable.
             Debug.Assert(nodeIndexList != null);
 
-            foreach (TIndex item in nodeIndexList)
+            foreach (IIndex item in nodeIndexList)
                 if (item.PropertyName != propertyName)
                     return false;
 

@@ -14,9 +14,7 @@
         new Pattern Node { get; }
     }
 
-    /// <summary>
-    /// Index for the replication pattern node of a block.
-    /// </summary>
+    /// <inheritdoc/>
     public class ReadOnlyBrowsingPatternIndex : IReadOnlyBrowsingPatternIndex, IEqualComparable
     {
         #region Init
@@ -35,24 +33,16 @@
         #endregion
 
         #region Properties
-        /// <summary>
-        /// The indexed replication pattern node.
-        /// </summary>
+        /// <inheritdoc/>
         public Pattern Node { get { return Block.ReplicationPattern; } }
         Node IReadOnlyNodeIndex.Node { get { return Node; } }
 
-        /// <summary>
-        /// Property indexed for <see cref="Node"/>.
-        /// </summary>
+        /// <inheritdoc/>
         public string PropertyName { get { return nameof(IBlock.ReplicationPattern); } }
         #endregion
 
         #region Debugging
-        /// <summary>
-        /// Compares two <see cref="ReadOnlyBrowsingPatternIndex"/> objects.
-        /// </summary>
-        /// <param name="comparer">The comparison support object.</param>
-        /// <param name="other">The other object.</param>
+        /// <inheritdoc/>
         public virtual bool IsEqual(CompareEqual comparer, IEqualComparable other)
         {
             Debug.Assert(other != null);

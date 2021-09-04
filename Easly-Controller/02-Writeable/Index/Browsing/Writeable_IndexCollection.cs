@@ -14,7 +14,16 @@
     /// Collection of node indexes.
     /// </summary>
     /// <typeparam name="IIndex">Type of the index.</typeparam>
-    internal class WriteableIndexCollection<IIndex> : ReadOnlyIndexCollection<IIndex>, IWriteableIndexCollection
+    internal interface IWriteableIndexCollection<out IIndex> : IReadOnlyIndexCollection<IIndex>
+        where IIndex : IWriteableBrowsingChildIndex
+    {
+    }
+
+    /// <summary>
+    /// Collection of node indexes.
+    /// </summary>
+    /// <typeparam name="IIndex">Type of the index.</typeparam>
+    internal class WriteableIndexCollection<IIndex> : ReadOnlyIndexCollection<IIndex>, IWriteableIndexCollection<IIndex>, IWriteableIndexCollection
         where IIndex : IWriteableBrowsingChildIndex
     {
         #region Init
