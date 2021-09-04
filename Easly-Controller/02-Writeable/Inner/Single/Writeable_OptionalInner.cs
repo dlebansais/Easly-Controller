@@ -33,7 +33,7 @@
     /// </summary>
     /// <typeparam name="TIndex">Type of the index.</typeparam>
     internal interface IWriteableOptionalInner<out TIndex> : IReadOnlyOptionalInner<TIndex>, IWriteableSingleInner<TIndex>
-        where TIndex : WriteableBrowsingOptionalNodeIndex
+        where TIndex : IWriteableBrowsingOptionalNodeIndex
     {
         /// <summary>
         /// The state of the optional node.
@@ -58,7 +58,7 @@
     /// </summary>
     /// <typeparam name="TIndex">Type of the index as class.</typeparam>
     internal class WriteableOptionalInner<TIndex> : ReadOnlyOptionalInner<TIndex>, IWriteableOptionalInner<TIndex>, IWriteableOptionalInner
-        where TIndex : WriteableBrowsingOptionalNodeIndex
+        where TIndex : IWriteableBrowsingOptionalNodeIndex
     {
         #region Init
         /// <summary>
@@ -103,12 +103,12 @@
         {
             Node ParentNode = Owner.Node;
 
-            WriteableBrowsingOptionalNodeIndex OldBrowsingIndex = (WriteableBrowsingOptionalNodeIndex)ChildState.ParentIndex;
+            IWriteableBrowsingOptionalNodeIndex OldBrowsingIndex = (IWriteableBrowsingOptionalNodeIndex)ChildState.ParentIndex;
             Node OldNode = ChildState.Optional.HasItem ? ChildState.Node : null;
 
             NodeTreeHelperOptional.SetOptionalChildNode(ParentNode, PropertyName, operation.NewNode);
 
-            WriteableBrowsingOptionalNodeIndex NewBrowsingIndex = CreateBrowsingNodeIndex();
+            IWriteableBrowsingOptionalNodeIndex NewBrowsingIndex = CreateBrowsingNodeIndex();
             IWriteableOptionalNodeState NewChildState = (IWriteableOptionalNodeState)CreateNodeState(NewBrowsingIndex);
             SetChildState(NewChildState);
 
@@ -119,12 +119,12 @@
         {
             Node ParentNode = Owner.Node;
 
-            WriteableBrowsingOptionalNodeIndex OldBrowsingIndex = (WriteableBrowsingOptionalNodeIndex)ChildState.ParentIndex;
+            IWriteableBrowsingOptionalNodeIndex OldBrowsingIndex = (IWriteableBrowsingOptionalNodeIndex)ChildState.ParentIndex;
             Node OldNode = ChildState.Optional.HasItem ? ChildState.Node : null;
 
             NodeTreeHelperOptional.ClearOptionalChildNode(ParentNode, PropertyName);
 
-            WriteableBrowsingOptionalNodeIndex NewBrowsingIndex = CreateBrowsingNodeIndex();
+            IWriteableBrowsingOptionalNodeIndex NewBrowsingIndex = CreateBrowsingNodeIndex();
             IWriteableOptionalNodeState NewChildState = (IWriteableOptionalNodeState)CreateNodeState(NewBrowsingIndex);
             SetChildState(NewChildState);
 
@@ -167,7 +167,7 @@
         /// <summary>
         /// Creates a IxxxBrowsingOptionalNodeIndex object.
         /// </summary>
-        private protected virtual WriteableBrowsingOptionalNodeIndex CreateBrowsingNodeIndex()
+        private protected virtual IWriteableBrowsingOptionalNodeIndex CreateBrowsingNodeIndex()
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableOptionalInner<TIndex>));
             return new WriteableBrowsingOptionalNodeIndex(Owner.Node, PropertyName);

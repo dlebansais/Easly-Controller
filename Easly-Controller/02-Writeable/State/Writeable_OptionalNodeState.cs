@@ -12,7 +12,7 @@
         /// <summary>
         /// The index that was used to create the state.
         /// </summary>
-        new WriteableBrowsingOptionalNodeIndex ParentIndex { get; }
+        new IWriteableBrowsingOptionalNodeIndex ParentIndex { get; }
 
         /// <summary>
         /// Inner containing this state.
@@ -41,7 +41,7 @@
         /// Initializes a new instance of the <see cref="WriteableOptionalNodeState{IInner}"/> class.
         /// </summary>
         /// <param name="parentIndex">The index used to create the state.</param>
-        public WriteableOptionalNodeState(WriteableBrowsingOptionalNodeIndex parentIndex)
+        public WriteableOptionalNodeState(IWriteableBrowsingOptionalNodeIndex parentIndex)
             : base(parentIndex)
         {
         }
@@ -51,7 +51,7 @@
         /// <summary>
         /// The index that was used to create the state.
         /// </summary>
-        public new WriteableBrowsingOptionalNodeIndex ParentIndex { get { return (WriteableBrowsingOptionalNodeIndex)base.ParentIndex; } }
+        public new IWriteableBrowsingOptionalNodeIndex ParentIndex { get { return (IWriteableBrowsingOptionalNodeIndex)base.ParentIndex; } }
         IWriteableIndex IWriteableNodeState.ParentIndex { get { return ParentIndex; } }
 
         /// <summary>

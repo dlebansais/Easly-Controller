@@ -4,9 +4,7 @@
     using System.Diagnostics;
     using EaslyController.ReadOnly;
 
-    /// <summary>
-    /// Context for browsing child nodes of a parent node.
-    /// </summary>
+    /// <inheritdoc/>
     internal class WriteableBrowseContext : ReadOnlyBrowseContext
     {
         #region Init
@@ -24,21 +22,15 @@
         #endregion
 
         #region Properties
-        /// <summary>
-        /// State this context is browsing.
-        /// </summary>
+        /// <inheritdoc/>
         public new IWriteableNodeState State { get { return (IWriteableNodeState)base.State; } }
 
-        /// <summary>
-        /// List of index collections that have been added during browsing.
-        /// </summary>
+        /// <inheritdoc/>
         public new WriteableIndexCollectionReadOnlyList IndexCollectionList { get { return (WriteableIndexCollectionReadOnlyList)base.IndexCollectionList; } }
         #endregion
 
         #region Client Interface
-        /// <summary>
-        /// Checks the context consistency, for code coverage purpose.
-        /// </summary>
+        /// <inheritdoc/>
         public override void CheckConsistency()
         {
             base.CheckConsistency();
@@ -86,9 +78,7 @@
         #endregion
 
         #region Create Methods
-        /// <summary>
-        /// Creates a IxxxCollectionList object.
-        /// </summary>
+        /// <inheritdoc/>
         private protected override ReadOnlyIndexCollectionList CreateIndexCollectionList()
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableBrowseContext));

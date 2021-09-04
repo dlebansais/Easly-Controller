@@ -21,7 +21,7 @@
     /// </summary>
     /// <typeparam name="TIndex">Type of the index.</typeparam>
     internal interface IWriteablePlaceholderInner<out TIndex> : IReadOnlyPlaceholderInner<TIndex>, IWriteableSingleInner<TIndex>
-        where TIndex : WriteableBrowsingPlaceholderNodeIndex
+        where TIndex : IWriteableBrowsingPlaceholderNodeIndex
     {
         /// <summary>
         /// The state of the node.
@@ -34,7 +34,7 @@
     /// </summary>
     /// <typeparam name="TIndex">Type of the index as class.</typeparam>
     internal class WriteablePlaceholderInner<TIndex> : ReadOnlyPlaceholderInner<TIndex>, IWriteablePlaceholderInner<TIndex>, IWriteablePlaceholderInner
-        where TIndex : WriteableBrowsingPlaceholderNodeIndex
+        where TIndex : IWriteableBrowsingPlaceholderNodeIndex
     {
         #region Init
         /// <summary>
@@ -71,13 +71,13 @@
 
             Node ParentNode = Owner.Node;
 
-            WriteableBrowsingPlaceholderNodeIndex OldBrowsingIndex = (WriteableBrowsingPlaceholderNodeIndex)ChildState.ParentIndex;
+            IWriteableBrowsingPlaceholderNodeIndex OldBrowsingIndex = (IWriteableBrowsingPlaceholderNodeIndex)ChildState.ParentIndex;
             IWriteablePlaceholderNodeState OldChildState = (IWriteablePlaceholderNodeState)ChildState;
             Node OldNode = OldChildState.Node;
 
             NodeTreeHelperChild.SetChildNode(ParentNode, PropertyName, operation.NewNode);
 
-            WriteableBrowsingPlaceholderNodeIndex NewBrowsingIndex = CreateBrowsingNodeIndex(operation.NewNode);
+            IWriteableBrowsingPlaceholderNodeIndex NewBrowsingIndex = CreateBrowsingNodeIndex(operation.NewNode);
             IWriteablePlaceholderNodeState NewChildState = (IWriteablePlaceholderNodeState)CreateNodeState(NewBrowsingIndex);
             SetChildState(NewChildState);
 
@@ -98,7 +98,7 @@
         /// <summary>
         /// Creates a IxxxBrowsingPlaceholderNodeIndex object.
         /// </summary>
-        private protected virtual WriteableBrowsingPlaceholderNodeIndex CreateBrowsingNodeIndex(Node node)
+        private protected virtual IWriteableBrowsingPlaceholderNodeIndex CreateBrowsingNodeIndex(Node node)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteablePlaceholderInner<TIndex>));
             return new WriteableBrowsingPlaceholderNodeIndex(Owner.Node, node, PropertyName);
