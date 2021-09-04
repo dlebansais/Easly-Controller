@@ -4,21 +4,8 @@
     using BaseNode;
     using EaslyController.Writeable;
 
-    /// <summary>
-    /// Operation details for splitting a block in a block list.
-    /// </summary>
-    public interface IFrameSplitBlockOperation : IWriteableSplitBlockOperation, IFrameOperation
-    {
-        /// <summary>
-        /// The inserted block state.
-        /// </summary>
-        new IFrameBlockState BlockState { get; }
-    }
-
-    /// <summary>
-    /// Operation details for splitting a block in a block list.
-    /// </summary>
-    internal class FrameSplitBlockOperation : WriteableSplitBlockOperation, IFrameSplitBlockOperation
+    /// <inheritdoc/>
+    internal class FrameSplitBlockOperation : WriteableSplitBlockOperation
     {
         #region Init
         /// <summary>
@@ -32,7 +19,7 @@
         /// <param name="handlerRedo">Handler to execute to redo the operation.</param>
         /// <param name="handlerUndo">Handler to execute to undo the operation.</param>
         /// <param name="isNested">True if the operation is nested within another more general one.</param>
-        public FrameSplitBlockOperation(Node parentNode, string propertyName, int blockIndex, int index, IBlock newBlock, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        public FrameSplitBlockOperation(Node parentNode, string propertyName, int blockIndex, int index, IBlock newBlock, Action<WriteableOperation> handlerRedo, Action<WriteableOperation> handlerUndo, bool isNested)
             : base(parentNode, propertyName, blockIndex, index, newBlock, handlerRedo, handlerUndo, isNested)
         {
         }
@@ -49,7 +36,7 @@
         /// <summary>
         /// Creates a IxxxxMergeBlocksOperation object.
         /// </summary>
-        private protected override IWriteableMergeBlocksOperation CreateMergeBlocksOperation(int blockIndex, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        private protected override WriteableMergeBlocksOperation CreateMergeBlocksOperation(int blockIndex, Action<WriteableOperation> handlerRedo, Action<WriteableOperation> handlerUndo, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameSplitBlockOperation));
             return new FrameMergeBlocksOperation(ParentNode, PropertyName, blockIndex, handlerRedo, handlerUndo, isNested);

@@ -1,23 +1,14 @@
-﻿#pragma warning disable 1591
-
-namespace EaslyController.Frame
+﻿namespace EaslyController.Frame
 {
     using System.Collections.Generic;
-    using System.Collections.ObjectModel;
 
-    /// <summary>
-    /// List of IxxxVisibleCellView
-    /// </summary>
-    public interface IFrameVisibleCellViewList : IList<IFrameVisibleCellView>, IReadOnlyList<IFrameVisibleCellView>
+    /// <inheritdoc/>
+    public class FrameVisibleCellViewList : List<IFrameVisibleCellView>
     {
-        new IFrameVisibleCellView this[int index] { get; set; }
-        new int Count { get; }
-    }
-
-    /// <summary>
-    /// List of IxxxVisibleCellView
-    /// </summary>
-    public class FrameVisibleCellViewList : Collection<IFrameVisibleCellView>, IFrameVisibleCellViewList
-    {
+        /// <inheritdoc/>
+        public virtual FrameVisibleCellViewReadOnlyList ToReadOnly()
+        {
+            return new FrameVisibleCellViewReadOnlyList(this);
+        }
     }
 }

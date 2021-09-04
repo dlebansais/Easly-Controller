@@ -58,7 +58,7 @@
         /// </summary>
         /// <param name="expectedCellViewTable">Cell views that are associated to a property of the node.</param>
         /// <param name="actualCellViewTable">Cell views that are found in the tree.</param>
-        bool IsCellViewTreeValid(IFrameAssignableCellViewReadOnlyDictionary<string> expectedCellViewTable, IFrameAssignableCellViewDictionary<string> actualCellViewTable);
+        bool IsCellViewTreeValid(FrameAssignableCellViewReadOnlyDictionary<string> expectedCellViewTable, FrameAssignableCellViewDictionary<string> actualCellViewTable);
     }
 
     /// <summary>
@@ -152,7 +152,7 @@
         /// </summary>
         /// <param name="expectedCellViewTable">Cell views that are associated to a property of the node.</param>
         /// <param name="actualCellViewTable">Cell views that are found in the tree.</param>
-        public abstract bool IsCellViewTreeValid(IFrameAssignableCellViewReadOnlyDictionary<string> expectedCellViewTable, IFrameAssignableCellViewDictionary<string> actualCellViewTable);
+        public abstract bool IsCellViewTreeValid(FrameAssignableCellViewReadOnlyDictionary<string> expectedCellViewTable, FrameAssignableCellViewDictionary<string> actualCellViewTable);
         #endregion
     }
 }

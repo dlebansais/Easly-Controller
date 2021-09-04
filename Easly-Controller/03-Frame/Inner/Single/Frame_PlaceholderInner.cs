@@ -4,9 +4,7 @@
     using EaslyController.ReadOnly;
     using EaslyController.Writeable;
 
-    /// <summary>
-    /// Inner for a child node.
-    /// </summary>
+    /// <inheritdoc/>
     public interface IFramePlaceholderInner : IWriteablePlaceholderInner, IFrameSingleInner
     {
         /// <summary>
@@ -15,10 +13,7 @@
         new IFramePlaceholderNodeState ChildState { get; }
     }
 
-    /// <summary>
-    /// Inner for a child node.
-    /// </summary>
-    /// <typeparam name="IIndex">Type of the index.</typeparam>
+    /// <inheritdoc/>
     internal interface IFramePlaceholderInner<out IIndex> : IWriteablePlaceholderInner<IIndex>, IFrameSingleInner<IIndex>
         where IIndex : IFrameBrowsingPlaceholderNodeIndex
     {
@@ -28,18 +23,13 @@
         new IFramePlaceholderNodeState ChildState { get; }
     }
 
-    /// <summary>
-    /// Inner for a child node.
-    /// </summary>
-    /// <typeparam name="IIndex">Type of the index as interface.</typeparam>
-    /// <typeparam name="TIndex">Type of the index as class.</typeparam>
-    internal class FramePlaceholderInner<IIndex, TIndex> : WriteablePlaceholderInner<IIndex, TIndex>, IFramePlaceholderInner<IIndex>, IFramePlaceholderInner
+    /// <inheritdoc/>
+    internal class FramePlaceholderInner<IIndex> : WriteablePlaceholderInner<IIndex>, IFramePlaceholderInner<IIndex>, IFramePlaceholderInner
         where IIndex : IFrameBrowsingPlaceholderNodeIndex
-        where TIndex : FrameBrowsingPlaceholderNodeIndex, IIndex
     {
         #region Init
         /// <summary>
-        /// Initializes a new instance of the <see cref="FramePlaceholderInner{IIndex, TIndex}"/> class.
+        /// Initializes a new instance of the <see cref="FramePlaceholderInner{IIndex}"/> class.
         /// </summary>
         /// <param name="owner">Parent containing the inner.</param>
         /// <param name="propertyName">Property name of the inner in <paramref name="owner"/>.</param>
@@ -67,7 +57,7 @@
         /// </summary>
         private protected override IReadOnlyPlaceholderNodeState CreateNodeState(IReadOnlyBrowsingPlaceholderNodeIndex nodeIndex)
         {
-            ControllerTools.AssertNoOverride(this, typeof(FramePlaceholderInner<IIndex, TIndex>));
+            ControllerTools.AssertNoOverride(this, typeof(FramePlaceholderInner<IIndex>));
             return new FramePlaceholderNodeState<IFrameInner<IFrameBrowsingChildIndex>>((IFrameBrowsingPlaceholderNodeIndex)nodeIndex);
         }
 
@@ -76,7 +66,7 @@
         /// </summary>
         private protected override IWriteableBrowsingPlaceholderNodeIndex CreateBrowsingNodeIndex(Node node)
         {
-            ControllerTools.AssertNoOverride(this, typeof(FramePlaceholderInner<IIndex, TIndex>));
+            ControllerTools.AssertNoOverride(this, typeof(FramePlaceholderInner<IIndex>));
             return new FrameBrowsingPlaceholderNodeIndex(Owner.Node, node, PropertyName);
         }
         #endregion

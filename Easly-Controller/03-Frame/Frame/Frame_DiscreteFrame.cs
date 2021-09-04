@@ -14,7 +14,7 @@
         /// List of frames that can be displayed.
         /// (Set in Xaml)
         /// </summary>
-        IFrameKeywordFrameList Items { get; }
+        FrameKeywordFrameList Items { get; }
     }
 
     /// <summary>
@@ -38,7 +38,7 @@
         /// List of frames that can be displayed.
         /// (Set in Xaml)
         /// </summary>
-        public IFrameKeywordFrameList Items { get; }
+        public FrameKeywordFrameList Items { get; }
         #endregion
 
         #region Client Interface
@@ -48,7 +48,7 @@
         /// <param name="nodeType">Type of the node this frame can describe.</param>
         /// <param name="nodeTemplateTable">Table of templates with all frames.</param>
         /// <param name="commentFrameCount">Number of comment frames found so far.</param>
-        public override bool IsValid(Type nodeType, IFrameTemplateReadOnlyDictionary nodeTemplateTable, ref int commentFrameCount)
+        public override bool IsValid(Type nodeType, FrameTemplateReadOnlyDictionary nodeTemplateTable, ref int commentFrameCount)
         {
             bool IsValid = true;
 
@@ -112,7 +112,7 @@
         /// <summary>
         /// Creates a IxxxKeywordFrameList object.
         /// </summary>
-        private protected virtual IFrameKeywordFrameList CreateKeywordFrameList()
+        private protected virtual FrameKeywordFrameList CreateKeywordFrameList()
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameDiscreteFrame));
             return new FrameKeywordFrameList();

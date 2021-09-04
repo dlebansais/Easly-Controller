@@ -14,25 +14,25 @@
         /// <summary>
         /// Templates for nodes by their type.
         /// </summary>
-        IFrameTemplateReadOnlyDictionary NodeTemplateTable { get; }
+        FrameTemplateReadOnlyDictionary NodeTemplateTable { get; }
 
         /// <summary>
         /// Templates for blocks of nodes.
         /// </summary>
-        IFrameTemplateReadOnlyDictionary BlockTemplateTable { get; }
+        FrameTemplateReadOnlyDictionary BlockTemplateTable { get; }
 
         /// <summary>
         /// Checks that templates are valid for nodes.
         /// </summary>
         /// <param name="nodeTemplateTable">Table of templates.</param>
-        bool IsValid(IFrameTemplateReadOnlyDictionary nodeTemplateTable);
+        bool IsValid(FrameTemplateReadOnlyDictionary nodeTemplateTable);
 
         /// <summary>
         /// Checks that templates are valid for blocks.
         /// </summary>
         /// <param name="blockTemplateTable">Table of templates.</param>
         /// <param name="nodeTemplateTable">Table of templates with all frames.</param>
-        bool IsBlockValid(IFrameTemplateReadOnlyDictionary blockTemplateTable, IFrameTemplateReadOnlyDictionary nodeTemplateTable);
+        bool IsBlockValid(FrameTemplateReadOnlyDictionary blockTemplateTable, FrameTemplateReadOnlyDictionary nodeTemplateTable);
 
         /// <summary>
         /// Template that will be used to describe the given node.
@@ -97,7 +97,7 @@
         /// </summary>
         /// <param name="nodeTemplateTable">Templates for nodes by their type.</param>
         /// <param name="blockTemplateTable">Templates for blocks of nodes.</param>
-        public FrameTemplateSet(IFrameTemplateReadOnlyDictionary nodeTemplateTable, IFrameTemplateReadOnlyDictionary blockTemplateTable)
+        public FrameTemplateSet(FrameTemplateReadOnlyDictionary nodeTemplateTable, FrameTemplateReadOnlyDictionary blockTemplateTable)
         {
             Debug.Assert(IsValid(nodeTemplateTable));
             Debug.Assert(IsBlockValid(blockTemplateTable, nodeTemplateTable));
@@ -111,12 +111,12 @@
         /// <summary>
         /// Templates for nodes by their type.
         /// </summary>
-        public IFrameTemplateReadOnlyDictionary NodeTemplateTable { get; }
+        public FrameTemplateReadOnlyDictionary NodeTemplateTable { get; }
 
         /// <summary>
         /// Templates for blocks of nodes.
         /// </summary>
-        public IFrameTemplateReadOnlyDictionary BlockTemplateTable { get; }
+        public FrameTemplateReadOnlyDictionary BlockTemplateTable { get; }
         #endregion
 
         #region Client Interface
@@ -124,11 +124,11 @@
         /// Checks that templates are valid for nodes.
         /// </summary>
         /// <param name="nodeTemplateTable">Table of templates.</param>
-        public virtual bool IsValid(IFrameTemplateReadOnlyDictionary nodeTemplateTable)
+        public virtual bool IsValid(FrameTemplateReadOnlyDictionary nodeTemplateTable)
         {
             Debug.Assert(nodeTemplateTable != null);
 
-            IFrameTemplateDictionary DefaultDictionary = CreateDefaultTemplateDictionary();
+            FrameTemplateDictionary DefaultDictionary = CreateDefaultTemplateDictionary();
 
             bool IsValid = true;
 
@@ -172,13 +172,13 @@
         /// </summary>
         /// <param name="blockTemplateTable">Table of templates.</param>
         /// <param name="nodeTemplateTable">Table of templates with all frames.</param>
-        public virtual bool IsBlockValid(IFrameTemplateReadOnlyDictionary blockTemplateTable, IFrameTemplateReadOnlyDictionary nodeTemplateTable)
+        public virtual bool IsBlockValid(FrameTemplateReadOnlyDictionary blockTemplateTable, FrameTemplateReadOnlyDictionary nodeTemplateTable)
         {
             Debug.Assert(blockTemplateTable != null);
 
             List<Type> BlockKeys = new List<Type>(NodeHelper.CreateNodeDictionary<object>().Keys);
 
-            IFrameTemplateDictionary DefaultDictionary = CreateEmptyTemplateDictionary();
+            FrameTemplateDictionary DefaultDictionary = CreateEmptyTemplateDictionary();
             foreach (Type Key in BlockKeys)
                 AddBlockNodeTypes(DefaultDictionary, Key);
 
@@ -297,8 +297,8 @@
             if (_Default != null && _Default.GetType() == GetType()) // Recreate the default if the layer has changed.
                 return _Default;
 
-            IFrameTemplateReadOnlyDictionary DefaultNodeTemplateTable = BuildDefaultNodeTemplateTable();
-            IFrameTemplateReadOnlyDictionary DefaultBlockTemplateTable = BuildDefaultBlockListTemplate();
+            FrameTemplateReadOnlyDictionary DefaultNodeTemplateTable = BuildDefaultNodeTemplateTable();
+            FrameTemplateReadOnlyDictionary DefaultBlockTemplateTable = BuildDefaultBlockListTemplate();
 
             Debug.Assert(IsValid(DefaultNodeTemplateTable));
             Debug.Assert(IsBlockValid(DefaultBlockTemplateTable, DefaultNodeTemplateTable));
@@ -308,9 +308,9 @@
             return _Default;
         }
 
-        private protected virtual IFrameTemplateReadOnlyDictionary BuildDefaultNodeTemplateTable()
+        private protected virtual FrameTemplateReadOnlyDictionary BuildDefaultNodeTemplateTable()
         {
-            IFrameTemplateDictionary DefaultDictionary = CreateDefaultTemplateDictionary();
+            FrameTemplateDictionary DefaultDictionary = CreateDefaultTemplateDictionary();
 
             List<Type> Keys = new List<Type>(DefaultDictionary.Keys);
             foreach (Type Key in Keys)
@@ -319,7 +319,7 @@
             return DefaultDictionary.ToReadOnly();
         }
 
-        private protected virtual void SetNodeTypeToDefault(IFrameTemplateDictionary dictionary, Type nodeType)
+        private protected virtual void SetNodeTypeToDefault(FrameTemplateDictionary dictionary, Type nodeType)
         {
             Debug.Assert(dictionary.ContainsKey(nodeType));
             Debug.Assert(dictionary[nodeType] == null);
@@ -430,11 +430,11 @@
             return FrameFrame.FrameRoot;
         }
 
-        private protected virtual IFrameTemplateReadOnlyDictionary BuildDefaultBlockListTemplate()
+        private protected virtual FrameTemplateReadOnlyDictionary BuildDefaultBlockListTemplate()
         {
             List<Type> Keys = new List<Type>(NodeHelper.CreateNodeDictionary<object>().Keys);
 
-            IFrameTemplateDictionary DefaultDictionary = CreateEmptyTemplateDictionary();
+            FrameTemplateDictionary DefaultDictionary = CreateEmptyTemplateDictionary();
             foreach (Type Key in Keys)
                 AddBlockNodeTypes(DefaultDictionary, Key);
 
@@ -465,7 +465,7 @@
             return DefaultDictionary.ToReadOnly();
         }
 
-        private protected virtual void AddBlockNodeTypes(IFrameTemplateDictionary dictionary, Type nodeType)
+        private protected virtual void AddBlockNodeTypes(FrameTemplateDictionary dictionary, Type nodeType)
         {
             IList<string> Properties = NodeTreeHelper.EnumChildNodeProperties(nodeType);
             foreach (string PropertyName in Properties)
@@ -483,7 +483,7 @@
         /// <summary>
         /// Creates a IxxxTemplateDictionary object.
         /// </summary>
-        private protected virtual IFrameTemplateDictionary CreateEmptyTemplateDictionary()
+        private protected virtual FrameTemplateDictionary CreateEmptyTemplateDictionary()
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameTemplateSet));
             return new FrameTemplateDictionary();
@@ -492,7 +492,7 @@
         /// <summary>
         /// Creates a IxxxTemplateDictionary object.
         /// </summary>
-        private protected virtual IFrameTemplateDictionary CreateDefaultTemplateDictionary()
+        private protected virtual FrameTemplateDictionary CreateDefaultTemplateDictionary()
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameTemplateSet));
             return new FrameTemplateDictionary(NodeHelper.CreateNodeDictionary<IFrameTemplate>());
@@ -609,7 +609,7 @@
         /// <summary>
         /// Creates a IxxxTemplateSet object.
         /// </summary>
-        private protected virtual IFrameTemplateSet CreateDefaultTemplateSet(IFrameTemplateReadOnlyDictionary nodeTemplateTable, IFrameTemplateReadOnlyDictionary blockTemplateTable)
+        private protected virtual IFrameTemplateSet CreateDefaultTemplateSet(FrameTemplateReadOnlyDictionary nodeTemplateTable, FrameTemplateReadOnlyDictionary blockTemplateTable)
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameTemplateSet));
             return new FrameTemplateSet(nodeTemplateTable, blockTemplateTable);

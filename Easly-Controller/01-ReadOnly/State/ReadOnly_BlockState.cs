@@ -24,7 +24,7 @@
         /// <summary>
         /// Index that was used to create the pattern state for this block.
         /// </summary>
-        ReadOnlyBrowsingPatternIndex PatternIndex { get; }
+        IReadOnlyBrowsingPatternIndex PatternIndex { get; }
 
         /// <summary>
         /// The pattern state for this block.
@@ -34,7 +34,7 @@
         /// <summary>
         /// Index that was used to create the source state for this block.
         /// </summary>
-        ReadOnlyBrowsingSourceIndex SourceIndex { get; }
+        IReadOnlyBrowsingSourceIndex SourceIndex { get; }
 
         /// <summary>
         /// The source state for this block.
@@ -109,7 +109,7 @@
         /// <param name="parentInner">Inner containing the block state.</param>
         /// <param name="newBlockIndex">Index that was used to create the block state.</param>
         /// <param name="childBlock">The block.</param>
-        public ReadOnlyBlockState(IReadOnlyBlockListInner parentInner, ReadOnlyBrowsingNewBlockNodeIndex newBlockIndex, IBlock childBlock)
+        public ReadOnlyBlockState(IReadOnlyBlockListInner parentInner, IReadOnlyBrowsingNewBlockNodeIndex newBlockIndex, IBlock childBlock)
         {
             Debug.Assert(parentInner != null);
             Debug.Assert(newBlockIndex != null);
@@ -172,7 +172,7 @@
         /// <summary>
         /// Index that was used to create the pattern state for this block.
         /// </summary>
-        public ReadOnlyBrowsingPatternIndex PatternIndex { get; private set; }
+        public IReadOnlyBrowsingPatternIndex PatternIndex { get; private set; }
 
         /// <summary>
         /// The pattern state for this block.
@@ -182,7 +182,7 @@
         /// <summary>
         /// Index that was used to create the source state for this block.
         /// </summary>
-        public ReadOnlyBrowsingSourceIndex SourceIndex { get; private set; }
+        public IReadOnlyBrowsingSourceIndex SourceIndex { get; private set; }
 
         /// <summary>
         /// The source state for this block.
@@ -305,8 +305,8 @@
             callbackSet.OnBlockStateDetached(this);
         }
 
-        private IReadOnlyPlaceholderInner<ReadOnlyBrowsingPlaceholderNodeIndex> PatternInner;
-        private IReadOnlyPlaceholderInner<ReadOnlyBrowsingPlaceholderNodeIndex> SourceInner;
+        private IReadOnlyPlaceholderInner<IReadOnlyBrowsingPlaceholderNodeIndex> PatternInner;
+        private IReadOnlyPlaceholderInner<IReadOnlyBrowsingPlaceholderNodeIndex> SourceInner;
         #endregion
 
         #region Implementation
@@ -401,25 +401,25 @@
         /// <summary>
         /// Creates a IxxxPlaceholderInner{IxxxBrowsingPlaceholderNodeIndex} object.
         /// </summary>
-        private protected virtual IReadOnlyPlaceholderInner<ReadOnlyBrowsingPlaceholderNodeIndex> CreatePatternInner(IReadOnlyNodeState owner)
+        private protected virtual IReadOnlyPlaceholderInner<IReadOnlyBrowsingPlaceholderNodeIndex> CreatePatternInner(IReadOnlyNodeState owner)
         {
             ControllerTools.AssertNoOverride(this, typeof(ReadOnlyBlockState<IInner>));
-            return new ReadOnlyPlaceholderInner<ReadOnlyBrowsingPlaceholderNodeIndex>(owner, nameof(IBlock.ReplicationPattern));
+            return new ReadOnlyPlaceholderInner<IReadOnlyBrowsingPlaceholderNodeIndex>(owner, nameof(IBlock.ReplicationPattern));
         }
 
         /// <summary>
         /// Creates a IxxxPlaceholderInner{IxxxBrowsingPlaceholderNodeIndex} object.
         /// </summary>
-        private protected virtual IReadOnlyPlaceholderInner<ReadOnlyBrowsingPlaceholderNodeIndex> CreateSourceInner(IReadOnlyNodeState owner)
+        private protected virtual IReadOnlyPlaceholderInner<IReadOnlyBrowsingPlaceholderNodeIndex> CreateSourceInner(IReadOnlyNodeState owner)
         {
             ControllerTools.AssertNoOverride(this, typeof(ReadOnlyBlockState<IInner>));
-            return new ReadOnlyPlaceholderInner<ReadOnlyBrowsingPlaceholderNodeIndex>(owner, nameof(IBlock.SourceIdentifier));
+            return new ReadOnlyPlaceholderInner<IReadOnlyBrowsingPlaceholderNodeIndex>(owner, nameof(IBlock.SourceIdentifier));
         }
 
         /// <summary>
         /// Creates a IxxxBrowsingPatternIndex object.
         /// </summary>
-        private protected virtual ReadOnlyBrowsingPatternIndex CreateExistingPatternIndex()
+        private protected virtual IReadOnlyBrowsingPatternIndex CreateExistingPatternIndex()
         {
             ControllerTools.AssertNoOverride(this, typeof(ReadOnlyBlockState<IInner>));
             return new ReadOnlyBrowsingPatternIndex(ChildBlock);
@@ -428,7 +428,7 @@
         /// <summary>
         /// Creates a IxxxBrowsingSourceIndex object.
         /// </summary>
-        private protected virtual ReadOnlyBrowsingSourceIndex CreateExistingSourceIndex()
+        private protected virtual IReadOnlyBrowsingSourceIndex CreateExistingSourceIndex()
         {
             ControllerTools.AssertNoOverride(this, typeof(ReadOnlyBlockState<IInner>));
             return new ReadOnlyBrowsingSourceIndex(ChildBlock);
@@ -437,7 +437,7 @@
         /// <summary>
         /// Creates a IxxxPatternState object.
         /// </summary>
-        private protected virtual IReadOnlyPatternState CreatePatternState(ReadOnlyBrowsingPatternIndex patternIndex)
+        private protected virtual IReadOnlyPatternState CreatePatternState(IReadOnlyBrowsingPatternIndex patternIndex)
         {
             ControllerTools.AssertNoOverride(this, typeof(ReadOnlyBlockState<IInner>));
             return new ReadOnlyPatternState<IInner>(this, patternIndex);
@@ -446,7 +446,7 @@
         /// <summary>
         /// Creates a IxxxSourceState object.
         /// </summary>
-        private protected virtual IReadOnlySourceState CreateSourceState(ReadOnlyBrowsingSourceIndex sourceIndex)
+        private protected virtual IReadOnlySourceState CreateSourceState(IReadOnlyBrowsingSourceIndex sourceIndex)
         {
             ControllerTools.AssertNoOverride(this, typeof(ReadOnlyBlockState<IInner>));
             return new ReadOnlySourceState<IInner>(this, sourceIndex);

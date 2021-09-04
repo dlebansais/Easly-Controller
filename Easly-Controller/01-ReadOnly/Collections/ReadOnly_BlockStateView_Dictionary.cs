@@ -7,6 +7,23 @@
     public class ReadOnlyBlockStateViewDictionary : Dictionary<IReadOnlyBlockState, ReadOnlyBlockStateView>, IEqualComparable
     {
         /// <inheritdoc/>
+        public ReadOnlyBlockStateViewDictionary() : base() { }
+        /// <inheritdoc/>
+        public ReadOnlyBlockStateViewDictionary(IDictionary<IReadOnlyBlockState, ReadOnlyBlockStateView> dictionary) : base(dictionary) { }
+        /// <inheritdoc/>
+        public ReadOnlyBlockStateViewDictionary(IEnumerable<KeyValuePair<IReadOnlyBlockState, ReadOnlyBlockStateView>> collection) : base(collection) { }
+        /// <inheritdoc/>
+        public ReadOnlyBlockStateViewDictionary(IEqualityComparer<IReadOnlyBlockState> comparer) : base(comparer) { }
+        /// <inheritdoc/>
+        public ReadOnlyBlockStateViewDictionary(int capacity) : base(capacity) { }
+        /// <inheritdoc/>
+        public ReadOnlyBlockStateViewDictionary(IDictionary<IReadOnlyBlockState, ReadOnlyBlockStateView> dictionary, IEqualityComparer<IReadOnlyBlockState> comparer) : base(dictionary, comparer) { }
+        /// <inheritdoc/>
+        public ReadOnlyBlockStateViewDictionary(IEnumerable<KeyValuePair<IReadOnlyBlockState, ReadOnlyBlockStateView>> collection, IEqualityComparer<IReadOnlyBlockState> comparer) : base(collection, comparer) { }
+        /// <inheritdoc/>
+        public ReadOnlyBlockStateViewDictionary(int capacity, IEqualityComparer<IReadOnlyBlockState> comparer) : base(capacity, comparer) { }
+
+        /// <inheritdoc/>
         public virtual ReadOnlyBlockStateViewReadOnlyDictionary ToReadOnly()
         {
             return new ReadOnlyBlockStateViewReadOnlyDictionary(this);

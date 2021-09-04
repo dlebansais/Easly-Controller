@@ -75,16 +75,16 @@
         /// <summary>
         /// Creates a IxxxPlaceholderInner{IxxxBrowsingPlaceholderNodeIndex} object.
         /// </summary>
-        private protected override IReadOnlyPlaceholderInner<ReadOnlyBrowsingPlaceholderNodeIndex> CreatePlaceholderInner(IReadOnlyNodeState owner, ReadOnlyIndexCollection<ReadOnlyBrowsingPlaceholderNodeIndex> nodeIndexCollection)
+        private protected override IReadOnlyPlaceholderInner<IReadOnlyBrowsingPlaceholderNodeIndex> CreatePlaceholderInner(IReadOnlyNodeState owner, IReadOnlyIndexCollection<IReadOnlyBrowsingPlaceholderNodeIndex> nodeIndexCollection)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableController));
-            return new WriteablePlaceholderInner<WriteableBrowsingPlaceholderNodeIndex>((IWriteableNodeState)owner, nodeIndexCollection.PropertyName);
+            return new WriteablePlaceholderInner<IWriteableBrowsingPlaceholderNodeIndex>((IWriteableNodeState)owner, nodeIndexCollection.PropertyName);
         }
 
         /// <summary>
         /// Creates a IxxxOptionalInner{IxxxBrowsingOptionalNodeIndex} object.
         /// </summary>
-        private protected override IReadOnlyOptionalInner<IReadOnlyBrowsingOptionalNodeIndex> CreateOptionalInner(IReadOnlyNodeState owner, ReadOnlyIndexCollection<IReadOnlyBrowsingOptionalNodeIndex> nodeIndexCollection)
+        private protected override IReadOnlyOptionalInner<IReadOnlyBrowsingOptionalNodeIndex> CreateOptionalInner(IReadOnlyNodeState owner, IReadOnlyIndexCollection<IReadOnlyBrowsingOptionalNodeIndex> nodeIndexCollection)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableController));
             return new WriteableOptionalInner<IWriteableBrowsingOptionalNodeIndex>((IWriteableNodeState)owner, nodeIndexCollection.PropertyName);
@@ -93,25 +93,25 @@
         /// <summary>
         /// Creates a IxxxListInner{IxxxBrowsingListNodeIndex} object.
         /// </summary>
-        private protected override IReadOnlyListInner<ReadOnlyBrowsingListNodeIndex> CreateListInner(IReadOnlyNodeState owner, ReadOnlyIndexCollection<ReadOnlyBrowsingListNodeIndex> nodeIndexCollection)
+        private protected override IReadOnlyListInner<IReadOnlyBrowsingListNodeIndex> CreateListInner(IReadOnlyNodeState owner, IReadOnlyIndexCollection<IReadOnlyBrowsingListNodeIndex> nodeIndexCollection)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableController));
-            return new WriteableListInner<WriteableBrowsingListNodeIndex>((IWriteableNodeState)owner, nodeIndexCollection.PropertyName);
+            return new WriteableListInner<IWriteableBrowsingListNodeIndex>((IWriteableNodeState)owner, nodeIndexCollection.PropertyName);
         }
 
         /// <summary>
         /// Creates a IxxxBlockListInner{IxxxBrowsingBlockNodeIndex} object.
         /// </summary>
-        private protected override IReadOnlyBlockListInner<ReadOnlyBrowsingBlockNodeIndex> CreateBlockListInner(IReadOnlyNodeState owner, ReadOnlyIndexCollection<ReadOnlyBrowsingBlockNodeIndex> nodeIndexCollection)
+        private protected override IReadOnlyBlockListInner<IReadOnlyBrowsingBlockNodeIndex> CreateBlockListInner(IReadOnlyNodeState owner, IReadOnlyIndexCollection<IReadOnlyBrowsingBlockNodeIndex> nodeIndexCollection)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableController));
-            return new WriteableBlockListInner<WriteableBrowsingBlockNodeIndex>((IWriteableNodeState)owner, nodeIndexCollection.PropertyName);
+            return new WriteableBlockListInner<IWriteableBrowsingBlockNodeIndex>((IWriteableNodeState)owner, nodeIndexCollection.PropertyName);
         }
 
         /// <summary>
         /// Creates a IxxxPlaceholderNodeState object.
         /// </summary>
-        private protected override IReadOnlyPlaceholderNodeState CreateRootNodeState(ReadOnlyRootNodeIndex nodeIndex)
+        private protected override IReadOnlyPlaceholderNodeState CreateRootNodeState(IReadOnlyRootNodeIndex nodeIndex)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableController));
             return new WriteablePlaceholderNodeState<IWriteableInner<IWriteableBrowsingChildIndex>>((WriteableRootNodeIndex)nodeIndex);
@@ -120,7 +120,7 @@
         /// <summary>
         /// Creates a IxxxWriteableInsertionOptionalNodeIndex object.
         /// </summary>
-        private protected virtual WriteableInsertionOptionalNodeIndex CreateNewOptionalNodeIndex(Node parentNode, string propertyName, Node node)
+        private protected virtual IWriteableInsertionOptionalNodeIndex CreateNewOptionalNodeIndex(Node parentNode, string propertyName, Node node)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableController));
             return new WriteableInsertionOptionalNodeIndex(parentNode, propertyName, node);

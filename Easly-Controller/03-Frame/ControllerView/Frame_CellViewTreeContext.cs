@@ -10,7 +10,7 @@
         /// <summary>
         /// The view in which cells are created.
         /// </summary>
-        IFrameControllerView ControllerView { get; }
+        FrameControllerView ControllerView { get; }
 
         /// <summary>
         /// The state view for which to create cells.
@@ -20,7 +20,7 @@
         /// <summary>
         /// The block state view for which to create cells. Can be null.
         /// </summary>
-        IFrameBlockStateView BlockStateView { get; }
+        FrameBlockStateView BlockStateView { get; }
 
         /// <summary>
         /// Changes the state view to that of a child state.
@@ -38,7 +38,7 @@
         /// Changes the block state view.
         /// </summary>
         /// <param name="blockStateView">The new block state view.</param>
-        void SetBlockStateView(IFrameBlockStateView blockStateView);
+        void SetBlockStateView(FrameBlockStateView blockStateView);
     }
 
     /// <summary>
@@ -52,7 +52,7 @@
         /// </summary>
         /// <param name="controllerView">The view in which cells are created.</param>
         /// <param name="stateView">The state view for which to create cells.</param>
-        public FrameCellViewTreeContext(IFrameControllerView controllerView, IFrameNodeStateView stateView)
+        public FrameCellViewTreeContext(FrameControllerView controllerView, IFrameNodeStateView stateView)
         {
             ControllerView = controllerView;
             StateView = stateView;
@@ -64,7 +64,7 @@
         /// <summary>
         /// The view in which cells are created.
         /// </summary>
-        public IFrameControllerView ControllerView { get; }
+        public FrameControllerView ControllerView { get; }
 
         /// <summary>
         /// The state view for which to create cells.
@@ -74,7 +74,7 @@
         /// <summary>
         /// The block state view for which to create cells. Can be null.
         /// </summary>
-        public IFrameBlockStateView BlockStateView { get; private set; }
+        public FrameBlockStateView BlockStateView { get; private set; }
         #endregion
 
         #region Client Interface
@@ -108,7 +108,7 @@
         /// Changes the block state view.
         /// </summary>
         /// <param name="blockStateView">The new block state view.</param>
-        public void SetBlockStateView(IFrameBlockStateView blockStateView)
+        public void SetBlockStateView(FrameBlockStateView blockStateView)
         {
             Debug.Assert(blockStateView != null);
 

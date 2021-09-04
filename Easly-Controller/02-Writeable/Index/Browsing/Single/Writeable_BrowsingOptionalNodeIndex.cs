@@ -67,7 +67,7 @@
         /// <summary>
         /// Creates a IxxxInsertionOptionalNodeIndex object.
         /// </summary>
-        private protected virtual WriteableInsertionOptionalNodeIndex CreateInsertionOptionalNodeIndex(Node parentNode, Node node)
+        private protected virtual IWriteableInsertionOptionalNodeIndex CreateInsertionOptionalNodeIndex(Node parentNode, Node node)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableBrowsingOptionalNodeIndex));
             return new WriteableInsertionOptionalNodeIndex(parentNode, PropertyName, node);
@@ -76,7 +76,7 @@
         /// <summary>
         /// Creates a IxxxInsertionOptionalClearIndex object.
         /// </summary>
-        private protected virtual WriteableInsertionOptionalClearIndex CreateInsertionOptionalClearIndex(Node parentNode)
+        private protected virtual IWriteableInsertionOptionalClearIndex CreateInsertionOptionalClearIndex(Node parentNode)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableBrowsingOptionalNodeIndex));
             return new WriteableInsertionOptionalClearIndex(parentNode, PropertyName);

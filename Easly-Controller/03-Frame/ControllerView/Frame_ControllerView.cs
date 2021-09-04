@@ -6,77 +6,8 @@
     using EaslyController.ReadOnly;
     using EaslyController.Writeable;
 
-    /// <summary>
-    /// View of a IxxxController.
-    /// </summary>
-    public interface IFrameControllerView : IWriteableControllerView
-    {
-        /// <summary>
-        /// The controller.
-        /// </summary>
-        new IFrameController Controller { get; }
-
-        /// <summary>
-        /// Table of views of each state in the controller.
-        /// </summary>
-        new IFrameStateViewDictionary StateViewTable { get; }
-
-        /// <summary>
-        /// Table of views of each block state in the controller.
-        /// </summary>
-        new IFrameBlockStateViewDictionary BlockStateViewTable { get; }
-
-        /// <summary>
-        /// State view of the root state.
-        /// </summary>
-        new IFrameNodeStateView RootStateView { get; }
-
-        /// <summary>
-        /// Template set describing the node tree.
-        /// </summary>
-        IFrameTemplateSet TemplateSet { get; }
-
-        /// <summary>
-        /// Last line number in the cell tree.
-        /// </summary>
-        int LastLineNumber { get; }
-
-        /// <summary>
-        /// Last column number in the cell tree.
-        /// </summary>
-        int LastColumnNumber { get; }
-
-        /// <summary>
-        /// The display mode for comments.
-        /// </summary>
-        CommentDisplayModes CommentDisplayMode { get; }
-
-        /// <summary>
-        /// Enumerate all visible cell views. Enumeration is interrupted if <paramref name="handler"/> returns true.
-        /// </summary>
-        /// <param name="handler">A handler to execute for each cell view.</param>
-        /// <param name="cellView">The cell view for which <paramref name="handler"/> returned true. Null if none.</param>
-        /// <param name="reversed">If true, search in reverse order.</param>
-        /// <returns>The last value returned by <paramref name="handler"/>.</returns>
-        bool EnumerateVisibleCellViews(Func<IFrameVisibleCellView, bool> handler, out IFrameVisibleCellView cellView, bool reversed);
-
-        /// <summary>
-        /// Prints the cell view tree.
-        /// </summary>
-        /// <param name="isVerbose">Prints all information.</param>
-        void PrintCellViewTree(bool isVerbose);
-
-        /// <summary>
-        /// Sets the comment display mode.
-        /// </summary>
-        /// <param name="mode">The new mode.</param>
-        void SetCommentDisplayMode(CommentDisplayModes mode);
-    }
-
-    /// <summary>
-    /// View of a IxxxController.
-    /// </summary>
-    public class FrameControllerView : WriteableControllerView, IFrameControllerView
+    /// <inheritdoc/>
+    public class FrameControllerView : WriteableControllerView
     {
         #region Init
         /// <summary>
@@ -84,7 +15,7 @@
         /// </summary>
         /// <param name="controller">The controller on which the view is attached.</param>
         /// <param name="templateSet">The template set used to describe the view.</param>
-        public static IFrameControllerView Create(IFrameController controller, IFrameTemplateSet templateSet)
+        public static FrameControllerView Create(FrameController controller, IFrameTemplateSet templateSet)
         {
             FrameControllerView View = new FrameControllerView(controller, templateSet);
             View.Init();
@@ -96,7 +27,7 @@
         /// </summary>
         /// <param name="controller">The controller on which the view is attached.</param>
         /// <param name="templateSet">The template set used to describe the view.</param>
-        private protected FrameControllerView(IFrameController controller, IFrameTemplateSet templateSet)
+        private protected FrameControllerView(FrameController controller, IFrameTemplateSet templateSet)
             : base(controller)
         {
             Debug.Assert(templateSet != null);
@@ -114,7 +45,7 @@
             CommentDisplayMode = CommentDisplayModes.Tooltip;
 
             IFrameNodeState RootState = Controller.RootState;
-            IFrameNodeStateView RootStateView = StateViewTable[RootState];
+            IFrameNodeStateView RootStateView = (IFrameNodeStateView)StateViewTable[RootState];
 
             Debug.Assert(RootStateView.RootCellView == null);
             BuildCellView(RootStateView);
@@ -127,17 +58,17 @@
         /// <summary>
         /// The controller.
         /// </summary>
-        public new IFrameController Controller { get { return (IFrameController)base.Controller; } }
+        public new FrameController Controller { get { return (FrameController)base.Controller; } }
 
         /// <summary>
         /// Table of views of each state in the controller.
         /// </summary>
-        public new IFrameStateViewDictionary StateViewTable { get { return (IFrameStateViewDictionary)base.StateViewTable; } }
+        public new FrameStateViewDictionary StateViewTable { get { return (FrameStateViewDictionary)base.StateViewTable; } }
 
         /// <summary>
         /// Table of views of each block state in the controller.
         /// </summary>
-        public new IFrameBlockStateViewDictionary BlockStateViewTable { get { return (IFrameBlockStateViewDictionary)base.BlockStateViewTable; } }
+        public new FrameBlockStateViewDictionary BlockStateViewTable { get { return (FrameBlockStateViewDictionary)base.BlockStateViewTable; } }
 
         /// <summary>
         /// State view of the root state.
@@ -179,7 +110,7 @@
             Debug.Assert(handler != null);
 
             IFrameNodeState RootState = Controller.RootState;
-            IFrameNodeStateView RootStateView = StateViewTable[RootState];
+            IFrameNodeStateView RootStateView = (IFrameNodeStateView)StateViewTable[RootState];
 
             return RootStateView.EnumerateVisibleCellViews(handler, out cellView, reversed);
         }
@@ -191,7 +122,7 @@
         public virtual void PrintCellViewTree(bool isVerbose)
         {
             IFrameNodeState RootState = Controller.RootState;
-            IFrameNodeStateView RootStateView = StateViewTable[RootState];
+            IFrameNodeStateView RootStateView = (IFrameNodeStateView)StateViewTable[RootState];
             PrintCellViewTree(RootStateView.RootCellView, isVerbose);
         }
 
@@ -214,11 +145,11 @@
         /// Handler called every time a block state is inserted in the controller.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        private protected override void OnBlockStateInserted(IWriteableInsertBlockOperation operation)
+        private protected override void OnBlockStateInserted(WriteableInsertBlockOperation operation)
         {
             base.OnBlockStateInserted(operation);
 
-            IFrameBlockState BlockState = ((IFrameInsertBlockOperation)operation).BlockState;
+            IFrameBlockState BlockState = ((FrameInsertBlockOperation)operation).BlockState;
 
             Debug.Assert(BlockState != null);
             Debug.Assert(BlockStateViewTable.ContainsKey(BlockState));
@@ -228,17 +159,17 @@
 
             Debug.Assert(BlockState.StateList.Count == 1);
 
-            IFramePlaceholderNodeState ChildState = ((IFrameInsertBlockOperation)operation).ChildState;
+            IFramePlaceholderNodeState ChildState = ((FrameInsertBlockOperation)operation).ChildState;
             Debug.Assert(ChildState == BlockState.StateList[0]);
-            Debug.Assert(ChildState.ParentIndex == ((IFrameInsertBlockOperation)operation).BrowsingIndex);
+            Debug.Assert(ChildState.ParentIndex == ((FrameInsertBlockOperation)operation).BrowsingIndex);
             Debug.Assert(StateViewTable.ContainsKey(ChildState));
 
-            IFrameInsertBlockOperation InsertBlockOperation = (IFrameInsertBlockOperation)operation;
+            FrameInsertBlockOperation InsertBlockOperation = (FrameInsertBlockOperation)operation;
             IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> ParentInner = (IFrameBlockListInner<IFrameBrowsingBlockNodeIndex>)InsertBlockOperation.BlockState.ParentInner;
             IFrameNodeState OwnerState = ParentInner.Owner;
-            IFrameNodeStateView OwnerStateView = StateViewTable[OwnerState];
+            IFrameNodeStateView OwnerStateView = (IFrameNodeStateView)StateViewTable[OwnerState];
 
-            IFrameAssignableCellViewReadOnlyDictionary<string> CellViewTable = OwnerStateView.CellViewTable;
+            FrameAssignableCellViewReadOnlyDictionary<string> CellViewTable = OwnerStateView.CellViewTable;
             string PropertyName = ParentInner.PropertyName;
 
             Debug.Assert(CellViewTable != null);
@@ -249,7 +180,7 @@
             if (EmbeddingCellView != null)
             {
                 // Build all cell views for the inserted block.
-                IFrameBlockStateView BlockStateView = BlockStateViewTable[((IFrameInsertBlockOperation)operation).BlockState];
+                FrameBlockStateView BlockStateView = (FrameBlockStateView)BlockStateViewTable[((FrameInsertBlockOperation)operation).BlockState];
                 IFrameBlockCellView RootCellView = BuildBlockCellView(OwnerStateView, EmbeddingCellView, BlockStateView);
 
                 // Insert the root cell view in the collection embedding other blocks.
@@ -264,11 +195,11 @@
         /// Handler called every time a block state is removed from the controller.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        private protected override void OnBlockStateRemoved(IWriteableRemoveBlockOperation operation)
+        private protected override void OnBlockStateRemoved(WriteableRemoveBlockOperation operation)
         {
             base.OnBlockStateRemoved(operation);
 
-            IFrameBlockState BlockState = ((IFrameRemoveBlockOperation)operation).BlockState;
+            IFrameBlockState BlockState = ((FrameRemoveBlockOperation)operation).BlockState;
 
             Debug.Assert(BlockState != null);
             Debug.Assert(!BlockStateViewTable.ContainsKey(BlockState));
@@ -276,17 +207,17 @@
             Debug.Assert(!StateViewTable.ContainsKey(BlockState.PatternState));
             Debug.Assert(!StateViewTable.ContainsKey(BlockState.SourceState));
 
-            IFrameNodeState RemovedState = ((IFrameRemoveBlockOperation)operation).RemovedState;
+            IFrameNodeState RemovedState = ((FrameRemoveBlockOperation)operation).RemovedState;
             Debug.Assert(!StateViewTable.ContainsKey(RemovedState));
 
             Debug.Assert(BlockState.StateList.Count == 0);
 
-            IFrameRemoveBlockOperation RemoveBlockOperation = (IFrameRemoveBlockOperation)operation;
+            FrameRemoveBlockOperation RemoveBlockOperation = (FrameRemoveBlockOperation)operation;
             IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> ParentInner = (IFrameBlockListInner<IFrameBrowsingBlockNodeIndex>)RemoveBlockOperation.BlockState.ParentInner;
             IFrameNodeState OwnerState = ParentInner.Owner;
-            IFrameNodeStateView OwnerStateView = StateViewTable[OwnerState];
+            IFrameNodeStateView OwnerStateView = (IFrameNodeStateView)StateViewTable[OwnerState];
 
-            IFrameAssignableCellViewReadOnlyDictionary<string> CellViewTable = OwnerStateView.CellViewTable;
+            FrameAssignableCellViewReadOnlyDictionary<string> CellViewTable = OwnerStateView.CellViewTable;
             string PropertyName = ParentInner.PropertyName;
 
             Debug.Assert(CellViewTable != null);
@@ -306,11 +237,11 @@
         /// Handler called every time a block view must be removed from the controller view.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        private protected override void OnBlockViewRemoved(IWriteableRemoveBlockViewOperation operation)
+        private protected override void OnBlockViewRemoved(WriteableRemoveBlockViewOperation operation)
         {
             base.OnBlockViewRemoved(operation);
 
-            IFrameBlockState BlockState = ((IFrameRemoveBlockViewOperation)operation).BlockState;
+            IFrameBlockState BlockState = ((FrameRemoveBlockViewOperation)operation).BlockState;
 
             Debug.Assert(BlockState != null);
             Debug.Assert(!BlockStateViewTable.ContainsKey(BlockState));
@@ -321,13 +252,13 @@
             foreach (IFrameNodeState State in BlockState.StateList)
                 Debug.Assert(!StateViewTable.ContainsKey(State));
 
-            IFrameRemoveBlockViewOperation RemoveBlockViewOperation = (IFrameRemoveBlockViewOperation)operation;
+            FrameRemoveBlockViewOperation RemoveBlockViewOperation = (FrameRemoveBlockViewOperation)operation;
             IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> ParentInner = RemoveBlockViewOperation.BlockState.ParentInner as IFrameBlockListInner<IFrameBrowsingBlockNodeIndex>;
             Debug.Assert(ParentInner != null);
             IFrameNodeState OwnerState = ParentInner.Owner;
-            IFrameNodeStateView OwnerStateView = StateViewTable[OwnerState];
+            IFrameNodeStateView OwnerStateView = (IFrameNodeStateView)StateViewTable[OwnerState];
 
-            IFrameAssignableCellViewReadOnlyDictionary<string> CellViewTable = OwnerStateView.CellViewTable;
+            FrameAssignableCellViewReadOnlyDictionary<string> CellViewTable = OwnerStateView.CellViewTable;
             string PropertyName = ParentInner.PropertyName;
 
             Debug.Assert(CellViewTable != null);
@@ -346,22 +277,22 @@
         /// Handler called every time a state is inserted in the controller.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        private protected override void OnStateInserted(IWriteableInsertNodeOperation operation)
+        private protected override void OnStateInserted(WriteableInsertNodeOperation operation)
         {
             base.OnStateInserted(operation);
 
-            IFrameNodeState ChildState = ((IFrameInsertNodeOperation)operation).ChildState;
+            IFrameNodeState ChildState = ((FrameInsertNodeOperation)operation).ChildState;
             Debug.Assert(ChildState != null);
             Debug.Assert(StateViewTable.ContainsKey(ChildState));
 
-            IFrameBrowsingCollectionNodeIndex BrowsingIndex = ((IFrameInsertNodeOperation)operation).BrowsingIndex;
+            IFrameBrowsingCollectionNodeIndex BrowsingIndex = ((FrameInsertNodeOperation)operation).BrowsingIndex;
             Debug.Assert(ChildState.ParentIndex == BrowsingIndex);
 
-            IFrameNodeState InsertedState = ((IFrameInsertNodeOperation)operation).ChildState;
+            IFrameNodeState InsertedState = ((FrameInsertNodeOperation)operation).ChildState;
             Debug.Assert(InsertedState != null);
 
             // Build all cell views for the inserted node.
-            IFrameNodeStateView InsertedStateView = StateViewTable[InsertedState];
+            IFrameNodeStateView InsertedStateView = (IFrameNodeStateView)StateViewTable[InsertedState];
             BuildCellView(InsertedStateView);
 
             IFrameInner ParentInner = InsertedState.ParentInner;
@@ -391,18 +322,18 @@
             Debug.Assert(nodeIndex != null);
 
             IFrameNodeState OwnerState = inner.Owner;
-            IFrameNodeStateView OwnerStateView = StateViewTable[OwnerState];
+            IFrameNodeStateView OwnerStateView = (IFrameNodeStateView)StateViewTable[OwnerState];
 
             int BlockIndex = nodeIndex.BlockIndex;
-            IFrameBlockState BlockState = inner.BlockStateList[BlockIndex];
-            IFrameBlockStateView BlockStateView = BlockStateViewTable[BlockState];
+            IFrameBlockState BlockState = (IFrameBlockState)inner.BlockStateList[BlockIndex];
+            FrameBlockStateView BlockStateView = (FrameBlockStateView)BlockStateViewTable[BlockState];
             IFrameCellViewCollection EmbeddingCellView = BlockStateView.EmbeddingCellView;
             Debug.Assert(EmbeddingCellView != null);
 
             IFrameFrame AssociatedFrame = GetAssociatedFrame(inner);
             Debug.Assert(AssociatedFrame != null);
 
-            IFrameNodeStateView InsertedStateView = StateViewTable[insertedState];
+            IFrameNodeStateView InsertedStateView = (IFrameNodeStateView)StateViewTable[insertedState];
             Debug.Assert(InsertedStateView.RootCellView != null);
             IFrameContainerCellView InsertedCellView = CreateFrameCellView(OwnerStateView, EmbeddingCellView, InsertedStateView, AssociatedFrame);
             ValidateContainerCellView(OwnerStateView, EmbeddingCellView, InsertedStateView, InsertedCellView);
@@ -424,9 +355,9 @@
             Debug.Assert(nodeIndex != null);
 
             IFrameNodeState OwnerState = inner.Owner;
-            IFrameNodeStateView OwnerStateView = StateViewTable[OwnerState];
+            IFrameNodeStateView OwnerStateView = (IFrameNodeStateView)StateViewTable[OwnerState];
 
-            IFrameAssignableCellViewReadOnlyDictionary<string> CellViewTable = OwnerStateView.CellViewTable;
+            FrameAssignableCellViewReadOnlyDictionary<string> CellViewTable = OwnerStateView.CellViewTable;
             string PropertyName = inner.PropertyName;
 
             Debug.Assert(CellViewTable != null);
@@ -437,7 +368,7 @@
             IFrameFrame AssociatedFrame = GetAssociatedFrame(inner);
             Debug.Assert(AssociatedFrame != null);
 
-            IFrameNodeStateView InsertedStateView = StateViewTable[insertedState];
+            IFrameNodeStateView InsertedStateView = (IFrameNodeStateView)StateViewTable[insertedState];
             Debug.Assert(InsertedStateView.RootCellView != null);
             IFrameContainerCellView InsertedCellView = CreateFrameCellView(OwnerStateView, EmbeddingCellView, InsertedStateView, AssociatedFrame);
             ValidateContainerCellView(OwnerStateView, EmbeddingCellView, InsertedStateView, InsertedCellView);
@@ -457,11 +388,11 @@
         /// Handler called every time a state is removed from the controller.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        private protected override void OnStateRemoved(IWriteableRemoveNodeOperation operation)
+        private protected override void OnStateRemoved(WriteableRemoveNodeOperation operation)
         {
             base.OnStateRemoved(operation);
 
-            IFramePlaceholderNodeState RemovedState = ((IFrameRemoveNodeOperation)operation).RemovedState;
+            IFramePlaceholderNodeState RemovedState = ((FrameRemoveNodeOperation)operation).RemovedState;
             Debug.Assert(RemovedState != null);
             Debug.Assert(!StateViewTable.ContainsKey(RemovedState));
 
@@ -473,12 +404,12 @@
 
             if (Inner is IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> AsBlockListInner)
             {
-                OnBlockListStateRemoved(AsBlockListInner, ((IFrameRemoveNodeOperation)operation).BlockIndex, ((IFrameRemoveNodeOperation)operation).Index, RemovedState);
+                OnBlockListStateRemoved(AsBlockListInner, ((FrameRemoveNodeOperation)operation).BlockIndex, ((FrameRemoveNodeOperation)operation).Index, RemovedState);
                 IsHandled = true;
             }
             else if (Inner is IFrameListInner<IFrameBrowsingListNodeIndex> AsListInner)
             {
-                OnListStateRemoved(AsListInner, ((IFrameRemoveNodeOperation)operation).Index, RemovedState);
+                OnListStateRemoved(AsListInner, ((FrameRemoveNodeOperation)operation).Index, RemovedState);
                 IsHandled = true;
             }
 
@@ -492,10 +423,10 @@
             Debug.Assert(inner != null);
 
             IFrameNodeState OwnerState = inner.Owner;
-            IFrameNodeStateView OwnerStateView = StateViewTable[OwnerState];
+            IFrameNodeStateView OwnerStateView = (IFrameNodeStateView)StateViewTable[OwnerState];
 
-            IFrameBlockState BlockState = inner.BlockStateList[blockIndex];
-            IFrameBlockStateView BlockStateView = BlockStateViewTable[BlockState];
+            IFrameBlockState BlockState = (IFrameBlockState)inner.BlockStateList[blockIndex];
+            FrameBlockStateView BlockStateView = (FrameBlockStateView)BlockStateViewTable[BlockState];
             IFrameCellViewCollection EmbeddingCellView = BlockStateView.EmbeddingCellView;
             Debug.Assert(EmbeddingCellView != null);
 
@@ -507,9 +438,9 @@
             Debug.Assert(inner != null);
 
             IFrameNodeState OwnerState = inner.Owner;
-            IFrameNodeStateView OwnerStateView = StateViewTable[OwnerState];
+            IFrameNodeStateView OwnerStateView = (IFrameNodeStateView)StateViewTable[OwnerState];
 
-            IFrameAssignableCellViewReadOnlyDictionary<string> CellViewTable = OwnerStateView.CellViewTable;
+            FrameAssignableCellViewReadOnlyDictionary<string> CellViewTable = OwnerStateView.CellViewTable;
             string PropertyName = inner.PropertyName;
 
             Debug.Assert(CellViewTable != null);
@@ -524,29 +455,29 @@
         /// Handler called every time a state is inserted in the controller.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        private protected override void OnStateReplaced(IWriteableReplaceOperation operation)
+        private protected override void OnStateReplaced(WriteableReplaceOperation operation)
         {
             base.OnStateReplaced(operation);
 
-            IFrameNodeState NewChildState = ((IFrameReplaceOperation)operation).NewChildState;
+            IFrameNodeState NewChildState = ((FrameReplaceOperation)operation).NewChildState;
             Debug.Assert(NewChildState != null);
             Debug.Assert(StateViewTable.ContainsKey(NewChildState));
 
-            IFrameBrowsingChildIndex OldBrowsingIndex = ((IFrameReplaceOperation)operation).OldBrowsingIndex;
+            IFrameBrowsingChildIndex OldBrowsingIndex = ((FrameReplaceOperation)operation).OldBrowsingIndex;
             Debug.Assert(OldBrowsingIndex != null);
             Debug.Assert(NewChildState.ParentIndex != OldBrowsingIndex);
 
-            IFrameBrowsingChildIndex NewBrowsingIndex = ((IFrameReplaceOperation)operation).NewBrowsingIndex;
+            IFrameBrowsingChildIndex NewBrowsingIndex = ((FrameReplaceOperation)operation).NewBrowsingIndex;
             Debug.Assert(NewBrowsingIndex != null);
             Debug.Assert(NewChildState.ParentIndex == NewBrowsingIndex);
 
             IFrameInner Inner = NewChildState.ParentInner;
             Debug.Assert(Inner != null);
             Debug.Assert(NewBrowsingIndex != null);
-            IFrameNodeState ReplacedState = ((IFrameReplaceOperation)operation).NewChildState;
+            IFrameNodeState ReplacedState = ((FrameReplaceOperation)operation).NewChildState;
             Debug.Assert(ReplacedState != null);
 
-            IFrameNodeStateView ReplacedStateView = StateViewTable[ReplacedState];
+            IFrameNodeStateView ReplacedStateView = (IFrameNodeStateView)StateViewTable[ReplacedState];
             ClearCellView(ReplacedStateView);
             BuildCellView(ReplacedStateView);
 
@@ -587,10 +518,10 @@
             Debug.Assert(nodeIndex != null);
 
             IFrameNodeState OwnerState = inner.Owner;
-            IFrameNodeStateView OwnerStateView = StateViewTable[OwnerState];
+            IFrameNodeStateView OwnerStateView = (IFrameNodeStateView)StateViewTable[OwnerState];
             Debug.Assert(OwnerStateView != null);
 
-            IFrameAssignableCellViewReadOnlyDictionary<string> CellViewTable = OwnerStateView.CellViewTable;
+            FrameAssignableCellViewReadOnlyDictionary<string> CellViewTable = OwnerStateView.CellViewTable;
             string PropertyName = inner.PropertyName;
 
             Debug.Assert(CellViewTable != null);
@@ -603,7 +534,7 @@
             Debug.Assert(AssociatedFrame != null);
             Debug.Assert(AssociatedFrame == PreviousCellView.Frame);
 
-            IFrameNodeStateView ReplacedStateView = StateViewTable[replacedState];
+            IFrameNodeStateView ReplacedStateView = (IFrameNodeStateView)StateViewTable[replacedState];
             Debug.Assert(ReplacedStateView.RootCellView != null);
             IFrameContainerCellView ReplacedCellView = CreateFrameCellView(OwnerStateView, EmbeddingCellView, ReplacedStateView, AssociatedFrame);
             ValidateContainerCellView(OwnerStateView, EmbeddingCellView, ReplacedStateView, ReplacedCellView);
@@ -620,10 +551,10 @@
             Debug.Assert(nodeIndex != null);
 
             IFrameNodeState OwnerState = inner.Owner;
-            IFrameNodeStateView OwnerStateView = StateViewTable[OwnerState];
+            IFrameNodeStateView OwnerStateView = (IFrameNodeStateView)StateViewTable[OwnerState];
             Debug.Assert(OwnerStateView != null);
 
-            IFrameAssignableCellViewReadOnlyDictionary<string> CellViewTable = OwnerStateView.CellViewTable;
+            FrameAssignableCellViewReadOnlyDictionary<string> CellViewTable = OwnerStateView.CellViewTable;
             string PropertyName = inner.PropertyName;
 
             Debug.Assert(CellViewTable != null);
@@ -636,7 +567,7 @@
             Debug.Assert(AssociatedFrame != null);
             Debug.Assert(AssociatedFrame == PreviousCellView.Frame);
 
-            IFrameNodeStateView ReplacedStateView = StateViewTable[replacedState];
+            IFrameNodeStateView ReplacedStateView = (IFrameNodeStateView)StateViewTable[replacedState];
             Debug.Assert(ReplacedStateView.RootCellView != null);
             IFrameContainerCellView ReplacedCellView = CreateFrameCellView(OwnerStateView, EmbeddingCellView, ReplacedStateView, AssociatedFrame);
             ValidateContainerCellView(OwnerStateView, EmbeddingCellView, ReplacedStateView, ReplacedCellView);
@@ -653,18 +584,18 @@
             Debug.Assert(nodeIndex != null);
 
             IFrameNodeState OwnerState = inner.Owner;
-            IFrameNodeStateView OwnerStateView = StateViewTable[OwnerState];
+            IFrameNodeStateView OwnerStateView = (IFrameNodeStateView)StateViewTable[OwnerState];
 
             int BlockIndex = nodeIndex.BlockIndex;
-            IFrameBlockState BlockState = inner.BlockStateList[BlockIndex];
-            IFrameBlockStateView BlockStateView = BlockStateViewTable[BlockState];
+            IFrameBlockState BlockState = (IFrameBlockState)inner.BlockStateList[BlockIndex];
+            FrameBlockStateView BlockStateView = (FrameBlockStateView)BlockStateViewTable[BlockState];
             IFrameCellViewCollection EmbeddingCellView = BlockStateView.EmbeddingCellView;
             Debug.Assert(EmbeddingCellView != null);
 
             IFrameFrame AssociatedFrame = GetAssociatedFrame(inner);
             Debug.Assert(AssociatedFrame != null);
 
-            IFrameNodeStateView ReplacedStateView = StateViewTable[replacedState];
+            IFrameNodeStateView ReplacedStateView = (IFrameNodeStateView)StateViewTable[replacedState];
             Debug.Assert(ReplacedStateView.RootCellView != null);
             IFrameContainerCellView ReplacedCellView = CreateFrameCellView(OwnerStateView, EmbeddingCellView, ReplacedStateView, AssociatedFrame);
             ValidateContainerCellView(OwnerStateView, EmbeddingCellView, ReplacedStateView, ReplacedCellView);
@@ -684,9 +615,9 @@
             Debug.Assert(nodeIndex != null);
 
             IFrameNodeState OwnerState = inner.Owner;
-            IFrameNodeStateView OwnerStateView = StateViewTable[OwnerState];
+            IFrameNodeStateView OwnerStateView = (IFrameNodeStateView)StateViewTable[OwnerState];
 
-            IFrameAssignableCellViewReadOnlyDictionary<string> CellViewTable = OwnerStateView.CellViewTable;
+            FrameAssignableCellViewReadOnlyDictionary<string> CellViewTable = OwnerStateView.CellViewTable;
             string PropertyName = inner.PropertyName;
 
             Debug.Assert(CellViewTable != null);
@@ -697,7 +628,7 @@
             IFrameFrame AssociatedFrame = GetAssociatedFrame(inner);
             Debug.Assert(AssociatedFrame != null);
 
-            IFrameNodeStateView ReplacedStateView = StateViewTable[replacedState];
+            IFrameNodeStateView ReplacedStateView = (IFrameNodeStateView)StateViewTable[replacedState];
             Debug.Assert(ReplacedStateView.RootCellView != null);
             IFrameContainerCellView ReplacedCellView = CreateFrameCellView(OwnerStateView, EmbeddingCellView, ReplacedStateView, AssociatedFrame);
             ValidateContainerCellView(OwnerStateView, EmbeddingCellView, ReplacedStateView, ReplacedCellView);
@@ -715,15 +646,15 @@
         /// Handler called every time a state is assigned in the controller.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        private protected override void OnStateAssigned(IWriteableAssignmentOperation operation)
+        private protected override void OnStateAssigned(WriteableAssignmentOperation operation)
         {
             base.OnStateAssigned(operation);
 
-            IFrameOptionalNodeState State = ((IFrameAssignmentOperation)operation).State;
+            IFrameOptionalNodeState State = ((FrameAssignmentOperation)operation).State;
             Debug.Assert(State != null);
             Debug.Assert(StateViewTable.ContainsKey(State));
 
-            IFrameNodeStateView AssignedStateView = StateViewTable[State];
+            IFrameNodeStateView AssignedStateView = (IFrameNodeStateView)StateViewTable[State];
             ClearCellView(AssignedStateView);
             BuildCellView(AssignedStateView);
 
@@ -734,15 +665,15 @@
         /// Handler called every time a state is unassigned in the controller.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        private protected override void OnStateUnassigned(IWriteableAssignmentOperation operation)
+        private protected override void OnStateUnassigned(WriteableAssignmentOperation operation)
         {
             base.OnStateUnassigned(operation);
 
-            IFrameOptionalNodeState State = ((IFrameAssignmentOperation)operation).State;
+            IFrameOptionalNodeState State = ((FrameAssignmentOperation)operation).State;
             Debug.Assert(State != null);
             Debug.Assert(StateViewTable.ContainsKey(State));
 
-            IFrameNodeStateView UnassignedStateView = StateViewTable[State];
+            IFrameNodeStateView UnassignedStateView = (IFrameNodeStateView)StateViewTable[State];
             ClearCellView(UnassignedStateView);
             BuildCellView(UnassignedStateView);
 
@@ -754,15 +685,15 @@
         /// Handler called every time a discrete value is changed in the controller.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        private protected override void OnDiscreteValueChanged(IWriteableChangeDiscreteValueOperation operation)
+        private protected override void OnDiscreteValueChanged(WriteableChangeDiscreteValueOperation operation)
         {
             base.OnDiscreteValueChanged(operation);
 
-            IFrameNodeState State = ((IFrameChangeDiscreteValueOperation)operation).State;
+            IFrameNodeState State = ((FrameChangeDiscreteValueOperation)operation).State;
             Debug.Assert(State != null);
             Debug.Assert(StateViewTable.ContainsKey(State));
 
-            IFrameNodeStateView ChangedStateView = StateViewTable[State];
+            IFrameNodeStateView ChangedStateView = (IFrameNodeStateView)StateViewTable[State];
             ClearCellView(ChangedStateView);
             BuildCellView(ChangedStateView);
 
@@ -774,15 +705,15 @@
         /// Handler called every time a text is changed in the controller.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        private protected override void OnTextChanged(IWriteableChangeTextOperation operation)
+        private protected override void OnTextChanged(WriteableChangeTextOperation operation)
         {
             base.OnTextChanged(operation);
 
-            IFrameNodeState State = ((IFrameChangeTextOperation)operation).State;
+            IFrameNodeState State = ((FrameChangeTextOperation)operation).State;
             Debug.Assert(State != null);
             Debug.Assert(StateViewTable.ContainsKey(State));
 
-            IFrameNodeStateView ChangedStateView = StateViewTable[State];
+            IFrameNodeStateView ChangedStateView = (IFrameNodeStateView)StateViewTable[State];
             ClearCellView(ChangedStateView);
             BuildCellView(ChangedStateView);
 
@@ -794,15 +725,15 @@
         /// Handler called every time a comment is changed in the controller.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        private protected override void OnCommentChanged(IWriteableChangeCommentOperation operation)
+        private protected override void OnCommentChanged(WriteableChangeCommentOperation operation)
         {
             base.OnCommentChanged(operation);
 
-            IFrameNodeState State = ((IFrameChangeCommentOperation)operation).State;
+            IFrameNodeState State = ((FrameChangeCommentOperation)operation).State;
             Debug.Assert(State != null);
             Debug.Assert(StateViewTable.ContainsKey(State));
 
-            IFrameNodeStateView ChangedStateView = StateViewTable[State];
+            IFrameNodeStateView ChangedStateView = (IFrameNodeStateView)StateViewTable[State];
             ClearCellView(ChangedStateView);
             BuildCellView(ChangedStateView);
 
@@ -814,11 +745,11 @@
         /// Handler called every time a block state is changed in the controller.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        private protected override void OnBlockStateChanged(IWriteableChangeBlockOperation operation)
+        private protected override void OnBlockStateChanged(WriteableChangeBlockOperation operation)
         {
             base.OnBlockStateChanged(operation);
 
-            IFrameBlockState BlockState = ((IFrameChangeBlockOperation)operation).BlockState;
+            IFrameBlockState BlockState = ((FrameChangeBlockOperation)operation).BlockState;
             Debug.Assert(BlockState != null);
             Debug.Assert(BlockStateViewTable.ContainsKey(BlockState));
 
@@ -830,18 +761,18 @@
         /// Handler called every time a state is moved in the controller.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        private protected override void OnStateMoved(IWriteableMoveNodeOperation operation)
+        private protected override void OnStateMoved(WriteableMoveNodeOperation operation)
         {
             base.OnStateMoved(operation);
 
-            IFramePlaceholderNodeState State = ((IFrameMoveNodeOperation)operation).State;
+            IFramePlaceholderNodeState State = ((FrameMoveNodeOperation)operation).State;
             Debug.Assert(State != null);
             Debug.Assert(StateViewTable.ContainsKey(State));
 
             IFrameCollectionInner<IFrameBrowsingCollectionNodeIndex> Inner = State.ParentInner as IFrameCollectionInner<IFrameBrowsingCollectionNodeIndex>;
-            int BlockIndex = ((IFrameMoveNodeOperation)operation).BlockIndex;
-            int MoveIndex = ((IFrameMoveNodeOperation)operation).Index;
-            int Direction = ((IFrameMoveNodeOperation)operation).Direction;
+            int BlockIndex = ((FrameMoveNodeOperation)operation).BlockIndex;
+            int MoveIndex = ((FrameMoveNodeOperation)operation).Index;
+            int Direction = ((FrameMoveNodeOperation)operation).Direction;
             Debug.Assert(State != null);
             IFrameNodeState OwnerState = Inner.Owner;
 
@@ -868,10 +799,10 @@
             Debug.Assert(inner != null);
 
             IFrameNodeState OwnerState = inner.Owner;
-            IFrameNodeStateView OwnerStateView = StateViewTable[OwnerState];
+            IFrameNodeStateView OwnerStateView = (IFrameNodeStateView)StateViewTable[OwnerState];
 
-            IFrameBlockState BlockState = inner.BlockStateList[blockIndex];
-            IFrameBlockStateView BlockStateView = BlockStateViewTable[BlockState];
+            IFrameBlockState BlockState = (IFrameBlockState)inner.BlockStateList[blockIndex];
+            FrameBlockStateView BlockStateView = (FrameBlockStateView)BlockStateViewTable[BlockState];
             IFrameCellViewCollection EmbeddingCellView = BlockStateView.EmbeddingCellView;
             Debug.Assert(EmbeddingCellView != null);
 
@@ -883,9 +814,9 @@
             Debug.Assert(inner != null);
 
             IFrameNodeState OwnerState = inner.Owner;
-            IFrameNodeStateView OwnerStateView = StateViewTable[OwnerState];
+            IFrameNodeStateView OwnerStateView = (IFrameNodeStateView)StateViewTable[OwnerState];
 
-            IFrameAssignableCellViewReadOnlyDictionary<string> CellViewTable = OwnerStateView.CellViewTable;
+            FrameAssignableCellViewReadOnlyDictionary<string> CellViewTable = OwnerStateView.CellViewTable;
             string PropertyName = inner.PropertyName;
 
             Debug.Assert(CellViewTable != null);
@@ -900,11 +831,11 @@
         /// Handler called every time a block state is moved in the controller.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        private protected override void OnBlockStateMoved(IWriteableMoveBlockOperation operation)
+        private protected override void OnBlockStateMoved(WriteableMoveBlockOperation operation)
         {
             base.OnBlockStateMoved(operation);
 
-            IFrameBlockState BlockState = ((IFrameMoveBlockOperation)operation).BlockState;
+            IFrameBlockState BlockState = ((FrameMoveBlockOperation)operation).BlockState;
             Debug.Assert(BlockState != null);
             Debug.Assert(BlockStateViewTable.ContainsKey(BlockState));
 
@@ -912,9 +843,9 @@
             Debug.Assert(Inner != null);
             IFrameNodeState OwnerState = Inner.Owner;
             Debug.Assert(OwnerState != null);
-            IFrameNodeStateView OwnerStateView = StateViewTable[OwnerState];
+            IFrameNodeStateView OwnerStateView = (IFrameNodeStateView)StateViewTable[OwnerState];
 
-            IFrameAssignableCellViewReadOnlyDictionary<string> CellViewTable = OwnerStateView.CellViewTable;
+            FrameAssignableCellViewReadOnlyDictionary<string> CellViewTable = OwnerStateView.CellViewTable;
             string PropertyName = Inner.PropertyName;
 
             Debug.Assert(CellViewTable != null);
@@ -922,7 +853,7 @@
             IFrameCellViewCollection EmbeddingCellView = CellViewTable[PropertyName] as IFrameCellViewCollection;
             Debug.Assert(EmbeddingCellView != null);
 
-            EmbeddingCellView.Move(((IFrameMoveBlockOperation)operation).BlockIndex, ((IFrameMoveBlockOperation)operation).Direction);
+            EmbeddingCellView.Move(((FrameMoveBlockOperation)operation).BlockIndex, ((FrameMoveBlockOperation)operation).Direction);
 
             Refresh(OwnerState);
         }
@@ -931,11 +862,11 @@
         /// Handler called every time a block split in the controller.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        private protected override void OnBlockSplit(IWriteableSplitBlockOperation operation)
+        private protected override void OnBlockSplit(WriteableSplitBlockOperation operation)
         {
             base.OnBlockSplit(operation);
 
-            IFrameBlockState BlockState = ((IFrameSplitBlockOperation)operation).BlockState;
+            IFrameBlockState BlockState = ((FrameSplitBlockOperation)operation).BlockState;
             Debug.Assert(BlockState != null);
             Debug.Assert(BlockStateViewTable.ContainsKey(BlockState));
 
@@ -943,15 +874,15 @@
             Debug.Assert(Inner != null);
             IFrameNodeState OwnerState = Inner.Owner;
             Debug.Assert(OwnerState != null);
-            IFrameNodeStateView OwnerStateView = StateViewTable[OwnerState];
+            IFrameNodeStateView OwnerStateView = (IFrameNodeStateView)StateViewTable[OwnerState];
 
-            int BlockIndex = ((IFrameSplitBlockOperation)operation).BlockIndex;
-            int Index = ((IFrameSplitBlockOperation)operation).Index;
+            int BlockIndex = ((FrameSplitBlockOperation)operation).BlockIndex;
+            int Index = ((FrameSplitBlockOperation)operation).Index;
 
             IFrameBlockState FirstBlockState = Inner.BlockStateList[BlockIndex] as IFrameBlockState;
             Debug.Assert(FirstBlockState != null);
 
-            IFrameAssignableCellViewReadOnlyDictionary<string> CellViewTable = OwnerStateView.CellViewTable;
+            FrameAssignableCellViewReadOnlyDictionary<string> CellViewTable = OwnerStateView.CellViewTable;
             string PropertyName = Inner.PropertyName;
 
             Debug.Assert(CellViewTable != null);
@@ -961,11 +892,11 @@
 
             foreach (IFrameNodeState ChildState in FirstBlockState.StateList)
             {
-                IFrameNodeStateView ChildStateView = StateViewTable[ChildState];
+                IFrameNodeStateView ChildStateView = (IFrameNodeStateView)StateViewTable[ChildState];
                 ClearCellView(ChildStateView);
             }
 
-            IFrameBlockStateView FirstBlockStateView = BlockStateViewTable[FirstBlockState];
+            FrameBlockStateView FirstBlockStateView = (FrameBlockStateView)BlockStateViewTable[FirstBlockState];
             IFrameCellView RootCellView = BuildBlockCellView(OwnerStateView, FirstEmbeddingCellView, FirstBlockStateView);
 
             FirstEmbeddingCellView.Insert(BlockIndex, RootCellView);
@@ -973,7 +904,7 @@
             IFrameBlockState SecondBlockState = Inner.BlockStateList[BlockIndex + 1] as IFrameBlockState;
             Debug.Assert(SecondBlockState != null);
 
-            IFrameBlockStateView SecondBlockStateView = BlockStateViewTable[SecondBlockState];
+            FrameBlockStateView SecondBlockStateView = (FrameBlockStateView)BlockStateViewTable[SecondBlockState];
             IFrameCellViewCollection SecondEmbeddingCellView = SecondBlockStateView.EmbeddingCellView;
             Debug.Assert(SecondEmbeddingCellView != null);
 
@@ -987,11 +918,11 @@
         /// Handler called every time two blocks are merged.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        private protected override void OnBlocksMerged(IWriteableMergeBlocksOperation operation)
+        private protected override void OnBlocksMerged(WriteableMergeBlocksOperation operation)
         {
             base.OnBlocksMerged(operation);
 
-            IFrameBlockState BlockState = ((IFrameMergeBlocksOperation)operation).BlockState;
+            IFrameBlockState BlockState = ((FrameMergeBlocksOperation)operation).BlockState;
             Debug.Assert(BlockState != null);
             Debug.Assert(!BlockStateViewTable.ContainsKey(BlockState));
 
@@ -1000,11 +931,11 @@
             Debug.Assert(Inner != null);
             IFrameNodeState OwnerState = Inner.Owner;
             Debug.Assert(OwnerState != null);
-            int BlockIndex = ((IFrameMergeBlocksOperation)operation).BlockIndex;
+            int BlockIndex = ((FrameMergeBlocksOperation)operation).BlockIndex;
 
-            IFrameNodeStateView OwnerStateView = StateViewTable[OwnerState];
+            IFrameNodeStateView OwnerStateView = (IFrameNodeStateView)StateViewTable[OwnerState];
 
-            IFrameAssignableCellViewReadOnlyDictionary<string> CellViewTable = OwnerStateView.CellViewTable;
+            FrameAssignableCellViewReadOnlyDictionary<string> CellViewTable = OwnerStateView.CellViewTable;
             string PropertyName = Inner.PropertyName;
 
             Debug.Assert(CellViewTable != null);
@@ -1019,16 +950,16 @@
 
             foreach (IFrameNodeState ChildState in FirstBlockState.StateList)
             {
-                IFrameNodeStateView ChildStateView = StateViewTable[ChildState];
+                IFrameNodeStateView ChildStateView = (IFrameNodeStateView)StateViewTable[ChildState];
                 ClearCellView(ChildStateView);
             }
 
-            IFrameNodeStateView PatternStateView = StateViewTable[FirstBlockState.PatternState];
+            IFrameNodeStateView PatternStateView = (IFrameNodeStateView)StateViewTable[FirstBlockState.PatternState];
             ClearCellView(PatternStateView);
-            IFrameNodeStateView SourceStateView = StateViewTable[FirstBlockState.SourceState];
+            IFrameNodeStateView SourceStateView = (IFrameNodeStateView)StateViewTable[FirstBlockState.SourceState];
             ClearCellView(SourceStateView);
 
-            IFrameBlockStateView FirstBlockStateView = BlockStateViewTable[FirstBlockState];
+            FrameBlockStateView FirstBlockStateView = (FrameBlockStateView)BlockStateViewTable[FirstBlockState];
             ClearBlockCellView(OwnerStateView, FirstBlockStateView);
             IFrameCellView RootCellView = BuildBlockCellView(OwnerStateView, BlockEmbeddingCellView, FirstBlockStateView);
 
@@ -1042,11 +973,11 @@
         /// Handler called to refresh views.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        private protected override void OnGenericRefresh(IWriteableGenericRefreshOperation operation)
+        private protected override void OnGenericRefresh(WriteableGenericRefreshOperation operation)
         {
             base.OnGenericRefresh(operation);
 
-            IFrameNodeState RefreshState = ((IFrameGenericRefreshOperation)operation).RefreshState;
+            IFrameNodeState RefreshState = ((FrameGenericRefreshOperation)operation).RefreshState;
             Debug.Assert(RefreshState != null);
             Debug.Assert(StateViewTable.ContainsKey(RefreshState));
 
@@ -1077,7 +1008,7 @@
             stateView.ClearRootCellView();
         }
 
-        private protected virtual IFrameBlockCellView BuildBlockCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, IFrameBlockStateView blockStateView)
+        private protected virtual IFrameBlockCellView BuildBlockCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, FrameBlockStateView blockStateView)
         {
             IFrameCellViewTreeContext Context = InitializedCellViewTreeContext(stateView);
             Context.SetBlockStateView(blockStateView);
@@ -1095,7 +1026,7 @@
             Debug.Assert(blockCellView.ParentCellView == parentCellView);
         }
 
-        private protected virtual void ClearBlockCellView(IFrameNodeStateView stateView, IFrameBlockStateView blockStateView)
+        private protected virtual void ClearBlockCellView(IFrameNodeStateView stateView, FrameBlockStateView blockStateView)
         {
             blockStateView.ClearRootCellView(stateView);
         }
@@ -1107,14 +1038,14 @@
             if (state.ParentState != null)
             {
                 Debug.Assert(StateViewTable.ContainsKey(state.ParentState));
-                IFrameNodeStateView ParentStateView = StateViewTable[state.ParentState];
+                IFrameNodeStateView ParentStateView = (IFrameNodeStateView)StateViewTable[state.ParentState];
 
                 ClearCellView(ParentStateView);
                 BuildCellView(ParentStateView);
             }
             else
             {
-                IFrameNodeStateView StateView = StateViewTable[state];
+                IFrameNodeStateView StateView = (IFrameNodeStateView)StateViewTable[state];
 
                 ClearCellView(StateView);
                 BuildCellView(StateView);
@@ -1126,7 +1057,7 @@
         private protected virtual void UpdateLineNumbers()
         {
             IFrameNodeState RootState = Controller.RootState;
-            IFrameNodeStateView RootStateView = StateViewTable[RootState];
+            IFrameNodeStateView RootStateView = (IFrameNodeStateView)StateViewTable[RootState];
 
             int LineNumber = 1;
             int ColumnNumber = 1;
@@ -1198,7 +1129,7 @@
         /// <summary>
         /// Creates a IxxxStateViewDictionary object.
         /// </summary>
-        private protected override IReadOnlyStateViewDictionary CreateStateViewTable()
+        private protected override ReadOnlyStateViewDictionary CreateStateViewTable()
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameControllerView));
             return new FrameStateViewDictionary();
@@ -1207,7 +1138,7 @@
         /// <summary>
         /// Creates a IxxxBlockStateViewDictionary object.
         /// </summary>
-        private protected override IReadOnlyBlockStateViewDictionary CreateBlockStateViewTable()
+        private protected override ReadOnlyBlockStateViewDictionary CreateBlockStateViewTable()
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameControllerView));
             return new FrameBlockStateViewDictionary();
@@ -1216,7 +1147,7 @@
         /// <summary>
         /// Creates a IxxxAttachCallbackSet object.
         /// </summary>
-        private protected override IReadOnlyAttachCallbackSet CreateCallbackSet()
+        private protected override ReadOnlyAttachCallbackSet CreateCallbackSet()
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameControllerView));
             return new FrameAttachCallbackSet()
@@ -1233,7 +1164,7 @@
         /// <summary>
         /// Creates a IxxxPlaceholderNodeStateView object.
         /// </summary>
-        private protected override IReadOnlyPlaceholderNodeStateView CreatePlaceholderNodeStateView(IReadOnlyPlaceholderNodeState state)
+        private protected override ReadOnlyPlaceholderNodeStateView CreatePlaceholderNodeStateView(IReadOnlyPlaceholderNodeState state)
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameControllerView));
             return new FramePlaceholderNodeStateView(this, (IFramePlaceholderNodeState)state);
@@ -1242,7 +1173,7 @@
         /// <summary>
         /// Creates a IxxxOptionalNodeStateView object.
         /// </summary>
-        private protected override IReadOnlyOptionalNodeStateView CreateOptionalNodeStateView(IReadOnlyOptionalNodeState state)
+        private protected override ReadOnlyOptionalNodeStateView CreateOptionalNodeStateView(IReadOnlyOptionalNodeState state)
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameControllerView));
             return new FrameOptionalNodeStateView(this, (IFrameOptionalNodeState)state);
@@ -1251,7 +1182,7 @@
         /// <summary>
         /// Creates a IxxxPatternStateView object.
         /// </summary>
-        private protected override IReadOnlyPatternStateView CreatePatternStateView(IReadOnlyPatternState state)
+        private protected override ReadOnlyPatternStateView CreatePatternStateView(IReadOnlyPatternState state)
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameControllerView));
             return new FramePatternStateView(this, (IFramePatternState)state);
@@ -1260,7 +1191,7 @@
         /// <summary>
         /// Creates a IxxxSourceStateView object.
         /// </summary>
-        private protected override IReadOnlySourceStateView CreateSourceStateView(IReadOnlySourceState state)
+        private protected override ReadOnlySourceStateView CreateSourceStateView(IReadOnlySourceState state)
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameControllerView));
             return new FrameSourceStateView(this, (IFrameSourceState)state);
@@ -1269,7 +1200,7 @@
         /// <summary>
         /// Creates a IxxxBlockStateView object.
         /// </summary>
-        private protected override IReadOnlyBlockStateView CreateBlockStateView(IReadOnlyBlockState blockState)
+        private protected override ReadOnlyBlockStateView CreateBlockStateView(IReadOnlyBlockState blockState)
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameControllerView));
             return new FrameBlockStateView(this, (IFrameBlockState)blockState);
@@ -1287,7 +1218,7 @@
         /// <summary>
         /// Creates a IxxxBlockCellView object.
         /// </summary>
-        private protected virtual IFrameBlockCellView CreateBlockCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, IFrameBlockStateView blockStateView)
+        private protected virtual IFrameBlockCellView CreateBlockCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, FrameBlockStateView blockStateView)
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameControllerView));
             return new FrameBlockCellView(stateView, parentCellView, blockStateView);

@@ -11,7 +11,7 @@
         /// <summary>
         /// The block state view of the state associated to this cell.
         /// </summary>
-        IFrameBlockStateView BlockStateView { get; }
+        FrameBlockStateView BlockStateView { get; }
     }
 
     /// <summary>
@@ -26,7 +26,7 @@
         /// <param name="stateView">The state view containing the tree with this cell.</param>
         /// <param name="parentCellView">The collection of cell views containing this view. Null for the root of the cell tree.</param>
         /// <param name="blockStateView">The block state view of the state associated to this cell.</param>
-        public FrameBlockCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, IFrameBlockStateView blockStateView)
+        public FrameBlockCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, FrameBlockStateView blockStateView)
             : base(stateView, parentCellView)
         {
             Debug.Assert(blockStateView.RootCellView != null);
@@ -39,7 +39,7 @@
         /// <summary>
         /// The block state view of the state associated to this cell.
         /// </summary>
-        public IFrameBlockStateView BlockStateView { get; }
+        public FrameBlockStateView BlockStateView { get; }
 
         /// <summary>
         /// True if the block cell view contain at least one visible cell view.
@@ -123,7 +123,7 @@
         /// </summary>
         /// <param name="expectedCellViewTable">Cell views that are associated to a property of the node.</param>
         /// <param name="actualCellViewTable">Cell views that are found in the tree.</param>
-        public override bool IsCellViewTreeValid(IFrameAssignableCellViewReadOnlyDictionary<string> expectedCellViewTable, IFrameAssignableCellViewDictionary<string> actualCellViewTable)
+        public override bool IsCellViewTreeValid(FrameAssignableCellViewReadOnlyDictionary<string> expectedCellViewTable, FrameAssignableCellViewDictionary<string> actualCellViewTable)
         {
             bool IsValid = true;
 

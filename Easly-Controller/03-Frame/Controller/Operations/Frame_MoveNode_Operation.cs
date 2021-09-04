@@ -4,21 +4,8 @@
     using BaseNode;
     using EaslyController.Writeable;
 
-    /// <summary>
-    /// Operation details for moving a node in a list or block list.
-    /// </summary>
-    public interface IFrameMoveNodeOperation : IWriteableMoveNodeOperation, IFrameOperation
-    {
-        /// <summary>
-        /// State moved.
-        /// </summary>
-        new IFramePlaceholderNodeState State { get; }
-    }
-
-    /// <summary>
-    /// Operation details for moving a node in a list or block list.
-    /// </summary>
-    internal class FrameMoveNodeOperation : WriteableMoveNodeOperation, IFrameMoveNodeOperation
+    /// <inheritdoc/>
+    internal class FrameMoveNodeOperation : WriteableMoveNodeOperation
     {
         #region Init
         /// <summary>
@@ -32,7 +19,7 @@
         /// <param name="handlerRedo">Handler to execute to redo the operation.</param>
         /// <param name="handlerUndo">Handler to execute to undo the operation.</param>
         /// <param name="isNested">True if the operation is nested within another more general one.</param>
-        public FrameMoveNodeOperation(Node parentNode, string propertyName, int blockIndex, int index, int direction, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        public FrameMoveNodeOperation(Node parentNode, string propertyName, int blockIndex, int index, int direction, Action<WriteableOperation> handlerRedo, Action<WriteableOperation> handlerUndo, bool isNested)
             : base(parentNode, propertyName, blockIndex, index, direction, handlerRedo, handlerUndo, isNested)
         {
         }
@@ -49,7 +36,7 @@
         /// <summary>
         /// Creates a IxxxxMoveNodeOperation object.
         /// </summary>
-        private protected override IWriteableMoveNodeOperation CreateMoveNodeOperation(int blockIndex, int index, int direction, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        private protected override WriteableMoveNodeOperation CreateMoveNodeOperation(int blockIndex, int index, int direction, Action<WriteableOperation> handlerRedo, Action<WriteableOperation> handlerUndo, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameMoveNodeOperation));
             return new FrameMoveNodeOperation(ParentNode, PropertyName, blockIndex, index, direction, handlerRedo, handlerUndo, isNested);

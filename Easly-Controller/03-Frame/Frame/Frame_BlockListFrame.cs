@@ -23,7 +23,7 @@
         /// <param name="nodeType">Type of the node this frame can describe.</param>
         /// <param name="nodeTemplateTable">Table of templates with all frames.</param>
         /// <param name="commentFrameCount">Number of comment frames found so far.</param>
-        public override bool IsValid(Type nodeType, IFrameTemplateReadOnlyDictionary nodeTemplateTable, ref int commentFrameCount)
+        public override bool IsValid(Type nodeType, FrameTemplateReadOnlyDictionary nodeTemplateTable, ref int commentFrameCount)
         {
             bool IsValid = true;
 
@@ -49,8 +49,8 @@
             IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> Inner = State.InnerTable[PropertyName] as IFrameBlockListInner<IFrameBrowsingBlockNodeIndex>;
             Debug.Assert(Inner != null);
 
-            IFrameBlockStateViewDictionary BlockStateViewTable = context.ControllerView.BlockStateViewTable;
-            IFrameCellViewList CellViewList = CreateCellViewList();
+            FrameBlockStateViewDictionary BlockStateViewTable = context.ControllerView.BlockStateViewTable;
+            FrameCellViewList CellViewList = CreateCellViewList();
 
             IFrameCellViewCollection EmbeddingCellView = CreateEmbeddingCellView(context.StateView, parentCellView, CellViewList);
             ValidateEmbeddingCellView(context, EmbeddingCellView);
@@ -62,7 +62,7 @@
             foreach (IFrameBlockState BlockState in Inner.BlockStateList)
             {
                 Debug.Assert(context.ControllerView.BlockStateViewTable.ContainsKey(BlockState));
-                IFrameBlockStateView BlockStateView = context.ControllerView.BlockStateViewTable[BlockState];
+                FrameBlockStateView BlockStateView = (FrameBlockStateView)context.ControllerView.BlockStateViewTable[BlockState];
 
                 context.SetBlockStateView(BlockStateView);
                 BlockStateView.BuildRootCellView(context);
@@ -83,7 +83,7 @@
             IFrameCellViewCollection ParentCellView = embeddingCellView.ParentCellView;
         }
 
-        private protected virtual void ValidateBlockCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, IFrameBlockStateView blockStateView, IFrameBlockCellView blockCellView)
+        private protected virtual void ValidateBlockCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, FrameBlockStateView blockStateView, IFrameBlockCellView blockCellView)
         {
             Debug.Assert(blockCellView.StateView == stateView);
             Debug.Assert(blockCellView.ParentCellView == parentCellView);
@@ -101,7 +101,7 @@
         /// <summary>
         /// Creates a IxxxCellViewList object.
         /// </summary>
-        private protected virtual IFrameCellViewList CreateCellViewList()
+        private protected virtual FrameCellViewList CreateCellViewList()
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameBlockListFrame));
             return new FrameCellViewList();
@@ -110,7 +110,7 @@
         /// <summary>
         /// Creates a IxxxBlockCellView object.
         /// </summary>
-        private protected virtual IFrameBlockCellView CreateBlockCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, IFrameBlockStateView blockStateView)
+        private protected virtual IFrameBlockCellView CreateBlockCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, FrameBlockStateView blockStateView)
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameBlockListFrame));
             return new FrameBlockCellView(stateView, parentCellView, blockStateView);
@@ -119,7 +119,7 @@
         /// <summary>
         /// Creates a IxxxCellViewCollection object.
         /// </summary>
-        private protected abstract IFrameCellViewCollection CreateEmbeddingCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, IFrameCellViewList list);
+        private protected abstract IFrameCellViewCollection CreateEmbeddingCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, FrameCellViewList list);
         #endregion
     }
 }

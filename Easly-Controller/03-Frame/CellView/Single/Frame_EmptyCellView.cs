@@ -107,7 +107,7 @@
         /// </summary>
         /// <param name="expectedCellViewTable">Cell views that are associated to a property of the node.</param>
         /// <param name="actualCellViewTable">Cell views that are found in the tree.</param>
-        public override bool IsCellViewTreeValid(IFrameAssignableCellViewReadOnlyDictionary<string> expectedCellViewTable, IFrameAssignableCellViewDictionary<string> actualCellViewTable)
+        public override bool IsCellViewTreeValid(FrameAssignableCellViewReadOnlyDictionary<string> expectedCellViewTable, FrameAssignableCellViewDictionary<string> actualCellViewTable)
         {
             return true;
         }

@@ -5,15 +5,13 @@
     using EaslyController.ReadOnly;
     using EaslyController.Writeable;
 
-    /// <summary>
-    /// Inner for a block list.
-    /// </summary>
+    /// <inheritdoc/>
     public interface IFrameBlockListInner : IWriteableBlockListInner, IFrameCollectionInner
     {
         /// <summary>
         /// States of blocks in the block list.
         /// </summary>
-        new IFrameBlockStateReadOnlyList BlockStateList { get; }
+        new FrameBlockStateReadOnlyList BlockStateList { get; }
 
         /// <summary>
         /// First node state that can be enumerated in the inner.
@@ -21,17 +19,14 @@
         new IFramePlaceholderNodeState FirstNodeState { get; }
     }
 
-    /// <summary>
-    /// Inner for a block list.
-    /// </summary>
-    /// <typeparam name="IIndex">Type of the index.</typeparam>
+    /// <inheritdoc/>
     internal interface IFrameBlockListInner<out IIndex> : IWriteableBlockListInner<IIndex>, IFrameCollectionInner<IIndex>
         where IIndex : IFrameBrowsingBlockNodeIndex
     {
         /// <summary>
         /// States of blocks in the block list.
         /// </summary>
-        new IFrameBlockStateReadOnlyList BlockStateList { get; }
+        new FrameBlockStateReadOnlyList BlockStateList { get; }
 
         /// <summary>
         /// First node state that can be enumerated in the inner.
@@ -39,18 +34,13 @@
         new IFramePlaceholderNodeState FirstNodeState { get; }
     }
 
-    /// <summary>
-    /// Inner for a block list.
-    /// </summary>
-    /// <typeparam name="IIndex">Type of the index as interface.</typeparam>
-    /// <typeparam name="TIndex">Type of the index as class.</typeparam>
-    internal class FrameBlockListInner<IIndex, TIndex> : WriteableBlockListInner<IIndex, TIndex>, IFrameBlockListInner<IIndex>, IFrameBlockListInner
+    /// <inheritdoc/>
+    internal class FrameBlockListInner<IIndex> : WriteableBlockListInner<IIndex>, IFrameBlockListInner<IIndex>, IFrameBlockListInner
         where IIndex : IFrameBrowsingBlockNodeIndex
-        where TIndex : FrameBrowsingBlockNodeIndex, IIndex
     {
         #region Init
         /// <summary>
-        /// Initializes a new instance of the <see cref="FrameBlockListInner{IIndex, TIndex}"/> class.
+        /// Initializes a new instance of the <see cref="FrameBlockListInner{IIndex}"/> class.
         /// </summary>
         /// <param name="owner">Parent containing the inner.</param>
         /// <param name="propertyName">Property name of the inner in <paramref name="owner"/>.</param>
@@ -69,7 +59,7 @@
         /// <summary>
         /// States of blocks in the block list.
         /// </summary>
-        public new IFrameBlockStateReadOnlyList BlockStateList { get { return (IFrameBlockStateReadOnlyList)base.BlockStateList; } }
+        public new FrameBlockStateReadOnlyList BlockStateList { get { return (FrameBlockStateReadOnlyList)base.BlockStateList; } }
 
         /// <summary>
         /// First node state that can be enumerated in the inner.
@@ -81,9 +71,9 @@
         /// <summary>
         /// Creates a IxxxBlockStateList object.
         /// </summary>
-        private protected override IReadOnlyBlockStateList CreateBlockStateList()
+        private protected override ReadOnlyBlockStateList CreateBlockStateList()
         {
-            ControllerTools.AssertNoOverride(this, typeof(FrameBlockListInner<IIndex, TIndex>));
+            ControllerTools.AssertNoOverride(this, typeof(FrameBlockListInner<IIndex>));
             return new FrameBlockStateList();
         }
 
@@ -92,7 +82,7 @@
         /// </summary>
         private protected override IReadOnlyBlockState CreateBlockState(IReadOnlyBrowsingNewBlockNodeIndex nodeIndex, IBlock childBlock)
         {
-            ControllerTools.AssertNoOverride(this, typeof(FrameBlockListInner<IIndex, TIndex>));
+            ControllerTools.AssertNoOverride(this, typeof(FrameBlockListInner<IIndex>));
             return new FrameBlockState<IFrameInner<IFrameBrowsingChildIndex>>(this, (IFrameBrowsingNewBlockNodeIndex)nodeIndex, childBlock);
         }
 
@@ -101,16 +91,16 @@
         /// </summary>
         private protected override IReadOnlyPlaceholderNodeState CreateNodeState(IReadOnlyNodeIndex nodeIndex)
         {
-            ControllerTools.AssertNoOverride(this, typeof(FrameBlockListInner<IIndex, TIndex>));
+            ControllerTools.AssertNoOverride(this, typeof(FrameBlockListInner<IIndex>));
             return new FramePlaceholderNodeState<IFrameInner<IFrameBrowsingChildIndex>>((IFrameNodeIndex)nodeIndex);
         }
 
         /// <summary>
         /// Creates a IxxxBrowsingBlockNodeIndexList.
         /// </summary>
-        private protected override IReadOnlyBrowsingBlockNodeIndexList CreateBlockNodeIndexList()
+        private protected override ReadOnlyBrowsingBlockNodeIndexList CreateBlockNodeIndexList()
         {
-            ControllerTools.AssertNoOverride(this, typeof(FrameBlockListInner<IIndex, TIndex>));
+            ControllerTools.AssertNoOverride(this, typeof(FrameBlockListInner<IIndex>));
             return new FrameBrowsingBlockNodeIndexList();
         }
 
@@ -119,7 +109,7 @@
         /// </summary>
         private protected override IWriteableBrowsingExistingBlockNodeIndex CreateBrowsingNodeIndex(Node node, int blockIndex, int index)
         {
-            ControllerTools.AssertNoOverride(this, typeof(FrameBlockListInner<IIndex, TIndex>));
+            ControllerTools.AssertNoOverride(this, typeof(FrameBlockListInner<IIndex>));
             return new FrameBrowsingExistingBlockNodeIndex(Owner.Node, node, PropertyName, blockIndex, index);
         }
 
@@ -128,7 +118,7 @@
         /// </summary>
         private protected override IWriteableBrowsingNewBlockNodeIndex CreateNewBlockNodeIndex(Node node, int blockIndex)
         {
-            ControllerTools.AssertNoOverride(this, typeof(FrameBlockListInner<IIndex, TIndex>));
+            ControllerTools.AssertNoOverride(this, typeof(FrameBlockListInner<IIndex>));
             return new FrameBrowsingNewBlockNodeIndex(Owner.Node, node, PropertyName, blockIndex);
         }
         #endregion

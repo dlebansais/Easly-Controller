@@ -1,10 +1,11 @@
 ﻿namespace EaslyController.Writeable
 {
     using System.Collections.Generic;
+    using System.Diagnostics;
     using EaslyController.ReadOnly;
 
     /// <inheritdoc/>
-    public class WriteableStateViewReadOnlyDictionary : ReadOnlyStateViewReadOnlyDictionary, ICollection<KeyValuePair<IWriteableNodeState, WriteableNodeStateView>>, IEnumerable<KeyValuePair<IWriteableNodeState, WriteableNodeStateView>>, IDictionary<IWriteableNodeState, WriteableNodeStateView>, IReadOnlyCollection<KeyValuePair<IWriteableNodeState, WriteableNodeStateView>>, IReadOnlyDictionary<IWriteableNodeState, WriteableNodeStateView>
+    public class WriteableStateViewReadOnlyDictionary : ReadOnlyStateViewReadOnlyDictionary, ICollection<KeyValuePair<IWriteableNodeState, WriteableNodeStateView>>, IEnumerable<KeyValuePair<IWriteableNodeState, WriteableNodeStateView>>, IDictionary<IWriteableNodeState, WriteableNodeStateView>, IReadOnlyCollection<KeyValuePair<IWriteableNodeState, WriteableNodeStateView>>, IReadOnlyDictionary<IWriteableNodeState, WriteableNodeStateView>, IEqualComparable
     {
         /// <inheritdoc/>
         public WriteableStateViewReadOnlyDictionary(WriteableStateViewDictionary dictionary)
@@ -34,6 +35,33 @@
         IEnumerable<WriteableNodeStateView> IReadOnlyDictionary<IWriteableNodeState, WriteableNodeStateView>.Values { get { List<WriteableNodeStateView> Result = new(); foreach (KeyValuePair<IWriteableNodeState, WriteableNodeStateView> Entry in (ICollection<KeyValuePair<IWriteableNodeState, WriteableNodeStateView>>)this) Result.Add(Entry.Value); return Result; } }
         bool IReadOnlyDictionary<IWriteableNodeState, WriteableNodeStateView>.ContainsKey(IWriteableNodeState key) { return ContainsKey(key); }
         bool IReadOnlyDictionary<IWriteableNodeState, WriteableNodeStateView>.TryGetValue(IWriteableNodeState key, out WriteableNodeStateView value) { bool Result = TryGetValue(key, out ReadOnlyNodeStateView Value); value = (WriteableNodeStateView)Value; return Result; }
+        #endregion
+
+        #region Debugging
+        /// <inheritdoc/>
+        public override bool IsEqual(CompareEqual comparer, IEqualComparable other)
+        {
+            Debug.Assert(other != null);
+
+            if (!comparer.IsSameType(other, out WriteableStateViewReadOnlyDictionary AsStateViewReadOnlyDictionary))
+                return comparer.Failed();
+
+            if (!comparer.IsSameCount(Count, AsStateViewReadOnlyDictionary.Count))
+                return comparer.Failed();
+
+            foreach (IWriteableNodeState Key in Keys)
+            {
+                WriteableNodeStateView Value = (WriteableNodeStateView)this[Key];
+
+                if (!comparer.IsTrue(AsStateViewReadOnlyDictionary.ContainsKey(Key)))
+                    return comparer.Failed();
+
+                if (!comparer.VerifyEqual(Value, AsStateViewReadOnlyDictionary[Key]))
+                    return comparer.Failed();
+            }
+
+            return true;
+        }
         #endregion
     }
 }

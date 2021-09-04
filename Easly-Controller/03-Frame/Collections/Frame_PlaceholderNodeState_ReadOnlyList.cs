@@ -1,58 +1,26 @@
-﻿#pragma warning disable 1591
-
-namespace EaslyController.Frame
+﻿namespace EaslyController.Frame
 {
     using System.Collections.Generic;
-    using System.Collections.ObjectModel;
     using System.Diagnostics;
-    using EaslyController.ReadOnly;
     using EaslyController.Writeable;
 
-    /// <summary>
-    /// Read-only list of IxxxPlaceholderNodeState
-    /// </summary>
-    public interface IFramePlaceholderNodeStateReadOnlyList : IWriteablePlaceholderNodeStateReadOnlyList, IReadOnlyList<IFramePlaceholderNodeState>
+    /// <inheritdoc/>
+    public class FramePlaceholderNodeStateReadOnlyList : WriteablePlaceholderNodeStateReadOnlyList, IReadOnlyCollection<IFramePlaceholderNodeState>, IReadOnlyList<IFramePlaceholderNodeState>, IEqualComparable
     {
-        new IFramePlaceholderNodeState this[int index] { get; }
-        new int Count { get; }
-        bool Contains(IFramePlaceholderNodeState value);
-        new IEnumerator<IFramePlaceholderNodeState> GetEnumerator();
-        int IndexOf(IFramePlaceholderNodeState value);
-    }
-
-    /// <summary>
-    /// Read-only list of IxxxPlaceholderNodeState
-    /// </summary>
-    internal class FramePlaceholderNodeStateReadOnlyList : ReadOnlyCollection<IFramePlaceholderNodeState>, IFramePlaceholderNodeStateReadOnlyList
-    {
-        public FramePlaceholderNodeStateReadOnlyList(IFramePlaceholderNodeStateList list)
+        /// <inheritdoc/>
+        public FramePlaceholderNodeStateReadOnlyList(FramePlaceholderNodeStateList list)
             : base(list)
         {
         }
 
-        #region ReadOnly
-        bool IReadOnlyPlaceholderNodeStateReadOnlyList.Contains(IReadOnlyPlaceholderNodeState value) { return Contains((IFramePlaceholderNodeState)value); }
-        int IReadOnlyPlaceholderNodeStateReadOnlyList.IndexOf(IReadOnlyPlaceholderNodeState value) { return IndexOf((IFramePlaceholderNodeState)value); }
-        IEnumerator<IReadOnlyPlaceholderNodeState> IEnumerable<IReadOnlyPlaceholderNodeState>.GetEnumerator() { return GetEnumerator(); }
-        IReadOnlyPlaceholderNodeState IReadOnlyList<IReadOnlyPlaceholderNodeState>.this[int index] { get { return this[index]; } }
-        #endregion
-
-        #region Writeable
-        IWriteablePlaceholderNodeState IWriteablePlaceholderNodeStateReadOnlyList.this[int index] { get { return this[index]; } }
-        bool IWriteablePlaceholderNodeStateReadOnlyList.Contains(IWriteablePlaceholderNodeState value) { return Contains((IFramePlaceholderNodeState)value); }
-        IEnumerator<IWriteablePlaceholderNodeState> IWriteablePlaceholderNodeStateReadOnlyList.GetEnumerator() { return GetEnumerator(); }
-        int IWriteablePlaceholderNodeStateReadOnlyList.IndexOf(IWriteablePlaceholderNodeState value) { return IndexOf((IFramePlaceholderNodeState)value); }
-        IEnumerator<IWriteablePlaceholderNodeState> IEnumerable<IWriteablePlaceholderNodeState>.GetEnumerator() { return GetEnumerator(); }
-        IWriteablePlaceholderNodeState IReadOnlyList<IWriteablePlaceholderNodeState>.this[int index] { get { return this[index]; } }
+        #region IFramePlaceholderNodeState
+        IEnumerator<IFramePlaceholderNodeState> IEnumerable<IFramePlaceholderNodeState>.GetEnumerator() { return ((IList<IFramePlaceholderNodeState>)this).GetEnumerator(); }
+        IFramePlaceholderNodeState IReadOnlyList<IFramePlaceholderNodeState>.this[int index] { get { return (IFramePlaceholderNodeState)this[index]; } }
         #endregion
 
         #region Debugging
-        /// <summary>
-        /// Compares two <see cref="FramePlaceholderNodeStateReadOnlyList"/> objects.
-        /// </summary>
-        /// <param name="comparer">The comparison support object.</param>
-        /// <param name="other">The other object.</param>
-        public virtual bool IsEqual(CompareEqual comparer, IEqualComparable other)
+        /// <inheritdoc/>
+        public override bool IsEqual(CompareEqual comparer, IEqualComparable other)
         {
             Debug.Assert(other != null);
 

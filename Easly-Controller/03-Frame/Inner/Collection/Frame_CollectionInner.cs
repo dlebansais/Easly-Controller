@@ -2,34 +2,24 @@
 {
     using EaslyController.Writeable;
 
-    /// <summary>
-    /// Base inner for a list or a block list.
-    /// </summary>
+    /// <inheritdoc/>
     public interface IFrameCollectionInner : IWriteableCollectionInner, IFrameInner
     {
     }
 
-    /// <summary>
-    /// Base inner for a list or a block list.
-    /// </summary>
-    /// <typeparam name="IIndex">Type of the index.</typeparam>
+    /// <inheritdoc/>
     internal interface IFrameCollectionInner<out IIndex> : IWriteableCollectionInner<IIndex>, IFrameInner<IIndex>
         where IIndex : IFrameBrowsingCollectionNodeIndex
     {
     }
 
-    /// <summary>
-    /// Base inner for a list or a block list.
-    /// </summary>
-    /// <typeparam name="IIndex">Type of the index as interface.</typeparam>
-    /// <typeparam name="TIndex">Type of the index as class.</typeparam>
-    internal abstract class FrameCollectionInner<IIndex, TIndex> : WriteableCollectionInner<IIndex, TIndex>, IFrameCollectionInner<IIndex>, IFrameCollectionInner
+    /// <inheritdoc/>
+    internal abstract class FrameCollectionInner<IIndex> : WriteableCollectionInner<IIndex>, IFrameCollectionInner<IIndex>, IFrameCollectionInner
         where IIndex : IFrameBrowsingCollectionNodeIndex
-        where TIndex : FrameBrowsingCollectionNodeIndex, IIndex
     {
         #region Init
         /// <summary>
-        /// Initializes a new instance of the <see cref="FrameCollectionInner{IIndex, TIndex}"/> class.
+        /// Initializes a new instance of the <see cref="FrameCollectionInner{IIndex}"/> class.
         /// </summary>
         /// <param name="owner">Parent containing the inner.</param>
         /// <param name="propertyName">Property name of the inner in <paramref name="owner"/>.</param>

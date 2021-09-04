@@ -460,7 +460,7 @@
         /// <summary>
         /// Creates a IxxxBlockState object.
         /// </summary>
-        private protected virtual IReadOnlyBlockState CreateBlockState(ReadOnlyBrowsingNewBlockNodeIndex nodeIndex, IBlock childBlock)
+        private protected virtual IReadOnlyBlockState CreateBlockState(IReadOnlyBrowsingNewBlockNodeIndex nodeIndex, IBlock childBlock)
         {
             ControllerTools.AssertNoOverride(this, typeof(ReadOnlyBlockListInner<IIndex>));
             return new ReadOnlyBlockState<IReadOnlyInner<IReadOnlyBrowsingChildIndex>>(this, nodeIndex, childBlock);

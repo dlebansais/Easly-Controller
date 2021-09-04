@@ -1,42 +1,26 @@
-﻿#pragma warning disable 1591
-
-namespace EaslyController.Frame
+﻿namespace EaslyController.Frame
 {
     using System.Collections.Generic;
-    using System.Collections.ObjectModel;
     using EaslyController.Writeable;
 
-    /// <summary>
-    /// List of IxxxOperation
-    /// </summary>
-    public interface IFrameOperationList : IWriteableOperationList, IList<IFrameOperation>, IReadOnlyList<IFrameOperation>
+    /// <inheritdoc/>
+    public class FrameOperationList : WriteableOperationList, ICollection<FrameOperation>, IEnumerable<FrameOperation>, IList<FrameOperation>, IReadOnlyCollection<FrameOperation>, IReadOnlyList<FrameOperation>
     {
-        new IFrameOperation this[int index] { get; set; }
-        new int Count { get; }
-        new IEnumerator<IFrameOperation> GetEnumerator();
-        new void Clear();
-    }
-
-    /// <summary>
-    /// List of IxxxOperation
-    /// </summary>
-    internal class FrameOperationList : Collection<IFrameOperation>, IFrameOperationList
-    {
-        #region Writeable
-        IWriteableOperation IWriteableOperationList.this[int index] { get { return this[index]; } set { this[index] = (IFrameOperation)value; } }
-        IWriteableOperation IList<IWriteableOperation>.this[int index] { get { return this[index]; } set { this[index] = (IFrameOperation)value; } }
-        int IList<IWriteableOperation>.IndexOf(IWriteableOperation value) { return IndexOf((IFrameOperation)value); }
-        void IList<IWriteableOperation>.Insert(int index, IWriteableOperation item) { Insert(index, (IFrameOperation)item); }
-        void ICollection<IWriteableOperation>.Add(IWriteableOperation item) { Add((IFrameOperation)item); }
-        bool ICollection<IWriteableOperation>.Contains(IWriteableOperation value) { return Contains((IFrameOperation)value); }
-        void ICollection<IWriteableOperation>.CopyTo(IWriteableOperation[] array, int index) { CopyTo((IFrameOperation[])array, index); }
-        bool ICollection<IWriteableOperation>.IsReadOnly { get { return ((ICollection<IFrameOperation>)this).IsReadOnly; } }
-        bool ICollection<IWriteableOperation>.Remove(IWriteableOperation item) { return Remove((IFrameOperation)item); }
-        IEnumerator<IWriteableOperation> IEnumerable<IWriteableOperation>.GetEnumerator() { return GetEnumerator(); }
-        IWriteableOperation IReadOnlyList<IWriteableOperation>.this[int index] { get { return this[index]; } }
+        #region FrameOperation
+        void ICollection<FrameOperation>.Add(FrameOperation item) { Add(item); }
+        bool ICollection<FrameOperation>.Contains(FrameOperation item) { return Contains(item); }
+        void ICollection<FrameOperation>.CopyTo(FrameOperation[] array, int arrayIndex) { ((System.Collections.ICollection)this).CopyTo(array, arrayIndex); }
+        bool ICollection<FrameOperation>.Remove(FrameOperation item) { return Remove(item); }
+        bool ICollection<FrameOperation>.IsReadOnly { get { return ((ICollection<WriteableOperation>)this).IsReadOnly; } }
+        IEnumerator<FrameOperation> IEnumerable<FrameOperation>.GetEnumerator() { return ((IList<FrameOperation>)this).GetEnumerator(); }
+        FrameOperation IList<FrameOperation>.this[int index] { get { return (FrameOperation)this[index]; } set { this[index] = value; } }
+        int IList<FrameOperation>.IndexOf(FrameOperation item) { return IndexOf(item); }
+        void IList<FrameOperation>.Insert(int index, FrameOperation item) { Insert(index, item); }
+        FrameOperation IReadOnlyList<FrameOperation>.this[int index] { get { return (FrameOperation)this[index]; } }
         #endregion
 
-        public virtual IWriteableOperationReadOnlyList ToReadOnly()
+        /// <inheritdoc/>
+        public override WriteableOperationReadOnlyList ToReadOnly()
         {
             return new FrameOperationReadOnlyList(this);
         }

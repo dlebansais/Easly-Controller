@@ -4,21 +4,8 @@
     using BaseNode;
     using EaslyController.Writeable;
 
-    /// <summary>
-    /// Operation details for changing a block.
-    /// </summary>
-    public interface IFrameChangeBlockOperation : IWriteableChangeBlockOperation, IFrameOperation
-    {
-        /// <summary>
-        /// Block state changed.
-        /// </summary>
-        new IFrameBlockState BlockState { get; }
-    }
-
-    /// <summary>
-    /// Operation details for changing a node.
-    /// </summary>
-    internal class FrameChangeBlockOperation : WriteableChangeBlockOperation, IFrameChangeBlockOperation
+    /// <inheritdoc/>
+    internal class FrameChangeBlockOperation : WriteableChangeBlockOperation
     {
         #region Init
         /// <summary>
@@ -31,7 +18,7 @@
         /// <param name="handlerRedo">Handler to execute to redo the operation.</param>
         /// <param name="handlerUndo">Handler to execute to undo the operation.</param>
         /// <param name="isNested">True if the operation is nested within another more general one.</param>
-        public FrameChangeBlockOperation(Node parentNode, string propertyName, int blockIndex, ReplicationStatus replication, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        public FrameChangeBlockOperation(Node parentNode, string propertyName, int blockIndex, ReplicationStatus replication, Action<WriteableOperation> handlerRedo, Action<WriteableOperation> handlerUndo, bool isNested)
             : base(parentNode, propertyName, blockIndex, replication, handlerRedo, handlerUndo, isNested)
         {
         }
@@ -48,7 +35,7 @@
         /// <summary>
         /// Creates a IxxxChangeBlockOperation object.
         /// </summary>
-        private protected override IWriteableChangeBlockOperation CreateChangeBlockOperation(ReplicationStatus replication, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        private protected override WriteableChangeBlockOperation CreateChangeBlockOperation(ReplicationStatus replication, Action<WriteableOperation> handlerRedo, Action<WriteableOperation> handlerUndo, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameChangeBlockOperation));
             return new FrameChangeBlockOperation(ParentNode, PropertyName, BlockIndex, replication, handlerRedo, handlerUndo, isNested);

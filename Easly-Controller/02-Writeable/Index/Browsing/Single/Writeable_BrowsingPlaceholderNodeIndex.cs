@@ -65,7 +65,7 @@
         /// <summary>
         /// Creates a IxxxInsertionPlaceholderNodeIndex object.
         /// </summary>
-        private protected virtual WriteableInsertionPlaceholderNodeIndex CreateInsertionIndex(Node parentNode, Node node)
+        private protected virtual IWriteableInsertionPlaceholderNodeIndex CreateInsertionIndex(Node parentNode, Node node)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableBrowsingPlaceholderNodeIndex));
             return new WriteableInsertionPlaceholderNodeIndex(parentNode, PropertyName, node);

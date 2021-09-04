@@ -62,7 +62,7 @@
         /// <summary>
         /// Index of the root node.
         /// </summary>
-        public ReadOnlyRootNodeIndex RootIndex { get; private set; }
+        public IReadOnlyRootNodeIndex RootIndex { get; private set; }
 
         /// <summary>
         /// State of the root node.
@@ -312,7 +312,7 @@
         #endregion
 
         #region Implementation
-        private protected virtual void SetRoot(ReadOnlyRootNodeIndex rootIndex)
+        private protected virtual void SetRoot(IReadOnlyRootNodeIndex rootIndex)
         {
             Debug.Assert(rootIndex != null);
             Debug.Assert(!IsInitialized); // Must be called during initialization
@@ -438,7 +438,7 @@
 
             switch (nodeIndexCollection)
             {
-                case ReadOnlyIndexCollection<ReadOnlyBrowsingPlaceholderNodeIndex> AsPlaceholderNodeIndexCollection:
+                case ReadOnlyIndexCollection<IReadOnlyBrowsingPlaceholderNodeIndex> AsPlaceholderNodeIndexCollection:
                     Result = (IReadOnlyPlaceholderInner)CreatePlaceholderInner(parentState, AsPlaceholderNodeIndexCollection);
                     break;
 
@@ -451,7 +451,7 @@
                     Result = (IReadOnlyListInner)CreateListInner(parentState, AsListNodeIndexCollection);
                     break;
 
-                case ReadOnlyIndexCollection<ReadOnlyBrowsingBlockNodeIndex> AsBlockNodeIndexCollection:
+                case ReadOnlyIndexCollection<IReadOnlyBrowsingBlockNodeIndex> AsBlockNodeIndexCollection:
                     Stats.BlockListCount++;
                     IReadOnlyBlockListInner Inner = (IReadOnlyBlockListInner)CreateBlockListInner(parentState, AsBlockNodeIndexCollection);
                     NotifyBlockListInnerCreated(Inner as IReadOnlyBlockListInner);
@@ -757,16 +757,16 @@
         /// <summary>
         /// Creates a IxxxPlaceholderInner{IxxxBrowsingPlaceholderNodeIndex} object.
         /// </summary>
-        private protected virtual IReadOnlyPlaceholderInner<ReadOnlyBrowsingPlaceholderNodeIndex> CreatePlaceholderInner(IReadOnlyNodeState owner, ReadOnlyIndexCollection<ReadOnlyBrowsingPlaceholderNodeIndex> nodeIndexCollection)
+        private protected virtual IReadOnlyPlaceholderInner<IReadOnlyBrowsingPlaceholderNodeIndex> CreatePlaceholderInner(IReadOnlyNodeState owner, IReadOnlyIndexCollection<IReadOnlyBrowsingPlaceholderNodeIndex> nodeIndexCollection)
         {
             ControllerTools.AssertNoOverride(this, typeof(ReadOnlyController));
-            return new ReadOnlyPlaceholderInner<ReadOnlyBrowsingPlaceholderNodeIndex>(owner, nodeIndexCollection.PropertyName);
+            return new ReadOnlyPlaceholderInner<IReadOnlyBrowsingPlaceholderNodeIndex>(owner, nodeIndexCollection.PropertyName);
         }
 
         /// <summary>
         /// Creates a IxxxOptionalInner{IxxxBrowsingOptionalNodeIndex} object.
         /// </summary>
-        private protected virtual IReadOnlyOptionalInner<IReadOnlyBrowsingOptionalNodeIndex> CreateOptionalInner(IReadOnlyNodeState owner, ReadOnlyIndexCollection<IReadOnlyBrowsingOptionalNodeIndex> nodeIndexCollection)
+        private protected virtual IReadOnlyOptionalInner<IReadOnlyBrowsingOptionalNodeIndex> CreateOptionalInner(IReadOnlyNodeState owner, IReadOnlyIndexCollection<IReadOnlyBrowsingOptionalNodeIndex> nodeIndexCollection)
         {
             ControllerTools.AssertNoOverride(this, typeof(ReadOnlyController));
             return new ReadOnlyOptionalInner<IReadOnlyBrowsingOptionalNodeIndex>(owner, nodeIndexCollection.PropertyName);
@@ -775,25 +775,25 @@
         /// <summary>
         /// Creates a IxxxListInner{IxxxBrowsingListNodeIndex} object.
         /// </summary>
-        private protected virtual IReadOnlyListInner<ReadOnlyBrowsingListNodeIndex> CreateListInner(IReadOnlyNodeState owner, ReadOnlyIndexCollection<ReadOnlyBrowsingListNodeIndex> nodeIndexCollection)
+        private protected virtual IReadOnlyListInner<IReadOnlyBrowsingListNodeIndex> CreateListInner(IReadOnlyNodeState owner, IReadOnlyIndexCollection<IReadOnlyBrowsingListNodeIndex> nodeIndexCollection)
         {
             ControllerTools.AssertNoOverride(this, typeof(ReadOnlyController));
-            return new ReadOnlyListInner<ReadOnlyBrowsingListNodeIndex>(owner, nodeIndexCollection.PropertyName);
+            return new ReadOnlyListInner<IReadOnlyBrowsingListNodeIndex>(owner, nodeIndexCollection.PropertyName);
         }
 
         /// <summary>
         /// Creates a IxxxBlockListInner{IxxxBrowsingBlockNodeIndex} object.
         /// </summary>
-        private protected virtual IReadOnlyBlockListInner<ReadOnlyBrowsingBlockNodeIndex> CreateBlockListInner(IReadOnlyNodeState owner, ReadOnlyIndexCollection<ReadOnlyBrowsingBlockNodeIndex> nodeIndexCollection)
+        private protected virtual IReadOnlyBlockListInner<IReadOnlyBrowsingBlockNodeIndex> CreateBlockListInner(IReadOnlyNodeState owner, IReadOnlyIndexCollection<IReadOnlyBrowsingBlockNodeIndex> nodeIndexCollection)
         {
             ControllerTools.AssertNoOverride(this, typeof(ReadOnlyController));
-            return new ReadOnlyBlockListInner<ReadOnlyBrowsingBlockNodeIndex>(owner, nodeIndexCollection.PropertyName);
+            return new ReadOnlyBlockListInner<IReadOnlyBrowsingBlockNodeIndex>(owner, nodeIndexCollection.PropertyName);
         }
 
         /// <summary>
         /// Creates a IxxxPlaceholderNodeState object.
         /// </summary>
-        private protected virtual IReadOnlyPlaceholderNodeState CreateRootNodeState(ReadOnlyRootNodeIndex nodeIndex)
+        private protected virtual IReadOnlyPlaceholderNodeState CreateRootNodeState(IReadOnlyRootNodeIndex nodeIndex)
         {
             ControllerTools.AssertNoOverride(this, typeof(ReadOnlyController));
             return new ReadOnlyPlaceholderNodeState<IReadOnlyInner<IReadOnlyBrowsingChildIndex>>(nodeIndex);

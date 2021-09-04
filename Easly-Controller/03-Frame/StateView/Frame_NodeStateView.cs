@@ -5,15 +5,13 @@
     using System.Diagnostics;
     using EaslyController.Writeable;
 
-    /// <summary>
-    /// View of a node state.
-    /// </summary>
+    /// <inheritdoc/>
     public interface IFrameNodeStateView : IWriteableNodeStateView
     {
         /// <summary>
         /// The controller view to which this object belongs.
         /// </summary>
-        new IFrameControllerView ControllerView { get; }
+        new FrameControllerView ControllerView { get; }
 
         /// <summary>
         /// The node state.
@@ -33,7 +31,7 @@
         /// <summary>
         /// Table of cell views that are mutable lists of cells.
         /// </summary>
-        IFrameAssignableCellViewReadOnlyDictionary<string> CellViewTable { get; }
+        FrameAssignableCellViewReadOnlyDictionary<string> CellViewTable { get; }
 
         /// <summary>
         /// True if the node view contain at least one visible cell view.
@@ -85,9 +83,7 @@
         bool IsCellViewTreeValid();
     }
 
-    /// <summary>
-    /// View of a node state.
-    /// </summary>
+    /// <inheritdoc/>
     internal abstract class FrameNodeStateView : WriteableNodeStateView, IFrameNodeStateView
     {
         #region Init
@@ -96,7 +92,7 @@
         /// </summary>
         /// <param name="controllerView">The controller view to which this object belongs.</param>
         /// <param name="state">The node state.</param>
-        public FrameNodeStateView(IFrameControllerView controllerView, IFrameNodeState state)
+        public FrameNodeStateView(FrameControllerView controllerView, IFrameNodeState state)
             : base(controllerView, state)
         {
         }
@@ -106,7 +102,7 @@
         /// <summary>
         /// The controller view to which this object belongs.
         /// </summary>
-        public new IFrameControllerView ControllerView { get { return (IFrameControllerView)base.ControllerView; } }
+        public new FrameControllerView ControllerView { get { return (FrameControllerView)base.ControllerView; } }
 
         /// <summary>
         /// The node state.
@@ -126,7 +122,7 @@
         /// <summary>
         /// Table of cell views that are mutable lists of cells.
         /// </summary>
-        public virtual IFrameAssignableCellViewReadOnlyDictionary<string> CellViewTable { get { throw new NotImplementedException(); } } // Can't make this abstract, thank you C#...
+        public virtual FrameAssignableCellViewReadOnlyDictionary<string> CellViewTable { get { throw new NotImplementedException(); } } // Can't make this abstract, thank you C#...
 
         /// <summary>
         /// True if the node view contain at least one visible cell view.

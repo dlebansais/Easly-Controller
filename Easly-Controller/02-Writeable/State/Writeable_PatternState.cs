@@ -42,7 +42,7 @@
         /// </summary>
         /// <param name="parentBlockState">The parent block state.</param>
         /// <param name="index">The index used to create the state.</param>
-        public WriteablePatternState(IWriteableBlockState parentBlockState, WriteableBrowsingPatternIndex index)
+        public WriteablePatternState(IWriteableBlockState parentBlockState, IWriteableBrowsingPatternIndex index)
             : base(parentBlockState, index)
         {
         }

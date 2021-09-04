@@ -9,18 +9,7 @@
     /// <summary>
     /// View of a child node.
     /// </summary>
-    public interface IFramePlaceholderNodeStateView : IWriteablePlaceholderNodeStateView, IFrameNodeStateView, IFrameReplaceableStateView
-    {
-        /// <summary>
-        /// The child node.
-        /// </summary>
-        new IFramePlaceholderNodeState State { get; }
-    }
-
-    /// <summary>
-    /// View of a child node.
-    /// </summary>
-    internal class FramePlaceholderNodeStateView : WriteablePlaceholderNodeStateView, IFramePlaceholderNodeStateView
+    internal class FramePlaceholderNodeStateView : WriteablePlaceholderNodeStateView, IFrameNodeStateView, IFrameReplaceableStateView
     {
         #region Init
         /// <summary>
@@ -28,7 +17,7 @@
         /// </summary>
         /// <param name="controllerView">The controller view to which this object belongs.</param>
         /// <param name="state">The child node state.</param>
-        public FramePlaceholderNodeStateView(IFrameControllerView controllerView, IFramePlaceholderNodeState state)
+        public FramePlaceholderNodeStateView(FrameControllerView controllerView, IFramePlaceholderNodeState state)
             : base(controllerView, state)
         {
         }
@@ -38,7 +27,7 @@
         /// <summary>
         /// The controller view to which this object belongs.
         /// </summary>
-        public new IFrameControllerView ControllerView { get { return (IFrameControllerView)base.ControllerView; } }
+        public new FrameControllerView ControllerView { get { return (FrameControllerView)base.ControllerView; } }
 
         /// <summary>
         /// The child node.
@@ -69,8 +58,8 @@
         /// <summary>
         /// Table of cell views that are mutable lists of cells.
         /// </summary>
-        public IFrameAssignableCellViewReadOnlyDictionary<string> CellViewTable { get; private set; }
-        private IFrameAssignableCellViewDictionary<string> _CellViewTable;
+        public FrameAssignableCellViewReadOnlyDictionary<string> CellViewTable { get; private set; }
+        private FrameAssignableCellViewDictionary<string> _CellViewTable;
 
         /// <summary>
         /// True if the node view contain at least one visible cell view.
@@ -113,8 +102,11 @@
         private protected virtual void InitCellViewTable()
         {
             _CellViewTable = CreateCellViewTable();
-            foreach (KeyValuePair<string, IFrameInner> Entry in State.InnerTable)
-                _CellViewTable.Add(Entry.Value.PropertyName, null);
+            foreach (string Key in State.InnerTable.Keys)
+            {
+                IFrameInner Value = (IFrameInner)State.InnerTable[Key];
+                _CellViewTable.Add(Value.PropertyName, null);
+            }
         }
 
         private protected virtual void SetRootCellView(IFrameCellView cellView)
@@ -258,7 +250,7 @@
 
             if (IsValid && !(RootCellView is IFrameEmptyCellView))
             {
-                IFrameAssignableCellViewDictionary<string> ActualCellViewTable = CreateCellViewTable();
+                FrameAssignableCellViewDictionary<string> ActualCellViewTable = CreateCellViewTable();
                 IsValid &= RootCellView.IsCellViewTreeValid(CellViewTable, ActualCellViewTable);
                 IsValid &= AllCellViewsProperlyAssigned(CellViewTable, ActualCellViewTable);
 
@@ -268,7 +260,7 @@
             return IsValid;
         }
 
-        private protected virtual bool AllCellViewsProperlyAssigned(IFrameAssignableCellViewReadOnlyDictionary<string> expectedCellViewTable, IFrameAssignableCellViewDictionary<string> actualCellViewTable)
+        private protected virtual bool AllCellViewsProperlyAssigned(FrameAssignableCellViewReadOnlyDictionary<string> expectedCellViewTable, FrameAssignableCellViewDictionary<string> actualCellViewTable)
         {
             bool IsAssigned = true;
 
@@ -290,7 +282,7 @@
         /// <summary>
         /// Creates a IxxxAssignableCellViewDictionary{string} object.
         /// </summary>
-        private protected virtual IFrameAssignableCellViewDictionary<string> CreateCellViewTable()
+        private protected virtual FrameAssignableCellViewDictionary<string> CreateCellViewTable()
         {
             ControllerTools.AssertNoOverride(this, typeof(FramePlaceholderNodeStateView));
             return new FrameAssignableCellViewDictionary<string>();

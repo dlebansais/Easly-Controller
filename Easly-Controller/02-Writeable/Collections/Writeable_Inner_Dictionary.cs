@@ -1,6 +1,7 @@
 ﻿namespace EaslyController.Writeable
 {
     using System.Collections.Generic;
+    using System.Diagnostics;
     using EaslyController.ReadOnly;
 
     /// <inheritdoc/>
@@ -27,6 +28,33 @@
         IEnumerable<IWriteableInner> IReadOnlyDictionary<TKey, IWriteableInner>.Values { get { List<IWriteableInner> Result = new(); foreach (KeyValuePair<TKey, IWriteableInner> Entry in (ICollection<KeyValuePair<TKey, IWriteableInner>>)this) Result.Add(Entry.Value); return Result; } }
         bool IReadOnlyDictionary<TKey, IWriteableInner>.ContainsKey(TKey key) { return ContainsKey(key); }
         bool IReadOnlyDictionary<TKey, IWriteableInner>.TryGetValue(TKey key, out IWriteableInner value) { bool Result = TryGetValue(key, out IReadOnlyInner Value); value = (IWriteableInner)Value; return Result; }
+        #endregion
+
+        #region Debugging
+        /// <inheritdoc/>
+        public override bool IsEqual(CompareEqual comparer, IEqualComparable other)
+        {
+            Debug.Assert(other != null);
+
+            if (!comparer.IsSameType(other, out WriteableInnerDictionary<TKey> AsInnerDictionary))
+                return comparer.Failed();
+
+            if (!comparer.IsSameCount(Count, AsInnerDictionary.Count))
+                return comparer.Failed();
+
+            foreach (TKey Key in Keys)
+            {
+                IWriteableInner Value = (IWriteableInner)this[Key];
+
+                if (!comparer.IsTrue(AsInnerDictionary.ContainsKey(Key)))
+                    return comparer.Failed();
+
+                if (!comparer.VerifyEqual(Value, AsInnerDictionary[Key]))
+                    return comparer.Failed();
+            }
+
+            return true;
+        }
         #endregion
 
         /// <inheritdoc/>

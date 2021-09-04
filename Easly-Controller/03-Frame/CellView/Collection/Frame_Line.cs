@@ -22,7 +22,7 @@
         /// <param name="parentCellView">The collection of cell views containing this view. Null for the root of the cell tree.</param>
         /// <param name="cellViewList">The list of child cell views.</param>
         /// <param name="frame">Frame providing the horizontal separator to insert between cells. Can be null.</param>
-        public FrameLine(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, IFrameCellViewList cellViewList, IFrameFrame frame)
+        public FrameLine(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, FrameCellViewList cellViewList, IFrameFrame frame)
             : base(stateView, parentCellView, cellViewList, frame)
         {
         }

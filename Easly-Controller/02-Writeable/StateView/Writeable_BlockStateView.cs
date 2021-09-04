@@ -6,7 +6,7 @@
     /// <summary>
     /// View of a block state.
     /// </summary>
-    internal class WriteableBlockStateView : ReadOnlyBlockStateView
+    public class WriteableBlockStateView : ReadOnlyBlockStateView
     {
         #region Init
         /// <summary>

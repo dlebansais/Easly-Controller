@@ -98,7 +98,7 @@
         /// <summary>
         /// Creates a IxxxBrowsingListNodeIndex object.
         /// </summary>
-        private protected virtual WriteableBrowsingListNodeIndex CreateBrowsingIndex()
+        private protected virtual IWriteableBrowsingListNodeIndex CreateBrowsingIndex()
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableInsertionListNodeIndex));
             return new WriteableBrowsingListNodeIndex(ParentNode, Node, PropertyName, Index);

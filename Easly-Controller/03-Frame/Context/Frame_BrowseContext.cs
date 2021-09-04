@@ -8,23 +8,7 @@
     /// <summary>
     /// Context for browsing child nodes of a parent node.
     /// </summary>
-    internal interface IFrameBrowseContext : IWriteableBrowseContext
-    {
-        /// <summary>
-        /// State this context is browsing.
-        /// </summary>
-        new IFrameNodeState State { get; }
-
-        /// <summary>
-        /// List of index collections that have been added during browsing.
-        /// </summary>
-        new IFrameIndexCollectionReadOnlyList IndexCollectionList { get; }
-    }
-
-    /// <summary>
-    /// Context for browsing child nodes of a parent node.
-    /// </summary>
-    internal class FrameBrowseContext : WriteableBrowseContext, IFrameBrowseContext
+    internal class FrameBrowseContext : WriteableBrowseContext
     {
         #region Init
         /// <summary>
@@ -46,7 +30,7 @@
         /// <summary>
         /// List of index collections that have been added during browsing.
         /// </summary>
-        public new IFrameIndexCollectionReadOnlyList IndexCollectionList { get { return (IFrameIndexCollectionReadOnlyList)base.IndexCollectionList; } }
+        public new FrameIndexCollectionReadOnlyList IndexCollectionList { get { return (FrameIndexCollectionReadOnlyList)base.IndexCollectionList; } }
         #endregion
 
         #region Client Interface
@@ -59,16 +43,16 @@
 
             Debug.Assert(State != null);
 
-            IFrameIndexCollectionList InternalList = InternalIndexCollectionList as IFrameIndexCollectionList;
-            IFrameIndexCollectionReadOnlyList PublicList = IndexCollectionList;
+            FrameIndexCollectionList InternalList = InternalIndexCollectionList as FrameIndexCollectionList;
+            FrameIndexCollectionReadOnlyList PublicList = IndexCollectionList;
 
             for (int i = 0; i < InternalList.Count; i++)
             {
-                IFrameIndexCollection InternalItem = InternalList[i];
+                IFrameIndexCollection InternalItem = (IFrameIndexCollection)InternalList[i];
                 Debug.Assert(PublicList.Contains(InternalItem));
                 Debug.Assert(PublicList.IndexOf(InternalItem) >= 0);
 
-                IFrameIndexCollection PublicItem = PublicList[i];
+                IFrameIndexCollection PublicItem = (IFrameIndexCollection)PublicList[i];
                 Debug.Assert(InternalList.Contains(PublicItem));
                 Debug.Assert(InternalList.IndexOf(PublicItem) >= 0);
 
@@ -116,11 +100,11 @@
                     AsICollection.Remove(InternalItem);
                     InternalList.Insert(0, InternalItem);
 
-                    IEnumerator<IWriteableIndexCollection> InternalListEnumerator = ((IWriteableIndexCollectionList)InternalList).GetEnumerator();
+                    IEnumerator<IWriteableIndexCollection> InternalListEnumerator = ((IList<IWriteableIndexCollection>)InternalList).GetEnumerator();
                     InternalListEnumerator.MoveNext();
                     Debug.Assert(InternalListEnumerator.Current == InternalItem);
 
-                    IEnumerator<IWriteableIndexCollection> PublicListEnumerator = ((IWriteableIndexCollectionReadOnlyList)PublicList).GetEnumerator();
+                    IEnumerator<IWriteableIndexCollection> PublicListEnumerator = ((IList<IWriteableIndexCollection>)PublicList).GetEnumerator();
                     PublicListEnumerator.MoveNext();
                     Debug.Assert(PublicListEnumerator.Current == InternalItem);
                 }
@@ -132,7 +116,7 @@
         /// <summary>
         /// Creates a IxxxCollectionList object.
         /// </summary>
-        private protected override IReadOnlyIndexCollectionList CreateIndexCollectionList()
+        private protected override ReadOnlyIndexCollectionList CreateIndexCollectionList()
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameBrowseContext));
             return new FrameIndexCollectionList();

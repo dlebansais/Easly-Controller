@@ -4,15 +4,13 @@
     using EaslyController.ReadOnly;
     using EaslyController.Writeable;
 
-    /// <summary>
-    /// Inner for a list of nodes.
-    /// </summary>
+    /// <inheritdoc/>
     public interface IFrameListInner : IWriteableListInner, IFrameCollectionInner
     {
         /// <summary>
         /// States of nodes in the list.
         /// </summary>
-        new IFramePlaceholderNodeStateReadOnlyList StateList { get; }
+        new FramePlaceholderNodeStateReadOnlyList StateList { get; }
 
         /// <summary>
         /// First node state that can be enumerated in the inner.
@@ -20,17 +18,14 @@
         new IFramePlaceholderNodeState FirstNodeState { get; }
     }
 
-    /// <summary>
-    /// Inner for a list of nodes.
-    /// </summary>
-    /// <typeparam name="IIndex">Type of the index.</typeparam>
+    /// <inheritdoc/>
     internal interface IFrameListInner<out IIndex> : IWriteableListInner<IIndex>, IFrameCollectionInner<IIndex>
         where IIndex : IFrameBrowsingListNodeIndex
     {
         /// <summary>
         /// States of nodes in the list.
         /// </summary>
-        new IFramePlaceholderNodeStateReadOnlyList StateList { get; }
+        new FramePlaceholderNodeStateReadOnlyList StateList { get; }
 
         /// <summary>
         /// First node state that can be enumerated in the inner.
@@ -38,18 +33,13 @@
         new IFramePlaceholderNodeState FirstNodeState { get; }
     }
 
-    /// <summary>
-    /// Inner for a list of nodes.
-    /// </summary>
-    /// <typeparam name="IIndex">Type of the index as interface.</typeparam>
-    /// <typeparam name="TIndex">Type of the index as class.</typeparam>
-    internal class FrameListInner<IIndex, TIndex> : WriteableListInner<IIndex, TIndex>, IFrameListInner<IIndex>, IFrameListInner
+    /// <inheritdoc/>
+    internal class FrameListInner<IIndex> : WriteableListInner<IIndex>, IFrameListInner<IIndex>, IFrameListInner
         where IIndex : IFrameBrowsingListNodeIndex
-        where TIndex : FrameBrowsingListNodeIndex, IIndex
     {
         #region Init
         /// <summary>
-        /// Initializes a new instance of the <see cref="FrameListInner{IIndex, TIndex}"/> class.
+        /// Initializes a new instance of the <see cref="FrameListInner{IIndex}"/> class.
         /// </summary>
         /// <param name="owner">Parent containing the inner.</param>
         /// <param name="propertyName">Property name of the inner in <paramref name="owner"/>.</param>
@@ -68,7 +58,7 @@
         /// <summary>
         /// States of nodes in the list.
         /// </summary>
-        public new IFramePlaceholderNodeStateReadOnlyList StateList { get { return (IFramePlaceholderNodeStateReadOnlyList)base.StateList; } }
+        public new FramePlaceholderNodeStateReadOnlyList StateList { get { return (FramePlaceholderNodeStateReadOnlyList)base.StateList; } }
 
         /// <summary>
         /// First node state that can be enumerated in the inner.
@@ -80,9 +70,9 @@
         /// <summary>
         /// Creates a IxxxPlaceholderNodeStateList object.
         /// </summary>
-        private protected override IReadOnlyPlaceholderNodeStateList CreateStateList()
+        private protected override ReadOnlyPlaceholderNodeStateList CreateStateList()
         {
-            ControllerTools.AssertNoOverride(this, typeof(FrameListInner<IIndex, TIndex>));
+            ControllerTools.AssertNoOverride(this, typeof(FrameListInner<IIndex>));
             return new FramePlaceholderNodeStateList();
         }
 
@@ -91,16 +81,16 @@
         /// </summary>
         private protected override IReadOnlyPlaceholderNodeState CreateNodeState(IReadOnlyNodeIndex nodeIndex)
         {
-            ControllerTools.AssertNoOverride(this, typeof(FrameListInner<IIndex, TIndex>));
+            ControllerTools.AssertNoOverride(this, typeof(FrameListInner<IIndex>));
             return new FramePlaceholderNodeState<IFrameInner<IFrameBrowsingChildIndex>>((IFrameNodeIndex)nodeIndex);
         }
 
         /// <summary>
         /// Creates a IxxxBrowsingListNodeIndexList.
         /// </summary>
-        private protected override IReadOnlyBrowsingListNodeIndexList CreateListNodeIndexList()
+        private protected override ReadOnlyBrowsingListNodeIndexList CreateListNodeIndexList()
         {
-            ControllerTools.AssertNoOverride(this, typeof(FrameListInner<IIndex, TIndex>));
+            ControllerTools.AssertNoOverride(this, typeof(FrameListInner<IIndex>));
             return new FrameBrowsingListNodeIndexList();
         }
 
@@ -109,7 +99,7 @@
         /// </summary>
         private protected override IWriteableBrowsingListNodeIndex CreateBrowsingNodeIndex(Node node, int index)
         {
-            ControllerTools.AssertNoOverride(this, typeof(FrameListInner<IIndex, TIndex>));
+            ControllerTools.AssertNoOverride(this, typeof(FrameListInner<IIndex>));
             return new FrameBrowsingListNodeIndex(Owner.Node, node, PropertyName, index);
         }
         #endregion

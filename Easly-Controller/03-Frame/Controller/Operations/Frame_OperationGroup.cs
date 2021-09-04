@@ -2,31 +2,8 @@
 {
     using EaslyController.Writeable;
 
-    /// <summary>
-    /// Group of operations to make some tasks atomic.
-    /// </summary>
-    public interface IFrameOperationGroup : IWriteableOperationGroup
-    {
-        /// <summary>
-        /// List of operations belonging to this group.
-        /// </summary>
-        new IFrameOperationReadOnlyList OperationList { get; }
-
-        /// <summary>
-        /// The main operation for this group.
-        /// </summary>
-        new IFrameOperation MainOperation { get; }
-
-        /// <summary>
-        /// Optional refresh operation to execute at the end of undo and redo.
-        /// </summary>
-        new IFrameGenericRefreshOperation Refresh { get; }
-    }
-
-    /// <summary>
-    /// Group of operations to make some tasks atomic.
-    /// </summary>
-    internal class FrameOperationGroup : WriteableOperationGroup, IFrameOperationGroup
+    /// <inheritdoc/>
+    internal class FrameOperationGroup : WriteableOperationGroup
     {
         #region Init
         /// <summary>
@@ -34,7 +11,7 @@
         /// </summary>
         /// <param name="operationList">List of operations belonging to this group.</param>
         /// <param name="refresh">Optional refresh operation to execute at the end of undo and redo.</param>
-        public FrameOperationGroup(IFrameOperationReadOnlyList operationList, IFrameGenericRefreshOperation refresh)
+        public FrameOperationGroup(FrameOperationReadOnlyList operationList, FrameGenericRefreshOperation refresh)
             : base(operationList, refresh)
         {
         }
@@ -44,17 +21,17 @@
         /// <summary>
         /// List of operations belonging to this group.
         /// </summary>
-        public new IFrameOperationReadOnlyList OperationList { get { return (IFrameOperationReadOnlyList)base.OperationList; } }
+        public new FrameOperationReadOnlyList OperationList { get { return (FrameOperationReadOnlyList)base.OperationList; } }
 
         /// <summary>
         /// The main operation for this group.
         /// </summary>
-        public new IFrameOperation MainOperation { get { return (IFrameOperation)base.MainOperation; } }
+        public new FrameOperation MainOperation { get { return (FrameOperation)base.MainOperation; } }
 
         /// <summary>
         /// Optional refresh operation to execute at the end of undo and redo.
         /// </summary>
-        public new IFrameGenericRefreshOperation Refresh { get { return (IFrameGenericRefreshOperation)base.Refresh; } }
+        public new FrameGenericRefreshOperation Refresh { get { return (FrameGenericRefreshOperation)base.Refresh; } }
         #endregion
     }
 }

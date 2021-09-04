@@ -115,7 +115,7 @@
         /// <summary>
         /// Creates a IxxxBrowsingExistingBlockNodeIndex.
         /// </summary>
-        private protected virtual WriteableBrowsingExistingBlockNodeIndex CreateBrowsingIndex()
+        private protected virtual IWriteableBrowsingExistingBlockNodeIndex CreateBrowsingIndex()
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableInsertionNewBlockNodeIndex));
             return new WriteableBrowsingExistingBlockNodeIndex(ParentNode, Node, PropertyName, BlockIndex, 0);

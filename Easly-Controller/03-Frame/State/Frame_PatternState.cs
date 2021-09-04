@@ -74,14 +74,14 @@
         /// <summary>
         /// Table for all inners in this state.
         /// </summary>
-        public new IFrameInnerReadOnlyDictionary<string> InnerTable { get { return (IFrameInnerReadOnlyDictionary<string>)base.InnerTable; } }
+        public new FrameInnerReadOnlyDictionary<string> InnerTable { get { return (FrameInnerReadOnlyDictionary<string>)base.InnerTable; } }
         #endregion
 
         #region Create Methods
         /// <summary>
         /// Creates a IxxxNodeStateList object.
         /// </summary>
-        private protected override IReadOnlyNodeStateList CreateNodeStateList()
+        private protected override ReadOnlyNodeStateList CreateNodeStateList()
         {
             ControllerTools.AssertNoOverride(this, typeof(FramePatternState<IInner>));
             return new FrameNodeStateList();

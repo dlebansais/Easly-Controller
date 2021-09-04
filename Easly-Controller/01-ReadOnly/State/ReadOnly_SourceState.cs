@@ -49,7 +49,7 @@
         /// </summary>
         /// <param name="parentBlockState">The parent block state.</param>
         /// <param name="index">The index used to create the state.</param>
-        public ReadOnlySourceState(IReadOnlyBlockState parentBlockState, ReadOnlyBrowsingSourceIndex index)
+        public ReadOnlySourceState(IReadOnlyBlockState parentBlockState, IReadOnlyBrowsingSourceIndex index)
             : base(index)
         {
             Debug.Assert(parentBlockState != null);

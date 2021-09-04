@@ -28,7 +28,7 @@
         /// <summary>
         /// Table for all inners in this state.
         /// </summary>
-        new IFrameInnerReadOnlyDictionary<string> InnerTable { get; }
+        new FrameInnerReadOnlyDictionary<string> InnerTable { get; }
     }
 
     /// <summary>
@@ -77,7 +77,7 @@
         /// <summary>
         /// Table for all inners in this state.
         /// </summary>
-        public new IFrameInnerReadOnlyDictionary<string> InnerTable { get { return (IFrameInnerReadOnlyDictionary<string>)base.InnerTable; } }
+        public new FrameInnerReadOnlyDictionary<string> InnerTable { get { return (FrameInnerReadOnlyDictionary<string>)base.InnerTable; } }
         #endregion
     }
 }

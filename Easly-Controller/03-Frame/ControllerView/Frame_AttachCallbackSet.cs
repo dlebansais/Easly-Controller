@@ -4,17 +4,8 @@
     using EaslyController.ReadOnly;
     using EaslyController.Writeable;
 
-    /// <summary>
-    /// Handlers to call during enumeration of states, when attaching a view.
-    /// </summary>
-    public interface IFrameAttachCallbackSet : IWriteableAttachCallbackSet
-    {
-    }
-
-    /// <summary>
-    /// Handlers to call during enumeration of states, when attaching a view.
-    /// </summary>
-    internal class FrameAttachCallbackSet : WriteableAttachCallbackSet, IFrameAttachCallbackSet
+    /// <inheritdoc/>
+    internal class FrameAttachCallbackSet : WriteableAttachCallbackSet
     {
         #region Properties
         /// <summary>

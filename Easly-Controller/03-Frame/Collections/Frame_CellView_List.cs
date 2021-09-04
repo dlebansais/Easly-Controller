@@ -1,31 +1,19 @@
-﻿#pragma warning disable 1591
-
-namespace EaslyController.Frame
+﻿namespace EaslyController.Frame
 {
     using System.Collections.Generic;
-    using System.Collections.ObjectModel;
     using System.Diagnostics;
 
-    /// <summary>
-    /// List of IxxxCellView
-    /// </summary>
-    public interface IFrameCellViewList : IList<IFrameCellView>, IReadOnlyList<IFrameCellView>, IEqualComparable
+    /// <inheritdoc/>
+    public class FrameCellViewList : List<IFrameCellView>, IEqualComparable
     {
-        new IFrameCellView this[int index] { get; set; }
-        new int Count { get; }
-    }
+        /// <inheritdoc/>
+        public virtual FrameCellViewReadOnlyList ToReadOnly()
+        {
+            return new FrameCellViewReadOnlyList(this);
+        }
 
-    /// <summary>
-    /// List of IxxxCellView
-    /// </summary>
-    internal class FrameCellViewList : Collection<IFrameCellView>, IFrameCellViewList
-    {
         #region Debugging
-        /// <summary>
-        /// Compares two <see cref="FrameCellViewList"/> objects.
-        /// </summary>
-        /// <param name="comparer">The comparison support object.</param>
-        /// <param name="other">The other object.</param>
+        /// <inheritdoc/>
         public virtual bool IsEqual(CompareEqual comparer, IEqualComparable other)
         {
             Debug.Assert(other != null);

@@ -8,18 +8,7 @@
     /// <summary>
     /// View of a pattern state.
     /// </summary>
-    public interface IFramePatternStateView : IWriteablePatternStateView, IFrameNodeStateView
-    {
-        /// <summary>
-        /// The pattern state.
-        /// </summary>
-        new IFramePatternState State { get; }
-    }
-
-    /// <summary>
-    /// View of a pattern state.
-    /// </summary>
-    internal class FramePatternStateView : WriteablePatternStateView, IFramePatternStateView
+    internal class FramePatternStateView : WriteablePatternStateView, IFrameNodeStateView
     {
         #region Init
         /// <summary>
@@ -27,7 +16,7 @@
         /// </summary>
         /// <param name="controllerView">The controller view to which this object belongs.</param>
         /// <param name="state">The pattern state.</param>
-        public FramePatternStateView(IFrameControllerView controllerView, IFramePatternState state)
+        public FramePatternStateView(FrameControllerView controllerView, IFramePatternState state)
             : base(controllerView, state)
         {
         }
@@ -37,7 +26,7 @@
         /// <summary>
         /// The controller view to which this object belongs.
         /// </summary>
-        public new IFrameControllerView ControllerView { get { return (IFrameControllerView)base.ControllerView; } }
+        public new FrameControllerView ControllerView { get { return (FrameControllerView)base.ControllerView; } }
 
         /// <summary>
         /// The pattern state.
@@ -65,8 +54,8 @@
         /// <summary>
         /// Table of cell views that are mutable lists of cells.
         /// </summary>
-        public IFrameAssignableCellViewReadOnlyDictionary<string> CellViewTable { get; private set; }
-        private IFrameAssignableCellViewDictionary<string> _CellViewTable;
+        public FrameAssignableCellViewReadOnlyDictionary<string> CellViewTable { get; private set; }
+        private FrameAssignableCellViewDictionary<string> _CellViewTable;
 
         /// <summary>
         /// True if the node view contain at least one visible cell view.
@@ -225,7 +214,7 @@
 
             if (IsValid && !(RootCellView is IFrameEmptyCellView))
             {
-                IFrameAssignableCellViewDictionary<string> ActualCellViewTable = CreateCellViewTable();
+                FrameAssignableCellViewDictionary<string> ActualCellViewTable = CreateCellViewTable();
                 IsValid &= RootCellView.IsCellViewTreeValid(CellViewTable, ActualCellViewTable);
 
                 Debug.Assert(ActualCellViewTable.Count == 0);
@@ -239,7 +228,7 @@
         /// <summary>
         /// Creates a IxxxAssignableCellViewDictionary{string} object.
         /// </summary>
-        private protected virtual IFrameAssignableCellViewDictionary<string> CreateCellViewTable()
+        private protected virtual FrameAssignableCellViewDictionary<string> CreateCellViewTable()
         {
             ControllerTools.AssertNoOverride(this, typeof(FramePatternStateView));
             return new FrameAssignableCellViewDictionary<string>();

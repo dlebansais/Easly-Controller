@@ -2,9 +2,7 @@
 {
     using EaslyController.Writeable;
 
-    /// <summary>
-    /// Interface for all inners.
-    /// </summary>
+    /// <inheritdoc/>
     public interface IFrameInner : IWriteableInner
     {
         /// <summary>
@@ -13,10 +11,7 @@
         new IFrameNodeState Owner { get; }
     }
 
-    /// <summary>
-    /// Interface for all inners.
-    /// </summary>
-    /// <typeparam name="IIndex">Type of the index.</typeparam>
+    /// <inheritdoc/>
     public interface IFrameInner<out IIndex> : IWriteableInner<IIndex>
         where IIndex : IFrameBrowsingChildIndex
     {
@@ -26,10 +21,7 @@
         new IFrameNodeState Owner { get; }
     }
 
-    /// <summary>
-    /// Interface for all inners.
-    /// </summary>
-    /// <typeparam name="IIndex">Type of the index.</typeparam>
+    /// <inheritdoc/>
     internal abstract class FrameInner<IIndex> : WriteableInner<IIndex>, IFrameInner<IIndex>, IFrameInner
         where IIndex : IFrameBrowsingChildIndex
     {

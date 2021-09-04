@@ -1,86 +1,40 @@
-﻿#pragma warning disable 1591
-
-namespace EaslyController.Frame
+﻿namespace EaslyController.Frame
 {
     using System.Collections.Generic;
-    using System.Collections.ObjectModel;
     using EaslyController.ReadOnly;
     using EaslyController.Writeable;
 
-    /// <summary>
-    /// Read-only dictionary of IxxxIndex, IxxxNodeState
-    /// </summary>
-    public interface IFrameIndexNodeStateReadOnlyDictionary : IWriteableIndexNodeStateReadOnlyDictionary, IReadOnlyDictionary<IFrameIndex, IFrameNodeState>
+    /// <inheritdoc/>
+    public class FrameIndexNodeStateReadOnlyDictionary : WriteableIndexNodeStateReadOnlyDictionary, ICollection<KeyValuePair<IFrameIndex, IFrameNodeState>>, IEnumerable<KeyValuePair<IFrameIndex, IFrameNodeState>>, IDictionary<IFrameIndex, IFrameNodeState>, IReadOnlyCollection<KeyValuePair<IFrameIndex, IFrameNodeState>>, IReadOnlyDictionary<IFrameIndex, IFrameNodeState>
     {
-        new IFrameNodeState this[IFrameIndex key] { get; }
-        new int Count { get; }
-        new bool ContainsKey(IFrameIndex key);
-        new IEnumerator<KeyValuePair<IFrameIndex, IFrameNodeState>> GetEnumerator();
-    }
-
-    /// <summary>
-    /// Read-only dictionary of IxxxIndex, IxxxNodeState
-    /// </summary>
-    internal class FrameIndexNodeStateReadOnlyDictionary : ReadOnlyDictionary<IFrameIndex, IFrameNodeState>, IFrameIndexNodeStateReadOnlyDictionary
-    {
-        public FrameIndexNodeStateReadOnlyDictionary(IFrameIndexNodeStateDictionary dictionary)
+        /// <inheritdoc/>
+        public FrameIndexNodeStateReadOnlyDictionary(FrameIndexNodeStateDictionary dictionary)
             : base(dictionary)
         {
         }
 
-        #region ReadOnly
-        bool IReadOnlyDictionary<IReadOnlyIndex, IReadOnlyNodeState>.ContainsKey(IReadOnlyIndex key) { return ContainsKey((IFrameIndex)key); }
-        bool IReadOnlyDictionary<IReadOnlyIndex, IReadOnlyNodeState>.TryGetValue(IReadOnlyIndex key, out IReadOnlyNodeState value)
-        {
-            bool Result = TryGetValue((IFrameIndex)key, out IFrameNodeState Value);
-            value = Value;
-            return Result;
-        }
-        IReadOnlyNodeState IReadOnlyDictionary<IReadOnlyIndex, IReadOnlyNodeState>.this[IReadOnlyIndex key] { get { return this[(IFrameIndex)key]; } }
-        IEnumerable<IReadOnlyIndex> IReadOnlyDictionary<IReadOnlyIndex, IReadOnlyNodeState>.Keys { get { return new List<IReadOnlyIndex>(Keys); } }
-        IEnumerable<IReadOnlyNodeState> IReadOnlyDictionary<IReadOnlyIndex, IReadOnlyNodeState>.Values { get { return new List<IReadOnlyNodeState>(Values); } }
+        #region IFrameIndex, IFrameNodeState
+        void ICollection<KeyValuePair<IFrameIndex, IFrameNodeState>>.Add(KeyValuePair<IFrameIndex, IFrameNodeState> item) { throw new System.InvalidOperationException(); }
+        void ICollection<KeyValuePair<IFrameIndex, IFrameNodeState>>.Clear() { throw new System.InvalidOperationException(); }
+        bool ICollection<KeyValuePair<IFrameIndex, IFrameNodeState>>.Contains(KeyValuePair<IFrameIndex, IFrameNodeState> item) { return ContainsKey(item.Key) && this[item.Key] == item.Value; }
+        void ICollection<KeyValuePair<IFrameIndex, IFrameNodeState>>.CopyTo(KeyValuePair<IFrameIndex, IFrameNodeState>[] array, int arrayIndex) { ((System.Collections.ICollection)this).CopyTo(array, arrayIndex); }
+        bool ICollection<KeyValuePair<IFrameIndex, IFrameNodeState>>.Remove(KeyValuePair<IFrameIndex, IFrameNodeState> item) { throw new System.InvalidOperationException(); }
+        bool ICollection<KeyValuePair<IFrameIndex, IFrameNodeState>>.IsReadOnly { get { return false; } }
+        IEnumerator<KeyValuePair<IFrameIndex, IFrameNodeState>> IEnumerable<KeyValuePair<IFrameIndex, IFrameNodeState>>.GetEnumerator() { return ((IList<KeyValuePair<IFrameIndex, IFrameNodeState>>)this).GetEnumerator(); }
 
-        IEnumerator<KeyValuePair<IReadOnlyIndex, IReadOnlyNodeState>> IEnumerable<KeyValuePair<IReadOnlyIndex, IReadOnlyNodeState>>.GetEnumerator()
-        {
-            List<KeyValuePair<IReadOnlyIndex, IReadOnlyNodeState>> NewList = new List<KeyValuePair<IReadOnlyIndex, IReadOnlyNodeState>>();
-            IEnumerator<KeyValuePair<IFrameIndex, IFrameNodeState>> Enumerator = GetEnumerator();
-            while (Enumerator.MoveNext())
-            {
-                KeyValuePair<IFrameIndex, IFrameNodeState> Entry = Enumerator.Current;
-                NewList.Add(new KeyValuePair<IReadOnlyIndex, IReadOnlyNodeState>(Entry.Key, Entry.Value));
-            }
+        IFrameNodeState IDictionary<IFrameIndex, IFrameNodeState>.this[IFrameIndex key] { get { return (IFrameNodeState)this[key]; } set { throw new System.InvalidOperationException(); } }
+        ICollection<IFrameIndex> IDictionary<IFrameIndex, IFrameNodeState>.Keys { get { List<IFrameIndex> Result = new(); foreach (KeyValuePair<IFrameIndex, IFrameNodeState> Entry in (ICollection<KeyValuePair<IFrameIndex, IFrameNodeState>>)this) Result.Add(Entry.Key); return Result; } }
+        ICollection<IFrameNodeState> IDictionary<IFrameIndex, IFrameNodeState>.Values { get { List<IFrameNodeState> Result = new(); foreach (KeyValuePair<IFrameIndex, IFrameNodeState> Entry in (ICollection<KeyValuePair<IFrameIndex, IFrameNodeState>>)this) Result.Add(Entry.Value); return Result; } }
+        void IDictionary<IFrameIndex, IFrameNodeState>.Add(IFrameIndex key, IFrameNodeState value) { throw new System.InvalidOperationException(); }
+        bool IDictionary<IFrameIndex, IFrameNodeState>.ContainsKey(IFrameIndex key) { return ContainsKey(key); }
+        bool IDictionary<IFrameIndex, IFrameNodeState>.Remove(IFrameIndex key) { throw new System.InvalidOperationException(); }
+        bool IDictionary<IFrameIndex, IFrameNodeState>.TryGetValue(IFrameIndex key, out IFrameNodeState value) { bool Result = TryGetValue(key, out IReadOnlyNodeState Value); value = (IFrameNodeState)Value; return Result; }
 
-            return NewList.GetEnumerator();
-        }
-        #endregion
-
-        #region Writeable
-        bool IWriteableIndexNodeStateReadOnlyDictionary.ContainsKey(IWriteableIndex key) { return ContainsKey((IFrameIndex)key); }
-        bool IReadOnlyDictionary<IWriteableIndex, IWriteableNodeState>.ContainsKey(IWriteableIndex key) { return ContainsKey((IFrameIndex)key); }
-        bool IReadOnlyDictionary<IWriteableIndex, IWriteableNodeState>.TryGetValue(IWriteableIndex key, out IWriteableNodeState value)
-        {
-            bool Result = TryGetValue((IFrameIndex)key, out IFrameNodeState Value);
-            value = Value;
-            return Result;
-        }
-        IWriteableNodeState IWriteableIndexNodeStateReadOnlyDictionary.this[IWriteableIndex key] { get { return this[(IFrameIndex)key]; } }
-        IWriteableNodeState IReadOnlyDictionary<IWriteableIndex, IWriteableNodeState>.this[IWriteableIndex key] { get { return this[(IFrameIndex)key]; } }
-        IEnumerable<IWriteableIndex> IReadOnlyDictionary<IWriteableIndex, IWriteableNodeState>.Keys { get { return new List<IWriteableIndex>(Keys); } }
-        IEnumerable<IWriteableNodeState> IReadOnlyDictionary<IWriteableIndex, IWriteableNodeState>.Values { get { return new List<IWriteableNodeState>(Values); } }
-
-        IEnumerator<KeyValuePair<IWriteableIndex, IWriteableNodeState>> IEnumerable<KeyValuePair<IWriteableIndex, IWriteableNodeState>>.GetEnumerator()
-        {
-            List<KeyValuePair<IWriteableIndex, IWriteableNodeState>> NewList = new List<KeyValuePair<IWriteableIndex, IWriteableNodeState>>();
-            IEnumerator<KeyValuePair<IFrameIndex, IFrameNodeState>> Enumerator = GetEnumerator();
-            while (Enumerator.MoveNext())
-            {
-                KeyValuePair<IFrameIndex, IFrameNodeState> Entry = Enumerator.Current;
-                NewList.Add(new KeyValuePair<IWriteableIndex, IWriteableNodeState>(Entry.Key, Entry.Value));
-            }
-
-            return NewList.GetEnumerator();
-        }
-        IEnumerator<KeyValuePair<IWriteableIndex, IWriteableNodeState>> IWriteableIndexNodeStateReadOnlyDictionary.GetEnumerator() { return ((IEnumerable<KeyValuePair<IWriteableIndex, IWriteableNodeState>>)this).GetEnumerator(); }
+        IFrameNodeState IReadOnlyDictionary<IFrameIndex, IFrameNodeState>.this[IFrameIndex key] { get { return (IFrameNodeState)this[key]; } }
+        IEnumerable<IFrameIndex> IReadOnlyDictionary<IFrameIndex, IFrameNodeState>.Keys { get { List<IFrameIndex> Result = new(); foreach (KeyValuePair<IFrameIndex, IFrameNodeState> Entry in (ICollection<KeyValuePair<IFrameIndex, IFrameNodeState>>)this) Result.Add(Entry.Key); return Result; } }
+        IEnumerable<IFrameNodeState> IReadOnlyDictionary<IFrameIndex, IFrameNodeState>.Values { get { List<IFrameNodeState> Result = new(); foreach (KeyValuePair<IFrameIndex, IFrameNodeState> Entry in (ICollection<KeyValuePair<IFrameIndex, IFrameNodeState>>)this) Result.Add(Entry.Value); return Result; } }
+        bool IReadOnlyDictionary<IFrameIndex, IFrameNodeState>.ContainsKey(IFrameIndex key) { return ContainsKey(key); }
+        bool IReadOnlyDictionary<IFrameIndex, IFrameNodeState>.TryGetValue(IFrameIndex key, out IFrameNodeState value) { bool Result = TryGetValue(key, out IReadOnlyNodeState Value); value = (IFrameNodeState)Value; return Result; }
         #endregion
     }
 }

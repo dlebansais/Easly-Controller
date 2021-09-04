@@ -4,87 +4,8 @@
     using System.Diagnostics;
     using EaslyController.Writeable;
 
-    /// <summary>
-    /// View of a block state.
-    /// </summary>
-    public interface IFrameBlockStateView : IWriteableBlockStateView
-    {
-        /// <summary>
-        /// The controller view to which this object belongs.
-        /// </summary>
-        new IFrameControllerView ControllerView { get; }
-
-        /// <summary>
-        /// The block state.
-        /// </summary>
-        new IFrameBlockState BlockState { get; }
-
-        /// <summary>
-        /// The template used to display the block state.
-        /// </summary>
-        IFrameTemplate Template { get; }
-
-        /// <summary>
-        /// Root cell for the view.
-        /// </summary>
-        IFrameCellView RootCellView { get; }
-
-        /// <summary>
-        /// List of cell views for each child node.
-        /// </summary>
-        IFrameCellViewCollection EmbeddingCellView { get; }
-
-        /// <summary>
-        /// True if the block view contain at least one visible cell view.
-        /// </summary>
-        bool HasVisibleCellView { get; }
-
-        /// <summary>
-        /// Builds the cell view tree for this view.
-        /// </summary>
-        /// <param name="context">Context used to build the cell view tree.</param>
-        void BuildRootCellView(IFrameCellViewTreeContext context);
-
-        /// <summary>
-        /// Assign the cell view for each child node.
-        /// </summary>
-        /// <param name="embeddingCellView">The assigned cell view list.</param>
-        void AssignEmbeddingCellView(IFrameCellViewCollection embeddingCellView);
-
-        /// <summary>
-        /// Clears the cell view tree for this view.
-        /// </summary>
-        /// <param name="stateView">The state view for which to delete cells.</param>
-        void ClearRootCellView(IFrameNodeStateView stateView);
-
-        /// <summary>
-        /// Update line numbers in the root cell view.
-        /// </summary>
-        /// <param name="lineNumber">The current line number, updated upon return.</param>
-        /// <param name="maxLineNumber">The maximum line number observed, updated upon return.</param>
-        /// <param name="columnNumber">The current column number, updated upon return.</param>
-        /// <param name="maxColumnNumber">The maximum column number observed, updated upon return.</param>
-        void UpdateLineNumbers(ref int lineNumber, ref int maxLineNumber, ref int columnNumber, ref int maxColumnNumber);
-
-        /// <summary>
-        /// Enumerate all visible cell views. Enumeration is interrupted if <paramref name="handler"/> returns true.
-        /// </summary>
-        /// <param name="handler">A handler to execute for each cell view.</param>
-        /// <param name="cellView">The cell view for which <paramref name="handler"/> returned true. Null if none.</param>
-        /// <param name="reversed">If true, search in reverse order.</param>
-        /// <returns>The last value returned by <paramref name="handler"/>.</returns>
-        bool EnumerateVisibleCellViews(Func<IFrameVisibleCellView, bool> handler, out IFrameVisibleCellView cellView, bool reversed);
-
-        /// <summary>
-        /// Checks if the tree of cell views under this state is valid.
-        /// </summary>
-        bool IsCellViewTreeValid();
-    }
-
-    /// <summary>
-    /// View of a block state.
-    /// </summary>
-    internal class FrameBlockStateView : WriteableBlockStateView, IFrameBlockStateView
+    /// <inheritdoc/>
+    public class FrameBlockStateView : WriteableBlockStateView
     {
         #region Init
         /// <summary>
@@ -92,7 +13,7 @@
         /// </summary>
         /// <param name="controllerView">The controller view to which this object belongs.</param>
         /// <param name="blockState">The block state.</param>
-        public FrameBlockStateView(IFrameControllerView controllerView, IFrameBlockState blockState)
+        public FrameBlockStateView(FrameControllerView controllerView, IFrameBlockState blockState)
             : base(controllerView, blockState)
         {
         }
@@ -102,7 +23,7 @@
         /// <summary>
         /// The controller view to which this object belongs.
         /// </summary>
-        public new IFrameControllerView ControllerView { get { return (IFrameControllerView)base.ControllerView; } }
+        public new FrameControllerView ControllerView { get { return (FrameControllerView)base.ControllerView; } }
 
         /// <summary>
         /// The block state.
@@ -252,7 +173,7 @@
             return true;
         }
 
-        private protected virtual bool IsRootCellViewEqual(CompareEqual comparer, IFrameBlockStateView other)
+        private protected virtual bool IsRootCellViewEqual(CompareEqual comparer, FrameBlockStateView other)
         {
             if (!comparer.IsTrue((RootCellView == null && other.RootCellView == null) || (RootCellView != null && other.RootCellView != null)))
                 return comparer.Failed();
@@ -266,7 +187,7 @@
             return true;
         }
 
-        private protected virtual bool IsEmbeddingCellViewEqual(CompareEqual comparer, IFrameBlockStateView other)
+        private protected virtual bool IsEmbeddingCellViewEqual(CompareEqual comparer, FrameBlockStateView other)
         {
             if (!comparer.IsTrue((EmbeddingCellView == null && other.EmbeddingCellView == null) || (EmbeddingCellView != null && other.EmbeddingCellView != null)))
                 return comparer.Failed();
@@ -291,9 +212,9 @@
 
             if (IsValid)
             {
-                IFrameAssignableCellViewDictionary<string> EmptyCellViewTable = CreateCellViewTable();
-                IFrameAssignableCellViewReadOnlyDictionary<string> ExpectedCellViewTable = EmptyCellViewTable.ToReadOnly();
-                IFrameAssignableCellViewDictionary<string> ActualCellViewTable = CreateCellViewTable();
+                FrameAssignableCellViewDictionary<string> EmptyCellViewTable = CreateCellViewTable();
+                FrameAssignableCellViewReadOnlyDictionary<string> ExpectedCellViewTable = EmptyCellViewTable.ToReadOnly();
+                FrameAssignableCellViewDictionary<string> ActualCellViewTable = CreateCellViewTable();
                 IsValid &= RootCellView.IsCellViewTreeValid(ExpectedCellViewTable, ActualCellViewTable);
                 IsValid &= ActualCellViewTable.Count == 0;
             }
@@ -306,7 +227,7 @@
         /// <summary>
         /// Creates a IxxxAssignableCellViewDictionary{string} object.
         /// </summary>
-        private protected virtual IFrameAssignableCellViewDictionary<string> CreateCellViewTable()
+        private protected virtual FrameAssignableCellViewDictionary<string> CreateCellViewTable()
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameBlockStateView));
             return new FrameAssignableCellViewDictionary<string>();

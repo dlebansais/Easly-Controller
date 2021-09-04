@@ -22,15 +22,15 @@
         /// <param name="parentCellView">The collection of cell views containing this view. Null for the root of the cell tree.</param>
         public virtual IFrameCellView BuildBlockCells(IFrameCellViewTreeContext context, IFrameCellViewCollection parentCellView)
         {
-            IFrameBlockStateView BlockStateView = context.BlockStateView;
+            FrameBlockStateView BlockStateView = context.BlockStateView;
             IFrameBlockState BlockState = BlockStateView.BlockState;
             Debug.Assert(BlockState != null);
 
             IFrameBlockTemplate BlockTemplate = ParentTemplate as IFrameBlockTemplate;
             Debug.Assert(BlockTemplate != null);
 
-            IFrameStateViewDictionary StateViewTable = context.ControllerView.StateViewTable;
-            IFrameCellViewList CellViewList = CreateCellViewList();
+            FrameStateViewDictionary StateViewTable = context.ControllerView.StateViewTable;
+            FrameCellViewList CellViewList = CreateCellViewList();
             IFrameCellViewCollection EmbeddingCellView = CreateEmbeddingCellView(context.StateView, parentCellView, CellViewList);
             ValidateEmbeddingCellView(context, EmbeddingCellView);
 
@@ -39,7 +39,7 @@
                 Debug.Assert(StateViewTable.ContainsKey(ChildState));
 
                 IFrameNodeStateView StateView = context.StateView;
-                IFrameNodeStateView ChildStateView = StateViewTable[ChildState];
+                IFrameNodeStateView ChildStateView = (IFrameNodeStateView)StateViewTable[ChildState];
 
                 Debug.Assert(ChildStateView.RootCellView == null);
                 context.SetChildStateView(ChildStateView);
@@ -73,7 +73,7 @@
             Debug.Assert(containerCellView.ChildStateView == childStateView);
         }
 
-        private protected virtual void AssignEmbeddingCellView(IFrameBlockStateView blockStateView, IFrameCellViewCollection embeddingCellView)
+        private protected virtual void AssignEmbeddingCellView(FrameBlockStateView blockStateView, IFrameCellViewCollection embeddingCellView)
         {
             blockStateView.AssignEmbeddingCellView(embeddingCellView);
         }
@@ -83,7 +83,7 @@
         /// <summary>
         /// Creates a IxxxCellViewList object.
         /// </summary>
-        private protected virtual IFrameCellViewList CreateCellViewList()
+        private protected virtual FrameCellViewList CreateCellViewList()
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameCollectionPlaceholderFrame));
             return new FrameCellViewList();
@@ -101,7 +101,7 @@
         /// <summary>
         /// Creates a IxxxCellViewCollection object.
         /// </summary>
-        private protected abstract IFrameCellViewCollection CreateEmbeddingCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, IFrameCellViewList list);
+        private protected abstract IFrameCellViewCollection CreateEmbeddingCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, FrameCellViewList list);
         #endregion
     }
 }

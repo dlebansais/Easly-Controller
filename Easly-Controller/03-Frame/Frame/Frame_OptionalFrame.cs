@@ -23,7 +23,7 @@
         /// <param name="nodeType">Type of the node this frame can describe.</param>
         /// <param name="nodeTemplateTable">Table of templates with all frames.</param>
         /// <param name="commentFrameCount">Number of comment frames found so far.</param>
-        public override bool IsValid(Type nodeType, IFrameTemplateReadOnlyDictionary nodeTemplateTable, ref int commentFrameCount)
+        public override bool IsValid(Type nodeType, FrameTemplateReadOnlyDictionary nodeTemplateTable, ref int commentFrameCount)
         {
             bool IsValid = true;
 
@@ -51,11 +51,11 @@
             Debug.Assert(Inner.ChildState != null);
             IFrameNodeState ChildState = Inner.ChildState;
 
-            IFrameStateViewDictionary StateViewTable = context.ControllerView.StateViewTable;
+            FrameStateViewDictionary StateViewTable = context.ControllerView.StateViewTable;
             Debug.Assert(StateViewTable.ContainsKey(ChildState));
 
             IFrameNodeStateView StateView = context.StateView;
-            IFrameNodeStateView ChildStateView = StateViewTable[ChildState];
+            IFrameNodeStateView ChildStateView = (IFrameNodeStateView)StateViewTable[ChildState];
 
             Debug.Assert(ChildStateView.RootCellView == null);
             context.SetChildStateView(ChildStateView);

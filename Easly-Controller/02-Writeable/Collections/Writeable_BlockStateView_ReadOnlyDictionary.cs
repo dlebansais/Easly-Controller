@@ -1,10 +1,11 @@
 ﻿namespace EaslyController.Writeable
 {
     using System.Collections.Generic;
+    using System.Diagnostics;
     using EaslyController.ReadOnly;
 
     /// <inheritdoc/>
-    public class WriteableBlockStateViewReadOnlyDictionary : ReadOnlyBlockStateViewReadOnlyDictionary, ICollection<KeyValuePair<IWriteableBlockState, WriteableBlockStateView>>, IEnumerable<KeyValuePair<IWriteableBlockState, WriteableBlockStateView>>, IDictionary<IWriteableBlockState, WriteableBlockStateView>, IReadOnlyCollection<KeyValuePair<IWriteableBlockState, WriteableBlockStateView>>, IReadOnlyDictionary<IWriteableBlockState, WriteableBlockStateView>
+    public class WriteableBlockStateViewReadOnlyDictionary : ReadOnlyBlockStateViewReadOnlyDictionary, ICollection<KeyValuePair<IWriteableBlockState, WriteableBlockStateView>>, IEnumerable<KeyValuePair<IWriteableBlockState, WriteableBlockStateView>>, IDictionary<IWriteableBlockState, WriteableBlockStateView>, IReadOnlyCollection<KeyValuePair<IWriteableBlockState, WriteableBlockStateView>>, IReadOnlyDictionary<IWriteableBlockState, WriteableBlockStateView>, IEqualComparable
     {
         /// <inheritdoc/>
         public WriteableBlockStateViewReadOnlyDictionary(WriteableBlockStateViewDictionary dictionary)
@@ -34,6 +35,33 @@
         IEnumerable<WriteableBlockStateView> IReadOnlyDictionary<IWriteableBlockState, WriteableBlockStateView>.Values { get { List<WriteableBlockStateView> Result = new(); foreach (KeyValuePair<IWriteableBlockState, WriteableBlockStateView> Entry in (ICollection<KeyValuePair<IWriteableBlockState, WriteableBlockStateView>>)this) Result.Add(Entry.Value); return Result; } }
         bool IReadOnlyDictionary<IWriteableBlockState, WriteableBlockStateView>.ContainsKey(IWriteableBlockState key) { return ContainsKey(key); }
         bool IReadOnlyDictionary<IWriteableBlockState, WriteableBlockStateView>.TryGetValue(IWriteableBlockState key, out WriteableBlockStateView value) { bool Result = TryGetValue(key, out ReadOnlyBlockStateView Value); value = (WriteableBlockStateView)Value; return Result; }
+        #endregion
+
+        #region Debugging
+        /// <inheritdoc/>
+        public override bool IsEqual(CompareEqual comparer, IEqualComparable other)
+        {
+            Debug.Assert(other != null);
+
+            if (!comparer.IsSameType(other, out WriteableBlockStateViewReadOnlyDictionary AsBlockStateViewReadOnlyDictionary))
+                return comparer.Failed();
+
+            if (!comparer.IsSameCount(Count, AsBlockStateViewReadOnlyDictionary.Count))
+                return comparer.Failed();
+
+            foreach (IWriteableBlockState Key in Keys)
+            {
+                WriteableBlockStateView Value = (WriteableBlockStateView)this[Key];
+
+                if (!comparer.IsTrue(AsBlockStateViewReadOnlyDictionary.ContainsKey(Key)))
+                    return comparer.Failed();
+
+                if (!comparer.VerifyEqual(Value, AsBlockStateViewReadOnlyDictionary[Key]))
+                    return comparer.Failed();
+            }
+
+            return true;
+        }
         #endregion
     }
 }

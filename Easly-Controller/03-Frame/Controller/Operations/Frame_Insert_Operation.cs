@@ -3,17 +3,8 @@
     using System;
     using EaslyController.Writeable;
 
-    /// <summary>
-    /// Details for insertion operations.
-    /// </summary>
-    public interface IFrameInsertOperation : IWriteableInsertOperation, IFrameOperation
-    {
-    }
-
-    /// <summary>
-    /// Details for insertion operations.
-    /// </summary>
-    internal abstract class FrameInsertOperation : WriteableInsertOperation, IFrameInsertOperation
+    /// <inheritdoc/>
+    internal abstract class FrameInsertOperation : WriteableInsertOperation
     {
         #region Init
         /// <summary>
@@ -22,7 +13,7 @@
         /// <param name="handlerRedo">Handler to execute to redo the operation.</param>
         /// <param name="handlerUndo">Handler to execute to undo the operation.</param>
         /// <param name="isNested">True if the operation is nested within another more general one.</param>
-        public FrameInsertOperation(Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        public FrameInsertOperation(Action<WriteableOperation> handlerRedo, Action<WriteableOperation> handlerUndo, bool isNested)
             : base(handlerRedo, handlerUndo, isNested)
         {
         }

@@ -1,23 +1,14 @@
-﻿#pragma warning disable 1591
-
-namespace EaslyController.Frame
+﻿namespace EaslyController.Frame
 {
     using System.Collections.Generic;
-    using System.Collections.ObjectModel;
 
-    /// <summary>
-    /// List of IxxxTemplate
-    /// </summary>
-    public interface IFrameTemplateList : IList<IFrameTemplate>, IReadOnlyList<IFrameTemplate>
+    /// <inheritdoc/>
+    public class FrameTemplateList : List<IFrameTemplate>
     {
-        new IFrameTemplate this[int index] { get; set; }
-        new int Count { get; }
-    }
-
-    /// <summary>
-    /// List of IxxxTemplate
-    /// </summary>
-    public class FrameTemplateList : Collection<IFrameTemplate>, IFrameTemplateList
-    {
+        /// <inheritdoc/>
+        public virtual FrameTemplateReadOnlyList ToReadOnly()
+        {
+            return new FrameTemplateReadOnlyList(this);
+        }
     }
 }

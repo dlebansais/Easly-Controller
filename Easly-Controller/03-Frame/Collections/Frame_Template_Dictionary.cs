@@ -1,39 +1,30 @@
-﻿#pragma warning disable 1591
-
-namespace EaslyController.Frame
+﻿namespace EaslyController.Frame
 {
     using System;
     using System.Collections.Generic;
 
-    /// <summary>
-    /// Dictionary of Type, IxxxTemplate
-    /// </summary>
-    public interface IFrameTemplateDictionary : IDictionary<Type, IFrameTemplate>
+    /// <inheritdoc/>
+    public class FrameTemplateDictionary : Dictionary<Type, IFrameTemplate>
     {
-        /// <summary>
-        /// Gets a read-only view of the dictionary.
-        /// </summary>
-        IFrameTemplateReadOnlyDictionary ToReadOnly();
-    }
+        /// <inheritdoc/>
+        public FrameTemplateDictionary() : base() { }
+        /// <inheritdoc/>
+        public FrameTemplateDictionary(IDictionary<Type, IFrameTemplate> dictionary) : base(dictionary) { }
+        /// <inheritdoc/>
+        public FrameTemplateDictionary(IEnumerable<KeyValuePair<Type, IFrameTemplate>> collection) : base(collection) { }
+        /// <inheritdoc/>
+        public FrameTemplateDictionary(IEqualityComparer<Type> comparer) : base(comparer) { }
+        /// <inheritdoc/>
+        public FrameTemplateDictionary(int capacity) : base(capacity) { }
+        /// <inheritdoc/>
+        public FrameTemplateDictionary(IDictionary<Type, IFrameTemplate> dictionary, IEqualityComparer<Type> comparer) : base(dictionary, comparer) { }
+        /// <inheritdoc/>
+        public FrameTemplateDictionary(IEnumerable<KeyValuePair<Type, IFrameTemplate>> collection, IEqualityComparer<Type> comparer) : base(collection, comparer) { }
+        /// <inheritdoc/>
+        public FrameTemplateDictionary(int capacity, IEqualityComparer<Type> comparer) : base(capacity, comparer) { }
 
-    /// <summary>
-    /// Dictionary of Type, IxxxTemplate
-    /// </summary>
-    public class FrameTemplateDictionary : Dictionary<Type, IFrameTemplate>, IFrameTemplateDictionary
-    {
-        public FrameTemplateDictionary()
-        {
-        }
-
-        public FrameTemplateDictionary(IDictionary<Type, IFrameTemplate> dictionary)
-            : base(dictionary)
-        {
-        }
-
-        /// <summary>
-        /// Gets a read-only view of the dictionary.
-        /// </summary>
-        public virtual IFrameTemplateReadOnlyDictionary ToReadOnly()
+        /// <inheritdoc/>
+        public virtual FrameTemplateReadOnlyDictionary ToReadOnly()
         {
             return new FrameTemplateReadOnlyDictionary(this);
         }

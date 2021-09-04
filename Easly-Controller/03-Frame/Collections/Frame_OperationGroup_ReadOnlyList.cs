@@ -1,38 +1,20 @@
-﻿#pragma warning disable 1591
-
-namespace EaslyController.Frame
+﻿namespace EaslyController.Frame
 {
     using System.Collections.Generic;
-    using System.Collections.ObjectModel;
     using EaslyController.Writeable;
 
-    /// <summary>
-    /// Read-only list of IxxxOperationGroup
-    /// </summary>
-    public interface IFrameOperationGroupReadOnlyList : IWriteableOperationGroupReadOnlyList, IReadOnlyList<IFrameOperationGroup>
+    /// <inheritdoc/>
+    public class FrameOperationGroupReadOnlyList : WriteableOperationGroupReadOnlyList, IReadOnlyCollection<FrameOperationGroup>, IReadOnlyList<FrameOperationGroup>
     {
-        new IFrameOperationGroup this[int index] { get; }
-        new int Count { get; }
-        bool Contains(IFrameOperationGroup value);
-        new IEnumerator<IFrameOperationGroup> GetEnumerator();
-        int IndexOf(IFrameOperationGroup value);
-    }
-
-    /// <summary>
-    /// Read-only list of IxxxOperationGroup
-    /// </summary>
-    internal class FrameOperationGroupReadOnlyList : ReadOnlyCollection<IFrameOperationGroup>, IFrameOperationGroupReadOnlyList
-    {
-        public FrameOperationGroupReadOnlyList(IFrameOperationGroupList list)
+        /// <inheritdoc/>
+        public FrameOperationGroupReadOnlyList(FrameOperationGroupList list)
             : base(list)
         {
         }
 
-        #region Writeable
-        bool IWriteableOperationGroupReadOnlyList.Contains(IWriteableOperationGroup value) { return Contains((IFrameOperationGroup)value); }
-        int IWriteableOperationGroupReadOnlyList.IndexOf(IWriteableOperationGroup value) { return IndexOf((IFrameOperationGroup)value); }
-        IEnumerator<IWriteableOperationGroup> IEnumerable<IWriteableOperationGroup>.GetEnumerator() { return GetEnumerator(); }
-        IWriteableOperationGroup IReadOnlyList<IWriteableOperationGroup>.this[int index] { get { return this[index]; } }
+        #region FrameOperationGroup
+        IEnumerator<FrameOperationGroup> IEnumerable<FrameOperationGroup>.GetEnumerator() { return ((IList<FrameOperationGroup>)this).GetEnumerator(); }
+        FrameOperationGroup IReadOnlyList<FrameOperationGroup>.this[int index] { get { return (FrameOperationGroup)this[index]; } }
         #endregion
     }
 }

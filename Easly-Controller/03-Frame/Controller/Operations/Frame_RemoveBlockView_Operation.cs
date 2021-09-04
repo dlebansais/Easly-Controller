@@ -4,21 +4,8 @@
     using BaseNode;
     using EaslyController.Writeable;
 
-    /// <summary>
-    /// Operation details for removing a block from a block list.
-    /// </summary>
-    public interface IFrameRemoveBlockViewOperation : IWriteableRemoveBlockViewOperation, IFrameRemoveOperation
-    {
-        /// <summary>
-        /// Block state removed.
-        /// </summary>
-        new IFrameBlockState BlockState { get; }
-    }
-
-    /// <summary>
-    /// Operation details for removing a block from a block list.
-    /// </summary>
-    internal class FrameRemoveBlockViewOperation : WriteableRemoveBlockViewOperation, IFrameRemoveBlockViewOperation
+    /// <inheritdoc/>
+    internal class FrameRemoveBlockViewOperation : WriteableRemoveBlockViewOperation
     {
         #region Init
         /// <summary>
@@ -30,7 +17,7 @@
         /// <param name="handlerRedo">Handler to execute to redo the operation.</param>
         /// <param name="handlerUndo">Handler to execute to undo the operation.</param>
         /// <param name="isNested">True if the operation is nested within another more general one.</param>
-        public FrameRemoveBlockViewOperation(Node parentNode, string propertyName, int blockIndex, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        public FrameRemoveBlockViewOperation(Node parentNode, string propertyName, int blockIndex, Action<WriteableOperation> handlerRedo, Action<WriteableOperation> handlerUndo, bool isNested)
             : base(parentNode, propertyName, blockIndex, handlerRedo, handlerUndo, isNested)
         {
         }

@@ -12,7 +12,7 @@
         /// <summary>
         /// The collection of child cells.
         /// </summary>
-        IFrameCellViewList CellViewList { get; }
+        FrameCellViewList CellViewList { get; }
 
         /// <summary>
         /// The frame that was used to create this cell. Can be null.
@@ -67,7 +67,7 @@
         /// <param name="parentCellView">The collection of cell views containing this view. Null for the root of the cell tree.</param>
         /// <param name="cellViewList">The list of child cell views.</param>
         /// <param name="frame">The frame that was used to create this cell. Can be null.</param>
-        public FrameCellViewCollection(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, IFrameCellViewList cellViewList, IFrameFrame frame)
+        public FrameCellViewCollection(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, FrameCellViewList cellViewList, IFrameFrame frame)
             : base(stateView, parentCellView)
         {
             Frame = frame;
@@ -79,7 +79,7 @@
         /// <summary>
         /// The collection of child cells.
         /// </summary>
-        public IFrameCellViewList CellViewList { get; }
+        public FrameCellViewList CellViewList { get; }
 
         /// <summary>
         /// The frame that was used to create this cell. Can be null.
@@ -254,7 +254,7 @@
         /// </summary>
         /// <param name="expectedCellViewTable">Cell views that are associated to a property of the node.</param>
         /// <param name="actualCellViewTable">Cell views that are found in the tree.</param>
-        public override bool IsCellViewTreeValid(IFrameAssignableCellViewReadOnlyDictionary<string> expectedCellViewTable, IFrameAssignableCellViewDictionary<string> actualCellViewTable)
+        public override bool IsCellViewTreeValid(FrameAssignableCellViewReadOnlyDictionary<string> expectedCellViewTable, FrameAssignableCellViewDictionary<string> actualCellViewTable)
         {
             bool IsValid = true;
 
@@ -266,7 +266,7 @@
             return IsValid;
         }
 
-        private protected virtual bool IsCellViewProperlyAssigned(IFrameAssignableCellViewReadOnlyDictionary<string> expectedCellViewTable, IFrameAssignableCellViewDictionary<string> actualCellViewTable)
+        private protected virtual bool IsCellViewProperlyAssigned(FrameAssignableCellViewReadOnlyDictionary<string> expectedCellViewTable, FrameAssignableCellViewDictionary<string> actualCellViewTable)
         {
             bool IsAssigned = true;
 

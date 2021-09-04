@@ -127,7 +127,7 @@
         /// <summary>
         /// Creates a IxxxInsertionExistingBlockNodeIndex object.
         /// </summary>
-        private protected virtual WriteableInsertionExistingBlockNodeIndex CreateInsertionIndex(Node parentNode, Node node)
+        private protected virtual IWriteableInsertionExistingBlockNodeIndex CreateInsertionIndex(Node parentNode, Node node)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableBrowsingExistingBlockNodeIndex));
             return new WriteableInsertionExistingBlockNodeIndex(parentNode, PropertyName, node, BlockIndex, Index);
