@@ -13,7 +13,7 @@
         /// <summary>
         /// The controller view to which this object belongs.
         /// </summary>
-        new ILayoutControllerView ControllerView { get; }
+        new LayoutControllerView ControllerView { get; }
 
         /// <summary>
         /// The node state.
@@ -33,7 +33,7 @@
         /// <summary>
         /// Table of cell views that are mutable lists of cells.
         /// </summary>
-        new ILayoutAssignableCellViewReadOnlyDictionary<string> CellViewTable { get; }
+        new LayoutAssignableCellViewReadOnlyDictionary<string> CellViewTable { get; }
 
         /// <summary>
         /// The cell view that is embedding this state view. Can be null.
@@ -102,7 +102,7 @@
         /// </summary>
         /// <param name="controllerView">The controller view to which this object belongs.</param>
         /// <param name="state">The node state.</param>
-        public LayoutNodeStateView(ILayoutControllerView controllerView, ILayoutNodeState state)
+        public LayoutNodeStateView(LayoutControllerView controllerView, ILayoutNodeState state)
             : base(controllerView, state)
         {
             CellOrigin = RegionHelper.InvalidOrigin;
@@ -115,7 +115,7 @@
         /// <summary>
         /// The controller view to which this object belongs.
         /// </summary>
-        public new ILayoutControllerView ControllerView { get { return (ILayoutControllerView)base.ControllerView; } }
+        public new LayoutControllerView ControllerView { get { return (LayoutControllerView)base.ControllerView; } }
 
         /// <summary>
         /// The node state.
@@ -135,7 +135,7 @@
         /// <summary>
         /// Table of cell views that are mutable lists of cells.
         /// </summary>
-        public new ILayoutAssignableCellViewReadOnlyDictionary<string> CellViewTable { get { return (ILayoutAssignableCellViewReadOnlyDictionary<string>)base.CellViewTable; } }
+        public new LayoutAssignableCellViewReadOnlyDictionary<string> CellViewTable { get { return (LayoutAssignableCellViewReadOnlyDictionary<string>)base.CellViewTable; } }
 
         /// <summary>
         /// The cell view that is embedding this state view. Can be null.

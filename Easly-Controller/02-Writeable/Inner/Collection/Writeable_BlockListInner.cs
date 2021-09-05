@@ -43,7 +43,7 @@
         /// Checks whether a block can be split at the given index.
         /// </summary>
         /// <param name="nodeIndex">Index of the last node to stay in the old block.</param>
-        bool IsSplittable(WriteableBrowsingExistingBlockNodeIndex nodeIndex);
+        bool IsSplittable(IWriteableBrowsingExistingBlockNodeIndex nodeIndex);
 
         /// <summary>
         /// Splits a block in two at the given index.
@@ -109,7 +109,7 @@
         /// Checks whether a block can be split at the given index.
         /// </summary>
         /// <param name="nodeIndex">Index of the last node to stay in the old block.</param>
-        bool IsSplittable(WriteableBrowsingExistingBlockNodeIndex nodeIndex);
+        bool IsSplittable(IWriteableBrowsingExistingBlockNodeIndex nodeIndex);
 
         /// <summary>
         /// Splits a block in two at the given index.
@@ -373,7 +373,7 @@
 
             NodeTreeHelperBlockList.ReplaceInBlock(ChildBlock, Index, operation.NewNode);
 
-            WriteableBrowsingExistingBlockNodeIndex NewBrowsingIndex = CreateBrowsingNodeIndex(operation.NewNode, BlockIndex, Index);
+            IWriteableBrowsingExistingBlockNodeIndex NewBrowsingIndex = CreateBrowsingNodeIndex(operation.NewNode, BlockIndex, Index);
             IWriteablePlaceholderNodeState NewChildState = (IWriteablePlaceholderNodeState)CreateNodeState(NewBrowsingIndex);
             BlockState.Insert(NewBrowsingIndex, Index, NewChildState);
 
@@ -401,7 +401,7 @@
         /// Checks whether a block can be split at the given index.
         /// </summary>
         /// <param name="nodeIndex">Index of the last node to stay in the old block.</param>
-        public virtual bool IsSplittable(WriteableBrowsingExistingBlockNodeIndex nodeIndex)
+        public virtual bool IsSplittable(IWriteableBrowsingExistingBlockNodeIndex nodeIndex)
         {
             Debug.Assert(nodeIndex != null);
             Debug.Assert(nodeIndex.BlockIndex >= 0 && nodeIndex.BlockIndex < BlockStateList.Count);
@@ -438,7 +438,7 @@
             NodeTreeHelperBlockList.SplitBlock(Owner.Node, PropertyName, SplitBlockIndex, SplitIndex, NewBlock);
 
             NodeTreeHelperBlockList.GetChildNode(NewBlock, 0, out Node NewBlockFirstNode);
-            WriteableBrowsingNewBlockNodeIndex NewBlockIndex = CreateNewBlockNodeIndex(NewBlockFirstNode, SplitBlockIndex);
+            IWriteableBrowsingNewBlockNodeIndex NewBlockIndex = CreateNewBlockNodeIndex(NewBlockFirstNode, SplitBlockIndex);
 
             IWriteableBlockState NewBlockState = (IWriteableBlockState)CreateBlockState(NewBlockIndex, NewBlock);
             ((IWriteableBlockState<IWriteableInner<IWriteableBrowsingChildIndex>>)NewBlockState).InitBlockState();

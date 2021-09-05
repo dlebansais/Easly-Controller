@@ -37,7 +37,7 @@
         /// List of optional selectors.
         /// (Set in Xaml)
         /// </summary>
-        public new ILayoutFrameSelectorList Selectors { get { return (ILayoutFrameSelectorList)base.Selectors; } }
+        public new LayoutFrameSelectorList Selectors { get { return (LayoutFrameSelectorList)base.Selectors; } }
         #endregion
     }
 }

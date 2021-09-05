@@ -28,7 +28,7 @@
         /// </summary>
         /// <param name="controllerView">The controller view to which this object belongs.</param>
         /// <param name="state">The source state.</param>
-        public LayoutSourceStateView(ILayoutControllerView controllerView, ILayoutSourceState state)
+        public LayoutSourceStateView(LayoutControllerView controllerView, ILayoutSourceState state)
             : base(controllerView, state)
         {
             CellOrigin = RegionHelper.InvalidOrigin;
@@ -41,7 +41,7 @@
         /// <summary>
         /// The controller view to which this object belongs.
         /// </summary>
-        public new ILayoutControllerView ControllerView { get { return (ILayoutControllerView)base.ControllerView; } }
+        public new LayoutControllerView ControllerView { get { return (LayoutControllerView)base.ControllerView; } }
 
         /// <summary>
         /// The pattern state.
@@ -62,7 +62,7 @@
         /// <summary>
         /// Table of cell views that are mutable lists of cells.
         /// </summary>
-        public new ILayoutAssignableCellViewReadOnlyDictionary<string> CellViewTable { get { return (ILayoutAssignableCellViewReadOnlyDictionary<string>)base.CellViewTable; } }
+        public new LayoutAssignableCellViewReadOnlyDictionary<string> CellViewTable { get { return (LayoutAssignableCellViewReadOnlyDictionary<string>)base.CellViewTable; } }
 
         /// <summary>
         /// The cell view that is embedding this state view. Can be null.
@@ -195,7 +195,7 @@
         /// <summary>
         /// Creates a IxxxAssignableCellViewDictionary{string} object.
         /// </summary>
-        private protected override IFrameAssignableCellViewDictionary<string> CreateCellViewTable()
+        private protected override FrameAssignableCellViewDictionary<string> CreateCellViewTable()
         {
             ControllerTools.AssertNoOverride(this, typeof(LayoutSourceStateView));
             return new LayoutAssignableCellViewDictionary<string>();

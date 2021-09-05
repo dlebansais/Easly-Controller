@@ -13,7 +13,7 @@
         /// <summary>
         /// List of frames within this frame.
         /// </summary>
-        new ILayoutFrameList Items { get; }
+        new LayoutFrameList Items { get; }
 
         /// <summary>
         /// Indicates that block geometry must be drawn around a block.
@@ -41,7 +41,7 @@
         /// <summary>
         /// List of frames within this frame.
         /// </summary>
-        public new ILayoutFrameList Items { get { return (ILayoutFrameList)base.Items; } }
+        public new LayoutFrameList Items { get { return (LayoutFrameList)base.Items; } }
 
         /// <summary>
         /// Node frame visibility. Null if always visible.

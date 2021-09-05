@@ -17,7 +17,7 @@
         /// </summary>
         /// <param name="inner">The inner where the block would be split.</param>
         /// <param name="nodeIndex">Index of the last node to stay in the old block.</param>
-        public virtual bool IsSplittable(IWriteableBlockListInner inner, WriteableBrowsingExistingBlockNodeIndex nodeIndex)
+        public virtual bool IsSplittable(IWriteableBlockListInner inner, IWriteableBrowsingExistingBlockNodeIndex nodeIndex)
         {
             Debug.Assert(inner != null);
             Debug.Assert(nodeIndex != null);
@@ -30,7 +30,7 @@
         /// </summary>
         /// <param name="inner">The inner where the block is split.</param>
         /// <param name="nodeIndex">Index of the last node to stay in the old block.</param>
-        public virtual void SplitBlock(IWriteableBlockListInner inner, WriteableBrowsingExistingBlockNodeIndex nodeIndex)
+        public virtual void SplitBlock(IWriteableBlockListInner inner, IWriteableBrowsingExistingBlockNodeIndex nodeIndex)
         {
             Debug.Assert(inner != null);
             Debug.Assert(nodeIndex != null);
@@ -76,12 +76,12 @@
             Debug.Assert(OldBlockState.StateList.Count + NewBlockState.StateList.Count == OldNodeCount);
             Debug.Assert(NewBlockState.StateList.Count > 0);
 
-            ReadOnlyBrowsingPatternIndex PatternIndex = NewBlockState.PatternIndex;
+            IReadOnlyBrowsingPatternIndex PatternIndex = NewBlockState.PatternIndex;
             IReadOnlyPatternState PatternState = NewBlockState.PatternState;
             AddState(PatternIndex, PatternState);
             Stats.PlaceholderNodeCount++;
 
-            ReadOnlyBrowsingSourceIndex SourceIndex = NewBlockState.SourceIndex;
+            IReadOnlyBrowsingSourceIndex SourceIndex = NewBlockState.SourceIndex;
             IReadOnlySourceState SourceState = NewBlockState.SourceState;
             AddState(SourceIndex, SourceState);
             Stats.PlaceholderNodeCount++;
@@ -102,7 +102,7 @@
         /// </summary>
         /// <param name="inner">The inner where the block would be split.</param>
         /// <param name="nodeIndex">Index of the first node in the block to merge.</param>
-        public virtual bool IsMergeable(IWriteableBlockListInner inner, WriteableBrowsingExistingBlockNodeIndex nodeIndex)
+        public virtual bool IsMergeable(IWriteableBlockListInner inner, IWriteableBrowsingExistingBlockNodeIndex nodeIndex)
         {
             Debug.Assert(inner != null);
             Debug.Assert(nodeIndex != null);
@@ -115,7 +115,7 @@
         /// </summary>
         /// <param name="inner">The inner where blocks are merged.</param>
         /// <param name="nodeIndex">Index of the first node in the block to merge.</param>
-        public virtual void MergeBlocks(IWriteableBlockListInner inner, WriteableBrowsingExistingBlockNodeIndex nodeIndex)
+        public virtual void MergeBlocks(IWriteableBlockListInner inner, IWriteableBrowsingExistingBlockNodeIndex nodeIndex)
         {
             Debug.Assert(inner != null);
             Debug.Assert(nodeIndex != null);
@@ -146,11 +146,11 @@
             IWriteableBlockState FirstBlockState = (IWriteableBlockState)Inner.BlockStateList[BlockIndex - 1];
             IWriteableBlockState SecondBlockState = (IWriteableBlockState)Inner.BlockStateList[BlockIndex];
 
-            ReadOnlyBrowsingSourceIndex SourceIndex = FirstBlockState.SourceIndex;
+            IReadOnlyBrowsingSourceIndex SourceIndex = FirstBlockState.SourceIndex;
             RemoveState(SourceIndex);
             Stats.PlaceholderNodeCount--;
 
-            ReadOnlyBrowsingPatternIndex PatternIndex = FirstBlockState.PatternIndex;
+            IReadOnlyBrowsingPatternIndex PatternIndex = FirstBlockState.PatternIndex;
             RemoveState(PatternIndex);
             Stats.PlaceholderNodeCount--;
 

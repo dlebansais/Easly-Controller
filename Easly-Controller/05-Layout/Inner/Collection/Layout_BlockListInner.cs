@@ -6,15 +6,13 @@
     using EaslyController.ReadOnly;
     using EaslyController.Writeable;
 
-    /// <summary>
-    /// Inner for a block list.
-    /// </summary>
+    /// <inheritdoc/>
     public interface ILayoutBlockListInner : IFocusBlockListInner, ILayoutCollectionInner
     {
         /// <summary>
         /// States of blocks in the block list.
         /// </summary>
-        new ILayoutBlockStateReadOnlyList BlockStateList { get; }
+        new LayoutBlockStateReadOnlyList BlockStateList { get; }
 
         /// <summary>
         /// First node state that can be enumerated in the inner.
@@ -22,17 +20,14 @@
         new ILayoutPlaceholderNodeState FirstNodeState { get; }
     }
 
-    /// <summary>
-    /// Inner for a block list.
-    /// </summary>
-    /// <typeparam name="IIndex">Type of the index.</typeparam>
+    /// <inheritdoc/>
     internal interface ILayoutBlockListInner<out IIndex> : IFocusBlockListInner<IIndex>, ILayoutCollectionInner<IIndex>
         where IIndex : ILayoutBrowsingBlockNodeIndex
     {
         /// <summary>
         /// States of blocks in the block list.
         /// </summary>
-        new ILayoutBlockStateReadOnlyList BlockStateList { get; }
+        new LayoutBlockStateReadOnlyList BlockStateList { get; }
 
         /// <summary>
         /// First node state that can be enumerated in the inner.
@@ -40,18 +35,13 @@
         new ILayoutPlaceholderNodeState FirstNodeState { get; }
     }
 
-    /// <summary>
-    /// Inner for a block list.
-    /// </summary>
-    /// <typeparam name="IIndex">Type of the index as interface.</typeparam>
-    /// <typeparam name="TIndex">Type of the index as class.</typeparam>
-    internal class LayoutBlockListInner<IIndex, TIndex> : FocusBlockListInner<IIndex, TIndex>, ILayoutBlockListInner<IIndex>, ILayoutBlockListInner
+    /// <inheritdoc/>
+    internal class LayoutBlockListInner<IIndex> : FocusBlockListInner<IIndex>, ILayoutBlockListInner<IIndex>, ILayoutBlockListInner
         where IIndex : ILayoutBrowsingBlockNodeIndex
-        where TIndex : LayoutBrowsingBlockNodeIndex, IIndex
     {
         #region Init
         /// <summary>
-        /// Initializes a new instance of the <see cref="LayoutBlockListInner{IIndex, TIndex}"/> class.
+        /// Initializes a new instance of the <see cref="LayoutBlockListInner{IIndex}"/> class.
         /// </summary>
         /// <param name="owner">Parent containing the inner.</param>
         /// <param name="propertyName">Property name of the inner in <paramref name="owner"/>.</param>
@@ -70,7 +60,7 @@
         /// <summary>
         /// States of blocks in the block list.
         /// </summary>
-        public new ILayoutBlockStateReadOnlyList BlockStateList { get { return (ILayoutBlockStateReadOnlyList)base.BlockStateList; } }
+        public new LayoutBlockStateReadOnlyList BlockStateList { get { return (LayoutBlockStateReadOnlyList)base.BlockStateList; } }
 
         /// <summary>
         /// First node state that can be enumerated in the inner.
@@ -82,9 +72,9 @@
         /// <summary>
         /// Creates a IxxxBlockStateList object.
         /// </summary>
-        private protected override IReadOnlyBlockStateList CreateBlockStateList()
+        private protected override ReadOnlyBlockStateList CreateBlockStateList()
         {
-            ControllerTools.AssertNoOverride(this, typeof(LayoutBlockListInner<IIndex, TIndex>));
+            ControllerTools.AssertNoOverride(this, typeof(LayoutBlockListInner<IIndex>));
             return new LayoutBlockStateList();
         }
 
@@ -93,7 +83,7 @@
         /// </summary>
         private protected override IReadOnlyBlockState CreateBlockState(IReadOnlyBrowsingNewBlockNodeIndex nodeIndex, IBlock childBlock)
         {
-            ControllerTools.AssertNoOverride(this, typeof(LayoutBlockListInner<IIndex, TIndex>));
+            ControllerTools.AssertNoOverride(this, typeof(LayoutBlockListInner<IIndex>));
             return new LayoutBlockState<ILayoutInner<ILayoutBrowsingChildIndex>>(this, (ILayoutBrowsingNewBlockNodeIndex)nodeIndex, childBlock);
         }
 
@@ -102,16 +92,16 @@
         /// </summary>
         private protected override IReadOnlyPlaceholderNodeState CreateNodeState(IReadOnlyNodeIndex nodeIndex)
         {
-            ControllerTools.AssertNoOverride(this, typeof(LayoutBlockListInner<IIndex, TIndex>));
+            ControllerTools.AssertNoOverride(this, typeof(LayoutBlockListInner<IIndex>));
             return new LayoutPlaceholderNodeState<ILayoutInner<ILayoutBrowsingChildIndex>>((ILayoutNodeIndex)nodeIndex);
         }
 
         /// <summary>
         /// Creates a IxxxBrowsingBlockNodeIndexList.
         /// </summary>
-        private protected override IReadOnlyBrowsingBlockNodeIndexList CreateBlockNodeIndexList()
+        private protected override ReadOnlyBrowsingBlockNodeIndexList CreateBlockNodeIndexList()
         {
-            ControllerTools.AssertNoOverride(this, typeof(LayoutBlockListInner<IIndex, TIndex>));
+            ControllerTools.AssertNoOverride(this, typeof(LayoutBlockListInner<IIndex>));
             return new LayoutBrowsingBlockNodeIndexList();
         }
 
@@ -120,7 +110,7 @@
         /// </summary>
         private protected override IWriteableBrowsingExistingBlockNodeIndex CreateBrowsingNodeIndex(Node node, int blockIndex, int index)
         {
-            ControllerTools.AssertNoOverride(this, typeof(LayoutBlockListInner<IIndex, TIndex>));
+            ControllerTools.AssertNoOverride(this, typeof(LayoutBlockListInner<IIndex>));
             return new LayoutBrowsingExistingBlockNodeIndex(Owner.Node, node, PropertyName, blockIndex, index);
         }
 
@@ -129,7 +119,7 @@
         /// </summary>
         private protected override IWriteableBrowsingNewBlockNodeIndex CreateNewBlockNodeIndex(Node node, int blockIndex)
         {
-            ControllerTools.AssertNoOverride(this, typeof(LayoutBlockListInner<IIndex, TIndex>));
+            ControllerTools.AssertNoOverride(this, typeof(LayoutBlockListInner<IIndex>));
             return new LayoutBrowsingNewBlockNodeIndex(Owner.Node, node, PropertyName, blockIndex);
         }
         #endregion

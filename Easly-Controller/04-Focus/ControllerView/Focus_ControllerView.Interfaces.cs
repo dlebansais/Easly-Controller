@@ -151,7 +151,7 @@
                     Result = false;
                     for (int BlockIndex = 0; BlockIndex < AsBlockListInner.BlockStateList.Count; BlockIndex++)
                     {
-                        StateList = AsBlockListInner.BlockStateList[BlockIndex].StateList;
+                        StateList = (FocusPlaceholderNodeStateReadOnlyList)AsBlockListInner.BlockStateList[BlockIndex].StateList;
                         Index = StateList.IndexOf(PlaceholderNodeState);
                         if (Index >= 0)
                         {

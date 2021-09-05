@@ -162,7 +162,7 @@
                 if (NodeList.Count == 0 || ParentInner.InterfaceType.IsAssignableFrom(NodeList[0].GetType()))
                 {
                     List<IWriteableInsertionCollectionNodeIndex> IndexList = new List<IWriteableInsertionCollectionNodeIndex>();
-                    IFocusController Controller = StateView.ControllerView.Controller;
+                    FocusController Controller = StateView.ControllerView.Controller;
                     int OldNodeCount = ParentInner.Count;
                     int SelectionCount = EndIndex - StartIndex;
                     int InsertionNodeIndex = EndIndex;
@@ -215,7 +215,7 @@
                     ClipboardHelper.WriteNodeList(dataObject, NodeList);
                 }
 
-                IFocusController Controller = StateView.ControllerView.Controller;
+                FocusController Controller = StateView.ControllerView.Controller;
                 Controller.RemoveNodeRange(ParentInner, -1, StartIndex, EndIndex);
 
                 Debug.Assert(ParentInner.Count == OldNodeCount - SelectionCount);

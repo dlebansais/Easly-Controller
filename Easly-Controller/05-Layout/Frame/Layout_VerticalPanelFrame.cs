@@ -34,7 +34,7 @@
         /// <summary>
         /// List of frames within this frame.
         /// </summary>
-        public new ILayoutFrameList Items { get { return (ILayoutFrameList)base.Items; } }
+        public new LayoutFrameList Items { get { return (LayoutFrameList)base.Items; } }
 
         /// <summary>
         /// Node frame visibility. Null if always visible.
@@ -74,7 +74,7 @@
         /// <param name="nodeType">Type of the node this frame can describe.</param>
         /// <param name="nodeTemplateTable">Table of templates with all frames.</param>
         /// <param name="commentFrameCount">Number of comment frames found so far.</param>
-        public override bool IsValid(Type nodeType, IFrameTemplateReadOnlyDictionary nodeTemplateTable, ref int commentFrameCount)
+        public override bool IsValid(Type nodeType, FrameTemplateReadOnlyDictionary nodeTemplateTable, ref int commentFrameCount)
         {
             bool IsValid = true;
 
@@ -99,7 +99,7 @@
         /// <summary>
         /// Creates a IxxxFrameList object.
         /// </summary>
-        private protected override IFrameFrameList CreateItems()
+        private protected override FrameFrameList CreateItems()
         {
             ControllerTools.AssertNoOverride(this, typeof(LayoutVerticalPanelFrame));
             return new LayoutFrameList();
@@ -108,7 +108,7 @@
         /// <summary>
         /// Creates a IxxxCellViewList object.
         /// </summary>
-        private protected override IFrameCellViewList CreateCellViewList()
+        private protected override FrameCellViewList CreateCellViewList()
         {
             ControllerTools.AssertNoOverride(this, typeof(LayoutVerticalPanelFrame));
             return new LayoutCellViewList();
@@ -126,10 +126,10 @@
         /// <summary>
         /// Creates a IxxxCellViewCollection object.
         /// </summary>
-        private protected override IFrameCellViewCollection CreateEmbeddingCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, IFrameCellViewList list)
+        private protected override IFrameCellViewCollection CreateEmbeddingCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, FrameCellViewList list)
         {
             ControllerTools.AssertNoOverride(this, typeof(LayoutVerticalPanelFrame));
-            return new LayoutColumn((ILayoutNodeStateView)stateView, (ILayoutCellViewCollection)parentCellView, (ILayoutCellViewList)list, this);
+            return new LayoutColumn((ILayoutNodeStateView)stateView, (ILayoutCellViewCollection)parentCellView, (LayoutCellViewList)list, this);
         }
         #endregion
     }

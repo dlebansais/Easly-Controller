@@ -12,7 +12,7 @@
     /// <summary>
     /// View of a IxxxController.
     /// </summary>
-    public partial class LayoutControllerView : FocusControllerView, ILayoutControllerView, ILayoutInternalControllerView
+    public partial class LayoutControllerView : FocusControllerView, ILayoutInternalControllerView
     {
         /// <summary>
         /// Invalidates the entire view.
@@ -50,7 +50,7 @@
                 MeasureAndArrange();
 
             ILayoutNodeState RootState = Controller.RootState;
-            ILayoutNodeStateView RootStateView = StateViewTable[RootState];
+            ILayoutNodeStateView RootStateView = (ILayoutNodeStateView)StateViewTable[RootState];
 
             RootStateView.UpdateActualCellsSize();
             Debug.Assert(RegionHelper.IsValid(RootStateView.ActualCellSize));

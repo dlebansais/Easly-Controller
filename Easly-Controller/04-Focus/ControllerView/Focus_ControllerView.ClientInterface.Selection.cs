@@ -164,7 +164,7 @@
             Debug.Assert(selection.BlockIndex < BlockListInner.BlockStateList.Count);
             Debug.Assert(selection.StartIndex <= selection.EndIndex);
 
-            IFocusBlockState BlockState = BlockListInner.BlockStateList[selection.BlockIndex];
+            IFocusBlockState BlockState = (IFocusBlockState)BlockListInner.BlockStateList[selection.BlockIndex];
             int SelectedCount = selection.EndIndex - selection.StartIndex + 1;
             if (SelectedCount < BlockState.StateList.Count)
                 selection.Update(0, BlockState.StateList.Count - 1);
@@ -242,7 +242,7 @@
             Debug.Assert(state.ValuePropertyTypeTable.ContainsKey(propertyName));
             Debug.Assert(state.ValuePropertyTypeTable[propertyName] == ValuePropertyType.Boolean || state.ValuePropertyTypeTable[propertyName] == ValuePropertyType.Enum);
 
-            IFocusNodeStateView stateView = StateViewTable[state];
+            IFocusNodeStateView stateView = (IFocusNodeStateView)StateViewTable[state];
             Selection = CreateDiscreteContentSelection(stateView, propertyName);
         }
 
@@ -259,7 +259,7 @@
             Debug.Assert(state.ValuePropertyTypeTable.ContainsKey(propertyName));
             Debug.Assert(state.ValuePropertyTypeTable[propertyName] == ValuePropertyType.String);
 
-            IFocusNodeStateView StateView = StateViewTable[state];
+            IFocusNodeStateView StateView = (IFocusNodeStateView)StateViewTable[state];
 
             int OldFocusIndex = FocusChain.IndexOf(Focus);
             int NewFocusIndex = -1;
@@ -305,7 +305,7 @@
         {
             Debug.Assert(StateViewTable.ContainsKey(state));
 
-            IFocusNodeStateView StateView = StateViewTable[state];
+            IFocusNodeStateView StateView = (IFocusNodeStateView)StateViewTable[state];
             SelectComment(StateView, start, end);
 
             CaretAnchorPosition = start;
@@ -328,7 +328,7 @@
         {
             Debug.Assert(StateViewTable.ContainsKey(state));
 
-            IFocusNodeStateView stateView = StateViewTable[state];
+            IFocusNodeStateView stateView = (IFocusNodeStateView)StateViewTable[state];
             Selection = CreateNodeSelection(stateView);
         }
 
@@ -349,7 +349,7 @@
             Debug.Assert(startIndex >= 0 && startIndex < ParentInner.StateList.Count);
             Debug.Assert(endIndex >= 0 && endIndex <= ParentInner.StateList.Count);
 
-            IFocusNodeStateView stateView = StateViewTable[state];
+            IFocusNodeStateView stateView = (IFocusNodeStateView)StateViewTable[state];
             Selection = CreateNodeListSelection(stateView, propertyName, startIndex, endIndex);
         }
 
@@ -370,11 +370,11 @@
             Debug.Assert(ParentInner != null);
             Debug.Assert(blockIndex >= 0 && blockIndex < ParentInner.BlockStateList.Count);
 
-            IFocusBlockState BlockState = ParentInner.BlockStateList[blockIndex];
+            IFocusBlockState BlockState = (IFocusBlockState)ParentInner.BlockStateList[blockIndex];
             Debug.Assert(startIndex >= 0 && startIndex < BlockState.StateList.Count);
             Debug.Assert(endIndex >= 0 && endIndex <= BlockState.StateList.Count);
 
-            IFocusNodeStateView stateView = StateViewTable[state];
+            IFocusNodeStateView stateView = (IFocusNodeStateView)StateViewTable[state];
             Selection = CreateBlockNodeListSelection(stateView, propertyName, blockIndex, startIndex, endIndex);
         }
 
@@ -395,7 +395,7 @@
             Debug.Assert(startIndex >= 0 && startIndex < ParentInner.BlockStateList.Count);
             Debug.Assert(endIndex >= 0 && endIndex <= ParentInner.BlockStateList.Count);
 
-            IFocusNodeStateView stateView = StateViewTable[state];
+            IFocusNodeStateView stateView = (IFocusNodeStateView)StateViewTable[state];
             Selection = CreateBlockListSelection(stateView, propertyName, startIndex, endIndex);
         }
 

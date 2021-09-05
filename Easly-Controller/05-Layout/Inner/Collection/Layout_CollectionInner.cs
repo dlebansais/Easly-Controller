@@ -2,34 +2,24 @@
 {
     using EaslyController.Focus;
 
-    /// <summary>
-    /// Base inner for a list or a block list.
-    /// </summary>
+    /// <inheritdoc/>
     public interface ILayoutCollectionInner : IFocusCollectionInner, ILayoutInner
     {
     }
 
-    /// <summary>
-    /// Base inner for a list or a block list.
-    /// </summary>
-    /// <typeparam name="IIndex">Type of the index.</typeparam>
+    /// <inheritdoc/>
     internal interface ILayoutCollectionInner<out IIndex> : IFocusCollectionInner<IIndex>, ILayoutInner<IIndex>
         where IIndex : ILayoutBrowsingCollectionNodeIndex
     {
     }
 
-    /// <summary>
-    /// Base inner for a list or a block list.
-    /// </summary>
-    /// <typeparam name="IIndex">Type of the index as interface.</typeparam>
-    /// <typeparam name="TIndex">Type of the index as class.</typeparam>
-    internal abstract class LayoutCollectionInner<IIndex, TIndex> : FocusCollectionInner<IIndex, TIndex>, ILayoutCollectionInner<IIndex>, ILayoutCollectionInner
+    /// <inheritdoc/>
+    internal abstract class LayoutCollectionInner<IIndex> : FocusCollectionInner<IIndex>, ILayoutCollectionInner<IIndex>, ILayoutCollectionInner
         where IIndex : ILayoutBrowsingCollectionNodeIndex
-        where TIndex : LayoutBrowsingCollectionNodeIndex, IIndex
     {
         #region Init
         /// <summary>
-        /// Initializes a new instance of the <see cref="LayoutCollectionInner{IIndex, TIndex}"/> class.
+        /// Initializes a new instance of the <see cref="LayoutCollectionInner{IIndex}"/> class.
         /// </summary>
         /// <param name="owner">Parent containing the inner.</param>
         /// <param name="propertyName">Property name of the inner in <paramref name="owner"/>.</param>

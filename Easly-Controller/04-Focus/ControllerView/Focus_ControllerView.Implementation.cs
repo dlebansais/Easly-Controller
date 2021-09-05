@@ -370,7 +370,7 @@
         {
             FocusFocusList NewFocusChain = CreateFocusChain();
             IFocusNodeState RootState = Controller.RootState;
-            IFocusNodeStateView RootStateView = StateViewTable[RootState];
+            IFocusNodeStateView RootStateView = (IFocusNodeStateView)StateViewTable[RootState];
 
             IFocusFocus MatchingFocus = null;
             RootStateView.UpdateFocusChain(NewFocusChain, focusedNode, focusedFrame, ref MatchingFocus);
@@ -463,7 +463,7 @@
 
         private protected virtual bool GetFocusedStateAndChildren(FocusFocusList newFocusChain, IFocusNodeState state, out IFocusNodeStateView mainStateView, out List<IFocusNodeStateView> stateViewList, out List<IFocusFocus> sameStateFocusableList)
         {
-            mainStateView = StateViewTable[state];
+            mainStateView = (IFocusNodeStateView)StateViewTable[state];
 
             stateViewList = new List<IFocusNodeStateView>();
             sameStateFocusableList = new List<IFocusFocus>();
@@ -493,17 +493,19 @@
         {
             stateViewList.Add(stateView);
 
-            foreach (KeyValuePair<string, IFocusInner> Entry in stateView.State.InnerTable)
+            foreach (string Key in stateView.State.InnerTable.Keys)
             {
+                IFocusInner Value = (IFocusInner)stateView.State.InnerTable[Key];
+
                 bool IsHandled = false;
                 IFocusTemplate Template;
                 FocusAssignableCellViewReadOnlyDictionary<string> CellViewTable;
                 IFocusCellViewCollection EmbeddingCellView;
 
-                if (Entry.Value is IFocusPlaceholderInner<IFocusBrowsingPlaceholderNodeIndex> AsPlaceholderInner)
+                if (Value is IFocusPlaceholderInner<IFocusBrowsingPlaceholderNodeIndex> AsPlaceholderInner)
                 {
                     Debug.Assert(StateViewTable.ContainsKey(AsPlaceholderInner.ChildState));
-                    IFocusNodeStateView ChildStateView = StateViewTable[AsPlaceholderInner.ChildState];
+                    IFocusNodeStateView ChildStateView = (IFocusNodeStateView)StateViewTable[AsPlaceholderInner.ChildState];
                     Debug.Assert(ChildStateView != null);
 
                     GetChildrenStateView(ChildStateView, stateViewList);
@@ -513,7 +515,7 @@
 
                     IsHandled = true;
                 }
-                else if (Entry.Value is IFocusOptionalInner<IFocusBrowsingOptionalNodeIndex> AsOptionalInner)
+                else if (Value is IFocusOptionalInner<IFocusBrowsingOptionalNodeIndex> AsOptionalInner)
                 {
                     if (AsOptionalInner.IsAssigned)
                     {
@@ -529,11 +531,11 @@
 
                     IsHandled = true;
                 }
-                else if (Entry.Value is IFocusListInner<IFocusBrowsingListNodeIndex> AsListInner)
+                else if (Value is IFocusListInner<IFocusBrowsingListNodeIndex> AsListInner)
                 {
                     foreach (IFocusNodeState ChildState in AsListInner.StateList)
                     {
-                        IFocusNodeStateView ChildStateView = StateViewTable[ChildState];
+                        IFocusNodeStateView ChildStateView = (IFocusNodeStateView)StateViewTable[ChildState];
                         GetChildrenStateView(ChildStateView, stateViewList);
 
                         Template = ChildStateView.Template;
@@ -542,27 +544,27 @@
 
                     IsHandled = true;
                 }
-                else if (Entry.Value is IFocusBlockListInner<IFocusBrowsingBlockNodeIndex> AsBlockListInner)
+                else if (Value is IFocusBlockListInner<IFocusBrowsingBlockNodeIndex> AsBlockListInner)
                 {
                     foreach (IFocusBlockState BlockState in AsBlockListInner.BlockStateList)
                     {
-                        IFocusNodeStateView PatternStateView = StateViewTable[BlockState.PatternState];
+                        IFocusNodeStateView PatternStateView = (IFocusNodeStateView)StateViewTable[BlockState.PatternState];
                         GetChildrenStateView(PatternStateView, stateViewList);
                         Template = PatternStateView.Template;
                         CellViewTable = PatternStateView.CellViewTable;
 
-                        IFocusNodeStateView SourceStateView = StateViewTable[BlockState.SourceState];
+                        IFocusNodeStateView SourceStateView = (IFocusNodeStateView)StateViewTable[BlockState.SourceState];
                         GetChildrenStateView(SourceStateView, stateViewList);
                         Template = SourceStateView.Template;
                         CellViewTable = SourceStateView.CellViewTable;
 
-                        FocusBlockStateView BlockStateView = BlockStateViewTable[BlockState];
+                        FocusBlockStateView BlockStateView = (FocusBlockStateView)BlockStateViewTable[BlockState];
                         Template = BlockStateView.Template;
                         EmbeddingCellView = BlockStateView.EmbeddingCellView;
 
                         foreach (IFocusNodeState ChildState in BlockState.StateList)
                         {
-                            IFocusNodeStateView ChildStateView = StateViewTable[ChildState];
+                            IFocusNodeStateView ChildStateView = (IFocusNodeStateView)StateViewTable[ChildState];
                             GetChildrenStateView(ChildStateView, stateViewList);
 
                             Template = ChildStateView.Template;
@@ -700,7 +702,7 @@
         private protected override IFrameFrame GetAssociatedFrame(IFrameInner<IFrameBrowsingChildIndex> inner)
         {
             IFocusNodeState Owner = ((IFocusInner<IFocusBrowsingChildIndex>)inner).Owner;
-            IFocusNodeStateView StateView = StateViewTable[Owner];
+            IFocusNodeStateView StateView = (IFocusNodeStateView)StateViewTable[Owner];
             IList<FocusFrameSelectorList> SelectorStack = StateView.GetSelectorStack();
 
             IFocusFrame AssociatedFrame = TemplateSet.InnerToFrame((IFocusInner<IFocusBrowsingChildIndex>)inner, SelectorStack) as IFocusFrame;

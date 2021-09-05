@@ -8,83 +8,7 @@
     /// <summary>
     /// View of a block state.
     /// </summary>
-    public interface ILayoutBlockStateView : IFocusBlockStateView
-    {
-        /// <summary>
-        /// The controller view to which this object belongs.
-        /// </summary>
-        new ILayoutControllerView ControllerView { get; }
-
-        /// <summary>
-        /// The block state.
-        /// </summary>
-        new ILayoutBlockState BlockState { get; }
-
-        /// <summary>
-        /// The template used to display the block state.
-        /// </summary>
-        new ILayoutTemplate Template { get; }
-
-        /// <summary>
-        /// Root cell for the view.
-        /// </summary>
-        new ILayoutCellView RootCellView { get; }
-
-        /// <summary>
-        /// List of cell views for each child node.
-        /// </summary>
-        new ILayoutCellViewCollection EmbeddingCellView { get; }
-
-        /// <summary>
-        /// Location of the block state view.
-        /// </summary>
-        Point CellOrigin { get; }
-
-        /// <summary>
-        /// Floating size of cells in this block state view.
-        /// </summary>
-        Size CellSize { get; }
-
-        /// <summary>
-        /// Actual size of cells in this block state view.
-        /// </summary>
-        Size ActualCellSize { get; }
-
-        /// <summary>
-        /// Measure all cells in this block state view.
-        /// </summary>
-        /// <param name="collectionWithSeparator">A collection that can draw separators around the cell.</param>
-        /// <param name="referenceContainer">The cell view in <paramref name="collectionWithSeparator"/> that contains this cell.</param>
-        /// <param name="separatorLength">The length of the separator in <paramref name="collectionWithSeparator"/>.</param>
-        void MeasureCells(ILayoutCellViewCollection collectionWithSeparator, ILayoutCellView referenceContainer, Measure separatorLength);
-
-        /// <summary>
-        /// Arranges cells in this block state view.
-        /// </summary>
-        /// <param name="origin">The cell location.</param>
-        void ArrangeCells(Point origin);
-
-        /// <summary>
-        /// Updates the actual size of cells in this block state view.
-        /// </summary>
-        void UpdateActualCellsSize();
-
-        /// <summary>
-        /// Draws cells in this block state view.
-        /// </summary>
-        void DrawCells();
-
-        /// <summary>
-        /// Prints cells in this block state view.
-        /// </summary>
-        /// <param name="origin">The origin from where to start printing.</param>
-        void PrintCells(Point origin);
-    }
-
-    /// <summary>
-    /// View of a block state.
-    /// </summary>
-    internal class LayoutBlockStateView : FocusBlockStateView, ILayoutBlockStateView
+    public class LayoutBlockStateView : FocusBlockStateView
     {
         #region Init
         /// <summary>
@@ -92,7 +16,7 @@
         /// </summary>
         /// <param name="controllerView">The controller view to which this object belongs.</param>
         /// <param name="blockState">The block state.</param>
-        public LayoutBlockStateView(ILayoutControllerView controllerView, ILayoutBlockState blockState)
+        public LayoutBlockStateView(LayoutControllerView controllerView, ILayoutBlockState blockState)
             : base(controllerView, blockState)
         {
             CellOrigin = RegionHelper.InvalidOrigin;
@@ -105,7 +29,7 @@
         /// <summary>
         /// The controller view to which this object belongs.
         /// </summary>
-        public new ILayoutControllerView ControllerView { get { return (ILayoutControllerView)base.ControllerView; } }
+        public new LayoutControllerView ControllerView { get { return (LayoutControllerView)base.ControllerView; } }
 
         /// <summary>
         /// The block state.
@@ -235,7 +159,7 @@
         /// <summary>
         /// Creates a IxxxAssignableCellViewDictionary{string} object.
         /// </summary>
-        private protected override IFrameAssignableCellViewDictionary<string> CreateCellViewTable()
+        private protected override FrameAssignableCellViewDictionary<string> CreateCellViewTable()
         {
             ControllerTools.AssertNoOverride(this, typeof(LayoutBlockStateView));
             return new LayoutAssignableCellViewDictionary<string>();

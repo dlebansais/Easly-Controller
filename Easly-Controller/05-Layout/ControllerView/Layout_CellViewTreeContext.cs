@@ -13,7 +13,7 @@
         /// <summary>
         /// The view in which cells are created.
         /// </summary>
-        new ILayoutControllerView ControllerView { get; }
+        new LayoutControllerView ControllerView { get; }
 
         /// <summary>
         /// The state view for which to create cells.
@@ -23,7 +23,7 @@
         /// <summary>
         /// The block state view for which to create cells. Can be null.
         /// </summary>
-        new ILayoutBlockStateView BlockStateView { get; }
+        new LayoutBlockStateView BlockStateView { get; }
     }
 
     /// <summary>
@@ -38,7 +38,7 @@
         /// <param name="controllerView">The view in which cells are created.</param>
         /// <param name="stateView">The state view for which to create cells.</param>
         /// <param name="forcedCommentStateView">The state view for which the comment must be visible, even if empty.</param>
-        public LayoutCellViewTreeContext(ILayoutControllerView controllerView, ILayoutNodeStateView stateView, ILayoutNodeStateView forcedCommentStateView)
+        public LayoutCellViewTreeContext(LayoutControllerView controllerView, ILayoutNodeStateView stateView, ILayoutNodeStateView forcedCommentStateView)
             : base(controllerView, stateView, forcedCommentStateView)
         {
         }
@@ -48,7 +48,7 @@
         /// <summary>
         /// The view in which cells are created.
         /// </summary>
-        public new ILayoutControllerView ControllerView { get { return (ILayoutControllerView)base.ControllerView; } }
+        public new LayoutControllerView ControllerView { get { return (LayoutControllerView)base.ControllerView; } }
 
         /// <summary>
         /// The state view for which to create cells.
@@ -58,7 +58,7 @@
         /// <summary>
         /// The block state view for which to create cells. Can be null.
         /// </summary>
-        public new ILayoutBlockStateView BlockStateView { get { return (ILayoutBlockStateView)base.BlockStateView; } }
+        public new LayoutBlockStateView BlockStateView { get { return (LayoutBlockStateView)base.BlockStateView; } }
         #endregion
     }
 }

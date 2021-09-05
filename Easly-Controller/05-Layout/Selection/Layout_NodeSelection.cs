@@ -40,7 +40,7 @@
         /// </summary>
         public virtual void Print()
         {
-            ILayoutControllerView ControllerView = StateView.ControllerView;
+            LayoutControllerView ControllerView = StateView.ControllerView;
             Debug.Assert(ControllerView.PrintContext != null);
             ControllerView.UpdateLayout();
 

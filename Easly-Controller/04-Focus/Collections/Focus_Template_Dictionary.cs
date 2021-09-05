@@ -1,7 +1,6 @@
 ﻿namespace EaslyController.Focus
 {
     using System.Collections.Generic;
-    using EaslyController.ReadOnly;
     using EaslyController.Frame;
     using System;
 

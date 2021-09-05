@@ -5,15 +5,13 @@
     using EaslyController.ReadOnly;
     using EaslyController.Writeable;
 
-    /// <summary>
-    /// Inner for a list of nodes.
-    /// </summary>
+    /// <inheritdoc/>
     public interface ILayoutListInner : IFocusListInner, ILayoutCollectionInner
     {
         /// <summary>
         /// States of nodes in the list.
         /// </summary>
-        new ILayoutPlaceholderNodeStateReadOnlyList StateList { get; }
+        new LayoutPlaceholderNodeStateReadOnlyList StateList { get; }
 
         /// <summary>
         /// First node state that can be enumerated in the inner.
@@ -21,17 +19,14 @@
         new ILayoutPlaceholderNodeState FirstNodeState { get; }
     }
 
-    /// <summary>
-    /// Inner for a list of nodes.
-    /// </summary>
-    /// <typeparam name="IIndex">Type of the index.</typeparam>
+    /// <inheritdoc/>
     internal interface ILayoutListInner<out IIndex> : IFocusListInner<IIndex>, ILayoutCollectionInner<IIndex>
         where IIndex : ILayoutBrowsingListNodeIndex
     {
         /// <summary>
         /// States of nodes in the list.
         /// </summary>
-        new ILayoutPlaceholderNodeStateReadOnlyList StateList { get; }
+        new LayoutPlaceholderNodeStateReadOnlyList StateList { get; }
 
         /// <summary>
         /// First node state that can be enumerated in the inner.
@@ -39,18 +34,13 @@
         new ILayoutPlaceholderNodeState FirstNodeState { get; }
     }
 
-    /// <summary>
-    /// Inner for a list of nodes.
-    /// </summary>
-    /// <typeparam name="IIndex">Type of the index as interface.</typeparam>
-    /// <typeparam name="TIndex">Type of the index as class.</typeparam>
-    internal class LayoutListInner<IIndex, TIndex> : FocusListInner<IIndex, TIndex>, ILayoutListInner<IIndex>, ILayoutListInner
+    /// <inheritdoc/>
+    internal class LayoutListInner<IIndex> : FocusListInner<IIndex>, ILayoutListInner<IIndex>, ILayoutListInner
         where IIndex : ILayoutBrowsingListNodeIndex
-        where TIndex : LayoutBrowsingListNodeIndex, IIndex
     {
         #region Init
         /// <summary>
-        /// Initializes a new instance of the <see cref="LayoutListInner{IIndex, TIndex}"/> class.
+        /// Initializes a new instance of the <see cref="LayoutListInner{IIndex}"/> class.
         /// </summary>
         /// <param name="owner">Parent containing the inner.</param>
         /// <param name="propertyName">Property name of the inner in <paramref name="owner"/>.</param>
@@ -69,7 +59,7 @@
         /// <summary>
         /// States of nodes in the list.
         /// </summary>
-        public new ILayoutPlaceholderNodeStateReadOnlyList StateList { get { return (ILayoutPlaceholderNodeStateReadOnlyList)base.StateList; } }
+        public new LayoutPlaceholderNodeStateReadOnlyList StateList { get { return (LayoutPlaceholderNodeStateReadOnlyList)base.StateList; } }
 
         /// <summary>
         /// First node state that can be enumerated in the inner.
@@ -81,9 +71,9 @@
         /// <summary>
         /// Creates a IxxxPlaceholderNodeStateList object.
         /// </summary>
-        private protected override IReadOnlyPlaceholderNodeStateList CreateStateList()
+        private protected override ReadOnlyPlaceholderNodeStateList CreateStateList()
         {
-            ControllerTools.AssertNoOverride(this, typeof(LayoutListInner<IIndex, TIndex>));
+            ControllerTools.AssertNoOverride(this, typeof(LayoutListInner<IIndex>));
             return new LayoutPlaceholderNodeStateList();
         }
 
@@ -92,16 +82,16 @@
         /// </summary>
         private protected override IReadOnlyPlaceholderNodeState CreateNodeState(IReadOnlyNodeIndex nodeIndex)
         {
-            ControllerTools.AssertNoOverride(this, typeof(LayoutListInner<IIndex, TIndex>));
+            ControllerTools.AssertNoOverride(this, typeof(LayoutListInner<IIndex>));
             return new LayoutPlaceholderNodeState<ILayoutInner<ILayoutBrowsingChildIndex>>((ILayoutNodeIndex)nodeIndex);
         }
 
         /// <summary>
         /// Creates a IxxxBrowsingListNodeIndexList.
         /// </summary>
-        private protected override IReadOnlyBrowsingListNodeIndexList CreateListNodeIndexList()
+        private protected override ReadOnlyBrowsingListNodeIndexList CreateListNodeIndexList()
         {
-            ControllerTools.AssertNoOverride(this, typeof(LayoutListInner<IIndex, TIndex>));
+            ControllerTools.AssertNoOverride(this, typeof(LayoutListInner<IIndex>));
             return new LayoutBrowsingListNodeIndexList();
         }
 
@@ -110,7 +100,7 @@
         /// </summary>
         private protected override IWriteableBrowsingListNodeIndex CreateBrowsingNodeIndex(Node node, int index)
         {
-            ControllerTools.AssertNoOverride(this, typeof(LayoutListInner<IIndex, TIndex>));
+            ControllerTools.AssertNoOverride(this, typeof(LayoutListInner<IIndex>));
             return new LayoutBrowsingListNodeIndex(Owner.Node, node, PropertyName, index);
         }
         #endregion

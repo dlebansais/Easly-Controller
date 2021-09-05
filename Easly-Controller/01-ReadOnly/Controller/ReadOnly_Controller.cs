@@ -515,12 +515,12 @@
                         ((IReadOnlyBlockState<IReadOnlyInner<IReadOnlyBrowsingChildIndex>>)BlockState).InitBlockState();
                         Stats.BlockCount++;
 
-                        ReadOnlyBrowsingPatternIndex PatternIndex = BlockState.PatternIndex;
+                        IReadOnlyBrowsingPatternIndex PatternIndex = BlockState.PatternIndex;
                         IReadOnlyPatternState PatternState = BlockState.PatternState;
                         AddState(PatternIndex, PatternState);
                         Stats.PlaceholderNodeCount++;
 
-                        ReadOnlyBrowsingSourceIndex SourceIndex = BlockState.SourceIndex;
+                        IReadOnlyBrowsingSourceIndex SourceIndex = BlockState.SourceIndex;
                         IReadOnlySourceState SourceState = BlockState.SourceState;
                         AddState(SourceIndex, SourceState);
                         Stats.PlaceholderNodeCount++;

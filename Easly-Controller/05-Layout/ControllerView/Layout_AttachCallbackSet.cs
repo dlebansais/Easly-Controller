@@ -7,14 +7,7 @@
     /// <summary>
     /// Handlers to call during enumeration of states, when attaching a view.
     /// </summary>
-    public interface ILayoutAttachCallbackSet : IFocusAttachCallbackSet
-    {
-    }
-
-    /// <summary>
-    /// Handlers to call during enumeration of states, when attaching a view.
-    /// </summary>
-    internal class LayoutAttachCallbackSet : FocusAttachCallbackSet, ILayoutAttachCallbackSet
+    internal class LayoutAttachCallbackSet : FocusAttachCallbackSet
     {
         #region Properties
         /// <summary>

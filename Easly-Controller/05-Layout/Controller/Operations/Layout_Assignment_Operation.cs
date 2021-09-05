@@ -8,18 +8,7 @@
     /// <summary>
     /// Operation details for assigning or unassigning a node.
     /// </summary>
-    public interface ILayoutAssignmentOperation : IFocusAssignmentOperation, ILayoutOperation
-    {
-        /// <summary>
-        /// The modified state.
-        /// </summary>
-        new ILayoutOptionalNodeState State { get; }
-    }
-
-    /// <summary>
-    /// Operation details for assigning or unassigning a node.
-    /// </summary>
-    internal class LayoutAssignmentOperation : FocusAssignmentOperation, ILayoutAssignmentOperation
+    internal class LayoutAssignmentOperation : FocusAssignmentOperation
     {
         #region Init
         /// <summary>
@@ -30,7 +19,7 @@
         /// <param name="handlerRedo">Handler to execute to redo the operation.</param>
         /// <param name="handlerUndo">Handler to execute to undo the operation.</param>
         /// <param name="isNested">True if the operation is nested within another more general one.</param>
-        public LayoutAssignmentOperation(Node parentNode, string propertyName, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        public LayoutAssignmentOperation(Node parentNode, string propertyName, Action<WriteableOperation> handlerRedo, Action<WriteableOperation> handlerUndo, bool isNested)
             : base(parentNode, propertyName, handlerRedo, handlerUndo, isNested)
         {
         }
@@ -47,7 +36,7 @@
         /// <summary>
         /// Creates a IxxxAssignmentOperation object.
         /// </summary>
-        private protected override IWriteableAssignmentOperation CreateAssignmentOperation(Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        private protected override WriteableAssignmentOperation CreateAssignmentOperation(Action<WriteableOperation> handlerRedo, Action<WriteableOperation> handlerUndo, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(LayoutAssignmentOperation));
             return new LayoutAssignmentOperation(ParentNode, PropertyName, handlerRedo, handlerUndo, isNested);

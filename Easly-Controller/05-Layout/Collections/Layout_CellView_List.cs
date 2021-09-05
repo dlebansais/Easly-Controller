@@ -1,65 +1,29 @@
-﻿#pragma warning disable 1591
-
-namespace EaslyController.Layout
+﻿namespace EaslyController.Layout
 {
     using System.Collections.Generic;
-    using System.Collections.ObjectModel;
     using System.Diagnostics;
     using EaslyController.Focus;
     using EaslyController.Frame;
 
-    /// <summary>
-    /// List of IxxxCellView
-    /// </summary>
-    public interface ILayoutCellViewList : IFocusCellViewList, IList<ILayoutCellView>, IReadOnlyList<ILayoutCellView>, IEqualComparable
+    /// <inheritdoc/>
+    public class LayoutCellViewList : FocusCellViewList, ICollection<ILayoutCellView>, IEnumerable<ILayoutCellView>, IList<ILayoutCellView>, IReadOnlyCollection<ILayoutCellView>, IReadOnlyList<ILayoutCellView>, IEqualComparable
     {
-        new ILayoutCellView this[int index] { get; set; }
-        new int Count { get; }
-        new IEnumerator<ILayoutCellView> GetEnumerator();
-        new void Clear();
-    }
-
-    /// <summary>
-    /// List of IxxxCellView
-    /// </summary>
-    internal class LayoutCellViewList : Collection<ILayoutCellView>, ILayoutCellViewList
-    {
-        #region Frame
-        IFrameCellView IFrameCellViewList.this[int index] { get { return this[index]; } set { this[index] = (ILayoutCellView)value; } }
-        IFrameCellView IList<IFrameCellView>.this[int index] { get { return this[index]; } set { this[index] = (ILayoutCellView)value; } }
-        int IList<IFrameCellView>.IndexOf(IFrameCellView value) { return IndexOf((ILayoutCellView)value); }
-        void IList<IFrameCellView>.Insert(int index, IFrameCellView item) { Insert(index, (ILayoutCellView)item); }
-        void ICollection<IFrameCellView>.Add(IFrameCellView item) { Add((ILayoutCellView)item); }
-        bool ICollection<IFrameCellView>.Contains(IFrameCellView value) { return Contains((ILayoutCellView)value); }
-        void ICollection<IFrameCellView>.CopyTo(IFrameCellView[] array, int index) { CopyTo((ILayoutCellView[])array, index); }
-        bool ICollection<IFrameCellView>.IsReadOnly { get { return ((ICollection<ILayoutCellView>)this).IsReadOnly; } }
-        bool ICollection<IFrameCellView>.Remove(IFrameCellView item) { return Remove((ILayoutCellView)item); }
-        IEnumerator<IFrameCellView> IEnumerable<IFrameCellView>.GetEnumerator() { return GetEnumerator(); }
-        IFrameCellView IReadOnlyList<IFrameCellView>.this[int index] { get { return this[index]; } }
-        #endregion
-
-        #region Focus
-        IFocusCellView IFocusCellViewList.this[int index] { get { return this[index]; } set { this[index] = (ILayoutCellView)value; } }
-        IEnumerator<IFocusCellView> IFocusCellViewList.GetEnumerator() { return GetEnumerator(); }
-        IFocusCellView IList<IFocusCellView>.this[int index] { get { return this[index]; } set { this[index] = (ILayoutCellView)value; } }
-        int IList<IFocusCellView>.IndexOf(IFocusCellView value) { return IndexOf((ILayoutCellView)value); }
-        void IList<IFocusCellView>.Insert(int index, IFocusCellView item) { Insert(index, (ILayoutCellView)item); }
-        void ICollection<IFocusCellView>.Add(IFocusCellView item) { Add((ILayoutCellView)item); }
-        bool ICollection<IFocusCellView>.Contains(IFocusCellView value) { return Contains((ILayoutCellView)value); }
-        void ICollection<IFocusCellView>.CopyTo(IFocusCellView[] array, int index) { CopyTo((ILayoutCellView[])array, index); }
-        bool ICollection<IFocusCellView>.IsReadOnly { get { return ((ICollection<ILayoutCellView>)this).IsReadOnly; } }
-        bool ICollection<IFocusCellView>.Remove(IFocusCellView item) { return Remove((ILayoutCellView)item); }
-        IEnumerator<IFocusCellView> IEnumerable<IFocusCellView>.GetEnumerator() { return GetEnumerator(); }
-        IFocusCellView IReadOnlyList<IFocusCellView>.this[int index] { get { return this[index]; } }
+        #region ILayoutCellView
+        void ICollection<ILayoutCellView>.Add(ILayoutCellView item) { Add(item); }
+        bool ICollection<ILayoutCellView>.Contains(ILayoutCellView item) { return Contains(item); }
+        void ICollection<ILayoutCellView>.CopyTo(ILayoutCellView[] array, int arrayIndex) { ((System.Collections.ICollection)this).CopyTo(array, arrayIndex); }
+        bool ICollection<ILayoutCellView>.Remove(ILayoutCellView item) { return Remove(item); }
+        bool ICollection<ILayoutCellView>.IsReadOnly { get { return ((ICollection<IFocusCellView>)this).IsReadOnly; } }
+        IEnumerator<ILayoutCellView> IEnumerable<ILayoutCellView>.GetEnumerator() { return ((IList<ILayoutCellView>)this).GetEnumerator(); }
+        ILayoutCellView IList<ILayoutCellView>.this[int index] { get { return (ILayoutCellView)this[index]; } set { this[index] = value; } }
+        int IList<ILayoutCellView>.IndexOf(ILayoutCellView item) { return IndexOf(item); }
+        void IList<ILayoutCellView>.Insert(int index, ILayoutCellView item) { Insert(index, item); }
+        ILayoutCellView IReadOnlyList<ILayoutCellView>.this[int index] { get { return (ILayoutCellView)this[index]; } }
         #endregion
 
         #region Debugging
-        /// <summary>
-        /// Compares two <see cref="LayoutCellViewList"/> objects.
-        /// </summary>
-        /// <param name="comparer">The comparison support object.</param>
-        /// <param name="other">The other object.</param>
-        public virtual bool IsEqual(CompareEqual comparer, IEqualComparable other)
+        /// <inheritdoc/>
+        public override bool IsEqual(CompareEqual comparer, IEqualComparable other)
         {
             Debug.Assert(other != null);
 
@@ -76,5 +40,11 @@ namespace EaslyController.Layout
             return true;
         }
         #endregion
+
+        /// <inheritdoc/>
+        public override FrameCellViewReadOnlyList ToReadOnly()
+        {
+            return new LayoutCellViewReadOnlyList(this);
+        }
     }
 }

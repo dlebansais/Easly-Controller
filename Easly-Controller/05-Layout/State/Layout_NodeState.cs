@@ -28,7 +28,7 @@
         /// <summary>
         /// Table for all inners in this state.
         /// </summary>
-        new ILayoutInnerReadOnlyDictionary<string> InnerTable { get; }
+        new LayoutInnerReadOnlyDictionary<string> InnerTable { get; }
     }
 
     /// <summary>
@@ -77,7 +77,7 @@
         /// <summary>
         /// Table for all inners in this state.
         /// </summary>
-        public new ILayoutInnerReadOnlyDictionary<string> InnerTable { get { return (ILayoutInnerReadOnlyDictionary<string>)base.InnerTable; } }
+        public new LayoutInnerReadOnlyDictionary<string> InnerTable { get { return (LayoutInnerReadOnlyDictionary<string>)base.InnerTable; } }
         #endregion
     }
 }

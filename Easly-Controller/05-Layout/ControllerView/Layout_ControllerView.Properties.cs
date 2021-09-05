@@ -8,22 +8,22 @@
     /// <summary>
     /// View of a IxxxController.
     /// </summary>
-    public partial class LayoutControllerView : FocusControllerView, ILayoutControllerView, ILayoutInternalControllerView
+    public partial class LayoutControllerView : FocusControllerView, ILayoutInternalControllerView
     {
         /// <summary>
         /// The controller.
         /// </summary>
-        public new ILayoutController Controller { get { return (ILayoutController)base.Controller; } }
+        public new LayoutController Controller { get { return (LayoutController)base.Controller; } }
 
         /// <summary>
         /// Table of views of each state in the controller.
         /// </summary>
-        public new ILayoutStateViewDictionary StateViewTable { get { return (ILayoutStateViewDictionary)base.StateViewTable; } }
+        public new LayoutStateViewDictionary StateViewTable { get { return (LayoutStateViewDictionary)base.StateViewTable; } }
 
         /// <summary>
         /// Table of views of each block state in the controller.
         /// </summary>
-        public new ILayoutBlockStateViewDictionary BlockStateViewTable { get { return (ILayoutBlockStateViewDictionary)base.BlockStateViewTable; } }
+        public new LayoutBlockStateViewDictionary BlockStateViewTable { get { return (LayoutBlockStateViewDictionary)base.BlockStateViewTable; } }
 
         /// <summary>
         /// State view of the root state.

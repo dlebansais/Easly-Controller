@@ -1,7 +1,6 @@
 ﻿namespace EaslyController.Focus
 {
     using System.Collections.Generic;
-    using System.Diagnostics;
     using EaslyController.Frame;
 
     /// <inheritdoc/>

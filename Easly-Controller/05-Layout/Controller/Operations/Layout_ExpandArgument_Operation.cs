@@ -8,28 +8,7 @@
     /// <summary>
     /// Operation details for inserting a single argument in a block list.
     /// </summary>
-    public interface ILayoutExpandArgumentOperation : IFocusExpandArgumentOperation, ILayoutInsertBlockOperation
-    {
-        /// <summary>
-        /// Index of the state after it's inserted.
-        /// </summary>
-        new ILayoutBrowsingExistingBlockNodeIndex BrowsingIndex { get; }
-
-        /// <summary>
-        /// Block state inserted.
-        /// </summary>
-        new ILayoutBlockState BlockState { get; }
-
-        /// <summary>
-        /// State inserted.
-        /// </summary>
-        new ILayoutPlaceholderNodeState ChildState { get; }
-    }
-
-    /// <summary>
-    /// Operation details for inserting a single argument in a block list.
-    /// </summary>
-    internal class LayoutExpandArgumentOperation : FocusExpandArgumentOperation, ILayoutExpandArgumentOperation
+    internal class LayoutExpandArgumentOperation : FocusExpandArgumentOperation, ILayoutInsertBlockOperation
     {
         #region Init
         /// <summary>
@@ -42,7 +21,7 @@
         /// <param name="handlerRedo">Handler to execute to redo the operation.</param>
         /// <param name="handlerUndo">Handler to execute to undo the operation.</param>
         /// <param name="isNested">True if the operation is nested within another more general one.</param>
-        public LayoutExpandArgumentOperation(Node parentNode, string propertyName, IBlock block, Node node, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        public LayoutExpandArgumentOperation(Node parentNode, string propertyName, IBlock block, Node node, Action<WriteableOperation> handlerRedo, Action<WriteableOperation> handlerUndo, bool isNested)
             : base(parentNode, propertyName, block, node, handlerRedo, handlerUndo, isNested)
         {
         }
@@ -69,7 +48,7 @@
         /// <summary>
         /// Creates a IxxxRemoveBlockOperation object.
         /// </summary>
-        private protected override IWriteableRemoveBlockOperation CreateRemoveBlockOperation(int blockIndex, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        private protected override WriteableRemoveBlockOperation CreateRemoveBlockOperation(int blockIndex, Action<WriteableOperation> handlerRedo, Action<WriteableOperation> handlerUndo, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(LayoutExpandArgumentOperation));
             return new LayoutRemoveBlockOperation(ParentNode, PropertyName, blockIndex, handlerRedo, handlerUndo, isNested);

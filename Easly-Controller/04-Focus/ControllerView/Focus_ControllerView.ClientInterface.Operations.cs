@@ -176,7 +176,7 @@
         {
             Debug.Assert(StateViewTable.ContainsKey(state));
 
-            IFocusNodeStateView StateView = StateViewTable[state];
+            IFocusNodeStateView StateView = (IFocusNodeStateView)StateViewTable[state];
             StateView.RootCellView.EnumerateVisibleCellViews(GetFirstFocusable, out IFrameVisibleCellView FirstCellView, reversed: false);
             return FirstCellView == cellView;
         }
@@ -195,7 +195,7 @@
         {
             Debug.Assert(StateViewTable.ContainsKey(state));
 
-            IFocusNodeStateView StateView = StateViewTable[state];
+            IFocusNodeStateView StateView = (IFocusNodeStateView)StateViewTable[state];
             StateView.RootCellView.EnumerateVisibleCellViews(GetLastFocusable, out IFrameVisibleCellView FirstCellView, reversed: true);
             return FirstCellView == cellView;
         }

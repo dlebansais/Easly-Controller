@@ -12,12 +12,12 @@
         /// <summary>
         /// Templates for nodes by their type.
         /// </summary>
-        new ILayoutTemplateReadOnlyDictionary NodeTemplateTable { get; }
+        new LayoutTemplateReadOnlyDictionary NodeTemplateTable { get; }
 
         /// <summary>
         /// Templates for blocks of nodes.
         /// </summary>
-        new ILayoutTemplateReadOnlyDictionary BlockTemplateTable { get; }
+        new LayoutTemplateReadOnlyDictionary BlockTemplateTable { get; }
     }
 
     /// <summary>
@@ -50,7 +50,7 @@
         /// </summary>
         /// <param name="nodeTemplateTable">Templates for nodes by their type.</param>
         /// <param name="blockTemplateTable">Templates for blocks of nodes.</param>
-        public LayoutTemplateSet(ILayoutTemplateReadOnlyDictionary nodeTemplateTable, ILayoutTemplateReadOnlyDictionary blockTemplateTable)
+        public LayoutTemplateSet(LayoutTemplateReadOnlyDictionary nodeTemplateTable, LayoutTemplateReadOnlyDictionary blockTemplateTable)
             : base(nodeTemplateTable, blockTemplateTable)
         {
         }
@@ -60,12 +60,12 @@
         /// <summary>
         /// Templates for nodes by their type.
         /// </summary>
-        public new ILayoutTemplateReadOnlyDictionary NodeTemplateTable { get { return (ILayoutTemplateReadOnlyDictionary)base.NodeTemplateTable; } }
+        public new LayoutTemplateReadOnlyDictionary NodeTemplateTable { get { return (LayoutTemplateReadOnlyDictionary)base.NodeTemplateTable; } }
 
         /// <summary>
         /// Templates for blocks of nodes.
         /// </summary>
-        public new ILayoutTemplateReadOnlyDictionary BlockTemplateTable { get { return (ILayoutTemplateReadOnlyDictionary)base.BlockTemplateTable; } }
+        public new LayoutTemplateReadOnlyDictionary BlockTemplateTable { get { return (LayoutTemplateReadOnlyDictionary)base.BlockTemplateTable; } }
         #endregion
 
         #region Helper
@@ -79,7 +79,7 @@
         /// <summary>
         /// Creates a IxxxTemplateDictionary object.
         /// </summary>
-        private protected override IFrameTemplateDictionary CreateEmptyTemplateDictionary()
+        private protected override FrameTemplateDictionary CreateEmptyTemplateDictionary()
         {
             ControllerTools.AssertNoOverride(this, typeof(LayoutTemplateSet));
             return new LayoutTemplateDictionary();
@@ -88,7 +88,7 @@
         /// <summary>
         /// Creates a IxxxTemplateDictionary object.
         /// </summary>
-        private protected override IFrameTemplateDictionary CreateDefaultTemplateDictionary()
+        private protected override FrameTemplateDictionary CreateDefaultTemplateDictionary()
         {
             ControllerTools.AssertNoOverride(this, typeof(LayoutTemplateSet));
             return new LayoutTemplateDictionary(NodeHelper.CreateNodeDictionary<ILayoutTemplate>());
@@ -205,10 +205,10 @@
         /// <summary>
         /// Creates a IxxxTemplateSet object.
         /// </summary>
-        private protected override IFrameTemplateSet CreateDefaultTemplateSet(IFrameTemplateReadOnlyDictionary nodeTemplateTable, IFrameTemplateReadOnlyDictionary blockTemplateTable)
+        private protected override IFrameTemplateSet CreateDefaultTemplateSet(FrameTemplateReadOnlyDictionary nodeTemplateTable, FrameTemplateReadOnlyDictionary blockTemplateTable)
         {
             ControllerTools.AssertNoOverride(this, typeof(LayoutTemplateSet));
-            return new LayoutTemplateSet((ILayoutTemplateReadOnlyDictionary)nodeTemplateTable, (ILayoutTemplateReadOnlyDictionary)blockTemplateTable);
+            return new LayoutTemplateSet((LayoutTemplateReadOnlyDictionary)nodeTemplateTable, (LayoutTemplateReadOnlyDictionary)blockTemplateTable);
         }
         #endregion
     }

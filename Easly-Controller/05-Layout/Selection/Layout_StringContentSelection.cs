@@ -45,14 +45,14 @@
         /// </summary>
         public virtual void Print()
         {
-            ILayoutControllerView ControllerView = StateView.ControllerView;
+            LayoutControllerView ControllerView = StateView.ControllerView;
             Debug.Assert(ControllerView.PrintContext != null);
             ControllerView.UpdateLayout();
 
             Debug.Assert(RegionHelper.IsValid(StateView.ActualCellSize));
 
             ILayoutTemplateSet TemplateSet = ControllerView.TemplateSet;
-            IList<IFocusFrameSelectorList> SelectorStack = StateView.GetSelectorStack();
+            IList<FocusFrameSelectorList> SelectorStack = StateView.GetSelectorStack();
             ILayoutTextValueFrame Frame = (ILayoutTextValueFrame)TemplateSet.PropertyToFrame(StateView.State, PropertyName, SelectorStack);
             Debug.Assert(Frame != null);
 

@@ -8,18 +8,7 @@
     /// <summary>
     /// Operation details for changing text.
     /// </summary>
-    public interface ILayoutChangeTextOperation : IFocusChangeTextOperation, ILayoutChangeCaretOperation, ILayoutOperation
-    {
-        /// <summary>
-        /// State changed.
-        /// </summary>
-        new ILayoutNodeState State { get; }
-    }
-
-    /// <summary>
-    /// Operation details for changing text.
-    /// </summary>
-    internal class LayoutChangeTextOperation : FocusChangeTextOperation, ILayoutChangeTextOperation
+    internal class LayoutChangeTextOperation : FocusChangeTextOperation, ILayoutChangeCaretOperation
     {
         #region Init
         /// <summary>
@@ -34,7 +23,7 @@
         /// <param name="handlerRedo">Handler to execute to redo the operation.</param>
         /// <param name="handlerUndo">Handler to execute to undo the operation.</param>
         /// <param name="isNested">True if the operation is nested within another more general one.</param>
-        public LayoutChangeTextOperation(Node parentNode, string propertyName, string text, int oldCaretPosition, int newCaretPosition, bool changeCaretBeforeText, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        public LayoutChangeTextOperation(Node parentNode, string propertyName, string text, int oldCaretPosition, int newCaretPosition, bool changeCaretBeforeText, Action<WriteableOperation> handlerRedo, Action<WriteableOperation> handlerUndo, bool isNested)
             : base(parentNode, propertyName, text, oldCaretPosition, newCaretPosition, changeCaretBeforeText, handlerRedo, handlerUndo, isNested)
         {
         }
@@ -51,7 +40,7 @@
         /// <summary>
         /// Creates a IxxxChangeTextOperation object.
         /// </summary>
-        private protected override IFocusChangeTextOperation CreateChangeTextOperation(string text, int oldCaretPosition, int newCaretPosition, bool changeCaretBeforeText, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        private protected override FocusChangeTextOperation CreateChangeTextOperation(string text, int oldCaretPosition, int newCaretPosition, bool changeCaretBeforeText, Action<WriteableOperation> handlerRedo, Action<WriteableOperation> handlerUndo, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(LayoutChangeTextOperation));
             return new LayoutChangeTextOperation(ParentNode, PropertyName, text, oldCaretPosition, newCaretPosition, changeCaretBeforeText, handlerRedo, handlerUndo, isNested);

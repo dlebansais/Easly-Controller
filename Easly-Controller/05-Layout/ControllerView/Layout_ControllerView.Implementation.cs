@@ -11,7 +11,7 @@
     /// <summary>
     /// View of a IxxxController.
     /// </summary>
-    public partial class LayoutControllerView : FocusControllerView, ILayoutControllerView, ILayoutInternalControllerView
+    public partial class LayoutControllerView : FocusControllerView, ILayoutInternalControllerView
     {
         /// <summary>
         /// Handler called every time a block state is inserted in the controller.
@@ -41,11 +41,11 @@
         /// Handler called every time a block state is removed from the controller.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        private protected override void OnBlockStateRemoved(IWriteableRemoveBlockOperation operation)
+        private protected override void OnBlockStateRemoved(WriteableRemoveBlockOperation operation)
         {
             base.OnBlockStateRemoved(operation);
 
-            ILayoutBlockState BlockState = ((ILayoutRemoveBlockOperation)operation).BlockState;
+            ILayoutBlockState BlockState = ((LayoutRemoveBlockOperation)operation).BlockState;
 
             Debug.Assert(BlockState != null);
             Debug.Assert(!BlockStateViewTable.ContainsKey(BlockState));
@@ -53,7 +53,7 @@
             Debug.Assert(!StateViewTable.ContainsKey(BlockState.PatternState));
             Debug.Assert(!StateViewTable.ContainsKey(BlockState.SourceState));
 
-            ILayoutNodeState RemovedState = ((ILayoutRemoveBlockOperation)operation).RemovedState;
+            ILayoutNodeState RemovedState = ((LayoutRemoveBlockOperation)operation).RemovedState;
             Debug.Assert(!StateViewTable.ContainsKey(RemovedState));
 
             Debug.Assert(BlockState.StateList.Count == 0);
@@ -63,11 +63,11 @@
         /// Handler called every time a block view must be removed from the controller view.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        private protected override void OnBlockViewRemoved(IWriteableRemoveBlockViewOperation operation)
+        private protected override void OnBlockViewRemoved(WriteableRemoveBlockViewOperation operation)
         {
             base.OnBlockViewRemoved(operation);
 
-            ILayoutBlockState BlockState = ((ILayoutRemoveBlockViewOperation)operation).BlockState;
+            ILayoutBlockState BlockState = ((LayoutRemoveBlockViewOperation)operation).BlockState;
 
             Debug.Assert(BlockState != null);
             Debug.Assert(!BlockStateViewTable.ContainsKey(BlockState));
@@ -83,15 +83,15 @@
         /// Handler called every time a state is inserted in the controller.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        private protected override void OnStateInserted(IWriteableInsertNodeOperation operation)
+        private protected override void OnStateInserted(WriteableInsertNodeOperation operation)
         {
             base.OnStateInserted(operation);
 
-            ILayoutNodeState ChildState = ((ILayoutInsertNodeOperation)operation).ChildState;
+            ILayoutNodeState ChildState = ((LayoutInsertNodeOperation)operation).ChildState;
             Debug.Assert(ChildState != null);
             Debug.Assert(StateViewTable.ContainsKey(ChildState));
 
-            ILayoutBrowsingCollectionNodeIndex BrowsingIndex = ((ILayoutInsertNodeOperation)operation).BrowsingIndex;
+            ILayoutBrowsingCollectionNodeIndex BrowsingIndex = ((LayoutInsertNodeOperation)operation).BrowsingIndex;
             Debug.Assert(ChildState.ParentIndex == BrowsingIndex);
         }
 
@@ -99,11 +99,11 @@
         /// Handler called every time a state is removed from the controller.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        private protected override void OnStateRemoved(IWriteableRemoveNodeOperation operation)
+        private protected override void OnStateRemoved(WriteableRemoveNodeOperation operation)
         {
             base.OnStateRemoved(operation);
 
-            ILayoutPlaceholderNodeState RemovedState = ((ILayoutRemoveNodeOperation)operation).RemovedState;
+            ILayoutPlaceholderNodeState RemovedState = ((LayoutRemoveNodeOperation)operation).RemovedState;
             Debug.Assert(RemovedState != null);
             Debug.Assert(!StateViewTable.ContainsKey(RemovedState));
         }
@@ -133,11 +133,11 @@
         /// Handler called every time a state is assigned in the controller.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        private protected override void OnStateAssigned(IWriteableAssignmentOperation operation)
+        private protected override void OnStateAssigned(WriteableAssignmentOperation operation)
         {
             base.OnStateAssigned(operation);
 
-            ILayoutOptionalNodeState State = ((ILayoutAssignmentOperation)operation).State;
+            ILayoutOptionalNodeState State = ((LayoutAssignmentOperation)operation).State;
             Debug.Assert(State != null);
             Debug.Assert(StateViewTable.ContainsKey(State));
         }
@@ -146,11 +146,11 @@
         /// Handler called every time a state is unassigned in the controller.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        private protected override void OnStateUnassigned(IWriteableAssignmentOperation operation)
+        private protected override void OnStateUnassigned(WriteableAssignmentOperation operation)
         {
             base.OnStateUnassigned(operation);
 
-            ILayoutOptionalNodeState State = ((ILayoutAssignmentOperation)operation).State;
+            ILayoutOptionalNodeState State = ((LayoutAssignmentOperation)operation).State;
             Debug.Assert(State != null);
             Debug.Assert(StateViewTable.ContainsKey(State));
         }
@@ -159,11 +159,11 @@
         /// Handler called every time a discrete value is changed in the controller.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        private protected override void OnDiscreteValueChanged(IWriteableChangeDiscreteValueOperation operation)
+        private protected override void OnDiscreteValueChanged(WriteableChangeDiscreteValueOperation operation)
         {
             base.OnDiscreteValueChanged(operation);
 
-            ILayoutNodeState State = ((ILayoutChangeDiscreteValueOperation)operation).State;
+            ILayoutNodeState State = ((LayoutChangeDiscreteValueOperation)operation).State;
             Debug.Assert(State != null);
             Debug.Assert(StateViewTable.ContainsKey(State));
         }
@@ -172,11 +172,11 @@
         /// Handler called every time a text is changed in the controller.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        private protected override void OnTextChanged(IWriteableChangeTextOperation operation)
+        private protected override void OnTextChanged(WriteableChangeTextOperation operation)
         {
             base.OnTextChanged(operation);
 
-            ILayoutNodeState State = ((ILayoutChangeTextOperation)operation).State;
+            ILayoutNodeState State = ((LayoutChangeTextOperation)operation).State;
             Debug.Assert(State != null);
             Debug.Assert(StateViewTable.ContainsKey(State));
         }
@@ -185,11 +185,11 @@
         /// Handler called every time a comment is changed in the controller.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        private protected override void OnCommentChanged(IWriteableChangeCommentOperation operation)
+        private protected override void OnCommentChanged(WriteableChangeCommentOperation operation)
         {
             base.OnCommentChanged(operation);
 
-            ILayoutNodeState State = ((ILayoutChangeCommentOperation)operation).State;
+            ILayoutNodeState State = ((LayoutChangeCommentOperation)operation).State;
             Debug.Assert(State != null);
             Debug.Assert(StateViewTable.ContainsKey(State));
         }
@@ -198,11 +198,11 @@
         /// Handler called every time a block state is changed in the controller.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        private protected override void OnBlockStateChanged(IWriteableChangeBlockOperation operation)
+        private protected override void OnBlockStateChanged(WriteableChangeBlockOperation operation)
         {
             base.OnBlockStateChanged(operation);
 
-            ILayoutBlockState BlockState = ((ILayoutChangeBlockOperation)operation).BlockState;
+            ILayoutBlockState BlockState = ((LayoutChangeBlockOperation)operation).BlockState;
             Debug.Assert(BlockState != null);
             Debug.Assert(BlockStateViewTable.ContainsKey(BlockState));
         }
@@ -211,11 +211,11 @@
         /// Handler called every time a state is moved in the controller.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        private protected override void OnStateMoved(IWriteableMoveNodeOperation operation)
+        private protected override void OnStateMoved(WriteableMoveNodeOperation operation)
         {
             base.OnStateMoved(operation);
 
-            ILayoutPlaceholderNodeState State = ((ILayoutMoveNodeOperation)operation).State;
+            ILayoutPlaceholderNodeState State = ((LayoutMoveNodeOperation)operation).State;
             Debug.Assert(State != null);
             Debug.Assert(StateViewTable.ContainsKey(State));
         }
@@ -224,11 +224,11 @@
         /// Handler called every time a block state is moved in the controller.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        private protected override void OnBlockStateMoved(IWriteableMoveBlockOperation operation)
+        private protected override void OnBlockStateMoved(WriteableMoveBlockOperation operation)
         {
             base.OnBlockStateMoved(operation);
 
-            ILayoutBlockState BlockState = ((ILayoutMoveBlockOperation)operation).BlockState;
+            ILayoutBlockState BlockState = ((LayoutMoveBlockOperation)operation).BlockState;
             Debug.Assert(BlockState != null);
             Debug.Assert(BlockStateViewTable.ContainsKey(BlockState));
         }
@@ -237,11 +237,11 @@
         /// Handler called every time a block split in the controller.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        private protected override void OnBlockSplit(IWriteableSplitBlockOperation operation)
+        private protected override void OnBlockSplit(WriteableSplitBlockOperation operation)
         {
             base.OnBlockSplit(operation);
 
-            ILayoutBlockState BlockState = ((ILayoutSplitBlockOperation)operation).BlockState;
+            ILayoutBlockState BlockState = ((LayoutSplitBlockOperation)operation).BlockState;
             Debug.Assert(BlockState != null);
             Debug.Assert(BlockStateViewTable.ContainsKey(BlockState));
         }
@@ -250,11 +250,11 @@
         /// Handler called every time two blocks are merged.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        private protected override void OnBlocksMerged(IWriteableMergeBlocksOperation operation)
+        private protected override void OnBlocksMerged(WriteableMergeBlocksOperation operation)
         {
             base.OnBlocksMerged(operation);
 
-            ILayoutBlockState BlockState = ((ILayoutMergeBlocksOperation)operation).BlockState;
+            ILayoutBlockState BlockState = ((LayoutMergeBlocksOperation)operation).BlockState;
             Debug.Assert(BlockState != null);
             Debug.Assert(!BlockStateViewTable.ContainsKey(BlockState));
         }
@@ -263,11 +263,11 @@
         /// Handler called to refresh views.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        private protected override void OnGenericRefresh(IWriteableGenericRefreshOperation operation)
+        private protected override void OnGenericRefresh(WriteableGenericRefreshOperation operation)
         {
             base.OnGenericRefresh(operation);
 
-            ILayoutNodeState RefreshState = ((ILayoutGenericRefreshOperation)operation).RefreshState;
+            ILayoutNodeState RefreshState = ((LayoutGenericRefreshOperation)operation).RefreshState;
             Debug.Assert(RefreshState != null);
             Debug.Assert(StateViewTable.ContainsKey(RefreshState));
         }
@@ -304,7 +304,7 @@
         private protected virtual void MeasureCells()
         {
             ILayoutPlaceholderNodeState RootState = Controller.RootState;
-            ILayoutNodeStateView RootStateView = StateViewTable[RootState];
+            ILayoutNodeStateView RootStateView = (ILayoutNodeStateView)StateViewTable[RootState];
             RootStateView.MeasureCells(null, null, Measure.Floating);
 
             InternalViewSize = RootStateView.CellSize;
@@ -315,7 +315,7 @@
         private protected virtual void ArrangeCells()
         {
             ILayoutPlaceholderNodeState RootState = Controller.RootState;
-            ILayoutNodeStateView RootStateView = StateViewTable[RootState];
+            ILayoutNodeStateView RootStateView = (ILayoutNodeStateView)StateViewTable[RootState];
 
             Point ViewOrigin;
 

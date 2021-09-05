@@ -1,39 +1,28 @@
-﻿#pragma warning disable 1591
-
-namespace EaslyController.Layout
+﻿namespace EaslyController.Layout
 {
     using System.Collections.Generic;
-    using System.Collections.ObjectModel;
     using EaslyController.Focus;
 
-    /// <summary>
-    /// List of IxxxCycleManager
-    /// </summary>
-    public interface ILayoutCycleManagerList : IFocusCycleManagerList, IList<ILayoutCycleManager>, IReadOnlyList<ILayoutCycleManager>
+    /// <inheritdoc/>
+    public class LayoutCycleManagerList : FocusCycleManagerList, ICollection<LayoutCycleManager>, IEnumerable<LayoutCycleManager>, IList<LayoutCycleManager>, IReadOnlyCollection<LayoutCycleManager>, IReadOnlyList<LayoutCycleManager>
     {
-        new ILayoutCycleManager this[int index] { get; set; }
-        new int Count { get; }
-        new IEnumerator<ILayoutCycleManager> GetEnumerator();
-        new void Clear();
-    }
-
-    /// <summary>
-    /// List of IxxxCycleManager
-    /// </summary>
-    internal class LayoutCycleManagerList : Collection<ILayoutCycleManager>, ILayoutCycleManagerList
-    {
-        #region Focus
-        IFocusCycleManager IFocusCycleManagerList.this[int index] { get { return this[index]; } set { this[index] = (ILayoutCycleManager)value; } }
-        IFocusCycleManager IList<IFocusCycleManager>.this[int index] { get { return this[index]; } set { this[index] = (ILayoutCycleManager)value; } }
-        int IList<IFocusCycleManager>.IndexOf(IFocusCycleManager value) { return IndexOf((ILayoutCycleManager)value); }
-        void IList<IFocusCycleManager>.Insert(int index, IFocusCycleManager item) { Insert(index, (ILayoutCycleManager)item); }
-        void ICollection<IFocusCycleManager>.Add(IFocusCycleManager item) { Add((ILayoutCycleManager)item); }
-        bool ICollection<IFocusCycleManager>.Contains(IFocusCycleManager value) { return Contains((ILayoutCycleManager)value); }
-        void ICollection<IFocusCycleManager>.CopyTo(IFocusCycleManager[] array, int index) { CopyTo((ILayoutCycleManager[])array, index); }
-        bool ICollection<IFocusCycleManager>.IsReadOnly { get { return ((ICollection<ILayoutCycleManager>)this).IsReadOnly; } }
-        bool ICollection<IFocusCycleManager>.Remove(IFocusCycleManager item) { return Remove((ILayoutCycleManager)item); }
-        IEnumerator<IFocusCycleManager> IEnumerable<IFocusCycleManager>.GetEnumerator() { return GetEnumerator(); }
-        IFocusCycleManager IReadOnlyList<IFocusCycleManager>.this[int index] { get { return this[index]; } }
+        #region LayoutCycleManager
+        void ICollection<LayoutCycleManager>.Add(LayoutCycleManager item) { Add(item); }
+        bool ICollection<LayoutCycleManager>.Contains(LayoutCycleManager item) { return Contains(item); }
+        void ICollection<LayoutCycleManager>.CopyTo(LayoutCycleManager[] array, int arrayIndex) { ((System.Collections.ICollection)this).CopyTo(array, arrayIndex); }
+        bool ICollection<LayoutCycleManager>.Remove(LayoutCycleManager item) { return Remove(item); }
+        bool ICollection<LayoutCycleManager>.IsReadOnly { get { return ((ICollection<FocusCycleManager>)this).IsReadOnly; } }
+        IEnumerator<LayoutCycleManager> IEnumerable<LayoutCycleManager>.GetEnumerator() { return ((IList<LayoutCycleManager>)this).GetEnumerator(); }
+        LayoutCycleManager IList<LayoutCycleManager>.this[int index] { get { return (LayoutCycleManager)this[index]; } set { this[index] = value; } }
+        int IList<LayoutCycleManager>.IndexOf(LayoutCycleManager item) { return IndexOf(item); }
+        void IList<LayoutCycleManager>.Insert(int index, LayoutCycleManager item) { Insert(index, item); }
+        LayoutCycleManager IReadOnlyList<LayoutCycleManager>.this[int index] { get { return (LayoutCycleManager)this[index]; } }
         #endregion
+
+        /// <inheritdoc/>
+        public override FocusCycleManagerReadOnlyList ToReadOnly()
+        {
+            return new LayoutCycleManagerReadOnlyList(this);
+        }
     }
 }

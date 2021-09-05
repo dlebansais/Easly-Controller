@@ -11,6 +11,6 @@
         /// List of optional selectors.
         /// (Set in Xaml)
         /// </summary>
-        new ILayoutFrameSelectorList Selectors { get; }
+        new LayoutFrameSelectorList Selectors { get; }
     }
 }

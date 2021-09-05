@@ -39,7 +39,7 @@
         /// List of optional selectors.
         /// (Set in Xaml)
         /// </summary>
-        public new ILayoutFrameSelectorList Selectors { get { return (ILayoutFrameSelectorList)base.Selectors; } }
+        public new LayoutFrameSelectorList Selectors { get { return (LayoutFrameSelectorList)base.Selectors; } }
 
         /// <summary>
         /// Margin at the left side of the cell.
@@ -105,7 +105,7 @@
         /// <summary>
         /// Creates a IxxxFrameSelectorList object.
         /// </summary>
-        private protected override IFocusFrameSelectorList CreateEmptySelectorList()
+        private protected override FocusFrameSelectorList CreateEmptySelectorList()
         {
             ControllerTools.AssertNoOverride(this, typeof(LayoutPlaceholderFrame));
             return new LayoutFrameSelectorList();

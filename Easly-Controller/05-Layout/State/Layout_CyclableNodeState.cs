@@ -11,6 +11,6 @@
         /// List of node indexes that can replace the current node. Can be null.
         /// Applies only to bodies and features.
         /// </summary>
-        new ILayoutInsertionChildNodeIndexList CycleIndexList { get; }
+        new LayoutInsertionChildNodeIndexList CycleIndexList { get; }
     }
 }

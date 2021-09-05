@@ -38,7 +38,7 @@
         /// List of optional selectors.
         /// (Set in Xaml)
         /// </summary>
-        public new ILayoutFrameSelectorList Selectors { get { return (ILayoutFrameSelectorList)base.Selectors; } }
+        public new LayoutFrameSelectorList Selectors { get { return (LayoutFrameSelectorList)base.Selectors; } }
 
         /// <summary>
         /// Horizontal separator.
@@ -54,11 +54,11 @@
             ILayoutCellViewCollection ParentCellView = ((ILayoutCellViewCollection)embeddingCellView).ParentCellView;
         }
 
-        private protected override void ValidateBlockCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, IFrameBlockStateView blockStateView, IFrameBlockCellView blockCellView)
+        private protected override void ValidateBlockCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, FrameBlockStateView blockStateView, IFrameBlockCellView blockCellView)
         {
             Debug.Assert(((ILayoutBlockCellView)blockCellView).StateView == (ILayoutNodeStateView)stateView);
             Debug.Assert(((ILayoutBlockCellView)blockCellView).ParentCellView == (ILayoutCellViewCollection)parentCellView);
-            Debug.Assert(((ILayoutBlockCellView)blockCellView).BlockStateView == (ILayoutBlockStateView)blockStateView);
+            Debug.Assert(((ILayoutBlockCellView)blockCellView).BlockStateView == (LayoutBlockStateView)blockStateView);
         }
         #endregion
 
@@ -66,7 +66,7 @@
         /// <summary>
         /// Creates a IxxxCellViewList object.
         /// </summary>
-        private protected override IFrameCellViewList CreateCellViewList()
+        private protected override FrameCellViewList CreateCellViewList()
         {
             ControllerTools.AssertNoOverride(this, typeof(LayoutHorizontalBlockListFrame));
             return new LayoutCellViewList();
@@ -75,25 +75,25 @@
         /// <summary>
         /// Creates a IxxxBlockCellView object.
         /// </summary>
-        private protected override IFrameBlockCellView CreateBlockCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, IFrameBlockStateView blockStateView)
+        private protected override IFrameBlockCellView CreateBlockCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, FrameBlockStateView blockStateView)
         {
             ControllerTools.AssertNoOverride(this, typeof(LayoutHorizontalBlockListFrame));
-            return new LayoutBlockCellView((ILayoutNodeStateView)stateView, (ILayoutCellViewCollection)parentCellView, (ILayoutBlockStateView)blockStateView);
+            return new LayoutBlockCellView((ILayoutNodeStateView)stateView, (ILayoutCellViewCollection)parentCellView, (LayoutBlockStateView)blockStateView);
         }
 
         /// <summary>
         /// Creates a IxxxCellViewCollection object.
         /// </summary>
-        private protected override IFrameCellViewCollection CreateEmbeddingCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, IFrameCellViewList list)
+        private protected override IFrameCellViewCollection CreateEmbeddingCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, FrameCellViewList list)
         {
             ControllerTools.AssertNoOverride(this, typeof(LayoutHorizontalBlockListFrame));
-            return new LayoutLine((ILayoutNodeStateView)stateView, (ILayoutCellViewCollection)parentCellView, (ILayoutCellViewList)list, this);
+            return new LayoutLine((ILayoutNodeStateView)stateView, (ILayoutCellViewCollection)parentCellView, (LayoutCellViewList)list, this);
         }
 
         /// <summary>
         /// Creates a IxxxFrameSelectorList object.
         /// </summary>
-        private protected override IFocusFrameSelectorList CreateEmptySelectorList()
+        private protected override FocusFrameSelectorList CreateEmptySelectorList()
         {
             ControllerTools.AssertNoOverride(this, typeof(LayoutHorizontalBlockListFrame));
             return new LayoutFrameSelectorList();

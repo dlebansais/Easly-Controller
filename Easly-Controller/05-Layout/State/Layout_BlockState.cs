@@ -37,7 +37,7 @@
         /// <summary>
         /// States for nodes in the block.
         /// </summary>
-        new ILayoutPlaceholderNodeStateReadOnlyList StateList { get; }
+        new LayoutPlaceholderNodeStateReadOnlyList StateList { get; }
     }
 
     /// <summary>
@@ -98,14 +98,14 @@
         /// <summary>
         /// States for nodes in the block.
         /// </summary>
-        public new ILayoutPlaceholderNodeStateReadOnlyList StateList { get { return (ILayoutPlaceholderNodeStateReadOnlyList)base.StateList; } }
+        public new LayoutPlaceholderNodeStateReadOnlyList StateList { get { return (LayoutPlaceholderNodeStateReadOnlyList)base.StateList; } }
         #endregion
 
         #region Create Methods
         /// <summary>
         /// Creates a IxxxPlaceholderNodeStateList object.
         /// </summary>
-        private protected override IReadOnlyPlaceholderNodeStateList CreateStateList()
+        private protected override ReadOnlyPlaceholderNodeStateList CreateStateList()
         {
             ControllerTools.AssertNoOverride(this, typeof(LayoutBlockState<IInner>));
             return new LayoutPlaceholderNodeStateList();
@@ -114,7 +114,7 @@
         /// <summary>
         /// Creates a IxxxInnerDictionary{string} object.
         /// </summary>
-        private protected override IReadOnlyInnerDictionary<string> CreateInnerTable()
+        private protected override ReadOnlyInnerDictionary<string> CreateInnerTable()
         {
             ControllerTools.AssertNoOverride(this, typeof(LayoutBlockState<IInner>));
             return new LayoutInnerDictionary<string>();
@@ -126,7 +126,7 @@
         private protected override IReadOnlyPlaceholderInner<IReadOnlyBrowsingPlaceholderNodeIndex> CreatePatternInner(IReadOnlyNodeState owner)
         {
             ControllerTools.AssertNoOverride(this, typeof(LayoutBlockState<IInner>));
-            return new LayoutPlaceholderInner<ILayoutBrowsingPlaceholderNodeIndex, LayoutBrowsingPlaceholderNodeIndex>((ILayoutNodeState)owner, nameof(IBlock.ReplicationPattern));
+            return new LayoutPlaceholderInner<ILayoutBrowsingPlaceholderNodeIndex>((ILayoutNodeState)owner, nameof(IBlock.ReplicationPattern));
         }
 
         /// <summary>
@@ -135,7 +135,7 @@
         private protected override IReadOnlyPlaceholderInner<IReadOnlyBrowsingPlaceholderNodeIndex> CreateSourceInner(IReadOnlyNodeState owner)
         {
             ControllerTools.AssertNoOverride(this, typeof(LayoutBlockState<IInner>));
-            return new LayoutPlaceholderInner<ILayoutBrowsingPlaceholderNodeIndex, LayoutBrowsingPlaceholderNodeIndex>((ILayoutNodeState)owner, nameof(IBlock.SourceIdentifier));
+            return new LayoutPlaceholderInner<ILayoutBrowsingPlaceholderNodeIndex>((ILayoutNodeState)owner, nameof(IBlock.SourceIdentifier));
         }
 
         /// <summary>

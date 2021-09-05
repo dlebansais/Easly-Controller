@@ -119,8 +119,8 @@
                 Stats.PlaceholderNodeCount--;
             }
 
-            WriteableBrowsingPatternIndex PatternIndex = RemovedBlockState.PatternIndex;
-            WriteableBrowsingSourceIndex SourceIndex = RemovedBlockState.SourceIndex;
+            IWriteableBrowsingPatternIndex PatternIndex = RemovedBlockState.PatternIndex;
+            IWriteableBrowsingSourceIndex SourceIndex = RemovedBlockState.SourceIndex;
 
             Debug.Assert(PatternIndex != null);
             Debug.Assert(StateTable.ContainsKey(PatternIndex));

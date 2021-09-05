@@ -8,23 +8,7 @@
     /// <summary>
     /// Operation details for inserting a node in a list or block list.
     /// </summary>
-    public interface ILayoutInsertNodeOperation : IFocusInsertNodeOperation, ILayoutInsertOperation
-    {
-        /// <summary>
-        /// Index of the state after it's inserted.
-        /// </summary>
-        new ILayoutBrowsingCollectionNodeIndex BrowsingIndex { get; }
-
-        /// <summary>
-        /// State inserted.
-        /// </summary>
-        new ILayoutPlaceholderNodeState ChildState { get; }
-    }
-
-    /// <summary>
-    /// Operation details for inserting a node in a list or block list.
-    /// </summary>
-    internal class LayoutInsertNodeOperation : FocusInsertNodeOperation, ILayoutInsertNodeOperation
+    internal class LayoutInsertNodeOperation : FocusInsertNodeOperation, ILayoutInsertOperation
     {
         #region Init
         /// <summary>
@@ -38,7 +22,7 @@
         /// <param name="handlerRedo">Handler to execute to redo the operation.</param>
         /// <param name="handlerUndo">Handler to execute to undo the operation.</param>
         /// <param name="isNested">True if the operation is nested within another more general one.</param>
-        public LayoutInsertNodeOperation(Node parentNode, string propertyName, int blockIndex, int index, Node node, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        public LayoutInsertNodeOperation(Node parentNode, string propertyName, int blockIndex, int index, Node node, Action<WriteableOperation> handlerRedo, Action<WriteableOperation> handlerUndo, bool isNested)
             : base(parentNode, propertyName, blockIndex, index, node, handlerRedo, handlerUndo, isNested)
         {
         }
@@ -60,7 +44,7 @@
         /// <summary>
         /// Creates a IxxxRemoveNodeOperation object.
         /// </summary>
-        private protected override IWriteableRemoveNodeOperation CreateRemoveNodeOperation(int blockIndex, int index, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        private protected override WriteableRemoveNodeOperation CreateRemoveNodeOperation(int blockIndex, int index, Action<WriteableOperation> handlerRedo, Action<WriteableOperation> handlerUndo, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(LayoutInsertNodeOperation));
             return new LayoutRemoveNodeOperation(ParentNode, PropertyName, blockIndex, index, handlerRedo, handlerUndo, isNested);

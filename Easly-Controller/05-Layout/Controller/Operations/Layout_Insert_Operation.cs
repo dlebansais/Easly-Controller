@@ -7,7 +7,7 @@
     /// <summary>
     /// Details for insertion operations.
     /// </summary>
-    public interface ILayoutInsertOperation : IFocusInsertOperation, ILayoutOperation
+    public interface ILayoutInsertOperation : IFocusInsertOperation
     {
     }
 
@@ -23,7 +23,7 @@
         /// <param name="handlerRedo">Handler to execute to redo the operation.</param>
         /// <param name="handlerUndo">Handler to execute to undo the operation.</param>
         /// <param name="isNested">True if the operation is nested within another more general one.</param>
-        public LayoutInsertOperation(Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        public LayoutInsertOperation(Action<WriteableOperation> handlerRedo, Action<WriteableOperation> handlerUndo, bool isNested)
             : base(handlerRedo, handlerUndo, isNested)
         {
         }

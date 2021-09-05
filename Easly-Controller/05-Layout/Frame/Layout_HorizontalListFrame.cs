@@ -38,7 +38,7 @@
         /// List of optional selectors.
         /// (Set in Xaml)
         /// </summary>
-        public new ILayoutFrameSelectorList Selectors { get { return (ILayoutFrameSelectorList)base.Selectors; } }
+        public new LayoutFrameSelectorList Selectors { get { return (LayoutFrameSelectorList)base.Selectors; } }
 
         /// <summary>
         /// Horizontal separator.
@@ -66,7 +66,7 @@
         /// <summary>
         /// Creates a IxxxCellViewList object.
         /// </summary>
-        private protected override IFrameCellViewList CreateCellViewList()
+        private protected override FrameCellViewList CreateCellViewList()
         {
             ControllerTools.AssertNoOverride(this, typeof(LayoutHorizontalListFrame));
             return new LayoutCellViewList();
@@ -84,16 +84,16 @@
         /// <summary>
         /// Creates a IxxxCellViewCollection object.
         /// </summary>
-        private protected override IFrameCellViewCollection CreateEmbeddingCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, IFrameCellViewList list)
+        private protected override IFrameCellViewCollection CreateEmbeddingCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, FrameCellViewList list)
         {
             ControllerTools.AssertNoOverride(this, typeof(LayoutHorizontalListFrame));
-            return new LayoutLine((ILayoutNodeStateView)stateView, (ILayoutCellViewCollection)parentCellView, (ILayoutCellViewList)list, this);
+            return new LayoutLine((ILayoutNodeStateView)stateView, (ILayoutCellViewCollection)parentCellView, (LayoutCellViewList)list, this);
         }
 
         /// <summary>
         /// Creates a IxxxFrameSelectorList object.
         /// </summary>
-        private protected override IFocusFrameSelectorList CreateEmptySelectorList()
+        private protected override FocusFrameSelectorList CreateEmptySelectorList()
         {
             ControllerTools.AssertNoOverride(this, typeof(LayoutHorizontalListFrame));
             return new LayoutFrameSelectorList();

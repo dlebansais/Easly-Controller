@@ -60,7 +60,7 @@
         /// <inheritdoc/>
         public override FrameAssignableCellViewReadOnlyDictionary<TKey> ToReadOnly()
         {
-            return new WriteableInnerReadOnlyDictionary<TKey>(this);
+            return new FocusAssignableCellViewReadOnlyDictionary<TKey>(this);
         }
     }
 }

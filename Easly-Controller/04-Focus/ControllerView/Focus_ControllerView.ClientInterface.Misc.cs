@@ -23,8 +23,8 @@
         public virtual void SetUserVisible(bool isUserVisible)
         {
             if (isUserVisible)
-                foreach (KeyValuePair<IFocusNodeState, IFocusNodeStateView> Entry in StateViewTable)
-                    Entry.Value.SetIsUserVisible(false);
+                foreach (IFocusNodeState Key in StateViewTable.Keys)
+                    ((IFocusNodeStateView)StateViewTable[Key]).SetIsUserVisible(false);
 
             IFocusNodeStateView StateView = Focus.CellView.StateView;
             Debug.Assert(StateView != null);
@@ -33,11 +33,11 @@
             {
                 StateView.SetIsUserVisible(isUserVisible);
 
-                foreach (KeyValuePair<string, IFocusInner> Entry in StateView.State.InnerTable)
+                foreach (string Key in StateView.State.InnerTable.Keys)
                 {
-                    if (Entry.Value is IFocusPlaceholderInner AsPlaceholderInner)
+                    if (StateView.State.InnerTable[Key] is IFocusPlaceholderInner AsPlaceholderInner)
                     {
-                        IFocusNodeStateView ChildStateView = StateViewTable[AsPlaceholderInner.ChildState];
+                        IFocusNodeStateView ChildStateView = (IFocusNodeStateView)StateViewTable[AsPlaceholderInner.ChildState];
                         if (((IFocusNodeTemplate)ChildStateView.Template).IsSimple)
                             ChildStateView.SetIsUserVisible(isUserVisible);
                     }
@@ -46,7 +46,7 @@
                 if (!((IFocusNodeTemplate)StateView.Template).IsSimple || StateView.State.ParentState == null)
                     break;
 
-                StateView = StateViewTable[StateView.State.ParentState];
+                StateView = (IFocusNodeStateView)StateViewTable[StateView.State.ParentState];
             }
 
             Refresh(StateView.State);

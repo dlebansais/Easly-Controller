@@ -11,202 +11,7 @@
     /// <summary>
     /// View of a IxxxController.
     /// </summary>
-    public interface ILayoutControllerView : IFocusControllerView
-    {
-        /// <summary>
-        /// The controller.
-        /// </summary>
-        new ILayoutController Controller { get; }
-
-        /// <summary>
-        /// Table of views of each state in the controller.
-        /// </summary>
-        new ILayoutStateViewDictionary StateViewTable { get; }
-
-        /// <summary>
-        /// Table of views of each block state in the controller.
-        /// </summary>
-        new ILayoutBlockStateViewDictionary BlockStateViewTable { get; }
-
-        /// <summary>
-        /// State view of the root state.
-        /// </summary>
-        new ILayoutNodeStateView RootStateView { get; }
-
-        /// <summary>
-        /// Template set describing the node tree.
-        /// </summary>
-        new ILayoutTemplateSet TemplateSet { get; }
-
-        /// <summary>
-        /// Cell view with the focus.
-        /// </summary>
-        new ILayoutFocus Focus { get; }
-
-        /// <summary>
-        /// The current selection.
-        /// </summary>
-        new ILayoutSelection Selection { get; }
-
-        /// <summary>
-        /// The measure context.
-        /// </summary>
-        ILayoutMeasureContext MeasureContext { get; }
-
-        /// <summary>
-        /// The draw context.
-        /// </summary>
-        ILayoutDrawContext DrawContext { get; }
-
-        /// <summary>
-        /// The print context.
-        /// </summary>
-        ILayoutPrintContext PrintContext { get; }
-
-        /// <summary>
-        /// Size of view.
-        /// </summary>
-        Size ViewSize { get; }
-
-        /// <summary>
-        /// Current text style if the focus is on a string property. Default otherwise.
-        /// </summary>
-        TextStyles FocusedTextStyle { get; }
-
-        /// <summary>
-        /// Displayed caret mode.
-        /// </summary>
-        CaretModes ActualCaretMode { get; }
-
-        /// <summary>
-        /// Indicates if the caret is shown or hidden.
-        /// </summary>
-        bool IsCaretShown { get; }
-
-        /// <summary>
-        /// Indicates if there are cells that must be measured and arranged.
-        /// </summary>
-        bool IsInvalidated { get; }
-
-        /// <summary>
-        /// Shows a comment sign over comments in <see cref="CommentDisplayModes.OnFocus"/> mode.
-        /// </summary>
-        bool ShowUnfocusedComments { get; }
-
-        /// <summary>
-        /// Shows block geometry around blocks.
-        /// </summary>
-        bool ShowBlockGeometry { get; }
-
-        /// <summary>
-        /// Shows line numbers.
-        /// </summary>
-        bool ShowLineNumber { get; }
-
-        /// <summary>
-        /// Invalidates the entire view.
-        /// </summary>
-        void Invalidate();
-
-        /// <summary>
-        /// Invalidates the specified region.
-        /// </summary>
-        void Invalidate(Rect region);
-
-        /// <summary>
-        /// Measure and arrange cells in the view.
-        /// </summary>
-        void MeasureAndArrange();
-
-        /// <summary>
-        /// Updates all floating sizes and positions.
-        /// </summary>
-        void UpdateLayout();
-
-        /// <summary>
-        /// Draws all visible cells in the view using <see cref="DrawContext"/>.
-        /// <param name="stateView">The view to draw.</param>
-        /// </summary>
-        void Draw(ILayoutNodeStateView stateView);
-
-        /// <summary>
-        /// Prints all visible cells in a view using <see cref="PrintContext"/>.
-        /// </summary>
-        /// <param name="stateView">The view to print.</param>
-        /// <param name="origin">The origin from where to start printing.</param>
-        void Print(ILayoutNodeStateView stateView, Point origin);
-
-        /// <summary>
-        /// Prints the selection.
-        /// </summary>
-        void PrintSelection();
-
-        /// <summary>
-        /// Shows or hides the caret.
-        /// </summary>
-        /// <param name="show">Shows the caret if true. Otherwise, hides it.</param>
-        /// <param name="draw">Draws the caret according to <paramref name="show"/> if true. Otherwise, just save the setting.</param>
-        void ShowCaret(bool show, bool draw);
-
-        /// <summary>
-        /// Moves the focus up or down.
-        /// The starting point is the center of the area covered by the current focus.
-        /// </summary>
-        /// <param name="distance">The distance to cross.</param>
-        /// <param name="resetAnchor">If true, resets the selected text anchor.</param>
-        /// <param name="isMoved">True if the focus has changed.</param>
-        void MoveFocusVertically(double distance, bool resetAnchor, out bool isMoved);
-
-        /// <summary>
-        /// Moves the focus to the beginning or end of a line.
-        /// The starting point is the center of the area covered by the current focus.
-        /// </summary>
-        /// <param name="direction">-1 for the beginning of the line, +1 for the end.</param>
-        /// <param name="resetAnchor">If true, resets the selected text anchor.</param>
-        /// <param name="isMoved">True if the focus has changed.</param>
-        void MoveFocusHorizontally(int direction, bool resetAnchor, out bool isMoved);
-
-        /// <summary>
-        /// Sets <see cref="ShowUnfocusedComments"/>.
-        /// </summary>
-        /// <param name="show">True to show, false to hide.</param>
-        void SetShowUnfocusedComments(bool show);
-
-        /// <summary>
-        /// Sets <see cref="ShowBlockGeometry"/>.
-        /// </summary>
-        /// <param name="show">True to show, false to hide.</param>
-        void SetShowBlockGeometry(bool show);
-
-        /// <summary>
-        /// Sets <see cref="ShowLineNumber"/>.
-        /// </summary>
-        /// <param name="show">True to show, false to hide.</param>
-        void SetShowLineNumber(bool show);
-
-        /// <summary>
-        /// Gets the visible cell view corresponding to a location.
-        /// </summary>
-        /// <param name="x">X-coordinate of the location where to look.</param>
-        /// <param name="y">Y-coordinate of the location where to look.</param>
-        /// <param name="cellView">The cell view upon return. Null if not found.</param>
-        /// <returns>True if found; otherwise, false.</returns>
-        bool CellViewFromPoint(double x, double y, out ILayoutVisibleCellView cellView);
-
-        /// <summary>
-        /// Sets the focus to the visible cell view corresponding to a location.
-        /// </summary>
-        /// <param name="x">X-coordinate of the location where to set the focus.</param>
-        /// <param name="y">Y-coordinate of the location where to set the focus.</param>
-        /// <param name="resetAnchor">If true, resets the selected text anchor.</param>
-        /// <param name="isMoved">True if the focus was moved.</param>
-        void SetFocusToPoint(double x, double y, bool resetAnchor, out bool isMoved);
-    }
-
-    /// <summary>
-    /// View of a IxxxController.
-    /// </summary>
-    public partial class LayoutControllerView : FocusControllerView, ILayoutControllerView, ILayoutInternalControllerView
+    public partial class LayoutControllerView : FocusControllerView, ILayoutInternalControllerView
     {
         #region Debugging
         /// <summary>
@@ -232,7 +37,7 @@
         /// <summary>
         /// Creates a IxxxStateViewDictionary object.
         /// </summary>
-        private protected override IReadOnlyStateViewDictionary CreateStateViewTable()
+        private protected override ReadOnlyStateViewDictionary CreateStateViewTable()
         {
             ControllerTools.AssertNoOverride(this, typeof(LayoutControllerView));
             return new LayoutStateViewDictionary();
@@ -241,7 +46,7 @@
         /// <summary>
         /// Creates a IxxxBlockStateViewDictionary object.
         /// </summary>
-        private protected override IReadOnlyBlockStateViewDictionary CreateBlockStateViewTable()
+        private protected override ReadOnlyBlockStateViewDictionary CreateBlockStateViewTable()
         {
             ControllerTools.AssertNoOverride(this, typeof(LayoutControllerView));
             return new LayoutBlockStateViewDictionary();
@@ -250,7 +55,7 @@
         /// <summary>
         /// Creates a IxxxAttachCallbackSet object.
         /// </summary>
-        private protected override IReadOnlyAttachCallbackSet CreateCallbackSet()
+        private protected override ReadOnlyAttachCallbackSet CreateCallbackSet()
         {
             ControllerTools.AssertNoOverride(this, typeof(LayoutControllerView));
             return new LayoutAttachCallbackSet()
@@ -267,7 +72,7 @@
         /// <summary>
         /// Creates a IxxxPlaceholderNodeStateView object.
         /// </summary>
-        private protected override IReadOnlyPlaceholderNodeStateView CreatePlaceholderNodeStateView(IReadOnlyPlaceholderNodeState state)
+        private protected override ReadOnlyPlaceholderNodeStateView CreatePlaceholderNodeStateView(IReadOnlyPlaceholderNodeState state)
         {
             ControllerTools.AssertNoOverride(this, typeof(LayoutControllerView));
             return new LayoutPlaceholderNodeStateView(this, (ILayoutPlaceholderNodeState)state);
@@ -276,7 +81,7 @@
         /// <summary>
         /// Creates a IxxxOptionalNodeStateView object.
         /// </summary>
-        private protected override IReadOnlyOptionalNodeStateView CreateOptionalNodeStateView(IReadOnlyOptionalNodeState state)
+        private protected override ReadOnlyOptionalNodeStateView CreateOptionalNodeStateView(IReadOnlyOptionalNodeState state)
         {
             ControllerTools.AssertNoOverride(this, typeof(LayoutControllerView));
             return new LayoutOptionalNodeStateView(this, (ILayoutOptionalNodeState)state);
@@ -285,7 +90,7 @@
         /// <summary>
         /// Creates a IxxxPatternStateView object.
         /// </summary>
-        private protected override IReadOnlyPatternStateView CreatePatternStateView(IReadOnlyPatternState state)
+        private protected override ReadOnlyPatternStateView CreatePatternStateView(IReadOnlyPatternState state)
         {
             ControllerTools.AssertNoOverride(this, typeof(LayoutControllerView));
             return new LayoutPatternStateView(this, (ILayoutPatternState)state);
@@ -294,7 +99,7 @@
         /// <summary>
         /// Creates a IxxxSourceStateView object.
         /// </summary>
-        private protected override IReadOnlySourceStateView CreateSourceStateView(IReadOnlySourceState state)
+        private protected override ReadOnlySourceStateView CreateSourceStateView(IReadOnlySourceState state)
         {
             ControllerTools.AssertNoOverride(this, typeof(LayoutControllerView));
             return new LayoutSourceStateView(this, (ILayoutSourceState)state);
@@ -303,7 +108,7 @@
         /// <summary>
         /// Creates a IxxxBlockStateView object.
         /// </summary>
-        private protected override IReadOnlyBlockStateView CreateBlockStateView(IReadOnlyBlockState blockState)
+        private protected override ReadOnlyBlockStateView CreateBlockStateView(IReadOnlyBlockState blockState)
         {
             ControllerTools.AssertNoOverride(this, typeof(LayoutControllerView));
             return new LayoutBlockStateView(this, (ILayoutBlockState)blockState);
@@ -321,10 +126,10 @@
         /// <summary>
         /// Creates a IxxxBlockCellView object.
         /// </summary>
-        private protected override IFrameBlockCellView CreateBlockCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, IFrameBlockStateView blockStateView)
+        private protected override IFrameBlockCellView CreateBlockCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, FrameBlockStateView blockStateView)
         {
             ControllerTools.AssertNoOverride(this, typeof(LayoutControllerView));
-            return new LayoutBlockCellView((ILayoutNodeStateView)stateView, (ILayoutCellViewCollection)parentCellView, (ILayoutBlockStateView)blockStateView);
+            return new LayoutBlockCellView((ILayoutNodeStateView)stateView, (ILayoutCellViewCollection)parentCellView, (LayoutBlockStateView)blockStateView);
         }
 
         /// <summary>
@@ -339,7 +144,7 @@
         /// <summary>
         /// Creates a IxxxFocusList object.
         /// </summary>
-        private protected override IFocusFocusList CreateFocusChain()
+        private protected override FocusFocusList CreateFocusChain()
         {
             ControllerTools.AssertNoOverride(this, typeof(LayoutControllerView));
             return new LayoutFocusList();

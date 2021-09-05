@@ -10,23 +10,7 @@
     /// <summary>
     /// Context for browsing child nodes of a parent node.
     /// </summary>
-    internal interface ILayoutBrowseContext : IFocusBrowseContext
-    {
-        /// <summary>
-        /// State this context is browsing.
-        /// </summary>
-        new ILayoutNodeState State { get; }
-
-        /// <summary>
-        /// List of index collections that have been added during browsing.
-        /// </summary>
-        new ILayoutIndexCollectionReadOnlyList IndexCollectionList { get; }
-    }
-
-    /// <summary>
-    /// Context for browsing child nodes of a parent node.
-    /// </summary>
-    internal class LayoutBrowseContext : FocusBrowseContext, ILayoutBrowseContext
+    internal class LayoutBrowseContext : FocusBrowseContext
     {
         #region Init
         /// <summary>
@@ -48,7 +32,7 @@
         /// <summary>
         /// List of index collections that have been added during browsing.
         /// </summary>
-        public new ILayoutIndexCollectionReadOnlyList IndexCollectionList { get { return (ILayoutIndexCollectionReadOnlyList)base.IndexCollectionList; } }
+        public new LayoutIndexCollectionReadOnlyList IndexCollectionList { get { return (LayoutIndexCollectionReadOnlyList)base.IndexCollectionList; } }
         #endregion
 
         #region Client Interface
@@ -61,16 +45,16 @@
 
             Debug.Assert(State != null);
 
-            ILayoutIndexCollectionList InternalList = InternalIndexCollectionList as ILayoutIndexCollectionList;
-            ILayoutIndexCollectionReadOnlyList PublicList = IndexCollectionList;
+            LayoutIndexCollectionList InternalList = InternalIndexCollectionList as LayoutIndexCollectionList;
+            LayoutIndexCollectionReadOnlyList PublicList = IndexCollectionList;
 
             for (int i = 0; i < InternalList.Count; i++)
             {
-                ILayoutIndexCollection InternalItem = InternalList[i];
+                ILayoutIndexCollection InternalItem = (ILayoutIndexCollection)InternalList[i];
                 Debug.Assert(PublicList.Contains(InternalItem));
                 Debug.Assert(PublicList.IndexOf(InternalItem) >= 0);
 
-                ILayoutIndexCollection PublicItem = PublicList[i];
+                ILayoutIndexCollection PublicItem = (ILayoutIndexCollection)PublicList[i];
                 Debug.Assert(InternalList.Contains(PublicItem));
                 Debug.Assert(InternalList.IndexOf(PublicItem) >= 0);
 
@@ -134,11 +118,11 @@
                     AsICollection.Remove(InternalItem);
                     InternalList.Insert(0, InternalItem);
 
-                    IEnumerator<IFocusIndexCollection> InternalListEnumerator = ((IFocusIndexCollectionList)InternalList).GetEnumerator();
+                    IEnumerator<IFocusIndexCollection> InternalListEnumerator = ((ICollection<ILayoutIndexCollection>)InternalList).GetEnumerator();
                     InternalListEnumerator.MoveNext();
                     Debug.Assert(InternalListEnumerator.Current == InternalItem);
 
-                    IEnumerator<IFocusIndexCollection> PublicListEnumerator = ((IFocusIndexCollectionReadOnlyList)PublicList).GetEnumerator();
+                    IEnumerator<IFocusIndexCollection> PublicListEnumerator = ((ICollection<ILayoutIndexCollection>)PublicList).GetEnumerator();
                     PublicListEnumerator.MoveNext();
                     Debug.Assert(PublicListEnumerator.Current == InternalItem);
                 }
@@ -150,7 +134,7 @@
         /// <summary>
         /// Creates a IxxxCollectionList object.
         /// </summary>
-        private protected override IReadOnlyIndexCollectionList CreateIndexCollectionList()
+        private protected override ReadOnlyIndexCollectionList CreateIndexCollectionList()
         {
             ControllerTools.AssertNoOverride(this, typeof(LayoutBrowseContext));
             return new LayoutIndexCollectionList();

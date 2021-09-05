@@ -1,89 +1,41 @@
-﻿#pragma warning disable 1591
-
-namespace EaslyController.Layout
+﻿namespace EaslyController.Layout
 {
-    using System;
     using System.Collections.Generic;
-    using System.Collections.ObjectModel;
     using EaslyController.Focus;
+    using System;
     using EaslyController.Frame;
 
-    /// <summary>
-    /// Read-only dictionary of ..., IxxxTemplate
-    /// </summary>
-    public interface ILayoutTemplateReadOnlyDictionary : IFocusTemplateReadOnlyDictionary, IReadOnlyDictionary<Type, ILayoutTemplate>
+    /// <inheritdoc/>
+    public class LayoutTemplateReadOnlyDictionary : FocusTemplateReadOnlyDictionary, ICollection<KeyValuePair<Type, ILayoutTemplate>>, IEnumerable<KeyValuePair<Type, ILayoutTemplate>>, IDictionary<Type, ILayoutTemplate>, IReadOnlyCollection<KeyValuePair<Type, ILayoutTemplate>>, IReadOnlyDictionary<Type, ILayoutTemplate>
     {
-        new ILayoutTemplate this[Type key] { get; }
-        new int Count { get; }
-        new bool ContainsKey(Type key);
-        new IEnumerator<KeyValuePair<Type, ILayoutTemplate>> GetEnumerator();
-    }
-
-    /// <summary>
-    /// Read-only dictionary of ..., IxxxTemplate
-    /// </summary>
-    public class LayoutTemplateReadOnlyDictionary : ReadOnlyDictionary<Type, ILayoutTemplate>, ILayoutTemplateReadOnlyDictionary
-    {
-        public LayoutTemplateReadOnlyDictionary(ILayoutTemplateDictionary dictionary)
+        /// <inheritdoc/>
+        public LayoutTemplateReadOnlyDictionary(LayoutTemplateDictionary dictionary)
             : base(dictionary)
         {
         }
 
-        #region Frame
-        IFrameTemplate IReadOnlyDictionary<Type, IFrameTemplate>.this[Type key] { get { return this[key]; } }
-        IEnumerable<Type> IReadOnlyDictionary<Type, IFrameTemplate>.Keys { get { return Keys; } }
+        #region Type, ILayoutTemplate
+        void ICollection<KeyValuePair<Type, ILayoutTemplate>>.Add(KeyValuePair<Type, ILayoutTemplate> item) { throw new System.InvalidOperationException(); }
+        void ICollection<KeyValuePair<Type, ILayoutTemplate>>.Clear() { throw new System.InvalidOperationException(); }
+        bool ICollection<KeyValuePair<Type, ILayoutTemplate>>.Contains(KeyValuePair<Type, ILayoutTemplate> item) { return ContainsKey(item.Key) && this[item.Key] == item.Value; }
+        void ICollection<KeyValuePair<Type, ILayoutTemplate>>.CopyTo(KeyValuePair<Type, ILayoutTemplate>[] array, int arrayIndex) { ((System.Collections.ICollection)this).CopyTo(array, arrayIndex); }
+        bool ICollection<KeyValuePair<Type, ILayoutTemplate>>.Remove(KeyValuePair<Type, ILayoutTemplate> item) { throw new System.InvalidOperationException(); }
+        bool ICollection<KeyValuePair<Type, ILayoutTemplate>>.IsReadOnly { get { return false; } }
+        IEnumerator<KeyValuePair<Type, ILayoutTemplate>> IEnumerable<KeyValuePair<Type, ILayoutTemplate>>.GetEnumerator() { return ((IList<KeyValuePair<Type, ILayoutTemplate>>)this).GetEnumerator(); }
 
-        bool IReadOnlyDictionary<Type, IFrameTemplate>.TryGetValue(Type key, out IFrameTemplate value)
-        {
-            bool Result = TryGetValue(key, out ILayoutTemplate Value);
-            value = Value;
-            return Result;
-        }
+        ILayoutTemplate IDictionary<Type, ILayoutTemplate>.this[Type key] { get { return (ILayoutTemplate)this[key]; } set { throw new System.InvalidOperationException(); } }
+        ICollection<Type> IDictionary<Type, ILayoutTemplate>.Keys { get { List<Type> Result = new(); foreach (KeyValuePair<Type, ILayoutTemplate> Entry in (ICollection<KeyValuePair<Type, ILayoutTemplate>>)this) Result.Add(Entry.Key); return Result; } }
+        ICollection<ILayoutTemplate> IDictionary<Type, ILayoutTemplate>.Values { get { List<ILayoutTemplate> Result = new(); foreach (KeyValuePair<Type, ILayoutTemplate> Entry in (ICollection<KeyValuePair<Type, ILayoutTemplate>>)this) Result.Add(Entry.Value); return Result; } }
+        void IDictionary<Type, ILayoutTemplate>.Add(Type key, ILayoutTemplate value) { throw new System.InvalidOperationException(); }
+        bool IDictionary<Type, ILayoutTemplate>.ContainsKey(Type key) { return ContainsKey(key); }
+        bool IDictionary<Type, ILayoutTemplate>.Remove(Type key) { throw new System.InvalidOperationException(); }
+        bool IDictionary<Type, ILayoutTemplate>.TryGetValue(Type key, out ILayoutTemplate value) { bool Result = TryGetValue(key, out IFrameTemplate Value); value = (ILayoutTemplate)Value; return Result; }
 
-        IEnumerable<IFrameTemplate> IReadOnlyDictionary<Type, IFrameTemplate>.Values { get { return Values; } }
-
-        IEnumerator<KeyValuePair<Type, IFrameTemplate>> IEnumerable<KeyValuePair<Type, IFrameTemplate>>.GetEnumerator()
-        {
-            List<KeyValuePair<Type, IFrameTemplate>> NewList = new List<KeyValuePair<Type, IFrameTemplate>>();
-            foreach (KeyValuePair<Type, ILayoutTemplate> Entry in Dictionary)
-                NewList.Add(new KeyValuePair<Type, IFrameTemplate>(Entry.Key, Entry.Value));
-
-            return NewList.GetEnumerator();
-        }
-        #endregion
-
-        #region Focus
-        IFocusTemplate IFocusTemplateReadOnlyDictionary.this[Type key] { get { return this[key]; } }
-
-        IEnumerator<KeyValuePair<Type, IFocusTemplate>> IFocusTemplateReadOnlyDictionary.GetEnumerator()
-        {
-            List<KeyValuePair<Type, IFocusTemplate>> NewList = new List<KeyValuePair<Type, IFocusTemplate>>();
-            foreach (KeyValuePair<Type, ILayoutTemplate> Entry in Dictionary)
-                NewList.Add(new KeyValuePair<Type, IFocusTemplate>(Entry.Key, Entry.Value));
-
-            return NewList.GetEnumerator();
-        }
-
-        IFocusTemplate IReadOnlyDictionary<Type, IFocusTemplate>.this[Type key] { get { return this[key]; } }
-        IEnumerable<Type> IReadOnlyDictionary<Type, IFocusTemplate>.Keys { get { return Keys; } }
-
-        bool IReadOnlyDictionary<Type, IFocusTemplate>.TryGetValue(Type key, out IFocusTemplate value)
-        {
-            bool Result = TryGetValue(key, out ILayoutTemplate Value);
-            value = Value;
-            return Result;
-        }
-
-        IEnumerable<IFocusTemplate> IReadOnlyDictionary<Type, IFocusTemplate>.Values { get { return Values; } }
-
-        IEnumerator<KeyValuePair<Type, IFocusTemplate>> IEnumerable<KeyValuePair<Type, IFocusTemplate>>.GetEnumerator()
-        {
-            List<KeyValuePair<Type, IFocusTemplate>> NewList = new List<KeyValuePair<Type, IFocusTemplate>>();
-            foreach (KeyValuePair<Type, ILayoutTemplate> Entry in Dictionary)
-                NewList.Add(new KeyValuePair<Type, IFocusTemplate>(Entry.Key, Entry.Value));
-
-            return NewList.GetEnumerator();
-        }
+        ILayoutTemplate IReadOnlyDictionary<Type, ILayoutTemplate>.this[Type key] { get { return (ILayoutTemplate)this[key]; } }
+        IEnumerable<Type> IReadOnlyDictionary<Type, ILayoutTemplate>.Keys { get { List<Type> Result = new(); foreach (KeyValuePair<Type, ILayoutTemplate> Entry in (ICollection<KeyValuePair<Type, ILayoutTemplate>>)this) Result.Add(Entry.Key); return Result; } }
+        IEnumerable<ILayoutTemplate> IReadOnlyDictionary<Type, ILayoutTemplate>.Values { get { List<ILayoutTemplate> Result = new(); foreach (KeyValuePair<Type, ILayoutTemplate> Entry in (ICollection<KeyValuePair<Type, ILayoutTemplate>>)this) Result.Add(Entry.Value); return Result; } }
+        bool IReadOnlyDictionary<Type, ILayoutTemplate>.ContainsKey(Type key) { return ContainsKey(key); }
+        bool IReadOnlyDictionary<Type, ILayoutTemplate>.TryGetValue(Type key, out ILayoutTemplate value) { bool Result = TryGetValue(key, out IFrameTemplate Value); value = (ILayoutTemplate)Value; return Result; }
         #endregion
     }
 }

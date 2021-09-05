@@ -18,7 +18,7 @@
         /// </summary>
         /// <param name="inner">The inner where the node is.</param>
         /// <param name="nodeIndex">Index of the node that would be removed.</param>
-        public bool IsRemoveable(IWriteableCollectionInner inner, WriteableBrowsingCollectionNodeIndex nodeIndex)
+        public bool IsRemoveable(IWriteableCollectionInner inner, IWriteableBrowsingCollectionNodeIndex nodeIndex)
         {
             Debug.Assert(inner != null);
             Debug.Assert(nodeIndex != null);

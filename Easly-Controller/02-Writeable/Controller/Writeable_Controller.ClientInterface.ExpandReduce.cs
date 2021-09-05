@@ -86,7 +86,7 @@
             if (optionalInner.IsAssigned)
                 return;
 
-            WriteableBrowsingOptionalNodeIndex ParentIndex = optionalInner.ChildState.ParentIndex;
+            IWriteableBrowsingOptionalNodeIndex ParentIndex = optionalInner.ChildState.ParentIndex;
             if (ParentIndex.Optional.HasItem)
             {
                 Action<WriteableOperation> HandlerRedo = (WriteableOperation operation) => RedoAssign(operation);
@@ -102,7 +102,7 @@
                 Node NewNode = NodeHelper.CreateDefaultFromInterface(optionalInner.InterfaceType);
                 Debug.Assert(NewNode != null);
 
-                WriteableInsertionOptionalNodeIndex NewOptionalNodeIndex = CreateNewOptionalNodeIndex(optionalInner.Owner.Node, optionalInner.PropertyName, NewNode);
+                IWriteableInsertionOptionalNodeIndex NewOptionalNodeIndex = CreateNewOptionalNodeIndex(optionalInner.Owner.Node, optionalInner.PropertyName, NewNode);
 
                 Action<WriteableOperation> HandlerRedo = (WriteableOperation operation) => RedoReplace(operation);
                 Action<WriteableOperation> HandlerUndo = (WriteableOperation operation) => UndoReplace(operation);

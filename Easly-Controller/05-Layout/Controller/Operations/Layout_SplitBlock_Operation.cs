@@ -8,18 +8,7 @@
     /// <summary>
     /// Operation details for splitting a block in a block list.
     /// </summary>
-    public interface ILayoutSplitBlockOperation : IFocusSplitBlockOperation, ILayoutOperation
-    {
-        /// <summary>
-        /// The inserted block state.
-        /// </summary>
-        new ILayoutBlockState BlockState { get; }
-    }
-
-    /// <summary>
-    /// Operation details for splitting a block in a block list.
-    /// </summary>
-    internal class LayoutSplitBlockOperation : FocusSplitBlockOperation, ILayoutSplitBlockOperation
+    internal class LayoutSplitBlockOperation : FocusSplitBlockOperation
     {
         #region Init
         /// <summary>
@@ -33,7 +22,7 @@
         /// <param name="handlerRedo">Handler to execute to redo the operation.</param>
         /// <param name="handlerUndo">Handler to execute to undo the operation.</param>
         /// <param name="isNested">True if the operation is nested within another more general one.</param>
-        public LayoutSplitBlockOperation(Node parentNode, string propertyName, int blockIndex, int index, IBlock newBlock, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        public LayoutSplitBlockOperation(Node parentNode, string propertyName, int blockIndex, int index, IBlock newBlock, Action<WriteableOperation> handlerRedo, Action<WriteableOperation> handlerUndo, bool isNested)
             : base(parentNode, propertyName, blockIndex, index, newBlock, handlerRedo, handlerUndo, isNested)
         {
         }
@@ -50,7 +39,7 @@
         /// <summary>
         /// Creates a IxxxxMergeBlocksOperation object.
         /// </summary>
-        private protected override IWriteableMergeBlocksOperation CreateMergeBlocksOperation(int blockIndex, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        private protected override WriteableMergeBlocksOperation CreateMergeBlocksOperation(int blockIndex, Action<WriteableOperation> handlerRedo, Action<WriteableOperation> handlerUndo, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(LayoutSplitBlockOperation));
             return new LayoutMergeBlocksOperation(ParentNode, PropertyName, blockIndex, handlerRedo, handlerUndo, isNested);

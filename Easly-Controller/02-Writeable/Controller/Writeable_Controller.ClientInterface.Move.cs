@@ -17,7 +17,7 @@
         /// <param name="inner">The inner where the node is.</param>
         /// <param name="nodeIndex">Index of the node that would be moved.</param>
         /// <param name="direction">Direction of the move, relative to the current position of the item.</param>
-        public virtual bool IsMoveable(IWriteableCollectionInner inner, WriteableBrowsingCollectionNodeIndex nodeIndex, int direction)
+        public virtual bool IsMoveable(IWriteableCollectionInner inner, IWriteableBrowsingCollectionNodeIndex nodeIndex, int direction)
         {
             Debug.Assert(inner != null);
             Debug.Assert(nodeIndex != null);
@@ -36,7 +36,7 @@
         /// <param name="inner">The inner for the list or block list in which the node is moved.</param>
         /// <param name="nodeIndex">Index for the moved node.</param>
         /// <param name="direction">The change in position, relative to the current position.</param>
-        public virtual void Move(IWriteableCollectionInner inner, WriteableBrowsingCollectionNodeIndex nodeIndex, int direction)
+        public virtual void Move(IWriteableCollectionInner inner, IWriteableBrowsingCollectionNodeIndex nodeIndex, int direction)
         {
             Debug.Assert(inner != null);
             Debug.Assert(nodeIndex != null);

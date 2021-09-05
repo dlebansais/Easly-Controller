@@ -1,146 +1,40 @@
-﻿#pragma warning disable 1591
-
-namespace EaslyController.Layout
+﻿namespace EaslyController.Layout
 {
     using System.Collections.Generic;
-    using System.Collections.ObjectModel;
-    using EaslyController.Focus;
-    using EaslyController.Frame;
     using EaslyController.ReadOnly;
-    using EaslyController.Writeable;
+    using EaslyController.Focus;
 
-    /// <summary>
-    /// Read-only dictionary of IxxxIndex, IxxxNodeState
-    /// </summary>
-    public interface ILayoutIndexNodeStateReadOnlyDictionary : IFocusIndexNodeStateReadOnlyDictionary, IReadOnlyDictionary<ILayoutIndex, ILayoutNodeState>
+    /// <inheritdoc/>
+    public class LayoutIndexNodeStateReadOnlyDictionary : FocusIndexNodeStateReadOnlyDictionary, ICollection<KeyValuePair<ILayoutIndex, ILayoutNodeState>>, IEnumerable<KeyValuePair<ILayoutIndex, ILayoutNodeState>>, IDictionary<ILayoutIndex, ILayoutNodeState>, IReadOnlyCollection<KeyValuePair<ILayoutIndex, ILayoutNodeState>>, IReadOnlyDictionary<ILayoutIndex, ILayoutNodeState>
     {
-        new ILayoutNodeState this[ILayoutIndex key] { get; }
-        new int Count { get; }
-        new bool ContainsKey(ILayoutIndex key);
-        new IEnumerator<KeyValuePair<ILayoutIndex, ILayoutNodeState>> GetEnumerator();
-    }
-
-    /// <summary>
-    /// Read-only dictionary of IxxxIndex, IxxxNodeState
-    /// </summary>
-    internal class LayoutIndexNodeStateReadOnlyDictionary : ReadOnlyDictionary<ILayoutIndex, ILayoutNodeState>, ILayoutIndexNodeStateReadOnlyDictionary
-    {
-        public LayoutIndexNodeStateReadOnlyDictionary(ILayoutIndexNodeStateDictionary dictionary)
+        /// <inheritdoc/>
+        public LayoutIndexNodeStateReadOnlyDictionary(LayoutIndexNodeStateDictionary dictionary)
             : base(dictionary)
         {
         }
 
-        #region ReadOnly
-        bool IReadOnlyDictionary<IReadOnlyIndex, IReadOnlyNodeState>.ContainsKey(IReadOnlyIndex key) { return ContainsKey((ILayoutIndex)key); }
-        bool IReadOnlyDictionary<IReadOnlyIndex, IReadOnlyNodeState>.TryGetValue(IReadOnlyIndex key, out IReadOnlyNodeState value)
-        {
-            bool Result = TryGetValue((ILayoutIndex)key, out ILayoutNodeState Value);
-            value = Value;
-            return Result;
-        }
-        IReadOnlyNodeState IReadOnlyDictionary<IReadOnlyIndex, IReadOnlyNodeState>.this[IReadOnlyIndex key] { get { return this[(ILayoutIndex)key]; } }
-        IEnumerable<IReadOnlyIndex> IReadOnlyDictionary<IReadOnlyIndex, IReadOnlyNodeState>.Keys { get { return new List<IReadOnlyIndex>(Keys); } }
-        IEnumerable<IReadOnlyNodeState> IReadOnlyDictionary<IReadOnlyIndex, IReadOnlyNodeState>.Values { get { return new List<IReadOnlyNodeState>(Values); } }
+        #region ILayoutIndex, ILayoutNodeState
+        void ICollection<KeyValuePair<ILayoutIndex, ILayoutNodeState>>.Add(KeyValuePair<ILayoutIndex, ILayoutNodeState> item) { throw new System.InvalidOperationException(); }
+        void ICollection<KeyValuePair<ILayoutIndex, ILayoutNodeState>>.Clear() { throw new System.InvalidOperationException(); }
+        bool ICollection<KeyValuePair<ILayoutIndex, ILayoutNodeState>>.Contains(KeyValuePair<ILayoutIndex, ILayoutNodeState> item) { return ContainsKey(item.Key) && this[item.Key] == item.Value; }
+        void ICollection<KeyValuePair<ILayoutIndex, ILayoutNodeState>>.CopyTo(KeyValuePair<ILayoutIndex, ILayoutNodeState>[] array, int arrayIndex) { ((System.Collections.ICollection)this).CopyTo(array, arrayIndex); }
+        bool ICollection<KeyValuePair<ILayoutIndex, ILayoutNodeState>>.Remove(KeyValuePair<ILayoutIndex, ILayoutNodeState> item) { throw new System.InvalidOperationException(); }
+        bool ICollection<KeyValuePair<ILayoutIndex, ILayoutNodeState>>.IsReadOnly { get { return false; } }
+        IEnumerator<KeyValuePair<ILayoutIndex, ILayoutNodeState>> IEnumerable<KeyValuePair<ILayoutIndex, ILayoutNodeState>>.GetEnumerator() { return ((IList<KeyValuePair<ILayoutIndex, ILayoutNodeState>>)this).GetEnumerator(); }
 
-        IEnumerator<KeyValuePair<IReadOnlyIndex, IReadOnlyNodeState>> IEnumerable<KeyValuePair<IReadOnlyIndex, IReadOnlyNodeState>>.GetEnumerator()
-        {
-            List<KeyValuePair<IReadOnlyIndex, IReadOnlyNodeState>> NewList = new List<KeyValuePair<IReadOnlyIndex, IReadOnlyNodeState>>();
-            IEnumerator<KeyValuePair<ILayoutIndex, ILayoutNodeState>> Enumerator = GetEnumerator();
-            while (Enumerator.MoveNext())
-            {
-                KeyValuePair<ILayoutIndex, ILayoutNodeState> Entry = Enumerator.Current;
-                NewList.Add(new KeyValuePair<IReadOnlyIndex, IReadOnlyNodeState>(Entry.Key, Entry.Value));
-            }
+        ILayoutNodeState IDictionary<ILayoutIndex, ILayoutNodeState>.this[ILayoutIndex key] { get { return (ILayoutNodeState)this[key]; } set { throw new System.InvalidOperationException(); } }
+        ICollection<ILayoutIndex> IDictionary<ILayoutIndex, ILayoutNodeState>.Keys { get { List<ILayoutIndex> Result = new(); foreach (KeyValuePair<ILayoutIndex, ILayoutNodeState> Entry in (ICollection<KeyValuePair<ILayoutIndex, ILayoutNodeState>>)this) Result.Add(Entry.Key); return Result; } }
+        ICollection<ILayoutNodeState> IDictionary<ILayoutIndex, ILayoutNodeState>.Values { get { List<ILayoutNodeState> Result = new(); foreach (KeyValuePair<ILayoutIndex, ILayoutNodeState> Entry in (ICollection<KeyValuePair<ILayoutIndex, ILayoutNodeState>>)this) Result.Add(Entry.Value); return Result; } }
+        void IDictionary<ILayoutIndex, ILayoutNodeState>.Add(ILayoutIndex key, ILayoutNodeState value) { throw new System.InvalidOperationException(); }
+        bool IDictionary<ILayoutIndex, ILayoutNodeState>.ContainsKey(ILayoutIndex key) { return ContainsKey(key); }
+        bool IDictionary<ILayoutIndex, ILayoutNodeState>.Remove(ILayoutIndex key) { throw new System.InvalidOperationException(); }
+        bool IDictionary<ILayoutIndex, ILayoutNodeState>.TryGetValue(ILayoutIndex key, out ILayoutNodeState value) { bool Result = TryGetValue(key, out IReadOnlyNodeState Value); value = (ILayoutNodeState)Value; return Result; }
 
-            return NewList.GetEnumerator();
-        }
-        #endregion
-
-        #region Writeable
-        bool IWriteableIndexNodeStateReadOnlyDictionary.ContainsKey(IWriteableIndex key) { return ContainsKey((ILayoutIndex)key); }
-        bool IReadOnlyDictionary<IWriteableIndex, IWriteableNodeState>.ContainsKey(IWriteableIndex key) { return ContainsKey((ILayoutIndex)key); }
-        bool IReadOnlyDictionary<IWriteableIndex, IWriteableNodeState>.TryGetValue(IWriteableIndex key, out IWriteableNodeState value)
-        {
-            bool Result = TryGetValue((ILayoutIndex)key, out ILayoutNodeState Value);
-            value = Value;
-            return Result;
-        }
-        IWriteableNodeState IWriteableIndexNodeStateReadOnlyDictionary.this[IWriteableIndex key] { get { return this[(ILayoutIndex)key]; } }
-        IWriteableNodeState IReadOnlyDictionary<IWriteableIndex, IWriteableNodeState>.this[IWriteableIndex key] { get { return this[(ILayoutIndex)key]; } }
-        IEnumerable<IWriteableIndex> IReadOnlyDictionary<IWriteableIndex, IWriteableNodeState>.Keys { get { return new List<IWriteableIndex>(Keys); } }
-        IEnumerable<IWriteableNodeState> IReadOnlyDictionary<IWriteableIndex, IWriteableNodeState>.Values { get { return new List<IWriteableNodeState>(Values); } }
-
-        IEnumerator<KeyValuePair<IWriteableIndex, IWriteableNodeState>> IEnumerable<KeyValuePair<IWriteableIndex, IWriteableNodeState>>.GetEnumerator()
-        {
-            List<KeyValuePair<IWriteableIndex, IWriteableNodeState>> NewList = new List<KeyValuePair<IWriteableIndex, IWriteableNodeState>>();
-            IEnumerator<KeyValuePair<ILayoutIndex, ILayoutNodeState>> Enumerator = GetEnumerator();
-            while (Enumerator.MoveNext())
-            {
-                KeyValuePair<ILayoutIndex, ILayoutNodeState> Entry = Enumerator.Current;
-                NewList.Add(new KeyValuePair<IWriteableIndex, IWriteableNodeState>(Entry.Key, Entry.Value));
-            }
-
-            return NewList.GetEnumerator();
-        }
-        IEnumerator<KeyValuePair<IWriteableIndex, IWriteableNodeState>> IWriteableIndexNodeStateReadOnlyDictionary.GetEnumerator() { return ((IEnumerable<KeyValuePair<IWriteableIndex, IWriteableNodeState>>)this).GetEnumerator(); }
-        #endregion
-
-        #region Frame
-        bool IFrameIndexNodeStateReadOnlyDictionary.ContainsKey(IFrameIndex key) { return ContainsKey((ILayoutIndex)key); }
-        bool IReadOnlyDictionary<IFrameIndex, IFrameNodeState>.ContainsKey(IFrameIndex key) { return ContainsKey((ILayoutIndex)key); }
-        bool IReadOnlyDictionary<IFrameIndex, IFrameNodeState>.TryGetValue(IFrameIndex key, out IFrameNodeState value)
-        {
-            bool Result = TryGetValue((ILayoutIndex)key, out ILayoutNodeState Value);
-            value = Value;
-            return Result;
-        }
-        IFrameNodeState IFrameIndexNodeStateReadOnlyDictionary.this[IFrameIndex key] { get { return this[(ILayoutIndex)key]; } }
-        IFrameNodeState IReadOnlyDictionary<IFrameIndex, IFrameNodeState>.this[IFrameIndex key] { get { return this[(ILayoutIndex)key]; } }
-        IEnumerable<IFrameIndex> IReadOnlyDictionary<IFrameIndex, IFrameNodeState>.Keys { get { return new List<IFrameIndex>(Keys); } }
-        IEnumerable<IFrameNodeState> IReadOnlyDictionary<IFrameIndex, IFrameNodeState>.Values { get { return new List<IFrameNodeState>(Values); } }
-
-        IEnumerator<KeyValuePair<IFrameIndex, IFrameNodeState>> IEnumerable<KeyValuePair<IFrameIndex, IFrameNodeState>>.GetEnumerator()
-        {
-            List<KeyValuePair<IFrameIndex, IFrameNodeState>> NewList = new List<KeyValuePair<IFrameIndex, IFrameNodeState>>();
-            IEnumerator<KeyValuePair<ILayoutIndex, ILayoutNodeState>> Enumerator = GetEnumerator();
-            while (Enumerator.MoveNext())
-            {
-                KeyValuePair<ILayoutIndex, ILayoutNodeState> Entry = Enumerator.Current;
-                NewList.Add(new KeyValuePair<IFrameIndex, IFrameNodeState>(Entry.Key, Entry.Value));
-            }
-
-            return NewList.GetEnumerator();
-        }
-        IEnumerator<KeyValuePair<IFrameIndex, IFrameNodeState>> IFrameIndexNodeStateReadOnlyDictionary.GetEnumerator() { return ((IEnumerable<KeyValuePair<IFrameIndex, IFrameNodeState>>)this).GetEnumerator(); }
-        #endregion
-
-        #region Focus
-        bool IFocusIndexNodeStateReadOnlyDictionary.ContainsKey(IFocusIndex key) { return ContainsKey((ILayoutIndex)key); }
-        bool IReadOnlyDictionary<IFocusIndex, IFocusNodeState>.ContainsKey(IFocusIndex key) { return ContainsKey((ILayoutIndex)key); }
-        bool IReadOnlyDictionary<IFocusIndex, IFocusNodeState>.TryGetValue(IFocusIndex key, out IFocusNodeState value)
-        {
-            bool Result = TryGetValue((ILayoutIndex)key, out ILayoutNodeState Value);
-            value = Value;
-            return Result;
-        }
-        IFocusNodeState IFocusIndexNodeStateReadOnlyDictionary.this[IFocusIndex key] { get { return this[(ILayoutIndex)key]; } }
-        IFocusNodeState IReadOnlyDictionary<IFocusIndex, IFocusNodeState>.this[IFocusIndex key] { get { return this[(ILayoutIndex)key]; } }
-        IEnumerable<IFocusIndex> IReadOnlyDictionary<IFocusIndex, IFocusNodeState>.Keys { get { return new List<IFocusIndex>(Keys); } }
-        IEnumerable<IFocusNodeState> IReadOnlyDictionary<IFocusIndex, IFocusNodeState>.Values { get { return new List<IFocusNodeState>(Values); } }
-
-        IEnumerator<KeyValuePair<IFocusIndex, IFocusNodeState>> IEnumerable<KeyValuePair<IFocusIndex, IFocusNodeState>>.GetEnumerator()
-        {
-            List<KeyValuePair<IFocusIndex, IFocusNodeState>> NewList = new List<KeyValuePair<IFocusIndex, IFocusNodeState>>();
-            IEnumerator<KeyValuePair<ILayoutIndex, ILayoutNodeState>> Enumerator = GetEnumerator();
-            while (Enumerator.MoveNext())
-            {
-                KeyValuePair<ILayoutIndex, ILayoutNodeState> Entry = Enumerator.Current;
-                NewList.Add(new KeyValuePair<IFocusIndex, IFocusNodeState>(Entry.Key, Entry.Value));
-            }
-
-            return NewList.GetEnumerator();
-        }
-        IEnumerator<KeyValuePair<IFocusIndex, IFocusNodeState>> IFocusIndexNodeStateReadOnlyDictionary.GetEnumerator() { return ((IEnumerable<KeyValuePair<IFocusIndex, IFocusNodeState>>)this).GetEnumerator(); }
+        ILayoutNodeState IReadOnlyDictionary<ILayoutIndex, ILayoutNodeState>.this[ILayoutIndex key] { get { return (ILayoutNodeState)this[key]; } }
+        IEnumerable<ILayoutIndex> IReadOnlyDictionary<ILayoutIndex, ILayoutNodeState>.Keys { get { List<ILayoutIndex> Result = new(); foreach (KeyValuePair<ILayoutIndex, ILayoutNodeState> Entry in (ICollection<KeyValuePair<ILayoutIndex, ILayoutNodeState>>)this) Result.Add(Entry.Key); return Result; } }
+        IEnumerable<ILayoutNodeState> IReadOnlyDictionary<ILayoutIndex, ILayoutNodeState>.Values { get { List<ILayoutNodeState> Result = new(); foreach (KeyValuePair<ILayoutIndex, ILayoutNodeState> Entry in (ICollection<KeyValuePair<ILayoutIndex, ILayoutNodeState>>)this) Result.Add(Entry.Value); return Result; } }
+        bool IReadOnlyDictionary<ILayoutIndex, ILayoutNodeState>.ContainsKey(ILayoutIndex key) { return ContainsKey(key); }
+        bool IReadOnlyDictionary<ILayoutIndex, ILayoutNodeState>.TryGetValue(ILayoutIndex key, out ILayoutNodeState value) { bool Result = TryGetValue(key, out IReadOnlyNodeState Value); value = (ILayoutNodeState)Value; return Result; }
         #endregion
     }
 }

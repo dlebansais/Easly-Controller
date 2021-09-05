@@ -5,20 +5,9 @@
     using EaslyController.Writeable;
 
     /// <summary>
-    /// Operation details for replacing a node.
-    /// </summary>
-    public interface ILayoutGenericRefreshOperation : IFocusGenericRefreshOperation, ILayoutOperation
-    {
-        /// <summary>
-        /// State in the source where to start refresh.
-        /// </summary>
-        new ILayoutNodeState RefreshState { get; }
-    }
-
-    /// <summary>
     /// Operation details for replacing a node in a list or block list.
     /// </summary>
-    internal class LayoutGenericRefreshOperation : FocusGenericRefreshOperation, ILayoutGenericRefreshOperation
+    internal class LayoutGenericRefreshOperation : FocusGenericRefreshOperation
     {
         #region Init
         /// <summary>
@@ -28,7 +17,7 @@
         /// <param name="handlerRedo">Handler to execute to redo the operation.</param>
         /// <param name="handlerUndo">Handler to execute to undo the operation.</param>
         /// <param name="isNested">True if the operation is nested within another more general one.</param>
-        public LayoutGenericRefreshOperation(ILayoutNodeState refreshState, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        public LayoutGenericRefreshOperation(ILayoutNodeState refreshState, Action<WriteableOperation> handlerRedo, Action<WriteableOperation> handlerUndo, bool isNested)
             : base(refreshState, handlerRedo, handlerUndo, isNested)
         {
         }

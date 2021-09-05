@@ -209,7 +209,7 @@
                 {
                     NodeTreeHelperChild.GetChildNode(node, PropertyName, out ChildNode);
                     Debug.Assert(ChildNode != null);
-                    ReadOnlyBrowsingPlaceholderNodeIndex ChildNodeIndex = CreateChildNodeIndex(browseNodeContext, node, PropertyName, ChildNode);
+                    IReadOnlyBrowsingPlaceholderNodeIndex ChildNodeIndex = CreateChildNodeIndex(browseNodeContext, node, PropertyName, ChildNode);
 
                     // Create a collection containing one index for this child node.
                     IReadOnlyIndexCollection IndexCollection = CreatePlaceholderIndexCollection(browseNodeContext, PropertyName, ChildNodeIndex);
@@ -289,7 +289,7 @@
                 Node ChildNode = childNodeList[Index];
                 Debug.Assert(ChildNode != null);
 
-                ReadOnlyBrowsingListNodeIndex NewNodeIndex = CreateListNodeIndex(browseNodeContext, node, propertyName, ChildNode, Index);
+                IReadOnlyBrowsingListNodeIndex NewNodeIndex = CreateListNodeIndex(browseNodeContext, node, propertyName, ChildNode, Index);
                 NodeIndexList.Add(NewNodeIndex);
             }
 
@@ -319,7 +319,7 @@
             {
                 Node ChildNode = childBlock.NodeList[Index];
 
-                ReadOnlyBrowsingBlockNodeIndex NewNodeIndex;
+                IReadOnlyBrowsingBlockNodeIndex NewNodeIndex;
                 if (Index == 0) // For the first node, we use a IxxxBrowsingNewBlockNodeIndex, otherwise a IxxxBrowsingExistingBlockNodeIndex.
                     NewNodeIndex = CreateNewBlockNodeIndex(browseNodeContext, node, propertyName, blockIndex, ChildNode);
                 else

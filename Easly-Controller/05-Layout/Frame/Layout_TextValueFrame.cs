@@ -101,7 +101,7 @@
             Point OriginWithPadding = origin.Moved(padding.Left, padding.Top);
             drawContext.DrawTextBackground(Text, OriginWithPadding, TextStyle);
 
-            ILayoutControllerView ControllerView = cellView.StateView.ControllerView;
+            LayoutControllerView ControllerView = cellView.StateView.ControllerView;
             if (ControllerView.Selection is ILayoutStringContentSelection AsStringContentSelection && AsStringContentSelection.StateView == cellView.StateView)
             {
                 int Start = AsStringContentSelection.Start;

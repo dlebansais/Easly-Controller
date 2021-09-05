@@ -1,51 +1,32 @@
-﻿#pragma warning disable 1591
-
-namespace EaslyController.Layout
+﻿namespace EaslyController.Layout
 {
     using System.Collections.Generic;
-    using System.Collections.ObjectModel;
     using System.Diagnostics;
     using EaslyController.Focus;
 
-    /// <summary>
-    /// List of IxxxFrameSelector
-    /// </summary>
-    public interface ILayoutFrameSelectorList : IFocusFrameSelectorList, IList<ILayoutFrameSelector>, IReadOnlyList<ILayoutFrameSelector>
+    /// <inheritdoc/>
+    public class LayoutFrameSelectorList : FocusFrameSelectorList, ICollection<ILayoutFrameSelector>, IEnumerable<ILayoutFrameSelector>, IList<ILayoutFrameSelector>, IReadOnlyCollection<ILayoutFrameSelector>, IReadOnlyList<ILayoutFrameSelector>, IEqualComparable
     {
-        new ILayoutFrameSelector this[int index] { get; set; }
-        new int Count { get; }
-    }
-
-    /// <summary>
-    /// List of IxxxFrameSelector
-    /// </summary>
-    internal class LayoutFrameSelectorList : Collection<ILayoutFrameSelector>, ILayoutFrameSelectorList
-    {
-        #region Focus
-        IFocusFrameSelector IFocusFrameSelectorList.this[int index] { get { return this[index]; } set { this[index] = (ILayoutFrameSelector)value; } }
-        IFocusFrameSelector IList<IFocusFrameSelector>.this[int index] { get { return this[index]; } set { this[index] = (ILayoutFrameSelector)value; } }
-        int IList<IFocusFrameSelector>.IndexOf(IFocusFrameSelector value) { return IndexOf((ILayoutFrameSelector)value); }
-        void IList<IFocusFrameSelector>.Insert(int index, IFocusFrameSelector item) { Insert(index, (ILayoutFrameSelector)item); }
-        void ICollection<IFocusFrameSelector>.Add(IFocusFrameSelector item) { Add((ILayoutFrameSelector)item); }
-        bool ICollection<IFocusFrameSelector>.Contains(IFocusFrameSelector value) { return Contains((ILayoutFrameSelector)value); }
-        void ICollection<IFocusFrameSelector>.CopyTo(IFocusFrameSelector[] array, int index) { CopyTo((ILayoutFrameSelector[])array, index); }
-        bool ICollection<IFocusFrameSelector>.IsReadOnly { get { return ((ICollection<ILayoutFrameSelector>)this).IsReadOnly; } }
-        bool ICollection<IFocusFrameSelector>.Remove(IFocusFrameSelector item) { return Remove((ILayoutFrameSelector)item); }
-        IEnumerator<IFocusFrameSelector> IEnumerable<IFocusFrameSelector>.GetEnumerator() { return GetEnumerator(); }
-        IFocusFrameSelector IReadOnlyList<IFocusFrameSelector>.this[int index] { get { return this[index]; } }
+        #region ILayoutFrameSelector
+        void ICollection<ILayoutFrameSelector>.Add(ILayoutFrameSelector item) { Add(item); }
+        bool ICollection<ILayoutFrameSelector>.Contains(ILayoutFrameSelector item) { return Contains(item); }
+        void ICollection<ILayoutFrameSelector>.CopyTo(ILayoutFrameSelector[] array, int arrayIndex) { ((System.Collections.ICollection)this).CopyTo(array, arrayIndex); }
+        bool ICollection<ILayoutFrameSelector>.Remove(ILayoutFrameSelector item) { return Remove(item); }
+        bool ICollection<ILayoutFrameSelector>.IsReadOnly { get { return ((ICollection<IFocusFrameSelector>)this).IsReadOnly; } }
+        IEnumerator<ILayoutFrameSelector> IEnumerable<ILayoutFrameSelector>.GetEnumerator() { return ((IList<ILayoutFrameSelector>)this).GetEnumerator(); }
+        ILayoutFrameSelector IList<ILayoutFrameSelector>.this[int index] { get { return (ILayoutFrameSelector)this[index]; } set { this[index] = value; } }
+        int IList<ILayoutFrameSelector>.IndexOf(ILayoutFrameSelector item) { return IndexOf(item); }
+        void IList<ILayoutFrameSelector>.Insert(int index, ILayoutFrameSelector item) { Insert(index, item); }
+        ILayoutFrameSelector IReadOnlyList<ILayoutFrameSelector>.this[int index] { get { return (ILayoutFrameSelector)this[index]; } }
         #endregion
 
         #region Debugging
-        /// <summary>
-        /// Compares two <see cref="ILayoutFrameSelectorList"/> objects.
-        /// </summary>
-        /// <param name="comparer">The comparison support object.</param>
-        /// <param name="other">The other object.</param>
-        public virtual bool IsEqual(CompareEqual comparer, IEqualComparable other)
+        /// <inheritdoc/>
+        public override bool IsEqual(CompareEqual comparer, IEqualComparable other)
         {
             Debug.Assert(other != null);
 
-            if (!comparer.IsSameType(other, out ILayoutFrameSelectorList AsFrameSelectorList))
+            if (!comparer.IsSameType(other, out LayoutFrameSelectorList AsFrameSelectorList))
                 return comparer.Failed();
 
             if (!comparer.IsSameCount(Count, AsFrameSelectorList.Count))
@@ -58,5 +39,11 @@ namespace EaslyController.Layout
             return true;
         }
         #endregion
+
+        /// <inheritdoc/>
+        public override FocusFrameSelectorReadOnlyList ToReadOnly()
+        {
+            return new LayoutFrameSelectorReadOnlyList(this);
+        }
     }
 }

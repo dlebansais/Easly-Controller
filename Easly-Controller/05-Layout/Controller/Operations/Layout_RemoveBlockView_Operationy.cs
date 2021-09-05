@@ -8,18 +8,7 @@
     /// <summary>
     /// Operation details for removing a block from a block list.
     /// </summary>
-    public interface ILayoutRemoveBlockViewOperation : IFocusRemoveBlockViewOperation, ILayoutRemoveOperation
-    {
-        /// <summary>
-        /// Block state removed.
-        /// </summary>
-        new ILayoutBlockState BlockState { get; }
-    }
-
-    /// <summary>
-    /// Operation details for removing a block from a block list.
-    /// </summary>
-    internal class LayoutRemoveBlockViewOperation : FocusRemoveBlockViewOperation, ILayoutRemoveBlockViewOperation
+    internal class LayoutRemoveBlockViewOperation : FocusRemoveBlockViewOperation, ILayoutRemoveOperation
     {
         #region Init
         /// <summary>
@@ -31,7 +20,7 @@
         /// <param name="handlerRedo">Handler to execute to redo the operation.</param>
         /// <param name="handlerUndo">Handler to execute to undo the operation.</param>
         /// <param name="isNested">True if the operation is nested within another more general one.</param>
-        public LayoutRemoveBlockViewOperation(Node parentNode, string propertyName, int blockIndex, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        public LayoutRemoveBlockViewOperation(Node parentNode, string propertyName, int blockIndex, Action<WriteableOperation> handlerRedo, Action<WriteableOperation> handlerUndo, bool isNested)
             : base(parentNode, propertyName, blockIndex, handlerRedo, handlerUndo, isNested)
         {
         }

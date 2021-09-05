@@ -48,18 +48,18 @@
             ILayoutBlockListInner ParentInner = State.PropertyToInner(PropertyName) as ILayoutBlockListInner;
             Debug.Assert(ParentInner != null);
 
-            ILayoutControllerView ControllerView = StateView.ControllerView;
+            LayoutControllerView ControllerView = StateView.ControllerView;
             Debug.Assert(ControllerView.PrintContext != null);
             ControllerView.UpdateLayout();
 
             Debug.Assert(StartIndex <= EndIndex);
 
-            ILayoutBlockStateView FirstBlockStateView = ControllerView.BlockStateViewTable[ParentInner.BlockStateList[StartIndex]];
+            LayoutBlockStateView FirstBlockStateView = (LayoutBlockStateView)ControllerView.BlockStateViewTable[ParentInner.BlockStateList[StartIndex]];
             Point Origin = FirstBlockStateView.CellOrigin.Opposite;
 
             for (int i = StartIndex; i < EndIndex; i++)
             {
-                ILayoutBlockStateView BlockStateView = ControllerView.BlockStateViewTable[ParentInner.BlockStateList[i]];
+                LayoutBlockStateView BlockStateView = (LayoutBlockStateView)ControllerView.BlockStateViewTable[ParentInner.BlockStateList[i]];
                 Debug.Assert(RegionHelper.IsValid(BlockStateView.ActualCellSize));
 
                 BlockStateView.PrintCells(Origin);

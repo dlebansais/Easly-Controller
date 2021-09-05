@@ -13,7 +13,7 @@
         /// <summary>
         /// List of frames among which to select.
         /// </summary>
-        new ILayoutSelectableFrameList Items { get; }
+        new LayoutSelectableFrameList Items { get; }
     }
 
     /// <summary>
@@ -36,7 +36,7 @@
         /// <summary>
         /// List of frames among which to select.
         /// </summary>
-        public new ILayoutSelectableFrameList Items { get { return (ILayoutSelectableFrameList)base.Items; } }
+        public new LayoutSelectableFrameList Items { get { return (LayoutSelectableFrameList)base.Items; } }
 
         private protected override bool IsParentRoot { get { return ParentFrame == LayoutFrame.LayoutRoot; } }
         #endregion
@@ -60,7 +60,7 @@
         /// <summary>
         /// Creates a IxxxSelectableFrameList object.
         /// </summary>
-        private protected override IFocusSelectableFrameList CreateSelectableFrameList()
+        private protected override FocusSelectableFrameList CreateSelectableFrameList()
         {
             ControllerTools.AssertNoOverride(this, typeof(LayoutSelectionFrame));
             return new LayoutSelectableFrameList();

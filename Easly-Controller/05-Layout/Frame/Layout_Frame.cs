@@ -52,7 +52,7 @@
             public ILayoutFrame ParentFrame { get; }
             IFocusFrame IFocusFrame.ParentFrame { get { return ParentFrame; } }
             IFrameFrame IFrameFrame.ParentFrame { get { return ParentFrame; } }
-            public bool IsValid(Type nodeType, IFrameTemplateReadOnlyDictionary nodeTemplateTable, ref int commentFrameCount) { return false; }
+            public bool IsValid(Type nodeType, FrameTemplateReadOnlyDictionary nodeTemplateTable, ref int commentFrameCount) { return false; }
             public void UpdateParent(IFrameTemplate parentTemplate, IFrameFrame parentFrame) { }
         }
 

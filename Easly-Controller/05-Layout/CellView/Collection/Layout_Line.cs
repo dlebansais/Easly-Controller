@@ -25,7 +25,7 @@
         /// <param name="parentCellView">The collection of cell views containing this view. Null for the root of the cell tree.</param>
         /// <param name="cellViewList">The list of child cell views.</param>
         /// <param name="frame">Frame providing the horizontal separator to insert between cells. Can be null.</param>
-        public LayoutLine(ILayoutNodeStateView stateView, ILayoutCellViewCollection parentCellView, ILayoutCellViewList cellViewList, ILayoutFrame frame)
+        public LayoutLine(ILayoutNodeStateView stateView, ILayoutCellViewCollection parentCellView, LayoutCellViewList cellViewList, ILayoutFrame frame)
             : base(stateView, parentCellView, cellViewList, frame)
         {
             Debug.Assert(frame is ILayoutFrameWithHorizontalSeparator);
@@ -51,7 +51,7 @@
         /// <summary>
         /// The collection of child cells.
         /// </summary>
-        public new ILayoutCellViewList CellViewList { get { return (ILayoutCellViewList)base.CellViewList; } }
+        public new LayoutCellViewList CellViewList { get { return (LayoutCellViewList)base.CellViewList; } }
 
         /// <summary>
         /// The frame that was used to create this cell. Can be null.
@@ -141,7 +141,7 @@
 
             for (int i = 0; i < CellViewList.Count; i++)
             {
-                ILayoutCellView CellView = CellViewList[i];
+                ILayoutCellView CellView = (ILayoutCellView)CellViewList[i];
 
                 if (i > 0)
                 {
@@ -210,7 +210,7 @@
 
             for (int i = 0; i < CellViewList.Count; i++)
             {
-                ILayoutCellView CellView = CellViewList[i];
+                ILayoutCellView CellView = (ILayoutCellView)CellViewList[i];
 
                 // The separator length has been calculated in Measure().
                 if (i > 0)
@@ -338,8 +338,8 @@
         /// <summary></summary>
         protected virtual Rect GetSelectedRect(int startIndex, int endIndex)
         {
-            double X = CellViewList[startIndex].CellOrigin.X.Draw;
-            double Width = CellViewList[endIndex].CellOrigin.X.Draw + CellViewList[endIndex].ActualCellSize.Width.Draw - X;
+            double X = ((ILayoutCellView)CellViewList[startIndex]).CellOrigin.X.Draw;
+            double Width = ((ILayoutCellView)CellViewList[endIndex]).CellOrigin.X.Draw + ((ILayoutCellView)CellViewList[endIndex]).ActualCellSize.Width.Draw - X;
 
             return new Rect(X, CellOrigin.Y.Draw, Width, ActualCellSize.Height.Draw);
         }

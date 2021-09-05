@@ -5,14 +5,7 @@
     /// <summary>
     /// Cycle manager for Feature nodes.
     /// </summary>
-    public interface ILayoutCycleManagerFeature : IFocusCycleManagerFeature, ILayoutCycleManager
-    {
-    }
-
-    /// <summary>
-    /// Cycle manager for Feature nodes.
-    /// </summary>
-    public class LayoutCycleManagerFeature : FocusCycleManagerFeature, ILayoutCycleManagerFeature
+    public class LayoutCycleManagerFeature : FocusCycleManagerFeature
     {
     }
 }

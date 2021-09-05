@@ -103,7 +103,7 @@
                     Point OriginWithPadding = origin.Moved(padding.Left, padding.Top);
                     drawContext.DrawTextBackground(Text, OriginWithPadding, TextStyles.Comment);
 
-                    ILayoutControllerView ControllerView = cellView.StateView.ControllerView;
+                    LayoutControllerView ControllerView = cellView.StateView.ControllerView;
                     if (ControllerView.Selection is ILayoutCommentSelection AsCommentSelection && AsCommentSelection.StateView == cellView.StateView)
                     {
                         int Start = AsCommentSelection.Start;

@@ -1,39 +1,28 @@
-﻿#pragma warning disable 1591
-
-namespace EaslyController.Layout
+﻿namespace EaslyController.Layout
 {
     using System.Collections.Generic;
-    using System.Collections.ObjectModel;
     using EaslyController.Focus;
 
-    /// <summary>
-    /// List of IxxxInsertionChildNodeIndex
-    /// </summary>
-    public interface ILayoutInsertionChildNodeIndexList : IFocusInsertionChildNodeIndexList, IList<ILayoutInsertionChildNodeIndex>, IReadOnlyList<ILayoutInsertionChildNodeIndex>
+    /// <inheritdoc/>
+    public class LayoutInsertionChildNodeIndexList : FocusInsertionChildNodeIndexList, ICollection<ILayoutInsertionChildNodeIndex>, IEnumerable<ILayoutInsertionChildNodeIndex>, IList<ILayoutInsertionChildNodeIndex>, IReadOnlyCollection<ILayoutInsertionChildNodeIndex>, IReadOnlyList<ILayoutInsertionChildNodeIndex>
     {
-        new ILayoutInsertionChildNodeIndex this[int index] { get; set; }
-        new int Count { get; }
-        new IEnumerator<ILayoutInsertionChildNodeIndex> GetEnumerator();
-        new void Clear();
-    }
-
-    /// <summary>
-    /// List of IxxxInsertionChildNodeIndex
-    /// </summary>
-    internal class LayoutInsertionChildNodeIndexList : Collection<ILayoutInsertionChildNodeIndex>, ILayoutInsertionChildNodeIndexList
-    {
-        #region Focus
-        IFocusInsertionChildNodeIndex IFocusInsertionChildNodeIndexList.this[int index] { get { return this[index]; } set { this[index] = (ILayoutInsertionChildNodeIndex)value; } }
-        IFocusInsertionChildNodeIndex IList<IFocusInsertionChildNodeIndex>.this[int index] { get { return this[index]; } set { this[index] = (ILayoutInsertionChildNodeIndex)value; } }
-        int IList<IFocusInsertionChildNodeIndex>.IndexOf(IFocusInsertionChildNodeIndex value) { return IndexOf((ILayoutInsertionChildNodeIndex)value); }
-        void IList<IFocusInsertionChildNodeIndex>.Insert(int index, IFocusInsertionChildNodeIndex item) { Insert(index, (ILayoutInsertionChildNodeIndex)item); }
-        void ICollection<IFocusInsertionChildNodeIndex>.Add(IFocusInsertionChildNodeIndex item) { Add((ILayoutInsertionChildNodeIndex)item); }
-        bool ICollection<IFocusInsertionChildNodeIndex>.Contains(IFocusInsertionChildNodeIndex value) { return Contains((ILayoutInsertionChildNodeIndex)value); }
-        void ICollection<IFocusInsertionChildNodeIndex>.CopyTo(IFocusInsertionChildNodeIndex[] array, int index) { CopyTo((ILayoutInsertionChildNodeIndex[])array, index); }
-        bool ICollection<IFocusInsertionChildNodeIndex>.IsReadOnly { get { return ((ICollection<ILayoutInsertionChildNodeIndex>)this).IsReadOnly; } }
-        bool ICollection<IFocusInsertionChildNodeIndex>.Remove(IFocusInsertionChildNodeIndex item) { return Remove((ILayoutInsertionChildNodeIndex)item); }
-        IEnumerator<IFocusInsertionChildNodeIndex> IEnumerable<IFocusInsertionChildNodeIndex>.GetEnumerator() { return GetEnumerator(); }
-        IFocusInsertionChildNodeIndex IReadOnlyList<IFocusInsertionChildNodeIndex>.this[int index] { get { return this[index]; } }
+        #region ILayoutInsertionChildNodeIndex
+        void ICollection<ILayoutInsertionChildNodeIndex>.Add(ILayoutInsertionChildNodeIndex item) { Add(item); }
+        bool ICollection<ILayoutInsertionChildNodeIndex>.Contains(ILayoutInsertionChildNodeIndex item) { return Contains(item); }
+        void ICollection<ILayoutInsertionChildNodeIndex>.CopyTo(ILayoutInsertionChildNodeIndex[] array, int arrayIndex) { ((System.Collections.ICollection)this).CopyTo(array, arrayIndex); }
+        bool ICollection<ILayoutInsertionChildNodeIndex>.Remove(ILayoutInsertionChildNodeIndex item) { return Remove(item); }
+        bool ICollection<ILayoutInsertionChildNodeIndex>.IsReadOnly { get { return ((ICollection<IFocusInsertionChildNodeIndex>)this).IsReadOnly; } }
+        IEnumerator<ILayoutInsertionChildNodeIndex> IEnumerable<ILayoutInsertionChildNodeIndex>.GetEnumerator() { return ((IList<ILayoutInsertionChildNodeIndex>)this).GetEnumerator(); }
+        ILayoutInsertionChildNodeIndex IList<ILayoutInsertionChildNodeIndex>.this[int index] { get { return (ILayoutInsertionChildNodeIndex)this[index]; } set { this[index] = value; } }
+        int IList<ILayoutInsertionChildNodeIndex>.IndexOf(ILayoutInsertionChildNodeIndex item) { return IndexOf(item); }
+        void IList<ILayoutInsertionChildNodeIndex>.Insert(int index, ILayoutInsertionChildNodeIndex item) { Insert(index, item); }
+        ILayoutInsertionChildNodeIndex IReadOnlyList<ILayoutInsertionChildNodeIndex>.this[int index] { get { return (ILayoutInsertionChildNodeIndex)this[index]; } }
         #endregion
+
+        /// <inheritdoc/>
+        public override FocusInsertionChildNodeIndexReadOnlyList ToReadOnly()
+        {
+            return new LayoutInsertionChildNodeIndexReadOnlyList(this);
+        }
     }
 }

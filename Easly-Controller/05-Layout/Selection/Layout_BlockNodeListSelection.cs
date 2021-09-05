@@ -50,20 +50,20 @@
             Debug.Assert(ParentInner != null);
             Debug.Assert(BlockIndex >= 0 && BlockIndex < ParentInner.BlockStateList.Count);
 
-            ILayoutBlockState BlockState = ParentInner.BlockStateList[BlockIndex];
+            ILayoutBlockState BlockState = (ILayoutBlockState)ParentInner.BlockStateList[BlockIndex];
 
-            ILayoutControllerView ControllerView = StateView.ControllerView;
+            LayoutControllerView ControllerView = StateView.ControllerView;
             Debug.Assert(ControllerView.PrintContext != null);
             ControllerView.UpdateLayout();
 
             Debug.Assert(StartIndex <= EndIndex);
 
-            ILayoutNodeStateView FirstStateView = ControllerView.StateViewTable[BlockState.StateList[StartIndex]];
+            ILayoutNodeStateView FirstStateView = (ILayoutNodeStateView)ControllerView.StateViewTable[BlockState.StateList[StartIndex]];
             Point Origin = FirstStateView.CellOrigin.Opposite;
 
             for (int i = StartIndex; i < EndIndex; i++)
             {
-                ILayoutNodeStateView StateView = ControllerView.StateViewTable[BlockState.StateList[i]];
+                ILayoutNodeStateView StateView = (ILayoutNodeStateView)ControllerView.StateViewTable[BlockState.StateList[i]];
                 Debug.Assert(RegionHelper.IsValid(StateView.ActualCellSize));
 
                 StateView.PrintCells(Origin);

@@ -5,9 +5,7 @@
     using EaslyController.ReadOnly;
     using EaslyController.Writeable;
 
-    /// <summary>
-    /// Inner for an optional node.
-    /// </summary>
+    /// <inheritdoc/>
     public interface ILayoutOptionalInner : IFocusOptionalInner, ILayoutSingleInner
     {
         /// <summary>
@@ -16,10 +14,7 @@
         new ILayoutOptionalNodeState ChildState { get; }
     }
 
-    /// <summary>
-    /// Inner for an optional node.
-    /// </summary>
-    /// <typeparam name="IIndex">Type of the index.</typeparam>
+    /// <inheritdoc/>
     internal interface ILayoutOptionalInner<out IIndex> : IFocusOptionalInner<IIndex>, ILayoutSingleInner<IIndex>
         where IIndex : ILayoutBrowsingOptionalNodeIndex
     {
@@ -29,18 +24,13 @@
         new ILayoutOptionalNodeState ChildState { get; }
     }
 
-    /// <summary>
-    /// Inner for an optional node.
-    /// </summary>
-    /// <typeparam name="IIndex">Type of the index as interface.</typeparam>
-    /// <typeparam name="TIndex">Type of the index as class.</typeparam>
-    internal class LayoutOptionalInner<IIndex, TIndex> : FocusOptionalInner<IIndex, TIndex>, ILayoutOptionalInner<IIndex>, ILayoutOptionalInner
+    /// <inheritdoc/>
+    internal class LayoutOptionalInner<IIndex> : FocusOptionalInner<IIndex>, ILayoutOptionalInner<IIndex>, ILayoutOptionalInner
         where IIndex : ILayoutBrowsingOptionalNodeIndex
-        where TIndex : LayoutBrowsingOptionalNodeIndex, IIndex
     {
         #region Init
         /// <summary>
-        /// Initializes a new instance of the <see cref="LayoutOptionalInner{IIndex, TIndex}"/> class.
+        /// Initializes a new instance of the <see cref="LayoutOptionalInner{IIndex}"/> class.
         /// </summary>
         /// <param name="owner">Parent containing the inner.</param>
         /// <param name="propertyName">Property name of the inner in <paramref name="owner"/>.</param>
@@ -68,7 +58,7 @@
         /// </summary>
         private protected override IReadOnlyOptionalNodeState CreateNodeState(IReadOnlyBrowsingOptionalNodeIndex nodeIndex)
         {
-            ControllerTools.AssertNoOverride(this, typeof(LayoutOptionalInner<IIndex, TIndex>));
+            ControllerTools.AssertNoOverride(this, typeof(LayoutOptionalInner<IIndex>));
             return new LayoutOptionalNodeState<ILayoutInner<ILayoutBrowsingChildIndex>>((ILayoutBrowsingOptionalNodeIndex)nodeIndex);
         }
 
@@ -77,7 +67,7 @@
         /// </summary>
         private protected override IWriteableBrowsingOptionalNodeIndex CreateBrowsingNodeIndex()
         {
-            ControllerTools.AssertNoOverride(this, typeof(LayoutOptionalInner<IIndex, TIndex>));
+            ControllerTools.AssertNoOverride(this, typeof(LayoutOptionalInner<IIndex>));
             return new LayoutBrowsingOptionalNodeIndex(Owner.Node, PropertyName);
         }
         #endregion

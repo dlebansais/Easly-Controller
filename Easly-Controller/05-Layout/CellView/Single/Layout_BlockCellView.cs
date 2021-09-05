@@ -18,7 +18,7 @@
         /// <summary>
         /// The block state view of the state associated to this cell.
         /// </summary>
-        new ILayoutBlockStateView BlockStateView { get; }
+        new LayoutBlockStateView BlockStateView { get; }
 
         /// <summary>
         /// Draw the selection of nodes within a block.
@@ -39,7 +39,7 @@
         /// <param name="stateView">The state view containing the tree with this cell.</param>
         /// <param name="parentCellView">The collection of cell views containing this view.</param>
         /// <param name="blockStateView">The block state view of the state associated to this cell.</param>
-        public LayoutBlockCellView(ILayoutNodeStateView stateView, ILayoutCellViewCollection parentCellView, ILayoutBlockStateView blockStateView)
+        public LayoutBlockCellView(ILayoutNodeStateView stateView, ILayoutCellViewCollection parentCellView, LayoutBlockStateView blockStateView)
             : base(stateView, parentCellView, blockStateView)
         {
             CellOrigin = RegionHelper.InvalidOrigin;
@@ -58,7 +58,7 @@
         /// <summary>
         /// The block state view of the state associated to this cell.
         /// </summary>
-        public new ILayoutBlockStateView BlockStateView { get { return (ILayoutBlockStateView)base.BlockStateView; } }
+        public new LayoutBlockStateView BlockStateView { get { return (LayoutBlockStateView)base.BlockStateView; } }
 
         /// <summary>
         /// The state view containing the tree with this cell.

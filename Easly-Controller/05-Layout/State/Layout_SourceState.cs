@@ -72,14 +72,14 @@
         /// <summary>
         /// Table for all inners in this state.
         /// </summary>
-        public new ILayoutInnerReadOnlyDictionary<string> InnerTable { get { return (ILayoutInnerReadOnlyDictionary<string>)base.InnerTable; } }
+        public new LayoutInnerReadOnlyDictionary<string> InnerTable { get { return (LayoutInnerReadOnlyDictionary<string>)base.InnerTable; } }
         #endregion
 
         #region Create Methods
         /// <summary>
         /// Creates a IxxxNodeStateList object.
         /// </summary>
-        private protected override IReadOnlyNodeStateList CreateNodeStateList()
+        private protected override ReadOnlyNodeStateList CreateNodeStateList()
         {
             ControllerTools.AssertNoOverride(this, typeof(LayoutSourceState<IInner>));
             return new LayoutNodeStateList();

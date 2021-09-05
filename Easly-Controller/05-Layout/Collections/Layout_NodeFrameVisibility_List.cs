@@ -1,39 +1,28 @@
-﻿#pragma warning disable 1591
-
-namespace EaslyController.Layout
+﻿namespace EaslyController.Layout
 {
     using System.Collections.Generic;
-    using System.Collections.ObjectModel;
     using EaslyController.Focus;
 
-    /// <summary>
-    /// List of IxxxNodeFrameVisibility
-    /// </summary>
-    public interface ILayoutNodeFrameVisibilityList : IFocusNodeFrameVisibilityList, IList<ILayoutNodeFrameVisibility>, IReadOnlyList<ILayoutNodeFrameVisibility>
+    /// <inheritdoc/>
+    public class LayoutNodeFrameVisibilityList : FocusNodeFrameVisibilityList, ICollection<ILayoutNodeFrameVisibility>, IEnumerable<ILayoutNodeFrameVisibility>, IList<ILayoutNodeFrameVisibility>, IReadOnlyCollection<ILayoutNodeFrameVisibility>, IReadOnlyList<ILayoutNodeFrameVisibility>
     {
-        new ILayoutNodeFrameVisibility this[int index] { get; set; }
-        new int Count { get; }
-        new IEnumerator<ILayoutNodeFrameVisibility> GetEnumerator();
-        new void Clear();
-    }
-
-    /// <summary>
-    /// List of IxxxNodeFrameVisibility
-    /// </summary>
-    internal class LayoutNodeFrameVisibilityList : Collection<ILayoutNodeFrameVisibility>, ILayoutNodeFrameVisibilityList
-    {
-        #region Focus
-        IFocusNodeFrameVisibility IFocusNodeFrameVisibilityList.this[int index] { get { return this[index]; } set { this[index] = (ILayoutNodeFrameVisibility)value; } }
-        IFocusNodeFrameVisibility IList<IFocusNodeFrameVisibility>.this[int index] { get { return this[index]; } set { this[index] = (ILayoutNodeFrameVisibility)value; } }
-        int IList<IFocusNodeFrameVisibility>.IndexOf(IFocusNodeFrameVisibility value) { return IndexOf((ILayoutNodeFrameVisibility)value); }
-        void IList<IFocusNodeFrameVisibility>.Insert(int index, IFocusNodeFrameVisibility item) { Insert(index, (ILayoutNodeFrameVisibility)item); }
-        void ICollection<IFocusNodeFrameVisibility>.Add(IFocusNodeFrameVisibility item) { Add((ILayoutNodeFrameVisibility)item); }
-        bool ICollection<IFocusNodeFrameVisibility>.Contains(IFocusNodeFrameVisibility value) { return Contains((ILayoutNodeFrameVisibility)value); }
-        void ICollection<IFocusNodeFrameVisibility>.CopyTo(IFocusNodeFrameVisibility[] array, int index) { CopyTo((ILayoutNodeFrameVisibility[])array, index); }
-        bool ICollection<IFocusNodeFrameVisibility>.IsReadOnly { get { return ((ICollection<ILayoutNodeFrameVisibility>)this).IsReadOnly; } }
-        bool ICollection<IFocusNodeFrameVisibility>.Remove(IFocusNodeFrameVisibility item) { return Remove((ILayoutNodeFrameVisibility)item); }
-        IEnumerator<IFocusNodeFrameVisibility> IEnumerable<IFocusNodeFrameVisibility>.GetEnumerator() { return GetEnumerator(); }
-        IFocusNodeFrameVisibility IReadOnlyList<IFocusNodeFrameVisibility>.this[int index] { get { return this[index]; } }
+        #region ILayoutNodeFrameVisibility
+        void ICollection<ILayoutNodeFrameVisibility>.Add(ILayoutNodeFrameVisibility item) { Add(item); }
+        bool ICollection<ILayoutNodeFrameVisibility>.Contains(ILayoutNodeFrameVisibility item) { return Contains(item); }
+        void ICollection<ILayoutNodeFrameVisibility>.CopyTo(ILayoutNodeFrameVisibility[] array, int arrayIndex) { ((System.Collections.ICollection)this).CopyTo(array, arrayIndex); }
+        bool ICollection<ILayoutNodeFrameVisibility>.Remove(ILayoutNodeFrameVisibility item) { return Remove(item); }
+        bool ICollection<ILayoutNodeFrameVisibility>.IsReadOnly { get { return ((ICollection<IFocusNodeFrameVisibility>)this).IsReadOnly; } }
+        IEnumerator<ILayoutNodeFrameVisibility> IEnumerable<ILayoutNodeFrameVisibility>.GetEnumerator() { return ((IList<ILayoutNodeFrameVisibility>)this).GetEnumerator(); }
+        ILayoutNodeFrameVisibility IList<ILayoutNodeFrameVisibility>.this[int index] { get { return (ILayoutNodeFrameVisibility)this[index]; } set { this[index] = value; } }
+        int IList<ILayoutNodeFrameVisibility>.IndexOf(ILayoutNodeFrameVisibility item) { return IndexOf(item); }
+        void IList<ILayoutNodeFrameVisibility>.Insert(int index, ILayoutNodeFrameVisibility item) { Insert(index, item); }
+        ILayoutNodeFrameVisibility IReadOnlyList<ILayoutNodeFrameVisibility>.this[int index] { get { return (ILayoutNodeFrameVisibility)this[index]; } }
         #endregion
+
+        /// <inheritdoc/>
+        public override FocusNodeFrameVisibilityReadOnlyList ToReadOnly()
+        {
+            return new LayoutNodeFrameVisibilityReadOnlyList(this);
+        }
     }
 }

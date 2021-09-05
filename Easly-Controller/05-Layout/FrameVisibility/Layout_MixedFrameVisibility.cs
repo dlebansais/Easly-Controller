@@ -12,7 +12,7 @@
         /// List of frame visibilities that must be satisfied at least for one.
         /// (Set in Xaml)
         /// </summary>
-        new ILayoutNodeFrameVisibilityList Items { get; }
+        new LayoutNodeFrameVisibilityList Items { get; }
     }
 
     /// <summary>
@@ -26,14 +26,14 @@
         /// List of frame visibilities that must be satisfied at least for one.
         /// (Set in Xaml)
         /// </summary>
-        public new ILayoutNodeFrameVisibilityList Items { get { return (ILayoutNodeFrameVisibilityList)base.Items; } }
+        public new LayoutNodeFrameVisibilityList Items { get { return (LayoutNodeFrameVisibilityList)base.Items; } }
         #endregion
 
         #region Create Methods
         /// <summary>
         /// Creates a IxxxNodeFrameVisibilityList object.
         /// </summary>
-        private protected override IFocusNodeFrameVisibilityList CreateNodeFrameVisibilityList()
+        private protected override FocusNodeFrameVisibilityList CreateNodeFrameVisibilityList()
         {
             ControllerTools.AssertNoOverride(this, typeof(LayoutMixedFrameVisibility));
             return new LayoutNodeFrameVisibilityList();

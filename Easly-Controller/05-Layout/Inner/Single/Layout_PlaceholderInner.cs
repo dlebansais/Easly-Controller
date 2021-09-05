@@ -5,9 +5,7 @@
     using EaslyController.ReadOnly;
     using EaslyController.Writeable;
 
-    /// <summary>
-    /// Inner for a child node.
-    /// </summary>
+    /// <inheritdoc/>
     public interface ILayoutPlaceholderInner : IFocusPlaceholderInner, ILayoutSingleInner
     {
         /// <summary>
@@ -16,10 +14,7 @@
         new ILayoutPlaceholderNodeState ChildState { get; }
     }
 
-    /// <summary>
-    /// Inner for a child node.
-    /// </summary>
-    /// <typeparam name="IIndex">Type of the index.</typeparam>
+    /// <inheritdoc/>
     internal interface ILayoutPlaceholderInner<out IIndex> : IFocusPlaceholderInner<IIndex>, ILayoutSingleInner<IIndex>
         where IIndex : ILayoutBrowsingPlaceholderNodeIndex
     {
@@ -29,18 +24,13 @@
         new ILayoutPlaceholderNodeState ChildState { get; }
     }
 
-    /// <summary>
-    /// Inner for a child node.
-    /// </summary>
-    /// <typeparam name="IIndex">Type of the index as interface.</typeparam>
-    /// <typeparam name="TIndex">Type of the index as class.</typeparam>
-    internal class LayoutPlaceholderInner<IIndex, TIndex> : FocusPlaceholderInner<IIndex, TIndex>, ILayoutPlaceholderInner<IIndex>, ILayoutPlaceholderInner
+    /// <inheritdoc/>
+    internal class LayoutPlaceholderInner<IIndex> : FocusPlaceholderInner<IIndex>, ILayoutPlaceholderInner<IIndex>, ILayoutPlaceholderInner
         where IIndex : ILayoutBrowsingPlaceholderNodeIndex
-        where TIndex : LayoutBrowsingPlaceholderNodeIndex, IIndex
     {
         #region Init
         /// <summary>
-        /// Initializes a new instance of the <see cref="LayoutPlaceholderInner{IIndex, TIndex}"/> class.
+        /// Initializes a new instance of the <see cref="LayoutPlaceholderInner{IIndex}"/> class.
         /// </summary>
         /// <param name="owner">Parent containing the inner.</param>
         /// <param name="propertyName">Property name of the inner in <paramref name="owner"/>.</param>
@@ -68,7 +58,7 @@
         /// </summary>
         private protected override IReadOnlyPlaceholderNodeState CreateNodeState(IReadOnlyBrowsingPlaceholderNodeIndex nodeIndex)
         {
-            ControllerTools.AssertNoOverride(this, typeof(LayoutPlaceholderInner<IIndex, TIndex>));
+            ControllerTools.AssertNoOverride(this, typeof(LayoutPlaceholderInner<IIndex>));
             return new LayoutPlaceholderNodeState<ILayoutInner<ILayoutBrowsingChildIndex>>((ILayoutBrowsingPlaceholderNodeIndex)nodeIndex);
         }
 
@@ -77,7 +67,7 @@
         /// </summary>
         private protected override IWriteableBrowsingPlaceholderNodeIndex CreateBrowsingNodeIndex(Node node)
         {
-            ControllerTools.AssertNoOverride(this, typeof(LayoutPlaceholderInner<IIndex, TIndex>));
+            ControllerTools.AssertNoOverride(this, typeof(LayoutPlaceholderInner<IIndex>));
             return new LayoutBrowsingPlaceholderNodeIndex(Owner.Node, node, PropertyName);
         }
         #endregion

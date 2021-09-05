@@ -6,7 +6,7 @@
     /// <summary>
     /// View of a IxxxController.
     /// </summary>
-    public partial class LayoutControllerView : FocusControllerView, ILayoutControllerView, ILayoutInternalControllerView
+    public partial class LayoutControllerView : FocusControllerView, ILayoutInternalControllerView
     {
         /// <summary>
         /// Creates and initializes a new instance of a <see cref="LayoutControllerView"/> object.
@@ -14,7 +14,7 @@
         /// <param name="controller">The controller on which the view is attached.</param>
         /// <param name="templateSet">The template set used to describe the view.</param>
         /// <param name="context">The context used to measure, arrange, and draw or print the view.</param>
-        public static ILayoutControllerView Create(ILayoutController controller, ILayoutTemplateSet templateSet, ILayoutMeasureContext context)
+        public static LayoutControllerView Create(LayoutController controller, ILayoutTemplateSet templateSet, ILayoutMeasureContext context)
         {
             LayoutControllerView View = new LayoutControllerView(controller, templateSet, context);
             View.Init();
@@ -27,7 +27,7 @@
         /// <param name="controller">The controller on which the view is attached.</param>
         /// <param name="templateSet">The template set used to describe the view.</param>
         /// <param name="context">The context used to measure, arrange, and draw or print the view.</param>
-        private protected LayoutControllerView(ILayoutController controller, ILayoutTemplateSet templateSet, ILayoutMeasureContext context)
+        private protected LayoutControllerView(LayoutController controller, ILayoutTemplateSet templateSet, ILayoutMeasureContext context)
             : base(controller, templateSet)
         {
             MeasureContext = context;

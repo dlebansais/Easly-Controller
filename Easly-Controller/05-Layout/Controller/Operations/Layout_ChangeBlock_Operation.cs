@@ -6,20 +6,9 @@
     using EaslyController.Writeable;
 
     /// <summary>
-    /// Operation details for changing a block.
-    /// </summary>
-    public interface ILayoutChangeBlockOperation : IFocusChangeBlockOperation, ILayoutOperation
-    {
-        /// <summary>
-        /// Block state changed.
-        /// </summary>
-        new ILayoutBlockState BlockState { get; }
-    }
-
-    /// <summary>
     /// Operation details for changing a node.
     /// </summary>
-    internal class LayoutChangeBlockOperation : FocusChangeBlockOperation, ILayoutChangeBlockOperation
+    internal class LayoutChangeBlockOperation : FocusChangeBlockOperation
     {
         #region Init
         /// <summary>
@@ -32,7 +21,7 @@
         /// <param name="handlerRedo">Handler to execute to redo the operation.</param>
         /// <param name="handlerUndo">Handler to execute to undo the operation.</param>
         /// <param name="isNested">True if the operation is nested within another more general one.</param>
-        public LayoutChangeBlockOperation(Node parentNode, string propertyName, int blockIndex, ReplicationStatus replication, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        public LayoutChangeBlockOperation(Node parentNode, string propertyName, int blockIndex, ReplicationStatus replication, Action<WriteableOperation> handlerRedo, Action<WriteableOperation> handlerUndo, bool isNested)
             : base(parentNode, propertyName, blockIndex, replication, handlerRedo, handlerUndo, isNested)
         {
         }
@@ -49,7 +38,7 @@
         /// <summary>
         /// Creates a IxxxChangeBlockOperation object.
         /// </summary>
-        private protected override IWriteableChangeBlockOperation CreateChangeBlockOperation(ReplicationStatus replication, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        private protected override WriteableChangeBlockOperation CreateChangeBlockOperation(ReplicationStatus replication, Action<WriteableOperation> handlerRedo, Action<WriteableOperation> handlerUndo, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(LayoutChangeBlockOperation));
             return new LayoutChangeBlockOperation(ParentNode, PropertyName, BlockIndex, replication, handlerRedo, handlerUndo, isNested);

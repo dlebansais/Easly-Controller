@@ -17,7 +17,7 @@
         /// List of frames that can be displayed.
         /// (Set in Xaml)
         /// </summary>
-        new ILayoutKeywordFrameList Items { get; }
+        new LayoutKeywordFrameList Items { get; }
 
         /// <summary>
         /// Prints a discrete value created with this frame.
@@ -50,7 +50,7 @@
         /// List of frames that can be displayed.
         /// (Set in Xaml)
         /// </summary>
-        public new ILayoutKeywordFrameList Items { get { return (ILayoutKeywordFrameList)base.Items; } }
+        public new LayoutKeywordFrameList Items { get { return (LayoutKeywordFrameList)base.Items; } }
 
         /// <summary>
         /// Node frame visibility. Null if always visible.
@@ -78,7 +78,7 @@
         /// <param name="nodeType">Type of the node this frame can describe.</param>
         /// <param name="nodeTemplateTable">Table of templates with all frames.</param>
         /// <param name="commentFrameCount">Number of comment frames found so far.</param>
-        public override bool IsValid(Type nodeType, IFrameTemplateReadOnlyDictionary nodeTemplateTable, ref int commentFrameCount)
+        public override bool IsValid(Type nodeType, FrameTemplateReadOnlyDictionary nodeTemplateTable, ref int commentFrameCount)
         {
             bool IsValid = true;
 
@@ -166,7 +166,7 @@
         {
             Debug.Assert(value >= 0 && value < Items.Count);
 
-            ILayoutKeywordFrame KeywordFrame = Items[value];
+            ILayoutKeywordFrame KeywordFrame = (ILayoutKeywordFrame)Items[value];
             Debug.Assert(KeywordFrame != null);
 
             KeywordFrame.Print(printContext, origin);
@@ -193,7 +193,7 @@
         /// <summary>
         /// Creates a IxxxKeywordFrameList object.
         /// </summary>
-        private protected override IFrameKeywordFrameList CreateKeywordFrameList()
+        private protected override FrameKeywordFrameList CreateKeywordFrameList()
         {
             ControllerTools.AssertNoOverride(this, typeof(LayoutDiscreteFrame));
             return new LayoutKeywordFrameList();
