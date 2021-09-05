@@ -5,20 +5,9 @@
     using EaslyController.Writeable;
 
     /// <summary>
-    /// Operation details for replacing a node.
-    /// </summary>
-    public interface IFocusGenericRefreshOperation : IFrameGenericRefreshOperation, IFocusOperation
-    {
-        /// <summary>
-        /// State in the source where to start refresh.
-        /// </summary>
-        new IFocusNodeState RefreshState { get; }
-    }
-
-    /// <summary>
     /// Operation details for replacing a node in a list or block list.
     /// </summary>
-    internal class FocusGenericRefreshOperation : FrameGenericRefreshOperation, IFocusGenericRefreshOperation
+    internal class FocusGenericRefreshOperation : FrameGenericRefreshOperation
     {
         #region Init
         /// <summary>
@@ -28,7 +17,7 @@
         /// <param name="handlerRedo">Handler to execute to redo the operation.</param>
         /// <param name="handlerUndo">Handler to execute to undo the operation.</param>
         /// <param name="isNested">True if the operation is nested within another more general one.</param>
-        public FocusGenericRefreshOperation(IFocusNodeState refreshState, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        public FocusGenericRefreshOperation(IFocusNodeState refreshState, Action<WriteableOperation> handlerRedo, Action<WriteableOperation> handlerUndo, bool isNested)
             : base(refreshState, handlerRedo, handlerUndo, isNested)
         {
         }

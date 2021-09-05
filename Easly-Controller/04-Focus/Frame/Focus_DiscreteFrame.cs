@@ -15,7 +15,7 @@
         /// List of frames that can be displayed.
         /// (Set in Xaml)
         /// </summary>
-        new IFocusKeywordFrameList Items { get; }
+        new FocusKeywordFrameList Items { get; }
     }
 
     /// <summary>
@@ -39,7 +39,7 @@
         /// List of frames that can be displayed.
         /// (Set in Xaml)
         /// </summary>
-        public new IFocusKeywordFrameList Items { get { return (IFocusKeywordFrameList)base.Items; } }
+        public new FocusKeywordFrameList Items { get { return (FocusKeywordFrameList)base.Items; } }
 
         /// <summary>
         /// Node frame visibility. Null if always visible.
@@ -61,7 +61,7 @@
         /// <param name="nodeType">Type of the node this frame can describe.</param>
         /// <param name="nodeTemplateTable">Table of templates with all frames.</param>
         /// <param name="commentFrameCount">Number of comment frames found so far.</param>
-        public override bool IsValid(Type nodeType, IFrameTemplateReadOnlyDictionary nodeTemplateTable, ref int commentFrameCount)
+        public override bool IsValid(Type nodeType, FrameTemplateReadOnlyDictionary nodeTemplateTable, ref int commentFrameCount)
         {
             bool IsValid = true;
 
@@ -117,7 +117,7 @@
         /// Gets selectors in the frame and nested frames.
         /// </summary>
         /// <param name="selectorTable">The table of selectors to update.</param>
-        public virtual void CollectSelectors(Dictionary<string, IFocusFrameSelectorList> selectorTable)
+        public virtual void CollectSelectors(Dictionary<string, FocusFrameSelectorList> selectorTable)
         {
             Debug.Assert(!selectorTable.ContainsKey(PropertyName));
         }
@@ -143,7 +143,7 @@
         /// <summary>
         /// Creates a IxxxKeywordFrameList object.
         /// </summary>
-        private protected override IFrameKeywordFrameList CreateKeywordFrameList()
+        private protected override FrameKeywordFrameList CreateKeywordFrameList()
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusDiscreteFrame));
             return new FocusKeywordFrameList();

@@ -5,9 +5,7 @@
     using EaslyController.ReadOnly;
     using EaslyController.Writeable;
 
-    /// <summary>
-    /// Inner for a child node.
-    /// </summary>
+    /// <inheritdoc/>
     public interface IFocusPlaceholderInner : IFramePlaceholderInner, IFocusSingleInner
     {
         /// <summary>
@@ -16,10 +14,7 @@
         new IFocusPlaceholderNodeState ChildState { get; }
     }
 
-    /// <summary>
-    /// Inner for a child node.
-    /// </summary>
-    /// <typeparam name="IIndex">Type of the index.</typeparam>
+    /// <inheritdoc/>
     internal interface IFocusPlaceholderInner<out IIndex> : IFramePlaceholderInner<IIndex>, IFocusSingleInner<IIndex>
         where IIndex : IFocusBrowsingPlaceholderNodeIndex
     {
@@ -29,18 +24,13 @@
         new IFocusPlaceholderNodeState ChildState { get; }
     }
 
-    /// <summary>
-    /// Inner for a child node.
-    /// </summary>
-    /// <typeparam name="IIndex">Type of the index as interface.</typeparam>
-    /// <typeparam name="TIndex">Type of the index as class.</typeparam>
-    internal class FocusPlaceholderInner<IIndex, TIndex> : FramePlaceholderInner<IIndex, TIndex>, IFocusPlaceholderInner<IIndex>, IFocusPlaceholderInner
+    /// <inheritdoc/>
+    internal class FocusPlaceholderInner<IIndex> : FramePlaceholderInner<IIndex>, IFocusPlaceholderInner<IIndex>, IFocusPlaceholderInner
         where IIndex : IFocusBrowsingPlaceholderNodeIndex
-        where TIndex : FocusBrowsingPlaceholderNodeIndex, IIndex
     {
         #region Init
         /// <summary>
-        /// Initializes a new instance of the <see cref="FocusPlaceholderInner{IIndex, TIndex}"/> class.
+        /// Initializes a new instance of the <see cref="FocusPlaceholderInner{IIndex}"/> class.
         /// </summary>
         /// <param name="owner">Parent containing the inner.</param>
         /// <param name="propertyName">Property name of the inner in <paramref name="owner"/>.</param>
@@ -68,7 +58,7 @@
         /// </summary>
         private protected override IReadOnlyPlaceholderNodeState CreateNodeState(IReadOnlyBrowsingPlaceholderNodeIndex nodeIndex)
         {
-            ControllerTools.AssertNoOverride(this, typeof(FocusPlaceholderInner<IIndex, TIndex>));
+            ControllerTools.AssertNoOverride(this, typeof(FocusPlaceholderInner<IIndex>));
             return new FocusPlaceholderNodeState<IFocusInner<IFocusBrowsingChildIndex>>((IFocusBrowsingPlaceholderNodeIndex)nodeIndex);
         }
 
@@ -77,7 +67,7 @@
         /// </summary>
         private protected override IWriteableBrowsingPlaceholderNodeIndex CreateBrowsingNodeIndex(Node node)
         {
-            ControllerTools.AssertNoOverride(this, typeof(FocusPlaceholderInner<IIndex, TIndex>));
+            ControllerTools.AssertNoOverride(this, typeof(FocusPlaceholderInner<IIndex>));
             return new FocusBrowsingPlaceholderNodeIndex(Owner.Node, node, PropertyName);
         }
         #endregion

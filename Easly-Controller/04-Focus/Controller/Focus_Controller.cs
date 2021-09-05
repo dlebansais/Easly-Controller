@@ -13,88 +13,16 @@
     /// This controller supports:
     /// * Operations to modify the tree.
     /// * Organizing nodes and their content in cells, assigning line and column numbers.
-    /// </summary>
-    public interface IFocusController : IFrameController
-    {
-        /// <summary>
-        /// Index of the root node.
-        /// </summary>
-        new IFocusRootNodeIndex RootIndex { get; }
-
-        /// <summary>
-        /// State of the root node.
-        /// </summary>
-        new IFocusPlaceholderNodeState RootState { get; }
-
-        /// <summary>
-        /// State table.
-        /// </summary>
-        new IFocusIndexNodeStateReadOnlyDictionary StateTable { get; }
-
-        /// <summary>
-        /// List of operations that have been performed, and can be undone or redone.
-        /// </summary>
-        new IFocusOperationGroupReadOnlyList OperationStack { get; }
-
-        /// <summary>
-        /// List of supported cycle managers.
-        /// </summary>
-        IFocusCycleManagerList CycleManagerList { get; }
-
-        /// <summary>
-        /// Checks whether a node is member of a supported cycle.
-        /// </summary>
-        /// <param name="state">State corresponding to the node to check.</param>
-        /// <param name="cycleManager">The cycle manager for this node type upon return. Null if none.</param>
-        /// <returns>True if a cycle manager exists for the node.</returns>
-        bool IsMemberOfCycle(IFocusNodeState state, out IFocusCycleManager cycleManager);
-
-        /// <summary>
-        /// Replace an existing node with a new one, keeping its cycle.
-        /// </summary>
-        /// <param name="inner">The inner where the node is replaced.</param>
-        /// <param name="cycleIndexList">Cycle of nodes that can replace the current node.</param>
-        /// <param name="cyclePosition">New position in the cycle.</param>
-        /// <param name="nodeIndex">Index of the replacing node upon return.</param>
-        void Replace(IFocusInner inner, IFocusInsertionChildNodeIndexList cycleIndexList, int cyclePosition, out IFocusBrowsingChildIndex nodeIndex);
-
-        /// <summary>
-        /// Changes the value of a text.
-        /// </summary>
-        /// <param name="nodeIndex">Index of the state with the string to change.</param>
-        /// <param name="propertyName">Name of the property to change.</param>
-        /// <param name="text">The new text.</param>
-        /// <param name="oldCaretPosition">The old caret position.</param>
-        /// <param name="newCaretPosition">The new caret position.</param>
-        /// <param name="changeCaretBeforeText">True if the caret should be changed before the text, to preserve the caret invariant.</param>
-        void ChangeTextAndCaretPosition(IFocusIndex nodeIndex, string propertyName, string text, int oldCaretPosition, int newCaretPosition, bool changeCaretBeforeText);
-
-        /// <summary>
-        /// Changes the value of a comment.
-        /// </summary>
-        /// <param name="nodeIndex">Index of the state with the comment to change.</param>
-        /// <param name="text">The new text.</param>
-        /// <param name="oldCaretPosition">The old caret position.</param>
-        /// <param name="newCaretPosition">The new caret position.</param>
-        /// <param name="changeCaretBeforeText">True if the caret should be changed before the text, to preserve the caret invariant.</param>
-        void ChangeCommentAndCaretPosition(IFocusIndex nodeIndex, string text, int oldCaretPosition, int newCaretPosition, bool changeCaretBeforeText);
-    }
-
-    /// <summary>
-    /// Controller for a node tree.
-    /// This controller supports:
-    /// * Operations to modify the tree.
-    /// * Organizing nodes and their content in cells, assigning line and column numbers.
     /// * Keeping the focus in a cell.
     /// </summary>
-    public class FocusController : FrameController, IFocusController
+    public class FocusController : FrameController
     {
         #region Init
         /// <summary>
         /// Creates and initializes a new instance of a <see cref="FocusController"/> object.
         /// </summary>
         /// <param name="nodeIndex">Index of the root of the node tree.</param>
-        public static IFocusController Create(IFocusRootNodeIndex nodeIndex)
+        public static FocusController Create(IFocusRootNodeIndex nodeIndex)
         {
             FocusController Controller = new FocusController();
             Controller.SetRoot(nodeIndex);
@@ -126,17 +54,17 @@
         /// <summary>
         /// State table.
         /// </summary>
-        public new IFocusIndexNodeStateReadOnlyDictionary StateTable { get { return (IFocusIndexNodeStateReadOnlyDictionary)base.StateTable; } }
+        public new FocusIndexNodeStateReadOnlyDictionary StateTable { get { return (FocusIndexNodeStateReadOnlyDictionary)base.StateTable; } }
 
         /// <summary>
         /// List of operations that have been performed, and can be undone or redone.
         /// </summary>
-        public new IFocusOperationGroupReadOnlyList OperationStack { get { return (IFocusOperationGroupReadOnlyList)base.OperationStack; } }
+        public new FocusOperationGroupReadOnlyList OperationStack { get { return (FocusOperationGroupReadOnlyList)base.OperationStack; } }
 
         /// <summary>
         /// List of supported cycle managers.
         /// </summary>
-        public IFocusCycleManagerList CycleManagerList { get; private set; }
+        public FocusCycleManagerList CycleManagerList { get; private set; }
         #endregion
 
         #region Client Interface
@@ -146,13 +74,13 @@
         /// <param name="state">State corresponding to the node to check.</param>
         /// <param name="cycleManager">The cycle manager for this node type upon return. Null if none.</param>
         /// <returns>True if a cycle manager exists for the node.</returns>
-        public virtual bool IsMemberOfCycle(IFocusNodeState state, out IFocusCycleManager cycleManager)
+        public virtual bool IsMemberOfCycle(IFocusNodeState state, out FocusCycleManager cycleManager)
         {
             cycleManager = null;
 
             List<Type> Interfaces = new List<Type>(state.Node.GetType().GetInterfaces());
 
-            foreach (IFocusCycleManager Item in CycleManagerList)
+            foreach (FocusCycleManager Item in CycleManagerList)
                 if (Interfaces.Contains(Item.InterfaceType))
                     cycleManager = Item;
 
@@ -166,7 +94,7 @@
         /// <param name="cycleIndexList">Cycle of nodes that can replace the current node.</param>
         /// <param name="cyclePosition">New position in the cycle.</param>
         /// <param name="nodeIndex">Index of the replacing node upon return.</param>
-        public virtual void Replace(IFocusInner inner, IFocusInsertionChildNodeIndexList cycleIndexList, int cyclePosition, out IFocusBrowsingChildIndex nodeIndex)
+        public virtual void Replace(IFocusInner inner, FocusInsertionChildNodeIndexList cycleIndexList, int cyclePosition, out IFocusBrowsingChildIndex nodeIndex)
         {
             Debug.Assert(cycleIndexList != null);
             Debug.Assert(cycleIndexList.Count >= 2);
@@ -176,9 +104,9 @@
 
             IndexToPositionAndNode(ReplacementIndex, out int BlockIndex, out int Index, out Node Node);
 
-            Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => ExecuteReplaceWithCycle(operation);
-            Action<IWriteableOperation> HandlerUndo = (IWriteableOperation operation) => UndoReplaceWithCycle(operation);
-            IFocusReplaceWithCycleOperation Operation = CreateReplaceWithCycleOperation(inner.Owner.Node, inner.PropertyName, BlockIndex, Index, cycleIndexList, cyclePosition, HandlerRedo, HandlerUndo, isNested: false);
+            Action<WriteableOperation> HandlerRedo = (WriteableOperation operation) => ExecuteReplaceWithCycle(operation);
+            Action<WriteableOperation> HandlerUndo = (WriteableOperation operation) => UndoReplaceWithCycle(operation);
+            FocusReplaceWithCycleOperation Operation = CreateReplaceWithCycleOperation(inner.Owner.Node, inner.PropertyName, BlockIndex, Index, cycleIndexList, cyclePosition, HandlerRedo, HandlerUndo, isNested: false);
 
             ExecuteReplaceWithCycle(Operation);
 
@@ -188,9 +116,9 @@
             CheckInvariant();
         }
 
-        private protected virtual void ExecuteReplaceWithCycle(IWriteableOperation operation)
+        private protected virtual void ExecuteReplaceWithCycle(WriteableOperation operation)
         {
-            IFocusReplaceWithCycleOperation ReplaceWithCycleOperation = (IFocusReplaceWithCycleOperation)operation;
+            FocusReplaceWithCycleOperation ReplaceWithCycleOperation = (FocusReplaceWithCycleOperation)operation;
 
             Node ParentNode = ReplaceWithCycleOperation.ParentNode;
             string PropertyName = ReplaceWithCycleOperation.PropertyName;
@@ -206,10 +134,10 @@
             NotifyStateReplaced(ReplaceWithCycleOperation);
         }
 
-        private protected virtual void UndoReplaceWithCycle(IWriteableOperation operation)
+        private protected virtual void UndoReplaceWithCycle(WriteableOperation operation)
         {
-            IFocusReplaceWithCycleOperation ReplaceWithCycleOperation = (IFocusReplaceWithCycleOperation)operation;
-            ReplaceWithCycleOperation = ReplaceWithCycleOperation.ToInverseReplace() as IFocusReplaceWithCycleOperation;
+            FocusReplaceWithCycleOperation ReplaceWithCycleOperation = (FocusReplaceWithCycleOperation)operation;
+            ReplaceWithCycleOperation = ReplaceWithCycleOperation.ToInverseReplace() as FocusReplaceWithCycleOperation;
 
             Node ParentNode = ReplaceWithCycleOperation.ParentNode;
             string PropertyName = ReplaceWithCycleOperation.PropertyName;
@@ -240,10 +168,10 @@
             Debug.Assert(StateTable.ContainsKey(nodeIndex));
             Debug.Assert(text != null);
 
-            Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => RedoChangeText(operation);
-            Action<IWriteableOperation> HandlerUndo = (IWriteableOperation operation) => UndoChangeText(operation);
-            IFocusNodeState State = StateTable[nodeIndex];
-            IFocusChangeTextOperation Operation = CreateChangeTextOperation(State.Node, propertyName, text, oldCaretPosition, newCaretPosition, changeCaretBeforeText, HandlerRedo, HandlerUndo, isNested: false);
+            Action<WriteableOperation> HandlerRedo = (WriteableOperation operation) => RedoChangeText(operation);
+            Action<WriteableOperation> HandlerUndo = (WriteableOperation operation) => UndoChangeText(operation);
+            IFocusNodeState State = (IFocusNodeState)StateTable[nodeIndex];
+            FocusChangeTextOperation Operation = CreateChangeTextOperation(State.Node, propertyName, text, oldCaretPosition, newCaretPosition, changeCaretBeforeText, HandlerRedo, HandlerUndo, isNested: false);
 
             Operation.Redo();
             SetLastOperation(Operation);
@@ -264,10 +192,10 @@
             Debug.Assert(StateTable.ContainsKey(nodeIndex));
             Debug.Assert(text != null);
 
-            Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => RedoChangeComment(operation);
-            Action<IWriteableOperation> HandlerUndo = (IWriteableOperation operation) => UndoChangeComment(operation);
-            IFocusNodeState State = StateTable[nodeIndex];
-            IFocusChangeCommentOperation Operation = CreateChangeCommentOperation(State.Node, text, oldCaretPosition, newCaretPosition, changeCaretBeforeText, HandlerRedo, HandlerUndo, isNested: false);
+            Action<WriteableOperation> HandlerRedo = (WriteableOperation operation) => RedoChangeComment(operation);
+            Action<WriteableOperation> HandlerUndo = (WriteableOperation operation) => UndoChangeComment(operation);
+            IFocusNodeState State = (IFocusNodeState)StateTable[nodeIndex];
+            FocusChangeCommentOperation Operation = CreateChangeCommentOperation(State.Node, text, oldCaretPosition, newCaretPosition, changeCaretBeforeText, HandlerRedo, HandlerUndo, isNested: false);
 
             Operation.Redo();
             SetLastOperation(Operation);
@@ -285,7 +213,7 @@
             CycleManagerList.Add(CreateCycleManagerFeature());
         }
 
-        private protected override void CheckContextConsistency(IReadOnlyBrowseContext browseContext)
+        private protected override void CheckContextConsistency(ReadOnlyBrowseContext browseContext)
         {
             ((FocusBrowseContext)browseContext).CheckConsistency();
         }
@@ -295,7 +223,7 @@
         /// <summary>
         /// Creates a IxxxIndexNodeStateDictionary object.
         /// </summary>
-        private protected override IReadOnlyIndexNodeStateDictionary CreateStateTable()
+        private protected override ReadOnlyIndexNodeStateDictionary CreateStateTable()
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusController));
             return new FocusIndexNodeStateDictionary();
@@ -304,7 +232,7 @@
         /// <summary>
         /// Creates a IxxxInnerDictionary{string} object.
         /// </summary>
-        private protected override IReadOnlyInnerDictionary<string> CreateInnerTable()
+        private protected override ReadOnlyInnerDictionary<string> CreateInnerTable()
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusController));
             return new FocusInnerDictionary<string>();
@@ -313,7 +241,7 @@
         /// <summary>
         /// Creates a IxxxIndexNodeStateDictionary object.
         /// </summary>
-        private protected override IReadOnlyIndexNodeStateDictionary CreateChildStateTable()
+        private protected override ReadOnlyIndexNodeStateDictionary CreateChildStateTable()
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusController));
             return new FocusIndexNodeStateDictionary();
@@ -322,7 +250,7 @@
         /// <summary>
         /// Creates a IxxxxBrowseContext object.
         /// </summary>
-        private protected override IReadOnlyBrowseContext CreateBrowseContext(IReadOnlyBrowseContext parentBrowseContext, IReadOnlyNodeState state)
+        private protected override ReadOnlyBrowseContext CreateBrowseContext(ReadOnlyBrowseContext parentBrowseContext, IReadOnlyNodeState state)
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusController));
             return new FocusBrowseContext((IFocusNodeState)state);
@@ -385,7 +313,7 @@
         /// <summary>
         /// Creates a IxxxInsertNodeOperation object.
         /// </summary>
-        private protected override IWriteableInsertNodeOperation CreateInsertNodeOperation(Node parentNode, string propertyName, int blockIndex, int index, Node node, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        private protected override WriteableInsertNodeOperation CreateInsertNodeOperation(Node parentNode, string propertyName, int blockIndex, int index, Node node, Action<WriteableOperation> handlerRedo, Action<WriteableOperation> handlerUndo, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusController));
             return new FocusInsertNodeOperation(parentNode, propertyName, blockIndex, index, node, handlerRedo, handlerUndo, isNested);
@@ -394,7 +322,7 @@
         /// <summary>
         /// Creates a IxxxInsertBlockOperation object.
         /// </summary>
-        private protected override IWriteableInsertBlockOperation CreateInsertBlockOperation(Node parentNode, string propertyName, int blockIndex, IBlock block, Node node, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        private protected override IWriteableInsertBlockOperation CreateInsertBlockOperation(Node parentNode, string propertyName, int blockIndex, IBlock block, Node node, Action<WriteableOperation> handlerRedo, Action<WriteableOperation> handlerUndo, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusController));
             return new FocusInsertBlockOperation(parentNode, propertyName, blockIndex, block, node, handlerRedo, handlerUndo, isNested);
@@ -403,7 +331,7 @@
         /// <summary>
         /// Creates a IxxxRemoveBlockOperation object.
         /// </summary>
-        private protected override IWriteableRemoveBlockOperation CreateRemoveBlockOperation(Node parentNode, string propertyName, int blockIndex, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        private protected override WriteableRemoveBlockOperation CreateRemoveBlockOperation(Node parentNode, string propertyName, int blockIndex, Action<WriteableOperation> handlerRedo, Action<WriteableOperation> handlerUndo, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusController));
             return new FocusRemoveBlockOperation(parentNode, propertyName, blockIndex, handlerRedo, handlerUndo, isNested);
@@ -412,7 +340,7 @@
         /// <summary>
         /// Creates a IxxxRemoveBlockViewOperation object.
         /// </summary>
-        private protected override IWriteableRemoveBlockViewOperation CreateRemoveBlockViewOperation(Node parentNode, string propertyName, int blockIndex, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        private protected override WriteableRemoveBlockViewOperation CreateRemoveBlockViewOperation(Node parentNode, string propertyName, int blockIndex, Action<WriteableOperation> handlerRedo, Action<WriteableOperation> handlerUndo, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusController));
             return new FocusRemoveBlockViewOperation(parentNode, propertyName, blockIndex, handlerRedo, handlerUndo, isNested);
@@ -421,7 +349,7 @@
         /// <summary>
         /// Creates a IxxxRemoveNodeOperation object.
         /// </summary>
-        private protected override IWriteableRemoveNodeOperation CreateRemoveNodeOperation(Node parentNode, string propertyName, int blockIndex, int index, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        private protected override WriteableRemoveNodeOperation CreateRemoveNodeOperation(Node parentNode, string propertyName, int blockIndex, int index, Action<WriteableOperation> handlerRedo, Action<WriteableOperation> handlerUndo, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusController));
             return new FocusRemoveNodeOperation(parentNode, propertyName, blockIndex, index, handlerRedo, handlerUndo, isNested);
@@ -430,7 +358,7 @@
         /// <summary>
         /// Creates a IxxxReplaceOperation object.
         /// </summary>
-        private protected override IWriteableReplaceOperation CreateReplaceOperation(Node parentNode, string propertyName, int blockIndex, int index, Node newNode, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        private protected override IWriteableReplaceOperation CreateReplaceOperation(Node parentNode, string propertyName, int blockIndex, int index, Node newNode, Action<WriteableOperation> handlerRedo, Action<WriteableOperation> handlerUndo, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusController));
             return new FocusReplaceOperation(parentNode, propertyName, blockIndex, index, newNode, handlerRedo, handlerUndo, isNested);
@@ -439,7 +367,7 @@
         /// <summary>
         /// Creates a IxxxAssignmentOperation object.
         /// </summary>
-        private protected override IWriteableAssignmentOperation CreateAssignmentOperation(Node parentNode, string propertyName, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        private protected override WriteableAssignmentOperation CreateAssignmentOperation(Node parentNode, string propertyName, Action<WriteableOperation> handlerRedo, Action<WriteableOperation> handlerUndo, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusController));
             return new FocusAssignmentOperation(parentNode, propertyName, handlerRedo, handlerUndo, isNested);
@@ -448,7 +376,7 @@
         /// <summary>
         /// Creates a IxxxChangeDiscreteValueOperation object.
         /// </summary>
-        private protected override IWriteableChangeDiscreteValueOperation CreateChangeDiscreteValueOperation(Node parentNode, string propertyName, int value, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        private protected override WriteableChangeDiscreteValueOperation CreateChangeDiscreteValueOperation(Node parentNode, string propertyName, int value, Action<WriteableOperation> handlerRedo, Action<WriteableOperation> handlerUndo, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusController));
             return new FocusChangeDiscreteValueOperation(parentNode, propertyName, value, handlerRedo, handlerUndo, isNested);
@@ -457,7 +385,7 @@
         /// <summary>
         /// Creates a IxxxChangeTextOperation object.
         /// </summary>
-        private protected override IWriteableChangeTextOperation CreateChangeTextOperation(Node parentNode, string propertyName, string text, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        private protected override WriteableChangeTextOperation CreateChangeTextOperation(Node parentNode, string propertyName, string text, Action<WriteableOperation> handlerRedo, Action<WriteableOperation> handlerUndo, bool isNested)
         {
             return CreateChangeTextOperation(parentNode, propertyName, text, -1, -1, false, handlerRedo, handlerUndo, isNested);
         }
@@ -465,7 +393,7 @@
         /// <summary>
         /// Creates a IxxxChangeTextOperation object.
         /// </summary>
-        private protected virtual IFocusChangeTextOperation CreateChangeTextOperation(Node parentNode, string propertyName, string text, int oldCaretPosition, int newCaretPosition, bool changeCaretBeforeText, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        private protected virtual FocusChangeTextOperation CreateChangeTextOperation(Node parentNode, string propertyName, string text, int oldCaretPosition, int newCaretPosition, bool changeCaretBeforeText, Action<WriteableOperation> handlerRedo, Action<WriteableOperation> handlerUndo, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusController));
             return new FocusChangeTextOperation(parentNode, propertyName, text, oldCaretPosition, newCaretPosition, changeCaretBeforeText, handlerRedo, handlerUndo, isNested);
@@ -474,7 +402,7 @@
         /// <summary>
         /// Creates a IxxxChangeCommentOperation object.
         /// </summary>
-        private protected override IWriteableChangeCommentOperation CreateChangeCommentOperation(Node parentNode, string text, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        private protected override WriteableChangeCommentOperation CreateChangeCommentOperation(Node parentNode, string text, Action<WriteableOperation> handlerRedo, Action<WriteableOperation> handlerUndo, bool isNested)
         {
             return CreateChangeCommentOperation(parentNode, text, -1, -1, false, handlerRedo, handlerUndo, isNested);
         }
@@ -482,7 +410,7 @@
         /// <summary>
         /// Creates a IxxxChangeCommentOperation object.
         /// </summary>
-        private protected virtual IFocusChangeCommentOperation CreateChangeCommentOperation(Node parentNode, string text, int oldCaretPosition, int newCaretPosition, bool changeCaretBeforeText, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        private protected virtual FocusChangeCommentOperation CreateChangeCommentOperation(Node parentNode, string text, int oldCaretPosition, int newCaretPosition, bool changeCaretBeforeText, Action<WriteableOperation> handlerRedo, Action<WriteableOperation> handlerUndo, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusController));
             return new FocusChangeCommentOperation(parentNode, text, oldCaretPosition, newCaretPosition, changeCaretBeforeText, handlerRedo, handlerUndo, isNested);
@@ -491,7 +419,7 @@
         /// <summary>
         /// Creates a IxxxChangeBlockOperation object.
         /// </summary>
-        private protected override IWriteableChangeBlockOperation CreateChangeBlockOperation(Node parentNode, string propertyName, int blockIndex, ReplicationStatus replication, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        private protected override WriteableChangeBlockOperation CreateChangeBlockOperation(Node parentNode, string propertyName, int blockIndex, ReplicationStatus replication, Action<WriteableOperation> handlerRedo, Action<WriteableOperation> handlerUndo, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusController));
             return new FocusChangeBlockOperation(parentNode, propertyName, blockIndex, replication, handlerRedo, handlerUndo, isNested);
@@ -500,7 +428,7 @@
         /// <summary>
         /// Creates a IxxxSplitBlockOperation object.
         /// </summary>
-        private protected override IWriteableSplitBlockOperation CreateSplitBlockOperation(Node parentNode, string propertyName, int blockIndex, int index, IBlock newBlock, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        private protected override WriteableSplitBlockOperation CreateSplitBlockOperation(Node parentNode, string propertyName, int blockIndex, int index, IBlock newBlock, Action<WriteableOperation> handlerRedo, Action<WriteableOperation> handlerUndo, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusController));
             return new FocusSplitBlockOperation(parentNode, propertyName, blockIndex, index, newBlock, handlerRedo, handlerUndo, isNested);
@@ -509,7 +437,7 @@
         /// <summary>
         /// Creates a IxxxxMergeBlocksOperation object.
         /// </summary>
-        private protected override IWriteableMergeBlocksOperation CreateMergeBlocksOperation(Node parentNode, string propertyName, int blockIndex, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        private protected override WriteableMergeBlocksOperation CreateMergeBlocksOperation(Node parentNode, string propertyName, int blockIndex, Action<WriteableOperation> handlerRedo, Action<WriteableOperation> handlerUndo, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusController));
             return new FocusMergeBlocksOperation(parentNode, propertyName, blockIndex, handlerRedo, handlerUndo, isNested);
@@ -518,7 +446,7 @@
         /// <summary>
         /// Creates a IxxxxMoveNodeOperation object.
         /// </summary>
-        private protected override IWriteableMoveNodeOperation CreateMoveNodeOperation(Node parentNode, string propertyName, int blockIndex, int index, int direction, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        private protected override WriteableMoveNodeOperation CreateMoveNodeOperation(Node parentNode, string propertyName, int blockIndex, int index, int direction, Action<WriteableOperation> handlerRedo, Action<WriteableOperation> handlerUndo, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusController));
             return new FocusMoveNodeOperation(parentNode, propertyName, blockIndex, index, direction, handlerRedo, handlerUndo, isNested);
@@ -527,7 +455,7 @@
         /// <summary>
         /// Creates a IxxxxMoveBlockOperation object.
         /// </summary>
-        private protected override IWriteableMoveBlockOperation CreateMoveBlockOperation(Node parentNode, string propertyName, int blockIndex, int direction, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        private protected override WriteableMoveBlockOperation CreateMoveBlockOperation(Node parentNode, string propertyName, int blockIndex, int direction, Action<WriteableOperation> handlerRedo, Action<WriteableOperation> handlerUndo, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusController));
             return new FocusMoveBlockOperation(parentNode, propertyName, blockIndex, direction, handlerRedo, handlerUndo, isNested);
@@ -536,7 +464,7 @@
         /// <summary>
         /// Creates a IxxxExpandArgumentOperation object.
         /// </summary>
-        private protected override IWriteableExpandArgumentOperation CreateExpandArgumentOperation(Node parentNode, string propertyName, IBlock block, Node node, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        private protected override WriteableExpandArgumentOperation CreateExpandArgumentOperation(Node parentNode, string propertyName, IBlock block, Node node, Action<WriteableOperation> handlerRedo, Action<WriteableOperation> handlerUndo, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusController));
             return new FocusExpandArgumentOperation(parentNode, propertyName, block, node, handlerRedo, handlerUndo, isNested);
@@ -545,7 +473,7 @@
         /// <summary>
         /// Creates a IxxxGenericRefreshOperation object.
         /// </summary>
-        private protected override IWriteableGenericRefreshOperation CreateGenericRefreshOperation(IWriteableNodeState refreshState, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        private protected override WriteableGenericRefreshOperation CreateGenericRefreshOperation(IWriteableNodeState refreshState, Action<WriteableOperation> handlerRedo, Action<WriteableOperation> handlerUndo, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusController));
             return new FocusGenericRefreshOperation((IFocusNodeState)refreshState, handlerRedo, handlerUndo, isNested);
@@ -554,7 +482,7 @@
         /// <summary>
         /// Creates a IxxxOperationGroupList object.
         /// </summary>
-        private protected override IWriteableOperationGroupList CreateOperationGroupStack()
+        private protected override WriteableOperationGroupList CreateOperationGroupStack()
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusController));
             return new FocusOperationGroupList();
@@ -563,7 +491,7 @@
         /// <summary>
         /// Creates a IxxxOperationList object.
         /// </summary>
-        private protected override IWriteableOperationList CreateOperationList()
+        private protected override WriteableOperationList CreateOperationList()
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusController));
             return new FocusOperationList();
@@ -572,16 +500,16 @@
         /// <summary>
         /// Creates a IxxxOperationGroup object.
         /// </summary>
-        private protected override IWriteableOperationGroup CreateOperationGroup(IWriteableOperationReadOnlyList operationList, IWriteableGenericRefreshOperation refresh)
+        private protected override WriteableOperationGroup CreateOperationGroup(WriteableOperationReadOnlyList operationList, WriteableGenericRefreshOperation refresh)
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusController));
-            return new FocusOperationGroup((IFocusOperationReadOnlyList)operationList, (IFocusGenericRefreshOperation)refresh);
+            return new FocusOperationGroup((FocusOperationReadOnlyList)operationList, (FocusGenericRefreshOperation)refresh);
         }
 
         /// <summary>
         /// Creates a IxxxReplaceWithCycleOperation object.
         /// </summary>
-        private protected virtual IFocusReplaceWithCycleOperation CreateReplaceWithCycleOperation(Node parentNode, string propertyName, int blockIndex, int index, IFocusInsertionChildNodeIndexList cycleIndexList, int cyclePosition, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        private protected virtual FocusReplaceWithCycleOperation CreateReplaceWithCycleOperation(Node parentNode, string propertyName, int blockIndex, int index, FocusInsertionChildNodeIndexList cycleIndexList, int cyclePosition, Action<WriteableOperation> handlerRedo, Action<WriteableOperation> handlerUndo, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusController));
             return new FocusReplaceWithCycleOperation(parentNode, propertyName, blockIndex, index, cycleIndexList, cyclePosition, handlerRedo, handlerUndo, isNested);
@@ -590,7 +518,7 @@
         /// <summary>
         /// Creates a IxxxCycleManagerList object.
         /// </summary>
-        private protected virtual IFocusCycleManagerList CreateCycleManagerList()
+        private protected virtual FocusCycleManagerList CreateCycleManagerList()
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusController));
             return new FocusCycleManagerList();
@@ -599,7 +527,7 @@
         /// <summary>
         /// Creates a IxxxCycleManagerBody object.
         /// </summary>
-        private protected virtual IFocusCycleManagerBody CreateCycleManagerBody()
+        private protected virtual FocusCycleManagerBody CreateCycleManagerBody()
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusController));
             return new FocusCycleManagerBody();
@@ -608,7 +536,7 @@
         /// <summary>
         /// Creates a IxxxCycleManagerFeature object.
         /// </summary>
-        private protected virtual IFocusCycleManagerFeature CreateCycleManagerFeature()
+        private protected virtual FocusCycleManagerFeature CreateCycleManagerFeature()
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusController));
             return new FocusCycleManagerFeature();

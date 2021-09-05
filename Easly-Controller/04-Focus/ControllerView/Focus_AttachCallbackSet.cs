@@ -7,14 +7,7 @@
     /// <summary>
     /// Handlers to call during enumeration of states, when attaching a view.
     /// </summary>
-    public interface IFocusAttachCallbackSet : IFrameAttachCallbackSet
-    {
-    }
-
-    /// <summary>
-    /// Handlers to call during enumeration of states, when attaching a view.
-    /// </summary>
-    internal class FocusAttachCallbackSet : FrameAttachCallbackSet, IFocusAttachCallbackSet
+    internal class FocusAttachCallbackSet : FrameAttachCallbackSet
     {
         #region Properties
         /// <summary>

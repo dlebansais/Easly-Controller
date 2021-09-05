@@ -5,7 +5,26 @@
     using EaslyController.Writeable;
 
     /// <inheritdoc/>
-    internal class FrameReplaceOperation : WriteableReplaceOperation
+    public interface IFrameReplaceOperation : IWriteableReplaceOperation
+    {
+        /// <summary>
+        /// Index of the state before it's replaced.
+        /// </summary>
+        new IFrameBrowsingChildIndex OldBrowsingIndex { get; }
+
+        /// <summary>
+        /// Index of the state after it's replaced.
+        /// </summary>
+        new IFrameBrowsingChildIndex NewBrowsingIndex { get; }
+
+        /// <summary>
+        /// The new state.
+        /// </summary>
+        new IFrameNodeState NewChildState { get; }
+    }
+
+    /// <inheritdoc/>
+    internal class FrameReplaceOperation : WriteableReplaceOperation, IFrameReplaceOperation
     {
         #region Init
         /// <summary>
@@ -46,7 +65,7 @@
         /// <summary>
         /// Creates a IxxxReplaceOperation object.
         /// </summary>
-        private protected override WriteableReplaceOperation CreateReplaceOperation(int blockIndex, int index, Node node, Action<WriteableOperation> handlerRedo, Action<WriteableOperation> handlerUndo, bool isNested)
+        private protected override IWriteableReplaceOperation CreateReplaceOperation(int blockIndex, int index, Node node, Action<WriteableOperation> handlerRedo, Action<WriteableOperation> handlerUndo, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameReplaceOperation));
             return new FrameReplaceOperation(ParentNode, PropertyName, blockIndex, index, node, handlerRedo, handlerUndo, isNested);

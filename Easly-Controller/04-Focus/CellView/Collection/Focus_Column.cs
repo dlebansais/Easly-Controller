@@ -24,7 +24,7 @@
         /// <param name="parentCellView">The collection of cell views containing this view. Null for the root of the cell tree.</param>
         /// <param name="cellViewList">The list of child cell views.</param>
         /// <param name="frame">The frame that was used to create this cell. Can be null.</param>
-        public FocusColumn(IFocusNodeStateView stateView, IFocusCellViewCollection parentCellView, IFocusCellViewList cellViewList, IFocusFrame frame)
+        public FocusColumn(IFocusNodeStateView stateView, IFocusCellViewCollection parentCellView, FocusCellViewList cellViewList, IFocusFrame frame)
             : base(stateView, parentCellView, cellViewList, frame)
         {
         }
@@ -44,7 +44,7 @@
         /// <summary>
         /// The collection of child cells.
         /// </summary>
-        public new IFocusCellViewList CellViewList { get { return (IFocusCellViewList)base.CellViewList; } }
+        public new FocusCellViewList CellViewList { get { return (FocusCellViewList)base.CellViewList; } }
 
         /// <summary>
         /// The frame that was used to create this cell. Can be null.
@@ -60,7 +60,7 @@
         /// <param name="focusedNode">The currently focused node.</param>
         /// <param name="focusedFrame">The currently focused frame in the template associated to <paramref name="focusedNode"/>.</param>
         /// <param name="matchingFocus">The focus in <paramref name="focusChain"/> that match <paramref name="focusedNode"/> and <paramref name="focusedFrame"/> upon return.</param>
-        public virtual void UpdateFocusChain(IFocusFocusList focusChain, Node focusedNode, IFocusFrame focusedFrame, ref IFocusFocus matchingFocus)
+        public virtual void UpdateFocusChain(FocusFocusList focusChain, Node focusedNode, IFocusFrame focusedFrame, ref IFocusFocus matchingFocus)
         {
             foreach (IFocusCellView Item in CellViewList)
                 Item.UpdateFocusChain(focusChain, focusedNode, focusedFrame, ref matchingFocus);

@@ -3,8 +3,15 @@
     using System;
     using EaslyController.Writeable;
 
+    /// <summary>
+    /// Details for insertion operations.
+    /// </summary>
+    public interface IFrameInsertOperation
+    {
+    }
+
     /// <inheritdoc/>
-    internal abstract class FrameInsertOperation : WriteableInsertOperation
+    internal abstract class FrameInsertOperation : WriteableInsertOperation, IFrameInsertOperation
     {
         #region Init
         /// <summary>

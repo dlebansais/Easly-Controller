@@ -33,7 +33,7 @@
         /// <summary>
         /// List of frames within this frame.
         /// </summary>
-        public new IFocusFrameList Items { get { return (IFocusFrameList)base.Items; } }
+        public new FocusFrameList Items { get { return (FocusFrameList)base.Items; } }
 
         /// <summary>
         /// Node frame visibility. Null if always visible.
@@ -61,7 +61,7 @@
         /// <param name="nodeType">Type of the node this frame can describe.</param>
         /// <param name="nodeTemplateTable">Table of templates with all frames.</param>
         /// <param name="commentFrameCount">Number of comment frames found so far.</param>
-        public override bool IsValid(Type nodeType, IFrameTemplateReadOnlyDictionary nodeTemplateTable, ref int commentFrameCount)
+        public override bool IsValid(Type nodeType, FrameTemplateReadOnlyDictionary nodeTemplateTable, ref int commentFrameCount)
         {
             bool IsValid = true;
 
@@ -71,7 +71,7 @@
 
 #if DEBUG
             // For code coverage purpose.
-            CollectSelectors(new Dictionary<string, IFocusFrameSelectorList>());
+            CollectSelectors(new Dictionary<string, FocusFrameSelectorList>());
 #endif
 
             Debug.Assert(IsValid);
@@ -171,7 +171,7 @@
         /// Gets selectors in the frame and nested frames.
         /// </summary>
         /// <param name="selectorTable">The table of selectors to update.</param>
-        public virtual void CollectSelectors(Dictionary<string, IFocusFrameSelectorList> selectorTable)
+        public virtual void CollectSelectors(Dictionary<string, FocusFrameSelectorList> selectorTable)
         {
             foreach (IFocusFrame Item in Items)
                 if (Item is IFocusNodeFrame AsNodeFrame)
@@ -191,7 +191,7 @@
         /// <summary>
         /// Creates a IxxxFrameList object.
         /// </summary>
-        private protected override IFrameFrameList CreateItems()
+        private protected override FrameFrameList CreateItems()
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusHorizontalPanelFrame));
             return new FocusFrameList();
@@ -200,7 +200,7 @@
         /// <summary>
         /// Creates a IxxxCellViewList object.
         /// </summary>
-        private protected override IFrameCellViewList CreateCellViewList()
+        private protected override FrameCellViewList CreateCellViewList()
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusHorizontalPanelFrame));
             return new FocusCellViewList();
@@ -218,10 +218,10 @@
         /// <summary>
         /// Creates a IxxxCellViewCollection object.
         /// </summary>
-        private protected override IFrameCellViewCollection CreateEmbeddingCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, IFrameCellViewList list)
+        private protected override IFrameCellViewCollection CreateEmbeddingCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, FrameCellViewList list)
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusHorizontalPanelFrame));
-            return new FocusLine((IFocusNodeStateView)stateView, (IFocusCellViewCollection)parentCellView, (IFocusCellViewList)list, this);
+            return new FocusLine((IFocusNodeStateView)stateView, (IFocusCellViewCollection)parentCellView, (FocusCellViewList)list, this);
         }
         #endregion
     }

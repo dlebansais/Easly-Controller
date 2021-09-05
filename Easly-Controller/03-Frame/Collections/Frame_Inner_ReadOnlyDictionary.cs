@@ -1,11 +1,12 @@
 ﻿namespace EaslyController.Frame
 {
     using System.Collections.Generic;
+    using System.Diagnostics;
     using EaslyController.ReadOnly;
     using EaslyController.Writeable;
 
     /// <inheritdoc/>
-    public class FrameInnerReadOnlyDictionary<TKey> : WriteableInnerReadOnlyDictionary<TKey>, ICollection<KeyValuePair<TKey, IFrameInner>>, IEnumerable<KeyValuePair<TKey, IFrameInner>>, IDictionary<TKey, IFrameInner>, IReadOnlyCollection<KeyValuePair<TKey, IFrameInner>>, IReadOnlyDictionary<TKey, IFrameInner>
+    public class FrameInnerReadOnlyDictionary<TKey> : WriteableInnerReadOnlyDictionary<TKey>, ICollection<KeyValuePair<TKey, IFrameInner>>, IEnumerable<KeyValuePair<TKey, IFrameInner>>, IDictionary<TKey, IFrameInner>, IReadOnlyCollection<KeyValuePair<TKey, IFrameInner>>, IReadOnlyDictionary<TKey, IFrameInner>, IEqualComparable
     {
         /// <inheritdoc/>
         public FrameInnerReadOnlyDictionary(FrameInnerDictionary<TKey> dictionary)
@@ -35,6 +36,33 @@
         IEnumerable<IFrameInner> IReadOnlyDictionary<TKey, IFrameInner>.Values { get { List<IFrameInner> Result = new(); foreach (KeyValuePair<TKey, IFrameInner> Entry in (ICollection<KeyValuePair<TKey, IFrameInner>>)this) Result.Add(Entry.Value); return Result; } }
         bool IReadOnlyDictionary<TKey, IFrameInner>.ContainsKey(TKey key) { return ContainsKey(key); }
         bool IReadOnlyDictionary<TKey, IFrameInner>.TryGetValue(TKey key, out IFrameInner value) { bool Result = TryGetValue(key, out IReadOnlyInner Value); value = (IFrameInner)Value; return Result; }
+        #endregion
+
+        #region Debugging
+        /// <inheritdoc/>
+        public override bool IsEqual(CompareEqual comparer, IEqualComparable other)
+        {
+            Debug.Assert(other != null);
+
+            if (!comparer.IsSameType(other, out FrameInnerReadOnlyDictionary<TKey> AsInnerReadOnlyDictionary))
+                return comparer.Failed();
+
+            if (!comparer.IsSameCount(Count, AsInnerReadOnlyDictionary.Count))
+                return comparer.Failed();
+
+            foreach (TKey Key in Keys)
+            {
+                IFrameInner Value = (IFrameInner)this[Key];
+
+                if (!comparer.IsTrue(AsInnerReadOnlyDictionary.ContainsKey(Key)))
+                    return comparer.Failed();
+
+                if (!comparer.VerifyEqual(Value, AsInnerReadOnlyDictionary[Key]))
+                    return comparer.Failed();
+            }
+
+            return true;
+        }
         #endregion
     }
 }

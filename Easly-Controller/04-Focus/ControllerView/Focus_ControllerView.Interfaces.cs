@@ -10,7 +10,7 @@
     /// <summary>
     /// View of a IxxxController.
     /// </summary>
-    public partial class FocusControllerView : FrameControllerView, IFocusControllerView, IFocusInternalControllerView
+    public partial class FocusControllerView : FrameControllerView, IFocusInternalControllerView
     {
         /// <summary>
         /// Checks if the template associated to the <paramref name="propertyName"/> property of the <paramref name="stateView"/> state is complex.
@@ -128,7 +128,7 @@
             IFocusInner ParentInner = State.ParentInner;
 
             IFocusPlaceholderNodeState PlaceholderNodeState;
-            IFocusPlaceholderNodeStateReadOnlyList StateList;
+            FocusPlaceholderNodeStateReadOnlyList StateList;
             int Index;
             bool Result;
 
@@ -173,7 +173,7 @@
         /// Checks if the <paramref name="blockStateView"/> block state belongs to a replicated block.
         /// </summary>
         /// <param name="blockStateView">The block state view.</param>
-        public virtual bool IsInReplicatedBlock(IFocusBlockStateView blockStateView)
+        public virtual bool IsInReplicatedBlock(FocusBlockStateView blockStateView)
         {
             IFocusBlockState BlockState = blockStateView.BlockState;
             Debug.Assert(BlockState != null);

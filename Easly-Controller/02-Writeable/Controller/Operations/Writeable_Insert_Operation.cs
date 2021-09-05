@@ -5,7 +5,14 @@
     /// <summary>
     /// Details for insertion operations.
     /// </summary>
-    public abstract class WriteableInsertOperation : WriteableOperation
+    public interface IWriteableInsertOperation
+    {
+    }
+
+    /// <summary>
+    /// Details for insertion operations.
+    /// </summary>
+    public abstract class WriteableInsertOperation : WriteableOperation, IWriteableInsertOperation
     {
         #region Init
         /// <summary>

@@ -14,12 +14,12 @@
         /// <summary>
         /// Templates for nodes by their type.
         /// </summary>
-        new IFocusTemplateReadOnlyDictionary NodeTemplateTable { get; }
+        new FocusTemplateReadOnlyDictionary NodeTemplateTable { get; }
 
         /// <summary>
         /// Templates for blocks of nodes.
         /// </summary>
-        new IFocusTemplateReadOnlyDictionary BlockTemplateTable { get; }
+        new FocusTemplateReadOnlyDictionary BlockTemplateTable { get; }
 
         /// <summary>
         /// Gets the frame that creates cells associated to states in the inner.
@@ -27,7 +27,7 @@
         /// </summary>
         /// <param name="inner">The inner.</param>
         /// <param name="selectorStack">A list of selectors to choose the correct frame.</param>
-        IFocusFrame InnerToFrame(IFocusInner<IFocusBrowsingChildIndex> inner, IList<IFocusFrameSelectorList> selectorStack);
+        IFocusFrame InnerToFrame(IFocusInner<IFocusBrowsingChildIndex> inner, IList<FocusFrameSelectorList> selectorStack);
 
         /// <summary>
         /// Gets the frame that creates cells associated to a property in a state.
@@ -36,7 +36,7 @@
         /// <param name="state">The state.</param>
         /// <param name="propertyName">The property name.</param>
         /// <param name="selectorStack">A list of selectors to choose the correct frame.</param>
-        IFocusFrame PropertyToFrame(IFocusNodeState state, string propertyName, IList<IFocusFrameSelectorList> selectorStack);
+        IFocusFrame PropertyToFrame(IFocusNodeState state, string propertyName, IList<FocusFrameSelectorList> selectorStack);
 
         /// <summary>
         /// Gets the frame that creates cells associated to a comment in a state.
@@ -44,7 +44,7 @@
         /// </summary>
         /// <param name="state">The state.</param>
         /// <param name="selectorStack">A list of selectors to choose the correct frame.</param>
-        IFocusCommentFrame GetCommentFrame(IFocusNodeState state, IList<IFocusFrameSelectorList> selectorStack);
+        IFocusCommentFrame GetCommentFrame(IFocusNodeState state, IList<FocusFrameSelectorList> selectorStack);
     }
 
     /// <summary>
@@ -77,7 +77,7 @@
         /// </summary>
         /// <param name="nodeTemplateTable">Templates for nodes by their type.</param>
         /// <param name="blockTemplateTable">Templates for blocks of nodes.</param>
-        public FocusTemplateSet(IFocusTemplateReadOnlyDictionary nodeTemplateTable, IFocusTemplateReadOnlyDictionary blockTemplateTable)
+        public FocusTemplateSet(FocusTemplateReadOnlyDictionary nodeTemplateTable, FocusTemplateReadOnlyDictionary blockTemplateTable)
             : base(nodeTemplateTable, blockTemplateTable)
         {
         }
@@ -87,12 +87,12 @@
         /// <summary>
         /// Templates for nodes by their type.
         /// </summary>
-        public new IFocusTemplateReadOnlyDictionary NodeTemplateTable { get { return (IFocusTemplateReadOnlyDictionary)base.NodeTemplateTable; } }
+        public new FocusTemplateReadOnlyDictionary NodeTemplateTable { get { return (FocusTemplateReadOnlyDictionary)base.NodeTemplateTable; } }
 
         /// <summary>
         /// Templates for blocks of nodes.
         /// </summary>
-        public new IFocusTemplateReadOnlyDictionary BlockTemplateTable { get { return (IFocusTemplateReadOnlyDictionary)base.BlockTemplateTable; } }
+        public new FocusTemplateReadOnlyDictionary BlockTemplateTable { get { return (FocusTemplateReadOnlyDictionary)base.BlockTemplateTable; } }
         #endregion
 
         #region Client Interface
@@ -102,7 +102,7 @@
         /// </summary>
         /// <param name="inner">The inner.</param>
         /// <param name="selectorStack">A list of selectors to choose the correct frame.</param>
-        public virtual IFocusFrame InnerToFrame(IFocusInner<IFocusBrowsingChildIndex> inner, IList<IFocusFrameSelectorList> selectorStack)
+        public virtual IFocusFrame InnerToFrame(IFocusInner<IFocusBrowsingChildIndex> inner, IList<FocusFrameSelectorList> selectorStack)
         {
             IFocusNodeState Owner = inner.Owner;
             Type OwnerType = Owner.Node.GetType();
@@ -131,7 +131,7 @@
         /// <param name="state">The state.</param>
         /// <param name="propertyName">The property name.</param>
         /// <param name="selectorStack">A list of selectors to choose the correct frame.</param>
-        public virtual IFocusFrame PropertyToFrame(IFocusNodeState state, string propertyName, IList<IFocusFrameSelectorList> selectorStack)
+        public virtual IFocusFrame PropertyToFrame(IFocusNodeState state, string propertyName, IList<FocusFrameSelectorList> selectorStack)
         {
             Type OwnerType = state.Node.GetType();
             Type InterfaceType = NodeTreeHelper.NodeTypeToInterfaceType(OwnerType);
@@ -147,7 +147,7 @@
         /// </summary>
         /// <param name="state">The state.</param>
         /// <param name="selectorStack">A list of selectors to choose the correct frame.</param>
-        public virtual IFocusCommentFrame GetCommentFrame(IFocusNodeState state, IList<IFocusFrameSelectorList> selectorStack)
+        public virtual IFocusCommentFrame GetCommentFrame(IFocusNodeState state, IList<FocusFrameSelectorList> selectorStack)
         {
             Type OwnerType = state.Node.GetType();
             Type InterfaceType = NodeTreeHelper.NodeTypeToInterfaceType(OwnerType);
@@ -169,7 +169,7 @@
         /// <summary>
         /// Creates a IxxxTemplateDictionary object.
         /// </summary>
-        private protected override IFrameTemplateDictionary CreateEmptyTemplateDictionary()
+        private protected override FrameTemplateDictionary CreateEmptyTemplateDictionary()
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusTemplateSet));
             return new FocusTemplateDictionary();
@@ -178,7 +178,7 @@
         /// <summary>
         /// Creates a IxxxTemplateDictionary object.
         /// </summary>
-        private protected override IFrameTemplateDictionary CreateDefaultTemplateDictionary()
+        private protected override FrameTemplateDictionary CreateDefaultTemplateDictionary()
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusTemplateSet));
             return new FocusTemplateDictionary(NodeHelper.CreateNodeDictionary<IFocusTemplate>());
@@ -295,10 +295,10 @@
         /// <summary>
         /// Creates a IxxxTemplateSet object.
         /// </summary>
-        private protected override IFrameTemplateSet CreateDefaultTemplateSet(IFrameTemplateReadOnlyDictionary nodeTemplateTable, IFrameTemplateReadOnlyDictionary blockTemplateTable)
+        private protected override IFrameTemplateSet CreateDefaultTemplateSet(FrameTemplateReadOnlyDictionary nodeTemplateTable, FrameTemplateReadOnlyDictionary blockTemplateTable)
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusTemplateSet));
-            return new FocusTemplateSet((IFocusTemplateReadOnlyDictionary)nodeTemplateTable, (IFocusTemplateReadOnlyDictionary)blockTemplateTable);
+            return new FocusTemplateSet((FocusTemplateReadOnlyDictionary)nodeTemplateTable, (FocusTemplateReadOnlyDictionary)blockTemplateTable);
         }
         #endregion
     }

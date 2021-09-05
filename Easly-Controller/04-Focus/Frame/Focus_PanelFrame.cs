@@ -13,7 +13,7 @@
         /// <summary>
         /// List of frames within this frame.
         /// </summary>
-        new IFocusFrameList Items { get; }
+        new FocusFrameList Items { get; }
     }
 
     /// <summary>
@@ -35,7 +35,7 @@
         /// <summary>
         /// List of frames within this frame.
         /// </summary>
-        public new IFocusFrameList Items { get { return (IFocusFrameList)base.Items; } }
+        public new FocusFrameList Items { get { return (FocusFrameList)base.Items; } }
 
         /// <summary>
         /// Node frame visibility. Null if always visible.
@@ -75,7 +75,7 @@
         /// Gets selectors in the frame and nested frames.
         /// </summary>
         /// <param name="selectorTable">The table of selectors to update.</param>
-        public abstract void CollectSelectors(Dictionary<string, IFocusFrameSelectorList> selectorTable);
+        public abstract void CollectSelectors(Dictionary<string, FocusFrameSelectorList> selectorTable);
         #endregion
     }
 }

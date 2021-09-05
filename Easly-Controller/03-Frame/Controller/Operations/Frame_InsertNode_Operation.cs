@@ -5,7 +5,7 @@
     using EaslyController.Writeable;
 
     /// <inheritdoc/>
-    internal class FrameInsertNodeOperation : WriteableInsertNodeOperation
+    internal class FrameInsertNodeOperation : WriteableInsertNodeOperation, IFrameInsertOperation
     {
         #region Init
         /// <summary>

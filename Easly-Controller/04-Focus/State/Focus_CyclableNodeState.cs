@@ -9,7 +9,7 @@
         /// List of node indexes that can replace the current node. Can be null.
         /// Applies only to bodies and features.
         /// </summary>
-        IFocusInsertionChildNodeIndexList CycleIndexList { get; }
+        FocusInsertionChildNodeIndexList CycleIndexList { get; }
 
         /// <summary>
         /// Position of the current node in <see cref="CycleIndexList"/>.
@@ -30,6 +30,6 @@
         /// Restores the cycle index list from which this state was created.
         /// </summary>
         /// <param name="cycleIndexList">The list to restore.</param>
-        void RestoreCycleIndexList(IFocusInsertionChildNodeIndexList cycleIndexList);
+        void RestoreCycleIndexList(FocusInsertionChildNodeIndexList cycleIndexList);
     }
 }

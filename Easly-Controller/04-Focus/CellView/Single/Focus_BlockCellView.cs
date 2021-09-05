@@ -17,7 +17,7 @@
         /// <summary>
         /// The block state view of the state associated to this cell.
         /// </summary>
-        new IFocusBlockStateView BlockStateView { get; }
+        new FocusBlockStateView BlockStateView { get; }
     }
 
     /// <summary>
@@ -32,7 +32,7 @@
         /// <param name="stateView">The state view containing the tree with this cell.</param>
         /// <param name="parentCellView">The collection of cell views containing this view.</param>
         /// <param name="blockStateView">The block state view of the state associated to this cell.</param>
-        public FocusBlockCellView(IFocusNodeStateView stateView, IFocusCellViewCollection parentCellView, IFocusBlockStateView blockStateView)
+        public FocusBlockCellView(IFocusNodeStateView stateView, IFocusCellViewCollection parentCellView, FocusBlockStateView blockStateView)
             : base(stateView, parentCellView, blockStateView)
         {
         }
@@ -47,7 +47,7 @@
         /// <summary>
         /// The block state view of the state associated to this cell.
         /// </summary>
-        public new IFocusBlockStateView BlockStateView { get { return (IFocusBlockStateView)base.BlockStateView; } }
+        public new FocusBlockStateView BlockStateView { get { return (FocusBlockStateView)base.BlockStateView; } }
 
         /// <summary>
         /// The state view containing the tree with this cell.
@@ -63,7 +63,7 @@
         /// <param name="focusedNode">The currently focused node.</param>
         /// <param name="focusedFrame">The currently focused frame in the template associated to <paramref name="focusedNode"/>.</param>
         /// <param name="matchingFocus">The focus in <paramref name="focusChain"/> that match <paramref name="focusedNode"/> and <paramref name="focusedFrame"/> upon return.</param>
-        public virtual void UpdateFocusChain(IFocusFocusList focusChain, Node focusedNode, IFocusFrame focusedFrame, ref IFocusFocus matchingFocus)
+        public virtual void UpdateFocusChain(FocusFocusList focusChain, Node focusedNode, IFocusFrame focusedFrame, ref IFocusFocus matchingFocus)
         {
             BlockStateView.UpdateFocusChain(focusChain, focusedNode, focusedFrame, ref matchingFocus);
         }

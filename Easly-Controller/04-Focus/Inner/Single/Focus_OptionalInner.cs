@@ -5,9 +5,7 @@
     using EaslyController.ReadOnly;
     using EaslyController.Writeable;
 
-    /// <summary>
-    /// Inner for an optional node.
-    /// </summary>
+    /// <inheritdoc/>
     public interface IFocusOptionalInner : IFrameOptionalInner, IFocusSingleInner
     {
         /// <summary>
@@ -16,10 +14,7 @@
         new IFocusOptionalNodeState ChildState { get; }
     }
 
-    /// <summary>
-    /// Inner for an optional node.
-    /// </summary>
-    /// <typeparam name="IIndex">Type of the index.</typeparam>
+    /// <inheritdoc/>
     internal interface IFocusOptionalInner<out IIndex> : IFrameOptionalInner<IIndex>, IFocusSingleInner<IIndex>
         where IIndex : IFocusBrowsingOptionalNodeIndex
     {
@@ -29,18 +24,13 @@
         new IFocusOptionalNodeState ChildState { get; }
     }
 
-    /// <summary>
-    /// Inner for an optional node.
-    /// </summary>
-    /// <typeparam name="IIndex">Type of the index as interface.</typeparam>
-    /// <typeparam name="TIndex">Type of the index as class.</typeparam>
-    internal class FocusOptionalInner<IIndex, TIndex> : FrameOptionalInner<IIndex, TIndex>, IFocusOptionalInner<IIndex>, IFocusOptionalInner
+    /// <inheritdoc/>
+    internal class FocusOptionalInner<IIndex> : FrameOptionalInner<IIndex>, IFocusOptionalInner<IIndex>, IFocusOptionalInner
         where IIndex : IFocusBrowsingOptionalNodeIndex
-        where TIndex : FocusBrowsingOptionalNodeIndex, IIndex
     {
         #region Init
         /// <summary>
-        /// Initializes a new instance of the <see cref="FocusOptionalInner{IIndex, TIndex}"/> class.
+        /// Initializes a new instance of the <see cref="FocusOptionalInner{IIndex}"/> class.
         /// </summary>
         /// <param name="owner">Parent containing the inner.</param>
         /// <param name="propertyName">Property name of the inner in <paramref name="owner"/>.</param>
@@ -68,7 +58,7 @@
         /// </summary>
         private protected override IReadOnlyOptionalNodeState CreateNodeState(IReadOnlyBrowsingOptionalNodeIndex nodeIndex)
         {
-            ControllerTools.AssertNoOverride(this, typeof(FocusOptionalInner<IIndex, TIndex>));
+            ControllerTools.AssertNoOverride(this, typeof(FocusOptionalInner<IIndex>));
             return new FocusOptionalNodeState<IFocusInner<IFocusBrowsingChildIndex>>((IFocusBrowsingOptionalNodeIndex)nodeIndex);
         }
 
@@ -77,7 +67,7 @@
         /// </summary>
         private protected override IWriteableBrowsingOptionalNodeIndex CreateBrowsingNodeIndex()
         {
-            ControllerTools.AssertNoOverride(this, typeof(FocusOptionalInner<IIndex, TIndex>));
+            ControllerTools.AssertNoOverride(this, typeof(FocusOptionalInner<IIndex>));
             return new FocusBrowsingOptionalNodeIndex(Owner.Node, PropertyName);
         }
         #endregion

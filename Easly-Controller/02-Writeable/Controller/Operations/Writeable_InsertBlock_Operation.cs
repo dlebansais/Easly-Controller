@@ -7,7 +7,66 @@
     /// <summary>
     /// Operation details for inserting a block with a single node in a block list.
     /// </summary>
-    public class WriteableInsertBlockOperation : WriteableInsertOperation
+    public interface IWriteableInsertBlockOperation : IWriteableInsertOperation
+    {
+        /// <summary>
+        /// Node where the block insertion is taking place.
+        /// </summary>
+        Node ParentNode { get; }
+
+        /// <summary>
+        /// Block list property of <see cref="ParentNode"/> where a block is inserted.
+        /// </summary>
+        string PropertyName { get; }
+
+        /// <summary>
+        /// Index of the inserted block.
+        /// </summary>
+        int BlockIndex { get; }
+
+        /// <summary>
+        /// The inserted block.
+        /// </summary>
+        IBlock Block { get; }
+
+        /// <summary>
+        /// The inserted node.
+        /// </summary>
+        Node Node { get; }
+
+        /// <summary>
+        /// Index of the state after it's inserted.
+        /// </summary>
+        IWriteableBrowsingExistingBlockNodeIndex BrowsingIndex { get; }
+
+        /// <summary>
+        /// Block state inserted.
+        /// </summary>
+        IWriteableBlockState BlockState { get; }
+
+        /// <summary>
+        /// State inserted.
+        /// </summary>
+        IWriteablePlaceholderNodeState ChildState { get; }
+
+        /// <summary>
+        /// Update the operation with details.
+        /// </summary>
+        /// <param name="browsingIndex">Index of the state after it's inserted.</param>
+        /// <param name="blockState">Block state inserted.</param>
+        /// <param name="childState">State inserted.</param>
+        void Update(IWriteableBrowsingExistingBlockNodeIndex browsingIndex, IWriteableBlockState blockState, IWriteablePlaceholderNodeState childState);
+
+        /// <summary>
+        /// Creates an operation to undo the insert block operation.
+        /// </summary>
+        WriteableRemoveBlockOperation ToRemoveBlockOperation();
+    }
+
+    /// <summary>
+    /// Operation details for inserting a block with a single node in a block list.
+    /// </summary>
+    public class WriteableInsertBlockOperation : WriteableInsertOperation, IWriteableInsertBlockOperation
     {
         #region Init
         /// <summary>
@@ -61,7 +120,7 @@
         /// <summary>
         /// Index of the state after it's inserted.
         /// </summary>
-        public WriteableBrowsingExistingBlockNodeIndex BrowsingIndex { get; private set; }
+        public IWriteableBrowsingExistingBlockNodeIndex BrowsingIndex { get; private set; }
 
         /// <summary>
         /// Block state inserted.
@@ -81,7 +140,7 @@
         /// <param name="browsingIndex">Index of the state after it's inserted.</param>
         /// <param name="blockState">Block state inserted.</param>
         /// <param name="childState">State inserted.</param>
-        public virtual void Update(WriteableBrowsingExistingBlockNodeIndex browsingIndex, IWriteableBlockState blockState, IWriteablePlaceholderNodeState childState)
+        public virtual void Update(IWriteableBrowsingExistingBlockNodeIndex browsingIndex, IWriteableBlockState blockState, IWriteablePlaceholderNodeState childState)
         {
             Debug.Assert(browsingIndex != null);
             Debug.Assert(blockState != null);

@@ -85,7 +85,7 @@
         /// <summary>
         /// Creates an operation to undo the remove block operation.
         /// </summary>
-        public virtual WriteableInsertBlockOperation ToInsertBlockOperation()
+        public virtual IWriteableInsertBlockOperation ToInsertBlockOperation()
         {
             return CreateInsertBlockOperation(BlockIndex, Block, Node, HandlerUndo, HandlerRedo, IsNested);
         }
@@ -95,7 +95,7 @@
         /// <summary>
         /// Creates a IxxxInsertBlockOperation object.
         /// </summary>
-        private protected virtual WriteableInsertBlockOperation CreateInsertBlockOperation(int blockIndex, IBlock block, Node node, Action<WriteableOperation> handlerRedo, Action<WriteableOperation> handlerUndo, bool isNested)
+        private protected virtual IWriteableInsertBlockOperation CreateInsertBlockOperation(int blockIndex, IBlock block, Node node, Action<WriteableOperation> handlerRedo, Action<WriteableOperation> handlerUndo, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableRemoveBlockOperation));
             return new WriteableInsertBlockOperation(ParentNode, PropertyName, blockIndex, block, node, handlerRedo, handlerUndo, isNested);

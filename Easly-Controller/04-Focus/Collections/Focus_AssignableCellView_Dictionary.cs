@@ -1,73 +1,66 @@
-﻿#pragma warning disable 1591
-
-namespace EaslyController.Focus
+﻿namespace EaslyController.Focus
 {
     using System.Collections.Generic;
+    using System.Diagnostics;
     using EaslyController.Frame;
 
-    /// <summary>
-    /// Dictionary of ..., IxxxAssignableCellView
-    /// </summary>
-    /// <typeparam name="TKey">Type of the key.</typeparam>
-    public interface IFocusAssignableCellViewDictionary<TKey> : IFrameAssignableCellViewDictionary<TKey>, IDictionary<TKey, IFocusAssignableCellView>
+    /// <inheritdoc/>
+    public class FocusAssignableCellViewDictionary<TKey> : FrameAssignableCellViewDictionary<TKey>, ICollection<KeyValuePair<TKey, IFocusAssignableCellView>>, IEnumerable<KeyValuePair<TKey, IFocusAssignableCellView>>, IDictionary<TKey, IFocusAssignableCellView>, IReadOnlyCollection<KeyValuePair<TKey, IFocusAssignableCellView>>, IReadOnlyDictionary<TKey, IFocusAssignableCellView>, IEqualComparable
     {
-        new IFocusAssignableCellView this[TKey key] { get; set; }
-        new int Count { get; }
-        new Dictionary<TKey, IFocusAssignableCellView>.Enumerator GetEnumerator();
-        new bool ContainsKey(TKey key);
-    }
+        #region TKey, IFocusAssignableCellView
+        void ICollection<KeyValuePair<TKey, IFocusAssignableCellView>>.Add(KeyValuePair<TKey, IFocusAssignableCellView> item) { Add(item.Key, item.Value); }
+        bool ICollection<KeyValuePair<TKey, IFocusAssignableCellView>>.Contains(KeyValuePair<TKey, IFocusAssignableCellView> item) { return ContainsKey(item.Key) && this[item.Key] == item.Value; }
+        void ICollection<KeyValuePair<TKey, IFocusAssignableCellView>>.CopyTo(KeyValuePair<TKey, IFocusAssignableCellView>[] array, int arrayIndex) { ((System.Collections.ICollection)this).CopyTo(array, arrayIndex); }
+        bool ICollection<KeyValuePair<TKey, IFocusAssignableCellView>>.Remove(KeyValuePair<TKey, IFocusAssignableCellView> item) { return Remove(item.Key); }
+        bool ICollection<KeyValuePair<TKey, IFocusAssignableCellView>>.IsReadOnly { get { return false; } }
+        IEnumerator<KeyValuePair<TKey, IFocusAssignableCellView>> IEnumerable<KeyValuePair<TKey, IFocusAssignableCellView>>.GetEnumerator() { return ((IList<KeyValuePair<TKey, IFocusAssignableCellView>>)this).GetEnumerator(); }
 
-    /// <summary>
-    /// Dictionary of ..., IxxxAssignableCellView
-    /// </summary>
-    /// <typeparam name="TKey">Type of the key.</typeparam>
-    internal class FocusAssignableCellViewDictionary<TKey> : Dictionary<TKey, IFocusAssignableCellView>, IFocusAssignableCellViewDictionary<TKey>
-    {
-        /// <summary>
-        /// Gets a read-only view of the dictionary.
-        /// </summary>
-        public virtual IFrameAssignableCellViewReadOnlyDictionary<TKey> ToReadOnly()
+        IFocusAssignableCellView IDictionary<TKey, IFocusAssignableCellView>.this[TKey key] { get { return (IFocusAssignableCellView)this[key]; } set { this[key] = value; } }
+        ICollection<TKey> IDictionary<TKey, IFocusAssignableCellView>.Keys { get { List<TKey> Result = new(); foreach (KeyValuePair<TKey, IFocusAssignableCellView> Entry in (ICollection<KeyValuePair<TKey, IFocusAssignableCellView>>)this) Result.Add(Entry.Key); return Result; } }
+        ICollection<IFocusAssignableCellView> IDictionary<TKey, IFocusAssignableCellView>.Values { get { List<IFocusAssignableCellView> Result = new(); foreach (KeyValuePair<TKey, IFocusAssignableCellView> Entry in (ICollection<KeyValuePair<TKey, IFocusAssignableCellView>>)this) Result.Add(Entry.Value); return Result; } }
+        void IDictionary<TKey, IFocusAssignableCellView>.Add(TKey key, IFocusAssignableCellView value) { Add(key, value); }
+        bool IDictionary<TKey, IFocusAssignableCellView>.ContainsKey(TKey key) { return ContainsKey(key); }
+        bool IDictionary<TKey, IFocusAssignableCellView>.Remove(TKey key) { return Remove(key); }
+        bool IDictionary<TKey, IFocusAssignableCellView>.TryGetValue(TKey key, out IFocusAssignableCellView value) { bool Result = TryGetValue(key, out IFrameAssignableCellView Value); value = (IFocusAssignableCellView)Value; return Result; }
+
+        IFocusAssignableCellView IReadOnlyDictionary<TKey, IFocusAssignableCellView>.this[TKey key] { get { return (IFocusAssignableCellView)this[key]; } }
+        IEnumerable<TKey> IReadOnlyDictionary<TKey, IFocusAssignableCellView>.Keys { get { List<TKey> Result = new(); foreach (KeyValuePair<TKey, IFocusAssignableCellView> Entry in (ICollection<KeyValuePair<TKey, IFocusAssignableCellView>>)this) Result.Add(Entry.Key); return Result; } }
+        IEnumerable<IFocusAssignableCellView> IReadOnlyDictionary<TKey, IFocusAssignableCellView>.Values { get { List<IFocusAssignableCellView> Result = new(); foreach (KeyValuePair<TKey, IFocusAssignableCellView> Entry in (ICollection<KeyValuePair<TKey, IFocusAssignableCellView>>)this) Result.Add(Entry.Value); return Result; } }
+        bool IReadOnlyDictionary<TKey, IFocusAssignableCellView>.ContainsKey(TKey key) { return ContainsKey(key); }
+        bool IReadOnlyDictionary<TKey, IFocusAssignableCellView>.TryGetValue(TKey key, out IFocusAssignableCellView value) { bool Result = TryGetValue(key, out IFrameAssignableCellView Value); value = (IFocusAssignableCellView)Value; return Result; }
+        #endregion
+
+        #region Debugging
+        /// <inheritdoc/>
+        public override bool IsEqual(CompareEqual comparer, IEqualComparable other)
         {
-            return new FocusAssignableCellViewReadOnlyDictionary<TKey>(this);
-        }
+            Debug.Assert(other != null);
 
-        #region Frame
-        IFrameAssignableCellView IDictionary<TKey, IFrameAssignableCellView>.this[TKey key] { get { return this[key]; } set { this[key] = (IFocusAssignableCellView)value; } }
-        void IDictionary<TKey, IFrameAssignableCellView>.Add(TKey key, IFrameAssignableCellView value) { Add(key, (IFocusAssignableCellView)value); }
-        ICollection<TKey> IDictionary<TKey, IFrameAssignableCellView>.Keys { get { return Keys; } }
+            if (!comparer.IsSameType(other, out FocusAssignableCellViewDictionary<TKey> AsAssignableCellViewDictionary))
+                return comparer.Failed();
 
-        bool IDictionary<TKey, IFrameAssignableCellView>.TryGetValue(TKey key, out IFrameAssignableCellView value)
-        {
-            bool Result = TryGetValue(key, out IFocusAssignableCellView Value);
-            value = Value;
-            return Result;
-        }
+            if (!comparer.IsSameCount(Count, AsAssignableCellViewDictionary.Count))
+                return comparer.Failed();
 
-        ICollection<IFrameAssignableCellView> IDictionary<TKey, IFrameAssignableCellView>.Values { get { return new List<IFrameAssignableCellView>(Values); } }
-
-        void ICollection<KeyValuePair<TKey, IFrameAssignableCellView>>.CopyTo(KeyValuePair<TKey, IFrameAssignableCellView>[] array, int arrayIndex)
-        {
-            foreach (KeyValuePair<TKey, IFocusAssignableCellView> Entry in this)
-                array[arrayIndex++] = new KeyValuePair<TKey, IFrameAssignableCellView>(Entry.Key, Entry.Value);
-        }
-
-        void ICollection<KeyValuePair<TKey, IFrameAssignableCellView>>.Add(KeyValuePair<TKey, IFrameAssignableCellView> item) { Add(item.Key, (IFocusAssignableCellView)item.Value); }
-        bool ICollection<KeyValuePair<TKey, IFrameAssignableCellView>>.Contains(KeyValuePair<TKey, IFrameAssignableCellView> item) { return ContainsKey(item.Key) && this[item.Key] == item.Value; }
-        bool ICollection<KeyValuePair<TKey, IFrameAssignableCellView>>.Remove(KeyValuePair<TKey, IFrameAssignableCellView> item) { return Remove(item.Key); }
-        bool ICollection<KeyValuePair<TKey, IFrameAssignableCellView>>.IsReadOnly { get { return ((ICollection<KeyValuePair<TKey, IFocusAssignableCellView>>)this).IsReadOnly; } }
-
-        IEnumerator<KeyValuePair<TKey, IFrameAssignableCellView>> IEnumerable<KeyValuePair<TKey, IFrameAssignableCellView>>.GetEnumerator()
-        {
-            List<KeyValuePair<TKey, IFrameAssignableCellView>> NewList = new List<KeyValuePair<TKey, IFrameAssignableCellView>>();
-            IEnumerator<KeyValuePair<TKey, IFocusAssignableCellView>> Enumerator = GetEnumerator();
-            while (Enumerator.MoveNext())
+            foreach (TKey Key in Keys)
             {
-                KeyValuePair<TKey, IFocusAssignableCellView> Entry = Enumerator.Current;
-                NewList.Add(new KeyValuePair<TKey, IFrameAssignableCellView>(Entry.Key, Entry.Value));
+                IFocusAssignableCellView Value = (IFocusAssignableCellView)this[Key];
+
+                if (!comparer.IsTrue(AsAssignableCellViewDictionary.ContainsKey(Key)))
+                    return comparer.Failed();
+
+                if (!comparer.VerifyEqual(Value, AsAssignableCellViewDictionary[Key]))
+                    return comparer.Failed();
             }
 
-            return NewList.GetEnumerator();
+            return true;
         }
         #endregion
+
+        /// <inheritdoc/>
+        public override FrameAssignableCellViewReadOnlyDictionary<TKey> ToReadOnly()
+        {
+            return new WriteableInnerReadOnlyDictionary<TKey>(this);
+        }
     }
 }

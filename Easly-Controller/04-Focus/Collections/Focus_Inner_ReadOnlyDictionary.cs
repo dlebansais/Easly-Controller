@@ -1,135 +1,46 @@
-﻿#pragma warning disable 1591
-
-namespace EaslyController.Focus
+﻿namespace EaslyController.Focus
 {
     using System.Collections.Generic;
-    using System.Collections.ObjectModel;
-    using System.Diagnostics;
-    using EaslyController.Frame;
     using EaslyController.ReadOnly;
-    using EaslyController.Writeable;
+    using EaslyController.Frame;
+    using System.Diagnostics;
 
-    /// <summary>
-    /// Read-only dictionary of ..., IxxxInner
-    /// </summary>
-    /// <typeparam name="TKey">Type of the key.</typeparam>
-    public interface IFocusInnerReadOnlyDictionary<TKey> : IFrameInnerReadOnlyDictionary<TKey>, IReadOnlyDictionary<TKey, IFocusInner>
+    /// <inheritdoc/>
+    public class FocusInnerReadOnlyDictionary<TKey> : FrameInnerReadOnlyDictionary<TKey>, ICollection<KeyValuePair<TKey, IFocusInner>>, IEnumerable<KeyValuePair<TKey, IFocusInner>>, IDictionary<TKey, IFocusInner>, IReadOnlyCollection<KeyValuePair<TKey, IFocusInner>>, IReadOnlyDictionary<TKey, IFocusInner>, IEqualComparable
     {
-        new IFocusInner this[TKey key] { get; }
-        new int Count { get; }
-        new bool ContainsKey(TKey key);
-        new IEnumerator<KeyValuePair<TKey, IFocusInner>> GetEnumerator();
-    }
-
-    /// <summary>
-    /// Read-only dictionary of ..., IxxxInner
-    /// </summary>
-    /// <typeparam name="TKey">Type of the key.</typeparam>
-    internal class FocusInnerReadOnlyDictionary<TKey> : ReadOnlyDictionary<TKey, IFocusInner>, IFocusInnerReadOnlyDictionary<TKey>
-    {
-        public FocusInnerReadOnlyDictionary(IFocusInnerDictionary<TKey> dictionary)
+        /// <inheritdoc/>
+        public FocusInnerReadOnlyDictionary(FocusInnerDictionary<TKey> dictionary)
             : base(dictionary)
         {
         }
 
-        #region ReadOnly
-        IReadOnlyInner IReadOnlyDictionary<TKey, IReadOnlyInner>.this[TKey key] { get { return this[key]; } }
-        IEnumerable<TKey> IReadOnlyDictionary<TKey, IReadOnlyInner>.Keys { get { return Keys; } }
+        #region TKey, IFocusInner
+        void ICollection<KeyValuePair<TKey, IFocusInner>>.Add(KeyValuePair<TKey, IFocusInner> item) { throw new System.InvalidOperationException(); }
+        void ICollection<KeyValuePair<TKey, IFocusInner>>.Clear() { throw new System.InvalidOperationException(); }
+        bool ICollection<KeyValuePair<TKey, IFocusInner>>.Contains(KeyValuePair<TKey, IFocusInner> item) { return ContainsKey(item.Key) && this[item.Key] == item.Value; }
+        void ICollection<KeyValuePair<TKey, IFocusInner>>.CopyTo(KeyValuePair<TKey, IFocusInner>[] array, int arrayIndex) { ((System.Collections.ICollection)this).CopyTo(array, arrayIndex); }
+        bool ICollection<KeyValuePair<TKey, IFocusInner>>.Remove(KeyValuePair<TKey, IFocusInner> item) { throw new System.InvalidOperationException(); }
+        bool ICollection<KeyValuePair<TKey, IFocusInner>>.IsReadOnly { get { return false; } }
+        IEnumerator<KeyValuePair<TKey, IFocusInner>> IEnumerable<KeyValuePair<TKey, IFocusInner>>.GetEnumerator() { return ((IList<KeyValuePair<TKey, IFocusInner>>)this).GetEnumerator(); }
 
-        bool IReadOnlyDictionary<TKey, IReadOnlyInner>.TryGetValue(TKey key, out IReadOnlyInner value)
-        {
-            bool Result = TryGetValue(key, out IFocusInner Value);
-            value = Value;
-            return Result;
-        }
+        IFocusInner IDictionary<TKey, IFocusInner>.this[TKey key] { get { return (IFocusInner)this[key]; } set { throw new System.InvalidOperationException(); } }
+        ICollection<TKey> IDictionary<TKey, IFocusInner>.Keys { get { List<TKey> Result = new(); foreach (KeyValuePair<TKey, IFocusInner> Entry in (ICollection<KeyValuePair<TKey, IFocusInner>>)this) Result.Add(Entry.Key); return Result; } }
+        ICollection<IFocusInner> IDictionary<TKey, IFocusInner>.Values { get { List<IFocusInner> Result = new(); foreach (KeyValuePair<TKey, IFocusInner> Entry in (ICollection<KeyValuePair<TKey, IFocusInner>>)this) Result.Add(Entry.Value); return Result; } }
+        void IDictionary<TKey, IFocusInner>.Add(TKey key, IFocusInner value) { throw new System.InvalidOperationException(); }
+        bool IDictionary<TKey, IFocusInner>.ContainsKey(TKey key) { return ContainsKey(key); }
+        bool IDictionary<TKey, IFocusInner>.Remove(TKey key) { throw new System.InvalidOperationException(); }
+        bool IDictionary<TKey, IFocusInner>.TryGetValue(TKey key, out IFocusInner value) { bool Result = TryGetValue(key, out IReadOnlyInner Value); value = (IFocusInner)Value; return Result; }
 
-        IEnumerable<IReadOnlyInner> IReadOnlyDictionary<TKey, IReadOnlyInner>.Values { get { return Values; } }
-
-        IEnumerator<KeyValuePair<TKey, IReadOnlyInner>> IEnumerable<KeyValuePair<TKey, IReadOnlyInner>>.GetEnumerator()
-        {
-            List<KeyValuePair<TKey, IReadOnlyInner>> NewList = new List<KeyValuePair<TKey, IReadOnlyInner>>();
-            foreach (KeyValuePair<TKey, IFocusInner> Entry in Dictionary)
-                NewList.Add(new KeyValuePair<TKey, IReadOnlyInner>(Entry.Key, Entry.Value));
-
-            return NewList.GetEnumerator();
-        }
-        #endregion
-
-        #region Writeable
-        IWriteableInner IWriteableInnerReadOnlyDictionary<TKey>.this[TKey key] { get { return this[key]; } }
-
-        IEnumerator<KeyValuePair<TKey, IWriteableInner>> IWriteableInnerReadOnlyDictionary<TKey>.GetEnumerator()
-        {
-            List<KeyValuePair<TKey, IWriteableInner>> NewList = new List<KeyValuePair<TKey, IWriteableInner>>();
-            foreach (KeyValuePair<TKey, IFocusInner> Entry in Dictionary)
-                NewList.Add(new KeyValuePair<TKey, IWriteableInner>(Entry.Key, Entry.Value));
-
-            return NewList.GetEnumerator();
-        }
-
-        IWriteableInner IReadOnlyDictionary<TKey, IWriteableInner>.this[TKey key] { get { return this[key]; } }
-        IEnumerable<TKey> IReadOnlyDictionary<TKey, IWriteableInner>.Keys { get { return Keys; } }
-
-        bool IReadOnlyDictionary<TKey, IWriteableInner>.TryGetValue(TKey key, out IWriteableInner value)
-        {
-            bool Result = TryGetValue(key, out IFocusInner Value);
-            value = Value;
-            return Result;
-        }
-
-        IEnumerable<IWriteableInner> IReadOnlyDictionary<TKey, IWriteableInner>.Values { get { return Values; } }
-
-        IEnumerator<KeyValuePair<TKey, IWriteableInner>> IEnumerable<KeyValuePair<TKey, IWriteableInner>>.GetEnumerator()
-        {
-            List<KeyValuePair<TKey, IWriteableInner>> NewList = new List<KeyValuePair<TKey, IWriteableInner>>();
-            foreach (KeyValuePair<TKey, IFocusInner> Entry in Dictionary)
-                NewList.Add(new KeyValuePair<TKey, IWriteableInner>(Entry.Key, Entry.Value));
-
-            return NewList.GetEnumerator();
-        }
-        #endregion
-
-        #region Frame
-        IFrameInner IFrameInnerReadOnlyDictionary<TKey>.this[TKey key] { get { return this[key]; } }
-
-        IEnumerator<KeyValuePair<TKey, IFrameInner>> IFrameInnerReadOnlyDictionary<TKey>.GetEnumerator()
-        {
-            List<KeyValuePair<TKey, IFrameInner>> NewList = new List<KeyValuePair<TKey, IFrameInner>>();
-            foreach (KeyValuePair<TKey, IFocusInner> Entry in Dictionary)
-                NewList.Add(new KeyValuePair<TKey, IFrameInner>(Entry.Key, Entry.Value));
-
-            return NewList.GetEnumerator();
-        }
-
-        IFrameInner IReadOnlyDictionary<TKey, IFrameInner>.this[TKey key] { get { return this[key]; } }
-        IEnumerable<TKey> IReadOnlyDictionary<TKey, IFrameInner>.Keys { get { return Keys; } }
-
-        bool IReadOnlyDictionary<TKey, IFrameInner>.TryGetValue(TKey key, out IFrameInner value)
-        {
-            bool Result = TryGetValue(key, out IFocusInner Value);
-            value = Value;
-            return Result;
-        }
-
-        IEnumerable<IFrameInner> IReadOnlyDictionary<TKey, IFrameInner>.Values { get { return Values; } }
-
-        IEnumerator<KeyValuePair<TKey, IFrameInner>> IEnumerable<KeyValuePair<TKey, IFrameInner>>.GetEnumerator()
-        {
-            List<KeyValuePair<TKey, IFrameInner>> NewList = new List<KeyValuePair<TKey, IFrameInner>>();
-            foreach (KeyValuePair<TKey, IFocusInner> Entry in Dictionary)
-                NewList.Add(new KeyValuePair<TKey, IFrameInner>(Entry.Key, Entry.Value));
-
-            return NewList.GetEnumerator();
-        }
+        IFocusInner IReadOnlyDictionary<TKey, IFocusInner>.this[TKey key] { get { return (IFocusInner)this[key]; } }
+        IEnumerable<TKey> IReadOnlyDictionary<TKey, IFocusInner>.Keys { get { List<TKey> Result = new(); foreach (KeyValuePair<TKey, IFocusInner> Entry in (ICollection<KeyValuePair<TKey, IFocusInner>>)this) Result.Add(Entry.Key); return Result; } }
+        IEnumerable<IFocusInner> IReadOnlyDictionary<TKey, IFocusInner>.Values { get { List<IFocusInner> Result = new(); foreach (KeyValuePair<TKey, IFocusInner> Entry in (ICollection<KeyValuePair<TKey, IFocusInner>>)this) Result.Add(Entry.Value); return Result; } }
+        bool IReadOnlyDictionary<TKey, IFocusInner>.ContainsKey(TKey key) { return ContainsKey(key); }
+        bool IReadOnlyDictionary<TKey, IFocusInner>.TryGetValue(TKey key, out IFocusInner value) { bool Result = TryGetValue(key, out IReadOnlyInner Value); value = (IFocusInner)Value; return Result; }
         #endregion
 
         #region Debugging
-        /// <summary>
-        /// Compares two <see cref="FocusInnerReadOnlyDictionary{TKey}"/> objects.
-        /// </summary>
-        /// <param name="comparer">The comparison support object.</param>
-        /// <param name="other">The other object.</param>
-        public virtual bool IsEqual(CompareEqual comparer, IEqualComparable other)
+        /// <inheritdoc/>
+        public override bool IsEqual(CompareEqual comparer, IEqualComparable other)
         {
             Debug.Assert(other != null);
 
@@ -139,12 +50,14 @@ namespace EaslyController.Focus
             if (!comparer.IsSameCount(Count, AsInnerReadOnlyDictionary.Count))
                 return comparer.Failed();
 
-            foreach (KeyValuePair<TKey, IFocusInner> Entry in this)
+            foreach (TKey Key in Keys)
             {
-                if (!comparer.IsTrue(AsInnerReadOnlyDictionary.ContainsKey(Entry.Key)))
+                IFocusInner Value = (IFocusInner)this[Key];
+
+                if (!comparer.IsTrue(AsInnerReadOnlyDictionary.ContainsKey(Key)))
                     return comparer.Failed();
 
-                if (!comparer.VerifyEqual(Entry.Value, AsInnerReadOnlyDictionary[Entry.Key]))
+                if (!comparer.VerifyEqual(Value, AsInnerReadOnlyDictionary[Key]))
                     return comparer.Failed();
             }
 

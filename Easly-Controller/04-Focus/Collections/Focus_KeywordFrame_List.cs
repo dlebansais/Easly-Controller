@@ -1,39 +1,28 @@
-﻿#pragma warning disable 1591
-
-namespace EaslyController.Focus
+﻿namespace EaslyController.Focus
 {
     using System.Collections.Generic;
-    using System.Collections.ObjectModel;
     using EaslyController.Frame;
 
-    /// <summary>
-    /// List of IxxxKeywordFrame
-    /// </summary>
-    public interface IFocusKeywordFrameList : IFrameKeywordFrameList, IList<IFocusKeywordFrame>, IReadOnlyList<IFocusKeywordFrame>
+    /// <inheritdoc/>
+    public class FocusKeywordFrameList : FrameKeywordFrameList, ICollection<IFocusKeywordFrame>, IEnumerable<IFocusKeywordFrame>, IList<IFocusKeywordFrame>, IReadOnlyCollection<IFocusKeywordFrame>, IReadOnlyList<IFocusKeywordFrame>
     {
-        new IFocusKeywordFrame this[int index] { get; set; }
-        new int Count { get; }
-        new IEnumerator<IFocusKeywordFrame> GetEnumerator();
-        new void Clear();
-    }
-
-    /// <summary>
-    /// List of IxxxKeywordFrame
-    /// </summary>
-    internal class FocusKeywordFrameList : Collection<IFocusKeywordFrame>, IFocusKeywordFrameList
-    {
-        #region Frame
-        IFrameKeywordFrame IFrameKeywordFrameList.this[int index] { get { return this[index]; } set { this[index] = (IFocusKeywordFrame)value; } }
-        IFrameKeywordFrame IList<IFrameKeywordFrame>.this[int index] { get { return this[index]; } set { this[index] = (IFocusKeywordFrame)value; } }
-        int IList<IFrameKeywordFrame>.IndexOf(IFrameKeywordFrame value) { return IndexOf((IFocusKeywordFrame)value); }
-        void IList<IFrameKeywordFrame>.Insert(int index, IFrameKeywordFrame item) { Insert(index, (IFocusKeywordFrame)item); }
-        void ICollection<IFrameKeywordFrame>.Add(IFrameKeywordFrame item) { Add((IFocusKeywordFrame)item); }
-        bool ICollection<IFrameKeywordFrame>.Contains(IFrameKeywordFrame value) { return Contains((IFocusKeywordFrame)value); }
-        void ICollection<IFrameKeywordFrame>.CopyTo(IFrameKeywordFrame[] array, int index) { CopyTo((IFocusKeywordFrame[])array, index); }
-        bool ICollection<IFrameKeywordFrame>.IsReadOnly { get { return ((ICollection<IFocusKeywordFrame>)this).IsReadOnly; } }
-        bool ICollection<IFrameKeywordFrame>.Remove(IFrameKeywordFrame item) { return Remove((IFocusKeywordFrame)item); }
-        IEnumerator<IFrameKeywordFrame> IEnumerable<IFrameKeywordFrame>.GetEnumerator() { return GetEnumerator(); }
-        IFrameKeywordFrame IReadOnlyList<IFrameKeywordFrame>.this[int index] { get { return this[index]; } }
+        #region IFocusKeywordFrame
+        void ICollection<IFocusKeywordFrame>.Add(IFocusKeywordFrame item) { Add(item); }
+        bool ICollection<IFocusKeywordFrame>.Contains(IFocusKeywordFrame item) { return Contains(item); }
+        void ICollection<IFocusKeywordFrame>.CopyTo(IFocusKeywordFrame[] array, int arrayIndex) { ((System.Collections.ICollection)this).CopyTo(array, arrayIndex); }
+        bool ICollection<IFocusKeywordFrame>.Remove(IFocusKeywordFrame item) { return Remove(item); }
+        bool ICollection<IFocusKeywordFrame>.IsReadOnly { get { return ((ICollection<IFrameKeywordFrame>)this).IsReadOnly; } }
+        IEnumerator<IFocusKeywordFrame> IEnumerable<IFocusKeywordFrame>.GetEnumerator() { return ((IList<IFocusKeywordFrame>)this).GetEnumerator(); }
+        IFocusKeywordFrame IList<IFocusKeywordFrame>.this[int index] { get { return (IFocusKeywordFrame)this[index]; } set { this[index] = value; } }
+        int IList<IFocusKeywordFrame>.IndexOf(IFocusKeywordFrame item) { return IndexOf(item); }
+        void IList<IFocusKeywordFrame>.Insert(int index, IFocusKeywordFrame item) { Insert(index, item); }
+        IFocusKeywordFrame IReadOnlyList<IFocusKeywordFrame>.this[int index] { get { return (IFocusKeywordFrame)this[index]; } }
         #endregion
+
+        /// <inheritdoc/>
+        public override FrameKeywordFrameReadOnlyList ToReadOnly()
+        {
+            return new FocusKeywordFrameReadOnlyList(this);
+        }
     }
 }

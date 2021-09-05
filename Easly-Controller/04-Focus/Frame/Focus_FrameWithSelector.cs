@@ -9,6 +9,6 @@
         /// List of optional selectors.
         /// (Set in Xaml)
         /// </summary>
-        IFocusFrameSelectorList Selectors { get; }
+        FocusFrameSelectorList Selectors { get; }
     }
 }

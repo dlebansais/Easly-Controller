@@ -14,7 +14,7 @@
         /// <summary>
         /// List of frames among which to select.
         /// </summary>
-        IFocusSelectableFrameList Items { get; }
+        FocusSelectableFrameList Items { get; }
     }
 
     /// <summary>
@@ -37,7 +37,7 @@
         /// <summary>
         /// List of frames among which to select.
         /// </summary>
-        public IFocusSelectableFrameList Items { get; }
+        public FocusSelectableFrameList Items { get; }
 
         private protected virtual bool IsParentRoot { get { return ParentFrame == FocusFrame.FocusRoot; } }
         #endregion
@@ -49,7 +49,7 @@
         /// <param name="nodeType">Type of the node this frame can describe.</param>
         /// <param name="nodeTemplateTable">Table of templates with all frames.</param>
         /// <param name="commentFrameCount">Number of comment frames found so far.</param>
-        public override bool IsValid(Type nodeType, IFrameTemplateReadOnlyDictionary nodeTemplateTable, ref int commentFrameCount)
+        public override bool IsValid(Type nodeType, FrameTemplateReadOnlyDictionary nodeTemplateTable, ref int commentFrameCount)
         {
             bool IsValid = true;
 
@@ -59,8 +59,8 @@
 
             List<string> NameList = new List<string>();
             int SelectionCommentFrameCount = -1;
-            List<Dictionary<string, IFocusFrameSelectorList>> SelectorTableList = new List<Dictionary<string, IFocusFrameSelectorList>>();
-            Dictionary<string, IFocusFrameSelectorList> SelectorTable;
+            List<Dictionary<string, FocusFrameSelectorList>> SelectorTableList = new List<Dictionary<string, FocusFrameSelectorList>>();
+            Dictionary<string, FocusFrameSelectorList> SelectorTable;
 
             foreach (IFocusSelectableFrame Item in Items)
             {
@@ -77,7 +77,7 @@
 
                 NameList.Add(Item.Name);
 
-                SelectorTable = new Dictionary<string, IFocusFrameSelectorList>();
+                SelectorTable = new Dictionary<string, FocusFrameSelectorList>();
                 Item.CollectSelectors(SelectorTable);
                 SelectorTableList.Add(SelectorTable);
             }
@@ -86,25 +86,25 @@
             commentFrameCount += SelectionCommentFrameCount;
 
             // Check that all selectable have the same nested selectors. See FrameSelectorForProperty().
-            SelectorTable = new Dictionary<string, IFocusFrameSelectorList>();
+            SelectorTable = new Dictionary<string, FocusFrameSelectorList>();
             CollectSelectors(SelectorTable);
             Debug.Assert(SelectorTable.Count == 0);
 
             List<string> PropertyNameList = new List<string>();
-            foreach (Dictionary<string, IFocusFrameSelectorList> Table in SelectorTableList)
-                foreach (KeyValuePair<string, IFocusFrameSelectorList> Entry in Table)
+            foreach (Dictionary<string, FocusFrameSelectorList> Table in SelectorTableList)
+                foreach (KeyValuePair<string, FocusFrameSelectorList> Entry in Table)
                     if (!PropertyNameList.Contains(Entry.Key))
                         PropertyNameList.Add(Entry.Key);
 
             foreach (string PropertyName in PropertyNameList)
             {
-                List<IFocusFrameSelectorList> TableWithPropertyList = new List<IFocusFrameSelectorList>();
-                foreach (Dictionary<string, IFocusFrameSelectorList> Table in SelectorTableList)
+                List<FocusFrameSelectorList> TableWithPropertyList = new List<FocusFrameSelectorList>();
+                foreach (Dictionary<string, FocusFrameSelectorList> Table in SelectorTableList)
                     if (Table.ContainsKey(PropertyName))
                         TableWithPropertyList.Add(Table[PropertyName]);
 
                 Debug.Assert(TableWithPropertyList.Count > 0);
-                IFocusFrameSelectorList FirstItem = TableWithPropertyList[0];
+                FocusFrameSelectorList FirstItem = TableWithPropertyList[0];
 
                 CompareEqual Comparer = CompareEqual.New(canReturnFalse: true);
                 for (int i = 1; i < TableWithPropertyList.Count; i++)
@@ -170,7 +170,7 @@
         /// Gets selectors in the frame and nested frames.
         /// </summary>
         /// <param name="selectorTable">The table of selectors to update.</param>
-        public virtual void CollectSelectors(Dictionary<string, IFocusFrameSelectorList> selectorTable)
+        public virtual void CollectSelectors(Dictionary<string, FocusFrameSelectorList> selectorTable)
         {
         }
         #endregion
@@ -179,7 +179,7 @@
         /// <summary>
         /// Creates a IxxxSelectableFrameList object.
         /// </summary>
-        private protected virtual IFocusSelectableFrameList CreateSelectableFrameList()
+        private protected virtual FocusSelectableFrameList CreateSelectableFrameList()
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusSelectionFrame));
             return new FocusSelectableFrameList();

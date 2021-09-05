@@ -52,7 +52,7 @@
         /// </summary>
         /// <param name="inner">The inner for the list or block list from which the node is removed.</param>
         /// <param name="nodeIndex">Index for the removed node.</param>
-        public virtual void Remove(IWriteableCollectionInner inner, WriteableBrowsingCollectionNodeIndex nodeIndex)
+        public virtual void Remove(IWriteableCollectionInner inner, IWriteableBrowsingCollectionNodeIndex nodeIndex)
         {
             Debug.Assert(inner != null);
             Debug.Assert(nodeIndex != null);
@@ -114,8 +114,8 @@
             IWriteableBlockState RemovedBlockState = operation.BlockState;
             Debug.Assert(RemovedBlockState != null);
 
-            WriteableBrowsingPatternIndex PatternIndex = RemovedBlockState.PatternIndex;
-            WriteableBrowsingSourceIndex SourceIndex = RemovedBlockState.SourceIndex;
+            IWriteableBrowsingPatternIndex PatternIndex = RemovedBlockState.PatternIndex;
+            IWriteableBrowsingSourceIndex SourceIndex = RemovedBlockState.SourceIndex;
 
             Debug.Assert(PatternIndex != null);
             Debug.Assert(StateTable.ContainsKey(PatternIndex));
@@ -142,7 +142,7 @@
         private protected virtual void UndoRemoveBlock(WriteableOperation operation)
         {
             WriteableRemoveBlockOperation RemoveBlockOperation = (WriteableRemoveBlockOperation)operation;
-            WriteableInsertBlockOperation InsertBlockOperation = RemoveBlockOperation.ToInsertBlockOperation();
+            IWriteableInsertBlockOperation InsertBlockOperation = RemoveBlockOperation.ToInsertBlockOperation();
 
             ExecuteInsertNewBlock(InsertBlockOperation);
         }

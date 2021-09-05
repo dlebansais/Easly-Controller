@@ -6,15 +6,13 @@
     using EaslyController.ReadOnly;
     using EaslyController.Writeable;
 
-    /// <summary>
-    /// Inner for a block list.
-    /// </summary>
+    /// <inheritdoc/>
     public interface IFocusBlockListInner : IFrameBlockListInner, IFocusCollectionInner
     {
         /// <summary>
         /// States of blocks in the block list.
         /// </summary>
-        new IFocusBlockStateReadOnlyList BlockStateList { get; }
+        new FocusBlockStateReadOnlyList BlockStateList { get; }
 
         /// <summary>
         /// First node state that can be enumerated in the inner.
@@ -22,17 +20,14 @@
         new IFocusPlaceholderNodeState FirstNodeState { get; }
     }
 
-    /// <summary>
-    /// Inner for a block list.
-    /// </summary>
-    /// <typeparam name="IIndex">Type of the index.</typeparam>
+    /// <inheritdoc/>
     internal interface IFocusBlockListInner<out IIndex> : IFrameBlockListInner<IIndex>, IFocusCollectionInner<IIndex>
         where IIndex : IFocusBrowsingBlockNodeIndex
     {
         /// <summary>
         /// States of blocks in the block list.
         /// </summary>
-        new IFocusBlockStateReadOnlyList BlockStateList { get; }
+        new FocusBlockStateReadOnlyList BlockStateList { get; }
 
         /// <summary>
         /// First node state that can be enumerated in the inner.
@@ -40,18 +35,13 @@
         new IFocusPlaceholderNodeState FirstNodeState { get; }
     }
 
-    /// <summary>
-    /// Inner for a block list.
-    /// </summary>
-    /// <typeparam name="IIndex">Type of the index as interface.</typeparam>
-    /// <typeparam name="TIndex">Type of the index as class.</typeparam>
-    internal class FocusBlockListInner<IIndex, TIndex> : FrameBlockListInner<IIndex, TIndex>, IFocusBlockListInner<IIndex>, IFocusBlockListInner
+    /// <inheritdoc/>
+    internal class FocusBlockListInner<IIndex> : FrameBlockListInner<IIndex>, IFocusBlockListInner<IIndex>, IFocusBlockListInner
         where IIndex : IFocusBrowsingBlockNodeIndex
-        where TIndex : FocusBrowsingBlockNodeIndex, IIndex
     {
         #region Init
         /// <summary>
-        /// Initializes a new instance of the <see cref="FocusBlockListInner{IIndex, TIndex}"/> class.
+        /// Initializes a new instance of the <see cref="FocusBlockListInner{IIndex}"/> class.
         /// </summary>
         /// <param name="owner">Parent containing the inner.</param>
         /// <param name="propertyName">Property name of the inner in <paramref name="owner"/>.</param>
@@ -70,7 +60,7 @@
         /// <summary>
         /// States of blocks in the block list.
         /// </summary>
-        public new IFocusBlockStateReadOnlyList BlockStateList { get { return (IFocusBlockStateReadOnlyList)base.BlockStateList; } }
+        public new FocusBlockStateReadOnlyList BlockStateList { get { return (FocusBlockStateReadOnlyList)base.BlockStateList; } }
 
         /// <summary>
         /// First node state that can be enumerated in the inner.
@@ -82,9 +72,9 @@
         /// <summary>
         /// Creates a IxxxBlockStateList object.
         /// </summary>
-        private protected override IReadOnlyBlockStateList CreateBlockStateList()
+        private protected override ReadOnlyBlockStateList CreateBlockStateList()
         {
-            ControllerTools.AssertNoOverride(this, typeof(FocusBlockListInner<IIndex, TIndex>));
+            ControllerTools.AssertNoOverride(this, typeof(FocusBlockListInner<IIndex>));
             return new FocusBlockStateList();
         }
 
@@ -93,7 +83,7 @@
         /// </summary>
         private protected override IReadOnlyBlockState CreateBlockState(IReadOnlyBrowsingNewBlockNodeIndex nodeIndex, IBlock childBlock)
         {
-            ControllerTools.AssertNoOverride(this, typeof(FocusBlockListInner<IIndex, TIndex>));
+            ControllerTools.AssertNoOverride(this, typeof(FocusBlockListInner<IIndex>));
             return new FocusBlockState<IFocusInner<IFocusBrowsingChildIndex>>(this, (IFocusBrowsingNewBlockNodeIndex)nodeIndex, childBlock);
         }
 
@@ -102,16 +92,16 @@
         /// </summary>
         private protected override IReadOnlyPlaceholderNodeState CreateNodeState(IReadOnlyNodeIndex nodeIndex)
         {
-            ControllerTools.AssertNoOverride(this, typeof(FocusBlockListInner<IIndex, TIndex>));
+            ControllerTools.AssertNoOverride(this, typeof(FocusBlockListInner<IIndex>));
             return new FocusPlaceholderNodeState<IFocusInner<IFocusBrowsingChildIndex>>((IFocusNodeIndex)nodeIndex);
         }
 
         /// <summary>
         /// Creates a IxxxBrowsingBlockNodeIndexList.
         /// </summary>
-        private protected override IReadOnlyBrowsingBlockNodeIndexList CreateBlockNodeIndexList()
+        private protected override ReadOnlyBrowsingBlockNodeIndexList CreateBlockNodeIndexList()
         {
-            ControllerTools.AssertNoOverride(this, typeof(FocusBlockListInner<IIndex, TIndex>));
+            ControllerTools.AssertNoOverride(this, typeof(FocusBlockListInner<IIndex>));
             return new FocusBrowsingBlockNodeIndexList();
         }
 
@@ -120,7 +110,7 @@
         /// </summary>
         private protected override IWriteableBrowsingExistingBlockNodeIndex CreateBrowsingNodeIndex(Node node, int blockIndex, int index)
         {
-            ControllerTools.AssertNoOverride(this, typeof(FocusBlockListInner<IIndex, TIndex>));
+            ControllerTools.AssertNoOverride(this, typeof(FocusBlockListInner<IIndex>));
             return new FocusBrowsingExistingBlockNodeIndex(Owner.Node, node, PropertyName, blockIndex, index);
         }
 
@@ -129,7 +119,7 @@
         /// </summary>
         private protected override IWriteableBrowsingNewBlockNodeIndex CreateNewBlockNodeIndex(Node node, int blockIndex)
         {
-            ControllerTools.AssertNoOverride(this, typeof(FocusBlockListInner<IIndex, TIndex>));
+            ControllerTools.AssertNoOverride(this, typeof(FocusBlockListInner<IIndex>));
             return new FocusBrowsingNewBlockNodeIndex(Owner.Node, node, PropertyName, blockIndex);
         }
         #endregion

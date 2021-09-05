@@ -13,7 +13,7 @@
         /// <summary>
         /// The view in which cells are created.
         /// </summary>
-        new IFocusControllerView ControllerView { get; }
+        new FocusControllerView ControllerView { get; }
 
         /// <summary>
         /// The state view for which to create cells.
@@ -23,7 +23,7 @@
         /// <summary>
         /// The block state view for which to create cells. Can be null.
         /// </summary>
-        new IFocusBlockStateView BlockStateView { get; }
+        new FocusBlockStateView BlockStateView { get; }
 
         /// <summary>
         /// The state view for which the comment must be visible, even if empty.
@@ -74,13 +74,13 @@
         /// Adds new selectors to the table.
         /// </summary>
         /// <param name="selectors">Selectors to add.</param>
-        void AddSelectors(IFocusFrameSelectorList selectors);
+        void AddSelectors(FocusFrameSelectorList selectors);
 
         /// <summary>
         /// Removes selectors from the table.
         /// </summary>
         /// <param name="selectors">Selectors to add.</param>
-        void RemoveSelectors(IFocusFrameSelectorList selectors);
+        void RemoveSelectors(FocusFrameSelectorList selectors);
 
         /// <summary>
         /// Adds new selectors to the table. This method is allowed to substitute one selector.
@@ -88,7 +88,7 @@
         /// <param name="selectors">Selectors to add.</param>
         /// <param name="oldSelectorType">Previous value for a substituted selector type upon return. Null if none.</param>
         /// <param name="oldSelectorName">Previous value for a substituted selector name upon return. Null if none.</param>
-        void AddOrReplaceSelectors(IFocusFrameSelectorList selectors, out Type oldSelectorType, out string oldSelectorName);
+        void AddOrReplaceSelectors(FocusFrameSelectorList selectors, out Type oldSelectorType, out string oldSelectorName);
 
         /// <summary>
         /// Removes selectors from the table.
@@ -97,7 +97,7 @@
         /// <param name="selectors">Selectors to add.</param>
         /// <param name="oldSelectorType">Previous value for a substituted selector type.</param>
         /// <param name="oldSelectorName">Previous value for a substituted selector name.</param>
-        void RemoveOrRestoreSelectors(IFocusFrameSelectorList selectors, Type oldSelectorType, string oldSelectorName);
+        void RemoveOrRestoreSelectors(FocusFrameSelectorList selectors, Type oldSelectorType, string oldSelectorName);
 
         /// <summary>
         /// Sets the <see cref="IsUserVisible"/> flag.
@@ -131,7 +131,7 @@
         /// <param name="controllerView">The view in which cells are created.</param>
         /// <param name="stateView">The state view for which to create cells.</param>
         /// <param name="forcedCommentStateView">The state view for which the comment must be visible, even if empty.</param>
-        public FocusCellViewTreeContext(IFrameControllerView controllerView, IFrameNodeStateView stateView, IFocusNodeStateView forcedCommentStateView)
+        public FocusCellViewTreeContext(FrameControllerView controllerView, IFrameNodeStateView stateView, IFocusNodeStateView forcedCommentStateView)
             : base(controllerView, stateView)
         {
             ForcedCommentStateView = forcedCommentStateView;
@@ -145,7 +145,7 @@
         /// <summary>
         /// The view in which cells are created.
         /// </summary>
-        public new IFocusControllerView ControllerView { get { return (IFocusControllerView)base.ControllerView; } }
+        public new FocusControllerView ControllerView { get { return (FocusControllerView)base.ControllerView; } }
 
         /// <summary>
         /// The state view for which to create cells.
@@ -155,7 +155,7 @@
         /// <summary>
         /// The block state view for which to create cells. Can be null.
         /// </summary>
-        public new IFocusBlockStateView BlockStateView { get { return (IFocusBlockStateView)base.BlockStateView; } }
+        public new FocusBlockStateView BlockStateView { get { return (FocusBlockStateView)base.BlockStateView; } }
 
         /// <summary>
         /// The state view for which the comment must be visible, even if empty.
@@ -245,7 +245,7 @@
         /// Adds new selectors to the table.
         /// </summary>
         /// <param name="selectors">Selectors to add.</param>
-        public virtual void AddSelectors(IFocusFrameSelectorList selectors)
+        public virtual void AddSelectors(FocusFrameSelectorList selectors)
         {
             Debug.Assert(selectors != null);
 
@@ -260,7 +260,7 @@
         /// Removes selectors from the table.
         /// </summary>
         /// <param name="selectors">Selectors to add.</param>
-        public virtual void RemoveSelectors(IFocusFrameSelectorList selectors)
+        public virtual void RemoveSelectors(FocusFrameSelectorList selectors)
         {
             Debug.Assert(selectors != null);
 
@@ -277,7 +277,7 @@
         /// <param name="selectors">Selectors to add.</param>
         /// <param name="oldSelectorType">Previous value for a substituted selector type upon return. Null if none.</param>
         /// <param name="oldSelectorName">Previous value for a substituted selector name upon return. Null if none.</param>
-        public virtual void AddOrReplaceSelectors(IFocusFrameSelectorList selectors, out Type oldSelectorType, out string oldSelectorName)
+        public virtual void AddOrReplaceSelectors(FocusFrameSelectorList selectors, out Type oldSelectorType, out string oldSelectorName)
         {
             Debug.Assert(selectors != null);
 
@@ -306,7 +306,7 @@
         /// <param name="selectors">Selectors to add.</param>
         /// <param name="oldSelectorType">Previous value for a substituted selector type.</param>
         /// <param name="oldSelectorName">Previous value for a substituted selector name.</param>
-        public virtual void RemoveOrRestoreSelectors(IFocusFrameSelectorList selectors, Type oldSelectorType, string oldSelectorName)
+        public virtual void RemoveOrRestoreSelectors(FocusFrameSelectorList selectors, Type oldSelectorType, string oldSelectorName)
         {
             Debug.Assert(selectors != null);
 

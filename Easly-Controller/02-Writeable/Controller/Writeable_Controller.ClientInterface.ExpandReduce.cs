@@ -106,7 +106,7 @@
 
                 Action<WriteableOperation> HandlerRedo = (WriteableOperation operation) => RedoReplace(operation);
                 Action<WriteableOperation> HandlerUndo = (WriteableOperation operation) => UndoReplace(operation);
-                WriteableReplaceOperation Operation = CreateReplaceOperation(optionalInner.Owner.Node, optionalInner.PropertyName, -1, -1, NewNode, HandlerRedo, HandlerUndo, isNested: false);
+                IWriteableReplaceOperation Operation = CreateReplaceOperation(optionalInner.Owner.Node, optionalInner.PropertyName, -1, -1, NewNode, HandlerRedo, HandlerUndo, isNested: false);
 
                 Operation.Redo();
 

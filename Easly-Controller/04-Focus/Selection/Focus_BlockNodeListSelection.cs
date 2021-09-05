@@ -126,7 +126,7 @@
             Debug.Assert(ParentInner != null);
             Debug.Assert(BlockIndex >= 0 && BlockIndex < ParentInner.BlockStateList.Count);
 
-            IFocusBlockState BlockState = ParentInner.BlockStateList[BlockIndex];
+            IFocusBlockState BlockState = (IFocusBlockState)ParentInner.BlockStateList[BlockIndex];
 
             List<Node> NodeList = new List<Node>();
             for (int i = StartIndex; i < EndIndex; i++)
@@ -160,7 +160,7 @@
             Debug.Assert(ParentInner != null);
             Debug.Assert(BlockIndex >= 0 && BlockIndex < ParentInner.BlockStateList.Count);
 
-            IFocusBlockState BlockState = ParentInner.BlockStateList[BlockIndex];
+            IFocusBlockState BlockState = (IFocusBlockState)ParentInner.BlockStateList[BlockIndex];
             Debug.Assert(StartIndex < BlockState.StateList.Count);
             Debug.Assert(EndIndex <= BlockState.StateList.Count);
             Debug.Assert(StartIndex <= EndIndex);
@@ -179,7 +179,7 @@
                 if (NodeList.Count == 0 || ParentInner.InterfaceType.IsAssignableFrom(NodeList[0].GetType()))
                 {
                     List<IWriteableInsertionCollectionNodeIndex> IndexList = new List<IWriteableInsertionCollectionNodeIndex>();
-                    IFocusController Controller = StateView.ControllerView.Controller;
+                    FocusController Controller = StateView.ControllerView.Controller;
                     int OldNodeCount = ParentInner.Count;
                     int SelectionCount = EndIndex - StartIndex;
                     int InsertionNodeIndex = EndIndex;
@@ -219,7 +219,7 @@
             Debug.Assert(ParentInner != null);
             Debug.Assert(BlockIndex >= 0 && BlockIndex < ParentInner.BlockStateList.Count);
 
-            IFocusBlockState BlockState = ParentInner.BlockStateList[BlockIndex];
+            IFocusBlockState BlockState = (IFocusBlockState)ParentInner.BlockStateList[BlockIndex];
 
             int OldNodeCount = ParentInner.Count;
             int SelectionCount = EndIndex - StartIndex;
@@ -235,7 +235,7 @@
                     ClipboardHelper.WriteNodeList(dataObject, NodeList);
                 }
 
-                IFocusController Controller = StateView.ControllerView.Controller;
+                FocusController Controller = StateView.ControllerView.Controller;
                 Controller.RemoveNodeRange(ParentInner, BlockIndex, StartIndex, EndIndex);
 
                 Debug.Assert(ParentInner.Count == OldNodeCount - SelectionCount);

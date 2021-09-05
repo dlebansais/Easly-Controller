@@ -42,7 +42,7 @@
         /// List of optional selectors.
         /// (Set in Xaml)
         /// </summary>
-        public IFocusFrameSelectorList Selectors { get; }
+        public FocusFrameSelectorList Selectors { get; }
         #endregion
 
         #region Client Interface
@@ -58,7 +58,7 @@
         /// <summary>
         /// Creates a IxxxFrameSelectorList object.
         /// </summary>
-        private protected virtual IFocusFrameSelectorList CreateEmptySelectorList()
+        private protected virtual FocusFrameSelectorList CreateEmptySelectorList()
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusCollectionPlaceholderFrame));
             return new FocusFrameSelectorList();

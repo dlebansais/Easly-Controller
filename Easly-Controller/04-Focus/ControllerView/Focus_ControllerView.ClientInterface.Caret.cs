@@ -14,7 +14,7 @@
     /// <summary>
     /// View of a IxxxController.
     /// </summary>
-    public partial class FocusControllerView : FrameControllerView, IFocusControllerView, IFocusInternalControllerView
+    public partial class FocusControllerView : FrameControllerView, IFocusInternalControllerView
     {
         /// <summary>
         /// Changes the caret position. Does nothing if the focus isn't on a string property.

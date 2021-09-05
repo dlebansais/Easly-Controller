@@ -45,7 +45,7 @@
         /// Checks if the <paramref name="blockStateView"/> block state belongs to a replicated block.
         /// </summary>
         /// <param name="blockStateView">The block state view.</param>
-        bool IsInReplicatedBlock(IFocusBlockStateView blockStateView);
+        bool IsInReplicatedBlock(FocusBlockStateView blockStateView);
 
         /// <summary>
         /// Checks if the string associated to the <paramref name="propertyName"/> property of the <paramref name="stateView"/> state matches the pattern in <paramref name="textPattern"/>.

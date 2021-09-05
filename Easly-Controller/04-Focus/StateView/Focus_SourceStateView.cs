@@ -8,7 +8,7 @@
     /// <summary>
     /// View of a source state.
     /// </summary>
-    public interface IFocusSourceStateView : IFrameSourceStateView, IFocusNodeStateView
+    public interface IFocusSourceStateView : IFocusNodeStateView
     {
         /// <summary>
         /// The pattern state.
@@ -27,7 +27,7 @@
         /// </summary>
         /// <param name="controllerView">The controller view to which this object belongs.</param>
         /// <param name="state">The source state.</param>
-        public FocusSourceStateView(IFocusControllerView controllerView, IFocusSourceState state)
+        public FocusSourceStateView(FocusControllerView controllerView, IFocusSourceState state)
             : base(controllerView, state)
         {
         }
@@ -37,7 +37,7 @@
         /// <summary>
         /// The controller view to which this object belongs.
         /// </summary>
-        public new IFocusControllerView ControllerView { get { return (IFocusControllerView)base.ControllerView; } }
+        public new FocusControllerView ControllerView { get { return (FocusControllerView)base.ControllerView; } }
 
         /// <summary>
         /// The pattern state.
@@ -58,7 +58,7 @@
         /// <summary>
         /// Table of cell views that are mutable lists of cells.
         /// </summary>
-        public new IFocusAssignableCellViewReadOnlyDictionary<string> CellViewTable { get { return (IFocusAssignableCellViewReadOnlyDictionary<string>)base.CellViewTable; } }
+        public new FocusAssignableCellViewReadOnlyDictionary<string> CellViewTable { get { return (FocusAssignableCellViewReadOnlyDictionary<string>)base.CellViewTable; } }
 
         /// <summary>
         /// The cell view that is embedding this state view. Can be null.
@@ -88,7 +88,7 @@
         /// <param name="focusedNode">The currently focused node.</param>
         /// <param name="focusedFrame">The currently focused frame in the template associated to <paramref name="focusedNode"/>.</param>
         /// <param name="matchingFocus">The focus in <paramref name="focusChain"/> that match <paramref name="focusedNode"/> and <paramref name="focusedFrame"/> upon return.</param>
-        public virtual void UpdateFocusChain(IFocusFocusList focusChain, Node focusedNode, IFocusFrame focusedFrame, ref IFocusFocus matchingFocus)
+        public virtual void UpdateFocusChain(FocusFocusList focusChain, Node focusedNode, IFocusFrame focusedFrame, ref IFocusFocus matchingFocus)
         {
             Debug.Assert(RootCellView != null);
 
@@ -107,9 +107,9 @@
         /// <summary>
         /// Gets the selector stack corresponding to this view and all its parent.
         /// </summary>
-        public virtual IList<IFocusFrameSelectorList> GetSelectorStack()
+        public virtual IList<FocusFrameSelectorList> GetSelectorStack()
         {
-            List<IFocusFrameSelectorList> SelectorStack = new List<IFocusFrameSelectorList>();
+            List<FocusFrameSelectorList> SelectorStack = new List<FocusFrameSelectorList>();
             IFocusNodeStateView CurrentStateView = this;
             bool Continue = true;
 
@@ -138,7 +138,7 @@
         }
 
         /// <summary></summary>
-        protected virtual bool UpdateSelectorStackNodeState(List<IFocusFrameSelectorList> selectorStack, ref IFocusNodeStateView currentStateView)
+        protected virtual bool UpdateSelectorStackNodeState(List<FocusFrameSelectorList> selectorStack, ref IFocusNodeStateView currentStateView)
         {
             IFocusInner ParentInner = currentStateView.State.ParentInner;
             IFocusNodeState ParentState = currentStateView.State.ParentState;
@@ -150,7 +150,7 @@
 
             Debug.Assert(ParentState != null);
 
-            currentStateView = ControllerView.StateViewTable[ParentState];
+            currentStateView = (IFocusNodeStateView)ControllerView.StateViewTable[ParentState];
             IFocusNodeTemplate Template = currentStateView.Template as IFocusNodeTemplate;
             Debug.Assert(Template != null);
 
@@ -163,7 +163,7 @@
         }
 
         /// <summary></summary>
-        protected virtual bool UpdateSelectorStackBlockState(List<IFocusFrameSelectorList> selectorStack, IFocusBlockState blockState, IFocusInner inner, ref IFocusNodeStateView currentStateView)
+        protected virtual bool UpdateSelectorStackBlockState(List<FocusFrameSelectorList> selectorStack, IFocusBlockState blockState, IFocusInner inner, ref IFocusNodeStateView currentStateView)
         {
             Debug.Assert(ControllerView.TemplateSet.BlockTemplateTable.ContainsKey(blockState.ParentInner.BlockType));
             IFocusBlockTemplate Template = ControllerView.TemplateSet.BlockTemplateTable[blockState.ParentInner.BlockType] as IFocusBlockTemplate;
@@ -172,7 +172,7 @@
             IFocusNodeState ParentState = blockState.ParentInner.Owner;
             Debug.Assert(ParentState != null);
 
-            currentStateView = ControllerView.StateViewTable[ParentState];
+            currentStateView = (IFocusNodeStateView)ControllerView.StateViewTable[ParentState];
 
             if (Template.FrameSelectorForProperty(inner.PropertyName, out IFocusFrameWithSelector Frame))
                 if (Frame != null)
@@ -207,7 +207,7 @@
         /// <summary>
         /// Creates a IxxxAssignableCellViewDictionary{string} object.
         /// </summary>
-        private protected override IFrameAssignableCellViewDictionary<string> CreateCellViewTable()
+        private protected override FrameAssignableCellViewDictionary<string> CreateCellViewTable()
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusSourceStateView));
             return new FocusAssignableCellViewDictionary<string>();

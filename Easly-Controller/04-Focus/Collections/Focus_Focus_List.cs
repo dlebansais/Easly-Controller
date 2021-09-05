@@ -1,23 +1,14 @@
-﻿#pragma warning disable 1591
-
-namespace EaslyController.Focus
+﻿namespace EaslyController.Focus
 {
     using System.Collections.Generic;
-    using System.Collections.ObjectModel;
 
-    /// <summary>
-    /// List of IxxxFocus
-    /// </summary>
-    public interface IFocusFocusList : IList<IFocusFocus>, IReadOnlyList<IFocusFocus>
+    /// <inheritdoc/>
+    public class FocusFocusList : List<IFocusFocus>
     {
-        new IFocusFocus this[int index] { get; set; }
-        new int Count { get; }
-    }
-
-    /// <summary>
-    /// List of IxxxFocus
-    /// </summary>
-    internal class FocusFocusList : Collection<IFocusFocus>, IFocusFocusList
-    {
+        /// <inheritdoc/>
+        public virtual FocusFocusReadOnlyList ToReadOnly()
+        {
+            return new FocusFocusReadOnlyList(this);
+        }
     }
 }

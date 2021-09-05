@@ -72,7 +72,7 @@
         {
             isChanged = false;
 
-            IFocusControllerView ControllerView = StateView.ControllerView;
+            FocusControllerView ControllerView = StateView.ControllerView;
             if (ControllerView.Focus is IFocusTextFocus AsTextFocus)
             {
                 IFocusNodeState State = AsTextFocus.CellView.StateView.State;
@@ -80,7 +80,7 @@
                 {
                     if (State.ParentIndex is IFocusBrowsingInsertableIndex AsInsertableIndex)
                     {
-                        IFocusController Controller = StateView.ControllerView.Controller;
+                        FocusController Controller = StateView.ControllerView.Controller;
                         Node ParentNode = State.ParentInner.Owner.Node;
 
                         IFocusInsertionChildIndex ReplaceIndex = (IFocusInsertionChildIndex)AsInsertableIndex.ToInsertionIndex(ParentNode, node);
@@ -97,7 +97,7 @@
         {
             isChanged = false;
 
-            IFocusControllerView ControllerView = StateView.ControllerView;
+            FocusControllerView ControllerView = StateView.ControllerView;
             if (ControllerView.Focus is IFocusTextFocus AsTextFocus)
             {
                 IFocusNodeState State = AsTextFocus.CellView.StateView.State;
@@ -132,7 +132,7 @@
             Debug.Assert(nodeList.Count == 0 || listInner.InterfaceType.IsAssignableFrom(nodeList[0].GetType()));
 
             List<IWriteableInsertionCollectionNodeIndex> IndexList = new List<IWriteableInsertionCollectionNodeIndex>();
-            IFocusController Controller = StateView.ControllerView.Controller;
+            FocusController Controller = StateView.ControllerView.Controller;
 
             for (int i = 0; i < nodeList.Count; i++)
             {
@@ -154,7 +154,7 @@
             Debug.Assert(nodeList.Count == 0 || blockListInner.InterfaceType.IsAssignableFrom(nodeList[0].GetType()));
 
             List<IWriteableInsertionCollectionNodeIndex> IndexList = new List<IWriteableInsertionCollectionNodeIndex>();
-            IFocusController Controller = StateView.ControllerView.Controller;
+            FocusController Controller = StateView.ControllerView.Controller;
 
             for (int i = 0; i < nodeList.Count; i++)
             {
@@ -173,7 +173,7 @@
         {
             isChanged = false;
 
-            IFocusControllerView ControllerView = StateView.ControllerView;
+            FocusControllerView ControllerView = StateView.ControllerView;
             if (ControllerView.Focus is IFocusTextFocus AsTextFocus)
             {
                 IFocusNodeState State = AsTextFocus.CellView.StateView.State;
@@ -195,7 +195,7 @@
                     Debug.Assert(blockList.Count == 0 || AsBlockListInner.InterfaceType.IsAssignableFrom(blockList[0].NodeList[0].GetType()));
 
                     List<IWriteableInsertionBlockNodeIndex> IndexList = new List<IWriteableInsertionBlockNodeIndex>();
-                    IFocusController Controller = StateView.ControllerView.Controller;
+                    FocusController Controller = StateView.ControllerView.Controller;
 
                     int InsertionBlockIndex = AsExistingBlockNodeIndex.BlockIndex;
 
@@ -233,7 +233,7 @@
         {
             isChanged = false;
 
-            IFocusControllerView ControllerView = StateView.ControllerView;
+            FocusControllerView ControllerView = StateView.ControllerView;
             if (ControllerView.Focus is IFocusCommentFocus AsCommentFocus)
             {
                 string FocusedText = ControllerView.FocusedText;
@@ -242,7 +242,7 @@
 
                 string Content = FocusedText.Substring(0, CaretPosition) + text + FocusedText.Substring(CaretPosition);
 
-                IFocusController Controller = StateView.ControllerView.Controller;
+                FocusController Controller = StateView.ControllerView.Controller;
                 int OldCaretPosition = StateView.ControllerView.CaretPosition;
                 int NewCaretPosition = CaretPosition + text.Length;
                 Controller.ChangeCommentAndCaretPosition(AsCommentFocus.CellView.StateView.State.ParentIndex, Content, OldCaretPosition, NewCaretPosition, false);
@@ -259,7 +259,7 @@
 
                 IFocusStringContentFocusableCellView CellView = AsStringContentFocus.CellView;
 
-                IFocusController Controller = StateView.ControllerView.Controller;
+                FocusController Controller = StateView.ControllerView.Controller;
                 int OldCaretPosition = StateView.ControllerView.CaretPosition;
                 int NewCaretPosition = CaretPosition + text.Length;
                 Controller.ChangeTextAndCaretPosition(CellView.StateView.State.ParentIndex, CellView.PropertyName, Content, OldCaretPosition, NewCaretPosition, false);

@@ -14,7 +14,7 @@
     /// <summary>
     /// View of a IxxxController.
     /// </summary>
-    public partial class FocusControllerView : FrameControllerView, IFocusControllerView, IFocusInternalControllerView
+    public partial class FocusControllerView : FrameControllerView, IFocusInternalControllerView
     {
         private protected virtual void SetAnchoredSelection()
         {

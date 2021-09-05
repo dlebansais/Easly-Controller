@@ -5,28 +5,7 @@
     /// <summary>
     /// Group of operations to make some tasks atomic.
     /// </summary>
-    public interface IFocusOperationGroup : IFrameOperationGroup
-    {
-        /// <summary>
-        /// List of operations belonging to this group.
-        /// </summary>
-        new IFocusOperationReadOnlyList OperationList { get; }
-
-        /// <summary>
-        /// The main operation for this group.
-        /// </summary>
-        new IFocusOperation MainOperation { get; }
-
-        /// <summary>
-        /// Optional refresh operation to execute at the end of undo and redo.
-        /// </summary>
-        new IFocusGenericRefreshOperation Refresh { get; }
-    }
-
-    /// <summary>
-    /// Group of operations to make some tasks atomic.
-    /// </summary>
-    internal class FocusOperationGroup : FrameOperationGroup, IFocusOperationGroup
+    internal class FocusOperationGroup : FrameOperationGroup
     {
         #region Init
         /// <summary>
@@ -34,7 +13,7 @@
         /// </summary>
         /// <param name="operationList">List of operations belonging to this group.</param>
         /// <param name="refresh">Optional refresh operation to execute at the end of undo and redo.</param>
-        public FocusOperationGroup(IFocusOperationReadOnlyList operationList, IFocusGenericRefreshOperation refresh)
+        public FocusOperationGroup(FocusOperationReadOnlyList operationList, FocusGenericRefreshOperation refresh)
             : base(operationList, refresh)
         {
         }
@@ -44,17 +23,17 @@
         /// <summary>
         /// List of operations belonging to this group.
         /// </summary>
-        public new IFocusOperationReadOnlyList OperationList { get { return (IFocusOperationReadOnlyList)base.OperationList; } }
+        public new FocusOperationReadOnlyList OperationList { get { return (FocusOperationReadOnlyList)base.OperationList; } }
 
         /// <summary>
         /// The main operation for this group.
         /// </summary>
-        public new IFocusOperation MainOperation { get { return (IFocusOperation)base.MainOperation; } }
+        public new FocusOperation MainOperation { get { return (FocusOperation)base.MainOperation; } }
 
         /// <summary>
         /// Optional refresh operation to execute at the end of undo and redo.
         /// </summary>
-        public new IFocusGenericRefreshOperation Refresh { get { return (IFocusGenericRefreshOperation)base.Refresh; } }
+        public new FocusGenericRefreshOperation Refresh { get { return (FocusGenericRefreshOperation)base.Refresh; } }
         #endregion
     }
 }

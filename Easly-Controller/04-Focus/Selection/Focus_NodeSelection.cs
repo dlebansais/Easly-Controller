@@ -66,7 +66,7 @@
                 {
                     if (State.ParentIndex is IFocusBrowsingInsertableIndex AsInsertableIndex)
                     {
-                        IFocusController Controller = StateView.ControllerView.Controller;
+                        FocusController Controller = StateView.ControllerView.Controller;
                         Node ParentNode = State.ParentInner.Owner.Node;
 
                         IFocusInsertionChildIndex ReplaceIndex = (IFocusInsertionChildIndex)AsInsertableIndex.ToInsertionIndex(ParentNode, Node);
@@ -94,7 +94,7 @@
             IFocusNodeState State = StateView.State;
             if (State.ParentInner is IFocusCollectionInner AsCollectionInner && State.ParentIndex is IFocusBrowsingCollectionNodeIndex AsCollectionNodeIndex)
             {
-                IFocusController Controller = StateView.ControllerView.Controller;
+                FocusController Controller = StateView.ControllerView.Controller;
                 Node ParentNode = State.ParentInner.Owner.Node;
 
                 Controller.Remove(AsCollectionInner, AsCollectionNodeIndex);

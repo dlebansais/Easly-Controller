@@ -8,18 +8,7 @@
     /// <summary>
     /// Operation details for changing text.
     /// </summary>
-    public interface IFocusChangeTextOperation : IFrameChangeTextOperation, IFocusChangeCaretOperation, IFocusOperation
-    {
-        /// <summary>
-        /// State changed.
-        /// </summary>
-        new IFocusNodeState State { get; }
-    }
-
-    /// <summary>
-    /// Operation details for changing text.
-    /// </summary>
-    internal class FocusChangeTextOperation : FrameChangeTextOperation, IFocusChangeTextOperation
+    internal class FocusChangeTextOperation : FrameChangeTextOperation, IFocusChangeCaretOperation
     {
         #region Init
         /// <summary>
@@ -34,7 +23,7 @@
         /// <param name="handlerRedo">Handler to execute to redo the operation.</param>
         /// <param name="handlerUndo">Handler to execute to undo the operation.</param>
         /// <param name="isNested">True if the operation is nested within another more general one.</param>
-        public FocusChangeTextOperation(Node parentNode, string propertyName, string text, int oldCaretPosition, int newCaretPosition, bool changeCaretBeforeText, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        public FocusChangeTextOperation(Node parentNode, string propertyName, string text, int oldCaretPosition, int newCaretPosition, bool changeCaretBeforeText, Action<WriteableOperation> handlerRedo, Action<WriteableOperation> handlerUndo, bool isNested)
             : base(parentNode, propertyName, text, handlerRedo, handlerUndo, isNested)
         {
             OldCaretPosition = oldCaretPosition;
@@ -69,7 +58,7 @@
         /// <summary>
         /// Creates an operation to undo the change text operation.
         /// </summary>
-        public override IWriteableChangeTextOperation ToInverseChange()
+        public override WriteableChangeTextOperation ToInverseChange()
         {
             return CreateChangeTextOperation(OldText, NewCaretPosition, OldCaretPosition, !ChangeCaretBeforeText, HandlerUndo, HandlerRedo, IsNested);
         }
@@ -79,7 +68,7 @@
         /// <summary>
         /// Creates a IxxxChangeTextOperation object.
         /// </summary>
-        private protected virtual IFocusChangeTextOperation CreateChangeTextOperation(string text, int oldCaretPosition, int newCaretPosition, bool changeCaretBeforeText, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        private protected virtual FocusChangeTextOperation CreateChangeTextOperation(string text, int oldCaretPosition, int newCaretPosition, bool changeCaretBeforeText, Action<WriteableOperation> handlerRedo, Action<WriteableOperation> handlerUndo, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusChangeTextOperation));
             return new FocusChangeTextOperation(ParentNode, PropertyName, text, oldCaretPosition, newCaretPosition, changeCaretBeforeText, handlerRedo, handlerUndo, isNested);

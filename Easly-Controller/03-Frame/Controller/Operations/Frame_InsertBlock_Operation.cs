@@ -4,8 +4,29 @@
     using BaseNode;
     using EaslyController.Writeable;
 
+    /// <summary>
+    /// Operation details for inserting a block with a single node in a block list.
+    /// </summary>
+    public interface IFrameInsertBlockOperation : IWriteableInsertBlockOperation, IFrameInsertOperation
+    {
+        /// <summary>
+        /// Index of the state after it's inserted.
+        /// </summary>
+        new IFrameBrowsingExistingBlockNodeIndex BrowsingIndex { get; }
+
+        /// <summary>
+        /// Block state inserted.
+        /// </summary>
+        new IFrameBlockState BlockState { get; }
+
+        /// <summary>
+        /// State inserted.
+        /// </summary>
+        new IFramePlaceholderNodeState ChildState { get; }
+    }
+
     /// <inheritdoc/>
-    internal class FrameInsertBlockOperation : WriteableInsertBlockOperation
+    internal class FrameInsertBlockOperation : WriteableInsertBlockOperation, IFrameInsertBlockOperation
     {
         #region Init
         /// <summary>

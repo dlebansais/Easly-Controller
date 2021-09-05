@@ -12,7 +12,7 @@
         /// List of frame visibilities that must be satisfied at least for one.
         /// (Set in Xaml)
         /// </summary>
-        IFocusNodeFrameVisibilityList Items { get; }
+        FocusNodeFrameVisibilityList Items { get; }
     }
 
     /// <summary>
@@ -41,7 +41,7 @@
         /// List of frame visibilities that must be satisfied at least for one.
         /// (Set in Xaml)
         /// </summary>
-        public IFocusNodeFrameVisibilityList Items { get; }
+        public FocusNodeFrameVisibilityList Items { get; }
         #endregion
 
         #region Client Interface
@@ -80,7 +80,7 @@
         /// <summary>
         /// Creates a IxxxNodeFrameVisibilityList object.
         /// </summary>
-        private protected virtual IFocusNodeFrameVisibilityList CreateNodeFrameVisibilityList()
+        private protected virtual FocusNodeFrameVisibilityList CreateNodeFrameVisibilityList()
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusMixedFrameVisibility));
             return new FocusNodeFrameVisibilityList();

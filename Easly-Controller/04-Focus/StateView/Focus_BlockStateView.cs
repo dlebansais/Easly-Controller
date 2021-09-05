@@ -7,47 +7,7 @@
     /// <summary>
     /// View of a block state.
     /// </summary>
-    public interface IFocusBlockStateView : IFrameBlockStateView
-    {
-        /// <summary>
-        /// The controller view to which this object belongs.
-        /// </summary>
-        new IFocusControllerView ControllerView { get; }
-
-        /// <summary>
-        /// The block state.
-        /// </summary>
-        new IFocusBlockState BlockState { get; }
-
-        /// <summary>
-        /// The template used to display the block state.
-        /// </summary>
-        new IFocusTemplate Template { get; }
-
-        /// <summary>
-        /// Root cell for the view.
-        /// </summary>
-        new IFocusCellView RootCellView { get; }
-
-        /// <summary>
-        /// List of cell views for each child node.
-        /// </summary>
-        new IFocusCellViewCollection EmbeddingCellView { get; }
-
-        /// <summary>
-        /// Updates the focus chain with cells in the tree.
-        /// </summary>
-        /// <param name="focusChain">The list of focusable cell views found in the tree.</param>
-        /// <param name="focusedNode">The currently focused node.</param>
-        /// <param name="focusedFrame">The currently focused frame in the template associated to <paramref name="focusedNode"/>.</param>
-        /// <param name="matchingFocus">The focus in <paramref name="focusChain"/> that match <paramref name="focusedNode"/> and <paramref name="focusedFrame"/> upon return.</param>
-        void UpdateFocusChain(IFocusFocusList focusChain, Node focusedNode, IFocusFrame focusedFrame, ref IFocusFocus matchingFocus);
-    }
-
-    /// <summary>
-    /// View of a block state.
-    /// </summary>
-    internal class FocusBlockStateView : FrameBlockStateView, IFocusBlockStateView
+    public class FocusBlockStateView : FrameBlockStateView
     {
         #region Init
         /// <summary>
@@ -55,7 +15,7 @@
         /// </summary>
         /// <param name="controllerView">The controller view to which this object belongs.</param>
         /// <param name="blockState">The block state.</param>
-        public FocusBlockStateView(IFocusControllerView controllerView, IFocusBlockState blockState)
+        public FocusBlockStateView(FocusControllerView controllerView, IFocusBlockState blockState)
             : base(controllerView, blockState)
         {
         }
@@ -65,7 +25,7 @@
         /// <summary>
         /// The controller view to which this object belongs.
         /// </summary>
-        public new IFocusControllerView ControllerView { get { return (IFocusControllerView)base.ControllerView; } }
+        public new FocusControllerView ControllerView { get { return (FocusControllerView)base.ControllerView; } }
 
         /// <summary>
         /// The block state.
@@ -105,7 +65,7 @@
         /// <param name="focusedNode">The currently focused node.</param>
         /// <param name="focusedFrame">The currently focused frame in the template associated to <paramref name="focusedNode"/>.</param>
         /// <param name="matchingFocus">The focus in <paramref name="focusChain"/> that match <paramref name="focusedNode"/> and <paramref name="focusedFrame"/> upon return.</param>
-        public virtual void UpdateFocusChain(IFocusFocusList focusChain, Node focusedNode, IFocusFrame focusedFrame, ref IFocusFocus matchingFocus)
+        public virtual void UpdateFocusChain(FocusFocusList focusChain, Node focusedNode, IFocusFrame focusedFrame, ref IFocusFocus matchingFocus)
         {
             Debug.Assert(RootCellView != null);
 
@@ -137,7 +97,7 @@
         /// <summary>
         /// Creates a IxxxAssignableCellViewDictionary{string} object.
         /// </summary>
-        private protected override IFrameAssignableCellViewDictionary<string> CreateCellViewTable()
+        private protected override FrameAssignableCellViewDictionary<string> CreateCellViewTable()
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusBlockStateView));
             return new FocusAssignableCellViewDictionary<string>();

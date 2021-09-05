@@ -145,7 +145,7 @@
         /// Handler called every time a block state is inserted in the controller.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        private protected override void OnBlockStateInserted(WriteableInsertBlockOperation operation)
+        private protected override void OnBlockStateInserted(IWriteableInsertBlockOperation operation)
         {
             base.OnBlockStateInserted(operation);
 
@@ -455,7 +455,7 @@
         /// Handler called every time a state is inserted in the controller.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        private protected override void OnStateReplaced(WriteableReplaceOperation operation)
+        private protected override void OnStateReplaced(IWriteableReplaceOperation operation)
         {
             base.OnStateReplaced(operation);
 

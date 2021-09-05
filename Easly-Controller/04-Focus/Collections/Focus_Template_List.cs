@@ -1,39 +1,29 @@
-﻿#pragma warning disable 1591
-
-namespace EaslyController.Focus
+﻿namespace EaslyController.Focus
 {
     using System.Collections.Generic;
-    using System.Collections.ObjectModel;
+    using System.Diagnostics;
     using EaslyController.Frame;
 
-    /// <summary>
-    /// List of IxxxTemplate
-    /// </summary>
-    public interface IFocusTemplateList : IFrameTemplateList, IList<IFocusTemplate>, IReadOnlyList<IFocusTemplate>
+    /// <inheritdoc/>
+    public class FocusTemplateList : FrameTemplateList, ICollection<IFocusTemplate>, IEnumerable<IFocusTemplate>, IList<IFocusTemplate>, IReadOnlyCollection<IFocusTemplate>, IReadOnlyList<IFocusTemplate>
     {
-        new IFocusTemplate this[int index] { get; set; }
-        new int Count { get; }
-        new IEnumerator<IFocusTemplate> GetEnumerator();
-        new void Clear();
-    }
-
-    /// <summary>
-    /// List of IxxxTemplate
-    /// </summary>
-    public class FocusTemplateList : Collection<IFocusTemplate>, IFocusTemplateList
-    {
-        #region Frame
-        IFrameTemplate IFrameTemplateList.this[int index] { get { return this[index]; } set { this[index] = (IFocusTemplate)value; } }
-        IFrameTemplate IList<IFrameTemplate>.this[int index] { get { return this[index]; } set { this[index] = (IFocusTemplate)value; } }
-        int IList<IFrameTemplate>.IndexOf(IFrameTemplate value) { return IndexOf((IFocusTemplate)value); }
-        void IList<IFrameTemplate>.Insert(int index, IFrameTemplate item) { Insert(index, (IFocusTemplate)item); }
-        void ICollection<IFrameTemplate>.Add(IFrameTemplate item) { Add((IFocusTemplate)item); }
-        bool ICollection<IFrameTemplate>.Contains(IFrameTemplate value) { return Contains((IFocusTemplate)value); }
-        void ICollection<IFrameTemplate>.CopyTo(IFrameTemplate[] array, int index) { CopyTo((IFocusTemplate[])array, index); }
-        bool ICollection<IFrameTemplate>.IsReadOnly { get { return ((ICollection<IFocusTemplate>)this).IsReadOnly; } }
-        bool ICollection<IFrameTemplate>.Remove(IFrameTemplate item) { return Remove((IFocusTemplate)item); }
-        IEnumerator<IFrameTemplate> IEnumerable<IFrameTemplate>.GetEnumerator() { return GetEnumerator(); }
-        IFrameTemplate IReadOnlyList<IFrameTemplate>.this[int index] { get { return this[index]; } }
+        #region IFocusTemplate
+        void ICollection<IFocusTemplate>.Add(IFocusTemplate item) { Add(item); }
+        bool ICollection<IFocusTemplate>.Contains(IFocusTemplate item) { return Contains(item); }
+        void ICollection<IFocusTemplate>.CopyTo(IFocusTemplate[] array, int arrayIndex) { ((System.Collections.ICollection)this).CopyTo(array, arrayIndex); }
+        bool ICollection<IFocusTemplate>.Remove(IFocusTemplate item) { return Remove(item); }
+        bool ICollection<IFocusTemplate>.IsReadOnly { get { return ((ICollection<IFrameTemplate>)this).IsReadOnly; } }
+        IEnumerator<IFocusTemplate> IEnumerable<IFocusTemplate>.GetEnumerator() { return ((IList<IFocusTemplate>)this).GetEnumerator(); }
+        IFocusTemplate IList<IFocusTemplate>.this[int index] { get { return (IFocusTemplate)this[index]; } set { this[index] = value; } }
+        int IList<IFocusTemplate>.IndexOf(IFocusTemplate item) { return IndexOf(item); }
+        void IList<IFocusTemplate>.Insert(int index, IFocusTemplate item) { Insert(index, item); }
+        IFocusTemplate IReadOnlyList<IFocusTemplate>.this[int index] { get { return (IFocusTemplate)this[index]; } }
         #endregion
+
+        /// <inheritdoc/>
+        public override FrameTemplateReadOnlyList ToReadOnly()
+        {
+            return new FocusTemplateReadOnlyList(this);
+        }
     }
 }

@@ -48,7 +48,7 @@
         /// <param name="nodeType">Type of the node this frame can describe.</param>
         /// <param name="nodeTemplateTable">Table of templates with all frames.</param>
         /// <param name="commentFrameCount">Number of comment frames found so far.</param>
-        public abstract override bool IsValid(Type nodeType, IFrameTemplateReadOnlyDictionary nodeTemplateTable, ref int commentFrameCount);
+        public abstract override bool IsValid(Type nodeType, FrameTemplateReadOnlyDictionary nodeTemplateTable, ref int commentFrameCount);
 
         /// <summary>
         /// Create cells for the provided state view.
@@ -68,7 +68,7 @@
         /// Gets selectors in the frame and nested frames.
         /// </summary>
         /// <param name="selectorTable">The table of selectors to update.</param>
-        public abstract void CollectSelectors(Dictionary<string, IFocusFrameSelectorList> selectorTable);
+        public abstract void CollectSelectors(Dictionary<string, FocusFrameSelectorList> selectorTable);
         #endregion
     }
 }

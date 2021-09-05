@@ -78,7 +78,7 @@
 
             Action<WriteableOperation> HandlerRedoReplace = (WriteableOperation operation) => RedoReplace(operation);
             Action<WriteableOperation> HandlerUndoReplace = (WriteableOperation operation) => UndoReplace(operation);
-            WriteableReplaceOperation ReplaceOperation = CreateReplaceOperation(inner.Owner.Node, inner.PropertyName, -1, Index, ReplacingNode, HandlerRedoReplace, HandlerUndoReplace, isNested: true);
+            IWriteableReplaceOperation ReplaceOperation = CreateReplaceOperation(inner.Owner.Node, inner.PropertyName, -1, Index, ReplacingNode, HandlerRedoReplace, HandlerUndoReplace, isNested: true);
 
             Action<WriteableOperation> HandlerRedoInsert = (WriteableOperation operation) => RedoInsertNewNode(operation);
             Action<WriteableOperation> HandlerUndoInsert = (WriteableOperation operation) => UndoInsertNewNode(operation);

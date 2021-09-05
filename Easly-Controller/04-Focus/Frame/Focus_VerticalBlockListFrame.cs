@@ -48,7 +48,7 @@
         /// List of optional selectors.
         /// (Set in Xaml)
         /// </summary>
-        public IFocusFrameSelectorList Selectors { get; }
+        public FocusFrameSelectorList Selectors { get; }
 
         /// <summary>
         /// Indicates that this is the preferred frame when restoring the focus.
@@ -64,7 +64,7 @@
         /// <param name="nodeType">Type of the node this frame can describe.</param>
         /// <param name="nodeTemplateTable">Table of templates with all frames.</param>
         /// <param name="commentFrameCount">Number of comment frames found so far.</param>
-        public override bool IsValid(Type nodeType, IFrameTemplateReadOnlyDictionary nodeTemplateTable, ref int commentFrameCount)
+        public override bool IsValid(Type nodeType, FrameTemplateReadOnlyDictionary nodeTemplateTable, ref int commentFrameCount)
         {
             bool IsValid = true;
 
@@ -72,7 +72,7 @@
             IsValid &= Visibility == null || Visibility.IsValid(nodeType);
 
             foreach (IFocusFrameSelector Selector in Selectors)
-                IsValid &= Selector.IsValid(nodeType, (IFocusTemplateReadOnlyDictionary)nodeTemplateTable, PropertyName);
+                IsValid &= Selector.IsValid(nodeType, (FocusTemplateReadOnlyDictionary)nodeTemplateTable, PropertyName);
 
             Debug.Assert(IsValid);
             return IsValid;
@@ -138,7 +138,7 @@
         /// Gets selectors in the frame and nested frames.
         /// </summary>
         /// <param name="selectorTable">The table of selectors to update.</param>
-        public virtual void CollectSelectors(Dictionary<string, IFocusFrameSelectorList> selectorTable)
+        public virtual void CollectSelectors(Dictionary<string, FocusFrameSelectorList> selectorTable)
         {
             Debug.Assert(!selectorTable.ContainsKey(PropertyName));
 
@@ -153,11 +153,11 @@
             IFocusCellViewCollection ParentCellView = ((IFocusCellViewCollection)embeddingCellView).ParentCellView;
         }
 
-        private protected override void ValidateBlockCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, IFrameBlockStateView blockStateView, IFrameBlockCellView blockCellView)
+        private protected override void ValidateBlockCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, FrameBlockStateView blockStateView, IFrameBlockCellView blockCellView)
         {
             Debug.Assert(((IFocusBlockCellView)blockCellView).StateView == (IFocusNodeStateView)stateView);
             Debug.Assert(((IFocusBlockCellView)blockCellView).ParentCellView == (IFocusCellViewCollection)parentCellView);
-            Debug.Assert(((IFocusBlockCellView)blockCellView).BlockStateView == (IFocusBlockStateView)blockStateView);
+            Debug.Assert(((IFocusBlockCellView)blockCellView).BlockStateView == (FocusBlockStateView)blockStateView);
         }
         #endregion
 
@@ -165,7 +165,7 @@
         /// <summary>
         /// Creates a IxxxCellViewList object.
         /// </summary>
-        private protected override IFrameCellViewList CreateCellViewList()
+        private protected override FrameCellViewList CreateCellViewList()
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusVerticalBlockListFrame));
             return new FocusCellViewList();
@@ -174,25 +174,25 @@
         /// <summary>
         /// Creates a IxxxBlockCellView object.
         /// </summary>
-        private protected override IFrameBlockCellView CreateBlockCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, IFrameBlockStateView blockStateView)
+        private protected override IFrameBlockCellView CreateBlockCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, FrameBlockStateView blockStateView)
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusVerticalBlockListFrame));
-            return new FocusBlockCellView((IFocusNodeStateView)stateView, (IFocusCellViewCollection)parentCellView, (IFocusBlockStateView)blockStateView);
+            return new FocusBlockCellView((IFocusNodeStateView)stateView, (IFocusCellViewCollection)parentCellView, (FocusBlockStateView)blockStateView);
         }
 
         /// <summary>
         /// Creates a IxxxCellViewCollection object.
         /// </summary>
-        private protected override IFrameCellViewCollection CreateEmbeddingCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, IFrameCellViewList list)
+        private protected override IFrameCellViewCollection CreateEmbeddingCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, FrameCellViewList list)
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusVerticalBlockListFrame));
-            return new FocusColumn((IFocusNodeStateView)stateView, (IFocusCellViewCollection)parentCellView, (IFocusCellViewList)list, this);
+            return new FocusColumn((IFocusNodeStateView)stateView, (IFocusCellViewCollection)parentCellView, (FocusCellViewList)list, this);
         }
 
         /// <summary>
         /// Creates a IxxxFrameSelectorList object.
         /// </summary>
-        private protected virtual IFocusFrameSelectorList CreateEmptySelectorList()
+        private protected virtual FocusFrameSelectorList CreateEmptySelectorList()
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusVerticalBlockListFrame));
             return new FocusFrameSelectorList();

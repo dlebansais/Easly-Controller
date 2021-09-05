@@ -7,22 +7,22 @@
     /// <summary>
     /// View of a IxxxController.
     /// </summary>
-    public partial class FocusControllerView : FrameControllerView, IFocusControllerView, IFocusInternalControllerView
+    public partial class FocusControllerView : FrameControllerView, IFocusInternalControllerView
     {
         /// <summary>
         /// The controller.
         /// </summary>
-        public new IFocusController Controller { get { return (IFocusController)base.Controller; } }
+        public new FocusController Controller { get { return (FocusController)base.Controller; } }
 
         /// <summary>
         /// Table of views of each state in the controller.
         /// </summary>
-        public new IFocusStateViewDictionary StateViewTable { get { return (IFocusStateViewDictionary)base.StateViewTable; } }
+        public new FocusStateViewDictionary StateViewTable { get { return (FocusStateViewDictionary)base.StateViewTable; } }
 
         /// <summary>
         /// Table of views of each block state in the controller.
         /// </summary>
-        public new IFocusBlockStateViewDictionary BlockStateViewTable { get { return (IFocusBlockStateViewDictionary)base.BlockStateViewTable; } }
+        public new FocusBlockStateViewDictionary BlockStateViewTable { get { return (FocusBlockStateViewDictionary)base.BlockStateViewTable; } }
 
         /// <summary>
         /// State view of the root state.
@@ -39,7 +39,7 @@
         /// </summary>
         public IFocusFocus Focus { get; private set; }
 
-        private protected IFocusFocusList FocusChain { get; private set; }
+        private protected FocusFocusList FocusChain { get; private set; }
 
         /// <summary>
         /// Lowest valid value for <see cref="MoveFocus"/>.

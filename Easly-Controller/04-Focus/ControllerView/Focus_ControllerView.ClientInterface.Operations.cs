@@ -14,7 +14,7 @@
     /// <summary>
     /// View of a IxxxController.
     /// </summary>
-    public partial class FocusControllerView : FrameControllerView, IFocusControllerView, IFocusInternalControllerView
+    public partial class FocusControllerView : FrameControllerView, IFocusInternalControllerView
     {
         /// <summary>
         /// Checks if a new item can be inserted at the focus.
@@ -469,21 +469,22 @@
             // Search recursively for a collection parent.
             while (CurrentState != null)
             {
-                if (CurrentState is IFocusCyclableNodeState AsCyclableNodeState && Controller.IsMemberOfCycle(AsCyclableNodeState, out IFocusCycleManager CycleManager))
-                {
-                    CycleManager.AddNodeToCycle(AsCyclableNodeState);
+                if (CurrentState is IFocusCyclableNodeState AsCyclableNodeState)
+                    if (Controller.IsMemberOfCycle(AsCyclableNodeState, out FocusCycleManager CycleManager))
+                    {
+                        CycleManager.AddNodeToCycle(AsCyclableNodeState);
 
-                    IFocusInsertionChildNodeIndexList CycleIndexList = AsCyclableNodeState.CycleIndexList;
-                    Debug.Assert(CycleIndexList.Count >= 2);
-                    int CurrentPosition = AsCyclableNodeState.CycleCurrentPosition;
-                    Debug.Assert(CurrentPosition >= 0 && CurrentPosition < CycleIndexList.Count);
+                        FocusInsertionChildNodeIndexList CycleIndexList = AsCyclableNodeState.CycleIndexList;
+                        Debug.Assert(CycleIndexList.Count >= 2);
+                        int CurrentPosition = AsCyclableNodeState.CycleCurrentPosition;
+                        Debug.Assert(CurrentPosition >= 0 && CurrentPosition < CycleIndexList.Count);
 
-                    state = AsCyclableNodeState;
-                    cyclePosition = CurrentPosition;
+                        state = AsCyclableNodeState;
+                        cyclePosition = CurrentPosition;
 
-                    IsCyclableThrough = true;
-                    break;
-                }
+                        IsCyclableThrough = true;
+                        break;
+                    }
 
                 CurrentState = CurrentState.ParentState;
             }

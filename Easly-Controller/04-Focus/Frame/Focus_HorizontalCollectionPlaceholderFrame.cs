@@ -42,7 +42,7 @@
         /// List of optional selectors.
         /// (Set in Xaml)
         /// </summary>
-        public IFocusFrameSelectorList Selectors { get; }
+        public FocusFrameSelectorList Selectors { get; }
         #endregion
 
         #region Client Interface
@@ -52,14 +52,14 @@
         /// <param name="nodeType">Type of the node this frame can describe.</param>
         /// <param name="nodeTemplateTable">Table of templates with all frames.</param>
         /// <param name="commentFrameCount">Number of comment frames found so far.</param>
-        public override bool IsValid(Type nodeType, IFrameTemplateReadOnlyDictionary nodeTemplateTable, ref int commentFrameCount)
+        public override bool IsValid(Type nodeType, FrameTemplateReadOnlyDictionary nodeTemplateTable, ref int commentFrameCount)
         {
             bool IsValid = true;
 
             IsValid &= base.IsValid(nodeType, nodeTemplateTable, ref commentFrameCount);
 
             foreach (IFocusFrameSelector Selector in Selectors)
-                IsValid &= Selector.IsValid(nodeType, (IFocusTemplateReadOnlyDictionary)nodeTemplateTable, nameof(BaseNode.IBlock.NodeList));
+                IsValid &= Selector.IsValid(nodeType, (FocusTemplateReadOnlyDictionary)nodeTemplateTable, nameof(BaseNode.IBlock.NodeList));
 
             Debug.Assert(IsValid);
             return IsValid;
@@ -104,7 +104,7 @@
         /// <summary>
         /// Creates a IxxxCellViewList object.
         /// </summary>
-        private protected override IFrameCellViewList CreateCellViewList()
+        private protected override FrameCellViewList CreateCellViewList()
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusHorizontalCollectionPlaceholderFrame));
             return new FocusCellViewList();
@@ -122,16 +122,16 @@
         /// <summary>
         /// Creates a IxxxCellViewCollection object.
         /// </summary>
-        private protected override IFrameCellViewCollection CreateEmbeddingCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, IFrameCellViewList list)
+        private protected override IFrameCellViewCollection CreateEmbeddingCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, FrameCellViewList list)
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusHorizontalCollectionPlaceholderFrame));
-            return new FocusLine((IFocusNodeStateView)stateView, (IFocusCellViewCollection)parentCellView, (IFocusCellViewList)list, this);
+            return new FocusLine((IFocusNodeStateView)stateView, (IFocusCellViewCollection)parentCellView, (FocusCellViewList)list, this);
         }
 
         /// <summary>
         /// Creates a IxxxFrameSelectorList object.
         /// </summary>
-        private protected virtual IFocusFrameSelectorList CreateEmptySelectorList()
+        private protected virtual FocusFrameSelectorList CreateEmptySelectorList()
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusHorizontalCollectionPlaceholderFrame));
             return new FocusFrameSelectorList();

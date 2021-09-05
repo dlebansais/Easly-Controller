@@ -72,14 +72,14 @@
         /// <summary>
         /// Table for all inners in this state.
         /// </summary>
-        public new IFocusInnerReadOnlyDictionary<string> InnerTable { get { return (IFocusInnerReadOnlyDictionary<string>)base.InnerTable; } }
+        public new FocusInnerReadOnlyDictionary<string> InnerTable { get { return (FocusInnerReadOnlyDictionary<string>)base.InnerTable; } }
         #endregion
 
         #region Create Methods
         /// <summary>
         /// Creates a IxxxNodeStateList object.
         /// </summary>
-        private protected override IReadOnlyNodeStateList CreateNodeStateList()
+        private protected override ReadOnlyNodeStateList CreateNodeStateList()
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusPatternState<IInner>));
             return new FocusNodeStateList();

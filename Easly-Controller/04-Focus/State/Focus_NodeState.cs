@@ -28,7 +28,7 @@
         /// <summary>
         /// Table for all inners in this state.
         /// </summary>
-        new IFocusInnerReadOnlyDictionary<string> InnerTable { get; }
+        new FocusInnerReadOnlyDictionary<string> InnerTable { get; }
     }
 
     /// <summary>
@@ -77,7 +77,7 @@
         /// <summary>
         /// Table for all inners in this state.
         /// </summary>
-        public new IFocusInnerReadOnlyDictionary<string> InnerTable { get { return (IFocusInnerReadOnlyDictionary<string>)base.InnerTable; } }
+        public new FocusInnerReadOnlyDictionary<string> InnerTable { get { return (FocusInnerReadOnlyDictionary<string>)base.InnerTable; } }
         #endregion
     }
 }

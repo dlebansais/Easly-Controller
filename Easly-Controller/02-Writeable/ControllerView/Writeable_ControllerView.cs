@@ -83,7 +83,7 @@
         /// Handler called every time a block state is inserted in the controller.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        private protected virtual void OnBlockStateInserted(WriteableInsertBlockOperation operation)
+        private protected virtual void OnBlockStateInserted(IWriteableInsertBlockOperation operation)
         {
             Debug.Assert(operation != null);
 
@@ -178,7 +178,7 @@
         /// Handler called every time a state is replaced in the controller.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        private protected virtual void OnStateReplaced(WriteableReplaceOperation operation)
+        private protected virtual void OnStateReplaced(IWriteableReplaceOperation operation)
         {
             Debug.Assert(operation != null);
 

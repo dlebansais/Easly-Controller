@@ -13,7 +13,7 @@
         /// <summary>
         /// The controller view to which this object belongs.
         /// </summary>
-        new IFocusControllerView ControllerView { get; }
+        new FocusControllerView ControllerView { get; }
 
         /// <summary>
         /// The node state.
@@ -33,7 +33,7 @@
         /// <summary>
         /// Table of cell views that are mutable lists of cells.
         /// </summary>
-        new IFocusAssignableCellViewReadOnlyDictionary<string> CellViewTable { get; }
+        new FocusAssignableCellViewReadOnlyDictionary<string> CellViewTable { get; }
 
         /// <summary>
         /// The cell view that is embedding this state view. Can be null.
@@ -52,7 +52,7 @@
         /// <param name="focusedNode">The currently focused node.</param>
         /// <param name="focusedFrame">The currently focused frame in the template associated to <paramref name="focusedNode"/>.</param>
         /// <param name="matchingFocus">The focus in <paramref name="focusChain"/> that match <paramref name="focusedNode"/> and <paramref name="focusedFrame"/> upon return.</param>
-        void UpdateFocusChain(IFocusFocusList focusChain, Node focusedNode, IFocusFrame focusedFrame, ref IFocusFocus matchingFocus);
+        void UpdateFocusChain(FocusFocusList focusChain, Node focusedNode, IFocusFrame focusedFrame, ref IFocusFocus matchingFocus);
 
         /// <summary>
         /// Sets the <see cref="IsUserVisible"/> flag.
@@ -63,7 +63,7 @@
         /// <summary>
         /// Gets the selector stack corresponding to this view and all its parent.
         /// </summary>
-        IList<IFocusFrameSelectorList> GetSelectorStack();
+        IList<FocusFrameSelectorList> GetSelectorStack();
     }
 
     /// <summary>
@@ -77,7 +77,7 @@
         /// </summary>
         /// <param name="controllerView">The controller view to which this object belongs.</param>
         /// <param name="state">The node state.</param>
-        public FocusNodeStateView(IFocusControllerView controllerView, IFocusNodeState state)
+        public FocusNodeStateView(FocusControllerView controllerView, IFocusNodeState state)
             : base(controllerView, state)
         {
         }
@@ -87,7 +87,7 @@
         /// <summary>
         /// The controller view to which this object belongs.
         /// </summary>
-        public new IFocusControllerView ControllerView { get { return (IFocusControllerView)base.ControllerView; } }
+        public new FocusControllerView ControllerView { get { return (FocusControllerView)base.ControllerView; } }
 
         /// <summary>
         /// The node state.
@@ -107,7 +107,7 @@
         /// <summary>
         /// Table of cell views that are mutable lists of cells.
         /// </summary>
-        public new IFocusAssignableCellViewReadOnlyDictionary<string> CellViewTable { get { return (IFocusAssignableCellViewReadOnlyDictionary<string>)base.CellViewTable; } }
+        public new FocusAssignableCellViewReadOnlyDictionary<string> CellViewTable { get { return (FocusAssignableCellViewReadOnlyDictionary<string>)base.CellViewTable; } }
 
         /// <summary>
         /// The cell view that is embedding this state view. Can be null.
@@ -128,7 +128,7 @@
         /// <param name="focusedNode">The currently focused node.</param>
         /// <param name="focusedFrame">The currently focused frame in the template associated to <paramref name="focusedNode"/>.</param>
         /// <param name="matchingFocus">The focus in <paramref name="focusChain"/> that match <paramref name="focusedNode"/> and <paramref name="focusedFrame"/> upon return.</param>
-        public abstract void UpdateFocusChain(IFocusFocusList focusChain, Node focusedNode, IFocusFrame focusedFrame, ref IFocusFocus matchingFocus);
+        public abstract void UpdateFocusChain(FocusFocusList focusChain, Node focusedNode, IFocusFrame focusedFrame, ref IFocusFocus matchingFocus);
 
         /// <summary>
         /// Sets the <see cref="IsUserVisible"/> flag.
@@ -139,7 +139,7 @@
         /// <summary>
         /// Gets the selector stack corresponding to this view and all its parent.
         /// </summary>
-        public abstract IList<IFocusFrameSelectorList> GetSelectorStack();
+        public abstract IList<FocusFrameSelectorList> GetSelectorStack();
         #endregion
     }
 }

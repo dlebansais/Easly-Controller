@@ -118,7 +118,7 @@
             List<IBlock> BlockList = new List<IBlock>();
             for (int i = StartIndex; i < EndIndex; i++)
             {
-                IFocusBlockState BlockState = ParentInner.BlockStateList[i];
+                IFocusBlockState BlockState = (IFocusBlockState)ParentInner.BlockStateList[i];
                 BlockList.Add(BlockState.ChildBlock);
             }
 
@@ -166,7 +166,7 @@
                 if (IsAssignable)
                 {
                     List<IWriteableInsertionBlockNodeIndex> IndexList = new List<IWriteableInsertionBlockNodeIndex>();
-                    IFocusController Controller = StateView.ControllerView.Controller;
+                    FocusController Controller = StateView.ControllerView.Controller;
                     int InsertionBlockIndex = StartIndex;
 
                     for (int i = 0; i < BlockList.Count; i++)
@@ -230,14 +230,14 @@
                     List<IBlock> BlockList = new List<IBlock>();
                     for (int i = StartIndex; i < EndIndex; i++)
                     {
-                        IFocusBlockState BlockState = ParentInner.BlockStateList[i];
+                        IFocusBlockState BlockState = (IFocusBlockState)ParentInner.BlockStateList[i];
                         BlockList.Add(BlockState.ChildBlock);
                     }
 
                     ClipboardHelper.WriteBlockList(dataObject, BlockList);
                 }
 
-                IFocusController Controller = StateView.ControllerView.Controller;
+                FocusController Controller = StateView.ControllerView.Controller;
                 Controller.RemoveBlockRange(ParentInner, StartIndex, EndIndex);
 
                 Debug.Assert(ParentInner.BlockStateList.Count == OldBlockCount - SelectionCount);

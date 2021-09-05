@@ -35,7 +35,7 @@
 
             Action<WriteableOperation> HandlerRedo = (WriteableOperation operation) => RedoReplace(operation);
             Action<WriteableOperation> HandlerUndo = (WriteableOperation operation) => UndoReplace(operation);
-            WriteableReplaceOperation Operation = CreateReplaceOperation(inner.Owner.Node, inner.PropertyName, BlockIndex, Index, NewNode, HandlerRedo, HandlerUndo, isNested: false);
+            IWriteableReplaceOperation Operation = CreateReplaceOperation(inner.Owner.Node, inner.PropertyName, BlockIndex, Index, NewNode, HandlerRedo, HandlerUndo, isNested: false);
 
             Operation.Redo();
             SetLastOperation(Operation);
@@ -123,7 +123,7 @@
         /// <param name="firstBlockIndex">Index of the first block to remove.</param>
         /// <param name="lastBlockIndex">Index following the last block to remove.</param>
         /// <param name="indexList">List of nodes in blocks to insert.</param>
-        public virtual void ReplaceBlockRange(IWriteableBlockListInner inner, int firstBlockIndex, int lastBlockIndex, IList<WriteableInsertionBlockNodeIndex> indexList)
+        public virtual void ReplaceBlockRange(IWriteableBlockListInner inner, int firstBlockIndex, int lastBlockIndex, IList<IWriteableInsertionBlockNodeIndex> indexList)
         {
             Debug.Assert(inner != null);
             Debug.Assert(firstBlockIndex >= 0 && firstBlockIndex < inner.BlockStateList.Count);
@@ -178,7 +178,7 @@
                 if (NodeIndex is WriteableInsertionNewBlockNodeIndex AsNewBlockNodeIndex)
                 {
                     IBlock NewBlock = NodeTreeHelperBlockList.CreateBlock(inner.Owner.Node, inner.PropertyName, ReplicationStatus.Normal, AsNewBlockNodeIndex.PatternNode, AsNewBlockNodeIndex.SourceNode);
-                    WriteableInsertBlockOperation OperationInsertBlock = CreateInsertBlockOperation(inner.Owner.Node, inner.PropertyName, AsNewBlockNodeIndex.BlockIndex, NewBlock, AsNewBlockNodeIndex.Node, HandlerRedoInsertBlock, HandlerUndoInsertBlock, isNested: true);
+                    IWriteableInsertBlockOperation OperationInsertBlock = CreateInsertBlockOperation(inner.Owner.Node, inner.PropertyName, AsNewBlockNodeIndex.BlockIndex, NewBlock, AsNewBlockNodeIndex.Node, HandlerRedoInsertBlock, HandlerUndoInsertBlock, isNested: true);
                     OperationList.Add(OperationInsertBlock);
                 }
                 else if (NodeIndex is WriteableInsertionExistingBlockNodeIndex AsExistingBlockNodeIndex)
@@ -229,7 +229,7 @@
         /// <param name="firstNodeIndex">Index of the first node to remove.</param>
         /// <param name="lastNodeIndex">Index following the last node to remove.</param>
         /// <param name="indexList">List of nodes to insert.</param>
-        public virtual void ReplaceNodeRange(IWriteableCollectionInner inner, int blockIndex, int firstNodeIndex, int lastNodeIndex, IList<WriteableInsertionCollectionNodeIndex> indexList)
+        public virtual void ReplaceNodeRange(IWriteableCollectionInner inner, int blockIndex, int firstNodeIndex, int lastNodeIndex, IList<IWriteableInsertionCollectionNodeIndex> indexList)
         {
             Debug.Assert(inner != null);
 
@@ -251,7 +251,7 @@
         }
 
         /// <summary></summary>
-        public virtual void ReplaceNodeRange(IWriteableBlockListInner inner, int blockIndex, int firstNodeIndex, int lastNodeIndex, IList<WriteableInsertionCollectionNodeIndex> indexList)
+        public virtual void ReplaceNodeRange(IWriteableBlockListInner inner, int blockIndex, int firstNodeIndex, int lastNodeIndex, IList<IWriteableInsertionCollectionNodeIndex> indexList)
         {
             Debug.Assert(inner != null);
             Debug.Assert(blockIndex >= 0 && blockIndex < inner.BlockStateList.Count);
@@ -327,7 +327,7 @@
         }
 
         /// <summary></summary>
-        public virtual void ReplaceNodeRange(IWriteableListInner inner, int firstNodeIndex, int lastNodeIndex, IList<WriteableInsertionCollectionNodeIndex> indexList)
+        public virtual void ReplaceNodeRange(IWriteableListInner inner, int firstNodeIndex, int lastNodeIndex, IList<IWriteableInsertionCollectionNodeIndex> indexList)
         {
             Debug.Assert(inner != null);
             Debug.Assert(firstNodeIndex >= 0 && firstNodeIndex < inner.StateList.Count);

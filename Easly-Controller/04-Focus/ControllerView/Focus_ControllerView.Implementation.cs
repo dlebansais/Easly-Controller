@@ -11,7 +11,7 @@
     /// <summary>
     /// View of a IxxxController.
     /// </summary>
-    public partial class FocusControllerView : FrameControllerView, IFocusControllerView, IFocusInternalControllerView
+    public partial class FocusControllerView : FrameControllerView, IFocusInternalControllerView
     {
         /// <summary>
         /// Handler called every time a block state is inserted in the controller.
@@ -41,11 +41,11 @@
         /// Handler called every time a block state is removed from the controller.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        private protected override void OnBlockStateRemoved(IWriteableRemoveBlockOperation operation)
+        private protected override void OnBlockStateRemoved(WriteableRemoveBlockOperation operation)
         {
             base.OnBlockStateRemoved(operation);
 
-            IFocusBlockState BlockState = ((IFocusRemoveBlockOperation)operation).BlockState;
+            IFocusBlockState BlockState = ((FocusRemoveBlockOperation)operation).BlockState;
 
             Debug.Assert(BlockState != null);
             Debug.Assert(!BlockStateViewTable.ContainsKey(BlockState));
@@ -53,7 +53,7 @@
             Debug.Assert(!StateViewTable.ContainsKey(BlockState.PatternState));
             Debug.Assert(!StateViewTable.ContainsKey(BlockState.SourceState));
 
-            IFocusNodeState RemovedState = ((IFocusRemoveBlockOperation)operation).RemovedState;
+            IFocusNodeState RemovedState = ((FocusRemoveBlockOperation)operation).RemovedState;
             Debug.Assert(!StateViewTable.ContainsKey(RemovedState));
 
             Debug.Assert(BlockState.StateList.Count == 0);
@@ -63,11 +63,11 @@
         /// Handler called every time a block view must be removed from the controller view.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        private protected override void OnBlockViewRemoved(IWriteableRemoveBlockViewOperation operation)
+        private protected override void OnBlockViewRemoved(WriteableRemoveBlockViewOperation operation)
         {
             base.OnBlockViewRemoved(operation);
 
-            IFocusBlockState BlockState = ((IFocusRemoveBlockViewOperation)operation).BlockState;
+            IFocusBlockState BlockState = ((FocusRemoveBlockViewOperation)operation).BlockState;
 
             Debug.Assert(BlockState != null);
             Debug.Assert(!BlockStateViewTable.ContainsKey(BlockState));
@@ -83,15 +83,15 @@
         /// Handler called every time a state is inserted in the controller.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        private protected override void OnStateInserted(IWriteableInsertNodeOperation operation)
+        private protected override void OnStateInserted(WriteableInsertNodeOperation operation)
         {
             base.OnStateInserted(operation);
 
-            IFocusNodeState ChildState = ((IFocusInsertNodeOperation)operation).ChildState;
+            IFocusNodeState ChildState = ((FocusInsertNodeOperation)operation).ChildState;
             Debug.Assert(ChildState != null);
             Debug.Assert(StateViewTable.ContainsKey(ChildState));
 
-            IFocusBrowsingCollectionNodeIndex BrowsingIndex = ((IFocusInsertNodeOperation)operation).BrowsingIndex;
+            IFocusBrowsingCollectionNodeIndex BrowsingIndex = ((FocusInsertNodeOperation)operation).BrowsingIndex;
             Debug.Assert(ChildState.ParentIndex == BrowsingIndex);
 
             MoveFocusToState(ChildState);
@@ -101,11 +101,11 @@
         /// Handler called every time a state is removed from the controller.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        private protected override void OnStateRemoved(IWriteableRemoveNodeOperation operation)
+        private protected override void OnStateRemoved(WriteableRemoveNodeOperation operation)
         {
             base.OnStateRemoved(operation);
 
-            IFocusPlaceholderNodeState RemovedState = ((IFocusRemoveNodeOperation)operation).RemovedState;
+            IFocusPlaceholderNodeState RemovedState = ((FocusRemoveNodeOperation)operation).RemovedState;
             Debug.Assert(RemovedState != null);
             Debug.Assert(!StateViewTable.ContainsKey(RemovedState));
         }
@@ -135,11 +135,11 @@
         /// Handler called every time a state is assigned in the controller.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        private protected override void OnStateAssigned(IWriteableAssignmentOperation operation)
+        private protected override void OnStateAssigned(WriteableAssignmentOperation operation)
         {
             base.OnStateAssigned(operation);
 
-            IFocusOptionalNodeState State = ((IFocusAssignmentOperation)operation).State;
+            IFocusOptionalNodeState State = ((FocusAssignmentOperation)operation).State;
             Debug.Assert(State != null);
             Debug.Assert(StateViewTable.ContainsKey(State));
         }
@@ -148,11 +148,11 @@
         /// Handler called every time a state is unassigned in the controller.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        private protected override void OnStateUnassigned(IWriteableAssignmentOperation operation)
+        private protected override void OnStateUnassigned(WriteableAssignmentOperation operation)
         {
             base.OnStateUnassigned(operation);
 
-            IFocusOptionalNodeState State = ((IFocusAssignmentOperation)operation).State;
+            IFocusOptionalNodeState State = ((FocusAssignmentOperation)operation).State;
             Debug.Assert(State != null);
             Debug.Assert(StateViewTable.ContainsKey(State));
         }
@@ -161,11 +161,11 @@
         /// Handler called every time a discrete value is changed in the controller.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        private protected override void OnDiscreteValueChanged(IWriteableChangeDiscreteValueOperation operation)
+        private protected override void OnDiscreteValueChanged(WriteableChangeDiscreteValueOperation operation)
         {
             base.OnDiscreteValueChanged(operation);
 
-            IFocusNodeState State = ((IFocusChangeDiscreteValueOperation)operation).State;
+            IFocusNodeState State = ((FocusChangeDiscreteValueOperation)operation).State;
             Debug.Assert(State != null);
             Debug.Assert(StateViewTable.ContainsKey(State));
         }
@@ -174,9 +174,9 @@
         /// Handler called every time a text is changed in the controller.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        private protected override void OnTextChanged(IWriteableChangeTextOperation operation)
+        private protected override void OnTextChanged(WriteableChangeTextOperation operation)
         {
-            bool IsSameFocus = IsSameChangeTextOperationFocus((IFocusChangeTextOperation)operation);
+            bool IsSameFocus = IsSameChangeTextOperationFocus((FocusChangeTextOperation)operation);
             int NewCaretPosition = ((IFocusChangeCaretOperation)operation).NewCaretPosition;
             bool ChangeCaretBeforeText = ((IFocusChangeCaretOperation)operation).ChangeCaretBeforeText;
 
@@ -188,7 +188,7 @@
             if (IsSameFocus && NewCaretPosition >= 0 && !ChangeCaretBeforeText)
                 CaretPosition = NewCaretPosition;
 
-            IFocusNodeState State = ((IFocusChangeTextOperation)operation).State;
+            IFocusNodeState State = ((FocusChangeTextOperation)operation).State;
             Debug.Assert(State != null);
             Debug.Assert(StateViewTable.ContainsKey(State));
 
@@ -197,7 +197,7 @@
             CheckCaretInvariant();
         }
 
-        private protected virtual bool IsSameChangeTextOperationFocus(IFocusChangeTextOperation operation)
+        private protected virtual bool IsSameChangeTextOperationFocus(FocusChangeTextOperation operation)
         {
             Node Node = null;
             if (operation.State.ParentIndex is IFocusNodeIndex AsNodeIndex)
@@ -219,9 +219,9 @@
         /// Handler called every time a comment is changed in the controller.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        private protected override void OnCommentChanged(IWriteableChangeCommentOperation operation)
+        private protected override void OnCommentChanged(WriteableChangeCommentOperation operation)
         {
-            bool IsSameFocus = IsSameChangeCommentOperationFocus((IFocusChangeCommentOperation)operation);
+            bool IsSameFocus = IsSameChangeCommentOperationFocus((FocusChangeCommentOperation)operation);
             int NewCaretPosition = ((IFocusChangeCaretOperation)operation).NewCaretPosition;
             bool ChangeCaretBeforeText = ((IFocusChangeCaretOperation)operation).ChangeCaretBeforeText;
 
@@ -233,7 +233,7 @@
             if (IsSameFocus && NewCaretPosition >= 0 && !ChangeCaretBeforeText)
                 CaretPosition = NewCaretPosition;
 
-            IFocusNodeState State = ((IFocusChangeCommentOperation)operation).State;
+            IFocusNodeState State = ((FocusChangeCommentOperation)operation).State;
             Debug.Assert(State != null);
             Debug.Assert(StateViewTable.ContainsKey(State));
 
@@ -241,7 +241,7 @@
             CheckCaretInvariant();
         }
 
-        private protected virtual bool IsSameChangeCommentOperationFocus(IFocusChangeCommentOperation operation)
+        private protected virtual bool IsSameChangeCommentOperationFocus(FocusChangeCommentOperation operation)
         {
             Node Node = null;
             if (operation.State.ParentIndex is IFocusNodeIndex AsNodeIndex)
@@ -262,11 +262,11 @@
         /// Handler called every time a block state is changed in the controller.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        private protected override void OnBlockStateChanged(IWriteableChangeBlockOperation operation)
+        private protected override void OnBlockStateChanged(WriteableChangeBlockOperation operation)
         {
             base.OnBlockStateChanged(operation);
 
-            IFocusBlockState BlockState = ((IFocusChangeBlockOperation)operation).BlockState;
+            IFocusBlockState BlockState = ((FocusChangeBlockOperation)operation).BlockState;
             Debug.Assert(BlockState != null);
             Debug.Assert(BlockStateViewTable.ContainsKey(BlockState));
         }
@@ -275,11 +275,11 @@
         /// Handler called every time a state is moved in the controller.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        private protected override void OnStateMoved(IWriteableMoveNodeOperation operation)
+        private protected override void OnStateMoved(WriteableMoveNodeOperation operation)
         {
             base.OnStateMoved(operation);
 
-            IFocusPlaceholderNodeState State = ((IFocusMoveNodeOperation)operation).State;
+            IFocusPlaceholderNodeState State = ((FocusMoveNodeOperation)operation).State;
             Debug.Assert(State != null);
             Debug.Assert(StateViewTable.ContainsKey(State));
         }
@@ -288,11 +288,11 @@
         /// Handler called every time a block state is moved in the controller.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        private protected override void OnBlockStateMoved(IWriteableMoveBlockOperation operation)
+        private protected override void OnBlockStateMoved(WriteableMoveBlockOperation operation)
         {
             base.OnBlockStateMoved(operation);
 
-            IFocusBlockState BlockState = ((IFocusMoveBlockOperation)operation).BlockState;
+            IFocusBlockState BlockState = ((FocusMoveBlockOperation)operation).BlockState;
             Debug.Assert(BlockState != null);
             Debug.Assert(BlockStateViewTable.ContainsKey(BlockState));
         }
@@ -301,11 +301,11 @@
         /// Handler called every time a block split in the controller.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        private protected override void OnBlockSplit(IWriteableSplitBlockOperation operation)
+        private protected override void OnBlockSplit(WriteableSplitBlockOperation operation)
         {
             base.OnBlockSplit(operation);
 
-            IFocusBlockState BlockState = ((IFocusSplitBlockOperation)operation).BlockState;
+            IFocusBlockState BlockState = ((FocusSplitBlockOperation)operation).BlockState;
             Debug.Assert(BlockState != null);
             Debug.Assert(BlockStateViewTable.ContainsKey(BlockState));
         }
@@ -314,11 +314,11 @@
         /// Handler called every time two blocks are merged.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        private protected override void OnBlocksMerged(IWriteableMergeBlocksOperation operation)
+        private protected override void OnBlocksMerged(WriteableMergeBlocksOperation operation)
         {
             base.OnBlocksMerged(operation);
 
-            IFocusBlockState BlockState = ((IFocusMergeBlocksOperation)operation).BlockState;
+            IFocusBlockState BlockState = ((FocusMergeBlocksOperation)operation).BlockState;
             Debug.Assert(BlockState != null);
             Debug.Assert(!BlockStateViewTable.ContainsKey(BlockState));
         }
@@ -327,11 +327,11 @@
         /// Handler called to refresh views.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        private protected override void OnGenericRefresh(IWriteableGenericRefreshOperation operation)
+        private protected override void OnGenericRefresh(WriteableGenericRefreshOperation operation)
         {
             base.OnGenericRefresh(operation);
 
-            IFocusNodeState RefreshState = ((IFocusGenericRefreshOperation)operation).RefreshState;
+            IFocusNodeState RefreshState = ((FocusGenericRefreshOperation)operation).RefreshState;
             Debug.Assert(RefreshState != null);
             Debug.Assert(StateViewTable.ContainsKey(RefreshState));
         }
@@ -341,8 +341,8 @@
             IFocusCellViewTreeContext Context = (IFocusCellViewTreeContext)CreateCellViewTreeContext(stateView);
             ForcedCommentStateView = null;
 
-            IList<IFocusFrameSelectorList> SelectorStack = ((IFocusNodeStateView)stateView).GetSelectorStack();
-            foreach (IFocusFrameSelectorList Selectors in SelectorStack)
+            IList<FocusFrameSelectorList> SelectorStack = ((FocusNodeStateView)stateView).GetSelectorStack();
+            foreach (FocusFrameSelectorList Selectors in SelectorStack)
                 Context.AddSelectors(Selectors);
 
             return Context;
@@ -368,7 +368,7 @@
 
         private protected virtual void UpdateFocusChain(IFocusNodeState state, Node focusedNode, IFocusFrame focusedFrame)
         {
-            IFocusFocusList NewFocusChain = CreateFocusChain();
+            FocusFocusList NewFocusChain = CreateFocusChain();
             IFocusNodeState RootState = Controller.RootState;
             IFocusNodeStateView RootStateView = StateViewTable[RootState];
 
@@ -403,7 +403,7 @@
             SelectionExtension = 0;
         }
 
-        private protected virtual void RecoverFocus(IFocusNodeState state, IFocusFocusList newFocusChain)
+        private protected virtual void RecoverFocus(IFocusNodeState state, FocusFocusList newFocusChain)
         {
             IFocusNodeState CurrentState = state;
             List<IFocusNodeStateView> StateViewList = new List<IFocusNodeStateView>();
@@ -461,7 +461,7 @@
                 Focus = sameStateFocusableList[0];
         }
 
-        private protected virtual bool GetFocusedStateAndChildren(IFocusFocusList newFocusChain, IFocusNodeState state, out IFocusNodeStateView mainStateView, out List<IFocusNodeStateView> stateViewList, out List<IFocusFocus> sameStateFocusableList)
+        private protected virtual bool GetFocusedStateAndChildren(FocusFocusList newFocusChain, IFocusNodeState state, out IFocusNodeStateView mainStateView, out List<IFocusNodeStateView> stateViewList, out List<IFocusFocus> sameStateFocusableList)
         {
             mainStateView = StateViewTable[state];
 
@@ -497,7 +497,7 @@
             {
                 bool IsHandled = false;
                 IFocusTemplate Template;
-                IFocusAssignableCellViewReadOnlyDictionary<string> CellViewTable;
+                FocusAssignableCellViewReadOnlyDictionary<string> CellViewTable;
                 IFocusCellViewCollection EmbeddingCellView;
 
                 if (Entry.Value is IFocusPlaceholderInner<IFocusBrowsingPlaceholderNodeIndex> AsPlaceholderInner)
@@ -556,7 +556,7 @@
                         Template = SourceStateView.Template;
                         CellViewTable = SourceStateView.CellViewTable;
 
-                        IFocusBlockStateView BlockStateView = BlockStateViewTable[BlockState];
+                        FocusBlockStateView BlockStateView = BlockStateViewTable[BlockState];
                         Template = BlockStateView.Template;
                         EmbeddingCellView = BlockStateView.EmbeddingCellView;
 
@@ -701,7 +701,7 @@
         {
             IFocusNodeState Owner = ((IFocusInner<IFocusBrowsingChildIndex>)inner).Owner;
             IFocusNodeStateView StateView = StateViewTable[Owner];
-            IList<IFocusFrameSelectorList> SelectorStack = StateView.GetSelectorStack();
+            IList<FocusFrameSelectorList> SelectorStack = StateView.GetSelectorStack();
 
             IFocusFrame AssociatedFrame = TemplateSet.InnerToFrame((IFocusInner<IFocusBrowsingChildIndex>)inner, SelectorStack) as IFocusFrame;
 

@@ -1,36 +1,18 @@
-﻿#pragma warning disable 1591
-
-namespace EaslyController.Focus
+﻿namespace EaslyController.Focus
 {
     using System.Collections.Generic;
-    using System.Collections.ObjectModel;
     using System.Diagnostics;
 
-    /// <summary>
-    /// List of IxxxFrameSelector
-    /// </summary>
-    public interface IFocusFrameSelectorList : IList<IFocusFrameSelector>, IReadOnlyList<IFocusFrameSelector>, IEqualComparable
-    {
-        new IFocusFrameSelector this[int index] { get; set; }
-        new int Count { get; }
-    }
-
-    /// <summary>
-    /// List of IxxxFrameSelector
-    /// </summary>
-    internal class FocusFrameSelectorList : Collection<IFocusFrameSelector>, IFocusFrameSelectorList
+    /// <inheritdoc/>
+    public class FocusFrameSelectorList : List<IFocusFrameSelector>, IEqualComparable
     {
         #region Debugging
-        /// <summary>
-        /// Compares two <see cref="FocusFrameSelectorList"/> objects.
-        /// </summary>
-        /// <param name="comparer">The comparison support object.</param>
-        /// <param name="other">The other object.</param>
+        /// <inheritdoc/>
         public virtual bool IsEqual(CompareEqual comparer, IEqualComparable other)
         {
             Debug.Assert(other != null);
 
-            if (!comparer.IsSameType(other, out IFocusFrameSelectorList AsFrameSelectorList))
+            if (!comparer.IsSameType(other, out FocusFrameSelectorList AsFrameSelectorList))
                 return comparer.Failed();
 
             if (!comparer.IsSameCount(Count, AsFrameSelectorList.Count))
@@ -43,5 +25,11 @@ namespace EaslyController.Focus
             return true;
         }
         #endregion
+
+        /// <inheritdoc/>
+        public virtual FocusFrameSelectorReadOnlyList ToReadOnly()
+        {
+            return new FocusFrameSelectorReadOnlyList(this);
+        }
     }
 }

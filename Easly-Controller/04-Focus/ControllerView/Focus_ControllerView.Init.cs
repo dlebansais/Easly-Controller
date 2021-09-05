@@ -5,14 +5,14 @@
     /// <summary>
     /// View of a IxxxController.
     /// </summary>
-    public partial class FocusControllerView : FrameControllerView, IFocusControllerView, IFocusInternalControllerView
+    public partial class FocusControllerView : FrameControllerView, IFocusInternalControllerView
     {
         /// <summary>
         /// Creates and initializes a new instance of a <see cref="FocusControllerView"/> object.
         /// </summary>
         /// <param name="controller">The controller on which the view is attached.</param>
         /// <param name="templateSet">The template set used to describe the view.</param>
-        public static IFocusControllerView Create(IFocusController controller, IFocusTemplateSet templateSet)
+        public static FocusControllerView Create(FocusController controller, IFocusTemplateSet templateSet)
         {
             FocusControllerView View = new FocusControllerView(controller, templateSet);
             View.Init();
@@ -24,7 +24,7 @@
         /// </summary>
         /// <param name="controller">The controller on which the view is attached.</param>
         /// <param name="templateSet">The template set used to describe the view.</param>
-        private protected FocusControllerView(IFocusController controller, IFocusTemplateSet templateSet)
+        private protected FocusControllerView(FocusController controller, IFocusTemplateSet templateSet)
             : base(controller, templateSet)
         {
         }

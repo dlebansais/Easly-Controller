@@ -5,7 +5,14 @@
     /// <summary>
     /// Details for removal operations.
     /// </summary>
-    public abstract class WriteableRemoveOperation : WriteableOperation
+    public interface IWriteableRemoveOperation
+    {
+    }
+
+    /// <summary>
+    /// Details for removal operations.
+    /// </summary>
+    public abstract class WriteableRemoveOperation : WriteableOperation, IWriteableRemoveOperation
     {
         #region Init
         /// <summary>

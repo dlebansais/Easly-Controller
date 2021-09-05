@@ -25,7 +25,7 @@
         /// Inserts a new block with one node in a block list.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        void InsertNewBlock(WriteableInsertBlockOperation operation);
+        void InsertNewBlock(IWriteableInsertBlockOperation operation);
 
         /// <summary>
         /// Removes a node from a block list. This method is allowed to remove the last node of a block.
@@ -91,7 +91,7 @@
         /// Inserts a new block with one node in a block list.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        void InsertNewBlock(WriteableInsertBlockOperation operation);
+        void InsertNewBlock(IWriteableInsertBlockOperation operation);
 
         /// <summary>
         /// Removes a node from a block list. This method is allowed to remove the last node of a block.
@@ -219,7 +219,7 @@
         /// Inserts a new block with one node in a block list.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        public virtual void InsertNewBlock(WriteableInsertBlockOperation operation)
+        public virtual void InsertNewBlock(IWriteableInsertBlockOperation operation)
         {
             Debug.Assert(operation != null);
 
@@ -236,8 +236,8 @@
             NodeTreeHelperBlockList.InsertIntoBlockList(ParentNode, PropertyName, BlockIndex, NewBlock);
             NodeTreeHelperBlockList.InsertIntoBlock(NewBlock, 0, NewNode);
 
-            WriteableBrowsingNewBlockNodeIndex BrowsingNewBlockIndex = CreateNewBlockNodeIndex(NewNode, BlockIndex);
-            WriteableBrowsingExistingBlockNodeIndex BrowsingExistingBlockIndex = (WriteableBrowsingExistingBlockNodeIndex)BrowsingNewBlockIndex.ToExistingBlockIndex();
+            IWriteableBrowsingNewBlockNodeIndex BrowsingNewBlockIndex = CreateNewBlockNodeIndex(NewNode, BlockIndex);
+            IWriteableBrowsingExistingBlockNodeIndex BrowsingExistingBlockIndex = (IWriteableBrowsingExistingBlockNodeIndex)BrowsingNewBlockIndex.ToExistingBlockIndex();
 
             IWriteableBlockState BlockState = (IWriteableBlockState)CreateBlockState(BrowsingNewBlockIndex, NewBlock);
             InsertInBlockStateList(BlockIndex, BlockState);
@@ -253,7 +253,7 @@
 
                 foreach (IWriteablePlaceholderNodeState State in NextBlockState.StateList)
                 {
-                    WriteableBrowsingExistingBlockNodeIndex NodeIndex = State.ParentIndex as WriteableBrowsingExistingBlockNodeIndex;
+                    IWriteableBrowsingExistingBlockNodeIndex NodeIndex = State.ParentIndex as IWriteableBrowsingExistingBlockNodeIndex;
                     Debug.Assert(NodeIndex != null);
                     Debug.Assert(NodeIndex.BlockIndex == BlockIndex - 1);
 

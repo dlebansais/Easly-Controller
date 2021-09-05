@@ -4,7 +4,12 @@
     using EaslyController.Writeable;
 
     /// <inheritdoc/>
-    internal abstract class FrameRemoveOperation : WriteableRemoveOperation
+    public interface IFrameRemoveOperation : IWriteableRemoveOperation
+    {
+    }
+
+    /// <inheritdoc/>
+    internal abstract class FrameRemoveOperation : WriteableRemoveOperation, IFrameRemoveOperation
     {
         #region Init
         /// <summary>

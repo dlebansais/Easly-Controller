@@ -10,14 +10,7 @@
     /// <summary>
     /// Cycle manager for Feature nodes.
     /// </summary>
-    public interface IFocusCycleManagerFeature : IFocusCycleManager
-    {
-    }
-
-    /// <summary>
-    /// Cycle manager for Feature nodes.
-    /// </summary>
-    public class FocusCycleManagerFeature : FocusCycleManager, IFocusCycleManagerFeature
+    public class FocusCycleManagerFeature : FocusCycleManager
     {
         #region Properties
         /// <summary>
@@ -30,7 +23,7 @@
         /// <summary></summary>
         protected override void AddNextNodeToCycle(IFocusCyclableNodeState state)
         {
-            IFocusInsertionChildNodeIndexList CycleIndexList = state.CycleIndexList;
+            FocusInsertionChildNodeIndexList CycleIndexList = state.CycleIndexList;
             Node ParentNode = state.ParentState.Node;
             IFocusNodeIndex NodeIndex = state.ParentIndex as IFocusNodeIndex;
 

@@ -27,7 +27,7 @@
         /// <param name="nodeType">Type of the node this frame selector can describe.</param>
         /// <param name="nodeTemplateTable">Table of templates with all frames.</param>
         /// <param name="propertyName">The property for which frames can be selected.</param>
-        bool IsValid(Type nodeType, IFocusTemplateReadOnlyDictionary nodeTemplateTable, string propertyName);
+        bool IsValid(Type nodeType, FocusTemplateReadOnlyDictionary nodeTemplateTable, string propertyName);
     }
 
     /// <summary>
@@ -56,7 +56,7 @@
         /// <param name="nodeType">Type of the node this frame selector can describe.</param>
         /// <param name="nodeTemplateTable">Table of templates with all frames.</param>
         /// <param name="propertyName">The property for which frames can be selected.</param>
-        public virtual bool IsValid(Type nodeType, IFocusTemplateReadOnlyDictionary nodeTemplateTable, string propertyName)
+        public virtual bool IsValid(Type nodeType, FocusTemplateReadOnlyDictionary nodeTemplateTable, string propertyName)
         {
             bool IsValid = true;
 

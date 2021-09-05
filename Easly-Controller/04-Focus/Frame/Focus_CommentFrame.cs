@@ -43,7 +43,7 @@
         /// Gets selectors in the frame and nested frames.
         /// </summary>
         /// <param name="selectorTable">The table of selectors to update.</param>
-        public virtual void CollectSelectors(Dictionary<string, IFocusFrameSelectorList> selectorTable)
+        public virtual void CollectSelectors(Dictionary<string, FocusFrameSelectorList> selectorTable)
         {
         }
         #endregion

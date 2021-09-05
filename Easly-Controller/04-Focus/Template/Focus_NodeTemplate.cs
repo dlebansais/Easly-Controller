@@ -42,13 +42,13 @@
         /// </summary>
         /// <param name="propertyName">The property name.</param>
         /// <param name="selectorStack">A list of selectors to choose the correct frame.</param>
-        IFocusNamedFrame PropertyToFrame(string propertyName, IList<IFocusFrameSelectorList> selectorStack);
+        IFocusNamedFrame PropertyToFrame(string propertyName, IList<FocusFrameSelectorList> selectorStack);
 
         /// <summary>
         /// Gets the frame associated to the comment.
         /// This overload uses selectors to choose the correct frame.
         /// </summary>
-        IFocusCommentFrame GetCommentFrame(IList<IFocusFrameSelectorList> selectorStack);
+        IFocusCommentFrame GetCommentFrame(IList<FocusFrameSelectorList> selectorStack);
     }
 
     /// <summary>
@@ -163,7 +163,7 @@
         /// </summary>
         /// <param name="propertyName">The property name.</param>
         /// <param name="selectorStack">A list of selectors to choose the correct frame.</param>
-        public virtual IFocusNamedFrame PropertyToFrame(string propertyName, IList<IFocusFrameSelectorList> selectorStack)
+        public virtual IFocusNamedFrame PropertyToFrame(string propertyName, IList<FocusFrameSelectorList> selectorStack)
         {
             int ValueFrameIndex = 0;
             bool Found = GetFirstNamedFrame(Root, propertyName, selectorStack, false, ref ValueFrameIndex, out IFocusNamedFrame Result);
@@ -174,7 +174,7 @@
             return Result;
         }
 
-        private protected bool GetFirstNamedFrame(IFocusFrame root, string propertyName, IList<IFocusFrameSelectorList> selectorStack, bool reverseSearch, ref int valueFrameIndex, out IFocusNamedFrame frame)
+        private protected bool GetFirstNamedFrame(IFocusFrame root, string propertyName, IList<FocusFrameSelectorList> selectorStack, bool reverseSearch, ref int valueFrameIndex, out IFocusNamedFrame frame)
         {
             frame = null;
             bool Found = false;
@@ -210,14 +210,14 @@
                 return false;
         }
 
-        private bool GetFirstNamedFramePanel(IFocusPanelFrame root, string propertyName, IList<IFocusFrameSelectorList> selectorStack, bool reverseSearch, ref int valueFrameIndex, out IFocusNamedFrame frame)
+        private bool GetFirstNamedFramePanel(IFocusPanelFrame root, string propertyName, IList<FocusFrameSelectorList> selectorStack, bool reverseSearch, ref int valueFrameIndex, out IFocusNamedFrame frame)
         {
             frame = null;
 
             int Count = root.Items.Count;
             for (int i = 0; i < Count; i++)
             {
-                IFocusFrame Item = root.Items[reverseSearch ? Count - 1 - i : i];
+                IFocusFrame Item = (IFocusFrame)root.Items[reverseSearch ? Count - 1 - i : i];
 
                 if (GetFirstNamedFrame(Item, propertyName, selectorStack, reverseSearch, ref valueFrameIndex, out frame))
                     return true;
@@ -226,7 +226,7 @@
             return false;
         }
 
-        private bool GetFirstNamedFrameSelection(IFocusSelectionFrame root, string propertyName, IList<IFocusFrameSelectorList> selectorStack, bool reverseSearch, ref int valueFrameIndex, out IFocusNamedFrame frame)
+        private bool GetFirstNamedFrameSelection(IFocusSelectionFrame root, string propertyName, IList<FocusFrameSelectorList> selectorStack, bool reverseSearch, ref int valueFrameIndex, out IFocusNamedFrame frame)
         {
             frame = null;
 
@@ -234,7 +234,7 @@
 
             foreach (IFocusSelectableFrame Item in root.Items)
             {
-                foreach (IFocusFrameSelectorList SelectorList in selectorStack)
+                foreach (FocusFrameSelectorList SelectorList in selectorStack)
                 {
                     foreach (IFocusFrameSelector Selector in SelectorList)
                     {
@@ -263,7 +263,7 @@
         /// Gets the frame associated to the comment.
         /// This overload uses selectors to choose the correct frame.
         /// </summary>
-        public virtual IFocusCommentFrame GetCommentFrame(IList<IFocusFrameSelectorList> selectorStack)
+        public virtual IFocusCommentFrame GetCommentFrame(IList<FocusFrameSelectorList> selectorStack)
         {
             bool Found = GetFirstCommentFrame(Root, selectorStack, out IFocusCommentFrame Result);
             Debug.Assert(Found);
@@ -272,7 +272,7 @@
             return Result;
         }
 
-        private protected virtual bool GetFirstCommentFrame(IFocusFrame root, IList<IFocusFrameSelectorList> selectorStack, out IFocusCommentFrame frame)
+        private protected virtual bool GetFirstCommentFrame(IFocusFrame root, IList<FocusFrameSelectorList> selectorStack, out IFocusCommentFrame frame)
         {
             bool Found = false;
             frame = null;
@@ -299,7 +299,7 @@
             return true;
         }
 
-        private bool GetFirstCommentFramePanel(IFocusPanelFrame root, IList<IFocusFrameSelectorList> selectorStack, out IFocusCommentFrame frame)
+        private bool GetFirstCommentFramePanel(IFocusPanelFrame root, IList<FocusFrameSelectorList> selectorStack, out IFocusCommentFrame frame)
         {
             frame = null;
 
@@ -310,7 +310,7 @@
             return false;
         }
 
-        private bool GetFirstCommentFrameSelection(IFocusSelectionFrame root, IList<IFocusFrameSelectorList> selectorStack, out IFocusCommentFrame frame)
+        private bool GetFirstCommentFrameSelection(IFocusSelectionFrame root, IList<FocusFrameSelectorList> selectorStack, out IFocusCommentFrame frame)
         {
             frame = null;
 
@@ -318,7 +318,7 @@
 
             foreach (IFocusSelectableFrame Item in root.Items)
             {
-                foreach (IFocusFrameSelectorList SelectorList in selectorStack)
+                foreach (FocusFrameSelectorList SelectorList in selectorStack)
                 {
                     foreach (IFocusFrameSelector Selector in SelectorList)
                     {

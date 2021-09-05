@@ -75,7 +75,7 @@
                 int OldValue = NodeTreeHelper.GetEnumValueAndRange(StateView.State.Node, PropertyName, out int Min, out int Max);
                 if (OldValue != NewValue && NewValue >= Min && NewValue <= Max)
                 {
-                    IFocusController Controller = StateView.ControllerView.Controller;
+                    FocusController Controller = StateView.ControllerView.Controller;
                     Controller.ChangeDiscreteValue(StateView.State.ParentIndex, PropertyName, NewValue);
 
                     isChanged = true;
