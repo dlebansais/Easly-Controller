@@ -5,7 +5,7 @@
     using EaslyController.Writeable;
 
     /// <inheritdoc/>
-    internal class FrameChangeTextOperation : WriteableChangeTextOperation
+    internal class FrameChangeTextOperation : WriteableChangeTextOperation, IFrameOperation
     {
         #region Init
         /// <summary>
@@ -17,7 +17,7 @@
         /// <param name="handlerRedo">Handler to execute to redo the operation.</param>
         /// <param name="handlerUndo">Handler to execute to undo the operation.</param>
         /// <param name="isNested">True if the operation is nested within another more general one.</param>
-        public FrameChangeTextOperation(Node parentNode, string propertyName, string text, Action<WriteableOperation> handlerRedo, Action<WriteableOperation> handlerUndo, bool isNested)
+        public FrameChangeTextOperation(Node parentNode, string propertyName, string text, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
             : base(parentNode, propertyName, text, handlerRedo, handlerUndo, isNested)
         {
         }
@@ -34,7 +34,7 @@
         /// <summary>
         /// Creates a IxxxChangeTextOperation object.
         /// </summary>
-        private protected override WriteableChangeTextOperation CreateChangeTextOperation(string text, Action<WriteableOperation> handlerRedo, Action<WriteableOperation> handlerUndo, bool isNested)
+        private protected override WriteableChangeTextOperation CreateChangeTextOperation(string text, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameChangeTextOperation));
             return new FrameChangeTextOperation(ParentNode, PropertyName, text, handlerRedo, handlerUndo, isNested);

@@ -24,8 +24,8 @@
             Debug.Assert(inner != null);
             Debug.Assert(blockIndex >= 0 && blockIndex < inner.BlockStateList.Count);
 
-            Action<WriteableOperation> HandlerRedo = (WriteableOperation operation) => RedoChangeReplication(operation);
-            Action<WriteableOperation> HandlerUndo = (WriteableOperation operation) => UndoChangeReplication(operation);
+            Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => RedoChangeReplication(operation);
+            Action<IWriteableOperation> HandlerUndo = (IWriteableOperation operation) => UndoChangeReplication(operation);
             WriteableChangeBlockOperation Operation = CreateChangeBlockOperation(inner.Owner.Node, inner.PropertyName, blockIndex, replication, HandlerRedo, HandlerUndo, isNested: false);
 
             Operation.Redo();
@@ -33,13 +33,13 @@
             CheckInvariant();
         }
 
-        private protected virtual void RedoChangeReplication(WriteableOperation operation)
+        private protected virtual void RedoChangeReplication(IWriteableOperation operation)
         {
             WriteableChangeBlockOperation ChangeBlockOperation = (WriteableChangeBlockOperation)operation;
             ExecuteChangeReplication(ChangeBlockOperation);
         }
 
-        private protected virtual void UndoChangeReplication(WriteableOperation operation)
+        private protected virtual void UndoChangeReplication(IWriteableOperation operation)
         {
             WriteableChangeBlockOperation ChangeBlockOperation = (WriteableChangeBlockOperation)operation;
             ChangeBlockOperation = ChangeBlockOperation.ToInverseChange();
@@ -71,8 +71,8 @@
             Debug.Assert(StateTable.ContainsKey(nodeIndex));
             Debug.Assert(value >= 0);
 
-            Action<WriteableOperation> HandlerRedo = (WriteableOperation operation) => RedoChangeDiscreteValue(operation);
-            Action<WriteableOperation> HandlerUndo = (WriteableOperation operation) => UndoChangeDiscreteValue(operation);
+            Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => RedoChangeDiscreteValue(operation);
+            Action<IWriteableOperation> HandlerUndo = (IWriteableOperation operation) => UndoChangeDiscreteValue(operation);
             IWriteableNodeState State = (IWriteableNodeState)StateTable[nodeIndex];
             WriteableChangeDiscreteValueOperation Operation = CreateChangeDiscreteValueOperation(State.Node, propertyName, value, HandlerRedo, HandlerUndo, isNested: false);
 
@@ -81,13 +81,13 @@
             CheckInvariant();
         }
 
-        private protected virtual void RedoChangeDiscreteValue(WriteableOperation operation)
+        private protected virtual void RedoChangeDiscreteValue(IWriteableOperation operation)
         {
             WriteableChangeDiscreteValueOperation ChangeDiscreteValueOperation = (WriteableChangeDiscreteValueOperation)operation;
             ExecuteChangeDiscreteValue(ChangeDiscreteValueOperation);
         }
 
-        private protected virtual void UndoChangeDiscreteValue(WriteableOperation operation)
+        private protected virtual void UndoChangeDiscreteValue(IWriteableOperation operation)
         {
             WriteableChangeDiscreteValueOperation ChangeDiscreteValueOperation = (WriteableChangeDiscreteValueOperation)operation;
             ChangeDiscreteValueOperation = ChangeDiscreteValueOperation.ToInverseChange();
@@ -131,8 +131,8 @@
             Debug.Assert(StateTable.ContainsKey(nodeIndex));
             Debug.Assert(text != null);
 
-            Action<WriteableOperation> HandlerRedo = (WriteableOperation operation) => RedoChangeText(operation);
-            Action<WriteableOperation> HandlerUndo = (WriteableOperation operation) => UndoChangeText(operation);
+            Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => RedoChangeText(operation);
+            Action<IWriteableOperation> HandlerUndo = (IWriteableOperation operation) => UndoChangeText(operation);
             IWriteableNodeState State = (IWriteableNodeState)StateTable[nodeIndex];
             WriteableChangeTextOperation Operation = CreateChangeTextOperation(State.Node, propertyName, text, HandlerRedo, HandlerUndo, isNested: false);
 
@@ -141,13 +141,13 @@
             CheckInvariant();
         }
 
-        private protected virtual void RedoChangeText(WriteableOperation operation)
+        private protected virtual void RedoChangeText(IWriteableOperation operation)
         {
             WriteableChangeTextOperation ChangeTextOperation = (WriteableChangeTextOperation)operation;
             ExecuteChangeText(ChangeTextOperation);
         }
 
-        private protected virtual void UndoChangeText(WriteableOperation operation)
+        private protected virtual void UndoChangeText(IWriteableOperation operation)
         {
             WriteableChangeTextOperation ChangeTextOperation = (WriteableChangeTextOperation)operation;
             ChangeTextOperation = ChangeTextOperation.ToInverseChange();
@@ -187,8 +187,8 @@
             Debug.Assert(StateTable.ContainsKey(nodeIndex));
             Debug.Assert(text != null);
 
-            Action<WriteableOperation> HandlerRedo = (WriteableOperation operation) => RedoChangeComment(operation);
-            Action<WriteableOperation> HandlerUndo = (WriteableOperation operation) => UndoChangeComment(operation);
+            Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => RedoChangeComment(operation);
+            Action<IWriteableOperation> HandlerUndo = (IWriteableOperation operation) => UndoChangeComment(operation);
             IWriteableNodeState State = (IWriteableNodeState)StateTable[nodeIndex];
             WriteableChangeCommentOperation Operation = CreateChangeCommentOperation(State.Node, text, HandlerRedo, HandlerUndo, isNested: false);
 
@@ -197,13 +197,13 @@
             CheckInvariant();
         }
 
-        private protected virtual void RedoChangeComment(WriteableOperation operation)
+        private protected virtual void RedoChangeComment(IWriteableOperation operation)
         {
             WriteableChangeCommentOperation ChangeCommentOperation = (WriteableChangeCommentOperation)operation;
             ExecuteChangeComment(ChangeCommentOperation);
         }
 
-        private protected virtual void UndoChangeComment(WriteableOperation operation)
+        private protected virtual void UndoChangeComment(IWriteableOperation operation)
         {
             WriteableChangeCommentOperation ChangeCommentOperation = (WriteableChangeCommentOperation)operation;
             ChangeCommentOperation = ChangeCommentOperation.ToInverseChange();

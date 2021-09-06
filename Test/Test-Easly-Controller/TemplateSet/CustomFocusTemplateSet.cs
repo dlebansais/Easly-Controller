@@ -11,18 +11,18 @@ namespace TestDebug
         static CustomFocusTemplateSet()
         {
             NodeTemplateDictionary = LoadTemplate(FocusTemplateListString);
-            IFocusTemplateReadOnlyDictionary FocusCustomNodeTemplates = (IFocusTemplateReadOnlyDictionary)NodeTemplateDictionary.ToReadOnly();
+            FocusTemplateReadOnlyDictionary FocusCustomNodeTemplates = (FocusTemplateReadOnlyDictionary)NodeTemplateDictionary.ToReadOnly();
             BlockTemplateDictionary = LoadTemplate(FocusBlockTemplateString);
-            IFocusTemplateReadOnlyDictionary FocusCustomBlockTemplates = (IFocusTemplateReadOnlyDictionary)BlockTemplateDictionary.ToReadOnly();
+            FocusTemplateReadOnlyDictionary FocusCustomBlockTemplates = (FocusTemplateReadOnlyDictionary)BlockTemplateDictionary.ToReadOnly();
             FocusTemplateSet = new FocusTemplateSet(FocusCustomNodeTemplates, FocusCustomBlockTemplates);
         }
 
-        private static IFocusTemplateDictionary LoadTemplate(string s)
+        private static FocusTemplateDictionary LoadTemplate(string s)
         {
             byte[] ByteArray = Encoding.UTF8.GetBytes(s);
             using (MemoryStream ms = new MemoryStream(ByteArray))
             {
-                IFocusTemplateList Templates = (IFocusTemplateList)XamlReader.Parse(s);
+                FocusTemplateList Templates = (FocusTemplateList)XamlReader.Parse(s);
 
                 FocusTemplateDictionary TemplateDictionary = new FocusTemplateDictionary();
                 foreach (IFocusTemplate Item in Templates)
@@ -41,8 +41,8 @@ namespace TestDebug
         #endregion
 
         #region Properties
-        public static IFocusTemplateDictionary NodeTemplateDictionary { get; private set; }
-        public static IFocusTemplateDictionary BlockTemplateDictionary { get; private set; }
+        public static FocusTemplateDictionary NodeTemplateDictionary { get; private set; }
+        public static FocusTemplateDictionary BlockTemplateDictionary { get; private set; }
         public static IFocusTemplateSet FocusTemplateSet { get; private set; }
         #endregion
 

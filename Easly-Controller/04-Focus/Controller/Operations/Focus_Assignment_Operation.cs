@@ -8,7 +8,7 @@
     /// <summary>
     /// Operation details for assigning or unassigning a node.
     /// </summary>
-    internal class FocusAssignmentOperation : FrameAssignmentOperation
+    internal class FocusAssignmentOperation : FrameAssignmentOperation, IFocusOperation
     {
         #region Init
         /// <summary>
@@ -19,7 +19,7 @@
         /// <param name="handlerRedo">Handler to execute to redo the operation.</param>
         /// <param name="handlerUndo">Handler to execute to undo the operation.</param>
         /// <param name="isNested">True if the operation is nested within another more general one.</param>
-        public FocusAssignmentOperation(Node parentNode, string propertyName, Action<WriteableOperation> handlerRedo, Action<WriteableOperation> handlerUndo, bool isNested)
+        public FocusAssignmentOperation(Node parentNode, string propertyName, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
             : base(parentNode, propertyName, handlerRedo, handlerUndo, isNested)
         {
         }
@@ -36,7 +36,7 @@
         /// <summary>
         /// Creates a IxxxAssignmentOperation object.
         /// </summary>
-        private protected override WriteableAssignmentOperation CreateAssignmentOperation(Action<WriteableOperation> handlerRedo, Action<WriteableOperation> handlerUndo, bool isNested)
+        private protected override WriteableAssignmentOperation CreateAssignmentOperation(Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusAssignmentOperation));
             return new FocusAssignmentOperation(ParentNode, PropertyName, handlerRedo, handlerUndo, isNested);

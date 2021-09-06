@@ -11,7 +11,7 @@
         bool ICollection<FrameOperation>.Contains(FrameOperation item) { return Contains(item); }
         void ICollection<FrameOperation>.CopyTo(FrameOperation[] array, int arrayIndex) { ((System.Collections.ICollection)this).CopyTo(array, arrayIndex); }
         bool ICollection<FrameOperation>.Remove(FrameOperation item) { return Remove(item); }
-        bool ICollection<FrameOperation>.IsReadOnly { get { return ((ICollection<WriteableOperation>)this).IsReadOnly; } }
+        bool ICollection<FrameOperation>.IsReadOnly { get { return ((ICollection<IWriteableOperation>)this).IsReadOnly; } }
         IEnumerator<FrameOperation> IEnumerable<FrameOperation>.GetEnumerator() { return ((IList<FrameOperation>)this).GetEnumerator(); }
         FrameOperation IList<FrameOperation>.this[int index] { get { return (FrameOperation)this[index]; } set { this[index] = value; } }
         int IList<FrameOperation>.IndexOf(FrameOperation item) { return IndexOf(item); }

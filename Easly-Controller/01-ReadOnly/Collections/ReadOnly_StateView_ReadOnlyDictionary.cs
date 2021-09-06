@@ -5,7 +5,7 @@
     using System.Diagnostics;
 
     /// <inheritdoc/>
-    public class ReadOnlyStateViewReadOnlyDictionary : ReadOnlyDictionary<IReadOnlyNodeState, ReadOnlyNodeStateView>, IEqualComparable
+    public class ReadOnlyStateViewReadOnlyDictionary : ReadOnlyDictionary<IReadOnlyNodeState, IReadOnlyNodeStateView>, IEqualComparable
     {
         /// <inheritdoc/>
         public ReadOnlyStateViewReadOnlyDictionary(ReadOnlyStateViewDictionary dictionary)
@@ -25,7 +25,7 @@
             if (!comparer.IsSameCount(Count, AsStateViewReadOnlyDictionary.Count))
                 return comparer.Failed();
 
-            foreach (KeyValuePair<IReadOnlyNodeState, ReadOnlyNodeStateView> Entry in this)
+            foreach (KeyValuePair<IReadOnlyNodeState, IReadOnlyNodeStateView> Entry in this)
             {
                 if (!comparer.IsTrue(AsStateViewReadOnlyDictionary.ContainsKey(Entry.Key)))
                     return comparer.Failed();

@@ -5,7 +5,7 @@
     /// <summary>
     /// View of a pattern state.
     /// </summary>
-    internal class ReadOnlyPatternStateView : ReadOnlyNodeStateView, IEqualComparable
+    public class ReadOnlyPatternStateView : ReadOnlyNodeStateView, IEqualComparable
     {
         #region Init
         /// <summary>

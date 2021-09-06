@@ -88,8 +88,8 @@
         {
             for (int BlockIndex = inner.BlockStateList.Count; BlockIndex > 0; BlockIndex--)
             {
-                Action<WriteableOperation> HandlerRedo = (WriteableOperation operation) => RedoRemoveBlockView(operation);
-                Action<WriteableOperation> HandlerUndo = (WriteableOperation operation) => throw new NotImplementedException(); // Undo is not possible.
+                Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => RedoRemoveBlockView(operation);
+                Action<IWriteableOperation> HandlerUndo = (IWriteableOperation operation) => throw new NotImplementedException(); // Undo is not possible.
                 WriteableRemoveBlockViewOperation Operation = CreateRemoveBlockViewOperation(inner.Owner.Node, inner.PropertyName, BlockIndex - 1, HandlerRedo, HandlerUndo, isNested: true);
 
                 Operation.Redo();
@@ -98,7 +98,7 @@
             Stats.BlockListCount--;
         }
 
-        private protected virtual void RedoRemoveBlockView(WriteableOperation operation)
+        private protected virtual void RedoRemoveBlockView(IWriteableOperation operation)
         {
             WriteableRemoveBlockViewOperation RemoveBlockViewOperation = (WriteableRemoveBlockViewOperation)operation;
             ExecuteRemoveBlockView(RemoveBlockViewOperation);
@@ -142,7 +142,7 @@
             NotifyBlockViewRemoved(operation);
         }
 
-        private protected virtual void NotifyBlockStateInserted(WriteableInsertBlockOperation operation)
+        private protected virtual void NotifyBlockStateInserted(IWriteableInsertBlockOperation operation)
         {
             BlockStateInsertedHandler?.Invoke(operation);
         }
@@ -167,7 +167,7 @@
             StateRemovedHandler?.Invoke(operation);
         }
 
-        private protected virtual void NotifyStateReplaced(WriteableReplaceOperation operation)
+        private protected virtual void NotifyStateReplaced(IWriteableReplaceOperation operation)
         {
             StateReplacedHandler?.Invoke(operation);
         }
@@ -227,7 +227,7 @@
             GenericRefreshHandler?.Invoke(operation);
         }
 
-        private protected virtual void SetLastOperation(WriteableOperation operation)
+        private protected virtual void SetLastOperation(IWriteableOperation operation)
         {
             WriteableOperationList OperationList = CreateOperationList();
             OperationList.Add(operation);

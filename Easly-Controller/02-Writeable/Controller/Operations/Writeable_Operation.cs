@@ -6,7 +6,38 @@
     /// <summary>
     /// Base for all operations modifying the node tree.
     /// </summary>
-    public class WriteableOperation
+    public interface IWriteableOperation
+    {
+        /// <summary>
+        /// Handler to execute to redo the operation.
+        /// </summary>
+        Action<IWriteableOperation> HandlerRedo { get; }
+
+        /// <summary>
+        /// Handler to execute to undo the operation.
+        /// </summary>
+        Action<IWriteableOperation> HandlerUndo { get; }
+
+        /// <summary>
+        /// True if the operation is nested within another more general one.
+        /// </summary>
+        bool IsNested { get; }
+
+        /// <summary>
+        /// Execute the operation.
+        /// </summary>
+        void Redo();
+
+        /// <summary>
+        /// Undo the operation.
+        /// </summary>
+        void Undo();
+    }
+
+    /// <summary>
+    /// Base for all operations modifying the node tree.
+    /// </summary>
+    public class WriteableOperation : IWriteableOperation
     {
         #region Init
         /// <summary>
@@ -15,7 +46,7 @@
         /// <param name="handlerRedo">Handler to execute to redo the operation.</param>
         /// <param name="handlerUndo">Handler to execute to undo the operation.</param>
         /// <param name="isNested">True if the operation is nested within another more general one.</param>
-        public WriteableOperation(Action<WriteableOperation> handlerRedo, Action<WriteableOperation> handlerUndo, bool isNested)
+        public WriteableOperation(Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
         {
             Debug.Assert(handlerRedo != null);
             Debug.Assert(handlerUndo != null);
@@ -30,12 +61,12 @@
         /// <summary>
         /// Handler to execute to redo the operation.
         /// </summary>
-        public Action<WriteableOperation> HandlerRedo { get; }
+        public Action<IWriteableOperation> HandlerRedo { get; }
 
         /// <summary>
         /// Handler to execute to undo the operation.
         /// </summary>
-        public Action<WriteableOperation> HandlerUndo { get; }
+        public Action<IWriteableOperation> HandlerUndo { get; }
 
         /// <summary>
         /// True if the operation is nested within another more general one.

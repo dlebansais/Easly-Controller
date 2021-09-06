@@ -33,7 +33,7 @@
         /// <summary>
         /// The main operation for this group.
         /// </summary>
-        public WriteableOperation MainOperation { get { return OperationList[0]; } }
+        public IWriteableOperation MainOperation { get { return OperationList[0]; } }
 
         /// <summary>
         /// Optional refresh operation to execute at the end of undo and redo.
@@ -49,7 +49,7 @@
         {
             for (int i = 0; i < OperationList.Count; i++)
             {
-                WriteableOperation Operation = OperationList[i];
+                IWriteableOperation Operation = OperationList[i];
                 Operation.Redo();
             }
 
@@ -64,7 +64,7 @@
         {
             for (int i = OperationList.Count; i > 0; i--)
             {
-                WriteableOperation Operation = OperationList[i - 1];
+                IWriteableOperation Operation = OperationList[i - 1];
                 Operation.Undo();
             }
 

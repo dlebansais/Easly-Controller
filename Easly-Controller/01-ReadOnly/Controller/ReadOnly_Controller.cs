@@ -35,7 +35,7 @@
         /// Creates and initializes a new instance of a <see cref="ReadOnlyController"/> object.
         /// </summary>
         /// <param name="nodeIndex">Index of the root of the node tree.</param>
-        public static ReadOnlyController Create(ReadOnlyRootNodeIndex nodeIndex)
+        public static ReadOnlyController Create(IReadOnlyRootNodeIndex nodeIndex)
         {
             ReadOnlyController Controller = new ReadOnlyController();
             Controller.SetRoot(nodeIndex);

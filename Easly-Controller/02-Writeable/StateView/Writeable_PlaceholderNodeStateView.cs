@@ -6,7 +6,7 @@
     /// <summary>
     /// View of a child node.
     /// </summary>
-    internal class WriteablePlaceholderNodeStateView : ReadOnlyPlaceholderNodeStateView, IWriteableNodeStateView
+    public class WriteablePlaceholderNodeStateView : ReadOnlyPlaceholderNodeStateView, IWriteableNodeStateView
     {
         #region Init
         /// <summary>

@@ -50,7 +50,7 @@
         /// Replaces a node.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        public abstract void Replace(WriteableReplaceOperation operation);
+        public abstract void Replace(IWriteableReplaceOperation operation);
         #endregion
     }
 }

@@ -33,8 +33,8 @@
 
             IndexToPositionAndNode(replaceIndex, out int BlockIndex, out int Index, out Node NewNode);
 
-            Action<WriteableOperation> HandlerRedo = (WriteableOperation operation) => RedoReplace(operation);
-            Action<WriteableOperation> HandlerUndo = (WriteableOperation operation) => UndoReplace(operation);
+            Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => RedoReplace(operation);
+            Action<IWriteableOperation> HandlerUndo = (IWriteableOperation operation) => UndoReplace(operation);
             IWriteableReplaceOperation Operation = CreateReplaceOperation(inner.Owner.Node, inner.PropertyName, BlockIndex, Index, NewNode, HandlerRedo, HandlerUndo, isNested: false);
 
             Operation.Redo();
@@ -44,21 +44,21 @@
             nodeIndex = Operation.NewBrowsingIndex;
         }
 
-        private protected virtual void RedoReplace(WriteableOperation operation)
+        private protected virtual void RedoReplace(IWriteableOperation operation)
         {
-            WriteableReplaceOperation ReplaceOperation = (WriteableReplaceOperation)operation;
+            IWriteableReplaceOperation ReplaceOperation = (IWriteableReplaceOperation)operation;
             ExecuteReplace(ReplaceOperation);
         }
 
-        private protected virtual void UndoReplace(WriteableOperation operation)
+        private protected virtual void UndoReplace(IWriteableOperation operation)
         {
-            WriteableReplaceOperation ReplaceOperation = (WriteableReplaceOperation)operation;
+            IWriteableReplaceOperation ReplaceOperation = (IWriteableReplaceOperation)operation;
             ReplaceOperation = ReplaceOperation.ToInverseReplace();
 
             ExecuteReplace(ReplaceOperation);
         }
 
-        private protected virtual void ExecuteReplace(WriteableReplaceOperation operation)
+        private protected virtual void ExecuteReplace(IWriteableReplaceOperation operation)
         {
             Node ParentNode = operation.ParentNode;
             string PropertyName = operation.PropertyName;
@@ -70,7 +70,7 @@
             NotifyStateReplaced(operation);
         }
 
-        private protected virtual void ReplaceState(WriteableReplaceOperation operation, IWriteableInner<IWriteableBrowsingChildIndex> inner)
+        private protected virtual void ReplaceState(IWriteableReplaceOperation operation, IWriteableInner<IWriteableBrowsingChildIndex> inner)
         {
             Debug.Assert(inner != null);
             IWriteableNodeState Owner = inner.Owner;
@@ -162,14 +162,14 @@
 
             int FinalBlockIndex = BlockIndex + 1;
 
-            Action<WriteableOperation> HandlerRedoInsertNode = (WriteableOperation operation) => RedoInsertNewNode(operation);
-            Action<WriteableOperation> HandlerUndoInsertNode = (WriteableOperation operation) => UndoInsertNewNode(operation);
-            Action<WriteableOperation> HandlerRedoInsertBlock = (WriteableOperation operation) => RedoInsertNewBlock(operation);
-            Action<WriteableOperation> HandlerUndoInsertBlock = (WriteableOperation operation) => UndoInsertNewBlock(operation);
-            Action<WriteableOperation> HandlerRedoRemoveNode = (WriteableOperation operation) => RedoRemoveNode(operation);
-            Action<WriteableOperation> HandlerUndoRemoveNode = (WriteableOperation operation) => UndoRemoveNode(operation);
-            Action<WriteableOperation> HandlerRedoRemoveBlock = (WriteableOperation operation) => RedoRemoveBlock(operation);
-            Action<WriteableOperation> HandlerUndoRemoveBlock = (WriteableOperation operation) => UndoRemoveBlock(operation);
+            Action<IWriteableOperation> HandlerRedoInsertNode = (IWriteableOperation operation) => RedoInsertNewNode(operation);
+            Action<IWriteableOperation> HandlerUndoInsertNode = (IWriteableOperation operation) => UndoInsertNewNode(operation);
+            Action<IWriteableOperation> HandlerRedoInsertBlock = (IWriteableOperation operation) => RedoInsertNewBlock(operation);
+            Action<IWriteableOperation> HandlerUndoInsertBlock = (IWriteableOperation operation) => UndoInsertNewBlock(operation);
+            Action<IWriteableOperation> HandlerRedoRemoveNode = (IWriteableOperation operation) => RedoRemoveNode(operation);
+            Action<IWriteableOperation> HandlerUndoRemoveNode = (IWriteableOperation operation) => UndoRemoveNode(operation);
+            Action<IWriteableOperation> HandlerRedoRemoveBlock = (IWriteableOperation operation) => RedoRemoveBlock(operation);
+            Action<IWriteableOperation> HandlerUndoRemoveBlock = (IWriteableOperation operation) => UndoRemoveBlock(operation);
 
             WriteableOperationList OperationList = CreateOperationList();
 
@@ -210,8 +210,8 @@
             if (OperationList.Count > 0)
             {
                 WriteableOperationReadOnlyList OperationReadOnlyList = OperationList.ToReadOnly();
-                Action<WriteableOperation> HandlerRedo = (WriteableOperation operation) => RedoRefresh(operation);
-                Action<WriteableOperation> HandlerUndo = (WriteableOperation operation) => throw new NotImplementedException(); // Undo is not possible.
+                Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => RedoRefresh(operation);
+                Action<IWriteableOperation> HandlerUndo = (IWriteableOperation operation) => throw new NotImplementedException(); // Undo is not possible.
                 WriteableGenericRefreshOperation RefreshOperation = CreateGenericRefreshOperation(RootState, HandlerRedo, HandlerUndo, isNested: false);
                 WriteableOperationGroup OperationGroup = CreateOperationGroup(OperationReadOnlyList, RefreshOperation);
 
@@ -282,12 +282,12 @@
             int FinalNodeIndex = BlockNodeIndex;
             int DeletedCount = lastNodeIndex - firstNodeIndex;
 
-            Action<WriteableOperation> HandlerRedoInsertNode = (WriteableOperation operation) => RedoInsertNewNode(operation);
-            Action<WriteableOperation> HandlerUndoInsertNode = (WriteableOperation operation) => UndoInsertNewNode(operation);
-            Action<WriteableOperation> HandlerRedoRemoveNode = (WriteableOperation operation) => RedoRemoveNode(operation);
-            Action<WriteableOperation> HandlerUndoRemoveNode = (WriteableOperation operation) => UndoRemoveNode(operation);
-            Action<WriteableOperation> HandlerRedoRemoveBlock = (WriteableOperation operation) => RedoRemoveBlock(operation);
-            Action<WriteableOperation> HandlerUndoRemoveBlock = (WriteableOperation operation) => UndoRemoveBlock(operation);
+            Action<IWriteableOperation> HandlerRedoInsertNode = (IWriteableOperation operation) => RedoInsertNewNode(operation);
+            Action<IWriteableOperation> HandlerUndoInsertNode = (IWriteableOperation operation) => UndoInsertNewNode(operation);
+            Action<IWriteableOperation> HandlerRedoRemoveNode = (IWriteableOperation operation) => RedoRemoveNode(operation);
+            Action<IWriteableOperation> HandlerUndoRemoveNode = (IWriteableOperation operation) => UndoRemoveNode(operation);
+            Action<IWriteableOperation> HandlerRedoRemoveBlock = (IWriteableOperation operation) => RedoRemoveBlock(operation);
+            Action<IWriteableOperation> HandlerUndoRemoveBlock = (IWriteableOperation operation) => UndoRemoveBlock(operation);
 
             WriteableOperationList OperationList = CreateOperationList();
 
@@ -315,8 +315,8 @@
             if (OperationList.Count > 0)
             {
                 WriteableOperationReadOnlyList OperationReadOnlyList = OperationList.ToReadOnly();
-                Action<WriteableOperation> HandlerRedo = (WriteableOperation operation) => RedoRefresh(operation);
-                Action<WriteableOperation> HandlerUndo = (WriteableOperation operation) => throw new NotImplementedException(); // Undo is not possible.
+                Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => RedoRefresh(operation);
+                Action<IWriteableOperation> HandlerUndo = (IWriteableOperation operation) => throw new NotImplementedException(); // Undo is not possible.
                 WriteableGenericRefreshOperation RefreshOperation = CreateGenericRefreshOperation(RootState, HandlerRedo, HandlerUndo, isNested: false);
                 WriteableOperationGroup OperationGroup = CreateOperationGroup(OperationReadOnlyList, RefreshOperation);
 
@@ -353,10 +353,10 @@
 
             int FinalNodeIndex = BlockNodeIndex;
 
-            Action<WriteableOperation> HandlerRedoInsertNode = (WriteableOperation operation) => RedoInsertNewNode(operation);
-            Action<WriteableOperation> HandlerUndoInsertNode = (WriteableOperation operation) => UndoInsertNewNode(operation);
-            Action<WriteableOperation> HandlerRedoRemoveNode = (WriteableOperation operation) => RedoRemoveNode(operation);
-            Action<WriteableOperation> HandlerUndoRemoveNode = (WriteableOperation operation) => UndoRemoveNode(operation);
+            Action<IWriteableOperation> HandlerRedoInsertNode = (IWriteableOperation operation) => RedoInsertNewNode(operation);
+            Action<IWriteableOperation> HandlerUndoInsertNode = (IWriteableOperation operation) => UndoInsertNewNode(operation);
+            Action<IWriteableOperation> HandlerRedoRemoveNode = (IWriteableOperation operation) => RedoRemoveNode(operation);
+            Action<IWriteableOperation> HandlerUndoRemoveNode = (IWriteableOperation operation) => UndoRemoveNode(operation);
 
             WriteableOperationList OperationList = CreateOperationList();
 
@@ -378,8 +378,8 @@
             if (OperationList.Count > 0)
             {
                 WriteableOperationReadOnlyList OperationReadOnlyList = OperationList.ToReadOnly();
-                Action<WriteableOperation> HandlerRedo = (WriteableOperation operation) => RedoRefresh(operation);
-                Action<WriteableOperation> HandlerUndo = (WriteableOperation operation) => throw new NotImplementedException(); // Undo is not possible.
+                Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => RedoRefresh(operation);
+                Action<IWriteableOperation> HandlerUndo = (IWriteableOperation operation) => throw new NotImplementedException(); // Undo is not possible.
                 WriteableGenericRefreshOperation RefreshOperation = CreateGenericRefreshOperation(RootState, HandlerRedo, HandlerUndo, isNested: false);
                 WriteableOperationGroup OperationGroup = CreateOperationGroup(OperationReadOnlyList, RefreshOperation);
 

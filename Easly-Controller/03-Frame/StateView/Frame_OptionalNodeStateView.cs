@@ -9,7 +9,7 @@
     using EaslyController.Writeable;
 
     /// <inheritdoc/>
-    internal class FrameOptionalNodeStateView : WriteableOptionalNodeStateView, IFrameNodeStateView, IFrameReplaceableStateView
+    public class FrameOptionalNodeStateView : WriteableOptionalNodeStateView, IFrameNodeStateView, IFrameReplaceableStateView
     {
         #region Init
         /// <summary>

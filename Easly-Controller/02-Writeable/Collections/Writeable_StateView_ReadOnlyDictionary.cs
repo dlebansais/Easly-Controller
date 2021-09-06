@@ -5,7 +5,7 @@
     using EaslyController.ReadOnly;
 
     /// <inheritdoc/>
-    public class WriteableStateViewReadOnlyDictionary : ReadOnlyStateViewReadOnlyDictionary, ICollection<KeyValuePair<IWriteableNodeState, WriteableNodeStateView>>, IEnumerable<KeyValuePair<IWriteableNodeState, WriteableNodeStateView>>, IDictionary<IWriteableNodeState, WriteableNodeStateView>, IReadOnlyCollection<KeyValuePair<IWriteableNodeState, WriteableNodeStateView>>, IReadOnlyDictionary<IWriteableNodeState, WriteableNodeStateView>, IEqualComparable
+    public class WriteableStateViewReadOnlyDictionary : ReadOnlyStateViewReadOnlyDictionary, ICollection<KeyValuePair<IWriteableNodeState, IWriteableNodeStateView>>, IEnumerable<KeyValuePair<IWriteableNodeState, IWriteableNodeStateView>>, IDictionary<IWriteableNodeState, IWriteableNodeStateView>, IReadOnlyCollection<KeyValuePair<IWriteableNodeState, IWriteableNodeStateView>>, IReadOnlyDictionary<IWriteableNodeState, IWriteableNodeStateView>, IEqualComparable
     {
         /// <inheritdoc/>
         public WriteableStateViewReadOnlyDictionary(WriteableStateViewDictionary dictionary)
@@ -13,28 +13,28 @@
         {
         }
 
-        #region IWriteableNodeState, WriteableNodeStateView
-        void ICollection<KeyValuePair<IWriteableNodeState, WriteableNodeStateView>>.Add(KeyValuePair<IWriteableNodeState, WriteableNodeStateView> item) { throw new System.InvalidOperationException(); }
-        void ICollection<KeyValuePair<IWriteableNodeState, WriteableNodeStateView>>.Clear() { throw new System.InvalidOperationException(); }
-        bool ICollection<KeyValuePair<IWriteableNodeState, WriteableNodeStateView>>.Contains(KeyValuePair<IWriteableNodeState, WriteableNodeStateView> item) { return ContainsKey(item.Key) && this[item.Key] == item.Value; }
-        void ICollection<KeyValuePair<IWriteableNodeState, WriteableNodeStateView>>.CopyTo(KeyValuePair<IWriteableNodeState, WriteableNodeStateView>[] array, int arrayIndex) { ((System.Collections.ICollection)this).CopyTo(array, arrayIndex); }
-        bool ICollection<KeyValuePair<IWriteableNodeState, WriteableNodeStateView>>.Remove(KeyValuePair<IWriteableNodeState, WriteableNodeStateView> item) { throw new System.InvalidOperationException(); }
-        bool ICollection<KeyValuePair<IWriteableNodeState, WriteableNodeStateView>>.IsReadOnly { get { return false; } }
-        IEnumerator<KeyValuePair<IWriteableNodeState, WriteableNodeStateView>> IEnumerable<KeyValuePair<IWriteableNodeState, WriteableNodeStateView>>.GetEnumerator() { return ((IList<KeyValuePair<IWriteableNodeState, WriteableNodeStateView>>)this).GetEnumerator(); }
+        #region IWriteableNodeState, IWriteableNodeStateView
+        void ICollection<KeyValuePair<IWriteableNodeState, IWriteableNodeStateView>>.Add(KeyValuePair<IWriteableNodeState, IWriteableNodeStateView> item) { throw new System.InvalidOperationException(); }
+        void ICollection<KeyValuePair<IWriteableNodeState, IWriteableNodeStateView>>.Clear() { throw new System.InvalidOperationException(); }
+        bool ICollection<KeyValuePair<IWriteableNodeState, IWriteableNodeStateView>>.Contains(KeyValuePair<IWriteableNodeState, IWriteableNodeStateView> item) { return ContainsKey(item.Key) && this[item.Key] == item.Value; }
+        void ICollection<KeyValuePair<IWriteableNodeState, IWriteableNodeStateView>>.CopyTo(KeyValuePair<IWriteableNodeState, IWriteableNodeStateView>[] array, int arrayIndex) { ((System.Collections.ICollection)this).CopyTo(array, arrayIndex); }
+        bool ICollection<KeyValuePair<IWriteableNodeState, IWriteableNodeStateView>>.Remove(KeyValuePair<IWriteableNodeState, IWriteableNodeStateView> item) { throw new System.InvalidOperationException(); }
+        bool ICollection<KeyValuePair<IWriteableNodeState, IWriteableNodeStateView>>.IsReadOnly { get { return false; } }
+        IEnumerator<KeyValuePair<IWriteableNodeState, IWriteableNodeStateView>> IEnumerable<KeyValuePair<IWriteableNodeState, IWriteableNodeStateView>>.GetEnumerator() { return ((IList<KeyValuePair<IWriteableNodeState, IWriteableNodeStateView>>)this).GetEnumerator(); }
 
-        WriteableNodeStateView IDictionary<IWriteableNodeState, WriteableNodeStateView>.this[IWriteableNodeState key] { get { return (WriteableNodeStateView)this[key]; } set { throw new System.InvalidOperationException(); } }
-        ICollection<IWriteableNodeState> IDictionary<IWriteableNodeState, WriteableNodeStateView>.Keys { get { List<IWriteableNodeState> Result = new(); foreach (KeyValuePair<IWriteableNodeState, WriteableNodeStateView> Entry in (ICollection<KeyValuePair<IWriteableNodeState, WriteableNodeStateView>>)this) Result.Add(Entry.Key); return Result; } }
-        ICollection<WriteableNodeStateView> IDictionary<IWriteableNodeState, WriteableNodeStateView>.Values { get { List<WriteableNodeStateView> Result = new(); foreach (KeyValuePair<IWriteableNodeState, WriteableNodeStateView> Entry in (ICollection<KeyValuePair<IWriteableNodeState, WriteableNodeStateView>>)this) Result.Add(Entry.Value); return Result; } }
-        void IDictionary<IWriteableNodeState, WriteableNodeStateView>.Add(IWriteableNodeState key, WriteableNodeStateView value) { throw new System.InvalidOperationException(); }
-        bool IDictionary<IWriteableNodeState, WriteableNodeStateView>.ContainsKey(IWriteableNodeState key) { return ContainsKey(key); }
-        bool IDictionary<IWriteableNodeState, WriteableNodeStateView>.Remove(IWriteableNodeState key) { throw new System.InvalidOperationException(); }
-        bool IDictionary<IWriteableNodeState, WriteableNodeStateView>.TryGetValue(IWriteableNodeState key, out WriteableNodeStateView value) { bool Result = TryGetValue(key, out ReadOnlyNodeStateView Value); value = (WriteableNodeStateView)Value; return Result; }
+        IWriteableNodeStateView IDictionary<IWriteableNodeState, IWriteableNodeStateView>.this[IWriteableNodeState key] { get { return (IWriteableNodeStateView)this[key]; } set { throw new System.InvalidOperationException(); } }
+        ICollection<IWriteableNodeState> IDictionary<IWriteableNodeState, IWriteableNodeStateView>.Keys { get { List<IWriteableNodeState> Result = new(); foreach (KeyValuePair<IWriteableNodeState, IWriteableNodeStateView> Entry in (ICollection<KeyValuePair<IWriteableNodeState, IWriteableNodeStateView>>)this) Result.Add(Entry.Key); return Result; } }
+        ICollection<IWriteableNodeStateView> IDictionary<IWriteableNodeState, IWriteableNodeStateView>.Values { get { List<IWriteableNodeStateView> Result = new(); foreach (KeyValuePair<IWriteableNodeState, IWriteableNodeStateView> Entry in (ICollection<KeyValuePair<IWriteableNodeState, IWriteableNodeStateView>>)this) Result.Add(Entry.Value); return Result; } }
+        void IDictionary<IWriteableNodeState, IWriteableNodeStateView>.Add(IWriteableNodeState key, IWriteableNodeStateView value) { throw new System.InvalidOperationException(); }
+        bool IDictionary<IWriteableNodeState, IWriteableNodeStateView>.ContainsKey(IWriteableNodeState key) { return ContainsKey(key); }
+        bool IDictionary<IWriteableNodeState, IWriteableNodeStateView>.Remove(IWriteableNodeState key) { throw new System.InvalidOperationException(); }
+        bool IDictionary<IWriteableNodeState, IWriteableNodeStateView>.TryGetValue(IWriteableNodeState key, out IWriteableNodeStateView value) { bool Result = TryGetValue(key, out IReadOnlyNodeStateView Value); value = (IWriteableNodeStateView)Value; return Result; }
 
-        WriteableNodeStateView IReadOnlyDictionary<IWriteableNodeState, WriteableNodeStateView>.this[IWriteableNodeState key] { get { return (WriteableNodeStateView)this[key]; } }
-        IEnumerable<IWriteableNodeState> IReadOnlyDictionary<IWriteableNodeState, WriteableNodeStateView>.Keys { get { List<IWriteableNodeState> Result = new(); foreach (KeyValuePair<IWriteableNodeState, WriteableNodeStateView> Entry in (ICollection<KeyValuePair<IWriteableNodeState, WriteableNodeStateView>>)this) Result.Add(Entry.Key); return Result; } }
-        IEnumerable<WriteableNodeStateView> IReadOnlyDictionary<IWriteableNodeState, WriteableNodeStateView>.Values { get { List<WriteableNodeStateView> Result = new(); foreach (KeyValuePair<IWriteableNodeState, WriteableNodeStateView> Entry in (ICollection<KeyValuePair<IWriteableNodeState, WriteableNodeStateView>>)this) Result.Add(Entry.Value); return Result; } }
-        bool IReadOnlyDictionary<IWriteableNodeState, WriteableNodeStateView>.ContainsKey(IWriteableNodeState key) { return ContainsKey(key); }
-        bool IReadOnlyDictionary<IWriteableNodeState, WriteableNodeStateView>.TryGetValue(IWriteableNodeState key, out WriteableNodeStateView value) { bool Result = TryGetValue(key, out ReadOnlyNodeStateView Value); value = (WriteableNodeStateView)Value; return Result; }
+        IWriteableNodeStateView IReadOnlyDictionary<IWriteableNodeState, IWriteableNodeStateView>.this[IWriteableNodeState key] { get { return (IWriteableNodeStateView)this[key]; } }
+        IEnumerable<IWriteableNodeState> IReadOnlyDictionary<IWriteableNodeState, IWriteableNodeStateView>.Keys { get { List<IWriteableNodeState> Result = new(); foreach (KeyValuePair<IWriteableNodeState, IWriteableNodeStateView> Entry in (ICollection<KeyValuePair<IWriteableNodeState, IWriteableNodeStateView>>)this) Result.Add(Entry.Key); return Result; } }
+        IEnumerable<IWriteableNodeStateView> IReadOnlyDictionary<IWriteableNodeState, IWriteableNodeStateView>.Values { get { List<IWriteableNodeStateView> Result = new(); foreach (KeyValuePair<IWriteableNodeState, IWriteableNodeStateView> Entry in (ICollection<KeyValuePair<IWriteableNodeState, IWriteableNodeStateView>>)this) Result.Add(Entry.Value); return Result; } }
+        bool IReadOnlyDictionary<IWriteableNodeState, IWriteableNodeStateView>.ContainsKey(IWriteableNodeState key) { return ContainsKey(key); }
+        bool IReadOnlyDictionary<IWriteableNodeState, IWriteableNodeStateView>.TryGetValue(IWriteableNodeState key, out IWriteableNodeStateView value) { bool Result = TryGetValue(key, out IReadOnlyNodeStateView Value); value = (IWriteableNodeStateView)Value; return Result; }
         #endregion
 
         #region Debugging
@@ -51,7 +51,7 @@
 
             foreach (IWriteableNodeState Key in Keys)
             {
-                WriteableNodeStateView Value = (WriteableNodeStateView)this[Key];
+                IWriteableNodeStateView Value = (IWriteableNodeStateView)this[Key];
 
                 if (!comparer.IsTrue(AsStateViewReadOnlyDictionary.ContainsKey(Key)))
                     return comparer.Failed();

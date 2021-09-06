@@ -6,7 +6,7 @@
     /// <summary>
     /// View of a pattern state.
     /// </summary>
-    internal class WriteablePatternStateView : ReadOnlyPatternStateView, IWriteableNodeStateView
+    public class WriteablePatternStateView : ReadOnlyPatternStateView, IWriteableNodeStateView
     {
         #region Init
         /// <summary>

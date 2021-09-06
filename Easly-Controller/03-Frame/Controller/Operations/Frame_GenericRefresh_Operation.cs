@@ -4,7 +4,7 @@
     using EaslyController.Writeable;
 
     /// <inheritdoc/>
-    internal class FrameGenericRefreshOperation : WriteableGenericRefreshOperation
+    internal class FrameGenericRefreshOperation : WriteableGenericRefreshOperation, IFrameOperation
     {
         #region Init
         /// <summary>
@@ -14,7 +14,7 @@
         /// <param name="handlerRedo">Handler to execute to redo the operation.</param>
         /// <param name="handlerUndo">Handler to execute to undo the operation.</param>
         /// <param name="isNested">True if the operation is nested within another more general one.</param>
-        public FrameGenericRefreshOperation(IFrameNodeState refreshState, Action<WriteableOperation> handlerRedo, Action<WriteableOperation> handlerUndo, bool isNested)
+        public FrameGenericRefreshOperation(IFrameNodeState refreshState, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
             : base(refreshState, handlerRedo, handlerUndo, isNested)
         {
         }

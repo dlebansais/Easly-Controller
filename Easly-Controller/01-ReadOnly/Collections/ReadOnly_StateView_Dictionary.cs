@@ -4,7 +4,7 @@
     using System.Diagnostics;
 
     /// <inheritdoc/>
-    public class ReadOnlyStateViewDictionary : Dictionary<IReadOnlyNodeState, ReadOnlyNodeStateView>, IEqualComparable
+    public class ReadOnlyStateViewDictionary : Dictionary<IReadOnlyNodeState, IReadOnlyNodeStateView>, IEqualComparable
     {
         /// <inheritdoc/>
         public virtual ReadOnlyStateViewReadOnlyDictionary ToReadOnly()
@@ -24,7 +24,7 @@
             if (!comparer.IsSameCount(Count, AsStateViewDictionary.Count))
                 return comparer.Failed();
 
-            foreach (KeyValuePair<IReadOnlyNodeState, ReadOnlyNodeStateView> Entry in this)
+            foreach (KeyValuePair<IReadOnlyNodeState, IReadOnlyNodeStateView> Entry in this)
             {
                 if (!comparer.IsTrue(AsStateViewDictionary.ContainsKey(Entry.Key)))
                     return comparer.Failed();

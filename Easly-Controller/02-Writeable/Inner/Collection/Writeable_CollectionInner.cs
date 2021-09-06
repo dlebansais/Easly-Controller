@@ -109,7 +109,7 @@
         /// Replaces a node.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        public abstract void Replace(WriteableReplaceOperation operation);
+        public abstract void Replace(IWriteableReplaceOperation operation);
 
         /// <summary>
         /// Checks whether a node can be moved in a list or block list.

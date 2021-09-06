@@ -5,7 +5,7 @@
     /// <summary>
     /// View of a child node.
     /// </summary>
-    internal class ReadOnlyPlaceholderNodeStateView : ReadOnlyNodeStateView, IEqualComparable
+    public class ReadOnlyPlaceholderNodeStateView : ReadOnlyNodeStateView, IEqualComparable
     {
         #region Init
         /// <summary>

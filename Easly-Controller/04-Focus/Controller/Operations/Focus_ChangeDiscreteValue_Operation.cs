@@ -8,7 +8,7 @@
     /// <summary>
     /// Operation details for changing a discrete value.
     /// </summary>
-    internal class FocusChangeDiscreteValueOperation : FrameChangeDiscreteValueOperation
+    internal class FocusChangeDiscreteValueOperation : FrameChangeDiscreteValueOperation, IFocusOperation
     {
         #region Init
         /// <summary>
@@ -20,7 +20,7 @@
         /// <param name="handlerRedo">Handler to execute to redo the operation.</param>
         /// <param name="handlerUndo">Handler to execute to undo the operation.</param>
         /// <param name="isNested">True if the operation is nested within another more general one.</param>
-        public FocusChangeDiscreteValueOperation(Node parentNode, string propertyName, int value, Action<WriteableOperation> handlerRedo, Action<WriteableOperation> handlerUndo, bool isNested)
+        public FocusChangeDiscreteValueOperation(Node parentNode, string propertyName, int value, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
             : base(parentNode, propertyName, value, handlerRedo, handlerUndo, isNested)
         {
         }
@@ -37,7 +37,7 @@
         /// <summary>
         /// Creates a IxxxChangeDiscreteValueOperation object.
         /// </summary>
-        private protected override WriteableChangeDiscreteValueOperation CreateChangeDiscreteValueOperation(int value, Action<WriteableOperation> handlerRedo, Action<WriteableOperation> handlerUndo, bool isNested)
+        private protected override WriteableChangeDiscreteValueOperation CreateChangeDiscreteValueOperation(int value, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusChangeDiscreteValueOperation));
             return new FocusChangeDiscreteValueOperation(ParentNode, PropertyName, value, handlerRedo, handlerUndo, isNested);

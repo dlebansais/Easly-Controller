@@ -77,7 +77,7 @@
         /// <summary>
         /// State view of the root state.
         /// </summary>
-        public ReadOnlyNodeStateView RootStateView { get { return StateViewTable[Controller.RootState]; } }
+        public IReadOnlyNodeStateView RootStateView { get { return StateViewTable[Controller.RootState]; } }
         #endregion
 
         #region Client Interface

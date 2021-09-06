@@ -11,18 +11,18 @@ namespace TestDebug
         static CustomFrameTemplateSet()
         {
             NodeTemplateDictionary = LoadTemplate(FrameTemplateListString);
-            IFrameTemplateReadOnlyDictionary FrameCustomNodeTemplates = NodeTemplateDictionary.ToReadOnly();
+            FrameTemplateReadOnlyDictionary FrameCustomNodeTemplates = NodeTemplateDictionary.ToReadOnly();
             BlockTemplateDictionary = LoadTemplate(FrameBlockTemplateString);
-            IFrameTemplateReadOnlyDictionary FrameCustomBlockTemplates = BlockTemplateDictionary.ToReadOnly();
+            FrameTemplateReadOnlyDictionary FrameCustomBlockTemplates = BlockTemplateDictionary.ToReadOnly();
             FrameTemplateSet = new FrameTemplateSet(FrameCustomNodeTemplates, FrameCustomBlockTemplates);
         }
 
-        private static IFrameTemplateDictionary LoadTemplate(string s)
+        private static FrameTemplateDictionary LoadTemplate(string s)
         {
             byte[] ByteArray = Encoding.UTF8.GetBytes(s);
             using (MemoryStream ms = new MemoryStream(ByteArray))
             {
-                IFrameTemplateList Templates = (IFrameTemplateList)XamlReader.Parse(s);
+                FrameTemplateList Templates = (FrameTemplateList)XamlReader.Parse(s);
 
                 FrameTemplateDictionary TemplateDictionary = new FrameTemplateDictionary();
                 foreach (IFrameTemplate Item in Templates)
@@ -41,8 +41,8 @@ namespace TestDebug
         #endregion
 
         #region Properties
-        public static IFrameTemplateDictionary NodeTemplateDictionary { get; private set; }
-        public static IFrameTemplateDictionary BlockTemplateDictionary { get; private set; }
+        public static FrameTemplateDictionary NodeTemplateDictionary { get; private set; }
+        public static FrameTemplateDictionary BlockTemplateDictionary { get; private set; }
         public static IFrameTemplateSet FrameTemplateSet { get; private set; }
         #endregion
 

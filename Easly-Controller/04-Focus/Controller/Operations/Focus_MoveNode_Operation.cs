@@ -8,7 +8,7 @@
     /// <summary>
     /// Operation details for moving a node in a list or block list.
     /// </summary>
-    internal class FocusMoveNodeOperation : FrameMoveNodeOperation
+    internal class FocusMoveNodeOperation : FrameMoveNodeOperation, IFocusOperation
     {
         #region Init
         /// <summary>
@@ -22,7 +22,7 @@
         /// <param name="handlerRedo">Handler to execute to redo the operation.</param>
         /// <param name="handlerUndo">Handler to execute to undo the operation.</param>
         /// <param name="isNested">True if the operation is nested within another more general one.</param>
-        public FocusMoveNodeOperation(Node parentNode, string propertyName, int blockIndex, int index, int direction, Action<WriteableOperation> handlerRedo, Action<WriteableOperation> handlerUndo, bool isNested)
+        public FocusMoveNodeOperation(Node parentNode, string propertyName, int blockIndex, int index, int direction, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
             : base(parentNode, propertyName, blockIndex, index, direction, handlerRedo, handlerUndo, isNested)
         {
         }
@@ -39,7 +39,7 @@
         /// <summary>
         /// Creates a IxxxxMoveNodeOperation object.
         /// </summary>
-        private protected override WriteableMoveNodeOperation CreateMoveNodeOperation(int blockIndex, int index, int direction, Action<WriteableOperation> handlerRedo, Action<WriteableOperation> handlerUndo, bool isNested)
+        private protected override WriteableMoveNodeOperation CreateMoveNodeOperation(int blockIndex, int index, int direction, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusMoveNodeOperation));
             return new FocusMoveNodeOperation(ParentNode, PropertyName, blockIndex, index, direction, handlerRedo, handlerUndo, isNested);

@@ -5,7 +5,7 @@
     using EaslyController.Writeable;
 
     /// <inheritdoc/>
-    public interface IFrameReplaceOperation : IWriteableReplaceOperation
+    public interface IFrameReplaceOperation : IWriteableReplaceOperation, IFrameOperation
     {
         /// <summary>
         /// Index of the state before it's replaced.
@@ -38,7 +38,7 @@
         /// <param name="handlerRedo">Handler to execute to redo the operation.</param>
         /// <param name="handlerUndo">Handler to execute to undo the operation.</param>
         /// <param name="isNested">True if the operation is nested within another more general one.</param>
-        public FrameReplaceOperation(Node parentNode, string propertyName, int blockIndex, int index, Node newNode, Action<WriteableOperation> handlerRedo, Action<WriteableOperation> handlerUndo, bool isNested)
+        public FrameReplaceOperation(Node parentNode, string propertyName, int blockIndex, int index, Node newNode, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
             : base(parentNode, propertyName, blockIndex, index, newNode, handlerRedo, handlerUndo, isNested)
         {
         }
@@ -65,7 +65,7 @@
         /// <summary>
         /// Creates a IxxxReplaceOperation object.
         /// </summary>
-        private protected override IWriteableReplaceOperation CreateReplaceOperation(int blockIndex, int index, Node node, Action<WriteableOperation> handlerRedo, Action<WriteableOperation> handlerUndo, bool isNested)
+        private protected override IWriteableReplaceOperation CreateReplaceOperation(int blockIndex, int index, Node node, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameReplaceOperation));
             return new FrameReplaceOperation(ParentNode, PropertyName, blockIndex, index, node, handlerRedo, handlerUndo, isNested);

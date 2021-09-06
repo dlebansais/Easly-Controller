@@ -48,15 +48,15 @@
         /// <summary>
         /// Called when a block state is inserted.
         /// </summary>
-        public event Action<WriteableInsertBlockOperation> BlockStateInserted
+        public event Action<IWriteableInsertBlockOperation> BlockStateInserted
         {
             add { AddBlockStateInsertedDelegate(value); }
             remove { RemoveBlockStateInsertedDelegate(value); }
         }
 #pragma warning disable 1591
-        private Action<WriteableInsertBlockOperation> BlockStateInsertedHandler;
-        private protected virtual void AddBlockStateInsertedDelegate(Action<WriteableInsertBlockOperation> handler) { BlockStateInsertedHandler += handler; }
-        private protected virtual void RemoveBlockStateInsertedDelegate(Action<WriteableInsertBlockOperation> handler) { BlockStateInsertedHandler -= handler; }
+        private Action<IWriteableInsertBlockOperation> BlockStateInsertedHandler;
+        private protected virtual void AddBlockStateInsertedDelegate(Action<IWriteableInsertBlockOperation> handler) { BlockStateInsertedHandler += handler; }
+        private protected virtual void RemoveBlockStateInsertedDelegate(Action<IWriteableInsertBlockOperation> handler) { BlockStateInsertedHandler -= handler; }
 #pragma warning restore 1591
 
         /// <summary>
@@ -118,15 +118,15 @@
         /// <summary>
         /// Called when a state is replaced.
         /// </summary>
-        public event Action<WriteableReplaceOperation> StateReplaced
+        public event Action<IWriteableReplaceOperation> StateReplaced
         {
             add { AddStateReplacedDelegate(value); }
             remove { RemoveStateReplacedDelegate(value); }
         }
 #pragma warning disable 1591
-        private Action<WriteableReplaceOperation> StateReplacedHandler;
-        private protected virtual void AddStateReplacedDelegate(Action<WriteableReplaceOperation> handler) { StateReplacedHandler += handler; }
-        private protected virtual void RemoveStateReplacedDelegate(Action<WriteableReplaceOperation> handler) { StateReplacedHandler -= handler; }
+        private Action<IWriteableReplaceOperation> StateReplacedHandler;
+        private protected virtual void AddStateReplacedDelegate(Action<IWriteableReplaceOperation> handler) { StateReplacedHandler += handler; }
+        private protected virtual void RemoveStateReplacedDelegate(Action<IWriteableReplaceOperation> handler) { StateReplacedHandler -= handler; }
 #pragma warning restore 1591
 
         /// <summary>

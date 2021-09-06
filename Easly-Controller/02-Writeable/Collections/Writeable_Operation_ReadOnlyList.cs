@@ -3,7 +3,7 @@
     using System.Collections.ObjectModel;
 
     /// <inheritdoc/>
-    public class WriteableOperationReadOnlyList : ReadOnlyCollection<WriteableOperation>
+    public class WriteableOperationReadOnlyList : ReadOnlyCollection<IWriteableOperation>
     {
         /// <inheritdoc/>
         public WriteableOperationReadOnlyList(WriteableOperationList list)

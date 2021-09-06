@@ -42,8 +42,8 @@
             Identifier NewSourceNode = NodeHelper.CreateSimpleIdentifier(BlockState.ChildBlock.SourceIdentifier.Text);
             IBlock NewBlock = NodeTreeHelperBlockList.CreateBlock(inner.Owner.Node, inner.PropertyName, Replication, NewPatternNode, NewSourceNode);
 
-            Action<WriteableOperation> HandlerRedo = (WriteableOperation operation) => RedoSplitBlock(operation);
-            Action<WriteableOperation> HandlerUndo = (WriteableOperation operation) => UndoSplitBlock(operation);
+            Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => RedoSplitBlock(operation);
+            Action<IWriteableOperation> HandlerUndo = (IWriteableOperation operation) => UndoSplitBlock(operation);
             WriteableSplitBlockOperation Operation = CreateSplitBlockOperation(inner.Owner.Node, inner.PropertyName, nodeIndex.BlockIndex, nodeIndex.Index, NewBlock, HandlerRedo, HandlerUndo, isNested: false);
 
             Operation.Redo();
@@ -51,7 +51,7 @@
             CheckInvariant();
         }
 
-        private protected virtual void RedoSplitBlock(WriteableOperation operation)
+        private protected virtual void RedoSplitBlock(IWriteableOperation operation)
         {
             WriteableSplitBlockOperation SplitBlockOperation = (WriteableSplitBlockOperation)operation;
             ExecuteSplitBlock(SplitBlockOperation);
@@ -89,7 +89,7 @@
             NotifyBlockSplit(operation);
         }
 
-        private protected virtual void UndoSplitBlock(WriteableOperation operation)
+        private protected virtual void UndoSplitBlock(IWriteableOperation operation)
         {
             WriteableSplitBlockOperation SplitBlockOperation = (WriteableSplitBlockOperation)operation;
             WriteableMergeBlocksOperation MergeBlocksOperation = SplitBlockOperation.ToMergeBlocksOperation();
@@ -121,8 +121,8 @@
             Debug.Assert(nodeIndex != null);
             Debug.Assert(inner.IsMergeable(nodeIndex));
 
-            Action<WriteableOperation> HandlerRedo = (WriteableOperation operation) => RedoMergeBlocks(operation);
-            Action<WriteableOperation> HandlerUndo = (WriteableOperation operation) => UndoMergeBlocks(operation);
+            Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => RedoMergeBlocks(operation);
+            Action<IWriteableOperation> HandlerUndo = (IWriteableOperation operation) => UndoMergeBlocks(operation);
             WriteableMergeBlocksOperation Operation = CreateMergeBlocksOperation(inner.Owner.Node, inner.PropertyName, nodeIndex.BlockIndex, HandlerRedo, HandlerUndo, isNested: false);
 
             Operation.Redo();
@@ -130,7 +130,7 @@
             CheckInvariant();
         }
 
-        private protected virtual void RedoMergeBlocks(WriteableOperation operation)
+        private protected virtual void RedoMergeBlocks(IWriteableOperation operation)
         {
             WriteableMergeBlocksOperation MergeBlocksOperation = (WriteableMergeBlocksOperation)operation;
             ExecuteMergeBlocks(MergeBlocksOperation);
@@ -168,7 +168,7 @@
             NotifyBlocksMerged(operation);
         }
 
-        private protected virtual void UndoMergeBlocks(WriteableOperation operation)
+        private protected virtual void UndoMergeBlocks(IWriteableOperation operation)
         {
             WriteableMergeBlocksOperation MergeBlocksOperation = (WriteableMergeBlocksOperation)operation;
             WriteableSplitBlockOperation SplitBlockOperation = MergeBlocksOperation.ToSplitBlockOperation();

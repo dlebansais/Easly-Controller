@@ -5,7 +5,7 @@
     /// <summary>
     /// View of a source state.
     /// </summary>
-    internal class ReadOnlySourceStateView : ReadOnlyNodeStateView, IEqualComparable
+    public class ReadOnlySourceStateView : ReadOnlyNodeStateView, IEqualComparable
     {
         #region Init
         /// <summary>

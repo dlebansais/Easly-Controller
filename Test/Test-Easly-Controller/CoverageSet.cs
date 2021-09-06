@@ -163,7 +163,7 @@ namespace Coverage
 
             Main RootNode;
             IReadOnlyRootNodeIndex RootIndex;
-            IReadOnlyController Controller;
+            ReadOnlyController Controller;
 
             RootNode = CreateRoot(ValueGuid0, Imperfections.None);
             Assert.That(BaseNodeHelper.NodeTreeDiagnostic.IsValid(RootNode));
@@ -217,7 +217,7 @@ namespace Coverage
             Assert.That(RootIndex1.Node == RootNode);
             Assert.That(CompareEqual.CoverIsEqual(RootIndex0, RootIndex1));
 
-            IReadOnlyController Controller0 = ReadOnlyController.Create(RootIndex0);
+            ReadOnlyController Controller0 = ReadOnlyController.Create(RootIndex0);
             Assert.That(Controller0.RootIndex == RootIndex0);
 
             Stats Stats = Controller0.Stats;
@@ -289,7 +289,7 @@ namespace Coverage
                 Assert.That(AssignedOptionalTreeState.ParentState == RootState);
             }
 
-            IReadOnlyNodeStateReadOnlyList AssignedOptionalTreeAllChildren = AssignedOptionalTreeState.GetAllChildren();
+            ReadOnlyNodeStateReadOnlyList AssignedOptionalTreeAllChildren = AssignedOptionalTreeState.GetAllChildren();
             Assert.That(AssignedOptionalTreeAllChildren.Count == 2, $"New count: {AssignedOptionalTreeAllChildren.Count}");
 
             IReadOnlyOptionalInner MainAssignedOptionalLeafInner = (IReadOnlyOptionalInner)RootState.PropertyToInner(nameof(Main.AssignedOptionalLeaf));
@@ -367,7 +367,7 @@ namespace Coverage
                 Assert.That(MainLeafPathInner.AllIndexes().Count == MainLeafPathInner.Count);
             }
 
-            IReadOnlyNodeStateReadOnlyList AllChildren = RootState.GetAllChildren();
+            ReadOnlyNodeStateReadOnlyList AllChildren = RootState.GetAllChildren();
             Assert.That(AllChildren.Count == 19, $"New count: {AllChildren.Count}");
 
             IReadOnlyPlaceholderInner PlaceholderInner = (IReadOnlyPlaceholderInner)RootState.InnerTable[nameof(Main.PlaceholderLeaf)];
@@ -420,7 +420,7 @@ namespace Coverage
             Assert.That(ReadAsGuid == ValueGuid0);
             Assert.That(Controller0.GetGuidValue(RootIndex0, nameof(Main.ValueGuid)) == ReadAsGuid);
             
-            IReadOnlyController Controller1 = ReadOnlyController.Create(RootIndex0);
+            ReadOnlyController Controller1 = ReadOnlyController.Create(RootIndex0);
             Assert.That(Controller0.IsEqual(CompareEqual.New(), Controller0));
 
             Assert.That(CompareEqual.CoverIsEqual(Controller0, Controller1));
@@ -437,7 +437,7 @@ namespace Coverage
             IReadOnlyRootNodeIndex RootIndex = new ReadOnlyRootNodeIndex(RootNode);
             Assert.That(RootIndex != null);
 
-            IReadOnlyController Controller = ReadOnlyController.Create(RootIndex);
+            ReadOnlyController Controller = ReadOnlyController.Create(RootIndex);
             Assert.That(Controller != null);
 
             IReadOnlyPlaceholderNodeState RootState = Controller.RootState;
@@ -449,14 +449,14 @@ namespace Coverage
             IReadOnlyRootNodeIndex CloneRootIndex = new ReadOnlyRootNodeIndex(ClonedNode);
             Assert.That(CloneRootIndex != null);
 
-            IReadOnlyController CloneController = ReadOnlyController.Create(CloneRootIndex);
+            ReadOnlyController CloneController = ReadOnlyController.Create(CloneRootIndex);
             Assert.That(CloneController != null);
 
             IReadOnlyPlaceholderNodeState CloneRootState = Controller.RootState;
             Assert.That(CloneRootState != null);
 
-            IReadOnlyNodeStateReadOnlyList AllChildren = RootState.GetAllChildren();
-            IReadOnlyNodeStateReadOnlyList CloneAllChildren = CloneRootState.GetAllChildren();
+            ReadOnlyNodeStateReadOnlyList AllChildren = RootState.GetAllChildren();
+            ReadOnlyNodeStateReadOnlyList CloneAllChildren = CloneRootState.GetAllChildren();
             Assert.That(AllChildren.Count == CloneAllChildren.Count);
         }
 
@@ -472,25 +472,25 @@ namespace Coverage
             RootNode = CreateRoot(ValueGuid0, Imperfections.None);
             RootIndex = new ReadOnlyRootNodeIndex(RootNode);
 
-            IReadOnlyController Controller = ReadOnlyController.Create(RootIndex);
+            ReadOnlyController Controller = ReadOnlyController.Create(RootIndex);
 
-            using (IReadOnlyControllerView ControllerView0 = ReadOnlyControllerView.Create(Controller))
+            using (ReadOnlyControllerView ControllerView0 = ReadOnlyControllerView.Create(Controller))
             {
                 Assert.That(ControllerView0.Controller == Controller);
                 Assert.That(ControllerView0.RootStateView == ControllerView0.StateViewTable[Controller.RootState]);
 
-                using (IReadOnlyControllerView ControllerView1 = ReadOnlyControllerView.Create(Controller))
+                using (ReadOnlyControllerView ControllerView1 = ReadOnlyControllerView.Create(Controller))
                 {
                     Assert.That(ControllerView0.IsEqual(CompareEqual.New(), ControllerView0));
                     Assert.That(CompareEqual.CoverIsEqual(ControllerView0, ControllerView1));
                 }
 
-                foreach (KeyValuePair<IReadOnlyBlockState, IReadOnlyBlockStateView> Entry in ControllerView0.BlockStateViewTable)
+                foreach (KeyValuePair<IReadOnlyBlockState, ReadOnlyBlockStateView> Entry in ControllerView0.BlockStateViewTable)
                 {
                     IReadOnlyBlockState BlockState = Entry.Key;
                     Assert.That(BlockState != null);
 
-                    IReadOnlyBlockStateView BlockStateView = Entry.Value;
+                    ReadOnlyBlockStateView BlockStateView = Entry.Value;
                     Assert.That(BlockStateView != null);
 
                     Assert.That(BlockStateView.ControllerView == ControllerView0);
@@ -514,19 +514,19 @@ namespace Coverage
 
                     switch (StateView)
                     {
-                        case IReadOnlyPatternStateView AsPatternStateView:
+                        case ReadOnlyPatternStateView AsPatternStateView:
                             Assert.That(AsPatternStateView.State == State);
                             break;
 
-                        case IReadOnlySourceStateView AsSourceStateView:
+                        case ReadOnlySourceStateView AsSourceStateView:
                             Assert.That(AsSourceStateView.State == State);
                             break;
 
-                        case IReadOnlyPlaceholderNodeStateView AsPlaceholderNodeStateView:
+                        case ReadOnlyPlaceholderNodeStateView AsPlaceholderNodeStateView:
                             Assert.That(AsPlaceholderNodeStateView.State == State);
                             break;
 
-                        case IReadOnlyOptionalNodeStateView AsOptionalNodeStateView:
+                        case ReadOnlyOptionalNodeStateView AsOptionalNodeStateView:
                             Assert.That(AsOptionalNodeStateView.State == State);
                             break;
                     }
@@ -544,7 +544,7 @@ namespace Coverage
 
             Main RootNode;
             IWriteableRootNodeIndex RootIndex;
-            IWriteableController Controller;
+            WriteableController Controller;
 
             RootNode = CreateRoot(ValueGuid0, Imperfections.None);
             Assert.That(BaseNodeHelper.NodeTreeDiagnostic.IsValid(RootNode));
@@ -598,7 +598,7 @@ namespace Coverage
             Assert.That(RootIndex1.Node == RootNode);
             Assert.That(CompareEqual.CoverIsEqual(RootIndex0, RootIndex1));
 
-            IWriteableController Controller0 = WriteableController.Create(RootIndex0);
+            WriteableController Controller0 = WriteableController.Create(RootIndex0);
             Assert.That(Controller0.RootIndex == RootIndex0);
 
             Stats Stats = Controller0.Stats;
@@ -655,7 +655,7 @@ namespace Coverage
             Assert.That(AssignedOptionalTreeState.ParentInner == MainAssignedOptionalTreeInner);
             Assert.That(AssignedOptionalTreeState.ParentState == RootState);
 
-            IWriteableNodeStateReadOnlyList AssignedOptionalTreeAllChildren = (IWriteableNodeStateReadOnlyList)AssignedOptionalTreeState.GetAllChildren();
+            WriteableNodeStateReadOnlyList AssignedOptionalTreeAllChildren = (WriteableNodeStateReadOnlyList)AssignedOptionalTreeState.GetAllChildren();
             Assert.That(AssignedOptionalTreeAllChildren != null);
             Assert.That(AssignedOptionalTreeAllChildren.Count == 2, $"New count: {AssignedOptionalTreeAllChildren.Count}");
 
@@ -679,7 +679,7 @@ namespace Coverage
             Assert.That(MainLeafBlocksInner.BlockStateList.Count == 3);
             Assert.That(MainLeafBlocksInner.AllIndexes().Count == MainLeafBlocksInner.Count);
 
-            IWriteableBlockState LeafBlock = MainLeafBlocksInner.BlockStateList[0];
+            IWriteableBlockState LeafBlock = (IWriteableBlockState)MainLeafBlocksInner.BlockStateList[0];
             Assert.That(LeafBlock != null);
             Assert.That(LeafBlock.StateList != null);
             Assert.That(LeafBlock.StateList.Count == 1);
@@ -725,7 +725,7 @@ namespace Coverage
             Assert.That(MainLeafPathInner.IndexAt(0) == MainLeafPathInner.FirstNodeState.ParentIndex);
             Assert.That(MainLeafPathInner.AllIndexes().Count == MainLeafPathInner.Count);
 
-            IWriteableNodeStateReadOnlyList AllChildren = (IWriteableNodeStateReadOnlyList)RootState.GetAllChildren();
+            WriteableNodeStateReadOnlyList AllChildren = (WriteableNodeStateReadOnlyList)RootState.GetAllChildren();
             Assert.That(AllChildren.Count == 19, $"New count: {AllChildren.Count}");
 
             IWriteablePlaceholderInner PlaceholderInner = (IWriteablePlaceholderInner)RootState.InnerTable[nameof(Main.PlaceholderLeaf)];
@@ -778,7 +778,7 @@ namespace Coverage
             Assert.That(ReadAsGuid == ValueGuid0);
             Assert.That(Controller0.GetGuidValue(RootIndex0, nameof(Main.ValueGuid)) == ReadAsGuid);
 
-            IWriteableController Controller1 = WriteableController.Create(RootIndex0);
+            WriteableController Controller1 = (WriteableController)WriteableController.Create(RootIndex0);
             Assert.That(Controller0.IsEqual(CompareEqual.New(), Controller0));
 
             Assert.That(CompareEqual.CoverIsEqual(Controller0, Controller1));
@@ -803,7 +803,7 @@ namespace Coverage
             IWriteableRootNodeIndex RootIndex = new WriteableRootNodeIndex(RootNode);
             Assert.That(RootIndex != null);
 
-            IWriteableController Controller = WriteableController.Create(RootIndex);
+            WriteableController Controller = (WriteableController)WriteableController.Create(RootIndex);
             Assert.That(Controller != null);
 
             IWriteablePlaceholderNodeState RootState = Controller.RootState;
@@ -815,14 +815,14 @@ namespace Coverage
             IWriteableRootNodeIndex CloneRootIndex = new WriteableRootNodeIndex(ClonedNode);
             Assert.That(CloneRootIndex != null);
 
-            IWriteableController CloneController = WriteableController.Create(CloneRootIndex);
+            WriteableController CloneController = (WriteableController)WriteableController.Create(CloneRootIndex);
             Assert.That(CloneController != null);
 
             IWriteablePlaceholderNodeState CloneRootState = Controller.RootState;
             Assert.That(CloneRootState != null);
 
-            IWriteableNodeStateReadOnlyList AllChildren = (IWriteableNodeStateReadOnlyList)RootState.GetAllChildren();
-            IWriteableNodeStateReadOnlyList CloneAllChildren = (IWriteableNodeStateReadOnlyList)CloneRootState.GetAllChildren();
+            WriteableNodeStateReadOnlyList AllChildren = (WriteableNodeStateReadOnlyList)RootState.GetAllChildren();
+            WriteableNodeStateReadOnlyList CloneAllChildren = (WriteableNodeStateReadOnlyList)CloneRootState.GetAllChildren();
             Assert.That(AllChildren.Count == CloneAllChildren.Count);
         }
 
@@ -838,37 +838,35 @@ namespace Coverage
             RootNode = CreateRoot(ValueGuid0, Imperfections.None);
             RootIndex = new WriteableRootNodeIndex(RootNode);
 
-            IWriteableController Controller = WriteableController.Create(RootIndex);
+            WriteableController Controller = (WriteableController)WriteableController.Create(RootIndex);
 
-            using (IWriteableControllerView ControllerView0 = WriteableControllerView.Create(Controller))
+            using (WriteableControllerView ControllerView0 = WriteableControllerView.Create(Controller))
             {
                 Assert.That(ControllerView0.Controller == Controller);
                 Assert.That(ControllerView0.RootStateView == ControllerView0.StateViewTable[Controller.RootState]);
 
-                using (IWriteableControllerView ControllerView1 = WriteableControllerView.Create(Controller))
+                using (WriteableControllerView ControllerView1 = WriteableControllerView.Create(Controller))
                 {
                     Assert.That(ControllerView0.IsEqual(CompareEqual.New(), ControllerView0));
                     Assert.That(CompareEqual.CoverIsEqual(ControllerView0, ControllerView1));
                 }
 
-                foreach (KeyValuePair<IWriteableBlockState, IWriteableBlockStateView> Entry in ControllerView0.BlockStateViewTable)
+                foreach (IWriteableBlockState BlockState in ControllerView0.BlockStateViewTable.Keys)
                 {
-                    IWriteableBlockState BlockState = Entry.Key;
                     Assert.That(BlockState != null);
 
-                    IWriteableBlockStateView BlockStateView = Entry.Value;
+                    WriteableBlockStateView BlockStateView = (WriteableBlockStateView)ControllerView0.BlockStateViewTable[BlockState];
                     Assert.That(BlockStateView != null);
                     Assert.That(BlockStateView.BlockState == BlockState);
 
                     Assert.That(BlockStateView.ControllerView == ControllerView0);
                 }
 
-                foreach (KeyValuePair<IWriteableNodeState, IWriteableNodeStateView> Entry in ControllerView0.StateViewTable)
+                foreach (IWriteableNodeState State in ControllerView0.StateViewTable.Keys)
                 {
-                    IWriteableNodeState State = Entry.Key;
                     Assert.That(State != null);
 
-                    IWriteableNodeStateView StateView = Entry.Value;
+                    IWriteableNodeStateView StateView = ControllerView0.StateViewTable[State];
                     Assert.That(StateView != null);
                     Assert.That(StateView.State == State);
 
@@ -880,21 +878,21 @@ namespace Coverage
 
                     switch (StateView)
                     {
-                        case IWriteablePatternStateView AsPatternStateView:
+                        case WriteablePatternStateView AsPatternStateView:
                             Assert.That(AsPatternStateView.State == State);
                             Assert.That(AsPatternStateView is IWriteableNodeStateView AsPlaceholderPatternNodeStateView && AsPlaceholderPatternNodeStateView.State == State);
                             break;
 
-                        case IWriteableSourceStateView AsSourceStateView:
+                        case WriteableSourceStateView AsSourceStateView:
                             Assert.That(AsSourceStateView.State == State);
                             Assert.That(AsSourceStateView is IWriteableNodeStateView AsPlaceholderSourceNodeStateView && AsPlaceholderSourceNodeStateView.State == State);
                             break;
 
-                        case IWriteablePlaceholderNodeStateView AsPlaceholderNodeStateView:
+                        case WriteablePlaceholderNodeStateView AsPlaceholderNodeStateView:
                             Assert.That(AsPlaceholderNodeStateView.State == State);
                             break;
 
-                        case IWriteableOptionalNodeStateView AsOptionalNodeStateView:
+                        case WriteableOptionalNodeStateView AsOptionalNodeStateView:
                             Assert.That(AsOptionalNodeStateView.State == State);
                             break;
                     }
@@ -914,10 +912,10 @@ namespace Coverage
             RootNode = CreateRoot(ValueGuid0, Imperfections.None);
             RootIndex = new WriteableRootNodeIndex(RootNode);
 
-            IWriteableController ControllerBase = WriteableController.Create(RootIndex);
-            IWriteableController Controller = WriteableController.Create(RootIndex);
+            WriteableController ControllerBase = (WriteableController)WriteableController.Create(RootIndex);
+            WriteableController Controller = (WriteableController)WriteableController.Create(RootIndex);
 
-            using (IWriteableControllerView ControllerView0 = WriteableControllerView.Create(Controller))
+            using (WriteableControllerView ControllerView0 = WriteableControllerView.Create(Controller))
             {
                 Assert.That(ControllerView0.Controller == Controller);
 
@@ -940,7 +938,7 @@ namespace Coverage
                 Assert.That(InsertionIndex0.Node == NewItem0);
                 Assert.That(CompareEqual.CoverIsEqual(InsertionIndex0, InsertionIndex0));
 
-                IWriteableNodeStateReadOnlyList AllChildren0 = (IWriteableNodeStateReadOnlyList)RootState.GetAllChildren();
+                WriteableNodeStateReadOnlyList AllChildren0 = (WriteableNodeStateReadOnlyList)RootState.GetAllChildren();
                 Assert.That(AllChildren0.Count == 19, $"New count: {AllChildren0.Count}");
 
                 Controller.Insert(LeafPathInner, InsertionIndex0, out IWriteableBrowsingCollectionNodeIndex NewItemIndex0);
@@ -953,11 +951,11 @@ namespace Coverage
                 Assert.That(LeafPathInner.Count == PathCount + 1);
                 Assert.That(LeafPathInner.StateList.Count == PathCount + 1);
 
-                IWriteablePlaceholderNodeState NewItemState0 = LeafPathInner.StateList[0];
+                IWriteablePlaceholderNodeState NewItemState0 = (IWriteablePlaceholderNodeState)LeafPathInner.StateList[0];
                 Assert.That(NewItemState0.Node == NewItem0);
                 Assert.That(NewItemState0.ParentIndex == NewItemIndex0);
 
-                IWriteableNodeStateReadOnlyList AllChildren1 = (IWriteableNodeStateReadOnlyList)RootState.GetAllChildren();
+                WriteableNodeStateReadOnlyList AllChildren1 = (WriteableNodeStateReadOnlyList)RootState.GetAllChildren();
                 Assert.That(AllChildren1.Count == AllChildren0.Count + 1, $"New count: {AllChildren1.Count}");
 
                 Assert.That(BaseNodeHelper.NodeTreeDiagnostic.IsValid(RootNode));
@@ -990,12 +988,12 @@ namespace Coverage
                 Assert.That(LeafBlocksInner.Count == BlockNodeCount + 1);
                 Assert.That(LeafBlocksInner.BlockStateList[0].StateList.Count == NodeCount + 1);
 
-                IWriteablePlaceholderNodeState NewItemState1 = LeafBlocksInner.BlockStateList[0].StateList[0];
+                IWriteablePlaceholderNodeState NewItemState1 = (IWriteablePlaceholderNodeState)LeafBlocksInner.BlockStateList[0].StateList[0];
                 Assert.That(NewItemState1.Node == NewItem1);
                 Assert.That(NewItemState1.ParentIndex == NewItemIndex1);
                 Assert.That(NewItemState1.ParentState == RootState);
 
-                IWriteableNodeStateReadOnlyList AllChildren2 = (IWriteableNodeStateReadOnlyList)RootState.GetAllChildren();
+                WriteableNodeStateReadOnlyList AllChildren2 = (WriteableNodeStateReadOnlyList)RootState.GetAllChildren();
                 Assert.That(AllChildren2.Count == AllChildren1.Count + 1, $"New count: {AllChildren2.Count}");
 
                 Assert.That(BaseNodeHelper.NodeTreeDiagnostic.IsValid(RootNode));
@@ -1026,11 +1024,11 @@ namespace Coverage
                 Assert.That(LeafBlocksInner.BlockStateList[1].StateList.Count == 2, $"Count: {LeafBlocksInner.BlockStateList[1].StateList.Count}");
                 Assert.That(LeafBlocksInner.BlockStateList[2].StateList.Count == 2, $"Count: {LeafBlocksInner.BlockStateList[2].StateList.Count}");
 
-                IWriteablePlaceholderNodeState NewItemState2 = LeafBlocksInner.BlockStateList[0].StateList[0];
+                IWriteablePlaceholderNodeState NewItemState2 = (IWriteablePlaceholderNodeState)LeafBlocksInner.BlockStateList[0].StateList[0];
                 Assert.That(NewItemState2.Node == NewItem2);
                 Assert.That(NewItemState2.ParentIndex == NewItemIndex2);
 
-                IWriteableNodeStateReadOnlyList AllChildren3 = (IWriteableNodeStateReadOnlyList)RootState.GetAllChildren();
+                WriteableNodeStateReadOnlyList AllChildren3 = (WriteableNodeStateReadOnlyList)RootState.GetAllChildren();
                 Assert.That(AllChildren3.Count == AllChildren2.Count + 3, $"New count: {AllChildren3.Count}");
 
                 Assert.That(BaseNodeHelper.NodeTreeDiagnostic.IsValid(RootNode));
@@ -1064,10 +1062,10 @@ namespace Coverage
             RootNode = CreateRoot(ValueGuid0, Imperfections.None);
             RootIndex = new WriteableRootNodeIndex(RootNode);
 
-            IWriteableController ControllerBase = WriteableController.Create(RootIndex);
-            IWriteableController Controller = WriteableController.Create(RootIndex);
+            WriteableController ControllerBase = (WriteableController)WriteableController.Create(RootIndex);
+            WriteableController Controller = (WriteableController)WriteableController.Create(RootIndex);
 
-            using (IWriteableControllerView ControllerView0 = WriteableControllerView.Create(Controller))
+            using (WriteableControllerView ControllerView0 = WriteableControllerView.Create(Controller))
             {
                 Assert.That(ControllerView0.Controller == Controller);
 
@@ -1083,7 +1081,7 @@ namespace Coverage
                 int PathCount = LeafPathInner.Count;
                 Assert.That(PathCount == 2);
 
-                IWriteableNodeStateReadOnlyList AllChildren0 = (IWriteableNodeStateReadOnlyList)RootState.GetAllChildren();
+                WriteableNodeStateReadOnlyList AllChildren0 = (WriteableNodeStateReadOnlyList)RootState.GetAllChildren();
                 Assert.That(AllChildren0.Count == 19, $"New count: {AllChildren0.Count}");
 
                 Assert.That(Controller.IsRemoveable(LeafPathInner, RemovedLeafIndex0));
@@ -1094,7 +1092,7 @@ namespace Coverage
                 Assert.That(LeafPathInner.Count == PathCount - 1);
                 Assert.That(LeafPathInner.StateList.Count == PathCount - 1);
 
-                IWriteableNodeStateReadOnlyList AllChildren1 = (IWriteableNodeStateReadOnlyList)RootState.GetAllChildren();
+                WriteableNodeStateReadOnlyList AllChildren1 = (WriteableNodeStateReadOnlyList)RootState.GetAllChildren();
                 Assert.That(AllChildren1.Count == AllChildren0.Count - 1, $"New count: {AllChildren1.Count}");
 
                 Assert.That(BaseNodeHelper.NodeTreeDiagnostic.IsValid(RootNode));
@@ -1130,7 +1128,7 @@ namespace Coverage
                 Assert.That(LeafBlocksInner.Count == BlockNodeCount - 1);
                 Assert.That(LeafBlocksInner.BlockStateList[1].StateList.Count == NodeCount - 1);
 
-                IWriteableNodeStateReadOnlyList AllChildren2 = (IWriteableNodeStateReadOnlyList)RootState.GetAllChildren();
+                WriteableNodeStateReadOnlyList AllChildren2 = (WriteableNodeStateReadOnlyList)RootState.GetAllChildren();
                 Assert.That(AllChildren2.Count == AllChildren1.Count - 1, $"New count: {AllChildren2.Count}");
 
                 Assert.That(BaseNodeHelper.NodeTreeDiagnostic.IsValid(RootNode));
@@ -1153,7 +1151,7 @@ namespace Coverage
                 Assert.That(LeafBlocksInner.BlockStateList.Count == BlockCount - 1);
                 Assert.That(LeafBlocksInner.BlockStateList[0].StateList.Count == 1, $"Count: {LeafBlocksInner.BlockStateList[0].StateList.Count}");
 
-                IWriteableNodeStateReadOnlyList AllChildren3 = (IWriteableNodeStateReadOnlyList)RootState.GetAllChildren();
+                WriteableNodeStateReadOnlyList AllChildren3 = (WriteableNodeStateReadOnlyList)RootState.GetAllChildren();
                 Assert.That(AllChildren3.Count == AllChildren2.Count - 3, $"New count: {AllChildren3.Count}");
 
                 Assert.That(BaseNodeHelper.NodeTreeDiagnostic.IsValid(RootNode));
@@ -1193,17 +1191,17 @@ namespace Coverage
             RootNode = CreateRoot(ValueGuid0, Imperfections.None);
             RootIndex = new WriteableRootNodeIndex(RootNode);
 
-            IWriteableController ControllerBase = WriteableController.Create(RootIndex);
-            IWriteableController Controller = WriteableController.Create(RootIndex);
+            WriteableController ControllerBase = (WriteableController)WriteableController.Create(RootIndex);
+            WriteableController Controller = (WriteableController)WriteableController.Create(RootIndex);
 
-            using (IWriteableControllerView ControllerView0 = WriteableControllerView.Create(Controller))
+            using (WriteableControllerView ControllerView0 = WriteableControllerView.Create(Controller))
             {
                 Assert.That(ControllerView0.Controller == Controller);
 
                 IWriteableNodeState RootState = Controller.RootState;
                 Assert.That(RootState != null);
 
-                IWriteableNodeStateReadOnlyList AllChildren0 = (IWriteableNodeStateReadOnlyList)RootState.GetAllChildren();
+                WriteableNodeStateReadOnlyList AllChildren0 = (WriteableNodeStateReadOnlyList)RootState.GetAllChildren();
                 Assert.That(AllChildren0.Count == 19, $"New count: {AllChildren0.Count}");
 
                 IWriteableBlockListInner LeafBlocksInner = RootState.PropertyToInner(nameof(Main.LeafBlocks)) as IWriteableBlockListInner;
@@ -1214,7 +1212,7 @@ namespace Coverage
                 Controller.RemoveBlockRange(LeafBlocksInner, 0, 2);
                 Assert.That(LeafBlocksInner.Count == 1);
 
-                IWriteableNodeStateReadOnlyList AllChildren2 = (IWriteableNodeStateReadOnlyList)RootState.GetAllChildren();
+                WriteableNodeStateReadOnlyList AllChildren2 = (WriteableNodeStateReadOnlyList)RootState.GetAllChildren();
                 Assert.That(AllChildren2.Count == AllChildren0.Count - 7, $"New count: {AllChildren2.Count}");
 
                 Assert.That(BaseNodeHelper.NodeTreeDiagnostic.IsValid(RootNode));
@@ -1252,17 +1250,17 @@ namespace Coverage
             RootNode = CreateRoot(ValueGuid0, Imperfections.None);
             RootIndex = new WriteableRootNodeIndex(RootNode);
 
-            IWriteableController ControllerBase = WriteableController.Create(RootIndex);
-            IWriteableController Controller = WriteableController.Create(RootIndex);
+            WriteableController ControllerBase = (WriteableController)WriteableController.Create(RootIndex);
+            WriteableController Controller = (WriteableController)WriteableController.Create(RootIndex);
 
-            using (IWriteableControllerView ControllerView0 = WriteableControllerView.Create(Controller))
+            using (WriteableControllerView ControllerView0 = WriteableControllerView.Create(Controller))
             {
                 Assert.That(ControllerView0.Controller == Controller);
 
                 IWriteableNodeState RootState = Controller.RootState;
                 Assert.That(RootState != null);
 
-                IWriteableNodeStateReadOnlyList AllChildren0 = (IWriteableNodeStateReadOnlyList)RootState.GetAllChildren();
+                WriteableNodeStateReadOnlyList AllChildren0 = (WriteableNodeStateReadOnlyList)RootState.GetAllChildren();
                 Assert.That(AllChildren0.Count == 19, $"New count: {AllChildren0.Count}");
 
 
@@ -1274,7 +1272,7 @@ namespace Coverage
 
                 Controller.RemoveNodeRange(LeafPathInner, -1, 0, 2);
 
-                IWriteableNodeStateReadOnlyList AllChildren1 = (IWriteableNodeStateReadOnlyList)RootState.GetAllChildren();
+                WriteableNodeStateReadOnlyList AllChildren1 = (WriteableNodeStateReadOnlyList)RootState.GetAllChildren();
                 Assert.That(AllChildren1.Count == AllChildren0.Count - 2, $"New count: {AllChildren1.Count}");
 
                 Assert.That(BaseNodeHelper.NodeTreeDiagnostic.IsValid(RootNode));
@@ -1296,7 +1294,7 @@ namespace Coverage
 
                 Controller.RemoveNodeRange(LeafBlocksInner, 1, 0, 2);
 
-                IWriteableNodeStateReadOnlyList AllChildren2 = (IWriteableNodeStateReadOnlyList)RootState.GetAllChildren();
+                WriteableNodeStateReadOnlyList AllChildren2 = (WriteableNodeStateReadOnlyList)RootState.GetAllChildren();
                 Assert.That(AllChildren2.Count == AllChildren1.Count - 2, $"New count: {AllChildren2.Count}");
 
                 Assert.That(BaseNodeHelper.NodeTreeDiagnostic.IsValid(RootNode));
@@ -1339,10 +1337,10 @@ namespace Coverage
             RootNode = CreateRoot(ValueGuid0, Imperfections.None);
             RootIndex = new WriteableRootNodeIndex(RootNode);
 
-            IWriteableController ControllerBase = WriteableController.Create(RootIndex);
-            IWriteableController Controller = WriteableController.Create(RootIndex);
+            WriteableController ControllerBase = (WriteableController)WriteableController.Create(RootIndex);
+            WriteableController Controller = (WriteableController)WriteableController.Create(RootIndex);
 
-            using (IWriteableControllerView ControllerView0 = WriteableControllerView.Create(Controller))
+            using (WriteableControllerView ControllerView0 = WriteableControllerView.Create(Controller))
             {
                 Assert.That(ControllerView0.Controller == Controller);
 
@@ -1358,7 +1356,7 @@ namespace Coverage
                 int PathCount = LeafPathInner.Count;
                 Assert.That(PathCount == 2);
 
-                IWriteableNodeStateReadOnlyList AllChildren0 = (IWriteableNodeStateReadOnlyList)RootState.GetAllChildren();
+                WriteableNodeStateReadOnlyList AllChildren0 = (WriteableNodeStateReadOnlyList)RootState.GetAllChildren();
                 Assert.That(AllChildren0.Count == 19, $"New count: {AllChildren0.Count}");
 
                 Assert.That(Controller.IsMoveable(LeafPathInner, MovedLeafIndex0, +1));
@@ -1373,7 +1371,7 @@ namespace Coverage
                 IWriteableBrowsingListNodeIndex NewLeafIndex0 = LeafPathInner.IndexAt(1) as IWriteableBrowsingListNodeIndex;
                 Assert.That(NewLeafIndex0 == MovedLeafIndex0);
 
-                IWriteableNodeStateReadOnlyList AllChildren1 = (IWriteableNodeStateReadOnlyList)RootState.GetAllChildren();
+                WriteableNodeStateReadOnlyList AllChildren1 = (WriteableNodeStateReadOnlyList)RootState.GetAllChildren();
                 Assert.That(AllChildren1.Count == AllChildren0.Count, $"New count: {AllChildren1.Count}");
 
                 Assert.That(BaseNodeHelper.NodeTreeDiagnostic.IsValid(RootNode));
@@ -1401,7 +1399,7 @@ namespace Coverage
                 IWriteableBrowsingExistingBlockNodeIndex NewLeafIndex1 = LeafBlocksInner.IndexAt(1, 0) as IWriteableBrowsingExistingBlockNodeIndex;
                 Assert.That(NewLeafIndex1 == MovedLeafIndex1);
 
-                IWriteableNodeStateReadOnlyList AllChildren2 = (IWriteableNodeStateReadOnlyList)RootState.GetAllChildren();
+                WriteableNodeStateReadOnlyList AllChildren2 = (WriteableNodeStateReadOnlyList)RootState.GetAllChildren();
                 Assert.That(AllChildren2.Count == AllChildren1.Count, $"New count: {AllChildren2.Count}");
 
                 Assert.That(BaseNodeHelper.NodeTreeDiagnostic.IsValid(RootNode));
@@ -1433,17 +1431,17 @@ namespace Coverage
             RootNode = CreateRoot(ValueGuid0, Imperfections.None);
             RootIndex = new WriteableRootNodeIndex(RootNode);
 
-            IWriteableController ControllerBase = WriteableController.Create(RootIndex);
-            IWriteableController Controller = WriteableController.Create(RootIndex);
+            WriteableController ControllerBase = (WriteableController)WriteableController.Create(RootIndex);
+            WriteableController Controller = (WriteableController)WriteableController.Create(RootIndex);
 
-            using (IWriteableControllerView ControllerView0 = WriteableControllerView.Create(Controller))
+            using (WriteableControllerView ControllerView0 = WriteableControllerView.Create(Controller))
             {
                 Assert.That(ControllerView0.Controller == Controller);
 
                 IWriteableNodeState RootState = Controller.RootState;
                 Assert.That(RootState != null);
 
-                IWriteableNodeStateReadOnlyList AllChildren1 = (IWriteableNodeStateReadOnlyList)RootState.GetAllChildren();
+                WriteableNodeStateReadOnlyList AllChildren1 = (WriteableNodeStateReadOnlyList)RootState.GetAllChildren();
                 Assert.That(AllChildren1.Count == 19, $"New count: {AllChildren1.Count}");
 
                 IWriteableBlockListInner LeafBlocksInner = RootState.PropertyToInner(nameof(Main.LeafBlocks)) as IWriteableBlockListInner;
@@ -1466,7 +1464,7 @@ namespace Coverage
                 IWriteableBrowsingExistingBlockNodeIndex NewLeafIndex1 = LeafBlocksInner.IndexAt(0, 0) as IWriteableBrowsingExistingBlockNodeIndex;
                 Assert.That(NewLeafIndex1 == MovedLeafIndex1);
 
-                IWriteableNodeStateReadOnlyList AllChildren2 = (IWriteableNodeStateReadOnlyList)RootState.GetAllChildren();
+                WriteableNodeStateReadOnlyList AllChildren2 = (WriteableNodeStateReadOnlyList)RootState.GetAllChildren();
                 Assert.That(AllChildren2.Count == AllChildren1.Count, $"New count: {AllChildren2.Count}");
 
                 Assert.That(BaseNodeHelper.NodeTreeDiagnostic.IsValid(RootNode));
@@ -1496,10 +1494,10 @@ namespace Coverage
             RootNode = CreateRoot(ValueGuid0, Imperfections.None);
             RootIndex = new WriteableRootNodeIndex(RootNode);
 
-            IWriteableController ControllerBase = WriteableController.Create(RootIndex);
-            IWriteableController Controller = WriteableController.Create(RootIndex);
+            WriteableController ControllerBase = (WriteableController)WriteableController.Create(RootIndex);
+            WriteableController Controller = (WriteableController)WriteableController.Create(RootIndex);
 
-            using (IWriteableControllerView ControllerView0 = WriteableControllerView.Create(Controller))
+            using (WriteableControllerView ControllerView0 = WriteableControllerView.Create(Controller))
             {
                 Assert.That(ControllerView0.Controller == Controller);
 
@@ -1550,10 +1548,10 @@ namespace Coverage
             RootNode = CreateRoot(ValueGuid0, Imperfections.None);
             RootIndex = new WriteableRootNodeIndex(RootNode);
 
-            IWriteableController ControllerBase = WriteableController.Create(RootIndex);
-            IWriteableController Controller = WriteableController.Create(RootIndex);
+            WriteableController ControllerBase = (WriteableController)WriteableController.Create(RootIndex);
+            WriteableController Controller = (WriteableController)WriteableController.Create(RootIndex);
 
-            using (IWriteableControllerView ControllerView0 = WriteableControllerView.Create(Controller))
+            using (WriteableControllerView ControllerView0 = WriteableControllerView.Create(Controller))
             {
                 Assert.That(ControllerView0.Controller == Controller);
 
@@ -1595,10 +1593,10 @@ namespace Coverage
             RootNode = CreateRoot(ValueGuid0, Imperfections.None);
             RootIndex = new WriteableRootNodeIndex(RootNode);
 
-            IWriteableController ControllerBase = WriteableController.Create(RootIndex);
-            IWriteableController Controller = WriteableController.Create(RootIndex);
+            WriteableController ControllerBase = (WriteableController)WriteableController.Create(RootIndex);
+            WriteableController Controller = (WriteableController)WriteableController.Create(RootIndex);
 
-            using (IWriteableControllerView ControllerView0 = WriteableControllerView.Create(Controller))
+            using (WriteableControllerView ControllerView0 = WriteableControllerView.Create(Controller))
             {
                 Assert.That(ControllerView0.Controller == Controller);
 
@@ -1640,10 +1638,10 @@ namespace Coverage
             RootNode = CreateRoot(ValueGuid0, Imperfections.None);
             RootIndex = new WriteableRootNodeIndex(RootNode);
 
-            IWriteableController ControllerBase = WriteableController.Create(RootIndex);
-            IWriteableController Controller = WriteableController.Create(RootIndex);
+            WriteableController ControllerBase = (WriteableController)WriteableController.Create(RootIndex);
+            WriteableController Controller = (WriteableController)WriteableController.Create(RootIndex);
 
-            using (IWriteableControllerView ControllerView0 = WriteableControllerView.Create(Controller))
+            using (WriteableControllerView ControllerView0 = WriteableControllerView.Create(Controller))
             {
                 Assert.That(ControllerView0.Controller == Controller);
 
@@ -1659,7 +1657,7 @@ namespace Coverage
                 int PathCount = LeafPathInner.Count;
                 Assert.That(PathCount == 2);
 
-                IWriteableNodeStateReadOnlyList AllChildren0 = (IWriteableNodeStateReadOnlyList)RootState.GetAllChildren();
+                WriteableNodeStateReadOnlyList AllChildren0 = (WriteableNodeStateReadOnlyList)RootState.GetAllChildren();
                 Assert.That(AllChildren0.Count == 19, $"New count: {AllChildren0.Count}");
 
                 Controller.Replace(LeafPathInner, ReplacementIndex0, out IWriteableBrowsingChildIndex NewItemIndex0);
@@ -1668,11 +1666,11 @@ namespace Coverage
                 Assert.That(LeafPathInner.Count == PathCount);
                 Assert.That(LeafPathInner.StateList.Count == PathCount);
 
-                IWriteablePlaceholderNodeState NewItemState0 = LeafPathInner.StateList[0];
+                IWriteablePlaceholderNodeState NewItemState0 = (IWriteablePlaceholderNodeState)LeafPathInner.StateList[0];
                 Assert.That(NewItemState0.Node == NewItem0);
                 Assert.That(NewItemState0.ParentIndex == NewItemIndex0);
 
-                IWriteableNodeStateReadOnlyList AllChildren1 = (IWriteableNodeStateReadOnlyList)RootState.GetAllChildren();
+                WriteableNodeStateReadOnlyList AllChildren1 = (WriteableNodeStateReadOnlyList)RootState.GetAllChildren();
                 Assert.That(AllChildren1.Count == AllChildren0.Count, $"New count: {AllChildren1.Count}");
 
                 Assert.That(BaseNodeHelper.NodeTreeDiagnostic.IsValid(RootNode));
@@ -1685,7 +1683,7 @@ namespace Coverage
                 IWriteableBlockListInner LeafBlocksInner = RootState.PropertyToInner(nameof(Main.LeafBlocks)) as IWriteableBlockListInner;
                 Assert.That(LeafBlocksInner != null);
 
-                IWriteableBlockState BlockState = LeafBlocksInner.BlockStateList[0];
+                IWriteableBlockState BlockState = (IWriteableBlockState)LeafBlocksInner.BlockStateList[0];
 
                 int BlockNodeCount = LeafBlocksInner.Count;
                 int NodeCount = BlockState.StateList.Count;
@@ -1697,11 +1695,11 @@ namespace Coverage
                 Assert.That(LeafBlocksInner.Count == BlockNodeCount);
                 Assert.That(BlockState.StateList.Count == NodeCount);
 
-                IWriteablePlaceholderNodeState NewItemState1 = BlockState.StateList[0];
+                IWriteablePlaceholderNodeState NewItemState1 = (IWriteablePlaceholderNodeState)BlockState.StateList[0];
                 Assert.That(NewItemState1.Node == NewItem1);
                 Assert.That(NewItemState1.ParentIndex == NewItemIndex1);
 
-                IWriteableNodeStateReadOnlyList AllChildren2 = (IWriteableNodeStateReadOnlyList)RootState.GetAllChildren();
+                WriteableNodeStateReadOnlyList AllChildren2 = (WriteableNodeStateReadOnlyList)RootState.GetAllChildren();
                 Assert.That(AllChildren2.Count == AllChildren1.Count, $"New count: {AllChildren2.Count}");
 
                 Assert.That(BaseNodeHelper.NodeTreeDiagnostic.IsValid(RootNode));
@@ -1728,7 +1726,7 @@ namespace Coverage
                 Assert.That(CompareEqual.CoverIsEqual(NewItemIndex2 as IWriteableBrowsingPlaceholderNodeIndex, DuplicateExistingIndex2));
                 Assert.That(CompareEqual.CoverIsEqual(DuplicateExistingIndex2, NewItemIndex2 as IWriteableBrowsingPlaceholderNodeIndex));
 
-                IWriteableNodeStateReadOnlyList AllChildren3 = (IWriteableNodeStateReadOnlyList)RootState.GetAllChildren();
+                WriteableNodeStateReadOnlyList AllChildren3 = (WriteableNodeStateReadOnlyList)RootState.GetAllChildren();
                 Assert.That(AllChildren3.Count == AllChildren2.Count, $"New count: {AllChildren3.Count}");
 
                 Assert.That(BaseNodeHelper.NodeTreeDiagnostic.IsValid(RootNode));
@@ -1752,7 +1750,7 @@ namespace Coverage
                 Assert.That(NewItemState3.Node == NewItem3);
                 Assert.That(NewItemState3.ParentIndex == NewItemIndex3);
 
-                IWriteableNodeStateReadOnlyList AllChildren4 = (IWriteableNodeStateReadOnlyList)RootState.GetAllChildren();
+                WriteableNodeStateReadOnlyList AllChildren4 = (WriteableNodeStateReadOnlyList)RootState.GetAllChildren();
                 Assert.That(AllChildren4.Count == AllChildren3.Count, $"New count: {AllChildren4.Count}");
 
                 Assert.That(BaseNodeHelper.NodeTreeDiagnostic.IsValid(RootNode));
@@ -1784,7 +1782,7 @@ namespace Coverage
                 Assert.That(CompareEqual.CoverIsEqual(NewItemIndex4 as IWriteableBrowsingOptionalNodeIndex, DuplicateExistingIndex4));
                 Assert.That(CompareEqual.CoverIsEqual(DuplicateExistingIndex4, NewItemIndex4 as IWriteableBrowsingOptionalNodeIndex));
 
-                IWriteableNodeStateReadOnlyList AllChildren5 = (IWriteableNodeStateReadOnlyList)RootState.GetAllChildren();
+                WriteableNodeStateReadOnlyList AllChildren5 = (WriteableNodeStateReadOnlyList)RootState.GetAllChildren();
                 Assert.That(AllChildren5.Count == AllChildren4.Count, $"New count: {AllChildren5.Count}");
 
                 Assert.That(BaseNodeHelper.NodeTreeDiagnostic.IsValid(RootNode));
@@ -1811,7 +1809,7 @@ namespace Coverage
                 Assert.That(CompareEqual.CoverIsEqual(NewItemIndex5 as IWriteableBrowsingOptionalNodeIndex, DuplicateExistingIndex5));
                 Assert.That(CompareEqual.CoverIsEqual(DuplicateExistingIndex5, NewItemIndex5 as IWriteableBrowsingOptionalNodeIndex));
 
-                IWriteableNodeStateReadOnlyList AllChildren6 = (IWriteableNodeStateReadOnlyList)RootState.GetAllChildren();
+                WriteableNodeStateReadOnlyList AllChildren6 = (WriteableNodeStateReadOnlyList)RootState.GetAllChildren();
                 Assert.That(AllChildren6.Count == AllChildren5.Count - 1, $"New count: {AllChildren6.Count}");
 
                 Assert.That(BaseNodeHelper.NodeTreeDiagnostic.IsValid(RootNode));
@@ -1851,10 +1849,10 @@ namespace Coverage
             RootNode = CreateRoot(ValueGuid0, Imperfections.None);
             RootIndex = new WriteableRootNodeIndex(RootNode);
 
-            IWriteableController ControllerBase = WriteableController.Create(RootIndex);
-            IWriteableController Controller = WriteableController.Create(RootIndex);
+            WriteableController ControllerBase = (WriteableController)WriteableController.Create(RootIndex);
+            WriteableController Controller = (WriteableController)WriteableController.Create(RootIndex);
 
-            using (IWriteableControllerView ControllerView0 = WriteableControllerView.Create(Controller))
+            using (WriteableControllerView ControllerView0 = WriteableControllerView.Create(Controller))
             {
                 Assert.That(ControllerView0.Controller == Controller);
 
@@ -1868,14 +1866,14 @@ namespace Coverage
                 IWriteableBrowsingOptionalNodeIndex AssignmentIndex0 = UnassignedOptionalLeafInner.ChildState.ParentIndex;
                 Assert.That(AssignmentIndex0 != null);
 
-                IWriteableNodeStateReadOnlyList AllChildren0 = (IWriteableNodeStateReadOnlyList)RootState.GetAllChildren();
+                WriteableNodeStateReadOnlyList AllChildren0 = (WriteableNodeStateReadOnlyList)RootState.GetAllChildren();
                 Assert.That(AllChildren0.Count == 19, $"New count: {AllChildren0.Count}");
 
                 Controller.Assign(AssignmentIndex0, out bool IsChanged);
                 Assert.That(IsChanged);
                 Assert.That(UnassignedOptionalLeafInner.IsAssigned);
 
-                IWriteableNodeStateReadOnlyList AllChildren1 = (IWriteableNodeStateReadOnlyList)RootState.GetAllChildren();
+                WriteableNodeStateReadOnlyList AllChildren1 = (WriteableNodeStateReadOnlyList)RootState.GetAllChildren();
                 Assert.That(AllChildren1.Count == AllChildren0.Count + 1, $"New count: {AllChildren1.Count}");
 
                 Assert.That(BaseNodeHelper.NodeTreeDiagnostic.IsValid(RootNode));
@@ -1884,14 +1882,14 @@ namespace Coverage
                 Assert.That(!IsChanged);
                 Assert.That(UnassignedOptionalLeafInner.IsAssigned);
 
-                IWriteableNodeStateReadOnlyList AllChildren2 = (IWriteableNodeStateReadOnlyList)RootState.GetAllChildren();
+                WriteableNodeStateReadOnlyList AllChildren2 = (WriteableNodeStateReadOnlyList)RootState.GetAllChildren();
                 Assert.That(AllChildren2.Count == AllChildren1.Count, $"New count: {AllChildren2.Count}");
 
                 Controller.Unassign(AssignmentIndex0, out IsChanged);
                 Assert.That(IsChanged);
                 Assert.That(!UnassignedOptionalLeafInner.IsAssigned);
 
-                IWriteableNodeStateReadOnlyList AllChildren3 = (IWriteableNodeStateReadOnlyList)RootState.GetAllChildren();
+                WriteableNodeStateReadOnlyList AllChildren3 = (WriteableNodeStateReadOnlyList)RootState.GetAllChildren();
                 Assert.That(AllChildren3.Count == AllChildren2.Count - 1, $"New count: {AllChildren3.Count}");
 
                 Assert.That(Controller.CanUndo);
@@ -1921,10 +1919,10 @@ namespace Coverage
             RootNode = CreateRoot(ValueGuid0, Imperfections.None);
             RootIndex = new WriteableRootNodeIndex(RootNode);
 
-            IWriteableController ControllerBase = WriteableController.Create(RootIndex);
-            IWriteableController Controller = WriteableController.Create(RootIndex);
+            WriteableController ControllerBase = (WriteableController)WriteableController.Create(RootIndex);
+            WriteableController Controller = (WriteableController)WriteableController.Create(RootIndex);
 
-            using (IWriteableControllerView ControllerView0 = WriteableControllerView.Create(Controller))
+            using (WriteableControllerView ControllerView0 = WriteableControllerView.Create(Controller))
             {
                 Assert.That(ControllerView0.Controller == Controller);
 
@@ -1938,14 +1936,14 @@ namespace Coverage
                 IWriteableBrowsingOptionalNodeIndex AssignmentIndex0 = AssignedOptionalLeafInner.ChildState.ParentIndex;
                 Assert.That(AssignmentIndex0 != null);
 
-                IWriteableNodeStateReadOnlyList AllChildren0 = (IWriteableNodeStateReadOnlyList)RootState.GetAllChildren();
+                WriteableNodeStateReadOnlyList AllChildren0 = (WriteableNodeStateReadOnlyList)RootState.GetAllChildren();
                 Assert.That(AllChildren0.Count == 19, $"New count: {AllChildren0.Count}");
 
                 Controller.Unassign(AssignmentIndex0, out bool IsChanged);
                 Assert.That(IsChanged);
                 Assert.That(!AssignedOptionalLeafInner.IsAssigned);
 
-                IWriteableNodeStateReadOnlyList AllChildren1 = (IWriteableNodeStateReadOnlyList)RootState.GetAllChildren();
+                WriteableNodeStateReadOnlyList AllChildren1 = (WriteableNodeStateReadOnlyList)RootState.GetAllChildren();
                 Assert.That(AllChildren1.Count == AllChildren0.Count - 1, $"New count: {AllChildren1.Count}");
 
                 Assert.That(BaseNodeHelper.NodeTreeDiagnostic.IsValid(RootNode));
@@ -1954,14 +1952,14 @@ namespace Coverage
                 Assert.That(!IsChanged);
                 Assert.That(!AssignedOptionalLeafInner.IsAssigned);
 
-                IWriteableNodeStateReadOnlyList AllChildren2 = (IWriteableNodeStateReadOnlyList)RootState.GetAllChildren();
+                WriteableNodeStateReadOnlyList AllChildren2 = (WriteableNodeStateReadOnlyList)RootState.GetAllChildren();
                 Assert.That(AllChildren2.Count == AllChildren1.Count, $"New count: {AllChildren2.Count}");
 
                 Controller.Assign(AssignmentIndex0, out IsChanged);
                 Assert.That(IsChanged);
                 Assert.That(AssignedOptionalLeafInner.IsAssigned);
 
-                IWriteableNodeStateReadOnlyList AllChildren3 = (IWriteableNodeStateReadOnlyList)RootState.GetAllChildren();
+                WriteableNodeStateReadOnlyList AllChildren3 = (WriteableNodeStateReadOnlyList)RootState.GetAllChildren();
                 Assert.That(AllChildren3.Count == AllChildren2.Count + 1, $"New count: {AllChildren3.Count}");
 
                 Assert.That(Controller.CanUndo);
@@ -1991,10 +1989,10 @@ namespace Coverage
             RootNode = CreateRoot(ValueGuid0, Imperfections.None);
             RootIndex = new WriteableRootNodeIndex(RootNode);
 
-            IWriteableController ControllerBase = WriteableController.Create(RootIndex);
-            IWriteableController Controller = WriteableController.Create(RootIndex);
+            WriteableController ControllerBase = (WriteableController)WriteableController.Create(RootIndex);
+            WriteableController Controller = (WriteableController)WriteableController.Create(RootIndex);
 
-            using (IWriteableControllerView ControllerView0 = WriteableControllerView.Create(Controller))
+            using (WriteableControllerView ControllerView0 = WriteableControllerView.Create(Controller))
             {
                 Assert.That(ControllerView0.Controller == Controller);
 
@@ -2004,10 +2002,10 @@ namespace Coverage
                 IWriteableBlockListInner LeafBlocksInner = RootState.PropertyToInner(nameof(Main.LeafBlocks)) as IWriteableBlockListInner;
                 Assert.That(LeafBlocksInner != null);
 
-                IWriteableNodeStateReadOnlyList AllChildren0 = (IWriteableNodeStateReadOnlyList)RootState.GetAllChildren();
+                WriteableNodeStateReadOnlyList AllChildren0 = (WriteableNodeStateReadOnlyList)RootState.GetAllChildren();
                 Assert.That(AllChildren0.Count == 19, $"New count: {AllChildren0.Count}");
 
-                IWriteableBlockState BlockState = LeafBlocksInner.BlockStateList[0];
+                IWriteableBlockState BlockState = (IWriteableBlockState)LeafBlocksInner.BlockStateList[0];
                 Assert.That(BlockState != null);
                 Assert.That(BlockState.ParentInner == LeafBlocksInner);
                 BaseNode.IBlock ChildBlock = BlockState.ChildBlock;
@@ -2017,7 +2015,7 @@ namespace Coverage
 
                 Assert.That(ChildBlock.Replication == BaseNode.ReplicationStatus.Replicated);
 
-                IWriteableNodeStateReadOnlyList AllChildren1 = (IWriteableNodeStateReadOnlyList)RootState.GetAllChildren();
+                WriteableNodeStateReadOnlyList AllChildren1 = (WriteableNodeStateReadOnlyList)RootState.GetAllChildren();
                 Assert.That(AllChildren1.Count == AllChildren0.Count, $"New count: {AllChildren1.Count}");
 
                 Assert.That(BaseNodeHelper.NodeTreeDiagnostic.IsValid(RootNode));
@@ -2047,10 +2045,10 @@ namespace Coverage
             RootNode = CreateRoot(ValueGuid0, Imperfections.None);
             RootIndex = new WriteableRootNodeIndex(RootNode);
 
-            IWriteableController ControllerBase = WriteableController.Create(RootIndex);
-            IWriteableController Controller = WriteableController.Create(RootIndex);
+            WriteableController ControllerBase = (WriteableController)WriteableController.Create(RootIndex);
+            WriteableController Controller = (WriteableController)WriteableController.Create(RootIndex);
 
-            using (IWriteableControllerView ControllerView0 = WriteableControllerView.Create(Controller))
+            using (WriteableControllerView ControllerView0 = WriteableControllerView.Create(Controller))
             {
                 Assert.That(ControllerView0.Controller == Controller);
 
@@ -2060,15 +2058,15 @@ namespace Coverage
                 IWriteableBlockListInner LeafBlocksInner = RootState.PropertyToInner(nameof(Main.LeafBlocks)) as IWriteableBlockListInner;
                 Assert.That(LeafBlocksInner != null);
 
-                IWriteableNodeStateReadOnlyList AllChildren0 = (IWriteableNodeStateReadOnlyList)RootState.GetAllChildren();
+                WriteableNodeStateReadOnlyList AllChildren0 = (WriteableNodeStateReadOnlyList)RootState.GetAllChildren();
                 Assert.That(AllChildren0.Count == 19, $"New count: {AllChildren0.Count}");
 
-                IWriteableBlockState BlockState0 = LeafBlocksInner.BlockStateList[0];
+                IWriteableBlockState BlockState0 = (IWriteableBlockState)LeafBlocksInner.BlockStateList[0];
                 Assert.That(BlockState0 != null);
                 BaseNode.IBlock ChildBlock0 = BlockState0.ChildBlock;
                 Assert.That(ChildBlock0.NodeList.Count == 1);
 
-                IWriteableBlockState BlockState1 = LeafBlocksInner.BlockStateList[1];
+                IWriteableBlockState BlockState1 = (IWriteableBlockState)LeafBlocksInner.BlockStateList[1];
                 Assert.That(BlockState1 != null);
                 BaseNode.IBlock ChildBlock1 = BlockState1.ChildBlock;
                 Assert.That(ChildBlock1.NodeList.Count == 2);
@@ -2086,10 +2084,10 @@ namespace Coverage
                 Assert.That(ChildBlock1 == LeafBlocksInner.BlockStateList[2].ChildBlock);
                 Assert.That(ChildBlock1.NodeList.Count == 1);
 
-                IWriteableBlockState BlockState12 = LeafBlocksInner.BlockStateList[1];
+                IWriteableBlockState BlockState12 = (IWriteableBlockState)LeafBlocksInner.BlockStateList[1];
                 Assert.That(BlockState12.ChildBlock.NodeList.Count == 1);
 
-                IWriteableNodeStateReadOnlyList AllChildren1 = (IWriteableNodeStateReadOnlyList)RootState.GetAllChildren();
+                WriteableNodeStateReadOnlyList AllChildren1 = (WriteableNodeStateReadOnlyList)RootState.GetAllChildren();
                 Assert.That(AllChildren1.Count == AllChildren0.Count + 2, $"New count: {AllChildren1.Count}");
 
                 Assert.That(BaseNodeHelper.NodeTreeDiagnostic.IsValid(RootNode));
@@ -2119,10 +2117,10 @@ namespace Coverage
             RootNode = CreateRoot(ValueGuid0, Imperfections.None);
             RootIndex = new WriteableRootNodeIndex(RootNode);
 
-            IWriteableController ControllerBase = WriteableController.Create(RootIndex);
-            IWriteableController Controller = WriteableController.Create(RootIndex);
+            WriteableController ControllerBase = (WriteableController)WriteableController.Create(RootIndex);
+            WriteableController Controller = (WriteableController)WriteableController.Create(RootIndex);
 
-            using (IWriteableControllerView ControllerView0 = WriteableControllerView.Create(Controller))
+            using (WriteableControllerView ControllerView0 = WriteableControllerView.Create(Controller))
             {
                 Assert.That(ControllerView0.Controller == Controller);
 
@@ -2132,15 +2130,15 @@ namespace Coverage
                 IWriteableBlockListInner LeafBlocksInner = RootState.PropertyToInner(nameof(Main.LeafBlocks)) as IWriteableBlockListInner;
                 Assert.That(LeafBlocksInner != null);
 
-                IWriteableNodeStateReadOnlyList AllChildren0 = (IWriteableNodeStateReadOnlyList)RootState.GetAllChildren();
+                WriteableNodeStateReadOnlyList AllChildren0 = (WriteableNodeStateReadOnlyList)RootState.GetAllChildren();
                 Assert.That(AllChildren0.Count == 19, $"New count: {AllChildren0.Count}");
 
-                IWriteableBlockState BlockState0 = LeafBlocksInner.BlockStateList[0];
+                IWriteableBlockState BlockState0 = (IWriteableBlockState)LeafBlocksInner.BlockStateList[0];
                 Assert.That(BlockState0 != null);
                 BaseNode.IBlock ChildBlock0 = BlockState0.ChildBlock;
                 Assert.That(ChildBlock0.NodeList.Count == 1);
 
-                IWriteableBlockState BlockState1 = LeafBlocksInner.BlockStateList[1];
+                IWriteableBlockState BlockState1 = (IWriteableBlockState)LeafBlocksInner.BlockStateList[1];
                 Assert.That(BlockState1 != null);
                 BaseNode.IBlock ChildBlock1 = BlockState1.ChildBlock;
                 Assert.That(ChildBlock1.NodeList.Count == 2);
@@ -2160,7 +2158,7 @@ namespace Coverage
 
                 Assert.That(LeafBlocksInner.BlockStateList[0] == BlockState1);
 
-                IWriteableNodeStateReadOnlyList AllChildren1 = (IWriteableNodeStateReadOnlyList)RootState.GetAllChildren();
+                WriteableNodeStateReadOnlyList AllChildren1 = (WriteableNodeStateReadOnlyList)RootState.GetAllChildren();
                 Assert.That(AllChildren1.Count == AllChildren0.Count - 2, $"New count: {AllChildren1.Count}");
 
                 Assert.That(BaseNodeHelper.NodeTreeDiagnostic.IsValid(RootNode));
@@ -2190,23 +2188,23 @@ namespace Coverage
             RootNode = CreateRoot(ValueGuid0, Imperfections.None);
             RootIndex = new WriteableRootNodeIndex(RootNode);
 
-            IWriteableController ControllerBase = WriteableController.Create(RootIndex);
-            IWriteableController Controller = WriteableController.Create(RootIndex);
+            WriteableController ControllerBase = (WriteableController)WriteableController.Create(RootIndex);
+            WriteableController Controller = (WriteableController)WriteableController.Create(RootIndex);
 
-            using (IWriteableControllerView ControllerView0 = WriteableControllerView.Create(Controller))
+            using (WriteableControllerView ControllerView0 = WriteableControllerView.Create(Controller))
             {
                 Assert.That(ControllerView0.Controller == Controller);
 
                 IWriteableNodeState RootState = Controller.RootState;
                 Assert.That(RootState != null);
 
-                IWriteableNodeStateReadOnlyList AllChildren0 = (IWriteableNodeStateReadOnlyList)RootState.GetAllChildren();
+                WriteableNodeStateReadOnlyList AllChildren0 = (WriteableNodeStateReadOnlyList)RootState.GetAllChildren();
                 Assert.That(AllChildren0.Count == 19, $"New count: {AllChildren0.Count}");
 
                 Controller.Expand(RootIndex, out bool IsChanged);
                 Assert.That(IsChanged);
 
-                IWriteableNodeStateReadOnlyList AllChildren1 = (IWriteableNodeStateReadOnlyList)RootState.GetAllChildren();
+                WriteableNodeStateReadOnlyList AllChildren1 = (WriteableNodeStateReadOnlyList)RootState.GetAllChildren();
                 Assert.That(AllChildren1.Count == AllChildren0.Count + 2, $"New count: {AllChildren1.Count - AllChildren0.Count}");
 
                 Assert.That(BaseNodeHelper.NodeTreeDiagnostic.IsValid(RootNode));
@@ -2214,7 +2212,7 @@ namespace Coverage
                 Controller.Expand(RootIndex, out IsChanged);
                 Assert.That(!IsChanged);
 
-                IWriteableNodeStateReadOnlyList AllChildren2 = (IWriteableNodeStateReadOnlyList)RootState.GetAllChildren();
+                WriteableNodeStateReadOnlyList AllChildren2 = (WriteableNodeStateReadOnlyList)RootState.GetAllChildren();
                 Assert.That(AllChildren2.Count == AllChildren1.Count, $"New count: {AllChildren2.Count}");
 
                 Assert.That(BaseNodeHelper.NodeTreeDiagnostic.IsValid(RootNode));
@@ -2227,7 +2225,7 @@ namespace Coverage
                 Controller.Replace(OptionalLeafInner, ReplacementIndex5, out IWriteableBrowsingChildIndex NewItemIndex5);
                 Assert.That(Controller.Contains(NewItemIndex5));
 
-                IWriteableNodeStateReadOnlyList AllChildren3 = (IWriteableNodeStateReadOnlyList)RootState.GetAllChildren();
+                WriteableNodeStateReadOnlyList AllChildren3 = (WriteableNodeStateReadOnlyList)RootState.GetAllChildren();
                 Assert.That(AllChildren3.Count == AllChildren2.Count - 1, $"New count: {AllChildren3.Count - AllChildren2.Count}");
 
                 Assert.That(BaseNodeHelper.NodeTreeDiagnostic.IsValid(RootNode));
@@ -2235,7 +2233,7 @@ namespace Coverage
                 Controller.Expand(RootIndex, out IsChanged);
                 Assert.That(IsChanged);
 
-                IWriteableNodeStateReadOnlyList AllChildren4 = (IWriteableNodeStateReadOnlyList)RootState.GetAllChildren();
+                WriteableNodeStateReadOnlyList AllChildren4 = (WriteableNodeStateReadOnlyList)RootState.GetAllChildren();
                 Assert.That(AllChildren4.Count == AllChildren3.Count + 1, $"New count: {AllChildren4.Count}");
 
 
@@ -2271,7 +2269,7 @@ namespace Coverage
                 Controller.Remove(LeafBlocksInner, RemovedLeafIndex);
                 Assert.That(!Controller.Contains(RemovedLeafIndex));
 
-                IWriteableNodeStateReadOnlyList AllChildren5 = (IWriteableNodeStateReadOnlyList)RootState.GetAllChildren();
+                WriteableNodeStateReadOnlyList AllChildren5 = (WriteableNodeStateReadOnlyList)RootState.GetAllChildren();
                 Assert.That(AllChildren5.Count == AllChildren4.Count - 10, $"New count: {AllChildren5.Count}");
 
                 Assert.That(BaseNodeHelper.NodeTreeDiagnostic.IsValid(RootNode));
@@ -2280,7 +2278,7 @@ namespace Coverage
                 Controller.Expand(RootIndex, out IsChanged);
                 Assert.That(!IsChanged);
 
-                IWriteableNodeStateReadOnlyList AllChildren6 = (IWriteableNodeStateReadOnlyList)RootState.GetAllChildren();
+                WriteableNodeStateReadOnlyList AllChildren6 = (WriteableNodeStateReadOnlyList)RootState.GetAllChildren();
                 Assert.That(AllChildren6.Count == AllChildren5.Count, $"New count: {AllChildren6.Count - AllChildren5.Count}");
 
                 IDictionary<Type, string[]> WithExpandCollectionTable = BaseNodeHelper.NodeHelper.WithExpandCollectionTable as IDictionary<Type, string[]>;
@@ -2289,7 +2287,7 @@ namespace Coverage
                 Controller.Expand(RootIndex, out IsChanged);
                 Assert.That(IsChanged);
 
-                IWriteableNodeStateReadOnlyList AllChildren7 = (IWriteableNodeStateReadOnlyList)RootState.GetAllChildren();
+                WriteableNodeStateReadOnlyList AllChildren7 = (WriteableNodeStateReadOnlyList)RootState.GetAllChildren();
                 Assert.That(AllChildren7.Count == AllChildren6.Count + 3, $"New count: {AllChildren7.Count - AllChildren6.Count}");
 
                 Assert.That(BaseNodeHelper.NodeTreeDiagnostic.IsValid(RootNode));
@@ -2339,10 +2337,10 @@ namespace Coverage
             RootNode = CreateRoot(ValueGuid0, Imperfections.None);
             RootIndex = new WriteableRootNodeIndex(RootNode);
 
-            IWriteableController ControllerBase = WriteableController.Create(RootIndex);
-            IWriteableController Controller = WriteableController.Create(RootIndex);
+            WriteableController ControllerBase = (WriteableController)WriteableController.Create(RootIndex);
+            WriteableController Controller = (WriteableController)WriteableController.Create(RootIndex);
 
-            using (IWriteableControllerView ControllerView0 = WriteableControllerView.Create(Controller))
+            using (WriteableControllerView ControllerView0 = WriteableControllerView.Create(Controller))
             {
                 Assert.That(ControllerView0.Controller == Controller);
 
@@ -2383,7 +2381,7 @@ namespace Coverage
                 Assert.That(BaseNodeHelper.NodeTreeDiagnostic.IsValid(RootNode));
                 Assert.That(LeafBlocksInner.IsEmpty);
 
-                IWriteableNodeStateReadOnlyList AllChildren0 = (IWriteableNodeStateReadOnlyList)RootState.GetAllChildren();
+                WriteableNodeStateReadOnlyList AllChildren0 = (WriteableNodeStateReadOnlyList)RootState.GetAllChildren();
                 Assert.That(AllChildren0.Count == 9, $"New count: {AllChildren0.Count}");
 
                 IDictionary<Type, string[]> WithExpandCollectionTable = BaseNodeHelper.NodeHelper.WithExpandCollectionTable as IDictionary<Type, string[]>;
@@ -2392,7 +2390,7 @@ namespace Coverage
                 Controller.Expand(RootIndex, out IsChanged);
                 Assert.That(IsChanged);
 
-                IWriteableNodeStateReadOnlyList AllChildren1 = (IWriteableNodeStateReadOnlyList)RootState.GetAllChildren();
+                WriteableNodeStateReadOnlyList AllChildren1 = (WriteableNodeStateReadOnlyList)RootState.GetAllChildren();
                 Assert.That(AllChildren1.Count == AllChildren0.Count + 5, $"New count: {AllChildren1.Count - AllChildren0.Count}");
 
                 Assert.That(BaseNodeHelper.NodeTreeDiagnostic.IsValid(RootNode));
@@ -2401,19 +2399,19 @@ namespace Coverage
                 Controller.Reduce(RootIndex, out IsChanged);
                 Assert.That(IsChanged);
 
-                IWriteableNodeStateReadOnlyList AllChildren2 = (IWriteableNodeStateReadOnlyList)RootState.GetAllChildren();
+                WriteableNodeStateReadOnlyList AllChildren2 = (WriteableNodeStateReadOnlyList)RootState.GetAllChildren();
                 Assert.That(AllChildren2.Count == AllChildren1.Count - 4, $"New count: {AllChildren2.Count - AllChildren1.Count}");
 
                 Controller.Reduce(RootIndex, out IsChanged);
                 Assert.That(!IsChanged);
 
-                IWriteableNodeStateReadOnlyList AllChildren3 = (IWriteableNodeStateReadOnlyList)RootState.GetAllChildren();
+                WriteableNodeStateReadOnlyList AllChildren3 = (WriteableNodeStateReadOnlyList)RootState.GetAllChildren();
                 Assert.That(AllChildren3.Count == AllChildren2.Count, $"New count: {AllChildren3.Count - AllChildren2.Count}");
 
                 Controller.Expand(RootIndex, out IsChanged);
                 Assert.That(IsChanged);
 
-                IWriteableNodeStateReadOnlyList AllChildren4 = (IWriteableNodeStateReadOnlyList)RootState.GetAllChildren();
+                WriteableNodeStateReadOnlyList AllChildren4 = (WriteableNodeStateReadOnlyList)RootState.GetAllChildren();
                 Assert.That(AllChildren4.Count == AllChildren3.Count + 4, $"New count: {AllChildren4.Count - AllChildren3.Count}");
 
                 BaseNode.IBlock ChildBlock = LeafBlocksInner.BlockStateList[0].ChildBlock;
@@ -2432,7 +2430,7 @@ namespace Coverage
                 Controller.Reduce(RootIndex, out IsChanged);
                 Assert.That(IsChanged);
 
-                IWriteableNodeStateReadOnlyList AllChildren5 = (IWriteableNodeStateReadOnlyList)RootState.GetAllChildren();
+                WriteableNodeStateReadOnlyList AllChildren5 = (WriteableNodeStateReadOnlyList)RootState.GetAllChildren();
                 Assert.That(AllChildren5.Count == AllChildren4.Count - 2, $"New count: {AllChildren5.Count - AllChildren4.Count}");
 
                 BaseNodeHelper.NodeTreeHelper.SetString(FirstNode, nameof(Leaf.Text), "");
@@ -2441,7 +2439,7 @@ namespace Coverage
                 Controller.Reduce(RootIndex, out IsChanged);
                 Assert.That(IsChanged);
 
-                IWriteableNodeStateReadOnlyList AllChildren6 = (IWriteableNodeStateReadOnlyList)RootState.GetAllChildren();
+                WriteableNodeStateReadOnlyList AllChildren6 = (WriteableNodeStateReadOnlyList)RootState.GetAllChildren();
                 Assert.That(AllChildren6.Count == AllChildren5.Count - 3, $"New count: {AllChildren6.Count - AllChildren5.Count}");
 
                 Controller.Expand(RootIndex, out IsChanged);
@@ -2453,7 +2451,7 @@ namespace Coverage
                 Controller.Reduce(RootIndex, out IsChanged);
                 Assert.That(IsChanged);
 
-                IWriteableNodeStateReadOnlyList AllChildren7 = (IWriteableNodeStateReadOnlyList)RootState.GetAllChildren();
+                WriteableNodeStateReadOnlyList AllChildren7 = (WriteableNodeStateReadOnlyList)RootState.GetAllChildren();
                 Assert.That(AllChildren7.Count == AllChildren6.Count + 3, $"New count: {AllChildren7.Count - AllChildren6.Count}");
 
                 Assert.That(Controller.CanUndo);
@@ -2508,10 +2506,10 @@ namespace Coverage
             RootNode = CreateRoot(ValueGuid0, Imperfections.None);
             RootIndex = new WriteableRootNodeIndex(RootNode);
 
-            IWriteableController ControllerBase = WriteableController.Create(RootIndex);
-            IWriteableController Controller = WriteableController.Create(RootIndex);
+            WriteableController ControllerBase = (WriteableController)WriteableController.Create(RootIndex);
+            WriteableController Controller = (WriteableController)WriteableController.Create(RootIndex);
 
-            using (IWriteableControllerView ControllerView0 = WriteableControllerView.Create(Controller))
+            using (WriteableControllerView ControllerView0 = WriteableControllerView.Create(Controller))
             {
                 Assert.That(ControllerView0.Controller == Controller);
 
@@ -2529,7 +2527,7 @@ namespace Coverage
                 Assert.That(!Controller.Contains(RemovedLeafIndex));
 
                 Assert.That(Controller.CanUndo);
-                IWriteableOperationGroup LastOperation = Controller.OperationStack[Controller.RedoIndex - 1];
+                WriteableOperationGroup LastOperation = Controller.OperationStack[Controller.RedoIndex - 1];
                 Assert.That(LastOperation.MainOperation is IWriteableRemoveOperation);
                 Assert.That(LastOperation.OperationList.Count > 0);
                 Assert.That(LastOperation.Refresh == null);
@@ -2589,7 +2587,7 @@ namespace Coverage
                 Assert.That(Controller.CanUndo);
                 Controller.Undo();
 
-                IWriteableNodeStateReadOnlyList AllChildren0 = (IWriteableNodeStateReadOnlyList)RootState.GetAllChildren();
+                WriteableNodeStateReadOnlyList AllChildren0 = (WriteableNodeStateReadOnlyList)RootState.GetAllChildren();
                 Assert.That(AllChildren0.Count == 12, $"New count: {AllChildren0.Count}");
 
                 IDictionary<Type, string[]> WithExpandCollectionTable = BaseNodeHelper.NodeHelper.WithExpandCollectionTable as IDictionary<Type, string[]>;
@@ -2598,7 +2596,7 @@ namespace Coverage
                 Controller.Expand(RootIndex, out IsChanged);
                 Assert.That(IsChanged);
 
-                IWriteableNodeStateReadOnlyList AllChildren1 = (IWriteableNodeStateReadOnlyList)RootState.GetAllChildren();
+                WriteableNodeStateReadOnlyList AllChildren1 = (WriteableNodeStateReadOnlyList)RootState.GetAllChildren();
                 Assert.That(AllChildren1.Count == AllChildren0.Count + 2, $"New count: {AllChildren1.Count - AllChildren0.Count}");
 
                 Assert.That(BaseNodeHelper.NodeTreeDiagnostic.IsValid(RootNode));
@@ -2615,7 +2613,7 @@ namespace Coverage
                 Controller.Canonicalize(out IsChanged);
                 Assert.That(IsChanged);
 
-                IWriteableNodeStateReadOnlyList AllChildren2 = (IWriteableNodeStateReadOnlyList)RootState.GetAllChildren();
+                WriteableNodeStateReadOnlyList AllChildren2 = (WriteableNodeStateReadOnlyList)RootState.GetAllChildren();
                 Assert.That(AllChildren2.Count == AllChildren1.Count - 2, $"New count: {AllChildren2.Count - AllChildren1.Count}");
 
                 Controller.Undo();
@@ -2624,7 +2622,7 @@ namespace Coverage
                 Controller.Canonicalize(out IsChanged);
                 Assert.That(!IsChanged);
 
-                IWriteableNodeStateReadOnlyList AllChildren3 = (IWriteableNodeStateReadOnlyList)RootState.GetAllChildren();
+                WriteableNodeStateReadOnlyList AllChildren3 = (WriteableNodeStateReadOnlyList)RootState.GetAllChildren();
                 Assert.That(AllChildren3.Count == AllChildren2.Count, $"New count: {AllChildren3.Count - AllChildren2.Count}");
 
                 Assert.That(Controller.CanUndo);
@@ -2694,10 +2692,10 @@ namespace Coverage
             //System.Diagnostics.Debug.Assert(false);
             IWriteableRootNodeIndex RootIndex = new WriteableRootNodeIndex(RootNode);
 
-            IWriteableController ControllerBase = WriteableController.Create(RootIndex);
-            IWriteableController Controller = WriteableController.Create(RootIndex);
+            WriteableController ControllerBase = (WriteableController)WriteableController.Create(RootIndex);
+            WriteableController Controller = (WriteableController)WriteableController.Create(RootIndex);
 
-            using (IWriteableControllerView ControllerView0 = WriteableControllerView.Create(Controller))
+            using (WriteableControllerView ControllerView0 = WriteableControllerView.Create(Controller))
             {
                 Assert.That(ControllerView0.Controller == Controller);
 
@@ -2746,55 +2744,55 @@ namespace Coverage
             RootNode = CreateRoot(ValueGuid0, Imperfections.None);
             RootIndex = new WriteableRootNodeIndex(RootNode);
 
-            IWriteableController ControllerBase = WriteableController.Create(RootIndex);
-            IWriteableController Controller = WriteableController.Create(RootIndex);
+            WriteableController ControllerBase = (WriteableController)WriteableController.Create(RootIndex);
+            WriteableController Controller = (WriteableController)WriteableController.Create(RootIndex);
 
-            IReadOnlyIndexNodeStateDictionary ControllerStateTable = DebugObjects.GetReferenceByInterface(typeof(IWriteableIndexNodeStateDictionary)) as IReadOnlyIndexNodeStateDictionary;
+            ReadOnlyIndexNodeStateDictionary ControllerStateTable = DebugObjects.GetReferenceByInterface(typeof(WriteableIndexNodeStateDictionary)) as ReadOnlyIndexNodeStateDictionary;
 
-            using (IWriteableControllerView ControllerView = WriteableControllerView.Create(Controller))
+            using (WriteableControllerView ControllerView = WriteableControllerView.Create(Controller))
             {
                 // IxxxBlockStateViewDictionary 
 
-                IReadOnlyBlockStateViewDictionary ReadOnlyBlockStateViewTable = ControllerView.BlockStateViewTable;
+                ReadOnlyBlockStateViewDictionary ReadOnlyBlockStateViewTable = ControllerView.BlockStateViewTable;
 
-                foreach (KeyValuePair<IReadOnlyBlockState, IReadOnlyBlockStateView> Entry in ReadOnlyBlockStateViewTable)
+                foreach (KeyValuePair<IReadOnlyBlockState, ReadOnlyBlockStateView> Entry in ReadOnlyBlockStateViewTable)
                 {
-                    IReadOnlyBlockStateView StateView = ReadOnlyBlockStateViewTable[Entry.Key];
-                    ReadOnlyBlockStateViewTable.TryGetValue(Entry.Key, out IReadOnlyBlockStateView Value);
-                    ReadOnlyBlockStateViewTable.Contains(Entry);
+                    ReadOnlyBlockStateView StateView = ReadOnlyBlockStateViewTable[Entry.Key];
+                    ReadOnlyBlockStateViewTable.TryGetValue(Entry.Key, out ReadOnlyBlockStateView Value);
+                    ((ICollection<KeyValuePair<IReadOnlyBlockState, ReadOnlyBlockStateView>>)ReadOnlyBlockStateViewTable).Contains(Entry);
                     ReadOnlyBlockStateViewTable.Remove(Entry.Key);
                     ReadOnlyBlockStateViewTable.Add(Entry.Key, Entry.Value);
                     ICollection<IReadOnlyBlockState> Keys = ReadOnlyBlockStateViewTable.Keys;
-                    ICollection<IReadOnlyBlockStateView> Values = ReadOnlyBlockStateViewTable.Values;
+                    ICollection<ReadOnlyBlockStateView> Values = ReadOnlyBlockStateViewTable.Values;
 
                     break;
                 }
 
-                IDictionary<IReadOnlyBlockState, IReadOnlyBlockStateView> ReadOnlyBlockStateViewTableAsDictionary = ReadOnlyBlockStateViewTable;
-                foreach (KeyValuePair<IReadOnlyBlockState, IReadOnlyBlockStateView> Entry in ReadOnlyBlockStateViewTableAsDictionary)
+                IDictionary<IReadOnlyBlockState, ReadOnlyBlockStateView> ReadOnlyBlockStateViewTableAsDictionary = ReadOnlyBlockStateViewTable;
+                foreach (KeyValuePair<IReadOnlyBlockState, ReadOnlyBlockStateView> Entry in ReadOnlyBlockStateViewTableAsDictionary)
                 {
-                    IReadOnlyBlockStateView StateView = ReadOnlyBlockStateViewTableAsDictionary[Entry.Key];
+                    ReadOnlyBlockStateView StateView = ReadOnlyBlockStateViewTableAsDictionary[Entry.Key];
                     break;
                 }
 
-                ICollection<KeyValuePair<IReadOnlyBlockState, IReadOnlyBlockStateView>> ReadOnlyBlockStateViewTableAsCollection = ReadOnlyBlockStateViewTable;
+                ICollection<KeyValuePair<IReadOnlyBlockState, ReadOnlyBlockStateView>> ReadOnlyBlockStateViewTableAsCollection = ReadOnlyBlockStateViewTable;
                 IsReadOnly = ReadOnlyBlockStateViewTableAsCollection.IsReadOnly;
-                foreach (KeyValuePair<IReadOnlyBlockState, IReadOnlyBlockStateView> Entry in ReadOnlyBlockStateViewTableAsCollection)
+                foreach (KeyValuePair<IReadOnlyBlockState, ReadOnlyBlockStateView> Entry in ReadOnlyBlockStateViewTableAsCollection)
                 {
                     ReadOnlyBlockStateViewTableAsCollection.Contains(Entry);
                     ReadOnlyBlockStateViewTableAsCollection.Remove(Entry);
                     ReadOnlyBlockStateViewTableAsCollection.Add(Entry);
-                    ReadOnlyBlockStateViewTableAsCollection.CopyTo(new KeyValuePair<IReadOnlyBlockState, IReadOnlyBlockStateView>[ReadOnlyBlockStateViewTableAsCollection.Count], 0);
+                    ReadOnlyBlockStateViewTableAsCollection.CopyTo(new KeyValuePair<IReadOnlyBlockState, ReadOnlyBlockStateView>[ReadOnlyBlockStateViewTableAsCollection.Count], 0);
                     break;
                 }
 
-                IEnumerable<KeyValuePair<IReadOnlyBlockState, IReadOnlyBlockStateView>> ReadOnlyBlockStateViewTableAsEnumerable = ReadOnlyBlockStateViewTable;
-                foreach (KeyValuePair<IReadOnlyBlockState, IReadOnlyBlockStateView> Entry in ReadOnlyBlockStateViewTableAsEnumerable)
+                IEnumerable<KeyValuePair<IReadOnlyBlockState, ReadOnlyBlockStateView>> ReadOnlyBlockStateViewTableAsEnumerable = ReadOnlyBlockStateViewTable;
+                foreach (KeyValuePair<IReadOnlyBlockState, ReadOnlyBlockStateView> Entry in ReadOnlyBlockStateViewTableAsEnumerable)
                 {
                     break;
                 }
 
-                // IWriteableBlockStateList
+                // WriteableBlockStateList
 
                 IWriteableNodeState RootState = Controller.RootState;
                 Assert.That(RootState != null);
@@ -2807,11 +2805,11 @@ namespace Coverage
 
                 //System.Diagnostics.Debug.Assert(false);
                 IWriteablePlaceholderNodeState FirstNodeState = LeafBlocksInner.FirstNodeState;
-                IWriteableBlockStateList DebugBlockStateList = DebugObjects.GetReferenceByInterface(typeof(IWriteableBlockStateList)) as IWriteableBlockStateList;
+                WriteableBlockStateList DebugBlockStateList = DebugObjects.GetReferenceByInterface(typeof(WriteableBlockStateList)) as WriteableBlockStateList;
                 if (DebugBlockStateList != null)
                 {
                     Assert.That(DebugBlockStateList.Count > 0);
-                    IsReadOnly = ((IReadOnlyBlockStateList)DebugBlockStateList).IsReadOnly;
+                    IsReadOnly = ((ReadOnlyBlockStateList)DebugBlockStateList).IsReadOnly;
                     FirstBlockState = DebugBlockStateList[0];
                     Assert.That(DebugBlockStateList.Contains(FirstBlockState));
                     Assert.That(DebugBlockStateList.IndexOf(FirstBlockState) == 0);
@@ -2834,7 +2832,7 @@ namespace Coverage
                     Assert.That(BlockStateListAsIReadOnlylist[0] == FirstBlockState);
                 }
 
-                IWriteableBlockStateReadOnlyList WriteableBlockStateList = LeafBlocksInner.BlockStateList;
+                WriteableBlockStateReadOnlyList WriteableBlockStateList = LeafBlocksInner.BlockStateList;
                 Assert.That(WriteableBlockStateList.Count > 0);
                 FirstBlockState = WriteableBlockStateList[0];
                 Assert.That(WriteableBlockStateList.Contains(FirstBlockState));
@@ -2845,11 +2843,11 @@ namespace Coverage
                 IEnumerable<IWriteableBlockState> WriteableBlockStateListAsIEnumerable = WriteableBlockStateList;
                 IEnumerator<IWriteableBlockState> WriteableBlockStateListAsIEnumerableEnumerator = WriteableBlockStateListAsIEnumerable.GetEnumerator();
 
-                // IWriteableBrowsingBlockNodeIndexList
+                // WriteableBrowsingBlockNodeIndexList
 
-                IWriteableBrowsingBlockNodeIndexList BlockNodeIndexList = LeafBlocksInner.AllIndexes() as IWriteableBrowsingBlockNodeIndexList;
+                WriteableBrowsingBlockNodeIndexList BlockNodeIndexList = LeafBlocksInner.AllIndexes() as WriteableBrowsingBlockNodeIndexList;
                 Assert.That(BlockNodeIndexList.Count > 0);
-                IsReadOnly = ((IReadOnlyBrowsingBlockNodeIndexList)BlockNodeIndexList).IsReadOnly;
+                IsReadOnly = ((ReadOnlyBrowsingBlockNodeIndexList)BlockNodeIndexList).IsReadOnly;
                 FirstBlockNodeIndex = BlockNodeIndexList[0];
                 Assert.That(BlockNodeIndexList.Contains(FirstBlockNodeIndex));
                 Assert.That(BlockNodeIndexList.IndexOf(FirstBlockNodeIndex) == 0);
@@ -2871,14 +2869,14 @@ namespace Coverage
                 IReadOnlyList<IReadOnlyBrowsingBlockNodeIndex> BlockNodeIndexListAsIReadOnlylist = BlockNodeIndexList;
                 Assert.That(BlockNodeIndexListAsIReadOnlylist[0] == FirstBlockNodeIndex);
 
-                IReadOnlyBrowsingBlockNodeIndexList BlockNodeIndexListAsReadOnly = BlockNodeIndexList;
+                ReadOnlyBrowsingBlockNodeIndexList BlockNodeIndexListAsReadOnly = BlockNodeIndexList;
                 Assert.That(BlockNodeIndexListAsReadOnly[0] == FirstBlockNodeIndex);
 
-                // IWriteableBrowsingListNodeIndexList
+                // WriteableBrowsingListNodeIndexList
 
-                IWriteableBrowsingListNodeIndexList ListNodeIndexList = LeafPathInner.AllIndexes() as IWriteableBrowsingListNodeIndexList;
+                WriteableBrowsingListNodeIndexList ListNodeIndexList = LeafPathInner.AllIndexes() as WriteableBrowsingListNodeIndexList;
                 Assert.That(ListNodeIndexList.Count > 0);
-                IsReadOnly = ((IReadOnlyBrowsingListNodeIndexList)ListNodeIndexList).IsReadOnly;
+                IsReadOnly = ((ReadOnlyBrowsingListNodeIndexList)ListNodeIndexList).IsReadOnly;
                 FirstListNodeIndex = ListNodeIndexList[0];
                 Assert.That(ListNodeIndexList.Contains(FirstListNodeIndex));
                 Assert.That(ListNodeIndexList.IndexOf(FirstListNodeIndex) == 0);
@@ -2900,10 +2898,10 @@ namespace Coverage
                 IReadOnlyList<IReadOnlyBrowsingListNodeIndex> ListNodeIndexListAsIReadOnlylist = ListNodeIndexList;
                 Assert.That(ListNodeIndexListAsIReadOnlylist[0] == FirstListNodeIndex);
 
-                IReadOnlyBrowsingListNodeIndexList ListNodeIndexListAsReadOnly = ListNodeIndexList;
+                ReadOnlyBrowsingListNodeIndexList ListNodeIndexListAsReadOnly = ListNodeIndexList;
                 Assert.That(ListNodeIndexListAsReadOnly[0] == FirstListNodeIndex);
 
-                // IWriteableIndexNodeStateDictionary
+                // WriteableIndexNodeStateDictionary
                 if (ControllerStateTable != null)
                 {
                     foreach (KeyValuePair<IReadOnlyIndex, IReadOnlyNodeState> Entry in ControllerStateTable)
@@ -2947,16 +2945,16 @@ namespace Coverage
 
                 // IWriteableIndexNodeStateReadOnlyDictionary
 
-                IReadOnlyIndexNodeStateReadOnlyDictionary StateTable = Controller.StateTable;
+                ReadOnlyIndexNodeStateReadOnlyDictionary StateTable = Controller.StateTable;
                 IReadOnlyDictionary<IReadOnlyIndex, IReadOnlyNodeState> StateTableAsDictionary = StateTable;
                 Assert.That(StateTable.TryGetValue(RootIndex, out IReadOnlyNodeState RootStateValue) == StateTableAsDictionary.TryGetValue(RootIndex, out IReadOnlyNodeState RootStateValueFromDictionary) && RootStateValue == RootStateValueFromDictionary);
                 Assert.That(StateTableAsDictionary.Keys != null);
                 Assert.That(StateTableAsDictionary.Values != null);
 
-                // IWriteableInnerDictionary
+                // WriteableInnerDictionary
 
                 //System.Diagnostics.Debug.Assert(false);
-                IWriteableInnerDictionary<string> InnerTableModify = DebugObjects.GetReferenceByInterface(typeof(IWriteableInnerDictionary<string>)) as IWriteableInnerDictionary<string>;
+                WriteableInnerDictionary<string> InnerTableModify = DebugObjects.GetReferenceByInterface(typeof(WriteableInnerDictionary<string>)) as WriteableInnerDictionary<string>;
                 Assert.That(InnerTableModify != null);
                 Assert.That(InnerTableModify.Count > 0);
 
@@ -2989,9 +2987,9 @@ namespace Coverage
                     break;
                 }
 
-                // IWriteableInnerReadOnlyDictionary
+                // WriteableInnerReadOnlyDictionary
 
-                IWriteableInnerReadOnlyDictionary<string> InnerTable = RootState.InnerTable;
+                WriteableInnerReadOnlyDictionary<string> InnerTable = RootState.InnerTable;
 
                 IReadOnlyDictionary<string, IReadOnlyInner> InnerTableAsDictionary = InnerTable;
                 Assert.That(InnerTableAsDictionary.Keys != null);
@@ -3008,7 +3006,7 @@ namespace Coverage
                 FirstNodeState = LeafPathInner.FirstNodeState;
                 Assert.That(FirstNodeState != null);
 
-                IWriteableNodeStateList NodeStateListModify = DebugObjects.GetReferenceByInterface(typeof(IWriteableNodeStateList)) as IWriteableNodeStateList;
+                WriteableNodeStateList NodeStateListModify = DebugObjects.GetReferenceByInterface(typeof(WriteableNodeStateList)) as WriteableNodeStateList;
                 Assert.That(NodeStateListModify != null);
                 Assert.That(NodeStateListModify.Count > 0);
                 FirstNodeState = NodeStateListModify[0] as IWriteablePlaceholderNodeState;
@@ -3019,7 +3017,7 @@ namespace Coverage
                 NodeStateListModify.Insert(0, (IReadOnlyNodeState)FirstNodeState);
                 NodeStateListModify.CopyTo((IReadOnlyNodeState[])(new IWriteableNodeState[NodeStateListModify.Count]), 0);
 
-                IReadOnlyNodeStateList NodeStateListModifyAsReadOnly = NodeStateListModify as IReadOnlyNodeStateList;
+                ReadOnlyNodeStateList NodeStateListModifyAsReadOnly = NodeStateListModify as ReadOnlyNodeStateList;
                 Assert.That(NodeStateListModifyAsReadOnly != null);
                 Assert.That(NodeStateListModifyAsReadOnly[0] == NodeStateListModify[0]);
 
@@ -3041,7 +3039,7 @@ namespace Coverage
 
                 // WriteableNodeStateReadOnlyList
 
-                IWriteableNodeStateReadOnlyList NodeStateList = NodeStateListModify.ToReadOnly() as IWriteableNodeStateReadOnlyList;
+                WriteableNodeStateReadOnlyList NodeStateList = NodeStateListModify.ToReadOnly() as WriteableNodeStateReadOnlyList;
                 Assert.That(NodeStateList != null);
                 Assert.That(NodeStateList.Count > 0);
                 FirstNodeState = NodeStateList[0] as IWriteablePlaceholderNodeState;
@@ -3061,7 +3059,7 @@ namespace Coverage
                 FirstNodeState = LeafPathInner.FirstNodeState;
                 Assert.That(FirstNodeState != null);
 
-                IWriteablePlaceholderNodeStateList PlaceholderNodeStateListModify = DebugObjects.GetReferenceByInterface(typeof(IWriteablePlaceholderNodeStateList)) as IWriteablePlaceholderNodeStateList;
+                WriteablePlaceholderNodeStateList PlaceholderNodeStateListModify = DebugObjects.GetReferenceByInterface(typeof(WriteablePlaceholderNodeStateList)) as WriteablePlaceholderNodeStateList;
                 if (PlaceholderNodeStateListModify != null)
                 {
                     Assert.That(PlaceholderNodeStateListModify.Count > 0);
@@ -3075,7 +3073,7 @@ namespace Coverage
                     PlaceholderNodeStateListModify.Insert(0, (IReadOnlyPlaceholderNodeState)FirstNodeState);
                     PlaceholderNodeStateListModify.CopyTo((IReadOnlyPlaceholderNodeState[])(new IWriteablePlaceholderNodeState[PlaceholderNodeStateListModify.Count]), 0);
 
-                    IReadOnlyPlaceholderNodeStateList PlaceholderNodeStateListModifyAsReadOnly = PlaceholderNodeStateListModify as IReadOnlyPlaceholderNodeStateList;
+                    ReadOnlyPlaceholderNodeStateList PlaceholderNodeStateListModifyAsReadOnly = PlaceholderNodeStateListModify as ReadOnlyPlaceholderNodeStateList;
                     Assert.That(PlaceholderNodeStateListModifyAsReadOnly != null);
                     Assert.That(PlaceholderNodeStateListModifyAsReadOnly[0] == PlaceholderNodeStateListModify[0]);
 
@@ -3098,7 +3096,7 @@ namespace Coverage
 
                 // WriteablePlaceholderNodeStateReadOnlyList
 
-                IWriteablePlaceholderNodeStateReadOnlyList PlaceholderNodeStateList = LeafPathInner.StateList;
+                WriteablePlaceholderNodeStateReadOnlyList PlaceholderNodeStateList = LeafPathInner.StateList;
                 Assert.That(PlaceholderNodeStateList != null);
                 Assert.That(PlaceholderNodeStateList.Count > 0);
                 FirstNodeState = PlaceholderNodeStateList[0] as IWriteablePlaceholderNodeState;
@@ -3112,8 +3110,8 @@ namespace Coverage
                 Assert.That(PlaceholderNodeStateListAsEnumerable != null);
                 Assert.That(PlaceholderNodeStateListAsEnumerable.GetEnumerator() != null);
 
-                // IWriteableStateViewDictionary
-                IWriteableStateViewDictionary StateViewTable = ControllerView.StateViewTable;
+                // WriteableStateViewDictionary
+                WriteableStateViewDictionary StateViewTable = ControllerView.StateViewTable;
 
                 IDictionary<IReadOnlyNodeState, IReadOnlyNodeStateView> StateViewTableAsDictionary = StateViewTable;
                 Assert.That(StateViewTableAsDictionary != null);
@@ -3145,7 +3143,7 @@ namespace Coverage
 
             Main RootNode;
             IFrameRootNodeIndex RootIndex;
-            IFrameController Controller;
+            FrameController Controller;
 
             RootNode = CreateRoot(ValueGuid0, Imperfections.None);
             Assert.That(BaseNodeHelper.NodeTreeDiagnostic.IsValid(RootNode));
@@ -3199,7 +3197,7 @@ namespace Coverage
             Assert.That(RootIndex1.Node == RootNode);
             Assert.That(CompareEqual.CoverIsEqual(RootIndex0, RootIndex1));
 
-            IFrameController Controller0 = FrameController.Create(RootIndex0);
+            FrameController Controller0 = FrameController.Create(RootIndex0);
             Assert.That(Controller0.RootIndex == RootIndex0);
 
             Stats Stats = Controller0.Stats;
@@ -3256,7 +3254,7 @@ namespace Coverage
             Assert.That(AssignedOptionalTreeState.ParentInner == MainAssignedOptionalTreeInner);
             Assert.That(AssignedOptionalTreeState.ParentState == RootState);
 
-            IFrameNodeStateReadOnlyList AssignedOptionalTreeAllChildren = AssignedOptionalTreeState.GetAllChildren() as IFrameNodeStateReadOnlyList;
+            FrameNodeStateReadOnlyList AssignedOptionalTreeAllChildren = AssignedOptionalTreeState.GetAllChildren() as FrameNodeStateReadOnlyList;
             Assert.That(AssignedOptionalTreeAllChildren != null);
             Assert.That(AssignedOptionalTreeAllChildren.Count == 2, $"New count: {AssignedOptionalTreeAllChildren.Count}");
 
@@ -3280,7 +3278,7 @@ namespace Coverage
             Assert.That(MainLeafBlocksInner.BlockStateList.Count == 3);
             Assert.That(MainLeafBlocksInner.AllIndexes().Count == MainLeafBlocksInner.Count);
 
-            IFrameBlockState LeafBlock = MainLeafBlocksInner.BlockStateList[0];
+            IFrameBlockState LeafBlock = (IFrameBlockState)MainLeafBlocksInner.BlockStateList[0];
             Assert.That(LeafBlock != null);
             Assert.That(LeafBlock.StateList != null);
             Assert.That(LeafBlock.StateList.Count == 1);
@@ -3326,7 +3324,7 @@ namespace Coverage
             Assert.That(MainLeafPathInner.IndexAt(0) == MainLeafPathInner.FirstNodeState.ParentIndex);
             Assert.That(MainLeafPathInner.AllIndexes().Count == MainLeafPathInner.Count);
 
-            IFrameNodeStateReadOnlyList AllChildren = (IFrameNodeStateReadOnlyList)RootState.GetAllChildren();
+            FrameNodeStateReadOnlyList AllChildren = (FrameNodeStateReadOnlyList)RootState.GetAllChildren();
             Assert.That(AllChildren.Count == 19, $"New count: {AllChildren.Count}");
 
             IFramePlaceholderInner PlaceholderInner = RootState.InnerTable[nameof(Main.PlaceholderLeaf)] as IFramePlaceholderInner;
@@ -3379,7 +3377,7 @@ namespace Coverage
             Assert.That(ReadAsGuid == ValueGuid0);
             Assert.That(Controller0.GetGuidValue(RootIndex0, nameof(Main.ValueGuid)) == ReadAsGuid);
 
-            IFrameController Controller1 = FrameController.Create(RootIndex0);
+            FrameController Controller1 = FrameController.Create(RootIndex0);
             Assert.That(Controller0.IsEqual(CompareEqual.New(), Controller0));
 
             //System.Diagnostics.Debug.Assert(false);
@@ -3400,7 +3398,7 @@ namespace Coverage
             IFrameRootNodeIndex RootIndex = new FrameRootNodeIndex(RootNode);
             Assert.That(RootIndex != null);
 
-            IFrameController Controller = FrameController.Create(RootIndex);
+            FrameController Controller = FrameController.Create(RootIndex);
             Assert.That(Controller != null);
 
             IFramePlaceholderNodeState RootState = Controller.RootState;
@@ -3412,14 +3410,14 @@ namespace Coverage
             IFrameRootNodeIndex CloneRootIndex = new FrameRootNodeIndex(ClonedNode);
             Assert.That(CloneRootIndex != null);
 
-            IFrameController CloneController = FrameController.Create(CloneRootIndex);
+            FrameController CloneController = FrameController.Create(CloneRootIndex);
             Assert.That(CloneController != null);
 
             IFramePlaceholderNodeState CloneRootState = Controller.RootState;
             Assert.That(CloneRootState != null);
 
-            IFrameNodeStateReadOnlyList AllChildren = (IFrameNodeStateReadOnlyList)RootState.GetAllChildren();
-            IFrameNodeStateReadOnlyList CloneAllChildren = (IFrameNodeStateReadOnlyList)CloneRootState.GetAllChildren();
+            FrameNodeStateReadOnlyList AllChildren = (FrameNodeStateReadOnlyList)RootState.GetAllChildren();
+            FrameNodeStateReadOnlyList CloneAllChildren = (FrameNodeStateReadOnlyList)CloneRootState.GetAllChildren();
             Assert.That(AllChildren.Count == CloneAllChildren.Count);
         }
 
@@ -3435,7 +3433,7 @@ namespace Coverage
             RootNode = CreateRoot(ValueGuid0, Imperfections.None);
             RootIndex = new FrameRootNodeIndex(RootNode);
 
-            IFrameController Controller = FrameController.Create(RootIndex);
+            FrameController Controller = FrameController.Create(RootIndex);
             IFrameTemplateSet DefaultTemplateSet = FrameTemplateSet.Default;
             DefaultTemplateSet = FrameTemplateSet.Default;
 
@@ -3456,23 +3454,23 @@ namespace Coverage
             FrameCustomTemplateSet.PropertyToFrame(Controller.RootState, "PlaceholderTree");
             FrameCustomTemplateSet.GetCommentFrame(Controller.RootState);
 
-            using (IFrameControllerView ControllerView0 = FrameControllerView.Create(Controller, TestDebug.CoverageFrameTemplateSet.FrameTemplateSet))
+            using (FrameControllerView ControllerView0 = FrameControllerView.Create(Controller, TestDebug.CoverageFrameTemplateSet.FrameTemplateSet))
             {
                 Assert.That(ControllerView0.Controller == Controller);
                 Assert.That(ControllerView0.RootStateView == ControllerView0.StateViewTable[Controller.RootState]);
 
-                using (IFrameControllerView ControllerView1 = FrameControllerView.Create(Controller, TestDebug.CoverageFrameTemplateSet.FrameTemplateSet))
+                using (FrameControllerView ControllerView1 = FrameControllerView.Create(Controller, TestDebug.CoverageFrameTemplateSet.FrameTemplateSet))
                 {
                     Assert.That(ControllerView0.IsEqual(CompareEqual.New(), ControllerView0));
                     Assert.That(CompareEqual.CoverIsEqual(ControllerView0, ControllerView1));
                 }
 
-                foreach (KeyValuePair<IFrameBlockState, IFrameBlockStateView> Entry in ControllerView0.BlockStateViewTable)
+                foreach (KeyValuePair<IFrameBlockState, FrameBlockStateView> Entry in ControllerView0.BlockStateViewTable)
                 {
                     IFrameBlockState BlockState = Entry.Key;
                     Assert.That(BlockState != null);
 
-                    IFrameBlockStateView BlockStateView = Entry.Value;
+                    FrameBlockStateView BlockStateView = Entry.Value;
                     Assert.That(BlockStateView != null);
                     Assert.That(BlockStateView.BlockState == BlockState);
 
@@ -3496,27 +3494,27 @@ namespace Coverage
 
                     switch (StateView)
                     {
-                        case IFramePatternStateView AsPatternStateView:
+                        case FramePatternStateView AsPatternStateView:
                             Assert.That(AsPatternStateView.State == State);
                             Assert.That(AsPatternStateView is IFrameNodeStateView AsPlaceholderPatternNodeStateView && AsPlaceholderPatternNodeStateView.State == State);
                             break;
 
-                        case IFrameSourceStateView AsSourceStateView:
+                        case FrameSourceStateView AsSourceStateView:
                             Assert.That(AsSourceStateView.State == State);
                             Assert.That(AsSourceStateView is IFrameNodeStateView AsPlaceholderSourceNodeStateView && AsPlaceholderSourceNodeStateView.State == State);
                             break;
 
-                        case IFramePlaceholderNodeStateView AsPlaceholderNodeStateView:
+                        case FramePlaceholderNodeStateView AsPlaceholderNodeStateView:
                             Assert.That(AsPlaceholderNodeStateView.State == State);
                             break;
 
-                        case IFrameOptionalNodeStateView AsOptionalNodeStateView:
+                        case FrameOptionalNodeStateView AsOptionalNodeStateView:
                             Assert.That(AsOptionalNodeStateView.State == State);
                             break;
                     }
                 }
 
-                IFrameVisibleCellViewList VisibleCellViewList = new FrameVisibleCellViewList();
+                FrameVisibleCellViewList VisibleCellViewList = new FrameVisibleCellViewList();
                 ControllerView0.EnumerateVisibleCellViews((IFrameVisibleCellView item) => ListCellViews(item, VisibleCellViewList), out IFrameVisibleCellView FoundCellView, false);
                 ControllerView0.PrintCellViewTree(true);
 
@@ -3543,10 +3541,10 @@ namespace Coverage
             RootNode = CreateRoot(ValueGuid0, Imperfections.None);
             RootIndex = new FrameRootNodeIndex(RootNode);
 
-            IFrameController ControllerBase = FrameController.Create(RootIndex);
-            IFrameController Controller = FrameController.Create(RootIndex);
+            FrameController ControllerBase = FrameController.Create(RootIndex);
+            FrameController Controller = FrameController.Create(RootIndex);
 
-            using (IFrameControllerView ControllerView0 = FrameControllerView.Create(Controller, TestDebug.CoverageFrameTemplateSet.FrameTemplateSet))
+            using (FrameControllerView ControllerView0 = FrameControllerView.Create(Controller, TestDebug.CoverageFrameTemplateSet.FrameTemplateSet))
             {
                 Assert.That(ControllerView0.Controller == Controller);
 
@@ -3569,7 +3567,7 @@ namespace Coverage
                 Assert.That(InsertionIndex0.Node == NewItem0);
                 Assert.That(CompareEqual.CoverIsEqual(InsertionIndex0, InsertionIndex0));
 
-                IFrameNodeStateReadOnlyList AllChildren0 = (IFrameNodeStateReadOnlyList)RootState.GetAllChildren();
+                FrameNodeStateReadOnlyList AllChildren0 = (FrameNodeStateReadOnlyList)RootState.GetAllChildren();
                 Assert.That(AllChildren0.Count == 19, $"New count: {AllChildren0.Count}");
 
                 Controller.Insert(LeafPathInner, InsertionIndex0, out IWriteableBrowsingCollectionNodeIndex NewItemIndex0);
@@ -3586,7 +3584,7 @@ namespace Coverage
                 Assert.That(NewItemState0.Node == NewItem0);
                 Assert.That(NewItemState0.ParentIndex == NewItemIndex0);
 
-                IFrameNodeStateReadOnlyList AllChildren1 = (IFrameNodeStateReadOnlyList)RootState.GetAllChildren();
+                FrameNodeStateReadOnlyList AllChildren1 = (FrameNodeStateReadOnlyList)RootState.GetAllChildren();
                 Assert.That(AllChildren1.Count == AllChildren0.Count + 1, $"New count: {AllChildren1.Count}");
 
                 Assert.That(BaseNodeHelper.NodeTreeDiagnostic.IsValid(RootNode));
@@ -3624,7 +3622,7 @@ namespace Coverage
                 Assert.That(NewItemState1.ParentIndex == NewItemIndex1);
                 Assert.That(NewItemState1.ParentState == RootState);
 
-                IFrameNodeStateReadOnlyList AllChildren2 = (IFrameNodeStateReadOnlyList)RootState.GetAllChildren();
+                FrameNodeStateReadOnlyList AllChildren2 = (FrameNodeStateReadOnlyList)RootState.GetAllChildren();
                 Assert.That(AllChildren2.Count == AllChildren1.Count + 1, $"New count: {AllChildren2.Count}");
 
                 Assert.That(BaseNodeHelper.NodeTreeDiagnostic.IsValid(RootNode));
@@ -3659,7 +3657,7 @@ namespace Coverage
                 Assert.That(NewItemState2.Node == NewItem2);
                 Assert.That(NewItemState2.ParentIndex == NewItemIndex2);
 
-                IFrameNodeStateReadOnlyList AllChildren3 = (IFrameNodeStateReadOnlyList)RootState.GetAllChildren();
+                FrameNodeStateReadOnlyList AllChildren3 = (FrameNodeStateReadOnlyList)RootState.GetAllChildren();
                 Assert.That(AllChildren3.Count == AllChildren2.Count + 3, $"New count: {AllChildren3.Count}");
 
                 Assert.That(BaseNodeHelper.NodeTreeDiagnostic.IsValid(RootNode));
@@ -3693,10 +3691,10 @@ namespace Coverage
             RootNode = CreateRoot(ValueGuid0, Imperfections.None);
             RootIndex = new FrameRootNodeIndex(RootNode);
 
-            IFrameController ControllerBase = FrameController.Create(RootIndex);
-            IFrameController Controller = FrameController.Create(RootIndex);
+            FrameController ControllerBase = FrameController.Create(RootIndex);
+            FrameController Controller = FrameController.Create(RootIndex);
 
-            using (IFrameControllerView ControllerView0 = FrameControllerView.Create(Controller, TestDebug.CoverageFrameTemplateSet.FrameTemplateSet))
+            using (FrameControllerView ControllerView0 = FrameControllerView.Create(Controller, TestDebug.CoverageFrameTemplateSet.FrameTemplateSet))
             {
                 Assert.That(ControllerView0.Controller == Controller);
 
@@ -3712,7 +3710,7 @@ namespace Coverage
                 int PathCount = LeafPathInner.Count;
                 Assert.That(PathCount == 2);
 
-                IFrameNodeStateReadOnlyList AllChildren0 = (IFrameNodeStateReadOnlyList)RootState.GetAllChildren();
+                FrameNodeStateReadOnlyList AllChildren0 = (FrameNodeStateReadOnlyList)RootState.GetAllChildren();
                 Assert.That(AllChildren0.Count == 19, $"New count: {AllChildren0.Count}");
 
                 Assert.That(Controller.IsRemoveable(LeafPathInner, RemovedLeafIndex0));
@@ -3723,7 +3721,7 @@ namespace Coverage
                 Assert.That(LeafPathInner.Count == PathCount - 1);
                 Assert.That(LeafPathInner.StateList.Count == PathCount - 1);
 
-                IFrameNodeStateReadOnlyList AllChildren1 = (IFrameNodeStateReadOnlyList)RootState.GetAllChildren();
+                FrameNodeStateReadOnlyList AllChildren1 = (FrameNodeStateReadOnlyList)RootState.GetAllChildren();
                 Assert.That(AllChildren1.Count == AllChildren0.Count - 1, $"New count: {AllChildren1.Count}");
 
                 Assert.That(BaseNodeHelper.NodeTreeDiagnostic.IsValid(RootNode));
@@ -3759,7 +3757,7 @@ namespace Coverage
                 Assert.That(LeafBlocksInner.Count == BlockNodeCount - 1);
                 Assert.That(LeafBlocksInner.BlockStateList[1].StateList.Count == NodeCount - 1);
 
-                IFrameNodeStateReadOnlyList AllChildren2 = (IFrameNodeStateReadOnlyList)RootState.GetAllChildren();
+                FrameNodeStateReadOnlyList AllChildren2 = (FrameNodeStateReadOnlyList)RootState.GetAllChildren();
                 Assert.That(AllChildren2.Count == AllChildren1.Count - 1, $"New count: {AllChildren2.Count}");
 
                 Assert.That(BaseNodeHelper.NodeTreeDiagnostic.IsValid(RootNode));
@@ -3782,7 +3780,7 @@ namespace Coverage
                 Assert.That(LeafBlocksInner.BlockStateList.Count == BlockCount - 1);
                 Assert.That(LeafBlocksInner.BlockStateList[0].StateList.Count == 1, $"Count: {LeafBlocksInner.BlockStateList[0].StateList.Count}");
 
-                IFrameNodeStateReadOnlyList AllChildren3 = (IFrameNodeStateReadOnlyList)RootState.GetAllChildren();
+                FrameNodeStateReadOnlyList AllChildren3 = (FrameNodeStateReadOnlyList)RootState.GetAllChildren();
                 Assert.That(AllChildren3.Count == AllChildren2.Count - 3, $"New count: {AllChildren3.Count}");
 
                 Assert.That(BaseNodeHelper.NodeTreeDiagnostic.IsValid(RootNode));
@@ -3822,17 +3820,17 @@ namespace Coverage
             RootNode = CreateRoot(ValueGuid0, Imperfections.None);
             RootIndex = new FrameRootNodeIndex(RootNode);
 
-            IFrameController ControllerBase = FrameController.Create(RootIndex);
-            IFrameController Controller = FrameController.Create(RootIndex);
+            FrameController ControllerBase = FrameController.Create(RootIndex);
+            FrameController Controller = FrameController.Create(RootIndex);
 
-            using (IFrameControllerView ControllerView0 = FrameControllerView.Create(Controller, TestDebug.CoverageFrameTemplateSet.FrameTemplateSet))
+            using (FrameControllerView ControllerView0 = FrameControllerView.Create(Controller, TestDebug.CoverageFrameTemplateSet.FrameTemplateSet))
             {
                 Assert.That(ControllerView0.Controller == Controller);
 
                 IFrameNodeState RootState = Controller.RootState;
                 Assert.That(RootState != null);
 
-                IFrameNodeStateReadOnlyList AllChildren0 = (IFrameNodeStateReadOnlyList)RootState.GetAllChildren();
+                FrameNodeStateReadOnlyList AllChildren0 = (FrameNodeStateReadOnlyList)RootState.GetAllChildren();
                 Assert.That(AllChildren0.Count == 19, $"New count: {AllChildren0.Count}");
 
                 IFrameBlockListInner LeafBlocksInner = RootState.PropertyToInner(nameof(Main.LeafBlocks)) as IFrameBlockListInner;
@@ -3843,7 +3841,7 @@ namespace Coverage
                 Controller.RemoveBlockRange(LeafBlocksInner, 0, 2);
                 Assert.That(LeafBlocksInner.Count == 1);
 
-                IFrameNodeStateReadOnlyList AllChildren2 = (IFrameNodeStateReadOnlyList)RootState.GetAllChildren();
+                FrameNodeStateReadOnlyList AllChildren2 = (FrameNodeStateReadOnlyList)RootState.GetAllChildren();
                 Assert.That(AllChildren2.Count == AllChildren0.Count - 7, $"New count: {AllChildren2.Count}");
 
                 Assert.That(BaseNodeHelper.NodeTreeDiagnostic.IsValid(RootNode));
@@ -3881,17 +3879,17 @@ namespace Coverage
             RootNode = CreateRoot(ValueGuid0, Imperfections.None);
             RootIndex = new FrameRootNodeIndex(RootNode);
 
-            IFrameController ControllerBase = FrameController.Create(RootIndex);
-            IFrameController Controller = FrameController.Create(RootIndex);
+            FrameController ControllerBase = FrameController.Create(RootIndex);
+            FrameController Controller = FrameController.Create(RootIndex);
 
-            using (IFrameControllerView ControllerView0 = FrameControllerView.Create(Controller, TestDebug.CoverageFrameTemplateSet.FrameTemplateSet))
+            using (FrameControllerView ControllerView0 = FrameControllerView.Create(Controller, TestDebug.CoverageFrameTemplateSet.FrameTemplateSet))
             {
                 Assert.That(ControllerView0.Controller == Controller);
 
                 IFrameNodeState RootState = Controller.RootState;
                 Assert.That(RootState != null);
 
-                IFrameNodeStateReadOnlyList AllChildren0 = (IFrameNodeStateReadOnlyList)RootState.GetAllChildren();
+                FrameNodeStateReadOnlyList AllChildren0 = (FrameNodeStateReadOnlyList)RootState.GetAllChildren();
                 Assert.That(AllChildren0.Count == 19, $"New count: {AllChildren0.Count}");
 
 
@@ -3903,7 +3901,7 @@ namespace Coverage
 
                 Controller.RemoveNodeRange(LeafPathInner, -1, 0, 2);
 
-                IFrameNodeStateReadOnlyList AllChildren1 = (IFrameNodeStateReadOnlyList)RootState.GetAllChildren();
+                FrameNodeStateReadOnlyList AllChildren1 = (FrameNodeStateReadOnlyList)RootState.GetAllChildren();
                 Assert.That(AllChildren1.Count == AllChildren0.Count - 2, $"New count: {AllChildren1.Count}");
 
                 Assert.That(BaseNodeHelper.NodeTreeDiagnostic.IsValid(RootNode));
@@ -3926,7 +3924,7 @@ namespace Coverage
 
                 Controller.RemoveNodeRange(LeafBlocksInner, 1, 0, 2);
 
-                IFrameNodeStateReadOnlyList AllChildren2 = (IFrameNodeStateReadOnlyList)RootState.GetAllChildren();
+                FrameNodeStateReadOnlyList AllChildren2 = (FrameNodeStateReadOnlyList)RootState.GetAllChildren();
                 Assert.That(AllChildren2.Count == AllChildren1.Count - 2, $"New count: {AllChildren2.Count}");
 
                 Assert.That(BaseNodeHelper.NodeTreeDiagnostic.IsValid(RootNode));
@@ -3969,10 +3967,10 @@ namespace Coverage
             RootNode = CreateRoot(ValueGuid0, Imperfections.None);
             RootIndex = new FrameRootNodeIndex(RootNode);
 
-            IFrameController ControllerBase = FrameController.Create(RootIndex);
-            IFrameController Controller = FrameController.Create(RootIndex);
+            FrameController ControllerBase = FrameController.Create(RootIndex);
+            FrameController Controller = FrameController.Create(RootIndex);
 
-            using (IFrameControllerView ControllerView0 = FrameControllerView.Create(Controller, TestDebug.CoverageFrameTemplateSet.FrameTemplateSet))
+            using (FrameControllerView ControllerView0 = FrameControllerView.Create(Controller, TestDebug.CoverageFrameTemplateSet.FrameTemplateSet))
             {
                 Assert.That(ControllerView0.Controller == Controller);
 
@@ -3988,7 +3986,7 @@ namespace Coverage
                 int PathCount = LeafPathInner.Count;
                 Assert.That(PathCount == 2);
 
-                IFrameNodeStateReadOnlyList AllChildren0 = (IFrameNodeStateReadOnlyList)RootState.GetAllChildren();
+                FrameNodeStateReadOnlyList AllChildren0 = (FrameNodeStateReadOnlyList)RootState.GetAllChildren();
                 Assert.That(AllChildren0.Count == 19, $"New count: {AllChildren0.Count}");
 
                 Assert.That(Controller.IsMoveable(LeafPathInner, MovedLeafIndex0, +1));
@@ -4003,7 +4001,7 @@ namespace Coverage
                 IFrameBrowsingListNodeIndex NewLeafIndex0 = LeafPathInner.IndexAt(1) as IFrameBrowsingListNodeIndex;
                 Assert.That(NewLeafIndex0 == MovedLeafIndex0);
 
-                IFrameNodeStateReadOnlyList AllChildren1 = (IFrameNodeStateReadOnlyList)RootState.GetAllChildren();
+                FrameNodeStateReadOnlyList AllChildren1 = (FrameNodeStateReadOnlyList)RootState.GetAllChildren();
                 Assert.That(AllChildren1.Count == AllChildren0.Count, $"New count: {AllChildren1.Count}");
 
                 Assert.That(BaseNodeHelper.NodeTreeDiagnostic.IsValid(RootNode));
@@ -4031,7 +4029,7 @@ namespace Coverage
                 IFrameBrowsingExistingBlockNodeIndex NewLeafIndex1 = LeafBlocksInner.IndexAt(1, 0) as IFrameBrowsingExistingBlockNodeIndex;
                 Assert.That(NewLeafIndex1 == MovedLeafIndex1);
 
-                IFrameNodeStateReadOnlyList AllChildren2 = (IFrameNodeStateReadOnlyList)RootState.GetAllChildren();
+                FrameNodeStateReadOnlyList AllChildren2 = (FrameNodeStateReadOnlyList)RootState.GetAllChildren();
                 Assert.That(AllChildren2.Count == AllChildren1.Count, $"New count: {AllChildren2.Count}");
 
                 Assert.That(BaseNodeHelper.NodeTreeDiagnostic.IsValid(RootNode));
@@ -4063,17 +4061,17 @@ namespace Coverage
             RootNode = CreateRoot(ValueGuid0, Imperfections.None);
             RootIndex = new FrameRootNodeIndex(RootNode);
 
-            IFrameController ControllerBase = FrameController.Create(RootIndex);
-            IFrameController Controller = FrameController.Create(RootIndex);
+            FrameController ControllerBase = FrameController.Create(RootIndex);
+            FrameController Controller = FrameController.Create(RootIndex);
 
-            using (IFrameControllerView ControllerView0 = FrameControllerView.Create(Controller, TestDebug.CoverageFrameTemplateSet.FrameTemplateSet))
+            using (FrameControllerView ControllerView0 = FrameControllerView.Create(Controller, TestDebug.CoverageFrameTemplateSet.FrameTemplateSet))
             {
                 Assert.That(ControllerView0.Controller == Controller);
 
                 IFrameNodeState RootState = Controller.RootState;
                 Assert.That(RootState != null);
 
-                IFrameNodeStateReadOnlyList AllChildren1 = (IFrameNodeStateReadOnlyList)RootState.GetAllChildren();
+                FrameNodeStateReadOnlyList AllChildren1 = (FrameNodeStateReadOnlyList)RootState.GetAllChildren();
                 Assert.That(AllChildren1.Count == 19, $"New count: {AllChildren1.Count}");
 
                 IFrameBlockListInner LeafBlocksInner = RootState.PropertyToInner(nameof(Main.LeafBlocks)) as IFrameBlockListInner;
@@ -4096,7 +4094,7 @@ namespace Coverage
                 IFrameBrowsingExistingBlockNodeIndex NewLeafIndex1 = LeafBlocksInner.IndexAt(0, 0) as IFrameBrowsingExistingBlockNodeIndex;
                 Assert.That(NewLeafIndex1 == MovedLeafIndex1);
 
-                IFrameNodeStateReadOnlyList AllChildren2 = (IFrameNodeStateReadOnlyList)RootState.GetAllChildren();
+                FrameNodeStateReadOnlyList AllChildren2 = (FrameNodeStateReadOnlyList)RootState.GetAllChildren();
                 Assert.That(AllChildren2.Count == AllChildren1.Count, $"New count: {AllChildren2.Count}");
 
                 Assert.That(BaseNodeHelper.NodeTreeDiagnostic.IsValid(RootNode));
@@ -4126,10 +4124,10 @@ namespace Coverage
             RootNode = CreateRoot(ValueGuid0, Imperfections.None);
             RootIndex = new FrameRootNodeIndex(RootNode);
 
-            IFrameController ControllerBase = FrameController.Create(RootIndex);
-            IFrameController Controller = FrameController.Create(RootIndex);
+            FrameController ControllerBase = FrameController.Create(RootIndex);
+            FrameController Controller = FrameController.Create(RootIndex);
 
-            using (IFrameControllerView ControllerView0 = FrameControllerView.Create(Controller, TestDebug.CoverageFrameTemplateSet.FrameTemplateSet))
+            using (FrameControllerView ControllerView0 = FrameControllerView.Create(Controller, TestDebug.CoverageFrameTemplateSet.FrameTemplateSet))
             {
                 Assert.That(ControllerView0.Controller == Controller);
 
@@ -4180,10 +4178,10 @@ namespace Coverage
             RootNode = CreateRoot(ValueGuid0, Imperfections.None);
             RootIndex = new FrameRootNodeIndex(RootNode);
 
-            IFrameController ControllerBase = FrameController.Create(RootIndex);
-            IFrameController Controller = FrameController.Create(RootIndex);
+            FrameController ControllerBase = FrameController.Create(RootIndex);
+            FrameController Controller = FrameController.Create(RootIndex);
 
-            using (IFrameControllerView ControllerView0 = FrameControllerView.Create(Controller, TestDebug.CoverageFrameTemplateSet.FrameTemplateSet))
+            using (FrameControllerView ControllerView0 = FrameControllerView.Create(Controller, TestDebug.CoverageFrameTemplateSet.FrameTemplateSet))
             {
                 Assert.That(ControllerView0.Controller == Controller);
 
@@ -4225,10 +4223,10 @@ namespace Coverage
             RootNode = CreateRoot(ValueGuid0, Imperfections.None);
             RootIndex = new FrameRootNodeIndex(RootNode);
 
-            IFrameController ControllerBase = FrameController.Create(RootIndex);
-            IFrameController Controller = FrameController.Create(RootIndex);
+            FrameController ControllerBase = FrameController.Create(RootIndex);
+            FrameController Controller = FrameController.Create(RootIndex);
 
-            using (IFrameControllerView ControllerView0 = FrameControllerView.Create(Controller, TestDebug.CoverageFrameTemplateSet.FrameTemplateSet))
+            using (FrameControllerView ControllerView0 = FrameControllerView.Create(Controller, TestDebug.CoverageFrameTemplateSet.FrameTemplateSet))
             {
                 Assert.That(ControllerView0.Controller == Controller);
 
@@ -4270,10 +4268,10 @@ namespace Coverage
             RootNode = CreateRoot(ValueGuid0, Imperfections.None);
             RootIndex = new FrameRootNodeIndex(RootNode);
 
-            IFrameController ControllerBase = FrameController.Create(RootIndex);
-            IFrameController Controller = FrameController.Create(RootIndex);
+            FrameController ControllerBase = FrameController.Create(RootIndex);
+            FrameController Controller = FrameController.Create(RootIndex);
 
-            using (IFrameControllerView ControllerView0 = FrameControllerView.Create(Controller, TestDebug.CoverageFrameTemplateSet.FrameTemplateSet))
+            using (FrameControllerView ControllerView0 = FrameControllerView.Create(Controller, TestDebug.CoverageFrameTemplateSet.FrameTemplateSet))
             {
                 Assert.That(ControllerView0.Controller == Controller);
 
@@ -4289,7 +4287,7 @@ namespace Coverage
                 int PathCount = LeafPathInner.Count;
                 Assert.That(PathCount == 2);
 
-                IFrameNodeStateReadOnlyList AllChildren0 = (IFrameNodeStateReadOnlyList)RootState.GetAllChildren();
+                FrameNodeStateReadOnlyList AllChildren0 = (FrameNodeStateReadOnlyList)RootState.GetAllChildren();
                 Assert.That(AllChildren0.Count == 19, $"New count: {AllChildren0.Count}");
 
                 Controller.Replace(LeafPathInner, ReplacementIndex0, out IWriteableBrowsingChildIndex NewItemIndex0);
@@ -4302,7 +4300,7 @@ namespace Coverage
                 Assert.That(NewItemState0.Node == NewItem0);
                 Assert.That(NewItemState0.ParentIndex == NewItemIndex0);
 
-                IFrameNodeStateReadOnlyList AllChildren1 = (IFrameNodeStateReadOnlyList)RootState.GetAllChildren();
+                FrameNodeStateReadOnlyList AllChildren1 = (FrameNodeStateReadOnlyList)RootState.GetAllChildren();
                 Assert.That(AllChildren1.Count == AllChildren0.Count, $"New count: {AllChildren1.Count}");
 
                 Assert.That(BaseNodeHelper.NodeTreeDiagnostic.IsValid(RootNode));
@@ -4331,7 +4329,7 @@ namespace Coverage
                 Assert.That(NewItemState1.Node == NewItem1);
                 Assert.That(NewItemState1.ParentIndex == NewItemIndex1);
 
-                IFrameNodeStateReadOnlyList AllChildren2 = (IFrameNodeStateReadOnlyList)RootState.GetAllChildren();
+                FrameNodeStateReadOnlyList AllChildren2 = (FrameNodeStateReadOnlyList)RootState.GetAllChildren();
                 Assert.That(AllChildren2.Count == AllChildren1.Count, $"New count: {AllChildren2.Count}");
 
                 Assert.That(BaseNodeHelper.NodeTreeDiagnostic.IsValid(RootNode));
@@ -4358,7 +4356,7 @@ namespace Coverage
                 Assert.That(CompareEqual.CoverIsEqual(NewItemIndex2 as IFrameBrowsingPlaceholderNodeIndex, DuplicateExistingIndex2));
                 Assert.That(CompareEqual.CoverIsEqual(DuplicateExistingIndex2, NewItemIndex2 as IFrameBrowsingPlaceholderNodeIndex));
 
-                IFrameNodeStateReadOnlyList AllChildren3 = (IFrameNodeStateReadOnlyList)RootState.GetAllChildren();
+                FrameNodeStateReadOnlyList AllChildren3 = (FrameNodeStateReadOnlyList)RootState.GetAllChildren();
                 Assert.That(AllChildren3.Count == AllChildren2.Count, $"New count: {AllChildren3.Count}");
 
                 Assert.That(BaseNodeHelper.NodeTreeDiagnostic.IsValid(RootNode));
@@ -4382,7 +4380,7 @@ namespace Coverage
                 Assert.That(NewItemState3.Node == NewItem3);
                 Assert.That(NewItemState3.ParentIndex == NewItemIndex3);
 
-                IFrameNodeStateReadOnlyList AllChildren4 = (IFrameNodeStateReadOnlyList)RootState.GetAllChildren();
+                FrameNodeStateReadOnlyList AllChildren4 = (FrameNodeStateReadOnlyList)RootState.GetAllChildren();
                 Assert.That(AllChildren4.Count == AllChildren3.Count, $"New count: {AllChildren4.Count}");
 
                 Assert.That(BaseNodeHelper.NodeTreeDiagnostic.IsValid(RootNode));
@@ -4414,7 +4412,7 @@ namespace Coverage
                 Assert.That(CompareEqual.CoverIsEqual(NewItemIndex4 as IFrameBrowsingOptionalNodeIndex, DuplicateExistingIndex4));
                 Assert.That(CompareEqual.CoverIsEqual(DuplicateExistingIndex4, NewItemIndex4 as IFrameBrowsingOptionalNodeIndex));
 
-                IFrameNodeStateReadOnlyList AllChildren5 = (IFrameNodeStateReadOnlyList)RootState.GetAllChildren();
+                FrameNodeStateReadOnlyList AllChildren5 = (FrameNodeStateReadOnlyList)RootState.GetAllChildren();
                 Assert.That(AllChildren5.Count == AllChildren4.Count, $"New count: {AllChildren5.Count}");
 
                 Assert.That(BaseNodeHelper.NodeTreeDiagnostic.IsValid(RootNode));
@@ -4441,7 +4439,7 @@ namespace Coverage
                 Assert.That(CompareEqual.CoverIsEqual(NewItemIndex5 as IFrameBrowsingOptionalNodeIndex, DuplicateExistingIndex5));
                 Assert.That(CompareEqual.CoverIsEqual(DuplicateExistingIndex5, NewItemIndex5 as IFrameBrowsingOptionalNodeIndex));
 
-                IFrameNodeStateReadOnlyList AllChildren6 = (IFrameNodeStateReadOnlyList)RootState.GetAllChildren();
+                FrameNodeStateReadOnlyList AllChildren6 = (FrameNodeStateReadOnlyList)RootState.GetAllChildren();
                 Assert.That(AllChildren6.Count == AllChildren5.Count - 1, $"New count: {AllChildren6.Count}");
 
                 Assert.That(BaseNodeHelper.NodeTreeDiagnostic.IsValid(RootNode));
@@ -4481,11 +4479,11 @@ namespace Coverage
             RootNode = CreateRoot(ValueGuid0, Imperfections.None);
             RootIndex = new FrameRootNodeIndex(RootNode);
 
-            IFrameController ControllerBase = FrameController.Create(RootIndex);
-            IFrameController Controller = FrameController.Create(RootIndex);
+            FrameController ControllerBase = FrameController.Create(RootIndex);
+            FrameController Controller = FrameController.Create(RootIndex);
 
             //System.Diagnostics.Debug.Assert(false);
-            using (IFrameControllerView ControllerView0 = FrameControllerView.Create(Controller, TestDebug.CoverageFrameTemplateSet.FrameTemplateSet))
+            using (FrameControllerView ControllerView0 = FrameControllerView.Create(Controller, TestDebug.CoverageFrameTemplateSet.FrameTemplateSet))
             {
                 Assert.That(ControllerView0.Controller == Controller);
 
@@ -4499,14 +4497,14 @@ namespace Coverage
                 IFrameBrowsingOptionalNodeIndex AssignmentIndex0 = UnassignedOptionalLeafInner.ChildState.ParentIndex;
                 Assert.That(AssignmentIndex0 != null);
 
-                IFrameNodeStateReadOnlyList AllChildren0 = (IFrameNodeStateReadOnlyList)RootState.GetAllChildren();
+                FrameNodeStateReadOnlyList AllChildren0 = (FrameNodeStateReadOnlyList)RootState.GetAllChildren();
                 Assert.That(AllChildren0.Count == 19, $"New count: {AllChildren0.Count}");
 
                 Controller.Assign(AssignmentIndex0, out bool IsChanged);
                 Assert.That(IsChanged);
                 Assert.That(UnassignedOptionalLeafInner.IsAssigned);
 
-                IFrameNodeStateReadOnlyList AllChildren1 = (IFrameNodeStateReadOnlyList)RootState.GetAllChildren();
+                FrameNodeStateReadOnlyList AllChildren1 = (FrameNodeStateReadOnlyList)RootState.GetAllChildren();
                 Assert.That(AllChildren1.Count == AllChildren0.Count + 1, $"New count: {AllChildren1.Count}");
 
                 Assert.That(BaseNodeHelper.NodeTreeDiagnostic.IsValid(RootNode));
@@ -4515,14 +4513,14 @@ namespace Coverage
                 Assert.That(!IsChanged);
                 Assert.That(UnassignedOptionalLeafInner.IsAssigned);
 
-                IFrameNodeStateReadOnlyList AllChildren2 = (IFrameNodeStateReadOnlyList)RootState.GetAllChildren();
+                FrameNodeStateReadOnlyList AllChildren2 = (FrameNodeStateReadOnlyList)RootState.GetAllChildren();
                 Assert.That(AllChildren2.Count == AllChildren1.Count, $"New count: {AllChildren2.Count}");
 
                 Controller.Unassign(AssignmentIndex0, out IsChanged);
                 Assert.That(IsChanged);
                 Assert.That(!UnassignedOptionalLeafInner.IsAssigned);
 
-                IFrameNodeStateReadOnlyList AllChildren3 = (IFrameNodeStateReadOnlyList)RootState.GetAllChildren();
+                FrameNodeStateReadOnlyList AllChildren3 = (FrameNodeStateReadOnlyList)RootState.GetAllChildren();
                 Assert.That(AllChildren3.Count == AllChildren2.Count - 1, $"New count: {AllChildren3.Count}");
 
                 Assert.That(Controller.CanUndo);
@@ -4552,10 +4550,10 @@ namespace Coverage
             RootNode = CreateRoot(ValueGuid0, Imperfections.None);
             RootIndex = new FrameRootNodeIndex(RootNode);
 
-            IFrameController ControllerBase = FrameController.Create(RootIndex);
-            IFrameController Controller = FrameController.Create(RootIndex);
+            FrameController ControllerBase = FrameController.Create(RootIndex);
+            FrameController Controller = FrameController.Create(RootIndex);
 
-            using (IFrameControllerView ControllerView0 = FrameControllerView.Create(Controller, TestDebug.CoverageFrameTemplateSet.FrameTemplateSet))
+            using (FrameControllerView ControllerView0 = FrameControllerView.Create(Controller, TestDebug.CoverageFrameTemplateSet.FrameTemplateSet))
             {
                 Assert.That(ControllerView0.Controller == Controller);
 
@@ -4569,14 +4567,14 @@ namespace Coverage
                 IFrameBrowsingOptionalNodeIndex AssignmentIndex0 = AssignedOptionalLeafInner.ChildState.ParentIndex;
                 Assert.That(AssignmentIndex0 != null);
 
-                IFrameNodeStateReadOnlyList AllChildren0 = (IFrameNodeStateReadOnlyList)RootState.GetAllChildren();
+                FrameNodeStateReadOnlyList AllChildren0 = (FrameNodeStateReadOnlyList)RootState.GetAllChildren();
                 Assert.That(AllChildren0.Count == 19, $"New count: {AllChildren0.Count}");
 
                 Controller.Unassign(AssignmentIndex0, out bool IsChanged);
                 Assert.That(IsChanged);
                 Assert.That(!AssignedOptionalLeafInner.IsAssigned);
 
-                IFrameNodeStateReadOnlyList AllChildren1 = (IFrameNodeStateReadOnlyList)RootState.GetAllChildren();
+                FrameNodeStateReadOnlyList AllChildren1 = (FrameNodeStateReadOnlyList)RootState.GetAllChildren();
                 Assert.That(AllChildren1.Count == AllChildren0.Count - 1, $"New count: {AllChildren1.Count}");
 
                 Assert.That(BaseNodeHelper.NodeTreeDiagnostic.IsValid(RootNode));
@@ -4585,14 +4583,14 @@ namespace Coverage
                 Assert.That(!IsChanged);
                 Assert.That(!AssignedOptionalLeafInner.IsAssigned);
 
-                IFrameNodeStateReadOnlyList AllChildren2 = (IFrameNodeStateReadOnlyList)RootState.GetAllChildren();
+                FrameNodeStateReadOnlyList AllChildren2 = (FrameNodeStateReadOnlyList)RootState.GetAllChildren();
                 Assert.That(AllChildren2.Count == AllChildren1.Count, $"New count: {AllChildren2.Count}");
 
                 Controller.Assign(AssignmentIndex0, out IsChanged);
                 Assert.That(IsChanged);
                 Assert.That(AssignedOptionalLeafInner.IsAssigned);
 
-                IFrameNodeStateReadOnlyList AllChildren3 = (IFrameNodeStateReadOnlyList)RootState.GetAllChildren();
+                FrameNodeStateReadOnlyList AllChildren3 = (FrameNodeStateReadOnlyList)RootState.GetAllChildren();
                 Assert.That(AllChildren3.Count == AllChildren2.Count + 1, $"New count: {AllChildren3.Count}");
 
                 Assert.That(Controller.CanUndo);
@@ -4622,10 +4620,10 @@ namespace Coverage
             RootNode = CreateRoot(ValueGuid0, Imperfections.None);
             RootIndex = new FrameRootNodeIndex(RootNode);
 
-            IFrameController ControllerBase = FrameController.Create(RootIndex);
-            IFrameController Controller = FrameController.Create(RootIndex);
+            FrameController ControllerBase = FrameController.Create(RootIndex);
+            FrameController Controller = FrameController.Create(RootIndex);
 
-            using (IFrameControllerView ControllerView0 = FrameControllerView.Create(Controller, TestDebug.CoverageFrameTemplateSet.FrameTemplateSet))
+            using (FrameControllerView ControllerView0 = FrameControllerView.Create(Controller, TestDebug.CoverageFrameTemplateSet.FrameTemplateSet))
             {
                 Assert.That(ControllerView0.Controller == Controller);
 
@@ -4635,7 +4633,7 @@ namespace Coverage
                 IFrameBlockListInner LeafBlocksInner = RootState.PropertyToInner(nameof(Main.LeafBlocks)) as IFrameBlockListInner;
                 Assert.That(LeafBlocksInner != null);
 
-                IFrameNodeStateReadOnlyList AllChildren0 = (IFrameNodeStateReadOnlyList)RootState.GetAllChildren();
+                FrameNodeStateReadOnlyList AllChildren0 = (FrameNodeStateReadOnlyList)RootState.GetAllChildren();
                 Assert.That(AllChildren0.Count == 19, $"New count: {AllChildren0.Count}");
 
                 IFrameBlockState BlockState = LeafBlocksInner.BlockStateList[0];
@@ -4648,7 +4646,7 @@ namespace Coverage
 
                 Assert.That(ChildBlock.Replication == BaseNode.ReplicationStatus.Replicated);
 
-                IFrameNodeStateReadOnlyList AllChildren1 = (IFrameNodeStateReadOnlyList)RootState.GetAllChildren();
+                FrameNodeStateReadOnlyList AllChildren1 = (FrameNodeStateReadOnlyList)RootState.GetAllChildren();
                 Assert.That(AllChildren1.Count == AllChildren0.Count, $"New count: {AllChildren1.Count}");
 
                 Assert.That(BaseNodeHelper.NodeTreeDiagnostic.IsValid(RootNode));
@@ -4678,10 +4676,10 @@ namespace Coverage
             RootNode = CreateRoot(ValueGuid0, Imperfections.None);
             RootIndex = new FrameRootNodeIndex(RootNode);
 
-            IFrameController ControllerBase = FrameController.Create(RootIndex);
-            IFrameController Controller = FrameController.Create(RootIndex);
+            FrameController ControllerBase = FrameController.Create(RootIndex);
+            FrameController Controller = FrameController.Create(RootIndex);
 
-            using (IFrameControllerView ControllerView0 = FrameControllerView.Create(Controller, TestDebug.CoverageFrameTemplateSet.FrameTemplateSet))
+            using (FrameControllerView ControllerView0 = FrameControllerView.Create(Controller, TestDebug.CoverageFrameTemplateSet.FrameTemplateSet))
             {
                 Assert.That(ControllerView0.Controller == Controller);
 
@@ -4691,7 +4689,7 @@ namespace Coverage
                 IFrameBlockListInner LeafBlocksInner = RootState.PropertyToInner(nameof(Main.LeafBlocks)) as IFrameBlockListInner;
                 Assert.That(LeafBlocksInner != null);
 
-                IFrameNodeStateReadOnlyList AllChildren0 = (IFrameNodeStateReadOnlyList)RootState.GetAllChildren();
+                FrameNodeStateReadOnlyList AllChildren0 = (FrameNodeStateReadOnlyList)RootState.GetAllChildren();
                 Assert.That(AllChildren0.Count == 19, $"New count: {AllChildren0.Count}");
 
                 IFrameBlockState BlockState0 = LeafBlocksInner.BlockStateList[0];
@@ -4720,7 +4718,7 @@ namespace Coverage
                 IFrameBlockState BlockState12 = LeafBlocksInner.BlockStateList[1];
                 Assert.That(BlockState12.ChildBlock.NodeList.Count == 1);
 
-                IFrameNodeStateReadOnlyList AllChildren1 = (IFrameNodeStateReadOnlyList)RootState.GetAllChildren();
+                FrameNodeStateReadOnlyList AllChildren1 = (FrameNodeStateReadOnlyList)RootState.GetAllChildren();
                 Assert.That(AllChildren1.Count == AllChildren0.Count + 2, $"New count: {AllChildren1.Count}");
 
                 Assert.That(BaseNodeHelper.NodeTreeDiagnostic.IsValid(RootNode));
@@ -4750,10 +4748,10 @@ namespace Coverage
             RootNode = CreateRoot(ValueGuid0, Imperfections.None);
             RootIndex = new FrameRootNodeIndex(RootNode);
 
-            IFrameController ControllerBase = FrameController.Create(RootIndex);
-            IFrameController Controller = FrameController.Create(RootIndex);
+            FrameController ControllerBase = FrameController.Create(RootIndex);
+            FrameController Controller = FrameController.Create(RootIndex);
 
-            using (IFrameControllerView ControllerView0 = FrameControllerView.Create(Controller, TestDebug.CoverageFrameTemplateSet.FrameTemplateSet))
+            using (FrameControllerView ControllerView0 = FrameControllerView.Create(Controller, TestDebug.CoverageFrameTemplateSet.FrameTemplateSet))
             {
                 Assert.That(ControllerView0.Controller == Controller);
 
@@ -4763,7 +4761,7 @@ namespace Coverage
                 IFrameBlockListInner LeafBlocksInner = RootState.PropertyToInner(nameof(Main.LeafBlocks)) as IFrameBlockListInner;
                 Assert.That(LeafBlocksInner != null);
 
-                IFrameNodeStateReadOnlyList AllChildren0 = (IFrameNodeStateReadOnlyList)RootState.GetAllChildren();
+                FrameNodeStateReadOnlyList AllChildren0 = (FrameNodeStateReadOnlyList)RootState.GetAllChildren();
                 Assert.That(AllChildren0.Count == 19, $"New count: {AllChildren0.Count}");
 
                 IFrameBlockState BlockState0 = LeafBlocksInner.BlockStateList[0];
@@ -4791,7 +4789,7 @@ namespace Coverage
 
                 Assert.That(LeafBlocksInner.BlockStateList[0] == BlockState1);
 
-                IFrameNodeStateReadOnlyList AllChildren1 = (IFrameNodeStateReadOnlyList)RootState.GetAllChildren();
+                FrameNodeStateReadOnlyList AllChildren1 = (FrameNodeStateReadOnlyList)RootState.GetAllChildren();
                 Assert.That(AllChildren1.Count == AllChildren0.Count - 2, $"New count: {AllChildren1.Count}");
 
                 Assert.That(BaseNodeHelper.NodeTreeDiagnostic.IsValid(RootNode));
@@ -4821,23 +4819,23 @@ namespace Coverage
             RootNode = CreateRoot(ValueGuid0, Imperfections.None);
             RootIndex = new FrameRootNodeIndex(RootNode);
 
-            IFrameController ControllerBase = FrameController.Create(RootIndex);
-            IFrameController Controller = FrameController.Create(RootIndex);
+            FrameController ControllerBase = FrameController.Create(RootIndex);
+            FrameController Controller = FrameController.Create(RootIndex);
 
-            using (IFrameControllerView ControllerView0 = FrameControllerView.Create(Controller, TestDebug.CoverageFrameTemplateSet.FrameTemplateSet))
+            using (FrameControllerView ControllerView0 = FrameControllerView.Create(Controller, TestDebug.CoverageFrameTemplateSet.FrameTemplateSet))
             {
                 Assert.That(ControllerView0.Controller == Controller);
 
                 IFrameNodeState RootState = Controller.RootState;
                 Assert.That(RootState != null);
 
-                IFrameNodeStateReadOnlyList AllChildren0 = (IFrameNodeStateReadOnlyList)RootState.GetAllChildren();
+                FrameNodeStateReadOnlyList AllChildren0 = (FrameNodeStateReadOnlyList)RootState.GetAllChildren();
                 Assert.That(AllChildren0.Count == 19, $"New count: {AllChildren0.Count}");
 
                 Controller.Expand(RootIndex, out bool IsChanged);
                 Assert.That(IsChanged);
 
-                IFrameNodeStateReadOnlyList AllChildren1 = (IFrameNodeStateReadOnlyList)RootState.GetAllChildren();
+                FrameNodeStateReadOnlyList AllChildren1 = (FrameNodeStateReadOnlyList)RootState.GetAllChildren();
                 Assert.That(AllChildren1.Count == AllChildren0.Count + 2, $"New count: {AllChildren1.Count - AllChildren0.Count}");
 
                 Assert.That(BaseNodeHelper.NodeTreeDiagnostic.IsValid(RootNode));
@@ -4845,7 +4843,7 @@ namespace Coverage
                 Controller.Expand(RootIndex, out IsChanged);
                 Assert.That(!IsChanged);
 
-                IFrameNodeStateReadOnlyList AllChildren2 = (IFrameNodeStateReadOnlyList)RootState.GetAllChildren();
+                FrameNodeStateReadOnlyList AllChildren2 = (FrameNodeStateReadOnlyList)RootState.GetAllChildren();
                 Assert.That(AllChildren2.Count == AllChildren1.Count, $"New count: {AllChildren2.Count}");
 
                 Assert.That(BaseNodeHelper.NodeTreeDiagnostic.IsValid(RootNode));
@@ -4858,7 +4856,7 @@ namespace Coverage
                 Controller.Replace(OptionalLeafInner, ReplacementIndex5, out IWriteableBrowsingChildIndex NewItemIndex5);
                 Assert.That(Controller.Contains(NewItemIndex5));
 
-                IFrameNodeStateReadOnlyList AllChildren3 = (IFrameNodeStateReadOnlyList)RootState.GetAllChildren();
+                FrameNodeStateReadOnlyList AllChildren3 = (FrameNodeStateReadOnlyList)RootState.GetAllChildren();
                 Assert.That(AllChildren3.Count == AllChildren2.Count - 1, $"New count: {AllChildren3.Count - AllChildren2.Count}");
 
                 Assert.That(BaseNodeHelper.NodeTreeDiagnostic.IsValid(RootNode));
@@ -4866,7 +4864,7 @@ namespace Coverage
                 Controller.Expand(RootIndex, out IsChanged);
                 Assert.That(IsChanged);
 
-                IFrameNodeStateReadOnlyList AllChildren4 = (IFrameNodeStateReadOnlyList)RootState.GetAllChildren();
+                FrameNodeStateReadOnlyList AllChildren4 = (FrameNodeStateReadOnlyList)RootState.GetAllChildren();
                 Assert.That(AllChildren4.Count == AllChildren3.Count + 1, $"New count: {AllChildren4.Count}");
 
 
@@ -4902,7 +4900,7 @@ namespace Coverage
                 Controller.Remove(LeafBlocksInner, RemovedLeafIndex);
                 Assert.That(!Controller.Contains(RemovedLeafIndex));
 
-                IFrameNodeStateReadOnlyList AllChildren5 = (IFrameNodeStateReadOnlyList)RootState.GetAllChildren();
+                FrameNodeStateReadOnlyList AllChildren5 = (FrameNodeStateReadOnlyList)RootState.GetAllChildren();
                 Assert.That(AllChildren5.Count == AllChildren4.Count - 10, $"New count: {AllChildren5.Count}");
 
                 Assert.That(BaseNodeHelper.NodeTreeDiagnostic.IsValid(RootNode));
@@ -4911,7 +4909,7 @@ namespace Coverage
                 Controller.Expand(RootIndex, out IsChanged);
                 Assert.That(!IsChanged);
 
-                IFrameNodeStateReadOnlyList AllChildren6 = (IFrameNodeStateReadOnlyList)RootState.GetAllChildren();
+                FrameNodeStateReadOnlyList AllChildren6 = (FrameNodeStateReadOnlyList)RootState.GetAllChildren();
                 Assert.That(AllChildren6.Count == AllChildren5.Count, $"New count: {AllChildren6.Count - AllChildren5.Count}");
 
                 IDictionary<Type, string[]> WithExpandCollectionTable = BaseNodeHelper.NodeHelper.WithExpandCollectionTable as IDictionary<Type, string[]>;
@@ -4920,7 +4918,7 @@ namespace Coverage
                 Controller.Expand(RootIndex, out IsChanged);
                 Assert.That(IsChanged);
 
-                IFrameNodeStateReadOnlyList AllChildren7 = (IFrameNodeStateReadOnlyList)RootState.GetAllChildren();
+                FrameNodeStateReadOnlyList AllChildren7 = (FrameNodeStateReadOnlyList)RootState.GetAllChildren();
                 Assert.That(AllChildren7.Count == AllChildren6.Count + 3, $"New count: {AllChildren7.Count}");
 
                 Assert.That(BaseNodeHelper.NodeTreeDiagnostic.IsValid(RootNode));
@@ -4970,10 +4968,10 @@ namespace Coverage
             RootNode = CreateRoot(ValueGuid0, Imperfections.None);
             RootIndex = new FrameRootNodeIndex(RootNode);
 
-            IFrameController ControllerBase = FrameController.Create(RootIndex);
-            IFrameController Controller = FrameController.Create(RootIndex);
+            FrameController ControllerBase = FrameController.Create(RootIndex);
+            FrameController Controller = FrameController.Create(RootIndex);
 
-            using (IFrameControllerView ControllerView0 = FrameControllerView.Create(Controller, TestDebug.CoverageFrameTemplateSet.FrameTemplateSet))
+            using (FrameControllerView ControllerView0 = FrameControllerView.Create(Controller, TestDebug.CoverageFrameTemplateSet.FrameTemplateSet))
             {
                 Assert.That(ControllerView0.Controller == Controller);
 
@@ -5014,7 +5012,7 @@ namespace Coverage
                 Assert.That(BaseNodeHelper.NodeTreeDiagnostic.IsValid(RootNode));
                 Assert.That(LeafBlocksInner.IsEmpty);
 
-                IFrameNodeStateReadOnlyList AllChildren0 = (IFrameNodeStateReadOnlyList)RootState.GetAllChildren();
+                FrameNodeStateReadOnlyList AllChildren0 = (FrameNodeStateReadOnlyList)RootState.GetAllChildren();
                 Assert.That(AllChildren0.Count == 9, $"New count: {AllChildren0.Count}");
 
                 IDictionary<Type, string[]> WithExpandCollectionTable = BaseNodeHelper.NodeHelper.WithExpandCollectionTable as IDictionary<Type, string[]>;
@@ -5023,7 +5021,7 @@ namespace Coverage
                 Controller.Expand(RootIndex, out IsChanged);
                 Assert.That(IsChanged);
 
-                IFrameNodeStateReadOnlyList AllChildren1 = (IFrameNodeStateReadOnlyList)RootState.GetAllChildren();
+                FrameNodeStateReadOnlyList AllChildren1 = (FrameNodeStateReadOnlyList)RootState.GetAllChildren();
                 Assert.That(AllChildren1.Count == AllChildren0.Count + 5, $"New count: {AllChildren1.Count - AllChildren0.Count}");
 
                 Assert.That(BaseNodeHelper.NodeTreeDiagnostic.IsValid(RootNode));
@@ -5031,19 +5029,19 @@ namespace Coverage
                 Controller.Reduce(RootIndex, out IsChanged);
                 Assert.That(IsChanged);
 
-                IFrameNodeStateReadOnlyList AllChildren2 = (IFrameNodeStateReadOnlyList)RootState.GetAllChildren();
+                FrameNodeStateReadOnlyList AllChildren2 = (FrameNodeStateReadOnlyList)RootState.GetAllChildren();
                 Assert.That(AllChildren2.Count == AllChildren1.Count - 4, $"New count: {AllChildren2.Count - AllChildren1.Count}");
 
                 Controller.Reduce(RootIndex, out IsChanged);
                 Assert.That(!IsChanged);
 
-                IFrameNodeStateReadOnlyList AllChildren3 = (IFrameNodeStateReadOnlyList)RootState.GetAllChildren();
+                FrameNodeStateReadOnlyList AllChildren3 = (FrameNodeStateReadOnlyList)RootState.GetAllChildren();
                 Assert.That(AllChildren3.Count == AllChildren2.Count, $"New count: {AllChildren3.Count}");
 
                 Controller.Expand(RootIndex, out IsChanged);
                 Assert.That(IsChanged);
 
-                IFrameNodeStateReadOnlyList AllChildren4 = (IFrameNodeStateReadOnlyList)RootState.GetAllChildren();
+                FrameNodeStateReadOnlyList AllChildren4 = (FrameNodeStateReadOnlyList)RootState.GetAllChildren();
                 Assert.That(AllChildren4.Count == AllChildren3.Count + 4, $"New count: {AllChildren4.Count - AllChildren3.Count}");
 
                 BaseNode.IBlock ChildBlock = LeafBlocksInner.BlockStateList[0].ChildBlock;
@@ -5064,7 +5062,7 @@ namespace Coverage
                 Controller.Reduce(RootIndex, out IsChanged);
                 Assert.That(IsChanged);
 
-                IFrameNodeStateReadOnlyList AllChildren5 = (IFrameNodeStateReadOnlyList)RootState.GetAllChildren();
+                FrameNodeStateReadOnlyList AllChildren5 = (FrameNodeStateReadOnlyList)RootState.GetAllChildren();
                 Assert.That(AllChildren5.Count == AllChildren4.Count - 2, $"New count: {AllChildren5.Count - AllChildren4.Count}");
 
                 BaseNodeHelper.NodeTreeHelper.SetString(FirstNode, nameof(Leaf.Text), "");
@@ -5073,7 +5071,7 @@ namespace Coverage
                 Controller.Reduce(RootIndex, out IsChanged);
                 Assert.That(IsChanged);
 
-                IFrameNodeStateReadOnlyList AllChildren6 = (IFrameNodeStateReadOnlyList)RootState.GetAllChildren();
+                FrameNodeStateReadOnlyList AllChildren6 = (FrameNodeStateReadOnlyList)RootState.GetAllChildren();
                 Assert.That(AllChildren6.Count == AllChildren5.Count - 3, $"New count: {AllChildren6.Count - AllChildren5.Count}");
 
                 Controller.Expand(RootIndex, out IsChanged);
@@ -5085,7 +5083,7 @@ namespace Coverage
                 Controller.Reduce(RootIndex, out IsChanged);
                 Assert.That(IsChanged);
 
-                IFrameNodeStateReadOnlyList AllChildren7 = (IFrameNodeStateReadOnlyList)RootState.GetAllChildren();
+                FrameNodeStateReadOnlyList AllChildren7 = (FrameNodeStateReadOnlyList)RootState.GetAllChildren();
                 Assert.That(AllChildren7.Count == AllChildren6.Count + 3, $"New count: {AllChildren7.Count - AllChildren6.Count}");
 
                 Assert.That(Controller.CanUndo);
@@ -5140,10 +5138,10 @@ namespace Coverage
             RootNode = CreateRoot(ValueGuid0, Imperfections.None);
             RootIndex = new FrameRootNodeIndex(RootNode);
 
-            IFrameController ControllerBase = FrameController.Create(RootIndex);
-            IFrameController Controller = FrameController.Create(RootIndex);
+            FrameController ControllerBase = FrameController.Create(RootIndex);
+            FrameController Controller = FrameController.Create(RootIndex);
 
-            using (IFrameControllerView ControllerView0 = FrameControllerView.Create(Controller, TestDebug.CoverageFrameTemplateSet.FrameTemplateSet))
+            using (FrameControllerView ControllerView0 = FrameControllerView.Create(Controller, TestDebug.CoverageFrameTemplateSet.FrameTemplateSet))
             {
                 Assert.That(ControllerView0.Controller == Controller);
 
@@ -5221,7 +5219,7 @@ namespace Coverage
                 Assert.That(Controller.CanUndo);
                 Controller.Undo();
 
-                IFrameNodeStateReadOnlyList AllChildren0 = (IFrameNodeStateReadOnlyList)RootState.GetAllChildren();
+                FrameNodeStateReadOnlyList AllChildren0 = (FrameNodeStateReadOnlyList)RootState.GetAllChildren();
                 Assert.That(AllChildren0.Count == 12, $"New count: {AllChildren0.Count}");
 
                 IDictionary<Type, string[]> WithExpandCollectionTable = BaseNodeHelper.NodeHelper.WithExpandCollectionTable as IDictionary<Type, string[]>;
@@ -5230,7 +5228,7 @@ namespace Coverage
                 Controller.Expand(RootIndex, out IsChanged);
                 Assert.That(IsChanged);
 
-                IFrameNodeStateReadOnlyList AllChildren1 = (IFrameNodeStateReadOnlyList)RootState.GetAllChildren();
+                FrameNodeStateReadOnlyList AllChildren1 = (FrameNodeStateReadOnlyList)RootState.GetAllChildren();
                 Assert.That(AllChildren1.Count == AllChildren0.Count + 2, $"New count: {AllChildren1.Count - AllChildren0.Count}");
 
                 Assert.That(BaseNodeHelper.NodeTreeDiagnostic.IsValid(RootNode));
@@ -5247,7 +5245,7 @@ namespace Coverage
                 Controller.Canonicalize(out IsChanged);
                 Assert.That(IsChanged);
 
-                IFrameNodeStateReadOnlyList AllChildren2 = (IFrameNodeStateReadOnlyList)RootState.GetAllChildren();
+                FrameNodeStateReadOnlyList AllChildren2 = (FrameNodeStateReadOnlyList)RootState.GetAllChildren();
                 Assert.That(AllChildren2.Count == AllChildren1.Count - 2, $"New count: {AllChildren2.Count - AllChildren1.Count}");
 
                 Controller.Undo();
@@ -5256,7 +5254,7 @@ namespace Coverage
                 Controller.Canonicalize(out IsChanged);
                 Assert.That(!IsChanged);
 
-                IFrameNodeStateReadOnlyList AllChildren3 = (IFrameNodeStateReadOnlyList)RootState.GetAllChildren();
+                FrameNodeStateReadOnlyList AllChildren3 = (FrameNodeStateReadOnlyList)RootState.GetAllChildren();
                 Assert.That(AllChildren3.Count == AllChildren2.Count, $"New count: {AllChildren3.Count}");
 
                 Assert.That(Controller.CanUndo);
@@ -5326,10 +5324,10 @@ namespace Coverage
             //System.Diagnostics.Debug.Assert(false);
             IFrameRootNodeIndex RootIndex = new FrameRootNodeIndex(RootNode);
 
-            IFrameController ControllerBase = FrameController.Create(RootIndex);
-            IFrameController Controller = FrameController.Create(RootIndex);
+            FrameController ControllerBase = FrameController.Create(RootIndex);
+            FrameController Controller = FrameController.Create(RootIndex);
 
-            using (IFrameControllerView ControllerView0 = FrameControllerView.Create(Controller, TestDebug.CoverageFrameTemplateSet.FrameTemplateSet))
+            using (FrameControllerView ControllerView0 = FrameControllerView.Create(Controller, TestDebug.CoverageFrameTemplateSet.FrameTemplateSet))
             {
                 Assert.That(ControllerView0.Controller == Controller);
 
@@ -5378,93 +5376,93 @@ namespace Coverage
             RootNode = CreateRoot(ValueGuid0, Imperfections.None);
             RootIndex = new FrameRootNodeIndex(RootNode);
 
-            IFrameController ControllerBase = FrameController.Create(RootIndex);
-            IFrameController Controller = FrameController.Create(RootIndex);
+            FrameController ControllerBase = FrameController.Create(RootIndex);
+            FrameController Controller = FrameController.Create(RootIndex);
 
-            IReadOnlyIndexNodeStateDictionary ControllerStateTable = DebugObjects.GetReferenceByInterface(typeof(IFrameIndexNodeStateDictionary)) as IReadOnlyIndexNodeStateDictionary;
+            ReadOnlyIndexNodeStateDictionary ControllerStateTable = DebugObjects.GetReferenceByInterface(typeof(IFrameIndexNodeStateDictionary)) as ReadOnlyIndexNodeStateDictionary;
 
-            using (IFrameControllerView ControllerView = FrameControllerView.Create(Controller, TestDebug.CoverageFrameTemplateSet.FrameTemplateSet))
+            using (FrameControllerView ControllerView = FrameControllerView.Create(Controller, TestDebug.CoverageFrameTemplateSet.FrameTemplateSet))
             {
                 Controller.Expand(Controller.RootIndex, out bool IsChanged);
 
                 // IxxxBlockStateViewDictionary 
 
-                IReadOnlyBlockStateViewDictionary ReadOnlyBlockStateViewTable = ControllerView.BlockStateViewTable;
+                ReadOnlyBlockStateViewDictionary ReadOnlyBlockStateViewTable = ControllerView.BlockStateViewTable;
 
-                foreach (KeyValuePair<IReadOnlyBlockState, IReadOnlyBlockStateView> Entry in ReadOnlyBlockStateViewTable)
+                foreach (KeyValuePair<IReadOnlyBlockState, ReadOnlyBlockStateView> Entry in ReadOnlyBlockStateViewTable)
                 {
-                    IReadOnlyBlockStateView StateView = ReadOnlyBlockStateViewTable[Entry.Key];
-                    ReadOnlyBlockStateViewTable.TryGetValue(Entry.Key, out IReadOnlyBlockStateView Value);
+                    ReadOnlyBlockStateView StateView = ReadOnlyBlockStateViewTable[Entry.Key];
+                    ReadOnlyBlockStateViewTable.TryGetValue(Entry.Key, out ReadOnlyBlockStateView Value);
                     ReadOnlyBlockStateViewTable.Contains(Entry);
                     ReadOnlyBlockStateViewTable.Remove(Entry.Key);
                     ReadOnlyBlockStateViewTable.Add(Entry.Key, Entry.Value);
                     ICollection<IReadOnlyBlockState> Keys = ReadOnlyBlockStateViewTable.Keys;
-                    ICollection<IReadOnlyBlockStateView> Values = ReadOnlyBlockStateViewTable.Values;
+                    ICollection<ReadOnlyBlockStateView> Values = ReadOnlyBlockStateViewTable.Values;
 
                     break;
                 }
 
-                IDictionary<IReadOnlyBlockState, IReadOnlyBlockStateView> ReadOnlyBlockStateViewTableAsDictionary = ReadOnlyBlockStateViewTable;
-                foreach (KeyValuePair<IReadOnlyBlockState, IReadOnlyBlockStateView> Entry in ReadOnlyBlockStateViewTableAsDictionary)
+                IDictionary<IReadOnlyBlockState, ReadOnlyBlockStateView> ReadOnlyBlockStateViewTableAsDictionary = ReadOnlyBlockStateViewTable;
+                foreach (KeyValuePair<IReadOnlyBlockState, ReadOnlyBlockStateView> Entry in ReadOnlyBlockStateViewTableAsDictionary)
                 {
-                    IReadOnlyBlockStateView StateView = ReadOnlyBlockStateViewTableAsDictionary[Entry.Key];
+                    ReadOnlyBlockStateView StateView = ReadOnlyBlockStateViewTableAsDictionary[Entry.Key];
                     break;
                 }
 
-                ICollection<KeyValuePair<IReadOnlyBlockState, IReadOnlyBlockStateView>> ReadOnlyBlockStateViewTableAsCollection = ReadOnlyBlockStateViewTable;
+                ICollection<KeyValuePair<IReadOnlyBlockState, ReadOnlyBlockStateView>> ReadOnlyBlockStateViewTableAsCollection = ReadOnlyBlockStateViewTable;
                 IsReadOnly = ReadOnlyBlockStateViewTableAsCollection.IsReadOnly;
 
-                foreach (KeyValuePair<IReadOnlyBlockState, IReadOnlyBlockStateView> Entry in ReadOnlyBlockStateViewTableAsCollection)
+                foreach (KeyValuePair<IReadOnlyBlockState, ReadOnlyBlockStateView> Entry in ReadOnlyBlockStateViewTableAsCollection)
                 {
                     ReadOnlyBlockStateViewTableAsCollection.Contains(Entry);
                     ReadOnlyBlockStateViewTableAsCollection.Remove(Entry);
                     ReadOnlyBlockStateViewTableAsCollection.Add(Entry);
-                    ReadOnlyBlockStateViewTableAsCollection.CopyTo(new KeyValuePair<IReadOnlyBlockState, IReadOnlyBlockStateView>[ReadOnlyBlockStateViewTableAsCollection.Count], 0);
+                    ReadOnlyBlockStateViewTableAsCollection.CopyTo(new KeyValuePair<IReadOnlyBlockState, ReadOnlyBlockStateView>[ReadOnlyBlockStateViewTableAsCollection.Count], 0);
                     break;
                 }
 
-                IEnumerable<KeyValuePair<IReadOnlyBlockState, IReadOnlyBlockStateView>> ReadOnlyBlockStateViewTableAsEnumerable = ReadOnlyBlockStateViewTable;
-                foreach (KeyValuePair<IReadOnlyBlockState, IReadOnlyBlockStateView> Entry in ReadOnlyBlockStateViewTableAsEnumerable)
+                IEnumerable<KeyValuePair<IReadOnlyBlockState, ReadOnlyBlockStateView>> ReadOnlyBlockStateViewTableAsEnumerable = ReadOnlyBlockStateViewTable;
+                foreach (KeyValuePair<IReadOnlyBlockState, ReadOnlyBlockStateView> Entry in ReadOnlyBlockStateViewTableAsEnumerable)
                 {
                     break;
                 }
 
                 IWriteableBlockStateViewDictionary WriteableBlockStateViewTable = ControllerView.BlockStateViewTable;
 
-                foreach (KeyValuePair<IWriteableBlockState, IWriteableBlockStateView> Entry in WriteableBlockStateViewTable)
+                foreach (KeyValuePair<IWriteableBlockState, WriteableBlockStateView> Entry in WriteableBlockStateViewTable)
                 {
-                    IWriteableBlockStateView StateView = WriteableBlockStateViewTable[Entry.Key];
-                    WriteableBlockStateViewTable.TryGetValue(Entry.Key, out IWriteableBlockStateView Value);
+                    WriteableBlockStateView StateView = WriteableBlockStateViewTable[Entry.Key];
+                    WriteableBlockStateViewTable.TryGetValue(Entry.Key, out WriteableBlockStateView Value);
                     WriteableBlockStateViewTable.Contains(Entry);
                     WriteableBlockStateViewTable.Remove(Entry.Key);
                     WriteableBlockStateViewTable.Add(Entry.Key, Entry.Value);
-                    ICollection<IWriteableBlockState> Keys = ((IDictionary<IWriteableBlockState, IWriteableBlockStateView>)WriteableBlockStateViewTable).Keys;
-                    ICollection<IWriteableBlockStateView> Values = ((IDictionary<IWriteableBlockState, IWriteableBlockStateView>)WriteableBlockStateViewTable).Values;
+                    ICollection<IWriteableBlockState> Keys = ((IDictionary<IWriteableBlockState, WriteableBlockStateView>)WriteableBlockStateViewTable).Keys;
+                    ICollection<WriteableBlockStateView> Values = ((IDictionary<IWriteableBlockState, WriteableBlockStateView>)WriteableBlockStateViewTable).Values;
 
                     break;
                 }
 
-                IDictionary<IWriteableBlockState, IWriteableBlockStateView> WriteableBlockStateViewTableAsDictionary = WriteableBlockStateViewTable;
-                foreach (KeyValuePair<IWriteableBlockState, IWriteableBlockStateView> Entry in WriteableBlockStateViewTableAsDictionary)
+                IDictionary<IWriteableBlockState, WriteableBlockStateView> WriteableBlockStateViewTableAsDictionary = WriteableBlockStateViewTable;
+                foreach (KeyValuePair<IWriteableBlockState, WriteableBlockStateView> Entry in WriteableBlockStateViewTableAsDictionary)
                 {
-                    IWriteableBlockStateView StateView = WriteableBlockStateViewTableAsDictionary[Entry.Key];
+                    WriteableBlockStateView StateView = WriteableBlockStateViewTableAsDictionary[Entry.Key];
                     break;
                 }
 
-                ICollection<KeyValuePair<IWriteableBlockState, IWriteableBlockStateView>> WriteableBlockStateViewTableAsCollection = WriteableBlockStateViewTable;
+                ICollection<KeyValuePair<IWriteableBlockState, WriteableBlockStateView>> WriteableBlockStateViewTableAsCollection = WriteableBlockStateViewTable;
                 IsReadOnly = WriteableBlockStateViewTableAsCollection.IsReadOnly;
 
-                foreach (KeyValuePair<IWriteableBlockState, IWriteableBlockStateView> Entry in WriteableBlockStateViewTableAsCollection)
+                foreach (KeyValuePair<IWriteableBlockState, WriteableBlockStateView> Entry in WriteableBlockStateViewTableAsCollection)
                 {
                     WriteableBlockStateViewTableAsCollection.Contains(Entry);
                     WriteableBlockStateViewTableAsCollection.Remove(Entry);
                     WriteableBlockStateViewTableAsCollection.Add(Entry);
-                    WriteableBlockStateViewTableAsCollection.CopyTo(new KeyValuePair<IWriteableBlockState, IWriteableBlockStateView>[WriteableBlockStateViewTableAsCollection.Count], 0);
+                    WriteableBlockStateViewTableAsCollection.CopyTo(new KeyValuePair<IWriteableBlockState, WriteableBlockStateView>[WriteableBlockStateViewTableAsCollection.Count], 0);
                     break;
                 }
 
-                IEnumerable<KeyValuePair<IWriteableBlockState, IWriteableBlockStateView>> WriteableBlockStateViewTableAsEnumerable = WriteableBlockStateViewTable;
-                foreach (KeyValuePair<IWriteableBlockState, IWriteableBlockStateView> Entry in WriteableBlockStateViewTableAsEnumerable)
+                IEnumerable<KeyValuePair<IWriteableBlockState, WriteableBlockStateView>> WriteableBlockStateViewTableAsEnumerable = WriteableBlockStateViewTable;
+                foreach (KeyValuePair<IWriteableBlockState, WriteableBlockStateView> Entry in WriteableBlockStateViewTableAsEnumerable)
                 {
                     break;
                 }
@@ -5490,7 +5488,7 @@ namespace Coverage
                     IsReadOnly = ((ICollection<IWriteableBlockState>)DebugBlockStateList).IsReadOnly;
                     IsReadOnly = ((IList<IWriteableBlockState>)DebugBlockStateList).IsReadOnly;
                     FirstBlockState = DebugBlockStateList[0];
-                    Assert.That(((IWriteableBlockStateList)DebugBlockStateList)[0] == FirstBlockState);
+                    Assert.That(((WriteableBlockStateList)DebugBlockStateList)[0] == FirstBlockState);
                     Assert.That(DebugBlockStateList.Contains(FirstBlockState));
                     Assert.That(DebugBlockStateList.IndexOf(FirstBlockState) == 0);
                     DebugBlockStateList.Remove(FirstBlockState);
@@ -5533,7 +5531,7 @@ namespace Coverage
                     IReadOnlyList<IWriteableBlockState> BlockStateListAsWriteableIReadOnlylist = DebugBlockStateList;
                     Assert.That(BlockStateListAsWriteableIReadOnlylist[0] == FirstBlockState);
 
-                    IEnumerator<IWriteableBlockState> DebugBlockStateListWriteableEnumerator = ((IWriteableBlockStateList)DebugBlockStateList).GetEnumerator();
+                    IEnumerator<IWriteableBlockState> DebugBlockStateListWriteableEnumerator = ((WriteableBlockStateList)DebugBlockStateList).GetEnumerator();
                 }
 
                 IFrameBlockStateReadOnlyList FrameBlockStateList = LeafBlocksInner.BlockStateList;
@@ -5561,7 +5559,7 @@ namespace Coverage
                 IsReadOnly = ((ICollection<IWriteableBrowsingBlockNodeIndex>)BlockNodeIndexList).IsReadOnly;
                 IsReadOnly = ((IList<IWriteableBrowsingBlockNodeIndex>)BlockNodeIndexList).IsReadOnly;
                 FirstBlockNodeIndex = BlockNodeIndexList[0];
-                Assert.That(((IWriteableBrowsingBlockNodeIndexList)BlockNodeIndexList)[0] == FirstBlockNodeIndex);
+                Assert.That(((WriteableBrowsingBlockNodeIndexList)BlockNodeIndexList)[0] == FirstBlockNodeIndex);
                 Assert.That(BlockNodeIndexList.Contains(FirstBlockNodeIndex));
                 Assert.That(BlockNodeIndexList.IndexOf(FirstBlockNodeIndex) == 0);
                 BlockNodeIndexList.Remove(FirstBlockNodeIndex);
@@ -5604,10 +5602,10 @@ namespace Coverage
                 IReadOnlyList<IWriteableBrowsingBlockNodeIndex> BlockNodeIndexListAsWriteableIReadOnlylist = BlockNodeIndexList;
                 Assert.That(BlockNodeIndexListAsWriteableIReadOnlylist[0] == FirstBlockNodeIndex);
 
-                IReadOnlyBrowsingBlockNodeIndexList BlockNodeIndexListAsReadOnly = BlockNodeIndexList;
+                ReadOnlyBrowsingBlockNodeIndexList BlockNodeIndexListAsReadOnly = BlockNodeIndexList;
                 Assert.That(BlockNodeIndexListAsReadOnly[0] == FirstBlockNodeIndex);
 
-                IEnumerator<IWriteableBrowsingBlockNodeIndex> BlockNodeIndexListWriteableEnumerator = ((IWriteableBrowsingBlockNodeIndexList)BlockNodeIndexList).GetEnumerator();
+                IEnumerator<IWriteableBrowsingBlockNodeIndex> BlockNodeIndexListWriteableEnumerator = ((WriteableBrowsingBlockNodeIndexList)BlockNodeIndexList).GetEnumerator();
 
                 // IFrameBrowsingListNodeIndexList
 
@@ -5618,7 +5616,7 @@ namespace Coverage
                 IsReadOnly = ((ICollection<IWriteableBrowsingListNodeIndex>)ListNodeIndexList).IsReadOnly;
                 IsReadOnly = ((IList<IWriteableBrowsingListNodeIndex>)ListNodeIndexList).IsReadOnly;
                 FirstListNodeIndex = ListNodeIndexList[0];
-                Assert.That(((IWriteableBrowsingListNodeIndexList)ListNodeIndexList)[0] == FirstListNodeIndex);
+                Assert.That(((WriteableBrowsingListNodeIndexList)ListNodeIndexList)[0] == FirstListNodeIndex);
                 Assert.That(ListNodeIndexList.Contains(FirstListNodeIndex));
                 Assert.That(ListNodeIndexList.IndexOf(FirstListNodeIndex) == 0);
                 ListNodeIndexList.Remove(FirstListNodeIndex);
@@ -5661,10 +5659,10 @@ namespace Coverage
                 IReadOnlyList<IWriteableBrowsingListNodeIndex> ListNodeIndexListAsWriteableIReadOnlylist = ListNodeIndexList;
                 Assert.That(ListNodeIndexListAsWriteableIReadOnlylist[0] == FirstListNodeIndex);
 
-                IReadOnlyBrowsingListNodeIndexList ListNodeIndexListAsReadOnly = ListNodeIndexList;
+                ReadOnlyBrowsingListNodeIndexList ListNodeIndexListAsReadOnly = ListNodeIndexList;
                 Assert.That(ListNodeIndexListAsReadOnly[0] == FirstListNodeIndex);
 
-                IEnumerator<IWriteableBrowsingListNodeIndex> ListNodeIndexListWriteableEnumerator = ((IWriteableBrowsingListNodeIndexList)ListNodeIndexList).GetEnumerator();
+                IEnumerator<IWriteableBrowsingListNodeIndex> ListNodeIndexListWriteableEnumerator = ((WriteableBrowsingListNodeIndexList)ListNodeIndexList).GetEnumerator();
 
                 // IFrameIndexNodeStateDictionary
                 if (ControllerStateTable != null)
@@ -5682,7 +5680,7 @@ namespace Coverage
                         break;
                     }
 
-                    IWriteableIndexNodeStateDictionary WriteableControllerStateTable = ControllerStateTable as IWriteableIndexNodeStateDictionary;
+                    WriteableIndexNodeStateDictionary WriteableControllerStateTable = ControllerStateTable as WriteableIndexNodeStateDictionary;
                     foreach (KeyValuePair<IWriteableIndex, IWriteableNodeState> Entry in WriteableControllerStateTable)
                     {
                         break;
@@ -5746,7 +5744,7 @@ namespace Coverage
 
                 // IFrameIndexNodeStateReadOnlyDictionary
 
-                IReadOnlyIndexNodeStateReadOnlyDictionary ReadOnlyStateTable = Controller.StateTable;
+                ReadOnlyIndexNodeStateReadOnlyDictionary ReadOnlyStateTable = Controller.StateTable;
                 IWriteableIndexNodeStateReadOnlyDictionary WriteableStateTable = Controller.StateTable;
                 Assert.That(WriteableStateTable.ContainsKey(RootIndex));
                 Assert.That(WriteableStateTable[RootIndex] == ReadOnlyStateTable[RootIndex]);
@@ -5774,7 +5772,7 @@ namespace Coverage
                 Assert.That(FrameInnerTableModify != null);
                 Assert.That(FrameInnerTableModify.Count > 0);
 
-                IWriteableInnerDictionary<string> WriteableInnerTableModify = FrameInnerTableModify;
+                WriteableInnerDictionary<string> WriteableInnerTableModify = FrameInnerTableModify;
                 WriteableInnerTableModify.GetEnumerator();
 
                 IDictionary<string, IReadOnlyInner> ReadOnlyInnerTableModifyAsDictionary = FrameInnerTableModify;
@@ -5839,7 +5837,7 @@ namespace Coverage
                 // IFrameInnerReadOnlyDictionary
 
                 IFrameInnerReadOnlyDictionary<string> FrameInnerTable = RootState.InnerTable;
-                IWriteableInnerReadOnlyDictionary<string> WriteableInnerTable = RootState.InnerTable;
+                WriteableInnerReadOnlyDictionary<string> WriteableInnerTable = RootState.InnerTable;
 
                 IReadOnlyDictionary<string, IReadOnlyInner> ReadOnlyInnerTableAsDictionary = FrameInnerTable;
                 Assert.That(ReadOnlyInnerTableAsDictionary.Keys != null);
@@ -5876,11 +5874,11 @@ namespace Coverage
                 FrameNodeStateListModify.Insert(0, (IReadOnlyNodeState)FirstNodeState);
                 FrameNodeStateListModify.CopyTo((IReadOnlyNodeState[])(new IFrameNodeState[FrameNodeStateListModify.Count]), 0);
 
-                IReadOnlyNodeStateList FrameNodeStateListModifyAsReadOnly = FrameNodeStateListModify as IReadOnlyNodeStateList;
+                ReadOnlyNodeStateList FrameNodeStateListModifyAsReadOnly = FrameNodeStateListModify as ReadOnlyNodeStateList;
                 Assert.That(FrameNodeStateListModifyAsReadOnly != null);
                 Assert.That(FrameNodeStateListModifyAsReadOnly[0] == FrameNodeStateListModify[0]);
 
-                IWriteableNodeStateList FrameNodeStateListModifyAsWriteable = FrameNodeStateListModify as IWriteableNodeStateList;
+                WriteableNodeStateList FrameNodeStateListModifyAsWriteable = FrameNodeStateListModify as WriteableNodeStateList;
                 Assert.That(FrameNodeStateListModifyAsWriteable != null);
                 Assert.That(FrameNodeStateListModifyAsWriteable[0] == FrameNodeStateListModify[0]);
                 FrameNodeStateListModifyAsWriteable.GetEnumerator();
@@ -5928,14 +5926,14 @@ namespace Coverage
 
                 // FrameNodeStateReadOnlyList
 
-                IFrameNodeStateReadOnlyList FrameNodeStateList = FrameNodeStateListModify.ToReadOnly() as IFrameNodeStateReadOnlyList;
+                FrameNodeStateReadOnlyList FrameNodeStateList = FrameNodeStateListModify.ToReadOnly() as FrameNodeStateReadOnlyList;
                 Assert.That(FrameNodeStateList != null);
                 Assert.That(FrameNodeStateList.Count > 0);
                 FirstNodeState = FrameNodeStateList[0] as IFramePlaceholderNodeState;
                 Assert.That(FrameNodeStateList.Contains((IReadOnlyNodeState)FirstNodeState));
                 Assert.That(FrameNodeStateList.IndexOf((IReadOnlyNodeState)FirstNodeState) == 0);
 
-                IWriteableNodeStateReadOnlyList WriteableNodeStateList = FrameNodeStateList;
+                WriteableNodeStateReadOnlyList WriteableNodeStateList = FrameNodeStateList;
                 Assert.That(WriteableNodeStateList.Contains(FirstNodeState));
                 Assert.That(WriteableNodeStateList.IndexOf(FirstNodeState) == 0);
                 Assert.That(WriteableNodeStateList[0] == FrameNodeStateList[0]);
@@ -5969,14 +5967,14 @@ namespace Coverage
                     Assert.That(WriteableOperationGroupList.Count > 0);
                     Assert.That(WriteableOperationGroupList[0] == FirstOperationGroup);
 
-                    IList<IWriteableOperationGroup> WriteableOperationGroupAsIList = WriteableOperationGroupList;
+                    IList<WriteableOperationGroup> WriteableOperationGroupAsIList = WriteableOperationGroupList;
                     Assert.That(WriteableOperationGroupAsIList.Count > 0);
                     Assert.That(WriteableOperationGroupAsIList[0] == FirstOperationGroup);
                     Assert.That(WriteableOperationGroupAsIList.IndexOf(FirstOperationGroup) == 0);
                     WriteableOperationGroupAsIList.Remove(FirstOperationGroup);
                     WriteableOperationGroupAsIList.Insert(0, FirstOperationGroup);
 
-                    ICollection<IWriteableOperationGroup> WriteableOperationGroupAsICollection = WriteableOperationGroupList;
+                    ICollection<WriteableOperationGroup> WriteableOperationGroupAsICollection = WriteableOperationGroupList;
                     Assert.That(WriteableOperationGroupAsICollection.Count > 0);
                     Assert.That(!WriteableOperationGroupAsICollection.IsReadOnly);
                     Assert.That(WriteableOperationGroupAsICollection.Contains(FirstOperationGroup));
@@ -5986,10 +5984,10 @@ namespace Coverage
                     WriteableOperationGroupAsIList.Insert(0, FirstOperationGroup);
                     WriteableOperationGroupAsICollection.CopyTo(new IFrameOperationGroup[WriteableOperationGroupAsICollection.Count], 0);
 
-                    IEnumerable<IWriteableOperationGroup> WriteableOperationGroupAsIEnumerable = WriteableOperationGroupList;
+                    IEnumerable<WriteableOperationGroup> WriteableOperationGroupAsIEnumerable = WriteableOperationGroupList;
                     WriteableOperationGroupAsIEnumerable.GetEnumerator();
 
-                    IReadOnlyList<IWriteableOperationGroup> WriteableOperationGroupAsIReadOnlyList = WriteableOperationGroupList;
+                    IReadOnlyList<WriteableOperationGroup> WriteableOperationGroupAsIReadOnlyList = WriteableOperationGroupList;
                     Assert.That(WriteableOperationGroupAsIReadOnlyList.Count > 0);
                     Assert.That(WriteableOperationGroupAsIReadOnlyList[0] == FirstOperationGroup);
                 }
@@ -6000,7 +5998,7 @@ namespace Coverage
                 Assert.That(WriteableOperationStack.Contains(FirstOperationGroup));
                 Assert.That(WriteableOperationStack.IndexOf(FirstOperationGroup) == 0);
 
-                IEnumerable<IWriteableOperationGroup> WriteableOperationStackAsIEnumerable = WriteableOperationStack;
+                IEnumerable<WriteableOperationGroup> WriteableOperationStackAsIEnumerable = WriteableOperationStack;
                 WriteableOperationStackAsIEnumerable.GetEnumerator();
 
                 // IFrameOperationList
@@ -6068,11 +6066,11 @@ namespace Coverage
                     FramePlaceholderNodeStateListModify.Insert(0, (IReadOnlyPlaceholderNodeState)FirstNodeState);
                     FramePlaceholderNodeStateListModify.CopyTo((IReadOnlyPlaceholderNodeState[])(new IFramePlaceholderNodeState[FramePlaceholderNodeStateListModify.Count]), 0);
 
-                    IReadOnlyPlaceholderNodeStateList FramePlaceholderNodeStateListModifyAsReadOnly = FramePlaceholderNodeStateListModify as IReadOnlyPlaceholderNodeStateList;
+                    ReadOnlyPlaceholderNodeStateList FramePlaceholderNodeStateListModifyAsReadOnly = FramePlaceholderNodeStateListModify as ReadOnlyPlaceholderNodeStateList;
                     Assert.That(FramePlaceholderNodeStateListModifyAsReadOnly != null);
                     Assert.That(FramePlaceholderNodeStateListModifyAsReadOnly[0] == FramePlaceholderNodeStateListModify[0]);
 
-                    IWriteablePlaceholderNodeStateList FramePlaceholderNodeStateListModifyAsWriteable = FramePlaceholderNodeStateListModify as IWriteablePlaceholderNodeStateList;
+                    WriteablePlaceholderNodeStateList FramePlaceholderNodeStateListModifyAsWriteable = FramePlaceholderNodeStateListModify as WriteablePlaceholderNodeStateList;
                     Assert.That(FramePlaceholderNodeStateListModifyAsWriteable != null);
                     Assert.That(FramePlaceholderNodeStateListModifyAsWriteable[0] == FramePlaceholderNodeStateListModify[0]);
                     FramePlaceholderNodeStateListModifyAsWriteable.GetEnumerator();
@@ -6134,7 +6132,7 @@ namespace Coverage
                     Assert.That(FramePlaceholderNodeStateList.Contains((IReadOnlyPlaceholderNodeState)FirstNodeState));
                     Assert.That(FramePlaceholderNodeStateList.IndexOf((IReadOnlyPlaceholderNodeState)FirstNodeState) == 0);
 
-                    IWriteablePlaceholderNodeStateReadOnlyList WriteablePlaceholderNodeStateList = FramePlaceholderNodeStateList;
+                    WriteablePlaceholderNodeStateReadOnlyList WriteablePlaceholderNodeStateList = FramePlaceholderNodeStateList;
                     Assert.That(WriteablePlaceholderNodeStateList.Contains(FirstNodeState));
                     Assert.That(WriteablePlaceholderNodeStateList.IndexOf(FirstNodeState) == 0);
                     Assert.That(WriteablePlaceholderNodeStateList[0] == FramePlaceholderNodeStateList[0]);
@@ -6157,7 +6155,7 @@ namespace Coverage
 
                 // IFrameStateViewDictionary
                 IFrameStateViewDictionary FrameStateViewTable = ControllerView.StateViewTable;
-                IWriteableStateViewDictionary WriteableStateViewTable = ControllerView.StateViewTable;
+                WriteableStateViewDictionary WriteableStateViewTable = ControllerView.StateViewTable;
                 WriteableStateViewTable.GetEnumerator();
 
                 IDictionary<IReadOnlyNodeState, IReadOnlyNodeStateView> ReadOnlyStateViewTableAsDictionary = FrameStateViewTable;
@@ -6213,7 +6211,7 @@ namespace Coverage
             }
         }
 
-        private static bool ListCellViews(IFrameVisibleCellView cellview, IFrameVisibleCellViewList cellViewList)
+        private static bool ListCellViews(IFrameVisibleCellView cellview, FrameVisibleCellViewList cellViewList)
         {
             cellViewList.Add(cellview);
             return false;
@@ -9733,7 +9731,7 @@ namespace Coverage
             IFocusController ControllerBase = FocusController.Create(RootIndex);
             IFocusController Controller = FocusController.Create(RootIndex);
 
-            IReadOnlyIndexNodeStateDictionary ControllerStateTable = DebugObjects.GetReferenceByInterface(typeof(IFocusIndexNodeStateDictionary)) as IReadOnlyIndexNodeStateDictionary;
+            ReadOnlyIndexNodeStateDictionary ControllerStateTable = DebugObjects.GetReferenceByInterface(typeof(IFocusIndexNodeStateDictionary)) as ReadOnlyIndexNodeStateDictionary;
 
             using (IFocusControllerView ControllerView = FocusControllerView.Create(Controller, TestDebug.CoverageFocusTemplateSet.FocusTemplateSet))
             {
@@ -9741,122 +9739,122 @@ namespace Coverage
 
                 // IxxxBlockStateViewDictionary 
 
-                IReadOnlyBlockStateViewDictionary ReadOnlyBlockStateViewTable = ControllerView.BlockStateViewTable;
+                ReadOnlyBlockStateViewDictionary ReadOnlyBlockStateViewTable = ControllerView.BlockStateViewTable;
 
-                foreach (KeyValuePair<IReadOnlyBlockState, IReadOnlyBlockStateView> Entry in ReadOnlyBlockStateViewTable)
+                foreach (KeyValuePair<IReadOnlyBlockState, ReadOnlyBlockStateView> Entry in ReadOnlyBlockStateViewTable)
                 {
-                    IReadOnlyBlockStateView StateView = ReadOnlyBlockStateViewTable[Entry.Key];
-                    ReadOnlyBlockStateViewTable.TryGetValue(Entry.Key, out IReadOnlyBlockStateView Value);
+                    ReadOnlyBlockStateView StateView = ReadOnlyBlockStateViewTable[Entry.Key];
+                    ReadOnlyBlockStateViewTable.TryGetValue(Entry.Key, out ReadOnlyBlockStateView Value);
                     ReadOnlyBlockStateViewTable.Contains(Entry);
                     ReadOnlyBlockStateViewTable.Remove(Entry.Key);
                     ReadOnlyBlockStateViewTable.Add(Entry.Key, Entry.Value);
                     ICollection<IReadOnlyBlockState> Keys = ReadOnlyBlockStateViewTable.Keys;
-                    ICollection<IReadOnlyBlockStateView> Values = ReadOnlyBlockStateViewTable.Values;
+                    ICollection<ReadOnlyBlockStateView> Values = ReadOnlyBlockStateViewTable.Values;
 
                     break;
                 }
 
-                IDictionary<IReadOnlyBlockState, IReadOnlyBlockStateView> ReadOnlyBlockStateViewTableAsDictionary = ReadOnlyBlockStateViewTable;
-                foreach (KeyValuePair<IReadOnlyBlockState, IReadOnlyBlockStateView> Entry in ReadOnlyBlockStateViewTableAsDictionary)
+                IDictionary<IReadOnlyBlockState, ReadOnlyBlockStateView> ReadOnlyBlockStateViewTableAsDictionary = ReadOnlyBlockStateViewTable;
+                foreach (KeyValuePair<IReadOnlyBlockState, ReadOnlyBlockStateView> Entry in ReadOnlyBlockStateViewTableAsDictionary)
                 {
-                    IReadOnlyBlockStateView StateView = ReadOnlyBlockStateViewTableAsDictionary[Entry.Key];
+                    ReadOnlyBlockStateView StateView = ReadOnlyBlockStateViewTableAsDictionary[Entry.Key];
                     break;
                 }
 
-                ICollection<KeyValuePair<IReadOnlyBlockState, IReadOnlyBlockStateView>> ReadOnlyBlockStateViewTableAsCollection = ReadOnlyBlockStateViewTable;
+                ICollection<KeyValuePair<IReadOnlyBlockState, ReadOnlyBlockStateView>> ReadOnlyBlockStateViewTableAsCollection = ReadOnlyBlockStateViewTable;
                 IsReadOnly = ReadOnlyBlockStateViewTableAsCollection.IsReadOnly;
 
-                foreach (KeyValuePair<IReadOnlyBlockState, IReadOnlyBlockStateView> Entry in ReadOnlyBlockStateViewTableAsCollection)
+                foreach (KeyValuePair<IReadOnlyBlockState, ReadOnlyBlockStateView> Entry in ReadOnlyBlockStateViewTableAsCollection)
                 {
                     ReadOnlyBlockStateViewTableAsCollection.Contains(Entry);
                     ReadOnlyBlockStateViewTableAsCollection.Remove(Entry);
                     ReadOnlyBlockStateViewTableAsCollection.Add(Entry);
-                    ReadOnlyBlockStateViewTableAsCollection.CopyTo(new KeyValuePair<IReadOnlyBlockState, IReadOnlyBlockStateView>[ReadOnlyBlockStateViewTableAsCollection.Count], 0);
+                    ReadOnlyBlockStateViewTableAsCollection.CopyTo(new KeyValuePair<IReadOnlyBlockState, ReadOnlyBlockStateView>[ReadOnlyBlockStateViewTableAsCollection.Count], 0);
                     break;
                 }
 
-                IEnumerable<KeyValuePair<IReadOnlyBlockState, IReadOnlyBlockStateView>> ReadOnlyBlockStateViewTableAsEnumerable = ReadOnlyBlockStateViewTable;
-                foreach (KeyValuePair<IReadOnlyBlockState, IReadOnlyBlockStateView> Entry in ReadOnlyBlockStateViewTableAsEnumerable)
+                IEnumerable<KeyValuePair<IReadOnlyBlockState, ReadOnlyBlockStateView>> ReadOnlyBlockStateViewTableAsEnumerable = ReadOnlyBlockStateViewTable;
+                foreach (KeyValuePair<IReadOnlyBlockState, ReadOnlyBlockStateView> Entry in ReadOnlyBlockStateViewTableAsEnumerable)
                 {
                     break;
                 }
 
                 IWriteableBlockStateViewDictionary WriteableBlockStateViewTable = ControllerView.BlockStateViewTable;
 
-                foreach (KeyValuePair<IWriteableBlockState, IWriteableBlockStateView> Entry in WriteableBlockStateViewTable)
+                foreach (KeyValuePair<IWriteableBlockState, WriteableBlockStateView> Entry in WriteableBlockStateViewTable)
                 {
-                    IWriteableBlockStateView StateView = WriteableBlockStateViewTable[Entry.Key];
-                    WriteableBlockStateViewTable.TryGetValue(Entry.Key, out IWriteableBlockStateView Value);
+                    WriteableBlockStateView StateView = WriteableBlockStateViewTable[Entry.Key];
+                    WriteableBlockStateViewTable.TryGetValue(Entry.Key, out WriteableBlockStateView Value);
                     WriteableBlockStateViewTable.Contains(Entry);
                     WriteableBlockStateViewTable.Remove(Entry.Key);
                     WriteableBlockStateViewTable.Add(Entry.Key, Entry.Value);
-                    ICollection<IWriteableBlockState> Keys = ((IDictionary<IWriteableBlockState, IWriteableBlockStateView>)WriteableBlockStateViewTable).Keys;
-                    ICollection<IWriteableBlockStateView> Values = ((IDictionary<IWriteableBlockState, IWriteableBlockStateView>)WriteableBlockStateViewTable).Values;
+                    ICollection<IWriteableBlockState> Keys = ((IDictionary<IWriteableBlockState, WriteableBlockStateView>)WriteableBlockStateViewTable).Keys;
+                    ICollection<WriteableBlockStateView> Values = ((IDictionary<IWriteableBlockState, WriteableBlockStateView>)WriteableBlockStateViewTable).Values;
 
                     break;
                 }
 
-                IDictionary<IWriteableBlockState, IWriteableBlockStateView> WriteableBlockStateViewTableAsDictionary = WriteableBlockStateViewTable;
-                foreach (KeyValuePair<IWriteableBlockState, IWriteableBlockStateView> Entry in WriteableBlockStateViewTableAsDictionary)
+                IDictionary<IWriteableBlockState, WriteableBlockStateView> WriteableBlockStateViewTableAsDictionary = WriteableBlockStateViewTable;
+                foreach (KeyValuePair<IWriteableBlockState, WriteableBlockStateView> Entry in WriteableBlockStateViewTableAsDictionary)
                 {
-                    IWriteableBlockStateView StateView = WriteableBlockStateViewTableAsDictionary[Entry.Key];
+                    WriteableBlockStateView StateView = WriteableBlockStateViewTableAsDictionary[Entry.Key];
                     break;
                 }
 
-                ICollection<KeyValuePair<IWriteableBlockState, IWriteableBlockStateView>> WriteableBlockStateViewTableAsCollection = WriteableBlockStateViewTable;
+                ICollection<KeyValuePair<IWriteableBlockState, WriteableBlockStateView>> WriteableBlockStateViewTableAsCollection = WriteableBlockStateViewTable;
                 IsReadOnly = WriteableBlockStateViewTableAsCollection.IsReadOnly;
 
-                foreach (KeyValuePair<IWriteableBlockState, IWriteableBlockStateView> Entry in WriteableBlockStateViewTableAsCollection)
+                foreach (KeyValuePair<IWriteableBlockState, WriteableBlockStateView> Entry in WriteableBlockStateViewTableAsCollection)
                 {
                     WriteableBlockStateViewTableAsCollection.Contains(Entry);
                     WriteableBlockStateViewTableAsCollection.Remove(Entry);
                     WriteableBlockStateViewTableAsCollection.Add(Entry);
-                    WriteableBlockStateViewTableAsCollection.CopyTo(new KeyValuePair<IWriteableBlockState, IWriteableBlockStateView>[WriteableBlockStateViewTableAsCollection.Count], 0);
+                    WriteableBlockStateViewTableAsCollection.CopyTo(new KeyValuePair<IWriteableBlockState, WriteableBlockStateView>[WriteableBlockStateViewTableAsCollection.Count], 0);
                     break;
                 }
 
-                IEnumerable<KeyValuePair<IWriteableBlockState, IWriteableBlockStateView>> WriteableBlockStateViewTableAsEnumerable = WriteableBlockStateViewTable;
-                foreach (KeyValuePair<IWriteableBlockState, IWriteableBlockStateView> Entry in WriteableBlockStateViewTableAsEnumerable)
+                IEnumerable<KeyValuePair<IWriteableBlockState, WriteableBlockStateView>> WriteableBlockStateViewTableAsEnumerable = WriteableBlockStateViewTable;
+                foreach (KeyValuePair<IWriteableBlockState, WriteableBlockStateView> Entry in WriteableBlockStateViewTableAsEnumerable)
                 {
                     break;
                 }
 
                 IFrameBlockStateViewDictionary FrameBlockStateViewTable = ControllerView.BlockStateViewTable;
 
-                foreach (KeyValuePair<IFrameBlockState, IFrameBlockStateView> Entry in FrameBlockStateViewTable)
+                foreach (KeyValuePair<IFrameBlockState, FrameBlockStateView> Entry in FrameBlockStateViewTable)
                 {
-                    IFrameBlockStateView StateView = FrameBlockStateViewTable[Entry.Key];
-                    FrameBlockStateViewTable.TryGetValue(Entry.Key, out IFrameBlockStateView Value);
+                    FrameBlockStateView StateView = FrameBlockStateViewTable[Entry.Key];
+                    FrameBlockStateViewTable.TryGetValue(Entry.Key, out FrameBlockStateView Value);
                     FrameBlockStateViewTable.Contains(Entry);
                     FrameBlockStateViewTable.Remove(Entry.Key);
                     FrameBlockStateViewTable.Add(Entry.Key, Entry.Value);
-                    ICollection<IFrameBlockState> Keys = ((IDictionary<IFrameBlockState, IFrameBlockStateView>)FrameBlockStateViewTable).Keys;
-                    ICollection<IFrameBlockStateView> Values = ((IDictionary<IFrameBlockState, IFrameBlockStateView>)FrameBlockStateViewTable).Values;
+                    ICollection<IFrameBlockState> Keys = ((IDictionary<IFrameBlockState, FrameBlockStateView>)FrameBlockStateViewTable).Keys;
+                    ICollection<FrameBlockStateView> Values = ((IDictionary<IFrameBlockState, FrameBlockStateView>)FrameBlockStateViewTable).Values;
 
                     break;
                 }
 
-                IDictionary<IFrameBlockState, IFrameBlockStateView> FrameBlockStateViewTableAsDictionary = FrameBlockStateViewTable;
-                foreach (KeyValuePair<IFrameBlockState, IFrameBlockStateView> Entry in FrameBlockStateViewTableAsDictionary)
+                IDictionary<IFrameBlockState, FrameBlockStateView> FrameBlockStateViewTableAsDictionary = FrameBlockStateViewTable;
+                foreach (KeyValuePair<IFrameBlockState, FrameBlockStateView> Entry in FrameBlockStateViewTableAsDictionary)
                 {
-                    IFrameBlockStateView StateView = FrameBlockStateViewTableAsDictionary[Entry.Key];
+                    FrameBlockStateView StateView = FrameBlockStateViewTableAsDictionary[Entry.Key];
                     break;
                 }
 
-                ICollection<KeyValuePair<IFrameBlockState, IFrameBlockStateView>> FrameBlockStateViewTableAsCollection = FrameBlockStateViewTable;
+                ICollection<KeyValuePair<IFrameBlockState, FrameBlockStateView>> FrameBlockStateViewTableAsCollection = FrameBlockStateViewTable;
                 IsReadOnly = FrameBlockStateViewTableAsCollection.IsReadOnly;
 
-                foreach (KeyValuePair<IFrameBlockState, IFrameBlockStateView> Entry in FrameBlockStateViewTableAsCollection)
+                foreach (KeyValuePair<IFrameBlockState, FrameBlockStateView> Entry in FrameBlockStateViewTableAsCollection)
                 {
                     FrameBlockStateViewTableAsCollection.Contains(Entry);
                     FrameBlockStateViewTableAsCollection.Remove(Entry);
                     FrameBlockStateViewTableAsCollection.Add(Entry);
-                    FrameBlockStateViewTableAsCollection.CopyTo(new KeyValuePair<IFrameBlockState, IFrameBlockStateView>[FrameBlockStateViewTableAsCollection.Count], 0);
+                    FrameBlockStateViewTableAsCollection.CopyTo(new KeyValuePair<IFrameBlockState, FrameBlockStateView>[FrameBlockStateViewTableAsCollection.Count], 0);
                     break;
                 }
 
-                IEnumerable<KeyValuePair<IFrameBlockState, IFrameBlockStateView>> FrameBlockStateViewTableAsEnumerable = FrameBlockStateViewTable;
-                foreach (KeyValuePair<IFrameBlockState, IFrameBlockStateView> Entry in FrameBlockStateViewTableAsEnumerable)
+                IEnumerable<KeyValuePair<IFrameBlockState, FrameBlockStateView>> FrameBlockStateViewTableAsEnumerable = FrameBlockStateViewTable;
+                foreach (KeyValuePair<IFrameBlockState, FrameBlockStateView> Entry in FrameBlockStateViewTableAsEnumerable)
                 {
                     break;
                 }
@@ -9903,7 +9901,7 @@ namespace Coverage
 
                     IsReadOnly = ((ICollection<IWriteableBlockState>)DebugBlockStateList).IsReadOnly;
                     IsReadOnly = ((IList<IWriteableBlockState>)DebugBlockStateList).IsReadOnly;
-                    Assert.That(((IWriteableBlockStateList)DebugBlockStateList)[0] == FirstBlockState);
+                    Assert.That(((WriteableBlockStateList)DebugBlockStateList)[0] == FirstBlockState);
                     DebugBlockStateList.CopyTo((IWriteableBlockState[])(new IFocusBlockState[DebugBlockStateList.Count]), 0);
 
                     IEnumerable<IWriteableBlockState> BlockStateListAsWriteableEnumerable = DebugBlockStateList;
@@ -9926,7 +9924,7 @@ namespace Coverage
 
                     IReadOnlyList<IWriteableBlockState> BlockStateListAsWriteableIReadOnlylist = DebugBlockStateList;
                     Assert.That(BlockStateListAsWriteableIReadOnlylist[0] == FirstBlockState);
-                    IEnumerator<IWriteableBlockState> DebugBlockStateListWriteableEnumerator = ((IWriteableBlockStateList)DebugBlockStateList).GetEnumerator();
+                    IEnumerator<IWriteableBlockState> DebugBlockStateListWriteableEnumerator = ((WriteableBlockStateList)DebugBlockStateList).GetEnumerator();
 
                     IsReadOnly = ((ICollection<IFrameBlockState>)DebugBlockStateList).IsReadOnly;
                     IsReadOnly = ((IList<IFrameBlockState>)DebugBlockStateList).IsReadOnly;
@@ -10007,7 +10005,7 @@ namespace Coverage
 
                 IsReadOnly = ((ICollection<IWriteableBrowsingBlockNodeIndex>)BlockNodeIndexList).IsReadOnly;
                 IsReadOnly = ((IList<IWriteableBrowsingBlockNodeIndex>)BlockNodeIndexList).IsReadOnly;
-                Assert.That(((IWriteableBrowsingBlockNodeIndexList)BlockNodeIndexList)[0] == FirstBlockNodeIndex);
+                Assert.That(((WriteableBrowsingBlockNodeIndexList)BlockNodeIndexList)[0] == FirstBlockNodeIndex);
                 BlockNodeIndexList.CopyTo((IWriteableBrowsingBlockNodeIndex[])(new IFocusBrowsingBlockNodeIndex[BlockNodeIndexList.Count]), 0);
                 IEnumerable<IWriteableBrowsingBlockNodeIndex> BlockNodeIndexListAsWriteableEnumerable = BlockNodeIndexList;
                 foreach (IWriteableBrowsingBlockNodeIndex Item in BlockNodeIndexListAsWriteableEnumerable)
@@ -10026,7 +10024,7 @@ namespace Coverage
                 BlockNodeIndexListAsWriteableIList.Insert(0, (IWriteableBrowsingBlockNodeIndex)FirstBlockNodeIndex);
                 IReadOnlyList<IWriteableBrowsingBlockNodeIndex> BlockNodeIndexListAsWriteableIReadOnlylist = BlockNodeIndexList;
                 Assert.That(BlockNodeIndexListAsWriteableIReadOnlylist[0] == FirstBlockNodeIndex);
-                IEnumerator<IWriteableBrowsingBlockNodeIndex> BlockNodeIndexListWriteableEnumerator = ((IWriteableBrowsingBlockNodeIndexList)BlockNodeIndexList).GetEnumerator();
+                IEnumerator<IWriteableBrowsingBlockNodeIndex> BlockNodeIndexListWriteableEnumerator = ((WriteableBrowsingBlockNodeIndexList)BlockNodeIndexList).GetEnumerator();
 
                 IsReadOnly = ((ICollection<IFrameBrowsingBlockNodeIndex>)BlockNodeIndexList).IsReadOnly;
                 IsReadOnly = ((IList<IFrameBrowsingBlockNodeIndex>)BlockNodeIndexList).IsReadOnly;
@@ -10049,7 +10047,7 @@ namespace Coverage
                 BlockNodeIndexListAsFrameIList.Insert(0, (IFrameBrowsingBlockNodeIndex)FirstBlockNodeIndex);
                 IReadOnlyList<IFrameBrowsingBlockNodeIndex> BlockNodeIndexListAsFrameIReadOnlylist = BlockNodeIndexList;
                 Assert.That(BlockNodeIndexListAsFrameIReadOnlylist[0] == FirstBlockNodeIndex);
-                IReadOnlyBrowsingBlockNodeIndexList BlockNodeIndexListAsReadOnly = BlockNodeIndexList;
+                ReadOnlyBrowsingBlockNodeIndexList BlockNodeIndexListAsReadOnly = BlockNodeIndexList;
                 Assert.That(BlockNodeIndexListAsReadOnly[0] == FirstBlockNodeIndex);
                 IEnumerator<IFrameBrowsingBlockNodeIndex> BlockNodeIndexListFrameEnumerator = ((IFrameBrowsingBlockNodeIndexList)BlockNodeIndexList).GetEnumerator();
 
@@ -10080,7 +10078,7 @@ namespace Coverage
 
                 IsReadOnly = ((ICollection<IWriteableBrowsingListNodeIndex>)ListNodeIndexList).IsReadOnly;
                 IsReadOnly = ((IList<IWriteableBrowsingListNodeIndex>)ListNodeIndexList).IsReadOnly;
-                Assert.That(((IWriteableBrowsingListNodeIndexList)ListNodeIndexList)[0] == FirstListNodeIndex);
+                Assert.That(((WriteableBrowsingListNodeIndexList)ListNodeIndexList)[0] == FirstListNodeIndex);
                 ListNodeIndexList.CopyTo((IWriteableBrowsingListNodeIndex[])(new IFocusBrowsingListNodeIndex[ListNodeIndexList.Count]), 0);
                 IEnumerable<IWriteableBrowsingListNodeIndex> ListNodeIndexListAsWriteableEnumerable = ListNodeIndexList;
                 foreach (IWriteableBrowsingListNodeIndex Item in ListNodeIndexListAsWriteableEnumerable)
@@ -10099,7 +10097,7 @@ namespace Coverage
                 ListNodeIndexListAsWriteableIList.Insert(0, (IWriteableBrowsingListNodeIndex)FirstListNodeIndex);
                 IReadOnlyList<IWriteableBrowsingListNodeIndex> ListNodeIndexListAsWriteableIReadOnlylist = ListNodeIndexList;
                 Assert.That(ListNodeIndexListAsWriteableIReadOnlylist[0] == FirstListNodeIndex);
-                IEnumerator<IWriteableBrowsingListNodeIndex> ListNodeIndexListWriteableEnumerator = ((IWriteableBrowsingListNodeIndexList)ListNodeIndexList).GetEnumerator();
+                IEnumerator<IWriteableBrowsingListNodeIndex> ListNodeIndexListWriteableEnumerator = ((WriteableBrowsingListNodeIndexList)ListNodeIndexList).GetEnumerator();
 
                 IsReadOnly = ((ICollection<IFrameBrowsingListNodeIndex>)ListNodeIndexList).IsReadOnly;
                 IsReadOnly = ((IList<IFrameBrowsingListNodeIndex>)ListNodeIndexList).IsReadOnly;
@@ -10122,7 +10120,7 @@ namespace Coverage
                 ListNodeIndexListAsFrameIList.Insert(0, (IFrameBrowsingListNodeIndex)FirstListNodeIndex);
                 IReadOnlyList<IFrameBrowsingListNodeIndex> ListNodeIndexListAsFrameIReadOnlylist = ListNodeIndexList;
                 Assert.That(ListNodeIndexListAsFrameIReadOnlylist[0] == FirstListNodeIndex);
-                IReadOnlyBrowsingListNodeIndexList ListNodeIndexListAsReadOnly = ListNodeIndexList;
+                ReadOnlyBrowsingListNodeIndexList ListNodeIndexListAsReadOnly = ListNodeIndexList;
                 Assert.That(ListNodeIndexListAsReadOnly[0] == FirstListNodeIndex);
                 IEnumerator<IFrameBrowsingListNodeIndex> ListNodeIndexListFrameEnumerator = ((IFrameBrowsingListNodeIndexList)ListNodeIndexList).GetEnumerator();
 
@@ -10165,7 +10163,7 @@ namespace Coverage
                     }
 
 
-                    IWriteableIndexNodeStateDictionary WriteableControllerStateTable = ControllerStateTable as IWriteableIndexNodeStateDictionary;
+                    WriteableIndexNodeStateDictionary WriteableControllerStateTable = ControllerStateTable as WriteableIndexNodeStateDictionary;
                     foreach (KeyValuePair<IWriteableIndex, IWriteableNodeState> Entry in WriteableControllerStateTable)
                     {
                         break;
@@ -10234,7 +10232,7 @@ namespace Coverage
 
                 // IFocusIndexNodeStateReadOnlyDictionary
 
-                IReadOnlyIndexNodeStateReadOnlyDictionary ReadOnlyStateTable = Controller.StateTable;
+                ReadOnlyIndexNodeStateReadOnlyDictionary ReadOnlyStateTable = Controller.StateTable;
 
                 IReadOnlyDictionary<IReadOnlyIndex, IReadOnlyNodeState> ReadOnlyStateTableAsDictionary = ReadOnlyStateTable;
                 Assert.That(ReadOnlyStateTable.TryGetValue(RootIndex, out IReadOnlyNodeState ReadOnlyRootStateValue) == ReadOnlyStateTableAsDictionary.TryGetValue(RootIndex, out IReadOnlyNodeState ReadOnlyRootStateValueFromDictionary) && ReadOnlyRootStateValue == ReadOnlyRootStateValueFromDictionary);
@@ -10302,7 +10300,7 @@ namespace Coverage
                 }
 
 
-                IWriteableInnerDictionary<string> WriteableInnerTableModify = FocusInnerTableModify;
+                WriteableInnerDictionary<string> WriteableInnerTableModify = FocusInnerTableModify;
                 WriteableInnerTableModify.GetEnumerator();
                 IDictionary<string, IWriteableInner> WriteableInnerTableModifyAsDictionary = FocusInnerTableModify;
                 Assert.That(WriteableInnerTableModifyAsDictionary.Keys != null);
@@ -10374,7 +10372,7 @@ namespace Coverage
                 }
 
 
-                IWriteableInnerReadOnlyDictionary<string> WriteableInnerTable = RootState.InnerTable;
+                WriteableInnerReadOnlyDictionary<string> WriteableInnerTable = RootState.InnerTable;
                 IReadOnlyDictionary<string, IWriteableInner> WriteableInnerTableAsDictionary = FocusInnerTable;
                 Assert.That(WriteableInnerTableAsDictionary.Keys != null);
                 Assert.That(WriteableInnerTableAsDictionary.Values != null);
@@ -10415,7 +10413,7 @@ namespace Coverage
                 FocusNodeStateListModify.Remove((IReadOnlyNodeState)FirstNodeState);
                 FocusNodeStateListModify.Insert(0, (IReadOnlyNodeState)FirstNodeState);
                 FocusNodeStateListModify.CopyTo((IReadOnlyNodeState[])(new IFocusNodeState[FocusNodeStateListModify.Count]), 0);
-                IReadOnlyNodeStateList FocusNodeStateListModifyAsReadOnly = FocusNodeStateListModify as IReadOnlyNodeStateList;
+                ReadOnlyNodeStateList FocusNodeStateListModifyAsReadOnly = FocusNodeStateListModify as ReadOnlyNodeStateList;
                 Assert.That(FocusNodeStateListModifyAsReadOnly != null);
                 Assert.That(FocusNodeStateListModifyAsReadOnly[0] == FocusNodeStateListModify[0]);
                 IList<IReadOnlyNodeState> ReadOnlyNodeStateListModifyAsIList = FocusNodeStateListModify as IList<IReadOnlyNodeState>;
@@ -10432,7 +10430,7 @@ namespace Coverage
                 Assert.That(ReadOnlyNodeStateListModifyAsEnumerable.GetEnumerator() != null);
 
 
-                IWriteableNodeStateList FocusNodeStateListModifyAsWriteable = FocusNodeStateListModify as IWriteableNodeStateList;
+                WriteableNodeStateList FocusNodeStateListModifyAsWriteable = FocusNodeStateListModify as WriteableNodeStateList;
                 Assert.That(FocusNodeStateListModifyAsWriteable != null);
                 Assert.That(FocusNodeStateListModifyAsWriteable[0] == FocusNodeStateListModify[0]);
                 FocusNodeStateListModifyAsWriteable.GetEnumerator();
@@ -10501,7 +10499,7 @@ namespace Coverage
                 Assert.That(ReadOnlyNodeStateListAsEnumerable.GetEnumerator() != null);
 
 
-                IWriteableNodeStateReadOnlyList WriteableNodeStateList = FocusNodeStateList;
+                WriteableNodeStateReadOnlyList WriteableNodeStateList = FocusNodeStateList;
                 Assert.That(WriteableNodeStateList.Contains(FirstNodeState));
                 Assert.That(WriteableNodeStateList.IndexOf(FirstNodeState) == 0);
                 Assert.That(WriteableNodeStateList[0] == FocusNodeStateList[0]);
@@ -10513,7 +10511,7 @@ namespace Coverage
                 Assert.That(WriteableNodeStateListAsEnumerable.GetEnumerator() != null);
 
 
-                IFrameNodeStateReadOnlyList FrameNodeStateList = FocusNodeStateList;
+                FrameNodeStateReadOnlyList FrameNodeStateList = FocusNodeStateList;
                 Assert.That(FrameNodeStateList.Contains(FirstNodeState));
                 Assert.That(FrameNodeStateList.IndexOf(FirstNodeState) == 0);
                 Assert.That(FrameNodeStateList[0] == FocusNodeStateList[0]);
@@ -10538,13 +10536,13 @@ namespace Coverage
                     Assert.That(WriteableOperationGroupList.Count > 0);
                     Assert.That(WriteableOperationGroupList[0] == FirstOperationGroup);
                     WriteableOperationGroupList.GetEnumerator();
-                    IList<IWriteableOperationGroup> WriteableOperationGroupAsIList = WriteableOperationGroupList;
+                    IList<WriteableOperationGroup> WriteableOperationGroupAsIList = WriteableOperationGroupList;
                     Assert.That(WriteableOperationGroupAsIList.Count > 0);
                     Assert.That(WriteableOperationGroupAsIList[0] == FirstOperationGroup);
                     Assert.That(WriteableOperationGroupAsIList.IndexOf(FirstOperationGroup) == 0);
                     WriteableOperationGroupAsIList.Remove(FirstOperationGroup);
                     WriteableOperationGroupAsIList.Insert(0, FirstOperationGroup);
-                    ICollection<IWriteableOperationGroup> WriteableOperationGroupAsICollection = WriteableOperationGroupList;
+                    ICollection<WriteableOperationGroup> WriteableOperationGroupAsICollection = WriteableOperationGroupList;
                     Assert.That(WriteableOperationGroupAsICollection.Count > 0);
                     Assert.That(!WriteableOperationGroupAsICollection.IsReadOnly);
                     Assert.That(WriteableOperationGroupAsICollection.Contains(FirstOperationGroup));
@@ -10553,9 +10551,9 @@ namespace Coverage
                     WriteableOperationGroupAsICollection.Remove(FirstOperationGroup);
                     WriteableOperationGroupAsIList.Insert(0, FirstOperationGroup);
                     WriteableOperationGroupAsICollection.CopyTo(new IFocusOperationGroup[WriteableOperationGroupAsICollection.Count], 0);
-                    IEnumerable<IWriteableOperationGroup> WriteableOperationGroupAsIEnumerable = WriteableOperationGroupList;
+                    IEnumerable<WriteableOperationGroup> WriteableOperationGroupAsIEnumerable = WriteableOperationGroupList;
                     WriteableOperationGroupAsIEnumerable.GetEnumerator();
-                    IReadOnlyList<IWriteableOperationGroup> WriteableOperationGroupAsIReadOnlyList = WriteableOperationGroupList;
+                    IReadOnlyList<WriteableOperationGroup> WriteableOperationGroupAsIReadOnlyList = WriteableOperationGroupList;
                     Assert.That(WriteableOperationGroupAsIReadOnlyList.Count > 0);
                     Assert.That(WriteableOperationGroupAsIReadOnlyList[0] == FirstOperationGroup);
 
@@ -10590,7 +10588,7 @@ namespace Coverage
                 IWriteableOperationGroupReadOnlyList WriteableOperationStack = FocusOperationStack;
                 Assert.That(WriteableOperationStack.Contains(FirstOperationGroup));
                 Assert.That(WriteableOperationStack.IndexOf(FirstOperationGroup) == 0);
-                IEnumerable<IWriteableOperationGroup> WriteableOperationStackAsIEnumerable = WriteableOperationStack;
+                IEnumerable<WriteableOperationGroup> WriteableOperationStackAsIEnumerable = WriteableOperationStack;
                 WriteableOperationStackAsIEnumerable.GetEnumerator();
 
 
@@ -10696,7 +10694,7 @@ namespace Coverage
                     FocusPlaceholderNodeStateListModify.Remove((IReadOnlyPlaceholderNodeState)FirstNodeState);
                     FocusPlaceholderNodeStateListModify.Insert(0, (IReadOnlyPlaceholderNodeState)FirstNodeState);
                     FocusPlaceholderNodeStateListModify.CopyTo((IReadOnlyPlaceholderNodeState[])(new IFocusPlaceholderNodeState[FocusPlaceholderNodeStateListModify.Count]), 0);
-                    IReadOnlyPlaceholderNodeStateList FocusPlaceholderNodeStateListModifyAsReadOnly = FocusPlaceholderNodeStateListModify as IReadOnlyPlaceholderNodeStateList;
+                    ReadOnlyPlaceholderNodeStateList FocusPlaceholderNodeStateListModifyAsReadOnly = FocusPlaceholderNodeStateListModify as ReadOnlyPlaceholderNodeStateList;
                     Assert.That(FocusPlaceholderNodeStateListModifyAsReadOnly != null);
                     Assert.That(FocusPlaceholderNodeStateListModifyAsReadOnly[0] == FocusPlaceholderNodeStateListModify[0]);
                     IList<IReadOnlyPlaceholderNodeState> ReadOnlyPlaceholderNodeStateListModifyAsIList = FocusPlaceholderNodeStateListModify as IList<IReadOnlyPlaceholderNodeState>;
@@ -10717,7 +10715,7 @@ namespace Coverage
                     Assert.That(ReadOnlyPlaceholderNodeStateListModifyAsEnumerable.GetEnumerator() != null);
 
 
-                    IWriteablePlaceholderNodeStateList FocusPlaceholderNodeStateListModifyAsWriteable = FocusPlaceholderNodeStateListModify as IWriteablePlaceholderNodeStateList;
+                    WriteablePlaceholderNodeStateList FocusPlaceholderNodeStateListModifyAsWriteable = FocusPlaceholderNodeStateListModify as WriteablePlaceholderNodeStateList;
                     Assert.That(FocusPlaceholderNodeStateListModifyAsWriteable != null);
                     Assert.That(FocusPlaceholderNodeStateListModifyAsWriteable[0] == FocusPlaceholderNodeStateListModify[0]);
                     FocusPlaceholderNodeStateListModifyAsWriteable.GetEnumerator();
@@ -10788,7 +10786,7 @@ namespace Coverage
                     Assert.That(ReadOnlyPlaceholderNodeStateListAsEnumerable.GetEnumerator() != null);
 
 
-                    IWriteablePlaceholderNodeStateReadOnlyList WriteablePlaceholderNodeStateList = FocusPlaceholderNodeStateList;
+                    WriteablePlaceholderNodeStateReadOnlyList WriteablePlaceholderNodeStateList = FocusPlaceholderNodeStateList;
                     Assert.That(WriteablePlaceholderNodeStateList.Contains(FirstNodeState));
                     Assert.That(WriteablePlaceholderNodeStateList.IndexOf(FirstNodeState) == 0);
                     Assert.That(WriteablePlaceholderNodeStateList[0] == FocusPlaceholderNodeStateList[0]);
@@ -10814,7 +10812,7 @@ namespace Coverage
 
                 // IFocusStateViewDictionary
                 IFocusStateViewDictionary FocusStateViewTable = ControllerView.StateViewTable;
-                IWriteableStateViewDictionary WriteableStateViewTable = ControllerView.StateViewTable;
+                WriteableStateViewDictionary WriteableStateViewTable = ControllerView.StateViewTable;
                 WriteableStateViewTable.GetEnumerator();
                 IFrameStateViewDictionary FrameStateViewTable = ControllerView.StateViewTable;
                 FrameStateViewTable.GetEnumerator();
@@ -11015,7 +11013,7 @@ namespace Coverage
                 Assert.That(VisibleCellViewList.Count> 0);
                 IFocusVisibleCellView FirstVisibleCellView = VisibleCellViewList[0];
 
-                IFrameVisibleCellViewList FrameVisibleCellViewList = VisibleCellViewList;
+                FrameVisibleCellViewList FrameVisibleCellViewList = VisibleCellViewList;
                 Assert.That(FrameVisibleCellViewList[0] == FirstVisibleCellView);
                 IList<IFrameVisibleCellView> FrameVisibleCellViewListAsList = FrameVisibleCellViewList;
                 Assert.That(FrameVisibleCellViewListAsList[0] == FirstVisibleCellView);
@@ -15022,7 +15020,7 @@ namespace Coverage
             ILayoutController ControllerBase = LayoutController.Create(RootIndex);
             ILayoutController Controller = LayoutController.Create(RootIndex);
 
-            IReadOnlyIndexNodeStateDictionary ControllerStateTable = DebugObjects.GetReferenceByInterface(typeof(ILayoutIndexNodeStateDictionary)) as IReadOnlyIndexNodeStateDictionary;
+            ReadOnlyIndexNodeStateDictionary ControllerStateTable = DebugObjects.GetReferenceByInterface(typeof(ILayoutIndexNodeStateDictionary)) as ReadOnlyIndexNodeStateDictionary;
 
             using (ILayoutControllerView ControllerView = LayoutControllerView.Create(Controller, TestDebug.CoverageLayoutTemplateSet.LayoutTemplateSet, TestDebug.LayoutDrawPrintContext.Default))
             {
@@ -15030,107 +15028,107 @@ namespace Coverage
 
                 // IxxxBlockStateViewDictionary 
 
-                IReadOnlyBlockStateViewDictionary ReadOnlyBlockStateViewTable = ControllerView.BlockStateViewTable;
-                foreach (KeyValuePair<IReadOnlyBlockState, IReadOnlyBlockStateView> Entry in ReadOnlyBlockStateViewTable)
+                ReadOnlyBlockStateViewDictionary ReadOnlyBlockStateViewTable = ControllerView.BlockStateViewTable;
+                foreach (KeyValuePair<IReadOnlyBlockState, ReadOnlyBlockStateView> Entry in ReadOnlyBlockStateViewTable)
                 {
-                    IReadOnlyBlockStateView StateView = ReadOnlyBlockStateViewTable[Entry.Key];
-                    ReadOnlyBlockStateViewTable.TryGetValue(Entry.Key, out IReadOnlyBlockStateView Value);
+                    ReadOnlyBlockStateView StateView = ReadOnlyBlockStateViewTable[Entry.Key];
+                    ReadOnlyBlockStateViewTable.TryGetValue(Entry.Key, out ReadOnlyBlockStateView Value);
                     ReadOnlyBlockStateViewTable.Contains(Entry);
                     ReadOnlyBlockStateViewTable.Remove(Entry.Key);
                     ReadOnlyBlockStateViewTable.Add(Entry.Key, Entry.Value);
                     ICollection<IReadOnlyBlockState> Keys = ReadOnlyBlockStateViewTable.Keys;
-                    ICollection<IReadOnlyBlockStateView> Values = ReadOnlyBlockStateViewTable.Values;
+                    ICollection<ReadOnlyBlockStateView> Values = ReadOnlyBlockStateViewTable.Values;
 
                     break;
                 }
-                IDictionary<IReadOnlyBlockState, IReadOnlyBlockStateView> ReadOnlyBlockStateViewTableAsDictionary = ReadOnlyBlockStateViewTable;
-                foreach (KeyValuePair<IReadOnlyBlockState, IReadOnlyBlockStateView> Entry in ReadOnlyBlockStateViewTableAsDictionary)
+                IDictionary<IReadOnlyBlockState, ReadOnlyBlockStateView> ReadOnlyBlockStateViewTableAsDictionary = ReadOnlyBlockStateViewTable;
+                foreach (KeyValuePair<IReadOnlyBlockState, ReadOnlyBlockStateView> Entry in ReadOnlyBlockStateViewTableAsDictionary)
                 {
-                    IReadOnlyBlockStateView StateView = ReadOnlyBlockStateViewTableAsDictionary[Entry.Key];
+                    ReadOnlyBlockStateView StateView = ReadOnlyBlockStateViewTableAsDictionary[Entry.Key];
                     break;
                 }
-                ICollection<KeyValuePair<IReadOnlyBlockState, IReadOnlyBlockStateView>> ReadOnlyBlockStateViewTableAsCollection = ReadOnlyBlockStateViewTable;
+                ICollection<KeyValuePair<IReadOnlyBlockState, ReadOnlyBlockStateView>> ReadOnlyBlockStateViewTableAsCollection = ReadOnlyBlockStateViewTable;
                 IsReadOnly = ReadOnlyBlockStateViewTableAsCollection.IsReadOnly;
-                foreach (KeyValuePair<IReadOnlyBlockState, IReadOnlyBlockStateView> Entry in ReadOnlyBlockStateViewTableAsCollection)
+                foreach (KeyValuePair<IReadOnlyBlockState, ReadOnlyBlockStateView> Entry in ReadOnlyBlockStateViewTableAsCollection)
                 {
                     ReadOnlyBlockStateViewTableAsCollection.Contains(Entry);
                     ReadOnlyBlockStateViewTableAsCollection.Remove(Entry);
                     ReadOnlyBlockStateViewTableAsCollection.Add(Entry);
-                    ReadOnlyBlockStateViewTableAsCollection.CopyTo(new KeyValuePair<IReadOnlyBlockState, IReadOnlyBlockStateView>[ReadOnlyBlockStateViewTableAsCollection.Count], 0);
+                    ReadOnlyBlockStateViewTableAsCollection.CopyTo(new KeyValuePair<IReadOnlyBlockState, ReadOnlyBlockStateView>[ReadOnlyBlockStateViewTableAsCollection.Count], 0);
                     break;
                 }
-                IEnumerable<KeyValuePair<IReadOnlyBlockState, IReadOnlyBlockStateView>> ReadOnlyBlockStateViewTableAsEnumerable = ReadOnlyBlockStateViewTable;
-                foreach (KeyValuePair<IReadOnlyBlockState, IReadOnlyBlockStateView> Entry in ReadOnlyBlockStateViewTableAsEnumerable)
+                IEnumerable<KeyValuePair<IReadOnlyBlockState, ReadOnlyBlockStateView>> ReadOnlyBlockStateViewTableAsEnumerable = ReadOnlyBlockStateViewTable;
+                foreach (KeyValuePair<IReadOnlyBlockState, ReadOnlyBlockStateView> Entry in ReadOnlyBlockStateViewTableAsEnumerable)
                 {
                     break;
                 }
 
                 IWriteableBlockStateViewDictionary WriteableBlockStateViewTable = ControllerView.BlockStateViewTable;
-                foreach (KeyValuePair<IWriteableBlockState, IWriteableBlockStateView> Entry in WriteableBlockStateViewTable)
+                foreach (KeyValuePair<IWriteableBlockState, WriteableBlockStateView> Entry in WriteableBlockStateViewTable)
                 {
-                    IWriteableBlockStateView StateView = WriteableBlockStateViewTable[Entry.Key];
-                    WriteableBlockStateViewTable.TryGetValue(Entry.Key, out IWriteableBlockStateView Value);
+                    WriteableBlockStateView StateView = WriteableBlockStateViewTable[Entry.Key];
+                    WriteableBlockStateViewTable.TryGetValue(Entry.Key, out WriteableBlockStateView Value);
                     WriteableBlockStateViewTable.Contains(Entry);
                     WriteableBlockStateViewTable.Remove(Entry.Key);
                     WriteableBlockStateViewTable.Add(Entry.Key, Entry.Value);
-                    ICollection<IWriteableBlockState> Keys = ((IDictionary<IWriteableBlockState, IWriteableBlockStateView>)WriteableBlockStateViewTable).Keys;
-                    ICollection<IWriteableBlockStateView> Values = ((IDictionary<IWriteableBlockState, IWriteableBlockStateView>)WriteableBlockStateViewTable).Values;
+                    ICollection<IWriteableBlockState> Keys = ((IDictionary<IWriteableBlockState, WriteableBlockStateView>)WriteableBlockStateViewTable).Keys;
+                    ICollection<WriteableBlockStateView> Values = ((IDictionary<IWriteableBlockState, WriteableBlockStateView>)WriteableBlockStateViewTable).Values;
 
                     break;
                 }
-                IDictionary<IWriteableBlockState, IWriteableBlockStateView> WriteableBlockStateViewTableAsDictionary = WriteableBlockStateViewTable;
-                foreach (KeyValuePair<IWriteableBlockState, IWriteableBlockStateView> Entry in WriteableBlockStateViewTableAsDictionary)
+                IDictionary<IWriteableBlockState, WriteableBlockStateView> WriteableBlockStateViewTableAsDictionary = WriteableBlockStateViewTable;
+                foreach (KeyValuePair<IWriteableBlockState, WriteableBlockStateView> Entry in WriteableBlockStateViewTableAsDictionary)
                 {
-                    IWriteableBlockStateView StateView = WriteableBlockStateViewTableAsDictionary[Entry.Key];
+                    WriteableBlockStateView StateView = WriteableBlockStateViewTableAsDictionary[Entry.Key];
                     break;
                 }
-                ICollection<KeyValuePair<IWriteableBlockState, IWriteableBlockStateView>> WriteableBlockStateViewTableAsCollection = WriteableBlockStateViewTable;
+                ICollection<KeyValuePair<IWriteableBlockState, WriteableBlockStateView>> WriteableBlockStateViewTableAsCollection = WriteableBlockStateViewTable;
                 IsReadOnly = WriteableBlockStateViewTableAsCollection.IsReadOnly;
-                foreach (KeyValuePair<IWriteableBlockState, IWriteableBlockStateView> Entry in WriteableBlockStateViewTableAsCollection)
+                foreach (KeyValuePair<IWriteableBlockState, WriteableBlockStateView> Entry in WriteableBlockStateViewTableAsCollection)
                 {
                     WriteableBlockStateViewTableAsCollection.Contains(Entry);
                     WriteableBlockStateViewTableAsCollection.Remove(Entry);
                     WriteableBlockStateViewTableAsCollection.Add(Entry);
-                    WriteableBlockStateViewTableAsCollection.CopyTo(new KeyValuePair<IWriteableBlockState, IWriteableBlockStateView>[WriteableBlockStateViewTableAsCollection.Count], 0);
+                    WriteableBlockStateViewTableAsCollection.CopyTo(new KeyValuePair<IWriteableBlockState, WriteableBlockStateView>[WriteableBlockStateViewTableAsCollection.Count], 0);
                     break;
                 }
-                IEnumerable<KeyValuePair<IWriteableBlockState, IWriteableBlockStateView>> WriteableBlockStateViewTableAsEnumerable = WriteableBlockStateViewTable;
-                foreach (KeyValuePair<IWriteableBlockState, IWriteableBlockStateView> Entry in WriteableBlockStateViewTableAsEnumerable)
+                IEnumerable<KeyValuePair<IWriteableBlockState, WriteableBlockStateView>> WriteableBlockStateViewTableAsEnumerable = WriteableBlockStateViewTable;
+                foreach (KeyValuePair<IWriteableBlockState, WriteableBlockStateView> Entry in WriteableBlockStateViewTableAsEnumerable)
                 {
                     break;
                 }
 
                 IFrameBlockStateViewDictionary FrameBlockStateViewTable = ControllerView.BlockStateViewTable;
-                foreach (KeyValuePair<IFrameBlockState, IFrameBlockStateView> Entry in FrameBlockStateViewTable)
+                foreach (KeyValuePair<IFrameBlockState, FrameBlockStateView> Entry in FrameBlockStateViewTable)
                 {
-                    IFrameBlockStateView StateView = FrameBlockStateViewTable[Entry.Key];
-                    FrameBlockStateViewTable.TryGetValue(Entry.Key, out IFrameBlockStateView Value);
+                    FrameBlockStateView StateView = FrameBlockStateViewTable[Entry.Key];
+                    FrameBlockStateViewTable.TryGetValue(Entry.Key, out FrameBlockStateView Value);
                     FrameBlockStateViewTable.Contains(Entry);
                     FrameBlockStateViewTable.Remove(Entry.Key);
                     FrameBlockStateViewTable.Add(Entry.Key, Entry.Value);
-                    ICollection<IFrameBlockState> Keys = ((IDictionary<IFrameBlockState, IFrameBlockStateView>)FrameBlockStateViewTable).Keys;
-                    ICollection<IFrameBlockStateView> Values = ((IDictionary<IFrameBlockState, IFrameBlockStateView>)FrameBlockStateViewTable).Values;
+                    ICollection<IFrameBlockState> Keys = ((IDictionary<IFrameBlockState, FrameBlockStateView>)FrameBlockStateViewTable).Keys;
+                    ICollection<FrameBlockStateView> Values = ((IDictionary<IFrameBlockState, FrameBlockStateView>)FrameBlockStateViewTable).Values;
 
                     break;
                 }
-                IDictionary<IFrameBlockState, IFrameBlockStateView> FrameBlockStateViewTableAsDictionary = FrameBlockStateViewTable;
-                foreach (KeyValuePair<IFrameBlockState, IFrameBlockStateView> Entry in FrameBlockStateViewTableAsDictionary)
+                IDictionary<IFrameBlockState, FrameBlockStateView> FrameBlockStateViewTableAsDictionary = FrameBlockStateViewTable;
+                foreach (KeyValuePair<IFrameBlockState, FrameBlockStateView> Entry in FrameBlockStateViewTableAsDictionary)
                 {
-                    IFrameBlockStateView StateView = FrameBlockStateViewTableAsDictionary[Entry.Key];
+                    FrameBlockStateView StateView = FrameBlockStateViewTableAsDictionary[Entry.Key];
                     break;
                 }
-                ICollection<KeyValuePair<IFrameBlockState, IFrameBlockStateView>> FrameBlockStateViewTableAsCollection = FrameBlockStateViewTable;
+                ICollection<KeyValuePair<IFrameBlockState, FrameBlockStateView>> FrameBlockStateViewTableAsCollection = FrameBlockStateViewTable;
                 IsReadOnly = FrameBlockStateViewTableAsCollection.IsReadOnly;
-                foreach (KeyValuePair<IFrameBlockState, IFrameBlockStateView> Entry in FrameBlockStateViewTableAsCollection)
+                foreach (KeyValuePair<IFrameBlockState, FrameBlockStateView> Entry in FrameBlockStateViewTableAsCollection)
                 {
                     FrameBlockStateViewTableAsCollection.Contains(Entry);
                     FrameBlockStateViewTableAsCollection.Remove(Entry);
                     FrameBlockStateViewTableAsCollection.Add(Entry);
-                    FrameBlockStateViewTableAsCollection.CopyTo(new KeyValuePair<IFrameBlockState, IFrameBlockStateView>[FrameBlockStateViewTableAsCollection.Count], 0);
+                    FrameBlockStateViewTableAsCollection.CopyTo(new KeyValuePair<IFrameBlockState, FrameBlockStateView>[FrameBlockStateViewTableAsCollection.Count], 0);
                     break;
                 }
-                IEnumerable<KeyValuePair<IFrameBlockState, IFrameBlockStateView>> FrameBlockStateViewTableAsEnumerable = FrameBlockStateViewTable;
-                foreach (KeyValuePair<IFrameBlockState, IFrameBlockStateView> Entry in FrameBlockStateViewTableAsEnumerable)
+                IEnumerable<KeyValuePair<IFrameBlockState, FrameBlockStateView>> FrameBlockStateViewTableAsEnumerable = FrameBlockStateViewTable;
+                foreach (KeyValuePair<IFrameBlockState, FrameBlockStateView> Entry in FrameBlockStateViewTableAsEnumerable)
                 {
                     break;
                 }
@@ -15209,7 +15207,7 @@ namespace Coverage
 
                     IsReadOnly = ((ICollection<IWriteableBlockState>)DebugBlockStateList).IsReadOnly;
                     IsReadOnly = ((IList<IWriteableBlockState>)DebugBlockStateList).IsReadOnly;
-                    Assert.That(((IWriteableBlockStateList)DebugBlockStateList)[0] == FirstBlockState);
+                    Assert.That(((WriteableBlockStateList)DebugBlockStateList)[0] == FirstBlockState);
                     DebugBlockStateList.CopyTo((IWriteableBlockState[])(new ILayoutBlockState[DebugBlockStateList.Count]), 0);
                     IEnumerable<IWriteableBlockState> BlockStateListAsWriteableEnumerable = DebugBlockStateList;
                     foreach (IWriteableBlockState Item in BlockStateListAsWriteableEnumerable)
@@ -15228,7 +15226,7 @@ namespace Coverage
                     BlockStateListAsWriteableIList.Insert(0, (IWriteableBlockState)FirstBlockState);
                     IReadOnlyList<IWriteableBlockState> BlockStateListAsWriteableIReadOnlylist = DebugBlockStateList;
                     Assert.That(BlockStateListAsWriteableIReadOnlylist[0] == FirstBlockState);
-                    IEnumerator<IWriteableBlockState> DebugBlockStateListWriteableEnumerator = ((IWriteableBlockStateList)DebugBlockStateList).GetEnumerator();
+                    IEnumerator<IWriteableBlockState> DebugBlockStateListWriteableEnumerator = ((WriteableBlockStateList)DebugBlockStateList).GetEnumerator();
 
                     IsReadOnly = ((ICollection<IFrameBlockState>)DebugBlockStateList).IsReadOnly;
                     IsReadOnly = ((IList<IFrameBlockState>)DebugBlockStateList).IsReadOnly;
@@ -15335,7 +15333,7 @@ namespace Coverage
 
                 IsReadOnly = ((ICollection<IWriteableBrowsingBlockNodeIndex>)BlockNodeIndexList).IsReadOnly;
                 IsReadOnly = ((IList<IWriteableBrowsingBlockNodeIndex>)BlockNodeIndexList).IsReadOnly;
-                Assert.That(((IWriteableBrowsingBlockNodeIndexList)BlockNodeIndexList)[0] == FirstBlockNodeIndex);
+                Assert.That(((WriteableBrowsingBlockNodeIndexList)BlockNodeIndexList)[0] == FirstBlockNodeIndex);
                 BlockNodeIndexList.CopyTo((IWriteableBrowsingBlockNodeIndex[])(new ILayoutBrowsingBlockNodeIndex[BlockNodeIndexList.Count]), 0);
                 IEnumerable<IWriteableBrowsingBlockNodeIndex> BlockNodeIndexListAsWriteableEnumerable = BlockNodeIndexList;
                 foreach (IWriteableBrowsingBlockNodeIndex Item in BlockNodeIndexListAsWriteableEnumerable)
@@ -15354,7 +15352,7 @@ namespace Coverage
                 BlockNodeIndexListAsWriteableIList.Insert(0, (IWriteableBrowsingBlockNodeIndex)FirstBlockNodeIndex);
                 IReadOnlyList<IWriteableBrowsingBlockNodeIndex> BlockNodeIndexListAsWriteableIReadOnlylist = BlockNodeIndexList;
                 Assert.That(BlockNodeIndexListAsWriteableIReadOnlylist[0] == FirstBlockNodeIndex);
-                IEnumerator<IWriteableBrowsingBlockNodeIndex> BlockNodeIndexListWriteableEnumerator = ((IWriteableBrowsingBlockNodeIndexList)BlockNodeIndexList).GetEnumerator();
+                IEnumerator<IWriteableBrowsingBlockNodeIndex> BlockNodeIndexListWriteableEnumerator = ((WriteableBrowsingBlockNodeIndexList)BlockNodeIndexList).GetEnumerator();
 
                 IsReadOnly = ((ICollection<IFrameBrowsingBlockNodeIndex>)BlockNodeIndexList).IsReadOnly;
                 IsReadOnly = ((IList<IFrameBrowsingBlockNodeIndex>)BlockNodeIndexList).IsReadOnly;
@@ -15377,7 +15375,7 @@ namespace Coverage
                 BlockNodeIndexListAsFrameIList.Insert(0, (IFrameBrowsingBlockNodeIndex)FirstBlockNodeIndex);
                 IReadOnlyList<IFrameBrowsingBlockNodeIndex> BlockNodeIndexListAsFrameIReadOnlylist = BlockNodeIndexList;
                 Assert.That(BlockNodeIndexListAsFrameIReadOnlylist[0] == FirstBlockNodeIndex);
-                IReadOnlyBrowsingBlockNodeIndexList FrameBlockNodeIndexListAsReadOnly = BlockNodeIndexList;
+                ReadOnlyBrowsingBlockNodeIndexList FrameBlockNodeIndexListAsReadOnly = BlockNodeIndexList;
                 Assert.That(FrameBlockNodeIndexListAsReadOnly[0] == FirstBlockNodeIndex);
                 IEnumerator<IFrameBrowsingBlockNodeIndex> BlockNodeIndexListFrameEnumerator = ((IFrameBrowsingBlockNodeIndexList)BlockNodeIndexList).GetEnumerator();
 
@@ -15402,7 +15400,7 @@ namespace Coverage
                 BlockNodeIndexListAsFocusIList.Insert(0, (IFocusBrowsingBlockNodeIndex)FirstBlockNodeIndex);
                 IReadOnlyList<IFocusBrowsingBlockNodeIndex> BlockNodeIndexListAsFocusIReadOnlylist = BlockNodeIndexList;
                 Assert.That(BlockNodeIndexListAsFocusIReadOnlylist[0] == FirstBlockNodeIndex);
-                IReadOnlyBrowsingBlockNodeIndexList FocusBlockNodeIndexListAsReadOnly = BlockNodeIndexList;
+                ReadOnlyBrowsingBlockNodeIndexList FocusBlockNodeIndexListAsReadOnly = BlockNodeIndexList;
                 Assert.That(FocusBlockNodeIndexListAsReadOnly[0] == FirstBlockNodeIndex);
                 IEnumerator<IFocusBrowsingBlockNodeIndex> BlockNodeIndexListFocusEnumerator = ((IFocusBrowsingBlockNodeIndexList)BlockNodeIndexList).GetEnumerator();
 
@@ -15433,7 +15431,7 @@ namespace Coverage
 
                 IsReadOnly = ((ICollection<IWriteableBrowsingListNodeIndex>)ListNodeIndexList).IsReadOnly;
                 IsReadOnly = ((IList<IWriteableBrowsingListNodeIndex>)ListNodeIndexList).IsReadOnly;
-                Assert.That(((IWriteableBrowsingListNodeIndexList)ListNodeIndexList)[0] == FirstListNodeIndex);
+                Assert.That(((WriteableBrowsingListNodeIndexList)ListNodeIndexList)[0] == FirstListNodeIndex);
                 ListNodeIndexList.CopyTo((IWriteableBrowsingListNodeIndex[])(new ILayoutBrowsingListNodeIndex[ListNodeIndexList.Count]), 0);
                 IEnumerable<IWriteableBrowsingListNodeIndex> ListNodeIndexListAsWriteableEnumerable = ListNodeIndexList;
                 foreach (IWriteableBrowsingListNodeIndex Item in ListNodeIndexListAsWriteableEnumerable)
@@ -15452,7 +15450,7 @@ namespace Coverage
                 ListNodeIndexListAsWriteableIList.Insert(0, (IWriteableBrowsingListNodeIndex)FirstListNodeIndex);
                 IReadOnlyList<IWriteableBrowsingListNodeIndex> ListNodeIndexListAsWriteableIReadOnlylist = ListNodeIndexList;
                 Assert.That(ListNodeIndexListAsWriteableIReadOnlylist[0] == FirstListNodeIndex);
-                IEnumerator<IWriteableBrowsingListNodeIndex> ListNodeIndexListWriteableEnumerator = ((IWriteableBrowsingListNodeIndexList)ListNodeIndexList).GetEnumerator();
+                IEnumerator<IWriteableBrowsingListNodeIndex> ListNodeIndexListWriteableEnumerator = ((WriteableBrowsingListNodeIndexList)ListNodeIndexList).GetEnumerator();
 
                 IsReadOnly = ((ICollection<IFrameBrowsingListNodeIndex>)ListNodeIndexList).IsReadOnly;
                 IsReadOnly = ((IList<IFrameBrowsingListNodeIndex>)ListNodeIndexList).IsReadOnly;
@@ -15475,7 +15473,7 @@ namespace Coverage
                 ListNodeIndexListAsFrameIList.Insert(0, (IFrameBrowsingListNodeIndex)FirstListNodeIndex);
                 IReadOnlyList<IFrameBrowsingListNodeIndex> ListNodeIndexListAsFrameIReadOnlylist = ListNodeIndexList;
                 Assert.That(ListNodeIndexListAsFrameIReadOnlylist[0] == FirstListNodeIndex);
-                IReadOnlyBrowsingListNodeIndexList FrameListNodeIndexListAsReadOnly = ListNodeIndexList;
+                ReadOnlyBrowsingListNodeIndexList FrameListNodeIndexListAsReadOnly = ListNodeIndexList;
                 Assert.That(FrameListNodeIndexListAsReadOnly[0] == FirstListNodeIndex);
                 IEnumerator<IFrameBrowsingListNodeIndex> ListNodeIndexListFrameEnumerator = ((IFrameBrowsingListNodeIndexList)ListNodeIndexList).GetEnumerator();
 
@@ -15500,7 +15498,7 @@ namespace Coverage
                 ListNodeIndexListAsFocusIList.Insert(0, (IFocusBrowsingListNodeIndex)FirstListNodeIndex);
                 IReadOnlyList<IFocusBrowsingListNodeIndex> ListNodeIndexListAsFocusIReadOnlylist = ListNodeIndexList;
                 Assert.That(ListNodeIndexListAsFocusIReadOnlylist[0] == FirstListNodeIndex);
-                IReadOnlyBrowsingListNodeIndexList FocusListNodeIndexListAsReadOnly = ListNodeIndexList;
+                ReadOnlyBrowsingListNodeIndexList FocusListNodeIndexListAsReadOnly = ListNodeIndexList;
                 Assert.That(FocusListNodeIndexListAsReadOnly[0] == FirstListNodeIndex);
                 IEnumerator<IFocusBrowsingListNodeIndex> ListNodeIndexListFocusEnumerator = ((IFocusBrowsingListNodeIndexList)ListNodeIndexList).GetEnumerator();
 
@@ -15543,7 +15541,7 @@ namespace Coverage
                         break;
                     }
 
-                    IWriteableIndexNodeStateDictionary WriteableControllerStateTable = ControllerStateTable as IWriteableIndexNodeStateDictionary;
+                    WriteableIndexNodeStateDictionary WriteableControllerStateTable = ControllerStateTable as WriteableIndexNodeStateDictionary;
                     foreach (KeyValuePair<IWriteableIndex, IWriteableNodeState> Entry in WriteableControllerStateTable)
                     {
                         break;
@@ -15643,7 +15641,7 @@ namespace Coverage
 
                 // ILayoutIndexNodeStateReadOnlyDictionary
 
-                IReadOnlyIndexNodeStateReadOnlyDictionary ReadOnlyStateTable = Controller.StateTable;
+                ReadOnlyIndexNodeStateReadOnlyDictionary ReadOnlyStateTable = Controller.StateTable;
 
                 IReadOnlyDictionary<IReadOnlyIndex, IReadOnlyNodeState> ReadOnlyStateTableAsDictionary = ReadOnlyStateTable;
                 Assert.That(ReadOnlyStateTable.TryGetValue(RootIndex, out IReadOnlyNodeState ReadOnlyRootStateValue) == ReadOnlyStateTableAsDictionary.TryGetValue(RootIndex, out IReadOnlyNodeState ReadOnlyRootStateValueFromDictionary) && ReadOnlyRootStateValue == ReadOnlyRootStateValueFromDictionary);
@@ -15721,7 +15719,7 @@ namespace Coverage
                     break;
                 }
 
-                IWriteableInnerDictionary<string> WriteableInnerTableModify = LayoutInnerTableModify;
+                WriteableInnerDictionary<string> WriteableInnerTableModify = LayoutInnerTableModify;
                 WriteableInnerTableModify.GetEnumerator();
                 IDictionary<string, IWriteableInner> WriteableInnerTableModifyAsDictionary = LayoutInnerTableModify;
                 Assert.That(WriteableInnerTableModifyAsDictionary.Keys != null);
@@ -15819,7 +15817,7 @@ namespace Coverage
                     break;
                 }
 
-                IWriteableInnerReadOnlyDictionary<string> WriteableInnerTable = RootState.InnerTable;
+                WriteableInnerReadOnlyDictionary<string> WriteableInnerTable = RootState.InnerTable;
                 IReadOnlyDictionary<string, IWriteableInner> WriteableInnerTableAsDictionary = LayoutInnerTable;
                 Assert.That(WriteableInnerTableAsDictionary.Keys != null);
                 Assert.That(WriteableInnerTableAsDictionary.Values != null);
@@ -15872,7 +15870,7 @@ namespace Coverage
                 LayoutNodeStateListModify.Remove((IReadOnlyNodeState)FirstNodeState);
                 LayoutNodeStateListModify.Insert(0, (IReadOnlyNodeState)FirstNodeState);
                 LayoutNodeStateListModify.CopyTo((IReadOnlyNodeState[])(new ILayoutNodeState[LayoutNodeStateListModify.Count]), 0);
-                IReadOnlyNodeStateList LayoutNodeStateListModifyAsReadOnly = LayoutNodeStateListModify as IReadOnlyNodeStateList;
+                ReadOnlyNodeStateList LayoutNodeStateListModifyAsReadOnly = LayoutNodeStateListModify as ReadOnlyNodeStateList;
                 Assert.That(LayoutNodeStateListModifyAsReadOnly != null);
                 Assert.That(LayoutNodeStateListModifyAsReadOnly[0] == LayoutNodeStateListModify[0]);
                 IList<IReadOnlyNodeState> ReadOnlyNodeStateListModifyAsIList = LayoutNodeStateListModify as IList<IReadOnlyNodeState>;
@@ -15888,7 +15886,7 @@ namespace Coverage
                 Assert.That(ReadOnlyNodeStateListModifyAsEnumerable != null);
                 Assert.That(ReadOnlyNodeStateListModifyAsEnumerable.GetEnumerator() != null);
 
-                IWriteableNodeStateList LayoutNodeStateListModifyAsWriteable = LayoutNodeStateListModify as IWriteableNodeStateList;
+                WriteableNodeStateList LayoutNodeStateListModifyAsWriteable = LayoutNodeStateListModify as WriteableNodeStateList;
                 Assert.That(LayoutNodeStateListModifyAsWriteable != null);
                 Assert.That(LayoutNodeStateListModifyAsWriteable[0] == LayoutNodeStateListModify[0]);
                 LayoutNodeStateListModifyAsWriteable.GetEnumerator();
@@ -15981,7 +15979,7 @@ namespace Coverage
                 Assert.That(ReadOnlyNodeStateListAsEnumerable != null);
                 Assert.That(ReadOnlyNodeStateListAsEnumerable.GetEnumerator() != null);
 
-                IWriteableNodeStateReadOnlyList WriteableNodeStateList = LayoutNodeStateList;
+                WriteableNodeStateReadOnlyList WriteableNodeStateList = LayoutNodeStateList;
                 Assert.That(WriteableNodeStateList.Contains(FirstNodeState));
                 Assert.That(WriteableNodeStateList.IndexOf(FirstNodeState) == 0);
                 Assert.That(WriteableNodeStateList[0] == LayoutNodeStateList[0]);
@@ -15992,7 +15990,7 @@ namespace Coverage
                 Assert.That(WriteableNodeStateListAsEnumerable != null);
                 Assert.That(WriteableNodeStateListAsEnumerable.GetEnumerator() != null);
 
-                IFrameNodeStateReadOnlyList FrameNodeStateList = LayoutNodeStateList;
+                FrameNodeStateReadOnlyList FrameNodeStateList = LayoutNodeStateList;
                 Assert.That(FrameNodeStateList.Contains(FirstNodeState));
                 Assert.That(FrameNodeStateList.IndexOf(FirstNodeState) == 0);
                 Assert.That(FrameNodeStateList[0] == LayoutNodeStateList[0]);
@@ -16027,13 +16025,13 @@ namespace Coverage
                     Assert.That(WriteableOperationGroupList.Count > 0);
                     Assert.That(WriteableOperationGroupList[0] == FirstOperationGroup);
                     WriteableOperationGroupList.GetEnumerator();
-                    IList<IWriteableOperationGroup> WriteableOperationGroupAsIList = WriteableOperationGroupList;
+                    IList<WriteableOperationGroup> WriteableOperationGroupAsIList = WriteableOperationGroupList;
                     Assert.That(WriteableOperationGroupAsIList.Count > 0);
                     Assert.That(WriteableOperationGroupAsIList[0] == FirstOperationGroup);
                     Assert.That(WriteableOperationGroupAsIList.IndexOf(FirstOperationGroup) == 0);
                     WriteableOperationGroupAsIList.Remove(FirstOperationGroup);
                     WriteableOperationGroupAsIList.Insert(0, FirstOperationGroup);
-                    ICollection<IWriteableOperationGroup> WriteableOperationGroupAsICollection = WriteableOperationGroupList;
+                    ICollection<WriteableOperationGroup> WriteableOperationGroupAsICollection = WriteableOperationGroupList;
                     Assert.That(WriteableOperationGroupAsICollection.Count > 0);
                     Assert.That(!WriteableOperationGroupAsICollection.IsReadOnly);
                     Assert.That(WriteableOperationGroupAsICollection.Contains(FirstOperationGroup));
@@ -16042,9 +16040,9 @@ namespace Coverage
                     WriteableOperationGroupAsICollection.Remove(FirstOperationGroup);
                     WriteableOperationGroupAsIList.Insert(0, FirstOperationGroup);
                     WriteableOperationGroupAsICollection.CopyTo(new ILayoutOperationGroup[WriteableOperationGroupAsICollection.Count], 0);
-                    IEnumerable<IWriteableOperationGroup> WriteableOperationGroupAsIEnumerable = WriteableOperationGroupList;
+                    IEnumerable<WriteableOperationGroup> WriteableOperationGroupAsIEnumerable = WriteableOperationGroupList;
                     WriteableOperationGroupAsIEnumerable.GetEnumerator();
-                    IReadOnlyList<IWriteableOperationGroup> WriteableOperationGroupAsIReadOnlyList = WriteableOperationGroupList;
+                    IReadOnlyList<WriteableOperationGroup> WriteableOperationGroupAsIReadOnlyList = WriteableOperationGroupList;
                     Assert.That(WriteableOperationGroupAsIReadOnlyList.Count > 0);
                     Assert.That(WriteableOperationGroupAsIReadOnlyList[0] == FirstOperationGroup);
 
@@ -16104,7 +16102,7 @@ namespace Coverage
                 IWriteableOperationGroupReadOnlyList WriteableOperationStack = LayoutOperationStack;
                 Assert.That(WriteableOperationStack.Contains(FirstOperationGroup));
                 Assert.That(WriteableOperationStack.IndexOf(FirstOperationGroup) == 0);
-                IEnumerable<IWriteableOperationGroup> WriteableOperationStackAsIEnumerable = WriteableOperationStack;
+                IEnumerable<WriteableOperationGroup> WriteableOperationStackAsIEnumerable = WriteableOperationStack;
                 WriteableOperationStackAsIEnumerable.GetEnumerator();
 
                 IFrameOperationGroupReadOnlyList FrameOperationStack = LayoutOperationStack;
@@ -16253,7 +16251,7 @@ namespace Coverage
                     LayoutPlaceholderNodeStateListModify.Remove((IReadOnlyPlaceholderNodeState)FirstNodeState);
                     LayoutPlaceholderNodeStateListModify.Insert(0, (IReadOnlyPlaceholderNodeState)FirstNodeState);
                     LayoutPlaceholderNodeStateListModify.CopyTo((IReadOnlyPlaceholderNodeState[])(new ILayoutPlaceholderNodeState[LayoutPlaceholderNodeStateListModify.Count]), 0);
-                    IReadOnlyPlaceholderNodeStateList LayoutPlaceholderNodeStateListModifyAsReadOnly = LayoutPlaceholderNodeStateListModify as IReadOnlyPlaceholderNodeStateList;
+                    ReadOnlyPlaceholderNodeStateList LayoutPlaceholderNodeStateListModifyAsReadOnly = LayoutPlaceholderNodeStateListModify as ReadOnlyPlaceholderNodeStateList;
                     Assert.That(LayoutPlaceholderNodeStateListModifyAsReadOnly != null);
                     Assert.That(LayoutPlaceholderNodeStateListModifyAsReadOnly[0] == LayoutPlaceholderNodeStateListModify[0]);
                     IList<IReadOnlyPlaceholderNodeState> ReadOnlyPlaceholderNodeStateListModifyAsIList = LayoutPlaceholderNodeStateListModify as IList<IReadOnlyPlaceholderNodeState>;
@@ -16273,7 +16271,7 @@ namespace Coverage
                     Assert.That(ReadOnlyPlaceholderNodeStateListModifyAsEnumerable != null);
                     Assert.That(ReadOnlyPlaceholderNodeStateListModifyAsEnumerable.GetEnumerator() != null);
 
-                    IWriteablePlaceholderNodeStateList LayoutPlaceholderNodeStateListModifyAsWriteable = LayoutPlaceholderNodeStateListModify as IWriteablePlaceholderNodeStateList;
+                    WriteablePlaceholderNodeStateList LayoutPlaceholderNodeStateListModifyAsWriteable = LayoutPlaceholderNodeStateListModify as WriteablePlaceholderNodeStateList;
                     Assert.That(LayoutPlaceholderNodeStateListModifyAsWriteable != null);
                     Assert.That(LayoutPlaceholderNodeStateListModifyAsWriteable[0] == LayoutPlaceholderNodeStateListModify[0]);
                     LayoutPlaceholderNodeStateListModifyAsWriteable.GetEnumerator();
@@ -16368,7 +16366,7 @@ namespace Coverage
                     Assert.That(ReadOnlyPlaceholderNodeStateListAsEnumerable != null);
                     Assert.That(ReadOnlyPlaceholderNodeStateListAsEnumerable.GetEnumerator() != null);
 
-                    IWriteablePlaceholderNodeStateReadOnlyList WriteablePlaceholderNodeStateList = LayoutPlaceholderNodeStateList;
+                    WriteablePlaceholderNodeStateReadOnlyList WriteablePlaceholderNodeStateList = LayoutPlaceholderNodeStateList;
                     Assert.That(WriteablePlaceholderNodeStateList.Contains(FirstNodeState));
                     Assert.That(WriteablePlaceholderNodeStateList.IndexOf(FirstNodeState) == 0);
                     Assert.That(WriteablePlaceholderNodeStateList[0] == LayoutPlaceholderNodeStateList[0]);
@@ -16405,7 +16403,7 @@ namespace Coverage
                 // ILayoutStateViewDictionary
 
                 ILayoutStateViewDictionary LayoutStateViewTable = ControllerView.StateViewTable;
-                IWriteableStateViewDictionary WriteableStateViewTable = ControllerView.StateViewTable;
+                WriteableStateViewDictionary WriteableStateViewTable = ControllerView.StateViewTable;
                 WriteableStateViewTable.GetEnumerator();
                 IFrameStateViewDictionary FrameStateViewTable = ControllerView.StateViewTable;
                 FrameStateViewTable.GetEnumerator();
@@ -16775,7 +16773,7 @@ namespace Coverage
                     CellView.Print(Point.Origin);
                 }
 
-                IFrameVisibleCellViewList FrameVisibleCellViewList = VisibleCellViewList;
+                FrameVisibleCellViewList FrameVisibleCellViewList = VisibleCellViewList;
                 FrameVisibleCellViewList.GetEnumerator();
                 Assert.That(FrameVisibleCellViewList[0] == FirstVisibleCellView);
                 IList<IFrameVisibleCellView> FrameVisibleCellViewListAsList = FrameVisibleCellViewList;

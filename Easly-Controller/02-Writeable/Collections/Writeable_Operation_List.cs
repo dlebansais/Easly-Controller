@@ -3,7 +3,7 @@
     using System.Collections.Generic;
 
     /// <inheritdoc/>
-    public class WriteableOperationList : List<WriteableOperation>
+    public class WriteableOperationList : List<IWriteableOperation>
     {
         /// <inheritdoc/>
         public virtual WriteableOperationReadOnlyList ToReadOnly()

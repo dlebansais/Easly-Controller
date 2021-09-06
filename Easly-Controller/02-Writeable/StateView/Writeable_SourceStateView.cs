@@ -6,7 +6,7 @@
     /// <summary>
     /// View of a source state.
     /// </summary>
-    internal class WriteableSourceStateView : ReadOnlySourceStateView, IWriteableNodeStateView
+    public class WriteableSourceStateView : ReadOnlySourceStateView, IWriteableNodeStateView
     {
         #region Init
         /// <summary>

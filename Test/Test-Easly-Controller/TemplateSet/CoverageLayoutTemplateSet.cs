@@ -11,18 +11,18 @@ namespace TestDebug
         static CoverageLayoutTemplateSet()
         {
             NodeTemplateDictionary = LoadTemplate(LayoutTemplateListString);
-            ILayoutTemplateReadOnlyDictionary LayoutCustomNodeTemplates = (ILayoutTemplateReadOnlyDictionary)NodeTemplateDictionary.ToReadOnly();
+            LayoutTemplateReadOnlyDictionary LayoutCustomNodeTemplates = (LayoutTemplateReadOnlyDictionary)NodeTemplateDictionary.ToReadOnly();
             BlockTemplateDictionary = LoadTemplate(LayoutBlockTemplateString);
-            ILayoutTemplateReadOnlyDictionary LayoutCustomBlockTemplates = (ILayoutTemplateReadOnlyDictionary)BlockTemplateDictionary.ToReadOnly();
+            LayoutTemplateReadOnlyDictionary LayoutCustomBlockTemplates = (LayoutTemplateReadOnlyDictionary)BlockTemplateDictionary.ToReadOnly();
             LayoutTemplateSet = new LayoutTemplateSet(LayoutCustomNodeTemplates, LayoutCustomBlockTemplates);
         }
 
-        private static ILayoutTemplateDictionary LoadTemplate(string s)
+        private static LayoutTemplateDictionary LoadTemplate(string s)
         {
             byte[] ByteArray = Encoding.UTF8.GetBytes(s);
             using (MemoryStream ms = new MemoryStream(ByteArray))
             {
-                Templates = (ILayoutTemplateList)XamlReader.Parse(s);
+                Templates = (LayoutTemplateList)XamlReader.Parse(s);
 
                 LayoutTemplateDictionary TemplateDictionary = new LayoutTemplateDictionary();
                 foreach (ILayoutTemplate Item in Templates)
@@ -106,10 +106,10 @@ namespace TestDebug
         #endregion
 
         #region Properties
-        public static ILayoutTemplateDictionary NodeTemplateDictionary { get; private set; }
-        public static ILayoutTemplateDictionary BlockTemplateDictionary { get; private set; }
+        public static LayoutTemplateDictionary NodeTemplateDictionary { get; private set; }
+        public static LayoutTemplateDictionary BlockTemplateDictionary { get; private set; }
         public static ILayoutTemplateSet LayoutTemplateSet { get; private set; }
-        public static ILayoutTemplateList Templates { get; private set; } = null!;
+        public static LayoutTemplateList Templates { get; private set; } = null!;
         #endregion
 
         #region Node Templates

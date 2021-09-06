@@ -116,7 +116,7 @@ namespace TestDebug
             ControllerTools.ResetExpectedName();
 
             IReadOnlyRootNodeIndex RootIndex = new ReadOnlyRootNodeIndex(rootNode);
-            IReadOnlyController Controller = ReadOnlyController.Create(RootIndex);
+            ReadOnlyController Controller = ReadOnlyController.Create(RootIndex);
             Stats Stats = Controller.Stats;
 
             ulong h0 = NodeHelper.NodeHash(rootNode);
@@ -129,9 +129,9 @@ namespace TestDebug
             Debug.Assert(ByteArrayCompare(RootData, RootCloneData1));
             Debug.Assert(h0 == h1);
 
-            using (IReadOnlyControllerView ControllerView1 = ReadOnlyControllerView.Create(Controller))
+            using (ReadOnlyControllerView ControllerView1 = ReadOnlyControllerView.Create(Controller))
             {
-                using (IReadOnlyControllerView ControllerView2 = ReadOnlyControllerView.Create(Controller))
+                using (ReadOnlyControllerView ControllerView2 = ReadOnlyControllerView.Create(Controller))
                 {
                     Node RootNodeClone2 = Controller.RootState.CloneNode();
                     ulong h2 = NodeHelper.NodeHash(RootNodeClone2);
@@ -143,7 +143,7 @@ namespace TestDebug
                     Debug.Assert(ControllerView1.IsEqual(CompareEqual.New(), ControllerView2));
 
                     IReadOnlyRootNodeIndex RootIndex2 = new ReadOnlyRootNodeIndex(rootNode);
-                    IReadOnlyController Controller2 = ReadOnlyController.Create(RootIndex);
+                    ReadOnlyController Controller2 = ReadOnlyController.Create(RootIndex);
                     Debug.Assert(Controller.IsEqual(CompareEqual.New(), Controller2));
                 }
             }
@@ -170,14 +170,14 @@ namespace TestDebug
             ControllerTools.ResetExpectedName();
 
             IWriteableRootNodeIndex RootIndex = new WriteableRootNodeIndex(rootNode);
-            IWriteableController Controller = WriteableController.Create(RootIndex);
+            WriteableController Controller = (WriteableController)WriteableController.Create(RootIndex);
             Stats Stats = Controller.Stats;
-            IWriteableController ControllerCheck;
+            WriteableController ControllerCheck;
 
-            IWriteableControllerView ControllerView = WriteableControllerView.Create(Controller);
+            WriteableControllerView ControllerView = WriteableControllerView.Create(Controller);
 
             IWriteableNodeState RootState = Controller.RootState;
-            IWriteableInnerReadOnlyDictionary<string> InnerTable = RootState.InnerTable;
+            WriteableInnerReadOnlyDictionary<string> InnerTable = RootState.InnerTable;
 
             IWriteableListInner ListInner2 = (IWriteableListInner)InnerTable[nameof(GlobalReplicate.Patterns)];
             if (ListInner2.StateList.Count > 30)
@@ -209,9 +209,9 @@ namespace TestDebug
             ControllerTools.ResetExpectedName();
 
             IWriteableRootNodeIndex RootIndex = new WriteableRootNodeIndex(rootNode);
-            IWriteableController Controller = WriteableController.Create(RootIndex);
+            WriteableController Controller = (WriteableController)WriteableController.Create(RootIndex);
             Stats Stats = Controller.Stats;
-            IWriteableController ControllerCheck;
+            WriteableController ControllerCheck;
             bool IsChanged;
 
             Node RootNodeClone = Controller.RootState.CloneNode();
@@ -225,10 +225,10 @@ namespace TestDebug
             Debug.Assert(IsEqual);
             Debug.Assert(h1 == h2);
 
-            IWriteableControllerView ControllerView = WriteableControllerView.Create(Controller);
+            WriteableControllerView ControllerView = WriteableControllerView.Create(Controller);
 
             IWriteableNodeState RootState = Controller.RootState;
-            IWriteableInnerReadOnlyDictionary<string> InnerTable = RootState.InnerTable;
+            WriteableInnerReadOnlyDictionary<string> InnerTable = RootState.InnerTable;
             IWriteableBlockListInner ListInner = (IWriteableBlockListInner)InnerTable[nameof(Class.ImportBlocks)];
 
             Pattern PatternNode = NodeHelper.CreateEmptyPattern();
@@ -251,7 +251,7 @@ namespace TestDebug
 
             Debug.Assert(ControllerView.StateViewTable.Count == Controller.Stats.NodeCount);
 
-            IWriteableControllerView ControllerView2 = WriteableControllerView.Create(Controller);
+            WriteableControllerView ControllerView2 = WriteableControllerView.Create(Controller);
             Debug.Assert(ControllerView2.IsEqual(CompareEqual.New(), ControllerView));
 
             Controller.ChangeReplication(ListInner, 0, ReplicationStatus.Replicated);
@@ -275,7 +275,7 @@ namespace TestDebug
             ControllerCheck = WriteableController.Create(new WriteableRootNodeIndex(rootNode));
             Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
 
-            IWriteableControllerView ControllerView3 = WriteableControllerView.Create(Controller);
+            WriteableControllerView ControllerView3 = WriteableControllerView.Create(Controller);
             Debug.Assert(ControllerView3.IsEqual(CompareEqual.New(), ControllerView));
 
             Name FifthNode = NodeHelper.CreateSimpleName("a");
@@ -287,7 +287,7 @@ namespace TestDebug
             ControllerCheck = WriteableController.Create(new WriteableRootNodeIndex(rootNode));
             Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
 
-            IWriteableControllerView ControllerView4 = WriteableControllerView.Create(Controller);
+            WriteableControllerView ControllerView4 = WriteableControllerView.Create(Controller);
             Debug.Assert(ControllerView4.IsEqual(CompareEqual.New(), ControllerView));
 
             Identifier SixthNode = NodeHelper.CreateSimpleIdentifier("b");
@@ -299,7 +299,7 @@ namespace TestDebug
             ControllerCheck = WriteableController.Create(new WriteableRootNodeIndex(rootNode));
             Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
 
-            IWriteableControllerView ControllerView5 = WriteableControllerView.Create(Controller);
+            WriteableControllerView ControllerView5 = WriteableControllerView.Create(Controller);
             Debug.Assert(ControllerView5.IsEqual(CompareEqual.New(), ControllerView));
 
             IWriteableBrowsingBlockNodeIndex InsertIndex7 = (IWriteableBrowsingBlockNodeIndex)ListInner.IndexAt(0, 0);
@@ -308,7 +308,7 @@ namespace TestDebug
             ControllerCheck = WriteableController.Create(new WriteableRootNodeIndex(rootNode));
             Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
 
-            IWriteableControllerView ControllerView7 = WriteableControllerView.Create(Controller);
+            WriteableControllerView ControllerView7 = WriteableControllerView.Create(Controller);
             Debug.Assert(ControllerView7.IsEqual(CompareEqual.New(), ControllerView));
 
             IWriteableBrowsingBlockNodeIndex InsertIndex8 = (IWriteableBrowsingBlockNodeIndex)ListInner.IndexAt(0, 0);
@@ -317,7 +317,7 @@ namespace TestDebug
             ControllerCheck = WriteableController.Create(new WriteableRootNodeIndex(rootNode));
             Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
 
-            IWriteableControllerView ControllerView8 = WriteableControllerView.Create(Controller);
+            WriteableControllerView ControllerView8 = WriteableControllerView.Create(Controller);
             Debug.Assert(ControllerView8.IsEqual(CompareEqual.New(), ControllerView));
 
             Controller.Unassign(OptionalInner.ChildState.ParentIndex, out IsChanged);
@@ -325,7 +325,7 @@ namespace TestDebug
             ControllerCheck = WriteableController.Create(new WriteableRootNodeIndex(rootNode));
             Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
 
-            IWriteableControllerView ControllerView9 = WriteableControllerView.Create(Controller);
+            WriteableControllerView ControllerView9 = WriteableControllerView.Create(Controller);
             Debug.Assert(ControllerView9.IsEqual(CompareEqual.New(), ControllerView));
 
             Controller.Assign(OptionalInner.ChildState.ParentIndex, out IsChanged);
@@ -333,7 +333,7 @@ namespace TestDebug
             ControllerCheck = WriteableController.Create(new WriteableRootNodeIndex(rootNode));
             Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
 
-            IWriteableControllerView ControllerView10 = WriteableControllerView.Create(Controller);
+            WriteableControllerView ControllerView10 = WriteableControllerView.Create(Controller);
             Debug.Assert(ControllerView10.IsEqual(CompareEqual.New(), ControllerView));
 
             if (ListInner.BlockStateList.Count >= 2)
@@ -344,7 +344,7 @@ namespace TestDebug
                 ControllerCheck = WriteableController.Create(new WriteableRootNodeIndex(rootNode));
                 Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
 
-                IWriteableControllerView ControllerView11 = WriteableControllerView.Create(Controller);
+                WriteableControllerView ControllerView11 = WriteableControllerView.Create(Controller);
                 Debug.Assert(ControllerView11.IsEqual(CompareEqual.New(), ControllerView));
 
                 IWriteableBrowsingExistingBlockNodeIndex SplitIndex2 = (IWriteableBrowsingExistingBlockNodeIndex)ListInner.IndexAt(1, 0);
@@ -353,7 +353,7 @@ namespace TestDebug
                 ControllerCheck = WriteableController.Create(new WriteableRootNodeIndex(rootNode));
                 Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
 
-                IWriteableControllerView ControllerView12 = WriteableControllerView.Create(Controller);
+                WriteableControllerView ControllerView12 = WriteableControllerView.Create(Controller);
                 Debug.Assert(ControllerView12.IsEqual(CompareEqual.New(), ControllerView));
             }
 
@@ -391,14 +391,14 @@ namespace TestDebug
             ControllerTools.ResetExpectedName();
 
             IFrameRootNodeIndex RootIndex = new FrameRootNodeIndex(rootNode);
-            IFrameController Controller = FrameController.Create(RootIndex);
+            FrameController Controller = FrameController.Create(RootIndex);
             Stats Stats = Controller.Stats;
-            IFrameController ControllerCheck;
+            FrameController ControllerCheck;
 
-            IFrameControllerView ControllerView = FrameControllerView.Create(Controller, FrameTemplateSet.Default);
+            FrameControllerView ControllerView = FrameControllerView.Create(Controller, FrameTemplateSet.Default);
 
             IFrameNodeState RootState = Controller.RootState;
-            IFrameInnerReadOnlyDictionary<string> InnerTable = RootState.InnerTable;
+            FrameInnerReadOnlyDictionary<string> InnerTable = RootState.InnerTable;
 
             IFrameListInner ListInner2 = (IFrameListInner)InnerTable[nameof(GlobalReplicate.Patterns)];
             if (ListInner2.StateList.Count > 30)
@@ -426,10 +426,10 @@ namespace TestDebug
             ControllerTools.ResetExpectedName();
 
             IFrameRootNodeIndex RootIndex = new FrameRootNodeIndex(rootNode);
-            IFrameController Controller = FrameController.Create(RootIndex);
-            IFrameControllerView CustomView = FrameControllerView.Create(Controller, CustomFrameTemplateSet.FrameTemplateSet);
+            FrameController Controller = FrameController.Create(RootIndex);
+            FrameControllerView CustomView = FrameControllerView.Create(Controller, CustomFrameTemplateSet.FrameTemplateSet);
             Stats Stats = Controller.Stats;
-            IFrameController ControllerCheck;
+            FrameController ControllerCheck;
             bool IsChanged;
 
             Node RootNodeClone = Controller.RootState.CloneNode();
@@ -443,10 +443,10 @@ namespace TestDebug
             Debug.Assert(IsEqual);
             Debug.Assert(h1 == h2);
 
-            IFrameControllerView ControllerView = FrameControllerView.Create(Controller, FrameTemplateSet.Default);
+            FrameControllerView ControllerView = FrameControllerView.Create(Controller, FrameTemplateSet.Default);
 
             IFrameNodeState RootState = Controller.RootState;
-            IFrameInnerReadOnlyDictionary<string> InnerTable = RootState.InnerTable;
+            FrameInnerReadOnlyDictionary<string> InnerTable = RootState.InnerTable;
             IFrameBlockListInner ListInner = (IFrameBlockListInner)InnerTable[nameof(Class.ImportBlocks)];
 
             Pattern PatternNode = NodeHelper.CreateEmptyPattern();
@@ -456,7 +456,7 @@ namespace TestDebug
             FrameInsertionNewBlockNodeIndex InsertIndex0 = new FrameInsertionNewBlockNodeIndex(rootNode, ListInner.PropertyName, FirstNode, 0, PatternNode, SourceNode);
             Controller.Insert(ListInner, InsertIndex0, out IWriteableBrowsingCollectionNodeIndex InsertedIndex0);
 
-            IFrameControllerView ControllerView2 = FrameControllerView.Create(Controller, FrameTemplateSet.Default);
+            FrameControllerView ControllerView2 = FrameControllerView.Create(Controller, FrameTemplateSet.Default);
             Debug.Assert(ControllerView2.IsEqual(CompareEqual.New(), ControllerView));
 
             ControllerCheck = FrameController.Create(new FrameRootNodeIndex(rootNode));
@@ -496,7 +496,7 @@ namespace TestDebug
             ControllerCheck = FrameController.Create(new FrameRootNodeIndex(rootNode));
             Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
 
-            IFrameControllerView ControllerView3 = FrameControllerView.Create(Controller, FrameTemplateSet.Default);
+            FrameControllerView ControllerView3 = FrameControllerView.Create(Controller, FrameTemplateSet.Default);
             Debug.Assert(ControllerView3.IsEqual(CompareEqual.New(), ControllerView));
 
             Name FifthNode = NodeHelper.CreateSimpleName("a");
@@ -508,7 +508,7 @@ namespace TestDebug
             ControllerCheck = FrameController.Create(new FrameRootNodeIndex(rootNode));
             Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
 
-            IFrameControllerView ControllerView4 = FrameControllerView.Create(Controller, FrameTemplateSet.Default);
+            FrameControllerView ControllerView4 = FrameControllerView.Create(Controller, FrameTemplateSet.Default);
             Debug.Assert(ControllerView4.IsEqual(CompareEqual.New(), ControllerView));
 
             Identifier SixthNode = NodeHelper.CreateSimpleIdentifier("b");
@@ -520,7 +520,7 @@ namespace TestDebug
             ControllerCheck = FrameController.Create(new FrameRootNodeIndex(rootNode));
             Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
 
-            IFrameControllerView ControllerView5 = FrameControllerView.Create(Controller, FrameTemplateSet.Default);
+            FrameControllerView ControllerView5 = FrameControllerView.Create(Controller, FrameTemplateSet.Default);
             Debug.Assert(ControllerView5.IsEqual(CompareEqual.New(), ControllerView));
 
             bool TestRemove = true;
@@ -532,7 +532,7 @@ namespace TestDebug
                 ControllerCheck = FrameController.Create(new FrameRootNodeIndex(rootNode));
                 Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
 
-                IFrameControllerView ControllerView7 = FrameControllerView.Create(Controller, FrameTemplateSet.Default);
+                FrameControllerView ControllerView7 = FrameControllerView.Create(Controller, FrameTemplateSet.Default);
                 Debug.Assert(ControllerView7.IsEqual(CompareEqual.New(), ControllerView));
 
                 IFrameBrowsingBlockNodeIndex InsertIndex8 = (IFrameBrowsingBlockNodeIndex)ListInner.IndexAt(0, 0);
@@ -541,7 +541,7 @@ namespace TestDebug
                 ControllerCheck = FrameController.Create(new FrameRootNodeIndex(rootNode));
                 Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
 
-                IFrameControllerView ControllerView8 = FrameControllerView.Create(Controller, FrameTemplateSet.Default);
+                FrameControllerView ControllerView8 = FrameControllerView.Create(Controller, FrameTemplateSet.Default);
                 Debug.Assert(ControllerView8.IsEqual(CompareEqual.New(), ControllerView));
             }
 
@@ -550,7 +550,7 @@ namespace TestDebug
             ControllerCheck = FrameController.Create(new FrameRootNodeIndex(rootNode));
             Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
 
-            IFrameControllerView ControllerView9 = FrameControllerView.Create(Controller, FrameTemplateSet.Default);
+            FrameControllerView ControllerView9 = FrameControllerView.Create(Controller, FrameTemplateSet.Default);
             Debug.Assert(ControllerView9.IsEqual(CompareEqual.New(), ControllerView));
 
             Controller.Assign(OptionalInner.ChildState.ParentIndex, out IsChanged);
@@ -558,7 +558,7 @@ namespace TestDebug
             ControllerCheck = FrameController.Create(new FrameRootNodeIndex(rootNode));
             Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
 
-            IFrameControllerView ControllerView10 = FrameControllerView.Create(Controller, FrameTemplateSet.Default);
+            FrameControllerView ControllerView10 = FrameControllerView.Create(Controller, FrameTemplateSet.Default);
             Debug.Assert(ControllerView10.IsEqual(CompareEqual.New(), ControllerView));
 
             if (ListInner.BlockStateList.Count >= 2)
@@ -569,7 +569,7 @@ namespace TestDebug
                 ControllerCheck = FrameController.Create(new FrameRootNodeIndex(rootNode));
                 Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
 
-                IFrameControllerView ControllerView11 = FrameControllerView.Create(Controller, FrameTemplateSet.Default);
+                FrameControllerView ControllerView11 = FrameControllerView.Create(Controller, FrameTemplateSet.Default);
                 Debug.Assert(ControllerView11.IsEqual(CompareEqual.New(), ControllerView));
                 
                 IFrameBrowsingExistingBlockNodeIndex SplitIndex2 = (IFrameBrowsingExistingBlockNodeIndex)ListInner.IndexAt(1, 0);
@@ -578,7 +578,7 @@ namespace TestDebug
                 ControllerCheck = FrameController.Create(new FrameRootNodeIndex(rootNode));
                 Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
 
-                IFrameControllerView ControllerView12 = FrameControllerView.Create(Controller, FrameTemplateSet.Default);
+                FrameControllerView ControllerView12 = FrameControllerView.Create(Controller, FrameTemplateSet.Default);
                 Debug.Assert(ControllerView12.IsEqual(CompareEqual.New(), ControllerView));
             }
 
@@ -597,7 +597,7 @@ namespace TestDebug
             Controller.Canonicalize(out IsChanged);
 
             IFrameRootNodeIndex NewRootIndex = new FrameRootNodeIndex(Controller.RootIndex.Node);
-            IFrameController NewController = FrameController.Create(NewRootIndex);
+            FrameController NewController = FrameController.Create(NewRootIndex);
             Debug.Assert(NewController.IsEqual(CompareEqual.New(), Controller));
         }
         #endregion
@@ -620,14 +620,14 @@ namespace TestDebug
             ControllerTools.ResetExpectedName();
 
             IFocusRootNodeIndex RootIndex = new FocusRootNodeIndex(rootNode);
-            IFocusController Controller = FocusController.Create(RootIndex);
+            FocusController Controller = FocusController.Create(RootIndex);
             Stats Stats = Controller.Stats;
-            IFocusController ControllerCheck;
+            FocusController ControllerCheck;
 
-            IFocusControllerView ControllerView = FocusControllerView.Create(Controller, FocusTemplateSet.Default);
+            FocusControllerView ControllerView = FocusControllerView.Create(Controller, FocusTemplateSet.Default);
 
             IFocusNodeState RootState = Controller.RootState;
-            IFocusInnerReadOnlyDictionary<string> InnerTable = RootState.InnerTable;
+            FocusInnerReadOnlyDictionary<string> InnerTable = RootState.InnerTable;
 
             IFocusListInner ListInner2 = (IFocusListInner)InnerTable[nameof(GlobalReplicate.Patterns)];
             if (ListInner2.StateList.Count > 30)
@@ -656,10 +656,10 @@ namespace TestDebug
             ControllerTools.ResetExpectedName();
 
             IFocusRootNodeIndex RootIndex = new FocusRootNodeIndex(rootNode);
-            IFocusController Controller = FocusController.Create(RootIndex);
-            IFocusControllerView CustomView = FocusControllerView.Create(Controller, CustomFocusTemplateSet.FocusTemplateSet);
+            FocusController Controller = FocusController.Create(RootIndex);
+            FocusControllerView CustomView = FocusControllerView.Create(Controller, CustomFocusTemplateSet.FocusTemplateSet);
             Stats Stats = Controller.Stats;
-            IFocusController ControllerCheck;
+            FocusController ControllerCheck;
             bool IsChanged;
 
             Node RootNodeClone = Controller.RootState.CloneNode();
@@ -673,11 +673,11 @@ namespace TestDebug
             Debug.Assert(IsEqual);
             Debug.Assert(h1 == h2);
 
-            IFocusControllerView ControllerView = FocusControllerView.Create(Controller, FocusTemplateSet.Default);
+            FocusControllerView ControllerView = FocusControllerView.Create(Controller, FocusTemplateSet.Default);
             //Debug.WriteLine(ControllerView.LastColumnNumber.ToString());
 
             IFocusNodeState RootState = Controller.RootState;
-            IFocusInnerReadOnlyDictionary<string> InnerTable = RootState.InnerTable;
+            FocusInnerReadOnlyDictionary<string> InnerTable = RootState.InnerTable;
             IFocusBlockListInner ListInner = (IFocusBlockListInner)InnerTable[nameof(Class.ImportBlocks)];
 
             Pattern PatternNode = NodeHelper.CreateEmptyPattern();
@@ -687,7 +687,7 @@ namespace TestDebug
             FocusInsertionNewBlockNodeIndex InsertIndex0 = new FocusInsertionNewBlockNodeIndex(rootNode, ListInner.PropertyName, FirstNode, 0, PatternNode, SourceNode);
             Controller.Insert(ListInner, InsertIndex0, out IWriteableBrowsingCollectionNodeIndex InsertedIndex0);
 
-            IFocusControllerView ControllerView2 = FocusControllerView.Create(Controller, FocusTemplateSet.Default);
+            FocusControllerView ControllerView2 = FocusControllerView.Create(Controller, FocusTemplateSet.Default);
             Debug.Assert(ControllerView2.IsEqual(CompareEqual.New(), ControllerView));
 
             ControllerCheck = FocusController.Create(new FocusRootNodeIndex(rootNode));
@@ -727,7 +727,7 @@ namespace TestDebug
             ControllerCheck = FocusController.Create(new FocusRootNodeIndex(rootNode));
             Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
 
-            IFocusControllerView ControllerView3 = FocusControllerView.Create(Controller, FocusTemplateSet.Default);
+            FocusControllerView ControllerView3 = FocusControllerView.Create(Controller, FocusTemplateSet.Default);
             Debug.Assert(ControllerView3.IsEqual(CompareEqual.New(), ControllerView));
 
             Name FifthNode = NodeHelper.CreateSimpleName("a");
@@ -739,7 +739,7 @@ namespace TestDebug
             ControllerCheck = FocusController.Create(new FocusRootNodeIndex(rootNode));
             Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
 
-            IFocusControllerView ControllerView4 = FocusControllerView.Create(Controller, FocusTemplateSet.Default);
+            FocusControllerView ControllerView4 = FocusControllerView.Create(Controller, FocusTemplateSet.Default);
             Debug.Assert(ControllerView4.IsEqual(CompareEqual.New(), ControllerView));
 
             Identifier SixthNode = NodeHelper.CreateSimpleIdentifier("b");
@@ -751,7 +751,7 @@ namespace TestDebug
             ControllerCheck = FocusController.Create(new FocusRootNodeIndex(rootNode));
             Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
 
-            IFocusControllerView ControllerView5 = FocusControllerView.Create(Controller, FocusTemplateSet.Default);
+            FocusControllerView ControllerView5 = FocusControllerView.Create(Controller, FocusTemplateSet.Default);
             Debug.Assert(ControllerView5.IsEqual(CompareEqual.New(), ControllerView));
 
             bool TestRemove = true;
@@ -764,7 +764,7 @@ namespace TestDebug
                 ControllerCheck = FocusController.Create(new FocusRootNodeIndex(rootNode));
                 Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
 
-                IFocusControllerView ControllerView7 = FocusControllerView.Create(Controller, FocusTemplateSet.Default);
+                FocusControllerView ControllerView7 = FocusControllerView.Create(Controller, FocusTemplateSet.Default);
                 Debug.Assert(ControllerView7.IsEqual(CompareEqual.New(), ControllerView));
 
                 IFocusBrowsingBlockNodeIndex InsertIndex8 = (IFocusBrowsingBlockNodeIndex)ListInner.IndexAt(0, 0);
@@ -774,7 +774,7 @@ namespace TestDebug
                 ControllerCheck = FocusController.Create(new FocusRootNodeIndex(rootNode));
                 Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
 
-                IFocusControllerView ControllerView8 = FocusControllerView.Create(Controller, FocusTemplateSet.Default);
+                FocusControllerView ControllerView8 = FocusControllerView.Create(Controller, FocusTemplateSet.Default);
                 Debug.Assert(ControllerView8.IsEqual(CompareEqual.New(), ControllerView));
             }
 
@@ -783,7 +783,7 @@ namespace TestDebug
             ControllerCheck = FocusController.Create(new FocusRootNodeIndex(rootNode));
             Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
 
-            IFocusControllerView ControllerView9 = FocusControllerView.Create(Controller, FocusTemplateSet.Default);
+            FocusControllerView ControllerView9 = FocusControllerView.Create(Controller, FocusTemplateSet.Default);
             Debug.Assert(ControllerView9.IsEqual(CompareEqual.New(), ControllerView));
 
             Controller.Assign(OptionalInner.ChildState.ParentIndex, out IsChanged);
@@ -791,7 +791,7 @@ namespace TestDebug
             ControllerCheck = FocusController.Create(new FocusRootNodeIndex(rootNode));
             Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
 
-            IFocusControllerView ControllerView10 = FocusControllerView.Create(Controller, FocusTemplateSet.Default);
+            FocusControllerView ControllerView10 = FocusControllerView.Create(Controller, FocusTemplateSet.Default);
             Debug.Assert(ControllerView10.IsEqual(CompareEqual.New(), ControllerView));
 
             if (ListInner.BlockStateList.Count >= 2)
@@ -802,7 +802,7 @@ namespace TestDebug
                 ControllerCheck = FocusController.Create(new FocusRootNodeIndex(rootNode));
                 Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
 
-                IFocusControllerView ControllerView11 = FocusControllerView.Create(Controller, FocusTemplateSet.Default);
+                FocusControllerView ControllerView11 = FocusControllerView.Create(Controller, FocusTemplateSet.Default);
                 Debug.Assert(ControllerView11.IsEqual(CompareEqual.New(), ControllerView));
 
                 IFocusBrowsingExistingBlockNodeIndex SplitIndex2 = (IFocusBrowsingExistingBlockNodeIndex)ListInner.IndexAt(1, 0);
@@ -811,7 +811,7 @@ namespace TestDebug
                 ControllerCheck = FocusController.Create(new FocusRootNodeIndex(rootNode));
                 Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
 
-                IFocusControllerView ControllerView12 = FocusControllerView.Create(Controller, FocusTemplateSet.Default);
+                FocusControllerView ControllerView12 = FocusControllerView.Create(Controller, FocusTemplateSet.Default);
                 Debug.Assert(ControllerView12.IsEqual(CompareEqual.New(), ControllerView));
             }
 
@@ -830,7 +830,7 @@ namespace TestDebug
             Controller.Canonicalize(out IsChanged);
 
             IFocusRootNodeIndex NewRootIndex = new FocusRootNodeIndex(Controller.RootIndex.Node);
-            IFocusController NewController = FocusController.Create(NewRootIndex);
+            FocusController NewController = FocusController.Create(NewRootIndex);
             Debug.Assert(NewController.IsEqual(CompareEqual.New(), Controller));
         }
         #endregion
@@ -853,14 +853,14 @@ namespace TestDebug
             ControllerTools.ResetExpectedName();
 
             ILayoutRootNodeIndex RootIndex = new LayoutRootNodeIndex(rootNode);
-            ILayoutController Controller = LayoutController.Create(RootIndex);
+            LayoutController Controller = LayoutController.Create(RootIndex);
             Stats Stats = Controller.Stats;
-            ILayoutController ControllerCheck;
+            LayoutController ControllerCheck;
 
-            ILayoutControllerView ControllerView = LayoutControllerView.Create(Controller, LayoutTemplateSet.Default, LayoutDrawPrintContext.Default);
+            LayoutControllerView ControllerView = LayoutControllerView.Create(Controller, LayoutTemplateSet.Default, LayoutDrawPrintContext.Default);
 
             ILayoutNodeState RootState = Controller.RootState;
-            ILayoutInnerReadOnlyDictionary<string> InnerTable = RootState.InnerTable;
+            LayoutInnerReadOnlyDictionary<string> InnerTable = RootState.InnerTable;
 
             ILayoutListInner ListInner2 = (ILayoutListInner)InnerTable[nameof(GlobalReplicate.Patterns)];
             if (ListInner2.StateList.Count > 30)
@@ -888,10 +888,10 @@ namespace TestDebug
             ControllerTools.ResetExpectedName();
 
             ILayoutRootNodeIndex RootIndex = new LayoutRootNodeIndex(rootNode);
-            ILayoutController Controller = LayoutController.Create(RootIndex);
-            ILayoutControllerView CustomView = LayoutControllerView.Create(Controller, EaslyEdit.CustomLayoutTemplateSet.LayoutTemplateSet, LayoutDrawPrintContext.Default);
+            LayoutController Controller = LayoutController.Create(RootIndex);
+            LayoutControllerView CustomView = LayoutControllerView.Create(Controller, EaslyEdit.CustomLayoutTemplateSet.LayoutTemplateSet, LayoutDrawPrintContext.Default);
             Stats Stats = Controller.Stats;
-            ILayoutController ControllerCheck;
+            LayoutController ControllerCheck;
             bool IsChanged;
 
             Node RootNodeClone = Controller.RootState.CloneNode();
@@ -905,11 +905,11 @@ namespace TestDebug
             Debug.Assert(IsEqual);
             Debug.Assert(h1 == h2);
 
-            ILayoutControllerView ControllerView = LayoutControllerView.Create(Controller, LayoutTemplateSet.Default, LayoutDrawPrintContext.Default);
+            LayoutControllerView ControllerView = LayoutControllerView.Create(Controller, LayoutTemplateSet.Default, LayoutDrawPrintContext.Default);
             //Debug.WriteLine(ControllerView.LastColumnNumber.ToString());
 
             ILayoutNodeState RootState = Controller.RootState;
-            ILayoutInnerReadOnlyDictionary<string> InnerTable = RootState.InnerTable;
+            LayoutInnerReadOnlyDictionary<string> InnerTable = RootState.InnerTable;
             ILayoutBlockListInner ListInner = (ILayoutBlockListInner)InnerTable[nameof(Class.ImportBlocks)];
 
             Pattern PatternNode = NodeHelper.CreateEmptyPattern();
@@ -919,7 +919,7 @@ namespace TestDebug
             LayoutInsertionNewBlockNodeIndex InsertIndex0 = new LayoutInsertionNewBlockNodeIndex(rootNode, ListInner.PropertyName, FirstNode, 0, PatternNode, SourceNode);
             Controller.Insert(ListInner, InsertIndex0, out IWriteableBrowsingCollectionNodeIndex InsertedIndex0);
 
-            ILayoutControllerView ControllerView2 = LayoutControllerView.Create(Controller, LayoutTemplateSet.Default, LayoutDrawPrintContext.Default);
+            LayoutControllerView ControllerView2 = LayoutControllerView.Create(Controller, LayoutTemplateSet.Default, LayoutDrawPrintContext.Default);
             Debug.Assert(ControllerView2.IsEqual(CompareEqual.New(), ControllerView));
 
             ControllerCheck = LayoutController.Create(new LayoutRootNodeIndex(rootNode));
@@ -959,7 +959,7 @@ namespace TestDebug
             ControllerCheck = LayoutController.Create(new LayoutRootNodeIndex(rootNode));
             Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
 
-            ILayoutControllerView ControllerView3 = LayoutControllerView.Create(Controller, LayoutTemplateSet.Default, LayoutDrawPrintContext.Default);
+            LayoutControllerView ControllerView3 = LayoutControllerView.Create(Controller, LayoutTemplateSet.Default, LayoutDrawPrintContext.Default);
             Debug.Assert(ControllerView3.IsEqual(CompareEqual.New(), ControllerView));
 
             Name FifthNode = NodeHelper.CreateSimpleName("a");
@@ -971,7 +971,7 @@ namespace TestDebug
             ControllerCheck = LayoutController.Create(new LayoutRootNodeIndex(rootNode));
             Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
 
-            ILayoutControllerView ControllerView4 = LayoutControllerView.Create(Controller, LayoutTemplateSet.Default, LayoutDrawPrintContext.Default);
+            LayoutControllerView ControllerView4 = LayoutControllerView.Create(Controller, LayoutTemplateSet.Default, LayoutDrawPrintContext.Default);
             Debug.Assert(ControllerView4.IsEqual(CompareEqual.New(), ControllerView));
 
             Identifier SixthNode = NodeHelper.CreateSimpleIdentifier("b");
@@ -983,7 +983,7 @@ namespace TestDebug
             ControllerCheck = LayoutController.Create(new LayoutRootNodeIndex(rootNode));
             Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
 
-            ILayoutControllerView ControllerView5 = LayoutControllerView.Create(Controller, LayoutTemplateSet.Default, LayoutDrawPrintContext.Default);
+            LayoutControllerView ControllerView5 = LayoutControllerView.Create(Controller, LayoutTemplateSet.Default, LayoutDrawPrintContext.Default);
             Debug.Assert(ControllerView5.IsEqual(CompareEqual.New(), ControllerView));
 
             bool TestRemove = true;
@@ -996,7 +996,7 @@ namespace TestDebug
                 ControllerCheck = LayoutController.Create(new LayoutRootNodeIndex(rootNode));
                 Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
 
-                ILayoutControllerView ControllerView7 = LayoutControllerView.Create(Controller, LayoutTemplateSet.Default, LayoutDrawPrintContext.Default);
+                LayoutControllerView ControllerView7 = LayoutControllerView.Create(Controller, LayoutTemplateSet.Default, LayoutDrawPrintContext.Default);
                 Debug.Assert(ControllerView7.IsEqual(CompareEqual.New(), ControllerView));
 
                 ILayoutBrowsingBlockNodeIndex InsertIndex8 = (ILayoutBrowsingBlockNodeIndex)ListInner.IndexAt(0, 0);
@@ -1006,7 +1006,7 @@ namespace TestDebug
                 ControllerCheck = LayoutController.Create(new LayoutRootNodeIndex(rootNode));
                 Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
 
-                ILayoutControllerView ControllerView8 = LayoutControllerView.Create(Controller, LayoutTemplateSet.Default, LayoutDrawPrintContext.Default);
+                LayoutControllerView ControllerView8 = LayoutControllerView.Create(Controller, LayoutTemplateSet.Default, LayoutDrawPrintContext.Default);
                 Debug.Assert(ControllerView8.IsEqual(CompareEqual.New(), ControllerView));
             }
 
@@ -1015,7 +1015,7 @@ namespace TestDebug
             ControllerCheck = LayoutController.Create(new LayoutRootNodeIndex(rootNode));
             Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
 
-            ILayoutControllerView ControllerView9 = LayoutControllerView.Create(Controller, LayoutTemplateSet.Default, LayoutDrawPrintContext.Default);
+            LayoutControllerView ControllerView9 = LayoutControllerView.Create(Controller, LayoutTemplateSet.Default, LayoutDrawPrintContext.Default);
             Debug.Assert(ControllerView9.IsEqual(CompareEqual.New(), ControllerView));
 
             Controller.Assign(OptionalInner.ChildState.ParentIndex, out IsChanged);
@@ -1023,7 +1023,7 @@ namespace TestDebug
             ControllerCheck = LayoutController.Create(new LayoutRootNodeIndex(rootNode));
             Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
 
-            ILayoutControllerView ControllerView10 = LayoutControllerView.Create(Controller, LayoutTemplateSet.Default, LayoutDrawPrintContext.Default);
+            LayoutControllerView ControllerView10 = LayoutControllerView.Create(Controller, LayoutTemplateSet.Default, LayoutDrawPrintContext.Default);
             Debug.Assert(ControllerView10.IsEqual(CompareEqual.New(), ControllerView));
 
             if (ListInner.BlockStateList.Count >= 2)
@@ -1034,7 +1034,7 @@ namespace TestDebug
                 ControllerCheck = LayoutController.Create(new LayoutRootNodeIndex(rootNode));
                 Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
 
-                ILayoutControllerView ControllerView11 = LayoutControllerView.Create(Controller, LayoutTemplateSet.Default, LayoutDrawPrintContext.Default);
+                LayoutControllerView ControllerView11 = LayoutControllerView.Create(Controller, LayoutTemplateSet.Default, LayoutDrawPrintContext.Default);
                 Debug.Assert(ControllerView11.IsEqual(CompareEqual.New(), ControllerView));
 
                 ILayoutBrowsingExistingBlockNodeIndex SplitIndex2 = (ILayoutBrowsingExistingBlockNodeIndex)ListInner.IndexAt(1, 0);
@@ -1043,7 +1043,7 @@ namespace TestDebug
                 ControllerCheck = LayoutController.Create(new LayoutRootNodeIndex(rootNode));
                 Debug.Assert(ControllerCheck.IsEqual(CompareEqual.New(), Controller));
 
-                ILayoutControllerView ControllerView12 = LayoutControllerView.Create(Controller, LayoutTemplateSet.Default, LayoutDrawPrintContext.Default);
+                LayoutControllerView ControllerView12 = LayoutControllerView.Create(Controller, LayoutTemplateSet.Default, LayoutDrawPrintContext.Default);
                 Debug.Assert(ControllerView12.IsEqual(CompareEqual.New(), ControllerView));
             }
 
@@ -1062,7 +1062,7 @@ namespace TestDebug
             Controller.Canonicalize(out IsChanged);
 
             ILayoutRootNodeIndex NewRootIndex = new LayoutRootNodeIndex(Controller.RootIndex.Node);
-            ILayoutController NewController = LayoutController.Create(NewRootIndex);
+            LayoutController NewController = LayoutController.Create(NewRootIndex);
             Debug.Assert(NewController.IsEqual(CompareEqual.New(), Controller));
         }
         #endregion

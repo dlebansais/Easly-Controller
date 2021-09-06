@@ -11,7 +11,7 @@
     /// </summary>
     public partial class WriteableController : ReadOnlyController
     {
-        private protected virtual void RedoRefresh(WriteableOperation operation)
+        private protected virtual void RedoRefresh(IWriteableOperation operation)
         {
             WriteableGenericRefreshOperation GenericRefreshOperation = (WriteableGenericRefreshOperation)operation;
             ExecuteRefresh(GenericRefreshOperation);
@@ -58,7 +58,7 @@
         /// <param name="insertIndex">Index for the insert operation.</param>
         /// <param name="firstIndex">Index of the replacing node upon return.</param>
         /// <param name="secondIndex">Index of the inserted node upon return.</param>
-        public virtual void SplitIdentifier(IWriteableListInner inner, WriteableInsertionListNodeIndex replaceIndex, WriteableInsertionListNodeIndex insertIndex, out IWriteableBrowsingListNodeIndex firstIndex, out IWriteableBrowsingListNodeIndex secondIndex)
+        public virtual void SplitIdentifier(IWriteableListInner inner, IWriteableInsertionListNodeIndex replaceIndex, IWriteableInsertionListNodeIndex insertIndex, out IWriteableBrowsingListNodeIndex firstIndex, out IWriteableBrowsingListNodeIndex secondIndex)
         {
             Debug.Assert(inner != null);
             Debug.Assert(replaceIndex != null);
@@ -76,19 +76,19 @@
             Node ReplacingNode = replaceIndex.Node;
             Node InsertedNode = insertIndex.Node;
 
-            Action<WriteableOperation> HandlerRedoReplace = (WriteableOperation operation) => RedoReplace(operation);
-            Action<WriteableOperation> HandlerUndoReplace = (WriteableOperation operation) => UndoReplace(operation);
+            Action<IWriteableOperation> HandlerRedoReplace = (IWriteableOperation operation) => RedoReplace(operation);
+            Action<IWriteableOperation> HandlerUndoReplace = (IWriteableOperation operation) => UndoReplace(operation);
             IWriteableReplaceOperation ReplaceOperation = CreateReplaceOperation(inner.Owner.Node, inner.PropertyName, -1, Index, ReplacingNode, HandlerRedoReplace, HandlerUndoReplace, isNested: true);
 
-            Action<WriteableOperation> HandlerRedoInsert = (WriteableOperation operation) => RedoInsertNewNode(operation);
-            Action<WriteableOperation> HandlerUndoInsert = (WriteableOperation operation) => UndoInsertNewNode(operation);
+            Action<IWriteableOperation> HandlerRedoInsert = (IWriteableOperation operation) => RedoInsertNewNode(operation);
+            Action<IWriteableOperation> HandlerUndoInsert = (IWriteableOperation operation) => UndoInsertNewNode(operation);
             WriteableInsertNodeOperation InsertOperation = CreateInsertNodeOperation(inner.Owner.Node, inner.PropertyName, -1, Index + 1, InsertedNode, HandlerRedoInsert, HandlerUndoInsert, isNested: true);
 
             ReplaceOperation.Redo();
             InsertOperation.Redo();
 
-            Action<WriteableOperation> HandlerRedoRefresh = (WriteableOperation operation) => RedoRefresh(operation);
-            Action<WriteableOperation> HandlerUndoRefresh = (WriteableOperation operation) => throw new NotImplementedException(); // Undo is not possible.
+            Action<IWriteableOperation> HandlerRedoRefresh = (IWriteableOperation operation) => RedoRefresh(operation);
+            Action<IWriteableOperation> HandlerUndoRefresh = (IWriteableOperation operation) => throw new NotImplementedException(); // Undo is not possible.
             WriteableGenericRefreshOperation RefreshOperation = CreateGenericRefreshOperation(RootState, HandlerRedoRefresh, HandlerUndoRefresh, isNested: false);
 
             RefreshOperation.Redo();

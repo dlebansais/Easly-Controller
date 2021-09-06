@@ -3,7 +3,7 @@
     /// <summary>
     /// Operation details for changing the caret in a string property or comment.
     /// </summary>
-    public interface IFocusChangeCaretOperation
+    public interface IFocusChangeCaretOperation : IFocusOperation
     {
         /// <summary>
         /// The old caret position.

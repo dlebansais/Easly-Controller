@@ -11,18 +11,18 @@ namespace EaslyEdit
         static CustomLayoutTemplateSet()
         {
             NodeTemplateDictionary = LoadTemplate(LayoutTemplateListString);
-            ILayoutTemplateReadOnlyDictionary LayoutCustomNodeTemplates = (ILayoutTemplateReadOnlyDictionary)NodeTemplateDictionary.ToReadOnly();
+            LayoutTemplateReadOnlyDictionary LayoutCustomNodeTemplates = (LayoutTemplateReadOnlyDictionary)NodeTemplateDictionary.ToReadOnly();
             BlockTemplateDictionary = LoadTemplate(LayoutBlockTemplateString);
-            ILayoutTemplateReadOnlyDictionary LayoutCustomBlockTemplates = (ILayoutTemplateReadOnlyDictionary)BlockTemplateDictionary.ToReadOnly();
+            LayoutTemplateReadOnlyDictionary LayoutCustomBlockTemplates = (LayoutTemplateReadOnlyDictionary)BlockTemplateDictionary.ToReadOnly();
             LayoutTemplateSet = new LayoutTemplateSet(LayoutCustomNodeTemplates, LayoutCustomBlockTemplates);
         }
 
-        private static ILayoutTemplateDictionary LoadTemplate(string s)
+        private static LayoutTemplateDictionary LoadTemplate(string s)
         {
             byte[] ByteArray = Encoding.UTF8.GetBytes(s);
             using (MemoryStream ms = new MemoryStream(ByteArray))
             {
-                ILayoutTemplateList Templates = (ILayoutTemplateList)XamlReader.Parse(s);
+                LayoutTemplateList Templates = (LayoutTemplateList)XamlReader.Parse(s);
 
                 LayoutTemplateDictionary TemplateDictionary = new LayoutTemplateDictionary();
                 foreach (ILayoutTemplate Item in Templates)
@@ -41,8 +41,8 @@ namespace EaslyEdit
         #endregion
 
         #region Properties
-        public static ILayoutTemplateDictionary NodeTemplateDictionary { get; private set; }
-        public static ILayoutTemplateDictionary BlockTemplateDictionary { get; private set; }
+        public static LayoutTemplateDictionary NodeTemplateDictionary { get; private set; }
+        public static LayoutTemplateDictionary BlockTemplateDictionary { get; private set; }
         public static ILayoutTemplateSet LayoutTemplateSet { get; private set; }
         #endregion
 

@@ -9,7 +9,7 @@
     /// <summary>
     /// View of a source state.
     /// </summary>
-    internal class FrameSourceStateView : WriteableSourceStateView, IFrameNodeStateView
+    public class FrameSourceStateView : WriteableSourceStateView, IFrameNodeStateView
     {
         #region Init
         /// <summary>

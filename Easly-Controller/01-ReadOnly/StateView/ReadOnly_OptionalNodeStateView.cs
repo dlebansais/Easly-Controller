@@ -5,7 +5,7 @@
     /// <summary>
     /// View of an optional node state.
     /// </summary>
-    internal class ReadOnlyOptionalNodeStateView : ReadOnlyNodeStateView, IEqualComparable
+    public class ReadOnlyOptionalNodeStateView : ReadOnlyNodeStateView, IEqualComparable
     {
         #region Init
         /// <summary>

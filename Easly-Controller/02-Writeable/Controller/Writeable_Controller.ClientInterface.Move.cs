@@ -46,8 +46,8 @@
 
             IndexToPositionAndNode(nodeIndex, out int BlockIndex, out int Index, out Node Node);
 
-            Action<WriteableOperation> HandlerRedo = (WriteableOperation operation) => RedoMove(operation);
-            Action<WriteableOperation> HandlerUndo = (WriteableOperation operation) => UndoMove(operation);
+            Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => RedoMove(operation);
+            Action<IWriteableOperation> HandlerUndo = (IWriteableOperation operation) => UndoMove(operation);
             WriteableMoveNodeOperation Operation = CreateMoveNodeOperation(inner.Owner.Node, inner.PropertyName, BlockIndex, Index, direction, HandlerRedo, HandlerUndo, isNested: false);
 
             Operation.Redo();
@@ -55,13 +55,13 @@
             CheckInvariant();
         }
 
-        private protected virtual void RedoMove(WriteableOperation operation)
+        private protected virtual void RedoMove(IWriteableOperation operation)
         {
             WriteableMoveNodeOperation MoveNodeOperation = (WriteableMoveNodeOperation)operation;
             ExecuteMove(MoveNodeOperation);
         }
 
-        private protected virtual void UndoMove(WriteableOperation operation)
+        private protected virtual void UndoMove(IWriteableOperation operation)
         {
             WriteableMoveNodeOperation MoveNodeOperation = (WriteableMoveNodeOperation)operation;
             MoveNodeOperation = MoveNodeOperation.ToInverseMove();
@@ -103,8 +103,8 @@
         {
             Debug.Assert(inner != null);
 
-            Action<WriteableOperation> HandlerRedo = (WriteableOperation operation) => RedoMoveBlock(operation);
-            Action<WriteableOperation> HandlerUndo = (WriteableOperation operation) => UndoMoveBlock(operation);
+            Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => RedoMoveBlock(operation);
+            Action<IWriteableOperation> HandlerUndo = (IWriteableOperation operation) => UndoMoveBlock(operation);
             WriteableMoveBlockOperation Operation = CreateMoveBlockOperation(inner.Owner.Node, inner.PropertyName, blockIndex, direction, HandlerRedo, HandlerUndo, isNested: false);
 
             Operation.Redo();
@@ -112,13 +112,13 @@
             CheckInvariant();
         }
 
-        private protected virtual void RedoMoveBlock(WriteableOperation operation)
+        private protected virtual void RedoMoveBlock(IWriteableOperation operation)
         {
             WriteableMoveBlockOperation MoveBlockOperation = (WriteableMoveBlockOperation)operation;
             ExecuteMoveBlock(MoveBlockOperation);
         }
 
-        private protected virtual void UndoMoveBlock(WriteableOperation operation)
+        private protected virtual void UndoMoveBlock(IWriteableOperation operation)
         {
             WriteableMoveBlockOperation MoveBlockOperation = (WriteableMoveBlockOperation)operation;
             MoveBlockOperation = MoveBlockOperation.ToInverseMoveBlock();

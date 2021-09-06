@@ -6,7 +6,7 @@
     /// <summary>
     /// Details for insertion operations.
     /// </summary>
-    public interface IFrameInsertOperation
+    public interface IFrameInsertOperation : IFrameOperation
     {
     }
 
@@ -20,7 +20,7 @@
         /// <param name="handlerRedo">Handler to execute to redo the operation.</param>
         /// <param name="handlerUndo">Handler to execute to undo the operation.</param>
         /// <param name="isNested">True if the operation is nested within another more general one.</param>
-        public FrameInsertOperation(Action<WriteableOperation> handlerRedo, Action<WriteableOperation> handlerUndo, bool isNested)
+        public FrameInsertOperation(Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
             : base(handlerRedo, handlerUndo, isNested)
         {
         }

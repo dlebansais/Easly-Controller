@@ -55,7 +55,7 @@
         /// Checks whether a block can be merged at the given index.
         /// </summary>
         /// <param name="nodeIndex">Index of the first node in the block to merge.</param>
-        bool IsMergeable(WriteableBrowsingExistingBlockNodeIndex nodeIndex);
+        bool IsMergeable(IWriteableBrowsingExistingBlockNodeIndex nodeIndex);
 
         /// <summary>
         /// Merges two blocks at the given index.
@@ -121,7 +121,7 @@
         /// Checks whether a block can be merged at the given index.
         /// </summary>
         /// <param name="nodeIndex">Index of the first node in the block to merge.</param>
-        bool IsMergeable(WriteableBrowsingExistingBlockNodeIndex nodeIndex);
+        bool IsMergeable(IWriteableBrowsingExistingBlockNodeIndex nodeIndex);
 
         /// <summary>
         /// Merges two blocks at the given index.
@@ -206,7 +206,7 @@
             {
                 IWriteablePlaceholderNodeState State = (IWriteablePlaceholderNodeState)BlockState.StateList[Index];
 
-                WriteableBrowsingExistingBlockNodeIndex NodeIndex = State.ParentIndex as WriteableBrowsingExistingBlockNodeIndex;
+                IWriteableBrowsingExistingBlockNodeIndex NodeIndex = State.ParentIndex as IWriteableBrowsingExistingBlockNodeIndex;
                 Debug.Assert(NodeIndex != null);
                 Debug.Assert(NodeIndex.BlockIndex == BrowsingBlockIndex.BlockIndex);
                 Debug.Assert(NodeIndex.Index == Index - 1);
@@ -316,7 +316,7 @@
 
                     foreach (IWriteablePlaceholderNodeState State in NextBlockState.StateList)
                     {
-                        WriteableBrowsingExistingBlockNodeIndex NodeIndex = State.ParentIndex as WriteableBrowsingExistingBlockNodeIndex;
+                        IWriteableBrowsingExistingBlockNodeIndex NodeIndex = State.ParentIndex as IWriteableBrowsingExistingBlockNodeIndex;
                         Debug.Assert(NodeIndex != null);
                         Debug.Assert(NodeIndex.BlockIndex == i + 1);
 
@@ -336,7 +336,7 @@
             {
                 IWriteablePlaceholderNodeState State = (IWriteablePlaceholderNodeState)BlockState.StateList[i];
 
-                WriteableBrowsingExistingBlockNodeIndex NodeIndex = State.ParentIndex as WriteableBrowsingExistingBlockNodeIndex;
+                IWriteableBrowsingExistingBlockNodeIndex NodeIndex = State.ParentIndex as IWriteableBrowsingExistingBlockNodeIndex;
                 Debug.Assert(NodeIndex != null);
                 Debug.Assert(NodeIndex.BlockIndex == blockIndex);
                 Debug.Assert(NodeIndex.Index == i + 1);
@@ -351,7 +351,7 @@
         /// Replaces a node.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        public virtual void Replace(WriteableReplaceOperation operation)
+        public virtual void Replace(IWriteableReplaceOperation operation)
         {
             Debug.Assert(operation != null);
 
@@ -447,7 +447,7 @@
             for (int i = 0; i < SplitIndex; i++)
             {
                 IWriteablePlaceholderNodeState State = (IWriteablePlaceholderNodeState)BlockState.StateList[0];
-                WriteableBrowsingExistingBlockNodeIndex ChildNodeIndex = State.ParentIndex as WriteableBrowsingExistingBlockNodeIndex;
+                IWriteableBrowsingExistingBlockNodeIndex ChildNodeIndex = State.ParentIndex as IWriteableBrowsingExistingBlockNodeIndex;
                 Debug.Assert(ChildNodeIndex != null);
 
                 BlockState.Remove(ChildNodeIndex, 0);
@@ -459,7 +459,7 @@
             for (int i = 0; i < BlockState.StateList.Count; i++)
             {
                 IWriteablePlaceholderNodeState State = (IWriteablePlaceholderNodeState)BlockState.StateList[i];
-                WriteableBrowsingExistingBlockNodeIndex ChildNodeIndex = State.ParentIndex as WriteableBrowsingExistingBlockNodeIndex;
+                IWriteableBrowsingExistingBlockNodeIndex ChildNodeIndex = State.ParentIndex as IWriteableBrowsingExistingBlockNodeIndex;
                 Debug.Assert(ChildNodeIndex != null);
 
                 ChildNodeIndex.MoveBlockUp();
@@ -471,7 +471,7 @@
             for (int i = SplitBlockIndex + 2; i < BlockStateList.Count; i++)
                 foreach (IWriteablePlaceholderNodeState State in BlockStateList[i].StateList)
                 {
-                    WriteableBrowsingExistingBlockNodeIndex ChildNodeIndex = State.ParentIndex as WriteableBrowsingExistingBlockNodeIndex;
+                    IWriteableBrowsingExistingBlockNodeIndex ChildNodeIndex = State.ParentIndex as IWriteableBrowsingExistingBlockNodeIndex;
                     Debug.Assert(ChildNodeIndex != null);
 
                     ChildNodeIndex.MoveBlockUp();
@@ -482,7 +482,7 @@
         /// Checks whether a block can be merged at the given index.
         /// </summary>
         /// <param name="nodeIndex">Index of the first node in the block to merge.</param>
-        public virtual bool IsMergeable(WriteableBrowsingExistingBlockNodeIndex nodeIndex)
+        public virtual bool IsMergeable(IWriteableBrowsingExistingBlockNodeIndex nodeIndex)
         {
             Debug.Assert(nodeIndex != null);
             Debug.Assert(nodeIndex.BlockIndex >= 0 && nodeIndex.BlockIndex < BlockStateList.Count);
@@ -518,7 +518,7 @@
             for (i = 0; i < MergeIndex; i++)
             {
                 IWriteablePlaceholderNodeState State = (IWriteablePlaceholderNodeState)FirstBlockState.StateList[0];
-                WriteableBrowsingExistingBlockNodeIndex ChildNodeIndex = State.ParentIndex as WriteableBrowsingExistingBlockNodeIndex;
+                IWriteableBrowsingExistingBlockNodeIndex ChildNodeIndex = State.ParentIndex as IWriteableBrowsingExistingBlockNodeIndex;
                 Debug.Assert(ChildNodeIndex != null);
 
                 FirstBlockState.Remove(ChildNodeIndex, 0);
@@ -528,7 +528,7 @@
             for (; i < SecondBlockState.StateList.Count; i++)
             {
                 IWriteablePlaceholderNodeState State = (IWriteablePlaceholderNodeState)SecondBlockState.StateList[i];
-                WriteableBrowsingExistingBlockNodeIndex ChildNodeIndex = State.ParentIndex as WriteableBrowsingExistingBlockNodeIndex;
+                IWriteableBrowsingExistingBlockNodeIndex ChildNodeIndex = State.ParentIndex as IWriteableBrowsingExistingBlockNodeIndex;
                 Debug.Assert(ChildNodeIndex != null);
 
                 ChildNodeIndex.MoveBlockDown();
@@ -540,7 +540,7 @@
             for (i = MergeBlockIndex; i < BlockStateList.Count; i++)
                 foreach (IWriteablePlaceholderNodeState State in BlockStateList[i].StateList)
                 {
-                    WriteableBrowsingExistingBlockNodeIndex ChildNodeIndex = State.ParentIndex as WriteableBrowsingExistingBlockNodeIndex;
+                    IWriteableBrowsingExistingBlockNodeIndex ChildNodeIndex = State.ParentIndex as IWriteableBrowsingExistingBlockNodeIndex;
                     Debug.Assert(ChildNodeIndex != null);
 
                     ChildNodeIndex.MoveBlockDown();
@@ -557,7 +557,7 @@
             bool IsHandled = false;
             bool Result = false;
 
-            if (nodeIndex is WriteableBrowsingExistingBlockNodeIndex AsExistingBlockNodeIndex)
+            if (nodeIndex is IWriteableBrowsingExistingBlockNodeIndex AsExistingBlockNodeIndex)
             {
                 Debug.Assert(AsExistingBlockNodeIndex != null);
 
@@ -610,7 +610,7 @@
             {
                 for (int i = MoveIndex; i < MoveIndex + Direction; i++)
                 {
-                    WriteableBrowsingExistingBlockNodeIndex ChildNodeIndex = StateList[i].ParentIndex as WriteableBrowsingExistingBlockNodeIndex;
+                    IWriteableBrowsingExistingBlockNodeIndex ChildNodeIndex = StateList[i].ParentIndex as IWriteableBrowsingExistingBlockNodeIndex;
                     Debug.Assert(ChildNodeIndex != null);
 
                     ChildNodeIndex.MoveDown();
@@ -621,7 +621,7 @@
             {
                 for (int i = MoveIndex; i > MoveIndex + Direction; i--)
                 {
-                    WriteableBrowsingExistingBlockNodeIndex ChildNodeIndex = StateList[i].ParentIndex as WriteableBrowsingExistingBlockNodeIndex;
+                    IWriteableBrowsingExistingBlockNodeIndex ChildNodeIndex = StateList[i].ParentIndex as IWriteableBrowsingExistingBlockNodeIndex;
                     Debug.Assert(ChildNodeIndex != null);
 
                     ChildNodeIndex.MoveUp();
@@ -654,7 +654,7 @@
                 {
                     for (int j = 0; j < BlockStateList[i].StateList.Count; j++)
                     {
-                        WriteableBrowsingExistingBlockNodeIndex ChildNodeIndex = BlockStateList[i].StateList[j].ParentIndex as WriteableBrowsingExistingBlockNodeIndex;
+                        IWriteableBrowsingExistingBlockNodeIndex ChildNodeIndex = BlockStateList[i].StateList[j].ParentIndex as IWriteableBrowsingExistingBlockNodeIndex;
                         Debug.Assert(ChildNodeIndex != null);
 
                         ChildNodeIndex.MoveBlockDown();
@@ -662,7 +662,7 @@
 
                     for (int j = 0; j < BlockState.StateList.Count; j++)
                     {
-                        WriteableBrowsingExistingBlockNodeIndex ChildNodeIndex = BlockState.StateList[j].ParentIndex as WriteableBrowsingExistingBlockNodeIndex;
+                        IWriteableBrowsingExistingBlockNodeIndex ChildNodeIndex = BlockState.StateList[j].ParentIndex as IWriteableBrowsingExistingBlockNodeIndex;
                         Debug.Assert(ChildNodeIndex != null);
 
                         ChildNodeIndex.MoveBlockUp();
@@ -675,7 +675,7 @@
                 {
                     for (int j = 0; j < BlockStateList[i].StateList.Count; j++)
                     {
-                        WriteableBrowsingExistingBlockNodeIndex ChildNodeIndex = BlockStateList[i].StateList[j].ParentIndex as WriteableBrowsingExistingBlockNodeIndex;
+                        IWriteableBrowsingExistingBlockNodeIndex ChildNodeIndex = BlockStateList[i].StateList[j].ParentIndex as IWriteableBrowsingExistingBlockNodeIndex;
                         Debug.Assert(ChildNodeIndex != null);
 
                         ChildNodeIndex.MoveBlockUp();
@@ -683,7 +683,7 @@
 
                     for (int j = 0; j < BlockState.StateList.Count; j++)
                     {
-                        WriteableBrowsingExistingBlockNodeIndex ChildNodeIndex = BlockState.StateList[j].ParentIndex as WriteableBrowsingExistingBlockNodeIndex;
+                        IWriteableBrowsingExistingBlockNodeIndex ChildNodeIndex = BlockState.StateList[j].ParentIndex as IWriteableBrowsingExistingBlockNodeIndex;
                         Debug.Assert(ChildNodeIndex != null);
 
                         ChildNodeIndex.MoveBlockDown();

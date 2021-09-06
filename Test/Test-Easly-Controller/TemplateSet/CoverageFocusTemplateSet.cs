@@ -11,18 +11,18 @@ namespace TestDebug
         static CoverageFocusTemplateSet()
         {
             NodeTemplateDictionary = LoadTemplate(FocusTemplateListString);
-            IFocusTemplateReadOnlyDictionary FocusCustomNodeTemplates = (IFocusTemplateReadOnlyDictionary)NodeTemplateDictionary.ToReadOnly();
+            FocusTemplateReadOnlyDictionary FocusCustomNodeTemplates = (FocusTemplateReadOnlyDictionary)NodeTemplateDictionary.ToReadOnly();
             BlockTemplateDictionary = LoadTemplate(FocusBlockTemplateString);
-            IFocusTemplateReadOnlyDictionary FocusCustomBlockTemplates = (IFocusTemplateReadOnlyDictionary)BlockTemplateDictionary.ToReadOnly();
+            FocusTemplateReadOnlyDictionary FocusCustomBlockTemplates = (FocusTemplateReadOnlyDictionary)BlockTemplateDictionary.ToReadOnly();
             FocusTemplateSet = new FocusTemplateSet(FocusCustomNodeTemplates, FocusCustomBlockTemplates);
         }
 
-        private static IFocusTemplateDictionary LoadTemplate(string s)
+        private static FocusTemplateDictionary LoadTemplate(string s)
         {
             byte[] ByteArray = Encoding.UTF8.GetBytes(s);
             using (MemoryStream ms = new MemoryStream(ByteArray))
             {
-                Templates = (IFocusTemplateList)XamlReader.Parse(s);
+                Templates = (FocusTemplateList)XamlReader.Parse(s);
 
                 FocusTemplateDictionary TemplateDictionary = new FocusTemplateDictionary();
                 foreach (IFocusTemplate Item in Templates)
@@ -77,10 +77,10 @@ namespace TestDebug
         #endregion
 
         #region Properties
-        public static IFocusTemplateDictionary NodeTemplateDictionary { get; private set; }
-        public static IFocusTemplateDictionary BlockTemplateDictionary { get; private set; }
+        public static FocusTemplateDictionary NodeTemplateDictionary { get; private set; }
+        public static FocusTemplateDictionary BlockTemplateDictionary { get; private set; }
         public static IFocusTemplateSet FocusTemplateSet { get; private set; }
-        public static IFocusTemplateList Templates { get; private set; } = null!;
+        public static FocusTemplateList Templates { get; private set; } = null!;
         #endregion
 
         #region Node Templates

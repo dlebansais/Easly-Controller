@@ -89,7 +89,7 @@
         /// Replaces a node.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        public virtual void Replace(WriteableReplaceOperation operation)
+        public virtual void Replace(IWriteableReplaceOperation operation)
         {
             Debug.Assert(operation != null);
 
@@ -99,7 +99,7 @@
                 ClearOptional(operation);
         }
 
-        private protected virtual void ReplaceOptional(WriteableReplaceOperation operation)
+        private protected virtual void ReplaceOptional(IWriteableReplaceOperation operation)
         {
             Node ParentNode = Owner.Node;
 
@@ -115,7 +115,7 @@
             operation.Update(OldBrowsingIndex, NewBrowsingIndex, OldNode, NewChildState);
         }
 
-        private protected virtual void ClearOptional(WriteableReplaceOperation operation)
+        private protected virtual void ClearOptional(IWriteableReplaceOperation operation)
         {
             Node ParentNode = Owner.Node;
 

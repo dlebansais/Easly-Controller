@@ -4,7 +4,12 @@
     using EaslyController.Writeable;
 
     /// <inheritdoc/>
-    internal class FrameOperation : WriteableOperation
+    public interface IFrameOperation : IWriteableOperation
+    {
+    }
+
+    /// <inheritdoc/>
+    internal class FrameOperation : WriteableOperation, IFrameOperation
     {
         #region Init
         /// <summary>
@@ -13,7 +18,7 @@
         /// <param name="handlerRedo">Handler to execute to redo the operation.</param>
         /// <param name="handlerUndo">Handler to execute to undo the operation.</param>
         /// <param name="isNested">True if the operation is nested within another more general one.</param>
-        public FrameOperation(Action<WriteableOperation> handlerRedo, Action<WriteableOperation> handlerUndo, bool isNested)
+        public FrameOperation(Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
             : base(handlerRedo, handlerUndo, isNested)
         {
         }

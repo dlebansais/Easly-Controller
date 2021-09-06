@@ -149,7 +149,7 @@
         /// Replaces a node.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        public virtual void Replace(WriteableReplaceOperation operation)
+        public virtual void Replace(IWriteableReplaceOperation operation)
         {
             Debug.Assert(operation != null);
 

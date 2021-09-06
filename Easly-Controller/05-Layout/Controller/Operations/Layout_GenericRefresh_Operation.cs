@@ -7,7 +7,7 @@
     /// <summary>
     /// Operation details for replacing a node in a list or block list.
     /// </summary>
-    internal class LayoutGenericRefreshOperation : FocusGenericRefreshOperation
+    internal class LayoutGenericRefreshOperation : FocusGenericRefreshOperation, ILayoutOperation
     {
         #region Init
         /// <summary>
@@ -17,7 +17,7 @@
         /// <param name="handlerRedo">Handler to execute to redo the operation.</param>
         /// <param name="handlerUndo">Handler to execute to undo the operation.</param>
         /// <param name="isNested">True if the operation is nested within another more general one.</param>
-        public LayoutGenericRefreshOperation(ILayoutNodeState refreshState, Action<WriteableOperation> handlerRedo, Action<WriteableOperation> handlerUndo, bool isNested)
+        public LayoutGenericRefreshOperation(ILayoutNodeState refreshState, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
             : base(refreshState, handlerRedo, handlerUndo, isNested)
         {
         }

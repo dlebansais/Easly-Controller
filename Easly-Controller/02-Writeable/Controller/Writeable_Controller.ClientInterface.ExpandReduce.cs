@@ -89,8 +89,8 @@
             IWriteableBrowsingOptionalNodeIndex ParentIndex = optionalInner.ChildState.ParentIndex;
             if (ParentIndex.Optional.HasItem)
             {
-                Action<WriteableOperation> HandlerRedo = (WriteableOperation operation) => RedoAssign(operation);
-                Action<WriteableOperation> HandlerUndo = (WriteableOperation operation) => UndoAssign(operation);
+                Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => RedoAssign(operation);
+                Action<IWriteableOperation> HandlerUndo = (IWriteableOperation operation) => UndoAssign(operation);
                 WriteableAssignmentOperation Operation = CreateAssignmentOperation(optionalInner.Owner.Node, optionalInner.PropertyName, HandlerRedo, HandlerUndo, isNested: false);
 
                 Operation.Redo();
@@ -104,8 +104,8 @@
 
                 IWriteableInsertionOptionalNodeIndex NewOptionalNodeIndex = CreateNewOptionalNodeIndex(optionalInner.Owner.Node, optionalInner.PropertyName, NewNode);
 
-                Action<WriteableOperation> HandlerRedo = (WriteableOperation operation) => RedoReplace(operation);
-                Action<WriteableOperation> HandlerUndo = (WriteableOperation operation) => UndoReplace(operation);
+                Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => RedoReplace(operation);
+                Action<IWriteableOperation> HandlerUndo = (IWriteableOperation operation) => UndoReplace(operation);
                 IWriteableReplaceOperation Operation = CreateReplaceOperation(optionalInner.Owner.Node, optionalInner.PropertyName, -1, -1, NewNode, HandlerRedo, HandlerUndo, isNested: false);
 
                 Operation.Redo();
@@ -132,8 +132,8 @@
             Identifier NewSource = NodeHelper.CreateEmptyIdentifier();
             IBlock NewBlock = NodeTreeHelperBlockList.CreateBlock(blockListInner.Owner.Node, blockListInner.PropertyName, ReplicationStatus.Normal, NewPattern, NewSource);
 
-            Action<WriteableOperation> HandlerRedo = (WriteableOperation operation) => RedoExpandBlockList(operation);
-            Action<WriteableOperation> HandlerUndo = (WriteableOperation operation) => UndoExpandBlockList(operation);
+            Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => RedoExpandBlockList(operation);
+            Action<IWriteableOperation> HandlerUndo = (IWriteableOperation operation) => UndoExpandBlockList(operation);
             WriteableExpandArgumentOperation Operation = CreateExpandArgumentOperation(blockListInner.Owner.Node, blockListInner.PropertyName, NewBlock, NewItem, HandlerRedo, HandlerUndo, isNested: false);
 
             Operation.Redo();
@@ -141,13 +141,13 @@
             operationList.Add(Operation);
         }
 
-        private protected virtual void RedoExpandBlockList(WriteableOperation operation)
+        private protected virtual void RedoExpandBlockList(IWriteableOperation operation)
         {
             WriteableExpandArgumentOperation ExpandArgumentOperation = (WriteableExpandArgumentOperation)operation;
             ExecuteInsertNewBlock(ExpandArgumentOperation);
         }
 
-        private protected virtual void UndoExpandBlockList(WriteableOperation operation)
+        private protected virtual void UndoExpandBlockList(IWriteableOperation operation)
         {
             WriteableExpandArgumentOperation ExpandArgumentOperation = (WriteableExpandArgumentOperation)operation;
             WriteableRemoveBlockOperation RemoveBlockOperation = ExpandArgumentOperation.ToRemoveBlockOperation();
@@ -210,10 +210,10 @@
         {
             if (optionalInner.IsAssigned && NodeHelper.IsOptionalAssignedToDefault(optionalInner.ChildState.Optional))
             {
-                WriteableBrowsingOptionalNodeIndex ParentIndex = optionalInner.ChildState.ParentIndex;
+                IWriteableBrowsingOptionalNodeIndex ParentIndex = optionalInner.ChildState.ParentIndex;
 
-                Action<WriteableOperation> HandlerRedo = (WriteableOperation operation) => RedoUnassign(operation);
-                Action<WriteableOperation> HandlerUndo = (WriteableOperation operation) => UndoUnassign(operation);
+                Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => RedoUnassign(operation);
+                Action<IWriteableOperation> HandlerUndo = (IWriteableOperation operation) => UndoUnassign(operation);
                 WriteableAssignmentOperation Operation = CreateAssignmentOperation(optionalInner.Owner.Node, optionalInner.PropertyName, HandlerRedo, HandlerUndo, isNested);
 
                 Operation.Redo();
@@ -243,8 +243,8 @@
             if (!NodeHelper.IsDefaultNode(FirstState.Node))
                 return;
 
-            Action<WriteableOperation> HandlerRedo = (WriteableOperation operation) => RedoRemoveBlock(operation);
-            Action<WriteableOperation> HandlerUndo = (WriteableOperation operation) => UndoRemoveBlock(operation);
+            Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => RedoRemoveBlock(operation);
+            Action<IWriteableOperation> HandlerUndo = (IWriteableOperation operation) => UndoRemoveBlock(operation);
             WriteableRemoveBlockOperation Operation = CreateRemoveBlockOperation(blockListInner.Owner.Node, blockListInner.PropertyName, 0, HandlerRedo, HandlerUndo, isNested);
 
             Operation.Redo();
@@ -263,8 +263,8 @@
 
             if (OperationList.Count > 0)
             {
-                Action<WriteableOperation> HandlerRedo = (WriteableOperation operation) => RedoRefresh(operation);
-                Action<WriteableOperation> HandlerUndo = (WriteableOperation operation) => throw new NotImplementedException(); // Undo is not possible.
+                Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => RedoRefresh(operation);
+                Action<IWriteableOperation> HandlerUndo = (IWriteableOperation operation) => throw new NotImplementedException(); // Undo is not possible.
                 WriteableGenericRefreshOperation RefreshOperation = CreateGenericRefreshOperation(RootState, HandlerRedo, HandlerUndo, isNested: false);
 
                 RefreshOperation.Redo();
