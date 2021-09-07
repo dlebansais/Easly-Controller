@@ -8118,7 +8118,7 @@ namespace Test
 
                     for (int i = 0; i < Inner.StateList.Count; i++)
                     {
-                        ILayoutPlaceholderNodeState ChildState = Inner.StateList[i];
+                        ILayoutPlaceholderNodeState ChildState = (ILayoutPlaceholderNodeState)Inner.StateList[i];
                         ILayoutIndex ChildIndex = ChildState.ParentIndex;
                         if (!LayoutBrowseNode(controller, ChildIndex, test))
                             return false;
@@ -8133,7 +8133,7 @@ namespace Test
 
                     for (int BlockIndex = 0; BlockIndex < Inner.BlockStateList.Count; BlockIndex++)
                     {
-                        ILayoutBlockState BlockState = Inner.BlockStateList[BlockIndex];
+                        ILayoutBlockState BlockState = (ILayoutBlockState)Inner.BlockStateList[BlockIndex];
                         if (!LayoutBrowseNode(controller, BlockState.PatternIndex, test))
                             return false;
                         if (!LayoutBrowseNode(controller, BlockState.SourceIndex, test))
@@ -8141,7 +8141,7 @@ namespace Test
 
                         for (int i = 0; i < BlockState.StateList.Count; i++)
                         {
-                            ILayoutPlaceholderNodeState ChildState = BlockState.StateList[i];
+                            ILayoutPlaceholderNodeState ChildState = (ILayoutPlaceholderNodeState)BlockState.StateList[i];
                             ILayoutIndex ChildIndex = ChildState.ParentIndex;
                             if (!LayoutBrowseNode(controller, ChildIndex, test))
                                 return false;

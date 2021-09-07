@@ -1,4 +1,6 @@
-﻿using System;
+﻿#if REMOVED
+
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
@@ -552,7 +554,7 @@ namespace Coverage
             try
             {
                 RootIndex = new WriteableRootNodeIndex(RootNode);
-                Controller = WriteableController.Create(RootIndex);
+                Controller = (WriteableController)WriteableController.Create(RootIndex);
             }
             catch (Exception e)
             {
@@ -598,7 +600,7 @@ namespace Coverage
             Assert.That(RootIndex1.Node == RootNode);
             Assert.That(CompareEqual.CoverIsEqual(RootIndex0, RootIndex1));
 
-            WriteableController Controller0 = WriteableController.Create(RootIndex0);
+            WriteableController Controller0 = (WriteableController)WriteableController.Create(RootIndex0);
             Assert.That(Controller0.RootIndex == RootIndex0);
 
             Stats Stats = Controller0.Stats;
@@ -866,7 +868,7 @@ namespace Coverage
                 {
                     Assert.That(State != null);
 
-                    IWriteableNodeStateView StateView = ControllerView0.StateViewTable[State];
+                    IWriteableNodeStateView StateView = (IWriteableNodeStateView)ControllerView0.StateViewTable[State];
                     Assert.That(StateView != null);
                     Assert.That(StateView.State == State);
 
@@ -2809,7 +2811,7 @@ namespace Coverage
                 if (DebugBlockStateList != null)
                 {
                     Assert.That(DebugBlockStateList.Count > 0);
-                    IsReadOnly = ((ReadOnlyBlockStateList)DebugBlockStateList).IsReadOnly;
+                    IsReadOnly = ((ICollection<IReadOnlyBlockState>)DebugBlockStateList).IsReadOnly;
                     FirstBlockState = DebugBlockStateList[0];
                     Assert.That(DebugBlockStateList.Contains(FirstBlockState));
                     Assert.That(DebugBlockStateList.IndexOf(FirstBlockState) == 0);
@@ -2876,7 +2878,7 @@ namespace Coverage
 
                 WriteableBrowsingListNodeIndexList ListNodeIndexList = LeafPathInner.AllIndexes() as WriteableBrowsingListNodeIndexList;
                 Assert.That(ListNodeIndexList.Count > 0);
-                IsReadOnly = ((ReadOnlyBrowsingListNodeIndexList)ListNodeIndexList).IsReadOnly;
+                IsReadOnly = ((ICollection<IReadOnlyBrowsingListNodeIndex>)ListNodeIndexList).IsReadOnly;
                 FirstListNodeIndex = ListNodeIndexList[0];
                 Assert.That(ListNodeIndexList.Contains(FirstListNodeIndex));
                 Assert.That(ListNodeIndexList.IndexOf(FirstListNodeIndex) == 0);
@@ -2962,10 +2964,11 @@ namespace Coverage
                 Assert.That(InnerTableModifyAsDictionary.Keys != null);
                 Assert.That(InnerTableModifyAsDictionary.Values != null);
 
-                foreach (KeyValuePair<string, IWriteableInner> Entry in InnerTableModify)
+                foreach (string Key in InnerTableModify.Keys)
                 {
-                    Assert.That(InnerTableModifyAsDictionary.ContainsKey(Entry.Key));
-                    Assert.That(InnerTableModifyAsDictionary[Entry.Key] == Entry.Value);
+                    IWriteableInner Value = (IWriteableInner)InnerTableModify[Key];
+                    Assert.That(InnerTableModifyAsDictionary.ContainsKey(Key));
+                    Assert.That(InnerTableModifyAsDictionary[Key] == Value);
                 }
 
                 ICollection<KeyValuePair<string, IReadOnlyInner>> InnerTableModifyAsCollection = InnerTableModify;
@@ -2978,12 +2981,12 @@ namespace Coverage
                 {
                     Assert.That(InnerTableModifyAsDictionary.ContainsKey(Entry.Key));
                     Assert.That(InnerTableModifyAsDictionary[Entry.Key] == Entry.Value);
-                    Assert.That(InnerTableModify.TryGetValue(Entry.Key, out IReadOnlyInner ReadOnlyInnerValue) == InnerTableModify.TryGetValue(Entry.Key, out IWriteableInner WriteableInnerValue));
+                    Assert.That(InnerTableModify.TryGetValue(Entry.Key, out IReadOnlyInner ReadOnlyInnerValue) == InnerTableModify.TryGetValue(Entry.Key, out IReadOnlyInner WriteableInnerValue));
 
-                    Assert.That(InnerTableModify.Contains(Entry));
-                    InnerTableModify.Remove(Entry);
-                    InnerTableModify.Add(Entry);
-                    InnerTableModify.CopyTo(new KeyValuePair<string, IReadOnlyInner>[InnerTableModify.Count], 0);
+                    Assert.That(InnerTableModifyAsCollection.Contains(Entry));
+                    InnerTableModifyAsCollection.Remove(Entry);
+                    InnerTableModifyAsCollection.Add(Entry);
+                    InnerTableModifyAsCollection.CopyTo(new KeyValuePair<string, IReadOnlyInner>[InnerTableModify.Count], 0);
                     break;
                 }
 
@@ -2997,7 +3000,7 @@ namespace Coverage
 
                 foreach (KeyValuePair<string, IWriteableInner> Entry in InnerTable)
                 {
-                    Assert.That(InnerTable.TryGetValue(Entry.Key, out IReadOnlyInner ReadOnlyInnerValue) == InnerTable.TryGetValue(Entry.Key, out IWriteableInner WriteableInnerValue));
+                    Assert.That(InnerTable.TryGetValue(Entry.Key, out IReadOnlyInner ReadOnlyInnerValue) == InnerTable.TryGetValue(Entry.Key, out IReadOnlyInner WriteableInnerValue));
                     break;
                 }
 
@@ -17156,3 +17159,5 @@ namespace Coverage
         #endregion
     }
 }
+
+#endif
