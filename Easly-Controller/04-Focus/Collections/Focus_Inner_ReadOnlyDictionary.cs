@@ -14,6 +14,9 @@
         {
         }
 
+        /// <inheritdoc/>
+        public bool TryGetValue(TKey key, out IFocusInner value) { bool Result = TryGetValue(key, out IReadOnlyInner Value); value = (IFocusInner)Value; return Result; }
+
         #region TKey, IFocusInner
         void ICollection<KeyValuePair<TKey, IFocusInner>>.Add(KeyValuePair<TKey, IFocusInner> item) { throw new System.InvalidOperationException(); }
         void ICollection<KeyValuePair<TKey, IFocusInner>>.Clear() { throw new System.InvalidOperationException(); }

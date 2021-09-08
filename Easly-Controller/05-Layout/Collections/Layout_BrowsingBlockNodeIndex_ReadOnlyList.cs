@@ -12,6 +12,9 @@
         {
         }
 
+        /// <inheritdoc/>
+        public new ILayoutBrowsingBlockNodeIndex this[int index] { get { return (ILayoutBrowsingBlockNodeIndex)base[index]; } }
+
         #region ILayoutBrowsingBlockNodeIndex
         IEnumerator<ILayoutBrowsingBlockNodeIndex> IEnumerable<ILayoutBrowsingBlockNodeIndex>.GetEnumerator() { return ((IList<ILayoutBrowsingBlockNodeIndex>)this).GetEnumerator(); }
         ILayoutBrowsingBlockNodeIndex IReadOnlyList<ILayoutBrowsingBlockNodeIndex>.this[int index] { get { return (ILayoutBrowsingBlockNodeIndex)this[index]; } }

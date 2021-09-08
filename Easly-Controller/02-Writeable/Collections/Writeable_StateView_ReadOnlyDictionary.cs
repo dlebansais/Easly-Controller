@@ -13,6 +13,9 @@
         {
         }
 
+        /// <inheritdoc/>
+        public bool TryGetValue(IWriteableNodeState key, out IWriteableNodeStateView value) { bool Result = TryGetValue(key, out IReadOnlyNodeStateView Value); value = (IWriteableNodeStateView)Value; return Result; }
+
         #region IWriteableNodeState, IWriteableNodeStateView
         void ICollection<KeyValuePair<IWriteableNodeState, IWriteableNodeStateView>>.Add(KeyValuePair<IWriteableNodeState, IWriteableNodeStateView> item) { throw new System.InvalidOperationException(); }
         void ICollection<KeyValuePair<IWriteableNodeState, IWriteableNodeStateView>>.Clear() { throw new System.InvalidOperationException(); }

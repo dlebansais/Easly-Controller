@@ -14,6 +14,9 @@
         {
         }
 
+        /// <inheritdoc/>
+        public bool TryGetValue(TKey key, out IFrameInner value) { bool Result = TryGetValue(key, out IReadOnlyInner Value); value = (IFrameInner)Value; return Result; }
+
         #region TKey, IFrameInner
         void ICollection<KeyValuePair<TKey, IFrameInner>>.Add(KeyValuePair<TKey, IFrameInner> item) { throw new System.InvalidOperationException(); }
         void ICollection<KeyValuePair<TKey, IFrameInner>>.Clear() { throw new System.InvalidOperationException(); }

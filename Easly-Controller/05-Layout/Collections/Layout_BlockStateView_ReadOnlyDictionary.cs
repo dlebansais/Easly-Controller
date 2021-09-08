@@ -14,6 +14,9 @@
         {
         }
 
+        /// <inheritdoc/>
+        public bool TryGetValue(ILayoutBlockState key, out LayoutBlockStateView value) { bool Result = TryGetValue(key, out ReadOnlyBlockStateView Value); value = (LayoutBlockStateView)Value; return Result; }
+
         #region ILayoutBlockState, LayoutBlockStateView
         void ICollection<KeyValuePair<ILayoutBlockState, LayoutBlockStateView>>.Add(KeyValuePair<ILayoutBlockState, LayoutBlockStateView> item) { throw new System.InvalidOperationException(); }
         void ICollection<KeyValuePair<ILayoutBlockState, LayoutBlockStateView>>.Clear() { throw new System.InvalidOperationException(); }

@@ -8,7 +8,18 @@
     /// <summary>
     /// Operation details for replacing a node with another from a cycle.
     /// </summary>
-    public class LayoutReplaceWithCycleOperation : FocusReplaceWithCycleOperation, ILayoutReplaceOperation
+    public interface ILayoutReplaceWithCycleOperation : IFocusReplaceWithCycleOperation, ILayoutReplaceOperation
+    {
+        /// <summary>
+        /// Cycle of nodes that can replace the current node.
+        /// </summary>
+        new LayoutInsertionChildNodeIndexList CycleIndexList { get; }
+    }
+
+    /// <summary>
+    /// Operation details for replacing a node with another from a cycle.
+    /// </summary>
+    public class LayoutReplaceWithCycleOperation : FocusReplaceWithCycleOperation, ILayoutReplaceWithCycleOperation
     {
         #region Init
         /// <summary>

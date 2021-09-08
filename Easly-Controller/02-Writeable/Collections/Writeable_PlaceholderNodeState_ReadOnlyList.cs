@@ -13,6 +13,9 @@
         {
         }
 
+        /// <inheritdoc/>
+        public new IWriteablePlaceholderNodeState this[int index] { get { return (IWriteablePlaceholderNodeState)base[index]; } }
+
         #region IWriteablePlaceholderNodeState
         IEnumerator<IWriteablePlaceholderNodeState> IEnumerable<IWriteablePlaceholderNodeState>.GetEnumerator() { return ((IList<IWriteablePlaceholderNodeState>)this).GetEnumerator(); }
         IWriteablePlaceholderNodeState IReadOnlyList<IWriteablePlaceholderNodeState>.this[int index] { get { return (IWriteablePlaceholderNodeState)this[index]; } }

@@ -24,6 +24,9 @@
         /// <inheritdoc/>
         public FocusTemplateDictionary(int capacity, IEqualityComparer<Type> comparer) : base(capacity, comparer) { }
 
+        /// <inheritdoc/>
+        public bool TryGetValue(Type key, out IFocusTemplate value) { bool Result = TryGetValue(key, out IFrameTemplate Value); value = (IFocusTemplate)Value; return Result; }
+
         #region Type, IFocusTemplate
         void ICollection<KeyValuePair<Type, IFocusTemplate>>.Add(KeyValuePair<Type, IFocusTemplate> item) { Add(item.Key, item.Value); }
         bool ICollection<KeyValuePair<Type, IFocusTemplate>>.Contains(KeyValuePair<Type, IFocusTemplate> item) { return ContainsKey(item.Key) && this[item.Key] == item.Value; }

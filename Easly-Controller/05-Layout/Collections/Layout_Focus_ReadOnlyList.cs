@@ -12,6 +12,9 @@
         {
         }
 
+        /// <inheritdoc/>
+        public new ILayoutFocus this[int index] { get { return (ILayoutFocus)base[index]; } }
+
         #region ILayoutFocus
         IEnumerator<ILayoutFocus> IEnumerable<ILayoutFocus>.GetEnumerator() { return ((IList<ILayoutFocus>)this).GetEnumerator(); }
         ILayoutFocus IReadOnlyList<ILayoutFocus>.this[int index] { get { return (ILayoutFocus)this[index]; } }

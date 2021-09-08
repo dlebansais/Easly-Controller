@@ -7,6 +7,9 @@
     /// <inheritdoc/>
     public class WriteableInnerDictionary<TKey> : ReadOnlyInnerDictionary<TKey>, ICollection<KeyValuePair<TKey, IWriteableInner>>, IEnumerable<KeyValuePair<TKey, IWriteableInner>>, IDictionary<TKey, IWriteableInner>, IReadOnlyCollection<KeyValuePair<TKey, IWriteableInner>>, IReadOnlyDictionary<TKey, IWriteableInner>, IEqualComparable
     {
+        /// <inheritdoc/>
+        public bool TryGetValue(TKey key, out IWriteableInner value) { bool Result = TryGetValue(key, out IReadOnlyInner Value); value = (IWriteableInner)Value; return Result; }
+
         #region TKey, IWriteableInner
         void ICollection<KeyValuePair<TKey, IWriteableInner>>.Add(KeyValuePair<TKey, IWriteableInner> item) { Add(item.Key, item.Value); }
         bool ICollection<KeyValuePair<TKey, IWriteableInner>>.Contains(KeyValuePair<TKey, IWriteableInner> item) { return ContainsKey(item.Key) && this[item.Key] == item.Value; }

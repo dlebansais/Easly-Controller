@@ -14,6 +14,9 @@
         {
         }
 
+        /// <inheritdoc/>
+        public bool TryGetValue(ILayoutNodeState key, out ILayoutNodeStateView value) { bool Result = TryGetValue(key, out IReadOnlyNodeStateView Value); value = (ILayoutNodeStateView)Value; return Result; }
+
         #region ILayoutNodeState, ILayoutNodeStateView
         void ICollection<KeyValuePair<ILayoutNodeState, ILayoutNodeStateView>>.Add(KeyValuePair<ILayoutNodeState, ILayoutNodeStateView> item) { throw new System.InvalidOperationException(); }
         void ICollection<KeyValuePair<ILayoutNodeState, ILayoutNodeStateView>>.Clear() { throw new System.InvalidOperationException(); }

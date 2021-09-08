@@ -6,6 +6,9 @@
     /// <inheritdoc/>
     public class WriteableIndexNodeStateDictionary : ReadOnlyIndexNodeStateDictionary, ICollection<KeyValuePair<IWriteableIndex, IWriteableNodeState>>, IEnumerable<KeyValuePair<IWriteableIndex, IWriteableNodeState>>, IDictionary<IWriteableIndex, IWriteableNodeState>, IReadOnlyCollection<KeyValuePair<IWriteableIndex, IWriteableNodeState>>, IReadOnlyDictionary<IWriteableIndex, IWriteableNodeState>
     {
+        /// <inheritdoc/>
+        public bool TryGetValue(IWriteableIndex key, out IWriteableNodeState value) { bool Result = TryGetValue(key, out IReadOnlyNodeState Value); value = (IWriteableNodeState)Value; return Result; }
+
         #region IWriteableIndex, IWriteableNodeState
         void ICollection<KeyValuePair<IWriteableIndex, IWriteableNodeState>>.Add(KeyValuePair<IWriteableIndex, IWriteableNodeState> item) { Add(item.Key, item.Value); }
         bool ICollection<KeyValuePair<IWriteableIndex, IWriteableNodeState>>.Contains(KeyValuePair<IWriteableIndex, IWriteableNodeState> item) { return ContainsKey(item.Key) && this[item.Key] == item.Value; }

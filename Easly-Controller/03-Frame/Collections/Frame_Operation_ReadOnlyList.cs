@@ -12,6 +12,9 @@
         {
         }
 
+        /// <inheritdoc/>
+        public new FrameOperation this[int index] { get { return (FrameOperation)base[index]; } }
+
         #region FrameOperation
         IEnumerator<FrameOperation> IEnumerable<FrameOperation>.GetEnumerator() { return ((IList<FrameOperation>)this).GetEnumerator(); }
         FrameOperation IReadOnlyList<FrameOperation>.this[int index] { get { return (FrameOperation)this[index]; } }

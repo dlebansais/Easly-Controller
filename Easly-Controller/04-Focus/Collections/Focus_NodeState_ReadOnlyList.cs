@@ -12,6 +12,9 @@
         {
         }
 
+        /// <inheritdoc/>
+        public new IFocusNodeState this[int index] { get { return (IFocusNodeState)base[index]; } }
+
         #region IFocusNodeState
         IEnumerator<IFocusNodeState> IEnumerable<IFocusNodeState>.GetEnumerator() { return ((IList<IFocusNodeState>)this).GetEnumerator(); }
         IFocusNodeState IReadOnlyList<IFocusNodeState>.this[int index] { get { return (IFocusNodeState)this[index]; } }

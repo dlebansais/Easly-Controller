@@ -13,6 +13,9 @@
         {
         }
 
+        /// <inheritdoc/>
+        public new ILayoutFrameSelector this[int index] { get { return (ILayoutFrameSelector)base[index]; } }
+
         #region ILayoutFrameSelector
         IEnumerator<ILayoutFrameSelector> IEnumerable<ILayoutFrameSelector>.GetEnumerator() { return ((IList<ILayoutFrameSelector>)this).GetEnumerator(); }
         ILayoutFrameSelector IReadOnlyList<ILayoutFrameSelector>.this[int index] { get { return (ILayoutFrameSelector)this[index]; } }

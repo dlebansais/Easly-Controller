@@ -12,6 +12,9 @@
         {
         }
 
+        /// <inheritdoc/>
+        public new LayoutOperation this[int index] { get { return (LayoutOperation)base[index]; } }
+
         #region LayoutOperation
         IEnumerator<LayoutOperation> IEnumerable<LayoutOperation>.GetEnumerator() { return ((IList<LayoutOperation>)this).GetEnumerator(); }
         LayoutOperation IReadOnlyList<LayoutOperation>.this[int index] { get { return (LayoutOperation)this[index]; } }

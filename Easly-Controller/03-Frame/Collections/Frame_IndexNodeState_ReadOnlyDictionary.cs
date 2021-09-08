@@ -13,6 +13,9 @@
         {
         }
 
+        /// <inheritdoc/>
+        public bool TryGetValue(IFrameIndex key, out IFrameNodeState value) { bool Result = TryGetValue(key, out IReadOnlyNodeState Value); value = (IFrameNodeState)Value; return Result; }
+
         #region IFrameIndex, IFrameNodeState
         void ICollection<KeyValuePair<IFrameIndex, IFrameNodeState>>.Add(KeyValuePair<IFrameIndex, IFrameNodeState> item) { throw new System.InvalidOperationException(); }
         void ICollection<KeyValuePair<IFrameIndex, IFrameNodeState>>.Clear() { throw new System.InvalidOperationException(); }

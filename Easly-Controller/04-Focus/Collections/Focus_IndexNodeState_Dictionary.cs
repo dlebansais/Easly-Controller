@@ -7,6 +7,9 @@
     /// <inheritdoc/>
     public class FocusIndexNodeStateDictionary : FrameIndexNodeStateDictionary, ICollection<KeyValuePair<IFocusIndex, IFocusNodeState>>, IEnumerable<KeyValuePair<IFocusIndex, IFocusNodeState>>, IDictionary<IFocusIndex, IFocusNodeState>, IReadOnlyCollection<KeyValuePair<IFocusIndex, IFocusNodeState>>, IReadOnlyDictionary<IFocusIndex, IFocusNodeState>
     {
+        /// <inheritdoc/>
+        public bool TryGetValue(IFocusIndex key, out IFocusNodeState value) { bool Result = TryGetValue(key, out IReadOnlyNodeState Value); value = (IFocusNodeState)Value; return Result; }
+
         #region IFocusIndex, IFocusNodeState
         void ICollection<KeyValuePair<IFocusIndex, IFocusNodeState>>.Add(KeyValuePair<IFocusIndex, IFocusNodeState> item) { Add(item.Key, item.Value); }
         bool ICollection<KeyValuePair<IFocusIndex, IFocusNodeState>>.Contains(KeyValuePair<IFocusIndex, IFocusNodeState> item) { return ContainsKey(item.Key) && this[item.Key] == item.Value; }

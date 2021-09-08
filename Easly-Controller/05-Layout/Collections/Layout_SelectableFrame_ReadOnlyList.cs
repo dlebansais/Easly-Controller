@@ -12,6 +12,9 @@
         {
         }
 
+        /// <inheritdoc/>
+        public new ILayoutSelectableFrame this[int index] { get { return (ILayoutSelectableFrame)base[index]; } }
+
         #region ILayoutSelectableFrame
         IEnumerator<ILayoutSelectableFrame> IEnumerable<ILayoutSelectableFrame>.GetEnumerator() { return ((IList<ILayoutSelectableFrame>)this).GetEnumerator(); }
         ILayoutSelectableFrame IReadOnlyList<ILayoutSelectableFrame>.this[int index] { get { return (ILayoutSelectableFrame)this[index]; } }

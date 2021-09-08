@@ -12,6 +12,9 @@
         {
         }
 
+        /// <inheritdoc/>
+        public new ILayoutFrame this[int index] { get { return (ILayoutFrame)base[index]; } }
+
         #region ILayoutFrame
         IEnumerator<ILayoutFrame> IEnumerable<ILayoutFrame>.GetEnumerator() { return ((IList<ILayoutFrame>)this).GetEnumerator(); }
         ILayoutFrame IReadOnlyList<ILayoutFrame>.this[int index] { get { return (ILayoutFrame)this[index]; } }

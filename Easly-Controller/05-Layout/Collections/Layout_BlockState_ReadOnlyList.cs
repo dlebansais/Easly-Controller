@@ -12,6 +12,9 @@
         {
         }
 
+        /// <inheritdoc/>
+        public new ILayoutBlockState this[int index] { get { return (ILayoutBlockState)base[index]; } }
+
         #region ILayoutBlockState
         IEnumerator<ILayoutBlockState> IEnumerable<ILayoutBlockState>.GetEnumerator() { return ((IList<ILayoutBlockState>)this).GetEnumerator(); }
         ILayoutBlockState IReadOnlyList<ILayoutBlockState>.this[int index] { get { return (ILayoutBlockState)this[index]; } }

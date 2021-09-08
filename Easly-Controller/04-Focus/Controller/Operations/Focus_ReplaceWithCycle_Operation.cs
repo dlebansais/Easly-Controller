@@ -8,7 +8,28 @@
     /// <summary>
     /// Operation details for replacing a node with another from a cycle.
     /// </summary>
-    public class FocusReplaceWithCycleOperation : FocusReplaceOperation, IFocusReplaceOperation
+    public interface IFocusReplaceWithCycleOperation : IFocusReplaceOperation
+    {
+        /// <summary>
+        /// Cycle of nodes that can replace the current node.
+        /// </summary>
+        FocusInsertionChildNodeIndexList CycleIndexList { get; }
+
+        /// <summary>
+        /// New position in the cycle.
+        /// </summary>
+        int NewCyclePosition { get; }
+
+        /// <summary>
+        /// Old position in the cycle.
+        /// </summary>
+        int OldCyclePosition { get; }
+    }
+
+    /// <summary>
+    /// Operation details for replacing a node with another from a cycle.
+    /// </summary>
+    public class FocusReplaceWithCycleOperation : FocusReplaceOperation, IFocusReplaceWithCycleOperation
     {
         #region Init
         /// <summary>

@@ -13,6 +13,9 @@
         {
         }
 
+        /// <inheritdoc/>
+        public new IFocusPlaceholderNodeState this[int index] { get { return (IFocusPlaceholderNodeState)base[index]; } }
+
         #region IFocusPlaceholderNodeState
         IEnumerator<IFocusPlaceholderNodeState> IEnumerable<IFocusPlaceholderNodeState>.GetEnumerator() { return ((IList<IFocusPlaceholderNodeState>)this).GetEnumerator(); }
         IFocusPlaceholderNodeState IReadOnlyList<IFocusPlaceholderNodeState>.this[int index] { get { return (IFocusPlaceholderNodeState)this[index]; } }

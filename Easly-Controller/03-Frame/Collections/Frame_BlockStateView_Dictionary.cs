@@ -8,6 +8,9 @@
     /// <inheritdoc/>
     public class FrameBlockStateViewDictionary : WriteableBlockStateViewDictionary, ICollection<KeyValuePair<IFrameBlockState, FrameBlockStateView>>, IEnumerable<KeyValuePair<IFrameBlockState, FrameBlockStateView>>, IDictionary<IFrameBlockState, FrameBlockStateView>, IReadOnlyCollection<KeyValuePair<IFrameBlockState, FrameBlockStateView>>, IReadOnlyDictionary<IFrameBlockState, FrameBlockStateView>, IEqualComparable
     {
+        /// <inheritdoc/>
+        public bool TryGetValue(IFrameBlockState key, out FrameBlockStateView value) { bool Result = TryGetValue(key, out ReadOnlyBlockStateView Value); value = (FrameBlockStateView)Value; return Result; }
+
         #region IFrameBlockState, FrameBlockStateView
         void ICollection<KeyValuePair<IFrameBlockState, FrameBlockStateView>>.Add(KeyValuePair<IFrameBlockState, FrameBlockStateView> item) { Add(item.Key, item.Value); }
         bool ICollection<KeyValuePair<IFrameBlockState, FrameBlockStateView>>.Contains(KeyValuePair<IFrameBlockState, FrameBlockStateView> item) { return ContainsKey(item.Key) && this[item.Key] == item.Value; }

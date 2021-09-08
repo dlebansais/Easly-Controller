@@ -14,6 +14,9 @@
         {
         }
 
+        /// <inheritdoc/>
+        public bool TryGetValue(Type key, out ILayoutTemplate value) { bool Result = TryGetValue(key, out IFrameTemplate Value); value = (ILayoutTemplate)Value; return Result; }
+
         #region Type, ILayoutTemplate
         void ICollection<KeyValuePair<Type, ILayoutTemplate>>.Add(KeyValuePair<Type, ILayoutTemplate> item) { throw new System.InvalidOperationException(); }
         void ICollection<KeyValuePair<Type, ILayoutTemplate>>.Clear() { throw new System.InvalidOperationException(); }

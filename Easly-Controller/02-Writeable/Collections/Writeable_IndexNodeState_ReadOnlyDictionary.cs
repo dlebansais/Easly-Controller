@@ -12,6 +12,9 @@
         {
         }
 
+        /// <inheritdoc/>
+        public bool TryGetValue(IWriteableIndex key, out IWriteableNodeState value) { bool Result = TryGetValue(key, out IReadOnlyNodeState Value); value = (IWriteableNodeState)Value; return Result; }
+
         #region IWriteableIndex, IWriteableNodeState
         void ICollection<KeyValuePair<IWriteableIndex, IWriteableNodeState>>.Add(KeyValuePair<IWriteableIndex, IWriteableNodeState> item) { throw new System.InvalidOperationException(); }
         void ICollection<KeyValuePair<IWriteableIndex, IWriteableNodeState>>.Clear() { throw new System.InvalidOperationException(); }

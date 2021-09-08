@@ -12,6 +12,9 @@
         {
         }
 
+        /// <inheritdoc/>
+        public new IFrameIndexCollection this[int index] { get { return (IFrameIndexCollection)base[index]; } }
+
         #region IFrameIndexCollection
         IEnumerator<IFrameIndexCollection> IEnumerable<IFrameIndexCollection>.GetEnumerator() { return ((IList<IFrameIndexCollection>)this).GetEnumerator(); }
         IFrameIndexCollection IReadOnlyList<IFrameIndexCollection>.this[int index] { get { return (IFrameIndexCollection)this[index]; } }

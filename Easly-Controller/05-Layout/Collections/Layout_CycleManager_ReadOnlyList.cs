@@ -12,6 +12,9 @@
         {
         }
 
+        /// <inheritdoc/>
+        public new LayoutCycleManager this[int index] { get { return (LayoutCycleManager)base[index]; } }
+
         #region LayoutCycleManager
         IEnumerator<LayoutCycleManager> IEnumerable<LayoutCycleManager>.GetEnumerator() { return ((IList<LayoutCycleManager>)this).GetEnumerator(); }
         LayoutCycleManager IReadOnlyList<LayoutCycleManager>.this[int index] { get { return (LayoutCycleManager)this[index]; } }

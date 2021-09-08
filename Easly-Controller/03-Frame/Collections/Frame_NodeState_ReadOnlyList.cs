@@ -12,6 +12,9 @@
         {
         }
 
+        /// <inheritdoc/>
+        public new IFrameNodeState this[int index] { get { return (IFrameNodeState)base[index]; } }
+
         #region IFrameNodeState
         IEnumerator<IFrameNodeState> IEnumerable<IFrameNodeState>.GetEnumerator() { return ((IList<IFrameNodeState>)this).GetEnumerator(); }
         IFrameNodeState IReadOnlyList<IFrameNodeState>.this[int index] { get { return (IFrameNodeState)this[index]; } }

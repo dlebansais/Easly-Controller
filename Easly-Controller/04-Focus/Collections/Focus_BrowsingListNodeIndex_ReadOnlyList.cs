@@ -12,6 +12,9 @@
         {
         }
 
+        /// <inheritdoc/>
+        public new IFocusBrowsingListNodeIndex this[int index] { get { return (IFocusBrowsingListNodeIndex)base[index]; } }
+
         #region IFocusBrowsingListNodeIndex
         IEnumerator<IFocusBrowsingListNodeIndex> IEnumerable<IFocusBrowsingListNodeIndex>.GetEnumerator() { return ((IList<IFocusBrowsingListNodeIndex>)this).GetEnumerator(); }
         IFocusBrowsingListNodeIndex IReadOnlyList<IFocusBrowsingListNodeIndex>.this[int index] { get { return (IFocusBrowsingListNodeIndex)this[index]; } }

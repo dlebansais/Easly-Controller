@@ -13,6 +13,9 @@
         {
         }
 
+        /// <inheritdoc/>
+        public bool TryGetValue(IFocusIndex key, out IFocusNodeState value) { bool Result = TryGetValue(key, out IReadOnlyNodeState Value); value = (IFocusNodeState)Value; return Result; }
+
         #region IFocusIndex, IFocusNodeState
         void ICollection<KeyValuePair<IFocusIndex, IFocusNodeState>>.Add(KeyValuePair<IFocusIndex, IFocusNodeState> item) { throw new System.InvalidOperationException(); }
         void ICollection<KeyValuePair<IFocusIndex, IFocusNodeState>>.Clear() { throw new System.InvalidOperationException(); }

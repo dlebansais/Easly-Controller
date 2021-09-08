@@ -12,6 +12,9 @@
         {
         }
 
+        /// <inheritdoc/>
+        public new IFocusTemplate this[int index] { get { return (IFocusTemplate)base[index]; } }
+
         #region IFocusTemplate
         IEnumerator<IFocusTemplate> IEnumerable<IFocusTemplate>.GetEnumerator() { return ((IList<IFocusTemplate>)this).GetEnumerator(); }
         IFocusTemplate IReadOnlyList<IFocusTemplate>.this[int index] { get { return (IFocusTemplate)this[index]; } }

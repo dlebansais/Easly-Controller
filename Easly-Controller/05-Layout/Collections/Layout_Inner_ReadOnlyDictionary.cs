@@ -14,6 +14,9 @@
         {
         }
 
+        /// <inheritdoc/>
+        public bool TryGetValue(TKey key, out ILayoutInner value) { bool Result = TryGetValue(key, out IReadOnlyInner Value); value = (ILayoutInner)Value; return Result; }
+
         #region TKey, ILayoutInner
         void ICollection<KeyValuePair<TKey, ILayoutInner>>.Add(KeyValuePair<TKey, ILayoutInner> item) { throw new System.InvalidOperationException(); }
         void ICollection<KeyValuePair<TKey, ILayoutInner>>.Clear() { throw new System.InvalidOperationException(); }

@@ -13,6 +13,9 @@
         {
         }
 
+        /// <inheritdoc/>
+        public new ILayoutPlaceholderNodeState this[int index] { get { return (ILayoutPlaceholderNodeState)base[index]; } }
+
         #region ILayoutPlaceholderNodeState
         IEnumerator<ILayoutPlaceholderNodeState> IEnumerable<ILayoutPlaceholderNodeState>.GetEnumerator() { return ((IList<ILayoutPlaceholderNodeState>)this).GetEnumerator(); }
         ILayoutPlaceholderNodeState IReadOnlyList<ILayoutPlaceholderNodeState>.this[int index] { get { return (ILayoutPlaceholderNodeState)this[index]; } }

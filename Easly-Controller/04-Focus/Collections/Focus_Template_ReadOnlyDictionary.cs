@@ -13,6 +13,9 @@
         {
         }
 
+        /// <inheritdoc/>
+        public bool TryGetValue(Type key, out IFocusTemplate value) { bool Result = TryGetValue(key, out IFrameTemplate Value); value = (IFocusTemplate)Value; return Result; }
+
         #region Type, IFocusTemplate
         void ICollection<KeyValuePair<Type, IFocusTemplate>>.Add(KeyValuePair<Type, IFocusTemplate> item) { throw new System.InvalidOperationException(); }
         void ICollection<KeyValuePair<Type, IFocusTemplate>>.Clear() { throw new System.InvalidOperationException(); }

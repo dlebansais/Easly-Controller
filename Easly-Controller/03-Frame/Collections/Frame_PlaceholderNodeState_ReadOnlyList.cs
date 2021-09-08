@@ -13,6 +13,9 @@
         {
         }
 
+        /// <inheritdoc/>
+        public new IFramePlaceholderNodeState this[int index] { get { return (IFramePlaceholderNodeState)base[index]; } }
+
         #region IFramePlaceholderNodeState
         IEnumerator<IFramePlaceholderNodeState> IEnumerable<IFramePlaceholderNodeState>.GetEnumerator() { return ((IList<IFramePlaceholderNodeState>)this).GetEnumerator(); }
         IFramePlaceholderNodeState IReadOnlyList<IFramePlaceholderNodeState>.this[int index] { get { return (IFramePlaceholderNodeState)this[index]; } }

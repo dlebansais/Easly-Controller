@@ -12,6 +12,9 @@
         {
         }
 
+        /// <inheritdoc/>
+        public new IFocusVisibleCellView this[int index] { get { return (IFocusVisibleCellView)base[index]; } }
+
         #region IFocusVisibleCellView
         IEnumerator<IFocusVisibleCellView> IEnumerable<IFocusVisibleCellView>.GetEnumerator() { return ((IList<IFocusVisibleCellView>)this).GetEnumerator(); }
         IFocusVisibleCellView IReadOnlyList<IFocusVisibleCellView>.this[int index] { get { return (IFocusVisibleCellView)this[index]; } }

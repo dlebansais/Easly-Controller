@@ -13,6 +13,9 @@
         {
         }
 
+        /// <inheritdoc/>
+        public bool TryGetValue(TKey key, out IWriteableInner value) { bool Result = TryGetValue(key, out IReadOnlyInner Value); value = (IWriteableInner)Value; return Result; }
+
         #region TKey, IWriteableInner
         void ICollection<KeyValuePair<TKey, IWriteableInner>>.Add(KeyValuePair<TKey, IWriteableInner> item) { throw new System.InvalidOperationException(); }
         void ICollection<KeyValuePair<TKey, IWriteableInner>>.Clear() { throw new System.InvalidOperationException(); }

@@ -14299,7 +14299,7 @@ namespace Coverage
                     Assert.That(LayoutOperationGroupList.Count > 0);
                     LayoutOperationGroup FirstOperationGroup = (LayoutOperationGroup)LayoutOperationGroupList[0];
                     Assert.That(FirstOperationGroup.OperationList.Count > 0);
-                    LayoutReplaceWithCycleOperation FirstOperation = FirstOperationGroup.OperationList[0] as LayoutReplaceWithCycleOperation;
+                    ILayoutReplaceWithCycleOperation FirstOperation = FirstOperationGroup.OperationList[0] as ILayoutReplaceWithCycleOperation;
                     Assert.That(FirstOperation != null);
                     Assert.That(FirstOperation.CycleIndexList != null);
                 }

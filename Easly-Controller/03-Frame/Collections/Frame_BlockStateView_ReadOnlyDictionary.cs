@@ -14,6 +14,9 @@
         {
         }
 
+        /// <inheritdoc/>
+        public bool TryGetValue(IFrameBlockState key, out FrameBlockStateView value) { bool Result = TryGetValue(key, out ReadOnlyBlockStateView Value); value = (FrameBlockStateView)Value; return Result; }
+
         #region IFrameBlockState, FrameBlockStateView
         void ICollection<KeyValuePair<IFrameBlockState, FrameBlockStateView>>.Add(KeyValuePair<IFrameBlockState, FrameBlockStateView> item) { throw new System.InvalidOperationException(); }
         void ICollection<KeyValuePair<IFrameBlockState, FrameBlockStateView>>.Clear() { throw new System.InvalidOperationException(); }

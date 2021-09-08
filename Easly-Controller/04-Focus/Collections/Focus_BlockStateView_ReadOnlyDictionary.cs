@@ -14,6 +14,9 @@
         {
         }
 
+        /// <inheritdoc/>
+        public bool TryGetValue(IFocusBlockState key, out FocusBlockStateView value) { bool Result = TryGetValue(key, out ReadOnlyBlockStateView Value); value = (FocusBlockStateView)Value; return Result; }
+
         #region IFocusBlockState, FocusBlockStateView
         void ICollection<KeyValuePair<IFocusBlockState, FocusBlockStateView>>.Add(KeyValuePair<IFocusBlockState, FocusBlockStateView> item) { throw new System.InvalidOperationException(); }
         void ICollection<KeyValuePair<IFocusBlockState, FocusBlockStateView>>.Clear() { throw new System.InvalidOperationException(); }

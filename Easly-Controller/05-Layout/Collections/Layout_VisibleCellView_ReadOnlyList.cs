@@ -12,6 +12,9 @@
         {
         }
 
+        /// <inheritdoc/>
+        public new ILayoutVisibleCellView this[int index] { get { return (ILayoutVisibleCellView)base[index]; } }
+
         #region ILayoutVisibleCellView
         IEnumerator<ILayoutVisibleCellView> IEnumerable<ILayoutVisibleCellView>.GetEnumerator() { return ((IList<ILayoutVisibleCellView>)this).GetEnumerator(); }
         ILayoutVisibleCellView IReadOnlyList<ILayoutVisibleCellView>.this[int index] { get { return (ILayoutVisibleCellView)this[index]; } }

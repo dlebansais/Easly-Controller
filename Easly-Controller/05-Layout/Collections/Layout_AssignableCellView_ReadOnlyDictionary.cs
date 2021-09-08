@@ -14,6 +14,9 @@
         {
         }
 
+        /// <inheritdoc/>
+        public bool TryGetValue(TKey key, out ILayoutAssignableCellView value) { bool Result = TryGetValue(key, out IFrameAssignableCellView Value); value = (ILayoutAssignableCellView)Value; return Result; }
+
         #region TKey, ILayoutAssignableCellView
         void ICollection<KeyValuePair<TKey, ILayoutAssignableCellView>>.Add(KeyValuePair<TKey, ILayoutAssignableCellView> item) { throw new System.InvalidOperationException(); }
         void ICollection<KeyValuePair<TKey, ILayoutAssignableCellView>>.Clear() { throw new System.InvalidOperationException(); }

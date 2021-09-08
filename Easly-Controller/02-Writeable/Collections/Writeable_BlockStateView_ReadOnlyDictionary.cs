@@ -13,6 +13,9 @@
         {
         }
 
+        /// <inheritdoc/>
+        public bool TryGetValue(IWriteableBlockState key, out WriteableBlockStateView value) { bool Result = TryGetValue(key, out ReadOnlyBlockStateView Value); value = (WriteableBlockStateView)Value; return Result; }
+
         #region IWriteableBlockState, WriteableBlockStateView
         void ICollection<KeyValuePair<IWriteableBlockState, WriteableBlockStateView>>.Add(KeyValuePair<IWriteableBlockState, WriteableBlockStateView> item) { throw new System.InvalidOperationException(); }
         void ICollection<KeyValuePair<IWriteableBlockState, WriteableBlockStateView>>.Clear() { throw new System.InvalidOperationException(); }

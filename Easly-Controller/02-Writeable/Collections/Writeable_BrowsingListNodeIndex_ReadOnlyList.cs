@@ -12,6 +12,9 @@
         {
         }
 
+        /// <inheritdoc/>
+        public new IWriteableBrowsingListNodeIndex this[int index] { get { return (IWriteableBrowsingListNodeIndex)base[index]; } }
+
         #region IWriteableBrowsingListNodeIndex
         IEnumerator<IWriteableBrowsingListNodeIndex> IEnumerable<IWriteableBrowsingListNodeIndex>.GetEnumerator() { return ((IList<IWriteableBrowsingListNodeIndex>)this).GetEnumerator(); }
         IWriteableBrowsingListNodeIndex IReadOnlyList<IWriteableBrowsingListNodeIndex>.this[int index] { get { return (IWriteableBrowsingListNodeIndex)this[index]; } }

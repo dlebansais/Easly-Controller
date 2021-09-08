@@ -12,6 +12,9 @@
         {
         }
 
+        /// <inheritdoc/>
+        public new ILayoutKeywordFrame this[int index] { get { return (ILayoutKeywordFrame)base[index]; } }
+
         #region ILayoutKeywordFrame
         IEnumerator<ILayoutKeywordFrame> IEnumerable<ILayoutKeywordFrame>.GetEnumerator() { return ((IList<ILayoutKeywordFrame>)this).GetEnumerator(); }
         ILayoutKeywordFrame IReadOnlyList<ILayoutKeywordFrame>.this[int index] { get { return (ILayoutKeywordFrame)this[index]; } }

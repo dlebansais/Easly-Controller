@@ -12,6 +12,9 @@
         {
         }
 
+        /// <inheritdoc/>
+        public new FocusOperation this[int index] { get { return (FocusOperation)base[index]; } }
+
         #region FocusOperation
         IEnumerator<FocusOperation> IEnumerable<FocusOperation>.GetEnumerator() { return ((IList<FocusOperation>)this).GetEnumerator(); }
         FocusOperation IReadOnlyList<FocusOperation>.this[int index] { get { return (FocusOperation)this[index]; } }

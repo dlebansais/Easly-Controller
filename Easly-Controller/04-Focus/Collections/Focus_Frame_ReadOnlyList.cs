@@ -12,6 +12,9 @@
         {
         }
 
+        /// <inheritdoc/>
+        public new IFocusFrame this[int index] { get { return (IFocusFrame)base[index]; } }
+
         #region IFocusFrame
         IEnumerator<IFocusFrame> IEnumerable<IFocusFrame>.GetEnumerator() { return ((IList<IFocusFrame>)this).GetEnumerator(); }
         IFocusFrame IReadOnlyList<IFocusFrame>.this[int index] { get { return (IFocusFrame)this[index]; } }

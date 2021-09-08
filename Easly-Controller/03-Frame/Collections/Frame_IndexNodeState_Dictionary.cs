@@ -7,6 +7,9 @@
     /// <inheritdoc/>
     public class FrameIndexNodeStateDictionary : WriteableIndexNodeStateDictionary, ICollection<KeyValuePair<IFrameIndex, IFrameNodeState>>, IEnumerable<KeyValuePair<IFrameIndex, IFrameNodeState>>, IDictionary<IFrameIndex, IFrameNodeState>, IReadOnlyCollection<KeyValuePair<IFrameIndex, IFrameNodeState>>, IReadOnlyDictionary<IFrameIndex, IFrameNodeState>
     {
+        /// <inheritdoc/>
+        public bool TryGetValue(IFrameIndex key, out IFrameNodeState value) { bool Result = TryGetValue(key, out IReadOnlyNodeState Value); value = (IFrameNodeState)Value; return Result; }
+
         #region IFrameIndex, IFrameNodeState
         void ICollection<KeyValuePair<IFrameIndex, IFrameNodeState>>.Add(KeyValuePair<IFrameIndex, IFrameNodeState> item) { Add(item.Key, item.Value); }
         bool ICollection<KeyValuePair<IFrameIndex, IFrameNodeState>>.Contains(KeyValuePair<IFrameIndex, IFrameNodeState> item) { return ContainsKey(item.Key) && this[item.Key] == item.Value; }

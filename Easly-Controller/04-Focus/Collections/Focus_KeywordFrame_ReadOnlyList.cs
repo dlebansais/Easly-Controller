@@ -12,6 +12,9 @@
         {
         }
 
+        /// <inheritdoc/>
+        public new IFocusKeywordFrame this[int index] { get { return (IFocusKeywordFrame)base[index]; } }
+
         #region IFocusKeywordFrame
         IEnumerator<IFocusKeywordFrame> IEnumerable<IFocusKeywordFrame>.GetEnumerator() { return ((IList<IFocusKeywordFrame>)this).GetEnumerator(); }
         IFocusKeywordFrame IReadOnlyList<IFocusKeywordFrame>.this[int index] { get { return (IFocusKeywordFrame)this[index]; } }

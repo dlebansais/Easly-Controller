@@ -13,6 +13,9 @@
         {
         }
 
+        /// <inheritdoc/>
+        public bool TryGetValue(TKey key, out IFocusAssignableCellView value) { bool Result = TryGetValue(key, out IFrameAssignableCellView Value); value = (IFocusAssignableCellView)Value; return Result; }
+
         #region TKey, IFocusAssignableCellView
         void ICollection<KeyValuePair<TKey, IFocusAssignableCellView>>.Add(KeyValuePair<TKey, IFocusAssignableCellView> item) { throw new System.InvalidOperationException(); }
         void ICollection<KeyValuePair<TKey, IFocusAssignableCellView>>.Clear() { throw new System.InvalidOperationException(); }
