@@ -7,7 +7,7 @@
     /// <summary>
     /// Operation details for replacing a node in a list or block list.
     /// </summary>
-    internal class LayoutGenericRefreshOperation : FocusGenericRefreshOperation, ILayoutOperation
+    public class LayoutGenericRefreshOperation : FocusGenericRefreshOperation, ILayoutOperation
     {
         #region Init
         /// <summary>

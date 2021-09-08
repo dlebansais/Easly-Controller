@@ -4,7 +4,7 @@
     using EaslyController.Writeable;
 
     /// <inheritdoc/>
-    internal class FrameGenericRefreshOperation : WriteableGenericRefreshOperation, IFrameOperation
+    public class FrameGenericRefreshOperation : WriteableGenericRefreshOperation, IFrameOperation
     {
         #region Init
         /// <summary>

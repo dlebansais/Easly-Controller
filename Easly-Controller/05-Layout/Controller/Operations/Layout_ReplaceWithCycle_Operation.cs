@@ -8,7 +8,7 @@
     /// <summary>
     /// Operation details for replacing a node with another from a cycle.
     /// </summary>
-    internal class LayoutReplaceWithCycleOperation : FocusReplaceWithCycleOperation, ILayoutReplaceOperation
+    public class LayoutReplaceWithCycleOperation : FocusReplaceWithCycleOperation, ILayoutReplaceOperation
     {
         #region Init
         /// <summary>

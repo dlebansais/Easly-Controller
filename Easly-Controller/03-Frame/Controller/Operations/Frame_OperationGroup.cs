@@ -3,7 +3,7 @@
     using EaslyController.Writeable;
 
     /// <inheritdoc/>
-    internal class FrameOperationGroup : WriteableOperationGroup
+    public class FrameOperationGroup : WriteableOperationGroup
     {
         #region Init
         /// <summary>

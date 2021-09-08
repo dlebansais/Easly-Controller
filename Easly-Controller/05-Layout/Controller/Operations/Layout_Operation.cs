@@ -14,7 +14,7 @@
     /// <summary>
     /// Base for all operations modifying the node tree.
     /// </summary>
-    internal class LayoutOperation : FocusOperation, ILayoutOperation
+    public class LayoutOperation : FocusOperation, ILayoutOperation
     {
         #region Init
         /// <summary>

@@ -8,7 +8,7 @@
     /// <summary>
     /// Operation details for replacing a node with another from a cycle.
     /// </summary>
-    internal class FocusReplaceWithCycleOperation : FocusReplaceOperation, IFocusReplaceOperation
+    public class FocusReplaceWithCycleOperation : FocusReplaceOperation, IFocusReplaceOperation
     {
         #region Init
         /// <summary>

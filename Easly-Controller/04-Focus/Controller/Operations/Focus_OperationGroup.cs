@@ -5,7 +5,7 @@
     /// <summary>
     /// Group of operations to make some tasks atomic.
     /// </summary>
-    internal class FocusOperationGroup : FrameOperationGroup
+    public class FocusOperationGroup : FrameOperationGroup
     {
         #region Init
         /// <summary>

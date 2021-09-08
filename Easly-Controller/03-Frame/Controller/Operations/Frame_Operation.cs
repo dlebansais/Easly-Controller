@@ -9,7 +9,7 @@
     }
 
     /// <inheritdoc/>
-    internal class FrameOperation : WriteableOperation, IFrameOperation
+    public class FrameOperation : WriteableOperation, IFrameOperation
     {
         #region Init
         /// <summary>

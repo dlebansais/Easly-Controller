@@ -24,7 +24,7 @@
     }
 
     /// <inheritdoc/>
-    internal class FrameReplaceOperation : WriteableReplaceOperation, IFrameReplaceOperation
+    public class FrameReplaceOperation : WriteableReplaceOperation, IFrameReplaceOperation
     {
         #region Init
         /// <summary>
