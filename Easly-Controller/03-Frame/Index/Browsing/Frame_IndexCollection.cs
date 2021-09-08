@@ -6,7 +6,7 @@
     /// <summary>
     /// Collection of node indexes.
     /// </summary>
-    internal interface IFrameIndexCollection : IWriteableIndexCollection
+    public interface IFrameIndexCollection : IWriteableIndexCollection
     {
     }
 

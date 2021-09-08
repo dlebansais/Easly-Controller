@@ -7,6 +7,9 @@
     /// <inheritdoc/>
     public class LayoutBrowsingListNodeIndexList : FocusBrowsingListNodeIndexList, ICollection<ILayoutBrowsingListNodeIndex>, IEnumerable<ILayoutBrowsingListNodeIndex>, IList<ILayoutBrowsingListNodeIndex>, IReadOnlyCollection<ILayoutBrowsingListNodeIndex>, IReadOnlyList<ILayoutBrowsingListNodeIndex>
     {
+        /// <inheritdoc/>
+        public new ILayoutBrowsingListNodeIndex this[int index] { get { return (ILayoutBrowsingListNodeIndex)base[index]; } set { base[index] = value; } }
+
         #region ILayoutBrowsingListNodeIndex
         void ICollection<ILayoutBrowsingListNodeIndex>.Add(ILayoutBrowsingListNodeIndex item) { Add(item); }
         bool ICollection<ILayoutBrowsingListNodeIndex>.Contains(ILayoutBrowsingListNodeIndex item) { return Contains(item); }

@@ -8,6 +8,9 @@
     /// <inheritdoc/>
     public class FramePlaceholderNodeStateList : WriteablePlaceholderNodeStateList, ICollection<IFramePlaceholderNodeState>, IEnumerable<IFramePlaceholderNodeState>, IList<IFramePlaceholderNodeState>, IReadOnlyCollection<IFramePlaceholderNodeState>, IReadOnlyList<IFramePlaceholderNodeState>, IEqualComparable
     {
+        /// <inheritdoc/>
+        public new IFramePlaceholderNodeState this[int index] { get { return (IFramePlaceholderNodeState)base[index]; } set { base[index] = value; } }
+
         #region IFramePlaceholderNodeState
         void ICollection<IFramePlaceholderNodeState>.Add(IFramePlaceholderNodeState item) { Add(item); }
         bool ICollection<IFramePlaceholderNodeState>.Contains(IFramePlaceholderNodeState item) { return Contains(item); }

@@ -7,6 +7,9 @@
     /// <inheritdoc/>
     public class FocusNodeStateList : FrameNodeStateList, ICollection<IFocusNodeState>, IEnumerable<IFocusNodeState>, IList<IFocusNodeState>, IReadOnlyCollection<IFocusNodeState>, IReadOnlyList<IFocusNodeState>
     {
+        /// <inheritdoc/>
+        public new IFocusNodeState this[int index] { get { return (IFocusNodeState)base[index]; } set { base[index] = value; } }
+
         #region IFocusNodeState
         void ICollection<IFocusNodeState>.Add(IFocusNodeState item) { Add(item); }
         bool ICollection<IFocusNodeState>.Contains(IFocusNodeState item) { return Contains(item); }

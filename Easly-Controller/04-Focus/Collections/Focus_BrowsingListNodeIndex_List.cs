@@ -7,6 +7,9 @@
     /// <inheritdoc/>
     public class FocusBrowsingListNodeIndexList : FrameBrowsingListNodeIndexList, ICollection<IFocusBrowsingListNodeIndex>, IEnumerable<IFocusBrowsingListNodeIndex>, IList<IFocusBrowsingListNodeIndex>, IReadOnlyCollection<IFocusBrowsingListNodeIndex>, IReadOnlyList<IFocusBrowsingListNodeIndex>
     {
+        /// <inheritdoc/>
+        public new IFocusBrowsingListNodeIndex this[int index] { get { return (IFocusBrowsingListNodeIndex)base[index]; } set { base[index] = value; } }
+
         #region IFocusBrowsingListNodeIndex
         void ICollection<IFocusBrowsingListNodeIndex>.Add(IFocusBrowsingListNodeIndex item) { Add(item); }
         bool ICollection<IFocusBrowsingListNodeIndex>.Contains(IFocusBrowsingListNodeIndex item) { return Contains(item); }

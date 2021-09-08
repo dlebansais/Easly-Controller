@@ -7,6 +7,9 @@
     /// <inheritdoc/>
     public class LayoutNodeStateList : FocusNodeStateList, ICollection<ILayoutNodeState>, IEnumerable<ILayoutNodeState>, IList<ILayoutNodeState>, IReadOnlyCollection<ILayoutNodeState>, IReadOnlyList<ILayoutNodeState>
     {
+        /// <inheritdoc/>
+        public new ILayoutNodeState this[int index] { get { return (ILayoutNodeState)base[index]; } set { base[index] = value; } }
+
         #region ILayoutNodeState
         void ICollection<ILayoutNodeState>.Add(ILayoutNodeState item) { Add(item); }
         bool ICollection<ILayoutNodeState>.Contains(ILayoutNodeState item) { return Contains(item); }

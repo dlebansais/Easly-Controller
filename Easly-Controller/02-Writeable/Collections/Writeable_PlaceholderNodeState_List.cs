@@ -7,6 +7,9 @@
     /// <inheritdoc/>
     public class WriteablePlaceholderNodeStateList : ReadOnlyPlaceholderNodeStateList, ICollection<IWriteablePlaceholderNodeState>, IEnumerable<IWriteablePlaceholderNodeState>, IList<IWriteablePlaceholderNodeState>, IReadOnlyCollection<IWriteablePlaceholderNodeState>, IReadOnlyList<IWriteablePlaceholderNodeState>, IEqualComparable
     {
+        /// <inheritdoc/>
+        public new IWriteablePlaceholderNodeState this[int index] { get { return (IWriteablePlaceholderNodeState)base[index]; } set { base[index] = value; } }
+
         #region IWriteablePlaceholderNodeState
         void ICollection<IWriteablePlaceholderNodeState>.Add(IWriteablePlaceholderNodeState item) { Add(item); }
         bool ICollection<IWriteablePlaceholderNodeState>.Contains(IWriteablePlaceholderNodeState item) { return Contains(item); }

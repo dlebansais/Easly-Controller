@@ -6,6 +6,9 @@
     /// <inheritdoc/>
     public class LayoutInsertionChildNodeIndexList : FocusInsertionChildNodeIndexList, ICollection<ILayoutInsertionChildNodeIndex>, IEnumerable<ILayoutInsertionChildNodeIndex>, IList<ILayoutInsertionChildNodeIndex>, IReadOnlyCollection<ILayoutInsertionChildNodeIndex>, IReadOnlyList<ILayoutInsertionChildNodeIndex>
     {
+        /// <inheritdoc/>
+        public new ILayoutInsertionChildNodeIndex this[int index] { get { return (ILayoutInsertionChildNodeIndex)base[index]; } set { base[index] = value; } }
+
         #region ILayoutInsertionChildNodeIndex
         void ICollection<ILayoutInsertionChildNodeIndex>.Add(ILayoutInsertionChildNodeIndex item) { Add(item); }
         bool ICollection<ILayoutInsertionChildNodeIndex>.Contains(ILayoutInsertionChildNodeIndex item) { return Contains(item); }

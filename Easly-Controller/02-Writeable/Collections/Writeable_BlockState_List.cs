@@ -1,11 +1,15 @@
 ﻿namespace EaslyController.Writeable
 {
+    using System;
     using System.Collections.Generic;
     using EaslyController.ReadOnly;
 
     /// <inheritdoc/>
     public class WriteableBlockStateList : ReadOnlyBlockStateList, ICollection<IWriteableBlockState>, IEnumerable<IWriteableBlockState>, IList<IWriteableBlockState>, IReadOnlyCollection<IWriteableBlockState>, IReadOnlyList<IWriteableBlockState>
     {
+        /// <inheritdoc/>
+        public new IWriteableBlockState this[int index] { get { return (IWriteableBlockState)base[index]; } set { base[index] = value; } }
+
         #region IWriteableBlockState
         void ICollection<IWriteableBlockState>.Add(IWriteableBlockState item) { Add(item); }
         bool ICollection<IWriteableBlockState>.Contains(IWriteableBlockState item) { return Contains(item); }

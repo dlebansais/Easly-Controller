@@ -7,6 +7,9 @@
     /// <inheritdoc/>
     public class FocusOperationGroupList : FrameOperationGroupList, ICollection<FocusOperationGroup>, IEnumerable<FocusOperationGroup>, IList<FocusOperationGroup>, IReadOnlyCollection<FocusOperationGroup>, IReadOnlyList<FocusOperationGroup>
     {
+        /// <inheritdoc/>
+        public new FocusOperationGroup this[int index] { get { return (FocusOperationGroup)base[index]; } set { base[index] = value; } }
+
         #region FocusOperationGroup
         void ICollection<FocusOperationGroup>.Add(FocusOperationGroup item) { Add(item); }
         bool ICollection<FocusOperationGroup>.Contains(FocusOperationGroup item) { return Contains(item); }

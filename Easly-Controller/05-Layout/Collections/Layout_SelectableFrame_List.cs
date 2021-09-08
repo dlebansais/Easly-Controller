@@ -6,6 +6,9 @@
     /// <inheritdoc/>
     public class LayoutSelectableFrameList : FocusSelectableFrameList, ICollection<ILayoutSelectableFrame>, IEnumerable<ILayoutSelectableFrame>, IList<ILayoutSelectableFrame>, IReadOnlyCollection<ILayoutSelectableFrame>, IReadOnlyList<ILayoutSelectableFrame>
     {
+        /// <inheritdoc/>
+        public new ILayoutSelectableFrame this[int index] { get { return (ILayoutSelectableFrame)base[index]; } set { base[index] = value; } }
+
         #region ILayoutSelectableFrame
         void ICollection<ILayoutSelectableFrame>.Add(ILayoutSelectableFrame item) { Add(item); }
         bool ICollection<ILayoutSelectableFrame>.Contains(ILayoutSelectableFrame item) { return Contains(item); }

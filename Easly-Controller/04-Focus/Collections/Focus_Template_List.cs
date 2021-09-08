@@ -6,6 +6,9 @@
     /// <inheritdoc/>
     public class FocusTemplateList : FrameTemplateList, ICollection<IFocusTemplate>, IEnumerable<IFocusTemplate>, IList<IFocusTemplate>, IReadOnlyCollection<IFocusTemplate>, IReadOnlyList<IFocusTemplate>
     {
+        /// <inheritdoc/>
+        public new IFocusTemplate this[int index] { get { return (IFocusTemplate)base[index]; } set { base[index] = value; } }
+
         #region IFocusTemplate
         void ICollection<IFocusTemplate>.Add(IFocusTemplate item) { Add(item); }
         bool ICollection<IFocusTemplate>.Contains(IFocusTemplate item) { return Contains(item); }

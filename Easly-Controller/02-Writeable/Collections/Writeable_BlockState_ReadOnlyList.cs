@@ -12,6 +12,9 @@
         {
         }
 
+        /// <inheritdoc/>
+        public new IWriteableBlockState this[int index] { get { return (IWriteableBlockState)base[index]; } }
+
         #region IWriteableBlockState
         IEnumerator<IWriteableBlockState> IEnumerable<IWriteableBlockState>.GetEnumerator() { return ((IList<IWriteableBlockState>)this).GetEnumerator(); }
         IWriteableBlockState IReadOnlyList<IWriteableBlockState>.this[int index] { get { return (IWriteableBlockState)this[index]; } }

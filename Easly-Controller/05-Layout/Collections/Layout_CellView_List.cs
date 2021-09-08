@@ -8,6 +8,9 @@
     /// <inheritdoc/>
     public class LayoutCellViewList : FocusCellViewList, ICollection<ILayoutCellView>, IEnumerable<ILayoutCellView>, IList<ILayoutCellView>, IReadOnlyCollection<ILayoutCellView>, IReadOnlyList<ILayoutCellView>, IEqualComparable
     {
+        /// <inheritdoc/>
+        public new ILayoutCellView this[int index] { get { return (ILayoutCellView)base[index]; } set { base[index] = value; } }
+
         #region ILayoutCellView
         void ICollection<ILayoutCellView>.Add(ILayoutCellView item) { Add(item); }
         bool ICollection<ILayoutCellView>.Contains(ILayoutCellView item) { return Contains(item); }

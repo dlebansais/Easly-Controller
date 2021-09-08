@@ -6,6 +6,9 @@
     /// <inheritdoc/>
     public class FocusFrameList : FrameFrameList, ICollection<IFocusFrame>, IEnumerable<IFocusFrame>, IList<IFocusFrame>, IReadOnlyCollection<IFocusFrame>, IReadOnlyList<IFocusFrame>
     {
+        /// <inheritdoc/>
+        public new IFocusFrame this[int index] { get { return (IFocusFrame)base[index]; } set { base[index] = value; } }
+
         #region IFocusFrame
         void ICollection<IFocusFrame>.Add(IFocusFrame item) { Add(item); }
         bool ICollection<IFocusFrame>.Contains(IFocusFrame item) { return Contains(item); }

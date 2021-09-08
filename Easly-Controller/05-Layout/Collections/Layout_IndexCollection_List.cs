@@ -7,6 +7,9 @@
     /// <inheritdoc/>
     public class LayoutIndexCollectionList : FocusIndexCollectionList, ICollection<ILayoutIndexCollection>, IEnumerable<ILayoutIndexCollection>, IList<ILayoutIndexCollection>, IReadOnlyCollection<ILayoutIndexCollection>, IReadOnlyList<ILayoutIndexCollection>
     {
+        /// <inheritdoc/>
+        public new ILayoutIndexCollection this[int index] { get { return (ILayoutIndexCollection)base[index]; } set { base[index] = value; } }
+
         #region ILayoutIndexCollection
         void ICollection<ILayoutIndexCollection>.Add(ILayoutIndexCollection item) { Add(item); }
         bool ICollection<ILayoutIndexCollection>.Contains(ILayoutIndexCollection item) { return Contains(item); }

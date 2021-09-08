@@ -6,6 +6,9 @@
     /// <inheritdoc/>
     public class WriteableBrowsingListNodeIndexList : ReadOnlyBrowsingListNodeIndexList, ICollection<IWriteableBrowsingListNodeIndex>, IEnumerable<IWriteableBrowsingListNodeIndex>, IList<IWriteableBrowsingListNodeIndex>, IReadOnlyCollection<IWriteableBrowsingListNodeIndex>, IReadOnlyList<IWriteableBrowsingListNodeIndex>
     {
+        /// <inheritdoc/>
+        public new IWriteableBrowsingListNodeIndex this[int index] { get { return (IWriteableBrowsingListNodeIndex)base[index]; } set { base[index] = value; } }
+
         #region IWriteableBrowsingListNodeIndex
         void ICollection<IWriteableBrowsingListNodeIndex>.Add(IWriteableBrowsingListNodeIndex item) { Add(item); }
         bool ICollection<IWriteableBrowsingListNodeIndex>.Contains(IWriteableBrowsingListNodeIndex item) { return Contains(item); }

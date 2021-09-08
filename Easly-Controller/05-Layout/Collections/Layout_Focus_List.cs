@@ -6,6 +6,9 @@
     /// <inheritdoc/>
     public class LayoutFocusList : FocusFocusList, ICollection<ILayoutFocus>, IEnumerable<ILayoutFocus>, IList<ILayoutFocus>, IReadOnlyCollection<ILayoutFocus>, IReadOnlyList<ILayoutFocus>
     {
+        /// <inheritdoc/>
+        public new ILayoutFocus this[int index] { get { return (ILayoutFocus)base[index]; } set { base[index] = value; } }
+
         #region ILayoutFocus
         void ICollection<ILayoutFocus>.Add(ILayoutFocus item) { Add(item); }
         bool ICollection<ILayoutFocus>.Contains(ILayoutFocus item) { return Contains(item); }

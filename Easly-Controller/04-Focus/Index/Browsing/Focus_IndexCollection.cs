@@ -6,7 +6,7 @@
     /// <summary>
     /// Collection of node indexes.
     /// </summary>
-    internal interface IFocusIndexCollection : IFrameIndexCollection
+    public interface IFocusIndexCollection : IFrameIndexCollection
     {
     }
 

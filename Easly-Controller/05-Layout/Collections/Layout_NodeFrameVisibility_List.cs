@@ -6,6 +6,9 @@
     /// <inheritdoc/>
     public class LayoutNodeFrameVisibilityList : FocusNodeFrameVisibilityList, ICollection<ILayoutNodeFrameVisibility>, IEnumerable<ILayoutNodeFrameVisibility>, IList<ILayoutNodeFrameVisibility>, IReadOnlyCollection<ILayoutNodeFrameVisibility>, IReadOnlyList<ILayoutNodeFrameVisibility>
     {
+        /// <inheritdoc/>
+        public new ILayoutNodeFrameVisibility this[int index] { get { return (ILayoutNodeFrameVisibility)base[index]; } set { base[index] = value; } }
+
         #region ILayoutNodeFrameVisibility
         void ICollection<ILayoutNodeFrameVisibility>.Add(ILayoutNodeFrameVisibility item) { Add(item); }
         bool ICollection<ILayoutNodeFrameVisibility>.Contains(ILayoutNodeFrameVisibility item) { return Contains(item); }

@@ -7,6 +7,9 @@
     /// <inheritdoc/>
     public class FocusBlockStateList : FrameBlockStateList, ICollection<IFocusBlockState>, IEnumerable<IFocusBlockState>, IList<IFocusBlockState>, IReadOnlyCollection<IFocusBlockState>, IReadOnlyList<IFocusBlockState>
     {
+        /// <inheritdoc/>
+        public new IFocusBlockState this[int index] { get { return (IFocusBlockState)base[index]; } set { base[index] = value; } }
+
         #region IFocusBlockState
         void ICollection<IFocusBlockState>.Add(IFocusBlockState item) { Add(item); }
         bool ICollection<IFocusBlockState>.Contains(IFocusBlockState item) { return Contains(item); }

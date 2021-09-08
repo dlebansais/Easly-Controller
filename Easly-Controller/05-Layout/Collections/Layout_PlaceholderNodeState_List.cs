@@ -8,6 +8,9 @@
     /// <inheritdoc/>
     public class LayoutPlaceholderNodeStateList : FocusPlaceholderNodeStateList, ICollection<ILayoutPlaceholderNodeState>, IEnumerable<ILayoutPlaceholderNodeState>, IList<ILayoutPlaceholderNodeState>, IReadOnlyCollection<ILayoutPlaceholderNodeState>, IReadOnlyList<ILayoutPlaceholderNodeState>, IEqualComparable
     {
+        /// <inheritdoc/>
+        public new ILayoutPlaceholderNodeState this[int index] { get { return (ILayoutPlaceholderNodeState)base[index]; } set { base[index] = value; } }
+
         #region ILayoutPlaceholderNodeState
         void ICollection<ILayoutPlaceholderNodeState>.Add(ILayoutPlaceholderNodeState item) { Add(item); }
         bool ICollection<ILayoutPlaceholderNodeState>.Contains(ILayoutPlaceholderNodeState item) { return Contains(item); }

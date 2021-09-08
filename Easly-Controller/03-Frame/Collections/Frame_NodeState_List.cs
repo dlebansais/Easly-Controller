@@ -7,6 +7,9 @@
     /// <inheritdoc/>
     public class FrameNodeStateList : WriteableNodeStateList, ICollection<IFrameNodeState>, IEnumerable<IFrameNodeState>, IList<IFrameNodeState>, IReadOnlyCollection<IFrameNodeState>, IReadOnlyList<IFrameNodeState>
     {
+        /// <inheritdoc/>
+        public new IFrameNodeState this[int index] { get { return (IFrameNodeState)base[index]; } set { base[index] = value; } }
+
         #region IFrameNodeState
         void ICollection<IFrameNodeState>.Add(IFrameNodeState item) { Add(item); }
         bool ICollection<IFrameNodeState>.Contains(IFrameNodeState item) { return Contains(item); }

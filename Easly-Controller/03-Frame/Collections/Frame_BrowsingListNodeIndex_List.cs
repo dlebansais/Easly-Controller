@@ -7,6 +7,9 @@
     /// <inheritdoc/>
     public class FrameBrowsingListNodeIndexList : WriteableBrowsingListNodeIndexList, ICollection<IFrameBrowsingListNodeIndex>, IEnumerable<IFrameBrowsingListNodeIndex>, IList<IFrameBrowsingListNodeIndex>, IReadOnlyCollection<IFrameBrowsingListNodeIndex>, IReadOnlyList<IFrameBrowsingListNodeIndex>
     {
+        /// <inheritdoc/>
+        public new IFrameBrowsingListNodeIndex this[int index] { get { return (IFrameBrowsingListNodeIndex)base[index]; } set { base[index] = value; } }
+
         #region IFrameBrowsingListNodeIndex
         void ICollection<IFrameBrowsingListNodeIndex>.Add(IFrameBrowsingListNodeIndex item) { Add(item); }
         bool ICollection<IFrameBrowsingListNodeIndex>.Contains(IFrameBrowsingListNodeIndex item) { return Contains(item); }

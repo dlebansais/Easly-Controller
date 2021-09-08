@@ -7,6 +7,9 @@
     /// <inheritdoc/>
     public class LayoutTemplateList : FocusTemplateList, ICollection<ILayoutTemplate>, IEnumerable<ILayoutTemplate>, IList<ILayoutTemplate>, IReadOnlyCollection<ILayoutTemplate>, IReadOnlyList<ILayoutTemplate>
     {
+        /// <inheritdoc/>
+        public new ILayoutTemplate this[int index] { get { return (ILayoutTemplate)base[index]; } set { base[index] = value; } }
+
         #region ILayoutTemplate
         void ICollection<ILayoutTemplate>.Add(ILayoutTemplate item) { Add(item); }
         bool ICollection<ILayoutTemplate>.Contains(ILayoutTemplate item) { return Contains(item); }

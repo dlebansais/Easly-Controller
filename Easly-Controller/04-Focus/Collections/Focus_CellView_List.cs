@@ -7,6 +7,9 @@
     /// <inheritdoc/>
     public class FocusCellViewList : FrameCellViewList, ICollection<IFocusCellView>, IEnumerable<IFocusCellView>, IList<IFocusCellView>, IReadOnlyCollection<IFocusCellView>, IReadOnlyList<IFocusCellView>, IEqualComparable
     {
+        /// <inheritdoc/>
+        public new IFocusCellView this[int index] { get { return (IFocusCellView)base[index]; } set { base[index] = value; } }
+
         #region IFocusCellView
         void ICollection<IFocusCellView>.Add(IFocusCellView item) { Add(item); }
         bool ICollection<IFocusCellView>.Contains(IFocusCellView item) { return Contains(item); }

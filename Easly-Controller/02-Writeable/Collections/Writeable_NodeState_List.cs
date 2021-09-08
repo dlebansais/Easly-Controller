@@ -6,6 +6,9 @@
     /// <inheritdoc/>
     public class WriteableNodeStateList : ReadOnlyNodeStateList, ICollection<IWriteableNodeState>, IEnumerable<IWriteableNodeState>, IList<IWriteableNodeState>, IReadOnlyCollection<IWriteableNodeState>, IReadOnlyList<IWriteableNodeState>
     {
+        /// <inheritdoc/>
+        public new IWriteableNodeState this[int index] { get { return (IWriteableNodeState)base[index]; } set { base[index] = value; } }
+
         #region IWriteableNodeState
         void ICollection<IWriteableNodeState>.Add(IWriteableNodeState item) { Add(item); }
         bool ICollection<IWriteableNodeState>.Contains(IWriteableNodeState item) { return Contains(item); }

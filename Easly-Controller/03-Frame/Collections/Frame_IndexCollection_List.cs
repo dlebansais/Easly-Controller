@@ -7,6 +7,9 @@
     /// <inheritdoc/>
     public class FrameIndexCollectionList : WriteableIndexCollectionList, ICollection<IFrameIndexCollection>, IEnumerable<IFrameIndexCollection>, IList<IFrameIndexCollection>, IReadOnlyCollection<IFrameIndexCollection>, IReadOnlyList<IFrameIndexCollection>
     {
+        /// <inheritdoc/>
+        public new IFrameIndexCollection this[int index] { get { return (IFrameIndexCollection)base[index]; } set { base[index] = value; } }
+
         #region IFrameIndexCollection
         void ICollection<IFrameIndexCollection>.Add(IFrameIndexCollection item) { Add(item); }
         bool ICollection<IFrameIndexCollection>.Contains(IFrameIndexCollection item) { return Contains(item); }

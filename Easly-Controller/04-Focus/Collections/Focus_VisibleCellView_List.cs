@@ -6,6 +6,9 @@
     /// <inheritdoc/>
     public class FocusVisibleCellViewList : FrameVisibleCellViewList, ICollection<IFocusVisibleCellView>, IEnumerable<IFocusVisibleCellView>, IList<IFocusVisibleCellView>, IReadOnlyCollection<IFocusVisibleCellView>, IReadOnlyList<IFocusVisibleCellView>
     {
+        /// <inheritdoc/>
+        public new IFocusVisibleCellView this[int index] { get { return (IFocusVisibleCellView)base[index]; } set { base[index] = value; } }
+
         #region IFocusVisibleCellView
         void ICollection<IFocusVisibleCellView>.Add(IFocusVisibleCellView item) { Add(item); }
         bool ICollection<IFocusVisibleCellView>.Contains(IFocusVisibleCellView item) { return Contains(item); }

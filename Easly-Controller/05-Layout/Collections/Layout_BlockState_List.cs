@@ -7,6 +7,9 @@
     /// <inheritdoc/>
     public class LayoutBlockStateList : FocusBlockStateList, ICollection<ILayoutBlockState>, IEnumerable<ILayoutBlockState>, IList<ILayoutBlockState>, IReadOnlyCollection<ILayoutBlockState>, IReadOnlyList<ILayoutBlockState>
     {
+        /// <inheritdoc/>
+        public new ILayoutBlockState this[int index] { get { return (ILayoutBlockState)base[index]; } set { base[index] = value; } }
+
         #region ILayoutBlockState
         void ICollection<ILayoutBlockState>.Add(ILayoutBlockState item) { Add(item); }
         bool ICollection<ILayoutBlockState>.Contains(ILayoutBlockState item) { return Contains(item); }

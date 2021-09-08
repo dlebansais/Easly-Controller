@@ -7,6 +7,9 @@
     /// <inheritdoc/>
     public class FocusIndexCollectionList : FrameIndexCollectionList, ICollection<IFocusIndexCollection>, IEnumerable<IFocusIndexCollection>, IList<IFocusIndexCollection>, IReadOnlyCollection<IFocusIndexCollection>, IReadOnlyList<IFocusIndexCollection>
     {
+        /// <inheritdoc/>
+        public new IFocusIndexCollection this[int index] { get { return (IFocusIndexCollection)base[index]; } set { base[index] = value; } }
+
         #region IFocusIndexCollection
         void ICollection<IFocusIndexCollection>.Add(IFocusIndexCollection item) { Add(item); }
         bool ICollection<IFocusIndexCollection>.Contains(IFocusIndexCollection item) { return Contains(item); }

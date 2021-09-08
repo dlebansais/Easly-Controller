@@ -7,6 +7,9 @@
     /// <inheritdoc/>
     public class LayoutFrameSelectorList : FocusFrameSelectorList, ICollection<ILayoutFrameSelector>, IEnumerable<ILayoutFrameSelector>, IList<ILayoutFrameSelector>, IReadOnlyCollection<ILayoutFrameSelector>, IReadOnlyList<ILayoutFrameSelector>, IEqualComparable
     {
+        /// <inheritdoc/>
+        public new ILayoutFrameSelector this[int index] { get { return (ILayoutFrameSelector)base[index]; } set { base[index] = value; } }
+
         #region ILayoutFrameSelector
         void ICollection<ILayoutFrameSelector>.Add(ILayoutFrameSelector item) { Add(item); }
         bool ICollection<ILayoutFrameSelector>.Contains(ILayoutFrameSelector item) { return Contains(item); }

@@ -679,7 +679,7 @@ namespace Coverage
             Assert.That(MainLeafBlocksInner.BlockStateList.Count == 3);
             Assert.That(MainLeafBlocksInner.AllIndexes().Count == MainLeafBlocksInner.Count);
 
-            IWriteableBlockState LeafBlock = (IWriteableBlockState)MainLeafBlocksInner.BlockStateList[0];
+            IWriteableBlockState LeafBlock = MainLeafBlocksInner.BlockStateList[0];
             Assert.That(LeafBlock != null);
             Assert.That(LeafBlock.StateList != null);
             Assert.That(LeafBlock.StateList.Count == 1);

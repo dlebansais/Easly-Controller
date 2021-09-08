@@ -6,6 +6,9 @@
     /// <inheritdoc/>
     public class WriteableIndexCollectionList : ReadOnlyIndexCollectionList, ICollection<IWriteableIndexCollection>, IEnumerable<IWriteableIndexCollection>, IList<IWriteableIndexCollection>, IReadOnlyCollection<IWriteableIndexCollection>, IReadOnlyList<IWriteableIndexCollection>
     {
+        /// <inheritdoc/>
+        public new IWriteableIndexCollection this[int index] { get { return (IWriteableIndexCollection)base[index]; } set { base[index] = value; } }
+
         #region IWriteableIndexCollection
         void ICollection<IWriteableIndexCollection>.Add(IWriteableIndexCollection item) { Add(item); }
         bool ICollection<IWriteableIndexCollection>.Contains(IWriteableIndexCollection item) { return Contains(item); }

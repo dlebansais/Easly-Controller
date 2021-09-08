@@ -6,7 +6,7 @@
     /// <summary>
     /// Collection of node indexes.
     /// </summary>
-    internal interface ILayoutIndexCollection : IFocusIndexCollection
+    public interface ILayoutIndexCollection : IFocusIndexCollection
     {
     }
 

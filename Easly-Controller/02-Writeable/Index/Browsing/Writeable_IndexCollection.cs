@@ -6,7 +6,7 @@
     /// <summary>
     /// Collection of node indexes.
     /// </summary>
-    internal interface IWriteableIndexCollection : IReadOnlyIndexCollection
+    public interface IWriteableIndexCollection : IReadOnlyIndexCollection
     {
     }
 

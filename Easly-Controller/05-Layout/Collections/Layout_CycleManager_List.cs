@@ -6,6 +6,9 @@
     /// <inheritdoc/>
     public class LayoutCycleManagerList : FocusCycleManagerList, ICollection<LayoutCycleManager>, IEnumerable<LayoutCycleManager>, IList<LayoutCycleManager>, IReadOnlyCollection<LayoutCycleManager>, IReadOnlyList<LayoutCycleManager>
     {
+        /// <inheritdoc/>
+        public new LayoutCycleManager this[int index] { get { return (LayoutCycleManager)base[index]; } set { base[index] = value; } }
+
         #region LayoutCycleManager
         void ICollection<LayoutCycleManager>.Add(LayoutCycleManager item) { Add(item); }
         bool ICollection<LayoutCycleManager>.Contains(LayoutCycleManager item) { return Contains(item); }

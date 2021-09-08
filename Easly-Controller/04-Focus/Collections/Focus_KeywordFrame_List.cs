@@ -6,6 +6,9 @@
     /// <inheritdoc/>
     public class FocusKeywordFrameList : FrameKeywordFrameList, ICollection<IFocusKeywordFrame>, IEnumerable<IFocusKeywordFrame>, IList<IFocusKeywordFrame>, IReadOnlyCollection<IFocusKeywordFrame>, IReadOnlyList<IFocusKeywordFrame>
     {
+        /// <inheritdoc/>
+        public new IFocusKeywordFrame this[int index] { get { return (IFocusKeywordFrame)base[index]; } set { base[index] = value; } }
+
         #region IFocusKeywordFrame
         void ICollection<IFocusKeywordFrame>.Add(IFocusKeywordFrame item) { Add(item); }
         bool ICollection<IFocusKeywordFrame>.Contains(IFocusKeywordFrame item) { return Contains(item); }

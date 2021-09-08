@@ -7,6 +7,9 @@
     /// <inheritdoc/>
     public class LayoutVisibleCellViewList : FocusVisibleCellViewList, ICollection<ILayoutVisibleCellView>, IEnumerable<ILayoutVisibleCellView>, IList<ILayoutVisibleCellView>, IReadOnlyCollection<ILayoutVisibleCellView>, IReadOnlyList<ILayoutVisibleCellView>
     {
+        /// <inheritdoc/>
+        public new ILayoutVisibleCellView this[int index] { get { return (ILayoutVisibleCellView)base[index]; } set { base[index] = value; } }
+
         #region ILayoutVisibleCellView
         void ICollection<ILayoutVisibleCellView>.Add(ILayoutVisibleCellView item) { Add(item); }
         bool ICollection<ILayoutVisibleCellView>.Contains(ILayoutVisibleCellView item) { return Contains(item); }

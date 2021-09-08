@@ -7,6 +7,9 @@
     /// <inheritdoc/>
     public class LayoutOperationList : FocusOperationList, ICollection<LayoutOperation>, IEnumerable<LayoutOperation>, IList<LayoutOperation>, IReadOnlyCollection<LayoutOperation>, IReadOnlyList<LayoutOperation>
     {
+        /// <inheritdoc/>
+        public new LayoutOperation this[int index] { get { return (LayoutOperation)base[index]; } set { base[index] = value; } }
+
         #region LayoutOperation
         void ICollection<LayoutOperation>.Add(LayoutOperation item) { Add(item); }
         bool ICollection<LayoutOperation>.Contains(LayoutOperation item) { return Contains(item); }

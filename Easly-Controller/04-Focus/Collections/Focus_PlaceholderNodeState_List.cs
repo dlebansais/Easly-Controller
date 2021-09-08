@@ -8,6 +8,9 @@
     /// <inheritdoc/>
     public class FocusPlaceholderNodeStateList : FramePlaceholderNodeStateList, ICollection<IFocusPlaceholderNodeState>, IEnumerable<IFocusPlaceholderNodeState>, IList<IFocusPlaceholderNodeState>, IReadOnlyCollection<IFocusPlaceholderNodeState>, IReadOnlyList<IFocusPlaceholderNodeState>, IEqualComparable
     {
+        /// <inheritdoc/>
+        public new IFocusPlaceholderNodeState this[int index] { get { return (IFocusPlaceholderNodeState)base[index]; } set { base[index] = value; } }
+
         #region IFocusPlaceholderNodeState
         void ICollection<IFocusPlaceholderNodeState>.Add(IFocusPlaceholderNodeState item) { Add(item); }
         bool ICollection<IFocusPlaceholderNodeState>.Contains(IFocusPlaceholderNodeState item) { return Contains(item); }

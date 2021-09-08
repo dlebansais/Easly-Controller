@@ -6,6 +6,9 @@
     /// <inheritdoc/>
     public class FrameOperationGroupList : WriteableOperationGroupList, ICollection<FrameOperationGroup>, IEnumerable<FrameOperationGroup>, IList<FrameOperationGroup>, IReadOnlyCollection<FrameOperationGroup>, IReadOnlyList<FrameOperationGroup>
     {
+        /// <inheritdoc/>
+        public new FrameOperationGroup this[int index] { get { return (FrameOperationGroup)base[index]; } set { base[index] = value; } }
+
         #region FrameOperationGroup
         void ICollection<FrameOperationGroup>.Add(FrameOperationGroup item) { Add(item); }
         bool ICollection<FrameOperationGroup>.Contains(FrameOperationGroup item) { return Contains(item); }

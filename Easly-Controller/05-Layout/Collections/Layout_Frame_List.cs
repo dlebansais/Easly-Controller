@@ -7,6 +7,9 @@
     /// <inheritdoc/>
     public class LayoutFrameList : FocusFrameList, ICollection<ILayoutFrame>, IEnumerable<ILayoutFrame>, IList<ILayoutFrame>, IReadOnlyCollection<ILayoutFrame>, IReadOnlyList<ILayoutFrame>
     {
+        /// <inheritdoc/>
+        public new ILayoutFrame this[int index] { get { return (ILayoutFrame)base[index]; } set { base[index] = value; } }
+
         #region ILayoutFrame
         void ICollection<ILayoutFrame>.Add(ILayoutFrame item) { Add(item); }
         bool ICollection<ILayoutFrame>.Contains(ILayoutFrame item) { return Contains(item); }

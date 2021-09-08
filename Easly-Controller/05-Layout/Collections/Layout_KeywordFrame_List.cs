@@ -7,6 +7,9 @@
     /// <inheritdoc/>
     public class LayoutKeywordFrameList : FocusKeywordFrameList, ICollection<ILayoutKeywordFrame>, IEnumerable<ILayoutKeywordFrame>, IList<ILayoutKeywordFrame>, IReadOnlyCollection<ILayoutKeywordFrame>, IReadOnlyList<ILayoutKeywordFrame>
     {
+        /// <inheritdoc/>
+        public new ILayoutKeywordFrame this[int index] { get { return (ILayoutKeywordFrame)base[index]; } set { base[index] = value; } }
+
         #region ILayoutKeywordFrame
         void ICollection<ILayoutKeywordFrame>.Add(ILayoutKeywordFrame item) { Add(item); }
         bool ICollection<ILayoutKeywordFrame>.Contains(ILayoutKeywordFrame item) { return Contains(item); }

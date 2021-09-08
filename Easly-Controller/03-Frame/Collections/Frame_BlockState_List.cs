@@ -7,6 +7,9 @@
     /// <inheritdoc/>
     public class FrameBlockStateList : WriteableBlockStateList, ICollection<IFrameBlockState>, IEnumerable<IFrameBlockState>, IList<IFrameBlockState>, IReadOnlyCollection<IFrameBlockState>, IReadOnlyList<IFrameBlockState>
     {
+        /// <inheritdoc/>
+        public new IFrameBlockState this[int index] { get { return (IFrameBlockState)base[index]; } set { base[index] = value; } }
+
         #region IFrameBlockState
         void ICollection<IFrameBlockState>.Add(IFrameBlockState item) { Add(item); }
         bool ICollection<IFrameBlockState>.Contains(IFrameBlockState item) { return Contains(item); }

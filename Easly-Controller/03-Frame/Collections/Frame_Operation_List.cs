@@ -6,6 +6,9 @@
     /// <inheritdoc/>
     public class FrameOperationList : WriteableOperationList, ICollection<FrameOperation>, IEnumerable<FrameOperation>, IList<FrameOperation>, IReadOnlyCollection<FrameOperation>, IReadOnlyList<FrameOperation>
     {
+        /// <inheritdoc/>
+        public new FrameOperation this[int index] { get { return (FrameOperation)base[index]; } set { base[index] = value; } }
+
         #region FrameOperation
         void ICollection<FrameOperation>.Add(FrameOperation item) { Add(item); }
         bool ICollection<FrameOperation>.Contains(FrameOperation item) { return Contains(item); }
