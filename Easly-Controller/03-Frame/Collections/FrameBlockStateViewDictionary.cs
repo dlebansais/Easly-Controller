@@ -8,6 +8,13 @@
     public class FrameBlockStateViewDictionary : WriteableBlockStateViewDictionary, ICollection<KeyValuePair<IFrameBlockState, FrameBlockStateView>>, IEnumerable<KeyValuePair<IFrameBlockState, FrameBlockStateView>>, IDictionary<IFrameBlockState, FrameBlockStateView>, IReadOnlyCollection<KeyValuePair<IFrameBlockState, FrameBlockStateView>>, IReadOnlyDictionary<IFrameBlockState, FrameBlockStateView>, IEqualComparable
     {
         /// <inheritdoc/>
+        public FrameBlockStateViewDictionary() : base() { }
+        /// <inheritdoc/>
+        public FrameBlockStateViewDictionary(IDictionary<IFrameBlockState, FrameBlockStateView> dictionary) : base() { foreach (KeyValuePair<IFrameBlockState, FrameBlockStateView> Entry in dictionary) Add(Entry.Key, Entry.Value); }
+        /// <inheritdoc/>
+        public FrameBlockStateViewDictionary(int capacity) : base(capacity) { }
+
+        /// <inheritdoc/>
         public bool TryGetValue(IFrameBlockState key, out FrameBlockStateView value) { bool Result = TryGetValue(key, out WriteableBlockStateView Value); value = (FrameBlockStateView)Value; return Result; }
 
         #region IFrameBlockState, FrameBlockStateView

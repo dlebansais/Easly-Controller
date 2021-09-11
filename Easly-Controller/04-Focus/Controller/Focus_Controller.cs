@@ -54,7 +54,7 @@
         /// <summary>
         /// State table.
         /// </summary>
-        public new FocusIndexNodeStateReadOnlyDictionary StateTable { get { return (FocusIndexNodeStateReadOnlyDictionary)base.StateTable; } }
+        public new FocusNodeStateReadOnlyDictionary StateTable { get { return (FocusNodeStateReadOnlyDictionary)base.StateTable; } }
 
         /// <summary>
         /// List of operations that have been performed, and can be undone or redone.
@@ -226,7 +226,7 @@
         private protected override ReadOnlyNodeStateDictionary CreateStateTable()
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusController));
-            return new FocusIndexNodeStateDictionary();
+            return new FocusNodeStateDictionary();
         }
 
         /// <summary>
@@ -244,7 +244,7 @@
         private protected override ReadOnlyNodeStateDictionary CreateChildStateTable()
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusController));
-            return new FocusIndexNodeStateDictionary();
+            return new FocusNodeStateDictionary();
         }
 
         /// <summary>

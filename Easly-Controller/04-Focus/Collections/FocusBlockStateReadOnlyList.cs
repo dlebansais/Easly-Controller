@@ -2,7 +2,6 @@
 {
     using System.Collections.Generic;
     using EaslyController.Frame;
-    using EaslyController.ReadOnly;
 
     /// <inheritdoc/>
     public class FocusBlockStateReadOnlyList : FrameBlockStateReadOnlyList, IReadOnlyCollection<IFocusBlockState>, IReadOnlyList<IFocusBlockState>

@@ -80,7 +80,7 @@
         private protected override ReadOnlyNodeStateViewDictionary CreateStateViewTable()
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusControllerView));
-            return new FocusStateViewDictionary();
+            return new FocusNodeStateViewDictionary();
         }
 
         /// <summary>

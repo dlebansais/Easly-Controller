@@ -7,6 +7,13 @@
     public class WriteableBlockStateViewDictionary : ReadOnlyBlockStateViewDictionary, ICollection<KeyValuePair<IWriteableBlockState, WriteableBlockStateView>>, IEnumerable<KeyValuePair<IWriteableBlockState, WriteableBlockStateView>>, IDictionary<IWriteableBlockState, WriteableBlockStateView>, IReadOnlyCollection<KeyValuePair<IWriteableBlockState, WriteableBlockStateView>>, IReadOnlyDictionary<IWriteableBlockState, WriteableBlockStateView>, IEqualComparable
     {
         /// <inheritdoc/>
+        public WriteableBlockStateViewDictionary() : base() { }
+        /// <inheritdoc/>
+        public WriteableBlockStateViewDictionary(IDictionary<IWriteableBlockState, WriteableBlockStateView> dictionary) : base() { foreach (KeyValuePair<IWriteableBlockState, WriteableBlockStateView> Entry in dictionary) Add(Entry.Key, Entry.Value); }
+        /// <inheritdoc/>
+        public WriteableBlockStateViewDictionary(int capacity) : base(capacity) { }
+
+        /// <inheritdoc/>
         public bool TryGetValue(IWriteableBlockState key, out WriteableBlockStateView value) { bool Result = TryGetValue(key, out ReadOnlyBlockStateView Value); value = (WriteableBlockStateView)Value; return Result; }
 
         #region IWriteableBlockState, WriteableBlockStateView

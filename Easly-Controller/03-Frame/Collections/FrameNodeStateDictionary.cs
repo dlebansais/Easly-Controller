@@ -8,6 +8,13 @@
     public class FrameNodeStateDictionary : WriteableNodeStateDictionary, ICollection<KeyValuePair<IFrameIndex, IFrameNodeState>>, IEnumerable<KeyValuePair<IFrameIndex, IFrameNodeState>>, IDictionary<IFrameIndex, IFrameNodeState>, IReadOnlyCollection<KeyValuePair<IFrameIndex, IFrameNodeState>>, IReadOnlyDictionary<IFrameIndex, IFrameNodeState>
     {
         /// <inheritdoc/>
+        public FrameNodeStateDictionary() : base() { }
+        /// <inheritdoc/>
+        public FrameNodeStateDictionary(IDictionary<IFrameIndex, IFrameNodeState> dictionary) : base() { foreach (KeyValuePair<IFrameIndex, IFrameNodeState> Entry in dictionary) Add(Entry.Key, Entry.Value); }
+        /// <inheritdoc/>
+        public FrameNodeStateDictionary(int capacity) : base(capacity) { }
+
+        /// <inheritdoc/>
         public bool TryGetValue(IFrameIndex key, out IFrameNodeState value) { bool Result = TryGetValue(key, out IWriteableNodeState Value); value = (IFrameNodeState)Value; return Result; }
 
         #region IFrameIndex, IFrameNodeState

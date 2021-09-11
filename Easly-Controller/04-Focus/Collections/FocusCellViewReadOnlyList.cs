@@ -1,11 +1,10 @@
 ﻿namespace EaslyController.Focus
 {
     using System.Collections.Generic;
-    using System.Diagnostics;
     using EaslyController.Frame;
 
     /// <inheritdoc/>
-    public class FocusCellViewReadOnlyList : FrameCellViewReadOnlyList, IReadOnlyCollection<IFocusCellView>, IReadOnlyList<IFocusCellView>
+    public class FocusCellViewReadOnlyList : FrameCellViewReadOnlyList, IReadOnlyCollection<IFocusCellView>, IReadOnlyList<IFocusCellView>, IEqualComparable
     {
         /// <inheritdoc/>
         public FocusCellViewReadOnlyList(FocusCellViewList list)
@@ -25,16 +24,16 @@
         /// <inheritdoc/>
         public override bool IsEqual(CompareEqual comparer, IEqualComparable other)
         {
-            Debug.Assert(other != null);
+            System.Diagnostics.Debug.Assert(other != null);
 
-            if (!comparer.IsSameType(other, out FocusCellViewReadOnlyList AsCellViewReadOnlyList))
+            if (!comparer.IsSameType(other, out FocusCellViewReadOnlyList AsOtherReadOnlyList))
                 return comparer.Failed();
 
-            if (!comparer.IsSameCount(Count, AsCellViewReadOnlyList.Count))
+            if (!comparer.IsSameCount(Count, AsOtherReadOnlyList.Count))
                 return comparer.Failed();
 
             for (int i = 0; i < Count; i++)
-                if (!comparer.VerifyEqual(this[i], AsCellViewReadOnlyList[i]))
+                if (!comparer.VerifyEqual(this[i], AsOtherReadOnlyList[i]))
                     return comparer.Failed();
 
             return true;

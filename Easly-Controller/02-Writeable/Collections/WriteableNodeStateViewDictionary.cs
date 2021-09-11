@@ -7,6 +7,13 @@
     public class WriteableNodeStateViewDictionary : ReadOnlyNodeStateViewDictionary, ICollection<KeyValuePair<IWriteableNodeState, IWriteableNodeStateView>>, IEnumerable<KeyValuePair<IWriteableNodeState, IWriteableNodeStateView>>, IDictionary<IWriteableNodeState, IWriteableNodeStateView>, IReadOnlyCollection<KeyValuePair<IWriteableNodeState, IWriteableNodeStateView>>, IReadOnlyDictionary<IWriteableNodeState, IWriteableNodeStateView>, IEqualComparable
     {
         /// <inheritdoc/>
+        public WriteableNodeStateViewDictionary() : base() { }
+        /// <inheritdoc/>
+        public WriteableNodeStateViewDictionary(IDictionary<IWriteableNodeState, IWriteableNodeStateView> dictionary) : base() { foreach (KeyValuePair<IWriteableNodeState, IWriteableNodeStateView> Entry in dictionary) Add(Entry.Key, Entry.Value); }
+        /// <inheritdoc/>
+        public WriteableNodeStateViewDictionary(int capacity) : base(capacity) { }
+
+        /// <inheritdoc/>
         public bool TryGetValue(IWriteableNodeState key, out IWriteableNodeStateView value) { bool Result = TryGetValue(key, out IReadOnlyNodeStateView Value); value = (IWriteableNodeStateView)Value; return Result; }
 
         #region IWriteableNodeState, IWriteableNodeStateView

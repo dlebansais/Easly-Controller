@@ -2,7 +2,6 @@
 {
     using System.Collections.Generic;
     using EaslyController.Frame;
-    using EaslyController.ReadOnly;
 
     /// <inheritdoc/>
     public class FocusBrowsingBlockNodeIndexReadOnlyList : FrameBrowsingBlockNodeIndexReadOnlyList, IReadOnlyCollection<IFocusBrowsingBlockNodeIndex>, IReadOnlyList<IFocusBrowsingBlockNodeIndex>

@@ -10,13 +10,7 @@
         /// <inheritdoc/>
         public ReadOnlyInnerDictionary(IDictionary<TKey, IReadOnlyInner> dictionary) : base(dictionary) { }
         /// <inheritdoc/>
-        public ReadOnlyInnerDictionary(IEqualityComparer<TKey> comparer) : base(comparer) { }
-        /// <inheritdoc/>
         public ReadOnlyInnerDictionary(int capacity) : base(capacity) { }
-        /// <inheritdoc/>
-        public ReadOnlyInnerDictionary(IDictionary<TKey, IReadOnlyInner> dictionary, IEqualityComparer<TKey> comparer) : base(dictionary, comparer) { }
-        /// <inheritdoc/>
-        public ReadOnlyInnerDictionary(int capacity, IEqualityComparer<TKey> comparer) : base(capacity, comparer) { }
 
         /// <inheritdoc/>
         public virtual ReadOnlyInnerReadOnlyDictionary<TKey> ToReadOnly()

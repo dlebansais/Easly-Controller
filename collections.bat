@@ -94,4 +94,57 @@ cd C:\Projects\Easly-Controller\Easly-Controller\03-Frame\Collections
 %GEN% List EaslyController.Frame IFrameVisibleCellView
 %GEN% ReadOnlyList EaslyController.Frame IFrameVisibleCellView
 
+cd C:\Projects\Easly-Controller\Easly-Controller\04-Focus\Collections
+
+%GEN% List EaslyController.Focus IFocusBlockState EaslyController.Frame.IFrameBlockState EaslyController.ReadOnly.IReadOnlyBlockState
+%GEN% ReadOnlyList EaslyController.Focus IFocusBlockState EaslyController.Frame.IFrameBlockState EaslyController.ReadOnly.IReadOnlyBlockState
+%GEN% Dictionary EaslyController.Focus IEqualComparable IFocusBlockState FocusBlockStateView IFrameBlockState EaslyController.Frame.FrameBlockStateView IReadOnlyBlockState EaslyController.ReadOnly.ReadOnlyBlockStateView
+%GEN% ReadOnlyDictionary EaslyController.Focus IEqualComparable IFocusBlockState FocusBlockStateView IFrameBlockState EaslyController.Frame.FrameBlockStateView IReadOnlyBlockState EaslyController.ReadOnly.ReadOnlyBlockStateView
+%GEN% List EaslyController.Focus IFocusBrowsingBlockNodeIndex EaslyController.Frame.IFrameBrowsingBlockNodeIndex EaslyController.ReadOnly.IReadOnlyBrowsingBlockNodeIndex
+%GEN% ReadOnlyList EaslyController.Focus IFocusBrowsingBlockNodeIndex EaslyController.Frame.IFrameBrowsingBlockNodeIndex EaslyController.ReadOnly.IReadOnlyBrowsingBlockNodeIndex
+%GEN% List EaslyController.Focus IFocusBrowsingListNodeIndex EaslyController.Frame.IFrameBrowsingListNodeIndex EaslyController.ReadOnly.IReadOnlyBrowsingListNodeIndex
+%GEN% ReadOnlyList EaslyController.Focus IFocusBrowsingListNodeIndex EaslyController.Frame.IFrameBrowsingListNodeIndex EaslyController.ReadOnly.IReadOnlyBrowsingListNodeIndex
+%GEN% List EaslyController.Focus IFocusIndexCollection EaslyController.Frame.IFrameIndexCollection EaslyController.ReadOnly.IReadOnlyIndexCollection
+%GEN% ReadOnlyList EaslyController.Focus IFocusIndexCollection EaslyController.Frame.IFrameIndexCollection EaslyController.ReadOnly.IReadOnlyIndexCollection
+%GEN% Dictionary EaslyController.Focus IFocusIndex IFocusNodeState IFrameIndex EaslyController.Frame.IFrameNodeState IReadOnlyIndex EaslyController.ReadOnly.IReadOnlyNodeState
+%GEN% ReadOnlyDictionary EaslyController.Focus IFocusIndex IFocusNodeState IFrameIndex EaslyController.Frame.IFrameNodeState IReadOnlyIndex EaslyController.ReadOnly.IReadOnlyNodeState
+%GEN% DictionaryTKey EaslyController.Focus IEqualComparable IFocusInner EaslyController.Frame.IFrameInner EaslyController.ReadOnly.IReadOnlyInner
+%GEN% ReadOnlyDictionaryTKey EaslyController.Focus IEqualComparable IFocusInner EaslyController.Frame.IFrameInner EaslyController.ReadOnly.IReadOnlyInner
+%GEN% List EaslyController.Focus IFocusNodeState EaslyController.Frame.IFrameNodeState EaslyController.ReadOnly.IReadOnlyNodeState
+%GEN% ReadOnlyList EaslyController.Focus IFocusNodeState EaslyController.Frame.IFrameNodeState EaslyController.ReadOnly.IReadOnlyNodeState
+%GEN% List EaslyController.Focus IEqualComparable IFocusPlaceholderNodeState EaslyController.Frame.IFramePlaceholderNodeState EaslyController.ReadOnly.IReadOnlyPlaceholderNodeState
+%GEN% ReadOnlyList EaslyController.Focus IEqualComparable IFocusPlaceholderNodeState EaslyController.Frame.IFramePlaceholderNodeState EaslyController.ReadOnly.IReadOnlyPlaceholderNodeState
+%GEN% Dictionary EaslyController.Focus IEqualComparable IFocusNodeState IFocusNodeStateView IFrameNodeState EaslyController.Frame.IFrameNodeStateView IReadOnlyNodeState EaslyController.ReadOnly.IReadOnlyNodeStateView
+%GEN% ReadOnlyDictionary EaslyController.Focus IEqualComparable IFocusNodeState IFocusNodeStateView IFrameNodeState EaslyController.Frame.IFrameNodeStateView IReadOnlyNodeState EaslyController.ReadOnly.IReadOnlyNodeStateView
+%GEN% List EaslyController.Focus IFocusOperation EaslyController.Frame.IFrameOperation EaslyController.Writeable.IWriteableOperation
+%GEN% ReadOnlyList EaslyController.Focus IFocusOperation EaslyController.Frame.IFrameOperation EaslyController.Writeable.IWriteableOperation
+%GEN% List EaslyController.Focus FocusOperationGroup EaslyController.Frame.FrameOperationGroup EaslyController.Writeable.WriteableOperationGroup
+%GEN% ReadOnlyList EaslyController.Focus FocusOperationGroup EaslyController.Frame.FrameOperationGroup EaslyController.Writeable.WriteableOperationGroup
+%GEN% DictionaryTKey EaslyController.Focus IEqualComparable IFocusAssignableCellView EaslyController.Frame.IFrameAssignableCellView
+%GEN% ReadOnlyDictionaryTKey EaslyController.Focus IEqualComparable IFocusAssignableCellView EaslyController.Frame.IFrameAssignableCellView
+%GEN% List EaslyController.Focus IEqualComparable IFocusCellView EaslyController.Frame.IFrameCellView
+%GEN% ReadOnlyList EaslyController.Focus IEqualComparable IFocusCellView EaslyController.Frame.IFrameCellView
+%GEN% List EaslyController.Focus IFocusFrame EaslyController.Frame.IFrameFrame
+%GEN% ReadOnlyList EaslyController.Focus IFocusFrame EaslyController.Frame.IFrameFrame
+%GEN% List EaslyController.Focus IFocusKeywordFrame EaslyController.Frame.IFrameKeywordFrame
+%GEN% ReadOnlyList EaslyController.Focus IFocusKeywordFrame EaslyController.Frame.IFrameKeywordFrame
+%GEN% Dictionary EaslyController.Focus System.Type IFocusTemplate System.Type EaslyController.Frame.IFrameTemplate
+%GEN% ReadOnlyDictionary EaslyController.Focus System.Type IFocusTemplate System.Type EaslyController.Frame.IFrameTemplate
+%GEN% List EaslyController.Focus IFocusTemplate EaslyController.Frame.IFrameTemplate
+%GEN% ReadOnlyList EaslyController.Focus IFocusTemplate EaslyController.Frame.IFrameTemplate
+%GEN% List EaslyController.Focus IFocusVisibleCellView EaslyController.Frame.IFrameVisibleCellView
+%GEN% ReadOnlyList EaslyController.Focus IFocusVisibleCellView EaslyController.Frame.IFrameVisibleCellView
+%GEN% List EaslyController.Focus FocusCycleManager
+%GEN% ReadOnlyList EaslyController.Focus FocusCycleManager
+%GEN% List EaslyController.Focus IFocusFocus
+%GEN% ReadOnlyList EaslyController.Focus IFocusFocus
+%GEN% List EaslyController.Focus IEqualComparable IFocusFrameSelector
+%GEN% ReadOnlyList EaslyController.Focus IEqualComparable IFocusFrameSelector
+%GEN% List EaslyController.Focus IFocusInsertionChildNodeIndex
+%GEN% ReadOnlyList EaslyController.Focus IFocusInsertionChildNodeIndex
+%GEN% List EaslyController.Focus IFocusNodeFrameVisibility
+%GEN% ReadOnlyList EaslyController.Focus IFocusNodeFrameVisibility
+%GEN% List EaslyController.Focus IFocusSelectableFrame
+%GEN% ReadOnlyList EaslyController.Focus IFocusSelectableFrame
+
 cd C:\Projects\Easly-Controller

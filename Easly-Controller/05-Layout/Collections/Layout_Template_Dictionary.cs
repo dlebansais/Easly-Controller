@@ -15,15 +15,7 @@
         /// <inheritdoc/>
         public LayoutTemplateDictionary(IEnumerable<KeyValuePair<Type, ILayoutTemplate>> collection) { foreach (KeyValuePair<Type, ILayoutTemplate> Entry in collection) Add(Entry.Key, Entry.Value); }
         /// <inheritdoc/>
-        public LayoutTemplateDictionary(IEqualityComparer<Type> comparer) : base(comparer) { }
-        /// <inheritdoc/>
         public LayoutTemplateDictionary(int capacity) : base(capacity) { }
-        /// <inheritdoc/>
-        public LayoutTemplateDictionary(IDictionary<Type, ILayoutTemplate> dictionary, IEqualityComparer<Type> comparer) : base(comparer) { foreach (KeyValuePair<Type, ILayoutTemplate> Entry in dictionary) Add(Entry.Key, Entry.Value); }
-        /// <inheritdoc/>
-        public LayoutTemplateDictionary(IEnumerable<KeyValuePair<Type, ILayoutTemplate>> collection, IEqualityComparer<Type> comparer) : base(comparer) { foreach (KeyValuePair<Type, ILayoutTemplate> Entry in collection) Add(Entry.Key, Entry.Value); }
-        /// <inheritdoc/>
-        public LayoutTemplateDictionary(int capacity, IEqualityComparer<Type> comparer) : base(capacity, comparer) { }
 
         /// <inheritdoc/>
         public bool TryGetValue(Type key, out ILayoutTemplate value) { bool Result = TryGetValue(key, out IFrameTemplate Value); value = (ILayoutTemplate)Value; return Result; }

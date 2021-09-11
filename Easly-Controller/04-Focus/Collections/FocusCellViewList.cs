@@ -1,7 +1,6 @@
 ﻿namespace EaslyController.Focus
 {
     using System.Collections.Generic;
-    using System.Diagnostics;
     using EaslyController.Frame;
 
     /// <inheritdoc/>
@@ -23,30 +22,30 @@
         IFocusCellView IReadOnlyList<IFocusCellView>.this[int index] { get { return (IFocusCellView)this[index]; } }
         #endregion
 
-        #region Debugging
-        /// <inheritdoc/>
-        public override bool IsEqual(CompareEqual comparer, IEqualComparable other)
-        {
-            Debug.Assert(other != null);
-
-            if (!comparer.IsSameType(other, out FocusCellViewList AsCellViewList))
-                return comparer.Failed();
-
-            if (!comparer.IsSameCount(Count, AsCellViewList.Count))
-                return comparer.Failed();
-
-            for (int i = 0; i < Count; i++)
-                if (!comparer.VerifyEqual(this[i], AsCellViewList[i]))
-                    return comparer.Failed();
-
-            return true;
-        }
-        #endregion
-
         /// <inheritdoc/>
         public override FrameCellViewReadOnlyList ToReadOnly()
         {
             return new FocusCellViewReadOnlyList(this);
         }
+
+        #region Debugging
+        /// <inheritdoc/>
+        public override bool IsEqual(CompareEqual comparer, IEqualComparable other)
+        {
+            System.Diagnostics.Debug.Assert(other != null);
+
+            if (!comparer.IsSameType(other, out FocusCellViewList AsOtherList))
+                return comparer.Failed();
+
+            if (!comparer.IsSameCount(Count, AsOtherList.Count))
+                return comparer.Failed();
+
+            for (int i = 0; i < Count; i++)
+                if (!comparer.VerifyEqual(this[i], AsOtherList[i]))
+                    return comparer.Failed();
+
+            return true;
+        }
+        #endregion
     }
 }

@@ -1,8 +1,8 @@
 ﻿namespace EaslyController.Focus
 {
     using System.Collections.Generic;
-    using EaslyController.ReadOnly;
     using EaslyController.Frame;
+    using EaslyController.ReadOnly;
 
     /// <inheritdoc/>
     public class FocusBrowsingBlockNodeIndexList : FrameBrowsingBlockNodeIndexList, ICollection<IFocusBrowsingBlockNodeIndex>, IEnumerable<IFocusBrowsingBlockNodeIndex>, IList<IFocusBrowsingBlockNodeIndex>, IReadOnlyCollection<IFocusBrowsingBlockNodeIndex>, IReadOnlyList<IFocusBrowsingBlockNodeIndex>

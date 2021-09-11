@@ -1,8 +1,8 @@
 ﻿namespace EaslyController.Focus
 {
     using System.Collections.Generic;
-    using EaslyController.ReadOnly;
     using EaslyController.Frame;
+    using EaslyController.ReadOnly;
 
     /// <inheritdoc/>
     public class FocusBlockStateList : FrameBlockStateList, ICollection<IFocusBlockState>, IEnumerable<IFocusBlockState>, IList<IFocusBlockState>, IReadOnlyCollection<IFocusBlockState>, IReadOnlyList<IFocusBlockState>

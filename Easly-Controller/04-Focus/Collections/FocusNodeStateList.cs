@@ -1,8 +1,8 @@
 ﻿namespace EaslyController.Focus
 {
     using System.Collections.Generic;
-    using EaslyController.ReadOnly;
     using EaslyController.Frame;
+    using EaslyController.ReadOnly;
 
     /// <inheritdoc/>
     public class FocusNodeStateList : FrameNodeStateList, ICollection<IFocusNodeState>, IEnumerable<IFocusNodeState>, IList<IFocusNodeState>, IReadOnlyCollection<IFocusNodeState>, IReadOnlyList<IFocusNodeState>
@@ -15,7 +15,7 @@
         bool ICollection<IFocusNodeState>.Contains(IFocusNodeState item) { return Contains(item); }
         void ICollection<IFocusNodeState>.CopyTo(IFocusNodeState[] array, int arrayIndex) { ((System.Collections.ICollection)this).CopyTo(array, arrayIndex); }
         bool ICollection<IFocusNodeState>.Remove(IFocusNodeState item) { return Remove(item); }
-        bool ICollection<IFocusNodeState>.IsReadOnly { get { return ((ICollection<IReadOnlyNodeState>)this).IsReadOnly; } }
+        bool ICollection<IFocusNodeState>.IsReadOnly { get { return ((ICollection<IFrameNodeState>)this).IsReadOnly; } }
         IEnumerator<IFocusNodeState> IEnumerable<IFocusNodeState>.GetEnumerator() { Enumerator iterator = GetEnumerator(); while (iterator.MoveNext()) { yield return (IFocusNodeState)iterator.Current; } }
         IFocusNodeState IList<IFocusNodeState>.this[int index] { get { return (IFocusNodeState)this[index]; } set { this[index] = value; } }
         int IList<IFocusNodeState>.IndexOf(IFocusNodeState item) { return IndexOf(item); }

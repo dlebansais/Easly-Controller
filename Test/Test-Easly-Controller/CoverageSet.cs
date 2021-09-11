@@ -9731,7 +9731,7 @@ namespace Coverage
             FocusController ControllerBase = FocusController.Create(RootIndex);
             FocusController Controller = FocusController.Create(RootIndex);
 
-            ReadOnlyNodeStateDictionary ControllerStateTable = DebugObjects.GetReferenceByInterface(typeof(FocusIndexNodeStateDictionary)) as ReadOnlyNodeStateDictionary;
+            ReadOnlyNodeStateDictionary ControllerStateTable = DebugObjects.GetReferenceByInterface(typeof(FocusNodeStateDictionary)) as ReadOnlyNodeStateDictionary;
 
             using (FocusControllerView ControllerView = FocusControllerView.Create(Controller, TestDebug.CoverageFocusTemplateSet.FocusTemplateSet))
             {
@@ -10811,7 +10811,7 @@ namespace Coverage
                 }
 
                 // IFocusStateViewDictionary
-                FocusStateViewDictionary FocusStateViewTable = ControllerView.StateViewTable;
+                FocusNodeStateViewDictionary FocusStateViewTable = ControllerView.StateViewTable;
                 WriteableNodeStateViewDictionary WriteableStateViewTable = ControllerView.StateViewTable;
                 WriteableStateViewTable.GetEnumerator();
                 FrameNodeStateViewDictionary FrameStateViewTable = ControllerView.StateViewTable;
@@ -15675,7 +15675,7 @@ namespace Coverage
                 IEnumerable<KeyValuePair<IFrameIndex, IFrameNodeState>> FrameStateTableAsEnumerable = ReadOnlyStateTable as IEnumerable<KeyValuePair<IFrameIndex, IFrameNodeState>>;
                 FrameStateTableAsEnumerable.GetEnumerator();
 
-                FocusIndexNodeStateReadOnlyDictionary FocusStateTable = Controller.StateTable;
+                FocusNodeStateReadOnlyDictionary FocusStateTable = Controller.StateTable;
                 Assert.That(FocusStateTable.ContainsKey(RootIndex));
                 Assert.That(FocusStateTable[RootIndex] == ReadOnlyStateTable[RootIndex]);
                 FocusStateTable.GetEnumerator();

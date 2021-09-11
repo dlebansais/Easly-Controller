@@ -1,7 +1,6 @@
 ﻿namespace EaslyController.Focus
 {
     using System.Collections.Generic;
-    using System.Diagnostics;
     using EaslyController.Frame;
 
     /// <inheritdoc/>
@@ -23,7 +22,7 @@
         void ICollection<KeyValuePair<TKey, IFocusAssignableCellView>>.CopyTo(KeyValuePair<TKey, IFocusAssignableCellView>[] array, int arrayIndex) { ((System.Collections.ICollection)this).CopyTo(array, arrayIndex); }
         bool ICollection<KeyValuePair<TKey, IFocusAssignableCellView>>.Remove(KeyValuePair<TKey, IFocusAssignableCellView> item) { throw new System.InvalidOperationException(); }
         bool ICollection<KeyValuePair<TKey, IFocusAssignableCellView>>.IsReadOnly { get { return false; } }
-        IEnumerator<KeyValuePair<TKey, IFocusAssignableCellView>> IEnumerable<KeyValuePair<TKey, IFocusAssignableCellView>>.GetEnumerator() { IEnumerator<KeyValuePair<TKey, IFrameAssignableCellView>> iterator = GetEnumerator(); while (iterator.MoveNext()) { yield return new KeyValuePair<TKey, IFocusAssignableCellView>(iterator.Current.Key, (IFocusAssignableCellView)iterator.Current.Value); } }
+        IEnumerator<KeyValuePair<TKey, IFocusAssignableCellView>> IEnumerable<KeyValuePair<TKey, IFocusAssignableCellView>>.GetEnumerator() { IEnumerator<KeyValuePair<TKey, IFrameAssignableCellView>> iterator = GetEnumerator(); while (iterator.MoveNext()) { yield return new KeyValuePair<TKey, IFocusAssignableCellView>((TKey)iterator.Current.Key, (IFocusAssignableCellView)iterator.Current.Value); } }
 
         IFocusAssignableCellView IDictionary<TKey, IFocusAssignableCellView>.this[TKey key] { get { return (IFocusAssignableCellView)this[key]; } set { throw new System.InvalidOperationException(); } }
         ICollection<TKey> IDictionary<TKey, IFocusAssignableCellView>.Keys { get { List<TKey> Result = new(); foreach (KeyValuePair<TKey, IFocusAssignableCellView> Entry in (ICollection<KeyValuePair<TKey, IFocusAssignableCellView>>)this) Result.Add(Entry.Key); return Result; } }
@@ -44,31 +43,23 @@
         /// <inheritdoc/>
         public override bool IsEqual(CompareEqual comparer, IEqualComparable other)
         {
-            Debug.Assert(other != null);
+            System.Diagnostics.Debug.Assert(other != null);
 
-            if (!comparer.IsSameType(other, out FocusAssignableCellViewReadOnlyDictionary<TKey> AsAssignableCellViewReadOnlyDictionary))
+            if (!comparer.IsSameType(other, out FocusAssignableCellViewReadOnlyDictionary<TKey> AsOtherReadOnlyDictionary))
                 return comparer.Failed();
 
-            if (!comparer.IsSameCount(Count, AsAssignableCellViewReadOnlyDictionary.Count))
+            if (!comparer.IsSameCount(Count, AsOtherReadOnlyDictionary.Count))
                 return comparer.Failed();
 
             foreach (TKey Key in Keys)
             {
-                IFocusAssignableCellView Value = this[Key] as IFocusAssignableCellView;
+                IFocusAssignableCellView Value = (IFocusAssignableCellView)this[Key];
 
-                if (!comparer.IsTrue(AsAssignableCellViewReadOnlyDictionary.ContainsKey(Key)))
+                if (!comparer.IsTrue(AsOtherReadOnlyDictionary.ContainsKey(Key)))
                     return comparer.Failed();
 
-                IFocusAssignableCellView OtherValue = AsAssignableCellViewReadOnlyDictionary[Key] as IFocusAssignableCellView;
-
-                if (!comparer.IsTrue((Value != null && OtherValue != null) || (Value == null && OtherValue == null)))
+                if (!comparer.VerifyEqual(Value, AsOtherReadOnlyDictionary[Key]))
                     return comparer.Failed();
-
-                if (Value != null)
-                {
-                    if (!comparer.VerifyEqual(Value, OtherValue))
-                        return comparer.Failed();
-                }
             }
 
             return true;

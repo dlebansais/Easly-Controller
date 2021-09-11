@@ -10,13 +10,7 @@
         /// <inheritdoc/>
         public ReadOnlyNodeStateViewDictionary(IDictionary<IReadOnlyNodeState, IReadOnlyNodeStateView> dictionary) : base(dictionary) { }
         /// <inheritdoc/>
-        public ReadOnlyNodeStateViewDictionary(IEqualityComparer<IReadOnlyNodeState> comparer) : base(comparer) { }
-        /// <inheritdoc/>
         public ReadOnlyNodeStateViewDictionary(int capacity) : base(capacity) { }
-        /// <inheritdoc/>
-        public ReadOnlyNodeStateViewDictionary(IDictionary<IReadOnlyNodeState, IReadOnlyNodeStateView> dictionary, IEqualityComparer<IReadOnlyNodeState> comparer) : base(dictionary, comparer) { }
-        /// <inheritdoc/>
-        public ReadOnlyNodeStateViewDictionary(int capacity, IEqualityComparer<IReadOnlyNodeState> comparer) : base(capacity, comparer) { }
 
         /// <inheritdoc/>
         public virtual ReadOnlyNodeStateViewReadOnlyDictionary ToReadOnly()

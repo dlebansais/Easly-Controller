@@ -10,13 +10,7 @@
         /// <inheritdoc/>
         public FrameAssignableCellViewDictionary(IDictionary<TKey, IFrameAssignableCellView> dictionary) : base(dictionary) { }
         /// <inheritdoc/>
-        public FrameAssignableCellViewDictionary(IEqualityComparer<TKey> comparer) : base(comparer) { }
-        /// <inheritdoc/>
         public FrameAssignableCellViewDictionary(int capacity) : base(capacity) { }
-        /// <inheritdoc/>
-        public FrameAssignableCellViewDictionary(IDictionary<TKey, IFrameAssignableCellView> dictionary, IEqualityComparer<TKey> comparer) : base(dictionary, comparer) { }
-        /// <inheritdoc/>
-        public FrameAssignableCellViewDictionary(int capacity, IEqualityComparer<TKey> comparer) : base(capacity, comparer) { }
 
         /// <inheritdoc/>
         public virtual FrameAssignableCellViewReadOnlyDictionary<TKey> ToReadOnly()

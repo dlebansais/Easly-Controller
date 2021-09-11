@@ -10,13 +10,7 @@
         /// <inheritdoc/>
         public FrameTemplateDictionary(IDictionary<System.Type, IFrameTemplate> dictionary) : base(dictionary) { }
         /// <inheritdoc/>
-        public FrameTemplateDictionary(IEqualityComparer<System.Type> comparer) : base(comparer) { }
-        /// <inheritdoc/>
         public FrameTemplateDictionary(int capacity) : base(capacity) { }
-        /// <inheritdoc/>
-        public FrameTemplateDictionary(IDictionary<System.Type, IFrameTemplate> dictionary, IEqualityComparer<System.Type> comparer) : base(dictionary, comparer) { }
-        /// <inheritdoc/>
-        public FrameTemplateDictionary(int capacity, IEqualityComparer<System.Type> comparer) : base(capacity, comparer) { }
 
         /// <inheritdoc/>
         public virtual FrameTemplateReadOnlyDictionary ToReadOnly()
